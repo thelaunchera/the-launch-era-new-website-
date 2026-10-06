@@ -3,10 +3,10 @@ import { Link } from '@tanstack/react-router';
 import { ArrowRight, ArrowUpRight, Bell, CalendarCheck2, Check, CircleCheck, ClipboardList, MessageCircle, MessagesSquare, Send, Sparkles, Timer, Workflow } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-const cleaner = 'https://the-launch-era.lovable.app/assets/cleaner-home-B4EGsXy2.jpg';
-const webapp = 'https://the-launch-era.lovable.app/assets/webapp-phone-C5EBMyzF.jpg';
-const website = 'https://the-launch-era.lovable.app/assets/website-workspace-BX_6Erql.jpg';
-const assistant = 'https://the-launch-era.lovable.app/assets/assistant-workspace-CQSBovhV.jpg';
+import cleaner from '@/assets/cleaner-home.jpg';
+import webapp from '@/assets/webapp-phone.jpg';
+import website from '@/assets/website-workspace.jpg';
+import assistant from '@/assets/assistant-workspace.jpg';
 
 export function Wave({foam=false}:{foam?:boolean}) { return foam ? <div className="foam-wave" aria-hidden="true"><svg viewBox="0 0 1440 110" preserveAspectRatio="none"><path d="M0 48C50 48 52 10 112 17C151 20 166 48 207 46C255 45 261 22 301 25C348 29 346 64 399 63C448 63 459 42 505 44C548 46 555 73 605 70C675 66 686 18 750 23C805 27 807 63 858 60C911 58 918 35 969 38C1020 41 1024 70 1071 68C1116 66 1132 28 1185 33C1232 37 1237 63 1288 61C1344 59 1370 32 1440 40V110H0Z"/></svg></div> : <svg className="soft-wave" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 41C220 2 290 72 510 43C730 13 790 2 980 28C1170 56 1270 7 1440 35V70H0Z"/></svg> }
 const notifications = [{title:'New Booking Request',text:'A fresh start for a sparkling home.',icon:CalendarCheck2},{title:'New Lead Added',text:'Safely saved to your Lead Tracker.',icon:ClipboardList},{title:'Follow-Up Sent',text:'The right message. Right on time.',icon:Send},{title:'Client Booked',text:'One less thing on your to-do list.',icon:CircleCheck}];
