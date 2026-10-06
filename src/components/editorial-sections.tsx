@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { Link } from '@tanstack/react-router';
 import { ArrowRight, ArrowUpRight, Bell, CalendarCheck2, Check, CircleCheck, ClipboardList, MessageCircle, MessagesSquare, Send, Sparkles, Timer, Workflow } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -34,7 +34,7 @@ export function ProcessSection() {
  const [demoOpen,setDemoOpen]=useState(false);
  const [demoState,setDemoState]=useState<'idle'|'sending'|'sent'|'error'>('idle');
  const [demoError,setDemoError]=useState('');
- async function requestDemo(e:React.FormEvent<HTMLFormElement>){
+ async function requestDemo(e:FormEvent<HTMLFormElement>){
   e.preventDefault(); setDemoState('sending'); setDemoError('');
   const form=e.currentTarget; const fd=new FormData(form);
   const payload={name:fd.get('name'),email:fd.get('email'),business:fd.get('business'),serviceArea:fd.get('serviceArea'),services:fd.get('services'),goal:fd.get('goal')};
