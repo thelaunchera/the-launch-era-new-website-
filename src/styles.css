@@ -242,3 +242,15 @@ img { display:block; width:100%; object-fit:cover; }
 }
 @media (max-width:360px) { .hero-copy h1 { font-size:27px; } .hero-accent { font-size:28px; } .wordmark { font-size:17px; } .service-card h3 { font-size:12px; } .tracker-row { font-size:9px; } }
 @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*:before,*:after { animation:none!important; transition:none!important; } }
+/* Limited-time offer countdown */
+.announcement { display:flex; align-items:center; justify-content:center; gap:18px; flex-wrap:wrap; }
+.sale-countdown { display:inline-flex; align-items:center; gap:5px; font-variant-numeric:tabular-nums; letter-spacing:.06em; white-space:nowrap; }
+.sale-countdown .sale-label { opacity:.82; margin-right:3px; }
+.sale-countdown strong { font-size:11px; letter-spacing:.02em; }
+.sale-countdown small { font-size:7px; margin-left:1px; opacity:.72; }
+@media (max-width:640px) {
+ .announcement { gap:4px 10px; padding:7px 12px; line-height:1.25; }
+ .announcement > span:first-child { display:none; }
+ .sale-countdown { gap:4px; }
+ .sale-countdown strong { font-size:10px; }
+}
