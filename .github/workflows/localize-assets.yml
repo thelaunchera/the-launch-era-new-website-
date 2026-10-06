@@ -1,0 +1,50 @@
+name: Localize Lovable assets
+on:
+  push:
+    paths:
+      - '.github/workflows/localize-assets.yml'
+permissions:
+  contents: write
+jobs:
+  localize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download exact published assets
+        run: |
+          mkdir -p src/assets public
+          curl -fL "https://the-launch-era.lovable.app/assets/cleaner-home-B4EGsXy2.jpg" -o src/assets/cleaner-home.jpg
+          curl -fL "https://the-launch-era.lovable.app/assets/webapp-phone-C5EBMyzF.jpg" -o src/assets/webapp-phone.jpg
+          curl -fL "https://the-launch-era.lovable.app/assets/website-workspace-BX_6Erql.jpg" -o src/assets/website-workspace.jpg
+          curl -fL "https://the-launch-era.lovable.app/assets/assistant-workspace-CQSBovhV.jpg" -o src/assets/assistant-workspace.jpg
+          curl -fL "https://the-launch-era.lovable.app/favicon.svg" -o public/favicon.svg
+      - name: Point source to local assets
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path("src/components/editorial-sections.tsx")
+          s=p.read_text()
+          s=s.replace("const cleaner = 'https://the-launch-era.lovable.app/assets/cleaner-home-B4EGsXy2.jpg';", "import cleaner from '@/assets/cleaner-home.jpg';")
+          s=s.replace("const webapp = 'https://the-launch-era.lovable.app/assets/webapp-phone-C5EBMyzF.jpg';", "import webapp from '@/assets/webapp-phone.jpg';")
+          s=s.replace("const website = 'https://the-launch-era.lovable.app/assets/website-workspace-BX_6Erql.jpg';", "import website from '@/assets/website-workspace.jpg';")
+          s=s.replace("const assistant = 'https://the-launch-era.lovable.app/assets/assistant-workspace-CQSBovhV.jpg';", "import assistant from '@/assets/assistant-workspace.jpg';")
+          p.write_text(s)
+          for f in Path("src").rglob("*"):
+              if f.is_file() and f.suffix in {".ts",".tsx",".css",".html"}:
+                  try:
+                      t=f.read_text()
+                  except UnicodeDecodeError:
+                      continue
+                  t=t.replace("https://the-launch-era.lovable.app/favicon.svg","/favicon.svg")
+                  f.write_text(t)
+          PY
+          rm -f .github/workflows/localize-assets.yml
+      - name: Commit independent local assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Localize website assets and remove Lovable dependency"
+          git push
+
+# trigger localization
