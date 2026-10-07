@@ -4,7 +4,7 @@ import { FreebiePage } from '@/components/freebie-page';
 export const Route=createFileRoute('/es/free-cleaning-lead-guide')({
   head:()=>({meta:[
     {title:'Starter Kit Gratis de Leads | The Launch Era'},
-    {name:'description',content:'Starter Kit gratis con guiones de seguimiento, reset de leads en 10 minutos y tracker editable para negocios de limpieza residencial.'}
+    {name:'description',content:'Starter Kit gratis con guiones de seguimiento, reset de leads en 10 minutos y tracker editable para negocios de limpieza.'}
   ]}),
   component:()=> <FreebiePage language="es"/>,
 });
