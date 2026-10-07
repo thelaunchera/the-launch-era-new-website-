@@ -17,8 +17,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
-      - run: npm ci
+          node-version: 20
+      - run: npm install
       - run: npm run build
       - name: Preserve custom domain
         run: echo "thelaunchera.com" > ./.output/public/CNAME
