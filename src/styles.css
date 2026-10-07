@@ -374,3 +374,173 @@ img { display:block; width:100%; object-fit:cover; }
   .automation-live-status{align-items:flex-start;flex-direction:column}
   .automation-live-status button{width:100%;justify-content:center;min-height:44px}
 }
+
+
+/* Website Automation — responsive repair for tablet + phone */
+@media (min-width:768px) and (max-width:1100px){
+  .service-hero{padding-top:4.8rem!important;padding-bottom:3.8rem!important}
+  .service-hero h1{font-size:clamp(3.45rem,6.2vw,4.65rem)!important;line-height:1.02!important;max-width:920px!important}
+  .service-hero>p{max-width:760px!important;font-size:1rem!important;line-height:1.65!important}
+  .service-story{width:calc(100% - 54px)!important}
+  .service-demo-kicker{justify-content:flex-start!important;margin-bottom:12px!important;font-size:8px!important}
+  .web-automation-scene.web-automation-live{
+    grid-template-columns:minmax(0,.9fr) 48px minmax(0,1.1fr)!important;
+    gap:12px!important;
+    padding:20px!important;
+    border-radius:26px!important;
+    align-items:center!important;
+  }
+  .web-browser{border-radius:16px!important}
+  .browser-bar{height:34px!important;padding:0 10px!important}
+  .browser-bar span{font-size:7px!important}
+  .browser-page{padding:20px!important}
+  .browser-page>svg{width:19px!important}
+  .browser-page>strong{font-size:1.65rem!important;line-height:1.05!important;margin:10px 0 5px!important}
+  .browser-page>p{font-size:10px!important;line-height:1.45!important}
+  .automation-demo-form{gap:7px!important;margin-top:15px!important}
+  .automation-demo-form label{gap:4px!important}
+  .automation-demo-form label>span{font-size:7px!important}
+  .automation-demo-form input,.automation-demo-form select{
+    height:38px!important;
+    padding:0 10px!important;
+    font-size:10px!important;
+    border-radius:9px!important;
+  }
+  .automation-demo-form button{min-height:40px!important;font-size:9px!important;border-radius:9px!important}
+  .automation-demo-note{padding:9px 10px!important;margin-top:9px!important}
+  .automation-demo-note span{font-size:6px!important}
+  .automation-demo-note strong{font-size:8px!important;line-height:1.35!important}
+  .automation-spine{height:190px!important;grid-template-rows:1fr 36px 1fr!important}
+  .automation-spine svg{width:38px!important;height:38px!important;padding:9px!important}
+  .automation-results-live{gap:8px!important}
+  .automation-results-live>button{
+    grid-template-columns:27px minmax(0,1fr) 22px!important;
+    gap:8px!important;
+    padding:11px!important;
+    border-radius:13px!important;
+    min-width:0!important;
+  }
+  .automation-results-live>button>svg{width:15px!important}
+  .automation-results-live p{min-width:0!important;text-align:left!important}
+  .automation-results-live small{font-size:6px!important;line-height:1.25!important}
+  .automation-results-live strong{font-size:9.5px!important;line-height:1.25!important;margin-top:2px!important}
+  .automation-results-live p span{
+    display:block!important;
+    font-size:7.5px!important;
+    line-height:1.35!important;
+    margin-top:3px!important;
+    overflow-wrap:anywhere!important;
+  }
+  .stage-check{width:21px!important;height:21px!important}
+  .stage-check svg{width:11px!important}
+  .automation-live-status{
+    padding:13px 15px!important;
+    gap:14px!important;
+    border-radius:15px!important;
+    align-items:center!important;
+  }
+  .automation-live-status strong{font-size:11px!important}
+  .automation-live-status p{font-size:8px!important}
+  .automation-live-status button{padding:9px 11px!important;font-size:8px!important}
+  .service-endcap{padding:18px 18px!important;gap:9px!important;flex-wrap:wrap!important}
+  .service-endcap span,.service-endcap strong{font-size:8px!important}
+  .service-endcap small{width:100%!important;text-align:center!important;margin-top:5px!important}
+}
+
+@media (max-width:767px){
+  .service-hero{padding-top:3.2rem!important;padding-bottom:2.5rem!important}
+  .service-hero h1{
+    font-size:clamp(2.55rem,12vw,3.65rem)!important;
+    line-height:1.02!important;
+    letter-spacing:-.035em!important;
+  }
+  .service-hero>p{font-size:.96rem!important;line-height:1.55!important;margin-top:1rem!important}
+  .service-cta{width:100%!important;justify-content:space-between!important;max-width:100%!important}
+  .service-story{width:calc(100% - 32px)!important}
+  .service-demo-kicker{font-size:7.5px!important;line-height:1.35!important;margin-bottom:10px!important}
+  .web-automation-scene.web-automation-live{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:10px!important;
+    padding:12px!important;
+    border-radius:20px!important;
+  }
+  .browser-bar{height:32px!important}
+  .browser-page{padding:17px!important}
+  .browser-page>strong{font-size:1.7rem!important;line-height:1.04!important}
+  .browser-page>p{font-size:10px!important;line-height:1.5!important}
+  .automation-demo-form input,.automation-demo-form select{
+    min-height:44px!important;
+    height:44px!important;
+    font-size:16px!important;
+    padding:0 12px!important;
+  }
+  .automation-demo-form label>span{font-size:7px!important}
+  .automation-demo-form button{min-height:46px!important;font-size:10px!important}
+  .automation-demo-note{padding:10px 11px!important}
+  .automation-demo-note strong{font-size:9px!important}
+  .automation-spine{
+    height:54px!important;
+    grid-template-columns:1fr 36px 1fr!important;
+    grid-template-rows:none!important;
+    margin:0 8px!important;
+  }
+  .automation-spine span{width:100%!important;height:1px!important}
+  .automation-spine svg{width:36px!important;height:36px!important;padding:8px!important}
+  .automation-results-live{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:7px!important;
+  }
+  .automation-results-live>button{
+    grid-template-columns:28px minmax(0,1fr) 22px!important;
+    gap:8px!important;
+    padding:12px!important;
+    border-radius:13px!important;
+    min-height:76px!important;
+  }
+  .automation-results-live>button>svg{width:15px!important}
+  .automation-results-live p{text-align:left!important;min-width:0!important}
+  .automation-results-live small{font-size:6px!important}
+  .automation-results-live strong{font-size:10px!important;line-height:1.2!important}
+  .automation-results-live p span{
+    font-size:8px!important;
+    line-height:1.35!important;
+    margin-top:3px!important;
+    overflow-wrap:anywhere!important;
+  }
+  .stage-check{width:22px!important;height:22px!important}
+  .automation-live-status{
+    padding:13px!important;
+    margin:10px 0 12px!important;
+    gap:10px!important;
+    border-radius:14px!important;
+  }
+  .automation-live-status small{font-size:6px!important}
+  .automation-live-status strong{font-size:11px!important;line-height:1.3!important}
+  .automation-live-status p{font-size:8px!important;line-height:1.45!important}
+  .automation-live-status button{
+    min-height:44px!important;
+    width:100%!important;
+    justify-content:center!important;
+    font-size:9px!important;
+  }
+  .service-endcap{
+    display:grid!important;
+    grid-template-columns:auto 12px auto 12px auto!important;
+    gap:6px!important;
+    padding:16px 12px!important;
+    border-radius:18px!important;
+    justify-content:center!important;
+  }
+  .service-endcap span,.service-endcap strong{font-size:7px!important;white-space:nowrap!important}
+  .service-endcap>strong{grid-column:1/-1!important;justify-self:center!important;margin-top:2px!important}
+  .service-endcap small{
+    grid-column:1/-1!important;
+    width:100%!important;
+    font-size:7px!important;
+    line-height:1.45!important;
+    text-align:center!important;
+    margin-top:3px!important;
+  }
+}
