@@ -45,7 +45,7 @@ details{border-top:1px solid var(--line);padding-top:14px}details summary{cursor
 <p class="small">Nunca envíes contraseñas ni códigos 2FA en este formulario. Las suscripciones, plugins y upgrades de plataformas externas no están incluidos.</p></section></main>
 <script>
 const WEBHOOK="https://hook.us2.make.com/71gescpt0jssc2102yon8qhubqbau1rj",TYPE="tle.auto_intake",LANG="Español";
-const q=new URLSearchParams(location.search),kind=(q.get("type")||"website").toLowerCase()==="instagram"?"instagram":"website";
+const q=new URLSearchParams(location.search),kind="website";
 const form=document.getElementById("intakeForm"),btn=document.getElementById("submitBtn"),status=document.getElementById("status"),success=document.getElementById("success");
 const langLink=document.getElementById("langLink"),backLink=document.getElementById("backLink");
 langLink.href="/intake/automation/?"+q.toString();
