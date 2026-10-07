@@ -19,6 +19,7 @@ const params=new URLSearchParams(location.search);
 const rawOffer=(params.get("offer")||"").toLowerCase();
 const offer=rawOffer;
 const es=params.get("lang")==="es";
+try{sessionStorage.setItem("tleCheckoutLanguage",es?"es":"en")}catch{}
 const allowed={"booking-flow":"Booking + Lead Automation · $29.99","website-automation":"Website Automation · $59.99",va:"VA Essential Support · $49.99"};
 const kicker=document.getElementById("kicker"),title=document.getElementById("title"),copy=document.getElementById("copy"),dots=document.getElementById("dots"),retry=document.getElementById("retry"),status=document.getElementById("status");
 if(es){document.documentElement.lang="es";title.textContent="Abriendo tu pago seguro…";copy.textContent="Tu pago seguro se está abriendo ahora.";retry.textContent="Intentar otra vez";status.textContent="Revisa tu pedido antes de completar el pago.";} 
