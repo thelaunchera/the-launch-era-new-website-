@@ -3,8 +3,8 @@ import { ArrowRight, Check, ExternalLink, Mail, Sparkles } from 'lucide-react';
 
 const FORM_ENDPOINT='https://hook.us2.make.com/71gescpt0jssc2102yon8qhubqbau1rj';
 const FREEBIE_URLS={
-  en:'https://drive.google.com/file/d/1YKQREHXQiz1rc9JW5OCOV0eUXtI8FsJe/view?usp=drivesdk',
-  es:'https://drive.google.com/file/d/1AWoKb8c2Qfu_sgcyk8JkpVbpTOUPPQR-/view?usp=drivesdk',
+  en:'https://drive.google.com/file/d/1wCyF6XtHGpH2pfoSZRl9OF8Ti63VIbAH/view?usp=drivesdk',
+  es:'https://drive.google.com/file/d/1U7orsuroub92a9S7-vUd8zu45yI64vHO/view?usp=drivesdk',
 } as const;
 const TRACKER_URL='https://docs.google.com/spreadsheets/d/1NYhsQDqQZB9UnJeTqfgFOCXlAYTtzOCC/edit';
 
@@ -47,13 +47,13 @@ export function FreebiePage({language}:{language:Language}){
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-black/65">
             {es
-              ?'Un sistema simple para darle a cada consulta un estado, un próximo paso y una fecha de seguimiento.'
-              :'A simple system to give every cleaning inquiry a status, a next step and a follow-up date.'}
+              ?'Un sistema práctico para mantener consultas, cotizaciones y seguimientos en movimiento sin depender de tu memoria.'
+               :'A practical system to keep inquiries, quotes and follow-ups moving without relying on memory.'}
           </p>
           <div className="mt-7 flex flex-wrap gap-2">
             {(es
-              ?['Guía móvil de 11 páginas','3 guiones de seguimiento','Reset de leads en 10 minutos','Tracker editable']
-              :['11-page mobile guide','3 follow-up scripts','10-minute lead reset','Editable tracker']
+              ?['Starter Kit de 12 páginas','Guiones para consultas + cotizaciones','Rescate de leads en 10 minutos','Tracker editable']
+              :['12-page Starter Kit','Inquiry + quote scripts','10-minute lead rescue','Editable tracker']
             ).map(item=><span key={item} className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-3 py-2 text-sm font-medium"><Check size={15}/>{item}</span>)}
           </div>
           <a href="#freebie-form" className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#191919] px-6 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5">
@@ -86,8 +86,8 @@ export function FreebiePage({language}:{language:Language}){
           </p>
           <div className="mt-7 grid gap-3 text-sm">
             {(es
-              ?['01 · Starter Kit móvil','02 · 3 guiones de follow-up','03 · Reset de leads en 10 minutos','04 · Tracker editable']
-              :['01 · Mobile Starter Kit','02 · 3 follow-up scripts','03 · 10-minute lead reset','04 · Editable lead tracker']
+              ?['01 · Starter Kit de 12 páginas','02 · Guiones para consultas + quotes','03 · Rescate de leads en 10 minutos','04 · Tracker editable']
+              :['01 · 12-page Starter Kit','02 · Inquiry + quote scripts','03 · 10-minute lead rescue','04 · Editable lead tracker']
             ).map(item=><div key={item} className="rounded-2xl bg-white px-4 py-3 font-semibold text-[#191919]">{item}</div>)}
           </div>
         </aside>
