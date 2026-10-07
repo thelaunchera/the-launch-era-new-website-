@@ -11,6 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BookingLeadAutomationRouteImport } from './routes/booking-lead-automation'
+import { Route as CleaningWebAppRouteImport } from './routes/cleaning-web-app'
+import { Route as WebsiteAutomationRouteImport } from './routes/website-automation'
+import { Route as VirtualAssistantRouteImport } from './routes/virtual-assistant'
 import { Route as HelpRouteImport } from './routes/help'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as SolutionsRouteImport } from './routes/solutions'
@@ -25,6 +28,9 @@ const BookingLeadAutomationRoute = BookingLeadAutomationRouteImport.update({
   path: '/booking-lead-automation',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CleaningWebAppRoute = CleaningWebAppRouteImport.update({ id: '/cleaning-web-app', path: '/cleaning-web-app', getParentRoute: () => rootRouteImport } as any)
+const WebsiteAutomationRoute = WebsiteAutomationRouteImport.update({ id: '/website-automation', path: '/website-automation', getParentRoute: () => rootRouteImport } as any)
+const VirtualAssistantRoute = VirtualAssistantRouteImport.update({ id: '/virtual-assistant', path: '/virtual-assistant', getParentRoute: () => rootRouteImport } as any)
 const HelpRoute = HelpRouteImport.update({
   id: '/help',
   path: '/help',
@@ -44,6 +50,9 @@ const SolutionsRoute = SolutionsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/booking-lead-automation': typeof BookingLeadAutomationRoute
+  '/cleaning-web-app': typeof CleaningWebAppRoute
+  '/website-automation': typeof WebsiteAutomationRoute
+  '/virtual-assistant': typeof VirtualAssistantRoute
   '/help': typeof HelpRoute
   '/how-it-works': typeof HowItWorksRoute
   '/solutions': typeof SolutionsRoute
@@ -51,6 +60,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/booking-lead-automation': typeof BookingLeadAutomationRoute
+  '/cleaning-web-app': typeof CleaningWebAppRoute
+  '/website-automation': typeof WebsiteAutomationRoute
+  '/virtual-assistant': typeof VirtualAssistantRoute
   '/help': typeof HelpRoute
   '/how-it-works': typeof HowItWorksRoute
   '/solutions': typeof SolutionsRoute
@@ -59,6 +71,9 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/booking-lead-automation': typeof BookingLeadAutomationRoute
+  '/cleaning-web-app': typeof CleaningWebAppRoute
+  '/website-automation': typeof WebsiteAutomationRoute
+  '/virtual-assistant': typeof VirtualAssistantRoute
   '/help': typeof HelpRoute
   '/how-it-works': typeof HowItWorksRoute
   '/solutions': typeof SolutionsRoute
@@ -66,14 +81,17 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/booking-lead-automation' | '/help' | '/how-it-works' | '/solutions'
+    '/' | '/booking-lead-automation' | '/cleaning-web-app' | '/website-automation' | '/virtual-assistant' | '/help' | '/how-it-works' | '/solutions'
   fileRoutesByTo: FileRoutesByTo
   to:
-    '/' | '/booking-lead-automation' | '/help' | '/how-it-works' | '/solutions'
+    '/' | '/booking-lead-automation' | '/cleaning-web-app' | '/website-automation' | '/virtual-assistant' | '/help' | '/how-it-works' | '/solutions'
   id:
     | '__root__'
     | '/'
     | '/booking-lead-automation'
+    | '/cleaning-web-app'
+    | '/website-automation'
+    | '/virtual-assistant'
     | '/help'
     | '/how-it-works'
     | '/solutions'
@@ -82,6 +100,9 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BookingLeadAutomationRoute: typeof BookingLeadAutomationRoute
+  CleaningWebAppRoute: typeof CleaningWebAppRoute
+  WebsiteAutomationRoute: typeof WebsiteAutomationRoute
+  VirtualAssistantRoute: typeof VirtualAssistantRoute
   HelpRoute: typeof HelpRoute
   HowItWorksRoute: typeof HowItWorksRoute
   SolutionsRoute: typeof SolutionsRoute
@@ -103,6 +124,9 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookingLeadAutomationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cleaning-web-app': { id: '/cleaning-web-app'; path: '/cleaning-web-app'; fullPath: '/cleaning-web-app'; preLoaderRoute: typeof CleaningWebAppRouteImport; parentRoute: typeof rootRouteImport }
+    '/website-automation': { id: '/website-automation'; path: '/website-automation'; fullPath: '/website-automation'; preLoaderRoute: typeof WebsiteAutomationRouteImport; parentRoute: typeof rootRouteImport }
+    '/virtual-assistant': { id: '/virtual-assistant'; path: '/virtual-assistant'; fullPath: '/virtual-assistant'; preLoaderRoute: typeof VirtualAssistantRouteImport; parentRoute: typeof rootRouteImport }
     '/help': {
       id: '/help'
       path: '/help'
@@ -130,6 +154,9 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BookingLeadAutomationRoute: BookingLeadAutomationRoute,
+  CleaningWebAppRoute: CleaningWebAppRoute,
+  WebsiteAutomationRoute: WebsiteAutomationRoute,
+  VirtualAssistantRoute: VirtualAssistantRoute,
   HelpRoute: HelpRoute,
   HowItWorksRoute: HowItWorksRoute,
   SolutionsRoute: SolutionsRoute,
