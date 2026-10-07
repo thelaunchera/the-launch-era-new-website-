@@ -3,7 +3,7 @@ import { ArrowRight, Check, ExternalLink, Mail, Sparkles } from 'lucide-react';
 
 const FORM_ENDPOINT='https://hook.us2.make.com/71gescpt0jssc2102yon8qhubqbau1rj';
 const FREEBIE_URLS={
-  en:'https://drive.google.com/file/d/1Ee9o6t4fuYArrqToFrFSy1df8BvTYC6D/view?usp=drivesdk',
+  en:'https://drive.google.com/file/d/1Z5QHiLc6tjEiO7pTDOPMQt9Zj06qr3xA/view?usp=drivesdk',
   es:'https://drive.google.com/file/d/1AWoKb8c2Qfu_sgcyk8JkpVbpTOUPPQR-/view?usp=drivesdk',
 } as const;
 const TRACKER_URL='https://docs.google.com/spreadsheets/d/1NYhsQDqQZB9UnJeTqfgFOCXlAYTtzOCC/edit';
