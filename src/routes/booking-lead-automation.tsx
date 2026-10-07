@@ -1,4 +1,29 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { PageIntro, BookingSection } from '@/components/editorial-sections';
-export const Route = createFileRoute('/booking-lead-automation')({head:()=>({meta:[{title:'Booking + Lead Automation — THE LAUNCH ERA'},{name:'description',content:'Connect your booking requests, client details, Lead Tracker, and follow-ups in one thoughtful flow for your residential cleaning business.'},{property:'og:title',content:'Booking + Lead Automation — THE LAUNCH ERA'},{property:'og:description',content:'From “I’m interested” to “you’re booked.” Give every inquiry a home and every lead a next step.'},{property:'og:type',content:'website'},{name:'twitter:card',content:'summary_large_image'}]}),component:Booking});
-function Booking(){return <main><PageIntro label="YOUR CLIENT IS READY. LET’S GET YOUR SYSTEM READY." title="Booking + Lead Automation" description="Good inquiries deserve more than a mental note. Bring your booking requests, lead details, and follow-ups together—so you can focus on the homes, not the inbox."/><BookingSection detail/><section className="container" style={{padding:"1rem 1.5rem 6rem",textAlign:"center"}}><a className="cta-button" href="/pay/booking-flow/">Get Started — $29.99 →</a><p style={{marginTop:"1rem",fontSize:".9rem"}}>One-time offer · secure checkout</p></section></main>}
+
+export const Route = createFileRoute('/booking-lead-automation')({
+  head: () => ({
+    meta: [
+      { title: 'Booking + Lead Automation — THE LAUNCH ERA' },
+      { name: 'description', content: 'Booking requests, lead tracking, and follow-ups in one connected flow.' },
+    ],
+  }),
+  component: Booking,
+});
+
+function Booking() {
+  return (
+    <main>
+      <PageIntro
+        label="YOUR CLIENT IS READY. LET’S GET YOUR SYSTEM READY."
+        title="Booking + Lead Automation"
+        description="Bring your booking requests, lead details, and follow-ups together."
+      />
+      <BookingSection detail />
+      <section className="container" style={{ padding: '1rem 1.5rem 6rem', textAlign: 'center' }}>
+        <a className="cta-button" href="/pay/booking-flow/">Get Started — $29.99 →</a>
+        <p style={{ marginTop: '1rem', fontSize: '.9rem' }}>One-time offer · secure checkout</p>
+      </section>
+    </main>
+  );
+}
