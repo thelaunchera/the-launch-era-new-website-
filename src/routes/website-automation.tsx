@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useState, type FormEvent } from 'react';
 import { ArrowRight, Globe2, MessageSquareText, Workflow, BellRing, Check, RotateCcw, Sparkles } from 'lucide-react';
 
-export const Route=createFileRoute('/website-automation')({component:Page});
+export const Route=createFileRoute('/website-automation')({head:()=>({meta:[{title:'Website Automation for Cleaning Businesses | The Launch Era'},{name:'description',content:'Connect your existing cleaning business website to a clearer inquiry, routing and follow-up workflow.'},{property:'og:title',content:'Website Automation | The Launch Era'},{property:'og:description',content:'Turn website inquiries into organized next steps and follow-up.'},{name:'twitter:card',content:'summary_large_image'}]}),component:Page});
 
 const stages=[
   {label:'01 · CAPTURED',title:'Inquiry organized',detail:'Name, contact and service are captured in one clean record.',Icon:MessageSquareText},
