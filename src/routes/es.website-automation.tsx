@@ -51,7 +51,7 @@ function Page(){
       <div className="eyebrow">WEBSITE AUTOMATION</div>
       <h1 className="editorial">Un website que sigue trabajando cuando tú ya cerraste.</h1>
       <p>Conectamos tu website actual a un flujo más claro de consultas y seguimiento para que los clientes potenciales sepan qué hacer después.</p>
-      <a className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=es">Comenzar — $59.99 <ArrowRight/></a>
+      <a className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=es">Comenzar — $59.99 <ArrowRight/></a><div className="service-proof-strip" aria-label="Detalles del servicio"><span>SERVICIO ÚNICO</span><span>PRODUCCIÓN EN 48 HORAS</span><span>CONSERVA TU WEBSITE ACTUAL</span></div>
     </section>
 
     <section className="container service-story">
