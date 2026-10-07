@@ -1,12 +1,11 @@
 import { useState, type FormEvent } from 'react';
-import { ArrowRight, Check, ExternalLink, Mail, Sparkles } from 'lucide-react';
+import { ArrowRight, Check, Mail, Sparkles } from 'lucide-react';
 
 const FORM_ENDPOINT='https://hook.us2.make.com/71gescpt0jssc2102yon8qhubqbau1rj';
 const FREEBIE_URLS={
   en:'https://drive.google.com/file/d/1wCyF6XtHGpH2pfoSZRl9OF8Ti63VIbAH/view?usp=drivesdk',
   es:'https://drive.google.com/file/d/1U7orsuroub92a9S7-vUd8zu45yI64vHO/view?usp=drivesdk',
 } as const;
-const TRACKER_URL='https://docs.google.com/spreadsheets/d/1NYhsQDqQZB9UnJeTqfgFOCXlAYTtzOCC/edit';
 
 type Language='en'|'es';
 
@@ -95,18 +94,15 @@ export function FreebiePage({language}:{language:Language}){
         <div className="rounded-[30px] border border-black/10 bg-white p-7 shadow-[0_20px_60px_rgba(25,25,25,.06)] md:p-10">
           {status==='sent' ? <div className="flex min-h-[380px] flex-col justify-center">
             <Sparkles className="mb-5 text-[#87546F]" size={34}/>
-            <h2 className="font-serif text-5xl leading-none">{es?'Ya lo tienes.':'You are in.'}</h2>
+            <h2 className="font-serif text-5xl leading-none">{es?'Revisa tu correo.':'Check your inbox.'}</h2>
             <p className="mt-4 max-w-lg leading-7 text-black/60">
-              {es?'Recibimos tu solicitud. También puedes abrir el recurso ahora mismo mientras llega el correo.':'We received your request. You can also open the resource now while the email is on its way.'}
+              {es
+                ?<>Tu Starter Kit está en camino a <strong className="text-[#191919]">{email}</strong>. Si no lo ves en unos minutos, revisa Spam o Promociones.</>
+                :<>Your Starter Kit is on its way to <strong className="text-[#191919]">{email}</strong>. If you do not see it in a few minutes, check Spam or Promotions.</>}
             </p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <a href={FREEBIE_URLS[language]} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#191919] px-5 py-3 text-sm font-semibold text-white">
-                {es?'Abrir mi Starter Kit':'Open my Starter Kit'} <ExternalLink size={16}/>
-              </a>
-              {es&&<a href={TRACKER_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-black/15 px-5 py-3 text-sm font-semibold">
-                Abrir tracker editable <ExternalLink size={16}/>
-              </a>}
-            </div>
+            <p className="mt-6 max-w-lg rounded-2xl bg-[#FAF8F3] px-4 py-3 text-sm leading-6 text-black/60">
+              {es?'El recurso se entrega únicamente por correo.':'The resource is delivered by email only.'}
+            </p>
           </div> : <>
             <div className="mb-7 flex h-12 w-12 items-center justify-center rounded-full bg-[#DCEBFA]"><Mail size={21}/></div>
             <h2 className="font-serif text-5xl leading-none">{es?'Envíamelo a mi correo.':'Send it to my inbox.'}</h2>
@@ -117,7 +113,7 @@ export function FreebiePage({language}:{language:Language}){
               <label className="text-sm font-semibold" htmlFor="freebie-email">{es?'Correo electrónico':'Email address'}</label>
               <input id="freebie-email" type="email" required value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@business.com" className="mt-2 h-14 w-full rounded-2xl border border-black/20 bg-[#FAF8F3] px-4 outline-none transition focus:border-black"/>
               {status==='error'&&<p className="mt-3 rounded-2xl bg-[#FFF8D8] p-3 text-sm">
-                {es?'No pudimos confirmar el envío por correo. Puedes abrir el recurso directamente abajo y volver a intentarlo después.':'We could not confirm the email delivery. You can open the resource directly below and try again later.'}
+                {es?'No pudimos confirmar el envío. Revisa tu correo y vuelve a intentarlo en unos minutos.':'We could not confirm the delivery. Check your email and try again in a few minutes.'}
               </p>}
               <button type="submit" disabled={status==='sending'} className="mt-5 inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-[#F2D85B] px-5 text-sm font-bold text-[#191919] transition hover:-translate-y-0.5 disabled:opacity-60">
                 {status==='sending'?(es?'Enviando…':'Sending…'):(es?'ENVIARME EL STARTER KIT':'SEND ME THE STARTER KIT')} <ArrowRight size={17}/>
@@ -125,9 +121,6 @@ export function FreebiePage({language}:{language:Language}){
               <p className="mt-3 text-center text-xs leading-5 text-black/50">
                 {es?'Usaremos tu correo solamente para enviarte el recurso solicitado.':'We will use your email only to send the resource you requested.'}
               </p>
-              {status==='error'&&<a href={FREEBIE_URLS[language]} target="_blank" rel="noreferrer" className="mt-4 flex items-center justify-center gap-2 text-sm font-semibold underline">
-                {es?'Abrir el recurso ahora':'Open the resource now'} <ExternalLink size={14}/>
-              </a>}
             </form>
           </>}
         </div>
