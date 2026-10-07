@@ -1,18 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
 export const Route = createFileRoute('/website-automation')({ component: Page });
-function Page() {
-  return (
-    <main style={{ background: '#faf4f7', minHeight: '85vh' }}>
-      <section className="container" style={{ padding: '7rem 1.5rem 5rem', display: 'grid', gap: '2rem', alignItems: 'center' }}>
-        <div>
-          <div className="eyebrow">WEBSITE AUTOMATION</div>
-          <h1 className="editorial" style={{ fontSize: 'clamp(3rem,8vw,6rem)', lineHeight: .95 }}>A website that<br />works after you log off.</h1>
-          <p style={{ maxWidth: 560, fontSize: '1.1rem', margin: '1.5rem 0' }}>A clean online home with a clearer path from inquiry to next step.</p>
-          <a className="cta-button" href="/service-checkout/?offer=website-automation&lang=en">Get Started — $59.99 →</a>
-          <p style={{ marginTop: '1rem', fontSize: '.9rem' }}>48-hour production · External platform costs not included.</p>
-        </div>
-        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=85" alt="Website dashboard on a laptop" style={{ width: '100%', maxHeight: 520, objectFit: 'cover', borderRadius: 24 }} />
-      </section>
-    </main>
-  );
-}
+const card={background:'rgba(255,255,255,.76)',border:'1px solid rgba(25,25,25,.10)',borderRadius:24,padding:'1.5rem'};
+function Page(){return <main style={{background:'#faf4f7'}}><section className="container" style={{padding:'7rem 1.5rem 3rem'}}><div className="eyebrow">WEBSITE AUTOMATION</div><h1 className="editorial" style={{fontSize:'clamp(3rem,8vw,6rem)',lineHeight:.95}}>A website that keeps<br/>working after you log off.</h1><p style={{maxWidth:650,fontSize:'1.1rem',margin:'1.5rem 0'}}>We connect your existing website to a clearer inquiry and follow-up flow so potential clients know what to do next.</p><a className="cta-button" href="/service-checkout/?offer=website-automation&lang=en">Get Started — $59.99 →</a></section>
+<section className="container" style={{padding:'1rem 1.5rem 5rem'}}><div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(240px,1fr))',gap:'1rem'}}>
+<div style={card}><div className="eyebrow">CLEARER INQUIRIES</div><h2 className="editorial">A better next step.</h2><p>Connect the right form or action so visitors aren’t left wondering how to reach you or request service.</p></div>
+<div style={card}><div className="eyebrow">CONNECTED FLOW</div><h2 className="editorial">Less manual chasing.</h2><p>We organize the path from website inquiry to the next response so the process feels more consistent.</p></div>
+<div style={card}><div className="eyebrow">YOUR PLATFORM</div><h2 className="editorial">Work with what you have.</h2><p>Available for common website platforms. Access requirements depend on your current setup.</p></div></div>
+<div style={{marginTop:'2rem',padding:'2rem',borderRadius:24,background:'#fff'}}><div className="eyebrow">DELIVERY</div><h2 className="editorial">48-hour production.</h2><p style={{maxWidth:720}}>After checkout, we collect the website and access details needed to build your automation. External platform, app, plugin, or upgrade costs are not included.</p><p style={{marginTop:'1rem',fontSize:'.9rem'}}>One-time service · $59.99.</p></div></section></main>}
