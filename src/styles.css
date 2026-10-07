@@ -549,3 +549,36 @@ img { display:block; width:100%; object-fit:cover; }
 .service-proof-strip{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center}
 .service-proof-strip span{display:inline-flex;align-items:center;min-height:29px;padding:7px 10px;border:1px solid color-mix(in oklab,var(--foreground) 13%,transparent);border-radius:999px;background:color-mix(in oklab,var(--foam) 84%,transparent);color:var(--muted-foreground);font-size:8px;font-weight:700;letter-spacing:.09em;line-height:1;text-transform:uppercase}
 @media(max-width:767px){.service-proof-strip{gap:6px;margin-top:12px}.service-proof-strip span{font-size:7px;padding:7px 9px}}
+
+
+/* Free Lead Tracker homepage entry */
+.hero-cta-row{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+.freebie-inline-link{display:inline-flex;align-items:center;gap:7px;color:var(--foreground);font-size:13px;font-weight:700;text-decoration:none;border-bottom:1px solid color-mix(in oklab,var(--foreground) 45%,transparent);padding:10px 2px 7px}
+.freebie-inline-link:hover{border-color:var(--foreground)}
+.freebie-home-section{padding:72px 0;background:#f7f4ed}
+.freebie-home-card{display:grid;grid-template-columns:minmax(0,.95fr) minmax(360px,1.05fr);gap:42px;align-items:center;border:1px solid rgba(25,25,25,.1);border-radius:34px;background:#fff;padding:clamp(26px,5vw,58px);box-shadow:0 24px 70px rgba(25,25,25,.06)}
+.freebie-home-copy h2{font-size:clamp(40px,5vw,66px);line-height:.98;max-width:720px;margin:16px 0}
+.freebie-home-copy>p{font-size:17px;line-height:1.7;color:rgba(25,25,25,.65);max-width:640px}
+.freebie-home-copy>small{display:block;margin-top:12px;color:rgba(25,25,25,.52);font-size:12px}
+.freebie-home-points{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 26px}
+.freebie-home-points span{display:inline-flex;align-items:center;gap:7px;border-radius:999px;background:#faf8f3;border:1px solid rgba(25,25,25,.1);padding:9px 12px;font-size:12px;font-weight:650}
+.freebie-home-points svg{width:14px;height:14px}
+.freebie-home-preview{position:relative;border-radius:28px;background:#dcebfa;padding:20px;box-shadow:18px 18px 0 #f2d85b;transform:rotate(1.2deg)}
+.freebie-preview-head{background:#191919;color:#fff;border-radius:20px;padding:20px;margin-bottom:12px}
+.freebie-preview-head span{display:block;color:#f2d85b;font-size:9px;font-weight:800;letter-spacing:.14em}
+.freebie-preview-head strong{display:block;font-family:"Libre Caslon Display",Georgia,serif;font-size:30px;font-weight:400;margin-top:7px}
+.freebie-preview-head p{margin:5px 0 0;color:rgba(255,255,255,.67);font-size:12px}
+.freebie-preview-row{display:flex;align-items:center;justify-content:space-between;gap:14px;background:#fff;border-radius:17px;padding:14px 15px;margin-top:9px;border:1px solid rgba(25,25,25,.07)}
+.freebie-preview-row b{display:block;font-size:13px}
+.freebie-preview-row small{display:block;margin-top:3px;color:rgba(25,25,25,.5);font-size:10px}
+.freebie-preview-row .status{flex:none;font-size:9px}
+.freebie-preview-note{display:flex;gap:10px;align-items:center;margin-top:14px;padding:14px;border-radius:17px;background:#faf8f3}
+.freebie-preview-note strong,.freebie-preview-note small{display:block}
+.freebie-preview-note strong{font-size:12px}
+.freebie-preview-note small{font-size:10px;color:rgba(25,25,25,.55);margin-top:3px}
+@media(max-width:820px){
+ .freebie-home-section{padding:48px 0}
+ .freebie-home-card{grid-template-columns:1fr;gap:30px;border-radius:28px;padding:24px}
+ .freebie-home-preview{transform:none;box-shadow:10px 10px 0 #f2d85b}
+ .freebie-home-copy h2{font-size:clamp(38px,11vw,55px)}
+}
