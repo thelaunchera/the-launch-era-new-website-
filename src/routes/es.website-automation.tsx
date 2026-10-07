@@ -9,7 +9,7 @@ export const Route=createFileRoute('/es/website-automation/')({head:()=>({meta:[
   {property:'og:description',content:'Convierte las consultas de tu website en próximos pasos organizados.'},
   {property:'og:type',content:'website'},
   {name:'twitter:card',content:'summary_large_image'}
-]}),component:Page});
+],links:[{rel:'canonical',href:'https://thelaunchera.com/es/website-automation/'},{rel:'alternate',hrefLang:'en-US',href:'https://thelaunchera.com/website-automation'},{rel:'alternate',hrefLang:'es-US',href:'https://thelaunchera.com/es/website-automation/'},{rel:'alternate',hrefLang:'x-default',href:'https://thelaunchera.com/website-automation'}]}),component:Page});
 
 const stages=[
   {label:'01 · CAPTURADA',title:'Consulta organizada',detail:'Nombre, contacto y servicio quedan guardados en un solo registro.',Icon:MessageSquareText},
