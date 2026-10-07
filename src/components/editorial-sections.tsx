@@ -48,8 +48,35 @@ export function ProcessSection() {
 export function FinalCTA() { return <section className="final-section"><Wave/><div className="eyebrow">YOUR NEXT ERA STARTS HERE.</div><h2 className="editorial">A business that runs smoother.<br/><em>A day that feels lighter.</em></h2><p>Let’s take the scattered, time-consuming parts off your plate—and make room for what’s next.</p><Button variant="editorial" className="cta-button" asChild><Link to="/help"><MessageCircle/>Let’s talk about your business <ArrowUpRight/></Link></Button><div className="final-note">A simple inquiry. A thoughtful conversation. No pressure.</div></section> }
 export function PageIntro({label,title,description}:{label:string,title:string,description:string}) { return <section className="page-intro"><div className="eyebrow">{label}</div><h1 className="editorial">{title}</h1><p>{description}</p></section> }
 export function ContactForm() {
- const [ready,setReady]=useState(false);
+ const [status,setStatus]=useState<'idle'|'sending'|'sent'|'error'>('idle');
  const [name,setName]=useState('');
- return <div className="contact-form">{ready?<div className="form-confirm"><Sparkles size={30}/><h3 className="editorial">A fresh start sounds good, {name.split(' ')[0]}.</h3><p>Your inquiry is ready to review. This standalone concept isn’t connected to a delivery service yet, so no message has been sent.</p><Button variant="outline" onClick={()=>setReady(false)}>Back to your inquiry <ArrowRight/></Button></div>:<><h2 className="editorial">Tell us about your business.</h2><p>A few details to start a thoughtful conversation.</p><form onSubmit={e=>{e.preventDefault();setReady(true)}}><div className="form-grid"><label className="field">Your name<input name="name" autoComplete="name" required value={name} onChange={e=>setName(e.target.value)} placeholder="First & last name"/></label><label className="field">Email address<input name="email" type="email" autoComplete="email" required placeholder="Where we can reach you"/></label></div><label className="field">Business name<input name="business" autoComplete="organization" required placeholder="Your cleaning business"/></label><label className="field">What can we help with?<select name="service" defaultValue="Booking + Lead Automation">{services.map(s=><option key={s.title}>{s.title}</option>)}<option>I’m not sure yet</option></select></label><label className="field">What’s taking up too much of your time?<textarea name="message" required placeholder="Tell us a little about your day-to-day…"/></label><Button type="submit" variant="editorial" className="cta-button">Review my inquiry <ArrowRight/></Button><p className="form-disclaimer">Concept preview: this form does not send inquiries yet.</p></form></>}</div>
+ const [error,setError]=useState('');
+ async function submitInquiry(e:FormEvent<HTMLFormElement>){
+  e.preventDefault();
+  setStatus('sending'); setError('');
+  const form=e.currentTarget;
+  const fd=new FormData(form);
+  try{
+   const response=await fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-contact',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+     name:String(fd.get('name')||''),
+     email:String(fd.get('email')||''),
+     business_name:String(fd.get('business')||''),
+     help_needed:[String(fd.get('service')||'')].filter(Boolean),
+     message:String(fd.get('message')||''),
+     language:'en',
+     source:'main_website',
+     started_at:Date.now()-3000,
+     website:''
+    })
+   });
+   const data=await response.json().catch(()=>({}));
+   if(!response.ok||!data?.ok) throw new Error(data?.error||'We couldn’t send your inquiry. Please try again.');
+   setStatus('sent');
+  }catch(err){setError(err instanceof Error?err.message:'We couldn’t send your inquiry. Please try again.');setStatus('error');}
+ }
+ return <div className="contact-form">{status==='sent'?<div className="form-confirm"><Sparkles size={30}/><h3 className="editorial">Thank you, {name.split(' ')[0]}.</h3><p>Your inquiry has been sent to The Launch Era. We’ll review it and follow up with you soon.</p><Button variant="outline" onClick={()=>setStatus('idle')}>Send another inquiry <ArrowRight/></Button></div>:<><h2 className="editorial">Tell us about your business.</h2><p>A few details to start a thoughtful conversation.</p><form onSubmit={submitInquiry}><div className="form-grid"><label className="field">Your name<input name="name" autoComplete="name" required value={name} onChange={e=>setName(e.target.value)} placeholder="First & last name"/></label><label className="field">Email address<input name="email" type="email" autoComplete="email" required placeholder="Where we can reach you"/></label></div><label className="field">Business name<input name="business" autoComplete="organization" required placeholder="Your cleaning business"/></label><label className="field">What can we help with?<select name="service" defaultValue="Booking + Lead Automation">{services.map(s=><option key={s.title}>{s.title}</option>)}<option>I’m not sure yet</option></select></label><label className="field">What’s taking up too much of your time?<textarea name="message" required placeholder="Tell us a little about your day-to-day…"/></label>{status==='error'&&<p className="text-sm" role="alert">{error}</p>}<Button type="submit" variant="editorial" className="cta-button" disabled={status==='sending'}>{status==='sending'?'Sending…':'Send my inquiry'} <ArrowRight/></Button><p className="form-disclaimer">Your inquiry goes directly to The Launch Era. We’ll use these details only to respond to your request.</p></form></>}</div>
 }
 export function HelpContent() { return <div className="container help-layout"><div className="faq-list"><h2 className="editorial">A little clarity, before we start.</h2><details><summary>Is this built for my kind of business?</summary><p>THE LAUNCH ERA is designed for U.S. residential cleaning business owners. Whether you’re managing inquiries yourself or growing a team, the goal is a simpler behind-the-scenes flow.</p></details><details><summary>Do I need to replace the tools I already use?</summary><p>Not necessarily. We start with your current process and look at what can connect, what can be simplified, and where a new tool would genuinely help.</p></details><details><summary>What does Booking + Lead Automation include?</summary><p>A connected booking inquiry flow, an organized Lead Tracker, and thoughtful follow-ups. Your setup is shaped around your business and how you bring on new clients.</p></details><details><summary>Can you help with more than bookings?</summary><p>Yes. Cleaning Web App, Website Automation, and Virtual Assistant support can help with other time-consuming parts of running your business.</p></details><details><summary>How much does it cost?</summary><p>We’ll first understand your needs, then share the scope and pricing before you make a commitment. No one-size-fits-all package or surprise costs.</p></details></div><ContactForm/></div> }
