@@ -22,6 +22,7 @@ function detectedTrafficSource(){
 }
 
 function currentProduct(pathname=location.pathname){
+  if(pathname.includes('free-cleaning-lead-guide')) return 'free_lead_tracker';
   if(pathname.includes('booking-lead-automation')) return 'booking_lead_automation';
   if(pathname.includes('cleaning-web-app')) return 'cleaning_web_app';
   if(pathname.includes('website-automation')) return 'website_automation';
