@@ -21,7 +21,7 @@ function Booking() {
       />
       <BookingSection detail />
       <section className="container" style={{ padding: '1rem 1.5rem 6rem', textAlign: 'center' }}>
-        <a className="cta-button" href="/pay/booking-flow/">Get Started — $29.99 →</a>
+        <a className="cta-button" href="/service-checkout/?offer=booking-flow&lang=en">Get Started — $29.99 →</a>
         <p style={{ marginTop: '1rem', fontSize: '.9rem' }}>One-time offer · secure checkout</p>
       </section>
     </main>
