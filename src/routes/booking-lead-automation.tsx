@@ -1,25 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { PageIntro, BookingSection } from '@/components/editorial-sections';
-
-export const Route = createFileRoute('/booking-lead-automation')({
-  head: () => ({
-    meta: [
-      { title: 'Booking + Lead Automation — THE LAUNCH ERA' },
-      { name: 'description', content: 'Booking requests, lead tracking, and follow-ups in one connected flow.' },
-    ],
-  }),
-  component: Booking,
-});
-
-function Booking() {
-  return (
-    <main>
-      <PageIntro
-        label="YOUR CLIENT IS READY. LET’S GET YOUR SYSTEM READY."
-        title="Booking + Lead Automation"
-        description="Bring your booking requests, lead details, and follow-ups together."
-      />
-      <BookingSection detail />
-    </main>
-  );
-}
+export const Route = createFileRoute('/booking-lead-automation')({ component: Page });
+const card={background:'rgba(255,255,255,.72)',border:'1px solid rgba(25,25,25,.10)',borderRadius:24,padding:'1.5rem'};
+function Page(){return <main style={{background:'#f5f8ff'}}>
+<section className="container" style={{padding:'7rem 1.5rem 3rem'}}><div className="eyebrow">BOOKING + LEAD AUTOMATION</div><h1 className="editorial" style={{fontSize:'clamp(3rem,8vw,6rem)',lineHeight:.95,maxWidth:900}}>From inquiry to booked—without the chasing.</h1><p style={{maxWidth:650,fontSize:'1.1rem',margin:'1.5rem 0'}}>A connected booking flow for cleaning businesses that captures inquiries, keeps lead details organized, and moves follow-ups forward while you work.</p><a className="cta-button" href="/service-checkout/?offer=booking-flow&lang=en">Get Started — $29.99 →</a></section>
+<section className="container" style={{padding:'1rem 1.5rem 5rem'}}><div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(240px,1fr))',gap:'1rem'}}>
+<div style={card}><div className="eyebrow">WHAT IT SOLVES</div><h2 className="editorial">No more lost inquiries.</h2><p>Give every potential client a clear place to start instead of relying on scattered texts, DMs, and notes.</p></div>
+<div style={card}><div className="eyebrow">WHAT’S INCLUDED</div><h2 className="editorial">One connected flow.</h2><p>Booking request capture, organized lead details, a Lead Tracker, and follow-ups that keep the conversation moving.</p></div>
+<div style={card}><div className="eyebrow">WHAT YOU GET</div><h2 className="editorial">Built for your business.</h2><p>A ready-to-use booking system with a clearer next step for your clients and a simpler view for you.</p></div></div>
+<div style={{marginTop:'2rem',padding:'2rem',borderRadius:24,background:'#fff'}}><div className="eyebrow">HOW IT WORKS</div><h2 className="editorial">Inquiry → organized lead → follow-up → booking.</h2><p style={{maxWidth:720}}>We set up the flow around the information your cleaning business actually needs, so you spend less time manually moving details from one place to another.</p><p style={{marginTop:'1rem',fontSize:'.9rem'}}>One-time setup · $29.99 · Cleaning Web App access included for 60 days.</p></div></section></main>}
