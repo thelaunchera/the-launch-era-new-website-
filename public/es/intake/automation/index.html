@@ -1,18 +1,38 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Formulario de Website Automation — The Launch Era</title><style>
-:root{--bg:#FAF8F3;--ink:#191919;--muted:#6b6b6b;--line:#d9d6cf;--blue:#dfeffc;--yellow:#F2D85B}*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#fff,#FAF8F3);color:var(--ink);font-family:Arial,sans-serif}.wrap{width:min(860px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.top{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:28px}.brand{font-weight:900;letter-spacing:.08em}.top a{color:var(--ink);font-weight:700;text-decoration:none}.card{background:#fff;border:1px solid var(--line);padding:clamp(22px,5vw,48px);border-radius:24px}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.12em}h1{font-size:clamp(38px,7vw,64px);line-height:.98;margin:10px 0 16px}.lead{color:var(--muted);font-size:18px;line-height:1.6}.notice{background:var(--blue);padding:14px 16px;margin:22px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.full{grid-column:1/-1}label{font-size:13px;font-weight:800;display:grid;gap:8px}input,textarea,select{width:100%;padding:13px;border:1px solid #bbc2c8;background:#fff;font:inherit}textarea{min-height:110px}details{border-top:1px solid var(--line);padding-top:14px}details summary{cursor:pointer;font-weight:800;margin-bottom:14px}details[open]{display:grid;grid-template-columns:1fr 1fr;gap:16px}.btn{width:100%;margin-top:22px;padding:15px;border:0;background:var(--ink);color:white;font-weight:900;font-size:16px;cursor:pointer}.btn:disabled{opacity:.55}.status{margin-top:14px}.success{background:var(--blue);padding:22px;border-radius:18px}.small{font-size:12px;color:var(--muted);margin-top:12px}@media(max-width:650px){.grid,details[open]{grid-template-columns:1fr}.full{grid-column:auto}.top{align-items:flex-start}.card{border-radius:18px}}
-</style></head><body><main class="wrap"><div class="top"><div class="brand">THE LAUNCH ERA</div><div><a href="/intake/automation/">EN</a> · <a href="/es/website-automation/">Volver</a></div></div><section class="card"><div class="eyebrow">WEBSITE AUTOMATION · INTAKE PRIVADO</div><h1>Formulario de Website Automation</h1><p class="lead">Cuéntanos cómo funciona tu website hoy y qué parte quieres dejar de hacer manualmente.</p><div class="notice"><strong>Usa el mismo correo que usaste en checkout.</strong> Así mantenemos tu compra y tu intake juntos.</div><form id="intakeForm"><div class="grid">
-<input type="hidden" name="automation_type" value="Website Automation">
-<input type="hidden" name="followup_timing" value="24 hours">
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Formulario de Automatización — The Launch Era</title><style>
+:root{--bg:#FAF8F3;--ink:#191919;--muted:#6b6b6b;--line:#d9d6cf;--blue:#dfeffc;--yellow:#F2D85B}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#fff,#FAF8F3);color:var(--ink);font-family:Arial,sans-serif}
+.wrap{width:min(860px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.top{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:28px}
+.brand{font-weight:900;letter-spacing:.08em}.top a{color:var(--ink);font-weight:700;text-decoration:none}.card{background:#fff;border:1px solid var(--line);padding:clamp(22px,5vw,48px);border-radius:24px}
+.eyebrow{font-size:11px;font-weight:900;letter-spacing:.12em}h1{font-size:clamp(38px,7vw,64px);line-height:.98;margin:10px 0 16px}.lead{color:var(--muted);font-size:18px;line-height:1.6}
+.notice{background:var(--blue);padding:14px 16px;margin:22px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.full{grid-column:1/-1}
+label{font-size:13px;font-weight:800;display:grid;gap:8px}input,textarea,select{width:100%;padding:13px;border:1px solid #bbc2c8;background:#fff;font:inherit}textarea{min-height:110px}
+details{border-top:1px solid var(--line);padding-top:14px}details summary{cursor:pointer;font-weight:800;margin-bottom:14px}details[open]{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.btn{width:100%;margin-top:22px;padding:15px;border:0;background:var(--ink);color:white;font-weight:900;font-size:16px;cursor:pointer}.btn:disabled{opacity:.55}.status{margin-top:14px}
+.success{background:var(--blue);padding:22px;border-radius:18px}.small{font-size:12px;color:var(--muted);margin-top:12px}[hidden]{display:none!important}
+@media(max-width:650px){.grid,details[open]{grid-template-columns:1fr}.full{grid-column:auto}.top{align-items:flex-start}.card{border-radius:18px}}
+</style></head>
+<body><main class="wrap"><div class="top"><div class="brand">THE LAUNCH ERA</div><div><a id="langLink" href="/intake/automation/">EN</a> · <a id="backLink" href="/es/website-automation/">Volver</a></div></div>
+<section class="card"><div class="eyebrow" id="eyebrow">WEBSITE AUTOMATION · INTAKE PRIVADO</div><h1 id="title">Formulario de Website Automation</h1><p class="lead" id="lead">Cuéntanos cómo funciona tu website hoy y qué parte quieres dejar de hacer manualmente.</p>
+<div class="notice"><strong>Usa el mismo correo que usaste en checkout.</strong> Así mantenemos tu compra y tu intake juntos. La producción comienza cuando estén completos los datos y accesos necesarios.</div>
+<form id="intakeForm"><div class="grid">
+<input type="hidden" name="automation_type" id="automationType" value="Website Automation">
+<input type="hidden" name="followup_timing" value="48 hours">
 <input type="hidden" name="website_access_status" value="Follow-up required">
 <label>Tu nombre *<input name="full_name" required></label>
 <label>Nombre del negocio *<input name="business_name" required></label>
 <label>Correo usado al pagar *<input type="email" name="email" required></label>
-<label>Website *<input type="url" name="website" required placeholder="https://..."></label>
-<label>Plataforma *<select name="website_platform" required><option value="">Selecciona</option><option>Wix</option><option>Squarespace</option><option>WordPress</option><option>GoDaddy</option><option>Shopify</option><option>Webflow</option><option value="Other">Otro</option><option value="Not sure">No estoy segura</option></select></label>
+
+<label data-website>Website *<input id="websiteField" type="url" name="website" required placeholder="https://..."></label>
+<label data-website>Plataforma *<select id="platformField" name="website_platform" required><option value="">Selecciona</option><option>Wix</option><option>Squarespace</option><option>WordPress</option><option>GoDaddy</option><option>Shopify</option><option>Webflow</option><option value="Other">Otro</option><option value="Not sure">No estoy segura</option></select></label>
+
+<label data-instagram hidden>Perfil de Instagram *<input id="instagramField" type="url" name="instagram" placeholder="https://instagram.com/..."></label>
+<label data-instagram hidden>Dónde deben llegar las alertas de leads de Instagram<input type="email" name="instagram_notification_email"></label>
+
 <label class="full">Servicios principales *<textarea name="services" required></textarea></label>
 <label class="full">Qué parte repetitiva quieres dejar de hacer manualmente *<textarea name="repetitive_task" required></textarea></label>
-<label>Dónde deben llegar las alertas<input type="email" name="website_notification_email"></label>
-<label>Qué flujo quieres automatizar *<select name="website_workflow" required><option value="">Selecciona</option><option value="Contact inquiry">Contacto</option><option value="Quote request">Solicitud de cotización</option><option value="Booking request">Solicitud de reserva</option><option value="Other">Otro</option></select></label>
+<label data-website>Dónde deben llegar las alertas del website<input type="email" name="website_notification_email"></label>
+<label data-website>Qué flujo del website quieres automatizar *<select id="websiteWorkflow" name="website_workflow" required><option value="">Selecciona</option><option value="Contact inquiry">Contacto</option><option value="Quote request">Solicitud de cotización</option><option value="Booking request">Solicitud de reserva</option><option value="Other">Otro</option></select></label>
+<label data-instagram hidden>Qué flujo de Instagram quieres automatizar *<select id="instagramWorkflow" name="instagram_workflow"><option value="">Selecciona</option><option value="DM inquiry">Consulta por DM</option><option value="Quote request">Solicitud de cotización</option><option value="Booking request">Solicitud de reserva</option><option value="Keyword or comment">Keyword o comentario</option><option value="Other">Otro</option></select></label>
 <label>Dónde debe ir un lead calificado *<select name="lead_destination" required><option value="">Selecciona</option><option value="Booking link">Link de reserva</option><option value="Quote Request">Solicitud de cotización</option><option value="Phone or text">Teléfono o mensaje</option><option value="Website">Website</option></select></label>
 <label>Enlace de destino<input type="url" name="destination_link"></label>
 <details class="full"><summary>Más contexto (opcional)</summary>
@@ -20,8 +40,36 @@
 <label class="full">Datos que necesitas de un lead<textarea name="lead_info_needed"></textarea></label>
 <label class="full">Qué NO quieres automatizar<textarea name="do_not_automate"></textarea></label>
 <label class="full">Algo más<textarea name="notes"></textarea></label>
-</details></div><button class="btn" id="submitBtn" type="submit">Enviar información</button><div class="status" id="status" aria-live="polite"></div></form><div id="success" hidden class="success"><strong>✓ Intake recibido.</strong><p>Ya tenemos la información para continuar. También recibirás una confirmación por correo.</p></div><p class="small">Nunca envíes contraseñas ni códigos 2FA en este formulario.</p></section></main><script>
+</details></div><button class="btn" id="submitBtn" type="submit">Enviar información</button><div class="status" id="status" aria-live="polite"></div></form>
+<div id="success" hidden class="success"><strong>✓ Intake recibido.</strong><p>Ya tenemos la información para continuar. También recibirás una confirmación por correo.</p></div>
+<p class="small">Nunca envíes contraseñas ni códigos 2FA en este formulario. Las suscripciones, plugins y upgrades de plataformas externas no están incluidos.</p></section></main>
+<script>
 const WEBHOOK="https://hook.us2.make.com/71gescpt0jssc2102yon8qhubqbau1rj",TYPE="tle.auto_intake",LANG="Español";
+const q=new URLSearchParams(location.search),kind=(q.get("type")||"website").toLowerCase()==="instagram"?"instagram":"website";
 const form=document.getElementById("intakeForm"),btn=document.getElementById("submitBtn"),status=document.getElementById("status"),success=document.getElementById("success");
-form.addEventListener("submit",async e=>{e.preventDefault();if(!form.reportValidity())return;btn.disabled=true;status.textContent="Enviando…";const fd=new FormData(form),obj={language:LANG};fd.forEach((v,k)=>obj[k]=String(v).trim());if(TYPE==="tle.auto_intake"&&!obj.website_notification_email)obj.website_notification_email=obj.email||"";const payload={type:TYPE,data:{object:obj}};try{const r=await fetch(WEBHOOK,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload),cache:"no-store",credentials:"omit"});if(!r.ok)throw new Error("HTTP "+r.status);form.hidden=true;success.hidden=false;status.textContent=""}catch(err){btn.disabled=false;status.textContent="No pudimos enviar el formulario. Inténtalo otra vez."}});
+const langLink=document.getElementById("langLink"),backLink=document.getElementById("backLink");
+langLink.href="/intake/automation/?"+q.toString();
+if(kind==="instagram"){
+ document.title="Formulario de Instagram Automation — The Launch Era";
+ document.getElementById("eyebrow").textContent="INSTAGRAM AUTOMATION · INTAKE PRIVADO";
+ document.getElementById("title").textContent="Formulario de Instagram Automation";
+ document.getElementById("lead").textContent="Cuéntanos cómo llegan hoy tus consultas por Instagram y qué quieres que el sistema maneje automáticamente.";
+ document.getElementById("automationType").value="Instagram Automation";
+ document.querySelectorAll("[data-website]").forEach(el=>el.hidden=true);
+ document.querySelectorAll("[data-instagram]").forEach(el=>el.hidden=false);
+ document.getElementById("websiteField").required=false;document.getElementById("platformField").required=false;document.getElementById("websiteWorkflow").required=false;
+ document.getElementById("instagramField").required=true;document.getElementById("instagramWorkflow").required=true;
+ backLink.href="/es";
+}else{
+ backLink.href="/es/website-automation/";
+}
+form.addEventListener("submit",async e=>{
+ e.preventDefault();if(!form.reportValidity())return;btn.disabled=true;status.textContent="Enviando…";
+ const fd=new FormData(form),obj={language:LANG};fd.forEach((v,k)=>obj[k]=String(v).trim());
+ if(!obj.website_notification_email)obj.website_notification_email=obj.instagram_notification_email||obj.email||"";
+ if(kind==="instagram"&&!obj.current_automation)obj.current_automation="Instagram workflow: "+(obj.instagram_workflow||"");
+ const payload={type:TYPE,data:{object:obj}};
+ try{const r=await fetch(WEBHOOK,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload),cache:"no-store",credentials:"omit"});if(!r.ok)throw new Error("HTTP "+r.status);form.hidden=true;success.hidden=false;status.textContent=""}
+ catch(err){btn.disabled=false;status.textContent="No pudimos enviar el formulario. Inténtalo otra vez."}
+});
 </script></body></html>
