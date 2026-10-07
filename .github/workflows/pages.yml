@@ -36,7 +36,7 @@ jobs:
 
       - name: Create GitHub Pages route fallbacks
         run: |
-          for route in booking-lead-automation cleaning-web-app website-automation virtual-assistant help how-it-works solutions es; do
+          for route in booking-lead-automation cleaning-web-app website-automation virtual-assistant help how-it-works solutions free-cleaning-lead-guide es es/booking-lead-automation es/cleaning-web-app es/website-automation es/virtual-assistant es/free-cleaning-lead-guide; do
             mkdir -p ".output/public/$route"
             if [ ! -f ".output/public/$route/index.html" ]; then
               cp .output/public/index.html ".output/public/$route/index.html"
