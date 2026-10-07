@@ -36,7 +36,7 @@ export function SiteHeader() {
  const solutions=es?'/es#soluciones':'/solutions';
  const how=es?'/es#como-funciona':'/how-it-works';
  const booking=es?'/es/booking-lead-automation/':'/booking-lead-automation';
- const freebie=es?'/es/free-cleaning-lead-guide':'/free-cleaning-lead-guide';
+ const freebie=es?'/es/free-cleaning-lead-guide?utm_content=site_nav_es':'/free-cleaning-lead-guide?utm_content=site_nav';
  const help=es?'/es#contacto':'/help';
  const enToEs:Record<string,string>={
   '/':'/es',
@@ -69,5 +69,5 @@ export function SiteFooter() {
  const [path,setPath]=useState('');
  useEffect(()=>setPath(window.location.pathname),[]);
  const es=path==='/es'||path.startsWith('/es/');
- return <footer className="site-footer"><div className="container"><div className="footer-top"><div><a className="wordmark" href={es?'/es':'/'}>THE LAUNCH ERA</a><p>{es?'Menos trabajo administrativo. Más espacio para crecer.':'A little less admin. A lot more possibility.'}</p></div><nav className="footer-links" aria-label={es?'Navegación del pie de página':'Footer navigation'}><a href={es?'/es#soluciones':'/solutions'}>{es?'Soluciones':'Solutions'}</a><a href={es?'/es/free-cleaning-lead-guide':'/free-cleaning-lead-guide'}>{es?'Lead Tracker Gratis':'Free Lead Tracker'}</a><a href={es?'/es#como-funciona':'/how-it-works'}>{es?'Cómo funciona':'How It Works'}</a><a href={es?'/es#contacto':'/help'}>{es?'Contacto ↗':'Get in Touch ↗'}</a></nav></div><div className="footer-bottom"><span>© 2026 THE LAUNCH ERA. {es?'Todos los derechos reservados.':'All rights reserved.'}</span><span>{es?'Creado para negocios de limpieza en EE. UU.':'Thoughtfully built for U.S. cleaning businesses.'}</span></div></div></footer>
+ return <footer className="site-footer"><div className="container"><div className="footer-top"><div><a className="wordmark" href={es?'/es':'/'}>THE LAUNCH ERA</a><p>{es?'Menos trabajo administrativo. Más espacio para crecer.':'A little less admin. A lot more possibility.'}</p></div><nav className="footer-links" aria-label={es?'Navegación del pie de página':'Footer navigation'}><a href={es?'/es#soluciones':'/solutions'}>{es?'Soluciones':'Solutions'}</a><a href={es?'/es/free-cleaning-lead-guide?utm_content=footer_es':'/free-cleaning-lead-guide?utm_content=footer'}>{es?'Lead Tracker Gratis':'Free Lead Tracker'}</a><a href={es?'/es#como-funciona':'/how-it-works'}>{es?'Cómo funciona':'How It Works'}</a><a href={es?'/es#contacto':'/help'}>{es?'Contacto ↗':'Get in Touch ↗'}</a></nav></div><div className="footer-bottom"><span>© 2026 THE LAUNCH ERA. {es?'Todos los derechos reservados.':'All rights reserved.'}</span><span>{es?'Creado para negocios de limpieza en EE. UU.':'Thoughtfully built for U.S. cleaning businesses.'}</span></div></div></footer>
 }
