@@ -2,7 +2,6 @@ import { useState, type FormEvent } from 'react';
 import { Link } from '@tanstack/react-router';
 import { ArrowRight, ArrowUpRight, Bell, CalendarCheck2, Check, CircleCheck, ClipboardList, MessageCircle, MessagesSquare, Send, Sparkles, Timer, Workflow } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import cleaner from '@/assets/cleaner-home.jpg';
 import webapp from '@/assets/webapp-phone.jpg';
 import website from '@/assets/website-workspace.jpg';
