@@ -544,3 +544,8 @@ img { display:block; width:100%; object-fit:cover; }
     margin-top:3px!important;
   }
 }
+
+/* Conversion trust strip */
+.service-proof-strip{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center}
+.service-proof-strip span{display:inline-flex;align-items:center;min-height:29px;padding:7px 10px;border:1px solid color-mix(in oklab,var(--foreground) 13%,transparent);border-radius:999px;background:color-mix(in oklab,var(--foam) 84%,transparent);color:var(--muted-foreground);font-size:8px;font-weight:700;letter-spacing:.09em;line-height:1;text-transform:uppercase}
+@media(max-width:767px){.service-proof-strip{gap:6px;margin-top:12px}.service-proof-strip span{font-size:7px;padding:7px 9px}}

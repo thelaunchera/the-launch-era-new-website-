@@ -44,7 +44,7 @@ function Page(){
       <div className="eyebrow">WEBSITE AUTOMATION</div>
       <h1 className="editorial">A website that keeps working after you log off.</h1>
       <p>We connect your existing website to a clearer inquiry and follow-up flow so potential clients know what to do next.</p>
-      <a className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=en">Get Started — $59.99 <ArrowRight/></a>
+      <a className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=en">Get Started — $59.99 <ArrowRight/></a><div className="service-proof-strip" aria-label="Service details"><span>ONE-TIME SERVICE</span><span>48-HOUR PRODUCTION</span><span>KEEP YOUR CURRENT WEBSITE</span></div>
     </section>
 
     <section className="container service-story">
