@@ -83,10 +83,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "THE LAUNCH ERA — A little less admin. A lot more possibility." },
       { name: "description", content: "Thoughtful booking, lead automation and business systems for cleaning business owners." },
+      { name: "robots", content: "index, follow, max-image-preview:large" },
+      { property: "og:site_name", content: "The Launch Era" },
       { property: "og:title", content: "THE LAUNCH ERA" },
       { property: "og:description", content: "Thoughtful systems for your cleaning business." },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "https://raw.githubusercontent.com/thelaunchera/the-launch-era-new-website-/main/src/assets/cleaner-home.jpg" },
+      { property: "og:image:alt", content: "The Launch Era systems for cleaning business owners" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://raw.githubusercontent.com/thelaunchera/the-launch-era-new-website-/main/src/assets/cleaner-home.jpg" },
     ],
     links: [
       {
