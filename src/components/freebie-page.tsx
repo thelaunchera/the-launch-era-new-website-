@@ -2,6 +2,10 @@ import { useState, type FormEvent } from 'react';
 import { ArrowRight, Check, Mail, Sparkles } from 'lucide-react';
 
 const FORM_ENDPOINT='https://hook.us2.make.com/71gescpt0jssc2102yon8qhubqbau1rj';
+const FREEBIE_URLS={
+  en:'https://drive.google.com/file/d/1LHhwtKPconTiI4U7SwCTJo73JWIPlGuj/view?usp=drivesdk',
+  es:'https://drive.google.com/file/d/1U7P2JUNvFDWp33R8-YOZkAKORH2KOf-S/view?usp=drivesdk',
+} as const;
 
 type Language='en'|'es';
 
@@ -20,7 +24,7 @@ export function FreebiePage({language}:{language:Language}){
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({
           type:'tle.freebie_requested',
-          data:{object:{customer_details:{email:email.trim()},metadata:{language}}}
+          data:{object:{customer_details:{email:email.trim()},metadata:{language,freebie_url:FREEBIE_URLS[language]}}}
         })
       });
       if(!response.ok) throw new Error('request failed');
@@ -103,7 +107,7 @@ export function FreebiePage({language}:{language:Language}){
             <div className="mb-7 flex h-12 w-12 items-center justify-center rounded-full bg-[#DCEBFA]"><Mail size={21}/></div>
             <h2 className="font-serif text-5xl leading-none">{es?'Envíamelo a mi correo.':'Send it to my inbox.'}</h2>
             <p className="mt-4 leading-7 text-black/60">
-              {es?'Te enviaremos el Starter Kit que ya tenemos preparado para The Launch Era.':'We will send the Starter Kit already prepared for The Launch Era.'}
+              {es?'Te enviaremos tu Starter Kit y Lead Tracker directamente a tu correo.':'We’ll send your Starter Kit and Lead Tracker directly to your inbox.'}
             </p>
             <form onSubmit={submit} className="mt-8">
               <label className="text-sm font-semibold" htmlFor="freebie-email">{es?'Correo electrónico':'Email address'}</label>
