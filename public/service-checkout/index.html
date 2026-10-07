@@ -20,7 +20,7 @@ const rawOffer=(params.get("offer")||"").toLowerCase();
 const offer=rawOffer;
 const es=params.get("lang")==="es";
 try{sessionStorage.setItem("tleCheckoutLanguage",es?"es":"en")}catch{}
-const allowed={"booking-flow":"Booking + Lead Automation · $29.99","website-automation":"Website Automation · $59.99",va:"VA Essential Support · $49.99"};
+const allowed={"booking-flow":"Booking + Lead Automation · $29.99","website-automation":"Website Automation · $59.99",va:"VA Essential Support · $49.99/month"};
 const kicker=document.getElementById("kicker"),title=document.getElementById("title"),copy=document.getElementById("copy"),dots=document.getElementById("dots"),retry=document.getElementById("retry"),status=document.getElementById("status");
 if(es){document.documentElement.lang="es";title.textContent="Abriendo tu pago seguro…";copy.textContent="Tu pago seguro se está abriendo ahora.";retry.textContent="Intentar otra vez";status.textContent="Revisa tu pedido antes de completar el pago.";} 
 if(!allowed[offer]){title.textContent=es?"Este enlace de pago no es válido.":"This checkout link is invalid.";copy.textContent=es?"Regresa a The Launch Era y elige el servicio otra vez.":"Return to The Launch Era and choose an offer again.";dots.hidden=true;status.textContent="";throw new Error("invalid offer")}
