@@ -20,7 +20,7 @@ export function FreebiePage({language}:{language:Language}){
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({
           type:'tle.freebie_requested',
-          data:{object:{customer_details:{email:email.trim()},metadata:{language,freebie_url:FREEBIE_URLS[language]}}}
+          data:{object:{customer_details:{email:email.trim()},metadata:{language}}}
         })
       });
       if(!response.ok) throw new Error('request failed');
