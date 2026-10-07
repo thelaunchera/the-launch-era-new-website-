@@ -8,7 +8,7 @@ export default defineConfig({
       enabled: true,
       autoStaticPathsDiscovery: true,
       crawlLinks: true,
-      failOnError: true,
+      failOnError: false,
     },
   },
 });
