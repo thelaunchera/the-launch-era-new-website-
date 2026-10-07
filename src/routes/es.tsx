@@ -8,10 +8,10 @@ import website from '@/assets/website-workspace.jpg';
 import assistant from '@/assets/assistant-workspace.jpg';
 export const Route=createFileRoute('/es')({head:()=>({meta:[{title:'THE LAUNCH ERA — Tu cliente está listo para reservar.'},{name:'description',content:'Sistemas más simples para dueñas de negocios de limpieza residencial en EE. UU.'}]}),component:SpanishHome});
 const services=[
- {title:'Booking + Lead Automation',landing:'/es/booking-lead-automation/',description:'De la primera consulta al seguimiento, sin perder el hilo.',image:cleaner,tag:'TU FLUJO DE RESERVAS, CONECTADO'},
- {title:'Cleaning Web App',landing:'/es/cleaning-web-app/',description:'Tu agenda, clientes y trabajo diario, más fácil de ver.',image:webapp,tag:'TU NEGOCIO, EN UN SOLO LUGAR'},
- {title:'Website Automation',landing:'/es/website-automation/',description:'Tu website recibe la consulta. El sistema mueve lo que sigue.',image:website,tag:'MENOS PASOS MANUALES'},
- {title:'Virtual Assistant',landing:'/es/virtual-assistant/',description:'Apoyo detrás de escena para que no todo dependa de ti.',image:assistant,tag:'MÁS APOYO. MENOS CARGA'}];
+ {title:'Booking + Lead Automation',landing:'/booking-lead-automation?lang=es',description:'De la primera consulta al seguimiento, sin perder el hilo.',image:cleaner,tag:'TU FLUJO DE RESERVAS, CONECTADO'},
+ {title:'Cleaning Web App',landing:'/cleaning-web-app?lang=es',description:'Tu agenda, clientes y trabajo diario, más fácil de ver.',image:webapp,tag:'TU NEGOCIO, EN UN SOLO LUGAR'},
+ {title:'Website Automation',landing:'/website-automation?lang=es',description:'Tu website recibe la consulta. El sistema mueve lo que sigue.',image:website,tag:'MENOS PASOS MANUALES'},
+ {title:'Virtual Assistant',landing:'/virtual-assistant?lang=es',description:'Apoyo detrás de escena para que no todo dependa de ti.',image:assistant,tag:'MÁS APOYO. MENOS CARGA'}];
 const notices=[['Nueva solicitud de reserva','Una nueva oportunidad para tu negocio.',CalendarCheck2],['Nuevo lead guardado','Ya está organizado en tu Lead Tracker.',ClipboardList],['Seguimiento enviado','El próximo paso ya va en camino.',Send],['Cliente reservado','Una cosa menos en tu lista.',CircleCheck]] as const;
 const flow=[['NUEVO LEAD','Llega una solicitud de reserva.','Los detalles entran en un solo lugar.',CalendarCheck2],['ORGANIZADO','Se guarda en tu Lead Tracker.','Cada consulta tiene su lugar. Sin buscar entre mensajes.',ClipboardList],['SEGUIMIENTO','El próximo paso sigue avanzando.','Un seguimiento claro mantiene la conversación viva.',Send]] as const;
 function SpanishContact(){
