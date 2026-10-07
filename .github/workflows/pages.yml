@@ -34,6 +34,16 @@ jobs:
       - name: Build website
         run: bun run build
 
+      - name: Create GitHub Pages route fallbacks
+        run: |
+          for route in booking-lead-automation cleaning-web-app website-automation virtual-assistant help how-it-works solutions es; do
+            mkdir -p ".output/public/$route"
+            if [ ! -f ".output/public/$route/index.html" ]; then
+              cp .output/public/index.html ".output/public/$route/index.html"
+            fi
+          done
+          cp .output/public/index.html .output/public/404.html
+
       - name: Preserve custom domain
         run: |
           mkdir -p .output/public
