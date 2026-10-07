@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { ArrowRight, Check, Mail, Sparkles } from 'lucide-react';
 
-const FORM_ENDPOINT='https://hook.us2.make.com/71gescpt0jssc2102yon8qhubqbau1rj';\nconst FREEBIE_URLS={\n  en:'https://drive.google.com/file/d/1LHhwtKPconTiI4U7SwCTJo73JWIPlGuj/view?usp=drivesdk',\n  es:'https://drive.google.com/file/d/1U7P2JUNvFDWp33R8-YOZkAKORH2KOf-S/view?usp=drivesdk',\n} as const;
+const FORM_ENDPOINT='https://hook.us2.make.com/71gescpt0jssc2102yon8qhubqbau1rj';
 
 type Language='en'|'es';
 
