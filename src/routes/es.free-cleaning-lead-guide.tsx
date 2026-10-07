@@ -9,6 +9,6 @@ export const Route=createFileRoute('/es/free-cleaning-lead-guide')({
     {property:'og:description',content:'Guiones de seguimiento, reset de leads en 10 minutos y tracker editable para negocios de limpieza.'},
     {property:'og:type',content:'website'},
     {name:'twitter:card',content:'summary_large_image'}
-  ]}),
+  ],links:[{rel:'canonical',href:'https://thelaunchera.com/es/free-cleaning-lead-guide'},{rel:'alternate',hrefLang:'en-US',href:'https://thelaunchera.com/free-cleaning-lead-guide'},{rel:'alternate',hrefLang:'es-US',href:'https://thelaunchera.com/es/free-cleaning-lead-guide'},{rel:'alternate',hrefLang:'x-default',href:'https://thelaunchera.com/free-cleaning-lead-guide'}]}),
   component:()=> <FreebiePage language="es"/>,
 });
