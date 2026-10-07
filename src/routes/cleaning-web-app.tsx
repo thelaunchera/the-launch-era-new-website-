@@ -1,18 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 export const Route = createFileRoute('/cleaning-web-app')({ component: Page });
-function Page() {
-  return (
-    <main style={{ background: '#eef6ff', minHeight: '85vh' }}>
-      <section className="container" style={{ padding: '7rem 1.5rem 5rem', display: 'grid', gap: '2rem', alignItems: 'center' }}>
-        <div>
-          <div className="eyebrow">CLEANING WEB APP</div>
-          <h1 className="editorial" style={{ fontSize: 'clamp(3rem,8vw,6rem)', lineHeight: .95 }}>Run your business<br />in one place.</h1>
-          <p style={{ maxWidth: 560, fontSize: '1.1rem', margin: '1.5rem 0' }}>Bookings, clients, jobs, quotes and invoices—organized without the complicated setup.</p>
-          <a className="cta-button" href="https://app.thelaunchera.com/">Start Your Free Trial →</a>
-          <p style={{ marginTop: '1rem', fontSize: '.9rem' }}>60 days included with Booking Page purchase · then $5.99/month</p>
-        </div>
-        <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=85" alt="Small business owner working at a bright desk" style={{ width: '100%', maxHeight: 520, objectFit: 'cover', borderRadius: 24 }} />
-      </section>
-    </main>
-  );
-}
+const card={background:'rgba(255,255,255,.78)',border:'1px solid rgba(25,25,25,.10)',borderRadius:24,padding:'1.5rem'};
+function Page(){return <main style={{background:'#eef6ff'}}><section className="container" style={{padding:'7rem 1.5rem 3rem'}}><div className="eyebrow">CLEANING WEB APP</div><h1 className="editorial" style={{fontSize:'clamp(3rem,8vw,6rem)',lineHeight:.95}}>Run your cleaning business<br/>in one place.</h1><p style={{maxWidth:650,fontSize:'1.1rem',margin:'1.5rem 0'}}>A simple web app for the day-to-day work behind your cleaning business—from incoming jobs to getting paid.</p><a className="cta-button" href="https://app.thelaunchera.com/">Start Your Free Trial →</a></section>
+<section className="container" style={{padding:'1rem 1.5rem 5rem'}}><div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(230px,1fr))',gap:'1rem'}}>
+{[['BOOKINGS + CALENDAR','See incoming and recurring jobs and keep the schedule easier to follow.'],['CLIENTS + JOBS','Keep client details, jobs, assignments, and history together.'],['QUOTES + INVOICES','Create quotes and invoices and keep the next step visible.'],['TEAM + TIME','Assign work, track time and mileage, and keep the day moving.'],['ROUTES','Make the next stop easier to find with route tools built into the workflow.'],['YOUR BUSINESS','Manage services, add-ons, discounts, booking settings, and business details from one place.']].map(([h,p])=><div style={card} key={h}><div className="eyebrow">{h}</div><p>{p}</p></div>)}</div>
+<div style={{marginTop:'2rem',padding:'2rem',borderRadius:24,background:'#fff'}}><h2 className="editorial">No App Store required.</h2><p style={{maxWidth:720}}>It’s a web app, so you can open it from your browser and add it to your Home Screen for quick access.</p><p style={{marginTop:'1rem',fontSize:'.9rem'}}>60 days included with Booking + Lead Automation purchase · then $5.99/month.</p></div></section></main>}
