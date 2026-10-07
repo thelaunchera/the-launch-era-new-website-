@@ -2,10 +2,6 @@ import { useState, type FormEvent } from 'react';
 import { ArrowRight, Check, Mail, Sparkles } from 'lucide-react';
 
 const FORM_ENDPOINT='https://hook.us2.make.com/71gescpt0jssc2102yon8qhubqbau1rj';
-const FREEBIE_URLS={
-  en:'https://drive.google.com/file/d/1LHhwtKPconTiI4U7SwCTJo73JWIPlGuj/view?usp=drivesdk',
-  es:'https://drive.google.com/file/d/1U7P2JUNvFDWp33R8-YOZkAKORH2KOf-S/view?usp=drivesdk',
-} as const;
 
 type Language='en'|'es';
 
@@ -24,7 +20,7 @@ export function FreebiePage({language}:{language:Language}){
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({
           type:'tle.freebie_requested',
-          data:{object:{customer_details:{email:email.trim()},metadata:{language,freebie_url:FREEBIE_URLS[language]}}}
+          data:{object:{customer_details:{email:email.trim()},metadata:{language}}}
         })
       });
       if(!response.ok) throw new Error('request failed');
