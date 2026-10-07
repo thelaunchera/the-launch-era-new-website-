@@ -1,17 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
 export const Route = createFileRoute('/virtual-assistant')({ component: Page });
-function Page() {
-  return (
-    <main style={{ background: '#fffaf1', minHeight: '85vh' }}>
-      <section className="container" style={{ padding: '7rem 1.5rem 5rem', display: 'grid', gap: '2rem', alignItems: 'center' }}>
-        <div>
-          <div className="eyebrow">VIRTUAL ASSISTANT</div>
-          <h1 className="editorial" style={{ fontSize: 'clamp(3rem,8vw,6rem)', lineHeight: .95 }}>Get support.<br />Keep moving.</h1>
-          <p style={{ maxWidth: 560, fontSize: '1.1rem', margin: '1.5rem 0' }}>Behind-the-scenes admin support shaped around your cleaning business.</p>
-          <a className="cta-button" href="/service-checkout/?offer=va&lang=en">Get Started — $49.99 →</a>
-        </div>
-        <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=85" alt="Professional working at a bright desk" style={{ width: '100%', maxHeight: 520, objectFit: 'cover', borderRadius: 24 }} />
-      </section>
-    </main>
-  );
-}
+const card={background:'rgba(255,255,255,.78)',border:'1px solid rgba(25,25,25,.10)',borderRadius:24,padding:'1.5rem'};
+function Page(){return <main style={{background:'#fffaf1'}}><section className="container" style={{padding:'7rem 1.5rem 3rem'}}><div className="eyebrow">VIRTUAL ASSISTANT</div><h1 className="editorial" style={{fontSize:'clamp(3rem,8vw,6rem)',lineHeight:.95}}>Get support.<br/>Keep moving.</h1><p style={{maxWidth:650,fontSize:'1.1rem',margin:'1.5rem 0'}}>Practical behind-the-scenes support for cleaning business owners who need help keeping everyday admin organized.</p><a className="cta-button" href="/service-checkout/?offer=va&lang=en">Get Started — $49.99 →</a></section>
+<section className="container" style={{padding:'1rem 1.5rem 5rem'}}><div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(240px,1fr))',gap:'1rem'}}>
+<div style={card}><div className="eyebrow">ADMIN SUPPORT</div><h2 className="editorial">The little tasks add up.</h2><p>Get help organizing routine business details so they don’t keep piling onto your day.</p></div>
+<div style={card}><div className="eyebrow">CLIENT ORGANIZATION</div><h2 className="editorial">Keep things easier to find.</h2><p>Support with organizing client information and the behind-the-scenes details that keep work moving.</p></div>
+<div style={card}><div className="eyebrow">BUILT AROUND YOU</div><h2 className="editorial">Useful, not generic.</h2><p>Your support is shaped around the priorities and information you share during intake.</p></div></div>
+<div style={{marginTop:'2rem',padding:'2rem',borderRadius:24,background:'#fff'}}><div className="eyebrow">GETTING STARTED</div><h2 className="editorial">Tell us what’s taking up your time.</h2><p style={{maxWidth:720}}>After checkout, you’ll complete a short intake so we can understand where support is most useful and what access or information is needed.</p><p style={{marginTop:'1rem',fontSize:'.9rem'}}>VA Essential Support · $49.99.</p></div></section></main>}
