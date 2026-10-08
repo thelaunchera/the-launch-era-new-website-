@@ -7,7 +7,7 @@ body{background:linear-gradient(180deg,#F8FBFC 0%,#FFFFFF 38%,#FAF8F3 100%)}.her
 <form id="form">
 <input type="hidden" name="timezone" id="timezone" value="America/New_York">
 <input type="hidden" name="currency_code" value="USD">
-<input type="hidden" name="pricing_style" value="mixed">
+
 <input type="hidden" name="minimum_booking_notice" value="24 hours">
 <input type="hidden" name="buffer_time" value="30 minutes">
 <input type="hidden" name="booking_window" value="60 days">
@@ -25,6 +25,11 @@ body{background:linear-gradient(180deg,#F8FBFC 0%,#FFFFFF 38%,#FAF8F3 100%)}.her
 
 <section class="section"><h2>2. Lo que el cliente puede pedir</h2><p>Danos lo que afecta la reserva. Nosotros podemos pulir el texto.</p><div class="grid">
 <div class="full"><label>Servicios + precios *</label><textarea name="services" required placeholder="Ej.: Limpieza Estándar — $140&#10;Limpieza Profunda — desde $220&#10;Comercial — Cotización personalizada"></textarea></div>
+
+<div class="full"><label>¿Cómo calculas tus precios de limpieza? *</label><select name="pricing_style" required><option value="">Selecciona una opción</option><option value="flat_rates">Precios fijos (flat rates)</option><option value="estimates">Estimados personalizados (estimates)</option><option value="mixed">Precios fijos y estimados</option><option value="custom_quotes">Todos los trabajos requieren una cotización</option></select></div>
+<div class="full"><label>¿Cuándo debe recibir una clienta una cotización o estimado? *</label><select name="quote_estimate_rules" required><option value="">Selecciona una opción</option><option value="review_unpriced_jobs">Servicios sin precio fijo o solicitudes especiales</option><option value="always_review">Todas las solicitudes — yo apruebo los precios</option><option value="large_or_special">Solo casas grandes, comerciales o trabajos especiales</option><option value="no_quotes">Solo ofrezco reservas instantáneas con precio fijo</option></select></div>
+<div class="full"><label>¿Tienes un ejemplo de quote o estimate? <span class="small">(recomendado)</span></label><textarea name="quote_estimate_examples" placeholder="Pega una cotización o estimado que ya envías, o un enlace a tu plantilla. Quita los datos privados de clientes."></textarea></div>
+<details class="optional-details full"><summary>¿Cómo calculas los estimados? (opcional)</summary><div class="grid"><div class="full"><label>Factores y reglas de precios</label><textarea name="quote_pricing_factors" placeholder="Ej.: tamaño de casa, habitaciones, baños, condición, ZIP code, frecuencia, extras, precio mínimo, horas adicionales..."></textarea></div><div class="full"><label>Si tienes un precio fijo, ¿se confirma la reserva automáticamente?</label><select name="flat_price_auto_confirm"><option value="false">No — quiero revisarla antes</option><option value="true">Sí — confirmar automáticamente los servicios con precio fijo</option></select></div></div></details>
 <div class="full"><label>¿Cuándo pueden solicitar una limpieza? *</label><textarea name="availability" id="availability" required placeholder="Ej.: Lun–Vie 8 AM–4 PM; Sáb 9 AM–1 PM"></textarea></div>
 <div class="full"><label>Extras <span class="small">(opcional)</span></label><textarea name="add_ons" placeholder="Ej.: Horno por dentro +$35"></textarea></div>
 </div>
