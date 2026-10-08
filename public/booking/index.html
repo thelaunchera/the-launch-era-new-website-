@@ -69,6 +69,8 @@ textarea{resize:vertical;min-height:100px}.grid{display:grid;grid-template-colum
 <div><label id="frequencyLabel" for="frequency">Frequency</label><select id="frequency" name="frequency"><option value="one-time">One time</option><option value="weekly">Weekly</option><option value="biweekly">Biweekly</option><option value="monthly">Monthly</option></select></div>
 <div><label id="propertyLabel" for="propertyType">Property type</label><select id="propertyType" name="property_type"><option value="house">House</option><option value="apartment">Apartment / Condo</option><option value="office">Office / Commercial</option><option value="other">Other</option></select></div>
 <div><label id="sizeLabel" for="squareFeet">Home size (sq ft)</label><input id="squareFeet" name="square_footage" type="number" min="0" max="30000"></div>
+<div><label id="bedsLabel" for="bedrooms">Bedrooms</label><input id="bedrooms" name="bedrooms" type="number" min="0" max="30" value="2"></div>
+<div><label id="bathsLabel" for="bathrooms">Bathrooms</label><input id="bathrooms" name="bathrooms" type="number" min="0" max="30" value="2"></div>
 <div class="full"><label id="addressLabel" for="address">Service address *</label><input id="address" name="service_address" required maxlength="600" autocomplete="street-address"></div>
 <div class="full"><label id="notesLabel" for="notes">Anything else we should know?</label><textarea id="notes" name="notes" maxlength="1500"></textarea></div>
 </div>
@@ -111,7 +113,7 @@ function initWizard(){
  steps[0].append(E('serviceTitle'),E('services'));
  steps[1].append(E('detailsTitle'));
  const propertyGrid=document.createElement('div');propertyGrid.className='grid';
- for(const id of ['propertyType','squareFeet','frequency'])propertyGrid.append(E(id).parentElement);
+ for(const id of ['propertyType','squareFeet','bedrooms','bathrooms','frequency'])propertyGrid.append(E(id).parentElement);
  steps[1].append(propertyGrid,E('addonsSection'));
  const scheduleTitle=document.createElement('h2');scheduleTitle.id='scheduleTitle';scheduleTitle.textContent='3. Select your available date and time';
  steps[2].append(scheduleTitle);
@@ -179,6 +181,7 @@ function repaint(){
  const tz=document.createElement('span');tz.textContent=config.timezone||'America/New_York';area.append(tz);
  if(config.branding?.hero_image)E('heroPhoto').style.backgroundImage="linear-gradient(0deg,rgba(25,25,25,.42),transparent 55%),url("+JSON.stringify(config.branding.hero_image)+")";
  E('heroCaption').textContent=tx('Comfortable spaces, thoughtfully cleaned.','Espacios cómodos y limpios con cuidado.');
+ E('bedsLabel').textContent=tx('Bedrooms','Habitaciones');E('bathsLabel').textContent=tx('Bathrooms','Baños');
  E('scheduleTitle').textContent=tx('3. Choose an available date and time','3. Elige fecha y horario disponible');
  E('contactTitle').textContent=tx('4. Your contact and address','4. Tu contacto y dirección');
  E('wizardBack').textContent=tx('← Back','← Atrás');E('wizardNext').textContent=tx('Continue →','Continuar →');
