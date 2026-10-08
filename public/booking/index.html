@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Book your cleaning</title><meta name="theme-color" content="#FAF8F3">
+<style>
+:root{--ink:#191919;--muted:#65717d;--blue:#dceefc;--blue-deep:#3a7399;--line:#e4e5e6;--ivory:#FAF8F3}
+*{box-sizing:border-box}body{font-family:Arial,system-ui,sans-serif;margin:0;background:var(--ivory);color:var(--ink);line-height:1.55}
+header{border-bottom:1px solid var(--line);background:#fff}header .inner{max-width:1080px;margin:auto;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.brand{font-size:13px;letter-spacing:.15em;font-weight:800;text-decoration:none;color:var(--ink)}button,select,input,textarea{font:inherit}button{cursor:pointer}
+main{max-width:1060px;margin:0 auto;padding:44px 22px 80px}h1{font-size:clamp(37px,6vw,64px);line-height:1.03;letter-spacing:-.055em;margin:10px 0 17px;max-width:740px}h2{font-size:21px;letter-spacing:-.03em}
+.kicker{color:var(--blue-deep);letter-spacing:.13em;font-size:11px;font-weight:900}.intro{max-width:660px;color:var(--muted);font-size:16px}
+.layout{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(280px,.75fr);gap:22px;align-items:start;margin-top:27px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 13px 36px #2738490b}
+.summary{position:sticky;top:20px;background:linear-gradient(145deg,#e7f4fc,#f8fbfd);border:1px solid #c9dce9}
+label{display:block;font-size:12px;font-weight:800;letter-spacing:.01em;margin:12px 0 6px}
+input,textarea,select{background:#fff;border:1px solid #cdd6dc;border-radius:12px;padding:13px 15px;color:var(--ink);width:100%;min-width:0}
+input:focus,textarea:focus,select:focus{outline:3px solid #c3e3f9;border-color:#669cc0}
+textarea{resize:vertical;min-height:100px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}.full{grid-column:1/-1}
+.service-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.service-option{display:flex;gap:12px;align-items:start;padding:16px;border:1px solid #dee6ec;border-radius:15px;cursor:pointer;background:#fff}
+.service-option:has(input:checked){border-color:#76b7dd;background:#f0f9ff;box-shadow:0 0 0 2px #c9e8fc}
+.service-option input,.addon-row input{width:auto;margin:5px 2px}.service-option strong{display:block}.service-option small{display:block;color:var(--muted)}
+.addon-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}.addon-row span{flex:1}
+.action{background:var(--ink);color:#fff;border:0;border-radius:35px;padding:15px 24px;font-weight:800;width:100%;margin-top:20px}
+.action:disabled{opacity:.6;cursor:default}.small{font-size:12px;color:var(--muted)}.estimate{font-size:34px;font-weight:800;letter-spacing:-.05em;margin:12px 0 0}
+.hide{display:none!important}.alert{background:#fff;border:1px solid #b9d7e9;border-radius:14px;padding:16px;margin-top:18px}
+#language{width:auto;min-width:125px;font-weight:700;border-radius:30px}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.summary{position:static;grid-row:1}.grid{grid-template-columns:1fr}.panel{padding:19px}main{padding-top:30px}}
+</style></head><body>
+<header><div class="inner"><a class="brand" href="https://thelaunchera.com/">THE LAUNCH ERA</a><select id="language" aria-label="Language / Idioma"><option value="en">English</option><option value="es">Español</option></select></div></header>
+<main>
+<div class="kicker" id="eyebrow">PERSONALIZED BOOKING</div><h1 id="business">Cleaning made simple.</h1>
+<p class="intro" id="intro">Choose your service, share the details, and we'll confirm the next step by email. Custom estimates are reviewed by the cleaning business.</p>
+<div id="loading" class="alert">Loading your booking options…</div>
+<div id="content" class="layout hide">
+<form id="bookingForm" class="panel">
+<h2 id="serviceTitle">1. Choose a cleaning service</h2><div id="services" class="service-grid"></div>
+<section id="addonsSection" class="hide"><h2 id="addonsTitle">Optional add-ons</h2><div id="addons"></div></section>
+<h2 id="detailsTitle">2. Your cleaning details</h2>
+<div class="grid">
+<div><label id="customerNameLabel" for="customerName">Your name *</label><input id="customerName" name="customer_name" required maxlength="160" autocomplete="name"></div>
+<div><label id="customerEmailLabel" for="customerEmail">Email *</label><input id="customerEmail" name="customer_email" type="email" required maxlength="200" autocomplete="email"></div>
+<div><label id="phoneLabel" for="phone">Phone</label><input id="phone" name="customer_phone" type="tel" autocomplete="tel"></div>
+<div><label id="dateLabel" for="requestedDate">Preferred date *</label><input id="requestedDate" name="requested_date" type="date" required></div>
+<div><label id="timeLabel" for="requestedTime">Preferred time *</label><input id="requestedTime" name="requested_time" type="time" required></div>
+<div><label id="frequencyLabel" for="frequency">Frequency</label><select id="frequency" name="frequency"><option value="one-time">One time</option><option value="weekly">Weekly</option><option value="biweekly">Biweekly</option><option value="monthly">Monthly</option></select></div>
+<div><label id="propertyLabel" for="propertyType">Property type</label><select id="propertyType" name="property_type"><option value="house">House</option><option value="apartment">Apartment / Condo</option><option value="office">Office / Commercial</option><option value="other">Other</option></select></div>
+<div><label id="sizeLabel" for="squareFeet">Home size (sq ft)</label><input id="squareFeet" name="square_footage" type="number" min="0" max="30000"></div>
+<div class="full"><label id="addressLabel" for="address">Service address *</label><input id="address" name="service_address" required maxlength="600" autocomplete="street-address"></div>
+<div class="full"><label id="notesLabel" for="notes">Anything else we should know?</label><textarea id="notes" name="notes" maxlength="1500"></textarea></div>
+</div>
+<button class="action" type="submit" id="send">Send booking request →</button>
+<p class="small" id="disclaimer">Sending this form doesn't charge you or guarantee your preferred time. The business will review and confirm your request.</p>
+<p class="small" id="formStatus" aria-live="polite"></p>
+</form>
+<aside class="panel summary"><div class="kicker" id="summaryKicker">YOUR REQUEST</div><h2 id="summaryTitle">Your cleaning estimate</h2><div class="estimate" id="estimateValue">—</div><p class="small" id="summaryNote">Your final price depends on the service selected.</p><hr style="border:0;border-top:1px solid #c9dce9;margin:20px 0"><p class="small" id="trust">Booking requests go directly to this cleaning business. No Cleaning App account required.</p></aside>
+</div>
+</main>
+<script>
+const api='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-flow-pricing';
+const inquiry='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-flow-inquiry';
+const key=new URLSearchParams(location.search).get('key')||'';
+const E=id=>document.getElementById(id);
+const L={en:{eyebrow:'PERSONALIZED BOOKING',intro:"Choose your service, share the details, and we'll confirm the next step by email. Custom estimates are reviewed by the cleaning business.",loading:'Loading your booking options…',serviceTitle:'1. Choose a cleaning service',addonsTitle:'Optional add-ons',detailsTitle:'2. Your cleaning details',customerNameLabel:'Your name *',customerEmailLabel:'Email *',phoneLabel:'Phone',dateLabel:'Preferred date *',timeLabel:'Preferred time *',frequencyLabel:'Frequency',propertyLabel:'Property type',sizeLabel:'Home size (sq ft)',addressLabel:'Service address *',notesLabel:'Anything else we should know?',send:'Send booking request →',disclaimer:"This form doesn't charge you or guarantee your preferred time. The cleaning business will confirm your request.",summaryKicker:'YOUR REQUEST',summaryTitle:'Your cleaning estimate',summaryNote:'Your final price depends on the service selected.',trust:'Your request goes to the cleaning business. No Cleaning App account is required.',quote:'Custom estimate · price to be confirmed',error:'The Booking Page is not available yet. Please contact the cleaning business.',sent:'Your request was received! Watch your email for the next steps. This is not a confirmed appointment.',sending:'Sending…',choose:'Choose a service.',one:'One time',week:'Weekly',bi:'Biweekly',month:'Monthly',house:'House',apt:'Apartment / Condo',office:'Office / Commercial',other:'Other'},
+es:{eyebrow:'RESERVAS PERSONALIZADAS',intro:'Selecciona tu servicio y cuéntanos los detalles. Recibirás el próximo paso por correo. El negocio revisa los estimados personalizados.',loading:'Cargando servicios…',serviceTitle:'1. Elige un servicio',addonsTitle:'Extras opcionales',detailsTitle:'2. Datos de tu limpieza',customerNameLabel:'Tu nombre *',customerEmailLabel:'Correo electrónico *',phoneLabel:'Teléfono',dateLabel:'Fecha preferida *',timeLabel:'Hora preferida *',frequencyLabel:'Frecuencia',propertyLabel:'Tipo de propiedad',sizeLabel:'Tamaño (pies cuadrados)',addressLabel:'Dirección del servicio *',notesLabel:'¿Algo más que debamos saber?',send:'Enviar solicitud →',disclaimer:'No se cobra nada ni se garantiza la fecha al enviar este formulario. El negocio revisará y confirmará tu solicitud.',summaryKicker:'TU SOLICITUD',summaryTitle:'Estimado de tu limpieza',summaryNote:'El precio final depende del servicio seleccionado.',trust:'Tu solicitud va directamente al negocio. No necesitas la Cleaning App.',quote:'Estimado personalizado · precio por confirmar',error:'Esta página de reservas todavía no está disponible. Comunícate con el negocio.',sent:'¡Recibimos tu solicitud! Revisa tu correo para conocer los próximos pasos. La cita todavía no está confirmada.',sending:'Enviando…',choose:'Selecciona un servicio.',one:'Una vez',week:'Semanal',bi:'Quincenal',month:'Mensual',house:'Casa',apt:'Apartamento / Condo',office:'Oficina / Comercial',other:'Otro'}};
+let config=null,selected=null;const lang=()=>E('language').value;const t=k=>L[lang()][k]||k;
+function money(n){return new Intl.NumberFormat(lang()==='es'?'es-US':'en-US',{style:'currency',currency:config?.currency||'USD'}).format(Number(n)||0)}
+function activeAddons(){return [...E('addons').querySelectorAll('input:checked')].map(x=>config.addons.find(a=>a.id===x.value)).filter(Boolean)}
+function repaint(){
+ for(const k of Object.keys(L.en))if(E(k)&&!['sending','sent','error','quote','choose','one','week','bi','month','house','apt','office','other','loading'].includes(k))E(k).textContent=t(k);
+ if(E('loading')&&!config)E('loading').textContent=t('loading');
+ const values=['one','week','bi','month'];[...E('frequency').options].forEach((x,i)=>x.textContent=t(values[i]));
+ const types=['house','apt','office','other'];[...E('propertyType').options].forEach((x,i)=>x.textContent=t(types[i]));
+ if(config){E('business').textContent=config.business_name;renderServices();renderAddons();estimate();}
+}
+function renderServices(){
+ E('services').replaceChildren();
+ for(const s of config.services){
+ const label=document.createElement('label');label.className='service-option';
+ const radio=document.createElement('input');radio.type='radio';radio.name='service';radio.value=s.id;radio.checked=selected?.id===s.id;radio.required=true;
+ radio.onchange=()=>{selected=s;estimate();E('services').querySelectorAll('.service-option').forEach(x=>x.classList.remove('selected'))};
+ const box=document.createElement('span'),name=document.createElement('strong'),price=document.createElement('small');name.textContent=s.name;price.textContent=s.mode==='flat'?money(s.price):t('quote');
+ box.append(name,price);label.append(radio,box);E('services').append(label);
+ }
+}
+function renderAddons(){
+ const root=E('addons');root.replaceChildren();E('addonsSection').classList.toggle('hide',!config.addons.length);
+ for(const a of config.addons){
+ const label=document.createElement('label');label.className='addon-row';
+ const box=document.createElement('input');box.type='checkbox';box.value=a.id;box.onchange=estimate;
+ const name=document.createElement('span');name.textContent=a.name;
+ const price=document.createElement('b');price.textContent='+'+money(a.price);label.append(box,name,price);root.append(label);
+ }
+}
+function estimate(){
+ if(!selected){E('estimateValue').textContent='—';E('summaryNote').textContent=t('choose');return}
+ const flat=selected.mode==='flat';
+ E('estimateValue').textContent=flat?money(Number(selected.price)+activeAddons().reduce((sum,a)=>sum+Number(a.price),0)):t('quote');
+ E('summaryNote').textContent=flat?t('disclaimer'):t('summaryNote');
+}
+async function load(){
+ const response=await fetch(api,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'public',booking_key:key})});
+ const d=await response.json();if(!response.ok)throw Error(d.error||'Unavailable');
+ config=d;selected=config.services[0]||null;if(!selected)throw Error('No services');
+ E('loading').classList.add('hide');E('content').classList.remove('hide');repaint();
+}
+E('language').onchange=()=>{document.documentElement.lang=lang();repaint()};
+E('requestedDate').min=new Date().toLocaleDateString('en-CA');
+E('bookingForm').onsubmit=async event=>{
+ event.preventDefault();if(!selected)return;const btn=E('send');btn.disabled=true;E('formStatus').textContent=t('sending');
+ try{
+ const form=Object.fromEntries(new FormData(E('bookingForm')).entries()),addons=activeAddons();
+ const body={...form,booking_key:key,preferred_language:lang(),service_id:selected.id,service_name:selected.name,selected_addon_ids:addons.map(a=>a.id),extras:addons.map(a=>a.name),request_type:selected.mode==='flat'?'booking':'quote',estimate_display:selected.mode==='flat'?E('estimateValue').textContent:'Custom quote',source:'booking_page'};
+ const response=await fetch(inquiry,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+ const d=await response.json();if(!response.ok)throw Error(d.error||'Request failed');
+ E('bookingForm').replaceChildren(Object.assign(document.createElement('div'),{className:'alert',textContent:t('sent')}));E('estimateValue').textContent='✓';E('summaryNote').textContent=t('sent');
+ }catch(err){E('formStatus').textContent=String(err.message||err);btn.disabled=false}
+};
+repaint();load().catch(()=>{E('loading').textContent=t('error')});
+</script></body></html>
