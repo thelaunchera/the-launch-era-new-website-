@@ -56,7 +56,7 @@ function Page(){
           <div className="browser-page">
             <Globe2/>
             <strong>New inquiry</strong>
-            <p>Test what a cleaner lead flow feels like when the next step is already built in.</p>
+            <p>See what a cleaner lead flow feels like when the next step is already built in.</p>
             <form className="automation-demo-form" onSubmit={submit}>
               <label>
                 <span>Name + contact</span>
@@ -75,7 +75,7 @@ function Page(){
               <button type="submit">Send inquiry <ArrowRight/></button>
             </form>
             <div className="automation-demo-note">
-              <span>{active<0?'Ready to test':'Demo lead'}</span>
+              <span>{active<0?'Ready to try':'Demo lead'}</span>
               <strong>{active<0?'Nothing is sent anywhere. Try the flow.':name+' · '+service}</strong>
             </div>
           </div>
@@ -107,7 +107,7 @@ function Page(){
       <div className={"automation-live-status "+(active>=0?'show':'')}>
         <div>
           <small>{current?current.label:'LIVE PREVIEW'}</small>
-          <strong>{current?current.title:'Send a test inquiry to start.'}</strong>
+          <strong>{current?current.title:'Send a sample inquiry to start.'}</strong>
           <p>{current?current.detail:'You can click each step after the flow starts to see what it is doing.'}</p>
         </div>
         {active>=0&&<button type="button" onClick={reset}><RotateCcw/> Try another inquiry</button>}
