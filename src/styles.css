@@ -813,3 +813,58 @@ img { display:block; width:100%; object-fit:cover; }
 @media (prefers-reduced-motion:reduce) and (min-width:768px) and (max-width:1366px) {
  .hero-photo .hero-main-image,.hero-photo .notification { transition:none; }
 }
+
+/* Phone hero: four compact, readable notifications that do not blanket the cleaner.
+   Keep the tablet positioning above 767px untouched. */
+@media (max-width:767px) {
+ .hero-photo {height:535px;min-height:0;}
+ .hero-photo > img {object-position:62% center;}
+ .hero-photo .photo-label {
+  top:21px;left:18px;right:16px;max-width:340px;
+  font-size:9px;line-height:1.35;letter-spacing:.105em;
+ }
+ .hero-photo .notification {
+  box-sizing:border-box;
+  width:clamp(184px,55vw,226px);
+  min-height:0;
+  padding:10px 12px;
+  grid-template-columns:30px minmax(0,1fr);gap:8px;
+  border-radius:17px;
+  background:rgba(255,255,255,.97);
+  border:1px solid rgba(230,238,242,.96);
+  box-shadow:0 10px 27px rgba(23,45,60,.15),0 2px 6px rgba(23,45,60,.05);
+  transform:none;
+  animation:none;
+  transition:opacity .22s ease-out;
+  z-index:2;
+ }
+ .hero-photo .notice-icon {width:30px;height:30px;border-radius:10px;}
+ .hero-photo .notice-icon svg {width:17px;height:17px;}
+ .hero-photo .notification small {
+  font-size:7.5px;line-height:1.2;letter-spacing:.035em;
+  margin-bottom:4px;gap:6px;color:#667C8A;
+ }
+ .hero-photo .notification strong {
+  font-size:12px;font-weight:750;line-height:1.2;color:#191919;
+ }
+ .hero-photo .notification p {
+  font-size:9.5px;line-height:1.35;margin-top:4px;color:#536675;
+  overflow-wrap:break-word;
+ }
+ .hero-photo .notice-1 {left:13px;right:auto;top:76px;bottom:auto;}
+ .hero-photo .notice-2 {left:20px;right:auto;top:178px;bottom:auto;}
+ .hero-photo .notice-3 {left:auto;right:14px;top:280px;bottom:auto;}
+ .hero-photo .notice-4 {left:auto;right:19px;top:386px;bottom:auto;}
+ .hero-photo:not(.hero-media-ready) .notification {
+  opacity:0;visibility:hidden;pointer-events:none;
+ }
+ .hero-photo.hero-media-ready .notification {opacity:1;visibility:visible;}
+}
+@media (max-width:360px) {
+ .hero-photo .notification {width:clamp(180px,57vw,205px);padding:9px 10px;}
+ .hero-photo .notification p {font-size:9px;}
+ .hero-photo .notice-4 {top:390px;}
+}
+@media (max-width:767px) and (prefers-reduced-motion:reduce) {
+ .hero-photo .notification {transition:none;}
+}
