@@ -327,6 +327,17 @@ img { display:block; width:100%; object-fit:cover; }
 .booking-offer-tag{display:inline-flex;align-items:center;width:max-content;margin:.72rem 0 .22rem;padding:.28rem .58rem;border-radius:999px;background:rgba(139,83,117,.1);border:1px solid rgba(139,83,117,.2);color:#87546f;font-size:.58rem;font-weight:750;letter-spacing:.1em;text-transform:uppercase}.booking-offer-tag:before{content:"";width:5px;height:5px;margin-right:.38rem;border-radius:50%;background:#87546f}
 
 
+/* Limited-time Booking + Lead Automation offer: old price and current price */
+.booking-offer-line,.booking-hero-offer{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:10px 0 6px;min-height:28px}
+.booking-offer-line .booking-offer-tag,.booking-hero-offer .booking-offer-tag{margin:0}
+.booking-offer-price{display:inline-flex;align-items:baseline;gap:9px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.booking-offer-price del{color:#8b8990;font-size:14px;font-weight:500;text-decoration-line:line-through;text-decoration-thickness:1.5px;text-decoration-color:#9f747f}
+.booking-offer-price strong{color:#191919;font-size:21px;font-weight:800;letter-spacing:-.035em}
+.booking-offer-line .booking-offer-price del{font-size:13px}
+.booking-offer-line .booking-offer-price strong{font-size:18px}
+.booking-hero-offer{margin:18px 0 12px}
+.booking-hero-offer .booking-offer-price strong{font-size:28px}
+@media(max-width:640px){.booking-offer-price{gap:7px}.booking-hero-offer{gap:8px;margin:14px 0 12px}.booking-hero-offer .booking-offer-price strong{font-size:25px}}
 /* Website Automation — interactive live preview */
 .service-demo-kicker{display:flex;align-items:center;justify-content:center;gap:8px;margin:0 0 14px;font-size:9px;font-weight:750;letter-spacing:.13em;color:var(--primary)}
 .service-demo-kicker svg{width:14px;height:14px}
