@@ -26,5 +26,11 @@ async function verify(){
   else{status.textContent=say("Your intake email was previously requested. Check your inbox and spam folder, or request a new link.","Tu correo con el formulario ya fue solicitado. Revisa tu bandeja y spam, o solicita un enlace nuevo.");retry.dataset.resend="true";retry.textContent=say("Request a new intake link","Solicitar un enlace nuevo");retry.hidden=false;}
  }catch{status.textContent=say("We couldn’t verify the payment or prepare onboarding yet. Try again or contact us. You don’t need to make another payment here.","Aún no pudimos verificar el pago o preparar el formulario. Intenta de nuevo o contáctanos. No necesitas realizar otro pago aquí.");retry.hidden=false;}finally{retry.disabled=false;}
 }
-retry.onclick=verify;verify();
+retry.onclick=verify;
+if(new URLSearchParams(location.search).get("qa")==="test"&&sessionId.startsWith("cs_test_")){
+ document.getElementById("heading").textContent=say("Stripe sandbox checkout returned.","Regresaste de Stripe en modo de prueba.");
+ document.getElementById("intro").textContent=say("TEST MODE — no real charge. This does not activate a buyer account.","MODO DE PRUEBA — sin cobro real. Esto no activa una cuenta compradora.");
+ status.textContent=say("We will verify the simulated payment in Stripe Test Mode. Production emails and customer access remain protected.","Verificaremos el pago simulado en Stripe Test Mode. Los correos de producción y accesos de clientes siguen protegidos.");
+ intake.href="/booking-flow-intake/?demo=1";intake.textContent=say("Preview the setup form →","Ver formulario de configuración →");intake.hidden=false;retry.hidden=true;
+}else verify();
 </script></body></html>
