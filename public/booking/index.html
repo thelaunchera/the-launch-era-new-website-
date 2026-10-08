@@ -52,7 +52,7 @@ textarea{resize:vertical;min-height:100px}.grid{display:grid;grid-template-colum
 @media(max-width:830px){.layout{grid-template-columns:1fr}.summary{position:static;grid-row:1}.hero-feature{grid-template-columns:1fr 1fr}}
 @media(max-width:590px){.hero-feature{grid-template-columns:1fr;gap:12px;margin:10px 0 20px}.hero-copy{padding:30px 23px;min-height:0}.hero-copy h1{font-size:40px}.hero-photo{min-height:185px}.service-grid{grid-template-columns:1fr}.slot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.wizard-progress span{font-size:9px;padding:9px 2px}.summary{padding:18px 22px}}
 </style><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700;800&display=swap" rel="stylesheet"></head><body>
-<header><div class="inner"><a class="brand" href="https://thelaunchera.com/">THE LAUNCH ERA</a><select id="language" aria-label="Language / Idioma"><option value="en">English</option><option value="es">Español</option></select></div></header>
+<header><div class="inner"><div class="brand" id="bookingBrand">YOUR BOOKING</div><select id="language" aria-label="Language / Idioma"><option value="en">English</option><option value="es">Español</option></select></div></header>
 <main><section class="hero-feature"><div class="hero-copy"><div class="kicker" id="eyebrow">PERSONALIZED BOOKING</div><h1 id="business">Cleaning made simple.</h1><p class="intro" id="intro">Choose your service, share the details, and we'll confirm the next step by email. Custom estimates are reviewed by the cleaning business.</p><div class="hero-area" id="heroArea"></div></div><div class="hero-photo" id="heroPhoto"><span id="heroCaption">Beautiful spaces. Thoughtful care.</span></div></section>
 <div id="loading" class="alert">Loading your booking options…</div>
 <div id="content" class="layout hide">
@@ -80,7 +80,7 @@ textarea{resize:vertical;min-height:100px}.grid{display:grid;grid-template-colum
 </form>
 <aside class="panel summary"><div class="kicker" id="summaryKicker">YOUR REQUEST</div><h2 id="summaryTitle">Your cleaning estimate</h2><div class="estimate" id="estimateValue">—</div><p class="small" id="summaryNote">Your final price depends on the service selected.</p><hr style="border:0;border-top:1px solid #c9dce9;margin:20px 0"><p class="small" id="trust">Booking requests go directly to this cleaning business. No Cleaning App account required.</p></aside>
 </div>
-</main>
+</main><footer style="font-size:11px;text-align:center;padding:12px 16px 45px;color:#6d7880">Booking experience by <strong>The Launch Era</strong></footer>
 <script>
 const api='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-flow-pricing';
 const inquiry='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-flow-inquiry';
@@ -174,6 +174,8 @@ function repaint(){
  const types=['house','apt','office','other'];[...E('propertyType').options].forEach((x,i)=>x.textContent=t(types[i]));
  if(config){
  E('business').textContent=config.business_name;
+ E('bookingBrand').textContent=config.business_name;
+ document.title=config.business_name+' | '+tx('Book your cleaning','Reserva tu limpieza');
  const about=config.branding?.description||'';
  if(about)E('intro').textContent=about;
  const region=config.branding?.service_area||'',area=E('heroArea');area.replaceChildren();
