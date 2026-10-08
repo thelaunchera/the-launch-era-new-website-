@@ -652,3 +652,20 @@ img { display:block; width:100%; object-fit:cover; }
  .sale-clock-unit strong{font-size:15px!important}
  .sale-clock-units{gap:3px}
 }
+
+/* The Fall Refresh Offer — final October 31 countdown label */
+.sale-offer-copy{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:3px;min-width:0}
+.sale-offer-copy b{font-size:10px;line-height:1.1;letter-spacing:.055em;font-weight:900;color:#191919}
+.sale-countdown .sale-offer-copy small{font-size:9px!important;font-weight:800;letter-spacing:.06em;color:#191919;opacity:.7;line-height:1.1}
+.booking-offer-deadline{font-size:11px;line-height:1.3;font-weight:750;letter-spacing:.03em;color:#48667a;white-space:nowrap}
+@media(max-width:767px){
+ .sale-clock-label{max-width:145px!important;align-items:center}
+ .sale-offer-copy b{font-size:9px}
+ .sale-countdown .sale-offer-copy small{font-size:8px!important}
+ .booking-offer-deadline{font-size:10px}
+}
+@media(max-width:370px){
+ .sale-clock-label{max-width:102px!important}
+ .sale-offer-copy b{font-size:8px}
+ .sale-countdown .sale-offer-copy small{font-size:7px!important}
+}

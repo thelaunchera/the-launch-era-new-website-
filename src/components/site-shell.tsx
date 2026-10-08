@@ -4,32 +4,26 @@ import { Menu, X, ArrowUpRight, Timer } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 function SaleCountdown({es=false}:{es?:boolean}) {
- const firstWeekEnd = Date.parse('2026-10-11T11:01:04Z');
- const seasonEnds = Date.parse('2026-10-18T11:01:04Z');
- const remainingNow = () => {
-  const now = Date.now();
-  const nextDeadline = now < firstWeekEnd ? firstWeekEnd : seasonEnds;
-  return Math.max(0, nextDeadline - now);
- };
- const [remaining,setRemaining] = useState(remainingNow);
+ const offerEnd = Date.parse('2026-11-01T04:00:00Z');
+ const getRemaining = () => Math.max(0, offerEnd - Date.now());
+ const [remaining,setRemaining] = useState(getRemaining);
  useEffect(() => {
-  const update = () => setRemaining(remainingNow());
+  const update = () => setRemaining(getRemaining());
   update();
   const timer = window.setInterval(update, 1000);
   return () => window.clearInterval(timer);
  }, []);
- const firstWeek = Date.now() < firstWeekEnd;
  const days = Math.floor(remaining / 86400000);
  const hours = Math.floor((remaining % 86400000) / 3600000);
  const minutes = Math.floor((remaining % 3600000) / 60000);
  const seconds = Math.floor((remaining % 60000) / 1000);
- if(remaining <= 0) return <span className="sale-countdown sale-expired"><Timer size={16}/>{es?'OFERTA DE TEMPORADA FINALIZADA':'SEASON OFFER ENDED'}</span>;
- return <span className="sale-countdown" role="timer" aria-label={es?`${firstWeek?'La primera semana termina':'La oferta de temporada termina'} en ${days} días, ${hours} horas, ${minutes} minutos y ${seconds} segundos`:`${firstWeek?'The first week ends':'Season offer ends'} in ${days} days, ${hours} hours, ${minutes} minutes and ${seconds} seconds`}>
-  <span className="sale-clock-label"><Timer size={17} aria-hidden="true"/>{es?(firstWeek?'SEASON OFFER · SEMANA 1':'SEASON OFFER · ÚLTIMA SEMANA'):(firstWeek?'SEASON OFFER · WEEK 1':'SEASON OFFER · FINAL WEEK')}</span>
+ if (remaining <= 0) return <span className="sale-countdown sale-expired"><Timer size={16}/>{es?'THE FALL REFRESH OFFER FINALIZÓ':'THE FALL REFRESH OFFER ENDED'}</span>;
+ return <span className="sale-countdown" role="timer" aria-label={es?`The Fall Refresh Offer termina el 31 de octubre. Quedan ${days} días, ${hours} horas, ${minutes} minutos y ${seconds} segundos`:`The Fall Refresh Offer ends October 31. ${days} days, ${hours} hours, ${minutes} minutes and ${seconds} seconds remain`}>
+  <span className="sale-clock-label"><Timer size={17} aria-hidden="true"/><span className="sale-offer-copy"><b>THE FALL REFRESH OFFER</b><small>{es?'HASTA EL 31 OCT':'ENDS OCT 31'}</small></span></span>
   <span className="sale-clock-units">
    <span className="sale-clock-unit"><strong>{String(days).padStart(2,'0')}</strong><small>{es?'DÍAS':'DAYS'}</small></span>
    <span className="sale-clock-colon">:</span>
-   <span className="sale-clock-unit"><strong>{String(hours).padStart(2,'0')}</strong><small>{es?'HRS':'HRS'}</small></span>
+   <span className="sale-clock-unit"><strong>{String(hours).padStart(2,'0')}</strong><small>HRS</small></span>
    <span className="sale-clock-colon">:</span>
    <span className="sale-clock-unit"><strong>{String(minutes).padStart(2,'0')}</strong><small>MIN</small></span>
    <span className="sale-clock-colon">:</span>
