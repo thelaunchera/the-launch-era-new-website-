@@ -338,6 +338,67 @@ img { display:block; width:100%; object-fit:cover; }
 .booking-hero-offer{margin:18px 0 12px}
 .booking-hero-offer .booking-offer-price strong{font-size:28px}
 @media(max-width:640px){.booking-offer-price{gap:7px}.booking-hero-offer{gap:8px;margin:14px 0 12px}.booking-hero-offer .booking-offer-price strong{font-size:25px}}
+/* Homepage service-grid pricing — prominent prices, no false sale labels on regular services */
+.service-grid .service-card-price-line {
+  display:flex;
+  align-items:center;
+  min-height:37px;
+  margin:10px 0 6px;
+}
+.service-grid .booking-offer-line {
+  min-height:37px;
+  margin:10px 0 6px;
+}
+.service-grid .service-price-pill {
+  display:inline-flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:9px;
+  width:max-content;
+  max-width:100%;
+  min-height:34px;
+  padding:7px 14px;
+  background:rgba(139,83,117,.09);
+  border:1px solid rgba(139,83,117,.23);
+  border-radius:999px;
+  color:#784763;
+  box-shadow:0 2px 8px rgba(33,45,62,.025);
+  font-variant-numeric:tabular-nums;
+  line-height:1.15;
+  white-space:nowrap;
+}
+.service-grid .service-price-pill::before {
+  content:"";
+  width:6px;
+  height:6px;
+  flex:0 0 6px;
+  border-radius:50%;
+  background:#87546f;
+}
+.service-grid .service-price-pill strong {
+  font-size:16px;
+  font-weight:800;
+  color:#75435f;
+  letter-spacing:-.025em;
+  line-height:1.12;
+}
+.service-grid .service-price-pill del {
+  font-size:13px;
+  font-weight:600;
+  color:#848088;
+  text-decoration-thickness:1.25px;
+}
+@media(max-width:767px) {
+ .service-grid .service-price-pill {padding:7px 11px;gap:7px;min-height:32px}
+ .service-grid .service-price-pill strong {font-size:14px}
+ .service-grid .service-price-pill del {font-size:11px}
+ .service-grid .service-price-pill::before {width:5px;height:5px;flex-basis:5px}
+ .service-grid .booking-offer-line {gap:6px}
+}
+@media(max-width:359px) {
+ .service-grid .service-price-pill {padding:6px 8px;gap:5px}
+ .service-grid .service-price-pill strong {font-size:12px}
+}
 /* Website Automation — interactive live preview */
 .service-demo-kicker{display:flex;align-items:center;justify-content:center;gap:8px;margin:0 0 14px;font-size:9px;font-weight:750;letter-spacing:.13em;color:var(--primary)}
 .service-demo-kicker svg{width:14px;height:14px}
