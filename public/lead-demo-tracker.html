@@ -1,0 +1,61 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Private Demo Tracker — The Launch Era</title><style>
+*{box-sizing:border-box}body{margin:0;background:#f4f6f7;color:#191919;font-family:Arial,sans-serif}.top{background:#191919;color:#fff;text-align:center;padding:11px;font-size:10px;letter-spacing:.14em}.wrap{max-width:560px;margin:auto;padding:18px 14px 50px}.panel{background:#faf8f3;border-radius:24px;padding:20px;box-shadow:0 14px 36px #13201a12}.ey{font-size:11px;letter-spacing:.12em;color:#65747a;font-weight:700}h1{font-size:26px;margin:6px 0}.mini{font-size:12px;color:#718087;line-height:1.5}.card{background:#fff;border:1px solid #e0ddd5;border-radius:18px;padding:15px;margin:10px 0}.row{display:flex;justify-content:space-between;gap:12px}.badge{background:#fff7cc;border-radius:999px;padding:6px 9px;font-size:10px}.status-confirmed{background:#dff5e8;color:#185c36}.btn{border:1px solid #d8d5cd;background:#fff;border-radius:999px;padding:10px 13px;font-weight:700;margin-top:10px}.primary{display:block;text-align:center;text-decoration:none;background:#191919;color:#fff;border-radius:999px;padding:15px;margin-top:18px;font-weight:700}.detail{display:none;margin-top:12px;padding-top:12px;border-top:1px solid #eee}.detail.show,.editbox.show{display:block}.editbox{display:none;background:#faf8f3;border:1px solid #e0ddd5;border-radius:16px;padding:14px;margin-top:12px}.editbox label{display:block;font-size:10px;font-weight:700;letter-spacing:.08em;color:#65747a;margin:11px 0 4px}.editbox input{width:100%;padding:12px;border:1px solid #d8d5cd;border-radius:12px;background:#fff}.info{background:#eef5f8;border-radius:16px;padding:15px;margin-top:15px}.timeline{display:flex;gap:5px;margin:15px 0}.timeline i{height:5px;flex:1;background:#ddd;border-radius:9px}.timeline i.on{background:#191919}.locked{opacity:.62;border-style:dashed}.brand{background:#191919;color:#fff;border-radius:20px;padding:18px;margin-top:16px}.brand .mini{color:#d8dddd}.confirmed{background:#eef8f1;border-radius:16px;padding:14px;margin-top:12px}.sendstate{font-size:12px;margin-top:9px;color:#65747a}.sendstate.ok{background:#eaf7ee;color:#185c36;border-radius:14px;padding:13px;font-weight:700;font-size:14px}.sendstate.err{background:#fff0ee;color:#8b2d22;border-radius:14px;padding:13px;font-weight:700;font-size:13px}
+</style></head><body><div class="top">PRIVATE PREVIEW • DEMO TRACKER</div><main class="wrap"><section class="panel"><div class="ey" id="trackerBrand">THE LAUNCH ERA • SANDBOX</div><h1>Your Requests — Demo</h1><p class="mini">A simplified preview of how incoming requests can stay organized. This is not the live Lead Tracker.</p><div id="mine"></div>
+<div class="card"><div class="row"><b>Maya R.</b><span class="badge">Demo data</span></div><p class="mini">Deep Cleaning · Biweekly · Est. $214</p></div><div class="card"><div class="row"><b>Lauren T.</b><span class="badge">Demo data</span></div><p class="mini">Standard Cleaning · Monthly · Est. $152</p></div><div class="card"><div class="row"><b>Ashley B.</b><span class="badge">Demo data</span></div><p class="mini">Move In / Move Out · One time · Est. $270</p></div>
+<div class="timeline"><i class="on"></i><i class="on"></i><i id="tlConfirm"></i><i></i><i></i></div><p class="mini">Request received → Price reviewed → Confirmation → Reminder → Follow-up</p>
+<div class="card locked"><b>🔒 This is only a preview</b><p class="mini">This demo shows one example of how your booking and follow-up flow could work. Your final setup will depend on your business needs and selected service.</p></div>
+<div class="brand"><div class="ey" style="color:#d8dddd">THE LAUNCH ERA DEMO ↓ YOUR CLEANING BUSINESS</div><h2 style="margin:8px 0">Built around your business.</h2><p class="mini">Your logo · your services · your pricing · your workflow</p><b>Now imagine this built around your business.</b></div>
+<div class="info"><b>✨ In your personalized system</b><p class="mini">The owner reviews the estimate, controls the final price, and the customer can confirm from the email without back-and-forth.</p></div><a class="primary" id="bookingLink" href="lead-private-preview.html">Try the booking demo</a></section></main>
+<script>
+const safe=v=>String(v||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const d=JSON.parse(localStorage.getItem('tleLeadDemoRequest')||'null')||{name:'Keisha — demo request',email:'',service:'Sample residential cleaning',homeType:'House',freq:'One time',estimate:'Demo',estimateValue:0,zip:''};
+const p=new URLSearchParams(location.search);
+if(p.get('confirmed')==='1'){d.status='confirmed';if(p.get('price'))d.finalPrice=Number(p.get('price'))||d.finalPrice;localStorage.setItem('tleLeadDemoRequest',JSON.stringify(d));history.replaceState({},'',location.pathname)}
+const estimateNumber=Number(d.estimateValue)||Number(String(d.estimate||'').replace(/[^0-9.]/g,''))||0;
+function render(){
+ const yes=d.status==='confirmed';
+ document.getElementById('tlConfirm').classList.toggle('on',yes);
+ document.getElementById('mine').innerHTML='<div class="card" style="border-color:#191919"><div class="row"><b>'+safe(d.name)+'</b><span class="badge '+(yes?'status-confirmed':'')+'">'+(yes?'CONFIRMED':'NEW')+'</span></div><p class="mini">'+safe(d.service)+' · '+safe(d.homeType)+' · '+safe(d.freq)+' · '+safe(d.estimate)+'</p><button class="btn" onclick="openRequest()">Open request</button><div id="detail" class="detail"><p class="mini"><b>Customer</b><br>'+safe(d.name)+' · '+safe(d.email||'No email')+'</p><p class="mini"><b>Service</b><br>'+safe(d.service)+' · '+safe(d.homeType)+'</p><p class="mini"><b>Frequency</b><br>'+safe(d.freq)+'</p><p class="mini"><b>Service ZIP</b><br>'+safe(d.zip||'Not entered')+'</p><p class="mini"><b>Online estimate</b><br>$'+estimateNumber.toFixed(2)+'</p>'+(yes?'<div class="confirmed"><b>✓ Cleaning confirmed</b><p class="mini">Final confirmed price: $'+Number(d.finalPrice||0).toFixed(2)+'</p></div>':'<button class="btn" onclick="editPrice()">Edit final price</button><div id="editBox" class="editbox"><label>ONLINE ESTIMATE</label><input id="editEstimate" type="number" min="0" step=".01" value="'+estimateNumber.toFixed(2)+'"><label>DISCOUNT / ADJUSTMENT</label><input id="editDiscount" type="number" min="0" step=".01" value="0"><label>ZIP / TRAVEL ADJUSTMENT</label><input id="editTravel" type="number" min="0" step=".01" value="0"><label>FINAL PRICE</label><input id="editFinal" type="number" min="0" step=".01" value="'+estimateNumber.toFixed(2)+'"><button id="sendEstimateBtn" class="btn" onclick="sendEstimate()">Send estimate to my email</button><div id="sendState" class="sendstate">Private demo: messages can only be sent to the email verified during this test.</div></div>')+'</div></div>';
+}
+function openRequest(){document.getElementById('detail')?.classList.add('show')}
+function editPrice(){document.getElementById('editBox')?.classList.add('show')}
+document.addEventListener('input',e=>{if(!['editEstimate','editDiscount','editTravel'].includes(e.target?.id))return;const a=Number(document.getElementById('editEstimate')?.value||0),b=Number(document.getElementById('editDiscount')?.value||0),x=Number(document.getElementById('editTravel')?.value||0);const f=document.getElementById('editFinal');if(f)f.value=Math.max(0,a-b+x).toFixed(2)});
+async function sendEstimate(){
+ const btn=document.getElementById('sendEstimateBtn'),msg=document.getElementById('sendState');btn.disabled=true;btn.textContent='Sending…';msg.textContent='Preparing your test estimate email…';
+ try{const payload={email:d.email,name:d.name,service:d.service,zip:d.zip,estimate:Number(document.getElementById('editEstimate').value||0),discount:Number(document.getElementById('editDiscount').value||0),travel:Number(document.getElementById('editTravel').value||0),finalPrice:Number(document.getElementById('editFinal').value||0)};const r=await fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/keisha-demo-estimate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const out=await r.json().catch(()=>({}));if(!r.ok)throw new Error(out.error||'Could not send');d.finalPrice=payload.finalPrice;localStorage.setItem('tleLeadDemoRequest',JSON.stringify(d));btn.textContent='Estimate sent ✓';msg.className='sendstate ok';msg.innerHTML='✓ Estimate sent successfully.<br><span style="font-weight:400">Check the inbox for '+safe(d.email)+'. Then tap “Confirm Cleaning” in the email.</span>'}catch(err){btn.disabled=false;btn.textContent='Try sending again';msg.className='sendstate err';msg.textContent=err.message||'The estimate was not sent. Please try again.'}
+}
+render();
+
+const demoParams=new URLSearchParams(location.search);
+const customBusiness=(demoParams.get('business')||'').trim().slice(0,140);
+const customArea=(demoParams.get('area')||'').trim().slice(0,140);
+const customServices=(demoParams.get('services')||'').trim().slice(0,220);
+const customRid=(demoParams.get('rid')||'').trim().slice(0,60);
+if(customBusiness){
+ document.getElementById('trackerBrand').textContent='PRIVATE DEMO • '+customBusiness.toUpperCase();
+ document.title=customBusiness+' — Demo Tracker';
+ const booking=document.getElementById('bookingLink');
+ if(booking){
+  const q=new URLSearchParams();
+  q.set('business',customBusiness);
+  if(customArea)q.set('area',customArea);
+  if(customServices)q.set('services',customServices);
+  if(customRid)q.set('rid',customRid);
+  booking.href='lead-private-preview.html?'+q.toString();
+ }
+ const brand=document.querySelector('.brand .mini');
+ if(brand)brand.textContent=(customServices?customServices+' · ':'')+(customArea?'Serving '+customArea:'Your services · your pricing · your workflow');
+ const h2=document.querySelector('.brand h2'); if(h2)h2.textContent='Built around '+customBusiness+'.';
+ if(customRid){
+  document.querySelectorAll('a.primary').forEach(a=>a.addEventListener('click',()=>fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-personalized-demo',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'get_started',id:customRid})}).catch(()=>{})));
+ }
+}
+
+const leadLabels={paula:'PAULA DIAS CLEANING',yalanda:'HAVENS TOUCH HOUSEKEEPING',ako:'AKO CLEANING SERVICES',ceaz:'CEAZ CLEANING SERVICES',maidright:'CLEANING MAID RIGHT',novaclean:'NOVACLEAN',gleamglow:'GLEAM GLOW CLEANING'};
+const leadKey=new URLSearchParams(location.search).get('lead')||'';
+if(leadLabels[leadKey]){
+ document.getElementById('trackerBrand').textContent='PRIVATE DEMO • '+leadLabels[leadKey];
+ document.title=leadLabels[leadKey]+' — Demo Tracker';
+ const booking=document.getElementById('bookingLink'); if(booking)booking.href='lead-private-preview.html?lead='+encodeURIComponent(leadKey);
+}
+</script><!-- personalized-lead-demo-2026-10-06 --></body></html>
