@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useRouterState } from '@tanstack/react-router';
 
 declare global {
@@ -33,15 +33,20 @@ function currentProduct(pathname=location.pathname){
 
 export function Analytics(){
   const pathname=useRouterState({select:(state)=>state.location.pathname});
+  const lastTrackedRoute=useRef('');
   useEffect(()=>{
     const host=location.hostname.toLowerCase();
     const enabled=(host==='thelaunchera.com'||host==='www.thelaunchera.com'||host==='thelaunchera.github.io')&&!navigator.webdriver;
     const source=detectedTrafficSource();
     const qs=new URLSearchParams(location.search);
-    const campaign=(qs.get('utm_campaign')||'').trim();
+    let campaign=(qs.get('utm_campaign')||'').trim();
+    let medium=(qs.get('utm_medium')||'').trim().toLowerCase();
     try{
+      if(!campaign) campaign=sessionStorage.getItem('tleTrafficCampaign')||'';
+      if(!medium) medium=sessionStorage.getItem('tleTrafficMedium')||'';
       sessionStorage.setItem('tleTrafficSource',source);
       if(campaign) sessionStorage.setItem('tleTrafficCampaign',campaign);
+      if(medium) sessionStorage.setItem('tleTrafficMedium',medium);
       if(!sessionStorage.getItem('tleLandingPath')) sessionStorage.setItem('tleLandingPath',location.pathname+location.search);
     }catch{}
 
@@ -50,6 +55,7 @@ export function Analytics(){
         site_surface:'main_website',
         page_path:location.pathname,
         traffic_source:source,
+        traffic_medium:medium||undefined,
         traffic_campaign:campaign||undefined,
         ...params
       });
@@ -83,7 +89,7 @@ export function Analytics(){
       const activeSource=detectedTrafficSource();
       const service=a.closest('.service-card')?.querySelector('h3')?.textContent?.trim();
 
-      if(service) window.tleTrackEvent?.('service_view',{
+      if(service) window.tleTrackEvent?.('service_select',{
         service_name:service,
         destination:u.pathname,
         product:currentProduct(u.pathname)
@@ -99,7 +105,7 @@ export function Analytics(){
       if(u.hostname==='app.thelaunchera.com'){
         if(activeSource&&activeSource!=='direct') u.searchParams.set('src',activeSource);
         a.href=u.toString();
-        window.tleTrackEvent?.('trial_start',{
+        window.tleTrackEvent?.('trial_click',{
           product:'cleaning_web_app',
           destination:u.toString()
         });
@@ -125,16 +131,26 @@ export function Analytics(){
     };
   },[]);
   useEffect(()=>{
-    try{
-      const key='tleLandingTracked:'+pathname+location.search;
-      if(sessionStorage.getItem(key)) return;
-      sessionStorage.setItem(key,'1');
-      window.tleTrackEvent?.('landing_view',{
-        landing_path:pathname,
-        product:currentProduct(pathname),
-        referrer_host:document.referrer?new URL(document.referrer).hostname:'direct'
+    // Count each actual route visit once, even when a user enters a service directly.
+    // A route visited again later in the session is a new visit, not a duplicate.
+    const key=pathname.replace(/\/+$/,'')||'/';
+    if(lastTrackedRoute.current===key) return;
+    lastTrackedRoute.current=key;
+    const product=currentProduct(key);
+    let referrerHost='direct';
+    try{if(document.referrer) referrerHost=new URL(document.referrer).hostname;}catch{}
+    window.tleTrackEvent?.('landing_view',{
+      landing_path:key,
+      product,
+      referrer_host:referrerHost
+    });
+    if(product!=='main_website'&&product!=='free_lead_tracker'){
+      window.tleTrackEvent?.('service_view',{
+        product,
+        language:key.startsWith('/es/')?'es':'en',
+        landing_path:key
       });
-    }catch{}
+    }
   },[pathname]);
   return null;
 }
