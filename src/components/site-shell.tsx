@@ -1,28 +1,39 @@
 import { Link } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Timer } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 function SaleCountdown({es=false}:{es?:boolean}) {
- const saleEndsAt = new Date('2026-10-11T11:01:04Z').getTime();
- const [remaining,setRemaining] = useState(() => Math.max(0, saleEndsAt - Date.now()));
+ const firstWeekEnd = Date.parse('2026-10-11T11:01:04Z');
+ const seasonEnds = Date.parse('2026-10-18T11:01:04Z');
+ const remainingNow = () => {
+  const now = Date.now();
+  const nextDeadline = now < firstWeekEnd ? firstWeekEnd : seasonEnds;
+  return Math.max(0, nextDeadline - now);
+ };
+ const [remaining,setRemaining] = useState(remainingNow);
  useEffect(() => {
-   const tick = () => setRemaining(Math.max(0, saleEndsAt - Date.now()));
-   tick();
-   const timer = window.setInterval(tick, 1000);
-   return () => window.clearInterval(timer);
+  const update = () => setRemaining(remainingNow());
+  update();
+  const timer = window.setInterval(update, 1000);
+  return () => window.clearInterval(timer);
  }, []);
  const days = Math.floor(remaining / 86400000);
  const hours = Math.floor((remaining % 86400000) / 3600000);
  const minutes = Math.floor((remaining % 3600000) / 60000);
  const seconds = Math.floor((remaining % 60000) / 1000);
- if (remaining <= 0) return <span className="sale-countdown">{es?'OFERTA TERMINADA':'LIMITED-TIME OFFER ENDED'}</span>;
- return <span className="sale-countdown" aria-label={es?`El descuento termina en ${days} días, ${hours} horas, ${minutes} minutos y ${seconds} segundos`:`Discount ends in ${days} days, ${hours} hours, ${minutes} minutes and ${seconds} seconds`}>
-   <span className="sale-label">{es?'EL DESCUENTO TERMINA EN':'DISCOUNT ENDS IN'}</span>
-   <strong>{days}<small>D</small></strong><span>:</span>
-   <strong>{String(hours).padStart(2,'0')}<small>H</small></strong><span>:</span>
-   <strong>{String(minutes).padStart(2,'0')}<small>M</small></strong><span>:</span>
-   <strong>{String(seconds).padStart(2,'0')}<small>S</small></strong>
+ if(remaining <= 0) return <span className="sale-countdown sale-expired"><Timer size={16}/>{es?'OFERTA DE TEMPORADA FINALIZADA':'SEASON OFFER ENDED'}</span>;
+ return <span className="sale-countdown" role="timer" aria-label={es?`La oferta de temporada termina en ${days} días, ${hours} horas, ${minutes} minutos y ${seconds} segundos`:`Season offer ends in ${days} days, ${hours} hours, ${minutes} minutes and ${seconds} seconds`}>
+  <span className="sale-clock-label"><Timer size={17} aria-hidden="true"/>{es?'SEASON OFFER TERMINA EN':'SEASON OFFER ENDS IN'}</span>
+  <span className="sale-clock-units">
+   <span className="sale-clock-unit"><strong>{String(days).padStart(2,'0')}</strong><small>{es?'DÍAS':'DAYS'}</small></span>
+   <span className="sale-clock-colon">:</span>
+   <span className="sale-clock-unit"><strong>{String(hours).padStart(2,'0')}</strong><small>{es?'HRS':'HRS'}</small></span>
+   <span className="sale-clock-colon">:</span>
+   <span className="sale-clock-unit"><strong>{String(minutes).padStart(2,'0')}</strong><small>MIN</small></span>
+   <span className="sale-clock-colon">:</span>
+   <span className="sale-clock-unit"><strong>{String(seconds).padStart(2,'0')}</strong><small>SEC</small></span>
+  </span>
  </span>;
 }
 

@@ -21,15 +21,15 @@ const offer=rawOffer;
 const es=params.get("lang")==="es";
 let trafficSource=(params.get("source")||"").trim().toLowerCase();try{trafficSource=trafficSource||sessionStorage.getItem("tleTrafficSource")||"direct";sessionStorage.setItem("tleTrafficSource",trafficSource)}catch{trafficSource=trafficSource||"direct"}
 try{sessionStorage.setItem("tleCheckoutLanguage",es?"es":"en")}catch{}
-const bookingSaleEnd=new Date("2026-10-11T11:01:04Z").getTime();
-const bookingPrice=Date.now()<bookingSaleEnd?"$29.99":"$99";
+const bookingSaleEnd=new Date("2026-10-18T11:01:04Z").getTime();
+const bookingPrice=Date.now()<bookingSaleEnd?"$19.99":"$99";
 const allowed={"booking-flow":"Booking Automation + Lead Command Center · "+bookingPrice,"website-automation":"Website Automation · $59.99",va:"Virtual Assistant · $49.99/month"};
 const kicker=document.getElementById("kicker"),title=document.getElementById("title"),copy=document.getElementById("copy"),dots=document.getElementById("dots"),retry=document.getElementById("retry"),status=document.getElementById("status");
 if(es){document.documentElement.lang="es";title.textContent="Abriendo tu pago seguro…";copy.textContent="Tu pago seguro se está abriendo ahora.";retry.textContent="Intentar otra vez";status.textContent="Revisa tu pedido antes de completar el pago.";} 
 if(!allowed[offer]){title.textContent=es?"Este enlace de pago no es válido.":"This checkout link is invalid.";copy.textContent=es?"Regresa a The Launch Era y elige el servicio otra vez.":"Return to The Launch Era and choose an offer again.";dots.hidden=true;status.textContent="";throw new Error("invalid offer")}
 kicker.textContent=allowed[offer];
 async function openCheckout(){
- retry.hidden=true;dots.hidden=false;title.textContent=es?"Abriendo tu pago seguro…":"Opening your secure checkout…";copy.textContent=es?"Tu pago seguro se está abriendo ahora.":"Your secure checkout is opening now.";status.textContent=offer==="booking-flow"?(es?"Después de pagar recibirás un correo con tu formulario privado. Los dos enlaces de tu sistema se enviarán cuando lo terminemos y probemos.":"After payment, we email your private setup form. Both working system links are delivered separately after build and testing."):(es?"Revisa tu pedido antes de completar el pago.":"Please review your order before completing payment.");
+ retry.hidden=true;dots.hidden=false;title.textContent=es?"Abriendo tu pago seguro…":"Opening your secure checkout…";copy.textContent=es?"Tu pago seguro se está abriendo ahora.":"Your secure checkout is opening now.";status.textContent=offer==="booking-flow"?(es?"Tras la compra recibirás un correo con los próximos pasos para personalizar tu sistema.":"After purchase, you'll receive an email with the next steps to personalize your system."):(es?"Revisa tu pedido antes de completar el pago.":"Please review your order before completing payment.");
  try{
   const res=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({offer,language:es?"es":"en",source:trafficSource})});
   const data=await res.json().catch(()=>({}));
