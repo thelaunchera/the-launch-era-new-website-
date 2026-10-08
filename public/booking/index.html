@@ -156,7 +156,21 @@ async function refreshSlots(){
   let d;
   if(previewMode){
    const dayOfWeek=new Date(day+'T12:00:00Z').getUTCDay();
-   d={timezone:'America/New_York',slots:dayOfWeek===0?[]:['09:00','11:00','14:00','16:00']};
+   const av=config?.availability;
+   if(ownerPreview&&av){
+    const interval=Math.max(15,Number(av.slot_minutes)||60),duration=Math.max(30,Number(av.job_minutes)||120);
+    const entry=av.weekly?.[String(dayOfWeek)],blocked=Array.isArray(av.blocked_dates)&&av.blocked_dates.includes(day);
+    const mins=time=>Number(time.slice(0,2))*60+Number(time.slice(3,5));
+    let options=[];
+    if(entry?.enabled&&!blocked&&/^\d{2}:\d{2}$/.test(entry.start)&&/^\d{2}:\d{2}$/.test(entry.end)){
+      for(let m=mins(entry.start);m+duration<=mins(entry.end);m+=interval){
+       options.push(String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0'));
+      }
+    }
+    d={timezone:av.timezone||config.timezone||'America/New_York',slots:options};
+   }else{
+    d={timezone:'America/New_York',slots:dayOfWeek===0?[]:['09:00','11:00','14:00','16:00']};
+   }
   }else{
    const r=await fetch(availabilityApi,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'public',booking_key:key,date:day})});
    d=await r.json();if(!r.ok)throw Error(d.error||'Availability is unavailable');
@@ -181,7 +195,7 @@ function repaint(){
  const values=['one','week','bi','month'];[...E('frequency').options].forEach((x,i)=>x.textContent=t(values[i]));
  const types=['house','apt','office','other'];[...E('propertyType').options].forEach((x,i)=>x.textContent=t(types[i]));
  if(config){
- E('business').textContent=config.business_name;
+ E('business').textContent=config.branding?.headline||config.business_name;
  E('bookingBrand').textContent=config.business_name;
  document.title=config.business_name+' | '+tx('Book your cleaning','Reserva tu limpieza');
  const about=config.branding?.description||'';
@@ -190,7 +204,7 @@ function repaint(){
  document.documentElement.style.setProperty('--blue',/^#[0-9A-Fa-f]{6}$/.test(branding.primary_color||'')?branding.primary_color:'#DCEFFA');
  document.documentElement.style.setProperty('--blue-deep',/^#[0-9A-Fa-f]{6}$/.test(branding.accent_color||'')?branding.accent_color:'#3A7399');
  E('heroPhoto').style.backgroundColor=branding.primary_color||'#DCEFFA';
- E('eyebrow').textContent=branding.headline||t('eyebrow');
+ E('eyebrow').textContent=config.business_name;
  const logo=E('bookingLogo');if(branding.logo_image&&/^https:\/\//.test(branding.logo_image)){logo.src=branding.logo_image;logo.classList.add('visible');logo.alt=config.business_name+' logo'}else{logo.removeAttribute('src');logo.classList.remove('visible')}
  const reviews=Array.isArray(branding.reviews)?branding.reviews.filter(v=>v&&v.name&&v.text).slice(0,6):[];
  E('reviewsSection').hidden=!reviews.length;
