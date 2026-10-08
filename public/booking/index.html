@@ -24,7 +24,34 @@ textarea{resize:vertical;min-height:100px}.grid{display:grid;grid-template-colum
 .hide{display:none!important}.alert{background:#fff;border:1px solid #b9d7e9;border-radius:14px;padding:16px;margin-top:18px}
 #language{width:auto;min-width:125px;font-weight:700;border-radius:30px}
 @media(max-width:760px){.layout{grid-template-columns:1fr}.summary{position:static;grid-row:1}.grid{grid-template-columns:1fr}.panel{padding:19px}main{padding-top:30px}}
-</style></head><body>
+
+.hero-feature{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:22px 0 31px}
+.hero-copy{background:#eef7fc;padding:clamp(28px,4vw,60px);border-radius:28px;display:flex;flex-direction:column;justify-content:center;min-height:310px}
+.hero-copy h1{font-family:Prompt,Arial,sans-serif;line-height:1.01;letter-spacing:-.045em}
+.hero-photo{background-image:linear-gradient(0deg,rgba(25,25,25,.42),transparent 55%),url('https://images.unsplash.com/photo-1633505899118-4ca6bd143043?auto=format&fit=crop&w=1250&q=80');background-position:center;background-size:cover;min-height:310px;border-radius:28px;position:relative}
+.hero-photo span{position:absolute;left:24px;bottom:23px;color:white;font-size:14px;font-weight:800;max-width:270px}
+.hero-area{display:flex;flex-wrap:wrap;gap:9px}.hero-area span{background:#fff;border-radius:25px;padding:8px 13px;font-size:11px;font-weight:800;color:#355f78}
+.panel{border-radius:25px;box-shadow:0 18px 46px #21334414}
+#bookingForm{padding:clamp(20px,3vw,35px)}
+#bookingForm h2{font-family:Prompt,Arial,sans-serif;font-size:clamp(20px,2.5vw,28px)}
+.service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.service-option{border-radius:18px;padding:20px;min-height:104px}
+.summary{border-radius:25px;padding:28px}
+.wizard-progress{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:28px}
+.wizard-progress span{display:block;padding:12px 7px;text-align:center;background:#f4f7f8;border-radius:12px;font-size:11px;font-weight:800;color:#6e8491}
+.wizard-progress span.current{background:#dceffc;color:#1d5678;box-shadow:inset 0 3px #487fa3}
+.wizard-stage{display:none}.wizard-stage.current{display:block}
+.wizard-nav{display:flex;justify-content:space-between;gap:10px;margin-top:28px}
+.wizard-nav button{border-radius:27px;padding:13px 23px;border:0;font-weight:800;background:#191919;color:white}
+.wizard-nav button.back{background:#eff2f3;color:#191919}
+.slot-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:14px}
+.slot-choice{border-radius:14px;border:1px solid #bcdaee;background:#f1f9ff;padding:14px 9px;color:#244d68;font-weight:800}
+.slot-choice.chosen{background:#191919;border-color:#191919;color:#fff}
+.slot-message{color:#49677a;font-size:13px;margin:12px 0}
+#requestedTime{display:none}
+@media(max-width:830px){.layout{grid-template-columns:1fr}.summary{position:static;grid-row:1}.hero-feature{grid-template-columns:1fr 1fr}}
+@media(max-width:590px){.hero-feature{grid-template-columns:1fr;gap:12px;margin:10px 0 20px}.hero-copy{padding:30px 23px;min-height:0}.hero-copy h1{font-size:40px}.hero-photo{min-height:185px}.service-grid{grid-template-columns:1fr}.slot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.wizard-progress span{font-size:9px;padding:9px 2px}.summary{padding:18px 22px}}
+</style><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700;800&display=swap" rel="stylesheet"></head><body>
 <header><div class="inner"><a class="brand" href="https://thelaunchera.com/">THE LAUNCH ERA</a><select id="language" aria-label="Language / Idioma"><option value="en">English</option><option value="es">Español</option></select></div></header>
 <main><section class="hero-feature"><div class="hero-copy"><div class="kicker" id="eyebrow">PERSONALIZED BOOKING</div><h1 id="business">Cleaning made simple.</h1><p class="intro" id="intro">Choose your service, share the details, and we'll confirm the next step by email. Custom estimates are reviewed by the cleaning business.</p><div class="hero-area" id="heroArea"></div></div><div class="hero-photo" id="heroPhoto"><span id="heroCaption">Beautiful spaces. Thoughtful care.</span></div></section>
 <div id="loading" class="alert">Loading your booking options…</div>
