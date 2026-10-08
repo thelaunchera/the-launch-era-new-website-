@@ -42,9 +42,9 @@ function Page(){
   return <main style={{background:'#faf4f7'}}>
     <section className="container service-hero">
       <div className="eyebrow">WEBSITE AUTOMATION</div>
-      <h1 className="editorial">A website that keeps working after you log off.</h1>
-      <p>We connect your existing website to a clearer inquiry and follow-up flow so potential clients know what to do next.</p>
-      <a className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=en">Get Started — $59.99 <ArrowRight/></a><div className="service-proof-strip" aria-label="Service details"><span>ONE-TIME SERVICE</span><span>48-HOUR PRODUCTION</span><span>KEEP YOUR CURRENT WEBSITE</span></div>
+      <h1 className="editorial">Keep your website. Upgrade what happens next.</h1>
+      <p>Already have a website? We connect its existing contact or quote form to organized inquiry routing and follow-ups. This service does not include a new Booking Page or Lead Command Center.</p>
+      <a className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=en">Get Started — $59.99 <ArrowRight/></a><div className="service-proof-strip" aria-label="Service details"><span>YOUR EXISTING WEBSITE</span><span>INQUIRY ROUTING</span><span>ONE-TIME SETUP</span></div>
     </section>
 
     <section className="container service-story">
@@ -115,7 +115,7 @@ function Page(){
 
       <div className="service-endcap">
         <span>YOUR WEBSITE</span><ArrowRight/><span>INQUIRY</span><ArrowRight/><span>AUTOMATION</span><ArrowRight/><strong>NEXT STEP ✓</strong>
-        <small>48-hour production · One-time service $59.99 · External platform costs not included.</small>
+        <small>Connect your existing inquiry form · One-time setup $59.99 · Any required third-party subscriptions remain yours. A new Booking Page is a separate service.</small>
       </div>
     </section>
   </main>
