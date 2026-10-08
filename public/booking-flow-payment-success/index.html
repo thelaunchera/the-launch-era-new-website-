@@ -29,7 +29,7 @@ async function verify(){
 retry.onclick=verify;
 if(sessionId.startsWith("cs_test_")){
  document.getElementById("heading").textContent=say("Demo checkout preview","Vista previa del pago de demostración");
- document.getElementById("intro").textContent=say("TEST MODE — no real charge. This does not activate a buyer account.","MODO DE PRUEBA — sin cobro real. Esto no activa una cuenta compradora.");
+ document.getElementById("intro").textContent=say("DEMO PREVIEW — no real charge. This does not activate a buyer account.","MODO DE PRUEBA — sin cobro real. Esto no activa una cuenta compradora.");
  status.textContent=say("This is a demo preview. No payment was collected and no real purchase was created.","Esta es una demostración. No se realizó ningún cobro ni se creó una compra real.");
  intake.href="/booking-flow-intake/?demo=1";intake.textContent=say("Preview the setup form →","Ver formulario de configuración →");intake.hidden=false;retry.hidden=true;
 }else verify();
