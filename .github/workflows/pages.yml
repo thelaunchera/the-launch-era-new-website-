@@ -39,6 +39,11 @@ jobs:
           python -m pip install --quiet pymupdf reportlab
           python scripts/build_freebies.py
 
+      - name: Verify email demo landing pages
+        run: |
+          test -s .output/public/lead-private-preview.html
+          test -s .output/public/lead-demo-tracker.html
+
       - name: Create GitHub Pages route fallbacks
         run: |
           for route in booking-lead-automation cleaning-web-app website-automation virtual-assistant help how-it-works solutions free-cleaning-lead-guide es es/booking-lead-automation es/cleaning-web-app es/website-automation es/virtual-assistant es/free-cleaning-lead-guide; do
