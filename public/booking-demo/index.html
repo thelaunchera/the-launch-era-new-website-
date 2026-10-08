@@ -57,7 +57,7 @@ const allSlots=["9:00 AM","10:30 AM","1:00 PM","2:30 PM"];
 function l(){return $("language").value}function t(k){return translations[l()][k]||k}
 function allowed(){return allSlots.filter((v,i)=>availability==="all"||(availability==="morning"&&i<2)||(availability==="afternoon"&&i>=2)).filter(v=>!lead||lead.status!=="confirmed"||lead.time!==v)}
 function render(){
- document.documentElement.lang=l();for(const k of Object.keys(translations.en))if($(k)&&!["standard","deep","choose","requested","review","confirmed","time","success","all","morning","afternoon","noSlot","step1Tab","step2Tab"].includes(k))$(k).textContent=t(k);
+ document.documentElement.lang=l();for(const k of Object.keys(translations.en))if($(k)&&!["standard","deep","choose","requested","review","confirmed","time","success","all","morning","afternoon","noSlot","step1Tab","step2Tab"].includes(k)){if(k==="priceLabel"||k==="slotLabel")$(k).firstChild.textContent=t(k);else $(k).textContent=t(k)};
  $("customerTab").textContent=t("step1Tab");$("ownerTab").textContent=t("step2Tab");
  for(const key of ["standard","deep"])$(key).classList.toggle("selected",key===selectedService);
  $("standardPrice").textContent="$"+price.toFixed(0);$("deepPrice").textContent=t("deep");$("summaryService").textContent=t(selectedService);
@@ -73,6 +73,7 @@ function render(){
  if(lead){$("leadStatus").textContent=t(lead.status==="confirmed"?"confirmed":"review");$("leadDetails").textContent=t(lead.service)+" · "+lead.time;$("confirmDemo").hidden=lead.status==="confirmed";}
 }
 function switchView(side){for(const name of ["customer","owner"]){$(name+"View").classList.toggle("active",side===name);$(name+"Tab").setAttribute("aria-selected",String(side===name))}window.scrollTo({top:0,behavior:"smooth"})}
+if(new URLSearchParams(location.search).get("lang")==="es")$("language").value="es";
 $("customerTab").onclick=()=>switchView("customer");$("ownerTab").onclick=()=>switchView("owner");
 $("standard").onclick=()=>{selectedService="standard";render()};$("deep").onclick=()=>{selectedService="deep";render()};
 $("language").onchange=render;
