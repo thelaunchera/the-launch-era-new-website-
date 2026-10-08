@@ -50,7 +50,7 @@ function Page(){
     <section className="container service-hero">
       <div className="eyebrow">WEBSITE AUTOMATION</div>
       <h1 className="editorial">Conserva tu website. Mejora lo que pasa después.</h1>
-      <p>¿Ya tienes website? Conectamos su formulario de contacto o cotización con la organización de solicitudes y seguimientos. Este servicio no incluye una nueva Booking Page ni Lead Command Center.</p>
+      <p>¿Ya tienes website? Organizamos las consultas que llegan desde tu formulario de contacto o cotización para que puedas responder y dar seguimiento sin perder oportunidades.</p>
       <a className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=es">Comenzar — $59.99 <ArrowRight/></a><div className="service-proof-strip" aria-label="Detalles del servicio"><span>TU WEBSITE ACTUAL</span><span>ORGANIZACIÓN DE CONSULTAS</span><span>CONFIGURACIÓN ÚNICA</span></div>
     </section>
 
@@ -122,7 +122,7 @@ function Page(){
 
       <div className="service-endcap">
         <span>TU WEBSITE</span><ArrowRight/><span>CONSULTA</span><ArrowRight/><span>AUTOMATIZACIÓN</span><ArrowRight/><strong>PRÓXIMO PASO ✓</strong>
-        <small>Conecta el formulario de tu website · Configuración única $59.99 · Las suscripciones externas necesarias las contrata tu negocio. Una nueva Booking Page es otro servicio.</small>
+        <small>Conecta el formulario de tu website · Configuración única $59.99 · Mantén cada oportunidad en movimiento.</small>
       </div>
     </section>
   </main>
