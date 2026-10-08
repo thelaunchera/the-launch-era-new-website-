@@ -139,16 +139,16 @@ export function FreebiePage({language}:{language:Language}){
         </aside>
 
         <div className="rounded-[30px] border border-black/10 bg-white p-7 shadow-[0_20px_60px_rgba(25,25,25,.06)] md:p-10">
-          {status==='sent' ? <div className="flex min-h-[380px] flex-col justify-center">
+          {status==='sent' ? <div className="flex min-h-[290px] flex-col justify-center">
             <Sparkles className="mb-5 text-[#87546F]" size={34}/>
-            <h2 className="font-serif text-5xl leading-none">{es?'Revisa tu correo.':'Check your inbox.'}</h2>
+            <h2 className="font-serif text-5xl leading-none">{es?'¡Listo! Revisa tu correo.':'Your free kit is on its way.'}</h2>
             <p className="mt-4 max-w-lg leading-7 text-black/60">
               {es
-                ?<>Tu Free Cleaning Lead Tracker está en camino a <strong className="text-[#191919]">{email}</strong>. Si no lo ves en unos minutos, revisa Spam o Promociones.</>
-                :<>Your Free Cleaning Lead Tracker is on its way to <strong className="text-[#191919]">{email}</strong>. If you do not see it in a few minutes, check Spam or Promotions.</>}
+                ?<>Te enviamos un correo a <strong className="text-[#191919]">{email}</strong> con un botón para abrir tu Starter Kit. Revísalo en unos minutos.</>
+                :<>Check <strong className="text-[#191919]">{email}</strong> for an email with a button to open your Starter Kit. It should arrive shortly.</>}
             </p>
             <p className="mt-6 max-w-lg rounded-2xl bg-[#FAF8F3] px-4 py-3 text-sm leading-6 text-black/60">
-              {es?'El recurso se entrega únicamente por correo.':'The resource is delivered by email only.'}
+              {es?'¿No lo encuentras? Revisa también Promociones o Spam.':'Can’t find it? Check Promotions or Spam, too.'}
             </p>
           </div> : <>
             <div className="mb-7 flex h-12 w-12 items-center justify-center rounded-full bg-[#DCEBFA]"><Mail size={21}/></div>
@@ -161,13 +161,13 @@ export function FreebiePage({language}:{language:Language}){
               <input id="freebie-email" type="email" required value={email} onFocus={markFormStart} onChange={e=>setEmail(e.target.value)} placeholder="you@business.com" className="mt-2 h-14 w-full rounded-2xl border border-black/20 bg-[#FAF8F3] px-4 outline-none transition focus:border-black"/>
               <input name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
               {status==='error'&&<p className="mt-3 rounded-2xl bg-[#FFF8D8] p-3 text-sm">
-                {es?'No pudimos confirmar el envío. Inténtalo otra vez en unos minutos.':'We could not confirm the delivery. Please try again in a few minutes.'}
+                {es?'No pudimos enviarte el correo esta vez. Inténtalo de nuevo.':'We couldn’t send your email this time. Please try again.'}
               </p>}
               <button type="submit" disabled={status==='sending'} className="mt-5 inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-[#F2D85B] px-5 text-sm font-bold text-[#191919] transition hover:-translate-y-0.5 disabled:opacity-60">
                 {status==='sending'?(es?'Enviando…':'Sending…'):(es?'ENVIARME EL LEAD TRACKER':'SEND ME THE FREE LEAD TRACKER')} <ArrowRight size={17}/>
               </button>
               <p className="mt-3 text-center text-xs leading-5 text-black/50">
-                {es?'Usaremos tu correo para entregarte el recurso solicitado y medir su entrega.':'We’ll use your email to deliver the resource you requested and measure its delivery.'}
+                {es?'Usaremos tu correo para enviarte el Starter Kit que pediste.':'We’ll use your email to send the Starter Kit you requested.'}
               </p>
             </form>
           </>}
