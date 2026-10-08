@@ -85,6 +85,7 @@ textarea{resize:vertical;min-height:100px}.grid{display:grid;grid-template-colum
 const api='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-flow-pricing';
 const inquiry='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-flow-inquiry';
 const key=new URLSearchParams(location.search).get('key')||'';
+const previewMode=new URLSearchParams(location.search).get('preview')==='1';
 const E=id=>document.getElementById(id);
 const L={en:{eyebrow:'PERSONALIZED BOOKING',intro:"Choose your service, share the details, and we'll confirm the next step by email. Custom estimates are reviewed by the cleaning business.",loading:'Loading your booking options…',serviceTitle:'1. Choose a cleaning service',addonsTitle:'Optional add-ons',detailsTitle:'2. Your cleaning details',customerNameLabel:'Your name *',customerEmailLabel:'Email *',phoneLabel:'Phone',dateLabel:'Preferred date *',timeLabel:'Preferred time *',frequencyLabel:'Frequency',propertyLabel:'Property type',sizeLabel:'Home size (sq ft)',addressLabel:'Service address *',notesLabel:'Anything else we should know?',send:'Send booking request →',disclaimer:"This form doesn't charge you or guarantee your preferred time. The cleaning business will confirm your request.",summaryKicker:'YOUR REQUEST',summaryTitle:'Your cleaning estimate',summaryNote:'Your final price depends on the service selected.',trust:'Your request goes to the cleaning business. No Cleaning App account is required.',quote:'Custom estimate · price to be confirmed',specialLabel:'Special spaces / custom quote',error:'The Booking Page is not available yet. Please contact the cleaning business.',sent:'Your request was received! Watch your email for the next steps. This is not a confirmed appointment.',sending:'Sending…',choose:'Choose a service.',one:'One time',week:'Weekly',bi:'Biweekly',month:'Monthly',house:'House',apt:'Apartment / Condo',office:'Office / Commercial',other:'Other'},
 es:{eyebrow:'RESERVAS PERSONALIZADAS',intro:'Selecciona tu servicio y cuéntanos los detalles. Recibirás el próximo paso por correo. El negocio revisa los estimados personalizados.',loading:'Cargando servicios…',serviceTitle:'1. Elige un servicio',addonsTitle:'Extras opcionales',detailsTitle:'2. Datos de tu limpieza',customerNameLabel:'Tu nombre *',customerEmailLabel:'Correo electrónico *',phoneLabel:'Teléfono',dateLabel:'Fecha preferida *',timeLabel:'Hora preferida *',frequencyLabel:'Frecuencia',propertyLabel:'Tipo de propiedad',sizeLabel:'Tamaño (pies cuadrados)',addressLabel:'Dirección del servicio *',notesLabel:'¿Algo más que debamos saber?',send:'Enviar solicitud →',disclaimer:'No se cobra nada ni se garantiza la fecha al enviar este formulario. El negocio revisará y confirmará tu solicitud.',summaryKicker:'TU SOLICITUD',summaryTitle:'Estimado de tu limpieza',summaryNote:'El precio final depende del servicio seleccionado.',trust:'Tu solicitud va directamente al negocio. No necesitas la Cleaning App.',quote:'Estimado personalizado · precio por confirmar',specialLabel:'Espacios especiales / cotización',error:'Esta página de reservas todavía no está disponible. Comunícate con el negocio.',sent:'¡Recibimos tu solicitud! Revisa tu correo para conocer los próximos pasos. La cita todavía no está confirmada.',sending:'Enviando…',choose:'Selecciona un servicio.',one:'Una vez',week:'Semanal',bi:'Quincenal',month:'Mensual',house:'Casa',apt:'Apartamento / Condo',office:'Oficina / Comercial',other:'Otro'}};
@@ -151,9 +152,15 @@ async function refreshSlots(){
  if(!container||!day||!config)return;
  const status=E('availableSlotsStatus');status.textContent=tx('Checking open times…','Consultando horarios disponibles…');
  try{
-  const r=await fetch(availabilityApi,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'public',booking_key:key,date:day})});
-  const d=await r.json();if(version!==slotRequestNumber)return;
-  if(!r.ok)throw Error(d.error||'Availability is unavailable');
+  let d;
+  if(previewMode){
+   const dayOfWeek=new Date(day+'T12:00:00Z').getUTCDay();
+   d={timezone:'America/New_York',slots:dayOfWeek===0?[]:['09:00','11:00','14:00','16:00']};
+  }else{
+   const r=await fetch(availabilityApi,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'public',booking_key:key,date:day})});
+   d=await r.json();if(!r.ok)throw Error(d.error||'Availability is unavailable');
+  }
+  if(version!==slotRequestNumber)return;
   slotOptions=d.slots||[];
   if(!slotOptions.length){status.textContent=tx('No openings on this date. Try another day.','No hay horarios libres ese día. Prueba con otra fecha.');return}
   status.textContent=tx('Available in ','Horarios en ')+d.timezone+tx(' · Select one start time.',' · Elige una hora de inicio.');
@@ -181,6 +188,7 @@ function repaint(){
  const region=config.branding?.service_area||'',area=E('heroArea');area.replaceChildren();
  if(region){const chip=document.createElement('span');chip.textContent=tx('Serving: ','Atendemos: ')+region;area.append(chip);}
  const tz=document.createElement('span');tz.textContent=config.timezone||'America/New_York';area.append(tz);
+ if(previewMode){const badge=document.createElement('span');badge.textContent=tx('PREVIEW ONLY · NOTHING WILL BE SAVED','VISTA DE PRUEBA · NO SE GUARDARÁ NADA');area.append(badge)}
  if(config.branding?.hero_image)E('heroPhoto').style.backgroundImage="linear-gradient(0deg,rgba(25,25,25,.42),transparent 55%),url("+JSON.stringify(config.branding.hero_image)+")";
  E('heroCaption').textContent=tx('Comfortable spaces, thoughtfully cleaned.','Espacios cómodos y limpios con cuidado.');
  E('bedsLabel').textContent=tx('Bedrooms','Habitaciones');E('bathsLabel').textContent=tx('Bathrooms','Baños');
@@ -225,8 +233,18 @@ function estimate(){
  E('summaryNote').textContent=flat?t('disclaimer'):t('summaryNote');
 }
 async function load(){
- const response=await fetch(api,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'public',booking_key:key})});
- const d=await response.json();if(!response.ok)throw Error(d.error||'Unavailable');
+ let d;
+ if(previewMode){
+  d={business_name:'Brightside Cleaning Co.',language:'en',timezone:'America/New_York',branding:{description:'A beautifully clean home, with less to worry about. Personalized residential cleaning with care for every detail.',service_area:'Boca Raton · Delray Beach · Boynton Beach'},currency:'USD',services:[
+   {id:'00000000-0000-4000-8000-000000000011',name:'Standard Cleaning',mode:'flat',price:145,active:true},
+   {id:'00000000-0000-4000-8000-000000000012',name:'Deep Cleaning',mode:'estimate',price:null,active:true},
+   {id:'00000000-0000-4000-8000-000000000013',name:'Move-In / Move-Out',mode:'flat',price:240,active:true},
+   {id:'00000000-0000-4000-8000-000000000014',name:'Commercial Cleaning',mode:'quote',price:null,active:true}
+  ],addons:[{id:'00000000-0000-4000-8000-000000000021',name:'Inside oven',price:35,active:true},{id:'00000000-0000-4000-8000-000000000022',name:'Inside refrigerator',price:30,active:true}],quote_policy:'review_unpriced_jobs'};
+ }else{
+  const response=await fetch(api,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'public',booking_key:key})});
+  d=await response.json();if(!response.ok)throw Error(d.error||'Unavailable');
+ }
  config=d;selected=config.services[0]||null;if(!selected)throw Error('No services');
  updateBookingMinimumDate();
  E('loading').classList.add('hide');E('content').classList.remove('hide');repaint();
@@ -243,6 +261,7 @@ E('bookingForm').onsubmit=async event=>{
  try{
  const form=Object.fromEntries(new FormData(E('bookingForm')).entries()),addons=activeAddons();
  const body={...form,booking_key:key,preferred_language:lang(),service_id:selected.id,service_name:selected.name,selected_addon_ids:addons.map(a=>a.id),extras:addons.map(a=>a.name),request_type:selected.mode==='flat'?'booking':'quote',estimate_display:selected.mode==='flat'?E('estimateValue').textContent:'Custom quote',source:'booking_page'};
+ if(previewMode){E('bookingForm').replaceChildren(Object.assign(document.createElement('div'),{className:'alert',textContent:tx('Preview complete! No appointment, email, or payment was created.','¡Prueba completada! No se creó ninguna reserva, correo ni cobro.')}));return}
  const response=await fetch(inquiry,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
  const d=await response.json();if(!response.ok)throw Error(d.error||'Request failed');
  E('bookingForm').replaceChildren(Object.assign(document.createElement('div'),{className:'alert',textContent:t('sent')}));E('estimateValue').textContent='✓';E('summaryNote').textContent=t('sent');
