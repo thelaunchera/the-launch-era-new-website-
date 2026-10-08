@@ -18,13 +18,14 @@ function SaleCountdown({es=false}:{es?:boolean}) {
   const timer = window.setInterval(update, 1000);
   return () => window.clearInterval(timer);
  }, []);
+ const firstWeek = Date.now() < firstWeekEnd;
  const days = Math.floor(remaining / 86400000);
  const hours = Math.floor((remaining % 86400000) / 3600000);
  const minutes = Math.floor((remaining % 3600000) / 60000);
  const seconds = Math.floor((remaining % 60000) / 1000);
  if(remaining <= 0) return <span className="sale-countdown sale-expired"><Timer size={16}/>{es?'OFERTA DE TEMPORADA FINALIZADA':'SEASON OFFER ENDED'}</span>;
- return <span className="sale-countdown" role="timer" aria-label={es?`La oferta de temporada termina en ${days} días, ${hours} horas, ${minutes} minutos y ${seconds} segundos`:`Season offer ends in ${days} days, ${hours} hours, ${minutes} minutes and ${seconds} seconds`}>
-  <span className="sale-clock-label"><Timer size={17} aria-hidden="true"/>{es?'SEASON OFFER TERMINA EN':'SEASON OFFER ENDS IN'}</span>
+ return <span className="sale-countdown" role="timer" aria-label={es?`${firstWeek?'La primera semana termina':'La oferta de temporada termina'} en ${days} días, ${hours} horas, ${minutes} minutos y ${seconds} segundos`:`${firstWeek?'The first week ends':'Season offer ends'} in ${days} days, ${hours} hours, ${minutes} minutes and ${seconds} seconds`}>
+  <span className="sale-clock-label"><Timer size={17} aria-hidden="true"/>{es?(firstWeek?'SEASON OFFER · SEMANA 1':'SEASON OFFER · ÚLTIMA SEMANA'):(firstWeek?'SEASON OFFER · WEEK 1':'SEASON OFFER · FINAL WEEK')}</span>
   <span className="sale-clock-units">
    <span className="sale-clock-unit"><strong>{String(days).padStart(2,'0')}</strong><small>{es?'DÍAS':'DAYS'}</small></span>
    <span className="sale-clock-colon">:</span>
