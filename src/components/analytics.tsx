@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useRouterState } from '@tanstack/react-router';
 
 declare global {
   interface Window {
@@ -31,6 +32,7 @@ function currentProduct(pathname=location.pathname){
 }
 
 export function Analytics(){
+  const pathname=useRouterState({select:(state)=>state.location.pathname});
   useEffect(()=>{
     const host=location.hostname.toLowerCase();
     const enabled=(host==='thelaunchera.com'||host==='www.thelaunchera.com'||host==='thelaunchera.github.io')&&!navigator.webdriver;
@@ -74,18 +76,6 @@ export function Analytics(){
     window.gtag('js',new Date());
     window.gtag('config',GA_ID);
 
-    try{
-      const key='tleLandingTracked:'+location.pathname+location.search;
-      if(!sessionStorage.getItem(key)){
-        sessionStorage.setItem(key,'1');
-        window.tleTrackEvent?.('landing_view',{
-          landing_path:location.pathname,
-          product:currentProduct(),
-          referrer_host:document.referrer?new URL(document.referrer).hostname:'direct'
-        });
-      }
-    }catch{}
-
     const click=(e:MouseEvent)=>{
       const a=(e.target as HTMLElement)?.closest?.('a[href]') as HTMLAnchorElement|null;
       if(!a) return;
@@ -121,8 +111,8 @@ export function Analytics(){
           offer:u.searchParams.get('offer')||undefined,
           destination:u.pathname
         });
-      }else if(u.pathname.includes('/demo-booking')){
-        window.tleTrackEvent?.('booking_demo_view',{product:'booking_lead_automation'});
+      }else if(u.pathname.includes('/booking-demo')){
+        window.tleTrackEvent?.('booking_demo_click',{product:'booking_lead_automation'});
       }else if(u.pathname.includes('/help')||u.hash==='#contacto'){
         window.tleTrackEvent?.('contact_start',{product:currentProduct()});
       }
@@ -134,5 +124,17 @@ export function Analytics(){
       window.removeEventListener('tle:analytics',custom as EventListener);
     };
   },[]);
+  useEffect(()=>{
+    try{
+      const key='tleLandingTracked:'+pathname+location.search;
+      if(sessionStorage.getItem(key)) return;
+      sessionStorage.setItem(key,'1');
+      window.tleTrackEvent?.('landing_view',{
+        landing_path:pathname,
+        product:currentProduct(pathname),
+        referrer_host:document.referrer?new URL(document.referrer).hostname:'direct'
+      });
+    }catch{}
+  },[pathname]);
   return null;
 }

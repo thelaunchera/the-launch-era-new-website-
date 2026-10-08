@@ -126,27 +126,11 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
-function ExpiringOfferTagSync(){
-  useEffect(()=>{
-    const sync=()=>{
-      const countdown=document.querySelector('[data-offer-countdown], .offer-countdown, .countdown');
-      const text=countdown?.textContent||'';
-      const expired=/00\s*D\s*[:·]\s*00\s*H\s*[:·]\s*00\s*M\s*[:·]\s*00\s*S|00:00:00|expired|termin[oó]/i.test(text);
-      document.querySelectorAll<HTMLElement>('[data-expiring-offer]').forEach(el=>{el.style.display=expired?'none':''});
-    };
-    sync();
-    const id=window.setInterval(sync,1000);
-    return()=>window.clearInterval(id);
-  },[]);
-  return null;
-}
-
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ExpiringOfferTagSync/>
       <Analytics />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <SiteHeader />
