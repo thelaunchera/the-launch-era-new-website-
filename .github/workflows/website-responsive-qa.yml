@@ -17,10 +17,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Install browser
+      - name: Install browser isolated from website dependencies
         run: |
-          npm install --no-save playwright@1.57.0
+          mkdir -p /tmp/tle-responsive-qa
+          cd /tmp/tle-responsive-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
           npx playwright install --with-deps chromium
+          cd "$GITHUB_WORKSPACE"
+          ln -s /tmp/tle-responsive-qa/node_modules node_modules
       - name: Test website at mobile, tablet and desktop widths
         run: node scripts/qa-booking-demo.mjs
         env:
