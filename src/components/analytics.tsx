@@ -9,8 +9,6 @@ declare global {
   }
 }
 
-const GA_ID='G-N5BHMC432Q';
-
 function detectedTrafficSource(){
   const qs=new URLSearchParams(location.search);
   const explicit=(qs.get('utm_source')||qs.get('source')||'').trim().toLowerCase();
@@ -57,6 +55,7 @@ export function Analytics(){
         traffic_source:source,
         traffic_medium:medium||undefined,
         traffic_campaign:campaign||undefined,
+        ...(name==='checkout_click'||name==='trial_click'||name==='booking_demo_click'?{transport_type:'beacon'}:{}),
         ...params
       });
     };
@@ -69,18 +68,6 @@ export function Analytics(){
     window.addEventListener('tle:analytics',custom as EventListener);
 
     if(!enabled) return()=>window.removeEventListener('tle:analytics',custom as EventListener);
-
-    window.dataLayer=window.dataLayer||[];
-    window.gtag=window.gtag||function(...args:any[]){window.dataLayer?.push(args)};
-    if(!document.querySelector('script[data-tle-ga]')){
-      const s=document.createElement('script');
-      s.async=true;
-      s.src='https://www.googletagmanager.com/gtag/js?id='+GA_ID;
-      s.dataset.tleGa='1';
-      document.head.appendChild(s);
-    }
-    window.gtag('js',new Date());
-    window.gtag('config',GA_ID);
 
     const click=(e:MouseEvent)=>{
       const a=(e.target as HTMLElement)?.closest?.('a[href]') as HTMLAnchorElement|null;

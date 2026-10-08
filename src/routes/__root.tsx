@@ -117,6 +117,25 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang={language}>
       <head>
         <HeadContent />
+        {/* Initialize the production GA4 queue before the app hydrates, so landing
+            and checkout events are never discarded while the tag is loading. */}
+        <script
+          dangerouslySetInnerHTML={{ __html: `
+(function () {
+  var host = location.hostname.toLowerCase();
+  if (host !== 'thelaunchera.com' && host !== 'www.thelaunchera.com' && host !== 'thelaunchera.github.io') return;
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+  var script = document.createElement('script');
+  script.async = true;
+  script.src = 'https://www.googletagmanager.com/gtag/js?id=G-N5BHMC432Q';
+  script.setAttribute('data-tle-ga', '1');
+  document.head.appendChild(script);
+  window.gtag('js', new Date());
+  window.gtag('config', 'G-N5BHMC432Q');
+})();
+` }}
+        />
       </head>
       <body>
         {children}
