@@ -8,9 +8,12 @@
 <div class="info"><b>✨ In your personalized system</b><p class="mini">The owner reviews the estimate, controls the final price, and the customer can confirm from the email without back-and-forth.</p></div><a class="primary" id="bookingLink" href="lead-private-preview.html">Try the booking demo</a></section></main>
 <script>
 const safe=v=>String(v||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-const d=JSON.parse(localStorage.getItem('tleLeadDemoRequest')||'null')||{name:'Keisha — demo request',email:'',service:'Sample residential cleaning',homeType:'House',freq:'One time',estimate:'Demo',estimateValue:0,zip:''};
+const emailBusiness=(new URLSearchParams(location.search).get('business')||'').trim().slice(0,140);
+function getSavedDemo(){try{return JSON.parse(localStorage.getItem('tleLeadDemoRequest')||'null')}catch{return null}}
+function saveDemoState(){try{localStorage.setItem('tleLeadDemoRequest',JSON.stringify(d))}catch{}}
+const d=getSavedDemo()||{name:emailBusiness?('Sample request — '+emailBusiness):'Sample demo request',email:'',service:'Sample residential cleaning',homeType:'House',freq:'One time',estimate:'Demo',estimateValue:0,zip:''};
 const p=new URLSearchParams(location.search);
-if(p.get('confirmed')==='1'){d.status='confirmed';if(p.get('price'))d.finalPrice=Number(p.get('price'))||d.finalPrice;localStorage.setItem('tleLeadDemoRequest',JSON.stringify(d));history.replaceState({},'',location.pathname)}
+if(p.get('confirmed')==='1'){d.status='confirmed';if(p.get('price'))d.finalPrice=Number(p.get('price'))||d.finalPrice;saveDemoState();history.replaceState({},'',location.pathname)}
 const estimateNumber=Number(d.estimateValue)||Number(String(d.estimate||'').replace(/[^0-9.]/g,''))||0;
 function render(){
  const yes=d.status==='confirmed';
@@ -22,7 +25,7 @@ function editPrice(){document.getElementById('editBox')?.classList.add('show')}
 document.addEventListener('input',e=>{if(!['editEstimate','editDiscount','editTravel'].includes(e.target?.id))return;const a=Number(document.getElementById('editEstimate')?.value||0),b=Number(document.getElementById('editDiscount')?.value||0),x=Number(document.getElementById('editTravel')?.value||0);const f=document.getElementById('editFinal');if(f)f.value=Math.max(0,a-b+x).toFixed(2)});
 async function sendEstimate(){
  const btn=document.getElementById('sendEstimateBtn'),msg=document.getElementById('sendState');btn.disabled=true;btn.textContent='Sending…';msg.textContent='Preparing your test estimate email…';
- try{const payload={email:d.email,name:d.name,service:d.service,zip:d.zip,estimate:Number(document.getElementById('editEstimate').value||0),discount:Number(document.getElementById('editDiscount').value||0),travel:Number(document.getElementById('editTravel').value||0),finalPrice:Number(document.getElementById('editFinal').value||0)};const r=await fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/keisha-demo-estimate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const out=await r.json().catch(()=>({}));if(!r.ok)throw new Error(out.error||'Could not send');d.finalPrice=payload.finalPrice;localStorage.setItem('tleLeadDemoRequest',JSON.stringify(d));btn.textContent='Estimate sent ✓';msg.className='sendstate ok';msg.innerHTML='✓ Estimate sent successfully.<br><span style="font-weight:400">Check the inbox for '+safe(d.email)+'. Then tap “Confirm Cleaning” in the email.</span>'}catch(err){btn.disabled=false;btn.textContent='Try sending again';msg.className='sendstate err';msg.textContent=err.message||'The estimate was not sent. Please try again.'}
+ try{const payload={email:d.email,name:d.name,service:d.service,zip:d.zip,estimate:Number(document.getElementById('editEstimate').value||0),discount:Number(document.getElementById('editDiscount').value||0),travel:Number(document.getElementById('editTravel').value||0),finalPrice:Number(document.getElementById('editFinal').value||0)};const r=await fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/keisha-demo-estimate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const out=await r.json().catch(()=>({}));if(!r.ok)throw new Error(out.error||'Could not send');d.finalPrice=payload.finalPrice;saveDemoState();btn.textContent='Estimate sent ✓';msg.className='sendstate ok';msg.innerHTML='✓ Estimate sent successfully.<br><span style="font-weight:400">Check the inbox for '+safe(d.email)+'. Then tap “Confirm Cleaning” in the email.</span>'}catch(err){btn.disabled=false;btn.textContent='Try sending again';msg.className='sendstate err';msg.textContent=err.message||'The estimate was not sent. Please try again.'}
 }
 render();
 
