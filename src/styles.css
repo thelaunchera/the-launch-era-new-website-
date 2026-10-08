@@ -799,3 +799,17 @@ img { display:block; width:100%; object-fit:cover; }
  .hero-photo .notice-3 {left:auto;right:3%;top:111px;bottom:auto;}
  .hero-photo .notice-4 {left:auto;right:4%;top:auto;bottom:129px;}
 }
+
+/* iPad/Safari: reveal floating hero notices only after the hero photo loads.
+   Keep the tablet card positions and both other breakpoints unchanged. */
+@media (min-width:768px) and (max-width:1366px) {
+ .hero-photo { background:linear-gradient(125deg,#E6F0F4 0%,#F7F4EC 55%,#E2EDF3 100%); }
+ .hero-photo .hero-main-image { opacity:0; transition:opacity .22s ease-out; }
+ .hero-photo.hero-media-ready .hero-main-image { opacity:1; }
+ .hero-photo .notification { animation:none; transition:opacity .24s ease-out; }
+ .hero-photo:not(.hero-media-ready) .notification { opacity:0; visibility:hidden; pointer-events:none; }
+ .hero-photo.hero-media-ready .notification { opacity:1; visibility:visible; }
+}
+@media (prefers-reduced-motion:reduce) and (min-width:768px) and (max-width:1366px) {
+ .hero-photo .hero-main-image,.hero-photo .notification { transition:none; }
+}
