@@ -43,6 +43,7 @@ jobs:
         run: |
           test -s .output/public/lead-private-preview.html
           test -s .output/public/lead-demo-tracker.html
+          test -s .output/public/client-start-guide.html
 
       - name: Create GitHub Pages route fallbacks
         run: |
