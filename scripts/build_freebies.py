@@ -88,7 +88,9 @@ def page(c,n,lang,tracker):
         c.setFont("DSansBold",9.2);c.setFillColor(C["black"]);c.drawString(50,57+ch-23,"ABRE EL TRACKER EDITABLE" if es else "OPEN THE EDITABLE LEAD TRACKER")
         text(c,"Usa Próximo Follow-Up como tu lista de trabajo diaria." if es else "Use the Next Follow-Up column as your daily work list.",50,57+ch-28,278,"small")
         box(c,375,57+ch-56,116,34,C["yellow"],17)
-        c.setFont("DSansBold",8.2);c.drawCentredString(433,57+ch-42,"ABRIR TRACKER →" if es else "OPEN TRACKER →")
+        c.setFillColor(C["black"])
+        c.setFont("DSansBold",8.3)
+        c.drawCentredString(433,57+ch-43,"VER TRACKER" if es else "VIEW TRACKER")
         c.linkURL(tracker,(375,57+ch-56,491,57+ch-22),relative=0)
     elif n==10:
         top=header(c,"NÚMEROS SEMANALES" if es else "WEEKLY NUMBERS","Mide cinco cosas, no veinte." if es else "Track five numbers, not twenty.","Solo necesitas suficiente visibilidad para ver dónde se están frenando los leads." if es else "You only need enough visibility to see where leads are slowing down.",10)
@@ -142,4 +144,6 @@ for lang,id in SOURCE_IDS.items():
     doc.save(output,garbage=3,deflate=True)
     check=fitz.open(output)
     assert len(check)==12 and any(item.get("uri")==link for item in check[7].get_links())
-    print(f"Built {output}: {output.stat().st_size} bytes, 12 pages")
+    expected_label = "VER TRACKER" if lang=="es" else "VIEW TRACKER"
+    assert expected_label in check[7].get_text(), f"Missing page 8 button text: {lang}"
+    print(f"Built {output}: {output.stat().st_size} bytes, 12 pages; page 8 button label confirmed")
