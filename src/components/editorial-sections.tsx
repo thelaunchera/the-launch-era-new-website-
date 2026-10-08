@@ -28,7 +28,7 @@ export function SolutionsSection() {
 }
 function ServiceCard({service:s,index:i}:{service:typeof services[number],index:number}) {
  const sale=useBookingPrice()==="$19.99";
- const normalPrices=['', '$5.99/mo', '$59.99', '$49.99/mo'];
+ const normalPrices=['', '$3.99/mo', '$59.99', '$49.99/mo'];
  return <>
   <div className="service-image"><img src={s.image} alt={s.alt} loading="lazy" width={1024} height={1024}/><span className="service-number">0{i+1}</span><span className="service-arrow"><ArrowUpRight size={18}/></span></div>
   {i===0
