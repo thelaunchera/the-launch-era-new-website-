@@ -653,6 +653,10 @@ img { display:block; width:100%; object-fit:cover; }
  .sale-clock-units{gap:3px}
 }
 
+/* Keep the bilingual informational banner on non-offer pages without the countdown */
+.announcement-info{min-height:39px!important;display:flex;align-items:center;justify-content:center;padding:8px 14px!important}
+.announcement-info>span:first-child{display:block!important;font-size:10px!important;text-align:center;line-height:1.5;letter-spacing:.025em;color:#FAF8F3}
+@media(max-width:767px){.announcement-info{min-height:39px!important;padding:8px 12px!important}.announcement-info>span:first-child{display:block!important;font-size:9px!important}}
 /* The Fall Refresh Offer — final October 31 countdown label */
 .sale-offer-copy{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:3px;min-width:0}
 .sale-offer-copy b{font-size:10px;line-height:1.1;letter-spacing:.055em;font-weight:900;color:#191919}
