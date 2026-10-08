@@ -26,7 +26,17 @@ const services = [
 export function SolutionsSection() {
  return <section id="solutions" className="solutions-section"><Wave/><div className="container"><div className="section-heading"><div className="eyebrow">LESS TO CHASE. MORE ROOM TO RUN YOUR BUSINESS.</div><h2 className="editorial">When a new inquiry comes in,<br/>give it a clear next step</h2><p>You already have enough to keep up with. Your system should help you know what’s next—not give you more to remember.</p></div><div className="service-grid">{services.map((s,i)=><a className="service-card" key={s.title} href={s.landing}><ServiceCard service={s} index={i}/></a>)}</div></div></section>;
 }
-function ServiceCard({service:s,index:i}:{service:typeof services[number],index:number}) { const sale=useBookingPrice()==="$19.99"; return <><div className="service-image"><img src={s.image} alt={s.alt} loading="lazy" width={1024} height={1024}/><span className="service-number">0{i+1}</span><span className="service-arrow"><ArrowUpRight size={18}/></span></div>{i===0&&<div className="booking-offer-line">{sale&&<span className="booking-offer-tag">The Fall Refresh Offer</span>}<span className="booking-offer-price">{sale&&<del>$99</del>}<strong>{sale?"$19.99":"$99"}</strong></span></div>}<h3>{s.title}</h3><p>{s.description}</p><div className="card-tag">{s.tag}</div></> }
+function ServiceCard({service:s,index:i}:{service:typeof services[number],index:number}) {
+ const sale=useBookingPrice()==="$19.99";
+ const normalPrices=['', '$5.99/mo', '$59.99', '$49.99/mo'];
+ return <>
+  <div className="service-image"><img src={s.image} alt={s.alt} loading="lazy" width={1024} height={1024}/><span className="service-number">0{i+1}</span><span className="service-arrow"><ArrowUpRight size={18}/></span></div>
+  {i===0
+   ? <div className="booking-offer-line">{sale&&<span className="booking-offer-tag">The Fall Refresh Offer</span>}<span className="booking-offer-price service-price-pill">{sale&&<del>$99</del>}<strong>{sale?"$19.99":"$99"}</strong></span></div>
+   : <div className="service-card-price-line"><span className="service-price-pill"><strong>{normalPrices[i]}</strong></span></div>}
+  <h3>{s.title}</h3><p>{s.description}</p><div className="card-tag">{s.tag}</div>
+ </>;
+}
 export function ServiceChoiceSection() {
  return <section className="solutions-section"><Wave/><div className="container"><div className="section-heading"><div className="eyebrow">CHOOSE THE PROBLEM YOU WANT TO SOLVE.</div><h2 className="editorial">Start with what feels hardest right now.</h2><p>Bookings and follow-up, day-to-day operations, website handoffs, or admin support—choose the area that would make your next week feel lighter.</p></div><div className="service-grid">{services.map((s,i)=><a className="service-card" key={s.title} href={s.landing}><ServiceCard service={s} index={i}/></a>)}</div></div></section>;
 }
