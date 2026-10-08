@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'scripts/qa-booking-demo.mjs'
+      - 'public/booking-demo/index.html'
       - '.github/workflows/website-responsive-qa.yml'
 permissions:
   contents: read
