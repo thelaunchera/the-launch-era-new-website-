@@ -93,13 +93,13 @@ function activeAddons(){return [...E('addons').querySelectorAll('input:checked')
 const availabilityApi='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-flow-availability';
 let wizardIndex=0,bookingStages=[],slotOptions=[],slotRequestNumber=0;
 const tx=(en,es)=>lang()==='es'?es:en;
-function setWizardStep(index){
+function setWizardStep(index,scroll=true){
  wizardIndex=index;
  bookingStages.forEach((stage,i)=>stage.classList.toggle('current',i===index));
  document.querySelectorAll('.wizard-progress span').forEach((badge,i)=>{badge.classList.toggle('current',i===index);badge.textContent=(i+1)+' · '+[tx('Service','Servicio'),tx('Details','Detalles'),tx('Schedule','Horario'),tx('Contact','Contacto')][i]});
  E('wizardBack').hidden=index===0;E('wizardNext').hidden=index===3;E('send').hidden=index!==3;
  if(index===2&&E('requestedDate').value&&!E('requestedTime').value)refreshSlots();
- E('bookingForm').scrollIntoView({block:'start',behavior:'smooth'});
+ if(scroll)E('bookingForm').scrollIntoView({block:'start',behavior:'smooth'});
 }
 function initWizard(){
  const form=E('bookingForm'),oldGrid=form.querySelector('.grid');
@@ -140,7 +140,7 @@ function initWizard(){
    if(wizardIndex===2&&(!E('requestedDate').value||!E('requestedTime').value)){E('availableSlotsStatus').textContent=tx('Please select an available date and time.','Selecciona una fecha y hora disponible.');return}
    setWizardStep(Math.min(3,wizardIndex+1));
  };
- setWizardStep(0);
+ setWizardStep(0,false);
 }
 async function refreshSlots(){
  const day=E('requestedDate').value,version=++slotRequestNumber;
@@ -170,7 +170,22 @@ function repaint(){
  if(E('loading')&&!config)E('loading').textContent=t('loading');
  const values=['one','week','bi','month'];[...E('frequency').options].forEach((x,i)=>x.textContent=t(values[i]));
  const types=['house','apt','office','other'];[...E('propertyType').options].forEach((x,i)=>x.textContent=t(types[i]));
- if(config){E('business').textContent=config.business_name;renderServices();renderAddons();estimate();}
+ if(config){
+ E('business').textContent=config.business_name;
+ const about=config.branding?.description||'';
+ if(about)E('intro').textContent=about;
+ const region=config.branding?.service_area||'',area=E('heroArea');area.replaceChildren();
+ if(region){const chip=document.createElement('span');chip.textContent=tx('Serving: ','Atendemos: ')+region;area.append(chip);}
+ const tz=document.createElement('span');tz.textContent=config.timezone||'America/New_York';area.append(tz);
+ if(config.branding?.hero_image)E('heroPhoto').style.backgroundImage="linear-gradient(0deg,rgba(25,25,25,.42),transparent 55%),url("+JSON.stringify(config.branding.hero_image)+")";
+ E('heroCaption').textContent=tx('Comfortable spaces, thoughtfully cleaned.','Espacios cómodos y limpios con cuidado.');
+ E('scheduleTitle').textContent=tx('3. Choose an available date and time','3. Elige fecha y horario disponible');
+ E('contactTitle').textContent=tx('4. Your contact and address','4. Tu contacto y dirección');
+ E('wizardBack').textContent=tx('← Back','← Atrás');E('wizardNext').textContent=tx('Continue →','Continuar →');
+ E('timeLabel').textContent=tx('Available start times *','Horarios disponibles *');
+ document.querySelectorAll('.wizard-progress span').forEach((step,i)=>step.textContent=(i+1)+' · '+[tx('Service','Servicio'),tx('Details','Detalles'),tx('Schedule','Horario'),tx('Contact','Contacto')][i]);
+ renderServices();renderAddons();estimate();
+ }
 }
 function renderServices(){
  E('services').replaceChildren();
@@ -208,10 +223,16 @@ async function load(){
  const response=await fetch(api,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'public',booking_key:key})});
  const d=await response.json();if(!response.ok)throw Error(d.error||'Unavailable');
  config=d;selected=config.services[0]||null;if(!selected)throw Error('No services');
+ updateBookingMinimumDate();
  E('loading').classList.add('hide');E('content').classList.remove('hide');repaint();
 }
 E('language').onchange=()=>{document.documentElement.lang=lang();repaint()};
-E('requestedDate').min=new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10);
+function updateBookingMinimumDate(){
+ const tz=config?.timezone||Intl.DateTimeFormat().resolvedOptions().timeZone||'America/New_York';
+ const parts=Object.fromEntries(new Intl.DateTimeFormat('en-US',{timeZone:tz,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()).filter(x=>x.type!=='literal').map(x=>[x.type,x.value]));
+ E('requestedDate').min=parts.year+'-'+parts.month+'-'+parts.day;
+}
+updateBookingMinimumDate();
 E('bookingForm').onsubmit=async event=>{
  event.preventDefault();if(!selected)return;const btn=E('send');btn.disabled=true;E('formStatus').textContent=t('sending');
  try{
