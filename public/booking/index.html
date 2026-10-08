@@ -89,6 +89,82 @@ es:{eyebrow:'RESERVAS PERSONALIZADAS',intro:'Selecciona tu servicio y cuéntanos
 let config=null,selected=null;const lang=()=>E('language').value;const t=k=>L[lang()][k]||k;
 function money(n){return new Intl.NumberFormat(lang()==='es'?'es-US':'en-US',{style:'currency',currency:config?.currency||'USD'}).format(Number(n)||0)}
 function activeAddons(){return [...E('addons').querySelectorAll('input:checked')].map(x=>config.addons.find(a=>a.id===x.value)).filter(Boolean)}
+
+const availabilityApi='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-flow-availability';
+let wizardIndex=0,bookingStages=[],slotOptions=[],slotRequestNumber=0;
+const tx=(en,es)=>lang()==='es'?es:en;
+function setWizardStep(index){
+ wizardIndex=index;
+ bookingStages.forEach((stage,i)=>stage.classList.toggle('current',i===index));
+ document.querySelectorAll('.wizard-progress span').forEach((badge,i)=>{badge.classList.toggle('current',i===index);badge.textContent=(i+1)+' · '+[tx('Service','Servicio'),tx('Details','Detalles'),tx('Schedule','Horario'),tx('Contact','Contacto')][i]});
+ E('wizardBack').hidden=index===0;E('wizardNext').hidden=index===3;E('send').hidden=index!==3;
+ if(index===2&&E('requestedDate').value&&!E('requestedTime').value)refreshSlots();
+ E('bookingForm').scrollIntoView({block:'start',behavior:'smooth'});
+}
+function initWizard(){
+ const form=E('bookingForm'),oldGrid=form.querySelector('.grid');
+ if(!oldGrid)return;
+ const progress=document.createElement('div');progress.className='wizard-progress';progress.setAttribute('aria-label','Booking steps');
+ for(let i=0;i<4;i++)progress.append(document.createElement('span'));
+ const stage=()=>{const el=document.createElement('section');el.className='wizard-stage';return el};
+ const steps=[stage(),stage(),stage(),stage()];bookingStages=steps;
+ steps[0].append(E('serviceTitle'),E('services'));
+ steps[1].append(E('detailsTitle'));
+ const propertyGrid=document.createElement('div');propertyGrid.className='grid';
+ for(const id of ['propertyType','squareFeet','frequency'])propertyGrid.append(E(id).parentElement);
+ steps[1].append(propertyGrid,E('addonsSection'));
+ const scheduleTitle=document.createElement('h2');scheduleTitle.id='scheduleTitle';scheduleTitle.textContent='3. Select your available date and time';
+ steps[2].append(scheduleTitle);
+ const scheduleWrap=document.createElement('div');scheduleWrap.className='grid';scheduleWrap.append(E('requestedDate').parentElement,E('requestedTime').parentElement);
+ steps[2].append(scheduleWrap);
+ const slots=document.createElement('div');slots.id='availableSlots';slots.className='slot-grid';steps[2].append(slots);
+ const status=document.createElement('p');status.id='availableSlotsStatus';status.className='slot-message';status.setAttribute('aria-live','polite');steps[2].append(status);
+ const contactTitle=document.createElement('h2');contactTitle.id='contactTitle';contactTitle.textContent='4. Where should we confirm the details?';
+ steps[3].append(contactTitle);
+ const contactGrid=document.createElement('div');contactGrid.className='grid';
+ for(const id of ['customerName','customerEmail','phone','address','notes'])contactGrid.append(E(id).parentElement);
+ steps[3].append(contactGrid);
+ oldGrid.remove();
+ const nav=document.createElement('div');nav.className='wizard-nav';
+ const back=document.createElement('button');back.id='wizardBack';back.type='button';back.className='back';back.textContent='← Back';
+ const next=document.createElement('button');next.id='wizardNext';next.type='button';next.textContent='Continue →';
+ nav.append(back,next);
+ form.prepend(progress,...steps);
+ E('send').before(nav);
+ E('requestedTime').type='hidden';E('requestedTime').removeAttribute('required');
+ E('timeLabel').htmlFor='availableSlots';E('timeLabel').textContent='Available start times *';
+ E('requestedDate').onchange=refreshSlots;
+ back.onclick=()=>setWizardStep(Math.max(0,wizardIndex-1));
+ next.onclick=()=>{
+   if(wizardIndex===0&&!selected){alert(tx('Choose a service first.','Primero selecciona un servicio.'));return}
+   if(wizardIndex===2&&(!E('requestedDate').value||!E('requestedTime').value)){E('availableSlotsStatus').textContent=tx('Please select an available date and time.','Selecciona una fecha y hora disponible.');return}
+   setWizardStep(Math.min(3,wizardIndex+1));
+ };
+ setWizardStep(0);
+}
+async function refreshSlots(){
+ const day=E('requestedDate').value,version=++slotRequestNumber;
+ E('requestedTime').value='';slotOptions=[];
+ const container=E('availableSlots');if(container)container.replaceChildren();
+ if(!container||!day||!config)return;
+ const status=E('availableSlotsStatus');status.textContent=tx('Checking open times…','Consultando horarios disponibles…');
+ try{
+  const r=await fetch(availabilityApi,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'public',booking_key:key,date:day})});
+  const d=await r.json();if(version!==slotRequestNumber)return;
+  if(!r.ok)throw Error(d.error||'Availability is unavailable');
+  slotOptions=d.slots||[];
+  if(!slotOptions.length){status.textContent=tx('No openings on this date. Try another day.','No hay horarios libres ese día. Prueba con otra fecha.');return}
+  status.textContent=tx('Available in ','Horarios en ')+d.timezone+tx(' · Select one start time.',' · Elige una hora de inicio.');
+  for(const time of slotOptions){
+   const button=document.createElement('button');button.type='button';button.className='slot-choice';
+   const hh=Number(time.slice(0,2)),mm=time.slice(3);button.textContent=(hh%12||12)+':'+mm+(hh<12?' AM':' PM');
+   button.dataset.time=time;button.setAttribute('aria-label',button.textContent);
+   button.onclick=()=>{if(!slotOptions.includes(time))return;E('requestedTime').value=time;container.querySelectorAll('button').forEach(x=>x.classList.toggle('chosen',x===button))};
+   container.append(button);
+  }
+ }catch(error){if(version===slotRequestNumber)status.textContent=tx('Could not check available times. Please retry.','No se pudieron cargar los horarios. Inténtalo otra vez.');}
+}
+
 function repaint(){
  for(const k of Object.keys(L.en))if(E(k)&&!['sending','sent','error','quote','choose','one','week','bi','month','house','apt','office','other','loading','specialLabel'].includes(k))E(k).textContent=t(k);
  if(E('loading')&&!config)E('loading').textContent=t('loading');
@@ -146,5 +222,5 @@ E('bookingForm').onsubmit=async event=>{
  E('bookingForm').replaceChildren(Object.assign(document.createElement('div'),{className:'alert',textContent:t('sent')}));E('estimateValue').textContent='✓';E('summaryNote').textContent=t('sent');
  }catch(err){E('formStatus').textContent=String(err.message||err);btn.disabled=false}
 };
-repaint();load().catch(()=>{E('loading').textContent=t('error')});
+initWizard();repaint();load().catch(()=>{E('loading').textContent=t('error')});
 </script></body></html>
