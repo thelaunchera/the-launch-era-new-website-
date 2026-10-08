@@ -1,0 +1,34 @@
+name: Website Responsive QA
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/qa-booking-demo.mjs'
+      - '.github/workflows/website-responsive-qa.yml'
+permissions:
+  contents: read
+jobs:
+  browser-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser
+        run: |
+          npm install --no-save playwright@1.57.0
+          npx playwright install --with-deps chromium
+      - name: Test website at mobile, tablet and desktop widths
+        run: node scripts/qa-booking-demo.mjs
+        env:
+          QA_URL: https://thelaunchera.com
+      - name: Upload visual QA captures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: booking-responsive-qa-screenshots
+          path: qa-screenshots/
+          if-no-files-found: ignore
