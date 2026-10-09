@@ -75,6 +75,25 @@ header{background:#fff;border-bottom:1px solid var(--line)}.header-inner{max-wid
  .end p{font-size:12px}
 }
 </style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-N5BHMC432Q"></script>
+<script>
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments)}
+gtag('js',new Date());
+gtag('config','G-N5BHMC432Q');
+const trackingParams=new URLSearchParams(location.search);
+function demoSource(){
+ let source=(trackingParams.get('utm_source')||trackingParams.get('source')||'').trim().toLowerCase();
+ if(!source){const ref=document.referrer.toLowerCase();if(ref.includes('instagram'))source='instagram';else if(ref.includes('facebook'))source='facebook';}
+ if(!source)try{source=sessionStorage.getItem('tleTrafficSource')||'direct'}catch{}
+ return source||'direct';
+}
+function demoTrack(event,fields={}){
+ if(navigator.webdriver)return;
+ try{gtag('event',event,{product:'cleaning_web_app',site_surface:'cleaning_app_demo',traffic_source:demoSource(),traffic_campaign:trackingParams.get('utm_campaign')||sessionStorage.getItem('tleTrafficCampaign')||undefined,traffic_medium:trackingParams.get('utm_medium')||sessionStorage.getItem('tleTrafficMedium')||undefined,...fields})}catch{}
+}
+demoTrack('cleaning_app_demo_view',{language:trackingParams.get('lang')==='es'?'es':'en'});
+</script>
 </head>
 <body>
 <header><div class="header-inner"><a class="brand" href="/">THE LAUNCH ERA</a><div class="header-right"><span class="preview-badge" data-i18n="badge">INTERACTIVE PREVIEW · SAMPLE DATA</span><div class="lang-toggle" aria-label="Language"><button type="button" id="en" aria-pressed="true">EN</button><button type="button" id="es" aria-pressed="false">ES</button></div></div></div></header>
@@ -104,10 +123,19 @@ function invoices(){return '<div class="two-col"><div class="tile"><div class="m
 const screens=[overview,calendar,jobs,clients,quotes,invoices];
 const actions={overview:0,calendar:1,jobs:2,clients:3,quotes:4,invoices:5};
 function render(){document.documentElement.lang=state.lang;document.querySelectorAll('[data-i18n]').forEach(e=>e.textContent=t()[e.dataset.i18n]);document.querySelectorAll('[data-i18n-html]').forEach(e=>e.innerHTML=t()[e.dataset.i18nHtml]);for(const lang of ['en','es'])document.getElementById(lang).setAttribute('aria-pressed',String(state.lang===lang));document.getElementById('nav').innerHTML=t().nav.map((s,i)=>'<button type="button" class="nav-btn '+(state.tab===i?'active':'')+'" data-tab="'+i+'" aria-current="'+(state.tab===i?'page':'false')+'"><span class="symbol" aria-hidden="true">'+icons[i]+'</span>'+s+'</button>').join('');document.getElementById('app').innerHTML=head()+screens[state.tab]()+ '<div class="notice" role="note">'+t().notice+'</div><div class="btn-group">'+btn('reset',t().reset,true)+'</div>'}
-document.getElementById('nav').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(!b)return;state.tab=Number(b.dataset.tab);render()});
-document.getElementById('app').addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;const a=b.dataset.action;if(Object.prototype.hasOwnProperty.call(actions,a))state.tab=actions[a];else if(a==='done')state.jobDone=true;else if(a==='quote')state.quoteReady=true;else if(a==='paid')state.invoicePaid=true;else if(a==='reset'){state.jobDone=false;state.quoteReady=false;state.invoicePaid=false;state.tab=0}render()});
+document.getElementById('nav').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(!b)return;state.tab=Number(b.dataset.tab);demoTrack('cleaning_app_demo_interaction',{action:'tab_'+state.tab,language:state.lang});render()});
+document.getElementById('app').addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;const a=b.dataset.action;demoTrack('cleaning_app_demo_interaction',{action:a,language:state.lang});if(Object.prototype.hasOwnProperty.call(actions,a))state.tab=actions[a];else if(a==='done')state.jobDone=true;else if(a==='quote')state.quoteReady=true;else if(a==='paid')state.invoicePaid=true;else if(a==='reset'){state.jobDone=false;state.quoteReady=false;state.invoicePaid=false;state.tab=0}render()});
 for(const lang of ['en','es'])document.getElementById(lang).addEventListener('click',()=>{state.lang=lang;history.replaceState(null,'',location.pathname+'?lang='+lang);render()});
-try{window.gtag?.('event','cleaning_app_demo_view',{product:'cleaning_app',surface:'sample_interactive_preview'})}catch{}
+// Page view is recorded by demoTrack when this page opens.
 render();
+const trialLink=document.getElementById('trial');
+trialLink.addEventListener('click',()=>{
+ const target=new URL(trialLink.href);
+ const source=demoSource();
+ if(source!=='direct')target.searchParams.set('src',source);
+ for(const key of ['utm_campaign','utm_medium']){const v=trackingParams.get(key);if(v)target.searchParams.set(key,v)}
+ trialLink.href=target.toString();
+ demoTrack('trial_click',{destination:target.hostname+target.pathname,language:state.lang,transport_type:'beacon'});
+});
 </script>
 </body></html>
