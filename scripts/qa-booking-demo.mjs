@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {mkdirSync} from 'node:fs';
 const base = process.env.QA_URL || 'https://thelaunchera.com';
 const viewports = [
+  {name:'small-phone',width:360,height:780},
   {name:'mobile',width:390,height:844},
   {name:'tablet',width:820,height:1180},
   {name:'desktop',width:1440,height:900},
@@ -28,6 +29,18 @@ for(const v of viewports){
     await page.screenshot({path:'qa-screenshots/'+v.name+'-'+lang+'-booking.png',fullPage:true});
     const horizontal=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:document.documentElement.clientWidth}));
     assert(horizontal.scroll<=horizontal.width+3,'horizontal overflow '+JSON.stringify(horizontal));
+    if(v.width<=580){
+      const guide=await page.evaluate(()=>{
+        const parent=document.querySelector('.demo-guide');
+        const items=[...document.querySelectorAll('.guide-items>span')];
+        const p=parent.getBoundingClientRect();
+        return {steps:items.length,borderedChildren:items.filter(e=>getComputedStyle(e.querySelector('span')).borderTopWidth!=='0px').length,
+          overflowItems:items.filter(e=>{const q=e.getBoundingClientRect();return q.right>p.right+2||q.left<p.left-2}).length};
+      });
+      assert.equal(guide.steps,3,'three onboarding steps');
+      assert.equal(guide.borderedChildren,0,'no nested pills around step text');
+      assert.equal(guide.overflowItems,0,'steps fit within guide');
+    }
     await page.locator('#standard').click();
     await page.locator('#slots button').filter({hasText:'10:30 AM'}).click();
     assert.equal(await page.locator('#submitDemo').isEnabled(),true);
@@ -91,6 +104,23 @@ for(const v of viewports){
    await p.screenshot({path:'qa-screenshots/'+v.name+'-'+lang+'-cleaning-overview.png',fullPage:true});
    const horizontal=await p.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:document.documentElement.clientWidth}));
    assert(horizontal.scroll<=horizontal.width+3,'horizontal overflow '+JSON.stringify(horizontal));
+   if(v.width<=580){
+     const layout=await p.evaluate(()=>{
+       const content=document.querySelector('.content').getBoundingClientRect();
+       const scene=document.querySelector('.scene').getBoundingClientRect();
+       const bounds=(el,outer)=>{const r=el.getBoundingClientRect();return r.left>=outer.left-3&&r.right<=outer.right+3};
+       return {allNavFit:[...document.querySelectorAll('#nav button')].every(el=>bounds(el,scene)),
+          allStatsFit:[...document.querySelectorAll('.stat')].every(el=>bounds(el,content)),
+          allTilesFit:[...document.querySelectorAll('.tile')].every(el=>bounds(el,content)),
+          stats:document.querySelectorAll('.stat').length,
+          nav:document.querySelectorAll('#nav button').length};
+     });
+     assert.equal(layout.nav,6,'six navigation sections');
+     assert.equal(layout.stats,3,'three summary cards');
+     assert(layout.allNavFit,'navigation buttons clipped: '+JSON.stringify(layout));
+     assert(layout.allStatsFit,'summary cards clipped: '+JSON.stringify(layout));
+     assert(layout.allTilesFit,'dashboard sections clipped: '+JSON.stringify(layout));
+   }
    await p.locator('#nav [data-tab="2"]').click();
    await p.locator('[data-action="done"]').click();
    assert.equal(await p.locator('[data-action="done"]').isDisabled(),true,'sample job completed');
