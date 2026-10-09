@@ -70,6 +70,9 @@
   }
   .cta-button svg, .service-demo-link svg, .freebie-inline-link svg { flex-shrink: 0; }
   .hero-cta-row, .homepage-booking-actions { gap: 12px; }
+  .booking-layout { grid-template-columns: minmax(0, 1fr); }
+  .booking-copy, .homepage-booking-actions, .tracker-scene { min-width: 0; }
+  .tracker-scene-wow::before { inset: 9% 0 3%; }
   .contact-form .field { font-size: 14px; line-height: 1.5; }
   .field input, .field textarea, .field select,
   .homepage-contact-panel .field input,
@@ -140,6 +143,12 @@
   .hero-photo .notice-3 { top: 348px; }
   .hero-photo .notice-4 { top: 480px; }
   .tracker-title { flex-wrap: wrap; }
+  .tracker-kicker, .tracker-scene-wow .tracker-stats small { font-size: 11px !important; line-height: 1.5; }
+  .tracker-journey { font-size: 12px; white-space: normal; flex-wrap: wrap; border-radius: 16px; }
+  .tracker-activity { align-items: flex-start; }
+  .tracker-activity > div { min-width: 0; }
+  .tracker-activity strong { font-size: 14px; line-height: 1.5; }
+  .tracker-activity small, .tracker-wow-caption { font-size: 13px; line-height: 1.5; }
   .tracker-title small, .tracker-stats span, .tracker-row.header,
   .tracker-row small, .tracker .status { font-size: 11px; line-height: 1.5; }
   .tracker-subtitle, .tracker-row, .tracker-note { font-size: 13px; line-height: 1.5; }

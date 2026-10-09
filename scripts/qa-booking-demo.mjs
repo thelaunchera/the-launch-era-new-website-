@@ -130,7 +130,7 @@ for(const viewport of screens.filter(s=>s.width<768)){
      if(parseFloat(s.fontSize)<15.5)problems.push('Small CTA: '+el.textContent.trim());
      if(b.height<47)problems.push('Short CTA: '+el.textContent.trim());
      if(el.scrollWidth>el.clientWidth+2||el.scrollHeight>el.clientHeight+2)problems.push('Clipped CTA: '+el.textContent.trim());
-     if(b.left< -2||b.right>innerWidth+2)problems.push('CTA outside viewport');
+     if(b.left< -2||b.right>innerWidth+2)problems.push('CTA outside viewport: '+el.textContent.trim()+' '+Math.round(b.left)+'..'+Math.round(b.right));
     }
     const notices=[...document.querySelectorAll('.hero-photo .notification')].filter(visible).map(el=>el.getBoundingClientRect());
     for(let i=1;i<notices.length;i++)if(notices[i].top<notices[i-1].bottom+4)problems.push('Overlapping hero activity cards');
