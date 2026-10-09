@@ -81,7 +81,7 @@ export function FreebiePage({language}:{language:Language}){
     }
   }
 
-  return <main className="bg-[#FAF8F3] text-[#191919]">
+  return <main className="tle-freebie-page bg-[#FAF8F3] text-[#191919]">
     <section className="overflow-hidden border-b border-black/10">
       <div className="mx-auto grid w-[min(1180px,calc(100%-32px))] gap-10 py-14 md:grid-cols-[1.05fr_.95fr] md:items-center md:py-20">
         <div>

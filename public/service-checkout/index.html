@@ -11,8 +11,8 @@
 /* TLE visual system — 2026-10-05 */
 body{background:linear-gradient(180deg,#FFFFFF 0%,#F5FAFC 100%)}
 </style>
-</head>
-<body><main class="card"><div class="brand">THE LAUNCH ERA</div><div class="kicker" id="kicker">SECURE CHECKOUT</div><h1 id="title">Opening your secure checkout…</h1><p id="copy">Your secure checkout is opening now.</p><div class="dots" id="dots"><span></span><span></span><span></span></div><button id="retry" hidden>Try again</button><div class="small" id="status">Please review your order before completing payment.</div></main>
+<link rel="stylesheet" href="/assets/tle-mobile.css?v=20261009"></head>
+<body data-tle-page="checkout"><main class="card"><div class="brand">THE LAUNCH ERA</div><div class="kicker" id="kicker">SECURE CHECKOUT</div><h1 id="title">Opening your secure checkout…</h1><p id="copy">Your secure checkout is opening now.</p><div class="dots" id="dots"><span></span><span></span><span></span></div><button id="retry" hidden>Try again</button><div class="small" id="status">Please review your order before completing payment.</div></main>
 <script>
 const endpoint="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/create-tle-service-checkout";
 const params=new URLSearchParams(location.search);

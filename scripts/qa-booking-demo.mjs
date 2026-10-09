@@ -95,6 +95,54 @@ for(const [name,path,href] of [
   assert((await p.locator('a[href="'+href+'"]').count())>0,'Personalized demo link missing');
  });
 }
+// Real phone checks: no horizontal scrolling, readable sales copy, usable fields,
+// and buttons whose labels stay inside their bounds. No forms are submitted.
+const mobilePaths=[
+ '/', '/es/', '/solutions/', '/how-it-works/', '/help/',
+ '/booking-lead-automation/', '/es/booking-lead-automation/',
+ '/cleaning-web-app/', '/es/cleaning-web-app/',
+ '/website-automation/', '/es/website-automation/',
+ '/virtual-assistant/', '/es/virtual-assistant/',
+ '/free-cleaning-lead-guide/', '/es/free-cleaning-lead-guide/',
+ '/booking-demo/?lang=en', '/booking-demo/?lang=es',
+ '/booking-flow-intake/', '/es/booking-flow-intake/',
+ '/intake/automation/', '/es/intake/automation/',
+ '/intake/va/', '/es/intake/va/',
+ '/terms.html', '/es/terms.html', '/privacy.html', '/es/privacy.html',
+];
+for(const viewport of screens.filter(s=>s.width<768)){
+ for(const path of mobilePaths){
+  const name='Phone readability '+viewport.name+' '+path;
+  await check(name,viewport,async p=>{
+   const r=await p.goto(base+path,{waitUntil:'networkidle',timeout:45000});
+   assert.equal(r?.status(),200,'Page HTTP status');
+   await p.evaluate(()=>document.fonts.ready);
+   const issues=await p.evaluate(()=>{
+    const visible=el=>{const s=getComputedStyle(el);return s.display!=='none'&&s.visibility!=='hidden'&&el.getClientRects().length>0};
+    const problems=[];
+    if(document.documentElement.scrollWidth>innerWidth+3)problems.push('Horizontal page overflow');
+    for(const el of document.querySelectorAll('.service-card p,.section-heading p,.service-hero>p,.service-benefit-grid p,.field input,.field textarea,.field select,body[data-tle-page] input:not([type=hidden]):not([type=checkbox]):not([type=file]),body[data-tle-page] textarea,body[data-tle-page] select')){
+     if(visible(el)&&parseFloat(getComputedStyle(el).fontSize)<15.5)problems.push('Small reading text: '+el.tagName+' '+el.className);
+    }
+    for(const el of document.querySelectorAll('.cta-button,.service-demo-link,.action,.btn')){
+     if(!visible(el))continue;
+     const s=getComputedStyle(el),b=el.getBoundingClientRect();
+     if(parseFloat(s.fontSize)<15.5)problems.push('Small CTA: '+el.textContent.trim());
+     if(b.height<47)problems.push('Short CTA: '+el.textContent.trim());
+     if(el.scrollWidth>el.clientWidth+2||el.scrollHeight>el.clientHeight+2)problems.push('Clipped CTA: '+el.textContent.trim());
+     if(b.left< -2||b.right>innerWidth+2)problems.push('CTA outside viewport');
+    }
+    const notices=[...document.querySelectorAll('.hero-photo .notification')].filter(visible).map(el=>el.getBoundingClientRect());
+    for(let i=1;i<notices.length;i++)if(notices[i].top<notices[i-1].bottom+4)problems.push('Overlapping hero activity cards');
+    return problems;
+   });
+   assert.deepEqual(issues,[]);
+   if(['/', '/booking-lead-automation/', '/help/', '/booking-demo/?lang=en'].includes(path)){
+    await p.screenshot({path:'qa-screenshots/readability-'+viewport.name+'-'+path.replace(/[^a-z0-9]+/gi,'-')+'.png',fullPage:true});
+   }
+  });
+ }
+}
 await browser.close();
 console.log('SUMMARY',JSON.stringify({pass:results.filter(x=>x.pass).length,failed:results.filter(x=>!x.pass).length,tests:results}));
 if(results.some(x=>!x.pass))process.exitCode=1;

@@ -1,0 +1,209 @@
+/* One mobile reading scale for The Launch Era's website and customer forms. */
+@media (max-width: 767px) {
+  :root {
+    --tle-copy: 16px;
+    --tle-caption: 12px;
+    --tle-label: 13px;
+  }
+  body { font-size: var(--tle-copy); }
+  h1, h2, h3 { text-wrap: balance; }
+  .container, .service-card, .service-hero, .service-benefit-grid article,
+  .service-benefit-grid article > div, .interactive-step > div { min-width: 0; }
+  .eyebrow, .hero-copy .eyebrow, .card-tag,
+  .booking-offer-tag, .service-demo-kicker {
+    font-size: var(--tle-caption) !important;
+    line-height: 1.5 !important;
+    letter-spacing: .07em;
+  }
+  .hero-copy h1 { font-size: clamp(30px, 8.4vw, 38px); line-height: 1.15; }
+  .hero-accent { font-size: clamp(29px, 8vw, 36px); line-height: 1.2; }
+  .section-heading h2, .booking-copy h2, .problem-section h2,
+  .final-section h2, .page-intro h1 {
+    font-size: clamp(32px, 9vw, 40px);
+    line-height: 1.14;
+  }
+  .service-hero h1 {
+    font-size: clamp(34px, 10vw, 46px) !important;
+    line-height: 1.12 !important;
+    letter-spacing: -.035em !important;
+    overflow-wrap: break-word;
+  }
+  .section-heading p, .service-card p, .problem-section .problem-intro,
+  .pain-item p, .booking-copy .description, .process-step p,
+  .final-section p, .page-intro p, .contact-form > p, .form-confirm p,
+  .faq-list details p, .service-modal p, .service-hero > p,
+  .service-benefit-grid p, .freebie-home-copy > p,
+  .homepage-demo-access p, .homepage-contact-panel .contact-form > p,
+  .app-preview-heading p {
+    font-size: var(--tle-copy) !important;
+    line-height: 1.65 !important;
+  }
+  .flow-step h3 { font-size: var(--tle-label); line-height: 1.45; }
+  .flow-step p, .flow-detail, .interactive-step p {
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+  }
+  .interactive-step h3 { font-size: 17px; line-height: 1.4; }
+  .interactive-step span { font-size: var(--tle-caption); }
+  .check-list li { font-size: 15px; line-height: 1.6; align-items: flex-start; }
+  .check-list svg { flex-shrink: 0; margin-top: 5px; }
+  .service-card h3 { font-size: 18px; line-height: 1.35; overflow-wrap: break-word; }
+  .pain-item h3, .process-step h3 { font-size: 19px; line-height: 1.4; }
+  .service-card .service-number { font-size: 12px; width: 28px; height: 28px; }
+  .service-image { border-radius: 16px; }
+  .service-grid { gap: 30px 20px; }
+  .card-tag { margin-top: 12px; }
+  .cta-button, .freebie-home-copy .cta-button,
+  .homepage-demo-access .cta-button, .service-demo-link,
+  .freebie-inline-link, .contact-form button {
+    min-height: 48px;
+    height: auto;
+    max-width: 100%;
+    padding: 13px 18px;
+    font-size: 16px !important;
+    line-height: 1.4;
+    gap: 10px;
+    white-space: normal;
+    text-align: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .cta-button svg, .service-demo-link svg, .freebie-inline-link svg { flex-shrink: 0; }
+  .hero-cta-row, .homepage-booking-actions { gap: 12px; }
+  .contact-form .field { font-size: 14px; line-height: 1.5; }
+  .field input, .field textarea, .field select,
+  .homepage-contact-panel .field input,
+  .homepage-contact-panel .field textarea,
+  .homepage-contact-panel .field select,
+  .automation-demo-form input, .automation-demo-form select {
+    font-size: 16px !important;
+    line-height: 1.5;
+    min-height: 48px;
+    height: auto !important;
+    padding: 12px;
+    border-radius: 12px;
+  }
+  .form-disclaimer, .final-note, .problem-bottom, .tracker-caption,
+  .freebie-home-copy > small, .booking-offer-deadline,
+  .service-endcap small, .app-preview-bottom small {
+    font-size: 13px !important;
+    line-height: 1.6 !important;
+  }
+  .faq-list summary { font-size: 17px; line-height: 1.5; }
+  .service-proof-strip span, .service-endcap span, .service-endcap strong,
+  .freebie-home-points span {
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+    white-space: normal !important;
+    letter-spacing: .035em;
+  }
+  .freebie-home-card { padding: 22px; }
+  .freebie-home-copy h2 { font-size: 30px; line-height: 1.16; }
+  .freebie-home-copy .cta-button { width: 100%; }
+  .freebie-home-points { gap: 8px; }
+  .freebie-home-points span { padding: 8px 10px; }
+  .mobile-nav a { min-height: 48px; font-size: 16px; line-height: 1.5; }
+  .footer-links { flex-wrap: wrap; gap: 8px 20px; }
+  .footer-links a { font-size: 14px; padding: 10px 0; line-height: 1.5; }
+  .footer-top p { font-size: 14px; line-height: 1.6; }
+  .footer-bottom { font-size: 12px; line-height: 1.6; text-align: center; }
+
+  /* Give the offer its own rows so larger labels never squeeze the clock. */
+  .announcement-info > span:first-child { font-size: 12px !important; }
+  .announcement-offer { padding: 10px 12px !important; }
+  .sale-countdown {
+    width: min(100%, 490px);
+    flex-direction: column;
+    justify-content: center;
+    gap: 9px !important;
+    padding: 12px 14px !important;
+  }
+  .sale-clock-label { max-width: 100% !important; font-size: 12px; }
+  .sale-offer-copy { align-items: center; text-align: center; gap: 4px; }
+  .sale-offer-copy b { font-size: 12px; line-height: 1.3; }
+  .sale-countdown .sale-offer-copy small { font-size: 11px !important; line-height: 1.3; }
+  .sale-clock-units { gap: 8px; }
+  .sale-clock-unit { min-width: 35px; gap: 5px; }
+  .sale-clock-unit strong { font-size: 22px !important; }
+  .sale-clock-unit small { font-size: 11px !important; }
+  .sale-clock-colon { font-size: 20px; margin-bottom: 14px; }
+
+  /* The phone activity cards stay photographic, with enough room to read. */
+  .hero-photo { height: 650px; }
+  .hero-photo .photo-label { font-size: 11px; line-height: 1.5; letter-spacing: .07em; }
+  .hero-photo .notification { width: min(280px, calc(100% - 36px)); padding: 12px; }
+  .hero-photo .notification small { font-size: 10px; line-height: 1.3; }
+  .hero-photo .notification strong { font-size: 14px; line-height: 1.4; }
+  .hero-photo .notification p { font-size: 12px; line-height: 1.5; }
+  .hero-photo .notice-1 { top: 84px; }
+  .hero-photo .notice-2 { top: 216px; }
+  .hero-photo .notice-3 { top: 348px; }
+  .hero-photo .notice-4 { top: 480px; }
+  .tracker-title { flex-wrap: wrap; }
+  .tracker-title small, .tracker-stats span, .tracker-row.header,
+  .tracker-row small, .tracker .status { font-size: 11px; line-height: 1.5; }
+  .tracker-subtitle, .tracker-row, .tracker-note { font-size: 13px; line-height: 1.5; }
+  .tracker-row > * { min-width: 0; overflow-wrap: break-word; }
+  .tracker-note { position: static; transform: none; margin-top: 16px; }
+  .tracker .status { max-width: 100%; white-space: normal; padding: 5px 6px; }
+  .tracker-caption { margin-top: 15px; }
+
+  /* Standalone request, intake, checkout and document pages use the same scale. */
+  body[data-tle-page] {
+    --bg: #FAF8F3;
+    --ivory: #FAF8F3;
+    --ink: #191919;
+    --aqua: #B7D8EE;
+    --ice: #EDF6FB;
+    --teal: #345D73;
+    --line: #D4E2EA;
+    --muted: #52616B;
+    font-family: Futura, "Avenir Next", "DM Sans", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+  }
+  [data-tle-page] h1 { font-size: clamp(30px, 8.5vw, 40px); line-height: 1.16; }
+  [data-tle-page] h2 { font-size: clamp(24px, 7vw, 30px); line-height: 1.25; }
+  [data-tle-page] .head p, [data-tle-page] .explain p,
+  [data-tle-page] .card > p, [data-tle-page] .lead,
+  [data-tle-page] .success p { font-size: 16px; line-height: 1.65; }
+  [data-tle-page] label { font-size: 14px; line-height: 1.5; }
+  [data-tle-page] input, [data-tle-page] select, [data-tle-page] textarea {
+    font-size: 16px;
+    line-height: 1.5;
+    min-height: 48px;
+    max-width: 100%;
+    border-radius: 12px;
+  }
+  [data-tle-page] .action, [data-tle-page] .btn,
+  [data-tle-page] .tryagain, [data-tle-page] .cta,
+  [data-tle-page="checkout"] button {
+    font-size: 16px;
+    line-height: 1.45;
+    min-height: 48px;
+    border-radius: 999px;
+    white-space: normal;
+  }
+  [data-tle-page] .brand { font-size: 13px; letter-spacing: .08em; }
+  [data-tle-page] .back, [data-tle-page] .lang { font-size: 13px; }
+  [data-tle-page] .eyebrow, [data-tle-page] .kicker,
+  [data-tle-page] .photo-tag { font-size: 12px; line-height: 1.5; letter-spacing: .07em; }
+  [data-tle-page] .step { font-size: 15px; line-height: 1.55; }
+  [data-tle-page] .small, [data-tle-page] .helper,
+  [data-tle-page] .notice, [data-tle-page] .error,
+  [data-tle-page] .quick-note, [data-tle-page] footer {
+    font-size: 13px;
+    line-height: 1.65;
+  }
+  [data-tle-page] .card, [data-tle-page] .section { border-radius: 20px; }
+  [data-tle-page] .top, [data-tle-page] .header { flex-wrap: wrap; }
+  [data-tle-page] .photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  [data-tle-page] input[type="file"] { white-space: normal; }
+  .tle-freebie-page label, .tle-freebie-page .text-sm { font-size: 16px; }
+  .tle-freebie-page .text-xs { font-size: 13px; }
+  .tle-freebie-page a, .tle-freebie-page button { font-size: 16px; line-height: 1.5; }
+}
+@media (max-width: 420px) {
+  .service-grid { grid-template-columns: minmax(0, 1fr); }
+  .service-image { aspect-ratio: 1.6; }
+}
