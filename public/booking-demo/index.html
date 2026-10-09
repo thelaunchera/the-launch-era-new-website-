@@ -1,145 +1,118 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#FAF8F3"><title>Booking Page + Lead Command Center | Interactive Demo · The Launch Era</title>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#FAF8F3">
+<title>Personalized Booking + Lead Demo · The Launch Era</title>
+<meta name="description" content="Request a personalized Booking Automation + Lead Command Center preview for your cleaning business.">
 <style>
-:root{--ivory:#FAF8F3;--ink:#191919;--blue:#E4F3FF;--mid:#547B95;--line:#dae5ec;--sub:#687783;--yellow:#f2d85b}*{box-sizing:border-box}
-body{margin:0;color:var(--ink);background:var(--ivory);font-family:"Avenir Next",Arial,sans-serif;line-height:1.55}button,select,input{font:inherit}button{cursor:pointer}
-a{color:inherit}header{background:white;border-bottom:1px solid var(--line)}.header{max-width:1170px;padding:16px 22px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:15px}.brand{font-size:12px;font-weight:900;letter-spacing:.16em;text-decoration:none}.header-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.pill{border-radius:30px;border:1px solid #bed6e5;padding:8px 14px;font-size:12px;font-weight:800;background:#f2f9fd}.lang{border:1px solid var(--line);border-radius:30px;padding:7px 12px;background:#fff}
-.container{max-width:1170px;margin:auto;padding:24px 22px 70px}.eyebrow{font-size:11px;letter-spacing:.16em;font-weight:900;color:#4b7893}.intro h1{font-family:Georgia,serif;font-size:clamp(42px,6vw,73px);font-weight:400;letter-spacing:-.055em;line-height:1.02;margin:12px 0 15px}.intro p{color:var(--sub);max-width:780px;margin:0;font-size:15px}.topbar{display:flex;gap:13px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:25px 0 18px}
-.tabs{display:inline-flex;border-radius:35px;padding:5px;background:#e8eff4;border:1px solid var(--line);gap:5px}.tabs button{border:0;background:transparent;border-radius:30px;padding:11px 18px;font-size:13px;font-weight:800;color:#577186}.tabs button[aria-selected=true]{background:#191919;color:#fff;box-shadow:0 5px 16px #19191920}
-.sample-note{font-size:12px;color:#64717a}.view{display:none}.view.active{display:block}
-.booking-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(290px,.75fr);gap:19px}
-.panel{background:white;border:1px solid #e0e8ed;border-radius:25px;padding:clamp(20px,3vw,33px);box-shadow:0 16px 45px #243f5011}
-.booking-hero{background:#e8f5fc;border-radius:25px;overflow:hidden;display:grid;grid-template-columns:1fr 43%;min-height:230px;margin-bottom:17px}
-.booking-hero .copy{padding:clamp(24px,3.5vw,41px);display:flex;flex-direction:column;justify-content:center}.booking-hero h2{font-family:Georgia,serif;font-size:clamp(32px,4.5vw,54px);font-weight:400;line-height:1.04;letter-spacing:-.05em;margin:10px 0}
-.booking-hero p{color:#4b6576;font-size:13px;max-width:290px;margin:0}
-.booking-photo{background-image:url("https://images.unsplash.com/photo-1633505899118-4ca6bd143043?auto=format&fit=crop&w=1100&q=85");background-position:center;background-size:cover;min-height:210px}
-.step{display:inline-flex;gap:7px;align-items:center;color:#54748b;font-size:11px;font-weight:900;letter-spacing:.1em;margin-bottom:14px}
-h3{font-family:Georgia,serif;font-size:30px;font-weight:400;line-height:1.1;margin:5px 0 20px}.options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.service{border:1px solid #dce6eb;background:#fcfefe;border-radius:17px;padding:17px;text-align:left;min-height:114px}.service strong,.service span{display:block}.service strong{font-size:15px}.service span{color:#677c8c;font-size:12px;margin-top:8px}.service.selected{border:2px solid #78badd;background:#edf8ff;padding:16px;box-shadow:0 8px 22px #8ebedd24}
-.slot-title{font-weight:850;font-size:13px;margin:25px 0 10px}.slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.slot{padding:12px 6px;border:1px solid #c5dce9;border-radius:12px;background:#f7fbff;font-weight:800;font-size:12px}.slot:disabled{opacity:.35;cursor:not-allowed;background:#f4f4f4}.slot.selected{background:#191919;color:white;border-color:#191919}
-.summary{background:linear-gradient(145deg,#ebf7ff,#f9fcfe);position:sticky;top:18px}.summary p{font-size:13px;color:#677c8c}.estimate{font-family:Georgia,serif;font-size:49px;letter-spacing:-.05em;margin:4px 0 0}.divider{border:0;border-top:1px solid #d7e4eb;margin:18px 0}.action{width:100%;border:0;border-radius:35px;padding:15px 19px;font-weight:800;background:#191919;color:white;margin-top:19px}.action:disabled{opacity:.45;cursor:not-allowed}
-.subtext{font-size:11px!important;color:#5c7484!important;margin-top:11px!important}.success{margin-top:13px;padding:17px;border-radius:14px;background:#f3fbf3;border:1px solid #c6dfcc;font-size:13px}
-.workspace{display:grid;grid-template-columns:minmax(190px,.45fr) minmax(0,1.55fr);border:1px solid #dce7ec;border-radius:26px;overflow:hidden;min-height:480px;background:white;box-shadow:0 18px 55px #27384912}
-.sidebar{background:#20272c;color:white;padding:23px 19px}.sidebar h3{font:900 14px Arial;margin:0 0 25px;color:white}.sidebar span{display:block;border-radius:12px;padding:12px 10px;margin:8px 0;color:#c3d0d7;font-size:12px}.sidebar span.active{background:#344b5c;color:white;font-weight:850}.workspace-main{padding:clamp(19px,3vw,34px);background:#fafdfe}
-.metric-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:22px 0}.metric{background:#fff;border:1px solid #e0e8ed;border-radius:16px;padding:17px}.metric small{color:#637484;display:block}.metric strong{display:block;font-family:Georgia,serif;font-size:30px;font-weight:400;margin-top:4px}
-.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.field{display:block;font-size:12px;font-weight:800;margin:10px 0}.field input,.field select{display:block;margin-top:6px;width:100%;border:1px solid #ccdde8;border-radius:12px;background:white;padding:12px;min-width:0}
-.save{background:#191919;color:#fff;border:0;border-radius:28px;padding:12px 20px;font-size:13px;font-weight:800;margin-top:14px}
-.lead-row{margin-top:15px;border:1px solid #d8e4eb;border-radius:16px;background:#fff;padding:16px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}.lead-row small{color:#758895;display:block}.lead-row strong{font-size:13px}.status{display:inline-flex;border-radius:50px;padding:6px 12px;background:#e7f1fa;font-size:11px;font-weight:800;color:#42667e}
-.note{border:1px solid #c3dce9;background:#f3faff;border-radius:15px;padding:15px;margin-top:15px;color:#506e82;font-size:12px}
-footer{color:#84949a;text-align:center;font-size:11px;padding:0 18px 36px}
-@media(max-width:780px){.booking-layout{grid-template-columns:1fr}.summary{position:static}.workspace{grid-template-columns:1fr}.sidebar{display:none}.metric-row{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:560px){.container{padding:21px 13px 55px}.intro h1{font-size:43px}.header{padding:14px}.brand{font-size:10px}.header-actions{gap:6px}.pill{padding:7px 9px;font-size:10px}.tabs{width:100%}.tabs button{flex:1;padding:11px 7px;font-size:11px}.booking-hero{grid-template-columns:1fr}.booking-hero .copy{padding:25px}.booking-photo{min-height:130px}.booking-hero h2{font-size:40px}.panel{padding:20px;border-radius:20px}.slots{grid-template-columns:repeat(3,minmax(0,1fr))}.service{min-height:108px}.workspace-main{padding:17px}.metric{padding:12px}.metric strong{font-size:25px}.metric small{font-size:10px}.grid2{grid-template-columns:1fr}}
-
-/* Realistic sample preferences with the existing refined aesthetic */
-.booking-details{margin-top:19px;padding:16px;border-radius:17px;border:1px solid #deebf2;background:#f8fcff}
-.booking-details-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}
-.booking-details-head strong{font-size:13px}.booking-details-head small{font-size:11px;color:#58768a}
-.preference-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.preference-grid label{font-size:11px;font-weight:750;color:#5a7180}
-.preference-grid select{display:block;width:100%;min-width:0;margin-top:6px;border:1px solid #cddfe9;border-radius:11px;padding:10px 7px;background:#fff;color:#19272e;font-weight:750}
-.sample-date{font-size:12px;color:#466c86;font-weight:750;margin:-3px 0 12px}
-.price-context{font-size:11px!important;font-weight:800;color:#547b95!important;margin:12px 0 2px}
-.summary-facts{display:grid;gap:7px;margin:14px 0 4px}
-.summary-facts div{font-size:12px;color:#4e6d82;display:flex;gap:9px}
-.summary-facts div:before{content:"";flex:none;height:7px;width:7px;border-radius:50%;background:#7fabc7;margin-top:6px}
-.summary .estimate.is-quote{font-family:"Avenir Next",Arial,sans-serif;font-size:22px;line-height:1.2;letter-spacing:-.025em;font-weight:800}
-.summary #summaryTitle{margin-bottom:8px}
-@media(max-width:560px){.booking-details{padding:14px 11px}.preference-grid{gap:6px}.preference-grid label{font-size:10px}.preference-grid select{padding:9px 5px;font-size:12px}.summary-facts{gap:5px}}
-.demo-guide{padding:15px 18px;margin:20px 0 0;border:1px solid #d2e3ed;background:#f0f8fd;border-radius:17px}.demo-guide strong{font-size:12px;color:#3f6680}.guide-items{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}.guide-items>span{display:flex;gap:8px;align-items:flex-start;min-width:0;border:1px solid #dbe7ec;padding:10px 11px;border-radius:12px;background:#fff;color:#526e82;font-weight:700;font-size:11px;line-height:1.45}.guide-items>span>span{display:block;min-width:0;overflow-wrap:break-word;border:0;padding:0;background:transparent;border-radius:0}.guide-items b{flex:none;color:#3176a4;font-size:11px}.reset-demo{border:1px solid #cddde7;border-radius:30px;padding:8px 13px;background:#fff;color:#496b83;font-size:12px;font-weight:800;white-space:nowrap}.follow-up-panel{margin-top:12px;background:#f2f9fd;border:1px solid #cbe2ef;border-radius:16px;padding:16px}.follow-up-panel strong{font-size:13px}.follow-up-panel p{font-size:12px;color:#5b7384;margin:7px 0 12px}.follow-up-panel button{border:0;background:#e2f1fb;border-radius:22px;padding:10px 13px;font-size:12px;font-weight:800;color:#356581}.follow-up-panel button:disabled{opacity:.65;cursor:default}[hidden]{display:none!important}
-@media(max-width:780px){.guide-items{grid-template-columns:1fr}.demo-guide{padding:14px 15px}.guide-items>span{padding:8px 10px}.guide-items b{font-size:11px}}
-@media(max-width:560px){
- .container{padding:16px 14px 42px}
- .intro h1{font-size:clamp(31px,8.6vw,38px);line-height:1.08;letter-spacing:-.047em;margin:9px 0 12px}
- .intro p{font-size:13px;line-height:1.5}
- .demo-guide{margin-top:15px;padding:13px}
- .guide-items{gap:6px;margin-top:8px}
- .guide-items>span{font-size:11px;line-height:1.4;padding:8px 10px}
- .topbar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;margin:16px 0}
- .tabs{grid-column:1/-1;width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
- .tabs button{font-size:11px;line-height:1.25;min-width:0;padding:11px 7px}
- .sample-note{grid-column:1;align-self:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px}
- .reset-demo{grid-column:2;width:auto;margin:0;padding:8px 10px;font-size:10px}
- .booking-hero h2{font-size:clamp(32px,8.5vw,40px)}
- .panel{padding:17px}
- .metric-row{gap:6px}.metric{padding:10px}.metric strong{font-size:23px}
-}
-.auto-confirm-control{display:flex;gap:12px;align-items:flex-start;background:#edf8ff;border:1px solid #cfe4f0;border-radius:14px;padding:13px 15px;margin-top:13px}.auto-confirm-control input{width:19px;height:19px;accent-color:#191919;margin-top:3px;flex:none}.auto-confirm-control strong{font-size:12px;display:block}.auto-confirm-control small{display:block;font-size:11px;color:#577389;line-height:1.45;margin-top:3px}.booking-rule{font-size:11px;color:#4c6d83;background:#f4f9fd;border:1px solid #d5e7f0;border-radius:12px;padding:10px 12px;margin:15px 0 0}.booking-details>.step{margin:0 0 8px}.intro h1{max-width:850px}@media(max-width:560px){.intro h1{font-size:clamp(29px,7.6vw,35px)}.intro p{font-size:13px;max-width:44ch}.demo-guide{padding:11px 12px}.guide-items>span{padding:7px 9px}.booking-rule{font-size:10px}}
-</style><script async src="https://www.googletagmanager.com/gtag/js?id=G-N5BHMC432Q"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-N5BHMC432Q');gtag('event','booking_demo_view',{product:'booking_lead_automation',surface:'two_sided_preview'});</script></head><body><header><div class="header"><a href="/" class="brand">THE LAUNCH ERA</a><div class="header-actions"><span class="pill" id="demoFlag">INTERACTIVE PREVIEW · SAMPLE DATA</span><select class="lang" id="language" aria-label="Language"><option value="en">EN</option><option value="es">ES</option></select></div></div></header>
-<main class="container"><div class="intro"><div class="eyebrow" id="kicker">TWO SIDES. ONE CONNECTED EXPERIENCE.</div><h1 id="heading">See what happens after a cleaning request.</h1><p id="intro">Try booking as a customer, then switch to the owner's Command Center. This is a safe, interactive example—nothing is sent.</p></div>
-<div class="demo-guide"><strong id="guideTitle">Try the full journey in 3 steps</strong><div class="guide-items"><span><b>01</b> · <span id="guide1">Choose a service and time</span></span><span><b>02</b> · <span id="guide2">Send a sample request</span></span><span><b>03</b> · <span id="guide3">Review and follow up in your Command Center</span></span></div></div>
-<div class="topbar"><div class="tabs" role="tablist" aria-label="Demo views"><button id="customerTab" role="tab" aria-selected="true">01 · Booking Page</button><button id="ownerTab" role="tab" aria-selected="false">02 · Lead Command Center</button></div><span class="sample-note" id="sample">SAMPLE BUSINESS · WILLOW HOME CLEANING</span><button class="reset-demo" id="resetDemo" type="button">Reset demo ↺</button></div>
-<section id="customerView" class="view active" aria-label="Customer booking preview">
-<div class="booking-hero"><div class="copy"><div class="eyebrow" id="bookingKicker">WILLOW HOME CLEANING · SAMPLE</div><h2 id="bookingTitle">A fresh home, made simple.</h2><p id="bookingIntro">Home cleaning in the Charlotte, North Carolina area. Choose the service that fits your needs.</p></div><div class="booking-photo" role="img" aria-label="Clean bright modern living room"></div></div>
-<div class="booking-layout"><div class="panel"><div class="step" id="step1">01 · CHOOSE A SERVICE</div><h3 id="serviceHeading">What can we help with?</h3><div class="options"><button class="service selected" id="standard" type="button"><strong id="standardLabel">Standard Cleaning</strong><span id="standardPrice">$145</span></button><button class="service" id="deep" type="button"><strong id="deepLabel">Deep Cleaning</strong><span id="deepPrice">Custom estimate</span></button></div>
-<div class="booking-details"><div class="step" id="step2">02 · PROPERTY DETAILS</div><div class="booking-details-head"><strong id="homeDetailsTitle">Your home</strong><small id="homeDetailsHint">A few quick details</small></div>
-<div class="preference-grid">
-<label><span id="bedroomLabel">Bedrooms</span><select id="bedrooms"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5+</option></select></label>
-<label><span id="bathroomLabel">Bathrooms</span><select id="bathrooms"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4+</option></select></label>
-<label><span id="frequencyLabel">Frequency</span><select id="frequency"><option value="once">One-time</option><option value="weekly">Weekly</option><option value="biweekly">Every 2 weeks</option></select></label>
-</div></div>
-<div class="slot-title" id="slotHeading">03 · CHOOSE A TIME</div><p class="sample-date" id="sampleDate"></p><div class="slots" id="slots"></div>
-<div class="note" id="availabilityNote">Availability follows the owner's published schedule. Closed slots can't be selected.</div>
-</div><aside class="panel summary"><div class="eyebrow" id="summaryEyebrow">04 · SEND YOUR REQUEST</div><h3 id="summaryTitle">Your cleaning request</h3><p id="summaryService">Standard Cleaning</p>
-<p class="price-context" id="summaryPriceLabel">Published flat rate</p>
-<div class="estimate" id="summaryPrice">$145</div>
-<div class="summary-facts"><div id="summaryProperty">3 bedrooms · 2 bathrooms</div><div id="summaryFrequency">One-time service</div></div><div class="booking-rule" id="bookingRule">Flat-rate requests can be confirmed automatically when the owner enables it. Custom estimates need review.</div><hr class="divider"><p id="summaryTime">Choose an available time to continue.</p><button class="action" id="submitDemo" type="button" disabled>Send sample request →</button><p class="subtext" id="sampleWarning">Demo only. No charge, customer record, appointment or email is created.</p><div id="submitted" class="success" hidden></div></aside></div></section>
-<section id="ownerView" class="view" aria-label="Owner Command Center preview"><div class="workspace"><aside class="sidebar"><h3>WILLOW HOME CLEANING</h3><span class="active">▣ Lead Command Center</span><span>＄ Pricing &amp; Services</span><span>◷ Availability</span><span>▤ Requests</span></aside><div class="workspace-main">
-<div class="eyebrow" id="ownerKicker">YOUR PRIVATE WORKSPACE · DEMO</div><h3 id="ownerTitle">Your business, your settings.</h3><div class="metric-row"><div class="metric"><small id="metric1">New requests</small><strong id="requestCount">0</strong></div><div class="metric"><small id="metric2">Fixed price</small><strong id="metricPrice">$145</strong></div><div class="metric"><small id="metric3">Open slots</small><strong id="slotCount">4</strong></div></div>
-<div class="grid2"><label class="field" id="priceLabel">Standard Cleaning price ($)<input id="editPrice" type="number" min="50" max="2000" step="5" value="145"></label><label class="field" id="slotLabel">Booking availability<select id="editAvailability"><option value="all">All sample slots open</option><option value="morning">Morning only</option><option value="afternoon">Afternoon only</option></select></label></div><label class="auto-confirm-control"><input id="autoConfirmFlat" type="checkbox"><span><strong id="autoConfirmLabel">Auto-confirm fixed-price bookings</strong><small id="autoConfirmHint">When enabled, sample flat-rate bookings confirm automatically. Quote requests still need review.</small></span></label>
-<button id="saveDemo" type="button" class="save">Save changes in demo</button><div class="note" id="ownerNote">Try changing a price or open hours, then return to Booking Page. Your changes appear there immediately in this preview.</div>
-<div class="lead-row" id="emptyLead"><div><strong id="emptyTitle">Your next request will appear here.</strong><small id="emptyDesc">Send a sample request from the Booking Page tab.</small></div><span class="status" id="emptyTag">No requests yet</span></div>
-<div class="lead-row" id="newLead" hidden><div><strong id="leadName">Sample Cleaning Request</strong><small id="leadDetails">Standard Cleaning · 10:00 AM</small></div><span class="status" id="leadStatus">Needs review</span><button id="confirmDemo" class="save" type="button" style="margin:0">Confirm sample request</button></div>
-<div class="follow-up-panel" id="followupPanel" hidden><strong id="followupTitle">What happens to this lead next?</strong><p id="followupMessage">This sample request is now organized in your Command Center. Try a follow-up to preview the status change. No email will be sent.</p><button id="simulateFollowUp" type="button">Preview follow-up status ↗</button></div>
-</div></div></section>
-<div style="text-align:center;margin:36px auto 0;max-width:700px"><p id="closing" style="color:#5c7585;font-size:14px">Ready for a system personalized to your cleaning business?</p><a href="/booking-lead-automation" id="salesCta" class="action" style="display:inline-flex;align-items:center;justify-content:center;max-width:300px;text-decoration:none">Explore the service →</a></div></main><footer>THE LAUNCH ERA · Interactive product preview · No personal information is collected or sent.</footer>
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&display=swap');
+:root{--ivory:#FAF8F3;--ink:#191919;--blue:#edf7ff;--line:#d5e5f0;--muted:#5a7180}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--ivory);color:var(--ink);font-family:Futura,"Avenir Next",Arial,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}button,input,textarea,select{font:inherit}button{cursor:pointer}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #80b9e2;outline-offset:3px}
+header{background:#fff;border-bottom:1px solid var(--line)}
+.header{max-width:1080px;margin:auto;padding:17px 22px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{font-family:Prompt,sans-serif;font-size:13px;letter-spacing:.12em;font-weight:700;text-decoration:none}
+.header-end{display:flex;align-items:center;gap:10px}
+.language{border:1px solid var(--line);background:white;color:var(--ink);border-radius:25px;padding:8px 13px;font-size:12px}
+.back{color:#426982;font-weight:700;font-size:12px;text-decoration:none}
+.wrap{max-width:1080px;margin:auto;padding:46px 22px 68px}
+.head{max-width:830px;margin:auto;text-align:center}
+.eyebrow{font-size:11px;letter-spacing:.15em;font-family:Prompt,sans-serif;font-weight:700;color:#527d98}
+h1,h2{font-family:Prompt,sans-serif;font-weight:500;letter-spacing:-.05em;line-height:1.16}
+h1{font-size:clamp(31px,5vw,54px);margin:13px 0 14px}
+h1 em{font-style:normal;color:#5e90ae}
+.head p{max-width:690px;font-size:clamp(14px,1.6vw,17px);color:var(--muted);margin:0 auto}
+.layout{max-width:940px;display:grid;grid-template-columns:minmax(260px,.78fr) minmax(0,1.22fr);gap:22px;align-items:stretch;margin:35px auto 0}
+.explain{border-radius:25px;background:linear-gradient(165deg,#dcedf9,#f4faff 77%,#fff);border:1px solid #d2e2ef;padding:29px 25px;display:flex;flex-direction:column;justify-content:space-between}
+.explain h2{font-size:clamp(23px,2.5vw,31px);margin:14px 0 15px}
+.explain p{font-size:13px;color:#527086;line-height:1.65;margin:0 0 15px}
+.steps{display:grid;gap:12px;margin-top:26px}
+.step{display:flex;gap:12px;align-items:flex-start;font-size:12px;color:#435f70}
+.step span{width:31px;height:31px;display:grid;place-items:center;flex:0 0 auto;background:white;border-radius:50%;font-weight:700;color:#396985;border:1px solid #cee1ee}
+.notice{background:#ffffffa6;border:1px solid #d2e2ec;border-radius:15px;padding:13px 14px;font-size:11px;color:#527286;line-height:1.55;margin-top:26px}
+.card{background:#fff;border:1px solid var(--line);border-radius:25px;padding:clamp(20px,4vw,34px);box-shadow:0 20px 58px #27485b0d}
+.card h2{font-size:clamp(24px,2.9vw,33px);margin:0 0 8px}
+.card>p{font-size:13px;color:var(--muted);margin:0 0 24px}
+label{display:block;font-size:12px;font-weight:700;color:#3b5363;margin:0 0 16px}
+input,textarea{display:block;width:100%;margin-top:6px;padding:13px 14px;color:var(--ink);border-radius:12px;background:#fbfdff;border:1px solid #cbdee9;min-width:0}
+input::placeholder,textarea::placeholder{color:#7d909d}
+textarea{min-height:105px;resize:vertical}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.action{border:0;border-radius:30px;background:var(--ink);color:#fff;padding:15px 20px;width:100%;font-size:14px;font-weight:700}
+.action:disabled{opacity:.62;cursor:wait}
+.helper{font-size:11px;color:#627c8f;margin:13px 0 0;line-height:1.6}
+.error{border:1px solid #ddb9b4;background:#fff6f5;border-radius:12px;padding:12px;color:#823b37;font-size:12px;margin-bottom:14px}
+.success{border-radius:18px;padding:20px;background:#edf7ff;border:1px solid #c7e2f4}
+.success h2{margin:0 0 10px;font-size:25px}.success p{font-size:14px;color:#496e85;margin:0 0 14px}
+.tryagain{border:1px solid #b9d8ea;background:#fff;border-radius:30px;padding:11px 16px;color:#325f79;font-weight:700}
+footer{text-align:center;border-top:1px solid var(--line);background:#fff;padding:23px 15px;color:#708899;font-size:11px}
+@media(max-width:720px){.layout{grid-template-columns:minmax(0,1fr);gap:14px;margin-top:23px}.explain{padding:20px}.explain h2{margin:7px 0 9px}.explain .steps{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}.step{display:block;font-size:11px}.step span{margin-bottom:7px}.notice{margin-top:15px}}
+@media(max-width:480px){.header{padding:13px 15px}.brand{font-size:10px}.header-end{gap:7px}.back{font-size:10px}.language{padding:7px;font-size:11px}.wrap{padding:28px 14px 45px}h1{font-size:31px}.head p{font-size:13px}.explain{padding:17px}.explain h2{font-size:24px}.explain .steps{grid-template-columns:1fr}.step{display:flex;align-items:center;gap:9px}.step span{margin:0;flex:0 0 29px;width:29px;height:29px}.notice{margin-top:15px}.card{padding:19px;border-radius:19px}.card>p{margin-bottom:17px}.two{grid-template-columns:1fr;gap:0}input,textarea{font-size:16px}.action{font-size:13px}}
+</style>
+</head>
+<body>
+<header><div class="header"><a href="/" class="brand">THE LAUNCH ERA</a><div class="header-end"><a class="back" id="serviceBack" href="/booking-lead-automation">← Back to service</a><select id="language" class="language" aria-label="Language"><option value="en">EN</option><option value="es">ES</option></select></div></div></header>
+<main class="wrap">
+<section class="head"><div class="eyebrow" id="kicker">BOOKING AUTOMATION + LEAD COMMAND CENTER</div><h1 id="headline">See what your booking system could look like <em>for your business.</em></h1><p id="intro">Share a few details about your cleaning company. We'll prepare your personalized demo and send you the link by email.</p></section>
+<div class="layout">
+<aside class="explain"><div><div class="eyebrow" id="stepsEyebrow">A DEMO MADE AROUND YOU</div><h2 id="stepsTitle">Your brand. Your services. A clearer booking process.</h2><p id="stepsIntro">This is a preview built around the details you share—not a generic sample business.</p><div class="steps"><div class="step"><span>01</span><div id="stepA">Tell us about your business</div></div><div class="step"><span>02</span><div id="stepB">We prepare your personalized example</div></div><div class="step"><span>03</span><div id="stepC">Get your demo link in your inbox</div></div></div></div><div class="notice" id="disclaimer">Demo preview only. The finished product may differ in design, features and setup. Requesting a demo does not place an order.</div></aside>
+<section class="card" aria-label="Personalized demo request"><div id="formArea"><h2 id="formTitle">Request your personalized demo</h2><p id="formIntro">We only need a few details to create your example.</p><form id="demoForm"><div class="two"><label><span id="nameLabel">Your name</span><input name="name" autocomplete="name" placeholder="First & last name" required></label><label><span id="emailLabel">Email address</span><input name="email" type="email" autocomplete="email" placeholder="Where we should send your demo" required></label></div><label><span id="businessLabel">Business name</span><input name="business" autocomplete="organization" placeholder="Your cleaning business" required></label><label><span id="areaLabel">Service area</span><input name="serviceArea" placeholder="City or area you serve" required></label><label><span id="goalLabel">What would you most like help with?</span><textarea name="goal" placeholder="Bookings, follow-ups, organization..." required></textarea></label><div id="error" class="error" role="alert" hidden></div><button id="submit" class="action" type="submit">Send my demo request →</button><p id="privacy" class="helper">We'll use your details to prepare your demo and contact you about your request. No payment required.</p></form></div><div id="success" class="success" role="status" hidden><h2 id="thanksTitle">Your demo request is in!</h2><p id="thanksCopy">Check your inbox for your personalized demo link.</p><button type="button" class="tryagain" id="another">Send another request</button></div></section>
+</div></main>
+<footer id="footer">The Launch Era · Booking Automation + Lead Command Center · Personalized preview</footer>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-N5BHMC432Q"></script>
 <script>
-const $=id=>document.getElementById(id);
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments)}
+gtag('js',new Date());
+gtag('config','G-N5BHMC432Q');
+</script>
+<script>
 const translations={
-en:{step2:"02 · PROPERTY DETAILS",bookingRule:"Flat-rate requests can confirm automatically when the owner enables it. Custom quotes need review.",autoConfirmLabel:"Auto-confirm fixed-price bookings",autoConfirmHint:"When enabled, sample flat-rate bookings confirm automatically. Quote requests still need review.",quoteReview:"Quote needs review",quoteSuccess:"Your sample quote request is ready for owner review.",confirmedSuccess:"Your sample booking was automatically confirmed (demo only).",guideTitle:"Try the full journey in 3 steps",guide1:"Choose a service and time",guide2:"Send a sample request",guide3:"Review and follow up in your Command Center",resetDemo:"Reset demo ↺",followupTitle:"What happens to this lead next?",followupPending:"Your sample request is organized here. Preview a follow-up to see how its status changes. No email is sent.",followupSent:"Follow-up marked as sent in this example. No real email was sent.",followupAction:"Preview follow-up status ↗",followupDone:"Follow-up previewed ✓",sampleTimes:"Sample availability",demoFlag:"INTERACTIVE PREVIEW · SAMPLE DATA",homeDetailsTitle:"Your home",homeDetailsHint:"A few quick details",bedroomLabel:"Bedrooms",bathroomLabel:"Bathrooms",frequencyLabel:"Frequency",bedroomsCount:"bedrooms",bathroomsCount:"bathrooms",frequencyOnce:"One-time service",frequencyWeekly:"Weekly cleaning",frequencyBiweekly:"Every 2 weeks",summaryPriceLabel:"Published flat rate",kicker:"TWO SIDES. ONE CONNECTED EXPERIENCE.",heading:"See what happens after a cleaning request.",intro:"Try booking as a customer, then switch to the owner's Command Center. This is a safe, interactive example—nothing is sent.",sample:"SAMPLE BUSINESS · WILLOW HOME CLEANING",bookingKicker:"WILLOW HOME CLEANING · SAMPLE",bookingTitle:"A fresh home, made simple.",bookingIntro:"Home cleaning in the Charlotte, North Carolina area. Choose the service that fits your needs.",step1:"01 · CHOOSE A SERVICE",serviceHeading:"What can we help with?",standardLabel:"Standard Cleaning",deepLabel:"Deep Cleaning",slotHeading:"03 · CHOOSE A TIME",availabilityNote:"Availability follows the owner's published schedule. Closed slots can't be selected.",summaryEyebrow:"04 · SEND YOUR REQUEST",summaryTitle:"Your cleaning request",submitDemo:"Send demo request →",sampleWarning:"Demo only. No charge, customer record, appointment or email is created.",ownerKicker:"YOUR PRIVATE WORKSPACE · DEMO",ownerTitle:"Your business, your settings.",metric1:"New requests",metric2:"Fixed price",metric3:"Open slots",priceLabel:"Standard Cleaning price ($)",slotLabel:"Booking availability",saveDemo:"Save changes in demo",ownerNote:"Try changing a price or open hours, then return to Booking Page. Your changes appear there immediately in this preview.",emptyTitle:"Your next request will appear here.",emptyDesc:"Send a sample request from the Booking Page tab.",emptyTag:"No requests yet",leadName:"Sample Cleaning Request",confirmDemo:"Confirm sample request",closing:"Ready for a system personalized to your cleaning business?",salesCta:"Explore the service →",standard:"Standard Cleaning",deep:"Custom estimate",choose:"Choose an available time to continue.",requested:"Sample request received. Switch to Lead Command Center to review it.",review:"Needs review",confirmed:"Confirmed (demo)",time:"Requested for ",success:"Your sample request is ready for owner review.",all:"All sample slots open",morning:"Morning only",afternoon:"Afternoon only",noSlot:"No slots open",step1Tab:"01 · Booking Page",step2Tab:"02 · Lead Command Center"},
-es:{step2:"02 · DETALLES DE LA PROPIEDAD",bookingRule:"Las reservas con precio fijo pueden confirmarse automáticamente si la dueña lo activa. Las cotizaciones requieren revisión.",autoConfirmLabel:"Confirmar automáticamente reservas con precio fijo",autoConfirmHint:"Si está activo, las reservas de ejemplo con precio fijo se confirman solas. Las cotizaciones se revisan antes.",quoteReview:"Cotización por revisar",quoteSuccess:"Tu solicitud de cotización de ejemplo está lista para revisión.",confirmedSuccess:"Tu reserva de ejemplo se confirmó automáticamente (solo demo).",guideTitle:"Prueba todo el recorrido en 3 pasos",guide1:"Elige servicio y horario",guide2:"Envía una solicitud de prueba",guide3:"Revisa y haz seguimiento en tu Command Center",resetDemo:"Reiniciar demo ↺",followupTitle:"¿Qué sigue con este lead?",followupPending:"Tu solicitud de ejemplo está organizada aquí. Prueba el seguimiento para ver cómo cambia su estado. No se envía ningún correo.",followupSent:"Seguimiento marcado como enviado en este ejemplo. No se envió ningún correo real.",followupAction:"Probar estado de seguimiento ↗",followupDone:"Seguimiento simulado ✓",sampleTimes:"Horarios de ejemplo",demoFlag:"VISTA INTERACTIVA · DATOS DE EJEMPLO",homeDetailsTitle:"Tu hogar",homeDetailsHint:"Solo unos detalles",bedroomLabel:"Habitaciones",bathroomLabel:"Baños",frequencyLabel:"Frecuencia",bedroomsCount:"habitaciones",bathroomsCount:"baños",frequencyOnce:"Limpieza única",frequencyWeekly:"Limpieza semanal",frequencyBiweekly:"Cada 2 semanas",summaryPriceLabel:"Precio fijo publicado",kicker:"DOS LADOS. UN SOLO SISTEMA.",heading:"Mira qué pasa después de una solicitud de limpieza.",intro:"Prueba una reserva como clienta y después entra al Command Center de la dueña. Es un ejemplo interactivo: no se envía ningún dato.",sample:"NEGOCIO DE EJEMPLO · WILLOW HOME CLEANING",bookingKicker:"WILLOW HOME CLEANING · EJEMPLO",bookingTitle:"Un hogar limpio, sin complicaciones.",bookingIntro:"Limpiezas residenciales en el área de Charlotte, Carolina del Norte. Elige el servicio que necesitas.",step1:"01 · ELIGE UN SERVICIO",serviceHeading:"¿En qué podemos ayudarte?",standardLabel:"Limpieza estándar",deepLabel:"Limpieza profunda",slotHeading:"03 · ELIGE UN HORARIO",availabilityNote:"Los horarios dependen de la disponibilidad publicada por la dueña. Los espacios cerrados no se pueden seleccionar.",summaryEyebrow:"04 · ENVÍA TU SOLICITUD",summaryTitle:"Tu solicitud de limpieza",submitDemo:"Enviar solicitud de demo →",sampleWarning:"Solo es una demo. No hay cargos, clientes reales, citas ni correos.",ownerKicker:"TU ESPACIO PRIVADO · DEMO",ownerTitle:"Tu negocio, tu configuración.",metric1:"Solicitudes nuevas",metric2:"Precio fijo",metric3:"Espacios libres",priceLabel:"Precio de limpieza estándar ($)",slotLabel:"Disponibilidad de reservas",saveDemo:"Guardar cambios en la demo",ownerNote:"Cambia un precio o los horarios y vuelve a Booking Page. Aquí los cambios se reflejan de inmediato.",emptyTitle:"Tu próxima solicitud aparecerá aquí.",emptyDesc:"Envía una solicitud de muestra desde Booking Page.",emptyTag:"Aún sin solicitudes",leadName:"Solicitud de limpieza de prueba",confirmDemo:"Confirmar solicitud de prueba",closing:"¿Lista para tener un sistema personalizado para tu negocio?",salesCta:"Ver el servicio →",standard:"Limpieza estándar",deep:"Estimado personalizado",choose:"Selecciona un horario disponible para continuar.",requested:"Solicitud de prueba recibida. Ve al Lead Command Center para revisarla.",review:"Pendiente de revisión",confirmed:"Confirmada (demo)",time:"Solicitado para ",success:"Tu solicitud de ejemplo está lista para revisión.",all:"Todos los horarios disponibles",morning:"Solo mañana",afternoon:"Solo tarde",noSlot:"Sin horarios libres",step1Tab:"01 · Booking Page",step2Tab:"02 · Lead Command Center"}
+en:{serviceBack:"← Back to service",kicker:"BOOKING AUTOMATION + LEAD COMMAND CENTER",headline:"See what your booking system could look like <em>for your business.</em>",intro:"Share a few details about your cleaning company. We'll prepare your personalized demo and send you the link by email.",stepsEyebrow:"A DEMO MADE AROUND YOU",stepsTitle:"Your brand. Your services. A clearer booking process.",stepsIntro:"This is a preview built around the details you share—not a generic sample business.",stepA:"Tell us about your business",stepB:"We prepare your personalized example",stepC:"Get your demo link in your inbox",disclaimer:"Demo preview only. The finished product may differ in design, features and setup. Requesting a demo does not place an order.",formTitle:"Request your personalized demo",formIntro:"We only need a few details to create your example.",nameLabel:"Your name",emailLabel:"Email address",businessLabel:"Business name",areaLabel:"Service area",goalLabel:"What would you most like help with?",submit:"Send my demo request →",privacy:"We'll use your details to prepare your demo and contact you about your request. No payment required.",thanksTitle:"Your demo request is in!",thanksCopy:"Check your inbox for your personalized demo link.",another:"Send another request",sending:"Preparing your demo…",error:"We couldn't prepare your demo. Please try again.",footer:"The Launch Era · Booking Automation + Lead Command Center · Personalized preview",placeholders:["First & last name","Where we should send your demo","Your cleaning business","City or area you serve","Bookings, follow-ups, organization..."]},
+es:{serviceBack:"← Volver al servicio",kicker:"BOOKING AUTOMATION + LEAD COMMAND CENTER",headline:"Mira cómo podría verse tu sistema de reservas <em>para tu negocio.</em>",intro:"Cuéntanos un poco de tu empresa de limpieza. Prepararemos tu demo personalizada y te enviaremos el enlace por correo.",stepsEyebrow:"UNA DEMO HECHA PARA TU NEGOCIO",stepsTitle:"Tu marca. Tus servicios. Tus reservas organizadas.",stepsIntro:"Un ejemplo creado a partir de tus datos, no una empresa ficticia genérica.",stepA:"Cuéntanos sobre tu negocio",stepB:"Preparamos tu ejemplo personalizado",stepC:"Recibe el enlace de tu demo por correo",disclaimer:"Solo es una demostración. El producto final puede variar en diseño, funciones y configuración. Pedir una demo no significa comprar.",formTitle:"Pide tu demo personalizada",formIntro:"Solo necesitamos algunos datos para preparar tu ejemplo.",nameLabel:"Tu nombre",emailLabel:"Correo electrónico",businessLabel:"Nombre del negocio",areaLabel:"Zona de servicio",goalLabel:"¿Con qué te gustaría recibir más ayuda?",submit:"Solicitar mi demo →",privacy:"Usaremos tus datos para preparar la demo y responderte sobre la solicitud. No requiere pago.",thanksTitle:"¡Recibimos tu solicitud!",thanksCopy:"Revisa tu correo para recibir el enlace de tu demo personalizada.",another:"Enviar otra solicitud",sending:"Preparando tu demo…",error:"No pudimos preparar tu demo. Inténtalo nuevamente.",footer:"The Launch Era · Booking Automation + Lead Command Center · Demo personalizada",placeholders:["Nombre y apellido","Donde enviaremos tu demo","Tu negocio de limpieza","Ciudad o área donde trabajas","Reservas, seguimientos, organización..."]}
 };
-let selectedService="standard",selectedSlot="",price=145,availability="all",autoConfirmFlat=false,lead=null;
-const allSlots=["9:00 AM","10:30 AM","1:00 PM","2:30 PM"];
-function l(){return $("language").value}function t(k){return translations[l()][k]||k}
-const sampleBookingDate=(()=>{const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()+((4-d.getDay()+7)%7||7));return d})();
-function friendlyDate(){return new Intl.DateTimeFormat(l()==="es"?"es-US":"en-US",{weekday:"short",month:"short",day:"numeric",year:"numeric"}).format(sampleBookingDate)}
-function propertyText(){return $("bedrooms").value+" "+t("bedroomsCount")+" · "+$("bathrooms").value+" "+t("bathroomsCount")}
-function frequencyText(){return t($("frequency").value==="weekly"?"frequencyWeekly":$("frequency").value==="biweekly"?"frequencyBiweekly":"frequencyOnce")}
-function allowed(){return allSlots.filter((v,i)=>availability==="all"||(availability==="morning"&&i<2)||(availability==="afternoon"&&i>=2)).filter(v=>!lead||lead.status!=="confirmed"||lead.time!==v)}
-function render(){
- document.documentElement.lang=l();for(const k of Object.keys(translations.en))if($(k)&&!["standard","deep","choose","requested","review","confirmed","time","success","all","morning","afternoon","noSlot","step1Tab","step2Tab","summaryPriceLabel","bedroomsCount","bathroomsCount","frequencyOnce","frequencyWeekly","frequencyBiweekly"].includes(k)){if(k==="priceLabel"||k==="slotLabel")$(k).firstChild.textContent=t(k);else $(k).textContent=t(k)};
- $("customerTab").textContent=t("step1Tab");$("ownerTab").textContent=t("step2Tab");
- for(const key of ["standard","deep"])$(key).classList.toggle("selected",key===selectedService);
- const freq=$("frequency").options;freq[0].textContent=t("frequencyOnce");freq[1].textContent=t("frequencyWeekly");freq[2].textContent=t("frequencyBiweekly");
- $("standardPrice").textContent="$"+price.toFixed(0);$("deepPrice").textContent=t("deep");$("summaryService").textContent=selectedService==="standard"?t("standard"):t("deepLabel");
- $("summaryPrice").textContent=selectedService==="standard"?"$"+price.toFixed(0):t("deep");
- $("metricPrice").textContent="$"+price.toFixed(0);$("requestCount").textContent=lead?"1":"0";$("slotCount").textContent=String(allowed().length);
- const labels=$("editAvailability").options;labels[0].textContent=t("all");labels[1].textContent=t("morning");labels[2].textContent=t("afternoon");
- $("sampleDate").textContent=friendlyDate()+" · "+t("sampleTimes");
- $("step2").textContent=t("step2");$("bookingRule").textContent=t("bookingRule");$("autoConfirmLabel").textContent=t("autoConfirmLabel");$("autoConfirmHint").textContent=t("autoConfirmHint");
- $("summaryProperty").textContent=propertyText();
- $("summaryFrequency").textContent=frequencyText();
- $("summaryPriceLabel").textContent=selectedService==="standard"?t("summaryPriceLabel"):t("deep");
- $("summaryPrice").classList.toggle("is-quote",selectedService!=="standard");
- const slots=$("slots");slots.replaceChildren();const free=allowed();if(!free.includes(selectedSlot))selectedSlot="";
- for(const slot of allSlots){const b=document.createElement("button");b.type="button";b.className="slot"+(selectedSlot===slot?" selected":"");b.textContent=slot;b.disabled=!free.includes(slot);b.onclick=()=>{selectedSlot=slot;render()};slots.append(b)}
- $("submitDemo").disabled=!selectedSlot||!!lead;
- $("summaryTime").textContent=lead?t("requested"):selectedSlot?t("time")+friendlyDate()+" · "+selectedSlot:t("choose");
- $("submitted").hidden=!lead;$("submitted").textContent=lead?(lead.status==="confirmed"?t("confirmedSuccess"):lead.service==="deep"?t("quoteSuccess"):t("success")):"";
- $("emptyLead").hidden=!!lead;$("newLead").hidden=!lead;
- if(lead){$("leadStatus").textContent=t(lead.status==="confirmed"?"confirmed":lead.service==="deep"?"quoteReview":"review");$("leadDetails").textContent=(lead.service==="standard"?t("standard"):t("deepLabel"))+" · "+lead.property+" · "+lead.date+" "+lead.time;$("confirmDemo").hidden=lead.status==="confirmed"||lead.service==="deep";}
- $("followupPanel").hidden=!lead;$("followupMessage").textContent=lead&&lead.followedUp?t("followupSent"):t("followupPending");$("simulateFollowUp").textContent=lead&&lead.followedUp?t("followupDone"):t("followupAction");$("simulateFollowUp").disabled=!!(lead&&lead.followedUp);
+const $=id=>document.getElementById(id);
+const langSelect=$('language');
+const qs=new URLSearchParams(location.search);
+langSelect.value=qs.get('lang')==='es'?'es':'en';
+const textIDs=['serviceBack','kicker','intro','stepsEyebrow','stepsTitle','stepsIntro','stepA','stepB','stepC','disclaimer','formTitle','formIntro','nameLabel','emailLabel','businessLabel','areaLabel','goalLabel','submit','privacy','thanksTitle','thanksCopy','another','footer'];
+function track(event,fields={}){
+ if(navigator.webdriver)return;
+ try{gtag('event',event,{product:'booking_lead_automation',site_surface:'personalized_demo_request',language:langSelect.value,traffic_source:qs.get('source')||qs.get('utm_source')||'direct',...fields})}catch{}
 }
-function switchView(side){for(const name of ["customer","owner"]){$(name+"View").classList.toggle("active",side===name);$(name+"Tab").setAttribute("aria-selected",String(side===name))}window.scrollTo({top:0,behavior:"smooth"})}
-if(new URLSearchParams(location.search).get("lang")==="es")$("language").value="es";
-$("customerTab").onclick=()=>switchView("customer");$("ownerTab").onclick=()=>switchView("owner");
-$("standard").onclick=()=>{selectedService="standard";render()};$("deep").onclick=()=>{selectedService="deep";render()};
-$("language").onchange=render;
-for(const id of ["bedrooms","bathrooms","frequency"])$(id).onchange=render;
-$("submitDemo").onclick=()=>{if(!selectedSlot||lead)return;lead={service:selectedService,time:selectedSlot,date:friendlyDate(),property:propertyText(),status:(selectedService==="standard"&&autoConfirmFlat?"confirmed":"review")};try{window.gtag?.("event","booking_demo_interaction",{product:"booking_lead_automation",step:"sample_request"})}catch{}render();switchView("owner")};
-$("saveDemo").onclick=()=>{const amount=Number($("editPrice").value);if(!Number.isFinite(amount)||amount<50||amount>2000){$("editPrice").focus();return}price=Math.round(amount);availability=$("editAvailability").value;autoConfirmFlat=$("autoConfirmFlat").checked;render();switchView("customer")};
-$("confirmDemo").onclick=()=>{if(!lead||lead.service==="deep")return;lead.status="confirmed";render()};
-$("simulateFollowUp").onclick=()=>{if(!lead)return;lead.followedUp=true;try{window.gtag?.("event","booking_demo_interaction",{product:"booking_lead_automation",step:"followup_preview"})}catch{}render()};
-$("resetDemo").onclick=()=>{selectedService="standard";selectedSlot="";price=145;availability="all";autoConfirmFlat=false;lead=null;$("autoConfirmFlat").checked=false;$("editPrice").value="145";$("editAvailability").value="all";$("bedrooms").value="3";$("bathrooms").value="2";$("frequency").value="once";render();switchView("customer")};
+function render(){
+ const lang=langSelect.value,d=translations[lang];
+ document.documentElement.lang=lang;
+ for(const id of textIDs)$(id).textContent=d[id];
+ $('headline').innerHTML=d.headline;
+ document.querySelectorAll('#demoForm input,#demoForm textarea').forEach((input,i)=>input.placeholder=d.placeholders[i]);
+ $('serviceBack').href=lang==='es'?'/es/booking-lead-automation/':'/booking-lead-automation';
+ $('submit').textContent=$('submit').disabled?d.sending:d.submit;
+ history.replaceState(null,'',location.pathname+'?lang='+lang+(qs.get('source')?'&source='+encodeURIComponent(qs.get('source')):''));
+}
+let previouslySent=false;
+$('demoForm').addEventListener('submit',async e=>{
+ e.preventDefault();
+ if($('submit').disabled)return;
+ const fd=new FormData(e.currentTarget);
+ const payload={name:String(fd.get('name')||''),email:String(fd.get('email')||''),business:String(fd.get('business')||''),serviceArea:String(fd.get('serviceArea')||''),goal:String(fd.get('goal')||'')};
+ const button=$('submit');button.disabled=true;button.textContent=translations[langSelect.value].sending;
+ $('error').hidden=true;
+ try{
+  const res=await fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-personalized-demo',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+  const data=await res.json().catch(()=>({}));
+  if(!res.ok||data?.ok===false)throw new Error(typeof data.error==='string'?data.error:translations[langSelect.value].error);
+  previouslySent=true;$('formArea').hidden=true;$('success').hidden=false;
+  track('demo_requested',{request_type:'personalized',result:'accepted'});
+ }catch(err){
+  $('error').textContent=err instanceof Error&&err.message?err.message:translations[langSelect.value].error;$('error').hidden=false;
+ }finally{button.disabled=false;button.textContent=translations[langSelect.value].submit}
+});
+$('another').addEventListener('click',()=>{previouslySent=false;$('demoForm').reset();$('error').hidden=true;$('formArea').hidden=false;$('success').hidden=true;});
+langSelect.addEventListener('change',render);
+track('booking_demo_view',{preview_type:'personalized'});
 render();
-</script></body></html>
+</script>
+</body></html>
