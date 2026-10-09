@@ -215,6 +215,49 @@ await check('Buyer Booking Page uses canonical demo template',{width:390,height:
  const mode=await p.locator('html').getAttribute('class');
  assert.match(mode||'',/buyer-live-loading/,'Owner preview awaits verified Command Center config');
 });
+await check('Spanish canonical booking demo copy',{width:390,height:844},async p=>{
+ await p.goto(base+'/lead-private-preview.html?lang=es',{waitUntil:'domcontentloaded'});
+ await p.waitForFunction(()=>document.querySelector('#title')?.textContent==='Elige un servicio');
+ assert.equal(await p.locator('html').getAttribute('lang'),'es');
+ await p.locator('[data-category="commercial"]').click();
+ assert.equal(await p.locator('#commercialServiceList').isVisible(),true);
+ await p.locator('#commercialServiceList .service').first().click();
+ await p.waitForFunction(()=>document.querySelector('#commercialEyebrow')?.textContent?.includes('COMERCIAL'));
+ assert(await p.locator('text=EXTRAS COMERCIALES').count()>0);
+ assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3),'Spanish Booking Page fits phone width');
+});
+await check('Owner can preview actual buyer template with private intake data',{width:1100,height:950},async p=>{
+ const r=await p.goto('https://the-launch-era-crm.dailinsegura17.workers.dev/',{waitUntil:'domcontentloaded'});
+ assert.equal(r?.status(),200);
+ await p.evaluate(base=>{
+  const f=document.createElement('iframe');f.id='qaOwnerPreview';
+  f.style.width='700px';f.style.height='900px';
+  f.sandbox='allow-scripts allow-forms';
+  f.src=base+'/booking/?owner_preview=1&lang=en';
+  document.body.append(f);
+  const model={
+   business_name:'Example Home & Office Cleaning',
+   language:'en',timezone:'America/New_York',currency:'USD',
+   branding:{headline:'A cleaner space, without the stress.',description:'Residential and office cleaning.',service_area:'Charlotte, NC'},
+   services:[
+    {id:'00000000-0000-4000-8000-000000000111',name:'Standard Home Cleaning',mode:'flat',price:145,category:'residential',active:true},
+    {id:'00000000-0000-4000-8000-000000000112',name:'Office Cleaning',mode:'quote',price:null,category:'commercial',active:true}
+   ],
+   addons:[{id:'00000000-0000-4000-8000-000000000113',name:'Interior glass & partitions',price:30,category:'commercial',active:true}],
+   quote_policy:'review_unpriced_jobs'
+  };
+  f.addEventListener('load',()=>{f.contentWindow?.postMessage({type:'TLE_OWNER_BOOKING_PREVIEW',config:model},'*')});
+ },base);
+ const f=p.frameLocator('#qaOwnerPreview');
+ await f.locator('#leadName').getByText('EXAMPLE HOME & OFFICE CLEANING').waitFor({timeout:20000});
+ assert.match(await f.locator('.top').innerText(),/OWNER DESIGN PREVIEW/);
+ await f.locator('[data-category="commercial"]').click();
+ assert(await f.locator('#commercialServiceList').isVisible());
+ assert(await f.locator('#commercialAddons input[data-addon-id]').count()===1);
+ await f.locator('#commercialServiceList .service').first().click();
+ assert((await f.locator('#commercial').isVisible()),'Commercial buyer preview is usable');
+ assert(!await f.locator('.verify').first().isVisible(),'No email code in private owner preview');
+});
 // Validate focused service decisions without submitting forms or starting a purchase.
 for(const viewport of screens) for(const lang of ['en','es']) for(const product of ['booking','app']){
  await check('Product sales clarity '+viewport.name+' '+lang+' '+product,viewport,async p=>{
