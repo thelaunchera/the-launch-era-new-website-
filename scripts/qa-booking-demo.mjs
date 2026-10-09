@@ -258,6 +258,44 @@ await check('Owner can preview actual buyer template with private intake data',{
  assert((await f.locator('#commercial').isVisible()),'Commercial buyer preview is usable');
  assert(!await f.locator('.verify').first().isVisible(),'No email code in private owner preview');
 });
+await check('Verified checkout opens intake without waiting for email',{width:390,height:844},async p=>{
+ let requests=0;
+ await p.route('**/functions/v1/tle-booking-flow-stripe-complete',async route=>{
+  requests++;
+  const posted=route.request().postDataJSON();
+  assert.equal(posted.session_id,'cs_live_QAOnlyNotARealPayment');
+  await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({
+   ok:true,email_sent:true,intake_url:'https://thelaunchera.com/booking-flow-intake/?token=qa-only-preview-token',
+   amount_total_cents:1999,currency:'USD'
+  })});
+ });
+ await p.goto(base+'/booking-flow-payment-success/?session_id=cs_live_QAOnlyNotARealPayment&lang=en',{waitUntil:'domcontentloaded'});
+ await p.locator('#intakeLink:visible').waitFor();
+ assert.equal(requests,1);
+ assert.match(await p.locator('#heading').innerText(),/Payment confirmed/);
+ assert.match(await p.locator('#intakeLink').getAttribute('href'),/booking-flow-intake/);
+});
+await check('Verified checkout has fallback if onboarding email fails',{width:390,height:844},async p=>{
+ await p.route('**/functions/v1/tle-booking-flow-stripe-complete',async route=>{
+  await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({
+   ok:true,email_sent:false,intake_url:'https://thelaunchera.com/booking-flow-intake/?token=qa-only-preview-token',
+   amount_total_cents:1999,currency:'USD'
+  })});
+ });
+ await p.goto(base+'/booking-flow-payment-success/?session_id=cs_live_QAOnlyNotARealPayment&lang=es',{waitUntil:'domcontentloaded'});
+ await p.locator('#intakeLink:visible').waitFor();
+ assert.match(await p.locator('#status').innerText(),/No pudimos confirmar el envío/);
+ assert.equal(await p.locator('#heading').innerText(),'Pago confirmado.');
+ assert.match(await p.locator('#intakeLink').getAttribute('href'),/booking-flow-intake/);
+});
+await check('Unverified checkout never offers a buyer intake',{width:390,height:844},async p=>{
+ await p.route('**/functions/v1/tle-booking-flow-stripe-complete',async route=>{
+  await route.fulfill({status:402,contentType:'application/json',body:JSON.stringify({error:'Payment not complete'})});
+ });
+ await p.goto(base+'/booking-flow-payment-success/?session_id=cs_live_QAOnlyNotARealPayment',{waitUntil:'domcontentloaded'});
+ await p.locator('#retry:visible').waitFor();
+ assert.equal(await p.locator('#intakeLink').isVisible(),false);
+});
 // Validate focused service decisions without submitting forms or starting a purchase.
 for(const viewport of screens) for(const lang of ['en','es']) for(const product of ['booking','app']){
  await check('Product sales clarity '+viewport.name+' '+lang+' '+product,viewport,async p=>{
