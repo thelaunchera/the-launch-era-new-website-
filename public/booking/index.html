@@ -8,7 +8,7 @@
  const dest=new URL('/lead-private-preview.html',location.origin);
  const params=new URLSearchParams(location.search);
  // The existing paid Booking Page key and language are preserved unchanged.
- if(params.has('key')||params.get('preview')==='1'){
+ if(params.has('key')||params.get('preview')==='1'||params.get('owner_preview')==='1'){
   for(const [k,v] of params)dest.searchParams.append(k,v);
   location.replace(dest.pathname+dest.search+location.hash);
  }
