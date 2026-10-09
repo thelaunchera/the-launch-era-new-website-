@@ -189,6 +189,37 @@ await check('Public booking preview geography',{width:390,height:844},async p=>{
  assert.match(area,/Charlotte/);
  assert.doesNotMatch(area,/Florida|Boynton|Boca Raton|Delray/i);
 });
+// Validate focused service decisions without submitting forms or starting a purchase.
+for(const viewport of screens) for(const lang of ['en','es']) for(const product of ['booking','app']){
+ await check('Product sales clarity '+viewport.name+' '+lang+' '+product,viewport,async p=>{
+  const route=product==='booking'?'booking-lead-automation':'cleaning-web-app';
+  await p.goto(base+(lang==='es'?'/es/':'/')+route+'/',{waitUntil:'networkidle'});
+  assert.equal(await p.locator('h1').count(),1);
+  assert.equal(await p.locator('.service-pain-list details').count(),3);
+  for(let i=0;i<3;i++){
+   const detail=p.locator('.service-pain-list details').nth(i);
+   await detail.locator('summary').click();
+   assert(await detail.locator('p').first().isVisible(),'Pain explanation visible');
+   await detail.locator('summary').click();
+  }
+  const faq=p.locator('.service-buy-clarity details');
+  assert.equal(await faq.count(),4);
+  for(let i=0;i<4;i++){
+   await faq.nth(i).locator('summary').click();
+   assert(await faq.nth(i).locator('p').isVisible(),'Purchase answer visible');
+   await faq.nth(i).locator('summary').click();
+  }
+  const primary=await p.locator('.service-sales-close .service-cta').getAttribute('href');
+  assert.equal(primary,product==='booking'?'/service-checkout/?offer=booking-flow&lang='+lang:'https://app.thelaunchera.com/?entry=signup');
+  const alternative=await p.locator('.service-fit a').getAttribute('href');
+  assert(alternative.includes(product==='booking'?'cleaning-web-app':'booking-lead-automation'));
+  assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3),'No horizontal overflow');
+  await p.locator('.service-sales-close').scrollIntoViewIfNeeded();
+  const bounds=await p.locator('.service-sales-close .service-cta').boundingBox();
+  assert(bounds&&bounds.height>=47&&bounds.x>=-2&&bounds.x+bounds.width<=viewport.width+2,'Readable closing CTA');
+  await p.screenshot({path:'qa-screenshots/product-sales-'+viewport.name+'-'+lang+'-'+product+'.png',fullPage:true});
+ });
+}
 await browser.close();
 console.log('SUMMARY',JSON.stringify({pass:results.filter(x=>x.pass).length,failed:results.filter(x=>!x.pass).length,tests:results}));
 if(results.some(x=>!x.pass))process.exitCode=1;
