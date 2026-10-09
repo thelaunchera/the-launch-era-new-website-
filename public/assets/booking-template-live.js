@@ -6,6 +6,8 @@
 const params=new URLSearchParams(location.search),key=params.get("key")||"";
 if(!key)return;
 document.documentElement.classList.add("buyer-live-page");
+// A real booking link must never silently behave like the email-verification demo.
+document.documentElement.classList.add("buyer-live-loading");
 const API="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/";
 const $=id=>document.getElementById(id);
 const session={model:null,service:null,validSlots:[],sending:false,language:params.get("lang")==="es"?"es":"en",requestCounter:0};
@@ -203,8 +205,10 @@ async function submit(which){
   property_type:isCommercial?$("ctype").value:route==="quote"?$("qtype").value:state.home,
   square_footage:isCommercial?$("csize").value:route==="quote"?$("qsize").value:"",
   bedrooms:route==="res"?$("beds").value:"",bathrooms:route==="res"?$("baths").value:"",
-  customer_name:name,customer_email:email,customer_phone:isHomeFlat?$("phone").value:"",
-  service_address:isHomeFlat?$("zip").value:"",notes:details,
+  customer_name:name,customer_email:email,
+  customer_phone:route==="res"?$("phone").value:route==="quote"?$("qphone").value:$("cphone").value,
+  service_address:route==="res"?$("serviceAddress").value:route==="quote"?$("qaddress").value:$("caddress").value,
+  notes:route==="res"?["ZIP "+$("zip").value,details].filter(Boolean).join(" · "):details,
   requested_date:date,requested_time:time,source:"booking_page",estimate_display:estimateLabel
  };
  const b=document.querySelector(".screen.on .next"),prior=b?.textContent;
@@ -246,10 +250,11 @@ try{
  if(params.get("lang")!=="en"&&params.get("lang")!=="es"&&model.language==="es"){
   params.set("lang","es");location.replace(location.pathname+"?"+params.toString());return
  }
- liveFields();brand();catalog();dateSetup();activateRealSubmission();
+ liveFields();brand();catalog();dateSetup();activateRealSubmission();document.documentElement.classList.remove("buyer-live-loading");
  $("leadHero").style.opacity="1";
 }catch(err){
  document.querySelector(".screen.on").replaceChildren();
+ document.documentElement.classList.remove("buyer-live-loading");
  const h=document.createElement("h2");h.textContent=tr("Booking Page unavailable","Página de reservas no disponible");
  const p=document.createElement("p");p.className="muted";p.textContent=tr(
   "The business has not finished setting up this Booking Page. Please contact them directly.",
