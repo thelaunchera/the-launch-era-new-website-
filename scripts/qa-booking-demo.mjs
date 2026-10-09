@@ -148,6 +148,12 @@ for(const v of screens) for(const lang of ['en','es']) {
  await check('Sales interactions '+v.name+' '+lang,v,async p=>{
   await p.goto(base+(lang==='es'?'/es/':'/'),{waitUntil:'networkidle'});
   const hero=p.locator('.hero-copy');
+  if(v.width<768){
+   const last=p.locator('.service-grid .service-card').last();
+   await last.scrollIntoViewIfNeeded();
+   const b=await last.boundingBox();
+   assert(b&&b.x>=0&&b.x+b.width<=v.width+2,'Last service reachable in phone rail');
+  }
   assert.equal(await hero.locator('a[href="/booking-demo/?lang='+lang+'"]').count(),1);
   for(let i=0;i<3;i++) {
    await p.locator('.walkthrough-controls button').nth(i).click();

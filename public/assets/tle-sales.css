@@ -119,3 +119,34 @@ button:focus-visible,.sales-home a:focus-visible,.sales-home summary:focus-visib
 @media(prefers-reduced-motion:reduce){
  .sales-pains summary svg,.sales-home .service-image img {transition:none;}
 }
+
+/* Phone service rail keeps every photo and offer in one compact, swipeable row. */
+.service-rail-hint {display:none;}
+.sales-home .product-view .tracker-scene-wow::before {inset:9% 0 3%;transform:none;}
+.sales-home .product-view .tracker {min-width:0;max-width:100%;}
+.sales-home .product-view .tracker-journey {white-space:normal;flex-wrap:wrap;}
+.sales-home .product-view .tracker-activity>div {min-width:0;}
+.sales-home .product-view .tracker-activity strong,.sales-home .product-view .tracker-activity small {overflow-wrap:anywhere;}
+@media(max-width:767px){
+ .sales-home .hero-photo {height:600px;}
+ .sales-home .hero-photo .notification {width:280px;}
+ .sales-home .hero-photo .notice-1 {top:65px;}
+ .sales-home .hero-photo .notice-2 {top:197px;}
+ .sales-home .hero-photo .notice-3 {top:329px;}
+ .sales-home .hero-photo .notice-4 {top:461px;}
+ .sales-home .service-grid {display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 18px;padding:0 0 16px;max-width:100%;}
+ .sales-home .service-grid .service-card {flex:0 0 86%;scroll-snap-align:start;}
+ .sales-home .service-image {aspect-ratio:1.7;}
+ .service-rail-hint {display:block;text-align:center;font-size:13px;margin:0 0 15px;}
+}
+
+@media(min-width:1100px){
+ .sales-home .process-section>.container {display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:20px 60px;align-items:start;}
+ .sales-home .process-section .section-heading {text-align:left;margin:0;max-width:none;grid-column:1;}
+ .sales-home .process-grid {grid-column:1;grid-row:2;grid-template-columns:minmax(0,1fr);gap:16px;margin:0;}
+ .sales-home .process-step {display:grid;grid-template-columns:48px minmax(0,1fr);gap:0 14px;}
+ .sales-home .process-number {grid-row:1 / 3;}
+ .sales-home .process-step h3 {margin-top:0;}
+ .sales-home .process-step p {margin-top:6px;}
+ .sales-home .homepage-demo-contact {grid-column:2;grid-row:1 / 3;margin:0;}
+}
