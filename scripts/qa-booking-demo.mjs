@@ -249,7 +249,7 @@ await check('Owner can preview actual buyer template with private intake data',{
   f.addEventListener('load',()=>{f.contentWindow?.postMessage({type:'TLE_OWNER_BOOKING_PREVIEW',config:model},'*')});
  },base);
  const f=p.frameLocator('#qaOwnerPreview');
- await f.locator('#leadName').getByText('EXAMPLE HOME & OFFICE CLEANING').waitFor({timeout:20000});
+ await f.locator('#leadName').filter({hasText:'EXAMPLE HOME & OFFICE CLEANING'}).waitFor({timeout:20000});
  assert.match(await f.locator('.top').innerText(),/OWNER DESIGN PREVIEW/);
  await f.locator('[data-category="commercial"]').click();
  assert(await f.locator('#commercialServiceList').isVisible());
