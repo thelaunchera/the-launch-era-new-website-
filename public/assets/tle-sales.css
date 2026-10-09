@@ -1,0 +1,121 @@
+/* TLE sales refinements. Keep the existing palette, photos, and section order. */
+.sales-home .hero-photo { height:475px; }
+.sales-home .hero-photo .photo-label {font-size:12px;letter-spacing:.09em;line-height:1.5;max-width:390px;}
+.sales-home .hero-copy {padding:20px 20px 60px;}
+.sales-home .hero-offer-summary {max-width:660px;margin:18px auto;font-size:17px;line-height:1.65;color:var(--muted-foreground);}
+.sales-home .hero-cta-row {margin:18px auto 0;}
+.sales-home .demo-delivery-note {font-size:13px;margin:10px 0 18px;color:var(--muted-foreground);}
+.sales-home .solutions-section {padding:50px 0 62px;}
+.sales-home .section-heading {margin-bottom:26px;}
+.sales-home .section-heading h2 {font-size:clamp(30px,3.4vw,42px);}
+.sales-home .section-heading p {margin-top:12px;line-height:1.6;}
+.sales-home .service-image {aspect-ratio:1.45;}
+.sales-home .freebie-home-section {padding-block:32px;}
+.sales-home .problem-section {padding:55px 0;}
+.sales-home .problem-layout {gap:55px;}
+.sales-home .booking-section {padding:55px 0;}
+.sales-home .booking-layout {gap:38px;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:start;}
+.sales-home .booking-copy h2,.sales-home .problem-section h2 {font-size:clamp(32px,3.7vw,44px);}
+.sales-home .description {line-height:1.65;}
+.sales-home .check-list {gap:9px;margin:18px 0;}
+.sales-home .process-section {padding:44px 0 35px;}
+.sales-home .process-grid {margin-bottom:25px;}
+.sales-home .homepage-demo-contact {margin-top:25px;}
+.sales-home .final-section {padding:42px 20px 50px;}
+.sales-home .final-section h2 {font-size:clamp(32px,3.8vw,46px);}
+.sales-home .cta-button {min-height:48px;height:auto;padding:13px 22px;font-size:16px;white-space:normal;text-align:center;max-width:100%;}
+.sales-home .service-demo-link {font-size:16px;line-height:1.5;margin-top:15px;display:flex;min-height:48px;align-items:center;gap:8px;}
+.sales-home .final-actions {display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:12px 24px;margin-top:20px;}
+.sales-home .final-actions .service-demo-link {margin:0;}
+.sales-home .final-contact-link {display:block;margin-top:20px;font-size:14px;text-decoration:underline;text-underline-offset:4px;}
+.booking-walkthrough {max-width:750px;margin:22px auto 0;text-align:left;}
+.walkthrough-controls,.product-tabs {display:flex;gap:8px;}
+.walkthrough-controls button,.product-tabs button {font:inherit;font-size:14px;min-height:48px;border:1px solid var(--border);border-radius:999px;background:var(--background);color:var(--foreground);padding:10px 15px;cursor:pointer;display:flex;justify-content:center;align-items:center;gap:9px;flex:1;}
+.walkthrough-controls button[aria-pressed=true],.product-tabs button[aria-pressed=true] {background:var(--secondary);border-color:var(--foreground);box-shadow:0 3px 0 rgba(25,25,25,.08);}
+.walkthrough-stage {display:flex;align-items:center;gap:16px;min-height:112px;background:var(--foam);border:1px solid var(--border);border-radius:20px;padding:18px 20px;margin-top:12px;}
+.walkthrough-stage strong {font-size:17px;line-height:1.4;}
+.walkthrough-stage p {font-size:15px;line-height:1.55;margin:5px 0 0;}
+.walkthrough-count {background:var(--secondary);padding:10px;border-radius:50%;font-size:14px;flex:none;}
+.walkthrough-status {font-size:12px;border:1px solid var(--border);padding:7px 10px;border-radius:999px;margin-left:auto;flex:none;}
+.walkthrough-note {display:block;font-size:12px;margin:9px 0 0;text-align:center;color:var(--muted-foreground);}
+.sales-pains details {border-bottom:1px solid rgba(250,248,243,.25);}
+.sales-pains summary {display:flex;align-items:center;justify-content:space-between;gap:15px;padding:19px 0;font-size:17px;line-height:1.5;cursor:pointer;list-style:none;}
+.sales-pains summary::-webkit-details-marker,.purchase-clarity summary::-webkit-details-marker {display:none;}
+.sales-pains summary svg {flex:none;transition:transform .2s;}
+.sales-pains details[open] summary svg,.purchase-clarity details[open] summary svg {transform:rotate(45deg);}
+.pain-answer {padding:0 0 18px;}
+.pain-answer p {font-size:16px;line-height:1.65;color:var(--background);margin:0 0 12px;}
+.pain-answer strong {font-size:13px;color:var(--secondary);}
+.pain-answer a {font-size:16px;display:inline-flex;gap:8px;align-items:center;color:var(--secondary);text-decoration:underline;text-underline-offset:4px;}
+.product-explorer {min-width:0;}
+.product-tabs {gap:5px;margin-bottom:14px;}
+.product-tabs button {font-size:13px;padding:9px 10px;}
+.product-view {min-height:410px;}
+.product-view figure {margin:0;background:var(--foam);border:1px solid var(--border);border-radius:22px;padding:14px;box-shadow:0 12px 30px rgba(25,25,25,.06);}
+.product-view figure img {width:100%;height:auto;display:block;border-radius:13px;}
+.product-view figcaption,.preview-disclaimer {display:block;font-size:12px;line-height:1.5;color:var(--muted-foreground);margin:12px 0;text-align:center;}
+.preview-open {display:flex;justify-content:center;align-items:center;gap:8px;font-size:15px;min-height:48px;text-decoration:underline;text-underline-offset:4px;}
+.followup-preview {background:var(--foam);border:1px solid var(--border);border-radius:22px;padding:28px;}
+.followup-preview h3 {font-size:30px;line-height:1.2;margin:12px 0 20px;}
+.followup-preview ol {list-style:none;padding:0;margin:0;display:grid;gap:16px;}
+.followup-preview li {display:flex;gap:14px;}
+.followup-preview li>span {flex:none;background:var(--secondary);border-radius:50%;width:35px;height:35px;display:grid;place-items:center;font-size:12px;}
+.followup-preview strong {font-size:16px;line-height:1.4;}
+.followup-preview p {font-size:15px;line-height:1.6;margin:5px 0 0;}
+.followup-preview small {display:block;font-size:12px;margin-top:20px;}
+.sales-home .product-view .tracker-scene {padding:30px 18px;}
+.sales-home .product-view .tracker-note {position:static;margin:15px 0 0;transform:none;}
+.purchase-clarity {margin-top:22px;}
+.purchase-clarity>p {font-size:15px;line-height:1.6;margin:0 0 12px;}
+.purchase-clarity details {border-bottom:1px solid var(--border);}
+.purchase-clarity summary {display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 0;font-size:14px;line-height:1.5;cursor:pointer;list-style:none;}
+.purchase-clarity summary svg {flex:none;}
+.purchase-clarity details p {font-size:16px;line-height:1.65;margin:0 0 15px;}
+button:focus-visible,.sales-home a:focus-visible,.sales-home summary:focus-visible {outline:3px solid var(--foreground);outline-offset:4px;}
+.sales-pains a:focus-visible,.sales-pains summary:focus-visible {outline-color:var(--secondary);}
+@media(max-width:767px){
+ .sales-home .hero-photo {height:500px;}
+ .sales-home .hero-photo .photo-label {top:15px;left:18px;right:18px;max-width:none;font-size:11px;}
+ .sales-home .hero-photo .notification {width:250px;max-width:calc(100% - 36px);}
+ .sales-home .hero-photo .notice-1 {top:65px;bottom:auto;}
+ .sales-home .hero-photo .notice-2 {top:168px;bottom:auto;}
+ .sales-home .hero-photo .notice-3 {top:271px;bottom:auto;}
+ .sales-home .hero-photo .notice-4 {top:374px;bottom:auto;}
+ .sales-home .hero-copy {padding:15px 18px 42px;}
+ .sales-home .hero-copy h1 {font-size:30px!important;}
+ .sales-home .hero-accent {font-size:29px!important;}
+ .sales-home .hero-offer-summary {font-size:16px;margin:14px auto;}
+ .sales-home .hero-cta-row {gap:12px;}
+ .sales-home .solutions-section {padding:35px 0 48px;}
+ .sales-home .service-grid {grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 16px;}
+ .sales-home .service-card h3 {font-size:17px;}
+ .sales-home .service-image {aspect-ratio:1.2;}
+ .sales-home .service-card p {font-size:16px;}
+ .sales-home .freebie-home-section {padding:25px 0;}
+ .sales-home .freebie-home-card {padding:22px 18px;}
+ .sales-home .problem-section,.sales-home .booking-section {padding:38px 0;}
+ .sales-home .problem-layout,.sales-home .booking-layout {grid-template-columns:minmax(0,1fr);gap:24px;}
+ .walkthrough-controls button {padding:10px 7px;font-size:13px;gap:5px;}
+ .walkthrough-controls button svg {width:16px;flex:none;}
+ .walkthrough-stage {padding:15px;gap:10px;align-items:flex-start;min-height:145px;}
+ .walkthrough-stage p {font-size:16px;}
+ .walkthrough-status {display:none;}
+ .product-view {min-height:0;}
+ .product-tabs button {font-size:12px;}
+ .sales-home .product-view .tracker-scene {padding:24px 12px;}
+ .sales-home .process-section {padding:30px 0;}
+ .sales-home .process-grid {gap:14px;}
+ .sales-home .process-step {padding-bottom:12px;}
+ .sales-home .process-step h3 {font-size:18px;}
+ .sales-home .process-step p {margin-top:6px;}
+ .sales-home .homepage-demo-contact {margin-top:18px;}
+ .sales-home .final-section {padding:35px 18px 42px;}
+ .sales-home .final-actions {flex-direction:column;gap:14px;}
+}
+@media(max-width:420px){
+ .sales-home .service-grid {grid-template-columns:minmax(0,1fr);gap:24px;}
+ .sales-home .service-image {aspect-ratio:1.85;}
+}
+@media(prefers-reduced-motion:reduce){
+ .sales-pains summary svg,.sales-home .service-image img {transition:none;}
+}

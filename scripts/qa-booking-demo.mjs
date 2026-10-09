@@ -143,6 +143,46 @@ for(const viewport of screens.filter(s=>s.width<768)){
   });
  }
 }
+// Exercise the actual sales interactions in both languages and all four sizes.
+for(const v of screens) for(const lang of ['en','es']) {
+ await check('Sales interactions '+v.name+' '+lang,v,async p=>{
+  await p.goto(base+(lang==='es'?'/es/':'/'),{waitUntil:'networkidle'});
+  const hero=p.locator('.hero-copy');
+  assert.equal(await hero.locator('a[href="/booking-demo/?lang='+lang+'"]').count(),1);
+  for(let i=0;i<3;i++) {
+   await p.locator('.walkthrough-controls button').nth(i).click();
+   assert.equal(await p.locator('.walkthrough-controls button').nth(i).getAttribute('aria-pressed'),'true');
+  }
+  await p.locator('.sales-pains summary').first().click();
+  assert.equal(await p.locator('.sales-pains details').first().getAttribute('open'),'');
+  assert.equal(await p.locator('.sales-pains details').first().locator('.pain-answer').isVisible(),true);
+  for(let i=0;i<3;i++) {
+   await p.locator('.product-tabs button').nth(i).click();
+   assert.equal(await p.locator('.product-tabs button').nth(i).getAttribute('aria-pressed'),'true');
+   const bounds=await p.locator('.product-explorer').evaluate(el=>({left:el.getBoundingClientRect().left,right:el.getBoundingClientRect().right,width:innerWidth,scroll:document.documentElement.scrollWidth}));
+   assert(bounds.left>=-2&&bounds.right<=bounds.width+2&&bounds.scroll<=bounds.width+3,'Product preview overflow '+JSON.stringify(bounds));
+  }
+  await p.locator('.purchase-clarity summary').first().click();
+  assert.equal(await p.locator('.purchase-clarity details').first().locator('p').isVisible(),true);
+  const checkout=p.locator('.final-actions a[href*="service-checkout"]');
+  assert.equal(await checkout.getAttribute('href'),'/service-checkout/?offer=booking-flow&lang='+lang);
+  await p.locator('.product-tabs button').first().click();
+  await p.locator('.sales-pains summary').first().click();
+  await p.locator('.purchase-clarity summary').first().click();
+  console.log('HOME_HEIGHT',v.name,lang,await p.evaluate(()=>document.documentElement.scrollHeight));
+  await p.screenshot({path:'qa-screenshots/sales-'+v.name+'-'+lang+'.png',fullPage:true});
+  await hero.scrollIntoViewIfNeeded();
+  await p.screenshot({path:'qa-screenshots/sales-hero-'+v.name+'-'+lang+'.png'});
+  await p.locator('.booking-section').scrollIntoViewIfNeeded();
+  await p.screenshot({path:'qa-screenshots/sales-product-'+v.name+'-'+lang+'.png'});
+ });
+}
+await check('Public booking preview geography',{width:390,height:844},async p=>{
+ await p.goto(base+'/booking/?preview=1',{waitUntil:'networkidle'});
+ const area=await p.locator('#heroArea').innerText();
+ assert.match(area,/Charlotte/);
+ assert.doesNotMatch(area,/Florida|Boynton|Boca Raton|Delray/i);
+});
 await browser.close();
 console.log('SUMMARY',JSON.stringify({pass:results.filter(x=>x.pass).length,failed:results.filter(x=>!x.pass).length,tests:results}));
 if(results.some(x=>!x.pass))process.exitCode=1;
