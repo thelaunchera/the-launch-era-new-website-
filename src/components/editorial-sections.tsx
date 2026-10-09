@@ -54,13 +54,7 @@ export function ProcessSection() {
    <div className="process-step"><div className="process-number">02</div><h3>We connect the dots.</h3><p>We build a thoughtful system around how you work—not a one-size-fits-all setup.</p></div>
    <div className="process-step"><div className="process-number">03</div><h3>You get your time back.</h3><p>We walk you through your new flow, so you can step into your next era with confidence.</p></div>
   </div>
-  <div id="contacto" className="homepage-demo-contact" aria-label="See the demo or contact The Launch Era">
-   <div className="homepage-demo-access">
-    <div className="eyebrow">WANT TO SEE HOW IT WORKS?</div>
-    <h3 className="editorial">See the booking system in action.</h3>
-    <p>Try the Booking Page and Lead Command Center using sample details. No sign-up needed.</p>
-    <Button variant="editorial" className="cta-button" asChild><a href="/booking-demo/?lang=en">Explore the interactive demo <ArrowRight/></a></Button>
-   </div>
+  <div id="contacto" className="homepage-demo-contact" aria-label="Contact The Launch Era">
    <div className="homepage-contact-panel"><ContactForm/></div>
   </div>
  </div></section>;
