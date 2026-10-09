@@ -57,6 +57,11 @@
  "The business reviews the request and confirms the final price before the service is confirmed.":"El negocio revisa la solicitud y confirma el precio final antes de confirmar el servicio.",
  "RESIDENTIAL ESTIMATE / QUOTE":"ESTIMADO / COTIZACIÓN RESIDENCIAL",
  "COMMERCIAL ESTIMATE / QUOTE":"ESTIMADO / COTIZACIÓN COMERCIAL",
+ "Commercial Quote / Estimate":"Estimado / cotización comercial",
+ "Residential Quote / Estimate":"Estimado / cotización residencial",
+ "Tell us about your home":"Cuéntanos sobre tu vivienda",
+ "RESIDENTIAL":"RESIDENCIAL",
+ "COMMERCIAL":"COMERCIAL",
  "I WOULD LIKE TO…":"QUIERO…",
  "Get an estimate":"Obtener un estimado",
  "Request a quote":"Pedir una cotización",
@@ -111,6 +116,8 @@
   const t=(text||"").trim();
   if(!t)return text;
   if(Object.hasOwn(d,t))return text.replace(t,d[t]);
+  if(/^COMMERCIAL · /.test(t))return text.replace("COMMERCIAL · ","COMERCIAL · ").replace("REQUEST AN ESTIMATE","SOLICITAR ESTIMADO").replace("REQUEST A QUOTE","SOLICITAR COTIZACIÓN");
+  if(/^RESIDENTIAL · /.test(t))return text.replace("RESIDENTIAL · ","RESIDENCIAL · ").replace("REQUEST AN ESTIMATE","SOLICITAR ESTIMADO").replace("REQUEST A QUOTE","SOLICITAR COTIZACIÓN");
   if(/^est\. from \$/i.test(t))return text.replace("est. from ","est. desde ");
   if(/^New booking request — /.test(t))return text.replace("New booking request — ","Nueva reserva — ");
   if(/^Send Demo /.test(t))return text.replace("Send Demo ","Enviar prueba: ");
