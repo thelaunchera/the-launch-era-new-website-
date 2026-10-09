@@ -183,11 +183,37 @@ for(const v of screens) for(const lang of ['en','es']) {
   await p.screenshot({path:'qa-screenshots/sales-product-'+v.name+'-'+lang+'.png'});
  });
 }
-await check('Public booking preview geography',{width:390,height:844},async p=>{
- await p.goto(base+'/booking/?preview=1',{waitUntil:'networkidle'});
- const area=await p.locator('#heroArea').innerText();
- assert.match(area,/Charlotte/);
- assert.doesNotMatch(area,/Florida|Boynton|Boca Raton|Delray/i);
+await check('Canonical Booking Page is the emailed demo',{width:390,height:844},async p=>{
+ const r=await p.goto(base+'/lead-private-preview.html?business=Example%20Cleaning&area=Charlotte%2C%20NC',{waitUntil:'domcontentloaded'});
+ assert.equal(r?.status(),200);
+ assert.equal(await p.locator('#categoryTabs button').count(),2);
+ assert.equal(await p.locator('[data-category="residential"]').isVisible(),true);
+ assert.equal(await p.locator('#residentialServiceList').isVisible(),true);
+ await p.locator('[data-category="commercial"]').click();
+ assert.equal(await p.locator('#commercialServiceList').isVisible(),true);
+ await p.locator('#commercialServiceList .service').first().click();
+ assert.equal(await p.locator('#commercial').isVisible(),true);
+ assert(await p.locator('#commercialAddons input[data-commercial-addon]').count()>=6);
+ await p.locator('#commercialAddons input[data-commercial-addon]').first().check();
+ assert.equal(await p.locator('#commercial [data-intent="estimate"]').count(),1);
+ await p.locator('#commercial [data-intent="quote"]').click();
+ assert((await p.locator('#commercial [data-intent="quote"]').getAttribute('class')).includes('sel'));
+ await p.locator('#commercial .back').click();
+ await p.locator('[data-category="residential"]').click();
+ await p.locator('#residentialServiceList .service').last().click();
+ assert.equal(await p.locator('#quote').isVisible(),true);
+ assert(await p.locator('#quote [data-quote-addon]').count()>=4);
+ assert.equal(await p.locator('#qemailCode').count(),1,'Email verification remains in demo');
+ assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3),'Demo fits mobile width');
+ await p.screenshot({path:'qa-screenshots/booking-canonical-home-commercial.png',fullPage:true});
+});
+await check('Buyer Booking Page uses canonical demo template',{width:390,height:844},async p=>{
+ await p.goto(base+'/booking/?owner_preview=1',{waitUntil:'domcontentloaded'});
+ await p.waitForURL(url=>url.pathname==='/lead-private-preview.html'&&url.searchParams.get('owner_preview')==='1');
+ assert.equal(await p.locator('#categoryTabs').count(),1);
+ assert.equal(await p.locator('#leadHero').count(),1);
+ const mode=await p.locator('html').getAttribute('class');
+ assert.match(mode||'',/buyer-live-loading/,'Owner preview awaits verified Command Center config');
 });
 // Validate focused service decisions without submitting forms or starting a purchase.
 for(const viewport of screens) for(const lang of ['en','es']) for(const product of ['booking','app']){
