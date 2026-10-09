@@ -174,6 +174,45 @@ for(const [path,lang] of [['/cleaning-web-app','en'],['/es/cleaning-web-app/','e
  }catch(e){fail('Cleaning App preview landing link '+lang,e)}
  await p.close();
 }
+
+// Landing-page duplicate-demo cleanup: reuse one existing interactive tour and show real contact form.
+for(const [path,language,demoHref] of [
+  ['/', 'en', '/booking-demo/?lang=en'],
+  ['/es/', 'es', '/booking-demo/?lang=es']
+]){
+ for(const v of viewports){
+  const page=await browser.newPage({viewport:{width:v.width,height:v.height},deviceScaleFactor:1});
+  const label='Homepage contact + existing demo '+language+' '+v.name;
+  const errors=[];
+  page.on('pageerror',e=>errors.push(e.message));
+  try{
+   const r=await page.goto(base+path,{waitUntil:'domcontentloaded',timeout:30000});
+   assert.equal(r?.status(),200,'homepage HTTP');
+   assert.equal(await page.locator('.homepage-demo-contact').count(),1,'one demo/contact section');
+   assert.equal(await page.locator('#contacto').count(),1,'unique contact section anchor');
+   assert.equal(await page.locator('.homepage-demo-access a[href="'+demoHref+'"]').count(),1,'links to existing demo');
+   assert.equal(await page.locator('.homepage-demo-contact form').count(),1,'existing real contact form');
+   assert.equal(await page.locator('.homepage-demo-contact form input[name="email"]').count(),1,'email field');
+   assert.equal(await page.locator('.homepage-demo-contact form textarea[name="message"]').count(),1,'contact message');
+   assert.equal(await page.locator('.homepage-demo-contact button[type="submit"]').count(),1,'contact submit');
+   assert.equal(await page.locator('text=Ask for your Demo').count(),0,'obsolete personalized demo removed');
+   const bounds=await page.evaluate(()=>{
+    const card=document.querySelector('.homepage-demo-contact').getBoundingClientRect();
+    const form=document.querySelector('.homepage-demo-contact form').getBoundingClientRect();
+    return {scroll:document.documentElement.scrollWidth,width:document.documentElement.clientWidth,
+            cardLeft:card.left,cardRight:card.right,formRight:form.right,formLeft:form.left};
+   });
+   assert(bounds.scroll<=bounds.width+3,'no document horizontal overflow '+JSON.stringify(bounds));
+   assert(bounds.cardLeft>=-2&&bounds.cardRight<=bounds.width+2,'contact card fits screen '+JSON.stringify(bounds));
+   assert(bounds.formLeft>=bounds.cardLeft-2&&bounds.formRight<=bounds.cardRight+2,'contact form fits card '+JSON.stringify(bounds));
+   assert.equal(errors.length,0,'JavaScript errors: '+errors.join(','));
+   await page.locator('#contacto').scrollIntoViewIfNeeded();
+   await page.screenshot({path:'qa-screenshots/'+v.name+'-'+language+'-homepage-contact.png',fullPage:true});
+   good(label);
+  }catch(e){fail(label,e);await page.screenshot({path:'qa-screenshots/ERROR-'+v.name+'-'+language+'-homepage-contact.png',fullPage:true}).catch(()=>{})}
+  await page.close();
+ }
+}
 await browser.close();
 console.log('SUMMARY',JSON.stringify({pass:results.filter(x=>x.pass).length,failed:results.filter(x=>!x.pass).length,tests:results}));
 if(results.some(x=>!x.pass))process.exitCode=1;
