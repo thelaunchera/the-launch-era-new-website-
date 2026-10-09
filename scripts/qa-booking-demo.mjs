@@ -33,8 +33,15 @@ for(const v of screens){
    assert.equal(await p.locator('#demoForm input[name="serviceArea"]').count(),1);
    assert.equal(await p.locator('#demoForm textarea[name="goal"]').count(),1);
    assert.equal(await p.locator('#submit').count(),1);
+   const privacy=await p.locator('#privacy').innerText();
+   assert.match(privacy,lang==='es'?/automáticamente.*por correo/i:/automatically/i,'demo must say automatically delivered');
+   assert.doesNotMatch(privacy,lang==='es'?/responderte sobre la solicitud/i:/contact you about your request/i,'no manual contact promise');
+   const confirmation=await p.locator('#thanksCopy').innerText();
+   assert.match(confirmation,lang==='es'?/Promociones.*Spam/i:/Promotions.*Spam/i,'check promotions/spam');
+   assert.match(confirmation,lang==='es'?/código de 6 dígitos/i:/6-digit email verification code/i,'email code reminder');
    assert.equal(await p.locator('#ownerTab').count(),0,'Old fake command center no longer available');
    assert.equal(await p.locator('#customerTab').count(),0,'Old fake booking demo no longer available');
+   assert.equal(await p.locator('#demoForm input[name="email"]').isVisible(),true);
    assert.equal(await p.locator('form#demoForm').isVisible(),true);
    await p.locator('#demoForm input[name="name"]').fill('Example Visitor');
    await p.locator('#demoForm input[name="email"]').fill('example@example.com');
