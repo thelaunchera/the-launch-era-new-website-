@@ -6,13 +6,14 @@ import { Button } from '@/components/ui/button';
 function SaleCountdown({es=false}:{es?:boolean}) {
  const offerEnd = Date.parse('2026-11-01T04:00:00Z');
  const getRemaining = () => Math.max(0, offerEnd - Date.now());
- const [remaining,setRemaining] = useState(getRemaining);
+ const [remaining,setRemaining] = useState<number|null>(null);
  useEffect(() => {
   const update = () => setRemaining(getRemaining());
   update();
   const timer = window.setInterval(update, 1000);
   return () => window.clearInterval(timer);
  }, []);
+ if (remaining === null) return <span className="sale-countdown sale-loading" aria-label={es?'Oferta Fall Refresh':'Fall Refresh Offer'}><span className="sale-clock-label"><Timer size={17} aria-hidden="true"/><span className="sale-offer-copy"><b>THE FALL REFRESH OFFER</b><small>{es?'HASTA EL 31 OCT':'ENDS OCT 31'}</small></span></span></span>;
  const days = Math.floor(remaining / 86400000);
  const hours = Math.floor((remaining % 86400000) / 3600000);
  const minutes = Math.floor((remaining % 3600000) / 60000);
