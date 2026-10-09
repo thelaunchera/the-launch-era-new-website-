@@ -4,7 +4,8 @@
 (async()=>{
 "use strict";
 const params=new URLSearchParams(location.search),key=params.get("key")||"";
-if(!key)return;
+const ownerPreview=params.get("owner_preview")==="1"&&!key;
+if(!key&&!ownerPreview)return;
 document.documentElement.classList.add("buyer-live-page");
 // A real booking link must never silently behave like the email-verification demo.
 document.documentElement.classList.add("buyer-live-loading");
@@ -20,6 +21,7 @@ const validEmail=v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 const clean=x=>String(x??"").trim();
 function alertCustomer(message){window.alert(message)}
 async function endpoint(route,payload){
+ if(ownerPreview)throw Error("Private previews cannot submit requests or access live booking APIs.");
  const resp=await fetch(API+route,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
  const data=await resp.json().catch(()=>({}));
  if(!resp.ok)throw new Error(data.error||tr("The booking service could not complete this request.","No se pudo completar esta solicitud."));
@@ -140,7 +142,7 @@ async function getSlotsFor(date,selectId){
  if(!date)return;
  const p=document.createElement("option");p.value="";p.textContent=tr("Checking real availability…","Consultando disponibilidad…");select.append(p);
  try{
-  const model=await endpoint("tle-booking-flow-availability",{action:"public",booking_key:key,date});
+  const model=ownerPreview?{slots:["09:00","11:00","14:00"]}:await endpoint("tle-booking-flow-availability",{action:"public",booking_key:key,date});
   if(request!==session.requestCounter)return;
   session.validSlots=(model.slots||[]).filter(s=>/^(?:[01]\d|2[0-3]):(?:00|30)$/.test(s));
   select.replaceChildren();
@@ -211,6 +213,7 @@ async function submit(which){
   notes:route==="res"?["ZIP "+$("zip").value,details].filter(Boolean).join(" · "):details,
   requested_date:date,requested_time:time,source:"booking_page",estimate_display:estimateLabel
  };
+ if(ownerPreview){show("done",tr("Private preview only","Solo vista previa privada"),"DEMO");$("done").querySelector("h2").textContent=tr("No request sent","No se envió ninguna solicitud");$("done").querySelector("p").textContent=tr("This is the buyer’s design preview. No booking, email or charge was created.","Esta es una vista previa del diseño de la compradora. No se generó reserva, correo ni cobro.");return}
  const b=document.querySelector(".screen.on .next"),prior=b?.textContent;
  session.sending=true;if(b){b.disabled=true;b.textContent=tr("Sending…","Enviando…")}
  try{
@@ -244,13 +247,33 @@ function activateRealSubmission(){
  window.submitCommercial=()=>submit("commercial");
 }
 try{
- const model=await endpoint("tle-booking-flow-pricing",{action:"public",booking_key:key});
+ const model=ownerPreview?await new Promise((resolve,reject)=>{
+  const guard=setTimeout(()=>reject(Error("Owner preview did not receive account data.")),12000);
+  window.addEventListener("message",function listener(event){
+   if(event.origin!=="https://the-launch-era-crm.dailinsegura17.workers.dev")return;
+   if(event.data?.type!=="TLE_OWNER_BOOKING_PREVIEW"||!event.data?.config)return;
+   window.removeEventListener("message",listener);clearTimeout(guard);
+   resolve(event.data.config);
+  })
+ }):await endpoint("tle-booking-flow-pricing",{action:"public",booking_key:key});
  if(!model?.services?.length)throw Error("No published services");
  session.model=model;
- if(params.get("lang")!=="en"&&params.get("lang")!=="es"&&model.language==="es"){
+ if(!ownerPreview&&params.get("lang")!=="en"&&params.get("lang")!=="es"&&model.language==="es"){
   params.set("lang","es");location.replace(location.pathname+"?"+params.toString());return
  }
- liveFields();brand();catalog();dateSetup();activateRealSubmission();document.documentElement.classList.remove("buyer-live-loading");
+ if(ownerPreview)session.language=model.language==="es"?"es":"en";
+ liveFields();brand();catalog();dateSetup();activateRealSubmission();
+ if(ownerPreview){
+  document.querySelector(".top").textContent=tr("OWNER DESIGN PREVIEW · NOTHING IS SENT","VISTA PREVIA DE DISEÑO · NO SE ENVÍA NADA");
+  document.querySelector(".top").style.background="#213f58";
+  $("done").querySelector("h2").textContent=tr("This is a private preview","Esta es una vista previa privada");
+  $("done").querySelector("p").textContent=tr("No real emails, bookings or payments.","No hay correos, reservas ni pagos reales.");
+  const note=$("realSlotNotice");if(note)note.textContent=tr(
+   "Sample times for design review only. Verify actual working hours in Availability before delivery.",
+   "Horarios de ejemplo para revisar el diseño. Confirma las horas reales en Disponibilidad antes de entregar.");
+  for(const btn of document.querySelectorAll(".screen .next")){btn.textContent=tr("Preview only — no sending","Solo vista previa — sin envío");}
+ }
+ document.documentElement.classList.remove("buyer-live-loading");
  $("leadHero").style.opacity="1";
 }catch(err){
  document.querySelector(".screen.on").replaceChildren();
