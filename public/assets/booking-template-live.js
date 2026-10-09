@@ -222,9 +222,12 @@ async function submit(which){
     state.intent==="estimate"?tr("Estimate request received","Estimado solicitado"):tr("Quote request received","Cotización solicitada"),"✓");
   $("done").querySelector("h2").textContent=response.booking_confirmed?
     tr("Your appointment is booked!","¡Tu cita está confirmada!"):tr("Your request was received.","Recibimos tu solicitud.");
-  $("done").querySelector("p").textContent=tr(
-   "We've recorded your request. Check your email and Promotions or Spam for the business's confirmation.",
-   "Guardamos tu solicitud. Revisa el correo y las carpetas Promociones o Spam para la confirmación.");
+  const handoffOk=response.customer_email_sent===true;
+  $("done").querySelector("p").textContent=handoffOk?
+   tr("Your request is saved. We requested your confirmation email. Check your inbox, including Promotions or Spam.",
+      "Guardamos tu solicitud y pedimos que se envíe la confirmación. Revisa tu correo, incluidos Promociones o Spam."):
+   tr("Your request is saved, but the confirmation email could not be sent right now. Please keep this confirmation and contact the cleaning business if you don't receive an update.",
+      "Tu solicitud está guardada, pero no se pudo enviar el correo de confirmación por ahora. Guarda esta pantalla y contacta al negocio si no recibes novedades.");
  }catch(err){alertCustomer(err.message||tr("Could not send this request.","No se pudo enviar."))}
  finally{session.sending=false;if(b){b.disabled=false;b.textContent=prior}}
 }
