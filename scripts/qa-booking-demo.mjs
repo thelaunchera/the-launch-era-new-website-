@@ -26,6 +26,7 @@ for(const v of viewports){
     assert.equal(await page.locator('#language').inputValue(),lang,'language deep link');
     assert.equal(await page.locator('html').getAttribute('lang'),lang,'HTML document language');
     assert.equal(await page.locator('#customerView').isVisible(),true,'customer view visible');
+    assert.equal(await page.locator('#step2').isVisible(),true,'property detail step visible');
     await page.screenshot({path:'qa-screenshots/'+v.name+'-'+lang+'-booking.png',fullPage:true});
     const horizontal=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:document.documentElement.clientWidth}));
     assert(horizontal.scroll<=horizontal.width+3,'horizontal overflow '+JSON.stringify(horizontal));
@@ -57,6 +58,26 @@ for(const v of viewports){
     await page.locator('#ownerTab').click();
     await page.locator('#confirmDemo').click();
     assert.match(await page.locator('#leadStatus').innerText(),lang==='es'?/confirmada/i:/confirmed/i);
+    // Fixed-price instant confirmation is opt-in, not the default.
+    await page.locator('#resetDemo').click();
+    await page.locator('#ownerTab').click();
+    await page.locator('#autoConfirmFlat').check();
+    await page.locator('#saveDemo').click();
+    await page.locator('#standard').click();
+    await page.locator('#slots button').filter({hasText:'9:00 AM'}).click();
+    await page.locator('#submitDemo').click();
+    assert.match(await page.locator('#leadStatus').innerText(),lang==='es'?/confirmada/i:/confirmed/i,'flat-price auto confirmation');
+    assert.equal(await page.locator('#confirmDemo').isVisible(),false,'auto-confirmed needs no owner approval');
+    // Custom quotes always need owner review, even if auto confirmation is enabled.
+    await page.locator('#resetDemo').click();
+    await page.locator('#ownerTab').click();
+    await page.locator('#autoConfirmFlat').check();
+    await page.locator('#saveDemo').click();
+    await page.locator('#deep').click();
+    await page.locator('#slots button').filter({hasText:'9:00 AM'}).click();
+    await page.locator('#submitDemo').click();
+    assert.match(await page.locator('#leadStatus').innerText(),lang==='es'?/cotización por revisar/i:/quote needs review/i,'quotes never auto confirm');
+    assert.equal(await page.locator('#confirmDemo').isVisible(),false,'quote cannot be instantly confirmed');
     assert.equal(errors.length,0,'page JavaScript errors: '+errors.join(','));
     await page.screenshot({path:'qa-screenshots/'+v.name+'-'+lang+'-owner.png',fullPage:true});
     good(label);
@@ -84,6 +105,10 @@ for(const route of ['/cleaning-web-app','/es/cleaning-web-app/']){
  try{
   await page.goto(base+route,{waitUntil:'domcontentloaded',timeout:30000});
   assert.match(await page.locator('body').innerText(),/30 DAYS FREE|30 DÍAS GRATIS/i);
+  assert.equal(await page.locator('.app-command-actions button').count(),0,'visual sample does not pretend to have working buttons');
+  assert.equal(await page.locator('.pricing-total button').count(),0,'illustrative quote CTA not an inactive button');
+  assert.equal(await page.locator('.app-command-actions .fake-action').count(),3,'sample actions visible');
+  assert.equal(await page.locator('.app-preview-heading a').count(),1,'interactive preview CTA appears near sample');
   good('30-day app trial '+route);
  }catch(e){fail('30-day app trial '+route,e)}
  await page.close();
@@ -101,6 +126,7 @@ for(const v of viewports){
    await p.waitForSelector('#nav [data-tab="0"]');
    assert.equal(await p.locator('html').getAttribute('lang'),lang);
    assert.equal(await p.locator('#nav button').count(),6,'six sample sections available');
+   assert.equal(await p.locator('#trial').getAttribute('href'),'https://app.thelaunchera.com/?entry=signup','demo trial CTA remains separate');
    await p.screenshot({path:'qa-screenshots/'+v.name+'-'+lang+'-cleaning-overview.png',fullPage:true});
    const horizontal=await p.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:document.documentElement.clientWidth}));
    assert(horizontal.scroll<=horizontal.width+3,'horizontal overflow '+JSON.stringify(horizontal));
