@@ -104,8 +104,17 @@ export function Analytics(){
           offer:u.searchParams.get('offer')||undefined,
           destination:u.pathname
         });
-      }else if(u.pathname.includes('/booking-demo')){
-        window.tleTrackEvent?.('booking_demo_click',{product:'booking_lead_automation'});
+      }else if(u.pathname.includes('/booking-demo')||u.pathname.includes('/cleaning-app-demo')){
+        const cleaning=u.pathname.includes('/cleaning-app-demo');
+        if(activeSource&&activeSource!=='direct') u.searchParams.set('source',activeSource);
+        if(campaign) u.searchParams.set('utm_campaign',campaign);
+        if(medium) u.searchParams.set('utm_medium',medium);
+        a.href=u.toString();
+        window.tleTrackEvent?.(cleaning?'cleaning_app_demo_click':'booking_demo_click',{
+          product:cleaning?'cleaning_web_app':'booking_lead_automation',
+          language:u.searchParams.get('lang')||'en',
+          destination:u.pathname
+        });
       }else if(u.pathname.includes('/help')||u.hash==='#contacto'){
         window.tleTrackEvent?.('contact_start',{product:currentProduct()});
       }
