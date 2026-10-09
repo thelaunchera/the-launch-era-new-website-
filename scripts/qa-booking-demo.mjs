@@ -75,6 +75,49 @@ for(const route of ['/cleaning-web-app','/es/cleaning-web-app/']){
  }catch(e){fail('30-day app trial '+route,e)}
  await page.close();
 }
+// Cleaning App: independent, no-login sample preview, tested in both languages.
+for(const v of viewports){
+ for(const lang of ['en','es']){
+  const p=await browser.newPage({viewport:{width:v.width,height:v.height},deviceScaleFactor:1});
+  const label='Cleaning App preview '+v.name+' / '+lang;
+  const errors=[];
+  p.on('pageerror',e=>errors.push(e.message));
+  try{
+   const response=await p.goto(base+'/cleaning-app-demo/?lang='+lang,{waitUntil:'domcontentloaded',timeout:30000});
+   assert.equal(response?.status(),200,'preview HTTP status');
+   await p.waitForSelector('#nav [data-tab="0"]');
+   assert.equal(await p.locator('html').getAttribute('lang'),lang);
+   assert.equal(await p.locator('#nav button').count(),6,'six sample sections available');
+   await p.screenshot({path:'qa-screenshots/'+v.name+'-'+lang+'-cleaning-overview.png',fullPage:true});
+   const horizontal=await p.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:document.documentElement.clientWidth}));
+   assert(horizontal.scroll<=horizontal.width+3,'horizontal overflow '+JSON.stringify(horizontal));
+   await p.locator('#nav [data-tab="2"]').click();
+   await p.locator('[data-action="done"]').click();
+   assert.equal(await p.locator('[data-action="done"]').isDisabled(),true,'sample job completed');
+   await p.locator('#nav [data-tab="4"]').click();
+   await p.locator('[data-action="quote"]').click();
+   assert.equal(await p.locator('[data-action="quote"]').isDisabled(),true,'sample quote ready');
+   await p.locator('#nav [data-tab="5"]').click();
+   await p.locator('[data-action="paid"]').click();
+   assert.equal(await p.locator('[data-action="paid"]').isDisabled(),true,'sample invoice paid');
+   await p.locator('[data-action="reset"]').click();
+   assert.equal(await p.locator('#nav [data-tab="0"]').getAttribute('aria-current'),'page','preview returns to overview');
+   assert.equal(errors.length,0,'JavaScript errors: '+errors.join(','));
+   good(label);
+  }catch(e){fail(label,e);await p.screenshot({path:'qa-screenshots/ERROR-'+v.name+'-'+lang+'-cleaning.png',fullPage:true}).catch(()=>{})}
+  await p.close();
+ }
+}
+for(const [path,lang] of [['/cleaning-web-app','en'],['/es/cleaning-web-app/','es']]){
+ const p=await browser.newPage();
+ try{
+  const response=await p.goto(base+path,{waitUntil:'domcontentloaded',timeout:30000});
+  assert.equal(response?.status(),200);
+  assert((await p.locator('a[href="/cleaning-app-demo/?lang='+lang+'"]').count())>0,'Cleaning App preview link missing');
+  good('Cleaning App preview landing link '+lang);
+ }catch(e){fail('Cleaning App preview landing link '+lang,e)}
+ await p.close();
+}
 await browser.close();
 console.log('SUMMARY',JSON.stringify({pass:results.filter(x=>x.pass).length,failed:results.filter(x=>!x.pass).length,tests:results}));
 if(results.some(x=>!x.pass))process.exitCode=1;
