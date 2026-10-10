@@ -198,7 +198,7 @@ body.vehicle-booking #baseReviews>p{color:#9fb4c8;text-align:left}
 body.vehicle-booking #baseReviews .base-review{background:#0b1521;border:1px solid #263a4c;border-radius:13px;color:#f5f8fc}
 body.vehicle-booking #baseReviews .base-review.empty{color:#a7c0d9;border-style:dashed}
 body.vehicle-booking #baseReviews .base-review.empty strong{color:#d8ebfb}
-body.vehicle-booking .base-closing{display:flex!important;position:relative;overflow:hidden;min-height:315px;background:#07111b url("https://images.pexels.com/photos/10549258/pexels-photo-10549258.jpeg?auto=compress&cs=tinysrgb&w=1600") center 52%/cover no-repeat!important;border-radius:18px;padding:32px 38px;margin:25px 0;color:#fff;align-items:center;isolation:isolate}
+body.vehicle-booking .base-closing{display:flex!important;position:relative;overflow:hidden;min-height:315px;background:#07111b url("https://d2ol7oe51mr4n9.cloudfront.net/user_3FC9GcVebQE6WAxiCP5Hh9w95GF/5acc5b29-68aa-4c93-93a6-acee6d304d7f.png") center 52%/cover no-repeat!important;border-radius:18px;padding:32px 38px;margin:25px 0;color:#fff;align-items:center;isolation:isolate}
 body.vehicle-booking .base-closing:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#040a11f5,#040a11b8 40%,#08132125 100%)}
 body.vehicle-booking .base-closing h2{font-size:clamp(31px,4vw,49px);font-weight:850;max-width:360px;letter-spacing:-.05em;line-height:1.08;margin-bottom:13px}
 body.vehicle-booking .base-closing p{max-width:360px;color:#deeaf9}
@@ -293,4 +293,4 @@ body.vehicle-booking .cb-contact-form button[type=submit]{justify-self:stretch}
 }
 
 /* Permanent, approved hero image also powers the final CTA */
-body.vehicle-booking .base-closing{background-image:var(--cb-closing-photo,url("https://images.pexels.com/photos/10549258/pexels-photo-10549258.jpeg?auto=compress&cs=tinysrgb&w=1600"))!important}
+body.vehicle-booking .base-closing{background-image:var(--cb-closing-photo,url("https://d2ol7oe51mr4n9.cloudfront.net/user_3FC9GcVebQE6WAxiCP5Hh9w95GF/5acc5b29-68aa-4c93-93a6-acee6d304d7f.png"))!important}
