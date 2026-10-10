@@ -276,7 +276,54 @@ function activate(session){
   card.onclick=e=>{e.preventDefault();selectService.value=card.querySelector("h3")?.textContent||services[0].name;syncService();goto(1);};
  });
  document.querySelectorAll(".base-button[href='#booking']").forEach(a=>a.addEventListener("click",()=>{syncService();goto(1)}));
- syncService();selectVehicle("Car");
+ syncService();selectVehicle("Car"); 
+ // CB Depot only — cinematic on-scroll reveals with a light-touch hero parallax.
+ // Keep the quote wizard, links, and form interactions unchanged.
+ function initCBScrollExperience(){
+  const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduced||!("IntersectionObserver" in window))return;
+  const selectors=[
+   ".trust .cb-trust",
+   "#services .cb-kicker","#services #baseServiceTitle",
+   "#services #baseServiceCopy","#services .base-service-card",
+   ".base-section .base-feature",".base-section .base-step",
+   "#baseReviews .base-review",".base-closing","#cbContact"
+  ];
+  const elements=[...new Set(selectors.flatMap(selector=>[...document.querySelectorAll(selector)]))];
+  elements.forEach((element,index)=>{
+   element.classList.add("cb-reveal");
+   element.style.setProperty("--cb-reveal-delay",(index%3)*85+"ms");
+  });
+  document.body.classList.add("cb-motion-ready");
+  const observer=new IntersectionObserver(entries=>{
+   entries.forEach(entry=>{
+    if(!entry.isIntersecting)return;
+    entry.target.classList.add("cb-in-view");
+    observer.unobserve(entry.target);
+   });
+  },{threshold:0.08,rootMargin:"0px 0px -30px 0px"});
+  elements.forEach(el=>observer.observe(el));
+  const heroImage=document.querySelector("#leadHero .base-hero-image");
+  let frameRequested=false;
+  const update=()=>{
+   frameRequested=false;
+   if(!heroImage)return;
+   const rect=hero.getBoundingClientRect();
+   if(rect.bottom<0||rect.top>window.innerHeight)return;
+   const shift=Math.max(-35,Math.min(35,-rect.top*.085));
+   heroImage.style.setProperty("--cb-parallax",shift.toFixed(1)+"px");
+  };
+  const schedule=()=>{
+   if(frameRequested)return;
+   frameRequested=true;
+   requestAnimationFrame(update);
+  };
+  window.addEventListener("scroll",schedule,{passive:true});
+  window.addEventListener("resize",schedule,{passive:true});
+  schedule();
+ }
+ initCBScrollExperience();
+
  // Keep the quote data within the standard backend model, avoiding any house fields.
  document.getElementById("baseFooterBusiness").textContent="CB Depot";
 }
