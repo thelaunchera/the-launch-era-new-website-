@@ -2,13 +2,14 @@
 (()=>{
 "use strict";
 const photos={
- hero:"https://images.pexels.com/photos/10549258/pexels-photo-10549258.jpeg?auto=compress&cs=tinysrgb&w=1800",
- interior:"https://images.pexels.com/photos/4218867/pexels-photo-4218867.jpeg?auto=compress&cs=tinysrgb&w=650",
- exterior:"https://images.pexels.com/photos/7154632/pexels-photo-7154632.jpeg?auto=compress&cs=tinysrgb&w=650",
- deep:"https://images.pexels.com/photos/4892130/pexels-photo-4892130.jpeg?auto=compress&cs=tinysrgb&w=650",
- paint:"https://images.pexels.com/photos/6870310/pexels-photo-6870310.jpeg?auto=compress&cs=tinysrgb&w=650",
- full:"https://images.pexels.com/photos/10549258/pexels-photo-10549258.jpeg?auto=compress&cs=tinysrgb&w=650",
- custom:"https://images.pexels.com/photos/7154635/pexels-photo-7154635.jpeg?auto=compress&cs=tinysrgb&w=650"
+ "hero": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FC9GcVebQE6WAxiCP5Hh9w95GF/f10b754e-51ad-4b38-82b3-3564f1a5c2b9.png",
+ "heroMobile": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FC9GcVebQE6WAxiCP5Hh9w95GF/5acc5b29-68aa-4c93-93a6-acee6d304d7f.png",
+ "interior": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FC9GcVebQE6WAxiCP5Hh9w95GF/52a4dc93-fa7b-4650-b7f7-610116b8f170.png",
+ "exterior": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FC9GcVebQE6WAxiCP5Hh9w95GF/2254283f-1bfe-4795-a2d4-1ea0da9b26a1.png",
+ "paint": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FC9GcVebQE6WAxiCP5Hh9w95GF/1babdbbf-872a-42e5-9ab0-d7d3bb4d8da5.png",
+ "full": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FC9GcVebQE6WAxiCP5Hh9w95GF/f10b754e-51ad-4b38-82b3-3564f1a5c2b9.png",
+ "deep": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FC9GcVebQE6WAxiCP5Hh9w95GF/52a4dc93-fa7b-4650-b7f7-610116b8f170.png",
+ "custom": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FC9GcVebQE6WAxiCP5Hh9w95GF/5acc5b29-68aa-4c93-93a6-acee6d304d7f.png"
 };
 const names=[
  {key:"interior",desc:"Fresh, clean cabin"},
@@ -45,9 +46,9 @@ function activate(session){
  const hero=document.querySelector("#leadHero"),img=document.querySelector("#baseHeroImage"),top=document.querySelector(".heroText");
  // A client-uploaded real image can replace the illustrated default; never use the childlike SVG as the hero.
  const candidate=String(model.branding?.hero_image||"");
- const customImage=candidate&&!candidate.endsWith(".svg");
+ const customImage=candidate && !candidate.endsWith(".svg") && !/images\.pexels\.com/.test(candidate);
  img.hidden=false;
- img.src=customImage?candidate:photos.hero;
+ img.src=customImage?candidate:(matchMedia("(max-width: 620px)").matches?photos.heroMobile:photos.hero);
  img.alt="Modern car at a professional auto detailing studio";
  img.loading="eager";img.fetchPriority="high";
  img.onerror=()=>{img.onerror=null;img.src=photos.hero};
