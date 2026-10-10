@@ -1064,3 +1064,12 @@ img { display:block; width:100%; object-fit:cover; }
   .service-buy-clarity { padding: 22px 16px; margin: 38px 0 30px; }
   .service-buy-clarity > h2 { font-size: 28px; }
 }
+
+/* Contact lives on its own page; FAQs live with their services or at the end of the homepage. */
+.help-contact-intro { padding-top: 14px; }
+.help-contact-intro .eyebrow { color:#52748b; font-size:11px; letter-spacing:.1em; }
+.help-contact-intro h2 { font-size:clamp(32px,3.4vw,46px); line-height:1.1; margin:16px 0; color:#191919; }
+.help-contact-intro p { font-size:14px; line-height:1.75; color:#526674; margin-bottom:24px; }
+.help-contact-intro .service-demo-link { display:inline-flex; align-items:center; gap:8px; }
+#faq { scroll-margin-top: 90px; }
+@media(max-width:767px) { .help-layout { grid-template-columns:1fr; gap:26px; } .help-contact-intro { padding-top:0; } }
