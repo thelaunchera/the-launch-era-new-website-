@@ -997,3 +997,8 @@ img { display:block; width:100%; object-fit:cover; }
 .service-grid .service-discount-offer .service-price-pill del{font-size:11px}
 .service-hero .service-discount-offer{margin:14px 0 12px;gap:12px}
 .service-hero .service-discount-offer .booking-offer-price strong{font-size:25px}
+
+
+.hero-intro .hero-production-note{font-size:12px;line-height:1.5;margin:10px auto 0;max-width:560px;color:#486879}
+.booking-production-note{font-size:13px;line-height:1.5;margin:12px 0;color:#486879}
+.nav-right a[href$="booking-lead-automation"]{white-space:normal;max-width:165px;line-height:1.3}

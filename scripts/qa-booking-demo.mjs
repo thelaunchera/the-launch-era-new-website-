@@ -209,9 +209,9 @@ await check('Canonical Booking Page is the emailed demo',{width:390,height:844},
  assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3),'Demo fits mobile width');
  await p.screenshot({path:'qa-screenshots/booking-canonical-home-commercial.png',fullPage:true});
 });
-await check('Buyer Booking Page uses canonical demo template',{width:390,height:844},async p=>{
+await check('Buyer Booking Page uses original base template',{width:390,height:844},async p=>{
  await p.goto(base+'/booking/?owner_preview=1',{waitUntil:'domcontentloaded'});
- await p.waitForURL(url=>url.pathname==='/lead-private-preview.html'&&url.searchParams.get('owner_preview')==='1');
+ await p.waitForURL(url=>url.pathname==='/base-booking.html'&&url.searchParams.get('owner_preview')==='1');
  assert.equal(await p.locator('#categoryTabs').count(),1);
  assert.equal(await p.locator('#leadHero').count(),1);
  const mode=await p.locator('html').getAttribute('class');

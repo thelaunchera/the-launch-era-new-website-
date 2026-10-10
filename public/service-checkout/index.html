@@ -23,7 +23,7 @@ let trafficSource=(params.get("source")||"").trim().toLowerCase();try{trafficSou
 try{sessionStorage.setItem("tleCheckoutLanguage",es?"es":"en")}catch{}
 const bookingSaleEnd=new Date("2026-11-01T04:00:00Z").getTime();
 const bookingPrice=Date.now()<bookingSaleEnd?"$19.99":"$99";
-const allowed={"booking-flow":(Date.now()<bookingSaleEnd?"The Fall Refresh Offer · ":"")+"Booking Automation + Lead Command Center · "+bookingPrice,"website-automation":"Website Automation · $41.99",va:"Virtual Assistant · $34.99/month"};
+const allowed={"booking-flow":(Date.now()<bookingSaleEnd?"The Fall Refresh Offer · ":"")+"Booking Automation + Command Center · "+bookingPrice,"website-automation":"Website Automation · $41.99",va:"Virtual Assistant · $34.99/month"};
 const kicker=document.getElementById("kicker"),title=document.getElementById("title"),copy=document.getElementById("copy"),dots=document.getElementById("dots"),retry=document.getElementById("retry"),status=document.getElementById("status");
 if(es){document.documentElement.lang="es";title.textContent="Abriendo tu pago seguro…";copy.textContent="Tu pago seguro se está abriendo ahora.";retry.textContent="Intentar otra vez";status.textContent="Revisa tu pedido antes de completar el pago.";} 
 if(!allowed[offer]){title.textContent=es?"Este enlace de pago no es válido.":"This checkout link is invalid.";copy.textContent=es?"Regresa a The Launch Era y elige el servicio otra vez.":"Return to The Launch Era and choose an offer again.";dots.hidden=true;status.textContent="";throw new Error("invalid offer")}

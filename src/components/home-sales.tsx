@@ -25,7 +25,7 @@ export function PainCards({lang='en'}:{lang?:Language}) {
  ['“I know they messaged. I just can’t find where.”','Searching DMs, texts, and screenshots takes time away from replying.','Your Booking Page brings new requests into your Command Center.'],
  ['“The cleaning is done. My admin isn’t.”','There are still schedules, client details, and loose ends to check.','The Cleaning App keeps jobs, clients, quotes, and invoices together.']
  ];
- return <div className="sales-pains">{pains.map(([title,pain,solution],i)=><details key={title} onToggle={e=>{if(e.currentTarget.open)track('pain',String(i))}}><summary><span>{title}</span><Plus size={19}/></summary><div className="pain-answer"><p>{pain}</p><strong>{es?'Así te ayuda TLE':'How TLE helps'}</strong><p>{solution}</p><a href={i===2?(es?'/es/cleaning-web-app/':'/cleaning-web-app/'):`/booking-demo/?lang=${lang}`}>{i===2?(es?'Ver la Cleaning App':'See the Cleaning App'):(es?'Pedir mi demo':'Get my demo')} <ArrowRight size={17}/></a></div></details>)}<p className="problem-bottom">{es?'Elige la situación que se parece a tu día.':'Choose the situation that sounds like your day.'}</p></div>;
+ return <div className="sales-pains">{pains.map(([title,pain,solution],i)=><details key={title} onToggle={e=>{if(e.currentTarget.open)track('pain',String(i))}}><summary><span>{title}</span><Plus size={19}/></summary><div className="pain-answer"><p>{pain}</p><strong>{es?'Así te ayuda TLE':'How TLE helps'}</strong><p>{solution}</p><a href={i===2?(es?'/es/cleaning-web-app/':'/cleaning-web-app/'):`/booking-demo/?lang=${lang}`}>{i===2?(es?'Ver la Cleaning App':'See the Cleaning App'):(es?'Quiero mi demo personalizada':'Get my personalized demo')} <ArrowRight size={17}/></a></div></details>)}<p className="problem-bottom">{es?'Elige la situación que se parece a tu día.':'Choose the situation that sounds like your day.'}</p></div>;
 }
 
 export function ProductExplorer({lang='en',children}:{lang?:Language;children:ReactNode}) {
@@ -39,13 +39,13 @@ export function ProductExplorer({lang='en',children}:{lang?:Language;children:Re
 export function PurchaseClarity({lang='en'}:{lang?:Language}) {
  const es=lang==='es';
  const questions=es?[
- ['¿Qué recibo con Booking + Lead Automation?','Una Booking Page personalizada conectada a tu Lead Command Center privado, con controles de servicios, precios, disponibilidad y los primeros dos seguimientos automáticos.'],
- ['¿Qué pasa después de comprar?','Compartes los datos de tu negocio en el formulario de inicio. Personalizamos el sistema y te enviamos tus enlaces de acceso por correo cuando esté listo.'],
+ ['¿Qué recibo con Booking Automation + Command Center?','Una Booking Page personalizada conectada a tu Command Center privado, con controles de servicios, precios, disponibilidad y los primeros dos seguimientos automáticos.'],
+ ['¿Qué pasa después de comprar?','Completa tu intake y comparte todos los datos necesarios. Personalizamos tu sistema en 24 horas y te enviamos los enlaces de acceso por correo.'],
  ['¿Puedo cambiar los precios y horarios?','Sí. Los editas desde Pricing & Services y Availability en tu Command Center.'],
  ['¿Las reservas se confirman automáticamente?','Puedes activarlo para servicios con precio fijo. Las solicitudes que necesitan una cotización especial quedan para tu revisión.']
  ]:[
- ['What do I get with Booking + Lead Automation?','A personalized Booking Page connected to your private Lead Command Center, with service, price, and availability controls plus the first two automatic follow-ups.'],
- ['What happens after I buy?','Share your business details in the setup form. We personalize your system and email your access links when it is ready.'],
+ ['What do I get with Booking Automation + Command Center?','A personalized Booking Page connected to your private Command Center, with service, price, and availability controls plus the first two automatic follow-ups.'],
+ ['What happens after I buy?','Complete your intake and provide all required details. Your personalized system is ready within 24 hours, and your access links arrive by email.'],
  ['Can I change my prices and available times?','Yes. Update them in Pricing & Services and Availability inside your Command Center.'],
  ['Do bookings confirm automatically?','You can enable instant confirmation for fixed-price services. Requests that need a custom quote stay ready for your review.']
  ];
