@@ -319,3 +319,224 @@ body.vehicle-booking .cb-booking-panda img{padding:7px;object-fit:contain}
  body.vehicle-booking #baseBusiness img,
  body.vehicle-booking .base-brand img{width:35px!important;height:35px!important;max-width:35px!important;max-height:35px!important;flex-basis:35px!important}
 }
+
+
+/* CB Depot · seamless immersive landing, responsive across phones/tablets/desktops.
+   Scoped to this buyer only: shared booking pages retain their own styles. */
+html:has(body.vehicle-booking){width:100%;max-width:100%;overflow-x:clip;background:#030910}
+body.vehicle-booking{
+ --cb-ambient:#030910;
+ --cb-electric:#1593ff;
+ width:100%;max-width:100%;margin:0;
+ overflow-x:clip!important;
+ background:#030910!important;
+}
+body.vehicle-booking *,body.vehicle-booking *::before,body.vehicle-booking *::after{box-sizing:border-box}
+body.vehicle-booking .wrap{
+ width:100%;max-width:none!important;min-width:0;
+ padding:0!important;margin:0!important;
+ overflow-x:clip;overflow-y:visible;
+ background:#030910!important;
+}
+body.vehicle-booking .wrap > *{min-width:0;max-width:100%}
+body.vehicle-booking .base-nav{
+ width:min(100% - 2 * clamp(16px,3.5vw,42px),1220px);
+ max-width:1220px;margin-inline:auto;
+ padding-inline:0;
+}
+body.vehicle-booking #leadHero.hero{
+ width:100%!important;max-width:100%!important;
+ margin:0!important;border:0!important;border-radius:0!important;
+ min-height:min(760px,88svh);
+ overflow:hidden!important;
+ background:#030910!important;
+ box-shadow:none!important;
+}
+body.vehicle-booking #leadHero .base-hero-image{
+ width:100%;max-width:100%;height:100%;
+ object-fit:cover;
+ transform:translate3d(0,var(--cb-parallax,0px),0) scale(1.1);
+ transform-origin:center center;
+ will-change:transform;
+}
+body.vehicle-booking #leadHero.hero:after{
+ background:
+ linear-gradient(0deg,#030910 0%,rgba(3,9,16,.18) 30%,transparent 52%),
+ linear-gradient(90deg,rgba(3,9,16,.91) 0%,rgba(3,9,16,.69) 45%,rgba(3,9,16,.19) 100%);
+}
+body.vehicle-booking #leadHero .heroText{
+ width:min(100%,1240px);max-width:1240px;
+ margin-inline:auto;padding-inline:clamp(23px,5.8vw,84px);
+}
+body.vehicle-booking #leadHero .heroText h1{max-width:790px;text-wrap:balance}
+body.vehicle-booking .trust{
+ display:grid!important;
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ width:100%!important;max-width:none!important;
+ margin:0!important;
+ padding:clamp(16px,2.7vw,32px) max(clamp(16px,3.6vw,52px),calc((100vw - 1220px)/2)) clamp(38px,5vw,66px)!important;
+ gap:clamp(10px,1.5vw,22px)!important;
+ border:0!important;border-radius:0!important;
+ background:radial-gradient(ellipse at 52% 0%,rgba(12,104,197,.14),transparent 68%),#030910!important;
+ box-shadow:none!important;
+}
+body.vehicle-booking .trust .cb-trust{
+ position:relative;
+ justify-content:flex-start;
+ display:flex;align-items:center;
+ width:100%;max-width:100%;min-width:0;
+ min-height:116px;
+ padding:clamp(15px,2.4vw,25px)!important;
+ gap:clamp(10px,1.35vw,18px);
+ border:1px solid #243c53!important;border-radius:19px;
+ background:linear-gradient(145deg,rgba(14,29,44,.97),rgba(5,13,22,.96));
+ box-shadow:inset 0 1px 0 #b7ddff0b,0 18px 30px #00000028;
+ transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .35s,box-shadow .35s,background .35s;
+}
+body.vehicle-booking .cb-trust-symbol{
+ flex:0 0 49px;width:49px;height:49px;
+ color:#40adff!important;
+ border:1px solid #275a82!important;
+ border-radius:14px;
+ background:linear-gradient(145deg,#10243b,#071827)!important;
+ font-size:26px!important;
+ transition:transform .35s,color .35s;
+}
+body.vehicle-booking .cb-trust strong{
+ font-size:clamp(13px,1.48vw,19px)!important;line-height:1.28;
+ font-weight:800;color:#f6fbff;
+ overflow-wrap:anywhere;
+}
+body.vehicle-booking .cb-trust small{
+ font-size:clamp(11px,1.1vw,14px)!important;
+ line-height:1.45;color:#a7c2da;
+ overflow-wrap:anywhere;
+}
+body.vehicle-booking .trust .cb-trust:is(:hover,:focus-within){
+ transform:translateY(-5px);
+ border-color:#2498ff!important;
+ box-shadow:0 20px 44px #007dff1e,0 0 0 1px #058bff15;
+}
+body.vehicle-booking .trust .cb-trust:is(:hover,:focus-within) .cb-trust-symbol{
+ transform:translateY(-2px) scale(1.06);
+}
+body.vehicle-booking #services.base-services,
+body.vehicle-booking #booking.panel,
+body.vehicle-booking .base-section,
+body.vehicle-booking .base-closing,
+body.vehicle-booking .cb-contact,
+body.vehicle-booking .base-footer{
+ width:min(calc(100% - 2 * clamp(14px,3.5vw,46px)),1220px);
+ max-width:1220px;min-width:0;
+ margin-left:auto!important;margin-right:auto!important;
+}
+body.vehicle-booking #services.base-services{
+ margin-top:0!important;margin-bottom:0!important;
+ padding:clamp(26px,3.3vw,44px) clamp(4px,2vw,23px) clamp(30px,4vw,55px)!important;
+ background:transparent!important;
+ border:0!important;
+ border-radius:0!important;
+}
+body.vehicle-booking #services .base-service-card{
+ border-radius:23px;
+ transition:transform .44s cubic-bezier(.2,.8,.2,1),border-color .4s,box-shadow .4s;
+ box-shadow:0 13px 35px #0005;
+}
+body.vehicle-booking #services .base-service-card:is(:hover,:focus-visible){
+ transform:translateY(-7px);
+ border-color:#1593ff!important;
+ box-shadow:0 24px 54px #005cb729,0 0 0 1px #1593ff36;
+}
+body.vehicle-booking #services .cb-service-photo{
+ transition:transform .75s cubic-bezier(.2,.8,.2,1),filter .55s;
+}
+body.vehicle-booking #services .base-service-card:is(:hover,:focus-visible) .cb-service-photo{
+ transform:scale(1.09);
+ filter:brightness(1.11) saturate(1.09);
+}
+body.vehicle-booking #services .cb-service-arrow{
+ transition:transform .4s,background .4s,color .4s;
+}
+body.vehicle-booking #services .base-service-card:is(:hover,:focus-visible) .cb-service-arrow{
+ transform:translateX(3px);background:#148dff;color:white;
+}
+body.vehicle-booking #booking.panel{
+ margin-top:clamp(20px,3vw,42px)!important;
+ margin-bottom:clamp(22px,4vw,55px)!important;
+}
+body.vehicle-booking .base-section,
+body.vehicle-booking .base-closing,
+body.vehicle-booking .cb-contact{min-width:0;overflow-wrap:anywhere}
+body.vehicle-booking .base-feature,body.vehicle-booking .base-step{
+ border-radius:18px;
+ transition:transform .32s ease,box-shadow .32s ease,border-color .32s ease;
+}
+body.vehicle-booking .base-feature:is(:hover,:focus-within),
+body.vehicle-booking .base-step:is(:hover,:focus-within){
+ transform:translateY(-5px);box-shadow:0 18px 35px #0057a720;
+}
+body.vehicle-booking .base-footer{padding-bottom:clamp(28px,4vw,60px)}
+/* Entrance choreography only after JS connects IntersectionObserver. */
+body.vehicle-booking.cb-motion-ready .cb-reveal{
+ opacity:0;transform:translate3d(0,34px,0) scale(.985);
+ filter:blur(5px);
+ transition:opacity .85s cubic-bezier(.15,.75,.23,1),transform .85s cubic-bezier(.15,.75,.23,1),filter .85s ease;
+ transition-delay:var(--cb-reveal-delay,0ms);
+}
+body.vehicle-booking.cb-motion-ready .cb-reveal.cb-in-view{
+ opacity:1;transform:translate3d(0,0,0) scale(1);
+ filter:blur(0);
+}
+@media(max-width:830px){
+ body.vehicle-booking .trust{padding:20px 16px 42px!important}
+ body.vehicle-booking .trust .cb-trust{min-height:107px;padding:14px!important;gap:10px}
+ body.vehicle-booking .cb-trust-symbol{flex-basis:39px;width:39px;height:39px;font-size:23px!important}
+ body.vehicle-booking #leadHero.hero{height:clamp(570px,74svh,730px);min-height:570px}
+ body.vehicle-booking #leadHero .heroText{padding-inline:clamp(20px,5vw,48px)}
+}
+@media(max-width:620px){
+ body.vehicle-booking .base-nav{width:calc(100% - 26px)}
+ body.vehicle-booking #leadHero.hero{height:min(700px,84svh);min-height:540px}
+ body.vehicle-booking #leadHero .heroText{
+  width:100%;max-width:100%;padding-inline:clamp(20px,5vw,32px);
+ }
+ body.vehicle-booking #leadHero .heroText h1{font-size:clamp(36px,9.6vw,56px);overflow-wrap:break-word}
+ body.vehicle-booking .trust{
+  grid-template-columns:1fr!important;
+  padding:14px 15px 32px!important;
+  gap:10px!important;
+ }
+ body.vehicle-booking .trust .cb-trust{
+  display:flex;text-align:left;min-height:76px;
+  padding:13px 16px!important;border-radius:16px;
+ }
+ body.vehicle-booking .cb-trust-symbol{margin:0;flex:0 0 42px;width:42px;height:42px}
+ body.vehicle-booking .cb-trust strong{font-size:14px!important}
+ body.vehicle-booking .cb-trust small{font-size:12px!important;margin-top:2px}
+ body.vehicle-booking #services.base-services,
+ body.vehicle-booking #booking.panel,
+ body.vehicle-booking .base-section,
+ body.vehicle-booking .base-closing,
+ body.vehicle-booking .cb-contact,
+ body.vehicle-booking .base-footer{width:calc(100% - 30px)}
+ body.vehicle-booking #services.base-services{padding:14px 0 32px!important}
+ body.vehicle-booking #services .base-service-grid{gap:11px}
+ body.vehicle-booking #services .base-service-card{border-radius:18px}
+ body.vehicle-booking #booking.panel{padding:23px 12px!important}
+ body.vehicle-booking .base-closing{border-radius:22px}
+}
+@media(max-width:370px){
+ body.vehicle-booking #services .base-service-grid{grid-template-columns:1fr}
+ body.vehicle-booking #services .base-service-card{min-height:230px}
+}
+@media(prefers-reduced-motion:reduce){
+ body.vehicle-booking #leadHero .base-hero-image{transform:none!important;will-change:auto}
+ body.vehicle-booking.cb-motion-ready .cb-reveal,
+ body.vehicle-booking.cb-motion-ready .cb-reveal.cb-in-view{
+  opacity:1!important;transform:none!important;filter:none!important;
+  transition:none!important;animation:none!important;
+ }
+ body.vehicle-booking .trust .cb-trust,body.vehicle-booking #services .base-service-card,
+ body.vehicle-booking #services .cb-service-photo,
+ body.vehicle-booking .base-feature,body.vehicle-booking .base-step{transition:none!important}
+}
