@@ -8,10 +8,11 @@
  const dest=new URL('/base-booking.html',location.origin);
  const params=new URLSearchParams(location.search);
  // The existing paid Booking Page key and language are preserved unchanged.
- if(params.has('key')||params.get('preview')==='1'||params.get('owner_preview')==='1'){
+ if(params.has('key')){
   for(const [k,v] of params)dest.searchParams.append(k,v);
   location.replace(dest.pathname+dest.search+location.hash);
  }
+  else if(params.get('preview')==='1'||params.get('owner_preview')==='1') location.replace('/booking-demo/?lang='+(params.get('lang')==='es'?'es':'en'));
 })();
 </script></head><body>
 <div class="card"><h2>Personalized Booking Page</h2><p>This booking link needs a business key. If you received a Booking Page link, please open it exactly as provided.</p><p><a href="/booking-demo/">See how the Booking Page works →</a></p></div>
