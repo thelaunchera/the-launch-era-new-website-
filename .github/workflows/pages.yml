@@ -23,6 +23,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Enforce client delivery copy, branding and legal guard
+        run: node scripts/qa-client-release.mjs
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
