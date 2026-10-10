@@ -221,7 +221,29 @@ async function submit(which){
   notes:route==="res"?["ZIP "+$("zip").value,details].filter(Boolean).join(" · "):route==="quote"&&isVehicleBusiness()?["Vehicle: "+($("vehicleMakeModel")?.value||"Not provided"),"Condition: "+($("qsize")?.value||""),details].filter(Boolean).join(" · "):details,
   requested_date:date,requested_time:time,source:"booking_page",estimate_display:estimateLabel
  };
- if(ownerPreview){show("done",tr("Private preview only","Solo vista previa privada"),"DEMO");$("done").querySelector("h2").textContent=tr("No request sent","No se envió ninguna solicitud");$("done").querySelector("p").textContent=tr("This is the buyer’s design preview. No booking, email or charge was created.","Esta es una vista previa del diseño de la compradora. No se generó reserva, correo ni cobro.");return}
+ if(ownerPreview){
+  if(!session.model?.qa_nonce){alertCustomer("Private QA is available only from the owner Command Center.");return}
+  session.sending=true;
+  try{
+   const result=await new Promise((resolve,reject)=>{
+    const guard=setTimeout(()=>{window.removeEventListener("message",onResult);reject(new Error("The private lead test timed out. Try again from your Command Center."))},17000);
+    function onResult(event){
+      if(event.origin!=="https://the-launch-era-crm.dailinsegura17.workers.dev"||event.source!==window.parent)return;
+      if(event.data?.type!=="TLE_OWNER_PREVIEW_QA_RESULT"||event.data?.nonce!==session.model.qa_nonce)return;
+      clearTimeout(guard);window.removeEventListener("message",onResult);
+      if(!event.data.ok||!event.data.verified)reject(new Error(event.data.error||"Lead routing test failed"));
+      else resolve(event.data);
+    }
+    window.addEventListener("message",onResult);
+    window.parent.postMessage({type:"TLE_OWNER_PREVIEW_QA_REQUEST",nonce:session.model.qa_nonce,request:body},"https://the-launch-era-crm.dailinsegura17.workers.dev");
+   });
+   show("done",tr("Private lead test passed","Prueba de lead superada"),"✓");
+   $("done").querySelector("h2").textContent=tr("Your test reached the Command Center","La prueba llegó al Command Center");
+   $("done").querySelector("p").textContent=tr("PASS: The sample request reached the correct private lead system. The sample was removed after verification; no booking, customer email or follow-up was created.","PASS: La solicitud de muestra llegó al negocio correcto. Se eliminó después; no hubo reservas ni correos.");
+  }catch(error){alertCustomer(error.message||"Private lead test could not be verified.")}
+  finally{session.sending=false}
+  return;
+ }
  const b=document.querySelector(".screen.on .cb-go, .screen.on .next"),prior=b?.textContent;
  session.sending=true;if(b){b.disabled=true;b.textContent=tr("Sending…","Enviando…")}
  try{
@@ -338,10 +360,10 @@ try{
  if(ownerPreview)session.language=model.language==="es"?"es":"en";
  liveFields();brand();catalog();dateSetup();activateRealSubmission();setupVehicleMode();window.TLECBDepotEnhance?.(session);
  if(ownerPreview){
-  document.querySelector(".top").textContent=tr("OWNER DESIGN PREVIEW · NOTHING IS SENT","VISTA PREVIA DE DISEÑO · NO SE ENVÍA NADA");
+  document.querySelector(".top").textContent=tr("OWNER PREVIEW · TEST LEADS ONLY · NO EMAILS OR BOOKINGS","VISTA PRIVADA · SOLO LEADS DE PRUEBA · SIN CORREOS NI RESERVAS");
   document.querySelector(".top").style.background="#213f58";
   $("done").querySelector("h2").textContent=tr("This is a private preview","Esta es una vista previa privada");
-  $("done").querySelector("p").textContent=tr("No real emails, bookings or payments.","No hay correos, reservas ni pagos reales.");
+  $("done").querySelector("p").textContent=tr("Submit a sample request to test private lead routing. No customer emails, payments or bookings.","Envía una solicitud de muestra para probar la entrada de leads. No hay correos, pagos ni reservas reales.");
   const note=$("realSlotNotice");if(note)note.textContent=tr(
    "Sample times for design review only. Verify actual working hours in Availability before delivery.",
    "Horarios de ejemplo para revisar el diseño. Confirma las horas reales en Disponibilidad antes de entregar.");
