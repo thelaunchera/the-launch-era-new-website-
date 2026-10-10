@@ -4,10 +4,10 @@
 const photos={
  "hero": "/assets/clients/cb-depot/photos/hero-desktop.webp",
  "heroMobile": "/assets/clients/cb-depot/photos/hero-mobile.webp",
- "interior": "/assets/clients/cb-depot/photos/interior.webp",
- "exterior": "/assets/clients/cb-depot/photos/exterior.webp",
- "paint": "/assets/clients/cb-depot/photos/paint.webp",
- "full": "/assets/clients/cb-depot/photos/full.webp",
+ "interior": "/assets/clients/cb-depot/photos/card-interior.webp",
+ "exterior": "/assets/clients/cb-depot/photos/card-exterior.webp",
+ "paint": "/assets/clients/cb-depot/photos/card-paint.webp",
+ "full": "/assets/clients/cb-depot/photos/card-full.webp",
  "deep": "/assets/clients/cb-depot/photos/interior.webp",
  "custom": "/assets/clients/cb-depot/photos/panda-on-bmw.webp"
 };
