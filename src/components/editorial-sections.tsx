@@ -96,17 +96,11 @@ export function ContactForm() {
 }
 export function HelpContent() {
  return <div className="container help-layout">
-  <div className="faq-list">
-   <h2 className="editorial">A little clarity, before we start.</h2>
-   <details><summary>Is this built for my cleaning business?</summary><p>Yes. We work with U.S. cleaning business owners, including residential, commercial and specialty cleaners. Your setup reflects the services and areas you cover.</p></details>
-   <details><summary>What does Booking Automation + Command Center include?</summary><p>A personalized Booking Page linked to your private Command Center. Your customers can request a cleaning, and you can keep new inquiries, contact details and next steps organized in one place.</p></details>
-   <details><summary>Can I change prices and available times myself?</summary><p>Yes. In your Command Center, open Pricing &amp; Services to update services, add-ons, flat prices or estimate options, and Availability to update booking days, time slots and days off.</p></details>
-   <details><summary>Can customers book instantly?</summary><p>Yes, when you enable instant confirmation for fixed-price services. Requests needing a custom quote can be reviewed before you confirm.</p></details>
-   <details><summary>How do customer follow-ups work?</summary><p>Keep inquiries moving with timely reminders and an organized view of who needs a response. You stay in control of customer communications.</p></details>
-   <details><summary>When do I receive my system?</summary><p>After purchase, tell us about your cleaning business so we can personalize your setup. We'll email your access links when it's ready.</p></details>
-   
-   <details><summary>How much does it cost?</summary><p>Each service's current price and payment details are shown on its own page before checkout. You can review the offer before deciding.</p></details>
-   <details><summary>What if I need help after delivery?</summary><p>Reply directly to your delivery email. Tell us your business name and what you'd like us to review, and we'll help with the next step.</p></details>
+  <div className="help-contact-intro">
+   <div className="eyebrow">QUESTIONS OR A SPECIAL REQUEST?</div>
+   <h2 className="editorial">Tell us what you need help with.</h2>
+   <p>Use the form to reach The Launch Era. Questions about pricing, delivery, and what each service includes are answered on the corresponding service page.</p>
+   <a className="service-demo-link" href="/#faq">See general questions <ArrowRight size={17}/></a>
   </div>
   <ContactForm/>
  </div>
