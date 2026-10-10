@@ -88,6 +88,48 @@ for(const v of screens){
   });
  }
 }
+// Mock delivery outcomes: these are UI tests and never send a live email.
+for(const lang of ['en','es']){
+ await check('Repeat demo request shows accurate confirmation '+lang,{width:390,height:844},async p=>{
+  let requests=0;
+  await p.route('**/functions/v1/tle-personalized-demo',route=>{
+   requests++;
+   return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,duplicate:true})});
+  });
+  await p.goto(base+'/booking-demo/?lang='+lang,{waitUntil:'domcontentloaded'});
+  await p.locator('#demoForm input[name="name"]').fill('Example Visitor');
+  await p.locator('#demoForm input[name="email"]').fill('example@example.com');
+  await p.locator('#demoForm input[name="business"]').fill('Example Cleaning Company');
+  await p.locator('#demoForm input[name="serviceArea"]').fill('Charlotte, NC');
+  await p.locator('#demoForm textarea[name="goal"]').fill('Organize requests');
+  await p.locator('#submit').click();
+  await p.locator('#success').waitFor({state:'visible'});
+  assert.equal(requests,1,'One request per click');
+  const heading=await p.locator('#thanksTitle').innerText();
+  const body=await p.locator('#thanksCopy').innerText();
+  assert.match(heading,lang==='es'?/ya solicitaste/i:/already requested/i,'Repeated request must not be labeled freshly sent');
+  assert.match(body,lang==='es'?/no enviamos otro/i:/haven't sent a second/i,'Repeated request must explain no second email');
+  await p.locator('#language').selectOption(lang==='es'?'en':'es');
+  const translated=await p.locator('#thanksTitle').innerText();
+  assert.match(translated,lang==='es'?/already requested/i:/ya solicitaste/i,'Repeated request remains accurate after changing language');
+ });
+ await check('Failed demo request never claims success '+lang,{width:390,height:844},async p=>{
+  await p.route('**/functions/v1/tle-personalized-demo',route=>route.fulfill({
+   status:503,contentType:'application/json',body:JSON.stringify({ok:false,error:'internal email delivery failed'})
+  }));
+  await p.goto(base+'/booking-demo/?lang='+lang,{waitUntil:'domcontentloaded'});
+  await p.locator('#demoForm input[name="name"]').fill('Example Visitor');
+  await p.locator('#demoForm input[name="email"]').fill('example@example.com');
+  await p.locator('#demoForm input[name="business"]').fill('Example Cleaning Company');
+  await p.locator('#demoForm input[name="serviceArea"]').fill('Charlotte, NC');
+  await p.locator('#demoForm textarea[name="goal"]').fill('Organize requests');
+  await p.locator('#submit').click();
+  await p.locator('#error').waitFor({state:'visible'});
+  assert.equal(await p.locator('#success').isVisible(),false,'No success when delivery fails');
+  assert.doesNotMatch(await p.locator('#error').innerText(),/internal email delivery failed/i,'Never display internal error details');
+ });
+}
+
 for(const [name,path,href] of [
  ['EN product','/booking-lead-automation','/booking-demo/?lang=en'],
  ['ES product','/es/booking-lead-automation/','/booking-demo/?lang=es']]){
