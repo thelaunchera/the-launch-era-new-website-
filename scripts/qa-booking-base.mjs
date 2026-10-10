@@ -14,7 +14,7 @@ await check('Invalid key fails closed',{width:390,height:844},async p=>{await p.
 const cbFixture={...model,business_name:'CB Depot',branding:{business_name:'CB Depot',headline:'Professional car detailing, made simple.',description:'Premium auto detailing',service_area:'Boynton Beach',hero_image:'',logo_image:'',reviews:[{name:'Real Test Reviewer',text:'Verified demo fixture review',rating:5}]},
  services:['Interior Detailing','Exterior Detailing','Deep Interior Cleaning','Paint Protection','Full Detail Package','Custom Auto Detailing Quote']
  .map((name,i)=>({id:'fixture-car-'+i,name,mode:'quote',category:'residential',active:true}))};
-for(const width of [390,820,1024,1440]){
+for(const width of [320,360,390,430,820,1024,1440]){
  await check('CB Depot custom landing + contact '+width,{width,height:900},async p=>{
   let inquiry=null;
   await p.route('**/functions/v1/**',route=>{
@@ -32,6 +32,15 @@ for(const width of [390,820,1024,1440]){
   await overflow(p);
 
   assert.equal(await p.locator('#baseServiceGrid .base-service-card').count(),4);
+  if(width<=650){
+    const cols=await p.locator('#baseServiceGrid').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length);
+    assert.equal(cols,1,'Phone must display one full-width service card per row');
+    const first=await p.locator('#baseServiceGrid .base-service-card').first().boundingBox();
+    assert.ok(first&&first.width>=width*.72,'Service card must be comfortably readable on '+width+'px phone');
+    const booking=await p.locator('#booking').boundingBox(),heading=await p.locator('#booking .head h2').boundingBox();
+    assert.ok(booking&&heading&&heading.width>=booking.width*.72,'Booking heading must use most of the available width');
+    await overflow(p);
+  }
   assert.equal(await p.locator('.base-review .cb-review-stars').textContent(),'★★★★★');
   assert.equal(await p.locator('.base-review a').count(),0);
   await p.locator('#cbContactForm [name=customer_name]').fill('Guest Fixture');
