@@ -597,3 +597,29 @@ body.vehicle-booking #quote #qtime{
 body.vehicle-booking #quote #qdate{
  -webkit-min-logical-width:0;
 }
+
+/* CB Depot customer footer: clear service identity and legal links */
+body.vehicle-booking .base-footer.cb-premium-footer{
+ margin-top:clamp(20px,4vw,52px)!important;
+ padding:clamp(28px,4vw,52px) clamp(22px,4vw,46px)!important;
+ display:grid;justify-items:center;gap:16px;min-width:0;
+ border:1px solid #32404a;border-radius:24px 24px 0 0!important;
+ color:#ede8dd;background:linear-gradient(150deg,#20272d 0%,#101b23 100%)!important;
+ box-shadow:0 -17px 50px #0002;text-align:center;
+}
+body.vehicle-booking .cb-footer-identity{display:flex;align-items:center;justify-content:center;gap:15px}
+body.vehicle-booking .cb-footer-mark{display:block;width:58px;height:58px;border-radius:15px;object-fit:cover}
+body.vehicle-booking .cb-footer-details{display:grid;text-align:left;gap:5px}
+body.vehicle-booking .cb-footer-details strong{font-size:21px;letter-spacing:-.02em;color:white}
+body.vehicle-booking .cb-footer-details span{font-size:12px;color:#c5c9c6;line-height:1.4}
+body.vehicle-booking .cb-footer-quality{font-size:12px;line-height:1.6;color:#dbd1bf}
+body.vehicle-booking .cb-footer-nav{display:flex;justify-content:center;flex-wrap:wrap;gap:11px 22px}
+body.vehicle-booking .cb-footer-nav a{font-size:13px;font-weight:650;color:#f2dbaf!important;text-decoration:none;border-bottom:1px solid transparent}
+body.vehicle-booking .cb-footer-nav a:hover,body.vehicle-booking .cb-footer-nav a:focus-visible{border-color:#f2dbaf}
+body.vehicle-booking .cb-footer-fine{font-size:11px;color:#a6aaad}
+@media(max-width:620px){
+ body.vehicle-booking .base-footer.cb-premium-footer{width:calc(100% - 30px)!important;gap:15px;border-radius:20px!important}
+ body.vehicle-booking .cb-footer-details strong{font-size:19px}
+ body.vehicle-booking .cb-footer-identity{gap:12px}
+ body.vehicle-booking .cb-footer-quality{max-width:290px}
+}
