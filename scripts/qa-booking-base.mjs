@@ -10,4 +10,39 @@ for(const width of [360,390,820,1440])for(const lang of ['en','es']){
  await check('Empty reviews hidden '+width+' '+lang,viewport,async p=>{await p.route('**/functions/v1/**',r=>r.fulfill({json:{...model,branding:{...model.branding,reviews:[]},language:lang}}));await p.goto(base+'/base-booking.html?key='+'b'.repeat(48)+'&lang='+lang);await p.locator('#baseBusiness').filter({hasText:'Fixture Cleaning'}).waitFor();assert.equal(await p.locator('#baseReviews').isVisible(),false);await overflow(p)});
 }
 await check('Invalid key fails closed',{width:390,height:844},async p=>{await p.route('**/functions/v1/**',r=>r.fulfill({status:404,json:{error:'Not available'}}));await p.goto(base+'/booking/?key='+'c'.repeat(48));await p.getByRole('heading',{name:'Booking Page unavailable'}).waitFor();assert.equal(await p.locator('#services').isVisible(),false);assert.equal(await p.locator('#baseReviews').isVisible(),false);await overflow(p)});
+
+const cbFixture={...model,business_name:'CB Depot',branding:{business_name:'CB Depot',headline:'Professional car detailing, made simple.',description:'Premium auto detailing',service_area:'Boynton Beach',hero_image:'',logo_image:'',reviews:[{name:'Real Test Reviewer',text:'Verified demo fixture review',rating:5}]},
+ services:['Interior Detailing','Exterior Detailing','Deep Interior Cleaning','Paint Protection','Full Detail Package','Custom Auto Detailing Quote']
+ .map((name,i)=>({id:'fixture-car-'+i,name,mode:'quote',category:'residential',active:true}))};
+for(const width of [390,1440]){
+ await check('CB Depot custom landing + contact '+width,{width,height:900},async p=>{
+  let inquiry=null;
+  await p.route('**/functions/v1/**',route=>{
+   const url=route.request().url();
+   if(url.endsWith('/tle-booking-flow-pricing'))return route.fulfill({json:cbFixture});
+   if(url.endsWith('/tle-booking-flow-inquiry')){inquiry=JSON.parse(route.request().postData());return route.fulfill({json:{ok:true,booking_confirmed:false}})}
+   return route.fulfill({json:{slots:[]}});
+  });
+  await p.goto(base+'/base-booking.html?key='+'d'.repeat(48)+'&lang=en');
+  await p.locator('body.vehicle-booking').waitFor();
+  await p.locator('#cbContactForm').waitFor();
+  assert.equal(await p.locator('#baseServiceGrid .base-service-card').count(),4);
+  assert.equal(await p.locator('.base-review .cb-review-stars').textContent(),'★★★★★');
+  assert.equal(await p.locator('.base-review a').count(),0);
+  await p.locator('#cbContactForm [name=customer_name]').fill('Guest Fixture');
+  await p.locator('#cbContactForm [name=customer_email]').fill('fixture@example.com');
+  await p.locator('#cbContactForm [name=message]').fill('Can you detail my BMW next week?');
+  await p.locator('#cbContactForm button[type=submit]').click();
+  await p.getByText('Thank you! Your message was sent to CB Depot.').waitFor();
+  assert.equal(inquiry?.source,'booking_page_contact');
+  assert.equal(inquiry?.request_type,'inquiry');
+  assert.equal(inquiry?.customer_name,'Guest Fixture');
+  assert.equal(inquiry?.booking_key,'d'.repeat(48));
+  await p.locator('[data-cb-vehicle="SUV"]').click();
+  await p.locator('#cbNext1').click();
+  assert.equal(await p.locator('.cb-stage[data-stage="2"]').isVisible(),true);
+  await overflow(p);
+ });
+}
+
 await browser.close();console.log(JSON.stringify({passed,failed}));if(failed)process.exitCode=1;
