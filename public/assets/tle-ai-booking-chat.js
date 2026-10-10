@@ -16,7 +16,7 @@
     note:"Solo demostración. No compartas nombres, teléfonos, correos, direcciones ni información de pago.",
     error:"Ahora mismo no puedo responder. Por favor, inténtalo más tarde.",
     limit:"El chat no está disponible por ahora. Inténtalo más tarde.",
-    opening:"Abrir asistente de IA"
+    opening:"Abrir asistente de IA", review:"Revisar mi solicitud →"
   } : {
     title:"AI Booking Assistant",subtitle:"Live AI demo · No real bookings",
     intro:"Hi! 👋 Looking for a cleaning service? I can help you understand the booking process.",
@@ -24,7 +24,7 @@
     note:"Demo only. Please don't share names, emails, phone numbers, addresses, or payment details.",
     error:"I can't respond right now. Please try again later.",
     limit:"Chat isn't available right now. Please try again later.",
-    opening:"Open AI Booking Assistant"
+    opening:"Open AI Booking Assistant", review:"Review my booking →"
   };
   const css = document.createElement("style");
   css.textContent = `
@@ -45,7 +45,7 @@
     .tle-ai-form{display:flex;gap:8px}
     .tle-ai-form textarea{flex:1;resize:none;min-height:43px;max-height:87px;border:1px solid #D1E2EF;background:#FAF8F3;border-radius:15px;padding:11px;font:13px Futura,"Avenir Next",Arial,sans-serif;min-width:0}
     .tle-ai-form button{background:#191919;color:#fff;border:0;border-radius:14px;padding:0 14px;min-height:43px;font-weight:700;cursor:pointer}
-    .tle-ai-form button:disabled{opacity:.55;cursor:not-allowed}
+    .tle-ai-form button:disabled{opacity:.55;cursor:not-allowed}\n    .tle-ai-review{width:100%;margin:10px 0 0;padding:12px 14px;background:#F2D85B;border:1px solid #dbc04a;color:#191919;border-radius:15px;font-weight:800;font-size:13px;cursor:pointer;text-align:center}\n    .tle-ai-review[hidden]{display:none!important}
     @media(max-width:700px){
       .tle-ai-panel{top:var(--tle-ai-vv-top,0px)!important;left:0!important;right:0!important;bottom:auto!important;width:100vw!important;max-width:100vw!important;height:var(--tle-ai-vv-height,100dvh)!important;min-height:0!important;border-radius:0!important;border:0!important;box-shadow:none!important}
       .tle-ai-head{padding-top:max(15px,env(safe-area-inset-top));flex-shrink:0}
@@ -69,10 +69,10 @@
   const log=document.createElement("div");log.className="tle-ai-log";log.setAttribute("role","log");log.setAttribute("aria-live","polite");
   const foot=document.createElement("div");foot.className="tle-ai-foot";const note=document.createElement("p");note.textContent=copy.note;
   const form=document.createElement("form");form.className="tle-ai-form";const field=document.createElement("textarea");field.placeholder=copy.placeholder;field.rows=1;field.maxLength=350;field.required=true;field.setAttribute("aria-label",copy.placeholder);
-  const send=document.createElement("button");send.type="submit";send.textContent=copy.send;form.append(field,send);foot.append(note,form);panel.append(head,log,foot);
+  const send=document.createElement("button");send.type="submit";send.textContent=copy.send;form.append(field,send);\n  const review=document.createElement("button");review.type="button";review.textContent=copy.review;review.className="tle-ai-review";review.hidden=true;\n  foot.append(note,form,review);panel.append(head,log,foot);
   document.body.append(panel,launch);
   let busy=false;
-  const dialogue=[];
+  const dialogue=[];\n  let bookingDraft={};\n  review.addEventListener("click",()=>{const success=window.tleAIBookingPrefill?.(bookingDraft);if(success)toggle(false);else append(copy.error,"bot");});
   function append(text,who){const div=document.createElement("div");div.className="tle-ai-msg "+who;div.textContent=text;log.appendChild(div);log.scrollTop=log.scrollHeight;return div;}
   append(copy.intro,"bot");
   function syncViewport(){
@@ -107,11 +107,11 @@
     const wait=append(es?"Escribiendo…":"Typing…","bot");
     const controller=new AbortController();const timer=window.setTimeout(()=>controller.abort(),27000);
     try{
-      const res=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({customer_message:message,business_name:business,service_area:area,services_offered:services,thread_id:threadId,language:lang,conversation_history}),signal:controller.signal});
+      const res=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({customer_message:message,business_name:business,service_area:area,services_offered:services,thread_id:threadId,language:lang,conversation_history,booking_draft:bookingDraft}),signal:controller.signal});
       const data=await res.json();
       const reply=res.ok&&typeof data.reply==="string"?data.reply:res.status===429?copy.limit:copy.error;
       wait.textContent=reply;
-      if(res.ok&&typeof data.reply==="string"){dialogue.push({role:"Visitor",message:message.slice(0,230)},{role:"Assistant",message:data.reply.slice(0,230)});if(dialogue.length>16)dialogue.splice(0,dialogue.length-16);}
+      if(res.ok&&typeof data.reply==="string"){\n        dialogue.push({role:"Visitor",message:message.slice(0,230)},{role:"Assistant",message:data.reply.slice(0,230)});\n        if(dialogue.length>16)dialogue.splice(0,dialogue.length-16);\n        if(data.booking&&typeof data.booking==="object"&&!Array.isArray(data.booking)){\n          for(const [key,val] of Object.entries(data.booking)){if((typeof val==="string"&&val.trim())||(typeof val==="number"&&Number.isFinite(val)))bookingDraft[key]=val;}\n          review.hidden=!(bookingDraft.service||bookingDraft.category);\n        }\n      }
       else if(res.status===429){send.disabled=true;field.disabled=true;}
 
     }catch{wait.textContent=copy.error;}finally{window.clearTimeout(timer);busy=false;if(!field.disabled)send.disabled=false;log.scrollTop=log.scrollHeight;field.focus();}
