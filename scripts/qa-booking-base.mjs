@@ -46,6 +46,21 @@ for(const width of [390,820,1024,1440]){
   await p.locator('[data-cb-vehicle="SUV"]').click();
   await p.locator('#cbNext1').click();
   assert.equal(await p.locator('.cb-stage[data-stage="2"]').isVisible(),true);
+  const wizardRect=await p.locator('#quote .cb-wizard').boundingBox();
+  const dateRect=await p.locator('#qdate').boundingBox();
+  const timeRect=await p.locator('#qtime').boundingBox();
+  assert.ok(wizardRect&&dateRect&&timeRect,'Date, time and wizard must render');
+  for(const [name,rect] of [['date',dateRect],['time',timeRect]]){
+   assert.ok(rect.x>=wizardRect.x-2&&rect.x+rect.width<=wizardRect.x+wizardRect.width+2,
+    'CB Depot '+name+' field must remain inside its form at '+width+'px');
+  }
+  assert.equal(await p.locator('#qtime').evaluate(el=>el.tagName),'SELECT');
+  assert.equal(await p.locator('#qtime option[value="07:30"]').count(),1);
+  const date=new Date();date.setDate(date.getDate()+((8-date.getDay())%7||7));
+  await p.locator('#qdate').fill(date.toISOString().slice(0,10));
+  await p.locator('#qtime').selectOption('07:30');
+  await p.locator('#cbNext2').click();
+  assert.equal(await p.locator('.cb-stage[data-stage="3"]').isVisible(),true);
   await overflow(p);
  });
 }
