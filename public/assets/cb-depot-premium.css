@@ -267,3 +267,27 @@ body.vehicle-booking .cb-menu-toggle{width:39px;height:39px;font-size:20px}
 body.vehicle-booking .cb-brand-stack small{display:none}
 body.vehicle-booking .base-brand img{width:34px;height:34px;flex-basis:34px}
 }
+/* Verified review ratings and secure owner inbox contact section. */
+body.vehicle-booking .cb-review-stars{color:#0789ff;font-size:22px;letter-spacing:3px;line-height:1.15;margin:0 0 13px;white-space:nowrap}
+body.vehicle-booking .cb-contact{display:grid;grid-template-columns:minmax(240px,.7fr) minmax(0,1.3fr);gap:clamp(18px,4vw,62px);padding:clamp(20px,4vw,45px);margin:20px 0 28px;border:1px solid #263f58;border-radius:19px;background:linear-gradient(155deg,#0c1e32,#050e18 66%);color:#eff8ff}
+body.vehicle-booking .cb-contact-head h2{font-size:clamp(31px,3.6vw,48px);line-height:1.08;letter-spacing:-.05em;margin:10px 0 15px;color:#fff}
+body.vehicle-booking .cb-contact-head p{color:#b1c6dc;line-height:1.7;font-size:15px;margin:0}
+body.vehicle-booking .cb-contact-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+body.vehicle-booking .cb-contact-form label{display:flex;flex-direction:column;gap:7px;color:#dbe9f8;font-size:13px;font-weight:750;min-width:0}
+body.vehicle-booking .cb-contact-form label:has(textarea){grid-column:1/-1}
+body.vehicle-booking .cb-contact-form input,body.vehicle-booking .cb-contact-form textarea{min-height:49px;background:#0b1b2a;color:#fff;border:1px solid #34516b;border-radius:12px;font-size:16px;padding:12px 13px;max-width:100%;width:100%;outline:0;box-sizing:border-box}
+body.vehicle-booking .cb-contact-form textarea{resize:vertical;min-height:118px;font-family:inherit}
+body.vehicle-booking .cb-contact-form input:focus,body.vehicle-booking .cb-contact-form textarea:focus{border-color:#149aff;box-shadow:0 0 0 2px #078aff22}
+body.vehicle-booking .cb-contact-form .cb-trap{position:absolute!important;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+body.vehicle-booking .cb-contact-form button[type=submit]{grid-column:1/-1;justify-self:start;margin-top:2px}
+body.vehicle-booking .cb-contact-form button[disabled]{opacity:.65;cursor:wait}
+body.vehicle-booking .cb-contact-status{grid-column:1/-1;color:#9dd3ff;font-size:14px;line-height:1.4;margin:0;min-height:1em}
+@media(max-width:750px){
+body.vehicle-booking .cb-contact{grid-template-columns:1fr}
+body.vehicle-booking .cb-contact-form{gap:12px}
+}
+@media(max-width:500px){
+body.vehicle-booking .cb-contact{padding:24px 15px}
+body.vehicle-booking .cb-contact-form{grid-template-columns:1fr}
+body.vehicle-booking .cb-contact-form button[type=submit]{justify-self:stretch}
+}
