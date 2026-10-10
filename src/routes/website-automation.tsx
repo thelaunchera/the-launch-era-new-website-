@@ -45,7 +45,7 @@ function Page(){
       <div className="eyebrow">WEBSITE AUTOMATION</div>
       <p className="booking-offer-line service-discount-offer"><span className="booking-offer-tag">30% OFF</span><span className="booking-offer-price"><del>$59.99</del><strong>$41.99</strong></span></p><h1 className="editorial">Keep your website. Upgrade what happens next.</h1>
       <p>Already have a website? We help organize the inquiries from your existing contact or quote form, so you can respond and follow up without losing track.</p>
-      <a className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=en">Get Started — $41.99 <ArrowRight/></a><div className="service-proof-strip" aria-label="Service details"><span>YOUR EXISTING WEBSITE</span><span>INQUIRY ROUTING</span><span>ONE-TIME SETUP</span></div>
+      <a className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=en">Get Started — $41.99 <ArrowRight/></a><p className="muted" style={{fontSize:13,margin:"13px 0 10px",lineHeight:1.6}}>Initial setup: 48-hour production estimate after complete intake, starting in our next working period. Saturday purchases after 12 PM ET begin next business day.</p><div className="service-proof-strip" aria-label="Service details"><span>YOUR EXISTING WEBSITE</span><span>INQUIRY ROUTING</span><span>ONE-TIME SETUP</span></div>
     </section>
 
     <section className="container service-story">
