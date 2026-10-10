@@ -227,6 +227,18 @@ for(const v of screens) for(const lang of ['en','es']) {
   await p.screenshot({path:'qa-screenshots/sales-product-'+v.name+'-'+lang+'.png'});
  });
 }
+await check('Demo uses new photos without changing the original buyer design',{width:390,height:844},async p=>{
+ await p.goto(base+'/lead-private-preview.html?business=Example%20Cleaning',{waitUntil:'domcontentloaded'});
+ const hero=await p.locator('#leadHero').evaluate(el=>getComputedStyle(el).backgroundImage);
+ assert.match(hero,/37184168/,'Personalized demo hero should use the selected bright living room photo');
+ await p.evaluate(()=>startQuote('quote'));
+ assert.equal(await p.locator('#quote').isVisible(),true);
+ assert.equal(await p.locator('#quote .quote-photo').count(),1);
+ const special=await p.locator('#quote .quote-photo').evaluate(el=>getComputedStyle(el).backgroundImage);
+ assert.match(special,/37184184/,'Special requests use a different real kitchen photo');
+ const baseHtml=await (await p.request.get(base+'/base-booking.html')).text();
+ assert(baseHtml.includes('photo-1642505172378-a6f5e5b15580'),'Buyer base photo should be preserved');
+});
 await check('Canonical Booking Page is the emailed demo',{width:390,height:844},async p=>{
  const r=await p.goto(base+'/lead-private-preview.html?business=Example%20Cleaning&area=Charlotte%2C%20NC',{waitUntil:'domcontentloaded'});
  assert.equal(r?.status(),200);
