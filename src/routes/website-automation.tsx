@@ -42,9 +42,9 @@ function Page(){
   return <main style={{background:'#faf4f7'}}>
     <section className="container service-hero">
       <div className="eyebrow">WEBSITE AUTOMATION</div>
-      <h1 className="editorial">Keep your website. Upgrade what happens next.</h1>
+      <p className="booking-offer-line"><span className="booking-offer-tag">30% OFF</span><del>$59.99</del></p><h1 className="editorial">Keep your website. Upgrade what happens next.</h1>
       <p>Already have a website? We help organize the inquiries from your existing contact or quote form, so you can respond and follow up without losing track.</p>
-      <a className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=en">Get Started — $59.99 <ArrowRight/></a><div className="service-proof-strip" aria-label="Service details"><span>YOUR EXISTING WEBSITE</span><span>INQUIRY ROUTING</span><span>ONE-TIME SETUP</span></div>
+      <a className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=en">Get Started — $41.99 <ArrowRight/></a><div className="service-proof-strip" aria-label="Service details"><span>YOUR EXISTING WEBSITE</span><span>INQUIRY ROUTING</span><span>ONE-TIME SETUP</span></div>
     </section>
 
     <section className="container service-story">
@@ -115,7 +115,7 @@ function Page(){
 
       <div className="service-endcap">
         <span>YOUR WEBSITE</span><ArrowRight/><span>INQUIRY</span><ArrowRight/><span>AUTOMATION</span><ArrowRight/><strong>NEXT STEP ✓</strong>
-        <small>Connect your existing inquiry form · One-time setup $59.99 · Keep every lead moving.</small>
+        <small>Connect your existing inquiry form · One-time setup $41.99 · Keep every lead moving.</small>
       </div>
     </section>
   </main>

@@ -49,9 +49,9 @@ function Page(){
   return <main style={{background:'#faf4f7'}}>
     <section className="container service-hero">
       <div className="eyebrow">WEBSITE AUTOMATION</div>
-      <h1 className="editorial">Conserva tu website. Mejora lo que pasa después.</h1>
+      <p className="booking-offer-line"><span className="booking-offer-tag">30% de descuento</span><del>$59.99</del></p><h1 className="editorial">Conserva tu website. Mejora lo que pasa después.</h1>
       <p>¿Ya tienes website? Organizamos las consultas que llegan desde tu formulario de contacto o cotización para que puedas responder y dar seguimiento sin perder oportunidades.</p>
-      <a className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=es">Comenzar — $59.99 <ArrowRight/></a><div className="service-proof-strip" aria-label="Detalles del servicio"><span>TU WEBSITE ACTUAL</span><span>ORGANIZACIÓN DE CONSULTAS</span><span>CONFIGURACIÓN ÚNICA</span></div>
+      <a className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=es">Comenzar — $41.99 <ArrowRight/></a><div className="service-proof-strip" aria-label="Detalles del servicio"><span>TU WEBSITE ACTUAL</span><span>ORGANIZACIÓN DE CONSULTAS</span><span>CONFIGURACIÓN ÚNICA</span></div>
     </section>
 
     <section className="container service-story">
@@ -122,7 +122,7 @@ function Page(){
 
       <div className="service-endcap">
         <span>TU WEBSITE</span><ArrowRight/><span>CONSULTA</span><ArrowRight/><span>AUTOMATIZACIÓN</span><ArrowRight/><strong>PRÓXIMO PASO ✓</strong>
-        <small>Conecta el formulario de tu website · Configuración única $59.99 · Mantén cada oportunidad en movimiento.</small>
+        <small>Conecta el formulario de tu website · Configuración única $41.99 · Mantén cada oportunidad en movimiento.</small>
       </div>
     </section>
   </main>
