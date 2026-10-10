@@ -28,10 +28,5 @@ async function verify(){
  }catch{intake.hidden=true;intake.removeAttribute("href");status.textContent=say("We couldn’t verify the payment or prepare onboarding yet. Try again or contact us. You don’t need to make another payment here.","Aún no pudimos verificar el pago o preparar el formulario. Intenta de nuevo o contáctanos. No necesitas realizar otro pago aquí.");retry.hidden=false;}finally{retry.disabled=false;}
 }
 retry.onclick=verify;
-if(sessionId.startsWith("cs_test_")){
- document.getElementById("heading").textContent=say("Demo checkout preview","Vista previa del pago de demostración");
- document.getElementById("intro").textContent=say("DEMO PREVIEW — no real charge. This does not activate a buyer account.","MODO DE PRUEBA — sin cobro real. Esto no activa una cuenta compradora.");
- status.textContent=say("This is a demo preview. No payment was collected and no real purchase was created.","Esta es una demostración. No se realizó ningún cobro ni se creó una compra real.");
- intake.href="/booking-flow-intake/?demo=1";intake.textContent=say("Preview the setup form →","Ver formulario de configuración →");intake.hidden=false;retry.hidden=true;
-}else verify();
+verify();
 </script></body></html>
