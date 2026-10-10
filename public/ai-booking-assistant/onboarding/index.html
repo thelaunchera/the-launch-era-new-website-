@@ -43,7 +43,7 @@ main{width:min(760px,calc(100% - 28px));margin:38px auto 70px}.card{background:#
   if(!p.verified)throw new Error("Not verified");
   const selected=p.agent_offer;const plans={"ai-booking":{title:"AI Booking Assistant",setup:79,monthly:29,goal:"Answer booking questions"},"ai-followup":{title:"AI Follow-Up Assistant",setup:59,monthly:19,goal:"Follow up with approved leads"},"ai-business":{title:"AI Business Assistant — both agents",setup:119,monthly:39,goal:"Both booking and follow-up"}};const plan=plans[selected];if(!plan)throw new Error("Invalid plan");
   $('agent').value=selected;Array.from($('agent').options).forEach(opt=>{opt.disabled=opt.value!==selected});$('goals').value=plan.goal;
-  $('paymentText').textContent=es?("Pago verificado: "+plan.title+". Instalación $"+plan.setup+" pagada; primeros 30 días incluidos. Después $"+plan.monthly+"/mes."):("Payment verified: "+plan.title+". $"+plan.setup+" setup paid, first 30 days included; then $"+plan.monthly+"/month.");
+  $('paymentText').textContent=es?("Pago verificado: "+plan.title+". Instalación $"+plan.setup+" pagada. Tu primer mes comienza con la entrega; después $"+plan.monthly+"/mes."):("Payment verified: "+plan.title+". $"+plan.setup+" setup paid. Your first month begins at delivery; then $"+plan.monthly+"/month.");
   $('status').classList.add("hidden");if(p.already_submitted){$('done').classList.remove("hidden");return;}
   $('intake').classList.remove("hidden");
  }catch(e){showStatus(es?"No pudimos verificar el pago. Abre de nuevo el enlace de confirmación de Stripe.":"Payment could not be verified. Please open the original checkout confirmation link.",true);}
