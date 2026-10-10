@@ -336,7 +336,7 @@ try{
   params.set("lang","es");location.replace(location.pathname+"?"+params.toString());return
  }
  if(ownerPreview)session.language=model.language==="es"?"es":"en";
- liveFields();brand();catalog();dateSetup();activateRealSubmission();setupVehicleMode();
+ liveFields();brand();catalog();dateSetup();activateRealSubmission();setupVehicleMode();window.TLECBDepotEnhance?.(session);
  if(ownerPreview){
   document.querySelector(".top").textContent=tr("OWNER DESIGN PREVIEW · NOTHING IS SENT","VISTA PREVIA DE DISEÑO · NO SE ENVÍA NADA");
   document.querySelector(".top").style.background="#213f58";
