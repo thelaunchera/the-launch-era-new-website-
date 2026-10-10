@@ -36,7 +36,7 @@ function activate(session){
  for(const rel of ["icon","apple-touch-icon"]){
    let link=document.querySelector('link[rel="'+rel+'"]');
    if(!link){link=document.createElement("link");link.rel=rel;document.head.append(link)}
-   link.href="https://d2ol7oe51mr4n9.cloudfront.net/user_3FC9GcVebQE6WAxiCP5Hh9w95GF/e7419bba-8612-4c2d-81e2-6e5a971d4db8.jpg";if(rel==="icon")link.type="image/jpeg";
+   link.href=rel==="icon"?"/assets/clients/cb-depot/approved-favicon-192.png?v=20261010":"/assets/clients/cb-depot/approved-favicon-180.png?v=20261010";if(rel==="icon")link.type="image/png";
  }
 
  const model=session.model;
