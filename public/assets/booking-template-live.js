@@ -108,7 +108,7 @@ function catalog(){
   if(category==="residential"||category==="both")homes.append(serviceButton(service,"residential"));
   if(category==="commercial"||category==="both")commercial.append(serviceButton(service,"commercial"));
  }
- if(session.model.quote_policy!=="no_quotes"){
+ if(session.model.quote_policy!=="no_quotes"&&!isVehicleBusiness()){
   const special={id:"special_request",name:tr("Other / Custom Cleaning","Otro / Limpieza personalizada"),mode:"quote",price:null};
   homes.append(serviceButton(special,"residential"));
   commercial.append(serviceButton(special,"commercial"));
@@ -211,7 +211,7 @@ async function submit(which){
   customer_name:name,customer_email:email,
   customer_phone:route==="res"?$("phone").value:route==="quote"?$("qphone").value:$("cphone").value,
   service_address:route==="res"?$("serviceAddress").value:route==="quote"?$("qaddress").value:$("caddress").value,
-  notes:route==="res"?["ZIP "+$("zip").value,details].filter(Boolean).join(" · "):details,
+  notes:route==="res"?["ZIP "+$("zip").value,details].filter(Boolean).join(" · "):route==="quote"&&isVehicleBusiness()?["Vehicle: "+($("vehicleMakeModel")?.value||"Not provided"),"Condition: "+($("qsize")?.value||""),details].filter(Boolean).join(" · "):details,
   requested_date:date,requested_time:time,source:"booking_page",estimate_display:estimateLabel
  };
  if(ownerPreview){show("done",tr("Private preview only","Solo vista previa privada"),"DEMO");$("done").querySelector("h2").textContent=tr("No request sent","No se envió ninguna solicitud");$("done").querySelector("p").textContent=tr("This is the buyer’s design preview. No booking, email or charge was created.","Esta es una vista previa del diseño de la compradora. No se generó reserva, correo ni cobro.");return}
@@ -250,6 +250,65 @@ function activateRealSubmission(){
  window.submitQuote=()=>submit("quote");
  window.submitCommercial=()=>submit("commercial");
 }
+
+function isVehicleBusiness(){return clean(session.model?.business_name).toLowerCase()==="cb depot"}
+function setupVehicleMode(){
+ if(!isVehicleBusiness())return;
+ document.body.classList.add("vehicle-booking");
+ document.documentElement.dataset.industry="auto-detailing";
+ const t=id=>document.getElementById(id),set=(id,value)=>{const el=t(id);if(el)el.textContent=value};
+ const labels=document.querySelectorAll(".base-services h2,.base-services p");
+ set("baseServiceTitle","Car Detailing Services");
+ set("baseServiceCopy","Select the care your vehicle needs and request a personalized quote.");
+ set("baseWhyTitle","Professional care for every ride");
+ set("baseWhyCopy","A straightforward way to request the detailing your car deserves.");
+ set("baseHowTitle","How your detail request works");
+ set("baseClosingTitle","Ready to refresh your ride?");
+ set("baseClosingCopy","Request your detail in minutes. We review the details and confirm the next step.");
+ for(const [index,[h,p]] of [["Choose your detail","Select the vehicle service you need."],["Tell us about your vehicle","Share your car type and what needs attention."],["Receive your quote","CB Depot reviews your request and follows up by email."]].entries()){
+  const card=document.querySelectorAll(".base-step")[index];if(card){const title=card.querySelector("h3"),desc=card.querySelector("p");if(title)title.textContent=h;if(desc)desc.textContent=p;}
+ }
+ for(const [index,[h,p]] of [["Detailing for your vehicle","Car, SUV, truck or van—we'll review your request."],["Custom pricing","The final price is provided after reviewing your vehicle."],["Your preferred schedule","Monday through Friday, 7 AM–7 PM."]].entries()){
+  const card=document.querySelectorAll(".base-feature")[index];if(card){const title=card.querySelector("h3"),desc=card.querySelector("p");if(title)title.textContent=h;if(desc)desc.textContent=p;}
+ }
+ for(const [index,copy] of ["Easy detailing requests","Vehicle-specific quotes","Mon–Fri · 7 AM–7 PM"].entries()){const pill=document.querySelectorAll(".trust .pill")[index];if(pill)pill.textContent=copy}
+ for(const btn of document.querySelectorAll(".base-button"))if(/book|cleaning|booking/i.test(btn.textContent||""))btn.textContent="Request your detail";
+ document.querySelectorAll(".base-service-card p").forEach(p=>{if(/pricing|price/i.test(p.textContent))p.textContent="Request a personalized quote"});
+ const category=t("categoryTabs");if(category){category.hidden=true;category.previousElementSibling?.setAttribute("hidden","");category.nextElementSibling?.setAttribute("hidden","")}
+ setCategory("residential");
+ const residential=t("residentialServiceList");residential.hidden=false;
+ const commercial=t("commercialServiceList");commercial.hidden=true;
+ const intro=document.querySelector("#main > p.muted");if(intro)intro.textContent="Choose your auto detailing service. Every quote is reviewed by CB Depot.";
+ const qtype=t("qtype"),condition=t("qsize");
+ if(qtype){qtype.replaceChildren(...["Car","SUV","Truck","Van","Other vehicle"].map(v=>new Option(v,v)));qtype.previousElementSibling.textContent="VEHICLE TYPE";}
+ if(condition){condition.replaceChildren(...["Light cleaning","Moderate dirt / buildup","Heavy stains or odors","Not sure"].map(v=>new Option(v,v)));condition.previousElementSibling.textContent="VEHICLE CONDITION";}
+ const qDate=t("qdate");if(qDate)qDate.previousElementSibling.textContent="PREFERRED DETAIL DATE";
+ const qTime=t("qtime");if(qTime)qTime.previousElementSibling.textContent="PREFERRED TIME · MON–FRI, 7 AM–7 PM";
+ const qDetails=t("qdetails");if(qDetails){qDetails.placeholder="Tell us about your vehicle and what needs extra attention.";qDetails.previousElementSibling.textContent="CAR CLEANING DETAILS";}
+ const qAddress=t("qaddress");if(qAddress)qAddress.placeholder="Service address / preferred location";
+ const additional=document.createElement("div");
+ additional.innerHTML='<label class="label" for="vehicleMakeModel">YEAR / MAKE / MODEL</label><input class="field" id="vehicleMakeModel" maxlength="120" placeholder="e.g. 2021 Toyota Camry">';
+ condition?.insertAdjacentElement("afterend",additional);
+ const root=t("realQuoteAddons");if(root){const title=root.previousElementSibling;if(title)title.textContent="OPTIONAL VEHICLE ADD-ONS";}
+ const selector=document.querySelector("#quote .request-type-pills");
+ if(selector){selector.hidden=true;selector.previousElementSibling?.setAttribute("hidden","")}
+ const oldStart=window.startQuote;
+ window.startQuote=function(...args){
+  oldStart(...args);
+  set("quoteEyebrow","AUTO DETAILING · REQUEST A QUOTE");
+  set("title","Tell us about your vehicle");
+  set("count","CAR DETAILING");
+  state.intent="quote";
+ };
+ const oldIntent=window.setRequestIntent;
+ window.setRequestIntent=function(intent){oldIntent(intent);if(state.route==="quote")set("quoteEyebrow","AUTO DETAILING · REQUEST A QUOTE")};
+ if(t("baseReviews")?.hidden===true){
+  // The section remains available for genuine reviews later; do not invent reviews.
+ }
+ const brandSrc=session.model?.branding?.hero_image;
+ if(brandSrc){const photo=t("baseHeroImage");if(photo)photo.alt="CB Depot auto detailing panda and car design";}
+}
+
 try{
  const model=ownerPreview?await new Promise((resolve,reject)=>{
   const guard=setTimeout(()=>reject(Error("Owner preview did not receive account data.")),12000);
@@ -266,7 +325,7 @@ try{
   params.set("lang","es");location.replace(location.pathname+"?"+params.toString());return
  }
  if(ownerPreview)session.language=model.language==="es"?"es":"en";
- liveFields();brand();catalog();dateSetup();activateRealSubmission();
+ liveFields();brand();catalog();dateSetup();activateRealSubmission();setupVehicleMode();
  if(ownerPreview){
   document.querySelector(".top").textContent=tr("OWNER DESIGN PREVIEW · NOTHING IS SENT","VISTA PREVIA DE DISEÑO · NO SE ENVÍA NADA");
   document.querySelector(".top").style.background="#213f58";
