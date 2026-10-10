@@ -540,3 +540,15 @@ body.vehicle-booking.cb-motion-ready .cb-reveal.cb-in-view{
  body.vehicle-booking #services .cb-service-photo,
  body.vehicle-booking .base-feature,body.vehicle-booking .base-step{transition:none!important}
 }
+
+/* Above-the-fold entrance — does not delay booking controls or content visibility. */
+@keyframes cb-hero-arrive{
+ from{opacity:.15;transform:translate3d(0,26px,0)}
+ to{opacity:1;transform:translate3d(0,0,0)}
+}
+body.vehicle-booking.cb-motion-ready #leadHero .heroText{
+ animation:cb-hero-arrive .85s cubic-bezier(.2,.78,.28,1) both;
+}
+@media(prefers-reduced-motion:reduce){
+ body.vehicle-booking.cb-motion-ready #leadHero .heroText{animation:none!important}
+}
