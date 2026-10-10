@@ -60,7 +60,11 @@ function activate(session){
  const subtitle=document.getElementById("baseDescription");
  subtitle.textContent="Give your vehicle the attention it deserves. Choose your detail and request a time in just a few steps.";
  const nav=document.querySelector(".base-nav");
- const brandLabel=document.querySelector("#baseBusiness strong");
+ // On-page branding uses the client's original panda illustration without a colored tile.
+ // Only the installed-app icon uses the approved square PNG favicon.
+ const headerMark=document.querySelector("#baseBusiness img");
+ if(headerMark){headerMark.src="/assets/clients/cb-depot/panda-original-mark.svg";headerMark.alt="CB Depot panda mark";headerMark.removeAttribute("srcset")}
+  const brandLabel=document.querySelector("#baseBusiness strong");
  if(brandLabel){
   const brandStack=node("span","cb-brand-stack");
   const brandName=node("strong","", "CB DEPOT");
