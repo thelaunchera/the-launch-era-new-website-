@@ -291,3 +291,6 @@ body.vehicle-booking .cb-contact{padding:24px 15px}
 body.vehicle-booking .cb-contact-form{grid-template-columns:1fr}
 body.vehicle-booking .cb-contact-form button[type=submit]{justify-self:stretch}
 }
+
+/* Permanent, approved hero image also powers the final CTA */
+body.vehicle-booking .base-closing{background-image:var(--cb-closing-photo,url("https://images.pexels.com/photos/10549258/pexels-photo-10549258.jpeg?auto=compress&cs=tinysrgb&w=1600"))!important}
