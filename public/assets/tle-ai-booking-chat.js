@@ -15,7 +15,7 @@
     placeholder:"Escribe tu pregunta…",button:"Preguntar a la IA",send:"Enviar",close:"Cerrar chat",
     note:"Solo demostración. No compartas nombres, teléfonos, correos, direcciones ni información de pago.",
     error:"Ahora mismo no puedo responder. Por favor, inténtalo más tarde.",
-    limit:"Llegaste al límite de la demo. Puedes explorar la Booking Page.",
+    limit:"El chat no está disponible por ahora. Inténtalo más tarde.",
     opening:"Abrir asistente de IA"
   } : {
     title:"AI Booking Assistant",subtitle:"Live AI demo · No real bookings",
@@ -23,7 +23,7 @@
     placeholder:"Ask a question…",button:"Ask AI",send:"Send",close:"Close chat",
     note:"Demo only. Please don't share names, emails, phone numbers, addresses, or payment details.",
     error:"I can't respond right now. Please try again later.",
-    limit:"You've reached the demo limit. You can still explore the Booking Page.",
+    limit:"Chat isn't available right now. Please try again later.",
     opening:"Open AI Booking Assistant"
   };
   const css = document.createElement("style");
