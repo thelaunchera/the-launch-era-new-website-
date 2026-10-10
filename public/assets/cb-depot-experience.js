@@ -64,21 +64,36 @@ function activate(session){
  document.getElementById("baseServiceTitle").textContent="Choose a service";
  document.getElementById("baseServiceCopy").textContent="Select what your vehicle needs. Every quote is personalized.";
  const grid=document.getElementById("baseServiceGrid");
- const cards=[...grid.querySelectorAll(".base-service-card")];
+ const allCards=[...grid.querySelectorAll(".base-service-card")];
+ const featuredNames=["Exterior Detailing","Paint Protection","Interior Detailing","Full Detail Package"];
+ const cards=featuredNames.map(name=>allCards.find(c=>c.querySelector("h3")?.textContent?.toLowerCase()===name.toLowerCase())).filter(Boolean);
+ // Full catalog stays in the wizard, while the landing shows the four core photographic services.
+ const featuredServices=cards.map(c=>services.find(s=>s.name===c.querySelector("h3")?.textContent));
+ if(cards.length===4)grid.replaceChildren(...cards);
+ else cards.splice(0,cards.length,...allCards);
+
  cards.forEach((card,i)=>{
-  const d=names[i]||names[names.length-1],src=photos[d.key];
+  const title=(card.querySelector("h3")?.textContent||"").toLowerCase();
+  const key=title.includes("exterior")?"exterior":title.includes("paint")?"paint":title.includes("interior")?"interior":title.includes("full")?"full":"custom";
+  const desc={exterior:"Deep clean and restore the finish.",paint:"Protection and lasting shine.",interior:"A cleaner, fresher interior.",full:"Complete interior and exterior care.",custom:"Designed for your car."};
+  const src=photos[key];
   const cover=node("div","cb-service-photo");
   cover.style.backgroundImage='url("'+src+'")';
   cover.setAttribute("role","img");cover.setAttribute("aria-label","Car detailing service illustration");
   card.prepend(cover);
   const h=card.querySelector("h3"),p=card.querySelector("p");
-  if(h)h.textContent=services[i]?.name||h.textContent;
-  if(p)p.textContent=d.desc;
+  if(p)p.textContent=desc[key];
   const arrow=node("span","cb-service-arrow","›");card.append(arrow);
  });
  const booking=document.getElementById("booking");
  sec.insertAdjacentElement("afterend",booking);
- document.querySelectorAll(".base-section:not(#baseReviews),.base-closing").forEach(el=>el.classList.add("cb-extra-section"));
+ document.querySelectorAll(".base-section:not(#baseReviews)").forEach(el=>el.classList.add("cb-extra-section"));
+ const closing=document.querySelector(".base-closing");
+ if(closing){
+  closing.querySelector("h2").textContent="Get a custom quote today.";
+  closing.querySelector("p").textContent="Professional detailing, personalized for your vehicle. Better care, a better ride.";
+  const button=closing.querySelector(".base-button");if(button)button.textContent="Get a quote →";
+ }
  booking.querySelector(".ey").textContent="EASY BOOKING";
  booking.querySelector(".head h2").textContent="Schedule your service";
  booking.querySelector(".count").textContent="3 QUICK STEPS";
@@ -145,7 +160,7 @@ function activate(session){
   const choice=services.find(s=>s.name===selectService.value)||services[0];
   session.service=choice;state.serviceId=choice.id;state.service=choice.name;
   state.mode="quote";state.intent="quote";state.route="quote";state.category="residential";
-  cards.forEach((c,i)=>c.classList.toggle("cb-selected",services[i]?.id===choice.id));
+  cards.forEach(c=>c.classList.toggle("cb-selected",c.querySelector("h3")?.textContent===choice.name));
  }
  function selectVehicle(value){
   vehicle=value;document.getElementById("qtype").value=value;
@@ -167,10 +182,10 @@ function activate(session){
  wizard.querySelectorAll("[data-cb-back]").forEach(x=>x.onclick=()=>goto(Number(x.dataset.cbBack)));
  document.getElementById("quoteSubmit").onclick=()=>window.submitQuote();
  cards.forEach((card,i)=>{
-  card.onclick=e=>{e.preventDefault();selectService.value=services[i]?.name||services[0].name;syncService();goto(1);};
+  card.onclick=e=>{e.preventDefault();selectService.value=card.querySelector("h3")?.textContent||services[0].name;syncService();goto(1);};
  });
  document.querySelectorAll(".base-button[href='#booking']").forEach(a=>a.addEventListener("click",()=>{syncService();goto(1)}));
- syncService();
+ syncService();selectVehicle("Car");
  // Keep the quote data within the standard backend model, avoiding any house fields.
  document.getElementById("baseFooterBusiness").textContent="CB Depot";
 }
