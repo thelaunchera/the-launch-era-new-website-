@@ -14,7 +14,7 @@ await check('Invalid key fails closed',{width:390,height:844},async p=>{await p.
 const cbFixture={...model,business_name:'CB Depot',branding:{business_name:'CB Depot',headline:'Professional car detailing, made simple.',description:'Premium auto detailing',service_area:'Boynton Beach',hero_image:'',logo_image:'',reviews:[{name:'Real Test Reviewer',text:'Verified demo fixture review',rating:5}]},
  services:['Interior Detailing','Exterior Detailing','Deep Interior Cleaning','Paint Protection','Full Detail Package','Custom Auto Detailing Quote']
  .map((name,i)=>({id:'fixture-car-'+i,name,mode:'quote',category:'residential',active:true}))};
-for(const width of [390,1440]){
+for(const width of [390,820,1024,1440]){
  await check('CB Depot custom landing + contact '+width,{width,height:900},async p=>{
   let inquiry=null;
   await p.route('**/functions/v1/**',route=>{
@@ -26,6 +26,11 @@ for(const width of [390,1440]){
   await p.goto(base+'/base-booking.html?key='+'d'.repeat(48)+'&lang=en');
   await p.locator('body.vehicle-booking').waitFor();
   await p.locator('#cbContactForm').waitFor();
+  assert.equal(await p.locator('.trust .cb-trust').count(),3);
+  assert.ok(await p.locator('#leadHero').evaluate(el=>Math.abs(el.getBoundingClientRect().width-innerWidth)<2),'CB hero must fill viewport');
+  assert.ok(await p.locator('.trust').evaluate(el=>Math.abs(el.getBoundingClientRect().width-innerWidth)<2),'Trust bar must be full bleed');
+  await overflow(p);
+
   assert.equal(await p.locator('#baseServiceGrid .base-service-card').count(),4);
   assert.equal(await p.locator('.base-review .cb-review-stars').textContent(),'★★★★★');
   assert.equal(await p.locator('.base-review a').count(),0);
