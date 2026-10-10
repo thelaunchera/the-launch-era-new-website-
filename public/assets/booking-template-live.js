@@ -193,6 +193,13 @@ async function submit(which){
  const name=$(prefix+"name").value.trim(),email=$(prefix+"email").value.trim().toLowerCase();
  if(!name||!validEmail(email)){alertCustomer(tr("Enter your name and a valid email address.","Escribe tu nombre y un correo válido."));return}
  const date=$(prefix+"date").value,time=$(prefix+"time").value;
+ if(isVehicleBusiness()&&route==="quote"){
+  const weekday=date?new Date(date+"T12:00:00").getDay():-1;
+  if(!date||weekday===0||weekday===6||!time||time<"07:00"||time>="19:00"){
+   alertCustomer("Please choose Monday–Friday, between 7:00 AM and 7:00 PM.");
+   return;
+  }
+ }
  if(flat&&(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!/^(?:[01]\d|2[0-3]):(?:00|30)$/.test(time)||!session.validSlots.includes(time))){
   alertCustomer(tr("Choose a date and confirmed available time.","Elige fecha y un horario confirmado como disponible."));return
  }
@@ -274,6 +281,7 @@ function setupVehicleMode(){
  for(const [index,copy] of ["Easy detailing requests","Vehicle-specific quotes","Mon–Fri · 7 AM–7 PM"].entries()){const pill=document.querySelectorAll(".trust .pill")[index];if(pill)pill.textContent=copy}
  for(const btn of document.querySelectorAll(".base-button"))if(/book|cleaning|booking/i.test(btn.textContent||""))btn.textContent="Request your detail";
  document.querySelectorAll(".base-service-card p").forEach(p=>{if(/pricing|price/i.test(p.textContent))p.textContent="Request a personalized quote"});
+ set("ey","CB DEPOT · AUTO DETAILING");
  const category=t("categoryTabs");if(category){category.hidden=true;category.previousElementSibling?.setAttribute("hidden","");category.nextElementSibling?.setAttribute("hidden","")}
  setCategory("residential");
  const residential=t("residentialServiceList");residential.hidden=false;
@@ -283,7 +291,7 @@ function setupVehicleMode(){
  if(qtype){qtype.replaceChildren(...["Car","SUV","Truck","Van","Other vehicle"].map(v=>new Option(v,v)));qtype.previousElementSibling.textContent="VEHICLE TYPE";}
  if(condition){condition.replaceChildren(...["Light cleaning","Moderate dirt / buildup","Heavy stains or odors","Not sure"].map(v=>new Option(v,v)));condition.previousElementSibling.textContent="VEHICLE CONDITION";}
  const qDate=t("qdate");if(qDate)qDate.previousElementSibling.textContent="PREFERRED DETAIL DATE";
- const qTime=t("qtime");if(qTime)qTime.previousElementSibling.textContent="PREFERRED TIME · MON–FRI, 7 AM–7 PM";
+ const qTime=t("qtime");if(qTime){qTime.previousElementSibling.textContent="PREFERRED TIME · MON–FRI, 7 AM–7 PM";qTime.min="07:00";qTime.max="18:30";qTime.step=1800;}
  const qDetails=t("qdetails");if(qDetails){qDetails.placeholder="Tell us about your vehicle and what needs extra attention.";qDetails.previousElementSibling.textContent="CAR CLEANING DETAILS";}
  const qAddress=t("qaddress");if(qAddress)qAddress.placeholder="Service address / preferred location";
  const additional=document.createElement("div");
@@ -298,10 +306,11 @@ function setupVehicleMode(){
   set("quoteEyebrow","AUTO DETAILING · REQUEST A QUOTE");
   set("title","Tell us about your vehicle");
   set("count","CAR DETAILING");
+  set("quoteSubmit","Request my detailing quote");
   state.intent="quote";
  };
  const oldIntent=window.setRequestIntent;
- window.setRequestIntent=function(intent){oldIntent(intent);if(state.route==="quote")set("quoteEyebrow","AUTO DETAILING · REQUEST A QUOTE")};
+ window.setRequestIntent=function(intent){oldIntent(intent);if(state.route==="quote"){set("quoteEyebrow","AUTO DETAILING · REQUEST A QUOTE");set("quoteSubmit","Request my detailing quote")}};
  if(t("baseReviews")?.hidden===true){
   // The section remains available for genuine reviews later; do not invent reviews.
  }
