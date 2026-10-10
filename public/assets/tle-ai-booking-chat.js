@@ -11,7 +11,7 @@
   const threadId = (window.crypto?.randomUUID ? window.crypto.randomUUID() : "9cf5037c-8b38-42a9-9565-2b8f532ac017");
   const copy = es ? {
     title:"Asistente de reservas con IA",subtitle:"Demostración · No realiza reservas reales",
-    intro:"¡Hola! 👋 ¿En qué tipo de limpieza estás pensando? Puedo orientarte sobre el proceso de reserva.",
+    intro:"¡Hola! 👋 Cuéntame qué limpieza necesitas y preparo el formulario para que solo lo revises.",
     placeholder:"Escribe tu pregunta…",button:"Preguntar a la IA",send:"Enviar",close:"Cerrar chat",
     note:"Solo demostración. No compartas nombres, teléfonos, correos, direcciones ni información de pago.",
     error:"Ahora mismo no puedo responder. Por favor, inténtalo más tarde.",
@@ -19,7 +19,7 @@
     opening:"Abrir asistente de IA", review:"Revisar mi solicitud →"
   } : {
     title:"AI Booking Assistant",subtitle:"Live AI demo · No real bookings",
-    intro:"Hi! 👋 Looking for a cleaning service? I can help you understand the booking process.",
+    intro:"Hi! 👋 Tell me what cleaning you need and I'll fill in your booking details for review.",
     placeholder:"Ask a question…",button:"Ask AI",send:"Send",close:"Close chat",
     note:"Demo only. Please don't share names, emails, phone numbers, addresses, or payment details.",
     error:"I can't respond right now. Please try again later.",
