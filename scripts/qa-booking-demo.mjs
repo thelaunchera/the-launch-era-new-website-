@@ -38,7 +38,7 @@ for(const v of screens){
    assert.doesNotMatch(privacy,lang==='es'?/responderte sobre la solicitud/i:/contact you about your request/i,'no manual contact promise');
    const confirmation=await p.locator('#thanksCopy').innerText();
    assert.match(confirmation,lang==='es'?/Promociones.*Spam/i:/Promotions.*Spam/i,'check promotions/spam');
-   assert.match(confirmation,lang==='es'?/sin código/i:/without a code/i,'Demo opens without email code');
+   assert.match(confirmation,lang==='es'?/enlaces.*correo/i:/demo links.*email/i,'Demo delivery confirmed by email');
    assert.equal(await p.locator('#ownerTab').count(),0,'Old fake command center no longer available');
    assert.equal(await p.locator('#customerTab').count(),0,'Old fake booking demo no longer available');
    assert.equal(await p.locator('#demoForm input[name="email"]').isVisible(),true);
@@ -61,6 +61,7 @@ for(const v of screens){
    const r=await p.goto(base+path,{waitUntil:'domcontentloaded',timeout:30000});
    assert.equal(r?.status(),200,'Homepage HTTP');
    await p.locator('#contacto .contact-form form').waitFor();
+   await p.waitForLoadState('networkidle');
    assert.equal(await p.locator('#contacto').count(),1);
    assert.equal(await p.locator('#contacto .contact-form form').count(),1,'Actual contact form appears once');
    assert.equal(await p.locator('#contacto input[name="email"]').count(),1);
@@ -68,6 +69,7 @@ for(const v of screens){
    assert.equal(await p.locator('#contacto a[href*="booking-demo"]').count(),0,'No demo link in contact card');
    assert.equal(await p.locator('#contacto .homepage-demo-access').count(),0,'Duplicate demo content removed');
    assert.equal(await p.locator('text=Ask for your Demo').count(),0,'Old personalized modal removed from homepage, preserved at demo page');
+   await p.locator('a[href="/booking-demo/?lang='+lang+'"]').first().waitFor({state:'attached',timeout:10000});
    assert((await p.locator('a[href="/booking-demo/?lang='+lang+'"]').count())>0,'Personalized demo link elsewhere on homepage');
    const bounds=await p.locator('#contacto').evaluate(el=>{const a=el.getBoundingClientRect();return {left:a.left,right:a.right,window:document.documentElement.clientWidth}});
    assert(bounds.left>=-2&&bounds.right<=bounds.window+2,'Contact card fits phone');
