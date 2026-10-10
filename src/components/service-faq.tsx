@@ -6,16 +6,16 @@ type Topic = 'general' | 'website' | 'va';
 const faqs: Record<Topic, Record<Language, [string, string][]>> = {
   general: {
     en: [
-      ['Which service is right for my cleaning business?', 'For new booking requests and follow-ups, explore Booking Automation + Command Center. For clients, jobs, quotes, and invoices, choose the Cleaning App. Website Automation connects your existing website inquiries to an organized workflow, while Virtual Assistant supports everyday admin.'],
+      ['Which service is right for my cleaning business?', 'For new booking requests, explore Booking Automation + Command Center. AI Assistants can answer common booking questions, support permission-based follow-ups, or do both. The Cleaning App organizes clients, jobs, quotes and invoices; Website Automation connects your existing website; and Virtual Assistant supports everyday admin.'],
       ['Can I start with just one service?', 'Yes. Each service has its own page and checkout. Start with the part of your business that needs the most help.'],
-      ['Can I see how it works before I buy?', 'Yes. Request the personalized Booking Page demo by email, explore the Cleaning App demo, or try the example Website Automation flow. The Virtual Assistant preview shows sample tasks, not live client work.'],
+      ['Can I see how it works before I buy?', 'Yes. Request a personalized Booking Page demo by email or try the live AI Booking Assistant demo. You can also explore the Cleaning App demo and Website Automation preview. The other AI agents do not have separate demos.'],
       ['What happens after I purchase?', 'For personalized setup services, follow the instructions after checkout and share your business details. Your service page explains the setup process. Cleaning App users can create an account to start their trial.'],
       ['Do you support English and Spanish?', 'Yes. Explore our website in English or Spanish and use the service page for details in your preferred language.']
     ],
     es: [
-      ['¿Qué servicio necesita mi negocio de limpieza?', 'Para solicitudes de reservas y seguimientos, explora Booking Automation + Command Center. Para clientes, trabajos, cotizaciones y facturas, elige la Cleaning App. Website Automation organiza las consultas que llegan desde tu website actual y Virtual Assistant te ayuda con tareas administrativas.'],
+      ['¿Qué servicio necesita mi negocio de limpieza?', 'Para recibir y organizar reservas, explora Booking Automation + Command Center. AI Assistants puede responder preguntas sobre reservas, ayudar con seguimientos autorizados o hacer ambas cosas. La Cleaning App organiza clientes y trabajos; Website Automation conecta tu website actual; y Virtual Assistant te ayuda con tareas administrativas.'],
       ['¿Puedo comenzar con un solo servicio?', 'Sí. Cada servicio tiene su propia página y proceso de compra. Empieza por lo que más necesita tu negocio.'],
-      ['¿Puedo ver cómo funciona antes de comprar?', 'Sí. Solicita por correo la demo personalizada de Booking Page, explora la demo de Cleaning App o prueba el ejemplo de Website Automation. La vista de Virtual Assistant muestra tareas ilustrativas, no trabajo real en vivo.'],
+      ['¿Puedo ver cómo funciona antes de comprar?', 'Sí. Solicita la demo personalizada de Booking Page o prueba el asistente de reservas con IA. También puedes explorar la demo de Cleaning App y la vista de Website Automation. Los otros agentes de IA no tienen demos independientes.'],
       ['¿Qué pasa después de comprar?', 'Si compraste un servicio personalizado, sigue los pasos después del pago y comparte los datos de tu negocio. Cada página explica su proceso. Para Cleaning App, crea una cuenta y comienza tu prueba.'],
       ['¿Ofrecen atención en inglés y español?', 'Sí. Puedes explorar el website y la información de los servicios en inglés o español.']
     ]
