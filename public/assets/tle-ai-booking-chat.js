@@ -71,7 +71,8 @@
   const form=document.createElement("form");form.className="tle-ai-form";const field=document.createElement("textarea");field.placeholder=copy.placeholder;field.rows=1;field.maxLength=350;field.required=true;field.setAttribute("aria-label",copy.placeholder);
   const send=document.createElement("button");send.type="submit";send.textContent=copy.send;form.append(field,send);foot.append(note,form);panel.append(head,log,foot);
   document.body.append(panel,launch);
-  let sent=0; let busy=false;
+  let busy=false;
+  const dialogue=[];
   function append(text,who){const div=document.createElement("div");div.className="tle-ai-msg "+who;div.textContent=text;log.appendChild(div);log.scrollTop=log.scrollHeight;return div;}
   append(copy.intro,"bot");
   function syncViewport(){
@@ -99,16 +100,20 @@
     if(busy)return;
     const message=field.value.trim();
     if(!message)return;
-    if(sent>=6){append(copy.limit,"bot");return;}
     const privatePattern=/[\w.+-]+@[\w.-]+\.[a-zA-Z]{2,}|(?:\+?1[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/;
     if(privatePattern.test(message)){append(copy.note,"bot");return;}
-    append(message,"user");field.value="";sent++;busy=true;send.disabled=true;
+    const conversation_history=dialogue.slice(-8).map(x=>x.role+": "+x.message).join("\n").slice(-1100);
+    append(message,"user");field.value="";busy=true;send.disabled=true;
     const wait=append(es?"Escribiendo…":"Typing…","bot");
     const controller=new AbortController();const timer=window.setTimeout(()=>controller.abort(),27000);
     try{
-      const res=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({customer_message:message,business_name:business,service_area:area,services_offered:services,thread_id:threadId,language:lang}),signal:controller.signal});
+      const res=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({customer_message:message,business_name:business,service_area:area,services_offered:services,thread_id:threadId,language:lang,conversation_history}),signal:controller.signal});
       const data=await res.json();
-      wait.textContent=res.ok&&typeof data.reply==="string"?data.reply:res.status===429?copy.limit:copy.error;
-    }catch{wait.textContent=copy.error;}finally{window.clearTimeout(timer);busy=false;send.disabled=false;log.scrollTop=log.scrollHeight;field.focus();}
+      const reply=res.ok&&typeof data.reply==="string"?data.reply:res.status===429?copy.limit:copy.error;
+      wait.textContent=reply;
+      if(res.ok&&typeof data.reply==="string"){dialogue.push({role:"Visitor",message:message.slice(0,230)},{role:"Assistant",message:data.reply.slice(0,230)});if(dialogue.length>16)dialogue.splice(0,dialogue.length-16);}
+      else if(res.status===429){send.disabled=true;field.disabled=true;}
+
+    }catch{wait.textContent=copy.error;}finally{window.clearTimeout(timer);busy=false;if(!field.disabled)send.disabled=false;log.scrollTop=log.scrollHeight;field.focus();}
   });
 })();
