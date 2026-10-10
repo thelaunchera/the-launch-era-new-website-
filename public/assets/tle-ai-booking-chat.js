@@ -111,7 +111,7 @@
       const data=await res.json();
       const reply=res.ok&&typeof data.reply==="string"?data.reply:res.status===429?copy.limit:copy.error;
       wait.textContent=reply;
-      if(res.ok&&typeof data.reply==="string"){\n        dialogue.push({role:"Visitor",message:message.slice(0,230)},{role:"Assistant",message:data.reply.slice(0,230)});\n        if(dialogue.length>16)dialogue.splice(0,dialogue.length-16);\n        if(data.booking&&typeof data.booking==="object"&&!Array.isArray(data.booking)){\n          for(const [key,val] of Object.entries(data.booking)){if((typeof val==="string"&&val.trim())||(typeof val==="number"&&Number.isFinite(val)))bookingDraft[key]=val;}\n          review.hidden=!(bookingDraft.service||bookingDraft.category);\n        }\n      }
+      if(res.ok&&typeof data.reply==="string"){\n        dialogue.push({role:"Visitor",message:message.slice(0,230)},{role:"Assistant",message:data.reply.slice(0,230)});\n        if(dialogue.length>16)dialogue.splice(0,dialogue.length-16);\n        if(data.booking&&typeof data.booking==="object"&&!Array.isArray(data.booking)){\n          for(const [key,val] of Object.entries(data.booking)){if((typeof val==="string"&&val.trim())||(typeof val==="number"&&Number.isFinite(val)))bookingDraft[key]=val;}\n          review.hidden=!bookingDraft.service;\n        }\n      }
       else if(res.status===429){send.disabled=true;field.disabled=true;}
 
     }catch{wait.textContent=copy.error;}finally{window.clearTimeout(timer);busy=false;if(!field.disabled)send.disabled=false;log.scrollTop=log.scrollHeight;field.focus();}
