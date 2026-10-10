@@ -45,6 +45,7 @@ jobs:
         run: node scripts/qa-booking-demo.mjs
         env:
           QA_URL: https://thelaunchera.com
+          QA_CHECKOUT_REAL: '1'
       - name: Upload visual QA captures
         if: always()
         uses: actions/upload-artifact@v4
