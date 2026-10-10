@@ -262,10 +262,12 @@ function isVehicleBusiness(){return clean(session.model?.business_name).toLowerC
 function setupVehicleMode(){
  if(!isVehicleBusiness())return;
  document.body.classList.add("vehicle-booking");
+ document.title="CB Depot | Auto Detailing & Vehicle Cleaning";
  document.documentElement.dataset.industry="auto-detailing";
  const t=id=>document.getElementById(id),set=(id,value)=>{const el=t(id);if(el)el.textContent=value};
- const labels=document.querySelectorAll(".base-services h2,.base-services p");
+
  set("baseServiceTitle","Car Detailing Services");
+ const footer=document.querySelector(".base-footer > span");if(footer)footer.textContent="Vehicle detailing quotes & appointments";
  set("baseServiceCopy","Select the care your vehicle needs and request a personalized quote.");
  set("baseWhyTitle","Professional care for every ride");
  set("baseWhyCopy","A straightforward way to request the detailing your car deserves.");
@@ -343,7 +345,7 @@ try{
   const note=$("realSlotNotice");if(note)note.textContent=tr(
    "Sample times for design review only. Verify actual working hours in Availability before delivery.",
    "Horarios de ejemplo para revisar el diseño. Confirma las horas reales en Disponibilidad antes de entregar.");
-  for(const btn of document.querySelectorAll(".screen .next")){btn.textContent=tr("Preview only — no sending","Solo vista previa — sin envío");}
+  for(const btn of document.querySelectorAll(".screen .next")){btn.title=tr("Private design preview — no emails or bookings will be sent","Vista de diseño privada — sin correos ni reservas");}
  }
  document.documentElement.classList.remove("buyer-live-loading");
  $("leadHero").style.opacity="1";
