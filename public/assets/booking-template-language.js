@@ -5,6 +5,54 @@
  if(params.get("lang")!=="es")return;
  document.documentElement.lang="es";
  const d={
+"DEMO PREVIEW • NO REAL BOOKINGS OR EMAILS":"DEMO · SIN RESERVAS NI CORREOS REALES",
+"This sample stays in your browser. No booking or email was sent. Open the demo Command Center to see the next step.":"Este ejemplo queda en tu navegador. No se envió ninguna reserva ni correo. Abre la demo del Command Center para ver el siguiente paso.",
+"DEMO COMMAND CENTER • SAMPLE DATA ONLY":"DEMO DEL COMMAND CENTER · DATOS DE EJEMPLO",
+"Your Requests — Demo":"Tus solicitudes — Demo",
+"A simplified preview of how incoming requests can stay organized. This is not the live Lead Tracker.":"Una vista previa de cómo se organizan las solicitudes. Esta demo usa datos de ejemplo.",
+"Demo data":"Datos de ejemplo",
+"Request received → Price reviewed → Confirmation → Reminder → Follow-up":"Solicitud recibida → Precio revisado → Confirmación → Recordatorio → Seguimiento",
+"🔒 This is only a preview":"🔒 Esta es una vista previa",
+"This demo shows one example of how your booking and follow-up flow could work. Your final setup will depend on your business needs and selected service.":"Esta demo muestra cómo podrían funcionar tus reservas y seguimientos. Tu configuración final depende de tu negocio y del servicio elegido.",
+"THE LAUNCH ERA DEMO ↓ YOUR CLEANING BUSINESS":"DEMO DE THE LAUNCH ERA ↓ TU NEGOCIO DE LIMPIEZA",
+"Built around your business.":"Hecho para tu negocio.",
+"Your logo · your services · your pricing · your workflow":"Tu logo · tus servicios · tus precios · tu forma de trabajar",
+"Now imagine this built around your business.":"Ahora imagina esto adaptado a tu negocio.",
+"✨ In your personalized system":"✨ En tu sistema personalizado",
+"The owner reviews the estimate, controls the final price, and the customer can confirm from the email without back-and-forth.":"La dueña revisa el estimado, decide el precio final y el cliente confirma desde el correo.",
+"Try the booking demo":"Probar la demo de reservas",
+"Open request":"Abrir solicitud",
+"Customer":"Cliente",
+"Service":"Servicio",
+"Frequency":"Frecuencia",
+"Service ZIP":"Código postal del servicio",
+"Online estimate":"Estimado en línea",
+"No email":"Sin correo",
+"Not entered":"Sin datos",
+"Edit final price":"Editar precio final",
+"ONLINE ESTIMATE":"ESTIMADO EN LÍNEA",
+"DISCOUNT / ADJUSTMENT":"DESCUENTO / AJUSTE",
+"ZIP / TRAVEL ADJUSTMENT":"AJUSTE POR DISTANCIA",
+"FINAL PRICE":"PRECIO FINAL",
+"Preview customer confirmation":"Ver confirmación del cliente",
+"Simulation only. No email or real booking will be created.":"Solo simulación. No se crearán correos ni reservas reales.",
+"Simulate customer confirmation":"Simular confirmación del cliente",
+"✓ Demo cleaning confirmed":"✓ Limpieza de prueba confirmada",
+"CONFIRMED":"CONFIRMADA",
+"NEW":"NUEVA",
+"Sample demo request":"Solicitud de ejemplo",
+"Sample residential cleaning":"Limpieza residencial de ejemplo",
+"House":"Casa",
+"Apartment":"Apartamento",
+"Condo":"Condominio",
+"Townhouse":"Casa adosada",
+"One time":"Una vez",
+"Biweekly":"Cada dos semanas",
+"Monthly":"Mensual",
+"Deep Cleaning · Biweekly · Est. $214":"Limpieza profunda · Cada dos semanas · Est. $214",
+"Standard Cleaning · Monthly · Est. $152":"Limpieza regular · Mensual · Est. $152",
+"Move In / Move Out · One time · Est. $270":"Limpieza de mudanza · Una vez · Est. $270",
+
  "PRIVATE PREVIEW • LIVE BOOKINGS DISABLED":"VISTA PRIVADA · NO SE CREAN RESERVAS",
  "A smoother way to book your cleaning.":"Reserva tu limpieza de manera sencilla.",
  "✓ Easy mobile booking":"✓ Reservas fáciles desde el móvil",
@@ -116,6 +164,13 @@
   const t=(text||"").trim();
   if(!t)return text;
   if(Object.hasOwn(d,t))return text.replace(t,d[t]);
+  if(/^Customer preview: review your cleaning estimate of \$/.test(t))return text.replace('Customer preview: review your cleaning estimate of ','Vista del cliente: revisa tu estimado de limpieza de ').replace('. No email was sent.','. No se envió ningún correo.');
+  if(/^Final confirmed price: /.test(t))return text.replace('Final confirmed price: ','Precio final confirmado: ');
+  if(/^Sample request — /.test(t))return text.replace('Sample request — ','Solicitud de ejemplo — ');
+  if(/^PRIVATE DEMO • /.test(t))return text.replace('PRIVATE DEMO • ','DEMO PRIVADA · ');
+  if(/^PERSONALIZED FOR /.test(t))return text.replace('PERSONALIZED FOR ','PERSONALIZADO PARA ');
+  if(/^Serving /.test(t))return text.replace('Serving ','Atendemos ');
+  if(/^Built around /.test(t))return text.replace('Built around ','Hecho para ');
   if(/^COMMERCIAL · /.test(t))return text.replace("COMMERCIAL · ","COMERCIAL · ").replace("REQUEST AN ESTIMATE","SOLICITAR ESTIMADO").replace("REQUEST A QUOTE","SOLICITAR COTIZACIÓN");
   if(/^RESIDENTIAL · /.test(t))return text.replace("RESIDENTIAL · ","RESIDENCIAL · ").replace("REQUEST AN ESTIMATE","SOLICITAR ESTIMADO").replace("REQUEST A QUOTE","SOLICITAR COTIZACIÓN");
   if(/^est\. from \$/i.test(t))return text.replace("est. from ","est. desde ");

@@ -38,7 +38,7 @@ for(const v of screens){
    assert.doesNotMatch(privacy,lang==='es'?/responderte sobre la solicitud/i:/contact you about your request/i,'no manual contact promise');
    const confirmation=await p.locator('#thanksCopy').innerText();
    assert.match(confirmation,lang==='es'?/Promociones.*Spam/i:/Promotions.*Spam/i,'check promotions/spam');
-   assert.match(confirmation,lang==='es'?/código de 6 dígitos/i:/6-digit email verification code/i,'email code reminder');
+   assert.match(confirmation,lang==='es'?/sin código/i:/without a code/i,'Demo opens without email code');
    assert.equal(await p.locator('#ownerTab').count(),0,'Old fake command center no longer available');
    assert.equal(await p.locator('#customerTab').count(),0,'Old fake booking demo no longer available');
    assert.equal(await p.locator('#demoForm input[name="email"]').isVisible(),true);
@@ -203,7 +203,9 @@ await check('Canonical Booking Page is the emailed demo',{width:390,height:844},
  await p.locator('#residentialServiceList .service').last().click();
  assert.equal(await p.locator('#quote').isVisible(),true);
  assert(await p.locator('#quote [data-quote-addon]').count()>=4);
- assert.equal(await p.locator('#qemailCode').count(),1,'Email verification remains in demo');
+ assert.equal(await p.locator('.verify').count(),0,'Sample demo has no email verification');
+ await p.locator('#quoteSubmit').click();
+ assert.equal(await p.locator('#done').isVisible(),true,'Sample quote works without email code');
  assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3),'Demo fits mobile width');
  await p.screenshot({path:'qa-screenshots/booking-canonical-home-commercial.png',fullPage:true});
 });
@@ -256,7 +258,7 @@ await check('Owner can preview actual buyer template with private intake data',{
  assert(await f.locator('#commercialAddons input[data-addon-id]').count()===1);
  await f.locator('#commercialServiceList .service').first().click();
  assert((await f.locator('#commercial').isVisible()),'Commercial buyer preview is usable');
- assert(!await f.locator('.verify').first().isVisible(),'No email code in private owner preview');
+ assert.equal(await f.locator('.verify').count(),0,'No email code in private owner preview');
 });
 await check('Verified checkout opens intake without waiting for email',{width:390,height:844},async p=>{
  let requests=0;
