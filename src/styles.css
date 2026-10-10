@@ -943,3 +943,43 @@ img { display:block; width:100%; object-fit:cover; }
  .homepage-contact-panel .field input,.homepage-contact-panel .field textarea,.homepage-contact-panel .field select{font-size:16px}
  .faq-only-section{padding-bottom:65px}
 }
+
+
+/* Homepage: benefit first, compact activity flow and a clear demo action. */
+.hero-intro{background:#FAF8F3;text-align:center;padding:32px 22px 26px}
+.hero-intro .eyebrow{color:#486879;font-size:10px}
+.hero-intro h1{font-size:clamp(30px,3.7vw,50px);font-weight:550;line-height:1.12;letter-spacing:-.035em;margin:12px auto;max-width:820px;color:#191919}
+.hero-intro p{font-size:15px;line-height:1.55;color:#516879;max-width:530px;margin:0 auto}
+.sales-home .hero-photo{height:440px}
+.sales-home .hero-photo>img{width:100%;object-fit:cover;object-position:center 48%}
+.hero-notice-flow{position:absolute;left:8%;top:42px;width:290px;display:grid;gap:18px;z-index:2}
+.hero-notice-flow:before{content:'';position:absolute;left:33px;top:30px;bottom:30px;width:2px;background:#b8d2e1;box-shadow:0 0 0 3px rgba(250,248,243,.5)}
+.sales-home .hero-photo .hero-notice-flow .notification{position:relative;inset:auto;width:100%;min-height:62px;box-sizing:border-box;transform:none;animation:none;grid-template-columns:34px minmax(0,1fr);gap:11px;padding:12px 16px;border-radius:17px;background:#fff;border:1px solid #e1ebf0;box-shadow:0 8px 22px rgba(25,48,65,.13)}
+.sales-home .hero-photo .notification strong{font-size:14px;line-height:1.25;color:#191919;font-weight:650}
+.sales-home .hero-photo .notification p{font-size:12px;line-height:1.4;margin:3px 0 0;color:#516879}
+.sales-home .hero-photo .notice-icon{width:34px;height:34px;border-radius:11px;background:#e4f2fa;color:#356b8a}
+.sales-home .hero-photo .notice-icon svg{width:18px;height:18px}
+.sales-home .hero-copy{padding-top:8px}
+@media(min-width:768px){.sales-home .hero-copy .hero-cta-row{margin-top:12px}}
+@media(max-width:767px){
+ .announcement-offer{min-height:54px!important;padding:6px 10px!important}
+ .announcement-offer .sale-countdown{padding:7px 10px!important;border-radius:12px}
+ .announcement-offer .sale-clock-unit strong{font-size:15px!important}
+ .announcement-offer .sale-clock-unit small{font-size:6px!important}
+ .hero-intro{padding:22px 18px 20px}
+ .hero-intro .eyebrow{font-size:8px;letter-spacing:.09em;max-width:340px;margin:auto}
+ .hero-intro h1{font-size:clamp(27px,7.4vw,36px);margin:10px auto;max-width:390px}
+ .hero-intro p{font-size:13px;line-height:1.45;max-width:340px}
+ .sales-home .hero-photo{height:390px}
+ .sales-home .hero-photo>img{object-position:65% center}
+ .hero-notice-flow{left:12px;top:23px;width:min(61%,250px);gap:13px}
+ .hero-notice-flow:before{left:25px}
+ .sales-home .hero-photo .hero-notice-flow .notification{padding:10px 11px;min-height:58px;grid-template-columns:28px minmax(0,1fr);gap:8px;border-radius:14px}
+ .sales-home .hero-photo .notification strong{font-size:12px;line-height:1.25}
+ .sales-home .hero-photo .notification p{font-size:11px;line-height:1.35;margin-top:3px}
+ .sales-home .hero-photo .notice-icon{width:28px;height:28px;border-radius:9px}
+ .sales-home .hero-photo .notice-icon svg{width:16px;height:16px}
+ .sales-home .hero-photo .foam-wave{height:44px}
+ .sales-home .hero-copy{padding-top:4px}
+ .sales-home .hero-copy .hero-cta-row{margin-top:8px}
+}
