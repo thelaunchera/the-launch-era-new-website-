@@ -98,7 +98,7 @@ function activate(session){
   const title=(card.querySelector("h3")?.textContent||"").toLowerCase();
   const key=title.includes("exterior")?"exterior":title.includes("paint")?"paint":title.includes("interior")?"interior":title.includes("full")?"full":"custom";
   const desc={exterior:"Deep clean and restore the finish.",paint:"Protection and lasting shine.",interior:"A cleaner, fresher interior.",full:"Complete interior and exterior care.",custom:"Designed for your car."};
-  const src=photos[key];
+  const src=String(model.branding?.service_photos?.[key]||photos[key]);
   const cover=node("div","cb-service-photo");
   cover.style.backgroundImage='url("'+src+'")';
   cover.setAttribute("role","img");cover.setAttribute("aria-label","Car detailing service illustration");
@@ -168,6 +168,7 @@ function activate(session){
  if(closing){
   closing.querySelector("h2").textContent="Get a custom quote today.";
   closing.querySelector("p").textContent="Professional detailing, personalized for your vehicle. Better care, a better ride.";
+  closing.style.setProperty("--cb-closing-photo",'url("'+(customImage?candidate:photos.hero)+'")');
   const button=closing.querySelector(".base-button");if(button)button.textContent="Get a quote →";
  }
  booking.querySelector(".ey").textContent="EASY BOOKING";
