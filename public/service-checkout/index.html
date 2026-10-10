@@ -23,7 +23,7 @@ let trafficSource=(params.get("source")||"").trim().toLowerCase();try{trafficSou
 
 const bookingSaleEnd=new Date("2026-11-01T04:00:00Z").getTime();
 const bookingPrice=Date.now()<bookingSaleEnd?"$19.99":"$99";
-const allowed={"booking-flow":(Date.now()<bookingSaleEnd?"The Fall Refresh Offer · ":"")+"Booking Automation + Command Center · "+bookingPrice,"website-automation":"Website Automation · $41.99",va:"Virtual Assistant · $34.99/month"};
+const allowed={"booking-flow":(Date.now()<bookingSaleEnd?"The Fall Refresh Offer · ":"")+"Booking Automation + Command Center · "+bookingPrice,"website-automation":"Website Automation · $41.99",va:"Virtual Assistant · $34.99/month","ai-booking":"AI Booking Assistant · $99 setup + $39/month"};
 const kicker=document.getElementById("kicker"),title=document.getElementById("title"),copy=document.getElementById("copy"),dots=document.getElementById("dots"),retry=document.getElementById("retry"),status=document.getElementById("status");
 document.documentElement.lang=es?"es":"en";
 if(!allowed[offer]){
