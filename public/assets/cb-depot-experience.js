@@ -32,6 +32,13 @@ function field(label,tag,id,opts){
 function activate(session){
  if(!document.body.classList.contains("vehicle-booking")||document.body.dataset.cbPremium==="ready")return;
  document.body.dataset.cbPremium="ready";
+ // Use CB Depot's approved custom icon only on CB Depot's own landing.
+ for(const rel of ["icon","apple-touch-icon"]){
+   let link=document.querySelector('link[rel="'+rel+'"]');
+   if(!link){link=document.createElement("link");link.rel=rel;document.head.append(link)}
+   link.href="https://d2ol7oe51mr4n9.cloudfront.net/user_3FC9GcVebQE6WAxiCP5Hh9w95GF/e7419bba-8612-4c2d-81e2-6e5a971d4db8.jpg";if(rel==="icon")link.type="image/jpeg";
+ }
+
  const model=session.model;
  const services=(model.services||[]).filter(x=>x.active!==false);
  if(!services.length)return;
