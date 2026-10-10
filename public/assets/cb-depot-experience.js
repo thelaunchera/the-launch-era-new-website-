@@ -148,7 +148,26 @@ function activate(session){
   if(!customer_name||!customer_email||!message){status.textContent="Complete your name, email and message.";return}
   if(session.sendingContact)return;
   if(new URLSearchParams(location.search).get("owner_preview")==="1"){
-   status.textContent="Private preview only — no message sent.";
+   if(!session.model?.qa_nonce){status.textContent="Run private QA only from the owner's Command Center.";return}
+   session.sendingContact=true;button.disabled=true;status.textContent="Checking that your test inquiry reaches CB Depot…";
+   try{
+    const response=await new Promise((resolve,reject)=>{
+     const guard=setTimeout(()=>{window.removeEventListener("message",onReply);reject(new Error("Private inquiry QA timed out"))},17000);
+     function onReply(event){
+      if(event.origin!=="https://the-launch-era-crm.dailinsegura17.workers.dev"||event.source!==window.parent)return;
+      if(event.data?.type!=="TLE_OWNER_PREVIEW_QA_RESULT"||event.data?.nonce!==session.model.qa_nonce)return;
+      clearTimeout(guard);window.removeEventListener("message",onReply);
+      if(event.data.ok&&event.data.verified)resolve(event.data);
+      else reject(new Error(event.data.error||"Lead verification failed"));
+     }
+     window.addEventListener("message",onReply);
+     window.parent.postMessage({type:"TLE_OWNER_PREVIEW_QA_REQUEST",nonce:session.model.qa_nonce,
+      request:{service_name:"General detailing inquiry",property_type:"Contact form",notes:message,
+       request_type:"inquiry",customer_name,customer_email}},"https://the-launch-era-crm.dailinsegura17.workers.dev");
+    });
+    status.textContent="✓ TEST PASSED: Contact inquiry was routed to CB Depot. No real email was sent; test data was removed.";
+   }catch(error){status.textContent="TEST FAILED: "+(error.message||"Please try again")}
+   finally{session.sendingContact=false;button.disabled=false}
    return;
   }
   const booking_key=new URLSearchParams(location.search).get("key")||"";
