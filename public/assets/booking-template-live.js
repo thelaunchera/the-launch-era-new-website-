@@ -299,7 +299,7 @@ function setupVehicleMode(){
  const additional=document.createElement("div");
  additional.innerHTML='<label class="label" for="vehicleMakeModel">YEAR / MAKE / MODEL</label><input class="field" id="vehicleMakeModel" maxlength="120" placeholder="e.g. 2021 Toyota Camry">';
  condition?.insertAdjacentElement("afterend",additional);
- const root=t("realQuoteAddons");if(root){const title=root.previousElementSibling;if(title)title.textContent="OPTIONAL VEHICLE ADD-ONS";}
+ const root=t("realQuoteAddons");if(root){const title=root.previousElementSibling?.classList.contains("label")?root.previousElementSibling:root.previousElementSibling?.previousElementSibling;if(title?.classList.contains("label"))title.textContent="OPTIONAL VEHICLE ADD-ONS";}
  const selector=document.querySelector("#quote .request-type-pills");
  if(selector){selector.hidden=true;selector.previousElementSibling?.setAttribute("hidden","")}
  const oldStart=window.startQuote;
