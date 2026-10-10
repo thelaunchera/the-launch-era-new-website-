@@ -1,5 +1,5 @@
 (()=>{
-const params=new URLSearchParams(location.search),sample=!params.has('key')&&params.get('owner_preview')!=='1';
+const params=new URLSearchParams(location.search),ownerPreview=params.get('owner_preview')==='1',sample=!params.has('key')&&!ownerPreview;
 const es=params.get('lang')==='es',t=(en,esText)=>es?esText:en,$=id=>document.getElementById(id);
 const safeURL=raw=>{try{const u=new URL(String(raw||''));return /^https?:$/.test(u.protocol)&&!u.username&&!u.password?u.href:''}catch{return ''}};
 function text(id,en,spanish){$(id).textContent=t(en,spanish)}
@@ -9,7 +9,7 @@ function render(model={}){
  if(brand.description)$('baseDescription').textContent=brand.description;
  if(brand.hero_image&&safeURL(brand.hero_image)){$('baseHeroImage').src=safeURL(brand.hero_image);$('baseHeroImage').alt=business;$('basePhotoLabel').hidden=true}
  else if(!sample){$('baseHeroImage').hidden=true;$('basePhotoLabel').hidden=true;document.querySelector('.hero').style.gridTemplateColumns='1fr'}
- if(safeURL(brand.logo_image)){const img=document.createElement('img');img.src=safeURL(brand.logo_image);img.alt=business;$('baseBusiness').replaceChildren(img)}
+ if(safeURL(brand.logo_image)){const img=document.createElement('img');img.src=safeURL(brand.logo_image);img.alt=business+' logo';const label=document.createElement('strong');label.textContent=business;$('baseBusiness').style.cssText='display:flex;align-items:center;gap:10px;flex-wrap:wrap';$('baseBusiness').replaceChildren(img,label)}
  if(/^#[0-9a-f]{6}$/i.test(brand.primary_color||''))document.documentElement.style.setProperty('--base-soft',brand.primary_color);
  if(/^#[0-9a-f]{6}$/i.test(brand.accent_color||''))document.documentElement.style.setProperty('--base-accent',brand.accent_color);
  if(!sample){$('baseHeroImage').onerror=()=>{$('baseHeroImage').hidden=true;document.querySelector('.hero').style.gridTemplateColumns='1fr'}}
@@ -17,10 +17,10 @@ function render(model={}){
  const services=model.services||[{name:t('Home cleaning','Limpieza del hogar')},{name:t('Deep cleaning','Limpieza profunda')},{name:t('Move-in / move-out','Mudanzas')},{name:t('Office cleaning','Limpieza de oficinas')},{name:t('Recurring cleaning','Limpieza recurrente')},{name:t('Custom requests','Solicitudes especiales')}];
  for(const svc of services){const a=document.createElement('a');a.className='base-service-card';a.href='#booking';const h=document.createElement('h3');h.textContent=svc.name;const p=document.createElement('p');p.textContent=svc.mode==='flat'?new Intl.NumberFormat(es?'es-US':'en-US',{style:'currency',currency:model.currency||'USD'}).format(svc.price):t('View service & request pricing','Ver servicio y solicitar precio');a.append(h,p);a.onclick=()=>{if(typeof setCategory==='function')setCategory(svc.category==='commercial'?'commercial':'residential');if(typeof showMain==='function')showMain()};grid.append(a)}
  const reviews=Array.isArray(brand.reviews)?brand.reviews.filter(r=>r.name&&r.text).slice(0,3):[];
- $('baseReviews').hidden=!reviews.length&&!sample;
+ $('baseReviews').hidden=!reviews.length&&!sample&&!ownerPreview;
  const list=$('baseReviewGrid');list.replaceChildren();
  if(reviews.length)for(const r of reviews){const card=document.createElement('article');card.className='base-review';const quote=document.createElement('blockquote');quote.textContent=r.text;const name=document.createElement('strong');name.textContent=r.name;card.append(quote,name);// Reviews display only verified name and text; no outbound source links.list.append(card)}
- else if(sample)for(let n=1;n<=3;n++){const card=document.createElement('article');card.className='base-review empty';const h=document.createElement('strong');h.textContent=t('Client review ','Review de cliente ')+n;const p=document.createElement('p');p.textContent=t('Reserved for a real review received through the intake.','Espacio reservado para un review real recibido en el intake.');card.append(h,p);list.append(card)}
+ else if(sample||ownerPreview)for(let n=1;n<=3;n++){const card=document.createElement('article');card.className='base-review empty';const h=document.createElement('strong');h.textContent=t('Client review ','Review de cliente ')+n;const p=document.createElement('p');p.textContent=t('Reserved for a real review received through the intake.','Espacio reservado para un review real recibido en el intake.');card.append(h,p);list.append(card)}
 }
 function unavailable(){for(const el of document.querySelector('main.wrap').children)if(el.id!=='booking')el.hidden=true;document.querySelector('.top').textContent=t('BOOKING PAGE UNAVAILABLE','PÁGINA DE RESERVAS NO DISPONIBLE');}
 window.TLEBookingBase={render,unavailable};
