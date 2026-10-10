@@ -623,3 +623,99 @@ body.vehicle-booking .cb-footer-fine{font-size:11px;color:#a6aaad}
  body.vehicle-booking .cb-footer-identity{gap:12px}
  body.vehicle-booking .cb-footer-quality{max-width:290px}
 }
+
+/* CB Depot mobile-first booking correction · keep the public page and private
+   preview readable even on a narrow 320–430px Android viewport. */
+@media(max-width:650px){
+ body.vehicle-booking #services.base-services{
+  width:calc(100% - 20px)!important;max-width:100%;
+  padding:18px 0 28px!important;margin-inline:auto!important;
+ }
+ body.vehicle-booking #services .base-service-grid{
+  display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+  gap:15px!important;margin-top:18px!important;
+ }
+ body.vehicle-booking #services .base-service-card{
+  display:block!important;width:100%;min-width:0;
+  min-height:clamp(258px,82vw,360px)!important;
+  border-radius:20px!important;
+ }
+ body.vehicle-booking #services .base-service-card h3{
+  left:18px!important;bottom:54px!important;
+  max-width:calc(100% - 76px)!important;
+  font-size:clamp(18px,5.2vw,23px)!important;
+  line-height:1.18!important;word-break:normal!important;
+ }
+ body.vehicle-booking #services .base-service-card p{
+  left:18px!important;bottom:18px!important;
+  max-width:calc(100% - 83px)!important;
+  font-size:clamp(12px,3.3vw,14px)!important;line-height:1.4!important;
+ }
+ body.vehicle-booking #services .base-service-card .cb-service-arrow{
+  right:16px!important;bottom:21px!important;
+  width:36px!important;height:36px!important;font-size:24px!important;
+ }
+ body.vehicle-booking #booking.panel{
+  width:calc(100% - 20px)!important;margin:20px auto!important;
+  padding:22px 14px!important;border-radius:22px!important;
+  min-width:0!important;
+ }
+ body.vehicle-booking #booking .head{
+  display:block!important;width:100%;min-width:0;
+  padding:0!important;margin:0 0 19px!important;
+ }
+ body.vehicle-booking #booking .head>div:first-child{min-width:0;width:100%}
+ body.vehicle-booking #booking .ey{
+  display:block;max-width:calc(100% - 60px);
+  white-space:normal;line-height:1.45;
+ }
+ body.vehicle-booking #booking .head h2{
+  display:block;width:100%;max-width:100%;margin:15px 0 10px!important;
+  font-size:clamp(28px,7.6vw,36px)!important;
+  line-height:1.14!important;letter-spacing:-.04em!important;
+  white-space:normal!important;word-break:normal!important;
+  overflow-wrap:normal!important;text-wrap:balance;
+ }
+ body.vehicle-booking #booking .count{
+  display:inline-flex!important;position:static!important;
+  width:auto;max-width:max-content;min-height:28px;
+  margin:0!important;font-size:10px!important;white-space:nowrap;
+  padding:6px 11px!important;
+ }
+ body.vehicle-booking .cb-booking-panda{
+  width:44px!important;height:44px!important;right:13px!important;top:17px!important;
+ }
+ body.vehicle-booking #quote .cb-wizard{
+  width:100%;max-width:100%;min-width:0;
+  padding:17px 12px!important;border-radius:18px!important;
+ }
+ body.vehicle-booking #quote .cb-stage,
+ body.vehicle-booking #quote .cb-stage-actions{width:100%;min-width:0}
+ body.vehicle-booking #quote .cb-progress{
+  display:grid!important;grid-template-columns:minmax(0,1fr) 12px minmax(0,1.2fr) 12px minmax(0,.95fr);
+  align-items:center;gap:3px!important;
+  width:100%;min-width:0;white-space:normal!important;margin-bottom:20px!important;
+ }
+ body.vehicle-booking #quote .cb-progress>span{
+  display:flex!important;min-width:0;gap:5px!important;line-height:1.25;
+  font-size:clamp(10px,2.5vw,12px)!important;white-space:normal!important;
+ }
+ body.vehicle-booking #quote .cb-progress b{
+  display:grid;place-items:center;flex:0 0 25px;
+  width:25px!important;height:25px!important;
+ }
+ body.vehicle-booking #quote .cb-progress i{width:100%;max-width:12px;min-width:0}
+ body.vehicle-booking .cb-vehicles{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px!important}
+ body.vehicle-booking .cb-vehicles button{
+  min-width:0;min-height:85px;padding:10px 5px!important;font-size:13px!important;
+ }
+ body.vehicle-booking .cb-control,
+ body.vehicle-booking #quote .cb-field,
+ body.vehicle-booking #quote textarea{max-width:100%;min-width:0;box-sizing:border-box}
+}
+@media(max-width:360px){
+ body.vehicle-booking #booking.panel{padding:18px 10px!important}
+ body.vehicle-booking #quote .cb-wizard{padding:14px 9px!important}
+ body.vehicle-booking #booking .head h2{font-size:27px!important}
+ body.vehicle-booking #quote .cb-progress>span{font-size:10px!important}
+}
