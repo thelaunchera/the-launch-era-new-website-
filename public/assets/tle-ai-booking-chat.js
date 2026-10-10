@@ -46,7 +46,18 @@
     .tle-ai-form textarea{flex:1;resize:none;min-height:43px;max-height:87px;border:1px solid #D1E2EF;background:#FAF8F3;border-radius:15px;padding:11px;font:13px Futura,"Avenir Next",Arial,sans-serif;min-width:0}
     .tle-ai-form button{background:#191919;color:#fff;border:0;border-radius:14px;padding:0 14px;min-height:43px;font-weight:700;cursor:pointer}
     .tle-ai-form button:disabled{opacity:.55;cursor:not-allowed}
-    @media(max-width:480px){.tle-ai-panel{left:10px;right:10px;width:auto;bottom:calc(max(10px,env(safe-area-inset-bottom)) + 58px);height:min(520px,calc(100dvh - 96px))}.tle-ai-launch{bottom:max(10px,env(safe-area-inset-bottom));right:12px}}
+    @media(max-width:700px){
+      .tle-ai-panel{top:var(--tle-ai-vv-top,0px)!important;left:0!important;right:0!important;bottom:auto!important;width:100vw!important;max-width:100vw!important;height:var(--tle-ai-vv-height,100dvh)!important;min-height:0!important;border-radius:0!important;border:0!important;box-shadow:none!important}
+      .tle-ai-head{padding-top:max(15px,env(safe-area-inset-top));flex-shrink:0}
+      .tle-ai-log{min-height:0;flex:1;padding:15px 12px}
+      .tle-ai-foot{flex-shrink:0;padding:10px 12px max(12px,env(safe-area-inset-bottom))}
+      .tle-ai-form{display:flex;min-width:0;gap:8px;align-items:flex-end}
+      .tle-ai-form textarea{font-size:16px!important;min-width:0;flex:1;width:1px}
+      .tle-ai-form button{flex:0 0 auto;max-width:88px;white-space:nowrap;padding:0 12px}
+      body.tle-ai-chat-open{overflow:hidden!important}
+      body.tle-ai-chat-open .tle-ai-launch{visibility:hidden}
+      .tle-ai-panel{animation:none!important}
+    }
     @media(prefers-reduced-motion:no-preference){.tle-ai-panel{animation:tleAiEnter .2s ease-out}@keyframes tleAiEnter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}}
   `;
   document.head.appendChild(css);
@@ -63,7 +74,22 @@
   let sent=0; let busy=false;
   function append(text,who){const div=document.createElement("div");div.className="tle-ai-msg "+who;div.textContent=text;log.appendChild(div);log.scrollTop=log.scrollHeight;return div;}
   append(copy.intro,"bot");
-  function toggle(open){panel.hidden=!open;launch.setAttribute("aria-expanded",open?"true":"false");if(open)field.focus();else launch.focus();}
+  function syncViewport(){
+    if(panel.hidden || window.innerWidth>700)return;
+    const vv=window.visualViewport;
+    panel.style.setProperty("--tle-ai-vv-top",(vv?vv.offsetTop:0)+"px");
+    panel.style.setProperty("--tle-ai-vv-height",(vv?vv.height:window.innerHeight)+"px");
+  }
+  window.visualViewport?.addEventListener("resize",syncViewport);
+  window.visualViewport?.addEventListener("scroll",syncViewport);
+  window.addEventListener("orientationchange",()=>window.requestAnimationFrame(syncViewport));
+  function toggle(open){
+    panel.hidden=!open;
+    launch.setAttribute("aria-expanded",open?"true":"false");
+    document.body.classList.toggle("tle-ai-chat-open",open);
+    if(open){syncViewport();if(window.innerWidth>700)field.focus();}
+    else{panel.style.removeProperty("--tle-ai-vv-height");panel.style.removeProperty("--tle-ai-vv-top");launch.focus();}
+  }
   launch.addEventListener("click",()=>toggle(panel.hidden));
   close.addEventListener("click",()=>toggle(false));
   document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!panel.hidden)toggle(false)});
