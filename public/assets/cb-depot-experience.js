@@ -1,0 +1,178 @@
+/* CB Depot-only premium booking experience. Reuses the existing secure quote submission. */
+(()=>{
+"use strict";
+const photos={
+ hero:"https://images.pexels.com/photos/10549258/pexels-photo-10549258.jpeg?auto=compress&cs=tinysrgb&w=1800",
+ interior:"https://images.pexels.com/photos/4218867/pexels-photo-4218867.jpeg?auto=compress&cs=tinysrgb&w=650",
+ exterior:"https://images.pexels.com/photos/7154632/pexels-photo-7154632.jpeg?auto=compress&cs=tinysrgb&w=650",
+ deep:"https://images.pexels.com/photos/4892130/pexels-photo-4892130.jpeg?auto=compress&cs=tinysrgb&w=650",
+ paint:"https://images.pexels.com/photos/6870310/pexels-photo-6870310.jpeg?auto=compress&cs=tinysrgb&w=650",
+ full:"https://images.pexels.com/photos/10549258/pexels-photo-10549258.jpeg?auto=compress&cs=tinysrgb&w=650",
+ custom:"https://images.pexels.com/photos/7154635/pexels-photo-7154635.jpeg?auto=compress&cs=tinysrgb&w=650"
+};
+const names=[
+ {key:"interior",desc:"Fresh, clean cabin"},
+ {key:"exterior",desc:"A shine worth noticing"},
+ {key:"deep",desc:"A thorough interior reset"},
+ {key:"paint",desc:"Protect the finish"},
+ {key:"full",desc:"Inside and out"},
+ {key:"custom",desc:"Tailored to your car"}
+];
+function node(tag,cls,content){const el=document.createElement(tag);if(cls)el.className=cls;if(content!==undefined)el.textContent=content;return el}
+function field(label,tag,id,opts){
+ const wrapper=node("label","cb-field"),name=node("span","cb-field-label",label);wrapper.append(name);
+ const input=document.createElement(tag);input.id=id;input.className="cb-control";
+ if(opts?.placeholder)input.placeholder=opts.placeholder;
+ if(opts?.type)input.type=opts.type;
+ if(opts?.required)input.required=true;
+ if(opts?.maxLength)input.maxLength=opts.maxLength;
+ if(opts?.items)for(const val of opts.items)input.add(new Option(val,val));
+ wrapper.append(input);return wrapper;
+}
+function activate(session){
+ if(!document.body.classList.contains("vehicle-booking")||document.body.dataset.cbPremium==="ready")return;
+ document.body.dataset.cbPremium="ready";
+ const model=session.model;
+ const services=(model.services||[]).filter(x=>x.active!==false);
+ if(!services.length)return;
+ const hero=document.querySelector("#leadHero"),img=document.querySelector("#baseHeroImage"),top=document.querySelector(".heroText");
+ // A client-uploaded real image can replace the illustrated default; never use the childlike SVG as the hero.
+ const candidate=String(model.branding?.hero_image||"");
+ const customImage=candidate&&!candidate.endsWith(".svg");
+ img.src=customImage?candidate:photos.hero;
+ img.alt="Modern car at a professional auto detailing studio";
+ img.loading="eager";img.fetchPriority="high";
+ img.onerror=()=>{img.onerror=null;img.src=photos.hero};
+ hero.style.backgroundImage="none";
+ document.getElementById("basePhotoLabel").hidden=true;
+ top.querySelector("small").textContent="CB DEPOT · CAR DETAILING";
+ top.querySelector("h1").innerHTML="Professional car detailing, <em>made simple.</em>";
+ const subtitle=document.getElementById("baseDescription");
+ subtitle.textContent="Give your vehicle the attention it deserves. Choose your detail and request a time in just a few steps.";
+ document.querySelector(".base-nav .base-button").textContent="Get a quote";
+ const buttons=top.querySelectorAll(".base-button");
+ if(buttons[0])buttons[0].textContent="Start booking →";
+ if(buttons[1])buttons[1].textContent="See services";
+ const badge=document.createElement("span");badge.className="cb-photo-notice";badge.textContent="Auto detailing · Boynton Beach, FL";top.append(badge);
+ const trust=document.querySelector(".trust");
+ trust.replaceChildren();
+ const points=[["⚡","Fast requests","Only a few steps"],["▤","Custom quotes","For your vehicle"],["◷","Mon–Fri · 7 AM–7 PM","Boynton Beach, FL"]];
+ for(const [symbol,title,caption] of points){const item=node("div","cb-trust");item.append(node("span","cb-trust-symbol",symbol));const info=node("div");info.append(node("strong","",title),node("small","",caption));item.append(info);trust.append(item)}
+ const sec=document.getElementById("services");
+ const secHead=sec.querySelector(":scope > div");
+ if(secHead){secHead.prepend(node("span","cb-kicker","OUR SERVICES"));const btn=secHead.querySelector(".base-button");if(btn)btn.remove()}
+ document.getElementById("baseServiceTitle").textContent="Choose a service";
+ document.getElementById("baseServiceCopy").textContent="Select what your vehicle needs. Every quote is personalized.";
+ const grid=document.getElementById("baseServiceGrid");
+ const cards=[...grid.querySelectorAll(".base-service-card")];
+ cards.forEach((card,i)=>{
+  const d=names[i]||names[names.length-1],src=photos[d.key];
+  const cover=node("div","cb-service-photo");
+  cover.style.backgroundImage='url("'+src+'")';
+  cover.setAttribute("role","img");cover.setAttribute("aria-label","Car detailing service illustration");
+  card.prepend(cover);
+  const h=card.querySelector("h3"),p=card.querySelector("p");
+  if(h)h.textContent=services[i]?.name||h.textContent;
+  if(p)p.textContent=d.desc;
+  const arrow=node("span","cb-service-arrow","›");card.append(arrow);
+ });
+ const booking=document.getElementById("booking");
+ sec.insertAdjacentElement("afterend",booking);
+ document.querySelectorAll(".base-section:not(#baseReviews),.base-closing").forEach(el=>el.classList.add("cb-extra-section"));
+ booking.querySelector(".ey").textContent="EASY BOOKING";
+ booking.querySelector(".head h2").textContent="Schedule your service";
+ booking.querySelector(".count").textContent="3 QUICK STEPS";
+ const panda=document.querySelector("#baseBusiness img");
+ if(panda){const badge=node("div","cb-booking-panda");const duplicated=panda.cloneNode(true);duplicated.alt="CB Depot panda";badge.append(duplicated);booking.prepend(badge)}
+ const main=document.getElementById("main"),quote=document.getElementById("quote");
+ main.classList.remove("on");quote.classList.add("on");
+ const addons=document.getElementById("realQuoteAddons");
+ const wizard=node("div","cb-wizard");
+ wizard.innerHTML=`
+ <div class="cb-progress" aria-label="Booking steps"><span data-stage-indicator="1" class="active"><b>1</b> Vehicle</span><i></i><span data-stage-indicator="2"><b>2</b> Date & time</span><i></i><span data-stage-indicator="3"><b>3</b> Details</span></div>
+ <div class="cb-stage" data-stage="1">
+   <h3>Tell us about your ride</h3><p class="cb-stage-help">Pick a detailing service and your vehicle type.</p>
+   <div id="cbServiceField"></div>
+   <div class="cb-field-label cb-type-label">What type of vehicle do you have?</div>
+   <div class="cb-vehicles" role="group" aria-label="Vehicle type">
+    <button type="button" data-cb-vehicle="Car"><span>🚘</span>Car</button>
+    <button type="button" data-cb-vehicle="SUV"><span>🚙</span>SUV</button>
+    <button type="button" data-cb-vehicle="Truck"><span>🛻</span>Truck</button>
+    <button type="button" data-cb-vehicle="Van"><span>🚐</span>Van</button>
+   </div>
+   <input type="hidden" id="qtype" value="">
+   <div id="cbConditionField"></div>
+   <p class="cb-error" id="cbStep1Error" role="status"></p>
+   <button type="button" class="cb-go" id="cbNext1">Continue to date & time →</button>
+ </div>
+ <div class="cb-stage" data-stage="2" hidden>
+   <h3>When works for you?</h3><p class="cb-stage-help">Monday–Friday · 7:00 AM–7:00 PM. Your time is a request until confirmed.</p>
+   <div class="cb-2cols" id="cbDateFields"></div>
+   <p class="cb-error" id="cbStep2Error" role="status"></p>
+   <div class="cb-stage-actions"><button type="button" class="cb-prev" data-cb-back="1">← Back</button><button type="button" class="cb-go" id="cbNext2">Continue →</button></div>
+ </div>
+ <div class="cb-stage" data-stage="3" hidden>
+   <h3>One last thing…</h3><p class="cb-stage-help">Where can we send your custom quote?</p>
+   <div id="cbVehicleDetails"></div><div id="cbExtras"></div><div id="cbContactDetails"></div>
+   <p class="cb-policy">Your appointment and final price will be confirmed by CB Depot. No payment is collected here.</p>
+   <button type="button" class="cb-go" id="quoteSubmit">Request my detailing quote →</button>
+   <button type="button" class="cb-prev" data-cb-back="2">← Back</button>
+ </div>`;
+ quote.replaceChildren(wizard);
+ document.getElementById("cbServiceField").append(field("Detailing service","select","cbService",{items:services.map(x=>x.name)}));
+ document.getElementById("cbConditionField").append(field("Vehicle condition","select","qsize",{items:["Light cleaning","Moderate dirt / buildup","Heavy stains or odors","Not sure"]}));
+ const dateField=field("Preferred date","input","qdate",{type:"date",required:true});
+ dateField.querySelector("input").min=new Date().toISOString().slice(0,10);
+ const timeField=field("Preferred time","input","qtime",{type:"time",required:true});
+ const timeInput=timeField.querySelector("input");timeInput.min="07:00";timeInput.max="18:30";timeInput.step="1800";
+ document.getElementById("cbDateFields").append(dateField,timeField);
+ document.getElementById("cbVehicleDetails").append(field("Year / make / model","input","vehicleMakeModel",{placeholder:"e.g. 2021 Toyota Camry",maxLength:120}),field("Anything we should know?","textarea","qdetails",{placeholder:"Stains, pet hair, special areas or requests"}));
+ if(addons){
+   const addonWrap=document.getElementById("cbExtras");
+   addonWrap.append(node("div","cb-field-label","Optional add-ons"),addons);
+ }
+ const contacts=document.getElementById("cbContactDetails");contacts.className="cb-contact-grid";
+ contacts.append(
+  field("Full name","input","qname",{placeholder:"Your full name",required:true}),
+  field("Email address","input","qemail",{type:"email",placeholder:"you@example.com",required:true}),
+  field("Phone","input","qphone",{type:"tel",placeholder:"Your phone number"}),
+  field("Service address","input","qaddress",{placeholder:"Street, city, ZIP"}));
+ // No new external backend: reuse the existing secure quote handler and account-specific service IDs.
+ const controls=[...document.querySelectorAll(".cb-vehicles button")];
+ let vehicle="";
+ const selectService=document.getElementById("cbService");
+ function syncService(){
+  const choice=services.find(s=>s.name===selectService.value)||services[0];
+  session.service=choice;state.serviceId=choice.id;state.service=choice.name;
+  state.mode="quote";state.intent="quote";state.route="quote";state.category="residential";
+  cards.forEach((c,i)=>c.classList.toggle("cb-selected",services[i]?.id===choice.id));
+ }
+ function selectVehicle(value){
+  vehicle=value;document.getElementById("qtype").value=value;
+  controls.forEach(b=>{const chosen=b.dataset.cbVehicle===value;b.classList.toggle("active",chosen);b.setAttribute("aria-pressed",chosen?"true":"false")});
+ }
+ controls.forEach(b=>b.addEventListener("click",()=>{selectVehicle(b.dataset.cbVehicle);document.getElementById("cbStep1Error").textContent=""}));
+ selectService.addEventListener("change",syncService);
+ function goto(step){
+  wizard.querySelectorAll(".cb-stage").forEach(e=>e.hidden=Number(e.dataset.stage)!==step);
+  wizard.querySelectorAll("[data-stage-indicator]").forEach(x=>x.classList.toggle("active",Number(x.dataset.stageIndicator)===step));
+  wizard.dataset.currentStep=String(step);
+  booking.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});
+ }
+ function validDate(){const date=document.getElementById("qdate").value,time=document.getElementById("qtime").value;
+  if(!date||!time)return false;const day=new Date(date+"T12:00:00").getDay();
+  return day>0&&day<6&&time>="07:00"&&time<="18:30";}
+ document.getElementById("cbNext1").onclick=()=>{if(!vehicle){document.getElementById("cbStep1Error").textContent="Choose your vehicle type to continue.";return}goto(2)};
+ document.getElementById("cbNext2").onclick=()=>{if(!validDate()){document.getElementById("cbStep2Error").textContent="Choose a weekday between 7 AM and 6:30 PM.";return}goto(3)};
+ wizard.querySelectorAll("[data-cb-back]").forEach(x=>x.onclick=()=>goto(Number(x.dataset.cbBack)));
+ document.getElementById("quoteSubmit").onclick=()=>window.submitQuote();
+ cards.forEach((card,i)=>{
+  card.onclick=e=>{e.preventDefault();selectService.value=services[i]?.name||services[0].name;syncService();goto(1);};
+ });
+ document.querySelectorAll(".base-button[href='#booking']").forEach(a=>a.addEventListener("click",()=>{syncService();goto(1)}));
+ syncService();
+ // Keep the quote data within the standard backend model, avoiding any house fields.
+ document.getElementById("baseFooterBusiness").textContent="CB Depot";
+}
+window.TLECBDepotEnhance=activate;
+})();
