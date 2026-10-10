@@ -243,3 +243,27 @@ body.vehicle-booking #services .base-service-grid{grid-template-columns:1fr}
 body.vehicle-booking #services .base-service-card{min-height:218px}
 body.vehicle-booking .cb-vehicles{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+/* Header identity and responsive functional navigation */
+body.vehicle-booking .base-brand{display:flex;align-items:center;gap:10px;min-width:0}
+body.vehicle-booking .cb-brand-stack{display:flex;flex-direction:column;gap:3px;min-width:0}
+body.vehicle-booking .cb-brand-stack strong{font-size:24px;color:#fff;line-height:1;letter-spacing:-.04em}
+body.vehicle-booking .cb-brand-stack small{font-size:9px;line-height:1.2;letter-spacing:.17em;color:#a8bed2;font-weight:800}
+body.vehicle-booking .base-nav{position:relative}
+body.vehicle-booking .cb-menu-toggle{display:grid;place-items:center;flex:none;border:1px solid #29435d;background:#071927;color:white;border-radius:12px;width:42px;height:42px;font-size:24px;cursor:pointer}
+body.vehicle-booking .cb-menu-toggle:focus-visible{outline:3px solid #35a8ff}
+body.vehicle-booking .cb-mobile-menu[hidden]{display:none!important}
+body.vehicle-booking .cb-mobile-menu{position:absolute;z-index:50;right:4px;top:calc(100% - 4px);display:grid;gap:3px;min-width:195px;padding:9px;background:#0c1b2a;border:1px solid #335677;border-radius:16px;box-shadow:0 15px 30px #0007}
+body.vehicle-booking .cb-mobile-menu a{display:block;color:#eff9ff;text-decoration:none;padding:13px 14px;font-size:14px;font-weight:750;border-radius:9px}
+body.vehicle-booking .cb-mobile-menu a:hover{background:#0d3e6c}
+body.vehicle-booking .cb-mobile-menu a:focus-visible{outline:2px solid #1895ff}
+@media(max-width:520px){
+body.vehicle-booking .cb-brand-stack strong{font-size:18px}
+body.vehicle-booking .cb-brand-stack small{font-size:7px;letter-spacing:.12em}
+body.vehicle-booking .base-links>a:not(.base-button){display:none}
+body.vehicle-booking .base-links .base-button{padding:11px 13px;font-size:12px;min-height:41px}
+body.vehicle-booking .cb-menu-toggle{width:39px;height:39px;font-size:20px}
+}
+@media(max-width:365px){
+body.vehicle-booking .cb-brand-stack small{display:none}
+body.vehicle-booking .base-brand img{width:34px;height:34px;flex-basis:34px}
+}
