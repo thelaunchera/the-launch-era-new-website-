@@ -294,3 +294,28 @@ body.vehicle-booking .cb-contact-form button[type=submit]{justify-self:stretch}
 
 /* Permanent, approved hero image also powers the final CTA */
 body.vehicle-booking .base-closing{background-image:var(--cb-closing-photo,url("/assets/clients/cb-depot/photos/panda-on-bmw.webp"))!important}
+
+/* CB Depot brand mark is the original standalone panda; the square is favicon-only. */
+body.vehicle-booking #baseBusiness img,
+body.vehicle-booking .base-brand img{
+  object-fit:contain!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  padding:0!important;
+  width:44px!important;
+  height:44px!important;
+  max-width:44px!important;
+  max-height:44px!important;
+  flex:0 0 44px!important;
+}
+body.vehicle-booking .cb-booking-panda{
+  background:#101c2d!important;
+  border:1px solid #274262!important;
+}
+body.vehicle-booking .cb-booking-panda img{padding:7px;object-fit:contain}
+@media(max-width:520px){
+ body.vehicle-booking #baseBusiness img,
+ body.vehicle-booking .base-brand img{width:35px!important;height:35px!important;max-width:35px!important;max-height:35px!important;flex-basis:35px!important}
+}
