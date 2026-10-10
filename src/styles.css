@@ -983,3 +983,17 @@ img { display:block; width:100%; object-fit:cover; }
  .sales-home .hero-copy{padding-top:4px}
  .sales-home .hero-copy .hero-cta-row{margin-top:8px}
 }
+
+
+/* VA and Website Automation sale pricing. */
+.service-discount-offer .booking-offer-tag{background:#F2D85B;border-color:#F2D85B;color:#191919;font-size:11px;letter-spacing:.05em;padding:6px 11px;line-height:1.2}
+.service-discount-offer .booking-offer-tag:before{display:none}
+.service-discount-offer .booking-offer-price del{color:#667480;text-decoration-color:#667480}
+.service-discount-offer .booking-offer-price strong{color:#191919}
+.service-grid .service-discount-offer{gap:7px;align-items:center}
+.service-grid .service-discount-offer .service-price-pill{background:#FAF8F3;border-color:#dce6eb;padding:7px 10px;gap:7px}
+.service-grid .service-discount-offer .service-price-pill:before{display:none}
+.service-grid .service-discount-offer .service-price-pill strong{color:#191919;font-size:16px}
+.service-grid .service-discount-offer .service-price-pill del{font-size:11px}
+.service-hero .service-discount-offer{margin:14px 0 12px;gap:12px}
+.service-hero .service-discount-offer .booking-offer-price strong{font-size:25px}

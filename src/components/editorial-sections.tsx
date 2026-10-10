@@ -36,7 +36,7 @@ function ServiceCard({service:s,index:i}:{service:typeof services[number],index:
   <div className="service-image"><img src={s.image} alt={s.alt} loading="lazy" width={1024} height={1024}/><span className="service-number">0{i+1}</span><span className="service-arrow"><ArrowUpRight size={18}/></span></div>
   {i===0
    ? <div className="booking-offer-line">{sale&&<span className="booking-offer-tag">The Fall Refresh Offer</span>}<span className="booking-offer-price service-price-pill">{sale&&<del>$99</del>}<strong>{sale?"$19.99":"$99"}</strong></span></div>
-   : <div className="service-card-price-line"><span className="service-price-pill"><strong>{normalPrices[i]}</strong></span></div>}
+   : i>=2 ? <div className="booking-offer-line service-discount-offer"><span className="booking-offer-tag">30% OFF</span><span className="booking-offer-price service-price-pill"><del>{i===2?"$59.99":"$49.99/mo"}</del><strong>{normalPrices[i]}</strong></span></div> : <div className="service-card-price-line"><span className="service-price-pill"><strong>{normalPrices[i]}</strong></span></div>}
   <h3>{s.title}</h3><p>{s.description}</p><div className="card-tag">{s.tag}</div>
  </>;
 }

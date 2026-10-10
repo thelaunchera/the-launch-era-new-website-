@@ -49,7 +49,7 @@ function Page(){
   return <main style={{background:'#faf4f7'}}>
     <section className="container service-hero">
       <div className="eyebrow">WEBSITE AUTOMATION</div>
-      <p className="booking-offer-line"><span className="booking-offer-tag">30% de descuento</span><del>$59.99</del></p><h1 className="editorial">Conserva tu website. Mejora lo que pasa después.</h1>
+      <p className="booking-offer-line service-discount-offer"><span className="booking-offer-tag">30% OFF</span><span className="booking-offer-price"><del>$59.99</del><strong>$41.99</strong></span></p><h1 className="editorial">Conserva tu website. Mejora lo que pasa después.</h1>
       <p>¿Ya tienes website? Organizamos las consultas que llegan desde tu formulario de contacto o cotización para que puedas responder y dar seguimiento sin perder oportunidades.</p>
       <a className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=es">Comenzar — $41.99 <ArrowRight/></a><div className="service-proof-strip" aria-label="Detalles del servicio"><span>TU WEBSITE ACTUAL</span><span>ORGANIZACIÓN DE CONSULTAS</span><span>CONFIGURACIÓN ÚNICA</span></div>
     </section>
