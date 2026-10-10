@@ -64,7 +64,7 @@ function activate(session){
  menuBtn.type="button";menuBtn.setAttribute("aria-label","Open CB Depot menu");menuBtn.setAttribute("aria-expanded","false");
  const menu=node("div","cb-mobile-menu");
  menu.hidden=true;
- for(const [label,href] of [["Services","#services"],["Get a quote","#booking"],["Reviews","#baseReviews"]]){
+ for(const [label,href] of [["Services","#services"],["Get a quote","#booking"],["Reviews","#baseReviews"],["Contact Us","#cbContact"]]){
   const link=node("a","",label);link.href=href;
   link.addEventListener("click",()=>{menu.hidden=true;menuBtn.setAttribute("aria-expanded","false")});
   menu.append(link);
@@ -107,9 +107,63 @@ function activate(session){
   if(p)p.textContent=desc[key];
   const arrow=node("span","cb-service-arrow","›");card.append(arrow);
  });
+
+ const contact=node("section","cb-contact");
+ contact.id="cbContact";
+ contact.innerHTML=`
+ <div class="cb-contact-head"><span class="cb-kicker">QUESTIONS? WE'RE HERE</span>
+ <h2>Contact Us</h2>
+ <p>Have a question about detailing your car? Send CB Depot a message. No booking form required.</p></div>
+ <form id="cbContactForm" class="cb-contact-form" autocomplete="on">
+  <label>Full name <input name="customer_name" type="text" maxlength="160" required autocomplete="name" placeholder="Your full name"></label>
+  <label>Email <input name="customer_email" type="email" maxlength="200" required autocomplete="email" placeholder="you@example.com"></label>
+  <label>Phone (optional) <input name="customer_phone" type="tel" maxlength="80" autocomplete="tel" placeholder="Phone number"></label>
+  <label>What can we help with? <textarea name="message" required maxlength="1200" rows="4" placeholder="Tell us what you need..."></textarea></label>
+  <label class="cb-trap" aria-hidden="true">Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+  <button type="submit" class="cb-go">Send message →</button>
+  <p class="cb-contact-status" role="status" aria-live="polite"></p>
+ </form>`;
+ const contactForm=contact.querySelector("form");
+ contactForm.addEventListener("submit",async ev=>{
+  ev.preventDefault();
+  if(!contactForm.reportValidity())return;
+  const status=contact.querySelector(".cb-contact-status"),button=contactForm.querySelector("button[type=submit]");
+  const data=new FormData(contactForm),customer_name=String(data.get("customer_name")||"").trim();
+  const customer_email=String(data.get("customer_email")||"").trim().toLowerCase();
+  const message=String(data.get("message")||"").trim();
+  if(!customer_name||!customer_email||!message){status.textContent="Complete your name, email and message.";return}
+  if(session.sendingContact)return;
+  if(new URLSearchParams(location.search).get("owner_preview")==="1"){
+   status.textContent="Private preview only — no message sent.";
+   return;
+  }
+  const booking_key=new URLSearchParams(location.search).get("key")||"";
+  if(!booking_key){status.textContent="Contact form unavailable until the booking page is published.";return}
+  session.sendingContact=true;button.disabled=true;button.textContent="Sending…";status.textContent="";
+  try{
+   const res=await fetch("https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-flow-inquiry",{
+    method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+     booking_key,request_type:"inquiry",request_intent:"inquiry",source:"booking_page_contact",
+     preferred_language:session.language||"en",customer_name,customer_email,
+     customer_phone:String(data.get("customer_phone")||"").trim(),service_name:"General question",
+     notes:message,website:String(data.get("website")||"")
+    })
+   });
+   const reply=await res.json().catch(()=>({}));
+   if(!res.ok)throw Error(reply.error||"Could not send this message. Please try again.");
+   contactForm.reset();
+   status.textContent="Thank you! Your message was sent to CB Depot.";
+  }catch(err){status.textContent=err instanceof Error?err.message:"Could not send your message."}
+  finally{session.sendingContact=false;button.disabled=false;button.textContent="Send message →"}
+ });
+
  const booking=document.getElementById("booking");
  sec.insertAdjacentElement("afterend",booking);
  document.querySelectorAll(".base-section:not(#baseReviews)").forEach(el=>el.classList.add("cb-extra-section"));
+ const reviews=document.getElementById("baseReviews");
+ if(reviews)reviews.insertAdjacentElement("afterend",contact);
+ else document.getElementById("services").insertAdjacentElement("afterend",contact);
  const closing=document.querySelector(".base-closing");
  if(closing){
   closing.querySelector("h2").textContent="Get a custom quote today.";
