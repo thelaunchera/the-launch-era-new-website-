@@ -19,7 +19,7 @@ function render(model={}){
  const reviews=Array.isArray(brand.reviews)?brand.reviews.filter(r=>r.name&&r.text).slice(0,3):[];
  $('baseReviews').hidden=!reviews.length&&!sample&&!ownerPreview;
  const list=$('baseReviewGrid');list.replaceChildren();
- if(reviews.length)for(const r of reviews){const card=document.createElement('article');card.className='base-review';const quote=document.createElement('blockquote');quote.textContent=r.text;const name=document.createElement('strong');name.textContent=r.name;card.append(quote,name);// Reviews display only verified name and text; no outbound source links.list.append(card)}
+ if(reviews.length)for(const r of reviews){const card=document.createElement('article');card.className='base-review';const quote=document.createElement('blockquote');quote.textContent=r.text;const name=document.createElement('strong');name.textContent=r.name;card.append(quote,name);/* Reviews display only genuine name and text; no external source links. */list.append(card)}
  else if(sample||ownerPreview)for(let n=1;n<=3;n++){const card=document.createElement('article');card.className='base-review empty';const h=document.createElement('strong');h.textContent=t('Client review ','Review de cliente ')+n;const p=document.createElement('p');p.textContent=t('Reserved for a real review received through the intake.','Espacio reservado para un review real recibido en el intake.');card.append(h,p);list.append(card)}
 }
 function unavailable(){for(const el of document.querySelector('main.wrap').children)if(el.id!=='booking')el.hidden=true;document.querySelector('.top').textContent=t('BOOKING PAGE UNAVAILABLE','PÁGINA DE RESERVAS NO DISPONIBLE');}
