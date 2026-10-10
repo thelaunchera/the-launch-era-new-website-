@@ -39,12 +39,14 @@ function activate(session){
  // A client-uploaded real image can replace the illustrated default; never use the childlike SVG as the hero.
  const candidate=String(model.branding?.hero_image||"");
  const customImage=candidate&&!candidate.endsWith(".svg");
+ img.hidden=false;
  img.src=customImage?candidate:photos.hero;
  img.alt="Modern car at a professional auto detailing studio";
  img.loading="eager";img.fetchPriority="high";
  img.onerror=()=>{img.onerror=null;img.src=photos.hero};
  hero.style.backgroundImage="none";
  document.getElementById("basePhotoLabel").hidden=true;
+ top.querySelector(":scope > img")?.remove();
  top.querySelector("small").textContent="CB DEPOT · CAR DETAILING";
  top.querySelector("h1").innerHTML="Professional car detailing, <em>made simple.</em>";
  const subtitle=document.getElementById("baseDescription");
