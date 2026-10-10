@@ -335,7 +335,31 @@ function activate(session){
  initCBScrollExperience();
 
  // Keep the quote data within the standard backend model, avoiding any house fields.
- document.getElementById("baseFooterBusiness").textContent="CB Depot";
+ const footer=document.querySelector(".base-footer");
+ if(footer){
+  footer.classList.add("cb-premium-footer");
+  footer.replaceChildren();
+  const top=node("div","cb-footer-identity");
+  const logo=node("img","cb-footer-mark");
+  logo.src="/assets/clients/cb-depot/approved-favicon-192.png";
+  logo.alt="CB Depot logo";logo.loading="lazy";
+  const details=node("div","cb-footer-details");
+  details.append(node("strong","","CB Depot"),node("span","","Professional car detailing · Boynton Beach, Florida"));
+  top.append(logo,details);footer.append(top);
+  const quality=node("div","cb-footer-quality","Professional care · Personalized quotes · Easy appointment requests");
+  footer.append(quality);
+  const nav=node("nav","cb-footer-nav");nav.setAttribute("aria-label","CB Depot policies and contact");
+  for(const [label,path] of [["Privacy Policy","/cb-depot/privacy/"],["Booking Terms","/cb-depot/terms/"],["Contact Us","#cbContact"]]){
+   const link=node("a","",label);link.href=path;
+   if(path!=="#cbContact"){
+    const params=new URLSearchParams(location.search),key=params.get("key");
+    if(key)link.href=path+"?booking_key="+encodeURIComponent(key);
+   }
+   nav.append(link);
+  }
+  footer.append(nav,node("small","cb-footer-fine","© "+new Date().getFullYear()+" CB Depot · All rights reserved"));
+ }
+
 }
 window.TLECBDepotEnhance=activate;
 })();
