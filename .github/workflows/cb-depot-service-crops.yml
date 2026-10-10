@@ -1,0 +1,29 @@
+name: Refine CB Depot service photos
+on:
+  push:
+    paths:
+      - '.github/workflows/cb-depot-service-crops.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  refine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install Pillow==11.3.0
+      - name: Crop close-up car detail photos from existing originals
+        run: python scripts/cb-depot-clean-crops.py
+      - name: Commit cleaned CB Depot service cards
+        run: |
+          git config user.name "CB Depot Asset Bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/assets/clients/cb-depot/photos/card-*.webp
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Crop original BMW detailing service photos without panda wall graphics"
+          git push
