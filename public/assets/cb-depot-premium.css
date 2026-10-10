@@ -552,3 +552,48 @@ body.vehicle-booking.cb-motion-ready #leadHero .heroText{
 @media(prefers-reduced-motion:reduce){
  body.vehicle-booking.cb-motion-ready #leadHero .heroText{animation:none!important}
 }
+
+/* CB Depot booking step 2: keep native date and preferred-time controls fully
+   contained, including inside the owner's narrow iframe preview on iPad. */
+body.vehicle-booking #quote .cb-wizard,
+body.vehicle-booking #quote .cb-stage,
+body.vehicle-booking #quote #cbDateFields {
+ min-width:0;
+ max-width:100%;
+ box-sizing:border-box;
+}
+body.vehicle-booking #quote #cbDateFields{
+ display:grid;
+ grid-template-columns:minmax(0,1fr)!important;
+ width:100%;
+ gap:0;
+}
+body.vehicle-booking #quote #cbDateFields > .cb-field{
+ display:block;
+ width:100%;
+ min-width:0;
+ max-width:100%;
+ margin:12px 0 16px;
+}
+body.vehicle-booking #quote #cbDateFields .cb-control{
+ display:block;
+ width:100%!important;
+ max-width:100%!important;
+ min-width:0!important;
+ box-sizing:border-box;
+ margin:0;
+ min-height:56px;
+ font-size:16px;
+}
+body.vehicle-booking #quote #qtime{
+ color:#f6faff;
+ background-color:#101f2f;
+ border-color:#31506b;
+ padding:13px 15px;
+ font:inherit;
+ font-size:16px;
+ border-radius:14px;
+}
+body.vehicle-booking #quote #qdate{
+ -webkit-min-logical-width:0;
+}
