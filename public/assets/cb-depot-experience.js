@@ -49,6 +49,28 @@ function activate(session){
  top.querySelector("h1").innerHTML="Professional car detailing, <em>made simple.</em>";
  const subtitle=document.getElementById("baseDescription");
  subtitle.textContent="Give your vehicle the attention it deserves. Choose your detail and request a time in just a few steps.";
+ const nav=document.querySelector(".base-nav");
+ const brandLabel=document.querySelector("#baseBusiness strong");
+ if(brandLabel){
+  const brandStack=node("span","cb-brand-stack");
+  const brandName=node("strong","", "CB DEPOT");
+  const strap=node("small","", "PREMIUM CAR DETAILING");
+  brandStack.append(brandName,strap);
+  brandLabel.replaceWith(brandStack);
+ }
+ const howLink=document.querySelector(".base-links a[href='#how']");
+ if(howLink){howLink.href="#booking";howLink.textContent="Booking"}
+ const menuBtn=node("button","cb-menu-toggle","☰");
+ menuBtn.type="button";menuBtn.setAttribute("aria-label","Open CB Depot menu");menuBtn.setAttribute("aria-expanded","false");
+ const menu=node("div","cb-mobile-menu");
+ menu.hidden=true;
+ for(const [label,href] of [["Services","#services"],["Get a quote","#booking"],["Reviews","#baseReviews"]]){
+  const link=node("a","",label);link.href=href;
+  link.addEventListener("click",()=>{menu.hidden=true;menuBtn.setAttribute("aria-expanded","false")});
+  menu.append(link);
+ }
+ menuBtn.addEventListener("click",()=>{menu.hidden=!menu.hidden;menuBtn.setAttribute("aria-expanded",String(!menu.hidden))});
+ nav.append(menuBtn,menu);
  document.querySelector(".base-nav .base-button").textContent="Get a quote";
  const buttons=top.querySelectorAll(".base-button");
  if(buttons[0])buttons[0].textContent="Start booking →";
