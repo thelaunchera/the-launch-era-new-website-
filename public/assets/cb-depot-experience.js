@@ -2,14 +2,14 @@
 (()=>{
 "use strict";
 const photos={
- "hero": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FC9GcVebQE6WAxiCP5Hh9w95GF/f10b754e-51ad-4b38-82b3-3564f1a5c2b9.png",
- "heroMobile": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FC9GcVebQE6WAxiCP5Hh9w95GF/5acc5b29-68aa-4c93-93a6-acee6d304d7f.png",
- "interior": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FC9GcVebQE6WAxiCP5Hh9w95GF/52a4dc93-fa7b-4650-b7f7-610116b8f170.png",
- "exterior": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FC9GcVebQE6WAxiCP5Hh9w95GF/2254283f-1bfe-4795-a2d4-1ea0da9b26a1.png",
- "paint": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FC9GcVebQE6WAxiCP5Hh9w95GF/1babdbbf-872a-42e5-9ab0-d7d3bb4d8da5.png",
- "full": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FC9GcVebQE6WAxiCP5Hh9w95GF/f10b754e-51ad-4b38-82b3-3564f1a5c2b9.png",
- "deep": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FC9GcVebQE6WAxiCP5Hh9w95GF/52a4dc93-fa7b-4650-b7f7-610116b8f170.png",
- "custom": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FC9GcVebQE6WAxiCP5Hh9w95GF/5acc5b29-68aa-4c93-93a6-acee6d304d7f.png"
+ "hero": "/assets/clients/cb-depot/photos/hero-desktop.webp",
+ "heroMobile": "/assets/clients/cb-depot/photos/hero-mobile.webp",
+ "interior": "/assets/clients/cb-depot/photos/interior.webp",
+ "exterior": "/assets/clients/cb-depot/photos/exterior.webp",
+ "paint": "/assets/clients/cb-depot/photos/paint.webp",
+ "full": "/assets/clients/cb-depot/photos/full.webp",
+ "deep": "/assets/clients/cb-depot/photos/interior.webp",
+ "custom": "/assets/clients/cb-depot/photos/panda-on-bmw.webp"
 };
 const names=[
  {key:"interior",desc:"Fresh, clean cabin"},
