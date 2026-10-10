@@ -222,7 +222,7 @@ async function submit(which){
   requested_date:date,requested_time:time,source:"booking_page",estimate_display:estimateLabel
  };
  if(ownerPreview){show("done",tr("Private preview only","Solo vista previa privada"),"DEMO");$("done").querySelector("h2").textContent=tr("No request sent","No se envió ninguna solicitud");$("done").querySelector("p").textContent=tr("This is the buyer’s design preview. No booking, email or charge was created.","Esta es una vista previa del diseño de la compradora. No se generó reserva, correo ni cobro.");return}
- const b=document.querySelector(".screen.on .next"),prior=b?.textContent;
+ const b=document.querySelector(".screen.on .cb-go, .screen.on .next"),prior=b?.textContent;
  session.sending=true;if(b){b.disabled=true;b.textContent=tr("Sending…","Enviando…")}
  try{
   const response=await endpoint("tle-booking-flow-inquiry",body);
