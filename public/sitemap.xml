@@ -66,4 +66,14 @@
   <url><loc>https://thelaunchera.com/solutions</loc></url>
   <url><loc>https://thelaunchera.com/how-it-works</loc></url>
   <url><loc>https://thelaunchera.com/help</loc></url>
+  <url>
+    <loc>https://thelaunchera.com/ai-booking-assistant/</loc>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://thelaunchera.com/ai-booking-assistant/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://thelaunchera.com/es/ai-booking-assistant/" />
+  </url>
+  <url>
+    <loc>https://thelaunchera.com/es/ai-booking-assistant/</loc>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://thelaunchera.com/ai-booking-assistant/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://thelaunchera.com/es/ai-booking-assistant/" />
+  </url>
 </urlset>
