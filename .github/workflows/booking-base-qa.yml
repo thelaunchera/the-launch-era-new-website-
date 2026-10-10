@@ -1,0 +1,42 @@
+name: Original Booking Base QA
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['public/base-booking.html','public/assets/booking-base.*','public/assets/booking-template-live.js','public/booking/index.html','scripts/qa-booking-base.mjs','.github/workflows/booking-base-qa.yml']
+permissions:
+  contents: read
+jobs:
+  booking-base:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install isolated browser
+        run: |
+          mkdir -p /tmp/tle-base-qa
+          cd /tmp/tle-base-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          cd "$GITHUB_WORKSPACE"
+          ln -s /tmp/tle-base-qa/node_modules node_modules
+      - name: Wait for original base publication
+        run: |
+          expected=$(sha256sum public/base-booking.html | cut -d ' ' -f 1)
+          for attempt in $(seq 1 18); do
+            actual=$(curl -fsS "https://thelaunchera.com/base-booking.html?qa=$GITHUB_SHA" | sha256sum | cut -d ' ' -f 1)
+            if [ "$actual" = "$expected" ]; then exit 0; fi
+            sleep 15
+          done
+          exit 1
+      - name: Test base, buyer branding, reviews and unavailable state
+        run: node scripts/qa-booking-base.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-booking-base-screenshots
+          path: qa-screenshots/
