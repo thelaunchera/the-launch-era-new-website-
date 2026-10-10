@@ -413,6 +413,28 @@ for(const offer of ['booking-flow','website-automation','va']){
  }
 }
 
+
+if(process.env.QA_CHECKOUT_REAL==='1'){
+ const endpoint='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/create-tle-service-checkout';
+ const expectedAmounts={'booking-flow':1999,'website-automation':4199,va:3499};
+ for(const [offer,amount] of Object.entries(expectedAmounts)){
+  for(const lang of ['en','es']){
+   await check('REAL unpaid Stripe checkout session '+offer+' '+lang,{width:390,height:844},async p=>{
+    const response=await p.request.post(endpoint,{
+     headers:{Origin:'https://thelaunchera.com','Content-Type':'application/json'},
+     data:{offer,language:lang}
+    });
+    const d=await response.json().catch(()=>({}));
+    assert.equal(response.status(),200,'Stripe checkout creation response '+JSON.stringify(d));
+    assert.match(String(d.url||''),/^https:\/\/checkout\.stripe\.com\//,'Must create a real hosted Stripe checkout session');
+    assert.match(String(d.session_id||''),/^cs_live_/,'Must use Stripe LIVE session, no payment attempted');
+    assert.equal(d.locale,lang,'Stripe must confirm selected checkout language');
+    assert.equal(Number(d.amount_total),amount,'Stripe amount must match published price');
+   });
+  }
+ }
+}
+
 await browser.close();
 console.log('SUMMARY',JSON.stringify({pass:results.filter(x=>x.pass).length,failed:results.filter(x=>!x.pass).length,tests:results}));
 if(results.some(x=>!x.pass))process.exitCode=1;
