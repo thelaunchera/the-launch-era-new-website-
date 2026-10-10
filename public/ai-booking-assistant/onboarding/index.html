@@ -1,0 +1,56 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive"><meta name="theme-color" content="#FAF8F3">
+<title>AI Booking Assistant · Secure Setup | The Launch Era</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#191919;--bg:#FAF8F3;--blue:#EAF4FC;--line:#D5E5F0;--yellow:#F2D85B}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Futura,"Avenir Next",Arial,sans-serif;line-height:1.5}
+a{color:inherit}header{border-bottom:1px solid var(--line);padding:21px max(18px,calc((100% - 800px)/2))}header a{font:800 18px Prompt,Arial,sans-serif;letter-spacing:.01em;text-decoration:none}
+main{width:min(760px,calc(100% - 28px));margin:38px auto 70px}.card{background:#fff;border:1px solid var(--line);border-radius:26px;box-shadow:0 14px 35px #1919190d;padding:34px}
+.ey{letter-spacing:.13em;font-size:11px;font-weight:700;color:#4E778F;text-transform:uppercase}h1,h2{font-family:Prompt,Arial,sans-serif;line-height:1.14;letter-spacing:-.04em}h1{font-size:clamp(27px,5vw,39px);margin:12px 0 12px}p{color:#576A77;font-size:14px}.summary{background:var(--blue);border:1px solid #D1E4F2;padding:18px;border-radius:17px;margin:18px 0 28px}.summary strong{color:var(--ink)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.field{margin-top:17px}.field label{display:block;font-size:12px;font-weight:800;margin-bottom:8px}.field input,.field textarea,.field select{display:block;width:100%;border:1px solid #C7D8E3;border-radius:13px;background:#FAF8F3;padding:13px 14px;min-height:48px;color:var(--ink);font:14px Futura,Arial,sans-serif}.field textarea{resize:vertical;min-height:99px}.field small{font-size:11px;color:#5C6A72}.btn{display:block;width:100%;margin-top:24px;min-height:49px;background:var(--ink);color:white;border:0;border-radius:99px;font-size:14px;font-weight:800;cursor:pointer}.btn:disabled{opacity:.45;cursor:wait}
+.alert{border:1px solid #D4E4EF;background:#EAF4FC;border-radius:16px;padding:17px;font-size:13px;margin-bottom:16px}.alert.err{background:#FFF4EE;border-color:#F1D8C8}.alert.ok{background:#EDF7F1;border-color:#CCE5D5}.hidden{display:none!important}.foot{font-size:11px;color:#6B7C85;margin-top:21px;text-align:center}
+@media(max-width:560px){.card{padding:21px}.grid{grid-template-columns:1fr}main{margin:20px auto 45px}}
+</style></head><body><header><a href="/">THE LAUNCH ERA</a></header>
+<main><div class="card"><div class="ey">Private onboarding · AI Booking Assistant</div><h1 id="title">Let's personalize your assistant.</h1>
+<p id="intro">First, we verify your purchase. Then you can send the details for your business.</p>
+<div class="summary"><strong id="paymentTitle">Secure payment verification</strong><p id="paymentText" style="margin:7px 0 0">Checking your payment with Stripe…</p></div>
+<div id="status" class="alert" role="status" aria-live="polite">Verifying your purchase…</div>
+<form id="intake" class="hidden">
+<div class="grid"><div class="field"><label for="business" id="businessLabel">Business name *</label><input id="business" name="business" maxlength="120" required autocomplete="organization"></div><div class="field"><label for="language" id="languageLabel">Preferred setup language</label><select id="language" name="language"><option value="en">English</option><option value="es">Español</option></select></div></div>
+<div class="field"><label for="target" id="targetLabel">Where should we install it? *</label><select id="target" name="target" required><option value="booking_page">My Booking Page</option><option value="existing_website">My current website</option><option value="both">Both (subject to compatibility)</option></select></div>
+<div class="field" id="bookingGroup"><label for="booking" id="bookingLabel">Booking Page URL *</label><input id="booking" name="booking" type="url" placeholder="https://..." maxlength="260" inputmode="url"></div>
+<div class="field hidden" id="websiteGroup"><label for="website" id="websiteLabel">Website URL *</label><input id="website" name="website" type="url" placeholder="https://..." maxlength="260" inputmode="url"></div>
+<div class="field"><label for="services" id="servicesLabel">Which cleaning services do you offer? *</label><textarea id="services" name="services" required maxlength="700" placeholder="Standard cleaning, deep cleaning, move-out cleaning…"></textarea></div>
+<div class="field"><label for="notes" id="notesLabel">Anything else the assistant should know?</label><textarea id="notes" name="notes" maxlength="800" placeholder="Service area, business hours, preferred greeting, brand colors…"></textarea><small id="notesHelp">Please don't share customer details, passwords, API keys or payment information here.</small></div>
+<button id="submit" class="btn" type="submit">Send my setup details →</button></form>
+<div id="done" class="alert ok hidden" role="status"><strong id="doneTitle">Your setup details are saved.</strong><p id="doneBody">We'll review your information and contact you if anything is missing.</p><a href="/" id="doneLink">Return to The Launch Era ↗</a></div>
+</div><div class="foot">THE LAUNCH ERA · Only verified paid customers can submit this form.</div></main>
+<script>
+(()=>{
+ const $=id=>document.getElementById(id);
+ const endpoint="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-ai-booking-onboarding";
+ const qs=new URLSearchParams(location.search),sid=qs.get("session_id")||"",es=qs.get("lang")==="es";
+ if(es){document.documentElement.lang="es";const t={title:"Personalicemos tu asistente.",intro:"Primero verificamos tu compra. Después podrás enviarnos los datos de tu negocio.",paymentTitle:"Verificación del pago",paymentText:"Verificando el pago con Stripe…",businessLabel:"Nombre del negocio *",languageLabel:"Idioma preferido",targetLabel:"¿Dónde lo instalaremos? *",bookingLabel:"Enlace de tu Booking Page *",websiteLabel:"Enlace de tu website *",servicesLabel:"¿Qué servicios de limpieza ofreces? *",notesLabel:"¿Qué más debe saber el asistente?",notesHelp:"No compartas datos de clientes, contraseñas ni información de pago.",submit:"Enviar mis datos →",doneTitle:"Guardamos tus datos.",doneBody:"Revisaremos la información y te contactaremos si falta algo.",doneLink:"Volver a The Launch Era ↗"};Object.entries(t).forEach(([id,val])=>{$(id).textContent=val});$('target').options[0].text="Mi Booking Page";$('target').options[1].text="Mi website actual";$('target').options[2].text="Ambos (sujeto a compatibilidad)";$('language').value="es";}
+ function showStatus(msg,error=false){$('status').textContent=msg;$('status').classList.toggle("err",error);$('status').classList.remove("hidden");}
+ const req=async(data)=>{const res=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({session_id:sid,...data})});const out=await res.json().catch(()=>({}));if(!res.ok)throw new Error(out.error||"Verification failed");return out;};
+ function setTarget(){const v=$('target').value;$('bookingGroup').classList.toggle("hidden",v==="existing_website");$('websiteGroup').classList.toggle("hidden",v==="booking_page");$('booking').required=v!=="existing_website";$('website').required=v!=="booking_page";}
+ $('target').addEventListener("change",setTarget);setTarget();
+ (async()=>{
+ if(!/^cs_live_[A-Za-z0-9_]+$/.test(sid)){showStatus(es?"Falta un enlace de pago válido.":"A valid payment confirmation link is required.",true);return;}
+ try{const p=await req({action:"verify"});
+  if(!p.verified)throw new Error("Not verified");
+  $('paymentText').textContent=es?"Pago confirmado. Instalación única $99 + primer mes $39. Después $39/mes.":"Payment verified. $99 one-time setup + $39 first month; then $39/month.";
+  $('status').classList.add("hidden");if(p.already_submitted){$('done').classList.remove("hidden");return;}
+  $('intake').classList.remove("hidden");
+ }catch(e){showStatus(es?"No pudimos verificar el pago. Abre de nuevo el enlace de confirmación de Stripe.":"Payment could not be verified. Please open the original checkout confirmation link.",true);}
+ })();
+ $('intake').addEventListener("submit",async ev=>{
+  ev.preventDefault();$('submit').disabled=true;showStatus(es?"Guardando tus datos…":"Saving your setup details…");
+  try{const result=await req({action:"submit",business_name:$('business').value,install_target:$('target').value,booking_page_url:$('booking').value,website_url:$('website').value,services_offered:$('services').value,business_notes:$('notes').value,language:$('language').value});
+  $('intake').classList.add("hidden");$('status').classList.add("hidden");$('done').classList.remove("hidden");
+  if(!result.notifications_sent){$('doneBody').textContent=es?"Guardamos la solicitud, pero el correo de confirmación puede retrasarse. Escríbenos por el formulario de contacto si necesitas ayuda.":"Your request is saved, but the confirmation email may be delayed. Please use our contact form if you need help.";}
+  }catch{showStatus(es?"No pudimos guardar los datos. Inténtalo otra vez.":"We couldn't save your details. Please try again.",true)}
+  finally{$('submit').disabled=false;}
+ });
+})();
+</script></body></html>
