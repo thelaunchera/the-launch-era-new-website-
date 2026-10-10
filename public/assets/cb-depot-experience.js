@@ -48,7 +48,7 @@ function activate(session){
  const candidate=String(model.branding?.hero_image||"");
  const customImage=candidate && !candidate.endsWith(".svg") && !/images\.pexels\.com/.test(candidate);
  img.hidden=false;
- img.src=customImage?candidate:(matchMedia("(max-width: 620px)").matches?photos.heroMobile:photos.hero);
+ img.src=(customImage&&!candidate.includes("/assets/clients/cb-depot/photos/hero-desktop.webp"))?candidate:(matchMedia("(max-width: 620px)").matches?photos.heroMobile:photos.hero);
  img.alt="Modern car at a professional auto detailing studio";
  img.loading="eager";img.fetchPriority="high";
  img.onerror=()=>{img.onerror=null;img.src=photos.hero};
