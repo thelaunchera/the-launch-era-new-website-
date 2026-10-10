@@ -1,3 +1,4 @@
+import { ServiceFAQ } from '@/components/service-faq';
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useState, type FormEvent } from 'react';
 import { ArrowRight, Globe2, MessageSquareText, Workflow, BellRing, Check, RotateCcw, Sparkles } from 'lucide-react';
@@ -125,5 +126,5 @@ function Page(){
         <small>Conecta el formulario de tu website · Configuración única $41.99 · Mantén cada oportunidad en movimiento.</small>
       </div>
     </section>
-  </main>
+  <ServiceFAQ topic="website" lang="es"/></main>
 }
