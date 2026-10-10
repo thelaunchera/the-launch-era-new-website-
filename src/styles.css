@@ -1073,3 +1073,37 @@ img { display:block; width:100%; object-fit:cover; }
 .help-contact-intro .service-demo-link { display:inline-flex; align-items:center; gap:8px; }
 #faq { scroll-margin-top: 90px; }
 @media(max-width:767px) { .help-layout { grid-template-columns:1fr; gap:26px; } .help-contact-intro { padding-top:0; } }
+
+/* Five visible service options, including AI Assistants, in a balanced responsive grid. */
+@media (min-width:1100px) {
+  .service-grid { grid-template-columns:repeat(5,minmax(0,1fr)); gap:18px; }
+}
+@media (min-width:768px) and (max-width:1099px) {
+  .service-grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+}
+.service-grid .service-ai-price {
+  background:#EAF4FC;
+  color:#276081;
+  border-color:#BFDCEB;
+  white-space:normal;
+}
+.service-grid .service-ai-price strong { color:#276081; }
+.service-grid .service-ai-price::before { background:#5B9BC4; }
+.service-grid .service-ai-detail {
+  color:#4C7087;
+  font-size:11px;
+  font-weight:700;
+  line-height:1.4;
+  margin-top:8px;
+  margin-bottom:12px;
+}
+.service-grid .service-image img { width:100%; object-fit:cover; object-position:center center; }
+@media (max-width:767px) {
+  .service-grid .service-card:last-child:nth-child(odd) {
+    grid-column:1 / -1;
+    width:calc(50% - 7px);
+    justify-self:center;
+  }
+  .service-grid .service-ai-price { padding:7px 9px; }
+  .service-grid .service-ai-price strong { font-size:12px; }
+}
