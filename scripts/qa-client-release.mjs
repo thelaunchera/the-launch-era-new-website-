@@ -57,6 +57,15 @@ check('CB Depot privacy and booking terms', () => {
   assert.match(read('public/cb-depot/privacy/index.html'), /data-cb-back/);
   assert.match(read('public/cb-depot/terms/index.html'), /data-cb-back/);
 });
+check('Private AI Assistant review center has both decisions and revision count', () => {
+  const page = read('public/client-review/index.html');
+  assert.match(page, /Private AI Assistant Review/);
+  for (const id of ['approve','change','feedback','limit','openAgent']) assert(page.includes('id="'+id+'"'), 'Missing AI review control: '+id);
+  assert.match(page, /ai_status/);
+  assert.match(page, /ai_decision/);
+  assert.match(page, /token/);
+  assert.doesNotMatch(page, /stripe\.com\/v1|STRIPE_SECRET_KEY/, 'Customer review must not manage billing directly');
+});
 check('Client-specific and agency app icons remain distinct', () => {
   const crm = 'https://github.com/thelaunchera/the-launch-era-crm/blob/main/';
   assert.match(read('public/assets/cb-depot-experience.js'), /approved-favicon/);
