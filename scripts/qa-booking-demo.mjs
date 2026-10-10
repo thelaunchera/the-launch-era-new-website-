@@ -390,29 +390,21 @@ for(const viewport of screens)for(const lang of ['en','es']){
 
 for(const offer of ['booking-flow','website-automation','va']){
  for(const lang of ['en','es']){
-  await check('Bilingual Stripe checkout choice '+offer+' '+lang,{width:390,height:844},async p=>{
+  await check('Direct localized Stripe checkout '+offer+' '+lang,{width:390,height:844},async p=>{
    const sent=[];
    await p.route('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/create-tle-service-checkout',async route=>{
     sent.push(route.request().postDataJSON());
     await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({url:'https://checkout.stripe.com/c/pay/qa-language-check'})});
    });
    await p.route('https://checkout.stripe.com/**',route=>route.fulfill({status:200,contentType:'text/html',body:'<!doctype html><html><head><title>Test Stripe Checkout</title></head><body><h1 id="mockStripe">Stripe checkout simulated: no real payment</h1></body></html>'}));
-   const response=await p.goto(base+'/service-checkout/?offer='+offer+'&lang='+lang,{waitUntil:'domcontentloaded'});
-   assert.equal(response?.status(),200);
-   assert.equal(await p.locator('#chooseEn').count(),1);
-   assert.equal(await p.locator('#chooseEs').count(),1);
-   assert.equal(await p.locator('#chooseEs').innerText(),'Español');
-   assert.equal(await p.locator('#chooseEn').innerText(),'English');
-   assert.equal(sent.length,0,'Must wait for the visitor to choose a language, not auto-redirect');
-   await p.locator(lang==='es'?'#chooseEs':'#chooseEn').click();
+   await p.goto(base+'/service-checkout/?offer='+offer+'&lang='+lang,{waitUntil:'domcontentloaded'});
    await p.locator('#mockStripe').waitFor({timeout:20000});
-   assert.equal(sent.length,1,'Only one checkout request after language choice');
+   assert.equal(sent.length,1,'Must redirect to Stripe without an extra language-selection step');
    assert.equal(sent[0].offer,offer);
-   assert.equal(sent[0].language,lang);
+   assert.equal(sent[0].language,lang,'Site language must control the Stripe checkout locale');
   });
  }
 }
-
 
 if(process.env.QA_CHECKOUT_REAL==='1'){
  const endpoint='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/create-tle-service-checkout';
