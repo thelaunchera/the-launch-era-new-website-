@@ -184,7 +184,7 @@
  "High-touch disinfection":"Desinfección de superficies de contacto",
  "After-hours cleaning":"Limpieza fuera de horario",
  "BUSINESS DETAILS":"DATOS DEL NEGOCIO",
- "Open Demo Tracker":"Abrir demo del Command Center",
+ "Open Demo Command Center":"Abrir demo del Command Center",
  "Try another service":"Probar otro servicio",
  "Where should we send your demo messages?":"¿A qué correo enviamos tu demostración?",
  "Use any email you can check right now. We’ll verify it before sending anything.":"Utiliza un correo al que tengas acceso. Lo verificaremos antes de enviar nada.",
