@@ -329,6 +329,34 @@ for(const viewport of screens) for(const lang of ['en','es']) for(const product 
   await p.screenshot({path:'qa-screenshots/product-sales-'+viewport.name+'-'+lang+'-'+product+'.png',fullPage:true});
  });
 }
+
+for(const viewport of screens)for(const lang of ['en','es']){
+ await check('Booking layout fills screen '+viewport.name+' '+lang,viewport,async p=>{
+  await p.goto(base+'/lead-private-preview.html?business='+encodeURIComponent('Example Home and Office Cleaning Company')+'&area=Charlotte%2C%20NC&lang='+lang+'&layout=wide-hero',{waitUntil:'networkidle'});
+  const measure=()=>p.evaluate(()=>{
+   const hero=document.querySelector('.hero').getBoundingClientRect();
+   const trust=document.querySelector('.trust');
+   const clipped=[...document.querySelectorAll('.screen.on button,.screen.on .field,.screen.on .choices,.heroText,.trust')].filter(el=>el.getClientRects().length).filter(el=>{
+    const b=el.getBoundingClientRect();return b.left< -1||b.right>innerWidth+1||el.scrollWidth>el.clientWidth+2;
+   }).map(el=>el.id||el.className);
+   return {heroWidth:hero.width,heroHeight:hero.height,pageWidth:document.documentElement.scrollWidth,width:innerWidth,trustFits:trust.scrollWidth<=trust.clientWidth+2,clipped};
+  });
+  const start=await measure();
+  assert(start.heroHeight>=350,'Hero is large enough');
+  assert(start.heroWidth>=(viewport.width<768?viewport.width*.92:Math.min(viewport.width*.85,1100)),'Booking layout uses screen width');
+  assert(start.pageWidth<=viewport.width+2,'No horizontal page overflow');
+  assert(start.trustFits,'Trust badges wrap instead of scrolling sideways');
+  assert.deepEqual(start.clipped,[],'Visible controls fit');
+  for(const service of ['res','quote','commercial']){
+   await p.evaluate(service=>{if(service==='res')startResidential('Standard Cleaning',120);else if(service==='quote')startQuote();else startCommercial()},service);
+   const view=await measure();
+   assert(view.pageWidth<=viewport.width+2,'No overflow in '+service);
+   assert.deepEqual(view.clipped,[],'Controls fit in '+service);
+  }
+  await p.screenshot({path:'qa-screenshots/wide-booking-'+viewport.name+'-'+lang+'.png',fullPage:true});
+ });
+}
+
 await browser.close();
 console.log('SUMMARY',JSON.stringify({pass:results.filter(x=>x.pass).length,failed:results.filter(x=>!x.pass).length,tests:results}));
 if(results.some(x=>!x.pass))process.exitCode=1;

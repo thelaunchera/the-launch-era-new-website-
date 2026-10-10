@@ -6,6 +6,7 @@ on:
     paths:
       - 'scripts/qa-booking-demo.mjs'
       - 'public/booking-demo/index.html'
+      - 'public/lead-private-preview.html'
       - 'public/assets/**'
       - 'src/components/**'
       - 'src/routes/**'
@@ -30,15 +31,15 @@ jobs:
           npx playwright install --with-deps chromium
           cd "$GITHUB_WORKSPACE"
           ln -s /tmp/tle-responsive-qa/node_modules node_modules
-      - name: Wait for this mobile stylesheet to reach Pages
+      - name: Wait for this Booking Page version to reach Pages
         run: |
-          expected=$(sha256sum public/assets/tle-sales.css | cut -d ' ' -f 1)
+          expected=$(sha256sum public/lead-private-preview.html | cut -d ' ' -f 1)
           for attempt in $(seq 1 18); do
-            actual=$(curl -fsS "https://thelaunchera.com/assets/tle-sales.css?qa=$GITHUB_SHA" | sha256sum | cut -d ' ' -f 1)
+            actual=$(curl -fsS "https://thelaunchera.com/lead-private-preview.html?qa=$GITHUB_SHA" | sha256sum | cut -d ' ' -f 1)
             if [ "$actual" = "$expected" ]; then exit 0; fi
             sleep 15
           done
-          echo "The current mobile stylesheet is not live yet"
+          echo "The current Booking Page is not live yet"
           exit 1
       - name: Test website at mobile, tablet and desktop widths
         run: node scripts/qa-booking-demo.mjs
