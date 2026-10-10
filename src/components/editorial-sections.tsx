@@ -23,7 +23,7 @@ export function HomeHero() {
 }
 const services = [
  {title:'Booking Automation + Command Center',landing:'/booking-lead-automation',description:'Your personalized booking page and private workspace for prices, availability, and requests.',image:cleaner,alt:'Cleaner working in a bright residential home',tag:'YOUR BOOKING FLOW, CONNECTED',points:['A personalized Booking Page with available time slots','Your private Command Center with editable prices','Automatic follow-up to keep inquiries moving'],checkout:'/booking-lead-automation'},
- {title:'AI Assistants',landing:'/ai-booking-assistant/',description:'An AI assistant for booking questions, lead follow-ups, or both. Add it to your Booking Page or website.',image:aiAgentsPhoto,alt:'Modern AI technology workspace with a laptop and a blue-toned digital assistant screen',tag:'BOOKING AI + FOLLOW-UP AI',points:['Booking questions handled in a friendly chat','Follow-up support with approved messages','Both agents in one optional package'],checkout:'/ai-booking-assistant/'},
+ {title:'AI Assistants',landing:'/ai-booking-assistant/',description:'Booking questions, follow-ups, or both. For your Booking Page or website.',image:aiAgentsPhoto,alt:'Modern AI technology workspace with a laptop and a blue-toned digital assistant screen',tag:'BOOKING AI + FOLLOW-UP AI',points:['AI Booking','AI Follow-Up','Both together'],checkout:'/ai-booking-assistant/'},
  {title:'Cleaning Web App',landing:'/cleaning-web-app',description:'Your day-to-day business, in one place. Right from your phone.',image:webapp,alt:'A phone showing a softly blurred cleaning business management app on a bright desk',tag:'ONE PLACE FOR THE DAY TO DAY',points:['Calendar and jobs at a glance','Clients, quotes, and invoices together','Team and workflow, organized','Time and mileage, kept simple'],checkout:'/cleaning-web-app'},
  {title:'Website Automation',landing:'/website-automation',description:'Keep your current website. Organize incoming inquiries and keep follow-ups moving.',image:website,alt:'A laptop showing a cleaning business website',tag:'YOUR WEBSITE, CONNECTED TO WHAT’S NEXT',points:['Your existing website connected to the next step','Inquiry details routed into one clear flow','Follow-up that keeps the conversation moving'],checkout:'/website-automation'},
  {title:'Virtual Assistant',landing:'/virtual-assistant',description:'Thoughtful, behind-the-scenes support for your busy days.',image:assistant,alt:'A virtual assistant working at a laptop in her home office',tag:'A LITTLE HELP GOES A LONG WAY',points:['Help with your everyday admin','A more organized inbox and client information','Support shaped around your business'],checkout:'/virtual-assistant'}
@@ -48,7 +48,7 @@ function ServiceCard({service:s,index:i}:{service:typeof services[number],index:
        ? <div className="booking-offer-line service-discount-offer"><span className="booking-offer-tag">30% OFF</span><span className="booking-offer-price service-price-pill"><del>{isWebsite?"$59.99":"$49.99/mo"}</del><strong>{isWebsite?"$41.99":"$34.99/mo"}</strong></span></div>
        : isApp
          ? <div className="service-card-price-line"><span className="service-price-pill"><strong>$3.99/mo</strong></span></div> : null}
-  <h3>{s.title}</h3><p>{s.description}</p>{isAi&&<p className="service-ai-detail">First 30 days included · from $19/mo after</p>}<div className="card-tag">{s.tag}</div>
+  <h3>{s.title}</h3><p>{s.description}</p><div className="card-tag">{s.tag}</div>
  </>;
 }
 export function ServiceChoiceSection() {
