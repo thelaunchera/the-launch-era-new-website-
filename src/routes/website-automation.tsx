@@ -1,3 +1,4 @@
+import { ServiceFAQ } from '@/components/service-faq';
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useState, type FormEvent } from 'react';
 import { ArrowRight, Globe2, MessageSquareText, Workflow, BellRing, Check, RotateCcw, Sparkles } from 'lucide-react';
@@ -118,5 +119,5 @@ function Page(){
         <small>Connect your existing inquiry form · One-time setup $41.99 · Keep every lead moving.</small>
       </div>
     </section>
-  </main>
+  <ServiceFAQ topic="website" lang="en"/></main>
 }
