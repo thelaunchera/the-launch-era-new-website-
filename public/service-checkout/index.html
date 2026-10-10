@@ -6,38 +6,61 @@
 <title>Opening secure checkout — The Launch Era</title>
 <style>
 :root{--ivory:#FBFAF6;--ink:#242424;--yellow:#F6E9A8;--blue:#CFE5F7;--purple:#6E5AA8;--muted:#6f6a63;--line:#d8d6d0}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:var(--ivory);color:var(--ink);font-family:Arial,sans-serif}.card{width:min(520px,100%);background:#fff;border:1px solid var(--line);padding:34px;border-radius:24px;box-shadow:0 20px 55px rgba(0,0,0,.07)}.brand{font-size:12px;font-weight:800;letter-spacing:.08em}.kicker{display:inline-flex;margin:24px 0 10px;padding:7px 10px;border-radius:999px;background:var(--yellow);font-size:11px;font-weight:800}h1{font-size:34px;line-height:1.05;margin:0 0 12px}p{color:var(--muted);line-height:1.6}.dots{display:flex;gap:6px;margin:22px 0}.dots span{width:8px;height:8px;border-radius:50%;background:var(--purple);animation:pulse 1s infinite ease-in-out}.dots span:nth-child(2){animation-delay:.15s}.dots span:nth-child(3){animation-delay:.3s}@keyframes pulse{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}button{width:100%;border:0;border-radius:999px;background:var(--ink);color:#fff;padding:14px 18px;font-weight:800;font-size:15px;cursor:pointer}button[hidden]{display:none}.small{font-size:12px;color:var(--muted);margin-top:14px}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:var(--ivory);color:var(--ink);font-family:Arial,sans-serif}.card{width:min(520px,100%);background:#fff;border:1px solid var(--line);padding:34px;border-radius:24px;box-shadow:0 20px 55px rgba(0,0,0,.07)}.brand{font-size:12px;font-weight:800;letter-spacing:.08em}.kicker{display:inline-flex;margin:24px 0 10px;padding:7px 10px;border-radius:999px;background:var(--yellow);font-size:11px;font-weight:800}h1{font-size:34px;line-height:1.05;margin:0 0 12px}p{color:var(--muted);line-height:1.6}.dots{display:flex;gap:6px;margin:22px 0}.dots span{width:8px;height:8px;border-radius:50%;background:var(--purple);animation:pulse 1s infinite ease-in-out}.dots span:nth-child(2){animation-delay:.15s}.dots span:nth-child(3){animation-delay:.3s}@keyframes pulse{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}button{width:100%;border:0;border-radius:999px;background:var(--ink);color:#fff;padding:14px 18px;font-weight:800;font-size:15px;cursor:pointer}[hidden]{display:none!important}button[hidden]{display:none}.small{font-size:12px;color:var(--muted);margin-top:14px}
+.lang-step{margin:20px 0 0}.lang-heading{font-size:15px;font-weight:800;line-height:1.5;color:#191919;margin:0 0 14px}.lang-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}.lang-option{border:1.5px solid #b7d7e9;background:#edf7ff;color:#191919;min-height:58px;border-radius:16px;font-size:17px}.lang-option:focus-visible{outline:3px solid #4f96c6;outline-offset:3px}.lang-option:last-child{background:#191919;color:#fff;border-color:#191919}.lang-note{font-size:12px;margin-top:14px;color:var(--muted);line-height:1.6}
 
 /* TLE visual system — 2026-10-05 */
 body{background:linear-gradient(180deg,#FFFFFF 0%,#F5FAFC 100%)}
 </style>
 <link rel="stylesheet" href="/assets/tle-mobile.css?v=20261009"></head>
-<body data-tle-page="checkout"><main class="card"><div class="brand">THE LAUNCH ERA</div><div class="kicker" id="kicker">SECURE CHECKOUT</div><h1 id="title">Opening your secure checkout…</h1><p id="copy">Your secure checkout is opening now.</p><div class="dots" id="dots"><span></span><span></span><span></span></div><button id="retry" hidden>Try again</button><div class="small" id="status">Please review your order before completing payment.</div></main>
+<body data-tle-page="checkout"><main class="card"><div class="brand">THE LAUNCH ERA</div><div class="kicker" id="kicker">SECURE CHECKOUT</div><h1 id="title">Choose your language.</h1><p id="copy">Elige el idioma para realizar tu pago.</p><div id="languageStep" class="lang-step"><p class="lang-heading">Checkout language / Idioma de pago</p><div class="lang-options"><button type="button" class="lang-option" id="chooseEn">English</button><button type="button" class="lang-option" id="chooseEs">Español</button></div><div class="lang-note">Your payment page will open in the language you choose. / Tu página de pago se abrirá en el idioma que elijas.</div></div><div class="dots" id="dots" hidden><span></span><span></span><span></span></div><button id="retry" hidden>Try again</button><div class="small" id="status">Please review your order before completing payment.</div></main>
 <script>
 const endpoint="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/create-tle-service-checkout";
 const params=new URLSearchParams(location.search);
 const rawOffer=(params.get("offer")||"").toLowerCase();
 const offer=rawOffer;
-const es=params.get("lang")==="es";
+let es=params.get("lang")==="es";
 let trafficSource=(params.get("source")||"").trim().toLowerCase();try{trafficSource=trafficSource||sessionStorage.getItem("tleTrafficSource")||"direct";sessionStorage.setItem("tleTrafficSource",trafficSource)}catch{trafficSource=trafficSource||"direct"}
-try{sessionStorage.setItem("tleCheckoutLanguage",es?"es":"en")}catch{}
+
 const bookingSaleEnd=new Date("2026-11-01T04:00:00Z").getTime();
 const bookingPrice=Date.now()<bookingSaleEnd?"$19.99":"$99";
 const allowed={"booking-flow":(Date.now()<bookingSaleEnd?"The Fall Refresh Offer · ":"")+"Booking Automation + Command Center · "+bookingPrice,"website-automation":"Website Automation · $41.99",va:"Virtual Assistant · $34.99/month"};
-const kicker=document.getElementById("kicker"),title=document.getElementById("title"),copy=document.getElementById("copy"),dots=document.getElementById("dots"),retry=document.getElementById("retry"),status=document.getElementById("status");
-if(es){document.documentElement.lang="es";title.textContent="Abriendo tu pago seguro…";copy.textContent="Tu pago seguro se está abriendo ahora.";retry.textContent="Intentar otra vez";status.textContent="Revisa tu pedido antes de completar el pago.";} 
-if(!allowed[offer]){title.textContent=es?"Este enlace de pago no es válido.":"This checkout link is invalid.";copy.textContent=es?"Regresa a The Launch Era y elige el servicio otra vez.":"Return to The Launch Era and choose an offer again.";dots.hidden=true;status.textContent="";throw new Error("invalid offer")}
-kicker.textContent=allowed[offer];
+const kicker=document.getElementById("kicker"),title=document.getElementById("title"),copy=document.getElementById("copy"),dots=document.getElementById("dots"),retry=document.getElementById("retry"),status=document.getElementById("status"),languageStep=document.getElementById("languageStep");
+document.documentElement.lang=es?"es":"en";
+if(!allowed[offer]){
+ languageStep.hidden=true;
+ title.textContent=es?"Este enlace de pago no es válido.":"This checkout link is invalid.";
+ copy.textContent=es?"Regresa a The Launch Era y elige el servicio otra vez.":"Return to The Launch Era and choose an offer again.";
+ status.textContent="";
+ document.getElementById("chooseEn").disabled=true;
+ document.getElementById("chooseEs").disabled=true;
+}else{
+ kicker.textContent=allowed[offer];
+ title.textContent="Choose your language. / Elige tu idioma.";
+ status.textContent="Secure checkout by Stripe / Pago seguro con Stripe";
+}
 async function openCheckout(){
- retry.hidden=true;dots.hidden=false;title.textContent=es?"Abriendo tu pago seguro…":"Opening your secure checkout…";copy.textContent=es?"Tu pago seguro se está abriendo ahora.":"Your secure checkout is opening now.";status.textContent=offer==="booking-flow"?(es?"Tras la compra recibirás un correo con los próximos pasos para personalizar tu sistema.":"After purchase, you'll receive an email with the next steps to personalize your system."):(es?"Revisa tu pedido antes de completar el pago.":"Please review your order before completing payment.");
+ if(!allowed[offer])return;
+ try{sessionStorage.setItem("tleCheckoutLanguage",es?"es":"en")}catch{}
+ document.documentElement.lang=es?"es":"en";
+ languageStep.hidden=true;
+ retry.hidden=true;dots.hidden=false;
+ title.textContent=es?"Abriendo tu pago seguro…":"Opening your secure checkout…";
+ copy.textContent=es?"Tu página de Stripe se abrirá en español.":"Your Stripe checkout will open in English.";
+ status.textContent=offer==="booking-flow"?(es?"Tras la compra recibirás los próximos pasos para personalizar tu sistema.":"After purchase, you'll receive the next steps to personalize your system."):(es?"Revisa tu pedido antes de pagar.":"Review your order before paying.");
  try{
   const res=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({offer,language:es?"es":"en",source:trafficSource})});
   const data=await res.json().catch(()=>({}));
-  if(!res.ok||!data.url) throw new Error("checkout");
+  if(!res.ok||!data.url||!/^https:\/\/(checkout\.stripe\.com|buy\.stripe\.com)\//.test(data.url))throw new Error("checkout");
   location.replace(data.url);
  }catch(e){
-  dots.hidden=true;title.textContent=es?"No pudimos abrir el pago.":"We couldn’t open checkout.";copy.textContent=es?"No se hizo ningún cobro.":"No charge was made.";status.textContent=es?"Inténtalo otra vez.":"Please try again.";retry.hidden=false;
+  dots.hidden=true;languageStep.hidden=false;
+  title.textContent=es?"No pudimos abrir el pago.":"We couldn't open checkout.";
+  copy.textContent=es?"No se hizo ningún cobro. Elige un idioma para intentarlo de nuevo.":"No charge was made. Choose a language to try again.";
+  status.textContent=es?"Puedes intentarlo de nuevo.":"You can try again.";
  }
 }
-retry.onclick=openCheckout;openCheckout();
+document.getElementById("chooseEn").onclick=()=>{es=false;openCheckout();};
+document.getElementById("chooseEs").onclick=()=>{es=true;openCheckout();};
+
 </script></body></html>
