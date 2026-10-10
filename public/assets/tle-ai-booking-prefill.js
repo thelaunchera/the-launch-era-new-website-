@@ -37,7 +37,7 @@
       parent.insertAdjacentElement("afterend",field);
     }
     const preferredDate=$("date");
-    if(preferredDate&&!preferredDate.min){preferredDate.min=new Date().toLocaleDateString("en-CA");}
+    if(preferredDate&&!preferredDate.min){preferredDate.min=new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10);}
   }
   ensureOptionalHomeFields();
   function fillResidential(d){
@@ -101,6 +101,51 @@
     const notes=[d.square_feet?"Approx. "+d.square_feet+" sq ft":"",/^\d{5}$/.test(d.zip||"")?"ZIP "+d.zip:"",text(d.notes,140)].filter(Boolean).join(" · ");
     if(notes)$("cdetails").value=notes;
   }
+  // Make every demo request reviewable; no AI-originated message ever submits a request.
+  const originalResidentialReview=window.reviewResidential;
+  if(typeof originalResidentialReview==="function"){
+    window.reviewResidential=function(){
+      originalResidentialReview();
+      if(!$("resReview")?.classList.contains("on"))return;
+      const container=$("resSummary");
+      for(const [label,value] of [
+        [es?"Tamaño aprox.":"Approx. size",$("tleAiSquareFeet")?.value?$("tleAiSquareFeet").value+" sq ft":""],
+        [es?"Notas":"Notes",$("tleAiJobNotes")?.value||""],
+        [es?"ZIP":"ZIP",$("zip")?.value||""]
+      ]){
+        if(!value)continue;
+        const row=document.createElement("div");row.className="row";
+        const a=document.createElement("span");a.textContent=label;
+        const b=document.createElement("b");b.textContent=value;
+        row.append(a,b);container.append(row);
+      }
+    };
+  }
+  const get=(id)=>$(id)?.value?.trim()||"";
+  function showExtraReview(kind){
+    let page=$("tleAiExtraReview");
+    if(!page){page=document.createElement("div");page.id="tleAiExtraReview";page.className="screen";$("done")?.insertAdjacentElement("beforebegin",page);}
+    page.replaceChildren();
+    const sum=document.createElement("div");sum.className="summary";page.append(sum);
+    const keys=kind==="quote"?
+      [[es?"Servicio":"Service","Residential quote / estimate"],[es?"Tamaño":"Size",get("qsize")],[es?"Fecha":"Date",get("qdate")],[es?"Hora":"Time",get("qtime")],[es?"Detalles":"Details",get("qdetails")],[es?"Nombre":"Name",get("qname")],[es?"Correo":"Email",get("qemail")]]:
+      [[es?"Servicio":"Service",window.state?.service||get("ctype")],[es?"Tamaño":"Size",get("csize")],[es?"Fecha":"Date",get("cdate")],[es?"Hora":"Time",get("ctime")],[es?"Detalles":"Details",get("cdetails")],[es?"Nombre":"Name",get("cname")],[es?"Correo":"Email",get("cemail")]];
+    for(const [key,value] of keys){
+      if(!value)continue;
+      const row=document.createElement("div");row.className="row";
+      const label=document.createElement("span");label.textContent=key;
+      const strong=document.createElement("b");strong.textContent=value;
+      row.append(label,strong);sum.append(row);
+    }
+    const info=document.createElement("p");info.className="note";info.textContent=es?"Comprueba los datos. La solicitud solo se envía cuando pulses confirmar.":"Check your details. Nothing is submitted until you confirm.";page.append(info);
+    const btn=document.createElement("button");btn.type="button";btn.className="next";btn.textContent=es?"Confirmar solicitud demo":"Confirm demo request";
+    btn.onclick=()=>kind==="quote"?window.submitQuote?.():window.submitCommercial?.();page.append(btn);
+    const back=document.createElement("button");back.type="button";back.className="back";back.textContent=es?"← Editar detalles":"← Edit details";
+    back.onclick=()=>window.show?.(kind,kind==="quote"?"Residential Quote / Estimate":"Commercial Quote / Estimate",kind==="quote"?"RESIDENTIAL":"COMMERCIAL");page.append(back);
+    window.show?.("tleAiExtraReview",es?"Revisa tu solicitud":"Review your request","REVIEW");
+  }
+  if($("quoteSubmit"))$("quoteSubmit").onclick=()=>showExtraReview("quote");
+  if($("commercialSubmit"))$("commercialSubmit").onclick=()=>showExtraReview("commercial");
   window.tleAIBookingPrefill=function(draft){
     if(!draft||typeof draft!=="object"||!draft.service)return false;
     const d={...draft};
