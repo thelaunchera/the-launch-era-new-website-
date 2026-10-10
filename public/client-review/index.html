@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#FAF8F3">
+<title>Private AI Assistant Review · The Launch Era</title>
+<style>
+:root{color-scheme:light;--ink:#191919;--ivory:#FAF8F3;--blue:#DDEFFA;--yellow:#F2D85B}
+*{box-sizing:border-box}body{margin:0;background:var(--ivory);color:var(--ink);font:16px/1.55 Arial,Helvetica,sans-serif}
+main{width:min(700px,100%);margin:auto;padding:28px clamp(15px,4vw,36px) 64px}
+.brand{font-size:12px;letter-spacing:.18em;font-weight:800;margin:8px 0 28px}
+h1{font-size:clamp(32px,7vw,49px);line-height:1.05;letter-spacing:-.04em;margin:0 0 16px}
+.sub{color:#53636a;font-size:15px}.panel{background:#fff;border:1px solid #d8e7f0;border-radius:24px;padding:clamp(18px,4vw,29px);margin:19px 0;box-shadow:0 8px 25px #19191908}
+.eyebrow{font-weight:800;letter-spacing:.12em;font-size:12px;color:#35637c}
+button,.btn{display:block;width:100%;text-align:center;border:1px solid var(--ink);border-radius:999px;padding:15px 19px;font-size:15px;line-height:1.2;font-weight:700;cursor:pointer;color:#fff;background:var(--ink);text-decoration:none;min-height:49px}
+.secondary{background:#fff;color:var(--ink);border:1px solid #9bafc0}button:disabled{opacity:.45;cursor:not-allowed}
+.buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:19px}
+textarea{font:inherit;border:1px solid #a6b4be;border-radius:14px;padding:14px;min-height:110px;width:100%;resize:vertical}
+label{font-weight:700;display:block;margin:13px 0 8px;font-size:14px}
+.pill{display:inline-block;background:var(--blue);border-radius:999px;padding:9px 14px;font-size:12px;font-weight:700;margin:4px 0 13px}
+#message{margin-top:12px;font-size:14px;color:#2c617a;overflow-wrap:anywhere}
+.note{font-size:12px;color:#53636a}footer{font-size:12px;color:#667883;text-align:center;margin-top:27px}footer a{color:inherit}
+[hidden]{display:none!important}
+@media(max-width:490px){.buttons{grid-template-columns:1fr}main{padding-top:22px}}
+</style></head><body>
+<main>
+<div class="brand">THE LAUNCH ERA</div>
+<div class="panel" style="background:var(--blue)">
+<span class="eyebrow">PRIVATE CUSTOMER TEST CENTER</span>
+<h1 id="headline">Review your AI Assistant</h1>
+<p class="sub">Explore your personalized assistant, then approve it or send specific corrections to our team. This is a private preview, not your final delivery.</p>
+</div>
+<div class="panel">
+<strong id="business">Checking your secure review link…</strong>
+<p id="limit" class="pill" hidden>2 revisions included</p>
+<div style="margin-top:12px"><a id="openAgent" class="btn" href="#" target="_blank" rel="noopener noreferrer" hidden>↗ Open &amp; Test Your AI Assistant</a></div>
+<p class="note">Try real questions in the assistant preview. Confirm the answers and workflow are right for your business. No monthly billing is activated simply by testing.</p>
+</div>
+<section class="panel" aria-label="Approval and corrections">
+<h2 style="margin:0 0 10px;font-size:23px">Your decision</h2>
+<p id="message" role="status" aria-live="polite">Loading review status…</p>
+<div id="actions" class="buttons" hidden>
+<button type="button" id="approve">✓ Approve &amp; Continue</button>
+<button type="button" id="change" class="secondary">✎ Request Changes</button>
+</div>
+<div id="feedbackForm" hidden>
+<label for="feedback">What exactly should we correct?</label>
+<textarea id="feedback" maxlength="2000" placeholder="Describe the corrections you need. Be specific so we can fix everything in this revision."></textarea>
+<p class="note">Sending this counts as one of your two included revisions. Technical defects are handled separately.</p>
+<div class="buttons"><button type="button" id="send">Send corrections →</button><button type="button" id="cancel" class="secondary">Cancel</button></div>
+</div>
+</section>
+<footer>Private review by The Launch Era · Need help? Reply to your purchase email. <a href="https://thelaunchera.com/privacy.html" rel="noreferrer">Privacy</a></footer>
+</main>
+<script>
+(function(){
+ const endpoint='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-client-review';
+ const params=new URLSearchParams(location.search),token=params.get('token')||'';
+ if(token)history.replaceState(null,'',location.pathname);
+ const $=id=>document.getElementById(id);
+ let status=null,busy=false;
+ async function call(action,more={}){
+  const response=await fetch(endpoint,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action,token,...more})});
+  const value=await response.json().catch(()=>({}));
+  if(!response.ok)throw Error(value.error||'Unable to save your decision.');
+  return value;
+ }
+ function update(){
+  if(!status)return;
+  $('business').textContent=status.business_name||'Your AI Assistant';
+  $('headline').textContent='Review your AI Assistant';
+  $('limit').hidden=false;
+  $('limit').textContent=status.revisions_remaining+' of '+status.revisions_limit+' revisions remaining';
+  const preview=status.preview_url||'';
+  $('openAgent').hidden=!/^https:\/\//.test(preview);
+  if(preview)$('openAgent').href=preview;
+  const messages={
+   pending_review:'Test your AI Assistant, then approve or request changes.',
+   changes_requested:'We received your changes and sent them back to The Launch Era. The team is preparing your corrections.',
+   ready_for_retest:'Your corrections are ready. Test the updated assistant, then approve or send any remaining revisions.',
+   approved:'✓ Your AI Assistant is approved. The Launch Era will confirm the final delivery separately.'
+  };
+  $('message').textContent=messages[status.status]||'Review status unavailable';
+  if(status.status==='changes_requested'&&status.feedback)$('message').textContent+=' Your request: '+status.feedback;
+  $('actions').hidden=!!status.delivered||!['pending_review','ready_for_retest'].includes(status.status);
+  $('change').disabled=Number(status.revisions_remaining)<=0;
+  $('feedbackForm').hidden=true;
+ }
+ async function load(){
+  if(!/^[0-9a-f]{64}$/i.test(token)){$('message').textContent='This review link is invalid. Ask The Launch Era for a new private link.';return}
+  try{status=await call('ai_status');update();}
+  catch(e){$('message').textContent=e.message||String(e)}
+ }
+ async function decide(decision,feedback=''){
+  if(busy)return;
+  busy=true;$('approve').disabled=true;$('send').disabled=true;
+  $('message').textContent='Saving your decision…';
+  try{status=await call('ai_decision',{decision,feedback});update();}
+  catch(e){$('message').textContent=e.message||'Unable to submit';$('approve').disabled=false;$('send').disabled=false}
+  finally{busy=false}
+ }
+ $('approve').onclick=()=>{if(confirm('Approve this AI Assistant for final delivery?'))void decide('approve')};
+ $('change').onclick=()=>{$('feedbackForm').hidden=false;$('feedback').focus()};
+ $('cancel').onclick=()=>{$('feedbackForm').hidden=true};
+ $('send').onclick=()=>{
+  const txt=$('feedback').value.trim();
+  if(txt.length<12){$('message').textContent='Please describe the correction in at least 12 characters.';return}
+  if(confirm('Send your changes? This uses one included revision.'))void decide('request_changes',txt);
+ };
+ void load();
+})();
+</script></body></html>
