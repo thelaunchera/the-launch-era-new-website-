@@ -229,8 +229,18 @@ function activate(session){
  document.getElementById("cbConditionField").append(field("Vehicle condition","select","qsize",{items:["Light cleaning","Moderate dirt / buildup","Heavy stains or odors","Not sure"]}));
  const dateField=field("Preferred date","input","qdate",{type:"date",required:true});
  dateField.querySelector("input").min=new Date().toISOString().slice(0,10);
- const timeField=field("Preferred time","input","qtime",{type:"time",required:true});
- const timeInput=timeField.querySelector("input");timeInput.min="07:00";timeInput.max="18:30";timeInput.step="1800";
+ // A native time input can overflow the mobile-sized private preview on iPad/Safari.
+ // Keep the same valid 30-minute business slots, using a predictable full-width select.
+ const timeField=field("Preferred time","select","qtime",{required:true});
+ const timeInput=timeField.querySelector("select");
+ const placeholder=new Option("Select a time","");placeholder.disabled=true;placeholder.selected=true;
+ timeInput.add(placeholder);
+ for(let minutes=7*60;minutes<=18*60+30;minutes+=30){
+  const hour24=Math.floor(minutes/60),minute=minutes%60;
+  const value=String(hour24).padStart(2,"0")+":"+String(minute).padStart(2,"0");
+  const display=(hour24%12||12)+":"+(minute===0?"00":"30")+(hour24<12?" AM":" PM");
+  timeInput.add(new Option(display,value));
+ }
  document.getElementById("cbDateFields").append(dateField,timeField);
  document.getElementById("cbVehicleDetails").append(field("Year / make / model","input","vehicleMakeModel",{placeholder:"e.g. 2021 Toyota Camry",maxLength:120}),field("Anything we should know?","textarea","qdetails",{placeholder:"Stains, pet hair, special areas or requests"}));
  if(addons){
