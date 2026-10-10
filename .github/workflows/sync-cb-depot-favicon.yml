@@ -1,0 +1,35 @@
+name: Save approved CB Depot landing icon
+on:
+  push:
+    paths:
+      - .github/workflows/sync-cb-depot-favicon.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  icon:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Save original and mobile-friendly PNG icon
+        env:
+          CB_ICON_URL: "https://d2ol7oe51mr4n9.cloudfront.net/user_3FC9GcVebQE6WAxiCP5Hh9w95GF/e7419bba-8612-4c2d-81e2-6e5a971d4db8.jpg"
+        run: |
+          mkdir -p public/assets/clients/cb-depot
+          curl --fail --silent --show-error --location --retry 3 "$CB_ICON_URL" -o public/assets/clients/cb-depot/approved-favicon-original.jpg
+          python3 -m pip install --quiet Pillow
+          python3 - <<'PY'
+          from PIL import Image
+          from pathlib import Path
+          d=Path("public/assets/clients/cb-depot")
+          with Image.open(d/"approved-favicon-original.jpg") as source:
+              icon=source.convert("RGB")
+              for size in (180,192,512):
+                  icon.resize((size,size),Image.Resampling.LANCZOS).save(d/f"approved-favicon-{size}.png",optimize=True)
+          PY
+      - name: Commit local CB Depot favicon
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/assets/clients/cb-depot/approved-favicon*
+          if ! git diff --cached --quiet; then git commit -m "Store approved CB Depot landing favicon"; git push; fi
