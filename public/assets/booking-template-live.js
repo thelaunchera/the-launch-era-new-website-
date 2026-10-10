@@ -60,6 +60,7 @@ function brand(){
  paragraph.className="muted";paragraph.style.cssText="margin:10px 0 16px;font-size:12px";
  document.querySelector("#main").prepend(paragraph);
  document.querySelector("#trackerLink").hidden=true;
+ window.TLEBookingBase?.render(model);
 }
 function serviceButton(service,category){
  const b=document.createElement("button");b.type="button";b.className="service";
@@ -279,6 +280,7 @@ try{
  document.documentElement.classList.remove("buyer-live-loading");
  $("leadHero").style.opacity="1";
 }catch(err){
+ window.TLEBookingBase?.unavailable();
  document.querySelector(".screen.on").replaceChildren();
  document.documentElement.classList.remove("buyer-live-loading");
  const h=document.createElement("h2");h.textContent=tr("Booking Page unavailable","Página de reservas no disponible");

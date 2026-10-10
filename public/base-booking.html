@@ -1,0 +1,216 @@
+<!doctype html><html><head><meta name="robots" content="noindex,nofollow,noarchive"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Booking Page · The Launch Era</title>
+<script>if(new URLSearchParams(location.search).has('key')||new URLSearchParams(location.search).get('owner_preview')==='1')document.documentElement.classList.add('buyer-live-loading')</script>
+<style>.buyer-live-loading main.wrap{visibility:hidden}.buyer-live-page .verify,.buyer-live-page .consent{display:none!important}.buyer-live-page #trackerLink{display:none!important}.category-tabs{margin-bottom:8px}</style>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f6f7;color:#191919;font-family:Arial,sans-serif}button,input,select,textarea{font:inherit}.top{background:#191919;color:#fff;text-align:center;padding:10px;font-size:10px;letter-spacing:.14em}.wrap{max-width:560px;margin:auto;padding:0 14px 50px}.hero{height:220px;margin:14px 0;border-radius:26px;overflow:hidden;position:relative;background:url("https://images.unsplash.com/photo-1642505172378-a6f5e5b15580?auto=format&fit=crop&w=1400&q=82") center/cover}.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent,rgba(0,0,0,.55))}.heroText{position:absolute;z-index:2;left:20px;right:20px;bottom:20px;color:#fff}.heroText small{display:block;max-width:100%;font-size:11px;line-height:1.25;letter-spacing:.11em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.heroArea{margin-top:6px;font-size:11px;line-height:1.25;opacity:.92}.heroText h1{font-size:30px;line-height:1.02;margin:7px 0}.panel{background:#faf8f3;border-radius:24px;padding:20px 18px;box-shadow:0 14px 36px #13201a12}.ey{font-size:11px;letter-spacing:.12em;color:#65747a;font-weight:700}.head{display:flex;justify-content:space-between;gap:12px}.head h2{font-size:25px;margin:5px 0}.count{background:#eef3f5;border-radius:999px;padding:8px;font-size:11px;height:max-content}.screen{display:none}.screen.on{display:block}.service{width:100%;display:grid;grid-template-columns:48px 1fr auto;gap:11px;align-items:center;background:#fff;border:1px solid #dfdcd4;border-radius:18px;padding:13px;margin:10px 0;text-align:left}.ico{width:46px;height:46px;border-radius:14px;background:#eef5f8;display:grid;place-items:center}.service b{display:block}.muted{font-size:11px;color:#718087}.price{font-size:11px;font-weight:700}.label{font-size:11px;font-weight:700;color:#65747a;margin:15px 0 5px}.choices{display:grid;grid-template-columns:1fr 1fr;gap:9px}.choice{background:#fff;border:1px solid #dfdcd4;border-radius:15px;padding:13px;text-align:left}.choice.sel{border:2px solid #191919}.field{width:100%;border:1px solid #ddd9d0;border-radius:13px;background:#fff;padding:14px;margin:5px 0}.next,.back{width:100%;border:0;border-radius:999px;padding:15px;margin-top:16px;font-weight:700}.next{background:#191919;color:#fff}.back{background:transparent;color:#65747a;margin-top:4px}.summary{background:#fff;border:1px solid #e3e0d8;border-radius:18px;padding:15px}.row{display:flex;justify-content:space-between;gap:15px;padding:8px 0;border-bottom:1px solid #efede7;font-size:13px}.row:last-child{border:0}.note{background:#eef5f8;border-radius:16px;padding:14px;margin-top:13px;font-size:12px;line-height:1.5}.success{text-align:center;padding:20px 5px}.check{font-size:42px}.trust{display:flex;gap:7px;overflow:auto;margin:0 0 13px}.pill{white-space:nowrap;background:#fff;border:1px solid #e5e2db;border-radius:999px;padding:8px 10px;font-size:11px}.verify{background:#eef5f8;border-radius:16px;padding:13px;margin:8px 0}.verify p{font-size:11px;color:#65747a;line-height:1.45;margin:4px 0 9px}.verifyrow{display:flex;gap:8px}.verifyrow .field{margin:0}.smallbtn{border:0;background:#191919;color:#fff;border-radius:12px;padding:11px 13px;font-weight:700;white-space:nowrap}.consent{display:flex;gap:9px;align-items:flex-start;font-size:11px;line-height:1.4;color:#53636a;margin-top:10px}.verified{color:#185c36;font-weight:700;font-size:12px;margin-top:8px}
+.category-tabs button.sel,.request-type-pills button.sel{background:#e5f2fb;border-color:#76acd1;color:#1b5778;box-shadow:inset 0 0 0 1px #76acd1}
+.choice input[type=checkbox]{accent-color:#307da8;margin:0 7px 0 0}
+.service:hover,.choice:hover{border-color:#93c4df}
+.service:focus-visible,.choice:focus-visible,.next:focus-visible{outline:3px solid #74b6df;outline-offset:2px}
+#commercialAddons{margin-top:8px}
+@media(max-width:520px){.choices{gap:7px}.choice{padding:11px;font-size:12px}}
+</style><style>
+/* Booking Page layout: wide hero, readable controls and no horizontal rails. */
+html{scroll-padding-top:24px}
+body{background:#f4f6f7}
+.wrap{width:100%;max-width:1160px;padding:0 24px 64px}
+.top{font-size:11px;line-height:1.5;padding:12px 16px;overflow-wrap:anywhere}
+.hero{height:480px;margin:24px 0 18px;border-radius:30px;background-position:center}
+.hero:after{background:linear-gradient(180deg,rgba(0,0,0,.04) 15%,rgba(0,0,0,.22) 48%,rgba(0,0,0,.78) 100%)}
+.heroText{left:40px;right:40px;bottom:38px;min-width:0}
+.heroText small{font-size:13px;line-height:1.5;white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}
+.heroText h1{font-size:clamp(38px,5vw,64px);line-height:1.06;letter-spacing:-.035em;max-width:780px;margin:12px 0;text-wrap:balance;overflow-wrap:anywhere}
+.heroArea{font-size:16px;line-height:1.5;overflow-wrap:anywhere}
+.trust{display:flex;flex-wrap:wrap;overflow:visible;gap:10px;margin:0 0 22px}
+.pill{white-space:normal;max-width:100%;padding:11px 15px;font-size:13px;line-height:1.45}
+.panel{padding:32px;border-radius:28px}
+.head{align-items:flex-start;margin-bottom:22px}
+.head>div:first-child{min-width:0}
+.head h2{font-size:32px;line-height:1.15;overflow-wrap:anywhere}
+.count{flex-shrink:0;padding:10px 12px}
+.ey,.label{font-size:12px;line-height:1.5}
+.label{margin-top:22px}
+#residentialServiceList:not([hidden]),#commercialServiceList:not([hidden]){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.service{grid-template-columns:48px minmax(0,1fr) auto;gap:12px;min-width:0;margin:0;padding:18px;min-height:104px;border-radius:20px}
+.service>span{min-width:0}
+.service b{font-size:16px;line-height:1.35;overflow-wrap:anywhere}
+.service .muted{display:block;margin-top:5px}
+.muted{font-size:14px;line-height:1.55}
+.price{font-size:12px;line-height:1.4;max-width:92px;overflow-wrap:anywhere}
+.choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.choice{min-width:0;padding:16px;font-size:15px;line-height:1.45;overflow-wrap:anywhere}
+.choice.sel{box-shadow:inset 0 0 0 1px #191919;border-width:1px}
+.field{display:block;min-width:0;min-inline-size:0;max-width:100%;font-size:16px;line-height:1.5;padding:15px;min-height:54px}
+input[type=date],input[type=time]{width:100%;min-width:0;min-inline-size:0}
+textarea.field{min-height:112px;resize:vertical}
+.next,.back{display:block;font-size:16px;line-height:1.45;min-height:52px;padding:15px 20px;white-space:normal;overflow-wrap:anywhere}
+.screen:not(#main){max-width:760px;margin-inline:auto}
+.summary{padding:20px}
+.row{font-size:15px;line-height:1.5}
+.row>span,.row>b{min-width:0;overflow-wrap:anywhere}
+.row>b{text-align:right}
+.note{font-size:14px;line-height:1.6;padding:18px}
+.success{padding:28px 0}
+.success h2{font-size:30px;line-height:1.2}
+.success .muted{max-width:580px;margin:16px auto}
+@media(min-width:768px){.category-tabs{max-width:680px}}
+@media(max-width:767px){
+ .wrap{padding:0 12px 36px}
+ .hero{height:clamp(360px,58svh,500px);margin:12px 0 14px;border-radius:24px}
+ .heroText{left:24px;right:24px;bottom:28px}
+ .heroText h1{font-size:clamp(36px,8.8vw,48px);max-width:100%}
+ .heroText small{font-size:12px}
+ .heroArea{font-size:14px}
+ .trust{gap:7px;margin-bottom:16px}
+ .pill{padding:9px 11px;font-size:12px;flex:1 1 140px;text-align:center}
+ .panel{padding:22px 18px;border-radius:24px}
+ .head{gap:8px;margin-bottom:16px}
+ .head h2{font-size:28px}
+ #residentialServiceList:not([hidden]),#commercialServiceList:not([hidden]){grid-template-columns:minmax(0,1fr);gap:12px}
+ .service{padding:16px;min-height:100px}
+ .choice{padding:13px;font-size:14px}
+}
+@media(max-width:420px){
+ .wrap{padding-inline:10px}
+ .panel{padding:20px 14px}
+ .heroText{left:22px;right:22px}
+ .service{grid-template-columns:42px minmax(0,1fr);gap:4px 12px}
+ .ico{width:42px;height:42px;grid-row:1 / 3}
+ .service>.price{grid-column:2;max-width:none;margin-top:4px;font-size:13px}
+ .service b{font-size:16px}
+ .category-tabs .choice{font-size:13px;padding:13px 10px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style><link rel="stylesheet" href="/assets/booking-base.css?v=20261010-original"></head><body><div class="top">DEMO PREVIEW • NO REAL BOOKINGS OR EMAILS</div><main class="wrap"><nav class="base-nav" aria-label="Main navigation"><div class="base-brand" id="baseBusiness">Your Cleaning Business</div><div class="base-links"><a href="#services" data-base-en="Services" data-base-es="Servicios">Services</a><a href="#how" data-base-en="How it works" data-base-es="Cómo funciona">How it works</a><a href="#booking" class="base-button" data-base-en="Book cleaning" data-base-es="Reservar limpieza">Book cleaning</a></div></nav><section class="hero" id="leadHero"><div class="heroText"><small id="leadName">YOUR CLEANING BUSINESS</small><h1>Professional cleaning for a fresher home.</h1><p class="base-hero-copy" id="baseDescription"></p><div class="base-hero-actions"><a class="base-button" href="#booking" data-base-en="Book cleaning" data-base-es="Reservar limpieza">Book cleaning</a><a class="base-button secondary" href="#services" data-base-en="Our services" data-base-es="Nuestros servicios">Our services</a></div></div><img id="baseHeroImage" class="base-hero-image" src="https://images.unsplash.com/photo-1642505172378-a6f5e5b15580?auto=format&amp;fit=crop&amp;w=1400&amp;q=82" alt="Sample cleaning photo"></section><p class="base-photo-label" id="basePhotoLabel"></p><div class="trust"><span class="pill" data-base-en="Easy online requests" data-base-es="Solicitudes en línea">Easy online requests</span><span class="pill" data-base-en="Clear service choices" data-base-es="Servicios claros">Clear service choices</span><span class="pill" data-base-en="Your preferred date" data-base-es="Tu fecha preferida">Your preferred date</span></div>
+<section class="base-services" id="services"><div><h2 id="baseServiceTitle">Our cleaning services</h2><p id="baseServiceCopy"></p><a class="base-button" href="#booking" data-base-en="View booking options" data-base-es="Ver opciones de reserva">View booking options</a></div><div class="base-service-grid" id="baseServiceGrid"></div></section>
+<section class="base-section"><h2 id="baseWhyTitle"></h2><p id="baseWhyCopy"></p><div class="base-features"><article class="base-feature"><h3 data-base-en="Choose your cleaning" data-base-es="Elige tu limpieza">Choose your cleaning</h3><p data-base-en="Select a service that fits your home or workspace." data-base-es="Selecciona un servicio para tu hogar o negocio."></p></article><article class="base-feature"><h3 data-base-en="See your options" data-base-es="Consulta tus opciones"></h3><p data-base-en="Review published prices or request a personalized quote." data-base-es="Consulta precios publicados o solicita una cotización."></p></article><article class="base-feature"><h3 data-base-en="Request your date" data-base-es="Solicita tu fecha"></h3><p data-base-en="Choose an available time and receive updates by email." data-base-es="Elige un horario disponible y recibe novedades por correo."></p></article></div></section>
+<section class="base-section" id="how"><h2 id="baseHowTitle"></h2><p data-base-en="Three simple steps to your next cleaning." data-base-es="Tres pasos para tu próxima limpieza."></p><div class="base-steps"><article class="base-step"><strong>01</strong><h3 data-base-en="Choose a service" data-base-es="Elige un servicio"></h3><p data-base-en="Tell us what kind of cleaning you need." data-base-es="Cuéntanos qué limpieza necesitas."></p></article><article class="base-step"><strong>02</strong><h3 data-base-en="Share the details" data-base-es="Comparte los detalles"></h3><p data-base-en="Add your space details and preferred date." data-base-es="Añade los detalles del espacio y tu fecha preferida."></p></article><article class="base-step"><strong>03</strong><h3 data-base-en="Receive your next step" data-base-es="Recibe el siguiente paso"></h3><p data-base-en="Get a booking confirmation or a personalized price, depending on your service." data-base-es="Recibe confirmación o un precio personalizado, según tu servicio."></p></article></div></section>
+<section class="base-section" id="baseReviews"><h2 id="baseReviewTitle"></h2><p id="baseReviewCopy"></p><div class="base-reviews" id="baseReviewGrid"></div></section>
+<section class="base-closing"><div><h2 id="baseClosingTitle"></h2><p id="baseClosingCopy"></p></div><a href="#booking" class="base-button" data-base-en="Book your cleaning" data-base-es="Reserva tu limpieza">Book your cleaning</a></section>
+<section class="panel" id="booking"><div class="head"><div><div class="ey" id="ey">BOOKING PREVIEW</div><h2 id="title">Choose a service</h2></div><div class="count" id="count">START</div></div>
+<div class="screen on" id="main">
+<div class="label">WHAT KIND OF SPACE?</div>
+<div class="choices category-tabs" id="categoryTabs">
+ <button type="button" class="choice sel" data-category="residential" onclick="setCategory('residential')">🏠 <b>Home / Residential</b></button>
+ <button type="button" class="choice" data-category="commercial" onclick="setCategory('commercial')">🏢 <b>Business / Commercial</b></button>
+</div>
+<p class="muted" style="margin:10px 2px 16px">Every business has its own services and prices. Try a residential or commercial request.</p>
+<div id="residentialServiceList">
+ <button type="button" class="service" onclick="startResidential('Standard Cleaning',120)"><span class="ico">✨</span><span><b>Standard Cleaning</b><span class="muted">Routine home cleaning</span></span><span class="price">est. from $120</span></button>
+ <button type="button" class="service" onclick="startResidential('Deep Cleaning',190)"><span class="ico">🧼</span><span><b>Deep Cleaning</b><span class="muted">Detailed top-to-bottom clean</span></span><span class="price">est. from $190</span></button>
+ <button type="button" class="service" onclick="startResidential('Move In / Move Out',240)"><span class="ico">🏠</span><span><b>Move In / Move Out</b><span class="muted">Empty-home reset</span></span><span class="price">est. from $240</span></button>
+ <button type="button" class="service" onclick="startQuote('estimate')"><span class="ico">📋</span><span><b>Request a Home Estimate</b><span class="muted">A tailored estimate for your property</span></span><span class="price">Estimate →</span></button>
+ <button type="button" class="service" onclick="startQuote('quote')"><span class="ico">💬</span><span><b>Request a Custom Quote</b><span class="muted">Special residential services or large homes</span></span><span class="price">Quote →</span></button>
+</div>
+<div id="commercialServiceList" hidden>
+ <button type="button" class="service" onclick="startCommercial('estimate','Office Cleaning')"><span class="ico">🏢</span><span><b>Office Cleaning</b><span class="muted">Offices, conference rooms, shared spaces</span></span><span class="price">Estimate →</span></button>
+ <button type="button" class="service" onclick="startCommercial('estimate','Retail & Showroom Cleaning')"><span class="ico">🏬</span><span><b>Retail & Showrooms</b><span class="muted">Sales floors, fitting rooms and displays</span></span><span class="price">Estimate →</span></button>
+ <button type="button" class="service" onclick="startCommercial('quote','Medical / Professional Cleaning')"><span class="ico">✚</span><span><b>Medical & Professional Spaces</b><span class="muted">Specialized professional environments</span></span><span class="price">Quote →</span></button>
+ <button type="button" class="service" onclick="startCommercial('quote','Post-Construction Cleaning')"><span class="ico">🧱</span><span><b>Post-Construction</b><span class="muted">Project-based detailed cleaning</span></span><span class="price">Quote →</span></button>
+ <button type="button" class="service" onclick="startCommercial('estimate','Commercial Cleaning')"><span class="ico">📋</span><span><b>Request Commercial Estimate</b><span class="muted">Describe your space and frequency</span></span><span class="price">Estimate →</span></button>
+ <button type="button" class="service" onclick="startCommercial('quote','Custom Commercial Cleaning')"><span class="ico">💬</span><span><b>Request Commercial Quote</b><span class="muted">Custom projects and specialist requirements</span></span><span class="price">Quote →</span></button>
+</div></div>
+<div class="screen" id="res"><div class="label">WHAT TYPE OF HOME?</div><div class="choices" id="homes"><button class="choice" onclick="choose(this,'home','House')">🏠 <b>House</b></button><button class="choice" onclick="choose(this,'home','Apartment')">🏢 <b>Apartment</b></button><button class="choice" onclick="choose(this,'home','Condo')">🏙️ <b>Condo</b></button><button class="choice" onclick="choose(this,'home','Townhouse')">🏘️ <b>Townhouse</b></button></div><div class="label">HOME DETAILS</div><div class="choices"><select class="field" id="beds"><option>2 bedrooms</option><option>3 bedrooms</option><option>4 bedrooms</option><option>5+ bedrooms</option></select><select class="field" id="baths"><option>1 bathroom</option><option>2 bathrooms</option><option>3 bathrooms</option><option>4+ bathrooms</option></select></div><div class="label">HOW OFTEN?</div><select class="field" id="freq"><option>One time</option><option>Weekly — save 15%</option><option>Biweekly — save 10%</option><option>Monthly — save 5%</option></select><div class="label">OPTIONAL EXTRAS</div><div class="choices"><label class="choice"><input type="checkbox" id="fridge"> Inside fridge <b>+$25</b></label><label class="choice"><input type="checkbox" id="oven"> Inside oven <b>+$30</b></label></div><div class="label">PREFERRED DATE & TIME</div><input class="field" type="date" id="date"><select class="field" id="time"><option>9:00 AM</option><option>11:30 AM</option><option>2:00 PM</option></select><div class="label">YOUR DETAILS</div><input class="field" id="name" placeholder="Full name"><input class="field" id="email" type="email" placeholder="Email address"><input class="field" id="phone" placeholder="Phone number"><input class="field" id="zip" inputmode="numeric" maxlength="5" placeholder="Service ZIP code"><input class="field" id="serviceAddress" placeholder="Service address · Street, city, state"><button class="next" onclick="reviewResidential()">Review request</button><button class="back" onclick="showMain()">← Choose another service</button></div>
+<div class="screen" id="resReview"><div class="summary" id="resSummary"></div><div class="note"><b>Estimated price only.</b><br>The business reviews the request and confirms the final price before the service is confirmed.</div><button class="next" onclick="submitResidential()">Send Demo Request</button><button class="back" onclick="show('res','Tell us about your home','RESIDENTIAL')">← Edit</button></div>
+<div class="screen" id="quote"><div class="ey" id="quoteEyebrow">RESIDENTIAL ESTIMATE / QUOTE</div>
+<div class="label">I WOULD LIKE TO…</div><div class="choices request-type-pills">
+ <button type="button" class="choice" data-intent="estimate" onclick="setRequestIntent('estimate')">📋 <b>Get an estimate</b></button>
+ <button type="button" class="choice" data-intent="quote" onclick="setRequestIntent('quote')">💬 <b>Request a quote</b></button>
+</div><div class="label">WHAT TYPE OF REQUEST?</div><select class="field" id="qtype"><option>Large home</option><option>Special cleaning request</option><option>Post-renovation cleaning</option><option>Detailed one-time cleaning</option><option>Other residential request</option></select><div class="label">APPROXIMATE HOME SIZE</div><select class="field" id="qsize"><option>4 bedrooms</option><option>5 bedrooms</option><option>6+ bedrooms</option><option>Not sure / Other</option></select><div class="label">OPTIONAL RESIDENTIAL ADD-ONS</div><div class="choices">
+ <label class="choice"><input type="checkbox" data-quote-addon="Interior windows"> Interior windows</label>
+ <label class="choice"><input type="checkbox" data-quote-addon="Inside oven"> Inside oven</label>
+ <label class="choice"><input type="checkbox" data-quote-addon="Inside refrigerator"> Inside refrigerator</label>
+ <label class="choice"><input type="checkbox" data-quote-addon="Baseboards"> Baseboards</label>
+</div>
+<div class="label">PREFERRED DATE</div><input type="date" class="field" id="qdate">
+<div class="label">PREFERRED TIME</div><input type="time" class="field" id="qtime" step="1800">
+<div class="label">TELL US ABOUT THE JOB</div><textarea class="field" id="qdetails" placeholder="What needs extra attention?"></textarea><div class="label">CONTACT DETAILS</div><input class="field" id="qname" placeholder="Full name"><input class="field" id="qemail" type="email" placeholder="Email address"><input class="field" id="qphone" placeholder="Phone number (optional)"><input class="field" id="qaddress" placeholder="Service address · Street, city, state"><button class="next" id="quoteSubmit" onclick="submitQuote()">Send Demo Request</button><button class="back" onclick="showMain()">← Choose another service</button></div>
+<div class="screen" id="commercial"><div class="ey" id="commercialEyebrow">COMMERCIAL ESTIMATE / QUOTE</div>
+<div class="label">I WOULD LIKE TO…</div><div class="choices request-type-pills">
+ <button type="button" class="choice" data-intent="estimate" onclick="setRequestIntent('estimate')">📋 <b>Get an estimate</b></button>
+ <button type="button" class="choice" data-intent="quote" onclick="setRequestIntent('quote')">💬 <b>Request a quote</b></button>
+</div><div class="label">TYPE OF PROPERTY</div><select class="field" id="ctype"><option>Office</option><option>Retail store</option><option>Salon / Studio</option><option>Medical / Professional office</option><option>Other business space</option></select><div class="label">APPROXIMATE SIZE</div><select class="field" id="csize"><option>Under 1,500 sq ft</option><option>1,500–3,000 sq ft</option><option>3,000–5,000 sq ft</option><option>5,000+ sq ft</option></select><div class="label">FREQUENCY</div><select class="field" id="cfreq"><option>One time</option><option>Weekly</option><option>2–3 times per week</option><option>5 days per week</option><option>Custom schedule</option></select>
+<div class="label">COMMERCIAL ADD-ONS</div><div class="choices" id="commercialAddons">
+ <label class="choice"><input type="checkbox" data-commercial-addon="Interior glass & partitions"> Interior glass & partitions</label>
+ <label class="choice"><input type="checkbox" data-commercial-addon="Restroom deep cleaning"> Restroom deep cleaning</label>
+ <label class="choice"><input type="checkbox" data-commercial-addon="Floor scrubbing / detailing"> Floor scrubbing / detailing</label>
+ <label class="choice"><input type="checkbox" data-commercial-addon="Breakroom / kitchenette"> Breakroom / kitchenette</label>
+ <label class="choice"><input type="checkbox" data-commercial-addon="High-touch disinfection"> High-touch disinfection</label>
+ <label class="choice"><input type="checkbox" data-commercial-addon="After-hours cleaning"> After-hours cleaning</label>
+</div>
+<div class="label">PREFERRED DATE</div><input type="date" class="field" id="cdate">
+<div class="label">PREFERRED TIME</div><input type="time" class="field" id="ctime" step="1800"><div class="label">BUSINESS DETAILS</div><textarea class="field" id="cdetails" placeholder="Tell us what the space needs..."></textarea><input class="field" id="cname" placeholder="Business / contact name"><input class="field" id="cemail" type="email" placeholder="Email address"><input class="field" id="cphone" placeholder="Business phone (optional)"><input class="field" id="caddress" placeholder="Business service address"><button class="next" id="commercialSubmit" onclick="submitCommercial()">Send Demo Request</button><button class="back" onclick="showMain()">← Choose another service</button></div>
+<div class="screen" id="done"><div class="success"><div class="check">✓</div><h2>Demo request ready</h2><p class="muted">This sample stays in your browser. No booking or email was sent. Open the demo Command Center to see the next step.</p><a class="next" style="display:block;text-decoration:none" id="trackerLink" href="lead-demo-tracker.html">Open Demo Tracker</a><button class="back" onclick="showMain()">Try another service</button></div></div>
+</section><footer class="base-footer"><strong id="baseFooterBusiness"></strong><span data-base-en="Cleaning requests & appointments" data-base-es="Solicitudes y citas de limpieza"></span></footer></main><script>
+const state={route:'',service:'',base:0,home:'',estimate:'',category:'residential',intent:'estimate',mode:'estimate',serviceId:null};
+const $=x=>document.getElementById(x);
+function show(id,title,count){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('on'));$(id).classList.add('on');$('title').textContent=title;$('count').textContent=count;document.querySelector('.panel').scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})}
+function reset(){state.route='';state.service='';state.base=0;state.home='';state.estimate='';state.serviceId=null;document.querySelectorAll('.choice:not(.category-tabs .choice)').forEach(x=>x.classList.remove('sel'))}
+function setCategory(category){if(!['residential','commercial'].includes(category))return;state.category=category; $('residentialServiceList').hidden=category!=='residential';$('commercialServiceList').hidden=category!=='commercial';document.querySelectorAll('[data-category]').forEach(b=>b.classList.toggle('sel',b.dataset.category===category))}
+function setRequestIntent(intent){if(!['quote','estimate'].includes(intent))return;state.intent=intent;document.querySelectorAll('.screen.on [data-intent]').forEach(b=>b.classList.toggle('sel',b.dataset.intent===intent));const title=intent==='estimate'?'Request an Estimate':'Request a Quote';if(state.route==='quote'){$('quoteEyebrow').textContent='RESIDENTIAL · '+title.toUpperCase();$('quoteSubmit').textContent='Send Demo '+title;}if(state.route==='commercial'){$('commercialEyebrow').textContent='COMMERCIAL · '+title.toUpperCase();$('commercialSubmit').textContent='Send Demo '+title;}}
+function showMain(){const current=state.category;reset();setCategory(current);show('main','Choose a service','START')}
+function startResidential(s,b){reset();state.category='residential';state.route='residential';state.service=s;state.base=b;state.mode='estimate';show('res','Tell us about your home','RESIDENTIAL')}
+function startQuote(intent='quote'){reset();state.category='residential';state.route='quote';state.mode='quote';show('quote','Residential Quote / Estimate','RESIDENTIAL');setRequestIntent(intent)}
+function startCommercial(intent='quote',service='Commercial Cleaning'){reset();state.category='commercial';state.route='commercial';state.service=service;state.mode='quote';show('commercial','Commercial Quote / Estimate','COMMERCIAL');setRequestIntent(intent)}
+function choose(el,k,v){el.parentElement.querySelectorAll('.choice').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');state[k]=v}function num(id){return parseInt($(id).value)||0}function estimate(){let x=state.base+Math.max(0,num('beds')-2)*20+Math.max(0,num('baths')-1)*15+($('fridge').checked?25:0)+($('oven').checked?30:0);const f=$('freq').value;if(f.startsWith('Weekly'))x*=.85;if(f.startsWith('Biweekly'))x*=.9;if(f.startsWith('Monthly'))x*=.95;return Math.round(x)}function reviewResidential(){if(!state.home){alert('Choose a home type first.');return}state.estimate='Est. $'+estimate();$('resSummary').innerHTML='<div class="row"><span>Service</span><b>'+state.service+'</b></div><div class="row"><span>Home type</span><b>'+state.home+'</b></div><div class="row"><span>Home</span><b>'+$('beds').value+' · '+$('baths').value+'</b></div><div class="row"><span>Frequency</span><b>'+$('freq').value+'</b></div><div class="row"><span>Preferred time</span><b>'+($('date').value||'Preferred date')+' · '+$('time').value+'</b></div><div class="row"><span>Estimated price</span><b>'+state.estimate+'</b></div>';show('resReview','Review your request','REVIEW')}// Demo requests stay in this browser tab; buyer requests use the live adapter.
+const isSampleDemo=!new URLSearchParams(location.search).has('key')&&new URLSearchParams(location.search).get('owner_preview')!=='1';
+const demoScope=new URLSearchParams(location.search);
+const demoStorageKey='tleSampleBooking:'+JSON.stringify([demoScope.get('business')||'',demoScope.get('lead')||'',demoScope.get('rid')||'']);
+function save(d){if(!isSampleDemo)return;try{sessionStorage.setItem(demoStorageKey,JSON.stringify({...d,demoOnly:true}))}catch{}show('done','Demo request ready','✓')}function submitResidential(){if(!isSampleDemo)return;save({name:$('name').value||'Your demo request',email:$('email').value,service:state.service,homeType:state.home,freq:$('freq').value,estimate:state.estimate,estimateValue:estimate(),zip:$('zip').value,extras:([$('fridge').checked?'Inside fridge':'',$('oven').checked?'Inside oven':''].filter(Boolean).join(' · ')||'None')})}function submitQuote(){if(!isSampleDemo)return;save({
+ name:$('qname').value||'Your demo request',email:$('qemail').value,
+ service:state.intent==='estimate'?'Residential Estimate':'Residential Quote',
+ homeType:$('qtype').value,freq:$('qsize').value,estimate:state.intent==='estimate'?'Custom estimate':'Custom quote',
+ requestIntent:state.intent,notes:$('qdetails').value,date:$('qdate').value,time:$('qtime').value,
+ extras:[...document.querySelectorAll('[data-quote-addon]:checked')].map(x=>x.dataset.quoteAddon).join(' · ')||'None'
+})}function submitCommercial(){if(!isSampleDemo)return;save({
+ name:$('cname').value||'Your demo request',email:$('cemail').value,
+ service:state.service||'Commercial Cleaning',homeType:$('ctype').value,freq:$('cfreq').value,
+ estimate:state.intent==='estimate'?'Commercial estimate':'Commercial quote',
+ requestIntent:state.intent,notes:$('cdetails').value,date:$('cdate').value,time:$('ctime').value,
+ extras:[...document.querySelectorAll('[data-commercial-addon]:checked')].map(x=>x.dataset.commercialAddon).join(' · ')||'None'
+})}
+
+const leadConfigs={
+ paula:{label:'PAULA DIAS CLEANING',hero:'https://framerusercontent.com/images/RlXAKkFyuTI5tmmTzwdufXcRa0.png?height=959&width=952'},
+ yalanda:{label:'HAVENS TOUCH HOUSEKEEPING',hero:'https://www.maidpanama.com/_next/image?q=75&url=%2Fimages%2Flimpieza-para-airbnb.webp&w=640'},
+ ako:{label:'AKO CLEANING SERVICES',hero:'https://erfcleaning.com/bluffton-hero-cleaning.jpg'},
+ ceaz:{label:'CEAZ CLEANING SERVICES',hero:'https://images.squarespace-cdn.com/content/v1/5a3f3c8dcd39c31f96b93f86/3135640b-c30a-4beb-bb17-e7b5da32336f/female-cleaner-vacuuming-livingroom-karen-green-cleaning%2B%281%29.png'},
+ maidright:{label:'CLEANING MAID RIGHT',hero:'https://www.freshbreezemaid.com/data/org/30583/media/img/cache/1152x640/3613313_1152x640.jpg'},
+ novaclean:{label:'NOVACLEAN',hero:'https://immanuel.com/hs-fs/hubfs/assets/images/1200x1200/housekeeper-making-a-bed.jpg?height=3000&name=housekeeper-making-a-bed.jpg&width=3000'},
+ gleamglow:{label:'GLEAM GLOW CLEANING',hero:'https://framerusercontent.com/images/RlXAKkFyuTI5tmmTzwdufXcRa0.png?height=959&width=952'}
+};
+const demoParams=new URLSearchParams(location.search);
+const customBusiness=(demoParams.get('business')||'').trim().slice(0,140);
+const customArea=(demoParams.get('area')||'').trim().slice(0,140);
+const customRid=(demoParams.get('rid')||'').trim().slice(0,60);
+if(customBusiness){
+ document.getElementById('leadName').textContent='PERSONALIZED FOR '+customBusiness.toUpperCase();
+ document.title=customBusiness+' — Private Booking Demo';
+ const tracker=document.getElementById('trackerLink');
+ if(tracker){
+  const q=new URLSearchParams();
+  q.set('business',customBusiness);
+  q.set('lang',demoParams.get('lang')==='es'?'es':'en');
+  if(customArea)q.set('area',customArea);
+  if(customRid)q.set('rid',customRid);
+  tracker.href='lead-demo-tracker.html?'+q.toString();
+ }
+ if(customArea){
+  const h=document.querySelector('.heroText h1');
+  if(h){const area=document.createElement('div');area.className='heroArea';area.textContent='Serving '+customArea;h.insertAdjacentElement('afterend',area);}
+ }
+ if(customRid&&isSampleDemo){
+  fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-personalized-demo',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'viewed',id:customRid})}).catch(()=>{});
+ }
+}
+
+const leadKey=new URLSearchParams(location.search).get('lead')||'';
+const leadCfg=leadConfigs[leadKey];
+if(leadCfg){
+ document.getElementById('leadName').textContent='PERSONALIZED FOR '+leadCfg.label;
+ document.getElementById('leadHero').style.backgroundImage='url("'+leadCfg.hero+'")';
+ document.title=leadCfg.label+' — Private Booking Demo';
+ const tracker=document.getElementById('trackerLink'); if(tracker)tracker.href='lead-demo-tracker.html?lead='+encodeURIComponent(leadKey)+'&lang='+(demoParams.get('lang')==='es'?'es':'en');
+}
+if(isSampleDemo){const link=$('trackerLink'),q=new URLSearchParams(link.search);q.set('lang',demoParams.get('lang')==='es'?'es':'en');link.search=q.toString();}
+</script><script src="/assets/booking-base.js?v=20261010-original"></script><script src="/assets/booking-template-live.js?v=20261010-original"></script><script src="/assets/booking-template-language.js?v=20261010-demo-separated-es2"></script></body></html>
