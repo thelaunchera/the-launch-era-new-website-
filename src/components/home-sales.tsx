@@ -40,12 +40,12 @@ export function PurchaseClarity({lang='en'}:{lang?:Language}) {
  const es=lang==='es';
  const questions=es?[
  ['¿Qué recibo con Booking Automation + Command Center?','Una Booking Page personalizada conectada a tu Command Center privado, con controles de servicios, precios, disponibilidad y los primeros dos seguimientos automáticos.'],
- ['¿Qué pasa después de comprar?','Completa tu intake y comparte todos los datos necesarios. Personalizamos tu sistema en 24 horas y te enviamos los enlaces de acceso por correo.'],
+ ['¿Qué pasa después de comprar?','Completa tu intake y comparte todos los datos necesarios. La producción tarda 48 horas desde que iniciamos con todos los datos, dentro de nuestro horario laborable. Si compras o completas el intake el sábado después de las 12 PM ET, comenzamos el lunes o próximo día hábil. Enviamos el acceso por correo.'],
  ['¿Puedo cambiar los precios y horarios?','Sí. Los editas desde Pricing & Services y Availability en tu Command Center.'],
  ['¿Las reservas se confirman automáticamente?','Puedes activarlo para servicios con precio fijo. Las solicitudes que necesitan una cotización especial quedan para tu revisión.']
  ]:[
  ['What do I get with Booking Automation + Command Center?','A personalized Booking Page connected to your private Command Center, with service, price, and availability controls plus the first two automatic follow-ups.'],
- ['What happens after I buy?','Complete your intake and provide all required details. Your personalized system is ready within 24 hours, and your access links arrive by email.'],
+ ['What happens after I buy?','Complete your intake and provide all required details. Your 48-hour production timeframe starts during business hours after we receive everything needed. Saturday purchases or completed intakes after 12 PM ET begin Monday or the next business day. Access links arrive by email.'],
  ['Can I change my prices and available times?','Yes. Update them in Pricing & Services and Availability inside your Command Center.'],
  ['Do bookings confirm automatically?','You can enable instant confirmation for fixed-price services. Requests that need a custom quote stay ready for your review.']
  ];
