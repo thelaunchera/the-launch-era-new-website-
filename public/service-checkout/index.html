@@ -12,7 +12,7 @@
 body{background:linear-gradient(180deg,#FFFFFF 0%,#F5FAFC 100%)}
 </style>
 <link rel="stylesheet" href="/assets/tle-mobile.css?v=20261009"></head>
-<body data-tle-page="checkout"><main class="card"><div class="brand">THE LAUNCH ERA</div><div class="kicker" id="kicker">SECURE CHECKOUT</div><h1 id="title">Opening your secure checkout…</h1><p id="copy">You will continue directly to Stripe.</p><div class="dots" id="dots"><span></span><span></span><span></span></div><button id="retry" hidden>Try again</button><div class="small" id="status">Production: 48 hours estimated from kickoff with complete intake. Saturday after 12 PM ET starts next business day. After paying, check Inbox, Promotions and Spam/Junk.</div></main>
+<body data-tle-page="checkout"><main class="card"><div class="brand">THE LAUNCH ERA</div><div class="kicker" id="kicker">SECURE CHECKOUT</div><h1 id="title">Opening your secure checkout…</h1><p id="copy">You will continue to secure payment.</p><div class="dots" id="dots"><span></span><span></span><span></span></div><button id="retry" hidden>Try again</button><div class="small" id="status">Production: 48 hours estimated from kickoff with complete setup form and details. Saturday after 12 PM ET starts next business day. After paying, check Inbox, Promotions and Spam/Junk.</div></main>
 <script>
 const endpoint="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/create-tle-service-checkout";
 const params=new URLSearchParams(location.search);
@@ -22,7 +22,7 @@ let es=params.get("lang")==="es";
 let trafficSource=(params.get("source")||"").trim().toLowerCase();try{trafficSource=trafficSource||sessionStorage.getItem("tleTrafficSource")||"direct";sessionStorage.setItem("tleTrafficSource",trafficSource)}catch{trafficSource=trafficSource||"direct"}
 
 const bookingSaleEnd=new Date("2026-11-01T04:00:00Z").getTime();
-const bookingPrice=Date.now()<bookingSaleEnd?"$19.99":"$99";
+const bookingPrice="$19.99";
 const allowed={"booking-flow":(Date.now()<bookingSaleEnd?"The Fall Refresh Offer · ":"")+"Booking Automation + Command Center · "+bookingPrice,"website-automation":"Website Automation · $41.99",va:"Virtual Assistant · $34.99/month","ai-booking":"AI Booking Assistant · $79 setup, then $29/month after the first 30 days from delivery","ai-followup":"AI Follow-Up Assistant · $59 setup, then $19/month after the first 30 days from delivery","ai-business":"AI Business Assistant (both) · $119 setup, then $39/month after the first 30 days from delivery"};
 const allowedEs={"booking-flow":(Date.now()<bookingSaleEnd?"Oferta Fall Refresh · ":"")+"Booking Automation + Command Center · "+bookingPrice,"website-automation":"Website Automation · $41.99",va:"Virtual Assistant · $34.99/mes","ai-booking":"AI Booking Assistant · $79 de instalación y luego $29/mes después de los primeros 30 días desde la entrega","ai-followup":"AI Follow-Up Assistant · $59 de instalación y luego $19/mes después de los primeros 30 días desde la entrega","ai-business":"AI Business Assistant (ambos) · $119 de instalación y luego $39/mes después de los primeros 30 días desde la entrega"};
 const kicker=document.getElementById("kicker"),title=document.getElementById("title"),copy=document.getElementById("copy"),dots=document.getElementById("dots"),retry=document.getElementById("retry"),status=document.getElementById("status");
@@ -36,8 +36,8 @@ if(!allowed[offer]){
 }else{
  kicker.textContent=(es?allowedEs[offer]:allowed[offer]);
  title.textContent=es?"Abriendo tu pago seguro…":"Opening your secure checkout…";
- copy.textContent=es?"Continuarás directamente a Stripe. Podrás indicar tu idioma preferido allí.":"Continuing directly to Stripe. You can set your preferred language there.";
- status.textContent=es?"Producción: 48 horas desde el inicio con intake completo en horario laborable. Sábado después de las 12 PM ET: próximo día hábil. Después revisa Entrada, Promociones y Spam.":"Production: 48 hours estimated from working-hours kickoff. Saturday after 12 PM ET: next business day. After paying, check Inbox, Promotions and Spam.";
+ copy.textContent=es?"Continuarás al pago seguro. Podrás elegir tu idioma preferido allí.":"Continuing to secure payment. You can choose your preferred language there.";
+ status.textContent=es?"Producción: 48 horas desde el inicio con formulario y datos completos en horario laborable. Sábado después de las 12 PM ET: próximo día hábil. Después revisa Entrada, Promociones y Spam.":"Production: 48 hours estimated from working-hours kickoff. Saturday after 12 PM ET: next business day. After paying, check Inbox, Promotions and Spam.";
 }
 async function openCheckout(){
  if(!allowed[offer])return;
@@ -45,8 +45,8 @@ async function openCheckout(){
  document.documentElement.lang=es?"es":"en";
  retry.hidden=true;dots.hidden=false;
  title.textContent=es?"Abriendo tu pago seguro…":"Opening your secure checkout…";
- copy.textContent=es?"Tu página de Stripe se abrirá en español.":"Your Stripe checkout will open in English.";
- status.textContent=es?"Producción: 48 horas desde el inicio con intake completo, dentro de horario laborable. Si pagas sábado después de las 12 PM ET, comienza el próximo día hábil. Revisa Entrada, Promociones y Spam.":"Production: 48 hours estimated after complete intake and working-hours kickoff. Saturday purchases after 12 PM ET start next business day. Check Inbox, Promotions and Spam after payment.";
+ copy.textContent=es?"La página de pago seguro se abrirá en español.":"Your secure payment page will open in English.";
+ status.textContent=es?"Producción: 48 horas desde el inicio con formulario y datos completos, dentro de horario laborable. Si pagas sábado después de las 12 PM ET, comienza el próximo día hábil. Revisa Entrada, Promociones y Spam.":"Production: 48 hours estimated after complete setup form and details and working-hours kickoff. Saturday purchases after 12 PM ET start next business day. Check Inbox, Promotions and Spam after payment.";
  try{
   const res=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({offer,language:es?"es":"en",source:trafficSource})});
   const data=await res.json().catch(()=>({}));
