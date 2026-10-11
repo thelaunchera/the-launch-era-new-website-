@@ -448,6 +448,20 @@
    <button type="button" id="cbDashRefresh">↻ Refresh <small>Update activity</small></button>
   </div>
  </div>
+ <article id="buyerBookingShareCard" class="panel crm-buyer-only" style="padding:19px;margin:18px 0;border:1px solid #cddfea;background:#fff;min-width:0">
+  <h3 style="margin:0 0 7px">Share your Booking Page</h3>
+  <p class="muted" style="font-size:13px;line-height:1.6;margin:0 0 12px">Once your Booking Page is delivered, copy the public link to share with customers on Instagram, Google or by message. Your Command Center stays private.</p>
+  <div id="buyerBookingShareActions" class="hidden" style="display:grid;gap:10px;min-width:0">
+   <label style="display:grid;gap:5px;font-size:12px;font-weight:700;min-width:0">Your public booking link
+    <input id="buyerBookingShareUrl" type="url" readonly aria-label="Your public booking link" autocomplete="off" spellcheck="false" style="width:100%;min-width:0;box-sizing:border-box;font-size:13px">
+   </label>
+   <div style="display:flex;flex-wrap:wrap;gap:9px;align-items:center">
+    <button type="button" id="buyerCopyBookingLink">Copy Booking Link</button>
+    <a id="buyerOpenBookingLink" href="#" class="secondary" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;justify-content:center;padding:11px 16px;border-radius:12px;text-decoration:none">Open Booking Page ↗</a>
+   </div>
+  </div>
+  <p id="buyerBookingShareStatus" class="muted" role="status" aria-live="polite" style="font-size:12px;line-height:1.6;margin:11px 0 0">Checking your public booking link…</p>
+ </article>
  <div class="section-title">Your Business</div>
  <p class="muted">See what arrived, what was confirmed automatically, and what needs your attention.</p>
  <div class="panel" style="padding:20px;margin:17px 0">
