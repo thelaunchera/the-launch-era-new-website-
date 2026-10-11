@@ -33,7 +33,7 @@ const say=s=>{$('message').textContent=s;if($('editor')?.open){const status=$('f
 async function check(result){if(result.error)throw result.error;return result.data}
 
 const pricingEndpoint='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-flow-pricing';
-let pricingDraft=null,pricingLoadGeneration=0,ownerReviewAccount=null;
+let pricingDraft=null,pricingLoadGeneration=0,ownerReviewAccount=null;let cleaningCalcSelectedAddons=new Set(),cleaningCalcLatest=null;const calcFields=['residential_base','bedroom_fee','bathroom_fee','sqft_increment_fee','commercial_minimum','commercial_sqft_rate','deep_multiplier','moveout_multiplier','weekly_discount','biweekly_discount','monthly_discount','travel_fee','estimate_variance'];const calcDefault=()=>Object.fromEntries(calcFields.map(k=>[k,(k==='deep_multiplier'||k==='moveout_multiplier')?1:k==='estimate_variance'?10:0]));
 function priceElement(tag,attrs={},label){const el=document.createElement(tag);for(const [key,value] of Object.entries(attrs)){if(key==='class')el.className=value;else if(key==='value')el.value=value;else el.setAttribute(key,String(value))}if(label!==undefined)el.textContent=String(label);return el}
 async function pricingCall(action,data={}){
  const {data:{session},error}=await db.auth.getSession();
@@ -69,7 +69,7 @@ function renderPricing(){
  if(!pricingDraft)return;
  $('pricingServiceRows').replaceChildren(...pricingDraft.services.map(x=>pricingFormRow('service',x)));
  $('pricingAddonRows').replaceChildren(...pricingDraft.addons.map(x=>pricingFormRow('addon',x)));
- $('pricingCurrency').value=pricingDraft.currency||'USD';$('pricingQuotePolicy').value=pricingDraft.quote_policy||'review_unpriced_jobs';
+ $('pricingCurrency').value=pricingDraft.currency||'USD';$('pricingQuotePolicy').value=pricingDraft.quote_policy||'review_unpriced_jobs';$('pricingAutoConfirm').checked=!!pricingDraft.auto_confirm_flat;$('pricingAutoConfirm').disabled=pricingDraft.quote_policy==='always_review';renderCleaningCalculator();
 }
 async function loadPricing(){
  if(workspace?.is_internal&&!ownerReviewAccount){premiumNavigate('owner-pages');return}
@@ -79,7 +79,7 @@ async function loadPricing(){
  if(!workspace){$('pricingStatus').textContent="Create a workspace first";return;}
  try{
   const d=await pricingCall('get');if(version!==pricingLoadGeneration)return;
-  pricingDraft={services:d.settings.services||[],addons:d.settings.addons||[],currency:d.settings.currency||'USD',quote_policy:d.settings.quote_policy||'review_unpriced_jobs'};
+  cleaningCalcSelectedAddons=new Set();pricingDraft={services:d.settings.services||[],addons:d.settings.addons||[],currency:d.settings.currency||'USD',quote_policy:d.settings.quote_policy||'review_unpriced_jobs',auto_confirm_flat:d.settings.auto_confirm_flat===true,business_category:d.business_category||'other',cleaning_calculator:d.settings.cleaning_calculator||calcDefault()};
   $('pricingStatus').textContent=d.saved?"Prices loaded":"Review your initial prices";
   const live=$('pricingPublicUrl');live.href=d.booking_url||'#';live.textContent=d.booking_url?"Open live Booking Page":"Private preview only — not yet delivered";live.style.pointerEvents=d.booking_url?'auto':'none';
   $('pricingEditor').classList.remove('hidden');renderPricing();
@@ -87,10 +87,10 @@ async function loadPricing(){
 }
 $('pricingAddService').onclick=()=>{if(!pricingDraft||pricingDraft.services.length>=40)return;pricingDraft.services.push({id:crypto.randomUUID(),name:'',mode:'flat',price:'',active:true});renderPricing()};
 $('pricingAddAddon').onclick=()=>{if(!pricingDraft||pricingDraft.addons.length>=40)return;pricingDraft.addons.push({id:crypto.randomUUID(),name:'',price:0,active:true});renderPricing()};
-$('pricingReload').onclick=loadPricing;
+$('pricingReload').onclick=loadPricing;$('pricingQuotePolicy').onchange=()=>{if($('pricingQuotePolicy').value==='always_review')$('pricingAutoConfirm').checked=false;$('pricingAutoConfirm').disabled=$('pricingQuotePolicy').value==='always_review'};
 $('pricingSave').onclick=async()=>{
  if(!pricingDraft)return;const button=$('pricingSave');button.disabled=true;$('pricingStatus').textContent="Saving…";
- try{const v=await pricingCall('save',{services:pricingDraft.services,addons:pricingDraft.addons,currency:$('pricingCurrency').value,quote_policy:$('pricingQuotePolicy').value});$('pricingStatus').textContent="Published · "+new Date(v.updated_at).toLocaleString();await loadPricing();}
+ try{const v=await pricingCall('save',{services:pricingDraft.services,addons:pricingDraft.addons,currency:$('pricingCurrency').value,quote_policy:$('pricingQuotePolicy').value,auto_confirm_flat:$('pricingAutoConfirm').checked,cleaning_calculator:pricingDraft.cleaning_calculator});$('pricingStatus').textContent="Published · "+new Date(v.updated_at).toLocaleString();await loadPricing();}
  catch(e){$('pricingStatus').textContent="Not saved: "+e.message}finally{button.disabled=false}
 };
 
