@@ -440,11 +440,6 @@ if(process.env.QA_CHECKOUT_REAL==='1'){
  }
 }
 
-await browser.close();
-console.log('SUMMARY',JSON.stringify({pass:results.filter(x=>x.pass).length,failed:results.filter(x=>!x.pass).length,tests:results}));
-if(results.some(x=>!x.pass))process.exitCode=1;
-
-
 // Protect the real homepage hero design, both languages, and the agency hours location.
 for(const lang of ['en','es'])for(const viewport of [{name:'phone',width:390,height:844},{name:'tablet',width:820,height:1180},{name:'desktop',width:1440,height:900}]){
  await check('Unified photo hero '+lang+' '+viewport.name,viewport,async page=>{
@@ -473,3 +468,7 @@ for(const lang of ['en','es'])for(const viewport of [{name:'phone',width:390,hei
   assert.equal(result.horizontalOverflow,false,'No horizontal overflow');
  });
 }
+
+await browser.close();
+console.log('SUMMARY',JSON.stringify({pass:results.filter(x=>x.pass).length,failed:results.filter(x=>!x.pass).length,tests:results}));
+if(results.some(x=>!x.pass))process.exitCode=1;
