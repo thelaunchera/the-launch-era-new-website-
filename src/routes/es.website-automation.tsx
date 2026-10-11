@@ -56,7 +56,7 @@ function Page(){
     </section>
 
     <section className="container service-story">
-      <div className="service-demo-kicker"><Sparkles/> PRUEBA EL FLUJO — ESTA ES UNA DEMO EN VIVO</div>
+      <div className="service-demo-kicker"><Sparkles/> PRUEBA EL FLUJO — ESTA ES UNA EJEMPLO INTERACTIVO</div>
 
       <div className="web-automation-scene web-automation-live">
         <div className="web-browser">
@@ -80,7 +80,7 @@ function Page(){
                   <option>Limpieza especializada</option>
                 </select>
               </label>
-              <button type="submit">Enviar consulta <ArrowRight/></button>
+              <button type="submit">Probar consulta de ejemplo <ArrowRight/></button>
             </form>
             <div className="automation-demo-note">
               <span>{active<0?'Lista para probar':'Lead de prueba'}</span>
