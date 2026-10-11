@@ -1358,3 +1358,27 @@ img { display:block; width:100%; object-fit:cover; }
   .announcement-offer .sale-clock-unit{min-width:17px}
   .announcement-offer .sale-clock-unit strong{font-size:13px!important}
 }
+
+
+/* Wide-screen homepage hero: let the headline and example notifications
+   participate in layout so they can never collide when the copy wraps. */
+@media(min-width:768px){
+  .sales-home .hero-photo{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    box-sizing:border-box;
+    height:auto;
+    min-height:clamp(680px,58vw,790px);
+    padding-bottom:80px;
+  }
+  .sales-home .hero-photo .hero-intro{flex:none}
+  .sales-home .hero-photo .hero-notice-flow{
+    position:relative;
+    inset:auto;
+    align-self:flex-start;
+    flex:none;
+    width:min(310px,calc(100% - 48px));
+    margin:clamp(44px,5.5vw,72px) 0 0 max(5%,24px);
+  }
+}
