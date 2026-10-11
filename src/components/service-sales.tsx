@@ -5,11 +5,11 @@ export function ServiceSales({product,lang='en'}:Props){
  const es=lang==='es',booking=product==='booking';
  const pains=booking?(es?[
  ['Una solicitud entre tantos mensajes.','Buscar el servicio, la dirección y la fecha en distintos chats.','La Booking Page recoge los datos y los lleva a tu Command Center.'],
- ['Una cotización que quedó sin respuesta.','Recordar a quién debes volver a escribir entre una limpieza y otra.','Con el correo verificado y la automatización activa, los dos primeros seguimientos pueden salir automáticamente. Tú decides cómo continuar.'],
+ ['Una cotización que quedó sin respuesta.','Recordar a quién debes volver a escribir entre una limpieza y otra.','Nosotros nos encargamos de los dos seguimientos automáticos si no hay respuesta. Tú decides si enviar un último mensaje o detenerte.'],
  ['Un cambio de precios u horarios.','Volver a explicar tus opciones cada vez que alguien pregunta.','Actualiza servicios, precios y disponibilidad desde tu espacio privado.']
  ]:[
  ['A request buried in your messages.','Find the service, address, and date across different chats.','Your Booking Page collects the details and sends them to your Command Center.'],
- ['A quote that went quiet.','Remember who needs a follow-up between cleaning jobs.','With a verified sender and active automation, the first two follow-ups can run automatically. You choose how to continue.'],
+ ['A quote that went quiet.','Remember who needs a follow-up between cleaning jobs.','We handle the first two automatic follow-ups if there is no reply. You decide whether to send a final message or stop.'],
  ['A change to your rates or schedule.','Explain your options again every time someone asks.','Update services, prices, and availability in your private workspace.']
  ]):(es?[
  ['El próximo trabajo, pero faltan los detalles.','Buscar direcciones y notas de clientes antes de salir.','Mantén los datos del cliente y del trabajo organizados en la App.'],
