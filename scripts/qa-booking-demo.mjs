@@ -468,6 +468,7 @@ for(const lang of ['en','es'])for(const viewport of [{name:'phone',width:390,hei
       noHoursInHero:!/(Mon.Fri|lun.vie|8:30|12:00|48.hours|48.horas)/i.test(intro?.textContent||''),
       footerHasHours:!!footer&&/8:30/.test(footer.textContent||'')&&/12:00/.test(footer.textContent||''),
       boundsOK:!!h&&!!a&&a.left>=-2&&a.right<=innerWidth+2&&cards.every(b=>b.left>=-2&&b.right<=innerWidth+2&&b.top>=h.top&&b.bottom<=h.bottom)&&(!cards[1]||cards[1].top>=cards[0].bottom+5),
+      introSeparatedFromCards:cards.length===0||!!a&&a.bottom+12<=cards[0].top,
       horizontalOverflow:document.documentElement.scrollWidth>innerWidth+3};
   });
   assert.equal(result.sameSection,true,'Headline must be on photo');
@@ -482,6 +483,7 @@ for(const lang of ['en','es'])for(const viewport of [{name:'phone',width:390,hei
   assert(result.noHoursInHero,'Business hours and production details belong outside hero');
   assert(result.footerHasHours,'Public office hours remain in footer');
   assert(result.boundsOK,'Headline and notifications must fit the hero');
+  assert(result.introSeparatedFromCards,'Hero text must not collide with example notifications');
   assert.equal(result.horizontalOverflow,false,'No horizontal overflow');
  });
 }

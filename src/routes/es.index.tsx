@@ -31,9 +31,9 @@ function SpanishHome(){const [active,setActive]=useState(0);const [heroLoaded,se
 <section className={`hero-photo ${heroLoaded?'hero-media-ready':'hero-media-loading'}`} aria-label="Ejemplo de la experiencia de reservas de The Launch Era">
  <img ref={heroImageRef} className="hero-main-image" src={cleaner} alt="Profesional de limpieza trabajando en una casa luminosa, suavemente desenfocada detrás del título" width={1920} height={1024} loading="eager" fetchPriority="high" decoding="sync" onLoad={()=>setHeroLoaded(true)} onError={()=>setHeroLoaded(true)}/>
  <div className="hero-intro">
-   <div className="eyebrow">AUTOMATIZACIÓN DE RESERVAS PARA NEGOCIOS DE LIMPIEZA</div>
-   <h1>Tú sigue limpiando.<br/>Que no se te escape la próxima reserva.</h1>
-   <p>Ten las solicitudes, cotizaciones y seguimientos en un solo lugar, para saber a quién responder.</p>
+   <div className="eyebrow">PARA DUEÑAS DE NEGOCIOS DE LIMPIEZA</div>
+   <h1>Menos tiempo buscando mensajes.<br/>Más tiempo para tu negocio.</h1>
+   <p>Solicitudes, cotizaciones y seguimientos en un solo lugar. Sin buscar entre mensajes.</p>
  </div>
  <div className="hero-notice-flow" aria-label="Notificaciones de ejemplo; no muestran actividad real">
    {notices.map(([app,when,title,text,Icon],i)=><div className={`notification notice-${i+1}`} key={title}>

@@ -25,9 +25,9 @@ export function HomeHero() {
  return <><section className={`hero-photo ${heroLoaded?'hero-media-ready':'hero-media-loading'}`} aria-label="An example of The Launch Era booking experience">
  <img ref={heroImageRef} className="hero-main-image" src={cleaner} alt="Professional cleaner working in a sunlit home, softly blurred behind the headline" width={1920} height={1024} loading="eager" fetchPriority="high" decoding="sync" onLoad={()=>setHeroLoaded(true)} onError={()=>setHeroLoaded(true)}/>
  <div className="hero-intro">
-   <div className="eyebrow">BOOKING AUTOMATION + COMMAND CENTER FOR CLEANING BUSINESSES</div>
-   <h1>Keep cleaning.<br/>Don’t miss the next booking.</h1>
-   <p>Keep cleaning requests, quotes, and follow-ups together, so you know who needs a reply.</p>
+   <div className="eyebrow">FOR CLEANING BUSINESS OWNERS</div>
+   <h1>Less time chasing messages.<br/>More time for your business.</h1>
+   <p>Requests, quotes, and follow-ups in one place. No more digging through messages.</p>
  </div>
  <div className="hero-notice-flow" aria-label="Example notifications; no live activity is shown">
    {notifications.map((n,i)=>{const Icon=n.icon;return <div className={`notification notice-${i+1}`} key={n.title}>
