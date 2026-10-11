@@ -2450,7 +2450,7 @@ async function addOwnerClientReview(kind,id,item,previewInput){
   status.textContent=(labels[data.status]||data.status)+' · '+data.revisions_remaining+'/'+data.revisions_limit+' '+(es?'revisiones disponibles':'revisions remaining');
   if(data.feedback)notes.textContent=(es?'Solicitud del cliente: ':'Buyer feedback: ')+data.feedback;
   // Booking design reviews only. The owner alone decides when to send a reminder.
-  // Show it after 12 hours of waiting; never auto-send, reset revisions or send final access.
+  // Show it while waiting; the server enables sending after 8 hours; never auto-send, reset revisions or send final access.
 
   // Visible countdown; the server remains authoritative and the send is always manual.
   if(kind==='booking'&&!['approved','changes_requested'].includes(data.status)&&data.manual_reminder_due_at){
