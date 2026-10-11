@@ -407,3 +407,18 @@ body.owner-preview-fullscreen-open #buildFrameShell.tle-preview-fullscreen #buil
   width:min(390px,100%)!important;box-shadow:0 0 42px #0006!important;
  }
 }
+
+
+.crm-workspace-backrow{display:flex;align-items:center;min-height:35px;margin-bottom:10px}
+.crm-workspace-backrow:has(.hidden){display:none}
+#workspaceBack{font:inherit;font-size:13px;font-weight:700;min-height:36px;min-width:86px;padding:7px 15px;border-radius:999px;box-shadow:none}
+#workspaceBack:focus-visible{outline:3px solid #F2D85B;outline-offset:2px}
+.crm-save-toast{position:fixed;z-index:30000;right:max(18px,env(safe-area-inset-right));bottom:calc(22px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:11px;width:max-content;max-width:min(420px,calc(100vw - 32px));padding:14px 19px;border-radius:18px;border:1px solid #ffffff24;background:#191919;color:white;font:600 14px/1.45 system-ui,-apple-system,sans-serif;box-shadow:0 15px 40px #13192334;opacity:0;transform:translateY(12px);visibility:hidden;pointer-events:none;transition:opacity .23s ease,transform .23s ease,visibility .23s}
+.crm-save-toast.is-visible{opacity:1;transform:translateY(0);visibility:visible}
+.crm-save-toast__icon{display:grid;place-items:center;flex:0 0 27px;width:27px;height:27px;border-radius:50%;background:#F2D85B;color:#191919;font-weight:900;font-size:17px}
+.crm-save-toast.is-error .crm-save-toast__icon{background:#ffd7ce}
+@keyframes crmViewEnter{from{opacity:.75;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+#buyerDashboardHub:not(.hidden),#ownerPagesHub:not(.hidden),#pricingHub:not(.hidden),#availabilityHub:not(.hidden),#buyerRequestsHub:not(.hidden),#buyerCustomersHub:not(.hidden),#settingsHub:not(.hidden),#helpHub:not(.hidden),#buyerBookingPreviewHub:not(.hidden),#notificationPanel:not(.hidden){animation:crmViewEnter .26s cubic-bezier(.2,.7,.2,1) both}
+@media(max-width:760px){.crm-save-toast{right:16px;left:16px;width:auto;max-width:none;bottom:calc(16px + env(safe-area-inset-bottom))}.crm-workspace-backrow{padding-top:6px}}
+@media(prefers-reduced-motion:reduce){.crm-save-toast{transition:none;transform:none}#buyerDashboardHub:not(.hidden),#ownerPagesHub:not(.hidden),#pricingHub:not(.hidden),#availabilityHub:not(.hidden),#buyerRequestsHub:not(.hidden),#buyerCustomersHub:not(.hidden),#settingsHub:not(.hidden),#helpHub:not(.hidden),#buyerBookingPreviewHub:not(.hidden),#notificationPanel:not(.hidden){animation:none}}
+
