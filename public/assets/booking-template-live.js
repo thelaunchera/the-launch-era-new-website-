@@ -67,7 +67,7 @@ function serviceButton(service,category){
  const icon=document.createElement("span");icon.className="ico";icon.textContent=category==="commercial"?"🏢":"✨";
  const group=document.createElement("span"),name=document.createElement("b"),sub=document.createElement("span");sub.className="muted";
  name.textContent=service.name;sub.textContent=service.mode==="flat"?
-  tr("Book now or review the flat price.","Reserva o revisa el precio fijo."):
+  (session.model.auto_confirm_flat===true?tr("Book now at the fixed price.","Reserva al precio fijo."):tr("Request this fixed-price appointment for approval.","Solicita esta cita de precio fijo para aprobación.")):
   tr("Request a tailored estimate or quote.","Solicita un estimado o una cotización personalizada.");
  group.append(name,sub);
  const price=document.createElement("span");price.className="price";price.textContent=service.mode==="flat"?money(service.price):tr("Request quote","Cotizar");
@@ -249,7 +249,7 @@ async function submit(which){
  try{
   const response=await endpoint("tle-booking-flow-inquiry",body);
   show("done",response.booking_confirmed?tr("Booking confirmed!","¡Reserva confirmada!"):
-    state.intent==="estimate"?tr("Estimate request received","Estimado solicitado"):tr("Quote request received","Cotización solicitada"),"✓");
+    state.mode==="flat"?tr("Booking request received","Solicitud de reserva recibida"):state.intent==="estimate"?tr("Estimate request received","Estimado solicitado"):tr("Quote request received","Cotización solicitada"),"✓");
   $("done").querySelector("h2").textContent=response.booking_confirmed?
     tr("Your appointment is booked!","¡Tu cita está confirmada!"):tr("Your request was received.","Recibimos tu solicitud.");
   const handoffOk=response.customer_email_sent===true;
