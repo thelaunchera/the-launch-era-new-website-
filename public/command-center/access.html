@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FAF8F3">
+<title>Acceso privado | The Launch Era Command Center</title>
+<link rel="icon" href="./app-icons/tle-192.png">
+<style>
+:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#191919;background:#FAF8F3}
+*{box-sizing:border-box}
+body{min-height:100svh;margin:0;display:grid;place-items:center;padding:24px;background:linear-gradient(155deg,#FAF8F3 35%,#e8f4fa 100%)}
+main{width:min(440px,100%);padding:clamp(28px,5vw,46px);background:white;border:1px solid #e3ebee;border-radius:26px;box-shadow:0 26px 65px #23405318}
+mark{display:inline-block;background:#F2D85B;padding:8px 13px;border-radius:18px;font-weight:800;letter-spacing:.1em;font-size:11px}
+h1{font-size:clamp(27px,5vw,35px);margin:26px 0 8px;letter-spacing:-.045em}
+p{color:#5d7686;line-height:1.5;font-size:14px;margin:0 0 26px}
+label{display:block;font-weight:650;font-size:13px;margin-bottom:15px}
+input{margin-top:7px;width:100%;padding:15px 14px;font:inherit;font-size:16px;border:1px solid #cbdbe4;border-radius:12px}
+button{font:inherit;cursor:pointer}
+.primary{padding:15px 22px;border:0;border-radius:12px;width:100%;background:#191919;color:white;font-weight:700}
+.primary:disabled{opacity:.55}
+.secondary{padding:12px;border:0;background:transparent;color:#276488;text-decoration:underline}
+#status{padding:14px 0 0;min-height:36px;font-size:13px;color:#94413d;line-height:1.4}
+footer{font-size:11px;color:#7591a0;text-align:center;margin-top:24px}
+a{color:#276488}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<main>
+<mark>THE LAUNCH ERA</mark>
+<h1>Tu Command Center</h1>
+<p>Acceso privado y seguro. Entra con tu correo y contraseña habituales. No necesitas crear otra cuenta.</p>
+<form id="signin">
+<label>Correo electrónico<input id="email" type="email" required autocomplete="username" inputmode="email"></label>
+<label>Contraseña<input id="password" type="password" required autocomplete="current-password"></label>
+<button class="primary" id="login" type="submit">Entrar a mi Command Center →</button>
+</form>
+<button id="continue" class="primary hidden" type="button">Continuar al Command Center →</button>
+<div id="status" role="status" aria-live="polite"></div>
+<button id="reset" class="secondary" type="button">¿Olvidaste tu contraseña?</button>
+<footer>Tu información y la de tus clientes permanecen en sus espacios privados.<br><a href="./?app=tle">Volver al acceso principal</a></footer>
+</main>
+<script src="./vendor/supabase-js-v2.57.0.umd.js"></script>
+<script>
+(function(){
+ const status=document.getElementById('status'),form=document.getElementById('signin'),button=document.getElementById('login');
+ const go=()=>location.assign('./?app=tle&from=private-access');
+ let db;
+ try{
+  if(typeof window.supabase?.createClient!=='function')throw Error('Authentication module is unavailable');
+  db=window.supabase.createClient("https://bowacxhmjvrqixtwaikv.supabase.co","sb_publishable_0TueitFYiRF3rAEMLMT8-w_FvbvY0rB",{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:'tle-crm-auth'}});
+ }catch(e){status.textContent='La conexión no terminó de cargar. Actualiza esta página en Safari e inténtalo otra vez.';button.disabled=true;return;}
+ const timeout=ms=>new Promise((_,reject)=>setTimeout(()=>reject(new Error('La conexión tardó demasiado. Inténtalo otra vez.')),ms));
+ db.auth.getSession().then(({data})=>{
+   if(data?.session){document.getElementById('continue').classList.remove('hidden');form.classList.add('hidden');document.getElementById('reset').classList.add('hidden');}
+ }).catch(()=>{});
+ document.getElementById('continue').addEventListener('click',go);
+ form.addEventListener('submit',async event=>{
+  event.preventDefault();button.disabled=true;status.textContent='Verificando tu acceso…';
+  try{
+   const email=document.getElementById('email').value.trim();
+   const password=document.getElementById('password').value;
+   const {error,data}=await Promise.race([db.auth.signInWithPassword({email,password}),timeout(18000)]);
+   if(error)throw error;
+   if(!data?.session)throw Error('No se recibió una sesión válida.');
+   status.textContent='Acceso verificado. Abriendo tu espacio…';
+   go();
+  }catch(e){status.textContent=e?.message||'No pudimos entrar. Comprueba los datos e inténtalo otra vez.';}finally{button.disabled=false;}
+ });
+ document.getElementById('reset').addEventListener('click',async()=>{
+  const email=document.getElementById('email').value.trim();
+  if(!email){status.textContent='Escribe primero tu correo electrónico.';return;}
+  status.textContent='Solicitando instrucciones…';
+  try{
+   const {error}=await Promise.race([db.auth.resetPasswordForEmail(email,{redirectTo:location.origin+'/?app=tle'}),timeout(15000)]);
+   if(error)throw error;
+   status.textContent='Si existe una cuenta con ese correo, recibirás instrucciones para restablecer tu contraseña.';
+  }catch(e){status.textContent=e?.message||'No se pudo enviar el correo.';}
+ });
+})();
+</script>
+</body>
+</html>
