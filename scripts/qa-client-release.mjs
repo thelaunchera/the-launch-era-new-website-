@@ -138,6 +138,23 @@ check('WhatsApp Coming Soon English and Spanish feature parity', () => {
  assert.doesNotMatch(read('src/components/editorial-sections.tsx'),/while we finish the connection/);
  assert.doesNotMatch(read('src/routes/es.index.tsx'),/mientras preparamos la conexión/);
 });
+check('All bilingual public pages keep matching forms, pricing and FAQ structure', () => {
+ const pairedRoutes=[
+  'ai-booking-assistant','automation-terms','booking-flow-intake',
+  'intake/automation','intake/va','va-terms','whatsapp-ai-agent'
+ ];
+ const count=(src,re)=>[...src.matchAll(re)].length;
+ for(const route of pairedRoutes){
+  const en=read('public/'+route+'/index.html');
+  const es=read('public/es/'+route+'/index.html');
+  for(const [field,re] of Object.entries({
+   forms:/<form\\b/g,inputs:/<input\\b/g,selects:/<select\\b/g,
+   buttons:/<button\\b/g,details:/<details\\b/g
+  }))assert.equal(count(en,re),count(es,re),route+' '+field+' EN/ES mismatch');
+  const dollarPrices=src=>[...src.matchAll(/\\$\\d+(?:\\.\\d{1,2})?/g)].map(m=>m[0]);
+  assert.deepEqual(dollarPrices(en),dollarPrices(es),route+' EN/ES listed prices mismatch');
+ }
+});
 const failed = checks.filter(x => !x.passed);
 console.log('Client release static checks:', checks.length - failed.length, 'passed,', failed.length, 'failed');
 if (failed.length) process.exitCode = 1;
