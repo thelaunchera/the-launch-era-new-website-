@@ -2052,6 +2052,7 @@ function buyerRequestNeedsAttention(v){
  if(p.customer_change_request?.state==="pending_owner_review"||p.quote_response?.status==="lets_talk")return true;
  if(p.email_handoff&&(p.email_handoff.customer_handoff_accepted===false||p.email_handoff.owner_handoff_accepted===false))return true;
  if(p.change_email_handoff?.results?.some(x=>x.accepted===false))return true;
+ if(v.request_type==="quote"&&Number(v.follow_up_count||0)>=2&&!p.quote_response?.status&&!p.final_contact_decision)return true;
  if(v.status==="booked"||["closed","declined"].includes(v.status)||v.workflow_stage==="quoted")return false;
  return v.request_type==="quote"||v.raw_payload?.request_intent==="inquiry"||v.workflow_stage!=="booked"
 }
@@ -2061,7 +2062,10 @@ function buyerRequestNext(v){
   return buyerText("Email needs attention: verify delivery before retrying.","Correo pendiente: comprueba el envío antes de reenviar.");
  if(p.customer_change_request?.state==="pending_owner_review")
   return buyerText("Review the requested cancellation or new date. The booking stays active until you change it.","Revisa la cancelación o nueva fecha. La reserva sigue activa hasta que la cambies.");
- if(v.status==="booked")return buyerText("Booking confirmed automatically. No approval needed.","Reserva confirmada automáticamente. No requiere aprobación.");
+ if(v.status==="booked")return buyerText("Booking confirmed and time reserved.","Reserva confirmada y horario reservado.");
+ if(p.final_contact_decision==="stopped")return buyerText("Final contact stopped. No more automatic emails.","Contacto final detenido. No habrá más correos automáticos.");
+ if(p.final_contact_decision==="sent")return buyerText("Final personal email sent. No more automatic emails.","Último correo personal enviado. No habrá más correos automáticos.");
+ if(v.request_type==="quote"&&Number(v.follow_up_count||0)>=2&&!p.quote_response?.status)return buyerText("Two automatic follow-ups completed. Preview a final email or stop contacting.","Dos seguimientos automáticos completados. Previsualiza el último correo o detén el contacto.");
  if(p.quote_response?.status==="lets_talk")return buyerText("The customer wants to talk. Reply to their message.","El cliente quiere conversar. Responde a su mensaje.");
  if(p.quote_response?.status==="declined")return buyerText("Quote declined. Review the reason; no booking was created.","Cotización rechazada. Revisa el motivo; no se creó una reserva.");
  if(v.workflow_stage==="quoted")return buyerText("Quote sent. The customer can accept, decline or request a conversation.","Cotización enviada. El cliente puede aceptar, rechazar o conversar.");
@@ -2071,6 +2075,8 @@ function buyerRequestNext(v){
 }
 function buyerRequestState(v){
  if(v.status==="booked")return buyerText("Confirmed booking","Reserva confirmada");
+ if(v.raw_payload?.final_contact_decision==="stopped")return buyerText("Final contact stopped","Contacto final detenido");
+ if(v.raw_payload?.final_contact_decision==="sent")return buyerText("Final contact sent","Contacto final enviado");
  const answer=v.raw_payload?.quote_response?.status;
  if(answer==="accepted")return buyerText("Quote accepted — confirm booking","Cotización aceptada — confirmar reserva");
  if(answer==="declined")return buyerText("Quote declined","Cotización rechazada");
@@ -2142,10 +2148,23 @@ function buyerOpenRequest(x){
  $("buyerRequestReplyArea").classList.remove("hidden");
  $("buyerRequestAction").value=x.status==="booked"?"reply":"reviewing";
  $("buyerRequestQuoteAmount").value=payload.quote_offer?.amount||"";
+ const finalAvailable=x.request_type==="quote"&&Number(x.follow_up_count||0)>=2&&x.status!=="booked"&&!["accepted","declined","lets_talk"].includes(payload.quote_response?.status)&&!payload.final_contact_decision;
+ $("buyerRequestFinalChoice").classList.toggle("hidden",!finalAvailable);
+ $("buyerRequestFinalStop").textContent=buyerText("Stop contacting","Detener el contacto");
+ $("buyerRequestFinalSend").textContent=buyerText("Send final personal email","Enviar último correo personal");
+ $("buyerRequestEmailPreview").textContent=buyerText("Preview email","Vista previa del correo");
+ if(finalAvailable)$("buyerRequestAction").value="reply";
  $("buyerRequestBookingDate").value=String(payload.requested_date||"").slice(0,10);
  $("buyerRequestBookingTime").value=String(payload.requested_time||"").slice(0,5);
  buyerSetDefaultMessage();
  $("buyerRequestStatus").textContent="";
+ if(finalAvailable){
+   const first=String(x.customer_name||"").split(/\s+/)[0]||buyerText("there","cliente");
+   $("buyerRequestMessage").value=buyerText(
+     "Hi "+first+",\n\nThis is a final personal check-in about the "+(x.service_name||"service")+" quote. Would you like to proceed or discuss another price? If not, we won't follow up again.\n\n"+(workspace?.name||"Your business"),
+     "Hola "+first+",\n\nEste es nuestro último mensaje personal sobre la cotización de "+(x.service_name||"servicio")+". ¿Quieres continuar o conversar sobre el precio? Si no, no volveremos a contactarte por esta solicitud.\n\n"+(workspace?.name||"Tu negocio")
+   );
+ }
  buyerRenderRequestCards();
 }
 function buyerSetDefaultMessage(){
@@ -2158,7 +2177,7 @@ function buyerSetDefaultMessage(){
  const slot=[ $("buyerRequestBookingDate").value,$("buyerRequestBookingTime").value ].filter(Boolean).join(" · ");
  let copy={
   reviewing:es?"Recibimos tu solicitud para "+service+" y estamos revisando los detalles. Te confirmaremos el próximo paso.":"We received your "+service+" request and are reviewing the details. We'll let you know the next step.",
-  quoted:es?"Revisamos tu solicitud de cotización para "+service+". Responde a este correo para confirmar los detalles y continuar.":"We reviewed your quote request for "+service+". Reply here to confirm any details and move forward.",
+  quoted:es?"Tu cotización de "+service+" está lista. Puedes Aceptar, Rechazar o Hablar del precio desde este correo.":"Your "+service+" quote is ready. Choose Accept, Decline or Discuss Price in this email.",
   booked:es?"Tu reserva de "+service+" está confirmada"+(slot?" para "+slot:"")+". Si necesitas cambiar algún detalle, responde a este correo.":"Your "+service+" booking is confirmed"+(slot?" for "+slot:"")+". If anything needs changing, please reply here.",
   change_requested:es?"Necesitamos confirmar un detalle de tu solicitud de "+service+". Responde a este correo para revisar una nueva opción antes de cambiar la reserva.":"We need to confirm a detail about your "+service+" request. Please reply so we can review an alternative before any booking change.",
   declined:es?"Gracias por tu interés en "+service+". En este momento no podemos confirmar tu solicitud. Escríbenos si deseas explorar otra opción.":"Thank you for your interest in "+service+". We can't confirm this request at the moment. Reply if you'd like to discuss another option.",
@@ -2167,7 +2186,7 @@ function buyerSetDefaultMessage(){
  };
  if(detailing){
   copy.reviewing=es?"Recibimos tu solicitud para "+service+". Estamos revisando los detalles de tu vehículo antes de preparar la cotización o el próximo paso. Tu cita aún no está confirmada.":"We received your "+service+" request. We're reviewing your vehicle details before preparing a quote or the next step. Your appointment is not confirmed yet.";
-  copy.quoted=es?"Preparamos tu cotización de detailing para "+service+". Revisa el precio y las opciones del correo antes de decidir. Aceptar una cotización no confirma el horario.":"Your car detailing quote for "+service+" is ready. Review the price and options in this email. Accepting the quote does not automatically guarantee an appointment.";
+  copy.quoted=es?"Tu cotización de detailing para "+service+" está lista. Acepta, rechaza o conversa sobre el precio; después de aceptar, elige un horario libre.":"Your detailing quote for "+service+" is ready. Accept, decline or discuss the price. After accepting, choose an available time to confirm.";
   copy.booked=es?"Tu cita de detailing para "+service+" está confirmada"+(slot?" para "+slot:"")+". Si necesitas cambiar algo, responde a este correo.":"Your car detailing appointment for "+service+" is confirmed"+(slot?" for "+slot:"")+". Reply here if you need to adjust anything.";
   copy.reply=es?"Gracias por contactar a CB Depot. Revisamos los detalles de tu vehículo y tu solicitud de detailing. Responde si tienes alguna pregunta.":"Thanks for contacting CB Depot. We've reviewed your vehicle and detailing request. Reply here with any questions.";
   copy.declined=es?"Gracias por considerar CB Depot para "+service+". Por ahora no podemos confirmar el servicio. Responde si deseas otra opción.":"Thanks for considering CB Depot for "+service+". We can't confirm this service at the moment. Reply if you'd like to discuss an alternative.";
@@ -2552,9 +2571,9 @@ $("buyerRequestBookingDate").onchange=()=>{if(buyerSelectedRequest&&$("buyerRequ
 $("buyerRequestBookingTime").onchange=()=>{if(buyerSelectedRequest&&$("buyerRequestAction").value==="booked")buyerSetDefaultMessage()};
 $("buyerAddOtherInquiry").onclick=()=>{if(workspace&&!workspace.is_internal)edit(null)};
 $("buyerInboxNewManual").onclick=()=>{if(workspace&&!workspace.is_internal)edit(null)};
-async function buyerUpdateRequest(sendEmail){
+async function buyerUpdateRequest(sendEmail,overrideAction){
  if(!buyerSelectedRequest||!workspace||workspace.is_internal)return;
- const id=buyerSelectedRequest.id,action=$("buyerRequestAction").value,message=$("buyerRequestMessage").value.trim();
+ const id=buyerSelectedRequest.id,action=overrideAction||$("buyerRequestAction").value,message=$("buyerRequestMessage").value.trim();
  if(sendEmail&&!message){$("buyerRequestStatus").textContent=buyerText("Write the message first.","Primero escribe el mensaje.");return}
  if(sendEmail&&!confirm(buyerText("Send this real email to the customer?","¿Enviar este correo real al cliente?")))return;
  const b1=$("buyerRequestSave"),b2=$("buyerRequestSend");b1.disabled=true;b2.disabled=true;
@@ -2573,6 +2592,30 @@ async function buyerUpdateRequest(sendEmail){
 }
 $("buyerRequestSave").onclick=()=>buyerUpdateRequest(false);
 $("buyerRequestSend").onclick=()=>buyerUpdateRequest(true);
+$("buyerRequestEmailPreview").onclick=()=>{
+ if(!buyerSelectedRequest)return;
+ const x=buyerSelectedRequest,action=$("buyerRequestAction").value,price=Number($("buyerRequestQuoteAmount").value);
+ const lines=[buyerText("To: ","Para: ")+(x.customer_email||""),buyerText("Business: ","Negocio: ")+(workspace?.name||""),"",($("buyerRequestMessage").value||"").trim()];
+ if(action==="quoted"){
+   lines.push("",buyerText("Estimated price: ","Precio estimado: ")+(Number.isFinite(price)&&price>0?price.toFixed(2):buyerText("Enter a valid price","Introduce un precio válido")));
+   lines.push(buyerText("Customer options: Accept | Decline | Discuss Price","Opciones: Aceptar | Rechazar | Hablar del precio"));
+   lines.push(buyerText("Acceptance confirms only when the selected time is available.","Solo se confirma si el horario seleccionado está disponible."));
+ }
+ $("buyerRequestEmailPreviewText").textContent=lines.join("\n");
+ $("buyerRequestEmailPreviewDialog").showModal();
+};
+$("buyerRequestEmailPreviewClose").onclick=()=>$("buyerRequestEmailPreviewDialog").close();
+$("buyerRequestFinalStop").onclick=async()=>{
+ if(!buyerSelectedRequest||!confirm(buyerText("Stop after two follow-ups? No third email will be sent.","¿Detener el contacto después de los dos seguimientos? No se enviará un tercer correo.")))return;
+ const id=buyerSelectedRequest.id;$("buyerRequestFinalStop").disabled=true;
+ try{
+   await buyerRequestCall("update",{request_id:id,action:"stop_final_contact",send_email:false});
+   await loadBuyerRequests();
+   $("buyerRequestStatus").textContent=buyerText("Final contact stopped. No email sent.","Contacto final detenido. No se envió ningún correo.");
+ }catch(e){$("buyerRequestStatus").textContent=e.message}
+ finally{$("buyerRequestFinalStop").disabled=false}
+};
+$("buyerRequestFinalSend").onclick=()=>buyerUpdateRequest(true,"final_contact");
 
 $("buyerShortcutPricing").onclick=()=>{if(workspace&&!workspace.is_internal)premiumNavigate("pricing")};
 $("buyerShortcutAvailability").onclick=()=>{if(workspace&&!workspace.is_internal)premiumNavigate("availability")};
