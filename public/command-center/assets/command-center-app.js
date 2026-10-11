@@ -2375,6 +2375,11 @@ function renderBuyerClientReview(){
  mobileButton.classList.remove('hidden');
  const es=localStorage.getItem('tle_crm_language')==='es';
  const remaining=Number(data.revisions_remaining||0);
+ // Show both choices in the buyer's language before the final design decision.
+ $('buyerReviewApprove').textContent=es?'✓ Aprobar diseño':'✓ Approve Design';
+ $('buyerReviewChange').textContent=es?'✎ Solicitar cambios':'✎ Request Changes';
+ mobileButton.textContent=es?'Aprobar / Cambios':'Approve / Changes';
+ mobileButton.setAttribute('aria-label',es?'Abrir opciones: aprobar diseño o solicitar cambios':'Open options to approve design or request changes');
  $('buyerClientReviewCount').textContent=es?remaining+' de '+data.revisions_limit+' revisiones disponibles':remaining+' of '+data.revisions_limit+' included revisions remaining';
  const lines={
   pending_review:es?'Revisa la página y el resultado del test antes de aprobar o pedir un cambio.':'Check your page and sample test, then approve or request a change.',
@@ -2386,7 +2391,8 @@ function renderBuyerClientReview(){
  if(data.status==='changes_requested'&&data.feedback)message.textContent+=' '+(es?'Tu solicitud: ':'Your request: ')+data.feedback;
  const actionable=!data.delivered&&['pending_review','ready_for_retest'].includes(data.status);
  buttons.classList.toggle('hidden',!actionable);
- $('buyerReviewChange').disabled=remaining<=0;
+ $('buyerReviewApprove').disabled=!actionable;
+ $('buyerReviewChange').disabled=!actionable||remaining<=0;
  form.classList.add('hidden');
 }
 async function loadBuyerClientReview(){
@@ -2403,7 +2409,7 @@ $('buyerReviewMobileOpen').onclick=()=>{
   if(panel.classList.contains('hidden'))return;
   const open=panel.classList.toggle('review-sheet-open');
   trigger.setAttribute('aria-expanded',open?'true':'false');
-  trigger.textContent=open?crmLocaleText('Close','Cerrar'):crmLocaleText('Review','Revisar');
+  trigger.textContent=open?crmLocaleText('Close','Cerrar'):crmLocaleText('Approve / Changes','Aprobar / Cambios');
  };
  $('buyerReviewChange').onclick=()=>{$('buyerReviewFeedbackForm').classList.remove('hidden');$('buyerReviewFeedback').focus()};
 $('buyerReviewCancel').onclick=()=>$('buyerReviewFeedbackForm').classList.add('hidden');
