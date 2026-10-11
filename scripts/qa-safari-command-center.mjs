@@ -8,8 +8,9 @@ page.on('response',r=>{if(r.status()>=400)errors.push('HTTP '+r.status()+': '+r.
 try{
  const url='https://thelaunchera.com/command-center/?app=tle&qa=safari-lightweight-v32';
  console.log('OPEN',url);
- const nav=await page.goto(url,{waitUntil:'domcontentloaded',timeout:24000}).catch(e=>{console.log('NAVIGATION_ERROR',String(e.message));return null;});
+ const nav=await page.goto(url,{waitUntil:'commit',timeout:45000}).catch(e=>{console.log('NAVIGATION_ERROR',String(e.message));return null;});
  console.log('STATUS',nav?.status());
+ if(nav?.status()===200)await page.locator('#authForm').waitFor({state:'attached',timeout:45000});
  await page.waitForTimeout(3000);
  const state=await page.evaluate(()=>{
   const f=document.querySelector('#authForm'),cover=document.querySelector('#tleLoading');
