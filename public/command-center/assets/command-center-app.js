@@ -32,6 +32,16 @@ if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.se
 const say=s=>{$('message').textContent=s;if($('editor')?.open){const status=$('followupStatus');if(status)status.textContent=s}};
 async function check(result){if(result.error)throw result.error;return result.data}
 
+let crmToastDismissTimer=0;
+function showSaveToast(kind='success',en='Changes saved successfully',es='Cambios guardados correctamente'){
+ const node=$('crmSaveToast'),message=$('crmSaveToastText');if(!node||!message)return;
+ message.textContent=localStorage.getItem('tle_crm_language')==='es'?es:en;
+ node.classList.toggle('is-error',kind==='error');
+ node.querySelector('.crm-save-toast__icon').textContent=kind==='error'?'!':'✓';
+ window.clearTimeout(crmToastDismissTimer);
+ node.classList.add('is-visible');
+ crmToastDismissTimer=window.setTimeout(()=>node.classList.remove('is-visible'),3500);
+}
 const pricingEndpoint='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-flow-pricing';
 let pricingDraft=null,pricingLoadGeneration=0,ownerReviewAccount=null;let cleaningCalcSelectedAddons=new Set(),cleaningCalcLatest=null;const calcFields=['residential_base','bedroom_fee','bathroom_fee','sqft_increment_fee','commercial_minimum','commercial_sqft_rate','deep_multiplier','moveout_multiplier','weekly_discount','biweekly_discount','monthly_discount','travel_fee','estimate_variance'];const calcDefault=()=>({...Object.fromEntries(calcFields.map(k=>[k,(k==='deep_multiplier'||k==='moveout_multiplier')?1:k==='estimate_variance'?10:0])),zip_fees:''});
 function priceElement(tag,attrs={},label){const el=document.createElement(tag);for(const [key,value] of Object.entries(attrs)){if(key==='class')el.className=value;else if(key==='value')el.value=value;else el.setAttribute(key,String(value))}if(label!==undefined)el.textContent=String(label);return el}
@@ -184,8 +194,8 @@ $('pricingAddAddon').onclick=()=>{if(!pricingDraft||pricingDraft.addons.length>=
 $('pricingReload').onclick=loadPricing;$('pricingQuotePolicy').onchange=()=>{if($('pricingQuotePolicy').value==='always_review')$('pricingAutoConfirm').checked=false;$('pricingAutoConfirm').disabled=$('pricingQuotePolicy').value==='always_review'};
 $('pricingSave').onclick=async()=>{
  if(!pricingDraft)return;const button=$('pricingSave');button.disabled=true;$('pricingStatus').textContent="Saving…";
- try{const v=await pricingCall('save',{services:pricingDraft.services,addons:pricingDraft.addons,currency:$('pricingCurrency').value,quote_policy:$('pricingQuotePolicy').value,auto_confirm_flat:$('pricingAutoConfirm').checked,cleaning_calculator:pricingDraft.cleaning_calculator});$('pricingStatus').textContent="Published · "+new Date(v.updated_at).toLocaleString();await loadPricing();}
- catch(e){$('pricingStatus').textContent="Not saved: "+e.message}finally{button.disabled=false}
+ try{const v=await pricingCall('save',{services:pricingDraft.services,addons:pricingDraft.addons,currency:$('pricingCurrency').value,quote_policy:$('pricingQuotePolicy').value,auto_confirm_flat:$('pricingAutoConfirm').checked,cleaning_calculator:pricingDraft.cleaning_calculator});$('pricingStatus').textContent="Published · "+new Date(v.updated_at).toLocaleString();await loadPricing();showSaveToast('success','Prices saved and published','Precios guardados y publicados');}
+ catch(e){$('pricingStatus').textContent="Not saved: "+e.message;showSaveToast('error','Could not save prices','No se pudieron guardar los precios')}finally{button.disabled=false}
 };
 
 
@@ -272,8 +282,8 @@ $('avSave').onclick=async()=>{
   if(!Object.values(data.weekly).some(x=>x.enabled===true))throw Error("Open at least one day");
   const result=await availabilityCall('save',data);
   $('avStatus').textContent="Published! Available booking slots updated · "+new Date(result.updated_at).toLocaleString();
-  availabilityDraft=data;renderAvailability();renderBlockedAvailability();
- }catch(e){$('avStatus').textContent="Not saved: "+e.message}
+  availabilityDraft=data;renderAvailability();renderBlockedAvailability();showSaveToast('success','Availability saved','Disponibilidad guardada');
+ }catch(e){$('avStatus').textContent="Not saved: "+e.message;showSaveToast('error','Could not save availability','No se pudo guardar la disponibilidad')}
  finally{button.disabled=false}
 };
 
@@ -376,6 +386,7 @@ function applyCRMRoleInterface(){
 function lockCommandCenterSession(){
  bootGeneration++;
  workspace=null;activeAuthUserId=null;buyerDeliveryReady=false;leads=[];editing=null;accountEmail='';
+ workspaceBackStack=[];workspaceNavigationInitialized=false;workspaceBackTravel=false;updateWorkspaceBack();
  emailSentByLead=new Map();emailBouncedByLead=new Map();
  buyerRequests=[];buyerSelectedRequest=null;buyerRequestBusy=false;buyerDraftEditingValues=null;
  delete document.body.dataset.leadsLoaded;
@@ -529,7 +540,26 @@ if(workspace?.is_internal){
  const insight=document.createElement('p');insight.className='premium-lead-contact';insight.style.margin='7px 0';insight.style.fontSize='12px';insight.textContent='Problem: '+(x.primary_friction||'Research needed');card.append(insight);
  const fit=document.createElement('p');fit.className='premium-lead-contact';fit.style.margin='7px 0';fit.style.fontSize='12px';fit.textContent='Asset: '+(x.service_fit||'Review offer');card.append(fit);
 }card.append(bottom);const stageControl=document.createElement('div');stageControl.className='premium-stage-control';const stageLabel=document.createElement('label');stageLabel.textContent='MOVE TO';const stageSelect=document.createElement('select');stageSelect.setAttribute('aria-label','Move '+x.business+' to pipeline stage');for(const s of ['New','Contacted','Follow-up','Won']){const opt=document.createElement('option');opt.value=s;opt.textContent=s;stageSelect.append(opt)}stageSelect.value=x.stage;stageSelect.onclick=e=>e.stopPropagation();stageSelect.onkeydown=e=>e.stopPropagation();stageSelect.onchange=async e=>{e.stopPropagation();const previous=x.stage,next=stageSelect.value;if(next===previous)return;if(blockedLead(x)&&next==='New'){stageSelect.value=previous;say('Blocked contacts cannot be moved to New.');return}stageSelect.disabled=true;try{await check(await db.from('tle_crm_leads').update({stage:next}).eq('id',x.id).eq('workspace_id',workspace.id).select('id').single());x.stage=next;render();say('✓ '+x.business+' moved to '+next)}catch(err){stageSelect.value=previous;stageSelect.disabled=false;say('Could not update stage: '+err.message)}};stageControl.append(stageLabel,stageSelect);card.append(stageControl);card.onclick=()=>edit(x);card.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();edit(x)}};if(x.email&&x.email_consent_status==='authorized'&&x.email_followup_enabled&&!blockedLead(x)){const mail=document.createElement('button');mail.type='button';mail.className='premium-lead-email';mail.textContent='✉ Write email';mail.onclick=e=>{e.stopPropagation();edit(x);document.querySelector('[data-leadtab="emails"]').click();$('followupSubject').focus()};card.append(mail)}stack.append(card)});lane.append(stack);return lane}));const due=leads.filter(x=>x.followup&&x.followup<=today&&x.stage!=='Won'&&!blockedLead(x));$('reminderBanner').classList.toggle('hidden',!due.length);$('reminderBanner').textContent=due.length+' follow-up'+(due.length===1?' needs':'s need')+' attention today or earlier. Open the calendar to review.';const won=visible.filter(x=>x.stage==='Won');const clientRoot=$('clients');clientRoot.replaceChildren();const clientHead=document.createElement('div');clientHead.className='client-list-head';const clientTitle=document.createElement('div');clientTitle.innerHTML='<span class="eyebrow">RELATIONSHIPS</span><h2>Won clients</h2>';const clientCount=document.createElement('span');clientCount.className='client-count';clientCount.textContent=won.length+' client'+(won.length===1?'':'s');clientHead.append(clientTitle,clientCount);clientRoot.append(clientHead);const clientGrid=document.createElement('div');clientGrid.className='client-directory';won.forEach(x=>{const el=document.createElement('button');el.type='button';el.className='premium-client-card';const top=document.createElement('div');top.className='premium-client-top';const avatar=document.createElement('span');avatar.className='premium-client-avatar';avatar.textContent=(x.business||'?').trim().slice(0,2).toUpperCase();const state=document.createElement('span');state.className='premium-client-state';state.textContent='● Client';top.append(avatar,state);const name=document.createElement('strong');name.textContent=x.business;const contact=document.createElement('p');contact.textContent=x.contact||'Business contact';const email=document.createElement('small');email.textContent=x.email||'No email on file';const bottom=document.createElement('div');bottom.className='premium-client-bottom';const label=document.createElement('span');label.textContent=x.followup?'Next touchpoint · '+x.followup:'No follow-up scheduled';const arrow=document.createElement('span');arrow.textContent='View profile ↗';bottom.append(label,arrow);el.append(top,name,contact,email,bottom);el.onclick=()=>edit(x);clientGrid.append(el)});clientRoot.append(clientGrid);if(!won.length){const p=document.createElement('p');p.className='empty-state';p.textContent='No won clients match your filters.';clientRoot.append(p)}const dated=visible.filter(x=>x.followup&&x.stage!=='Won'&&!blockedLead(x)).sort((a,b)=>a.followup.localeCompare(b.followup));renderMonthCalendar(dated);}
-$('search').oninput=render;$('stageFilter').onchange=render;$('dueFilter').onchange=render;$('outreachFilter').onchange=render;function closePremiumSidebar(){$('premiumSidebar').classList.remove('is-open');document.body.classList.remove('sidebar-open');$('navToggle').setAttribute('aria-expanded','false')}function togglePremiumSidebar(){const opening=!$('premiumSidebar').classList.contains('is-open');$('premiumSidebar').classList.toggle('is-open',opening);document.body.classList.toggle('sidebar-open',opening);$('navToggle').setAttribute('aria-expanded',String(opening))}function premiumNavigate(target){
+$('search').oninput=render;$('stageFilter').onchange=render;$('dueFilter').onchange=render;$('outreachFilter').onchange=render;function closePremiumSidebar(){$('premiumSidebar').classList.remove('is-open');document.body.classList.remove('sidebar-open');$('navToggle').setAttribute('aria-expanded','false')}function togglePremiumSidebar(){const opening=!$('premiumSidebar').classList.contains('is-open');$('premiumSidebar').classList.toggle('is-open',opening);document.body.classList.toggle('sidebar-open',opening);$('navToggle').setAttribute('aria-expanded',String(opening))}let workspaceBackStack=[],workspaceNavigationInitialized=false,workspaceBackTravel=false;
+const workspaceBackTarget={'buyer-dashboard':'home','buyer-customers':'clients','pipeline':'leads'};
+function updateWorkspaceBack(){
+ const button=$('workspaceBack');if(!button)return;
+ const canBack=!!workspace&&workspaceBackStack.length>0;
+ button.classList.toggle('hidden',!canBack);button.disabled=!canBack;
+ button.textContent=localStorage.getItem('tle_crm_language')==='es'?'← Volver':'← Back';
+ button.setAttribute('aria-label',localStorage.getItem('tle_crm_language')==='es'?'Volver a la sección anterior':'Go back to previous section');
+}
+function navigateWorkspaceBack(){
+ if(!workspaceBackStack.length||!workspace)return;
+ const previous=workspaceBackStack.pop();workspaceBackTravel=true;
+ try{
+  const route=workspaceBackTarget[previous]||previous;
+  if(['owner-build','owner-preview'].includes(previous))setView(previous);
+  else premiumNavigate(route);
+ }finally{workspaceBackTravel=false;updateWorkspaceBack()}
+}
+$('workspaceBack').onclick=navigateWorkspaceBack;
+function premiumNavigate(target){
  if(!workspace?.is_internal&&['owner-pages','owner-calendar','owner-preview','owner-build','owner-help'].includes(target))target='home';if(workspace?.is_internal&&['buyer-followups','request-center'].includes(target))target='owner-pages';
  if(workspace?.is_internal&&target==='home')target='owner-pages';
  const leadSection=['leads','calendar','clients','inbox','emails'].includes(target);
@@ -1300,7 +1330,7 @@ $('buildBrandForm').onsubmit=async e=>{
   for(let n=1;n<=3;n++)for(const key of ['name','text','rating'])delete formData['review_'+n+'_'+key];
   await ownerStudioCall('save',{branding:{...formData,reviews,service_photo_paths}});
   await loadOwnerBuilder();
-  $('buildStatus').textContent=buildLabel('Design saved. Open the real preview and approve it.','Diseño guardado. Revisa la vista real y apruébala.');
+  $('buildStatus').textContent=buildLabel('Design saved. Open the real preview and approve it.','Diseño guardado. Revisa la vista real y apruébala.');showSaveToast('success','Design saved','Diseño guardado');
  }catch(error){$('buildStatus').textContent=crmLocaleText("Not saved: ","No se guardó: ")+error.message}
  finally{button.disabled=false}
 };
@@ -2816,7 +2846,8 @@ async function buyerUpdateRequest(sendEmail,overrideAction){
   if(result.warning)$("buyerRequestStatus").textContent+=" "+result.warning;
   await loadBuyerRequests();
   $("buyerRequestStatus").textContent=status+(result.warning?" "+result.warning:"");
- }catch(e){$("buyerRequestStatus").textContent=e.message}
+  showSaveToast('success',sendEmail?(result.email_sent?'Update saved and email sent':'Update saved; email needs attention'):'Update saved',sendEmail?(result.email_sent?'Actualización guardada y correo enviado':'Actualización guardada; revisa el correo'):'Actualización guardada');
+ }catch(e){$("buyerRequestStatus").textContent=e.message;showSaveToast('error','Could not save the update','No se pudo guardar el cambio')}
  finally{b1.disabled=false;b2.disabled=false;b3.disabled=false;b4.disabled=false}
 }
 $("buyerRequestSave").onclick=()=>buyerUpdateRequest(false);
@@ -2851,6 +2882,15 @@ $("buyerShortcutAvailability").onclick=()=>{if(workspace&&!workspace.is_internal
 $("buyerShortcutAutomation").onclick=()=>{if(workspace&&!workspace.is_internal)premiumNavigate("buyer-followups")};
 $("buyerHistoryFromAutomation").onclick=()=>{if(workspace&&!workspace.is_internal)premiumNavigate("emails")};
 let view='pipeline';function setView(v){
+ const priorView=view;
+ if(!workspaceNavigationInitialized)workspaceNavigationInitialized=true;
+ else if(priorView!==v&&!workspaceBackTravel&&workspace){
+  workspaceBackStack.push(priorView);
+  if(workspaceBackStack.length>24)workspaceBackStack.shift();
+ }
+ updateWorkspaceBack();
+ if(!workspace?.is_internal&&['owner-pages','owner-calendar','owner-build','owner-preview','owner-help'].includes(v))v='pipeline';if(workspace?.is_internal&&['buyer-followups','request-center'].includes(v))v='owner-pages';
+
  if(!workspace?.is_internal&&['owner-pages','owner-calendar','owner-build','owner-preview','owner-help'].includes(v))v='pipeline';if(workspace?.is_internal&&['buyer-followups','request-center'].includes(v))v='owner-pages';
  view=v;
  $('buyerBusinessShortcuts').classList.toggle('hidden',v!=='settings'||!!workspace?.is_internal);
@@ -2996,8 +3036,8 @@ $('buyerDraftSave').onclick=async()=>{
   const out=await db.from('tle_crm_leads').update(patch).eq('workspace_id',workspace.id).eq('id',editing.id).select('id').single();
   if(out.error)throw out.error;
   Object.assign(editing,patch);
-  $('buyerDraftStatus').textContent='✓ Saved. Automation stays as it was.';
- }catch(err){$('buyerDraftStatus').textContent='Could not save: '+err.message}
+  $('buyerDraftStatus').textContent='✓ Saved. Automation stays as it was.';showSaveToast('success','Email edits saved','Cambios del correo guardados');
+ }catch(err){$('buyerDraftStatus').textContent='Could not save: '+err.message;showSaveToast('error','Could not save email edits','No se pudieron guardar los cambios del correo')}
  finally{button.disabled=false}
 };
 
@@ -3020,7 +3060,7 @@ if(workspace?.is_internal){
  data.research_only=!data.email||!/^\S+@\S+\.\S+$/.test(data.email.trim());
  if(data.contact_decision!==(editing?.contact_decision||'review'))data.contact_decision_updated_at=new Date().toISOString();
 }else{delete data.contact_decision}
-if(data.email_consent_status!=='authorized')data.email_followup_enabled=false;if(data.email_consent_status==='authorized'&&!data.email_consent_source?.trim())throw Error('Record the permission source before marking this contact authorized.');if(!data.followup)data.followup=null;data.workspace_id=workspace.id;let saved;if(editing)saved=await check(await db.from('tle_crm_leads').update(data).eq('id',editing.id).eq('workspace_id',workspace.id).select('id').single());else saved=await check(await db.from('tle_crm_leads').insert(data).select('id').single());$('editor').close();await load();say('✓ Lead saved successfully')}catch(err){$('leadSaveStatus').textContent='Could not save lead: '+err.message;console.error('CRM lead save failed',err)}finally{saveButton.disabled=false}};
+if(data.email_consent_status!=='authorized')data.email_followup_enabled=false;if(data.email_consent_status==='authorized'&&!data.email_consent_source?.trim())throw Error('Record the permission source before marking this contact authorized.');if(!data.followup)data.followup=null;data.workspace_id=workspace.id;let saved;if(editing)saved=await check(await db.from('tle_crm_leads').update(data).eq('id',editing.id).eq('workspace_id',workspace.id).select('id').single());else saved=await check(await db.from('tle_crm_leads').insert(data).select('id').single());$('editor').close();await load();say('✓ Lead saved successfully');showSaveToast('success',workspace?.is_internal?'Lead saved':'Customer saved',workspace?.is_internal?'Prospecto guardado':'Cliente guardado')}catch(err){$('leadSaveStatus').textContent='Could not save lead: '+err.message;showSaveToast('error','Could not save changes','No se pudieron guardar los cambios');console.error('CRM lead save failed',err)}finally{saveButton.disabled=false}};
 $('remove').onclick=async()=>{if(!editing||!confirm('Delete this lead?'))return;try{await check(await db.from('tle_crm_leads').delete().eq('id',editing.id).eq('workspace_id',workspace.id));$('editor').close();await load()}catch(e){say(e.message)}};
 function updateAnalytics(){const won=leads.filter(x=>x.stage==='Won').length;const sent=leads.filter(x=>emailSentByLead.has(x.id)).length;const today=new Date().toLocaleDateString('en-CA');$('analyticsConversion').textContent=leads.length?Math.round(100*won/leads.length)+'%':'0%';$('analyticsSent').textContent=String(sent);$('analyticsInbound').textContent=String(inboundRequests.length);$('analyticsOverdue').textContent=String(leads.filter(x=>x.followup&&x.followup<today&&x.stage!=='Won').length)}function refreshAlerts(){if(!workspace)return;updateAnalytics();const today=new Date().toLocaleDateString('en-CA');const due=leads.filter(x=>x.followup&&x.followup<=today&&x.stage!=='Won'&&!blockedLead(x));const count=inboundRequests.length+due.length;$('bellCount').textContent=String(count);const list=$('notificationList');list.replaceChildren();for(const x of inboundRequests.slice(0,20)){const p=document.createElement('p');p.textContent='New '+x.source_type+' request · '+(x.business_name||x.request_name||x.email||'Customer');list.append(p)}for(const x of due.slice(0,20)){const p=document.createElement('p');p.textContent='Follow-up due · '+x.business+' · '+x.followup;list.append(p)}if(!count)list.textContent='All caught up.'}async function loadStoredNotifications(){if(!workspace)return;const wsId=workspace.id;const {data,error}=await db.from('tle_crm_notifications').select('id,kind,title,body,created_at,read_at').eq('workspace_id',wsId).order('created_at',{ascending:false}).limit(50);if(!workspace||workspace.id!==wsId)return;if(error){console.warn('Notification loading failed',error.message);return}const unread=(data||[]).filter(n=>!n.read_at);$('bellCount').textContent=String(unread.length);const list=$('notificationList');list.replaceChildren();for(const n of data||[]){const row=document.createElement('div');row.className='inbound-item';const title=document.createElement('strong');title.textContent=(n.read_at?'':'● ')+n.title;const body=document.createElement('p');body.textContent=n.body+' · '+new Date(n.created_at).toLocaleString();row.append(title,body);if(!n.read_at){const btn=document.createElement('button');btn.type='button';btn.className='secondary';btn.textContent='Mark read';btn.onclick=async()=>{const {error}=await db.from('tle_crm_notifications').update({read_at:new Date().toISOString()}).eq('id',n.id).eq('workspace_id',workspace.id);if(error)say(error.message);else await loadStoredNotifications()};row.append(btn)}list.append(row)}if(!data?.length)list.textContent='All caught up.'}$('bellButton').onclick=()=>{$('notificationPanel').classList.toggle('hidden');if(!$('notificationPanel').classList.contains('hidden')){$('notificationPanel').scrollIntoView({behavior:'smooth'});loadStoredNotifications()}};setInterval(()=>{if(workspace)loadStoredNotifications()},45000);async function bootAfterPrivateEmailConfirmation(){
  // Redeem the one-time token inside the private Command Center; it never
