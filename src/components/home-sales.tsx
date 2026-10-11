@@ -39,17 +39,23 @@ export function ProductExplorer({lang='en',children}:{lang?:Language;children:Re
 export function PurchaseClarity({lang='en'}:{lang?:Language}) {
  const es=lang==='es';
  const questions=es?[
- ['¿Qué recibo con Booking Automation + Command Center?','Una Booking Page personalizada conectada a tu Command Center privado, con controles de servicios, precios, disponibilidad y los primeros dos seguimientos automáticos.'],
- ['¿Qué pasa después de comprar?','Completa tu intake y comparte todos los datos necesarios. La producción tarda 48 horas desde que iniciamos con todos los datos, dentro de nuestro horario laborable. Si compras o completas el intake el sábado después de las 12 PM ET, comenzamos el lunes o próximo día hábil. Enviamos el acceso por correo.'],
- ['¿Puedo cambiar los precios y horarios?','Sí. Los editas desde Pricing & Services y Availability en tu Command Center.'],
- ['¿Las reservas se confirman automáticamente?','Los servicios con precio fijo pueden confirmarse cuando hay un horario libre. Para estimados, el cliente acepta, rechaza o conversa sobre el precio; al aceptar, selecciona un horario disponible.'],
- ['¿Quién envía los seguimientos?','Nosotros gestionamos dos seguimientos automáticos si no hay respuesta. Desde tu Command Center puedes previsualizar correos, ajustar el precio y decidir si enviar un último contacto personal o detenerlo.']
+ ['¿Qué incluye Booking Automation + Command Center?','Una Booking Page personalizada, tu Command Center privado y automatizaciones para gestionar solicitudes, cotizaciones y seguimientos.'],
+ ['¿Cuándo recibo mi sistema?','La producción estimada es de 48 horas desde que recibimos el intake y los datos completos e iniciamos durante horario laborable. Si todo queda listo el sábado después de las 12 PM ET, comenzamos el siguiente día hábil. Entregamos los accesos después de las pruebas y aprobación.'],
+ ['¿Cuándo se confirma una reserva automáticamente?','Solo para servicios con precio fijo, cuando activas esa opción y el horario está disponible. Si la desactivas, la solicitud queda pendiente de tu aprobación y no bloquea el horario.'],
+ ['¿Qué pasa con los precios estimados?','El cliente puede aceptar, rechazar o conversar sobre el precio. Ves su respuesta en el Command Center y en Inquiry Center. Si acepta, la reserva se confirma únicamente al elegir un horario disponible.'],
+ ['¿Hay una calculadora de precios?','Sí, exclusivamente para negocios de limpieza. Configuras tus propias tarifas, tamaño del espacio, extras, descuentos y cargos por ZIP en Pricing & Services. Calcula un estimado, no un precio final confirmado.'],
+ ['¿Qué precios debo dar en el intake?','Si tu negocio es de limpieza, comparte solo tus principales servicios con precio fijo y tus principales servicios con precio estimado. Después puedes añadir, quitar o modificar otros servicios y precios en tu Command Center.'],
+ ['¿Puedo modificar precios y disponibilidad?','Sí. Edita servicios, precios fijos, estimados y extras desde Pricing & Services, y tus horarios desde Availability. Puedes revisar y ajustar una cotización antes de enviarla.'],
+ ['¿Quién se encarga de los correos de seguimiento?','Nosotros gestionamos hasta dos seguimientos automáticos para cotizaciones elegibles sin respuesta. Puedes ver sus vistas previas; si el cliente responde, se detienen. El tercer contacto es tu elección: enviar un último correo personal o detener el seguimiento.']
  ]:[
- ['What do I get with Booking Automation + Command Center?','A personalized Booking Page connected to your private Command Center, with service, price, and availability controls plus the first two automatic follow-ups.'],
- ['What happens after I buy?','Complete your intake and provide all required details. Your 48-hour production timeframe starts during business hours after we receive everything needed. Saturday purchases or completed intakes after 12 PM ET begin Monday or the next business day. Access links arrive by email.'],
- ['Can I change my prices and available times?','Yes. Update them in Pricing & Services and Availability inside your Command Center.'],
- ['Do bookings confirm automatically?','Flat-price services can confirm when a time is available. For estimates, the customer can Accept, Decline or Discuss Price; after accepting, they select an available appointment time.'],
- ['Who handles follow-ups?','We handle two automatic follow-ups when there is no reply. From your Command Center you can preview emails, adjust the quote price, and decide whether to send one final personal message or stop.']
+ ['What comes with Booking Automation + Command Center?','A personalized Booking Page, your private Command Center, and automation to manage requests, estimates, and follow-ups.'],
+ ['When will I receive my system?','Production is estimated at 48 hours after we receive your complete intake and start during business hours. Details completed after 12 PM ET Saturday begin the next business day. We send access after testing and approval.'],
+ ['When does a booking confirm automatically?','Only for flat-price services when you enable automatic confirmation and the time slot is available. With it off, the request waits for your approval and does not hold a slot.'],
+ ['How do estimated prices work?','Customers can Accept, Decline, or Discuss Price. Their response appears in your Command Center and Inquiry Center. If they accept, the booking confirms only after an available time is selected.'],
+ ['Is there a price calculator?','Yes, exclusively for cleaning businesses. Set your own rates, property sizes, add-ons, frequency discounts, and ZIP travel fees in Pricing & Services. Results are estimates, not automatically confirmed prices.'],
+ ['What prices should I provide in the intake?','For cleaning businesses, only your main flat-price services and main estimated-price services. Add, remove, or edit the rest of your services and prices later in your Command Center.'],
+ ['Can I change prices and availability?','Yes. Edit flat rates, estimated starting prices, and extras in Pricing & Services, and your schedule in Availability. Preview and adjust a customer quote before sending.'],
+ ['Who handles the follow-up emails?','We handle up to two automatic follow-ups for eligible unanswered quotes. You can preview the emails, and they stop when the customer responds. A third personal email is always your choice: send it or stop contacting.']
  ];
  return <div className="purchase-clarity"><p>{es?'Tu Booking Page + tu Command Center privado, personalizados para tu negocio.':'Your Booking Page + your private Command Center, personalized for your business.'}</p>{questions.map(([q,a])=><details key={q}><summary>{q}<Plus size={17}/></summary><p>{a}</p></details>)}</div>;
 }
