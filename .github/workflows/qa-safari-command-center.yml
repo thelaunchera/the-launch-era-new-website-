@@ -2,7 +2,12 @@ name: Verify Safari Command Center Login
 on:
   push:
     branches: [main]
-    paths: ['scripts/qa-safari-command-center.mjs','.github/workflows/qa-safari-command-center.yml']
+    paths:
+      - 'scripts/qa-safari-command-center.mjs'
+      - '.github/workflows/qa-safari-command-center.yml'
+      - 'public/command-center/index.html'
+      - 'public/command-center/assets/**'
+      - 'public/command-center/vendor/**'
   workflow_dispatch:
 permissions:
   contents: read
