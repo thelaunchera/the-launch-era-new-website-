@@ -13,9 +13,9 @@ export const Route=createFileRoute('/es/website-automation/')({head:()=>({meta:[
 ],links:[{rel:'canonical',href:'https://thelaunchera.com/es/website-automation/'},{rel:'alternate',hrefLang:'en-US',href:'https://thelaunchera.com/website-automation'},{rel:'alternate',hrefLang:'es-US',href:'https://thelaunchera.com/es/website-automation/'},{rel:'alternate',hrefLang:'x-default',href:'https://thelaunchera.com/website-automation'}]}),component:Page});
 
 const stages=[
-  {label:'01 · CAPTURADA',title:'Consulta organizada',detail:'Nombre, contacto y servicio quedan guardados en un solo registro.',Icon:MessageSquareText},
-  {label:'02 · DIRIGIDA',title:'Próximo paso correcto',detail:'La consulta entra al lugar donde puedes revisarla y responder sin buscar entre mensajes.',Icon:Workflow},
-  {label:'03 · SEGUIMIENTO',title:'La conversación sigue',detail:'El próximo paso queda claro para que el lead no se enfríe.',Icon:BellRing},
+  {label:'01 · RECIBIDA',title:'Ya tienes los datos',detail:'El nombre del cliente y lo que necesita aparecen juntos.',Icon:MessageSquareText},
+  {label:'02 · ORGANIZADA',title:'Todo en un solo lugar',detail:'Ya no tienes que buscar entre mensajes para encontrar los detalles.',Icon:Workflow},
+  {label:'03 · SIGUIENTE PASO',title:'Sabes a quién dar seguimiento',detail:'Sabes a quién responder y qué hacer después.',Icon:BellRing},
 ] as const;
 
 function Page(){
@@ -64,7 +64,7 @@ function Page(){
           <div className="browser-page">
             <Globe2/>
             <strong>Nueva consulta</strong>
-            <p>Prueba cómo se siente un flujo de leads cuando el próximo paso ya está organizado.</p>
+            <p>Mira cómo podrías recibir una consulta sin perder los detalles.</p>
             <form className="automation-demo-form" onSubmit={submit}>
               <label>
                 <span>Nombre + contacto</span>
@@ -74,17 +74,17 @@ function Page(){
                 <span>Servicio que necesita</span>
                 <select value={service} onChange={e=>setService(e.target.value)} aria-label="Servicio que necesita">
                   <option>Limpieza recurrente</option>
-                  <option>Deep cleaning</option>
-                  <option>Move-in / move-out</option>
+                  <option>Limpieza profunda</option>
+                  <option>Limpieza de mudanza</option>
                   <option>Limpieza de oficina</option>
                   <option>Limpieza especializada</option>
                 </select>
               </label>
-              <button type="submit">Probar consulta de ejemplo <ArrowRight/></button>
+              <button type="submit">Ver cómo funciona <ArrowRight/></button>
             </form>
             <div className="automation-demo-note">
-              <span>{active<0?'Lista para probar':'Lead de prueba'}</span>
-              <strong>{active<0?'Nada se envía a ningún lugar. Prueba el flujo.':name+' · '+service}</strong>
+              <span>{active<0?'Cuando quieras':'Lead de prueba'}</span>
+              <strong>{active<0?'Pruébalo con tranquilidad. Es un ejemplo y no se enviará nada.':name+' · '+service}</strong>
             </div>
           </div>
         </div>
@@ -114,16 +114,16 @@ function Page(){
 
       <div className={"automation-live-status "+(active>=0?'show':'')}>
         <div>
-          <small>{current?current.label:'EJEMPLO INTERACTIVO'}</small>
-          <strong>{current?current.title:'Envía una consulta de prueba para comenzar.'}</strong>
-          <p>{current?current.detail:'Después de iniciar el flujo puedes tocar cada paso para ver qué está haciendo.'}</p>
+          <small>{current?current.label:'MIRA CÓMO FUNCIONA'}</small>
+          <strong>{current?current.title:'Prueba con una consulta de ejemplo.'}</strong>
+          <p>{current?current.detail:'Prueba el ejemplo de arriba y toca cada paso para ver cómo te ayuda.'}</p>
         </div>
-        {active>=0&&<button type="button" onClick={reset}><RotateCcw/> Probar otra consulta</button>}
+        {active>=0&&<button type="button" onClick={reset}><RotateCcw/> Probar otra vez</button>}
       </div>
 
       <div className="service-endcap">
         <span>TU WEBSITE</span><ArrowRight/><span>CONSULTA</span><ArrowRight/><span>AUTOMATIZACIÓN</span><ArrowRight/><strong>PRÓXIMO PASO ✓</strong>
-        <small>Conecta el formulario de tu website · Configuración única $41.99 · Mantén cada oportunidad en movimiento.</small>
+        <small>Conecta el formulario de tu website · Configuración única $41.99 · Evita que las consultas nuevas se pierdan.</small>
       </div>
     </section>
   <ServiceFAQ topic="website" lang="es"/></main>
