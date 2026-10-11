@@ -537,7 +537,7 @@ $('search').oninput=render;$('stageFilter').onchange=render;$('dueFilter').oncha
  document.querySelectorAll('.nav-link[data-target]').forEach(b=>b.classList.toggle('active',b.dataset.target===target));closePremiumSidebar();if(target==='home'){
  if(workspace&&!workspace.is_internal){setView('buyer-dashboard');void loadBuyerBookingShare();void loadBuyerRequests();$('buyerDashboardHub').scrollIntoView({behavior:'smooth'});return}
  setView('pipeline');$('search').value='';$('stageFilter').value='';$('dueFilter').value='';render();$('quickhome').scrollIntoView({behavior:'smooth'});return}if(target==='owner-help'){if(!workspace?.is_internal)return;setView('owner-help');$('ownerHelpHub').scrollIntoView({behavior:'smooth'});return}if(target==='help'){setView('help');$('helpHub').scrollIntoView({behavior:'smooth'});return}if(target==='availability'&&workspace?.is_internal&&!ownerReviewAccount){premiumNavigate('owner-pages');return}if(target==='availability'){setView('availability');loadAvailability();$('availabilityHub').scrollIntoView({behavior:'smooth'});return}if(target==='pricing'&&workspace?.is_internal&&!ownerReviewAccount){premiumNavigate('owner-pages');return}if(target==='pricing'){setView('pricing');loadPricing();$('pricingHub').scrollIntoView({behavior:'smooth'});return}if(target==='owner-pages'){setView('owner-pages');loadOwnerPages();$('ownerPagesHub').scrollIntoView({behavior:'smooth'});return}
-if(target==='owner-calendar'){if(!workspace?.is_internal)return;setView('owner-calendar');loadOwnerCalendar();$('ownerCalendarHub').scrollIntoView({behavior:'smooth'});return}if(target==='clients'&&workspace&&!workspace.is_internal){setView('buyer-customers');void loadBuyerRequests();$('buyerCustomersHub').scrollIntoView({behavior:'smooth'});return}if(target==='buyer-booking-preview'){if(!workspace||workspace.is_internal)return;setView('buyer-booking-preview');$('buyerBookingPreviewHub').scrollIntoView({behavior:'smooth'});void loadBuyerBookingPreview();return}if(target==='request-center'){if(!workspace||workspace.is_internal)return;setView('request-center');void loadBuyerRequests();$('buyerRequestsHub').scrollIntoView({behavior:'smooth'});return}if(target==='buyer-followups'){if(!workspace||workspace.is_internal)return;setView('buyer-followups');$('settingsHub').scrollIntoView({behavior:'smooth'});return}if(target==='settings'){setView('settings');$('settingsAccountEmail').textContent=accountEmail||'—';$('settingsBusinessName').textContent=workspace?.name||'—';$('settingsLanguage').value=localStorage.getItem('tle_crm_language')==='es'?'es':'en';$('settingsHub').scrollIntoView({behavior:'smooth'});return}if(target==='inbox'){setView('inbox');$('inboundHub').scrollIntoView({behavior:'smooth'});return}if(target==='emails'){setView('emails');$('emailHub').scrollIntoView({behavior:'smooth'});return}if(target==='calendar'){$('dueFilter').value='';$('stageFilter').value='';render();setView('calendar')}else if(target==='clients'){$('stageFilter').value='';$('dueFilter').value='';render();setView('clients')}else{$('stageFilter').value='';$('dueFilter').value='';render();setView('pipeline')}document.getElementById('premiumViews').scrollIntoView({behavior:'smooth'})}document.querySelectorAll('.nav-link[data-target]').forEach(b=>b.onclick=()=>premiumNavigate(b.dataset.target));$('navToggle').setAttribute('aria-expanded','false');$('navToggle').setAttribute('aria-controls','premiumSidebar');$('navToggle').onclick=togglePremiumSidebar;$('sidebarScrim').onclick=closePremiumSidebar;document.addEventListener('keydown',e=>{if(e.key==='Escape')closePremiumSidebar()});$('settingsLanguage').onchange=()=>{const select=$('crmLanguageSelect');if(select){select.value=$('settingsLanguage').value;select.dispatchEvent(new Event('change'))}};
+if(target==='owner-calendar'){if(!workspace?.is_internal)return;setView('owner-calendar');loadOwnerCalendar();$('ownerCalendarHub').scrollIntoView({behavior:'smooth'});return}if(target==='clients'&&workspace&&!workspace.is_internal){setView('buyer-customers');void loadBuyerRequests();$('buyerCustomersHub').scrollIntoView({behavior:'smooth'});return}if(target==='buyer-booking-preview'){if(!workspace||workspace.is_internal)return;setView('buyer-booking-preview');$('buyerBookingPreviewHub').scrollIntoView({behavior:'smooth'});void loadBuyerBookingPreview();return}if(target==='request-center'){if(!workspace||workspace.is_internal)return;setView('request-center');void loadBuyerRequests();$('buyerRequestsHub').scrollIntoView({behavior:'smooth'});return}if(target==='buyer-followups'){if(!workspace||workspace.is_internal)return;setView('buyer-followups');$('settingsHub').scrollIntoView({behavior:'smooth'});return}if(target==='settings'){setView('settings');if(workspace&&!workspace.is_internal)void syncManagedBuyerEmailStatus();$('settingsAccountEmail').textContent=accountEmail||'—';$('settingsBusinessName').textContent=workspace?.name||'—';$('settingsLanguage').value=localStorage.getItem('tle_crm_language')==='es'?'es':'en';$('settingsHub').scrollIntoView({behavior:'smooth'});return}if(target==='inbox'){setView('inbox');$('inboundHub').scrollIntoView({behavior:'smooth'});return}if(target==='emails'){setView('emails');$('emailHub').scrollIntoView({behavior:'smooth'});return}if(target==='calendar'){$('dueFilter').value='';$('stageFilter').value='';render();setView('calendar')}else if(target==='clients'){$('stageFilter').value='';$('dueFilter').value='';render();setView('clients')}else{$('stageFilter').value='';$('dueFilter').value='';render();setView('pipeline')}document.getElementById('premiumViews').scrollIntoView({behavior:'smooth'})}document.querySelectorAll('.nav-link[data-target]').forEach(b=>b.onclick=()=>premiumNavigate(b.dataset.target));$('navToggle').setAttribute('aria-expanded','false');$('navToggle').setAttribute('aria-controls','premiumSidebar');$('navToggle').onclick=togglePremiumSidebar;$('sidebarScrim').onclick=closePremiumSidebar;document.addEventListener('keydown',e=>{if(e.key==='Escape')closePremiumSidebar()});$('settingsLanguage').onchange=()=>{const select=$('crmLanguageSelect');if(select){select.value=$('settingsLanguage').value;select.dispatchEvent(new Event('change'))}};
 document.querySelectorAll('[data-owner-help-target]').forEach(button=>button.onclick=()=>{if(workspace?.is_internal)premiumNavigate(button.dataset.ownerHelpTarget)});
 const buyerMailUrl="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-crm-buyer-mail-setup";
 let buyerMailState=null;
@@ -2656,6 +2656,35 @@ $('cbDashPricing').onclick=()=>premiumNavigate('pricing');
 $('cbDashRefresh').onclick=()=>{if(isDetailingWorkspace())void loadBuyerRequests()};
 $('buyerDashboardOpenBookingPreview').onclick=()=>premiumNavigate('buyer-booking-preview');
 $('buyerShortcutBookingPreview').onclick=()=>premiumNavigate('buyer-booking-preview');
+async function syncManagedBuyerEmailStatus(){
+ if(!workspace||workspace.is_internal)return;
+ const ws=workspace.id,node=$('settingsFollowupStatus');
+ try{
+  const data=await buyerMailCall('status');
+  if(!workspace||workspace.id!==ws||data.managed!==true)return;
+  const delivered=data.delivery_complete===true,active=data.activated===true;
+  node.textContent=!delivered?
+   buyerText('Email automation begins after final delivery.','La automatización comienza después de la entrega final.'):
+   active?buyerText('✓ The Launch Era manages booking confirmations and eligible follow-ups. Your getting-started help email is scheduled separately.','✓ The Launch Era administra las confirmaciones y seguimientos elegibles. Tu correo de ayuda está programado por separado.'):
+   buyerText('Customer follow-ups are paused. You can enable them in Automatic Follow-ups.','Los seguimientos están en pausa. Puedes activarlos en Seguimientos automáticos.');
+  $('settingsPushNotice').textContent=buyerText('New booking and quote alerts appear in Notifications.','Los avisos de reservas y cotizaciones aparecen en Notificaciones.');
+ }catch{if(node)node.textContent=buyerText('Could not check email status. Open Automatic Follow-ups to retry.','No pudimos comprobar los correos. Abre Seguimientos automáticos para volver a intentarlo.');}
+}
+async function syncBuyerDeliveryActivation(){
+ if(!workspace||workspace.is_internal||buyerDeliveryReady)return false;
+ const ws=workspace.id;
+ try{
+  const {data,error}=await db.rpc('tle_crm_buyer_auth_state');
+  if(error||!workspace||workspace.id!==ws||data?.system_delivered!==true)return false;
+  buyerDeliveryReady=true;applyCRMRoleInterface();
+  void syncManagedBuyerEmailStatus();void loadStoredNotifications();
+  return true;
+ }catch{return false}
+}
+setInterval(()=>{
+ if(!workspace||workspace.is_internal||buyerDeliveryReady)return;
+ void syncBuyerDeliveryActivation().then(ready=>{if(ready&&view==='buyer-dashboard')void loadBuyerBookingShare()});
+},45000);
 let buyerBookingShareVersion=0,buyerBookingShareURL='';
 function verifiedPublicBookingUrl(value){
  try{
@@ -2670,6 +2699,7 @@ async function loadBuyerBookingShare(){
  const actions=$('buyerBookingShareActions'),status=$('buyerBookingShareStatus'),input=$('buyerBookingShareUrl'),open=$('buyerOpenBookingLink'),copy=$('buyerCopyBookingLink');
  buyerBookingShareURL='';input.value='';actions.classList.add('hidden');copy.disabled=true;open.removeAttribute('href');
  if(!workspace||workspace.is_internal)return;
+ if(!buyerDeliveryReady)await syncBuyerDeliveryActivation();
  if(!buyerDeliveryReady){
   status.textContent=buyerText('Your public booking link will be available after final delivery. You can still use the private Test Center.','Tu enlace público estará disponible después de la entrega final. Mientras tanto puedes usar el Centro de Pruebas privado.');
   return;
@@ -2685,6 +2715,7 @@ async function loadBuyerBookingShare(){
   }
   buyerBookingShareURL=url;input.value=url;open.href=url;actions.classList.remove('hidden');copy.disabled=false;
   status.textContent=buyerText('Your real Booking Page is ready to share.','Tu página de reservas real está lista para compartir.');
+  void syncManagedBuyerEmailStatus();
  }catch(error){
   if(version!==buyerBookingShareVersion||workspace?.id!==wsId)return;
   status.textContent=buyerText('Could not verify your public link. Open Dashboard again to retry.','No pudimos verificar tu enlace público. Vuelve a abrir el Panel principal para intentarlo.');
