@@ -26,87 +26,120 @@ label{font-weight:700;display:block;margin:13px 0 8px;font-size:14px}
 <main>
 <div class="brand">THE LAUNCH ERA</div>
 <div class="panel" style="background:var(--blue)">
-<span class="eyebrow">YOUR PRIVATE REVIEW</span>
+<span class="eyebrow" id="reviewEyebrow">YOUR PRIVATE REVIEW</span>
 <h1 id="headline">Take a look at your AI Assistant</h1>
-<p class="sub">Explore your personalized assistant, then approve it or send specific corrections to our team. This is a private preview, not your final delivery.</p>
+<p class="sub" id="reviewIntro">Explore your personalized assistant, then approve it or send specific corrections to our team. This is a private preview, not your final delivery.</p>
 </div>
 <div class="panel">
 <strong id="business">Opening your private review…</strong>
 <p id="limit" class="pill" hidden>2 revisions included</p>
 <div style="margin-top:12px"><a id="openAgent" class="btn" href="#" target="_blank" rel="noopener noreferrer" hidden>↗ Open &amp; Test Your AI Assistant</a></div>
-<p class="note">Ask the assistant the same questions your customers would. If something sounds off, tell us what to change. Testing it doesn’t start your monthly plan.</p>
+<p class="note" id="reviewInstruction">Ask the assistant the same questions your customers would. If something sounds off, tell us what to change. Testing it doesn’t start your monthly plan.</p>
 </div>
 <section class="panel" aria-label="Approval and corrections">
-<h2 style="margin:0 0 10px;font-size:23px">Your decision</h2>
+<h2 style="margin:0 0 10px;font-size:23px" id="reviewDecisionHeading">Your decision</h2>
 <p id="message" role="status" aria-live="polite">Getting your review ready…</p>
 <div id="actions" class="buttons" hidden>
 <button type="button" id="approve">✓ Approve &amp; Continue</button>
 <button type="button" id="change" class="secondary">✎ Request Changes</button>
 </div>
 <div id="feedbackForm" hidden>
-<label for="feedback">What exactly should we correct?</label>
+<label for="feedback" id="reviewFeedbackLabel">What exactly should we correct?</label>
 <textarea id="feedback" maxlength="2000" placeholder="Describe the corrections you need. Be specific so we can fix everything in this revision."></textarea>
-<p class="note">This uses one of your two included revisions. If something simply isn’t working, tell us — that isn’t counted as a design revision.</p>
+<p class="note" id="reviewRevisionNote">This uses one of your two included revisions. If something simply isn’t working, tell us — that isn’t counted as a design revision.</p>
 <div class="buttons"><button type="button" id="send">Send corrections →</button><button type="button" id="cancel" class="secondary">Cancel</button></div>
 </div>
 </section>
-<footer>Private review by The Launch Era · Need help? Reply to your purchase email. <a href="https://thelaunchera.com/privacy.html" rel="noreferrer">Privacy</a></footer>
+<footer><span id="reviewFooterText">Private review by The Launch Era · Need help? Reply to your purchase email.</span> <a href="https://thelaunchera.com/privacy.html" rel="noreferrer" id="reviewPrivacyLink">Privacy</a></footer>
 </main>
 <script>
 (function(){
  const endpoint='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-client-review';
- const params=new URLSearchParams(location.search),token=params.get('token')||'';
- if(token)history.replaceState(null,'',location.pathname);
+ const params=new URLSearchParams(location.search);
+ let token=params.get('token')||'';
+ // Keep the private token out of browser history, but preserve access on same-tab refresh.
+ // sessionStorage is scoped to this browser tab and expires at the end of the tab session.
+ try {
+  if(token)sessionStorage.setItem('tle_ai_private_review_token',token);
+  else token=sessionStorage.getItem('tle_ai_private_review_token')||'';
+ } catch {}
+ if(params.has('token'))history.replaceState(null,'',location.pathname);
+ let lang=params.get('lang')==='es'?'es':'en';
+ const tx=(en,es)=>lang==='es'?es:en;
  const $=id=>document.getElementById(id);
  let status=null,busy=false;
+ function localize(){
+  document.documentElement.lang=lang;
+  document.title=tx('Private AI Assistant Review · The Launch Era','Revisión privada del asistente de IA · The Launch Era');
+  const strings={
+   reviewEyebrow:['YOUR PRIVATE REVIEW','TU REVISIÓN PRIVADA'],
+   reviewIntro:['Explore your personalized assistant, then approve it or send specific corrections to our team. This is a private preview, not your final delivery.','Explora tu asistente personalizado. Después puedes aprobarlo o pedir cambios específicos. Esta es una vista privada de revisión, no la entrega final.'],
+   reviewInstruction:['Ask the assistant the same questions your customers would. If something sounds off, tell us what to change. Testing it doesn’t start your monthly plan.','Hazle las mismas preguntas que harían tus clientes. Si alguna respuesta no te convence, indícanos qué cambiar. Probarlo no inicia tu mensualidad.'],
+   reviewDecisionHeading:['Your decision','Tu decisión'],
+   reviewFeedbackLabel:['What exactly should we correct?','¿Qué debemos corregir exactamente?'],
+   reviewRevisionNote:['This uses one of your two included revisions. If something simply isn’t working, tell us — that isn’t counted as a design revision.','Esta solicitud utiliza una de tus dos revisiones incluidas. Si algo no funciona correctamente, avísanos: los errores técnicos no cuentan como revisión de diseño.'],
+   reviewFooterText:['Private review by The Launch Era · Need help? Reply to your purchase email.','Revisión privada de The Launch Era · ¿Necesitas ayuda? Responde al correo de tu compra.'],
+   reviewPrivacyLink:['Privacy','Privacidad'],
+   approve:['✓ Approve & Continue','✓ Aprobar y continuar'],
+   change:['✎ Request Changes','✎ Solicitar cambios'],
+   send:['Send corrections →','Enviar correcciones →'],
+   cancel:['Cancel','Cancelar'],
+   openAgent:['↗ Open & Test Your AI Assistant','↗ Abrir y probar mi asistente de IA']
+  };
+  for(const [id,v] of Object.entries(strings))$(id).textContent=tx(v[0],v[1]);
+  $('feedback').placeholder=tx('Describe the corrections you need. Be specific so we can fix everything in this revision.','Describe los cambios que necesitas. Incluye todos los detalles para poder corregirlos en esta revisión.');
+ }
  async function call(action,more={}){
   const response=await fetch(endpoint,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action,token,...more})});
   const value=await response.json().catch(()=>({}));
-  if(!response.ok)throw Error(value.error||'Unable to save your decision.');
+  if(!response.ok)throw Error(value.error||tx('Unable to save your decision.','No pudimos guardar tu decisión.'));
   return value;
  }
  function update(){
   if(!status)return;
-  $('business').textContent=status.business_name||'Your AI Assistant';
-  $('headline').textContent='Take a look at your AI Assistant';
+  lang=status.language==='es'?'es':'en';
+  localize();
+  $('business').textContent=status.business_name||tx('Your AI Assistant','Tu asistente de IA');
+  $('headline').textContent=tx('Take a look at your AI Assistant','Revisa tu asistente de IA');
   $('limit').hidden=false;
-  $('limit').textContent=status.revisions_remaining+' of '+status.revisions_limit+' revisions remaining';
+  $('limit').textContent=lang==='es'?status.revisions_remaining+' de '+status.revisions_limit+' revisiones disponibles':status.revisions_remaining+' of '+status.revisions_limit+' revisions remaining';
   const preview=status.preview_url||'';
   $('openAgent').hidden=!/^https:\/\//.test(preview);
   if(preview)$('openAgent').href=preview;
   const messages={
-   pending_review:'Test your AI Assistant, then approve or request changes.',
-   changes_requested:'We got your notes. We’re working on those changes and will let you know when you can try again.',
-   ready_for_retest:'Your changes are ready. Give the assistant another try and let us know what you think.',
-   approved:'✓ Your AI Assistant is approved! We’ll email you when everything is ready to use.'
+   pending_review:tx('Test your AI Assistant, then approve or request changes.','Prueba tu asistente de IA. Después podrás aprobarlo o solicitar cambios.'),
+   changes_requested:tx('We got your notes. We’re working on those changes and will let you know when you can try again.','Recibimos tus comentarios. Te avisaremos cuando los cambios estén listos para volver a probarlo.'),
+   ready_for_retest:tx('Your changes are ready. Give the assistant another try and let us know what you think.','Los cambios están listos. Prueba de nuevo el asistente y dinos qué te parece.'),
+   approved:tx('✓ Your AI Assistant is approved! We’ll email you when everything is ready to use.','✓ ¡Aprobaste tu asistente de IA! Te avisaremos por correo cuando todo esté listo para usar.')
   };
-  $('message').textContent=messages[status.status]||'We couldn’t load your review. Please try the link again.';
-  if(status.status==='changes_requested'&&status.feedback)$('message').textContent+=' Your request: '+status.feedback;
+  $('message').textContent=messages[status.status]||tx('We couldn’t load your review. Please try the link again.','No pudimos cargar la revisión. Vuelve a abrir el enlace.');
+  if(status.status==='changes_requested'&&status.feedback)$('message').textContent+=tx(' Your request: ',' Tu solicitud: ')+status.feedback;
   $('actions').hidden=!!status.delivered||!['pending_review','ready_for_retest'].includes(status.status);
   $('change').disabled=Number(status.revisions_remaining)<=0;
   $('feedbackForm').hidden=true;
  }
  async function load(){
-  if(!/^[0-9a-f]{64}$/i.test(token)){$('message').textContent='This link isn’t working. Reply to your purchase email and we’ll help you get a new one.';return}
+  if(!/^[0-9a-f]{64}$/i.test(token)){$('message').textContent=tx('This link isn’t working. Reply to your purchase email and we’ll help you get a new one.','Este enlace no funciona. Responde al correo de tu compra y te ayudaremos a obtener uno nuevo.');return}
   try{status=await call('ai_status');update();}
-  catch(e){$('message').textContent='We couldn’t open your review right now. Please try again or reply to your purchase email.'}
+  catch(e){$('message').textContent=tx('We couldn’t open your review right now. Please try again or reply to your purchase email.','No pudimos abrir tu revisión. Inténtalo de nuevo o responde al correo de tu compra.')}
  }
  async function decide(decision,feedback=''){
   if(busy)return;
   busy=true;$('approve').disabled=true;$('send').disabled=true;
-  $('message').textContent='Saving your decision…';
+  $('message').textContent=tx('Saving your decision…','Guardando tu decisión…');
   try{status=await call('ai_decision',{decision,feedback});update();}
-  catch(e){$('message').textContent='We couldn’t save that just yet. Please try again or reply to your purchase email.';$('approve').disabled=false;$('send').disabled=false}
+  catch(e){$('message').textContent=tx('We couldn’t save that just yet. Please try again or reply to your purchase email.','No pudimos guardar tu decisión. Inténtalo de nuevo o responde al correo de tu compra.');$('approve').disabled=false;$('send').disabled=false}
   finally{busy=false}
  }
- $('approve').onclick=()=>{if(confirm('Approve this AI Assistant for final delivery?'))void decide('approve')};
+ $('approve').onclick=()=>{if(confirm(tx('Approve this AI Assistant for final delivery?','¿Apruebas este asistente de IA para su entrega final?')))void decide('approve')};
  $('change').onclick=()=>{$('feedbackForm').hidden=false;$('feedback').focus()};
  $('cancel').onclick=()=>{$('feedbackForm').hidden=true};
  $('send').onclick=()=>{
   const txt=$('feedback').value.trim();
-  if(txt.length<12){$('message').textContent='Please describe the correction in at least 12 characters.';return}
-  if(confirm('Send your changes? This uses one included revision.'))void decide('request_changes',txt);
+  if(txt.length<12){$('message').textContent=tx('Please describe the correction in at least 12 characters.','Describe los cambios con al menos 12 caracteres.');return}
+  if(confirm(tx('Send your changes? This uses one included revision.','¿Enviar los cambios solicitados? Esto consume una revisión incluida.')))void decide('request_changes',txt);
  };
+ localize();
  void load();
 })();
 </script></body></html>
