@@ -502,18 +502,33 @@
           <option value="reply">Reply only</option>
         </select></label>
         <div id="buyerRequestQuoteOffer" class="hidden" style="margin:10px 0 14px"><label>Quote price<input id="buyerRequestQuoteAmount" type="number" min="0.01" max="999999" step="0.01" placeholder="125.00"></label>
-<p class="muted" style="font-size:12px">Enter the final quote amount. When you select Send update, the customer receives Accept, Decline (with reason), and Let's talk. The quote does not confirm a booking.</p></div>
+<p class="muted" style="font-size:12px">Edit the quote amount before sending. Customers can Accept, Decline or Discuss Price. Acceptance confirms the booking only after an available time is selected.</p></div>
 <div id="buyerRequestConfirmSlot" class="hidden" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
           <label>Booking date<input id="buyerRequestBookingDate" type="date"></label>
           <label>Start time<input id="buyerRequestBookingTime" type="time" step="1800"></label>
         </div>
         <label>Reply to customer<textarea id="buyerRequestMessage" rows="6" maxlength="3000" placeholder="Write a helpful update in the customer's language."></textarea></label>
         <p class="muted" style="font-size:12px">Saving a status does not send a message. Choose Send update to email the customer. Changing a date in this message does not reserve a new slot; confirm availability separately.</p>
+        <div id="buyerRequestFinalChoice" class="hidden" style="border:1px solid #d7e7f2;border-radius:15px;padding:14px;background:#f2f8fc;margin:12px 0">
+          <strong>Two follow-ups completed. Your choice.</strong>
+          <p class="muted" style="font-size:12px">Preview a final personal email and send it, or stop here. Nothing sends automatically.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button type="button" class="secondary" id="buyerRequestFinalStop">Stop contacting</button>
+            <button type="button" id="buyerRequestFinalSend">Send final personal email</button>
+          </div>
+        </div>
         <div style="display:flex;flex-wrap:wrap;gap:9px">
+          <button type="button" class="secondary" id="buyerRequestEmailPreview">Preview email</button>
           <button type="button" id="buyerRequestSave" class="secondary">Save status</button>
           <button type="button" id="buyerRequestSend">Send update</button>
         </div>
         <p id="buyerRequestStatus" role="status" aria-live="polite"></p>
+        <dialog id="buyerRequestEmailPreviewDialog" style="width:min(520px,calc(100vw - 30px));border:1px solid #d6e8f1;border-radius:19px;padding:22px;background:#FAF8F3;color:#191919">
+          <h3>Customer email preview</h3>
+          <p class="muted" style="font-size:12px">This preview does not send an email. Edit the message or quote amount before confirming.</p>
+          <pre id="buyerRequestEmailPreviewText" style="white-space:pre-wrap;font:14px/1.65 Arial,sans-serif;word-wrap:break-word;padding:15px;background:white;border-radius:12px;border:1px solid #dce9f2"></pre>
+          <button type="button" class="secondary" id="buyerRequestEmailPreviewClose">Close preview</button>
+        </dialog>
       </div>
     </article>
   </div>
