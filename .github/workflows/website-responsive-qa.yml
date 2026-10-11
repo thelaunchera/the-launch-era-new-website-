@@ -10,6 +10,7 @@ on:
       - 'public/assets/**'
       - 'src/components/**'
       - 'src/routes/**'
+      - 'src/styles.css'
       - '.github/workflows/website-responsive-qa.yml'
 permissions:
   contents: read
