@@ -170,6 +170,26 @@ check('Delivered buyer public Booking Page share is gated, workspace-scoped and 
  assert.match(lang,/"Copy Booking Link":"Copiar enlace de reservas"/,'Missing Spanish sharing label');
  assert.match(lang,/"Share your Booking Page":"Comparte tu página de reservas"/,'Missing Spanish sharing headline');
 });
+check('Smooth buyer Back navigation and real post-save confirmation in English and Spanish',()=>{
+ const ui=read('public/command-center/index.html');
+ const logic=read('public/command-center/assets/command-center-app.js');
+ const styles=read('public/command-center/assets/command-center.css');
+ for(const id of ['workspaceBack','crmSaveToast','crmSaveToastText'])assert(ui.includes('id="'+id+'"'),'Missing interaction: '+id);
+ for(const marker of [
+  'function showSaveToast(', 'function navigateWorkspaceBack()',
+  'workspaceBackStack.push(priorView)', 'workspaceNavigationInitialized=false',
+  "showSaveToast('success','Prices saved and published'",
+  "showSaveToast('success','Availability saved'",
+  "showSaveToast('success','Email edits saved'",
+  "showSaveToast('error','Could not save prices'",
+  "showSaveToast('error','Could not save availability'",
+  "showSaveToast('success','Work dates saved'"
+ ])assert(logic.includes(marker),'Missing saved-only feedback or navigation guard: '+marker);
+ assert.match(styles,/prefers-reduced-motion:reduce/,'Animations must respect reduced motion');
+ assert.match(styles,/safe-area-inset-bottom/,'Save banner must stay visible on mobile');
+ assert.match(styles,/crmViewEnter/,'Missing view transition');
+ assert(!logic.includes("history.pushState("),'Navigation should never expose private view state in URL');
+});
 const failed = checks.filter(x => !x.passed);
 console.log('Client release static checks:', checks.length - failed.length, 'passed,', failed.length, 'failed');
 if (failed.length) process.exitCode = 1;
