@@ -45,12 +45,31 @@ function pricingFormRow(group,item){
  const el=priceElement('div',{class:'panel'});el.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,155px),1fr));gap:9px;align-items:end;padding:13px;margin:9px 0';
  const input=priceElement('input',{type:'text',maxlength:90});input.value=item.name||'';input.placeholder="Name";input.oninput=()=>item.name=input.value;
  const label=priceElement('label',{},"Name");label.append(input);el.append(label);
- let amount=priceElement('input',{type:'number',min:group==='service'?0.01:0,max:50000,step:0.01});amount.value=item.price??'';amount.oninput=()=>item.price=amount.value;
+ let amount=priceElement('input',{type:'number',min:group==='service'?0.01:0,max:50000,step:0.01});
+ const amountLabel=priceElement('label',{},"Price");
  if(group==='service'){
-  const mode=priceElement('select');for(const [val,name] of [['flat',"Flat"],['estimate',"Estimate"],['quote',"Quote"]])mode.append(priceElement('option',{value:val},name));
-  mode.value=item.mode||'quote';amount.disabled=mode.value!=='flat';
-  mode.onchange=()=>{item.mode=mode.value;amount.disabled=mode.value!=='flat';if(amount.disabled){amount.value='';item.price=null}};
+  const mode=priceElement('select');
+  for(const [val,name] of [['flat',"Flat price"],['estimate',"Estimate / from"],['quote',"Custom quote"]])mode.append(priceElement('option',{value:val},name));
+  mode.value=item.mode||'quote';
+  const syncAmount=()=>{
+    amount.disabled=mode.value==='quote';
+    amount.value=mode.value==='flat'?(item.price??''):mode.value==='estimate'?(item.estimated_from??''):'';
+    amountLabel.firstChild.textContent=mode.value==='estimate'?"Estimated from":mode.value==='flat'?"Fixed price":"Price";
+  };
+  mode.onchange=()=>{
+    const prior=Number(mode.value==='flat'?(item.price??item.estimated_from):(item.estimated_from??item.price));
+    item.mode=mode.value;
+    if(mode.value==='flat'){item.price=Number.isFinite(prior)&&prior>0?prior:null;item.estimated_from=null}
+    else if(mode.value==='estimate'){item.estimated_from=Number.isFinite(prior)&&prior>0?prior:null;item.price=null}
+    else{item.price=null;item.estimated_from=null}
+    syncAmount();
+  };
+  amount.oninput=()=>{if(item.mode==='flat')item.price=amount.value;else if(item.mode==='estimate')item.estimated_from=amount.value};
   const wrap=priceElement('label',{},"Type");wrap.append(mode);el.append(wrap);
+  syncAmount();
+ }else{
+  amount.value=item.price??'';
+  amount.oninput=()=>item.price=amount.value;
  }
  const category=priceElement('select');
  for(const [val,name] of [['residential',"Home"],['commercial',"Business"],['both',"Both"]])category.append(priceElement('option',{value:val},name));
@@ -59,7 +78,7 @@ function pricingFormRow(group,item){
  item.category=category.value;
  category.onchange=()=>item.category=category.value;
  const categoryLabel=priceElement('label',{},"Available for");categoryLabel.append(category);el.append(categoryLabel);
- const amountLabel=priceElement('label',{},"Price");amountLabel.append(amount);el.append(amountLabel);
+ amountLabel.append(amount);el.append(amountLabel);
  const tools=priceElement('div');tools.style.cssText='display:flex;align-items:center;gap:10px;flex-wrap:wrap';
  const active=priceElement('input',{type:'checkbox'});active.checked=item.active!==false;active.style.width='auto';active.onchange=()=>item.active=active.checked;
  const activeLabel=priceElement('label',{},"Active");activeLabel.style.margin='0';activeLabel.prepend(active);tools.append(activeLabel);
