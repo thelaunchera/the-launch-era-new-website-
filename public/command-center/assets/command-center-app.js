@@ -65,6 +65,75 @@ function pricingFormRow(group,item){
  const activeLabel=priceElement('label',{},"Active");activeLabel.style.margin='0';activeLabel.prepend(active);tools.append(activeLabel);
  const remove=priceElement('button',{type:'button',class:'secondary'},"Remove");remove.onclick=()=>{const key=group==='service'?'services':'addons';pricingDraft[key]=pricingDraft[key].filter(x=>x!==item);renderPricing()};tools.append(remove);el.append(tools);return el;
 }
+
+function renderCleaningCalculator(){
+ const panel=$('cleaningCalculatorPanel');
+ if(!panel||!pricingDraft)return;
+ panel.hidden=pricingDraft.business_category!=='cleaning';
+ if(panel.hidden)return;
+ const rates=pricingDraft.cleaning_calculator={...calcDefault(),...pricingDraft.cleaning_calculator};
+ function run(){
+  const n=k=>Math.max(0,Number(rates[k])||0);
+  const business=$('calcSpace').value==='commercial';
+  const area=Math.max(0,Number($('calcSqft').value)||0);
+  let subtotal=0;
+  if(business){
+   subtotal=Math.max(n('commercial_minimum'),area*n('commercial_sqft_rate'));
+  }else{
+   subtotal=n('residential_base');
+   subtotal+=Math.max(0,(Number($('calcBeds').value)||0)-2)*n('bedroom_fee');
+   subtotal+=Math.max(0,(Number($('calcBaths').value)||0)-1)*n('bathroom_fee');
+   subtotal+=Math.ceil(Math.max(0,area-1000)/500)*n('sqft_increment_fee');
+  }
+  const ready=business?(n('commercial_minimum')>0||n('commercial_sqft_rate')>0):n('residential_base')>0;
+  if(!ready){cleaningCalcLatest=null;$('calcResult').textContent=crmLocaleText('Add your base rate first.','Agrega tu tarifa base primero.');return;}
+  const cleaning=$('calcType').value;
+  if(cleaning==='deep')subtotal*=n('deep_multiplier');
+  if(cleaning==='moveout')subtotal*=n('moveout_multiplier');
+  const frequency=$('calcFrequency').value;
+  if(frequency==='weekly')subtotal*=1-n('weekly_discount')/100;
+  if(frequency==='biweekly')subtotal*=1-n('biweekly_discount')/100;
+  if(frequency==='monthly')subtotal*=1-n('monthly_discount')/100;
+  let addons=0;
+  for(const a of pricingDraft.addons){if(cleaningCalcSelectedAddons.has(a.id))addons+=Number(a.price)||0;}
+  const amount=Math.round((subtotal+addons+n('travel_fee'))*100)/100;
+  const delta=n('estimate_variance')/100,lower=Math.round(amount*(1-delta)*100)/100,upper=Math.round(amount*(1+delta)*100)/100;
+  const money=x=>new Intl.NumberFormat('en-US',{style:'currency',currency:pricingDraft.currency||'USD'}).format(x);
+  cleaningCalcLatest={amount,label:money(lower)+' – '+money(upper)};
+  $('calcResult').textContent=crmLocaleText('Approximate range: ','Rango aproximado: ')+cleaningCalcLatest.label;
+  $('calcBreakdown').textContent=crmLocaleText('Draft price: ','Precio borrador: ')+money(amount)+crmLocaleText(' (including add-ons and travel)',' (incluye extras y distancia)');
+ }
+ for(const el of panel.querySelectorAll('[data-calc-field]')){
+  const key=el.dataset.calcField;
+  el.value=rates[key];
+  el.oninput=()=>{rates[key]=Number(el.value);run()};
+ }
+ $('calcSpace').onchange=renderCleaningCalculator;
+ for(const id of ['calcType','calcBeds','calcBaths','calcSqft','calcFrequency'])$(id).oninput=run;
+ const root=$('calcAddons');root.replaceChildren();
+ const category=$('calcSpace').value==='commercial'?'commercial':'residential';
+ for(const add of pricingDraft.addons){
+  if(add.active===false)continue;
+  if(add.category!=='both'&&add.category!==category)continue;
+  const label=document.createElement('label'),check=document.createElement('input');
+  check.type='checkbox';check.style.width='auto';check.checked=cleaningCalcSelectedAddons.has(add.id);
+  check.onchange=()=>{if(check.checked)cleaningCalcSelectedAddons.add(add.id);else cleaningCalcSelectedAddons.delete(add.id);run()};
+  label.append(check,document.createTextNode(add.name+' · '+(Number(add.price)||0).toFixed(2)));
+  label.style.cssText='padding:8px;border:1px solid #d6e6ed;border-radius:10px;display:flex;gap:7px;align-items:center';
+  root.append(label);
+ }
+ $('calcCopyEstimate').onclick=async()=>{if(cleaningCalcLatest)await navigator.clipboard.writeText(cleaningCalcLatest.label)};
+ $('calcUseEstimate').onclick=async()=>{
+  if(!cleaningCalcLatest||workspace?.is_internal||!buyerSelectedRequest)return;
+  const id=buyerSelectedRequest.id,amount=cleaningCalcLatest.amount;
+  premiumNavigate('request-center');await loadBuyerRequests();
+  const request=buyerRequests.find(x=>x.id===id);if(!request)return;
+  buyerOpenRequest(request);$('buyerRequestAction').value='quoted';buyerSetDefaultMessage();
+  $('buyerRequestQuoteAmount').value=amount.toFixed(2);
+  $('buyerRequestStatus').textContent=crmLocaleText('Draft only. Preview before sending.','Solo borrador. Revisa antes de enviar.');
+ };
+ run();
+}
 function renderPricing(){
  if(!pricingDraft)return;
  $('pricingServiceRows').replaceChildren(...pricingDraft.services.map(x=>pricingFormRow('service',x)));
