@@ -1697,8 +1697,10 @@ $('ownerCalForm').onsubmit=async e=>{
   ownerCalendarBuyerPref=id;
   await loadOwnerCalendar(true);
   msg.textContent=buyerPageLabel()?'✓ Fechas guardadas. Calendario actualizado.':'✓ Work dates saved. Calendar updated.';
+  showSaveToast('success','Work dates saved','Fechas de trabajo guardadas');
  }catch(error){
   msg.textContent=(buyerPageLabel()?'No se guardaron las fechas: ':'Dates could not be saved: ')+error.message;
+  showSaveToast('error','Could not save work dates','No se pudieron guardar las fechas');
  }finally{save.disabled=false}
 };
 $('ownerCalPrev').onclick=()=>{ownerCalendarMonth=new Date(ownerCalendarMonth.getFullYear(),ownerCalendarMonth.getMonth()-1,1);ownerCalendarSelectedDay='';renderOwnerCalendar()};
