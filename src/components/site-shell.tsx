@@ -18,7 +18,7 @@ function SaleCountdown({es=false}:{es?:boolean}) {
  const hours = Math.floor((remaining % 86400000) / 3600000);
  const minutes = Math.floor((remaining % 3600000) / 60000);
  const seconds = Math.floor((remaining % 60000) / 1000);
- if (remaining <= 0) return <span className="sale-countdown sale-expired"><Timer size={16}/>{es?'THE FALL REFRESH OFFER FINALIZÓ':'THE FALL REFRESH OFFER ENDED'}</span>;
+ if (remaining <= 0) return null;
  return <span className="sale-countdown" role="timer" aria-label={es?`The Fall Refresh Offer termina el 31 de octubre. Quedan ${days} días, ${hours} horas, ${minutes} minutos y ${seconds} segundos`:`The Fall Refresh Offer ends October 31. ${days} days, ${hours} hours, ${minutes} minutes and ${seconds} seconds remain`}>
   <span className="sale-clock-label"><Timer size={17} aria-hidden="true"/><span className="sale-offer-copy"><b>THE FALL REFRESH OFFER</b><small>{es?'HASTA EL 31 OCT':'ENDS OCT 31'}</small></span></span>
   <span className="sale-clock-units">
@@ -79,5 +79,5 @@ export function SiteHeader() {
 export function SiteFooter() {
  const path=useRouterState({select:(state)=>state.location.pathname});
  const es=path==='/es'||path.startsWith('/es/');
- return <footer className="site-footer"><div className="container"><div className="footer-top"><div><a className="wordmark" href={es?'/es':'/'}>THE LAUNCH ERA</a><p>{es?'Menos trabajo administrativo. Más espacio para crecer.':'A little less admin. A lot more possibility.'}</p></div><nav className="footer-links" aria-label={es?'Navegación del pie de página':'Footer navigation'}><a href={es?'/es#soluciones':'/solutions'}>{es?'Soluciones':'Solutions'}</a><a href={es?'/es#como-funciona':'/how-it-works'}>{es?'Cómo funciona':'How It Works'}</a><a href={es?'/es#contacto':'/help'}>{es?'Contacto ↗':'Get in Touch ↗'}</a></nav></div><div className="footer-bottom"><span>© 2026 THE LAUNCH ERA. {es?'Todos los derechos reservados.':'All rights reserved.'}</span><span>{es?'Creado para negocios de limpieza en EE. UU.':'Thoughtfully built for U.S. cleaning businesses.'}</span></div></div></footer>
+ return <footer className="site-footer"><div className="container"><div className="footer-top"><div><a className="wordmark" href={es?'/es':'/'}>THE LAUNCH ERA</a><p>{es?'Menos trabajo administrativo. Más espacio para crecer.':'A little less admin. A lot more possibility.'}</p></div><nav className="footer-links" aria-label={es?'Navegación del pie de página':'Footer navigation'}><a href={es?'/es#soluciones':'/solutions'}>{es?'Soluciones':'Solutions'}</a><a href={es?'/es#como-funciona':'/how-it-works'}>{es?'Cómo funciona':'How It Works'}</a><a href={es?'/es#contacto':'/help'}>{es?'Contacto ↗':'Get in Touch ↗'}</a><a href={es?'/es/privacy.html':'/privacy.html'}>{es?'Privacidad':'Privacy'}</a><a href={es?'/es/terms.html':'/terms.html'}>{es?'Términos':'Terms'}</a></nav></div><div className="footer-bottom"><span>© 2026 THE LAUNCH ERA. {es?'Todos los derechos reservados.':'All rights reserved.'}</span><span>{es?'Creado para negocios de limpieza en EE. UU.':'Thoughtfully built for U.S. cleaning businesses.'}</span></div></div></footer>
 }
