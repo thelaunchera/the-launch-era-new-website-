@@ -10,13 +10,13 @@
   "theme_color": "#191919",
   "icons": [
     {
-      "src": "./app-icons/tle-192.png",
+      "src": "https://the-launch-era-crm.dailinsegura17.workers.dev/app-icons/tle-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "./app-icons/tle-512.png",
+      "src": "https://the-launch-era-crm.dailinsegura17.workers.dev/app-icons/tle-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
