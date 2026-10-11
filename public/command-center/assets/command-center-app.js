@@ -2597,7 +2597,7 @@ async function buyerUpdateRequest(sendEmail,overrideAction){
  const id=buyerSelectedRequest.id,action=overrideAction||$("buyerRequestAction").value,message=$("buyerRequestMessage").value.trim();
  if(sendEmail&&!message){$("buyerRequestStatus").textContent=buyerText("Write the message first.","Primero escribe el mensaje.");return}
  if(sendEmail&&!confirm(buyerText("Send this real email to the customer?","¿Enviar este correo real al cliente?")))return;
- const b1=$("buyerRequestSave"),b2=$("buyerRequestSend");b1.disabled=true;b2.disabled=true;
+ const b1=$("buyerRequestSave"),b2=$("buyerRequestSend"),b3=$("buyerRequestFinalSend"),b4=$("buyerRequestFinalStop");b1.disabled=true;b2.disabled=true;b3.disabled=true;b4.disabled=true;
  $("buyerRequestStatus").textContent=buyerText("Saving update…","Guardando actualización…");
  try{
   const result=await buyerRequestCall("update",{request_id:id,action,message,send_email:sendEmail,quote_amount:$("buyerRequestQuoteAmount").value,request_date:$("buyerRequestBookingDate").value,request_time:$("buyerRequestBookingTime").value});
@@ -2609,7 +2609,7 @@ async function buyerUpdateRequest(sendEmail,overrideAction){
   await loadBuyerRequests();
   $("buyerRequestStatus").textContent=status+(result.warning?" "+result.warning:"");
  }catch(e){$("buyerRequestStatus").textContent=e.message}
- finally{b1.disabled=false;b2.disabled=false}
+ finally{b1.disabled=false;b2.disabled=false;b3.disabled=false;b4.disabled=false}
 }
 $("buyerRequestSave").onclick=()=>buyerUpdateRequest(false);
 $("buyerRequestSend").onclick=()=>buyerUpdateRequest(true);
