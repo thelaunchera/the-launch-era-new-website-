@@ -42,12 +42,14 @@ export function PurchaseClarity({lang='en'}:{lang?:Language}) {
  ['¿Qué recibo con Booking Automation + Command Center?','Una Booking Page personalizada conectada a tu Command Center privado, con controles de servicios, precios, disponibilidad y los primeros dos seguimientos automáticos.'],
  ['¿Qué pasa después de comprar?','Completa tu intake y comparte todos los datos necesarios. La producción tarda 48 horas desde que iniciamos con todos los datos, dentro de nuestro horario laborable. Si compras o completas el intake el sábado después de las 12 PM ET, comenzamos el lunes o próximo día hábil. Enviamos el acceso por correo.'],
  ['¿Puedo cambiar los precios y horarios?','Sí. Los editas desde Pricing & Services y Availability en tu Command Center.'],
- ['¿Las reservas se confirman automáticamente?','Puedes activarlo para servicios con precio fijo. Las solicitudes que necesitan una cotización especial quedan para tu revisión.']
+ ['¿Las reservas se confirman automáticamente?','Los servicios con precio fijo pueden confirmarse cuando hay un horario libre. Para estimados, el cliente acepta, rechaza o conversa sobre el precio; al aceptar, selecciona un horario disponible.'],
+ ['¿Quién envía los seguimientos?','Nosotros gestionamos dos seguimientos automáticos si no hay respuesta. Desde tu Command Center puedes previsualizar correos, ajustar el precio y decidir si enviar un último contacto personal o detenerlo.']
  ]:[
  ['What do I get with Booking Automation + Command Center?','A personalized Booking Page connected to your private Command Center, with service, price, and availability controls plus the first two automatic follow-ups.'],
  ['What happens after I buy?','Complete your intake and provide all required details. Your 48-hour production timeframe starts during business hours after we receive everything needed. Saturday purchases or completed intakes after 12 PM ET begin Monday or the next business day. Access links arrive by email.'],
  ['Can I change my prices and available times?','Yes. Update them in Pricing & Services and Availability inside your Command Center.'],
- ['Do bookings confirm automatically?','You can enable instant confirmation for fixed-price services. Requests that need a custom quote stay ready for your review.']
+ ['Do bookings confirm automatically?','Flat-price services can confirm when a time is available. For estimates, the customer can Accept, Decline or Discuss Price; after accepting, they select an available appointment time.'],
+ ['Who handles follow-ups?','We handle two automatic follow-ups when there is no reply. From your Command Center you can preview emails, adjust the quote price, and decide whether to send one final personal message or stop.']
  ];
  return <div className="purchase-clarity"><p>{es?'Tu Booking Page + tu Command Center privado, personalizados para tu negocio.':'Your Booking Page + your private Command Center, personalized for your business.'}</p>{questions.map(([q,a])=><details key={q}><summary>{q}<Plus size={17}/></summary><p>{a}</p></details>)}</div>;
 }
