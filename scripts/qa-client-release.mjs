@@ -155,6 +155,21 @@ check('All bilingual public pages keep matching forms, pricing and FAQ structure
   assert.deepEqual(dollarPrices(en),dollarPrices(es),route+' EN/ES listed prices mismatch');
  }
 });
+check('Delivered buyer public Booking Page share is gated, workspace-scoped and bilingual', () => {
+ const ui=read('public/command-center/index.html');
+ const logic=read('public/command-center/assets/command-center-app.js');
+ const lang=read('public/command-center/assets/command-center-i18n.js');
+ for(const id of ['buyerBookingShareCard','buyerBookingShareActions','buyerBookingShareUrl','buyerCopyBookingLink','buyerOpenBookingLink','buyerBookingShareStatus'])
+  assert(ui.includes('id="'+id+'"'),'Missing public-link control: '+id);
+ assert.match(logic,/function verifiedPublicBookingUrl\(/,'Public link validator required');
+ assert.match(logic,/url\.searchParams\.get\('key'\)/,'Missing actual buyer public key validation');
+ assert.match(logic,/owner_preview/,'Private preview must not be shared');
+ assert.match(logic,/delivery_ready===false/,'Must honor server release readiness');
+ assert.match(logic,/if\(!buyerDeliveryReady\)await syncBuyerDeliveryActivation\(\)/,'Must refresh buyer delivery state');
+ assert.match(logic,/function syncManagedBuyerEmailStatus\(/,'Managed email status must be independent of legacy self-managed sender');
+ assert.match(lang,/"Copy Booking Link":"Copiar enlace de reservas"/,'Missing Spanish sharing label');
+ assert.match(lang,/"Share your Booking Page":"Comparte tu página de reservas"/,'Missing Spanish sharing headline');
+});
 const failed = checks.filter(x => !x.passed);
 console.log('Client release static checks:', checks.length - failed.length, 'passed,', failed.length, 'failed');
 if (failed.length) process.exitCode = 1;
