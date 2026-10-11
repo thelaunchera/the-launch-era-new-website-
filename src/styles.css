@@ -1170,7 +1170,7 @@ img { display:block; width:100%; object-fit:cover; }
    Two small, recognizably iPhone-style notification examples; EN/ES share the same layout. */
 .sales-home .hero-photo{
   position:relative;isolation:isolate;overflow:hidden;
-  height:clamp(605px,54vw,740px);
+  height:clamp(680px,58vw,790px);
   background:#e7e9e5;
 }
 .sales-home .hero-photo > img.hero-main-image{
@@ -1209,7 +1209,7 @@ img { display:block; width:100%; object-fit:cover; }
   font-size:clamp(15px,1.35vw,17px);line-height:1.57;
 }
 .sales-home .hero-photo .hero-notice-flow{
-  position:absolute;z-index:4;left:max(5%,24px);top:auto;bottom:90px;
+  position:absolute;z-index:4;left:max(5%,24px);top:auto;bottom:42px;
   width:min(310px,calc(100% - 42px));
   display:grid;gap:11px;
 }
