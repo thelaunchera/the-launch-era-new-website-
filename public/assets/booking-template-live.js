@@ -253,7 +253,15 @@ async function submit(which){
   $("done").querySelector("h2").textContent=response.booking_confirmed?
     tr("Your appointment is booked!","¡Tu cita está confirmada!"):tr("Your request was received.","Recibimos tu solicitud.");
   const handoffOk=response.customer_email_sent===true;
-  $("done").querySelector("p").textContent=handoffOk?
+  const pendingFlat=state.mode==="flat"&&!response.booking_confirmed;
+  if(pendingFlat){
+    $("done").querySelector("h2").textContent=tr("Your booking request needs approval.","Tu reserva está pendiente de aprobación.");
+    $("done").querySelector("p").textContent=handoffOk?
+      tr("Your preferred time and fixed price were received. Your appointment is NOT confirmed yet. The business will review your request and contact you.",
+         "Recibimos tu horario preferido y el precio fijo. Tu cita TODAVÍA NO está confirmada. El negocio revisará tu solicitud y te contactará."):
+      tr("Your request was saved, but the email could not be sent. Your appointment is NOT confirmed. Contact the business if you need an update.",
+         "Guardamos tu solicitud, pero no se pudo enviar el correo. Tu cita NO está confirmada. Contacta al negocio si necesitas información.");
+  }else $("done").querySelector("p").textContent=handoffOk?
    tr("Your request is saved. We requested your confirmation email. Check your inbox, including Promotions or Spam.",
       "Guardamos tu solicitud y pedimos que se envíe la confirmación. Revisa tu correo, incluidos Promociones o Spam."):
    tr("Your request is saved, but the confirmation email could not be sent right now. Please keep this confirmation and contact the cleaning business if you don't receive an update.",
