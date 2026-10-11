@@ -261,7 +261,10 @@ await check('Canonical Booking Page is the emailed demo',{width:390,height:844},
  assert(await p.locator('#quote [data-quote-addon]').count()>=4);
  assert.equal(await p.locator('.verify').count(),0,'Sample demo has no email verification');
  await p.locator('#quoteSubmit').click();
- assert.equal(await p.locator('#done').isVisible(),true,'Sample quote works without email code');
+ // The assistant prefill flow intentionally adds a review screen before completing a sample request.
+ assert.equal(await p.locator('#tleAiExtraReview').isVisible(),true,'Sample quote opens a review without email verification');
+ await p.locator('#tleAiExtraReview .next').click();
+ assert.equal(await p.locator('#done').isVisible(),true,'Reviewed sample quote works without email code');
  assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3),'Demo fits mobile width');
  await p.screenshot({path:'qa-screenshots/booking-canonical-home-commercial.png',fullPage:true});
 });
