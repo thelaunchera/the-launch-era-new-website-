@@ -56,7 +56,7 @@ function Page(){
     </section>
 
     <section className="container service-story">
-      <div className="service-demo-kicker"><Sparkles/> PRUEBA EL FLUJO — ESTA ES UNA EJEMPLO INTERACTIVO</div>
+      <div className="service-demo-kicker"><Sparkles/> PRUEBA EL FLUJO — EJEMPLO INTERACTIVO</div>
 
       <div className="web-automation-scene web-automation-live">
         <div className="web-browser">
@@ -114,7 +114,7 @@ function Page(){
 
       <div className={"automation-live-status "+(active>=0?'show':'')}>
         <div>
-          <small>{current?current.label:'DEMO EN VIVO'}</small>
+          <small>{current?current.label:'EJEMPLO INTERACTIVO'}</small>
           <strong>{current?current.title:'Envía una consulta de prueba para comenzar.'}</strong>
           <p>{current?current.detail:'Después de iniciar el flujo puedes tocar cada paso para ver qué está haciendo.'}</p>
         </div>
