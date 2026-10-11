@@ -68,9 +68,9 @@ function serviceButton(service,category){
  const group=document.createElement("span"),name=document.createElement("b"),sub=document.createElement("span");sub.className="muted";
  name.textContent=service.name;sub.textContent=service.mode==="flat"?
   (session.model.auto_confirm_flat===true?tr("Book now at the fixed price.","Reserva al precio fijo."):tr("Request this fixed-price appointment for approval.","Solicita esta cita de precio fijo para aprobación.")):
-  tr("Request a tailored estimate or quote.","Solicita un estimado o una cotización personalizada.");
+  service.mode==="estimate"?tr("Starting price is an estimate, subject to approval.","Precio orientativo, sujeto a confirmación."):tr("Request a tailored custom quote.","Solicita una cotización personalizada.");
  group.append(name,sub);
- const price=document.createElement("span");price.className="price";price.textContent=service.mode==="flat"?money(service.price):tr("Request quote","Cotizar");
+ const price=document.createElement("span");price.className="price";price.textContent=service.mode==="flat"?money(service.price):service.mode==="estimate"&&Number(service.estimated_from)>0?tr("Estimate from ","Estimado desde ")+money(service.estimated_from):tr("Request quote","Cotizar");
  b.append(icon,group,price);
  b.onclick=()=>{
   session.service=service;state.serviceId=service.id;state.service=service.name;state.mode=service.mode;
