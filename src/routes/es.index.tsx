@@ -15,7 +15,7 @@ export const Route=createFileRoute('/es/')({head:()=>({meta:[{title:'THE LAUNCH 
 const services=[
  {title:'Booking Automation + Command Center',landing:'/es/booking-lead-automation/',description:'Booking Page personalizada y Command Center privado para precios, horarios y solicitudes.',image:cleaner,tag:'TU FLUJO DE RESERVAS, CONECTADO'},
  {title:'AI Assistants',landing:'/es/ai-booking-assistant/',description:'Reservas, seguimientos o ambos. Para tu Booking Page o website.',image:aiAgentsPhoto,tag:'ASISTENTE DE RESERVAS + SEGUIMIENTO'},
- {title:'WhatsApp AI Agent',landing:'/es/whatsapp-ai-agent/',description:'Responde consultas por WhatsApp y mantén el control de los estimados. Explora la demo mientras preparamos la conexión.',image:'https://images.unsplash.com/photo-1758611974917-f7f7a58b74b0?auto=format&fit=crop&w=1200&q=85',tag:'TUS CONVERSACIONES, ORGANIZADAS'},
+ {title:'WhatsApp AI Agent',landing:'/es/whatsapp-ai-agent/',description:'Descubre cómo WhatsApp AI podría organizar consultas y estimados de tu negocio. Próximamente.',image:'https://images.unsplash.com/photo-1758611974917-f7f7a58b74b0?auto=format&fit=crop&w=1200&q=85',tag:'TUS CONVERSACIONES, ORGANIZADAS'},
  {title:'Cleaning Web App',landing:'/es/cleaning-web-app/',description:'Tu agenda, clientes y trabajo diario, más fácil de ver.',image:webapp,tag:'TU NEGOCIO, EN UN SOLO LUGAR'},
  {title:'Website Automation',landing:'/es/website-automation/',description:'Conserva tu website y organiza mejor las consultas y seguimientos.',image:website,tag:'MENOS PASOS MANUALES'},
  {title:'Virtual Assistant',landing:'/es/virtual-assistant/',description:'Apoyo detrás de escena para que no todo dependa de ti.',image:assistant,tag:'MÁS APOYO. MENOS CARGA'}];
