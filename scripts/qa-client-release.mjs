@@ -31,7 +31,9 @@ check('Checkout confirmation only reveals intake after validation', () => {
   const page = read('public/booking-flow-payment-success/index.html');
   assert.match(page, /id="intakeLink"\s+hidden/);
   assert.match(page, /48\s*(?:-|‑|–)?\s*hour/);
-  assert.match(page, /Spam\/Junk/);
+  assert.match(page, /Promotions or Spam/, 'Buyer email reminder must stay visible in English');
+  assert.match(page, /Promociones o Spam/, 'Buyer email reminder must have Spanish translation');
+  assert.match(page, /getElementById\("nextStep"\)\.textContent/, 'Localized next-step text must update the correct element');
 });
 check('CB Depot brand and car-specific copy', () => {
   const js = read('public/assets/cb-depot-experience.js');
