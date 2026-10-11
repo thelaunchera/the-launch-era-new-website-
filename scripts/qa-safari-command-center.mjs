@@ -10,7 +10,7 @@ try{
  console.log('OPEN',url);
  const nav=await page.goto(url,{waitUntil:'domcontentloaded',timeout:24000}).catch(e=>{console.log('NAVIGATION_ERROR',String(e.message));return null;});
  console.log('STATUS',nav?.status());
- await page.waitForTimeout(13000);
+ await page.waitForTimeout(3000);
  const state=await page.evaluate(()=>{
   const f=document.querySelector('#authForm'),cover=document.querySelector('#tleLoading');
   const visible=x=>!!x && getComputedStyle(x).display!=='none' && getComputedStyle(x).visibility!=='hidden';
@@ -18,6 +18,15 @@ try{
  });
  console.log('STATE',JSON.stringify(state));
  console.log('ERRORS',JSON.stringify(errors.slice(0,15)));
+ const picker=page.locator('#crmLanguageSelect');
+ if(await picker.count()){
+  await picker.selectOption('es',{timeout:4500});
+  await page.waitForTimeout(500);
+  const labels=await page.evaluate(()=>({lang:document.documentElement.lang,login:document.querySelector('#signin')?.textContent?.trim(),picker:document.querySelector('#crmLanguageSelect')?.value}));
+  console.log('LANGUAGE_SWITCH',JSON.stringify(labels));
+  if(labels.picker!=='es')throw Error('Language selection did not complete');
+ }
+
  await page.screenshot({path:'qa-safari-main.png'});
  if(!nav||nav.status()!==200||!state.hasForm||!state.sdk)throw Error('Safari cannot parse sign-in or load local auth');
  if(state.loading&&!state.hasFallback)throw Error('Safari retains blocking splash without recovery');
