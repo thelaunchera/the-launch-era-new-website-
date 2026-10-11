@@ -102,6 +102,42 @@ check('Buyer design review offers both choices before delivery', () => {
   assert.match(actions, /request_changes/);
   assert.match(actions, /Approve \/ Changes/, 'Mobile review entry must indicate both paths');
 });
+check('Private AI review preserves tab access and selects purchaser language', () => {
+ const page=read('public/client-review/index.html');
+ assert.match(page,/sessionStorage\.setItem\('tle_ai_private_review_token'/,'Lost token recovery on same-tab refresh');
+ assert.match(page,/status\.language==='es'/,'AI review is not tied to purchase language');
+ assert.match(page,/Solicitar cambios/,'Spanish request-changes UI missing');
+ assert.match(page,/Guardar|Guardando tu decisión/,'Spanish status feedback missing');
+ assert.match(page,/lang=status\.language==='es'\?'es':'en'/,'Language must be selected from authenticated review response');
+});
+check('Client review labels are translated in the reusable command center', () => {
+ const view=read('public/command-center/index.html');
+ const i18n=read('public/command-center/assets/command-center-i18n.js');
+ const app=read('public/command-center/assets/command-center-app.js');
+ assert.match(view,/id="buyerReviewApprove"/);
+ assert.match(view,/id="buyerReviewChange"/);
+ assert.match(i18n,/"✓ Approve Design":"✓ Aprobar diseño"/);
+ assert.match(i18n,/"Approve \/ Changes":"Aprobar \/ Cambios"/);
+ assert.match(app,/Aprobar diseño/);
+ assert.match(app,/Solicitar cambios/);
+});
+check('WhatsApp Coming Soon English and Spanish feature parity', () => {
+ const en=read('public/whatsapp-ai-agent/index.html');
+ const es=read('public/es/whatsapp-ai-agent/index.html');
+ const occurrences=(source,re)=>[...source.matchAll(re)].length;
+ for(const [name,re] of [
+  ['feature cards',/<article class="feature">/g],
+  ['demo scenarios',/class="scenario" data-index=/g],
+  ['FAQ questions',/<details><summary>/g],
+  ['hidden prices',/<div class="offer-panel" hidden/g],
+  ['launch banner',/class="coming-soon-note"/g]
+ ])assert.equal(occurrences(en,re),occurrences(es,re),'EN/ES mismatch: '+name);
+ assert.equal(occurrences(en,/<article class="feature">/g),6,'Six planned features must remain visible');
+ assert.match(read('src/components/editorial-sections.tsx'),/Coming Soon/);
+ assert.match(read('src/routes/es.index.tsx'),/Próximamente/);
+ assert.doesNotMatch(read('src/components/editorial-sections.tsx'),/while we finish the connection/);
+ assert.doesNotMatch(read('src/routes/es.index.tsx'),/mientras preparamos la conexión/);
+});
 const failed = checks.filter(x => !x.passed);
 console.log('Client release static checks:', checks.length - failed.length, 'passed,', failed.length, 'failed');
 if (failed.length) process.exitCode = 1;
