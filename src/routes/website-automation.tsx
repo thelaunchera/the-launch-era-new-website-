@@ -49,7 +49,7 @@ function Page(){
     </section>
 
     <section className="container service-story">
-      <div className="service-demo-kicker"><Sparkles/> TRY THE FLOW — THIS IS A LIVE PREVIEW</div>
+      <div className="service-demo-kicker"><Sparkles/> TRY IT — INTERACTIVE EXAMPLE</div>
 
       <div className="web-automation-scene web-automation-live">
         <div className="web-browser">
@@ -73,7 +73,7 @@ function Page(){
                   <option>Specialty cleaning</option>
                 </select>
               </label>
-              <button type="submit">Send inquiry <ArrowRight/></button>
+              <button type="submit">Try sample inquiry <ArrowRight/></button>
             </form>
             <div className="automation-demo-note">
               <span>{active<0?'Ready to try':'Demo lead'}</span>
@@ -107,7 +107,7 @@ function Page(){
 
       <div className={"automation-live-status "+(active>=0?'show':'')}>
         <div>
-          <small>{current?current.label:'LIVE PREVIEW'}</small>
+          <small>{current?current.label:'INTERACTIVE EXAMPLE'}</small>
           <strong>{current?current.title:'Send a sample inquiry to start.'}</strong>
           <p>{current?current.detail:'You can click each step after the flow starts to see what it is doing.'}</p>
         </div>
