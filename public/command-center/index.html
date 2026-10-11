@@ -343,10 +343,14 @@
 </div><div class="row" style="justify-content:space-between;align-items:center;padding:9px 0"><p class="muted" style="font-size:12px">Delivery alerts also appear in your notification bell. Editing previews never pauses an active automation.</p><button type="button" id="buyerHistoryFromAutomation" class="secondary">View email history →</button></div></section>
 <section class="hidden" id="buyerFollowupsIntro" aria-label="Follow-up sequence for your business" style="margin-top:12px">
 <div class="section-title">Automatic Follow-ups</div>
-<p class="muted">Your business receives up to two automatic reminders for eligible quote requests. The Launch Era handles sending and reply tracking without a separate email provider.</p>
+<p class="muted">We handle the automation for your open estimates and quote requests. You can review the first two automatic messages below. After those, you choose whether to send a final personal email or stop.</p>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:12px;margin:16px 0">
  <div class="buyer-followup-step"><strong>1</strong><div><b>First follow-up</b><div><span>Automatic, only when eligible</span></div></div></div>
  <div class="buyer-followup-step"><strong>2</strong><div><b>Second follow-up</b><div><span>Automatic, only if there is no reply</span></div></div></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:10px;margin:12px 0">
+  <details style="padding:12px;border-radius:12px;background:#f2f8fc;border:1px solid #d7e7f2"><summary style="cursor:pointer;font-weight:700" id="buyerManagedPreviewFirstTitle">Preview first follow-up</summary><p id="buyerManagedPreviewFirst" class="muted" style="white-space:pre-wrap;font-size:13px;line-height:1.6"></p></details>
+  <details style="padding:12px;border-radius:12px;background:#f2f8fc;border:1px solid #d7e7f2"><summary style="cursor:pointer;font-weight:700" id="buyerManagedPreviewSecondTitle">Preview second follow-up</summary><p id="buyerManagedPreviewSecond" class="muted" style="white-space:pre-wrap;font-size:13px;line-height:1.6"></p></details>
 </div>
 <p class="muted">If a customer replies or opts out, follow-ups stop for that person. Turn off all automatic follow-ups below whenever you want. The third step is never automatic.</p>
 </section><article class="panel hidden crm-buyer-only" id="buyerEmailSetup" style="padding:20px;margin-top:16px">
