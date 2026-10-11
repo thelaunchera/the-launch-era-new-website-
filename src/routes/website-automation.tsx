@@ -6,9 +6,9 @@ import { ArrowRight, Globe2, MessageSquareText, Workflow, BellRing, Check, Rotat
 export const Route=createFileRoute('/website-automation')({head:()=>({meta:[{title:'Website Automation for Cleaning Businesses | The Launch Era'},{name:'description',content:'Connect your existing cleaning business website to a clearer inquiry, routing and follow-up workflow.'},{property:'og:title',content:'Website Automation | The Launch Era'},{property:'og:description',content:'Turn website inquiries into organized next steps and follow-up.'},{name:'twitter:card',content:'summary_large_image'}],links:[{rel:'canonical',href:'https://thelaunchera.com/website-automation'},{rel:'alternate',hrefLang:'en-US',href:'https://thelaunchera.com/website-automation'},{rel:'alternate',hrefLang:'es-US',href:'https://thelaunchera.com/es/website-automation/'},{rel:'alternate',hrefLang:'x-default',href:'https://thelaunchera.com/website-automation'}]}),component:Page});
 
 const stages=[
-  {label:'01 · CAPTURED',title:'Inquiry organized',detail:'Name, contact and service are captured in one clean record.',Icon:MessageSquareText},
-  {label:'02 · ROUTED',title:'Right next step',detail:'The inquiry is routed into one place for review instead of being lost in your inbox.',Icon:Workflow},
-  {label:'03 · FOLLOW-UP',title:'Conversation keeps moving',detail:'A clear follow-up step is ready so the lead does not go quiet.',Icon:BellRing},
+  {label:'01 · RECEIVED',title:'You have the details',detail:'Your customer’s name and service request show up together.',Icon:MessageSquareText},
+  {label:'02 · ORGANIZED',title:'Everything in one place',detail:'No more searching through messages to find the details.',Icon:Workflow},
+  {label:'03 · NEXT STEP',title:'Know who to follow up with',detail:'You can see who needs a reply and what to do next.',Icon:BellRing},
 ] as const;
 
 function Page(){
@@ -57,7 +57,7 @@ function Page(){
           <div className="browser-page">
             <Globe2/>
             <strong>New inquiry</strong>
-            <p>See what a cleaner lead flow feels like when the next step is already built in.</p>
+            <p>See how a new customer request could reach you without getting lost.</p>
             <form className="automation-demo-form" onSubmit={submit}>
               <label>
                 <span>Name + contact</span>
@@ -73,11 +73,11 @@ function Page(){
                   <option>Specialty cleaning</option>
                 </select>
               </label>
-              <button type="submit">Try sample inquiry <ArrowRight/></button>
+              <button type="submit">See what happens <ArrowRight/></button>
             </form>
             <div className="automation-demo-note">
-              <span>{active<0?'Ready to try':'Demo lead'}</span>
-              <strong>{active<0?'Nothing is sent anywhere. Try the flow.':name+' · '+service}</strong>
+              <span>{active<0?'Ready when you are':'Demo lead'}</span>
+              <strong>{active<0?'Try it out. This is an example, so nothing will be sent.':name+' · '+service}</strong>
             </div>
           </div>
         </div>
@@ -107,16 +107,16 @@ function Page(){
 
       <div className={"automation-live-status "+(active>=0?'show':'')}>
         <div>
-          <small>{current?current.label:'INTERACTIVE EXAMPLE'}</small>
-          <strong>{current?current.title:'Send a sample inquiry to start.'}</strong>
-          <p>{current?current.detail:'You can click each step after the flow starts to see what it is doing.'}</p>
+          <small>{current?current.label:'TAKE A LOOK'}</small>
+          <strong>{current?current.title:'Try a sample customer request.'}</strong>
+          <p>{current?current.detail:'Try the example above, then tap any step to see how it helps.'}</p>
         </div>
-        {active>=0&&<button type="button" onClick={reset}><RotateCcw/> Try another inquiry</button>}
+        {active>=0&&<button type="button" onClick={reset}><RotateCcw/> Try another request</button>}
       </div>
 
       <div className="service-endcap">
         <span>YOUR WEBSITE</span><ArrowRight/><span>INQUIRY</span><ArrowRight/><span>AUTOMATION</span><ArrowRight/><strong>NEXT STEP ✓</strong>
-        <small>Connect your existing inquiry form · One-time setup $41.99 · Keep every lead moving.</small>
+        <small>Connect your existing inquiry form · One-time setup $41.99 · Keep new requests from getting lost.</small>
       </div>
     </section>
   <ServiceFAQ topic="website" lang="en"/></main>
