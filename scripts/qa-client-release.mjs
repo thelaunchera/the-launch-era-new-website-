@@ -148,10 +148,10 @@ check('All bilingual public pages keep matching forms, pricing and FAQ structure
   const en=read('public/'+route+'/index.html');
   const es=read('public/es/'+route+'/index.html');
   for(const [field,re] of Object.entries({
-   forms:/<form\\b/g,inputs:/<input\\b/g,selects:/<select\\b/g,
-   buttons:/<button\\b/g,details:/<details\\b/g
+   forms:/<form\b/g,inputs:/<input\b/g,selects:/<select\b/g,
+   buttons:/<button\b/g,details:/<details\b/g
   }))assert.equal(count(en,re),count(es,re),route+' '+field+' EN/ES mismatch');
-  const dollarPrices=src=>[...src.matchAll(/\\$\\d+(?:\\.\\d{1,2})?/g)].map(m=>m[0]);
+  const dollarPrices=src=>[...src.matchAll(/\$\d+(?:\.\d{1,2})?/g)].map(m=>m[0]);
   assert.deepEqual(dollarPrices(en),dollarPrices(es),route+' EN/ES listed prices mismatch');
  }
 });
