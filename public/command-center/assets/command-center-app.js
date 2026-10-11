@@ -2451,44 +2451,75 @@ async function addOwnerClientReview(kind,id,item,previewInput){
   if(data.feedback)notes.textContent=(es?'Solicitud del cliente: ':'Buyer feedback: ')+data.feedback;
   // Booking design reviews only. The owner alone decides when to send a reminder.
   // Show it after 12 hours of waiting; never auto-send, reset revisions or send final access.
+
+  // Visible countdown; the server remains authoritative and the send is always manual.
   if(kind==='booking'&&!['approved','changes_requested'].includes(data.status)&&data.manual_reminder_due_at){
-   const reminder=document.createElement('div');
-   reminder.style.cssText='display:grid;gap:8px;padding:12px;border-radius:12px;border:1px solid #cadce9;background:#fff';
-   const hint=document.createElement('p');hint.style.cssText='margin:0;font-size:12px;line-height:1.5;overflow-wrap:anywhere';
-   const btn=document.createElement('button');btn.type='button';btn.className='secondary';
-   btn.style.cssText='width:100%;white-space:normal;min-height:42px';
-   if(data.manual_reminder_sent_at){
-    hint.textContent=es?'✓ Recordatorio solicitado y aceptado por el proveedor de correo. La entrega en bandeja no está confirmada.':'✓ Reminder accepted by the email provider. Inbox delivery is not yet confirmed.';
-    btn.remove();
-   }else if(data.manual_reminder_attempted){
-    hint.textContent=es?'Recordatorio ya solicitado. Revisa el estado del envío antes de reintentarlo para evitar duplicados.':'Reminder already attempted. Check delivery status before retrying to avoid duplicates.';
-   }else if(!data.manual_reminder_available){
-    const due=new Date(data.manual_reminder_due_at);
-    const time=due.toLocaleString(es?'es-US':'en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
-    hint.textContent=es?'Si el cliente no responde, podrás enviarle un recordatorio manual a partir del '+time+'.':'If the client has not responded, you can send a manual reminder after '+time+'.';
-   }else{
-    hint.textContent=es?'Han pasado 12 horas sin aprobación. Puedes enviar un recordatorio desde aquí.':'12 hours have passed without approval. You can send a reminder from here.';
+   const reminder=document.createElement('div');reminder.style.cssText='display:grid;gap:9px;padding:12px;border-radius:12px;border:1px solid #cadce9;background:#fff';
+   const hint=document.createElement('p');hint.style.cssText='margin:0;font-size:12px;line-height:1.6;overflow-wrap:anywhere';
+   const countdown=document.createElement('p');countdown.style.cssText='margin:0;font-size:12px;color:#315b73;font-weight:700;line-height:1.5';
+   const btn=document.createElement('button');btn.type='button';btn.className='secondary';btn.style.cssText='width:100%;white-space:normal;min-height:44px';
+   reminder.append(hint,countdown,btn);card.append(reminder);
+   const deadline=Date.parse(data.manual_reminder_due_at);
+   const showTime=(value)=>new Date(value).toLocaleString(es?'es-US':'en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+   let current=data,refreshing=false,requesting=false,sendFailure='';
+   const renderReminder=()=>{
+    if(!card.isConnected)return;
+    btn.disabled=true;
+    const remaining=Math.max(0,deadline-Date.now());
+    if(current.status==='approved'||current.status==='changes_requested'||current.delivered){reminder.remove();return;}
+    if(current.manual_reminder_sent_at){
+     hint.textContent=(es?'✓ Recordatorio enviado para entrega el ':'✓ Reminder sent for delivery on ')+showTime(current.manual_reminder_sent_at)+'.';
+     countdown.textContent=es?'El proveedor aceptó el correo; su llegada a la bandeja aún no está confirmada.':'The email provider accepted it; inbox delivery is not yet confirmed.';
+     btn.textContent=es?'✓ Recordatorio enviado':'✓ Reminder Sent';return;
+    }
+    if(current.manual_reminder_attempted){
+     hint.textContent=es?'El recordatorio ya se intentó enviar. Revisa el estado antes de hacer otro intento para evitar duplicados.':'A reminder was already attempted. Check its status before trying again to avoid duplicates.';
+     countdown.textContent='';btn.textContent=es?'Recordatorio ya solicitado':'Reminder already requested';return;
+    }
+    btn.textContent=es?'✉ Enviar recordatorio':'✉ Send Reminder';
+    if(sendFailure){
+     hint.textContent=(es?'No se pudo confirmar el envío: ':'Could not confirm sending: ')+sendFailure;
+     countdown.textContent=es?'Actualiza el estado antes de volver a intentarlo.':'Refresh the status before trying again.';return;
+    }
+    if(requesting){hint.textContent=es?'Comprobando y enviando el recordatorio…':'Checking and sending reminder…';countdown.textContent='';return;}
+    if(remaining>0){
+     const seconds=Math.ceil(remaining/1000),hours=Math.floor(seconds/3600),minutes=Math.floor((seconds%3600)/60),secs=seconds%60;
+     hint.textContent=(es?'Podrás enviar un recordatorio manual el ':'You can send a manual reminder on ')+showTime(data.manual_reminder_due_at)+'.';
+     countdown.textContent=(es?'Disponible en ':'Available in ')+hours+'h '+String(minutes).padStart(2,'0')+'m '+String(secs).padStart(2,'0')+'s';return;
+    }
+    if(!current.manual_reminder_available){hint.textContent=es?'Comprobando si el recordatorio está disponible…':'Checking whether the reminder is available…';countdown.textContent='';return;}
+    hint.textContent=es?'Puedes recordar al cliente que revise y apruebe su diseño desde su Command Center privado.':'You can remind the client to review and approve their design in their private Command Center.';
+    countdown.textContent=es?'Envío manual · un recordatorio por ciclo de revisión':'Manual send · one reminder per review cycle';
     btn.disabled=false;
-    btn.textContent=es?'✉ Enviar recordatorio al cliente':'✉ Send client reminder';
-    btn.onclick=async()=>{
-     if(!confirm(es?'¿Enviar ahora un recordatorio de aprobación a este cliente? No se enviará la entrega final.':'Send a design-approval reminder to this client now? This will not send final delivery.'))return;
-     btn.disabled=true;
-     hint.textContent=es?'Enviando recordatorio…':'Sending reminder…';
-     try{
-      const sent=await ownerClientReviewRequest('owner_send_review_reminder',kind,id);
-      if(!sent.notification_accepted)throw Error(es?'El proveedor no confirmó el envío.':'Email provider did not accept the message.');
-      hint.textContent=es?'✓ Recordatorio aceptado por el proveedor. Comprueba el estado de entrega del correo.':'✓ Reminder accepted by the email provider. Verify its delivery status.';
-      btn.remove();
-     }catch(error){
-      hint.textContent=(es?'No se pudo confirmar el recordatorio: ':'Could not confirm the reminder: ')+(error.message||String(error));
-      // Prevent accidental duplicates until the owner refreshes the actual server status.
-      btn.disabled=true;
-     }
-    };
-   }
-   reminder.append(hint);
-   if(data.manual_reminder_available&&!data.manual_reminder_attempted)reminder.append(btn);
-   card.append(reminder);
+   };
+   const refreshReminder=async()=>{
+    if(refreshing||!card.isConnected)return;
+    refreshing=true;
+    try{current=await ownerClientReviewRequest('owner_get',kind,id);renderReminder();}
+    catch(error){if(card.isConnected)countdown.textContent=es?'No se pudo actualizar el estado. Abre de nuevo esta sección.':'Could not refresh status. Reopen this section.';}
+    finally{refreshing=false;}
+   };
+   btn.onclick=async()=>{
+    if(requesting||!current.manual_reminder_available||Date.now()<deadline||current.manual_reminder_attempted)return;
+    if(!confirm(es?'¿Enviar ahora un recordatorio para revisar el diseño? No se enviará la entrega final.':'Send the design-review reminder now? This will not send final delivery.'))return;
+    requesting=true;renderReminder();
+    try{
+     const latest=await ownerClientReviewRequest('owner_get',kind,id);current=latest;
+     if(latest.status==='approved'||latest.status==='changes_requested'||!latest.manual_reminder_available){renderReminder();return;}
+     const sent=await ownerClientReviewRequest('owner_send_review_reminder',kind,id);
+     if(!sent.notification_accepted)throw Error(es?'El proveedor no confirmó el envío.':'Email provider did not accept the message.');
+     current={...latest,manual_reminder_available:false,manual_reminder_attempted:true,manual_reminder_sent_at:sent.reminder_sent_at||new Date().toISOString()};
+    }catch(error){sendFailure=error.message||String(error);}
+    finally{requesting=false;renderReminder();}
+   };
+   renderReminder();
+   if(Number.isFinite(deadline)&&deadline>Date.now()){
+    const interval=setInterval(()=>{
+     if(!card.isConnected||current.manual_reminder_attempted||current.manual_reminder_sent_at){clearInterval(interval);return;}
+     renderReminder();
+     if(Date.now()>=deadline){clearInterval(interval);void refreshReminder();}
+    },1000);
+   }else if(!current.manual_reminder_available&&!current.manual_reminder_attempted){void refreshReminder();}
   }
   if(data.status==='changes_requested'){
     const btn=document.createElement('button');btn.type='button';btn.className='secondary';btn.style.cssText='width:100%;white-space:normal';
