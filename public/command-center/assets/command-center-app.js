@@ -342,7 +342,7 @@ async function boot(){let roleVerified=false;const generation=++bootGeneration;$
      $('app').classList.add('hidden');
      $('auth').classList.add('hidden');
      $('buyerPasswordSetup').classList.remove('hidden');
-     $('buyerPasswordIntro').textContent='Your email '+(user.email||'')+' is verified. Create a password to secure your CB Depot Command Center before your customer records become visible.';
+     $('buyerPasswordIntro').textContent='Your email '+(user.email||'')+' is verified. Create a password to secure your private Command Center before your customer records become visible.';
      hideTleLoading();
      return;
    }
