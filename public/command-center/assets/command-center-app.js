@@ -33,7 +33,7 @@ const say=s=>{$('message').textContent=s;if($('editor')?.open){const status=$('f
 async function check(result){if(result.error)throw result.error;return result.data}
 
 const pricingEndpoint='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-flow-pricing';
-let pricingDraft=null,pricingLoadGeneration=0,ownerReviewAccount=null;let cleaningCalcSelectedAddons=new Set(),cleaningCalcLatest=null;const calcFields=['residential_base','bedroom_fee','bathroom_fee','sqft_increment_fee','commercial_minimum','commercial_sqft_rate','deep_multiplier','moveout_multiplier','weekly_discount','biweekly_discount','monthly_discount','travel_fee','estimate_variance'];const calcDefault=()=>Object.fromEntries(calcFields.map(k=>[k,(k==='deep_multiplier'||k==='moveout_multiplier')?1:k==='estimate_variance'?10:0]));
+let pricingDraft=null,pricingLoadGeneration=0,ownerReviewAccount=null;let cleaningCalcSelectedAddons=new Set(),cleaningCalcLatest=null;const calcFields=['residential_base','bedroom_fee','bathroom_fee','sqft_increment_fee','commercial_minimum','commercial_sqft_rate','deep_multiplier','moveout_multiplier','weekly_discount','biweekly_discount','monthly_discount','travel_fee','estimate_variance'];const calcDefault=()=>({...Object.fromEntries(calcFields.map(k=>[k,(k==='deep_multiplier'||k==='moveout_multiplier')?1:k==='estimate_variance'?10:0])),zip_fees:''});
 function priceElement(tag,attrs={},label){const el=document.createElement(tag);for(const [key,value] of Object.entries(attrs)){if(key==='class')el.className=value;else if(key==='value')el.value=value;else el.setAttribute(key,String(value))}if(label!==undefined)el.textContent=String(label);return el}
 async function pricingCall(action,data={}){
  const {data:{session},error}=await db.auth.getSession();
@@ -96,13 +96,19 @@ function renderCleaningCalculator(){
   if(frequency==='monthly')subtotal*=1-n('monthly_discount')/100;
   let addons=0;
   for(const a of pricingDraft.addons){if(a.active!==false&&cleaningCalcSelectedAddons.has(a.id)&&[business?'commercial':'residential','both'].includes(a.category||'both'))addons+=Number(a.price)||0;}
-  const amount=Math.round((subtotal+addons+n('travel_fee'))*100)/100;
+  const zip=String($('calcCustomerZip').value||'').trim();
+  const matched=String(rates.zip_fees||'').split(/\r?\n/).map(line=>line.trim().match(/^(\d{5})\s*:\s*(\d+(?:\.\d{1,2})?)$/)).find(match=>match&&match[1]===zip);
+  const travel=matched?Number(matched[2]):n('travel_fee');
+  const amount=Math.round((subtotal+addons+travel)*100)/100;
   const delta=n('estimate_variance')/100,lower=Math.round(amount*(1-delta)*100)/100,upper=Math.round(amount*(1+delta)*100)/100;
   const money=x=>new Intl.NumberFormat('en-US',{style:'currency',currency:pricingDraft.currency||'USD'}).format(x);
   cleaningCalcLatest={amount,label:money(lower)+' – '+money(upper)};
   $('calcResult').textContent=crmLocaleText('Approximate range: ','Rango aproximado: ')+cleaningCalcLatest.label;
-  $('calcBreakdown').textContent=crmLocaleText('Draft price: ','Precio borrador: ')+money(amount)+crmLocaleText(' (including add-ons and travel)',' (incluye extras y distancia)');
+  $('calcBreakdown').textContent=crmLocaleText('Draft price: ','Precio borrador: ')+money(amount)+crmLocaleText(' · Add-ons: ',' · Extras: ')+money(addons)+crmLocaleText(' · Travel: ',' · Traslado: ')+money(travel);
  }
+ $('calcZipFees').value=rates.zip_fees||'';
+ $('calcZipFees').oninput=()=>{rates.zip_fees=$('calcZipFees').value;run()};
+ $('calcCustomerZip').oninput=run;
  for(const el of panel.querySelectorAll('[data-calc-field]')){
   const key=el.dataset.calcField;
   el.value=rates[key];
