@@ -6,7 +6,7 @@ type Topic = 'general' | 'website' | 'va';
 const faqs: Record<Topic, Record<Language, [string, string][]>> = {
   general: {
     en: [
-      ['How soon will everything be ready?', 'Allow 48 hours of production after payment, completed setup form, required access and approvals, starting in our next working period (Mon–Fri 9 AM–5 PM, Sat 8 AM–12 PM Eastern). Saturday purchases or completed setup forms after 12 PM begin Monday at 9 AM or the next business day. Closed periods or missing details can delay delivery.'],
+      ['How soon will everything be ready?', 'Allow 48 hours of production after payment, completed setup form, required access and approvals, starting in our next working period (Mon–Fri 8:30 AM–6 PM, Sat 8 AM–12 PM Eastern). Saturday purchases or completed setup forms after 12 PM begin Monday at 8:30 AM or the next business day. Closed periods or missing details can delay delivery.'],
       ['Where can I find my purchase email?', 'We’ll email your purchase confirmation and next steps. If you don’t see them, check Promotions or Spam too.'],
       ['Which service is right for my cleaning business?', 'If new requests keep getting lost between messages, Booking Automation + Command Center is a good place to start. AI Assistants can answer common booking questions, support permission-based follow-ups, or do both. The Cleaning App organizes clients, jobs, quotes and invoices; Website Automation connects your existing website; and Virtual Assistant supports everyday admin.'],
       ['Can I start with just one service?', 'Yes. Each service has its own page and checkout. Start with the part of your business that needs the most help.'],
@@ -15,7 +15,7 @@ const faqs: Record<Topic, Record<Language, [string, string][]>> = {
       ['Can I get help in Spanish?', 'Yes. Explore our website in English or Spanish and use the service page for details in your preferred language.']
     ],
     es: [
-      ['¿Cuándo estará listo mi servicio?', 'El plazo estimado es de 48 horas desde el inicio de producción con pago, intake, accesos y aprobaciones completos. Horario: lunes a viernes de 9 AM a 5 PM, sábados de 8 AM a 12 PM (Este). Las compras del sábado después de las 12 PM empiezan el lunes a las 9 AM o el siguiente día hábil. Los cierres o datos faltantes pueden retrasar la entrega.'],
+      ['¿Cuándo estará listo mi servicio?', 'El plazo estimado es de 48 horas desde el inicio de producción con pago, formulario, accesos y aprobaciones completos. Horario: lunes a viernes de 8:30 AM a 6 PM, sábados de 8 AM a 12 PM (Este). Las compras del sábado después de las 12 PM empiezan el lunes a las 8:30 AM o el siguiente día hábil. Los cierres o datos faltantes pueden retrasar la entrega.'],
       ['¿Dónde encuentro el correo de compra?', 'Te enviaremos la confirmación y los próximos pasos por correo. Si no aparecen, revisa también Promociones y Spam.'],
       ['¿Qué servicio necesita mi negocio de limpieza?', 'Si las nuevas solicitudes se te pierden entre mensajes, empieza por Booking Automation + Command Center. Los asistentes de IA pueden responder preguntas sobre reservas, ayudar con seguimientos autorizados o hacer ambas cosas. La Cleaning App organiza clientes y trabajos; Website Automation conecta tu website actual; y Virtual Assistant te ayuda con tareas administrativas.'],
       ['¿Puedo comenzar con un solo servicio?', 'Sí. Cada servicio tiene su propia página y proceso de compra. Empieza por lo que más necesita tu negocio.'],
@@ -45,14 +45,14 @@ const faqs: Record<Topic, Record<Language, [string, string][]>> = {
       ['What does Virtual Assistant support include?', 'Practical administrative help based on your business priorities, for up to 8 hours per month under this plan.'],
       ['Is the support desk shown here live?', 'No. Those are example tasks to show the kind of help you can request. Your work starts after we complete your setup.'],
       ['Is this a full-time employee?', 'No. This is monthly administrative support with the hours shown on this page, not a full-time employee.'],
-      ['How soon does VA onboarding begin?', 'Initial onboarding follows a 48-hour production timeframe once payment, intake and access are complete. Saturday orders after 12 PM ET begin on the next business day; monthly support follows your plan.'],
+      ['How soon does VA onboarding begin?', 'Initial onboarding follows a 48-hour production timeframe once payment, setup form and access are complete. Saturday orders after 12 PM ET begin on the next business day; monthly support follows your plan.'],
       ['How do we decide what to work on?', 'After purchase, share your business details and the administrative tasks you want help with. We use your priorities to plan the support within your plan.']
     ],
     es: [
       ['¿Qué incluye el servicio de Virtual Assistant?', 'Apoyo práctico con tareas administrativas según las prioridades de tu negocio, hasta 8 horas al mes dentro de este plan.'],
       ['¿El panel que aparece aquí está trabajando en vivo?', 'No. Son ejemplos de las tareas en las que podemos ayudarte. Empezamos con las tuyas después de preparar el servicio.'],
       ['¿Es una empleada a tiempo completo?', 'No. Es apoyo administrativo mensual dentro de las horas indicadas en esta página, no una empleada a tiempo completo.'],
-      ['¿Cuándo comienza la configuración de VA?', 'La configuración inicial tiene 48 horas estimadas desde que están listos pago, intake y accesos y comienza el siguiente horario laborable. Si compras el sábado después de las 12 PM, comenzamos el próximo día hábil. El apoyo mensual continúa según el plan contratado.'],
+      ['¿Cuándo comienza la configuración de VA?', 'La configuración inicial tiene 48 horas estimadas desde que están listos pago, formulario y accesos y comienza el siguiente horario laborable. Si compras el sábado después de las 12 PM, comenzamos el próximo día hábil. El apoyo mensual continúa según el plan contratado.'],
       ['¿Cómo elegimos las tareas?', 'Después de comprar, comparte los datos de tu negocio y las tareas administrativas que necesitas resolver. Usamos tus prioridades para organizar el apoyo dentro del plan.']
     ]
   }
