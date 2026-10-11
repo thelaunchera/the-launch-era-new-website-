@@ -95,7 +95,7 @@ function renderCleaningCalculator(){
   if(frequency==='biweekly')subtotal*=1-n('biweekly_discount')/100;
   if(frequency==='monthly')subtotal*=1-n('monthly_discount')/100;
   let addons=0;
-  for(const a of pricingDraft.addons){if(cleaningCalcSelectedAddons.has(a.id))addons+=Number(a.price)||0;}
+  for(const a of pricingDraft.addons){if(a.active!==false&&cleaningCalcSelectedAddons.has(a.id)&&[business?'commercial':'residential','both'].includes(a.category||'both'))addons+=Number(a.price)||0;}
   const amount=Math.round((subtotal+addons+n('travel_fee'))*100)/100;
   const delta=n('estimate_variance')/100,lower=Math.round(amount*(1-delta)*100)/100,upper=Math.round(amount*(1+delta)*100)/100;
   const money=x=>new Intl.NumberFormat('en-US',{style:'currency',currency:pricingDraft.currency||'USD'}).format(x);
@@ -122,7 +122,7 @@ function renderCleaningCalculator(){
   label.style.cssText='padding:8px;border:1px solid #d6e6ed;border-radius:10px;display:flex;gap:7px;align-items:center';
   root.append(label);
  }
- $('calcCopyEstimate').onclick=async()=>{if(cleaningCalcLatest)await navigator.clipboard.writeText(cleaningCalcLatest.label)};
+ $('calcCopyEstimate').onclick=async()=>{if(!cleaningCalcLatest)return;try{await navigator.clipboard.writeText(cleaningCalcLatest.label)}catch{$('pricingStatus').textContent=crmLocaleText('Select and copy the estimate above.','Selecciona y copia el estimado.')}};
  $('calcUseEstimate').onclick=async()=>{
   if(!cleaningCalcLatest||workspace?.is_internal||!buyerSelectedRequest)return;
   const id=buyerSelectedRequest.id,amount=cleaningCalcLatest.amount;
