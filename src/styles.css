@@ -1164,3 +1164,151 @@ img { display:block; width:100%; object-fit:cover; }
 .footer-hours-zone{color:#647c89;font-size:10px;margin-left:3px;white-space:nowrap}
 .hero-intro .hero-availability-note{max-width:610px;margin:8px auto 0;font-size:11px;line-height:1.45;color:#587587}
 @media(max-width:767px){.footer-hours{margin:15px auto 0}.footer-top .footer-hours p{font-size:12px}.hero-intro .hero-availability-note{font-size:10px;max-width:365px}}
+
+
+/* Unified editorial hero — photo sits BEHIND the headline, not in a separate section.
+   Two small, recognizably iPhone-style notification examples; EN/ES share the same layout. */
+.sales-home .hero-photo{
+  position:relative;isolation:isolate;overflow:hidden;
+  height:clamp(605px,54vw,740px);
+  background:#e7e9e5;
+}
+.sales-home .hero-photo > img.hero-main-image{
+  position:absolute;inset:-12px;z-index:0;
+  width:calc(100% + 24px);height:calc(100% + 24px);
+  object-fit:cover;object-position:center 47%;
+  filter:blur(8px) saturate(.89);
+  transform:scale(1.02);transform-origin:center;
+}
+.sales-home .hero-photo::after{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,
+    rgba(250,248,243,.95) 0%,rgba(250,248,243,.9) 21%,
+    rgba(250,248,243,.68) 43%,rgba(250,248,243,.24) 68%,
+    rgba(250,248,243,.08) 100%);
+}
+.sales-home .hero-photo .hero-intro{
+  position:relative;z-index:3;box-sizing:border-box;
+  width:min(840px,100%);max-width:100%;margin:0 auto;
+  padding:clamp(55px,6.7vw,104px) 26px 0;
+  background:transparent;text-align:center;
+}
+.sales-home .hero-photo .hero-intro .eyebrow{
+  font-size:clamp(10px,1vw,12px);font-weight:650;
+  line-height:1.5;letter-spacing:.105em;color:#496a80;
+  max-width:680px;margin:0 auto;
+}
+.sales-home .hero-photo .hero-intro h1{
+  color:#191919;max-width:800px;
+  font-size:clamp(39px,4.7vw,62px);line-height:1.09;
+  letter-spacing:-.042em;font-weight:580;margin:17px auto 17px;
+  text-wrap:balance;
+}
+.sales-home .hero-photo .hero-intro p{
+  max-width:610px;margin:0 auto;color:#425f73;
+  font-size:clamp(15px,1.4vw,18px);line-height:1.55;
+}
+.sales-home .hero-photo .hero-notice-flow{
+  position:absolute;z-index:4;left:max(5%,24px);top:auto;bottom:90px;
+  width:min(310px,calc(100% - 42px));
+  display:grid;gap:11px;
+}
+.sales-home .hero-photo .hero-notice-flow::before{display:none;content:none}
+.sales-home .hero-photo .hero-notice-flow .notification{
+  position:relative;inset:auto;transform:none;animation:none;
+  box-sizing:border-box;width:100%;min-height:0;
+  grid-template-columns:36px minmax(0,1fr);gap:11px;
+  align-items:center;padding:12px 14px;
+  border-radius:18px;
+  background:rgba(249,250,252,.94);
+  border:1px solid rgba(255,255,255,.96);
+  box-shadow:0 10px 30px rgba(36,53,68,.14),0 1px 3px rgba(36,53,68,.06);
+  backdrop-filter:none;-webkit-backdrop-filter:none;
+}
+.sales-home .hero-photo .hero-notice-flow .notice-icon{
+  width:36px;height:36px;border-radius:11px;
+  background:#deedf8;color:#356b8a;display:grid;place-items:center;
+}
+.sales-home .hero-photo .hero-notice-flow .notice-icon svg{width:19px;height:19px}
+.sales-home .hero-photo .hero-notice-flow .notice-body{min-width:0}
+.sales-home .hero-photo .hero-notice-flow .notice-meta{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  margin:0 0 3px;
+  font-size:9px;line-height:1.2;font-weight:750;letter-spacing:.035em;
+  color:#5b6e7b;
+}
+.sales-home .hero-photo .hero-notice-flow .notice-meta span{
+  min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.sales-home .hero-photo .hero-notice-flow .notice-meta time{
+  flex:none;font-weight:500;letter-spacing:0;color:#6f7e88;white-space:nowrap;
+}
+.sales-home .hero-photo .hero-notice-flow .notification strong{
+  font-size:13px;line-height:1.23;font-weight:750;color:#191919;
+}
+.sales-home .hero-photo .hero-notice-flow .notification p{
+  margin:3px 0 0;font-size:11px;line-height:1.36;
+  color:#536878;overflow-wrap:break-word;
+}
+.sales-home .hero-photo .foam-wave{z-index:2;height:48px}
+@media(max-width:767px){
+  .sales-home .hero-photo{height:clamp(620px,176vw,730px)}
+  .sales-home .hero-photo > img.hero-main-image{
+    object-position:61% center;filter:blur(7px) saturate(.9);
+  }
+  .sales-home .hero-photo::after{
+    background:linear-gradient(180deg,
+      rgba(250,248,243,.94) 0%,rgba(250,248,243,.86) 23%,
+      rgba(250,248,243,.67) 41%,rgba(250,248,243,.16) 69%,
+      rgba(250,248,243,.05) 100%);
+  }
+  .sales-home .hero-photo .hero-intro{
+    padding:clamp(35px,8vw,55px) 22px 0;width:100%;
+  }
+  .sales-home .hero-photo .hero-intro .eyebrow{
+    font-size:10px;letter-spacing:.08em;line-height:1.48;
+    max-width:345px;
+  }
+  .sales-home .hero-photo .hero-intro h1{
+    font-size:clamp(32px,8.6vw,42px);line-height:1.09;
+    margin:19px auto 19px;max-width:360px;
+  }
+  .sales-home .hero-photo .hero-intro p{
+    font-size:14px;line-height:1.47;max-width:340px;
+  }
+  .sales-home .hero-photo .hero-notice-flow{
+    left:17px;right:auto;bottom:clamp(56px,11vw,90px);
+    width:min(320px,calc(100% - 34px));gap:11px;
+  }
+  .sales-home .hero-photo .hero-notice-flow .notification{
+    min-height:0;padding:10px 12px;
+    grid-template-columns:34px minmax(0,1fr);gap:10px;
+    border-radius:17px;
+  }
+  .sales-home .hero-photo .hero-notice-flow .notice-icon{
+    width:34px;height:34px;border-radius:10px;
+  }
+  .sales-home .hero-photo .hero-notice-flow .notice-icon svg{
+    width:18px;height:18px;
+  }
+  .sales-home .hero-photo .hero-notice-flow .notice-meta{
+    font-size:8px;margin-bottom:2px;
+  }
+  .sales-home .hero-photo .hero-notice-flow .notification strong{
+    font-size:12px;line-height:1.25;
+  }
+  .sales-home .hero-photo .hero-notice-flow .notification p{
+    font-size:10px;line-height:1.35;margin-top:2px;
+  }
+  .sales-home .hero-photo .foam-wave{height:36px}
+}
+@media(max-width:360px){
+  .sales-home .hero-photo{height:670px}
+  .sales-home .hero-photo .hero-notice-flow{bottom:66px}
+  .sales-home .hero-photo .hero-intro h1{font-size:31px}
+}
+@media(prefers-reduced-motion:reduce){
+  .sales-home .hero-photo .hero-notice-flow .notification{
+    transition:none;animation:none;
+  }
+}

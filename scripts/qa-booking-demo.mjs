@@ -443,3 +443,33 @@ if(process.env.QA_CHECKOUT_REAL==='1'){
 await browser.close();
 console.log('SUMMARY',JSON.stringify({pass:results.filter(x=>x.pass).length,failed:results.filter(x=>!x.pass).length,tests:results}));
 if(results.some(x=>!x.pass))process.exitCode=1;
+
+
+// Protect the real homepage hero design, both languages, and the agency hours location.
+for(const lang of ['en','es'])for(const viewport of [{name:'phone',width:390,height:844},{name:'tablet',width:820,height:1180},{name:'desktop',width:1440,height:900}]){
+ await check('Unified photo hero '+lang+' '+viewport.name,viewport,async page=>{
+  const response=await page.goto(base+(lang==='es'?'/es/':'/'),{waitUntil:'networkidle'});
+  assert.equal(response?.status(),200);
+  const result=await page.evaluate(()=>{
+    const hero=document.querySelector('.sales-home .hero-photo');
+    const intro=hero?.querySelector('.hero-intro');
+    const photo=hero?.querySelector('img.hero-main-image');
+    const notice=hero?.querySelectorAll('.hero-notice-flow .notification');
+    const footer=document.querySelector('.site-footer .footer-hours');
+    const h=hero?.getBoundingClientRect(),a=intro?.getBoundingClientRect();
+    const cards=[...(notice||[])].map(n=>n.getBoundingClientRect());
+    return {sameSection:!!intro&&intro.parentElement===hero,blur:photo?getComputedStyle(photo).filter:'',noticeCount:notice?.length,
+      noHoursInHero:!/(Mon.Fri|lun.vie|8:30|12:00|48.hours|48.horas)/i.test(intro?.textContent||''),
+      footerHasHours:!!footer&&/8:30/.test(footer.textContent||'')&&/12:00/.test(footer.textContent||''),
+      boundsOK:!!h&&!!a&&a.left>=-2&&a.right<=innerWidth+2&&cards.every(b=>b.left>=-2&&b.right<=innerWidth+2&&b.top>=h.top&&b.bottom<=h.bottom)&&(!cards[1]||cards[1].top>=cards[0].bottom+5),
+      horizontalOverflow:document.documentElement.scrollWidth>innerWidth+3};
+  });
+  assert.equal(result.sameSection,true,'Headline must be on photo');
+  assert.match(result.blur,/blur\(/,'Photo must be gently blurred');
+  assert.equal(result.noticeCount,2,'Exactly two phone-style notifications');
+  assert(result.noHoursInHero,'Business hours and production details belong outside hero');
+  assert(result.footerHasHours,'Public office hours remain in footer');
+  assert(result.boundsOK,'Headline and notifications must fit the hero');
+  assert.equal(result.horizontalOverflow,false,'No horizontal overflow');
+ });
+}
