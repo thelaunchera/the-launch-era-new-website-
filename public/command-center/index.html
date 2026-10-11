@@ -134,7 +134,51 @@
 <label>Currency<select id="pricingCurrency"><option value="USD">USD</option><option value="CAD">CAD</option></select></label>
 <label>Quote / Estimate rules<select id="pricingQuotePolicy"><option value="review_unpriced_jobs">Review jobs without a fixed price</option><option value="always_review">Review all requests</option><option value="large_or_special">Large or special jobs</option><option value="no_quotes">Fixed prices only</option></select></label>
 </div>
-<p class="muted">New appointments require owner review while calendar availability verification is being prepared.</p>
+<div style="margin:14px 0;padding:15px;border:1px solid #cbdfea;border-radius:14px;background:#f1f8fd">
+<label style="display:flex;align-items:center;gap:9px;font-weight:700"><input id="pricingAutoConfirm" type="checkbox" style="width:auto;margin:0"> Automatically confirm flat-price bookings when a slot is available</label>
+<p class="muted" style="font-size:12px;margin:8px 0 0">Off: all flat-price requests wait for your approval and do not reserve a slot. On: confirmed only after the system is delivered, availability is configured, and a slot is free. Estimates always require customer acceptance. Review-all requests always turns this off.</p>
+</div>
+<section id="cleaningCalculatorPanel" hidden style="border:1px solid #cfdfed;border-radius:18px;padding:clamp(13px,3vw,23px);margin:18px 0;background:#f7fbfe">
+ <div class="section-title">Cleaning Price Calculator</div>
+ <p class="muted">Only for cleaning businesses. Enter your own rates, then calculate an approximate customer estimate. Nothing is published or emailed until you choose.</p>
+ <h3>Set your cleaning rates</h3>
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:10px">
+  <label>Residential base ($)<input data-calc-field="residential_base" type="number" min="0" max="50000" step=".01" placeholder="Your base rate"></label>
+  <label>Extra bedroom ($)<input data-calc-field="bedroom_fee" type="number" min="0" max="2000" step=".01"></label>
+  <label>Extra bathroom ($)<input data-calc-field="bathroom_fee" type="number" min="0" max="2000" step=".01"></label>
+  <label>Each extra 500 sq ft ($)<input data-calc-field="sqft_increment_fee" type="number" min="0" max="5000" step=".01"></label>
+  <label>Commercial minimum ($)<input data-calc-field="commercial_minimum" type="number" min="0" max="50000" step=".01"></label>
+  <label>Commercial per sq ft ($)<input data-calc-field="commercial_sqft_rate" type="number" min="0" max="100" step=".01"></label>
+  <label>Deep clean multiplier<input data-calc-field="deep_multiplier" type="number" min="1" max="5" step=".05"></label>
+  <label>Move-out multiplier<input data-calc-field="moveout_multiplier" type="number" min="1" max="5" step=".05"></label>
+  <label>Weekly discount (%)<input data-calc-field="weekly_discount" type="number" min="0" max="60" step="1"></label>
+  <label>Biweekly discount (%)<input data-calc-field="biweekly_discount" type="number" min="0" max="60" step="1"></label>
+  <label>Monthly discount (%)<input data-calc-field="monthly_discount" type="number" min="0" max="60" step="1"></label>
+  <label>Travel fee ($)<input data-calc-field="travel_fee" type="number" min="0" max="2000" step=".01"></label>
+  <label>Estimate range (+/-%)<input data-calc-field="estimate_variance" type="number" min="0" max="40" step="1"></label>
+ </div>
+ <p class="muted" style="font-size:12px">Residential base covers up to 2 bedrooms, 1 bathroom and 1,000 sq ft. Additional sizes use your settings. Commercial uses area and minimum. Discount applies to service before add-ons and travel.</p>
+ <h3>Calculate a customer's approximate price</h3>
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:10px">
+  <label>Space<select id="calcSpace"><option value="residential">Residential</option><option value="commercial">Commercial</option></select></label>
+  <label>Cleaning type<select id="calcType"><option value="standard">Standard</option><option value="deep">Deep cleaning</option><option value="moveout">Move-out</option></select></label>
+  <label>Bedrooms<input id="calcBeds" type="number" min="0" max="30" step="1" value="2"></label>
+  <label>Bathrooms<input id="calcBaths" type="number" min="0" max="30" step="1" value="1"></label>
+  <label>Area (sq ft)<input id="calcSqft" type="number" min="0" max="1000000" step="50" value="1000"></label>
+  <label>Frequency<select id="calcFrequency"><option value="once">One-time</option><option value="weekly">Weekly</option><option value="biweekly">Every two weeks</option><option value="monthly">Monthly</option></select></label>
+ </div>
+ <p style="font-weight:700;margin:13px 0 5px">Add-ons from your service catalog</p>
+ <div id="calcAddons" style="display:flex;flex-wrap:wrap;gap:9px"></div>
+ <div style="padding:15px;border-radius:14px;background:#e5f2fb;margin-top:13px">
+  <p id="calcResult" aria-live="polite" style="font-size:19px;font-weight:800;color:#204e6c">Enter your business rates to see a price.</p>
+  <p id="calcBreakdown" class="muted" style="font-size:12px"></p>
+  <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px">
+   <button type="button" id="calcUseEstimate">Use as draft in selected inquiry</button>
+   <button type="button" id="calcCopyEstimate" class="secondary">Copy estimate</button>
+  </div>
+  <p class="muted" style="font-size:12px">An estimate is not a fixed rate or confirmed booking. Review and adjust the final amount before sending.</p>
+ </div>
+</section>
 <div style="display:flex;gap:12px;flex-wrap:wrap"><button type="button" id="pricingSave">Save and publish</button><button type="button" class="secondary" id="pricingReload">Refresh</button></div>
 <p style="margin-top:16px"><a id="pricingPublicUrl" href="#" target="_blank" rel="noopener noreferrer">Open my Booking Page</a></p>
 </div></article></section><section id="ownerCalendarHub" class="hidden premium-emailhub">
