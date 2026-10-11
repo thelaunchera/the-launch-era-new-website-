@@ -534,7 +534,7 @@ $('search').oninput=render;$('stageFilter').onchange=render;$('dueFilter').oncha
  const leadSection=['leads','calendar','clients','inbox','emails'].includes(target);
  if(workspace?.is_internal&&leadSection&&!document.body.dataset.leadsLoaded)void load();
  document.querySelectorAll('.nav-link[data-target]').forEach(b=>b.classList.toggle('active',b.dataset.target===target));closePremiumSidebar();if(target==='home'){
- if(workspace&&!workspace.is_internal){setView('buyer-dashboard');void loadBuyerRequests();$('buyerDashboardHub').scrollIntoView({behavior:'smooth'});return}
+ if(workspace&&!workspace.is_internal){setView('buyer-dashboard');void loadBuyerBookingShare();void loadBuyerRequests();$('buyerDashboardHub').scrollIntoView({behavior:'smooth'});return}
  setView('pipeline');$('search').value='';$('stageFilter').value='';$('dueFilter').value='';render();$('quickhome').scrollIntoView({behavior:'smooth'});return}if(target==='owner-help'){if(!workspace?.is_internal)return;setView('owner-help');$('ownerHelpHub').scrollIntoView({behavior:'smooth'});return}if(target==='help'){setView('help');$('helpHub').scrollIntoView({behavior:'smooth'});return}if(target==='availability'&&workspace?.is_internal&&!ownerReviewAccount){premiumNavigate('owner-pages');return}if(target==='availability'){setView('availability');loadAvailability();$('availabilityHub').scrollIntoView({behavior:'smooth'});return}if(target==='pricing'&&workspace?.is_internal&&!ownerReviewAccount){premiumNavigate('owner-pages');return}if(target==='pricing'){setView('pricing');loadPricing();$('pricingHub').scrollIntoView({behavior:'smooth'});return}if(target==='owner-pages'){setView('owner-pages');loadOwnerPages();$('ownerPagesHub').scrollIntoView({behavior:'smooth'});return}
 if(target==='owner-calendar'){if(!workspace?.is_internal)return;setView('owner-calendar');loadOwnerCalendar();$('ownerCalendarHub').scrollIntoView({behavior:'smooth'});return}if(target==='clients'&&workspace&&!workspace.is_internal){setView('buyer-customers');void loadBuyerRequests();$('buyerCustomersHub').scrollIntoView({behavior:'smooth'});return}if(target==='buyer-booking-preview'){if(!workspace||workspace.is_internal)return;setView('buyer-booking-preview');$('buyerBookingPreviewHub').scrollIntoView({behavior:'smooth'});void loadBuyerBookingPreview();return}if(target==='request-center'){if(!workspace||workspace.is_internal)return;setView('request-center');void loadBuyerRequests();$('buyerRequestsHub').scrollIntoView({behavior:'smooth'});return}if(target==='buyer-followups'){if(!workspace||workspace.is_internal)return;setView('buyer-followups');$('settingsHub').scrollIntoView({behavior:'smooth'});return}if(target==='settings'){setView('settings');$('settingsAccountEmail').textContent=accountEmail||'—';$('settingsBusinessName').textContent=workspace?.name||'—';$('settingsLanguage').value=localStorage.getItem('tle_crm_language')==='es'?'es':'en';$('settingsHub').scrollIntoView({behavior:'smooth'});return}if(target==='inbox'){setView('inbox');$('inboundHub').scrollIntoView({behavior:'smooth'});return}if(target==='emails'){setView('emails');$('emailHub').scrollIntoView({behavior:'smooth'});return}if(target==='calendar'){$('dueFilter').value='';$('stageFilter').value='';render();setView('calendar')}else if(target==='clients'){$('stageFilter').value='';$('dueFilter').value='';render();setView('clients')}else{$('stageFilter').value='';$('dueFilter').value='';render();setView('pipeline')}document.getElementById('premiumViews').scrollIntoView({behavior:'smooth'})}document.querySelectorAll('.nav-link[data-target]').forEach(b=>b.onclick=()=>premiumNavigate(b.dataset.target));$('navToggle').setAttribute('aria-expanded','false');$('navToggle').setAttribute('aria-controls','premiumSidebar');$('navToggle').onclick=togglePremiumSidebar;$('sidebarScrim').onclick=closePremiumSidebar;document.addEventListener('keydown',e=>{if(e.key==='Escape')closePremiumSidebar()});$('settingsLanguage').onchange=()=>{const select=$('crmLanguageSelect');if(select){select.value=$('settingsLanguage').value;select.dispatchEvent(new Event('change'))}};
 document.querySelectorAll('[data-owner-help-target]').forEach(button=>button.onclick=()=>{if(workspace?.is_internal)premiumNavigate(button.dataset.ownerHelpTarget)});
@@ -2655,6 +2655,51 @@ $('cbDashPricing').onclick=()=>premiumNavigate('pricing');
 $('cbDashRefresh').onclick=()=>{if(isDetailingWorkspace())void loadBuyerRequests()};
 $('buyerDashboardOpenBookingPreview').onclick=()=>premiumNavigate('buyer-booking-preview');
 $('buyerShortcutBookingPreview').onclick=()=>premiumNavigate('buyer-booking-preview');
+let buyerBookingShareVersion=0,buyerBookingShareURL='';
+function verifiedPublicBookingUrl(value){
+ try{
+  const url=new URL(String(value||''));
+  if(url.origin!=='https://thelaunchera.com'||!['/booking/','/base-booking.html'].includes(url.pathname))return '';
+  if(!url.searchParams.get('key')||url.searchParams.has('owner_preview')||url.searchParams.has('preview'))return '';
+  return url.href;
+ }catch{return ''}
+}
+async function loadBuyerBookingShare(){
+ const version=++buyerBookingShareVersion,wsId=workspace?.id;
+ const actions=$('buyerBookingShareActions'),status=$('buyerBookingShareStatus'),input=$('buyerBookingShareUrl'),open=$('buyerOpenBookingLink'),copy=$('buyerCopyBookingLink');
+ buyerBookingShareURL='';input.value='';actions.classList.add('hidden');copy.disabled=true;open.removeAttribute('href');
+ if(!workspace||workspace.is_internal)return;
+ if(!buyerDeliveryReady){
+  status.textContent=buyerText('Your public booking link will be available after final delivery. You can still use the private Test Center.','Tu enlace público estará disponible después de la entrega final. Mientras tanto puedes usar el Centro de Pruebas privado.');
+  return;
+ }
+ status.textContent=buyerText('Checking your live Booking Page…','Verificando tu página de reservas activa…');
+ try{
+  const data=await pricingCall('get');
+  if(version!==buyerBookingShareVersion||workspace?.id!==wsId||workspace.is_internal||!buyerDeliveryReady)return;
+  const url=data.delivery_ready===false?'':verifiedPublicBookingUrl(data.booking_url);
+  if(!url){
+   status.textContent=buyerText('Your public booking link is not available yet. Please contact The Launch Era before sharing a test link.','Tu enlace público aún no está disponible. Contacta a The Launch Era antes de compartir un enlace de prueba.');
+   return;
+  }
+  buyerBookingShareURL=url;input.value=url;open.href=url;actions.classList.remove('hidden');copy.disabled=false;
+  status.textContent=buyerText('Your real Booking Page is ready to share.','Tu página de reservas real está lista para compartir.');
+ }catch(error){
+  if(version!==buyerBookingShareVersion||workspace?.id!==wsId)return;
+  status.textContent=buyerText('Could not verify your public link. Open Dashboard again to retry.','No pudimos verificar tu enlace público. Vuelve a abrir el Panel principal para intentarlo.');
+ }
+}
+$('buyerCopyBookingLink').onclick=async()=>{
+ const status=$('buyerBookingShareStatus'),input=$('buyerBookingShareUrl');
+ if(!workspace||workspace.is_internal||!buyerDeliveryReady||!buyerBookingShareURL)return;
+ let copied=false;
+ try{if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(buyerBookingShareURL);copied=true}}catch{}
+ if(!copied){
+  input.focus();input.select();input.setSelectionRange(0,input.value.length);
+  try{copied=document.execCommand('copy')}catch{}
+ }
+ status.textContent=copied?buyerText('✓ Booking link copied. You can paste it wherever customers book.','✓ Enlace copiado. Puedes pegarlo donde tus clientes hagan sus reservas.'):buyerText('Select the link above and choose Copy to share it.','Selecciona el enlace de arriba y toca Copiar para compartirlo.');
+};
 $('buyerBookingPreviewRefresh').onclick=()=>loadBuyerBookingPreview();
 $('buyerBookingPreviewMobileRefresh').onclick=()=>loadBuyerBookingPreview();
 $('buyerClientReview').classList.add('hidden');
