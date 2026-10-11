@@ -155,9 +155,11 @@
   <label>Biweekly discount (%)<input data-calc-field="biweekly_discount" type="number" min="0" max="60" step="1"></label>
   <label>Monthly discount (%)<input data-calc-field="monthly_discount" type="number" min="0" max="60" step="1"></label>
   <label>Travel fee ($)<input data-calc-field="travel_fee" type="number" min="0" max="2000" step=".01"></label>
+  <label style="grid-column:1/-1">Travel fee by customer ZIP (optional — one per line, e.g. 33436:15)<textarea id="calcZipFees" rows="3" maxlength="1800" placeholder="33436:15&#10;33435:20"></textarea></label>
+  <label>Customer ZIP to calculate<input id="calcCustomerZip" inputmode="numeric" maxlength="5" placeholder="33436"></label>
   <label>Estimate range (+/-%)<input data-calc-field="estimate_variance" type="number" min="0" max="40" step="1"></label>
  </div>
- <p class="muted" style="font-size:12px">Residential base covers up to 2 bedrooms, 1 bathroom and 1,000 sq ft. Additional sizes use your settings. Commercial uses area and minimum. Discount applies to service before add-ons and travel.</p>
+ <p class="muted" style="font-size:12px">Residential base covers up to 2 bedrooms, 1 bathroom and 1,000 sq ft. Additional sizes use your settings. Commercial uses area and minimum. Discount applies to the service before add-ons and travel. A matching ZIP fee replaces the general travel fee; no distance is guessed.</p>
  <h3>Calculate a customer's approximate price</h3>
  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:10px">
   <label>Space<select id="calcSpace"><option value="residential">Residential</option><option value="commercial">Commercial</option></select></label>
