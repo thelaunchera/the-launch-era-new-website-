@@ -2537,16 +2537,16 @@ function renderBuyerManagedEmailPreviews(){
  const detailing=isDetailingWorkspace(),es=localStorage.getItem("tle_crm_language")==="es";
  const texts=detailing?(es?[
    ["Seguimiento a tu solicitud de detailing","Queríamos saber si tienes preguntas sobre el servicio para tu vehículo. Responde directamente a este mensaje y te ayudaremos."],
-   ["¿Sigues interesado en el detailing?","Último seguimiento sobre tu solicitud. Si deseas continuar o tienes preguntas sobre tu vehículo, responde aquí."]
+   ["¿Sigues interesado en el detailing?","Queríamos volver a saber de ti sobre tu solicitud. Si deseas continuar o tienes preguntas sobre tu vehículo, responde aquí."]
  ]:[
    ["Following up on your detailing request","Just following up on your vehicle detailing request. If you have questions about the quote or appointment, reply to this email."],
-   ["Still interested in your detailing?","One last check-in about your detailing request. Reply here if you'd like to continue or have any questions."]
+   ["Still interested in your detailing?","Checking in again about your detailing request. Reply here if you'd like to continue or have any questions."]
  ]):(es?[
    ["Seguimiento a tu solicitud de servicio","¿Todavía necesitas este servicio? Si tienes preguntas, responde directamente a este correo."],
-   ["¿Necesitas ayuda con tu solicitud?","Último seguimiento de tu solicitud. Puedes responder aquí si necesitas ayuda."]
+   ["¿Necesitas ayuda con tu solicitud?","Volvemos a contactarte sobre tu solicitud. Puedes responder aquí si necesitas ayuda."]
  ]:[
    ["Following up on your service request","Just checking whether you still need help with your service request. Reply here if you have questions."],
-   ["Still need help with your request?","One last check-in about your request. Reply here if you need anything."]
+   ["Still need help with your request?","Checking in again about your request. Reply here if you need anything."]
  ]);
  a.textContent=texts[0][0]+"\n\n"+(es?"Hola [cliente]":"Hi [customer]")+",\n\n"+texts[0][1]+"\n\n"+(workspace?.name||"Your business");
  b.textContent=texts[1][0]+"\n\n"+(es?"Hola [cliente]":"Hi [customer]")+",\n\n"+texts[1][1]+"\n\n"+(workspace?.name||"Your business");
