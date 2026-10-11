@@ -23,9 +23,10 @@ let trafficSource=(params.get("source")||"").trim().toLowerCase();try{trafficSou
 
 const bookingSaleEnd=new Date("2026-11-01T04:00:00Z").getTime();
 const bookingPrice=Date.now()<bookingSaleEnd?"$19.99":"$99";
-const allowed={"booking-flow":(Date.now()<bookingSaleEnd?"The Fall Refresh Offer · ":"")+"Booking Automation + Command Center · "+bookingPrice,"website-automation":"Website Automation · $41.99",va:"Virtual Assistant · $34.99/month","ai-booking":"AI Booking Assistant · $79 setup, then $29/month after 30 days","ai-followup":"AI Follow-Up Assistant · $59 setup, then $19/month after 30 days","ai-business":"AI Business Assistant (both) · $119 setup, then $39/month after 30 days"};
+const allowed={"booking-flow":(Date.now()<bookingSaleEnd?"The Fall Refresh Offer · ":"")+"Booking Automation + Command Center · "+bookingPrice,"website-automation":"Website Automation · $41.99",va:"Virtual Assistant · $34.99/month","ai-booking":"AI Booking Assistant · $79 setup, then $29/month from delivery","ai-followup":"AI Follow-Up Assistant · $59 setup, then $19/month from delivery","ai-business":"AI Business Assistant (both) · $119 setup, then $39/month from delivery"};
+const allowedEs={"booking-flow":(Date.now()<bookingSaleEnd?"Oferta Fall Refresh · ":"")+"Booking Automation + Command Center · "+bookingPrice,"website-automation":"Website Automation · $41.99",va:"Virtual Assistant · $34.99/mes","ai-booking":"AI Booking Assistant · $79 de instalación y luego $29/mes desde la entrega","ai-followup":"AI Follow-Up Assistant · $59 de instalación y luego $19/mes desde la entrega","ai-business":"AI Business Assistant (ambos) · $119 de instalación y luego $39/mes desde la entrega"};
 const kicker=document.getElementById("kicker"),title=document.getElementById("title"),copy=document.getElementById("copy"),dots=document.getElementById("dots"),retry=document.getElementById("retry"),status=document.getElementById("status");
-document.documentElement.lang=es?"es":"en";
+document.documentElement.lang=es?"es":"en";document.title=es?"Abriendo pago seguro — The Launch Era":"Opening secure checkout — The Launch Era";
 if(!allowed[offer]){
  dots.hidden=true;
  title.textContent=es?"Este enlace de pago no es válido.":"This checkout link is invalid.";
@@ -33,7 +34,7 @@ if(!allowed[offer]){
  status.textContent="";
 
 }else{
- kicker.textContent=allowed[offer];
+ kicker.textContent=(es?allowedEs[offer]:allowed[offer]);
  title.textContent=es?"Abriendo tu pago seguro…":"Opening your secure checkout…";
  copy.textContent=es?"Continuarás directamente a Stripe. Podrás indicar tu idioma preferido allí.":"Continuing directly to Stripe. You can set your preferred language there.";
  status.textContent=es?"Producción: 48 horas desde el inicio con intake completo en horario laborable. Sábado después de las 12 PM ET: próximo día hábil. Después revisa Entrada, Promociones y Spam.":"Production: 48 hours estimated from working-hours kickoff. Saturday after 12 PM ET: next business day. After paying, check Inbox, Promotions and Spam.";
