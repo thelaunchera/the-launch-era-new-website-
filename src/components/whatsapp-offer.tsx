@@ -9,6 +9,7 @@ export function WhatsAppOfferPrice({lang='en'}:{lang?:'en'|'es'}) {
  const es=lang==='es';
  const [onSale,setOnSale]=useState(true);
  useEffect(()=>{
+  if(WHATSAPP_COMING_SOON)return;
   const sync=()=>setOnSale(Date.now()<OFFER_END);
   sync();
   const interval=window.setInterval(sync,60000);
