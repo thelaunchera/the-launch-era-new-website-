@@ -194,7 +194,10 @@ for(const v of screens) for(const lang of ['en','es']) {
   const hero=p.locator('.hero-copy');
   if(v.width<768){
    const last=p.locator('.service-grid .service-card').last();
-   await last.scrollIntoViewIfNeeded();
+   // CSS scroll-snap can keep Playwright's auto-scroll waiting even when the card is reachable.
+   // Scroll the rail deterministically and then check that the last offer is visible.
+   await last.evaluate(el=>el.scrollIntoView({block:'nearest',inline:'end',behavior:'instant'}));
+   await p.waitForTimeout(150);
    const b=await last.boundingBox();
    assert(b&&b.x>=0&&b.x+b.width<=v.width+2,'Last service reachable in phone rail');
   }
