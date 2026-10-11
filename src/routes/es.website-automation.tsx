@@ -14,7 +14,7 @@ export const Route=createFileRoute('/es/website-automation/')({head:()=>({meta:[
 
 const stages=[
   {label:'01 · CAPTURADA',title:'Consulta organizada',detail:'Nombre, contacto y servicio quedan guardados en un solo registro.',Icon:MessageSquareText},
-  {label:'02 · DIRIGIDA',title:'Próximo paso correcto',detail:'La consulta entra al flujo correcto en vez de quedarse perdida en un inbox.',Icon:Workflow},
+  {label:'02 · DIRIGIDA',title:'Próximo paso correcto',detail:'La consulta entra al lugar donde puedes revisarla y responder sin buscar entre mensajes.',Icon:Workflow},
   {label:'03 · SEGUIMIENTO',title:'La conversación sigue',detail:'El próximo paso queda claro para que el lead no se enfríe.',Icon:BellRing},
 ] as const;
 
@@ -50,9 +50,9 @@ function Page(){
   return <main style={{background:'#faf4f7'}}>
     <section className="container service-hero">
       <div className="eyebrow">WEBSITE AUTOMATION</div>
-      <p className="booking-offer-line service-discount-offer"><span className="booking-offer-tag">30% OFF</span><span className="booking-offer-price"><del>$59.99</del><strong>$41.99</strong></span></p><h1 className="editorial">Conserva tu website. Mejora lo que pasa después.</h1>
+      <p className="booking-offer-line service-discount-offer"><span className="booking-offer-tag">30 % DE DESCUENTO</span><span className="booking-offer-price"><del>$59.99</del><strong>$41.99</strong></span></p><h1 className="editorial">Conserva tu website. Mejora lo que pasa después.</h1>
       <p>¿Ya tienes website? Organizamos las consultas que llegan desde tu formulario de contacto o cotización para que puedas responder y dar seguimiento sin perder oportunidades.</p>
-      <a className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=es">Comenzar — $41.99 <ArrowRight/></a><p className="muted" style={{fontSize:13,margin:"13px 0 10px",lineHeight:1.6}}>Producción inicial: 48 horas estimadas después de completar el intake, dentro del próximo horario laborable. Compras del sábado después de las 12 PM ET comienzan el próximo día hábil.</p><div className="service-proof-strip" aria-label="Detalles del servicio"><span>TU WEBSITE ACTUAL</span><span>ORGANIZACIÓN DE CONSULTAS</span><span>CONFIGURACIÓN ÚNICA</span></div>
+      <a className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=es">Comenzar — $41.99 <ArrowRight/></a><p className="muted" style={{fontSize:13,margin:"13px 0 10px",lineHeight:1.6}}>Producción inicial: 48 horas estimadas después de recibir tu formulario de inicio y los datos necesarios, dentro del próximo horario laborable. Compras del sábado después de las 12 PM ET comienzan el próximo día hábil.</p><div className="service-proof-strip" aria-label="Detalles del servicio"><span>TU WEBSITE ACTUAL</span><span>ORGANIZACIÓN DE CONSULTAS</span><span>CONFIGURACIÓN ÚNICA</span></div>
     </section>
 
     <section className="container service-story">
