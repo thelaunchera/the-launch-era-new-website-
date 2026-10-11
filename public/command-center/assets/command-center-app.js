@@ -2532,6 +2532,27 @@ $('buyerBookingPreviewPhone').onclick=()=>{$('buyerBookingPreviewShell').style.w
 $('buyerBookingPreviewWide').onclick=()=>{$('buyerBookingPreviewShell').style.width='100%';$('buyerBookingPreviewFrame').style.height='1120px'};
 $("buyerDashboardOpenInbox").onclick=()=>premiumNavigate("request-center");
 $("buyerDashboardOpenSettings").onclick=()=>premiumNavigate("settings");
+function renderBuyerManagedEmailPreviews(){
+ const a=$("buyerManagedPreviewFirst"),b=$("buyerManagedPreviewSecond");if(!a||!b)return;
+ const detailing=isDetailingWorkspace(),es=localStorage.getItem("tle_crm_language")==="es";
+ const texts=detailing?(es?[
+   ["Seguimiento a tu solicitud de detailing","Queríamos saber si tienes preguntas sobre el servicio para tu vehículo. Responde directamente a este mensaje y te ayudaremos."],
+   ["¿Sigues interesado en el detailing?","Último seguimiento sobre tu solicitud. Si deseas continuar o tienes preguntas sobre tu vehículo, responde aquí."]
+ ]:[
+   ["Following up on your detailing request","Just following up on your vehicle detailing request. If you have questions about the quote or appointment, reply to this email."],
+   ["Still interested in your detailing?","One last check-in about your detailing request. Reply here if you'd like to continue or have any questions."]
+ ]):(es?[
+   ["Seguimiento a tu solicitud de servicio","¿Todavía necesitas este servicio? Si tienes preguntas, responde directamente a este correo."],
+   ["¿Necesitas ayuda con tu solicitud?","Último seguimiento de tu solicitud. Puedes responder aquí si necesitas ayuda."]
+ ]:[
+   ["Following up on your service request","Just checking whether you still need help with your service request. Reply here if you have questions."],
+   ["Still need help with your request?","One last check-in about your request. Reply here if you need anything."]
+ ]);
+ a.textContent=texts[0][0]+"\n\n"+(es?"Hola [cliente]":"Hi [customer]")+",\n\n"+texts[0][1]+"\n\n"+(workspace?.name||"Your business");
+ b.textContent=texts[1][0]+"\n\n"+(es?"Hola [cliente]":"Hi [customer]")+",\n\n"+texts[1][1]+"\n\n"+(workspace?.name||"Your business");
+ $("buyerManagedPreviewFirstTitle").textContent=es?"Vista previa: primer seguimiento":"Preview: first follow-up";
+ $("buyerManagedPreviewSecondTitle").textContent=es?"Vista previa: segundo seguimiento":"Preview: second follow-up";
+}
 async function loadBuyerRequests(){
  if(!workspace||workspace.is_internal||buyerRequestBusy)return;buyerRequestBusy=true;
  $("buyerRequestCards").textContent=buyerText("Loading your bookings…","Cargando tus reservas…");
@@ -2626,7 +2647,7 @@ let view='pipeline';function setView(v){
  view=v;
  $('buyerBusinessShortcuts').classList.toggle('hidden',v!=='settings'||!!workspace?.is_internal);
  $('buyerEmailHealth').classList.toggle('hidden',v!=='buyer-followups'||!!workspace?.is_internal);
- document.body.classList.toggle('crm-isolated-view',!['pipeline','calendar','clients'].includes(v));document.body.classList.toggle('crm-followups-focus',v==='buyer-followups'&&!workspace?.is_internal);$('buyerFollowupsIntro').classList.toggle('hidden',v!=='buyer-followups'||!!workspace?.is_internal);$('ownerCalendarHub').classList.toggle('hidden',v!=='owner-calendar');
+ document.body.classList.toggle('crm-isolated-view',!['pipeline','calendar','clients'].includes(v));document.body.classList.toggle('crm-followups-focus',v==='buyer-followups'&&!workspace?.is_internal);$('buyerFollowupsIntro').classList.toggle('hidden',v!=='buyer-followups'||!!workspace?.is_internal);if(v==='buyer-followups'&&!workspace?.is_internal)renderBuyerManagedEmailPreviews();$('ownerCalendarHub').classList.toggle('hidden',v!=='owner-calendar');
  const internal=!!workspace?.is_internal;
  const leadMode=['pipeline','calendar','clients','inbox','emails','request-center'].includes(v);
  document.body.classList.toggle('tle-owner-purchases',internal&&!leadMode);
