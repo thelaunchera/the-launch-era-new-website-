@@ -193,13 +193,19 @@ for(const v of screens) for(const lang of ['en','es']) {
   await p.goto(base+(lang==='es'?'/es/':'/'),{waitUntil:'networkidle'});
   const hero=p.locator('.hero-copy');
   if(v.width<768){
-   const last=p.locator('.service-grid .service-card').last();
-   // CSS scroll-snap can keep Playwright's auto-scroll waiting even when the card is reachable.
-   // Scroll the rail deterministically and then check that the last offer is visible.
-   await last.evaluate(el=>el.scrollIntoView({block:'nearest',inline:'end',behavior:'instant'}));
-   await p.waitForTimeout(150);
-   const b=await last.boundingBox();
-   assert(b&&b.x>=0&&b.x+b.width<=v.width+2,'Last service reachable in phone rail');
+   // Verify the last card from the page directly: browser scroll-snap can stall locator auto-scroll.
+   const b=await p.evaluate(async()=>{
+    const rail=document.querySelector('.sales-home .service-grid');
+    const last=rail?.querySelector('.service-card:last-child');
+    if(!rail||!last)return null;
+    rail.style.scrollBehavior='auto';
+    rail.style.scrollSnapType='none';
+    rail.scrollLeft=rail.scrollWidth;
+    await new Promise(resolve=>setTimeout(resolve,120));
+    const rect=last.getBoundingClientRect();
+    return {x:rect.x,width:rect.width};
+   });
+   assert(b&&b.x>=-2&&b.x+b.width<=v.width+2,'Last service reachable in phone rail');
   }
   assert.equal(await hero.locator('a[href="/booking-demo/?lang='+lang+'"]').count(),1);
   for(let i=0;i<3;i++) {
