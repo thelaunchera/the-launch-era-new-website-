@@ -78,6 +78,30 @@ check('Reusable launch checklist exists', () => {
   assert(existsSync('.github/workflows/booking-base-qa.yml'));
   assert(existsSync('.github/workflows/website-responsive-qa.yml'));
 });
+check('WhatsApp AI launch stays Coming Soon without public prices or checkout', () => {
+  const offer = read('src/components/whatsapp-offer.tsx');
+  assert.match(offer, /WHATSAPP_COMING_SOON=true/, 'The launch gate must remain enabled');
+  assert.match(offer, /COMING SOON/, 'Homepage WhatsApp asset must show Coming Soon');
+  for (const path of ['public/whatsapp-ai-agent/index.html', 'public/es/whatsapp-ai-agent/index.html']) {
+    const content = read(path);
+    assert.match(content, /class="offer-panel" hidden aria-hidden="true"/, 'Price panel must stay hidden: '+path);
+    assert.match(content, /#setup\[hidden\],\.offer-panel\[hidden\]\{display:none!important\}/, 'Hide launch setup and prices: '+path);
+    assert.match(content, /coming-soon-note/, 'Coming Soon state must be prominent');
+    assert.match(content, /COMING SOON/, 'Coming Soon label missing');
+    assert.match(content, /<p hidden aria-hidden="true">[^<]*\$48/, 'Retain existing prices in hidden markup for later: '+path);
+    assert.doesNotMatch(content, /href="[^"]*service-checkout/, 'WhatsApp purchase must not open a checkout');
+  }
+});
+check('Buyer design review offers both choices before delivery', () => {
+  const page = read('public/command-center/index.html');
+  const actions = read('public/command-center/assets/command-center-app.js');
+  assert.match(page, /id="buyerReviewApprove"/);
+  assert.match(page, /id="buyerReviewChange"/);
+  assert.match(page, /id="buyerReviewFeedback"/);
+  assert.match(actions, /buyer_decision/);
+  assert.match(actions, /request_changes/);
+  assert.match(actions, /Approve \/ Changes/, 'Mobile review entry must indicate both paths');
+});
 const failed = checks.filter(x => !x.passed);
 console.log('Client release static checks:', checks.length - failed.length, 'passed,', failed.length, 'failed');
 if (failed.length) process.exitCode = 1;
