@@ -480,7 +480,7 @@
 <section id="buyerBookingPreviewHub" class="hidden premium-emailhub" aria-label="Private Booking Page preview">
  <button id="buyerBookingPreviewClose" type="button" class="secondary" aria-label="Back to Command Center">← Back</button>
  <button id="buyerBookingPreviewMobileRefresh" type="button" class="secondary" aria-label="Refresh private Booking Page with latest services and prices" style="display:none">↻ Refresh</button>
- <button id="buyerReviewMobileOpen" type="button" class="secondary hidden" aria-expanded="false" aria-controls="buyerClientReview" aria-label="Open customer approval" style="display:none">Review</button>
+ <button id="buyerReviewMobileOpen" type="button" class="secondary hidden" aria-expanded="false" aria-controls="buyerClientReview" aria-label="Open design review: approve or request changes" title="Approve design or request changes" style="display:none">Review options</button>
  <div class="section-title">My Booking Page · Private Preview</div>
  <p class="muted">Test your real services, prices and quote form. Complete a sample request and tap Submit to verify it reaches your private Command Center. Sample data is deleted afterward; no real booking, email or charge is created.</p>
  <div class="panel" style="max-width:none;padding:16px;margin:18px 0">
@@ -502,11 +502,11 @@
   <p class="muted" style="font-size:12px;line-height:1.6">Your private Test Center remains available after delivery. Select <strong>Refresh preview</strong> to see the latest service prices, extras, design and business hours. Sample submissions check routing without real bookings, customer emails or charges. Displayed time slots in test mode are samples.</p>
  </div>
  <article id="buyerClientReview" class="panel hidden" style="padding:20px;margin:18px 0;border:1px solid #cbdde9;background:#fff;display:grid;gap:13px">
-  <div><strong style="font-size:19px" id="buyerClientReviewTitle">Your approval · Tu aprobación</strong><p class="muted" style="margin:7px 0 0;line-height:1.55">A successful sample test is separate from your design approval.</p></div>
+  <div><strong style="font-size:19px" id="buyerClientReviewTitle">Your approval · Tu aprobación</strong><p class="muted" style="margin:7px 0 0;line-height:1.55">A successful sample test is separate from your design approval. Choose Approve Design or Request Changes below.</p></div>
   <p id="buyerClientReviewCount" style="margin:0;font-size:13px;font-weight:800;color:#356a8a">1 revision included · 1 revisión incluida</p>
   <p id="buyerClientReviewStatus" role="status" aria-live="polite" style="margin:0;font-size:13px;line-height:1.5">Loading review status…</p>
   <div id="buyerClientReviewButtons" style="display:flex;flex-wrap:wrap;gap:10px">
-   <button type="button" id="buyerReviewApprove" style="flex:1 1 190px;min-height:48px;white-space:normal">✓ Approve &amp; Continue</button>
+   <button type="button" id="buyerReviewApprove" style="flex:1 1 190px;min-height:48px;white-space:normal">✓ Approve Design</button>
    <button type="button" id="buyerReviewChange" class="secondary" style="flex:1 1 190px;min-height:48px;white-space:normal">✎ Request Changes</button>
   </div>
   <div id="buyerReviewFeedbackForm" class="hidden" style="display:grid;gap:9px">
