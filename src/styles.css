@@ -1107,3 +1107,52 @@ img { display:block; width:100%; object-fit:cover; }
   .service-grid .service-ai-price { padding:7px 9px; }
   .service-grid .service-ai-price strong { font-size:12px; }
 }
+
+/* Tablet-specific layout: translated navigation and long Spanish service labels
+   must wrap within the viewport rather than forcing horizontal scrolling. */
+@media (min-width:768px) and (max-width:1050px) {
+  .nav-inner {
+    height:82px;
+    padding-inline:clamp(24px,5vw,48px);
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:16px;
+    align-items:center;
+  }
+  .nav-inner .desktop-nav { display:none; }
+  .nav-inner > .wordmark {
+    grid-column:1;
+    grid-row:1;
+    justify-self:start;
+    min-width:0;
+    font-size:clamp(18px,2.5vw,22px);
+  }
+  .nav-inner .mobile-menu-trigger {
+    display:inline-flex;
+    grid-column:2;
+    grid-row:1;
+    justify-self:end;
+    align-items:center;
+    justify-content:center;
+  }
+  .mobile-nav { background:var(--foam); }
+  .sales-home .booking-layout {
+    grid-template-columns:minmax(0,1fr);
+    gap:30px;
+  }
+  .home-booking-explorer,
+  .home-booking-explorer .product-explorer,
+  .home-booking-explorer .product-view {
+    min-width:0;
+    max-width:100%;
+  }
+  .service-faq-container { grid-template-columns:minmax(0,1fr); gap:30px; }
+  .service-sales, .service-sales > *,
+  .service-sales .service-buy-clarity,
+  .service-sales .service-pain-list {
+    min-width:0;
+    max-width:100%;
+  }
+  .service-sales .service-buy-clarity,
+  .service-sales .service-sales-close { overflow-wrap:anywhere; }
+}
