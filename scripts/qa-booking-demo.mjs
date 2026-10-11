@@ -212,13 +212,13 @@ for(const v of screens) for(const lang of ['en','es']) {
    const bounds=await p.locator('.product-explorer').evaluate(el=>({left:el.getBoundingClientRect().left,right:el.getBoundingClientRect().right,width:innerWidth,scroll:document.documentElement.scrollWidth}));
    assert(bounds.left>=-2&&bounds.right<=bounds.width+2&&bounds.scroll<=bounds.width+3,'Product preview overflow '+JSON.stringify(bounds));
   }
-  await p.locator('.purchase-clarity summary').first().click();
-  assert.equal(await p.locator('.purchase-clarity details').first().locator('p').isVisible(),true);
+  await p.locator('.general-faq summary').first().click();
+  assert.equal(await p.locator('.general-faq details').first().locator('p').isVisible(),true);
   const checkout=p.locator('.final-actions a[href*="service-checkout"]');
   assert.equal(await checkout.getAttribute('href'),'/service-checkout/?offer=booking-flow&lang='+lang);
   await p.locator('.product-tabs button').first().click();
   await p.locator('.sales-pains summary').first().click();
-  await p.locator('.purchase-clarity summary').first().click();
+  await p.locator('.general-faq summary').first().click();
   console.log('HOME_HEIGHT',v.name,lang,await p.evaluate(()=>document.documentElement.scrollHeight));
   await p.screenshot({path:'qa-screenshots/sales-'+v.name+'-'+lang+'.png',fullPage:true});
   await hero.scrollIntoViewIfNeeded();
@@ -342,8 +342,9 @@ for(const viewport of screens) for(const lang of ['en','es']) for(const product 
    await detail.locator('summary').click();
   }
   const faq=p.locator('.service-buy-clarity details');
-  assert.equal(await faq.count(),4);
-  for(let i=0;i<4;i++){
+  const expectedFaqCount=product==='booking'?8:4;
+   assert.equal(await faq.count(),expectedFaqCount);
+   for(let i=0;i<expectedFaqCount;i++){
    await faq.nth(i).locator('summary').click();
    assert(await faq.nth(i).locator('p').isVisible(),'Purchase answer visible');
    await faq.nth(i).locator('summary').click();
