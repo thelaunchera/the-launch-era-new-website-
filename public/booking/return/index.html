@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#FAF8F3">
+<title>Manage Your Appointment | Booking Support</title>
+<style>
+:root{--primary:#191919;--accent:#CFE9F7;--ink:#191919;--muted:#526370;--line:#DEE4E8}
+*{box-sizing:border-box}body{min-height:100svh;margin:0;background:radial-gradient(ellipse 80% 40% at 50% 0%,#E6F2FA,transparent 90%),#FAF8F3;color:var(--ink);font:15px/1.6 Arial,"Avenir Next",sans-serif;padding:30px 14px 54px}
+main{max-width:640px;margin:auto}.brand{display:flex;gap:14px;align-items:center;justify-content:center;margin-bottom:30px;min-height:60px}.logo{width:56px;height:56px;object-fit:contain;display:none}.brand-name{font-weight:800;font-size:clamp(17px,3.4vw,23px);letter-spacing:-.025em;overflow-wrap:anywhere}.ey{display:block;font-size:10px;letter-spacing:.17em;font-weight:800;color:#647581}
+.card{background:white;padding:clamp(24px,5vw,43px);border:1px solid var(--line);border-radius:27px;box-shadow:0 22px 70px #193A4A12;overflow:hidden}.icon{width:57px;height:57px;display:grid;place-items:center;border-radius:18px;background:#E8F5FD;color:#346987;font-size:25px;margin-bottom:20px}
+h1{font:500 clamp(30px,5vw,42px)/1.14 Georgia,serif;letter-spacing:-.025em;margin:0 0 16px}p{color:var(--muted);margin:0 0 17px}
+label{display:block;font-weight:700;color:#344C5C;font-size:13px;margin:18px 0 7px}
+input,select,textarea{display:block;width:100%;min-height:52px;border:1px solid #B8CCD9;background:#fff;color:#191919;border-radius:13px;padding:12px 14px;font:15px Arial,sans-serif}
+textarea{min-height:96px;resize:vertical}input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #357EAD;outline-offset:3px}
+button,.button{border:0;border-radius:999px;min-height:54px;width:100%;padding:14px 20px;background:var(--accent);color:#173449;font:800 15px Arial,sans-serif;cursor:pointer;margin-top:20px;box-shadow:0 7px 20px #366D8E18;display:flex;align-items:center;justify-content:center;text-decoration:none;text-align:center}
+button:disabled{opacity:.55;cursor:wait}.ghost{background:#F4F8FB;border:1px solid #D8E5EE;box-shadow:none;margin-top:11px}.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:22px 0}
+.choice{border:1.5px solid #DDE5E9;border-radius:16px;padding:18px;text-align:left;cursor:pointer;background:#fff;color:#191919;box-shadow:none;margin:0;min-height:95px;display:block;font:700 15px/1.5 Arial,sans-serif}
+.choice[aria-pressed=true]{border-color:#5CA8CE;background:#EFF8FC;box-shadow:0 0 0 2px #D5EBF7}.choice small{display:block;font-size:12px;color:#617681;font-weight:400;margin-top:6px}
+.summary{background:#F3F8FB;border:1px solid #E1EFF7;border-radius:15px;padding:17px;margin:20px 0}.summary strong{color:#203A49}.summary p{margin:0;font-size:13px}
+.notice{border:1px solid #D6E5EE;background:#F2F8FC;border-radius:15px;padding:14px 16px;font-size:12px;color:#42596B;line-height:1.55;margin:18px 0}
+.note{font-size:12px;color:#65717A;margin:14px 0}
+.success{background:#E7F6ED;color:#23764B;width:62px;height:62px;border-radius:50%;display:grid;place-items:center;font-size:29px;margin-bottom:25px}
+.status{font-size:13px;min-height:18px;color:#9C3636;margin:14px 0 0}
+.hidden,[hidden]{display:none!important}
+footer{text-align:center;font-size:11px;color:#7A8790;margin-top:23px}
+@media(max-width:430px){body{padding:22px 12px}.card{border-radius:21px;padding:27px 20px}.choices{gap:8px}.choice{padding:13px;min-height:105px}h1{font-size:32px}}
+</style>
+</head>
+<body>
+<main>
+<header class="brand"><img class="logo" id="logo" alt=""><div><span class="ey" id="brandEy">APPOINTMENT SUPPORT</span><div class="brand-name" id="brandName">YOUR CLEANING COMPANY</div></div></header>
+<section class="card" aria-live="polite">
+<div id="entry">
+ <div class="icon">✉</div>
+ <span class="ey" data-i="entryEy">WELCOME BACK</span><h1 data-i="entryTitle">Need to change your appointment?</h1>
+ <p data-i="entryIntro">Enter the email you used when you booked. We'll send a private link to review your appointment securely.</p>
+ <form id="accessForm">
+ <label for="email" data-i="email">Booking email address</label>
+ <input type="email" id="email" name="email" autocomplete="email" inputmode="email" required maxlength="254" placeholder="you@example.com">
+ <button id="sendAccess" type="submit" data-i="sendLink">Email me a secure link →</button>
+ </form>
+ <p class="note" data-i="privacy">We'll never display your booking just because someone knows your email.</p>
+ <p class="status" id="entryError" role="alert"></p>
+</div>
+<div id="sent" hidden>
+ <div class="success">✓</div><h1 data-i="sentTitle">Check your inbox</h1>
+ <p data-i="sentCopy">If you have a confirmed upcoming appointment, a private link is on its way shortly. Check Spam or Promotions as well.</p>
+ <div class="notice" data-i="sentSecurity">For your privacy, we won't confirm whether an email address is on file.</div>
+</div>
+<div id="manage" hidden>
+ <div class="icon" id="assistantIcon">✳</div><span class="ey" id="assistantLabel">YOUR APPOINTMENT</span>
+ <h1 id="welcome">Welcome back!</h1><p id="manageIntro">We're here to help. What would you like to do?</p>
+ <div class="summary"><p><strong id="service"></strong></p><p id="when"></p><p id="appointmentStatus"></p></div>
+ <div id="managedPending" class="notice" hidden></div>
+ <div id="manageChoices">
+ <div class="choices"><button type="button" class="choice" data-kind="reschedule" aria-pressed="false"><span data-i="reschedule">Change date or time</span><small data-i="rescheduleHint">Request a new day or time</small></button><button type="button" class="choice" data-kind="cancel" aria-pressed="false"><span data-i="cancel">Request cancellation</span><small data-i="cancelHint">Ask to cancel this appointment</small></button></div>
+ <form id="changeForm" hidden>
+ <div id="dateFields" hidden><label for="date" data-i="date">Preferred new date</label><input type="date" id="date" name="date"><label for="time" data-i="time">Preferred new time</label><input type="time" id="time" step="1800" name="time"></div>
+ <label for="reason" data-i="reason">Reason (optional)</label><select name="reason" id="reason"><option value="" data-i="reasonChoose">Choose a reason, if you'd like</option><option value="Schedule conflict" data-i="schedule">Schedule conflict</option><option value="Travel or away" data-i="away">Travel or away</option><option value="Plans changed" data-i="plans">Plans changed</option><option value="Other" data-i="other">Other</option></select>
+ <label for="details" data-i="details">Anything else we should know? (optional)</label><textarea name="details" id="details" maxlength="600" rows="3" data-i-placeholder="detailsPlaceholder" placeholder="Add a note to the team"></textarea>
+ <div class="notice" data-i="approvalNotice">Your current appointment stays confirmed until the business reviews and approves your request.</div>
+ <button type="submit" id="submitRequest" data-i="submitRequest">Send request for review →</button></form>
+ </div><p id="manageError" class="status" role="alert"></p>
+ <a class="button ghost" id="bookAgain" href="#" data-i="bookAgain" hidden>Book another cleaning</a>
+</div>
+<div id="complete" hidden>
+ <div class="success">✓</div><span class="ey" id="completeBrand"></span>
+ <h1 data-i="completeTitle">We have your request!</h1><p data-i="completeText">We're reviewing the details and will be in touch shortly. Your original booking stays confirmed until we approve a change.</p><a class="button ghost" id="completeLink" href="#" data-i="backBooking">Return to Booking Page</a>
+</div>
+</section>
+<footer id="footer">Private appointment access · Powered by The Launch Era</footer>
+</main>
+<script>
+(function(){
+ "use strict";
+ const endpoint="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-return-service";
+ const qs=new URLSearchParams(location.search),key=qs.get("key")||"",token=qs.get("token")||"";
+ const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+ const dict={
+ en:{entryEy:"WELCOME BACK",entryTitle:"Need to change your appointment?",entryIntro:"Enter the email you used when you booked. We'll send a private link to review your appointment securely.",email:"Booking email address",sendLink:"Email me a secure link →",privacy:"We'll never display your booking just because someone knows your email.",sentTitle:"Check your inbox",sentCopy:"If you have a confirmed upcoming appointment, a private link is on its way shortly. Check Spam or Promotions as well.",sentSecurity:"For your privacy, we won't confirm whether an email address is on file.",reschedule:"Change date or time",rescheduleHint:"Request a new day or time",cancel:"Request cancellation",cancelHint:"Ask to cancel this appointment",date:"Preferred new date",time:"Preferred new time",reason:"Reason (optional)",reasonChoose:"Choose a reason, if you'd like",schedule:"Schedule conflict",away:"Travel or away",plans:"Plans changed",other:"Other",details:"Anything else we should know? (optional)",detailsPlaceholder:"Add a note to the team",approvalNotice:"Your current appointment stays confirmed until the business reviews and approves your request.",submitRequest:"Send request for review →",bookAgain:"Book another cleaning",completeTitle:"We have your request!",completeText:"We're reviewing the details and will be in touch shortly. Your original booking stays confirmed until we approve a change.",backBooking:"Return to Booking Page"},
+ es:{entryEy:"¡QUÉ BUENO VERTE DE NUEVO!",entryTitle:"¿Necesitas cambiar tu cita?",entryIntro:"Escribe el correo que usaste al reservar. Te enviaremos un enlace privado para revisar tu cita con seguridad.",email:"Correo de tu reserva",sendLink:"Enviarme un enlace seguro →",privacy:"No mostraremos una reserva solamente porque alguien conozca tu correo.",sentTitle:"Revisa tu correo",sentCopy:"Si tienes una reserva próxima confirmada, recibirás un enlace privado pronto. Revisa también Spam o Promociones.",sentSecurity:"Por privacidad, no confirmamos si un correo está registrado.",reschedule:"Cambiar fecha u hora",rescheduleHint:"Solicita otro día u horario",cancel:"Solicitar cancelación",cancelHint:"Pide cancelar esta cita",date:"Nueva fecha preferida",time:"Nueva hora preferida",reason:"Motivo (opcional)",reasonChoose:"Elige un motivo, si deseas",schedule:"Conflicto de horario",away:"Viaje o ausencia",plans:"Cambios de planes",other:"Otro",details:"¿Algo más que debamos saber? (opcional)",detailsPlaceholder:"Escribe un mensaje al equipo",approvalNotice:"Tu cita original sigue confirmada hasta que el negocio revise y apruebe tu solicitud.",submitRequest:"Enviar solicitud para revisión →",bookAgain:"Reservar otra limpieza",completeTitle:"¡Tenemos tu solicitud!",completeText:"Estamos revisando los detalles y pronto nos comunicaremos contigo. Tu cita original sigue confirmada hasta aprobar el cambio.",backBooking:"Volver a la página de reservas"}
+ };
+ let lang=qs.get("lang")==="es"?"es":"en";let business="",current=null,kind="";
+ const $=id=>document.getElementById(id),copy=()=>dict[lang];
+ const formatDate=iso=>{if(!iso)return"";const d=new Date(iso);return Number.isNaN(d.getTime())?"":new Intl.DateTimeFormat(lang==="es"?"es-US":"en-US",{dateStyle:"medium",timeStyle:"short"}).format(d)};
+ const show=id=>{for(const panel of ["entry","sent","manage","complete"])$(panel).hidden=panel!==id};
+ const applyLang=()=>{
+ document.documentElement.lang=lang;
+ document.querySelectorAll("[data-i]").forEach(el=>{const value=copy()[el.dataset.i];if(value)el.textContent=value});
+ document.querySelectorAll("[data-i-placeholder]").forEach(el=>{const value=copy()[el.dataset.iPlaceholder];if(value)el.placeholder=value});
+ $("brandEy").textContent=lang==="es"?"ATENCIÓN A TU RESERVA":"APPOINTMENT SUPPORT";
+ };
+ const applyBrand=b=>{
+ if(!b)return;business=b.name||business;
+ $("brandName").textContent=business||"Your cleaning company";
+ if(b.logo&&/^https:\/\//.test(b.logo)){$("logo").src=b.logo;$("logo").alt=business;$("logo").style.display="block"}
+ if(/^#[0-9a-f]{6}$/i.test(b.primary||""))document.documentElement.style.setProperty("--primary",b.primary);
+ if(/^#[0-9a-f]{6}$/i.test(b.accent||""))document.documentElement.style.setProperty("--accent",b.accent);
+ $("completeBrand").textContent=business;
+ document.title=(lang==="es"?"Gestionar cita":"Manage appointment")+" · "+business;
+ };
+ async function post(payload){
+ const res=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload),cache:"no-store"});
+ const data=await res.json().catch(()=>({}));
+ if(!res.ok)throw new Error(data.error||(lang==="es"?"No pudimos procesar tu solicitud.":"We couldn't process your request."));
+ return data;
+ }
+ function setupManage(data){
+ current=data;
+ lang=data.language==="es"?"es":lang;applyLang();applyBrand(data.brand);
+ const name=data.customer_first_name||"";
+ $("welcome").textContent=name?(lang==="es"?"¡Qué bueno verte de nuevo, ":"Hey "+name+", welcome back!").replace("Hey "+name+"!", "Hey "+name+"!")+(lang==="es"?name+"!":""):lang==="es"?"¡Bienvenido de nuevo!":"Welcome back!";
+ if(data.assistant_enabled){$("assistantLabel").textContent=lang==="es"?"TU ASISTENTE DE RESERVAS":"YOUR BOOKING ASSISTANT";$("manageIntro").textContent=lang==="es"?"¡Hola! Estoy aquí para ayudarte. ¿Quieres cambiar tu cita o solicitar una cancelación?":"Hey! I'm here to help. Would you like to change your appointment or request a cancellation?"}
+ else {$("assistantLabel").textContent=lang==="es"?"TU RESERVA":"YOUR APPOINTMENT";$("manageIntro").textContent=lang==="es"?"¿En qué podemos ayudarte hoy?":"How can we help you today?"}
+ $("service").textContent=data.appointment?.service||"Cleaning service";
+ $("when").textContent=formatDate(data.appointment?.date);
+ $("bookAgain").href=data.booking_url||"/";
+ $("completeLink").href=data.booking_url||"/";
+ const change=data.appointment?.change;
+ if(data.appointment?.status!=="booked"||change?.state==="pending_owner_review"){
+  $("manageChoices").hidden=true;$("managedPending").hidden=false;
+  $("managedPending").textContent=data.appointment?.status!=="booked"?(lang==="es"?"Esta reserva ya no está activa. Puedes hacer otra desde la página de reservas.":"This appointment is no longer active. You can make another booking."):(lang==="es"?"Tenemos tu solicitud de cambio y la estamos revisando. Tu cita original sigue vigente hasta que confirmemos la decisión.":"We have your change request and we're reviewing it. Your original appointment remains in place until we confirm the decision.");
+  $("bookAgain").hidden=false;
+ }else{$("manageChoices").hidden=false;$("managedPending").hidden=true}
+ show("manage");
+ }
+ applyLang();
+ if(token&&/^[a-f0-9]{64}$/i.test(token)){
+  post({action:"view",token}).then(setupManage).catch(e=>{$("entryError").textContent=e.message;show("entry")});
+ }else if(uuid.test(key)){
+  post({action:"brand",booking_key:key}).then(data=>{applyBrand(data.brand);$("completeLink").href=data.booking_url||"/"}).catch(()=>{$("entryError").textContent=lang==="es"?"Página de reservas no disponible.":"Booking Page unavailable."});
+ }else{$("entryError").textContent=lang==="es"?"Abre esta opción desde la página de reservas de la compañía.":"Please use the link on your cleaning company's Booking Page.";$("sendAccess").disabled=true}
+ $("accessForm").addEventListener("submit",async e=>{
+  e.preventDefault();$("entryError").textContent="";
+  if(!uuid.test(key))return;
+  const btn=$("sendAccess");btn.disabled=true;
+  try{await post({action:"request_access",booking_key:key,email:$("email").value.trim(),language:lang});show("sent")}
+  catch(err){$("entryError").textContent=err.message}finally{btn.disabled=false}
+ });
+ document.querySelectorAll("[data-kind]").forEach(btn=>btn.addEventListener("click",()=>{
+  kind=btn.dataset.kind;
+  document.querySelectorAll("[data-kind]").forEach(x=>x.setAttribute("aria-pressed",String(x===btn)));
+  $("changeForm").hidden=false;$("dateFields").hidden=kind!=="reschedule";
+  $("date").required=kind==="reschedule";$("time").required=kind==="reschedule";
+  if(kind==="reschedule")$("date").min=new Date().toISOString().slice(0,10);
+ }));
+ $("changeForm").addEventListener("submit",async e=>{
+  e.preventDefault();if(!current||!token||!kind)return;
+  const btn=$("submitRequest");btn.disabled=true;$("manageError").textContent="";
+  try{
+   const result=await post({action:"submit",token,request_type:kind,preferred_date:$("date").value,preferred_time:$("time").value,reason:$("reason").value,message:$("details").value.trim()});
+   if(result.ok)show("complete");
+  }catch(err){$("manageError").textContent=err.message}finally{btn.disabled=false}
+ });
+})();
+</script></body></html>
