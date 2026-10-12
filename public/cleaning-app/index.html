@@ -4,12 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta http-equiv="refresh" content="0;url=/cleaning-web-app/">
+<meta name="referrer" content="no-referrer">
 <link rel="canonical" href="https://thelaunchera.com/cleaning-web-app">
 <title>Cleaning Web App — The Launch Era</title>
 </head>
 <body>
-<script>location.replace("/cleaning-web-app/")</script>
+<script>
+(function(){
+ const params=new URLSearchParams(location.hash.slice(1));
+ const recovery=(params.get('type')==='recovery' && params.has('access_token')) || new URLSearchParams(location.search).has('code');
+ location.replace(recovery?'/auth-recovery.html'+location.search+location.hash:'/cleaning-web-app/');
+})();
+</script>
 <a href="/cleaning-web-app/">Open the Cleaning Web App</a>
 </body>
 </html>
