@@ -1,0 +1,47 @@
+
+/* Jessy — bilingual public website assistant. Isolated from client booking widgets. */
+.tle-jessy-root{--jblue:#dcefff;--jink:#191919;--jline:#c4dbe9;--jivory:#faf8f3;font-family:Arial,"Avenir Next",sans-serif;color:var(--jink);position:relative;z-index:9998}
+.tle-jessy-root *{box-sizing:border-box}
+.tle-jessy-fab{position:fixed;right:max(18px,env(safe-area-inset-right));bottom:max(22px,env(safe-area-inset-bottom));display:flex;align-items:center;gap:10px;background:#e7f5ff;color:#191919;border:2px solid #9cc9e6;border-radius:999px;padding:6px 17px 6px 6px;box-shadow:0 8px 32px #15385033;cursor:pointer;z-index:9999;min-height:68px;font-size:14px;font-weight:700}
+.tle-jessy-fab:hover{background:#d5edff}.tle-jessy-fab:focus-visible,.tle-jessy-root button:focus-visible,.tle-jessy-root a:focus-visible,.tle-jessy-root input:focus-visible,.tle-jessy-root textarea:focus-visible{outline:3px solid #247bb2;outline-offset:3px}
+.tle-jessy-avatar{display:block;width:53px;height:53px;flex:0 0 53px;border-radius:50%;object-fit:cover;object-position:center;background:#dcefff;border:2px solid white;box-shadow:0 2px 8px #376c8733}
+.tle-jessy-fab:before{content:"";position:absolute;inset:-7px;border:2px solid #74bde8;border-radius:999px;opacity:0;pointer-events:none;animation:jessy-ring 2s ease-out 3}
+@keyframes jessy-ring{0%{transform:scale(.92);opacity:.9}100%{transform:scale(1.16);opacity:0}}
+.tle-jessy-status{position:absolute;left:47px;bottom:8px;width:12px;height:12px;border:2px solid #fff;background:#4886b5;border-radius:50%}
+.tle-jessy-nudge{position:fixed;bottom:102px;right:17px;background:#fff;color:#191919;border:1px solid #b8d8ec;border-radius:16px;box-shadow:0 8px 20px #15385024;padding:12px 15px;font-size:13px;max-width:240px;z-index:9999;animation:jessy-nudge .45s ease-out}
+@keyframes jessy-nudge{from{transform:translateY(8px);opacity:0}to{transform:translateY(0);opacity:1}}
+.tle-jessy-backdrop{position:fixed;inset:0;background:#0b233c75;z-index:9998}
+.tle-jessy-panel{position:fixed;right:18px;bottom:18px;width:min(390px,calc(100vw - 24px));height:min(620px,calc(100dvh - 36px));display:flex;flex-direction:column;background:#fff;border:1px solid #b7d9ec;border-radius:23px;overflow:hidden;box-shadow:0 14px 75px #0b233c52;z-index:9999}
+.tle-jessy-panel[hidden],.tle-jessy-backdrop[hidden],.tle-jessy-nudge[hidden],.tle-jessy-lead[hidden],.tle-jessy-quick[hidden]{display:none!important}
+.tle-jessy-head{background:linear-gradient(120deg,#d4edff,#edf7ff);display:flex;align-items:center;gap:10px;padding:13px 14px;border-bottom:1px solid #b7d9ec;flex-shrink:0}
+.tle-jessy-head .tle-jessy-avatar{height:46px;width:46px;flex-basis:46px}
+.tle-jessy-title{flex:1;min-width:0}
+.tle-jessy-title b{font-size:15px;display:block}.tle-jessy-title small{font-size:11px;color:#3c5f75;display:block;margin-top:2px;line-height:1.35}
+.tle-jessy-icon{display:grid;place-items:center;background:transparent;border:1px solid #abcfe4;border-radius:50%;width:33px;height:33px;cursor:pointer;color:#191919;font-size:19px;flex:0 0 33px}
+.tle-jessy-log{flex:1;min-height:0;overflow-y:auto;padding:17px 13px 16px;background:linear-gradient(180deg,#fff,#fcfdff)}
+.tle-jessy-message{display:block;max-width:90%;border-radius:17px;padding:11px 13px;margin:0 0 11px;font-size:13px;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere}
+.tle-jessy-message.bot{background:#eaf5fd;color:#1a3545;border-bottom-left-radius:5px;margin-right:auto}
+.tle-jessy-message.user{background:#191919;color:white;border-bottom-right-radius:5px;margin-left:auto}
+.tle-jessy-quick{display:flex;flex-wrap:wrap;gap:6px;padding:6px 12px 11px;border-top:1px solid #edf3f7}
+.tle-jessy-quick button,.tle-jessy-inline a{font-size:12px;display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:8px 11px;border-radius:999px;background:#fff;border:1px solid #b4d7eb;color:#1a4059;text-decoration:none;cursor:pointer;font-weight:700}
+.tle-jessy-inline{display:flex;gap:8px;flex-wrap:wrap;margin:3px 0 12px;max-width:100%}
+.tle-jessy-inline a{background:#f2d85b;color:#191919;border-color:#e4cb58}
+.tle-jessy-bottom{padding:10px 12px max(12px,env(safe-area-inset-bottom));border-top:1px solid #dfebf1;background:#fff;flex-shrink:0}
+.tle-jessy-form{display:flex;align-items:flex-end;gap:8px}
+.tle-jessy-message-field{flex:1;min-width:0;min-height:45px;max-height:100px;resize:vertical;border-radius:13px;border:1px solid #b9cfde;padding:12px;font:14px/1.4 inherit;background:#fff;color:#191919}
+.tle-jessy-send{flex:0 0 auto;background:#191919;color:#fff;border:0;border-radius:13px;min-height:45px;padding:10px 13px;font-weight:700;font-size:13px;cursor:pointer}
+.tle-jessy-send:disabled{opacity:.5;cursor:wait}
+.tle-jessy-lead-trigger{margin-top:8px;width:100%;min-height:38px;border:1px solid #d2e4ef;border-radius:12px;background:#eaf5fd;color:#19415b;font-size:12px;font-weight:700;cursor:pointer}
+.tle-jessy-note{font-size:10px;color:#647584;margin:8px 2px 0;line-height:1.4}
+.tle-jessy-lead{padding:13px;overflow-y:auto;flex:1;background:#fff}
+.tle-jessy-lead h3{font-size:18px;margin:3px 0 7px}.tle-jessy-lead p{font-size:13px;line-height:1.4;margin:0 0 10px}
+.tle-jessy-lead form{display:grid;gap:9px}
+.tle-jessy-lead label{display:grid;gap:5px;font-size:12px;font-weight:700}
+.tle-jessy-lead input,.tle-jessy-lead textarea{border:1px solid #b3cfde;border-radius:10px;padding:10px;font-size:15px;color:#191919;width:100%;background:#fff}
+.tle-jessy-lead .tle-jessy-consent{display:flex;gap:9px;align-items:flex-start;font-size:12px;line-height:1.4;font-weight:400}
+.tle-jessy-consent input{width:19px;height:19px;flex:0 0 19px;margin:0;accent-color:#191919}
+.tle-jessy-submit{width:100%;padding:12px;background:#191919;border:0;border-radius:12px;color:white;font-size:13px;font-weight:700;cursor:pointer}
+.tle-jessy-error{color:#ab2531!important;font-weight:700}
+.tle-jessy-lead-back{background:transparent;border:0;text-decoration:underline;cursor:pointer;font-size:12px;margin-bottom:7px;padding:4px}
+@media(max-width:600px){.tle-jessy-fab{right:12px;bottom:max(18px,env(safe-area-inset-bottom));min-height:61px;padding-right:13px}.tle-jessy-avatar{width:48px;height:48px;flex-basis:48px}.tle-jessy-panel{inset:0;width:100vw;height:100dvh;max-height:100dvh;border:0;border-radius:0;bottom:auto;right:auto;padding-top:env(safe-area-inset-top)}.tle-jessy-head{padding-top:10px}.tle-jessy-bottom{padding-bottom:max(14px,env(safe-area-inset-bottom))}.tle-jessy-message-field{font-size:16px}.tle-jessy-nudge{right:11px;bottom:91px}.tle-jessy-lead{padding:18px}body.tle-jessy-open{overflow:hidden}}
+@media(prefers-reduced-motion:reduce){.tle-jessy-fab:before,.tle-jessy-nudge{animation:none!important}}
