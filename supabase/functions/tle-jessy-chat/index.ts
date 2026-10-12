@@ -97,8 +97,10 @@ Deno.serve(async(req)=>{
  if(message.length<2||message.length>340)return response({error:"Short question required"},400,origin);
  const history=Array.isArray(b.history)?b.history.slice(-6).filter(h=>h&&["user","assistant"].includes(h.role)).map(h=>({role:h.role,message:clean(h.message,200)})):[];
  try{if(!await limit(req))return response({error:"Please try later"},429,origin);}catch{return response({error:"Assistant unavailable"},503,origin);}
- const catalog=await offers();const id=identify(message,prior);const row=catalog.find(x=>x[0]===id);
- const isCombo=/booking.{0,32}(with|con|\\+|y).{0,22}(ai|ia|assistant|asistente)|booking.{0,24}(follow.?up|seguimiento)|paquete.{0,22}(ia|asistente)/i.test(message);
+ const catalog=await offers();
+ if(Date.now()>=Date.parse("2026-11-01T04:00:00Z")){const booking=catalog.find(x=>x[0]==="booking");if(booking){booking[4]="See checkout for current price.";booking[5]="Consulta el precio vigente en checkout.";}}
+ const id=identify(message,prior);const row=catalog.find(x=>x[0]===id);
+ const isCombo=/booking.{0,32}(with|con|\+|y).{0,22}(ai|ia|assistant|asistente)|booking.{0,24}(follow.?up|seguimiento)|paquete.{0,22}(ia|asistente)/i.test(message);
  const ai=await aiResponse(message,history,lang,catalog);
  let checkout=row?.[6]||null;
  if(id==="whatsapp")checkout=null;
