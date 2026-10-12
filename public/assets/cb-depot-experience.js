@@ -134,23 +134,23 @@ function activate(session){
   <label>Email <input name="customer_email" type="email" maxlength="200" required autocomplete="email" placeholder="you@example.com"></label>
   <label>Phone (optional) <input name="customer_phone" type="tel" maxlength="80" autocomplete="tel" placeholder="Phone number"></label>
   <label>What can we help with? <textarea name="message" required maxlength="1200" rows="4" placeholder="Tell us what you need..."></textarea></label>
-  <label class="tle-care-permission" style="display:block;background:#f6fafc;border:1px solid #d4e3ed;border-radius:14px;padding:13px;line-height:1.5;font-size:13px"><span style="display:flex;gap:9px;align-items:flex-start"><input type="checkbox" name="optional_care_opt_in" style="width:18px;height:18px;flex:none;margin-top:2px"><span>Yes, CB Depot can email me useful vehicle care tips and occasional follow-ups. Optional.</span></span><small style="display:block;margin-top:6px;color:#627789">Replies about this inquiry and appointment reminders are separate. Unsubscribe from optional messages any time.</small></label>
-  <label class="cb-reminder-permission" style="display:block;background:#f6fafc;border:1px solid #d4e3ed;border-radius:14px;padding:13px;line-height:1.5;font-size:13px"><span style="display:flex;gap:9px;align-items:flex-start"><input type="checkbox" name="appointment_reminders_opt_in" style="width:18px;height:18px;flex:none;margin-top:2px"><span>Yes, send me appointment reminders if my booking is confirmed — two days before and at 5 AM on the appointment day. Optional.</span></span><small style="display:block;margin-top:6px;color:#627789">Separate from occasional tips. We will reply to your inquiry either way.</small></label>
+  <label class="tle-care-permission" style="display:block;background:#f6fafc;border:1px solid #d4e3ed;border-radius:14px;padding:13px;line-height:1.5;font-size:13px"><span style="display:flex;gap:9px;align-items:flex-start"><input type="checkbox" name="optional_care_opt_in" style="width:18px;height:18px;flex:none;margin-top:2px"><span>Yes, CB Depot can email me useful vehicle care tips and occasional follow-ups. Optional.</span></span><small style="display:block;margin-top:6px;color:#627789">Unsubscribe anytime.</small></label>
+  <label class="cb-reminder-permission" style="display:block;background:#f6fafc;border:1px solid #d4e3ed;border-radius:14px;padding:13px;line-height:1.5;font-size:13px"><span style="display:flex;gap:9px;align-items:flex-start"><input type="checkbox" name="appointment_reminders_opt_in" style="width:18px;height:18px;flex:none;margin-top:2px"><span>Yes, email me reminders for confirmed appointments. (Optional)</span></span><small style="display:block;margin-top:6px;color:#627789">We will reply to your inquiry either way.</small></label>
    <label class="cb-trap" aria-hidden="true">Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
   <button type="submit" class="cb-go">Send message →</button>
   <p class="cb-contact-status" role="status" aria-live="polite"></p>
  </form>`;
  const contactPermissionWords=contact.querySelector('[name="optional_care_opt_in"]')?.nextElementSibling;
  if(contactPermissionWords)contactPermissionWords.textContent=session.language==='es'
-  ?'Sí, autorizo a CB Depot a enviarme consejos útiles para mi vehículo y seguimientos ocasionales sobre mi solicitud. Opcional. Puedo darme de baja cuando quiera.'
-  :'Yes, CB Depot may email me useful vehicle care tips and occasional follow-ups about my inquiry. Optional. I can unsubscribe anytime.';
+  ?'Sí, quiero consejos para mi vehículo y seguimientos ocasionales. (Opcional)'
+  :'Yes, email me occasional vehicle care tips and follow-ups. (Optional)';
  const contactPermissionNote=contact.querySelector('.tle-care-permission small');
  if(contactPermissionNote&&session.language==='es')contactPermissionNote.textContent=
-  'Responderemos tu consulta aunque no marques la casilla. Los recordatorios de citas confirmadas se eligen por separado.';
+  'Puedes darte de baja cuando quieras.';
  const contactReminderCopy=contact.querySelector('[name="appointment_reminders_opt_in"]')?.nextElementSibling;
- if(contactReminderCopy&&session.language==='es')contactReminderCopy.textContent='Sí, quiero recibir recordatorios por correo si confirman mi cita: dos días antes y a las 5 a. m. el día de la cita. Opcional.';
+ if(contactReminderCopy&&session.language==='es')contactReminderCopy.textContent='Sí, quiero recordatorios por correo para mis citas confirmadas. (Opcional)';
  const contactReminderHint=contact.querySelector('.cb-reminder-permission small');
- if(contactReminderHint&&session.language==='es')contactReminderHint.textContent='Es independiente de los consejos opcionales. Responderemos tu consulta de todas maneras.';
+ if(contactReminderHint&&session.language==='es')contactReminderHint.textContent='Responderemos tu consulta aunque no lo autorices.';
  const contactForm=contact.querySelector("form");
  let lastContactAttempt=null;
  contactForm.addEventListener("submit",async ev=>{
@@ -234,16 +234,16 @@ function activate(session){
  const main=document.getElementById("main"),quote=document.getElementById("quote");
  main.classList.remove("on");quote.classList.add("on");
  const addons=document.getElementById("realQuoteAddons");
- // High-contrast automotive silhouettes rather than platform-dependent cartoon emoji.
- function vehicleArtwork(kind){
-  const shapes={
-   Car:{body:"M9 40 L14 30 Q17 27 25 26 L36 16 Q39 13 46 13 H69 Q74 13 79 18 L88 27 H104 Q111 28 112 36 V45 H9 Z",glass:"M37 26 L44 17 H68 L80 27 Z",wheels:[32,88]},
-   SUV:{body:"M8 39 L12 29 L25 26 L31 14 Q34 11 42 11 H81 Q87 11 89 17 L93 27 H105 Q112 29 112 37 V45 H8 Z",glass:"M33 26 L38 16 H81 L87 26 Z",wheels:[32,89]},
-   Truck:{body:"M8 40 L11 30 H57 L65 19 Q68 16 73 16 H88 Q92 16 95 22 L100 29 H110 V45 H8 Z",glass:"M69 29 L74 20 H87 L93 29 Z",wheels:[33,92]},
-   Van:{body:"M8 39 V22 Q8 13 19 13 H86 Q99 13 103 22 L110 32 V45 H8 Z",glass:"M18 19 H80 Q89 19 92 29 H18 Z",wheels:[32,88]}
-  };
-  const s=shapes[kind]||shapes.Car;
-  return '<span class="cb-vehicle-visual" aria-hidden="true"><svg class="cb-vehicle-svg" viewBox="0 0 120 64" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="cbAuto'+kind+'" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#a8bacb"/><stop offset=".42" stop-color="#526a80"/><stop offset="1" stop-color="#1b3044"/></linearGradient></defs><ellipse cx="60" cy="52" rx="52" ry="5" fill="#1593ff" fill-opacity=".12"/><path d="'+s.body+'" fill="url(#cbAuto'+kind+')" stroke="#c5d9ea" stroke-width="1.5" stroke-linejoin="round"/><path d="'+s.glass+'" fill="#061b30" stroke="#8aacc8" stroke-width="1.2" stroke-linejoin="round"/><path d="M12 39 H109" stroke="#d1e4f4" stroke-opacity=".45"/><path d="M10 34 h6 M106 34 h6" stroke="#50baff" stroke-width="3" stroke-linecap="round"/>'+s.wheels.map(x=>'<circle cx="'+x+'" cy="45" r="8.5" fill="#081320" stroke="#d1e4f4" stroke-width="2"/><circle cx="'+x+'" cy="45" r="3.6" fill="#65839d" stroke="#bfd5e8"/>').join('')+'</svg></span>';
+ // Real vehicle photos, not emoji or line-drawn vehicle illustrations.
+ const vehiclePhotos={
+  Car:"https://images.unsplash.com/photo-1764089859665-7d417664c5de?auto=format&fit=crop&w=760&q=85",
+  SUV:"https://images.unsplash.com/photo-1739568883985-37fd4216ab2d?auto=format&fit=crop&w=760&q=85",
+  Truck:"https://images.unsplash.com/photo-1714675701237-ea7480249b8c?auto=format&fit=crop&w=760&q=85",
+  Van:"https://images.unsplash.com/photo-1775047734765-df970880aca8?auto=format&fit=crop&w=760&q=85"
+ };
+ function vehiclePhoto(kind){
+  const photo=vehiclePhotos[kind]||vehiclePhotos.Car;
+  return '<span class="cb-vehicle-photo-wrap"><img class="cb-vehicle-photo" src="'+photo+'" alt="" loading="lazy" decoding="async" width="380" height="240"><span class="cb-vehicle-photo-check" aria-hidden="true">✓</span></span><span class="cb-vehicle-label"><strong>'+kind+'</strong><span class="cb-vehicle-selected-hint" aria-hidden="true">Selected</span></span>';
  }
  const wizard=node("div","cb-wizard");
  wizard.innerHTML=`
@@ -253,11 +253,12 @@ function activate(session){
    <div id="cbServiceField"></div>
    <div class="cb-field-label cb-type-label">What type of vehicle do you have?</div>
    <div class="cb-vehicles" role="group" aria-label="Vehicle type">
-    <button type="button" data-cb-vehicle="Car">${vehicleArtwork("Car")}Car</button>
-    <button type="button" data-cb-vehicle="SUV">${vehicleArtwork("SUV")}SUV</button>
-    <button type="button" data-cb-vehicle="Truck">${vehicleArtwork("Truck")}Truck</button>
-    <button type="button" data-cb-vehicle="Van">${vehicleArtwork("Van")}Van</button>
+    <button type="button" data-cb-vehicle="Car" aria-pressed="false" aria-label="Select Car">${vehiclePhoto("Car")}</button>
+    <button type="button" data-cb-vehicle="SUV" aria-pressed="false" aria-label="Select SUV">${vehiclePhoto("SUV")}</button>
+    <button type="button" data-cb-vehicle="Truck" aria-pressed="false" aria-label="Select Truck">${vehiclePhoto("Truck")}</button>
+    <button type="button" data-cb-vehicle="Van" aria-pressed="false" aria-label="Select Van">${vehiclePhoto("Van")}</button>
    </div>
+   <p class="cb-vehicle-feedback" id="cbVehicleFeedback" role="status" aria-live="polite">Select your vehicle to continue.</p>
    <input type="hidden" id="qtype" value="">
    <div id="cbConditionField"></div>
    <p class="cb-error" id="cbStep1Error" role="status"></p>
@@ -311,11 +312,11 @@ function activate(session){
  const consentInput=document.createElement('input');consentInput.type='checkbox';consentInput.dataset.carePermission='quote';
  consentInput.style.cssText='width:18px;height:18px;vertical-align:middle;margin-right:9px';consentInput.checked=false;
  const consentText=node('span','',session.language==='es'?
-  'Sí, quiero recibir consejos para cuidar mi vehículo y seguimientos ocasionales de CB Depot. Opcional.':
-  'Yes, CB Depot can send me useful vehicle care tips and occasional follow-ups. Optional.');
+  'Sí, quiero consejos para mi vehículo y seguimientos ocasionales. (Opcional)':
+  'Yes, email me occasional vehicle care tips and follow-ups. (Optional)');
  const consentHint=node('small','',session.language==='es'?
-  'Las confirmaciones y recordatorios de citas son independientes. Puedes cancelar los correos opcionales.':
-  'Appointment confirmations and reminders are separate. You can unsubscribe from optional emails.');
+  'Puedes darte de baja cuando quieras.':
+  'Unsubscribe anytime.');
  consentHint.style.cssText='display:block;color:#627789;font-size:11px;margin-top:6px';
  consentBox.append(consentInput,consentText,consentHint);
  document.getElementById('quoteSubmit').before(consentBox);
@@ -324,8 +325,8 @@ function activate(session){
  const reminderInput=document.createElement('input');reminderInput.type='checkbox';reminderInput.checked=false;
  reminderInput.dataset.reminderPermission='quote';reminderInput.style.cssText='width:18px;height:18px;margin:2px 0 0;flex:none;accent-color:#367faf';
  const reminderCopy=node('span','',session.language==='es'?
-  'Sí, quiero recordatorios por correo si CB Depot confirma mi cita: dos días antes y a las 5 a. m. el día de la cita. Opcional.':
-  'Yes, email me reminders if CB Depot confirms my appointment: two days before and at 5 AM on the day. Optional.');
+  'Sí, quiero recordatorios por correo para mis citas confirmadas. (Opcional)':
+  'Yes, email me reminders for confirmed appointments. (Optional)');
  reminderBox.append(reminderInput,reminderCopy);
  document.getElementById('quoteSubmit').before(reminderBox);
  // No new external backend: reuse the existing secure quote handler and account-specific service IDs.
@@ -340,7 +341,8 @@ function activate(session){
  }
  function selectVehicle(value){
   vehicle=value;document.getElementById("qtype").value=value;
-  controls.forEach(b=>{const chosen=b.dataset.cbVehicle===value;b.classList.toggle("active",chosen);b.setAttribute("aria-pressed",chosen?"true":"false")});
+  controls.forEach(b=>{const chosen=b.dataset.cbVehicle===value;b.classList.toggle("active",chosen);b.setAttribute("aria-pressed",chosen?"true":"false");b.setAttribute("aria-label",chosen?value+" selected":"Select "+b.dataset.cbVehicle)});
+  const feedback=document.getElementById("cbVehicleFeedback");if(feedback)feedback.textContent=value+" selected. Choose your date and time next.";
  }
  controls.forEach(b=>b.addEventListener("click",()=>{selectVehicle(b.dataset.cbVehicle);document.getElementById("cbStep1Error").textContent=""}));
  selectService.addEventListener("change",syncService);
