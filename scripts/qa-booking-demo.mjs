@@ -513,6 +513,31 @@ for(const lang of ['en','es']){
 }
 
 // TLE October desktop visual-system regression checks: no payments or form submissions.
+// Booking hero → solutions boundary: the soft wave must never obscure the walkthrough.
+for(const lang of ['en','es']){
+ for(const width of [320,390,768,1280]){
+  await check('Homepage wave clears walkthrough '+lang+' '+width,{width,height:844},async p=>{
+   await p.goto(base+(lang==='es'?'/es/':'/'),{waitUntil:'networkidle'});
+   const result=await p.evaluate(()=>{
+    const note=document.querySelector('.hero-copy .walkthrough-note');
+    const stage=document.querySelector('.hero-copy .walkthrough-stage');
+    const wave=document.querySelector('.solutions-section > .soft-wave');
+    const solutions=document.querySelector('.solutions-section');
+    if(!note||!stage||!wave||!solutions)return null;
+    const n=note.getBoundingClientRect(),st=stage.getBoundingClientRect(),w=wave.getBoundingClientRect(),sol=solutions.getBoundingClientRect();
+    return {noteBottom:n.bottom,stageBottom:st.bottom,waveTop:w.top,sectionTop:sol.top,overflow:document.documentElement.scrollWidth-innerWidth,
+      visible: getComputedStyle(note).visibility!=='hidden'};
+   });
+   assert(result,'Walkthrough and decorative wave must render');
+   assert(result.visible,'Walkthrough caption is visible');
+   assert(result.noteBottom+10<=result.waveTop,'Caption overlaps transition wave: '+JSON.stringify(result));
+   assert(result.stageBottom+10<=result.waveTop,'Interactive steps overlap transition wave: '+JSON.stringify(result));
+   assert(Math.abs(result.waveTop-result.sectionTop)<=3,'Wave begins within the next section');
+   assert(result.overflow<=3,'Horizontal overflow in booking walkthrough');
+  });
+ }
+}
+
 for(const lang of ['en','es']){
  await check('Editorial desktop layout '+lang,{width:1440,height:900},async p=>{
   await p.goto(base+(lang==='es'?'/es/':'/'),{waitUntil:'networkidle'});
