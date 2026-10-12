@@ -45,3 +45,12 @@
 .jo-notification-nudge[hidden]{display:none!important}
 .jo-notification-nudge:focus-visible{outline:3px solid #2385bc;outline-offset:3px}
 @media(max-width:600px){.jo-notification-nudge{right:12px;bottom:max(149px,calc(env(safe-area-inset-bottom) + 129px))}}
+
+/* Private WhatsApp alert preference card. Setup is deliberately disabled until provider verification. */
+.jo-wa-settings{display:grid;gap:12px;border:1px solid #b9d9ec;background:#f3faff;border-radius:17px;margin:9px 0 15px;padding:14px}
+.jo-wa-form{display:grid;gap:11px}
+.jo-wa-option,.jo-wa-consent{display:flex;align-items:flex-start;gap:9px;font-size:12px;line-height:1.45;color:#214058}
+.jo-wa-option input,.jo-wa-consent input{width:18px;height:18px;margin:1px 0 0;flex:0 0 18px;accent-color:#288cc1;cursor:pointer}
+.jo-wa-consent{padding:10px 0 0;border-top:1px solid #c4dce9}
+.jo-wa-status{font-size:12px;line-height:1.5;color:#34596b;margin:1px 0 2px;overflow-wrap:anywhere}
+@media(max-width:600px){.jo-wa-settings{padding:12px}.jo-wa-option,.jo-wa-consent{font-size:13px}}
