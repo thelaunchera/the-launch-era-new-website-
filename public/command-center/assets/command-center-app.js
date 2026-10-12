@@ -2692,18 +2692,50 @@ function buyerManualCard(x){
  next.style.cssText="margin-top:9px;font-size:12px;color:#45677f";
  btn.append(label,name,desc,next);btn.onclick=()=>edit(x);return btn;
 }
+function buyerLeadStatusMatch(x,choice){
+ if(choice==='all')return true;
+ if(choice==='open')return !['booked','declined','closed'].includes(x.status);
+ if(choice==='booked')return x.status==='booked';
+ if(choice==='closed')return ['closed','declined'].includes(x.status)||x.workflow_stage==='declined';
+ return x.workflow_stage===choice;
+}
+function buyerLeadQuickMatch(x){
+ if(buyerLeadQuickFilter==='attention')return buyerRequestNeedsAttention(x);
+ if(buyerLeadQuickFilter==='quotes')return x.request_type==='quote'&&!['booked','closed','declined'].includes(x.status);
+ if(buyerLeadQuickFilter==='confirmed')return x.status==='booked';
+ return true;
+}
 function buyerRenderRequestCards(){
  const root=$("buyerRequestCards");root.replaceChildren();
  const q=$("buyerRequestSearch").value.toLowerCase().trim(),type=$("buyerRequestType").value;
- const rows=buyerRequests.filter(x=>(type==="all"||type==="attention"&&buyerRequestNeedsAttention(x)||buyerRequestKind(x)===type)
- &&[x.customer_name,x.customer_email,x.service_name,x.status,x.raw_payload?.estimate_display].some(v=>String(v||"").toLowerCase().includes(q)));
- rows.sort((a,b)=>Number(buyerRequestNeedsAttention(b))-Number(buyerRequestNeedsAttention(a))||Date.parse(b.created_at)-Date.parse(a.created_at));
+ const status=$('buyerRequestStatusFilter').value,sort=$('buyerRequestSort').value;
+ const rows=buyerRequests.filter(x=>
+  (type==="all"||(type==="attention"&&buyerRequestNeedsAttention(x))||buyerRequestKind(x)===type)
+  &&buyerLeadQuickMatch(x)&&buyerLeadStatusMatch(x,status)
+  &&[x.customer_name,x.customer_email,x.customer_phone,x.service_name,x.status,x.workflow_stage,x.raw_payload?.vehicle_type,x.raw_payload?.property_type,x.raw_payload?.estimate_display].some(v=>String(v||"").toLowerCase().includes(q))
+ );
+ rows.sort((a,b)=>{
+  if(sort==='newest')return Date.parse(b.created_at||0)-Date.parse(a.created_at||0);
+  if(sort==='oldest')return Date.parse(a.created_at||0)-Date.parse(b.created_at||0);
+  if(sort==='date')return (buyerRequestedDate(a)||'9999').localeCompare(buyerRequestedDate(b)||'9999')||buyerRequestTimeText(a).localeCompare(buyerRequestTimeText(b));
+  return Number(buyerRequestNeedsAttention(b))-Number(buyerRequestNeedsAttention(a))||Date.parse(b.created_at||0)-Date.parse(a.created_at||0);
+ });
  for(const x of rows)root.append(buyerRequestCard(x));
- if(["all","inquiry","attention"].includes(type))for(const item of buyerManualLeads().filter(x=>
-  (type!=="attention"||["New","Follow-up"].includes(x.stage))&&
-  [x.contact,x.business,x.email,x.source,x.notes].some(v=>String(v||"").toLowerCase().includes(q))
- ))root.append(buyerManualCard(item));
- if(!root.childElementCount)root.textContent=buyerText("No customer requests in this view.","No hay solicitudes en esta vista.");
+ const manualAllowed=buyerLeadQuickFilter==='all'||buyerLeadQuickFilter==='attention';
+ const manual=manualAllowed&&['all','inquiry','attention'].includes(type)&&['all','open'].includes(status)?buyerManualLeads().filter(x=>
+  (buyerLeadQuickFilter!=='attention'&&type!=='attention'||['New','Follow-up'].includes(x.stage))&&
+  [x.contact,x.business,x.email,x.source,x.notes].some(v=>String(v||'').toLowerCase().includes(q))
+ ):[];
+ manual.sort((a,b)=>sort==='oldest'?Date.parse(a.created_at||0)-Date.parse(b.created_at||0):Date.parse(b.created_at||0)-Date.parse(a.created_at||0));
+ manual.forEach(x=>root.append(buyerManualCard(x)));
+ const attention=buyerRequests.filter(buyerRequestNeedsAttention).length+buyerManualLeads().filter(x=>['New','Follow-up'].includes(x.stage)).length;
+ $('buyerLeadAttentionCount').textContent=String(attention);
+ for(const button of document.querySelectorAll('[data-buyer-lead-filter]')){
+  const isActive=button.dataset.buyerLeadFilter===buyerLeadQuickFilter;
+  button.classList.toggle('active',isActive);button.setAttribute('aria-pressed',String(isActive));
+ }
+ $('buyerInboxVisibleCount').textContent=buyerText(rows.length+manual.length+' of '+(buyerRequests.length+buyerManualLeads().length)+' leads shown',rows.length+manual.length+' de '+(buyerRequests.length+buyerManualLeads().length)+' leads visibles');
+ if(!root.childElementCount)root.textContent=buyerText("No leads match these filters. Try All leads or clear your search.","No hay leads con estos filtros. Prueba Todos los leads o borra tu búsqueda.");
 }
 function buyerRenderOtherLeads(){$("buyerOtherInquiries").replaceChildren();}
 function renderBuyerCustomers(){
@@ -3185,6 +3217,17 @@ async function loadBuyerRequests(){
 }
 $("buyerRequestSearch").oninput=buyerRenderRequestCards;
 $("buyerRequestType").onchange=buyerRenderRequestCards;
+$('buyerRequestStatusFilter').onchange=buyerRenderRequestCards;
+$('buyerRequestSort').onchange=buyerRenderRequestCards;
+document.querySelectorAll('[data-buyer-lead-filter]').forEach(button=>{
+ button.setAttribute('aria-pressed',String(button.dataset.buyerLeadFilter==='all'));
+ button.onclick=()=>{
+  buyerLeadQuickFilter=button.dataset.buyerLeadFilter;
+  $('buyerRequestType').value='all';
+  $('buyerRequestStatusFilter').value='all';
+  buyerRenderRequestCards();
+ };
+});
 $("buyerRequestRefresh").onclick=loadBuyerRequests;
 $("buyerRequestAction").onchange=buyerSetDefaultMessage;
 $("buyerRequestBookingDate").onchange=()=>{if(buyerSelectedRequest&&$("buyerRequestAction").value==="booked")buyerSetDefaultMessage()};
