@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#e91679">
+<title>Angela's So Fresh Clean Queen | Private Booking Demo</title>
+<meta name="description" content="Private interactive booking simulation for Angela's So Fresh Clean Queen LLC. No real appointment is made.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+:root{--pink:#e91679;--pink-dark:#a60a54;--rose:#fff0f7;--ink:#17171b;--gold:#c59c4c;--line:#f0d7e1;--muted:#71656d}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#fffafb;color:var(--ink);font:15px/1.55 "DM Sans",Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:disabled{cursor:wait;opacity:.65}a{color:inherit}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--pink);outline-offset:3px}
+.ribbon{background:#17171b;color:#fff;text-align:center;font-size:11px;letter-spacing:.12em;font-weight:800;padding:11px}
+.nav{background:white;border-bottom:1px solid var(--line);display:flex;justify-content:center;padding:16px;align-items:center;gap:12px}.crown{color:var(--gold);font-size:32px}.brand{font-family:"Great Vibes",cursive;font-size:37px;line-height:1;color:var(--ink)}.brandSub{font-size:9px;font-weight:800;letter-spacing:.13em;text-align:center}
+main{max-width:1160px;margin:auto;padding:30px 20px 60px}.hero{min-height:290px;padding:45px 5%;border-radius:27px;background:linear-gradient(110deg,#b6085f,#e91679 62%,#f967a7);position:relative;overflow:hidden;color:#fff;display:flex;align-items:center}.hero:after{content:"✦";font-size:200px;color:#ffffff1c;position:absolute;right:6%;top:-10%;transform:rotate(20deg)}.hero>div{position:relative;z-index:1;max-width:680px}.ey{font-size:11px;font-weight:800;letter-spacing:.19em}.hero h1{font-size:clamp(31px,4.3vw,57px);line-height:1.06;letter-spacing:-.045em;margin:13px 0 14px}.hero p{max-width:520px;font-size:15px;margin:0 0 23px;color:#fff9}.hero .pill{display:inline-block;border:1px solid #ffffff9c;border-radius:40px;padding:8px 15px;font-size:11px;font-weight:700;background:#ffffff20}
+.details{display:flex;gap:11px;flex-wrap:wrap;margin:17px 0 25px}.details span{font-size:12px;font-weight:700;border:1px solid var(--line);border-radius:100px;background:white;padding:9px 13px}
+.layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr);gap:20px;align-items:start}.card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:30px;box-shadow:0 15px 34px #860c4510}.card h2{font-size:25px;letter-spacing:-.04em;line-height:1.2;margin:0 0 6px}.card .lede{color:var(--muted);font-size:13px;margin:0 0 23px}.section{font-size:12px;letter-spacing:.06em;font-weight:800;margin:25px 0 11px}.section:first-child{margin-top:0}.field{display:block;font-size:12px;font-weight:800;margin:13px 0;color:#342b31}.field input,.field select{display:block;width:100%;margin-top:6px;border-radius:12px;border:1px solid #e9d7de;background:#fffafb;color:#1e1e22;padding:13px 12px;min-width:0;font-size:15px;height:49px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:0 13px}.serviceGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.serviceChoice{border:1px solid #ead6de;border-radius:14px;background:#fff;padding:17px 13px;text-align:left;font-size:12px;font-weight:700;min-height:66px;color:#26202a}.serviceChoice[aria-pressed="true"]{border:2px solid var(--pink);background:var(--rose);color:var(--pink-dark);padding:16px 12px}.serviceChoice small{display:block;font-size:10px;color:#85727b;font-weight:500;margin-top:2px}
+.extras{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.extra{background:#fffafb;display:flex;gap:9px;align-items:center;border:1px solid #f0dce4;padding:11px;border-radius:12px;font-size:12px}.extra input{accent-color:var(--pink);width:17px;height:17px;flex-shrink:0}.extra strong{display:block;font-size:10px;color:var(--pink-dark)}
+.check{display:flex;gap:9px;margin:16px 0;color:#5f5158;font-size:12px;line-height:1.45;align-items:flex-start}.check input{margin-top:2px;width:17px;height:17px;accent-color:var(--pink);flex-shrink:0}.hiddenBot{position:absolute;left:-5000px;opacity:0}
+.primary{display:block;width:100%;border:0;background:var(--pink);color:white;border-radius:100px;padding:16px;font-weight:800;font-size:14px;box-shadow:0 12px 23px #d90e6e29}.primary:hover{background:#c60d66}.help{font-size:11px;color:var(--muted);margin:10px 0 0}.message{border-radius:14px;padding:14px;line-height:1.55;font-size:13px;margin-top:15px}.message.error{background:#fff1f0;border:1px solid #e8aeb5;color:#8f172a}.message.success{background:#fff0f7;border:1px solid #ecb2cf;color:#682044}.message[hidden]{display:none}
+.summary{position:sticky;top:20px}.tag{display:inline-block;background:var(--rose);padding:7px 11px;color:#a40b55;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:.1em}.summary h2{margin:15px 0}.price{font-size:35px;color:var(--pink-dark);font-weight:800;letter-spacing:-.045em;line-height:1.1;margin-top:12px}.subprice{color:var(--muted);font-size:12px;margin:5px 0 23px}.summaryLine{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #f2e2e7;font-size:13px}.summaryLine span{color:#71616a}.summaryLine strong{text-align:right;max-width:62%}.notice{border-radius:14px;padding:14px;background:#fff0f6;color:#803853;font-size:12px;margin-top:20px;line-height:1.65}.notice b{color:#a30956}.footer{text-align:center;border-top:1px solid var(--line);padding:25px;color:var(--muted);font-size:11px;background:#fff}.footer strong{color:#1b1b1b}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.summary{position:static}.hero{min-height:260px}}
+@media(max-width:520px){main{padding:15px 12px 35px}.hero{padding:30px 21px;min-height:260px;border-radius:20px}.hero h1{font-size:33px}.hero p{font-size:13px}.card{border-radius:18px;padding:20px}.fields{grid-template-columns:1fr}.serviceGrid{grid-template-columns:1fr 1fr}.serviceChoice{font-size:11px;padding:12px;min-height:65px}.serviceChoice[aria-pressed="true"]{padding:11px}.extras{grid-template-columns:1fr}.nav{padding:13px}.details{gap:7px}.details span{font-size:10px;padding:7px 10px}}
+</style></head>
+<body>
+<div class="ribbon">PRIVATE PREVIEW • INTERACTIVE DEMO ONLY</div>
+<header class="nav"><div class="crown" aria-hidden="true">♛</div><div><div class="brand">Angela's</div><div class="brandSub">SO FRESH CLEAN QUEEN LLC</div></div></header>
+<main>
+<section class="hero"><div><div class="ey">A CLEAN HOME. A HAPPIER PLACE. ✦</div><h1>Your next fresh start<br>is just a few clicks away.</h1><p>Explore how easy a cleaning request could feel. Choose a service, add a few details, and try a sample confirmation email.</p><span class="pill">✧ This is a preview — no appointment is booked</span></div></section>
+<div class="details"><span>✦ Spring Hill & nearby areas</span><span>✦ Residential & small commercial</span><span>✦ Weekly, biweekly & one-time</span></div>
+<div class="layout">
+<section class="card">
+<h2>Try the booking experience</h2><p class="lede">Select what you'd need. We'll send you a sample email so you can see the customer experience.</p>
+<form id="demoForm">
+<div class="section">01 / CHOOSE A SERVICE</div>
+<div class="serviceGrid" id="serviceGrid" role="group" aria-label="Cleaning service">
+<button type="button" class="serviceChoice" aria-pressed="true" data-service="Standard cleaning">✧ Standard cleaning<small>Everyday freshness</small></button>
+<button type="button" class="serviceChoice" aria-pressed="false" data-service="Deep cleaning">✦ Deep cleaning<small>Extra attention</small></button>
+<button type="button" class="serviceChoice" aria-pressed="false" data-service="Airbnb / rental">⌂ Airbnb & rentals<small>Guest-ready spaces</small></button>
+<button type="button" class="serviceChoice" aria-pressed="false" data-service="Office cleaning">▦ Office cleaning<small>Business spaces</small></button>
+</div>
+<div class="fields">
+<label class="field">Property / size<select name="property" id="property" required>
+<option value="1 bed / 1 bath apartment">1 bed / 1 bath apartment</option><option value="2 bed / 2 bath apartment">2 bed / 2 bath apartment</option>
+<option value="Home 1,000–1,500 sq ft">Home: 1,000–1,500 sq ft</option><option value="Home 1,500–2,500 sq ft">Home: 1,500–2,500 sq ft</option>
+<option value="Home 2,500+ sq ft">Home: 2,500+ sq ft</option><option value="Custom / unsure">Other / not sure</option>
+</select></label>
+<label class="field">Cleaning frequency<select id="frequency" required>
+<option value="One time">One time</option><option value="Weekly">Weekly (10–15% off base)</option><option value="Biweekly">Biweekly (5–10% off base)</option><option value="Monthly">Monthly</option></select></label>
+</div>
+<div class="section">02 / ADD A LITTLE EXTRA (OPTIONAL)</div>
+<div class="extras" id="extras">
+<label class="extra"><input type="checkbox" value="Laundry folding"><span>Laundry folding<strong>$25–$50</strong></span></label>
+<label class="extra"><input type="checkbox" value="Change bed sheets"><span>Change bed sheets<strong>$15 per bed*</strong></span></label>
+<label class="extra"><input type="checkbox" value="Pet hair treatment"><span>Pet hair treatment<strong>$25–$50</strong></span></label>
+<label class="extra"><input type="checkbox" value="Inside oven"><span>Inside oven<strong>$40–$75</strong></span></label>
+<label class="extra"><input type="checkbox" value="Inside fridge"><span>Inside fridge<strong>$40–$75</strong></span></label>
+<label class="extra"><input type="checkbox" value="Inside windows"><span>Inside windows<strong>From $50</strong></span></label>
+</div>
+<p class="help">*Bed sheet estimate represents one bed for demo purposes.</p>
+<div class="section">03 / TRY A TEST REQUEST</div>
+<div class="fields">
+<label class="field">Preferred date<input type="date" name="date" id="date" required></label>
+<label class="field">Preferred time<input type="time" name="time" id="time" value="10:00" required></label>
+<label class="field">Your name<input type="text" name="name" maxlength="70" autocomplete="name" placeholder="First name" required></label>
+<label class="field">Where should we send your test email?<input type="email" name="email" maxlength="180" autocomplete="email" placeholder="you@example.com" required></label>
+</div>
+<label class="hiddenBot" aria-hidden="true">Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+<label class="check"><input type="checkbox" id="consent" required><span>I agree to receive one sample booking email for this demo. This does not sign me up for marketing emails.</span></label>
+<button type="submit" class="primary" id="submit">Send my test booking email →</button>
+<p class="help">No payment, account creation, real booking, reminders, or follow-ups. Check your Spam or Promotions folder if needed.</p>
+<div id="feedback" class="message" role="status" aria-live="polite" hidden></div>
+</form></section>
+<aside class="card summary"><span class="tag">YOUR DEMO REQUEST</span><h2>Here's your fresh start ✨</h2><div class="price" id="estimate">From $100–$140</div><div class="subprice">Illustrative starting prices only, not a final quote.</div>
+<div class="summaryLine"><span>Cleaning</span><strong id="sService">Standard cleaning</strong></div>
+<div class="summaryLine"><span>Property</span><strong id="sProperty">1 bed / 1 bath apartment</strong></div>
+<div class="summaryLine"><span>Frequency</span><strong id="sFrequency">One time</strong></div>
+<div class="summaryLine"><span>Extras</span><strong id="sExtras">None selected</strong></div>
+<div class="notice"><b>Demo mode</b><br>These are starting prices from the public price guide. Angela would review and approve any real request. This preview sends an example email only.</div></aside>
+</div></main>
+<footer class="footer"><strong>Angela's So Fresh Clean Queen LLC</strong> · Interactive concept preview · Powered by The Launch Era<br>This is a sample experience, not the business's live booking system.</footer>
+<script>
+(() => {
+const $=id=>document.getElementById(id);
+let service="Standard cleaning";
+const rate={"1 bed / 1 bath apartment":[100,140],"2 bed / 2 bath apartment":[140,200],"Home 1,000–1,500 sq ft":[150,225],"Home 1,500–2,500 sq ft":[200,325],"Home 2,500+ sq ft":[300,null]};
+const addPrices={"Laundry folding":[25,50],"Change bed sheets":[15,15],"Pet hair treatment":[25,50],"Inside oven":[40,75],"Inside fridge":[40,75],"Inside windows":[50,null]};
+const dateInput=$("date"),tomorrow=new Date();tomorrow.setDate(tomorrow.getDate()+1);const dateISO=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),String(d.getDate()).padStart(2,"0")].join("-");dateInput.min=dateISO(new Date());dateInput.value=dateISO(tomorrow);
+function checkedExtras(){return [...document.querySelectorAll('#extras input:checked')].map(x=>x.value)}
+function update(){
+const p=$("property").value,f=$("frequency").value,extras=checkedExtras();
+$("sService").textContent=service;$("sProperty").textContent=p;$("sFrequency").textContent=f;$("sExtras").textContent=extras.length?extras.join(", "):"None selected";
+if(service!=="Standard cleaning"||!rate[p]){$("estimate").textContent="Custom estimate";return}
+let [min,max]=rate[p],discount=f==="Weekly"?[.15,.10]:f==="Biweekly"?[.10,.05]:[0,0];
+min=Math.round(min*(1-discount[0]));max=max===null?null:Math.round(max*(1-discount[1]));
+extras.forEach(x=>{min+=addPrices[x][0];max=(max===null||addPrices[x][1]===null)?null:max+addPrices[x][1]});
+$("estimate").textContent=max===null?"From $"+min:"$"+min+"–$"+max;
+}
+document.querySelectorAll("[data-service]").forEach(b=>b.addEventListener("click",()=>{service=b.dataset.service;document.querySelectorAll("[data-service]").forEach(n=>n.setAttribute("aria-pressed",String(n===b)));update()}));
+$("property").addEventListener("change",update);$("frequency").addEventListener("change",update);document.querySelectorAll('#extras input').forEach(c=>c.addEventListener("change",update));
+$("demoForm").addEventListener("submit",async e=>{
+e.preventDefault();const form=e.currentTarget,btn=$("submit"),feedback=$("feedback");
+if(!form.reportValidity()||btn.disabled)return;
+btn.disabled=true;btn.textContent="Sending your test email…";feedback.hidden=true;
+const payload={demo:"sofreshcleanqueen",website:form.elements.website.value,service,property:$("property").value,frequency:$("frequency").value,extras:checkedExtras(),date:$("date").value,time:$("time").value,name:form.elements.name.value,email:form.elements.email.value,estimate:$("estimate").textContent,consent:$("consent").checked};
+try{
+ const r=await fetch("https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-angela-demo-test-email",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+ const x=await r.json().catch(()=>({}));
+ if(!r.ok||x.ok!==true||x.email_accepted!==true)throw Error(x.error||"The test email could not be sent.");
+ feedback.className="message success";feedback.textContent="Your test email was accepted for delivery! Please check "+payload.email+" (including Spam / Promotions). Remember: this was only a simulation. No appointment was booked.";
+}catch(err){feedback.className="message error";feedback.textContent=err instanceof Error?err.message:"Unable to send the test email. Please try again.";}
+finally{feedback.hidden=false;btn.disabled=false;btn.textContent="Send my test booking email →";feedback.scrollIntoView({behavior:"smooth",block:"nearest"});}
+});
+update();
+})();
+</script>
+</body></html>
