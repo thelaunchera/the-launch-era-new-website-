@@ -25,12 +25,44 @@ main{max-width:1160px;margin:auto;padding:30px 20px 60px}.hero{min-height:290px;
 .languageLabel{position:absolute;right:22px;top:50%;transform:translateY(-50%)}.languageLabel select{padding:9px 12px;border:1px solid #eec8d8;background:#fff5f9;border-radius:30px;font-weight:800;color:#a60a54;font-size:12px}.nav{position:relative}.srOnly{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
 .nextStep{max-width:1160px;margin:0 auto 36px;padding:36px 25px;text-align:center;background:#fff;border:1px solid #f2d3e0;border-radius:25px;box-shadow:0 15px 35px #ae247017}.nextStep h2{font-size:clamp(26px,4vw,38px);letter-spacing:-.05em;line-height:1.2;margin:8px 0 12px}.nextStep p{color:#71616a;margin:0 auto 22px;max-width:560px;font-size:14px}.nextActions{display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap}.nextActions a{display:inline-block;text-decoration:none;border-radius:40px;padding:14px 23px;font-size:13px;font-weight:800}.nextActions .primaryLink{background:#e91679;color:#fff}.nextActions .secondaryLink{border:1px solid #e91679;color:#a60a54;background:#fff}.nextStep .smallNote{margin-top:14px;margin-bottom:0;font-size:11px}
 @media(max-width:520px){.languageLabel{right:12px}.languageLabel select{padding:7px 9px}.brand{font-size:30px}.brandSub{font-size:8px}.crown{font-size:25px}.nextStep{margin:0 12px 25px;padding:30px 14px}.nextActions{flex-direction:column}.nextActions a{width:100%}}
+
+/* Pink + black contrast, Pexels photo, and responsive interactive cards */
+.ribbon{background:#0d0d0f;letter-spacing:.15em}
+.nav{background:#121115;color:#fff;border-bottom:3px solid #ec2385;min-height:90px}
+.brand{color:#fff}.brandSub{color:#fff}.crown{color:#f2bd67}
+.languageLabel select{background:#282028;color:#fff;border:1px solid #c84684}
+.hero{min-height:355px;background-image:linear-gradient(90deg,rgba(11,11,15,.98) 0%,rgba(14,12,16,.90) 37%,rgba(16,12,17,.52) 69%,rgba(18,11,16,.15) 100%),url("https://images.pexels.com/photos/9462736/pexels-photo-9462736.jpeg?auto=compress&cs=tinysrgb&w=1400");background-size:cover;background-position:center,center 45%;border:1px solid #272126;box-shadow:0 19px 45px #2d0c1a1d}
+.hero:after{right:1%;top:0;font-size:120px}.hero .ey{color:#ff89c1}.hero p{color:#fae6ef}.hero .pill{background:#e91679c9;border-color:#ffc6dd}
+.photoCredit{position:absolute;z-index:2;right:13px;bottom:9px;color:#fff;background:#121014b8;font-size:9px;padding:3px 8px;border-radius:20px;text-decoration:none}
+.card h2{color:#171417}.section{border-left:4px solid #ec2385;padding-left:12px;color:#141215}
+.serviceChoice,.extra,.primary{transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.serviceChoice{position:relative}
+.serviceChoice:hover,.extra:hover{transform:translateY(-2px);box-shadow:0 10px 22px #30101d1c;border-color:#e91679}
+.serviceChoice[aria-pressed="true"]{background:#191619;color:#fff;border-color:#191619;box-shadow:0 8px 19px #1712172c}
+.serviceChoice[aria-pressed="true"] small{color:#f6b9d4}
+.serviceChoice[aria-pressed="true"]:after{content:"✓";position:absolute;right:9px;top:7px;background:#e91679;color:white;padding:1px 6px;border-radius:50%;font-size:12px}
+.extra:has(input:checked){background:#fff0f7;border-color:#e91679;box-shadow:inset 0 0 0 1px #e91679}
+.primary{background:#191619}.primary:hover{background:#d81470;transform:translateY(-2px);box-shadow:0 12px 27px #4b142d2b}
+.summary{background:#191619;color:#fff;border-color:#242025;box-shadow:0 22px 55px #19111924}
+.summary h2{color:#fff}.summary .tag{background:#e91679;color:#fff}.summary .price{color:#ff87c0}
+.summary .subprice{color:#eed0de}.summary .summaryLine{border-color:#423640}
+.summary .summaryLine span{color:#e8c7d6}.summary .summaryLine strong{color:#fff}
+.summary .notice{background:#2a2329;border:1px solid #5a3647;color:#f5dbe7}.summary .notice b{color:#ffa3ca}
+.quickSteps{display:flex;align-items:center;gap:6px;background:#faedf4;border:1px solid #f1dce5;border-radius:15px;padding:6px;margin:0 0 17px}
+.quickSteps button{flex:1;min-width:0;display:flex;gap:6px;align-items:center;justify-content:center;border:0;background:transparent;border-radius:10px;padding:10px 3px;font-size:11px;font-weight:800;color:#60414f;cursor:pointer}
+.quickSteps button:hover,.quickSteps button.is-current{background:#fff;box-shadow:0 4px 13px #4c1d3317}
+.quickSteps button span{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#191619;color:#fff;flex-shrink:0;font-size:10px}
+.quickSteps button.is-current span{background:#e91679}
+.progressTrack{height:5px;border-radius:99px;background:#ecd8e2;overflow:hidden}.progressFill{width:45%;height:100%;background:linear-gradient(90deg,#e91679,#ff7eb5);transition:width .25s ease}
+.progressCopy{color:#7b6772;font-size:11px;margin:9px 0 17px}
+@media(max-width:620px){.hero{min-height:355px;background-image:linear-gradient(90deg,rgba(10,10,14,.95),rgba(11,10,14,.70) 65%,rgba(11,10,14,.35)),url("https://images.pexels.com/photos/9462736/pexels-photo-9462736.jpeg?auto=compress&cs=tinysrgb&w=900");background-position:center,70% center}.nav{min-height:76px}.quickSteps button{font-size:10px;gap:4px}.quickSteps button span{width:20px;height:20px}}
+@media(prefers-reduced-motion:reduce){.serviceChoice,.extra,.primary,.progressFill{transition:none}}
 </style></head>
 <body>
 <div class="ribbon" data-i18n="ribbon">PRIVATE PREVIEW • INTERACTIVE DEMO ONLY</div>
 <header class="nav"><div class="crown" aria-hidden="true">♛</div><div><div class="brand">Angela's</div><div class="brandSub">SO FRESH CLEAN QUEEN LLC</div></div><label class="languageLabel"><span class="srOnly">Language / Idioma</span><select id="demoLanguage" aria-label="Language / Idioma"><option value="en">EN</option><option value="es">ES</option></select></label></header>
 <main>
-<section class="hero"><div><div class="ey" data-i18n="ey">A CLEAN HOME. A HAPPIER PLACE. ✦</div><h1 data-i18n-html="heroTitle">Your next fresh start<br>is just a few clicks away.</h1><p data-i18n="heroIntro">Explore how easy a cleaning request could feel. Choose a service, add a few details, and try a sample confirmation email.</p><span class="pill" data-i18n="heroBadge">✧ This is a preview — no appointment is booked</span></div></section>
+<section class="hero"><div><div class="ey" data-i18n="ey">A CLEAN HOME. A HAPPIER PLACE. ✦</div><h1 data-i18n-html="heroTitle">Your next fresh start<br>is just a few clicks away.</h1><p data-i18n="heroIntro">Explore how easy a cleaning request could feel. Choose a service, add a few details, and try a sample confirmation email.</p><span class="pill" data-i18n="heroBadge">✧ This is a preview — no appointment is booked</span></div><a class="photoCredit" href="https://www.pexels.com/photo/person-wearing-gloves-while-washing-a-plate-9462736/" target="_blank" rel="noopener noreferrer">Photo: Liliana Drew / Pexels</a></section>
 <div class="details"><span data-i18n="area">✦ Spring Hill & nearby areas</span><span data-i18n="commercial">✦ Residential & small commercial</span><span data-i18n="weekly">✦ Weekly, biweekly & one-time</span></div>
 <div class="layout">
 <section class="card">
