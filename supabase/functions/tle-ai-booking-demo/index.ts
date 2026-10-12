@@ -60,7 +60,7 @@ function bookingDraft(raw:unknown){
  };
 }
 
-const moneyWords=/(?:[$€£]|\b(?:price|prices|pricing|costs?|discounts?|fees?|charges?|charged|payment|payments|pay(?:ing|able)?|deposits?|billing|invoices?|quotes?|cash|dollars?|bucks?|money|financing|zelle|checkout|precio(?:s)?|costo(?:s)?|descuento(?:s)?|cobro(?:s)?|cobrar|cobran|pagar|pagos?|dep[oó]sitos?|facturas?|cotizaci[oó]n|presupuesto(?:s)?|efectivo|dinero|tarjetas?|d[oó]lares?)\b)/i;
+const moneyWords=/(?:[$€£]|\b(?:price|prices|pricing|costs?|discounts?|fees?|charges?|charged|payment|payments|pay(?:ing|able)?|deposits?|billing|invoices?|quotes?|cash|dollars?|bucks?|money|financing|zelle|venmo|card|credit|debit|transfer|estimate|how much|checkout|precio(?:s)?|costo(?:s)?|descuento(?:s)?|cobro(?:s)?|cobrar|cobran|pagar|pagos?|dep[oó]sitos?|facturas?|cotizaci[oó]n|presupuesto(?:s)?|efectivo|dinero|tarjetas?|d[oó]lares?|tarifas?|adelantos?|anticipos?|cu[aá]nto|cu[aá]ntos|estimad[oa]s?|valor(?:es)?)\b)/i;
 function nextAction(b:ReturnType<typeof bookingDraft>,language:string){
  const es=language==="es";
  if(!b.category)return es?"¿Es para una casa o un negocio?":"Is this for a home or a business?";
@@ -87,7 +87,12 @@ function safePublicReply(candidate:string,message:string,booking:ReturnType<type
   const combined=intro+" "+step;
   return combined.length<=110?combined:step;
  }
- if(!reply||reply.length>110||(reply.match(/\?/g)||[]).length>1)return step;
+ if(!reply)return step;
+ if(reply.length>110||(reply.match(/\\?/g)||[]).length>1){
+  const first=reply.match(/^.{1,88}?[.!](?=\\s|$)/)?.[0]||"";
+  const combined=first?first+" "+step:"";
+  return combined.length<=110&&combined.length>0&&!moneyWords.test(combined)?combined:step;
+ }
  if(!/\?|revis(?:a|ar)|review|completa|complete|siguiente|next step/i.test(reply)){
   const combined=reply+" "+step;
   return combined.length<=110?combined:step;
