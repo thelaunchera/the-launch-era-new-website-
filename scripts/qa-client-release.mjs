@@ -4,6 +4,7 @@
  * This does NOT replace authenticated, owner-approved end-to-end QA.
  */
 import assert from 'node:assert/strict';
+import { runInNewContext } from 'node:vm';
 import './qa-multicompany.mjs';
 import { existsSync, readFileSync } from 'node:fs';
 
@@ -190,6 +191,21 @@ check('Smooth buyer Back navigation and real post-save confirmation in English a
  assert.match(styles,/safe-area-inset-bottom/,'Save banner must stay visible on mobile');
  assert.match(styles,/crmViewEnter/,'Missing view transition');
  assert(!logic.includes("history.pushState("),'Navigation should never expose private view state in URL');
+});
+check('Owner delivery excludes archived and queued clients, preserving Completed Clients', () => {
+ const logic=read('public/command-center/assets/command-center-app.js');
+ const stage=logic.match(/function ownerPurchaseStage\(a\)\{[\s\S]*?\n\}/);
+ const pending=logic.match(/function ownerDeliveryPending\(a\)\{[\s\S]*?\n\}/);
+ assert(stage && pending,'Missing owner lifecycle or pending-delivery logic');
+ assert.match(logic,/const entries=\(Array\.isArray\(data\)\?data:\[\]\)\.filter\(ownerDeliveryPending\)/,'Client delivery must filter the paid-order response');
+ assert.match(logic,/ownerPurchases=Array\.isArray\(data\)\?data:\[\]/,'Completed Clients must retain original history records');
+ const isPending=runInNewContext(stage[0]+'\n'+pending[0]+'\nownerDeliveryPending;');
+ assert.equal(isPending({already_queued:false,intake_done:false}),true,'New buyer should appear');
+ assert.equal(isPending({already_queued:false,intake_done:true,crm_ready:true,booking_page_url:'https://example.com',status:'active'}),true,'Buyer under review should appear');
+ assert.equal(isPending({already_queued:true,qa_pass_count:0}),false,'Queued delivery should leave the pending section');
+ assert.equal(isPending({already_queued:true,qa_pass_count:6,buyer_review_status:'approved'}),false,'Archived completed buyer must not reappear');
+ assert.match(logic,/No pending client deliveries/,'English empty state missing');
+ assert.match(logic,/No hay entregas pendientes/,'Spanish empty state missing');
 });
 const failed = checks.filter(x => !x.passed);
 console.log('Client release static checks:', checks.length - failed.length, 'passed,', failed.length, 'failed');
