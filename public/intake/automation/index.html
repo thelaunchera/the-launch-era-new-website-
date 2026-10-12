@@ -18,6 +18,7 @@ h1{font:700 clamp(28px,5vw,39px)/1.13 Prompt,Arial,sans-serif;letter-spacing:-.0
 .grid{gap:14px}label{gap:7px;font-size:12px;min-width:0}input,textarea,select{border-radius:12px;border:1px solid #bbcedb;padding:12px;min-height:45px;max-width:100%;color:#191919}textarea{min-height:73px;resize:vertical}label:focus-within{color:#1e536e}input:focus-visible,textarea:focus-visible,select:focus-visible,.btn:focus-visible,summary:focus-visible{outline:3px solid #98c9e7;outline-offset:2px}
 details{border:1px solid #d4e4ee;background:#f5f9fc;border-radius:13px;padding:0 14px;margin-top:3px}details summary{padding:15px 0;margin:0;font-size:13px}details[open]{padding-bottom:14px}details[open] summary{grid-column:1/-1}.btn{border-radius:99px;min-height:48px;margin-top:19px;font-size:14px}.small{font-size:11px;line-height:1.5}
 @media(max-width:650px){.wrap{padding-top:15px}.top{margin-bottom:12px}.card{padding:20px;border-radius:20px}h1{font-size:clamp(28px,7vw,34px)}.notice{margin-bottom:19px}.grid,details[open]{gap:12px}}
+.field-hint{display:block;font-size:11px;line-height:1.4;font-weight:500;color:#527081;margin-top:-1px}label[data-website][hidden]{display:none!important}
 </style><link rel="stylesheet" href="/assets/tle-mobile.css?v=20261009"></head>
 <body data-tle-page="form"><script>(()=>{const q=new URLSearchParams(location.search);if(q.get("lang")==="es"){location.replace("/es/intake/automation/?"+q.toString())}})()</script>
 <main class="wrap"><div class="top"><div class="brand">THE LAUNCH ERA</div><div><a id="langLink" href="/es/intake/automation/">ES</a> · <a id="backLink" href="/website-automation/">Back</a></div></div>
@@ -38,12 +39,13 @@ details{border:1px solid #d4e4ee;background:#f5f9fc;border-radius:13px;padding:0
 <label data-instagram hidden>Where should Instagram lead alerts go?<input type="email" name="instagram_notification_email"></label>
 
 <label class="full">Services *<textarea name="services" required></textarea></label>
-<label class="full">What should we automate? *<textarea name="repetitive_task" required></textarea></label>
+<input type="hidden" name="repetitive_task" id="repetitiveTask" value="">
 
-<label data-website>What should the automation handle? *<select id="websiteWorkflow" name="website_workflow" required><option value="">Select</option><option value="Contact inquiry">Contact inquiry</option><option value="Quote request">Quote request</option><option value="Booking request">Booking request</option><option value="Other">Other</option></select></label>
+<label data-website class="full" for="websiteWorkflow">What do customers usually request on your website? *<select id="websiteWorkflow" name="website_workflow" required><option value="">Choose one</option><option value="Contact inquiry">Questions or information</option><option value="Quote request">Quotes or estimates</option><option value="Booking request">Bookings</option><option value="Other">Something else</option></select><span class="field-hint">This helps us organize your incoming requests.</span></label>
+<label data-website class="full" id="otherWorkflowWrap" hidden for="otherWorkflowDetails">What else do customers request? *<textarea id="otherWorkflowDetails" maxlength="700" placeholder="e.g. commercial service inquiries"></textarea></label>
 <label data-instagram hidden>Which Instagram flow should we automate? *<select id="instagramWorkflow" name="instagram_workflow"><option value="">Select</option><option value="DM inquiry">DM inquiry</option><option value="Quote request">Quote request</option><option value="Booking request">Booking request</option><option value="Keyword or comment">Keyword or comment</option><option value="Other">Other</option></select></label>
-<label>Where should leads go? *<select name="lead_destination" required><option value="">Select</option><option>Booking link</option><option>Quote Request</option><option>Phone or text</option><option>Website</option></select></label>
-<label>Destination link (if applicable)<input type="url" name="destination_link"></label>
+<label>What should customers do next? *<select name="lead_destination" required><option value="">Select</option><option>Booking link</option><option>Quote Request</option><option>Phone or text</option><option>Website</option></select></label>
+<label>Link for that step (if you have one)<input type="url" name="destination_link"></label>
 <details class="full"><summary>More details (optional)</summary>
 <label data-website>Alert email (optional)<input type="email" name="website_notification_email"></label>
 <label class="full">Questions you get often<textarea name="common_questions"></textarea></label>
@@ -59,6 +61,9 @@ const q=new URLSearchParams(location.search),kind="website";
 const form=document.getElementById("intakeForm"),btn=document.getElementById("submitBtn"),status=document.getElementById("status"),success=document.getElementById("success");
 const langLink=document.getElementById("langLink"),backLink=document.getElementById("backLink");
 langLink.href="/es/intake/automation/?"+q.toString();
+const workflow=document.getElementById("websiteWorkflow"),otherWrap=document.getElementById("otherWorkflowWrap"),otherDetails=document.getElementById("otherWorkflowDetails");
+function syncWebsiteWorkflow(){const isOther=kind==="website"&&workflow.value==="Other";otherWrap.hidden=!isOther;otherDetails.required=isOther;if(!isOther)otherDetails.value="";}
+workflow.addEventListener("change",syncWebsiteWorkflow);syncWebsiteWorkflow();
 if(kind==="instagram"){
  document.title="Instagram Automation Intake — The Launch Era";
  document.getElementById("eyebrow").textContent="INSTAGRAM AUTOMATION · PRIVATE INTAKE";
@@ -76,6 +81,10 @@ if(kind==="instagram"){
 form.addEventListener("submit",async e=>{
  e.preventDefault();if(!form.reportValidity())return;btn.disabled=true;status.textContent="Sending…";
  const fd=new FormData(form),obj={language:LANG};fd.forEach((v,k)=>obj[k]=String(v).trim());
+ if(kind==="website"){
+  const requestType=obj.website_workflow||"";
+  obj.repetitive_task=requestType==="Other"?otherDetails.value.trim():("Website requests: "+requestType+". Customer next step: "+(obj.lead_destination||"To be confirmed")+"." );
+ }
  if(!obj.website_notification_email)obj.website_notification_email=obj.instagram_notification_email||obj.email||"";
  if(kind==="instagram"&&!obj.current_automation)obj.current_automation="Instagram workflow: "+(obj.instagram_workflow||"");
  const payload={type:TYPE,data:{object:obj}};
