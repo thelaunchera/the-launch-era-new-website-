@@ -3,8 +3,9 @@
 "use strict";
 if(window.__tleOwnerJessyInstalled)return;
 window.__tleOwnerJessyInstalled=true;
-const ASSET="/assets/jessy-avatar.webp",CSS="./assets/jessy-owner.css?v=20261012-draft-1";
+const ASSET="/assets/jessy-avatar.webp",CSS="./assets/jessy-owner.css?v=20261012-owner-alert-v1";
 let root=null,log=null,form=null,input=null,send=null,quick=null,open=false,waiting=false,language="en",history=[],previousFocus=null;
+let notificationTimer=0;
 const copy={
  en:{open:"Ask Jessy",intro:"Hi! 👋 I'm Jessy, your Command Center assistant. Want to check leads, follow-ups or a client delivery?",subtitle:"Your private workspace helper",placeholder:"Ask about leads, clients or your next step…",send:"Send",close:"Close Jessy",thinking:"Checking your workspace…",error:"I couldn't check that right now. Try again or open the section directly.",note:"Private owner assistance · Drafts require your approval. Jessy never sends emails.",label:"Open this section →",quick:[["Prepare follow-up draft","Prepare a follow-up email draft"],["Today's priorities","What needs my attention today?"],["Follow-ups","Which prospect follow-ups are due?"],["Website leads","Any new website inquiries?"],["Client deliveries","Which client deliveries need review?"],["Support","I need help with a problem"]]},
  es:{open:"Pregúntale a Jessy",intro:"¡Hola! 👋 Soy Jessy, tu asistente del Command Center. ¿Revisamos leads, seguimientos o entregas?",subtitle:"Tu asistente privada de operaciones",placeholder:"Pregunta sobre leads, clientes o el próximo paso…",send:"Enviar",close:"Cerrar Jessy",thinking:"Revisando tu espacio…",error:"Ahora no pude comprobarlo. Inténtalo otra vez o abre la sección directamente.",note:"Asistencia privada · Los borradores requieren tu aprobación. Jessy no envía correos.",label:"Abrir esta sección →",quick:[["Preparar seguimiento","Prepara un borrador de seguimiento"],["Prioridades de hoy","¿Qué necesita mi atención hoy?"],["Seguimientos","¿Qué seguimientos de prospectos están pendientes?"],["Leads web","¿Hay nuevas consultas del website?"],["Entregas","¿Qué entregas de clientes debo revisar?"],["Soporte","Necesito ayuda con un problema"]]}
@@ -44,13 +45,39 @@ function build(){
  form=el("form","jo-form");input=el("textarea","jo-input");input.required=true;input.rows=1;input.maxLength=340;input.placeholder=t("placeholder");input.setAttribute("aria-label",t("placeholder"));send=b("jo-send",t("send"));send.type="submit";
  form.append(input,send);const note=el("p","jo-note",t("note"));
  const foot=el("footer","jo-footer");foot.append(quick,form,note);panel.append(head,log,foot);
- root.append(fab,panel);document.body.append(root);
+ const alert=b("jo-notification-nudge");alert.hidden=true;
+ alert.setAttribute("aria-live","polite");
+ alert.setAttribute("aria-label","Open Command Center notifications");
+ alert.addEventListener("click",()=>{
+  if(owner())window.TLEOwnerJessyGateway.openNotifications();
+  alert.hidden=true;
+  if(open)hide(false);
+ });
+ root.append(fab,alert,panel);document.body.append(root);
  fab.addEventListener("click",show);close.addEventListener("click",hide);form.addEventListener("submit",e=>{e.preventDefault();ask(input.value)});
  input.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();form.requestSubmit()}});
  shortcuts();
 }
+function onOwnerNotifications(event){
+ if(!owner()||!root||!event.detail)return;
+ const total=Math.max(0,Math.min(50,Number(event.detail.unread)||0));
+ const added=Math.max(0,Math.min(50,Number(event.detail.newCount)||0));
+ const initial=event.detail.initial===true;
+ const alert=root.querySelector(".jo-notification-nudge");
+ if(!total){alert.hidden=true;return}
+ if(!initial&&!added)return;
+ const en=language!=="es";
+ const message=initial
+  ?(en?"Jessy: You have "+total+" unread Command Center notification"+(total===1?"":"s")+". View alerts →":
+   "Jessy: Tienes "+total+" notificaci"+(total===1?"ón":"ones")+" sin leer. Ver avisos →")
+  :(en?"Jessy: "+added+" new Command Center alert"+(added===1?"":"s")+". View →":
+    "Jessy: "+added+" nuevo"+(added===1?" aviso":"s avisos")+" en tu Command Center. Ver →");
+ if(open){if(!initial)bubble(message.replace(/ →$/,""),"bot")}
+ else{alert.textContent=message;alert.hidden=false;clearTimeout(notificationTimer);
+  notificationTimer=setTimeout(()=>{if(alert.isConnected)alert.hidden=true},13000)}
+}
 function sync(){
- if(!owner()){if(root){root.remove();root=null;history=[];open=false;log=null;input=null;quick=null}return}
+ if(!owner()){if(root){clearTimeout(notificationTimer);root.remove();root=null;history=[];open=false;log=null;input=null;quick=null}return}
  if(!root)build();
  const next=lang();if(next!==language){language=next;if(root){root.querySelector(".jo-fab span").textContent=t("open");root.querySelector(".jo-heading small").textContent=t("subtitle");root.querySelector(".jo-close").setAttribute("aria-label",t("close"));input.placeholder=t("placeholder");send.textContent=t("send");root.querySelector(".jo-note").textContent=t("note");shortcuts()}}
 }
@@ -152,6 +179,7 @@ function start(){
  if(target)new MutationObserver(sync).observe(target,{attributes:true,attributeFilter:["class"]});
  document.addEventListener("tle-crm-language",sync);
  window.addEventListener("tle-crm-ready",sync);
+ window.addEventListener("tle-crm-owner-notifications",onOwnerNotifications);
  window.addEventListener("pageshow",sync);
  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&open)hide()});
  sync();
