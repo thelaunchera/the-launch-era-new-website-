@@ -143,7 +143,9 @@ async function whatsappPrefAction(workspace,body){
   catch{return {error:"Cannot load WhatsApp alert settings.",status:503};}
  }
  if(action==="whatsapp_save"){
-  const phone=clean(body.phone,22).replace(/[()\s-]/g,"");
+  const supplied=clean(body.phone,22).replace(/[()\s-]/g,"");
+  const previous=supplied?"":await rows("tle_owner_whatsapp_alert_prefs","select=phone_e164&workspace_id=eq."+encodeURIComponent(workspace)+"&limit=1").then(r=>r?.[0]?.phone_e164||"").catch(()=>"");
+  const phone=supplied||previous;
   if(!/^\+[1-9][0-9]{7,14}$/.test(phone))return {error:"Enter a WhatsApp number with country code, e.g. +1...",status:400};
   if(body.consent!==true)return {error:"You must authorize receiving WhatsApp alerts on this number.",status:400};
   const selected=Array.isArray(body.channels)?body.channels:[];
