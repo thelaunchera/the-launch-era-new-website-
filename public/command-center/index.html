@@ -1,12 +1,12 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f8fb"><meta name="description" content="Private lead tracking and follow-up management for cleaning businesses."><meta name="tle-private-activation" content="direct-hash-v1"><meta name="tle-business-category-ui" content="industry-aware-cb-depot-v1"><title>The Launch Era | Command Center</title><link rel="icon" type="image/png" href="https://the-launch-era-crm.dailinsegura17.workers.dev/app-icons/tle-192.png?v=20261010" id="crm-tab-icon"><link rel="apple-touch-icon" href="https://the-launch-era-crm.dailinsegura17.workers.dev/app-icons/tle-180.png?v=20261010" id="crm-touch-icon"><link rel="manifest" href="./manifest-tle.webmanifest" id="crm-app-manifest"><meta name="tle-command-center-release" content="2026-10-11-buyer-calendar-v1"><link rel="stylesheet" href="./assets/command-center.css?v=20261012-wide-preview-v1"></head><body><div id="privateActivationSplash" class="hidden" role="status" aria-live="polite">
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f8fb"><meta name="description" content="Private lead tracking and follow-up management for cleaning businesses."><meta name="tle-private-activation" content="direct-hash-v1"><meta name="tle-business-category-ui" content="industry-aware-cb-depot-v1"><title>The Launch Era | Command Center</title><link rel="icon" type="image/png" href="https://the-launch-era-crm.dailinsegura17.workers.dev/app-icons/tle-192.png?v=20261012-legacy" id="crm-tab-icon"><link rel="apple-touch-icon" href="https://the-launch-era-crm.dailinsegura17.workers.dev/app-icons/tle-180.png?v=20261012-legacy" id="crm-touch-icon"><link rel="manifest" href="./manifest-tle.webmanifest" id="crm-app-manifest"><meta name="tle-command-center-release" content="2026-10-11-buyer-calendar-v1"><link rel="stylesheet" href="./assets/command-center.css?v=20261012-wide-preview-v1"></head><body><div id="privateActivationSplash" class="hidden" role="status" aria-live="polite">
 <div class="pa-card">
-<img class="pa-logo" src="/favicon.svg" alt="">
+<img class="pa-logo" src="https://the-launch-era-crm.dailinsegura17.workers.dev/app-icons/tle-192.png?v=20261012-legacy" alt="">
 <div class="pa-mark" id="paBrand">PRIVATE COMMAND CENTER</div>
 <h2 id="paTitle">Opening your Command Center</h2>
 <p id="paMessage">Verifying your private access securely…</p>
 <div class="pa-spin" id="paSpin" aria-hidden="true"></div>
 <button type="button" id="paReturn">Go to sign in →</button>
-</div></div><div id="tleLoading" role="status" aria-live="polite" aria-label="Loading The Launch Era"><div class="tle-loading-mark"><img id="crm-loading-brand-icon" src="/assets/brand/tle-mark.svg" alt="" width="80" height="80" style="object-fit:cover;border-radius:20px"></div><strong>THE LAUNCH ERA</strong><span>Loading your workspace…</span></div>
+</div></div><div id="tleLoading" role="status" aria-live="polite" aria-label="Loading The Launch Era"><div class="tle-loading-mark"><img id="crm-loading-brand-icon" src="https://the-launch-era-crm.dailinsegura17.workers.dev/app-icons/tle-192.png?v=20261012-legacy" alt="" width="80" height="80" style="object-fit:cover;border-radius:20px"></div><strong>THE LAUNCH ERA</strong><span>Loading your workspace…</span></div>
 <div id="crmSaveToast" class="crm-save-toast" role="status" aria-live="polite" aria-atomic="true"><span class="crm-save-toast__icon" aria-hidden="true">✓</span><span id="crmSaveToastText">Saved successfully</span></div>
 <script id="tleBootRecovery">
 /* This executes independently of remote module imports, including in iOS Home Screen apps. */
@@ -62,7 +62,7 @@
  </form>
  </div>
 </div><div id="sidebarScrim" class="sidebar-scrim" aria-hidden="true"></div><aside class="premium-sidebar" id="premiumSidebar" aria-label="Workspace navigation">
-<div class="premium-brand"><img class="brand-symbol" id="crm-brand-icon" src="/assets/brand/tle-mark.svg" alt="" style="display:block;width:36px;height:36px;object-fit:cover;border-radius:10px;flex-shrink:0;padding:0;"><span>THE LAUNCH ERA<small id="sidebarWorkspaceLabel">WORKSPACE</small></span></div>
+<div class="premium-brand"><img class="brand-symbol" id="crm-brand-icon" src="https://the-launch-era-crm.dailinsegura17.workers.dev/app-icons/tle-192.png?v=20261012-legacy" alt="" style="display:block;width:36px;height:36px;object-fit:cover;border-radius:10px;flex-shrink:0;padding:0;"><span>THE LAUNCH ERA<small id="sidebarWorkspaceLabel">WORKSPACE</small></span></div>
 <div id="ownerPrivateSection" class="hidden" aria-label="The Launch Era private admin navigation">
  <div class="nav-caption" id="ownerOrdersCaption">THE LAUNCH ERA · PRIVATE</div>
  <button type="button" class="nav-link hidden" id="ownerPagesNav" data-target="owner-pages">▤ <span>Clients & Purchases</span></button>
@@ -810,7 +810,7 @@
 /* TLE is the default for all buyers; CB Depot's image is isolated to its verified workspace. */
 (function(){
   "use strict";
-  const icons={tle:"/assets/brand/tle-mark.svg",cb:"/assets/clients/cb-depot/approved-favicon-192.png?v=20261010"};
+  const icons={tle:"https://the-launch-era-crm.dailinsegura17.workers.dev/app-icons/tle-192.png?v=20261012-legacy",cb:"/assets/clients/cb-depot/approved-favicon-192.png?v=20261010"};
   let last="";
   function sync(){
     const verifiedCB=document.body.classList.contains("crm-buyer-view")&&document.body.classList.contains("cb-depot-buyer");
@@ -823,8 +823,8 @@
     const favicon=document.getElementById("crm-tab-icon");
     const touch=document.getElementById("crm-touch-icon");
     const manifest=document.getElementById("crm-app-manifest");
-    if(favicon){favicon.href=isCB?icon:"https://the-launch-era-crm.dailinsegura17.workers.dev/app-icons/tle-192.png?v=20261010";favicon.type="image/png";}
-    if(touch)touch.href=isCB?icon.replace("-192.png","-180.png"):"https://the-launch-era-crm.dailinsegura17.workers.dev/app-icons/tle-180.png?v=20261010";
+    if(favicon){favicon.href=icon;favicon.type="image/png";}
+    if(touch)touch.href=icon.replace("-192.png","-180.png");
     if(manifest)manifest.href=isCB?"./manifest-cb-depot.webmanifest":"./manifest-tle.webmanifest";
     const brand=document.getElementById("crm-brand-icon");
     if(brand)brand.src=icon;
