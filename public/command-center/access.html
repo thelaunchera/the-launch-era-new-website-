@@ -73,7 +73,7 @@ a{color:#276488}
   if(!email){status.textContent='Escribe primero tu correo electrónico.';return;}
   status.textContent='Solicitando instrucciones…';
   try{
-   const {error}=await Promise.race([db.auth.resetPasswordForEmail(email,{redirectTo:location.origin+'/?app=tle'}),timeout(15000)]);
+   const {error}=await Promise.race([db.auth.resetPasswordForEmail(email,{redirectTo:new URL('/auth-recovery.html',location.origin).href}),timeout(15000)]);
    if(error)throw error;
    status.textContent='Si existe una cuenta con ese correo, recibirás instrucciones para restablecer tu contraseña.';
   }catch(e){status.textContent=e?.message||'No se pudo enviar el correo.';}
