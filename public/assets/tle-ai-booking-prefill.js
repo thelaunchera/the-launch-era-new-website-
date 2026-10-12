@@ -131,13 +131,20 @@
   const originalResidentialReview=window.reviewResidential;
   if(typeof originalResidentialReview==="function"){
     window.reviewResidential=function(){
+      if(!$("beds")?.value||!$("baths")?.value){
+        const field=!$("beds")?.value?$("beds"):$("baths");
+        alert(es?"Revisa el número de habitaciones y baños antes de continuar.":"Please select the number of bedrooms and bathrooms before continuing.");
+        field?.focus();return;
+      }
       originalResidentialReview();
       if(!$("resReview")?.classList.contains("on"))return;
       const container=$("resSummary");
       for(const [label,value] of [
         [es?"Tamaño aprox.":"Approx. size",$("tleAiSquareFeet")?.value?$("tleAiSquareFeet").value+" sq ft":""],
         [es?"Notas":"Notes",$("tleAiJobNotes")?.value||""],
-        [es?"ZIP":"ZIP",$("zip")?.value||""]
+        [es?"ZIP":"ZIP",$("zip")?.value||""],
+        [es?"Nombre":"Name",$("name")?.value||""],
+        [es?"Correo":"Email",$("email")?.value||""]
       ]){
         if(!value)continue;
         const row=document.createElement("div");row.className="row";
@@ -179,9 +186,10 @@
     }
     const info=document.createElement("p");info.className="note";info.textContent=es?"Siguiente paso: revisa todos los datos. Cuando estés conforme, pulsa «Confirmar solicitud demo» para terminar. Esta es una prueba: no se envía ninguna reserva real.":"Next step: review all details. When everything looks right, select “Confirm demo request” to finish. This is a preview: no real booking or email is sent.";page.append(info);
     const btn=document.createElement("button");btn.type="button";btn.className="next";btn.textContent=es?"Confirmar solicitud demo":"Confirm demo request";
-    if(missing.length){btn.disabled=true;btn.setAttribute("aria-disabled","true");btn.style.opacity=".45";btn.title=es?"Completa los datos pendientes primero":"Complete missing details first";}
+    if(missing.length){btn.hidden=true;btn.disabled=true;btn.setAttribute("aria-disabled","true");btn.title=es?"Completa los datos pendientes primero":"Complete missing details first";}
     btn.onclick=()=>{if(missing.length)return;kind==="quote"?window.submitQuote?.():window.submitCommercial?.();};page.append(btn);
     const back=document.createElement("button");back.type="button";back.className="back";back.textContent=es?"← Editar detalles":"← Edit details";
+    if(missing.length){back.textContent=es?"← Completar datos pendientes":"← Complete missing details";back.classList.add("next");}
     back.onclick=()=>window.show?.(kind,kind==="quote"?"Residential Quote / Estimate":"Commercial Quote / Estimate",kind==="quote"?"RESIDENTIAL":"COMMERCIAL");page.append(back);
     window.show?.("tleAiExtraReview",es?"Revisa tu solicitud":"Review your request","REVIEW");
   }
