@@ -48,6 +48,12 @@ const critical=[
  ['/auth-recovery.html','password'],['/auth-recovery','password'],
  ['/lead-private-preview.html','Booking'],['/lead-demo-tracker.html','Demo'],
  ['/client-review/','Launch Era'],['/client-legal/','policies'],
+ ['/booking-flow-intake/','Booking'],['/es/booking-flow-intake/','Booking'],
+ ['/booking-flow-payment-success/','Payment'],['/service-checkout/','checkout'],
+ ['/demos/claudia/','Claudia'],['/demos/angela-so-fresh-clean-queen/','Angela'],
+ ['/command-center/lead-insights.html','Lead Insights'],
+ ['/command-center/buyer-account-preview.html','Buyer Account Preview'],
+ ['/cleaning-app/','Cleaning Web App'],
  ['/cb-depot/privacy/','CB Depot'],['/cb-depot/terms/','CB Depot'],
  ['/privacy.html','Privacy'],['/terms.html','Terms']];
 async function safeFetch(url,init={}){
