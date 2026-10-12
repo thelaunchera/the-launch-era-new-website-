@@ -1,0 +1,81 @@
+# ROUTE_MAP.md — The Launch Era route & button registry
+Verified against production page loads and repository sources on **2026-10-12**. This is a living contract; check code after every release. A page rendering does NOT prove a sensitive form action works.
+
+## Sources of truth
+- Main website: \`thelaunchera/the-launch-era-new-website-\`, \`src/routes/*\` + \`public/*\`, served from \`https://thelaunchera.com\`.
+- Private Command Center: website \`public/command-center/*\` and \`thelaunchera/the-launch-era-crm\`; don't switch it back to previous infrastructure.
+- Cleaning App: \`thelaunchera/launch-Era-App-\`, \`https://app.thelaunchera.com\`.
+- Legacy site \`thelaunchera/The-launch-era-Website-\` is NOT the source for new deployments.
+- Interest confirmation UI: AppDeploy \`the-launch-era-interest-confirmation-odqbiw\`, \`public/interest.html\`.
+- Backend: Supabase Edge Functions in production project \`bowacxhmjvrqixtwaikv\`; test project is separate.
+
+## Public routes (verified that they load)
+| Route (on thelaunchera.com) | Source location in active repository | Purpose / expected result |
+|---|---|---|
+| \`/\` | \`src/routes/index.tsx\` | EN marketing home, TLE branding |
+| \`/es/\` | \`src/routes/es.index.tsx\` | Spanish home |
+| \`/solutions/\` | \`src/routes/solutions.tsx\` | Product navigation |
+| \`/how-it-works/\` | \`src/routes/how-it-works.tsx\` | Explains process |
+| \`/help/\` | \`src/routes/help.tsx\` | Contact/help |
+| \`/booking-lead-automation/\` | \`src/routes/booking-lead-automation.tsx\` | Booking Automation offer |
+| \`/cleaning-web-app/\` | \`src/routes/cleaning-web-app.tsx\` | Cleaning App offer |
+| \`/booking-demo/\` | \`public/booking-demo/index.html\` | Personalized demo request |
+| \`/booking-bundle/\` | \`public/booking-bundle/index.html\` | Booking + optional AI plan |
+| \`/ai-booking-assistant/\` | \`public/ai-booking-assistant/index.html\` | AI Assistant offer |
+| \`/es/ai-booking-assistant/\` | \`public/es/ai-booking-assistant/index.html\` | Spanish AI offer |
+| \`/whatsapp-ai-agent/\` | \`public/whatsapp-ai-agent/index.html\` | Coming soon, do not imply active WhatsApp integration |
+| \`/es/whatsapp-ai-agent/\` | \`public/es/whatsapp-ai-agent/index.html\` | Coming soon ES |
+| \`/service-checkout/\` | \`public/service-checkout/index.html\` | Checkout transition; payment integration requires separate test |
+| \`/booking-flow-intake/\` | \`public/booking-flow-intake/index.html\` | English booking setup form |
+| \`/es/booking-flow-intake/\` | \`public/es/booking-flow-intake/index.html\` | Spanish setup |
+| \`/booking-flow-payment-success/\` | \`public/booking-flow-payment-success/index.html\` | Payment status verification, never trust static URL alone |
+| \`/lead-private-preview.html\` | \`public/lead-private-preview.html\` | Personalized booking demo, params \`rid/business/area\`; not a live customer reservation |
+| \`/lead-demo-tracker.html\` | \`public/lead-demo-tracker.html\` | Demo Command Center preview |
+| \`/demos/claudia/\` | \`public/demos/claudia/index.html\` | Named sample, NOT reusable across tenants |
+| \`/demos/angela-so-fresh-clean-queen/\` | \`public/demos/angela-so-fresh-clean-queen/index.html\` | Named sample; isolation required |
+| \`/client-review/\` | \`public/client-review/index.html\` | Tokenized private review/approve/request changes; valid token required |
+| \`/client-legal/\` | \`public/client-legal/index.html\` | Client's own policies by identity/token, never TLE generic for CB Depot |
+| \`/cb-depot/privacy/\` | \`public/cb-depot/privacy/index.html\` | CB Depot privacy ONLY |
+| \`/cb-depot/terms/\` | \`public/cb-depot/terms/index.html\` | CB Depot terms ONLY |
+| \`/privacy.html\` | \`public/privacy.html\` | The Launch Era privacy |
+| \`/terms.html\` | \`public/terms.html\` | The Launch Era terms |
+| \`/command-center/\` | \`public/command-center/index.html\` | Owner/tenant login and protected workspace |
+| \`/command-center/access\`, \`/command-center/access.html\` | \`public/command-center/access.html\` | Private access/recovery request; BOTH forms loaded on Oct 12 |
+| \`/command-center/lead-insights.html\` | \`public/command-center/lead-insights.html\` | Authenticated lead insight view; tenant scoped |
+| \`/command-center/buyer-account-preview.html\` | \`public/command-center/buyer-account-preview.html\` | DEMO ONLY; no live customer data |
+| \`/auth-recovery\`, \`/auth-recovery.html\` | \`public/auth-recovery.html\`; alias in \`public/auth-recovery/index.html\` | Reset password with recovery token -> Command Center, NOT site hero |
+| \`/cleaning-app/\` | \`public/cleaning-app/index.html\` | Legacy marketing redirect to \`/cleaning-web-app/\` (observed) |
+| \`https://app.thelaunchera.com/\` | \`thelaunchera/launch-Era-App-\` | Operational Cleaning App, separate from marketing site |
+
+Other routes exist under \`src/routes/\`, \`public/es/\`, \`public/intake/\` and \`public/ai-booking-assistant/\`; \`scripts/qa-route-integrity.mjs\` scans the filesystem for static references. All routes must be added here when they become a production CTA.
+
+## Button/link contract (source → destination → condition)
+| Source / button | Expected destination or action | Must verify |
+|---|---|---|
+| Header The Launch Era wordmark | \`/\` or \`/es/\` | Correct language and TLE logo |
+| Header Solutions / How it works / Help | \`/solutions/\`, \`/how-it-works/\`, \`/help/\`; ES may jump to anchors under \`/es/\` | No dead anchors |
+| Booking CTA / See demo | \`/booking-demo/\` or approved service demo route | Do not send to blank landing |
+| AI Assistant plans Get Started | \`/service-checkout/?offer=ai-booking\`, \`ai-followup\`, or \`ai-business\` | Correct offer; real activation only after successful payment |
+| Booking intake / ES intake | \`/booking-flow-intake/\` / \`/es/booking-flow-intake/\` | User-token and form validation, no cross-business records |
+| Command Center access "Back to main" | \`/command-center/?from=private-access\` | Tenant identity preserved after login |
+| "Reset your password" email/action | \`/auth-recovery.html\` with valid auth session/recovery token, then \`/command-center/\` | Real reset fixture, no marketing page, no 404 |
+| "I'm Interested" in first outreach email | GET \`https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-crm-interest?lead=<UUID>\` → 302 AppDeploy \`/interest.html?lead=<UUID>\` | GET never grants consent; correct lead; no query parameter loss |
+| "Yes, I'm Interested" on confirmation UI | POST \`tle-crm-interest?lead=<UUID>\` | Browser CORS on EVERY response and two-step authorization; no false error after DB update |
+| After explicit consent | Resend acknowledgment → \`personalized_demo_requests\` → \`tle-crm-personalized-demo-worker\` → personal preview email | No duplicates, at least 60 seconds after acknowledgment, isolate tenant |
+| "TRY YOUR PERSONALIZED DEMO" email | \`/lead-private-preview.html?rid=...&business=...&area=...\` | Correct business name/area; NOT old client demo |
+| "Open Demo Command Center" | \`/lead-demo-tracker.html\` with appropriate demo context | Demo only, no production client data |
+| Client review "Approve" / "Request Changes" | Tokenized \`tle-client-review\` Edge Function | Correct client/revisions; no submit without valid token |
+| Client policies/Unsubscribe | Correct tenant's legal routes and authenticated tokenized unsubscribe | No generic TLE policy for CB Depot |
+| Customer booking submit/cancel/change | Business-scoped booking handler → customer acknowledgment → OWNER Command Center alert | No automatic irreversible cancel or charge |
+| All "Refresh", Back, profile/settings & sidebar controls | Remain within current authenticated tenant and route | Mobile/tablet/desktop navigation, no lost sidebar |
+
+## Redirect guardrails
+- No stale \`pages.dev\`, Netlify, abandoned Cloudflare portal or obsolete GitHub Pages URLs in **new** onboarding emails. A **grandfathered client-specific** URL may remain where explicitly retained.
+- Never redirect a password-reset link to the marketing home. Never redirect \`/command-center/\` to a client-specific landing without authorization.
+- Never route CB Depot inquiries to TLE general CRM or cleaning services; branding/legal/assets are per-tenant.
+- Do not treat a 200 response as proof of correct content: verify headline, tenant brand, empty/error placeholder, relevant module and resulting navigation.
+- Routes requiring a token (review, approval, recovery, unsubscribe, payment) must show a helpful non-empty error if missing and never mutate state.
+- Keep a real Next Step on errors: return to the correct private login/contact channel, not unrelated home.
+
+## Test matrix
+Repeat after ANY route/button/domain change: 360px phone, 390px phone, 820px tablet, 1024px tablet/laptop and 1440px desktop; test EN/ES, owner/client/worker access, current + future tenant fixture, expired token, missing token, duplicate click, browser refresh/back, popup and multi-tab. Never use a real customer's data to exercise destructive actions.
