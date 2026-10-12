@@ -512,6 +512,46 @@ for(const lang of ['en','es']){
  });
 }
 
+// TLE October desktop visual-system regression checks: no payments or form submissions.
+for(const lang of ['en','es']){
+ await check('Editorial desktop layout '+lang,{width:1440,height:900},async p=>{
+  await p.goto(base+(lang==='es'?'/es/':'/'),{waitUntil:'networkidle'});
+  const result=await p.evaluate(()=>{
+   const css=x=>getComputedStyle(document.querySelector(x));
+   const hero=document.querySelector('.sales-home .hero-photo');
+   const services=document.querySelector('.sales-home .service-grid');
+   return {font:css('.sales-home .hero-photo h1').fontFamily,
+    cardCols:css('.sales-home .service-grid').gridTemplateColumns.split(' ').length,
+    heroHeight:hero.getBoundingClientRect().height,
+    headerHeight:document.querySelector('.site-header .nav-inner').getBoundingClientRect().height,
+    bg:css('.sales-home .solutions-section').backgroundColor,
+    overflow:document.documentElement.scrollWidth-innerWidth,
+    cardCount:services.querySelectorAll('.service-card').length};
+  });
+  assert.match(result.font,/Prompt/,'Headlines must use the single Prompt web font');
+  assert.equal(result.cardCols,3,'Services are aligned in a three-column desktop grid');
+  assert(result.heroHeight<=650 && result.heroHeight>=495,'Hero occupies a balanced amount of desktop space');
+  assert(result.headerHeight<=85,'Navigation is compact');
+  assert(result.cardCount>=5,'All service products remain available');
+  assert(result.overflow<=3,'No horizontal scrolling');
+ });
+}
+for(const route of ['/booking-lead-automation/','/cleaning-web-app/','/es/booking-lead-automation/']){
+ await check('Editorial service consistency '+route,{width:1280,height:800},async p=>{
+  await p.goto(base+route,{waitUntil:'networkidle'});
+  const result=await p.evaluate(()=>{
+   const hero=document.querySelector('.service-hero');
+   const h=hero?.querySelector('h1');
+   return {font:h?getComputedStyle(h).fontFamily:'',size:h?parseFloat(getComputedStyle(h).fontSize):0,
+    heroBottom:hero?.getBoundingClientRect().bottom||0,
+    xOverflow:document.documentElement.scrollWidth-innerWidth};
+  });
+  assert.match(result.font,/Prompt/);
+  assert(result.size<=75 && result.size>=35,'Title remains legible without taking over the whole page');
+  assert(result.xOverflow<=3,'Page has no horizontal overflow');
+ });
+}
+
 for(const offer of ['booking-flow','website-automation','va']){
  for(const lang of ['en','es']){
   await check('Direct localized Stripe checkout '+offer+' '+lang,{width:390,height:844},async p=>{
