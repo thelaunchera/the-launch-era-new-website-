@@ -45,3 +45,6 @@
 .tle-jessy-lead-back{background:transparent;border:0;text-decoration:underline;cursor:pointer;font-size:12px;margin-bottom:7px;padding:4px}
 @media(max-width:600px){.tle-jessy-fab{right:12px;bottom:max(18px,env(safe-area-inset-bottom));min-height:61px;padding-right:13px}.tle-jessy-avatar{width:48px;height:48px;flex-basis:48px}.tle-jessy-panel{inset:0;width:100vw;height:100dvh;max-height:100dvh;border:0;border-radius:0;bottom:auto;right:auto;padding-top:env(safe-area-inset-top)}.tle-jessy-head{padding-top:10px}.tle-jessy-bottom{padding-bottom:max(14px,env(safe-area-inset-bottom))}.tle-jessy-message-field{font-size:16px}.tle-jessy-nudge{right:11px;bottom:91px}.tle-jessy-lead{padding:18px}body.tle-jessy-open{overflow:hidden}}
 @media(prefers-reduced-motion:reduce){.tle-jessy-fab:before,.tle-jessy-nudge{animation:none!important}}
+
+.tle-jessy-fab[hidden]{display:none!important}
+.tle-jessy-root [hidden]{display:none!important}
