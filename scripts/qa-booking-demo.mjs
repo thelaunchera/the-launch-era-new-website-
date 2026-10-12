@@ -437,7 +437,7 @@ for(const viewport of screens) for(const lang of ['en','es']) for(const product 
    await faq.nth(i).locator('summary').click();
   }
   const primary=await p.locator('.service-sales-close .service-cta').getAttribute('href');
-  assert.equal(primary,product==='booking'?'/service-checkout/?offer=booking-flow&lang='+lang:'https://app.thelaunchera.com/?entry=signup');
+  assert.equal(primary,product==='booking'?'/booking-bundle/?lang='+lang:'https://app.thelaunchera.com/?entry=signup');
   const alternative=await p.locator('.service-fit a').getAttribute('href');
   assert(alternative.includes(product==='booking'?'cleaning-web-app':'booking-lead-automation'));
   assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3),'No horizontal overflow');
