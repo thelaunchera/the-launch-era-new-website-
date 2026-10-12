@@ -2416,7 +2416,7 @@ function careClose(id){const node=$(id);if(node.open)node.close()}
 function careOpenBooking(date=''){
  if(!workspace||workspace.is_internal)return;
  const form=$('buyerCreateBookingForm');form.reset();form.elements.namedItem('date').value=/^\d{4}-\d{2}-\d{2}$/.test(date)?date:buyerDateKey(new Date());
- $('buyerManualConsentLabel').classList.add('hidden');$('buyerManualBookingResult').textContent='';$('buyerCreateBookingDialog').showModal();
+ $('buyerManualConsentLabel').classList.add('hidden');$('buyerManualReminderConsentLabel').classList.add('hidden');$('buyerManualBookingResult').textContent='';$('buyerCreateBookingDialog').showModal();
 }
 for(const [id,date] of [['buyerCustomersNewBooking',false],['buyerCareNewBooking',false],['buyerInboxNewBooking',false],['buyerCalendarNewBooking',true],['cbDashCreateBooking',false]]){
  $(id).onclick=()=>careOpenBooking(date?buyerCalendarSelectedDay:'');
@@ -2425,6 +2425,7 @@ for(const id of ['buyerAddCustomer','buyerCareAddCustomer'])$(id).onclick=()=>{i
 $('buyerBookingClose').onclick=()=>careClose('buyerCreateBookingDialog');$('buyerFinishClose').onclick=()=>careClose('buyerFinishServiceDialog');
 for(let h=0;h<24;h++)for(const m of ['00','30']){const v=String(h).padStart(2,'0')+':'+m;$('buyerManualBookingTime').add(new Option(v,v))}
 $('buyerCreateBookingForm').elements.namedItem('optional_care_opt_in').onchange=e=>$('buyerManualConsentLabel').classList.toggle('hidden',!e.target.checked);
+$('buyerCreateBookingForm').elements.namedItem('appointment_reminders_opt_in').onchange=e=>$('buyerManualReminderConsentLabel').classList.toggle('hidden',!e.target.checked);
 $('buyerFinishServiceForm').elements.namedItem('optional_care_opt_in').onchange=e=>$('buyerFinishConsentLabel').classList.toggle('hidden',!e.target.checked);
 function careDraw(){
  if(!workspace||workspace.is_internal)return;
@@ -2465,6 +2466,7 @@ $('buyerCreateBookingForm').onsubmit=async e=>{
  e.preventDefault();if(careBusy||!workspace||workspace.is_internal)return;
  careBusy=true;const form=e.currentTarget,button=$('buyerManualBookingSubmit'),msg=$('buyerManualBookingResult');
  const payload=Object.fromEntries(new FormData(form));payload.optional_care_opt_in=form.elements.namedItem('optional_care_opt_in').checked;
+ payload.appointment_reminders_opt_in=form.elements.namedItem('appointment_reminders_opt_in').checked;
  button.disabled=true;msg.textContent=buyerText('Checking availability…','Comprobando disponibilidad…');
  try{await careApi('manual_booking',payload);msg.textContent=buyerText('✓ Booking confirmed!','✓ ¡Reserva confirmada!');showSaveToast('success','Booking confirmed','Reserva confirmada');
   await loadBuyerRequests();careClose('buyerCreateBookingDialog');premiumNavigate('buyer-calendar')}
