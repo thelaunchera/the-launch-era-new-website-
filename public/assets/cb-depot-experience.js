@@ -126,9 +126,19 @@ function activate(session){
  const contact=node("section","cb-contact");
  contact.id="cbContact";
  contact.innerHTML=`
- <div class="cb-contact-head"><span class="cb-kicker">QUESTIONS? WE'RE HERE</span>
- <h2>Contact Us</h2>
- <p>Have a question about detailing your car? Send CB Depot a message. No booking form required.</p></div>
+ <div class="cb-contact-head">
+  <div class="cb-contact-intro">
+   <span class="cb-kicker">QUESTIONS? WE'RE HERE</span>
+   <h2>Contact Us</h2>
+   <p>Have a question about your vehicle? Send us a message. We're happy to help.</p>
+  </div>
+  <div class="cb-contact-points" aria-label="Why contact CB Depot">
+   <div class="cb-contact-point"><span class="cb-contact-point-icon" aria-hidden="true">↗</span><div><strong>Clear answers</strong><span>Questions about services or appointments.</span></div></div>
+   <div class="cb-contact-point"><span class="cb-contact-point-icon" aria-hidden="true">◇</span><div><strong>Custom quotes</strong><span>Personalized for your vehicle and needs.</span></div></div>
+   <div class="cb-contact-point"><span class="cb-contact-point-icon" aria-hidden="true">✦</span><div><strong>Premium vehicle care</strong><span>Attention to the details that matter.</span></div></div>
+  </div>
+  <div class="cb-contact-meta"><span class="cb-contact-location-dot" aria-hidden="true"></span> CB Depot <span class="cb-contact-meta-divider" aria-hidden="true">·</span> Boynton Beach, Florida</div>
+ </div>
  <form id="cbContactForm" class="cb-contact-form" autocomplete="on">
   <label>Full name <input name="customer_name" type="text" maxlength="160" required autocomplete="name" placeholder="Your full name"></label>
   <label>Email <input name="customer_email" type="email" maxlength="200" required autocomplete="email" placeholder="you@example.com"></label>
@@ -140,6 +150,16 @@ function activate(session){
   <button type="submit" class="cb-go">Send message →</button>
   <p class="cb-contact-status" role="status" aria-live="polite"></p>
  </form>`;
+ // CB Depot-specific copy in both supported languages; no scheduling promises.
+ if(session.language==='es'){
+  const intro=contact.querySelector('.cb-contact-intro p');
+  if(intro)intro.textContent='¿Tienes preguntas sobre tu vehículo? Envíanos un mensaje. Estamos para ayudarte.';
+  const title=contact.querySelector('.cb-contact-head h2');if(title)title.textContent='Contáctanos';
+  const eyebrow=contact.querySelector('.cb-contact-head .cb-kicker');if(eyebrow)eyebrow.textContent='¿PREGUNTAS? AQUÍ ESTAMOS';
+  const cards=contact.querySelectorAll('.cb-contact-point');
+  const text=[['Respuestas claras','Preguntas sobre servicios o citas.'],['Cotizaciones personalizadas','Según tu vehículo y sus necesidades.'],['Cuidado premium','Atención a los detalles que importan.']];
+  cards.forEach((card,i)=>{if(text[i]){card.querySelector('strong').textContent=text[i][0];card.querySelector('div > span').textContent=text[i][1]}});
+ }
  const contactPermissionWords=contact.querySelector('[name="optional_care_opt_in"]')?.nextElementSibling;
  if(contactPermissionWords)contactPermissionWords.textContent=session.language==='es'
   ?'Sí, quiero consejos para mi vehículo y seguimientos ocasionales. (Opcional)'
@@ -236,10 +256,10 @@ function activate(session){
  const addons=document.getElementById("realQuoteAddons");
  // Real vehicle photos, not emoji or line-drawn vehicle illustrations.
  const vehiclePhotos={
-  Car:"https://images.unsplash.com/photo-1764089859665-7d417664c5de?auto=format&fit=crop&w=760&q=85",
-  SUV:"https://images.unsplash.com/photo-1739568883985-37fd4216ab2d?auto=format&fit=crop&w=760&q=85",
-  Truck:"https://images.unsplash.com/photo-1714675701237-ea7480249b8c?auto=format&fit=crop&w=760&q=85",
-  Van:"https://images.unsplash.com/photo-1775047734765-df970880aca8?auto=format&fit=crop&w=760&q=85"
+  Car:"https://images.unsplash.com/photo-1523983519351-ab98a0abe560?auto=format&fit=crop&w=900&q=85",
+  SUV:"https://images.unsplash.com/photo-1648413653819-7c0fd93e8e6a?auto=format&fit=crop&w=900&q=85",
+  Truck:"https://images.unsplash.com/photo-1714675701237-ea7480249b8c?auto=format&fit=crop&w=900&q=85",
+  Van:"https://images.unsplash.com/photo-1775047734765-df970880aca8?auto=format&fit=crop&w=900&q=85"
  };
  function vehiclePhoto(kind){
   const photo=vehiclePhotos[kind]||vehiclePhotos.Car;
