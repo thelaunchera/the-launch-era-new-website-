@@ -506,6 +506,7 @@ for(const lang of ['en','es']){
   await p.goto(base+(lang==='es'?'/es':'')+'/booking-flow-intake/?demo=1&bundle=ai-business',{waitUntil:'domcontentloaded'});
   const intakeDiagnostics=await p.evaluate(()=>{const el=document.getElementById('tleBundleAiIntake');return {url:location.href,exists:!!el,inlineStyle:el?.getAttribute('style'),computed:el?getComputedStyle(el).display:null,hiddenAncestor:el?.closest('[hidden]')?.tagName||'',businessPlan:new URLSearchParams(location.search).get('bundle'),text:document.getElementById('status')?.textContent?.slice(0,100)}});
   assert.equal(await p.locator('#tleBundleAiIntake').isVisible(),true,JSON.stringify(intakeDiagnostics));
+  await p.locator('#tleBundleAiIntake details.optional-details > summary').click();
   assert.equal(await p.locator('#tleBundleAiBooking').isVisible(),true);
   assert.equal(await p.locator('#tleBundleAiFollowup').isVisible(),true);
   assert.equal(await p.locator('[name="ai_languages"]').count(),1);
