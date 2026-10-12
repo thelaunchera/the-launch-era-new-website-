@@ -14,7 +14,7 @@ h1{font:500 clamp(30px,5vw,42px)/1.14 Georgia,serif;letter-spacing:-.025em;margi
 label{display:block;font-weight:700;color:#344C5C;font-size:13px;margin:18px 0 7px}
 input,select,textarea{display:block;width:100%;min-height:52px;border:1px solid #B8CCD9;background:#fff;color:#191919;border-radius:13px;padding:12px 14px;font:15px Arial,sans-serif}
 textarea{min-height:96px;resize:vertical}input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #357EAD;outline-offset:3px}
-button,.button{border:0;border-radius:999px;min-height:54px;width:100%;padding:14px 20px;background:var(--accent);color:#173449;font:800 15px Arial,sans-serif;cursor:pointer;margin-top:20px;box-shadow:0 7px 20px #366D8E18;display:flex;align-items:center;justify-content:center;text-decoration:none;text-align:center}
+button,.button{border:0;border-radius:999px;min-height:54px;width:100%;padding:14px 20px;background:var(--accent);color:var(--accent-ink,#173449);font:800 15px Arial,sans-serif;cursor:pointer;margin-top:20px;box-shadow:0 7px 20px #366D8E18;display:flex;align-items:center;justify-content:center;text-decoration:none;text-align:center}
 button:disabled{opacity:.55;cursor:wait}.ghost{background:#F4F8FB;border:1px solid #D8E5EE;box-shadow:none;margin-top:11px}.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:22px 0}
 .choice{border:1.5px solid #DDE5E9;border-radius:16px;padding:18px;text-align:left;cursor:pointer;background:#fff;color:#191919;box-shadow:none;margin:0;min-height:95px;display:block;font:700 15px/1.5 Arial,sans-serif}
 .choice[aria-pressed=true]{border-color:#5CA8CE;background:#EFF8FC;box-shadow:0 0 0 2px #D5EBF7}.choice small{display:block;font-size:12px;color:#617681;font-weight:400;margin-top:6px}
@@ -97,7 +97,12 @@ footer{text-align:center;font-size:11px;color:#7A8790;margin-top:23px}
  $("brandName").textContent=business||"Your service provider";
  if(b.logo&&/^https:\/\//.test(b.logo)){$("logo").src=b.logo;$("logo").alt=business;$("logo").style.display="block"}
  if(/^#[0-9a-f]{6}$/i.test(b.primary||""))document.documentElement.style.setProperty("--primary",b.primary);
- if(/^#[0-9a-f]{6}$/i.test(b.accent||""))document.documentElement.style.setProperty("--accent",b.accent);
+ if(/^#[0-9a-f]{6}$/i.test(b.accent||"")){
+  document.documentElement.style.setProperty("--accent",b.accent);
+  const raw=b.accent.slice(1);const channels=[0,2,4].map(n=>parseInt(raw.slice(n,n+2),16)/255).map(v=>v<=0.04045?v/12.92:Math.pow((v+0.055)/1.055,2.4));
+  const lum=channels[0]*0.2126+channels[1]*0.7152+channels[2]*0.0722;
+  document.documentElement.style.setProperty("--accent-ink",lum<0.20?"#ffffff":"#173449");
+ }
  $("completeBrand").textContent=business;
  document.title=(lang==="es"?"Gestionar cita":"Manage appointment")+" · "+business;
  };
