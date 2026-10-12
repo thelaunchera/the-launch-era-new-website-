@@ -412,7 +412,7 @@ body.owner-preview-fullscreen-open #buildFrameShell.tle-preview-fullscreen #buil
 
 
 .crm-workspace-backrow{display:flex;align-items:center;min-height:35px;margin-bottom:10px}
-.crm-workspace-backrow:has(.hidden){display:none}
+.crm-workspace-backrow:has(.hidden){display:flex}
 #workspaceBack{font:inherit;font-size:13px;font-weight:700;min-height:36px;min-width:86px;padding:7px 15px;border-radius:999px;box-shadow:none}
 #workspaceBack:focus-visible{outline:3px solid #F2D85B;outline-offset:2px}
 .crm-save-toast{position:fixed;z-index:30000;right:max(18px,env(safe-area-inset-right));bottom:calc(22px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:11px;width:max-content;max-width:min(420px,calc(100vw - 32px));padding:14px 19px;border-radius:18px;border:1px solid #ffffff24;background:#191919;color:white;font:600 14px/1.45 system-ui,-apple-system,sans-serif;box-shadow:0 15px 40px #13192334;opacity:0;transform:translateY(12px);visibility:hidden;pointer-events:none;transition:opacity .23s ease,transform .23s ease,visibility .23s}
