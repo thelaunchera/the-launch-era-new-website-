@@ -139,3 +139,13 @@ body{font-family:Futura,'DM Sans','Avenir Next',Arial,sans-serif;color:#191919;b
  .service-benefit-grid article{border-color:#D9E3E8}
 }
 @media(prefers-reduced-motion:reduce){:is(.sales-home,.service-sales) :is(.cta-button,.service-cta,.service-demo-link,.service-card img){transition:none;animation:none}}
+
+/* Resource landing: stop wide Spanish headlines from pushing the mobile viewport. */
+.tle-freebie-page{max-width:100%;overflow-x:clip}
+.tle-freebie-page :is(section,aside,form){min-width:0}
+.tle-freebie-page :is(h1,h2){font-family:'Prompt','DM Sans',sans-serif;overflow-wrap:anywhere;text-wrap:balance;line-height:1.16}
+@media(max-width:767px){
+ .tle-freebie-page :is(h1,h2){font-size:clamp(27px,8vw,39px);letter-spacing:-.035em}
+ .tle-freebie-page :is(h1,h2,p){max-width:100%}
+ .tle-freebie-page [class*="rounded-"]{min-width:0}
+}
