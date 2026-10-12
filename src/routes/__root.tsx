@@ -121,6 +121,20 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang={language}>
       <head>
         <HeadContent />
+        {/* Handle legacy recovery callbacks before analytics or the public website loads. */}
+        <script
+          dangerouslySetInnerHTML={{ __html: `
+(function () {
+  if (location.pathname !== '/') return;
+  var fragment = new URLSearchParams(location.hash.slice(1));
+  var query = new URLSearchParams(location.search);
+  var tokenRecovery = fragment.get('type') === 'recovery' && fragment.has('access_token');
+  var codeRecovery = query.has('code') && query.get('app') === 'tle';
+  if (!tokenRecovery && !codeRecovery) return;
+  location.replace('/auth-recovery.html' + (codeRecovery ? '?code=' + encodeURIComponent(query.get('code')) : '') + location.hash);
+})();
+` }}
+        />
         {/* Initialize the production GA4 queue before the app hydrates, so landing
             and checkout events are never discarded while the tag is loading. */}
         <script
