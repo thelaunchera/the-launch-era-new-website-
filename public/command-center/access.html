@@ -39,13 +39,13 @@ a{color:#276488}
 <button id="continue" class="primary hidden" type="button">Continuar al Command Center →</button>
 <div id="status" role="status" aria-live="polite"></div>
 <button id="reset" class="secondary" type="button">¿Olvidaste tu contraseña?</button>
-<footer>Tu información y la de tus clientes permanecen en sus espacios privados.<br><a href="./?app=tle">Volver al acceso principal</a></footer>
+<footer>Tu información y la de tus clientes permanecen en sus espacios privados.<br><a href="./?from=private-access">Volver al acceso principal</a></footer>
 </main>
 <script src="./vendor/supabase-js-v2.57.0.umd.js"></script>
 <script>
 (function(){
  const status=document.getElementById('status'),form=document.getElementById('signin'),button=document.getElementById('login');
- const go=()=>location.assign('./?app=tle&from=private-access');
+ const go=()=>location.assign('./?from=private-access');
  let db;
  try{
   if(typeof window.supabase?.createClient!=='function')throw Error('Authentication module is unavailable');
