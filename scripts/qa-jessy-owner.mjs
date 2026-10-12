@@ -139,8 +139,8 @@ const fakeFetch=async(url,options)=>{
  sent.push({url,method:options.method,headers:options.headers,body:options.body});
  return {ok:true,async json(){return [{id:"a"},{id:"b"}]}};
 };
-const perform=new Function("BASE","SR","fetch","count","locale",fn.slice(markStart,markEnd)+";return markOwnerNotificationsRead;")(
- "https://example.supabase.co","server-only-key",fakeFetch,async()=>0,(lang,en,es)=>lang==="es"?es:en);
+const perform=new Function("BASE","SR","fetch","count","locale","AbortSignal",fn.slice(markStart,markEnd)+";return markOwnerNotificationsRead;")(
+ "https://example.supabase.co","server-only-key",fakeFetch,async()=>0,(lang,en,es)=>lang==="es"?es:en,{timeout:()=>undefined});
 const done=await perform("6c840a8a-c230-41cf-ae05-ad07c6612b25","es");
 assert.equal(done.action_performed,"mark_notifications_read");
 assert.equal(done.affected,2);
