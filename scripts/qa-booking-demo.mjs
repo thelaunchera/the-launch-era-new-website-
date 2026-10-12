@@ -599,6 +599,65 @@ for(const lang of ['en','es'])for(const viewport of [{name:'phone',width:390,hei
  });
 }
 
+
+// Returning appointment self-service: mocked API only, no actual customers, reservations or emails.
+const returnKey="00000000-0000-0000-0000-000000000000";
+for(const v of [{name:"phone",width:390,height:844},{name:"tablet",width:820,height:1180}]){
+ await check("Secure returning booking access "+v.name,v,async page=>{
+   let accessCount=0;
+   await page.route("**/functions/v1/tle-booking-return-service",async route=>{
+     const request=route.request().postDataJSON()||{};
+     const response=request.action==="brand"?{ok:true,brand:{name:"Example Cleaning Co.",primary:"#191919",accent:"#087DFF",logo:""},assistant_enabled:false,booking_url:"/booking/?key="+returnKey}:
+       {ok:true,message:"If you have an upcoming booking, we'll send a private link."};
+     if(request.action==="request_access")accessCount++;
+     await route.fulfill({status:200,contentType:"application/json",body:JSON.stringify(response),headers:{"Access-Control-Allow-Origin":"https://thelaunchera.com"}});
+   });
+   const response=await page.goto(base+"/booking/return/?key="+returnKey,{waitUntil:"domcontentloaded"});
+   assert.equal(response?.status(),200);
+   await page.locator("#email").fill("example@example.invalid");
+   await page.locator("#sendAccess").click();
+   await page.waitForFunction(()=>!document.querySelector("#sent").hidden);
+   assert.equal(accessCount,1);
+   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3),true);
+ });
+ await check("Verified booking greeting and secure reschedule "+v.name,v,async page=>{
+   let submitCount=0,submitted=null;
+   await page.route("**/functions/v1/tle-booking-return-service",async route=>{
+    const body=route.request().postDataJSON()||{};
+    if(body.action==="submit"){submitCount++;submitted=body}
+    const payload=body.action==="view"?{
+     ok:true,brand:{name:"Example Cleaning Co.",primary:"#191919",accent:"#087DFF",logo:""},
+     customer_first_name:"Jamie",appointment:{id:returnKey,service:"Deep Cleaning",date:"2026-11-02T15:00:00Z",status:"booked"},
+     assistant_enabled:true,booking_url:"/booking/?key="+returnKey,language:"en"
+    }:{ok:true,request_saved:true,email_accepted:false};
+    await route.fulfill({status:200,contentType:"application/json",body:JSON.stringify(payload),headers:{"Access-Control-Allow-Origin":"https://thelaunchera.com"}});
+   });
+   const response=await page.goto(base+"/booking/return/?token="+("a".repeat(64)),{waitUntil:"domcontentloaded"});
+   assert.equal(response?.status(),200);
+   await page.waitForFunction(()=>!document.querySelector("#manage").hidden);
+   assert.match(await page.locator("#welcome").innerText(),/Jamie.*welcome back/i);
+   assert.match(await page.locator("#assistantLabel").innerText(),/AI BOOKING ASSISTANT/);
+   await page.locator('[data-kind="reschedule"]').click();
+   await page.locator("#date").fill("2026-11-05");
+   await page.locator("#time").fill("10:00");
+   await page.locator("#submitRequest").click();
+   await page.waitForFunction(()=>!document.querySelector("#complete").hidden);
+   assert.equal(submitCount,1);
+   assert.equal(submitted.request_type,"reschedule");
+   assert.equal(submitted.preferred_date,"2026-11-05");
+   assert.equal(submitted.preferred_time,"10:00");
+   assert.equal(await page.locator("#completeBrand").innerText(),"Example Cleaning Co.");
+   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3),true);
+ });
+}
+await check("Original Booking Page includes secure management access",{width:390,height:844},async p=>{
+ const response=await p.request.get(base+"/base-booking.html?key="+returnKey);
+ assert.equal(response.status(),200);
+ const html=await response.text();
+ assert.match(html,/tleManageExistingBooking/);
+ assert.match(html,/\/booking\/return\/\?key=/);
+ assert.match(html,/tle-return-link\[hidden\]/);
+});
 await browser.close();
 console.log('SUMMARY',JSON.stringify({pass:results.filter(x=>x.pass).length,failed:results.filter(x=>!x.pass).length,tests:results}));
 if(results.some(x=>!x.pass))process.exitCode=1;
