@@ -186,7 +186,7 @@
     }
     const info=document.createElement("p");info.className="note";info.textContent=es?"Siguiente paso: revisa todos los datos. Cuando estés conforme, pulsa «Confirmar solicitud demo» para terminar. Esta es una prueba: no se envía ninguna reserva real.":"Next step: review all details. When everything looks right, select “Confirm demo request” to finish. This is a preview: no real booking or email is sent.";page.append(info);
     const btn=document.createElement("button");btn.type="button";btn.className="next";btn.textContent=es?"Confirmar solicitud demo":"Confirm demo request";
-    if(missing.length){btn.hidden=true;btn.disabled=true;btn.setAttribute("aria-disabled","true");btn.title=es?"Completa los datos pendientes primero":"Complete missing details first";}
+    if(missing.length){btn.hidden=true;btn.disabled=true;btn.style.display="none";btn.setAttribute("aria-disabled","true");btn.title=es?"Completa los datos pendientes primero":"Complete missing details first";}
     btn.onclick=()=>{if(missing.length)return;kind==="quote"?window.submitQuote?.():window.submitCommercial?.();};page.append(btn);
     const back=document.createElement("button");back.type="button";back.className="back";back.textContent=es?"← Editar detalles":"← Edit details";
     if(missing.length){back.textContent=es?"← Completar datos pendientes":"← Complete missing details";back.classList.add("next");}
