@@ -3,11 +3,11 @@
 "use strict";
 if(window.__tleOwnerJessyInstalled)return;
 window.__tleOwnerJessyInstalled=true;
-const ASSET="/assets/jessy-avatar.webp",CSS="./assets/jessy-owner.css?v=20261012-owner-1";
+const ASSET="/assets/jessy-avatar.webp",CSS="./assets/jessy-owner.css?v=20261012-draft-1";
 let root=null,log=null,form=null,input=null,send=null,quick=null,open=false,waiting=false,language="en",history=[],previousFocus=null;
 const copy={
- en:{open:"Ask Jessy",intro:"Hi! 👋 I'm Jessy, your Command Center assistant. Want to check leads, follow-ups or a client delivery?",subtitle:"Your private workspace helper",placeholder:"Ask about leads, clients or your next step…",send:"Send",close:"Close Jessy",thinking:"Checking your workspace…",error:"I couldn't check that right now. Try again or open the section directly.",note:"Private owner assistance · No automatic emails or changes",label:"Open this section →",quick:[["Today's priorities","What needs my attention today?"],["Follow-ups","Which prospect follow-ups are due?"],["Website leads","Any new website inquiries?"],["Client deliveries","Which client deliveries need review?"],["Support","I need help with a problem"]]},
- es:{open:"Pregúntale a Jessy",intro:"¡Hola! 👋 Soy Jessy, tu asistente del Command Center. ¿Revisamos leads, seguimientos o entregas?",subtitle:"Tu asistente privada de operaciones",placeholder:"Pregunta sobre leads, clientes o el próximo paso…",send:"Enviar",close:"Cerrar Jessy",thinking:"Revisando tu espacio…",error:"Ahora no pude comprobarlo. Inténtalo otra vez o abre la sección directamente.",note:"Asistencia privada · Sin correos ni cambios automáticos",label:"Abrir esta sección →",quick:[["Prioridades de hoy","¿Qué necesita mi atención hoy?"],["Seguimientos","¿Qué seguimientos de prospectos están pendientes?"],["Leads web","¿Hay nuevas consultas del website?"],["Entregas","¿Qué entregas de clientes debo revisar?"],["Soporte","Necesito ayuda con un problema"]]}
+ en:{open:"Ask Jessy",intro:"Hi! 👋 I'm Jessy, your Command Center assistant. Want to check leads, follow-ups or a client delivery?",subtitle:"Your private workspace helper",placeholder:"Ask about leads, clients or your next step…",send:"Send",close:"Close Jessy",thinking:"Checking your workspace…",error:"I couldn't check that right now. Try again or open the section directly.",note:"Private owner assistance · Drafts require your approval. Jessy never sends emails.",label:"Open this section →",quick:[["Prepare follow-up draft","Prepare a follow-up email draft"],["Today's priorities","What needs my attention today?"],["Follow-ups","Which prospect follow-ups are due?"],["Website leads","Any new website inquiries?"],["Client deliveries","Which client deliveries need review?"],["Support","I need help with a problem"]]},
+ es:{open:"Pregúntale a Jessy",intro:"¡Hola! 👋 Soy Jessy, tu asistente del Command Center. ¿Revisamos leads, seguimientos o entregas?",subtitle:"Tu asistente privada de operaciones",placeholder:"Pregunta sobre leads, clientes o el próximo paso…",send:"Enviar",close:"Cerrar Jessy",thinking:"Revisando tu espacio…",error:"Ahora no pude comprobarlo. Inténtalo otra vez o abre la sección directamente.",note:"Asistencia privada · Los borradores requieren tu aprobación. Jessy no envía correos.",label:"Abrir esta sección →",quick:[["Preparar seguimiento","Prepara un borrador de seguimiento"],["Prioridades de hoy","¿Qué necesita mi atención hoy?"],["Seguimientos","¿Qué seguimientos de prospectos están pendientes?"],["Leads web","¿Hay nuevas consultas del website?"],["Entregas","¿Qué entregas de clientes debo revisar?"],["Soporte","Necesito ayuda con un problema"]]}
 };
 const sections={
  "owner-pages":["Clients & Purchases","Clientes y compras"],
@@ -26,7 +26,7 @@ function owner(){return window.TLEOwnerJessyGateway?.ready?.()===true}
 function lang(){const workspace=document.body.dataset.languageWorkspace;let saved;try{saved=localStorage.getItem("tle_crm_language_"+workspace)||localStorage.getItem("tle_crm_owner_language")||localStorage.getItem("tle_crm_language")}catch{}return saved==="es"?"es":"en"}
 function bubble(text,role){const item=el("div","jo-bubble "+role,text);log.appendChild(item);log.scrollTop=log.scrollHeight;return item}
 function shortcuts(){quick.replaceChildren();t("quick").forEach(([name,message])=>{const btn=b("jo-quick",name);btn.addEventListener("click",()=>ask(message));quick.appendChild(btn)})}
-function hide(){if(!root)return;root.querySelector(".jo-panel").hidden=true;root.querySelector(".jo-fab").hidden=false;open=false;document.body.classList.remove("jo-open");if(previousFocus?.isConnected)previousFocus.focus()}
+function hide(restoreFocus=true){if(!root)return;root.querySelector(".jo-panel").hidden=true;root.querySelector(".jo-fab").hidden=false;open=false;document.body.classList.remove("jo-open");if(restoreFocus&&previousFocus?.isConnected)previousFocus.focus()}
 function show(){if(!owner())return;const panel=root.querySelector(".jo-panel");previousFocus=document.activeElement;panel.hidden=false;root.querySelector(".jo-fab").hidden=true;open=true;if(!log.children.length)bubble(t("intro"),"bot");shortcuts();if(window.innerWidth>650)input.focus()}
 function build(){
  if(root||!owner())return;
@@ -54,10 +54,78 @@ function sync(){
  if(!root)build();
  const next=lang();if(next!==language){language=next;if(root){root.querySelector(".jo-fab span").textContent=t("open");root.querySelector(".jo-heading small").textContent=t("subtitle");root.querySelector(".jo-close").setAttribute("aria-label",t("close"));input.placeholder=t("placeholder");send.textContent=t("send");root.querySelector(".jo-note").textContent=t("note");shortcuts()}}
 }
+
+async function prepareDraftPanel(){
+ if(!owner()||!root)return;
+ if(!open)show();
+ const es=language==="es";
+ const panel=el("div","jo-draft-panel");
+ const title=el("strong","jo-draft-title",es?"Preparar un seguimiento":"Prepare a follow-up");
+ const status=el("p","jo-draft-status",es?"Buscando prospectos con permiso y seguimiento pendiente…":"Checking due prospects with verified permission…");
+ panel.append(title,status);log.appendChild(panel);log.scrollTop=log.scrollHeight;
+ let candidates;
+ try{candidates=await window.TLEOwnerJessyGateway.draftCandidates()}
+ catch(e){status.textContent=e.message||t("error");return}
+ if(!owner()||!panel.isConnected)return;
+ if(!candidates.length){
+  status.textContent=es?"No encontré seguimientos pendientes con permiso de correo confirmado. Puedes revisar los leads y su consentimiento.":"No due follow-ups have verified email permission. Review the prospects and their consent first.";
+  const go=b("jo-next",es?"Abrir prospectos →":"Open prospects →");
+  go.addEventListener("click",()=>{if(window.TLEOwnerJessyGateway.navigate("leads"))hide(false)});
+  panel.appendChild(go);return;
+ }
+ status.textContent=es?"Elige un prospecto. No se enviará ningún correo.":"Choose a prospect. Nothing will be sent.";
+ const label=el("label","jo-draft-label",es?"Prospecto":"Prospect");
+ const select=el("select","jo-draft-select");select.setAttribute("aria-label",es?"Selecciona un prospecto":"Choose a prospect");
+ for(const x of candidates){
+  const option=el("option","",x.business+(x.contact?" · "+x.contact:"")+(x.due?" · "+x.due:""));
+  option.value=x.id;select.appendChild(option);
+ }
+ label.append(select);panel.appendChild(label);
+ const create=b("jo-next",es?"Crear borrador →":"Create draft →");panel.appendChild(create);
+ create.addEventListener("click",async()=>{
+  if(!owner()||!select.value)return;
+  create.disabled=true;status.textContent=es?"Preparando mensaje para revisión…":"Preparing a message to review…";
+  try{
+   const draft=await window.TLEOwnerJessyGateway.prepareFollowupDraft(select.value);
+   if(!owner()||!panel.isConnected)return;
+   panel.replaceChildren();
+   panel.append(el("strong","jo-draft-title",es?"Borrador para aprobar":"Draft for your approval"));
+   panel.append(el("p","jo-draft-recipient",(es?"Destinatario: ":"Recipient: ")+draft.recipient));
+   const subjectLabel=el("label","jo-draft-label",es?"Asunto":"Subject");
+   const subject=el("input","jo-draft-input");subject.type="text";subject.maxLength=150;subject.value=draft.subject;
+   subjectLabel.append(subject);panel.appendChild(subjectLabel);
+   const bodyLabel=el("label","jo-draft-label",es?"Mensaje":"Message");
+   const body=el("textarea","jo-draft-textarea");body.rows=7;body.maxLength=4000;body.value=draft.body;
+   bodyLabel.append(body);panel.appendChild(bodyLabel);
+   panel.append(el("p","jo-draft-disclaimer",es?
+    "Revísalo y edítalo. Aprobar solo abrirá el editor existente. Para enviar tendrás que confirmar de nuevo.":
+    "Review and edit first. Approval only opens the existing email editor. Sending requires separate confirmation."));
+   const actions=el("div","jo-draft-actions");
+   const cancel=b("jo-draft-cancel",es?"Descartar":"Discard");
+   cancel.addEventListener("click",()=>panel.remove());
+   const approve=b("jo-draft-approve",es?"Aprobar y abrir editor →":"Approve & open editor →");
+   const result=el("p","jo-draft-status","");
+   approve.addEventListener("click",async()=>{
+     if(!owner()||approve.disabled)return;
+     approve.disabled=true;result.textContent=es?"Verificando permiso e historial de envío…":"Rechecking consent and email history…";
+     try{
+      const ok=await window.TLEOwnerJessyGateway.useFollowupDraft(draft,subject.value,body.value);
+      if(!ok)throw Error(es?"No se pudo abrir el editor.":"Could not open the email editor.");
+      hide(false);
+     }catch(e){result.textContent=e.message||t("error");approve.disabled=false}
+   });
+   actions.append(cancel,approve);panel.append(actions,result);
+   log.scrollTop=log.scrollHeight;
+  }catch(e){status.textContent=e.message||t("error");create.disabled=false}
+ });
+}
 async function ask(raw){
  if(waiting||!owner()||!root)return;
  const question=String(raw||"").trim().slice(0,340);
  if(question.length<2)return;
+ if(/\b(draft|borrador|prepara|preparar|escribe|write)\b.*\b(follow.?up|seguimiento|correo|email)\b|\b(follow.?up|seguimiento)\b.*\b(draft|borrador|prepar)/i.test(question)){
+   if(!open)show();bubble(question,"user");input.value="";await prepareDraftPanel();return;
+ }
  if(!open)show();
  bubble(question,"user");input.value="";
  const pending=bubble(t("thinking"),"bot");
