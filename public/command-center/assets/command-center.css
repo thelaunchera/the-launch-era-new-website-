@@ -424,3 +424,46 @@ body.owner-preview-fullscreen-open #buildFrameShell.tle-preview-fullscreen #buil
 @media(max-width:760px){.crm-save-toast{right:16px;left:16px;width:auto;max-width:none;bottom:calc(16px + env(safe-area-inset-bottom))}.crm-workspace-backrow{padding-top:6px}}
 @media(prefers-reduced-motion:reduce){.crm-save-toast{transition:none;transform:none}#buyerDashboardHub:not(.hidden),#ownerPagesHub:not(.hidden),#pricingHub:not(.hidden),#availabilityHub:not(.hidden),#buyerRequestsHub:not(.hidden),#buyerCustomersHub:not(.hidden),#settingsHub:not(.hidden),#helpHub:not(.hidden),#buyerBookingPreviewHub:not(.hidden),#notificationPanel:not(.hidden){animation:none}}
 
+
+
+/* Full-month appointment calendar — seven readable columns at every breakpoint. */
+#buyerAppointmentsHub{min-width:0;max-width:100%;overflow:hidden}
+#buyerAppointmentsHub .buyer-calendar-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+#buyerAppointmentsHub .buyer-calendar-toolbar h2{text-transform:capitalize;font-size:clamp(20px,3vw,28px);letter-spacing:-.035em}
+#buyerAppointmentsHub .buyer-calendar-toolbar-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+#buyerAppointmentsHub .buyer-calendar-toolbar-actions button{padding:8px 11px;min-height:38px;border-radius:11px}
+#buyerAppointmentsHub .buyer-calendar-legend{display:flex;align-items:center;gap:18px;flex-wrap:wrap;font-size:12px;margin:15px 0;color:#4f6574}
+#buyerAppointmentsHub .buyer-calendar-legend>span{display:inline-flex;gap:7px;align-items:center}
+#buyerAppointmentsHub .buyer-cal-dot{height:9px;width:9px;display:inline-block;border-radius:50%;background:#e3ba6a}
+#buyerAppointmentsHub .buyer-cal-dot.booked{background:#4783b3}
+#buyerAppointmentsHub .buyer-calendar-scroll{max-width:100%;overflow-x:auto;overflow-y:hidden;overscroll-behavior-inline:contain;border:1px solid #dae5ec;border-radius:14px;-webkit-overflow-scrolling:touch}
+#buyerAppointmentsHub .buyer-calendar-scroll:focus-visible{outline:2px solid #6b9bbe;outline-offset:2px}
+#buyerAppointmentsHub .buyer-calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));min-width:750px;background:#fff}
+#buyerAppointmentsHub .buyer-cal-weekday{padding:12px 5px;text-align:center;background:#eef5f9;color:#4b6980;font-size:12px;font-weight:800;border-right:1px solid #e1e9ef}
+#buyerAppointmentsHub .buyer-cal-weekday:nth-child(7){border-right:0}
+#buyerAppointmentsHub .buyer-cal-cell{min-width:0;min-height:116px;padding:8px 6px;border-right:1px solid #e7edf1;border-top:1px solid #e7edf1}
+#buyerAppointmentsHub .buyer-cal-cell:nth-child(7n){border-right:0}
+#buyerAppointmentsHub .buyer-cal-cell.outside{background:#f8fafb;color:#93a1ab}
+#buyerAppointmentsHub .buyer-cal-cell.today{background:#f1f8fc}
+#buyerAppointmentsHub .buyer-cal-cell.selected{background:#fff6df;box-shadow:inset 0 0 0 2px #e5bb60}
+#buyerAppointmentsHub .buyer-cal-day-button{border-radius:9px;padding:4px 8px;min-width:32px;min-height:30px;text-align:center;font-size:12px;font-weight:800;color:#293a44;background:transparent;box-shadow:none}
+#buyerAppointmentsHub .buyer-cal-cell.today .buyer-cal-day-button{background:#326f98;color:#fff}
+#buyerAppointmentsHub .buyer-cal-event{display:block;margin:5px 0 0;padding:7px 6px;border-radius:8px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;width:100%;text-align:left;font-size:10px;font-weight:750;line-height:1.35;box-shadow:none}
+#buyerAppointmentsHub .buyer-cal-event.booked{background:#dceefa;color:#255d83}
+#buyerAppointmentsHub .buyer-cal-event.pending{background:#fff0d4;color:#795725}
+#buyerAppointmentsHub .buyer-cal-more{display:block;width:100%;padding:5px;text-align:left;background:transparent;color:#526d7c;font-size:10px;box-shadow:none}
+#buyerAppointmentsHub .buyer-calendar-agenda-row{width:100%;display:grid;gap:6px;text-align:left;padding:15px 17px;border:1px solid #dfe8ee;border-radius:13px;background:#fff;min-width:0;box-shadow:none}
+#buyerAppointmentsHub .buyer-calendar-agenda-row strong{color:#191919;font-size:15px;overflow-wrap:anywhere}
+#buyerAppointmentsHub .buyer-cal-agenda-status{width:max-content;max-width:100%;font-size:11px;padding:5px 10px;border-radius:30px;font-weight:750}
+#buyerAppointmentsHub .buyer-cal-agenda-status.booked{background:#e3f1f9;color:#285f88}
+#buyerAppointmentsHub .buyer-cal-agenda-status.pending{background:#fff0d4;color:#856224}
+#buyerAppointmentsHub .buyer-cal-agenda-open{font-size:12px;color:#3a7192;font-weight:750}
+#buyerRequestsHub .buyer-lead-quick-filters{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 12px}
+#buyerRequestsHub .buyer-lead-quick-filters button{min-height:40px;padding:9px 13px;border:1px solid #d4e2ec;border-radius:100px;font-weight:750;font-size:12px;background:#f7fafc;color:#3d5b70;box-shadow:none}
+#buyerRequestsHub .buyer-lead-quick-filters button.active{background:#191919;border-color:#191919;color:white}
+#buyerRequestsHub .buyer-lead-quick-filters button span{font-variant-numeric:tabular-nums;margin-left:3px}
+#buyerRequestsHub .request-card{cursor:pointer;transition:border-color .15s ease,transform .15s ease,background .15s ease}
+#buyerRequestsHub .request-card:hover{border-color:#98bad3;transform:translateY(-1px)}
+@media(max-width:850px){#buyerRequestsHub #buyerRequestCards{max-height:none!important;overflow:visible!important}}
+@media(max-width:640px){#buyerAppointmentsHub{padding:14px}#buyerAppointmentsHub .buyer-calendar-grid{min-width:700px}#buyerAppointmentsHub .buyer-cal-cell{min-height:99px}#buyerAppointmentsHub .buyer-calendar-toolbar-actions button{padding:7px 9px;font-size:12px}#buyerRequestsHub .buyer-lead-quick-filters button{font-size:11px;padding:8px 10px}}
+@media(prefers-reduced-motion:reduce){#buyerRequestsHub .request-card{transition:none}#buyerRequestsHub .request-card:hover{transform:none}}
