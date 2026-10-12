@@ -2,7 +2,7 @@
   "use strict";
   const qs = new URLSearchParams(window.location.search);
   if (qs.has("key") || qs.get("owner_preview") === "1") return;
-  const lang = qs.get("lang") === "es" ? "es" : "en";
+  const lang = qs.get("lang") === "es" ? "es" : qs.get("lang") === "en" ? "en" : (document.documentElement.lang || "").toLowerCase().startsWith("es") || window.location.pathname.startsWith("/es/") ? "es" : "en";
   const es = lang === "es";
   const endpoint = "https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-ai-booking-demo";
   const business = (qs.get("business") || document.getElementById("leadName")?.textContent?.replace(/^PERSONALIZED FOR\s*/i,"") || "Demo Cleaning Business").slice(0,100);
@@ -11,7 +11,7 @@
   const threadId = (window.crypto?.randomUUID ? window.crypto.randomUUID() : "9cf5037c-8b38-42a9-9565-2b8f532ac017");
   const copy = es ? {
     title:"Asistente de reservas con IA",subtitle:"Demostración · No realiza reservas reales",
-    intro:"¡Hola! 👋 Te ayudaré paso a paso. Primero, ¿el espacio es residencial o comercial?",
+    intro:"¡Hola! 👋 Te ayudaré paso a paso. Primero, ¿la limpieza es para una casa o un negocio?",
     placeholder:"Escribe tu pregunta…",button:"Preguntar a la IA",send:"Enviar",close:"Cerrar chat",
     note:"No se cobrará ningún pago.",
     error:"Ahora mismo no puedo responder. Por favor, inténtalo más tarde.",
@@ -19,7 +19,7 @@
     opening:"Abrir asistente de IA", review:"Revisar mi solicitud →",nextStep:"Siguiente: revisa lo que completé, añade los datos que falten y termina la solicitud de prueba."
   } : {
     title:"AI Booking Assistant",subtitle:"Live AI demo · No real bookings",
-    intro:"Hi! 👋 I’ll guide you step by step. First, is the space residential or commercial?",
+    intro:"Hi! 👋 I’ll guide you step by step. First, is the cleaning for a home or a business?",
     placeholder:"Ask a question…",button:"Ask AI",send:"Send",close:"Close chat",
     note:"No payment will be collected.",
     error:"I can't respond right now. Please try again later.",
@@ -108,8 +108,6 @@
     if(busy)return;
     const message=field.value.trim();
     if(!message)return;
-    const privatePattern=/[\w.+-]+@[\w.-]+\.[a-zA-Z]{2,}|(?:\+?1[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/;
-    if(privatePattern.test(message)){append(copy.note,"bot");return;}
     const conversation_history=dialogue.slice(-8).map(x=>x.role+": "+x.message).join("\n").slice(-1100);
     append(message,"user");field.value="";busy=true;send.disabled=true;
     const wait=append(es?"Escribiendo…":"Typing…","bot");
