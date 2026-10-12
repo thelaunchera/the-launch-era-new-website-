@@ -98,6 +98,17 @@ Deno.serve(async req=>{
   paragraph=lang?(first?"¿Todavía necesitas este servicio? Si tienes preguntas, responde directamente a este correo.":"Volvemos a contactarte sobre tu solicitud. Puedes responder aquí si necesitas ayuda."):
    (first?"Just checking whether you still need help with your service request. Reply here if you have questions.":"Checking in again about your request. Reply here if you need anything.");
  }
+ // Use only the quote the owner actually sent. Keep existing consent, reply-stop
+ // and idempotency checks; this does not introduce another email schedule.
+ const approvedQuote=lead.raw_payload?.quote_offer;
+ const quoteAmount=Number(approvedQuote?.amount);
+ if(lead.workflow_stage==="quoted"&&Number.isFinite(quoteAmount)&&quoteAmount>0){
+  const price=new Intl.NumberFormat(lang?"es-US":"en-US",{style:"currency",currency:approvedQuote?.currency==="CAD"?"CAD":"USD"}).format(quoteAmount);
+  subject=lang?"¿Tienes preguntas sobre tu cotización?":"Any questions about your quote?";
+  paragraph=lang
+   ?"Queríamos saber si tienes alguna pregunta sobre tu cotización de "+price+" para "+svc+". Responde aquí si deseas continuar o aclarar un detalle. El horario se confirma por separado."
+   :"Do you have any questions about your "+price+" quote for "+svc+"? Reply here if you would like to continue or clarify a detail. Your appointment time is confirmed separately.";
+ }
  const footer=lang?"Para dejar de recibir recordatorios: ":"To stop receiving these reminders: ";
  const logoHtml=businessLogo?'<img src="'+esc(businessLogo)+'" alt="'+esc(business)+' logo" width="62" height="62" style="display:block;max-width:85px;max-height:62px;height:auto;border:0;margin-right:12px"/>':"";
  const html='<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="background:#f5f4f0;padding:24px 12px;margin:0;font-family:Arial,Helvetica,sans-serif">'+
