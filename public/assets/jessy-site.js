@@ -141,7 +141,22 @@ if(result&&typeof result.reply==="string"){
 waiting=false;send.disabled=false;log.scrollTop=log.scrollHeight;input.focus()}
 fab.addEventListener("click",()=>toggle(true));closeBtn.addEventListener("click",()=>toggle(false));backdrop.addEventListener("click",()=>toggle(false));
 soundBtn.addEventListener("click",()=>{soundOn=!soundOn;soundBtn.textContent=soundOn?"♫":"♪̸";soundBtn.setAttribute("aria-pressed",soundOn?"true":"false");optionalChime()});
-languageBtn.addEventListener("click",()=>{lang=lang==="en"?"es":"en";languageBtn.textContent=lang==="en"?"ES":"EN";status.textContent=t("status");nudge.textContent=t("nudge");fab.querySelector("span:not(.tle-jessy-status)").textContent=lang==="es"?"Habla con Jessy":"Chat with Jessy";input.placeholder=t("input");input.setAttribute("aria-label",t("input"));send.textContent=t("send");leadTrigger.textContent=t("lead");note.textContent=t("hint");leadTitle.textContent=t("leadTitle");leadIntro.textContent=t("leadIntro");back.textContent=t("back");nameInput.parentNode.querySelector("span").textContent=t("nameLabel");businessInput.parentNode.querySelector("span").textContent=t("businessLabel");emailInput.parentNode.querySelector("span").textContent=t("emailLabel");needInput.parentNode.querySelector("span").textContent=t("needLabel");consentLabel.querySelector("span").textContent=t("consent");submit.textContent=t("confirm");privacy.textContent=t("privacy");quickChoices();msg(lang==="es"?"¡También hablo español! ¿En qué te ayudo?":"I speak English too! How can I help?","bot");track("language_switch")});
+function syncLanguage(){
+ languageBtn.textContent=lang==="en"?"ES":"EN";status.textContent=t("status");
+ nudge.textContent=pageText("nudge");
+ fab.querySelector("span:not(.tle-jessy-status)").textContent=lang==="es"?"Habla con Jessy":"Chat with Jessy";
+ fab.setAttribute("aria-label",t("opening"));closeBtn.setAttribute("aria-label",t("close"));
+ input.placeholder=t("input");input.setAttribute("aria-label",t("input"));
+ send.textContent=t("send");leadTrigger.textContent=t("lead");note.textContent=t("hint");
+ leadTitle.textContent=t("leadTitle");leadIntro.textContent=t("leadIntro");back.textContent=t("back");
+ nameInput.parentNode.querySelector("span").textContent=t("nameLabel");
+ businessInput.parentNode.querySelector("span").textContent=t("businessLabel");
+ emailInput.parentNode.querySelector("span").textContent=t("emailLabel");
+ needInput.parentNode.querySelector("span").textContent=t("needLabel");
+ consentLabel.querySelector("span").textContent=t("consent");
+ submit.textContent=t("confirm");privacy.textContent=t("privacy");quickChoices();
+}
+languageBtn.addEventListener("click",()=>{lang=lang==="en"?"es":"en";syncLanguage();msg(lang==="es"?"¡También hablo español! ¿En qué te ayudo?":"I speak English too! How can I help?","bot");track("language_switch")});
 form.addEventListener("submit",e=>{e.preventDefault();ask(input.value)});
 input.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();form.requestSubmit()}});
 leadTrigger.addEventListener("click",()=>showLead(true));back.addEventListener("click",()=>showLead(false));
@@ -153,8 +168,25 @@ leadForm.addEventListener("submit",async e=>{
  catch{formResult.textContent=t("error");formResult.className="tle-jessy-error"}finally{submit.disabled=false}
 });
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&open)toggle(false)});
-function handleRoute(){if(!open){lang=(location.pathname==="/es"||location.pathname.startsWith("/es/"))?"es":"en";nudge.textContent=t("nudge")}}
+let lastLocation=location.pathname+"?"+location.search;
+function handleRoute(){
+ const next=location.pathname+"?"+location.search;
+ if(next===lastLocation)return;
+ lastLocation=next;
+ const isEs=location.pathname==="/es"||location.pathname.startsWith("/es/")||new URLSearchParams(location.search).get("lang")==="es";
+ lang=isEs?"es":"en";
+ offer=currentPage();
+ syncLanguage();
+ if(open&&offer){msg(pageText("hello"),"bot");quickChoices();}
+ reloadOffers();track("page_changed");
+}
 window.addEventListener("popstate",handleRoute);
+window.addEventListener("hashchange",handleRoute);
+for(const name of ["pushState","replaceState"]){
+ const original=window.history[name];
+ if(typeof original==="function")window.history[name]=function(...args){const result=original.apply(this,args);Promise.resolve().then(handleRoute);return result;};
+}
+syncLanguage();
 window.addEventListener("focus",()=>{if(open)reloadOffers()});
 setTimeout(()=>{if(!open){nudge.hidden=false;setTimeout(()=>{nudge.hidden=true},8000)}},2200);
 reloadOffers();track("loaded");
