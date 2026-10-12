@@ -31,6 +31,7 @@ function field(label,tag,id,opts){
  wrapper.append(input);return wrapper;
 }
 function activate(session){
+ if(String(session?.model?.business_name||" ").trim().toLowerCase()!=="cb depot")return;
  if(!document.body.classList.contains("vehicle-booking")||document.body.dataset.cbPremium==="ready")return;
  document.body.dataset.cbPremium="ready";
  // Use CB Depot's approved custom icon only on CB Depot's own landing.

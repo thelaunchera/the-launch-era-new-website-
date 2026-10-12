@@ -4,6 +4,7 @@
  * This does NOT replace authenticated, owner-approved end-to-end QA.
  */
 import assert from 'node:assert/strict';
+import './qa-multicompany.mjs';
 import { existsSync, readFileSync } from 'node:fs';
 
 const read = (path) => readFileSync(path, 'utf8');

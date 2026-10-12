@@ -29,7 +29,9 @@ jobs:
           expected=$(sha256sum public/base-booking.html | cut -d ' ' -f 1)
           for attempt in $(seq 1 18); do
             actual=$(curl -fsS "https://thelaunchera.com/base-booking.html?qa=$GITHUB_SHA" | sha256sum | cut -d ' ' -f 1)
-            if [ "$actual" = "$expected" ]; then exit 0; fi
+            expected_logic=$(sha256sum public/assets/booking-template-live.js | cut -d ' ' -f 1)
+            actual_logic=$(curl -fsS "https://thelaunchera.com/assets/booking-template-live.js?qa=$GITHUB_SHA" | sha256sum | cut -d ' ' -f 1)
+            if [ "$actual" = "$expected" ] && [ "$actual_logic" = "$expected_logic" ]; then exit 0; fi
             sleep 15
           done
           exit 1

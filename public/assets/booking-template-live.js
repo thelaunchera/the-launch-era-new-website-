@@ -185,7 +185,7 @@ async function getSlotsFor(date,selectId){
  try{
   const model=ownerPreview?{slots:["09:00","11:00","14:00"]}:await endpoint("tle-booking-flow-availability",{action:"public",booking_key:key,date});
   if(request!==session.requestCounter)return;
-  session.validSlots=(model.slots||[]).filter(s=>/^(?:[01]\d|2[0-3]):(?:00|30)$/.test(s));
+  session.validSlots=(model.slots||[]).filter(s=>/^(?:[01]\d|2[0-3]):(?:[0-5]\d)$/.test(s));
   select.replaceChildren();
   if(!session.validSlots.length){const missing=document.createElement("option");missing.value="";missing.textContent=tr("No availability — choose another date","No hay horario libre; elige otra fecha");select.append(missing);return}
   const opt=document.createElement("option");opt.value="";opt.textContent=tr("Select an available time","Selecciona un horario libre");select.append(opt);
@@ -240,7 +240,7 @@ async function submit(which){
    return;
   }
  }
- if(flat&&(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!/^(?:[01]\d|2[0-3]):(?:00|30)$/.test(time)||!session.validSlots.includes(time))){
+ if(flat&&(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!/^(?:[01]\d|2[0-3]):(?:[0-5]\d)$/.test(time)||!session.validSlots.includes(time))){
   alertCustomer(tr("Choose a date and confirmed available time.","Elige fecha y un horario confirmado como disponible."));return
  }
  const extras=includedExtras();
@@ -275,14 +275,14 @@ async function submit(which){
    const result=await new Promise((resolve,reject)=>{
     const guard=setTimeout(()=>{window.removeEventListener("message",onResult);reject(new Error("The private lead test timed out. Try again from your Command Center."))},17000);
     function onResult(event){
-      if(event.origin!=="https://the-launch-era-crm.dailinsegura17.workers.dev"||event.source!==window.parent)return;
+      if(event.origin!=="https://thelaunchera.com"||event.source!==window.parent)return;
       if(event.data?.type!=="TLE_OWNER_PREVIEW_QA_RESULT"||event.data?.nonce!==session.model.qa_nonce)return;
       clearTimeout(guard);window.removeEventListener("message",onResult);
       if(!event.data.ok||!event.data.verified)reject(new Error(event.data.error||"Lead routing test failed"));
       else resolve(event.data);
     }
     window.addEventListener("message",onResult);
-    window.parent.postMessage({type:"TLE_OWNER_PREVIEW_QA_REQUEST",nonce:session.model.qa_nonce,request:body},"https://the-launch-era-crm.dailinsegura17.workers.dev");
+    window.parent.postMessage({type:"TLE_OWNER_PREVIEW_QA_REQUEST",nonce:session.model.qa_nonce,request:body},"https://thelaunchera.com");
    });
    show("done",tr("Private lead test passed","Prueba de lead superada"),"✓");
    $("done").querySelector("h2").textContent=tr("Your test reached the Command Center","La prueba llegó al Command Center");
@@ -336,11 +336,13 @@ function activateRealSubmission(){
  window.submitCommercial=()=>submit("commercial");
 }
 
-function isVehicleBusiness(){return clean(session.model?.business_name).toLowerCase()==="cb depot"}
+function isVehicleBusiness(){return session.model?.business_category==="detailing"||clean(session.model?.business_name).toLowerCase()==="cb depot"}
 function setupVehicleMode(){
  if(!isVehicleBusiness())return;
  document.body.classList.add("vehicle-booking");
- document.title="CB Depot | Auto Detailing & Vehicle Cleaning";
+ const business=clean(session.model?.business_name)||tr("Your business","Tu negocio");
+ const cbDepot=business.toLowerCase()==="cb depot";
+ document.title=business+" | "+tr("Auto Detailing & Vehicle Cleaning","Detailing y limpieza de vehículos");
  document.documentElement.dataset.industry="auto-detailing";
  const t=id=>document.getElementById(id),set=(id,value)=>{const el=t(id);if(el)el.textContent=value};
 
@@ -352,26 +354,26 @@ function setupVehicleMode(){
  set("baseHowTitle","How your detail request works");
  set("baseClosingTitle","Ready to refresh your ride?");
  set("baseClosingCopy","Request your detail in minutes. We review the details and confirm the next step.");
- for(const [index,[h,p]] of [["Choose your detail","Select the vehicle service you need."],["Tell us about your vehicle","Share your car type and what needs attention."],["Receive your quote","CB Depot reviews your request and follows up by email."]].entries()){
+ for(const [index,[h,p]] of [["Choose your detail","Select the vehicle service you need."],["Tell us about your vehicle","Share your car type and what needs attention."],["Receive your quote",business+" reviews your request and follows up by email."]].entries()){
   const card=document.querySelectorAll(".base-step")[index];if(card){const title=card.querySelector("h3"),desc=card.querySelector("p");if(title)title.textContent=h;if(desc)desc.textContent=p;}
  }
- for(const [index,[h,p]] of [["Detailing for your vehicle","Car, SUV, truck or van—we'll review your request."],["Custom pricing","The final price is provided after reviewing your vehicle."],["Your preferred schedule","Monday through Friday, 7 AM–7 PM."]].entries()){
+ for(const [index,[h,p]] of [["Detailing for your vehicle","Car, SUV, truck or van—we'll review your request."],["Custom pricing","The final price is provided after reviewing your vehicle."],["Your preferred schedule",cbDepot?"Monday through Friday, 7 AM–7 PM.":"Choose from the business’s available appointment times."]].entries()){
   const card=document.querySelectorAll(".base-feature")[index];if(card){const title=card.querySelector("h3"),desc=card.querySelector("p");if(title)title.textContent=h;if(desc)desc.textContent=p;}
  }
- for(const [index,copy] of ["Easy detailing requests","Vehicle-specific quotes","Mon–Fri · 7 AM–7 PM"].entries()){const pill=document.querySelectorAll(".trust .pill")[index];if(pill)pill.textContent=copy}
+ for(const [index,copy] of ["Easy detailing requests","Vehicle-specific quotes",cbDepot?"Mon–Fri · 7 AM–7 PM":"Available appointments"].entries()){const pill=document.querySelectorAll(".trust .pill")[index];if(pill)pill.textContent=copy}
  for(const btn of document.querySelectorAll(".base-button"))if(/book|cleaning|booking/i.test(btn.textContent||""))btn.textContent="Request your detail";
  document.querySelectorAll(".base-service-card p").forEach(p=>{if(/pricing|price/i.test(p.textContent))p.textContent="Request a personalized quote"});
- set("ey","CB DEPOT · AUTO DETAILING");
+ set("ey",business.toUpperCase()+" · AUTO DETAILING");
  const category=t("categoryTabs");if(category){category.hidden=true;category.previousElementSibling?.setAttribute("hidden","");category.nextElementSibling?.setAttribute("hidden","")}
  setCategory("residential");
  const residential=t("residentialServiceList");residential.hidden=false;
  const commercial=t("commercialServiceList");commercial.hidden=true;
- const intro=document.querySelector("#main > p.muted");if(intro)intro.textContent="Choose your auto detailing service. Every quote is reviewed by CB Depot.";
+ const intro=document.querySelector("#main > p.muted");if(intro)intro.textContent="Choose your auto detailing service. Every quote is reviewed by "+business+".";
  const qtype=t("qtype"),condition=t("qsize");
  if(qtype){qtype.replaceChildren(...["Car","SUV","Truck","Van","Other vehicle"].map(v=>new Option(v,v)));qtype.previousElementSibling.textContent="VEHICLE TYPE";}
  if(condition){condition.replaceChildren(...["Light cleaning","Moderate dirt / buildup","Heavy stains or odors","Not sure"].map(v=>new Option(v,v)));condition.previousElementSibling.textContent="VEHICLE CONDITION";}
  const qDate=t("qdate");if(qDate)qDate.previousElementSibling.textContent="PREFERRED DETAIL DATE";
- const qTime=t("qtime");if(qTime){qTime.previousElementSibling.textContent="PREFERRED TIME · MON–FRI, 7 AM–7 PM";qTime.min="07:00";qTime.max="18:30";qTime.step=1800;}
+ const qTime=t("qtime");if(qTime){qTime.previousElementSibling.textContent=cbDepot?"PREFERRED TIME · MON–FRI, 7 AM–7 PM":"PREFERRED TIME";if(cbDepot){qTime.min="07:00";qTime.max="18:30";qTime.step=1800;}else{qTime.removeAttribute("min");qTime.removeAttribute("max");qTime.step=60;}}
  const qDetails=t("qdetails");if(qDetails){qDetails.placeholder="Tell us about your vehicle and what needs extra attention.";qDetails.previousElementSibling.textContent="CAR CLEANING DETAILS";}
  const qAddress=t("qaddress");if(qAddress)qAddress.placeholder="Service address / preferred location";
  const additional=document.createElement("div");
@@ -395,14 +397,14 @@ function setupVehicleMode(){
   // The section remains available for genuine reviews later; do not invent reviews.
  }
  const brandSrc=session.model?.branding?.hero_image;
- if(brandSrc){const photo=t("baseHeroImage");if(photo)photo.alt="CB Depot auto detailing panda and car design";}
+ if(brandSrc){const photo=t("baseHeroImage");if(photo)photo.alt=business+" auto detailing";}
 }
 
 try{
  const model=ownerPreview?await new Promise((resolve,reject)=>{
   const guard=setTimeout(()=>reject(Error("Owner preview did not receive account data.")),12000);
   window.addEventListener("message",function listener(event){
-   if(event.origin!=="https://the-launch-era-crm.dailinsegura17.workers.dev")return;
+   if(event.origin!=="https://thelaunchera.com"||event.source!==window.parent)return;
    if(event.data?.type!=="TLE_OWNER_BOOKING_PREVIEW"||!event.data?.config)return;
    window.removeEventListener("message",listener);clearTimeout(guard);
    resolve(event.data.config);

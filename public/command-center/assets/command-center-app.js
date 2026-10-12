@@ -414,15 +414,16 @@ function isOtherServiceWorkspace(){return !!workspace&&!workspace.is_internal&&w
 function applyBuyerIndustryLabels(){
  if(!workspace||workspace.is_internal)return;
  const detailing=isDetailingWorkspace(),other=isOtherServiceWorkspace();
- $('cbDetailingTop')?.classList.toggle('hidden',!detailing);
- $('cbSettingsBanner')?.classList.toggle('hidden',!detailing);
+ const cbDepot=detailing&&String(workspace.name||'').trim().toLowerCase()==='cb depot';
+ $('cbDetailingTop')?.classList.toggle('hidden',!cbDepot);
+ $('cbSettingsBanner')?.classList.toggle('hidden',!cbDepot);
  if(!detailing&&!other)return;
  const es=localStorage.getItem('tle_crm_language')==='es';
  const set=(selector,en,spanish)=>{const el=document.querySelector(selector);if(el)el.textContent=es?spanish:en};
  set('#mainNavCaption',detailing?'CAR DETAILING BUSINESS':'SERVICE BUSINESS',detailing?'NEGOCIO DE DETAILING':'NEGOCIO DE SERVICIOS');
  set('#buyerDashboardHub > .section-title',detailing?'Car Detailing Command Center':'Service Command Center',detailing?'CENTRO DE DETAILING':'CENTRO DE SERVICIOS');
  set('#buyerDashboardHub > p.muted',detailing?'Vehicle inquiries, detailing quotes and appointments — all in one place.':'Service inquiries, quotes and appointments — all in one place.',detailing?'Consultas de vehículos, cotizaciones de detailing y citas, en un solo lugar.':'Consultas, cotizaciones y citas, en un solo lugar.');
- set('#buyerDashboardHub .panel:last-child > p:first-of-type',detailing?'CB Depot receives vehicle detailing requests. Prepare quotes after reviewing each vehicle; send appointment confirmations only for confirmed available slots.':'Customer requests, quotes and confirmed appointments follow the configured business workflow.',detailing?'CB Depot recibe solicitudes de detailing. Prepara cotizaciones después de revisar cada vehículo y confirma citas solo cuando el horario esté disponible.':'Solicitudes, cotizaciones y citas confirmadas siguen el flujo configurado.');
+ set('#buyerDashboardHub .panel:last-child > p:first-of-type',detailing?'Your business receives vehicle detailing requests. Prepare quotes after reviewing each vehicle; send appointment confirmations only for confirmed available slots.':'Customer requests, quotes and confirmed appointments follow the configured business workflow.',detailing?'Tu negocio recibe solicitudes de detailing. Prepara cotizaciones después de revisar cada vehículo y confirma citas solo cuando el horario esté disponible.':'Solicitudes, cotizaciones y citas confirmadas siguen el flujo configurado.');
  set('#buyerDashboardHub .panel:last-child > p.muted',detailing?'Review vehicle details and prepare personalized detailing quotes in Inbox. A quote request is not a confirmed appointment.':'Review service details and personalized quotes in Inbox. A quote request is not a confirmed appointment.',detailing?'Revisa los detalles del vehículo y prepara cotizaciones. Una solicitud no es una cita confirmada.':'Revisa los detalles y prepara cotizaciones. Una solicitud no es una cita confirmada.');
  set('#buyerRequestsHub > p.muted',detailing?'Car detailing inquiries, vehicle quotes and confirmed appointments.':'Service inquiries, quotes and confirmed appointments.',detailing?'Consultas de detailing, cotizaciones de vehículos y citas confirmadas.':'Consultas, cotizaciones y citas confirmadas.');
  set('#buyerFollowupsIntro > p.muted',detailing?'Two optional follow-up emails for detailing customers, only with verified sender, reply inbox and customer consent.':'Two optional service follow-ups, only with verified sender and consent.',detailing?'Dos seguimientos opcionales de detailing. Requieren remitente, buzón y permiso verificados.':'Dos seguimientos opcionales con remitente y permiso verificados.');
@@ -1005,7 +1006,7 @@ async function loadOwnerDeliveries(){
     }finally{lifecycleTest.disabled=false}
    };
    mailTest.onclick=async()=>{
-    if(!confirm(esOwner?'¿Enviar un correo identificado como TEST solamente a TU correo de propietaria? CB Depot no recibirá nada.':'Send a TEST-labelled email only to YOUR verified owner inbox? The buyer will not be contacted.'))return;
+    if(!confirm(esOwner?'¿Enviar un correo identificado como TEST solamente a TU correo de propietaria? El cliente no recibirá nada.':'Send a TEST-labelled email only to YOUR verified owner inbox? The buyer will not be contacted.'))return;
     mailTest.disabled=true;qaResults.replaceChildren(deliveryNode('p',esOwner?'Solicitando correo de prueba…':'Requesting test email…'));
     try{
       const data=await ownerQARequest('qa_email_test');
@@ -1051,7 +1052,7 @@ async function loadOwnerDeliveries(){
     kind.onchange=()=>{otherLabel.style.display=kind.value==='other'?'block':'none'};kind.onchange();activation.append(otherLabel);
     const accessDelivered=a.activation_email_link_version==='handoff-v2'&&a.activation_email_delivery_status==='delivered';
     const buyerLoggedInAfterEmail=!!a.buyer_signed_in_after_email;
-    const send=deliveryNode('button',accessDelivered?'✓ Activation email delivered / Activación entregada':'Send Activation Email / Enviar activación');send.type='button';send.className='secondary';send.disabled=!activationReady||accessDelivered;
+    const send=deliveryNode('button',a.already_queued?crmLocaleText('✓ Final delivery already recorded','✓ Entrega final registrada'):accessDelivered?'✓ Activation email delivered / Activación entregada':'Send Activation Email / Enviar activación');send.type='button';send.className='secondary';send.disabled=!activationReady||accessDelivered||!!a.already_queued;
     const msg=deliveryNode('p',accessDelivered?
        '✓ Resend verified delivery on '+new Date(a.activation_email_sent_at).toLocaleString()+'. / Correo entregado. '+(buyerLoggedInAfterEmail?'✓ Buyer signed in after this email / El cliente entró después del envío.':'Awaiting buyer sign-in / Esperando que el cliente abra su Command Center.')+(a.already_queued?' Final delivery recorded.':' Final Booking Page delivery still pending / Entrega final pendiente.'):
        a.activation_email_sent_at?'Activation email requested on '+new Date(a.activation_email_sent_at).toLocaleString()+'. Provider delivery is not verified yet. / Envío registrado; entrega por verificar.':
@@ -1278,7 +1279,7 @@ function setBuyerClientEmailChoice(){
  if(!builderState)return;
  const order=builderState.order||{},name=String(order.business_name||'');
  const kind=['cleaning','detailing','other'].includes(order.business_category)?order.business_category:
-  /CB Depot|detail|auto/i.test(name)?'detailing':'cleaning';
+  'other';
  $('buildClientEmailCategory').value=kind;
  $('buildClientEmailOther').value=order.business_category_other||'';
  $('buildClientEmailOtherLabel').style.display=kind==='other'?'block':'none';
@@ -1456,7 +1457,7 @@ async function loadBuilderRealPreview(){
    quote_policy:price.settings?.quote_policy||'review_unpriced_jobs',auto_confirm_flat:price.settings?.auto_confirm_flat===true,
    availability:availability.settings||{},qa_nonce:crypto.randomUUID()};
   const frame=$('buildLiveFrame');
-  const send=()=>{if(frame.contentWindow&&builderPreviewData)frame.contentWindow.postMessage({type:'TLE_OWNER_BOOKING_PREVIEW',config:builderPreviewData},'*')};
+  const send=()=>{if(frame.contentWindow&&builderPreviewData)frame.contentWindow.postMessage({type:'TLE_OWNER_BOOKING_PREVIEW',config:builderPreviewData},'https://thelaunchera.com')};
   frame.onload=send;
   frame.src='https://thelaunchera.com/booking/?owner_preview=1&lang='+encodeURIComponent(builderPreviewData.language==='es'?'es':'en');
   if(window.matchMedia('(max-width:760px)').matches)setOwnerBookingPreviewFullscreen(true);
@@ -1544,7 +1545,7 @@ $('buildRunPreflight').onclick=async()=>{
   if(ownerReviewAccount?.id!==id)return;
   output.replaceChildren();
   const header=ownerPageElem('div',undefined,'background:#eff6fd;border:1px solid #d6e7f5;border-radius:16px;padding:16px');
-  header.append(ownerPageElem('strong',data.setup_ready?buildLabel('✓ CB Depot configuration verified privately','✓ Configuración de CB Depot verificada en privado'):buildLabel('CB Depot: configuration needs attention','CB Depot: hay configuraciones pendientes'),'font-size:15px;color:#214a69;display:block'));
+  header.append(ownerPageElem('strong',data.setup_ready?buildLabel('✓ Selected business configuration verified privately','✓ Configuración del negocio seleccionado verificada en privado'):buildLabel('Selected business configuration needs attention','Hay configuraciones pendientes en el negocio seleccionado'),'font-size:15px;color:#214a69;display:block'));
   header.append(ownerPageElem('p',buildLabel('No emails, reservations, invitations or workspaces were created.','No se crearon correos, reservas, invitaciones ni espacios de trabajo.'),'margin:6px 0 0;font-size:12px;color:#486778;line-height:1.5'));
   output.append(header);
   const checks=[
@@ -2777,8 +2778,8 @@ function buyerSetDefaultMessage(){
   copy.reviewing=es?"Recibimos tu solicitud para "+service+". Estamos revisando los detalles de tu vehículo antes de preparar la cotización o el próximo paso. Tu cita aún no está confirmada.":"We received your "+service+" request. We're reviewing your vehicle details before preparing a quote or the next step. Your appointment is not confirmed yet.";
   copy.quoted=es?"Tu cotización de detailing para "+service+" está lista. Acepta, rechaza o conversa sobre el precio; después de aceptar, elige un horario libre.":"Your detailing quote for "+service+" is ready. Accept, decline or discuss the price. After accepting, choose an available time to confirm.";
   copy.booked=es?"Tu cita de detailing para "+service+" está confirmada"+(slot?" para "+slot:"")+". Si necesitas cambiar algo, responde a este correo.":"Your car detailing appointment for "+service+" is confirmed"+(slot?" for "+slot:"")+". Reply here if you need to adjust anything.";
-  copy.reply=es?"Gracias por contactar a CB Depot. Revisamos los detalles de tu vehículo y tu solicitud de detailing. Responde si tienes alguna pregunta.":"Thanks for contacting CB Depot. We've reviewed your vehicle and detailing request. Reply here with any questions.";
-  copy.declined=es?"Gracias por considerar CB Depot para "+service+". Por ahora no podemos confirmar el servicio. Responde si deseas otra opción.":"Thanks for considering CB Depot for "+service+". We can't confirm this service at the moment. Reply if you'd like to discuss an alternative.";
+  copy.reply=es?"Gracias por contactar a "+(workspace?.name||"nuestro negocio")+". Revisamos los detalles de tu vehículo y tu solicitud de detailing. Responde si tienes alguna pregunta.":"Thanks for contacting "+(workspace?.name||"our business")+". We've reviewed your vehicle and detailing request. Reply here with any questions.";
+  copy.declined=es?"Gracias por considerar "+(workspace?.name||"nuestro negocio")+" para "+service+". Por ahora no podemos confirmar el servicio. Responde si deseas otra opción.":"Thanks for considering "+(workspace?.name||"our business")+" for "+service+". We can't confirm this service at the moment. Reply if you'd like to discuss an alternative.";
  }
  $("buyerRequestMessage").value=(es?"Hola ":"Hi ")+name+",\n\n"+copy[action]+"\n\n"+(workspace?.name||"Your business")
 }
