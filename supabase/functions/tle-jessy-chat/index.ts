@@ -52,6 +52,7 @@ function wantsAiPlanComparison(message,prior,focus){
  if(/\b(ai|ia)\s+(plans?|packages?|pricing|options?|precios|planes|paquetes)\b/.test(q))return true;
  const onAiPage=focus==="ai-booking"||prior==="ai-plans";
  if(onAiPage&&/^(?:(?:show|see|view|ver|mostrar|quiero ver)\s+)?(?:all\s+)?(?:plans?|packages?|pricing|prices?|precios?|planes?|paquetes?|options?|opciones?|checkout|comprar|buy|purchase|pay|pagar|proximo paso|next step)[!?.\s]*$/.test(q))return true;
+ if(onAiPage&&/\b(what(?: are|'s)?|how much|cuanto|cuales|que)\b.*\b(prices?|costs?|pricing|precios?|cuesta|valen)\b/.test(q))return true;
  if(prior==="ai-plans"&&/\b(checkout|purchase|buy|buy now|comprar|pagar|pay|payment|listo|ready|next step|siguiente paso)\b/.test(q))return true;
  return false;
 }
