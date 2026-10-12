@@ -272,7 +272,7 @@ await check('Canonical Booking Page is the emailed demo',{width:390,height:844},
  await p.locator('#quoteSubmit').click();
  // The assistant prefill flow intentionally adds a review screen before completing a sample request.
  assert.equal(await p.locator('#tleAiExtraReview').isVisible(),true,'Sample quote opens a review without email verification');
- await p.locator('#tleAiExtraReview .next').click();
+ await p.locator('#tleAiExtraReview button.next:not(.back)').click();
  assert.equal(await p.locator('#done').isVisible(),true,'Reviewed sample quote works without email code');
  assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3),'Demo fits mobile width');
  await p.screenshot({path:'qa-screenshots/booking-canonical-home-commercial.png',fullPage:true});
@@ -297,7 +297,7 @@ await check('AI commercial prefill preserves restaurant as Other and shows next 
  assert.equal(await p.locator('#tleAiExtraReview').isVisible(),true,'Assistant leads to review before finish');
  assert.match(await p.locator('#tleAiExtraReview').innerText(),/Next step:/);
  assert.match(await p.locator('#tleAiExtraReview').innerText(),/Other: Restaurant/);
- await p.locator('#tleAiExtraReview .next').click();
+ await p.locator('#tleAiExtraReview button.next:not(.back)').click();
  assert.equal(await p.locator('#done').isVisible(),true);
  assert.match(await p.locator('#done').innerText(),/No booking or email was sent/);
  assert.match(await p.locator('#done').innerText(),/We have your booking request!/);
@@ -322,21 +322,21 @@ await check('Incomplete commercial request points to missing details',{width:390
  await p.locator('#commercialSubmit').click();
  assert.equal(await p.locator('#tleAiExtraReview').isVisible(),true);
  assert.match(await p.locator('#tleAiExtraReview .tle-review-missing').innerText(),/frequency/);
- assert.equal(await p.locator('#tleAiExtraReview .next').isVisible(),false);
+ assert.equal(await p.locator('#tleAiExtraReview button.next:not(.back)').isVisible(),false);
  await p.locator('#tleAiExtraReview .back').click();
  await p.locator('#cfreq').selectOption({label:'Weekly'});
  await p.locator('#cbusiness').fill('Example Bakery');
  await p.locator('#cname').fill('Taylor Brown');
  await p.locator('#commercialSubmit').click();
  assert.equal(await p.locator('#tleAiExtraReview .tle-review-missing').count(),0);
- await p.locator('#tleAiExtraReview .next').click();
+ await p.locator('#tleAiExtraReview button.next:not(.back)').click();
  assert.equal(await p.locator('#done').isVisible(),true);
  assert.equal(await p.locator('#tleSuccessBusiness').innerText(),'Demo Cleaning Co');
  assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3),true);
 });
 await check('Residential confirmation is branded; no real emails',{width:390,height:844},async p=>{
  let sent=0;
- p.on('request',r=>{if(/tle-booking-flow-inquiry|api\\.resend\\.com\\/emails/.test(r.url()))sent++;});
+ p.on('request',r=>{if(r.url().includes('tle-booking-flow-inquiry')||r.url().includes('api.resend.com/emails'))sent++;});
  await p.goto(base+'/lead-private-preview.html?business=Palm%20Beach%20Cleaning%20Co&area=Boynton%20Beach',{waitUntil:'domcontentloaded'});
  await p.locator('#residentialServiceList .service').first().click();
  await p.locator('#homes .choice').first().click();
