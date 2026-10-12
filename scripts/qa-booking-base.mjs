@@ -35,7 +35,7 @@ for(const width of [320,360,390,430,820,1024,1440]){
       const foreground=getComputedStyle(firstText||el).color;
       const background=label.backgroundColor;
       function luminance(color){
-        const rgb=(color.match(/[\\d.]+/g)||[]).slice(0,3).map(Number).map(v=>v/255)
+        const rgb=(color.match(/[0-9.]+/g)||[]).slice(0,3).map(Number).map(v=>v/255)
           .map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);
         return .2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2];
       }
