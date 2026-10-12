@@ -31,7 +31,7 @@ export function ServiceSales({product,lang='en'}:Props){
  ['Does the App include a personalized Booking Page?','These are separate products. The App organizes operations; Booking Automation + Command Center includes a personalized Booking Page and your Command Center.'],
  ['How do I start, and what does it cost?','Create your account to start a 30-day trial, with no card required. The plan is $3.99 per month afterward. Explore the interactive demo before signing up if you prefer.']
  ];
- const primary=booking?`/service-checkout/?offer=booking-flow&lang=${lang}`:'https://app.thelaunchera.com/?entry=signup';
+ const primary=booking?`/booking-bundle/?lang=${lang}`:'https://app.thelaunchera.com/?entry=signup';
  const demo=booking?`/booking-demo/?lang=${lang}`:`/cleaning-app-demo/?lang=${lang}`;
  return <div className="service-sales">
  <div className="service-sales-pain"><div className="eyebrow">{es?'¿TE SUENA FAMILIAR?':'DOES THIS SOUND FAMILIAR?'}</div><h2 className="editorial">{booking?(es?'Responder no debería empezar buscando mensajes.':'Replying should not start with hunting through messages.'):(es?'Tus clientes, trabajos y cotizaciones no deberían estar regados por todas partes.':'Your clients, jobs, and quotes shouldn’t live in five different places.')}</h2><p>{es?'Toca una situación para ver qué cambia.':'Tap a situation to see what changes.'}</p>
