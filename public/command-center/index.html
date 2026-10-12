@@ -612,6 +612,8 @@
 <label>Space / vehicle type<input name="space_type" maxlength="70" required></label>
 <label>Visit frequency<select name="recurrence"><option value="one_time">One-time</option><option value="weekly">Weekly</option><option value="biweekly">Every two weeks</option><option value="monthly">Monthly</option></select></label>
 </div><p class="muted">Recurring frequency does not automatically book future appointments.</p>
+<label class="buyer-care-optin"><input type="checkbox" name="appointment_reminders_opt_in"> The customer agreed to appointment reminders (48 hours before and at 5 AM on the appointment day).</label>
+<label id="buyerManualReminderConsentLabel" class="hidden">How did they authorize appointment reminders?<input name="reminder_consent_detail" maxlength="180" placeholder="e.g. Customer agreed by phone to appointment reminder emails"></label>
 <label class="buyer-care-optin"><input type="checkbox" name="optional_care_opt_in"> The customer agreed to optional care tips and check-ins.</label>
 <label id="buyerManualConsentLabel" class="hidden">How did they give permission?<input name="consent_detail" maxlength="180" placeholder="e.g. Asked for tips by email during our call"></label>
 <p id="buyerManualBookingResult" role="status" aria-live="polite"></p><button type="submit" id="buyerManualBookingSubmit">Save Confirmed Booking</button></form></dialog>
