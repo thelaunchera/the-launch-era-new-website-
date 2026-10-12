@@ -79,6 +79,7 @@ body{background:linear-gradient(180deg,#F8FBFC 0%,#FFFFFF 38%,#FAF8F3 100%)}.her
 <section class="section" id="tleBundleAiIntake" style="display:none">
  <div class="eyebrow">AI ASSISTANT · CONFIGURACIÓN ADICIONAL</div>
  <h2>4. Tu asistente de IA</h2><p id="tleBundleAiPlan"></p>
+ <div class="photo-panel" style="margin:18px 0;background:#ecf5fc"><label for="aiAvatarName">¿Cómo se llamará tu avatar de IA? *</label><input id="aiAvatarName" name="ai_avatar_name" maxlength="80" placeholder="Ej.: Jessy" style="width:100%;min-height:46px;margin-top:8px;border-radius:12px;border:1px solid #bbd7e9;padding:12px;background:#fff"><label for="aiAvatarPhoto" style="display:block;margin-top:16px">Foto de referencia del avatar (opcional)</label><p class="small">Sube una foto tuya o de alguien con permiso, si deseas que el avatar se parezca a esa persona. Si no, diseñaremos un personaje original. JPG, PNG, WebP o HEIC, hasta 5 MB.</p><input type="file" id="aiAvatarPhoto" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif" aria-describedby="aiAvatarPhotoStatus"><div id="aiAvatarPhotoStatus" class="small" aria-live="polite" role="status"></div><div id="aiAvatarPhotoPreview" style="display:none;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap"><img id="aiAvatarPhotoImg" alt="Vista previa del avatar" style="width:76px;height:76px;object-fit:cover;border-radius:16px"><span id="aiAvatarPhotoName" class="small" style="overflow-wrap:anywhere"></span><button id="aiAvatarRemove" type="button" style="min-height:38px;background:#191919;color:#fff;border:0;border-radius:99px;padding:8px 14px;cursor:pointer">Quitar</button></div></div>
  <div class="grid">
  <div><label>Idioma del asistente</label><select name="ai_languages"><option value="both">Inglés y español</option><option value="en">Inglés</option><option value="es">Español</option></select></div>
  <div><label>Cómo debe hablar</label><select name="ai_tone"><option value="friendly_brief">Amable y breve</option><option value="professional_brief">Profesional y breve</option></select></div>
@@ -93,6 +94,18 @@ body{background:linear-gradient(180deg,#F8FBFC 0%,#FFFFFF 38%,#FAF8F3 100%)}.her
 <div class="actions"><button class="btn" id="submit" type="submit">Empezar Mi Configuración →</button><div class="status" id="status" aria-live="polite"></div></div>
 </form></main>
 <script>
+
+let avatarPhotoFile=null,avatarPhotoObjectUrl=null;
+const avatarInput=document.getElementById("aiAvatarPhoto"),avatarStatus=document.getElementById("aiAvatarPhotoStatus"),avatarPreview=document.getElementById("aiAvatarPhotoPreview");
+avatarInput.addEventListener("change",()=>{
+ const file=avatarInput.files?.[0]||null;if(avatarPhotoObjectUrl)URL.revokeObjectURL(avatarPhotoObjectUrl);
+ avatarPhotoFile=null;avatarPreview.style.display="none";avatarStatus.textContent="";
+ if(!file)return;
+ if(!file.size||file.size>5242880||!(/\.(jpe?g|png|webp|heic|heif)$/i.test(file.name)||["image/jpeg","image/png","image/webp","image/heic","image/heif"].includes(file.type))){avatarInput.value="";avatarStatus.textContent="Selecciona una foto JPG, PNG, WebP o HEIC de 5 MB o menos.";return;}
+ avatarPhotoFile=file;avatarPhotoObjectUrl=URL.createObjectURL(file);document.getElementById("aiAvatarPhotoImg").src=avatarPhotoObjectUrl;document.getElementById("aiAvatarPhotoName").textContent=file.name;avatarPreview.style.display="flex";avatarStatus.textContent="Foto lista para subir.";
+});
+document.getElementById("aiAvatarRemove").addEventListener("click",()=>{avatarPhotoFile=null;avatarInput.value="";if(avatarPhotoObjectUrl)URL.revokeObjectURL(avatarPhotoObjectUrl);avatarPhotoObjectUrl=null;avatarPreview.style.display="none";avatarStatus.textContent="";});
+
 const photoInput=document.getElementById("brandPhotos"),photoPreviews=document.getElementById("photoPreviews"),photoStatus=document.getElementById("photoStatus");
 let chosenPhotos=[];
 const storedPhotoUploads=new Map();
@@ -127,6 +140,7 @@ const endpoint="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-bookin
 if(demoMode){status.textContent="Vista previa de prueba: no se guardarán datos.";}else if(!token){btn.disabled=true;status.textContent="Abre este formulario desde el enlace privado de tu correo de confirmación de compra."}
 const aiPlan=p.get("bundle")||"",validAiPlans=["ai-booking","ai-followup","ai-business"];
 if(validAiPlans.includes(aiPlan)){
+ document.getElementById("aiAvatarName").required=true;
  document.getElementById("tleBundleAiIntake").style.display="";
  document.getElementById("tleBundleAiPlan").textContent=({"ai-booking":"AI Booking Assistant","ai-followup":"AI Follow-Up Assistant","ai-business":"AI Business Assistant — ambos agentes"})[aiPlan]+". Un solo formulario para tus dos sistemas.";
  document.getElementById("tleBundleAiBooking").style.display=aiPlan==="ai-followup"?"none":"";
@@ -135,6 +149,7 @@ if(validAiPlans.includes(aiPlan)){
  document.getElementById("langLink").href+="&bundle="+encodeURIComponent(aiPlan);
 }
 form.addEventListener("submit",async e=>{e.preventDefault();btn.disabled=true;status.textContent="Enviando…";try{document.getElementById("timezone").value=Intl.DateTimeFormat().resolvedOptions().timeZone||"America/New_York";}catch{}if(businessCategory.value==="cleaning"&&!document.getElementById("mainFlatServices").value.trim()&&!document.getElementById("mainEstimateServices").value.trim()){status.textContent="Añade al menos un servicio principal con precio fijo o estimado.";btn.disabled=false;return;}const fd=new FormData(form),data=Object.fromEntries(fd.entries());data.customer_reviews=[1,2,3].map(n=>({name:String(data['review_'+n+'_name']||'').trim(),text:String(data['review_'+n+'_text']||'').trim(),source_url:String(data['review_'+n+'_source_url']||'').trim()})).filter(r=>r.name||r.text||r.source_url);if(data.customer_reviews.some(r=>!r.name||!r.text)||data.customer_reviews.length&&!data.reviews_permission){status.textContent='Completa el nombre y el texto de cada reseña y confirma que tienes permiso para mostrarla.';btn.disabled=false;return}data.reviews_permission=data.reviews_permission==='on';data.language="es";data.business_hours_display=data.availability||"";data.notification_email=data.notification_email||data.email||"";data.inquiry_destination_details=data.email||"";if(demoMode){form.innerHTML='<div class="success"><strong>✓ Prueba completada.</strong><p>Así verá la compradora su formulario. No se guardó ningún dato.</p></div>';return;}try{
+ if(validAiPlans.includes(aiPlan)){data.ai_avatar_photo_path="";if(avatarPhotoFile){status.textContent="Subiendo foto del avatar…";const aiForm=new FormData();aiForm.append("token",token);aiForm.append("kind","ai_avatar");aiForm.append("photo",avatarPhotoFile,avatarPhotoFile.name);const ar=await fetch(endpoint,{method:"POST",body:aiForm});const aj=await ar.json().catch(()=>({}));if(!ar.ok||!aj.ok)throw new Error(aj.error||"No pudimos subir la foto del avatar.");data.ai_avatar_photo_path=aj.path;}}
  const assets=[];
  for(let i=0;i<chosenPhotos.length;i++){
    const file=chosenPhotos[i],key=photoKey(file);
