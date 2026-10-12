@@ -48,6 +48,11 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - Added helpful `public/404.html` with English/Spanish guidance and links to real TLE/Command Center/help; stopped the Pages workflow from overwriting 404 content with the main homepage. Live unknown-route fallback is included in the safety guard.
 - Existing responsive suite previously detected missing transition wave on ES homepage (four screen sizes). Restored `<Wave/>` in `src/routes/es.index.tsx`; missing-wave failures subsequently disappeared.
 - **QA check deficiency**: EN+ES combined AI intake visibility assertions targeted fields nested inside closed optional `<details>`; code now opens the details section before asserting. This is a test fix, not a new requirement to expose optional form fields.
-- **Responsive risk**: ES at 320px showed 18px horizontal overflow in walkthrough; added extra-narrow viewport CSS in `public/assets/tle-sales.css` for flexible/wrapping controls. Pending success in live Playwright suite.
+- **Responsive risk**: ES at 320px showed 18px horizontal overflow in walkthrough; added extra-narrow viewport CSS in `public/assets/tle-sales.css` for flexible/wrapping controls. VERIFIED: GitHub Actions Website Responsive QA run 38320395113 passed 162/162 checks (0 failures), English/Spanish, mobile/tablet/desktop.
 - **Independent Cleaning App repo:** `AGENTS.md` adds required skill in PR #241, awaiting GitHub branch protection required checks; no live App code or customer data changed.
 - Tests requiring real authenticated client sessions or actual payment activation remain separate end-to-end signoff items. Never claim 100% reliability based solely on public GET checks.
+
+## Final QA signoff (2026-10-12)
+- Final browser-based responsive suite: **162 passed, 0 failed** at https://github.com/thelaunchera/the-launch-era-new-website-/actions/runs/38320395113.
+- Route/link guard: **214/214 static links + 32/32 live public routes**, plus safe invalid interest confirmation CORS and missing-page fallback; deploy gate enabled.
+- Scope limits: actual authenticated/private customer transactions and payment authorizations need dedicated staged fixture tests; do not interpret smoke tests as 100% guarantee against future bugs.
