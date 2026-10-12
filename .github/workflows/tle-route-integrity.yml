@@ -29,7 +29,7 @@ jobs:
       - run: node scripts/qa-route-integrity.mjs --static
   live-smoke:
     name: Published pages and interest CORS (read only)
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || startsWith(github.event.head_commit.message, 'verify:')
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
