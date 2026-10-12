@@ -5,6 +5,8 @@ if(!root)return;
 const qs=new URLSearchParams(location.search),es=qs.get("lang")==="es"||(!qs.has("lang")&&(document.documentElement.lang||"").startsWith("es"));
 const url=new URLSearchParams({offer:"booking-flow",lang:es?"es":"en"});
 const prices={"":{setup:0,monthly:0}, "ai-booking":{setup:79,monthly:29},"ai-followup":{setup:59,monthly:19},"ai-business":{setup:119,monthly:39}};
+let livePricing=null;
+const pricesEndpoint="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-bundle-checkout";
 const plans=[
  ["",es?"No, solo quiero Booking Automation":"No thanks, just Booking Automation",es?"Sin extras ni mensualidad del AI Assistant.":"No AI Assistant add-on or monthly fee."],
  ["ai-booking","AI Booking Assistant",es?"Responde preguntas y prepara solicitudes de reserva.":"Answers questions and helps prepare booking requests."],
@@ -31,15 +33,51 @@ root.innerHTML=`<div class="tle-ey">${es?"TU SISTEMA, A TU MANERA":"BUILD YOUR B
 <div class="tle-options" role="radiogroup" aria-label="${es?"Añadir AI Assistant":"Add an AI Assistant"}">
 ${plans.map(([key,name,desc])=>`<label class="tle-opt"><input type="radio" name="tle-ai-bundle" value="${safe(key)}" ${key?"":"checked"}><span class="tle-opt-main"><strong>${safe(name)}</strong><small>${safe(desc)}</small></span><span class="tle-opt-price">${key?"+$"+prices[key].setup:"$0"}<small>${key?(es?"luego $":"then $")+prices[key].monthly+(es?"/mes":"/mo"):(es?"Sin cargo":"No charge")}</small></span></label>`).join("")}
 </div>
-<div class="tle-summary" aria-live="polite"><div class="tle-sumrow"><span>Booking Automation + Command Center</span><b>$19.99</b></div><div class="tle-sumrow" id="tleAddonRow" hidden><span id="tleAddonName"></span><b id="tleAddonPrice"></b></div><div class="tle-sumrow total"><span>${es?"Total a pagar hoy":"Total due today"}</span><strong id="tleTotal">$19.99</strong></div><div class="tle-monthly" id="tleMonthly">${es?"Sin mensualidad de AI Assistant.":"No AI Assistant monthly fee."}</div></div>
+<div class="tle-summary" aria-live="polite"><div class="tle-sumrow"><span>Booking Automation + Command Center</span><b id="tleBookingPrice">$19.99</b></div><div class="tle-sumrow" id="tleAddonRow" hidden><span id="tleAddonName"></span><b id="tleAddonPrice"></b></div><div class="tle-sumrow" id="tleDiscountRow" hidden><span>${es?"Ahorro de activación (40%)":"Activation discount (40%)"}</span><b id="tleDiscountAmount"></b></div><div class="tle-sumrow total"><span>${es?"Total a pagar hoy":"Total due today"}</span><strong id="tleTotal">$19.99</strong></div><div class="tle-monthly" id="tleMonthly">${es?"Sin mensualidad de AI Assistant.":"No AI Assistant monthly fee."}</div></div>
 <button type="button" class="tle-buy" id="tleCheckoutBtn">${es?"Continuar al checkout seguro →":"Continue to secure checkout →"}</button>
 <p class="tle-hint">${es?"El AI Assistant se compra por separado del Booking Automation. En esta opción puedes pagar las dos instalaciones juntas. Los primeros 30 días del asistente comienzan con la entrega; después aplica su mensualidad.":"AI Assistant is sold separately from Booking Automation. You can pay both setup fees together here. The assistant's first 30 days begin at delivery; the selected monthly plan follows."}</p>
 <div id="tleBundleError" class="tle-error" role="alert" hidden></div>`;
 const money=n=>"$"+n.toFixed(2);
 const selected=()=>root.querySelector('input[name="tle-ai-bundle"]:checked')?.value||"";
-function render(){const key=selected(),plan=prices[key];root.querySelector("#tleAddonRow").hidden=!key;root.querySelector("#tleAddonName").textContent=plans.find(p=>p[0]===key)?.[1]||"";root.querySelector("#tleAddonPrice").textContent=money(plan.setup);root.querySelector("#tleTotal").textContent=money(19.99+plan.setup);root.querySelector("#tleMonthly").textContent=key?(es?"Hoy pagas la instalación. Después de los 30 días desde la entrega: $"+plan.monthly+"/mes por AI Assistant.":"Setup is paid today. After 30 days from delivery: $"+plan.monthly+"/month for AI Assistant."):(es?"Sin mensualidad de AI Assistant.":"No AI Assistant monthly fee.");}
+function expected(key){
+ const details=livePricing?.plans?.[key],bookCents=key?(livePricing?.booking_setup_cents??1999):1999;
+ return {bookCents,aiCents:key?(details?.setup_due_cents??prices[key].setup*100):0,original:key?(1999+prices[key].setup*100):1999};
+}
+function render(){
+ const key=selected(),plan=prices[key],v=expected(key),total=v.bookCents+v.aiCents;
+ root.querySelector("#tleAddonRow").hidden=!key;
+ root.querySelector("#tleAddonName").textContent=plans.find(p=>p[0]===key)?.[1]||"";
+ root.querySelector("#tleBookingPrice").textContent=money(v.bookCents/100);
+ root.querySelector("#tleAddonPrice").textContent=money(v.aiCents/100);
+ root.querySelector("#tleTotal").textContent=money(total/100);
+ const discount=v.original-total;
+ root.querySelector("#tleDiscountRow").hidden=!key||!discount;
+ root.querySelector("#tleDiscountAmount").textContent=discount?"−"+money(discount/100):"";
+ root.querySelectorAll('input[name="tle-ai-bundle"]').forEach(input=>{
+  if(!input.value)return;
+  const details=livePricing?.plans?.[input.value],price=details?.setup_due_cents??prices[input.value].setup*100;
+  const parent=input.closest(".tle-opt");const target=parent?.querySelector(".tle-opt-price");
+  if(target){target.innerHTML=(price<prices[input.value].setup*100?'<del style="color:#788793;font-weight:400">'+money(prices[input.value].setup)+'</del> ':'')+'+'+money(price/100)+'<small>'+(es?'luego $':'then $')+prices[input.value].monthly+(es?'/mes':'/mo')+'</small>';}
+ });
+ root.querySelector("#tleMonthly").textContent=key?(es?"Tras los primeros 30 días desde la entrega: $"+plan.monthly+"/mes (precio normal).":"After the first 30 days from delivery: $"+plan.monthly+"/month (regular price)."):(es?"Sin mensualidad de AI Assistant.":"No AI Assistant monthly fee.");
+ const btn=root.querySelector("#tleCheckoutBtn");
+ btn.disabled=!!key&&!livePricing;
+}
 root.addEventListener("change",e=>{if(e.target?.name==="tle-ai-bundle")render()});render();
 const btn=root.querySelector("#tleCheckoutBtn"),error=root.querySelector("#tleBundleError");
+(async()=>{
+ try{
+  const response=await fetch(pricesEndpoint,{method:"GET",headers:{"Accept":"application/json"},cache:"no-store"});
+  if(!response.ok)throw Error("pricing");
+  const data=await response.json();
+  if(!data?.plans||![0,40].includes(data.percent_off)||data.plans["ai-booking"]?.monthly_cents!==2900)throw Error("pricing");
+  livePricing=data;render();
+ }catch{
+  error.textContent=es?"No se pudo cargar el descuento. Intenta actualizar la página.":"Could not load current pricing. Please refresh the page.";
+  error.hidden=false;
+ }
+})();
+
 btn.addEventListener("click",async()=>{
  const addon=selected(),language=es?"es":"en";
  if(!addon){location.href="/service-checkout/?"+url.toString();return;}
@@ -47,7 +85,7 @@ btn.addEventListener("click",async()=>{
  try{
   const res=await fetch("https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-bundle-checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({language,ai_addon:addon})});
   const data=await res.json().catch(()=>({}));
-  if(!res.ok||!data?.url||!/^https:\/\/checkout\.stripe\.com\//.test(data.url)||Number(data.amount_total)!==(1999+prices[addon].setup*100))throw Error("checkout");
+  if(!res.ok||!data?.url||!/^https:\/\/checkout\.stripe\.com\//.test(data.url)||Number(data.amount_total)!==(expected(addon).bookCents+expected(addon).aiCents))throw Error("checkout");
   try{sessionStorage.setItem("tleCheckoutLanguage",language);sessionStorage.setItem("tleSelectedAiAddon",addon);}catch{}
   location.assign(data.url);
  }catch{error.textContent=es?"No se pudo abrir la compra conjunta. No se hizo ningún cargo. Intenta de nuevo.":"We couldn't open the combined checkout. No charge was made. Please try again.";error.hidden=false;btn.disabled=false;btn.textContent=es?"Continuar al checkout seguro →":"Continue to secure checkout →";}
