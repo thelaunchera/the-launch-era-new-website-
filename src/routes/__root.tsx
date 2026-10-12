@@ -141,6 +141,7 @@ function RootShell({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
+        <script src="/assets/jessy-site.js?v=20261012" defer />
         <Scripts />
       </body>
     </html>
