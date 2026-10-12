@@ -42,3 +42,12 @@ For every aged/failed row compare provider Resend email ID and recipient, event 
 
 ## How to write new entries
 Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file/function root cause (verified vs hypothesis) | minimal change | browser/provider/db evidence | regression guard | status/owner. Never save token values, personal customer info or credentials.
+
+## 2026-10-12 — Route-guard expansion / 404 and responsive QA
+- Added `scripts/qa-route-integrity.mjs` and `.github/workflows/tle-route-integrity.yml`; GitHub Actions passed **214/214 local links** and **32/32 public routes** plus invalid-input CORS preflight, without mutating customer records. Build `.github/workflows/pages.yml` now blocks deployment when static guard fails.
+- Added helpful `public/404.html` with English/Spanish guidance and links to real TLE/Command Center/help; stopped the Pages workflow from overwriting 404 content with the main homepage. Live unknown-route fallback is included in the safety guard.
+- Existing responsive suite previously detected missing transition wave on ES homepage (four screen sizes). Restored `<Wave/>` in `src/routes/es.index.tsx`; missing-wave failures subsequently disappeared.
+- **QA check deficiency**: EN+ES combined AI intake visibility assertions targeted fields nested inside closed optional `<details>`; code now opens the details section before asserting. This is a test fix, not a new requirement to expose optional form fields.
+- **Responsive risk**: ES at 320px showed 18px horizontal overflow in walkthrough; added extra-narrow viewport CSS in `public/assets/tle-sales.css` for flexible/wrapping controls. Pending success in live Playwright suite.
+- **Independent Cleaning App repo:** `AGENTS.md` adds required skill in PR #241, awaiting GitHub branch protection required checks; no live App code or customer data changed.
+- Tests requiring real authenticated client sessions or actual payment activation remain separate end-to-end signoff items. Never claim 100% reliability based solely on public GET checks.
