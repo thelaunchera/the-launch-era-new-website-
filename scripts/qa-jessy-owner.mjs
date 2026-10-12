@@ -105,6 +105,8 @@ console.log("PASS Jessy WhatsApp settings: owner-only opt-in, masked number, app
 
 
 assert.match(core,/if\(result\.action_performed==='mark_notifications_read'\)/);
+assert.match(core,/Mark all unread Command Center notifications as read/);
+assert.match(core,/all\.onclick=async\(\)=>/);
 assert.match(core,/await loadStoredNotifications\(\)/);
 assert.match(core,/if\(target==='notifications'\)return this\.openNotifications\(\)/);
 assert.match(core,/unread:unread\.length/);
