@@ -245,6 +245,13 @@ async function submit(which){
  }
  const extras=includedExtras();
  const details=isCommercial?$("cdetails").value.trim():route==="quote"?$("qdetails").value.trim():"";
+ const commercialProperty=isCommercial?($("ctype")?.value||""):"";
+ const otherSpace=isCommercial&&commercialProperty==="Other"?($("cOtherType")?.value.trim()||""):"";
+ const companyName=isCommercial?($("cbusiness")?.value.trim()||""):"";
+ if(isCommercial&&!commercialProperty){alertCustomer(tr("Choose the type of business space.","Selecciona el tipo de local."));return}
+ if(isCommercial&&commercialProperty==="Other"&&!otherSpace){alertCustomer(tr("Describe the type of business space, such as restaurant.","Describe el tipo de local, por ejemplo restaurante."));return}
+ if(isCommercial&&!companyName){alertCustomer(tr("Enter the business name.","Escribe el nombre del negocio."));return}
+ const commercialDetails=[companyName?"Business: "+companyName:"",otherSpace?"Space type: "+otherSpace:"",details].filter(Boolean).join(" · ");
  const estimateLabel=flat?money(Number(session.service.price)+extras.reduce((acc,x)=>acc+Number(x.dataset.price||0),0)):tr("Custom quote","Cotización personalizada");
  const body={
   booking_key:key,request_type:flat?"booking":"quote",request_intent:flat?"booking":state.intent,
@@ -259,7 +266,7 @@ async function submit(which){
   customer_name:name,customer_email:email,
   customer_phone:route==="res"?$("phone").value:route==="quote"?$("qphone").value:$("cphone").value,
   service_address:route==="res"?$("serviceAddress").value:route==="quote"?$("qaddress").value:$("caddress").value,
-  notes:route==="res"?["ZIP "+$("zip").value,details].filter(Boolean).join(" · "):route==="quote"&&isVehicleBusiness()?["Vehicle: "+($("vehicleMakeModel")?.value||"Not provided"),"Condition: "+($("qsize")?.value||""),details].filter(Boolean).join(" · "):details,
+  notes:route==="res"?["ZIP "+$("zip").value,details].filter(Boolean).join(" · "):route==="quote"&&isVehicleBusiness()?["Vehicle: "+($("vehicleMakeModel")?.value||"Not provided"),"Condition: "+($("qsize")?.value||""),details].filter(Boolean).join(" · "):isCommercial?commercialDetails:details,
   requested_date:date,requested_time:time,source:"booking_page",estimate_display:estimateLabel
  };
  // Keep one submission reference across retries, but renew it when details change.
@@ -310,8 +317,8 @@ async function submit(which){
       tr("Your request was saved, but the email could not be sent. Your appointment is NOT confirmed. Contact the business if you need an update.",
          "Guardamos tu solicitud, pero no se pudo enviar el correo. Tu cita NO está confirmada. Contacta al negocio si necesitas información.");
   }else $("done").querySelector("p").textContent=handoffOk?
-   tr("Your request is saved. We requested your confirmation email. Check your inbox, including Promotions or Spam.",
-      "Guardamos tu solicitud y pedimos que se envíe la confirmación. Revisa tu correo, incluidos Promociones o Spam."):
+   tr("Thank you! We received your request. Our team will review the details and be in touch shortly. Please check your inbox for the confirmation.",
+      "¡Gracias! Recibimos tu solicitud. Revisaremos los detalles y pronto nos comunicaremos contigo. Revisa tu correo para ver la confirmación."):
    tr("Your request is saved, but the confirmation email could not be sent right now. Please keep this confirmation and contact the cleaning business if you don't receive an update.",
       "Tu solicitud está guardada, pero no se pudo enviar el correo de confirmación por ahora. Guarda esta pantalla y contacta al negocio si no recibes novedades.");
  }catch(err){alertCustomer(err.message||tr("Could not send this request.","No se pudo enviar."))}
