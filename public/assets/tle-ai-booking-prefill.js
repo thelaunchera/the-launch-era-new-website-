@@ -145,6 +145,10 @@
   }
   const get=(id)=>$(id)?.value?.trim()||"";
   function showExtraReview(kind){
+    if(kind==="commercial"){
+      if(!get("ctype")){alert(es?"Elige el tipo de local antes de revisar.":"Choose the business space type before reviewing.");$("ctype")?.focus();return;}
+      if(get("ctype")==="Other"&&!get("cOtherType")){alert(es?"Describe el tipo de local, por ejemplo restaurante.":"Please describe the business space, for example restaurant.");$("cOtherType")?.focus();return;}
+    }
     let page=$("tleAiExtraReview");
     if(!page){page=document.createElement("div");page.id="tleAiExtraReview";page.className="screen";$("done")?.insertAdjacentElement("beforebegin",page);}
     page.replaceChildren();
