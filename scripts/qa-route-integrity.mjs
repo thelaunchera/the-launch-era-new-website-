@@ -34,7 +34,7 @@ function staticChecks(){
    else errors.push('Missing local route/asset: '+relative+' '+match[1]+'='+raw+' -> '+target.pathname);
   }
  }
- for(const f of ['public/command-center/index.html','public/command-center/access.html','public/auth-recovery.html','public/booking-demo/index.html','public/lead-private-preview.html','public/client-review/index.html','public/cb-depot/privacy/index.html','public/cb-depot/terms/index.html','skills/the-launch-era-qa/SKILL.md','skills/the-launch-era-qa/ROUTE_MAP.md','skills/the-launch-era-qa/INCIDENT_LOG.md'])if(!existsSync(join(root,f)))errors.push('Missing required file: '+f);
+ for(const f of ['public/command-center/index.html','public/command-center/access.html','public/auth-recovery.html','public/booking-demo/index.html','public/lead-private-preview.html','public/client-review/index.html','public/cb-depot/privacy/index.html','public/cb-depot/terms/index.html','public/404.html','skills/the-launch-era-qa/SKILL.md','skills/the-launch-era-qa/ROUTE_MAP.md','skills/the-launch-era-qa/INCIDENT_LOG.md'])if(!existsSync(join(root,f)))errors.push('Missing required file: '+f);
  if(!readFileSync(join(pub,'command-center/access.html'),'utf8').includes('/auth-recovery.html'))errors.push('Reset must go to /auth-recovery.html');
  if(!readFileSync(join(pub,'auth-recovery.html'),'utf8').includes('/command-center/'))errors.push('Reset must return to the Command Center');
  console.log('[TLE STATIC] '+pages.length+' HTML pages; '+valid+'/'+checked+' local links resolved');
@@ -70,6 +70,11 @@ async function liveChecks(){
    else passed++;
   }catch(e){errors.push(path+' '+String(e.message||e))}
  }
+ try{
+  const missing=await safeFetch(site+'/__tle_route_qa_missing_page_20261012');
+  const fallback=await missing.text();
+  if(missing.status!==404 || !fallback.includes('We couldn’t find that page.') || !fallback.includes('/command-center/'))errors.push('Missing-route fallback is blank, misrouted or lacks recovery links');
+ }catch(e){errors.push('Missing-route fallback '+String(e.message||e))}
  // Safe invalid-UUID consent call: no actual lead is changed or authorized.
  const endpoint='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-crm-interest?lead=invalid';
  const origin='https://the-launch-era-interest-confirmation-odqbiw.v2.appdeploy.ai';
