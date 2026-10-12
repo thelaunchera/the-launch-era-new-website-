@@ -20,7 +20,7 @@ async function auth(req){
  const admin=await rows("platform_admins","user_id=eq."+encodeURIComponent(user.id)+"&select=user_id&limit=1");
  if(!Array.isArray(admin)||admin.length!==1)throw Error("unauthorized");
  const workspaces=await rows("tle_crm_workspaces","is_internal=eq.true&select=id,created_by,is_internal&limit=15");
- const ws=workspaces.find(w=>w.created_by===user.id)||workspaces[0];
+ const ws=workspaces.find(w=>w.created_by===user.id);
  if(!ws?.is_internal)throw Error("unauthorized");
  return ws.id;
 }
@@ -72,6 +72,61 @@ async function ai(question,lang,counts,section,history){
  return answer.length>5?answer:null;
  }catch{return null}
 }
+
+function safePersonalName(raw){
+ const first=clean(raw,90).split(/[\/&,]/)[0].split(/\s+/)[0]||"";
+ return first.replace(/[^a-zA-ZÀ-ÿ'-]/g,"").slice(0,25);
+}
+function safeCompany(raw){
+ return clean(raw,100).replace(/[^a-zA-ZÀ-ÿ0-9 '&.,-]/g,"").slice(0,60).trim();
+}
+function draftText(lead,hasPriorEmail){
+ const es=lead.language==="es",name=safePersonalName(lead.contact),company=safeCompany(lead.business)|| (es?"tu negocio":"your business");
+ const greeting=(es?"Hola":"Hi")+(name?" "+name:"")+",";
+ const topic=String(lead.primary_friction||"").toLowerCase();
+ const aspect=/booking|calendar|reserva|cita|schedule/.test(topic)?(es?"reservas y próximos pasos":"bookings and next steps"):
+ /follow|seguim|respuesta|respond/.test(topic)?(es?"mensajes y seguimientos":"messages and follow-ups"):
+ /client|invoice|job|trabajo|factur/.test(topic)?(es?"clientes y trabajos":"clients and jobs"):
+ (es?"solicitudes y seguimientos":"inquiries and follow-ups");
+ const intro=hasPriorEmail
+ ?(es?"Quería retomar mi mensaje anterior sobre "+aspect+" en "+company+".":"I wanted to follow up on my earlier note about "+aspect+" at "+company+".")
+ :(es?"Quería saber si te vendría bien una forma más sencilla de organizar "+aspect+" en "+company+".":"I wanted to check whether a simpler way to manage "+aspect+" at "+company+" would be useful.");
+ const offer=es?"Puedo compartirte un ejemplo breve, sin compromiso.":"I can share a quick example, no pressure.";
+ const question=es?"¿Te gustaría verlo?":"Would you like to see it?";
+ return {
+ subject:(es?"Una pregunta sobre ":"A quick question about ")+company,
+ body:[greeting,intro+" "+offer,question,es?"Saludos,\nThe Launch Era":"Best,\nThe Launch Era"].join("\n\n")
+ };
+}
+async function draftForLead(workspaceId,id,language){
+ if(!/^[0-9a-f]{8}-[0-9a-f-]{27,36}$/i.test(id))return {error:"Choose a valid prospect.",status:400};
+ const scope="id=eq."+encodeURIComponent(id)+"&workspace_id=eq."+encodeURIComponent(workspaceId)+"&select=id,business,contact,email,language,stage,followup,contact_decision,email_consent_status,email_consent_source,email_followup_enabled,replied_at,archived_at,notes,primary_friction";
+ let records;
+ try{records=await rows("tle_crm_leads",scope+"&limit=1")}catch{return {error:"Could not verify the prospect.",status:503}}
+ const lead=records?.[0];
+ if(!lead)return {error:"Prospect not found in your workspace.",status:404};
+ const parts=new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date());
+ const d={};for(const part of parts)d[part.type]=part.value;
+ const localToday=d.year+"-"+d.month+"-"+d.day;
+ if(!lead.followup||lead.followup>localToday||lead.archived_at||lead.stage==="Won"||lead.replied_at||lead.contact_decision!=="yes"||
+    !["Contacted","Follow-up"].includes(lead.stage)||!lead.email||
+    lead.email_consent_status!=="authorized"||!String(lead.email_consent_source||"").trim()||
+    lead.email_followup_enabled!==true||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email)||
+    !["en","es"].includes(lead.language)||
+    /unsubscrib|opted out|stop emailing|do not email|bounced|do not contact/i.test(lead.notes||""))
+    return {error:language==="es"?"Este prospecto no tiene permiso y estado válidos para preparar el seguimiento.":"This prospect is not eligible for a follow-up draft. Check consent and status.",status:409};
+ // Check the real event log as well as the UI state before returning any message.
+ let events;
+ try{events=await rows("tle_crm_email_events","lead_id=eq."+encodeURIComponent(id)+"&select=event_type,created_at&order=created_at.desc&limit=40")}catch{return {error:"Could not verify email history. Try again.",status:503}}
+ if(events.some(e=>/bounce|unsubscribe|complaint|email_failed/i.test(String(e.event_type))))return {error:"Email blocked: bounce or opt-out history.",status:409};
+ const lastSent=events.find(e=>e.event_type==="email_sent");
+ if(lastSent&&Date.now()-Date.parse(lastSent.created_at)<24*60*60*1000)
+    return {error:language==="es"?"Ya se envió un correo a este contacto en las últimas 24 horas.":"An email was already sent to this lead in the past 24 hours.",status:409};
+ const draft=draftText(lead,!!lastSent);
+ return {ok:true,action:"draft_followup",lead_id:lead.id,business:safeCompany(lead.business),recipient:lead.email,
+  subject:draft.subject.slice(0,150),body:draft.body.slice(0,4000),language:lead.language,
+  requires_review:true,send_automatically:false};
+}
 Deno.serve(async req=>{
  const origin=req.headers.get("origin")||"";
  if(req.method==="OPTIONS")return new Response(null,{status:204,headers:h(origin)});
@@ -81,6 +136,10 @@ Deno.serve(async req=>{
  let ws;
  try{ws=await auth(req)}catch{return out({error:"Owner sign-in required"},401,origin)}
  const data=await req.json().catch(()=>null),message=clean(data?.message,340),lang=data?.language==="es"?"es":"en";
+ if(data?.action==="draft_followup"){
+  const response=await draftForLead(ws,clean(data.lead_id,42),lang);
+  return out(response,response.ok?200:response.status||400,origin);
+ }
  if(message.length<2)return out({error:"Enter a question"},400,origin);
  const history=(Array.isArray(data?.history)?data.history:[]).slice(-4).filter(x=>x&&["user","assistant"].includes(x.role)).map(x=>({role:x.role,content:clean(x.message,160)}));
  const today=new Intl.DateTimeFormat("en-CA",{timeZone:"America/New_York",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
