@@ -17,7 +17,7 @@ assert.doesNotMatch(ui,/jessy-site\.js/);
 assert.match(ui,/function owner\(\)/);
 assert.match(ui,/window\.TLEOwnerJessyGateway\?\.ready/);
 assert.match(ui,/if\(!owner\(\)\)\{if\(root\)/);
-assert.match(ui,/if\(!owner\(\)\|\|!root\)return/);
+assert.match(ui,/if\(waiting\|\|!owner\(\)\|\|!root\)return/);
 assert.match(ui,/if\(!owner\(\)\)return/);
 assert.match(ui,/function sync\(\)/);
 assert.match(css,/@media\(max-width:600px\)/);
