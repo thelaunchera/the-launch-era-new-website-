@@ -53,7 +53,7 @@ function contextPrompts(){
  if(["owner-pages","owner-build"].includes(page))return es?
  [["Entregas pendientes","¿Qué entregas de clientes necesitan revisión?"],["Revisar activaciones","¿Qué asistentes IA están en preparación?"]]:
  [["Pending deliveries","Which client deliveries need review?"],["AI activations","Which AI Assistant orders need attention?"]];
- if(["leads","pipeline","lead-insights","calendar"].includes(page))return es?
+ if(["leads","pipeline","calendar"].includes(page))return es?
  [["Mis seguimientos","¿Qué seguimientos de prospectos están pendientes?"],["Preparar correo","Prepara un borrador de seguimiento"]]:
  [["Due follow-ups","Which prospect follow-ups are due?"],["Draft follow-up","Prepare a follow-up email draft"]];
  if(page==="inbox")return es?[["Ver solicitudes","Abre mis consultas web"],["Marcar avisos","Marca todas las notificaciones como leídas"]]:[["Review inquiries","Open website inquiries"],["Mark alerts read","Mark all Command Center notifications as read"]];
