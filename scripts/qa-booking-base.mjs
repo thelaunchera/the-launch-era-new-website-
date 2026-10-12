@@ -26,6 +26,35 @@ for(const width of [320,360,390,430,820,1024,1440]){
   await p.goto(base+'/base-booking.html?key='+'d'.repeat(48)+'&lang=en');
   await p.locator('body.vehicle-booking').waitFor();
   await p.locator('#cbContactForm').waitFor();
+  // Regression: the pale opt-in cards must not inherit the dark contact form's white labels.
+  const permissionCards=p.locator('#cbContactForm > label.tle-care-permission, #cbContactForm > label.cb-reminder-permission');
+  assert.equal(await permissionCards.count(),2,'Contact form must offer two independent opt-in choices');
+  for(const card of await permissionCards.all()){
+    const metrics=await card.evaluate(el=>{
+      const label=getComputedStyle(el),firstText=el.querySelector(':scope > span > span');
+      const foreground=getComputedStyle(firstText||el).color;
+      const background=label.backgroundColor;
+      function luminance(color){
+        const rgb=(color.match(/[\\d.]+/g)||[]).slice(0,3).map(Number).map(v=>v/255)
+          .map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);
+        return .2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2];
+      }
+      const a=luminance(foreground),b=luminance(background);
+      return {contrast:(Math.max(a,b)+.05)/(Math.min(a,b)+.05),width:el.getBoundingClientRect().width,
+        checkbox:(()=>{const b=el.querySelector('input[type=checkbox]').getBoundingClientRect();return {width:b.width,height:b.height}})()};
+    });
+    assert.ok(metrics.contrast>=4.5,'Permission text contrast must meet WCAG AA: '+JSON.stringify(metrics));
+    assert.ok(metrics.checkbox.width>=18&&metrics.checkbox.width<=24&&metrics.checkbox.height>=18&&metrics.checkbox.height<=24,
+      'Opt-in checkbox must remain compact, not inherit full input dimensions: '+JSON.stringify(metrics));
+    assert.ok(metrics.width>0&&metrics.width<=width,'Consent card must fit viewport');
+  }
+  const care=p.locator('#cbContactForm [name=optional_care_opt_in]');
+  const reminders=p.locator('#cbContactForm [name=appointment_reminders_opt_in]');
+  assert.equal(await care.isChecked(),false);
+  assert.equal(await reminders.isChecked(),false);
+  await care.check();assert.equal(await reminders.isChecked(),false);
+  await care.uncheck();await reminders.check();assert.equal(await care.isChecked(),false);
+  await reminders.uncheck();
   assert.equal(await p.locator('.trust .cb-trust').count(),3);
   assert.ok(await p.locator('#leadHero').evaluate(el=>Math.abs(el.getBoundingClientRect().width-innerWidth)<2),'CB hero must fill viewport');
   assert.ok(await p.locator('.trust').evaluate(el=>Math.abs(el.getBoundingClientRect().width-innerWidth)<2),'Trust bar must be full bleed');
