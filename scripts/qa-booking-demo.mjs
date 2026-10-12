@@ -277,6 +277,37 @@ await check('Canonical Booking Page is the emailed demo',{width:390,height:844},
  assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3),'Demo fits mobile width');
  await p.screenshot({path:'qa-screenshots/booking-canonical-home-commercial.png',fullPage:true});
 });
+await check('AI commercial prefill preserves restaurant as Other and shows next step',{width:390,height:844},async p=>{
+ await p.goto(base+'/lead-private-preview.html?business=Example%20Cleaning&area=Boynton%20Beach',{waitUntil:'domcontentloaded'});
+ await p.waitForFunction(()=>typeof window.tleAIBookingPrefill==='function');
+ const applied=await p.evaluate(()=>window.tleAIBookingPrefill({category:'commercial',service:'commercial',commercial_space_type:'Other',commercial_space_description:'Restaurant',square_feet:2200,company_name:'Sample Restaurant LLC',first_name:'Jamie',last_name:'Miller',notes:'Restaurant needs cleaning'}));
+ assert.equal(applied,true,'Assistant should prefill the commercial form');
+ assert.equal(await p.locator('#ctype').inputValue(),'Other','Restaurant must never silently become Office');
+ assert.equal(await p.locator('#cOtherType').inputValue(),'Restaurant','Original business type must be preserved');
+ assert.equal(await p.locator('#cOtherType').isVisible(),true,'Other description should be visible');
+ assert.equal(await p.locator('#cbusiness').inputValue(),'Sample Restaurant LLC');
+ assert.equal(await p.locator('#cname').inputValue(),'Jamie Miller');
+ assert.equal(await p.locator('#csize').inputValue(),'1,500–3,000 sq ft');
+ await p.locator('#commercialSubmit').click();
+ assert.equal(await p.locator('#tleAiExtraReview').isVisible(),true,'Assistant leads to review before finish');
+ assert.match(await p.locator('#tleAiExtraReview').innerText(),/Next step:/);
+ assert.match(await p.locator('#tleAiExtraReview').innerText(),/Other: Restaurant/);
+ await p.locator('#tleAiExtraReview .next').click();
+ assert.equal(await p.locator('#done').isVisible(),true);
+ assert.match(await p.locator('#done').innerText(),/No booking or email was sent/);
+ assert.match(await p.locator('#done').innerText(),/Next step:/);
+ await p.screenshot({path:'qa-screenshots/ai-commercial-other-phone.png',fullPage:true});
+});
+await check('Other property option works for unlisted commercial spaces on tablet',{width:820,height:1180},async p=>{
+ await p.goto(base+'/lead-private-preview.html?business=Example%20Cleaning',{waitUntil:'domcontentloaded'});
+ await p.waitForFunction(()=>typeof window.tleAIBookingPrefill==='function');
+ await p.evaluate(()=>window.tleAIBookingPrefill({category:'commercial',service:'commercial',commercial_space_type:'Banquet hall',commercial_space_description:'Banquet hall'}));
+ assert.equal(await p.locator('#ctype').inputValue(),'Other');
+ assert.equal(await p.locator('#cOtherType').inputValue(),'Banquet hall');
+ await p.locator('#ctype').selectOption({label:'Office'});
+ assert.equal(await p.locator('#cOtherType').isVisible(),false);
+ assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3),true);
+});
 await check('Public preview opens only the personalized demo form',{width:390,height:844},async p=>{
  await p.goto(base+'/booking/?owner_preview=1',{waitUntil:'domcontentloaded'});
  await p.waitForURL(url=>url.pathname==='/booking-demo/');
