@@ -26,6 +26,9 @@ jobs:
       - name: Enforce client delivery copy, branding and legal guard
         run: node scripts/qa-client-release.mjs
 
+      - name: Verify Jessy appears on all public pages and answers in context
+        run: node scripts/qa-jessy-coverage.mjs
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
