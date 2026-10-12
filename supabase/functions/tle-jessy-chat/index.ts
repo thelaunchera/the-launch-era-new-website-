@@ -41,6 +41,30 @@ function identify(msg,previous,pageFocus){
  if(/booking|reserv|cotiz|quote|lead|estimad|cita|inquir/.test(s))return "booking";
  return serviceIds.has(previous)?previous:(serviceIds.has(pageFocus)?pageFocus:"");
 }
+
+function wantsAiPlanComparison(message,prior,focus){
+ const q=norm(message);
+ const explicitSingle=/\b(ai[ -]?booking|booking assistant|asistente de reservas|ai[ -]?follow[ -]?up|follow[ -]?up assistant|asistente de seguimiento|ai[ -]?business|business assistant|asistente de negocios|asistente empresarial)\b|\$(?:79|59|119)\b/.test(q);
+ if(explicitSingle)return false;
+ const ai=/\b(ai|ia|assistants?|asistentes?|agentes?|chatbots?)\b/.test(q);
+ const compare=/\b(which|what|list|all|three|3|compare|comparison|options?|plans?|packages?|types?|available|offer|offered|cuales?|que|todos?|tres|comparar|opciones|planes|paquetes|tipos|ofrecen|disponibles|precios|pricing)\b/.test(q);
+ if(ai&&compare)return true;
+ if(/^(?:ai|ia)\s+(?:assistants?|asistentes?|agents?|agentes?|plans?|planes?|packages?|paquetes?)[!?.\s]*$/.test(q)||/^(?:asistentes?|agentes?)\s+(?:de\s+)?ia[!?.\s]*$/.test(q))return true;
+ if(ai&&/^(?:i (?:want|need)|quiero|necesito|i.m interested in|estoy interesad[oa] en)\b/.test(q))return true;
+ if(/\b(ai|ia)\s+(plans?|packages?|pricing|options?|precios|planes|paquetes)\b/.test(q))return true;
+ const onAiPage=focus==="ai-booking"||prior==="ai-plans";
+ if(onAiPage&&/^(?:(?:show|see|view|ver|mostrar|quiero ver)\s+)?(?:all\s+)?(?:plans?|packages?|pricing|prices?|precios?|planes?|paquetes?|options?|opciones?|checkout|comprar|buy|purchase|pay|pagar|proximo paso|next step)[!?.\s]*$/.test(q))return true;
+ if(onAiPage&&/\b(what(?: are|'s)?|how much|cuanto|cuales|que)\b.*\b(prices?|costs?|pricing|precios?|cuesta|valen)\b/.test(q))return true;
+ if(prior==="ai-plans"&&/\b(checkout|purchase|buy|buy now|comprar|pagar|pay|payment|listo|ready|next step|siguiente paso)\b/.test(q))return true;
+ return false;
+}
+function aiPlanChoices(catalog,language){
+ return ["ai-booking","ai-followup","ai-business"].map(id=>{
+   const row=catalog.find(x=>x[0]===id);
+   return row?{id,name:row[1],description:row[language==="es"?3:2],price:row[language==="es"?5:4],
+     checkout:row[6]&&row[6].startsWith("/service-checkout/?offer=")?row[6]:null}:null;
+ }).filter(Boolean);
+}
 async function offers(){
  try{
  const u="https://thelaunchera.com/assets/jessy-offers.json?t="+Math.floor(Date.now()/30000);
@@ -131,6 +155,16 @@ Deno.serve(async(req)=>{
  try{if(!await limit(req))return response({error:"Please try later"},429,origin);}catch{return response({error:"Assistant unavailable"},503,origin);}
  const catalog=await offers();
  if(Date.now()>=Date.parse("2026-11-01T04:00:00Z")){const booking=catalog.find(x=>x[0]==="booking");if(booking){booking[4]="See checkout for current price.";booking[5]="Consulta el precio vigente en checkout.";}}
+ if(wantsAiPlanComparison(message,prior,focus)){
+   return response({
+     reply:lang==="es"?"Tenemos tres planes de AI Assistant. Elige el que mejor se adapte a tu negocio.":"We have three AI Assistant plans. Choose the one that fits your business.",
+     selected_offer:"ai-plans",
+     ai_plans:aiPlanChoices(catalog,lang),
+     checkout:null,
+     details:null,
+     mode:"plan_comparison"
+   },200,origin);
+ }
  const id=identify(message,prior,focus);const row=catalog.find(x=>x[0]===id);
  const isCombo=/booking.{0,32}(with|con|\+|y).{0,22}(ai|ia|assistant|asistente)|booking.{0,24}(follow.?up|seguimiento)|paquete.{0,22}(ia|asistente)/i.test(message);
  const appReply=id==="cleaning-app"?appHelp(message,lang):null;

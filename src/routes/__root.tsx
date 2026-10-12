@@ -142,7 +142,7 @@ function RootShell({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
-        <script src="/assets/jessy-site.js?v=20261012-context-v2" defer />
+        <script src="/assets/jessy-site.js?v=20261012-plans-3" defer />
         <Scripts />
       </body>
     </html>

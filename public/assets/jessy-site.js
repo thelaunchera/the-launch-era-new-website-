@@ -59,7 +59,7 @@ function routeFor(href){
  return s;
 }
 function makeImage(){const x=node("img","tle-jessy-avatar");x.src=avatarPath;x.alt="Jessy · AI Assistant";x.loading="lazy";x.width=53;x.height=53;return x}
-const style=node("link");style.rel="stylesheet";style.href="/assets/jessy-site.css?v=20261012";document.head.appendChild(style);
+const style=node("link");style.rel="stylesheet";style.href="/assets/jessy-site.css?v=20261012-plans-3";document.head.appendChild(style);
 const root=node("div","tle-jessy-root");root.setAttribute("data-tle-jessy","true");
 const fab=button("tle-jessy-fab","",t("opening"));fab.append(makeImage(),node("span","", "Chat with Jessy"));fab.append(node("span","tle-jessy-status"));fab.setAttribute("aria-expanded","false");
 const nudge=node("div","tle-jessy-nudge",pageText("nudge"));nudge.hidden=true;
@@ -98,6 +98,28 @@ function actions(checkout,detail,trial){
  for(const [href,label] of list){const u=routeFor(href);if(!u)continue;const a=node("a","",label);a.href=u;a.setAttribute("rel","noopener");a.addEventListener("click",()=>track("checkout_or_details"));row.appendChild(a)}
  if(row.children.length){log.appendChild(row);log.scrollTop=log.scrollHeight}
 }
+function showAiPlanChoices(plans){
+ const wanted=["ai-booking","ai-followup","ai-business"];
+ if(!Array.isArray(plans)||plans.length!==3||wanted.some(id=>!plans.some(p=>p&&p.id===id)))return false;
+ const list=node("div","tle-jessy-plan-list");
+ list.setAttribute("role","group");
+ list.setAttribute("aria-label",lang==="es"?"Comparar los tres planes de AI Assistant":"Compare all three AI Assistant plans");
+ for(const id of wanted){
+  const p=plans.find(row=>row.id===id),target=routeFor(p.checkout);
+  if(!target||!target.startsWith("/service-checkout/?offer="+id+"&"))return false;
+  const card=node("div","tle-jessy-plan-card");
+  const heading=node("strong","tle-jessy-plan-name",String(p.name||"").slice(0,80));
+  const description=node("p","tle-jessy-plan-description",String(p.description||"").slice(0,180));
+  const price=node("p","tle-jessy-plan-price",String(p.price||"").slice(0,200));
+  const a=node("a","tle-jessy-plan-cta",lang==="es"?"Elegir este plan →":"Choose this plan →");
+  a.href=target;a.setAttribute("aria-label",(lang==="es"?"Abrir checkout de ":"Open checkout for ")+p.name);
+  a.addEventListener("click",()=>track("ai_plan_checkout_"+id));
+  card.append(heading,description,price,a);list.appendChild(card);
+ }
+ log.appendChild(list);log.scrollTop=log.scrollHeight;
+ track("ai_plans_shown");
+ return true;
+}
 async function reloadOffers(){try{const r=await fetch(catalogPath+"?r="+Date.now(),{cache:"no-store"});if(r.ok){const data=await r.json();if(Array.isArray(data.offers)&&data.offers.length>=7)catalog=data.offers}}catch{}}
 function quickChoices(){
  quick.replaceChildren();
@@ -114,9 +136,10 @@ function quickChoices(){
  [t("price"),es?"¿Qué cuesta Booking Automation?":"What does Booking Automation cost?"],
  [t("human"),"lead-form"]];
  else if(p==="ai-booking")opts=[
+ [es?"Comparar 3 planes":"Compare 3 plans",es?"¿Qué planes de AI Assistant ofrecen?":"Which AI Assistants do you offer?"],
  ["AI Booking",es?"¿Qué hace AI Booking Assistant?":"What does the AI Booking Assistant do?"],
  [es?"Seguimientos":"Follow-ups",es?"¿Qué hace el AI Follow-Up Assistant?":"What does AI Follow-Up Assistant do?"],
- [t("price"),es?"¿Qué planes de AI tienen?":"What are your AI plans?"],
+ [es?"Ambos asistentes":"Both assistants",es?"¿Qué hace AI Business Assistant?":"What does AI Business Assistant do?"],
  [t("human"),"lead-form"]];
  opts.forEach(function(entry){const b=button("",entry[0]);b.addEventListener("click",()=>{if(entry[1]==="lead-form")showLead(true);else ask(entry[1])});quick.appendChild(b)});
 }
@@ -135,7 +158,7 @@ if(result&&typeof result.reply==="string"){
  if(typeof result.selected_offer==="string"&&result.selected_offer)offer=result.selected_offer;
  const entry=catalog.find(x=>x.id===offer);
  const checkout=result.checkout||(entry?.checkout||null);const info=result.details||(entry?.details||null);
- if(checkout||info||result.trial)actions(checkout,info,result.trial);
+ if(!showAiPlanChoices(result.ai_plans)&&(checkout||info||result.trial))actions(checkout,info,result.trial);
  track("answered");
 }else{actions(null,"/solutions");track("chat_unavailable")}
 waiting=false;send.disabled=false;log.scrollTop=log.scrollHeight;input.focus()}
