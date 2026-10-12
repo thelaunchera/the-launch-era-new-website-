@@ -719,3 +719,87 @@ body.vehicle-booking .cb-footer-fine{font-size:11px;color:#a6aaad}
  body.vehicle-booking #booking .head h2{font-size:27px!important}
  body.vehicle-booking #quote .cb-progress>span{font-size:10px!important}
 }
+/* Accessible consent cards on all viewport sizes: the CB Depot contact form uses
+   a dark theme, while permission cards intentionally use a pale background. */
+body.vehicle-booking .cb-contact-form > :is(label.tle-care-permission,label.cb-reminder-permission){
+  grid-column:1/-1;
+  width:100%;
+  min-width:0;
+  margin:0;
+  color:#25384b;
+  font-size:14px;
+  font-weight:550;
+  line-height:1.55;
+  overflow-wrap:anywhere;
+}
+body.vehicle-booking .cb-contact-form > :is(label.tle-care-permission,label.cb-reminder-permission) > span{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  min-width:0;
+}
+body.vehicle-booking .cb-contact-form > :is(label.tle-care-permission,label.cb-reminder-permission) > span > span{
+  flex:1 1 auto;
+  min-width:0;
+  color:#25384b;
+  font-weight:600;
+  line-height:1.5;
+}
+body.vehicle-booking .cb-contact-form > :is(label.tle-care-permission,label.cb-reminder-permission) input[type="checkbox"]{
+  display:block;
+  flex:0 0 20px;
+  width:20px!important;
+  height:20px!important;
+  min-width:20px;
+  min-height:20px;
+  margin:2px 0 0!important;
+  padding:0!important;
+  border-radius:5px;
+  background:#fff;
+  accent-color:#1769d2;
+  box-shadow:none;
+  cursor:pointer;
+}
+body.vehicle-booking .cb-contact-form > :is(label.tle-care-permission,label.cb-reminder-permission) small{
+  display:block;
+  margin-top:7px;
+  color:#42576b!important;
+  font-size:12px;
+  font-weight:500;
+  line-height:1.5;
+}
+body.vehicle-booking .cb-contact-form > :is(label.tle-care-permission,label.cb-reminder-permission):focus-within{
+  outline:2px solid #2584e4;
+  outline-offset:2px;
+}
+/* The quote wizard has the same optional permission cards on its dark surface. */
+body.vehicle-booking #quote .cb-stage > :is(.tle-care-permission,.cb-reminder-permission){
+  display:block;
+  max-width:100%;
+  min-width:0;
+  box-sizing:border-box;
+  background:#f6fafc!important;
+  border-color:#d4e3ed;
+  color:#25384b!important;
+  font-size:13px;
+  font-weight:550;
+  line-height:1.55;
+  overflow-wrap:anywhere;
+}
+body.vehicle-booking #quote .cb-stage > :is(.tle-care-permission,.cb-reminder-permission) input[type="checkbox"]{
+  width:20px!important;
+  height:20px!important;
+  min-width:20px;
+  min-height:20px;
+  padding:0!important;
+  vertical-align:middle;
+  accent-color:#1769d2;
+}
+body.vehicle-booking #quote .cb-stage > .tle-care-permission small{color:#42576b!important}
+@media(max-width:500px){
+  body.vehicle-booking .cb-contact-form > :is(label.tle-care-permission,label.cb-reminder-permission){
+    padding:13px 12px!important;
+    font-size:13px;
+  }
+  body.vehicle-booking .cb-contact-form > :is(label.tle-care-permission,label.cb-reminder-permission) small{font-size:12px}
+}
