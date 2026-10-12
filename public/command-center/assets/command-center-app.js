@@ -1700,9 +1700,9 @@ function renderOwnerSupport(){
    if(!workspace?.is_internal)return;
    save.disabled=true;output.textContent=supportTxt('Saving…','Guardando…');
    try{
-    const {data,error}=await db.from('tle_crm_support_requests').update({
-     status:state.value,owner_note:note.value.trim()||null,updated_at:new Date().toISOString()
-    }).eq('id',item.id).select('id,status,owner_note').single();
+    const {data,error}=await db.rpc('tle_crm_owner_support_update',{
+     p_report_id:item.id,p_status:state.value,p_owner_note:note.value.trim()||null
+    });
     if(error||!data)throw error||Error('Update was not confirmed');
     item.status=data.status;item.owner_note=data.owner_note;
     output.textContent=supportTxt('✓ Saved. The buyer can see the updated status.','✓ Guardado. El cliente puede ver el estado actualizado.');
@@ -1732,9 +1732,7 @@ async function loadOwnerSupportInbox(append=false){
  $('ownerSupportStatus').textContent=supportTxt('Loading client messages…','Cargando mensajes de clientes…');
  $('ownerSupportMore').disabled=true;
  try{
-  const {data,error}=await db.from('tle_crm_support_requests')
-   .select('id,workspace_id,business_name,request_type,message,page_context,status,owner_note,created_at')
-   .order('created_at',{ascending:false}).order('id',{ascending:false}).range(offset,offset+99);
+  const {data,error}=await db.rpc('tle_crm_owner_support_list',{p_offset:offset});
   if(!workspace?.is_internal||workspace.id!==wsId)return;
   if(error)throw error;
   ownerSupportRequests=append?[...ownerSupportRequests,...(data||[]).filter(i=>!ownerSupportRequests.some(x=>x.id===i.id))]:(data||[]);

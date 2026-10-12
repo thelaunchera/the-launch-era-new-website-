@@ -33,3 +33,5 @@ for(const value of ['09:00','09:15','09:30','09:45','23:59'])assert(slotRx.test(
 for(const value of ['24:00','09:60','9:15','bad'])assert(!slotRx.test(value));
 assert(booking.includes('(?:[0-5]\\d)$'),'Backend-authorized minute slots must remain supported');
 console.log('PASS multi-company identity, EN/ES messages, industry routing, private preview origin, activation guard and minute slots');
+
+assert(app.includes("db.rpc('tle_crm_owner_support_list'"));assert(app.includes("db.rpc('tle_crm_owner_support_update'"));assert(!app.includes(".select('id,workspace_id,business_name,request_type,message,page_context,status,owner_note,created_at')"),'Owner notes must be retrieved through the private owner RPC');
