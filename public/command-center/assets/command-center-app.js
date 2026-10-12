@@ -47,6 +47,63 @@ window.TLEOwnerJessyGateway=Object.freeze({
    if(!this.ready())throw Error('Owner access changed');
    return result;
  },
+ async draftCandidates(){
+   if(!this.ready())throw Error('Owner access required');
+   if(document.body.dataset.leadsLoaded!=='yes')await load();
+   if(document.body.dataset.leadsLoaded!=='yes')throw Error('Could not verify prospect data. Refresh and retry.');
+   const now=ownerDailyDate();
+   return leads.filter(x=>
+     x&&x.id&&['Contacted','Follow-up'].includes(x.stage)&&x.followup&&x.followup<=now&&
+     x.contact_decision==='yes'&&x.email_consent_status==='authorized'&&
+     String(x.email_consent_source||'').trim()&&x.email_followup_enabled===true&&
+     x.email&&!x.archived_at&&!x.replied_at&&!blockedLead(x)&&
+     !ownerDailyBlockReason(x,{subject:'Follow-up for review',body:'This is a review-only draft, not a send.'})
+   ).sort((a,b)=>String(a.followup).localeCompare(String(b.followup)))
+    .slice(0,35).map(x=>({id:x.id,business:String(x.business||'Business').slice(0,90),
+     contact:String(x.contact||'').slice(0,60),language:x.language||'en',due:x.followup}));
+ },
+ async prepareFollowupDraft(leadId){
+   if(!this.ready())throw Error('Owner access required');
+   const {data:{session},error}=await db.auth.getSession();
+   if(error||!session?.access_token)throw Error('Owner session expired');
+   const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),16000);
+   try{
+     const response=await fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-jessy-owner',{
+       method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+session.access_token,
+         'apikey':'sb_publishable_0TueitFYiRF3rAEMLMT8-w_FvbvY0rB'},
+       body:JSON.stringify({action:'draft_followup',lead_id:leadId,language:localStorage.getItem('tle_crm_language')==='es'?'es':'en'}),
+       signal:controller.signal
+     });
+     const result=await response.json().catch(()=>({}));
+     if(!response.ok||result.ok!==true||result.action!=='draft_followup')throw Error(result.error||'Draft unavailable. Check consent and email history.');
+     if(!this.ready()||result.lead_id!==leadId||result.send_automatically!==false||result.requires_review!==true)
+       throw Error('Owner session or draft validation changed');
+     return result;
+   }finally{clearTimeout(timer)}
+ },
+ async useFollowupDraft(draft,subject,body){
+   if(!this.ready()||!draft?.lead_id)return false;
+   const cleanSubject=String(subject||'').trim(),cleanBody=String(body||'').trim();
+   if(cleanSubject.length<3||cleanSubject.length>150||cleanBody.length<15||cleanBody.length>4000)
+     throw Error('Review the subject and message lengths before continuing');
+   // Revalidate against fresh server-side consent + 24-hour mail history on approval.
+   const current=await this.prepareFollowupDraft(draft.lead_id);
+   if(current.recipient!==draft.recipient)throw Error('Recipient changed. Start a new draft.');
+   await loadEmailSummary();
+   const lead=leads.find(x=>x.id===draft.lead_id);
+   if(!lead||blockedLead(lead)||ownerDailyBlockReason(lead,{subject:cleanSubject,body:cleanBody}))
+     throw Error('This prospect is no longer eligible. Refresh the lead first.');
+   premiumNavigate('leads');
+   edit(lead);
+   $('leadEmailSection').open=true;
+   $('followupSubject').value=cleanSubject;
+   $('followupBody').value=cleanBody;
+   $('prepareFollowup').click();
+   $('followupStatus').textContent=localStorage.getItem('tle_crm_language')==='es'
+    ?'Borrador de Jessy: revisa y confirma el destinatario antes de enviar. No se envió nada.'
+    :'Jessy draft: review the message and recipient before sending. Nothing was sent.';
+   return true;
+ },
  navigate(target){
    if(!this.ready())return false;
    const allowed=['owner-pages','owner-calendar','leads','calendar','inbox','emails','owner-support','owner-help'];
