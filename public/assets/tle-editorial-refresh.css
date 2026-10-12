@@ -16,6 +16,8 @@ body{font-family:Futura,'DM Sans','Avenir Next',Arial,sans-serif;color:#191919;b
 .site-header .wordmark{font-family:'Prompt','DM Sans',sans-serif;font-weight:550;letter-spacing:.08em}
 .site-header .desktop-nav a{font-size:12px;color:#2E3A42}
 .site-header .desktop-nav a:hover,.site-header .desktop-nav a[data-status=active]{color:#356E8C}
+.sales-home .hero-photo>img.hero-main-image{filter:blur(1.5px) saturate(1.08) contrast(1.03);transform:scale(1.015)}
+.sales-home .hero-photo::after{background:linear-gradient(180deg,rgba(250,248,243,.88) 0%,rgba(250,248,243,.78) 26%,rgba(250,248,243,.50) 47%,rgba(250,248,243,.10) 72%,rgba(250,248,243,0) 100%)}
 .sales-home .hero-photo .hero-intro h1{font-family:'Prompt','DM Sans',sans-serif;font-weight:500;color:#191919;letter-spacing:-.04em;line-height:1.14}
 .sales-home .hero-photo .hero-intro p{color:#394A57;line-height:1.55}
 .sales-home .hero-photo .hero-notice-flow .notification{background:#fff;border:1px solid #E0E7EB;border-radius:16px;box-shadow:var(--shadow-notice)}
