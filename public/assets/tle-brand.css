@@ -1,0 +1,5 @@
+/* Approved TLE identity: transparent vector assets; no client-brand overrides. */
+a.wordmark:has(img.tle-brand-logo){display:inline-flex;align-items:center;justify-content:center;line-height:1;min-width:0}
+.tle-brand-logo{display:block!important;width:clamp(116px,12.5vw,178px)!important;height:auto!important;max-width:100%;object-fit:contain!important;object-position:center}
+.site-footer .tle-brand-logo{width:clamp(132px,14vw,184px)!important}
+@media(max-width:680px){.nav-inner .tle-brand-logo{width:128px!important}.site-footer .tle-brand-logo{width:148px!important}}
