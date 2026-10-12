@@ -467,3 +467,27 @@ body.owner-preview-fullscreen-open #buildFrameShell.tle-preview-fullscreen #buil
 @media(max-width:850px){#buyerRequestsHub #buyerRequestCards{max-height:none!important;overflow:visible!important}}
 @media(max-width:640px){#buyerAppointmentsHub{padding:14px}#buyerAppointmentsHub .buyer-calendar-grid{min-width:700px}#buyerAppointmentsHub .buyer-cal-cell{min-height:99px}#buyerAppointmentsHub .buyer-calendar-toolbar-actions button{padding:7px 9px;font-size:12px}#buyerRequestsHub .buyer-lead-quick-filters button{font-size:11px;padding:8px 10px}}
 @media(prefers-reduced-motion:reduce){#buyerRequestsHub .request-card{transition:none}#buyerRequestsHub .request-card:hover{transform:none}}
+
+
+/* Customer-first service care: designed for phone, tablet, and desktop. */
+#buyerServiceCareHub{max-width:100%;min-width:0}
+#buyerServiceCareHub .buyer-care-quick{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:17px 0}
+#buyerServiceCareHub .buyer-care-quick button{padding:11px 15px;border-radius:12px}
+.buyer-care-item{display:grid;gap:8px;background:#fff;border:1px solid #dbe7ee;border-radius:15px;padding:15px;overflow-wrap:anywhere}
+.buyer-care-item strong{font-size:14px;color:#191919}
+.buyer-care-item small{font-size:12px;color:#687b87;display:block}
+.buyer-care-item .secondary{justify-self:start;border-radius:11px}
+.buyer-care-dialog{box-sizing:border-box;width:min(620px,calc(100vw - 24px));max-height:90dvh;overflow-y:auto;border:1px solid #d8e4ed;border-radius:23px;background:#FAF8F3;padding:clamp(18px,3.2vw,29px);color:#191919;box-shadow:0 23px 90px #12283b30}
+.buyer-care-dialog::backdrop{background:#1529399c}
+.buyer-care-dialog form{display:grid;gap:13px;min-width:0}
+.buyer-care-dialog .buyer-care-dialog-title{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.buyer-care-dialog .buyer-care-dialog-title h2{margin:0;font-size:clamp(22px,4vw,29px);letter-spacing:-.035em}
+.buyer-care-dialog label{min-width:0;display:grid;gap:6px;font-size:12px;font-weight:750;color:#344f61}
+.buyer-care-dialog input:not([type=checkbox]),.buyer-care-dialog select{box-sizing:border-box;width:100%;min-width:0;padding:11px 12px;background:#fff;border:1px solid #bbd0de;border-radius:12px;font-size:14px;color:#191919}
+.buyer-care-dialog .buyer-care-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.buyer-care-dialog .buyer-care-optin{display:flex;align-items:flex-start;gap:9px;line-height:1.5;font-size:13px}
+.buyer-care-dialog .buyer-care-optin input{width:17px;height:17px;margin:1px 0 0;flex:none}
+.buyer-care-dialog p[role=status]{min-height:18px;margin:0;font-size:13px;color:#436a83}
+.buyer-care-dialog button[type=submit]{width:100%;border-radius:12px;min-height:45px}
+@media(max-width:540px){.buyer-care-dialog .buyer-care-form-grid{grid-template-columns:1fr}.buyer-care-dialog{padding:18px}.buyer-care-quick button{flex:1 1 140px}}
+body.crm-owner-view #buyerServiceCareHub,body.crm-owner-view #buyerServiceCareNav{display:none!important}
