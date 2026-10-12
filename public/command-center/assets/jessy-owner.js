@@ -3,12 +3,12 @@
 "use strict";
 if(window.__tleOwnerJessyInstalled)return;
 window.__tleOwnerJessyInstalled=true;
-const ASSET="/assets/jessy-avatar.webp",CSS="./assets/jessy-owner.css?v=20261012-owner-alert-v1";
+const ASSET="/assets/jessy-avatar.webp",CSS="./assets/jessy-owner.css?v=20261012-whatsapp-v1";
 let root=null,log=null,form=null,input=null,send=null,quick=null,open=false,waiting=false,language="en",history=[],previousFocus=null;
 let notificationTimer=0;
 const copy={
- en:{open:"Ask Jessy",intro:"Hi! 👋 I'm Jessy, your Command Center assistant. Want to check leads, follow-ups or a client delivery?",subtitle:"Your private workspace helper",placeholder:"Ask about leads, clients or your next step…",send:"Send",close:"Close Jessy",thinking:"Checking your workspace…",error:"I couldn't check that right now. Try again or open the section directly.",note:"Private owner assistance · Drafts require your approval. Jessy never sends emails.",label:"Open this section →",quick:[["Prepare follow-up draft","Prepare a follow-up email draft"],["Today's priorities","What needs my attention today?"],["Follow-ups","Which prospect follow-ups are due?"],["Website leads","Any new website inquiries?"],["Client deliveries","Which client deliveries need review?"],["Support","I need help with a problem"]]},
- es:{open:"Pregúntale a Jessy",intro:"¡Hola! 👋 Soy Jessy, tu asistente del Command Center. ¿Revisamos leads, seguimientos o entregas?",subtitle:"Tu asistente privada de operaciones",placeholder:"Pregunta sobre leads, clientes o el próximo paso…",send:"Enviar",close:"Cerrar Jessy",thinking:"Revisando tu espacio…",error:"Ahora no pude comprobarlo. Inténtalo otra vez o abre la sección directamente.",note:"Asistencia privada · Los borradores requieren tu aprobación. Jessy no envía correos.",label:"Abrir esta sección →",quick:[["Preparar seguimiento","Prepara un borrador de seguimiento"],["Prioridades de hoy","¿Qué necesita mi atención hoy?"],["Seguimientos","¿Qué seguimientos de prospectos están pendientes?"],["Leads web","¿Hay nuevas consultas del website?"],["Entregas","¿Qué entregas de clientes debo revisar?"],["Soporte","Necesito ayuda con un problema"]]}
+ en:{open:"Ask Jessy",intro:"Hi! 👋 I'm Jessy, your Command Center assistant. Want to check leads, follow-ups or a client delivery?",subtitle:"Your private workspace helper",placeholder:"Ask about leads, clients or your next step…",send:"Send",close:"Close Jessy",thinking:"Checking your workspace…",error:"I couldn't check that right now. Try again or open the section directly.",note:"Private owner assistance · Drafts require your approval. Jessy never sends emails.",label:"Open this section →",quick:[["WhatsApp alerts","jessy-whatsapp-settings"],["Prepare follow-up draft","Prepare a follow-up email draft"],["Today's priorities","What needs my attention today?"],["Follow-ups","Which prospect follow-ups are due?"],["Website leads","Any new website inquiries?"],["Client deliveries","Which client deliveries need review?"],["Support","I need help with a problem"]]},
+ es:{open:"Pregúntale a Jessy",intro:"¡Hola! 👋 Soy Jessy, tu asistente del Command Center. ¿Revisamos leads, seguimientos o entregas?",subtitle:"Tu asistente privada de operaciones",placeholder:"Pregunta sobre leads, clientes o el próximo paso…",send:"Enviar",close:"Cerrar Jessy",thinking:"Revisando tu espacio…",error:"Ahora no pude comprobarlo. Inténtalo otra vez o abre la sección directamente.",note:"Asistencia privada · Los borradores requieren tu aprobación. Jessy no envía correos.",label:"Abrir esta sección →",quick:[["Avisos WhatsApp","jessy-whatsapp-settings"],["Preparar seguimiento","Prepara un borrador de seguimiento"],["Prioridades de hoy","¿Qué necesita mi atención hoy?"],["Seguimientos","¿Qué seguimientos de prospectos están pendientes?"],["Leads web","¿Hay nuevas consultas del website?"],["Entregas","¿Qué entregas de clientes debo revisar?"],["Soporte","Necesito ayuda con un problema"]]}
 };
 const sections={
  "owner-pages":["Clients & Purchases","Clientes y compras"],
@@ -26,7 +26,7 @@ function b(cls,txt){const node=el("button",cls,txt);node.type="button";return no
 function owner(){return window.TLEOwnerJessyGateway?.ready?.()===true}
 function lang(){const workspace=document.body.dataset.languageWorkspace;let saved;try{saved=localStorage.getItem("tle_crm_language_"+workspace)||localStorage.getItem("tle_crm_owner_language")||localStorage.getItem("tle_crm_language")}catch{}return saved==="es"?"es":"en"}
 function bubble(text,role){const item=el("div","jo-bubble "+role,text);log.appendChild(item);log.scrollTop=log.scrollHeight;return item}
-function shortcuts(){quick.replaceChildren();t("quick").forEach(([name,message])=>{const btn=b("jo-quick",name);btn.addEventListener("click",()=>ask(message));quick.appendChild(btn)})}
+function shortcuts(){quick.replaceChildren();t("quick").forEach(([name,message])=>{const btn=b("jo-quick",name);btn.addEventListener("click",()=>message==="jessy-whatsapp-settings"?showWhatsAppSettings():ask(message));quick.appendChild(btn)})}
 function hide(restoreFocus=true){if(!root)return;root.querySelector(".jo-panel").hidden=true;root.querySelector(".jo-fab").hidden=false;open=false;document.body.classList.remove("jo-open");if(restoreFocus&&previousFocus?.isConnected)previousFocus.focus()}
 function show(){if(!owner())return;const panel=root.querySelector(".jo-panel");previousFocus=document.activeElement;panel.hidden=false;root.querySelector(".jo-fab").hidden=true;open=true;if(!log.children.length)bubble(t("intro"),"bot");shortcuts();if(window.innerWidth>650)input.focus()}
 function build(){
@@ -80,6 +80,87 @@ function sync(){
  if(!owner()){if(root){clearTimeout(notificationTimer);root.remove();root=null;history=[];open=false;log=null;input=null;quick=null}return}
  if(!root)build();
  const next=lang();if(next!==language){language=next;if(root){root.querySelector(".jo-fab span").textContent=t("open");root.querySelector(".jo-heading small").textContent=t("subtitle");root.querySelector(".jo-close").setAttribute("aria-label",t("close"));input.placeholder=t("placeholder");send.textContent=t("send");root.querySelector(".jo-note").textContent=t("note");shortcuts()}}
+}
+
+
+async function showWhatsAppSettings(){
+ if(!owner()||!root)return;
+ if(!open)show();
+ const es=language==="es";
+ const panel=el("section","jo-wa-settings");
+ panel.setAttribute("aria-label",es?"Avisos a WhatsApp personal":"Personal WhatsApp alert setup");
+ const title=el("strong","jo-draft-title",es?"📱 Avisos de Jessy por WhatsApp":"📱 Jessy WhatsApp alerts");
+ const subtitle=el("p","jo-draft-disclaimer",es?
+  "Configura tu número personal aquí. El envío seguirá desactivado hasta conectar WhatsApp Business y aprobar su plantilla.":
+  "Set your personal number here. Sending remains off until WhatsApp Business is connected and its alert template approved.");
+ const loading=el("p","jo-draft-status",es?"Comprobando configuración…":"Checking settings…");
+ panel.append(title,subtitle,loading);
+ log.appendChild(panel);log.scrollTop=log.scrollHeight;
+ let state;
+ try{const response=await window.TLEOwnerJessyGateway.whatsappAlertPrefs("whatsapp_get");state=response.prefs;}
+ catch(e){loading.textContent=e.message||t("error");return}
+ if(!owner()||!panel.isConnected)return;
+ loading.textContent=state?.configured?
+  (es?"Número guardado: ":"Saved number: ")+(state.phone_masked||"—")+(es?" · Envío pendiente de conexión":" · Sending not yet connected"):
+  (es?"Todavía no hay número configurado.":"No destination number configured yet.");
+ const form=el("form","jo-wa-form");form.noValidate=true;
+ const phoneLabel=el("label","jo-draft-label",es?"Tu número de WhatsApp (+ código de país)":"Your WhatsApp number (+ country code)");
+ const phone=el("input","jo-draft-input");phone.type="tel";phone.autocomplete="tel";phone.inputMode="tel";phone.maxLength=22;phone.placeholder=es?"+1 561 555 0123":"+1 561 555 0123";phone.setAttribute("aria-label",es?"Número personal de WhatsApp":"Personal WhatsApp number");
+ phoneLabel.append(phone);form.append(phoneLabel);
+ const hint=el("p","jo-draft-disclaimer",state?.configured?
+  (es?"Déjalo vacío para conservar el número actual.":"Leave blank to keep your saved number."):
+  (es?"Ingresa tu número personal, no el número remitente del negocio.":"Enter your personal number, not the business sender number."));
+ form.append(hint);
+ const title2=el("strong","jo-draft-title",es?"Avisarme cuando llegue:":"Notify me about:");
+ form.append(title2);
+ const kinds=[
+  ["demo",es?"Solicitud de demo":"Demo requests"],
+  ["quote_request",es?"Solicitud de cotización":"Quote requests"],
+  ["won",es?"Prospecto convertido":"Prospects marked won"],
+  ["system_ready",es?"Sistema listo para entrega":"System ready"],
+  ["lead",es?"Nuevo lead (puede generar muchos avisos)":"New leads (may be frequent)"]
+ ];
+ const defaults=["demo","quote_request","won","system_ready"];
+ const selected=Array.isArray(state?.channels)&&state.channels.length?state.channels:defaults;
+ const checkboxes=[];
+ for(const [id,label]of kinds){
+  const line=el("label","jo-wa-option"),check=el("input");check.type="checkbox";check.value=id;check.checked=selected.includes(id);
+  line.append(check,el("span","",label));form.append(line);checkboxes.push(check);
+ }
+ const consentLine=el("label","jo-wa-consent");
+ const consent=el("input");consent.type="checkbox";consent.required=true;
+ consentLine.append(consent,el("span","",es?
+  "Autorizo que The Launch Era me envíe estos avisos a mi WhatsApp personal. Podré pausarlos. Puede haber costos del proveedor.":
+  "I agree to receive these The Launch Era alerts on my personal WhatsApp. I can pause alerts. Provider charges may apply."));
+ form.append(consentLine);
+ const status=el("p","jo-wa-status",es?"Estado: pendiente de autorizar WhatsApp Business. No se enviarán mensajes todavía.":"Status: WhatsApp Business authorization pending. No messages will be sent yet.");
+ status.setAttribute("role","status");form.append(status);
+ const row=el("div","jo-draft-actions"),save=b("jo-draft-approve",es?"Guardar preferencias":"Save preferences");
+ save.type="submit";row.append(save);
+ if(state?.configured){const pause=b("jo-draft-cancel",es?"Pausar avisos":"Pause alerts");pause.addEventListener("click",async()=>{
+  if(!owner())return;
+  pause.disabled=true;status.textContent=es?"Pausando…":"Pausing…";
+  try{
+   await window.TLEOwnerJessyGateway.whatsappAlertPrefs("whatsapp_disable");
+   status.textContent=es?"Avisos pausados. No se enviará ningún WhatsApp.":"Alerts paused. No WhatsApp messages will be sent.";
+  }catch(e){status.textContent=e.message||t("error");}finally{pause.disabled=false}
+ });row.append(pause)}
+ form.append(row);panel.append(form);
+ form.addEventListener("submit",async e=>{
+  e.preventDefault();
+  if(!owner())return;
+  if(!consent.checked){status.textContent=es?"Marca el consentimiento para guardar.":"Check consent before saving.";return}
+  const channels=checkboxes.filter(x=>x.checked).map(x=>x.value);
+  if(!channels.length){status.textContent=es?"Selecciona al menos un tipo de alerta.":"Choose at least one alert type.";return}
+  save.disabled=true;status.textContent=es?"Guardando de forma privada…":"Saving privately…";
+  try{
+   const saved=await window.TLEOwnerJessyGateway.whatsappAlertPrefs("whatsapp_save",{phone:phone.value,consent:true,channels});
+   phone.value="";
+   loading.textContent=(es?"Número guardado: ":"Saved number: ")+(saved.prefs?.phone_masked||"••••");
+   status.textContent=es?"Guardado. Falta conectar el remitente de WhatsApp y aprobar la plantilla. Aún no está activo.":"Saved. Sender connection and approved template are still required. Alerts aren't active.";
+  }catch(err){status.textContent=err.message||t("error");}finally{save.disabled=false}
+ });
+ log.scrollTop=log.scrollHeight;
 }
 
 async function prepareDraftPanel(){
@@ -149,6 +230,7 @@ async function prepareDraftPanel(){
 async function ask(raw){
  if(waiting||!owner()||!root)return;
  const question=String(raw||"").trim().slice(0,340);
+ if(/(?:whatsapp|watsap|wasap|wsp)/i.test(question)&&/(alert|notify|notification|avis|notific|configur|setting|activar)/i.test(question)){if(!open)show();bubble(question,"user");input.value="";await showWhatsAppSettings();return;}
  if(question.length<2)return;
  if(/\b(draft|borrador|prepara|preparar|escribe|write)\b.*\b(follow.?up|seguimiento|correo|email)\b|\b(follow.?up|seguimiento)\b.*\b(draft|borrador|prepar)/i.test(question)){
    if(!open)show();bubble(question,"user");input.value="";await prepareDraftPanel();return;
