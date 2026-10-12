@@ -45,6 +45,10 @@ window.TLEOwnerJessyGateway=Object.freeze({
    const result=await response.json().catch(()=>({}));
    if(!response.ok||result.ok!==true)throw Error(response.status===401?'Owner session expired':result.error||'Assistant temporarily unavailable');
    if(!this.ready())throw Error('Owner access changed');
+   if(result.action_performed==='mark_notifications_read'){
+     // Refresh the same bell seen by the owner, without deleting/archiving inbox messages.
+     await loadStoredNotifications();
+   }
    return result;
  },
  async draftCandidates(){
@@ -133,8 +137,9 @@ window.TLEOwnerJessyGateway=Object.freeze({
  },
  navigate(target){
    if(!this.ready())return false;
-   const allowed=['owner-pages','owner-calendar','leads','calendar','inbox','emails','owner-support','owner-help'];
+   const allowed=['owner-pages','owner-calendar','leads','calendar','inbox','emails','notifications','owner-support','owner-help'];
    if(!allowed.includes(target))return false;
+   if(target==='notifications')return this.openNotifications();
    premiumNavigate(target);
    return true;
  }
@@ -3782,14 +3787,14 @@ if(workspace?.is_internal){
 }else{delete data.contact_decision}
 if(data.email_consent_status!=='authorized')data.email_followup_enabled=false;if(data.email_consent_status==='authorized'&&!data.email_consent_source?.trim())throw Error('Record the permission source before marking this contact authorized.');if(!data.followup)data.followup=null;data.workspace_id=workspace.id;let saved;if(editing)saved=await check(await db.from('tle_crm_leads').update(data).eq('id',editing.id).eq('workspace_id',workspace.id).select('id').single());else saved=await check(await db.from('tle_crm_leads').insert(data).select('id').single());$('editor').close();await load();say('✓ Lead saved successfully');showSaveToast('success',workspace?.is_internal?'Lead saved':'Customer saved',workspace?.is_internal?'Prospecto guardado':'Cliente guardado')}catch(err){$('leadSaveStatus').textContent='Could not save lead: '+err.message;showSaveToast('error','Could not save changes','No se pudieron guardar los cambios');console.error('CRM lead save failed',err)}finally{saveButton.disabled=false}};
 $('remove').onclick=async()=>{if(!editing||!confirm('Delete this lead?'))return;try{await check(await db.from('tle_crm_leads').delete().eq('id',editing.id).eq('workspace_id',workspace.id));$('editor').close();await load()}catch(e){say(e.message)}};
-function updateAnalytics(){const won=leads.filter(x=>x.stage==='Won').length;const sent=leads.filter(x=>emailSentByLead.has(x.id)).length;const today=new Date().toLocaleDateString('en-CA');$('analyticsConversion').textContent=leads.length?Math.round(100*won/leads.length)+'%':'0%';$('analyticsSent').textContent=String(sent);$('analyticsInbound').textContent=String(inboundRequests.length);$('analyticsOverdue').textContent=String(leads.filter(x=>x.followup&&x.followup<today&&x.stage!=='Won').length)}function refreshAlerts(){if(!workspace)return;updateAnalytics();const today=new Date().toLocaleDateString('en-CA');const due=leads.filter(x=>x.followup&&x.followup<=today&&x.stage!=='Won'&&!blockedLead(x));const count=inboundRequests.length+due.length;$('bellCount').textContent=String(count);const list=$('notificationList');list.replaceChildren();for(const x of inboundRequests.slice(0,20)){const p=document.createElement('p');p.textContent='New '+x.source_type+' request · '+(x.business_name||x.request_name||x.email||'Customer');list.append(p)}for(const x of due.slice(0,20)){const p=document.createElement('p');p.textContent='Follow-up due · '+x.business+' · '+x.followup;list.append(p)}if(!count)list.textContent='All caught up.'}let ownerJessyNotificationSnapshot={workspaceId:null,ids:new Set()};
+function updateAnalytics(){const won=leads.filter(x=>x.stage==='Won').length;const sent=leads.filter(x=>emailSentByLead.has(x.id)).length;const today=new Date().toLocaleDateString('en-CA');$('analyticsConversion').textContent=leads.length?Math.round(100*won/leads.length)+'%':'0%';$('analyticsSent').textContent=String(sent);$('analyticsInbound').textContent=String(inboundRequests.length);$('analyticsOverdue').textContent=String(leads.filter(x=>x.followup&&x.followup<today&&x.stage!=='Won').length)}function refreshAlerts(){if(!workspace)return;updateAnalytics();const today=new Date().toLocaleDateString('en-CA');const due=leads.filter(x=>x.followup&&x.followup<=today&&x.stage!=='Won'&&!blockedLead(x));const count=inboundRequests.length+due.length;$('bellCount').textContent=String(count);const list=$('notificationList');list.replaceChildren();for(const x of inboundRequests.slice(0,20)){const p=document.createElement('p');p.textContent='New '+x.source_type+' request · '+(x.business_name||x.request_name||x.email||'Customer');list.append(p)}for(const x of due.slice(0,20)){const p=document.createElement('p');p.textContent='Follow-up due · '+x.business+' · '+x.followup;list.append(p)}if(!count)list.textContent='All caught up.'}let ownerJessyNotificationSnapshot={workspaceId:null,ids:new Set(),unread:0};
 async function loadStoredNotifications(){if(!workspace)return;const wsId=workspace.id;const {data,error}=await db.from('tle_crm_notifications').select('id,kind,title,body,created_at,read_at').eq('workspace_id',wsId).order('created_at',{ascending:false}).limit(50);if(!workspace||workspace.id!==wsId)return;if(error){console.warn('Notification loading failed',error.message);return}const unread=(data||[]).filter(n=>!n.read_at);
 if(workspace.is_internal&&document.body.classList.contains('crm-owner-view')){
  const old=ownerJessyNotificationSnapshot;
  const first=old.workspaceId!==wsId;
  const newlyArrived=first?[]:unread.filter(n=>!old.ids.has(n.id));
- ownerJessyNotificationSnapshot={workspaceId:wsId,ids:new Set((data||[]).map(n=>n.id))};
- if(first||newlyArrived.length){
+ ownerJessyNotificationSnapshot={workspaceId:wsId,ids:new Set((data||[]).map(n=>n.id)),unread:unread.length};
+ if(first||newlyArrived.length||unread.length!==old.unread){
   window.dispatchEvent(new CustomEvent('tle-crm-owner-notifications',{
    detail:{initial:first,unread:unread.length,newCount:newlyArrived.length}
   }));
