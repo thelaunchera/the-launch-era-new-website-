@@ -3,3 +3,7 @@ a.wordmark:has(img.tle-brand-logo){display:inline-flex;align-items:center;justif
 .tle-brand-logo{display:block!important;width:clamp(116px,12.5vw,178px)!important;height:auto!important;max-width:100%;object-fit:contain!important;object-position:center}
 .site-footer .tle-brand-logo{width:clamp(132px,14vw,184px)!important}
 @media(max-width:680px){.nav-inner .tle-brand-logo{width:128px!important}.site-footer .tle-brand-logo{width:148px!important}}
+
+/* Static TLE-only landings, emails and access pages */
+a.logo:has(img.tle-brand-logo),a.brand:has(img.tle-brand-logo),a.tle-brand:has(img.tle-brand-logo){display:inline-flex!important;align-items:center!important;line-height:1!important;min-width:0}
+.logo img.tle-brand-logo,.brand img.tle-brand-logo{width:clamp(126px,13vw,174px)!important;max-width:100%!important;height:auto!important;object-fit:contain!important}
