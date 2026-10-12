@@ -13,7 +13,7 @@
     title:"Asistente de reservas con IA",subtitle:"Demostración opcional · Servicio aparte",
     intro:"¡Hola! 👋 Te ayudaré paso a paso. Primero, ¿la limpieza es para una casa o un negocio?",
     placeholder:"Escribe tu pregunta…",button:"Preguntar a la IA",send:"Enviar",close:"Cerrar chat",
-    note:"Solo demostración: usa datos de contacto ficticios. No se cobrará ningún pago. El asistente de IA es un servicio aparte.",
+    note:"Solo demostración. Usa datos ficticios y revisa tu solicitud al terminar.",
     error:"Ahora mismo no puedo responder. Por favor, inténtalo más tarde.",
     limit:"El chat no está disponible por ahora. Inténtalo más tarde.",
     opening:"Abrir asistente de IA", review:"Revisar mi solicitud →",nextStep:"Siguiente: revisa lo que completé, añade los datos que falten y termina la solicitud de prueba."
@@ -21,7 +21,7 @@
     title:"AI Booking Assistant",subtitle:"Optional AI demo · Separate service",
     intro:"Hi! 👋 I’ll guide you step by step. First, is the cleaning for a home or a business?",
     placeholder:"Ask a question…",button:"Ask AI",send:"Send",close:"Close chat",
-    note:"Demo only: use example contact details. No payment will be collected. AI Assistant is a separate service.",
+    note:"Demo only. Use sample details and review your request when finished.",
     error:"I can't respond right now. Please try again later.",
     limit:"Chat isn't available right now. Please try again later.",
     opening:"Open AI Booking Assistant", review:"Review my request →",nextStep:"Next: review what I filled in, complete any missing fields, then finish the demo request."
