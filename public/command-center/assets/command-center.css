@@ -506,3 +506,5 @@ body.crm-owner-view #buyerServiceCareHub,body.crm-owner-view #buyerServiceCareNa
 body.crm-buyer-view .owner-utility-help{display:none!important}
 body.cb-depot-buyer .workspace-nav-group>summary:hover{background:#ffffff18;color:inherit}
 body.cb-depot-buyer .workspace-nav-group[open]{border-color:#ffffff30}
+
+#ownerSupportPanel{width:100%;max-width:none;margin:16px 0}#ownerSupportPanel #ownerSupportList>.panel{width:100%;max-width:none;margin:0}.support-diagnostics{margin-top:16px;padding:14px;border:1px solid #dce8f0;border-radius:12px;background:#f8fbfd}.support-diagnostics summary{cursor:pointer;font-weight:650}.support-diagnostics p{font-size:12px;line-height:1.6;overflow-wrap:anywhere}.support-diagnostics button{margin:5px 6px 0 0;white-space:normal;min-height:44px}
