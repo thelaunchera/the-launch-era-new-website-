@@ -48,11 +48,16 @@ jobs:
           python -m pip install --quiet pymupdf reportlab
           python scripts/build_freebies.py
 
-      - name: Verify email demo landing pages
+      - name: Verify email demo landing pages and secure recovery routes
         run: |
           test -s .output/public/lead-private-preview.html
           test -s .output/public/lead-demo-tracker.html
           test -s .output/public/client-start-guide.html
+          test -s .output/public/auth-recovery.html
+          test -s .output/public/auth-recovery/index.html
+          test -s .output/public/command-center/index.html
+          grep -q 'PASSWORD_RECOVERY' .output/public/auth-recovery.html
+          grep -q '/auth-recovery.html' .output/public/command-center/assets/command-center-app.js
 
       - name: Create GitHub Pages route fallbacks
         run: |
