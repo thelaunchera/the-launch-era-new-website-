@@ -20,7 +20,7 @@ async function auth(req){
  const admin=await rows("platform_admins","user_id=eq."+encodeURIComponent(user.id)+"&select=user_id&limit=1");
  if(!Array.isArray(admin)||admin.length!==1)throw Error("unauthorized");
  const workspaces=await rows("tle_crm_workspaces","is_internal=eq.true&select=id,created_by,is_internal&limit=15");
- const ws=workspaces.find(w=>w.created_by===user.id)||workspaces[0];
+ const ws=workspaces.find(w=>w.created_by===user.id);
  if(!ws?.is_internal)throw Error("unauthorized");
  return ws.id;
 }
@@ -105,7 +105,10 @@ async function draftForLead(workspaceId,id,language){
  try{records=await rows("tle_crm_leads",scope+"&limit=1")}catch{return {error:"Could not verify the prospect.",status:503}}
  const lead=records?.[0];
  if(!lead)return {error:"Prospect not found in your workspace.",status:404};
- if(lead.archived_at||lead.stage==="Won"||lead.replied_at||lead.contact_decision!=="yes"||
+ const parts=new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date());
+ const d={};for(const part of parts)d[part.type]=part.value;
+ const localToday=d.year+"-"+d.month+"-"+d.day;
+ if(!lead.followup||lead.followup>localToday||lead.archived_at||lead.stage==="Won"||lead.replied_at||lead.contact_decision!=="yes"||
     !["Contacted","Follow-up"].includes(lead.stage)||!lead.email||
     lead.email_consent_status!=="authorized"||!String(lead.email_consent_source||"").trim()||
     lead.email_followup_enabled!==true||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email)||
@@ -115,7 +118,7 @@ async function draftForLead(workspaceId,id,language){
  // Check the real event log as well as the UI state before returning any message.
  let events;
  try{events=await rows("tle_crm_email_events","lead_id=eq."+encodeURIComponent(id)+"&select=event_type,created_at&order=created_at.desc&limit=40")}catch{return {error:"Could not verify email history. Try again.",status:503}}
- if(events.some(e=>/bounce|unsubscribe|complaint/i.test(String(e.event_type))))return {error:"Email blocked: bounce or opt-out history.",status:409};
+ if(events.some(e=>/bounce|unsubscribe|complaint|email_failed/i.test(String(e.event_type))))return {error:"Email blocked: bounce or opt-out history.",status:409};
  const lastSent=events.find(e=>e.event_type==="email_sent");
  if(lastSent&&Date.now()-Date.parse(lastSent.created_at)<24*60*60*1000)
     return {error:language==="es"?"Ya se envió un correo a este contacto en las últimas 24 horas.":"An email was already sent to this lead in the past 24 hours.",status:409};
