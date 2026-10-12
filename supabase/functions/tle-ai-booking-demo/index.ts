@@ -88,8 +88,8 @@ function safePublicReply(candidate:string,message:string,booking:ReturnType<type
   return combined.length<=110?combined:step;
  }
  if(!reply)return step;
- if(reply.length>110||(reply.match(/\\?/g)||[]).length>1){
-  const first=reply.match(/^.{1,88}?[.!](?=\\s|$)/)?.[0]||"";
+ if(reply.length>110||(reply.match(/\?/g)||[]).length>1){
+  const first=reply.match(/^.{1,88}?[.!](?=\s|$)/)?.[0]||"";
   const combined=first?first+" "+step:"";
   return combined.length<=110&&combined.length>0&&!moneyWords.test(combined)?combined:step;
  }
