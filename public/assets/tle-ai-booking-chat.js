@@ -13,7 +13,7 @@
     title:"Asistente de reservas con IA",subtitle:"Demostración · No realiza reservas reales",
     intro:"¡Hola! 👋 Te ayudaré paso a paso. Primero, ¿el espacio es residencial o comercial?",
     placeholder:"Escribe tu pregunta…",button:"Preguntar a la IA",send:"Enviar",close:"Cerrar chat",
-    note:"Solo demostración. No compartas nombres, teléfonos, correos, direcciones ni información de pago.",
+    note:"No se cobrará ningún pago.",
     error:"Ahora mismo no puedo responder. Por favor, inténtalo más tarde.",
     limit:"El chat no está disponible por ahora. Inténtalo más tarde.",
     opening:"Abrir asistente de IA", review:"Revisar mi solicitud →",nextStep:"Siguiente: revisa lo que completé, añade los datos que falten y termina la solicitud de prueba."
@@ -21,7 +21,7 @@
     title:"AI Booking Assistant",subtitle:"Live AI demo · No real bookings",
     intro:"Hi! 👋 I’ll guide you step by step. First, is the space residential or commercial?",
     placeholder:"Ask a question…",button:"Ask AI",send:"Send",close:"Close chat",
-    note:"Demo only. Please don't share names, emails, phone numbers, addresses, or payment details.",
+    note:"No payment will be collected.",
     error:"I can't respond right now. Please try again later.",
     limit:"Chat isn't available right now. Please try again later.",
     opening:"Open AI Booking Assistant", review:"Review my request →",nextStep:"Next: review what I filled in, complete any missing fields, then finish the demo request."
