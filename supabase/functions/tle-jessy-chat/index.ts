@@ -49,6 +49,8 @@ function wantsAiPlanComparison(message,prior,focus){
  const ai=/\b(ai|ia|assistants?|asistentes?|agentes?|chatbots?)\b/.test(q);
  const compare=/\b(which|what|list|all|three|3|compare|comparison|options?|plans?|packages?|types?|available|offer|offered|cuales?|que|todos?|tres|comparar|opciones|planes|paquetes|tipos|ofrecen|disponibles|precios|pricing)\b/.test(q);
  if(ai&&compare)return true;
+ if(/^(?:ai|ia)\s+(?:assistants?|asistentes?|agents?|agentes?|plans?|planes?|packages?|paquetes?)[!?.\s]*$/.test(q)||/^(?:asistentes?|agentes?)\s+(?:de\s+)?ia[!?.\s]*$/.test(q))return true;
+ if(ai&&/^(?:i (?:want|need)|quiero|necesito|i.m interested in|estoy interesad[oa] en)\b/.test(q))return true;
  if(/\b(ai|ia)\s+(plans?|packages?|pricing|options?|precios|planes|paquetes)\b/.test(q))return true;
  const onAiPage=focus==="ai-booking"||prior==="ai-plans";
  if(onAiPage&&/^(?:(?:show|see|view|ver|mostrar|quiero ver)\s+)?(?:all\s+)?(?:plans?|packages?|pricing|prices?|precios?|planes?|paquetes?|options?|opciones?|checkout|comprar|buy|purchase|pay|pagar|proximo paso|next step)[!?.\s]*$/.test(q))return true;
