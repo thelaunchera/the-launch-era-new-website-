@@ -29,6 +29,9 @@ jobs:
       - name: Verify Jessy appears on all public pages and answers in context
         run: node scripts/qa-jessy-coverage.mjs
 
+      - name: Verify private owner Jessy access and read-only scope
+        run: node scripts/qa-jessy-owner.mjs
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
