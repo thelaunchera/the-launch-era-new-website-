@@ -138,6 +138,13 @@ function activate(session){
   <button type="submit" class="cb-go">Send message →</button>
   <p class="cb-contact-status" role="status" aria-live="polite"></p>
  </form>`;
+ const contactPermissionWords=contact.querySelector('[name="optional_care_opt_in"]')?.nextElementSibling;
+ if(contactPermissionWords)contactPermissionWords.textContent=session.language==='es'
+  ?'Sí, autorizo a CB Depot a enviarme consejos útiles para mi vehículo y seguimientos ocasionales sobre mi solicitud. Opcional. Puedo darme de baja cuando quiera.'
+  :'Yes, CB Depot may email me useful vehicle care tips and occasional follow-ups about my inquiry. Optional. I can unsubscribe anytime.';
+ const contactPermissionNote=contact.querySelector('.tle-care-permission small');
+ if(contactPermissionNote&&session.language==='es')contactPermissionNote.textContent=
+  'Responderemos tu consulta aunque no marques la casilla. Los recordatorios de citas confirmadas se eligen por separado.';
  const contactForm=contact.querySelector("form");
  let lastContactAttempt=null;
  contactForm.addEventListener("submit",async ev=>{
