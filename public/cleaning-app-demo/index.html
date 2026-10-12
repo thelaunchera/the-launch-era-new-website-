@@ -94,9 +94,9 @@ function demoTrack(event,fields={}){
 }
 demoTrack('cleaning_app_demo_view',{language:trackingParams.get('lang')==='es'?'es':'en'});
 </script>
-</head>
+<link rel="stylesheet" href="/assets/tle-brand.css?v=20261012"><link rel="icon" type="image/svg+xml" href="/assets/brand/tle-mark.svg"></head>
 <body>
-<header><div class="header-inner"><a class="brand" href="/">THE LAUNCH ERA</a><div class="header-right"><span class="preview-badge" data-i18n="badge">INTERACTIVE PREVIEW · SAMPLE DATA</span><div class="lang-toggle" aria-label="Language"><button type="button" id="en" aria-pressed="true">EN</button><button type="button" id="es" aria-pressed="false">ES</button></div></div></div></header>
+<header><div class="header-inner"><a class="brand" href="/"><img class="tle-brand-logo" src="/assets/brand/tle-wordmark.svg" width="174" height="35" alt="The Launch Era"></a><div class="header-right"><span class="preview-badge" data-i18n="badge">INTERACTIVE PREVIEW · SAMPLE DATA</span><div class="lang-toggle" aria-label="Language"><button type="button" id="en" aria-pressed="true">EN</button><button type="button" id="es" aria-pressed="false">ES</button></div></div></div></header>
 <main>
 <section class="intro container"><div class="eyebrow" data-i18n="kicker">THE LAUNCH ERA CLEANING APP</div><h1 data-i18n-html="headline">See how your cleaning business <em>stays organized.</em></h1><p data-i18n="intro">Explore a sample workday: check your calendar, open a job, view a client, prepare a quote, and manage an invoice. Nothing you click here sends emails, collects information, or changes a real account.</p><div class="guide"><span data-i18n-html="g1"><b>1</b> Pick a section</span><span data-i18n-html="g2"><b>2</b> Try a sample action</span><span data-i18n-html="g3"><b>3</b> Start your own account when you're ready</span></div></section>
 <section class="container" aria-label="Sample app interactive workspace"><div class="scene"><div class="app-bar"><div class="app-logo">THE LAUNCH ERA <small>CLEANING APP</small></div><div class="app-right" data-i18n="sampleBar">SAMPLE WORKSPACE · NO LOGIN REQUIRED</div></div><div class="preview-layout"><nav class="sidebar" aria-label="App sections"><div class="nav-label" data-i18n="navTitle">YOUR WORKSPACE</div><div class="nav-list" id="nav"></div></nav><div class="content" id="app" aria-live="polite"></div></div></div></section>
