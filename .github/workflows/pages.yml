@@ -32,6 +32,9 @@ jobs:
       - name: Verify private owner Jessy access and read-only scope
         run: node scripts/qa-jessy-owner.mjs
 
+      - name: Guard all future client password recovery links
+        run: node scripts/qa-auth-recovery.mjs
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
@@ -58,6 +61,7 @@ jobs:
           test -s .output/public/command-center/index.html
           grep -q 'PASSWORD_RECOVERY' .output/public/auth-recovery.html
           grep -q '/auth-recovery.html' .output/public/command-center/assets/command-center-app.js
+          node scripts/qa-auth-recovery.mjs --built
 
       - name: Create GitHub Pages route fallbacks
         run: |
@@ -92,3 +96,20 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Smoke test live Command Center recovery (no customer credentials)
+        shell: bash
+        run: |
+          set -euo pipefail
+          for attempt in {1..12}; do
+            recovery="$(curl --fail --silent --show-error --location --max-time 15 "https://thelaunchera.com/auth-recovery.html?qa=${GITHUB_SHA}" || true)"
+            signin="$(curl --fail --silent --show-error --location --max-time 15 "https://thelaunchera.com/command-center/?qa=${GITHUB_SHA}" || true)"
+            if [[ "$recovery" == *'id="passwordForm"'* ]] && [[ "$signin" == *'id="authForm"'* ]]; then
+              echo "PASS — recovery form and private sign-in are live."
+              exit 0
+            fi
+            echo "Waiting for GitHub Pages propagation ($attempt/12)"
+            sleep 5
+          done
+          echo "::error::Live password recovery or private Command Center route is not available."
+          exit 1
