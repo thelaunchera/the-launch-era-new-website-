@@ -3799,7 +3799,23 @@ if(workspace.is_internal&&document.body.classList.contains('crm-owner-view')){
    detail:{initial:first,unread:unread.length,newCount:newlyArrived.length}
   }));
  }
-}$('bellCount').textContent=String(unread.length);const list=$('notificationList');list.replaceChildren();for(const n of data||[]){const row=document.createElement('div');row.className='inbound-item';const title=document.createElement('strong');title.textContent=(n.read_at?'':'● ')+n.title;const body=document.createElement('p');body.textContent=n.body+' · '+new Date(n.created_at).toLocaleString();row.append(title,body);if(!n.read_at){const btn=document.createElement('button');btn.type='button';btn.className='secondary';btn.textContent='Mark read';btn.onclick=async()=>{const {error}=await db.from('tle_crm_notifications').update({read_at:new Date().toISOString()}).eq('id',n.id).eq('workspace_id',workspace.id);if(error)say(error.message);else await loadStoredNotifications()};row.append(btn)}list.append(row)}if(!data?.length)list.textContent='All caught up.'}$('bellButton').onclick=()=>{$('notificationPanel').classList.toggle('hidden');if(!$('notificationPanel').classList.contains('hidden')){$('notificationPanel').scrollIntoView({behavior:'smooth'});loadStoredNotifications()}};setInterval(()=>{if(workspace)loadStoredNotifications()},45000);async function bootAfterPrivateEmailConfirmation(){
+}$('bellCount').textContent=String(unread.length);const list=$('notificationList');list.replaceChildren();
+if(workspace.is_internal&&document.body.classList.contains('crm-owner-view')&&unread.length){
+  const all=document.createElement('button');all.type='button';all.className='secondary';
+  all.textContent='✓ Mark all '+unread.length+' unread notifications';
+  all.setAttribute('aria-label','Mark all unread Command Center notifications as read');
+  all.onclick=async()=>{
+    if(!window.TLEOwnerJessyGateway?.ready?.())return;
+    all.disabled=true;all.textContent='Marking as read…';
+    try{
+      const result=await window.TLEOwnerJessyGateway.ask({message:'Mark all Command Center notifications as read',language:'en'});
+      if(result.action_performed!=='mark_notifications_read')throw Error('Could not verify the update.');
+      say(result.reply);
+    }catch(err){all.disabled=false;all.textContent='Retry marking all alerts read';say(err.message||'Could not mark alerts as read')}
+  };
+  list.appendChild(all);
+}
+for(const n of data||[]){const row=document.createElement('div');row.className='inbound-item';const title=document.createElement('strong');title.textContent=(n.read_at?'':'● ')+n.title;const body=document.createElement('p');body.textContent=n.body+' · '+new Date(n.created_at).toLocaleString();row.append(title,body);if(!n.read_at){const btn=document.createElement('button');btn.type='button';btn.className='secondary';btn.textContent='Mark read';btn.onclick=async()=>{const {error}=await db.from('tle_crm_notifications').update({read_at:new Date().toISOString()}).eq('id',n.id).eq('workspace_id',workspace.id);if(error)say(error.message);else await loadStoredNotifications()};row.append(btn)}list.append(row)}if(!data?.length)list.textContent='All caught up.'}$('bellButton').onclick=()=>{$('notificationPanel').classList.toggle('hidden');if(!$('notificationPanel').classList.contains('hidden')){$('notificationPanel').scrollIntoView({behavior:'smooth'});loadStoredNotifications()}};setInterval(()=>{if(workspace)loadStoredNotifications()},45000);async function bootAfterPrivateEmailConfirmation(){
  // Redeem the one-time token inside the private Command Center; it never
  // appears in a URL query, analytics event, web-server request or email preview.
  const confirmation=new URLSearchParams(location.hash.replace(/^#/,''));
