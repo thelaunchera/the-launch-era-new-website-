@@ -134,7 +134,8 @@ function activate(session){
   <label>Phone (optional) <input name="customer_phone" type="tel" maxlength="80" autocomplete="tel" placeholder="Phone number"></label>
   <label>What can we help with? <textarea name="message" required maxlength="1200" rows="4" placeholder="Tell us what you need..."></textarea></label>
   <label class="tle-care-permission" style="display:block;background:#f6fafc;border:1px solid #d4e3ed;border-radius:14px;padding:13px;line-height:1.5;font-size:13px"><span style="display:flex;gap:9px;align-items:flex-start"><input type="checkbox" name="optional_care_opt_in" style="width:18px;height:18px;flex:none;margin-top:2px"><span>Yes, CB Depot can email me useful vehicle care tips and occasional follow-ups. Optional.</span></span><small style="display:block;margin-top:6px;color:#627789">Replies about this inquiry and appointment reminders are separate. Unsubscribe from optional messages any time.</small></label>
-  <label class="cb-trap" aria-hidden="true">Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+  <label class="cb-reminder-permission" style="display:block;background:#f6fafc;border:1px solid #d4e3ed;border-radius:14px;padding:13px;line-height:1.5;font-size:13px"><span style="display:flex;gap:9px;align-items:flex-start"><input type="checkbox" name="appointment_reminders_opt_in" style="width:18px;height:18px;flex:none;margin-top:2px"><span>Yes, send me appointment reminders if my booking is confirmed — two days before and at 5 AM on the appointment day. Optional.</span></span><small style="display:block;margin-top:6px;color:#627789">Separate from occasional tips. We will reply to your inquiry either way.</small></label>
+   <label class="cb-trap" aria-hidden="true">Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
   <button type="submit" class="cb-go">Send message →</button>
   <p class="cb-contact-status" role="status" aria-live="polite"></p>
  </form>`;
@@ -145,6 +146,10 @@ function activate(session){
  const contactPermissionNote=contact.querySelector('.tle-care-permission small');
  if(contactPermissionNote&&session.language==='es')contactPermissionNote.textContent=
   'Responderemos tu consulta aunque no marques la casilla. Los recordatorios de citas confirmadas se eligen por separado.';
+ const contactReminderCopy=contact.querySelector('[name="appointment_reminders_opt_in"]')?.nextElementSibling;
+ if(contactReminderCopy&&session.language==='es')contactReminderCopy.textContent='Sí, quiero recibir recordatorios por correo si confirman mi cita: dos días antes y a las 5 a. m. el día de la cita. Opcional.';
+ const contactReminderHint=contact.querySelector('.cb-reminder-permission small');
+ if(contactReminderHint&&session.language==='es')contactReminderHint.textContent='Es independiente de los consejos opcionales. Responderemos tu consulta de todas maneras.';
  const contactForm=contact.querySelector("form");
  let lastContactAttempt=null;
  contactForm.addEventListener("submit",async ev=>{
@@ -182,7 +187,8 @@ function activate(session){
   const booking_key=new URLSearchParams(location.search).get("key")||"";
   if(!booking_key){status.textContent="Contact form unavailable until the booking page is published.";return}
   const careOptIn=data.get('optional_care_opt_in')==='on';
-  const fingerprint=JSON.stringify([customer_name,customer_email,message,careOptIn]);
+  const reminderOptIn=data.get('appointment_reminders_opt_in')==='on';
+  const fingerprint=JSON.stringify([customer_name,customer_email,message,careOptIn,reminderOptIn]);
   if(!lastContactAttempt||lastContactAttempt.fingerprint!==fingerprint)
    lastContactAttempt={fingerprint,ref:'req_'+crypto.randomUUID()};
   session.sendingContact=true;button.disabled=true;button.textContent="Sending…";status.textContent="";
@@ -191,7 +197,7 @@ function activate(session){
     method:"POST",headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
      booking_key,request_type:"inquiry",request_intent:"inquiry",source:"booking_page_contact",
-     external_ref:lastContactAttempt.ref,optional_care_opt_in:careOptIn,
+     external_ref:lastContactAttempt.ref,optional_care_opt_in:careOptIn,appointment_reminders_opt_in:reminderOptIn,
      preferred_language:session.language||"en",customer_name,customer_email,
      customer_phone:String(data.get("customer_phone")||"").trim(),service_name:"General question",
      notes:message,website:String(data.get("website")||"")
