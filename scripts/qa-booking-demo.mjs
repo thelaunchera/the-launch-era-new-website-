@@ -504,7 +504,8 @@ for(const lang of ['en','es']){
  });
  await check('One conditional combined intake '+lang,{width:390,height:844},async p=>{
   await p.goto(base+(lang==='es'?'/es':'')+'/booking-flow-intake/?demo=1&bundle=ai-business',{waitUntil:'domcontentloaded'});
-  assert.equal(await p.locator('#tleBundleAiIntake').isVisible(),true);
+  const intakeDiagnostics=await p.evaluate(()=>{const el=document.getElementById('tleBundleAiIntake');return {url:location.href,exists:!!el,inlineStyle:el?.getAttribute('style'),computed:el?getComputedStyle(el).display:null,hiddenAncestor:el?.closest('[hidden]')?.tagName||'',businessPlan:new URLSearchParams(location.search).get('bundle'),text:document.getElementById('status')?.textContent?.slice(0,100)}});
+  assert.equal(await p.locator('#tleBundleAiIntake').isVisible(),true,JSON.stringify(intakeDiagnostics));
   assert.equal(await p.locator('#tleBundleAiBooking').isVisible(),true);
   assert.equal(await p.locator('#tleBundleAiFollowup').isVisible(),true);
   assert.equal(await p.locator('[name="ai_languages"]').count(),1);
@@ -533,7 +534,8 @@ for(const lang of ['en','es']){
    assert(result.noteBottom+10<=result.waveTop,'Caption overlaps transition wave: '+JSON.stringify(result));
    assert(result.stageBottom+10<=result.waveTop,'Interactive steps overlap transition wave: '+JSON.stringify(result));
    assert(Math.abs(result.waveTop-result.sectionTop)<=3,'Wave begins within the next section');
-   assert(result.overflow<=3,'Horizontal overflow in booking walkthrough');
+   if(result.overflow>3){const overflowElements=await p.evaluate(()=>[...document.querySelectorAll('body *')].filter(el=>el.getBoundingClientRect().right>innerWidth+3).slice(0,8).map(el=>({tag:el.tagName,className:String(el.className).slice(0,100),right:Math.round(el.getBoundingClientRect().right)})));throw new Error('Horizontal overflow in booking walkthrough: '+JSON.stringify({result,overflowElements}))}
+
   });
  }
 }
