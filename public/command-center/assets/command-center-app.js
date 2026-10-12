@@ -33,7 +33,8 @@ const say=s=>{$('message').textContent=s;if($('editor')?.open){const status=$('f
 async function check(result){if(result.error)throw result.error;return result.data}
 
 let crmToastDismissTimer=0;
-function showSaveToast(kind='success',en='Changes saved successfully',es='Cambios guardados correctamente'){
+function showSaveToast(kind='success',en='Changes saved successfully',es='Cambios guardados correctamente',savedScope=null){
+ if(kind==='success'&&savedScope)window.TLECommandCenterRefresh?.markSaved(savedScope);
  const node=$('crmSaveToast'),message=$('crmSaveToastText');if(!node||!message)return;
  message.textContent=localStorage.getItem('tle_crm_language')==='es'?es:en;
  node.classList.toggle('is-error',kind==='error');
@@ -293,7 +294,7 @@ $('pricingAddAddon').onclick=()=>{if(!pricingDraft||pricingDraft.addons.length>=
 $('pricingReload').onclick=loadPricing;$('pricingQuotePolicy').onchange=()=>{if($('pricingQuotePolicy').value==='always_review')$('pricingAutoConfirm').checked=false;$('pricingAutoConfirm').disabled=$('pricingQuotePolicy').value==='always_review'};
 $('pricingSave').onclick=async()=>{
  if(!pricingDraft)return;const button=$('pricingSave');button.disabled=true;$('pricingStatus').textContent="Saving…";
- try{const v=await pricingCall('save',{services:pricingDraft.services,addons:pricingDraft.addons,currency:$('pricingCurrency').value,quote_policy:$('pricingQuotePolicy').value,auto_confirm_flat:$('pricingAutoConfirm').checked,cleaning_calculator:pricingDraft.cleaning_calculator});$('pricingStatus').textContent="Published · "+new Date(v.updated_at).toLocaleString();await loadPricing();showSaveToast('success','Prices saved and published','Precios guardados y publicados');}
+ try{const v=await pricingCall('save',{services:pricingDraft.services,addons:pricingDraft.addons,currency:$('pricingCurrency').value,quote_policy:$('pricingQuotePolicy').value,auto_confirm_flat:$('pricingAutoConfirm').checked,cleaning_calculator:pricingDraft.cleaning_calculator});$('pricingStatus').textContent="Published · "+new Date(v.updated_at).toLocaleString();await loadPricing();showSaveToast('success','Prices saved and published','Precios guardados y publicados','pricingHub');}
  catch(e){$('pricingStatus').textContent="Not saved: "+e.message;showSaveToast('error','Could not save prices','No se pudieron guardar los precios')}finally{button.disabled=false}
 };
 
@@ -381,7 +382,7 @@ $('avSave').onclick=async()=>{
   if(!Object.values(data.weekly).some(x=>x.enabled===true))throw Error("Open at least one day");
   const result=await availabilityCall('save',data);
   $('avStatus').textContent="Published! Available booking slots updated · "+new Date(result.updated_at).toLocaleString();
-  availabilityDraft=data;renderAvailability();renderBlockedAvailability();showSaveToast('success','Availability saved','Disponibilidad guardada');
+  availabilityDraft=data;renderAvailability();renderBlockedAvailability();showSaveToast('success','Availability saved','Disponibilidad guardada','availabilityHub');
  }catch(e){$('avStatus').textContent="Not saved: "+e.message;showSaveToast('error','Could not save availability','No se pudo guardar la disponibilidad')}
  finally{button.disabled=false}
 };
@@ -1434,7 +1435,7 @@ $('buildBrandForm').onsubmit=async e=>{
   for(let n=1;n<=3;n++)for(const key of ['name','text','rating'])delete formData['review_'+n+'_'+key];
   await ownerStudioCall('save',{branding:{...formData,reviews,service_photo_paths}});
   await loadOwnerBuilder();
-  $('buildStatus').textContent=buildLabel('Design saved. Open the real preview and approve it.','Diseño guardado. Revisa la vista real y apruébala.');showSaveToast('success','Design saved','Diseño guardado');
+  $('buildStatus').textContent=buildLabel('Design saved. Open the real preview and approve it.','Diseño guardado. Revisa la vista real y apruébala.');showSaveToast('success','Design saved','Diseño guardado','ownerBuilderHub');
  }catch(error){$('buildStatus').textContent=crmLocaleText("Not saved: ","No se guardó: ")+error.message}
  finally{button.disabled=false}
 };
@@ -1663,7 +1664,7 @@ for(const type of ['problem','feedback']){
    });
    if(error)throw error;
    form.reset();status.textContent=supportTxt('✓ Message received. Thank you! Track the status below.','✓ ¡Mensaje recibido! Gracias. Consulta su estado más abajo.');
-   showSaveToast('success','Message received','Mensaje recibido');
+   showSaveToast('success','Message received','Mensaje recibido',form);
    void loadClientSupportHistory();
   }catch(error){status.textContent=supportTxt('Could not send. Please try again or reply to your delivery email.','No se pudo enviar. Intenta de nuevo o responde al correo de entrega.')}
   finally{button.disabled=false}
@@ -1711,7 +1712,7 @@ function renderOwnerSupport(){
     output.textContent=supportTxt('✓ Saved. The buyer can see the updated status.','✓ Guardado. El cliente puede ver el estado actualizado.');
     const n=ownerSupportRequests.filter(i=>i.status!=='resolved').length;
     void refreshOwnerSupportBadge();
-    showSaveToast('success','Support update saved','Seguimiento guardado');
+    showSaveToast('success','Support update saved','Seguimiento guardado',card);
    }catch(error){output.textContent=supportTxt('Could not save the update.','No se pudo guardar el cambio.')}
    finally{save.disabled=false}
   };
@@ -1952,7 +1953,7 @@ $('ownerCalForm').onsubmit=async e=>{
   ownerCalendarBuyerPref=id;
   await loadOwnerCalendar(true);
   msg.textContent=buyerPageLabel()?'✓ Fechas guardadas. Calendario actualizado.':'✓ Work dates saved. Calendar updated.';
-  showSaveToast('success','Work dates saved','Fechas de trabajo guardadas');
+  showSaveToast('success','Work dates saved','Fechas de trabajo guardadas','ownerCalendarHub');
  }catch(error){
   msg.textContent=(buyerPageLabel()?'No se guardaron las fechas: ':'Dates could not be saved: ')+error.message;
   showSaveToast('error','Could not save work dates','No se pudieron guardar las fechas');
@@ -3559,7 +3560,7 @@ $('buyerDraftSave').onclick=async()=>{
   const out=await db.from('tle_crm_leads').update(patch).eq('workspace_id',workspace.id).eq('id',editing.id).select('id').single();
   if(out.error)throw out.error;
   Object.assign(editing,patch);
-  $('buyerDraftStatus').textContent='✓ Saved. Automation stays as it was.';showSaveToast('success','Email edits saved','Cambios del correo guardados');
+  $('buyerDraftStatus').textContent='✓ Saved. Automation stays as it was.';showSaveToast('success','Email edits saved','Cambios del correo guardados','editor');
  }catch(err){$('buyerDraftStatus').textContent='Could not save: '+err.message;showSaveToast('error','Could not save email edits','No se pudieron guardar los cambios del correo')}
  finally{button.disabled=false}
 };

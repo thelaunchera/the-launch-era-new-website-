@@ -7,6 +7,13 @@ page.on('requestfailed',r=>errors.push('NETWORK: '+r.url().slice(0,150)+' '+r.fa
 page.on('response',r=>{if(r.status()>=400)errors.push('HTTP '+r.status()+': '+r.url().slice(0,150));});
 try{
  const url='https://thelaunchera.com/command-center/?app=tle&qa=safari-lightweight-v32';
+ let refreshPublished=false;
+ for(let attempt=0;attempt<24;attempt++){
+  const html=await fetch(url+'&release=20261012-refresh-v1',{cache:'no-store',signal:AbortSignal.timeout(15000)}).then(r=>r.text()).catch(()=> '');
+  if(html.includes('id="workspaceRefresh"')&&html.includes('command-center-refresh.js')){refreshPublished=true;break;}
+  await new Promise(resolve=>setTimeout(resolve,5000));
+ }
+ if(!refreshPublished)throw Error('Refresh release was not published before Safari QA');
  console.log('OPEN',url);
  const nav=await page.goto(url,{waitUntil:'commit',timeout:45000}).catch(e=>{console.log('NAVIGATION_ERROR',String(e.message));return null;});
  console.log('STATUS',nav?.status());
@@ -33,6 +40,20 @@ try{
  if(state.loading&&!state.hasFallback)throw Error('Safari retains blocking splash without recovery');
  if(errors.some(x=>x.startsWith('JS:')))throw Error('Page JavaScript uncaught exceptions; see logs');
  console.log('PASS: official Command Center loads safely in WebKit');
+
+ // Public-session layout check: no account, booking or email is created.
+ for(const width of [390,1024,1440]){
+  await page.setViewportSize({width,height:900});
+  await page.evaluate(()=>{document.querySelector('#auth').classList.add('hidden');document.querySelector('#app').classList.remove('hidden');});
+  const refresh=page.locator('#workspaceRefresh');await refresh.waitFor({state:'visible'});
+  const box=await refresh.boundingBox();if(!box||box.height<44||box.x<0||box.x+box.width>width+1)throw Error('Refresh button clipped or too small at '+width);
+  const draft=page.locator('#refreshQaDraft');await page.evaluate(()=>{const input=document.createElement('input');input.id='refreshQaDraft';input.value='Original';document.querySelector('.premium-workspace').append(input);});
+  await draft.fill('Unsaved QA draft');let warned=false;page.once('dialog',async dialog=>{warned=true;await dialog.dismiss()});await refresh.click();
+  if(!warned||await draft.inputValue()!=='Unsaved QA draft')throw Error('Refresh did not preserve unsaved draft on cancel');
+  await page.evaluate(()=>window.TLECommandCenterRefresh.markSaved(document.querySelector('.premium-workspace')));
+  await Promise.all([page.waitForNavigation({waitUntil:'domcontentloaded'}),refresh.click()]);await page.locator('#authForm').waitFor({state:'attached'});
+  console.log('PASS refresh button and draft protection in Safari at '+width+'px');
+ }
 
  // A mocked buyer review prevents real email, billing, or approval actions.
  // Check that the customer's saved language and review link survive Safari refresh.

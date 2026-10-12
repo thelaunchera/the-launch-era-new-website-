@@ -508,3 +508,6 @@ body.cb-depot-buyer .workspace-nav-group>summary:hover{background:#ffffff18;colo
 body.cb-depot-buyer .workspace-nav-group[open]{border-color:#ffffff30}
 
 #ownerSupportPanel{width:100%;max-width:none;margin:16px 0}#ownerSupportPanel #ownerSupportList>.panel{width:100%;max-width:none;margin:0}.support-diagnostics{margin-top:16px;padding:14px;border:1px solid #dce8f0;border-radius:12px;background:#f8fbfd}.support-diagnostics summary{cursor:pointer;font-weight:650}.support-diagnostics p{font-size:12px;line-height:1.6;overflow-wrap:anywhere}.support-diagnostics button{margin:5px 6px 0 0;white-space:normal;min-height:44px}
+
+/* Shared controls remain visible in phone, tablet, desktop and installed mode. */
+.crm-workspace-backrow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:12px 0 18px}#workspaceRefresh{margin-left:auto;display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;padding:10px 15px;white-space:nowrap;flex:0 0 auto}#workspaceRefresh:focus-visible{outline:3px solid #4c8eb8;outline-offset:3px}#workspaceRefresh[disabled]{opacity:.65;cursor:wait}
