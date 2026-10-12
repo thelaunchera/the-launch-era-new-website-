@@ -467,7 +467,7 @@ function applyCRMRoleInterface(){
  $('buyerPricingNav').classList.toggle('hidden',!(buyer&&buyerDeliveryReady));
  $('buyerAvailabilityNav').classList.toggle('hidden',!(buyer&&buyerDeliveryReady));
  $('buyerEmailsNav').classList.toggle('hidden',!(buyer&&buyerDeliveryReady));
- $('buyerRequestsNav').classList.toggle('hidden',!buyer);$('buyerAppointmentsNav').classList.toggle('hidden',!buyer);$('buyerBookingPreviewNav').classList.toggle('hidden',!buyer);$('ownerWebsiteInboxNav').classList.toggle('hidden',!owner);$('ownerSettingsNav').classList.toggle('hidden',!owner);$('buyerSettingsNav').classList.toggle('hidden',!buyer);
+ $('buyerRequestsNav').classList.toggle('hidden',!buyer);$('buyerAppointmentsNav').classList.toggle('hidden',!buyer);$('buyerServiceCareNav').classList.toggle('hidden',!buyer);$('buyerBookingPreviewNav').classList.toggle('hidden',!buyer);$('ownerWebsiteInboxNav').classList.toggle('hidden',!owner);$('ownerSettingsNav').classList.toggle('hidden',!owner);$('buyerSettingsNav').classList.toggle('hidden',!buyer);
  $('navOverview').classList.toggle('hidden',owner);
  $('mainNavCaption').classList.remove('hidden');
  /* Legacy calendar link is intentionally hidden; the buyer uses Inbox and the owner uses Prospect Follow-ups. */
@@ -667,7 +667,7 @@ function premiumNavigate(target){
  document.querySelectorAll('.nav-link[data-target]').forEach(b=>b.classList.toggle('active',b.dataset.target===target));closePremiumSidebar();if(target==='home'){
  if(workspace&&!workspace.is_internal){setView('buyer-dashboard');void loadBuyerBookingShare();void loadBuyerRequests();$('buyerDashboardHub').scrollIntoView({behavior:'smooth'});return}
  setView('pipeline');$('search').value='';$('stageFilter').value='';$('dueFilter').value='';render();$('quickhome').scrollIntoView({behavior:'smooth'});return}if(target==='owner-help'){if(!workspace?.is_internal)return;setView('owner-help');$('ownerHelpHub').scrollIntoView({behavior:'smooth'});return}if(target==='help'){setView('help');$('helpHub').scrollIntoView({behavior:'smooth'});return}if(target==='availability'&&workspace?.is_internal&&!ownerReviewAccount){premiumNavigate('owner-pages');return}if(target==='availability'){setView('availability');loadAvailability();$('availabilityHub').scrollIntoView({behavior:'smooth'});return}if(target==='pricing'&&workspace?.is_internal&&!ownerReviewAccount){premiumNavigate('owner-pages');return}if(target==='pricing'){setView('pricing');loadPricing();$('pricingHub').scrollIntoView({behavior:'smooth'});return}if(target==='owner-pages'){setView('owner-pages');loadOwnerPages();$('ownerPagesHub').scrollIntoView({behavior:'smooth'});return}
-if(target==='owner-calendar'){if(!workspace?.is_internal)return;setView('owner-calendar');loadOwnerCalendar();$('ownerCalendarHub').scrollIntoView({behavior:'smooth'});return}if(target==='clients'&&workspace&&!workspace.is_internal){setView('buyer-customers');void loadBuyerRequests();$('buyerCustomersHub').scrollIntoView({behavior:'smooth'});return}if(target==='buyer-booking-preview'){if(!workspace||workspace.is_internal)return;setView('buyer-booking-preview');$('buyerBookingPreviewHub').scrollIntoView({behavior:'smooth'});void loadBuyerBookingPreview();return}if(target==='buyer-calendar'){if(!workspace||workspace.is_internal)return;setView('buyer-calendar');renderBuyerBookingCalendar();void loadBuyerRequests();$('buyerAppointmentsHub').scrollIntoView({behavior:'smooth'});return}if(target==='request-center'){if(!workspace||workspace.is_internal)return;setView('request-center');void loadBuyerRequests();$('buyerRequestsHub').scrollIntoView({behavior:'smooth'});return}if(target==='buyer-followups'){if(!workspace||workspace.is_internal)return;setView('buyer-followups');$('settingsHub').scrollIntoView({behavior:'smooth'});return}if(target==='settings'){setView('settings');if(workspace&&!workspace.is_internal)void syncManagedBuyerEmailStatus();$('settingsAccountEmail').textContent=accountEmail||'—';$('settingsBusinessName').textContent=workspace?.name||'—';$('settingsLanguage').value=localStorage.getItem('tle_crm_language')==='es'?'es':'en';$('settingsHub').scrollIntoView({behavior:'smooth'});return}if(target==='inbox'){setView('inbox');$('inboundHub').scrollIntoView({behavior:'smooth'});return}if(target==='emails'){setView('emails');$('emailHub').scrollIntoView({behavior:'smooth'});return}if(target==='calendar'){$('dueFilter').value='';$('stageFilter').value='';render();setView('calendar')}else if(target==='clients'){$('stageFilter').value='';$('dueFilter').value='';render();setView('clients')}else{$('stageFilter').value='';$('dueFilter').value='';render();setView('pipeline')}document.getElementById('premiumViews').scrollIntoView({behavior:'smooth'})}document.querySelectorAll('.nav-link[data-target]').forEach(b=>b.onclick=()=>premiumNavigate(b.dataset.target));$('navToggle').setAttribute('aria-expanded','false');$('navToggle').setAttribute('aria-controls','premiumSidebar');$('navToggle').onclick=togglePremiumSidebar;$('sidebarScrim').onclick=closePremiumSidebar;document.addEventListener('keydown',e=>{if(e.key==='Escape')closePremiumSidebar()});$('settingsLanguage').onchange=()=>{const select=$('crmLanguageSelect');if(select){select.value=$('settingsLanguage').value;select.dispatchEvent(new Event('change'))}};
+if(target==='owner-calendar'){if(!workspace?.is_internal)return;setView('owner-calendar');loadOwnerCalendar();$('ownerCalendarHub').scrollIntoView({behavior:'smooth'});return}if(target==='clients'&&workspace&&!workspace.is_internal){setView('buyer-customers');void loadBuyerRequests();$('buyerCustomersHub').scrollIntoView({behavior:'smooth'});return}if(target==='buyer-booking-preview'){if(!workspace||workspace.is_internal)return;setView('buyer-booking-preview');$('buyerBookingPreviewHub').scrollIntoView({behavior:'smooth'});void loadBuyerBookingPreview();return}if(target==='buyer-service-care'){if(!workspace||workspace.is_internal)return;setView('buyer-service-care');void loadCare();$('buyerServiceCareHub').scrollIntoView({behavior:'smooth'});return}if(target==='buyer-calendar'){if(!workspace||workspace.is_internal)return;setView('buyer-calendar');renderBuyerBookingCalendar();void loadBuyerRequests();$('buyerAppointmentsHub').scrollIntoView({behavior:'smooth'});return}if(target==='request-center'){if(!workspace||workspace.is_internal)return;setView('request-center');void loadBuyerRequests();$('buyerRequestsHub').scrollIntoView({behavior:'smooth'});return}if(target==='buyer-followups'){if(!workspace||workspace.is_internal)return;setView('buyer-followups');$('settingsHub').scrollIntoView({behavior:'smooth'});return}if(target==='settings'){setView('settings');if(workspace&&!workspace.is_internal)void syncManagedBuyerEmailStatus();$('settingsAccountEmail').textContent=accountEmail||'—';$('settingsBusinessName').textContent=workspace?.name||'—';$('settingsLanguage').value=localStorage.getItem('tle_crm_language')==='es'?'es':'en';$('settingsHub').scrollIntoView({behavior:'smooth'});return}if(target==='inbox'){setView('inbox');$('inboundHub').scrollIntoView({behavior:'smooth'});return}if(target==='emails'){setView('emails');$('emailHub').scrollIntoView({behavior:'smooth'});return}if(target==='calendar'){$('dueFilter').value='';$('stageFilter').value='';render();setView('calendar')}else if(target==='clients'){$('stageFilter').value='';$('dueFilter').value='';render();setView('clients')}else{$('stageFilter').value='';$('dueFilter').value='';render();setView('pipeline')}document.getElementById('premiumViews').scrollIntoView({behavior:'smooth'})}document.querySelectorAll('.nav-link[data-target]').forEach(b=>b.onclick=()=>premiumNavigate(b.dataset.target));$('navToggle').setAttribute('aria-expanded','false');$('navToggle').setAttribute('aria-controls','premiumSidebar');$('navToggle').onclick=togglePremiumSidebar;$('sidebarScrim').onclick=closePremiumSidebar;document.addEventListener('keydown',e=>{if(e.key==='Escape')closePremiumSidebar()});$('settingsLanguage').onchange=()=>{const select=$('crmLanguageSelect');if(select){select.value=$('settingsLanguage').value;select.dispatchEvent(new Event('change'))}};
 document.querySelectorAll('[data-owner-help-target]').forEach(button=>button.onclick=()=>{if(workspace?.is_internal)premiumNavigate(button.dataset.ownerHelpTarget)});
 const buyerMailUrl="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-crm-buyer-mail-setup";
 let buyerMailState=null;
@@ -2400,6 +2400,90 @@ function renderEmailHub(){renderOwnerDueFollowups();if($('emailHubTitle'))$('ema
 /* Buyer-only request inbox: confirmed flat-price bookings, quote requests, and CRM inquiries. */
 const buyerRequestEndpoint="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-crm-buyer-request-center";
 let buyerRequests=[],buyerSelectedRequest=null,buyerRequestBusy=false;
+
+/* Buyer appointment and service-care controls. */
+let careCompleted=[],careReviews=[],careBusy=false;
+const careIds=()=>new Set(careCompleted.map(x=>x.lead_id));
+async function careApi(action,payload={}){
+ if(!workspace||workspace.is_internal)throw Error('Private business access required');
+ const {data:{session}}=await db.auth.getSession();if(!session?.access_token)throw Error('Sign in again');
+ const r=await fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-crm-service-operations',
+ {method:action==='list'?'GET':'POST',headers:{Authorization:'Bearer '+session.access_token,'Content-Type':'application/json'},
+ ...(action==='list'?{}:{body:JSON.stringify({action,...payload})})});
+ const result=await r.json().catch(()=>({}));if(!r.ok)throw Error(result.error||'Could not save');return result;
+}
+function careClose(id){const node=$(id);if(node.open)node.close()}
+function careOpenBooking(date=''){
+ if(!workspace||workspace.is_internal)return;
+ const form=$('buyerCreateBookingForm');form.reset();form.elements.namedItem('date').value=/^\d{4}-\d{2}-\d{2}$/.test(date)?date:buyerDateKey(new Date());
+ $('buyerManualConsentLabel').classList.add('hidden');$('buyerManualBookingResult').textContent='';$('buyerCreateBookingDialog').showModal();
+}
+for(const [id,date] of [['buyerCustomersNewBooking',false],['buyerCareNewBooking',false],['buyerInboxNewBooking',false],['buyerCalendarNewBooking',true],['cbDashCreateBooking',false]]){
+ $(id).onclick=()=>careOpenBooking(date?buyerCalendarSelectedDay:'');
+}
+for(const id of ['buyerAddCustomer','buyerCareAddCustomer'])$(id).onclick=()=>{if(workspace&&!workspace.is_internal)edit(null)};
+$('buyerBookingClose').onclick=()=>careClose('buyerCreateBookingDialog');$('buyerFinishClose').onclick=()=>careClose('buyerFinishServiceDialog');
+for(let h=0;h<24;h++)for(const m of ['00','30']){const v=String(h).padStart(2,'0')+':'+m;$('buyerManualBookingTime').add(new Option(v,v))}
+$('buyerCreateBookingForm').elements.namedItem('optional_care_opt_in').onchange=e=>$('buyerManualConsentLabel').classList.toggle('hidden',!e.target.checked);
+$('buyerFinishServiceForm').elements.namedItem('optional_care_opt_in').onchange=e=>$('buyerFinishConsentLabel').classList.toggle('hidden',!e.target.checked);
+function careDraw(){
+ if(!workspace||workspace.is_internal)return;
+ const done=careIds();$('buyerMarkServiceFinished').classList.toggle('hidden',buyerSelectedRequest?.status!=='booked'||done.has(buyerSelectedRequest?.id));
+ const a=$('buyerCareCompletedList'),b=$('buyerCareReviewList');a.replaceChildren();b.replaceChildren();
+ $('buyerCareCompletedCount').textContent='· '+careCompleted.length;$('buyerCareReviewCount').textContent='· '+careReviews.length;
+ for(const x of careCompleted.slice(0,20)){
+  const item=buyerRequests.find(v=>v.id===x.lead_id),card=buyerCreate('div',undefined,'buyer-care-item');
+  card.append(buyerCreate('strong',item?.customer_name||item?.customer_email||buyerText('Customer','Cliente')),
+   buyerCreate('small',new Date(x.completed_at).toLocaleDateString()+' · '+(x.recurring?buyerText('Recurring','Recurrente'):buyerText('One-time','Una vez')),'muted'));
+  if(item){const open=buyerCreate('button',buyerText('Open appointment →','Abrir cita →'),'secondary');open.onclick=()=>buyerCalendarOpenRequest(item);card.append(open)}
+  a.append(card)
+ }
+ if(!a.childElementCount)a.append(buyerCreate('p',buyerText('Completed services will appear here.','Aquí aparecerán los servicios terminados.'),'muted'));
+ for(const x of careReviews.slice(0,30)){
+  const item=buyerRequests.find(v=>v.id===x.lead_id),card=buyerCreate('article',undefined,'buyer-care-item');
+  card.append(buyerCreate('strong',item?.customer_name||buyerText('Customer','Cliente')),buyerCreate('small',new Date(x.created_at).toLocaleDateString()+(x.rating?' · '+'★'.repeat(x.rating):''),'muted'));
+  const msg=buyerCreate('p',x.message);msg.style.whiteSpace='pre-wrap';msg.style.overflowWrap='anywhere';card.append(msg);b.append(card)
+ }
+ if(!b.childElementCount)b.append(buyerCreate('p',buyerText('No private feedback yet.','Todavía no hay opiniones privadas.'),'muted'));
+}
+async function loadCare(){
+ if(!workspace||workspace.is_internal)return;
+ const id=workspace.id;
+ try{const data=await careApi('list');if(!workspace||workspace.id!==id)return;careCompleted=data.completed||[];careReviews=data.reviews||[];careDraw();$('buyerCareStatus').textContent=buyerText('Up to date','Actualizado')}
+ catch(e){$('buyerCareStatus').textContent=buyerText('Could not load service care.','No se pudo cargar el seguimiento.')}
+}
+function careFinishOpen(x){
+ if(!x||x.status!=='booked'||careIds().has(x.id))return;
+ const form=$('buyerFinishServiceForm');form.reset();form.elements.namedItem('lead_id').value=x.id;
+ form.elements.namedItem('space_type').value=String(x.raw_payload?.vehicle_type||x.raw_payload?.property_type||(isDetailingWorkspace()?'vehicle':'home')).slice(0,70);
+ form.elements.namedItem('recurring').checked=['weekly','biweekly','monthly'].includes(x.raw_payload?.recurrence||'');
+ $('buyerFinishCustomerName').textContent=(x.customer_name||x.customer_email)+' · '+(x.service_name||'');
+ $('buyerFinishConsentLabel').classList.add('hidden');$('buyerFinishResult').textContent='';$('buyerFinishServiceDialog').showModal();
+}
+$('buyerMarkServiceFinished').onclick=()=>careFinishOpen(buyerSelectedRequest);
+$('buyerCreateBookingForm').onsubmit=async e=>{
+ e.preventDefault();if(careBusy||!workspace||workspace.is_internal)return;
+ careBusy=true;const form=e.currentTarget,button=$('buyerManualBookingSubmit'),msg=$('buyerManualBookingResult');
+ const payload=Object.fromEntries(new FormData(form));payload.optional_care_opt_in=form.elements.namedItem('optional_care_opt_in').checked;
+ button.disabled=true;msg.textContent=buyerText('Checking availability…','Comprobando disponibilidad…');
+ try{await careApi('manual_booking',payload);msg.textContent=buyerText('✓ Booking confirmed!','✓ ¡Reserva confirmada!');showSaveToast('success','Booking confirmed','Reserva confirmada');
+  await loadBuyerRequests();careClose('buyerCreateBookingDialog');premiumNavigate('buyer-calendar')}
+ catch(err){msg.textContent=err.message;showSaveToast('error','Could not book that time','No se pudo reservar ese horario')}
+ finally{button.disabled=false;careBusy=false}
+};
+$('buyerFinishServiceForm').onsubmit=async e=>{
+ e.preventDefault();if(careBusy||!workspace||workspace.is_internal)return;
+ careBusy=true;const form=e.currentTarget,button=$('buyerFinishSubmit'),msg=$('buyerFinishResult');
+ const payload=Object.fromEntries(new FormData(form));payload.recurring=form.elements.namedItem('recurring').checked;payload.optional_care_opt_in=form.elements.namedItem('optional_care_opt_in').checked;
+ button.disabled=true;msg.textContent=buyerText('Saving service completion…','Guardando servicio terminado…');
+ try{await careApi('finish_service',payload);msg.textContent=buyerText('✓ Thank-you queued.','✓ Agradecimiento programado.');showSaveToast('success','Service finished','Servicio terminado');
+  await loadCare();careClose('buyerFinishServiceDialog');premiumNavigate('buyer-service-care')}
+ catch(err){msg.textContent=err.message;showSaveToast('error','Could not finish service','No se pudo terminar el servicio')}
+ finally{button.disabled=false;careBusy=false}
+};
+$('buyerCareRefresh').onclick=loadCare;
+$('buyerCareOpenCalendar').onclick=()=>premiumNavigate('buyer-calendar');
+
 let buyerCalendarMonth=new Date(new Date().getFullYear(),new Date().getMonth(),1),buyerCalendarSelectedDay='',buyerLeadQuickFilter='all';
 const buyerText=(en,es)=>buyerEs()?es:en;
 function buyerCreate(tag,textValue,cls){const e=document.createElement(tag);if(cls)e.className=cls;if(textValue!==undefined&&textValue!==null)e.textContent=String(textValue);return e}
@@ -2597,7 +2681,7 @@ function buyerRequestCard(x){
  btn.append(bar,title,details,footer);btn.onclick=()=>{buyerOpenRequest(x);if(window.innerWidth<=850)$('buyerRequestDetail').scrollIntoView({behavior:'smooth',block:'start'})};return btn
 }
 function buyerOpenRequest(x){
- buyerSelectedRequest=x;$("buyerRequestDetailTitle").textContent=x.customer_name||x.customer_email||buyerText("Customer request","Solicitud de cliente");
+ buyerSelectedRequest=x;careDraw();$("buyerRequestDetailTitle").textContent=x.customer_name||x.customer_email||buyerText("Customer request","Solicitud de cliente");
  const body=$("buyerRequestDetails");body.replaceChildren();
  const payload=x.raw_payload||{};
  const requested=[payload.requested_date,payload.requested_time].filter(Boolean).join(" · ");
@@ -3192,6 +3276,7 @@ async function loadBuyerRequests(){
   const data=await buyerRequestCall("list");
   if(!workspace||workspace.is_internal||workspace.id!==wsId)return;
   buyerRequests=Array.isArray(data.requests)?data.requests:[];
+  void loadCare();
   renderBuyerBookingCalendar();
   renderBuyerDashboard();
   renderBuyerCustomers();
@@ -3327,6 +3412,7 @@ let view='pipeline';function setView(v){
   'buyer-customers':['YOUR BUSINESS / CUSTOMERS','Customers'],
   'request-center':['YOUR BUSINESS / INBOX','Inbox & Leads'],
   'buyer-calendar':['YOUR BUSINESS / APPOINTMENTS','Booking Calendar'],
+  'buyer-service-care':['YOUR BUSINESS / AFTERCARE','Service Care'],
   'buyer-booking-preview':['YOUR BUSINESS / BOOKING PAGE','Booking Page Preview'],
   'emails':['YOUR BUSINESS / EMAIL','Customer Email History'],
   'buyer-followups':['YOUR BUSINESS / AUTOMATION','Automatic Follow-ups'],
@@ -3344,7 +3430,7 @@ let view='pipeline';function setView(v){
  $('quickIntro').textContent=internal
   ?'These are The Launch Era sales prospects—not customers of buyer cleaning businesses.'
   :'These are inquiries for your cleaning business—not The Launch Era sales leads.';
-$('ownerBuilderHub').classList.toggle('hidden',v!=='owner-build');$('ownerPagesHub').classList.toggle('hidden',v!=='owner-pages');$('ownerPagePreviewHub').classList.toggle('hidden',v!=='owner-preview');$('availabilityHub').classList.toggle('hidden',v!=='availability');$('pricingHub').classList.toggle('hidden',v!=='pricing');$('ownerHelpHub').classList.toggle('hidden',v!=='owner-help'||!internal);$('helpHub').classList.toggle('hidden',v!=='help');$('settingsHub').classList.toggle('hidden',v!=='settings'&&v!=='buyer-followups');$('board').classList.toggle('hidden',v!=='pipeline');$('calendar').classList.toggle('hidden',v!=='calendar');$('clients').classList.toggle('hidden',v!=='clients');$('emailHub').classList.toggle('hidden',v!=='emails');$('inboundHub').classList.toggle('hidden',v!=='inbox');$('buyerBookingPreviewHub').classList.toggle('hidden',v!=='buyer-booking-preview');$('buyerRequestsHub').classList.toggle('hidden',v!=='request-center');$('buyerAppointmentsHub').classList.toggle('hidden',v!=='buyer-calendar');$('buyerCustomersHub').classList.toggle('hidden',v!=='buyer-customers');$('buyerDashboardHub').classList.toggle('hidden',v!=='buyer-dashboard');if(v==='inbox')loadInbound();if(v==='emails')renderEmailHub();if(v==='settings'||v==='buyer-followups'){loadBuyerMail();if(v==='settings'){loadOwnerDeliveries();loadOwnerAiDeliveries();if(workspace?.is_internal)void loadOwnerSupportInbox()};}if(v==='help'&&workspace&&!workspace.is_internal)void loadClientSupportHistory();$('pipelineView').classList.toggle('active',v==='pipeline');$('calendarView').classList.toggle('active',v==='calendar');$('clientView').classList.toggle('active',v==='clients')} $('pipelineView').onclick=()=>setView('pipeline');$('calendarView').onclick=()=>setView('calendar');$('clientView').onclick=()=>setView('clients');$('exportCsv').onclick=()=>{const cols=['business','contact','email','source','language','stage','followup','notes','email_consent_status','email_consent_source','email_followup_enabled'];const esc=v=>'"'+String(v??'').replaceAll('"','""')+'"';const csv=[cols.join(','),...leads.map(x=>cols.map(k=>esc(x[k])).join(','))].join('\r\n');const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='command-center-'+new Date().toISOString().slice(0,10)+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};$('guideAdd').onclick=()=>edit(null);
+$('ownerBuilderHub').classList.toggle('hidden',v!=='owner-build');$('ownerPagesHub').classList.toggle('hidden',v!=='owner-pages');$('ownerPagePreviewHub').classList.toggle('hidden',v!=='owner-preview');$('availabilityHub').classList.toggle('hidden',v!=='availability');$('pricingHub').classList.toggle('hidden',v!=='pricing');$('ownerHelpHub').classList.toggle('hidden',v!=='owner-help'||!internal);$('helpHub').classList.toggle('hidden',v!=='help');$('settingsHub').classList.toggle('hidden',v!=='settings'&&v!=='buyer-followups');$('board').classList.toggle('hidden',v!=='pipeline');$('calendar').classList.toggle('hidden',v!=='calendar');$('clients').classList.toggle('hidden',v!=='clients');$('emailHub').classList.toggle('hidden',v!=='emails');$('inboundHub').classList.toggle('hidden',v!=='inbox');$('buyerBookingPreviewHub').classList.toggle('hidden',v!=='buyer-booking-preview');$('buyerRequestsHub').classList.toggle('hidden',v!=='request-center');$('buyerAppointmentsHub').classList.toggle('hidden',v!=='buyer-calendar');$('buyerServiceCareHub').classList.toggle('hidden',v!=='buyer-service-care');$('buyerCustomersHub').classList.toggle('hidden',v!=='buyer-customers');$('buyerDashboardHub').classList.toggle('hidden',v!=='buyer-dashboard');if(v==='inbox')loadInbound();if(v==='emails')renderEmailHub();if(v==='settings'||v==='buyer-followups'){loadBuyerMail();if(v==='settings'){loadOwnerDeliveries();loadOwnerAiDeliveries();if(workspace?.is_internal)void loadOwnerSupportInbox()};}if(v==='help'&&workspace&&!workspace.is_internal)void loadClientSupportHistory();$('pipelineView').classList.toggle('active',v==='pipeline');$('calendarView').classList.toggle('active',v==='calendar');$('clientView').classList.toggle('active',v==='clients')} $('pipelineView').onclick=()=>setView('pipeline');$('calendarView').onclick=()=>setView('calendar');$('clientView').onclick=()=>setView('clients');$('exportCsv').onclick=()=>{const cols=['business','contact','email','source','language','stage','followup','notes','email_consent_status','email_consent_source','email_followup_enabled'];const esc=v=>'"'+String(v??'').replaceAll('"','""')+'"';const csv=[cols.join(','),...leads.map(x=>cols.map(k=>esc(x[k])).join(','))].join('\r\n');const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='command-center-'+new Date().toISOString().slice(0,10)+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};$('guideAdd').onclick=()=>edit(null);
 async function showFollowupHistory(leadId){
  const target=$('followupHistory');const es=localStorage.getItem('tle_crm_language')==='es';
  const label=(en,spanish)=>es?spanish:en;
