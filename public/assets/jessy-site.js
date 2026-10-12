@@ -7,8 +7,18 @@ const ENDPOINT="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-jessy-
 const CONTACT="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-contact";
 const catalogPath="/assets/jessy-offers.json";
 const avatarPath="/assets/jessy-avatar.webp";
-let lang=(location.pathname==="/es"||location.pathname.startsWith("/es/"))?"es":"en";
-let open=false,waiting=false,seen=false,details=false,soundOn=false,catalog=[],offer="",history=[],draft=[],lastFocus=null;
+function currentPage(){
+ const path=location.pathname.replace(/\/+$/,"")||"/";
+ if(["/cleaning-web-app","/es/cleaning-web-app","/cleaning-app-demo"].includes(path))return "cleaning-app";
+ if(["/booking-lead-automation","/es/booking-lead-automation","/booking-demo"].includes(path))return "booking";
+ if(["/ai-booking-assistant","/es/ai-booking-assistant"].includes(path))return "ai-booking";
+ if(["/website-automation","/es/website-automation"].includes(path))return "website";
+ if(["/virtual-assistant","/es/virtual-assistant"].includes(path))return "va";
+ if(["/whatsapp-ai-agent","/es/whatsapp-ai-agent"].includes(path))return "whatsapp";
+ return "";
+}
+let lang=(location.pathname==="/es"||location.pathname.startsWith("/es/")||new URLSearchParams(location.search).get("lang")==="es")?"es":"en";
+let open=false,waiting=false,seen=false,details=false,soundOn=false,catalog=[],offer=currentPage(),history=[],draft=[],lastFocus=null;
 let startedAt=Date.now();
 const words={
  en:{name:"Jessy",status:"AI Assistant · The Launch Era",nudge:"Hi! I'm Jessy 👋 Need a hand?",hello:"Hi! 👋 I'm Jessy, The Launch Era's AI Assistant. What can I help you with today?",opening:"Open Jessy AI Assistant",close:"Close assistant",sound:"Toggle welcome sound",label:"Ask Jessy",typing:"One moment…",input:"Ask me anything about our services…",send:"Send",lead:"Leave my details for the team",leadTitle:"Let's keep in touch",leadIntro:"Share a few details. We'll review your question and get back to you.",nameLabel:"Your name",businessLabel:"Business name",emailLabel:"Email address",needLabel:"What do you need help with?",consent:"I agree that The Launch Era may contact me about this request. This does not subscribe me to marketing emails.",confirm:"Send my request",back:"← Back to chat",privacy:"Your details are only used to reply to this request.",sent:"Thanks! We received your request. Our team will review it soon.",error:"Your request didn't go through. Please try again.",liveError:"I'm having trouble answering right now. You can still explore a service or send us your details.",limit:"I'm a little busy right now. Please try again soon or leave your details.",next:"Ready for the next step?",checkout:"View checkout ↗",learn:"Explore service ↗",service:"Booking automation",ai:"AI assistants",price:"Pricing",human:"Contact the team",hint:"I can guide you. I don't handle payments or confirm orders."},
