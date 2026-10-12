@@ -6,6 +6,8 @@ on:
     paths:
       - 'scripts/qa-booking-demo.mjs'
       - 'public/booking-demo/index.html'
+      - 'public/booking/return/index.html'
+      - 'public/base-booking.html'
       - 'public/lead-private-preview.html'
       - 'public/assets/**'
       - 'src/components/**'
