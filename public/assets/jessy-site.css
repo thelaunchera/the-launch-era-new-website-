@@ -48,3 +48,14 @@
 
 .tle-jessy-fab[hidden]{display:none!important}
 .tle-jessy-root [hidden]{display:none!important}
+
+/* Jessy AI plan comparison: compact accessible options, no automatic plan selection. */
+.tle-jessy-plan-list{display:grid;gap:9px;margin:4px 0 16px;max-width:100%}
+.tle-jessy-plan-card{padding:12px 13px;border:1px solid #bfd9ea;background:#f2f9ff;border-radius:15px;display:grid;gap:5px;min-width:0}
+.tle-jessy-plan-name{display:block;color:#191919;font-size:14px;font-weight:800;line-height:1.3}
+.tle-jessy-plan-description{font-size:12px;line-height:1.45;color:#334b5c;margin:0}
+.tle-jessy-plan-price{font-size:12px;line-height:1.4;color:#223a48;font-weight:700;margin:2px 0 5px}
+.tle-jessy-plan-cta{display:inline-flex;justify-content:center;align-items:center;text-align:center;min-height:39px;width:100%;padding:9px 12px;background:#f2d85b;color:#191919;border:1px solid #d7bd4a;border-radius:999px;text-decoration:none;font-size:12px;font-weight:800}
+.tle-jessy-plan-cta:hover{background:#ead050}
+.tle-jessy-plan-cta:focus-visible{outline:3px solid #2679ab;outline-offset:3px}
+@media(max-width:600px){.tle-jessy-plan-card{padding:12px 13px}.tle-jessy-plan-list{gap:10px}}
