@@ -223,7 +223,7 @@ function activate(session){
  if(closing){
   closing.querySelector("h2").textContent="Get a custom quote today.";
   closing.querySelector("p").textContent="Professional detailing, personalized for your vehicle. Better care, a better ride.";
-  closing.style.setProperty("--cb-closing-photo",'url("'+(customImage?candidate:photos.hero)+'")');
+  closing.style.setProperty("--cb-closing-photo",'url("'+(customImage?candidate:photos.full)+'")');
   const button=closing.querySelector(".base-button");if(button)button.textContent="Get a quote →";
  }
  booking.querySelector(".ey").textContent="EASY BOOKING";
@@ -234,6 +234,17 @@ function activate(session){
  const main=document.getElementById("main"),quote=document.getElementById("quote");
  main.classList.remove("on");quote.classList.add("on");
  const addons=document.getElementById("realQuoteAddons");
+ // High-contrast automotive silhouettes rather than platform-dependent cartoon emoji.
+ function vehicleArtwork(kind){
+  const shapes={
+   Car:{body:"M9 40 L14 30 Q17 27 25 26 L36 16 Q39 13 46 13 H69 Q74 13 79 18 L88 27 H104 Q111 28 112 36 V45 H9 Z",glass:"M37 26 L44 17 H68 L80 27 Z",wheels:[32,88]},
+   SUV:{body:"M8 39 L12 29 L25 26 L31 14 Q34 11 42 11 H81 Q87 11 89 17 L93 27 H105 Q112 29 112 37 V45 H8 Z",glass:"M33 26 L38 16 H81 L87 26 Z",wheels:[32,89]},
+   Truck:{body:"M8 40 L11 30 H57 L65 19 Q68 16 73 16 H88 Q92 16 95 22 L100 29 H110 V45 H8 Z",glass:"M69 29 L74 20 H87 L93 29 Z",wheels:[33,92]},
+   Van:{body:"M8 39 V22 Q8 13 19 13 H86 Q99 13 103 22 L110 32 V45 H8 Z",glass:"M18 19 H80 Q89 19 92 29 H18 Z",wheels:[32,88]}
+  };
+  const s=shapes[kind]||shapes.Car;
+  return '<span class="cb-vehicle-visual" aria-hidden="true"><svg class="cb-vehicle-svg" viewBox="0 0 120 64" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="cbAuto'+kind+'" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#a8bacb"/><stop offset=".42" stop-color="#526a80"/><stop offset="1" stop-color="#1b3044"/></linearGradient></defs><ellipse cx="60" cy="52" rx="52" ry="5" fill="#1593ff" fill-opacity=".12"/><path d="'+s.body+'" fill="url(#cbAuto'+kind+')" stroke="#c5d9ea" stroke-width="1.5" stroke-linejoin="round"/><path d="'+s.glass+'" fill="#061b30" stroke="#8aacc8" stroke-width="1.2" stroke-linejoin="round"/><path d="M12 39 H109" stroke="#d1e4f4" stroke-opacity=".45"/><path d="M10 34 h6 M106 34 h6" stroke="#50baff" stroke-width="3" stroke-linecap="round"/>'+s.wheels.map(x=>'<circle cx="'+x+'" cy="45" r="8.5" fill="#081320" stroke="#d1e4f4" stroke-width="2"/><circle cx="'+x+'" cy="45" r="3.6" fill="#65839d" stroke="#bfd5e8"/>').join('')+'</svg></span>';
+ }
  const wizard=node("div","cb-wizard");
  wizard.innerHTML=`
  <div class="cb-progress" aria-label="Booking steps"><span data-stage-indicator="1" class="active"><b>1</b> Vehicle</span><i></i><span data-stage-indicator="2"><b>2</b> Date & time</span><i></i><span data-stage-indicator="3"><b>3</b> Details</span></div>
@@ -242,10 +253,10 @@ function activate(session){
    <div id="cbServiceField"></div>
    <div class="cb-field-label cb-type-label">What type of vehicle do you have?</div>
    <div class="cb-vehicles" role="group" aria-label="Vehicle type">
-    <button type="button" data-cb-vehicle="Car"><span>🚘</span>Car</button>
-    <button type="button" data-cb-vehicle="SUV"><span>🚙</span>SUV</button>
-    <button type="button" data-cb-vehicle="Truck"><span>🛻</span>Truck</button>
-    <button type="button" data-cb-vehicle="Van"><span>🚐</span>Van</button>
+    <button type="button" data-cb-vehicle="Car">${vehicleArtwork("Car")}Car</button>
+    <button type="button" data-cb-vehicle="SUV">${vehicleArtwork("SUV")}SUV</button>
+    <button type="button" data-cb-vehicle="Truck">${vehicleArtwork("Truck")}Truck</button>
+    <button type="button" data-cb-vehicle="Van">${vehicleArtwork("Van")}Van</button>
    </div>
    <input type="hidden" id="qtype" value="">
    <div id="cbConditionField"></div>
@@ -403,25 +414,39 @@ function activate(session){
  if(footer){
   footer.classList.add("cb-premium-footer");
   footer.replaceChildren();
-  const top=node("div","cb-footer-identity");
+  const main=node("div","cb-footer-main");
+  const brand=node("div","cb-footer-brand");
+  const identity=node("div","cb-footer-identity");
   const logo=node("img","cb-footer-mark");
   logo.src="/assets/clients/cb-depot/approved-favicon-192.png";
   logo.alt="CB Depot logo";logo.loading="lazy";
   const details=node("div","cb-footer-details");
-  details.append(node("strong","","CB Depot"),node("span","","Professional car detailing · Boynton Beach, Florida"));
-  top.append(logo,details);footer.append(top);
-  const quality=node("div","cb-footer-quality","Professional care · Personalized quotes · Easy appointment requests");
-  footer.append(quality);
-  const nav=node("nav","cb-footer-nav");nav.setAttribute("aria-label","CB Depot policies and contact");
-  for(const [label,path] of [["Privacy Policy","/cb-depot/privacy/"],["Booking Terms","/cb-depot/terms/"],["Contact Us","#cbContact"]]){
-   const link=node("a","",label);link.href=path;
-   if(path!=="#cbContact"){
-    const params=new URLSearchParams(location.search),key=params.get("key");
-    if(key)link.href=path+"?booking_key="+encodeURIComponent(key);
-   }
-   nav.append(link);
+  details.append(node("strong","","CB DEPOT"),node("span","","PREMIUM CAR DETAILING"));
+  identity.append(logo,details);
+  brand.append(identity,node("p","cb-footer-quality","Professional detailing, personalized for your vehicle. Quality care from start to finish."),node("p","cb-footer-locality","Boynton Beach, Florida"));
+  main.append(brand);
+  const explore=node("nav","cb-footer-column cb-footer-nav");
+  explore.setAttribute("aria-label","Explore CB Depot");
+  explore.append(node("h3","cb-footer-heading","Explore"));
+  for(const [label,href] of [["Our services","#services"],["Request a booking","#booking"],["Contact us","#cbContact"]]){
+   const a=node("a","",label);a.href=href;explore.append(a);
   }
-  footer.append(nav,node("small","cb-footer-fine","© "+new Date().getFullYear()+" CB Depot · All rights reserved"));
+  main.append(explore);
+  const support=node("nav","cb-footer-column cb-footer-nav");
+  support.setAttribute("aria-label","CB Depot policies");
+  support.append(node("h3","cb-footer-heading","Helpful links"));
+  for(const [label,path] of [["Privacy Policy","/cb-depot/privacy/"],["Booking Terms","/cb-depot/terms/"]]){
+   const link=node("a","",label);
+   const key=new URLSearchParams(location.search).get("key");
+   link.href=key?path+"?booking_key="+encodeURIComponent(key):path;
+   support.append(link);
+  }
+  support.append(node("p","cb-footer-help","Need help with your booking? Send us a message using the contact form above."));
+  main.append(support);footer.append(main);
+  const bottom=node("div","cb-footer-bottom");
+  bottom.append(node("small","cb-footer-fine","© "+new Date().getFullYear()+" CB Depot. All rights reserved."));
+  const powered=node("small","cb-footer-powered","Powered by The Launch Era");
+  bottom.append(powered);footer.append(bottom);
  }
 
 }
