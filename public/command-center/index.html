@@ -484,6 +484,20 @@
 <div style="display:flex;flex-wrap:wrap;gap:10px"><button type="button" id="buyerRefreshMail" class="secondary">Refresh status</button><button type="button" id="buyerActivateMail" disabled>Turn on</button><button type="button" id="buyerPauseMail" class="secondary" disabled>Turn off follow-ups</button></div>
 <p id="buyerMailFootnote" class="muted" style="margin-top:10px">Only eligible open quote requests receive follow-ups. Replies and unsubscribes stop them. The Launch Era manages the sender and incoming responses. Follow-ups begin only after your system is delivered.</p>
 </article>
+<article id="tleBundleOwnerPanel" class="panel hidden crm-owner-only" style="padding:clamp(16px,3vw,24px);margin-top:16px;border:1px solid #c8ddec;border-radius:20px;background:#FAF8F3">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">
+ <div><div class="section-title">Booking + AI · Bundle Manager</div><p class="muted" style="margin:5px 0">One checkout, one intake, separate setups and deliveries. Monthly AI plans stay at their regular price.</p></div>
+ <button type="button" class="secondary" id="tleBundleOwnerRefresh">↻ Refresh</button>
+</div>
+<div style="border:1px solid #dce3e6;background:white;border-radius:16px;padding:15px;margin:15px 0;display:grid;gap:10px">
+ <strong>40% discount · one-time activation only</strong>
+ <label style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><input id="tleBundleDiscountToggle" type="checkbox" style="width:20px;height:20px;accent-color:#191919"> Offer 40% off when Booking Automation and an AI Assistant are purchased together</label>
+ <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button id="tleBundleDiscountSave" type="button" class="secondary">Save offer settings</button><a href="/booking-bundle/?lang=en" target="_blank" rel="noopener noreferrer">Preview checkout ↗</a></div>
+ <p id="tleBundleOfferStatus" class="muted" role="status" aria-live="polite" style="margin:0;font-size:12px">Waiting for owner access…</p>
+</div>
+<div><strong>Purchased bundles</strong><p class="muted" style="font-size:12px;margin:4px 0 10px">Paid orders remain visible here through setup and delivery. Booking and AI each have their own QA.</p>
+<div id="tleBundleOwnerOrders" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:12px"></div></div>
+</article>
 <article id="ownerDeliveryPanel" class="panel hidden crm-owner-only" style="padding:23px;margin-top:16px">
 <div class="section-title">Client delivery</div>
 <p class="muted">Private owner checklist. Nothing is sent until the complete personalized system is ready, all six checks are confirmed, and you approve the final delivery.</p>
@@ -817,4 +831,4 @@
   observer.observe(document.body,{attributes:true,attributeFilter:["class"]});
   window.addEventListener("pageshow",sync);
 })();
-</script><script src="./assets/command-center-refresh.js?v=20261012-refresh-v1"></script></body></html>
+</script><script src="./assets/command-center-refresh.js?v=20261012-refresh-v1"></script><script src="./assets/command-center-bundles.js?v=20261012-bundle-discount-v1" defer></script></body></html>
