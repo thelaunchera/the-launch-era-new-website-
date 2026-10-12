@@ -97,6 +97,7 @@ async function boot(){
   const preferred=localStorage.getItem("tle_crm_language");
   lang=preferred==="es"?"es":"en";$("locale").value=lang;document.documentElement.lang=lang;
   $("gate").classList.add("hidden");$("app").classList.remove("hidden");render();
+ void import("./assets/jessy-owner-standalone.mjs?v=20261012-universal-v1").then(m=>m.mountOwnerJessy({db,workspaceId:allowedWorkspace,page:"buyer-preview"})).catch(e=>console.warn("Jessy owner helper unavailable",e.message));
  }catch(e){$("gateMessage").textContent=String(e.message||e);}
 }
 boot();

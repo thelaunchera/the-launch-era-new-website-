@@ -37,6 +37,7 @@ async function boot(){try{
  const {data:w,error:we}=await db.from('tle_crm_workspaces').select('id,name,is_internal,created_by').eq('id',wsid).eq('created_by',user.id).eq('is_internal',true).maybeSingle();
  if(we||!w)throw Error('Private owner workspace access required / Solo acceso de la propietaria.');ownerInsightsUserId=user.id;
  $('guard').classList.add('hidden');$('app').classList.remove('hidden');await load();
+ void import('./assets/jessy-owner-standalone.mjs?v=20261012-universal-v1').then(m=>m.mountOwnerJessy({db,workspaceId:wsid,page:'lead-insights'})).catch(e=>console.warn('Jessy owner helper unavailable',e.message));
  }catch(e){$('guardStatus').textContent=e.message}}
 async function load(){
  const {data,error}=await db.from('tle_crm_leads').select('id,business,contact,email,source,language,stage,notes,research_only,contact_decision,primary_friction,observed_evidence,service_fit,research_url,insight_status,personalized_email_subject,personalized_email_body,email_consent_status').eq('workspace_id',wsid).order('created_at',{ascending:false}).limit(500);

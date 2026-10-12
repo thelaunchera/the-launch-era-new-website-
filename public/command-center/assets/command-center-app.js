@@ -32,6 +32,14 @@ if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.se
 
 /* Jessy owner bridge: no public chat, buyer access, or mutation endpoints. */
 window.TLEOwnerJessyGateway=Object.freeze({
+ context(){
+   if(!this.ready())return {section:"",label:""};
+   const key=typeof view==="string"?view:"owner-pages";
+   const section=["owner-pages","owner-calendar","leads","pipeline","calendar","clients","inbox","emails","settings","owner-support","owner-help","owner-build","owner-preview"].includes(key)?key:"owner-pages";
+   const labels={"owner-pages":"Clients & Purchases","owner-calendar":"Client Calendar","leads":"Prospect Leads","pipeline":"Prospect Leads","calendar":"Follow-ups","clients":"Converted Prospects","inbox":"Website Inquiries","emails":"Outreach Emails","settings":"Owner Settings","owner-support":"Support","owner-help":"Help","owner-build":"Client Booking Setup","owner-preview":"Booking Preview"};
+   return {section,label:labels[section]||"Command Center"};
+ },
+
  ready(){return workspace?.is_internal===true&&!$('app')?.classList.contains('hidden')&&document.body.classList.contains('crm-owner-view')},
  async ask(input){
    if(!this.ready())throw Error('Owner access required');
@@ -39,7 +47,7 @@ window.TLEOwnerJessyGateway=Object.freeze({
    if(error||!session?.access_token)throw Error('Sign in to continue');
    const response=await fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-jessy-owner',{
      method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+session.access_token,'apikey':'sb_publishable_0TueitFYiRF3rAEMLMT8-w_FvbvY0rB'},
-     body:JSON.stringify({message:String(input.message||'').slice(0,340),language:input.language==='es'?'es':'en',history:Array.isArray(input.history)?input.history.slice(-4):[]}),
+     body:JSON.stringify({message:String(input.message||'').slice(0,340),language:input.language==='es'?'es':'en',page_context:this.context().section,history:Array.isArray(input.history)?input.history.slice(-4):[]}),
      signal:AbortSignal.timeout(16000)
    });
    const result=await response.json().catch(()=>({}));
@@ -678,6 +686,16 @@ async function boot(){let roleVerified=false;const generation=++bootGeneration;$
  $('mainNavCaption').classList.remove('hidden');
  if(workspace.is_internal){
   setView('owner-pages');
+  const target=(()=>{try{return sessionStorage.getItem('tle-owner-pending-section')}catch{return null}})();
+  const safeSections=['owner-pages','owner-calendar','leads','calendar','clients','inbox','emails','settings','owner-support','owner-help','notifications'];
+  if(target&&safeSections.includes(target)){
+    try{sessionStorage.removeItem('tle-owner-pending-section')}catch{}
+    // Keep owner permission checks in premiumNavigate. Do not navigate to buyer routes.
+    queueMicrotask(()=>{if(workspace?.is_internal&&window.TLEOwnerJessyGateway?.ready()){
+      if(target==='notifications')window.TLEOwnerJessyGateway.openNotifications();
+      else premiumNavigate(target);
+    }});
+  }
   document.querySelectorAll('.nav-link[data-target]').forEach(b=>b.classList.toggle('active',b.dataset.target==='owner-pages'));
   hideTleLoading(); // verified owner can use navigation while purchases fetch in the background
   await loadOwnerPages();
@@ -3664,7 +3682,12 @@ let view='pipeline';function setView(v){
  $('quickIntro').textContent=internal
   ?'These are The Launch Era sales prospects—not customers of buyer cleaning businesses.'
   :'These are inquiries for your cleaning business—not The Launch Era sales leads.';
-$('ownerBuilderHub').classList.toggle('hidden',v!=='owner-build');$('ownerPagesHub').classList.toggle('hidden',v!=='owner-pages');$('ownerPagePreviewHub').classList.toggle('hidden',v!=='owner-preview');$('availabilityHub').classList.toggle('hidden',v!=='availability');$('pricingHub').classList.toggle('hidden',v!=='pricing');$('ownerHelpHub').classList.toggle('hidden',v!=='owner-help'||!internal);$('helpHub').classList.toggle('hidden',v!=='help');$('settingsHub').classList.toggle('hidden',v!=='settings'&&v!=='buyer-followups');$('board').classList.toggle('hidden',v!=='pipeline');$('calendar').classList.toggle('hidden',v!=='calendar');$('clients').classList.toggle('hidden',v!=='clients');$('emailHub').classList.toggle('hidden',v!=='emails');$('inboundHub').classList.toggle('hidden',v!=='inbox');$('buyerBookingPreviewHub').classList.toggle('hidden',v!=='buyer-booking-preview');$('buyerRequestsHub').classList.toggle('hidden',v!=='request-center');$('buyerAppointmentsHub').classList.toggle('hidden',v!=='buyer-calendar');$('buyerServiceCareHub').classList.toggle('hidden',v!=='buyer-service-care');$('buyerCustomersHub').classList.toggle('hidden',v!=='buyer-customers');$('buyerDashboardHub').classList.toggle('hidden',v!=='buyer-dashboard');if(v==='inbox')loadInbound();if(v==='emails')renderEmailHub();if(v==='settings'||v==='buyer-followups'){loadBuyerMail();if(v==='settings'){loadOwnerDeliveries();loadOwnerAiDeliveries();if(workspace?.is_internal)void loadOwnerSupportInbox()};}if(v==='help'&&workspace&&!workspace.is_internal)void loadClientSupportHistory();$('pipelineView').classList.toggle('active',v==='pipeline');$('calendarView').classList.toggle('active',v==='calendar');$('clientView').classList.toggle('active',v==='clients')} $('pipelineView').onclick=()=>setView('pipeline');$('calendarView').onclick=()=>setView('calendar');$('clientView').onclick=()=>setView('clients');$('exportCsv').onclick=()=>{const cols=['business','contact','email','source','language','stage','followup','notes','email_consent_status','email_consent_source','email_followup_enabled'];const esc=v=>'"'+String(v??'').replaceAll('"','""')+'"';const csv=[cols.join(','),...leads.map(x=>cols.map(k=>esc(x[k])).join(','))].join('\r\n');const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='command-center-'+new Date().toISOString().slice(0,10)+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};$('guideAdd').onclick=()=>edit(null);
+$('ownerBuilderHub').classList.toggle('hidden',v!=='owner-build');$('ownerPagesHub').classList.toggle('hidden',v!=='owner-pages');$('ownerPagePreviewHub').classList.toggle('hidden',v!=='owner-preview');$('availabilityHub').classList.toggle('hidden',v!=='availability');$('pricingHub').classList.toggle('hidden',v!=='pricing');$('ownerHelpHub').classList.toggle('hidden',v!=='owner-help'||!internal);$('helpHub').classList.toggle('hidden',v!=='help');$('settingsHub').classList.toggle('hidden',v!=='settings'&&v!=='buyer-followups');$('board').classList.toggle('hidden',v!=='pipeline');$('calendar').classList.toggle('hidden',v!=='calendar');$('clients').classList.toggle('hidden',v!=='clients');$('emailHub').classList.toggle('hidden',v!=='emails');$('inboundHub').classList.toggle('hidden',v!=='inbox');$('buyerBookingPreviewHub').classList.toggle('hidden',v!=='buyer-booking-preview');$('buyerRequestsHub').classList.toggle('hidden',v!=='request-center');$('buyerAppointmentsHub').classList.toggle('hidden',v!=='buyer-calendar');$('buyerServiceCareHub').classList.toggle('hidden',v!=='buyer-service-care');$('buyerCustomersHub').classList.toggle('hidden',v!=='buyer-customers');$('buyerDashboardHub').classList.toggle('hidden',v!=='buyer-dashboard');if(v==='inbox')loadInbound();if(v==='emails')renderEmailHub();if(v==='settings'||v==='buyer-followups'){loadBuyerMail();if(v==='settings'){loadOwnerDeliveries();loadOwnerAiDeliveries();if(workspace?.is_internal)void loadOwnerSupportInbox()};}if(v==='help'&&workspace&&!workspace.is_internal)void loadClientSupportHistory();
+ if(internal){
+   document.body.dataset.tleOwnerSection=v;
+   window.dispatchEvent(new CustomEvent('tle-owner-section-change',{detail:{section:v}}));
+ }else delete document.body.dataset.tleOwnerSection;
+ $('pipelineView').classList.toggle('active',v==='pipeline');$('calendarView').classList.toggle('active',v==='calendar');$('clientView').classList.toggle('active',v==='clients')} $('pipelineView').onclick=()=>setView('pipeline');$('calendarView').onclick=()=>setView('calendar');$('clientView').onclick=()=>setView('clients');$('exportCsv').onclick=()=>{const cols=['business','contact','email','source','language','stage','followup','notes','email_consent_status','email_consent_source','email_followup_enabled'];const esc=v=>'"'+String(v??'').replaceAll('"','""')+'"';const csv=[cols.join(','),...leads.map(x=>cols.map(k=>esc(x[k])).join(','))].join('\r\n');const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='command-center-'+new Date().toISOString().slice(0,10)+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};$('guideAdd').onclick=()=>edit(null);
 async function showFollowupHistory(leadId){
  const target=$('followupHistory');const es=localStorage.getItem('tle_crm_language')==='es';
  const label=(en,spanish)=>es?spanish:en;
