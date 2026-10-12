@@ -467,7 +467,7 @@ function applyCRMRoleInterface(){
  $('buyerPricingNav').classList.toggle('hidden',!(buyer&&buyerDeliveryReady));
  $('buyerAvailabilityNav').classList.toggle('hidden',!(buyer&&buyerDeliveryReady));
  $('buyerEmailsNav').classList.toggle('hidden',!(buyer&&buyerDeliveryReady));
- $('buyerRequestsNav').classList.toggle('hidden',!buyer);$('buyerBookingPreviewNav').classList.toggle('hidden',!buyer);$('ownerWebsiteInboxNav').classList.toggle('hidden',!owner);$('ownerSettingsNav').classList.toggle('hidden',!owner);$('buyerSettingsNav').classList.toggle('hidden',!buyer);
+ $('buyerRequestsNav').classList.toggle('hidden',!buyer);$('buyerAppointmentsNav').classList.toggle('hidden',!buyer);$('buyerBookingPreviewNav').classList.toggle('hidden',!buyer);$('ownerWebsiteInboxNav').classList.toggle('hidden',!owner);$('ownerSettingsNav').classList.toggle('hidden',!owner);$('buyerSettingsNav').classList.toggle('hidden',!buyer);
  $('navOverview').classList.toggle('hidden',owner);
  $('mainNavCaption').classList.remove('hidden');
  /* Legacy calendar link is intentionally hidden; the buyer uses Inbox and the owner uses Prospect Follow-ups. */
@@ -667,7 +667,7 @@ function premiumNavigate(target){
  document.querySelectorAll('.nav-link[data-target]').forEach(b=>b.classList.toggle('active',b.dataset.target===target));closePremiumSidebar();if(target==='home'){
  if(workspace&&!workspace.is_internal){setView('buyer-dashboard');void loadBuyerBookingShare();void loadBuyerRequests();$('buyerDashboardHub').scrollIntoView({behavior:'smooth'});return}
  setView('pipeline');$('search').value='';$('stageFilter').value='';$('dueFilter').value='';render();$('quickhome').scrollIntoView({behavior:'smooth'});return}if(target==='owner-help'){if(!workspace?.is_internal)return;setView('owner-help');$('ownerHelpHub').scrollIntoView({behavior:'smooth'});return}if(target==='help'){setView('help');$('helpHub').scrollIntoView({behavior:'smooth'});return}if(target==='availability'&&workspace?.is_internal&&!ownerReviewAccount){premiumNavigate('owner-pages');return}if(target==='availability'){setView('availability');loadAvailability();$('availabilityHub').scrollIntoView({behavior:'smooth'});return}if(target==='pricing'&&workspace?.is_internal&&!ownerReviewAccount){premiumNavigate('owner-pages');return}if(target==='pricing'){setView('pricing');loadPricing();$('pricingHub').scrollIntoView({behavior:'smooth'});return}if(target==='owner-pages'){setView('owner-pages');loadOwnerPages();$('ownerPagesHub').scrollIntoView({behavior:'smooth'});return}
-if(target==='owner-calendar'){if(!workspace?.is_internal)return;setView('owner-calendar');loadOwnerCalendar();$('ownerCalendarHub').scrollIntoView({behavior:'smooth'});return}if(target==='clients'&&workspace&&!workspace.is_internal){setView('buyer-customers');void loadBuyerRequests();$('buyerCustomersHub').scrollIntoView({behavior:'smooth'});return}if(target==='buyer-booking-preview'){if(!workspace||workspace.is_internal)return;setView('buyer-booking-preview');$('buyerBookingPreviewHub').scrollIntoView({behavior:'smooth'});void loadBuyerBookingPreview();return}if(target==='request-center'){if(!workspace||workspace.is_internal)return;setView('request-center');void loadBuyerRequests();$('buyerRequestsHub').scrollIntoView({behavior:'smooth'});return}if(target==='buyer-followups'){if(!workspace||workspace.is_internal)return;setView('buyer-followups');$('settingsHub').scrollIntoView({behavior:'smooth'});return}if(target==='settings'){setView('settings');if(workspace&&!workspace.is_internal)void syncManagedBuyerEmailStatus();$('settingsAccountEmail').textContent=accountEmail||'—';$('settingsBusinessName').textContent=workspace?.name||'—';$('settingsLanguage').value=localStorage.getItem('tle_crm_language')==='es'?'es':'en';$('settingsHub').scrollIntoView({behavior:'smooth'});return}if(target==='inbox'){setView('inbox');$('inboundHub').scrollIntoView({behavior:'smooth'});return}if(target==='emails'){setView('emails');$('emailHub').scrollIntoView({behavior:'smooth'});return}if(target==='calendar'){$('dueFilter').value='';$('stageFilter').value='';render();setView('calendar')}else if(target==='clients'){$('stageFilter').value='';$('dueFilter').value='';render();setView('clients')}else{$('stageFilter').value='';$('dueFilter').value='';render();setView('pipeline')}document.getElementById('premiumViews').scrollIntoView({behavior:'smooth'})}document.querySelectorAll('.nav-link[data-target]').forEach(b=>b.onclick=()=>premiumNavigate(b.dataset.target));$('navToggle').setAttribute('aria-expanded','false');$('navToggle').setAttribute('aria-controls','premiumSidebar');$('navToggle').onclick=togglePremiumSidebar;$('sidebarScrim').onclick=closePremiumSidebar;document.addEventListener('keydown',e=>{if(e.key==='Escape')closePremiumSidebar()});$('settingsLanguage').onchange=()=>{const select=$('crmLanguageSelect');if(select){select.value=$('settingsLanguage').value;select.dispatchEvent(new Event('change'))}};
+if(target==='owner-calendar'){if(!workspace?.is_internal)return;setView('owner-calendar');loadOwnerCalendar();$('ownerCalendarHub').scrollIntoView({behavior:'smooth'});return}if(target==='clients'&&workspace&&!workspace.is_internal){setView('buyer-customers');void loadBuyerRequests();$('buyerCustomersHub').scrollIntoView({behavior:'smooth'});return}if(target==='buyer-booking-preview'){if(!workspace||workspace.is_internal)return;setView('buyer-booking-preview');$('buyerBookingPreviewHub').scrollIntoView({behavior:'smooth'});void loadBuyerBookingPreview();return}if(target==='buyer-calendar'){if(!workspace||workspace.is_internal)return;setView('buyer-calendar');renderBuyerBookingCalendar();void loadBuyerRequests();$('buyerAppointmentsHub').scrollIntoView({behavior:'smooth'});return}if(target==='request-center'){if(!workspace||workspace.is_internal)return;setView('request-center');void loadBuyerRequests();$('buyerRequestsHub').scrollIntoView({behavior:'smooth'});return}if(target==='buyer-followups'){if(!workspace||workspace.is_internal)return;setView('buyer-followups');$('settingsHub').scrollIntoView({behavior:'smooth'});return}if(target==='settings'){setView('settings');if(workspace&&!workspace.is_internal)void syncManagedBuyerEmailStatus();$('settingsAccountEmail').textContent=accountEmail||'—';$('settingsBusinessName').textContent=workspace?.name||'—';$('settingsLanguage').value=localStorage.getItem('tle_crm_language')==='es'?'es':'en';$('settingsHub').scrollIntoView({behavior:'smooth'});return}if(target==='inbox'){setView('inbox');$('inboundHub').scrollIntoView({behavior:'smooth'});return}if(target==='emails'){setView('emails');$('emailHub').scrollIntoView({behavior:'smooth'});return}if(target==='calendar'){$('dueFilter').value='';$('stageFilter').value='';render();setView('calendar')}else if(target==='clients'){$('stageFilter').value='';$('dueFilter').value='';render();setView('clients')}else{$('stageFilter').value='';$('dueFilter').value='';render();setView('pipeline')}document.getElementById('premiumViews').scrollIntoView({behavior:'smooth'})}document.querySelectorAll('.nav-link[data-target]').forEach(b=>b.onclick=()=>premiumNavigate(b.dataset.target));$('navToggle').setAttribute('aria-expanded','false');$('navToggle').setAttribute('aria-controls','premiumSidebar');$('navToggle').onclick=togglePremiumSidebar;$('sidebarScrim').onclick=closePremiumSidebar;document.addEventListener('keydown',e=>{if(e.key==='Escape')closePremiumSidebar()});$('settingsLanguage').onchange=()=>{const select=$('crmLanguageSelect');if(select){select.value=$('settingsLanguage').value;select.dispatchEvent(new Event('change'))}};
 document.querySelectorAll('[data-owner-help-target]').forEach(button=>button.onclick=()=>{if(workspace?.is_internal)premiumNavigate(button.dataset.ownerHelpTarget)});
 const buyerMailUrl="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-crm-buyer-mail-setup";
 let buyerMailState=null;
@@ -2400,6 +2400,7 @@ function renderEmailHub(){renderOwnerDueFollowups();if($('emailHubTitle'))$('ema
 /* Buyer-only request inbox: confirmed flat-price bookings, quote requests, and CRM inquiries. */
 const buyerRequestEndpoint="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-crm-buyer-request-center";
 let buyerRequests=[],buyerSelectedRequest=null,buyerRequestBusy=false;
+let buyerCalendarMonth=new Date(new Date().getFullYear(),new Date().getMonth(),1),buyerCalendarSelectedDay='',buyerLeadQuickFilter='all';
 const buyerText=(en,es)=>buyerEs()?es:en;
 function buyerCreate(tag,textValue,cls){const e=document.createElement(tag);if(cls)e.className=cls;if(textValue!==undefined&&textValue!==null)e.textContent=String(textValue);return e}
 function buyerDetails(label,value){
@@ -2473,6 +2474,117 @@ function buyerRequestSummaries(){
   card.append(buyerCreate("small",label),buyerCreate("b",count));area.append(card)
  }
 }
+
+/* Private buyer month calendar, sourced from the exact same verified Inbox records. */
+function buyerDateKey(date){return [date.getFullYear(),String(date.getMonth()+1).padStart(2,'0'),String(date.getDate()).padStart(2,'0')].join('-')}
+function buyerRequestedDate(x){
+ const raw=String(x.raw_payload?.requested_date||'').trim();
+ if(/^\d{4}-\d{2}-\d{2}$/.test(raw)&&!Number.isNaN(Date.parse(raw+'T12:00:00Z')))return raw;
+ if(!x.requested_start_at)return '';
+ const date=new Date(x.requested_start_at);if(Number.isNaN(date.getTime()))return '';
+ // The booking account defaults to Eastern Time; prefer the business-local date saved with a request.
+ const parts=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(date);
+ const vals=Object.fromEntries(parts.map(p=>[p.type,p.value]));
+ return vals.year+'-'+vals.month+'-'+vals.day;
+}
+function buyerRequestTimeText(x){
+ const raw=String(x.raw_payload?.requested_time||'').slice(0,5);
+ if(/^([01]\d|2[0-3]):[0-5]\d$/.test(raw))return raw;
+ if(!x.requested_start_at)return '';
+ try{return new Intl.DateTimeFormat(buyerEs()?'es-US':'en-US',{timeZone:'America/New_York',hour:'numeric',minute:'2-digit'}).format(new Date(x.requested_start_at))}catch{return ''}
+}
+function buyerCalendarRecords(){
+ return buyerRequests.filter(x=>x.status!=='closed'&&x.status!=='declined'&&x.workflow_stage!=='declined'&&buyerRequestedDate(x));
+}
+function buyerCalendarOpenRequest(x){
+ if(!workspace||workspace.is_internal)return;
+ $('buyerRequestSearch').value='';
+ $('buyerRequestType').value='all';
+ $('buyerRequestStatusFilter').value='all';
+ $('buyerRequestSort').value='priority';
+ buyerLeadQuickFilter='all';
+ buyerSelectedRequest=x;
+ premiumNavigate('request-center');
+ buyerRenderRequestCards();
+ buyerOpenRequest(x);
+ if(window.innerWidth<780)$('buyerRequestDetail').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function buyerCalendarDayAgenda(dayKey){
+ const root=$('buyerCalendarDayList');if(!root)return;
+ root.replaceChildren();
+ const date=new Date(dayKey+'T12:00:00');
+ $('buyerCalendarDayTitle').textContent=date.toLocaleDateString(buyerEs()?'es-US':'en-US',{weekday:'long',month:'long',day:'numeric'});
+ const entries=buyerCalendarRecords().filter(x=>buyerRequestedDate(x)===dayKey).sort((a,b)=>buyerRequestTimeText(a).localeCompare(buyerRequestTimeText(b)));
+ const confirmed=entries.filter(x=>x.status==='booked').length,pending=entries.length-confirmed;
+ $('buyerCalendarDayCount').textContent=buyerText(confirmed+' confirmed · '+pending+' awaiting review',confirmed+' confirmadas · '+pending+' pendientes');
+ if(!entries.length){const p=buyerCreate('p',buyerText('No bookings or requests for this day. Choose another date, or open Inbox to review undated leads.','No hay reservas ni solicitudes para este día. Elige otra fecha o abre la bandeja para ver leads sin fecha.'),'muted');root.append(p);return}
+ for(const x of entries){
+  const row=buyerCreate('button',undefined,'buyer-calendar-agenda-row');row.type='button';
+  const badge=buyerCreate('span',x.status==='booked'?buyerText('Confirmed','Confirmada'):buyerText('Request · pending','Solicitud · pendiente'),'buyer-cal-agenda-status '+(x.status==='booked'?'booked':'pending'));
+  const name=buyerCreate('strong',x.customer_name||x.customer_email||buyerText('Customer','Cliente'));
+  const extra=buyerCreate('small',[buyerRequestTimeText(x),x.service_name].filter(Boolean).join(' · '),'request-summary');
+  const next=buyerCreate('span',buyerText('Open details →','Abrir detalles →'),'buyer-cal-agenda-open');
+  row.append(badge,name,extra,next);row.onclick=()=>buyerCalendarOpenRequest(x);root.append(row);
+ }
+}
+function renderBuyerBookingCalendar(){
+ if(!workspace||workspace.is_internal)return;
+ const title=$('buyerCalendarMonthTitle'),grid=$('buyerCalendarGrid');
+ if(!title||!grid)return;
+ const es=buyerEs(),first=new Date(buyerCalendarMonth.getFullYear(),buyerCalendarMonth.getMonth(),1),today=buyerDateKey(new Date());
+ title.textContent=first.toLocaleDateString(es?'es-US':'en-US',{month:'long',year:'numeric'});
+ const records=buyerCalendarRecords();
+ const monthKey=buyerDateKey(first).slice(0,7);
+ const thisMonth=records.filter(x=>buyerRequestedDate(x).startsWith(monthKey));
+ const booked=thisMonth.filter(x=>x.status==='booked').length;
+ $('buyerCalendarMonthSummary').textContent=buyerText(booked+' confirmed bookings · '+(thisMonth.length-booked)+' pending requests',booked+' reservas confirmadas · '+(thisMonth.length-booked)+' solicitudes pendientes');
+ grid.replaceChildren();
+ const days=es?['Dom','Lun','Mar','Mié','Jue','Vie','Sáb']:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+ days.forEach(day=>grid.append(buyerCreate('div',day,'buyer-cal-weekday')));
+ const start=new Date(first.getFullYear(),first.getMonth(),1-first.getDay()),daysInMonth=new Date(first.getFullYear(),first.getMonth()+1,0).getDate(),cellCount=Math.ceil((first.getDay()+daysInMonth)/7)*7;
+ const grouped=new Map();
+ for(const x of records){const key=buyerRequestedDate(x);if(!grouped.has(key))grouped.set(key,[]);grouped.get(key).push(x)}
+ if(!buyerCalendarSelectedDay||buyerCalendarSelectedDay.slice(0,7)!==monthKey)buyerCalendarSelectedDay=buyerDateKey(first.getFullYear()===new Date().getFullYear()&&first.getMonth()===new Date().getMonth()?new Date():first);
+ for(let i=0;i<cellCount;i++){
+  const date=new Date(start.getFullYear(),start.getMonth(),start.getDate()+i),key=buyerDateKey(date),isOutside=date.getMonth()!==first.getMonth();
+  const cell=buyerCreate('div',undefined,'buyer-cal-cell'+(isOutside?' outside':'')+(key===today?' today':'')+(key===buyerCalendarSelectedDay?' selected':''));
+  cell.setAttribute('role','gridcell');
+  const dayButton=buyerCreate('button',String(date.getDate()),'buyer-cal-day-button');dayButton.type='button';
+  dayButton.setAttribute('aria-label',date.toLocaleDateString(es?'es-US':'en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}));
+  dayButton.setAttribute('aria-pressed',String(key===buyerCalendarSelectedDay));
+  dayButton.onclick=()=>{buyerCalendarSelectedDay=key;if(isOutside)buyerCalendarMonth=new Date(date.getFullYear(),date.getMonth(),1);renderBuyerBookingCalendar()};
+  cell.append(dayButton);
+  const items=(grouped.get(key)||[]).sort((a,b)=>Number(b.status==='booked')-Number(a.status==='booked')||buyerRequestTimeText(a).localeCompare(buyerRequestTimeText(b)));
+  for(const x of items.slice(0,2)){
+   const pill=buyerCreate('button',undefined,'buyer-cal-event '+(x.status==='booked'?'booked':'pending'));pill.type='button';
+   pill.textContent=[buyerRequestTimeText(x),x.customer_name||buyerText('Customer','Cliente')].filter(Boolean).join(' · ');
+   pill.title=buyerRequestState(x)+' · '+(x.service_name||'');
+   pill.onclick=()=>buyerCalendarOpenRequest(x);
+   cell.append(pill);
+  }
+  if(items.length>2){
+   const more=buyerCreate('button',buyerText('+'+(items.length-2)+' more','+'+(items.length-2)+' más'),'buyer-cal-more');more.type='button';
+   more.onclick=()=>{buyerCalendarSelectedDay=key;if(isOutside)buyerCalendarMonth=new Date(date.getFullYear(),date.getMonth(),1);renderBuyerBookingCalendar();$('buyerCalendarDayList').scrollIntoView({behavior:'smooth',block:'nearest'})};
+   cell.append(more)
+  }
+  grid.append(cell);
+ }
+ buyerCalendarDayAgenda(buyerCalendarSelectedDay);
+}
+function moveBuyerCalendarMonth(offset){
+ if(!workspace||workspace.is_internal)return;
+ const d=offset===0?new Date():new Date(buyerCalendarMonth.getFullYear(),buyerCalendarMonth.getMonth()+offset,1);
+ buyerCalendarMonth=new Date(d.getFullYear(),d.getMonth(),1);buyerCalendarSelectedDay='';
+ renderBuyerBookingCalendar();
+}
+$('buyerCalendarPrev').onclick=()=>moveBuyerCalendarMonth(-1);
+$('buyerCalendarNext').onclick=()=>moveBuyerCalendarMonth(1);
+$('buyerCalendarToday').onclick=()=>moveBuyerCalendarMonth(0);
+$('buyerCalendarRefresh').onclick=()=>{if(workspace&&!workspace.is_internal)void loadBuyerRequests()};
+$('buyerCalendarInbox').onclick=()=>premiumNavigate('request-center');
+$('buyerInboxCalendar').onclick=()=>premiumNavigate('buyer-calendar');
+$('cbDashCalendar').onclick=()=>premiumNavigate('buyer-calendar');
+
 function buyerRequestCard(x){
  const btn=buyerCreate("button",undefined,"request-card"+(buyerSelectedRequest?.id===x.id?" selected":""));btn.type="button";
  const bar=buyerCreate("div");bar.style.cssText="display:flex;justify-content:space-between;gap:7px;flex-wrap:wrap";
@@ -3048,6 +3160,7 @@ async function loadBuyerRequests(){
   const data=await buyerRequestCall("list");
   if(!workspace||workspace.is_internal||workspace.id!==wsId)return;
   buyerRequests=Array.isArray(data.requests)?data.requests:[];
+  renderBuyerBookingCalendar();
   renderBuyerDashboard();
   renderBuyerCustomers();
   buyerRequestSummaries();
@@ -3169,7 +3282,8 @@ let view='pipeline';function setView(v){
   'calendar':['YOUR BUSINESS / FOLLOW-UPS','Customer Follow-up Calendar'],
   'clients':['YOUR BUSINESS / CUSTOMERS','Customers'],
   'buyer-customers':['YOUR BUSINESS / CUSTOMERS','Customers'],
-  'request-center':['YOUR BUSINESS / INBOX','Inbox'],
+  'request-center':['YOUR BUSINESS / INBOX','Inbox & Leads'],
+  'buyer-calendar':['YOUR BUSINESS / APPOINTMENTS','Booking Calendar'],
   'buyer-booking-preview':['YOUR BUSINESS / BOOKING PAGE','Booking Page Preview'],
   'emails':['YOUR BUSINESS / EMAIL','Customer Email History'],
   'buyer-followups':['YOUR BUSINESS / AUTOMATION','Automatic Follow-ups'],
@@ -3187,7 +3301,7 @@ let view='pipeline';function setView(v){
  $('quickIntro').textContent=internal
   ?'These are The Launch Era sales prospects—not customers of buyer cleaning businesses.'
   :'These are inquiries for your cleaning business—not The Launch Era sales leads.';
-$('ownerBuilderHub').classList.toggle('hidden',v!=='owner-build');$('ownerPagesHub').classList.toggle('hidden',v!=='owner-pages');$('ownerPagePreviewHub').classList.toggle('hidden',v!=='owner-preview');$('availabilityHub').classList.toggle('hidden',v!=='availability');$('pricingHub').classList.toggle('hidden',v!=='pricing');$('ownerHelpHub').classList.toggle('hidden',v!=='owner-help'||!internal);$('helpHub').classList.toggle('hidden',v!=='help');$('settingsHub').classList.toggle('hidden',v!=='settings'&&v!=='buyer-followups');$('board').classList.toggle('hidden',v!=='pipeline');$('calendar').classList.toggle('hidden',v!=='calendar');$('clients').classList.toggle('hidden',v!=='clients');$('emailHub').classList.toggle('hidden',v!=='emails');$('inboundHub').classList.toggle('hidden',v!=='inbox');$('buyerBookingPreviewHub').classList.toggle('hidden',v!=='buyer-booking-preview');$('buyerRequestsHub').classList.toggle('hidden',v!=='request-center');$('buyerCustomersHub').classList.toggle('hidden',v!=='buyer-customers');$('buyerDashboardHub').classList.toggle('hidden',v!=='buyer-dashboard');if(v==='inbox')loadInbound();if(v==='emails')renderEmailHub();if(v==='settings'||v==='buyer-followups'){loadBuyerMail();if(v==='settings'){loadOwnerDeliveries();loadOwnerAiDeliveries();if(workspace?.is_internal)void loadOwnerSupportInbox()};}if(v==='help'&&workspace&&!workspace.is_internal)void loadClientSupportHistory();$('pipelineView').classList.toggle('active',v==='pipeline');$('calendarView').classList.toggle('active',v==='calendar');$('clientView').classList.toggle('active',v==='clients')} $('pipelineView').onclick=()=>setView('pipeline');$('calendarView').onclick=()=>setView('calendar');$('clientView').onclick=()=>setView('clients');$('exportCsv').onclick=()=>{const cols=['business','contact','email','source','language','stage','followup','notes','email_consent_status','email_consent_source','email_followup_enabled'];const esc=v=>'"'+String(v??'').replaceAll('"','""')+'"';const csv=[cols.join(','),...leads.map(x=>cols.map(k=>esc(x[k])).join(','))].join('\r\n');const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='command-center-'+new Date().toISOString().slice(0,10)+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};$('guideAdd').onclick=()=>edit(null);
+$('ownerBuilderHub').classList.toggle('hidden',v!=='owner-build');$('ownerPagesHub').classList.toggle('hidden',v!=='owner-pages');$('ownerPagePreviewHub').classList.toggle('hidden',v!=='owner-preview');$('availabilityHub').classList.toggle('hidden',v!=='availability');$('pricingHub').classList.toggle('hidden',v!=='pricing');$('ownerHelpHub').classList.toggle('hidden',v!=='owner-help'||!internal);$('helpHub').classList.toggle('hidden',v!=='help');$('settingsHub').classList.toggle('hidden',v!=='settings'&&v!=='buyer-followups');$('board').classList.toggle('hidden',v!=='pipeline');$('calendar').classList.toggle('hidden',v!=='calendar');$('clients').classList.toggle('hidden',v!=='clients');$('emailHub').classList.toggle('hidden',v!=='emails');$('inboundHub').classList.toggle('hidden',v!=='inbox');$('buyerBookingPreviewHub').classList.toggle('hidden',v!=='buyer-booking-preview');$('buyerRequestsHub').classList.toggle('hidden',v!=='request-center');$('buyerAppointmentsHub').classList.toggle('hidden',v!=='buyer-calendar');$('buyerCustomersHub').classList.toggle('hidden',v!=='buyer-customers');$('buyerDashboardHub').classList.toggle('hidden',v!=='buyer-dashboard');if(v==='inbox')loadInbound();if(v==='emails')renderEmailHub();if(v==='settings'||v==='buyer-followups'){loadBuyerMail();if(v==='settings'){loadOwnerDeliveries();loadOwnerAiDeliveries();if(workspace?.is_internal)void loadOwnerSupportInbox()};}if(v==='help'&&workspace&&!workspace.is_internal)void loadClientSupportHistory();$('pipelineView').classList.toggle('active',v==='pipeline');$('calendarView').classList.toggle('active',v==='calendar');$('clientView').classList.toggle('active',v==='clients')} $('pipelineView').onclick=()=>setView('pipeline');$('calendarView').onclick=()=>setView('calendar');$('clientView').onclick=()=>setView('clients');$('exportCsv').onclick=()=>{const cols=['business','contact','email','source','language','stage','followup','notes','email_consent_status','email_consent_source','email_followup_enabled'];const esc=v=>'"'+String(v??'').replaceAll('"','""')+'"';const csv=[cols.join(','),...leads.map(x=>cols.map(k=>esc(x[k])).join(','))].join('\r\n');const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='command-center-'+new Date().toISOString().slice(0,10)+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};$('guideAdd').onclick=()=>edit(null);
 async function showFollowupHistory(leadId){
  const target=$('followupHistory');const es=localStorage.getItem('tle_crm_language')==='es';
  const label=(en,spanish)=>es?spanish:en;
