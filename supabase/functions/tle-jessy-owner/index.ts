@@ -173,6 +173,48 @@ async function whatsappPrefAction(workspace,body){
  }
  return {error:"Unknown action",status:400};
 }
+
+/** Fixed, allow-listed owner commands. Never let the LLM choose an arbitrary database mutation. */
+function classifyOwnerReadIntent(question){
+ const q=String(question||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[’']/g,"");
+ if(/\b(?:dont|do not|never|without|stop|cancel|no marques|no marcar|no los marques|no las marques|todavia no|sin marcar|how do i|como puedo|como se)\b/.test(q))return "";
+ const mark=/(?:\bmark\b|\bset\b|\bmake\b|\bput\b|\bmarc\w*\b|\bpon\w*\b|\bdej\w*\b)/.test(q);
+ const read=/(?:\bread\b|\bleid[oa]s?\b|\bvist[oa]s?\b)/.test(q);
+ if(!mark||!read||/\bunread\b|\bno leidos\b/.test(q))return "";
+ const email=/\b(?:email|emails|mail|mails|gmail|resend|correo|correos)\b|\bbandeja de entrada\b/.test(q);
+ if(email)return "email_read_unavailable";
+ const domain=/(?:notific|avis|alert|campan|mensaj|message|\bthem\b|\bthose\b|\ball\b|\btodo|\blos\b|\blas\b|marcalos|marcalas)/.test(q);
+ if(!domain&&!/(?:mark\s+(?:as\s+)?read|marc\w*\s+(?:como\s+)?leid)/.test(q))return "";
+ // A single unspecified item cannot be selected by the model without its ID.
+ if(/\b(?:that one|this one|esa sola|esa notificacion|este aviso|that notification|this notification)\b/.test(q))
+   return "notification_selection_needed";
+ return "mark_all_notifications_read";
+}
+async function markOwnerNotificationsRead(workspace,lang){
+ // Atomic update: only this authenticated, internal owner's notification rows with read_at IS NULL.
+ const u=BASE+"/rest/v1/tle_crm_notifications?workspace_id=eq."+encodeURIComponent(workspace)+"&read_at=is.null&select=id";
+ try{
+  const response=await fetch(u,{method:"PATCH",headers:{
+   apikey:SR,Authorization:"Bearer "+SR,"Content-Type":"application/json",Prefer:"return=representation"},
+   body:JSON.stringify({read_at:new Date().toISOString()}),signal:AbortSignal.timeout(11000)});
+  if(!response.ok)return {error:locale(lang,"I couldn't mark your alerts as read. Nothing else was changed.","No pude marcar los avisos como leídos. No cambié nada más."),status:503};
+  const updated=await response.json();
+  if(!Array.isArray(updated))return {error:"Couldn't verify the updated notifications.",status:503};
+  const remaining=await count("tle_crm_notifications","workspace_id=eq."+encodeURIComponent(workspace)+"&read_at=is.null");
+  const n=updated.length;
+  return {ok:true,action_performed:"mark_notifications_read",affected:n,remaining_unread:remaining,section:null,
+   reply:n?locale(lang,
+    "Done! I marked "+n+" Command Center notification"+(n===1?"":"s")+" as read. Nothing was deleted or archived.",
+    "¡Listo! Marqué "+n+" notificaci"+(n===1?"ón":"ones")+" del Command Center como leída"+(n===1?"":"s")+". No borré ni archivé nada."):
+    locale(lang,"You're all caught up. There were no unread notifications.","Ya está todo al día. No había notificaciones sin leer.")};
+ }catch{return {error:locale(lang,"I couldn't verify that change. Refresh the bell before trying again.","No pude verificar el cambio. Actualiza la campanita antes de reintentar."),status:503};}
+}
+function emailReadUnavailable(lang){
+ return {ok:true,action_performed:null,section:"emails",mode:"unsupported_email_read",
+   reply:locale(lang,
+    "I can mark Command Center alerts as read. Email activity here tracks sent mail, not an inbox with read status. No emails were changed. Want to review email activity?",
+    "Puedo marcar avisos de la campanita como leídos. Aquí Correos es un historial de envíos, no una bandeja con estado de leído. No cambié ningún correo. ¿Revisamos el historial?")};
+}
 Deno.serve(async req=>{
  const origin=req.headers.get("origin")||"";
  if(req.method==="OPTIONS")return new Response(null,{status:204,headers:h(origin)});
@@ -191,6 +233,18 @@ Deno.serve(async req=>{
   return out(response,response.ok?200:response.status||400,origin);
  }
  if(message.length<2)return out({error:"Enter a question"},400,origin);
+ const intent=classifyOwnerReadIntent(message);
+ if(intent==="mark_all_notifications_read"){
+  const result=await markOwnerNotificationsRead(ws,lang);
+  return out(result,result.ok?200:result.status||503,origin);
+ }
+ if(intent==="email_read_unavailable")return out(emailReadUnavailable(lang),200,origin);
+ if(intent==="notification_selection_needed")return out({
+  ok:true,section:"notifications",reply:locale(lang,
+   "Which single alert? Open the bell to choose one, or say 'mark all notifications as read'.",
+   "¿Cuál aviso? Abre la campanita para elegir uno, o dime 'marca todas las notificaciones como leídas'.")
+ },200,origin);
+
  const history=(Array.isArray(data?.history)?data.history:[]).slice(-4).filter(x=>x&&["user","assistant"].includes(x.role)).map(x=>({role:x.role,content:clean(x.message,160)}));
  const today=new Intl.DateTimeFormat("en-CA",{timeZone:"America/New_York",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
  const scope="workspace_id=eq."+encodeURIComponent(ws)+"&archived_at=is.null";
