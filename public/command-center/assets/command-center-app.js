@@ -2703,10 +2703,30 @@ function buyerRequestCard(x){
  const footer=buyerCreate("div",x.created_at?new Date(x.created_at).toLocaleString():"","request-summary");footer.style.marginTop="8px";
  btn.append(bar,title,details,footer);btn.onclick=()=>{buyerOpenRequest(x);if(window.innerWidth<=850)$('buyerRequestDetail').scrollIntoView({behavior:'smooth',block:'start'})};return btn
 }
+function buyerAssistantBrief(x){
+ const p=x.raw_payload||{},missing=[];
+ const es=buyerEs();
+ if(!x.service_name)missing.push(buyerText('service','servicio'));
+ if(!x.customer_email&&!x.customer_phone)missing.push(buyerText('contact method','medio de contacto'));
+ if(!x.service_address)missing.push(buyerText('service location','lugar del servicio'));
+ const need=[x.service_name,p.vehicle_type||p.commercial_space_description||p.commercial_space_type||p.property_type,p.frequency||p.recurrence].filter(Boolean).map(v=>String(v).slice(0,180)).join(' · ');
+ const response=p.managed_reply_received?buyerText('Customer replied — review their message before sending anything else.','El cliente respondió: revisa su mensaje antes de enviar algo más.'):p.quote_response?.note||p.customer_change_request?.note||x.notes;
+ return {need:need||buyerText('Review the customer request.','Revisa la solicitud del cliente.'),missing:missing.length?missing.join(' · '):buyerText('Basic request details are available.','Los datos básicos de la solicitud están disponibles.'),response:response?String(response).slice(0,650):'',next:buyerRequestNext(x)};
+}
 function buyerOpenRequest(x){
  buyerSelectedRequest=x;careDraw();$("buyerRequestDetailTitle").textContent=x.customer_name||x.customer_email||buyerText("Customer request","Solicitud de cliente");
  const body=$("buyerRequestDetails");body.replaceChildren();
  const payload=x.raw_payload||{};
+ const brief=buyerAssistantBrief(x);
+ const summary=buyerCreate('section',undefined,'buyer-assistant-brief');
+ summary.style.cssText='grid-column:1/-1;background:#eaf4fc;border:1px solid #b5d2e7;border-radius:16px;padding:16px;color:#191919;overflow-wrap:anywhere;min-width:0';
+ summary.append(buyerCreate('strong',buyerText('Request at a glance','Tu solicitud en un vistazo')));
+ for(const [label,value] of [[buyerText('What they need','Qué necesita'),brief.need],[buyerText('Check before confirming','Revisa antes de confirmar'),brief.missing],[buyerText('Customer message','Mensaje del cliente'),brief.response],[buyerText('Next step','Próximo paso'),brief.next]]){
+  if(!value)continue;
+  const row=buyerCreate('p');row.style.cssText='margin:10px 0 0;line-height:1.5;white-space:pre-wrap';row.append(buyerCreate('b',label+': '),document.createTextNode(value));summary.append(row);
+ }
+ body.append(summary);
+
  const requested=[payload.requested_date,payload.requested_time].filter(Boolean).join(" · ");
  const detailing=isDetailingWorkspace();
  const fields=[
