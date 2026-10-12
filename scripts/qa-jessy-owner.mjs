@@ -6,8 +6,8 @@ const core=read("public/command-center/assets/command-center-app.js");
 const ui=read("public/command-center/assets/jessy-owner.js");
 const css=read("public/command-center/assets/jessy-owner.css");
 const fn=read("supabase/functions/tle-jessy-owner/index.ts");
-assert.match(page,/jessy-owner\.js\?v=20261012-owner-alert-v1/);
-assert.match(page,/command-center-app\.js\?v=20261012-owner-alert-v1/);
+assert.match(page,/jessy-owner\.js\?v=20261012-whatsapp-v1/);
+assert.match(page,/command-center-app\.js\?v=20261012-whatsapp-v1/);
 assert.match(core,/TLEOwnerJessyGateway/);
 assert.match(core,/workspace\?\.is_internal===true/);
 assert.match(core,/auth\.getSession\(\)/);
@@ -29,7 +29,9 @@ assert.match(fn,/tle_crm_leads/);
 assert.match(fn,/tle_contact_leads/);
 assert.match(fn,/tle_ai_agent_orders/);
 assert.match(fn,/never/i);
-assert.doesNotMatch(fn,/\bmethod:\s*"PATCH"|\bmethod:\s*"DELETE"/);
+assert.doesNotMatch(fn.slice(0,fn.indexOf("const WHATSAPP_KINDS")),/\bmethod:\s*"PATCH"|\bmethod:\s*"DELETE"/);
+assert.match(fn,/method:"PATCH"/); // WhatsApp preference pause only; no operational writes
+assert.match(fn,/tle_owner_whatsapp_alert_prefs/);
 new Function(ui);
 new Function(fn.replace(/^import .*?;\s*$/mg,""));
 
@@ -78,4 +80,27 @@ assert.match(ui,/if\(!owner\(\)\|\|!root\|\|!event\.detail\)return/);
 assert.match(ui,/window\.addEventListener\("tle-crm-owner-notifications",onOwnerNotifications\)/);
 assert.match(css,/jo-notification-nudge/);
 console.log("PASS Jessy listens for new private owner alerts with no duplicate event notices");
+
+assert.match(core,/async whatsappAlertPrefs\(action,values=\{\}\)/);
+assert.match(core,/whatsapp_get/);
+assert.match(core,/whatsapp_save/);
+assert.match(core,/whatsapp_disable/);
+assert.match(core,/if\(!this\.ready\(\)\)throw Error\('Owner access required'\)/);
+assert.match(ui,/async function showWhatsAppSettings\(\)/);
+assert.match(ui,/jessy-whatsapp-settings/);
+assert.match(ui,/consent\.required=true/);
+assert.match(ui,/approved template/); // chat says not yet active
+assert.match(ui,/jo-wa-settings/);
+assert.match(css,/jo-wa-consent/);
+assert.match(fn,/const WHATSAPP_KINDS=new Set/);
+assert.match(fn,/action==="whatsapp_get"/);
+assert.match(fn,/action==="whatsapp_save"/);
+assert.match(fn,/action==="whatsapp_disable"/);
+assert.match(fn,/if\(body\.consent!==true\)/);
+assert.match(fn,/alerts_enabled:false/);
+assert.match(fn,/provider_status:"awaiting_sender_connection"/);
+assert.match(fn,/connected:false,can_send:false/);
+assert.doesNotMatch(fn,/api\.whatsapp\.com|graph\.facebook\.com/);
+console.log("PASS Jessy WhatsApp settings: owner-only opt-in, masked number, approval required, no sends");
+
 console.log("PASS Owner Jessy: auth-only visibility, verified aggregate reporting, EN/ES, read-only actions, responsive UI");

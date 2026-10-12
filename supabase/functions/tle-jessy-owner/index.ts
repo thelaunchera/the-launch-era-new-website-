@@ -127,6 +127,52 @@ async function draftForLead(workspaceId,id,language){
   subject:draft.subject.slice(0,150),body:draft.body.slice(0,4000),language:lead.language,
   requires_review:true,send_automatically:false};
 }
+
+const WHATSAPP_KINDS=new Set(["lead","demo","quote_request","won","system_ready"]);
+const whatsappPrefsUrl=ws=>BASE+"/rest/v1/tle_owner_whatsapp_alert_prefs?workspace_id=eq."+encodeURIComponent(ws);
+function whatsappSafe(p){
+ const masked=p?.phone_e164?("+"+"•".repeat(Math.min(7,Math.max(3,p.phone_e164.length-5)))+String(p.phone_e164).slice(-4)):"";
+ return {configured:!!p,phone_masked:masked,channels:Array.isArray(p?.channels)?p.channels:[],
+   alerts_enabled:p?.alerts_enabled===true,provider_status:p?.provider_status||"awaiting_sender_connection",
+   connected:false,can_send:false};
+}
+async function whatsappPrefAction(workspace,body){
+ const action=body.action;
+ if(action==="whatsapp_get"){
+  try{const r=await rows("tle_owner_whatsapp_alert_prefs","select=workspace_id,phone_e164,channels,alerts_enabled,provider_status&workspace_id=eq."+encodeURIComponent(workspace)+"&limit=1");return {ok:true,prefs:whatsappSafe(r?.[0])};}
+  catch{return {error:"Cannot load WhatsApp alert settings.",status:503};}
+ }
+ if(action==="whatsapp_save"){
+  const supplied=clean(body.phone,22).replace(/[()\s-]/g,"");
+  const previous=supplied?"":await rows("tle_owner_whatsapp_alert_prefs","select=phone_e164&workspace_id=eq."+encodeURIComponent(workspace)+"&limit=1").then(r=>r?.[0]?.phone_e164||"").catch(()=>"");
+  const phone=supplied||previous;
+  if(!/^\+[1-9][0-9]{7,14}$/.test(phone))return {error:"Enter a WhatsApp number with country code, e.g. +1...",status:400};
+  if(body.consent!==true)return {error:"You must authorize receiving WhatsApp alerts on this number.",status:400};
+  const selected=Array.isArray(body.channels)?body.channels:[];
+  if(selected.length<1||selected.length>5||selected.some(k=>typeof k!=="string"||!WHATSAPP_KINDS.has(k)))return {error:"Select at least one valid alert category.",status:400};
+  const unique=[...new Set(selected)];
+  const payload={workspace_id:workspace,phone_e164:phone,consented_at:new Date().toISOString(),
+    channels:unique,alerts_enabled:false,provider_status:"awaiting_sender_connection",updated_at:new Date().toISOString()};
+  try{
+    const r=await fetch(BASE+"/rest/v1/tle_owner_whatsapp_alert_prefs?on_conflict=workspace_id",{method:"POST",
+      headers:{apikey:SR,Authorization:"Bearer "+SR,"Content-Type":"application/json",Prefer:"resolution=merge-duplicates,return=representation"},
+      body:JSON.stringify(payload),signal:AbortSignal.timeout(5000)});
+    if(!r.ok)return {error:"Could not save WhatsApp preferences.",status:503};
+    const saved=await r.json();
+    return {ok:true,prefs:whatsappSafe(saved?.[0]),note:"Saved. No messages will be sent until the WhatsApp Business sender and approved utility template are connected."};
+  }catch{return {error:"Cannot save WhatsApp preferences right now.",status:503};}
+ }
+ if(action==="whatsapp_disable"){
+  try{
+    const r=await fetch(whatsappPrefsUrl(workspace),{method:"PATCH",headers:{apikey:SR,Authorization:"Bearer "+SR,"Content-Type":"application/json",Prefer:"return=representation"},
+      body:JSON.stringify({alerts_enabled:false,provider_status:"paused",updated_at:new Date().toISOString()}),signal:AbortSignal.timeout(5000)});
+    if(!r.ok)return {error:"Could not pause alerts.",status:503};
+    const saved=await r.json();
+    return {ok:true,prefs:whatsappSafe(saved?.[0]),note:"WhatsApp alerts paused."};
+  }catch{return {error:"Could not pause alerts.",status:503};}
+ }
+ return {error:"Unknown action",status:400};
+}
 Deno.serve(async req=>{
  const origin=req.headers.get("origin")||"";
  if(req.method==="OPTIONS")return new Response(null,{status:204,headers:h(origin)});
@@ -136,6 +182,10 @@ Deno.serve(async req=>{
  let ws;
  try{ws=await auth(req)}catch{return out({error:"Owner sign-in required"},401,origin)}
  const data=await req.json().catch(()=>null),message=clean(data?.message,340),lang=data?.language==="es"?"es":"en";
+ if(["whatsapp_get","whatsapp_save","whatsapp_disable"].includes(data?.action)){
+   const result=await whatsappPrefAction(ws,data);
+   return out(result,result.ok?200:result.status||400,origin);
+ }
  if(data?.action==="draft_followup"){
   const response=await draftForLead(ws,clean(data.lead_id,42),lang);
   return out(response,response.ok?200:response.status||400,origin);

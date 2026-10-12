@@ -113,6 +113,24 @@ window.TLEOwnerJessyGateway=Object.freeze({
   panel.scrollIntoView({behavior:'smooth',block:'nearest'});
   return true;
  },
+ async whatsappAlertPrefs(action,values={}){
+   if(!this.ready())throw Error('Owner access required');
+   if(!['whatsapp_get','whatsapp_save','whatsapp_disable'].includes(action))throw Error('Invalid WhatsApp settings action');
+   const {data:{session},error}=await db.auth.getSession();
+   if(error||!session?.access_token)throw Error('Sign in to continue');
+   const controller=new AbortController();
+   const watchdog=setTimeout(()=>controller.abort(),12000);
+   try{
+    const response=await fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-jessy-owner',{
+     method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+session.access_token,'apikey':'sb_publishable_0TueitFYiRF3rAEMLMT8-w_FvbvY0rB'},
+     body:JSON.stringify({action,...values}),signal:controller.signal
+    });
+    const result=await response.json().catch(()=>({}));
+    if(!response.ok||result.ok!==true)throw Error(result.error||'WhatsApp setup unavailable');
+    if(!this.ready())throw Error('Owner access changed');
+    return result;
+   }finally{clearTimeout(watchdog)}
+ },
  navigate(target){
    if(!this.ready())return false;
    const allowed=['owner-pages','owner-calendar','leads','calendar','inbox','emails','owner-support','owner-help'];
