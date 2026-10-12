@@ -25,3 +25,17 @@
 .jo-root button:focus-visible,.jo-root textarea:focus-visible{outline:3px solid #298ac0;outline-offset:3px}
 @media(max-width:600px){.jo-fab{bottom:max(85px,calc(env(safe-area-inset-bottom) + 68px));right:12px}.jo-panel{width:calc(100vw - 12px);right:6px;bottom:6px;height:min(600px,calc(100dvh - 20px));border-radius:19px}.jo-input{font-size:16px}.jo-quick{font-size:11px}.jo-head{padding:11px}}
 @media(prefers-reduced-motion:reduce){.jo-root *{animation:none!important;transition:none!important}}
+
+/* Editable Jessy drafts: review-only stage, never an automatic send. */
+.jo-draft-panel{border:1px solid #b6d7ec;background:#f1f9ff;padding:13px;border-radius:16px;margin:8px 0 14px;display:grid;gap:10px}
+.jo-draft-title{font-size:14px;color:#191919;line-height:1.4}
+.jo-draft-status,.jo-draft-disclaimer,.jo-draft-recipient{font-size:12px;line-height:1.5;color:#31546a;margin:0;overflow-wrap:anywhere}
+.jo-draft-label{display:grid;gap:6px;font-size:12px;font-weight:700;color:#253b4c}
+.jo-draft-select,.jo-draft-input,.jo-draft-textarea{width:100%;min-height:42px;padding:10px;border:1px solid #9dc7df;background:white;color:#191919;border-radius:11px;font:13px/1.45 Prompt,Arial,sans-serif}
+.jo-draft-textarea{min-height:150px;resize:vertical;white-space:pre-wrap}
+.jo-draft-actions{display:flex;flex-wrap:wrap;gap:9px}
+.jo-draft-approve,.jo-draft-cancel{min-height:42px;border-radius:11px;padding:10px 12px;font-size:12px;font-weight:800;cursor:pointer}
+.jo-draft-approve{flex:1;background:#f2d85b;color:#191919;border:1px solid #d8be57}
+.jo-draft-cancel{background:white;color:#284b61;border:1px solid #9dc7df}
+.jo-draft-approve:disabled,.jo-draft-panel button:disabled{opacity:.5;cursor:wait}
+@media(max-width:600px){.jo-draft-panel{padding:12px}.jo-draft-textarea{min-height:175px;font-size:16px}.jo-draft-select,.jo-draft-input{font-size:16px}}
