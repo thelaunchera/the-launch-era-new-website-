@@ -41,8 +41,23 @@ function pageText(kind){
 function node(tag,cls,text){const x=document.createElement(tag);if(cls)x.className=cls;if(text!==undefined)x.textContent=text;return x}
 function button(cls,label,title){const b=node("button",cls,label);b.type="button";if(title)b.setAttribute("aria-label",title);return b}
 function track(action){try{window.tleTrackEvent?.("jessy_interaction",{action,language:lang})}catch{}}
-function direct(href){if(!href||typeof href!=="string"||!href.startsWith("/")||href.startsWith("//"))return null;const p=href.split("?")[0];if(!/^\/(?:booking-bundle\/|service-checkout\/|booking-lead-automation|ai-booking-assistant\/|cleaning-web-app|website-automation|virtual-assistant|whatsapp-ai-agent\/|es\/)/.test(p))return null;return href}
-function routeFor(href){if(!href)return null;const s=direct(href);if(!s)return null;if(s.startsWith("/booking-bundle/"))return "/booking-bundle/?lang="+lang;if(s.includes("lang="))return s.replace(/lang=(en|es)/,"lang="+lang);if(s.startsWith("/service-checkout/"))return s+"&lang="+lang;if(lang==="es"&&!s.startsWith("/es/"))return "/es"+s.replace(/\/$/,"/");return s}
+function direct(href){
+ if(!href||typeof href!=="string"||!href.startsWith("/")||href.startsWith("//"))return null;
+ const p=href.split("?")[0];
+ if(!/^\/(?:booking-bundle\/|service-checkout\/|booking-lead-automation|ai-booking-assistant\/|cleaning-web-app|cleaning-app-demo\/|booking-demo\/|website-automation|virtual-assistant|whatsapp-ai-agent\/|es\/)/.test(p))return null;
+ return href;
+}
+function routeFor(href){
+ if(!href)return null;
+ if(href==="https://app.thelaunchera.com/?entry=signup")return href;
+ const s=direct(href);if(!s)return null;
+ if(s.startsWith("/booking-bundle/"))return "/booking-bundle/?lang="+lang;
+ if(s.startsWith("/cleaning-app-demo/")||s.startsWith("/booking-demo/"))return s.includes("lang=")?s.replace(/lang=(en|es)/,"lang="+lang):s+"?lang="+lang;
+ if(s.includes("lang="))return s.replace(/lang=(en|es)/,"lang="+lang);
+ if(s.startsWith("/service-checkout/"))return s+"&lang="+lang;
+ if(lang==="es"&&!s.startsWith("/es/"))return "/es"+s.replace(/\/$/,"/");
+ return s;
+}
 function makeImage(){const x=node("img","tle-jessy-avatar");x.src=avatarPath;x.alt="Jessy · AI Assistant";x.loading="lazy";x.width=53;x.height=53;return x}
 const style=node("link");style.rel="stylesheet";style.href="/assets/jessy-site.css?v=20261012";document.head.appendChild(style);
 const root=node("div","tle-jessy-root");root.setAttribute("data-tle-jessy","true");
@@ -73,7 +88,16 @@ const submit=button("tle-jessy-submit",t("confirm"));submit.type="submit";const 
 const privacy=node("p","tle-jessy-note",t("privacy"));leadForm.append(submit,formResult,privacy);lead.append(back,leadTitle,leadIntro,leadForm);
 panel.append(head,log,quick,bottom,lead);root.append(fab,nudge,backdrop,panel);document.body.append(root);
 function msg(text,sender){const bubble=node("div","tle-jessy-message "+sender,text);log.appendChild(bubble);log.scrollTop=log.scrollHeight;return bubble}
-function actions(checkout,detail){const row=node("div","tle-jessy-inline");const list=[[checkout,t("checkout")],[detail,t("learn")]];for(const pair of list){const u=routeFor(pair[0]);if(!u)continue;const a=node("a","",pair[1]);a.href=u;a.setAttribute("rel","noopener");a.addEventListener("click",()=>track("checkout_or_details"));row.appendChild(a)}if(row.children.length){log.appendChild(row);log.scrollTop=log.scrollHeight}}
+function actions(checkout,detail,trial){
+ const row=node("div","tle-jessy-inline");
+ const list=[
+ [trial,lang==="es"?"Iniciar prueba gratis ↗":"Start free trial ↗"],
+ [checkout,t("checkout")],
+ [detail,detail?.startsWith("/cleaning-app-demo/")?(lang==="es"?"Probar demo ↗":"Try the demo ↗"):t("learn")]
+ ];
+ for(const [href,label] of list){const u=routeFor(href);if(!u)continue;const a=node("a","",label);a.href=u;a.setAttribute("rel","noopener");a.addEventListener("click",()=>track("checkout_or_details"));row.appendChild(a)}
+ if(row.children.length){log.appendChild(row);log.scrollTop=log.scrollHeight}
+}
 async function reloadOffers(){try{const r=await fetch(catalogPath+"?r="+Date.now(),{cache:"no-store"});if(r.ok){const data=await r.json();if(Array.isArray(data.offers)&&data.offers.length>=7)catalog=data.offers}}catch{}}
 function quickChoices(){quick.replaceChildren();const opts=[[t("service"),lang==="es"?"Necesito mejorar mis reservas.":"I need better bookings."],[t("ai"),lang==="es"?"¿Qué asistentes IA ofrecen?":"Which AI Assistants do you offer?"],[t("price"),lang==="es"?"¿Qué precios tienen?":"What are your prices?"],[t("human"),"lead-form"]];opts.forEach(function(entry){const b=button("",entry[0]);b.addEventListener("click",()=>{if(entry[1]==="lead-form")showLead(true);else ask(entry[1])});quick.appendChild(b)})}
 function greeting(){if(!seen){msg(pageText("hello"),"bot");seen=true;quickChoices()}}
@@ -91,7 +115,7 @@ if(result&&typeof result.reply==="string"){
  if(typeof result.selected_offer==="string"&&result.selected_offer)offer=result.selected_offer;
  const entry=catalog.find(x=>x.id===offer);
  const checkout=result.checkout||(entry?.checkout||null);const info=result.details||(entry?.details||null);
- if(checkout||info)actions(checkout,info);
+ if(checkout||info||result.trial)actions(checkout,info,result.trial);
  track("answered");
 }else{actions(null,"/solutions");track("chat_unavailable")}
 waiting=false;send.disabled=false;log.scrollTop=log.scrollHeight;input.focus()}
