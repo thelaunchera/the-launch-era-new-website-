@@ -949,3 +949,110 @@ body.vehicle-booking .cb-footer-powered{font-size:11px;color:#9cb4c9;line-height
  body.vehicle-booking .cb-vehicles .cb-vehicle-svg{transition:none!important}
  body.vehicle-booking .cb-vehicles button:hover{transform:none}
 }
+
+/* CB Depot 2026-10-12: genuine vehicle photographs with tactile, accessible choice cards.
+   Override the retired pictogram rules without touching any other booking account. */
+body.vehicle-booking .cb-vehicles{
+ display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:12px!important;margin:12px 0 7px!important;
+}
+body.vehicle-booking .cb-vehicles button{
+ position:relative;display:flex!important;flex-direction:column!important;
+ align-items:stretch!important;justify-content:flex-start!important;
+ min-width:0;min-height:0!important;padding:0!important;
+ border:1px solid #36516c!important;border-radius:16px!important;
+ background:linear-gradient(160deg,#172b3e,#0b1928)!important;
+ color:#f4f9ff!important;overflow:hidden;text-align:left!important;
+ box-shadow:inset 0 1px 0 #ffffff14,0 6px 19px #0003;
+ transform:translateY(0);
+ transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease!important;
+ -webkit-tap-highlight-color:transparent;
+}
+body.vehicle-booking .cb-vehicles button > span{font-size:inherit!important;margin:0!important;line-height:inherit!important}
+body.vehicle-booking .cb-vehicles button .cb-vehicle-photo-wrap{
+ position:relative;display:block!important;width:100%;height:115px;
+ border-radius:0;overflow:hidden;background:linear-gradient(150deg,#26394b,#0b1825);
+}
+body.vehicle-booking .cb-vehicles button .cb-vehicle-photo-wrap::after{
+ content:"";position:absolute;inset:0;pointer-events:none;
+ background:linear-gradient(0deg,rgba(5,15,27,.45),transparent 55%);
+}
+body.vehicle-booking .cb-vehicles .cb-vehicle-photo{
+ display:block;width:100%;height:100%;min-height:100%;
+ object-fit:cover;object-position:center 54%;
+ filter:brightness(.92) contrast(1.04) saturate(.85);
+ transform:scale(1.005);transition:transform .38s cubic-bezier(.2,.7,.2,1),filter .25s ease;
+}
+body.vehicle-booking .cb-vehicles button .cb-vehicle-photo-check{
+ display:grid!important;place-items:center;position:absolute;
+ right:9px;top:9px;width:25px;height:25px;border-radius:50%;
+ border:1px solid #a6dfff;z-index:2;
+ background:#067dff;color:#fff;font-size:14px!important;font-weight:900;
+ opacity:0;transform:scale(.8);transition:opacity .2s,transform .2s;
+ box-shadow:0 3px 10px #001a3e99;
+}
+body.vehicle-booking .cb-vehicles button .cb-vehicle-label{
+ display:flex!important;align-items:center;justify-content:space-between;gap:8px;
+ width:100%;min-height:44px;padding:10px 12px;
+ color:#f5faff;font-size:14px!important;font-weight:800;letter-spacing:.01em;
+}
+body.vehicle-booking .cb-vehicles button .cb-vehicle-label strong{color:inherit;font-size:14px;line-height:1.25}
+body.vehicle-booking .cb-vehicles button .cb-vehicle-selected-hint{
+ color:#7ec9ff;font-size:11px!important;font-weight:700!important;
+ opacity:0;transform:translateY(3px);transition:opacity .2s,transform .2s;
+}
+body.vehicle-booking .cb-vehicles button:is(:hover,:focus-visible){
+ border-color:#6abaff!important;box-shadow:0 14px 28px #0006,0 0 0 1px #168eff44;
+ transform:translateY(-3px)!important;
+}
+body.vehicle-booking .cb-vehicles button:is(:hover,:focus-visible) .cb-vehicle-photo{
+ transform:scale(1.06);filter:brightness(1.05) contrast(1.05) saturate(1);
+}
+body.vehicle-booking .cb-vehicles button.active{
+ border:2px solid #40acff!important;
+ background:linear-gradient(150deg,#103b64,#0b233c)!important;
+ box-shadow:0 0 0 2px #128fff27,0 12px 30px #087fff29!important;
+}
+body.vehicle-booking .cb-vehicles button.active .cb-vehicle-photo-check,
+body.vehicle-booking .cb-vehicles button.active .cb-vehicle-selected-hint{
+ opacity:1;transform:translateY(0) scale(1);
+}
+body.vehicle-booking .cb-vehicles button.active .cb-vehicle-photo{
+ filter:brightness(1.05) contrast(1.08) saturate(1.05);
+}
+body.vehicle-booking .cb-vehicles button:focus-visible{
+ outline:3px solid #82cfff!important;outline-offset:3px!important;
+}
+body.vehicle-booking .cb-vehicle-feedback{
+ display:block;margin:7px 0 19px;
+ color:#aac5de;font-size:12px;line-height:1.5;min-height:19px;
+}
+body.vehicle-booking .cb-vehicles:has(button.active) + .cb-vehicle-feedback{color:#92d2ff}
+body.vehicle-booking .cb-contact-form > :is(label.tle-care-permission,label.cb-reminder-permission) input[type=checkbox],
+body.vehicle-booking #quote .cb-stage > :is(.tle-care-permission,.cb-reminder-permission) input[type=checkbox]{
+ color-scheme:dark;background:#0c2031!important;
+}
+body.vehicle-booking #quote .cb-stage > label.cb-reminder-permission{
+ display:flex!important;align-items:flex-start!important;gap:11px!important;
+}
+body.vehicle-booking #quote .cb-stage > label.cb-reminder-permission > span{
+ flex:1;min-width:0;line-height:1.55;color:#edf6ff!important;
+}
+@media(max-width:650px){
+ body.vehicle-booking .cb-vehicles{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+ body.vehicle-booking .cb-vehicles button .cb-vehicle-photo-wrap{height:100px}
+ body.vehicle-booking .cb-vehicles button .cb-vehicle-label{min-height:43px;padding:10px 10px}
+ body.vehicle-booking .cb-vehicles button .cb-vehicle-label strong{font-size:13px}
+ body.vehicle-booking .cb-vehicles button .cb-vehicle-selected-hint{font-size:10px!important}
+ body.vehicle-booking .cb-vehicle-feedback{font-size:12px}
+}
+@media(max-width:360px){
+ body.vehicle-booking .cb-vehicles{gap:8px!important}
+ body.vehicle-booking .cb-vehicles button .cb-vehicle-photo-wrap{height:82px}
+ body.vehicle-booking .cb-vehicles button .cb-vehicle-label{padding:8px}
+}
+@media(prefers-reduced-motion:reduce){
+ body.vehicle-booking .cb-vehicles button,body.vehicle-booking .cb-vehicles .cb-vehicle-photo,
+ body.vehicle-booking .cb-vehicles button .cb-vehicle-photo-check,
+ body.vehicle-booking .cb-vehicles button .cb-vehicle-selected-hint{transition:none!important;transform:none!important}
+}
