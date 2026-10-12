@@ -251,7 +251,15 @@ async function submit(which){
  if(isCommercial&&!commercialProperty){alertCustomer(tr("Choose the type of business space.","Selecciona el tipo de local."));return}
  if(isCommercial&&commercialProperty==="Other"&&!otherSpace){alertCustomer(tr("Describe the type of business space, such as restaurant.","Describe el tipo de local, por ejemplo restaurante."));return}
  if(isCommercial&&!companyName){alertCustomer(tr("Enter the business name.","Escribe el nombre del negocio."));return}
- const commercialDetails=[companyName?"Business: "+companyName:"",otherSpace?"Space type: "+otherSpace:"",details].filter(Boolean).join(" · ");
+ const commercialDetails=[
+  companyName?"Business: "+companyName:"",
+  otherSpace?"Space type: "+otherSpace:"",
+  $("cFloors")?.value?"Floors: "+$("cFloors").value:"",
+  $("cRestrooms")?.value?"Restrooms: "+$("cRestrooms").value:"",
+  $("cCleaningWindow")?.value?"Cleaning window: "+$("cCleaningWindow").value:"",
+  $("cSpecialAreas")?.value.trim()?"Special areas: "+$("cSpecialAreas").value.trim():"",
+  details
+ ].filter(Boolean).join(" · ");
  const estimateLabel=flat?money(Number(session.service.price)+extras.reduce((acc,x)=>acc+Number(x.dataset.price||0),0)):tr("Custom quote","Cotización personalizada");
  const body={
   booking_key:key,request_type:flat?"booking":"quote",request_intent:flat?"booking":state.intent,
@@ -270,7 +278,7 @@ async function submit(which){
   requested_date:date,requested_time:time,source:"booking_page",estimate_display:estimateLabel
  };
  // Keep one submission reference across retries, but renew it when details change.
- const attemptFingerprint=JSON.stringify([route,email,body.service_id,body.service_name,body.requested_date,body.requested_time,body.notes,body.optional_care_opt_in,body.appointment_reminders_opt_in]);
+ const attemptFingerprint=JSON.stringify(body);
  const previous=submissionAttempts.get(route);
  if(!previous||previous.fingerprint!==attemptFingerprint)
   submissionAttempts.set(route,{fingerprint:attemptFingerprint,id:'req_'+crypto.randomUUID()});
@@ -302,9 +310,10 @@ async function submit(which){
  session.sending=true;if(b){b.disabled=true;b.textContent=tr("Sending…","Enviando…")}
  try{
   const response=await endpoint("tle-booking-flow-inquiry",body);
-  submissionAttempts.delete(route);
+  // Preserve the existing reference for exact repeat submissions: never generate duplicate receipts.
   show("done",response.booking_confirmed?tr("Booking confirmed!","¡Reserva confirmada!"):
     state.mode==="flat"?tr("Booking request received","Solicitud de reserva recibida"):state.intent==="estimate"?tr("Estimate request received","Estimado solicitado"):tr("Quote request received","Cotización solicitada"),"✓");
+  window.showBrandedRequestSuccess?.(session.model?.business_name||"Your cleaning provider",{live:true,forBusiness:companyName});
   $("done").querySelector("h2").textContent=response.booking_confirmed?
     tr("Your appointment is booked!","¡Tu cita está confirmada!"):tr("Your request was received.","Recibimos tu solicitud.");
   const handoffOk=response.customer_email_sent===true;
@@ -317,10 +326,13 @@ async function submit(which){
       tr("Your request was saved, but the email could not be sent. Your appointment is NOT confirmed. Contact the business if you need an update.",
          "Guardamos tu solicitud, pero no se pudo enviar el correo. Tu cita NO está confirmada. Contacta al negocio si necesitas información.");
   }else $("done").querySelector("p").textContent=handoffOk?
-   tr("Thank you! We received your request. Our team will review the details and be in touch shortly. Please check your inbox for the confirmation.",
-      "¡Gracias! Recibimos tu solicitud. Revisaremos los detalles y pronto nos comunicaremos contigo. Revisa tu correo para ver la confirmación."):
+   tr("Thank you! We have your request and will review the details. We’ll be in touch shortly. Your appointment is not confirmed yet. Please check your inbox for the receipt.",
+      "¡Gracias! Tenemos tu solicitud y revisaremos los detalles. Nos comunicaremos contigo pronto. Tu cita todavía no está confirmada. Revisa tu correo para ver el comprobante."):
    tr("Your request is saved, but the confirmation email could not be sent right now. Please keep this confirmation and contact the cleaning business if you don't receive an update.",
       "Tu solicitud está guardada, pero no se pudo enviar el correo de confirmación por ahora. Guarda esta pantalla y contacta al negocio si no recibes novedades.");
+  if(response.duplicate_submission===true){
+    const note=$("tleSuccessPreview");if(note){note.hidden=false;note.textContent=tr("This request was already received. No additional booking or receipt email was sent.","Esta solicitud ya se había recibido. No enviamos otra reserva ni otro correo.");}
+  }
  }catch(err){alertCustomer(err.message||tr("Could not send this request.","No se pudo enviar."))}
  finally{session.sending=false;if(b){b.disabled=false;b.textContent=prior}}
 }
