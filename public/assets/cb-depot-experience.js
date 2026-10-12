@@ -258,8 +258,8 @@ function activate(session){
  const vehiclePhotos={
   Car:"https://images.unsplash.com/photo-1523983519351-ab98a0abe560?auto=format&fit=crop&w=900&q=85",
   SUV:"https://images.unsplash.com/photo-1648413653819-7c0fd93e8e6a?auto=format&fit=crop&w=900&q=85",
-  Truck:"https://images.unsplash.com/photo-1714675701237-ea7480249b8c?auto=format&fit=crop&w=900&q=85",
-  Van:"https://images.unsplash.com/photo-1775047734765-df970880aca8?auto=format&fit=crop&w=900&q=85"
+  Truck:"https://images.unsplash.com/photo-1711512302274-8aafe96481bb?auto=format&fit=crop&w=900&q=85",
+  Van:"https://images.unsplash.com/photo-1765461734605-34657fa04db2?auto=format&fit=crop&w=900&q=85"
  };
  function vehiclePhoto(kind){
   const photo=vehiclePhotos[kind]||vehiclePhotos.Car;
@@ -350,6 +350,10 @@ function activate(session){
  reminderBox.append(reminderInput,reminderCopy);
  document.getElementById('quoteSubmit').before(reminderBox);
  // No new external backend: reuse the existing secure quote handler and account-specific service IDs.
+ // Keep the card readable if an external image service is briefly unavailable.
+ document.querySelectorAll(".cb-vehicles .cb-vehicle-photo").forEach(photo=>{
+  photo.addEventListener("error",()=>{photo.onerror=null;photo.src="/assets/clients/cb-depot/photos/hero-desktop.webp";},{once:true});
+ });
  const controls=[...document.querySelectorAll(".cb-vehicles button")];
  let vehicle="";
  const selectService=document.getElementById("cbService");
