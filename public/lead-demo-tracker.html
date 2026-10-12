@@ -5,7 +5,7 @@
 <div class="timeline"><i class="on"></i><i class="on"></i><i id="tlConfirm"></i><i></i><i></i></div><p class="mini">Request received → Price reviewed → Confirmation → Reminder → Follow-up</p>
 <div class="card locked"><b>🔒 This is only a preview</b><p class="mini">This demo shows one example of how your booking and follow-up flow could work. Your final setup will depend on your business needs and selected service.</p></div>
 <div class="brand"><div class="ey" style="color:#d8dddd">THE LAUNCH ERA DEMO ↓ YOUR CLEANING BUSINESS</div><h2 style="margin:8px 0">Built around your business.</h2><p class="mini">Your logo · your services · your prices · your business</p><b>We’ll make this your own with your services and prices.</b></div>
-<div class="info"><b>✨ In your personalized system</b><p class="mini">The owner reviews the estimate, controls the final price, and the customer can confirm from the email without back-and-forth.</p></div><a class="primary" id="bookingLink" href="lead-private-preview.html">Try the booking demo</a></section></main>
+<div class="info"><b>✨ In your personalized system</b><p class="mini">The owner reviews the estimate, controls the final price, and the customer can confirm from the email without back-and-forth.</p></div><a class="primary" id="bookingLink" href="lead-private-preview.html">Try the booking demo</a><div data-tle-bundle></div></section></main>
 <script>
 const safe=v=>String(v||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const emailBusiness=(new URLSearchParams(location.search).get('business')||'').trim().slice(0,140);
@@ -73,4 +73,4 @@ if(leadLabels[leadKey]){
  const booking=document.getElementById('bookingLink'); if(booking)booking.href='lead-private-preview.html?lead='+encodeURIComponent(leadKey)+'&lang='+(demoParams.get('lang')==='es'?'es':'en');
 }
 const bookingLink=document.getElementById('bookingLink');const linkParams=new URLSearchParams(bookingLink.search);linkParams.set('lang',demoParams.get('lang')==='es'?'es':'en');bookingLink.search=linkParams.toString();
-</script><script src="/assets/booking-template-language.js?v=20261010-demo-separated-es2"></script><!-- personalized-lead-demo-2026-10-06 --></body></html>
+</script><script src="/assets/booking-template-language.js?v=20261010-demo-separated-es2"></script><script src="/assets/tle-booking-bundle.js?v=20261012-bundle-v1" defer></script><!-- personalized-lead-demo-2026-10-06 --></body></html>
