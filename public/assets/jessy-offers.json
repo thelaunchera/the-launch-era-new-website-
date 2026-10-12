@@ -1,0 +1,102 @@
+{
+  "version": "2026-10-12",
+  "updated_at": "2026-10-12",
+  "disclaimer_en": "Prices and availability are confirmed on the checkout page. We review setup details before production.",
+  "disclaimer_es": "Los precios y la disponibilidad se confirman en el checkout. Revisamos los detalles antes de comenzar.",
+  "offers": [
+    {
+      "id": "booking",
+      "name": "Booking Automation + Command Center",
+      "short_en": "Booking requests, approximate estimates, owner alerts, organized leads and automatic first follow-ups.",
+      "short_es": "Solicitudes de reserva, estimados aproximados, avisos, leads organizados y primeros seguimientos automáticos.",
+      "price_en": "$19.99 Fall Refresh through October 31. Booking + an AI Assistant may qualify for 40% off the combined activation; normal AI monthly rate applies later.",
+      "price_es": "$19.99 de oferta Fall Refresh hasta el 31 de octubre. Booking + AI Assistant puede tener 40% de descuento en la activación conjunta; luego aplica la mensualidad normal.",
+      "checkout": "/service-checkout/?offer=booking-flow",
+      "details": "/booking-lead-automation",
+      "bundle": "/booking-bundle/?lang=en"
+    },
+    {
+      "id": "ai-booking",
+      "name": "AI Booking Assistant",
+      "short_en": "Answers questions and helps visitors prepare booking requests. For a Booking Page or website.",
+      "short_es": "Responde preguntas y ayuda a preparar solicitudes. Para una Booking Page o website.",
+      "price_en": "$79 activation, first month included; $29/month from day 31 after delivery.",
+      "price_es": "$79 de activación, primer mes incluido; $29/mes desde el día 31 después de la entrega.",
+      "checkout": "/service-checkout/?offer=ai-booking",
+      "details": "/ai-booking-assistant/"
+    },
+    {
+      "id": "ai-followup",
+      "name": "AI Follow-Up Assistant",
+      "short_en": "Helps follow up with leads who gave permission; owner stays in control.",
+      "short_es": "Ayuda a dar seguimiento a leads con permiso; el dueño mantiene el control.",
+      "price_en": "$59 activation, first month included; $19/month from day 31 after delivery.",
+      "price_es": "$59 de activación, primer mes incluido; $19/mes desde el día 31 después de la entrega.",
+      "checkout": "/service-checkout/?offer=ai-followup",
+      "details": "/ai-booking-assistant/"
+    },
+    {
+      "id": "ai-business",
+      "name": "AI Business Assistant",
+      "short_en": "Booking Assistant plus Follow-Up Assistant for a website, Booking Page, or both.",
+      "short_es": "Booking Assistant + Follow-Up Assistant para website, Booking Page o ambos.",
+      "price_en": "$119 activation, first month included; $39/month from day 31 after delivery.",
+      "price_es": "$119 de activación, primer mes incluido; $39/mes desde el día 31 después de la entrega.",
+      "checkout": "/service-checkout/?offer=ai-business",
+      "details": "/ai-booking-assistant/"
+    },
+    {
+      "id": "cleaning-app",
+      "name": "Cleaning Web App",
+      "short_en": "Organize jobs, clients, quotes, invoices, schedules, recurring cleanings, team, mileage and routes.",
+      "short_es": "Organiza trabajos, clientes, cotizaciones, facturas, calendario, limpiezas recurrentes, equipo, millas y rutas.",
+      "price_en": "30 days free, then $3.99/month.",
+      "price_es": "30 días gratis, luego $3.99/mes.",
+      "checkout": null,
+      "details": "/cleaning-web-app"
+    },
+    {
+      "id": "website",
+      "name": "Website Automation",
+      "short_en": "An inquiry-to-follow-up workflow for an existing website, with tracking and owner alerts.",
+      "short_es": "Un flujo de consultas y seguimiento para un website existente, con tracker y alertas.",
+      "price_en": "$41.99 one-time (30% off).",
+      "price_es": "$41.99 pago único (30% de descuento).",
+      "checkout": "/service-checkout/?offer=website-automation",
+      "details": "/website-automation"
+    },
+    {
+      "id": "va",
+      "name": "VA Essential Support",
+      "short_en": "Focused virtual assistant support, up to 8 hours each month, with scope agreed in advance.",
+      "short_es": "Apoyo de asistente virtual hasta 8 horas mensuales, con tareas acordadas previamente.",
+      "price_en": "$34.99/month (30% off).",
+      "price_es": "$34.99/mes (30% de descuento).",
+      "checkout": "/service-checkout/?offer=va",
+      "details": "/virtual-assistant"
+    },
+    {
+      "id": "whatsapp",
+      "name": "WhatsApp AI",
+      "short_en": "Coming Soon. Not available to purchase yet.",
+      "short_es": "Próximamente. Todavía no está disponible para comprar.",
+      "price_en": "Coming Soon",
+      "price_es": "Próximamente",
+      "checkout": null,
+      "details": "/whatsapp-ai-agent/"
+    }
+  ],
+  "constraints": {
+    "no_checkout_collection": true,
+    "no_invented_appointments": true,
+    "no_guaranteed_results": true,
+    "booking_production": "48 hours after verified purchase, complete intake, and confirmed production start",
+    "excluded_services": [
+      "Content",
+      "Instagram Audit",
+      "Instagram Automation",
+      "Standalone Booking Page"
+    ],
+    "bundles": "40% discount on combined activation Booking + AI only, standard AI monthly subscription after first 30 days. Final price must be validated by bundle checkout server."
+  }
+}
