@@ -865,6 +865,9 @@ async function sendOwnerActivationFor(accountId,kind,other=''){
  if(!response.ok)throw Error(result.error||'Activation failed');
  return result;
 }
+function ownerDeliveryPending(a){
+ return !['completed','delivered'].includes(ownerPurchaseStage(a));
+}
 async function loadOwnerDeliveries(){
  const panel=$('ownerDeliveryPanel');if(!panel)return;
  panel.classList.toggle('hidden',!workspace?.is_internal);
@@ -875,8 +878,8 @@ async function loadOwnerDeliveries(){
   const startedWith=workspace.id;
   const {data,error}=await db.rpc('tle_booking_flow_owner_pending');if(error)throw error;
   if(!workspace?.is_internal||workspace.id!==startedWith)return;
-  const entries=Array.isArray(data)?data:[];
-  if(!entries.length){status.textContent=crmLocaleText("No paid accounts waiting for delivery","No hay compras pendientes");return}
+  const entries=(Array.isArray(data)?data:[]).filter(ownerDeliveryPending);
+  if(!entries.length){status.textContent=crmLocaleText("No pending client deliveries. New paid orders will appear here until final handoff.","No hay entregas pendientes. Las nuevas compras aparecerán aquí hasta su entrega final.");return}
   const deliveredCount=entries.filter(a=>a.activation_email_delivery_status==='delivered'&&a.activation_email_link_version==='handoff-v2').length;
   status.textContent=crmLocaleText(entries.length+' paid account(s) · '+deliveredCount+' activation email(s) verified as delivered. Final delivery requires your approval.',entries.length+' compra(s) · '+deliveredCount+' correo(s) de activación verificados como entregados. La entrega final requiere tu aprobación.');
   for(const a of entries){
