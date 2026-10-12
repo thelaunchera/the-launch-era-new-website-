@@ -29,6 +29,33 @@ const db=createClient('https://bowacxhmjvrqixtwaikv.supabase.co','sb_publishable
 const $=id=>document.getElementById(id);
 const crmLocaleText=(en,es)=>localStorage.getItem('tle_crm_language')==='es'?es:en;
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register(new URL('sw.js',location.href).pathname).catch(err=>console.warn('Push service worker unavailable',err.message)))}function hideTleLoading(){window.__tleBootReady=true;window.dispatchEvent(new Event('tle-crm-ready'));const el=$('tleLoading');if(!el)return;el.classList.add('tle-loading-hide');setTimeout(()=>el.remove(),280)}let activeAuthUserId=null,bootGeneration=0;let workspace=null,leads=[],editing=null,emailSentByLead=new Map(),emailBouncedByLead=new Map(),accountEmail='';
+
+/* Jessy owner bridge: no public chat, buyer access, or mutation endpoints. */
+window.TLEOwnerJessyGateway=Object.freeze({
+ ready(){return workspace?.is_internal===true&&!$('app')?.classList.contains('hidden')&&document.body.classList.contains('crm-owner-view')},
+ async ask(input){
+   if(!this.ready())throw Error('Owner access required');
+   const {data:{session},error}=await db.auth.getSession();
+   if(error||!session?.access_token)throw Error('Sign in to continue');
+   const response=await fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-jessy-owner',{
+     method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+session.access_token,'apikey':'sb_publishable_0TueitFYiRF3rAEMLMT8-w_FvbvY0rB'},
+     body:JSON.stringify({message:String(input.message||'').slice(0,340),language:input.language==='es'?'es':'en',history:Array.isArray(input.history)?input.history.slice(-4):[]}),
+     signal:AbortSignal.timeout(16000)
+   });
+   const result=await response.json().catch(()=>({}));
+   if(!response.ok||result.ok!==true)throw Error(response.status===401?'Owner session expired':result.error||'Assistant temporarily unavailable');
+   if(!this.ready())throw Error('Owner access changed');
+   return result;
+ },
+ navigate(target){
+   if(!this.ready())return false;
+   const allowed=['owner-pages','owner-calendar','leads','calendar','inbox','emails','owner-support','owner-help'];
+   if(!allowed.includes(target))return false;
+   premiumNavigate(target);
+   return true;
+ }
+});
+
 const say=s=>{$('message').textContent=s;if($('editor')?.open){const status=$('followupStatus');if(status)status.textContent=s}};
 async function check(result){if(result.error)throw result.error;return result.data}
 
