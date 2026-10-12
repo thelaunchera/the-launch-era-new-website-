@@ -476,6 +476,30 @@ for(const viewport of screens)for(const lang of ['en','es']){
 }
 
 
+
+for(const lang of ['en','es']){
+ await check('Booking + optional AI add-on totals and no live charge '+lang,{width:390,height:844},async p=>{
+  await p.goto(base+'/booking-bundle/?lang='+lang,{waitUntil:'networkidle'});
+  const card=p.locator('[data-tle-bundle]');
+  assert(await card.isVisible(),'Bundled purchase selector visible');
+  assert.equal(await p.locator('#tleTotal').innerText(),'$19.99');
+  const combos=[['ai-booking','$98.99'],['ai-followup','$78.99'],['ai-business','$138.99'],['','$19.99']];
+  for(const [plan,total] of combos){
+   await p.locator('input[name="tle-ai-bundle"][value="'+plan+'"]').check();
+   assert.equal(await p.locator('#tleTotal').innerText(),total);
+  }
+  await p.locator('input[name="tle-ai-bundle"][value="ai-business"]').check();
+  let request=null;
+  await p.route('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-bundle-checkout',async route=>{
+   request=route.request().postDataJSON();
+   await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({url:'https://checkout.stripe.com/c/pay/qa-bundle-only',amount_total:13899})});
+  });
+  await p.route('https://checkout.stripe.com/**',route=>route.fulfill({status:200,contentType:'text/html',body:'<!doctype html><html><body><h1 id="mockCheckout">Safe checkout preview</h1></body></html>'}));
+  await p.locator('#tleCheckoutBtn').click();
+  await p.locator('#mockCheckout').waitFor({timeout:12000});
+  assert.deepEqual(request,{language:lang,ai_addon:'ai-business'},'Bundle selection reaches checkout exactly once');
+ });
+}
 for(const offer of ['booking-flow','website-automation','va']){
  for(const lang of ['en','es']){
   await check('Direct localized Stripe checkout '+offer+' '+lang,{width:390,height:844},async p=>{
