@@ -10,7 +10,8 @@ try{
  let refreshPublished=false;
  for(let attempt=0;attempt<24;attempt++){
   const html=await fetch(url+'&release=20261012-refresh-v1',{cache:'no-store',signal:AbortSignal.timeout(15000)}).then(r=>r.text()).catch(()=> '');
-  if(html.includes('id="workspaceRefresh"')&&html.includes('command-center-refresh.js')){refreshPublished=true;break;}
+  const css=await fetch('https://thelaunchera.com/command-center/assets/command-center.css?qa=refresh-visible-v2',{cache:'no-store',signal:AbortSignal.timeout(15000)}).then(r=>r.text()).catch(()=> '');
+  if(html.includes('id="workspaceRefresh"')&&html.includes('command-center-refresh.js')&&css.includes('.crm-workspace-backrow:has(.hidden){display:flex}')){refreshPublished=true;break;}
   await new Promise(resolve=>setTimeout(resolve,5000));
  }
  if(!refreshPublished)throw Error('Refresh release was not published before Safari QA');
