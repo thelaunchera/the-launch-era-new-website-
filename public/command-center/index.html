@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f8fb"><meta name="description" content="Private lead tracking and follow-up management for cleaning businesses."><meta name="tle-private-activation" content="direct-hash-v1"><meta name="tle-business-category-ui" content="industry-aware-cb-depot-v1"><title>The Launch Era | Command Center</title><link rel="icon" type="image/svg+xml" href="/assets/brand/tle-mark.svg" id="crm-tab-icon"><link rel="apple-touch-icon" href="https://the-launch-era-crm.dailinsegura17.workers.dev/app-icons/tle-180.png?v=20261010" id="crm-touch-icon"><link rel="manifest" href="./manifest-tle.webmanifest" id="crm-app-manifest"><meta name="tle-command-center-release" content="2026-10-11-buyer-calendar-v1"><link rel="stylesheet" href="./assets/command-center.css?v=20261012-wide-preview-v1"></head><body><div id="privateActivationSplash" class="hidden" role="status" aria-live="polite">
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f8fb"><meta name="description" content="Private lead tracking and follow-up management for cleaning businesses."><meta name="tle-private-activation" content="direct-hash-v1"><meta name="tle-business-category-ui" content="industry-aware-cb-depot-v1"><title>The Launch Era | Command Center</title><link rel="icon" type="image/png" href="https://the-launch-era-crm.dailinsegura17.workers.dev/app-icons/tle-192.png?v=20261010" id="crm-tab-icon"><link rel="apple-touch-icon" href="https://the-launch-era-crm.dailinsegura17.workers.dev/app-icons/tle-180.png?v=20261010" id="crm-touch-icon"><link rel="manifest" href="./manifest-tle.webmanifest" id="crm-app-manifest"><meta name="tle-command-center-release" content="2026-10-11-buyer-calendar-v1"><link rel="stylesheet" href="./assets/command-center.css?v=20261012-wide-preview-v1"></head><body><div id="privateActivationSplash" class="hidden" role="status" aria-live="polite">
 <div class="pa-card">
 <img class="pa-logo" src="/favicon.svg" alt="">
 <div class="pa-mark" id="paBrand">PRIVATE COMMAND CENTER</div>
@@ -823,8 +823,8 @@
     const favicon=document.getElementById("crm-tab-icon");
     const touch=document.getElementById("crm-touch-icon");
     const manifest=document.getElementById("crm-app-manifest");
-    if(favicon){favicon.href=icon;favicon.type=isCB?"image/png":"image/svg+xml";}
-    if(touch)touch.href=icon.replace("-192.png","-180.png");
+    if(favicon){favicon.href=isCB?icon:"https://the-launch-era-crm.dailinsegura17.workers.dev/app-icons/tle-192.png?v=20261010";favicon.type="image/png";}
+    if(touch)touch.href=isCB?icon.replace("-192.png","-180.png"):"https://the-launch-era-crm.dailinsegura17.workers.dev/app-icons/tle-180.png?v=20261010";
     if(manifest)manifest.href=isCB?"./manifest-cb-depot.webmanifest":"./manifest-tle.webmanifest";
     const brand=document.getElementById("crm-brand-icon");
     if(brand)brand.src=icon;
