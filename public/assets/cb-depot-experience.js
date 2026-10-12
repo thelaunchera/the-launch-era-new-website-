@@ -294,6 +294,15 @@ function activate(session){
  consentHint.style.cssText='display:block;color:#627789;font-size:11px;margin-top:6px';
  consentBox.append(consentInput,consentText,consentHint);
  document.getElementById('quoteSubmit').before(consentBox);
+ const reminderBox=node('label','cb-reminder-permission');
+ reminderBox.style.cssText='display:flex;gap:10px;align-items:flex-start;padding:12px 13px;margin:10px 0;border:1px solid #d4e3ed;border-radius:13px;font-size:12px;color:#435b6b;line-height:1.55';
+ const reminderInput=document.createElement('input');reminderInput.type='checkbox';reminderInput.checked=false;
+ reminderInput.dataset.reminderPermission='quote';reminderInput.style.cssText='width:18px;height:18px;margin:2px 0 0;flex:none;accent-color:#367faf';
+ const reminderCopy=node('span','',session.language==='es'?
+  'Sí, quiero recordatorios por correo si CB Depot confirma mi cita: dos días antes y a las 5 a. m. el día de la cita. Opcional.':
+  'Yes, email me reminders if CB Depot confirms my appointment: two days before and at 5 AM on the day. Optional.');
+ reminderBox.append(reminderInput,reminderCopy);
+ document.getElementById('quoteSubmit').before(reminderBox);
  // No new external backend: reuse the existing secure quote handler and account-specific service IDs.
  const controls=[...document.querySelectorAll(".cb-vehicles button")];
  let vehicle="";
