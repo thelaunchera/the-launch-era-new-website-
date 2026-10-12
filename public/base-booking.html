@@ -104,7 +104,10 @@ textarea.field{min-height:112px;resize:vertical}
 <section class="base-section" id="how"><h2 id="baseHowTitle"></h2><p data-base-en="Three simple steps to your next cleaning." data-base-es="Tres pasos para tu próxima limpieza."></p><div class="base-steps"><article class="base-step"><strong>01</strong><h3 data-base-en="Choose a service" data-base-es="Elige un servicio"></h3><p data-base-en="Tell us what kind of cleaning you need." data-base-es="Cuéntanos qué limpieza necesitas."></p></article><article class="base-step"><strong>02</strong><h3 data-base-en="Share the details" data-base-es="Comparte los detalles"></h3><p data-base-en="Add your space details and preferred date." data-base-es="Añade los detalles del espacio y tu fecha preferida."></p></article><article class="base-step"><strong>03</strong><h3 data-base-en="Receive your next step" data-base-es="Recibe el siguiente paso"></h3><p data-base-en="Get a booking confirmation or a personalized price, depending on your service." data-base-es="Recibe confirmación o un precio personalizado, según tu servicio."></p></article></div></section>
 <section class="base-section" id="baseReviews"><h2 id="baseReviewTitle"></h2><p id="baseReviewCopy"></p><div class="base-reviews" id="baseReviewGrid"></div></section>
 <section class="base-closing"><div><h2 id="baseClosingTitle"></h2><p id="baseClosingCopy"></p></div><a href="#booking" class="base-button" data-base-en="Book your cleaning" data-base-es="Reserva tu limpieza">Book your cleaning</a></section>
-<section class="panel" id="booking"><div class="head"><div><div class="ey" id="ey">BOOKING PREVIEW</div><h2 id="title">Choose a service</h2></div><div class="count" id="count">START</div></div>
+<section id="tleExistingBookingAccess" class="tle-return-link" hidden style="max-width:1150px;margin:22px auto;padding:22px;background:linear-gradient(135deg,#eef8fc,#fff);border:1px solid #cfe5f0;border-radius:20px;display:flex;gap:16px;justify-content:space-between;align-items:center;flex-wrap:wrap;box-shadow:0 11px 25px #2447630d">
+ <div><h2 style="font-size:clamp(18px,2.8vw,24px);color:#191919;line-height:1.22;margin:0 0 7px" data-base-en="Already have an appointment?" data-base-es="¿Ya tienes una reserva?">Already have an appointment?</h2><p style="font-size:13px;line-height:1.55;color:#526778;margin:0" data-base-en="Need to reschedule or cancel? Request secure access and we’ll review your change." data-base-es="¿Necesitas cambiar o cancelar? Solicita acceso seguro y revisaremos tu cambio.">Need to reschedule or cancel? Request secure access and we’ll review your change.</p></div>
+ <a id="tleManageExistingBooking" style="display:inline-flex;align-items:center;justify-content:center;background:#191919;color:white;min-height:48px;padding:13px 21px;border-radius:999px;text-decoration:none;font-size:13px;font-weight:800;text-align:center" data-base-en="Manage my appointment →" data-base-es="Gestionar mi reserva →">Manage my appointment →</a>
+ </section><section class="panel" id="booking"><div class="head"><div><div class="ey" id="ey">BOOKING PREVIEW</div><h2 id="title">Choose a service</h2></div><div class="count" id="count">START</div></div>
 <div class="screen on" id="main">
 <div class="label">WHAT KIND OF SPACE?</div>
 <div class="choices category-tabs" id="categoryTabs">
@@ -253,4 +256,13 @@ if(leadCfg){
  const tracker=document.getElementById('trackerLink'); if(tracker)tracker.href='lead-demo-tracker.html?lead='+encodeURIComponent(leadKey)+'&lang='+(demoParams.get('lang')==='es'?'es':'en');
 }
 if(isSampleDemo){const link=$('trackerLink'),q=new URLSearchParams(link.search);q.set('lang',demoParams.get('lang')==='es'?'es':'en');link.search=q.toString();}
+</script><script>
+(function(){
+ const params=new URLSearchParams(location.search),key=params.get("key")||"";
+ const access=document.getElementById("tleExistingBookingAccess"),link=document.getElementById("tleManageExistingBooking");
+ if(/^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(key)&&access&&link){
+  access.hidden=false;
+  link.href="/booking/return/?key="+encodeURIComponent(key)+"&lang="+(params.get("lang")==="es"?"es":"en");
+ }
+})();
 </script><script src="/assets/booking-base.js?v=20261010-cbdepot-rating-v4"></script><script src="/assets/cb-depot-experience.js?v=20261012-multicompany-v1"></script><script src="/assets/booking-template-live.js?v=20261012-handoff-v6"></script><script src="/assets/booking-template-language.js?v=20261012-handoff-v6"></script></body></html>
