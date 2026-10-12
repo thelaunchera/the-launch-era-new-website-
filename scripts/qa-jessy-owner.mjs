@@ -29,7 +29,9 @@ assert.match(fn,/tle_crm_leads/);
 assert.match(fn,/tle_contact_leads/);
 assert.match(fn,/tle_ai_agent_orders/);
 assert.match(fn,/never/i);
-assert.doesNotMatch(fn,/\bmethod:\s*"PATCH"|\bmethod:\s*"DELETE"/);
+assert.doesNotMatch(fn.slice(0,fn.indexOf("const WHATSAPP_KINDS")),/\bmethod:\s*"PATCH"|\bmethod:\s*"DELETE"/);
+assert.match(fn,/method:"PATCH"/); // WhatsApp preference pause only; no operational writes
+assert.match(fn,/tle_owner_whatsapp_alert_prefs/);
 new Function(ui);
 new Function(fn.replace(/^import .*?;\s*$/mg,""));
 
