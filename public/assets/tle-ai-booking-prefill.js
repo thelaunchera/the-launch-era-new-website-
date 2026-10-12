@@ -19,7 +19,7 @@
     box.className="tleAiPrefillNotice";
     box.setAttribute("role","status");
     box.style.cssText="padding:12px 14px;border:1px solid #bedbed;border-radius:14px;background:#eaf4fc;font-size:13px;color:#284e69;margin:0 0 18px;line-height:1.45";
-    box.textContent=es?"✓ Siguiente paso: revisa los datos que completé, añade los que falten y pulsa «Enviar solicitud de prueba». Esta demo no hace una reserva real.":"✓ Next step: review what I filled in, complete any missing details, then select “Send Demo Request”. This demo does not create a real booking.";
+    box.textContent=es?"✓ Perfecto. Revisa los datos que ya preparé, completa los que falten y pulsa el botón para revisar tu solicitud. Es una demostración, no una reserva real.":"✓ Okay! Check the details I prepared, complete anything missing, and tap the button to review your request. This is a demo, not a real booking.";
     screen.insertBefore(box,screen.firstChild);
   }
   function ensureOptionalHomeFields(){
@@ -113,6 +113,10 @@
       let size=d.square_feet<1500?"Under 1,500 sq ft":d.square_feet<3000?"1,500–3,000 sq ft":d.square_feet<=5000?"3,000–5,000 sq ft":"5,000+ sq ft";
       options($("csize"),size);
     }
+    if(Number.isInteger(d.commercial_floors)&&d.commercial_floors>=1&&$("cFloors"))$("cFloors").value=String(d.commercial_floors);
+    if(Number.isInteger(d.commercial_restrooms)&&d.commercial_restrooms>=0&&$("cRestrooms"))$("cRestrooms").value=String(d.commercial_restrooms);
+    if(d.commercial_cleaning_window)options($("cCleaningWindow"),d.commercial_cleaning_window);
+    if(d.commercial_special_areas&&$("cSpecialAreas"))$("cSpecialAreas").value=text(d.commercial_special_areas,180);
     if(d.frequency){const labels={"one time":"One time",weekly:"Weekly",biweekly:"Custom schedule",monthly:"Custom schedule"};options($("cfreq"),labels[d.frequency]);}
     if(validDate(d.date))$("cdate").value=d.date;
     if(d.time)$("ctime").value=d.time;
@@ -155,7 +159,7 @@
     const sum=document.createElement("div");sum.className="summary";page.append(sum);
     const keys=kind==="quote"?
       [[es?"Servicio":"Service","Residential quote / estimate"],[es?"Tamaño":"Size",get("qsize")],[es?"Fecha":"Date",get("qdate")],[es?"Hora":"Time",get("qtime")],[es?"Detalles":"Details",get("qdetails")],[es?"Nombre":"Name",get("qname")],[es?"Correo":"Email",get("qemail")]]:
-      [[es?"Servicio":"Service",window.state?.service||get("ctype")],[es?"Tipo de local":"Property",get("ctype")==="Other"?("Other: "+get("cOtherType")):get("ctype")],[es?"Tamaño":"Size",get("csize")],[es?"Fecha":"Date",get("cdate")],[es?"Hora":"Time",get("ctime")],[es?"Detalles":"Details",get("cdetails")],[es?"Negocio":"Business",get("cbusiness")],[es?"Nombre":"Name",get("cname")],[es?"Correo":"Email",get("cemail")]];
+      [[es?"Servicio":"Service",window.state?.service||get("ctype")],[es?"Tipo de local":"Property",get("ctype")==="Other"?("Other: "+get("cOtherType")):get("ctype")],[es?"Tamaño":"Size",get("csize")],[es?"Pisos":"Floors",get("cFloors")],[es?"Baños":"Restrooms",get("cRestrooms")],[es?"Horario de limpieza":"Cleaning window",get("cCleaningWindow")],[es?"Áreas especiales":"Special areas",get("cSpecialAreas")],[es?"Frecuencia":"Frequency",get("cfreq")],[es?"Fecha":"Date",get("cdate")],[es?"Hora":"Time",get("ctime")],[es?"Detalles":"Details",get("cdetails")],[es?"Negocio":"Business",get("cbusiness")],[es?"Nombre":"Name",get("cname")],[es?"Correo":"Email",get("cemail")]];
     for(const [key,value] of keys){
       if(!value)continue;
       const row=document.createElement("div");row.className="row";
@@ -163,9 +167,20 @@
       const strong=document.createElement("b");strong.textContent=value;
       row.append(label,strong);sum.append(row);
     }
+    const required=kind==="commercial"
+      ?[[get("csize"),es?"tamaño del local":"commercial size"],[get("cfreq"),es?"frecuencia":"frequency"],[get("cbusiness"),es?"nombre del negocio":"business name"],[get("cname"),es?"nombre de contacto":"contact name"]]
+      :[[get("qsize"),es?"tamaño de la vivienda":"home size"]];
+    const missing=required.filter(([value])=>!value).map(([,name])=>name);
+    if(missing.length){
+      const notice=document.createElement("div");notice.className="note tle-review-missing";notice.setAttribute("role","status");
+      notice.textContent=(es?"Faltan algunos datos. Vuelve y completa: ":"A few details are missing. Go back and complete: ")+missing.join(", ")+".";
+      notice.style.cssText="background:#FFF8E8;border:1px solid #EBCB86;color:#684E23;margin:15px 0;padding:15px;border-radius:13px";
+      page.append(notice);
+    }
     const info=document.createElement("p");info.className="note";info.textContent=es?"Siguiente paso: revisa todos los datos. Cuando estés conforme, pulsa «Confirmar solicitud demo» para terminar. Esta es una prueba: no se envía ninguna reserva real.":"Next step: review all details. When everything looks right, select “Confirm demo request” to finish. This is a preview: no real booking or email is sent.";page.append(info);
     const btn=document.createElement("button");btn.type="button";btn.className="next";btn.textContent=es?"Confirmar solicitud demo":"Confirm demo request";
-    btn.onclick=()=>kind==="quote"?window.submitQuote?.():window.submitCommercial?.();page.append(btn);
+    if(missing.length){btn.disabled=true;btn.setAttribute("aria-disabled","true");btn.style.opacity=".45";btn.title=es?"Completa los datos pendientes primero":"Complete missing details first";}
+    btn.onclick=()=>{if(missing.length)return;kind==="quote"?window.submitQuote?.():window.submitCommercial?.();};page.append(btn);
     const back=document.createElement("button");back.type="button";back.className="back";back.textContent=es?"← Editar detalles":"← Edit details";
     back.onclick=()=>window.show?.(kind,kind==="quote"?"Residential Quote / Estimate":"Commercial Quote / Estimate",kind==="quote"?"RESIDENTIAL":"COMMERCIAL");page.append(back);
     window.show?.("tleAiExtraReview",es?"Revisa tu solicitud":"Review your request","REVIEW");
