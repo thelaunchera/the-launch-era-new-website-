@@ -79,3 +79,8 @@ Other routes exist under \`src/routes/\`, \`public/es/\`, \`public/intake/\` and
 
 ## Test matrix
 Repeat after ANY route/button/domain change: 360px phone, 390px phone, 820px tablet, 1024px tablet/laptop and 1440px desktop; test EN/ES, owner/client/worker access, current + future tenant fixture, expired token, missing token, duplicate click, browser refresh/back, popup and multi-tab. Never use a real customer's data to exercise destructive actions.
+
+## Missing-route fallback (2026-10-12)
+- Source: `public/404.html`; the Pages build `.github/workflows/pages.yml` now preserves it rather than replacing with `index.html`.
+- Unknown URLs must return HTTP 404 with a branded, readable message and safe links to `/`, `/command-center/`, `/help/`.
+- The CI live check uses a nonexistent path to catch an unexpectedly empty, redirected or unhelpful 404.
