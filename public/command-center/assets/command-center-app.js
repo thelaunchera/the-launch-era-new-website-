@@ -2594,7 +2594,7 @@ function buyerRequestCard(x){
  const time=x.raw_payload?.requested_date?[x.raw_payload.requested_date,x.raw_payload.requested_time].filter(Boolean).join(" · "):x.requested_start_at?new Date(x.requested_start_at).toLocaleString():"";
  const details=buyerCreate("div",[x.service_name,isDetailingWorkspace()?(x.raw_payload?.vehicle_type||x.raw_payload?.property_type):"",time,x.raw_payload?.estimate_display].filter(Boolean).join(" · "),"request-summary");
  const footer=buyerCreate("div",x.created_at?new Date(x.created_at).toLocaleString():"","request-summary");footer.style.marginTop="8px";
- btn.append(bar,title,details,footer);btn.onclick=()=>buyerOpenRequest(x);return btn
+ btn.append(bar,title,details,footer);btn.onclick=()=>{buyerOpenRequest(x);if(window.innerWidth<=850)$('buyerRequestDetail').scrollIntoView({behavior:'smooth',block:'start'})};return btn
 }
 function buyerOpenRequest(x){
  buyerSelectedRequest=x;$("buyerRequestDetailTitle").textContent=x.customer_name||x.customer_email||buyerText("Customer request","Solicitud de cliente");
