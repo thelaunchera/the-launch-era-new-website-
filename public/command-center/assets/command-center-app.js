@@ -3713,3 +3713,68 @@ function updateAnalytics(){const won=leads.filter(x=>x.stage==='Won').length;con
  }
 }
 bootAfterPrivateEmailConfirmation();
+
+/* Owner previews: real shared markup, sample data, no account writes. */
+(function mountOwnerEmbeddedPreviews(){
+ const card=document.getElementById('ownerTwoPreviews');
+ if(!card)return;
+ const shell=document.getElementById('ownerEmbeddedPreviewShell');
+ const frame=document.getElementById('ownerEmbeddedPreviewFrame');
+ const status=document.getElementById('ownerEmbeddedPreviewStatus');
+ let current='';
+ const es=()=>document.documentElement.lang==='es';
+ function realLayout(){
+  const source=document.getElementById('app');
+  const sidebar=source.querySelector('.premium-sidebar').cloneNode(true);
+  sidebar.querySelectorAll('#ownerPrivateSection,#sidebarUtilityMenu,script').forEach(x=>x.remove());
+  const business=sidebar.querySelector('#buyerBusinessSection');
+  business.classList.remove('hidden');
+  business.querySelectorAll('button.hidden').forEach(x=>x.classList.remove('hidden'));
+  business.querySelectorAll('details').forEach(x=>x.open=true);
+  sidebar.querySelectorAll('button:not([data-target])').forEach(x=>x.remove());
+  sidebar.querySelectorAll('img').forEach(x=>x.remove());
+  sidebar.querySelector('.premium-brand').textContent='SAMPLE BUSINESS · COMMAND CENTER';
+  const caption=sidebar.querySelector('#mainNavCaption');if(caption)caption.textContent='YOUR BUSINESS';
+  const label=sidebar.querySelector('#sidebarWorkspaceLabel');if(label)label.textContent='SAMPLE WORKSPACE';
+  const dash=document.getElementById('buyerDashboardHub').cloneNode(true);
+  dash.classList.remove('hidden');
+  dash.querySelector('#cbDetailingTop')?.remove();
+  dash.querySelector('#buyerBookingShareCard')?.remove();
+  dash.querySelector('#buyerDashboardStats').innerHTML=['New requests','Confirmed appointments','Needs attention'].map((name,i)=>'<div class="metric"><small>'+name+'</small><strong>'+[4,2,1][i]+'</strong></div>').join('');
+  dash.querySelector('#buyerDashboardStatus').textContent='Sample activity · Real Command Center layout';
+  const settings=document.getElementById('settingsHub').cloneNode(true);
+  const languageGrid=settings.querySelector('#settingsLanguage').closest('article').parentElement;
+  const followupCard=settings.querySelector('#settingsFollowupTitle').closest('article');
+  const title=settings.querySelector('#settingsRoleTitle'),desc=settings.querySelector('#settingsRoleDesc');
+  settings.replaceChildren(title,desc,languageGrid,followupCard);
+  settings.querySelectorAll('#cbSettingsBanner,#buyerConnectDetails,#buyerEmailSetup,#buyerEmailHealth,#buyerFollowupsIntro,#buyerBusinessShortcuts').forEach(x=>x.remove());
+  settings.querySelector('#settingsBusinessName').textContent='Sample business';
+  settings.querySelector('#settingsAccountEmail').textContent='owner@example.com';
+  settings.querySelector('#settingsFollowupStatus').textContent='Sample preview · Check automation status in your private account.';
+  settings.querySelector('#settingsRoleTitle').textContent='Business settings';
+  settings.querySelector('#settingsRoleDesc').textContent='Language, account and notifications';
+  settings.querySelectorAll('input,textarea').forEach(x=>{x.value='';x.removeAttribute('value')});
+  settings.querySelectorAll('button').forEach(x=>{x.disabled=true});
+  const cssURL=new URL('./assets/command-center.css?v=20261012-wide-preview-v1',location.href).href;
+  const handler="document.addEventListener('click',function(e){const b=e.target.closest('button');if(!b)return;const target=b.dataset.target||({buyerDashboardOpenSettings:'settings',buyerDashboardOpenInbox:'request-center'})[b.id];if(b.id==='previewMenu'){document.querySelector('.premium-sidebar').classList.toggle('is-open');return;}if(!target)return;document.querySelectorAll('[data-preview-screen]').forEach(x=>x.classList.add('hidden'));const next=document.getElementById(target==='settings'?'settingsHub':target==='home'?'buyerDashboardHub':'previewSampleActivity');next.classList.remove('hidden');if(next.id==='previewSampleActivity')next.querySelector('h2').textContent=b.textContent.trim();document.querySelector('.premium-sidebar').classList.remove('is-open');document.querySelectorAll('.nav-link').forEach(x=>x.classList.toggle('active',x===b));});";
+  dash.setAttribute('data-preview-screen','');settings.setAttribute('data-preview-screen','');
+  return '<!doctype html><html lang="en"><head><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="'+cssURL+'"></head><body class="crm-buyer-view"><main><section id="app">'+sidebar.outerHTML+'<div class="premium-workspace"><div class="premium-mobilebar"><button id="previewMenu">☰</button><strong>SAMPLE BUSINESS</strong></div><div class="premium-heading"><div><div class="eyebrow">REAL LAYOUT · SAMPLE DATA</div><h1>Your business, organized.</h1><p class="muted">Visual preview. Account actions are available in the signed-in workspace.</p></div></div>'+dash.outerHTML+settings.outerHTML+'<section id="previewSampleActivity" data-preview-screen class="hidden premium-emailhub"><h2>Sample activity</h2><div class="panel"><strong>Jamie Rivera</strong><p class="muted">Sample customer request · Needs review</p></div><div class="panel"><strong>Taylor Brooks</strong><p class="muted">Sample appointment · Confirmed</p></div></section></div></section></main><script>'+handler+'</script></body></html>';
+ }
+ function open(kind){
+  if(!workspace?.is_internal)return;
+  current=kind;shell.classList.remove('hidden');
+  if(kind==='landing'){frame.removeAttribute('srcdoc');frame.src='/booking-demo/?lang='+(es()?'es':'en');}
+  else{frame.removeAttribute('src');frame.srcdoc=realLayout();}
+  status.textContent=es()?(kind==='landing'?'Landing demo · Vista interactiva':'Diseño real del Command Center · Datos de muestra'):(kind==='landing'?'Landing demo · Interactive preview':'Real Command Center layout · Sample data');
+  document.getElementById('ownerShowLandingPreview').setAttribute('aria-pressed',String(kind==='landing'));
+  document.getElementById('ownerShowCommandPreview').setAttribute('aria-pressed',String(kind==='command'));
+ }
+ document.getElementById('ownerShowLandingPreview').onclick=()=>open('landing');
+ document.getElementById('ownerShowCommandPreview').onclick=()=>open('command');
+ document.getElementById('ownerPreviewPhone').onclick=()=>{if(!current)open('landing');shell.classList.add('is-phone');};
+ document.getElementById('ownerPreviewDesktop').onclick=()=>{if(!current)open('landing');shell.classList.remove('is-phone');};
+ function close(){card.classList.remove('is-expanded');document.body.classList.remove('owner-embedded-preview-expanded');document.getElementById('ownerPreviewClose').classList.add('hidden');}
+ document.getElementById('ownerPreviewExpand').onclick=()=>{if(!current)open('landing');card.classList.add('is-expanded');document.body.classList.add('owner-embedded-preview-expanded');document.getElementById('ownerPreviewClose').classList.remove('hidden');};
+ document.getElementById('ownerPreviewClose').onclick=close;
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+})();

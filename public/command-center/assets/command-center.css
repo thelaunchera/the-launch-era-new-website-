@@ -511,3 +511,40 @@ body.cb-depot-buyer .workspace-nav-group[open]{border-color:#ffffff30}
 
 /* Shared controls remain visible in phone, tablet, desktop and installed mode. */
 .crm-workspace-backrow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:12px 0 18px}#workspaceRefresh{margin-left:auto;display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;padding:10px 15px;white-space:nowrap;flex:0 0 auto}#workspaceRefresh:focus-visible{outline:3px solid #4c8eb8;outline-offset:3px}#workspaceRefresh[disabled]{opacity:.65;cursor:wait}
+
+/* Shared workspace layout: owner, existing buyers and future accounts. */
+.premium-workspace .panel{width:100%;max-width:none;margin:18px 0;min-width:0}
+.premium-workspace .panel h3{margin-top:0}
+#settingsHub>div:has(>#settingsRoleDesc){min-width:0}
+#settingsHub>div:has(>article.panel){align-items:stretch}
+#settingsHub>div>article.panel{margin:0!important;width:100%;max-width:none!important}
+.premium-workspace .premium-emailhub{min-width:0;width:100%}
+.premium-workspace p,.premium-workspace label{overflow-wrap:anywhere}
+@media(min-width:761px){
+ .premium-workspace{max-width:none!important;width:100%!important;margin:0!important;padding:30px clamp(22px,2.4vw,46px) 72px!important}
+ #settingsHub,#ownerPagesHub{padding:clamp(20px,2vw,32px)}
+ .premium-workspace .panel{padding:24px}
+}
+@media(min-width:1101px){
+ #settingsHub>div:has(>article.panel){grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:20px!important}
+ .premium-workspace .month-cell{min-height:130px}
+}
+@media(max-width:760px){
+ .premium-workspace .panel{padding:18px}
+ #settingsHub>div:has(>article.panel){grid-template-columns:1fr!important}
+}
+#ownerTwoPreviews{padding:22px!important;background:#eef5fa!important;border-color:#d6e3ed!important}
+.owner-preview-controls,.owner-preview-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.owner-preview-controls button{min-height:44px}
+.owner-preview-controls button[aria-pressed="true"]{background:#273d4c;color:#fff}
+.owner-preview-links a{font-size:13px;color:#285e81;padding:8px 0;margin-right:16px}
+#ownerEmbeddedPreviewShell{width:100%;max-width:100%;margin:18px auto 0;border:1px solid #c7d9e5;border-radius:16px;overflow:hidden;background:#f5f7f9}
+#ownerEmbeddedPreviewFrame{display:block;border:0;width:100%;height:820px;background:#f5f7f9}
+#ownerEmbeddedPreviewShell.is-phone{width:390px}
+body.owner-embedded-preview-expanded{overflow:hidden}
+#ownerTwoPreviews.is-expanded{position:fixed;inset:12px;z-index:10000;display:flex;flex-direction:column;overflow:auto;margin:0!important;width:auto!important;border-radius:18px}
+#ownerTwoPreviews.is-expanded>strong,#ownerTwoPreviews.is-expanded>p:not([role=status]),#ownerTwoPreviews.is-expanded .owner-preview-links{display:none}
+#ownerTwoPreviews.is-expanded .owner-preview-controls{margin-top:0;flex-shrink:0}
+#ownerTwoPreviews.is-expanded #ownerEmbeddedPreviewShell{flex:1;min-height:0}
+#ownerTwoPreviews.is-expanded #ownerEmbeddedPreviewFrame{height:100%;min-height:540px}
+@media(max-width:760px){#ownerEmbeddedPreviewFrame{height:720px}.owner-preview-controls button{flex:1 1 140px;font-size:12px}#ownerTwoPreviews.is-expanded{inset:6px;padding:12px!important}}
