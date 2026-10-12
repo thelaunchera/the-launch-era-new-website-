@@ -101,7 +101,7 @@
     const raw=String(d.commercial_space_type||"").trim().toLowerCase();
     const kind={office:"Office",retail:"Retail store","retail store":"Retail store",medical:"Medical / Professional office","medical / professional office":"Medical / Professional office",salon:"Salon / Studio","salon / studio":"Salon / Studio"};
     const known=kind[raw]||(!raw?kind[d.service]:"");
-    const restaurant=/\\b(?:restaurant|restaurante|café|cafe|bistro|diner|bakery|panader[ií]a)\\b/i.test([described,note,raw].join(" "));
+    const restaurant=/\b(?:restaurant|restaurante|café|cafe|bistro|diner|bakery|panader[ií]a)\b/i.test([described,note,raw].join(" "));
     const category=restaurant?"Other":known||"Other";
     options($("ctype"),category);
     window.toggleCommercialOther?.();
