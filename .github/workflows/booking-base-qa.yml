@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ['public/base-booking.html','public/assets/booking-base.*','public/assets/booking-template-live.js','public/booking/index.html','scripts/qa-booking-base.mjs','.github/workflows/booking-base-qa.yml']
+    paths: ['public/base-booking.html','public/assets/booking-base.*','public/assets/booking-template-live.js','public/assets/cb-depot-premium.css','public/assets/cb-depot-experience.js','public/booking/index.html','scripts/qa-booking-base.mjs','.github/workflows/booking-base-qa.yml']
 permissions:
   contents: read
 jobs:
