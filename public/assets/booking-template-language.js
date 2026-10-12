@@ -20,6 +20,10 @@
 "Salon / Studio":"Salón / Estudio",
 "Medical / Professional office":"Consultorio / Oficina profesional",
 "Other business space":"Otro espacio comercial",
+"Other":"Otro",
+"Select a business space":"Elige un tipo de local",
+"What kind of business? (e.g., restaurant)":"¿Qué tipo de negocio? (p. ej., restaurante)",
+"Other business space type":"Otro tipo de espacio comercial",
 "Under 1,500 sq ft":"Menos de 1,500 pies cuadrados",
 "1,500–3,000 sq ft":"1,500–3,000 pies cuadrados",
 "3,000–5,000 sq ft":"3,000–5,000 pies cuadrados",
@@ -114,6 +118,8 @@
  "WHAT KIND OF SPACE?":"¿QUÉ TIPO DE ESPACIO?",
  "Home / Residential":"Casa / Residencial",
  "Business / Commercial":"Negocio / Comercial",
+"Business name (demo example)":"Nombre del negocio (ejemplo para la demo)",
+"First and last name (use a demo name)":"Nombre y apellidos (usa un nombre ficticio)",
  "Every business has its own services and prices. Try a residential or commercial request.":"Cada negocio tiene sus servicios y precios. Prueba una solicitud residencial o comercial.",
  "Standard Cleaning":"Limpieza regular",
  "Deep Cleaning":"Limpieza profunda",
@@ -208,6 +214,10 @@
  "Choose a property type first.":"Primero elige un tipo de propiedad.",
  "Request received.":"Solicitud recibida.",
  "Demo request ready":"Solicitud de prueba lista",
+"Demo request complete":"Solicitud de prueba completada",
+"Your example request is finished. No booking or email was sent.":"Terminaste la solicitud de ejemplo. No se envió ninguna reserva ni correo.",
+"Next step:":"Siguiente paso:",
+"Open the Demo Command Center below to see how the business would receive and review it.":"Abre la demo del Command Center para ver cómo recibiría y revisaría la solicitud el negocio.",
  "Now see how this request looks from the business side.":"Ahora mira cómo aparece esta solicitud del lado del negocio."
  };
  for(const x of document.querySelectorAll("select option:not([value])"))x.value=x.textContent;
