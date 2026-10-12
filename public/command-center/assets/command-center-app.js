@@ -3384,6 +3384,14 @@ let view='pipeline';function setView(v){
 
  if(!workspace?.is_internal&&['owner-pages','owner-calendar','owner-build','owner-preview','owner-help'].includes(v))v='pipeline';if(workspace?.is_internal&&['buyer-followups','request-center'].includes(v))v='owner-pages';
  view=v;
+ // Keep the active tool discoverable after shortcuts, back navigation and refresh.
+ const organizedTarget={'buyer-dashboard':'home','buyer-customers':'clients','pipeline':'leads','owner-build':'owner-pages','owner-preview':'owner-pages'}[v]||v;
+ document.querySelectorAll('#premiumSidebar .nav-link[data-target]').forEach(button=>{
+   const active=button.dataset.target===organizedTarget;
+   button.classList.toggle('active',active);
+   if(active)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current');
+   if(active){const group=button.closest('.workspace-nav-group');if(group)group.open=true;}
+ });
  $('buyerBusinessShortcuts').classList.toggle('hidden',v!=='settings'||!!workspace?.is_internal);
  $('buyerEmailHealth').classList.toggle('hidden',v!=='buyer-followups'||!!workspace?.is_internal);
  document.body.classList.toggle('crm-isolated-view',!['pipeline','calendar','clients'].includes(v));document.body.classList.toggle('crm-followups-focus',v==='buyer-followups'&&!workspace?.is_internal);$('buyerFollowupsIntro').classList.toggle('hidden',v!=='buyer-followups'||!!workspace?.is_internal);if(v==='buyer-followups'&&!workspace?.is_internal)renderBuyerManagedEmailPreviews();$('ownerCalendarHub').classList.toggle('hidden',v!=='owner-calendar');

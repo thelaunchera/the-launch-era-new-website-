@@ -491,3 +491,18 @@ body.owner-preview-fullscreen-open #buildFrameShell.tle-preview-fullscreen #buil
 .buyer-care-dialog button[type=submit]{width:100%;border-radius:12px;min-height:45px}
 @media(max-width:540px){.buyer-care-dialog .buyer-care-form-grid{grid-template-columns:1fr}.buyer-care-dialog{padding:18px}.buyer-care-quick button{flex:1 1 140px}}
 body.crm-owner-view #buyerServiceCareHub,body.crm-owner-view #buyerServiceCareNav{display:none!important}
+
+/* Official workspace: group existing tools without changing permissions. */
+.workspace-nav-group{margin:4px 0;border-radius:12px;border:1px solid transparent}
+.workspace-nav-group>summary{display:flex;align-items:center;justify-content:space-between;gap:10px;list-style:none;cursor:pointer;padding:13px 15px;font-size:13px;font-weight:650;color:inherit;border-radius:10px}
+.workspace-nav-group>summary::-webkit-details-marker{display:none}
+.workspace-nav-group>summary::after{content:'⌄';font-size:16px;opacity:.65}
+.workspace-nav-group[open]>summary::after{content:'⌃'}
+.workspace-nav-group[open]{border-color:var(--premium-border)}
+.workspace-nav-group>summary:hover{background:#edf4f8;color:#315d79}
+.workspace-nav-group>summary:focus-visible{outline:2px solid #4c8eb8;outline-offset:2px}
+.workspace-nav-items{padding:0 6px 7px 14px;display:grid;gap:3px}
+.workspace-nav-items .nav-link{font-size:12px;min-height:42px;padding:10px 12px}
+body.crm-buyer-view .owner-utility-help{display:none!important}
+body.cb-depot-buyer .workspace-nav-group>summary:hover{background:#ffffff18;color:inherit}
+body.cb-depot-buyer .workspace-nav-group[open]{border-color:#ffffff30}
