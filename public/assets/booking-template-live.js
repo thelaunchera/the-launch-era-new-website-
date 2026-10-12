@@ -19,6 +19,32 @@ const categoryOf=item=>["commercial","residential","both"].includes(item?.catego
  /oven|fridge|refrigerator|baseboard|laundry|cabinet|bedroom/i.test(item?.name||"")?"residential":"both";
 const validEmail=v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 const clean=x=>String(x??"").trim();
+const submissionAttempts=new Map();
+function setupCarePermissions(){
+ const styles=document.createElement('style');
+ styles.textContent='.tle-care-permission{display:block;margin:14px 0;padding:14px;border:1px solid #d5e4ee;background:#f9fcfe;border-radius:14px;color:#324754;font-size:13px;line-height:1.55}.tle-care-permission .tle-care-row{display:flex;gap:10px;align-items:flex-start;font-weight:700}.tle-care-permission input{width:19px;height:19px;flex:none;margin:2px 0 0;accent-color:#367faf}.tle-care-permission small{font-size:11px;color:#647b88;display:block;margin-top:7px;line-height:1.5}';
+ document.head.append(styles);
+ for(const [section,selector] of [['resReview','.next'],['quote','#quoteSubmit'],['commercial','#commercialSubmit']]){
+  const parent=$(section),submit=parent?.querySelector(selector);
+  if(!submit||parent.querySelector('.tle-care-permission'))continue;
+  const label=document.createElement('label');label.className='tle-care-permission';
+  const row=document.createElement('span');row.className='tle-care-row';
+  const check=document.createElement('input');check.type='checkbox';check.checked=false;check.dataset.carePermission=section;
+  const description=document.createElement('span');description.textContent=tr(
+   'Yes, send me helpful care tips and occasional follow-ups about this service. Optional.',
+   'Sí, quiero recibir consejos útiles y mensajes ocasionales de seguimiento sobre este servicio. Opcional.');
+  row.append(check,description);
+  const hint=document.createElement('small');hint.textContent=tr(
+   'Confirmations and appointment reminders are separate. Unsubscribe from optional messages any time.',
+   'Las confirmaciones y recordatorios de citas son independientes. Puedes cancelar los mensajes opcionales cuando quieras.');
+  label.append(row,hint);submit.before(label);
+ }
+}
+function carePermission(which){
+ const section=which==='res'?'resReview':which==='quote'?'quote':'commercial';
+ return !!document.querySelector('[data-care-permission="'+section+'"]:checked');
+}
+
 function alertCustomer(message){window.alert(message)}
 async function endpoint(route,payload){
  if(ownerPreview)throw Error("Private previews cannot submit requests or access live booking APIs.");
@@ -208,6 +234,7 @@ async function submit(which){
  const estimateLabel=flat?money(Number(session.service.price)+extras.reduce((acc,x)=>acc+Number(x.dataset.price||0),0)):tr("Custom quote","Cotización personalizada");
  const body={
   booking_key:key,request_type:flat?"booking":"quote",request_intent:flat?"booking":state.intent,
+  optional_care_opt_in:carePermission(which),
   preferred_language:session.language,service_id:state.serviceId||session.service?.id||"special_request",
   service_name:session.service?.name||state.service,
   selected_addon_ids:extras.map(x=>x.dataset.addonId),extras:extras.map(x=>x.dataset.actualAddonName),
@@ -221,6 +248,12 @@ async function submit(which){
   notes:route==="res"?["ZIP "+$("zip").value,details].filter(Boolean).join(" · "):route==="quote"&&isVehicleBusiness()?["Vehicle: "+($("vehicleMakeModel")?.value||"Not provided"),"Condition: "+($("qsize")?.value||""),details].filter(Boolean).join(" · "):details,
   requested_date:date,requested_time:time,source:"booking_page",estimate_display:estimateLabel
  };
+ // Keep one submission reference across retries, but renew it when details change.
+ const attemptFingerprint=JSON.stringify([route,email,body.service_id,body.service_name,body.requested_date,body.requested_time,body.notes,body.optional_care_opt_in]);
+ const previous=submissionAttempts.get(route);
+ if(!previous||previous.fingerprint!==attemptFingerprint)
+  submissionAttempts.set(route,{fingerprint:attemptFingerprint,id:'req_'+crypto.randomUUID()});
+ body.external_ref=submissionAttempts.get(route).id;
  if(ownerPreview){
   if(!session.model?.qa_nonce){alertCustomer("Private QA is available only from the owner Command Center.");return}
   session.sending=true;
@@ -248,6 +281,7 @@ async function submit(which){
  session.sending=true;if(b){b.disabled=true;b.textContent=tr("Sending…","Enviando…")}
  try{
   const response=await endpoint("tle-booking-flow-inquiry",body);
+  submissionAttempts.delete(route);
   show("done",response.booking_confirmed?tr("Booking confirmed!","¡Reserva confirmada!"):
     state.mode==="flat"?tr("Booking request received","Solicitud de reserva recibida"):state.intent==="estimate"?tr("Estimate request received","Estimado solicitado"):tr("Quote request received","Cotización solicitada"),"✓");
   $("done").querySelector("h2").textContent=response.booking_confirmed?
@@ -366,7 +400,7 @@ try{
   params.set("lang","es");location.replace(location.pathname+"?"+params.toString());return
  }
  if(ownerPreview)session.language=model.language==="es"?"es":"en";
- liveFields();brand();catalog();dateSetup();activateRealSubmission();setupVehicleMode();window.TLECBDepotEnhance?.(session);
+ liveFields();brand();catalog();dateSetup();activateRealSubmission();setupCarePermissions();setupVehicleMode();window.TLECBDepotEnhance?.(session);
  if(ownerPreview){
   document.querySelector(".top").textContent=tr("OWNER PREVIEW · TEST LEADS ONLY · NO EMAILS OR BOOKINGS","VISTA PRIVADA · SOLO LEADS DE PRUEBA · SIN CORREOS NI RESERVAS");
   document.querySelector(".top").style.background="#213f58";
