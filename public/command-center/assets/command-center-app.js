@@ -2526,6 +2526,70 @@ async function buyerRequestCall(action,extra){
  if(!response.ok)throw Error(payload.error||buyerText("Could not load this business.","No se pudo cargar el negocio."));
  return payload;
 }
+
+const buyerChangeDecisionEndpoint="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-change-owner-decision";
+async function buyerChangeDecision(payload){
+ if(!workspace||workspace.is_internal)throw Error("Business owner access required.");
+ const {data:{session}}=await db.auth.getSession();
+ if(!session)throw Error("Please sign in again.");
+ const response=await fetch(buyerChangeDecisionEndpoint,{method:"POST",headers:{"Authorization":"Bearer "+session.access_token,"Content-Type":"application/json"},body:JSON.stringify(payload)});
+ const data=await response.json().catch(()=>({}));
+ if(!response.ok)throw Error(data.error||buyerText("Could not process the decision.","No se pudo procesar la decisión."));
+ return data;
+}
+function buyerShowChangeDecision(x,root){
+ const change=x?.raw_payload?.customer_change_request;
+ if(!change||change.state!=="pending_owner_review"||x.status!=="booked")return;
+ const cancel=change.action==="cancel",container=buyerCreate("section",undefined,"customer-change-review");
+ container.style.cssText="margin:18px 0;padding:clamp(16px,3vw,24px);background:linear-gradient(155deg,#ecf7fd,#fff);border:1.5px solid #bfdbe9;border-radius:21px;display:grid;gap:12px;box-shadow:0 12px 32px #22466212";
+ const heading=buyerCreate("h3",cancel?buyerText("Cancellation needs approval","Cancelación pendiente de aprobación"):buyerText("Review requested new time","Revisar nuevo horario solicitado"));
+ heading.style.cssText="font-size:20px;line-height:1.25;color:#191919;margin:0";
+ const intro=buyerCreate("p",buyerText("The existing booking remains confirmed until you make a decision. A new time is never approved without checking availability.","La reserva original sigue confirmada hasta tu decisión. Ningún cambio de horario se aprueba sin comprobar disponibilidad."));
+ intro.style.cssText="font-size:13px;color:#456174;margin:0";
+ container.append(heading,intro);
+ const date=document.createElement("input"),time=document.createElement("input");
+ if(!cancel){
+  const row=buyerCreate("div");row.style.cssText="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px";
+  function field(text,el){const wrapper=buyerCreate("label",text);wrapper.style.cssText="display:grid;gap:6px;color:#40586a;font-size:12px;font-weight:700";el.style.cssText="width:100%;min-width:0;min-height:46px;border:1px solid #acc9d8;border-radius:12px;padding:8px;font-size:15px";wrapper.append(el);row.append(wrapper)}
+  date.type="date";date.value=String(change.preferred_date||"").slice(0,10);date.min=new Date().toISOString().slice(0,10);
+  time.type="time";time.step=1800;time.value=String(change.preferred_time||"").slice(0,5);
+  field(buyerText("New date","Nueva fecha"),date);field(buyerText("New time","Nueva hora"),time);container.append(row);
+ }
+ const note=buyerCreate("textarea");note.rows=3;note.maxLength=750;
+ note.placeholder=buyerText("Personal note for the customer (optional)…","Mensaje personal para el cliente (opcional)…");
+ note.style.cssText="width:100%;border:1px solid #bfd0db;background:white;border-radius:12px;padding:12px;font-size:14px;resize:vertical";
+ container.append(note);
+ const actions=buyerCreate("div");actions.style.cssText="display:flex;gap:8px;flex-wrap:wrap";
+ const status=buyerCreate("div");status.setAttribute("role","status");status.style.cssText="color:#36546b;font-size:13px";
+ const buttons=[];
+ async function act(decision){
+  if(decision==="approve_reschedule"&&(!date.value||!time.value)){status.textContent=buyerText("Choose a date and time first.","Primero elige la fecha y la hora.");return}
+  if(decision==="contact"&&note.value.trim().length<8){status.textContent=buyerText("Write a message before sending.","Escribe un mensaje antes de enviarlo.");note.focus();return}
+  const messages={
+   approve_cancel:buyerText("Approve cancellation and free the booked time?","¿Aceptar la cancelación y liberar el horario?"),
+   approve_reschedule:buyerText("Approve if the new time is available? This updates the calendar.","¿Aprobar si está disponible el nuevo horario? Se actualizará el calendario."),
+   decline:buyerText("Keep the original booking and notify the customer?","¿Mantener la reserva original y avisar al cliente?"),
+   contact:buyerText("Send a personal email from the business to this customer?","¿Enviar un correo personal desde el negocio a este cliente?")
+  };
+  if(!confirm(messages[decision]))return;
+  buttons.forEach(x=>x.disabled=true);status.textContent=buyerText("Checking and saving…","Comprobando y guardando…");
+  try{
+   const result=await buyerChangeDecision({request_id:x.id,decision,date:date.value||"",time:time.value||"",message:note.value.trim()});
+   const saved=result.email_accepted?buyerText("Saved. The email provider accepted the confirmation.","Guardado. El correo fue aceptado para envío."):buyerText("Decision saved, but the email needs review. Check before retrying.","Decisión guardada, pero hay que verificar el correo antes de repetir.");
+   status.textContent=saved;await loadBuyerRequests();showSaveToast("success","Booking decision recorded","Decisión de reserva registrada");
+  }catch(e){status.textContent=e.message;showSaveToast("error","Decision unavailable","No se pudo completar")}
+  finally{buttons.forEach(x=>x.disabled=false)}
+ }
+ function button(text,bg,decision){const el=buyerCreate("button",text,"secondary");el.type="button";el.style.cssText="background:"+bg+";border:1px solid #b7d2de;border-radius:999px;padding:11px 15px;min-height:44px;font-weight:700;white-space:normal;color:#191919";el.onclick=()=>act(decision);buttons.push(el);actions.append(el)}
+ button(cancel?buyerText("✓ Approve cancellation","✓ Aceptar cancelación"):buyerText("✓ Approve available time","✓ Aprobar horario disponible"),"#CFE9F7",cancel?"approve_cancel":"approve_reschedule");
+ button(buyerText("Keep original booking","Mantener cita original"),"#fff","decline");
+ button(buyerText("Email the customer","Enviar correo al cliente"),"#fff","contact");
+ const direct=buyerCreate("a",buyerText("Open email app →","Abrir aplicación de correo →"));
+ direct.href="mailto:"+encodeURIComponent(x.customer_email||"")+"?subject="+encodeURIComponent(buyerText("Regarding your appointment","Sobre tu cita"));
+ direct.style.cssText="color:#285b76;text-decoration:underline;font-size:12px;overflow-wrap:anywhere";
+ container.append(actions,direct,status);root.append(container);
+}
+
 function buyerRequestKind(v){return v.status==="booked"?"booking":v.raw_payload?.request_intent==="inquiry"?"inquiry":v.request_type==="quote"?"quote":"booking"}
 function buyerRequestIsEstimate(v){return buyerRequestKind(v)==="quote"&&v.raw_payload?.request_intent==="estimate"}
 function buyerRequestNeedsAttention(v){
@@ -2756,6 +2820,7 @@ function buyerOpenRequest(x){
   [buyerText("Preferred new time","Nueva hora preferida"),payload.customer_change_request?.preferred_time]
  ];
  for(const [label,value] of fields)body.append(buyerDetails(label,value));
+ buyerShowChangeDecision(x,body);
  $("buyerRequestNextAction").classList.remove("hidden");$("buyerRequestNextAction").textContent=buyerRequestNext(x);
  $("buyerRequestReplyArea").classList.remove("hidden");
  $("buyerRequestAction").value=x.status==="booked"?"reply":"reviewing";
