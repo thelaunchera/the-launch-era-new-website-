@@ -8,7 +8,7 @@ const root=process.cwd(),pub=join(root,'public');
 const site=(process.env.TLE_QA_URL||'https://thelaunchera.com').replace(/\/$/,'');
 const domain=new URL(site).hostname,errors=[],warnings=[];
 const routes=['/','/es/','/solutions/','/how-it-works/','/help/','/booking-lead-automation/','/cleaning-web-app/','/virtual-assistant/','/website-automation/','/free-cleaning-lead-guide/','/es/booking-lead-automation/','/es/cleaning-web-app/','/es/virtual-assistant/','/es/website-automation/','/es/free-cleaning-lead-guide/'];
-const known=new Set(routes.map(x=>x.replace(/\/$/,'')));
+const known=new Set(routes.map(x=>x==='/'?'/':x.replace(/\/$/,'')));
 function walk(folder){if(!existsSync(folder))return [];return readdirSync(folder,{withFileTypes:true}).flatMap(x=>{const f=join(folder,x.name);return x.isDirectory()?walk(f):x.isFile()?[f]:[]})}
 function existsRoute(pathname){
  const path=posix.normalize('/'+pathname.replace(/^\/+/,'')).replace(/\/$/,'')||'/';
@@ -26,7 +26,7 @@ function staticChecks(){
   if(!data.trim())errors.push('Empty HTML: '+relative);
   for(const match of data.matchAll(/\b(href|src|action)\s*=\s*(["'])(.*?)\2/gs)){
    const raw=match[3].replace(/&amp;/g,'&').trim();
-   if(!raw||raw.startsWith('#')||/^(mailto:|tel:|data:|blob:|javascript:)/i.test(raw)||raw.includes('$'+'{')||raw.includes('{{'))continue;
+   if(!raw||raw.startsWith('#')||/^(mailto:|tel:|data:|blob:|javascript:)/i.test(raw)||raw.includes('$'+'{')||raw.includes('{{')||raw.includes("'+")||raw.includes("+'"))continue;
    let target;try{target=new URL(raw,base)}catch{warnings.push('Invalid URI: '+relative+' '+raw);continue}
    if(target.hostname!==domain)continue;
    checked++;
