@@ -61,7 +61,8 @@ function contextPrompts(){
  if(page==="settings")return es?[["Avisos WhatsApp","jessy-whatsapp-settings"],["Notificaciones","Abre mis notificaciones"]]:[["WhatsApp alerts","jessy-whatsapp-settings"],["Notifications","Open my notifications"]];
  if(page==="owner-calendar")return es?[["Abrir calendario","Abre mi calendario"],["Entregas","¿Qué entregas de clientes debo revisar?"]]:[["Calendar","Open my calendar"],["Deliveries","Which client deliveries need review?"]];
  if(page==="owner-support")return es?[["Problema técnico","Tengo un error en el Command Center"],["Notificaciones","Abre mis notificaciones"]]:[["Technical issue","I have a Command Center error"],["Notifications","Open my notifications"]];
- if(page==="buyer-preview")return es?[["Volver a mi centro","Abre mi Command Center"],["Ayuda con demo","¿Qué puedo probar en esta vista previa?"]]:[["My Command Center","Open my Command Center"],["Preview help","What can I test in this preview?"]];
+ if(page==="buyer-preview")return es?[["Volver a mi centro","owner-jump:owner-pages"],["Ayuda con demo","¿Qué puedo probar en esta vista previa?"]]:[["My Command Center","owner-jump:owner-pages"],["Preview help","What can I test in this preview?"]];
+ if(page==="lead-insights")return es?[["Abrir prospectos","owner-jump:leads"],["Seguimientos","¿Qué seguimientos de prospectos están pendientes?"]]:[["Open CRM prospects","owner-jump:leads"],["Follow-ups","Which prospect follow-ups are due?"]];
  return es?[["Marcar avisos leídos","Marca todas las notificaciones como leídas"],["Notificaciones","Abre mis notificaciones"]]:[["Mark alerts read","Mark all Command Center notifications as read"],["Notifications","Open my notifications"]];
 }
 function shortcuts(){
@@ -73,7 +74,7 @@ function shortcuts(){
  const items=[...base,...add];
  items.slice(0,4).forEach(([name,message])=>{
   const btn=b("jo-quick",name);
-  btn.addEventListener("click",()=>message==="jessy-whatsapp-settings"?showWhatsAppSettings():ask(message));
+  btn.addEventListener("click",()=>message==="jessy-whatsapp-settings"?showWhatsAppSettings():message.startsWith("owner-jump:")?window.TLEOwnerJessyGateway.navigate(message.slice(11)):ask(message));
   quick.appendChild(btn);
  });
 }
@@ -292,6 +293,7 @@ async function ask(raw){
  if(/(?:whatsapp|watsap|wasap|wsp)/i.test(question)&&/(alert|notify|notification|avis|notific|configur|setting|activar)/i.test(question)){if(!open)show();bubble(question,"user");input.value="";await showWhatsAppSettings();return;}
  if(question.length<2)return;
  if(/\b(draft|borrador|prepara|preparar|escribe|write)\b.*\b(follow.?up|seguimiento|correo|email)\b|\b(follow.?up|seguimiento)\b.*\b(draft|borrador|prepar)/i.test(question)){
+   if(window.TLEOwnerJessyGateway?.standalone){if(!open)show();bubble(question,"user");bubble(language==="es"?"Abriré Prospectos en tu Command Center principal para preparar el borrador.":"I’ll open Prospects in your main Command Center so you can prepare the draft.","bot");window.TLEOwnerJessyGateway.navigate("leads");return;}
    if(!open)show();bubble(question,"user");input.value="";await prepareDraftPanel();return;
  }
  if(!open)show();
