@@ -6,8 +6,8 @@ const core=read("public/command-center/assets/command-center-app.js");
 const ui=read("public/command-center/assets/jessy-owner.js");
 const css=read("public/command-center/assets/jessy-owner.css");
 const fn=read("supabase/functions/tle-jessy-owner/index.ts");
-assert.match(page,/jessy-owner\.js\?v=20261012-whatsapp-v1/);
-assert.match(page,/command-center-app\.js\?v=20261012-whatsapp-v1/);
+assert.match(page,/jessy-owner\.js\?v=20261012-read-actions-v1/);
+assert.match(page,/command-center-app\.js\?v=20261012-read-actions-v1/);
 assert.match(core,/TLEOwnerJessyGateway/);
 assert.match(core,/workspace\?\.is_internal===true/);
 assert.match(core,/auth\.getSession\(\)/);
@@ -102,5 +102,56 @@ assert.match(fn,/provider_status:"awaiting_sender_connection"/);
 assert.match(fn,/connected:false,can_send:false/);
 assert.doesNotMatch(fn,/api\.whatsapp\.com|graph\.facebook\.com/);
 console.log("PASS Jessy WhatsApp settings: owner-only opt-in, masked number, approval required, no sends");
+
+
+assert.match(core,/if\(result\.action_performed==='mark_notifications_read'\)/);
+assert.match(core,/Mark all unread Command Center notifications as read/);
+assert.match(core,/all\.onclick=async\(\)=>/);
+assert.match(core,/await loadStoredNotifications\(\)/);
+assert.match(core,/if\(target==='notifications'\)return this\.openNotifications\(\)/);
+assert.match(core,/unread:unread\.length/);
+assert.match(ui,/Mark all Command Center notifications as read/);
+assert.match(ui,/Marca todas las notificaciones como leídas/);
+assert.match(ui,/result\.action_performed==="mark_notifications_read"/);
+assert.match(ui,/dest!=="owner-help"/);
+assert.match(ui,/if\(result\.navigate_now&&dest\)/);
+assert.match(fn,/function classifyOwnerReadIntent\(question\)/);
+assert.match(fn,/workspace_id=eq\./);
+assert.match(fn,/read_at=is\.null&select=id/);
+assert.match(fn,/function emailReadUnavailable/);
+assert.match(fn,/const intent=classifyOwnerReadIntent\(message\)/);
+assert.match(fn,/if\(intent==="mark_all_notifications_read"\)/);
+assert.match(fn,/if\(intent==="email_read_unavailable"\)/);
+const classifier = new Function(fn.slice(fn.indexOf("function classifyOwnerReadIntent("),fn.indexOf("async function markOwnerNotificationsRead("))+"; return classifyOwnerReadIntent;")();
+for(const [request,expected] of [
+ ["mark them read","mark_all_notifications_read"],
+ ["Mark all notifications as read","mark_all_notifications_read"],
+ ["Márcalos como leídos","mark_all_notifications_read"],
+ ["marca todas las notificaciones como leídas","mark_all_notifications_read"],
+ ["mark my emails read","email_read_unavailable"],
+ ["marca los correos como leídos","email_read_unavailable"],
+ ["don't mark them read",""],
+ ["how do I mark alerts as read?",""],
+ ["mark that notification as read","notification_selection_needed"]
+]) assert.equal(classifier(request),expected,"Intent mismatch for "+request);
+const markStart=fn.indexOf("async function markOwnerNotificationsRead(");
+const markEnd=fn.indexOf("function emailReadUnavailable(",markStart);
+const sent=[];
+const fakeFetch=async(url,options)=>{
+ sent.push({url,method:options.method,headers:options.headers,body:options.body});
+ return {ok:true,async json(){return [{id:"a"},{id:"b"}]}};
+};
+const perform=new Function("BASE","SR","fetch","count","locale","AbortSignal",fn.slice(markStart,markEnd)+";return markOwnerNotificationsRead;")(
+ "https://example.supabase.co","server-only-key",fakeFetch,async()=>0,(lang,en,es)=>lang==="es"?es:en,{timeout:()=>undefined});
+const done=await perform("6c840a8a-c230-41cf-ae05-ad07c6612b25","es");
+assert.equal(done.action_performed,"mark_notifications_read");
+assert.equal(done.affected,2);
+assert.equal(done.remaining_unread,0);
+assert.equal(sent.length,1);
+assert.equal(sent[0].method,"PATCH");
+assert.match(sent[0].url,/workspace_id=eq\.6c840a8a-c230-41cf-ae05-ad07c6612b25&read_at=is\.null&select=id/);
+assert.match(sent[0].body,/"read_at":/);
+assert.doesNotMatch(sent[0].body,/delete|archive|email/);
+console.log("PASS Jessy acts on notifications (EN/ES) with workspace-locked read-only-to-other-records update and real count");
 
 console.log("PASS Owner Jessy: auth-only visibility, verified aggregate reporting, EN/ES, read-only actions, responsive UI");
