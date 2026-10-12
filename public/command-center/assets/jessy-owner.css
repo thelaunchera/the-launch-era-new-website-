@@ -1,0 +1,27 @@
+/* Jessy · Owner Command Center. Never covers private buyer views. */
+.jo-root{--blue:#dcefff;--ink:#191919;position:relative;z-index:13010;font-family:Prompt,"Avenir Next",Arial,sans-serif;color:var(--ink)}
+.jo-root *{box-sizing:border-box}
+.jo-root [hidden]{display:none!important}
+.jo-fab{position:fixed;right:max(18px,env(safe-area-inset-right));bottom:max(90px,calc(env(safe-area-inset-bottom) + 72px));display:flex;align-items:center;gap:8px;border:2px solid #9ac8e4;padding:5px 15px 5px 5px;background:#e5f4ff;border-radius:999px;box-shadow:0 8px 26px #123b5933;min-height:58px;cursor:pointer;color:#191919;font:700 13px Prompt,Arial,sans-serif;z-index:13012}
+.jo-face{width:46px;height:46px;flex:0 0 46px;border-radius:50%;object-fit:cover;object-position:center;background:#cde8fc;border:2px solid #fff}
+.jo-panel{position:fixed;right:22px;bottom:26px;width:min(395px,calc(100vw - 28px));height:min(630px,calc(100dvh - 55px));display:flex;flex-direction:column;border:1px solid #b8d6e9;border-radius:22px;background:#fff;overflow:hidden;box-shadow:0 16px 65px #10395845;z-index:13013}
+.jo-head{background:linear-gradient(120deg,#cdeafa,#edf7ff);display:flex;align-items:center;gap:10px;padding:13px;border-bottom:1px solid #b9d8eb}
+.jo-heading{flex:1;min-width:0}
+.jo-heading strong{display:block;font-size:17px}.jo-heading small{display:block;font-size:11px;color:#34566b;margin-top:3px;line-height:1.35}
+.jo-close{background:#fff;border:1px solid #b0c8d7;color:#191919;border-radius:50%;min-width:34px;min-height:34px;font-size:22px;cursor:pointer}
+.jo-log{flex:1;min-height:0;overflow:auto;padding:16px 13px;background:#fbfdff}
+.jo-bubble{font-size:13px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;border-radius:16px;padding:11px 13px;margin-bottom:10px;max-width:91%}
+.jo-bubble.bot{background:#e7f3ff;color:#18394d;border-bottom-left-radius:5px;margin-right:auto}
+.jo-bubble.user{background:#191919;color:#fff;border-bottom-right-radius:5px;margin-left:auto}
+.jo-next{display:block;padding:10px 13px;margin:2px 0 14px;background:#f2d85b;color:#191919;border:1px solid #ddc35c;border-radius:13px;min-height:42px;font-size:12px;font-weight:800;cursor:pointer;text-align:left}
+.jo-footer{flex-shrink:0;border-top:1px solid #dfe9ef;background:#fff;padding:11px 12px max(12px,env(safe-area-inset-bottom))}
+.jo-quick-list{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.jo-quick{border-radius:999px;border:1px solid #bad6e8;background:#f3f9ff;color:#1f4a64;font-size:11px;min-height:32px;padding:7px 9px;cursor:pointer}
+.jo-form{display:flex;align-items:flex-end;gap:7px}
+.jo-input{font:14px/1.45 Prompt,Arial,sans-serif;resize:vertical;min-height:44px;max-height:110px;flex:1;min-width:0;border-radius:12px;border:1px solid #b8d1e1;padding:11px;background:#fff;color:#191919}
+.jo-send{border:0;border-radius:11px;background:#191919;color:#fff;padding:10px 13px;min-height:44px;font-size:12px;font-weight:750;cursor:pointer}
+.jo-send:disabled{opacity:.55}
+.jo-note{font-size:10px;color:#637b89;margin:8px 3px 0;line-height:1.4}
+.jo-root button:focus-visible,.jo-root textarea:focus-visible{outline:3px solid #298ac0;outline-offset:3px}
+@media(max-width:600px){.jo-fab{bottom:max(85px,calc(env(safe-area-inset-bottom) + 68px));right:12px}.jo-panel{width:calc(100vw - 12px);right:6px;bottom:6px;height:min(600px,calc(100dvh - 20px));border-radius:19px}.jo-input{font-size:16px}.jo-quick{font-size:11px}.jo-head{padding:11px}}
+@media(prefers-reduced-motion:reduce){.jo-root *{animation:none!important;transition:none!important}}
