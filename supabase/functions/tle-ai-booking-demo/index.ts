@@ -64,7 +64,7 @@ function serviceQuestion(message:string,services:string,language:string){
  if(/(?:what services|services (?:do you|offered)|qué servicios|que servicios|cuáles servicios|cuales servicios)/i.test(message))
   return services==="Not specified"?(es?"El negocio todavía no ha indicado sus servicios. Puedes dejar tu pregunta en la solicitud para que te confirme.":"The business has not listed its services yet. Add your question to the request so the team can confirm."):
   (es?"Servicios indicados: ":"Listed services: ")+services+".";
- if(/(?:what.*includ|included|qué incluye|que incluye|incluye.*limpieza)/i.test(message))
+ if(/(?:what.*includ|included|qué incluye|que incluye|incluye.*limpieza|supplies|products|equipment|productos|materiales|equipos|suministros|prepare|preparar|preparación|pets|mascotas|insurance|insured|seguro)/i.test(message))
   return es?"El alcance exacto lo confirma el negocio. Añade lo que necesitas en tu solicitud; así podrán revisar si está incluido o es un extra.":"The business confirms the exact scope. Add what you need to your request so the team can check whether it is included or an extra.";
  if(/(?:guarantee|guaranteed|confirm.*appointment|reserva confirmada|cita confirmada|confirm.*cita)/i.test(message))
   return es?"Esta prueba prepara una solicitud. Una cotización no confirma una cita; el negocio debe revisar el servicio y el horario.":"This demo prepares a request. A quote does not confirm an appointment; the business must review the service and time.";
