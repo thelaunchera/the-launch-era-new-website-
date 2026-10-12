@@ -99,7 +99,27 @@ function actions(checkout,detail,trial){
  if(row.children.length){log.appendChild(row);log.scrollTop=log.scrollHeight}
 }
 async function reloadOffers(){try{const r=await fetch(catalogPath+"?r="+Date.now(),{cache:"no-store"});if(r.ok){const data=await r.json();if(Array.isArray(data.offers)&&data.offers.length>=7)catalog=data.offers}}catch{}}
-function quickChoices(){quick.replaceChildren();const opts=[[t("service"),lang==="es"?"Necesito mejorar mis reservas.":"I need better bookings."],[t("ai"),lang==="es"?"¿Qué asistentes IA ofrecen?":"Which AI Assistants do you offer?"],[t("price"),lang==="es"?"¿Qué precios tienen?":"What are your prices?"],[t("human"),"lead-form"]];opts.forEach(function(entry){const b=button("",entry[0]);b.addEventListener("click",()=>{if(entry[1]==="lead-form")showLead(true);else ask(entry[1])});quick.appendChild(b)})}
+function quickChoices(){
+ quick.replaceChildren();
+ const p=currentPage(),es=lang==="es";
+ let opts=[[t("service"),es?"Necesito mejorar mis reservas.":"I need better bookings."],[t("ai"),es?"¿Qué asistentes IA ofrecen?":"Which AI Assistants do you offer?"],[t("price"),es?"¿Qué precios tienen?":"What are your prices?"],[t("human"),"lead-form"]];
+ if(p==="cleaning-app")opts=[
+ [es?"Funciones de la app":"App features",es?"¿Qué puedo organizar en la Cleaning App?":"What can I manage in the Cleaning App?"],
+ [es?"Prueba gratis":"Free trial",es?"¿Cómo comienzo mi prueba gratis de la app?":"How do I start my free trial in the app?"],
+ [es?"Ver demo":"Try demo",es?"¿Puedo probar una demo de la app?":"Can I try the app demo?"],
+ [t("human"),"lead-form"]];
+ else if(p==="booking")opts=[
+ [es?"Cómo funciona":"How it works",es?"¿Cómo funciona Booking Automation?":"How does Booking Automation work?"],
+ [es?"Ver planes":"See plans",es?"¿Qué incluye el paquete de reservas?":"What's included in the booking package?"],
+ [t("price"),es?"¿Qué cuesta Booking Automation?":"What does Booking Automation cost?"],
+ [t("human"),"lead-form"]];
+ else if(p==="ai-booking")opts=[
+ ["AI Booking",es?"¿Qué hace AI Booking Assistant?":"What does the AI Booking Assistant do?"],
+ [es?"Seguimientos":"Follow-ups",es?"¿Qué hace el AI Follow-Up Assistant?":"What does AI Follow-Up Assistant do?"],
+ [t("price"),es?"¿Qué planes de AI tienen?":"What are your AI plans?"],
+ [t("human"),"lead-form"]];
+ opts.forEach(function(entry){const b=button("",entry[0]);b.addEventListener("click",()=>{if(entry[1]==="lead-form")showLead(true);else ask(entry[1])});quick.appendChild(b)});
+}
 function greeting(){if(!seen){msg(pageText("hello"),"bot");seen=true;quickChoices()}}
 function optionalChime(){if(!soundOn)return;try{const Context=window.AudioContext||window.webkitAudioContext;if(!Context)return;const a=new Context();const o=a.createOscillator();const gain=a.createGain();o.type="sine";o.frequency.value=660;gain.gain.setValueAtTime(.0001,a.currentTime);gain.gain.exponentialRampToValueAtTime(.03,a.currentTime+.02);gain.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.15);o.connect(gain);gain.connect(a.destination);o.start();o.stop(a.currentTime+.16);o.onended=()=>a.close()}catch{}}
 function showLead(on){details=on;lead.hidden=!on;log.hidden=on;quick.hidden=on;bottom.hidden=on;if(on){if(offer){const entry=catalog.find(x=>x.id===offer);if(entry&&!needInput.value)needInput.value=(lang==="es"?"Me interesa ":"I'm interested in ")+entry.name}nameInput.focus()}else{input.focus()}}
