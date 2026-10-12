@@ -157,3 +157,16 @@ html:has(.tle-freebie-page),body:has(.tle-freebie-page){max-width:100%;overflow-
  .tle-freebie-page :is(h1,h2,p){max-width:100%}
  .tle-freebie-page [class*="rounded-"]{min-width:0}
 }
+
+/* Keep the step-by-step demo fully readable above the transition wave.
+   The former negative top offset painted the SVG over the demo caption. */
+.sales-home .hero-copy{padding-bottom:clamp(42px,4.2vw,58px)}
+.sales-home .hero-copy .walkthrough-note{position:relative;z-index:1;margin-top:13px;line-height:1.5}
+.sales-home .solutions-section{position:relative;isolation:isolate;padding-top:clamp(70px,6vw,88px)}
+.sales-home .solutions-section>.soft-wave{position:absolute;top:0;bottom:auto;left:0;width:100%;height:42px;fill:#D7EFFF;opacity:.75;z-index:0;pointer-events:none}
+.sales-home .solutions-section>.container{position:relative;z-index:1}
+@media(max-width:767px){
+ .sales-home .hero-copy{padding-bottom:38px}
+ .sales-home .solutions-section{padding-top:60px}
+ .sales-home .solutions-section>.soft-wave{height:30px;top:0}
+}
