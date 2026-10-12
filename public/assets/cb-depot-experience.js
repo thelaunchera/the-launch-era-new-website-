@@ -133,11 +133,13 @@ function activate(session){
   <label>Email <input name="customer_email" type="email" maxlength="200" required autocomplete="email" placeholder="you@example.com"></label>
   <label>Phone (optional) <input name="customer_phone" type="tel" maxlength="80" autocomplete="tel" placeholder="Phone number"></label>
   <label>What can we help with? <textarea name="message" required maxlength="1200" rows="4" placeholder="Tell us what you need..."></textarea></label>
+  <label class="tle-care-permission" style="display:block;background:#f6fafc;border:1px solid #d4e3ed;border-radius:14px;padding:13px;line-height:1.5;font-size:13px"><span style="display:flex;gap:9px;align-items:flex-start"><input type="checkbox" name="optional_care_opt_in" style="width:18px;height:18px;flex:none;margin-top:2px"><span>Yes, CB Depot can email me useful vehicle care tips and occasional follow-ups. Optional.</span></span><small style="display:block;margin-top:6px;color:#627789">Replies about this inquiry and appointment reminders are separate. Unsubscribe from optional messages any time.</small></label>
   <label class="cb-trap" aria-hidden="true">Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
   <button type="submit" class="cb-go">Send message →</button>
   <p class="cb-contact-status" role="status" aria-live="polite"></p>
  </form>`;
  const contactForm=contact.querySelector("form");
+ let lastContactAttempt=null;
  contactForm.addEventListener("submit",async ev=>{
   ev.preventDefault();
   if(!contactForm.reportValidity())return;
@@ -172,12 +174,17 @@ function activate(session){
   }
   const booking_key=new URLSearchParams(location.search).get("key")||"";
   if(!booking_key){status.textContent="Contact form unavailable until the booking page is published.";return}
+  const careOptIn=data.get('optional_care_opt_in')==='on';
+  const fingerprint=JSON.stringify([customer_name,customer_email,message,careOptIn]);
+  if(!lastContactAttempt||lastContactAttempt.fingerprint!==fingerprint)
+   lastContactAttempt={fingerprint,ref:'req_'+crypto.randomUUID()};
   session.sendingContact=true;button.disabled=true;button.textContent="Sending…";status.textContent="";
   try{
    const res=await fetch("https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-flow-inquiry",{
     method:"POST",headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
      booking_key,request_type:"inquiry",request_intent:"inquiry",source:"booking_page_contact",
+     external_ref:lastContactAttempt.ref,optional_care_opt_in:careOptIn,
      preferred_language:session.language||"en",customer_name,customer_email,
      customer_phone:String(data.get("customer_phone")||"").trim(),service_name:"General question",
      notes:message,website:String(data.get("website")||"")
@@ -185,8 +192,9 @@ function activate(session){
    });
    const reply=await res.json().catch(()=>({}));
    if(!res.ok)throw Error(reply.error||"Could not send this message. Please try again.");
-   contactForm.reset();
+   contactForm.reset();lastContactAttempt=null;
    status.textContent="Thank you! Your message was sent to CB Depot.";
+
   }catch(err){status.textContent=err instanceof Error?err.message:"Could not send your message."}
   finally{session.sendingContact=false;button.disabled=false;button.textContent="Send message →"}
  });
@@ -272,6 +280,20 @@ function activate(session){
   field("Email address","input","qemail",{type:"email",placeholder:"you@example.com",required:true}),
   field("Phone","input","qphone",{type:"tel",placeholder:"Your phone number"}),
   field("Service address","input","qaddress",{placeholder:"Street, city, ZIP"}));
+ // This quote wizard replaces the generic form; restore the unchecked care opt-in inside step 3.
+ const consentBox=node('label','tle-care-permission');
+ consentBox.style.cssText='display:block;background:#f6fafc;border:1px solid #d4e3ed;border-radius:14px;padding:13px;line-height:1.5;font-size:13px';
+ const consentInput=document.createElement('input');consentInput.type='checkbox';consentInput.dataset.carePermission='quote';
+ consentInput.style.cssText='width:18px;height:18px;vertical-align:middle;margin-right:9px';consentInput.checked=false;
+ const consentText=node('span','',session.language==='es'?
+  'Sí, quiero recibir consejos para cuidar mi vehículo y seguimientos ocasionales de CB Depot. Opcional.':
+  'Yes, CB Depot can send me useful vehicle care tips and occasional follow-ups. Optional.');
+ const consentHint=node('small','',session.language==='es'?
+  'Las confirmaciones y recordatorios de citas son independientes. Puedes cancelar los correos opcionales.':
+  'Appointment confirmations and reminders are separate. You can unsubscribe from optional emails.');
+ consentHint.style.cssText='display:block;color:#627789;font-size:11px;margin-top:6px';
+ consentBox.append(consentInput,consentText,consentHint);
+ document.getElementById('quoteSubmit').before(consentBox);
  // No new external backend: reuse the existing secure quote handler and account-specific service IDs.
  const controls=[...document.querySelectorAll(".cb-vehicles button")];
  let vehicle="";
