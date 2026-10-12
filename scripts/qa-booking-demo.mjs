@@ -478,28 +478,40 @@ for(const viewport of screens)for(const lang of ['en','es']){
 
 
 for(const lang of ['en','es']){
- await check('Booking + optional AI add-on totals and no live charge '+lang,{width:390,height:844},async p=>{
-  await p.goto(base+'/booking-bundle/?lang='+lang,{waitUntil:'networkidle'});
-  const card=p.locator('[data-tle-bundle]');
-  assert(await card.isVisible(),'Bundled purchase selector visible');
-  assert.equal(await p.locator('#tleTotal').innerText(),'$19.99');
-  const combos=[['ai-booking','$98.99'],['ai-followup','$78.99'],['ai-business','$138.99'],['','$19.99']];
-  for(const [plan,total] of combos){
-   await p.locator('input[name="tle-ai-bundle"][value="'+plan+'"]').check();
-   assert.equal(await p.locator('#tleTotal').innerText(),total);
-  }
-  await p.locator('input[name="tle-ai-bundle"][value="ai-business"]').check();
+ await check('Combined booking + AI activation discount and mock checkout '+lang,{width:390,height:844},async p=>{
   let request=null;
   await p.route('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-bundle-checkout',async route=>{
+   if(route.request().method()==='GET'){
+    await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({
+     enabled:true,percent_off:40,booking_setup_cents:1199,
+     plans:{'ai-booking':{setup_due_cents:4740,monthly_cents:2900},'ai-followup':{setup_due_cents:3540,monthly_cents:1900},'ai-business':{setup_due_cents:7140,monthly_cents:3900}}
+    })});return;
+   }
    request=route.request().postDataJSON();
-   await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({url:'https://checkout.stripe.com/c/pay/qa-bundle-only',amount_total:13899})});
+   await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({url:'https://checkout.stripe.com/c/pay/qa-bundle-only',amount_total:8339})});
   });
   await p.route('https://checkout.stripe.com/**',route=>route.fulfill({status:200,contentType:'text/html',body:'<!doctype html><html><body><h1 id="mockCheckout">Safe checkout preview</h1></body></html>'}));
+  await p.goto(base+'/booking-bundle/?lang='+lang,{waitUntil:'networkidle'});
+  assert(await p.locator('[data-tle-bundle]').isVisible());
+  assert.equal(await p.locator('#tleTotal').innerText(),'$19.99');
+  const combos=[['ai-booking','$59.39'],['ai-followup','$47.39'],['ai-business','$83.39'],['','$19.99']];
+  for(const [plan,total] of combos){await p.locator('input[name="tle-ai-bundle"][value="'+plan+'"]').check();assert.equal(await p.locator('#tleTotal').innerText(),total);}
+  await p.locator('input[name="tle-ai-bundle"][value="ai-business"]').check();
+  assert((await p.locator('#tleMonthly').innerText()).includes('$39'));
   await p.locator('#tleCheckoutBtn').click();
   await p.locator('#mockCheckout').waitFor({timeout:12000});
-  assert.deepEqual(request,{language:lang,ai_addon:'ai-business'},'Bundle selection reaches checkout exactly once');
+  assert.deepEqual(request,{language:lang,ai_addon:'ai-business'});
+ });
+ await check('One conditional combined intake '+lang,{width:390,height:844},async p=>{
+  await p.goto(base+(lang==='es'?'/es':'')+'/booking-flow-intake/?demo=1&bundle=ai-business',{waitUntil:'domcontentloaded'});
+  assert.equal(await p.locator('#tleBundleAiIntake').isVisible(),true);
+  assert.equal(await p.locator('#tleBundleAiBooking').isVisible(),true);
+  assert.equal(await p.locator('#tleBundleAiFollowup').isVisible(),true);
+  assert.equal(await p.locator('[name="ai_languages"]').count(),1);
+  assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3));
  });
 }
+
 for(const offer of ['booking-flow','website-automation','va']){
  for(const lang of ['en','es']){
   await check('Direct localized Stripe checkout '+offer+' '+lang,{width:390,height:844},async p=>{
