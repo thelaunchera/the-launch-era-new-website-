@@ -76,6 +76,24 @@ body{background:linear-gradient(180deg,#F8FBFC 0%,#FFFFFF 38%,#FAF8F3 100%)}.her
 </div>
 <p class="quick-note">Default setup: email alerts, 24-hour follow-up, USD pricing and a 60-day booking window. We can adjust these later.</p></section>
 
+
+<section class="section" id="tleBundleAiIntake" style="display:none">
+ <div class="eyebrow">AI ASSISTANT · ADDITIONAL SETUP</div>
+ <h2>4. Your AI Assistant</h2>
+ <p id="tleBundleAiPlan">We set up the assistant alongside your Booking Page without asking for your business details twice.</p>
+ <div class="grid">
+  <div><label>Assistant languages</label><select name="ai_languages"><option value="both">English and Spanish</option><option value="en">English only</option><option value="es">Spanish only</option></select></div>
+  <div><label>Preferred voice</label><select name="ai_tone"><option value="friendly_brief">Warm and brief</option><option value="professional_brief">Professional and brief</option></select></div>
+  <div class="full"><label>Custom greeting (optional)</label><textarea name="ai_greeting" maxlength="220" placeholder="Hi! Thanks for reaching out. How can we help?"></textarea></div>
+  <div class="full"><label>Important answers and FAQs (optional)</label><textarea name="ai_faq" maxlength="1400" placeholder="Special services, service areas, business hours and policies to know."></textarea></div>
+  <div class="full" id="tleBundleAiBooking"><label>What should the assistant ask before preparing a request?</label><textarea name="ai_booking_instructions" maxlength="700" placeholder="Service, size, full name, ZIP, preferred date and time."></textarea><p class="small">The assistant prepares a request, not a confirmed price or appointment unless your rules and approvals allow it.</p></div>
+  <div class="full" id="tleBundleAiFollowup"><label>How should it follow up?</label><textarea name="ai_followup_instructions" maxlength="700" placeholder="A short, caring check-in about their quote or next steps."></textarea><p class="small">Only people who consented receive follow-ups. Replies, declines and unsubscribes stop further messages.</p></div>
+  <div class="full"><label>When should a person step in? (optional)</label><textarea name="ai_handoff_rules" maxlength="600" placeholder="Complaints, price changes, urgent or unusual requests."></textarea></div>
+ </div>
+ <label style="display:flex;gap:10px;align-items:flex-start;margin-top:12px"><input type="checkbox" name="ai_setup_confirm" value="yes" style="width:auto;margin-top:5px">I confirm that I want the AI Assistant I purchased to be configured alongside Booking Automation.</label>
+ <p class="quick-note">One checkout and one form. Each system still receives separate QA and delivery. Normal AI monthly billing starts after the first 30 days from delivery.</p>
+</section>
+
 <div class="actions"><button class="btn" id="submit" type="submit">Start My Build →</button><div class="status" id="status" aria-live="polite"></div></div>
 </form></main>
 <script>
@@ -110,6 +128,15 @@ photoInput.addEventListener("change",()=>{
 
 const businessCategory=document.getElementById("businessCategory"),otherBusinessType=document.getElementById("otherBusinessType"),otherCategoryWrap=document.getElementById("otherCategoryWrap");function syncBusinessType(){const category=businessCategory.value,other=category==="other",cleaning=category==="cleaning";document.getElementById("genericServicesBlock").hidden=cleaning;document.getElementById("cleaningMainServices").hidden=!cleaning;document.querySelector('[name="services"]').required=!cleaning;otherCategoryWrap.hidden=!other;otherBusinessType.required=other;if(!other)otherBusinessType.value="";document.querySelector('[name="services"]').placeholder=category==="detailing"?"Example: Interior Detail — $120\nFull Detail — from $220":category==="other"?"Example: Standard Service — $120\nSpecial Service — Custom quote":"Example: Standard Cleaning — $140\nDeep Cleaning — from $220";document.querySelector('[name="add_ons"]').placeholder=category==="detailing"?"Example: Headlight restoration +$35":category==="other"?"Example: Extra service +$35":"Example: Inside oven +$35";}businessCategory.addEventListener("change",syncBusinessType);syncBusinessType();
 const endpoint="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-flow-intake",p=new URLSearchParams(location.search),token=p.get("token")||"",demoMode=p.get("demo")==="1",form=document.getElementById("form"),btn=document.getElementById("submit"),status=document.getElementById("status");document.getElementById("langLink").href=demoMode?"/es/booking-flow-intake/?demo=1":"/es/booking-flow-intake/?token="+encodeURIComponent(token);if(demoMode){document.getElementById("intakeEyebrow").textContent="BOOKING AUTOMATION + COMMAND CENTER · DEMO PREVIEW";status.textContent="Demo preview — nothing you enter here will be saved."}else if(!token){btn.disabled=true;status.textContent="Open this form from the private link in your payment confirmation email."}
+const aiPlan=p.get("bundle")||"",validAiPlans=["ai-booking","ai-followup","ai-business"];
+if(validAiPlans.includes(aiPlan)){
+ const box=document.getElementById("tleBundleAiIntake");box.style.display="";
+ document.getElementById("tleBundleAiPlan").textContent=({"ai-booking":"AI Booking Assistant","ai-followup":"AI Follow-Up Assistant","ai-business":"AI Business Assistant — both agents"})[aiPlan]+" · Set up with your Booking Page. No second form needed.";
+ document.getElementById("tleBundleAiBooking").style.display=aiPlan==="ai-followup"?"none":"";
+ document.getElementById("tleBundleAiFollowup").style.display=aiPlan==="ai-booking"?"none":"";
+ document.getElementById("submit").textContent="Start Both Setups →";
+ document.getElementById("langLink").href+="&bundle="+encodeURIComponent(aiPlan);
+}
 form.addEventListener("submit",async e=>{e.preventDefault();btn.disabled=true;status.textContent="Sending…";try{document.getElementById("timezone").value=Intl.DateTimeFormat().resolvedOptions().timeZone||"America/New_York";}catch{}if(businessCategory.value==="cleaning"&&!document.getElementById("mainFlatServices").value.trim()&&!document.getElementById("mainEstimateServices").value.trim()){status.textContent="Add at least one main flat-price or estimated service.";btn.disabled=false;return;}const fd=new FormData(form),data=Object.fromEntries(fd.entries());data.customer_reviews=[1,2,3].map(n=>({name:String(data['review_'+n+'_name']||'').trim(),text:String(data['review_'+n+'_text']||'').trim(),source_url:String(data['review_'+n+'_source_url']||'').trim()})).filter(r=>r.name||r.text||r.source_url);if(data.customer_reviews.some(r=>!r.name||!r.text)||data.customer_reviews.length&&!data.reviews_permission){status.textContent='Complete the name and text for each review and confirm permission to display it.';btn.disabled=false;return}data.reviews_permission=data.reviews_permission==='on';data.language="en";data.business_hours_display=data.availability||"";data.notification_email=data.notification_email||data.email||"";data.inquiry_destination_details=data.email||"";if(demoMode){form.innerHTML='<div class="success"><strong>✓ Demo preview complete.</strong><p>That’s how your setup form will work. This example wasn’t saved.</p></div>';return}try{
  const assets=[];
  for(let i=0;i<chosenPhotos.length;i++){
