@@ -223,8 +223,8 @@ for(const v of screens) for(const lang of ['en','es']) {
   }
   await p.locator('.general-faq summary').first().click();
   assert.equal(await p.locator('.general-faq details').first().locator('p').isVisible(),true);
-  const checkout=p.locator('.final-actions a[href*="service-checkout"]');
-  assert.equal(await checkout.getAttribute('href'),'/service-checkout/?offer=booking-flow&lang='+lang);
+  const checkout=p.locator('.final-actions a[href*="booking-bundle"]');
+  assert.equal(await checkout.getAttribute('href'),'/booking-bundle/?lang='+lang);
   await p.locator('.product-tabs button').first().click();
   await p.locator('.sales-pains summary').first().click();
   await p.locator('.general-faq summary').first().click();
