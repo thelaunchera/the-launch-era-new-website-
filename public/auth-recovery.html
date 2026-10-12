@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#FAF8F3">
+<title>Reset your password | The Launch Era</title>
+<style>
+:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#191919;background:#FAF8F3}
+*{box-sizing:border-box}
+body{min-height:100dvh;margin:0;padding:24px;display:grid;place-items:center;background:linear-gradient(145deg,#FAF8F3 28%,#e7f3fa)}
+main{width:min(100%,470px);border-radius:25px;border:1px solid #dfe8ec;background:#fff;padding:clamp(24px,5vw,43px);box-shadow:0 18px 60px #1c34451b}
+.brand{display:flex;align-items:center;gap:12px;font-size:12px;font-weight:800;letter-spacing:.14em}
+.brand img{width:40px;height:40px;object-fit:contain}
+h1{margin:24px 0 12px;font-size:clamp(28px,6vw,38px);line-height:1.1;letter-spacing:-.04em}
+p{font-size:14px;line-height:1.65;color:#506474}
+label{display:block;font-weight:700;font-size:13px;margin:15px 0}
+input{display:block;width:100%;min-height:48px;border:1px solid #b9ccd6;background:#fff;border-radius:12px;padding:13px;margin-top:8px;font-size:16px;color:#191919}
+input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #a0d4f7;outline-offset:2px}
+button,.link{display:block;width:100%;border-radius:99px;padding:15px 18px;text-align:center;font-size:14px;font-weight:750;text-decoration:none;cursor:pointer}
+button{border:0;background:#191919;color:white;margin-top:21px}
+button:disabled{opacity:.5;cursor:wait}
+.link{margin-top:10px;border:1px solid #dae2e7;color:#191919;background:#FAF8F3}
+#status{min-height:25px;margin:16px 0 0;font-weight:600}
+#status.error{color:#9c3737}
+#status.success{color:#236b53}
+.hidden{display:none!important}
+small{display:block;font-size:12px;line-height:1.6;color:#6e8190;margin-top:10px}
+</style>
+</head>
+<body>
+<main>
+<div class="brand"><img src="/assets/brand/tle-mark.svg" alt="">THE LAUNCH ERA</div>
+<h1 id="heading">Reset your password</h1>
+<p id="instructions">Checking your secure password reset link…</p>
+<form id="passwordForm" class="hidden" autocomplete="off">
+<label>New password<input type="password" name="password" autocomplete="new-password" minlength="8" maxlength="128" required></label>
+<label>Confirm new password<input type="password" name="confirm" autocomplete="new-password" minlength="8" maxlength="128" required></label>
+<small>Use at least 8 characters and one number.</small>
+<button id="save" type="submit">Save my new password →</button>
+</form>
+<p id="status" role="status" aria-live="polite"></p>
+<a id="signinLink" class="link hidden" href="/command-center/?app=cb-depot">Open Command Center →</a>
+<a class="link" href="/command-center/">Back to sign in</a>
+<small>We never ask you to share your password by email.</small>
+</main>
+<script src="/command-center/vendor/supabase-js-v2.57.0.umd.js"></script>
+<script>
+(function(){
+"use strict";
+const status=document.getElementById('status');
+const form=document.getElementById('passwordForm');
+const instructions=document.getElementById('instructions');
+const heading=document.getElementById('heading');
+const save=document.getElementById('save');
+const signInLink=document.getElementById('signinLink');
+const hash=new URLSearchParams(location.hash.slice(1));
+const query=new URLSearchParams(location.search);
+const hasRecoveryFragment=hash.get('type')==='recovery'&&!!hash.get('access_token');
+const hasRecoveryCode=!!query.get('code');
+let recoveryAllowed=false;
+let client;
+function showError(message){
+ form.classList.add('hidden');
+ instructions.textContent=message;
+ status.textContent='';
+ signInLink.classList.remove('hidden');
+}
+function showForm(){
+ if(recoveryAllowed)return;
+ recoveryAllowed=true;
+ instructions.textContent='Choose a new password for your private Command Center.';
+ form.classList.remove('hidden');
+ status.textContent='';
+ try{history.replaceState(null,'',location.pathname)}catch(_){}
+}
+if(!hasRecoveryFragment&&!hasRecoveryCode){
+ showError('This password reset link is missing or has expired. Go to Command Center, enter your account email and select Forgot password to request a new link.');
+ return;
+}
+if(typeof window.supabase?.createClient!=='function'){
+ showError('The secure connection could not load. Please refresh this page or try opening the link in Chrome or Safari.');
+ return;
+}
+try{
+ client=window.supabase.createClient(
+  'https://bowacxhmjvrqixtwaikv.supabase.co',
+  'sb_publishable_0TueitFYiRF3rAEMLMT8-w_FvbvY0rB',
+  {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:'tle-crm-auth'}}
+ );
+}catch(_){showError('The secure connection could not start. Try again.');return;}
+client.auth.onAuthStateChange((event,session)=>{
+ if(event==='PASSWORD_RECOVERY'&&session?.user)showForm();
+});
+client.auth.getSession().then(({data,error})=>{
+ if(error)throw error;
+ if(hasRecoveryFragment&&data?.session?.access_token===hash.get('access_token'))showForm();
+}).catch(()=>{});
+window.setTimeout(()=>{
+ if(!recoveryAllowed)showError('This reset link could not be verified. It may have expired or already been used. Request a fresh link from Command Center.');
+},12000);
+form.addEventListener('submit',async(event)=>{
+ event.preventDefault();
+ if(!recoveryAllowed)return;
+ const password=form.elements.namedItem('password').value;
+ const confirm=form.elements.namedItem('confirm').value;
+ if(password.length<8||!/\d/.test(password)||password!==confirm){
+  status.className='error';status.textContent='Use at least 8 characters, one number, and matching passwords.';return;
+ }
+ save.disabled=true;status.className='';status.textContent='Saving your new password…';
+ try{
+  const {error}=await client.auth.updateUser({password});
+  if(error)throw error;
+  form.reset();form.classList.add('hidden');
+  heading.textContent='Password updated ✓';
+  instructions.textContent='Your password has been saved. You can now sign in securely to your Command Center.';
+  status.className='success';status.textContent='You are ready to sign in.';
+  signInLink.classList.remove('hidden');
+  await client.auth.signOut({scope:'local'}).catch(()=>{});
+ }catch(err){status.className='error';status.textContent=err?.message||'Could not update your password. Please try again.'}
+ finally{save.disabled=false}
+});
+})();
+</script>
+</body>
+</html>
