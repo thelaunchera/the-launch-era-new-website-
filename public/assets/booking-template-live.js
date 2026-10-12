@@ -263,7 +263,7 @@ async function submit(which){
   requested_date:date,requested_time:time,source:"booking_page",estimate_display:estimateLabel
  };
  // Keep one submission reference across retries, but renew it when details change.
- const attemptFingerprint=JSON.stringify([route,email,body.service_id,body.service_name,body.requested_date,body.requested_time,body.notes,body.optional_care_opt_in]);
+ const attemptFingerprint=JSON.stringify([route,email,body.service_id,body.service_name,body.requested_date,body.requested_time,body.notes,body.optional_care_opt_in,body.appointment_reminders_opt_in]);
  const previous=submissionAttempts.get(route);
  if(!previous||previous.fingerprint!==attemptFingerprint)
   submissionAttempts.set(route,{fingerprint:attemptFingerprint,id:'req_'+crypto.randomUUID()});
