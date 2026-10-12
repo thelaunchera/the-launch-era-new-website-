@@ -11,20 +11,20 @@
   const threadId = (window.crypto?.randomUUID ? window.crypto.randomUUID() : "9cf5037c-8b38-42a9-9565-2b8f532ac017");
   const copy = es ? {
     title:"Asistente de reservas con IA",subtitle:"Demostración · No realiza reservas reales",
-    intro:"¡Hola! 👋 Cuéntame qué limpieza necesitas y preparo el formulario para que solo lo revises.",
+    intro:"¡Hola! 👋 Te ayudaré paso a paso. Primero, ¿el espacio es residencial o comercial?",
     placeholder:"Escribe tu pregunta…",button:"Preguntar a la IA",send:"Enviar",close:"Cerrar chat",
     note:"Solo demostración. No compartas nombres, teléfonos, correos, direcciones ni información de pago.",
     error:"Ahora mismo no puedo responder. Por favor, inténtalo más tarde.",
     limit:"El chat no está disponible por ahora. Inténtalo más tarde.",
-    opening:"Abrir asistente de IA", review:"Revisar mi solicitud →"
+    opening:"Abrir asistente de IA", review:"Revisar mi solicitud →",nextStep:"Siguiente: revisa lo que completé, añade los datos que falten y termina la solicitud de prueba."
   } : {
     title:"AI Booking Assistant",subtitle:"Live AI demo · No real bookings",
-    intro:"Hi! 👋 Tell me what cleaning you need and I'll fill in your booking details for review.",
+    intro:"Hi! 👋 I’ll guide you step by step. First, is the space residential or commercial?",
     placeholder:"Ask a question…",button:"Ask AI",send:"Send",close:"Close chat",
     note:"Demo only. Please don't share names, emails, phone numbers, addresses, or payment details.",
     error:"I can't respond right now. Please try again later.",
     limit:"Chat isn't available right now. Please try again later.",
-    opening:"Open AI Booking Assistant", review:"Review my booking →"
+    opening:"Open AI Booking Assistant", review:"Review my request →",nextStep:"Next: review what I filled in, complete any missing fields, then finish the demo request."
   };
   const css = document.createElement("style");
   css.textContent = `
@@ -47,7 +47,8 @@
     .tle-ai-form button{background:#191919;color:#fff;border:0;border-radius:14px;padding:0 14px;min-height:43px;font-weight:700;cursor:pointer}
     .tle-ai-form button:disabled{opacity:.55;cursor:not-allowed}
     .tle-ai-review{width:100%;margin:10px 0 0;padding:12px 14px;background:#F2D85B;border:1px solid #dbc04a;color:#191919;border-radius:15px;font-weight:800;font-size:13px;cursor:pointer;text-align:center}
-    .tle-ai-review[hidden]{display:none!important}
+    .tle-ai-review[hidden],.tle-ai-review-tip[hidden]{display:none!important}
+    .tle-ai-review-tip{font-size:11px!important;color:#32556D!important;margin:12px 1px 0!important;line-height:1.4!important}
     @media(max-width:700px){
       .tle-ai-panel{top:var(--tle-ai-vv-top,0px)!important;left:0!important;right:0!important;bottom:auto!important;width:100vw!important;max-width:100vw!important;height:var(--tle-ai-vv-height,100dvh)!important;min-height:0!important;border-radius:0!important;border:0!important;box-shadow:none!important}
       .tle-ai-head{padding-top:max(15px,env(safe-area-inset-top));flex-shrink:0}
@@ -73,7 +74,8 @@
   const form=document.createElement("form");form.className="tle-ai-form";const field=document.createElement("textarea");field.placeholder=copy.placeholder;field.rows=1;field.maxLength=350;field.required=true;field.setAttribute("aria-label",copy.placeholder);
   const send=document.createElement("button");send.type="submit";send.textContent=copy.send;form.append(field,send);
   const review=document.createElement("button");review.type="button";review.textContent=copy.review;review.className="tle-ai-review";review.hidden=true;
-  foot.append(note,form,review);panel.append(head,log,foot);
+  const reviewTip=document.createElement("p");reviewTip.className="tle-ai-review-tip";reviewTip.textContent=copy.nextStep;reviewTip.hidden=true;
+  foot.append(note,form,reviewTip,review);panel.append(head,log,foot);
   document.body.append(panel,launch);
   let busy=false;
   const dialogue=[];
@@ -123,6 +125,7 @@
         if(data.booking&&typeof data.booking==="object"&&!Array.isArray(data.booking)){
           for(const [key,val] of Object.entries(data.booking)){if((typeof val==="string"&&val.trim())||(typeof val==="number"&&Number.isFinite(val)))bookingDraft[key]=val;}
           review.hidden=!bookingDraft.service;
+          reviewTip.hidden=review.hidden;
         }
       }
       else if(res.status===429){send.disabled=true;field.disabled=true;}
