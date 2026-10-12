@@ -10,18 +10,18 @@
   const services = (qs.get("services") || "Residential standard cleaning, deep cleaning, move-in/out cleaning").slice(0,180);
   const threadId = (window.crypto?.randomUUID ? window.crypto.randomUUID() : "9cf5037c-8b38-42a9-9565-2b8f532ac017");
   const copy = es ? {
-    title:"Asistente de reservas con IA",subtitle:"Demostración · No realiza reservas reales",
+    title:"Asistente de reservas con IA",subtitle:"Demostración opcional · Servicio aparte",
     intro:"¡Hola! 👋 Te ayudaré paso a paso. Primero, ¿la limpieza es para una casa o un negocio?",
     placeholder:"Escribe tu pregunta…",button:"Preguntar a la IA",send:"Enviar",close:"Cerrar chat",
-    note:"No se cobrará ningún pago.",
+    note:"Solo demostración: usa datos de contacto ficticios. No se cobrará ningún pago. El asistente de IA es un servicio aparte.",
     error:"Ahora mismo no puedo responder. Por favor, inténtalo más tarde.",
     limit:"El chat no está disponible por ahora. Inténtalo más tarde.",
     opening:"Abrir asistente de IA", review:"Revisar mi solicitud →",nextStep:"Siguiente: revisa lo que completé, añade los datos que falten y termina la solicitud de prueba."
   } : {
-    title:"AI Booking Assistant",subtitle:"Live AI demo · No real bookings",
+    title:"AI Booking Assistant",subtitle:"Optional AI demo · Separate service",
     intro:"Hi! 👋 I’ll guide you step by step. First, is the cleaning for a home or a business?",
     placeholder:"Ask a question…",button:"Ask AI",send:"Send",close:"Close chat",
-    note:"No payment will be collected.",
+    note:"Demo only: use example contact details. No payment will be collected. AI Assistant is a separate service.",
     error:"I can't respond right now. Please try again later.",
     limit:"Chat isn't available right now. Please try again later.",
     opening:"Open AI Booking Assistant", review:"Review my request →",nextStep:"Next: review what I filled in, complete any missing fields, then finish the demo request."
@@ -80,6 +80,7 @@
   let busy=false;
   const dialogue=[];
   let bookingDraft={};
+  let handoffShown=false;
   review.addEventListener("click",()=>{const success=window.tleAIBookingPrefill?.(bookingDraft);if(success)toggle(false);else append(copy.error,"bot");});
   function append(text,who){const div=document.createElement("div");div.className="tle-ai-msg "+who;div.textContent=text;log.appendChild(div);log.scrollTop=log.scrollHeight;return div;}
   append(copy.intro,"bot");
@@ -118,12 +119,17 @@
       const reply=res.ok&&typeof data.reply==="string"?data.reply:res.status===429?copy.limit:copy.error;
       wait.textContent=reply;
       if(res.ok&&typeof data.reply==="string"){
+        if(data.ready_for_review===true&&handoffShown){
+          wait.textContent=es?"Tu solicitud sigue lista para revisar. Toca «Revisar mi solicitud» para completar lo que falte.":"Your request is ready for review. Tap “Review my request” to complete anything missing.";
+        }
         dialogue.push({role:"Visitor",message:message.slice(0,230)},{role:"Assistant",message:data.reply.slice(0,230)});
         if(dialogue.length>16)dialogue.splice(0,dialogue.length-16);
         if(data.booking&&typeof data.booking==="object"&&!Array.isArray(data.booking)){
           for(const [key,val] of Object.entries(data.booking)){if((typeof val==="string"&&val.trim())||(typeof val==="number"&&Number.isFinite(val)))bookingDraft[key]=val;}
-          review.hidden=!bookingDraft.service;
+          const canReview=data.ready_for_review===true||handoffShown;
+          review.hidden=!bookingDraft.service||!canReview;
           reviewTip.hidden=review.hidden;
+          if(data.ready_for_review===true)handoffShown=true;
         }
       }
       else if(res.status===429){send.disabled=true;field.disabled=true;}
