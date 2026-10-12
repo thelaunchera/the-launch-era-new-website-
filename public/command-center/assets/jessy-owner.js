@@ -3,7 +3,7 @@
 "use strict";
 if(window.__tleOwnerJessyInstalled)return;
 window.__tleOwnerJessyInstalled=true;
-const ASSET="/assets/jessy-avatar.webp",CSS="./assets/jessy-owner.css?v=20261012-read-actions-v1";
+const ASSET="/assets/jessy-avatar.webp",CSS="./assets/jessy-owner.css?v=20261012-allpages-v1";
 let root=null,log=null,form=null,input=null,send=null,quick=null,open=false,waiting=false,language="en",history=[],previousFocus=null;
 let notificationTimer=0;
 const copy={
@@ -27,9 +27,66 @@ function b(cls,txt){const node=el("button",cls,txt);node.type="button";return no
 function owner(){return window.TLEOwnerJessyGateway?.ready?.()===true}
 function lang(){const workspace=document.body.dataset.languageWorkspace;let saved;try{saved=localStorage.getItem("tle_crm_language_"+workspace)||localStorage.getItem("tle_crm_owner_language")||localStorage.getItem("tle_crm_language")}catch{}return saved==="es"?"es":"en"}
 function bubble(text,role){const item=el("div","jo-bubble "+role,text);log.appendChild(item);log.scrollTop=log.scrollHeight;return item}
-function shortcuts(){quick.replaceChildren();t("quick").forEach(([name,message])=>{const btn=b("jo-quick",name);btn.addEventListener("click",()=>message==="jessy-whatsapp-settings"?showWhatsAppSettings():ask(message));quick.appendChild(btn)})}
+function activeContext(){
+ const x=window.TLEOwnerJessyGateway?.context?.();
+ return x&&typeof x.section==="string"?x:{section:"owner-pages",label:"Command Center"};
+}
+const ownerViewNames={
+ "owner-pages":["Clients & Purchases","Clientes y compras"],
+ "pipeline":["Prospect Leads","Prospectos"],"leads":["Prospect Leads","Prospectos"],
+ "calendar":["Follow-ups","Seguimientos"],"clients":["Converted Prospects","Prospectos convertidos"],
+ "owner-calendar":["Client Calendar","Calendario de clientes"],
+ "inbox":["Website Inquiries","Consultas web"],"emails":["Outreach Emails","Correos"],
+ "settings":["Owner Settings","Configuración"],"owner-support":["Support","Soporte"],
+ "owner-help":["Help","Ayuda"],"owner-build":["Booking Page Setup","Preparar reservas"],
+ "owner-preview":["Booking Preview","Vista previa"],
+ "lead-insights":["Lead Insights","Análisis de prospectos"],
+ "buyer-preview":["Buyer Command Center Preview","Vista previa de Command Center"]
+};
+function contextLabel(){
+ const current=activeContext();
+ const found=ownerViewNames[current.section];
+ return found?found[language==="es"?1:0]:(current.label||"Command Center");
+}
+function contextPrompts(){
+ const es=language==="es",page=activeContext().section;
+ if(["owner-pages","owner-build"].includes(page))return es?
+ [["Entregas pendientes","¿Qué entregas de clientes necesitan revisión?"],["Revisar activaciones","¿Qué asistentes IA están en preparación?"]]:
+ [["Pending deliveries","Which client deliveries need review?"],["AI activations","Which AI Assistant orders need attention?"]];
+ if(["leads","pipeline","lead-insights","calendar"].includes(page))return es?
+ [["Mis seguimientos","¿Qué seguimientos de prospectos están pendientes?"],["Preparar correo","Prepara un borrador de seguimiento"]]:
+ [["Due follow-ups","Which prospect follow-ups are due?"],["Draft follow-up","Prepare a follow-up email draft"]];
+ if(page==="inbox")return es?[["Ver solicitudes","Abre mis consultas web"],["Marcar avisos","Marca todas las notificaciones como leídas"]]:[["Review inquiries","Open website inquiries"],["Mark alerts read","Mark all Command Center notifications as read"]];
+ if(page==="emails")return es?[["Historial","Abre mis correos"],["Crear borrador","Prepara un borrador de seguimiento"]]:[["Email history","Open my emails"],["Draft follow-up","Prepare a follow-up email draft"]];
+ if(page==="settings")return es?[["Avisos WhatsApp","jessy-whatsapp-settings"],["Notificaciones","Abre mis notificaciones"]]:[["WhatsApp alerts","jessy-whatsapp-settings"],["Notifications","Open my notifications"]];
+ if(page==="owner-calendar")return es?[["Abrir calendario","Abre mi calendario"],["Entregas","¿Qué entregas de clientes debo revisar?"]]:[["Calendar","Open my calendar"],["Deliveries","Which client deliveries need review?"]];
+ if(page==="owner-support")return es?[["Problema técnico","Tengo un error en el Command Center"],["Notificaciones","Abre mis notificaciones"]]:[["Technical issue","I have a Command Center error"],["Notifications","Open my notifications"]];
+ if(page==="buyer-preview")return es?[["Volver a mi centro","Abre mi Command Center"],["Ayuda con demo","¿Qué puedo probar en esta vista previa?"]]:[["My Command Center","Open my Command Center"],["Preview help","What can I test in this preview?"]];
+ return es?[["Marcar avisos leídos","Marca todas las notificaciones como leídas"],["Notificaciones","Abre mis notificaciones"]]:[["Mark alerts read","Mark all Command Center notifications as read"],["Notifications","Open my notifications"]];
+}
+function shortcuts(){
+ quick.replaceChildren();
+ const onStandalone=window.TLEOwnerJessyGateway?.standalone===true;
+ const base=contextPrompts();
+ const add=t("quick").filter(([title,message])=>!base.some(row=>row[1]===message) &&
+    (!onStandalone||!/draft|borrador|seguimiento/i.test(message))).slice(0,2);
+ const items=[...base,...add];
+ items.slice(0,4).forEach(([name,message])=>{
+  const btn=b("jo-quick",name);
+  btn.addEventListener("click",()=>message==="jessy-whatsapp-settings"?showWhatsAppSettings():ask(message));
+  quick.appendChild(btn);
+ });
+}
+function syncContext(){
+ if(!root||!owner())return;
+ const label=contextLabel();
+ root.dataset.currentSection=activeContext().section;
+ const small=root.querySelector(".jo-heading small");
+ if(small)small.textContent="Jessy · "+label;
+ shortcuts();
+}
 function hide(restoreFocus=true){if(!root)return;root.querySelector(".jo-panel").hidden=true;root.querySelector(".jo-fab").hidden=false;open=false;document.body.classList.remove("jo-open");if(restoreFocus&&previousFocus?.isConnected)previousFocus.focus()}
-function show(){if(!owner())return;const panel=root.querySelector(".jo-panel");previousFocus=document.activeElement;panel.hidden=false;root.querySelector(".jo-fab").hidden=true;open=true;if(!log.children.length)bubble(t("intro"),"bot");shortcuts();if(window.innerWidth>650)input.focus()}
+function show(){if(!owner())return;const panel=root.querySelector(".jo-panel");previousFocus=document.activeElement;panel.hidden=false;root.querySelector(".jo-fab").hidden=true;open=true;if(!log.children.length)bubble(t("intro")+" "+(language==="es"?"Estoy aquí en ":"I’m here in ")+contextLabel()+".","bot");syncContext();if(window.innerWidth>650)input.focus()}
 function build(){
  if(root||!owner())return;
  language=lang();
@@ -80,7 +137,8 @@ function onOwnerNotifications(event){
 function sync(){
  if(!owner()){if(root){clearTimeout(notificationTimer);root.remove();root=null;history=[];open=false;log=null;input=null;quick=null}return}
  if(!root)build();
- const next=lang();if(next!==language){language=next;if(root){root.querySelector(".jo-fab span").textContent=t("open");root.querySelector(".jo-heading small").textContent=t("subtitle");root.querySelector(".jo-close").setAttribute("aria-label",t("close"));input.placeholder=t("placeholder");send.textContent=t("send");root.querySelector(".jo-note").textContent=t("note");shortcuts()}}
+ syncContext();
+ const next=lang();if(next!==language){language=next;if(root){root.querySelector(".jo-fab span").textContent=t("open");root.querySelector(".jo-heading small").textContent=t("subtitle");root.querySelector(".jo-close").setAttribute("aria-label",t("close"));input.placeholder=t("placeholder");send.textContent=t("send");root.querySelector(".jo-note").textContent=t("note");syncContext()}}
 }
 
 
@@ -271,6 +329,7 @@ function start(){
  document.addEventListener("tle-crm-language",sync);
  window.addEventListener("tle-crm-ready",sync);
  window.addEventListener("tle-crm-owner-notifications",onOwnerNotifications);
+ window.addEventListener("tle-owner-section-change",syncContext);
  window.addEventListener("pageshow",sync);
  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&open)hide()});
  sync();
