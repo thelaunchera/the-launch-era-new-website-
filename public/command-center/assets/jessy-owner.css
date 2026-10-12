@@ -54,3 +54,11 @@
 .jo-wa-consent{padding:10px 0 0;border-top:1px solid #c4dce9}
 .jo-wa-status{font-size:12px;line-height:1.5;color:#34596b;margin:1px 0 2px;overflow-wrap:anywhere}
 @media(max-width:600px){.jo-wa-settings{padding:12px}.jo-wa-option,.jo-wa-consent{font-size:13px}}
+
+/* Keep the same owner-only assistant above every CRM view, even isolated sections. */
+body.crm-owner-view #tleOwnerJessy{position:fixed;right:0;bottom:0;width:0;height:0;z-index:13010;pointer-events:none}
+body.crm-owner-view #tleOwnerJessy .jo-fab,
+body.crm-owner-view #tleOwnerJessy .jo-panel,
+body.crm-owner-view #tleOwnerJessy .jo-notification-nudge{pointer-events:auto}
+body.crm-owner-view #tleOwnerJessy .jo-heading small{max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(max-width:600px){body.crm-owner-view #tleOwnerJessy .jo-heading small{max-width:170px}}
