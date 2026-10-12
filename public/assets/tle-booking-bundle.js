@@ -47,8 +47,8 @@ function render(){
  const key=selected(),plan=prices[key],v=expected(key),total=v.bookCents+v.aiCents;
  root.querySelector("#tleAddonRow").hidden=!key;
  root.querySelector("#tleAddonName").textContent=plans.find(p=>p[0]===key)?.[1]||"";
- root.querySelector("#tleBookingPrice").textContent=money(v.bookCents/100);
- root.querySelector("#tleAddonPrice").textContent=money(v.aiCents/100);
+ root.querySelector("#tleBookingPrice").textContent=money(19.99);
+ root.querySelector("#tleAddonPrice").textContent=money(plan.setup);
  root.querySelector("#tleTotal").textContent=money(total/100);
  const discount=v.original-total;
  root.querySelector("#tleDiscountRow").hidden=!key||!discount;
