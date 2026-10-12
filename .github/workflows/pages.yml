@@ -76,7 +76,7 @@ jobs:
               cp .output/public/index.html ".output/public/$route/index.html"
             fi
           done
-          cp .output/public/index.html .output/public/404.html
+          test -s .output/public/404.html # keep the intentional, helpful 404 page
 
       - name: Preserve custom domain
         run: |
