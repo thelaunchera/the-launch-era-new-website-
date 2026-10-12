@@ -615,7 +615,9 @@ for(const v of [{name:"phone",width:390,height:844},{name:"tablet",width:820,hei
    const response=await page.goto(base+"/booking/return/?key="+returnKey,{waitUntil:"domcontentloaded"});
    assert.equal(response?.status(),200);
    await page.locator("#email").fill("example@example.invalid");
-   await page.locator("#sendAccess").click();
+   const enabled=await page.evaluate(()=>({href:location.href,key:new URLSearchParams(location.search).get('key'),buttonDisabled:document.getElementById('sendAccess').disabled,error:document.getElementById('entryError').textContent}));
+   assert.equal(enabled.buttonDisabled,false,'Returning access button must be enabled: '+JSON.stringify(enabled));
+   await page.locator("#sendAccess").click({timeout:4000});
    await page.waitForFunction(()=>!document.querySelector("#sent").hidden);
    assert.equal(accessCount,1);
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3),true);
