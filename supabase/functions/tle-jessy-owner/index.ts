@@ -243,8 +243,8 @@ async function projectReadiness(lang){
    }
    const record=kickoffs.find(k=>k.subject_type===config.kind&&k.subject_id===a.id);
    const started=!!record||(config.kind==="booking"?!!a.build_started_at:a.status==="in_setup");
-   if(record?.email_status==="needs_review")missing.push(txt("Kickoff email: provider verification needed","Correo de inicio: verificar entrega con proveedor"));
-   projects.push({kind:config.kind,id:a.id,name:String(a.business_name||"Project").slice(0,75),status:delivered?"delivered":missing.length?"needs_info":started?"production":"owner_review",missing,service:config.kind==="booking"?"Booking Automation":"AI Assistant"});
+   const emailIssue=record?.email_status==="needs_review";
+   projects.push({kind:config.kind,id:a.id,name:String(a.business_name||"Project").slice(0,75),status:delivered?"delivered":missing.length?"needs_info":started?"production":"owner_review",missing,email_issue:emailIssue,service:config.kind==="booking"?"Booking Automation":"AI Assistant"});
   }
  }
  const pending=projects.filter(x=>x.status==="needs_info").length,review=projects.filter(x=>x.status==="owner_review").length;
