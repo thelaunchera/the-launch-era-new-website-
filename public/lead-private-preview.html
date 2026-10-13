@@ -488,6 +488,14 @@ if(isSampleDemo){
   document.querySelectorAll('.demo-showcase-benefits strong').forEach((e,i)=>{e.textContent=['Servicios claros','Solicitudes sencillas','Todo en un lugar'][i]});
   document.querySelectorAll('.demo-showcase-benefits small').forEach((e,i)=>{e.textContent=['Conoce qué incluye cada servicio.','Solo unos pasos.','Descubre qué sucede después.'][i]});
   text('.demo-quote-header h3','Cuéntanos sobre tu hogar.');text('.demo-quote-header p','Solo algunos datos para preparar tu estimado o cotización. Esta prueba no cobra ni reserva nada.');
+  text('.demo-quote-header>span','LIMPIEZA RESIDENCIAL');
+  if(!customArea){text('#demoHeroArea','Servicios de limpieza en tu área');text('#demoQuoteArea','Zona de servicio local');}
+  text('#tleSuccessPreview','VISTA DEMO · Ejemplo de confirmación. No se envió ninguna reserva ni correo.');
+  text('.demo-success-summary-head small','TU SOLICITUD');
+  const summaryLabels=document.querySelectorAll('#demoSuccessSummary .demo-success-info>span');
+  ['Fecha preferida','Hora preferida','Área de servicio'].forEach((label,i)=>{if(summaryLabels[i]){const node=[...summaryLabels[i].childNodes].find(n=>n.nodeType===3);if(node)node.nodeValue=label+' ';}});
+  text('#trackerLink','Abrir Demo Command Center');
+  text('#done .success .back','Probar otro servicio');
   text('.demo-showcase-photo-badge','✧ DETALLES CLAROS / RESERVAS FÁCILES');
   text('.demo-quote-header>span','LIMPIEZA RESIDENCIAL');
   text('.demo-success-summary-head small','TU SOLICITUD');
