@@ -155,3 +155,11 @@ Main website root EN/ES declares /favicon.png (512x512), /favicon.ico and /apple
 - Jessie on the private AI Team screen recognizes explicit Spanish/English check commands and calls the same authenticated gateway. Other Jessie screens continue existing action scope; no arbitrary execution through a chat prompt.
 - Nothing in this feature sends email, messages, invoices, customer updates, checkout requests or GitHub commits. Do not call a report a completed client task. Existing owner approval and completion with evidence are separate actions.
 - Before marking released: `node scripts/qa-ai-team.mjs`, GitHub `Private AI Team QA`, Pages deploy + route guard, owner session / buyer session browser acceptance, mobile/tablet/desktop check. Keep live authentication end-to-end pending if not exercised.
+
+
+## 2026-10-13 — Owner AI Team unattended monitoring and work products
+- Independent Supabase pg_cron job: `tle-owner-ai-team-morning-review` runs hourly but its procedure only executes at **08:00 America/New_York** (DST-safe), producing idempotent internal daily reports in `tle_ai_team_runs`; manual forced checks used only for QA.
+- Three owner-task triggers are installed only on `tle_crm_support_requests`, `tle_booking_flow_accounts` and `tle_ai_agent_orders`. Their SECURITY DEFINER handler creates owner-scoped `tle_ai_team_tasks` only, never modifies buyer/client rows, sends mail or launches production. Deduplication keys: `support:<uuid>`, `paid-intake:<uuid>`, `intake-review:<uuid>`, `assistant-order:<uuid>`. Daily keys include Eastern date.
+- `tle_ai_team_outputs` holds generated owner-reviewed drafts. Backend `compose_output` uses limited task context and available aggregate source facts; `review_output` changes internal review status only. Explicit no-send, no-publish, no-merge restriction. Do not treat an approved draft as deployed or sent.
+- Board displays draft contents using textContent; approval/rejection and copy in private owner view. Keep manual owner verification for external communications, code releases, Metricool changes and customer operations.
+- Run `node scripts/qa-ai-team.mjs` and `node scripts/qa-jessy-owner.mjs`, plus browser mobile/tablet/desktop checks. Confirm no unapproved outbound sends, no cross-tenant access and no duplicate trigger tasks.
