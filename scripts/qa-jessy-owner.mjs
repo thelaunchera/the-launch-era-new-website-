@@ -171,6 +171,12 @@ assert.match(ui,/owner-jump:owner-pages/);
 assert.match(ui,/if\(window\.TLEOwnerJessyGateway\?\.standalone\)/);
 assert.match(css,/body\.crm-owner-view #tleOwnerJessy/);
 assert.match(fn,/validOwnerContext/);
+assert.match(fn,/async function projectReadiness/);
+assert.match(fn,/client_readiness_review/);
+assert.match(fn,/read_only:true/);
+assert.match(ui,/function showProjectReadiness/);
+assert.match(ui,/result\.read_only===true/);
+
 assert.match(fn,/SAMPLE DATA/);
 assert.match(standalone,/export async function mountOwnerJessy/);
 assert.match(standalone,/await db\.auth\.getUser\(\)/);
