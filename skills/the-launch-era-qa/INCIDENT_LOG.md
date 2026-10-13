@@ -169,3 +169,11 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 
 
 | 2026-10-13 | AI Team duplicate history paint and incomplete draft audit trail | `refresh()` rendered historical runs twice; `compose_output` and `review_output` saved work without matching task-level audit entries, and approvals were not concurrency-guarded. | Removed repeated render. Added atomic `status=eq.draft` review updates; private audit events for generated/approved/rejected work; explicit Jessie create/draft intents gated to owner AI Team; origin labels; WebKit anonymous lock+viewport QA. No external sends. | 🟡 Static and deployment QA required; owner session E2E pending |
+
+
+## 2026-10-13 — Jessie AI Team draft blocked by missing API configuration
+- **Reported:** Owner screenshot shows asking Jessie "prepara un borrador de email para mis leads" returned `AI content service is not configured`.
+- **Verified root cause:** `tle-ai-team` `compose_output` returned HTTP 503 immediately when its `OPENAI_API_KEY` environment variable was absent. The owner's `tle-jessy-owner` chat has non-model responses, so the working chat bubble did not verify a functioning AI drafting provider.
+- **Owner action:** Added the OpenAI key to the Supabase project's Edge Function secrets (never shared in chat).
+- **Fix:** `provider_check` authenticates the platform owner before testing a minimal OpenAI completion and returns only sanitized connection status. `compose_output` now uses OpenAI when available and produces explicitly labeled fixed templates if missing, invalid or temporarily unavailable, with `generation_mode='ai'|'template'` on private outputs and truthful Jessie/UI copy. `plan` has a similarly labeled fallback. No email, client data writes, publishing or deploys occur from these actions.
+- **Verification scope:** Local/CI source guards and Edge Function deployment; only an actual signed-in owner can run the provider test. **Never claim an OpenAI completion succeeded based only on a detected key or deployed function.**

@@ -9,6 +9,7 @@ on:
       - 'scripts/qa-ai-team.mjs'
       - 'scripts/qa-ai-team-commands.mjs'
       - 'scripts/qa-ai-team-gateway.mjs'
+      - 'scripts/qa-ai-team-ai-provider.mjs'
       - 'scripts/qa-jessy-owner.mjs'
       - '.github/workflows/ai-team-qa.yml'
   workflow_dispatch:
@@ -28,6 +29,7 @@ jobs:
           node scripts/qa-ai-team.mjs
           node scripts/qa-ai-team-commands.mjs
           node scripts/qa-ai-team-gateway.mjs
+          node scripts/qa-ai-team-ai-provider.mjs
       - name: Verify universal owner Jessie access contract
         run: node scripts/qa-jessy-owner.mjs
       - name: Verify public route and asset integrity
