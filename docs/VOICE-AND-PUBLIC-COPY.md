@@ -29,6 +29,8 @@ Keep honest, plain-language notices where needed: demo data is an example; a dem
 ## Consistency / quality
 - Keep English and Spanish pages equivalent, including offer, timing, FAQ, forms, review allowances, and error states.
 - Never change pricing, discounts, cutoffs, access permissions, auto-confirm behavior, or delivery commitments during a copy-only revision.
+- Payment boundary: **The Launch Era sells its own digital services through Stripe**. Customer payment options *recorded inside Cleaning App* are **Cash, Zelle, and Check**; never imply the Cleaning App charges cleaning customers via Stripe.
+- Intake receipt is not a production kickoff. Only an owner-reviewed approval triggers the separate production-start email and estimated 48-hour production window. No duplicate kickoff messages.
 - Be careful with the word “automatic”: say exactly **what** is automatic and under which conditions; do not imply a quote is a confirmed booking.
 - Only claim work is live/finished after the relevant real checks pass. Illustrative panels must not imply employees or messages are active.
 - Avoid generic promises such as “transform your business,” “supercharge growth,” or “revolutionize your workflow.”
