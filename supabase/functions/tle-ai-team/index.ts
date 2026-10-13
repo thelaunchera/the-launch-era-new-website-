@@ -302,7 +302,7 @@ Deno.serve(async req=>{
    try{
      const response=await fetch(providerUrl,{
        method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+OPENAI},
-       body:JSON.stringify({model,temperature:0,max_tokens:10,messages:[{role:"user",content:"Reply with OK only."}]}),
+       body:JSON.stringify({model,temperature:0.1,max_tokens:10,messages:[{role:"user",content:"Reply with OK only."}]}),
        signal:AbortSignal.timeout(12000)
      });
      if(!response.ok){
