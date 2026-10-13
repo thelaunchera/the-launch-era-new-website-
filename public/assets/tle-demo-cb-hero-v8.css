@@ -3,6 +3,7 @@
  * The hero uses a real in-repo cleaning-professional photograph. Never writes data.
  * No scroll libraries, no client API calls, no layout shifts, reduced-motion safe.
  */
+html:not(.demo-editorial) #leadHero .demo-cb-hero-media{display:none!important}
 html.demo-editorial #leadHero.hero {
   isolation:isolate;
   display:block!important;
