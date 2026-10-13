@@ -1,0 +1,104 @@
+/* TLE public prospect demo v10: approved real cleaning photo.
+ * Affects sample mode ONLY; no booking, quote, owner preview, client or tenant logic changed.
+ * Source photo supplied by The Launch Era; width 760px AVIF for lightweight demo delivery.
+ */
+html.demo-editorial #demoCinematicStory {
+  grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr)!important;
+  min-height:clamp(425px,43vw,535px)!important;
+  background:#191919!important;
+  border:1px solid rgba(27,51,65,.14)!important;
+  box-shadow:0 18px 45px rgba(22,46,59,.15)!important;
+}
+html.demo-editorial #demoCinematicStory .demo-cinematic-photo {
+  min-height:420px!important;
+  background:#E6EEF1 url("/assets/cleaning-demo/approved-home-cleaner.avif") 78% 50%/cover no-repeat!important;
+  isolation:isolate;
+  overflow:hidden!important;
+}
+html.demo-editorial #demoCinematicStory .demo-cinematic-photo::before {
+  content:"";
+  position:absolute;
+  inset:-12px;
+  z-index:0!important;
+  display:block!important;
+  background-image:url("/assets/cleaning-demo/approved-home-cleaner.avif")!important;
+  background-repeat:no-repeat!important;
+  background-position:78% center!important;
+  background-size:cover!important;
+  transform:translate3d(0,var(--cinematic-shift,0px),0) scale(1.035);
+  transition:transform .4s ease-out;
+  will-change:transform;
+}
+html.demo-editorial #demoCinematicStory .demo-cinematic-photo::after {
+  z-index:1!important;
+  background:linear-gradient(0deg,rgba(17,26,32,.23),transparent 47%)!important;
+  pointer-events:none!important;
+}
+html.demo-editorial #demoCinematicStory .demo-cinematic-copy {
+  justify-content:center!important;
+  padding:clamp(29px,3.8vw,52px)!important;
+  background:linear-gradient(146deg,#202629 0%,#191919 68%,#20272B 100%)!important;
+  border-left:1px solid rgba(255,255,255,.08);
+}
+html.demo-editorial #demoCinematicStory .demo-cinematic-copy h2 {
+  font-size:clamp(32px,3.3vw,50px)!important;
+  line-height:1.14!important;
+  letter-spacing:-.042em!important;
+  text-wrap:balance;
+}
+html.demo-editorial #demoCinematicStory .demo-cinematic-overline {
+  color:#BEDFF0!important;
+}
+html.demo-editorial #demoCinematicStory .demo-cinematic-highlights {
+  gap:12px!important;
+  border-top:1px solid rgba(255,255,255,.16)!important;
+}
+html.demo-editorial #demoCinematicStory .demo-cinematic-icon {
+  background:#2F414A!important;
+}
+@media (max-width:980px) {
+  html.demo-editorial #demoCinematicStory {
+    grid-template-columns:minmax(0,1fr)!important;
+    min-height:0!important;
+  }
+  html.demo-editorial #demoCinematicStory .demo-cinematic-photo {
+    min-height:clamp(320px,45vw,410px)!important;
+    background-position:78% 49%!important;
+  }
+  html.demo-editorial #demoCinematicStory .demo-cinematic-photo::before {
+    background-position:78% 49%!important;
+  }
+  html.demo-editorial #demoCinematicStory .demo-cinematic-copy {
+    padding:clamp(26px,4vw,38px)!important;
+    border-left:0;
+    border-top:1px solid rgba(255,255,255,.08);
+  }
+}
+@media (max-width:650px) {
+  html.demo-editorial #demoCinematicStory {
+    border-radius:22px!important;
+    margin-top:17px!important;
+  }
+  html.demo-editorial #demoCinematicStory .demo-cinematic-photo {
+    min-height:clamp(245px,70vw,330px)!important;
+    background-position:77% 46%!important;
+  }
+  html.demo-editorial #demoCinematicStory .demo-cinematic-photo::before {
+    background-position:77% 46%!important;
+  }
+  html.demo-editorial #demoCinematicStory .demo-cinematic-copy {
+    padding:26px 22px 30px!important;
+  }
+  html.demo-editorial #demoCinematicStory .demo-cinematic-copy h2 {
+    font-size:clamp(31px,7.8vw,39px)!important;
+    line-height:1.14!important;
+  }
+  html.demo-editorial #demoCinematicStory .demo-cinematic-highlight strong {
+    font-size:14px!important;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  html.demo-editorial #demoCinematicStory .demo-cinematic-photo::before {
+    transform:none!important;transition:none!important;will-change:auto!important;
+  }
+}
