@@ -102,3 +102,28 @@ html.demo-editorial #demoCinematicStory .demo-cinematic-icon {
     transform:none!important;transition:none!important;will-change:auto!important;
   }
 }
+
+
+/* v10.2: on narrow screens the older hero crop placed the cleaner entirely
+ * outside the viewport, leaving a blank white wall in front of prospects.
+ * Keep the actual cleaner in frame while the ivory text protection remains.
+ */
+@media (max-width:800px) {
+  html.demo-editorial #leadHero .demo-cb-hero-media img {
+    object-position:26% 24%!important;
+    transform-origin:26% 28%!important;
+  }
+  html.demo-editorial #leadHero.hero::after {
+    background:linear-gradient(0deg,
+      rgba(250,248,243,1) 0%,
+      rgba(250,248,243,.98) 26%,
+      rgba(250,248,243,.88) 43%,
+      rgba(250,248,243,.27) 67%,
+      rgba(250,248,243,.02) 94%)!important;
+  }
+}
+@media(max-width:400px) {
+  html.demo-editorial #leadHero .demo-cb-hero-media img {
+    object-position:25% 24%!important;
+  }
+}
