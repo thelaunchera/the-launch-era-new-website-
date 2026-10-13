@@ -1008,6 +1008,12 @@ async function loadOwnerAiDeliveries(){
    const title=document.createElement('h3');title.textContent=order.business_name||order.customer_email||'AI order';title.style.cssText='font-size:16px;margin:0 0 8px;overflow-wrap:anywhere';item.append(title);
    item.append(aiDeliveryText((names[order.offer]||order.offer||'AI')+' · '+(order.customer_email||''),'font-size:12px;color:#657987;overflow-wrap:anywhere;margin:0 0 10px'));
    const marker=aiDeliveryText(order.status||'pending','font-size:11px;font-weight:800;color:#356b89;background:#eaf4fc;border-radius:999px;display:inline-block;padding:5px 9px');item.append(marker);
+   if(order.id&&workspace?.is_internal){
+    try{
+     const startState=await ownerProjectKickoff('status','ai',order.id);
+     productionStartControls(item,'ai',order.id,startState,es,()=>loadOwnerAiDeliveries());
+    }catch(e){productionStartControls(item,'ai',order.id,null,es);}
+   }
    if(order.status==='active'){
     item.append(aiDeliveryText((es?'Entregado: ':'Delivered: ')+(order.delivered_at?new Date(order.delivered_at).toLocaleDateString(es?'es-US':'en-US'):'—'),'font-size:12px;margin-top:10px'));
     item.append(aiDeliveryText((es?'Primera mensualidad: ':'First monthly bill: ')+(order.first_month_ends_at?new Date(order.first_month_ends_at).toLocaleDateString(es?'es-US':'en-US'):'—'),'font-size:12px;font-weight:700;margin-top:6px'));
@@ -1333,6 +1339,49 @@ window.addEventListener('message',async event=>{
  }catch(error){respond({ok:false,error:error.message||'Lead QA failed'})}
  finally{previewLeadTestInProgress=false}
 });
+const projectKickoffEndpoint='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-project-production-start';
+let builderKickoffState=null;
+async function ownerProjectKickoff(action,subject_type,subject_id,confirm=false){
+ if(!workspace?.is_internal)throw Error('The Launch Era owner account is required');
+ const {data:{session},error}=await db.auth.getSession();
+ if(error||!session?.access_token)throw Error('Sign in again to review production');
+ const res=await fetch(projectKickoffEndpoint,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+session.access_token,'apikey':aiPublishableKey},
+  body:JSON.stringify({action,subject_type,subject_id,confirm})});
+ const result=await res.json().catch(()=>({}));
+ if(!res.ok)throw Error(result.error||'Could not verify production status');
+ return result;
+}
+function productionStartControls(host,kind,id,state,es,refresh){
+ const wrap=document.createElement('div');
+ wrap.style.cssText='grid-column:1/-1;display:grid;gap:8px;margin-top:10px;padding:14px 16px;border:1px solid #cde2f0;border-radius:15px;background:#f1f8fc;min-width:0';
+ const heading=document.createElement('strong');heading.textContent=es?'Inicio de producción':'Production start';heading.style.cssText='font-size:13px;color:#191919';wrap.append(heading);
+ const line=aiDeliveryText('', 'font-size:12px;line-height:1.5;color:#456071;overflow-wrap:anywhere');line.setAttribute('role','status');wrap.append(line);
+ if(!state){line.textContent=es?'Estado no verificado: no se puede iniciar.':'Status could not be verified; cannot start.';host.append(wrap);return}
+ if(state.already_started){
+  line.textContent=es?'Producción aprobada anteriormente. Correo: ':'Production was previously approved. Email: ';
+  line.textContent+=state.email_status==='provider_accepted'?(es?'aceptado por el proveedor.':'accepted by email provider.'):state.email_status==='needs_review'?(es?'requiere revisión antes de cualquier reenvío.':'needs review before any resend.'):(es?'estado pendiente de verificación.':'pending verification.');
+  host.append(wrap);return;
+ }
+ if(!state.ready){line.textContent=es?'Revisa que el pago e intake estén completos y que el proyecto no se haya entregado.':'Check payment, intake and delivery status before starting.';host.append(wrap);return}
+ line.textContent=es?'Primero revisa los datos. Solo al aprobar se inicia el plazo estimado de 48 horas y sale el correo al cliente.':'Review the intake first. Approval starts the estimated 48-hour production period and triggers the buyer email.';
+ const button=document.createElement('button');button.type='button';button.className='secondary';button.style.cssText='width:100%;white-space:normal;min-height:42px';button.textContent=es?'Aprobar inicio de producción':'Approve production start';wrap.append(button);
+ button.onclick=async()=>{
+  if(button.dataset.confirm!=='yes'){
+   button.dataset.confirm='yes';button.textContent=es?'Confirmar inicio y enviar correo':'Confirm start and email buyer';
+   line.textContent=es?'El próximo toque registra el inicio y solicita UN correo real.':'Next click records the start and requests ONE real email.';
+   return;
+  }
+  button.disabled=true;line.textContent=es?'Registrando inicio…':'Recording project kickoff…';
+  try{
+   const result=await ownerProjectKickoff('approve',kind,id,true);
+   line.textContent=result.email_status==='provider_accepted'?(es?'✓ Inicio aprobado y correo aceptado por el proveedor.':'✓ Production approved; email accepted by the provider.'):
+    (es?'Inicio guardado. Verifica el estado del correo antes de intentar reenviar.':'Start saved; verify email status before any resend.');
+   button.remove();
+   if(typeof refresh==='function')await refresh();
+  }catch(error){line.textContent=(es?'No se pudo iniciar: ':'Could not start: ')+(error.message||String(error));button.disabled=false;button.dataset.confirm='';button.textContent=es?'Aprobar inicio de producción':'Approve production start';}
+ };
+ host.append(wrap);
+}
 async function ownerStudioCall(action,extra={}){
  if(!workspace?.is_internal||!ownerReviewAccount?.id)throw Error('Select a paid buyer order first');
  const {data:{session},error:e}=await db.auth.getSession();
@@ -1481,6 +1530,11 @@ function buildRenderStatus(){
   const cell=ownerPageElem('div',undefined,'background:'+(done?'#e9f7f2':'#fff')+';border:1px solid #e2e9ed;padding:12px 15px;border-radius:15px;min-width:0');
   cell.append(ownerPageElem('strong',(done?'✓ ':'○ ')+label,'font-size:12px'));panel.append(cell);
  }
+ let kickoffHost=document.getElementById('buildProductionKickoffPanel');
+ if(!kickoffHost){kickoffHost=document.createElement('div');kickoffHost.id='buildProductionKickoffPanel';panel.insertAdjacentElement('afterend',kickoffHost)}
+ kickoffHost.replaceChildren();
+ if(workspace?.is_internal&&ownerReviewAccount?.id)
+  productionStartControls(kickoffHost,'booking',ownerReviewAccount.id,builderKickoffState,buyerPageLabel(),()=>loadOwnerBuilder());
  const prepared=order.status==='active'&&!!order.has_booking_link;
  $('buildPrepare').disabled=!reviewed||!order.intake_received||prepared;
  $('buildPrepare').textContent=prepared?buildLabel('✓ System prepared','✓ Sistema preparado'):buildLabel('Prepare system','Preparar sistema');
@@ -1544,6 +1598,8 @@ async function loadOwnerBuilder(){
  try{
   const ownerId=workspace.id,orderId=ownerReviewAccount.id;
   const data=await ownerStudioCall('get');
+  builderKickoffState=null;
+  try{builderKickoffState=await ownerProjectKickoff('status','booking',orderId)}catch(e){console.warn('Kickoff status unavailable')}
   if(!workspace?.is_internal||workspace.id!==ownerId||ownerReviewAccount?.id!==orderId)return;
   builderState=data;
   const order=data.order;ownerReviewAccount={...ownerReviewAccount,business_name:order.business_name,intake_done:order.intake_received};
