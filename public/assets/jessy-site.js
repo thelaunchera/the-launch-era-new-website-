@@ -61,7 +61,7 @@ function routeFor(href){
 function makeImage(){const x=node("img","tle-jessy-avatar");x.src=avatarPath;x.alt="Jessy · AI Assistant";x.loading="lazy";x.width=53;x.height=53;return x}
 const style=node("link");style.rel="stylesheet";style.href="/assets/jessy-site.css?v=20261012-plans-3";document.head.appendChild(style);
 const root=node("div","tle-jessy-root");root.setAttribute("data-tle-jessy","true");
-const fab=button("tle-jessy-fab","",t("opening"));fab.append(makeImage(),node("span","", "Chat with Jessy"));fab.append(node("span","tle-jessy-status"));fab.setAttribute("aria-expanded","false");
+const fab=button("tle-jessy-fab","",t("opening"));const fabLabel=node("span","tle-jessy-fab-label",lang==="es"?"Habla con Jessy":"Chat with Jessy");fab.append(makeImage(),fabLabel);fab.append(node("span","tle-jessy-status"));fab.setAttribute("aria-expanded","false");
 const nudge=node("div","tle-jessy-nudge",pageText("nudge"));nudge.hidden=true;
 const backdrop=node("div","tle-jessy-backdrop");backdrop.hidden=true;
 const panel=node("section","tle-jessy-panel");panel.hidden=true;panel.setAttribute("role","dialog");panel.setAttribute("aria-modal","true");panel.setAttribute("aria-label","Jessy AI Assistant");
@@ -167,7 +167,7 @@ soundBtn.addEventListener("click",()=>{soundOn=!soundOn;soundBtn.textContent=sou
 function syncLanguage(){
  languageBtn.textContent=lang==="en"?"ES":"EN";status.textContent=t("status");
  nudge.textContent=pageText("nudge");
- fab.querySelector("span:not(.tle-jessy-status)").textContent=lang==="es"?"Habla con Jessy":"Chat with Jessy";
+ fabLabel.textContent=lang==="es"?"Habla con Jessy":"Chat with Jessy";
  fab.setAttribute("aria-label",t("opening"));closeBtn.setAttribute("aria-label",t("close"));
  input.placeholder=t("input");input.setAttribute("aria-label",t("input"));
  send.textContent=t("send");leadTrigger.textContent=t("lead");note.textContent=t("hint");
@@ -211,6 +211,28 @@ for(const name of ["pushState","replaceState"]){
 }
 syncLanguage();
 window.addEventListener("focus",()=>{if(open)reloadOffers()});
-setTimeout(()=>{if(!open){nudge.hidden=false;setTimeout(()=>{nudge.hidden=true},8000)}},2200);
+/* Welcome visibly on first entry; shrink the launcher when the visitor starts scrolling.
+ * The conversation never closes on scroll, and the avatar remains a full-size tap target. */
+let compact=false;
+function collapseJessyLauncher(){
+ if(compact)return;
+ compact=true;
+ root.classList.add("tle-jessy-compact");
+ nudge.hidden=true;
+ fab.setAttribute("title",lang==="es"?"Hablar con Jessy":"Chat with Jessy");
+ track("launcher_collapsed_on_scroll");
+}
+function updateJessyScroll(){
+ if(!compact&&window.scrollY>36)collapseJessyLauncher();
+}
+window.addEventListener("scroll",updateJessyScroll,{passive:true});
+updateJessyScroll();
+setTimeout(()=>{
+ if(!open&&!compact&&window.scrollY<=36){
+  nudge.textContent=pageText("nudge");
+  nudge.hidden=false;
+  setTimeout(()=>{nudge.hidden=true},6900);
+ }
+},1050);
 reloadOffers();track("loaded");
 })();
