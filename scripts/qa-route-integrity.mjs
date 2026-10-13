@@ -53,7 +53,7 @@ function staticChecks(){
   if(/Production hours:|Horario de producción:|After-hours submissions start|After-hours setups begin|Fuera del horario laboral, comenzamos|Fuera de horario, comenzamos/i.test(content))errors.push('Public intake still displays TLE office hours: '+file);
  }
  const sharedFooter=readFileSync(join(root,'src/components/site-shell.tsx'),'utf8');
- if(!sharedFooter.includes('footer-contact-link')||sharedFooter.includes('footer-hours'))errors.push('Website footer contact guidance or direct CTA regressed');
+ if(!sharedFooter.includes('footer-contact')||!sharedFooter.includes('footer-links')||!sharedFooter.includes("'/help'")||sharedFooter.includes('footer-hours')||sharedFooter.includes('Get in Touch')||sharedFooter.includes('Get in touch'))errors.push('Website footer must show anytime guidance and one accessible Contact destination, without duplicate Get in Touch');
  const publicFaq=readFileSync(join(root,'src/components/service-faq.tsx'),'utf8');
  if(/Mon–Fri 8:30 AM|Horario: lunes a viernes de 8:30 AM/.test(publicFaq))errors.push('General FAQ repeats the full TLE office timetable');
  console.log('[TLE STATIC] '+pages.length+' HTML pages; '+valid+'/'+checked+' local links resolved');
