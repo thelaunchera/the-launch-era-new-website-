@@ -22,6 +22,8 @@ jobs:
           node-version: '22'
       - name: Validate standalone AI Team and private entry
         run: node scripts/qa-ai-team.mjs
+      - name: Verify public route and asset integrity
+        run: node scripts/qa-route-integrity.mjs --static
       - name: Confirm anonymous calls cannot list owner tasks
         shell: bash
         run: |
