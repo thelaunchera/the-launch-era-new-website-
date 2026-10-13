@@ -97,9 +97,10 @@ for(const scope of ['?key=qa-invalid-key','?owner_preview=1']){
   const status=await page.evaluate(()=>({
    isPublic:document.documentElement.classList.contains('demo-editorial'),
    editorialShown:getComputedStyle(document.querySelector('#demoCinematicStory')).display!=='none',
-   sampleStylesActive:[...document.styleSheets].some(s=>s.href?.includes('tle-demo-booking-v7.css'))
+   sampleStylesActive:[...document.styleSheets].some(s=>s.href?.includes('tle-demo-booking-v7.css')),
+   heroDecorativeHidden:getComputedStyle(document.querySelector('#leadHero .demo-cb-hero-media')).display==='none'
   }));
-  assert(!status.isPublic&&!status.editorialShown,'Private preview unexpectedly shows sample story');
+  assert(!status.isPublic&&!status.editorialShown&&status.heroDecorativeHidden,'Private preview unexpectedly shows sample hero/story');
   console.log('PASS isolated',scope);
  }catch(e){errors.push('private '+scope+': '+e.message)}
  finally{await page.close()}
