@@ -455,6 +455,36 @@ if(isSampleDemo){
    startResidential('Deep Cleaning',190);
   }else showMain();
  }));
+
+ if(demoParams.get('lang')==='es'){
+  // Editorial text only; existing booking-form translation is handled by booking-template-language.js.
+  const text=(selector,value)=>{const el=document.querySelector(selector);if(el)el.textContent=value};
+  const html=(selector,value)=>{const el=document.querySelector(selector);if(el)el.innerHTML=value};
+  const firstText=(selector,value)=>{const el=document.querySelector(selector);if(el){const child=[...el.childNodes].find(n=>n.nodeType===3);if(child)child.nodeValue=value;else el.prepend(document.createTextNode(value));}};
+  text('.demo-top-label','VISTA INTERACTIVA · SOLO PRUEBAS — NO SE ENVÍAN NI CONFIRMAN RESERVAS');
+  document.querySelectorAll('.demo-navlinks a').forEach((el,i)=>{el.textContent=['Explorar','Servicios','Cómo funciona'][i]||el.textContent});
+  firstText('.demo-pill-action','Probar reservas ');
+  html('.demo-hero-tagline','Un hogar más limpio.<br><em>Días más felices.</em>');
+  text('.demo-hero-description','Un negocio de limpieza merece una manera más sencilla de recibir reservas. Descubre cómo podría funcionar tu propia página.');
+  firstText('.demo-hero-cta','Probar la página ');
+  text('.demo-hero-footnote','Vista interactiva · Personalizada para tu negocio');
+  text('.demo-vertical-note','ESPACIOS LIMPIOS / DÍAS FELICES ✦');
+  document.querySelectorAll('.demo-feature-bar>div>span:last-child').forEach((el,i)=>{el.textContent=['Una primera impresión memorable','Servicios fáciles de elegir','Solicitudes organizadas'][i]||el.textContent});
+  text('.demo-pink-kicker','LA EXPERIENCIA DE LIMPIEZA');
+  html('.demo-showcase-intro h2','Espacios impecables.<br><em>Clientes felices.</em>');
+  text('.demo-showcase-intro p','Todo resulta más fácil cuando tus clientes saben cuál es el próximo paso. Eligen su servicio, completan los detalles y revisan la solicitud.');
+  firstText('.demo-showcase-intro>a','Explorar la demo ');
+  document.querySelectorAll('.demo-showcase-card .demo-showcase-label strong').forEach((el,i)=>{el.textContent=['Limpieza residencial','Limpieza profunda','Espacios comerciales'][i]||el.textContent});
+  document.querySelectorAll('.demo-showcase-card .demo-showcase-label small').forEach((el,i)=>{el.textContent=['Cada visita, más sencilla','Todos los detalles importan','Solicitar una cotización'][i]||el.textContent});
+  text('.demo-booking-kicker','✦ TU DEMO INTERACTIVA');
+  html('.demo-booking-eyebrow h2','Descubre lo <em>fácil</em> que puede ser reservar.');
+  text('.demo-booking-eyebrow p','Elige un servicio y prueba cada paso. Es una demostración segura: no se contacta a ningún cliente.');
+  text('.demo-bottom-text>span','¿LISTA PARA EMPEZAR?');
+  html('.demo-bottom-text h2','Menos mensajes.<br><strong>Más solicitudes.</strong>');
+  text('.demo-bottom-text p','Los clientes exploran servicios y envían una solicitud de prueba en pocos pasos. Las reservas y precios reales siguen bajo tu control.');
+  firstText('.demo-bottom-text a','Probar de nuevo ');
+  text('.demo-footer>span','Esta no es una página de reservas real');
+ }
  const brand=document.getElementById('demoBrandName');
  const business=customBusiness||(leadCfg&&leadCfg.label)||'';
  if(brand&&business){
