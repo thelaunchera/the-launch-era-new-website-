@@ -177,3 +177,11 @@ Main website root EN/ES declares /favicon.png (512x512), /favicon.ico and /apple
 - Notification text contains no client identity or customer contact details; it is never a customer email and does not start a payment, publication or delivery workflow.
 - Alerts remain subject to the existing owner Command Center notification/push preferences. Without push permission, the event remains an internal Command Center notice.
 - The migration is tracked in `supabase/migrations/20261013_tle_ai_team_owner_notifications.sql`. Verify a genuine next event end-to-end; do not insert fake customer events on production for QA.
+
+
+## Private AI drafting status, 2026-10-13
+- Route: `/command-center/ai-team.html` → owner-only `ai-provider-check` button → Supabase `tle-ai-team` action `provider_check` (platform-admin JWT, internal workspace required). Tests a tiny OpenAI response with an Edge Function secret; never returns its value.
+- Backend reports `configured`, `verified`, `reason` and public model name only. Reasons (e.g. `invalid_key`, `rate_or_billing_limit`) are sanitized; never log authorization headers.
+- A generated work product has `generation_mode=ai` only after actual nonempty OpenAI content. A static fallback is saved with `generation_mode=template` and clearly labeled **Plantilla · Sin IA**. Jessie also distinguishes these. Both remain unsent and owner-reviewed.
+- Schema `public.tle_ai_team_outputs.generation_mode` applied in Supabase and versioned in `supabase/migrations/20261013_tle_ai_team_generation_mode.sql`. In owner UI the test status is NOT a proof of client acceptance until run with the owner session.
+- Regression: `scripts/qa-ai-team-ai-provider.mjs`, existing task/Jessie/route security and Safari tests.
