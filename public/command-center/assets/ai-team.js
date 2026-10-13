@@ -205,6 +205,15 @@ async function start(){
   await mountJessie();
  }catch(e){lock();console.warn("AI Team private access:",e.message)}
 }
+window.TLEAIOpsGateway=Object.freeze({
+ ready(){return verified===true&&!document.getElementById("app")?.classList.contains("hidden")},
+ async run(agentKey){
+  if(!this.ready()||!agents.some(a=>a.key===agentKey))throw Error("Owner AI Team access required");
+  const res=await api({action:"run_agent",agent_key:agentKey,language});
+  await refresh();
+  return res.run;
+ }
+});
 $("lang").addEventListener("click",()=>{language=language==="es"?"en":"es";try{localStorage.setItem("tle_crm_owner_language",language)}catch{}applyText()});
 for(const id of ["new-task","new-task-top"])$(id).onclick=()=>showDialog();
 $("scan").onclick=async()=>{const btn=$("scan");btn.disabled=true;try{scan=await api({action:"scan"});renderScan()}catch(e){showError(e.message)}finally{btn.disabled=false}};
