@@ -267,3 +267,7 @@ html.demo-editorial #leadHero .demo-hero-cta:focus-visible{
    animation:none!important;transition:none!important;transform:none!important
  }
 }
+
+/* Final dark-mode contrast correction: the v7 nested label selector was more specific. */
+html.demo-editorial #bookingStarter #main .label,
+html.demo-editorial #bookingStarter .screen .label {color:#a9dfff!important;}
