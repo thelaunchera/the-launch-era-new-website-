@@ -56,3 +56,11 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - Final browser-based responsive suite: **162 passed, 0 failed** at https://github.com/thelaunchera/the-launch-era-new-website-/actions/runs/38320395113.
 - Route/link guard: **214/214 static links + 32/32 live public routes**, plus safe invalid interest confirmation CORS and missing-page fallback; deploy gate enabled.
 - Scope limits: actual authenticated/private customer transactions and payment authorizations need dedicated staged fixture tests; do not interpret smoke tests as 100% guarantee against future bugs.
+
+
+## 2026-10-12 — Jessy iPhone/iPad push notifications (pending device acceptance)
+- User received Meta WhatsApp **test** to personal number, but Make returned HTTP 400 and production WhatsApp sender setup was blocked; do not migrate the personal number or imply WhatsApp alerts work.
+- Owner approved using Command Center PWA notifications instead. Supabase `tle_crm_push_subscriptions` had **0** subscribed devices; existing `sw.js` could display incoming pushes but enrollment and internal CRM event dispatch were missing.
+- Added server-authenticated `tle-jessy-push` and private internal-owner trigger/dispatch dedupe; only the internal The Launch Era workspace is eligible, and only after device opt-in. No real buyer or customer data records changed.
+- Added `jessy-push.js` private owner controls to the deployed `/command-center/` page; iOS owners must add it to Home Screen before requesting notification permission. Click destinations remain inside Command Center. No notifications sent without owner opt-in.
+- **Status: 🟡 release in progress / device end-to-end pending**: GitHub deployment and QA jobs must be green; owner must open the icon on a real iPhone/iPad, tap Activar avisos and Probar aviso, and confirm device display. Then validate one future fixture event without contacting customers. Provider acceptance alone is not proof of delivery. Do not report WhatsApp or Web Push production operation as verified until these steps pass.
