@@ -303,7 +303,7 @@ Deno.serve(async req=>{
    try{
      const response=await fetch(providerUrl,{
        method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+OPENAI},
-       body:JSON.stringify({model,temperature:0.1,max_tokens:10,messages:[{role:"user",content:"Reply with OK only."}]}),
+       body:JSON.stringify({model,...(GROQ?{reasoning_effort:"low"}:{}),temperature:0.1,max_tokens:256,messages:[{role:"user",content:"Reply with OK only."}]}),
        signal:AbortSignal.timeout(12000)
      });
      if(!response.ok){
@@ -355,7 +355,7 @@ Deno.serve(async req=>{
    let content="",generation_mode="template";
    if(OPENAI){
      try{
-       const rr=await fetch(providerUrl,{method:"POST",headers:{Authorization:"Bearer "+OPENAI,"Content-Type":"application/json"},body:JSON.stringify({model:providerModel,temperature:0.4,max_tokens:850,messages:[{role:"system",content:system},{role:"user",content:prompt}]}),signal:AbortSignal.timeout(16000)});
+       const rr=await fetch(providerUrl,{method:"POST",headers:{Authorization:"Bearer "+OPENAI,"Content-Type":"application/json"},body:JSON.stringify({model:providerModel,...(GROQ?{reasoning_effort:"low"}:{}),temperature:0.4,max_tokens:1600,messages:[{role:"system",content:system},{role:"user",content:prompt}]}),signal:AbortSignal.timeout(16000)});
        if(rr.ok){
          const json=await rr.json();
          const candidate=clean(json?.choices?.[0]?.message?.content,6000);
@@ -429,7 +429,7 @@ Deno.serve(async req=>{
    " Return at most four numbered practical steps in Spanish or English as requested. Mention verification and the actual owner's sign-off. Never invent live results, private customer details, tested URLs, customer consent, sending, publication, payment, completion or execution. Do not take action. No markdown table. Do not ask for credentials.";
    let plan="",generation_mode="template";
    try{
-     const rr=await fetch(providerUrl,{method:"POST",headers:{Authorization:"Bearer "+OPENAI,"Content-Type":"application/json"},body:JSON.stringify({model:providerModel,temperature:0.2,max_tokens:330,messages:[{role:"system",content:system},{role:"user",content:"Task: "+task.title+"\nContext: "+task.description+"\nLanguage: "+(b.language==="en"?"English":"Spanish")+"\nProvide a clear actionable plan, not a claim of completed work."}]}),signal:AbortSignal.timeout(14000)});
+     const rr=await fetch(providerUrl,{method:"POST",headers:{Authorization:"Bearer "+OPENAI,"Content-Type":"application/json"},body:JSON.stringify({model:providerModel,...(GROQ?{reasoning_effort:"low"}:{}),temperature:0.2,max_tokens:850,messages:[{role:"system",content:system},{role:"user",content:"Task: "+task.title+"\nContext: "+task.description+"\nLanguage: "+(b.language==="en"?"English":"Spanish")+"\nProvide a clear actionable plan, not a claim of completed work."}]}),signal:AbortSignal.timeout(14000)});
      if(rr.ok){
        const data=await rr.json();
        plan=clean(data?.choices?.[0]?.message?.content,1900);
