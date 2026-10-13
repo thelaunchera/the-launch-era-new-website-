@@ -31,6 +31,7 @@ jobs:
           node scripts/qa-public-demo-integrity.mjs
           node --check public/command-center/assets/command-center-app.js
           node scripts/qa-owner-internal-incidents.mjs
+          node scripts/qa-ai-team.mjs
 
       - name: Enforce client delivery copy, branding and legal guard
         run: node scripts/qa-client-release.mjs
