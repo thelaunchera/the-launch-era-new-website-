@@ -59,3 +59,35 @@
 .tle-jessy-plan-cta:hover{background:#ead050}
 .tle-jessy-plan-cta:focus-visible{outline:3px solid #2679ab;outline-offset:3px}
 @media(max-width:600px){.tle-jessy-plan-card{padding:12px 13px}.tle-jessy-plan-list{gap:10px}}
+
+/* Jessy's two-stage public launcher: welcome pill on entry, face-only after scroll. */
+.tle-jessy-fab{transition:width .24s ease,padding .24s ease,gap .24s ease,min-height .24s ease,background-color .2s ease,box-shadow .2s ease}
+.tle-jessy-fab-label{display:block;max-width:165px;white-space:nowrap;overflow:hidden;opacity:1;visibility:visible;transition:max-width .22s ease,opacity .15s ease,visibility .2s ease}
+.tle-jessy-root.tle-jessy-compact .tle-jessy-fab{
+ width:52px;height:52px;min-height:52px;padding:3px;gap:0;
+ display:flex;align-items:center;justify-content:center;
+ border-width:2px;border-radius:50%;background:#dcefff;
+ box-shadow:0 5px 18px #15385030
+}
+.tle-jessy-root.tle-jessy-compact .tle-jessy-fab .tle-jessy-avatar{
+ width:42px;height:42px;flex:0 0 42px;border-width:1.5px;border-radius:50%;object-fit:cover
+}
+.tle-jessy-root.tle-jessy-compact .tle-jessy-fab-label{
+ max-width:0;width:0;padding:0;margin:0;opacity:0;visibility:hidden
+}
+.tle-jessy-root.tle-jessy-compact .tle-jessy-status{
+ left:auto;right:0;bottom:1px;width:10px;height:10px
+}
+.tle-jessy-root.tle-jessy-compact .tle-jessy-nudge{display:none!important}
+@media(max-width:600px){
+ .tle-jessy-root.tle-jessy-compact .tle-jessy-fab{
+  right:12px;bottom:max(18px,env(safe-area-inset-bottom));
+  width:50px;height:50px;min-height:50px;padding:3px
+ }
+ .tle-jessy-root.tle-jessy-compact .tle-jessy-fab .tle-jessy-avatar{
+  width:40px;height:40px;flex:0 0 40px
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ .tle-jessy-fab,.tle-jessy-fab-label{transition:none!important}
+}
