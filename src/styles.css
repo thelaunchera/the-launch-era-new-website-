@@ -1165,6 +1165,8 @@ img { display:block; width:100%; object-fit:cover; }
 .footer-contact-link:hover{color:#191919}
 .hero-intro .hero-availability-note{max-width:610px;margin:8px auto 0;font-size:11px;line-height:1.45;color:#587587}
 @media(max-width:767px){.footer-contact{margin:15px auto 0;text-align:center}.footer-top .footer-contact p{font-size:12px}.hero-intro .hero-availability-note{font-size:10px;max-width:365px}}
+/* Keep mobile footer copyright clear of Jessy's fixed chat pill. */
+@media(max-width:767px){.site-footer{padding-bottom:calc(118px + env(safe-area-inset-bottom))}}
 
 
 /* Unified editorial hero — photo sits BEHIND the headline, not in a separate section.
