@@ -143,6 +143,23 @@ window.TLEOwnerJessyGateway=Object.freeze({
     return result;
    }finally{clearTimeout(watchdog)}
  },
+ async pushAlerts(action,values={}){
+   if(!this.ready())throw Error('Owner access required');
+   if(!['config','subscribe','unsubscribe','test'].includes(action))throw Error('Invalid alert action');
+   const {data:{session},error}=await db.auth.getSession();
+   if(error||!session?.access_token)throw Error('Sign in to continue');
+   const controller=new AbortController(),guard=setTimeout(()=>controller.abort(),15000);
+   try{
+    const response=await fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-jessy-push',{
+     method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+session.access_token,'apikey':'sb_publishable_0TueitFYiRF3rAEMLMT8-w_FvbvY0rB'},
+     body:JSON.stringify({action,...values}),signal:controller.signal
+    });
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok||data.ok!==true)throw Error(data.error||'Jessy alerts unavailable');
+    if(!this.ready())throw Error('Owner session changed');
+    return data;
+   }finally{clearTimeout(guard)}
+ },
  navigate(target){
    if(!this.ready())return false;
    const allowed=['owner-pages','owner-calendar','leads','calendar','inbox','emails','notifications','owner-support','owner-help'];
