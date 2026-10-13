@@ -42,13 +42,13 @@ for(const lang of ['en','es']){
    assert(main.mode,'Not a public sample');
    assert(main.style,'Brand-approved stylesheet not loaded');
    assert(main.width<=main.viewport+3,'Horizontal overflow on hero: '+JSON.stringify(main));
-   assert.equal(main.blue,'rgb(215, 239, 255)','CTA must be brand Soft Blue');
+   assert.equal(main.blue,'rgb(169, 223, 255)','Midnight demo CTA must use brand Ice Blue');
    assert(main.headlineVisible && main.headFont>=32,'Hero headline illegible');
    assert(main.ctaVisible && main.areaVisible,'First-impression CTA / area clipped by hero');
    assert(main.areaText===(lang==='es'?'Atendemos Fort Lauderdale':'Serving Fort Lauderdale'),'Area not localized or personalized: '+main.areaText);
    assert(main.showcaseTitle.includes(lang==='en'?'Clear details':'Detalles claros'),'New slogans missing');
    assert.equal(main.quoteCards,3,'Functional cleaning-service cards missing');
-   assert(main.heroPhoto?.includes('/assets/cleaning-demo/hero-woman-cleaning.jpg')&&main.heroImgLoaded&&main.heroCbCss,'CB Depot style cleaning professional hero must load');
+   assert(main.heroPhoto?.includes('/assets/cleaning-demo/tle-midnight-hero.avif')&&main.heroImgLoaded&&main.heroCbCss,'CB Depot style cleaning professional hero must load');
    assert(main.ctaInHero&&main.areaInHero,'Hero action or personalized service badge is clipped');
    try{await page.screenshot({path:'qa-screenshots/demo-v6/'+lang+'-'+width+'-hero.png',fullPage:false});}catch(imageError){console.warn('Optional browser screenshot failed at hero for',lang,width,imageError.message);}
    await page.evaluate(()=>startQuote('estimate'));
