@@ -1,0 +1,62 @@
+name: Cleaning App Landing Responsive QA
+on:
+  pull_request:
+    paths:
+      - 'src/components/cleaning-app-editorial.tsx'
+      - 'src/routes/cleaning-web-app.tsx'
+      - 'src/routes/es.cleaning-web-app.tsx'
+      - 'public/assets/tle-app-landing.css'
+      - 'scripts/qa-cleaning-app-landing.mjs'
+      - '.github/workflows/cleaning-app-landing-qa.yml'
+  push:
+    branches:
+      - design/cleaning-app-landing-coherent-20261013
+concurrency:
+  group: cleaning-app-landing-${{ github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  landing-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Check static links and public sample integrity
+        run: |
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-public-demo-integrity.mjs
+          node scripts/qa-client-release.mjs
+          node scripts/qa-jessy-coverage.mjs
+      - name: Install and build website
+        run: |
+          bun install
+          bun run build
+      - name: Install browser for local responsive inspection
+        run: |
+          mkdir -p /tmp/tle-landing-qa
+          cd /tmp/tle-landing-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+      - name: Check Cleaning App landing at four widths in both languages
+        run: |
+          mkdir -p .output/public/cleaning-web-app .output/public/es/cleaning-web-app
+          cp .output/public/index.html .output/public/cleaning-web-app/index.html
+          cp .output/public/index.html .output/public/es/cleaning-web-app/index.html
+          bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/tle-landing-preview.log 2>&1 &
+          for attempt in $(seq 1 35); do
+            if curl -sf http://127.0.0.1:4173/cleaning-web-app/ > /dev/null; then break; fi
+            sleep 2
+          done
+          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-landing-qa/node_modules/playwright/index.mjs node scripts/qa-cleaning-app-landing.mjs
+      - name: Upload screenshots for review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cleaning-app-landing-responsive
+          path: qa-screenshots/
+          if-no-files-found: ignore

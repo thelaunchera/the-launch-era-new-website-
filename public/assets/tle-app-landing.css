@@ -1,0 +1,138 @@
+/* Cleaning App public landing. One compact visual system; no private app changes. */
+.tle-app-landing{--app-blue:#D7EFFF;--app-ivory:#FAF8F3;--app-ink:#191919;--app-border:#D9E3E8;background:var(--app-ivory);color:var(--app-ink);font-family:Futura,'DM Sans','Avenir Next',Arial,sans-serif}
+.tle-app-landing *{box-sizing:border-box}
+.tle-app-landing .tle-app-wrap{max-width:1170px;width:calc(100% - 56px);margin:auto}
+.tle-app-landing h1,.tle-app-landing h2,.tle-app-landing h3{font-family:Prompt,'DM Sans',sans-serif!important;font-weight:600!important;letter-spacing:-.045em!important;text-wrap:balance;margin:0}
+.tle-app-landing p{margin:0;line-height:1.55}
+.tle-app-landing a{text-decoration:none}
+.tle-app-landing a:focus-visible{outline:3px solid #498EBC;outline-offset:4px}
+.tle-app-hero{background:linear-gradient(130deg,#FAF8F3 0%,#EAF4FC 47%,#D7EFFF 100%);padding:21px 0 clamp(46px,5vw,73px)}
+.tle-app-topline{display:flex;justify-content:space-between;gap:16px;align-items:center;border-bottom:1px solid rgba(34,60,78,.14);padding:0 0 18px;font-size:12px;font-weight:700;letter-spacing:.10em;color:#365a70}
+.tle-app-topline span:last-child{text-align:right;font-weight:600;letter-spacing:.06em}
+.tle-app-hero-grid{display:grid;grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr);gap:clamp(24px,4.7vw,63px);align-items:center;margin-top:41px}
+.tle-app-intro{min-width:0}
+.tle-app-eyebrow{font-size:12px!important;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:#47728c;line-height:1.4!important}
+.tle-app-intro h1{font-size:clamp(46px,5.2vw,70px)!important;line-height:1.08!important;margin:15px 0 21px!important;max-width:530px}
+.tle-app-intro h1 span{display:block;color:#4284ae}
+.tle-app-intro .tle-app-lead{font-size:clamp(16px,1.36vw,18px);line-height:1.6;max-width:495px;color:#394D5A}
+.tle-app-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:29px}
+.tle-app-btn{min-height:52px;padding:12px 20px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;gap:12px;font-size:15px!important;line-height:1.3;font-weight:700;white-space:normal;text-align:center}
+.tle-app-btn svg{flex:0 0 18px}
+.tle-app-btn.primary{background:#191919;color:#fff;border:1px solid #191919}
+.tle-app-btn.primary:hover{background:#343434;color:#fff}
+.tle-app-btn.secondary{background:rgba(255,255,255,.65);border:1px solid #a7c6da;color:#191919}
+.tle-app-btn.secondary:hover{background:#fff}
+.tle-app-trial-note{font-size:13px!important;margin-top:13px!important;color:#516978!important}
+.tle-app-preview-holder{position:relative;min-width:0}
+.tle-app-product{border:1px solid #bdD4e2;background:#fff;border-radius:23px;box-shadow:0 18px 50px rgba(25,67,97,.10);overflow:hidden;transform:rotate(.6deg)}
+.tle-app-product-header{display:flex;justify-content:space-between;gap:12px;align-items:center;background:#191919;color:#fff;padding:15px 19px;min-height:55px}
+.tle-app-product-brand{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:700}
+.tle-app-product-dot{width:12px;height:12px;background:#abd9f4;border-radius:50%}
+.tle-app-product-label{background:rgba(255,255,255,.13);border-radius:99px;padding:6px 10px;font-size:11px;letter-spacing:.06em;font-weight:700;white-space:nowrap}
+.tle-app-product-content{padding:clamp(16px,2.3vw,27px)}
+.tle-app-product-greeting{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.tle-app-product-greeting small{font-size:11px;font-weight:700;letter-spacing:.08em;color:#5D7D91}
+.tle-app-product-greeting h2{font-size:clamp(19px,2vw,25px)!important;line-height:1.2!important;margin:6px 0 0!important}
+.tle-app-product-date{font-size:12px;color:#516978;background:#f1f6fa;border-radius:99px;padding:8px 10px}
+.tle-app-mini-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:20px 0}
+.tle-app-mini-stats div{border:1px solid #cfe3f0;border-radius:14px;background:#eef8ff;padding:12px;min-width:0}
+.tle-app-mini-stats strong{display:block;font:600 clamp(23px,2.2vw,30px)/1.1 Prompt,sans-serif;color:#191919}
+.tle-app-mini-stats span{display:block;font-size:12px;line-height:1.35;color:#4e6878;margin-top:6px}
+.tle-app-jobs-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:7px}
+.tle-app-jobs-head h3{font-size:16px!important;line-height:1.3!important}
+.tle-app-jobs-head>span{font-size:12px;color:#476e85;font-weight:700}
+.tle-app-job-list{border:1px solid #e0e8ed;border-radius:14px;overflow:hidden}
+.tle-app-job{display:flex;align-items:center;gap:11px;padding:12px 11px;background:#fff;border-bottom:1px solid #e8eff3;min-width:0}
+.tle-app-job:last-child{border-bottom:0}
+.tle-app-avatar{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;flex:0 0 36px;font-size:11px;font-weight:800;color:#31566e}
+.tle-app-avatar.blue{background:#d7efff}.tle-app-avatar.ivory{background:#f8edcf}.tle-app-avatar.pale{background:#e9eff3}
+.tle-app-job-body{flex:1;min-width:0}
+.tle-app-job-body strong{display:block;font-size:13px;line-height:1.35;font-weight:700}
+.tle-app-job-body>span{display:block;font-size:12px;line-height:1.4;color:#657783;margin-top:2px}
+.tle-app-job-status{font-size:11px;color:#3c738e;background:#eff6fa;border-radius:99px;padding:6px 9px;white-space:nowrap}
+.tle-app-product-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#3e6376;font-size:12px;font-weight:700;margin:16px 1px 0}
+.tle-app-product-bottom>span{display:flex;align-items:center;gap:7px}
+.tle-app-preview-caption{display:flex;align-items:center;gap:7px;font-size:12px;line-height:1.45;color:#547085;margin:12px 7px 0}
+.tle-app-preview-caption svg{flex:0 0 15px}
+.tle-app-features-section{padding:clamp(47px,5vw,69px) 0 49px;background:#FAF8F3}
+.tle-app-section-intro{display:flex;justify-content:space-between;align-items:flex-end;gap:25px;margin-bottom:25px}
+.tle-app-section-intro h2{font-size:clamp(29px,3.15vw,40px)!important;max-width:590px;line-height:1.17!important;margin:10px 0 0!important}
+.tle-app-feature-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.tle-app-feature{border:1px solid var(--app-border);border-radius:18px;padding:21px 18px 22px;background:#fff;min-width:0}
+.tle-app-feature-icon{width:46px;height:46px;border-radius:14px;background:#d7efff;display:grid;place-items:center;color:#3c7292;margin-bottom:19px}
+.tle-app-feature h3{font-size:18px!important;line-height:1.3!important;margin-bottom:8px!important}
+.tle-app-feature p{font-size:14px!important;line-height:1.55;color:#52616B}
+.tle-app-feature-foot{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:19px}
+.tle-app-feature-foot>span{display:flex;gap:8px;align-items:center;font-size:13px;color:#52616B}
+.tle-app-feature-foot>span svg{color:#527d96}
+.tle-app-feature-foot>a{margin-left:auto;display:flex;align-items:center;gap:9px;color:#191919;font-size:14px;font-weight:700;text-decoration:underline;text-underline-offset:4px}
+.tle-app-finish{background:#D7EFFF;padding:clamp(36px,4vw,57px) 0}
+.tle-app-finish-inner{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(240px,.55fr);gap:32px;align-items:center}
+.tle-app-finish h2{font-size:clamp(29px,3.3vw,42px)!important;line-height:1.18!important;margin:10px 0 9px!important;max-width:590px}
+.tle-app-finish p:not(.tle-app-eyebrow){font-size:15px!important;color:#394f5d;max-width:610px}
+.tle-app-finish-action{display:grid;justify-items:stretch;gap:13px;min-width:0}
+.tle-app-price{display:flex;flex-direction:column;gap:3px;color:#191919}
+.tle-app-price>span{font-size:11px;font-weight:700;letter-spacing:.1em;color:#496b81}
+.tle-app-price strong{font:600 30px/1.2 Prompt,sans-serif}
+.tle-app-price small{font-size:13px;color:#465d6d}
+.tle-app-finish-action .tle-app-btn{width:100%}
+@media(max-width:1050px){.tle-app-feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tle-app-hero-grid{gap:25px}.tle-app-intro h1{font-size:clamp(39px,5vw,59px)!important}}
+@media(max-width:760px){
+ .tle-app-landing .tle-app-wrap{width:calc(100% - 32px)}
+ .tle-app-hero{padding:13px 0 34px}
+ .tle-app-topline{font-size:10px;gap:10px;padding-bottom:12px}
+ .tle-app-topline span:last-child{font-size:10px;max-width:56%}
+ .tle-app-hero-grid{grid-template-columns:1fr;gap:26px;margin-top:26px}
+ .tle-app-eyebrow{font-size:12px!important}
+ .tle-app-intro h1{font-size:clamp(36px,10vw,48px)!important;line-height:1.1!important;max-width:520px;margin:11px 0 15px!important}
+ .tle-app-intro .tle-app-lead{font-size:16px!important;max-width:510px}
+ .tle-app-actions{margin-top:20px;gap:9px}
+ .tle-app-btn{min-height:49px;padding:12px 16px;font-size:14px!important}
+ .tle-app-trial-note{font-size:12px!important;line-height:1.5!important}
+ .tle-app-product{transform:none;border-radius:18px}
+ .tle-app-preview-caption{font-size:12px}
+ .tle-app-features-section{padding:38px 0}
+ .tle-app-section-intro{margin-bottom:19px}
+ .tle-app-section-intro h2{font-size:clamp(27px,7.2vw,36px)!important}
+ .tle-app-feature-grid{gap:10px}
+ .tle-app-feature{padding:17px 15px;border-radius:15px}
+ .tle-app-feature-icon{margin-bottom:13px}
+ .tle-app-feature h3{font-size:16px!important}
+ .tle-app-feature p{font-size:14px!important}
+ .tle-app-finish-inner{grid-template-columns:1fr;gap:23px}
+ .tle-app-finish{padding:35px 0 44px}
+ .tle-app-finish h2{font-size:clamp(27px,7.5vw,35px)!important}
+ .tle-app-finish-action{grid-template-columns:1fr 1fr;align-items:center;gap:16px}
+}
+@media(max-width:460px){
+ .tle-app-mini-stats div{padding:10px 8px}.tle-app-mini-stats{gap:6px;margin:15px 0}
+ .tle-app-mini-stats strong{font-size:24px}.tle-app-mini-stats span{font-size:11px}
+ .tle-app-product-content{padding:15px 11px}
+ .tle-app-product-header{padding:12px 13px}
+ .tle-app-product-greeting h2{font-size:20px!important}
+ .tle-app-product-date{font-size:11px}
+ .tle-app-job{padding:10px 8px;gap:8px}
+ .tle-app-job-body strong{font-size:12px}
+ .tle-app-job-body>span{font-size:11px}
+ .tle-app-job-status{font-size:10px;padding:5px 7px}
+ .tle-app-avatar{width:30px;height:30px;flex-basis:30px;border-radius:9px;font-size:10px}
+ .tle-app-feature-grid{grid-template-columns:1fr}
+ .tle-app-feature{display:grid;grid-template-columns:44px minmax(0,1fr);gap:13px;align-items:start}
+ .tle-app-feature-icon{width:43px;height:43px;margin:0}
+ .tle-app-feature h3{margin:0 0 4px!important;font-size:17px!important}
+ .tle-app-feature p{font-size:14px!important}
+ .tle-app-feature-foot{align-items:flex-start;flex-wrap:wrap;gap:12px}
+ .tle-app-feature-foot>a{width:100%;margin:0}
+ .tle-app-finish-action{grid-template-columns:1fr}
+ .tle-app-actions .tle-app-btn{flex:1 1 auto}
+}
+@media(prefers-reduced-motion:reduce){.tle-app-landing *{animation:none!important;transition:none!important}}
+/* Only the Cleaning App marketing landing uses a compact, unobtrusive Jessy launcher.
+   Jessy's chat remains functional and reachable; never hide the open panel. */
+body:has(.tle-app-landing) .tle-jessy-nudge{display:none!important}
+@media(max-width:760px){
+ body:has(.tle-app-landing) .tle-jessy-fab{right:13px!important;bottom:max(18px,env(safe-area-inset-bottom))!important;width:56px!important;height:56px!important;min-height:56px!important;padding:3px!important;border-radius:50%!important;justify-content:center;gap:0;box-shadow:0 6px 20px #1538502d!important}
+ body:has(.tle-app-landing) .tle-jessy-fab>span:not(.tle-jessy-status){display:none!important}
+ body:has(.tle-app-landing) .tle-jessy-fab .tle-jessy-avatar{width:46px!important;height:46px!important;flex:0 0 46px!important}
+ body:has(.tle-app-landing) .tle-jessy-fab .tle-jessy-status{left:auto!important;right:3px!important;bottom:3px!important}
+}
