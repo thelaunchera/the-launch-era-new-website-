@@ -12,9 +12,9 @@
  if(isEs){
    const t=(q,v)=>{const el=document.querySelector(q);if(el)el.textContent=v};
    const h=(q,v)=>{const el=document.querySelector(q);if(el)el.innerHTML=v};
-   t('.demo-cinematic-overline','LA EXPERIENCIA LIMPIA · 01 / 03');
-   h('.demo-cinematic-copy h2','Espacios hermosos.<br><em>Experiencias aún mejores.</em>');
-   t('.demo-cinematic-copy p','Ofrece a cada cliente una experiencia fácil y agradable, desde descubrir tus servicios hasta enviar una solicitud de prueba.');
+   t('.demo-cinematic-overline','UNA MEJOR EXPERIENCIA');
+   h('.demo-cinematic-copy h2','Detalles pensados.<br><em>Reservar sin complicaciones.</em>');
+   t('.demo-cinematic-copy p','Desde la primera visita hasta la solicitud de prueba, cada paso se entiende con claridad.');
    const a=document.querySelector('.demo-cinematic-link');
    if(a&&a.firstChild)a.firstChild.nodeValue='Descubre la experiencia ';
    t('.demo-cinematic-index','MEJOR DISEÑO, MENOS COMPLICACIONES — ✳');
