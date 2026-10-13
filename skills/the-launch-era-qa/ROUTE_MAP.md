@@ -84,3 +84,12 @@ Repeat after ANY route/button/domain change: 360px phone, 390px phone, 820px tab
 - Source: `public/404.html`; the Pages build `.github/workflows/pages.yml` now preserves it rather than replacing with `index.html`.
 - Unknown URLs must return HTTP 404 with a branded, readable message and safe links to `/`, `/command-center/`, `/help/`.
 - The CI live check uses a nonexistent path to catch an unexpectedly empty, redirected or unhelpful 404.
+
+
+## Owner-only Jessy push alerts (2026-10-12)
+- **Source/UI:** `public/command-center/index.html` loads `assets/jessy-push.js`; the private owner bridge `assets/command-center-app.js` provides JWT-scoped `TLEOwnerJessyGateway.pushAlerts()`. No owner push controls must render in buyer workspaces (including CB Depot).
+- **App route:** `https://thelaunchera.com/command-center/` and local service worker `/command-center/sw.js`. Owner taps the small bell shortcut, then **Activate alerts / Activar avisos** within Notifications. On iOS 16.4+, requires Safari **Add to Home Screen** first and owner permission inside the installed PWA.
+- **Backend:** `https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-jessy-push` accepts only authenticated verified platform owner requests for `config|subscribe|unsubscribe|test`, with a server-token-only `dispatch` action; `public.tle_crm_push_subscriptions` stores tenant-scoped device subscriptions. VAPID signing keys remain server side in `owner_push_runtime`.
+- **New private owner event:** AFTER INSERT of `tle_crm_notifications` limited to internally owned workspace and allow-listed `lead/demo/quote_request/won/system_ready` kinds. Server sends via Web Push only to that owner, using `tle_crm_push_dispatches` for dispatch dedupe. No client or end-customer notifications, changes or messages.
+- **Notification click:** opens `/command-center/?from=jessy-alert`, never a customer's booking page, a generic marketing landing or a 404. Lock-screen copy excludes customer details.
+- **Release tests:** ensure owner-only UI, service-worker scope, existing TLE brand icon, valid/invalid JWT responses, unsupported browser and iOS Safari non-standalone guidance, duplicate and expired subscriptions, token-protected dispatch, tenant scoping and user-initiated device test. Provider-accepted is NOT verified displayed. **Real iPhone/iPad acceptance is pending the owner's Home Screen opt-in and test tap.**
