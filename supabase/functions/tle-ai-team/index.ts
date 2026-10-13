@@ -409,12 +409,17 @@ Deno.serve(async req=>{
    if(!OPENAI)return res({ok:true,plan:templatePlan(task.agent_key,b.language==="en"?"en":"es"),generation_mode:"template",agent:task.agent_key,requires_approval:true,executed:false},200,origin);
    const system="You are the private The Launch Era "+task.agent_key+" assistant. "+ROLE_SYSTEM[task.agent_key]+
    " Return at most four numbered practical steps in Spanish or English as requested. Mention verification and the actual owner's sign-off. Never invent live results, private customer details, tested URLs, customer consent, sending, publication, payment, completion or execution. Do not take action. No markdown table. Do not ask for credentials.";
-   const rr=await fetch("https://api.openai.com/v1/chat/completions",{method:"POST",headers:{Authorization:"Bearer "+OPENAI,"Content-Type":"application/json"},body:JSON.stringify({model:Deno.env.get("JESSY_MODEL")||"gpt-4.1-mini",temperature:0.2,max_tokens:330,messages:[{role:"system",content:system},{role:"user",content:"Task: "+task.title+"\nContext: "+task.description+"\nLanguage: "+(b.language==="en"?"English":"Spanish")+"\nProvide a clear actionable plan, not a claim of completed work."}]}),signal:AbortSignal.timeout(14000)});
-   if(!rr.ok)return res({ok:false,error:"AI planning temporarily unavailable"},503,origin);
-   const data=await rr.json();
-   const plan=clean(data?.choices?.[0]?.message?.content,1900);
-   if(!plan)return res({ok:false,error:"No plan generated"},503,origin);
-   return res({ok:true,plan,agent:task.agent_key,requires_approval:true,executed:false},200,origin);
+   let plan="",generation_mode="template";
+   try{
+     const rr=await fetch("https://api.openai.com/v1/chat/completions",{method:"POST",headers:{Authorization:"Bearer "+OPENAI,"Content-Type":"application/json"},body:JSON.stringify({model:Deno.env.get("JESSY_MODEL")||"gpt-4.1-mini",temperature:0.2,max_tokens:330,messages:[{role:"system",content:system},{role:"user",content:"Task: "+task.title+"\nContext: "+task.description+"\nLanguage: "+(b.language==="en"?"English":"Spanish")+"\nProvide a clear actionable plan, not a claim of completed work."}]}),signal:AbortSignal.timeout(14000)});
+     if(rr.ok){
+       const data=await rr.json();
+       plan=clean(data?.choices?.[0]?.message?.content,1900);
+       if(plan)generation_mode="ai";
+     }
+   }catch{/* Fall back safely if OpenAI is temporarily unavailable. */}
+   if(!plan)plan=templatePlan(task.agent_key,b.language==="en"?"en":"es");
+   return res({ok:true,plan,generation_mode,agent:task.agent_key,requires_approval:true,executed:false},200,origin);
  }
  return res({ok:false,error:"Unsupported action"},400,origin);
  }catch(e){return res({ok:false,error:"Could not complete request: "+clean(e?.message||"unavailable",160)},503,origin)}
