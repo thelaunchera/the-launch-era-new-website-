@@ -89,3 +89,11 @@ body.crm-owner-view #tleOwnerJessy .jo-heading small{max-width:250px;overflow:hi
     bottom:max(80px,calc(env(safe-area-inset-bottom) + 76px));
   }
 }
+
+/* Jessy project-readiness checklist: scannable on mobile without client data leaking into public UI. */
+.jo-readiness{display:grid;gap:10px;margin:10px 0;min-width:0}
+.jo-readiness-item{display:grid;gap:6px;background:#FAF8F3;border:1px solid #c9dfed;border-radius:14px;padding:12px;min-width:0;overflow-wrap:anywhere;font-size:12px}
+.jo-readiness-item strong{font-size:13px;color:#191919}.jo-readiness-item small{color:#536c7b;font-size:11px}
+.jo-readiness-item p{margin:3px 0;color:#455967;line-height:1.5}
+.jo-readiness-missing{padding-left:19px;margin:4px 0;line-height:1.55;color:#263f4d}
+.jo-readiness-item .jo-next{font-size:11px;white-space:normal;max-width:100%;text-align:left}
