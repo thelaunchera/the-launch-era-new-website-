@@ -58,7 +58,7 @@ for(const lang of ['en','es']){
     return {shown:e?.classList.contains('on'),photo:getComputedStyle(document.querySelector('#quote .demo-quote-header')).backgroundImage,area:document.querySelector('#demoQuoteArea')?.textContent,quoteVisible:!!box&&box.width>0};
    });
    assert(quote.shown && quote.quoteVisible,'Quote page not active');
-   assert(quote.photo.includes('cleaner-action.png'),'Missing professional cleaners photo for quote');
+   assert(quote.photo.includes('living-room-original.jpg'),'Missing original spacious living-room photo for quote');
    assert(quote.area.includes('Fort Lauderdale'),'Quote area personalization missing');
    try{await page.screenshot({path:'qa-screenshots/demo-v6/'+lang+'-'+width+'-quote.png',fullPage:false});}catch(imageError){console.warn('Optional browser screenshot failed at quote for',lang,width,imageError.message);}
    // Present a synthetic confirmation without invoking any save() or submit().
@@ -102,3 +102,4 @@ for(const type of ['buyer','owner']){
 }
 await browser.close();
 if(errors.length){console.error(errors.join('\n'));process.exit(1)}
+
