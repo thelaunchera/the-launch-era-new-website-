@@ -1,3 +1,4 @@
+import { CleaningAppShowcase } from './cleaning-app-showcase';
 import { ArrowRight, CalendarDays, UsersRound, Receipt, Calculator, Clock3, MapPinned, Check, Sparkles } from 'lucide-react';
 
 type Props = { lang?: 'en' | 'es' };
@@ -56,6 +57,8 @@ export function CleaningAppEditorial({ lang = 'en' }: Props) {
         </div>
       </div>
     </section>
+
+    <CleaningAppShowcase lang={lang}/>
 
     <section className="tle-app-features-section">
       <div className="tle-app-wrap">
