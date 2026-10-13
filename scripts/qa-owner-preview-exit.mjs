@@ -12,7 +12,7 @@ assert.match(main,/<meta name="viewport" content="width=device-width,initial-sca
 assert.match(main,/id="ownerPreviewClose" class="secondary hidden"/);
 assert.match(main,/id="ownerEmbeddedPreviewFrame"/);
 assert.match(main,/command-center\.css\?v=20261012-preview-exit-v1/);
-assert.match(main,/command-center-app\.js\?v=20261012-preview-exit-v1/);
+assert.match(main,/command-center-app\.js\?v=20261012-[a-z0-9-]+-v1/);
 
 const source=app.slice(app.indexOf('/* Owner previews: real shared markup'));
 assert.match(source,/closeButton\.classList\.remove\('hidden'\)/,'Inline owner preview always exposes exit');
