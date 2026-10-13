@@ -170,3 +170,10 @@ html.demo-editorial .demo-footer a{color:#a52b69;font-weight:800}
  html.demo-editorial .demo-orb,html.demo-editorial .demo-hero-shine{animation:none}
  html.demo-editorial .demo-hero-cta,html.demo-editorial .demo-showcase-card{transition:none}
 }
+
+/* Demo AI control: make it part of the editorial visual language rather than a large yellow overlay. */
+html.demo-editorial body button.tle-ai-launch{background:#fff7fb!important;color:#1b2330!important;border:1px solid #f4a6c8!important;border-radius:99px!important;font-family:Inter,Arial,sans-serif!important;font-size:12px!important;font-weight:850!important;padding:11px 15px!important;min-height:43px!important;right:max(14px,env(safe-area-inset-right))!important;bottom:max(17px,env(safe-area-inset-bottom))!important;box-shadow:0 9px 28px #050d185e!important;letter-spacing:.01em}
+html.demo-editorial body .tle-ai-panel{background:#fffafb!important;border-color:#f0c8dc!important}
+html.demo-editorial body .tle-ai-head{background:#fce4f0!important;border-bottom:1px solid #edccdc!important}
+html.demo-editorial body .tle-ai-review{background:#f997c5!important;border-color:#ef84b6!important;color:#151721!important}
+@media(max-width:767px){html.demo-editorial body button.tle-ai-launch{padding:9px 13px!important;min-height:42px!important;font-size:12px!important}}
