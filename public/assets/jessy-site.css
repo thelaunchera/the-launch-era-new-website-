@@ -91,3 +91,72 @@
 @media(prefers-reduced-motion:reduce){
  .tle-jessy-fab,.tle-jessy-fab-label{transition:none!important}
 }
+
+
+/* Jessy · warm, premium chat actions (replaces the two heavy yellow pills). */
+.tle-jessy-inline{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:9px;
+ width:100%;
+ max-width:100%;
+ margin:5px 0 18px;
+ align-items:stretch
+}
+.tle-jessy-inline .tle-jessy-action{
+ -webkit-appearance:none;
+ appearance:none;
+ width:100%;
+ min-width:0;
+ min-height:44px;
+ border:1px solid #b7d9ec;
+ border-radius:15px;
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ padding:11px 12px;
+ font:600 12px/1.3 "Futura","Avenir Next",Arial,sans-serif;
+ letter-spacing:.005em;
+ text-decoration:none;
+ text-align:center;
+ cursor:pointer;
+ transition:background .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease
+}
+.tle-jessy-inline .tle-jessy-action-primary{
+ background:#dcefff;
+ color:#191919;
+ border-color:#9fcbe6;
+ box-shadow:0 3px 10px #427fa414
+}
+.tle-jessy-inline .tle-jessy-action-secondary{
+ background:#faf8f3;
+ color:#335c76;
+ border-color:#d5e3ea
+}
+.tle-jessy-inline .tle-jessy-action-primary:hover{
+ background:#cce7fa;
+ border-color:#83bbdf;
+ transform:translateY(-1px)
+}
+.tle-jessy-inline .tle-jessy-action-secondary:hover{
+ background:#f0f7fa;
+ border-color:#b9d5e4;
+ transform:translateY(-1px)
+}
+.tle-jessy-inline .tle-jessy-action:focus-visible{
+ outline:3px solid #277fae;
+ outline-offset:3px
+}
+.tle-jessy-plan-cta{
+ background:#dcefff;
+ color:#191919;
+ border-color:#a6cde4
+}
+.tle-jessy-plan-cta:hover{background:#cbe7fa}
+@media(max-width:400px){
+ .tle-jessy-inline{gap:7px}
+ .tle-jessy-inline .tle-jessy-action{font-size:12px;padding:10px 8px}
+}
+@media(prefers-reduced-motion:reduce){
+ .tle-jessy-inline .tle-jessy-action{transition:none}
+}

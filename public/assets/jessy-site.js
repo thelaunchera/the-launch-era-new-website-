@@ -1,6 +1,8 @@
 
 (function(){
 "use strict";
+// Never create a second assistant inside sample demos or embedded previews.
+if(location.pathname.replace(/\/+$/,"")==="/cleaning-app-demo"||window.self!==window.top)return;
 if(window.__tleJessyInstalled)return;
 window.__tleJessyInstalled=true;
 const ENDPOINT="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-jessy-chat";
@@ -21,19 +23,19 @@ let lang=(location.pathname==="/es"||location.pathname.startsWith("/es/")||new U
 let open=false,waiting=false,seen=false,details=false,soundOn=false,catalog=[],offer=currentPage(),history=[],draft=[],lastFocus=null;
 let startedAt=Date.now();
 const words={
- en:{name:"Jessy",status:"AI Assistant · The Launch Era",nudge:"Hi! I'm Jessy 👋 Need a hand?",hello:"Hi! 👋 I'm Jessy, The Launch Era's AI Assistant. What can I help you with today?",opening:"Open Jessy AI Assistant",close:"Close assistant",sound:"Toggle welcome sound",label:"Ask Jessy",typing:"One moment…",input:"Ask me anything about our services…",send:"Send",lead:"Leave my details for the team",leadTitle:"Let's keep in touch",leadIntro:"Share a few details. We'll review your question and get back to you.",nameLabel:"Your name",businessLabel:"Business name",emailLabel:"Email address",needLabel:"What do you need help with?",consent:"I agree that The Launch Era may contact me about this request. This does not subscribe me to marketing emails.",confirm:"Send my request",back:"← Back to chat",privacy:"Your details are only used to reply to this request.",sent:"Thanks! We received your request. Our team will review it soon.",error:"Your request didn't go through. Please try again.",liveError:"I'm having trouble answering right now. You can still explore a service or send us your details.",limit:"I'm a little busy right now. Please try again soon or leave your details.",next:"Ready for the next step?",checkout:"View checkout ↗",learn:"Explore service ↗",service:"Booking automation",ai:"AI assistants",price:"Pricing",human:"Contact the team",hint:"I can guide you. I don't handle payments or confirm orders."},
- es:{name:"Jessy",status:"Asistente IA · The Launch Era",nudge:"¡Hola! Soy Jessy 👋 ¿Te ayudo?",hello:"¡Hola! 👋 Soy Jessy, la asistente IA de The Launch Era. ¿En qué puedo ayudarte?",opening:"Abrir asistente Jessy",close:"Cerrar asistente",sound:"Activar o desactivar sonido",label:"Pregúntale a Jessy",typing:"Un momento…",input:"Pregúntame sobre nuestros servicios…",send:"Enviar",lead:"Dejar mis datos al equipo",leadTitle:"Sigamos en contacto",leadIntro:"Compártenos algunos datos. Revisaremos tu consulta y te responderemos.",nameLabel:"Tu nombre",businessLabel:"Nombre del negocio",emailLabel:"Correo electrónico",needLabel:"¿En qué necesitas ayuda?",consent:"Acepto que The Launch Era me contacte sobre esta consulta. Esto no me suscribe a correos de marketing.",confirm:"Enviar mi solicitud",back:"← Volver al chat",privacy:"Solo usamos tus datos para responder esta consulta.",sent:"¡Gracias! Recibimos tu solicitud. Nuestro equipo la revisará pronto.",error:"No se pudo enviar tu solicitud. Inténtalo nuevamente.",liveError:"Ahora mismo no puedo responder en vivo. Puedes explorar el servicio o dejarnos tus datos.",limit:"Estoy un poco ocupada. Inténtalo después o déjanos tus datos.",next:"¿Lista para el próximo paso?",checkout:"Ver checkout ↗",learn:"Explorar servicio ↗",service:"Reservas automáticas",ai:"Asistentes IA",price:"Precios",human:"Contactar al equipo",hint:"Te oriento. No proceso pagos ni confirmo compras."}
+ en:{name:"Jessy",status:"AI Assistant · The Launch Era",nudge:"Hi! I'm Jessy 👋 Need a hand?",hello:"Hi! I’m Jessy 👋 Glad you’re here. Want a hand finding what works best for your cleaning business?",opening:"Open Jessy AI Assistant",close:"Close assistant",sound:"Toggle welcome sound",label:"Ask Jessy",typing:"One moment…",input:"Ask me anything about our services…",send:"Send",lead:"Leave my details for the team",leadTitle:"Let's keep in touch",leadIntro:"Share a few details. We'll review your question and get back to you.",nameLabel:"Your name",businessLabel:"Business name",emailLabel:"Email address",needLabel:"What do you need help with?",consent:"I agree that The Launch Era may contact me about this request. This does not subscribe me to marketing emails.",confirm:"Send my request",back:"← Back to chat",privacy:"Your details are only used to reply to this request.",sent:"Thanks! We received your request. Our team will review it soon.",error:"Your request didn't go through. Please try again.",liveError:"I'm having trouble answering right now. You can still explore a service or send us your details.",limit:"I'm a little busy right now. Please try again soon or leave your details.",next:"Ready for the next step?",checkout:"Get started",learn:"How it works",service:"Booking automation",ai:"AI assistants",price:"Pricing",human:"Contact the team",hint:"I can guide you. I don't handle payments or confirm orders."},
+ es:{name:"Jessy",status:"Asistente IA · The Launch Era",nudge:"¡Hola! Soy Jessy 👋 ¿Te ayudo?",hello:"¡Hola! Soy Jessy 👋 Qué gusto verte por aquí. ¿Te ayudo a encontrar lo que mejor le viene a tu negocio?",opening:"Abrir asistente Jessy",close:"Cerrar asistente",sound:"Activar o desactivar sonido",label:"Pregúntale a Jessy",typing:"Un momento…",input:"Pregúntame sobre nuestros servicios…",send:"Enviar",lead:"Dejar mis datos al equipo",leadTitle:"Sigamos en contacto",leadIntro:"Compártenos algunos datos. Revisaremos tu consulta y te responderemos.",nameLabel:"Tu nombre",businessLabel:"Nombre del negocio",emailLabel:"Correo electrónico",needLabel:"¿En qué necesitas ayuda?",consent:"Acepto que The Launch Era me contacte sobre esta consulta. Esto no me suscribe a correos de marketing.",confirm:"Enviar mi solicitud",back:"← Volver al chat",privacy:"Solo usamos tus datos para responder esta consulta.",sent:"¡Gracias! Recibimos tu solicitud. Nuestro equipo la revisará pronto.",error:"No se pudo enviar tu solicitud. Inténtalo nuevamente.",liveError:"Ahora mismo no puedo responder en vivo. Puedes explorar el servicio o dejarnos tus datos.",limit:"Estoy un poco ocupada. Inténtalo después o déjanos tus datos.",next:"¿Lista para el próximo paso?",checkout:"Comenzar",learn:"Cómo funciona",service:"Reservas automáticas",ai:"Asistentes IA",price:"Precios",human:"Contactar al equipo",hint:"Te oriento. No proceso pagos ni confirmo compras."}
 };
 function t(k){return words[lang][k]}
 function pageText(kind){
  const p=currentPage(),es=lang==="es";
  const copy={
- "cleaning-app":{en:["Hi! 👋 I'm Jessy. Questions about the Cleaning App? I can help with features, the demo or your free trial.","Hi! 👋 Need help with the Cleaning App?"],es:["¡Hola! 👋 Soy Jessy. ¿Dudas sobre la Cleaning App? Te ayudo con sus funciones, la demo o la prueba gratis.","¡Hola! 👋 ¿Dudas sobre la Cleaning App?"]},
- "booking":{en:["Hi! 👋 I'm Jessy. Want to organize booking requests and follow-ups? I can show you how.","Hi! 👋 Need help with bookings?"],es:["¡Hola! 👋 Soy Jessy. ¿Quieres organizar reservas y seguimientos? Te explico cómo funciona.","¡Hola! 👋 ¿Dudas sobre reservas?"]},
- "ai-booking":{en:["Hi! 👋 I'm Jessy. Looking at our AI Assistants? Ask me which setup fits your business.","Hi! 👋 Exploring our AI Assistants?"],es:["¡Hola! 👋 Soy Jessy. ¿Viendo nuestros asistentes de IA? Te ayudo a elegir.","¡Hola! 👋 ¿Dudas sobre nuestros asistentes?"]},
- "website":{en:["Hi! 👋 I'm Jessy. Have a question about automating your website inquiries?","Hi! 👋 Need help with your website?"],es:["¡Hola! 👋 Soy Jessy. ¿Quieres automatizar las consultas de tu website?","¡Hola! 👋 ¿Te ayudo con tu website?"]},
- "va":{en:["Hi! 👋 I'm Jessy. Need a hand with our VA support? Ask away.","Hi! 👋 Questions about VA support?"],es:["¡Hola! 👋 Soy Jessy. ¿Tienes dudas sobre nuestro apoyo VA?","¡Hola! 👋 ¿Dudas sobre VA?"]},
- "whatsapp":{en:["Hi! 👋 I'm Jessy. WhatsApp AI is coming soon. Want to see our available assistants?","Hi! 👋 Want to explore our AI options?"],es:["¡Hola! 👋 Soy Jessy. WhatsApp AI llegará pronto. ¿Quieres ver los asistentes disponibles?","¡Hola! 👋 ¿Quieres conocer nuestros asistentes?"]}
+ "cleaning-app":{en:["Hi! I’m Jessy 👋 Want a quick look around the Cleaning App? I’m happy to show you, or answer anything you’re wondering about.","Hi! 👋 Need help with the Cleaning App?"],es:["¡Hola! Soy Jessy 👋 ¿Te gustaría conocer la Cleaning App? Puedo enseñártela o resolver cualquier duda que tengas.","¡Hola! 👋 ¿Dudas sobre la Cleaning App?"]},
+ "booking":{en:["Hey! I’m Jessy 👋 Curious about getting your bookings organized? I can show you how it all fits together.","Hi! 👋 Need help with bookings?"],es:["¡Hola! Soy Jessy 👋 ¿Te gustaría organizar mejor las reservas? Te enseño cómo funciona, sin complicaciones.","¡Hola! 👋 ¿Dudas sobre reservas?"]},
+ "ai-booking":{en:["Hi! I’m Jessy 👋 Looking at the AI Assistants? Tell me what you’d like help with, and we’ll find a good fit.","Hi! 👋 Exploring our AI Assistants?"],es:["¡Hola! Soy Jessy 👋 ¿Estás mirando los asistentes IA? Cuéntame qué necesitas y vemos cuál te conviene.","¡Hola! 👋 ¿Dudas sobre nuestros asistentes?"]},
+ "website":{en:["Hi! I’m Jessy 👋 Wondering how your website could handle more of the follow-up work? Happy to help.","Hi! 👋 Need help with your website?"],es:["¡Hola! Soy Jessy 👋 ¿Quieres recibir y organizar mejor las consultas de tu website? Te cuento cómo.","¡Hola! 👋 ¿Te ayudo con tu website?"]},
+ "va":{en:["Hi! I’m Jessy 👋 Need an extra hand with the day-to-day? I can tell you about our VA support.","Hi! 👋 Questions about VA support?"],es:["¡Hola! Soy Jessy 👋 ¿Necesitas una mano con el día a día? Te cuento cómo funciona nuestro apoyo VA.","¡Hola! 👋 ¿Dudas sobre VA?"]},
+ "whatsapp":{en:["Hey! I’m Jessy 👋 WhatsApp AI isn’t available just yet, but I can show you the assistants we do offer.","Hi! 👋 Want to explore our AI options?"],es:["¡Hola! Soy Jessy 👋 WhatsApp AI todavía no está disponible, pero te puedo enseñar los asistentes que sí tenemos.","¡Hola! 👋 ¿Quieres conocer nuestros asistentes?"]}
  };
  const entry=copy[p]?.[es?"es":"en"];
  return entry?entry[kind==="nudge"?1:0]:t(kind==="nudge"?"nudge":"hello");
@@ -59,7 +61,7 @@ function routeFor(href){
  return s;
 }
 function makeImage(){const x=node("img","tle-jessy-avatar");x.src=avatarPath;x.alt="Jessy · AI Assistant";x.loading="lazy";x.width=53;x.height=53;return x}
-const style=node("link");style.rel="stylesheet";style.href="/assets/jessy-site.css?v=20261013-scroll-1";document.head.appendChild(style);
+const style=node("link");style.rel="stylesheet";style.href="/assets/jessy-site.css?v=20261013-human-ui-1";document.head.appendChild(style);
 const root=node("div","tle-jessy-root");root.setAttribute("data-tle-jessy","true");
 const fab=button("tle-jessy-fab","",t("opening"));const fabLabel=node("span","tle-jessy-fab-label",lang==="es"?"Habla con Jessy":"Chat with Jessy");fab.append(makeImage(),fabLabel);fab.append(node("span","tle-jessy-status"));fab.setAttribute("aria-expanded","false");
 const nudge=node("div","tle-jessy-nudge",pageText("nudge"));nudge.hidden=true;
@@ -90,12 +92,30 @@ panel.append(head,log,quick,bottom,lead);root.append(fab,nudge,backdrop,panel);d
 function msg(text,sender){const bubble=node("div","tle-jessy-message "+sender,text);log.appendChild(bubble);log.scrollTop=log.scrollHeight;return bubble}
 function actions(checkout,detail,trial){
  const row=node("div","tle-jessy-inline");
- const list=[
- [trial,lang==="es"?"Iniciar prueba gratis ↗":"Start free trial ↗"],
- [checkout,t("checkout")],
- [detail,detail?.startsWith("/cleaning-app-demo/")?(lang==="es"?"Probar demo ↗":"Try the demo ↗"):t("learn")]
- ];
- for(const [href,label] of list){const u=routeFor(href);if(!u)continue;const a=node("a","",label);a.href=u;a.setAttribute("rel","noopener");a.addEventListener("click",()=>track("checkout_or_details"));row.appendChild(a)}
+ const isEs=lang==="es";
+ const options=[];
+ if(trial){
+  options.push({href:trial,label:isEs?"Probar gratis":"Try it free",kind:"primary"});
+  if(detail)options.push({href:detail,label:isEs?"Ver demo":"See the demo",kind:"secondary"});
+ }else if(checkout){
+  options.push({href:checkout,label:isEs?"Comenzar":"Get started",kind:"primary",checkout:true});
+  options.push({prompt:isEs?"¿Me explicas un poco cómo funciona este servicio?":"Could you walk me through how this service works?",label:isEs?"Cómo funciona":"How it works",kind:"secondary"});
+ }else if(detail){
+  options.push({href:detail,label:isEs?"Ver opciones":"See your options",kind:"primary"});
+ }
+ for(const item of options.slice(0,2)){
+  const el=item.href?node("a","tle-jessy-action tle-jessy-action-"+item.kind,item.label):button("tle-jessy-action tle-jessy-action-"+item.kind,item.label);
+  if(item.href){
+   const url=routeFor(item.href);if(!url)continue;
+   el.href=url;
+   el.setAttribute("rel","noopener");
+   if(item.checkout)el.setAttribute("aria-label",isEs?"Continuar al checkout del servicio":"Continue to this service's checkout");
+   el.addEventListener("click",()=>track(item.checkout?"checkout_opened":"service_demo_opened"));
+  }else{
+   el.addEventListener("click",()=>{track("service_explained");ask(item.prompt)});
+  }
+  row.appendChild(el);
+ }
  if(row.children.length){log.appendChild(row);log.scrollTop=log.scrollHeight}
 }
 function showAiPlanChoices(plans){
