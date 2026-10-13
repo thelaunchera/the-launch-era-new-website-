@@ -25,6 +25,21 @@ assert(html.includes('id="nav"') && html.includes('id="app"'), 'Sample navigatio
 assert(html.includes('const screens=[overview,calendar,jobs,clients,quotes,invoices]'), 'Sample screens missing');
 assert(html.includes('render();'), 'Sample render invocation missing');
 assert(html.includes('SAMPLE WORKSPACE') && html.includes('No real client records'), 'Safe demo disclaimer missing');
+
+// The public demo uses invented clients in Miami and nearby cities, not owner-local Palm Beach data.
+// Guard all dynamic views (Clients, Routes, Requests) against leaking legacy sample locations.
+const populatedJs = readFileSync('public/assets/cleaning-demo-populated.js', 'utf8');
+try { new vm.Script(populatedJs, { filename:'public/assets/cleaning-demo-populated.js' }); }
+catch(error){faults.push('Invalid dynamic sample fixture: '+error.message);}
+const expectedLocations = ['Miami','Coral Gables','Doral','Kendall','Hialeah','Miami Beach','North Miami','Aventura','Cutler Bay','Miami Gardens'];
+for(const city of expectedLocations) assert(populatedJs.includes('"'+city+'"'),'Missing Miami sample city '+city);
+const forbiddenPlaces = /West Palm Beach|Palm Beach|Boynton Beach|Lake Worth|Delray Beach|Wellington|Florida|Service areas|Service area|Zona de servicio|\barea\b/i;
+assert(!forbiddenPlaces.test(populatedJs),'Legacy Palm Beach, Florida or area wording leaked into populated sample');
+assert(!/location:"Service area"|location:"Zona de servicio"/.test(html),'Old service-area labels remain in base demo');
+assert(html.includes('cleaning-demo-populated.js?v=20261013-miami-1'),'Demo not loading refreshed sample fixture');
+assert(populatedJs.includes('c.location')&&populatedJs.includes('locations[clients.findIndex'),'Clients and booking requests must share Miami locations');
+assert(!/<script\s+src="\/assets\/jessy-site\.js/.test(html),'Repeated Jessy must not appear inside sample iframe');
+
 if (faults.length) {
  console.error('[PUBLIC DEMO QA BLOCKED]\n' + faults.join('\n'));
  process.exitCode = 1;
