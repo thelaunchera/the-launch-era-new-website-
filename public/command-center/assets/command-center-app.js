@@ -170,6 +170,32 @@ window.TLEOwnerJessyGateway=Object.freeze({
  }
 });
 
+
+/* Per-workspace notification preferences. Device permissions are explicitly owner-selected. */
+window.TLECommandCenterNotificationsGateway=Object.freeze({
+ ready(){return !!workspace?.id&&!$('app')?.classList.contains('hidden')&&document.body.classList.contains('crm-owner-view')||!!workspace?.id&&!$('app')?.classList.contains('hidden')&&document.body.classList.contains('crm-buyer-view')},
+ workspaceId(){return this.ready()?workspace.id:null},
+ isOwner(){return this.ready()&&workspace?.is_internal===true},
+ async call(action,options={}){
+  if(!this.ready())throw Error('Sign in to Command Center first');
+  if(!['config','save','subscribe','unsubscribe','test_push','test_email'].includes(action))throw Error('Invalid notification action');
+  const {data:{session},error}=await db.auth.getSession();
+  if(error||!session?.access_token)throw Error('Verified sign-in required');
+  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),16000);
+  try{
+   const response=await fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-crm-alert-dispatch',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+session.access_token,'apikey':'sb_publishable_0TueitFYiRF3rAEMLMT8-w_FvbvY0rB'},
+    body:JSON.stringify({action,...options,workspace_id:workspace.id}),
+    signal:controller.signal
+   });
+   const result=await response.json().catch(()=>({}));
+   if(!response.ok||result.ok!==true)throw Error(result.error||'Notification settings unavailable');
+   if(!this.ready())throw Error('Account session changed');
+   return result;
+  }finally{clearTimeout(timeout)}
+ }
+});
 const say=s=>{$('message').textContent=s;if($('editor')?.open){const status=$('followupStatus');if(status)status.textContent=s}};
 async function check(result){if(result.error)throw result.error;return result.data}
 
