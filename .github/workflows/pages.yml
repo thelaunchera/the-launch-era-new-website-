@@ -42,6 +42,9 @@ jobs:
       - name: Check owner and client notification preferences and iOS push consent
         run: node scripts/qa-notification-preferences.mjs
 
+      - name: Guard iOS Command Center layout, floating controls and phone preview
+        run: node scripts/qa-mobile-command-center.mjs
+
       - name: Guard all future client password recovery links
         run: node scripts/qa-auth-recovery.mjs
 
