@@ -24,16 +24,18 @@ jobs:
         run: node scripts/qa-ai-team.mjs
       - name: Verify public route and asset integrity
         run: node scripts/qa-route-integrity.mjs --static
-      - name: Confirm anonymous calls cannot list owner tasks
+      - name: Deny anonymous read and execution calls
         shell: bash
         run: |
           set -euo pipefail
-          code="$(curl --silent --show-error --max-time 18 -o /tmp/ai-team-anon.json -w '%{http_code}' \
-            -X POST -H 'Content-Type: application/json' \
-            -d '{"action":"list"}' \
-            https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-ai-team)"
-          if [[ "$code" != "401" && "$code" != "403" ]]; then
-            echo "::error::Unauthenticated AI Team accepted or unexpected backend response ($code)."
-            exit 1
-          fi
-          echo "PASS — anonymous access denied."
+          for action in list run_agent; do
+            code="$(curl --silent --show-error --max-time 18 -o /tmp/ai-team-anon.json -w '%{http_code}' \
+              -X POST -H 'Content-Type: application/json' \
+              -d "{\"action\":\"$action\",\"agent_key\":\"sales\"}" \
+              https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-ai-team)"
+            if [[ "$code" != "401" && "$code" != "403" ]]; then
+              echo "::error::Unauthenticated AI Team $action unexpectedly returned $code."
+              exit 1
+            fi
+            echo "PASS — anonymous $action denied."
+          done
