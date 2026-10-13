@@ -294,6 +294,7 @@ Deno.serve(async req=>{
      return res({ok:true,configured:false,verified:false,reason:"missing_secret",model:null},200,origin);
    }
    const model=Deno.env.get("JESSY_MODEL")||"gpt-4.1-mini";
+   if(!/^sk-[A-Za-z0-9_-]+$/.test(OPENAI))return res({ok:true,configured:true,verified:false,reason:"secret_format_issue",model},200,origin);
    try{
      const response=await fetch("https://api.openai.com/v1/chat/completions",{
        method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+OPENAI},
@@ -307,8 +308,11 @@ Deno.serve(async req=>{
      const json=await response.json();
      const ok=!!json?.choices?.[0]?.message?.content?.trim();
      return res({ok:true,configured:true,verified:ok,reason:ok?"connected":"empty_response",model},200,origin);
-   }catch{
-     return res({ok:true,configured:true,verified:false,reason:"network_or_timeout",model},200,origin);
+   }catch(e){
+     const message=String(e?.message||"").toLowerCase();
+     const error_kind=/header|invalid character|invalid value/.test(message)?"invalid_header":/dns|resolve|lookup/.test(message)?"dns":/certificate|tls|ssl/.test(message)?"tls":/connect|refused|network|socket/.test(message)?"connection":e?.name==="TimeoutError"||e?.name==="AbortError"?"timeout":"fetch_failed";
+     console.warn("AI provider network diagnostic",error_kind);
+     return res({ok:true,configured:true,verified:false,reason:"network_or_timeout",error_kind,model},200,origin);
    }
  }
  if(action==="compose_output"){
