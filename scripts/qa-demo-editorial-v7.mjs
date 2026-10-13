@@ -45,6 +45,13 @@ for(const lang of ['en','es']){
      heroPhotoLoaded:$('.demo-cb-hero-media img')?.complete&&$('.demo-cb-hero-media img')?.naturalWidth>700,
      heroPhotoSource:$('.demo-cb-hero-media img')?.getAttribute('src'),
      heroTextColor:getComputedStyle($('.heroText .demo-headline')).color,
+     heroNoCard:(()=>{const h=getComputedStyle($('#leadHero'));return parseFloat(h.borderTopLeftRadius)===0&&h.boxShadow==='none'&&h.borderTopWidth==='0px'})(),
+     heroBg:getComputedStyle($('#leadHero')).backgroundColor,
+     heroStyleLoaded:[...document.styleSheets].some(sheet=>sheet.href?.includes('tle-demo-integrated-hero-v10.css')),
+     navIntegrated:(()=>{const n=$('.demo-editorial-nav').getBoundingClientRect();const h=$('#leadHero').getBoundingClientRect();return Math.abs(n.bottom-h.top)<3})(),
+     heroImagePosition:getComputedStyle($('.demo-cb-hero-media img')).objectPosition,
+     heroImgFilter:getComputedStyle($('.demo-cb-hero-media img')).filter,
+     darkOverlay:getComputedStyle($('#leadHero'),'::after').backgroundImage,
      heroPrimaryVisible:(()=>{const r=$('.hero .demo-hero-cta').getBoundingClientRect();const h=$('#leadHero').getBoundingClientRect();return r.left>=h.left-1&&r.right<=h.right+2&&r.bottom<=h.bottom+2})(),
      heroAreaVisible:(()=>{const r=$('#demoHeroArea').getBoundingClientRect();const h=$('#leadHero').getBoundingClientRect();return r.left>=h.left-1&&r.right<=h.right+2&&r.bottom<=h.bottom+2})(),
      categoryButtons:$('#categoryTabs').querySelectorAll('button').length,
@@ -65,7 +72,11 @@ for(const lang of ['en','es']){
    assert(m.ctaInsideHeader&&m.ctaWithinHeader,'Begin pill must sit inside header, not as a full-width bar: '+JSON.stringify(m));
    assert(m.heroPhotoLoaded&&m.heroPhotoSource?.includes('hero-woman-cleaning.jpg'),'CB-style woman cleaning photo did not load');
    assert(m.heroPrimaryVisible&&m.heroAreaVisible,'Hero CTA or personalized service area clipped: '+JSON.stringify(m));
-   assert(m.heroTextColor==='rgb(25, 25, 25)','Hero editorial text color lost contrast');
+   assert(m.heroTextColor==='rgb(250, 252, 253)','Hero headline should use white on dark backdrop: '+m.heroTextColor);
+   assert(m.heroStyleLoaded&&m.heroNoCard&&m.navIntegrated,'Hero must connect seamlessly with nav without card/border/shadow: '+JSON.stringify(m));
+   assert(m.heroBg==='rgb(16, 22, 28)'&&m.darkOverlay.includes('rgba(7, 14, 21')||m.heroBg==='rgb(16, 22, 28)'&&m.darkOverlay.includes('rgba(9, 16, 23'),
+      'Expected black/blue hero contrast and darker overlay: '+JSON.stringify(m));
+   assert(m.heroImagePosition.startsWith('100%'),'Woman-cleaning subject must be right-anchored rather than cropped away: '+m.heroImagePosition);
    assert.equal(m.ctaHref,'#categoryTabs','Begin must be a working anchor');
    assert.equal(m.categoryButtons,2,'Residential/Commercial navigation missing');
    assert(m.editorialTitle.includes(lang==='es'?'Detalles pensados':'Thoughtful details'),'New editorial copy missing: '+JSON.stringify(m.editorialTitle));
