@@ -271,3 +271,20 @@ html.demo-editorial #leadHero .demo-hero-cta:focus-visible{
 /* Final dark-mode contrast correction: the v7 nested label selector was more specific. */
 html.demo-editorial #bookingStarter #main .label,
 html.demo-editorial #bookingStarter .screen .label {color:#a9dfff!important;}
+
+/* Original supplied photographs: no thumbnail resizing or pale overlay. */
+html.demo-editorial #leadHero .demo-cb-hero-media img { transform:none!important; }
+html.demo-editorial #bookingStarter #quote .demo-quote-header {
+ background-color:#0b111b!important; background-repeat:no-repeat!important;
+ background-image:linear-gradient(90deg,rgba(3,8,14,.82),rgba(3,8,14,.64) 45%,rgba(3,8,14,.08) 90%),url('/assets/cleaning-demo/living-room-original.jpg')!important;
+ background-size:cover!important; background-position:center,center!important;
+ border-color:#729db545!important;
+}
+html.demo-editorial #bookingStarter #quote .demo-quote-header h3 {color:#fff!important;}
+html.demo-editorial #bookingStarter #quote .demo-quote-header p {color:#eaf5fa!important;}
+html.demo-editorial #bookingStarter #quote .demo-quote-header>span {color:#a9dfff!important;}
+html.demo-editorial #bookingStarter #quote .demo-quote-area {background:#0e1f2be6!important;color:#eaf5fa!important;border-color:#a9dfff80!important;}
+html.demo-editorial #demoCinematicStory .demo-cinematic-photo::before {transform:none!important;inset:0!important;will-change:auto!important;}
+@media(max-width:650px){
+ html.demo-editorial #bookingStarter #quote .demo-quote-header {background-image:linear-gradient(90deg,rgba(3,8,14,.86),rgba(3,8,14,.57)),url('/assets/cleaning-demo/living-room-original.jpg')!important;}
+}

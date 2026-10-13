@@ -42,7 +42,7 @@ for(const lang of ['en','es']){
      ctaHref:cta.getAttribute('href'),
      ctaInsideHeader:$('.panel .head').contains(cta),
      ctaWithinHeader:cta.getBoundingClientRect().top>=$('.panel .head').getBoundingClientRect().top-2&&cta.getBoundingClientRect().bottom<=$('.panel .head').getBoundingClientRect().bottom+2,
-     heroPhotoLoaded:$('.demo-cb-hero-media img')?.complete&&$('.demo-cb-hero-media img')?.naturalWidth>700,
+     heroPhotoLoaded:$('.demo-cb-hero-media img')?.complete&&$('.demo-cb-hero-media img')?.naturalWidth>=1536,
      heroPhotoSource:$('.demo-cb-hero-media img')?.getAttribute('src'),
      heroTextColor:getComputedStyle($('.heroText .demo-headline')).color,
      heroPrimaryVisible:(()=>{const r=$('.hero .demo-hero-cta').getBoundingClientRect();const h=$('#leadHero').getBoundingClientRect();return r.left>=h.left-1&&r.right<=h.right+2&&r.bottom<=h.bottom+2})(),
@@ -56,21 +56,27 @@ for(const lang of ['en','es']){
    assert(m.mode&&m.css,'Public sample styles not activated');
    assert(m.scrollWidth<=width+2,'Horizontal overflow '+JSON.stringify(m));
    assert(m.storyAfterPanel&&m.storyVisible&&m.photoVisible,'Photo editorial section missing or not directly after booking card '+JSON.stringify(m));
-   assert(m.photoImage.includes('approved-home-cleaner.avif'),'Approved cleaner photograph not used in editorial panel');
+   assert(m.photoImage.includes('living-room-original.jpg'),'Approved cleaner photograph not used in editorial panel');
    const approvedPhotoLoaded=await page.evaluate(()=>new Promise(resolve=>{
      const img=new Image();
-     img.onload=()=>resolve(img.naturalWidth>=700&&img.naturalHeight>=400);
+     img.onload=()=>resolve(img.naturalWidth>=1536&&img.naturalHeight>=658);
      img.onerror=()=>resolve(false);
-     img.src='/assets/cleaning-demo/approved-home-cleaner.avif';
+     img.src='/assets/cleaning-demo/living-room-original.jpg';
    }));
    assert(approvedPhotoLoaded,'Approved photo asset missing or unreadable');
+   const quotePhoto=await page.evaluate(()=>{
+    const el=document.querySelector('#quote .demo-quote-header');const c=getComputedStyle(el);
+    return {image:c.backgroundImage,title:getComputedStyle(el.querySelector('h3')).color};
+   });
+   assert(quotePhoto.image.includes('living-room-original.jpg')&&!quotePhoto.image.includes('250, 248, 243'),'Quote card must use the original room and black overlay');
+   assert.equal(quotePhoto.title,'rgb(255, 255, 255)','Quote title must stay white');
    assert.equal(m.cardCount,5,'Five working residential options must remain');
    assert(m.cardIconWidth>=19,'Service card icons hidden or too small');
    assert(m.serviceFont>=14.5,'Service typography too small');
    assert(m.headerFont.includes('Prompt'),'Headings not using Prompt typography');
    assert(m.ctaRadius>=24 && m.circleRadius>=16,'CTA or arrow icon still looks square');
    assert(m.ctaInsideHeader&&m.ctaWithinHeader,'Begin pill must sit inside header, not as a full-width bar: '+JSON.stringify(m));
-   assert(m.heroPhotoLoaded&&m.heroPhotoSource?.includes('tle-midnight-hero.avif'),'CB-style woman cleaning photo did not load');
+   assert(m.heroPhotoLoaded&&m.heroPhotoSource?.includes('hero-cleaner-original.jpg'),'CB-style woman cleaning photo did not load');
    assert(m.heroPrimaryVisible&&m.heroAreaVisible,'Hero CTA or personalized service area clipped: '+JSON.stringify(m));
    assert(m.heroTextColor==='rgb(255, 255, 255)','Midnight hero headline should be white');
    const darkUi=await page.evaluate(()=>({

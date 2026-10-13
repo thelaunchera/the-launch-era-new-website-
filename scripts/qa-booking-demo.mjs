@@ -239,12 +239,12 @@ for(const v of screens) for(const lang of ['en','es']) {
 await check('Approved midnight-blue editorial demo, real form and safe confirmation',{width:390,height:844},async p=>{
  await p.goto(base+'/lead-private-preview.html?business=Example%20Cleaning&area=Charlotte%2C%20NC',{waitUntil:'domcontentloaded'});
  const heroPhoto=p.locator('#leadHero .demo-cb-hero-media img');
- assert.match(await heroPhoto.getAttribute('src'),/tle-midnight-hero\.avif/,'Hero uses the new cinematic cleaner photograph');
+ assert.match(await heroPhoto.getAttribute('src'),/hero-cleaner-original\.jpg/,'Hero uses the new cinematic cleaner photograph');
  assert(await heroPhoto.evaluate(img=>img.complete&&img.naturalWidth>700),'Hero photograph must load at full width');
  assert.equal(await p.locator('.demo-feature-bar').isVisible(),false,'No duplicate numbered feature strip');
  assert.equal(await p.locator('#demoCinematicStory').isVisible(),true,'New premium photo card should be visible after booking');
  const storyPhoto=await p.locator('#demoCinematicStory .demo-cinematic-photo').evaluate(el=>getComputedStyle(el).backgroundImage);
- assert.match(storyPhoto,/approved-home-cleaner\.avif/,'Approved cleaning photo replaces empty living room');
+ assert.match(storyPhoto,/living-room-original\.jpg/,'Approved cleaning photo replaces empty living room');
  assert.match(await p.locator('.demo-headline').innerText(),/Beautifully cleaned\.\s*Simply booked\./,'Distinctive approved hero text');
  assert.equal(await p.locator('#demoHeroArea').innerText(),'Serving Charlotte, NC','Service area personalized to prospect');
  assert.equal(await p.locator('.demo-showcase-benefits>div').count(),3,'Three readable benefit rows');

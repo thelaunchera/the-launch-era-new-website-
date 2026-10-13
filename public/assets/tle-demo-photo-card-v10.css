@@ -11,7 +11,7 @@ html.demo-editorial #demoCinematicStory {
 }
 html.demo-editorial #demoCinematicStory .demo-cinematic-photo {
   min-height:420px!important;
-  background:#E6EEF1 url("/assets/cleaning-demo/approved-home-cleaner.avif") 78% 50%/cover no-repeat!important;
+  background:#E6EEF1 url("/assets/cleaning-demo/living-room-original.jpg") 78% 50%/cover no-repeat!important;
   isolation:isolate;
   overflow:hidden!important;
 }
@@ -21,7 +21,7 @@ html.demo-editorial #demoCinematicStory .demo-cinematic-photo::before {
   inset:-12px;
   z-index:0!important;
   display:block!important;
-  background-image:url("/assets/cleaning-demo/approved-home-cleaner.avif")!important;
+  background-image:url("/assets/cleaning-demo/living-room-original.jpg")!important;
   background-repeat:no-repeat!important;
   background-position:78% center!important;
   background-size:cover!important;

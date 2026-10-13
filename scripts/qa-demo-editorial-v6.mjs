@@ -48,7 +48,7 @@ for(const lang of ['en','es']){
    assert(main.areaText===(lang==='es'?'Atendemos Fort Lauderdale':'Serving Fort Lauderdale'),'Area not localized or personalized: '+main.areaText);
    assert(main.showcaseTitle.includes(lang==='en'?'Clear details':'Detalles claros'),'New slogans missing');
    assert.equal(main.quoteCards,3,'Functional cleaning-service cards missing');
-   assert(main.heroPhoto?.includes('/assets/cleaning-demo/tle-midnight-hero.avif')&&main.heroImgLoaded&&main.heroCbCss,'CB Depot style cleaning professional hero must load');
+   assert(main.heroPhoto?.includes('/assets/cleaning-demo/hero-cleaner-original.jpg')&&main.heroImgLoaded&&main.heroCbCss,'CB Depot style cleaning professional hero must load');
    assert(main.ctaInHero&&main.areaInHero,'Hero action or personalized service badge is clipped');
    try{await page.screenshot({path:'qa-screenshots/demo-v6/'+lang+'-'+width+'-hero.png',fullPage:false});}catch(imageError){console.warn('Optional browser screenshot failed at hero for',lang,width,imageError.message);}
    await page.evaluate(()=>startQuote('estimate'));
