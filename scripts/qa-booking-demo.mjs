@@ -238,10 +238,13 @@ for(const v of screens) for(const lang of ['en','es']) {
 }
 await check('Approved light-blue editorial demo, real form and safe confirmation',{width:390,height:844},async p=>{
  await p.goto(base+'/lead-private-preview.html?business=Example%20Cleaning&area=Charlotte%2C%20NC',{waitUntil:'domcontentloaded'});
- const hero=await p.locator('#leadHero').evaluate(el=>getComputedStyle(el).backgroundImage);
- assert.match(hero,/cleaner-in-home\.png/,'Hero photograph shows a cleaning work environment');
+ const heroPhoto=p.locator('#leadHero .demo-cb-hero-media img');
+ assert.match(await heroPhoto.getAttribute('src'),/hero-woman-cleaning\.jpg/,'Hero uses the approved cleaning-work photograph');
+ assert(await heroPhoto.evaluate(img=>img.complete&&img.naturalWidth>700),'Hero photograph must load at full width');
  assert.equal(await p.locator('.demo-feature-bar').isVisible(),false,'No duplicate numbered feature strip');
- assert.equal(await p.locator('#demoCinematicStory').isVisible(),false,'Redundant cinematic sales chapter hidden');
+ assert.equal(await p.locator('#demoCinematicStory').isVisible(),true,'New premium photo card should be visible after booking');
+ const storyPhoto=await p.locator('#demoCinematicStory .demo-cinematic-photo').evaluate(el=>getComputedStyle(el).backgroundImage);
+ assert.match(storyPhoto,/approved-home-cleaner\.avif/,'Approved cleaning photo replaces empty living room');
  assert.match(await p.locator('.demo-headline').innerText(),/Beautifully cleaned\.\s*Simply booked\./,'Distinctive approved hero text');
  assert.equal(await p.locator('#demoHeroArea').innerText(),'Serving Charlotte, NC','Service area personalized to prospect');
  assert.equal(await p.locator('.demo-showcase-benefits>div').count(),3,'Three readable benefit rows');
@@ -252,11 +255,11 @@ await check('Approved light-blue editorial demo, real form and safe confirmation
  assert(layout.headingSize>=33,'Mobile headline is legible');
  assert(layout.heroH>=490,'Hero photography stays prominent');
  assert.equal(await p.locator('.demo-hero-cta').innerText(),'Choose your service');
- assert.equal(await p.locator('.demo-hero-cta').getAttribute('href'),'#demoServices');
+ assert.equal(await p.locator('.demo-hero-cta').getAttribute('href'),'#bookingStarter');
  assert.equal(await p.locator('.demo-nav-jump').count(),0,'No duplicate nav CTA');
  assert.equal(await p.locator('#leadName').innerText(),'PERSONALIZED FOR EXAMPLE CLEANING');
  assert.match(await p.locator('#demoBrandName').innerText(),/Example Cleaning/i);
- await p.locator('.demo-showcase-card[data-demo-category="commercial"]').click();
+ await p.locator('#categoryTabs button[data-category="commercial"]').click();
  assert.equal(await p.locator('#commercialServiceList').isVisible(),true,'Real commercial selection intact');
  await p.evaluate(()=>startQuote('quote'));
  assert.equal(await p.locator('#quote').isVisible(),true);
