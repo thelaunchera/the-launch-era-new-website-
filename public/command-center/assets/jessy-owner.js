@@ -317,9 +317,39 @@ function showProjectReadiness(result){
  if(result.coverage?.length)panel.append(el("p","jo-draft-disclaimer",es?"Una fuente no respondió. Revisión parcial.":"One source did not respond. Partial review."));
  log.append(panel);log.scrollTop=log.scrollHeight;
 }
+function aiTeamIntent(question){
+ if(!window.TLEAIOpsGateway?.ready?.()||activeContext().section!=="ai-team")return null;
+ const q=String(question||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+ if(!/(revis|check|analiz|analys|auditar|audit|escane|scan|comprobar|run|ejecut|verific|resumen|report|status|estado)/.test(q))return null;
+ if(/(lead|prospect|venta|seguimient|sales)/.test(q))return "sales";
+ if(/(proyect|intake|entreg|delivery|client|project)/.test(q))return "projects";
+ if(/(codigo|github|repositorio|repository|developer|deploy)/.test(q))return "developer";
+ if(/(ruta|enlace|404|qa|test|web|pagina|site|link)/.test(q))return "qa";
+ if(/(brand|marca|creativ|contenido|marketing|copy)/.test(q))return "creative";
+ if(/(soporte|support|customer care|atencion al cliente)/.test(q))return "care";
+ if(/(equipo|prioridad|jess|operations|operacion|general)/.test(q))return "jessie";
+ return null;
+}
 async function ask(raw){
  if(waiting||!owner()||!root)return;
  const question=String(raw||"").trim().slice(0,340);
+ const teamAgent=aiTeamIntent(question);
+ if(teamAgent){
+  if(!open)show();bubble(question,"user");input.value="";
+  const pending=bubble(t("thinking"),"bot");
+  waiting=true;send.disabled=true;
+  try{
+   const result=await window.TLEAIOpsGateway.run(teamAgent);
+   const resultFacts=(result?.report?.facts||[]).filter(x=>x.value!==null).slice(0,4)
+    .map(x=>String(x.label)+": "+String(x.value)).join("\n");
+   pending.textContent=String(result?.report?.summary||t("error"))+(resultFacts?"\n"+resultFacts:"");
+   history.push({role:"user",message:question},{role:"assistant",message:pending.textContent});
+   if(history.length>8)history=history.slice(-8);
+  }catch(e){pending.textContent=e?.message||t("error")}
+  finally{waiting=false;if(send)send.disabled=false}
+  return;
+ }
+
  if(/(?:whatsapp|watsap|wasap|wsp)/i.test(question)&&/(alert|notify|notification|avis|notific|configur|setting|activar)/i.test(question)){if(!open)show();bubble(question,"user");input.value="";await showWhatsAppSettings();return;}
  if(question.length<2)return;
  if(/\b(draft|borrador|prepara|preparar|escribe|write)\b.*\b(follow.?up|seguimiento|correo|email)\b|\b(follow.?up|seguimiento)\b.*\b(draft|borrador|prepar)/i.test(question)){
