@@ -1,7 +1,14 @@
 name: Cleaning Demo Editorial v6 QA
 on:
   push:
-    branches: [design/cleaning-demo-hero-confirmation-v6-20261013 , design/demo-booking-editorial-v7-20261013]
+    branches: [main, design/cleaning-demo-hero-confirmation-v6-20261013, design/demo-booking-editorial-v7-20261013]
+    paths:
+      - 'public/lead-private-preview.html'
+      - 'public/assets/tle-demo-*.css'
+      - 'public/assets/cleaning-demo/tle-midnight-hero.avif'
+      - 'scripts/qa-demo-editorial-v6.mjs'
+      - 'scripts/qa-demo-editorial-v7.mjs'
+      - '.github/workflows/demo-editorial-v6-qa.yml'
   pull_request:
     paths:
       - 'public/lead-private-preview.html'
