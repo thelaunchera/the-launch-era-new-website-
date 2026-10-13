@@ -10,21 +10,30 @@ permissions:
 jobs:
   add-woman-hero:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 6
     steps:
       - uses: actions/checkout@v4
         with:
           persist-credentials: true
-      - name: Add professionally licensed woman-cleaning photograph
+      - name: Transfer user-approved generated photograph into repository
         run: |
+          set -euo pipefail
           mkdir -p public/assets/cleaning-demo
-          curl --fail --location --retry 3 --silent --show-error --max-time 90 \
-            'https://images.unsplash.com/photo-1758523670739-0d26a3ee976d?auto=format&fm=jpg&fit=crop&w=1920&q=85' \
-            --output public/assets/cleaning-demo/hero-woman-cleaning.jpg
-          file public/assets/cleaning-demo/hero-woman-cleaning.jpg
-          test "$(stat -c%s public/assets/cleaning-demo/hero-woman-cleaning.jpg)" -gt 30000
+          curl --fail --location --retry 3 --silent --show-error --max-time 95 \
+            'https://media.canva.com/v2/image-resize/format:PNG/height:941/quality:100/uri:ifs%3A%2F%2FM%2F72c98ee1-047a-45cc-9597-3fb5133bda6e/watermark:F/width:1672?csig=AAAAAAAAAAAAAAAAAAAAAFTck0M5CZlHJV0Zp-cyiJQtqmaujApyCQYA1AcNCrA8&exp=1791913940&osig=AAAAAAAAAAAAAAAAAAAAADfsA9ZmueLoM30O9GT0MZ5O9eFFa4RLDSn50jvlpQHc&signer=media-rpc&token=AAIAAU0AJDcyYzk4ZWUxLTA0N2EtNDVjYy05NTk3LTNmYjUxMzNiZGE2ZQAAAAABoTZk1CDSzTSZ8ik0Eo16zlBYnmIEsDJpIxE5SleOxNmkNUUxbg&x-canva-quality=thumbnail' \
+            --output public/assets/cleaning-demo/hero-woman-cleaning.png
+          file public/assets/cleaning-demo/hero-woman-cleaning.png
+          python3 - <<'PY'
+          import struct
+          p='public/assets/cleaning-demo/hero-woman-cleaning.png'
+          data=open(p,'rb').read()
+          if data[:8] != b'\x89PNG\r\n\x1a\n': raise SystemExit('Source did not return PNG pixels')
+          width,height=struct.unpack('>II',data[16:24])
+          if width < 1400 or height < 790: raise SystemExit(f'Asset too small: {width}x{height}')
+          print('Approved source transferred',width,height,len(data))
+          PY
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add public/assets/cleaning-demo/hero-woman-cleaning.jpg
-          git commit -m 'Add high-resolution woman cleaning hero image for public demo'
+          git add public/assets/cleaning-demo/hero-woman-cleaning.png
+          git commit -m 'Import approved generated woman-cleaning hero from Canva into repo'
           git push origin HEAD:design/demo-booking-editorial-v7-20261013
