@@ -1,0 +1,94 @@
+/* TLE demo hero CTA repair, public sample only.
+   Keep all booking handlers and private customer previews unchanged. */
+html.demo-editorial #bookingStarter {
+  scroll-margin-top: clamp(70px, 12vh, 110px)!important;
+}
+html.demo-editorial #bookingStarter:focus {
+  outline:none;
+}
+html.demo-editorial #leadHero .demo-hero-cta {
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:18px!important;
+  min-height:58px!important;
+  padding:12px 19px 12px 24px!important;
+  border-radius:999px!important;
+  border:1px solid #A7CFE5!important;
+  background:#D7EFFF!important;
+  color:#191919!important;
+  font:700 16px/1.2 Futura,'DM Sans',Arial,sans-serif!important;
+  letter-spacing:-.015em!important;
+  text-decoration:none!important;
+  box-shadow:0 10px 25px rgba(28,81,111,.13)!important;
+  cursor:pointer!important;
+  -webkit-tap-highlight-color:transparent;
+}
+html.demo-editorial #leadHero .demo-hero-cta .demo-inline-arrow {
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:25px!important;
+  height:25px!important;
+  flex:0 0 25px!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:#191919!important;
+  font-size:0!important;
+  transform:none!important;
+  overflow:visible!important;
+}
+html.demo-editorial #leadHero .demo-hero-cta .demo-inline-arrow::before,
+html.demo-editorial #leadHero .demo-hero-cta .demo-inline-arrow::after {
+  content:none!important;
+  display:none!important;
+  border:0!important;
+}
+html.demo-editorial #leadHero .demo-hero-cta .demo-inline-arrow svg {
+  display:block!important;
+  width:24px!important;
+  height:24px!important;
+  flex:0 0 24px!important;
+  fill:none!important;
+  stroke:currentColor!important;
+  stroke-width:2!important;
+  transform:none!important;
+}
+html.demo-editorial #leadHero .demo-hero-cta:hover {
+  background:#C5E7F9!important;
+  box-shadow:0 11px 25px rgba(28,81,111,.15)!important;
+}
+html.demo-editorial #leadHero .demo-hero-cta:active {
+  transform:scale(.99)!important;
+}
+html.demo-editorial #leadHero .demo-hero-cta:focus-visible {
+  outline:3px solid #4184AD!important;
+  outline-offset:4px!important;
+}
+@media (max-width:800px) {
+  html.demo-editorial #leadHero .demo-hero-cta {
+    min-height:55px!important;
+    padding:11px 18px 11px 20px!important;
+    font-size:15px!important;
+    gap:15px!important;
+  }
+  html.demo-editorial #leadHero .demo-hero-cta .demo-inline-arrow {
+    width:22px!important;
+    height:22px!important;
+    flex-basis:22px!important;
+  }
+  html.demo-editorial #leadHero .demo-hero-cta .demo-inline-arrow svg {
+    width:22px!important;
+    height:22px!important;
+    flex-basis:22px!important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html.demo-editorial #leadHero .demo-hero-cta {
+    transition:none!important;
+  }
+}
