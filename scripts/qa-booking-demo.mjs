@@ -240,9 +240,9 @@ await check('Demo uses new photos without changing the original buyer design',{w
  await p.goto(base+'/lead-private-preview.html?business=Example%20Cleaning',{waitUntil:'domcontentloaded'});
  const hero=await p.locator('#leadHero').evaluate(el=>getComputedStyle(el,'::before').backgroundImage);
  assert.match(hero,/whole-home.png/,'Mobile hero should use approved publicly shared home imagery from the owner Drive photo pack');
- assert.equal(await p.locator('.demo-why').count(),1,'Premium why-choose-us scene exists');
- assert.equal(await p.locator('.demo-results .demo-result-card').count(),3,'Feature cards are present without invented reviews');
- assert.equal(await p.locator('.demo-feature-bar > div').count(),4,'Four real demo features appear, not fabricated customer metrics');
+ assert.equal(await p.locator('.demo-why').count(),0,'Remove repetitive sales section to make demo concise');
+ assert.equal(await p.locator('.demo-results .demo-result-card').count(),0,'Remove redundant feature cards');
+ assert.equal(await p.locator('.demo-feature-bar').isVisible(),false,'Old numbered feature strip must not interrupt the demo');
  assert.match(await p.locator('.demo-headline').innerText(),/CLEAN\s*ELEVATED/,'Approved editorial headline remains in the sample demo');
  const layout=await p.evaluate(()=>{
   const h=document.querySelector('#leadHero');
@@ -253,15 +253,22 @@ await check('Demo uses new photos without changing the original buyer design',{w
  assert.match(layout.photo,/whole-home.png/,'Phone displays approved Drive home photo first');
  assert.equal(await p.locator('#demoCinematicStory').count(),1,'The cinematic scroll chapter is present');
  assert.equal(await p.locator('.demo-cinematic-photo').count(),1,'Cinematic photo region is present');
- assert.equal(await p.locator('#demoScrollProgress').count(),1,'Reading progress line is present');
+ assert.equal(await p.locator('#demoScrollProgress').isVisible().catch(()=>false),false,'Remove distracting scroll status indicator');
  const ssrc=await p.locator('.demo-cinematic-photo').evaluate(el=>getComputedStyle(el,'::before').backgroundImage);
  assert.match(ssrc,/living-suite\.png/,'Cinematic photo is served from versioned site assets, not private Google Drive');
 
- assert.equal(await p.locator('.demo-inline-arrow').count()>=3,true,'CTA indicators are consistent drawn vectors, not emoji arrows');
+ assert.equal(await p.locator('.demo-hero-cta').count(),1,'Exactly one primary promotional CTA');
+ assert.equal(await p.locator('.demo-hero-art').count(),0,'No amateur floating soap bubbles');
+ assert.equal(await p.locator('.demo-vertical-note').count(),0,'No duplicate floating slogan');
+ assert.equal(await p.locator('.demo-hero-cta').innerText(),'Choose your service','Primary CTA leads to service choices');
+ assert.equal(await p.locator('.demo-hero-cta').getAttribute('href'),'#demoServices','Primary CTA navigates to service section');
+ assert.equal(await p.locator('.demo-nav-jump').count(),0,'No redundant header CTA');
+ assert.equal(await p.locator('.demo-cinematic-overlay').count(),0,'No giant decorative chapter overlay');
+ assert.equal(await p.locator('.trust').isVisible(),false,'Remove duplicate benefit pills');
  assert.equal(await p.locator('.demo-showcase-label b').count(),0,'No chunky emoji arrow chips inside service cards');
  await p.locator('#demoCinematicStory').scrollIntoViewIfNeeded();
  await p.waitForTimeout(350);
- assert.equal(await p.locator('#demoScrollProgress > span').evaluate(el=>Number.parseFloat(getComputedStyle(el).transform.split(',')[0].replace('matrix(',''))>0),true,'Reading progress responds to scrolling');
+ assert.equal(await p.locator('.demo-cinematic-copy').isVisible(),true,'Cinematic section remains readable while scrolling');
  assert.equal(await p.locator('html').evaluate(el=>el.classList.contains('demo-editorial')),true,'Shared prospect demo loads editorial design');
  assert.equal(await p.locator('#leadName').innerText(),'PERSONALIZED FOR EXAMPLE CLEANING','Per-lead branding stays intact');
  assert.equal(await p.locator('#demoEditorialNav').isVisible(),true,'Prospect navigation is visible');
@@ -269,6 +276,9 @@ await check('Demo uses new photos without changing the original buyer design',{w
  assert.equal(await p.locator('.demo-showcase-card').count(),3,'Three editorial cleaning service cards');
  await p.locator('.demo-showcase-card[data-demo-category="commercial"]').click();
  assert.equal(await p.locator('#commercialServiceList').isVisible(),true,'Editorial service card opens actual commercial booking choice');
+ const data=await p.locator('#commercial').evaluate(el=>({screenW:document.documentElement.scrollWidth,viewport:innerWidth,fields:[...el.querySelectorAll('input.field,select.field,textarea.field')].filter(x=>!x.hidden).map(x=>({w:x.getBoundingClientRect().width,left:x.getBoundingClientRect().left,right:x.getBoundingClientRect().right}))}));
+ assert.equal(data.screenW<=data.viewport+3,true,'Booking fields do not cause horizontal page overflow on iPhone');
+ assert.equal(data.fields.every(x=>x.left>=-3 && x.right<=data.viewport+3),true,'All commercial form controls fit iPhone viewport');
  await p.locator('[data-category="residential"]').click();
  await p.evaluate(()=>startQuote('quote'));
  assert.equal(await p.locator('#quote').isVisible(),true);
