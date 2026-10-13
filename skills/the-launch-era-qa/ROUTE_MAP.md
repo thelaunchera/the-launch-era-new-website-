@@ -47,6 +47,7 @@ Verified against production page loads and repository sources on **2026-10-12**.
 | \`/cleaning-app/\` | \`public/cleaning-app/index.html\` | Legacy marketing redirect to \`/cleaning-web-app/\` (observed) |
 | \`https://app.thelaunchera.com/\` | \`thelaunchera/launch-Era-App-\` | Operational Cleaning App, separate from marketing site |
 
+| \\`/command-center/ai-team.html\\` | \\`public/command-center/ai-team.html\\` + AI Team assets | Private The Launch Era internal owner role only; tasks, AI plans, approvals, evidence, audit. No buyer access or automatic external action. |\n
 Other routes exist under \`src/routes/\`, \`public/es/\`, \`public/intake/\` and \`public/ai-booking-assistant/\`; \`scripts/qa-route-integrity.mjs\` scans the filesystem for static references. All routes must be added here when they become a production CTA.
 
 ## Button/link contract (source → destination → condition)
@@ -137,3 +138,10 @@ Repeat after ANY route/button/domain change: 360px phone, 390px phone, 820px tab
 
 ## Website favicon (2026-10-13)
 Main website root EN/ES declares /favicon.png (512x512), /favicon.ico and /apple-touch-icon.png (180x180). /favicon.svg is the same square TLE-on-light-blue mark. Client tenant favicon links and Command Center icons are separate and preserved. Google may refresh only after recrawl.
+
+## Private AI Team v1 (2026-10-13)
+- Owner sidebar `My AI Team` / `Mi equipo de IA` opens `https://thelaunchera.com/command-center/ai-team.html`. `public/command-center/assets/ai-team-entry.js` injects navigation only while `TLEOwnerJessyGateway.ready()` verifies the internal owner; it is never a buyer/client navigation item.
+- Backend `tle-ai-team` validates the JWT, membership of `platform_admins`, and that the user created the internal workspace. Task and event tables have RLS with no direct anonymous/authenticated grants. No real customer record is mutated by the task board.
+- Actions: `list`, `scan` (read-only aggregate counts), `create`, `assign`, `status`, `approve`, `complete` with evidence, `plan` (LLM suggestion only). AI planning does NOT execute a task. Email, payment, deployment and buyer data modifications are not AI Team actions.
+- Standalone Jessie mounts only after owner checks and stays on `/command-center/ai-team.html`; back action returns to `/command-center/`.
+- QA: unauthorized/buyer JWT denied; duplicate task submit rejected; XSS-safe rendered content; mobile 360/390, tablet 820/1024, desktop 1440, iOS Safari and desktop browser; navigation, refresh, logout and approvals checked before production release.
