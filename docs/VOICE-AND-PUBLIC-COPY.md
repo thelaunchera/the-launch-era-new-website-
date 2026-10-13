@@ -20,6 +20,12 @@ No raw API responses, errors, tokens, URLs for infrastructure, webhooks, environ
 
 Keep honest, plain-language notices where needed: demo data is an example; a demo doesn't create a real booking; approval isn't delivery; price estimates aren't final prices; payment isn't verified until confirmed; a purchase's timeline starts when required details and approvals are complete. Do not hide material limits, prices, terms, or safety instructions just to make copy sound friendlier.
 
+## Digital-first contact and setup language
+- The Launch Era's public footers and intake introductions do not advertise a weekly office-hours timetable. People can send inquiries and submit setup forms at any time; human replies are not promised 24/7.
+- Keep the distinction between always-available submission and the **48-hour estimated production window**, which begins only with completed payment, forms and required approvals during the next available production period. Preserve material Saturday cutoff conditions on offer pages, checkout and legal terms.
+- A cleaning business customer **must still configure its own booking availability and policies**. Those operational hours are the customer's hours, not The Launch Era's customer-support hours.
+- Maintain equivalent EN/ES phrasing and a direct contact link in the public footer. Do not claim a message was delivered without a confirmed provider result.
+
 ## Consistency / quality
 - Keep English and Spanish pages equivalent, including offer, timing, FAQ, forms, review allowances, and error states.
 - Never change pricing, discounts, cutoffs, access permissions, auto-confirm behavior, or delivery commitments during a copy-only revision.
