@@ -6,7 +6,7 @@ const core=read("public/command-center/assets/command-center-app.js");
 const ui=read("public/command-center/assets/jessy-owner.js");
 const css=read("public/command-center/assets/jessy-owner.css");
 const fn=read("supabase/functions/tle-jessy-owner/index.ts");
-assert.match(page,/jessy-owner\.js\?v=20261012-allpages-v1/);
+assert.match(page,/jessy-owner\.js\?v=20261012-[a-z0-9-]+-v[0-9]+/);
 assert.match(page,/command-center-app\.js\?v=20261012-[a-z0-9-]+-v1/);
 assert.match(core,/TLEOwnerJessyGateway/);
 assert.match(core,/workspace\?\.is_internal===true/);
