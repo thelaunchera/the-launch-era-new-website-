@@ -134,4 +134,5 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 ## 2026-10-13 — Sample demo photo sharpness and washed-out quote card
 - Verified source: compressed 1280px hero and 760px story AVIF, plus the v6 white gradient on `.demo-quote-header` surviving dark background-color overrides.
 - Fix: copied the user's original 1536px JPEG photographs byte-for-byte; hero uses cleaner original, quote and story use spacious living-room original. Removed hero/story enlargement and replaced quote white gradient with black; white and light-blue text. Cache versions updated. Sample-only selectors preserve buyer/owner previews and client assets.
-- Validation: route, sample integrity and client isolation static checks passed. Responsive browser checks and production rollout recorded after execution below.
+- Validation: route, sample integrity and client isolation static checks passed. GitHub responsive browser workflow 38435097021 passed EN/ES at 360, 390, 768/820, 1024 and 1440px, plus buyer/owner isolation. Live browser verified original hero naturalWidth 1536, original room background with black gradient, readable white quote heading, EN/ES and no desktop overflow. Asset git hashes match the unmodified uploaded originals.
+
