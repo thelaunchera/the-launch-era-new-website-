@@ -1,0 +1,165 @@
+/* The Launch Era — private owner AI Team. All privileged actions are server-verified. */
+const $=id=>document.getElementById(id);
+const ENDPOINT="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-ai-team";
+const URL="https://bowacxhmjvrqixtwaikv.supabase.co";
+const KEY="sb_publishable_0TueitFYiRF3rAEMLMT8-w_FvbvY0rB";
+const db=window.supabase?.createClient?.(URL,KEY,{auth:{storageKey:"tle-crm-auth",persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+const agents=[
+ {key:"jessie",icon:"✦",name:"Jessie · Chief of Staff",es:"Coordina prioridades, tareas y aprobaciones.",en:"Coordinates priorities, tasks and approvals."},
+ {key:"sales",icon:"↗",name:"AI Sales",es:"Revisa prospectos y prepara seguimientos autorizados.",en:"Reviews prospects and prepares approved follow-ups."},
+ {key:"projects",icon:"▣",name:"AI Project Manager",es:"Organiza intakes, activaciones y entregas.",en:"Organizes intakes, activations and deliveries."},
+ {key:"developer",icon:"⌘",name:"AI Developer",es:"Prepara planes de cambios en repositorios y apps.",en:"Plans code fixes and application changes."},
+ {key:"qa",icon:"✓",name:"AI Quality Control",es:"Planifica pruebas de enlaces, login y responsive.",en:"Plans link, login and responsive QA."},
+ {key:"creative",icon:"◈",name:"AI Creative Director",es:"Coordina diseños y revisiones del contenido.",en:"Coordinates designs and content reviews."},
+ {key:"care",icon:"♡",name:"AI Customer Care",es:"Prepara comunicaciones para revisión.",en:"Prepares customer communications for review."}
+];
+const words={
+ es:{intro:"Jessie coordina. Los especialistas preparan los próximos pasos. Tú apruebas cada acción importante.",review:"Revisar mi espacio",newTask:"+ Nueva tarea",truth:"Los planes de IA son recomendaciones, no trabajos completados. No se envían correos ni se hacen cambios a clientes o despliegues automáticamente.",team:"Un equipo. Responsabilidades claras.",taskTitle:"Tareas y aprobaciones",count:"Tareas activas",approvals:"Esperando aprobación",scan:"Resumen del sistema",notChecked:"Sin revisar",snapshot:"Ejecuta una revisión de solo lectura para ver las cifras verificadas.",empty:"Todavía no hay tareas. Crea la primera para Jessie.",read:"Ver tareas",plan:"Crear plan con IA",start:"Iniciar revisión",needs:"Solicitar aprobación",approve:"Aprobar plan",complete:"Registrar finalización",block:"Bloquear",unblock:"Reanudar",cancel:"Cancelar tarea",confirmCancel:"¿Cancelar esta tarea? Esta acción no afecta servicios externos.",cancelled:"Cancelada",verified:"Hecho, con evidencia registrada.",create:"Crear tarea",choose:"Elige un agente",busy:"Trabajando…",serverError:"No se pudo completar. Revisa tu conexión.",created:"La tarea se guardó. No se ejecutó ninguna acción externa.",planDisclaimer:"Plan propuesto por IA. No se ha ejecutado.",scanning:"Verificando…",prospects:"Prospectos activos",notifications:"Notificaciones pendientes",support:"Tickets abiertos",queue:"Tareas activas",partial:"No disponible",auditEmpty:"Aún no hay actividad.",modalTitle:"Crear una tarea del equipo",taskAgent:"Agente responsable",taskName:"Título de la tarea",taskDesc:"Contexto / requisitos",priority:"Prioridad",evidence:"Evidencia de la verificación",back:"← Command Center"},
+ en:{intro:"Jessie coordinates. Specialists prepare the next steps. You approve every important action.",review:"Review my workspace",newTask:"+ New task",truth:"AI plans are suggestions, not completed work. No automatic emails, client changes or deployments.",team:"One team. Clear responsibilities.",taskTitle:"Tasks & approvals",count:"Active team tasks",approvals:"Awaiting approval",scan:"Workspace scan",notChecked:"Not checked",snapshot:"Run a read-only scan to see verified workspace counts.",empty:"No tasks yet. Create one for Jessie.",read:"View tasks",plan:"Generate AI plan",start:"Start review",needs:"Request approval",approve:"Approve plan",complete:"Record completion",block:"Block task",unblock:"Resume",cancel:"Cancel task",confirmCancel:"Cancel this task? External services won't be affected.",cancelled:"Cancelled",verified:"Done, with verified evidence.",create:"Create task",choose:"Choose an agent",busy:"Working…",serverError:"Could not complete that request. Check your connection.",created:"Task saved. No external action was executed.",planDisclaimer:"AI-proposed plan. Not executed.",scanning:"Checking…",prospects:"Active prospects",notifications:"Unread notifications",support:"Open support items",queue:"Active tasks",partial:"Unavailable",auditEmpty:"No activity yet.",modalTitle:"Create a team task",taskAgent:"Responsible agent",taskName:"Task title",taskDesc:"Context / requirements",priority:"Priority",evidence:"Verification evidence",back:"← Command Center"}
+};
+let language="es",tasks=[],events=[],scan=null,verified=false,activeFinish=null,plans=new Map(),inFlight=false;
+try{language=localStorage.getItem("tle_crm_owner_language")==="en"?"en":"es"}catch{}
+function tx(k){return words[language][k]}
+function el(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n}
+function showError(message){const toast=$("toast");toast.textContent=String(message||tx("serverError"));toast.hidden=false;toast.classList.add("error");setTimeout(()=>{toast.hidden=true;toast.classList.remove("error")},6000)}
+function notify(message){const toast=$("toast");toast.textContent=message;toast.hidden=false;toast.classList.remove("error");setTimeout(()=>toast.hidden=true,4500)}
+async function api(body){
+ if(!verified&&body.action!=="list")throw Error("Owner verification required");
+ const {data:{session},error}=await db.auth.getSession();
+ if(error||!session?.access_token)throw Error("Sign in to the Command Center");
+ const abort=new AbortController(),timer=setTimeout(()=>abort.abort(),19000);
+ try{
+  const r=await fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json",apikey:KEY,Authorization:"Bearer "+session.access_token},body:JSON.stringify(body),signal:abort.signal});
+  const data=await r.json().catch(()=>({}));
+  if(!r.ok||data.ok!==true)throw Error(data.error||tx("serverError"));
+  return data;
+ }finally{clearTimeout(timer)}
+}
+function lock(){verified=false;$("loading").hidden=true;$("locked").hidden=false;$("app").classList.add("hidden");document.body.classList.remove("crm-owner-view");}
+function agentName(key){return agents.find(a=>a.key===key)?.name||key}
+function statusName(key){
+ const map={planned:["Planificada","Planned"],in_progress:["En revisión","In review"],needs_approval:["Necesita aprobación","Needs approval"],approved:["Aprobada","Approved"],completed:["Completada","Completed"],blocked:["Bloqueada","Blocked"],cancelled:["Cancelada","Cancelled"]};
+ return (map[key]||[key,key])[language==="es"?0:1];
+}
+function renderAgents(){
+ const root=$("agents");root.replaceChildren();
+ for(const [i,a] of agents.entries()){
+  const card=el("article","ait-agent"+(i===0?" lead":""));
+  card.append(el("div","symbol",a.icon),el("h3","",a.name),el("p","",a[language]));
+  const go=el("button","",tx("create")+" →");go.type="button";go.onclick=()=>showDialog(a.key);card.append(go);root.append(card);
+ }
+}
+function renderTasks(){
+ const root=$("tasks");root.replaceChildren();
+ const active=tasks.filter(t=>!["completed","cancelled"].includes(t.status)).length;
+ $("activeCount").textContent=String(active);
+ $("approvalCount").textContent=String(tasks.filter(t=>t.status==="needs_approval").length);
+ if(!tasks.length){root.append(el("p","ait-muted",tx("empty")));return}
+ for(const t of tasks){
+  const box=el("article","ait-task");
+  const top=el("div","ait-task-top");top.append(el("span","ait-agent-pill",agentName(t.agent_key)),el("span","ait-status "+t.status,statusName(t.status)));
+  box.append(top,el("h3","",t.title));
+  if(t.description)box.append(el("p","",t.description));
+  const stamp=new Date(t.created_at).toLocaleDateString(language==="es"?"es-US":"en-US");
+  box.append(el("p","",stamp+" · "+(t.priority==="normal"?"Normal":t.priority)));
+  const buttons=el("div","ait-task-actions");
+  const add=(label,fn,primary=false)=>{
+   const n=el("button",primary?"ait-action-primary":"",label);n.type="button";
+   n.onclick=async()=>{if(inFlight)return;inFlight=true;n.disabled=true;try{await fn(t,box);if(verified)await refresh()}catch(e){showError(e.message)}finally{inFlight=false;n.disabled=false}};
+   buttons.append(n);
+  };
+  if(!["cancelled","completed"].includes(t.status)){
+    add(tx("plan"),async(task,item)=>{
+      const r=await api({action:"plan",id:task.id,language});
+      plans.set(task.id,r.plan);renderTasks();notify(tx("planDisclaimer"));
+    },true);
+    if(t.status==="planned"||t.status==="blocked")add(t.status==="blocked"?tx("unblock"):tx("start"),task=>api({action:"status",id:task.id,status:"in_progress"}));
+    if(["planned","in_progress","blocked"].includes(t.status))add(tx("needs"),task=>api({action:"status",id:task.id,status:"needs_approval"}));
+    if(t.status==="needs_approval")add(tx("approve"),task=>api({action:"approve",id:task.id}),true);
+    if(t.status==="in_progress")add(tx("block"),task=>api({action:"status",id:task.id,status:"blocked"}));
+    if(t.status==="approved")add(tx("complete"),task=>{activeFinish=task.id;$("finish-evidence").value="";$("finish-dialog").showModal()},true);
+    if(["planned","blocked","needs_approval"].includes(t.status))add(tx("cancel"),async task=>{if(window.confirm(tx("confirmCancel")))await api({action:"status",id:task.id,status:"cancelled"});});
+  }
+  box.append(buttons);
+  if(plans.has(t.id)){const plan=el("div","ait-plan",tx("planDisclaimer")+"\n\n"+plans.get(t.id));box.append(plan)}
+  if(t.status==="completed"&&t.evidence){box.append(el("p","",tx("verified")+": "+t.evidence))}
+  root.append(box);
+ }
+}
+function renderActivity(){
+ const root=$("activity");root.replaceChildren();
+ if(!events.length){root.textContent=tx("auditEmpty");return}
+ for(const x of events.slice(0,12)){
+  const item=el("article");item.append(el("div","",x.summary),el("small","",new Date(x.created_at).toLocaleString(language==="es"?"es-US":"en-US")));root.append(item);
+ }
+}
+function renderScan(){
+ const root=$("snapshot");root.replaceChildren();
+ $("scanState").textContent=scan?(new Date(scan.collected_at).toLocaleTimeString(language==="es"?"es-US":"en-US",{hour:"numeric",minute:"2-digit"})):tx("notChecked");
+ if(!scan){root.textContent=tx("snapshot");return}
+ for(const [key,label] of [["prospects",tx("prospects")],["unread_notifications",tx("notifications")],["open_support",tx("support")],["active_tasks",tx("queue")]]){
+  const item=el("div");item.append(el("span","",label),el("b","",scan.counts[key]===null?tx("partial"):String(scan.counts[key])));root.append(item);
+ }
+}
+function applyText(){
+ document.documentElement.lang=language;
+ $("intro").textContent=tx("intro");$("truth").textContent=tx("truth");
+ $("scan").firstChild.textContent=tx("review")+" ";
+ $("new-task-top").textContent=tx("newTask");$("new-task").textContent=tx("newTask");
+ $("lang").textContent=language==="es"?"EN":"ES";
+ document.querySelector(".ait-section-head #agents-title").textContent=tx("team");
+ $("tasks-title").textContent=tx("taskTitle");
+ const spans=$("stats").querySelectorAll("article > span");
+ [tx("count"),tx("approvals"),tx("scan")].forEach((x,i)=>spans[i].textContent=x);
+ const ds=$("task-dialog");ds.querySelector("h2").textContent=tx("modalTitle");
+ const ls=ds.querySelectorAll("label");[tx("taskAgent"),tx("taskName"),tx("taskDesc"),tx("priority")].forEach((x,i)=>{ls[i].childNodes[0].textContent=x});
+ $("create-submit").textContent=tx("create");
+ document.querySelector("#finish-form label").childNodes[0].textContent=tx("evidence");
+ renderAgents();renderTasks();renderScan();renderActivity();
+}
+async function refresh(){
+ const out=await api({action:"list"});
+ tasks=out.tasks||[];events=out.events||[];
+ renderTasks();renderActivity();
+}
+function showDialog(agent="jessie"){
+ $("task-agent").replaceChildren();
+ for(const a of agents){const opt=document.createElement("option");opt.value=a.key;opt.textContent=a.name;$("task-agent").append(opt)}
+ $("task-agent").value=agent;
+ $("task-dialog").showModal();$("task-title").focus();
+}
+async function mountJessie(){
+ try{
+  const {data:{user}}=await db.auth.getUser();if(!user?.id)return;
+  const {data:ws,error}=await db.from("tle_crm_workspaces").select("id").eq("created_by",user.id).eq("is_internal",true).limit(1).maybeSingle();
+  if(error||!ws?.id)return;
+  document.body.dataset.languageWorkspace=ws.id;
+  const mod=await import("./jessy-owner-standalone.mjs");
+  await mod.mountOwnerJessy({db,workspaceId:ws.id,page:"ai-team"});
+ }catch(e){console.warn("Jessie availability check:",e.message)}
+}
+async function start(){
+ if(!db){lock();return}
+ try{
+  const r=await api({action:"list"});
+  verified=true;tasks=r.tasks||[];events=r.events||[];
+  $("loading").hidden=true;$("locked").hidden=true;$("app").classList.remove("hidden");
+  document.body.classList.add("crm-owner-view");
+  applyText();
+  await mountJessie();
+ }catch(e){lock();console.warn("AI Team private access:",e.message)}
+}
+$("lang").addEventListener("click",()=>{language=language==="es"?"en":"es";try{localStorage.setItem("tle_crm_owner_language",language)}catch{}applyText()});
+for(const id of ["new-task","new-task-top"])$(id).onclick=()=>showDialog();
+$("scan").onclick=async()=>{const btn=$("scan");btn.disabled=true;try{scan=await api({action:"scan"});renderScan()}catch(e){showError(e.message)}finally{btn.disabled=false}};
+$("task-form").onsubmit=async e=>{
+ e.preventDefault();const submit=$("create-submit");submit.disabled=true;
+ try{const title=$("task-title").value.trim();if(title.length<3)throw Error("Task title is too short");
+ await api({action:"create",title,agent_key:$("task-agent").value,description:$("task-description").value.trim(),priority:$("task-priority").value});
+ $("task-dialog").close();e.target.reset();await refresh();notify(tx("created"));
+ }catch(e){showError(e.message)}finally{submit.disabled=false}
+};
+$("finish-form").onsubmit=async e=>{e.preventDefault();const btn=$("finish-submit");btn.disabled=true;try{await api({action:"complete",id:activeFinish,evidence:$("finish-evidence").value.trim()});$("finish-dialog").close();activeFinish=null;await refresh();notify(tx("verified"))}catch(e){showError(e.message)}finally{btn.disabled=false}};
+document.querySelectorAll("[data-dialog-close]").forEach(b=>b.onclick=()=>$(b.dataset.dialogClose).close());
+db?.auth?.onAuthStateChange((event)=>{if(event==="SIGNED_OUT"||event==="USER_DELETED")lock()});
+start();

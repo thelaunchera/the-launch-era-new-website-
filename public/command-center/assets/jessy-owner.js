@@ -41,7 +41,8 @@ const ownerViewNames={
  "owner-help":["Help","Ayuda"],"owner-build":["Booking Page Setup","Preparar reservas"],
  "owner-preview":["Booking Preview","Vista previa"],
  "lead-insights":["Lead Insights","Análisis de prospectos"],
- "buyer-preview":["Buyer Command Center Preview","Vista previa de Command Center"]
+ "buyer-preview":["Buyer Command Center Preview","Vista previa de Command Center"],
+ "ai-team":["AI Team","Equipo IA"]
 };
 function contextLabel(){
  const current=activeContext();

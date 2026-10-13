@@ -4,7 +4,7 @@
  * The server independently checks the Supabase JWT and platform_admins on every request.
  */
 export async function mountOwnerJessy({db,workspaceId,page}={}){
- const contexts=new Set(["lead-insights","buyer-preview"]);
+ const contexts=new Set(["lead-insights","buyer-preview","ai-team"]);
  if(!contexts.has(page)||!db||!workspaceId||window.__tleOwnerJessyInstalled)return false;
  const {data:{user},error}=await db.auth.getUser();
  if(error||!user)return false;
@@ -36,7 +36,7 @@ export async function mountOwnerJessy({db,workspaceId,page}={}){
  window.TLEOwnerJessyGateway=Object.freeze({
   standalone:true,
   ready(){return active&&!document.getElementById("app")?.classList.contains("hidden")&&document.body.classList.contains("crm-owner-view")},
-  context(){return {section:page,label:page==="lead-insights"?"Lead Insights":"Buyer Command Center Preview"}},
+  context(){return {section:page,label:page==="ai-team"?"AI Team":page==="lead-insights"?"Lead Insights":"Buyer Command Center Preview"}},
   async ask(input){
     if(!this.ready())throw Error("Owner access required");
     return post({message:String(input?.message||"").slice(0,340),language:input?.language==="es"?"es":"en",

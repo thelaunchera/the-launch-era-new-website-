@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#FAF8F3">
+<title>AI Team | The Launch Era Command Center</title>
+<link rel="icon" href="/favicon.png">
+<link rel="stylesheet" href="./assets/ai-team.css?v=20261013-1">
+</head>
+<body>
+<div class="ait-loading" id="loading" role="status">Opening your private AI Team…</div>
+<div class="ait-lock" id="locked" hidden role="alert">
+ <div class="ait-lock-card"><span class="ait-badge">PRIVATE WORKSPACE</span><h1>Owner sign-in required</h1>
+ <p>This area is available only inside The Launch Era's private Command Center.</p>
+ <a href="./">Back to Command Center →</a></div>
+</div>
+<div id="app" class="hidden">
+<header class="ait-topbar">
+ <a class="ait-brand" href="./" aria-label="Return to The Launch Era Command Center"><img src="/assets/brand/tle-mark.svg" alt=""><span>THE LAUNCH ERA <small>OWNER COMMAND CENTER</small></span></a>
+ <div class="ait-top-actions"><span class="ait-private">● Owner only</span><button id="lang" type="button" class="ait-quiet" aria-label="Change language">ES</button><a class="ait-back" href="./">← Command Center</a></div>
+</header>
+<main class="ait-layout">
+<section class="ait-hero">
+ <div class="ait-hero-copy"><span class="ait-kicker">THE LAUNCH ERA · OPERATIONS</span><h1>Meet your <em>AI Team.</em></h1>
+ <p id="intro">Jessie coordinates. Your specialists plan the next steps. You review every important action.</p>
+ <div class="ait-hero-actions"><button id="scan" type="button" class="ait-primary">Review my workspace <span>↗</span></button><button type="button" class="ait-outline" id="new-task-top">+ New task</button></div>
+ <p class="ait-truth" id="truth">AI plans are recommendations, not completed work. No automatic emails, client changes or deployments.</p></div>
+ <div class="ait-hero-art"><div class="ait-orbit"><div class="ait-avatar">J</div><div><b>JESSIE</b><span>Chief of Staff</span></div></div>
+ <div class="ait-orbit-secondary">Sales · Projects · Dev · QA · Creative · Care</div><span class="ait-orb one"></span><span class="ait-orb two"></span></div>
+</section>
+<div class="ait-stats" id="stats" aria-live="polite"><article><span>Active team tasks</span><strong id="activeCount">—</strong></article><article><span>Awaiting approval</span><strong id="approvalCount">—</strong></article><article><span>Workspace scan</span><strong id="scanState">Not checked</strong></article></div>
+<section class="ait-section" aria-labelledby="agents-title"><div class="ait-section-head"><div><span class="ait-eyebrow">YOUR SPECIALISTS</span><h2 id="agents-title">One team. Clear responsibilities.</h2></div><span class="ait-micro">7 specialist roles · owner-controlled</span></div>
+<div class="ait-grid" id="agents"></div></section>
+<div class="ait-bottom-grid">
+<section class="ait-section" id="tasks-section" aria-labelledby="tasks-title"><div class="ait-section-head"><div><span class="ait-eyebrow">PROJECT QUEUE</span><h2 id="tasks-title">Tasks & approvals</h2></div><button type="button" class="ait-small-btn" id="new-task">+ Add task</button></div><div class="ait-task-list" id="tasks"><p class="ait-muted">Loading secure tasks…</p></div></section>
+<aside class="ait-side">
+ <section class="ait-sidecard"><span class="ait-eyebrow">JESSIE'S CHECK-IN</span><h3>Verified workspace snapshot</h3><div id="snapshot" class="ait-snapshot">Run a read-only workspace scan to see verified counts.</div><p>Counts are not a statement that a job is ready to deliver.</p><a href="./" class="ait-side-link">Open Command Center →</a></section>
+ <section class="ait-sidecard"><span class="ait-eyebrow">AUDIT TRAIL</span><h3>Recent activity</h3><div id="activity" class="ait-activity">No activity loaded.</div></section>
+ </aside></div>
+</main>
+</div>
+<dialog id="task-dialog" class="ait-dialog"><form method="dialog" id="task-form"><div class="ait-dialog-head"><div><span class="ait-eyebrow">OWNER TASK</span><h2>Create an AI Team task</h2></div><button type="button" class="ait-close" data-dialog-close="task-dialog" aria-label="Close">×</button></div>
+<label>Responsible agent<select id="task-agent" required></select></label>
+<label>Task title<input id="task-title" required minlength="3" maxlength="160" placeholder="e.g. Audit demo links before delivery"></label>
+<label>Context / requirements<textarea id="task-description" maxlength="3000" rows="4" placeholder="Tell the agent what needs to be checked."></textarea></label>
+<label>Priority<select id="task-priority"><option value="normal">Normal</option><option value="high">High</option><option value="urgent">Urgent</option></select></label>
+<p class="ait-dialog-note">Creating a task does not contact clients or run external tools. Jessie can prepare a plan for review.</p>
+<div class="ait-dialog-footer"><button type="button" data-dialog-close="task-dialog" class="ait-outline">Cancel</button><button type="submit" id="create-submit" class="ait-primary">Save task</button></div></form></dialog>
+<dialog id="finish-dialog" class="ait-dialog"><form method="dialog" id="finish-form"><div class="ait-dialog-head"><div><span class="ait-eyebrow">VERIFIED COMPLETION</span><h2>Record completed work</h2></div><button type="button" class="ait-close" data-dialog-close="finish-dialog" aria-label="Close">×</button></div>
+<p>Only mark complete after checking the actual result.</p><label>Evidence of verification<textarea id="finish-evidence" minlength="12" maxlength="1500" required rows="4" placeholder="What exactly did you verify?"></textarea></label>
+<div class="ait-dialog-footer"><button type="button" data-dialog-close="finish-dialog" class="ait-outline">Cancel</button><button class="ait-primary" type="submit" id="finish-submit">Record completion</button></div></form></dialog>
+<div id="toast" class="ait-toast" role="status" aria-live="polite" hidden></div>
+<script src="./vendor/supabase-js-v2.57.0.umd.js"></script>
+<script type="module" src="./assets/ai-team.js?v=20261013-1"></script>
+</body></html>

@@ -1,0 +1,39 @@
+name: Private AI Team QA
+on:
+  pull_request:
+    paths:
+      - 'public/command-center/ai-team.html'
+      - 'public/command-center/index.html'
+      - 'public/command-center/assets/ai-team*'
+      - 'public/command-center/assets/jessy-owner*'
+      - 'scripts/qa-ai-team.mjs'
+      - '.github/workflows/ai-team-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  safe-feature-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate standalone AI Team and private entry
+        run: node scripts/qa-ai-team.mjs
+      - name: Verify public route and asset integrity
+        run: node scripts/qa-route-integrity.mjs --static
+      - name: Confirm anonymous calls cannot list owner tasks
+        shell: bash
+        run: |
+          set -euo pipefail
+          code="$(curl --silent --show-error --max-time 18 -o /tmp/ai-team-anon.json -w '%{http_code}' \
+            -X POST -H 'Content-Type: application/json' \
+            -d '{"action":"list"}' \
+            https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-ai-team)"
+          if [[ "$code" != "401" && "$code" != "403" ]]; then
+            echo "::error::Unauthenticated AI Team accepted or unexpected backend response ($code)."
+            exit 1
+          fi
+          echo "PASS — anonymous access denied."
