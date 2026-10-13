@@ -1,0 +1,40 @@
+name: Cleaning App Showcase QA
+on:
+  pull_request:
+    paths:
+      - 'public/cleaning-app-demo/**'
+      - 'public/assets/cleaning-demo-populated.*'
+      - 'public/assets/tle-cleaning-case-study.css'
+      - 'src/components/cleaning-app-showcase.tsx'
+      - 'src/routes/cleaning-web-app.tsx'
+      - 'src/routes/es.cleaning-web-app.tsx'
+      - '.github/workflows/cleaning-app-showcase-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    name: Build and isolated demo integrity
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify fixture and public routes
+        run: |
+          node --check public/assets/cleaning-demo-populated.js
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-public-demo-integrity.mjs
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - name: Build website and confirm English/Spanish pages
+        run: |
+          bun run build
+          test -s .output/public/index.html
+          test -s .output/public/cleaning-app-demo/index.html
+          test -s .output/public/assets/cleaning-demo-populated.js
+          test -s .output/public/assets/tle-cleaning-case-study.css
