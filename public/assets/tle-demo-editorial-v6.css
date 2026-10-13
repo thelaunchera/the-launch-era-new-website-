@@ -159,7 +159,7 @@ html.demo-editorial .panel .back{border:1px solid #CBD6DB!important;border-radiu
 html.demo-editorial #quote .demo-quote-header{
  min-height:285px;border:1px solid #DAE6E8;border-radius:20px;padding:clamp(17px,3vw,27px);
  display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:10px;
- background:#F5F5F1 linear-gradient(90deg,rgba(250,248,243,.98) 0%,rgba(250,248,243,.85) 44%,rgba(250,248,243,.12) 88%),url("/assets/cleaning-demo/cleaner-action.png");
+ background-color:#F5F5F1; background-image:linear-gradient(90deg,rgba(250,248,243,.98) 0%,rgba(250,248,243,.85) 44%,rgba(250,248,243,.12) 88%),url("/assets/cleaning-demo/cleaner-action.png");
  background-size:cover,cover;background-position:center,57% 47%;margin-bottom:17px;overflow:hidden
 }
 html.demo-editorial #quote .demo-quote-header>span{font-size:11px;font-weight:800;letter-spacing:.15em;color:#4D87A9}
