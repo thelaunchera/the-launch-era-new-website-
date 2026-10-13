@@ -136,6 +136,17 @@ for(const lang of ['en','es']){
    await page.locator('#categoryTabs button[data-category="residential"]').click();
    await page.locator('#residentialServiceList button.service').first().click();
    assert(await page.locator('#res.screen.on').count()===1,'Residential cleaning action not functional');
+   await page.evaluate(()=>showMain());
+   await page.locator('#residentialServiceList button.service').nth(3).click();
+   const quoteSize=await page.evaluate(()=>{
+    const q=document.querySelector('#quote').getBoundingClientRect();
+    const card=document.querySelector('#quote .demo-quote-header').getBoundingClientRect();
+    const panel=document.querySelector('#bookingStarter');
+    const p=panel.getBoundingClientRect(),s=getComputedStyle(panel);
+    return {ratio:q.width/(p.width-parseFloat(s.paddingLeft)-parseFloat(s.paddingRight)),height:card.height,overflow:document.documentElement.scrollWidth>innerWidth+2};
+   });
+   assert(!quoteSize.overflow,'Expanded quote creates horizontal overflow');
+   if(width>=768)assert(quoteSize.ratio>=.97&&quoteSize.height>=350,'Quote photo must fill desktop/tablet panel '+JSON.stringify(quoteSize));
    assert.equal(faults.length,0,'Unexpected JS errors '+faults.join(' | '));
    console.log('PASS',lang,width,JSON.stringify({story:true,photo:true,fonts:m.headerFont,serviceButtons:true,ctaRound:true}));
   }catch(e){errors.push(lang+' '+width+': '+e.message);console.error('FAIL',lang,width,e.message)}

@@ -288,3 +288,18 @@ html.demo-editorial #demoCinematicStory .demo-cinematic-photo::before {transform
 @media(max-width:650px){
  html.demo-editorial #bookingStarter #quote .demo-quote-header {background-image:linear-gradient(90deg,rgba(3,8,14,.86),rgba(3,8,14,.57)),url('/assets/cleaning-demo/living-room-original.jpg')!important;}
 }
+
+/* Wide sample quote card: use the panel width on tablet and desktop. */
+@media(min-width:768px){
+ html.demo-editorial #bookingStarter #quote.screen{width:100%!important;max-width:none!important;margin-inline:0!important;}
+ html.demo-editorial #bookingStarter #quote .demo-quote-header{
+  width:100%!important;min-height:clamp(350px,32vw,440px)!important;
+  padding:clamp(28px,3.4vw,48px)!important;border-radius:24px!important;
+ }
+ html.demo-editorial #bookingStarter #quote .demo-quote-header h3{
+  font-size:clamp(34px,3.5vw,48px)!important;max-width:660px!important;
+ }
+ html.demo-editorial #bookingStarter #quote .demo-quote-header p{
+  font-size:17px!important;line-height:1.6!important;max-width:550px!important;
+ }
+}
