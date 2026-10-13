@@ -22,15 +22,7 @@ for(const lang of ['en','es']){
     const rect=e=>e?.getBoundingClientRect();
     const hero=q('.hero'),h=q('.heroText h1.demo-headline'),cta=q('.demo-hero-cta'),area=q('#demoHeroArea');
     return {
-     surface:getComputedStyle(document.querySelector('#done .success')).backgroundImage,
-    headingColor:getComputedStyle(document.querySelector('#done .success h2')).color,
-    infoColor:getComputedStyle(document.querySelector('#demoSuccessDate')).color,
-    noticeColor:getComputedStyle(document.querySelector('#tleSuccessPreview')).color,
-    surface:getComputedStyle(document.querySelector('#done .success')).backgroundImage,
-    headingColor:getComputedStyle(document.querySelector('#done .success h2')).color,
-    infoColor:getComputedStyle(document.querySelector('#demoSuccessDate')).color,
-    noticeColor:getComputedStyle(document.querySelector('#tleSuccessPreview')).color,
-    width:document.documentElement.scrollWidth,viewport:innerWidth,
+     width:document.documentElement.scrollWidth,viewport:innerWidth,
      style:[...document.styleSheets].some(s=>s.href?.includes('tle-demo-editorial-v6.css')),
      mode:document.documentElement.classList.contains('demo-editorial'),
      blue:getComputedStyle(cta).backgroundColor,
@@ -83,6 +75,10 @@ for(const lang of ['en','es']){
     area:document.querySelector('#demoSuccessArea')?.textContent,
     note:document.querySelector('#tleSuccessPreview')?.textContent,
     cta:document.querySelector('#trackerLink')?.getAttribute('href'),
+    surface:getComputedStyle(document.querySelector('#done .success')).backgroundImage,
+    headingColor:getComputedStyle(document.querySelector('#done .success h2')).color,
+    infoColor:getComputedStyle(document.querySelector('#demoSuccessDate')).color,
+    noticeColor:getComputedStyle(document.querySelector('#tleSuccessPreview')).color,
     width:document.documentElement.scrollWidth
    }));
    assert(done.shown&&done.summary&&done.service?.length>0,'Summary UI failed: '+JSON.stringify(done));
