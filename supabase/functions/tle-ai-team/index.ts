@@ -1,5 +1,7 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
-const BASE=Deno.env.get("SUPABASE_URL")||"", SR=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")||"", ANON=Deno.env.get("SUPABASE_ANON_KEY")||"", OPENAI=Deno.env.get("OPENAI_API_KEY")||"";
+const BASE=Deno.env.get("SUPABASE_URL")||"", SR=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")||"", ANON=Deno.env.get("SUPABASE_ANON_KEY")||"";
+// Resolve the provider secret per authenticated request, not once when a long-lived isolate starts.
+const readOpenAI=()=>String(Deno.env.get("OPENAI_API_KEY")||"").trim();
 const ORIGINS=new Set(["https://thelaunchera.com","https://www.thelaunchera.com","https://command.thelaunchera.com"]);
 const AGENTS=new Set(["jessie","sales","projects","developer","qa","creative","care"]);
 const STATUSES=new Set(["planned","in_progress","needs_approval","approved","completed","blocked","cancelled"]);
@@ -241,6 +243,7 @@ Deno.serve(async req=>{
  let b;
  try{b=await req.json();if(!b||typeof b!=="object"||Array.isArray(b))throw Error("Invalid body")}catch{return res({ok:false,error:"Invalid request"},400,origin)}
  const action=clean(b.action,36);
+ const OPENAI=readOpenAI();
  try{
  if(action==="list"){
    const tasks=await rest("tle_ai_team_tasks","workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner+"&select=id,agent_key,title,description,status,priority,task_origin,approval_required,approved_at,completed_at,evidence,created_at,updated_at&order=created_at.desc&limit=120");
@@ -286,7 +289,10 @@ Deno.serve(async req=>{
 
 
  if(action==="provider_check"){
-   if(!OPENAI)return res({ok:true,configured:false,verified:false,reason:"missing_secret",model:null},200,origin);
+   if(!OPENAI){
+     console.info("AI provider diagnostic: OPENAI_API_KEY absent in current Edge Function runtime",Deno.env.get("DENO_DEPLOYMENT_ID")||"unknown");
+     return res({ok:true,configured:false,verified:false,reason:"missing_secret",model:null},200,origin);
+   }
    const model=Deno.env.get("JESSY_MODEL")||"gpt-4.1-mini";
    try{
      const response=await fetch("https://api.openai.com/v1/chat/completions",{
