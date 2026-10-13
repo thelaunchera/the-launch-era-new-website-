@@ -40,6 +40,8 @@ for(const lang of ['en','es']){
      ctaBg:getComputedStyle(cta).backgroundImage,ctaRadius:parseFloat(getComputedStyle(cta).borderTopLeftRadius),
      circleRadius:parseFloat(getComputedStyle(circ).borderTopLeftRadius),
      ctaHref:cta.getAttribute('href'),
+     ctaInsideHeader:$('.panel .head').contains(cta),
+     ctaWithinHeader:cta.getBoundingClientRect().top>=$('.panel .head').getBoundingClientRect().top-2&&cta.getBoundingClientRect().bottom<=$('.panel .head').getBoundingClientRect().bottom+2,
      categoryButtons:$('#categoryTabs').querySelectorAll('button').length,
      columns:grid.split(' ').length,
      editorialTitle:$('.demo-cinematic-copy h2').textContent,
@@ -55,6 +57,7 @@ for(const lang of ['en','es']){
    assert(m.serviceFont>=14.5,'Service typography too small');
    assert(m.headerFont.includes('Prompt'),'Headings not using Prompt typography');
    assert(m.ctaRadius>=24 && m.circleRadius>=16,'CTA or arrow icon still looks square');
+   assert(m.ctaInsideHeader&&m.ctaWithinHeader,'Begin pill must sit inside header, not as a full-width bar: '+JSON.stringify(m));
    assert.equal(m.ctaHref,'#categoryTabs','Begin must be a working anchor');
    assert.equal(m.categoryButtons,2,'Residential/Commercial navigation missing');
    assert(m.editorialTitle.includes(lang==='es'?'Detalles pensados':'Thoughtful details'),'New editorial copy missing: '+JSON.stringify(m.editorialTitle));
