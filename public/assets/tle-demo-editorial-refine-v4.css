@@ -137,3 +137,9 @@ html.demo-editorial.demo-motion-ready .demo-reveal.demo-inview{transform:transla
 @media(prefers-reduced-motion:reduce){
  html.demo-editorial .demo-reveal{opacity:1!important;filter:none!important;transform:none!important;transition:none!important}
 }
+
+/* Keep photographic hero clean: no painted bubbles/colored flare on desktop. On phones ::before IS the house photo and must remain visible. */
+@media(min-width:768px){html.demo-editorial .hero::before{opacity:0!important;background:none!important}}
+@media(max-width:767px){html.demo-editorial .hero::before{opacity:1!important}}
+html.demo-editorial .panel input[type="date"]::-webkit-date-and-time-value,html.demo-editorial .panel input[type="time"]::-webkit-date-and-time-value{min-height:1.2em;text-align:left}
+html.demo-editorial .panel input[type="date"]::-webkit-calendar-picker-indicator,html.demo-editorial .panel input[type="time"]::-webkit-calendar-picker-indicator{opacity:.65}
