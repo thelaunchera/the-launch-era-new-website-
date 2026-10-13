@@ -49,3 +49,10 @@ The central visual override is `public/assets/tle-editorial-refresh.css`; `src/r
 - Depth comes from careful spacing, responsive cards, readable typography and clear states; avoid ornamental soap bubbles and heavy AI-like collages.
 - Public marketing SaaS layer: public/assets/tle-saas-ui-v1.css. Public prospect sample theme only: public/assets/tle-demo-blue-v5.css. Never touch client-specific booking forms or Command Centers through those selectors.
 - Respect prefers-reduced-motion and real keyboard focus rings. Verify 360/390/820/1440 widths.
+
+## Public Cleaning demo booking layout contract — 2026-10-13
+- Follow the approved editorial booking reference: light ivory sample panel with `Choose a service`, two accessible residential/commercial tabs, rich service cards with real SVG icons and integrated rounded arrow affordances, then a split home photograph + charcoal `A BETTER EXPERIENCE` directly **below the booking panel**. Do not place this feature above the service selector or hide it again.
+- `public/assets/tle-demo-booking-v7.css` is loaded after v6 and owns the public sample version. Do not apply to authenticated buyer or owner previews (`html:not(.demo-editorial)`).
+- Use Prompt for headings and Futura with loaded DM Sans fallback for body/UI. Keep minimum readable service labels, keyboard focus, rounded primary `Begin` anchor and no false CTA-looking static status badge.
+- Preserve all `startResidential`, `startQuote`, `startCommercial`, `showMain`, `setCategory`, booking state and service prices. Only public sample cosmetic layout and translations may be edited.
+- Sample flow hero CTA and Services menu go to `#bookingStarter`. `#demoCinematicStory` must be immediately after the `.panel`, before any optional footer or extra marketing section; do not introduce redundant sections above booking.

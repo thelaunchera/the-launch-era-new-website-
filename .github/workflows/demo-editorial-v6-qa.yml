@@ -1,11 +1,14 @@
 name: Cleaning Demo Editorial v6 QA
 on:
   push:
-    branches: [design/cleaning-demo-hero-confirmation-v6-20261013]
+    branches: [design/cleaning-demo-hero-confirmation-v6-20261013 , design/demo-booking-editorial-v7-20261013]
   pull_request:
     paths:
       - 'public/lead-private-preview.html'
       - 'public/assets/tle-demo-editorial-v6.css'
+      - 'public/assets/tle-demo-booking-v7.css'
+      - 'public/assets/tle-demo-cb-hero-v8.css'
+      - 'scripts/qa-demo-editorial-v7.mjs'
       - 'scripts/qa-demo-editorial-v6.mjs'
       - '.github/workflows/demo-editorial-v6-qa.yml'
 permissions:
@@ -47,10 +50,13 @@ jobs:
             sleep 2
           done
           QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-demo-v6-qa/node_modules/playwright/index.mjs node scripts/qa-demo-editorial-v6.mjs
+          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-demo-v6-qa/node_modules/playwright/index.mjs node scripts/qa-demo-editorial-v7.mjs
       - name: Save screenshot contact sheet sources
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: demo-v6-responsive-screenshots
-          path: qa-screenshots/demo-v6/
+          path: |
+            qa-screenshots/demo-v6/
+            qa-screenshots/demo-v7/
           if-no-files-found: ignore

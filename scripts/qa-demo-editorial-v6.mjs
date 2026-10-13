@@ -30,7 +30,11 @@ for(const lang of ['en','es']){
      headlineVisible:!!rect(h)&&rect(h).width>0&&rect(h).height>0,
      ctaVisible:rect(cta).bottom<=rect(hero).bottom+2&&rect(cta).left>=rect(hero).left,
      areaText:area?.textContent?.trim(),areaVisible:rect(area).bottom<=rect(hero).bottom+2,
-     heroPhoto:getComputedStyle(hero).backgroundImage,
+     heroPhoto:document.querySelector('#leadHero .demo-cb-hero-media img')?.getAttribute('src'),
+     heroImgLoaded:(()=>{const img=document.querySelector('#leadHero .demo-cb-hero-media img');return !!img&&img.complete&&img.naturalWidth>700})(),
+     heroCbCss:[...document.styleSheets].some(sheet=>sheet.href?.includes('tle-demo-cb-hero-v8.css')),
+     ctaInHero:rect(cta).bottom<=rect(hero).bottom+2&&rect(cta).left>=rect(hero).left,
+     areaInHero:rect(area).bottom<=rect(hero).bottom+2,
      showcaseTitle:q('.demo-showcase-intro h2')?.textContent.trim(),
      quoteCards:q('.demo-showcase-cards')?.children.length
     };
@@ -44,8 +48,9 @@ for(const lang of ['en','es']){
    assert(main.areaText===(lang==='es'?'Atendemos Fort Lauderdale':'Serving Fort Lauderdale'),'Area not localized or personalized: '+main.areaText);
    assert(main.showcaseTitle.includes(lang==='en'?'Clear details':'Detalles claros'),'New slogans missing');
    assert.equal(main.quoteCards,3,'Functional cleaning-service cards missing');
-   assert(main.heroPhoto.includes('cleaner-in-home.png'),'Hero must use cleaner-in-home image');
-   await page.screenshot({path:'qa-screenshots/demo-v6/'+lang+'-'+width+'-hero.png',fullPage:false});
+   assert(main.heroPhoto?.includes('/assets/cleaning-demo/hero-woman-cleaning.jpg')&&main.heroImgLoaded&&main.heroCbCss,'CB Depot style cleaning professional hero must load');
+   assert(main.ctaInHero&&main.areaInHero,'Hero action or personalized service badge is clipped');
+   try{await page.screenshot({path:'qa-screenshots/demo-v6/'+lang+'-'+width+'-hero.png',fullPage:false});}catch(imageError){console.warn('Optional browser screenshot failed at hero for',lang,width,imageError.message);}
    await page.evaluate(()=>startQuote('estimate'));
    const quote=await page.evaluate(()=>{
     const e=document.querySelector('#quote');
@@ -55,7 +60,7 @@ for(const lang of ['en','es']){
    assert(quote.shown && quote.quoteVisible,'Quote page not active');
    assert(quote.photo.includes('cleaner-action.png'),'Missing professional cleaners photo for quote');
    assert(quote.area.includes('Fort Lauderdale'),'Quote area personalization missing');
-   await page.screenshot({path:'qa-screenshots/demo-v6/'+lang+'-'+width+'-quote.png',fullPage:false});
+   try{await page.screenshot({path:'qa-screenshots/demo-v6/'+lang+'-'+width+'-quote.png',fullPage:false});}catch(imageError){console.warn('Optional browser screenshot failed at quote for',lang,width,imageError.message);}
    // Present a synthetic confirmation without invoking any save() or submit().
    await page.evaluate(()=>{
      showDemoRequestSummary({service:'Deep Cleaning',date:'2026-10-22',time:'09:30'});
@@ -77,7 +82,7 @@ for(const lang of ['en','es']){
    assert(/demo|prueba|sample|muestra/i.test(done.note)&&done.note.length>35,'Sample-safe confirmation notice missing: '+done.note);
    assert(done.cta.includes('Coastal+Cleaners') || done.cta.includes('Coastal%20Cleaners'),'Tracker preserves business identity');
    assert(done.width<=width+3,'Confirmation causes overflow');
-   await page.screenshot({path:'qa-screenshots/demo-v6/'+lang+'-'+width+'-confirmation.png',fullPage:false});
+   try{await page.screenshot({path:'qa-screenshots/demo-v6/'+lang+'-'+width+'-confirmation.png',fullPage:false});}catch(imageError){console.warn('Optional browser screenshot failed at confirmation for',lang,width,imageError.message);}
    console.log('PASS',lang,width,JSON.stringify({cta:main.blue,area:done.area,quotePhoto:true,confirm:true}));
   }catch(e){errors.push(lang+' '+width+': '+e.message);console.error('FAIL',lang,width,e.message)}
   finally{await page.close()}
