@@ -25,7 +25,8 @@ for (const path of productionCopy) {
   check('Production terms: ' + path, () => {
     const content = read(path);
     assert.match(content, /48\s*(?:-|‑|–)?\s*(?:hour|hora)/i, '48-hour promise missing');
-    assert.match(content, /s[aá]bad|Saturday/i, 'Saturday cutoff missing');
+    assert.doesNotMatch(content, /s[aá]bad|Saturday|8:30 AM|siguiente horario laborable|next business day/i, 'Retired timetable or automatic next-business-day kickoff returned');
+    assert.match(content, /approv|aprob|revisamos|review/i, 'Owner review or approval step is missing');
     assert.doesNotMatch(content, /\b24\s*(?:-|‑|–)?\s*(?:hour|hora)[^\n]{0,45}(?:production|producci[oó]n)|(?:production|producci[oó]n)[^\n]{0,45}\b24\s*(?:-|‑|–)?\s*(?:hour|hora)/i, 'Old 24-hour production copy returned');
   });
 }
