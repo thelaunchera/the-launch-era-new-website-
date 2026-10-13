@@ -209,7 +209,7 @@ function applyText(){
 async function refresh(){
  const out=await api({action:"list"});
  tasks=out.tasks||[];events=out.events||[];runs=out.runs||[];outputs=out.outputs||[];
- renderTasks();renderActivity();renderRuns();renderOutputs();renderRuns();
+ renderTasks();renderActivity();renderRuns();renderOutputs();
 }
 function showDialog(agent="jessie"){
  $("task-agent").replaceChildren();
@@ -245,6 +245,22 @@ window.TLEAIOpsGateway=Object.freeze({
   const res=await api({action:"run_agent",agent_key:agentKey,language});
   await refresh();
   return res.run;
+ },
+ async create(agentKey,description){
+   if(!this.ready()||!agents.some(a=>a.key===agentKey))throw Error("Owner AI Team access required");
+   const title=String(description||"").trim().slice(0,160);
+   if(title.length<3)throw Error("Please describe the task");
+   const result=await api({action:"create",agent_key:agentKey,title,description:String(description||"").trim().slice(0,2500),priority:"normal"});
+   await refresh();
+   return result.task;
+ },
+ async draft(agentKey,description){
+   if(!this.ready()||!agents.some(a=>a.key===agentKey))throw Error("Owner AI Team access required");
+   const task=await this.create(agentKey,description);
+   const response=await api({action:"compose_output",id:task.id,language});
+   await refresh();
+   document.getElementById("outputs-section")?.scrollIntoView({behavior:"smooth",block:"start"});
+   return response.output;
  }
 });
 $("lang").addEventListener("click",()=>{language=language==="es"?"en":"es";try{localStorage.setItem("tle_crm_owner_language",language)}catch{}applyText()});
