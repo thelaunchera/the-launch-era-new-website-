@@ -151,3 +151,11 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - Verified source: #done .success retained v6 white background-image while v11 changed only background-color; nested name/date/time/service-area selectors retained black text.
 - Fix: sample-only #bookingStarter #done overrides the full confirmation gradient, brand, heading, notice, check badge, summary and nested values with consistent dark surfaces, white text and ice-blue labels.
 - Existing responsive confirmation test now asserts the computed dark gradient and readable heading/date/notice colors in EN/ES. Buyer/owner paths remain isolated. No saved requests or real emails modified.
+
+
+## 2026-10-13 — AI Team verified execution bridge
+- **Need:** the original AI Team offered task plans but had no connected capability that actually inspected live systems; this could mislead owners about completed work.
+- **Root cause:** `tle-ai-team` v1 supported list/create/plan/approve/complete and generic counts, but not source-backed specialist reports.
+- **Implementation:** introduced owner-scoped `tle_ai_team_runs` RLS table; `tle-ai-team` v2 `run_agent` with hard-coded, read-only capabilities and source attribution; Jessie handoff on its private AI Team page; saved execution reports in the UI. Added no outbound send/production write actions.
+- **Validation:** anonymous execution blocked in CI, JS syntax and route safety checks; GitHub Pages deploy and Safari checks required. **Owner-authenticated mobile browser sign-off remains pending**, so do not claim full end-to-end execution reliability without it.
+- **Regression:** `scripts/qa-ai-team.mjs`, `.github/workflows/ai-team-qa.yml`, Pages pre-deploy gate. Never replay client email/send during QA.

@@ -145,3 +145,13 @@ Main website root EN/ES declares /favicon.png (512x512), /favicon.ico and /apple
 - Actions: `list`, `scan` (read-only aggregate counts), `create`, `assign`, `status`, `approve`, `complete` with evidence, `plan` (LLM suggestion only). AI planning does NOT execute a task. Email, payment, deployment and buyer data modifications are not AI Team actions.
 - Standalone Jessie mounts only after owner checks and stays on `/command-center/ai-team.html`; back action returns to `/command-center/`.
 - QA: unauthorized/buyer JWT denied; duplicate task submit rejected; XSS-safe rendered content; mobile 360/390, tablet 820/1024, desktop 1440, iOS Safari and desktop browser; navigation, refresh, logout and approvals checked before production release.
+
+
+## Owner-only AI Team execution, source reviews (2026-10-13)
+- Entry route remains `/command-center/ai-team.html`; no new public links or buyer routes.
+- New authenticated `POST /functions/v1/tle-ai-team` action `run_agent`: only named, allow-listed `agent_key` values. Never accept untrusted URLs, SQL, client IDs, recipients or GitHub write operations from browser input.
+- `jessie` = owner operations aggregates; `sales` = due lead and consent-flag aggregates only (not send authorization); `projects` = purchase/intake/delivery count audit; `developer` = public GitHub HEAD/CI read check; `qa` = read-only GET allowlist; `creative` = public route/page-title audit (NOT Metricool); `care` = support status aggregates. Every result identifies a source and partial coverage.
+- `tle_ai_team_runs` stores real result metadata and safe aggregates, scoped to platform owner workspace. Deny direct anonymous/authenticated table access via RLS + revoked grants. Browser `AI Team` renders reports via text nodes, not HTML injection.
+- Jessie on the private AI Team screen recognizes explicit Spanish/English check commands and calls the same authenticated gateway. Other Jessie screens continue existing action scope; no arbitrary execution through a chat prompt.
+- Nothing in this feature sends email, messages, invoices, customer updates, checkout requests or GitHub commits. Do not call a report a completed client task. Existing owner approval and completion with evidence are separate actions.
+- Before marking released: `node scripts/qa-ai-team.mjs`, GitHub `Private AI Team QA`, Pages deploy + route guard, owner session / buyer session browser acceptance, mobile/tablet/desktop check. Keep live authentication end-to-end pending if not exercised.

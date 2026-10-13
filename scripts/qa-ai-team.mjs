@@ -11,6 +11,7 @@ const bridge=read(base+"assets/jessy-owner-standalone.mjs");
 const css=read(base+"assets/ai-team.css");
 new vm.Script(script,{filename:"ai-team.js"});
 new vm.Script(entry,{filename:"ai-team-entry.js"});
+new vm.Script(read(base+"assets/jessy-owner.js"),{filename:"jessy-owner.js"});
 const checks=[
  ["AI Team document",html.includes("<title>AI Team | The Launch Era Command Center</title>")],
  ["Owner-only blank until authenticated",html.includes('id="app" class="hidden"')],
@@ -31,7 +32,15 @@ const checks=[
  ["Escapes dynamically displayed task titles",script.includes('el("h3","",t.title)')],
  ["No direct email or billing sends",!/resend|stripe|send_email|checkout/i.test(script)],
  ["Responsive phone/tablet CSS",css.includes("@media(max-width:600px)")&&css.includes("@media(max-width:820px)")],
- ["No broken app-icons references",!html.includes("./app-icons/tle-192.png")]
+ ["No broken app-icons references",!html.includes("./app-icons/tle-192.png")],
+ ["Private report section exists",html.includes('id="runs-section"') && html.includes('id="runs"')],
+ ["Agent run action is authenticated",script.includes('action:"run_agent"') && script.includes('verified=true;tasks=r.tasks')],
+ ["Report display escapes values",script.includes('el("b","",x.value===null')],
+ ["Read-only action connected to Jessie",read(base+"assets/jessy-owner.js").includes("TLEAIOpsGateway.run(teamAgent)")],
+ ["Task remains human approved",script.includes('action:"approve"') && script.includes('action:"complete"')],
+ ["No arbitrary external requests in browser",!script.includes("fetch('https://api.github.com")],
+ ["Reports stay responsive",css.includes(".ait-runs-grid") && css.includes("ait-agent-actions")],
+ ["Real run endpoint and history",script.includes('runs=out.runs||[]') && script.includes('window.TLEAIOpsGateway=Object.freeze')]
 ];
 for(const [name,ok] of checks){assert.ok(ok,name);console.log("PASS — "+name)}
 console.log("AI Team static readiness:",checks.length,"checks passed.");
