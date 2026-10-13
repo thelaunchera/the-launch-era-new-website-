@@ -3,7 +3,7 @@
 "use strict";
 if(window.__tleOwnerJessyInstalled)return;
 window.__tleOwnerJessyInstalled=true;
-const ASSET="/assets/jessy-avatar.webp",CSS="./assets/jessy-owner.css?v=20261012-allpages-v1";
+const ASSET="/assets/jessy-avatar.webp",CSS="./assets/jessy-owner.css?v=20261012-mobilefit-v2";
 let root=null,log=null,form=null,input=null,send=null,quick=null,open=false,waiting=false,language="en",history=[],previousFocus=null;
 let notificationTimer=0;
 const copy={
