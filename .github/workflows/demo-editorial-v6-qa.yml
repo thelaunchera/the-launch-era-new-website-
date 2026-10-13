@@ -1,7 +1,7 @@
 name: Cleaning Demo Editorial v6 QA
 on:
   push:
-    branches: [design/cleaning-demo-hero-confirmation-v6-20261013]
+    branches: [design/cleaning-demo-hero-confirmation-v6-20261013 , design/demo-booking-editorial-v7-20261013]
   pull_request:
     paths:
       - 'public/lead-private-preview.html'
