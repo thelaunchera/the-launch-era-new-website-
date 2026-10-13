@@ -23,7 +23,7 @@
  const line=(name,detail,s)=>'<div class="data-row sample-detailed"><div class="sample-person"><span class="sample-avatar">'+name.split(" ").slice(0,2).map(a=>a[0]).join("")+'</span><div><strong>'+name+'</strong><small>'+detail+'</small></div></div><div class="right">'+pill(s)+'</div></div>';
  const title=(s,n)=>'<section class="populated"><h3>'+s+'</h3><p>'+n+' '+w().showing+'</p>';
  const date=(i)=>{const d=new Date();d.setDate(d.getDate()+i);return new Intl.DateTimeFormat(state.lang==="es"?"es-US":"en-US",{month:"short",day:"numeric"}).format(d)};
- const metrics=([["18",w().jobs],["30",w().clients],["8",w().quotes],["12",w().invoices]])=>'<div class="sample-metrics">'+metrics.map(([a,b])=>'<div><strong>'+a+'</strong><small>'+b+'</small></div>').join("")+'</div>';
+ const metrics=(arr)=>'<div class="sample-metrics">'+(arr||[["18",w().jobs],["30",w().clients],["8",w().quotes],["12",w().invoices]]).map(([a,b])=>'<div><strong>'+a+'</strong><small>'+b+'</small></div>').join("")+'</div>';
  const list=(rows)=>rows.join("")+'</section>';
  const originals=screens.slice();
  screens[0]=()=>metrics() + title(w().jobList,6)+list(jobs.slice(0,6).map(j=>line(j.name,service(j.service)+' · '+date(j.day)+' · '+j.time,j.status)))+'<div class="sample-insights"><span>4 '+w().team+'</span><span>6 '+w().requests+'</span><span>20 '+w().jobs+'</span></div>';
