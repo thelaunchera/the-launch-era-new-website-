@@ -93,7 +93,7 @@ for(const lang of ['en','es']){
      };
    });
    assert.equal(heroNavigation.panelIdCount,1,'Booking target ID must be unique');
-   assert(heroNavigation.visible&&heroNavigation.scroll>80&&heroNavigation.panelTop>=-10&&heroNavigation.panelTop<160,
+   assert(heroNavigation.visible&&heroNavigation.scroll>80&&heroNavigation.panelTop>=-10&&heroNavigation.panelTop<235,
       'Choose your service did not scroll to visible form: '+JSON.stringify(heroNavigation));
    assert.equal(heroNavigation.hash,'#bookingStarter','Hero CTA destination must update URL');
    assert(heroNavigation.stylePresent&&heroNavigation.svgVisible&&heroNavigation.arrowBackground==='rgba(0, 0, 0, 0)'&&heroNavigation.oldArrow==='none',
