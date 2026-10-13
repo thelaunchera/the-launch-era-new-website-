@@ -70,9 +70,20 @@ for(const lang of ['en','es']){
    assert(m.headerFont.includes('Prompt'),'Headings not using Prompt typography');
    assert(m.ctaRadius>=24 && m.circleRadius>=16,'CTA or arrow icon still looks square');
    assert(m.ctaInsideHeader&&m.ctaWithinHeader,'Begin pill must sit inside header, not as a full-width bar: '+JSON.stringify(m));
-   assert(m.heroPhotoLoaded&&m.heroPhotoSource?.includes('hero-woman-cleaning.jpg'),'CB-style woman cleaning photo did not load');
+   assert(m.heroPhotoLoaded&&m.heroPhotoSource?.includes('tle-midnight-hero.avif'),'CB-style woman cleaning photo did not load');
    assert(m.heroPrimaryVisible&&m.heroAreaVisible,'Hero CTA or personalized service area clipped: '+JSON.stringify(m));
-   assert(m.heroTextColor==='rgb(25, 25, 25)','Hero editorial text color lost contrast');
+   assert(m.heroTextColor==='rgb(255, 255, 255)','Midnight hero headline should be white');
+   const darkUi=await page.evaluate(()=>({
+     css:[...document.styleSheets].some(s=>s.href?.includes('tle-demo-midnight-v11.css')),
+     page:getComputedStyle(document.body).backgroundColor,
+     panelBg:getComputedStyle(document.querySelector('#bookingStarter')).backgroundImage,
+     title:getComputedStyle(document.querySelector('#bookingStarter .head h2')).color,
+     card:getComputedStyle(document.querySelector('#residentialServiceList .service')).backgroundImage,
+     price:getComputedStyle(document.querySelector('#residentialServiceList .service .price')).color
+   }));
+   assert(darkUi.css&&darkUi.page==='rgb(8, 13, 19)','Midnight stylesheet/page backdrop not active '+JSON.stringify(darkUi));
+   assert(darkUi.panelBg.includes('linear-gradient')&&darkUi.card.includes('linear-gradient'),'Booking panel or service card lost dark styling');
+   assert(darkUi.title==='rgb(255, 255, 255)'&&darkUi.price==='rgb(169, 223, 255)','White/ice-blue contrast lost '+JSON.stringify(darkUi));
    assert.equal(m.ctaHref,'#categoryTabs','Begin must be a working anchor');
    assert.equal(m.categoryButtons,2,'Residential/Commercial navigation missing');
    assert(m.editorialTitle.includes(lang==='es'?'Detalles pensados':'Thoughtful details'),'New editorial copy missing: '+JSON.stringify(m.editorialTitle));
