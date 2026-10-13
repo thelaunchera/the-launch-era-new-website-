@@ -159,3 +159,10 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - **Implementation:** introduced owner-scoped `tle_ai_team_runs` RLS table; `tle-ai-team` v2 `run_agent` with hard-coded, read-only capabilities and source attribution; Jessie handoff on its private AI Team page; saved execution reports in the UI. Added no outbound send/production write actions.
 - **Validation:** anonymous execution blocked in CI, JS syntax and route safety checks; GitHub Pages deploy and Safari checks required. **Owner-authenticated mobile browser sign-off remains pending**, so do not claim full end-to-end execution reliability without it.
 - **Regression:** `scripts/qa-ai-team.mjs`, `.github/workflows/ai-team-qa.yml`, Pages pre-deploy gate. Never replay client email/send during QA.
+
+
+## 2026-10-13 — AI Team autonomous alert tasks and reviewed work
+- New source-backed Supabase triggers generate *owner-only* review tasks from incoming support, paid-but-incomplete booking intakes and AI assistant orders. pg_cron makes daily 8am Eastern aggregates and records.
+- Generated AI deliverables are held in `tle_ai_team_outputs` with explicit approve/reject and owner-only access. No connector or automation is permitted to turn approval into a send/publish event without a separate audited authorization path.
+- First forced daily check verified no due follow-ups, unpaid-delivery mismatches or open support for that snapshot; 4 read-only run records created, no messages or customer record writes.
+- Distinguish work products from actual execution. Make/Resend/Metricool publish/send connectors remain separate controlled flows, not automatically wired by owner AI Team.
