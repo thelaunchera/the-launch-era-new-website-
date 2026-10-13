@@ -50,7 +50,7 @@ function staticChecks(){
  for(const [file,expected] of publicIntakes){
   const content=readFileSync(join(root,file),'utf8');
   if(!content.includes(expected)) errors.push('Public intake missing anytime submission guidance: '+file);
-  if(/Production hours:\\s*<\\/strong>|Horario de producción:\\s*<\\/strong>|After-hours submissions start|After-hours setups begin|Fuera del horario laboral, comenzamos|Fuera de horario, comenzamos/i.test(content))errors.push('Public intake still displays TLE office hours: '+file);
+  if(/Production hours:|Horario de producción:|After-hours submissions start|After-hours setups begin|Fuera del horario laboral, comenzamos|Fuera de horario, comenzamos/i.test(content))errors.push('Public intake still displays TLE office hours: '+file);
  }
  const sharedFooter=readFileSync(join(root,'src/components/site-shell.tsx'),'utf8');
  if(!sharedFooter.includes('footer-contact-link')||sharedFooter.includes('footer-hours'))errors.push('Website footer contact guidance or direct CTA regressed');
