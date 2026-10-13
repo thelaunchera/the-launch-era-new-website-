@@ -40,6 +40,14 @@ assert(html.includes('cleaning-demo-populated.js?v=20261013-miami-1'),'Demo not 
 assert(populatedJs.includes('c.location')&&populatedJs.includes('locations[clients.findIndex'),'Clients and booking requests must share Miami locations');
 assert(!/<script\s+src="\/assets\/jessy-site\.js/.test(html),'Repeated Jessy must not appear inside sample iframe');
 
+
+/* Ensure the final trial invitation never loses its side margins on iPhone. */
+assert(/<section class="container end">/.test(html), 'Final demo CTA section missing');
+assert(/section\.container\.end\s*\{[\s\S]*?padding:clamp\(30px,4\.5vw,58px\) clamp\(22px,5vw,56px\)/.test(html), 'Final CTA lost horizontal gutters');
+assert(/@media\(max-width:700px\)\s*\{[\s\S]*?section\.container\.end\s*\{[\s\S]*?padding:36px clamp\(24px,6vw,32px\) 62px/.test(html), 'Mobile CTA missing safe 24px horizontal padding');
+assert(/section\.container\.end>\.btn\{display:flex;width:100%;min-height:54px/.test(html), 'Mobile CTA must fit and remain touchable');
+assert(/id="trial" href="https:\/\/app\.thelaunchera\.com\/\?entry=signup"/.test(html), 'Trial CTA destination changed');
+
 if (faults.length) {
  console.error('[PUBLIC DEMO QA BLOCKED]\n' + faults.join('\n'));
  process.exitCode = 1;

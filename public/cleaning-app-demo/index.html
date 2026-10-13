@@ -74,6 +74,26 @@ header{background:#fff;border-bottom:1px solid var(--line)}.header-inner{max-wid
  .end h2{font-size:27px}
  .end p{font-size:12px}
 }
+
+/* Closing trial invitation: consistent side gutters on phones and spacious alignment on desktop.
+   The old .end {padding:4px 0 ...} cancelled .container's horizontal padding. */
+section.container.end{
+  box-sizing:border-box;
+  padding:clamp(30px,4.5vw,58px) clamp(22px,5vw,56px) clamp(56px,7vw,88px);
+  column-gap:clamp(24px,4vw,60px);
+}
+section.container.end>div{min-width:0;flex:1 1 380px}
+section.container.end>.btn{flex:0 1 auto;max-width:100%;min-height:54px;text-align:center}
+@media(max-width:700px){
+  section.container.end{
+    display:flex;flex-direction:column;align-items:stretch;gap:23px;
+    padding:36px clamp(24px,6vw,32px) 62px;
+  }
+  section.container.end>div{width:100%;flex:0 1 auto}
+  section.container.end h2{font-size:clamp(25px,7vw,34px);line-height:1.2;max-width:20ch}
+  section.container.end p{font-size:14px;line-height:1.62;max-width:60ch}
+  section.container.end>.btn{display:flex;width:100%;min-height:54px;padding:15px 20px;border-radius:999px}
+}
 </style>
 <link rel="stylesheet" href="/assets/cleaning-demo-populated.css?v=20261013-01">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-N5BHMC432Q"></script>
