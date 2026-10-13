@@ -238,8 +238,8 @@ for(const v of screens) for(const lang of ['en','es']) {
 }
 await check('Demo uses new photos without changing the original buyer design',{width:390,height:844},async p=>{
  await p.goto(base+'/lead-private-preview.html?business=Example%20Cleaning',{waitUntil:'domcontentloaded'});
- const hero=await p.locator('#leadHero').evaluate(el=>getComputedStyle(el).backgroundImage);
- assert.match(hero,/6195274/,'Prospect demo must use a house interior with distant cleaners, not a close-up portrait');
+ const hero=await p.locator('#leadHero').evaluate(el=>getComputedStyle(el,'::before').backgroundImage);
+ assert.match(hero,/1pXyLjtp8y3x4N4CBn_mAlid2LIyORej5/,'Mobile hero should use approved publicly shared home imagery from the owner's Drive library');
  assert.equal(await p.locator('.demo-why').count(),1,'Premium why-choose-us scene exists');
  assert.equal(await p.locator('.demo-results .demo-result-card').count(),3,'Feature cards are present without invented reviews');
  assert.equal(await p.locator('.demo-feature-bar > div').count(),4,'Four real demo features appear, not fabricated customer metrics');
@@ -250,7 +250,14 @@ await check('Demo uses new photos without changing the original buyer design',{w
   return {scrollWidth:document.documentElement.scrollWidth,viewport:innerWidth,photo:photo.backgroundImage,heroHeight:h.getBoundingClientRect().height,headingWidth:document.querySelector('.demo-headline').getBoundingClientRect().width};
  });
  assert.equal(layout.scrollWidth<=layout.viewport+3,true,'No horizontal scrolling in approved phone design');
- assert.match(layout.photo,/6195274/,'Phone displays house photography first');
+ assert.match(layout.photo,/1pXyLjtp8y3x4N4CBn_mAlid2LIyORej5/,'Phone displays approved Drive home photo first');
+ assert.equal(await p.locator('#demoCinematicStory').count(),1,'The cinematic scroll chapter is present');
+ assert.equal(await p.locator('.demo-cinematic-photo').count(),1,'Cinematic chapter has a real image');
+ assert.equal(await p.locator('.demo-inline-arrow').count()>=3,true,'CTA indicators are consistent drawn vectors, not emoji arrows');
+ assert.equal(await p.locator('.demo-showcase-label b').count(),0,'No chunky emoji arrow chips inside service cards');
+ await p.locator('#demoCinematicStory').scrollIntoViewIfNeeded();
+ await p.waitForTimeout(350);
+ assert.equal(await p.locator('#demoScrollProgress > span').evaluate(el=>Number.parseFloat(getComputedStyle(el).transform.split(',')[0].replace('matrix(',''))>0),true,'Reading progress responds to scrolling');
  assert.equal(await p.locator('html').evaluate(el=>el.classList.contains('demo-editorial')),true,'Shared prospect demo loads editorial design');
  assert.equal(await p.locator('#leadName').innerText(),'PERSONALIZED FOR EXAMPLE CLEANING','Per-lead branding stays intact');
  assert.equal(await p.locator('#demoEditorialNav').isVisible(),true,'Prospect navigation is visible');
