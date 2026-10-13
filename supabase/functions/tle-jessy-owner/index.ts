@@ -221,6 +221,32 @@ function emailReadUnavailable(lang){
     "I can mark Command Center alerts as read. Email activity here tracks sent mail, not an inbox with read status. No emails were changed. Want to review email activity?",
     "Puedo marcar avisos de la campanita como leídos. Aquí Correos es un historial de envíos, no una bandeja con estado de leído. No cambié ningún correo. ¿Revisamos el historial?")};
 }
+async function projectReadiness(lang){
+ const es=lang==="es", txt=(en,sp)=>es?sp:en, projects=[],coverage=[];
+ for(const config of [{kind:"booking",table:"tle_booking_flow_accounts",query:"select=id,business_name,intake_completed_at,intake_payload,build_started_at,delivery_sent_at,payment_status&payment_status=eq.paid&limit=40"},{kind:"ai",table:"tle_ai_agent_orders",query:"select=id,business_name,offer,status,submitted_at,services_offered,install_target,website_url,booking_page_url,delivered_at&limit=40"}]){
+  let data=[];try{data=await rows(config.table,config.query)}catch{coverage.push(config.kind);continue}
+  for(const a of data){
+   const missing=[],payload=a.intake_payload||{};
+   const delivered=config.kind==="booking"?!!a.delivery_sent_at:!!a.delivered_at||a.status==="active";
+   if(!delivered&&config.kind==="booking"){
+    if(!a.intake_completed_at)missing.push(txt("Setup form not submitted","Falta enviar el intake"));
+    else for(const [key,en,sp] of [["services","Services","Servicios"],["service_areas","Service area","Zona de servicio"],["pricing_style","Pricing details","Precios"],["availability","Booking availability","Disponibilidad"]])if(!String(payload[key]??"").trim())missing.push(txt(en,sp));
+   }
+   if(!delivered&&config.kind==="ai"){
+    if(!a.submitted_at)missing.push(txt("AI intake not submitted","Falta el intake de IA"));
+    else {
+     if(!String(a.services_offered||"").trim())missing.push(txt("Services","Servicios"));
+     if(!String(a.install_target||"").trim())missing.push(txt("Installation destination","Dónde instalar"));
+     if(["existing_website","both"].includes(a.install_target)&&!a.website_url)missing.push(txt("Website link","Enlace del website"));
+    }
+   }
+   const started=config.kind==="booking"?!!a.build_started_at:a.status==="in_setup";
+   projects.push({kind:config.kind,id:a.id,name:String(a.business_name||"Project").slice(0,75),status:delivered?"delivered":missing.length?"needs_info":started?"production":"owner_review",missing,service:config.kind==="booking"?"Booking Automation":"AI Assistant"});
+  }
+ }
+ const pending=projects.filter(x=>x.status==="needs_info").length,review=projects.filter(x=>x.status==="owner_review").length;
+ return {ok:true,action_performed:"client_readiness_review",section:"owner-pages",read_only:true,projects:projects.slice(0,40),coverage,reply:txt("Reviewed "+projects.length+" Booking/AI projects: "+pending+" need details and "+review+" need your approval. I did not change anything.","Revisé "+projects.length+" proyectos Booking/IA: "+pending+" necesitan datos y "+review+" requieren tu revisión. No cambié nada.")};
+}
 Deno.serve(async req=>{
  const origin=req.headers.get("origin")||"";
  if(req.method==="OPTIONS")return new Response(null,{status:204,headers:h(origin)});
@@ -237,6 +263,9 @@ Deno.serve(async req=>{
  if(data?.action==="draft_followup"){
   const response=await draftForLead(ws,clean(data.lead_id,42),lang);
   return out(response,response.ok?200:response.status||400,origin);
+ }
+ if(data?.action==="client_readiness"||/(que|qué).{0,30}falta|falt.{0,25}client|missing.{0,30}client|check.{0,25}intake|revisa.{0,30}cliente/i.test(message)){
+  return out(await projectReadiness(lang),200,origin);
  }
  if(message.length<2)return out({error:"Enter a question"},400,origin);
  const intent=classifyOwnerReadIntent(message);
