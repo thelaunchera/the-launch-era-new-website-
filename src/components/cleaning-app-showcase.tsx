@@ -1,19 +1,11 @@
-import { ArrowUpRight, CalendarDays, UsersRound, FileText, Receipt, Clock3, MapPinned, Calculator } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 
 type Props={lang?:'en'|'es'};
 
 export function CleaningAppShowcase({lang='en'}:Props){
  const es=lang==='es';
  const demo=(tab:number)=>`/cleaning-app-demo/?lang=${lang}&embedded=1&tab=${tab}`;
- const features=[
-  {icon:<CalendarDays size={21}/>,label:es?'Reservas + Calendario':'Bookings + Calendar',body:es?'Trabajo recurrente, próximas visitas y detalles claros.':'Recurring work, upcoming visits and the details for each clean.'},
-  {icon:<UsersRound size={21}/>,label:es?'Clientes + Trabajos':'Clients + Jobs',body:es?'Cada cliente, sus servicios y su historial en un lugar.':'Every client, their services and history, together.'},
-  {icon:<FileText size={21}/>,label:es?'Cotizaciones':'Quotes',body:es?'De estimado pendiente a seguimiento.':'From open estimate to the next follow-up.'},
-  {icon:<Receipt size={21}/>,label:es?'Facturas':'Invoices',body:es?'Lo enviado, pagado y pendiente, sin buscar mensajes.':'Sent, paid and outstanding, without digging through messages.'},
-  {icon:<Calculator size={21}/>,label:es?'Calculadora de precios':'Pricing Calculator',body:es?'Prepara estimados con las reglas de tu negocio.':'Prepare estimates using your own pricing rules.'},
-  {icon:<Clock3 size={21}/>,label:es?'Equipo + Tiempo':'Team + Time',body:es?'Horarios y tiempo de trabajo organizados.':'Keep assignments and time entries organized.'},
-  {icon:<MapPinned size={21}/>,label:es?'Rutas':'Routes',body:es?'Organiza la próxima parada.':'Know which stop comes next.'}
- ];
+
  return <div className="tle-cleaning-case">
   <section className="tle-case-cover" aria-label={es?'Presentación de Cleaning App':'Cleaning App visual overview'}>
    <div className="tle-case-header"><span>THE LAUNCH ERA / PRODUCT STORY</span><span>{es?'UN ESPACIO PARA TU NEGOCIO':'BUILT FOR CLEANING BUSINESSES'}</span></div>
