@@ -14,10 +14,10 @@ const agents=[
  {key:"care",icon:"♡",name:"AI Customer Care",es:"Prepara comunicaciones para revisión.",en:"Prepares customer communications for review."}
 ];
 const words={
- es:{intro:"Jessie coordina. Los especialistas preparan los próximos pasos. Tú apruebas cada acción importante.",review:"Revisar mi espacio",newTask:"+ Nueva tarea",truth:"Los planes de IA son recomendaciones, no trabajos completados. No se envían correos ni se hacen cambios a clientes o despliegues automáticamente.",team:"Un equipo. Responsabilidades claras.",taskTitle:"Tareas y aprobaciones",count:"Tareas activas",approvals:"Esperando aprobación",scan:"Resumen del sistema",notChecked:"Sin revisar",snapshot:"Ejecuta una revisión de solo lectura para ver las cifras verificadas.",empty:"Todavía no hay tareas. Crea la primera para Jessie.",read:"Ver tareas",plan:"Crear plan con IA",start:"Iniciar revisión",needs:"Solicitar aprobación",approve:"Aprobar plan",complete:"Registrar finalización",block:"Bloquear",unblock:"Reanudar",cancel:"Cancelar tarea",confirmCancel:"¿Cancelar esta tarea? Esta acción no afecta servicios externos.",cancelled:"Cancelada",verified:"Hecho, con evidencia registrada.",create:"Crear tarea",choose:"Elige un agente",busy:"Trabajando…",serverError:"No se pudo completar. Revisa tu conexión.",created:"La tarea se guardó. No se ejecutó ninguna acción externa.",planDisclaimer:"Plan propuesto por IA. No se ha ejecutado.",scanning:"Verificando…",prospects:"Prospectos activos",notifications:"Notificaciones pendientes",support:"Tickets abiertos",queue:"Tareas activas",partial:"No disponible",auditEmpty:"Aún no hay actividad.",modalTitle:"Crear una tarea del equipo",taskAgent:"Agente responsable",taskName:"Título de la tarea",taskDesc:"Contexto / requisitos",priority:"Prioridad",evidence:"Evidencia de la verificación",back:"← Command Center",draftOutput:"Preparar trabajo",draftCreated:"Borrador creado para revisión; no se envió ni publicó nada.",outputs:"Trabajos preparados",noOutputs:"Aún no hay borradores. Selecciona Preparar trabajo en una tarea.",approveDraft:"Aprobar borrador",rejectDraft:"Descartar borrador",copyDraft:"Copiar texto",draftStatus:"Pendiente de aprobación",approvalOnly:"Aprobar no envía correos, ni publica posts, ni cambia clientes.",run:"Ejecutar revisión real",running:"Consultando fuentes reales…",recent:"Ejecuciones verificadas",emptyRuns:"Todavía no hay comprobaciones ejecutadas.",readOnly:"Solo lectura: no se enviaron mensajes ni se cambiaron datos de clientes.",facts:"Datos comprobados",details:"Ver comprobaciones",partialRun:"Verificación parcial",successRun:"Comprobado",reusedRun:"Se muestra el resultado reciente; no repetí la operación."},
- en:{intro:"Jessie coordinates. Specialists prepare the next steps. You approve every important action.",review:"Review my workspace",newTask:"+ New task",truth:"AI plans are suggestions, not completed work. No automatic emails, client changes or deployments.",team:"One team. Clear responsibilities.",taskTitle:"Tasks & approvals",count:"Active team tasks",approvals:"Awaiting approval",scan:"Workspace scan",notChecked:"Not checked",snapshot:"Run a read-only scan to see verified workspace counts.",empty:"No tasks yet. Create one for Jessie.",read:"View tasks",plan:"Generate AI plan",start:"Start review",needs:"Request approval",approve:"Approve plan",complete:"Record completion",block:"Block task",unblock:"Resume",cancel:"Cancel task",confirmCancel:"Cancel this task? External services won't be affected.",cancelled:"Cancelled",verified:"Done, with verified evidence.",create:"Create task",choose:"Choose an agent",busy:"Working…",serverError:"Could not complete that request. Check your connection.",created:"Task saved. No external action was executed.",planDisclaimer:"AI-proposed plan. Not executed.",scanning:"Checking…",prospects:"Active prospects",notifications:"Unread notifications",support:"Open support items",queue:"Active tasks",partial:"Unavailable",auditEmpty:"No activity yet.",modalTitle:"Create a team task",taskAgent:"Responsible agent",taskName:"Task title",taskDesc:"Context / requirements",priority:"Priority",evidence:"Verification evidence",back:"← Command Center",draftOutput:"Prepare deliverable",draftCreated:"Draft prepared for review; nothing was sent or published.",outputs:"Prepared deliverables",noOutputs:"No drafts yet. Choose Prepare deliverable on a task.",approveDraft:"Approve draft",rejectDraft:"Reject draft",copyDraft:"Copy text",draftStatus:"Awaiting approval",approvalOnly:"Approval never sends messages, publishes posts or changes customers.",run:"Run live check",running:"Checking live sources…",recent:"Verified executions",emptyRuns:"No checks executed yet.",readOnly:"Read-only: no messages were sent and no customer data was changed.",facts:"Verified facts",details:"Show checks",partialRun:"Partial verification",successRun:"Checked",reusedRun:"Showing the recent result without repeating the operation."}
+ es:{intro:"Jessie coordina. Los especialistas preparan los próximos pasos. Tú apruebas cada acción importante.",review:"Revisar mi espacio",newTask:"+ Nueva tarea",truth:"Los planes de IA son recomendaciones, no trabajos completados. No se envían correos ni se hacen cambios a clientes o despliegues automáticamente.",team:"Un equipo. Responsabilidades claras.",taskTitle:"Tareas y aprobaciones",count:"Tareas activas",approvals:"Esperando aprobación",scan:"Resumen del sistema",notChecked:"Sin revisar",snapshot:"Ejecuta una revisión de solo lectura para ver las cifras verificadas.",empty:"Todavía no hay tareas. Crea la primera para Jessie.",read:"Ver tareas",plan:"Crear plan con IA",start:"Iniciar revisión",needs:"Solicitar aprobación",approve:"Aprobar plan",complete:"Registrar finalización",block:"Bloquear",unblock:"Reanudar",cancel:"Cancelar tarea",confirmCancel:"¿Cancelar esta tarea? Esta acción no afecta servicios externos.",cancelled:"Cancelada",verified:"Hecho, con evidencia registrada.",create:"Crear tarea",choose:"Elige un agente",busy:"Trabajando…",serverError:"No se pudo completar. Revisa tu conexión.",created:"La tarea se guardó. No se ejecutó ninguna acción externa.",planDisclaimer:"Plan propuesto por IA. No se ha ejecutado.",scanning:"Verificando…",prospects:"Prospectos activos",notifications:"Notificaciones pendientes",support:"Tickets abiertos",queue:"Tareas activas",partial:"No disponible",auditEmpty:"Aún no hay actividad.",modalTitle:"Crear una tarea del equipo",taskAgent:"Agente responsable",taskName:"Título de la tarea",taskDesc:"Contexto / requisitos",priority:"Prioridad",evidence:"Evidencia de la verificación",back:"← Command Center",connectionTitle:"Conexión del generador IA",connectionTest:"Verificar IA",connectionChecking:"Comprobando OpenAI…",connectionNotConfigured:"No se detecta la clave de OpenAI. Se pueden crear plantillas, pero NO son generadas por IA.",connectionReady:"Clave detectada. Pulsa Verificar IA para comprobar el modelo y la facturación.",connectionVerified:"OpenAI responde correctamente. Los próximos borradores pueden generarse con IA.",connectionError:"La conexión de IA no pasó la prueba. Se usarán plantillas etiquetadas, nunca se presentarán como IA.",draftAI:"Generado por IA",draftTemplate:"Plantilla · Sin IA",back2:"← Command Center",draftOutput:"Preparar trabajo",draftCreated:"Borrador creado para revisión; no se envió ni publicó nada.",outputs:"Trabajos preparados",noOutputs:"Aún no hay borradores. Selecciona Preparar trabajo en una tarea.",approveDraft:"Aprobar borrador",rejectDraft:"Descartar borrador",copyDraft:"Copiar texto",draftStatus:"Pendiente de aprobación",approvalOnly:"Aprobar no envía correos, ni publica posts, ni cambia clientes.",run:"Ejecutar revisión real",running:"Consultando fuentes reales…",recent:"Ejecuciones verificadas",emptyRuns:"Todavía no hay comprobaciones ejecutadas.",readOnly:"Solo lectura: no se enviaron mensajes ni se cambiaron datos de clientes.",facts:"Datos comprobados",details:"Ver comprobaciones",partialRun:"Verificación parcial",successRun:"Comprobado",reusedRun:"Se muestra el resultado reciente; no repetí la operación."},
+ en:{intro:"Jessie coordinates. Specialists prepare the next steps. You approve every important action.",review:"Review my workspace",newTask:"+ New task",truth:"AI plans are suggestions, not completed work. No automatic emails, client changes or deployments.",team:"One team. Clear responsibilities.",taskTitle:"Tasks & approvals",count:"Active team tasks",approvals:"Awaiting approval",scan:"Workspace scan",notChecked:"Not checked",snapshot:"Run a read-only scan to see verified workspace counts.",empty:"No tasks yet. Create one for Jessie.",read:"View tasks",plan:"Generate AI plan",start:"Start review",needs:"Request approval",approve:"Approve plan",complete:"Record completion",block:"Block task",unblock:"Resume",cancel:"Cancel task",confirmCancel:"Cancel this task? External services won't be affected.",cancelled:"Cancelled",verified:"Done, with verified evidence.",create:"Create task",choose:"Choose an agent",busy:"Working…",serverError:"Could not complete that request. Check your connection.",created:"Task saved. No external action was executed.",planDisclaimer:"AI-proposed plan. Not executed.",scanning:"Checking…",prospects:"Active prospects",notifications:"Unread notifications",support:"Open support items",queue:"Active tasks",partial:"Unavailable",auditEmpty:"No activity yet.",modalTitle:"Create a team task",taskAgent:"Responsible agent",taskName:"Task title",taskDesc:"Context / requirements",priority:"Priority",evidence:"Verification evidence",back:"← Command Center",connectionTitle:"AI generator connection",connectionTest:"Verify AI",connectionChecking:"Checking OpenAI…",connectionNotConfigured:"OpenAI secret not detected. Templates are available, but are NOT AI-generated.",connectionReady:"Key detected. Choose Verify AI to test the model and billing.",connectionVerified:"OpenAI responded successfully. New drafts can be AI-generated.",connectionError:"AI connection failed verification. Templates will be clearly labeled, never presented as AI.",draftAI:"AI-generated",draftTemplate:"Template · No AI",draftOutput:"Prepare deliverable",draftCreated:"Draft prepared for review; nothing was sent or published.",outputs:"Prepared deliverables",noOutputs:"No drafts yet. Choose Prepare deliverable on a task.",approveDraft:"Approve draft",rejectDraft:"Reject draft",copyDraft:"Copy text",draftStatus:"Awaiting approval",approvalOnly:"Approval never sends messages, publishes posts or changes customers.",run:"Run live check",running:"Checking live sources…",recent:"Verified executions",emptyRuns:"No checks executed yet.",readOnly:"Read-only: no messages were sent and no customer data was changed.",facts:"Verified facts",details:"Show checks",partialRun:"Partial verification",successRun:"Checked",reusedRun:"Showing the recent result without repeating the operation."}
 };
-let language="es",tasks=[],events=[],runs=[],outputs=[],scan=null,verified=false,activeFinish=null,plans=new Map(),inFlight=false;
+let language="es",tasks=[],events=[],runs=[],outputs=[],providerState=null,scan=null,verified=false,activeFinish=null,plans=new Map(),inFlight=false;
 try{language=localStorage.getItem("tle_crm_owner_language")==="en"?"en":"es"}catch{}
 function tx(k){return words[language][k]}
 function el(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n}
@@ -158,6 +158,22 @@ function renderRuns(){
 }
 
 
+function showProviderState(){
+ const title=$("ai-provider-title"),status=$("ai-provider-status"),button=$("ai-provider-check");
+ if(!title||!status||!button)return;
+ title.textContent=tx("connectionTitle");
+ button.textContent=tx("connectionTest");
+ if(providerState?.verified===true){
+  status.textContent=tx("connectionVerified");
+ }else if(providerState?.checked===true){
+  status.textContent=tx("connectionError")+(providerState.reason?" ("+String(providerState.reason)+")":"");
+ }else if(providerState?.configured===true){
+  status.textContent=tx("connectionReady");
+ }else{
+  status.textContent=tx("connectionNotConfigured");
+ }
+}
+
 function renderOutputs(){
  const root=$("outputs");if(!root)return;
  root.replaceChildren();
@@ -167,6 +183,7 @@ function renderOutputs(){
   const head=el("div","ait-task-top");
   head.append(el("span","ait-agent-pill",agentName(output.agent_key)),el("span","ait-status "+(output.status==="approved"?"completed":"needs_approval"),output.status==="draft"?tx("draftStatus"):output.status));
   card.append(head,el("h3","",output.title));
+  card.append(el("p","ait-generation-mode",output.generation_mode==="template"?tx("draftTemplate"):tx("draftAI")));
   const body=el("pre","ait-output-copy",output.content);card.append(body);
   card.append(el("p","ait-run-note",tx("approvalOnly")+" · "+new Date(output.created_at).toLocaleString()));
   const actions=el("div","ait-task-actions");
@@ -202,13 +219,13 @@ function applyText(){
  const ls=ds.querySelectorAll("label");[tx("taskAgent"),tx("taskName"),tx("taskDesc"),tx("priority")].forEach((x,i)=>{ls[i].childNodes[0].textContent=x});
  $("create-submit").textContent=tx("create");
  document.querySelector("#finish-form label").childNodes[0].textContent=tx("evidence");
- renderAgents();renderTasks();renderScan();renderActivity();renderRuns();renderOutputs();
+ renderAgents();renderTasks();renderScan();renderActivity();renderRuns();renderOutputs();showProviderState();
  const rt=$("runs-title");if(rt)rt.textContent=tx("recent");
  const ot=$("outputs-title");if(ot)ot.textContent=tx("outputs");
 }
 async function refresh(){
  const out=await api({action:"list"});
- tasks=out.tasks||[];events=out.events||[];runs=out.runs||[];outputs=out.outputs||[];
+ tasks=out.tasks||[];events=out.events||[];runs=out.runs||[];outputs=out.outputs||[];if(out.capabilities&&providerState?.checked!==true)providerState={configured:out.capabilities.ai_key_detected===true,verified:false,checked:false};
  renderTasks();renderActivity();renderRuns();renderOutputs();
 }
 function showDialog(agent="jessie"){
@@ -231,7 +248,7 @@ async function start(){
  if(!db){lock();return}
  try{
   const r=await api({action:"list"});
-  verified=true;tasks=r.tasks||[];events=r.events||[];runs=r.runs||[];outputs=r.outputs||[];
+  verified=true;tasks=r.tasks||[];events=r.events||[];runs=r.runs||[];outputs=r.outputs||[];providerState={configured:r.capabilities?.ai_key_detected===true,checked:false,verified:false};
   $("loading").hidden=true;$("locked").hidden=true;$("app").classList.remove("hidden");
   document.body.classList.add("crm-owner-view");
   applyText();
@@ -265,6 +282,16 @@ window.TLEAIOpsGateway=Object.freeze({
 });
 $("lang").addEventListener("click",()=>{language=language==="es"?"en":"es";try{localStorage.setItem("tle_crm_owner_language",language)}catch{}applyText()});
 for(const id of ["new-task","new-task-top"])$(id).onclick=()=>showDialog();
+$("ai-provider-check").onclick=async()=>{
+ const button=$("ai-provider-check");if(button.disabled)return;
+ button.disabled=true;button.textContent=tx("connectionChecking");
+ try{
+  const res=await api({action:"provider_check"});
+  providerState={configured:res.configured===true,verified:res.verified===true,checked:true,reason:res.reason||null};
+  showProviderState();
+ }catch(e){showError(e.message)}
+ finally{button.disabled=false}
+};
 $("scan").onclick=async()=>{const btn=$("scan");btn.disabled=true;try{scan=await api({action:"scan"});renderScan()}catch(e){showError(e.message)}finally{btn.disabled=false}};
 $("task-form").onsubmit=async e=>{
  e.preventDefault();const submit=$("create-submit");submit.disabled=true;
