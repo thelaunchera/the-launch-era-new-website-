@@ -118,7 +118,7 @@ html:not(.demo-editorial) .demo-hero-footnote{display:none!important}
 html:not(.demo-editorial) #leadHero .heroText h1.demo-headline{display:none}html.demo-editorial #leadHero .live-preview-title{display:none}html:not(.demo-editorial) #leadHero .heroText h1.live-preview-title{font-size:clamp(38px,5vw,64px);max-width:780px}
 html.demo-editorial{scroll-behavior:smooth;scroll-padding-top:24px}
 html.demo-editorial body{background:#060708;color:#16191b;overflow-x:clip;font-family:Inter,"Arial",sans-serif}
-html.demo-editorial .top{background:#050607;color:#ecedf0;font-size:11px;font-weight:750;letter-spacing:.16em;padding:11px 14px}
+html:not(.demo-editorial) .demo-top-label,html.demo-editorial .live-top-label{display:none!important}html.demo-editorial .top{background:#050607;color:#ecedf0;font-size:11px;font-weight:750;letter-spacing:.16em;padding:11px 14px}
 html.demo-editorial .top span{color:#fa76ac;padding:0 10px}
 html.demo-editorial .wrap{max-width:1340px;padding:0 22px 45px;background:#060708;min-width:0}
 .demo-editorial-nav{height:82px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 clamp(18px,4vw,53px)}
@@ -141,7 +141,7 @@ html.demo-editorial #leadName{font-size:clamp(11px,1.2vw,14px);color:#bfe7ff;fon
 html.demo-editorial .heroText h1{display:flex;flex-direction:column;max-width:100%;font-weight:1000;font-stretch:condensed;letter-spacing:-.095em;line-height:.77;font-size:clamp(90px,13.7vw,194px);margin:0 0 34px;overflow:visible;color:white;filter:drop-shadow(0 8px 18px rgba(0,0,0,.15))}
 html.demo-editorial .heroText h1 span{display:block}
 html.demo-editorial .heroText h1 .hero-highlight{color:#ff78b5}
-html.demo-editorial .heroText h1 .headline-dot{display:inline;color:#a8dfff;letter-spacing:-.12em}
+html.demo-editorial .heroText h1 .headline-dot{display:inline!important;color:#a8dfff;letter-spacing:-.12em}
 html.demo-editorial .demo-hero-tagline{font-size:clamp(22px,2.5vw,34px);font-weight:850;line-height:1.04;letter-spacing:-.035em;color:white;margin:0 0 10px}
 html.demo-editorial .demo-hero-tagline em{font-style:normal;color:#9cddff}
 html.demo-editorial .demo-hero-description{max-width:355px;font-size:clamp(13px,1.2vw,15px);line-height:1.6;color:#eeeef2;margin:0 0 17px}
@@ -256,7 +256,7 @@ html.demo-editorial .heroArea{font-size:13px;line-height:1.45;margin:0 0 12px;ba
 }
 @media(prefers-reduced-motion:reduce){html.demo-editorial{scroll-behavior:auto}.demo-showcase-card,html.demo-editorial .service{transition:none}}
 </style>
-</head><body><div class="top">INTERACTIVE PREVIEW <span aria-hidden="true">✦</span> TEST REQUESTS ONLY — NOTHING IS BOOKED OR SENT</div>
+</head><body><div class="top"><span class="live-top-label">TRY IT OUT · NOTHING IS SENT OR BOOKED</span><span class="demo-top-label">INTERACTIVE PREVIEW <span aria-hidden="true">✦</span> TEST REQUESTS ONLY — NOTHING IS BOOKED OR SENT</span></div>
 <main class="wrap">
 <nav class="demo-editorial-nav" id="demoEditorialNav" aria-label="Demo navigation">
  <a class="demo-logo" href="#leadHero" id="demoBrandName" aria-label="Back to the top"><span class="demo-brand-pink">CLEAN</span><span>PREVIEW</span><span aria-hidden="true" class="demo-logo-spark">✦</span></a>
