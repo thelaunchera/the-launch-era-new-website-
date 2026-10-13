@@ -313,6 +313,22 @@
 <article id="ownerSupportPanel" class="panel hidden crm-owner-only" style="padding:22px;margin-top:16px">
  <div class="section-title">Troubleshooting & Support</div>
  <p class="muted">Review client reports, open the affected project, record your checks and track each fix here.</p>
+ <section id="ownerInternalIncidents" aria-label="Internal project incidents" style="border:1px solid #dae5eb;border-radius:19px;background:#FAF8F3;padding:clamp(14px,2vw,22px);margin:18px 0 24px">
+  <div style="display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap">
+   <div><h3 style="margin:0 0 7px;color:#191919">Internal QA & fixes <small style="font-size:11px;opacity:.67">OWNER ONLY</small></h3><p class="muted" style="margin:0 0 12px;line-height:1.6">Project issues found during our work. Private to The Launch Era; never shown as customer-submitted reports. Mark resolved only after real QA.</p></div>
+   <button type="button" id="ownerIncidentAddToggle" class="secondary" aria-expanded="false">+ Record internal issue</button>
+  </div>
+  <form id="ownerIncidentCreateForm" class="hidden" style="display:grid;gap:12px;margin:10px 0 18px;border:1px solid #dbe5ed;border-radius:14px;padding:16px;background:#fff">
+   <label>Client / project<select id="ownerIncidentClient" required><option value="">Choose a client</option></select></label>
+   <label>Problem title<input id="ownerIncidentTitle" required minlength="3" maxlength="180" placeholder="e.g. Reset link opens wrong page"></label>
+   <label>What happened / next test<textarea id="ownerIncidentDetails" maxlength="2000" rows="3" placeholder="Describe the issue and how to verify the fix. Do not include customer personal data."></textarea></label>
+   <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center"><button type="submit">Save internal issue</button><button class="secondary" type="button" id="ownerIncidentCancel">Cancel</button><span role="status" id="ownerIncidentCreateStatus"></span></div>
+  </form>
+  <p class="muted" id="ownerIncidentSummary" role="status">Loading internal checks…</p>
+  <div id="ownerIncidentList" style="display:grid;gap:11px"></div>
+ </section>
+ <h3 style="margin:0 0 9px">Client-submitted reports</h3>
+ <p class="muted" style="margin:0 0 12px">These come from the client's own “Report a Problem” form; they are separate from internal QA.</p>
  <label>Find a client or problem<input id="ownerSupportSearch" type="search" placeholder="Business, issue or section…" maxlength="160"></label>
  <div class="row" style="gap:10px;align-items:center;flex-wrap:wrap">
   <label>Show requests <select id="ownerSupportFilter"><option value="all">All requests</option><option value="open">Open</option><option value="in_progress">In progress</option><option value="resolved">Resolved</option></select></label>
