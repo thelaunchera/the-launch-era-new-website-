@@ -4062,9 +4062,15 @@ bootAfterPrivateEmailConfirmation();
   dash.setAttribute('data-preview-screen','');settings.setAttribute('data-preview-screen','');
   return '<!doctype html><html lang="en"><head><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="'+cssURL+'"></head><body class="crm-buyer-view"><main><section id="app">'+sidebar.outerHTML+'<div class="premium-workspace"><div class="premium-mobilebar"><button id="previewMenu">☰</button><strong>SAMPLE BUSINESS</strong></div><div class="premium-heading"><div><div class="eyebrow">REAL LAYOUT · SAMPLE DATA</div><h1>Your business, organized.</h1><p class="muted">Visual preview. Account actions are available in the signed-in workspace.</p></div></div>'+dash.outerHTML+settings.outerHTML+'<section id="previewSampleActivity" data-preview-screen class="hidden premium-emailhub"><h2>Sample activity</h2><div class="panel"><strong>Jamie Rivera</strong><p class="muted">Sample customer request · Needs review</p></div><div class="panel"><strong>Taylor Brooks</strong><p class="muted">Sample appointment · Confirmed</p></div></section></div></section></main><script>'+handler+'</script></body></html>';
  }
+ const closeButton=document.getElementById('ownerPreviewClose');
+ const expandButton=document.getElementById('ownerPreviewExpand');
  function open(kind){
   if(!workspace?.is_internal)return;
-  current=kind;shell.classList.remove('hidden');
+  current=kind;
+  shell.classList.remove('hidden');
+  closeButton.classList.remove('hidden');
+  closeButton.textContent=es()?'← Salir de la vista previa':'← Exit preview';
+  closeButton.setAttribute('aria-label',es()?'Salir de la vista previa y regresar a Clientes y compras':'Exit preview and return to Clients & Purchases');
   if(kind==='landing'){frame.removeAttribute('srcdoc');frame.src='/booking-demo/?lang='+(es()?'es':'en');}
   else{frame.removeAttribute('src');frame.srcdoc=realLayout();}
   status.textContent=es()?(kind==='landing'?'Landing demo · Vista interactiva':'Diseño real del Command Center · Datos de muestra'):(kind==='landing'?'Landing demo · Interactive preview':'Real Command Center layout · Sample data');
@@ -4075,8 +4081,32 @@ bootAfterPrivateEmailConfirmation();
  document.getElementById('ownerShowCommandPreview').onclick=()=>open('command');
  document.getElementById('ownerPreviewPhone').onclick=()=>{if(!current)open('landing');shell.classList.add('is-phone');};
  document.getElementById('ownerPreviewDesktop').onclick=()=>{if(!current)open('landing');shell.classList.remove('is-phone');};
- function close(){card.classList.remove('is-expanded');document.body.classList.remove('owner-embedded-preview-expanded');document.getElementById('ownerPreviewClose').classList.add('hidden');}
- document.getElementById('ownerPreviewExpand').onclick=()=>{if(!current)open('landing');card.classList.add('is-expanded');document.body.classList.add('owner-embedded-preview-expanded');document.getElementById('ownerPreviewClose').classList.remove('hidden');};
- document.getElementById('ownerPreviewClose').onclick=close;
- document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+ function close(){
+  const wasOpen=Boolean(current)||card.classList.contains('is-expanded');
+  card.classList.remove('is-expanded');
+  document.body.classList.remove('owner-embedded-preview-expanded');
+  shell.classList.add('hidden');
+  shell.classList.remove('is-phone');
+  frame.removeAttribute('src');
+  frame.removeAttribute('srcdoc');
+  current='';
+  closeButton.classList.add('hidden');
+  document.getElementById('ownerShowLandingPreview').setAttribute('aria-pressed','false');
+  document.getElementById('ownerShowCommandPreview').setAttribute('aria-pressed','false');
+  status.textContent=es()?'Vista cerrada. Puedes abrir otra o regresar a tu Command Center.':'Preview closed. Open another or return to your Command Center.';
+  if(wasOpen){card.scrollIntoView({block:'start',behavior:'instant'});document.getElementById('ownerShowLandingPreview').focus({preventScroll:true});}
+ }
+ expandButton.onclick=()=>{
+  if(!current)open('landing');
+  card.classList.add('is-expanded');
+  document.body.classList.add('owner-embedded-preview-expanded');
+  closeButton.classList.remove('hidden');
+  closeButton.focus({preventScroll:true});
+ };
+ closeButton.onclick=close;
+ window.addEventListener('message',event=>{
+  if(event.origin!==location.origin||event.source!==frame.contentWindow)return;
+  if(event.data?.type==='tle-owner-preview-exit')close();
+ });
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&current)close()});
 })();
