@@ -89,21 +89,21 @@ async function limit(req){
 function appHelp(message,lang){
  const s=norm(message),es=lang==="es";
  if(/\b(trial|free|signup|register|sign up|prueba|gratis|registr|comenzar)\b/.test(s))
-  return es?"Puedes probar la Cleaning App durante 30 días sin tarjeta. Después cuesta $3.99/mes. ¿Quieres abrir la prueba?":"Try the Cleaning App free for 30 days, no card needed. It's $3.99/month after that. Want to start?";
+  return es?"Si quieres conocerla por dentro, puedes probar la Cleaning App 30 días gratis, sin tarjeta. Después son $3.99/mes. ¿Te paso el acceso?":"You can take the Cleaning App for a spin—30 days free, no card needed. It’s $3.99/month after that. Want the trial link?";
  if(/\b(demo|preview|muestra|ejemplo|probar los controles|test)\b/.test(s))
-  return es?"Tenemos una demo interactiva con datos ficticios. Puedes explorar el calendario, trabajos y clientes. ¿Quieres verla?":"There’s an interactive demo with sample data. Explore the calendar, jobs and clients. Want to try it?";
+  return es?"¡Claro! Hay una demo con datos de ejemplo para que explores clientes, calendario y trabajos sin registrarte. ¿Te la muestro?":"Of course! There’s a sample workspace you can explore without signing up. Want to take a look at the calendar and clients?";
  if(/\b(client|clients|customer|customers|clientes|cliente|agregar clientes|anadir clientes)\b/.test(s))
-  return es?"La app reúne clientes, historial y trabajos. Puedes gestionar sus datos desde Clientes. ¿Quieres ver una demo?":"Keep clients, job details and history together in the Clients area. Want to see the demo?";
+  return es?"Sí, desde Clientes puedes tener los datos, el historial y los trabajos juntos, sin buscar en mil lugares. ¿Quieres verlo en la demo?":"Absolutely! The Clients area keeps their details and job history together, so you’re not hunting through notes. Want a peek?";
  if(/\b(invoice|invoices|factura|facturas|quote|quotes|cotizacion|cotizaciones|estimados)\b/.test(s))
-  return es?"Puedes preparar cotizaciones y facturas, y consultar su estado en la app. ¿Te muestro una vista de ejemplo?":"Create and track quotes and invoices in the app. Want to see a sample workspace?";
+  return es?"Puedes crear cotizaciones y facturas y revisar su estado desde la app. Si quieres, te enseño cómo se ve en la demo.":"You can put together quotes and invoices and check their status in one place. I can show you what that looks like in the demo.";
  if(/\b(calendar|calendario|job|jobs|trabajos|recurren|schedule|agenda|citas)\b/.test(s))
-  return es?"El calendario reúne los trabajos próximos y recurrentes. Puedes crear y revisar trabajos desde la app. ¿Quieres probarlo?":"See upcoming and recurring jobs in the calendar. You can add and review jobs there. Want to try the demo?";
+  return es?"El calendario te muestra los próximos trabajos, incluidos los recurrentes. Es útil para saber qué viene sin andar buscando. ¿Quieres echarle un vistazo?":"Your calendar puts upcoming and recurring cleanings together, so you can see what’s next at a glance. Want to look around?";
  if(/\b(phone|mobile|ipad|tablet|iphone|android|install|download|telefono|movil|celular|descargar|instalar)\b/.test(s))
-  return es?"Funciona en el navegador de tu teléfono, tablet o computadora. También puedes añadirla a la pantalla de inicio. ¿Quieres probarla?":"Use it in a browser on your phone, tablet or computer. You can also add it to your home screen. Want the trial?";
+  return es?"La puedes abrir desde el teléfono, la tablet o la computadora, y hasta ponerla en tu pantalla de inicio. ¿Quieres que te pase la prueba?":"You can use it right from your phone, tablet or computer—and add it to your home screen if you like. Want to try it?";
  if(/\b(mileage|route|routes|millas|millaje|ruta|rutas|time track|tiempo|empleados|worker|equipo|team)\b/.test(s))
-  return es?"La app incluye equipo, control de tiempo, millaje y rutas. ¿Quieres explorar estas funciones en la demo?":"The app includes team management, time tracking, mileage and routes. Want to explore the demo?";
+  return es?"También tienes equipo, horas trabajadas, millaje y rutas. Puedo enseñarte esas secciones si te interesa.":"You can keep team details, hours, mileage and routes organized too. Happy to show you those sections if you’d like.";
  if(/\b(pricing calculator|calculadora|precio estimado|estimate tool)\b/.test(s))
-  return es?"La calculadora crea estimados basados en tus propios precios y servicios. Tú decides el precio final. ¿Quieres ver cómo luce?":"The Pricing Calculator uses your own services and rates for estimates. You choose the final amount. Want a preview?";
+  return es?"La calculadora usa tus servicios y tarifas para ayudarte a preparar estimados; el precio final lo decides tú. ¿Te gustaría verla?":"The Pricing Calculator works from your own services and rates, and you stay in charge of the final price. Want a quick look?";
  return null;
 }
 function guide(msg,lang,catalog,id){
