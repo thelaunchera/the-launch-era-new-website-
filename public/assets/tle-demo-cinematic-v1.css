@@ -1,23 +1,23 @@
 /* The Launch Era | Cinematic scroll treatment for prospect sample demos ONLY.
    Publicly shared Drive assets: luxury residential photography pack (NOT tenant/customer uploads).
-   Each remote image has a neutral fallback if Drive cannot serve a thumbnail. */
+   Approved images are copied into the website repository so demo presentation does not depend on Drive thumbnail authorization. */
 html.demo-editorial{--cinematic-ink:#0C131E;--cinematic-blue:#B9E2EF;--cinematic-rose:#DDBDCC;--cinematic-paper:#F0EFE9;--cinematic-sage:#CCD8D8;--cinematic-shift:0px}
 html:not(.demo-editorial) #demoScrollProgress,html:not(.demo-editorial) .demo-cinematic-story{display:none!important}
 html.demo-editorial #demoScrollProgress{position:fixed;left:0;right:0;top:0;height:3px;background:transparent;pointer-events:none;z-index:100;overflow:hidden}
 html.demo-editorial #demoScrollProgress>span{display:block;height:100%;background:linear-gradient(90deg,#B0DDEC,#D9C1D0);width:100%;transform:scaleX(0);transform-origin:left center;will-change:transform}
-html.demo-editorial .hero{background-image:linear-gradient(90deg,#0b111b 0%,#0b111bf9 26%,#0b111bdd 42%,#0b111b79 59%,transparent 83%),url("https://drive.google.com/thumbnail?id=1pXyLjtp8y3x4N4CBn_mAlid2LIyORej5&sz=w1800"),url("https://images.pexels.com/photos/6195274/pexels-photo-6195274.jpeg?auto=compress&cs=tinysrgb&w=1800&q=84")!important;
+html.demo-editorial .hero{background-image:linear-gradient(90deg,#0b111b 0%,#0b111bf9 26%,#0b111bdd 42%,#0b111b79 59%,transparent 83%),url("/assets/cleaning-demo/whole-home.png")!important;
 background-size:cover,67% 100%,67% 100%!important;background-repeat:no-repeat!important;background-position:center,right center,right center!important}
-html.demo-editorial .demo-photo-home{background-image:url("https://drive.google.com/thumbnail?id=1suDXRx2rBsU9AYRimoeBZVn6VtYLSog0&sz=w1200"),url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80")!important}
+html.demo-editorial .demo-photo-home{background-image:url("/assets/cleaning-demo/living-suite.png")!important}
 html.demo-editorial .demo-photo-deep{background-image:url("https://drive.google.com/thumbnail?id=1Nkcv5HZ2E_ylc4cgO7OtLZw8S4W1QkJB&sz=w1200"),url("https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=900&q=80")!important}
-html.demo-editorial .demo-photo-office{background-image:url("https://drive.google.com/thumbnail?id=1S6jtvi5zjF_406RSvYqmKWWIu5IZwpmG&sz=w1200"),url("https://images.pexels.com/photos/6195274/pexels-photo-6195274.jpeg?auto=compress&cs=tinysrgb&w=900&q=80")!important}
+html.demo-editorial .demo-photo-office{background-image:url("/assets/cleaning-demo/cleaner-action.png")!important}
 html.demo-editorial .demo-showcase-image{background-size:cover,cover!important;background-position:center,center!important;background-repeat:no-repeat!important}
-html.demo-editorial .demo-why-art{background-image:linear-gradient(135deg,#d3dce822,transparent 60%),url("https://drive.google.com/thumbnail?id=1pXyLjtp8y3x4N4CBn_mAlid2LIyORej5&sz=w1300"),url("https://images.pexels.com/photos/37184184/pexels-photo-37184184.jpeg?auto=compress&cs=tinysrgb&w=1100&q=80")!important;background-size:cover,cover,cover!important;background-position:center,center,center!important}
-html.demo-editorial .demo-bottom-photo{background-image:url("https://drive.google.com/thumbnail?id=1suDXRx2rBsU9AYRimoeBZVn6VtYLSog0&sz=w1300"),url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1100&q=80")!important;background-size:cover,cover!important;background-position:center,center!important}
+html.demo-editorial .demo-why-art{background-image:linear-gradient(135deg,#d3dce822,transparent 60%),url("/assets/cleaning-demo/whole-home.png")!important;background-size:cover,cover,cover!important;background-position:center,center,center!important}
+html.demo-editorial .demo-bottom-photo{background-image:url("/assets/cleaning-demo/living-suite.png")!important;background-size:cover,cover!important;background-position:center,center!important}
 html.demo-editorial .demo-cinematic-story{position:relative;display:grid;grid-template-columns:1.15fr .85fr;min-height:470px;margin:19px 0 23px;border-radius:26px;overflow:hidden;background:#14202b;box-shadow:0 18px 42px #08152234;isolation:isolate}
 html.demo-editorial .demo-cinematic-photo{position:relative;min-height:470px;overflow:hidden;
 background:#8DA7AE url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1100&q=80") center/cover;
 isolation:isolate}
-html.demo-editorial .demo-cinematic-photo::before{content:"";position:absolute;inset:-15px;z-index:-1;background-image:linear-gradient(115deg,#080c1812 25%,#1D33446e 100%),url("https://drive.google.com/thumbnail?id=1suDXRx2rBsU9AYRimoeBZVn6VtYLSog0&sz=w1400"),url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1100&q=80");background-position:center; background-size:cover;transform:translate3d(0,var(--cinematic-shift),0) scale(1.045);will-change:transform}
+html.demo-editorial .demo-cinematic-photo::before{content:"";position:absolute;inset:-15px;z-index:-1;background-image:linear-gradient(115deg,#080c1812 25%,#1D33446e 100%),url("/assets/cleaning-demo/living-suite.png");background-position:center; background-size:cover;transform:translate3d(0,var(--cinematic-shift),0) scale(1.045);will-change:transform}
 html.demo-editorial .demo-cinematic-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#09101A66 0%,transparent 46%)}
 html.demo-editorial .demo-cinematic-overlay{position:absolute;left:clamp(23px,3vw,45px);bottom:clamp(23px,3vw,45px);z-index:1;font-family:Impact,"Arial Narrow",Arial,sans-serif;font-weight:900;color:#FCFCFC;font-size:clamp(76px,8.2vw,137px);line-height:.79;letter-spacing:-.028em;text-shadow:0 8px 25px #0d182a40}
 html.demo-editorial .demo-cinematic-overlay em{font-style:normal;color:#B7E0EF}
@@ -45,7 +45,7 @@ html.demo-editorial .demo-showcase-card:hover .demo-showcase-image{transform:sca
 }
 @media(max-width:767px){
  html.demo-editorial .hero{background-image:none!important}
- html.demo-editorial .hero::before{background-image:linear-gradient(0deg,#0b1019,transparent 48%),url("https://drive.google.com/thumbnail?id=1pXyLjtp8y3x4N4CBn_mAlid2LIyORej5&sz=w1200"),url("https://images.pexels.com/photos/6195274/pexels-photo-6195274.jpeg?auto=compress&cs=tinysrgb&w=1100&q=83")!important;background-size:cover,cover,cover!important;background-position:center,center 53%,center 45%!important;background-repeat:no-repeat!important}
+ html.demo-editorial .hero::before{background-image:linear-gradient(0deg,#0b1019,transparent 48%),url("/assets/cleaning-demo/whole-home.png")!important;background-size:cover,cover,cover!important;background-position:center,center 53%,center 45%!important;background-repeat:no-repeat!important}
  html.demo-editorial .demo-cinematic-story{grid-template-columns:minmax(0,1fr);min-height:0;border-radius:21px;margin:13px 0 15px}
  html.demo-editorial .demo-cinematic-photo{min-height:clamp(285px,86vw,440px)}
  html.demo-editorial .demo-cinematic-overlay{left:19px;bottom:25px;font-size:clamp(66px,17.5vw,111px)}
