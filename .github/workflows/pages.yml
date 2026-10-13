@@ -39,6 +39,9 @@ jobs:
       - name: Verify private owner Jessy access and read-only scope
         run: node scripts/qa-jessy-owner.mjs
 
+      - name: Check owner and client notification preferences and iOS push consent
+        run: node scripts/qa-notification-preferences.mjs
+
       - name: Guard all future client password recovery links
         run: node scripts/qa-auth-recovery.mjs
 
