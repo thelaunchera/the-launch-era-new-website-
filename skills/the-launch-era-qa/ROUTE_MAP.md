@@ -134,3 +134,6 @@ Repeat after ANY route/button/domain change: 360px phone, 390px phone, 820px tab
 - Production public prospect preview `/lead-private-preview.html?business=...&area=...&lang=en|es` loads `/assets/tle-demo-midnight-v11.css` last, only when `html.demo-editorial` is present. Public sample hero image source: `/assets/cleaning-demo/tle-midnight-hero.avif` (self-hosted optimized AVIF).
 - Hero `Choose your service` goes to the visible `#bookingStarter` service panel. `Begin` goes to `#categoryTabs`. `#residentialServiceList`, `#commercialServiceList` and quote/confirmation handlers remain identical. The lower photo feature stays `#demoCinematicStory` after the booking panel. Test EN/ES at widths 360/390/768/820/1024/1440.
 - Black / ice-blue sample overrides MUST NOT reach `?key=` buyer views, `?owner_preview=1` or CB Depot pages. `scripts/qa-demo-editorial-v7.mjs` asserts sample-only styles, dark backgrounds and image readability.
+
+## Website favicon (2026-10-13)
+Main website root EN/ES declares /favicon.png (512x512), /favicon.ico and /apple-touch-icon.png (180x180). /favicon.svg is the same square TLE-on-light-blue mark. Client tenant favicon links and Command Center icons are separate and preserved. Google may refresh only after recrawl.

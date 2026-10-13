@@ -141,3 +141,8 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - Verified cause: refine-v4 constrained nested sample screens to 770px even inside the wide booking panel.
 - Fix: sample #quote uses full available panel width at >=768px, with 350–440px photo height and larger heading/body. Phone layout remains below this breakpoint.
 - Regression: existing demo browser QA now opens the quote and checks >=97% usable panel width, >=350px height and no overflow on desktop/tablet, plus mobile overflow and buyer isolation. Workflow 38435550861 passed EN/ES. No client data, routes or form actions changed.
+
+## 2026-10-13 — Google result still showed old L favicon
+- Source: public/favicon.svg retained the legacy L; root only declared a non-square TLE SVG mark.
+- Fix: square 512px TLE logo on light blue, PNG favicon at /favicon.png, ICO fallback at /favicon.ico, square SVG replacing old L, 180px Apple touch icon. Main website EN/ES root links updated; tenant/client and Command Center icons unchanged.
+- Static route, auth and client-isolation checks passed. PNG visually inspected. Google recrawl timing is external; no claim that Search results updated or indexing requested.
