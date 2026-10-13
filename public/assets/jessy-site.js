@@ -28,12 +28,12 @@ function t(k){return words[lang][k]}
 function pageText(kind){
  const p=currentPage(),es=lang==="es";
  const copy={
- "cleaning-app":{en:["Hi! 👋 I'm Jessy. Questions about the Cleaning App? I can help with features, the demo or your free trial.","Questions about the Cleaning App? 💬"],es:["¡Hola! 👋 Soy Jessy. ¿Dudas sobre la Cleaning App? Te ayudo con sus funciones, la demo o la prueba gratis.","¿Dudas sobre la Cleaning App? 💬"]},
- "booking":{en:["Hi! 👋 I'm Jessy. Want to organize booking requests and follow-ups? I can show you how.","Need help with booking? 💬"],es:["¡Hola! 👋 Soy Jessy. ¿Quieres organizar reservas y seguimientos? Te explico cómo funciona.","¿Dudas sobre las reservas? 💬"]},
- "ai-booking":{en:["Hi! 👋 I'm Jessy. Looking at our AI Assistants? Ask me which setup fits your business.","Questions about AI Assistants? 💬"],es:["¡Hola! 👋 Soy Jessy. ¿Viendo nuestros asistentes de IA? Te ayudo a elegir.","¿Dudas sobre la IA? 💬"]},
- "website":{en:["Hi! 👋 I'm Jessy. Have a question about automating your website inquiries?","Questions about website automation? 💬"],es:["¡Hola! 👋 Soy Jessy. ¿Quieres automatizar las consultas de tu website?","¿Dudas sobre tu website? 💬"]},
- "va":{en:["Hi! 👋 I'm Jessy. Need a hand with our VA support? Ask away.","Questions about VA support? 💬"],es:["¡Hola! 👋 Soy Jessy. ¿Tienes dudas sobre nuestro apoyo VA?","¿Preguntas sobre VA? 💬"]},
- "whatsapp":{en:["Hi! 👋 I'm Jessy. WhatsApp AI is coming soon. Want to see our available assistants?","Want to explore our AI options? 💬"],es:["¡Hola! 👋 Soy Jessy. WhatsApp AI llegará pronto. ¿Quieres ver los asistentes disponibles?","¿Quieres conocer nuestros asistentes? 💬"]}
+ "cleaning-app":{en:["Hi! 👋 I'm Jessy. Questions about the Cleaning App? I can help with features, the demo or your free trial.","Hi! 👋 Need help with the Cleaning App?"],es:["¡Hola! 👋 Soy Jessy. ¿Dudas sobre la Cleaning App? Te ayudo con sus funciones, la demo o la prueba gratis.","¡Hola! 👋 ¿Dudas sobre la Cleaning App?"]},
+ "booking":{en:["Hi! 👋 I'm Jessy. Want to organize booking requests and follow-ups? I can show you how.","Hi! 👋 Need help with bookings?"],es:["¡Hola! 👋 Soy Jessy. ¿Quieres organizar reservas y seguimientos? Te explico cómo funciona.","¡Hola! 👋 ¿Dudas sobre reservas?"]},
+ "ai-booking":{en:["Hi! 👋 I'm Jessy. Looking at our AI Assistants? Ask me which setup fits your business.","Hi! 👋 Exploring our AI Assistants?"],es:["¡Hola! 👋 Soy Jessy. ¿Viendo nuestros asistentes de IA? Te ayudo a elegir.","¡Hola! 👋 ¿Dudas sobre nuestros asistentes?"]},
+ "website":{en:["Hi! 👋 I'm Jessy. Have a question about automating your website inquiries?","Hi! 👋 Need help with your website?"],es:["¡Hola! 👋 Soy Jessy. ¿Quieres automatizar las consultas de tu website?","¡Hola! 👋 ¿Te ayudo con tu website?"]},
+ "va":{en:["Hi! 👋 I'm Jessy. Need a hand with our VA support? Ask away.","Hi! 👋 Questions about VA support?"],es:["¡Hola! 👋 Soy Jessy. ¿Tienes dudas sobre nuestro apoyo VA?","¡Hola! 👋 ¿Dudas sobre VA?"]},
+ "whatsapp":{en:["Hi! 👋 I'm Jessy. WhatsApp AI is coming soon. Want to see our available assistants?","Hi! 👋 Want to explore our AI options?"],es:["¡Hola! 👋 Soy Jessy. WhatsApp AI llegará pronto. ¿Quieres ver los asistentes disponibles?","¡Hola! 👋 ¿Quieres conocer nuestros asistentes?"]}
  };
  const entry=copy[p]?.[es?"es":"en"];
  return entry?entry[kind==="nudge"?1:0]:t(kind==="nudge"?"nudge":"hello");
