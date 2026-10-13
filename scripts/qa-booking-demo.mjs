@@ -239,7 +239,7 @@ for(const v of screens) for(const lang of ['en','es']) {
 await check('Demo uses new photos without changing the original buyer design',{width:390,height:844},async p=>{
  await p.goto(base+'/lead-private-preview.html?business=Example%20Cleaning',{waitUntil:'domcontentloaded'});
  const hero=await p.locator('#leadHero').evaluate(el=>getComputedStyle(el,'::before').backgroundImage);
- assert.match(hero,/whole-home.png/,'Mobile hero should use approved publicly shared home imagery from the owner's Drive library');
+ assert.match(hero,/whole-home.png/,'Mobile hero should use approved publicly shared home imagery from the owner Drive photo pack');
  assert.equal(await p.locator('.demo-why').count(),1,'Premium why-choose-us scene exists');
  assert.equal(await p.locator('.demo-results .demo-result-card').count(),3,'Feature cards are present without invented reviews');
  assert.equal(await p.locator('.demo-feature-bar > div').count(),4,'Four real demo features appear, not fabricated customer metrics');
