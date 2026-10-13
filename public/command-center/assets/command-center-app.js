@@ -819,7 +819,7 @@ function premiumNavigate(target){
  if(workspace?.is_internal&&leadSection&&!document.body.dataset.leadsLoaded)void load();
  document.querySelectorAll('.nav-link[data-target]').forEach(b=>b.classList.toggle('active',b.dataset.target===target));closePremiumSidebar();if(target==='home'){
  if(workspace&&!workspace.is_internal){setView('buyer-dashboard');void loadBuyerBookingShare();void loadBuyerRequests();$('buyerDashboardHub').scrollIntoView({behavior:'smooth'});return}
- setView('pipeline');$('search').value='';$('stageFilter').value='';$('dueFilter').value='';render();$('quickhome').scrollIntoView({behavior:'smooth'});return}if(target==='owner-support'){if(!workspace?.is_internal)return;setView('owner-support');$('ownerSupportPanel').scrollIntoView({behavior:'smooth'});void loadOwnerPages().then(()=>loadOwnerSupportInbox());return}if(target==='owner-help'){if(!workspace?.is_internal)return;setView('owner-help');$('ownerHelpHub').scrollIntoView({behavior:'smooth'});return}if(target==='help'){setView('help');$('helpHub').scrollIntoView({behavior:'smooth'});return}if(target==='availability'&&workspace?.is_internal&&!ownerReviewAccount){premiumNavigate('owner-pages');return}if(target==='availability'){setView('availability');loadAvailability();$('availabilityHub').scrollIntoView({behavior:'smooth'});return}if(target==='pricing'&&workspace?.is_internal&&!ownerReviewAccount){premiumNavigate('owner-pages');return}if(target==='pricing'){setView('pricing');loadPricing();$('pricingHub').scrollIntoView({behavior:'smooth'});return}if(target==='owner-pages'){setView('owner-pages');loadOwnerPages();$('ownerPagesHub').scrollIntoView({behavior:'smooth'});return}
+ setView('pipeline');$('search').value='';$('stageFilter').value='';$('dueFilter').value='';render();$('quickhome').scrollIntoView({behavior:'smooth'});return}if(target==='owner-support'){if(!workspace?.is_internal)return;setView('owner-support');$('ownerSupportPanel').scrollIntoView({behavior:'smooth'});void loadOwnerPages().then(()=>{void loadOwnerSupportInbox();void loadOwnerIncidents()});return}if(target==='owner-help'){if(!workspace?.is_internal)return;setView('owner-help');$('ownerHelpHub').scrollIntoView({behavior:'smooth'});return}if(target==='help'){setView('help');$('helpHub').scrollIntoView({behavior:'smooth'});return}if(target==='availability'&&workspace?.is_internal&&!ownerReviewAccount){premiumNavigate('owner-pages');return}if(target==='availability'){setView('availability');loadAvailability();$('availabilityHub').scrollIntoView({behavior:'smooth'});return}if(target==='pricing'&&workspace?.is_internal&&!ownerReviewAccount){premiumNavigate('owner-pages');return}if(target==='pricing'){setView('pricing');loadPricing();$('pricingHub').scrollIntoView({behavior:'smooth'});return}if(target==='owner-pages'){setView('owner-pages');loadOwnerPages();$('ownerPagesHub').scrollIntoView({behavior:'smooth'});return}
 if(target==='owner-calendar'){if(!workspace?.is_internal)return;setView('owner-calendar');loadOwnerCalendar();$('ownerCalendarHub').scrollIntoView({behavior:'smooth'});return}if(target==='clients'&&workspace&&!workspace.is_internal){setView('buyer-customers');void loadBuyerRequests();$('buyerCustomersHub').scrollIntoView({behavior:'smooth'});return}if(target==='buyer-booking-preview'){if(!workspace||workspace.is_internal)return;setView('buyer-booking-preview');$('buyerBookingPreviewHub').scrollIntoView({behavior:'smooth'});void loadBuyerBookingPreview();return}if(target==='buyer-service-care'){if(!workspace||workspace.is_internal)return;setView('buyer-service-care');void loadCare();$('buyerServiceCareHub').scrollIntoView({behavior:'smooth'});return}if(target==='buyer-calendar'){if(!workspace||workspace.is_internal)return;setView('buyer-calendar');renderBuyerBookingCalendar();void loadBuyerRequests();$('buyerAppointmentsHub').scrollIntoView({behavior:'smooth'});return}if(target==='request-center'){if(!workspace||workspace.is_internal)return;setView('request-center');void loadBuyerRequests();$('buyerRequestsHub').scrollIntoView({behavior:'smooth'});return}if(target==='buyer-followups'){if(!workspace||workspace.is_internal)return;setView('buyer-followups');$('settingsHub').scrollIntoView({behavior:'smooth'});return}if(target==='settings'){setView('settings');if(workspace&&!workspace.is_internal)void syncManagedBuyerEmailStatus();$('settingsAccountEmail').textContent=accountEmail||'—';$('settingsBusinessName').textContent=workspace?.name||'—';$('settingsLanguage').value=localStorage.getItem('tle_crm_language')==='es'?'es':'en';$('settingsHub').scrollIntoView({behavior:'smooth'});return}if(target==='inbox'){setView('inbox');$('inboundHub').scrollIntoView({behavior:'smooth'});return}if(target==='emails'){setView('emails');$('emailHub').scrollIntoView({behavior:'smooth'});return}if(target==='calendar'){$('dueFilter').value='';$('stageFilter').value='';render();setView('calendar')}else if(target==='clients'){$('stageFilter').value='';$('dueFilter').value='';render();setView('clients')}else{$('stageFilter').value='';$('dueFilter').value='';render();setView('pipeline')}document.getElementById('premiumViews').scrollIntoView({behavior:'smooth'})}document.querySelectorAll('.nav-link[data-target]').forEach(b=>b.onclick=()=>premiumNavigate(b.dataset.target));$('navToggle').setAttribute('aria-expanded','false');$('navToggle').setAttribute('aria-controls','premiumSidebar');$('navToggle').onclick=togglePremiumSidebar;$('sidebarScrim').onclick=closePremiumSidebar;document.addEventListener('keydown',e=>{if(e.key==='Escape')closePremiumSidebar()});$('settingsLanguage').onchange=()=>{const select=$('crmLanguageSelect');if(select){select.value=$('settingsLanguage').value;select.dispatchEvent(new Event('change'))}};
 document.querySelectorAll('[data-owner-help-target]').forEach(button=>button.onclick=()=>{if(workspace?.is_internal)premiumNavigate(button.dataset.ownerHelpTarget)});
 const buyerMailUrl="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-crm-buyer-mail-setup";
@@ -1823,6 +1823,98 @@ for(const type of ['problem','feedback']){
 }
 
 
+/* Owner-private QA ledger. Separate from client-submitted support and all customer data. */
+let ownerInternalIncidents=[],ownerIncidentsLoading=false;
+function ownerIncidentLabel(en,es){return supportTxt(en,es)}
+function ownerIncidentClientOptions(){
+ const select=$('ownerIncidentClient');if(!select)return;
+ const previous=select.value,names=new Map();
+ for(const a of ownerPurchases||[]){if(a.crm_workspace_id&&a.business_name)names.set(a.crm_workspace_id,a.business_name)}
+ for(const a of ownerInternalIncidents){if(a.client_workspace_id&&a.business_name)names.set(a.client_workspace_id,a.business_name)}
+ select.replaceChildren(new Option(ownerIncidentLabel('Choose a client','Selecciona un cliente'),''));
+ for(const [id,name] of [...names.entries()].sort((a,b)=>a[1].localeCompare(b[1])))select.add(new Option(name,id));
+ if(names.has(previous))select.value=previous;
+}
+function renderOwnerInternalIncidents(){
+ if(!workspace?.is_internal)return;
+ const root=$('ownerIncidentList');if(!root)return;
+ root.replaceChildren();ownerIncidentClientOptions();
+ const query=$('ownerSupportSearch').value.trim().toLowerCase(),filter=$('ownerSupportFilter').value,type=$('ownerSupportType').value;
+ const pending=ownerInternalIncidents.filter(i=>i.status!=='resolved').length;
+ const selected=ownerInternalIncidents.filter(i=>(type!=='feedback')&&(filter==='all'||i.status===filter)&&(!query||[i.business_name,i.title,i.details,i.owner_note].some(v=>String(v||'').toLowerCase().includes(query)))).sort((a,b)=>({open:0,in_progress:1,resolved:2}[a.status]??3)-({open:0,in_progress:1,resolved:2}[b.status]??3)||new Date(b.created_at)-new Date(a.created_at));
+ $('ownerIncidentSummary').textContent=ownerIncidentLabel(pending+' internal issues pending · '+selected.length+' shown',pending+' incidencias internas pendientes · '+selected.length+' visibles');
+ if(!selected.length){const p=document.createElement('p');p.className='muted';p.textContent=ownerIncidentLabel('No internal issues match this view.','No hay incidencias internas en esta vista.');root.append(p);return}
+ for(const item of selected){
+  const card=document.createElement('article');card.className='panel';card.style.cssText='padding:16px;border:1px solid #e0e7eb;border-radius:15px;background:white;min-width:0';
+  const name=document.createElement('strong');name.textContent=(item.business_name||ownerIncidentLabel('Client','Cliente'))+' · '+item.title;name.style.cssText='font-size:15px;display:block;overflow-wrap:anywhere';
+  const meta=document.createElement('p');meta.className='muted';meta.style.cssText='font-size:12px;margin:7px 0';meta.textContent=new Date(item.created_at).toLocaleDateString(supportEs()?'es-US':'en-US')+' · '+(item.qa_verified?ownerIncidentLabel('QA verified','QA verificada'):ownerIncidentLabel('QA pending','QA pendiente'));
+  const detail=document.createElement('p');detail.style.cssText='font-size:13px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere';detail.textContent=item.details||'';
+  const fields=document.createElement('div');fields.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px';
+  const statusLabel=document.createElement('label');statusLabel.textContent=ownerIncidentLabel('Work status','Estado de trabajo');
+  const status=document.createElement('select');
+  for(const [v,en,es] of [['open','Open','Abierto'],['in_progress','In progress / pending QA','En proceso / QA pendiente'],['resolved','Resolved · QA verified','Resuelto · QA verificada']])status.add(new Option(ownerIncidentLabel(en,es),v));
+  status.value=item.status;statusLabel.append(status);
+  const noteLabel=document.createElement('label');noteLabel.textContent=ownerIncidentLabel('Private fix & test notes','Notas privadas de reparación y pruebas');
+  const note=document.createElement('textarea');note.rows=3;note.maxLength=2000;note.value=item.owner_note||'';note.placeholder=ownerIncidentLabel('What was corrected and how did you verify it?','¿Qué corregiste y cómo lo verificaste?');noteLabel.append(note);fields.append(statusLabel,noteLabel);
+  const verifiedLabel=document.createElement('label');verifiedLabel.className='checkline';verifiedLabel.style.cssText='display:flex;gap:8px;align-items:center;font-size:12px;margin:9px 0';
+  const checked=document.createElement('input');checked.type='checkbox';checked.checked=Boolean(item.qa_verified);verifiedLabel.append(checked,document.createTextNode(ownerIncidentLabel('I verified the fix in a real QA test','Verifiqué la corrección con una prueba real')));
+  const actions=document.createElement('div');actions.style.cssText='display:flex;align-items:center;flex-wrap:wrap;gap:10px';
+  const save=document.createElement('button');save.type='button';save.className='secondary';save.textContent=ownerIncidentLabel('Save internal update','Guardar seguimiento interno');
+  const output=document.createElement('span');output.setAttribute('role','status');output.style.cssText='font-size:12px';actions.append(save,output);
+  const project=ownerPurchases.find(a=>a.crm_workspace_id===item.client_workspace_id);
+  if(project){const open=document.createElement('button');open.type='button';open.className='secondary';open.textContent=ownerIncidentLabel('Open project →','Abrir proyecto →');open.onclick=()=>chooseOwnerBuyer(project,'builder');actions.append(open)}
+  save.onclick=async()=>{
+    if(!workspace?.is_internal)return;
+    save.disabled=true;output.textContent=ownerIncidentLabel('Saving…','Guardando…');
+    try{
+      const {data,error}=await db.rpc('tle_crm_owner_incidents_update',{p_incident_id:item.id,p_status:status.value,p_owner_note:note.value.trim(),p_qa_verified:checked.checked});
+      if(error||!data)throw error||Error('Unconfirmed update');
+      Object.assign(item,data);
+      output.textContent=ownerIncidentLabel('✓ Saved to private history','✓ Guardado en historial privado');
+      void renderOwnerInternalIncidents();
+    }catch(error){output.textContent=error?.message||ownerIncidentLabel('Could not save.','No se pudo guardar.')}
+    finally{save.disabled=false}
+  };
+  card.append(name,meta,detail,fields,verifiedLabel,actions);root.append(card)
+ }
+}
+async function loadOwnerIncidents(){
+ if(!workspace?.is_internal||ownerIncidentsLoading)return;
+ ownerIncidentsLoading=true;
+ const id=workspace.id;$('ownerIncidentSummary').textContent=ownerIncidentLabel('Loading internal checks…','Cargando incidencias internas…');
+ try{
+  const {data,error}=await db.rpc('tle_crm_owner_incidents_list');
+  if(!workspace?.is_internal||workspace.id!==id)return;
+  if(error)throw error;
+  ownerInternalIncidents=Array.isArray(data)?data:[];
+  renderOwnerInternalIncidents();
+ }catch(error){if(workspace?.is_internal&&workspace.id===id)$('ownerIncidentSummary').textContent=ownerIncidentLabel('Could not load internal history; retry Refresh messages.','No se pudo cargar el historial interno; pulsa Actualizar mensajes.')}
+ finally{ownerIncidentsLoading=false}
+}
+$('ownerIncidentAddToggle').onclick=()=>{
+ if(!workspace?.is_internal)return;
+ const form=$('ownerIncidentCreateForm'),willOpen=form.classList.contains('hidden');
+ form.classList.toggle('hidden',!willOpen);
+ $('ownerIncidentAddToggle').setAttribute('aria-expanded',String(willOpen));
+ ownerIncidentClientOptions();
+};
+$('ownerIncidentCancel').onclick=()=>{$('ownerIncidentCreateForm').classList.add('hidden');$('ownerIncidentAddToggle').setAttribute('aria-expanded','false')};
+$('ownerIncidentCreateForm').onsubmit=async(event)=>{
+ event.preventDefault();if(!workspace?.is_internal)return;
+ const form=$('ownerIncidentCreateForm'),submit=form.querySelector('[type=submit]'),output=$('ownerIncidentCreateStatus');
+ const wid=$('ownerIncidentClient').value,title=$('ownerIncidentTitle').value.trim(),details=$('ownerIncidentDetails').value.trim();
+ if(!wid||title.length<3)return;
+ submit.disabled=true;output.textContent=ownerIncidentLabel('Saving…','Guardando…');
+ try{
+  const {data,error}=await db.rpc('tle_crm_owner_incidents_create',{p_client_workspace_id:wid,p_title:title,p_details:details});
+  if(error||!data)throw error||Error('Unconfirmed create');
+  ownerInternalIncidents.unshift(data);form.reset();form.classList.add('hidden');$('ownerIncidentAddToggle').setAttribute('aria-expanded','false');
+  output.textContent=ownerIncidentLabel('✓ Added to private history','✓ Añadido al historial privado');
+  renderOwnerInternalIncidents();
+ }catch(error){output.textContent=error?.message||ownerIncidentLabel('Could not save.','No se pudo guardar.')}
+ finally{submit.disabled=false}
+};
+
 /* Owner-only client support inbox. Status updates do not change booking state or send customer mail. */
 let ownerSupportRequests=[],ownerSupportHasMore=false,ownerSupportLoading=false;
 function renderOwnerSupport(){
@@ -1897,11 +1989,11 @@ async function loadOwnerSupportInbox(append=false){
  }catch(error){if(workspace?.is_internal&&workspace.id===wsId)$('ownerSupportStatus').textContent=supportTxt('Could not load support. Please refresh.','No se pudo cargar el soporte. Actualiza la página.');}
  finally{ownerSupportLoading=false;$('ownerSupportMore').disabled=false;}
 }
-$('ownerSupportRefresh').onclick=()=>loadOwnerSupportInbox(false);
+$('ownerSupportRefresh').onclick=()=>{void loadOwnerSupportInbox(false);void loadOwnerIncidents()};
 $('ownerSupportMore').onclick=()=>loadOwnerSupportInbox(true);
-$('ownerSupportSearch').oninput=renderOwnerSupport;
-$('ownerSupportType').onchange=renderOwnerSupport;
-$('ownerSupportFilter').onchange=renderOwnerSupport;
+$('ownerSupportSearch').oninput=()=>{renderOwnerSupport();renderOwnerInternalIncidents()};
+$('ownerSupportType').onchange=()=>{renderOwnerSupport();renderOwnerInternalIncidents()};
+$('ownerSupportFilter').onchange=()=>{renderOwnerSupport();renderOwnerInternalIncidents()};
 async function refreshOwnerSupportBadge(){
  if(!workspace?.is_internal)return;
  const {count,error}=await db.from('tle_crm_support_requests').select('id',{head:true,count:'exact'}).neq('status','resolved');
