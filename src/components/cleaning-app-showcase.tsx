@@ -17,10 +17,6 @@ export function CleaningAppShowcase({lang='en'}:Props){
    </div>
    <div className="tle-case-meta"><span>{es?'VISTAS ILUSTRATIVAS CON DATOS FICTICIOS':'ILLUSTRATIVE VIEWS · FICTIONAL DATA'}</span><a href={`/cleaning-app-demo/?lang=${lang}`}>{es?'Explorar demo realista':'Explore the sample workspace'} <ArrowUpRight size={16}/></a></div>
   </section>
-  <section className="tle-case-statement">
-   <div><span className="tle-case-index">01 / {es?'TU DÍA EN ORDEN':'THE BIG PICTURE'}</span><h2>{es?'Todo lo que necesitas ver.':'The whole day, in one view.'}</h2></div>
-   <p>{es?'Un calendario ocupado no tiene por qué significar un negocio desorganizado. Ten a la vista las visitas, tus clientes y lo que falta por hacer.':'A full calendar shouldn’t mean a messy business. See the work coming up, the clients behind it, and what still needs attention.'}</p>
-  </section>
 
 
  </div>;
