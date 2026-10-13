@@ -284,6 +284,27 @@ Deno.serve(async req=>{
  }
 
 
+
+ if(action==="provider_check"){
+   if(!OPENAI)return res({ok:true,configured:false,verified:false,reason:"missing_secret",model:null},200,origin);
+   const model=Deno.env.get("JESSY_MODEL")||"gpt-4.1-mini";
+   try{
+     const response=await fetch("https://api.openai.com/v1/chat/completions",{
+       method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+OPENAI},
+       body:JSON.stringify({model,temperature:0,max_tokens:10,messages:[{role:"user",content:"Reply with OK only."}]}),
+       signal:AbortSignal.timeout(12000)
+     });
+     if(!response.ok){
+       const reason=response.status===401?"invalid_key":response.status===403?"not_authorized":response.status===429?"rate_or_billing_limit":response.status>=500?"provider_unavailable":"model_or_request_error";
+       return res({ok:true,configured:true,verified:false,reason,model,http_status:response.status},200,origin);
+     }
+     const json=await response.json();
+     const ok=!!json?.choices?.[0]?.message?.content?.trim();
+     return res({ok:true,configured:true,verified:ok,reason:ok?"connected":"empty_response",model},200,origin);
+   }catch{
+     return res({ok:true,configured:true,verified:false,reason:"network_or_timeout",model},200,origin);
+   }
+ }
  if(action==="compose_output"){
    const task=await one(ctx,b.id);
    if(["completed","cancelled"].includes(task.status))return res({ok:false,error:"Task already closed"},409,origin);
