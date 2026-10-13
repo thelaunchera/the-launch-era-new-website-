@@ -1,0 +1,57 @@
+/* Cinematic scroll chapter, scoped strictly to the public sample demo. */
+html:not(.demo-editorial) .demo-story,html:not(.demo-editorial) .demo-scroll-progress{display:none!important}
+html.demo-editorial{--tle-story-scale:1.07;--tle-story-shift:0px;--tle-scroll-progress:0%;scroll-padding-top:24px}
+html.demo-editorial .demo-scroll-progress{position:fixed;z-index:800;top:0;left:0;width:100%;height:3px;pointer-events:none;background:transparent}
+html.demo-editorial .demo-scroll-progress>span{display:block;height:100%;width:var(--tle-scroll-progress,0%);background:linear-gradient(90deg,#81b6cc,#c5d6d8,#bd92ad);border-radius:0 10px 10px 0;box-shadow:0 0 12px #8ebedb4d;transition:width .08s linear;will-change:width}
+html.demo-editorial .hero{background-image:linear-gradient(90deg,#111720 0%,#111720fa 22%,#111720e3 35%,#11172099 50%,transparent 78%),url("/assets/lead-demo/hero-luxury-home.png")!important;background-position:center,right center!important;background-size:cover,73% 100%!important}
+html.demo-editorial .demo-photo-home{background-image:url("/assets/lead-demo/poolside-living.png")!important}
+html.demo-editorial .demo-photo-deep{background-image:url("/assets/lead-demo/pristine-kitchen.png")!important}
+html.demo-editorial .demo-photo-office{background-image:url("/assets/lead-demo/spotless-office.png")!important}
+html.demo-editorial .demo-why-art{background-image:linear-gradient(145deg,#d3bcc548,transparent 38%),url("/assets/lead-demo/cleaner-in-home.png")!important;background-position:center!important;background-size:cover!important}
+html.demo-editorial .demo-bottom-photo{background-image:url("/assets/lead-demo/sunroom.png")!important;background-position:center 50%!important;background-size:cover!important}
+html.demo-editorial .demo-story{position:relative;height:124svh;min-height:740px;margin:0 0 19px;padding-top:18px;isolation:isolate;z-index:1}
+html.demo-editorial .demo-story-stage{position:sticky;top:clamp(15px,6svh,58px);height:min(73svh,760px);min-height:455px;overflow:hidden;border-radius:30px;background:#171e26;box-shadow:0 25px 80px #05070d44;isolation:isolate;transform:translateZ(0)}
+html.demo-editorial .demo-story-image{position:absolute;inset:-4%;z-index:0;background-image:url("/assets/lead-demo/sunroom.png");background-size:cover;background-position:50% 57%;transform:translate3d(0,var(--tle-story-shift,0px),0) scale(var(--tle-story-scale,1.07));will-change:transform}
+html.demo-editorial .demo-story-stage:after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,#101a1fea 0%,#111e24a6 31%,#17232a30 66%,transparent 100%),linear-gradient(0deg,#0b141b74,transparent 48%)}
+html.demo-editorial .demo-story-stage:before{content:"";position:absolute;z-index:2;right:-11%;top:-30%;width:52%;height:80%;border-radius:50%;border:1px solid #eff8ff45;box-shadow:0 0 0 45px #e6dae111,0 0 0 104px #9dbddc10;pointer-events:none}
+html.demo-editorial .demo-story-copy{position:absolute;left:clamp(27px,5.4vw,83px);bottom:clamp(34px,6vw,83px);max-width:min(600px,61%);z-index:3;color:#fff;text-shadow:0 4px 18px #050a0e91}
+html.demo-editorial .demo-story-kicker{font-weight:900;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#D5E9F3;display:block;margin:0 0 16px}
+html.demo-editorial .demo-story-copy h2{font-size:clamp(42px,5.2vw,83px);letter-spacing:-.06em;font-weight:950;line-height:.99;margin:0 0 17px;text-wrap:balance}
+html.demo-editorial .demo-story-copy h2 em{color:#B2DCEA;font-style:normal}
+html.demo-editorial .demo-story-copy p{font-size:clamp(14px,1.2vw,17px);max-width:380px;line-height:1.65;color:#F0F6F8;margin:0 0 20px}
+html.demo-editorial .demo-story-copy a{display:inline-flex;min-height:44px;align-items:center;gap:12px;border-bottom:1px solid #D9EBF7;color:#F5FAFD;font-size:13px;font-weight:850;text-decoration:none}
+html.demo-editorial .demo-story-copy a:hover{color:#B4DFEF}
+html.demo-editorial .demo-story-corner{position:absolute;right:clamp(16px,3.4vw,47px);bottom:clamp(19px,3.6vw,49px);color:#f0f8fb;z-index:3;font-size:12px;font-weight:780;letter-spacing:.08em;text-transform:uppercase}
+html.demo-editorial .demo-story-corner::before{content:"✦";color:#C9DDEA;margin-right:8px}
+html.demo-editorial .demo-service-showcase{margin-bottom:0}
+html.demo-editorial .demo-story + .demo-why{margin-top:0}
+@media(min-width:1000px){html.demo-editorial .demo-showcase-card:nth-child(2){transition-delay:.06s}html.demo-editorial .demo-showcase-card:nth-child(3){transition-delay:.11s}}
+html.demo-editorial.demo-motion-ready .tle-scroll-reveal{opacity:0;transform:translate3d(0,38px,0) scale(.987);transition:opacity .82s cubic-bezier(.16,1,.3,1),transform .95s cubic-bezier(.16,1,.3,1);transition-delay:var(--tle-reveal-delay,0ms)}
+html.demo-editorial.demo-motion-ready .tle-scroll-reveal.tle-in-view{opacity:1;transform:translate3d(0,0,0) scale(1)}
+html.demo-editorial.demo-motion-ready .demo-showcase-card.tle-scroll-reveal{transform:translate3d(0,24px,0);transition-delay:var(--tle-reveal-delay,0ms)}
+html.demo-editorial.demo-motion-ready .demo-showcase-card.tle-scroll-reveal.tle-in-view{transform:translate3d(0,0,0)}
+@media(max-width:767px){
+ html.demo-editorial .hero{background-image:none!important;background:#0C111A!important}
+ html.demo-editorial .hero::before{background-image:linear-gradient(0deg,#0C111A 0%,#0B111A30 36%,transparent 75%),url("/assets/lead-demo/hero-luxury-home.png")!important;background-size:cover!important;background-position:62% center!important}
+ html.demo-editorial .demo-story{height:auto;min-height:0;padding:0;margin:0 0 14px}
+ html.demo-editorial .demo-story-stage{position:relative;top:auto;height:auto;min-height:450px;border-radius:21px}
+ html.demo-editorial .demo-story-image{inset:0;background-position:58% center;transform:none!important;will-change:auto}
+ html.demo-editorial .demo-story-stage:after{background:linear-gradient(0deg,#0D1823eF 0%,#0D1823A3 48%,transparent 95%)}
+ html.demo-editorial .demo-story-copy{position:relative;left:auto;bottom:auto;padding:clamp(225px,65vw,300px) 25px 34px;max-width:none;z-index:3}
+ html.demo-editorial .demo-story-copy h2{font-size:clamp(38px,10vw,58px)}
+ html.demo-editorial .demo-story-copy p{font-size:14px;line-height:1.58}
+ html.demo-editorial .demo-story-corner{right:17px;top:14px;bottom:auto;font-size:10px}
+ html.demo-editorial .demo-why-art{min-height:250px}
+ html.demo-editorial .demo-bottom-photo{background-position:center 46%!important}
+ html.demo-editorial.demo-motion-ready .tle-scroll-reveal{transform:translate3d(0,20px,0) scale(1);transition-duration:.65s,.72s}
+}
+@media(max-width:390px){
+ html.demo-editorial .demo-story-stage{min-height:430px}
+ html.demo-editorial .demo-story-copy{padding:210px 18px 28px}
+ html.demo-editorial .demo-story-copy h2{font-size:clamp(36px,9.4vw,49px)}
+}
+@media(prefers-reduced-motion:reduce){
+ html.demo-editorial .demo-scroll-progress>span{transition:none!important}
+ html.demo-editorial .demo-story-image{transform:none!important;will-change:auto!important}
+ html.demo-editorial.demo-motion-ready .tle-scroll-reveal,html.demo-editorial.demo-motion-ready .tle-scroll-reveal.tle-in-view{opacity:1!important;transform:none!important;transition:none!important}
+}
