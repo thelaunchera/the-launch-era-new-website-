@@ -8,7 +8,7 @@ const jessie=readFileSync("public/command-center/assets/jessy-owner.js","utf8");
 assert.match(api,/if\(action==="provider_check"\)/);
 assert.ok(api.indexOf("ctx=await auth(req)")<api.indexOf('if(action==="provider_check")'),"provider check only after server owner auth");
 assert.match(api,/OPENAI_API_KEY/);
-assert.match(api,/reason:"connected"/);
+assert.ok(api.includes('reason:ok?"connected":"empty_response"'));
 assert.doesNotMatch(api,/AI content service is not configured/);
 assert.match(api,/generation_mode="template"/);
 assert.match(api,/content=reviewedTemplate/);
