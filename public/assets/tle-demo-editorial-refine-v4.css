@@ -143,3 +143,22 @@ html.demo-editorial.demo-motion-ready .demo-reveal.demo-inview{transform:transla
 @media(max-width:767px){html.demo-editorial .hero::before{opacity:1!important}}
 html.demo-editorial .panel input[type="date"]::-webkit-date-and-time-value,html.demo-editorial .panel input[type="time"]::-webkit-date-and-time-value{min-height:1.2em;text-align:left}
 html.demo-editorial .panel input[type="date"]::-webkit-calendar-picker-indicator,html.demo-editorial .panel input[type="time"]::-webkit-calendar-picker-indicator{opacity:.65}
+
+/* Remove stock emoji glyphs from the two booking choice families while keeping their accessible button text. */
+html.demo-editorial .panel .category-tabs .choice,
+html.demo-editorial .panel .request-type-pills .choice,
+html.demo-editorial .panel #homes .choice{font-size:0!important;gap:0!important}
+html.demo-editorial .panel .category-tabs .choice b,
+html.demo-editorial .panel .request-type-pills .choice b,
+html.demo-editorial .panel #homes .choice b{font-size:14px!important;line-height:1.4;letter-spacing:0}
+@media(max-width:767px){
+ html.demo-editorial .panel .category-tabs .choice b,
+ html.demo-editorial .panel .request-type-pills .choice b,
+ html.demo-editorial .panel #homes .choice b{font-size:13px!important}
+}
+/* Give users the whole field while typing; the AI helper returns as soon as focus leaves it. */
+@supports selector(:has(*)){
+ html.demo-editorial:has(.panel input:focus, .panel textarea:focus, .panel select:focus) body button.tle-ai-launch{
+  opacity:.12!important;pointer-events:none!important;transform:scale(.86)!important
+ }
+}
