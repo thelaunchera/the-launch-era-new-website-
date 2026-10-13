@@ -8,8 +8,8 @@ html.demo-editorial #demoScrollProgress>span{display:block;height:100%;backgroun
 html.demo-editorial .hero{background-image:linear-gradient(90deg,#0b111b 0%,#0b111bf9 26%,#0b111bdd 42%,#0b111b79 59%,transparent 83%),url("/assets/cleaning-demo/whole-home.png")!important;
 background-size:cover,67% 100%,67% 100%!important;background-repeat:no-repeat!important;background-position:center,right center,right center!important}
 html.demo-editorial .demo-photo-home{background-image:url("/assets/cleaning-demo/living-suite.png")!important}
-html.demo-editorial .demo-photo-deep{background-image:url("https://drive.google.com/thumbnail?id=1Nkcv5HZ2E_ylc4cgO7OtLZw8S4W1QkJB&sz=w1200"),url("https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=900&q=80")!important}
-html.demo-editorial .demo-photo-office{background-image:url("/assets/cleaning-demo/cleaner-action.png")!important}
+html.demo-editorial .demo-photo-deep{background-image:url("/assets/cleaning-demo/cleaner-action.png"),url("https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=900&q=80")!important}
+html.demo-editorial .demo-photo-office{background-image:url("/assets/cleaning-demo/whole-home.png")!important}
 html.demo-editorial .demo-showcase-image{background-size:cover,cover!important;background-position:center,center!important;background-repeat:no-repeat!important}
 html.demo-editorial .demo-why-art{background-image:linear-gradient(135deg,#d3dce822,transparent 60%),url("/assets/cleaning-demo/whole-home.png")!important;background-size:cover,cover,cover!important;background-position:center,center,center!important}
 html.demo-editorial .demo-bottom-photo{background-image:url("/assets/cleaning-demo/living-suite.png")!important;background-size:cover,cover!important;background-position:center,center!important}
@@ -66,4 +66,46 @@ html.demo-editorial .demo-showcase-card:hover .demo-showcase-image{transform:sca
  html.demo-editorial .demo-cinematic-photo::before{transform:none!important;will-change:auto!important}
  html.demo-editorial #demoScrollProgress>span{will-change:auto!important}
  html.demo-editorial .demo-reveal{opacity:1!important;filter:none!important;transform:none!important;transition:none!important}
+}
+
+/* Editorial flow after CTA simplification: one hero action, three clear steps and quieter navigation. */
+html.demo-editorial .demo-nav-jump{display:none;text-decoration:none;color:#DCEBF3;font-size:13px;font-weight:760;border-bottom:1px solid #A9CADA;padding:6px 0;white-space:nowrap}
+html.demo-editorial .demo-feature-bar{grid-template-columns:repeat(3,minmax(0,1fr));background:linear-gradient(115deg,#182332,#222F3D);padding:17px 18px;gap:0}
+html.demo-editorial .demo-feature-bar>div{grid-template-columns:34px minmax(0,1fr);grid-template-rows:auto auto;gap:1px 9px;justify-content:center;min-width:0;padding:9px clamp(11px,2vw,25px);border-right:1px solid #71889B4F;border-bottom:0}
+html.demo-editorial .demo-feature-bar>div:nth-child(odd){border-right:1px solid #71889B4F}
+html.demo-editorial .demo-feature-bar>div:last-child{border-right:0}
+html.demo-editorial .demo-feature-bar .demo-feature-icon{width:30px;height:30px;grid-row:1/3;color:#D1E9F0;border:1px solid #8EABB8;font-size:11px;font-family:Inter,Arial,sans-serif;letter-spacing:0;font-weight:850}
+html.demo-editorial .demo-feature-bar strong{color:#F4F7F9;font-size:clamp(14px,1.3vw,18px);line-height:1.15}
+html.demo-editorial .demo-feature-bar div>span:last-child{font-size:clamp(11px,.96vw,13px);color:#C7D4DE;line-height:1.3}
+html.demo-editorial .demo-service-showcase{grid-template-columns:1fr 1.6fr}
+html.demo-editorial .demo-showcase-intro p{max-width:340px}
+html.demo-editorial .demo-cinematic-index{margin-top:23px;color:#B7CED9}
+html.demo-editorial .demo-cinematic-photo::before{z-index:0!important}
+html.demo-editorial .demo-cinematic-overlay{z-index:2}
+html.demo-editorial .demo-booking-eyebrow h2{font-size:clamp(36px,4.7vw,59px);letter-spacing:-.055em}
+html.demo-editorial .demo-booking-eyebrow p{font-size:13px}
+html.demo-editorial .demo-bottom-text{justify-content:center}
+@media(min-width:768px){
+ html.demo-editorial .heroText{width:60%;max-width:725px;min-width:0}
+ html.demo-editorial .heroText h1.demo-headline{font-size:clamp(71px,8.5vw,120px)!important;max-width:100%;letter-spacing:-.035em}
+}
+@media(max-width:1050px){html.demo-editorial .demo-service-showcase{grid-template-columns:1fr}}
+@media(max-width:767px){
+ html.demo-editorial .demo-nav-jump{display:inline-flex;align-items:center;justify-content:center;min-height:37px}
+ html.demo-editorial .demo-feature-bar{grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-radius:0 0 19px 19px;padding:13px 5px}
+ html.demo-editorial .demo-feature-bar>div{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:5px;padding:10px 5px;border-right:1px solid #8096A850!important;border-bottom:0!important}
+ html.demo-editorial .demo-feature-bar>div:last-child{border-right:0!important}
+ html.demo-editorial .demo-feature-icon{display:none!important}
+ html.demo-editorial .demo-feature-bar strong{font-size:13px}
+ html.demo-editorial .demo-feature-bar div>span:last-child{font-size:10px;line-height:1.35;color:#D7E3E9}
+ html.demo-editorial .demo-service-showcase{grid-template-columns:1fr}
+ html.demo-editorial .demo-showcase-intro{padding:4px 0 0}
+ html.demo-editorial .demo-showcase-intro p{max-width:440px}
+ html.demo-editorial .demo-booking-eyebrow{padding-top:33px}
+}
+@media(max-width:365px){
+ html.demo-editorial .demo-feature-bar{padding:10px 2px}
+ html.demo-editorial .demo-feature-bar>div{padding:8px 3px}
+ html.demo-editorial .demo-feature-bar strong{font-size:12px}
+ html.demo-editorial .demo-feature-bar div>span:last-child{font-size:9px}
 }
