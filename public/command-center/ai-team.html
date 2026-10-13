@@ -5,7 +5,7 @@
 <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#FAF8F3">
 <title>AI Team | The Launch Era Command Center</title>
 <link rel="icon" href="/favicon.png">
-<link rel="stylesheet" href="./assets/ai-team.css?v=20261013-2">
+<link rel="stylesheet" href="./assets/ai-team.css?v=20261013-3">
 </head>
 <body>
 <div class="ait-loading" id="loading" role="status">Opening your private AI Team…</div>
@@ -31,6 +31,10 @@
 <div class="ait-stats" id="stats" aria-live="polite"><article><span>Active team tasks</span><strong id="activeCount">—</strong></article><article><span>Awaiting approval</span><strong id="approvalCount">—</strong></article><article><span>Workspace scan</span><strong id="scanState">Not checked</strong></article></div>
 <section class="ait-section" aria-labelledby="agents-title"><div class="ait-section-head"><div><span class="ait-eyebrow">YOUR SPECIALISTS</span><h2 id="agents-title">One team. Clear responsibilities.</h2></div><span class="ait-micro">7 specialist roles · owner-controlled · live checks</span></div>
 <div class="ait-grid" id="agents"></div></section>
+<section class="ait-section ait-outputs-section" id="outputs-section" aria-labelledby="outputs-title">
+ <div class="ait-section-head"><div><span class="ait-eyebrow">OWNER-REVIEWED WORK</span><h2 id="outputs-title">Prepared deliverables</h2></div><span class="ait-micro">Drafts only · approval does not publish</span></div>
+ <div id="outputs" class="ait-outputs-grid" aria-live="polite"><p class="ait-muted">Loading prepared work…</p></div>
+</section>
 <section class="ait-section ait-runs-section" id="runs-section" aria-labelledby="runs-title">
  <div class="ait-section-head"><div><span class="ait-eyebrow">LIVE SOURCE CHECKS</span><h2 id="runs-title">Verified executions</h2></div><span class="ait-micro">Read-only · with real data</span></div>
  <div id="runs" class="ait-runs-grid" aria-live="polite"><p class="ait-muted">Checking previous executions…</p></div>
@@ -55,5 +59,5 @@
 <div class="ait-dialog-footer"><button type="button" data-dialog-close="finish-dialog" class="ait-outline">Cancel</button><button class="ait-primary" type="submit" id="finish-submit">Record completion</button></div></form></dialog>
 <div id="toast" class="ait-toast" role="status" aria-live="polite" hidden></div>
 <script src="./vendor/supabase-js-v2.57.0.umd.js"></script>
-<script type="module" src="./assets/ai-team.js?v=20261013-2"></script>
+<script type="module" src="./assets/ai-team.js?v=20261013-3"></script>
 </body></html>
