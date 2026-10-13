@@ -30,7 +30,11 @@ for(const lang of ['en','es']){
      headlineVisible:!!rect(h)&&rect(h).width>0&&rect(h).height>0,
      ctaVisible:rect(cta).bottom<=rect(hero).bottom+2&&rect(cta).left>=rect(hero).left,
      areaText:area?.textContent?.trim(),areaVisible:rect(area).bottom<=rect(hero).bottom+2,
-     heroPhoto:getComputedStyle(hero).backgroundImage,
+     heroPhoto:document.querySelector('#leadHero .demo-cb-hero-media img')?.getAttribute('src'),
+     heroImgLoaded:(()=>{const img=document.querySelector('#leadHero .demo-cb-hero-media img');return !!img&&img.complete&&img.naturalWidth>700})(),
+     heroCbCss:[...document.styleSheets].some(sheet=>sheet.href?.includes('tle-demo-cb-hero-v8.css')),
+     ctaInHero:rect(cta).bottom<=rect(hero).bottom+2&&rect(cta).left>=rect(hero).left,
+     areaInHero:rect(area).bottom<=rect(hero).bottom+2,
      showcaseTitle:q('.demo-showcase-intro h2')?.textContent.trim(),
      quoteCards:q('.demo-showcase-cards')?.children.length
     };
@@ -44,7 +48,8 @@ for(const lang of ['en','es']){
    assert(main.areaText===(lang==='es'?'Atendemos Fort Lauderdale':'Serving Fort Lauderdale'),'Area not localized or personalized: '+main.areaText);
    assert(main.showcaseTitle.includes(lang==='en'?'Clear details':'Detalles claros'),'New slogans missing');
    assert.equal(main.quoteCards,3,'Functional cleaning-service cards missing');
-   assert(main.heroPhoto.includes('cleaner-in-home.png'),'Hero must use cleaner-in-home image');
+   assert(main.heroPhoto?.includes('/assets/cleaning-demo/cleaner-action.png')&&main.heroImgLoaded&&main.heroCbCss,'CB Depot style cleaning professional hero must load');
+   assert(main.ctaInHero&&main.areaInHero,'Hero action or personalized service badge is clipped');
    await page.screenshot({path:'qa-screenshots/demo-v6/'+lang+'-'+width+'-hero.png',fullPage:false});
    await page.evaluate(()=>startQuote('estimate'));
    const quote=await page.evaluate(()=>{
