@@ -1,0 +1,42 @@
+/* Isolated synthetic Cleaning App preview, October 2026 */
+.sample-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 18px}
+.sample-metrics>div{padding:17px 14px;border-radius:15px;border:1px solid #d8e9f3;background:#edf7fd}
+.sample-metrics strong{font:600 30px Prompt,Arial,sans-serif;color:#191919;display:block;letter-spacing:-.04em}
+.sample-metrics small{display:block;margin-top:3px;font:600 11px Futura,Arial,sans-serif;color:#617a8b}
+.populated{margin:13px 0 20px}.populated h3{font:600 19px Prompt,Arial,sans-serif;color:#191919;margin:0}
+.populated>p{font:500 12px Futura,Arial,sans-serif;color:#69808e;margin:4px 0 13px}
+.populated .data-row{padding:12px 13px;margin:7px 0;border-radius:13px;border:1px solid #e0e9ee;background:white}
+.sample-person{display:flex;align-items:center;min-width:0;gap:12px}
+.sample-person>div{min-width:0}
+.sample-person strong{display:block;overflow-wrap:anywhere;font:700 13px Futura,Arial,sans-serif}
+.sample-person small{display:block;font:500 11px/1.4 Futura,Arial,sans-serif;color:#67818f;overflow-wrap:anywhere;margin-top:4px}
+.sample-avatar{flex:0 0 33px;width:33px;height:33px;display:grid;place-items:center;background:#d7efff;color:#345b75;font:800 11px Futura,Arial,sans-serif;border-radius:10px}
+.sample-insights{display:flex;flex-wrap:wrap;gap:9px;margin:13px 0}.sample-insights span{font:700 11px Futura,Arial,sans-serif;background:#eaf4fc;padding:9px 13px;border:1px solid #dae9f3;border-radius:18px}
+.sample-calendar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:12px 0}
+.sample-calendar>div{min-width:0;min-height:139px;border-radius:12px;background:#fff;padding:9px;border:1px solid #e0e9ef}
+.sample-calendar>div>strong{font:700 11px Prompt,Arial,sans-serif;color:#344a58}
+.sample-calendar-job{display:block;margin:9px 0 0;border-left:3px solid #86b8d8;border-radius:4px;padding:7px 5px;background:#eaf5fc;font:600 10px/1.45 Futura,Arial,sans-serif;color:#385769;overflow-wrap:anywhere}
+.sample-calendar-job.alt{background:#fbf6e4;border-left-color:#e6cd6b}
+.populated-disclaimer{border-radius:10px;border:1px solid #d9e6ee;background:#f2faff;color:#648092;font:600 11px/1.5 Futura,Arial,sans-serif;padding:9px 12px;margin-top:18px}
+body.demo-embedded{background:#fcfefe!important;margin:0!important;overflow:auto}
+body.demo-embedded>header,body.demo-embedded>main>.intro,body.demo-embedded>main>.end,body.demo-embedded>.foot{display:none!important}
+body.demo-embedded main>.container{max-width:none;padding:0!important;width:100%!important;margin:0!important}
+body.demo-embedded .scene{border-radius:0!important;box-shadow:none!important;border:0!important;margin:0!important}
+body.demo-embedded .preview-layout{min-height:0!important}
+body.demo-embedded .content{padding:19px!important}
+body.demo-embedded .sidebar{padding-top:12px!important}
+body.demo-embedded .app-bar{padding:12px 17px!important}
+body.demo-embedded .workspace-head{margin-bottom:13px!important}
+body.demo-embedded .sample-chip{display:none!important}
+body.demo-embedded .notice,body.demo-embedded #app>.btn-group,body.demo-embedded .populated-disclaimer{display:none!important}
+@media(max-width:850px){.sample-calendar{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:580px){
+ .sample-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+ .sample-metrics>div{padding:10px}.sample-metrics strong{font-size:23px}.sample-metrics small{font-size:10px}
+ .sample-calendar{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .sample-calendar>div{min-height:110px}
+ .sample-person{gap:8px}.sample-avatar{width:29px;height:29px;flex-basis:29px}
+ .populated .data-row{gap:7px;padding:9px}
+ body.demo-embedded .sidebar{padding:9px 7px!important}
+ body.demo-embedded .content{padding:13px!important}
+}
