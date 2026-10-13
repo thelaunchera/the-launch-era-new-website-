@@ -11,6 +11,9 @@ on:
   push:
     branches:
       - design/cleaning-app-landing-coherent-20261013
+concurrency:
+  group: cleaning-app-landing-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
@@ -44,7 +47,7 @@ jobs:
           mkdir -p .output/public/cleaning-web-app .output/public/es/cleaning-web-app
           cp .output/public/index.html .output/public/cleaning-web-app/index.html
           cp .output/public/index.html .output/public/es/cleaning-web-app/index.html
-          bun run preview -- --host 127.0.0.1 --port 4173 > /tmp/tle-landing-preview.log 2>&1 &
+          bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/tle-landing-preview.log 2>&1 &
           for attempt in $(seq 1 35); do
             if curl -sf http://127.0.0.1:4173/cleaning-web-app/ > /dev/null; then break; fi
             sleep 2
