@@ -48,6 +48,58 @@ for (const [path, expected] of [
   vm.runInContext(contextFunction + ";contextResult=currentPage();", box);
   assert.equal(box.contextResult, expected, path);
 }
+
+// Welcome + scroll-collapse behavior must work on both desktop and mobile.
+assert.match(front, /fabLabel=node\("span","tle-jessy-fab-label"/);
+assert.match(front, /fab\.setAttribute\("aria-expanded"/);
+assert.match(front, /window\.addEventListener\("scroll",updateJessyScroll,\{passive:true\}\)/);
+assert.match(front, /if\(!open&&!compact&&window\.scrollY<=36\)/);
+assert.match(front, /nudge\.textContent=pageText\("nudge"\)/);
+assert.match(front, /if\(!compact&&window\.scrollY>36\)collapseJessyLauncher\(\)/);
+const scrollBlock = front.slice(front.indexOf("let compact=false;"),front.indexOf('reloadOffers();track("loaded");'));
+assert.ok(scrollBlock.startsWith("let compact=false;"),"Scroll initialization missing");
+function simulateJessyScroll(startY){
+ const listeners={},timers=[],classes=new Set(),attributes={};
+ const box={
+  window:{scrollY:startY,addEventListener:(k,fn,opt)=>{listeners[k]=fn;if(k==="scroll")assert.equal(opt.passive,true)}},
+  root:{classList:{add:name=>classes.add(name)}},
+  fab:{setAttribute:(k,v)=>{attributes[k]=v}},
+  nudge:{hidden:true,textContent:""},
+  lang:"en",open:false,track:()=>{},
+  pageText:()=> "Hi! I'm Jessy 👋 Need a hand?",
+  setTimeout:(fn)=>{timers.push(fn)}
+ };
+ vm.createContext(box);
+ vm.runInContext(scrollBlock,box);
+ return {box,listeners,timers,classes,attributes};
+}
+const entry=simulateJessyScroll(0);
+assert.equal(entry.classes.has("tle-jessy-compact"),false,"The initial bubble must be a full welcome pill");
+assert.equal(entry.timers.length,1);
+entry.timers[0]();
+assert.equal(entry.box.nudge.hidden,false,"Jessy must greet new visitors");
+entry.box.window.scrollY=40;
+entry.listeners.scroll();
+assert.equal(entry.classes.has("tle-jessy-compact"),true,"Scroll must collapse Jessy to avatar");
+assert.equal(entry.box.nudge.hidden,true,"No greeting nudge while scrolling");
+assert.equal(entry.attributes.title,"Chat with Jessy");
+entry.box.window.scrollY=0;entry.listeners.scroll();
+assert.equal(entry.classes.has("tle-jessy-compact"),true,"Do not expand/flicker during scroll");
+const scrollingEarly=simulateJessyScroll(0);
+scrollingEarly.box.window.scrollY=55;
+scrollingEarly.listeners.scroll();
+scrollingEarly.timers[0]();
+assert.equal(scrollingEarly.box.nudge.hidden,true,"No late greeting after scroll");
+const deepLink=simulateJessyScroll(95);
+assert.equal(deepLink.classes.has("tle-jessy-compact"),true,"Already scrolled pages should start compact");
+const css = text("public/assets/jessy-site.css");
+assert.match(css, /\.tle-jessy-root\.tle-jessy-compact \.tle-jessy-fab/);
+assert.match(css, /width:52px;height:52px;min-height:52px/);
+assert.match(css, /width:50px;height:50px;min-height:50px/);
+assert.match(css, /max-width:0;width:0;padding:0;margin:0;opacity:0;visibility:hidden/);
+assert.match(css, /\.tle-jessy-root\.tle-jessy-compact \.tle-jessy-nudge\{display:none!important\}/);
+console.log("PASS Jessy welcome nudge and scroll-to-face-only launcher on desktop and mobile");
+
 const backend = text("supabase/functions/tle-jessy-chat/index.ts");
 assert.match(backend, /const focus=pageOffer\(b\.page_path\)/);
 assert.match(backend, /id==="cleaning-app"\?"\/cleaning-app-demo/);

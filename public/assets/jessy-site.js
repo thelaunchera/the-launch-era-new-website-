@@ -28,12 +28,12 @@ function t(k){return words[lang][k]}
 function pageText(kind){
  const p=currentPage(),es=lang==="es";
  const copy={
- "cleaning-app":{en:["Hi! 👋 I'm Jessy. Questions about the Cleaning App? I can help with features, the demo or your free trial.","Questions about the Cleaning App? 💬"],es:["¡Hola! 👋 Soy Jessy. ¿Dudas sobre la Cleaning App? Te ayudo con sus funciones, la demo o la prueba gratis.","¿Dudas sobre la Cleaning App? 💬"]},
- "booking":{en:["Hi! 👋 I'm Jessy. Want to organize booking requests and follow-ups? I can show you how.","Need help with booking? 💬"],es:["¡Hola! 👋 Soy Jessy. ¿Quieres organizar reservas y seguimientos? Te explico cómo funciona.","¿Dudas sobre las reservas? 💬"]},
- "ai-booking":{en:["Hi! 👋 I'm Jessy. Looking at our AI Assistants? Ask me which setup fits your business.","Questions about AI Assistants? 💬"],es:["¡Hola! 👋 Soy Jessy. ¿Viendo nuestros asistentes de IA? Te ayudo a elegir.","¿Dudas sobre la IA? 💬"]},
- "website":{en:["Hi! 👋 I'm Jessy. Have a question about automating your website inquiries?","Questions about website automation? 💬"],es:["¡Hola! 👋 Soy Jessy. ¿Quieres automatizar las consultas de tu website?","¿Dudas sobre tu website? 💬"]},
- "va":{en:["Hi! 👋 I'm Jessy. Need a hand with our VA support? Ask away.","Questions about VA support? 💬"],es:["¡Hola! 👋 Soy Jessy. ¿Tienes dudas sobre nuestro apoyo VA?","¿Preguntas sobre VA? 💬"]},
- "whatsapp":{en:["Hi! 👋 I'm Jessy. WhatsApp AI is coming soon. Want to see our available assistants?","Want to explore our AI options? 💬"],es:["¡Hola! 👋 Soy Jessy. WhatsApp AI llegará pronto. ¿Quieres ver los asistentes disponibles?","¿Quieres conocer nuestros asistentes? 💬"]}
+ "cleaning-app":{en:["Hi! 👋 I'm Jessy. Questions about the Cleaning App? I can help with features, the demo or your free trial.","Hi! 👋 Need help with the Cleaning App?"],es:["¡Hola! 👋 Soy Jessy. ¿Dudas sobre la Cleaning App? Te ayudo con sus funciones, la demo o la prueba gratis.","¡Hola! 👋 ¿Dudas sobre la Cleaning App?"]},
+ "booking":{en:["Hi! 👋 I'm Jessy. Want to organize booking requests and follow-ups? I can show you how.","Hi! 👋 Need help with bookings?"],es:["¡Hola! 👋 Soy Jessy. ¿Quieres organizar reservas y seguimientos? Te explico cómo funciona.","¡Hola! 👋 ¿Dudas sobre reservas?"]},
+ "ai-booking":{en:["Hi! 👋 I'm Jessy. Looking at our AI Assistants? Ask me which setup fits your business.","Hi! 👋 Exploring our AI Assistants?"],es:["¡Hola! 👋 Soy Jessy. ¿Viendo nuestros asistentes de IA? Te ayudo a elegir.","¡Hola! 👋 ¿Dudas sobre nuestros asistentes?"]},
+ "website":{en:["Hi! 👋 I'm Jessy. Have a question about automating your website inquiries?","Hi! 👋 Need help with your website?"],es:["¡Hola! 👋 Soy Jessy. ¿Quieres automatizar las consultas de tu website?","¡Hola! 👋 ¿Te ayudo con tu website?"]},
+ "va":{en:["Hi! 👋 I'm Jessy. Need a hand with our VA support? Ask away.","Hi! 👋 Questions about VA support?"],es:["¡Hola! 👋 Soy Jessy. ¿Tienes dudas sobre nuestro apoyo VA?","¡Hola! 👋 ¿Dudas sobre VA?"]},
+ "whatsapp":{en:["Hi! 👋 I'm Jessy. WhatsApp AI is coming soon. Want to see our available assistants?","Hi! 👋 Want to explore our AI options?"],es:["¡Hola! 👋 Soy Jessy. WhatsApp AI llegará pronto. ¿Quieres ver los asistentes disponibles?","¡Hola! 👋 ¿Quieres conocer nuestros asistentes?"]}
  };
  const entry=copy[p]?.[es?"es":"en"];
  return entry?entry[kind==="nudge"?1:0]:t(kind==="nudge"?"nudge":"hello");
@@ -59,9 +59,9 @@ function routeFor(href){
  return s;
 }
 function makeImage(){const x=node("img","tle-jessy-avatar");x.src=avatarPath;x.alt="Jessy · AI Assistant";x.loading="lazy";x.width=53;x.height=53;return x}
-const style=node("link");style.rel="stylesheet";style.href="/assets/jessy-site.css?v=20261012-plans-3";document.head.appendChild(style);
+const style=node("link");style.rel="stylesheet";style.href="/assets/jessy-site.css?v=20261013-scroll-1";document.head.appendChild(style);
 const root=node("div","tle-jessy-root");root.setAttribute("data-tle-jessy","true");
-const fab=button("tle-jessy-fab","",t("opening"));fab.append(makeImage(),node("span","", "Chat with Jessy"));fab.append(node("span","tle-jessy-status"));fab.setAttribute("aria-expanded","false");
+const fab=button("tle-jessy-fab","",t("opening"));const fabLabel=node("span","tle-jessy-fab-label",lang==="es"?"Habla con Jessy":"Chat with Jessy");fab.append(makeImage(),fabLabel);fab.append(node("span","tle-jessy-status"));fab.setAttribute("aria-expanded","false");
 const nudge=node("div","tle-jessy-nudge",pageText("nudge"));nudge.hidden=true;
 const backdrop=node("div","tle-jessy-backdrop");backdrop.hidden=true;
 const panel=node("section","tle-jessy-panel");panel.hidden=true;panel.setAttribute("role","dialog");panel.setAttribute("aria-modal","true");panel.setAttribute("aria-label","Jessy AI Assistant");
@@ -167,7 +167,7 @@ soundBtn.addEventListener("click",()=>{soundOn=!soundOn;soundBtn.textContent=sou
 function syncLanguage(){
  languageBtn.textContent=lang==="en"?"ES":"EN";status.textContent=t("status");
  nudge.textContent=pageText("nudge");
- fab.querySelector("span:not(.tle-jessy-status)").textContent=lang==="es"?"Habla con Jessy":"Chat with Jessy";
+ fabLabel.textContent=lang==="es"?"Habla con Jessy":"Chat with Jessy";
  fab.setAttribute("aria-label",t("opening"));closeBtn.setAttribute("aria-label",t("close"));
  input.placeholder=t("input");input.setAttribute("aria-label",t("input"));
  send.textContent=t("send");leadTrigger.textContent=t("lead");note.textContent=t("hint");
@@ -211,6 +211,28 @@ for(const name of ["pushState","replaceState"]){
 }
 syncLanguage();
 window.addEventListener("focus",()=>{if(open)reloadOffers()});
-setTimeout(()=>{if(!open){nudge.hidden=false;setTimeout(()=>{nudge.hidden=true},8000)}},2200);
+/* Welcome visibly on first entry; shrink the launcher when the visitor starts scrolling.
+ * The conversation never closes on scroll, and the avatar remains a full-size tap target. */
+let compact=false;
+function collapseJessyLauncher(){
+ if(compact)return;
+ compact=true;
+ root.classList.add("tle-jessy-compact");
+ nudge.hidden=true;
+ fab.setAttribute("title",lang==="es"?"Hablar con Jessy":"Chat with Jessy");
+ track("launcher_collapsed_on_scroll");
+}
+function updateJessyScroll(){
+ if(!compact&&window.scrollY>36)collapseJessyLauncher();
+}
+window.addEventListener("scroll",updateJessyScroll,{passive:true});
+updateJessyScroll();
+setTimeout(()=>{
+ if(!open&&!compact&&window.scrollY<=36){
+  nudge.textContent=pageText("nudge");
+  nudge.hidden=false;
+  setTimeout(()=>{nudge.hidden=true},6900);
+ }
+},1050);
 reloadOffers();track("loaded");
 })();
