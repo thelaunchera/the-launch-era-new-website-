@@ -41,7 +41,7 @@ for(const lang of ['en','es']){
    assert.equal(main.blue,'rgb(215, 239, 255)','CTA must be brand Soft Blue');
    assert(main.headlineVisible && main.headFont>=32,'Hero headline illegible');
    assert(main.ctaVisible && main.areaVisible,'First-impression CTA / area clipped by hero');
-   assert(main.areaText==='Serving Fort Lauderdale','Area not personalized');
+   assert(main.areaText===(lang==='es'?'Atendemos Fort Lauderdale':'Serving Fort Lauderdale'),'Area not localized or personalized: '+main.areaText);
    assert(main.showcaseTitle.includes(lang==='en'?'Clear details':'Detalles claros'),'New slogans missing');
    assert.equal(main.quoteCards,3,'Functional cleaning-service cards missing');
    assert(main.heroPhoto.includes('cleaner-in-home.png'),'Hero must use cleaner-in-home image');
