@@ -29,7 +29,7 @@ Verified against production page loads and repository sources on **2026-10-12**.
 | \`/booking-flow-intake/\` | \`public/booking-flow-intake/index.html\` | English booking setup form |
 | \`/es/booking-flow-intake/\` | \`public/es/booking-flow-intake/index.html\` | Spanish setup |
 | \`/booking-flow-payment-success/\` | \`public/booking-flow-payment-success/index.html\` | Payment status verification, never trust static URL alone |
-| \`/lead-private-preview.html\` | \`public/lead-private-preview.html\` | Personalized booking demo, params \`rid/business/area\`; not a live customer reservation |
+| \`/lead-private-preview.html\` | \`public/lead-private-preview.html\` | **Shared personalized prospect demo** for the first outreach's confirmed-interest link, params \`rid/business/area/lang\`. New black/pink/light-blue cleaning hero and editorial cards load **only in sample mode**. Real buyer keys and owner-preview booking pages retain existing live designs and behavior; no real booking or email occurs from a sample. |
 | \`/lead-demo-tracker.html\` | \`public/lead-demo-tracker.html\` | Demo Command Center preview |
 | \`/demos/claudia/\` | \`public/demos/claudia/index.html\` | Named sample, NOT reusable across tenants |
 | \`/demos/angela-so-fresh-clean-queen/\` | \`public/demos/angela-so-fresh-clean-queen/index.html\` | Named sample; isolation required |
