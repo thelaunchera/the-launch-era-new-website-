@@ -110,3 +110,9 @@ Repeat after ANY route/button/domain change: 360px phone, 390px phone, 820px tab
 - Primary **Start free trial / Comenzar prueba gratis** and **Create my account / Crear mi cuenta** point to `https://app.thelaunchera.com/?entry=signup` (external Cleaning App signup). Secondary **Explore demo / Ver demo** and **See it in action / Ver cómo funciona** point to `/cleaning-app-demo/?lang=en|es` (public fictional demo; no real records).
 - UI dashboard names, activity counts, statuses, times and pricing illustration are explicitly fictional sample data. No API, CRM, Supabase, customer data, email or booking mutation in the marketing visual.
 - No FAQ or separate ServiceSales journey inside this landing. Trial terms appear in hero and closing price panel; Jessy launcher is compact on phone and its nudge hidden only on these two routes (chat panel remains available). Shared website footer and client pages remain unchanged.
+
+## Public brand and demo update — 2026-10-13
+- Shared sample prospect demo (/lead-private-preview.html without buyer key or owner preview) adds /assets/tle-demo-blue-v5.css, scoped only to html.demo-editorial. Keep rid/business/area/lang parameters, and original confirmed-interest demo path.
+- Authenticated buyer and owner preview paths (?key=... and ?owner_preview=1) remain unchanged; blue sample CSS does not apply.
+- Website EN/ES public marketing pages load /assets/tle-saas-ui-v1.css after existing brand CSS. Header Support/Ayuda and footer Contact/Contacto continue pointing to /help or /es#contacto, respectively; remove duplicate Get in Touch footer action.
+- Homepage in-page contact form #contacto remains accessible. Final CTA still points to the existing booking checkout; the extra after-contact invitation was redundant and removed.
