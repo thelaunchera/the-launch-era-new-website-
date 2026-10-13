@@ -7,8 +7,8 @@ const ASSET="/assets/jessy-avatar.webp",CSS="./assets/jessy-owner.css?v=20261012
 let root=null,log=null,form=null,input=null,send=null,quick=null,open=false,waiting=false,language="en",history=[],previousFocus=null;
 let notificationTimer=0;
 const copy={
- en:{open:"Ask Jessy",intro:"Hi! 👋 I'm Jessy, your Command Center assistant. Want to check leads, follow-ups or a client delivery?",subtitle:"Your private workspace helper",placeholder:"Ask about leads, clients or your next step…",send:"Send",close:"Close Jessy",thinking:"Checking your workspace…",error:"I couldn't check that right now. Try again or open the section directly.",note:"Private owner assistance · Drafts require your approval. Jessy never sends emails.",label:"Open this section →",quick:[["Mark alerts read","Mark all Command Center notifications as read"],["Notifications","Open my notifications"],["WhatsApp alerts","jessy-whatsapp-settings"],["Prepare follow-up draft","Prepare a follow-up email draft"],["Today's priorities","What needs my attention today?"],["Follow-ups","Which prospect follow-ups are due?"],["Website leads","Any new website inquiries?"],["Client deliveries","Which client deliveries need review?"],["Support","I need help with a problem"]]},
- es:{open:"Pregúntale a Jessy",intro:"¡Hola! 👋 Soy Jessy, tu asistente del Command Center. ¿Revisamos leads, seguimientos o entregas?",subtitle:"Tu asistente privada de operaciones",placeholder:"Pregunta sobre leads, clientes o el próximo paso…",send:"Enviar",close:"Cerrar Jessy",thinking:"Revisando tu espacio…",error:"Ahora no pude comprobarlo. Inténtalo otra vez o abre la sección directamente.",note:"Asistencia privada · Los borradores requieren tu aprobación. Jessy no envía correos.",label:"Abrir esta sección →",quick:[["Marcar avisos leídos","Marca todas las notificaciones como leídas"],["Notificaciones","Abre mis notificaciones"],["Avisos WhatsApp","jessy-whatsapp-settings"],["Preparar seguimiento","Prepara un borrador de seguimiento"],["Prioridades de hoy","¿Qué necesita mi atención hoy?"],["Seguimientos","¿Qué seguimientos de prospectos están pendientes?"],["Leads web","¿Hay nuevas consultas del website?"],["Entregas","¿Qué entregas de clientes debo revisar?"],["Soporte","Necesito ayuda con un problema"]]}
+ en:{open:"Ask Jessy",intro:"Hi! 👋 I'm Jessy, your Command Center assistant. Want to check leads, follow-ups or a client delivery?",subtitle:"Your private workspace helper",placeholder:"Ask about leads, clients or your next step…",send:"Send",close:"Close Jessy",thinking:"Checking your workspace…",error:"I couldn't check that right now. Try again or open the section directly.",note:"Private owner assistance · Drafts require your approval. Jessy never sends emails.",label:"Open this section →",quick:[["Mark alerts read","Mark all Command Center notifications as read"],["Notifications","Open my notifications"],["WhatsApp alerts","jessy-whatsapp-settings"],["Prepare follow-up draft","Prepare a follow-up email draft"],["Today's priorities","What needs my attention today?"],["Follow-ups","Which prospect follow-ups are due?"],["Website leads","Any new website inquiries?"],["Client readiness","What is missing for each client?"],["Support","I need help with a problem"]]},
+ es:{open:"Pregúntale a Jessy",intro:"¡Hola! 👋 Soy Jessy, tu asistente del Command Center. ¿Revisamos leads, seguimientos o entregas?",subtitle:"Tu asistente privada de operaciones",placeholder:"Pregunta sobre leads, clientes o el próximo paso…",send:"Enviar",close:"Cerrar Jessy",thinking:"Revisando tu espacio…",error:"Ahora no pude comprobarlo. Inténtalo otra vez o abre la sección directamente.",note:"Asistencia privada · Los borradores requieren tu aprobación. Jessy no envía correos.",label:"Abrir esta sección →",quick:[["Marcar avisos leídos","Marca todas las notificaciones como leídas"],["Notificaciones","Abre mis notificaciones"],["Avisos WhatsApp","jessy-whatsapp-settings"],["Preparar seguimiento","Prepara un borrador de seguimiento"],["Prioridades de hoy","¿Qué necesita mi atención hoy?"],["Seguimientos","¿Qué seguimientos de prospectos están pendientes?"],["Leads web","¿Hay nuevas consultas del website?"],["Revisar intakes","¿Qué le falta a cada cliente?"],["Soporte","Necesito ayuda con un problema"]]}
 };
 const sections={
  "owner-pages":["Clients & Purchases","Clientes y compras"],
@@ -287,6 +287,34 @@ async function prepareDraftPanel(){
   }catch(e){status.textContent=e.message||t("error");create.disabled=false}
  });
 }
+function showProjectReadiness(result){
+ const projects=Array.isArray(result.projects)?result.projects:[];
+ const es=language==="es";
+ const panel=el("section","jo-readiness");
+ panel.setAttribute("aria-label",es?"Revisión privada de proyectos":"Private project review");
+ const title=el("strong","jo-draft-title",es?"Revisión de clientes":"Client readiness");
+ const hint=el("p","jo-draft-disclaimer",es?
+  "Revisión de Booking Automation y AI Assistant. No incluye automáticamente otros servicios. Jessy no aprueba inicios ni envía correos.":
+  "Booking Automation and AI Assistant only. Other services are not yet included. Jessy does not approve kickoffs or send emails.");
+ panel.append(title,hint);
+ if(!projects.length)panel.append(el("p","jo-draft-disclaimer",es?"Sin pedidos para mostrar.":"No orders to show."));
+ for(const p of projects.slice(0,25)){
+  const card=el("article","jo-readiness-item");
+  card.append(el("strong","",p.name||"Project"));
+  card.append(el("small","",(p.service||"")+(p.status==="delivered"?(es?" · Entregado":" · Delivered"):p.status==="production"?(es?" · Inicio registrado":" · Start recorded"):p.status==="needs_info"?(es?" · Faltan datos":" · Needs details"):(es?" · Necesita tu revisión":" · Needs your review"))));
+  if(p.missing?.length){
+   const list=el("ul","jo-readiness-missing");
+   for(const item of p.missing.slice(0,7))list.append(el("li","",item));
+   card.append(list);
+  }else if(p.status==="owner_review")card.append(el("p","",es?"Sin faltantes detectados en los campos revisados. Tú debes aprobar el inicio.":"No missing required fields detected in this check. You approve the start."));
+  else if(p.status==="delivered")card.append(el("p","",es?"Entrega registrada.":"Delivery recorded."));
+  const nav=b("jo-next",es?"Ver en Clientes y compras →":"Open Clients & Purchases →");
+  nav.onclick=()=>{if(window.TLEOwnerJessyGateway?.navigate?.("owner-pages"))hide()};
+  card.append(nav);panel.append(card);
+ }
+ if(result.coverage?.length)panel.append(el("p","jo-draft-disclaimer",es?"Una fuente no respondió. Revisión parcial.":"One source did not respond. Partial review."));
+ log.append(panel);log.scrollTop=log.scrollHeight;
+}
 async function ask(raw){
  if(waiting||!owner()||!root)return;
  const question=String(raw||"").trim().slice(0,340);
@@ -304,6 +332,7 @@ async function ask(raw){
   const result=await window.TLEOwnerJessyGateway.ask({message:question,language,history:shortHistory});
   if(!owner())return;
   pending.textContent=result.reply||t("error");
+  if(result.action_performed==="client_readiness_review"&&result.read_only===true)showProjectReadiness(result);
   history.push({role:"user",message:question},{role:"assistant",message:pending.textContent});
   if(history.length>8)history=history.slice(-8);
   const dest=result.section;
