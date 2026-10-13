@@ -488,6 +488,11 @@ if(isSampleDemo){
   document.querySelectorAll('.demo-showcase-benefits strong').forEach((e,i)=>{e.textContent=['Servicios claros','Solicitudes sencillas','Todo en un lugar'][i]});
   document.querySelectorAll('.demo-showcase-benefits small').forEach((e,i)=>{e.textContent=['Conoce qué incluye cada servicio.','Solo unos pasos.','Descubre qué sucede después.'][i]});
   text('.demo-quote-header h3','Cuéntanos sobre tu hogar.');text('.demo-quote-header p','Solo algunos datos para preparar tu estimado o cotización. Esta prueba no cobra ni reserva nada.');
+  text('.demo-showcase-photo-badge','✧ DETALLES CLAROS / RESERVAS FÁCILES');
+  text('.demo-quote-header>span','LIMPIEZA RESIDENCIAL');
+  text('.demo-success-summary-head small','TU SOLICITUD');
+  text('#tleSuccessPreview','VISTA DEMO · Este es un ejemplo de confirmación. No se envió ninguna reserva ni correo.');
+  document.querySelectorAll('.demo-success-info>span').forEach((el,i)=>{const part=[ 'Fecha preferida ', 'Hora preferida ', 'Zona de servicio '][i];const n=[...el.childNodes].find(x=>x.nodeType===3);if(n)n.nodeValue=part;});
   
   document.querySelectorAll('.demo-showcase-card .demo-showcase-label strong').forEach((el,i)=>{el.textContent=['Limpieza residencial','Limpieza profunda','Espacios comerciales'][i]||el.textContent});
   document.querySelectorAll('.demo-showcase-card .demo-showcase-label small').forEach((el,i)=>{el.textContent=['Cada visita, más sencilla','Todos los detalles importan','Solicitar una cotización'][i]||el.textContent});
