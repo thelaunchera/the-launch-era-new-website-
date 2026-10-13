@@ -64,7 +64,7 @@ function renderTasks(){
   box.append(top,el("h3","",t.title));
   if(t.description)box.append(el("p","",t.description));
   const stamp=new Date(t.created_at).toLocaleDateString(language==="es"?"es-US":"en-US");
-  box.append(el("p","",stamp+" · "+(t.priority==="normal"?"Normal":t.priority)));
+  box.append(el("p","",stamp+" · "+(t.priority==="normal"?"Normal":t.priority)+(t.task_origin&&t.task_origin!=="manual"?" · "+(language==="es"?"Automática":"Automated"):"")));
   const buttons=el("div","ait-task-actions");
   const add=(label,fn,primary=false)=>{
    const n=el("button",primary?"ait-action-primary":"",label);n.type="button";
@@ -152,7 +152,7 @@ function renderRuns(){
    }
    disclosure.append(body);card.append(disclosure);
   }
-  card.append(el("p","ait-run-note",tx("readOnly")+" · "+new Date(item.started_at).toLocaleString(language==="es"?"es-US":"en-US")));
+  card.append(el("p","ait-run-note",(item.run_origin==="daily_review"?(language==="es"?"Informe automático · ":"Automatic report · "):"")+tx("readOnly")+" · "+new Date(item.started_at).toLocaleString(language==="es"?"es-US":"en-US")));
   root.append(card);
  }
 }
