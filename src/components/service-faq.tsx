@@ -31,14 +31,14 @@ const faqs: Record<Topic, Record<Language, [string, string][]>> = {
       ['Do I need to replace my existing website?', 'No. Website Automation is designed to connect inquiries from the contact or quote form on your current website to an organized next-step workflow.'],
       ['Does this include a new website?', 'No. This service focuses on the inquiry and follow-up flow for a website you already have.'],
       ['Does the interactive preview submit a real inquiry?', 'No. The example runs only on this page so you can explore the steps. It does not send a real lead.'],
-      ['When does production begin?', 'Allow 48 hours for the setup once all details are ready and work begins during our working hours. Saturday orders after 12 PM ET start on the next business day.'],
+      ['When does production begin?', 'Your estimated 48-hour production period starts only after we review and approve your complete setup and email you the kickoff confirmation. Saturday after 12 PM ET may move the start to the next business day.'],
       ['What will you need to get started?', 'After checkout, share your website link, the form you use, and a few details about your business. We’ll take it from there.']
     ],
     es: [
       ['¿Necesito cambiar mi website actual?', 'No. Website Automation conecta las consultas de tu formulario de contacto o cotización actual con un flujo más organizado.'],
       ['¿Este servicio incluye un website nuevo?', 'No. Se enfoca en organizar consultas y seguimientos para el website que ya tienes.'],
       ['¿La demo interactiva envía consultas reales?', 'No. Es un ejemplo dentro de esta página para que explores los pasos; no envía leads reales.'],
-      ['¿Cuándo comienza la producción?', 'Son 48 horas de producción estimadas desde que recibimos todo y empezamos durante horario laborable. Si completas la compra o el formulario inicial el sábado después de las 12 PM, comenzamos el lunes o el siguiente día hábil.'],
+      ['¿Cuándo comienza la producción?', 'El plazo estimado de 48 horas comienza después de que revisemos y aprobemos tus datos y te enviemos el correo de inicio. Si queda listo el sábado después de las 12 PM ET, puede comenzar el siguiente día hábil.'],
       ['¿Qué necesitan para comenzar?', 'Después de comprar, compártenos el enlace de tu website, el formulario que usas y algunos datos de tu negocio. Con eso preparamos tu servicio.']
     ]
   },
