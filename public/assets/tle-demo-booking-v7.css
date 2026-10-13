@@ -272,3 +272,36 @@ html.demo-editorial button.tle-ai-launch{font-family:Futura,'DM Sans',sans-serif
   scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important
  }
 }
+
+/* Last-mile reference fidelity: contained header CTA, polished lead-brand
+   labeling and unobtrusive accessible AI launcher on sample pages. */
+html.demo-editorial .demo-logo{
+ display:inline-flex!important;align-items:center!important;gap:7px!important;
+ max-width:min(100%,420px)!important;line-height:1.25!important;flex-wrap:wrap!important
+}
+html.demo-editorial .demo-logo>span:not(.demo-brand-pink):not(.demo-logo-spark){
+ display:inline-flex!important;align-items:center!important;padding:4px 9px!important;
+ background:#E7F4FC!important;color:#417B9B!important;border:1px solid #C6E3F1!important;
+ border-radius:99px!important;font:700 10px/1.1 Futura,'DM Sans',Arial,sans-serif!important;
+ letter-spacing:.09em!important
+}
+html.demo-editorial .demo-logo .demo-logo-spark{font-size:14px!important}
+html.demo-editorial .panel .head>.demo-panel-start{
+ width:auto!important;max-width:max-content!important;margin-left:auto!important;align-self:center!important
+}
+html.demo-editorial body button.tle-ai-launch{
+ width:52px!important;height:52px!important;min-width:52px!important;min-height:52px!important;
+ padding:0!important;border-radius:50%!important;display:grid!important;place-items:center!important;
+ background:#D7EFFF!important;border:1px solid #9CCDE7!important;color:#245D80!important;
+ box-shadow:0 7px 22px #245D8035!important;font-size:0!important;line-height:0!important;
+ right:max(12px,env(safe-area-inset-right))!important;bottom:max(17px,env(safe-area-inset-bottom))!important
+}
+html.demo-editorial body button.tle-ai-launch::before{
+ content:"✦";font:700 22px/1 Futura,'DM Sans',Arial,sans-serif!important;
+ color:#225C80!important
+}
+@media(max-width:650px){
+ html.demo-editorial .panel .head>.demo-panel-start{align-self:flex-start!important}
+ html.demo-editorial .demo-logo{gap:5px!important}
+ html.demo-editorial body button.tle-ai-launch{width:47px!important;height:47px!important;min-width:47px!important;min-height:47px!important}
+}
