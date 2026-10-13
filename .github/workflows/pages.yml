@@ -61,6 +61,9 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Render-test public Cleaning App demo in English and Spanish
+        run: node scripts/qa-public-demo-browser.mjs
+
       - name: Build website
         run: bun run build
 
