@@ -62,3 +62,30 @@ body.crm-owner-view #tleOwnerJessy .jo-panel,
 body.crm-owner-view #tleOwnerJessy .jo-notification-nudge{pointer-events:auto}
 body.crm-owner-view #tleOwnerJessy .jo-heading small{max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 @media(max-width:600px){body.crm-owner-view #tleOwnerJessy .jo-heading small{max-width:170px}}
+
+
+/* Compact Jessy over narrow Command Center views, never cover page cards or language controls. */
+@media (max-width:760px){
+  body.crm-owner-view #tleOwnerJessy .jo-fab{
+    width:54px!important;height:54px!important;min-width:54px!important;min-height:54px!important;
+    max-width:54px!important;padding:4px!important;gap:0!important;
+    display:flex!important;align-items:center;justify-content:center;
+    right:max(12px,env(safe-area-inset-right))!important;
+    bottom:max(18px,calc(env(safe-area-inset-bottom) + 13px))!important;
+    border-radius:50%!important;overflow:hidden;
+  }
+  body.crm-owner-view #tleOwnerJessy .jo-fab > span{display:none!important}
+  body.crm-owner-view #tleOwnerJessy .jo-face{
+    width:42px!important;height:42px!important;min-width:42px!important;flex:0 0 42px!important;
+  }
+  body.crm-owner-view #tleOwnerJessy .jo-panel{
+    width:min(400px,calc(100dvw - 12px))!important;max-width:calc(100dvw - 12px)!important;
+    right:6px!important;bottom:max(6px,env(safe-area-inset-bottom))!important;
+    height:min(620px,calc(100dvh - 22px))!important;
+  }
+  body.crm-owner-view #tleOwnerJessy .jo-notification-nudge{
+    max-width:calc(100dvw - 24px);
+    right:max(12px,env(safe-area-inset-right));
+    bottom:max(80px,calc(env(safe-area-inset-bottom) + 76px));
+  }
+}
