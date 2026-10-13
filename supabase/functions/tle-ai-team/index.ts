@@ -308,7 +308,10 @@ Deno.serve(async req=>{
      });
      if(!response.ok){
        const reason=response.status===401?"invalid_key":response.status===403?"not_authorized":response.status===429?"rate_or_billing_limit":response.status>=500?"provider_unavailable":"model_or_request_error";
-       return res({ok:true,configured:true,verified:false,reason,model,http_status:response.status},200,origin);
+       const failure=await response.json().catch(()=>({}));
+       const rawCode=String(failure?.error?.code||failure?.error?.type||"");
+       const error_code=/^[A-Za-z0-9_-]{1,60}$/.test(rawCode)?rawCode:"unspecified";
+       return res({ok:true,configured:true,verified:false,reason,provider,model,http_status:response.status,error_code},200,origin);
      }
      const json=await response.json();
      const ok=!!json?.choices?.[0]?.message?.content?.trim();
