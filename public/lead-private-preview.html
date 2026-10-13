@@ -259,7 +259,7 @@ html.demo-editorial .heroArea{font-size:13px;line-height:1.45;margin:0 0 12px;ba
 <style>html:not(.demo-editorial) .demo-why,html:not(.demo-editorial) .demo-results{display:none!important}</style><link rel="stylesheet" href="/assets/tle-demo-clean-elevated-v2.css?v=20261013-cinematic-v1"><link rel="stylesheet" href="/assets/tle-demo-cinematic-v1.css?v=20261013-v1"><link rel="stylesheet" href="/assets/tle-demo-editorial-refine-v4.css?v=20261013-v4"><link rel="stylesheet" href="/assets/tle-demo-blue-v5.css?v=20261013-blue-1"><link rel="stylesheet" href="/assets/tle-demo-editorial-v6.css?v=20261013-design-1"></head><body><div class="top"><span class="live-top-label">TRY IT OUT · NOTHING IS SENT OR BOOKED</span><span class="demo-top-label">INTERACTIVE PREVIEW <span aria-hidden="true">✦</span> TEST REQUESTS ONLY — NOTHING IS BOOKED OR SENT</span></div>
 <main class="wrap">
 <nav class="demo-editorial-nav" id="demoEditorialNav" aria-label="Demo navigation">
- <a class="demo-logo" href="#leadHero" id="demoBrandName" aria-label="Back to the top"><span class="demo-brand-pink">CLEAN</span><span>PREVIEW</span><span aria-hidden="true" class="demo-logo-spark">✦</span></a>
+ <a class="demo-logo" href="#leadHero" id="demoBrandName" aria-label="Back to the top"><span class="demo-brand-pink">THE LAUNCH</span><span>ERA</span><span aria-hidden="true" class="demo-logo-spark">✦</span></a>
  <div class="demo-navlinks"><a href="#demoServices">Services</a><a href="#demoCinematicStory">Experience</a><a href="#bookingStarter">Sample request</a></div>
 </nav>
 <section class="hero" id="leadHero" aria-label="Personalized cleaning booking demo">
@@ -268,7 +268,7 @@ html.demo-editorial .heroArea{font-size:13px;line-height:1.45;margin:0 0 12px;ba
   <small id="leadName">THE CLEANING EXPERIENCE</small>
   <h1 class="demo-headline"><span>Beautifully cleaned.</span><span class="hero-highlight">Simply booked.</span></h1><h1 class="live-preview-title">A smoother way to book your cleaning.</h1>
   <p class="demo-hero-tagline">Beautifully cleaned.<br><em>Simply booked.</em></p>
-  <p class="demo-hero-description">A warm first impression, clear services, and an easy way for your customers to request cleaning.</p>
+  <p class="demo-hero-description">A warm first impression, clear services, and an easy way for your customers to request cleaning.</p><div class="heroArea" id="demoHeroArea">Local cleaning services</div>
   <a href="#demoServices" class="demo-hero-cta">Choose your service <span class="demo-inline-arrow" aria-hidden="true"></span></a>
  </div>
 </section>
@@ -437,7 +437,7 @@ if(customBusiness){
  }
  if(customArea){
   const h=document.querySelector('.heroText h1');
-  if(h){const area=document.createElement('div');area.className='heroArea';area.textContent='Serving '+customArea;h.insertAdjacentElement('afterend',area);}
+  if(h){const area=document.getElementById('demoHeroArea');if(area)area.textContent='Serving '+customArea;}
  }
  const quoteArea=$('demoQuoteArea');if(quoteArea)quoteArea.textContent=customArea?'Serving '+customArea:'Local service area';
   if(customRid&&isSampleDemo){
