@@ -138,7 +138,7 @@ html.demo-editorial .hero{height:min(690px,65vw);min-height:560px;margin:0;borde
 html.demo-editorial .hero:after{pointer-events:none;background:linear-gradient(0deg,rgba(7,9,15,.68),transparent 26%),radial-gradient(circle at 84% 76%,rgba(106,191,255,.35),transparent 38%)}
 html.demo-editorial .heroText{left:clamp(22px,5.3vw,76px);right:auto;width:min(57%,720px);bottom:clamp(32px,5vw,68px);display:flex;flex-direction:column;align-items:flex-start;z-index:5}
 html.demo-editorial #leadName{font-size:clamp(11px,1.2vw,14px);color:#bfe7ff;font-weight:900;letter-spacing:.145em;white-space:normal;line-height:1.4;overflow-wrap:anywhere;text-transform:uppercase;margin-bottom:19px}
-html.demo-editorial .heroText h1{display:flex;flex-direction:column;max-width:100%;font-weight:1000;font-stretch:condensed;letter-spacing:-.095em;line-height:.77;font-size:clamp(90px,13.7vw,194px);margin:0 0 34px;overflow:visible;color:white;filter:drop-shadow(0 8px 18px rgba(0,0,0,.15))}
+html.demo-editorial .heroText h1{display:flex;flex-direction:column;max-width:100%;font-family:Impact,"Arial Narrow",Inter,Arial,sans-serif;font-weight:950;font-stretch:condensed;letter-spacing:-.048em;line-height:.82;font-size:clamp(90px,13.7vw,194px);margin:0 0 34px;overflow:visible;color:white;filter:drop-shadow(0 8px 18px rgba(0,0,0,.15))}
 html.demo-editorial .heroText h1 span{display:block}
 html.demo-editorial .heroText h1 .hero-highlight{color:#ff78b5}
 html.demo-editorial .heroText h1 .headline-dot{display:inline!important;color:#a8dfff;letter-spacing:-.12em}
@@ -447,7 +447,7 @@ if(isSampleDemo){const link=$('trackerLink'),q=new URLSearchParams(link.search);
 
 if(isSampleDemo){
  // Direct links are local interactions only; never create or send a real booking.
- document.querySelectorAll('[data-demo-category]').forEach(link=>link.addEventListener('click',()=>{
+ document.querySelectorAll('[data-demo-category]').forEach(link=>link.addEventListener('click',(event)=>{event.preventDefault();
   const category=link.dataset.demoCategory;
   if(category!=='residential'&&category!=='commercial')return;
   setCategory(category);
