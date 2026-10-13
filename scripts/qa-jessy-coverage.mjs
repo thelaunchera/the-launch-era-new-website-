@@ -11,7 +11,6 @@ const publicPages = [
   "es/ai-booking-assistant/index.html",
   "whatsapp-ai-agent/index.html",
   "es/whatsapp-ai-agent/index.html",
-  "cleaning-app-demo/index.html",
   "booking-demo/index.html",
   "privacy.html",
   "es/privacy.html",
@@ -26,8 +25,62 @@ for (const page of publicPages) {
   const html = text("public/" + page);
   assert.match(html, /src="\/assets\/jessy-site\.js\?v=[^"]+"/, page + " missing Jessy");
 }
+// The Cleaning App sample workspace is embedded multiple times. No Jessy in its iframes.
+const appSample = text("public/cleaning-app-demo/index.html");
+assert.doesNotMatch(appSample, /<script\s+src="\/assets\/jessy-site\.js/);
+const showcase = text("src/components/cleaning-app-showcase.tsx");
+assert.match(showcase, /cleaning-app-demo\/\?lang=\$\{lang\}&embedded=1/);
+
 const front = text("public/assets/jessy-site.js");
 new Function(front); // Syntax-check without running a browser assistant.
+
+assert.match(front, /if\(location\.pathname\.replace\(\/\\\/\+\$\/,""\)==="\/cleaning-app-demo"\|\|window\.self!==window\.top\)return/);
+assert.match(front, /function actions\(checkout,detail,trial\)/);
+assert.match(front, /options\.slice\(0,2\)/);
+assert.match(front, /Get started/);
+assert.match(front, /How it works/);
+assert.match(front, /Could you walk me through how this service works/);
+assert.match(front, /See the demo/);
+assert.doesNotMatch(front.slice(front.indexOf("function actions("),front.indexOf("function showAiPlanChoices(")),/View checkout|Explore service/);
+const actionsCode=front.slice(front.indexOf("function actions("),front.indexOf("function showAiPlanChoices("));
+function simulateActions(checkout,detail,trial){
+ const container={children:[],appendChild(x){this.children.push(x)}};
+ const log={children:[],appendChild(x){this.children.push(x)},scrollTop:0,scrollHeight:100};
+ const events=[];
+ function node(tag,cls,label){
+  return {tag,cls,label,children:[],attrs:{},appendChild(x){this.children.push(x)},
+    setAttribute(k,v){this.attrs[k]=v},addEventListener(name,fn){this["on"+name]=fn}};
+ }
+ const button=(cls,label)=>node("button",cls,label);
+ const routeFor=(href)=>href&&href.startsWith("/")?href:href==="https://app.thelaunchera.com/?entry=signup"?href:null;
+ const track=(what)=>events.push(what);
+ const ask=(what)=>events.push("ask:"+what);
+ const fn=new Function("node","button","routeFor","log","lang","track","ask",actionsCode+";return actions");
+ fn(node,button,routeFor,log,"en",track,ask)(checkout,detail,trial);
+ return {links:log.children.flatMap(r=>r.children.map(c=>({tag:c.tag,label:c.label,url:c.href,click:c.onclick,css:c.cls,attrs:c.attrs}))),events};
+}
+const regular=simulateActions("/service-checkout/?offer=ai-booking","/ai-booking-assistant/",null);
+assert.equal(regular.links.length,2);
+assert.equal(regular.links[0].label,"Get started");
+assert.equal(regular.links[0].url,"/service-checkout/?offer=ai-booking");
+assert.equal(regular.links[0].attrs["aria-label"],"Continue to this service's checkout");
+assert.equal(regular.links[1].tag,"button");
+assert.equal(regular.links[1].label,"How it works");
+regular.links[1].click();
+assert.ok(regular.events.some(e=>e.startsWith("ask:Could you walk me through")));
+const appActions=simulateActions(null,"/cleaning-app-demo/?lang=en","https://app.thelaunchera.com/?entry=signup");
+assert.equal(appActions.links.length,2);
+assert.equal(appActions.links[0].label,"Try it free");
+assert.equal(appActions.links[1].label,"See the demo");
+assert.equal(appActions.links[1].url,"/cleaning-app-demo/?lang=en");
+const chatCss=text("public/assets/jessy-site.css");
+assert.match(chatCss, /\.tle-jessy-inline \.tle-jessy-action-primary/);
+assert.match(chatCss, /\.tle-jessy-inline \.tle-jessy-action-secondary/);
+assert.match(chatCss, /min-height:44px/);
+assert.match(chatCss, /background:#dcefff/);
+assert.match(chatCss, /background:#faf8f3/);
+console.log("PASS Jessy is excluded from sample iframes; warm CTAs route to correct destinations");
+
 assert.match(front, /page_path:location\.pathname/);
 assert.match(front, /function handleRoute\(\)/);
 assert.match(front, /"cleaning-app"/);
