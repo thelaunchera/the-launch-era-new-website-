@@ -8,6 +8,7 @@ on:
       - 'public/assets/tle-demo-editorial-v6.css'
       - 'public/assets/tle-demo-booking-v7.css'
       - 'public/assets/tle-demo-cb-hero-v8.css'
+      - 'public/assets/tle-demo-cta-v9.css'
       - 'scripts/qa-demo-editorial-v7.mjs'
       - 'scripts/qa-demo-editorial-v6.mjs'
       - '.github/workflows/demo-editorial-v6-qa.yml'
