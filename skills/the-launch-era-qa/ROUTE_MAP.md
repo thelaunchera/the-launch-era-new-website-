@@ -124,3 +124,9 @@ Repeat after ANY route/button/domain change: 360px phone, 390px phone, 820px tab
 - **Email separation:** automatic intake receipt says the project is under review and production has not begun; the separate kickoff email follows the owner action. Email provider ambiguous/error status is `needs_review`; verify Resend before any manual resend; never auto-repeat.
 - **Scope:** TLE sells its own services via Stripe. Cleaning App records clients’ payment methods as Cash, Zelle and Check without Stripe processing.
 - **Verification:** release workflow static checks plus owner-authenticated UI, test recipient fixture and provider events are needed to sign off actual delivery; avoid sending to real clients for QA.
+
+## Reference-approved sample Cleaning demo composition — 2026-10-13
+- Public `/lead-private-preview.html?business=...&area=...&lang=en|es` `html.demo-editorial`: hero → `#bookingStarter` interactive `.panel` → `#demoCinematicStory` restored feature. Heading/circle CTA and populated service cards styled by `/assets/tle-demo-booking-v7.css`; client-specific buyer/owner preview modes unaffected.
+- `#residentialServiceList` retains five interactive buttons (three priced cleaners, estimate, quote). `#commercialServiceList` retains six interactive buttons (estimates/quotes). Buttons and selected state must continue calling the original booking handlers.
+- Spanish story title must be kept consistent in both `lead-private-preview.html` and the deferred sample-only script `tle-demo-cinematic-v1.js`, or the latter will overwrite it.
+- Browser QA: `scripts/qa-demo-editorial-v7.mjs` tests phone 360/390, tablet 768/1024, desktop 1440, EN/ES, photo below booking, circular CTA, tabs and safe client preview isolation.
