@@ -115,7 +115,7 @@ html:not(.demo-editorial) .demo-hero-tagline,
 html:not(.demo-editorial) .demo-hero-description,
 html:not(.demo-editorial) .demo-hero-cta,
 html:not(.demo-editorial) .demo-hero-footnote{display:none!important}
-html:not(.demo-editorial) #leadHero .heroText h1{font-size:clamp(38px,5vw,64px);max-width:780px}
+html:not(.demo-editorial) #leadHero .heroText h1.demo-headline{display:none}html.demo-editorial #leadHero .live-preview-title{display:none}html:not(.demo-editorial) #leadHero .heroText h1.live-preview-title{font-size:clamp(38px,5vw,64px);max-width:780px}
 html.demo-editorial{scroll-behavior:smooth;scroll-padding-top:24px}
 html.demo-editorial body{background:#060708;color:#16191b;overflow-x:clip;font-family:Inter,"Arial",sans-serif}
 html.demo-editorial .top{background:#050607;color:#ecedf0;font-size:11px;font-weight:750;letter-spacing:.16em;padding:11px 14px}
@@ -124,7 +124,7 @@ html.demo-editorial .wrap{max-width:1340px;padding:0 22px 45px;background:#06070
 .demo-editorial-nav{height:82px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 clamp(18px,4vw,53px)}
 .demo-editorial-nav a{text-decoration:none}
 .demo-logo{display:flex;align-items:center;gap:2px;min-width:0;color:#fff;font-size:clamp(15px,1.9vw,23px);font-weight:950;letter-spacing:-.07em;line-height:1.1}
-.demo-logo .demo-brand-pink{color:#ff78b5}
+.demo-logo .demo-brand-pink{color:#ff78b5;display:block;max-width:min(36vw,320px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .demo-logo .demo-logo-spark{font-size:11px;color:#a4dcff;margin-left:6px;align-self:start;letter-spacing:0}
 .demo-navlinks{display:flex;gap:clamp(12px,2.2vw,36px);align-items:center}
 .demo-navlinks a{color:#ededee;font-size:12px;font-weight:650;transition:color .2s}
@@ -267,7 +267,7 @@ html.demo-editorial .heroArea{font-size:13px;line-height:1.45;margin:0 0 12px;ba
  <div class="demo-hero-art" aria-hidden="true"><i class="demo-orb orb-one"></i><i class="demo-orb orb-two"></i><i class="demo-orb orb-three"></i><i class="demo-orb orb-four"></i><span class="demo-hero-shine">✦</span></div>
  <div class="heroText">
   <small id="leadName">PERSONALIZED PRIVATE DEMO</small>
-  <h1><span>CLEAN</span><span class="hero-highlight">BOLD<span class="headline-dot">.</span></span></h1>
+  <h1 class="demo-headline"><span>CLEAN</span><span class="hero-highlight">BOLD<span class="headline-dot">.</span></span></h1><h1 class="live-preview-title">A smoother way to book your cleaning.</h1>
   <p class="demo-hero-tagline">A cleaner home.<br><em>Brighter days.</em></p>
   <p class="demo-hero-description">Modern cleaning deserves an easier way to book. Explore what your own booking experience could feel like.</p>
   <a href="#bookingStarter" class="demo-hero-cta">Try the booking demo <span aria-hidden="true">↗</span></a>
@@ -439,7 +439,7 @@ const leadKey=new URLSearchParams(location.search).get('lead')||'';
 const leadCfg=leadConfigs[leadKey];
 if(leadCfg){
  document.getElementById('leadName').textContent='PERSONALIZED FOR '+leadCfg.label;
- document.getElementById('leadHero').style.backgroundImage='url("'+leadCfg.hero+'")';
+ if(!isSampleDemo)document.getElementById('leadHero').style.backgroundImage='url("'+leadCfg.hero+'")';
  document.title=leadCfg.label+' — Private Booking Demo';
  const tracker=document.getElementById('trackerLink'); if(tracker)tracker.href='lead-demo-tracker.html?lead='+encodeURIComponent(leadKey)+'&lang='+(demoParams.get('lang')==='es'?'es':'en');
 }
