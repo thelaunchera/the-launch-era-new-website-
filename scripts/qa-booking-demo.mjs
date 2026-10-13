@@ -236,10 +236,10 @@ for(const v of screens) for(const lang of ['en','es']) {
   await p.screenshot({path:'qa-screenshots/sales-product-'+v.name+'-'+lang+'.png'});
  });
 }
-await check('Approved light-blue editorial demo, real form and safe confirmation',{width:390,height:844},async p=>{
+await check('Approved midnight-blue editorial demo, real form and safe confirmation',{width:390,height:844},async p=>{
  await p.goto(base+'/lead-private-preview.html?business=Example%20Cleaning&area=Charlotte%2C%20NC',{waitUntil:'domcontentloaded'});
  const heroPhoto=p.locator('#leadHero .demo-cb-hero-media img');
- assert.match(await heroPhoto.getAttribute('src'),/hero-woman-cleaning\.jpg/,'Hero uses the approved cleaning-work photograph');
+ assert.match(await heroPhoto.getAttribute('src'),/tle-midnight-hero\.avif/,'Hero uses the new cinematic cleaner photograph');
  assert(await heroPhoto.evaluate(img=>img.complete&&img.naturalWidth>700),'Hero photograph must load at full width');
  assert.equal(await p.locator('.demo-feature-bar').isVisible(),false,'No duplicate numbered feature strip');
  assert.equal(await p.locator('#demoCinematicStory').isVisible(),true,'New premium photo card should be visible after booking');
