@@ -242,13 +242,13 @@ async function projectReadiness(lang){
     }
    }
    const record=kickoffs.find(k=>k.subject_type===config.kind&&k.subject_id===a.id);
-   const started=!!record||(config.kind==="booking"?!!a.build_started_at:a.status==="in_setup");
+   const started=!!record||(config.kind==="booking"&&!!a.build_started_at);
    const emailIssue=record?.email_status==="needs_review";
    projects.push({kind:config.kind,id:a.id,name:String(a.business_name||"Project").slice(0,75),status:delivered?"delivered":missing.length?"needs_info":started?"production":"owner_review",missing,email_issue:emailIssue,service:config.kind==="booking"?"Booking Automation":"AI Assistant"});
   }
  }
  const pending=projects.filter(x=>x.status==="needs_info").length,review=projects.filter(x=>x.status==="owner_review").length;
- return {ok:true,action_performed:"client_readiness_review",section:"owner-pages",read_only:true,projects:projects.slice(0,40),coverage,reply:txt("Reviewed "+projects.length+" Booking/AI projects: "+pending+" need details and "+review+" need your approval. I did not change anything.","Revisé "+projects.length+" proyectos Booking/IA: "+pending+" necesitan datos y "+review+" requieren tu revisión. No cambié nada.")};
+ return {ok:true,action_performed:"client_readiness_review",section:"owner-pages",read_only:true,projects:projects.slice(0,40),coverage,reply:txt("Reviewed "+projects.length+" Booking/AI projects: "+pending+" need details and "+review+" need your review. No changes were made."+(coverage.length?" Some records could not be checked.":""),"Revisé "+projects.length+" proyectos Booking/IA: "+pending+" necesitan datos y "+review+" requieren tu revisión. No cambié nada."+(coverage.length?" No pude consultar todos los registros.":""))};
 }
 Deno.serve(async req=>{
  const origin=req.headers.get("origin")||"";
