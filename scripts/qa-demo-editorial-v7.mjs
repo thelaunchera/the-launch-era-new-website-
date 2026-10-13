@@ -57,7 +57,7 @@ for(const lang of ['en','es']){
    assert(m.ctaRadius>=24 && m.circleRadius>=16,'CTA or arrow icon still looks square');
    assert.equal(m.ctaHref,'#categoryTabs','Begin must be a working anchor');
    assert.equal(m.categoryButtons,2,'Residential/Commercial navigation missing');
-   assert(m.editorialTitle.includes(lang==='es'?'Detalles pensados':'Thoughtful details'),'New editorial copy missing');
+   assert(m.editorialTitle.includes(lang==='es'?'Detalles pensados':'Thoughtful details'),'New editorial copy missing: '+JSON.stringify(m.editorialTitle));
    assert(m.mainActive,'Service selection should open by default');
    await page.screenshot({path:'qa-screenshots/demo-v7/'+lang+'-'+width+'-booking-and-story.png',fullPage:true});
    await page.locator('#categoryTabs button[data-category="commercial"]').click();
