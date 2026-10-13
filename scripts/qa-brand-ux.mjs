@@ -35,7 +35,7 @@ for(const item of cases){
     const brandStyles=[...document.styleSheets].some(s=>s.href?.includes('tle-saas-ui-v1.css'));
     const cta=[...document.querySelectorAll('.cta-button svg.lucide-arrow-right,.service-cta svg.lucide-arrow-right')][0];
     const icon=cta?getComputedStyle(cta):null;
-    return {width:screenshotWidth,viewport,bg,linkCount,brandStyles,iconWidth:icon?parseFloat(icon.width):null,sampleMode:html.classList.contains('demo-editorial'),formPresent:!!document.querySelector('#demoBookingPanel')};
+    return {width:screenshotWidth,viewport,bg,linkCount,brandStyles,iconWidth:icon?parseFloat(icon.width):null,sampleMode:html.classList.contains('demo-editorial'),formPresent:!!document.querySelector('.panel #main .category-tabs')};
    },item.type);
    assert(out.width<=out.viewport+3,'horizontal overflow '+JSON.stringify(out));
    if(item.type==='demo'){
