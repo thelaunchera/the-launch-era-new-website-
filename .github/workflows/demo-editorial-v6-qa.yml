@@ -1,0 +1,56 @@
+name: Cleaning Demo Editorial v6 QA
+on:
+  push:
+    branches: [design/cleaning-demo-hero-confirmation-v6-20261013]
+  pull_request:
+    paths:
+      - 'public/lead-private-preview.html'
+      - 'public/assets/tle-demo-editorial-v6.css'
+      - 'scripts/qa-demo-editorial-v6.mjs'
+      - '.github/workflows/demo-editorial-v6-qa.yml'
+permissions:
+  contents: read
+concurrency:
+  group: cleaning-demo-editorial-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  sample-layout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Check public routes, sample isolation and customer delivery contracts
+        run: |
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-public-demo-integrity.mjs
+          node scripts/qa-client-release.mjs
+          node scripts/qa-jessy-coverage.mjs
+      - name: Install and build
+        run: |
+          bun install
+          bun run build
+      - name: Install isolated visual test Chromium
+        run: |
+          mkdir -p /tmp/tle-demo-v6-qa
+          cd /tmp/tle-demo-v6-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+      - name: Visually verify active public demo EN/ES in four device widths
+        run: |
+          bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/tle-demo-v6-preview.log 2>&1 &
+          for attempt in $(seq 1 40); do
+            if curl -sf http://127.0.0.1:4173/lead-private-preview.html >/dev/null; then break; fi
+            sleep 2
+          done
+          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-demo-v6-qa/node_modules/playwright/index.mjs node scripts/qa-demo-editorial-v6.mjs
+      - name: Save screenshot contact sheet sources
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-v6-responsive-screenshots
+          path: qa-screenshots/demo-v6/
+          if-no-files-found: ignore
