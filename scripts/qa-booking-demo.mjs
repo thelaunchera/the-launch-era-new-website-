@@ -685,7 +685,7 @@ for(const lang of ['en','es'])for(const viewport of [{name:'phone',width:390,hei
       descriptionReadable:!description||parseFloat(getComputedStyle(description).fontSize)>=14.5,
       compactCountdown:!countdownRect||(countdownRect.height<=72&&(!countdownLabel||!countdownUnits||Math.abs(countdownLabel.top-countdownUnits.top)<=20)),
       noHoursInHero:!/(Mon.Fri|lun.vie|8:30|12:00|48.hours|48.horas)/i.test(intro?.textContent||''),
-      footerHasContact:!!footer&&!!footer.querySelector('a.footer-contact-link[href]')&&/message anytime|Escríbenos cuando quieras/i.test(footer.textContent||'')&&!/8:30|12:00/.test(footer.textContent||''),
+      footerHasContact:!!footer&&!!document.querySelector('.site-footer .footer-links a[href="/help"], .site-footer .footer-links a[href="/es#contacto"]')&&/message anytime|Escríbenos cuando quieras/i.test(footer.textContent||'')&&!/8:30|12:00/.test(footer.textContent||''),
       boundsOK:!!h&&!!a&&a.left>=-2&&a.right<=innerWidth+2&&cards.every(b=>b.left>=-2&&b.right<=innerWidth+2&&b.top>=h.top&&b.bottom<=h.bottom)&&(!cards[1]||cards[1].top>=cards[0].bottom+5),
       introSeparatedFromCards:cards.length===0||!!a&&a.bottom+12<=cards[0].top,
       horizontalOverflow:document.documentElement.scrollWidth>innerWidth+3};
