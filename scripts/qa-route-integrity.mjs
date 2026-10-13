@@ -37,6 +37,25 @@ function staticChecks(){
  for(const f of ['public/command-center/index.html','public/command-center/access.html','public/auth-recovery.html','public/booking-demo/index.html','public/lead-private-preview.html','public/client-review/index.html','public/cb-depot/privacy/index.html','public/cb-depot/terms/index.html','public/404.html','skills/the-launch-era-qa/SKILL.md','skills/the-launch-era-qa/ROUTE_MAP.md','skills/the-launch-era-qa/INCIDENT_LOG.md'])if(!existsSync(join(root,f)))errors.push('Missing required file: '+f);
  if(!readFileSync(join(pub,'command-center/access.html'),'utf8').includes('/auth-recovery.html'))errors.push('Reset must go to /auth-recovery.html');
  if(!readFileSync(join(pub,'auth-recovery.html'),'utf8').includes('/command-center/'))errors.push('Reset must return to the Command Center');
+ // Public contact and onboarding must never advertise TLE office hours as customer support hours.
+ const publicIntakes=[
+  ['public/booking-flow-intake/index.html','You can submit this form anytime.'],
+  ['public/es/booking-flow-intake/index.html','Puedes enviar este formulario cuando quieras.'],
+  ['public/intake/automation/index.html','You can submit this form anytime.'],
+  ['public/es/intake/automation/index.html','Puedes enviar este formulario cuando quieras.'],
+  ['public/intake/va/index.html','You can submit this form anytime.'],
+  ['public/es/intake/va/index.html','Puedes enviar este formulario cuando quieras.'],
+  ['public/ai-booking-assistant/onboarding/index.html','You can complete this form anytime.']
+ ];
+ for(const [file,expected] of publicIntakes){
+  const content=readFileSync(join(root,file),'utf8');
+  if(!content.includes(expected)) errors.push('Public intake missing anytime submission guidance: '+file);
+  if(/Production hours:\\s*<\\/strong>|Horario de producción:\\s*<\\/strong>|After-hours submissions start|After-hours setups begin|Fuera del horario laboral, comenzamos|Fuera de horario, comenzamos/i.test(content))errors.push('Public intake still displays TLE office hours: '+file);
+ }
+ const sharedFooter=readFileSync(join(root,'src/components/site-shell.tsx'),'utf8');
+ if(!sharedFooter.includes('footer-contact-link')||sharedFooter.includes('footer-hours'))errors.push('Website footer contact guidance or direct CTA regressed');
+ const publicFaq=readFileSync(join(root,'src/components/service-faq.tsx'),'utf8');
+ if(/Mon–Fri 8:30 AM|Horario: lunes a viernes de 8:30 AM/.test(publicFaq))errors.push('General FAQ repeats the full TLE office timetable');
  console.log('[TLE STATIC] '+pages.length+' HTML pages; '+valid+'/'+checked+' local links resolved');
 }
 const critical=[
