@@ -42,3 +42,10 @@ Test English and Spanish at 320, 390, 768, 1024, 1280, and 1440 px. Check no hor
 
 ### Implementation
 The central visual override is `public/assets/tle-editorial-refresh.css`; `src/routes/__root.tsx` loads it **after** `/assets/tle-sales.css` and `/assets/tle-mobile.css`. Preserve this order. New public pages must reuse the same palette and font pair.
+## SaaS product design rule — 2026-10-13
+- Use recognizable product surfaces or clearly labeled fictional demo data, never decorative dashboards that imply real customers.
+- One primary action per decision point; hero and closing CTA can serve the same goal, but never repeat Get in Touch twice in the footer or put extra contact links immediately after the inquiry form.
+- UI affordance: a compact diagonal arrow inside a rounded-square icon container, not dozens of oversized free-standing arrows in flow diagrams. Preserve accessible text labels.
+- Depth comes from careful spacing, responsive cards, readable typography and clear states; avoid ornamental soap bubbles and heavy AI-like collages.
+- Public marketing SaaS layer: public/assets/tle-saas-ui-v1.css. Public prospect sample theme only: public/assets/tle-demo-blue-v5.css. Never touch client-specific booking forms or Command Centers through those selectors.
+- Respect prefers-reduced-motion and real keyboard focus rings. Verify 360/390/820/1440 widths.

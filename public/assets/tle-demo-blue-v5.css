@@ -1,0 +1,58 @@
+/* TLE v5 / Soft Blue Product Demo — strictly sample mode.
+   Never change buyer key links, owner previews, booking handlers or tenant data.
+   Loaded after demo refine v4 so public prospects see one coherent brand. */
+html.demo-editorial{--tle-page:#191919;--tle-ink:#191919;--tle-muted:#52616B;--tle-stone:#FAF8F3;--tle-card:#FAF8F3;--tle-line:#D9E3E8;--tle-sky:#D7EFFF;--tle-blush:#D7EFFF;--tle-action:#D7EFFF;color-scheme:light}
+html.demo-editorial body,html.demo-editorial .wrap{background:#191919}
+html.demo-editorial .top{background:#191919;color:#FAF8F3}
+html.demo-editorial .top .demo-top-label span{color:#D7EFFF}
+html.demo-editorial .demo-editorial-nav{background:#191919;border-radius:20px 20px 0 0}
+html.demo-editorial .demo-logo .demo-brand-pink{color:#D7EFFF}
+html.demo-editorial .demo-navlinks a:hover{color:#D7EFFF}
+html.demo-editorial .demo-pill-action,html.demo-editorial .demo-nav-jump{background:#D7EFFF!important;color:#191919!important;border:1px solid #B5D9EE!important;box-shadow:none!important}
+html.demo-editorial .demo-pill-action span{background:#191919;color:#D7EFFF}
+html.demo-editorial .demo-pill-action:hover,html.demo-editorial .demo-nav-jump:hover{background:#BDE2F7!important}
+html.demo-editorial .hero{background-color:#191919}
+html.demo-editorial .hero:after{background:linear-gradient(0deg,rgba(25,25,25,.7),transparent 42%)!important}
+html.demo-editorial .heroText h1.demo-headline{font-family:Prompt,"Arial Narrow",Arial,sans-serif;font-weight:700;letter-spacing:-.06em;line-height:.9;text-shadow:0 5px 22px #0006}
+html.demo-editorial .heroText h1.demo-headline .hero-highlight{color:#D7EFFF}
+html.demo-editorial .demo-hero-tagline em{color:#D7EFFF}
+html.demo-editorial .demo-hero-cta{background:#D7EFFF!important;color:#191919!important;border:1px solid #B1D8EF!important;min-height:54px;border-radius:15px!important;padding:11px 17px 11px 21px;box-shadow:0 10px 24px #0002!important;transition:background .2s ease,transform .2s ease!important}
+html.demo-editorial .demo-hero-cta:hover{background:#B9DFF4!important;transform:translateY(-2px)}
+html.demo-editorial .demo-hero-cta .demo-inline-arrow{display:grid;place-items:center;width:30px;height:30px;background:#191919!important;color:#D7EFFF!important;border-radius:9px;transform:none!important}
+html.demo-editorial .demo-hero-cta .demo-inline-arrow::before{content:"";display:block;width:9px;height:9px;border-right:2px solid #D7EFFF;border-top:2px solid #D7EFFF;transform:rotate(45deg) translate(-1px,1px)}
+html.demo-editorial .demo-feature-icon{border-color:#B7D8EE;color:#D7EFFF}
+html.demo-editorial .demo-feature-bar strong{color:#D7EFFF}
+html.demo-editorial .demo-service-showcase{background:linear-gradient(125deg,#FAF8F3,#EAF4FC);border:1px solid #D9E3E8;box-shadow:0 18px 40px #0002}
+html.demo-editorial .demo-showcase-card{background:#fff;border-color:#D9E3E8;box-shadow:0 6px 16px #23445B11}
+html.demo-editorial .demo-showcase-card:focus-visible{outline:3px solid #80B9DF;outline-offset:3px}
+html.demo-editorial .demo-pink-kicker,html.demo-editorial .demo-booking-kicker{color:#93C9E9;letter-spacing:.12em;font-size:12px}
+html.demo-editorial .demo-showcase-intro .demo-pink-kicker{color:#42789B}
+html.demo-editorial .demo-showcase-intro h2 em{color:#3D82AB}
+html.demo-editorial .demo-cinematic-story,html.demo-editorial .demo-cinematic-copy{background:#191919}
+html.demo-editorial .demo-cinematic-copy h2 em{color:#D7EFFF}
+html.demo-editorial .demo-booking-eyebrow h2 em{color:#D7EFFF}
+html.demo-editorial .demo-booking-eyebrow h2{font-family:Prompt,Arial,sans-serif;font-weight:600}
+html.demo-editorial .demo-booking-eyebrow p{font-size:clamp(15px,1.3vw,17px)}
+html.demo-editorial .panel{background:#FAF8F3;color:#191919;border:1px solid #D9E3E8;box-shadow:0 15px 40px #0003}
+html.demo-editorial .panel .head{border-color:#D9E3E8}
+html.demo-editorial .panel .head h2{color:#191919;font-family:Prompt,Arial,sans-serif;font-weight:600}
+html.demo-editorial .panel .count{background:#D7EFFF;border-color:#B9DCEC;color:#2F5E7B}
+html.demo-editorial .panel .category-tabs .choice,html.demo-editorial .panel .choice,html.demo-editorial .panel .service{background:#fff;border:1px solid #D9E3E8}
+html.demo-editorial .panel .choice:hover,html.demo-editorial .panel .service:hover{background:#F1F8FD;border-color:#8ABDDC}
+html.demo-editorial .panel .choice.sel,html.demo-editorial .panel .category-tabs button.sel,html.demo-editorial .panel .request-type-pills button.sel{background:#D7EFFF!important;color:#191919!important;border:1px solid #6DA9CD!important;box-shadow:inset 0 0 0 1px #6DA9CD!important}
+html.demo-editorial .panel .choice input[type=checkbox]{accent-color:#4C8BAF}
+html.demo-editorial .panel input.field:focus,html.demo-editorial .panel textarea.field:focus,html.demo-editorial .panel select.field:focus{outline-color:#71ACD0;border-color:#71ACD0}
+html.demo-editorial .panel .next{background:#191919;color:#fff;border-color:#191919;border-radius:13px;transition:background .2s}
+html.demo-editorial .panel .next:hover{background:#343434}
+html.demo-editorial .panel .check{background:#D7EFFF;color:#191919}
+html.demo-editorial body button.tle-ai-launch{background:#D7EFFF!important;color:#191919!important;border-color:#A7CEE5!important}
+@media(max-width:767px){
+ html.demo-editorial .heroText h1.demo-headline{letter-spacing:-.065em;line-height:.93}
+ html.demo-editorial .demo-hero-cta{min-height:52px}
+ html.demo-editorial .panel .category-tabs .choice{font-size:14px}
+ html.demo-editorial .panel .choice{font-size:14px}
+ html.demo-editorial .panel .service .price{font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){
+ html.demo-editorial .demo-hero-cta,html.demo-editorial .demo-showcase-card{transition:none!important;transform:none!important}
+}
