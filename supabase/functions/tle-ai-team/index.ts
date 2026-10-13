@@ -1,3 +1,4 @@
+// Jessie Groq deployment synchronization; no application behavior changed.
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 const BASE=Deno.env.get("SUPABASE_URL")||"", SR=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")||"", ANON=Deno.env.get("SUPABASE_ANON_KEY")||"";
 // Resolve the provider secret per authenticated request, not once when a long-lived isolate starts.
