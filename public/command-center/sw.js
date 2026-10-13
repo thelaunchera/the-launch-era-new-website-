@@ -5,7 +5,7 @@ self.addEventListener("push",event=>{
  try{const provided=new URL(String(data.url||""),self.location.origin);if(provided.origin===self.location.origin&&provided.pathname.startsWith("/command-center/"))destination.href=provided.href}catch{}
  const title=String(data.title||"The Launch Era").slice(0,90);
  const body=String(data.body||"New Command Center update").slice(0,200);
- event.waitUntil(self.registration.showNotification(title,{body,tag:String(data.tag||"tle-jessy").slice(0,120),icon:"/command-center/app-icons/tle-192.png",badge:"/command-center/app-icons/tle-192.png",data:{url:destination.href}}));
+ event.waitUntil(self.registration.showNotification(title,{body,tag:String(data.tag||"tle-jessy").slice(0,120),icon:"/assets/brand/tle-mark.svg",badge:"/assets/brand/tle-mark.svg",data:{url:destination.href}}));
 });
 self.addEventListener("notificationclick",event=>{
  event.notification.close();
