@@ -68,7 +68,7 @@ export async function mountOwnerJessy({db,workspaceId,page}={}){
   }
  });
  const script=document.createElement("script");
- script.src="./assets/jessy-owner.js?v=20261012-allpages-v1";
+ script.src="./assets/jessy-owner.js?v=20261013-run-capabilities-v2";
  script.defer=true;script.dataset.ownerJessyStandalone=page;
  document.body.appendChild(script);
  return true;
