@@ -1157,13 +1157,12 @@ img { display:block; width:100%; object-fit:cover; }
   .service-sales .service-sales-close { overflow-wrap:anywhere; }
 }
 
-/* Agency office hours: a quiet, easy-to-find detail across the site. */
-.footer-hours{margin-top:18px;padding:13px 16px;max-width:100%;width:max-content;background:rgba(255,255,255,.68);border:1px solid #d9e7ef;border-radius:15px;text-align:left}
-.footer-hours-label{display:block;color:#486879;font-size:9px;font-weight:700;letter-spacing:.075em}
-.footer-top .footer-hours p{margin:7px 0 0;color:#243540;font-size:12px;line-height:1.45;letter-spacing:0}
-.footer-hours-zone{color:#647c89;font-size:10px;margin-left:3px;white-space:nowrap}
+/* Compact digital-first contact note, without displaying office hours. */
+.footer-contact{margin-top:16px;max-width:380px;padding:12px 15px;border:1px solid #d9e7ef;border-radius:14px;background:rgba(220,239,251,.45);text-align:left}
+.footer-contact-label{display:block;color:#486879;font-size:10px;font-weight:700;letter-spacing:.055em}
+.footer-top .footer-contact p{margin:6px 0 0;color:#354d5b;font-size:13px;line-height:1.55;letter-spacing:0}
 .hero-intro .hero-availability-note{max-width:610px;margin:8px auto 0;font-size:11px;line-height:1.45;color:#587587}
-@media(max-width:767px){.footer-hours{margin:15px auto 0}.footer-top .footer-hours p{font-size:12px}.hero-intro .hero-availability-note{font-size:10px;max-width:365px}}
+@media(max-width:767px){.footer-contact{margin:15px auto 0;text-align:center}.footer-top .footer-contact p{font-size:12px}.hero-intro .hero-availability-note{font-size:10px;max-width:365px}}
 
 
 /* Unified editorial hero — photo sits BEHIND the headline, not in a separate section.
