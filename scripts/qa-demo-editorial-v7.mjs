@@ -42,6 +42,11 @@ for(const lang of ['en','es']){
      ctaHref:cta.getAttribute('href'),
      ctaInsideHeader:$('.panel .head').contains(cta),
      ctaWithinHeader:cta.getBoundingClientRect().top>=$('.panel .head').getBoundingClientRect().top-2&&cta.getBoundingClientRect().bottom<=$('.panel .head').getBoundingClientRect().bottom+2,
+     heroPhotoLoaded:$('.demo-cb-hero-media img')?.complete&&$('.demo-cb-hero-media img')?.naturalWidth>700,
+     heroPhotoSource:$('.demo-cb-hero-media img')?.getAttribute('src'),
+     heroTextColor:getComputedStyle($('.heroText .demo-headline')).color,
+     heroPrimaryVisible:(()=>{const r=$('.hero .demo-hero-cta').getBoundingClientRect();const h=$('#leadHero').getBoundingClientRect();return r.left>=h.left-1&&r.right<=h.right+2&&r.bottom<=h.bottom+2})(),
+     heroAreaVisible:(()=>{const r=$('#demoHeroArea').getBoundingClientRect();const h=$('#leadHero').getBoundingClientRect();return r.left>=h.left-1&&r.right<=h.right+2&&r.bottom<=h.bottom+2})(),
      categoryButtons:$('#categoryTabs').querySelectorAll('button').length,
      columns:grid.split(' ').length,
      editorialTitle:$('.demo-cinematic-copy h2').textContent,
@@ -58,6 +63,9 @@ for(const lang of ['en','es']){
    assert(m.headerFont.includes('Prompt'),'Headings not using Prompt typography');
    assert(m.ctaRadius>=24 && m.circleRadius>=16,'CTA or arrow icon still looks square');
    assert(m.ctaInsideHeader&&m.ctaWithinHeader,'Begin pill must sit inside header, not as a full-width bar: '+JSON.stringify(m));
+   assert(m.heroPhotoLoaded&&m.heroPhotoSource?.includes('cleaner-action.png'),'CB-style woman cleaning photo did not load');
+   assert(m.heroPrimaryVisible&&m.heroAreaVisible,'Hero CTA or personalized service area clipped: '+JSON.stringify(m));
+   assert(m.heroTextColor==='rgb(25, 25, 25)','Hero editorial text color lost contrast');
    assert.equal(m.ctaHref,'#categoryTabs','Begin must be a working anchor');
    assert.equal(m.categoryButtons,2,'Residential/Commercial navigation missing');
    assert(m.editorialTitle.includes(lang==='es'?'Detalles pensados':'Thoughtful details'),'New editorial copy missing: '+JSON.stringify(m.editorialTitle));
