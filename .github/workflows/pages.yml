@@ -45,6 +45,9 @@ jobs:
       - name: Guard iOS Command Center layout, floating controls and phone preview
         run: node scripts/qa-mobile-command-center.mjs
 
+      - name: Guard exit from owner and client demo previews on iPhone
+        run: node scripts/qa-owner-preview-exit.mjs
+
       - name: Guard all future client password recovery links
         run: node scripts/qa-auth-recovery.mjs
 
