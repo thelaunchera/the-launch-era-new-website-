@@ -17,6 +17,8 @@ Deno.serve(async(req:Request)=>{
  const db=createClient(base,secret,{auth:{persistSession:false,autoRefreshToken:false}});
  const {data:{user},error:authError}=await db.auth.getUser(bearer);
  if(authError||!user?.email_confirmed_at)return respond(req,401,{error:"Verified owner sign-in required"});
+ const {data:platformAdmin,error:platformError}=await db.from("platform_admins").select("user_id").eq("user_id",user.id).limit(1).maybeSingle();
+ if(platformError||!platformAdmin)return respond(req,403,{error:"Only the verified platform owner can approve production"});
  const {data:ownerWorkspace,error:workspaceError}=await db.from("tle_crm_workspaces").select("id").eq("created_by",user.id).eq("is_internal",true).limit(1).maybeSingle();
  if(workspaceError||!ownerWorkspace)return respond(req,403,{error:"Only the verified The Launch Era owner can start production"});
  const body=await req.json().catch(()=>null);
