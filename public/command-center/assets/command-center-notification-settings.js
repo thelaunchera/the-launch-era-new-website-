@@ -36,7 +36,7 @@ async function pushReg(){let reg=await navigator.serviceWorker.getRegistration("
 function publicKeyBytes(key){const raw=atob((key+"=".repeat((4-key.length%4)%4)).replace(/-/g,"+").replace(/_/g,"/"));return Uint8Array.from(raw,c=>c.charCodeAt(0))}
 async function save(){if(busy||!ready())return;const form=selections();if(!form.kinds.length){note(t("Choose at least one event.","Selecciona al menos un tipo de aviso."));return}
  busy=true;note(t("Saving preferences…","Guardando preferencias…"));
- try{await gateway().call("save",form);note(t("Saved. Only your selected channels and events will trigger alerts. Phone alerts require enabling each device.","Guardado. Solo recibirás los avisos y canales elegidos. Para el teléfono necesitas activar cada dispositivo."))}
+ try{await gateway().call("save",form);note(t("Saved. Only your selected optional alerts are enabled. Existing operational emails are separate; phone alerts require enabling each device.","Guardado. Activaste solo los avisos adicionales elegidos. Los correos operativos son independientes; activa cada dispositivo para los avisos del teléfono."))}
  catch(e){note(t("Could not save your preferences. Please try again.","No se pudieron guardar las preferencias. Inténtalo otra vez."));console.warn("Alert preferences",e.message)}
  finally{busy=false}
 }
@@ -80,6 +80,7 @@ function createCard(){
  const container=add("section",{id:ID,className:"tle-alerts-card"});container.setAttribute("aria-label","Notification preferences");
  container.append(add("h3",{},t("Choose your notifications","Elige tus notificaciones")));
  container.append(add("p",{className:"tle-alerts-muted"},t("Private alerts for your own business. They never go to your customers.","Avisos privados de tu negocio. Nunca se envían a tus clientes.")));
+ container.append(add("p",{className:"tle-alerts-muted"},t("These settings control extra alerts. Existing booking confirmations and AI customer replies are managed separately.","Estas opciones controlan avisos adicionales. Las confirmaciones de reservas y respuestas del AI a clientes se configuran por separado.")));
  const channels=add("div",{className:"tle-alerts-channels"});
  for(const [id,en,es] of [["email","Email","Correo"],["phone","Phone notifications","Notificaciones en el teléfono"]]){
   const label=add("label",{className:"tle-alerts-switch"}),input=add("input",{id:"tle-ns-"+id,type:"checkbox"}),name=add("span",{},t(en,es));label.append(input,name);channels.append(label);
