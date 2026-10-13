@@ -8,9 +8,29 @@
 #bottom{margin-top:auto;border-top:1px solid var(--line);padding-top:9px}.back{color:#356a8d;text-decoration:none;font-weight:700;font-size:12px;display:inline-block;margin:10px 8px}
 #main{min-width:0;width:100%;padding:24px clamp(16px,3.2vw,46px) 80px;max-width:1250px;margin:0 auto}.utility{display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:space-between;background:#e2f1fa;border:1px solid #c1dfef;border-radius:15px;padding:12px 17px;margin-bottom:23px}.utility strong{font-size:13px}.utility p{font-size:12px;color:#466c84;margin:3px 0}.eyebrow{font-size:12px;letter-spacing:.18em;color:#6b9ab7;font-weight:800}h1{font-size:clamp(26px,4vw,35px);letter-spacing:-.04em;margin:8px 0 3px}h2{font-size:21px;letter-spacing:-.03em}h3{font-size:16px;margin:0 0 11px}.sub{color:var(--sub);line-height:1.5;font-size:14px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{background:#fff;border:1px solid var(--line);border-radius:21px;padding:22px;box-shadow:0 8px 23px #1d4d6a0a;margin-bottom:15px}.metric{background:#fff;border:1px solid var(--line);border-radius:19px;padding:22px}.metric strong{display:block;font-size:30px;letter-spacing:-.04em}.metric small{font-size:12px;color:#718ca0}.tag{display:inline-block;border-radius:99px;background:#e8f3fb;padding:6px 10px;font-weight:700;color:#4d83a2;font-size:11px}.tag.green{color:#287657;background:#e8f5ed}.tag.orange{color:#9a6a34;background:#fff4e6}.row{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.btn{border:0;background:#4384af;color:white;padding:12px 17px;border-radius:12px;font-weight:750;font-size:13px}.btn.ghost{background:#ecf5fa;color:#377194}.btn.red{background:#fbecec;color:#974747}.btn:focus-visible,#nav button:focus-visible{outline:3px solid #a0c8e2}.list{display:grid;gap:8px}.list button{width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:14px;padding:13px 15px;cursor:pointer}.list button.selected{background:#f1f9fe;border-color:#75b7dc}.list b{display:block;font-size:14px}.list small{color:var(--sub);display:block;margin-top:6px}.split{display:grid;grid-template-columns:.92fr 1.08fr;gap:16px;align-items:start}.detail{background:#f6fafd;border-radius:13px;padding:11px;margin:8px 0}.detail small{display:block;color:#6b899b;font-size:11px;margin-bottom:5px}.detail strong{font-size:13px}label{display:block;font-size:12px;font-weight:700;color:#57778d;margin-bottom:14px}input,select,textarea{width:100%;padding:12px;border:1px solid #cadfea;border-radius:12px;display:block;margin-top:7px;color:#263d50;background:#fff}textarea{resize:vertical;line-height:1.55}.muted{font-size:12px;color:#738b9b}.banner{background:#f1f8fd;border:1px solid #d7eaf4;padding:15px;border-radius:14px;font-size:13px;color:#466981}.warning{background:#fff7e8;border:1px solid #f4dfb5;padding:14px;border-radius:14px;color:#855c2d;font-size:13px}.footer-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}#mobileToggle{display:none}#toast{margin-top:12px;font-size:13px;color:#35789a;font-weight:700;min-height:20px}
 @media(max-width:900px){#side{width:205px}.grid{grid-template-columns:repeat(2,1fr)}.split{grid-template-columns:1fr}}@media(max-width:670px){#app{display:block}#mobileToggle{display:block;position:fixed;z-index:5;right:16px;bottom:16px;border:0;background:#4384af;color:#fff;padding:12px 16px;border-radius:99px;box-shadow:0 7px 25px #0002}#side{position:fixed;z-index:4;transform:translateX(-102%);transition:transform .22s;width:min(85vw,295px);box-shadow:0 7px 32px #0002}#side.show{transform:translateX(0)}#main{padding:16px 16px 90px}.two,.grid{grid-template-columns:1fr}.card,.metric{padding:18px}.utility{margin-bottom:16px}}
+/* Mobile preview must always have an obvious, safe exit back to signed-in owner workspace. */
+html{width:100%;max-width:100%;overflow-x:clip;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body,#app,#main{max-width:100%;min-width:0}
+#screen,.card,.metric,.detail,.banner,.utility,.grid,.split,.two{min-width:0;max-width:100%}
+#screen :is(p,small,strong,span,button),.card,.detail{overflow-wrap:anywhere}
+#previewExitBar{display:none}
+#previewExitBar a{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:45px;border-radius:999px;background:#254c68;color:#fff;padding:10px 15px;text-decoration:none;font-size:13px;font-weight:800}
+#previewExitBar a:focus-visible{outline:3px solid #76b9df;outline-offset:2px}
+#side #bottom .back{display:block;min-height:44px;padding:12px 8px}
+@media(max-width:670px){
+ #previewExitBar{display:flex;align-items:center;justify-content:space-between;gap:9px;position:sticky;top:0;z-index:10;padding:calc(9px + env(safe-area-inset-top,0px)) 15px 9px;background:#eef7fd;border-bottom:1px solid #c4ddea;box-shadow:0 4px 14px #14283e14}
+ #previewExitBar strong{font-size:12px;color:#315e79;text-align:right}
+ #main{width:100%;max-width:100%;padding:15px 15px 96px}
+ #main :is(h1,h2,h3){overflow-wrap:anywhere}
+ #mobileToggle{bottom:calc(15px + env(safe-area-inset-bottom,0px));z-index:8}
+ .utility{flex-wrap:wrap;gap:12px;padding:15px}
+ .utility>div{min-width:0;width:100%}
+ .grid,.two,.split{grid-template-columns:minmax(0,1fr)}
+ .detail.row{align-items:flex-start}
+}
 </style></head><body>
 <div id="gate"><h2>Verifying owner access…</h2><p class="sub" id="gateMessage">This demonstration is available only from The Launch Era's private owner account.</p><a href="./index.html">← Back to Command Center</a></div>
-<div id="app" class="hidden"><aside id="side">
+<div id="app" class="hidden"><div id="previewExitBar"><a href="/command-center/?from=buyer-demo-exit" id="previewExitMobile">← Exit demo</a><strong>DEMO ONLY · SAMPLE DATA</strong></div><aside id="side">
 <div class="brand"><b>✳</b><span>THE LAUNCH ERA<small id="workspacename">CLEANING BUSINESS</small></span></div>
 <div class="nav-caption" data-i18n="yourWorkspace">YOUR BUSINESS</div><nav id="nav"></nav>
 <div id="bottom"><div class="nav-caption" data-i18n="account">ACCOUNT</div><a class="back" href="./index.html" data-i18n="return">← Return to Owner Command Center</a></div>
@@ -21,6 +41,13 @@
 import {createClient} from "https://esm.sh/@supabase/supabase-js@2.57.0";
 const db=createClient("https://bowacxhmjvrqixtwaikv.supabase.co","sb_publishable_0TueitFYiRF3rAEMLMT8-w_FvbvY0rB",{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:"tle-crm-auth"}});
 const $=id=>document.getElementById(id);
+function exitDemo(event){
+ if(window.parent!==window){
+  try{if(new URL(document.referrer).origin===location.origin){event.preventDefault();window.parent.postMessage({type:"tle-owner-preview-exit"} ,location.origin);return}}catch(_){}
+ }
+ // Standalone link navigates to existing owner login/workspace and preserves auth.
+}
+$("previewExitMobile").addEventListener("click",exitDemo);
 const allowedWorkspace="c0b24907-3a17-4273-b00c-70efbba314c4";
 let lang="en",tab="overview",selected=0,followups=true,inboxFilter="all";
 const samples=[
@@ -87,7 +114,7 @@ function render(){
  for(const id of ["goRequests","demoReply","demoConfirm","toggle","save"]){const b=$(id);if(!b)continue;b.onclick=()=>{if(id==="goRequests"){tab="requests";render()}else if(id==="toggle"){followups=!followups;render();$("toast").textContent=t("saveNote")}else{$("toast").textContent=t("saveNote")}}}
 }
 $("mobileToggle").onclick=()=>$("side").classList.toggle("show");
-$("locale").onchange=v=>{lang=v.target.value;document.documentElement.lang=lang;render()};
+$("locale").onchange=v=>{lang=v.target.value;document.documentElement.lang=lang;$("previewExitMobile").textContent=lang==="es"?"← Salir de la demo":"← Exit demo";render()};
 async function boot(){
  try{
   const {data:{user},error}=await db.auth.getUser();
@@ -97,6 +124,7 @@ async function boot(){
   const preferred=localStorage.getItem("tle_crm_language");
   lang=preferred==="es"?"es":"en";$("locale").value=lang;document.documentElement.lang=lang;
   $("gate").classList.add("hidden");$("app").classList.remove("hidden");render();
+ $("previewExitMobile").textContent=lang==="es"?"← Salir de la demo":"← Exit demo";
  void import("./assets/jessy-owner-standalone.mjs?v=20261012-universal-v1").then(m=>m.mountOwnerJessy({db,workspaceId:allowedWorkspace,page:"buyer-preview"})).catch(e=>console.warn("Jessy owner helper unavailable",e.message));
  }catch(e){$("gateMessage").textContent=String(e.message||e);}
 }
