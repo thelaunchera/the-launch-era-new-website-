@@ -629,3 +629,16 @@ body.owner-embedded-preview-expanded{overflow:hidden}
   #ownerTwoPreviews .owner-preview-controls{grid-template-columns:1fr}
   #ownerTwoPreviews .owner-preview-controls #ownerShowCommandPreview{grid-column:span 1}
 }
+
+
+/* Prevent iOS WebKit from auto-zooming the full dashboard when a small input/select is focused. */
+@media (max-width:760px) and (pointer:coarse){
+  #app:not(.hidden) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),select,textarea),
+  #crmLanguagePicker select,
+  #auth input,
+  #buyerPasswordSetup input{
+    font-size:max(16px,1rem)!important;
+    max-width:100%;
+  }
+  #app:not(.hidden) :is(input,select,textarea){min-width:0}
+}
