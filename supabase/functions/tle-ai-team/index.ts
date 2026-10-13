@@ -243,14 +243,18 @@ Deno.serve(async req=>{
  let b;
  try{b=await req.json();if(!b||typeof b!=="object"||Array.isArray(b))throw Error("Invalid body")}catch{return res({ok:false,error:"Invalid request"},400,origin)}
  const action=clean(b.action,36);
- const OPENAI=readOpenAI();
+ const GROQ=String(Deno.env.get("GROQ_API_KEY")||"").trim();
+ const OPENAI=GROQ||readOpenAI();
+ const provider=GROQ?"groq":"openai";
+ const providerUrl=GROQ?"https://api.groq.com/openai/v1/chat/completions":"https://api.openai.com/v1/chat/completions";
+ const providerModel=GROQ?(Deno.env.get("GROQ_MODEL")||"llama-3.3-70b-versatile"):(Deno.env.get("JESSY_MODEL")||"gpt-4.1-mini");
  try{
  if(action==="list"){
    const tasks=await rest("tle_ai_team_tasks","workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner+"&select=id,agent_key,title,description,status,priority,task_origin,approval_required,approved_at,completed_at,evidence,created_at,updated_at&order=created_at.desc&limit=120");
    const events=await rest("tle_ai_team_events","workspace_id=eq."+ctx.workspace+"&select=task_id,action,summary,created_at&order=created_at.desc&limit=35");
    const runs=await rest("tle_ai_team_runs","workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner+"&select=id,agent_key,capability,status,run_origin,report,task_id,started_at,finished_at,duration_ms&order=started_at.desc&limit=25");
    const outputs=await rest("tle_ai_team_outputs","workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner+"&select=id,task_id,agent_key,kind,title,content,status,generation_mode,reviewed_at,created_at&order=created_at.desc&limit=40");
-   return res({ok:true,tasks,events,runs,outputs,capabilities:{ai_key_detected:!!OPENAI,template_fallback:true}},200,origin);
+   return res({ok:true,tasks,events,runs,outputs,capabilities:{ai_key_detected:!!OPENAI,provider,template_fallback:true}},200,origin);
  }
  if(action==="create"){
    const title=clean(b.title,160),description=clean(b.description,3000),agent=clean(b.agent_key,24),priority=clean(b.priority,16)||"normal";
@@ -293,10 +297,10 @@ Deno.serve(async req=>{
      console.info("AI provider diagnostic: OPENAI_API_KEY absent in current Edge Function runtime",Deno.env.get("DENO_DEPLOYMENT_ID")||"unknown");
      return res({ok:true,configured:false,verified:false,reason:"missing_secret",model:null},200,origin);
    }
-   const model=Deno.env.get("JESSY_MODEL")||"gpt-4.1-mini";
-   if(!/^sk-[A-Za-z0-9_-]+$/.test(OPENAI))return res({ok:true,configured:true,verified:false,reason:"secret_format_issue",model},200,origin);
+   const model=providerModel;
+   if(!(GROQ?/^gsk_[A-Za-z0-9_-]+$/.test(GROQ):/^sk-[A-Za-z0-9_-]+$/.test(OPENAI)))return res({ok:true,configured:true,verified:false,reason:"secret_format_issue",model},200,origin);
    try{
-     const response=await fetch("https://api.openai.com/v1/chat/completions",{
+     const response=await fetch(providerUrl,{
        method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+OPENAI},
        body:JSON.stringify({model,temperature:0,max_tokens:10,messages:[{role:"user",content:"Reply with OK only."}]}),
        signal:AbortSignal.timeout(12000)
@@ -307,7 +311,7 @@ Deno.serve(async req=>{
      }
      const json=await response.json();
      const ok=!!json?.choices?.[0]?.message?.content?.trim();
-     return res({ok:true,configured:true,verified:ok,reason:ok?"connected":"empty_response",model},200,origin);
+     return res({ok:true,configured:true,verified:ok,reason:ok?"connected":"empty_response",provider,model},200,origin);
    }catch(e){
      const message=String(e?.message||"").toLowerCase();
      const error_kind=/header|invalid character|invalid value/.test(message)?"invalid_header":/dns|resolve|lookup/.test(message)?"dns":/certificate|tls|ssl/.test(message)?"tls":/connect|refused|network|socket/.test(message)?"connection":e?.name==="TimeoutError"||e?.name==="AbortError"?"timeout":"fetch_failed";
@@ -347,7 +351,7 @@ Deno.serve(async req=>{
    let content="",generation_mode="template";
    if(OPENAI){
      try{
-       const rr=await fetch("https://api.openai.com/v1/chat/completions",{method:"POST",headers:{Authorization:"Bearer "+OPENAI,"Content-Type":"application/json"},body:JSON.stringify({model:Deno.env.get("JESSY_MODEL")||"gpt-4.1-mini",temperature:0.4,max_tokens:850,messages:[{role:"system",content:system},{role:"user",content:prompt}]}),signal:AbortSignal.timeout(16000)});
+       const rr=await fetch(providerUrl,{method:"POST",headers:{Authorization:"Bearer "+OPENAI,"Content-Type":"application/json"},body:JSON.stringify({model:providerModel,temperature:0.4,max_tokens:850,messages:[{role:"system",content:system},{role:"user",content:prompt}]}),signal:AbortSignal.timeout(16000)});
        if(rr.ok){
          const json=await rr.json();
          const candidate=clean(json?.choices?.[0]?.message?.content,6000);
@@ -421,7 +425,7 @@ Deno.serve(async req=>{
    " Return at most four numbered practical steps in Spanish or English as requested. Mention verification and the actual owner's sign-off. Never invent live results, private customer details, tested URLs, customer consent, sending, publication, payment, completion or execution. Do not take action. No markdown table. Do not ask for credentials.";
    let plan="",generation_mode="template";
    try{
-     const rr=await fetch("https://api.openai.com/v1/chat/completions",{method:"POST",headers:{Authorization:"Bearer "+OPENAI,"Content-Type":"application/json"},body:JSON.stringify({model:Deno.env.get("JESSY_MODEL")||"gpt-4.1-mini",temperature:0.2,max_tokens:330,messages:[{role:"system",content:system},{role:"user",content:"Task: "+task.title+"\nContext: "+task.description+"\nLanguage: "+(b.language==="en"?"English":"Spanish")+"\nProvide a clear actionable plan, not a claim of completed work."}]}),signal:AbortSignal.timeout(14000)});
+     const rr=await fetch(providerUrl,{method:"POST",headers:{Authorization:"Bearer "+OPENAI,"Content-Type":"application/json"},body:JSON.stringify({model:providerModel,temperature:0.2,max_tokens:330,messages:[{role:"system",content:system},{role:"user",content:"Task: "+task.title+"\nContext: "+task.description+"\nLanguage: "+(b.language==="en"?"English":"Spanish")+"\nProvide a clear actionable plan, not a claim of completed work."}]}),signal:AbortSignal.timeout(14000)});
      if(rr.ok){
        const data=await rr.json();
        plan=clean(data?.choices?.[0]?.message?.content,1900);
