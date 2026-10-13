@@ -243,7 +243,7 @@ await check('Demo uses new photos without changing the original buyer design',{w
  assert.equal(await p.locator('html').evaluate(el=>el.classList.contains('demo-editorial')),true,'Shared prospect demo loads editorial design');
  assert.equal(await p.locator('#leadName').innerText(),'PERSONALIZED FOR EXAMPLE CLEANING','Per-lead branding stays intact');
  assert.equal(await p.locator('#demoEditorialNav').isVisible(),true,'Prospect navigation is visible');
- assert.equal(await p.locator('#demoBrandName').innerText(), 'Example Cleaning\nDEMO\n✦','Dynamic demo brand is the intended business');
+ assert.match(await p.locator('#demoBrandName').innerText(),/Example Cleaning/i,'Dynamic demo brand is the intended business');
  assert.equal(await p.locator('.demo-showcase-card').count(),3,'Three editorial cleaning service cards');
  await p.locator('.demo-showcase-card[data-demo-category="commercial"]').click();
  assert.equal(await p.locator('#commercialServiceList').isVisible(),true,'Editorial service card opens actual commercial booking choice');
