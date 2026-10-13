@@ -146,3 +146,8 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - Source: public/favicon.svg retained the legacy L; root only declared a non-square TLE SVG mark.
 - Fix: square 512px TLE logo on light blue, PNG favicon at /favicon.png, ICO fallback at /favicon.ico, square SVG replacing old L, 180px Apple touch icon. Main website EN/ES root links updated; tenant/client and Command Center icons unchanged.
 - Static route, auth and client-isolation checks passed. PNG visually inspected. Google recrawl timing is external; no claim that Search results updated or indexing requested.
+
+## 2026-10-13 — Confirmation white card and invisible details
+- Verified source: #done .success retained v6 white background-image while v11 changed only background-color; nested name/date/time/service-area selectors retained black text.
+- Fix: sample-only #bookingStarter #done overrides the full confirmation gradient, brand, heading, notice, check badge, summary and nested values with consistent dark surfaces, white text and ice-blue labels.
+- Existing responsive confirmation test now asserts the computed dark gradient and readable heading/date/notice colors in EN/ES. Buyer/owner paths remain isolated. No saved requests or real emails modified.

@@ -22,7 +22,11 @@ for(const lang of ['en','es']){
     const rect=e=>e?.getBoundingClientRect();
     const hero=q('.hero'),h=q('.heroText h1.demo-headline'),cta=q('.demo-hero-cta'),area=q('#demoHeroArea');
     return {
-     width:document.documentElement.scrollWidth,viewport:innerWidth,
+     surface:getComputedStyle(document.querySelector('#done .success')).backgroundImage,
+    headingColor:getComputedStyle(document.querySelector('#done .success h2')).color,
+    infoColor:getComputedStyle(document.querySelector('#demoSuccessDate')).color,
+    noticeColor:getComputedStyle(document.querySelector('#tleSuccessPreview')).color,
+    width:document.documentElement.scrollWidth,viewport:innerWidth,
      style:[...document.styleSheets].some(s=>s.href?.includes('tle-demo-editorial-v6.css')),
      mode:document.documentElement.classList.contains('demo-editorial'),
      blue:getComputedStyle(cta).backgroundColor,
@@ -81,6 +85,7 @@ for(const lang of ['en','es']){
    assert(done.area==='Fort Lauderdale','Confirmation area not personalized');
    assert(/demo|prueba|sample|muestra/i.test(done.note)&&done.note.length>35,'Sample-safe confirmation notice missing: '+done.note);
    assert(done.cta.includes('Coastal+Cleaners') || done.cta.includes('Coastal%20Cleaners'),'Tracker preserves business identity');
+   assert(done.surface.includes('21, 35, 49')&&done.headingColor==='rgb(255, 255, 255)'&&done.infoColor==='rgb(255, 255, 255)'&&done.noticeColor==='rgb(229, 245, 255)','Confirmation dark contrast regressed: '+JSON.stringify(done));
    assert(done.width<=width+3,'Confirmation causes overflow');
    try{await page.screenshot({path:'qa-screenshots/demo-v6/'+lang+'-'+width+'-confirmation.png',fullPage:false});}catch(imageError){console.warn('Optional browser screenshot failed at confirmation for',lang,width,imageError.message);}
    console.log('PASS',lang,width,JSON.stringify({cta:main.blue,area:done.area,quotePhoto:true,confirm:true}));

@@ -303,3 +303,30 @@ html.demo-editorial #demoCinematicStory .demo-cinematic-photo::before {transform
   font-size:17px!important;line-height:1.6!important;max-width:550px!important;
  }
 }
+
+/* Confirmation surfaces and nested labels must all use the dark palette. */
+html.demo-editorial #bookingStarter #done .success{
+ background:linear-gradient(145deg,#152331,#0d1722)!important;
+ border:1px solid #729db545!important;box-shadow:0 14px 40px #0003!important;
+ color:#f7fafc!important;
+}
+html.demo-editorial #bookingStarter #done .success h2,
+html.demo-editorial #bookingStarter #done .tle-success-name,
+html.demo-editorial #bookingStarter #done .demo-success-info strong{color:#fff!important;}
+html.demo-editorial #bookingStarter #done .success .muted,
+html.demo-editorial #bookingStarter #done .tle-success-request-for{color:#d2e2ec!important;}
+html.demo-editorial #bookingStarter #done .tle-success-label,
+html.demo-editorial #bookingStarter #done .demo-success-summary-head small,
+html.demo-editorial #bookingStarter #done .demo-success-info>span{color:#a9dfff!important;}
+html.demo-editorial #bookingStarter #done .tle-success-preview{
+ background:#20384a!important;color:#e5f5ff!important;border-color:#729db566!important;
+}
+html.demo-editorial #bookingStarter #done .tle-success-avatar,
+html.demo-editorial #bookingStarter #done .check{
+ background:#23475f!important;color:#c6edff!important;border-color:#8ac7ed66!important;
+}
+html.demo-editorial #bookingStarter #done .check{box-shadow:0 0 0 9px #182f41!important;}
+html.demo-editorial #bookingStarter #done .demo-success-summary:not([hidden]){
+ background:#0b1520!important;color:#fff!important;border-color:#729db550!important;
+}
+html.demo-editorial #bookingStarter #done .demo-success-summary-head{border-color:#729db550!important;}
