@@ -1161,6 +1161,8 @@ img { display:block; width:100%; object-fit:cover; }
 .footer-contact{margin-top:16px;max-width:380px;padding:12px 15px;border:1px solid #d9e7ef;border-radius:14px;background:rgba(220,239,251,.45);text-align:left}
 .footer-contact-label{display:block;color:#486879;font-size:10px;font-weight:700;letter-spacing:.055em}
 .footer-top .footer-contact p{margin:6px 0 0;color:#354d5b;font-size:13px;line-height:1.55;letter-spacing:0}
+.footer-contact-link{display:inline-block;margin-top:9px;color:#194963;font-size:13px;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.footer-contact-link:hover{color:#191919}
 .hero-intro .hero-availability-note{max-width:610px;margin:8px auto 0;font-size:11px;line-height:1.45;color:#587587}
 @media(max-width:767px){.footer-contact{margin:15px auto 0;text-align:center}.footer-top .footer-contact p{font-size:12px}.hero-intro .hero-availability-note{font-size:10px;max-width:365px}}
 
