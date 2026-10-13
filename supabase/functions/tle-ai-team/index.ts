@@ -248,7 +248,7 @@ Deno.serve(async req=>{
  const OPENAI=GROQ||readOpenAI();
  const provider=GROQ?"groq":"openai";
  const providerUrl=GROQ?"https://api.groq.com/openai/v1/chat/completions":"https://api.openai.com/v1/chat/completions";
- const providerModel=GROQ?(Deno.env.get("GROQ_MODEL")||"llama-3.3-70b-versatile"):(Deno.env.get("JESSY_MODEL")||"gpt-4.1-mini");
+ const providerModel=GROQ?(Deno.env.get("GROQ_MODEL")||"openai/gpt-oss-120b"):(Deno.env.get("JESSY_MODEL")||"gpt-4.1-mini");
  try{
  if(action==="list"){
    const tasks=await rest("tle_ai_team_tasks","workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner+"&select=id,agent_key,title,description,status,priority,task_origin,approval_required,approved_at,completed_at,evidence,created_at,updated_at&order=created_at.desc&limit=120");
