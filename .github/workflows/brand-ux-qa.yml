@@ -1,7 +1,7 @@
 name: TLE SaaS Design Regression
 on:
   push:
-    branches: [design/soft-blue-saas-system-20261013]
+    branches: [design/soft-blue-saas-system-20261013 , design/demo-booking-editorial-v7-20261013]
   pull_request:
     paths:
       - 'src/components/site-shell.tsx'
