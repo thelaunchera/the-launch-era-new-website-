@@ -15,9 +15,10 @@ for(const [lang,slug] of [['en','/cleaning-web-app/'],['es','/es/cleaning-web-ap
   const errors=[];
   page.on('pageerror',e=>errors.push(e.message));
   try{
-   const response=await page.goto(base+slug,{waitUntil:'networkidle',timeout:35000});
+   const response=await page.goto(base+slug,{waitUntil:'domcontentloaded',timeout:20000});
    assert(response?.ok(), 'Page response failed');
-   await page.locator('.tle-app-landing h1').waitFor({state:'visible'});
+   await page.locator('.tle-app-landing h1').waitFor({state:'visible',timeout:15000});
+   await page.waitForTimeout(600);
    await page.screenshot({path:'qa-screenshots/cleaning-'+lang+'-'+width+'.png',fullPage:true});
    assert.equal(await page.locator('.tle-app-feature').count(),4,'Exactly four feature groups');
    assert.equal(await page.locator('.tle-app-finish').count(),1,'One pricing close');
