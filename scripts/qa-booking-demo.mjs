@@ -659,7 +659,7 @@ if(process.env.QA_CHECKOUT_REAL==='1'){
  }
 }
 
-// Protect the real homepage hero design, both languages, and the agency hours location.
+// Protect the real homepage hero design and the digital-first footer contact in both languages.
 for(const lang of ['en','es'])for(const viewport of [{name:'phone',width:390,height:844},{name:'tablet',width:820,height:1180},{name:'desktop',width:1440,height:900}]){
  await check('Unified photo hero '+lang+' '+viewport.name,viewport,async page=>{
   const response=await page.goto(base+(lang==='es'?'/es/':'/'),{waitUntil:'networkidle'});
@@ -669,7 +669,7 @@ for(const lang of ['en','es'])for(const viewport of [{name:'phone',width:390,hei
     const intro=hero?.querySelector('.hero-intro');
     const photo=hero?.querySelector('img.hero-main-image');
     const notice=hero?.querySelectorAll('.hero-notice-flow .notification');
-    const footer=document.querySelector('.site-footer .footer-hours');
+    const footer=document.querySelector('.site-footer .footer-contact');
     const h=hero?.getBoundingClientRect(),a=intro?.getBoundingClientRect();
     const cards=[...(notice||[])].map(n=>n.getBoundingClientRect());
     const countdown=document.querySelector('.announcement-offer .sale-countdown');
@@ -685,7 +685,7 @@ for(const lang of ['en','es'])for(const viewport of [{name:'phone',width:390,hei
       descriptionReadable:!description||parseFloat(getComputedStyle(description).fontSize)>=14.5,
       compactCountdown:!countdownRect||(countdownRect.height<=72&&(!countdownLabel||!countdownUnits||Math.abs(countdownLabel.top-countdownUnits.top)<=20)),
       noHoursInHero:!/(Mon.Fri|lun.vie|8:30|12:00|48.hours|48.horas)/i.test(intro?.textContent||''),
-      footerHasHours:!!footer&&/8:30/.test(footer.textContent||'')&&/12:00/.test(footer.textContent||''),
+      footerHasContact:!!footer&&!!footer.querySelector('a.footer-contact-link[href]')&&/message anytime|Escríbenos cuando quieras/i.test(footer.textContent||'')&&!/8:30|12:00/.test(footer.textContent||''),
       boundsOK:!!h&&!!a&&a.left>=-2&&a.right<=innerWidth+2&&cards.every(b=>b.left>=-2&&b.right<=innerWidth+2&&b.top>=h.top&&b.bottom<=h.bottom)&&(!cards[1]||cards[1].top>=cards[0].bottom+5),
       introSeparatedFromCards:cards.length===0||!!a&&a.bottom+12<=cards[0].top,
       horizontalOverflow:document.documentElement.scrollWidth>innerWidth+3};
@@ -700,7 +700,7 @@ for(const lang of ['en','es'])for(const viewport of [{name:'phone',width:390,hei
   }
   assert.equal(result.noticeCount,2,'Exactly two phone-style notifications');
   assert(result.noHoursInHero,'Business hours and production details belong outside hero');
-  assert(result.footerHasHours,'Public office hours remain in footer');
+  assert(result.footerHasContact,'Footer must show anytime contact and a direct CTA, never office hours');
   assert(result.boundsOK,'Headline and notifications must fit the hero');
   assert(result.introSeparatedFromCards,'Hero text must not collide with example notifications');
   assert.equal(result.horizontalOverflow,false,'No horizontal overflow');
