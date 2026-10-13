@@ -359,7 +359,7 @@ async function ask(raw){
     ?await window.TLEAIOpsGateway.draft(teamCommand.agent,question)
     :await window.TLEAIOpsGateway.create(teamCommand.agent,question);
    pending.textContent=teamCommand.kind==="draft"?
-    (language==="es"?"Preparé un borrador para que lo revises en Trabajos preparados. No lo envié ni publiqué.\n\n":"Draft ready for your review under Prepared deliverables. Nothing was sent or published.\n\n")+String(result?.content||"").slice(0,440):
+    (result?.generation_mode==="template"?(language==="es"?"Preparé una plantilla (sin IA) para que la revises en Trabajos preparados. No envié ni publiqué nada.\n\n":"I prepared a fixed template (no AI), available under Prepared deliverables. Nothing was sent or published.\n\n"):(language==="es"?"Generé un borrador con IA para tu revisión en Trabajos preparados. No lo envié ni publiqué.\n\n":"AI draft ready under Prepared deliverables. Nothing was sent or published.\n\n"))+String(result?.content||"").slice(0,440):
     (language==="es"?"Creé la tarea para "+teamCommand.agent+". Puedes verla y aprobar sus siguientes pasos en AI Team.":"Task created for "+teamCommand.agent+". Review its next steps in AI Team.");
    history.push({role:"user",message:question},{role:"assistant",message:pending.textContent});
    if(history.length>8)history=history.slice(-8);
