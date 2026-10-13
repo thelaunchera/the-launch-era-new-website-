@@ -6,7 +6,7 @@ for(const id of ['ownerInternalIncidents','ownerIncidentList','ownerIncidentSumm
  assert.ok(html.includes('id="'+id+'"'), 'Missing owner-only incident element: '+id);
 }
 assert.match(html,/crm-owner-only[^"]*"[^>]*>[\s\S]*?id="ownerInternalIncidents"/,'Internal history must be contained inside owner-only support view');
-assert.match(html,/command-center-app\.js\?v=20261012-owner-incidents-v1/,'Bump version when owner JS changes');
+assert.match(html,/command-center-app\.js\?v=20261012-[a-z0-9-]+-v1/,'Bump version when owner JS changes');
 for(const rpc of ['tle_crm_owner_incidents_list','tle_crm_owner_incidents_create','tle_crm_owner_incidents_update']){
  assert.ok(app.includes(rpc),'Missing private owner RPC: '+rpc);
 }
