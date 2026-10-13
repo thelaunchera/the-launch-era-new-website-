@@ -85,7 +85,7 @@ assert.match(front, /page_path:location\.pathname/);
 assert.match(front, /function handleRoute\(\)/);
 assert.match(front, /"cleaning-app"/);
 assert.match(front, /cleaning-app-demo/);
-assert.match(front, /Start free trial/);
+assert.match(front, /Try it free/); // Updated, clearer button label
 const contextFunction = front.slice(front.indexOf("function currentPage()"), front.indexOf("let lang="));
 for (const [path, expected] of [
   ["/", ""],
