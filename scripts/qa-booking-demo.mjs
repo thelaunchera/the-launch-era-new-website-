@@ -243,7 +243,7 @@ await check('Demo uses new photos without changing the original buyer design',{w
  assert.equal(await p.locator('.demo-why').count(),1,'Premium why-choose-us scene exists');
  assert.equal(await p.locator('.demo-results .demo-result-card').count(),3,'Feature cards are present without invented reviews');
  assert.equal(await p.locator('.demo-feature-bar > div').count(),4,'Four real demo features appear, not fabricated customer metrics');
- assert.match(await p.locator('.demo-headline').innerText(),/CLEAN\\s*ELEVATED/,'Approved editorial headline remains in the sample demo');
+ assert.match(await p.locator('.demo-headline').innerText(),/CLEAN\s*ELEVATED/,'Approved editorial headline remains in the sample demo');
  const layout=await p.evaluate(()=>{
   const h=document.querySelector('#leadHero');
   const photo=getComputedStyle(h,'::before');
