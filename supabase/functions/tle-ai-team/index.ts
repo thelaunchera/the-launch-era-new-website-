@@ -215,9 +215,9 @@ Deno.serve(async req=>{
  const action=clean(b.action,36);
  try{
  if(action==="list"){
-   const tasks=await rest("tle_ai_team_tasks","workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner+"&select=id,agent_key,title,description,status,priority,approval_required,approved_at,completed_at,evidence,created_at,updated_at&order=created_at.desc&limit=120");
+   const tasks=await rest("tle_ai_team_tasks","workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner+"&select=id,agent_key,title,description,status,priority,task_origin,approval_required,approved_at,completed_at,evidence,created_at,updated_at&order=created_at.desc&limit=120");
    const events=await rest("tle_ai_team_events","workspace_id=eq."+ctx.workspace+"&select=task_id,action,summary,created_at&order=created_at.desc&limit=35");
-   const runs=await rest("tle_ai_team_runs","workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner+"&select=id,agent_key,capability,status,report,task_id,started_at,finished_at,duration_ms&order=started_at.desc&limit=25");
+   const runs=await rest("tle_ai_team_runs","workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner+"&select=id,agent_key,capability,status,run_origin,report,task_id,started_at,finished_at,duration_ms&order=started_at.desc&limit=25");
    const outputs=await rest("tle_ai_team_outputs","workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner+"&select=id,task_id,agent_key,kind,title,content,status,reviewed_at,created_at&order=created_at.desc&limit=40");
    return res({ok:true,tasks,events,runs,outputs},200,origin);
  }
@@ -295,6 +295,7 @@ Deno.serve(async req=>{
      kind:kinds[task.agent_key],title:task.title,content,status:"draft"
    },{Prefer:"return=representation"});
    if(!rows?.[0])throw Error("Draft not saved");
+   await event(ctx,task.id,"output_created","Agent generated a reviewable draft; no external action executed");
    return res({ok:true,output:rows[0],reused:false,external_actions:0,requires_owner_review:true},200,origin);
  }
  if(action==="review_output"){
@@ -305,8 +306,9 @@ Deno.serve(async req=>{
    if(item.status!=="draft")return res({ok:false,error:"Output already reviewed"},409,origin);
    const status=b.decision==="approve"?"approved":b.decision==="reject"?"rejected":"";
    if(!status)return res({ok:false,error:"Choose approve or reject"},400,origin);
-   const saved=await rest("tle_ai_team_outputs","id=eq."+item.id+"&workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner,"PATCH",{status,reviewed_at:new Date().toISOString()},{Prefer:"return=representation"});
-   if(saved.length!==1)throw Error("Output review not recorded");
+   const saved=await rest("tle_ai_team_outputs","id=eq."+item.id+"&workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner+"&status=eq.draft","PATCH",{status,reviewed_at:new Date().toISOString()},{Prefer:"return=representation"});
+   if(saved.length!==1)return res({ok:false,error:"Draft changed while reviewing; refresh before retrying"},409,origin);
+   await event(ctx,item.task_id,status==="approved"?"output_approved":"output_rejected",status==="approved"?"Owner approved the draft for review only; not sent or published":"Owner rejected the draft");
    return res({ok:true,output:saved[0],external_actions:0,note:"Owner review recorded. No message sent, post published or repository updated."},200,origin);
  }
 
@@ -319,7 +321,7 @@ Deno.serve(async req=>{
      if(task.agent_key!==agent||["completed","cancelled"].includes(task.status))
        return res({ok:false,error:"Task not available for this agent"},409,origin);
    }
-   const recent=await rest("tle_ai_team_runs","workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner+"&agent_key=eq."+agent+"&started_at=gte."+encodeURIComponent(new Date(Date.now()-45000).toISOString())+"&select=id,agent_key,capability,status,report,task_id,started_at,finished_at,duration_ms&order=started_at.desc&limit=1");
+   const recent=await rest("tle_ai_team_runs","workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner+"&agent_key=eq."+agent+"&started_at=gte."+encodeURIComponent(new Date(Date.now()-45000).toISOString())+"&select=id,agent_key,capability,status,run_origin,report,task_id,started_at,finished_at,duration_ms&order=started_at.desc&limit=1");
    if(recent?.length)return res({ok:true,run:recent[0],reused:true,note:"A recent check already exists; no new request was made."},200,origin);
    const start=Date.now();
    const outcome=await performReadOnly(ctx,agent,lang);

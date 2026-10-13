@@ -48,7 +48,13 @@ const checks=[
  ["Server scope for human approval",read("supabase/functions/tle-ai-team/index.ts").includes('action==="review_output"')],
  ["Server restricts execution",read("supabase/functions/tle-ai-team/index.ts").includes('external_actions:0')],
  ["Server workspace-isolates outputs",read("supabase/functions/tle-ai-team/index.ts").includes('workspace_id=eq." +ctx.workspace') || read("supabase/functions/tle-ai-team/index.ts").includes('"&workspace_id=eq."+ctx.workspace')],
- ["Outputs remain responsive",css.includes(".ait-outputs-grid") && css.includes("@media(max-width:820px)")]
+ ["Outputs remain responsive",css.includes(".ait-outputs-grid") && css.includes("@media(max-width:820px)")],
+ ["Single render after refresh",!script.includes("renderOutputs();renderRuns()")],
+ ["Owner review audit events",read("supabase/functions/tle-ai-team/index.ts").includes('output_approved') && read("supabase/functions/tle-ai-team/index.ts").includes('output_created')],
+ ["Concurrent approval guarded",read("supabase/functions/tle-ai-team/index.ts").includes('&status=eq.draft')],
+ ["Origin labels in owner UI",script.includes('item.run_origin==="daily_review"') && script.includes('t.task_origin')],
+ ["Private Jessie create and draft",read(base+"assets/jessy-owner.js").includes("function aiTeamCommand(") && script.includes('async draft(agentKey,description)')],
+ ["Jessie actions stay inside owner-only page",read(base+"assets/jessy-owner.js").includes('activeContext().section!=="ai-team"')]
 ];
 for(const [name,ok] of checks){assert.ok(ok,name);console.log("PASS — "+name)}
 console.log("AI Team static readiness:",checks.length,"checks passed.");

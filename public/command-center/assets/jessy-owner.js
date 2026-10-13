@@ -317,6 +317,22 @@ function showProjectReadiness(result){
  if(result.coverage?.length)panel.append(el("p","jo-draft-disclaimer",es?"Una fuente no respondió. Revisión parcial.":"One source did not respond. Partial review."));
  log.append(panel);log.scrollTop=log.scrollHeight;
 }
+function aiTeamCommand(question){
+ if(!window.TLEAIOpsGateway?.ready?.()||activeContext().section!=="ai-team")return null;
+ const q=String(question||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+ const agent=/(\bqa\b|calidad|tests?|pruebas?|links?|enlaces?|rutas?|404)/.test(q)?"qa":
+  /(\bdev\b|developer|codigo|repositorio|github|error de app|codigo fuente)/.test(q)?"developer":
+  /(\bmarketing\b|creativ|diseno|post|caption|instagram|metricool|contenido|copy)/.test(q)?"creative":
+  /(\bsoporte\b|support|atencion|queja|cliente molesto|customer care)/.test(q)?"care":
+  /(\bventa\b|sales|prospect|leads?|follow.?up|seguimiento|correo|email)/.test(q)?"sales":
+  /(\bproyecto\b|intake|entrega|produccion|project|booking)/.test(q)?"projects":"jessie";
+ if(/(?:^|\b)(?:crea(?:r)?|asigna(?:r)?|anade|agrega|registra|create|assign|add)(?:\s+(?:una?|new|a))?\s+(?:tarea|task)\b/.test(q))
+  return {kind:"create",agent};
+ if(/(?:^|\b)(?:prepara(?:r)?|redacta(?:r)?|escribe|genera(?:r)?|hazme|create|draft|write|compose)\b/.test(q)
+   &&/(borrador|draft|email|correo|respuesta|mensaje|caption|post|guion|brief|especificacion|plan de qa|checklist|lista de pruebas|propuesta|contenido)/.test(q))
+  return {kind:"draft",agent};
+ return null;
+}
 function aiTeamIntent(question){
  if(!window.TLEAIOpsGateway?.ready?.()||activeContext().section!=="ai-team")return null;
  const q=String(question||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
@@ -333,6 +349,24 @@ function aiTeamIntent(question){
 async function ask(raw){
  if(waiting||!owner()||!root)return;
  const question=String(raw||"").trim().slice(0,340);
+ const teamCommand=aiTeamCommand(question);
+ if(teamCommand){
+  if(!open)show();bubble(question,"user");input.value="";
+  const pending=bubble(t("thinking"),"bot");
+  waiting=true;send.disabled=true;
+  try{
+   const result=teamCommand.kind==="draft"
+    ?await window.TLEAIOpsGateway.draft(teamCommand.agent,question)
+    :await window.TLEAIOpsGateway.create(teamCommand.agent,question);
+   pending.textContent=teamCommand.kind==="draft"?
+    (language==="es"?"Preparé un borrador para que lo revises en Trabajos preparados. No lo envié ni publiqué.\n\n":"Draft ready for your review under Prepared deliverables. Nothing was sent or published.\n\n")+String(result?.content||"").slice(0,440):
+    (language==="es"?"Creé la tarea para "+teamCommand.agent+". Puedes verla y aprobar sus siguientes pasos en AI Team.":"Task created for "+teamCommand.agent+". Review its next steps in AI Team.");
+   history.push({role:"user",message:question},{role:"assistant",message:pending.textContent});
+   if(history.length>8)history=history.slice(-8);
+  }catch(e){pending.textContent=String(e?.message||t("error")).slice(0,350)}
+  finally{waiting=false;if(send)send.disabled=false}
+  return;
+ }
  const teamAgent=aiTeamIntent(question);
  if(teamAgent){
   if(!open)show();bubble(question,"user");input.value="";

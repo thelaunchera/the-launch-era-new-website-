@@ -166,3 +166,6 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - Generated AI deliverables are held in `tle_ai_team_outputs` with explicit approve/reject and owner-only access. No connector or automation is permitted to turn approval into a send/publish event without a separate audited authorization path.
 - First forced daily check verified no due follow-ups, unpaid-delivery mismatches or open support for that snapshot; 4 read-only run records created, no messages or customer record writes.
 - Distinguish work products from actual execution. Make/Resend/Metricool publish/send connectors remain separate controlled flows, not automatically wired by owner AI Team.
+
+
+| 2026-10-13 | AI Team duplicate history paint and incomplete draft audit trail | `refresh()` rendered historical runs twice; `compose_output` and `review_output` saved work without matching task-level audit entries, and approvals were not concurrency-guarded. | Removed repeated render. Added atomic `status=eq.draft` review updates; private audit events for generated/approved/rejected work; explicit Jessie create/draft intents gated to owner AI Team; origin labels; WebKit anonymous lock+viewport QA. No external sends. | 🟡 Static and deployment QA required; owner session E2E pending |
