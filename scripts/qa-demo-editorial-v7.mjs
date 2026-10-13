@@ -70,6 +70,34 @@ for(const lang of ['en','es']){
    assert.equal(m.categoryButtons,2,'Residential/Commercial navigation missing');
    assert(m.editorialTitle.includes(lang==='es'?'Detalles pensados':'Thoughtful details'),'New editorial copy missing: '+JSON.stringify(m.editorialTitle));
    assert(m.mainActive,'Service selection should open by default');
+   // Real tap acceptance: the CTA must move to the VISIBLE service panel,
+   // never a hidden marketing eyebrow. Works for English and Spanish.
+   await page.locator('#leadHero a.demo-hero-cta').click();
+   await page.waitForTimeout(300);
+   const heroNavigation=await page.evaluate(()=>{
+     const panel=document.getElementById('bookingStarter');
+     const cta=document.querySelector('#leadHero .demo-hero-cta');
+     const icon=cta.querySelector('.demo-inline-arrow');
+     const svg=icon.querySelector('svg');
+     const r=panel.getBoundingClientRect();
+     return {
+       hash:location.hash,
+       scroll:window.scrollY,
+       panelTop:r.top,
+       visible:r.height>100&&getComputedStyle(panel).display!=='none',
+       panelIdCount:document.querySelectorAll('#bookingStarter').length,
+       svgVisible:!!svg&&svg.getBoundingClientRect().width>=20,
+       arrowBackground:getComputedStyle(icon).backgroundColor,
+       oldArrow:getComputedStyle(icon,'::before').content,
+       stylePresent:[...document.styleSheets].some(sheet=>sheet.href?.includes('tle-demo-cta-v9.css'))
+     };
+   });
+   assert.equal(heroNavigation.panelIdCount,1,'Booking target ID must be unique');
+   assert(heroNavigation.visible&&heroNavigation.scroll>80&&heroNavigation.panelTop>=-10&&heroNavigation.panelTop<160,
+      'Choose your service did not scroll to visible form: '+JSON.stringify(heroNavigation));
+   assert.equal(heroNavigation.hash,'#bookingStarter','Hero CTA destination must update URL');
+   assert(heroNavigation.stylePresent&&heroNavigation.svgVisible&&heroNavigation.arrowBackground==='rgba(0, 0, 0, 0)'&&heroNavigation.oldArrow==='none',
+      'Old diamond/block arrow still appears: '+JSON.stringify(heroNavigation));
    await page.screenshot({path:'qa-screenshots/demo-v7/'+lang+'-'+width+'-booking-and-story.png',fullPage:true});
    await page.locator('#categoryTabs button[data-category="commercial"]').click();
    const commercial=await page.evaluate(()=>({
