@@ -21,11 +21,7 @@ export function CleaningAppShowcase({lang='en'}:Props){
    <div><span className="tle-case-index">01 / {es?'TU DÍA EN ORDEN':'THE BIG PICTURE'}</span><h2>{es?'Todo lo que necesitas ver.':'The whole day, in one view.'}</h2></div>
    <p>{es?'Un calendario ocupado no tiene por qué significar un negocio desorganizado. Ten a la vista las visitas, tus clientes y lo que falta por hacer.':'A full calendar shouldn’t mean a messy business. See the work coming up, the clients behind it, and what still needs attention.'}</p>
   </section>
-  <section className="tle-case-mosaic">
-   <div className="tle-case-mosaic-large"><div className="tle-case-card-label"><span>02 / {es?'CALENDARIO':'CALENDAR'}</span><strong>{es?'Siempre sabes qué sigue.':'Know what comes next.'}</strong></div><div className="tle-case-frame"><iframe title={es?'Calendario semanal ficticio':'Fictional weekly cleaning schedule'} src={demo(1)} loading="lazy"/></div></div>
-   <div className="tle-case-mosaic-small"><div className="tle-case-card-label"><span>03 / {es?'CLIENTES':'CLIENTS'}</span><strong>{es?'Los detalles, juntos.':'Keep the details together.'}</strong></div><div className="tle-case-frame"><iframe title={es?'Clientes de ejemplo':'Fictional clients list'} src={demo(3)} loading="lazy"/></div></div>
-   <div className="tle-case-mosaic-small second"><div className="tle-case-card-label"><span>04 / {es?'FACTURAS':'INVOICES'}</span><strong>{es?'Menos pendientes perdidos.':'Fewer loose ends.'}</strong></div><div className="tle-case-frame"><iframe title={es?'Facturas ficticias':'Fictional invoice list'} src={demo(5)} loading="lazy"/></div></div>
-  </section>
+
 
  </div>;
 }
