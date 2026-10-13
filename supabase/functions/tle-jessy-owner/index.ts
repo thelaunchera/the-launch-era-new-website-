@@ -223,6 +223,7 @@ function emailReadUnavailable(lang){
 }
 async function projectReadiness(lang){
  const es=lang==="es", txt=(en,sp)=>es?sp:en, projects=[],coverage=[];
+ let kickoffs=[];try{kickoffs=await rows("tle_project_kickoffs","select=subject_type,subject_id,email_status&order=approved_at.desc&limit=100")}catch{coverage.push("production_starts")}
  for(const config of [{kind:"booking",table:"tle_booking_flow_accounts",query:"select=id,business_name,intake_completed_at,intake_payload,build_started_at,delivery_sent_at,payment_status&payment_status=eq.paid&limit=40"},{kind:"ai",table:"tle_ai_agent_orders",query:"select=id,business_name,offer,status,submitted_at,services_offered,install_target,website_url,booking_page_url,delivered_at&limit=40"}]){
   let data=[];try{data=await rows(config.table,config.query)}catch{coverage.push(config.kind);continue}
   for(const a of data){
@@ -240,7 +241,9 @@ async function projectReadiness(lang){
      if(["existing_website","both"].includes(a.install_target)&&!a.website_url)missing.push(txt("Website link","Enlace del website"));
     }
    }
-   const started=config.kind==="booking"?!!a.build_started_at:a.status==="in_setup";
+   const record=kickoffs.find(k=>k.subject_type===config.kind&&k.subject_id===a.id);
+   const started=!!record||(config.kind==="booking"?!!a.build_started_at:a.status==="in_setup");
+   if(record?.email_status==="needs_review")missing.push(txt("Kickoff email: provider verification needed","Correo de inicio: verificar entrega con proveedor"));
    projects.push({kind:config.kind,id:a.id,name:String(a.business_name||"Project").slice(0,75),status:delivered?"delivered":missing.length?"needs_info":started?"production":"owner_review",missing,service:config.kind==="booking"?"Booking Automation":"AI Assistant"});
   }
  }
