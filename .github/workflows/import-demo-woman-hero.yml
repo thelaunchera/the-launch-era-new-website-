@@ -1,0 +1,30 @@
+name: Import approved woman-cleaning hero asset
+on:
+  push:
+    branches:
+      - design/demo-booking-editorial-v7-20261013
+    paths:
+      - .github/workflows/import-demo-woman-hero.yml
+permissions:
+  contents: write
+jobs:
+  add-woman-hero:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Add professionally licensed woman-cleaning photograph
+        run: |
+          mkdir -p public/assets/cleaning-demo
+          curl --fail --location --retry 3 --silent --show-error --max-time 90 \
+            'https://images.unsplash.com/photo-1758523670739-0d26a3ee976d?auto=format&fm=jpg&fit=crop&w=1920&q=85' \
+            --output public/assets/cleaning-demo/hero-woman-cleaning.jpg
+          file public/assets/cleaning-demo/hero-woman-cleaning.jpg
+          test "$(stat -c%s public/assets/cleaning-demo/hero-woman-cleaning.jpg)" -gt 30000
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/assets/cleaning-demo/hero-woman-cleaning.jpg
+          git commit -m 'Add high-resolution woman cleaning hero image for public demo'
+          git push origin HEAD:design/demo-booking-editorial-v7-20261013
