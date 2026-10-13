@@ -302,6 +302,7 @@ function showProjectReadiness(result){
   const card=el("article","jo-readiness-item");
   card.append(el("strong","",p.name||"Project"));
   card.append(el("small","",(p.service||"")+(p.status==="delivered"?(es?" · Entregado":" · Delivered"):p.status==="production"?(es?" · Inicio registrado":" · Start recorded"):p.status==="needs_info"?(es?" · Faltan datos":" · Needs details"):(es?" · Necesita tu revisión":" · Needs your review"))));
+  if(p.email_issue)card.append(el("p","",es?"⚠️ Correo de inicio: verificar estado con el proveedor antes de reenviar.":"⚠️ Start email: verify provider status before any resend."));
   if(p.missing?.length){
    const list=el("ul","jo-readiness-missing");
    for(const item of p.missing.slice(0,7))list.append(el("li","",item));
