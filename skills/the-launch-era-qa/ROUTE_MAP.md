@@ -163,3 +163,10 @@ Main website root EN/ES declares /favicon.png (512x512), /favicon.ico and /apple
 - `tle_ai_team_outputs` holds generated owner-reviewed drafts. Backend `compose_output` uses limited task context and available aggregate source facts; `review_output` changes internal review status only. Explicit no-send, no-publish, no-merge restriction. Do not treat an approved draft as deployed or sent.
 - Board displays draft contents using textContent; approval/rejection and copy in private owner view. Keep manual owner verification for external communications, code releases, Metricool changes and customer operations.
 - Run `node scripts/qa-ai-team.mjs` and `node scripts/qa-jessy-owner.mjs`, plus browser mobile/tablet/desktop checks. Confirm no unapproved outbound sends, no cross-tenant access and no duplicate trigger tasks.
+
+
+## AI Team private Jessie delegation and audit — 2026-10-13
+- Only on the owner-authenticated `/command-center/ai-team.html`, Jessie handles **explicit** `create task` / `crea tarea` commands and `draft` / `prepara borrador` requests by calling the same owner JWT gateway. A new task and work product remain draft state; no automatic recipient, email send, calendar change, payment, publication, deployment or buyer workspace modification is authorized.
+- Supabase Edge Function `tle-ai-team` v5 lists `task_origin` and `run_origin`, distinguishing platform-triggered tasks and scheduled reports from human-initiated reviews. All content rendered as text, no HTML injection.
+- `review_output` updates an output only if status remains `draft`, then inserts a private `output_approved` / `output_rejected` audit entry against the owning task. Work product creation inserts `output_created` audit event. Unrelated tenants cannot call these actions.
+- Regression guards: `scripts/qa-ai-team.mjs`, `scripts/qa-jessy-owner.mjs` and `scripts/qa-safari-ai-team.mjs` (anonymous iPhone/tablet/desktop WebKit lock). Full owner-authenticated acceptance still requires the actual owner's session.
