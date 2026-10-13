@@ -166,7 +166,7 @@ function showProviderState(){
  if(providerState?.verified===true){
   status.textContent=tx("connectionVerified");
  }else if(providerState?.checked===true){
-  status.textContent=tx("connectionError")+(providerState.reason?" ("+String(providerState.reason)+")":"");
+  status.textContent=tx("connectionError")+(providerState.reason?" ("+String(providerState.reason)+")":"")+(providerState.httpStatus?" · HTTP "+providerState.httpStatus:"")+(providerState.errorCode&&providerState.errorCode!=="unspecified"?" · "+providerState.errorCode:"");
  }else if(providerState?.configured===true){
   status.textContent=tx("connectionReady");
  }else{
@@ -287,7 +287,7 @@ $("ai-provider-check").onclick=async()=>{
  button.disabled=true;button.textContent=tx("connectionChecking");
  try{
   const res=await api({action:"provider_check"});
-  providerState={configured:res.configured===true,verified:res.verified===true,checked:true,reason:res.reason||null};
+  providerState={configured:res.configured===true,verified:res.verified===true,checked:true,reason:res.reason||null,httpStatus:Number(res.http_status)||null,errorCode:String(res.error_code||"")};
   showProviderState();
  }catch(e){showError(e.message)}
  finally{button.disabled=false}
