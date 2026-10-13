@@ -27,6 +27,8 @@ jobs:
         run: |
           node --check scripts/qa-route-integrity.mjs
           node scripts/qa-route-integrity.mjs --static
+          node --check public/command-center/assets/command-center-app.js
+          node scripts/qa-owner-internal-incidents.mjs
 
       - name: Enforce client delivery copy, branding and legal guard
         run: node scripts/qa-client-release.mjs
