@@ -63,7 +63,7 @@ for(const lang of ['en','es']){
    assert(m.headerFont.includes('Prompt'),'Headings not using Prompt typography');
    assert(m.ctaRadius>=24 && m.circleRadius>=16,'CTA or arrow icon still looks square');
    assert(m.ctaInsideHeader&&m.ctaWithinHeader,'Begin pill must sit inside header, not as a full-width bar: '+JSON.stringify(m));
-   assert(m.heroPhotoLoaded&&m.heroPhotoSource?.includes('cleaner-action.png'),'CB-style woman cleaning photo did not load');
+   assert(m.heroPhotoLoaded&&m.heroPhotoSource?.includes('hero-woman-cleaning.jpg'),'CB-style woman cleaning photo did not load');
    assert(m.heroPrimaryVisible&&m.heroAreaVisible,'Hero CTA or personalized service area clipped: '+JSON.stringify(m));
    assert(m.heroTextColor==='rgb(25, 25, 25)','Hero editorial text color lost contrast');
    assert.equal(m.ctaHref,'#categoryTabs','Begin must be a working anchor');
