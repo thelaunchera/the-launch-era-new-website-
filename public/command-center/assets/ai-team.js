@@ -164,7 +164,7 @@ function showProviderState(){
  title.textContent=tx("connectionTitle");
  button.textContent=tx("connectionTest");
  if(providerState?.verified===true){
-  status.textContent=tx("connectionVerified");
+  status.textContent=(providerState.provider==="groq"?"GroqCloud":providerState.provider==="openai"?"OpenAI":"AI")+ (language==="es"?" responde correctamente. Los próximos borradores pueden generarse con IA.":" responded successfully. New drafts can be AI-generated.");
  }else if(providerState?.checked===true){
   status.textContent=tx("connectionError")+(providerState.reason?" ("+String(providerState.reason)+")":"")+(providerState.httpStatus?" · HTTP "+providerState.httpStatus:"")+(providerState.errorCode&&providerState.errorCode!=="unspecified"?" · "+providerState.errorCode:"");
  }else if(providerState?.configured===true){
@@ -287,7 +287,7 @@ $("ai-provider-check").onclick=async()=>{
  button.disabled=true;button.textContent=tx("connectionChecking");
  try{
   const res=await api({action:"provider_check"});
-  providerState={configured:res.configured===true,verified:res.verified===true,checked:true,reason:res.reason||null,httpStatus:Number(res.http_status)||null,errorCode:String(res.error_code||"")};
+  providerState={configured:res.configured===true,verified:res.verified===true,checked:true,reason:res.reason||null,provider:String(res.provider||""),httpStatus:Number(res.http_status)||null,errorCode:String(res.error_code||"")};
   showProviderState();
  }catch(e){showError(e.message)}
  finally{button.disabled=false}
