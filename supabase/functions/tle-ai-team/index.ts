@@ -215,9 +215,9 @@ Deno.serve(async req=>{
  const action=clean(b.action,36);
  try{
  if(action==="list"){
-   const tasks=await rest("tle_ai_team_tasks","workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner+"&select=id,agent_key,title,description,status,priority,approval_required,approved_at,completed_at,evidence,created_at,updated_at&order=created_at.desc&limit=120");
+   const tasks=await rest("tle_ai_team_tasks","workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner+"&select=id,agent_key,title,description,status,priority,task_origin,approval_required,approved_at,completed_at,evidence,created_at,updated_at&order=created_at.desc&limit=120");
    const events=await rest("tle_ai_team_events","workspace_id=eq."+ctx.workspace+"&select=task_id,action,summary,created_at&order=created_at.desc&limit=35");
-   const runs=await rest("tle_ai_team_runs","workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner+"&select=id,agent_key,capability,status,report,task_id,started_at,finished_at,duration_ms&order=started_at.desc&limit=25");
+   const runs=await rest("tle_ai_team_runs","workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner+"&select=id,agent_key,capability,status,run_origin,report,task_id,started_at,finished_at,duration_ms&order=started_at.desc&limit=25");
    const outputs=await rest("tle_ai_team_outputs","workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner+"&select=id,task_id,agent_key,kind,title,content,status,reviewed_at,created_at&order=created_at.desc&limit=40");
    return res({ok:true,tasks,events,runs,outputs},200,origin);
  }
@@ -321,7 +321,7 @@ Deno.serve(async req=>{
      if(task.agent_key!==agent||["completed","cancelled"].includes(task.status))
        return res({ok:false,error:"Task not available for this agent"},409,origin);
    }
-   const recent=await rest("tle_ai_team_runs","workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner+"&agent_key=eq."+agent+"&started_at=gte."+encodeURIComponent(new Date(Date.now()-45000).toISOString())+"&select=id,agent_key,capability,status,report,task_id,started_at,finished_at,duration_ms&order=started_at.desc&limit=1");
+   const recent=await rest("tle_ai_team_runs","workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner+"&agent_key=eq."+agent+"&started_at=gte."+encodeURIComponent(new Date(Date.now()-45000).toISOString())+"&select=id,agent_key,capability,status,run_origin,report,task_id,started_at,finished_at,duration_ms&order=started_at.desc&limit=1");
    if(recent?.length)return res({ok:true,run:recent[0],reused:true,note:"A recent check already exists; no new request was made."},200,origin);
    const start=Date.now();
    const outcome=await performReadOnly(ctx,agent,lang);
