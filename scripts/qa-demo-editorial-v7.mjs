@@ -56,7 +56,14 @@ for(const lang of ['en','es']){
    assert(m.mode&&m.css,'Public sample styles not activated');
    assert(m.scrollWidth<=width+2,'Horizontal overflow '+JSON.stringify(m));
    assert(m.storyAfterPanel&&m.storyVisible&&m.photoVisible,'Photo editorial section missing or not directly after booking card '+JSON.stringify(m));
-   assert(m.photoImage.includes('living-suite.png'),'Real home photo not available in editorial panel');
+   assert(m.photoImage.includes('approved-home-cleaner.avif'),'Approved cleaner photograph not used in editorial panel');
+   const approvedPhotoLoaded=await page.evaluate(()=>new Promise(resolve=>{
+     const img=new Image();
+     img.onload=()=>resolve(img.naturalWidth>=700&&img.naturalHeight>=400);
+     img.onerror=()=>resolve(false);
+     img.src='/assets/cleaning-demo/approved-home-cleaner.avif';
+   }));
+   assert(approvedPhotoLoaded,'Approved photo asset missing or unreadable');
    assert.equal(m.cardCount,5,'Five working residential options must remain');
    assert(m.cardIconWidth>=19,'Service card icons hidden or too small');
    assert(m.serviceFont>=14.5,'Service typography too small');
