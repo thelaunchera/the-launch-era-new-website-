@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - 'scripts/qa-safari-command-center.mjs'
+      - 'scripts/qa-safari-ai-team.mjs'
       - '.github/workflows/qa-safari-command-center.yml'
       - 'public/command-center/index.html'
       - 'public/command-center/assets/**'
@@ -28,6 +29,8 @@ jobs:
           ln -s /tmp/tle-webkit-qa/node_modules ./node_modules
       - name: Safari official sign-in regression
         run: node scripts/qa-safari-command-center.mjs
+      - name: Verify private AI Team anonymous access and device layouts
+        run: node scripts/qa-safari-ai-team.mjs
       - name: Attach Safari screenshot
         uses: actions/upload-artifact@v4
         if: always()
