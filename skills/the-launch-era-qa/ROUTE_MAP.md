@@ -170,3 +170,10 @@ Main website root EN/ES declares /favicon.png (512x512), /favicon.ico and /apple
 - Supabase Edge Function `tle-ai-team` v5 lists `task_origin` and `run_origin`, distinguishing platform-triggered tasks and scheduled reports from human-initiated reviews. All content rendered as text, no HTML injection.
 - `review_output` updates an output only if status remains `draft`, then inserts a private `output_approved` / `output_rejected` audit entry against the owning task. Work product creation inserts `output_created` audit event. Unrelated tenants cannot call these actions.
 - Regression guards: `scripts/qa-ai-team.mjs`, `scripts/qa-jessy-owner.mjs` and `scripts/qa-safari-ai-team.mjs` (anonymous iPhone/tablet/desktop WebKit lock). Full owner-authenticated acceptance still requires the actual owner's session.
+
+
+## AI Team automated internal notifications (2026-10-13)
+- When the owner-only `tle_ai_team_record_automatic` creates a NEW internal review task, it also writes exactly one `tle_crm_notifications` record with `kind='ai_team'`, `workspace_id` equal to the authenticated platform owner's internal workspace, and unique `source_key='ai-team:<task uuid>'`. Deduplicated source events cannot create duplicate notices.
+- Notification text contains no client identity or customer contact details; it is never a customer email and does not start a payment, publication or delivery workflow.
+- Alerts remain subject to the existing owner Command Center notification/push preferences. Without push permission, the event remains an internal Command Center notice.
+- The migration is tracked in `supabase/migrations/20261013_tle_ai_team_owner_notifications.sql`. Verify a genuine next event end-to-end; do not insert fake customer events on production for QA.
