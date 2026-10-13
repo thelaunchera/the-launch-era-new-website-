@@ -136,3 +136,8 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - Fix: copied the user's original 1536px JPEG photographs byte-for-byte; hero uses cleaner original, quote and story use spacious living-room original. Removed hero/story enlargement and replaced quote white gradient with black; white and light-blue text. Cache versions updated. Sample-only selectors preserve buyer/owner previews and client assets.
 - Validation: route, sample integrity and client isolation static checks passed. GitHub responsive browser workflow 38435097021 passed EN/ES at 360, 390, 768/820, 1024 and 1440px, plus buyer/owner isolation. Live browser verified original hero naturalWidth 1536, original room background with black gradient, readable white quote heading, EN/ES and no desktop overflow. Asset git hashes match the unmodified uploaded originals.
 
+
+## 2026-10-13 — Quote photograph too small on desktop
+- Verified cause: refine-v4 constrained nested sample screens to 770px even inside the wide booking panel.
+- Fix: sample #quote uses full available panel width at >=768px, with 350–440px photo height and larger heading/body. Phone layout remains below this breakpoint.
+- Regression: existing demo browser QA now opens the quote and checks >=97% usable panel width, >=350px height and no overflow on desktop/tablet, plus mobile overflow and buyer isolation. Workflow 38435550861 passed EN/ES. No client data, routes or form actions changed.
