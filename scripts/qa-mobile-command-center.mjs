@@ -19,7 +19,7 @@ const checks=[
  ["Jessy mobile trigger reduces to single icon",owner.includes("Compact Jessy over narrow")&&owner.includes(".jo-fab > span{display:none!important}")],
  ["Jessy panel obeys viewport",owner.includes("width:min(400px,calc(100dvw - 12px))")],
  ["iOS form inputs avoid focus zoom",css.includes("Prevent iOS WebKit from auto-zooming")&&css.includes("font-size:max(16px,1rem)!important")],
- ["responsive assets cache busted",html.includes("command-center.css?v=20261012-preview-exit-v1")&&html.includes("command-center-i18n.js?v=20261012-mobilefit-v2")&&/jessy-owner\\.css\\?v=20261012-[a-z0-9-]+-v[0-9]+/.test(ownerJS)],
+ ["responsive assets cache busted",html.includes("command-center.css?v=20261012-preview-exit-v1")&&html.includes("command-center-i18n.js?v=20261012-mobilefit-v2")&&/jessy-owner\.css\?v=20261012-[a-z0-9-]+-v[0-9]+/.test(ownerJS)],
  ["notification preferences stay available",html.includes("command-center-notification-settings.js")&&news.includes("Notification.requestPermission()")]
 ];
 new Script(i18n,{filename:"command-center-i18n.js"});
