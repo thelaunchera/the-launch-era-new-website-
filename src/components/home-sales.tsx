@@ -40,7 +40,7 @@ export function PurchaseClarity({lang='en'}:{lang?:Language}) {
  const es=lang==='es';
  const questions=es?[
  ['¿Qué incluye Booking Automation + Command Center?','Una Booking Page personalizada, tu Command Center privado y automatizaciones para gestionar solicitudes, cotizaciones y seguimientos.'],
- ['¿Cuándo recibo mi sistema?','La producción estimada es de 48 horas desde que recibimos el formulario inicial y los datos completos e iniciamos durante horario laborable. Si todo queda listo el sábado después de las 12 PM ET, comenzamos el siguiente día hábil. Entregamos los accesos después de las pruebas y aprobación.'],
+ ['¿Cuándo recibo mi sistema?','Después de verificar el pago y revisar tus datos completos, aprobaremos el inicio por correo. Desde ese momento empieza el plazo estimado de 48 horas de producción, durante nuestros períodos de trabajo disponibles. Los accesos se entregan después de las pruebas y aprobación.'],
  ['¿Cuándo se confirma una reserva automáticamente?','Solo para servicios con precio fijo, cuando activas esa opción y el horario está disponible. Si la desactivas, la solicitud queda pendiente de tu aprobación y no bloquea el horario.'],
  ['¿Qué pasa con los precios estimados?','El cliente puede aceptar, rechazar o conversar sobre el precio. Ves su respuesta en el Command Center y en tu lista de consultas. Si acepta, la reserva se confirma únicamente al elegir un horario disponible.'],
  ['¿Hay una calculadora de precios?','Sí, exclusivamente para negocios de limpieza. Configuras tus propias tarifas, tamaño del espacio, extras, descuentos y cargos por ZIP en la sección de precios. Calcula un estimado, no un precio final confirmado.'],
@@ -49,7 +49,7 @@ export function PurchaseClarity({lang='en'}:{lang?:Language}) {
  ['¿Quién se encarga de los correos de seguimiento?','Nosotros gestionamos hasta dos seguimientos automáticos para cotizaciones elegibles sin respuesta. Puedes ver sus vistas previas; si el cliente responde, se detienen. El tercer contacto es tu elección: enviar un último correo personal o detener el seguimiento.']
  ]:[
  ['What comes with Booking Automation + Command Center?','A personalized Booking Page, your private Command Center, and automation to manage requests, estimates, and follow-ups.'],
- ['When will I receive my system?','Production is estimated at 48 hours after we receive your complete intake and start during business hours. Details completed after 12 PM ET Saturday begin the next business day. We send access after testing and approval.'],
+ ['When will I receive my system?','After we verify payment and review your complete setup, we approve the kickoff by email. The estimated 48-hour production period starts then, during our available working periods. We send access after testing and approval.'],
  ['When does a booking confirm automatically?','Only for flat-price services when you enable automatic confirmation and the time slot is available. With it off, the request waits for your approval and does not hold a slot.'],
  ['How do estimated prices work?','Customers can Accept, Decline, or Discuss Price. Their response appears in your Command Center where you track inquiries. If they accept, the booking confirms only after an available time is selected.'],
  ['Is there a price calculator?','Yes, exclusively for cleaning businesses. Set your own rates, property sizes, add-ons, frequency discounts, and ZIP travel fees in your pricing settings. Results are estimates, not automatically confirmed prices.'],
