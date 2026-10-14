@@ -64,6 +64,39 @@
     action.addEventListener('click',reopen);
     trust.insertAdjacentElement('afterend',card);
   }
+  function showReturnToast(data,model,lang){
+    // A returning visitor sees an actual on-screen greeting, not only a card
+    // somewhere below the hero. This does not interrupt or change booking.
+    if(document.querySelector('.tle-sw-return-toast'))return;
+    const business=String(model.business_name||'').trim().slice(0,100)||enEs(lang,'your provider','tu negocio');
+    const detailing=model.business_category==='detailing';
+    const toast=element('aside','tle-sw-return-toast');
+    toast.setAttribute('role','status');
+    toast.setAttribute('aria-live','polite');
+    toast.setAttribute('aria-label',enEs(lang,'Welcome back','Bienvenido de nuevo'));
+    toast.style.setProperty('--sw-accent',safeColor(model.branding?.accent_color,'#3a7399'));
+    if(detailing)toast.classList.add('tle-sw-detailing');
+    const copy=element('div','tle-sw-toast-copy');
+    copy.append(element('strong','tle-sw-toast-title',enEs(lang,'Welcome back to '+business+'!','¡Bienvenido de nuevo a '+business+'!')));
+    copy.append(element('p','tle-sw-toast-description',detailing
+      ?enEs(lang,'Ready for your next detail?','¿Listo para tu próximo detailing?')
+      :enEs(lang,'Ready for your next service?','¿Listo para tu próximo servicio?')));
+    const actions=element('div','tle-sw-toast-actions');
+    const book=element('button','tle-sw-toast-cta',message(data,'cta',lang)||enEs(lang,'Book again','Reservar otra vez'));
+    book.type='button';
+    const close=element('button','tle-sw-toast-close','×');
+    close.type='button';
+    close.setAttribute('aria-label',enEs(lang,'Dismiss welcome back message','Cerrar mensaje de bienvenida'));
+    actions.append(book,close);
+    toast.append(copy,actions);
+    let timeout;
+    const dismiss=()=>{clearTimeout(timeout);toast.remove()};
+    book.onclick=()=>{dismiss();anchorBooking()};
+    close.onclick=dismiss;
+    document.body.append(toast);
+    // Long enough to read, but leaves all booking controls usable.
+    timeout=setTimeout(dismiss,16000);
+  }
   function showModal(data,model,lang){
     if(document.querySelector('.tle-sw-backdrop'))return;
     const backdrop=element('div','tle-sw-backdrop');
@@ -109,7 +142,15 @@
     toStorage(localStorage,identity,'1');
     toStorage(sessionStorage,campaign,'1');
     // An explicit booking deep link should never be interrupted by a marketing modal.
-    if(repeat||location.hash==='#booking'){showCard(data,model,lang);return}
+    if(repeat||location.hash==='#booking'){
+      showCard(data,model,lang);
+      if(repeat&&location.hash!=='#booking'){
+        const greet=()=>{if(document.visibilityState==='visible'&&document.getElementById('booking'))showReturnToast(data,model,lang)};
+        if(document.visibilityState==='visible')setTimeout(greet,450);
+        else document.addEventListener('visibilitychange',greet,{once:true});
+      }
+      return;
+    }
     setTimeout(()=>{if(document.visibilityState==='visible'&&!document.querySelector('.tle-sw-backdrop'))showModal(data,model,lang)},700);
   }
   window.TLESmartWelcome=Object.freeze({init});
