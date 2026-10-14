@@ -46,7 +46,7 @@ assert.match(studio,/const PRIVATE_CLIENT_ENTRY="https:\/\/thelaunchera\.com\/co
 assert.match(studio,/const redirectTo=PRIVATE_CLIENT_ENTRY/);
 assert.match(studio,/const privateLink=new URL\(PRIVATE_CLIENT_ENTRY\)/);
 assert.match(studio,/redirectTo:PRIVATE_CLIENT_ENTRY/);
-assert.match(studio,/const previewUrl=PRIVATE_CLIENT_ENTRY/);
+assert.match(studio,/const previewUrl=(?:isLegacyCB\?PRIVATE_CLIENT_ENTRY\+"&app=cb-depot":)?PRIVATE_CLIENT_ENTRY/);
 assert.match(studio,/activation_email_link_version:"private-command-center-v4"/);
 assert.match(studio,/\["handoff-v2","direct-worker-v3","private-command-center-v4"\]/);
 assert.doesNotMatch(studio,/inviteUserByEmail\(/,"Do not send generic Supabase invitations that may land on public marketing");
