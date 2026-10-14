@@ -65,3 +65,17 @@
 .ait-brief-card .ait-run-facts span{max-width:68%}
 .ait-brief-card .ait-run-facts b{min-width:20px;max-width:32%;text-align:right}
 @media(max-width:700px){.ait-priority-grid,.ait-brief-grid{grid-template-columns:minmax(0,1fr)}.ait-priority,.ait-brief-card{padding:15px;border-radius:17px}.ait-brief-card .ait-run-facts span{max-width:65%}}
+
+/* Owner-authenticated diagnostic: never render tokens, names or tenant details. */
+.ait-owner-diagnostic{border:1px solid var(--edge);border-radius:24px;background:#fff;padding:22px;margin:24px 0;scroll-margin-top:90px;min-width:0;overflow-wrap:anywhere}
+.ait-owner-diagnostic .ait-section-head{align-items:center;gap:12px;flex-wrap:wrap}
+.ait-owner-diagnostic-buttons{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+.ait-owner-diagnostic-buttons button{min-width:0;white-space:normal}
+.ait-owner-diagnostic-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px;margin-top:12px}
+.ait-owner-diagnostic-result{border:1px solid #e6e5df;border-radius:15px;padding:14px;display:flex;align-items:center;gap:10px;min-width:0}
+.ait-owner-diagnostic-result strong{flex:1 1 auto;min-width:0;font-size:.9rem}
+.ait-owner-diagnostic-symbol{display:grid;place-items:center;flex:0 0 24px;width:24px;height:24px;border-radius:50%;background:#e9f5fc;font-weight:700}
+.ait-owner-diagnostic-state{font-size:.8rem;white-space:normal;text-align:right}
+.ait-owner-diagnostic-state.passed{color:#24654a}
+.ait-owner-diagnostic-state.needs-review{color:#a14f2f}
+@media(max-width:700px){.ait-owner-diagnostic{border-radius:18px;padding:16px}.ait-owner-diagnostic-results{grid-template-columns:minmax(0,1fr)}.ait-owner-diagnostic-buttons{flex-direction:column}.ait-owner-diagnostic-buttons button{width:100%}}
