@@ -39,7 +39,7 @@ jobs:
           deno-version: v2.x
 
       - name: Type-check buyer activation function without executing actions
-        run: deno check supabase/functions/tle-booking-owner-studio/index.ts
+        run: deno check --node-modules-dir=auto supabase/functions/tle-booking-owner-studio/index.ts
 
       - name: Prepare GitHub Pages build
         uses: oven-sh/setup-bun@v2
