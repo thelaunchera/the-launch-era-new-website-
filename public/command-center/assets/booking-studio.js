@@ -112,7 +112,7 @@ $("design-form").onsubmit=e=>{
 };
 $("build-form").onsubmit=e=>{
  e.preventDefault();const d=new FormData(e.currentTarget);
- submit("build",{build:{private_preview_id:String(d.get("private_preview_id")||""),artifact_commit:String(d.get("artifact_commit")||""),tenant_id:state.selected.owner_workspace_id,published:false,client_notified:false}});
+ submit("build",{build:{private_preview_id:String(d.get("private_preview_id")||""),artifact_commit:String(d.get("artifact_commit")||""),tenant_id:state.selected.client_workspace_id,published:false,client_notified:false}});
 };
 $("qa-form").onsubmit=e=>{
  e.preventDefault();const d=new FormData(e.currentTarget);
@@ -132,7 +132,7 @@ $("preview-button").onclick=()=>{
  try{
   const job=state.selected,account=state.account;
   const safeServices=Array.isArray(account?.services)?account.services:[];
-  const model={...job,tenant_id:job.owner_workspace_id,order_id:job.booking_account_id,
+  const model={...job,tenant_id:job.client_workspace_id,order_id:job.booking_account_id,
     client:{business_name:account?.business_name||"Cleaning Business",services:safeServices}};
   const html=renderBookingStudioPreview(model);
   $("preview-frame").srcdoc=html;
