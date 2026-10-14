@@ -57,3 +57,19 @@ Tracking: [Issue #56](https://github.com/thelaunchera/the-launch-era-new-website
 - Client intake reminders and production-gate emails, only after contact scope, approval and idempotency E2E.
 
 **Release gate:** PR must receive independent QA verdict on issue #56; only then merge to `main` and verify actual Supabase function versions and browser behavior. This implementation alone does not meet all autonomy acceptance criteria.
+
+
+## 2026-10-14 implementation update: owner diagnostic and verified partial priorities
+
+- Owner-only AI Team now has a responsive session verification panel. It calls `capability_manifest`, `team_brief` and `provider_check` with the owner's **existing** authenticated session; it does not show/export JWTs, client records, email addresses, API keys or tenant IDs. The optional copied QA summary contains only booleans, provider label, number of agents, coverage and viewport width.
+- Jessie backend considers a trustworthy field independently from overall report coverage: a workspace-linked Booking account with missing intake still produces a Projects review priority even if unrelated legacy AI orders cannot be mapped. Similarly, a failed website GET is an observed negative check and can produce a QA route-priority while the report remains partial. The fields are constrained to explicit source labels; unavailable/null facts do not trigger false priorities. These counts do not certify client delivery or full browser QA.
+- `tle-jessy-owner` now leaves unlinked website inquiries and legacy AI order counts as **null/unavailable** instead of reading platform-global aggregate records inside an owner-specific chat.
+- New fixtures `scripts/qa-jessie-tenanted-edge-fixture.mjs` and `scripts/qa-jessie-owner-edge-fixture.mjs` execute actual Edge Function source under isolated mocked requests: two independent authorized workspaces, a nonowner, an invalid token/origin, 1 missing intake, 1 failed URL, an unavailable project source and Groq provider success/failure without OpenAI fallback. No live client records or secret values are involved.
+- `scripts/qa-jessie-owner-diagnostic.mjs` checks functional UI handlers and confirms the copied QA report excludes simulated sensitive fields.
+- Implementation agent also executed the in-memory fixture logic in isolation and observed PASS for both Edge source handlers. This is **not** an authenticated production E2E or an independent review verdict. GitHub Actions results must be tied to the exact PR head; do not infer green CI status from an earlier SHA.
+
+### Owner verification after independent release approval
+
+Open `/command-center/ai-team.html` while signed in as the internal owner; select **Verify my session / Verificar mi sesión**. Expect four separate indicators (owner session, seven agent reports, disabled external actions, live Groq answer). **Copy sanitized QA report** provides non-sensitive evidence for issue #56. Repeat in English and Spanish and on iPhone Safari, iPad and desktop; screenshots must not reveal private clients. Independent QA still must test unauthorized accounts and cross-workspace denial separately.
+
+The PR remains subject to issue #56 approval and isolated release/rollback checks. No Resend, Metricool, Drive, payment or publish execution is enabled.
