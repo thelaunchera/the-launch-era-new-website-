@@ -1,6 +1,6 @@
 # Smart Welcome — Booking Pages (release proposal + implementation)
 
-**Status:** feature branch only; NOT deployed, NOT enabled for any client. The code is designed to be opt-in after QA and a reviewed database migration + Edge Function deployment.
+**Status (2026-10-14):** production schema (additive, default-off) and `tle-booking-smart-welcome` Edge Function deployed and verified with read-only authorization/CORS smoke tests; frontend is awaiting release in feature PR #58. CB Depot detailing introduction saved as a disabled draft. No other customer enabled; no discounts created.
 
 ## Existing architecture verified 2026-10-14
 - Public buyer entry: /booking/?key=<opaque UUID> redirects to /base-booking.html with key.
@@ -44,3 +44,11 @@ Promotional copy is editorial only. A discount is NOT calculated, validated, or 
 ## Rollback
 - Turn enabled=false for affected account(s), or disable the frontend assets. Removing Smart Welcome JS/CSS does not remove or alter the underlying booking/pricing tables. No data deletion is necessary.
 - Never drop other customer tables or overwrite branded photos/data. Avoid automatically sending email or activating a promotion for existing clients.
+
+## CB Depot launch note (2026-10-14)
+- The selected buyer is CB Depot, category `detailing`, with active paid delivered Booking Page.
+- Custom theme: CB Depot charcoal `#07111C` and electric blue `#087DFF`, existing panda logo and buyer hero photo.
+- Editorial English/Spanish welcome text only, **no claimed discount**. CTA stays in original detail booking/quote wizard.
+- Browser fixture CI tested dark theme at 390px and six responsive widths. Existing route integrity and deployed endpoint non-mutating HTTP smoke passed.
+- The testing Supabase project lacks comparable buyer/CRM tables, so live authenticated end-to-end cross-tenant testing remains unverified; do not state this is proven by mock tests alone.
+- Enable CB Depot only after production deploy is confirmed, while every other business stays default-off.
