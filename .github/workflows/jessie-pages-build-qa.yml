@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'docs/jessie-unified-release-runbook.md'
+      - 'scripts/qa-jessie-browser.mjs'
       - 'public/command-center/**'
       - 'supabase/functions/tle-ai-team/**'
       - 'supabase/functions/tle-jessy-owner/**'
@@ -63,6 +64,30 @@ jobs:
             exit 1
           fi
           echo "PASS — GitHub Pages build contains unified Jessie, diagnostics and Smart Welcome"
+
+      - name: Install isolated Chromium for synthetic responsive checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/tle-jessie-visual-qa
+          cd /tmp/tle-jessie-visual-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          mkdir -p "$GITHUB_WORKSPACE/node_modules"
+          ln -sfn /tmp/tle-jessie-visual-qa/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-jessie-visual-qa/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+
+      - name: Verify synthetic Jessie on phone, tablet and desktop in EN/ES
+        run: node scripts/qa-jessie-browser.mjs
+
+      - name: Save synthetic Jessie screenshots for independent reviewer
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jessie-ai-team-responsive-fixtures
+          path: qa-screenshots/jessie-ai-team-*.png
+          if-no-files-found: warn
 
       - name: Save build validation summary
         if: always()
