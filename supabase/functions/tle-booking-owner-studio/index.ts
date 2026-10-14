@@ -167,7 +167,7 @@ Deno.serve(async req=>{
    if(!validBusinessCategory(category,other))return respond(409,{error:"Business category must be verified in the buyer intake before activation"},origin);
    const businessName=trim(brand?.business_name||a.business_name,120)||"Your business";
    const isLegacyCB=/^cb\s*depot$/i.test(trim(a.business_name,120))||/^cb\s*depot$/i.test(trim(brand?.business_name,120));
-   const previewUrl=PRIVATE_CLIENT_ENTRY;
+   const previewUrl=isLegacyCB?PRIVATE_CLIENT_ENTRY+"&app=cb-depot":PRIVATE_CLIENT_ENTRY;
    const simulated=activationContent(category,other,businessName,a.language,
      previewUrl, "", emailLogoUrl(brand?.logo_image,businessName),brand?.primary_color,brand?.accent_color);
    return respond(200,{ok:true,preview_only:true,never_send_from_preview:true,
