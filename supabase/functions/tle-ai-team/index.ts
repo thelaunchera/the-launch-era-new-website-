@@ -508,11 +508,27 @@ Deno.serve(async req=>{
        source_checks:Array.isArray(data?.checks)?data.checks.length:0,
        read_only:true};
    });
+   // Coverage and factual reliability are distinct. A failed public URL is a verified
+   // negative finding; safely linked booking records remain verified even while old,
+   // unmapped AI orders are excluded. Never promote missing or untrusted facts.
+   const verifiedPartialSources={
+     "projects:Paid with intake missing":"tle_booking_flow_accounts.intake_completed_at",
+     "qa:Public checks passed":"thelaunchera.com",
+     "qa:Public checks attempted":"thelaunchera.com"
+   };
    const getValue=(agent,label)=>{
      const reportItem=reports.find(x=>x.agent===agent);
-     if(!reportItem||reportItem.status!=="checked")return null;
-     const value=reportItem.facts.find(x=>x.label===label)?.value;
-     return typeof value==="number"&&Number.isFinite(value)?value:null;
+     if(!reportItem)return null;
+     const evidence=reportItem.facts.find(x=>x.label===label);
+     if(!evidence||typeof evidence.value!=="number"||!Number.isFinite(evidence.value)||evidence.value<0)return null;
+     if(reportItem.status!=="checked"&&verifiedPartialSources[agent+":"+label]!==evidence.source)return null;
+     if(agent==="qa"){
+       const attempted=reportItem.facts.find(x=>x.label==="Public checks attempted")?.value;
+       const passed=reportItem.facts.find(x=>x.label==="Public checks passed")?.value;
+       if(!Number.isInteger(attempted)||!Number.isInteger(passed)||attempted!==reportItem.source_checks||
+         passed<0||passed>attempted)return null;
+     }
+     return evidence.value;
    };
    const actions=[];
    const missing=getValue("projects","Paid with intake missing"),followups=getValue("sales","Potential follow-ups due");
