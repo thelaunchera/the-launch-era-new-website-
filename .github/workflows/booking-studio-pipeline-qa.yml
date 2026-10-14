@@ -5,6 +5,9 @@ on:
       - 'lib/booking-studio-pipeline.mjs'
       - 'scripts/qa-booking-studio-pipeline.mjs'
       - 'scripts/qa-booking-studio-owner-approval.mjs'
+      - 'lib/booking-studio-owner-review-brief.mjs'
+      - 'lib/booking-studio-tenant-destination.mjs'
+      - 'scripts/qa-booking-studio-owner-review-brief.mjs'
       - 'scripts/build-booking-studio-owner-review-demo.mjs'
       - 'fixtures/booking-studio-bright-rooms-synthetic.json'
       - 'docs/booking-studio-owner-approval-protocol.md'
@@ -47,6 +50,7 @@ jobs:
         run: |
           node scripts/qa-booking-studio-pipeline.mjs
           node scripts/qa-booking-studio-owner-approval.mjs
+          node scripts/qa-booking-studio-owner-review-brief.mjs
           node scripts/qa-booking-studio-preview.mjs
           node scripts/qa-booking-studio-developer-plan.mjs
           node scripts/qa-booking-studio-private-packet.mjs
