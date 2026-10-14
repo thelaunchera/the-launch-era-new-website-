@@ -9,7 +9,6 @@
 .tle-sw-image{width:100%;height:100%;position:absolute;inset:0;object-fit:cover;display:block}
 .tle-sw-business{position:absolute;z-index:1;bottom:23px;left:23px;right:23px;font-size:15px;font-weight:700;letter-spacing:.035em;color:#fff;overflow-wrap:anywhere}
 .tle-sw-copy{padding:54px 36px 32px;display:flex;flex-direction:column;justify-content:center;gap:13px;min-width:0}
-.tle-sw-eyebrow{font-size:10px;letter-spacing:.14em;font-weight:800;color:var(--sw-accent,#3a7399)}
 .tle-sw-title{font-family:Prompt,Futura,'Avenir Next',Arial,sans-serif;color:#191919;font-size:clamp(27px,3.4vw,39px);line-height:1.12;letter-spacing:-.03em;margin:0;overflow-wrap:anywhere}
 .tle-sw-description{font-size:15px;line-height:1.65;color:#485862;margin:0}
 .tle-sw-promo{background:#e5f2fa;border:1px solid #c7dfed;border-radius:14px;padding:15px;display:grid;gap:7px}
@@ -37,7 +36,6 @@
 .tle-sw-dialog.tle-sw-detailing{background:#07111C;color:#F3F8FC;border:1px solid #143551}
 .tle-sw-dialog.tle-sw-detailing .tle-sw-visual{background:linear-gradient(145deg,#07111C,#143C68)}
 .tle-sw-dialog.tle-sw-detailing .tle-sw-visual:after{background:linear-gradient(0deg,rgba(2,8,13,.83),rgba(2,8,13,.1) 72%)}
-.tle-sw-dialog.tle-sw-detailing .tle-sw-eyebrow{color:#77BDFF}
 .tle-sw-dialog.tle-sw-detailing .tle-sw-title{color:#FFFFFF}
 .tle-sw-dialog.tle-sw-detailing .tle-sw-description{color:#CBDDEB}
 .tle-sw-dialog.tle-sw-detailing .tle-sw-promo{background:#0D2B4B;border-color:#14558E}
