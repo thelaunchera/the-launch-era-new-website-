@@ -21,3 +21,9 @@ The script rejects mismatched tenant IDs and invalid jobs, uses a hash for the p
 **Still required before a real client build:** isolated client source/branch, tenant-scoped auth and API, booking/quote persistence, pricing/ZIP/add-ons logic, consent and notification tests, actual phone/tablet/desktop QA, verified image licenses, owner review, and separate explicit publishing approval. A static visual preview or checklist does not establish functional readiness.
 
 No public demo, existing client page, DNS, payment system, owner agent, or customer agent is modified by this builder.
+
+## Synthetic functional contract for QA (not production)
+
+`lib/booking-studio-synthetic-integration.mjs` models tenant-isolated booking requests and quote requests **in memory**. The test `scripts/qa-booking-studio-synthetic-integration.mjs` verifies cross-tenant denial, valid service areas, optional add-ons, frequency discounts, mandatory contact consent, flat-price estimates and quote-only flows. It sends **zero** emails and writes **zero** customer records.
+
+This test harness does **not** invoke `tle-booking-flow-inquiry` or `tle-booking-flow-pricing` production functions. Those functions deliberately reject unreleased booking pages. A real unpublished-client integration needs a separate authenticated staging environment and a controlled release process; do not bypass the production delivery checks, reuse a delivered buyer key, or create fake paid orders.
