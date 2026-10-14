@@ -17,7 +17,7 @@
     else window.location.hash='booking';
   }
   function content(data,model,lang){
-    const name=String(model.business_name||'').slice(0,100)||enEs(lang,'Your cleaning provider','Tu empresa de limpieza');
+    const name=String(model.business_name||'').slice(0,100)||enEs(lang,'Your business','Tu negocio');
     const picture=safeImage(data.image_url)||safeImage(model.branding?.hero_image);
     const offer=message(data,'offer',lang);
     const wrap=element('div','tle-sw-body');
@@ -49,13 +49,14 @@
     const trust=document.querySelector('.trust')||document.getElementById('leadHero');
     if(!trust)return;
     const card=element('aside','tle-sw-return-card');
+    if(model.business_category==='detailing')card.classList.add('tle-sw-detailing');
     card.style.setProperty('--sw-accent',safeColor(model.branding?.accent_color,'#3a7399'));
     card.append(element('span','tle-sw-return-icon','✦'));
     const words=element('div','tle-sw-return-words');
     words.append(element('strong','',message(data,'offer',lang)||titleText(data,lang,model.business_name||'')));
     words.append(element('span','',enEs(lang,'Explore our current welcome message','Descubre nuestra bienvenida')));
     card.append(words);
-    const action=element('button','tle-sw-return-open',enEs(lang,'View offer','Ver oferta'));
+    const action=element('button','tle-sw-return-open',message(data,'offer',lang)?enEs(lang,'View offer','Ver oferta'):enEs(lang,'See welcome','Ver bienvenida'));
     action.type='button';card.append(action);
     const reopen=()=>showModal(data,model,lang);
     action.addEventListener('click',reopen);
@@ -68,6 +69,7 @@
     dialog.setAttribute('role','dialog');dialog.setAttribute('aria-modal','true');
     dialog.setAttribute('aria-label',enEs(lang,'Welcome to your booking page','Bienvenida a tu página de reservas'));
     dialog.style.setProperty('--sw-accent',safeColor(model.branding?.accent_color,'#3a7399'));
+    if(model.business_category==='detailing')dialog.classList.add('tle-sw-detailing');
     const close=element('button','tle-sw-close','×');
     close.type='button';close.setAttribute('aria-label',enEs(lang,'Close welcome','Cerrar bienvenida'));
     dialog.append(close,content(data,model,lang));backdrop.append(dialog);
