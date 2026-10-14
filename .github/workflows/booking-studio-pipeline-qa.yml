@@ -40,7 +40,7 @@ jobs:
         run: |
           mkdir -p /tmp/tle-booking-studio-browser-qa
           cd /tmp/tle-booking-studio-browser-qa
-          printf '{"name":"tle-booking-studio-browser-qa","private":true,"version":"1.0.0"}\\n' > package.json
+          echo '{"name":"tle-booking-studio-browser-qa","private":true,"version":"1.0.0"}' > package.json
           npm install --no-audit --no-fund --no-package-lock playwright@1.56.1
           ./node_modules/.bin/playwright install --with-deps chromium
           echo "NODE_PATH=/tmp/tle-booking-studio-browser-qa/node_modules" >> "$GITHUB_ENV"
