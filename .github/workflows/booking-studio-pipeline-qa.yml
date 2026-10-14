@@ -4,6 +4,8 @@ on:
     paths:
       - 'lib/booking-studio-pipeline.mjs'
       - 'scripts/qa-booking-studio-pipeline.mjs'
+      - 'scripts/qa-booking-studio-owner-approval.mjs'
+      - 'docs/booking-studio-owner-approval-protocol.md'
       - 'lib/booking-studio-preview.mjs'
       - 'lib/booking-studio-developer-plan.mjs'
       - 'scripts/qa-booking-studio-developer-plan.mjs'
@@ -42,6 +44,7 @@ jobs:
       - name: Validate Booking Studio contract
         run: |
           node scripts/qa-booking-studio-pipeline.mjs
+          node scripts/qa-booking-studio-owner-approval.mjs
           node scripts/qa-booking-studio-preview.mjs
           node scripts/qa-booking-studio-developer-plan.mjs
           node scripts/qa-booking-studio-private-packet.mjs
