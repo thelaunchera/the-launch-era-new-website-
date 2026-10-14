@@ -113,8 +113,8 @@ function safeEmailTemplate(lang){
 function draftIsSafe(content,isEmail,lang,verifiedFacts){
  const text=String(content||"");
  if(text.length<35||/\*\*|__/.test(text))return false;
- if(!verifiedFacts&&/(?:\b\d+(?:[.,]\d+)?\s*%|\b(?:january|february|march|april|may|june|july|august|september|october|november|december|enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)\s+\d{1,2}\b|\b\d{1,2}\s+de\s+(?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)\b)/i.test(text))return false;
- if(!verifiedFacts&&/\b(?:we (?:launched|completed|achieved|increased|tested)|hemos (?:completado|lanzado|logrado|aumentado)|se (?:lanzaron|completaron) las campañas)\b/i.test(text))return false;
+ if((isEmail||!verifiedFacts)&&/(?:\b\d+(?:[.,]\d+)?\s*%|\b(?:january|february|march|april|may|june|july|august|september|october|november|december|enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)\s+\d{1,2}\b|\b\d{1,2}\s+de\s+(?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)\b)/i.test(text))return false;
+ if((isEmail||!verifiedFacts)&&/\b(?:we (?:launched|completed|achieved|increased|tested)|hemos (?:completado|lanzado|logrado|aumentado)|se (?:lanzaron|completaron) las campañas)\b/i.test(text))return false;
  if(!isEmail)return true;
  const count=text.split(/\s+/).filter(Boolean).length;
  if(count>155||count<35)return false;
