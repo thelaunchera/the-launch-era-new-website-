@@ -90,7 +90,7 @@ export const FAQ: Fact[] = [
   en:"AI Follow-Up Assistant supports follow-ups with leads who gave permission to be contacted. The owner reviews the workflow and controls the messages; specific automation is confirmed during onboarding.",
   es:"AI Follow-Up Assistant apoya seguimientos a prospectos que autorizaron el contacto. El dueño revisa el flujo y controla los mensajes; la automatización exacta se confirma en onboarding."},
  {service:"ai-followup",topic:"schedule",
-  keywords:["how often follow up","how many reminders","stop followups","when someone replies","no reply","followup timing","cuantas veces escribe","cuando se detiene","frecuencia mensajes","si responde"],
+  keywords:["how often follow up","how many reminders","stop followups","when someone replies","no reply","doesnt reply","doesn't reply","customer doesnt reply","followup timing","cuantas veces escribe","cuando se detiene","frecuencia mensajes","si responde"],
   en:"Follow-up timing and stop conditions are agreed during setup. We don't promise unlimited reminders or automatic replies; the flow must respect consent and responses.",
   es:"La frecuencia y las condiciones para detener seguimientos se acuerdan al configurar. No prometemos mensajes ilimitados; el flujo debe respetar permisos y respuestas."},
  {service:"ai-business",topic:"bundle",
