@@ -5,7 +5,7 @@
 <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#FAF8F3">
 <title>AI Team | The Launch Era Command Center</title>
 <link rel="icon" href="/favicon.png">
-<link rel="stylesheet" href="./assets/ai-team.css?v=20261014-owner-diagnostic-v2">
+<link rel="stylesheet" href="./assets/ai-team.css?v=20261014-unified-workspace-v1">
 </head>
 <body>
 <div class="ait-loading" id="loading" role="status">Opening your private AI Team…</div>
@@ -28,7 +28,19 @@
  <div class="ait-hero-art"><div class="ait-orbit"><div class="ait-avatar">J</div><div><b>JESSIE</b><span>Chief of Staff</span></div></div>
  <div class="ait-orbit-secondary">Sales · Projects · Dev · QA · Creative · Care</div><span class="ait-orb one"></span><span class="ait-orb two"></span></div>
 </section>
+<nav class="ait-workspace-nav" aria-label="AI Team workspace" id="ait-workspace-nav">
+ <div class="ait-nav-heading"><div><span class="ait-eyebrow">YOUR PRIVATE TEAM WORKSPACE</span><h2>Everything your team needs. One place.</h2></div><span class="ait-nav-help">Choose a workspace to focus on one thing at a time.</span></div>
+ <div class="ait-nav-tabs" role="tablist" aria-label="AI Team views">
+  <button type="button" class="ait-nav-tab" id="ait-tab-overview" role="tab" aria-selected="true" aria-controls="ait-panel-overview" data-ait-view="overview">✦ Overview</button>
+  <button type="button" class="ait-nav-tab" id="ait-tab-team" role="tab" aria-selected="false" aria-controls="ait-panel-team" data-ait-view="team">◈ My agents</button>
+  <button type="button" class="ait-nav-tab" id="ait-tab-work" role="tab" aria-selected="false" aria-controls="ait-panel-work" data-ait-view="work">▣ Tasks & approvals</button>
+  <button type="button" class="ait-nav-tab" id="ait-tab-results" role="tab" aria-selected="false" aria-controls="ait-panel-results" data-ait-view="results">✓ Results & history</button>
+  <button type="button" class="ait-nav-tab" id="ait-tab-settings" role="tab" aria-selected="false" aria-controls="ait-panel-settings" data-ait-view="settings">⚙ Diagnostics</button>
+ </div>
+</nav>
+<section id="ait-panel-overview" class="ait-workspace-panel" role="tabpanel" aria-labelledby="ait-tab-overview">
 <div class="ait-stats" id="stats" aria-live="polite"><article><span>Active team tasks</span><strong id="activeCount">—</strong></article><article><span>Awaiting approval</span><strong id="approvalCount">—</strong></article><article><span>Workspace scan</span><strong id="scanState">Not checked</strong></article></div>
+</section><section id="ait-panel-settings" class="ait-workspace-panel" role="tabpanel" aria-labelledby="ait-tab-settings" hidden>
 <section class="ait-provider" id="ai-provider" aria-labelledby="ai-provider-title">
  <div class="ait-provider-copy"><div class="ait-eyebrow" id="ait-provider-eyebrow">DRAFT GENERATOR</div><h2 id="ai-provider-title">AI connection</h2>
  <p id="ai-provider-status" role="status" aria-live="polite">Checking secure configuration…</p></div>
@@ -45,9 +57,12 @@
  <div id="owner-diagnostic-results" class="ait-owner-diagnostic-results" aria-live="polite"></div>
  <p class="ait-muted" id="owner-diagnostic-disclaimer">This checks your current owner session only. Cross-tenant, unauthorized-user and device QA must be verified independently.</p>
 </section>
+</section><section id="ait-panel-team" class="ait-workspace-panel" role="tabpanel" aria-labelledby="ait-tab-team" hidden>
 <section class="ait-section" aria-labelledby="agents-title"><div class="ait-section-head"><div><span class="ait-eyebrow" id="ait-agent-eyebrow">YOUR SPECIALISTS</span><h2 id="agents-title">One team. Clear responsibilities.</h2></div><span class="ait-micro">7 specialist roles · owner-controlled · live checks</span></div>
 <div class="ait-grid" id="agents"></div></section>
+</section><section id="ait-panel-overview-detail" class="ait-overview-detail" hidden>
 <section class="ait-section ait-team-overview" id="team-overview" aria-labelledby="team-overview-title"><div class="ait-section-head"><div><span class="ait-eyebrow" id="team-overview-eyebrow">JESSIE · VERIFIED TEAM BRIEF</span><h2 id="team-overview-title">The whole team in one view</h2></div><span class="ait-micro" id="team-overview-micro">Read-only · Owner approval for actions</span></div><p id="team-overview-status" class="ait-muted">Select Review my workspace to check all seven specialists.</p><div id="team-brief-actions" class="ait-priority-grid" aria-live="polite"></div><div id="team-brief-reports" class="ait-brief-grid" aria-live="polite"></div><p class="ait-muted" id="team-overview-note">Metricool, Drive and Resend are not yet authorized as direct AI Team data sources. Drafts and checks do not send or publish anything.</p></section>
+</section><section id="ait-panel-results" class="ait-workspace-panel" role="tabpanel" aria-labelledby="ait-tab-results" hidden>
 <section class="ait-section ait-outputs-section" id="outputs-section" aria-labelledby="outputs-title">
  <div class="ait-section-head"><div><span class="ait-eyebrow">OWNER-REVIEWED WORK</span><h2 id="outputs-title">Prepared deliverables</h2></div><span class="ait-micro">Drafts only · approval does not publish</span></div>
  <div id="outputs" class="ait-outputs-grid" aria-live="polite"><p class="ait-muted">Loading prepared work…</p></div>
@@ -56,12 +71,14 @@
  <div class="ait-section-head"><div><span class="ait-eyebrow">LIVE SOURCE CHECKS</span><h2 id="runs-title">Verified executions</h2></div><span class="ait-micro">Read-only · with real data</span></div>
  <div id="runs" class="ait-runs-grid" aria-live="polite"><p class="ait-muted">Checking previous executions…</p></div>
 </section>
+</section><section id="ait-panel-work" class="ait-workspace-panel" role="tabpanel" aria-labelledby="ait-tab-work" hidden>
 <div class="ait-bottom-grid">
 <section class="ait-section" id="tasks-section" aria-labelledby="tasks-title"><div class="ait-section-head"><div><span class="ait-eyebrow">PROJECT QUEUE</span><h2 id="tasks-title">Tasks & approvals</h2></div><button type="button" class="ait-small-btn" id="new-task">+ Add task</button></div><div class="ait-task-list" id="tasks"><p class="ait-muted">Loading secure tasks…</p></div></section>
 <aside class="ait-side">
  <section class="ait-sidecard"><span class="ait-eyebrow">JESSIE'S CHECK-IN</span><h3>Verified workspace snapshot</h3><div id="snapshot" class="ait-snapshot">Run a read-only workspace scan to see verified counts.</div><p>Counts are not a statement that a job is ready to deliver.</p><a href="./" class="ait-side-link">Open Command Center →</a></section>
  <section class="ait-sidecard"><span class="ait-eyebrow">AUDIT TRAIL</span><h3>Recent activity</h3><div id="activity" class="ait-activity">No activity loaded.</div></section>
  </aside></div>
+</section>
 </main>
 </div>
 <dialog id="task-dialog" class="ait-dialog"><form method="dialog" id="task-form"><div class="ait-dialog-head"><div><span class="ait-eyebrow">OWNER TASK</span><h2>Create an AI Team task</h2></div><button type="button" class="ait-close" data-dialog-close="task-dialog" aria-label="Close">×</button></div>
@@ -77,4 +94,5 @@
 <div id="toast" class="ait-toast" role="status" aria-live="polite" hidden></div>
 <script src="./vendor/supabase-js-v2.57.0.umd.js"></script>
 <script type="module" src="./assets/ai-team.js?v=20261014-owner-diagnostic-v2"></script>
+<script type="module" src="./assets/ai-team-workspace.js?v=20261014-unified-workspace-v1"></script>
 </body></html>
