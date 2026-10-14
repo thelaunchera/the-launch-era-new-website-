@@ -113,7 +113,16 @@ Deno.serve(async req=>{
    return response(origin,200,{ok:true,job:rows[0],external_actions_executed:false});
   }
   const {job,account}=await one(ctx,body.job_id);
-  if(action==="get")return response(origin,200,{ok:true,job,account:{id:account.id,business_name:account.business_name,missing:intakeMissing(account)},external_actions_enabled:false});
+  if(action==="get"){
+   const p=account.intake_payload&&typeof account.intake_payload==="object"&&!Array.isArray(account.intake_payload)?account.intake_payload:{};
+   const services=(Array.isArray(p.services)?p.services:[]).slice(0,24).map(item=>{
+     if(typeof item==="string")return {name:str(item,160),mode:"quote",price:null};
+     if(!item||typeof item!=="object")return null;
+     const price=typeof item.price==="number"&&Number.isFinite(item.price)&&item.price>=0?item.price:null;
+     return {name:str(item.name||item.service_name,160),mode:item.mode==="flat"&&price!==null?"flat":"quote",price};
+   }).filter(x=>x?.name);
+   return response(origin,200,{ok:true,job,account:{id:account.id,business_name:account.business_name,missing:intakeMissing(account),services},external_actions_enabled:false});
+  }
   if(action==="research"){
    if(job.stage!=="research")return response(origin,409,{ok:false,error:"Not in research stage"});
    const research=sanitizeResearch(body.research);
