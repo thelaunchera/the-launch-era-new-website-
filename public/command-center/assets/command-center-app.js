@@ -2888,7 +2888,7 @@ function buyerShowChangeDecision(x,root){
  const status=buyerCreate("div");status.setAttribute("role","status");status.style.cssText="color:#36546b;font-size:13px";
  const buttons=[];
  async function act(decision){
-  if(decision==="approve_reschedule"&&(!date.value||!time.value)){status.textContent=buyerText("Choose a date and time first.","Primero elige la fecha y la hora.");return}
+  if(decision==="approve_reschedule"&&(!date.value||!time.value)){status.textContent=buyerText("Choose an available date and a start time ending in :00 or :30.","Elige una fecha disponible y una hora que termine en :00 o :30.");return} if(decision==="approve_reschedule"&&!/^(?:[01]\d|2[0-3]):(?:00|30)$/.test(time.value)){status.textContent=buyerText("That start time cannot be booked. Choose a time ending in :00 or :30.","Esa hora no se puede reservar. Elige una que termine en :00 o :30.");return}
   if(decision==="contact"&&note.value.trim().length<8){status.textContent=buyerText("Write a message before sending.","Escribe un mensaje antes de enviarlo.");note.focus();return}
   const messages={
    approve_cancel:buyerText("Approve cancellation and free the booked time?","¿Aceptar la cancelación y liberar el horario?"),
