@@ -34,6 +34,6 @@ create table if not exists public.tle_booking_smart_welcome (
 comment on table public.tle_booking_smart_welcome is
  'Booking Page Smart Welcome editorial/offer copy. Default off, tenant isolated. Service role only; public reads and authenticated writes through tle-booking-smart-welcome with release/ownership checks. Does not calculate or redeem discounts.';
 alter table public.tle_booking_smart_welcome enable row level security;
-revoke all on public.tle_booking_smart_welcome from anon,authenticated;
+revoke all on public.tle_booking_smart_welcome from PUBLIC, anon, authenticated;
 grant select,insert,update,delete on public.tle_booking_smart_welcome to service_role;
 -- Intentionally NO anon/authenticated RLS policies: all access via authorization-checked Edge Function.
