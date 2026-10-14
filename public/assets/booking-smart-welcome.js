@@ -24,13 +24,15 @@
     const photo=element('div','tle-sw-visual');
     if(picture){const img=element('img','tle-sw-image');img.src=picture;img.alt='';img.loading='eager';photo.append(img);}
     else photo.classList.add('tle-sw-no-image');
-    const small=element('span','tle-sw-eyebrow',enEs(lang,'A WARM WELCOME','UNA BIENVENIDA ESPECIAL'));
-    const logo=safeImage(model.branding?.logo_image);
+    // CB Depot already has its branded hero and main-page logo: never duplicate
+    // the panda badge on its Smart Welcome card.
+    const isCBDepot=model.business_category==='detailing'&&name.trim().toLowerCase()==='cb depot';
+    const logo=isCBDepot?'':safeImage(model.branding?.logo_image);
     if(logo){const mark=element('img','tle-sw-logo');mark.src=logo;mark.alt=name+' logo';mark.loading='eager';photo.append(mark);}
     const nameEl=element('span','tle-sw-business',name);
     photo.append(nameEl);
     const text=element('div','tle-sw-copy');
-    text.append(small,element('h2','tle-sw-title',titleText(data,lang,name)));
+    text.append(element('h2','tle-sw-title',titleText(data,lang,name)));
     const desc=message(data,'description',lang);
     if(desc)text.append(element('p','tle-sw-description',desc));
     if(offer){const promo=element('div','tle-sw-promo');promo.append(element('span','tle-sw-promo-label',enEs(lang,'CURRENT OFFER','OFERTA ACTUAL')));promo.append(element('strong','tle-sw-offer',offer));text.append(promo);}
