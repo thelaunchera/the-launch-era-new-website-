@@ -177,3 +177,8 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - **Owner action:** Added the OpenAI key to the Supabase project's Edge Function secrets (never shared in chat).
 - **Fix:** `provider_check` authenticates the platform owner before testing a minimal OpenAI completion and returns only sanitized connection status. `compose_output` now uses OpenAI when available and produces explicitly labeled fixed templates if missing, invalid or temporarily unavailable, with `generation_mode='ai'|'template'` on private outputs and truthful Jessie/UI copy. `plan` has a similarly labeled fallback. No email, client data writes, publishing or deploys occur from these actions.
 - **Verification scope:** Local/CI source guards and Edge Function deployment; only an actual signed-in owner can run the provider test. **Never claim an OpenAI completion succeeded based only on a detected key or deployed function.**
+
+## 2026-10-14 — AI Team private drafts: tone and unverified product claims
+- **Evidence:** Owner verified GroqCloud in the AI Team UI. The Sales output table contained a private AI-generated draft with overly long copy and unsupported feature claims. No customer email was sent by that draft.
+- **Changes:** Refined Sales, Jessie and Projects prompts in `supabase/functions/tle-ai-team/index.ts`: shorter, more human Sales writing and no invented features; evidence-grounded Jessie priorities; Projects stage separation and blocked handoff until verified QA. Does not alter routes, client records, email transport or tenant permissions.
+- **Regression:** `scripts/qa-ai-team-ai-provider.mjs` tests the new prompt constraints. Live signed-in generation must still be checked separately from static CI and Supabase deployment.
