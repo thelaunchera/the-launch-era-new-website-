@@ -2920,6 +2920,7 @@ function buyerRequestIsEstimate(v){return buyerRequestKind(v)==="quote"&&v.raw_p
 function buyerRequestNeedsAttention(v){
  const p=v.raw_payload||{};
  if(p.customer_change_request?.state==="pending_owner_review"||p.quote_response?.status==="lets_talk")return true;
+ if(p.customer_request_response?.status&&(!p.owner_reviewed_at||Date.parse(p.customer_request_response.responded_at||0)>Date.parse(p.owner_reviewed_at||0)))return true;
  if(p.email_handoff&&(p.email_handoff.customer_handoff_accepted===false||p.email_handoff.owner_handoff_accepted===false))return true;
  if(p.change_email_handoff?.results?.some(x=>x.accepted===false))return true;
  if(v.request_type==="quote"&&Number(v.follow_up_count||0)>=2&&!p.quote_response?.status&&!p.final_contact_decision)return true;
@@ -2933,6 +2934,10 @@ function buyerRequestNext(v){
   return buyerText("Email needs attention: verify delivery before retrying.","Correo pendiente: comprueba el envío antes de reenviar.");
  if(p.customer_change_request?.state==="pending_owner_review")
   return buyerText("Review the requested cancellation or new date. The booking stays active until you change it.","Revisa la cancelación o nueva fecha. La reserva sigue activa hasta que la cambies.");
+ if(p.customer_request_response?.status==="lets_talk")
+  return buyerText("The customer wants to discuss their request. Read their message and reply.","El cliente quiere conversar sobre su solicitud. Lee su mensaje y responde.");
+ if(p.customer_request_response?.status==="confirmed_details")
+  return buyerText("Customer confirmed their request details. Review the request and confirm the appointment only if the time is available.","El cliente confirmó los datos. Revisa la solicitud y confirma la cita solo si el horario está libre.");
  if(v.status==="booked")return buyerText("Booking confirmed and time reserved.","Reserva confirmada y horario reservado.");
  if(p.final_contact_decision==="stopped")return buyerText("Final contact stopped. No more automatic emails.","Contacto final detenido. No habrá más correos automáticos.");
  if(p.final_contact_decision==="sent")return buyerText("Final personal email sent. No more automatic emails.","Último correo personal enviado. No habrá más correos automáticos.");
@@ -3162,6 +3167,8 @@ function buyerOpenRequest(x){
   [buyerText("Customer quote response","Respuesta a cotización"),payload.quote_response?.status==="accepted"?buyerText("Accepted","Aceptada"):payload.quote_response?.status==="declined"?buyerText("Declined","Rechazada"):payload.quote_response?.status==="lets_talk"?buyerText("Let's talk","Quiere conversar"):""],
   [buyerText("Decline reason","Motivo del rechazo"),payload.quote_response?.reason],
   [buyerText("Customer response note","Comentario del cliente"),payload.quote_response?.note],
+  [buyerText("Customer request response","Respuesta a la solicitud"),payload.customer_request_response?.status==="confirmed_details"?buyerText("Details confirmed — booking still pending","Datos confirmados — cita aún pendiente"):payload.customer_request_response?.status==="lets_talk"?buyerText("Let's talk — reply needed","Quiere conversar — necesita respuesta"):""],
+  [buyerText("Customer request message","Mensaje sobre la solicitud"),payload.customer_request_response?.note],
   [buyerText("Booking change request","Solicitud de cambio"),payload.customer_change_request?.action==="cancel"?buyerText("Cancellation requested — pending owner review","Cancelación solicitada — pendiente de revisión"):payload.customer_change_request?.action==="reschedule"?buyerText("Reschedule requested — pending review","Cambio de fecha solicitado — pendiente de revisión"):""],
   [buyerText("Preferred new date","Nueva fecha preferida"),payload.customer_change_request?.preferred_date],
   [buyerText("Preferred new time","Nueva hora preferida"),payload.customer_change_request?.preferred_time]
