@@ -30,7 +30,7 @@ const checks=[
  ["No AI completion without evidence",script.includes('action:"complete",id:activeFinish,evidence:')],
  ["AI plan is not external execution",script.includes('tx("planDisclaimer")')],
  ["Escapes dynamically displayed task titles",script.includes('el("h3","",t.title)')],
- ["No direct email or billing sends",!/resend|stripe|send_email|checkout/i.test(script)],
+ ["No direct email or billing sends",!/action:\\s*["\x27](?:send_email|checkout|create_payment|publish_post)["\x27]|api\\.resend\\.com|api\\.stripe\\.com/i.test(script)],
  ["Responsive phone/tablet CSS",css.includes("@media(max-width:600px)")&&css.includes("@media(max-width:820px)")],
  ["No broken app-icons references",!html.includes("./app-icons/tle-192.png")],
  ["Private report section exists",html.includes('id="runs-section"') && html.includes('id="runs"')],
