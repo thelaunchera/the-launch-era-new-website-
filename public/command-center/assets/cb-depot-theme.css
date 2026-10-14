@@ -185,3 +185,11 @@ body.cb-depot-buyer #buyerRequestsHub .buyer-inbox-next {color:var(--cb-muted)!i
 body.cb-depot-buyer #buyerRequestsHub :is(.request-card,.request-card.selected) :is(strong,b) {color:var(--cb-text)!important}
 body.cb-depot-buyer :is(.request-card,.panel,.client-card) :is(small,.muted,.request-summary) {color:var(--cb-muted)!important}
 body.cb-depot-buyer #buyerRequestDetail :is(.muted,small) {color:var(--cb-muted)!important}
+
+/* Permission notice in older CB Depot cards has inline cream/grey colors.
+   Override BOTH surfaces and ink so the warning survives dark mode. */
+body.cb-depot-buyer #buyerRequestsHub .request-card > .request-summary[style*="background"] {
+ background:var(--cb-warning-bg)!important;color:var(--cb-warning-text)!important;
+ border:1px solid var(--cb-border)!important;
+}
+body.cb-depot-buyer #buyerRequestsHub .request-card > .request-summary[style*="background"] * {color:inherit!important}
