@@ -15,6 +15,7 @@ on:
       - 'scripts/qa-jessie-private-endpoints.mjs'
       - 'scripts/qa-jessie-owner-diagnostic.mjs'
       - 'scripts/qa-jessie-tenanted-edge-fixture.mjs'
+      - 'scripts/qa-jessie-owner-edge-fixture.mjs'
       - '.github/workflows/ai-team-qa.yml'
   workflow_dispatch:
 permissions:
@@ -37,6 +38,7 @@ jobs:
           node scripts/qa-jessie-unified-tenant.mjs
           node scripts/qa-jessie-owner-diagnostic.mjs
           node scripts/qa-jessie-tenanted-edge-fixture.mjs
+          node scripts/qa-jessie-owner-edge-fixture.mjs
           node --check public/command-center/assets/ai-team.js
       - name: Verify universal owner Jessie access contract
         run: node scripts/qa-jessy-owner.mjs
