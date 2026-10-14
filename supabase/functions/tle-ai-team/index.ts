@@ -6,6 +6,23 @@ const readOpenAI=()=>String(Deno.env.get("OPENAI_API_KEY")||"").trim();
 const ORIGINS=new Set(["https://thelaunchera.com","https://www.thelaunchera.com","https://command.thelaunchera.com"]);
 const AGENTS=new Set(["jessie","sales","projects","developer","qa","creative","care"]);
 const STATUSES=new Set(["planned","in_progress","needs_approval","approved","completed","blocked","cancelled"]);
+/* Explicit capability tiers. External side effects stay disabled, regardless of LLM instructions. */
+const ACTION_TIERS=Object.freeze({
+ list:"read",provider_check:"read",scan:"read",team_brief:"read",run_agent:"read",
+ capability_manifest:"read",plan:"draft",compose_output:"draft",
+ create:"internal_task",assign:"internal_task",status:"internal_task",
+ review_output:"owner_review",approve:"owner_review",complete:"evidence_record"
+});
+const EXTERNAL_CONNECTORS=Object.freeze({
+ outbound_email:{state:"not_enabled",tier:"restricted",requires:"recipient verification, suppression check, explicit owner preview + approval"},
+ social_publishing:{state:"not_enabled",tier:"restricted",requires:"exact scheduled post, artwork and caption approval"},
+ drive_writes:{state:"not_enabled",tier:"restricted",requires:"file/version permission and owner preview"},
+ client_mutation:{state:"not_enabled",tier:"restricted",requires:"tenant-scoped authorization, owner approval and audit log"},
+ code_deployment:{state:"not_enabled",tier:"restricted",requires:"independent QA, PR review and owner release approval"},
+ payments:{state:"not_enabled",tier:"restricted",requires:"explicit per-transaction human authorization"}
+});
+const AI_EXTERNAL_ACTIONS_ENABLED=false;
+
 const HEADERS=(origin)=>({"Content-Type":"application/json","Cache-Control":"no-store","Vary":"Origin","Access-Control-Allow-Origin":ORIGINS.has(origin)?origin:"https://thelaunchera.com","Access-Control-Allow-Headers":"authorization,apikey,content-type","Access-Control-Allow-Methods":"OPTIONS,POST"});
 function res(body,code,origin){return new Response(JSON.stringify(body),{status:code,headers:HEADERS(origin)})}
 const clean=(v,max)=>String(v??"").replace(/[\u0000-\u001f<>]/g," ").trim().slice(0,max);
@@ -155,38 +172,53 @@ async function salesReview(ctx,lang){
  fact("Candidates requiring final consent check",candidates.length,"tle_crm_leads consent flags")],[],rows.length===750);
  }catch{return report("sales",enes(lang,"Lead source unavailable; no recipients contacted.","No se pudieron consultar los prospectos; no se contactó a nadie."),[fact("Lead records",null,"tle_crm_leads")],[],true)}
 }
-async function projectReview(lang){
- let limit=false;
+async function projectReview(ctx,lang){
+ // Never aggregate all tenants merely because a service role can read the table.
+ // Legacy AI orders cannot be associated with this internal workspace in their current schema.
+ const scope="crm_workspace_id=eq."+encodeURIComponent(ctx.workspace);
  try{
- const [accounts,orders]=await Promise.all([
-  dbRead("tle_booking_flow_accounts","id=not.is.null","payment_status,intake_completed_at,build_started_at,delivery_sent_at,status",500),
-  dbRead("tle_ai_agent_orders","id=not.is.null","status,submitted_at,delivered_at",350)
- ]);
- const paid=accounts.filter(x=>/paid|succeeded|complete/i.test(String(x.payment_status||""))).length;
- const intakeMissing=accounts.filter(x=>/paid|succeeded|complete/i.test(String(x.payment_status||""))&&!x.intake_completed_at).length;
- const buildPending=accounts.filter(x=>x.intake_completed_at&&!x.build_started_at&&!x.delivery_sent_at).length;
- const undelivered=accounts.filter(x=>/paid|succeeded|complete/i.test(String(x.payment_status||""))&&!x.delivery_sent_at).length;
- const aiPending=orders.filter(x=>!/delivered|completed|cancelled|refunded|inactive/i.test(String(x.status||""))).length;
- limit=accounts.length===500||orders.length===350;
- return report("projects",enes(lang,"Paid/intake/delivery stages checked from platform records. Counts are review flags, not proof a client is ready.","Revisé las etapas de pagos, intakes y entregas. Son alertas de revisión, no confirmación de que el proyecto esté listo."),[
- fact("Booking accounts inspected",accounts.length,"tle_booking_flow_accounts"),
- fact("Paid orders",paid,"tle_booking_flow_accounts.payment_status"),
- fact("Paid with intake missing",intakeMissing,"tle_booking_flow_accounts.intake_completed_at"),
- fact("Intakes awaiting build start",buildPending,"tle_booking_flow_accounts.build_started_at"),
- fact("Paid without delivery stamp",undelivered,"tle_booking_flow_accounts.delivery_sent_at"),
- fact("AI orders not recorded delivered",aiPending,"tle_ai_agent_orders.status")],[],limit);
- }catch{return report("projects",enes(lang,"Project source unavailable; no client state was changed.","No se pudieron comprobar los proyectos. No se modificó ningún cliente."),[fact("Delivery source",null,"Supabase")],[],true)}
+  const accounts=await dbRead("tle_booking_flow_accounts",scope,
+   "payment_status,intake_completed_at,build_started_at,delivery_sent_at,status",500);
+  const paid=accounts.filter(x=>/^(paid|succeeded|complete)$/i.test(String(x.payment_status||""))).length;
+  const intakeMissing=accounts.filter(x=>/^(paid|succeeded|complete)$/i.test(String(x.payment_status||""))&&!x.intake_completed_at).length;
+  const buildPending=accounts.filter(x=>x.intake_completed_at&&!x.build_started_at&&!x.delivery_sent_at).length;
+  const undelivered=accounts.filter(x=>/^(paid|succeeded|complete)$/i.test(String(x.payment_status||""))&&!x.delivery_sent_at).length;
+  const limited=accounts.length===500;
+  return report("projects",enes(lang,
+   "Workspace-scoped booking records checked. Unlinked legacy and AI orders are unavailable until mapped securely; no project is certified ready.",
+   "Se revisaron las reservas vinculadas a este espacio. Los pedidos anteriores o de IA sin vínculo seguro no están disponibles; ninguna entrega se certifica como lista."),[
+   fact("Booking accounts inspected",accounts.length,"tle_booking_flow_accounts.crm_workspace_id"),
+   fact("Paid orders",paid,"tle_booking_flow_accounts.payment_status"),
+   fact("Paid with intake missing",intakeMissing,"tle_booking_flow_accounts.intake_completed_at"),
+   fact("Intakes awaiting build start",buildPending,"tle_booking_flow_accounts.build_started_at"),
+   fact("Paid without delivery stamp",undelivered,"tle_booking_flow_accounts.delivery_sent_at"),
+   fact("AI orders not recorded delivered",null,"No authenticated workspace relation in tle_ai_agent_orders")
+  ],[],true);
+ }catch{
+  return report("projects",enes(lang,
+   "Workspace-scoped project data unavailable; no client state changed.",
+   "Datos de proyectos vinculados al espacio no disponibles; no se cambió ningún cliente."),
+   [fact("Delivery source",null,"Workspace-scoped booking accounts")],[],true);
+ }
 }
-async function careReview(lang){
+function unresolvedSupportStatus(status){return !["closed","resolved","done","cancelled"].includes(String(status||"").trim().toLowerCase());}
+async function careReview(ctx,lang){
  try{
- const rows=await dbRead("tle_crm_support_requests","id=not.is.null","status,request_type,created_at",500);
- const unresolved=rows.filter(x=>!["closed","resolved","done","cancelled"].includes(String(x.status||"").toLowerCase()));
- const oldest=unresolved.map(x=>Date.parse(x.created_at)).filter(Number.isFinite).sort((a,b)=>a-b)[0];
- return report("care",enes(lang,"Support requests checked. No customer message was read, composed, or sent.","Se revisaron los estados de soporte, sin leer, redactar ni enviar mensajes a los clientes."),[
- fact("Support requests inspected",rows.length,"tle_crm_support_requests"),
- fact("Not marked resolved",unresolved.length,"tle_crm_support_requests.status"),
- fact("Oldest unresolved date",oldest?new Date(oldest).toISOString().slice(0,10):null,"tle_crm_support_requests.created_at")],[],rows.length===500);
- }catch{return report("care",enes(lang,"Support source unavailable.","Fuente de soporte no disponible."),[fact("Support source",null,"tle_crm_support_requests")],[],true)}
+  const rows=await dbRead("tle_crm_support_requests","workspace_id=eq."+encodeURIComponent(ctx.workspace),
+   "status,request_type,created_at",500);
+  const unresolved=rows.filter(x=>unresolvedSupportStatus(x.status));
+  const oldest=unresolved.map(x=>Date.parse(x.created_at)).filter(Number.isFinite).sort((a,b)=>a-b)[0];
+  return report("care",enes(lang,
+   "Workspace-scoped support statuses checked; no message was sent or modified.",
+   "Revisé los estados de soporte de este espacio; no se envió ni modificó ningún mensaje."),[
+   fact("Support requests inspected",rows.length,"tle_crm_support_requests.workspace_id"),
+   fact("Not marked resolved",unresolved.length,"tle_crm_support_requests.status"),
+   fact("Oldest unresolved date",oldest?new Date(oldest).toISOString().slice(0,10):null,"tle_crm_support_requests.created_at")
+  ],[],rows.length===500);
+ }catch{
+  return report("care",enes(lang,"Workspace support source unavailable.","Fuente de soporte del espacio no disponible."),
+   [fact("Support source",null,"tle_crm_support_requests.workspace_id")],[],true);
+ }
 }
 async function publicGet(url){
  const t=Date.now();
@@ -264,11 +296,11 @@ async function operationsBrief(ctx,lang){
 async function performReadOnly(ctx,agent,lang){
  if(agent==="jessie")return operationsBrief(ctx,lang);
  if(agent==="sales")return salesReview(ctx,lang);
- if(agent==="projects")return projectReview(lang);
+ if(agent==="projects")return projectReview(ctx,lang);
  if(agent==="developer")return developerReview(lang);
  if(agent==="qa")return qaReview(lang);
  if(agent==="creative")return creativeReview(lang);
- if(agent==="care")return careReview(lang);
+ if(agent==="care")return careReview(ctx,lang);
  throw Error("Unknown capability");
 }
 
@@ -288,6 +320,12 @@ Deno.serve(async req=>{
  const providerUrl=GROQ?"https://api.groq.com/openai/v1/chat/completions":"https://api.openai.com/v1/chat/completions";
  const providerModel=GROQ?(Deno.env.get("GROQ_MODEL")||"openai/gpt-oss-120b"):(Deno.env.get("JESSY_MODEL")||"gpt-4.1-mini");
  try{
+ if(action==="capability_manifest"){
+   return res({ok:true,provider,roles:[...AGENTS],action_tiers:ACTION_TIERS,
+     external_connectors:EXTERNAL_CONNECTORS,external_actions_enabled:AI_EXTERNAL_ACTIONS_ENABLED,
+     owner_only:true,kill_switch:"All AI external side effects are disabled; enabling requires separate reviewed implementation",
+     source:"server-enforced permissions; read-only capabilities are not publishing or sending permissions"},200,origin);
+ }
  if(action==="list"){
    const tasks=await rest("tle_ai_team_tasks","workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner+"&select=id,agent_key,title,description,status,priority,task_origin,approval_required,approved_at,completed_at,evidence,created_at,updated_at&order=created_at.desc&limit=120");
    const events=await rest("tle_ai_team_events","workspace_id=eq."+ctx.workspace+"&select=task_id,action,summary,created_at&order=created_at.desc&limit=35");
@@ -452,14 +490,69 @@ Deno.serve(async req=>{
    return res({ok:true,run:saved[0],reused:false,note:"Read-only sources checked; no client, email, payment or deployment changes."},200,origin);
  }
 
+ if(action==="team_brief"){
+   // Owner-only, read-only snapshot of the seven specialists; no sends or tenant mutations.
+   const w="workspace_id=eq."+encodeURIComponent(ctx.workspace);
+   const keys=["jessie","sales","projects","developer","qa","creative","care"];
+   const [checks,totals]=await Promise.all([
+     Promise.allSettled(keys.map(agent=>performReadOnly(ctx,agent,b.language==="en"?"en":"es"))),
+     Promise.all([count("tle_crm_leads",w+"&archived_at=is.null"),
+       count("tle_crm_notifications",w+"&read_at=is.null"),
+       count("tle_ai_team_tasks",w+"&owner_id=eq."+ctx.owner+"&status=in.(planned,in_progress,needs_approval,blocked,approved)")])
+   ]);
+   const reports=checks.map((result,i)=>{
+     const data=result.status==="fulfilled"?result.value:null;
+     return {agent:keys[i],capability:CAPABILITIES[keys[i]],status:data?.coverage==="complete"?"checked":"partial",
+       summary:data?.summary||enes(b.language,"Source unavailable; no conclusion verified","Fuente no disponible; no se pudo verificar el resultado"),
+       facts:Array.isArray(data?.facts)?data.facts.slice(0,8):[],
+       source_checks:Array.isArray(data?.checks)?data.checks.length:0,
+       read_only:true};
+   });
+   // Coverage and factual reliability are distinct. A failed public URL is a verified
+   // negative finding; safely linked booking records remain verified even while old,
+   // unmapped AI orders are excluded. Never promote missing or untrusted facts.
+   const verifiedPartialSources={
+     "projects:Paid with intake missing":"tle_booking_flow_accounts.intake_completed_at",
+     "qa:Public checks passed":"thelaunchera.com",
+     "qa:Public checks attempted":"thelaunchera.com"
+   };
+   const getValue=(agent,label)=>{
+     const reportItem=reports.find(x=>x.agent===agent);
+     if(!reportItem)return null;
+     const evidence=reportItem.facts.find(x=>x.label===label);
+     if(!evidence||typeof evidence.value!=="number"||!Number.isFinite(evidence.value)||evidence.value<0)return null;
+     if(reportItem.status!=="checked"&&verifiedPartialSources[agent+":"+label]!==evidence.source)return null;
+     if(agent==="qa"){
+       const attempted=reportItem.facts.find(x=>x.label==="Public checks attempted")?.value;
+       const passed=reportItem.facts.find(x=>x.label==="Public checks passed")?.value;
+       if(!Number.isInteger(attempted)||!Number.isInteger(passed)||attempted!==reportItem.source_checks||
+         passed<0||passed>attempted)return null;
+     }
+     return evidence.value;
+   };
+   const actions=[];
+   const missing=getValue("projects","Paid with intake missing"),followups=getValue("sales","Potential follow-ups due");
+   const care=getValue("care","Not marked resolved"),qa=getValue("qa","Public checks passed"),attempts=getValue("qa","Public checks attempted");
+   if(missing!==null&&missing>0)actions.push({agent:"projects",severity:"high",label:enes(b.language,"Check paid projects missing intake","Revisar proyectos pagados sin intake"),count:missing});
+   if(followups!==null&&followups>0)actions.push({agent:"sales",severity:"high",label:enes(b.language,"Review follow-ups and contact consent","Revisar seguimientos y consentimiento"),count:followups});
+   if(care!==null&&care>0)actions.push({agent:"care",severity:"normal",label:enes(b.language,"Review unresolved support requests","Revisar solicitudes de soporte pendientes"),count:care});
+   if(qa!==null&&attempts!==null&&qa<attempts)actions.push({agent:"qa",severity:"high",label:enes(b.language,"Investigate failed public route checks","Investigar errores en enlaces y rutas públicas"),count:attempts-qa});
+   // Integration gaps are explicit. A ChatGPT connector does not grant this Edge Function access.
+   return res({ok:true,source:"Authenticated owner read-only specialist review",collected_at:new Date().toISOString(),
+     counts:{prospects:totals[0],unread_notifications:totals[1],open_support:care,active_tasks:totals[2]},
+     reports,priority_actions:actions,integrations:{crm:"connected",github:"public_read",website:"public_read",
+       resend:"not_connected_to_ai_team",metricool:"not_connected_to_ai_team",drive:"not_connected_to_ai_team"},
+     no_external_actions:true},200,origin);
+ }
  if(action==="scan"){
    const w="workspace_id=eq."+encodeURIComponent(ctx.workspace);
-   const [prospects,notifications,requests,pendingTasks]=await Promise.all([
+   const [prospects,notifications,careReport,pendingTasks]=await Promise.all([
      count("tle_crm_leads",w+"&archived_at=is.null"),
      count("tle_crm_notifications",w+"&read_at=is.null"),
-     count("tle_crm_support_requests",w+"&status=eq.open"),
+     careReview(ctx,b.language==="en"?"en":"es"),
      count("tle_ai_team_tasks",w+"&owner_id=eq."+ctx.owner+"&status=in.(planned,in_progress,needs_approval,blocked,approved)")
    ]);
+   const requests=careReport.coverage==="complete"?careReport.facts.find(x=>x.label==="Not marked resolved")?.value??null:null;
    return res({ok:true,counts:{prospects,unread_notifications:notifications,open_support:requests,active_tasks:pendingTasks},source:"Read-only aggregate data; unavailable values are null",collected_at:new Date().toISOString()},200,origin);
  }
  if(action==="plan"){
