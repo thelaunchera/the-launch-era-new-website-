@@ -31,3 +31,24 @@
 @media(prefers-reduced-motion:reduce){.tle-sw-backdrop{backdrop-filter:none}}
 
 .tle-sw-logo{position:absolute;z-index:1;left:20px;top:20px;max-width:120px;max-height:72px;width:auto;height:auto;object-fit:contain;background:#ffffffdc;border-radius:12px;padding:7px;box-shadow:0 7px 19px #0002}
+
+
+/* Independent dark detailing theme. Only CB Depot / explicitly detailing businesses inherit this. */
+.tle-sw-dialog.tle-sw-detailing{background:#07111C;color:#F3F8FC;border:1px solid #143551}
+.tle-sw-dialog.tle-sw-detailing .tle-sw-visual{background:linear-gradient(145deg,#07111C,#143C68)}
+.tle-sw-dialog.tle-sw-detailing .tle-sw-visual:after{background:linear-gradient(0deg,rgba(2,8,13,.83),rgba(2,8,13,.1) 72%)}
+.tle-sw-dialog.tle-sw-detailing .tle-sw-eyebrow{color:#77BDFF}
+.tle-sw-dialog.tle-sw-detailing .tle-sw-title{color:#FFFFFF}
+.tle-sw-dialog.tle-sw-detailing .tle-sw-description{color:#CBDDEB}
+.tle-sw-dialog.tle-sw-detailing .tle-sw-promo{background:#0D2B4B;border-color:#14558E}
+.tle-sw-dialog.tle-sw-detailing .tle-sw-promo-label{color:#99CFFF}
+.tle-sw-dialog.tle-sw-detailing .tle-sw-offer{color:#FFFFFF}
+.tle-sw-dialog.tle-sw-detailing .tle-sw-terms{color:#B9CBDC}
+.tle-sw-dialog.tle-sw-detailing .tle-sw-book{background:var(--sw-accent,#087DFF);color:#FFFFFF}
+.tle-sw-dialog.tle-sw-detailing .tle-sw-skip{color:#B8CEE0}
+.tle-sw-dialog.tle-sw-detailing .tle-sw-close{background:#162A3C;border-color:#315475;color:#FFFFFF}
+.tle-sw-return-card.tle-sw-detailing{background:#07111C;border-color:#1F527D;color:#FFFFFF}
+.tle-sw-return-card.tle-sw-detailing .tle-sw-return-words span{color:#BDCEE0}
+.tle-sw-return-card.tle-sw-detailing .tle-sw-return-open{background:var(--sw-accent,#087DFF);color:#FFFFFF}
+.tle-sw-return-card.tle-sw-detailing .tle-sw-return-icon{color:#7DBDFF}
+@media(max-width:670px){.tle-sw-dialog.tle-sw-detailing .tle-sw-copy{padding-top:25px}.tle-sw-dialog.tle-sw-detailing .tle-sw-visual{min-height:165px}}
