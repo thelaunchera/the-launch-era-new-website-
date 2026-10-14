@@ -20,6 +20,51 @@ const words={
 let language="es",tasks=[],events=[],runs=[],outputs=[],providerState=null,scan=null,verified=false,activeFinish=null,plans=new Map(),inFlight=false;
 try{language=localStorage.getItem("tle_crm_owner_language")==="en"?"en":"es"}catch{}
 function tx(k){return words[language][k]}
+const teamCopy={
+ en:{eyebrow:"JESSIE · VERIFIED TEAM BRIEF",title:"The whole team in one view",micro:"Read-only · Owner approval for actions",note:"Metricool, Drive and Resend are not yet authorized as direct AI Team data sources. Drafts and checks do not send or publish anything.",intro:"Select Review my workspace to check all seven specialists.",checked:"Checked",partial:"Partial",noPriorities:"No verified urgent priorities found; partial sources still need review.",briefPrefix:"Read-only review · ",source:"Source",page:"Page",notReachable:"Not reachable",needsAttention:"Needs attention",noSummary:"Source check returned no summary."},
+ es:{eyebrow:"JESSIE · RESUMEN VERIFICADO",title:"Todo tu equipo en un solo lugar",micro:"Solo lectura · Tú apruebas las acciones",note:"Metricool, Drive y Resend aún no están autorizados como fuentes directas del AI Team. Los borradores y revisiones no envían ni publican nada.",intro:"Pulsa Revisar mi espacio para consultar los siete especialistas.",checked:"Revisado",partial:"Parcial",noPriorities:"No se detectaron prioridades confirmadas; las fuentes parciales aún requieren revisión.",briefPrefix:"Revisión de solo lectura · ",source:"Fuente",page:"Página",notReachable:"No disponible",needsAttention:"Requiere atención",noSummary:"La revisión no devolvió un resumen."}
+};
+const factSpanish={
+ "Active lead records scanned":"Prospectos activos revisados",
+ "Potential follow-ups due":"Seguimientos posiblemente pendientes",
+ "Candidates requiring final consent check":"Candidatos pendientes de comprobar consentimiento",
+ "Lead records":"Registros de prospectos",
+ "Booking accounts inspected":"Proyectos Booking revisados",
+ "Paid orders":"Pedidos pagados",
+ "Paid with intake missing":"Pedidos pagados sin intake",
+ "Intakes awaiting build start":"Intakes pendientes de inicio de producción",
+ "Paid without delivery stamp":"Pedidos pagados sin entrega registrada",
+ "AI orders not recorded delivered":"Pedidos IA sin entrega registrada",
+ "Delivery source":"Fuente de entregas",
+ "Support requests inspected":"Solicitudes de soporte revisadas",
+ "Not marked resolved":"Solicitudes sin resolver",
+ "Oldest unresolved date":"Fecha de la solicitud más antigua sin resolver",
+ "Support source":"Fuente de soporte",
+ "Public checks passed":"Rutas públicas comprobadas",
+ "Public checks attempted":"Rutas públicas revisadas",
+ "Branch":"Rama",
+ "Latest commit":"Último cambio",
+ "Latest completed CI":"Última prueba automática terminada",
+ "Latest CI workflow":"Último proceso de pruebas",
+ "Repository health":"Estado del repositorio",
+ "Public titles verified":"Títulos públicos comprobados",
+ "Marketing pages inspected":"Páginas de marketing revisadas",
+ "Metricool publishing integration":"Integración de publicación con Metricool",
+ "Active prospects":"Prospectos activos",
+ "Unread owner alerts":"Avisos sin leer",
+ "Tasks awaiting approval":"Tareas pendientes de aprobación",
+ "Blocked AI Team tasks":"Tareas bloqueadas del equipo",
+ "Public home":"Inicio público",
+ "Owner Command Center":"Command Center privado",
+ "Private AI Team":"Equipo IA privado",
+ "Password recovery":"Recuperar contraseña",
+ "Booking demo":"Demo de reservas",
+ "Homepage":"Inicio",
+ "Booking offer":"Oferta de reservas",
+ "AI Assistant offer":"Oferta del asistente IA"
+};
+function teamTx(key){return teamCopy[language][key]||key}
+function localFact(label){const original=String(label||teamTx("source"));return language==="es"?(factSpanish[original]||original):original}
 function el(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n}
 function showError(message){const toast=$("toast");toast.textContent=String(message||tx("serverError"));toast.hidden=false;toast.classList.add("error");setTimeout(()=>{toast.hidden=true;toast.classList.remove("error")},6000)}
 function notify(message){const toast=$("toast");toast.textContent=message;toast.hidden=false;toast.classList.remove("error");setTimeout(()=>toast.hidden=true,4500)}
@@ -110,11 +155,11 @@ function renderTeamBrief(){
  const status=$("team-overview-status"),reportsRoot=$("team-brief-reports"),priorityRoot=$("team-brief-actions");
  if(!status||!reportsRoot||!priorityRoot)return;
  reportsRoot.replaceChildren();priorityRoot.replaceChildren();
- if(!scan?.reports?.length){status.textContent=language==="es"?"Pulsa Revisar mi espacio para consultar los siete especialistas.":"Select Review my workspace to check all seven specialists.";return}
+ if(!scan?.reports?.length){status.textContent=teamTx("intro");return}
  const when=new Date(scan.collected_at).toLocaleString(language==="es"?"es-US":"en-US");
- status.textContent=(language==="es"?"Revisión de solo lectura · ":"Read-only review · ")+when;
+ status.textContent=teamTx("briefPrefix")+when;
  const actions=Array.isArray(scan.priority_actions)?scan.priority_actions:[];
- if(!actions.length)priorityRoot.append(el("p","ait-muted",language==="es"?"No se detectaron prioridades confirmadas; las fuentes parciales siguen pendientes de revisión.":"No verified urgent priorities found; partial sources still need review."));
+ if(!actions.length)priorityRoot.append(el("p","ait-muted",teamTx("noPriorities")));
  for(const action of actions.slice(0,5)){
   const item=el("article","ait-priority");
   item.append(el("span","ait-agent-pill",agentName(action.agent)),el("strong","",action.label),el("b","",String(action.count)));
@@ -123,11 +168,11 @@ function renderTeamBrief(){
  for(const x of scan.reports){
   const card=el("article","ait-brief-card");
   const head=el("div","ait-task-top");
-  head.append(el("strong","",agentName(x.agent)),el("span","ait-status "+(x.status==="checked"?"completed":"needs_approval"),x.status==="checked"?(language==="es"?"Revisado":"Checked"):(language==="es"?"Parcial":"Partial")));
+  head.append(el("strong","",agentName(x.agent)),el("span","ait-status "+(x.status==="checked"?"completed":"needs_approval"),x.status==="checked"?teamTx("checked"):teamTx("partial")));
   card.append(head,el("p","",String(x.summary||"")));
   const facts=el("div","ait-run-facts");
   for(const y of (x.facts||[]).slice(0,5)){
-   const row=el("div");row.append(el("span","",String(y.label||"")),el("b","",y.value===null||y.value===undefined?"—":String(y.value)));facts.append(row);
+   const row=el("div");row.append(el("span","",localFact(y.label)),el("b","",y.value===null||y.value===undefined?"—":String(y.value)));facts.append(row);
   }
   card.append(facts);reportsRoot.append(card);
  }
@@ -158,11 +203,11 @@ function renderRuns(){
     item.status==="success"?tx("successRun"):tx("partialRun")));
   card.append(header);
   const report=item.report||{};
-  card.append(el("p","ait-run-summary",String(report.summary||"Source check returned no summary.")));
+  card.append(el("p","ait-run-summary",String(report.summary||teamTx("noSummary"))));
   const facts=el("div","ait-run-facts");
   for(const x of (Array.isArray(report.facts)?report.facts:[]).slice(0,12)){
    const row=el("div");
-   const label=el("span","",String(x.label||"Source"));
+   const label=el("span","",localFact(x.label));
    const value=el("b","",x.value===null||x.value===undefined?tx("partial"):String(x.value));
    row.append(label,value);
    facts.append(row);
@@ -173,7 +218,7 @@ function renderRuns(){
    disclosure.append(el("summary","",tx("details")+" ("+report.checks.length+")"));
    const body=el("div","ait-run-checks");
    for(const check of report.checks.slice(0,12)){
-    const row=el("p","",String(check.label||"Page")+": "+String(check.http_status===null?"not reachable":check.http_status)+" · "+(check.expected_marker_found===false||check.present===false?"Needs attention":"Checked"));
+    const row=el("p","",localFact(check.label||teamTx("page"))+": "+String(check.http_status===null?teamTx("notReachable"):check.http_status)+" · "+(check.expected_marker_found===false||check.present===false?teamTx("needsAttention"):teamTx("checked")));
     body.append(row);
    }
    disclosure.append(body);card.append(disclosure);
@@ -236,6 +281,7 @@ function renderOutputs(){
 
 function applyText(){
  document.documentElement.lang=language;
+ for(const [id,key] of [["team-overview-eyebrow","eyebrow"],["team-overview-title","title"],["team-overview-micro","micro"],["team-overview-note","note"]]){const e=$(id);if(e)e.textContent=teamTx(key)}
  $("intro").textContent=tx("intro");$("truth").textContent=tx("truth");
  $("scan").firstChild.textContent=tx("review")+" ";
  $("new-task-top").textContent=tx("newTask");$("new-task").textContent=tx("newTask");
@@ -310,7 +356,7 @@ window.TLEAIOpsGateway=Object.freeze({
    return response.output;
  }
 });
-$("lang").addEventListener("click",()=>{language=language==="es"?"en":"es";try{localStorage.setItem("tle_crm_owner_language",language)}catch{}applyText()});
+$("lang").addEventListener("click",()=>{language=language==="es"?"en":"es";if(scan?.reports)scan=null;try{localStorage.setItem("tle_crm_owner_language",language)}catch{}applyText()});
 for(const id of ["new-task","new-task-top"])$(id).onclick=()=>showDialog();
 $("ai-provider-check").onclick=async()=>{
  const button=$("ai-provider-check");if(button.disabled)return;
