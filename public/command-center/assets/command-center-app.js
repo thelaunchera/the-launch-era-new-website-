@@ -3766,7 +3766,7 @@ async function buyerUpdateRequest(sendEmail,overrideAction){
  const b1=$("buyerRequestSave"),b2=$("buyerRequestSend"),b3=$("buyerRequestFinalSend"),b4=$("buyerRequestFinalStop");b1.disabled=true;b2.disabled=true;b3.disabled=true;b4.disabled=true;
  $("buyerRequestStatus").textContent=buyerText("Saving update…","Guardando actualización…");
  try{
-  const result=await buyerRequestCall("update",{request_id:id,action,message,send_email:sendEmail,quote_amount:$("buyerRequestQuoteAmount").value,request_date:$("buyerRequestBookingDate").value,request_time:$("buyerRequestBookingTime").value});
+  const result=await buyerRequestCall("update",{request_id:id,action,message,send_email:sendEmail||action==="booked",quote_amount:$("buyerRequestQuoteAmount").value,request_date:$("buyerRequestBookingDate").value,request_time:$("buyerRequestBookingTime").value});
   const status=result.email_sent?buyerText("Update saved. The email service accepted your message.","Actualización guardada. El servicio aceptó el correo."):
    sendEmail?buyerText("Status saved, but the message was not accepted for sending. Check the email before retrying.","Estado guardado, pero el correo no fue aceptado. Revisa antes de repetir."):
    buyerText("Status saved; no email was sent.","Estado guardado; no se envió correo.");
