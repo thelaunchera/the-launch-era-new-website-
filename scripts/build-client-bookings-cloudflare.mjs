@@ -1,5 +1,5 @@
 // Isolated Cloudflare Pages staging artifact. Never copies the entire public/ directory.
-import {cpSync,copyFileSync,existsSync,mkdirSync,rmSync,writeFileSync} from 'node:fs';
+import {cpSync,copyFileSync,existsSync,mkdirSync,readFileSync,rmSync,writeFileSync} from 'node:fs';
 const out='dist-client-bookings';
 rmSync(out,{recursive:true,force:true});mkdirSync(out+'/assets',{recursive:true});mkdirSync(out+'/assets/clients/cb-depot',{recursive:true});
 for(const f of ['booking-base.css','booking-base.js','booking-smart-welcome.css','booking-smart-welcome.js','booking-template-live.js','booking-template-language.js','cb-depot-experience.js','cb-depot-premium.css'])copyFileSync('public/assets/'+f,out+'/assets/'+f);
@@ -15,6 +15,14 @@ if(existsSync(sharedImage)){
 for(const route of ['booking/return','cb-depot/privacy','cb-depot/terms']){
  mkdirSync(out+'/'+route,{recursive:true});
  copyFileSync('public/'+route+'/index.html',out+'/'+route+'/index.html');
+ // Legal pages opened directly must return to CB Depot, not an unkeyed demo.
+ if(route.startsWith('cb-depot/')){
+  const filename=out+'/'+route+'/index.html';
+  const content=readFileSync(filename,'utf8')
+   .replaceAll('href="/booking/#cbContact"','href="/cb-depot/#cbContact"')
+   .replaceAll('href="/booking/"','href="/cb-depot/"');
+  writeFileSync(filename,content);
+ }
 }
 // Stable client-facing link. The booking public key is a public routing identifier,
 // never a login token. Keep private preview and owner credentials out of this file.
