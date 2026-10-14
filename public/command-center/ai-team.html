@@ -5,7 +5,7 @@
 <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#FAF8F3">
 <title>AI Team | The Launch Era Command Center</title>
 <link rel="icon" href="/favicon.png">
-<link rel="stylesheet" href="./assets/ai-team.css?v=20261014-unified-ops">
+<link rel="stylesheet" href="./assets/ai-team.css?v=20261014-owner-diagnostic-v2">
 </head>
 <body>
 <div class="ait-loading" id="loading" role="status">Opening your private AI Team…</div>
@@ -33,6 +33,17 @@
  <div class="ait-provider-copy"><div class="ait-eyebrow">DRAFT GENERATOR</div><h2 id="ai-provider-title">AI connection</h2>
  <p id="ai-provider-status" role="status" aria-live="polite">Checking secure configuration…</p></div>
  <button type="button" id="ai-provider-check" class="ait-outline">Verify AI connection</button>
+</section>
+<section class="ait-owner-diagnostic" id="owner-diagnostic" aria-labelledby="owner-diagnostic-title">
+ <div class="ait-section-head"><div><span class="ait-eyebrow" id="owner-diagnostic-eyebrow">PRIVATE OWNER CHECK</span><h2 id="owner-diagnostic-title">Verify your AI Team session</h2></div><span class="ait-micro" id="owner-diagnostic-note">Read-only · No client changes</span></div>
+ <p class="ait-muted" id="owner-diagnostic-intro">Check your authenticated session, seven-agent access, permissions and Groq response before release.</p>
+ <div class="ait-owner-diagnostic-buttons">
+ <button type="button" class="ait-outline" id="owner-diagnostic-run">Run private checks</button>
+ <button type="button" class="ait-small-btn" id="owner-diagnostic-copy" hidden>Copy sanitized QA report</button>
+ </div>
+ <p id="owner-diagnostic-status" role="status" aria-live="polite">Not tested in this session.</p>
+ <div id="owner-diagnostic-results" class="ait-owner-diagnostic-results" aria-live="polite"></div>
+ <p class="ait-muted" id="owner-diagnostic-disclaimer">This checks your current owner session only. Cross-tenant, unauthorized-user and device QA must be verified independently.</p>
 </section>
 <section class="ait-section" aria-labelledby="agents-title"><div class="ait-section-head"><div><span class="ait-eyebrow">YOUR SPECIALISTS</span><h2 id="agents-title">One team. Clear responsibilities.</h2></div><span class="ait-micro">7 specialist roles · owner-controlled · live checks</span></div>
 <div class="ait-grid" id="agents"></div></section>
@@ -65,5 +76,5 @@
 <div class="ait-dialog-footer"><button type="button" data-dialog-close="finish-dialog" class="ait-outline">Cancel</button><button class="ait-primary" type="submit" id="finish-submit">Record completion</button></div></form></dialog>
 <div id="toast" class="ait-toast" role="status" aria-live="polite" hidden></div>
 <script src="./vendor/supabase-js-v2.57.0.umd.js"></script>
-<script type="module" src="./assets/ai-team.js?v=20261014-unified-ops"></script>
+<script type="module" src="./assets/ai-team.js?v=20261014-owner-diagnostic-v2"></script>
 </body></html>
