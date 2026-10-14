@@ -229,3 +229,9 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - User screenshot: unread-alert nudge stretched across sidebar. Source: verbose count message plus mobile max-width viewport rule.
 - Compact EN/ES singular/plural notice, intrinsic width capped at 250px, 44px tap target and mobile cap specificity. No auth, routing, records, alert counts or preference behavior changed.
 - Canonical source and dedicated `command.thelaunchera.com` build overlays kept aligned without changing pinned portal source. Offline count/owner tests and static routes pass. Dedicated Pages release gates run synthetic browser geometry at 360/390/820/1024/1440 before deployment. Live signed-in mobile QA pending.
+
+
+## 2026-10-14 — Owner Jessy email draft collapsed paragraphs and exposed Markdown
+- Owner screenshot showed raw asterisks, one dense paragraph and an invented 15-minute kickoff call. Verified root cause: tle-jessy-owner used clean() on generated answers, stripping newlines; chat prompt lacked dedicated email formatting and unsupported-stage constraints. Existing jo-bubble CSS already preserves whitespace.
+- Fix: newline-preserving plain-text normalization, email-only draft instructions, bilingual outage fallback and rejection of unsupported kickoff/activation claims. No client sends, status changes, route or authentication changes.
+- Verification: qa-jessy-owner-email mocked provider tests passed for paragraphs, Markdown removal, invented-call rejection and provider outage; route integrity, owner access/tenant fixture, auth recovery and client-release static checks passed. Signed-in live provider/UI regeneration remains pending; existing conversation text is not retroactively rewritten.
