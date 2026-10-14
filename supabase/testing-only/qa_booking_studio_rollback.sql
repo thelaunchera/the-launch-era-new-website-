@@ -1,5 +1,7 @@
 -- Execute on Supabase TESTING project only. All writes are rolled back.
 begin;
+-- Temporary membership exists only inside this transaction and is rolled back.
+grant booking_studio_qa_runner to postgres;
 set local role booking_studio_qa_runner;
 select set_config('booking_studio_qa.tenant_id','aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',true);
 insert into booking_studio_qa.synthetic_requests
