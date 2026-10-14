@@ -1,0 +1,57 @@
+name: Bundle Sales Landing QA
+on:
+  push:
+    branches: [feature/bundle-sales-landing-human-20261014]
+    paths:
+      - 'public/booking-bundle/index.html'
+      - 'public/assets/tle-bundle-landing.*'
+      - 'public/assets/bundle-landing/**'
+      - 'scripts/qa-bundle-sales*'
+      - '.github/workflows/bundle-sales-landing-qa.yml'
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  bundle-landing-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify real approved photos and safe checkout flow
+        run: |
+          node scripts/qa-bundle-sales-landing.mjs
+          node scripts/qa-route-integrity.mjs --static
+      - name: Install Playwright for responsive testing
+        run: |
+          mkdir -p /tmp/tle-bundle-qa
+          cd /tmp/tle-bundle-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          cd "$GITHUB_WORKSPACE"
+          ln -s /tmp/tle-bundle-qa/node_modules node_modules
+      - name: Test fixture demos and original purchase options at six sizes/languages
+        run: node scripts/qa-bundle-sales-browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bundle-landing-qa-screenshots
+          path: qa-screenshots/bundle-landing*.png
+          if-no-files-found: ignore
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Check production website build
+        run: |
+          bun install
+          bun run build
+          test -s .output/public/booking-bundle/index.html
+          test -s .output/public/assets/bundle-landing/bundle-hero.png
+          test -s .output/public/assets/bundle-landing/bundle-booking.png
+          test -s .output/public/assets/bundle-landing/bundle-command.png
+          test -s .output/public/assets/bundle-landing/bundle-ai.png
