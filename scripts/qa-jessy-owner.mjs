@@ -51,7 +51,7 @@ assert.match(ui,/No due follow-ups have verified email permission/);
 assert.match(ui,/Discard/);
 assert.match(css,/jo-draft-approve/);
 assert.match(fn,/data\?\.action==="draft_followup"/);
-assert.match(fn,/"created_by=eq\."+encodeURIComponent\(user\.id\)/);
+assert.ok(fn.includes('"created_by=eq."+encodeURIComponent(user.id)'),"Owner workspace lookup must be scoped");
 assert.match(fn,/workspaces\[0\]\.created_by!==user\.id/);
 assert.doesNotMatch(fn,/const ws=workspaces\.find\(/);
 assert.match(fn,/email_consent_status!=="authorized"/);
