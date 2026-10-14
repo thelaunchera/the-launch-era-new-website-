@@ -50,7 +50,7 @@ function activate(session){
  const customImage=candidate && !candidate.endsWith(".svg") && !/images\.pexels\.com/.test(candidate);
  img.hidden=false;
  img.src=(customImage&&!candidate.includes("/assets/clients/cb-depot/photos/hero-desktop.webp"))?candidate:(matchMedia("(max-width: 620px)").matches?photos.heroMobile:photos.hero);
- img.alt="Modern car at a professional auto detailing studio";
+ img.alt="Car featured in CB Depot professional detailing services";
  img.loading="eager";img.fetchPriority="high";
  img.onerror=()=>{img.onerror=null;img.src=photos.hero};
  hero.style.backgroundImage="none";
@@ -59,7 +59,7 @@ function activate(session){
  top.querySelector("small").textContent="CB DEPOT · CAR DETAILING";
  top.querySelector("h1").innerHTML="Professional car detailing, <em>made simple.</em>";
  const subtitle=document.getElementById("baseDescription");
- subtitle.textContent="Give your vehicle the attention it deserves. Choose your detail and request a time in just a few steps.";
+ subtitle.textContent="We bring professional car detailing to your location. Choose your service and request a time in just a few steps.";
  const nav=document.querySelector(".base-nav");
  // On-page branding uses the client's original panda illustration without a colored tile.
  // Only the installed-app icon uses the approved square PNG favicon.

@@ -18,4 +18,7 @@ assert.match(title,/CB Depot/i,'Browser title did not identify CB Depot');
 assert.ok(!pageUnavailable,'Page rendered unavailable error instead of live booking');
 assert.ok(/class="[^"]*buyer-live-page/.test(html),'Live booking enhancement did not mount');
 assert.ok(html.includes('cb-depot')||html.includes('CB Depot'),'CB Depot client assets absent from rendered browser DOM');
+const heroCopy=(html.match(/<p[^>]*id="baseDescription"[^>]*>([^<]*)/i)||[])[1]||'';
+assert.match(heroCopy,/We bring professional car detailing to your location\./i,'On-location detailing explanation missing from hero');
+assert.equal((heroCopy.match(/to your location/ig)||[]).length,1,'Mobile service promise should be stated once');
 console.log('PASS: CB Depot branded booking page rendered in Chrome with live account configuration. No customer data submitted.');
