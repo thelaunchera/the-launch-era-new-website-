@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Private Booking Studio QA · The Launch Era</title>
+<style>
+:root{font-family:system-ui,-apple-system,sans-serif;color:#191919;background:#f4f8fb}*{box-sizing:border-box}
+body{margin:0;padding:clamp(18px,4vw,48px)}main{max-width:900px;margin:auto}h1{font-size:clamp(27px,4vw,40px);letter-spacing:-.05em}
+.panel{background:#fff;border:1px solid #d5e3ec;border-radius:24px;padding:clamp(18px,4vw,32px);margin:18px 0;box-shadow:0 10px 30px #18394c0d}
+.warning{background:#fff2d9;padding:14px 18px;border-radius:14px;line-height:1.5}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+label{display:block;font-weight:650;font-size:14px;margin-bottom:6px}input,select{width:100%;padding:13px;border-radius:12px;border:1px solid #a5bdcb;background:#fff;color:#191919;font:inherit;min-width:0}
+button{border:0;border-radius:12px;padding:13px 18px;background:#266a91;color:#fff;font:inherit;font-weight:700;cursor:pointer}button:disabled{opacity:.5;cursor:not-allowed}
+button.secondary{background:#e5f2f9;color:#174d6b}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}#status{white-space:pre-wrap;overflow-wrap:anywhere}
+.results{list-style:none;padding:0}.results li{border-bottom:1px solid #dce7ee;padding:13px 0;overflow-wrap:anywhere}
+@media(max-width:650px){.grid{grid-template-columns:1fr}body{padding:14px}.panel{border-radius:17px}}
+</style></head>
+<body><main><p><strong>THE LAUNCH ERA · INTERNAL QA</strong></p><h1>Booking Studio staging test</h1>
+<p class="warning"><strong>SYNTHETIC ONLY.</strong> This is an internal test form, not a customer Booking Page. No real appointments, customer emails, or published pages are created. Use a dedicated Supabase Testing account, never a production password.</p>
+<section class="panel" id="auth"><h2>Testing sign-in</h2><div class="grid">
+<div><label for="email">Testing email</label><input id="email" type="email" autocomplete="username"></div>
+<div><label for="password">Testing password</label><input id="password" type="password" autocomplete="current-password"></div></div>
+<div class="actions"><button id="login">Sign in to Testing</button><button id="logout" class="secondary" disabled>Sign out</button></div></section>
+<section class="panel"><h2>Submit synthetic request</h2><div class="grid">
+<div><label for="service">Service</label><select id="service"><option>Standard Cleaning</option><option>Move-Out Cleaning</option></select></div>
+<div><label for="area">Service area</label><select id="area"><option>Miami</option><option>Miami Beach</option></select></div>
+<div><label for="frequency">Frequency</label><select id="frequency"><option value="one_time">One time</option><option value="weekly">Weekly</option><option value="biweekly">Biweekly</option><option value="monthly">Monthly</option></select></div>
+<div><label for="addon">Add-on</label><select id="addon"><option value="">None</option><option>Oven</option><option>Refrigerator</option></select></div></div>
+<p><label><input type="checkbox" id="consent" style="width:auto;margin-right:8px">I authorize this synthetic contact-consent test. No email will be sent.</label></p>
+<div class="actions"><button id="submit" disabled>Submit test request</button><button id="refresh" class="secondary" disabled>View my test records</button></div>
+<p id="status" role="status" aria-live="polite">Sign in with a Testing account to begin.</p></section>
+<section class="panel"><h2>My synthetic requests</h2><ul id="results" class="results"><li>Nothing loaded.</li></ul></section>
+</main>
+<script type="module">
+const BASE="https://afyiltvdfqnuyzcqsnoh.supabase.co";
+const KEY="sb_publishable_ECdkPd5gkDR55JOWEqsnPA_cJE8bENc";
+const API=BASE+"/functions/v1/tle-booking-studio-staging-qa";
+const el=id=>document.getElementById(id);let token="";
+const status=message=>el("status").textContent=message;
+const controls=enabled=>{el("submit").disabled=!enabled;el("refresh").disabled=!enabled;el("logout").disabled=!enabled;el("login").disabled=enabled};
+async function call(body){const r=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json",apikey:KEY,authorization:"Bearer "+token},body:JSON.stringify(body)});const data=await r.json();if(!r.ok)throw Error(data.error||"Testing request failed");return data}
+el("login").onclick=async()=>{try{status("Signing in to Testing…");const r=await fetch(BASE+"/auth/v1/token?grant_type=password",{method:"POST",headers:{"Content-Type":"application/json",apikey:KEY},body:JSON.stringify({email:el("email").value.trim(),password:el("password").value})});const data=await r.json();el("password").value="";if(!r.ok||!data.access_token)throw Error("Testing sign-in failed");token=data.access_token;controls(true);status("Signed in to Testing. Ready for synthetic QA.");}catch(e){token="";controls(false);status(e.message)}};
+el("logout").onclick=()=>{token="";controls(false);el("results").replaceChildren();status("Signed out of Testing.")};
+el("submit").onclick=async()=>{try{status("Saving synthetic request…");const data=await call({action:"submit",service_name:el("service").value,service_area:el("area").value,frequency:el("frequency").value,addons:el("addon").value?[el("addon").value]:[],consent_to_contact:el("consent").checked});status("Saved synthetic "+data.request.kind+". No real booking or email was created.");await refresh()}catch(e){status(e.message)}};
+async function refresh(){try{const data=await call({action:"list"});const list=el("results");list.replaceChildren();if(!data.requests.length){const li=document.createElement("li");li.textContent="No synthetic requests for this Testing user.";list.append(li)}for(const item of data.requests){const li=document.createElement("li");li.textContent=[item.kind,item.service_name,item.service_area,item.frequency,item.estimated_total===null?"Quote required":"Estimated $"+item.estimated_total].join(" · ");list.append(li)}status("Showing "+data.requests.length+" synthetic request(s) for this Testing account.")}catch(e){status(e.message)}}
+el("refresh").onclick=refresh;
+</script></body></html>
