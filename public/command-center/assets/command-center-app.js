@@ -2959,15 +2959,30 @@ function buyerRequestState(v){
 }
 function buyerRequestSummaries(){
  const area=$("buyerRequestStats");area.replaceChildren();
+ const pending=buyerRequests.filter(buyerRequestNeedsAttention);
+ const manualPending=buyerManualLeads().filter(x=>["New","Follow-up"].includes(x.stage));
  const counts=[
   [buyerText("Confirmed bookings","Reservas confirmadas"),buyerRequests.filter(x=>x.status==="booked").length],
   [buyerText("Quotes & estimates","Cotizaciones y estimados"),buyerRequests.filter(x=>buyerRequestKind(x)==="quote").length],
   [buyerText("Inquiries","Consultas"),buyerRequests.filter(x=>buyerRequestKind(x)==="inquiry").length],
-  [buyerText("Needs attention","Necesitan atención"),buyerRequests.filter(buyerRequestNeedsAttention).length+buyerManualLeads().filter(x=>["New","Follow-up"].includes(x.stage)).length]
+  [buyerText("Needs attention","Necesitan atención"),pending.length+manualPending.length]
  ];
- for(const [label,count] of counts){
+ for(const [index,[label,count]] of counts.entries()){
   const card=buyerCreate("div",undefined,"request-stat");
-  card.append(buyerCreate("small",label),buyerCreate("b",count));area.append(card)
+  card.append(buyerCreate("small",label),buyerCreate("b",count));
+  if(index===3){
+   const groups=[
+    [pending.filter(x=>buyerRequestKind(x)==="quote").length,buyerText("quotes to review","cotizaciones por revisar")],
+    [pending.filter(x=>buyerRequestKind(x)==="booking").length,buyerText("bookings to review","reservas por revisar")],
+    [pending.filter(x=>buyerRequestKind(x)==="inquiry").length,buyerText("inquiries to review","consultas por revisar")],
+    [manualPending.length,buyerText("leads to follow up","contactos para seguimiento")]
+   ];
+   const detail=groups.filter(([n])=>n>0).map(([n,label])=>n+" "+label).join(" · ");
+   const explanation=buyerCreate("small",count?detail:buyerText("Nothing pending","No hay tareas pendientes"),"request-stat-breakdown");
+   explanation.style.cssText="display:block;margin-top:8px;font-size:11px;line-height:1.5;color:#436276;overflow-wrap:anywhere";
+   card.append(explanation);
+  }
+  area.append(card)
  }
 }
 
