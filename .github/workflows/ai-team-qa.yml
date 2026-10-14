@@ -11,6 +11,11 @@ on:
       - 'scripts/qa-ai-team-gateway.mjs'
       - 'scripts/qa-ai-team-ai-provider.mjs'
       - 'scripts/qa-jessy-owner.mjs'
+      - 'scripts/qa-jessie-unified-tenant.mjs'
+      - 'scripts/qa-jessie-private-endpoints.mjs'
+      - 'scripts/qa-jessie-owner-diagnostic.mjs'
+      - 'scripts/qa-jessie-tenanted-edge-fixture.mjs'
+      - 'scripts/qa-jessie-owner-edge-fixture.mjs'
       - '.github/workflows/ai-team-qa.yml'
   workflow_dispatch:
 permissions:
@@ -30,22 +35,14 @@ jobs:
           node scripts/qa-ai-team-commands.mjs
           node scripts/qa-ai-team-gateway.mjs
           node scripts/qa-ai-team-ai-provider.mjs
+          node scripts/qa-jessie-unified-tenant.mjs
+          node scripts/qa-jessie-owner-diagnostic.mjs
+          node scripts/qa-jessie-tenanted-edge-fixture.mjs
+          node scripts/qa-jessie-owner-edge-fixture.mjs
+          node --check public/command-center/assets/ai-team.js
       - name: Verify universal owner Jessie access contract
         run: node scripts/qa-jessy-owner.mjs
       - name: Verify public route and asset integrity
         run: node scripts/qa-route-integrity.mjs --static
-      - name: Deny anonymous read and execution calls
-        shell: bash
-        run: |
-          set -euo pipefail
-          for action in list run_agent; do
-            code="$(curl --silent --show-error --max-time 18 -o /tmp/ai-team-anon.json -w '%{http_code}' \
-              -X POST -H 'Content-Type: application/json' \
-              -d "{\"action\":\"$action\",\"agent_key\":\"sales\"}" \
-              https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-ai-team)"
-            if [[ "$code" != "401" && "$code" != "403" ]]; then
-              echo "::error::Unauthenticated AI Team $action unexpectedly returned $code."
-              exit 1
-            fi
-            echo "PASS — anonymous $action denied."
-          done
+      - name: Deny anonymous and invalid-origin requests on both Jessie functions
+        run: node scripts/qa-jessie-private-endpoints.mjs
