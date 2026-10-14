@@ -11,11 +11,14 @@ if(existsSync(sharedImage)){
  mkdirSync(out+'/assets/images/1200x1200',{recursive:true});
  copyFileSync(sharedImage,out+'/assets/images/1200x1200/housekeeper-making-a-bed.jpg');
 }
-// Do not silently turn missing tenant-specific routes into the marketing website.
+// Publish the existing booking management and legal pages, not placeholder copies.
 for(const route of ['booking/return','cb-depot/privacy','cb-depot/terms']){
  mkdirSync(out+'/'+route,{recursive:true});
- writeFileSync(out+'/'+route+'/index.html','<!doctype html><html lang="en"><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><title>Not available yet</title><body><main><h1>This feature is not available yet</h1><p>Please contact the business directly. No booking or cancellation has been processed.</p></main></body></html>');
+ copyFileSync('public/'+route+'/index.html',out+'/'+route+'/index.html');
 }
+// Preserve /booking/ links used by CB Depot's policy pages.
+mkdirSync(out+'/booking',{recursive:true});
+copyFileSync('public/base-booking.html',out+'/booking/index.html');
 writeFileSync(out+'/index.html','<!doctype html><html lang="en"><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><title>Booking pages are being prepared</title><body><h1>Booking pages are being prepared</h1><p>Please use the verified booking link provided by your service provider.</p></body></html>');
 writeFileSync(out+'/_headers','/*\n  X-Robots-Tag: noindex, nofollow\n  X-Content-Type-Options: nosniff\n');
 console.log('Staging artifact generated at '+out+'; NOT customer-ready. Tenant key, callback routing, legal links and QA require verification.');
