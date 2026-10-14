@@ -3826,10 +3826,14 @@ async function buyerUpdateRequest(sendEmail,overrideAction){
  }catch(e){
   const raw=String(e.message||"");
   const slotIssue=action==="booked"&&/time cannot be reserved|cannot be reserved|availability settings|slot|schedule unavailable/i.test(raw);
-  const hint=slotIssue?buyerText(
+  const cbDepot=slotIssue&&/^cb\s*depot$/i.test(String(workspace?.name||""));
+  const hint=slotIssue?(cbDepot?buyerText(
+   "This appointment wasn't booked. CB Depot requires at least 24 hours' notice. Choose a later available time and check business hours and existing appointments. No confirmation email was sent.",
+   "Esta cita no se reservó. CB Depot requiere al menos 24 horas de anticipación. Elige un horario posterior disponible y revisa las citas existentes. No se envió correo de confirmación."
+  ):buyerText(
    "This appointment was not booked. Choose another open time. Check the booking notice period, working hours and existing appointments in Availability. No confirmation email was sent.",
    "No se confirmó esta cita. Elige otro horario libre. Revisa la anticipación mínima, el horario de atención y las citas existentes en Disponibilidad. No se envió un correo de confirmación."
-  ):raw;
+  )):raw;
   $("buyerRequestStatus").textContent=hint;
   showSaveToast('error',slotIssue?'Time unavailable · Booking unchanged':'Could not save the update',slotIssue?'Horario no disponible · Reserva sin cambios':'No se pudo guardar el cambio');
  }
