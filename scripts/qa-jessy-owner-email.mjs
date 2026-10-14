@@ -1,0 +1,22 @@
+import assert from "node:assert/strict";
+import {readFileSync} from "node:fs";
+import vm from "node:vm";
+const source=readFileSync("supabase/functions/tle-jessy-owner/index.ts","utf8").replace(/^import[^\n]+\n/,"");
+let responseText="**Subject:** Booking help\n\nHi [Name],\n\nWe can help organize booking inquiries.\n\nWould you like an example?\n\nThe Launch Era";
+let sentPrompt="";
+const context={Deno:{env:{get:k=>k==="GROQ_API_KEY"?"fixture":""},serve(){}},AbortSignal,Response,fetch:async(u,o)=>{
+ sentPrompt=JSON.parse(o.body).messages[0].content;
+ return new Response(JSON.stringify({choices:[{message:{content:responseText}}]}));
+}};
+vm.createContext(context);vm.runInContext(source,context);
+const ask=()=>context.ai("Help me with an email for booking and AI assistant","en",{},"emails",[],"owner-pages");
+let result=await ask();
+assert(result.startsWith("Subject:"));assert(result.includes("\n\nHi"));
+assert(!result.includes("**"));assert(sentPrompt.includes("Never invent a kickoff call"));
+responseText="Subject: Welcome\n\nHi [Name],\n\nSchedule a kickoff call (15 min).\n\nThe Launch Era";
+result=await ask();assert(!/kickoff|15 min/i.test(result));assert(result.includes("Would you like"));
+context.fetch=async()=>new Response("{}",{status:429});
+result=await ask();assert(result.startsWith("Subject:"));
+assert(context.ownerEmailFallback("es").startsWith("Asunto:"));
+assert(context.plainReply('**Hi**\n\n“Name”').includes('\n\n"Name"'));
+console.log("PASS owner email: paragraph preservation, plain text, unsupported-call rejection and bilingual provider-failure fallback. Fixture only; no sends.");
