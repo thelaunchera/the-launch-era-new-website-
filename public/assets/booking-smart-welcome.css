@@ -29,3 +29,5 @@
 .tle-sw-return-open{background:#191919;color:#fff;border:0;border-radius:999px;padding:12px 17px;font-size:12px;font-weight:700}
 @media(max-width:670px){.tle-sw-backdrop{align-items:end;padding:0}.tle-sw-dialog{width:100%;max-height:calc(100dvh - 12px);border-radius:22px 22px 0 0}.tle-sw-body{grid-template-columns:1fr}.tle-sw-visual{height:170px;min-height:170px}.tle-sw-business{bottom:12px;left:18px;font-size:13px}.tle-sw-copy{padding:23px 22px calc(24px + env(safe-area-inset-bottom,0px));gap:10px}.tle-sw-title{font-size:27px}.tle-sw-description{font-size:13px}.tle-sw-promo{padding:12px}.tle-sw-offer{font-size:16px}.tle-sw-return-card{flex-wrap:wrap;gap:11px}.tle-sw-return-open{margin-left:auto}}
 @media(prefers-reduced-motion:reduce){.tle-sw-backdrop{backdrop-filter:none}}
+
+.tle-sw-logo{position:absolute;z-index:1;left:20px;top:20px;max-width:120px;max-height:72px;width:auto;height:auto;object-fit:contain;background:#ffffffdc;border-radius:12px;padding:7px;box-shadow:0 7px 19px #0002}
