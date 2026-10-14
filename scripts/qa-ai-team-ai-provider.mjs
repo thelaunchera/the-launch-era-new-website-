@@ -36,4 +36,12 @@ assert.match(sales,/\[Business\]/);
 // Keep Jessie, Sales and Projects instructions grounded and human.
 assert.match(api,/const ROLE_SYSTEM=\\{/);
 assert.match(api,/const humanHint=\\{/);
+// Regression: these three specialists must stay human and evidence-based.
+assert.match(api,/Give the owner a short, warm, direct answer first/);
+assert.match(api,/what is still unknown and needs checking/);
+assert.match(api,/Write one short, warm email/);
+assert.match(api,/do not invent tools, 24\/7 booking, calendar integrations/);
+assert.match(api,/The draft is never sent/);
+assert.match(api,/what has actually been confirmed, what is missing/);
+assert.match(api,/Block handoff until the correct brand/);
 console.log("PASS — AI provider check owner-only, generated provenance, honest offline templates, no embedded secret");
