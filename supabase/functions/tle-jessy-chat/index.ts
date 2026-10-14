@@ -113,7 +113,7 @@ function appHelp(message,lang){
 function isServiceExplanation(message){
  const q=norm(message);
  if(/\b(?:price|pricing|cost|cuanto|cuesta|precio|costo|fee|monthly|mensual|charge)\b/.test(q))return false;
- return /(?:how (?:does|do|will|would|it|this|the .{1,28}) (?:work|function)|how it works|how this (?:service|system) works|walk me through|explain (?:how|what)|can you explain|tell me how|what (?:exactly )?(?:does|do|is included)|what's included|what is included|what can (?:it|this) do|como funciona|como trabajan|como se usa|como lo usan|explicame|explica (?:como|que)|que (?:incluye|hace|puedo hacer)|en que consiste|como seria|paso a paso)/.test(q);
+ return /(?:how (?:does|do|will|would) .{1,60} (?:work|function)|how (?:it|this|the .{1,28}) (?:works?|functions?)|how it works|how this (?:service|system) works|walk me through|explain (?:how|what)|can you explain|tell me how|what (?:exactly )?(?:does|do|is included)|what's included|what is included|what can (?:it|this) do|como funciona|como trabajan|como se usa|como lo usan|explicame|explica (?:como|que)|que (?:incluye|hace|puedo hacer)|en que consiste|como seria|paso a paso)/.test(q);
 }
 function helpfulExplanation(id,lang){
  const es=lang==="es";
