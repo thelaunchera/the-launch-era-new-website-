@@ -90,7 +90,7 @@ export function SmartWelcomeBundle({ lang = 'en' }: Props) {
         <div className="tle-bundle-inline-text">
           <span className="tle-bundle-inline-kicker">{es ? 'OFERTA DE ACTIVACIÓN CONJUNTA' : 'LIMITED-TIME COMBINED ACTIVATION'}</span>
           <h2>{es ? 'Un poco más de ayuda para tu negocio.' : 'A little extra help for your cleaning business.'}</h2>
-          <p>{es ? 'Booking + Command Center, con AI Assistant opcional. El descuento es solo en la activación, no en la mensualidad de IA.' : 'Booking + Command Center, with an optional AI Assistant. Savings apply to combined setup, not ongoing AI monthly fees.'}</p>
+          <p>{es ? 'Booking + Command Center, con AI Assistant opcional. El 40% de descuento aplica solo a la activación conjunta. La mensualidad estándar del AI Assistant se cobra después de los primeros 30 días desde la entrega.' : 'Booking + Command Center, with an optional AI Assistant. The 40% discount applies to the combined activation only. Standard AI monthly pricing still applies after the first 30 days from delivery.'}</p>
         </div>
       </div>
       <a className="tle-bundle-inline-cta" href={href}>{es ? 'Ver paquete' : 'Explore the bundle'} <span aria-hidden="true">↗</span></a>
