@@ -41,6 +41,7 @@ jobs:
           set -euo pipefail
           node scripts/qa-jessy-owner.mjs
           node scripts/qa-ai-team-gateway.mjs
+          node scripts/qa-jessie-unified-tenant.mjs
 
       - name: Install Supabase CLI
         uses: supabase/setup-cli@v1
