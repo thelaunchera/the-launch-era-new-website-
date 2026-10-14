@@ -452,6 +452,43 @@ Deno.serve(async req=>{
    return res({ok:true,run:saved[0],reused:false,note:"Read-only sources checked; no client, email, payment or deployment changes."},200,origin);
  }
 
+ if(action==="team_brief"){
+   // Owner-only, read-only snapshot of the seven specialists; no sends or tenant mutations.
+   const w="workspace_id=eq."+encodeURIComponent(ctx.workspace);
+   const keys=["jessie","sales","projects","developer","qa","creative","care"];
+   const [checks,totals]=await Promise.all([
+     Promise.allSettled(keys.map(agent=>performReadOnly(ctx,agent,b.language==="en"?"en":"es"))),
+     Promise.all([count("tle_crm_leads",w+"&archived_at=is.null"),
+       count("tle_crm_notifications",w+"&read_at=is.null"),
+       count("tle_crm_support_requests",w+"&status=eq.open"),
+       count("tle_ai_team_tasks",w+"&owner_id=eq."+ctx.owner+"&status=in.(planned,in_progress,needs_approval,blocked,approved)")])
+   ]);
+   const reports=checks.map((result,i)=>{
+     const data=result.status==="fulfilled"?result.value:null;
+     return {agent:keys[i],capability:CAPABILITIES[keys[i]],status:data?.coverage==="complete"?"checked":"partial",
+       summary:data?.summary||"Source unavailable; no conclusion verified",
+       facts:Array.isArray(data?.facts)?data.facts.slice(0,8):[],
+       source_checks:Array.isArray(data?.checks)?data.checks.length:0,
+       read_only:true};
+   });
+   const getValue=(agent,label)=>{
+     const value=reports.find(x=>x.agent===agent)?.facts.find(x=>x.label===label)?.value;
+     return typeof value==="number"&&Number.isFinite(value)?value:null;
+   };
+   const actions=[];
+   const missing=getValue("projects","Paid with intake missing"),followups=getValue("sales","Potential follow-ups due");
+   const care=getValue("care","Not marked resolved"),qa=getValue("qa","Public checks passed"),attempts=getValue("qa","Public checks attempted");
+   if(missing!==null&&missing>0)actions.push({agent:"projects",severity:"high",label:"Check paid projects missing intake",count:missing});
+   if(followups!==null&&followups>0)actions.push({agent:"sales",severity:"high",label:"Review follow-ups and contact consent",count:followups});
+   if(care!==null&&care>0)actions.push({agent:"care",severity:"normal",label:"Review unresolved support requests",count:care});
+   if(qa!==null&&attempts!==null&&qa<attempts)actions.push({agent:"qa",severity:"high",label:"Investigate failed public route checks",count:attempts-qa});
+   // Integration gaps are explicit. A ChatGPT connector does not grant this Edge Function access.
+   return res({ok:true,source:"Authenticated owner read-only specialist review",collected_at:new Date().toISOString(),
+     counts:{prospects:totals[0],unread_notifications:totals[1],open_support:totals[2],active_tasks:totals[3]},
+     reports,priority_actions:actions,integrations:{crm:"connected",github:"public_read",website:"public_read",
+       resend:"not_connected_to_ai_team",metricool:"not_connected_to_ai_team",drive:"not_connected_to_ai_team"},
+     no_external_actions:true},200,origin);
+ }
  if(action==="scan"){
    const w="workspace_id=eq."+encodeURIComponent(ctx.workspace);
    const [prospects,notifications,requests,pendingTasks]=await Promise.all([
