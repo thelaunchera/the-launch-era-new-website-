@@ -30,9 +30,14 @@ for(const agent of ["jessie","sales","projects","developer","qa","creative","car
  assert.ok(draft.length>80,"usable fallback for "+agent);
  assert.doesNotMatch(draft,/OPENAI_API_KEY|sk-proj-/i);
 }
-const sales=generate("sales","es","");
-assert.match(sales,/\[First Name\]/);
-assert.match(sales,/\[Business\]/);
+const salesEs=generate("sales","es","");
+assert.match(salesEs,/^Asunto:/);
+assert.match(salesEs,/\[Nombre\]/);
+const salesEn=generate("sales","en","");
+assert.match(salesEn,/^Subject:/);
+assert.match(salesEn,/\[Client name\]|\[First Name\]/);
+assert.match(generate("care","es",""),/^Asunto:/);
+assert.match(generate("care","en",""),/^Subject:/);
 
 const helpersStart=api.indexOf("function emailIntent(");
 const helpersEnd=api.indexOf("const ROLE_SYSTEM",helpersStart);
