@@ -61,13 +61,38 @@ function fallback(l,section,c){
  return locale(l,"I can help with leads, follow-ups, client deliveries and support. What would you like to review?","Te ayudo con leads, seguimientos, entregas y soporte. ¿Qué quieres revisar?");
 }
 const validOwnerContext=new Set(["owner-pages","owner-calendar","leads","pipeline","calendar","clients","inbox","emails","settings","owner-support","owner-help","owner-build","owner-preview","lead-insights","buyer-preview"]);
+
+function emailDraftIntent(question){
+ return /\b(?:email|e-mail|correo)\b/i.test(question)&&/\b(?:help|draft|write|prepare|compose|redacta|escribe|prepara|ayuda|borrador)\b/i.test(question);
+}
+function plainReply(value,max=2400){
+ return String(value||"").replace(/\r\n?/g,"\n")
+  .replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f<>]/g," ")
+  .replace(/\*\*|__/g,"").replace(/^\s*#{1,6}\s+/gm,"")
+  .replace(/^\s*(?:---+|\x60\x60\x60[^\n]*)\s*$/gm,"")
+  .replace(/[“”]/g,'"').replace(/[‘’]/g,"'")
+  .replace(/\n{3,}/g,"\n\n").trim().slice(0,max);
+}
+function ownerEmailFallback(lang){
+ return lang==="es"
+ ? "Asunto: Reservas y AI Assistant para tu negocio\n\nHola [Nombre],\n\nPodemos ayudarte a organizar las solicitudes de reservas y sus seguimientos. El AI Assistant puede responder preguntas sobre tus servicios con la información de tu negocio.\n\n¿Te gustaría ver cómo funcionarían juntos para tu negocio de limpieza?\n\nThe Launch Era"
+ : "Subject: Booking and AI Assistant for your business\n\nHi [Name],\n\nWe can help you organize booking inquiries and follow-ups. The AI Assistant can answer questions about your services using your business information.\n\nWould you like to see how they could work together for your cleaning business?\n\nThe Launch Era";
+}
+function validOwnerEmail(text,lang){
+ return text.startsWith(lang==="es"?"Asunto:":"Subject:")&&text.includes("\n\n")
+ &&!/(?:kickoff|15\s*min|schedule.{0,25}call|llamada.{0,25}min|payment confirmed|pago confirmado|I've sent|I have sent|ya envi[eé]|24\/7|effortless|seamless)/i.test(text)
+ &&text.split(/\s+/).length<=160;
+}
+
 async function ai(question,lang,counts,section,history,pageContext){
  const provider=resolveProvider();
- if(!provider.key)return null;
+ const isEmail=emailDraftIntent(question);
+ if(!provider.key)return isEmail?ownerEmailFallback(lang):null;
  const system=[
  "You are Jessy, PRIVATE owner assistant for The Launch Era Command Center, not the public website assistant.",
  "Respond in "+(lang==="es"?"Spanish":"English")+". Answer the question first with a warm, natural tone. For simple questions use 1-2 sentences. When the owner asks for an explanation or instructions, use up to 180 words and short paragraphs or a few clear steps. Ask a question only when a missing detail is necessary. Avoid empty marketing phrases and repeated openings. Never pretend an action happened.",
  "You are also the conversational entry point for Jessie AI Team (Sales, Projects, Developer, QA, Creative, Care). Coordinate their read-only checks and reviewable drafts; do not claim that a check or external task actually happened unless verified.",
+ "For email requests, return ONLY the finished email: Subject/Asunto line, blank line, greeting, 2-3 short paragraphs and The Launch Era signature. Plain text only: no asterisks, Markdown, decorative quotes, separators, preamble or numbered lists. Use short sentences and natural punctuation. 60-110 words. Follow the explicitly requested language. Never invent a kickoff call, meeting, payment, activation, production start, delivery time or unsupported feature. If the stage is unknown, avoid a welcome that implies purchase or setup has begun. Keep placeholders only for missing name/business.",
  "Help navigate CRM, leads, follow-ups, website inquiries, customers, installations, AI deliveries and technical support.",
  "Provide only verified aggregate stats: "+JSON.stringify(counts)+". null means unavailable, not zero.",
  "Recommended section: "+section+". NEVER invent individual client details, email activity or completion status.",
@@ -79,10 +104,11 @@ async function ai(question,lang,counts,section,history,pageContext){
  ].join("\n");
  try{
  const r=await fetch(provider.url,{method:"POST",headers:{Authorization:"Bearer "+provider.key,"Content-Type":"application/json"},body:JSON.stringify({model:provider.model,...(provider.name==="groq"?{reasoning_effort:"low"}:{}),temperature:.2,max_tokens:650,messages:[{role:"system",content:system},...history,{role:"user",content:question}]}),signal:AbortSignal.timeout(11000)});
- if(!r.ok)return null;
- const j=await r.json(),answer=clean(j.choices?.[0]?.message?.content,1600);
+ if(!r.ok)return isEmail?ownerEmailFallback(lang):null;
+ const j=await r.json(),answer=plainReply(j.choices?.[0]?.message?.content);
+ if(isEmail&&!validOwnerEmail(answer,lang))return ownerEmailFallback(lang);
  return answer.length>5?answer:null;
- }catch{return null}
+ }catch{return isEmail?ownerEmailFallback(lang):null}
 }
 
 function safePersonalName(raw){
@@ -341,6 +367,7 @@ Deno.serve(async req=>{
  const websiteNew=null,aiPending=null;
  const counts={prospects,due,websiteNew,aiPending,unreadNotifications},section=route(message);
  const context=validOwnerContext.has(data?.page_context)?data.page_context:"";
- const generated=await ai(message,lang,counts,section,history,context);
+ const responseLang=/en espa[nñ]ol|in spanish/i.test(message)?"es":/in english|en ingl[eé]s/i.test(message)?"en":lang;
+ const generated=await ai(message,responseLang,counts,section,history,context);
  return out({ok:true,reply:generated||fallback(lang,section,counts),section:navs.has(section)?section:"owner-help",counts,mode:generated?"ai":"guided"},200,origin);
 });
