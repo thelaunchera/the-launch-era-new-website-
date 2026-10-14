@@ -17,9 +17,10 @@ const server=createServer((req,res)=>{
 await new Promise(ok=>server.listen(0,'127.0.0.1',ok));
 const base='http://127.0.0.1:'+server.address().port;
 const roles=['jessie','sales','projects','developer','qa','creative','care'];
-const fakeAuth=`window.supabase={createClient:()=>({auth:{
- getSession:async()=>({data:{session:{access_token:"fixture-no-real-token"}},error:null}),
- getUser:async()=>({data:{user:null}}),
+const fakeAuth=`const fixtureOwner={id:"synthetic-owner-only",last_sign_in_at:new Date().toISOString()};
+ window.supabase={createClient:()=>({auth:{
+ getSession:async()=>({data:{session:{access_token:"fixture-no-real-token",user:fixtureOwner}},error:null}),
+ getUser:async()=>({data:{user:fixtureOwner},error:null}),
  onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}})
  }})};`;
 function mockResponse(body){
@@ -54,6 +55,8 @@ try{
   });
   await page.goto(base+'/command-center/ai-team.html',{waitUntil:'domcontentloaded'});
   await page.locator('#app:not(.hidden)').waitFor({timeout:12000});
+  const privateGuard=await page.evaluate(()=>({available:!!window.TLEPrivateSessionPolicy,stored:!!localStorage.getItem('tle_cc_last_password_signin_v1')}));
+  assert(privateGuard.available&&privateGuard.stored,'Synthetic owner must pass real 12-hour private guard');
   await page.locator('#scan').click();
   await page.locator('#team-brief-reports > article').first().waitFor({timeout:12000});
   assert.equal(await page.locator('#team-brief-reports > article').count(),7,'Seven agent cards missing');

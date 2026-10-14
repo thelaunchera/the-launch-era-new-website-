@@ -1,0 +1,78 @@
+name: Private Buyer Access and 12h Session QA
+
+on:
+  pull_request:
+    paths:
+      - 'public/command-center/**'
+      - 'public/auth-recovery.html'
+      - 'supabase/functions/tle-booking-owner-studio/**'
+      - 'supabase/functions/tle-client-review/**'
+      - 'supabase/functions/tle-ai-booking-onboarding/**'
+      - 'scripts/qa-private-client-session-12h.mjs'
+      - 'scripts/qa-auth-recovery.mjs'
+      - '.github/workflows/private-client-entry-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  buyer-access:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@v4
+
+      - name: Verify private routes, one CTA, no marketing redirect and 12h expiry
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check public/command-center/assets/private-session-policy.js
+          node --check public/command-center/assets/command-center-app.js
+          node --check public/command-center/assets/ai-team.js
+          node scripts/qa-private-client-session-12h.mjs
+          node scripts/qa-auth-recovery.mjs
+          node scripts/qa-route-integrity.mjs --static
+
+      - name: Verify Edge Function TypeScript source
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Type-check buyer activation function without executing actions
+        run: |
+          deno check --node-modules-dir=auto supabase/functions/tle-booking-owner-studio/index.ts
+          deno check --node-modules-dir=auto supabase/functions/tle-client-review/index.ts
+          deno check --node-modules-dir=auto supabase/functions/tle-ai-booking-onboarding/index.ts
+
+      - name: Prepare GitHub Pages build
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Build production website without deploying
+        run: |
+          bun install
+          bun run build
+
+      - name: Confirm deployed files contain private sign-in and reset controls
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/qa-auth-recovery.mjs --built
+          test -s .output/public/command-center/index.html
+          test -s .output/public/command-center/access.html
+          test -s .output/public/command-center/ai-team.html
+          test -s .output/public/command-center/assets/private-session-policy.js
+          grep -q 'private-session-policy.js' .output/public/command-center/index.html
+          grep -q 'private-session-policy.js' .output/public/command-center/ai-team.html
+          grep -q 'private-session-policy.js' .output/public/command-center/access.html
+          grep -q 'from=private-access' .output/public/command-center/access.html
+          echo 'PASS — Future buyer private access and 12-hour browser reauthentication built successfully'
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "No customer emails, invitations, charges or client records changed by these tests." >> "$GITHUB_STEP_SUMMARY"
+          echo "Independent QA must still validate real first-time activation, reset, and Safari/device paths before any production deployment." >> "$GITHUB_STEP_SUMMARY"

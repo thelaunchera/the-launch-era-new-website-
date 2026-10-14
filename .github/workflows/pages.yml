@@ -57,6 +57,9 @@ jobs:
       - name: Guard all future client password recovery links
         run: node scripts/qa-auth-recovery.mjs
 
+      - name: Enforce twelve-hour private sessions and private activation URLs
+        run: node scripts/qa-private-client-session-12h.mjs
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
