@@ -31,8 +31,8 @@ Deno.serve(async req=>{
   if(!/^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(user?.id||""))return response({error:"invalid_staging_identity"},401,origin);
   const body=await req.json();
   if(body?.action==="list"){
-   const url=BASE+"/rest/v1/synthetic_requests?tenant_id=eq."+encodeURIComponent(user.id)+"&select=id,tenant_id,kind,service_name,service_area,frequency,estimated_total,consent_to_contact,confirmed,customer_notified,synthetic_only,created_at&order=created_at.desc&limit=20";
-   const read=await fetch(url.replace("/rest/v1/synthetic_requests","/rest/v1/booking_studio_qa.synthetic_requests"),{headers:{apikey:SR,authorization:"Bearer "+SR,"Accept-Profile":"booking_studio_qa"},signal:AbortSignal.timeout(7000)});
+   const url=BASE+"/rest/v1/tle_booking_studio_staging_requests?tenant_id=eq."+encodeURIComponent(user.id)+"&select=id,tenant_id,kind,service_name,service_area,frequency,estimated_total,consent_to_contact,confirmed,customer_notified,synthetic_only,created_at&order=created_at.desc&limit=20";
+   const read=await fetch(url,{headers:{apikey:SR,authorization:"Bearer "+SR},signal:AbortSignal.timeout(7000)});
    if(!read.ok)return response({error:"staging_database_unavailable"},503,origin);
    const rows=await read.json();
    return response({ok:true,synthetic_only:true,tenant_id:user.id,requests:rows},200,origin);
@@ -46,7 +46,7 @@ Deno.serve(async req=>{
   const sum=service.price===null?null:service.price+body.addons.reduce((n,x)=>n+addons.get(x),0);
   const total=sum===null?null:Math.round(sum*(100-discounts[frequency]))/100;
   const record={tenant_id:user.id,kind:service.kind,service_name:clean(body.service_name,100),service_area:area,frequency,estimated_total:total,consent_to_contact:true,confirmed:false,customer_notified:false,synthetic_only:true};
-  const saved=await fetch(BASE+"/rest/v1/booking_studio_qa.synthetic_requests",{method:"POST",headers:{apikey:SR,authorization:"Bearer "+SR,"Content-Type":"application/json","Content-Profile":"booking_studio_qa","Prefer":"return=representation"},body:JSON.stringify(record),signal:AbortSignal.timeout(7000)});
+  const saved=await fetch(BASE+"/rest/v1/tle_booking_studio_staging_requests",{method:"POST",headers:{apikey:SR,authorization:"Bearer "+SR,"Content-Type":"application/json","Prefer":"return=representation"},body:JSON.stringify(record),signal:AbortSignal.timeout(7000)});
   if(!saved.ok)return response({error:"staging_database_unavailable"},503,origin);
   const rows=await saved.json();
   return response({ok:true,synthetic_only:true,customer_notified:false,published:false,request:rows[0]},201,origin);
