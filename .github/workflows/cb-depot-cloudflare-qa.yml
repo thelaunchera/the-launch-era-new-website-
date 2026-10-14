@@ -9,6 +9,7 @@ on:
       - 'scripts/qa-cb-depot-browser.mjs'
       - 'scripts/qa-cb-depot-brand-root.mjs'
       - 'public/assets/cb-depot-experience.js'
+      - 'public/base-booking.html'
       - 'public/cb-depot/**'
       - 'public/assets/booking-template-live.js'
   workflow_dispatch:
