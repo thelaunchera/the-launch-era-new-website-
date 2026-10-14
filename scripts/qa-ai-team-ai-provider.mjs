@@ -33,4 +33,22 @@ for(const agent of ["jessie","sales","projects","developer","qa","creative","car
 const sales=generate("sales","es","");
 assert.match(sales,/\[First Name\]/);
 assert.match(sales,/\[Business\]/);
+
+const helpersStart=api.indexOf("function emailIntent(");
+const helpersEnd=api.indexOf("const ROLE_SYSTEM",helpersStart);
+assert.ok(helpersStart>=0&&helpersEnd>helpersStart,"all-agent draft safeguards must exist");
+const helpers=vm.runInNewContext(api.slice(helpersStart,helpersEnd)+";({emailIntent,draftLanguage,normalizeDraft,safeEmailTemplate,draftIsSafe})");
+const request={title:"Make me a mail draft for my clients",description:""};
+assert.equal(helpers.emailIntent(request),true,"Jessie routes email tasks as email");
+assert.equal(helpers.draftLanguage(request,"es"),"en","English request overrides Spanish UI");
+assert.equal(helpers.draftLanguage({title:"Escribe un correo en inglés",description:""},"es"),"en");
+const paragraph=helpers.normalizeDraft("**Subject:** Hello\\n\\nHi there,\\n\\nThanks!");
+assert.match(paragraph,/Subject: Hello\\n\\nHi there,/,"paragraph breaks preserved");
+assert.doesNotMatch(paragraph,/\\*\\*/,"raw Markdown removed");
+assert.equal(helpers.draftIsSafe("Subject: Update\\nEstimado cliente, hemos logrado un 12 % de aumento, el 15 de noviembre.",true,"en",false),false,"reject fabricated outcomes and language mismatch");
+assert.equal(helpers.draftIsSafe("Subject: Update\\nHi there, our campaign increased conversion 12% last month. Please call us. Regards, The Launch Era.",true,"en",false),false,"reject unsupported marketing metrics");
+assert.match(helpers.safeEmailTemplate("en"),/^Subject:/);
+assert.match(ui,/regenerate:true/,"owner can request new draft instead of reusing a previous output");
+console.log("PASS — draft language, intent routing, paragraph formatting, fabricated claims guard, safe regeneration");
+
 console.log("PASS — AI provider check owner-only, generated provenance, honest offline templates, no embedded secret");
