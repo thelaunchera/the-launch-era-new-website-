@@ -167,7 +167,8 @@ assert.match(front, /ai_plan_checkout_/);
 const planLogic = backend.slice(backend.indexOf("function wantsAiPlanComparison("),backend.indexOf("async function offers(){"));
 const planContext = { norm: (s) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"") };
 vm.createContext(planContext);
-vm.runInContext(planLogic,planContext);
+const actualPriceLogic=backend.slice(backend.indexOf("function asksPrice("),backend.indexOf("function isBusinessCleaningPriceQuestion(",backend.indexOf("function asksPrice(")));
+vm.runInContext(actualPriceLogic+planLogic,planContext);
 const requests = [
  ["Which AI Assistants do you offer?","ai-booking","ai-booking",true],
  ["¿Qué asistentes de IA ofrecen?","ai-booking","ai-booking",true],
@@ -204,8 +205,9 @@ assert.doesNotMatch(front,/actions\(null,"\/solutions"\)/);
 assert.match(backend,/function isServiceExplanation\(message\)/);
 assert.match(backend,/function helpfulExplanation\(id,lang\)/);
 assert.match(backend,/function helpfulNextAction\(message,id\)/);
-assert.match(backend,/next_action:helpfulNextAction\(message,id\)/);
-assert.match(backend,/mode:explanation\?"explanation"/);
+assert.match(backend,/const nextAction=priceQuestion/);
+assert.match(backend,/next_action:nextAction/);
+assert.match(backend,/mode:fixed\?"verified_price":ai\?"reasoned_ai":knowledge\?"verified_faq"/);
 const explanations=backend.slice(backend.indexOf("function isServiceExplanation("),backend.indexOf("function guide("));
 const knowledge= {};
 vm.createContext(knowledge);
