@@ -217,3 +217,8 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - User screenshot: large duplicate 40% flyer was repeated as a full-height homepage block after the popup; headline, discount, CTA and disclaimer consumed most of a viewport and disrupted scrolling.
 - Fix: leave original modal and approved flyer unchanged; replace only the homepage in-page block with a shallow ivory/soft-blue promotion strip, discreet yellow discount badge and one route-correct CTA. Keep EN/ES copy and 40% activation-only caveat. Do not alter bundle prices/Stripe/client booking data.
 - Regression gate: exact art remains in modal; no image in inline section; enforce mobile/desktop panel-height ceilings and mobile scroll/CTA navigation.
+
+## 2026-10-14 — Complete public Jessy confidentiality boundary
+- Built on already merged PR #69 without replacing its contextual FAQ or price logic. Added customer-email and consent-aware managed quote follow-up details verified against inquiry and follow-up function source.
+- Internal construction/code/credential questions now receive a deterministic bilingual boundary before plan comparison or AI calls. No owner data is loaded by the public FAQ. Model instructions reinforce customer-facing explanations only.
+- Regression: `qa-jessy-public-privacy.mjs` exercises full handler including mixed plan-comparison/prompt-extraction requests, contextual prices and customer emails. `qa-jessy-reasoning.ts`, coverage and static route checks pass. Publication pending approval after automatic review blocked direct production push.

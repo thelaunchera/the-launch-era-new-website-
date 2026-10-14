@@ -13,6 +13,15 @@ export type Fact = {
   es: string;
 };
 export const FAQ: Fact[] = [
+ {service:"booking",topic:"customer-emails",
+  keywords:["what emails","confirmation email","customer email","email after booking","que correos","correo de confirmacion","email al cliente","recibe el cliente"],
+  en:"After a request is submitted, the customer receives an acknowledgment and the business receives the request details with access to its private Command Center. The acknowledgment does not confirm an appointment. A separate confirmation depends on approval or eligible configured automatic confirmation. Messages use the customer's business identity.",
+  es:"Después de enviar la solicitud, el cliente recibe un acuse de recibo y el negocio recibe los detalles con acceso a su Command Center privado. Ese primer correo no confirma una cita. La confirmación depende de aprobación o de una confirmación automática elegible y configurada. Los mensajes llevan la identidad del negocio del cliente."},
+ {service:"booking",topic:"managed-followups",
+  keywords:["how do follow-ups work","how do follow ups work","how many followups","follow-up emails","follow up emails","stop reminders","como funcionan los seguimientos","correos de seguimiento","cuantos seguimientos","cuando paran"],
+  en:"For eligible quote requests, the configured workflow can send up to two follow-up emails after the customer agrees to reminders. Timing is configured for each business. Follow-ups stop when the customer replies, opts out or the request closes; the owner can also pause them. AI Follow-Up is a separate plan for assistance with those conversations.",
+  es:"Para solicitudes de cotización elegibles, el flujo configurado puede enviar hasta dos correos de seguimiento si el cliente acepta recordatorios. Los tiempos se configuran para cada negocio. Se detienen al responder, cancelar recordatorios o cerrar la solicitud; el dueño también puede pausarlos. AI Follow-Up es un plan aparte para ayudar con esas conversaciones."},
+
  {service:"general",topic:"business",
   keywords:["what do you do","what services","what do you sell","your business","que hacen","que ofrecen","que venden","servicios tienen","who are you"],
   en:"The Launch Era helps cleaning business owners organize inquiries, bookings, follow-ups and day-to-day work. We offer Booking Automation + Command Center, the Cleaning Web App, AI Assistants, Website Automation and VA support.",
