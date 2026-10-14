@@ -11,6 +11,7 @@ on:
       - 'scripts/qa-ai-team-gateway.mjs'
       - 'scripts/qa-ai-team-ai-provider.mjs'
       - 'scripts/qa-jessy-owner.mjs'
+      - 'scripts/qa-jessie-unified-tenant.mjs'
       - '.github/workflows/ai-team-qa.yml'
   workflow_dispatch:
 permissions:
@@ -30,6 +31,7 @@ jobs:
           node scripts/qa-ai-team-commands.mjs
           node scripts/qa-ai-team-gateway.mjs
           node scripts/qa-ai-team-ai-provider.mjs
+          node scripts/qa-jessie-unified-tenant.mjs
       - name: Verify universal owner Jessie access contract
         run: node scripts/qa-jessy-owner.mjs
       - name: Verify public route and asset integrity
