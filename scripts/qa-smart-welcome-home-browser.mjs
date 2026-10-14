@@ -33,6 +33,12 @@ try {
    await modal.getByRole('button',{name:'Close promotion'}).click();
    assert.equal(await modal.count(),0,'Modal did not close');
    assert(await page.locator('#smart-welcome-bundle').isVisible(),'Inline panel disappeared');
+   const slim=page.locator('#smart-welcome-bundle');
+   assert.equal(await slim.locator('img').count(),0,'Large poster must not repeat in the homepage');
+   const panelHeight=await slim.evaluate(el=>el.getBoundingClientRect().height);
+   assert(panelHeight<=(width<700?225:165),'Inline promo still too tall at '+width+': '+panelHeight);
+   assert.equal(await slim.locator('a.tle-bundle-inline-cta').count(),1,'Compact strip needs one working CTA');
+   await slim.screenshot({path:'qa-screenshots/home-welcome-compact-'+width+'.png'});
    assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'Home overflow '+width);
    await page.reload({waitUntil:'domcontentloaded'});
    await page.waitForTimeout(1600);

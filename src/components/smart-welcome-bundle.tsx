@@ -16,7 +16,6 @@ export function SmartWelcomeBundle({ lang = 'en' }: Props) {
   const closeRef = useRef<HTMLButtonElement>(null);
   const es = lang === 'es';
   const href = '/booking-bundle/?lang=' + lang + '&bundle=ai-booking&source=smart-welcome';
-  const title = es ? 'Una ayudita para que tu negocio siga creciendo.' : 'A little something for your cleaning business.';
   const cta = es ? 'Ver el paquete' : 'Get the bundle';
   const footnote = es
     ? '40% de descuento en la activación conjunta de Booking + AI Assistant. El plan mensual de IA mantiene su precio normal después de los primeros 30 días desde la entrega. El total se confirma antes de pagar.'
@@ -86,17 +85,15 @@ export function SmartWelcomeBundle({ lang = 'en' }: Props) {
 
   return <>
     <section id="smart-welcome-bundle" className="tle-bundle-inline" aria-label={es ? 'Oferta de activación conjunta' : 'Combined activation offer'}>
-      <a className="tle-bundle-inline-art" href={href} aria-label={cta}>
-        <img src={ART} alt={es ? 'Flyer de The Launch Era con dos profesionales de limpieza y 40% de descuento en la activación conjunta' : 'The Launch Era promotion flyer with two cleaning professionals and 40% off combined activation'} width="1122" height="1402" loading="lazy" decoding="async"/>
-      </a>
       <div className="tle-bundle-inline-copy">
-        <span className="tle-bundle-inline-kicker">{es ? 'PARA TU NEGOCIO DE LIMPIEZA' : 'FOR YOUR CLEANING BUSINESS'}</span>
-        <h2>{title}</h2>
-        <p>{es ? 'Booking Page, Command Center y un asistente de IA, juntos en un sistema más sencillo.' : 'Your Booking Page, Command Center, and an AI Assistant — working together in one simpler setup.'}</p>
-        <div className="tle-bundle-inline-discount">{es ? '40% MENOS EN ACTIVACIÓN' : '40% OFF COMBINED ACTIVATION'}</div>
-        <a className="tle-bundle-inline-cta" href={href}>{cta} <span aria-hidden="true">↗</span></a>
-        <p className="tle-bundle-inline-fine">{footnote}</p>
+        <span className="tle-bundle-inline-discount">{es ? '40% MENOS' : '40% OFF'}</span>
+        <div className="tle-bundle-inline-text">
+          <span className="tle-bundle-inline-kicker">{es ? 'OFERTA DE ACTIVACIÓN CONJUNTA' : 'LIMITED-TIME COMBINED ACTIVATION'}</span>
+          <h2>{es ? 'Un poco más de ayuda para tu negocio.' : 'A little extra help for your cleaning business.'}</h2>
+          <p>{es ? 'Booking + Command Center, con AI Assistant opcional. El descuento es solo en la activación, no en la mensualidad de IA.' : 'Booking + Command Center, with an optional AI Assistant. Savings apply to combined setup, not ongoing AI monthly fees.'}</p>
+        </div>
       </div>
+      <a className="tle-bundle-inline-cta" href={href}>{es ? 'Ver paquete' : 'Explore the bundle'} <span aria-hidden="true">↗</span></a>
     </section>
 
     {open && <div className="tle-bundle-welcome-backdrop" onMouseDown={(e) => {
