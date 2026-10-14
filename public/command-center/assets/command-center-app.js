@@ -791,7 +791,7 @@ async function loadOwnerProspectQueue(){
  if(result.error){ownerProspectQueueRows=null;return}
  ownerProspectQueueRows=result.data||[];
 }
-let loadGeneration=0;async function load(){if(!workspace)return;const generation=++loadGeneration;const wsId=workspace.id;const firstLoad=!document.body.dataset.leadsLoaded;if(firstLoad){for(const id of ['quickDueCount','quickWaitingCount','quickNewCount','metricTotal','metricNew','metricFollow','metricWon'])$(id).textContent='…';$('quickList').textContent='Loading your leads…'}let error=null;for(let attempt=0;attempt<3;attempt++){try{const result=await db.from('tle_crm_leads').select('id,business,contact,email,source,language,stage,followup,notes,email_consent_status,email_consent_source,email_followup_enabled,contact_decision,replied_at,research_only,primary_friction,service_fit,personalized_email_subject,personalized_email_body,archived_at,archive_reason').eq('workspace_id',wsId).eq('research_only',false).is('archived_at',null).order('created_at',{ascending:false});if(result.error)throw result.error;if(generation!==loadGeneration||workspace?.id!==wsId)return;leads=result.data||[];document.body.dataset.leadsLoaded='yes';await loadEmailSummary();await loadOwnerProspectQueue();render();say('');return}catch(e){error=e;if(attempt<2)await new Promise(resolve=>setTimeout(resolve,(attempt+1)*800))}}if(generation!==loadGeneration)return;say('Could not refresh leads. Your saved records have not been deleted. '+(error?.message||'Please retry.'));if(firstLoad){$('quickList').textContent='Unable to load leads. Please refresh to try again.'}}
+let loadGeneration=0;async function load(){if(!workspace)return;const generation=++loadGeneration;const wsId=workspace.id;const firstLoad=!document.body.dataset.leadsLoaded;if(firstLoad){for(const id of ['quickDueCount','quickWaitingCount','quickNewCount','metricTotal','metricNew','metricFollow','metricWon'])$(id).textContent='…';$('quickList').textContent='Loading your leads…'}let error=null;for(let attempt=0;attempt<3;attempt++){try{const result=await db.from('tle_crm_leads').select('id,business,contact,email,source,language,stage,followup,notes,email_consent_status,email_consent_source,email_followup_enabled,contact_decision,replied_at,research_only,primary_friction,service_fit,personalized_email_subject,personalized_email_body,archived_at,archive_reason,updated_at,attention_reviewed_at,attention_reviewed_stage').eq('workspace_id',wsId).eq('research_only',false).is('archived_at',null).order('created_at',{ascending:false});if(result.error)throw result.error;if(generation!==loadGeneration||workspace?.id!==wsId)return;leads=result.data||[];document.body.dataset.leadsLoaded='yes';await loadEmailSummary();await loadOwnerProspectQueue();render();say('');return}catch(e){error=e;if(attempt<2)await new Promise(resolve=>setTimeout(resolve,(attempt+1)*800))}}if(generation!==loadGeneration)return;say('Could not refresh leads. Your saved records have not been deleted. '+(error?.message||'Please retry.'));if(firstLoad){$('quickList').textContent='Unable to load leads. Please refresh to try again.'}}
 async function loadEmailSummary(){emailSentByLead=new Map();emailBouncedByLead=new Map();if(!workspace)return;const {data,error}=await db.from('tle_crm_email_events').select('lead_id,created_at,event_type').eq('workspace_id',workspace.id).in('event_type',['email_sent','email_failed']).order('created_at',{ascending:false}).limit(1000);if(error){say('Email status unavailable: '+error.message);return}for(const e of data||[]){if(e.event_type==='email_sent'&&!emailSentByLead.has(e.lead_id))emailSentByLead.set(e.lead_id,e.created_at);if(e.event_type==='email_failed'&&!emailBouncedByLead.has(e.lead_id))emailBouncedByLead.set(e.lead_id,e.created_at)}}
 const confirmedOptOut=x=>x.email_consent_status==='withdrawn'||/unsubscrib|opted out|stop (emailing|contacting)|do not email me/i.test(x.notes||'');
 const previousImportDnc=x=>/do not contact:\s*(yes|true)/i.test(x.notes||'');
@@ -2924,6 +2924,7 @@ function buyerRequestNeedsAttention(v){
  if(p.change_email_handoff?.results?.some(x=>x.accepted===false))return true;
  if(v.request_type==="quote"&&Number(v.follow_up_count||0)>=2&&!p.quote_response?.status&&!p.final_contact_decision)return true;
  if(v.status==="booked"||["closed","declined"].includes(v.status)||v.workflow_stage==="quoted")return false;
+ if(p.owner_reviewed_at)return false;
  return v.request_type==="quote"||v.raw_payload?.request_intent==="inquiry"||v.workflow_stage!=="booked"
 }
 function buyerRequestNext(v){
@@ -2957,10 +2958,16 @@ function buyerRequestState(v){
  if(v.workflow_stage==="reviewing")return buyerText("Under review","En revisión");
  return buyerRequestKind(v)==="inquiry"?buyerText("New inquiry","Nueva consulta"):buyerRequestIsEstimate(v)?buyerText("Estimate requested","Solicitó estimado"):v.request_type==="quote"?buyerText("Quote requested","Solicita cotización"):buyerText("Booking request","Solicitud de reserva");
 }
+function buyerManualNeedsAttention(x){
+ if(!["New","Follow-up"].includes(x.stage))return false;
+ if(!x.attention_reviewed_at||x.attention_reviewed_stage!==x.stage)return true;
+ const updated=Date.parse(x.updated_at||"")||0,reviewed=Date.parse(x.attention_reviewed_at||"")||0;
+ return updated>reviewed+2000;
+}
 function buyerRequestSummaries(){
  const area=$("buyerRequestStats");area.replaceChildren();
  const pending=buyerRequests.filter(buyerRequestNeedsAttention);
- const manualPending=buyerManualLeads().filter(x=>["New","Follow-up"].includes(x.stage));
+ const manualPending=buyerManualLeads().filter(buyerManualNeedsAttention);
  const counts=[
   [buyerText("Confirmed bookings","Reservas confirmadas"),buyerRequests.filter(x=>x.status==="booked").length],
   [buyerText("Quotes & estimates","Cotizaciones y estimados"),buyerRequests.filter(x=>buyerRequestKind(x)==="quote").length],
@@ -3163,6 +3170,7 @@ function buyerOpenRequest(x){
  buyerShowChangeDecision(x,body);
  $("buyerRequestNextAction").classList.remove("hidden");$("buyerRequestNextAction").textContent=buyerRequestNext(x);
  $("buyerRequestReplyArea").classList.remove("hidden");
+ $("buyerRequestMarkReviewed").classList.toggle("hidden",!buyerRequestNeedsAttention(x));
  $("buyerRequestAction").value=x.status==="booked"?"reply":"reviewing";
  $("buyerRequestQuoteAmount").value=payload.quote_offer?.amount||"";
  const finalAvailable=x.request_type==="quote"&&Number(x.follow_up_count||0)>=2&&x.status!=="booked"&&!["accepted","declined","lets_talk"].includes(payload.quote_response?.status)&&!payload.final_contact_decision;
@@ -3215,6 +3223,7 @@ function buyerManualLeads(){
  return leads.filter(x=>x.stage!=="Won"&&!x.research_only&&!/booking page|booking flow|booking form|quote request/i.test(String(x.source||"")))
 }
 function buyerManualCard(x){
+ const wrap=buyerCreate("div");wrap.style.cssText="display:grid;gap:6px;min-width:0";
  const btn=buyerCreate("button",undefined,"request-card");btn.type="button";
  const label=buyerCreate("span",buyerText("Inquiry · Other source","Consulta · Otra fuente"),"request-pill");
  const name=buyerCreate("strong",x.contact||x.business||buyerText("Customer","Cliente"));
@@ -3222,7 +3231,24 @@ function buyerManualCard(x){
  const desc=buyerCreate("div",[x.source,x.email,x.stage].filter(Boolean).join(" · "),"request-summary");
  const next=buyerCreate("div",buyerText("Next: review or reply","Siguiente: revisar o responder"),"buyer-inbox-next");
  next.style.cssText="margin-top:9px;font-size:12px;color:#45677f";
- btn.append(label,name,desc,next);btn.onclick=()=>edit(x);return btn;
+ btn.append(label,name,desc,next);btn.onclick=()=>edit(x);wrap.append(btn);
+ if(buyerManualNeedsAttention(x)){
+  const mark=buyerCreate("button",buyerText("✓ Mark reviewed · No email","✓ Marcar revisado · Sin correo"),"secondary");
+  mark.type="button";mark.style.cssText="width:100%;font-size:12px;min-height:38px";
+  mark.onclick=async()=>{
+   mark.disabled=true;
+   try{
+    const at=new Date().toISOString();
+    const result=await db.from("tle_crm_leads").update({attention_reviewed_at:at,attention_reviewed_stage:x.stage}).eq("id",x.id).eq("workspace_id",workspace.id).select("id,attention_reviewed_at,attention_reviewed_stage,updated_at").single();
+    if(result.error||!result.data)throw result.error||new Error("Unable to save review");
+    Object.assign(x,result.data);
+    buyerRequestSummaries();buyerRenderRequestCards();renderBuyerDashboard();
+    showSaveToast("success","Reviewed · No email sent","Revisado · No se envió correo");
+   }catch(e){mark.disabled=false;showSaveToast("error","Could not save review: "+(e.message||String(e)),"No se pudo guardar la revisión")}
+  };
+  wrap.append(mark);
+ }
+ return wrap;
 }
 function buyerLeadStatusMatch(x,choice){
  if(choice==='all')return true;
@@ -3255,12 +3281,12 @@ function buyerRenderRequestCards(){
  for(const x of rows)root.append(buyerRequestCard(x));
  const manualAllowed=buyerLeadQuickFilter==='all'||buyerLeadQuickFilter==='attention';
  const manual=manualAllowed&&['all','inquiry','attention'].includes(type)&&['all','open'].includes(status)?buyerManualLeads().filter(x=>
-  (buyerLeadQuickFilter!=='attention'&&type!=='attention'||['New','Follow-up'].includes(x.stage))&&
+  (buyerLeadQuickFilter!=='attention'&&type!=='attention'||buyerManualNeedsAttention(x))&&
   [x.contact,x.business,x.email,x.source,x.notes].some(v=>String(v||'').toLowerCase().includes(q))
  ):[];
  manual.sort((a,b)=>sort==='oldest'?Date.parse(a.created_at||0)-Date.parse(b.created_at||0):Date.parse(b.created_at||0)-Date.parse(a.created_at||0));
  manual.forEach(x=>root.append(buyerManualCard(x)));
- const attention=buyerRequests.filter(buyerRequestNeedsAttention).length+buyerManualLeads().filter(x=>['New','Follow-up'].includes(x.stage)).length;
+ const attention=buyerRequests.filter(buyerRequestNeedsAttention).length+buyerManualLeads().filter(buyerManualNeedsAttention).length;
  $('buyerLeadAttentionCount').textContent=String(attention);
  for(const button of document.querySelectorAll('[data-buyer-lead-filter]')){
   const isActive=button.dataset.buyerLeadFilter===buyerLeadQuickFilter;
@@ -3589,7 +3615,7 @@ async function loadBuyerBookingPreview(){
 }
 function renderBuyerDashboard(){
  if(!workspace||workspace.is_internal)return;
- const attention=buyerRequests.filter(buyerRequestNeedsAttention).length+buyerManualLeads().filter(x=>["New","Follow-up"].includes(x.stage)).length;
+ const attention=buyerRequests.filter(buyerRequestNeedsAttention).length+buyerManualLeads().filter(buyerManualNeedsAttention).length;
  const confirmed=buyerRequests.filter(x=>x.status==="booked").length;
  const quotes=buyerRequests.filter(x=>buyerRequestKind(x)==="quote").length;
  const area=$("buyerDashboardStats");area.replaceChildren();
@@ -3793,6 +3819,18 @@ async function buyerUpdateRequest(sendEmail,overrideAction){
  }catch(e){$("buyerRequestStatus").textContent=e.message;showSaveToast('error','Could not save the update','No se pudo guardar el cambio')}
  finally{b1.disabled=false;b2.disabled=false;b3.disabled=false;b4.disabled=false}
 }
+$("buyerRequestMarkReviewed").onclick=async()=>{
+ const x=buyerSelectedRequest;if(!x||!buyerRequestNeedsAttention(x))return;
+ const btn=$("buyerRequestMarkReviewed");btn.disabled=true;
+ try{
+  await buyerRequestCall("update",{request_id:x.id,action:"reviewed",send_email:false});
+  await loadBuyerRequests();
+  showSaveToast("success","Reviewed · No email sent","Revisado · No se envió correo");
+ }catch(e){
+  $("buyerRequestStatus").textContent=buyerText("Could not mark reviewed: ","No se pudo marcar como revisado: ")+(e.message||String(e));
+  showSaveToast("error","Could not save reviewed status","No se pudo guardar la revisión");
+ }finally{btn.disabled=false}
+};
 $("buyerRequestSave").onclick=()=>buyerUpdateRequest(false);
 $("buyerRequestSend").onclick=()=>buyerUpdateRequest(true);
 $("buyerRequestEmailPreview").onclick=()=>{
