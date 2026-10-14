@@ -26,8 +26,9 @@ assert.match(fn,/is_internal=eq\.true/);
 assert.match(fn,/auth\/v1\/user/);
 assert.match(fn,/if\(!allowed\.has\(origin\)\)/);
 assert.match(fn,/tle_crm_leads/);
-assert.match(fn,/tle_contact_leads/);
-assert.match(fn,/tle_ai_agent_orders/);
+assert.doesNotMatch(fn,/count\("tle_contact_leads"/,"Unlinked website inquiries may not be globally counted");
+assert.doesNotMatch(fn,/count\("tle_ai_agent_orders"/,"Unlinked AI orders may not be globally counted");
+assert.match(fn,/const websiteNew=null,aiPending=null;/,"Unscoped counters must remain unavailable");
 assert.match(fn,/never/i);
 assert.doesNotMatch(fn.slice(0,fn.indexOf("const WHATSAPP_KINDS")),/\bmethod:\s*"PATCH"|\bmethod:\s*"DELETE"/);
 assert.match(fn,/method:"PATCH"/); // WhatsApp preference pause only; no operational writes
