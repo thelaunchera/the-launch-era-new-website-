@@ -193,4 +193,39 @@ for(let i=0;i<ids.length;i++){
 }
 console.log("PASS Jessy 3 AI plans, exact EN/ES prices, specific checkout and no default AI selection");
 
+
+/* Information-first chat: explain real steps, no repeating the same checkout/learn CTAs. */
+assert.match(front,/const next=result.next_action/);
+assert.match(front,/if\(next==="checkout"&&checkout\)/);
+assert.match(front,/else if\(next==="trial"&&result.trial\)/);
+assert.match(front,/else if\(next==="demo"&&info\)/);
+assert.doesNotMatch(front,/if\(!showAiPlanChoices\(result\.ai_plans\)&&\(checkout\|\|info\|\|result\.trial\)\)/);
+assert.doesNotMatch(front,/actions\(null,"\/solutions"\)/);
+assert.match(backend,/function isServiceExplanation\(message\)/);
+assert.match(backend,/function helpfulExplanation\(id,lang\)/);
+assert.match(backend,/function helpfulNextAction\(message,id\)/);
+assert.match(backend,/next_action:helpfulNextAction\(message,id\)/);
+assert.match(backend,/mode:explanation\?"explanation"/);
+const explanations=backend.slice(backend.indexOf("function isServiceExplanation("),backend.indexOf("function guide("));
+const knowledge= {};
+vm.createContext(knowledge);
+vm.runInContext("function norm(s){return s.toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'')}"+explanations,knowledge);
+for(const q of ["Could you walk me through how this service works?","How does Booking Automation work?","¿Me explicas cómo funciona?","What does Booking Automation include?","¿Qué incluye este servicio?"]){
+ assert.equal(knowledge.isServiceExplanation(q),true,q);
+ assert.equal(knowledge.helpfulNextAction(q,"booking"),"none",q);
+}
+for(const [id,word] of [["booking","customer"],["cleaning-app","invoice"],["ai-booking","booking"],["ai-followup","leads"],["ai-business","assistant"],["website","inquiry"],["va","hours"]]){
+ const answer=knowledge.helpfulExplanation(id,"en");
+ assert.ok(answer.toLowerCase().includes(word),id+" must explain a specific feature");
+ assert.ok(answer.length>=90 && answer.length<350,id+" must be clear and concise");
+ assert.ok(!/what would you like to know|here.s the idea/i.test(answer),id+" may not be canned");
+ const es=knowledge.helpfulExplanation(id,"es");
+ assert.ok(es.length>=60 && es.length<350,id+" Spanish text should be useful");
+}
+assert.equal(knowledge.helpfulNextAction("Can I see the booking demo?","booking"),"demo");
+assert.equal(knowledge.helpfulNextAction("How do I start my free trial?","cleaning-app"),"trial");
+assert.equal(knowledge.helpfulNextAction("Where can I checkout?","booking"),"checkout");
+assert.equal(knowledge.helpfulNextAction("How much does it cost?","booking"),"none");
+console.log("PASS Jessy detailed service answers, bilingual helpful content, and no repetitive CTA after explanations");
+
 console.log("PASS Jessy universal public pages, English/Spanish route focus, Cleaning App answers and safe next steps");
