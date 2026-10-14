@@ -8,7 +8,7 @@ const BASE=Deno.env.get("SUPABASE_URL")||"";
 const SR=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")||"";
 const ANON=Deno.env.get("SUPABASE_ANON_KEY")||"";
 const PROJECT="afyiltvdfqnuyzcqsnoh";
-const allowedOrigins=new Set(["http://localhost:4173","http://127.0.0.1:4173"]);
+const allowedOrigins=new Set(["http://localhost:4173","http://127.0.0.1:4173","https://command.thelaunchera.com"]);
 const modes=new Set(["one_time","weekly","biweekly","monthly"]);
 const services=new Map([["Standard Cleaning",{kind:"booking_request",price:120}],["Move-Out Cleaning",{kind:"quote_request",price:null}]]);
 const addons=new Map([["Oven",20],["Refrigerator",15]]);
@@ -29,6 +29,7 @@ Deno.serve(async req=>{
   if(!userResponse.ok)return response({error:"staging_sign_in_required"},401,origin);
   const user=await userResponse.json();
   if(!/^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(user?.id||""))return response({error:"invalid_staging_identity"},401,origin);
+  if(user?.email?.toLowerCase()!=="hello@thelaunchera.com"||!user?.email_confirmed_at)return response({error:"authorized_testing_account_required"},403,origin);
   const body=await req.json();
   if(body?.action==="list"){
    const url=BASE+"/rest/v1/tle_booking_studio_staging_requests?tenant_id=eq."+encodeURIComponent(user.id)+"&select=id,tenant_id,kind,service_name,service_area,frequency,estimated_total,consent_to_contact,confirmed,customer_notified,synthetic_only,created_at&order=created_at.desc&limit=20";
