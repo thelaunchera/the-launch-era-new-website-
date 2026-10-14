@@ -1,0 +1,230 @@
+/* CB Depot Command Center — focused mobile dashboard and human help.
+   Tenant scoped. All existing booking, customer and backend features stay available. */
+body.cb-depot-buyer #buyerDashboardHub{min-width:0;overflow-wrap:anywhere}
+body.cb-depot-buyer #cbDetailingTop{padding-bottom:6px}
+body.cb-depot-buyer #cbDetailingTop .cb-detailing-heading{
+  min-height:270px;padding:clamp(22px,4vw,34px);border-radius:22px;
+  display:flex;align-items:flex-end;overflow:hidden;position:relative;isolation:isolate;
+}
+body.cb-depot-buyer #cbDetailingTop .cb-detailing-heading .cb-greeting-photo{z-index:-2}
+body.cb-depot-buyer #cbDetailingTop .cb-detailing-heading .cb-greeting-overlay{z-index:-1}
+body.cb-depot-buyer #cbDetailingTop .cb-greeting-copy{max-width:min(95%,510px)}
+body.cb-depot-buyer #cbDetailingTop .cb-greeting-copy>small{
+ font-size:10px;letter-spacing:.13em;color:#d8ebf5!important;display:block
+}
+body.cb-depot-buyer #cbDetailingTop .cb-greeting-copy h2{
+ color:#fff!important;font-size:clamp(28px,4.5vw,43px);line-height:1.13;
+ letter-spacing:-.045em;margin:11px 0 9px;text-wrap:balance
+}
+body.cb-depot-buyer #cbDetailingTop .cb-greeting-copy p{
+ color:#eef6fc!important;font-size:13px;line-height:1.55;max-width:400px;margin:0
+}
+body.cb-depot-buyer #cbDetailingTop .cb-greeting-chip{
+ margin-top:14px;background:#0e2438bf;color:#f3faff;border:1px solid #9bd0ee66;
+ padding:7px 11px;font-size:11px
+}
+body.cb-depot-buyer .cb-dash-focus{
+ display:flex;align-items:center;justify-content:space-between;gap:16px;
+ background:var(--cb-surface)!important;border:1px solid var(--cb-border);
+ border-radius:18px;padding:17px 19px;margin:15px 0 18px;
+ box-shadow:0 6px 23px #152b3b0d;
+}
+body.cb-depot-buyer .cb-dash-focus>div{min-width:0;flex:1}
+body.cb-depot-buyer .cb-dash-eyebrow,body.cb-depot-buyer .cb-dash-action-label{
+ font-size:10px;letter-spacing:.115em;font-weight:800;color:var(--cb-muted);
+ display:block;margin:0 0 7px
+}
+body.cb-depot-buyer .cb-dash-focus strong{
+ display:block;font-size:clamp(17px,2.5vw,22px);line-height:1.3;letter-spacing:-.015em;
+ color:var(--cb-text);overflow-wrap:anywhere
+}
+body.cb-depot-buyer .cb-dash-focus p{font-size:12px;line-height:1.5;color:var(--cb-muted);margin:6px 0 0}
+body.cb-depot-buyer .cb-dash-focus button{
+ border-radius:999px!important;min-height:43px;flex:none;max-width:40%;
+ background:var(--cb-accent)!important;color:var(--cb-accent-text)!important;
+ font-size:12px;font-weight:750;padding:10px 15px;white-space:normal;box-shadow:none!important
+}
+body.cb-depot-buyer .cb-dash-action-label{margin:4px 0 10px}
+body.cb-depot-buyer #cbDetailingTop .cb-detailing-actions{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 10px;
+}
+body.cb-depot-buyer #cbDetailingTop .cb-detailing-actions button{
+ min-height:85px;padding:15px 14px;border:1px solid var(--cb-border)!important;
+ background:var(--cb-surface-2)!important;border-radius:15px;
+ color:var(--cb-text)!important;font-size:13px;font-weight:750;line-height:1.35;
+ box-shadow:none!important;margin:0;text-align:left;overflow-wrap:anywhere;
+}
+body.cb-depot-buyer #cbDetailingTop .cb-detailing-actions button small{
+ margin-top:7px;font-size:11px;line-height:1.4;color:var(--cb-muted)!important;
+ font-weight:500
+}
+body.cb-depot-buyer #cbDetailingTop :is(.cb-dash-extra,.cb-dash-steps){
+ margin:10px 0;border:1px solid var(--cb-border);border-radius:15px;
+ padding:0 15px;background:var(--cb-surface);color:var(--cb-text);overflow:hidden
+}
+body.cb-depot-buyer #cbDetailingTop :is(.cb-dash-extra,.cb-dash-steps)>summary{
+ cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;
+ gap:12px;min-height:48px;padding:12px 2px;font-size:13px;font-weight:750;
+ color:var(--cb-text);line-height:1.4
+}
+body.cb-depot-buyer #cbDetailingTop :is(.cb-dash-extra,.cb-dash-steps)>summary::-webkit-details-marker{display:none}
+body.cb-depot-buyer #cbDetailingTop :is(.cb-dash-extra,.cb-dash-steps)>summary:after{
+ content:'⌄';color:var(--cb-muted);font-size:19px;margin-left:auto;
+}
+body.cb-depot-buyer #cbDetailingTop :is(.cb-dash-extra,.cb-dash-steps)[open]>summary:after{content:'⌃'}
+body.cb-depot-buyer #cbDetailingTop :is(.cb-dash-extra,.cb-dash-steps)>summary span{
+ display:block;font-weight:500;color:var(--cb-muted);font-size:11px;margin-left:auto
+}
+body.cb-depot-buyer .cb-dash-extra-grid{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;
+ border-top:1px solid var(--cb-border);padding:12px 0 15px
+}
+body.cb-depot-buyer .cb-dash-extra-grid button{
+ border:1px solid var(--cb-border)!important;background:var(--cb-surface-2)!important;
+ color:var(--cb-text)!important;min-height:67px;border-radius:12px;
+ font-size:12px;padding:12px;text-align:left;box-shadow:none!important
+}
+body.cb-depot-buyer .cb-dash-extra-grid button small{
+ display:block;font-size:11px;font-weight:450;color:var(--cb-muted);margin-top:6px
+}
+body.cb-depot-buyer .cb-dash-steps ol{
+ border-top:1px solid var(--cb-border);margin:0;padding:12px 5px 12px 24px;
+ display:grid;gap:9px;font-size:12px;line-height:1.6;color:var(--cb-text)
+}
+body.cb-depot-buyer .cb-dash-steps li strong{color:var(--cb-text)}
+body.cb-depot-buyer #cbDashGuideFAQ{
+ margin:0 0 13px;padding:10px 12px;min-height:40px;border:1px solid var(--cb-border)!important;
+ border-radius:11px;background:var(--cb-surface-2)!important;color:var(--cb-text)!important;font-size:12px;font-weight:750
+}
+body.cb-depot-buyer .cb-dash-helpbar{
+ display:flex;align-items:center;justify-content:space-between;gap:14px;
+ background:linear-gradient(110deg,#233c4c,#315976);color:#eff8fd;
+ border-radius:16px;padding:16px 18px;margin-top:13px
+}
+body.cb-depot-buyer .cb-dash-helpbar strong{display:block;color:#fff;font-size:14px;line-height:1.35}
+body.cb-depot-buyer .cb-dash-helpbar span{display:block;color:#deedf5;font-size:12px;margin-top:4px;line-height:1.45}
+body.cb-depot-buyer .cb-dash-help-actions{display:flex;gap:7px;flex-wrap:wrap;flex:none}
+body.cb-depot-buyer .cb-dash-help-actions button{
+ border:1px solid #b9d9eb!important;border-radius:999px;background:#d9eef9!important;
+ color:#192d3a!important;font-size:12px;font-weight:750;padding:10px 13px;min-height:43px;box-shadow:none!important
+}
+body.cb-depot-buyer .cb-dash-help-actions button:last-child{
+ background:transparent!important;color:#fff!important;border-color:#b6d6e5!important
+}
+body.cb-depot-buyer #buyerDashboardHub>.section-title,
+body.cb-depot-buyer #buyerDashboardHub>.section-title+p.muted{display:none!important}
+body.cb-depot-buyer #buyerDashboardHub #buyerBookingShareCard{
+ background:var(--cb-surface)!important;color:var(--cb-text)!important;
+ border:1px solid var(--cb-border)!important;border-radius:18px;margin:15px 0!important;
+ box-shadow:none!important;max-width:100%;min-width:0
+}
+body.cb-depot-buyer #buyerBookingShareCard :is(h3,p,label){
+ color:var(--cb-text)!important
+}
+body.cb-depot-buyer #buyerBookingShareCard p.muted{
+ color:var(--cb-muted)!important;line-height:1.55
+}
+body.cb-depot-buyer #buyerBookingShareActions{
+ min-width:0;max-width:100%;overflow-wrap:anywhere
+}
+body.cb-depot-buyer #buyerBookingShareUrl{width:100%;min-width:0}
+body.cb-depot-buyer #buyerBookingShareActions :is(button,a){
+ white-space:normal;overflow-wrap:anywhere;min-height:43px
+}
+body.cb-depot-buyer #buyerBookingShareActions button{
+ background:var(--cb-accent)!important;color:var(--cb-accent-text)!important
+}
+/* Searchable, expandable FAQ for this tenant; existing support form remains operational. */
+body.cb-depot-buyer #cbSpecificFAQ{display:block;min-width:0;margin:14px 0 22px}
+body.cb-depot-buyer .cb-faq-heading{
+ display:flex;justify-content:space-between;align-items:center;gap:18px;
+ padding:20px;border:1px solid var(--cb-border);border-radius:18px;
+ background:var(--cb-surface-2);margin-bottom:15px
+}
+body.cb-depot-buyer .cb-faq-heading small{
+ font-size:10px;letter-spacing:.13em;color:var(--cb-muted);font-weight:800
+}
+body.cb-depot-buyer .cb-faq-heading h2{
+ font-size:clamp(20px,3vw,26px);line-height:1.25;letter-spacing:-.03em;
+ color:var(--cb-text);margin:9px 0
+}
+body.cb-depot-buyer .cb-faq-heading p{margin:0;color:var(--cb-muted);font-size:13px;line-height:1.6}
+body.cb-depot-buyer .cb-faq-heading button{
+ flex:none;max-width:185px;border-radius:999px;border:1px solid var(--cb-border)!important;
+ background:var(--cb-accent)!important;color:var(--cb-accent-text)!important;
+ font-weight:750;font-size:12px;padding:12px 16px;min-height:43px
+}
+body.cb-depot-buyer .cb-faq-search-label{
+ display:block;font-size:12px;font-weight:700;color:var(--cb-text);
+ margin:0 0 13px
+}
+body.cb-depot-buyer #cbFaqSearch{
+ display:block;margin-top:7px;width:100%;min-height:46px;border:1px solid var(--cb-border);
+ border-radius:12px;padding:12px 14px;background:var(--cb-surface)!important;color:var(--cb-text)!important;
+ font-size:14px;max-width:100%
+}
+body.cb-depot-buyer #cbFaqItems{display:grid;gap:8px}
+body.cb-depot-buyer #cbFaqItems details{
+ min-width:0;border:1px solid var(--cb-border);background:var(--cb-surface);
+ border-radius:13px;padding:0 14px;overflow-wrap:anywhere
+}
+body.cb-depot-buyer #cbFaqItems details summary{
+ padding:15px 3px;cursor:pointer;color:var(--cb-text);
+ font-size:14px;font-weight:750;line-height:1.4;list-style:inside
+}
+body.cb-depot-buyer #cbFaqItems details[open] summary{border-bottom:1px solid var(--cb-border)}
+body.cb-depot-buyer #cbFaqItems details p{
+ color:var(--cb-muted)!important;font-size:13px;line-height:1.65;
+ padding:3px 2px 13px;margin:9px 0;overflow-wrap:anywhere
+}
+body.cb-depot-buyer #cbFaqNoMatches{
+ border:1px dashed var(--cb-border);border-radius:13px;padding:15px;
+ font-size:13px;color:var(--cb-muted)
+}
+body.cb-depot-buyer #buyerGeneralFAQ.hidden{display:none!important}
+@media(max-width:760px){
+ body.cb-depot-buyer #buyerDashboardHub{padding:12px!important;border-radius:16px}
+ body.cb-depot-buyer #cbDetailingTop .cb-detailing-heading{
+   min-height:245px!important;max-height:none;padding:21px 18px!important;
+   border-radius:18px;align-items:flex-end
+ }
+ body.cb-depot-buyer #cbDetailingTop .cb-greeting-copy h2{
+   font-size:clamp(25px,7vw,33px);margin:7px 0
+ }
+ body.cb-depot-buyer #cbDetailingTop .cb-greeting-copy p{font-size:12px}
+ body.cb-depot-buyer #cbDetailingTop .cb-greeting-chip{margin-top:9px}
+ body.cb-depot-buyer .cb-dash-focus{padding:14px;gap:10px;margin:11px 0 15px}
+ body.cb-depot-buyer .cb-dash-focus strong{font-size:16px}
+ body.cb-depot-buyer .cb-dash-focus button{max-width:37%;font-size:11px;padding:9px 10px}
+ body.cb-depot-buyer #cbDetailingTop .cb-detailing-actions{
+   grid-template-columns:repeat(3,minmax(0,1fr));gap:7px
+ }
+ body.cb-depot-buyer #cbDetailingTop .cb-detailing-actions button{
+   padding:11px 8px;min-height:83px;font-size:12px;border-radius:13px
+ }
+ body.cb-depot-buyer #cbDetailingTop .cb-detailing-actions button small{
+   font-size:10px;line-height:1.35;margin-top:5px
+ }
+ body.cb-depot-buyer .cb-dash-helpbar{flex-direction:column;align-items:stretch;padding:13px 14px;gap:9px}
+ body.cb-depot-buyer .cb-dash-help-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+ body.cb-depot-buyer .cb-dash-help-actions button{font-size:11px;padding:10px 7px}
+ body.cb-depot-buyer #buyerBookingShareCard{padding:14px!important}
+ body.cb-depot-buyer #buyerBookingShareCard>p.muted:not(#buyerBookingShareStatus){
+  display:none!important
+ }
+ body.cb-depot-buyer #buyerDashboardHub>.panel:last-child{display:none!important}
+ body.cb-depot-buyer #buyerDashboardHub>.panel:has(#buyerDashboardStats){display:none!important}
+ body.cb-depot-buyer .cb-faq-heading{flex-direction:column;align-items:stretch;padding:16px}
+ body.cb-depot-buyer .cb-faq-heading button{width:100%;max-width:none}
+ body.cb-depot-buyer #cbDetailingTop .cb-dash-extra-grid{grid-template-columns:1fr}
+ body.cb-depot-buyer #cbDetailingTop .cb-dash-extra-grid button{min-height:55px}
+}
+@media(max-width:365px){
+ body.cb-depot-buyer #cbDetailingTop .cb-detailing-actions{grid-template-columns:1fr}
+ body.cb-depot-buyer #cbDetailingTop .cb-detailing-actions button{min-height:55px}
+ body.cb-depot-buyer .cb-dash-focus{flex-direction:column;align-items:stretch}
+ body.cb-depot-buyer .cb-dash-focus button{max-width:100%;width:100%}
+}
+@media(prefers-reduced-motion:reduce){
+ body.cb-depot-buyer #cbDetailingTop .cb-detailing-heading img{transition:none!important;transform:none!important}
+}
