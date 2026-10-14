@@ -63,6 +63,63 @@ const factSpanish={
  "Booking offer":"Oferta de reservas",
  "AI Assistant offer":"Oferta del asistente IA"
 };
+const ownerCheckCopy={
+ es:{eyebrow:"VERIFICACIÓN PRIVADA",title:"Comprueba tu sesión del equipo IA",note:"Solo lectura · No se modifican clientes",intro:"Comprueba acceso, siete agentes, permisos y respuesta de Groq antes de publicar.",run:"Verificar mi sesión",copy:"Copiar informe sin datos privados",untested:"Sin comprobar en esta sesión.",checking:"Comprobando acceso y equipo…",summary:"Comprobación terminada",full:"Verificado",partial:"Requiere revisión",login:"Acceso de propietaria",roles:"Siete especialistas",permissions:"Permisos de solo lectura",provider:"Conexión del modelo IA",ok:"Verificado con la sesión actual",missing:"Sin confirmación suficiente",disabled:"Las acciones externas permanecen desactivadas",providerGood:"El modelo respondió",providerBad:"No se pudo verificar la respuesta del modelo",disclaimer:"Solo comprueba tu sesión. El revisor independiente debe validar otros usuarios, otros espacios y cada dispositivo.",copied:"Informe de QA copiado, sin datos personales.",failed:"No se pudo completar la revisión privada."},
+ en:{eyebrow:"PRIVATE OWNER CHECK",title:"Verify your AI Team session",note:"Read-only · No client changes",intro:"Check access, seven agents, permissions and Groq response before release.",run:"Verify my session",copy:"Copy sanitized QA report",untested:"Not tested in this session.",checking:"Checking access and team…",summary:"Checks completed",full:"Verified",partial:"Needs review",login:"Owner-only access",roles:"Seven specialists",permissions:"Read-only permissions",provider:"AI model connection",ok:"Verified for this session",missing:"Could not fully verify",disabled:"External actions remain disabled",providerGood:"Model responded",providerBad:"Model response not verified",disclaimer:"Checks this session only. Independent QA must verify other users, other workspaces and each device.",copied:"QA report copied without personal information.",failed:"Private checks could not finish."}
+};
+function oc(key){return ownerCheckCopy[language][key]||key}
+let ownerCheck=null;
+function renderOwnerCheck(){
+ const nodes=[["owner-diagnostic-eyebrow","eyebrow"],["owner-diagnostic-title","title"],["owner-diagnostic-note","note"],["owner-diagnostic-intro","intro"],["owner-diagnostic-disclaimer","disclaimer"],["owner-diagnostic-run","run"],["owner-diagnostic-copy","copy"]];
+ for(const [id,key] of nodes){const element=$(id);if(element)element.textContent=oc(key)}
+ const status=$("owner-diagnostic-status"),results=$("owner-diagnostic-results"),copyButton=$("owner-diagnostic-copy");
+ if(!status||!results||!copyButton)return;
+ results.replaceChildren();
+ copyButton.hidden=!ownerCheck;
+ if(!ownerCheck){status.textContent=oc("untested");return}
+ status.textContent=oc("summary")+" · "+new Date(ownerCheck.timestamp).toLocaleString(language==="es"?"es-US":"en-US");
+ const checks=[["login",ownerCheck.login],["roles",ownerCheck.roles],["permissions",ownerCheck.permissions],["provider",ownerCheck.model]];
+ for(const [key,passed] of checks){
+  const item=el("div","ait-owner-diagnostic-result");
+  const symbol=el("span","ait-owner-diagnostic-symbol",passed?"✓":"!");
+  const label=el("strong","",oc(key));
+  const state=el("span","ait-owner-diagnostic-state "+(passed?"passed":"needs-review"),passed?oc("full"):oc("partial"));
+  item.append(symbol,label,state);results.append(item);
+ }
+ const detail=el("p","ait-muted",ownerCheck.model?oc("providerGood"):oc("providerBad"));results.append(detail);
+}
+function sanitizedOwnerReport(){
+ if(!ownerCheck)return "";
+ const result={report:"TLE Jessie AI Team private session check",checked_at:ownerCheck.timestamp,
+  language:ownerCheck.language,viewport_width_px:ownerCheck.viewportWidth,
+  owner_session_verified:ownerCheck.login,all_seven_roles_reported:ownerCheck.roles,
+  external_actions_disabled:ownerCheck.permissions,ai_provider_responded:ownerCheck.model,
+  provider:ownerCheck.provider,agent_count:ownerCheck.agentCount,partial_agent_reports:ownerCheck.partial,
+  scope:"current signed-in owner only; cross-tenant, other-user and device QA not verified"};
+ return JSON.stringify(result,null,2);
+}
+async function verifyOwnerSession(){
+ const button=$("owner-diagnostic-run");if(!button||button.disabled||!verified)return;
+ button.disabled=true;button.textContent=oc("checking");
+ const results=await Promise.allSettled([
+  api({action:"capability_manifest"}),api({action:"team_brief",language}),api({action:"provider_check"})
+ ]);
+ const extract=i=>results[i].status==="fulfilled"?results[i].value:null;
+ const permission=extract(0),brief=extract(1),model=extract(2);
+ const expected=["jessie","sales","projects","developer","qa","creative","care"];
+ const allRoles=Array.isArray(permission?.roles)&&expected.every(a=>permission.roles.includes(a))&&permission.roles.length===7;
+ const reports=Array.isArray(brief?.reports)?brief.reports:[];
+ const verifiedBrief=reports.length===7&&expected.every(agent=>reports.some(r=>r.agent===agent&&r.read_only===true))
+   &&brief?.no_external_actions===true;
+ ownerCheck={timestamp:new Date().toISOString(),language,viewportWidth:Math.max(0,Math.round(window.innerWidth||0)),
+  login:!!(permission?.owner_only&&brief?.ok===true),roles:allRoles&&verifiedBrief,
+  permissions:permission?.external_actions_enabled===false&&brief?.no_external_actions===true,
+  model:model?.verified===true&&model?.reason==="connected",
+  provider:model?.provider==="groq"?"GroqCloud":model?.provider==="openai"?"OpenAI":"unverified",
+  agentCount:reports.length,partial:reports.filter(r=>r.status!=="checked").length};
+ renderOwnerCheck();
+ button.disabled=false;
+}
 function teamTx(key){return teamCopy[language][key]||key}
 function localFact(label){const original=String(label||teamTx("source"));return language==="es"?(factSpanish[original]||original):original}
 function el(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n}
@@ -294,7 +351,7 @@ function applyText(){
  const ls=ds.querySelectorAll("label");[tx("taskAgent"),tx("taskName"),tx("taskDesc"),tx("priority")].forEach((x,i)=>{ls[i].childNodes[0].textContent=x});
  $("create-submit").textContent=tx("create");
  document.querySelector("#finish-form label").childNodes[0].textContent=tx("evidence");
- renderAgents();renderTasks();renderScan();renderTeamBrief();renderActivity();renderRuns();renderOutputs();showProviderState();
+ renderAgents();renderTasks();renderScan();renderTeamBrief();renderOwnerCheck();renderActivity();renderRuns();renderOutputs();showProviderState();
  const rt=$("runs-title");if(rt)rt.textContent=tx("recent");
  const ot=$("outputs-title");if(ot)ot.textContent=tx("outputs");
 }
@@ -356,8 +413,14 @@ window.TLEAIOpsGateway=Object.freeze({
    return response.output;
  }
 });
-$("lang").addEventListener("click",()=>{language=language==="es"?"en":"es";if(scan?.reports)scan=null;try{localStorage.setItem("tle_crm_owner_language",language)}catch{}applyText()});
+$("lang").addEventListener("click",()=>{language=language==="es"?"en":"es";if(scan?.reports)scan=null;ownerCheck=null;try{localStorage.setItem("tle_crm_owner_language",language)}catch{}applyText()});
 for(const id of ["new-task","new-task-top"])$(id).onclick=()=>showDialog();
+$("owner-diagnostic-run").onclick=verifyOwnerSession;
+$("owner-diagnostic-copy").onclick=async()=>{
+ const report=sanitizedOwnerReport();if(!report)return;
+ try{await navigator.clipboard.writeText(report);notify(oc("copied"))}
+ catch{showError(oc("failed"))}
+};
 $("ai-provider-check").onclick=async()=>{
  const button=$("ai-provider-check");if(button.disabled)return;
  button.disabled=true;button.textContent=tx("connectionChecking");
