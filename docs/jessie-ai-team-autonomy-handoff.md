@@ -28,7 +28,7 @@ Tracking: [Issue #56](https://github.com/thelaunchera/the-launch-era-new-website
 
 ## Integration inventory (be honest about source access)
 
-- CRM/project/support/lead counts: existing scoped internal tables; some legacy organization-wide project summaries are aggregate-only and need reviewer scrutiny for cross-tenant concerns.
+- CRM/project/support/lead counts: workspace-scoped internal tables. Booking projects require `tle_booking_flow_accounts.crm_workspace_id` to equal the authenticated internal workspace. Legacy AI orders lacking an enforceable workspace relationship are intentionally unavailable; never imply an unlinked order does not exist. Support requests require `workspace_id`. The original Jessy client-readiness endpoint is scoped the same way.
 - Website/QA: HTTP GET probes only. Do not present them as browser E2E tests.
 - GitHub: public commit / CI metadata checks only, not source edits by agent.
 - Resend: **not connected directly to the AI Team production Edge Function**.
@@ -43,7 +43,7 @@ Tracking: [Issue #56](https://github.com/thelaunchera/the-launch-era-new-website
 3. Confirm a single click triggers one read-only briefing. Verify seven reports, no recipient addresses, and partial/unavailable values are not displayed as zero or false passes. Check malformed/error responses.
 4. Confirm `GROQ_API_KEY` resolution via existing secret and no fallback to OpenAI billing when Groq is configured but returns an error. Test one short owner question without fabricated metrics.
 5. Verify existing controlled owner notification operations and WhatsApp preference-only methods were not modified; no unauthorized emails, WhatsApp sends, publication or checkout.
-6. Run `node scripts/qa-ai-team.mjs`, `node scripts/qa-ai-team-commands.mjs`, `node scripts/qa-ai-team-gateway.mjs`, `node scripts/qa-ai-team-ai-provider.mjs`, `node scripts/qa-jessy-owner.mjs`. Record failures and exact repro.
+6. Run `node scripts/qa-jessie-unified-tenant.mjs` and `node scripts/qa-ai-team.mjs`, `node scripts/qa-ai-team-commands.mjs`, `node scripts/qa-ai-team-gateway.mjs`, `node scripts/qa-ai-team-ai-provider.mjs`, `node scripts/qa-jessy-owner.mjs`. Record failures and exact repro.
 7. Review GitHub Actions before rollout. Confirm new function deploy is isolated, that `tle-jessy-owner` preserves current manual JWT checks and `--no-verify-jwt` gateway configuration, and the AI Team function retains `verify_jwt=true`.
 8. Confirm rollback is possible by reverting only the PR and re-running both dedicated deploy workflows. Existing DB rows and customer instances must not be rewritten.
 
