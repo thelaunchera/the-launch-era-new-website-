@@ -228,3 +228,14 @@ body.cb-depot-buyer #buyerGeneralFAQ.hidden{display:none!important}
 @media(prefers-reduced-motion:reduce){
  body.cb-depot-buyer #cbDetailingTop .cb-detailing-heading img{transition:none!important;transform:none!important}
 }
+
+/* Contact Us intake: one discoverable place for customer questions; mobile-first. */
+body.cb-depot-buyer .cb-inbox-contact-shortcut{display:flex;align-items:center;justify-content:space-between;gap:15px;min-width:0;margin:13px 0;padding:15px 17px;border:1px solid var(--cb-border);border-radius:15px;background:var(--cb-surface-2)!important;color:var(--cb-text)}
+body.cb-depot-buyer .cb-inbox-contact-shortcut>div{flex:1;min-width:0}
+body.cb-depot-buyer .cb-inbox-contact-shortcut strong{display:block;font-size:15px;color:var(--cb-text)!important}
+body.cb-depot-buyer .cb-inbox-contact-shortcut span{display:block;font-size:12px;line-height:1.5;color:var(--cb-muted)!important;margin-top:5px}
+body.cb-depot-buyer #cbInboxContactFilter{flex:none;min-height:42px;border-radius:999px;padding:10px 13px;background:var(--cb-accent)!important;color:var(--cb-accent-text)!important;border:0;font-size:12px;font-weight:750;white-space:normal}
+body.cb-depot-buyer #cbInboxContactFilter span{display:inline;color:inherit!important;font-weight:850;margin:0}
+body.cb-depot-buyer #buyerRequestsHub .request-card:has(.request-pill:first-child){overflow-wrap:anywhere}
+body.cb-depot-buyer #buyerRequestsHub .request-summary{overflow-wrap:anywhere;white-space:normal}
+@media(max-width:620px){body.cb-depot-buyer .cb-inbox-contact-shortcut{flex-direction:column;align-items:stretch;padding:13px;gap:11px}body.cb-depot-buyer #cbInboxContactFilter{width:100%}}
