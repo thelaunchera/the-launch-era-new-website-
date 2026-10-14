@@ -112,7 +112,7 @@ function renderChange(){
   return;
  }
  if(!action){
-  content+='<div class="notice">'+h(tc('disclaimer'))+'</div><div class="actions">'+actionButton('reschedule','reschedule','dark').replace(h(t('reschedule')),h(tc('reschedule')))+actionButton('cancel','cancel','blue').replace(h(t('cancel')),h(tc('cancel')))+'</div>';
+  content+='<div class="notice">'+h(tc('disclaimer'))+'</div><div class="actions"><button type="button" class="button dark" data-choice="reschedule">'+h(tc('reschedule'))+'</button><button type="button" class="button blue" data-choice="cancel">'+h(tc('cancel'))+'</button></div>';
  }else{
   content+='<h2 style="font-size:19px;margin:24px 0 8px">'+h(tc(action==='reschedule'?'rescheduleForm':'cancelForm'))+'</h2>';
   if(action==='reschedule'){
