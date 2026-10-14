@@ -223,10 +223,11 @@ async function notifyBuyer(info:any,kind:string,url:string) {
    ?api!.from("tle_booking_page_branding").select("logo_image,primary_color,accent_color,design_reviewed_at").eq("account_id",info.id).maybeSingle()
    :api!.from("tle_ai_agent_orders").select("brand_logo_url,brand_primary_color,brand_accent_color").eq("id",info.id).maybeSingle();
   const {data:brand,error:brandErr}=await q;
-  if(!brandErr&&brand&&(kind!=="booking"||brand.design_reviewed_at)){
-   const raw=String(kind==="booking"?brand.logo_image||"":brand.brand_logo_url||"");
+  if(!brandErr&&brand&&(kind!=="booking"||("design_reviewed_at" in brand&&brand.design_reviewed_at))){
+   const raw=String("logo_image" in brand?brand.logo_image||"":("brand_logo_url" in brand?brand.brand_logo_url||"":""));
    try{const u=new URL(raw);if(u.protocol==="https:"&&/\\.(png|jpe?g|webp)$/i.test(u.pathname))image=u.toString()}catch{}
-   const p=kind==="booking"?brand.primary_color:brand.brand_primary_color,a=kind==="booking"?brand.accent_color:brand.brand_accent_color;
+   const p="primary_color" in brand?brand.primary_color:("brand_primary_color" in brand?brand.brand_primary_color:null);
+   const a="accent_color" in brand?brand.accent_color:("brand_accent_color" in brand?brand.brand_accent_color:null);
    if(/^#[0-9a-fA-F]{6}$/.test(String(p||"")))primary=String(p);
    if(/^#[0-9a-fA-F]{6}$/.test(String(a||"")))accent=String(a);
   }
