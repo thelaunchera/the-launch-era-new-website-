@@ -6,6 +6,8 @@ on:
       - 'public/command-center/**'
       - 'public/auth-recovery.html'
       - 'supabase/functions/tle-booking-owner-studio/**'
+      - 'supabase/functions/tle-client-review/**'
+      - 'supabase/functions/tle-ai-booking-onboarding/**'
       - 'scripts/qa-private-client-session-12h.mjs'
       - 'scripts/qa-auth-recovery.mjs'
       - '.github/workflows/private-client-entry-qa.yml'
@@ -39,7 +41,10 @@ jobs:
           deno-version: v2.x
 
       - name: Type-check buyer activation function without executing actions
-        run: deno check --node-modules-dir=auto supabase/functions/tle-booking-owner-studio/index.ts
+        run: |
+          deno check --node-modules-dir=auto supabase/functions/tle-booking-owner-studio/index.ts
+          deno check --node-modules-dir=auto supabase/functions/tle-client-review/index.ts
+          deno check --node-modules-dir=auto supabase/functions/tle-ai-booking-onboarding/index.ts
 
       - name: Prepare GitHub Pages build
         uses: oven-sh/setup-bun@v2
