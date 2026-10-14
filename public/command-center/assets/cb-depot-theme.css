@@ -1,0 +1,181 @@
+/* CB Depot Command Center: accessible, tenant-scoped appearance.
+   No influence on owner/TLE, public booking previews, or other tenants.
+   2026-10-14 */
+body.cb-depot-buyer {
+  --cb-bg:#e9eef1; --cb-surface:#f4f6f7; --cb-surface-2:#e2eaf0;
+  --cb-text:#263946; --cb-muted:#526a7c; --cb-border:#c7d5df;
+  --cb-accent:#315f80; --cb-accent-text:#ffffff;
+  --cb-pill-bg:#d9e7f1; --cb-pill-text:#244f69;
+  --cb-warning-bg:#f5e9db; --cb-warning-text:#78512c;
+  --cb-ring:#4a87b2; --premium-bg:var(--cb-bg);
+  --premium-ink:var(--cb-text); --premium-border:var(--cb-border);
+  background:var(--cb-bg)!important;color:var(--cb-text)!important;
+  color-scheme:light;
+}
+html[data-cb-depot-theme="dark"] body.cb-depot-buyer {
+  --cb-bg:#17232d; --cb-surface:#243440; --cb-surface-2:#2b4050;
+  --cb-text:#edf4f8; --cb-muted:#b8cbd8; --cb-border:#455b69;
+  --cb-accent:#a0cde7; --cb-accent-text:#152938;
+  --cb-pill-bg:#355367; --cb-pill-text:#e8f5fd;
+  --cb-warning-bg:#42362b; --cb-warning-text:#ffdfb2;
+  --cb-ring:#a3d8f6; --premium-bg:var(--cb-bg);
+  --premium-ink:var(--cb-text); --premium-border:var(--cb-border);
+  color-scheme:dark;
+}
+/* Only the authenticated CB Depot buyer can see or operate the switch. */
+.cb-theme-switch {display:none!important}
+body.cb-depot-buyer .cb-theme-switch {
+  display:inline-flex!important;align-items:center;justify-content:center;
+  gap:8px;min-height:42px;padding:9px 13px;border:1px solid var(--cb-border);
+  border-radius:13px;background:var(--cb-surface-2);color:var(--cb-text);
+  font-size:13px;font-weight:750;letter-spacing:0;cursor:pointer;
+  line-height:1.25;white-space:nowrap;box-shadow:none;
+}
+body.cb-depot-buyer .cb-theme-switch:hover {background:var(--cb-pill-bg);color:var(--cb-text);box-shadow:none}
+body.cb-depot-buyer .cb-theme-switch:focus-visible,
+body.cb-depot-buyer :is(button,a,input,select,textarea,summary):focus-visible {
+  outline:3px solid var(--cb-ring)!important;outline-offset:2px;
+}
+body.cb-depot-buyer #premiumSidebar .cb-theme-switch {
+  width:100%;justify-content:flex-start;text-align:left;
+  background:#30404b;color:#edf4f8;border-color:#546776;
+}
+body.cb-depot-buyer #premiumSidebar .cb-theme-switch:hover {
+  background:#3d5363;color:white;
+}
+body.cb-depot-buyer #premiumSidebar {background:#202b33!important;border-color:#425664!important}
+body.cb-depot-buyer #premiumSidebar .nav-link {color:#d3e1e9}
+body.cb-depot-buyer #premiumSidebar .nav-link.active,
+body.cb-depot-buyer #premiumSidebar .nav-link:hover {
+  background:#456c86!important;color:#fff!important
+}
+body.cb-depot-buyer #premiumSidebar .nav-caption {color:#b9cad7}
+body.cb-depot-buyer #premiumSidebar .premium-brand,
+body.cb-depot-buyer #premiumSidebar .premium-brand small {color:#eef5f9}
+body.cb-depot-buyer .premium-workspace {color:var(--cb-text)}
+body.cb-depot-buyer .premium-workspace :is(h1,h2,h3,h4,h5,legend,label,.section-title,.request-card strong,.request-stat b,.metric strong) {
+ color:var(--cb-text);
+}
+body.cb-depot-buyer .premium-workspace :is(.muted,.request-summary,.request-label,.metric small,.request-stat small,.empty-state,.quickitem small,.quickhome p,.lead p) {
+ color:var(--cb-muted)!important;
+}
+/* Avoid pure-white areas and overbright cards without flattening visual hierarchy. */
+body.cb-depot-buyer :is(.panel,.quickhome,.metric,.quickitem,.lead,.client-card,
+ .calendar-day,.month-grid,.month-weekday,.month-cell,.premium-emailhub,.emailhub-item,
+ .guide,.preview,.auth-shell) {
+  background:var(--cb-surface)!important;color:var(--cb-text)!important;
+  border-color:var(--cb-border)!important;box-shadow:0 6px 20px #0e1d2a0d!important;
+}
+body.cb-depot-buyer :is(.quickstat,.request-stat,.calendar-entry,.month-cell.outside,
+ .month-cell.today,.lead-section summary,.lead-section,.consent-panel,.lead-detail-tabs,
+ .quicklist,.month-event,.viewtabs button,.secondary) {
+  background:var(--cb-surface-2)!important;color:var(--cb-text)!important;
+  border-color:var(--cb-border)!important;
+}
+body.cb-depot-buyer #buyerRequestsHub .request-card {
+ background:var(--cb-surface)!important;color:var(--cb-text)!important;
+ border:1px solid var(--cb-border)!important;box-shadow:0 5px 16px #0c213015!important;
+ overflow-wrap:anywhere;
+}
+body.cb-depot-buyer #buyerRequestsHub .request-card.selected {
+ background:var(--cb-surface-2)!important;border-color:var(--cb-accent)!important;
+ box-shadow:inset 0 0 0 1px var(--cb-accent)!important;
+}
+body.cb-depot-buyer #buyerRequestsHub :is(.request-pill,.buyer-lead-quick-filters button:not(.active)) {
+ background:var(--cb-pill-bg)!important;color:var(--cb-pill-text)!important;
+ border-color:var(--cb-border)!important;
+}
+body.cb-depot-buyer #buyerRequestsHub .buyer-lead-quick-filters button.active {
+ background:var(--cb-accent)!important;color:var(--cb-accent-text)!important;
+ border-color:var(--cb-accent)!important;
+}
+body.cb-depot-buyer #buyerRequestsHub .request-stat {
+ background:var(--cb-surface-2)!important;color:var(--cb-text)!important;
+ border-color:var(--cb-border)!important;
+}
+body.cb-depot-buyer #buyerRequestsHub .request-stat :is(b,small) {color:var(--cb-text)!important}
+body.cb-depot-buyer :is(.request-pill,.month-event,.quickstat) {
+ color:var(--cb-pill-text)!important;background:var(--cb-pill-bg)!important;
+}
+body.cb-depot-buyer :is(.reminder,[class*="permission-warning"],[class*="consent-warning"]) {
+ background:var(--cb-warning-bg)!important;color:var(--cb-warning-text)!important;
+ border-color:var(--cb-border)!important;
+}
+/* Preserve distinct booking, quote and consent statuses; do not imply permission was granted. */
+body.cb-depot-buyer :is(.premium-heading,.crm-workspace-backrow,.premium-mobilebar) {
+ color:var(--cb-text);border-color:var(--cb-border);
+}
+body.cb-depot-buyer :is(.crm-workspace-backrow button,.premium-mobilebar button,.quickactions .secondary,
+ #workspaceRefresh,#workspaceBack,.nav-link:not(.active)) {box-shadow:none}
+body.cb-depot-buyer .premium-workspace button:not(.secondary):not(.viewtab):not(.quickstat):not(.quickitem):not(.month-event):not(.request-card):not(.cb-theme-switch):not(.nav-link) {
+ border-color:transparent;
+}
+body.cb-depot-buyer :is(.viewtabs button.active,.month-cell.today .month-number) {
+ background:var(--cb-accent)!important;color:var(--cb-accent-text)!important;
+}
+body.cb-depot-buyer #buyerBusinessShortcuts button,
+body.cb-depot-buyer .cb-detailing-actions button {
+ background:var(--cb-surface-2)!important;border-color:var(--cb-border)!important;
+ color:var(--cb-text)!important;
+}
+body.cb-depot-buyer :is(#buyerBusinessShortcuts button small,.cb-detailing-actions button small) {
+ color:var(--cb-muted)!important;
+}
+body.cb-depot-buyer #buyerDashboardHub>.panel:first-of-type {
+ background:#263a48!important;color:#f1f7fb!important;border-color:#4d6575!important;
+}
+body.cb-depot-buyer #buyerDashboardHub>.panel:first-of-type :is(h2,h3,p,strong,.muted) {
+ color:#edf5fb!important;
+}
+html[data-cb-depot-theme="dark"] body.cb-depot-buyer #buyerDashboardHub>.panel:first-of-type {
+ background:#304958!important;
+}
+body.cb-depot-buyer #buyerDashboardHub>.panel:first-of-type button {
+ background:#beddf0!important;color:#203b50!important;
+}
+body.cb-depot-buyer .cb-detailing-heading,
+body.cb-depot-buyer #cbSettingsBanner {
+ background:linear-gradient(125deg,#21313d,#384956)!important;color:#f2f7fa!important;
+}
+body.cb-depot-buyer :is(.cb-detailing-heading h2,.cb-detailing-heading p,#cbSettingsBanner h2,#cbSettingsBanner p) {
+ color:#f2f7fa!important;
+}
+/* Input fields and overlays must stay readable after selecting dark mode. */
+body.cb-depot-buyer :is(dialog,.premium-drawer,.lead-editor) {
+ background:var(--cb-surface)!important;color:var(--cb-text)!important;
+ border:1px solid var(--cb-border)!important;
+}
+body.cb-depot-buyer :is(input,select,textarea) {
+ background:var(--cb-surface)!important;color:var(--cb-text)!important;
+ border-color:var(--cb-border)!important;
+}
+body.cb-depot-buyer :is(input,textarea)::placeholder {color:var(--cb-muted);opacity:1}
+body.cb-depot-buyer :is(.lead-editor-actions,.lead-section summary,.premium-drawer .lead-editor-actions,
+ .lead-detail-tabs,.sendconfirm .recipient) {
+ background:var(--cb-surface-2)!important;color:var(--cb-text)!important;
+ border-color:var(--cb-border)!important;
+}
+body.cb-depot-buyer :is(.lead-detail-tabs button,.lead-section summary small) {color:var(--cb-muted)!important}
+body.cb-depot-buyer .lead-detail-tabs button.active {color:var(--cb-text)!important;border-bottom-color:var(--cb-accent)!important}
+body.cb-depot-buyer .preview small {color:var(--cb-muted)!important}
+body.cb-depot-buyer #buyerErrorHelpOverlay>div {
+ background:var(--cb-surface)!important;color:var(--cb-text)!important;
+ border:1px solid var(--cb-border);
+}
+body.cb-depot-buyer #buyerErrorHelpOverlay :is(p,h2,label) {color:var(--cb-text)!important}
+body.cb-depot-buyer #buyerErrorHelpOverlay :is(input,textarea) {background:var(--cb-surface-2)!important}
+@media(max-width:760px){
+ body.cb-depot-buyer .premium-mobilebar {gap:8px}
+ body.cb-depot-buyer .premium-mobilebar strong {
+  min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+ }
+ body.cb-depot-buyer .premium-mobilebar .cb-theme-switch {
+  flex:none;min-width:44px;padding:9px 10px;
+ }
+ body.cb-depot-buyer .premium-mobilebar .cb-theme-label {display:none}
+ body.cb-depot-buyer .premium-workspace {padding-left:14px;padding-right:14px}
+ body.cb-depot-buyer #buyerRequestsHub .request-card {padding:15px}
+}
+@media(prefers-reduced-motion:reduce) {
+ body.cb-depot-buyer .cb-theme-switch {transition:none}
+}
