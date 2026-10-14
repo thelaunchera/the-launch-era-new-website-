@@ -43,7 +43,7 @@ const rows={
   {workspace_id:WS2,owner_id:OWNER2,status:"planned"}
  ]
 };
-let endpoint=null,groqAttempts=0,openaiAttempts=0,forbiddenWrites=0,simulateGroqFailure=false;
+let endpoint=null,groqAttempts=0,openaiAttempts=0,forbiddenWrites=0,simulateGroqFailure=false,simulateRouteFailure=false,simulateProjectUnavailable=false;
 function userForToken(token){
  if(token==="Bearer fixture-owner")return OWNER;
  if(token==="Bearer fixture-other-owner")return OWNER2;
@@ -73,6 +73,7 @@ async function fakeFetch(input,options={}){
  if(url.origin===urlBase&&url.pathname.startsWith("/rest/v1/")){
   if(method!=="GET"){forbiddenWrites++;throw new Error("Unexpected database mutation in a read-only fixture");}
   const table=url.pathname.split("/").pop();
+  if(table==="tle_booking_flow_accounts"&&simulateProjectUnavailable)return new Response("Service temporarily unavailable",{status:503});
   if(!Object.hasOwn(rows,table))throw new Error("Unmocked tenant source: "+table);
   const data=applyFilter(rows[table],[...url.searchParams].length?url.searchParams:new URLSearchParams());
   const limit=Number(url.searchParams.get("limit")||"500");
@@ -90,7 +91,10 @@ async function fakeFetch(input,options={}){
   if(url.pathname.endsWith("/commits/main"))return new Response(JSON.stringify({sha:"0123456789012345"}),{status:200});
   return new Response(JSON.stringify({workflow_runs:[{name:"Fixture QA",status:"completed",conclusion:"success"}]}),{status:200});
  }
- if(url.hostname==="thelaunchera.com")return new Response("<html><title>The Launch Era</title>thelaunchera authForm Owner sign-in required passwordForm</html>",{status:200});
+ if(url.hostname==="thelaunchera.com"){
+  if(simulateRouteFailure&&url.pathname==="/auth-recovery.html")return new Response("Not found",{status:404});
+  return new Response("<html><title>The Launch Era</title>thelaunchera authForm Owner sign-in required passwordForm</html>",{status:200});
+ }
  throw Error("Unexpected network destination in fixture: "+url.origin);
 }
 const env={SUPABASE_URL:urlBase,SUPABASE_SERVICE_ROLE_KEY:"fixture-sr-key",SUPABASE_ANON_KEY:"fixture-anon-key",GROQ_API_KEY:"gsk_fixture_key_123"};
@@ -133,6 +137,30 @@ assert.equal(primary.result.counts.active_tasks,1);
 assert.equal(other.result.counts.active_tasks,1);
 assert.equal(primary.result.reports.find(x=>x.agent==="projects").facts.find(x=>x.label==="Booking accounts inspected").value,1);
 assert.equal(other.result.reports.find(x=>x.agent==="projects").facts.find(x=>x.label==="Booking accounts inspected").value,2);
+// A fully reliable linked-booking count can raise a priority while the overall project
+// report remains partial because unmapped legacy AI orders are intentionally excluded.
+const projectReport=primary.result.reports.find(x=>x.agent==="projects");
+assert.equal(projectReport.status,"partial");
+assert.equal(projectReport.facts.find(x=>x.label==="Paid with intake missing").value,1);
+assert.equal(primary.result.priority_actions.find(x=>x.agent==="projects")?.count,1,
+ "One verified paid booking without intake must be surfaced as a priority despite partial coverage");
+// A failed URL is itself a verified negative result, not an unknown/zero.
+simulateRouteFailure=true;
+const withFailedUrl=await call("fixture-owner","team_brief",{language:"en"});
+const qaReport=withFailedUrl.result.reports.find(x=>x.agent==="qa");
+assert.equal(qaReport.status,"partial","Incomplete public QA checks must keep partial status");
+assert.equal(qaReport.facts.find(x=>x.label==="Public checks passed").value,4);
+assert.equal(qaReport.facts.find(x=>x.label==="Public checks attempted").value,5);
+assert.equal(withFailedUrl.result.priority_actions.find(x=>x.agent==="qa")?.count,1,
+ "A verified failed public route must produce one QA priority");
+simulateRouteFailure=false;
+// Source failure is unknown, not a fabricated zero or a false priority.
+simulateProjectUnavailable=true;
+const noProjectSource=await call("fixture-owner","team_brief",{language:"en"});
+assert.equal(noProjectSource.result.reports.find(x=>x.agent==="projects").status,"partial");
+assert.equal(noProjectSource.result.priority_actions.some(x=>x.agent==="projects"),false);
+assert.equal(noProjectSource.result.reports.find(x=>x.agent==="projects").facts.some(x=>x.value===null),true);
+simulateProjectUnavailable=false;
 assert.equal(primary.result.no_external_actions,true);
 assert.equal(other.result.no_external_actions,true);
 assert.doesNotMatch(JSON.stringify(primary.result),/bbbbbbbb|fixture-sr-key|fixture-owner|owner_email/i);
@@ -150,5 +178,5 @@ assert.equal(unavailable.result.reason,"rate_or_billing_limit");
 assert.equal(openaiAttempts,0,"Groq failures must never silently bill OpenAI");
 assert.equal(forbiddenWrites,0,"Read-only fixture must not call POST/PATCH to a table");
 assert.ok(groqAttempts>=2);
-console.log("PASS — isolated owner/nonowner/expired JWT, origin, two-tenant isolation, unresolved support counts, seven-agent brief and Groq fallback guard");
+console.log("PASS — isolated JWT, tenant isolation, support counts, verified partial project/QA priorities, unavailable sources and Groq fallback guard");
 console.log("FIXTURE ONLY — No authenticated live owner E2E, production client data or real Groq traffic was used.");
