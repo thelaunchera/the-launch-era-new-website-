@@ -329,13 +329,14 @@ Deno.serve(async req=>{
  const history=(Array.isArray(data?.history)?data.history:[]).slice(-4).filter(x=>x&&["user","assistant"].includes(x.role)).map(x=>({role:x.role,content:clean(x.message,160)}));
  const today=new Intl.DateTimeFormat("en-CA",{timeZone:"America/New_York",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
  const scope="workspace_id=eq."+encodeURIComponent(ws)+"&archived_at=is.null";
- const [prospects,due,websiteNew,aiPending,unreadNotifications]=await Promise.all([
+ // Generic website inquiries and legacy AI orders have no proven relation to this
+ // internal workspace. Report them as unavailable, never as global customer counts.
+ const [prospects,due,unreadNotifications]=await Promise.all([
  count("tle_crm_leads",scope),
  count("tle_crm_leads",scope+"&stage=eq.Follow-up&followup=lte."+today),
- count("tle_contact_leads","status=eq.new"),
- count("tle_ai_agent_orders","status=in.(intake_submitted,in_setup)"),
  count("tle_crm_notifications","workspace_id=eq."+encodeURIComponent(ws)+"&read_at=is.null")
  ]);
+ const websiteNew=null,aiPending=null;
  const counts={prospects,due,websiteNew,aiPending,unreadNotifications},section=route(message);
  const context=validOwnerContext.has(data?.page_context)?data.page_context:"";
  const generated=await ai(message,lang,counts,section,history,context);
