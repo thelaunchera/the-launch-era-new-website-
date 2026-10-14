@@ -199,3 +199,10 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - Root cause verified in source: repeat visits only injected a card below the trust bar, out of initial viewport; no notification component existed.
 - Fix: nonblocking, dismissible Welcome back toast with 16-second visibility, CB Depot-specific auto-detailing message, CTA scroll to existing booking form, no new logos or promotional claims. Existing card retained. Script cache version incremented.
 - Browser regression: test first visit vs repeat at six widths, CTA and close, CB Depot industry text and no changes to original booking form. Verify live deployment before closing incident.
+
+## 2026-10-14 — TLE Smart Welcome Bundle homepage feature (marketing, not customer booking)
+- Owner-approved 40% flyer with two cleaners must be on TLE's homepage as dismissible first-visit popup plus smaller in-page presentation. Existing TLE booking bundle landing was verified before linking; promo active at 40% in `tle_bundle_promotion` at implementation time.
+- Scope protection: `src/routes/index.tsx` and `src/routes/es.index.tsx` only. Does **not** alter `/base-booking.html`, customer Smart Welcome, CB Depot, quotes, pricing tables, delivery, CRM, emails or payment capture.
+- Asset saved in Git verbatim with SHA-256 check. CTA links to `/booking-bundle/?lang=en|es&bundle=ai-booking&source=smart-welcome`; only this inbound link preselects AI Booking, with all existing purchase choices preserved and server-side pricing remaining authoritative.
+- Feature gated by live backend discount response; fail closed on network error or if 40% turned off, avoiding stale promotion claims. SessionStorage limits interruption to first homepage visit in session.
+- Verification gate: image checksum, static routes, production build, mobile/tablet/desktop first/repeat popup and checkout choice. No payment submissions in QA. Do not declare live until Pages deploy and browser QA pass.
