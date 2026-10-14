@@ -33,5 +33,14 @@ writeFileSync(out+'/cb-depot/index.html',`<!doctype html><html lang="en"><head><
 mkdirSync(out+'/booking',{recursive:true});
 copyFileSync('public/base-booking.html',out+'/booking/index.html');
 writeFileSync(out+'/index.html','<!doctype html><html lang="en"><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><title>Booking pages are being prepared</title><body><h1>Booking pages are being prepared</h1><p>Please use the verified booking link provided by your service provider.</p></body></html>');
+// An independent Cloudflare Pages project may reuse this exact GitHub repo.
+// In THAT project only, set build command to:
+// BOOKING_CLIENT=cb-depot node scripts/build-client-bookings-cloudflare.mjs
+// This gives cb-depot.pages.dev/ a clean, client-named entry point without
+// changing the existing staging host, Command Centers or main website.
+if(process.env.BOOKING_CLIENT==='cb-depot'){
+ copyFileSync(out+'/cb-depot/index.html',out+'/index.html');
+}
+
 writeFileSync(out+'/_headers','/*\n  X-Robots-Tag: noindex, nofollow\n  X-Content-Type-Options: nosniff\n');
-console.log('Staging artifact generated at '+out+'; NOT customer-ready. Tenant key, callback routing, legal links and QA require verification.');
+console.log('Cloudflare Pages artifact generated at '+out+' ('+(process.env.BOOKING_CLIENT||'shared-staging')+'). Verify origin authorization and independent project domain before sharing.');
