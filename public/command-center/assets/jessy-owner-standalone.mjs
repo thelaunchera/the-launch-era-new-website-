@@ -68,7 +68,7 @@ export async function mountOwnerJessy({db,workspaceId,page}={}){
   }
  });
  const script=document.createElement("script");
- script.src="./assets/jessy-owner.js?v=20261014-unified-team";
+ script.src="./assets/jessy-owner.js?v=20261014-unified-team-v1";
  script.defer=true;script.dataset.ownerJessyStandalone=page;
  document.body.appendChild(script);
  return true;
