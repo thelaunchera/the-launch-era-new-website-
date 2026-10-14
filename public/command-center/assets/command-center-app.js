@@ -681,12 +681,24 @@ async function boot(){let roleVerified=false;const generation=++bootGeneration;$
   new Promise((_,reject)=>setTimeout(()=>reject(new Error('The connection timed out. Please try again.')),17000))
  ]);
  let {data:{user},error:authError}=authResult;
- if(generation!==bootGeneration)return;if(authError&&authError.name!=='AuthSessionMissingError')throw authError;if(activeAuthUserId&&activeAuthUserId!==user?.id){lockCommandCenterSession();location.reload();return}activeAuthUserId=user?.id||null;$('auth').classList.toggle('hidden',!!user);$('logout').classList.toggle('hidden',!user);if(!user){
+ if(generation!==bootGeneration)return;if(authError&&authError.name!=='AuthSessionMissingError')throw authError;
+ if(user?.id){
+  if(!window.TLEPrivateSessionPolicy)throw new Error("Private session safeguard unavailable. Refresh to continue.");
+  const allowed=await window.TLEPrivateSessionPolicy.guard(db,user,()=>{
+   lockCommandCenterSession();
+   const next=new URL('/command-center/',location.origin);
+   next.searchParams.set('from','private-access');
+   next.searchParams.set('reason','session-expired');
+   location.replace(next.pathname+next.search);
+  });
+  if(!allowed)return;
+ }
+ if(activeAuthUserId&&activeAuthUserId!==user?.id){lockCommandCenterSession();location.reload();return}activeAuthUserId=user?.id||null;$('auth').classList.toggle('hidden',!!user);$('logout').classList.toggle('hidden',!user);if(!user){
  if(sessionStorage.getItem('tle_crm_new_password_ready')==='yes'){
   sessionStorage.removeItem('tle_crm_new_password_ready');
   $('authMessage').textContent='✓ Password saved. Sign in with your email and new password to finish securing your Command Center.';
  }
- hideTleLoading();loadGeneration++;delete document.body.dataset.leadsLoaded;
+ hideTleLoading();if(new URLSearchParams(location.search).get('reason')==='session-expired')$('authMessage').textContent=localStorage.getItem('tle_crm_language')==='es'?'Tu sesión privada terminó después de 12 horas. Vuelve a entrar con tu contraseña.':'Your private session ended after 12 hours. Sign in with your password to continue.';loadGeneration++;delete document.body.dataset.leadsLoaded;
  workspace=null;clearAdminClientState();
  document.body.classList.remove('tle-owner-purchases','crm-owner-view','crm-buyer-view','crm-followups-focus');
  $('ownerPagesNav').classList.add('hidden');$('ownerCalendarNav').classList.add('hidden');$('ownerInsightsNav').classList.add('hidden');$('ownerWebsiteInboxNav').classList.add('hidden');$('ownerSettingsNav').classList.add('hidden');$('buyerSettingsNav').classList.add('hidden');$('buyerFollowupsNav').classList.add('hidden');$('buyerRequestsNav').classList.add('hidden');
@@ -779,9 +791,9 @@ $('buyerPasswordSetupForm').onsubmit=async e=>{
  finally{button.disabled=false}
 };
 if(new URLSearchParams(location.search).get('app')==='cb-depot'||new URLSearchParams(location.search).get('from')==='private-access')$('signup').classList.add('hidden');
-$('authForm').onsubmit=async e=>{e.preventDefault();try{let x=Object.fromEntries(new FormData(e.target));await check(await db.auth.signInWithPassword(x));$('authMessage').textContent='';await boot()}catch(e){$('authMessage').textContent=e.message}};
+$('authForm').onsubmit=async e=>{e.preventDefault();try{let x=Object.fromEntries(new FormData(e.target));await check(await db.auth.signInWithPassword(x));window.TLEPrivateSessionPolicy?.clear();$('authMessage').textContent='';await boot()}catch(e){$('authMessage').textContent=e.message}};
 $('forgotPassword').onclick=async()=>{const email=$('authForm').elements.namedItem('email').value.trim();if(!email){$('authMessage').textContent='Enter your email address first.';return}try{await check(await db.auth.resetPasswordForEmail(email,{redirectTo:new URL('/auth-recovery.html',location.origin).href}));$('authMessage').textContent='If an account exists, a password reset email will arrive shortly.'}catch(e){$('authMessage').textContent=e.message}};db.auth.onAuthStateChange(handleCommandCenterAuthChange);$('cancelPasswordReset').onclick=()=>$('passwordResetDialog').close();$('passwordResetForm').onsubmit=async e=>{e.preventDefault();const data=new FormData(e.target),password=String(data.get('newPassword')||''),confirm=String(data.get('confirmPassword')||'');if(password.length<8||!/\d/.test(password)||password!==confirm){$('passwordResetError').textContent='Use at least 8 characters with one number; both passwords must match.';return}const submit=e.target.querySelector('[type=submit]');submit.disabled=true;const {error}=await db.auth.updateUser({password});submit.disabled=false;if(error){$('passwordResetError').textContent=error.message;return}$('passwordResetDialog').close();e.target.reset();say('Password updated successfully.');await boot()};$('signup').onclick=async()=>{try{let x=Object.fromEntries(new FormData($('authForm')));await check(await db.auth.signUp({email:x.email,password:x.password,options:{emailRedirectTo:location.origin+location.pathname}}));$('authMessage').textContent='Account request received. Check your inbox for the confirmation email. If you already registered, use Sign in instead.'}catch(e){const msg=String(e.message||'');$('authMessage').textContent=/rate limit|too many requests/i.test(msg)?'Email confirmation limit reached. If you already have an account, tap Sign in instead. Otherwise, wait before trying again. Check your email spelling (gmail.com).':msg}};
-$('logout').onclick=async()=>{lockCommandCenterSession();const {error}=await db.auth.signOut();if(error){$('authMessage').textContent=error.message;return}await boot()};$('sidebarLogout').onclick=()=>{$('logout').click();closePremiumSidebar()};$('switchAccountButton').onclick=()=>{$('logout').click()};
+$('logout').onclick=async()=>{window.TLEPrivateSessionPolicy?.clear();lockCommandCenterSession();const {error}=await db.auth.signOut();if(error){$('authMessage').textContent=error.message;return}await boot()};$('sidebarLogout').onclick=()=>{$('logout').click();closePremiumSidebar()};$('switchAccountButton').onclick=()=>{$('logout').click()};
 $('workspaceForm').onsubmit=async e=>{e.preventDefault();const button=$('createWorkspaceButton'),status=$('workspaceStatus');button.disabled=true;status.textContent='Creating your private workspace…';try{let {data:{user}}=await db.auth.getUser();if(!user)throw Error('Please sign in first.');const name=e.target.elements.namedItem('name').value.trim();if(name.length<2)throw Error('Enter your business name.');const {data:existing,error:lookupError}=await db.from('tle_crm_workspaces').select('id').eq('created_by',user.id).limit(1);if(lookupError)throw lookupError;if(!existing.length)await check(await db.from('tle_crm_workspaces').insert({name,created_by:user.id}));status.textContent='Workspace ready!';await boot()}catch(err){status.textContent='Unable to find an activated Command Center. Please sign in with the email used for your purchase.'}finally{button.disabled=false}};
 let ownerProspectQueueRows=[];
 async function loadOwnerProspectQueue(){
