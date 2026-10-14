@@ -106,6 +106,32 @@ function renderScan(){
   const item=el("div");item.append(el("span","",label),el("b","",scan.counts[key]===null?tx("partial"):String(scan.counts[key])));root.append(item);
  }
 }
+function renderTeamBrief(){
+ const status=$("team-overview-status"),reportsRoot=$("team-brief-reports"),priorityRoot=$("team-brief-actions");
+ if(!status||!reportsRoot||!priorityRoot)return;
+ reportsRoot.replaceChildren();priorityRoot.replaceChildren();
+ if(!scan?.reports?.length){status.textContent=language==="es"?"Pulsa Revisar mi espacio para consultar los siete especialistas.":"Select Review my workspace to check all seven specialists.";return}
+ const when=new Date(scan.collected_at).toLocaleString(language==="es"?"es-US":"en-US");
+ status.textContent=(language==="es"?"Revisión de solo lectura · ":"Read-only review · ")+when;
+ const actions=Array.isArray(scan.priority_actions)?scan.priority_actions:[];
+ if(!actions.length)priorityRoot.append(el("p","ait-muted",language==="es"?"No se detectaron prioridades confirmadas; las fuentes parciales siguen pendientes de revisión.":"No verified urgent priorities found; partial sources still need review."));
+ for(const action of actions.slice(0,5)){
+  const item=el("article","ait-priority");
+  item.append(el("span","ait-agent-pill",agentName(action.agent)),el("strong","",action.label),el("b","",String(action.count)));
+  priorityRoot.append(item);
+ }
+ for(const x of scan.reports){
+  const card=el("article","ait-brief-card");
+  const head=el("div","ait-task-top");
+  head.append(el("strong","",agentName(x.agent)),el("span","ait-status "+(x.status==="checked"?"completed":"needs_approval"),x.status==="checked"?(language==="es"?"Revisado":"Checked"):(language==="es"?"Parcial":"Partial")));
+  card.append(head,el("p","",String(x.summary||"")));
+  const facts=el("div","ait-run-facts");
+  for(const y of (x.facts||[]).slice(0,5)){
+   const row=el("div");row.append(el("span","",String(y.label||"")),el("b","",y.value===null||y.value===undefined?"—":String(y.value)));facts.append(row);
+  }
+  card.append(facts);reportsRoot.append(card);
+ }
+}
 async function runAgent(agentKey,taskId,button){
  if(inFlight)return;
  inFlight=true;
@@ -222,7 +248,7 @@ function applyText(){
  const ls=ds.querySelectorAll("label");[tx("taskAgent"),tx("taskName"),tx("taskDesc"),tx("priority")].forEach((x,i)=>{ls[i].childNodes[0].textContent=x});
  $("create-submit").textContent=tx("create");
  document.querySelector("#finish-form label").childNodes[0].textContent=tx("evidence");
- renderAgents();renderTasks();renderScan();renderActivity();renderRuns();renderOutputs();showProviderState();
+ renderAgents();renderTasks();renderScan();renderTeamBrief();renderActivity();renderRuns();renderOutputs();showProviderState();
  const rt=$("runs-title");if(rt)rt.textContent=tx("recent");
  const ot=$("outputs-title");if(ot)ot.textContent=tx("outputs");
 }
@@ -259,6 +285,7 @@ async function start(){
  }catch(e){lock();console.warn("AI Team private access:",e.message)}
 }
 window.TLEAIOpsGateway=Object.freeze({
+ async brief(){if(!this.ready())throw Error("Owner AI Team access required");scan=await api({action:"team_brief",language});renderScan();renderTeamBrief();return scan},
  ready(){return verified===true&&!document.getElementById("app")?.classList.contains("hidden")},
  async run(agentKey){
   if(!this.ready()||!agents.some(a=>a.key===agentKey))throw Error("Owner AI Team access required");
@@ -295,7 +322,7 @@ $("ai-provider-check").onclick=async()=>{
  }catch(e){showError(e.message)}
  finally{button.disabled=false}
 };
-$("scan").onclick=async()=>{const btn=$("scan");btn.disabled=true;try{scan=await api({action:"scan"});renderScan()}catch(e){showError(e.message)}finally{btn.disabled=false}};
+$("scan").onclick=async()=>{const btn=$("scan");btn.disabled=true;try{scan=await api({action:"team_brief",language});renderScan();renderTeamBrief();document.getElementById("team-overview")?.scrollIntoView({behavior:"smooth",block:"start"})}catch(e){showError(e.message)}finally{btn.disabled=false}};
 $("task-form").onsubmit=async e=>{
  e.preventDefault();const submit=$("create-submit");submit.disabled=true;
  try{const title=$("task-title").value.trim();if(title.length<3)throw Error("Task title is too short");
