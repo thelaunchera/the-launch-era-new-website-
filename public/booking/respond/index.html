@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="referrer" content="no-referrer">
+<title>Customer response | Booking</title>
+<style>
+:root{font-family:Arial,Helvetica,sans-serif;color:#191919;background:#eef3f7;font-synthesis:none}*{box-sizing:border-box}
+body{margin:0;min-height:100vh;padding:clamp(14px,4vw,44px) 14px;background:radial-gradient(circle at 30% -5%,#d8eaf5,#f3f6f8 55%);line-height:1.6}
+.shell{width:min(100%,620px);margin:0 auto;border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 18px 55px #17263719;border:1px solid #d6e2ea}
+.brand-bar{background:#101820;color:#fff;display:flex;align-items:center;gap:13px;padding:20px clamp(18px,5vw,30px)}
+.brand-bar img{width:52px;height:52px;object-fit:contain;border-radius:9px;background:#edf6fb;padding:4px}
+.brand-name{font-size:22px;letter-spacing:.01em;font-weight:800;line-height:1.25}
+.brand-type{color:#b9d6e6;font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:800;margin-top:4px}
+.cover{height:168px;background:#17232d url('/assets/clients/cb-depot/photos/hero-desktop.webp') center 48%/cover no-repeat;position:relative;display:flex;align-items:end}
+.cover:before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#08121ce9,#08121c25)}
+.cover-label{position:relative;color:#fff;font-size:13px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;padding:0 28px 22px}
+.content{padding:26px clamp(18px,5vw,32px) 30px}
+.eyebrow{color:#37759e;letter-spacing:.14em;font-weight:800;font-size:11px;text-transform:uppercase;margin:0 0 8px}
+h1{font-size:clamp(25px,5vw,32px);letter-spacing:-.05em;line-height:1.15;margin:0 0 12px}
+p{margin:0 0 14px;color:#435260}
+.summary{border:1px solid #dce7ee;border-radius:16px;background:#f4f9fc;padding:18px 20px;margin:22px 0}
+.summary .service{font-weight:800;font-size:16px;color:#191919}
+.summary .price{font-size:30px;font-weight:850;letter-spacing:-.035em;color:#191919;margin-top:4px}
+.summary .minor{font-size:12px;color:#586b78;margin-top:5px}
+.notice{border-left:3px solid #87bfe2;border-radius:0 10px 10px 0;background:#f1f8fc;padding:11px 14px;color:#3c5366;font-size:13px;margin:14px 0 18px}
+.actions{display:grid;gap:10px;margin-top:24px}.button{border:0;border-radius:13px;padding:15px 18px;min-height:50px;cursor:pointer;font-size:14px;font-weight:800;line-height:1.4;display:block;width:100%;text-decoration:none;text-align:center;transition:transform .15s,opacity .15s}
+.button:hover{transform:translateY(-1px)}.button:focus-visible{outline:3px solid #087dff;outline-offset:3px}
+.button.dark{background:#151d25;color:#fff}.button.blue{background:#dbeefa;color:#173a53}.button.light{background:#f0f4f6;color:#2b4354}
+.button:disabled{opacity:.6;cursor:wait}
+label{display:block;font-weight:750;font-size:13px;color:#29465b;margin:16px 0 6px}
+input,textarea,select{width:100%;padding:13px;border-radius:12px;border:1px solid #bdceda;font:15px Arial,sans-serif;color:#191919;background:#fff}
+textarea{resize:vertical;min-height:105px}input:focus,textarea:focus,select:focus{outline:2px solid #8fc5e9;outline-offset:1px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.footer{border-top:1px solid #e7edf1;background:#f8fafb;padding:14px 23px;color:#687784;font-size:11px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.lang{background:transparent;border:1px solid #6b8ea4;color:#fff;border-radius:8px;padding:6px 8px;font-size:11px;cursor:pointer;margin-left:auto}
+.hidden{display:none!important}.alert{font-size:14px;color:#7a2e2e;background:#fff0ee;border-radius:9px;padding:10px 13px;margin-top:12px}
+.status{color:#41718d;font-size:13px;min-height:20px;margin-top:14px}
+.notranslate{unicode-bidi:plaintext}
+@media(max-width:430px){.cover{height:128px}.brand-bar img{width:44px;height:44px}.brand-name{font-size:19px}.two{grid-template-columns:1fr}.content{padding-top:23px}}
+@media(prefers-reduced-motion:reduce){.button{transition:none}}
+</style>
+</head>
+<body>
+<main class="shell">
+<header class="brand-bar"><img id="logo" alt="" src="/assets/clients/cb-depot/approved-favicon-192.png"><div><div id="brand" translate="no" class="brand-name notranslate">CB Depot</div><div class="brand-type">CAR DETAILING · CUSTOMER CARE</div></div><button type="button" id="language" class="lang" aria-label="Switch language">Español</button></header>
+<div class="cover"><div id="coverText" class="cover-label">CARE FOR EVERY DETAIL</div></div>
+<div class="content" id="app"><p id="loading" role="status">Loading your private request…</p></div>
+<footer class="footer"><span id="footerBusiness" translate="no" class="notranslate">CB Depot</span><span id="footerNote">Private customer response · Secure connection</span></footer>
+</main>
+<script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id),query=new URLSearchParams(location.search);
+const token=query.get('token')||'',mode=query.get('mode')==='request'?'request':'quote';
+const endpoint='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/'+(mode==='quote'?'tle-booking-quote-response':'tle-booking-request-response');
+const allow=mode==='quote'?['accept','talk','decline']:['confirm','talk'];
+let data=null,lang='en',action=allow.includes(query.get('action'))?query.get('action'):'',busy=false;
+const texts={
+en:{loading:'Loading your private request…',bad:'We couldn’t open this request.',badText:'This link may have expired or changed. Please reply to the original email for help.',back:'Back to options',contact:'Reply to the original email if you need help.',status:'This response has already been received.',thanks:'Thanks! We’ve got your response.',confirmed:'Your appointment is confirmed.',confirmedText:'The appointment is booked. Watch your email for the confirmation details.',pending:'You’re all set. We’ve saved your response.',pendingText:'The team has your message and will follow up about the next step.',quote:'Your detailing quote',request:'Your car detailing request',copyQuote:'Here’s the price for your service. Take a look and choose what works for you.',copyRequest:'Thanks for sending your request. Check the details and let us know how you’d like to proceed.',proceed:'Accept this quote',talk:'Let’s talk about it',decline:'Decline quote',confirm:'Confirm my request',noticeQuote:'Accepting a quote only confirms a booking if the time you choose is available.',noticeRequest:'Confirming your request details does not reserve an appointment. CB Depot will still review your requested time.',formAccept:'Choose an appointment time',formTalk:'What would you like to talk about?',formDecline:'Why aren’t you moving forward?',reason:'Choose a reason',price:'Price',schedule:'Date or time',notNeeded:'No longer need the service',another:'Chose another company',other:'Something else',message:'Your message',optional:'Additional details (optional)',date:'Preferred date',time:'Start time',send:'Send response',sendConfirm:'Confirm details',sendAccept:'Confirm quote and book',working:'Saving your response…',retry:'We couldn’t finish that action. Your appointment has not been confirmed. Check the details or try another time.',already:'This link has already been used.',unavailable:'This time may be unavailable. Please choose another time or contact CB Depot.',service:'Service',quoteTotal:'Quote total',private:'Private link — please don’t share it.',footer:'Private customer response · Secure connection',cover:'CARE FOR EVERY DETAIL',loadingError:'Unable to load your private link right now.'},
+es:{loading:'Estamos abriendo tu solicitud…',bad:'No pudimos abrir tu solicitud.',badText:'Puede que el enlace haya vencido o cambiado. Si necesitas ayuda, responde al correo que recibiste.',back:'Volver a las opciones',contact:'Si necesitas ayuda, responde al correo original.',status:'Ya recibimos tu respuesta.',thanks:'¡Gracias! Ya recibimos tu respuesta.',confirmed:'¡Tu cita está confirmada!',confirmedText:'Tu horario quedó reservado. Revisa tu correo para ver los detalles.',pending:'¡Listo! Guardamos tu respuesta.',pendingText:'El equipo ya tiene tu mensaje y te avisará cuál es el siguiente paso.',quote:'Tu presupuesto de detailing',request:'Tu solicitud de car detailing',copyQuote:'Este es el precio que preparamos para tu vehículo. Échale un vistazo y dinos qué te parece.',copyRequest:'Gracias por enviarnos los datos de tu vehículo. Revísalos y cuéntanos cómo te gustaría seguir.',proceed:'Aceptar presupuesto',talk:'Hablemos de esto',decline:'No aceptar presupuesto',confirm:'Confirmar mi solicitud',noticeQuote:'Al aceptar el presupuesto, tu cita se confirmará solo si el horario elegido está disponible.',noticeRequest:'Confirmar los datos no reserva una cita. CB Depot revisará el horario antes de confirmarlo.',formAccept:'Elige un horario',formTalk:'¿Qué te gustaría conversar?',formDecline:'¿Por qué prefieres no continuar?',reason:'Elige un motivo',price:'Precio',schedule:'Fecha u horario',notNeeded:'Ya no necesito el servicio',another:'Elegí otro negocio',other:'Otro motivo',message:'Tu mensaje',optional:'¿Quieres contarnos algo más? (opcional)',date:'Fecha que prefieres',time:'Hora',send:'Enviar respuesta',sendConfirm:'Confirmar datos',sendAccept:'Aceptar y reservar',working:'Estamos guardando tu respuesta…',retry:'No pudimos completar esta acción. La cita aún no está confirmada. Revisa los datos o prueba otro horario.',already:'Este enlace ya se utilizó.',unavailable:'Parece que ese horario no está disponible. Elige otro o consulta con CB Depot.',service:'Servicio',quoteTotal:'Presupuesto',private:'Este enlace es privado. No lo compartas.',footer:'Respuesta privada · Conexión segura',cover:'CUIDAMOS CADA DETALLE',loadingError:'No se pudo abrir el enlace en este momento.'}
+};
+const h=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]||c));
+const t=k=>texts[lang][k]||k;const app=$('app');
+function setLanguage(l){lang=l;document.documentElement.lang=l;$('language').textContent=l==='es'?'English':'Español';$('footerNote').textContent=t('footer');$('coverText').textContent=t('cover');if(data)render();else $('loading').textContent=t('loading')}
+function setBrand(){const business=data?.business||'CB Depot';$('brand').textContent=business;$('footerBusiness').textContent=business;document.title=business+' · Customer response';const u=data?.logo;if(u&&/^https:\/\/.+\.(png|jpe?g|webp)(?:\?.*)?$/i.test(u))$('logo').src=u;}
+function setAction(next){action=next;const u=new URL(location.href);if(next)u.searchParams.set('action',next);else u.searchParams.delete('action');history.replaceState({},'',u.pathname+u.search);render()}
+function error(message){app.innerHTML='<div class="eyebrow">'+h(data?.business||'CB Depot')+'</div><h1>'+h(t('bad'))+'</h1><p>'+h(message||t('badText'))+'</p>';app.appendChild(Object.assign(document.createElement('p'),{className:'status',textContent:t('contact')}))}
+function summary(){const amount=mode==='quote'?new Intl.NumberFormat(lang==='es'?'es-US':'en-US',{style:'currency',currency:data?.currency||'USD'}).format(Number(data?.amount||0)):'';return '<div class="summary"><div class="eyebrow">'+h(t('service'))+'</div><div class="service">'+h(data?.service||(lang==='es'?'Car detailing':'Car detailing'))+'</div>'+(mode==='quote'?'<div class="price">'+h(amount)+'</div>':'')+(mode==='quote'?'<div class="minor">'+h(t('quoteTotal'))+'</div>':'')+'</div>'}
+function actionButton(key,next,variant){return '<button type="button" class="button '+variant+'" data-choice="'+h(next)+'">'+h(t(key))+'</button>'}
+function render(){
+ if(!data)return;if(busy)return; const already=mode==='quote'?(data.booked||data.status!=='pending'):(data.booked||data.status!=='pending');
+ if(already){const booked=!!data.booked;app.innerHTML='<div class="eyebrow">'+h(data.business)+'</div><h1>'+h(booked?t('confirmed'):t('status'))+'</h1><p>'+h(booked?t('confirmedText'):t('pendingText'))+'</p>'+summary()+'<p class="notice">'+h(t('contact'))+'</p>';return}
+ const title=mode==='quote'?t('quote'):t('request');let contents='<div class="eyebrow">'+h(data.category==='detailing'?'CAR DETAILING':'CUSTOMER REQUEST')+'</div><h1>'+h(title)+'</h1><p>'+h(mode==='quote'?t('copyQuote'):t('copyRequest'))+'</p>'+summary();
+ if(!action){contents+='<p class="notice">'+h(t(mode==='quote'?'noticeQuote':'noticeRequest'))+'</p><div class="actions">'+(mode==='quote'?actionButton('proceed','accept','dark'):actionButton('confirm','confirm','dark'))+actionButton('talk','talk','blue')+(mode==='quote'?actionButton('decline','decline','light'):'')+'</div>'}
+ else{
+  contents+='<div class="eyebrow">'+h(action==='accept'?t('formAccept'):action==='talk'?t('formTalk'):action==='decline'?t('formDecline'):t('confirm'))+'</div>';
+  if(action==='accept') contents+='<p class="notice">'+h(t('noticeQuote'))+'</p><div class="two"><div><label for="date">'+h(t('date'))+'</label><input type="date" id="date" required></div><div><label for="time">'+h(t('time'))+'</label><input type="time" id="time" step="1800" required></div></div>';
+  if(action==='decline')contents+='<label for="reason">'+h(t('reason'))+'</label><select id="reason" required><option value="">'+h(t('reason'))+'</option>'+[['Price','price'],['Schedule','schedule'],['No longer needed','notNeeded'],['Selected another company','another'],['Other','other']].map(([v,k])=>'<option value="'+h(v)+'">'+h(t(k))+'</option>').join('')+'</select>';
+  if(action==='talk'||action==='decline')contents+='<label for="message">'+h(action==='talk'?t('message'):t('optional'))+'</label><textarea id="message" maxlength="750" '+(mode==='request'&&action==='talk'?'required':'')+' placeholder="'+h(action==='talk'?t('formTalk'):t('optional'))+'"></textarea>';
+  if(action==='confirm')contents+='<p class="notice">'+h(t('noticeRequest'))+'</p>';
+  contents+='<div class="actions"><button type="button" class="button dark" id="submit">'+h(action==='accept'?t('sendAccept'):action==='confirm'?t('sendConfirm'):t('send'))+'</button><button type="button" class="button light" id="back">'+h(t('back'))+'</button></div><div id="messageStatus" role="status" aria-live="polite" class="status"></div>';
+ }
+ contents+='<p style="font-size:12px;color:#6c7c86;margin:18px 0 0">'+h(t('private'))+'</p>';
+ app.innerHTML=contents;
+ app.querySelectorAll('[data-choice]').forEach(b=>b.addEventListener('click',()=>setAction(b.dataset.choice)));
+ if($('back'))$('back').onclick=()=>setAction('');
+ if($('submit'))$('submit').onclick=submit;
+ if($('date')){const now=new Date();const adjusted=new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString().slice(0,10);$('date').min=adjusted;const requested=data.requestedDate||'';if(requested>=adjusted)$('date').value=requested}
+ if($('time')&&data.requestedTime)$('time').value=data.requestedTime;
+}
+async function lookup(){
+ const url=endpoint+'?format=json&token='+encodeURIComponent(token);
+ const response=await fetch(url,{cache:'no-store',headers:{'Accept':'application/json'}});
+ if(!response.ok)throw Error('Request unavailable');
+ const d=await response.json();if(!d||d.ok!==true)throw Error('Request unavailable');return d;
+}
+async function submit(){
+ if(busy)return;const fields=new FormData();fields.set('token',token);fields.set('action',action);
+ if(action==='accept'){if(!$('date')?.value||!$('time')?.value){$('messageStatus').textContent=t('retry');return}fields.set('date',$('date').value);fields.set('time',$('time').value)}
+ if(action==='decline'){if(!$('reason')?.value){$('messageStatus').textContent=t('reason');return}fields.set('reason',$('reason').value)}
+ if(action==='talk'&&mode==='request'&&($('message')?.value||'').trim().length<2){$('messageStatus').textContent=t('formTalk');return}
+ if($('message'))fields.set('message',$('message').value.trim());
+ busy=true;$('submit').disabled=true;$('messageStatus').textContent=t('working');
+ try{
+  const response=await fetch(endpoint,{method:'POST',body:fields,cache:'no-store'});if(!response.ok)throw Error('Request failed');
+  const after=await lookup();const completed=action==='accept'?after.booked:action==='decline'?after.status==='declined':action==='talk'?after.status==='lets_talk':after.status==='confirmed_details';
+  data=after;
+  if(!completed){busy=false;render();const el=$('messageStatus');if(el)el.textContent=t('retry');return}
+  action='';const u=new URL(location.href);u.searchParams.delete('action');history.replaceState({},'',u.pathname+u.search);
+  busy=false;render();
+ }catch(e){busy=false;if($('submit'))$('submit').disabled=false;if($('messageStatus'))$('messageStatus').textContent=t('loadingError')}
+}
+$('language').onclick=()=>setLanguage(lang==='es'?'en':'es');
+(async()=>{if(!/^[0-9a-f]{64}$/i.test(token)){error();return}try{data=await lookup();lang=data.language==='es'?'es':'en';setBrand();setLanguage(lang)}catch(e){error()}})();
+})();
+</script>
+</body>
+</html>
