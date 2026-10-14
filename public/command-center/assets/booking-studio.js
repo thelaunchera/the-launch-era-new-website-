@@ -92,6 +92,19 @@ $("research-form").onsubmit=e=>{
  const url=String(d.get("url")||"").trim(),fact=String(d.get("fact")||"").trim();
  submit("research",{research:{sources:[{url,purpose:"Client brand research"}],facts:[{claim:fact,source_url:url}],unknowns:String(d.get("unknowns")||"").split("\n").filter(Boolean)}});
 };
+$("creative-generate").onclick=async()=>{
+ const button=$("creative-generate");button.disabled=true;
+ setText("creative-status","AI Creative is preparing a draft from the verified research…");
+ try{
+  const result=await api({action:"creative_suggest",job_id:state.selected.id});
+  const form=$("design-form"),d=result.suggestion;
+  for(const key of ["layout","cards","typography","primary_color","accent_color","hero_title","hero_body","design_rationale"]){
+   const control=form.elements.namedItem(key);if(control)control.value=d[key]||"";
+  }
+  setText("creative-status","AI draft ready. Photo direction: "+(d.photo_direction||"Use a licensed image matching the business.")+" Add a licensed photo and review all copy before saving.");
+ }catch(e){setText("creative-status","AI Creative unavailable: "+errText(e))}
+ finally{button.disabled=false}
+};
 $("design-form").onsubmit=e=>{
  e.preventDefault();const d=new FormData(e.currentTarget);
  const fields=Object.fromEntries(d.entries());
