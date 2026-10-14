@@ -87,6 +87,16 @@ async function submit(action,payload){
   showMessage(action==="qa"&&r.failed?.length?"QA failed: "+r.failed.join(", ")+". Returned to Developer.":"Stage recorded. No external actions were performed.");
  }catch(e){showMessage(errText(e),true)}
 }
+$("intake-research").onclick=async()=>{
+ const button=$("intake-research");button.disabled=true;
+ setText("intake-research-status","Preparing a research brief from the completed customer intake…");
+ try{
+  const r=await api({action:"research_from_intake",job_id:state.selected.id});
+  await refresh();await openJob(r.job.id);
+  showMessage("Intake research saved. AI Creative can now draft a unique design. External brand and photo verification is still required.");
+ }catch(e){setText("intake-research-status","Intake research unavailable: "+errText(e))}
+ finally{button.disabled=false}
+};
 $("research-form").onsubmit=e=>{
  e.preventDefault();const d=new FormData(e.currentTarget);
  const url=String(d.get("url")||"").trim(),fact=String(d.get("fact")||"").trim();
