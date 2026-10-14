@@ -12,6 +12,7 @@ on:
       - 'supabase/functions/tle-booking-smart-welcome/**'
       - 'docs/smart-welcome-schema.sql'
       - 'scripts/qa-smart-welcome.mjs'
+      - 'scripts/qa-smart-welcome-browser.mjs'
       - '.github/workflows/smart-welcome-qa.yml'
   workflow_dispatch:
 permissions:
@@ -19,7 +20,7 @@ permissions:
 jobs:
   smart-welcome-static:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -29,3 +30,19 @@ jobs:
         run: node scripts/qa-smart-welcome.mjs
       - name: Existing booking and marketing route integrity
         run: node scripts/qa-route-integrity.mjs --static
+      - name: Install isolated Playwright browser
+        run: |
+          mkdir -p /tmp/tle-sw-qa
+          cd /tmp/tle-sw-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          cd "$GITHUB_WORKSPACE"
+          ln -s /tmp/tle-sw-qa/node_modules node_modules
+      - name: Fixture browser checks (six viewport widths)
+        run: node scripts/qa-smart-welcome-browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: smart-welcome-fixture-screenshots
+          path: qa-screenshots/smart-welcome-*.png
