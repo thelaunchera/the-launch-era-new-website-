@@ -45,7 +45,13 @@
   if(checking)return false;
   checking=true;
   clear();
-  try{await db.auth.signOut({scope:"local"})}catch{}
+  try{
+   const response=await db.auth.signOut({scope:"local"});
+   if(response?.error)throw response.error;
+  }catch{
+   // Fail closed in this browser if remote sign-out is temporarily unavailable.
+   try{localStorage.removeItem("tle-crm-auth")}catch{}
+  }
   try{(onExpired||expiredHandler)?.()}catch{}
   checking=false;
   return false;
