@@ -80,9 +80,9 @@ function tooSimilarAnswer(reply,history,msg){
 
 function wantsAiPlanComparison(message,prior,focus){
  const q=norm(message);
- if(prior==="ai-plans"&&asksPrice(message))return true;
  const explicitSingle=/\b(ai[ -]?booking|booking assistant|asistente de reservas|ai[ -]?follow[ -]?up|follow[ -]?up assistant|asistente de seguimiento|ai[ -]?business|business assistant|asistente de negocios|asistente empresarial)\b|\$(?:79|59|119)\b/.test(q);
  if(explicitSingle)return false;
+ if(prior==="ai-plans"&&asksPrice(message))return true;
  const ai=/\b(ai|ia|assistants?|asistentes?|agentes?|chatbots?)\b/.test(q);
  const compare=/\b(which|what|list|all|three|3|compare|comparison|options?|plans?|packages?|types?|available|offer|offered|cuales?|que|todos?|tres|comparar|opciones|planes|paquetes|tipos|ofrecen|disponibles|precios|pricing)\b/.test(q);
  if(ai&&compare)return true;
