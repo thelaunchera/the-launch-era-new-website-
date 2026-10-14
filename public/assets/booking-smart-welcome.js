@@ -25,6 +25,8 @@
     if(picture){const img=element('img','tle-sw-image');img.src=picture;img.alt='';img.loading='eager';photo.append(img);}
     else photo.classList.add('tle-sw-no-image');
     const small=element('span','tle-sw-eyebrow',enEs(lang,'A WARM WELCOME','UNA BIENVENIDA ESPECIAL'));
+    const logo=safeImage(model.branding?.logo_image);
+    if(logo){const mark=element('img','tle-sw-logo');mark.src=logo;mark.alt=name+' logo';mark.loading='eager';photo.append(mark);}
     const nameEl=element('span','tle-sw-business',name);
     photo.append(nameEl);
     const text=element('div','tle-sw-copy');
