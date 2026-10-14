@@ -185,5 +185,5 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 
 ## 2026-10-14 — Smart Welcome change-control entry (NOT an incident)
 - **Scope:** planned opt-in customer Booking Page welcome/flyer, isolated in development branch.
-- **Protection:** no production data/schema/client records modified; all existing booking/pricing/email controls remain the source of truth. New welcome table defaults off, edge authorizes tenant and release, frontend failures fail open to original booking.
+- **Protection:** additive production Smart Welcome schema deployed; CB Depot welcome draft created disabled; existing customer bookings/prices/notifications untouched; all existing booking/pricing/email controls remain the source of truth. New welcome table defaults off, edge authorizes tenant and release, frontend failures fail open to original booking.
 - **Release verification:** staging schema/Edge Function deployment, two-tenant isolation, responsive browser tests, and booking/quote smoke tests remain required before publication. See `docs/SMART_WELCOME_BOOKING.md`.
