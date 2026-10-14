@@ -3228,15 +3228,15 @@ function buyerSetDefaultMessage(){
   closed:detailing?(es?"Hemos cerrado esta solicitud de detailing. Si necesitas otra cita para tu vehículo, responde aquí.":"We've closed this detailing request. If your vehicle needs another appointment, feel free to reach out."):isOtherServiceWorkspace()?(es?"Hemos cerrado esta solicitud. Escríbenos si necesitas otro servicio.":"We've closed this request. Reach out if you need another service."):es?"Queríamos avisarte que hemos cerrado esta solicitud. Si necesitas una nueva limpieza, puedes escribirnos nuevamente.":"We're letting you know this request has been closed. If you need another cleaning, you're welcome to reach out.",
   reply:es?"Gracias por contactar a nuestro negocio. Revisamos tu solicitud; responde a este correo si tienes preguntas.":"Thanks for contacting our business. We've reviewed your request. Reply here if you have any questions."
  };
- if(buyerIsContactInquiry(x)){
-  copy.reply=es?"Hola "+name+",\n\nGracias por escribir a "+(workspace?.name||"nuestro negocio")+". Sobre tu mensaje:\n\n\n\nSi necesitas algo más, responde a este correo.":"Hi "+name+",\n\nThanks for reaching out to "+(workspace?.name||"our business")+". About your message:\n\n\n\nFeel free to reply if you have any other questions.";
- }
  if(detailing){
   copy.reviewing=es?"Recibimos tu solicitud para "+service+". Estamos revisando los detalles de tu vehículo antes de preparar la cotización o el próximo paso. Tu cita aún no está confirmada.":"We received your "+service+" request. We're reviewing your vehicle details before preparing a quote or the next step. Your appointment is not confirmed yet.";
   copy.quoted=es?"Tu cotización de detailing para "+service+" está lista. Acepta, rechaza o conversa sobre el precio; después de aceptar, elige un horario libre.":"Your detailing quote for "+service+" is ready. Accept, decline or discuss the price. After accepting, choose an available time to confirm.";
   copy.booked=es?"Tu cita de detailing para "+service+" está confirmada"+(slot?" para "+slot:"")+". Si necesitas cambiar algo, responde a este correo.":"Your car detailing appointment for "+service+" is confirmed"+(slot?" for "+slot:"")+". Reply here if you need to adjust anything.";
   copy.reply=es?"Gracias por contactar a "+(workspace?.name||"nuestro negocio")+". Revisamos los detalles de tu vehículo y tu solicitud de detailing. Responde si tienes alguna pregunta.":"Thanks for contacting "+(workspace?.name||"our business")+". We've reviewed your vehicle and detailing request. Reply here with any questions.";
   copy.declined=es?"Gracias por considerar "+(workspace?.name||"nuestro negocio")+" para "+service+". Por ahora no podemos confirmar el servicio. Responde si deseas otra opción.":"Thanks for considering "+(workspace?.name||"our business")+" for "+service+". We can't confirm this service at the moment. Reply if you'd like to discuss an alternative.";
+ }
+ if(buyerIsContactInquiry(x)){
+  copy.reply=es?"Gracias por escribir a "+(workspace?.name||"nuestro negocio")+".\n\n[Write your answer here]\n\nSi necesitas algo más, responde a este correo.":"Thanks for reaching out to "+(workspace?.name||"our business")+".\n\n[Write your reply here]\n\nFeel free to reply if you need anything else.";
  }
  $("buyerRequestMessage").value=(es?"Hola ":"Hi ")+name+",\n\n"+copy[action]+"\n\n"+(workspace?.name||"Your business")
 }
