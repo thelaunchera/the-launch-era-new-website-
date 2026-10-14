@@ -65,6 +65,9 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Test Jessy's private FAQ, reasoning, contextual prices and anti-repetition
+        run: bun scripts/qa-jessy-reasoning.ts
+
       - name: Render-test public Cleaning App demo in English and Spanish
         run: node scripts/qa-public-demo-browser.mjs
 
