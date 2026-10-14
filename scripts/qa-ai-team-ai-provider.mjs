@@ -51,4 +51,12 @@ assert.match(helpers.safeEmailTemplate("en"),/^Subject:/);
 assert.match(ui,/regenerate:true/,"owner can request new draft instead of reusing a previous output");
 console.log("PASS — draft language, intent routing, paragraph formatting, fabricated claims guard, safe regeneration");
 
+// Human, evidence-based draft contracts for Jessie, Sales and Projects.
+assert.match(api,/Give the owner a short, warm, direct answer first/);
+assert.match(api,/what is still unknown and needs checking/);
+assert.match(api,/Write one short, warm email/);
+assert.match(api,/24\/7 booking, calendar integrations/);
+assert.match(api,/The draft is never sent/);
+assert.match(api,/what has actually been confirmed, what is missing/);
+assert.match(api,/Block handoff until the correct brand/);
 console.log("PASS — AI provider check owner-only, generated provenance, honest offline templates, no embedded secret");
