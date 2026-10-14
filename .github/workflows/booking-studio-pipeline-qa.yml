@@ -9,6 +9,8 @@ on:
       - 'scripts/qa-booking-studio-developer-plan.mjs'
       - 'scripts/build-booking-studio-private-packet.mjs'
       - 'scripts/qa-booking-studio-private-packet.mjs'
+      - 'lib/booking-studio-synthetic-integration.mjs'
+      - 'scripts/qa-booking-studio-synthetic-integration.mjs'
       - 'scripts/qa-booking-studio-preview.mjs'
       - 'scripts/qa-booking-studio-visual.mjs'
       - 'scripts/build-booking-studio-preview.mjs'
@@ -38,6 +40,7 @@ jobs:
           node scripts/qa-booking-studio-preview.mjs
           node scripts/qa-booking-studio-developer-plan.mjs
           node scripts/qa-booking-studio-private-packet.mjs
+          node scripts/qa-booking-studio-synthetic-integration.mjs
           node scripts/qa-booking-studio-owner-integration.mjs
           node --check public/command-center/assets/booking-studio.js
       - name: Build synthetic private visual preview
