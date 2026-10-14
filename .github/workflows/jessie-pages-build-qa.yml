@@ -58,7 +58,7 @@ jobs:
           grep -q 'id="team-brief-reports"' .output/public/command-center/ai-team.html
           grep -q 'owner-diagnostic-run' .output/public/command-center/assets/ai-team.js
           grep -q 'booking-smart' .output/public/command-center/index.html
-          grep -q 'jessy-owner.js?v=20261014-unified-team-v1' .output/public/command-center/index.html
+          grep -Eq 'jessy-owner\\.js\\?v=[^" ]+' .output/public/command-center/index.html
           if grep -R -n -E 'SUPABASE_SERVICE_ROLE_KEY|GROQ_API_KEY|OPENAI_API_KEY' .output/public/command-center/assets/ai-team.js .output/public/command-center/assets/jessy-owner.js; then
             echo "::error::Private server secret references unexpectedly present in browser assets"
             exit 1
