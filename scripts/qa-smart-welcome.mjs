@@ -33,6 +33,7 @@ assert(edge.includes('if(origin&&!allowedOrigins.has(origin))'),'Cross-origin ga
 assert(!publicJS.includes('innerHTML'),'Public copy must use textContent only');
 assert(!read(publicJS).includes('A WARM WELCOME'),'Remove unwanted welcome eyebrow text');
 assert(read(publicJS).includes("name.trim().toLowerCase()==='cb depot'"),'CB Depot-specific logo isolation absent');
+assert(read(publicJS).includes('showReturnToast(data,model,lang)'),'Returning toast must render when customer comes back');
 assert(!publicJS.includes('booking_flow_leads'),'Welcome frontend must not write bookings');
 assert(!edge.includes('.from("tle_booking_flow_leads")'),'Welcome backend must not write bookings');
 assert(!edge.includes('.from("tle_booking_flow_pricing")'),'Welcome backend must not mutate pricing');
