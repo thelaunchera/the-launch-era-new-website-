@@ -5,6 +5,8 @@ on:
       - 'lib/booking-studio-pipeline.mjs'
       - 'scripts/qa-booking-studio-pipeline.mjs'
       - 'scripts/qa-booking-studio-owner-approval.mjs'
+      - 'scripts/build-booking-studio-owner-review-demo.mjs'
+      - 'fixtures/booking-studio-bright-rooms-synthetic.json'
       - 'docs/booking-studio-owner-approval-protocol.md'
       - 'lib/booking-studio-preview.mjs'
       - 'lib/booking-studio-developer-plan.mjs'
@@ -53,6 +55,8 @@ jobs:
           node scripts/qa-booking-studio-http-staging.mjs
           node scripts/qa-booking-studio-owner-integration.mjs
           node --check public/command-center/assets/booking-studio.js
+      - name: Build fictional owner review packet
+        run: node scripts/build-booking-studio-owner-review-demo.mjs
       - name: Build synthetic private visual preview
         run: node scripts/build-booking-studio-preview.mjs fixtures/booking-studio-synthetic.json .private-preview/booking-studio.html
       - name: Install browser QA tooling in an isolated temp package
@@ -75,6 +79,13 @@ jobs:
           name: booking-studio-responsive-qa
           path: .private-preview/visual-qa/
           if-no-files-found: warn
+          retention-days: 7
+      - name: Upload fictional review packet
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: booking-studio-fictional-owner-review
+          path: .private-preview/owner-approval-demo/
           retention-days: 7
       - name: Upload synthetic review artifact (not deployed)
         uses: actions/upload-artifact@v4
