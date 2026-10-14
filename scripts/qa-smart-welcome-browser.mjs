@@ -57,7 +57,16 @@ try{
    assert.equal(errs.length,0,'Script error at '+width+': '+errs.join(' | '));
    await page.reload({waitUntil:'domcontentloaded'});
    await page.locator('.tle-sw-return-card').waitFor({state:'visible',timeout:10000});
+   const returnToast=page.locator('.tle-sw-return-toast');
+   await returnToast.waitFor({state:'visible',timeout:10000});
+   assert.match(await returnToast.locator('.tle-sw-toast-title').innerText(),/Welcome back to Fixture Residential Cleaning!/);
+   const toastBounds=await returnToast.evaluate(el=>{const r=el.getBoundingClientRect();return {left:r.left,right:r.right,screen:innerWidth,bottom:r.bottom,height:innerHeight}});
+   assert(toastBounds.left>=-1&&toastBounds.right<=toastBounds.screen+1&&toastBounds.bottom<=toastBounds.height+1,'Returning welcome alert overflows at '+width);
    assert.equal(await page.locator('.tle-sw-dialog').count(),0,'Returning visit interrupted at '+width);
+   await page.screenshot({path:'qa-screenshots/smart-welcome-returning-'+width+'.png'});
+   await returnToast.locator('.tle-sw-toast-close').click();
+   assert.equal(await returnToast.count(),0,'Returning alert cannot be dismissed at '+width);
+   assert.equal(await page.locator('#booking').count(),1,'Booking form changed on return at '+width);
    await ctx.close();passes++;
  }
 
@@ -78,6 +87,16 @@ try{
  await detailPage.screenshot({path:'qa-screenshots/smart-welcome-cb-depot-390.png'});
  await detailPage.locator('.tle-sw-book').click();
  assert.equal(await detailPage.locator('#booking').count(),1,'CB Depot quote flow disappeared');
+ await detailPage.reload({waitUntil:'domcontentloaded'});
+ const cbToast=detailPage.locator('.tle-sw-return-toast.tle-sw-detailing');
+ await cbToast.waitFor({state:'visible',timeout:10000});
+ assert.match(await cbToast.locator('.tle-sw-toast-title').innerText(),/Welcome back to CB Depot!/);
+ assert.equal(await cbToast.locator('.tle-sw-logo').count(),0,'Return alert must not duplicate panda logo');
+ assert.equal(await detailPage.locator('.tle-sw-dialog').count(),0,'CB Depot return should not re-open welcome modal');
+ await detailPage.screenshot({path:'qa-screenshots/smart-welcome-returning-cb-depot-390.png'});
+ await cbToast.locator('.tle-sw-toast-cta').click();
+ assert.equal(await cbToast.count(),0,'CB Depot return CTA must dismiss toast');
+ assert.equal(await detailPage.locator('#booking').count(),1,'CB Depot quote form must remain on repeat entry');
  await detailCtx.close();passes++;
 
  const context=await browser.newContext({viewport:{width:390,height:840}});
