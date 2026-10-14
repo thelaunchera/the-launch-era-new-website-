@@ -129,6 +129,31 @@ Deno.serve(async req=>{
    const next=await save(ctx,job,{research,stage:"creative"},"research_verified","Evidence-backed brand research recorded");
    return response(origin,200,{ok:true,job:next});
   }
+  if(action==="creative_suggest"){
+   if(job.stage!=="creative")return response(origin,409,{ok:false,error:"Research must be verified first"});
+   const key=str(Deno.env.get("GROQ_API_KEY"),300);
+   if(!key)return response(origin,503,{ok:false,error:"AI Creative provider not configured"});
+   const p=account.intake_payload&&typeof account.intake_payload==="object"&&!Array.isArray(account.intake_payload)?account.intake_payload:{};
+   const brief={business_name:str(account.business_name,140),business_type:str(p.business_type||p.industry||"cleaning",100),
+     verified_facts:job.research?.facts||[],unknowns:job.research?.unknowns||[],
+     services:Array.isArray(p.services)?p.services.slice(0,15):[],
+     brand_preferences:{colors:str(p.brand_colors||p.colors,120),tone:str(p.brand_tone||p.style,160)}};
+   const system="You are AI Creative for The Launch Era owner-only Booking Studio. Return ONLY a JSON object with layout (editorial, immersive, split, minimal), cards (photographic, editorial, compact, tiles), typography (modern, elegant, friendly), primary_color and accent_color as hex, hero_title (max 120 chars), hero_body (max 280 chars), design_rationale (max 400 chars), photo_direction (max 200 chars). Make it specific to the business and cited facts, not a generic template. Do not invent reviews, locations, certifications, prices, history, photos, image licenses or services. If data is missing, do not claim it. No HTML.";
+   const ai=await fetch("https://api.groq.com/openai/v1/chat/completions",{method:"POST",headers:{Authorization:"Bearer "+key,"Content-Type":"application/json"},body:JSON.stringify({model:Deno.env.get("GROQ_MODEL")||"openai/gpt-oss-120b",temperature:0.45,max_tokens:750,messages:[{role:"system",content:system},{role:"user",content:JSON.stringify(brief).slice(0,6500)}]}),signal:AbortSignal.timeout(16000)});
+   if(!ai.ok)return response(origin,503,{ok:false,error:"AI Creative generation unavailable"});
+   const result=await ai.json(),raw=str(result?.choices?.[0]?.message?.content,5000);
+   let parsed={};
+   try{parsed=JSON.parse(raw.replace(/^\`\`\`(?:json)?/i,"").replace(/\`\`\`$/,"").trim())}catch{return response(origin,503,{ok:false,error:"Creative draft format unavailable; retry"})}
+   if(!["editorial","immersive","split","minimal"].includes(parsed.layout)||!["photographic","editorial","compact","tiles"].includes(parsed.cards)
+     ||!["modern","elegant","friendly"].includes(parsed.typography)||!validHex(parsed.primary_color)||!validHex(parsed.accent_color))
+     return response(origin,503,{ok:false,error:"Creative draft failed validation"});
+   const suggestion={layout:parsed.layout,cards:parsed.cards,typography:parsed.typography,
+     primary_color:parsed.primary_color,accent_color:parsed.accent_color,hero_title:str(parsed.hero_title,160),
+     hero_body:str(parsed.hero_body,600),design_rationale:str(parsed.design_rationale,800),photo_direction:str(parsed.photo_direction,240)};
+   if(!suggestion.hero_title||!suggestion.hero_body||!suggestion.design_rationale)
+     return response(origin,503,{ok:false,error:"Creative draft incomplete"});
+   return response(origin,200,{ok:true,suggestion,source:"groq",status:"draft",requires_owner_review:true,photos_verified:false,published:false});
+  }
   if(action==="design"){
    if(job.stage!=="creative")return response(origin,409,{ok:false,error:"Not in creative stage"});
    const design=sanitizeDesign(body.design);
