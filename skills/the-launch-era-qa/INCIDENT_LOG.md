@@ -182,3 +182,8 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - **Verified finding:** Owner UI confirmed GroqCloud connectivity and a private AI-generated Sales draft had unverified feature promises. The output was not sent to any customer.
 - **Change:** Updated private `tle-ai-team` instructions for Jessie, Sales and Projects to give natural answers tied to verified data, avoid unsupported capabilities, and require evidence before client handoff. No routes, payments, credentials or client data modified.
 - **Checks:** Main-source syntax and owner-only prompt regression assertions checked before Supabase function deployment. Provider-authenticated regeneration requires owner-side confirmation.
+
+## 2026-10-14 — Smart Welcome change-control entry (NOT an incident)
+- **Scope:** planned opt-in customer Booking Page welcome/flyer, isolated in development branch.
+- **Protection:** additive production Smart Welcome schema deployed; CB Depot welcome draft created disabled; existing customer bookings/prices/notifications untouched; all existing booking/pricing/email controls remain the source of truth. New welcome table defaults off, edge authorizes tenant and release, frontend failures fail open to original booking.
+- **Release verification:** staging schema/Edge Function deployment, two-tenant isolation, responsive browser tests, and booking/quote smoke tests remain required before publication. See `docs/SMART_WELCOME_BOOKING.md`.
