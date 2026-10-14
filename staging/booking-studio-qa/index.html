@@ -16,9 +16,9 @@ button.secondary{background:#e5f2f9;color:#174d6b}.actions{display:flex;gap:10px
 <body><main><p><strong>THE LAUNCH ERA · INTERNAL QA</strong></p><h1>Booking Studio staging test</h1>
 <p class="warning"><strong>SYNTHETIC ONLY.</strong> This is an internal test form, not a customer Booking Page. No real appointments, customer emails, or published pages are created. Use a dedicated Supabase Testing account, never a production password.</p>
 <section class="panel" id="auth"><h2>Testing sign-in</h2><div class="grid">
-<div><label for="email">Testing email</label><input id="email" type="email" autocomplete="username"></div>
+<div><label for="email">Testing email</label><input id="email" type="email" autocomplete="username" value="hello@thelaunchera.com"></div>
 <div><label for="password">Testing password</label><input id="password" type="password" autocomplete="current-password"></div></div>
-<div class="actions"><button id="login">Sign in to Testing</button><button id="logout" class="secondary" disabled>Sign out</button></div></section>
+<div class="actions"><button id="signup" class="secondary">Create Testing account</button><button id="login">Sign in to Testing</button><button id="logout" class="secondary" disabled>Sign out</button></div></section>
 <section class="panel"><h2>Submit synthetic request</h2><div class="grid">
 <div><label for="service">Service</label><select id="service"><option>Standard Cleaning</option><option>Move-Out Cleaning</option></select></div>
 <div><label for="area">Service area</label><select id="area"><option>Miami</option><option>Miami Beach</option></select></div>
@@ -35,8 +35,9 @@ const KEY="sb_publishable_ECdkPd5gkDR55JOWEqsnPA_cJE8bENc";
 const API=BASE+"/functions/v1/tle-booking-studio-staging-qa";
 const el=id=>document.getElementById(id);let token="";
 const status=message=>el("status").textContent=message;
-const controls=enabled=>{el("submit").disabled=!enabled;el("refresh").disabled=!enabled;el("logout").disabled=!enabled;el("login").disabled=enabled};
+const controls=enabled=>{el("submit").disabled=!enabled;el("refresh").disabled=!enabled;el("logout").disabled=!enabled;el("login").disabled=enabled;el("signup").disabled=enabled};
 async function call(body){const r=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json",apikey:KEY,authorization:"Bearer "+token},body:JSON.stringify(body)});const data=await r.json();if(!r.ok)throw Error(data.error||"Testing request failed");return data}
+el("signup").onclick=async()=>{try{status("Creating account in the separate Testing project…");const email=el("email").value.trim();const password=el("password").value;if(!email.toLowerCase().endsWith("@thelaunchera.com"))throw Error("Use an authorized The Launch Era business inbox for Testing.");if(password.length<12)throw Error("Choose a unique Testing password with at least 12 characters.");const r=await fetch(BASE+"/auth/v1/signup",{method:"POST",headers:{"Content-Type":"application/json",apikey:KEY},body:JSON.stringify({email,password})});const data=await r.json();el("password").value="";if(!r.ok)throw Error(data.msg||data.error_description||data.message||"Testing signup failed");if(data.access_token){token=data.access_token;controls(true);status("Testing account created and signed in. No production account was used.")}else status("Testing account requested. Check the official inbox for a confirmation email, then sign in here.");}catch(e){status(e.message)}};
 el("login").onclick=async()=>{try{status("Signing in to Testing…");const r=await fetch(BASE+"/auth/v1/token?grant_type=password",{method:"POST",headers:{"Content-Type":"application/json",apikey:KEY},body:JSON.stringify({email:el("email").value.trim(),password:el("password").value})});const data=await r.json();el("password").value="";if(!r.ok||!data.access_token)throw Error("Testing sign-in failed");token=data.access_token;controls(true);status("Signed in to Testing. Ready for synthetic QA.");}catch(e){token="";controls(false);status(e.message)}};
 el("logout").onclick=()=>{token="";controls(false);el("results").replaceChildren();status("Signed out of Testing.")};
 el("submit").onclick=async()=>{try{status("Saving synthetic request…");const data=await call({action:"submit",service_name:el("service").value,service_area:el("area").value,frequency:el("frequency").value,addons:el("addon").value?[el("addon").value]:[],consent_to_contact:el("consent").checked});status("Saved synthetic "+data.request.kind+". No real booking or email was created.");await refresh()}catch(e){status(e.message)}};
