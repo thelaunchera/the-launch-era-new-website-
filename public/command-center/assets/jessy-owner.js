@@ -3,7 +3,7 @@
 "use strict";
 if(window.__tleOwnerJessyInstalled)return;
 window.__tleOwnerJessyInstalled=true;
-const ASSET="/assets/jessy-avatar.webp",CSS="./assets/jessy-owner.css?v=20261012-project-checklist-v3";
+const ASSET="/assets/jessy-avatar.webp",CSS="./assets/jessy-owner.css?v=20261014-compact-alert-v1";
 let root=null,log=null,form=null,input=null,send=null,quick=null,open=false,waiting=false,language="en",history=[],previousFocus=null;
 let notificationTimer=0;
 const copy={
@@ -127,11 +127,10 @@ function onOwnerNotifications(event){
  if(!total){alert.hidden=true;return}
  if(!initial&&!added)return;
  const en=language!=="es";
- const message=initial
-  ?(en?"Jessy: You have "+total+" unread Command Center notification"+(total===1?"":"s")+". View alerts →":
-   "Jessy: Tienes "+total+" notificaci"+(total===1?"ón":"ones")+" sin leer. Ver avisos →")
-  :(en?"Jessy: "+added+" new Command Center alert"+(added===1?"":"s")+". View →":
-    "Jessy: "+added+" nuevo"+(added===1?" aviso":"s avisos")+" en tu Command Center. Ver →");
+ const count=initial?total:added;
+ const message=en
+  ?"Jessy: "+count+(initial?(count===1?" unread alert":" unread alerts"):(count===1?" new alert":" new alerts"))+" · View →"
+  :"Jessy: "+count+(initial?(count===1?" aviso sin leer":" avisos sin leer"):(count===1?" aviso nuevo":" avisos nuevos"))+" · Ver →";
  if(open){if(!initial)bubble(message.replace(/ →$/,""),"bot")}
  else{alert.textContent=message;alert.hidden=false;clearTimeout(notificationTimer);
   notificationTimer=setTimeout(()=>{if(alert.isConnected)alert.hidden=true},13000)}

@@ -224,3 +224,8 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - Regression: `qa-jessy-public-privacy.mjs` exercises full handler including mixed plan-comparison/prompt-extraction requests, contextual prices and customer emails. `qa-jessy-reasoning.ts`, coverage and static route checks pass. Publication pending approval after automatic review blocked direct production push.
 
 - **Live release verified:** Dailin authorized publication; PR #70 merged, `tle-jessy-chat` version 18 ACTIVE. Live HTTP 200 responses verified EN “How much?”, ES “Cuánto?”, customer-email FAQ, managed follow-up FAQ and confidentiality refusal. Production browser confirmed booking explanation → contextual price → confidentiality reply. No email, booking or customer record was created. Browser checked current desktop UI; new responsive layout testing not claimed (no layout changed).
+
+## 2026-10-14 — Owner Jessy notification banner too wide on iPhone
+- User screenshot: unread-alert nudge stretched across sidebar. Source: verbose count message plus mobile max-width viewport rule.
+- Compact EN/ES singular/plural notice, intrinsic width capped at 250px, 44px tap target and mobile cap specificity. No auth, routing, records, alert counts or preference behavior changed.
+- Canonical source and dedicated `command.thelaunchera.com` build overlays kept aligned without changing pinned portal source. Offline count/owner tests and static routes pass. Dedicated Pages release gates run synthetic browser geometry at 360/390/820/1024/1440 before deployment. Live signed-in mobile QA pending.

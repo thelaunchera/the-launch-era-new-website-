@@ -41,7 +41,7 @@
 @media(max-width:600px){.jo-draft-panel{padding:12px}.jo-draft-textarea{min-height:175px;font-size:16px}.jo-draft-select,.jo-draft-input{font-size:16px}}
 
 /* Jessy owner-only notification nudge; no content of private alerts is exposed. */
-.jo-notification-nudge{position:fixed;right:max(18px,env(safe-area-inset-right));bottom:max(155px,calc(env(safe-area-inset-bottom) + 138px));max-width:min(310px,calc(100vw - 28px));border:1px solid #a1cbe4;background:#e4f4ff;color:#192f40;box-shadow:0 10px 38px #142f4930;border-radius:17px;padding:12px 15px;text-align:left;line-height:1.45;font:700 12px Prompt,Arial,sans-serif;cursor:pointer;z-index:13011}
+.jo-notification-nudge{position:fixed;right:max(18px,env(safe-area-inset-right));bottom:max(155px,calc(env(safe-area-inset-bottom) + 138px));width:max-content;max-width:min(250px,calc(100vw - 28px));min-height:44px;border:1px solid #a1cbe4;background:#e4f4ff;color:#192f40;box-shadow:0 10px 38px #142f4930;border-radius:14px;padding:10px 12px;text-align:left;white-space:normal;overflow-wrap:break-word;font:700 12px/1.35 Prompt,Arial,sans-serif;cursor:pointer;z-index:13011}
 .jo-notification-nudge[hidden]{display:none!important}
 .jo-notification-nudge:focus-visible{outline:3px solid #2385bc;outline-offset:3px}
 @media(max-width:600px){.jo-notification-nudge{right:12px;bottom:max(149px,calc(env(safe-area-inset-bottom) + 129px))}}
@@ -84,7 +84,7 @@ body.crm-owner-view #tleOwnerJessy .jo-heading small{max-width:250px;overflow:hi
     height:min(620px,calc(100dvh - 22px))!important;
   }
   body.crm-owner-view #tleOwnerJessy .jo-notification-nudge{
-    max-width:calc(100dvw - 24px);
+    width:max-content!important;max-width:min(250px,calc(100dvw - 24px))!important;
     right:max(12px,env(safe-area-inset-right));
     bottom:max(80px,calc(env(safe-area-inset-bottom) + 76px));
   }
