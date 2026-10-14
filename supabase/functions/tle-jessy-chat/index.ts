@@ -80,6 +80,7 @@ function tooSimilarAnswer(reply,history,msg){
 
 function wantsAiPlanComparison(message,prior,focus){
  const q=norm(message);
+ if(prior==="ai-plans"&&asksPrice(message))return true;
  const explicitSingle=/\b(ai[ -]?booking|booking assistant|asistente de reservas|ai[ -]?follow[ -]?up|follow[ -]?up assistant|asistente de seguimiento|ai[ -]?business|business assistant|asistente de negocios|asistente empresarial)\b|\$(?:79|59|119)\b/.test(q);
  if(explicitSingle)return false;
  const ai=/\b(ai|ia|assistants?|asistentes?|agentes?|chatbots?)\b/.test(q);
@@ -308,7 +309,7 @@ Deno.serve(async(req)=>{
  if(id==="whatsapp"||id==="cleaning-app")checkout=null;
  if(checkout&&checkout.startsWith("/service-checkout/")&&!checkout.includes("lang="))checkout+="&lang="+lang;
  if(id==="booking"||isCombo)checkout="/booking-bundle/?lang="+lang;
- const nextAction=helpfulNextAction(message,id);
+ const nextAction=priceQuestion&&!isBusinessCleaningPriceQuestion(message)?"checkout":helpfulNextAction(message,id);
  return response({
   reply:finalReply,selected_offer:id,checkout,
   details:id==="cleaning-app"?"/cleaning-app-demo/?lang="+lang:
