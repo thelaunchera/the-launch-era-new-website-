@@ -1,6 +1,6 @@
 -- Execute on Supabase TESTING project only. All writes are rolled back.
 begin;
--- Temporary membership exists only inside this transaction and is rolled back.
+-- Temporary membership MUST be explicitly revoked (SQL gateways may commit statements individually).
 grant booking_studio_qa_runner to postgres;
 set local role booking_studio_qa_runner;
 select set_config('booking_studio_qa.tenant_id','aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',true);
@@ -33,4 +33,5 @@ begin
  raise notice 'PASS: tenant A sees 2 synthetic rows, tenant B sees 0, cross-tenant insert and missing consent denied';
 end $$;
 reset role;
+revoke booking_studio_qa_runner from postgres;
 rollback;
