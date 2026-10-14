@@ -257,12 +257,12 @@ async function projectReadiness(lang,workspace){
  const txt=(en,es)=>lang==="es"?es:en,projects=[];
  // Client records are visible here only when explicitly linked to this authenticated workspace.
  // Older orders without a verifiable workspace association must not be guessed or exposed.
- const coverage=["legacy_ai_orders_unlinked"];
+ const coverage=["historical_orders_without_agency_link"];
  let data=[];
  try{
   data=await rows("tle_booking_flow_accounts",
    "select=id,business_name,intake_completed_at,intake_payload,build_started_at,delivery_sent_at,payment_status"+
-   "&crm_workspace_id=eq."+encodeURIComponent(workspace)+"&payment_status=eq.paid&limit=40");
+   "&or=(tle_sales_workspace_id.eq."+encodeURIComponent(workspace)+",crm_workspace_id.eq."+encodeURIComponent(workspace)+")&payment_status=eq.paid&limit=40");
  }catch{coverage.push("booking_accounts_unavailable")}
  for(const item of data){
   const missing=[],payload=item.intake_payload&&typeof item.intake_payload==="object"?item.intake_payload:{};
@@ -278,14 +278,37 @@ async function projectReadiness(lang,workspace){
    status:delivered?"delivered":missing.length?"needs_info":item.build_started_at?"production":"owner_review",
    missing,email_issue:false,service:"Booking Automation"});
  }
+ let assistants=[];
+ try{
+  assistants=await rows("tle_ai_agent_orders","tle_sales_workspace_id=eq."+encodeURIComponent(workspace)+
+   "&select=id,business_name,status,submitted_at,delivered_at,services_offered,install_target,booking_page_url,website_url"+
+   "&status=in.(paid,pending_setup,intake_submitted,in_setup,active)&limit=40");
+ }catch{coverage.push("ai_orders_unavailable")}
+ let kickoffs=[];
+ if(assistants.length)try{
+  kickoffs=await rows("tle_project_kickoffs","subject_type=eq.ai&subject_id=in.("+assistants.map(x=>x.id).join(",")+")&select=subject_id,approved_at,email_status");
+ }catch{coverage.push("ai_production_status_unavailable")}
+ for(const item of assistants){
+  const delivered=!!item.delivered_at||item.status==="active",missing=[];
+  if(!delivered){
+   if(!item.submitted_at)missing.push(txt("Setup form not submitted","Falta enviar el intake"));
+   if(!String(item.services_offered||"").trim())missing.push(txt("Services information missing","Faltan los servicios"));
+   if(!String(item.install_target||"").trim())missing.push(txt("Assistant placement missing","Falta dónde instalar el asistente"));
+  }
+  const kickoff=kickoffs.find(x=>x.subject_id===item.id);
+  projects.push({kind:"ai",id:item.id,name:String(item.business_name||"AI Assistant").slice(0,75),
+   status:delivered?"delivered":missing.length?"needs_info":kickoff?.approved_at?"production":"owner_review",
+   missing,email_issue:kickoff?.email_status==="needs_review",service:"AI Assistant"});
+ }
+
  const pending=projects.filter(x=>x.status==="needs_info").length;
  const review=projects.filter(x=>x.status==="owner_review").length;
  return {ok:true,action_performed:"client_readiness_review",section:"owner-pages",read_only:true,
   projects,coverage,checked_workspace:true,
-  reply:txt("Checked "+projects.length+" workspace-linked booking projects: "+pending+
-   " need details, "+review+" require review. Unlinked AI/legacy orders were excluded. No data changed.",
-   "Revisé "+projects.length+" proyectos Booking vinculados a este espacio: "+pending+
-   " necesitan datos y "+review+" requieren revisión. Se excluyeron pedidos antiguos/IA sin vínculo seguro. No cambié datos.")};
+  reply:txt("Checked "+projects.length+" agency-linked Booking and AI projects: "+pending+
+   " need details, "+review+" require review. Unlinked historical orders were excluded. No data changed.",
+   "Revisé "+projects.length+" proyectos Booking e IA vinculados a tu administración: "+pending+
+   " necesitan datos y "+review+" requieren revisión. Se excluyeron pedidos históricos sin vínculo seguro. No cambié datos.")};
 }
 /* Unified read-only briefing. Reuse the verified owner JWT; the team endpoint checks owner + workspace again. */
 async function ownerTeamBrief(req,lang){

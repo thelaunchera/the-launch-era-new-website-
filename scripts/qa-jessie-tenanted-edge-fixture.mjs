@@ -53,6 +53,8 @@ function userForToken(token){
 function applyFilter(data,query){
  const filters=[...query.entries()].filter(([key])=>!["select","order","limit","offset"].includes(key));
  for(const [key,raw] of filters){
+  if(key==="or"){const parts=raw.slice(1,-1).split(",").map(v=>v.split(".eq."));if(parts.length!==2||parts[0][1]!==parts[1][1])throw Error("Unsafe workspace OR filter");data=data.filter(x=>parts.some(([field,value])=>String(x[field]??"")===value));continue;}
+
   if(raw.startsWith("eq.")){const val=raw.slice(3);data=data.filter(x=>String(x[key]??"")===val);}
   else if(raw==="is.null")data=data.filter(x=>x[key]===null||x[key]===undefined);
   else if(raw==="not.is.null")data=data.filter(x=>x[key]!==null&&x[key]!==undefined);

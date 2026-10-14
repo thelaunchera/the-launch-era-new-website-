@@ -196,32 +196,34 @@ async function salesReview(ctx,lang){
  }catch{return report("sales",enes(lang,"Lead source unavailable; no recipients contacted.","No se pudieron consultar los prospectos; no se contactó a nadie."),[fact("Lead records",null,"tle_crm_leads")],[],true)}
 }
 async function projectReview(ctx,lang){
- // Never aggregate all tenants merely because a service role can read the table.
- // Legacy AI orders cannot be associated with this internal workspace in their current schema.
- const scope="crm_workspace_id=eq."+encodeURIComponent(ctx.workspace);
+ // Agency attribution is separate from the buyer's own operational workspace.
+ const scope="or=(tle_sales_workspace_id.eq."+encodeURIComponent(ctx.workspace)+",crm_workspace_id.eq."+encodeURIComponent(ctx.workspace)+")";
  try{
   const accounts=await dbRead("tle_booking_flow_accounts",scope,
    "payment_status,intake_completed_at,build_started_at,delivery_sent_at,status",500);
-  const paid=accounts.filter(x=>/^(paid|succeeded|complete)$/i.test(String(x.payment_status||""))).length;
-  const intakeMissing=accounts.filter(x=>/^(paid|succeeded|complete)$/i.test(String(x.payment_status||""))&&!x.intake_completed_at).length;
-  const buildPending=accounts.filter(x=>x.intake_completed_at&&!x.build_started_at&&!x.delivery_sent_at).length;
-  const undelivered=accounts.filter(x=>/^(paid|succeeded|complete)$/i.test(String(x.payment_status||""))&&!x.delivery_sent_at).length;
-  const limited=accounts.length===500;
+  let ai=null;
+  try{ai=await dbRead("tle_ai_agent_orders","tle_sales_workspace_id=eq."+encodeURIComponent(ctx.workspace),
+   "status,submitted_at,delivered_at",500);}catch{/* Missing AI source never invalidates verified Booking facts. */}
+  const paidAccount=x=>x.payment_status==="paid";
+  const paid=accounts.filter(paidAccount).length;
+  const intakeMissing=accounts.filter(x=>paidAccount(x)&&!x.intake_completed_at&&!x.delivery_sent_at).length;
+  const buildPending=accounts.filter(x=>paidAccount(x)&&x.intake_completed_at&&!x.build_started_at&&!x.delivery_sent_at).length;
+  const undelivered=accounts.filter(x=>paidAccount(x)&&!x.delivery_sent_at).length;
+  const aiPending=ai?ai.filter(x=>!x.delivered_at&&["paid","pending_setup","intake_submitted","in_setup"].includes(x.status)).length:null;
   return report("projects",enes(lang,
-   "Workspace-scoped booking records checked. Unlinked legacy and AI orders are unavailable until mapped securely; no project is certified ready.",
-   "Se revisaron las reservas vinculadas a este espacio. Los pedidos anteriores o de IA sin vínculo seguro no están disponibles; ninguna entrega se certifica como lista."),[
-   fact("Booking accounts inspected",accounts.length,"tle_booking_flow_accounts.crm_workspace_id"),
+   "Agency-linked Booking and AI orders checked. Unlinked historical orders are excluded; no delivery is certified ready.",
+   "Revisé las órdenes Booking e IA vinculadas a tu administración. Los pedidos históricos sin vínculo quedan fuera; ninguna entrega se certifica como lista."),[
+   fact("Booking accounts inspected",accounts.length,"tle_booking_flow_accounts.tle_sales_workspace_id"),
    fact("Paid orders",paid,"tle_booking_flow_accounts.payment_status"),
    fact("Paid with intake missing",intakeMissing,"tle_booking_flow_accounts.intake_completed_at"),
    fact("Intakes awaiting build start",buildPending,"tle_booking_flow_accounts.build_started_at"),
    fact("Paid without delivery stamp",undelivered,"tle_booking_flow_accounts.delivery_sent_at"),
-   fact("AI orders not recorded delivered",null,"No authenticated workspace relation in tle_ai_agent_orders")
-  ],[],true);
+   fact("AI orders not recorded delivered",aiPending,"tle_ai_agent_orders.tle_sales_workspace_id")
+  ],[],!ai||accounts.length===500||ai.length===500);
  }catch{
-  return report("projects",enes(lang,
-   "Workspace-scoped project data unavailable; no client state changed.",
-   "Datos de proyectos vinculados al espacio no disponibles; no se cambió ningún cliente."),
-   [fact("Delivery source",null,"Workspace-scoped booking accounts")],[],true);
+  return report("projects",enes(lang,"Agency-linked project data unavailable; no client state changed.",
+   "No pude consultar los proyectos vinculados a tu administración; no cambié ningún cliente."),
+   [fact("Delivery source",null,"Agency-linked booking accounts")],[],true);
  }
 }
 function unresolvedSupportStatus(status){return !["closed","resolved","done","cancelled"].includes(String(status||"").trim().toLowerCase());}

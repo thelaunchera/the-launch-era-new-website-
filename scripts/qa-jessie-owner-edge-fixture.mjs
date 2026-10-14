@@ -28,6 +28,8 @@ let captured=null,forwarded=[],writes=0,openai=0,groq=0,failGroq=false,workspace
 const mapToken=t=>t==="Bearer fixture-owner"?A:t==="Bearer fixture-other-owner"?B:t==="Bearer fixture-nonowner"?C:null;
 function matching(data,params){
  for(const [key,raw] of params){
+  if(key==="or"){const parts=raw.slice(1,-1).split(",").map(v=>v.split(".eq."));if(parts.length!==2||parts[0][1]!==parts[1][1])throw Error("Unsafe workspace OR filter");data=data.filter(row=>parts.some(([field,value])=>String(row[field]??"")===value));continue;}
+
   if(["select","order","limit"].includes(key))continue;
   if(raw.startsWith("eq."))data=data.filter(row=>String(row[key]??"")===raw.slice(3));
   else if(raw==="is.null")data=data.filter(row=>row[key]===null||row[key]===undefined);
@@ -101,7 +103,7 @@ assert.ok(workspaceFilters.length>0,"Owner authorization must verify internal wo
 assert.ok(workspaceFilters.every(q=>q.includes("created_by=eq.")&&q.includes("is_internal=eq.true")&&q.includes("limit=1")),"Never enumerate other internal workspaces during owner authentication");
 assert.deepEqual(readyA.data.projects.map(x=>x.name),["Sample Alpha Cleaning"]);
 assert.deepEqual(readyB.data.projects.map(x=>x.name),["Sample Beta Cleaning"]);
-assert.equal(readyA.data.coverage.includes("legacy_ai_orders_unlinked"),true);
+assert.equal(readyA.data.coverage.includes("historical_orders_without_agency_link"),true);
 const ordinaryA=await call("fixture-owner",{message:"How can I organize inquiries?",language:"en"});
 const ordinaryB=await call("fixture-other-owner",{message:"How can I organize inquiries?",language:"en"});
 assert.equal(ordinaryA.status,200);assert.equal(ordinaryB.status,200);
