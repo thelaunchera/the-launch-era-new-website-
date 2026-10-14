@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import {evaluateOwnerBookingReadiness, draftMissingInformationRequest} from "../lib/owner-ai-project-readiness.mjs";
 const ws="internal-owner-workspace";
-const row=(id, overrides={})=>({id,crm_workspace_id:ws,payment_status:"paid",business_name:"Sample Cleaning",intake_completed_at:"2026-10-14",intake_payload:{services:["Standard"],service_areas:["Miami"],pricing_style:"quote",availability:"Mon-Fri"},build_started_at:null,delivery_sent_at:null,...overrides});
+const row=(id, overrides={})=>({id,crm_workspace_id:ws,payment_status:"paid",product_code:"booking_flow_setup",business_name:"Sample Cleaning",intake_completed_at:"2026-10-14",intake_payload:{services:["Standard"],service_areas:["Miami"],pricing_style:"quote",availability:"Mon-Fri"},build_started_at:null,delivery_sent_at:null,...overrides});
 assert.throws(()=>evaluateOwnerBookingReadiness([]),/workspace/);
 assert.throws(()=>evaluateOwnerBookingReadiness(null,{workspaceId:ws}),/rows/);
 const result=evaluateOwnerBookingReadiness([
@@ -15,7 +15,7 @@ assert.equal(result.excluded,3);
 assert.equal(result.external_actions,0);
 assert.equal(result.read_only,true);
 const missing=result.projects.find(x=>x.id==="missing");
-assert.deepEqual(missing.missing,["Service areas","Pricing details","Booking availability"]);
+assert.deepEqual(missing.missing,["Service areas","Estimate and pricing rules","Booking availability"]);
 const draft=draftMissingInformationRequest(missing);
 assert.equal(draft.sent,false);
 assert.equal(draft.recipient,null);
@@ -25,6 +25,10 @@ assert.throws(()=>draftMissingInformationRequest(result.projects[0]),/verified m
 const es=evaluateOwnerBookingReadiness([row("es",{intake_completed_at:null})],{workspaceId:ws,language:"es"});
 assert.deepEqual(es.projects[0].missing,["Intake sin enviar"]);
 assert.match(draftMissingInformationRequest(es.projects[0],{language:"es"}).body,/Intake sin enviar/);
+const actual=evaluateOwnerBookingReadiness([row("real-intake",{intake_payload:{services:["Standard"],service_areas:["Miami"],quote_estimate_rules:{frequency_discount:true},minimum_booking_notice:"24h"}})],{workspaceId:ws});
+assert.equal(actual.counts.owner_review,1,"Real intake aliases must not be reported missing");
+const otherProduct=evaluateOwnerBookingReadiness([row("other-product",{product_code:"ai_agent"})],{workspaceId:ws});
+assert.equal(otherProduct.projects.length,0,"Other products must not be treated as booking");
 const many=Array.from({length:45},(_,i)=>row(String(i)));
 assert.equal(evaluateOwnerBookingReadiness(many,{workspaceId:ws}).truncated,true);
 assert.equal(evaluateOwnerBookingReadiness(many,{workspaceId:ws}).projects.length,40);
