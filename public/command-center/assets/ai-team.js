@@ -250,6 +250,14 @@ async function mountJessie(){
 async function start(){
  if(!db){lock();return}
  try{
+  if(!window.TLEPrivateSessionPolicy)throw Error("Private session safeguard unavailable");
+  const {data:{user},error:userError}=await db.auth.getUser();
+  if(userError||!user?.id)throw Error("Sign in to your private Command Center");
+  const allowed=await window.TLEPrivateSessionPolicy.guard(db,user,()=>{
+   lock();
+   location.replace("/command-center/?from=private-access&reason=session-expired");
+  });
+  if(!allowed)return;
   const r=await api({action:"list"});
   verified=true;tasks=r.tasks||[];events=r.events||[];runs=r.runs||[];outputs=r.outputs||[];providerState={configured:r.capabilities?.ai_key_detected===true,checked:false,verified:false};
   $("loading").hidden=true;$("locked").hidden=true;$("app").classList.remove("hidden");
