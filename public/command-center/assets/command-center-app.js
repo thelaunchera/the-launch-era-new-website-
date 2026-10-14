@@ -584,6 +584,9 @@ function applyBuyerIndustryLabels(){
  const detailing=isDetailingWorkspace(),other=isOtherServiceWorkspace();
  const cbDepot=detailing&&String(workspace.name||'').trim().toLowerCase()==='cb depot';
  $('cbDetailingTop')?.classList.toggle('hidden',!cbDepot);
+ $('cbSpecificFAQ')?.classList.toggle('hidden',!cbDepot);
+ $('buyerGeneralFAQ')?.classList.toggle('hidden',cbDepot);
+ if(cbDepot)applyCbGuideLanguage();
  $('cbSettingsBanner')?.classList.toggle('hidden',!cbDepot);
  if(!detailing&&!other)return;
  const es=localStorage.getItem('tle_crm_language')==='es';
@@ -3620,11 +3623,43 @@ async function loadBuyerBookingPreview(){
   status.textContent=buyerText('Preview unavailable: '+(error.message||String(error)),'Vista previa no disponible. Actualiza la pantalla o contacta con soporte.');
  }finally{buyerPreviewLoading=false}
 }
+function applyCbGuideLanguage(){
+ if(!document.body.classList.contains('cb-depot-buyer'))return;
+ const es=localStorage.getItem('tle_crm_language')==='es';
+ for(const node of document.querySelectorAll('#cbSpecificFAQ [data-cb-en][data-cb-es]'))
+  node.textContent=es?node.dataset.cbEs:node.dataset.cbEn;
+ const field=$('cbFaqSearch');
+ if(field){field.placeholder=es?'Busca: cotización, reserva, correo, cambiar fecha…':'Try: quote, booking, email, reschedule…';
+ field.closest('label').firstChild.textContent=es?'Buscar preguntas':'Search questions';}
+ const no=$('cbFaqNoMatches');if(no)no.textContent=es?'No encontramos esa pregunta. Usa Reportar un problema para que podamos ayudarte.':"No matching question. Use Report a Problem below and we'll help you.";
+}
+function updateCbGreeting(attention){
+ if(!document.body.classList.contains('cb-depot-buyer'))return;
+ const es=localStorage.getItem('tle_crm_language')==='es';
+ let hour=new Date().getHours();
+ try{hour=Number(new Intl.DateTimeFormat('en-US',{hour:'numeric',hourCycle:'h23',timeZone:'America/New_York'}).format(new Date()))}catch{}
+ const good=hour<12?buyerText('Good morning','Buenos días'):hour<18?buyerText('Good afternoon','Buenas tardes'):buyerText('Good evening','Buenas noches');
+ $('cbGreetingTitle').textContent=good+', CB Depot.';
+ $('cbGreetingMessage').textContent=attention>0?
+  buyerText("You have customer activity to review. Start with what needs attention.","Tienes solicitudes por revisar. Empieza por lo que necesita atención."):
+  buyerText("Your requests and appointments are organized in one place.","Tus solicitudes y citas están organizadas en un solo lugar.");
+ $('cbGreetingChip').textContent=buyerText('Your private workspace','Tu espacio privado');
+ $('cbFocusEyebrow').textContent=buyerText("TODAY'S PRIORITY","PRIORIDAD DE HOY");
+ $('cbDashFocusTitle').textContent=attention>0?
+   buyerText(attention+' item'+(attention===1?'':'s')+' need'+(attention===1?'s':'')+' attention',attention+' asunto'+(attention===1?'':'s')+' pendiente'+(attention===1?'':'s')):
+   buyerText('Nothing needs your attention right now','No tienes asuntos pendientes por ahora');
+ $('cbDashFocusDetail').textContent=attention>0?
+  buyerText('Open Inbox & Leads to review the request and see its next step.','Abre Bandeja y contactos para ver la solicitud y el próximo paso.'):
+  buyerText('Check Calendar for confirmed appointments, or share your booking link.','Revisa Calendario para ver las citas confirmadas o comparte tu enlace de reservas.');
+ $('cbDashFocusOpen').textContent=attention>0?buyerText('Open Inbox →','Abrir bandeja →'):buyerText('View Calendar →','Ver calendario →');
+ $('cbDashFocusOpen').onclick=()=>premiumNavigate(attention>0?'request-center':'buyer-calendar');
+}
 function renderBuyerDashboard(){
  if(!workspace||workspace.is_internal)return;
  const attention=buyerRequests.filter(buyerRequestNeedsAttention).length+buyerManualLeads().filter(buyerManualNeedsAttention).length;
  const confirmed=buyerRequests.filter(x=>x.status==="booked").length;
  const quotes=buyerRequests.filter(x=>buyerRequestKind(x)==="quote").length;
+ updateCbGreeting(attention);
  const area=$("buyerDashboardStats");area.replaceChildren();
  for(const [name,value] of [
   [isDetailingWorkspace()?buyerText("Vehicle requests needing attention","Solicitudes de vehículos pendientes"):buyerText("Needs attention","Necesitan atención"),attention],
@@ -3638,6 +3673,19 @@ function renderBuyerDashboard(){
  $("buyerDashboardStatus").textContent=buyerText("Updated from your private business workspace.","Actualizado desde el espacio privado de tu negocio.");
 }
 $('cbDashInbox').onclick=()=>premiumNavigate('request-center');
+$('cbDashFAQ').onclick=()=>premiumNavigate('help');
+$('cbDashGuideFAQ').onclick=()=>premiumNavigate('help');
+$('cbDashSupport').onclick=()=>openClientSupport('problem');
+$('cbFaqContact').onclick=()=>openClientSupport('problem');
+$('cbFaqSearch').oninput=()=>{
+ const q=$('cbFaqSearch').value.trim().toLocaleLowerCase();
+ let visible=0;
+ document.querySelectorAll('#cbFaqItems .cb-faq-item').forEach(el=>{
+  const match=!q||el.textContent.toLocaleLowerCase().includes(q);
+  el.classList.toggle('hidden',!match);if(match)visible++;
+ });
+ $('cbFaqNoMatches').classList.toggle('hidden',visible!==0);
+};
 $('cbDashAdd').onclick=()=>{if(isDetailingWorkspace())edit(null)};
 $('cbDashPricing').onclick=()=>premiumNavigate('pricing');
 $('cbDashRefresh').onclick=()=>{if(isDetailingWorkspace())void loadBuyerRequests()};
