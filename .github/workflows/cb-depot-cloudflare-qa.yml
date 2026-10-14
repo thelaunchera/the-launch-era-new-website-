@@ -7,6 +7,8 @@ on:
       - 'scripts/build-client-bookings-cloudflare.mjs'
       - 'scripts/qa-cb-depot-cloudflare.mjs'
       - 'scripts/qa-cb-depot-browser.mjs'
+      - 'scripts/qa-cb-depot-brand-root.mjs'
+      - 'public/assets/cb-depot-experience.js'
       - 'public/cb-depot/**'
       - 'public/assets/booking-template-live.js'
   workflow_dispatch:
@@ -23,3 +25,5 @@ jobs:
       - run: node scripts/build-client-bookings-cloudflare.mjs
       - run: node scripts/qa-cb-depot-cloudflare.mjs
       - run: node scripts/qa-cb-depot-browser.mjs
+      - run: BOOKING_CLIENT=cb-depot node scripts/build-client-bookings-cloudflare.mjs
+      - run: node scripts/qa-cb-depot-brand-root.mjs
