@@ -29,7 +29,8 @@ p.clear();assert.equal(storage.get(p.STORAGE_KEY),undefined);
 let signedOut=0,redirected=0;
 const expiredUser={id:"fixture-owner",last_sign_in_at:new Date(start).toISOString()};
 const db={auth:{getSession:async()=>({data:{session:{access_token:token("owner-sess",start/1000),user:expiredUser}}}),signOut:async(opts)=>{assert.equal(opts.scope,"local");signedOut++;return {error:null}}}};
-await p.guard(db,expiredUser,()=>{redirected++}); // uses Date.now() (currently 2026-10-14) with older fixture
+context.Date=class extends Date{static now(){return start+24*3600000}};
+await p.guard(db,expiredUser,()=>{redirected++});
 assert.equal(signedOut,1,"expiring session must terminate current local auth");
 assert.equal(redirected,1,"expired session must go back to private sign-in");
 assert.match(index,/private-session-policy\.js/);
