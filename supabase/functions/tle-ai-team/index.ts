@@ -172,38 +172,52 @@ async function salesReview(ctx,lang){
  fact("Candidates requiring final consent check",candidates.length,"tle_crm_leads consent flags")],[],rows.length===750);
  }catch{return report("sales",enes(lang,"Lead source unavailable; no recipients contacted.","No se pudieron consultar los prospectos; no se contactó a nadie."),[fact("Lead records",null,"tle_crm_leads")],[],true)}
 }
-async function projectReview(lang){
- let limit=false;
+async function projectReview(ctx,lang){
+ // Never aggregate all tenants merely because a service role can read the table.
+ // Legacy AI orders cannot be associated with this internal workspace in their current schema.
+ const scope="crm_workspace_id=eq."+encodeURIComponent(ctx.workspace);
  try{
- const [accounts,orders]=await Promise.all([
-  dbRead("tle_booking_flow_accounts","id=not.is.null","payment_status,intake_completed_at,build_started_at,delivery_sent_at,status",500),
-  dbRead("tle_ai_agent_orders","id=not.is.null","status,submitted_at,delivered_at",350)
- ]);
- const paid=accounts.filter(x=>/paid|succeeded|complete/i.test(String(x.payment_status||""))).length;
- const intakeMissing=accounts.filter(x=>/paid|succeeded|complete/i.test(String(x.payment_status||""))&&!x.intake_completed_at).length;
- const buildPending=accounts.filter(x=>x.intake_completed_at&&!x.build_started_at&&!x.delivery_sent_at).length;
- const undelivered=accounts.filter(x=>/paid|succeeded|complete/i.test(String(x.payment_status||""))&&!x.delivery_sent_at).length;
- const aiPending=orders.filter(x=>!/delivered|completed|cancelled|refunded|inactive/i.test(String(x.status||""))).length;
- limit=accounts.length===500||orders.length===350;
- return report("projects",enes(lang,"Paid/intake/delivery stages checked from platform records. Counts are review flags, not proof a client is ready.","Revisé las etapas de pagos, intakes y entregas. Son alertas de revisión, no confirmación de que el proyecto esté listo."),[
- fact("Booking accounts inspected",accounts.length,"tle_booking_flow_accounts"),
- fact("Paid orders",paid,"tle_booking_flow_accounts.payment_status"),
- fact("Paid with intake missing",intakeMissing,"tle_booking_flow_accounts.intake_completed_at"),
- fact("Intakes awaiting build start",buildPending,"tle_booking_flow_accounts.build_started_at"),
- fact("Paid without delivery stamp",undelivered,"tle_booking_flow_accounts.delivery_sent_at"),
- fact("AI orders not recorded delivered",aiPending,"tle_ai_agent_orders.status")],[],limit);
- }catch{return report("projects",enes(lang,"Project source unavailable; no client state was changed.","No se pudieron comprobar los proyectos. No se modificó ningún cliente."),[fact("Delivery source",null,"Supabase")],[],true)}
+  const accounts=await dbRead("tle_booking_flow_accounts",scope,
+   "payment_status,intake_completed_at,build_started_at,delivery_sent_at,status",500);
+  const paid=accounts.filter(x=>/^(paid|succeeded|complete)$/i.test(String(x.payment_status||""))).length;
+  const intakeMissing=accounts.filter(x=>/^(paid|succeeded|complete)$/i.test(String(x.payment_status||""))&&!x.intake_completed_at).length;
+  const buildPending=accounts.filter(x=>x.intake_completed_at&&!x.build_started_at&&!x.delivery_sent_at).length;
+  const undelivered=accounts.filter(x=>/^(paid|succeeded|complete)$/i.test(String(x.payment_status||""))&&!x.delivery_sent_at).length;
+  const limited=accounts.length===500;
+  return report("projects",enes(lang,
+   "Workspace-scoped booking records checked. Unlinked legacy and AI orders are unavailable until mapped securely; no project is certified ready.",
+   "Se revisaron las reservas vinculadas a este espacio. Los pedidos anteriores o de IA sin vínculo seguro no están disponibles; ninguna entrega se certifica como lista."),[
+   fact("Booking accounts inspected",accounts.length,"tle_booking_flow_accounts.crm_workspace_id"),
+   fact("Paid orders",paid,"tle_booking_flow_accounts.payment_status"),
+   fact("Paid with intake missing",intakeMissing,"tle_booking_flow_accounts.intake_completed_at"),
+   fact("Intakes awaiting build start",buildPending,"tle_booking_flow_accounts.build_started_at"),
+   fact("Paid without delivery stamp",undelivered,"tle_booking_flow_accounts.delivery_sent_at"),
+   fact("AI orders not recorded delivered",null,"No authenticated workspace relation in tle_ai_agent_orders")
+  ],[],true);
+ }catch{
+  return report("projects",enes(lang,
+   "Workspace-scoped project data unavailable; no client state changed.",
+   "Datos de proyectos vinculados al espacio no disponibles; no se cambió ningún cliente."),
+   [fact("Delivery source",null,"Workspace-scoped booking accounts")],[],true);
+ }
 }
-async function careReview(lang){
+async function careReview(ctx,lang){
  try{
- const rows=await dbRead("tle_crm_support_requests","id=not.is.null","status,request_type,created_at",500);
- const unresolved=rows.filter(x=>!["closed","resolved","done","cancelled"].includes(String(x.status||"").toLowerCase()));
- const oldest=unresolved.map(x=>Date.parse(x.created_at)).filter(Number.isFinite).sort((a,b)=>a-b)[0];
- return report("care",enes(lang,"Support requests checked. No customer message was read, composed, or sent.","Se revisaron los estados de soporte, sin leer, redactar ni enviar mensajes a los clientes."),[
- fact("Support requests inspected",rows.length,"tle_crm_support_requests"),
- fact("Not marked resolved",unresolved.length,"tle_crm_support_requests.status"),
- fact("Oldest unresolved date",oldest?new Date(oldest).toISOString().slice(0,10):null,"tle_crm_support_requests.created_at")],[],rows.length===500);
- }catch{return report("care",enes(lang,"Support source unavailable.","Fuente de soporte no disponible."),[fact("Support source",null,"tle_crm_support_requests")],[],true)}
+  const rows=await dbRead("tle_crm_support_requests","workspace_id=eq."+encodeURIComponent(ctx.workspace),
+   "status,request_type,created_at",500);
+  const unresolved=rows.filter(x=>!["closed","resolved","done","cancelled"].includes(String(x.status||"").toLowerCase()));
+  const oldest=unresolved.map(x=>Date.parse(x.created_at)).filter(Number.isFinite).sort((a,b)=>a-b)[0];
+  return report("care",enes(lang,
+   "Workspace-scoped support statuses checked; no message was sent or modified.",
+   "Revisé los estados de soporte de este espacio; no se envió ni modificó ningún mensaje."),[
+   fact("Support requests inspected",rows.length,"tle_crm_support_requests.workspace_id"),
+   fact("Not marked resolved",unresolved.length,"tle_crm_support_requests.status"),
+   fact("Oldest unresolved date",oldest?new Date(oldest).toISOString().slice(0,10):null,"tle_crm_support_requests.created_at")
+  ],[],rows.length===500);
+ }catch{
+  return report("care",enes(lang,"Workspace support source unavailable.","Fuente de soporte del espacio no disponible."),
+   [fact("Support source",null,"tle_crm_support_requests.workspace_id")],[],true);
+ }
 }
 async function publicGet(url){
  const t=Date.now();
@@ -281,11 +295,11 @@ async function operationsBrief(ctx,lang){
 async function performReadOnly(ctx,agent,lang){
  if(agent==="jessie")return operationsBrief(ctx,lang);
  if(agent==="sales")return salesReview(ctx,lang);
- if(agent==="projects")return projectReview(lang);
+ if(agent==="projects")return projectReview(ctx,lang);
  if(agent==="developer")return developerReview(lang);
  if(agent==="qa")return qaReview(lang);
  if(agent==="creative")return creativeReview(lang);
- if(agent==="care")return careReview(lang);
+ if(agent==="care")return careReview(ctx,lang);
  throw Error("Unknown capability");
 }
 
