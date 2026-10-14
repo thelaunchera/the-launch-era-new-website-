@@ -330,6 +330,25 @@ async function submit(which){
       "¡Gracias! Tenemos tu solicitud y revisaremos los detalles. Nos comunicaremos contigo pronto. Tu cita todavía no está confirmada. Revisa tu correo para ver el comprobante."):
    tr("Your request is saved, but the confirmation email could not be sent right now. Please keep this confirmation and contact the cleaning business if you don't receive an update.",
       "Tu solicitud está guardada, pero no se pudo enviar el correo de confirmación por ahora. Guarda esta pantalla y contacta al negocio si no recibes novedades.");
+  // CB Depot has its own detailing language; keep receipt vs. confirmed-appointment
+  // claims aligned with the real server response.
+  if(String(session.model?.business_name||"").trim().toLowerCase()==="cb depot"){
+    const heading=$("done").querySelector("h2");
+    const summary=$("done").querySelector("p.muted");
+    if(response.booking_confirmed){
+      heading.textContent=tr("You're booked with CB Depot!","¡Tu cita con CB Depot está confirmada!");
+      summary.textContent=handoffOk?
+        tr("Your detailing appointment is confirmed. Check your inbox for the details.","Tu cita de detailing está confirmada. Revisa tu correo para ver los detalles."):
+        tr("Your detailing appointment is confirmed, but we couldn't email the receipt. Please save this confirmation and contact CB Depot if you need a copy.","Tu cita de detailing está confirmada, pero no pudimos enviar el comprobante. Guarda esta confirmación y contacta a CB Depot si necesitas una copia.");
+    }else{
+      heading.textContent=state.mode==="flat"?
+        tr("We've got your booking request.","Recibimos tu solicitud de reserva."):
+        tr("Thanks! Your request is in.","¡Gracias! Recibimos tu solicitud.");
+      summary.textContent=handoffOk?
+        tr("CB Depot has your vehicle details and will review the request. Keep an eye on your email for an update. Your appointment isn't confirmed yet.","CB Depot recibió los detalles de tu vehículo y revisará la solicitud. Revisa tu correo para recibir novedades. Tu cita todavía no está confirmada."):
+        tr("CB Depot received your request, but the email receipt couldn't be sent. Your appointment isn't confirmed yet. Contact CB Depot if you need an update.","CB Depot recibió tu solicitud, pero no pudimos enviar el comprobante. Tu cita todavía no está confirmada. Contacta a CB Depot si necesitas información.");
+    }
+  }
   if(response.duplicate_submission===true){
     const note=$("tleSuccessPreview");if(note){note.hidden=false;note.textContent=tr("This request was already received. No additional booking or receipt email was sent.","Esta solicitud ya se había recibido. No enviamos otra reserva ni otro correo.");}
   }

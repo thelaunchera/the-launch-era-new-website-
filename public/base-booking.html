@@ -81,7 +81,7 @@ textarea.field{min-height:112px;resize:vertical}
  .category-tabs .choice{font-size:13px;padding:13px 10px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-</style><link rel="stylesheet" href="/assets/booking-base.css?v=20261010-cbdepot-v2"><link rel="stylesheet" href="/assets/cb-depot-premium.css?v=20261014-ios-date-overflow-v20">
+</style><link rel="stylesheet" href="/assets/booking-base.css?v=20261010-cbdepot-v2"><link rel="stylesheet" href="/assets/cb-depot-premium.css?v=20261014-cb-receipt-v21">
 <style>
 /* Acknowledgment after a completed request: branded for each cleaning business. */
 #done .success{max-width:650px;margin:10px auto;padding:clamp(24px,5vw,42px);border:1px solid #DDE9EF;background:linear-gradient(155deg,#FFF 0%,#F8FCFE 100%);box-shadow:0 24px 60px rgba(27,66,84,.09);border-radius:26px;text-align:center}
@@ -166,17 +166,31 @@ const state={route:'',service:'',base:0,home:'',estimate:'',category:'residentia
 const $=x=>document.getElementById(x);
 function showBrandedRequestSuccess(business,opts={}){
  const name=String(business||"Your cleaning business").replace(/[<>\u0000-\u001f]/g," ").trim().slice(0,100)||"Your cleaning business";
+ const cbDepot=/^cb\s*depot$/i.test(name);
+ const success=document.querySelector("#done .success");
+ success?.classList.toggle("cb-depot-success",cbDepot);
  const mark=name.match(/[A-Za-z0-9]/)?.[0]||"✓";
  if($("tleSuccessBusiness"))$("tleSuccessBusiness").textContent=name;
- if($("tleSuccessAvatar"))$("tleSuccessAvatar").textContent=mark.toUpperCase();
+ const avatar=$("tleSuccessAvatar");
+ if(avatar){
+  avatar.replaceChildren();
+  if(cbDepot){
+   const logo=document.createElement("img");
+   logo.src="/assets/clients/cb-depot/approved-favicon-192.png";
+   logo.alt="";logo.width=52;logo.height=52;
+   logo.loading="eager";logo.decoding="async";
+   avatar.appendChild(logo);
+  }else avatar.textContent=mark.toUpperCase();
+ }
+ const label=document.querySelector("#done .tle-success-label");
+ if(label){
+  label.textContent=cbDepot?"CB DEPOT · CAR DETAILING":opts.live?"YOUR CLEANING PROVIDER":"A MESSAGE FROM";
+ }
  const forBusiness=$("tleSuccessRequestFor");if(forBusiness){
   const subject=String(opts.forBusiness||"").trim().slice(0,100);
   forBusiness.hidden=!subject;forBusiness.textContent=subject?"For "+subject:"";
  }
  const note=$("tleSuccessPreview");if(note)note.hidden=!!opts.live;
- if(opts.live){
-  const label=document.querySelector("#done .tle-success-label");if(label)label.textContent="YOUR CLEANING PROVIDER";
- }
 }
 
 function toggleCommercialOther(){const select=$("ctype"),field=$("cOtherType");if(!select||!field)return;const other=select.value==="Other";field.hidden=!other;field.required=other;if(!other)field.value="";}
@@ -265,4 +279,4 @@ if(isSampleDemo){const link=$('trackerLink'),q=new URLSearchParams(link.search);
   link.href="/booking/return/?key="+encodeURIComponent(key)+"&lang="+(params.get("lang")==="es"?"es":"en");
  }
 })();
-</script><script src="/assets/booking-base.js?v=20261010-cbdepot-rating-v4"></script><script src="/assets/cb-depot-experience.js?v=20261012-contact-premium-v4"></script><script src="/assets/booking-smart-welcome.js?v=20261014-sw-v3"></script><script src="/assets/booking-template-live.js?v=20261012-handoff-v6"></script><script src="/assets/booking-template-language.js?v=20261012-handoff-v6"></script></body></html>
+</script><script src="/assets/booking-base.js?v=20261010-cbdepot-rating-v4"></script><script src="/assets/cb-depot-experience.js?v=20261012-contact-premium-v4"></script><script src="/assets/booking-smart-welcome.js?v=20261014-sw-v3"></script><script src="/assets/booking-template-live.js?v=20261014-cb-receipt-v7"></script><script src="/assets/booking-template-language.js?v=20261012-handoff-v6"></script></body></html>
