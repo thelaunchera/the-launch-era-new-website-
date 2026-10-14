@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ['public/base-booking.html','public/assets/booking-base.*','public/assets/booking-template-live.js','public/assets/cb-depot-premium.css','public/assets/cb-depot-experience.js','public/booking/index.html','scripts/qa-booking-base.mjs','.github/workflows/booking-base-qa.yml']
+    paths: ['public/base-booking.html','public/assets/booking-base.*','public/assets/booking-template-live.js','public/assets/cb-depot-premium.css','public/assets/cb-depot-experience.js','public/booking/index.html','scripts/qa-booking-base.mjs','scripts/qa-cb-depot-ios-date.mjs','.github/workflows/booking-base-qa.yml']
 permissions:
   contents: read
 jobs:
@@ -21,7 +21,7 @@ jobs:
           cd /tmp/tle-base-qa
           npm init -y >/dev/null
           npm install --no-audit --no-fund playwright@1.57.0
-          npx playwright install --with-deps chromium
+          npx playwright install --with-deps chromium webkit
           cd "$GITHUB_WORKSPACE"
           ln -s /tmp/tle-base-qa/node_modules node_modules
       - name: Wait for original base publication
@@ -37,6 +37,8 @@ jobs:
           exit 1
       - name: Test base, buyer branding, reviews and unavailable state
         run: node scripts/qa-booking-base.mjs
+      - name: Test Safari-compatible date field on phone and tablet widths
+        run: node scripts/qa-cb-depot-ios-date.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
