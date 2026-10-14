@@ -11,7 +11,7 @@ assert.match(api,/OPENAI_API_KEY/);
 assert.ok(api.includes('reason:ok?"connected":"empty_response"'));
 assert.doesNotMatch(api,/AI content service is not configured/);
 assert.match(api,/generation_mode="template"/);
-assert.match(api,/content=reviewedTemplate/);
+assert.match(api,/content=emailRequested\?safeEmailTemplate\(selectedLang\):reviewedTemplate\(/);
 assert.match(api,/generation_mode==="ai"/);
 assert.match(api,/if\(!plan\)plan=templatePlan/);
 assert.match(api,/generation_mode:|"generation_mode"/);
