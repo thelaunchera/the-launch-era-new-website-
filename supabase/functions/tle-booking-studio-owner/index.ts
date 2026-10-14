@@ -124,6 +124,33 @@ Deno.serve(async req=>{
    }).filter(x=>x?.name);
    return response(origin,200,{ok:true,job,account:{id:account.id,business_name:account.business_name,missing:intakeMissing(account),services},external_actions_enabled:false});
   }
+  if(action==="research_from_intake"){
+   if(job.stage!=="research")return response(origin,409,{ok:false,error:"Not in research stage"});
+   if(intakeMissing(account).length)return response(origin,409,{ok:false,error:"Completed intake required"});
+   const p=account.intake_payload&&typeof account.intake_payload==="object"&&!Array.isArray(account.intake_payload)?account.intake_payload:{};
+   const facts=[];
+   const fact=(label,value)=>{const v=str(value,240);if(v)facts.push({claim:label+": "+v,source_type:"verified_intake",source_url:null})};
+   fact("Business name",account.business_name);
+   fact("About the business",p.about_business);
+   fact("Preferred brand colors",p.brand_colors);
+   fact("Primary offer",p.main_offer);
+   fact("Pricing style",p.pricing_style);
+   fact("Preferred language",p.language);
+   const serviceNames=Array.isArray(p.services)?p.services.slice(0,16).map(x=>typeof x==="string"?str(x,90):str(x?.name||x?.service_name,90)).filter(Boolean):[];
+   if(serviceNames.length)fact("Services supplied in intake",serviceNames.join(", "));
+   const areaNames=Array.isArray(p.service_areas)?p.service_areas.slice(0,15).map(x=>typeof x==="string"?str(x,90):str(x?.name||x?.zip,90)).filter(Boolean):[];
+   if(areaNames.length)fact("Service areas supplied in intake",areaNames.join(", "));
+   const website=safeUrl(p.existing_domain)||null,instagram=safeUrl(p.instagram_url)||null,google=safeUrl(p.google_business_url)||null;
+   const sources=[{type:"verified_intake",url:null,purpose:"Customer-submitted intake; not independently corroborated"}];
+   const unknowns=["Website and social media branding not independently verified","Photo ownership and licensing not verified","Reviews, claims, prices and booking behavior require independent QA"];
+   if(website)unknowns.push("Website research pending: "+website);
+   if(instagram)unknowns.push("Instagram research pending: "+instagram);
+   if(google)unknowns.push("Google Business research pending: "+google);
+   if(facts.length<3)return response(origin,409,{ok:false,error:"Insufficient intake brand facts; research manually"});
+   const research={sources,facts,unknowns,provenance:"customer_intake",external_research_verified:false,images_verified:false};
+   const next=await save(ctx,job,{research,stage:"creative"},"intake_research","Structured customer intake facts; external research explicitly pending");
+   return response(origin,200,{ok:true,job:next,research_status:"intake_only",external_research_verified:false});
+  }
   if(action==="research"){
    if(job.stage!=="research")return response(origin,409,{ok:false,error:"Not in research stage"});
    const research=sanitizeResearch(body.research);
