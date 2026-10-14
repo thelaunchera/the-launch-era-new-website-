@@ -76,14 +76,14 @@ async function count(table,filters){
  }catch{return null}
 }
 /* A missing/failed LLM must never block useful owner work or falsely claim AI generation. */
-function reviewedTemplate(agent,language="es",facts=""){
+function reviewedTemplate(agent,language="es",facts="",context=""){
  const es=language!=="en";
  const factual=String(facts||"").trim();
  const templates={
  jessie: es
   ? "RESUMEN OPERATIVO (PLANTILLA)\n\n1. Revisa las nuevas consultas y responde solo cuando corresponda.\n2. Comprueba los intakes pagados y los proyectos en producción.\n3. Resuelve tareas de QA bloqueadas antes de aprobar entregas.\n4. Verifica seguimientos pendientes y preferencias de contacto.\n\nDatos verificados disponibles: "+(factual||"No hay datos de ejecución asociados a esta plantilla.")
   : "OPERATIONS BRIEF (TEMPLATE)\n\n1. Check new inquiries and consent before any follow-up.\n2. Review paid intakes and in-production projects.\n3. Resolve blocked QA tasks before delivery approval.\n4. Review client support and communication preferences.\n\nVerified facts available: "+(factual||"No execution facts supplied."),
- sales: "Subject: A quick question about [Business]\n\nHi [First Name],\n\nI came across [Business] and wanted to reach out. Running a cleaning business means juggling quotes, new inquiries and a busy schedule — and sometimes a potential booking gets lost in the middle of it all.\n\nAt The Launch Era, we help cleaning business owners organize booking inquiries and follow-ups without adding more to their day.\n\nWould you be open to a quick look at how that could work for your business?\n\nBest,\nThe Launch Era\n\n[Template only. Review contact permissions, suppression history and personalization before any send.]",
+ sales: safeEmailTemplate(es?"es":"en"),
  projects: es
   ? "LISTA DE REVISIÓN DEL PROYECTO\n\n[ ] Confirmar pago registrado, sin asumir activación.\n[ ] Revisar intake y datos faltantes con el negocio correcto.\n[ ] Aprobar por separado el inicio de producción.\n[ ] Verificar marca, enlaces, formularios y móviles/tablet/escritorio.\n[ ] Solicitar prueba y revisión del cliente.\n[ ] Registrar evidencia antes de entrega final.\n\nEsta es una plantilla; no acredita ninguna acción realizada."
   : "PROJECT READINESS CHECKLIST\n\n[ ] Verify payment status without assuming activation.\n[ ] Review intake and missing information for the correct business.\n[ ] Approve production start separately.\n[ ] Test brand, routes, forms and mobile/tablet/desktop.\n[ ] Request customer review.\n[ ] Record evidence before delivery.\n\nTemplate only, not proof of completed work.",
@@ -93,11 +93,34 @@ function reviewedTemplate(agent,language="es",facts=""){
  qa: es
   ? "PLAN DE PRUEBAS QA (PENDIENTE)\n\n1. Confirmar URL oficial, empresa y tenant; evitar datos reales de prueba.\n2. Abrir cada CTA, ruta, formulario y recuperación de contraseña.\n3. Probar 360, 390, 820, 1024 y 1440 px; contrastes y navegación.\n4. Revisar permisos owner/admin/worker, consentimiento y enlaces 404.\n5. Registrar fallos, evidencia y nueva prueba tras corrección.\n\nNo se ejecutaron pruebas mediante esta plantilla."
   : "QA TEST PLAN (NOT YET RUN)\n\n1. Confirm official URL, brand and tenant; use safe fixtures only.\n2. Check links, CTAs, forms and password recovery.\n3. Test 360, 390, 820, 1024 and 1440px layouts.\n4. Verify owner/admin/worker access, consent and no 404s.\n5. Record evidence and rerun checks after fixes.\n\nThis is a plan, not a test result.",
- creative: "INSTAGRAM CAPTION DRAFT\n\nYou didn't start a cleaning business to spend your evenings searching through DMs.\n\nWhen someone asks for a quote, you need an easy way to remember where the conversation left off — especially when you're busy serving clients.\n\nA simple booking and lead-tracking flow can help you stay organized and follow up with intention.\n\nWhat's the hardest part of keeping up with inquiries in your business?\n\nCREATIVE DIRECTION\nWarm ivory + soft blue, subtle butter yellow accents, elegant Prompt headline and Futura text. Real cleaning-business workspace photography. Clear hierarchy, no AI-looking collage. No publishing performed.",
- care: "Subject: Re: Your message to The Launch Era\n\nHi [First Name],\n\nThanks for reaching out and explaining what happened. I understand why you'd want this sorted out.\n\nI'm reviewing the details of your request so we can give you an accurate update instead of guessing. If there's a specific screen or step where the issue happens, feel free to share it without including any passwords or private customer information.\n\nBest,\nThe Launch Era Support\n\n[Template only — review the real request before sending. No delivery time promised.]"
+ creative: contextualFallback("creative",language,context),
+ care: contextualFallback("care",language,context)
  };
  return templates[agent]||templates.jessie;
 }
+
+/* Deterministic topic selection keeps fallback drafts relevant without inventing facts. */
+function contextualFallback(agent,language,context=""){
+ const es=language!=="en",q=String(context).toLowerCase();
+ if(agent==="care"){
+  const access=/login|password|sign.in|acceso|contrase|entrar/.test(q);
+  const price=/price|pricing|quote|precio|cotiza/.test(q);
+  const body=access
+   ?(es?"¿En qué paso aparece el problema: al entrar o al restablecer la contraseña? Puedes compartir el mensaje de error, sin incluir contraseñas ni datos de clientes.":"Does the problem happen when signing in or resetting your password? You can share the error message without passwords or customer details.")
+   :price?(es?"¿Qué precio o servicio necesitas revisar? Con ese detalle podremos responder sin asumir cambios que aún no están confirmados.":"Which price or service do you need to check? That detail will help us answer without assuming an unconfirmed change.")
+   :(es?"¿Qué estabas intentando hacer y qué ocurrió? Con esos dos detalles podremos identificar el siguiente paso.":"What were you trying to do, and what happened? Those two details will help us identify the next step.");
+  return (es?"Asunto: Sobre tu consulta\n\nHola [Nombre],\n\n":"Subject: About your question\n\nHi [First name],\n\n")+body+"\n\nThe Launch Era Support";
+ }
+ const topic=/follow|seguim|quote|cotiza/.test(q)?"followup":/assistant|asistente/.test(q)?"assistant":"booking";
+ const copy=topic==="followup"
+  ?(es?"Enviaste la cotización. ¿Recuerdas quién necesita una respuesta?\n\nTener cada consulta y su próximo seguimiento en un solo lugar te ayuda a retomar la conversación.\n\nMira el demo de The Launch Era.":"You sent the quote. Can you still see who needs a reply?\n\nKeeping each inquiry and its next follow-up together helps you pick up the conversation.\n\nSee The Launch Era demo.")
+  :topic==="assistant"
+  ?(es?"Otra pregunta sobre tus servicios. Mientras tú estás trabajando.\n\nUn AI Assistant configurado con la información de tu negocio puede ayudar a responder las preguntas que se repiten.\n\nMira el demo de The Launch Era.":"Another question about your services. While you're busy working.\n\nAn AI Assistant set up with your business information can help answer repeat questions.\n\nSee The Launch Era demo.")
+  :(es?"Una solicitud de limpieza no debería perderse entre tus mensajes.\n\nOrganiza las consultas de reservas y sus seguimientos para ver qué necesita atención.\n\nMira el demo de The Launch Era.":"A cleaning inquiry shouldn't get buried in your messages.\n\nKeep booking inquiries and follow-ups organized so you can see what needs attention.\n\nSee The Launch Era demo.");
+ return copy+(es?"\n\nDirección visual: screenshot real de la función relevante; fondo ivory, azul suave y texto negro. Prompt en títulos y Futura en texto.":"\n\nVisual direction: real screenshot of the relevant feature; ivory, soft blue and black text. Prompt headlines and Futura body text.");
+}
+const HUMAN_RULE="Answer the actual request first in plain, natural language. Adapt to its context and language; do not recycle the same opener or force a closing question. Avoid empty marketing phrases. Use only supported business information. Distinguish a draft, a proposed next step and a verified completed action; never pretend you checked or did something. Explain enough when the owner asks how or why.";
+
 function templatePlan(agent,lang){
  const copy=reviewedTemplate(agent,lang);
  return (lang==="en"?"Prepared checklist (not AI-generated; no actions performed):\n\n":"Plantilla de trabajo (sin generación de IA ni ejecución):\n\n")+copy.slice(0,1750);
@@ -413,7 +436,7 @@ Deno.serve(async req=>{
      developer:"Write a developer-ready implementation ticket describing safe branch changes, acceptance criteria, separate staging, tests and rollback. Never say code was changed.",
      qa:"Produce a thorough but concise QA test case specification with routes, mobile/tablet/desktop, client identity and login/404 checks, including expected results. Never claim tests ran.",
      creative:"Draft ONE original English Instagram feed caption plus a creative direction brief for The Launch Era selling Cleaning App, Booking Automation or AI Assistant to US residential cleaning businesses. No done-for-you content service. Human, premium, useful and short, no generic AI buzzwords. Colors warm ivory, soft blue, butter yellow, black. Do not claim content was posted.",
-     care:"Draft ONE compassionate, concise customer-support RESPONSE TEMPLATE using placeholders, without knowing personal customer details. No promises of a delivery date and no sending."
+     care:"Draft ONE compassionate, concise customer-support RESPONSE TEMPLATE in the requested client language, addressing the specific issue in the task. Use placeholders only for missing details; vary wording naturally, and never claim a review is underway without evidence. No promises of a delivery date and no sending."
    };
    const redact=(s)=>clean(s,2200).replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi,"[email redacted]").replace(/\+?[0-9][0-9 ()-]{8,}[0-9]/g,"[phone redacted]");
    let facts="";
@@ -434,7 +457,7 @@ Deno.serve(async req=>{
    let content="",generation_mode="template";
    if(OPENAI){
      try{
-       const rr=await fetch(providerUrl,{method:"POST",headers:{Authorization:"Bearer "+OPENAI,"Content-Type":"application/json"},body:JSON.stringify({model:providerModel,...(GROQ?{reasoning_effort:"low"}:{}),temperature:0.4,max_tokens:1600,messages:[{role:"system",content:system},{role:"user",content:prompt}]}),signal:AbortSignal.timeout(16000)});
+       const rr=await fetch(providerUrl,{method:"POST",headers:{Authorization:"Bearer "+OPENAI,"Content-Type":"application/json"},body:JSON.stringify({model:providerModel,...(GROQ?{reasoning_effort:"low"}:{}),temperature:0.4,max_tokens:1600,messages:[{role:"system",content:system+"\n"+HUMAN_RULE},{role:"user",content:prompt}]}),signal:AbortSignal.timeout(16000)});
        if(rr.ok){
          const json=await rr.json();
          const candidate=normalizeDraft(json?.choices?.[0]?.message?.content);
@@ -442,7 +465,7 @@ Deno.serve(async req=>{
        }
      }catch{ /* Do not expose credentials or misleading success. */ }
    }
-   if(!content)content=emailRequested?safeEmailTemplate(selectedLang):reviewedTemplate(task.agent_key,selectedLang,facts);
+   if(!content)content=emailRequested?safeEmailTemplate(selectedLang):reviewedTemplate(task.agent_key,lang==="English"?"en":"es",facts,task.title+" "+task.description);
    content=content.slice(0,6000);
    if(content.length<20)return res({ok:false,error:"Draft template unavailable"},503,origin);
    const rows=await rest("tle_ai_team_outputs","","POST",{
