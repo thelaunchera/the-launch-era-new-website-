@@ -23,7 +23,7 @@ assert(command.includes('window.TLEBuyerWelcomeEditor?.mount'),'Buyer editor not
 assert(buyer.includes('booking-smart-welcome-editor.js'),'Editor script missing');
 assert(sql.includes('enabled boolean not null default false'),'Default-off requirement');
 assert(sql.includes('enable row level security'),'RLS missing');
-assert(sql.includes('revoke all on public.tle_booking_smart_welcome from anon,authenticated'),'Direct browser access not blocked');
+assert(sql.includes('revoke all on public.tle_booking_smart_welcome from PUBLIC, anon, authenticated'),'Direct browser access not blocked');
 assert(edge.includes('auth.getUser(token)'),'User JWT not authenticated');
 assert(edge.includes('.eq("created_by",user.id)'),'Workspace ownership not validated');
 assert(edge.includes('released(account)'),'Unreleased buyer could edit settings');
