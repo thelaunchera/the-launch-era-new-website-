@@ -1,0 +1,92 @@
+name: The Launch Era Smart Welcome Home QA
+on:
+  push:
+    branches: [main, feature/tle-smart-welcome-bundle-flyer-20261014]
+    paths:
+      - 'src/components/smart-welcome-bundle.*'
+      - 'src/routes/index.tsx'
+      - 'src/routes/es.index.tsx'
+      - 'public/assets/promo/tle-smart-welcome-bundle-flyer.jpg'
+      - 'public/assets/tle-booking-bundle.js'
+      - 'public/booking-bundle/index.html'
+      - 'scripts/qa-smart-welcome-home*'
+      - '.github/workflows/tle-smart-welcome-home-qa.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/components/smart-welcome-bundle.*'
+      - 'src/routes/index.tsx'
+      - 'src/routes/es.index.tsx'
+      - 'public/assets/promo/tle-smart-welcome-bundle-flyer.jpg'
+      - 'public/assets/tle-booking-bundle.js'
+      - 'public/booking-bundle/index.html'
+      - 'scripts/qa-smart-welcome-home*'
+      - '.github/workflows/tle-smart-welcome-home-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Verify exact approved flyer, routes and discount protections
+        run: |
+          node scripts/qa-smart-welcome-home.mjs
+          node scripts/qa-route-integrity.mjs --static
+      - name: Install site dependencies and build
+        run: |
+          bun install
+          bun run build
+      - name: Check the final flyer and bundle files are in website build
+        run: |
+          test -s .output/public/assets/promo/tle-smart-welcome-bundle-flyer.jpg
+          cmp -s public/assets/promo/tle-smart-welcome-bundle-flyer.jpg .output/public/assets/promo/tle-smart-welcome-bundle-flyer.jpg
+          test -s .output/public/booking-bundle/index.html
+  live-browser:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    needs: static-build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install headless browser isolated from production dependencies
+        run: |
+          mkdir -p /tmp/tle-welcome-qa
+          cd /tmp/tle-welcome-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          cd "$GITHUB_WORKSPACE"
+          ln -s /tmp/tle-welcome-qa/node_modules node_modules
+      - name: Wait for exact flyer and refreshed bundle script on live website
+        run: |
+          set -euo pipefail
+          expected="$(sha256sum public/assets/promo/tle-smart-welcome-bundle-flyer.jpg | cut -d ' ' -f 1)"
+          for attempt in $(seq 1 25); do
+            curl -fsSL --max-time 15 "https://thelaunchera.com/assets/promo/tle-smart-welcome-bundle-flyer.jpg?v=${GITHUB_SHA}" -o /tmp/live-flyer.jpg || true
+            actual="$(sha256sum /tmp/live-flyer.jpg 2>/dev/null | cut -d ' ' -f 1 || true)"
+            link="$(curl -fsSL --max-time 15 "https://thelaunchera.com/booking-bundle/?qa=${GITHUB_SHA}" || true)"
+            if [[ "$actual" == "$expected" && "$link" == *"20261014-smart-welcome-v1"* ]]; then
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::New flyer or bundle code is not live"
+          exit 1
+      - name: Browser QA English/Spanish and mobile/tablet/desktop
+        run: node scripts/qa-smart-welcome-home-browser.mjs
+        env:
+          QA_URL: https://thelaunchera.com
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tle-smart-welcome-home-screenshots
+          path: qa-screenshots/home-welcome-*.png
