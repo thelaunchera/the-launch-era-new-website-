@@ -8,6 +8,7 @@ import {readFile,writeFile,mkdir} from "node:fs/promises";
 import {resolve} from "node:path";
 import {createHash} from "node:crypto";
 import {renderBookingStudioPreview} from "../lib/booking-studio-preview.mjs";
+import {buildOwnerReviewBrief} from "../lib/booking-studio-owner-review-brief.mjs";
 const root=resolve(".private-preview/owner-approval-demo");
 await mkdir(root,{recursive:true,mode:0o700});
 const source=JSON.parse(await readFile("fixtures/booking-studio-bright-rooms-synthetic.json","utf8"));
@@ -34,7 +35,11 @@ for(const item of jobs){
  assert.ok(!html.includes("<form"),"No live form in review artifact");
  const file=item.name+".html";
  await writeFile(resolve(root,file),html,{flag:"wx",mode:0o600});
- manifest.previews.push({file,fictional_business:item.job.client.business_name,tenant_fixture:item.job.tenant_id,
+ const brief=buildOwnerReviewBrief(item.job,{ownerNotes:item.notes});
+ assert.equal(brief.can_offer_approval,false,"Synthetic visual-only draft cannot be approved");
+ assert.equal(brief.can_publish,false,"No publication authorization in review packet");
+ await writeFile(resolve(root,item.name+"-review.json"),JSON.stringify(brief,null,2)+"\\n",{flag:"wx",mode:0o600});
+ manifest.previews.push({file,review_file:item.name+"-review.json",fictional_business:item.job.client.business_name,tenant_fixture:item.job.tenant_id,
   decision:item.decision,owner_notes:item.notes,layout:item.job.design.layout,
   hero_title:item.job.design.hero_title,sha256:createHash("sha256").update(html).digest("hex")});
 }
