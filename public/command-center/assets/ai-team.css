@@ -50,3 +50,18 @@
 .ait-provider button{flex-shrink:0}
 .ait-generation-mode{display:inline-block;margin:8px 0 5px;font-size:10px;letter-spacing:.07em;font-weight:800;color:#345c74;background:#e4f2fb;border-radius:30px;padding:6px 10px}
 @media(max-width:600px){.ait-provider{flex-direction:column;align-items:stretch;padding:15px;margin-bottom:25px}.ait-provider button{width:100%}}
+
+/* Unified team operations: owner-only, independently verifiable source cards. */
+.ait-team-overview{scroll-margin-top:90px}
+.ait-priority-grid,.ait-brief-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px;margin-top:16px}
+.ait-priority,.ait-brief-card{border:1px solid var(--edge);border-radius:20px;background:#fff;padding:18px;min-width:0;overflow-wrap:anywhere}
+.ait-priority{display:flex;align-items:center;flex-wrap:wrap;gap:12px;background:#e9f5fc}
+.ait-priority strong{flex:1 1 190px;line-height:1.4}
+.ait-priority b{min-width:2.4rem;text-align:center;border-radius:24px;background:var(--ivory);padding:8px}
+.ait-brief-card .ait-task-top{align-items:center;gap:10px;flex-wrap:wrap}
+.ait-brief-card>p{font-size:.93rem;line-height:1.55;margin:12px 0;color:#434952}
+.ait-brief-card .ait-run-facts{min-width:0}
+.ait-brief-card .ait-run-facts div{display:flex;gap:10px;justify-content:space-between;align-items:flex-start;overflow-wrap:anywhere}
+.ait-brief-card .ait-run-facts span{max-width:68%}
+.ait-brief-card .ait-run-facts b{min-width:20px;max-width:32%;text-align:right}
+@media(max-width:700px){.ait-priority-grid,.ait-brief-grid{grid-template-columns:minmax(0,1fr)}.ait-priority,.ait-brief-card{padding:15px;border-radius:17px}.ait-brief-card .ait-run-facts span{max-width:65%}}
