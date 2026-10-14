@@ -3637,6 +3637,7 @@ async function loadBuyerBookingShare(){
  const version=++buyerBookingShareVersion,wsId=workspace?.id;
  const actions=$('buyerBookingShareActions'),status=$('buyerBookingShareStatus'),input=$('buyerBookingShareUrl'),open=$('buyerOpenBookingLink'),copy=$('buyerCopyBookingLink');
  buyerBookingShareURL='';input.value='';actions.classList.add('hidden');copy.disabled=true;open.removeAttribute('href');
+ const smartWelcomeEditor=$('buyerSmartWelcomeEditor');if(smartWelcomeEditor)smartWelcomeEditor.hidden=true;
  if(!workspace||workspace.is_internal)return;
  if(!buyerDeliveryReady)await syncBuyerDeliveryActivation();
  if(!buyerDeliveryReady){
@@ -3654,6 +3655,11 @@ async function loadBuyerBookingShare(){
   }
   buyerBookingShareURL=url;input.value=url;open.href=url;actions.classList.remove('hidden');copy.disabled=false;
   status.textContent=buyerText('Your real Booking Page is ready to share.','Tu página de reservas real está lista para compartir.');
+  // Only delivered buyers see their own tenant-scoped editor.
+  void window.TLEBuyerWelcomeEditor?.mount({
+    workspaceId:wsId,bookingUrl:url,
+    getToken:async()=>{const {data,error}=await db.auth.getSession();return error?'':data?.session?.access_token||'';}
+  });
   void syncManagedBuyerEmailStatus();
  }catch(error){
   if(version!==buyerBookingShareVersion||workspace?.id!==wsId)return;
