@@ -21,10 +21,12 @@ async function auth(req){
  if(!/^[0-9a-f]{8}-[0-9a-f-]{27,36}$/i.test(user?.id||""))throw Error("unauthorized");
  const admin=await rows("platform_admins","user_id=eq."+encodeURIComponent(user.id)+"&select=user_id&limit=1");
  if(!Array.isArray(admin)||admin.length!==1)throw Error("unauthorized");
- const workspaces=await rows("tle_crm_workspaces","is_internal=eq.true&select=id,created_by,is_internal&limit=15");
- const ws=workspaces.find(w=>w.created_by===user.id);
- if(!ws?.is_internal)throw Error("unauthorized");
- return ws.id;
+ // Resolve only the JWT owner's internal workspace; never enumerate other owners' spaces.
+ const workspaces=await rows("tle_crm_workspaces",
+  "created_by=eq."+encodeURIComponent(user.id)+"&is_internal=eq.true&select=id,created_by,is_internal&limit=1");
+ if(!Array.isArray(workspaces)||workspaces.length!==1||workspaces[0].created_by!==user.id||workspaces[0].is_internal!==true)
+  throw Error("unauthorized");
+ return workspaces[0].id;
 }
 async function count(table,filters){
  try{
