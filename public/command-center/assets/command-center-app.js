@@ -2877,7 +2877,7 @@ function buyerShowChangeDecision(x,root){
   const row=buyerCreate("div");row.style.cssText="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px";
   function field(text,el){const wrapper=buyerCreate("label",text);wrapper.style.cssText="display:grid;gap:6px;color:#40586a;font-size:12px;font-weight:700";el.style.cssText="width:100%;min-width:0;min-height:46px;border:1px solid #acc9d8;border-radius:12px;padding:8px;font-size:15px";wrapper.append(el);row.append(wrapper)}
   date.type="date";date.value=String(change.preferred_date||"").slice(0,10);date.min=new Date().toISOString().slice(0,10);
-  time.type="time";time.step=1800;time.value=String(change.preferred_time||"").slice(0,5);
+  time.type="time";time.step=1800;const requestedTime=String(change.preferred_time||"").slice(0,5);const validHalfHour=/^(?:[01]\d|2[0-3]):(?:00|30)$/.test(requestedTime);time.value=validHalfHour?requestedTime:"";if(requestedTime&&!validHalfHour){const warning=buyerCreate("p",buyerText("The customer requested "+requestedTime+". Please choose an available start time ending in :00 or :30 before approval.","El cliente pidió "+requestedTime+". Antes de aprobar, elige un horario disponible terminado en :00 o :30."));warning.style.cssText="padding:10px;font-size:12px;background:#fff5e6;border-radius:10px;color:#674810";container.append(warning);}
   field(buyerText("New date","Nueva fecha"),date);field(buyerText("New time","Nueva hora"),time);container.append(row);
  }
  const note=buyerCreate("textarea");note.rows=3;note.maxLength=750;
