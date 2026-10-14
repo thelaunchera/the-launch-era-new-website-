@@ -42,7 +42,7 @@ textarea{min-height:94px;resize:vertical}.form-grid{display:grid;grid-template-c
 <label>What did you verify?<textarea name="fact" required placeholder="Describe a fact supported by this source."></textarea></label>
 <label>Unknowns / follow-ups<textarea name="unknowns" placeholder="Information to confirm before design."></textarea></label>
 <div class="actions"><button class="action" type="submit">Save research → Creative</button></div></form>
-<form id="design-form" hidden><h3>AI Creative · Distinct design direction</h3><p class="intro">This step must reflect the client's real identity, not simply swap a logo.</p>
+<form id="design-form" hidden><h3>AI Creative · Distinct design direction</h3><div class="actions"><button type="button" class="action secondary" id="creative-generate">Ask AI Creative for a personalized draft</button></div><p class="intro" id="creative-status" role="status"></p><p class="intro">This step must reflect the client's real identity, not simply swap a logo.</p>
 <div class="form-grid"><label>Hero composition<select name="layout"><option value="split">Split editorial</option><option value="immersive">Immersive photo</option><option value="editorial">Editorial</option><option value="minimal">Minimal</option></select></label>
 <label>Service cards<select name="cards"><option value="photographic">Photographic</option><option value="editorial">Editorial</option><option value="tiles">Tiles</option><option value="compact">Compact</option></select></label>
 <label>Typography<select name="typography"><option value="elegant">Elegant</option><option value="modern">Modern</option><option value="friendly">Friendly</option></select></label>
