@@ -367,6 +367,23 @@ async function ask(raw){
   finally{waiting=false;if(send)send.disabled=false}
   return;
  }
+ const qLow=question.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+ if(window.TLEAIOpsGateway?.ready?.()&&activeContext().section==="ai-team"&&
+  /(?:priorit|resumen|status|estado|overview)/.test(qLow)&&
+  /(?:ai team|equipo|team|especialistas|agents)/.test(qLow)){
+  if(!open)show();bubble(question,"user");input.value="";
+  const pending=bubble(t("thinking"),"bot");waiting=true;send.disabled=true;
+  try{
+   const result=await window.TLEAIOpsGateway.brief();
+   const list=(result.priority_actions||[]).slice(0,3).map(x=>x.label+": "+x.count);
+   pending.textContent=(language==="es"?"Revisé los siete especialistas. ":"Checked all seven specialists. ")+
+    (list.length?list.join("\n"):(language==="es"?"No hay prioridades verificadas; revisa las fuentes parciales.":"No verified urgent priorities; review partial sources."));
+   history.push({role:"user",message:question},{role:"assistant",message:pending.textContent});
+   if(history.length>8)history=history.slice(-8);
+  }catch(e){pending.textContent=String(e?.message||t("error")).slice(0,350)}
+  finally{waiting=false;if(send)send.disabled=false}
+  return;
+ }
  const teamAgent=aiTeamIntent(question);
  if(teamAgent){
   if(!open)show();bubble(question,"user");input.value="";
