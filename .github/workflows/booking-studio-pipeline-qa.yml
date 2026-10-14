@@ -10,6 +10,7 @@ on:
       - 'fixtures/booking-studio-synthetic.json'
       - 'supabase/functions/tle-booking-studio-owner/index.ts'
       - 'supabase/migrations/20261014_tle_booking_studio_jobs.sql'
+      - 'supabase/migrations/20261014_tle_booking_studio_customer_tenant.sql'
       - 'public/command-center/booking-studio.html'
       - 'public/command-center/assets/booking-studio.js'
       - 'public/command-center/assets/booking-studio-preview.mjs'
