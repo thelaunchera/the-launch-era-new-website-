@@ -3,6 +3,7 @@ name: Jessie GitHub Pages Release Build QA
 on:
   pull_request:
     paths:
+      - 'docs/jessie-unified-release-runbook.md'
       - 'public/command-center/**'
       - 'supabase/functions/tle-ai-team/**'
       - 'supabase/functions/tle-jessy-owner/**'
