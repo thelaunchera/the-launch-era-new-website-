@@ -24,7 +24,7 @@ const records={
  ],
  tle_crm_notifications:[{workspace_id:WA,read_at:null},{workspace_id:WB,read_at:null},{workspace_id:WB,read_at:null}]
 };
-let captured=null,forwarded=[],writes=0,openai=0,groq=0,failGroq=false;
+let captured=null,forwarded=[],writes=0,openai=0,groq=0,failGroq=false,workspaceFilters=[];
 const mapToken=t=>t==="Bearer fixture-owner"?A:t==="Bearer fixture-other-owner"?B:t==="Bearer fixture-nonowner"?C:null;
 function matching(data,params){
  for(const [key,raw] of params){
@@ -56,6 +56,7 @@ async function mockedFetch(input,options={}){
  if(url.origin===BASE&&url.pathname.startsWith("/rest/v1/")){
   if(method!=="GET"){writes++;throw Error("Unexpected database write");}
   const table=url.pathname.split("/").pop();
+  if(table==="tle_crm_workspaces")workspaceFilters.push(url.searchParams.toString());
   if(!Object.hasOwn(records,table))throw Error("Unscoped/unknown fixture table: "+table);
   const data=matching(records[table],url.searchParams);
   return new Response(JSON.stringify(data.slice(0,Number(url.searchParams.get("limit")||500))),{status:200,headers:{"Content-Range":"0-0/"+data.length}});
@@ -96,6 +97,8 @@ assert.ok(forwarded.includes("Bearer fixture-other-owner"));
 const readyA=await call("fixture-owner",{action:"client_readiness",language:"en"});
 const readyB=await call("fixture-other-owner",{action:"client_readiness",language:"es"});
 assert.equal(readyA.status,200);assert.equal(readyB.status,200);
+assert.ok(workspaceFilters.length>0,"Owner authorization must verify internal workspace");
+assert.ok(workspaceFilters.every(q=>q.includes("created_by=eq.")&&q.includes("is_internal=eq.true")&&q.includes("limit=1")),"Never enumerate other internal workspaces during owner authentication");
 assert.deepEqual(readyA.data.projects.map(x=>x.name),["Sample Alpha Cleaning"]);
 assert.deepEqual(readyB.data.projects.map(x=>x.name),["Sample Beta Cleaning"]);
 assert.equal(readyA.data.coverage.includes("legacy_ai_orders_unlinked"),true);
