@@ -161,7 +161,7 @@ function helpfulNextAction(message,id){
  const q=norm(message);
  if(isServiceExplanation(message))return "none";
  if(/\b(?:try|trial|free trial|prueba gratis|probar gratis|register|signup|sign up|registrarme)\b/.test(q)&&id==="cleaning-app")return "trial";
- if(/\b(?:demo|preview|muestra|ver ejemplo|ver demostracion)\b/.test(q))return "demo";
+ if(/\b(?:demo|preview|muestra|ver ejemplo|ver demostracion)\b/.test(q))return (id==="cleaning-app"||id==="booking")?"demo":"none";
  if(/\b(?:checkout|buy|purchase|buy now|pay now|comprar|pagar|iniciar compra|ir al pago|link de pago)\b/.test(q))return "checkout";
  // Ordinary questions get an actual answer instead of repeating the same sales buttons.
  return "none";
@@ -183,7 +183,7 @@ function guide(msg,lang,catalog,id){
  }else if(/checkout|pago|pagar|card|tarjeta|comprar|buy|ready|listo/.test(s)){
   reply=es?"¡Claro! Puedes revisar todos los detalles en el checkout antes de continuar. ¿Hay algo que quieras aclarar primero?":"Sure! You can review everything on the checkout page before continuing. Anything you’d like me to explain first?";
  }else {
-  reply=(es?"Te cuento: ":"Here’s the idea: ")+row[es?3:2]+" "+(es?"¿Qué te gustaría saber?":"What would you like to know?");
+  reply=helpfulExplanation(id,lang);
  }
  return reply;
 }
@@ -235,5 +235,5 @@ Deno.serve(async(req)=>{
  if(checkout&&checkout.startsWith("/service-checkout/"))checkout+="&lang="+lang;
  if(id==="booking"||isCombo)checkout="/booking-bundle/?lang="+lang;
  if(id==="cleaning-app")checkout=null;
- return response({reply:explanation||appReply||ai||guide(message,lang,catalog,id),selected_offer:id,checkout,details:id==="cleaning-app"?"/cleaning-app-demo/?lang="+lang:id==="booking"?"/booking-lead-automation":id?.startsWith("ai-")?"/ai-booking-assistant/":id==="whatsapp"?"/whatsapp-ai-agent/":null,trial:id==="cleaning-app"?"https://app.thelaunchera.com/?entry=signup":null,next_action:helpfulNextAction(message,id),mode:explanation?"explanation":ai?"ai":"guided"},200,origin);
+ return response({reply:explanation||appReply||ai||guide(message,lang,catalog,id),selected_offer:id,checkout,details:id==="cleaning-app"?"/cleaning-app-demo/?lang="+lang:id==="booking"?(helpfulNextAction(message,id)==="demo"?"/booking-demo/?lang="+lang:"/booking-lead-automation"):id?.startsWith("ai-")?"/ai-booking-assistant/":id==="whatsapp"?"/whatsapp-ai-agent/":null,trial:id==="cleaning-app"?"https://app.thelaunchera.com/?entry=signup":null,next_action:helpfulNextAction(message,id),mode:explanation?"explanation":ai?"ai":"guided"},200,origin);
 });
