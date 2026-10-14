@@ -6,6 +6,8 @@ on:
       - 'scripts/qa-booking-studio-pipeline.mjs'
       - 'lib/booking-studio-preview.mjs'
       - 'scripts/qa-booking-studio-preview.mjs'
+      - 'scripts/build-booking-studio-preview.mjs'
+      - 'fixtures/booking-studio-synthetic.json'
       - '.github/workflows/booking-studio-pipeline-qa.yml'
   workflow_dispatch:
 jobs:
@@ -22,3 +24,11 @@ jobs:
         run: |
           node scripts/qa-booking-studio-pipeline.mjs
           node scripts/qa-booking-studio-preview.mjs
+      - name: Build synthetic private visual preview
+        run: node scripts/build-booking-studio-preview.mjs fixtures/booking-studio-synthetic.json .private-preview/booking-studio.html
+      - name: Upload synthetic review artifact (not deployed)
+        uses: actions/upload-artifact@v4
+        with:
+          name: booking-studio-synthetic-preview
+          path: .private-preview/booking-studio.html
+          retention-days: 7
