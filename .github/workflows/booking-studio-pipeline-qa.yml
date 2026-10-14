@@ -1,0 +1,99 @@
+name: Booking Studio Pipeline QA
+on:
+  pull_request:
+    paths:
+      - 'lib/booking-studio-pipeline.mjs'
+      - 'scripts/qa-booking-studio-pipeline.mjs'
+      - 'scripts/qa-booking-studio-owner-approval.mjs'
+      - 'lib/booking-studio-owner-review-brief.mjs'
+      - 'lib/booking-studio-tenant-destination.mjs'
+      - 'scripts/qa-booking-studio-owner-review-brief.mjs'
+      - 'scripts/build-booking-studio-owner-review-demo.mjs'
+      - 'fixtures/booking-studio-bright-rooms-synthetic.json'
+      - 'docs/booking-studio-owner-approval-protocol.md'
+      - 'lib/booking-studio-preview.mjs'
+      - 'lib/booking-studio-developer-plan.mjs'
+      - 'scripts/qa-booking-studio-developer-plan.mjs'
+      - 'scripts/build-booking-studio-private-packet.mjs'
+      - 'scripts/qa-booking-studio-private-packet.mjs'
+      - 'lib/booking-studio-synthetic-integration.mjs'
+      - 'scripts/qa-booking-studio-synthetic-integration.mjs'
+      - 'supabase/testing-only/**'
+      - 'scripts/qa-booking-studio-supabase-staging.mjs'
+      - 'supabase/functions/tle-booking-studio-staging-qa/**'
+      - 'staging/booking-studio-qa/**'
+      - 'scripts/qa-booking-studio-http-staging.mjs'
+      - 'scripts/qa-booking-studio-preview.mjs'
+      - 'scripts/qa-booking-studio-visual.mjs'
+      - 'scripts/build-booking-studio-preview.mjs'
+      - 'fixtures/booking-studio-synthetic.json'
+      - 'supabase/functions/tle-booking-studio-owner/index.ts'
+      - 'supabase/migrations/20261014_tle_booking_studio_jobs.sql'
+      - 'supabase/migrations/20261014_tle_booking_studio_customer_tenant.sql'
+      - 'public/command-center/booking-studio.html'
+      - 'public/command-center/assets/booking-studio.js'
+      - 'public/command-center/assets/booking-studio-preview.mjs'
+      - 'scripts/qa-booking-studio-owner-integration.mjs'
+      - '.github/workflows/booking-studio-pipeline-qa.yml'
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate Booking Studio contract
+        run: |
+          node scripts/qa-booking-studio-pipeline.mjs
+          node scripts/qa-booking-studio-owner-approval.mjs
+          node scripts/qa-booking-studio-owner-review-brief.mjs
+          node scripts/qa-booking-studio-preview.mjs
+          node scripts/qa-booking-studio-developer-plan.mjs
+          node scripts/qa-booking-studio-private-packet.mjs
+          node scripts/qa-booking-studio-synthetic-integration.mjs
+          node scripts/qa-booking-studio-supabase-staging.mjs
+          node scripts/qa-booking-studio-http-staging.mjs
+          node scripts/qa-booking-studio-owner-integration.mjs
+          node --check public/command-center/assets/booking-studio.js
+      - name: Build fictional owner review packet
+        run: node scripts/build-booking-studio-owner-review-demo.mjs
+      - name: Build synthetic private visual preview
+        run: node scripts/build-booking-studio-preview.mjs fixtures/booking-studio-synthetic.json .private-preview/booking-studio.html
+      - name: Install browser QA tooling in an isolated temp package
+        run: |
+          mkdir -p /tmp/tle-booking-studio-browser-qa
+          cd /tmp/tle-booking-studio-browser-qa
+          echo '{"name":"tle-booking-studio-browser-qa","private":true,"version":"1.0.0"}' > package.json
+          npm install --no-audit --no-fund --no-package-lock playwright@1.56.1
+          ./node_modules/.bin/playwright install --with-deps chromium
+          echo "NODE_PATH=/tmp/tle-booking-studio-browser-qa/node_modules" >> "$GITHUB_ENV"
+      - name: Link isolated browser tooling to the QA script
+        run: |
+          ln -s /tmp/tle-booking-studio-browser-qa/node_modules node_modules
+      - name: Test synthetic design across phone, tablet and desktop
+        run: node scripts/qa-booking-studio-visual.mjs
+      - name: Upload responsive screenshots and visual QA report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: booking-studio-responsive-qa
+          path: .private-preview/visual-qa/
+          if-no-files-found: warn
+          retention-days: 7
+      - name: Upload fictional review packet
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: booking-studio-fictional-owner-review
+          path: .private-preview/owner-approval-demo/
+          retention-days: 7
+      - name: Upload synthetic review artifact (not deployed)
+        uses: actions/upload-artifact@v4
+        with:
+          name: booking-studio-synthetic-preview
+          path: .private-preview/booking-studio.html
+          retention-days: 7

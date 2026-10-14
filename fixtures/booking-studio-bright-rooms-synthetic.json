@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "base_version": "v1-2026-10-14",
+  "source_path": "templates/booking-page-master/v1-2026-10-14",
+  "tenant_id": "synthetic-bright-rooms",
+  "order_id": "synthetic-unpaid-fixture-only",
+  "stage": "development",
+  "history": [
+    {
+      "stage": "research",
+      "by": "fixture",
+      "note": "Synthetic design review, no order created"
+    },
+    {
+      "stage": "creative",
+      "by": "fixture",
+      "note": "Fictional creative direction"
+    }
+  ],
+  "client": {
+    "business_name": "Bright Rooms Housekeeping",
+    "business_type": "residential cleaning",
+    "contact_email": "not-real@example.test",
+    "service_areas": [
+      "Miami",
+      "Miami Beach"
+    ],
+    "services": [
+      {
+        "name": "Everyday Home Cleaning",
+        "mode": "flat",
+        "price": 120,
+        "category": "residential"
+      },
+      {
+        "name": "Deep Home Reset",
+        "mode": "quote",
+        "price": null,
+        "category": "residential"
+      },
+      {
+        "name": "Moving Day Cleaning",
+        "mode": "quote",
+        "price": null,
+        "category": "residential"
+      }
+    ],
+    "booking_policy": "All requests require confirmation. This is a fictional example.",
+    "website": null,
+    "social_urls": []
+  },
+  "research": {
+    "sources": [
+      {
+        "url": "https://example.test",
+        "purpose": "Synthetic business reference only"
+      }
+    ],
+    "facts": [
+      {
+        "claim": "Fictional Miami-area residential cleaning example",
+        "source_url": "https://example.test"
+      }
+    ],
+    "unknowns": [
+      "Brand and photo rights require verification for real clients"
+    ]
+  },
+  "design": {
+    "layout": "immersive",
+    "cards": "tiles",
+    "typography": "modern",
+    "primary_color": "#191919",
+    "accent_color": "#B7DDF3",
+    "hero_title": "Your home, a little lighter.",
+    "hero_body": "Make room for what matters. Choose the clean that fits your day, and we'll take it from there.",
+    "photos": [
+      {
+        "url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952",
+        "license": "SYNTHETIC DESIGN PLACEHOLDER ONLY; must verify rights before any real delivery",
+        "usage": "hero"
+      }
+    ],
+    "section_order": [
+      "services",
+      "process",
+      "benefits",
+      "booking"
+    ],
+    "design_rationale": "Immersive, people-first composition for fictional Miami residential brand; editorial service cards, soft blue contrast.",
+    "verified_claims_only": true
+  },
+  "build": null,
+  "qa": null,
+  "owner_review": null,
+  "release": null
+}

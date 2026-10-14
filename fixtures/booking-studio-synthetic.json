@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "base_version": "v1-2026-10-14",
+  "source_path": "templates/booking-page-master/v1-2026-10-14",
+  "tenant_id": "synthetic-harbor-house",
+  "order_id": "synthetic-order-001",
+  "stage": "development",
+  "history": [
+    {
+      "stage": "research",
+      "by": "system",
+      "note": "Synthetic fixture"
+    },
+    {
+      "stage": "creative",
+      "by": "creative",
+      "note": "Synthetic fixture"
+    },
+    {
+      "stage": "development",
+      "by": "creative",
+      "note": "Synthetic fixture"
+    }
+  ],
+  "client": {
+    "business_name": "Harbor House Cleaning",
+    "business_type": "residential cleaning",
+    "contact_email": "not-a-real-customer@example.test",
+    "service_areas": [
+      "Miami"
+    ],
+    "services": [
+      {
+        "name": "Standard Home Cleaning",
+        "mode": "quote",
+        "price": null,
+        "category": "residential"
+      },
+      {
+        "name": "Deep Cleaning",
+        "mode": "flat",
+        "price": 220,
+        "category": "residential"
+      },
+      {
+        "name": "Move-Out Cleaning",
+        "mode": "quote",
+        "price": null,
+        "category": "residential"
+      }
+    ],
+    "booking_policy": "Appointment requires confirmation.",
+    "website": null,
+    "social_urls": []
+  },
+  "research": {
+    "sources": [
+      {
+        "url": "https://example.test",
+        "purpose": "Synthetic only"
+      }
+    ],
+    "facts": [
+      {
+        "claim": "Fictional example cleaning business",
+        "source_url": "https://example.test"
+      }
+    ],
+    "unknowns": []
+  },
+  "design": {
+    "layout": "split",
+    "cards": "editorial",
+    "typography": "elegant",
+    "primary_color": "#191919",
+    "accent_color": "#B7DDF3",
+    "hero_title": "Come home to a space that feels good.",
+    "hero_body": "Thoughtful home cleaning, tailored to your routine.",
+    "photos": [
+      {
+        "url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952",
+        "license": "DEMO PLACEHOLDER ONLY — source rights must be verified before production",
+        "usage": "hero"
+      }
+    ],
+    "section_order": [
+      "services",
+      "benefits",
+      "process",
+      "booking"
+    ],
+    "design_rationale": "Fictional Miami cleaning company with warm editorial layout",
+    "verified_claims_only": true
+  },
+  "build": null,
+  "qa": null,
+  "owner_review": null,
+  "release": null
+}
