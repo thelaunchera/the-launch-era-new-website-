@@ -185,3 +185,10 @@ Main website root EN/ES declares /favicon.png (512x512), /favicon.ico and /apple
 - A generated work product has `generation_mode=ai` only after actual nonempty OpenAI content. A static fallback is saved with `generation_mode=template` and clearly labeled **Plantilla · Sin IA**. Jessie also distinguishes these. Both remain unsent and owner-reviewed.
 - Schema `public.tle_ai_team_outputs.generation_mode` applied in Supabase and versioned in `supabase/migrations/20261013_tle_ai_team_generation_mode.sql`. In owner UI the test status is NOT a proof of client acceptance until run with the owner session.
 - Regression: `scripts/qa-ai-team-ai-provider.mjs`, existing task/Jessie/route security and Safari tests.
+
+## Smart Welcome — planned, not deployed (2026-10-14)
+- No new public page route. Existing `/booking/?key=<UUID>` → `/base-booking.html?key=<UUID>` remains the only live buyer entry.
+- The client-side `/assets/booking-smart-welcome.js` calls proposed `/functions/v1/tle-booking-smart-welcome` using a public booking key **only after** the verified released buyer model loads. Missing/disabled/expired welcome → original page unchanged.
+- The Command Center buyer's verified share panel mounts `booking-smart-welcome-editor.js` only after delivery. `get` and `save` operations require a verified JWT and ownership; direct `anon/authenticated` table grants are revoked.
+- Welcome CTA closes the overlay and scrolls to **the existing** `#booking`; dismiss/skip returns to the page without writes. No pricing modification, no automatic discounts, no new external checkout/lead route.
+- Feature branch: `feature/smart-welcome-booking-20261014`. **Not deployed to production; no client offer enabled.** See `docs/SMART_WELCOME_BOOKING.md`.
