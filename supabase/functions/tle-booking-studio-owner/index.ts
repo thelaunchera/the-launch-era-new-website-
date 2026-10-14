@@ -42,7 +42,7 @@ async function auth(req){
 const scope=ctx=>"owner_id=eq."+ctx.owner+"&owner_workspace_id=eq."+ctx.workspace;
 async function bookingAccount(ctx,id){
  if(!uuid(id))throw Error("Invalid account");
- const a=await rest("tle_booking_flow_accounts","id=eq."+id+"&crm_workspace_id=eq."+ctx.workspace+"&payment_status=eq.paid&select=id,business_name,payment_status,intake_completed_at,intake_payload,build_started_at,delivery_sent_at&limit=1");
+ const a=await rest("tle_booking_flow_accounts","id=eq."+id+"&crm_workspace_id=not.is.null&payment_status=eq.paid&select=id,crm_workspace_id,business_name,payment_status,intake_completed_at,intake_payload,build_started_at,delivery_sent_at&limit=1");
  if(a.length!==1)throw Error("Paid booking account unavailable");
  return a[0];
 }
@@ -61,8 +61,9 @@ async function one(ctx,id){
  if(!uuid(id))throw Error("Invalid job");
  const a=await rest("tle_booking_studio_jobs","id=eq."+id+"&"+scope(ctx)+"&select=*&limit=1");
  if(a.length!==1)throw Error("Job unavailable");
- // Verify this account STILL belongs to this owner workspace and is paid.
+ // Verify this order still belongs to the SAME buyer tenant stored on the job.
  const account=await bookingAccount(ctx,a[0].booking_account_id);
+ if(!uuid(a[0].client_workspace_id)||account.crm_workspace_id!==a[0].client_workspace_id)throw Error("Customer tenant mismatch");
  return {job:a[0],account};
 }
 async function save(ctx,job,patch,action,detail){
@@ -99,7 +100,7 @@ Deno.serve(async req=>{
   const ctx=await auth(req),body=await req.json(),action=str(body.action,40);
   if(action==="list"){
    const jobs=await rest("tle_booking_studio_jobs",scope(ctx)+"&select=id,booking_account_id,stage,base_version,revision,updated_at,created_at&order=updated_at.desc&limit=50");
-   const accounts=await rest("tle_booking_flow_accounts","crm_workspace_id=eq."+ctx.workspace+"&payment_status=eq.paid&select=id,business_name,intake_completed_at,intake_payload,delivery_sent_at&limit=50");
+   const accounts=await rest("tle_booking_flow_accounts","crm_workspace_id=not.is.null&payment_status=eq.paid&select=id,crm_workspace_id,business_name,intake_completed_at,intake_payload,delivery_sent_at&order=created_at.desc&limit=50");
    return response(origin,200,{ok:true,owner_only:true,jobs,accounts:accounts.map(a=>({id:a.id,business_name:a.business_name,ready:intakeMissing(a).length===0,missing:intakeMissing(a),delivered:!!a.delivery_sent_at})),external_actions_enabled:false});
   }
   if(action==="start"){
@@ -109,7 +110,7 @@ Deno.serve(async req=>{
    if(body.owner_start_approved!==true)return response(origin,403,{ok:false,error:"Owner must approve production start"});
    const existing=await rest("tle_booking_studio_jobs",scope(ctx)+"&booking_account_id=eq."+account.id+"&select=id&limit=1");
    if(existing.length)return response(origin,409,{ok:false,error:"Existing project; open instead",job_id:existing[0].id});
-   const rows=await rest("tle_booking_studio_jobs","","POST",{owner_id:ctx.owner,owner_workspace_id:ctx.workspace,booking_account_id:account.id,stage:"research",base_version:"v1-2026-10-14",audit:[{at:new Date().toISOString(),by:ctx.owner,action:"start",detail:"Paid workspace-linked intake verified; owner authorized research"}]});
+   const rows=await rest("tle_booking_studio_jobs","","POST",{owner_id:ctx.owner,owner_workspace_id:ctx.workspace,booking_account_id:account.id,client_workspace_id:account.crm_workspace_id,stage:"research",base_version:"v1-2026-10-14",audit:[{at:new Date().toISOString(),by:ctx.owner,action:"start",detail:"Paid client tenant and completed intake verified; owner authorized research"}]});
    return response(origin,200,{ok:true,job:rows[0],external_actions_executed:false});
   }
   const {job,account}=await one(ctx,body.job_id);
@@ -163,9 +164,9 @@ Deno.serve(async req=>{
   if(action==="build"){
    if(job.stage!=="development")return response(origin,409,{ok:false,error:"Not in development stage"});
    const b=body.build||{};
-   if(!str(b.private_preview_id,160)||!str(b.artifact_commit,100)||b.tenant_id!==job.owner_workspace_id||b.published||b.client_notified)
+   if(!str(b.private_preview_id,160)||!str(b.artifact_commit,100)||b.tenant_id!==job.client_workspace_id||b.published||b.client_notified)
      return response(origin,409,{ok:false,error:"Private, tenant-scoped build evidence required"});
-   const next=await save(ctx,job,{build:{private_preview_id:str(b.private_preview_id,160),artifact_commit:str(b.artifact_commit,100),tenant_id:job.owner_workspace_id,published:false,client_notified:false},stage:"qa"},"build_ready","Private build artifact registered; no publication");
+   const next=await save(ctx,job,{build:{private_preview_id:str(b.private_preview_id,160),artifact_commit:str(b.artifact_commit,100),tenant_id:job.client_workspace_id,published:false,client_notified:false},stage:"qa"},"build_ready","Private build artifact registered; no publication");
    return response(origin,200,{ok:true,job:next});
   }
   if(action==="qa"){
