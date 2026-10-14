@@ -254,6 +254,28 @@ async function projectReadiness(lang){
  const pending=projects.filter(x=>x.status==="needs_info").length,review=projects.filter(x=>x.status==="owner_review").length;
  return {ok:true,action_performed:"client_readiness_review",section:"owner-pages",read_only:true,projects:projects.slice(0,40),coverage,reply:txt("Reviewed "+projects.length+" Booking/AI projects: "+pending+" need details and "+review+" need your review. No changes were made."+(coverage.length?" Some records could not be checked.":""),"Revisé "+projects.length+" proyectos Booking/IA: "+pending+" necesitan datos y "+review+" requieren tu revisión. No cambié nada."+(coverage.length?" No pude consultar todos los registros.":""))};
 }
+/* Unified read-only briefing. Reuse the verified owner JWT; the team endpoint checks owner + workspace again. */
+async function ownerTeamBrief(req,lang){
+ const authorization=req.headers.get("authorization")||"";
+ const response=await fetch(BASE+"/functions/v1/tle-ai-team",{
+  method:"POST",headers:{"Content-Type":"application/json",apikey:ANON,Authorization:authorization},
+  body:JSON.stringify({action:"team_brief",language:lang}),signal:AbortSignal.timeout(13500)
+ });
+ if(!response.ok)return {ok:false,error:"Team briefing unavailable",status:503};
+ const data=await response.json().catch(()=>({}));
+ if(data.ok!==true||!Array.isArray(data.reports))return {ok:false,error:"Team briefing unavailable",status:503};
+ const priorities=(Array.isArray(data.priority_actions)?data.priority_actions:[]).slice(0,3);
+ const total=data.reports.filter(x=>x.status==="checked").length;
+ const partial=data.reports.length-total;
+ const summary=lang==="es"
+  ?"Consulté los siete especialistas: "+total+" revisiones completas y "+partial+" parciales. "
+  :"Checked all seven specialists: "+total+" complete and "+partial+" partial reviews. ";
+ const lines=priorities.map(x=>String(x.agent||"team")+": "+String(x.label||"Review needed")+" ("+Number(x.count||0)+")");
+ const reply=summary+(lines.length?lines.join("; "):lang==="es"?"No se detectaron prioridades confirmadas; revisa las fuentes parciales.":"No verified urgent priorities; check partial sources.");
+ return {ok:true,reply:reply.slice(0,850),section:"owner-pages",action_performed:"team_brief",
+   read_only:true,checked:total,partial,priority_actions:priorities,generated_at:data.collected_at,
+   external_actions:0};
+}
 Deno.serve(async req=>{
  const origin=req.headers.get("origin")||"";
  if(req.method==="OPTIONS")return new Response(null,{status:204,headers:h(origin)});
@@ -266,6 +288,10 @@ Deno.serve(async req=>{
  if(["whatsapp_get","whatsapp_save","whatsapp_disable"].includes(data?.action)){
    const result=await whatsappPrefAction(ws,data);
    return out(result,result.ok?200:result.status||400,origin);
+ }
+ if(data?.action==="team_brief"||/(?:resumen|estado|prioridades|revisar|revisa|review|status|priorities|check).{0,35}(?:equipo|ai team|especialistas|agents|team)|(?:what is|qu[eé] hace).{0,30}(?:ai team|equipo|especialistas)/i.test(message)){
+  const result=await ownerTeamBrief(req,lang);
+  return out(result,result.ok?200:result.status||503,origin);
  }
  if(data?.action==="draft_followup"){
   const response=await draftForLead(ws,clean(data.lead_id,42),lang);
