@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#FAF8F3">
 <title>Acceso privado | The Launch Era Command Center</title>
-<link rel="icon" type="image/png" href="https://the-launch-era-crm.dailinsegura17.workers.dev/app-icons/tle-192.png?v=20261012-legacy">
+<link rel="icon" type="image/png" href="/assets/brand/tle-mark.svg">
 <style>
 :root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#191919;background:#FAF8F3}
 *{box-sizing:border-box}
@@ -42,6 +42,7 @@ a{color:#276488}
 <footer>Tu información y la de tus clientes permanecen en sus espacios privados.<br><a href="./?from=private-access">Volver al acceso principal</a></footer>
 </main>
 <script src="./vendor/supabase-js-v2.57.0.umd.js"></script>
+<script src="./assets/private-session-policy.js?v=20261014-12h-v1"></script>
 <script>
 (function(){
  const status=document.getElementById('status'),form=document.getElementById('signin'),button=document.getElementById('login');
@@ -52,8 +53,19 @@ a{color:#276488}
   db=window.supabase.createClient("https://bowacxhmjvrqixtwaikv.supabase.co","sb_publishable_0TueitFYiRF3rAEMLMT8-w_FvbvY0rB",{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:'tle-crm-auth'}});
  }catch(e){status.textContent='La conexión no terminó de cargar. Actualiza esta página en Safari e inténtalo otra vez.';button.disabled=true;return;}
  const timeout=ms=>new Promise((_,reject)=>setTimeout(()=>reject(new Error('La conexión tardó demasiado. Inténtalo otra vez.')),ms));
- db.auth.getSession().then(({data})=>{
-   if(data?.session){document.getElementById('continue').classList.remove('hidden');form.classList.add('hidden');document.getElementById('reset').classList.add('hidden');}
+ db.auth.getUser().then(async({data,error})=>{
+   if(error||!data?.user)return;
+   const allowed=await window.TLEPrivateSessionPolicy?.guard(db,data.user,()=>{
+    document.getElementById('continue').classList.add('hidden');
+    form.classList.remove('hidden');
+    document.getElementById('reset').classList.remove('hidden');
+    status.textContent='La sesión privada terminó después de 12 horas. Vuelve a entrar con tu contraseña.';
+   });
+   if(allowed){
+    document.getElementById('continue').classList.remove('hidden');
+    form.classList.add('hidden');
+    document.getElementById('reset').classList.add('hidden');
+   }
  }).catch(()=>{});
  document.getElementById('continue').addEventListener('click',go);
  form.addEventListener('submit',async event=>{
@@ -64,6 +76,7 @@ a{color:#276488}
    const {error,data}=await Promise.race([db.auth.signInWithPassword({email,password}),timeout(18000)]);
    if(error)throw error;
    if(!data?.session)throw Error('No se recibió una sesión válida.');
+   window.TLEPrivateSessionPolicy?.clear();
    status.textContent='Acceso verificado. Abriendo tu espacio…';
    go();
   }catch(e){status.textContent=e?.message||'No pudimos entrar. Comprueba los datos e inténtalo otra vez.';}finally{button.disabled=false;}
