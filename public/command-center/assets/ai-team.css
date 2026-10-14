@@ -79,3 +79,17 @@
 .ait-owner-diagnostic-state.passed{color:#24654a}
 .ait-owner-diagnostic-state.needs-review{color:#a14f2f}
 @media(max-width:700px){.ait-owner-diagnostic{border-radius:18px;padding:16px}.ait-owner-diagnostic-results{grid-template-columns:minmax(0,1fr)}.ait-owner-diagnostic-buttons{flex-direction:column}.ait-owner-diagnostic-buttons button{width:100%}}
+
+/* Phone-only typography and vertical card flow: no compressed two-column specialists. */
+@media(max-width:480px){
+ .ait-grid{grid-template-columns:minmax(0,1fr)}
+ .ait-agent{min-height:0;padding:20px;gap:12px}
+ .ait-agent h3{font-size:16px}
+ .ait-agent p{font-size:13px;line-height:1.5}
+ .ait-agent-actions button{font-size:12px!important;min-height:42px}
+ .ait-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .ait-stats article{padding:16px 14px}
+ .ait-stats article:last-child{grid-column:1/-1}
+ .ait-stats span{font-size:12px}
+ .ait-stats strong{font-size:21px}
+}
