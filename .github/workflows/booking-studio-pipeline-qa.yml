@@ -6,6 +6,7 @@ on:
       - 'scripts/qa-booking-studio-pipeline.mjs'
       - 'lib/booking-studio-preview.mjs'
       - 'scripts/qa-booking-studio-preview.mjs'
+      - 'scripts/qa-booking-studio-visual.mjs'
       - 'scripts/build-booking-studio-preview.mjs'
       - 'fixtures/booking-studio-synthetic.json'
       - 'supabase/functions/tle-booking-studio-owner/index.ts'
@@ -35,6 +36,20 @@ jobs:
           node --check public/command-center/assets/booking-studio.js
       - name: Build synthetic private visual preview
         run: node scripts/build-booking-studio-preview.mjs fixtures/booking-studio-synthetic.json .private-preview/booking-studio.html
+      - name: Install browser QA tooling
+        run: |
+          npm install --no-save --package-lock=false playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Test synthetic design across phone, tablet and desktop
+        run: node scripts/qa-booking-studio-visual.mjs
+      - name: Upload responsive screenshots and visual QA report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: booking-studio-responsive-qa
+          path: .private-preview/visual-qa/
+          if-no-files-found: warn
+          retention-days: 7
       - name: Upload synthetic review artifact (not deployed)
         uses: actions/upload-artifact@v4
         with:
