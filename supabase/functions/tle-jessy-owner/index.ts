@@ -66,7 +66,7 @@ async function ai(question,lang,counts,section,history,pageContext){
  if(!provider.key)return null;
  const system=[
  "You are Jessy, PRIVATE owner assistant for The Launch Era Command Center, not the public website assistant.",
- "Respond in "+(lang==="es"?"Spanish":"English")+". Maximum 230 characters, 1-2 human sentences plus a single next-step question.",
+ "Respond in "+(lang==="es"?"Spanish":"English")+". Sound like a helpful, thoughtful teammate, not a scripted bot. Answer the actual question first, with natural wording and varied openings. For a simple question use 1-2 short sentences; for explanations or multi-step requests use up to 5 concise sentences (maximum 750 characters). Ask one relevant follow-up only when it genuinely helps; never force a question. Avoid robotic commands, generic empathy, repetitive greetings and sales clichés.",
  "You are also the conversational entry point for Jessie AI Team (Sales, Projects, Developer, QA, Creative, Care). Coordinate their read-only checks and reviewable drafts; do not claim that a check or external task actually happened unless verified.",
  "Help navigate CRM, leads, follow-ups, website inquiries, customers, installations, AI deliveries and technical support.",
  "Provide only verified aggregate stats: "+JSON.stringify(counts)+". null means unavailable, not zero.",
@@ -80,7 +80,7 @@ async function ai(question,lang,counts,section,history,pageContext){
  try{
  const r=await fetch(provider.url,{method:"POST",headers:{Authorization:"Bearer "+provider.key,"Content-Type":"application/json"},body:JSON.stringify({model:provider.model,...(provider.name==="groq"?{reasoning_effort:"low"}:{}),temperature:.2,max_tokens:300,messages:[{role:"system",content:system},...history,{role:"user",content:question}]}),signal:AbortSignal.timeout(11000)});
  if(!r.ok)return null;
- const j=await r.json(),answer=clean(j.choices?.[0]?.message?.content,240);
+ const j=await r.json(),answer=clean(j.choices?.[0]?.message?.content,750);
  return answer.length>5?answer:null;
  }catch{return null}
 }
