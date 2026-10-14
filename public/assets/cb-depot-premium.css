@@ -1146,3 +1146,46 @@ body.vehicle-booking #cbContact .cb-contact-form > label > textarea {min-width:0
  body.vehicle-booking #cbContact .cb-contact-point {transition:none!important}
  body.vehicle-booking #cbContact .cb-contact-point:hover {transform:none}
 }
+
+
+/* CB Depot · 2026-10-14 · iOS Safari date-picker overflow correction.
+   WebKit's native date editor may retain an intrinsic inline size even when a
+   grid track and the input declare width:100%. Keep the native picker usable
+   while constraining both the control and its internal editor to the column. */
+body.vehicle-booking #quote #cbDateFields,
+body.vehicle-booking #quote #cbDateFields > .cb-field {
+  box-sizing:border-box!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  min-inline-size:0!important;
+  max-inline-size:100%!important;
+}
+body.vehicle-booking #quote #cbDateFields {
+  grid-template-columns:minmax(0,1fr)!important;
+}
+body.vehicle-booking #quote #qdate {
+  display:block!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  inline-size:100%!important;
+  min-inline-size:0!important;
+  max-inline-size:100%!important;
+  -webkit-appearance:none;
+  appearance:none;
+  overflow:hidden;
+  text-overflow:clip;
+}
+body.vehicle-booking #quote #qdate::-webkit-date-and-time-value,
+body.vehicle-booking #quote #qdate::-webkit-datetime-edit {
+  min-width:0!important;
+  max-width:100%!important;
+  box-sizing:border-box;
+}
+body.vehicle-booking #quote #qtime {
+  min-width:0!important;
+  max-width:100%!important;
+  inline-size:100%!important;
+}
