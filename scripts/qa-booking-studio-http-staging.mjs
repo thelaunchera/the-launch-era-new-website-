@@ -1,0 +1,12 @@
+import assert from "node:assert/strict";
+import {readFile} from "node:fs/promises";
+const edge=await readFile("supabase/functions/tle-booking-studio-staging-qa/index.ts","utf8");
+const html=await readFile("staging/booking-studio-qa/index.html","utf8");
+const sql=await readFile("supabase/testing-only/20261014_booking_studio_http_adapter.sql","utf8");
+for(const x of ["afyiltvdfqnuyzcqsnoh","verify","/auth/v1/user","body.tenant_id!==user.id","tenant_id:user.id","synthetic_only:true","customer_notified:false","published:false","origin_not_allowed","contact_consent_required","tle_booking_studio_staging_requests"])assert.ok(edge.includes(x==="verify"?"verified staging auth user's ID":x),"Missing staging Edge safety gate: "+x);
+assert.doesNotMatch(edge,/\b(sendBusinessEmail|sendMail|sendEmail|booking_flow_inquiry|booking_flow_accounts|MAKE_HOOK|stripe)\b/i);
+for(const x of ["noindex,nofollow","Sign in to Testing","consent_to_contact","tle-booking-studio-staging-qa","No real appointments","sb_publishable_"])assert.ok(html.includes(x),"Missing staging UI control: "+x);
+assert.doesNotMatch(html,/SUPABASE_SERVICE_ROLE_KEY|sb_secret_/);
+for(const x of ["references auth.users(id)","revoke all on public.tle_booking_studio_staging_requests from public,anon,authenticated","force row level security","tenant_id=auth.uid()","check(not customer_notified)","check(synthetic_only)"])assert.ok(sql.includes(x),"Missing staging table safety: "+x);
+assert.doesNotMatch(sql,/tle_booking_flow_accounts|tle_crm_leads|tle_crm_workspaces/i);
+console.log("Booking Studio HTTP staging adapter: 25+ source, auth, tenant, consent, RLS, no-production-side-effect assertions passed.");
