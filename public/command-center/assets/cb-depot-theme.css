@@ -179,3 +179,9 @@ body.cb-depot-buyer #buyerErrorHelpOverlay :is(input,textarea) {background:var(-
 @media(prefers-reduced-motion:reduce) {
  body.cb-depot-buyer .cb-theme-switch {transition:none}
 }
+
+/* Legibility for the manual inquiry next-step text (legacy inline ink) and notices. */
+body.cb-depot-buyer #buyerRequestsHub .buyer-inbox-next {color:var(--cb-muted)!important}
+body.cb-depot-buyer #buyerRequestsHub :is(.request-card,.request-card.selected) :is(strong,b) {color:var(--cb-text)!important}
+body.cb-depot-buyer :is(.request-card,.panel,.client-card) :is(small,.muted,.request-summary) {color:var(--cb-muted)!important}
+body.cb-depot-buyer #buyerRequestDetail :is(.muted,small) {color:var(--cb-muted)!important}
