@@ -6,6 +6,23 @@ const readOpenAI=()=>String(Deno.env.get("OPENAI_API_KEY")||"").trim();
 const ORIGINS=new Set(["https://thelaunchera.com","https://www.thelaunchera.com","https://command.thelaunchera.com"]);
 const AGENTS=new Set(["jessie","sales","projects","developer","qa","creative","care"]);
 const STATUSES=new Set(["planned","in_progress","needs_approval","approved","completed","blocked","cancelled"]);
+/* Explicit capability tiers. External side effects stay disabled, regardless of LLM instructions. */
+const ACTION_TIERS=Object.freeze({
+ list:"read",provider_check:"read",scan:"read",team_brief:"read",run_agent:"read",
+ capability_manifest:"read",plan:"draft",compose_output:"draft",
+ create:"internal_task",assign:"internal_task",status:"internal_task",
+ review_output:"owner_review",approve:"owner_review",complete:"evidence_record"
+});
+const EXTERNAL_CONNECTORS=Object.freeze({
+ outbound_email:{state:"not_enabled",tier:"restricted",requires:"recipient verification, suppression check, explicit owner preview + approval"},
+ social_publishing:{state:"not_enabled",tier:"restricted",requires:"exact scheduled post, artwork and caption approval"},
+ drive_writes:{state:"not_enabled",tier:"restricted",requires:"file/version permission and owner preview"},
+ client_mutation:{state:"not_enabled",tier:"restricted",requires:"tenant-scoped authorization, owner approval and audit log"},
+ code_deployment:{state:"not_enabled",tier:"restricted",requires:"independent QA, PR review and owner release approval"},
+ payments:{state:"not_enabled",tier:"restricted",requires:"explicit per-transaction human authorization"}
+});
+const AI_EXTERNAL_ACTIONS_ENABLED=false;
+
 const HEADERS=(origin)=>({"Content-Type":"application/json","Cache-Control":"no-store","Vary":"Origin","Access-Control-Allow-Origin":ORIGINS.has(origin)?origin:"https://thelaunchera.com","Access-Control-Allow-Headers":"authorization,apikey,content-type","Access-Control-Allow-Methods":"OPTIONS,POST"});
 function res(body,code,origin){return new Response(JSON.stringify(body),{status:code,headers:HEADERS(origin)})}
 const clean=(v,max)=>String(v??"").replace(/[\u0000-\u001f<>]/g," ").trim().slice(0,max);
@@ -288,6 +305,12 @@ Deno.serve(async req=>{
  const providerUrl=GROQ?"https://api.groq.com/openai/v1/chat/completions":"https://api.openai.com/v1/chat/completions";
  const providerModel=GROQ?(Deno.env.get("GROQ_MODEL")||"openai/gpt-oss-120b"):(Deno.env.get("JESSY_MODEL")||"gpt-4.1-mini");
  try{
+ if(action==="capability_manifest"){
+   return res({ok:true,provider,roles:[...AGENTS],action_tiers:ACTION_TIERS,
+     external_connectors:EXTERNAL_CONNECTORS,external_actions_enabled:AI_EXTERNAL_ACTIONS_ENABLED,
+     owner_only:true,kill_switch:"All AI external side effects are disabled; enabling requires separate reviewed implementation",
+     source:"server-enforced permissions; read-only capabilities are not publishing or sending permissions"},200,origin);
+ }
  if(action==="list"){
    const tasks=await rest("tle_ai_team_tasks","workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner+"&select=id,agent_key,title,description,status,priority,task_origin,approval_required,approved_at,completed_at,evidence,created_at,updated_at&order=created_at.desc&limit=120");
    const events=await rest("tle_ai_team_events","workspace_id=eq."+ctx.workspace+"&select=task_id,action,summary,created_at&order=created_at.desc&limit=35");
