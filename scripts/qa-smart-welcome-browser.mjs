@@ -64,11 +64,15 @@ try{
  // Detailing fixture: black/electric blue CB Depot welcome must remain inside viewport.
  const detailCtx=await browser.newContext({viewport:{width:390,height:844}});
  const detailPage=await detailCtx.newPage();
- await detailPage.route('**/functions/v1/tle-booking-flow-pricing',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({...model,business_name:'CB Depot',business_category:'detailing',branding:{...model.branding,primary_color:'#07111C',accent_color:'#087DFF'}})}));
+ await detailPage.route('**/functions/v1/tle-booking-flow-pricing',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({...model,business_name:'CB Depot',business_category:'detailing',branding:{...model.branding,logo_image:'https://thelaunchera.com/assets/clients/cb-depot/panda-original-mark.svg',primary_color:'#07111C',accent_color:'#087DFF'}})}));
  await detailPage.route('**/functions/v1/tle-booking-smart-welcome',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({welcome:{...welcome,offer_en:'',offer_es:'',terms_en:'',terms_es:'',headline_en:'Your vehicle deserves a fresh start.',description_en:'Professional auto detailing, made easy.',cta_en:'Request My Detail'}})}));
  await detailPage.goto(base+'/base-booking.html?key='+key,{waitUntil:'domcontentloaded'});
  await detailPage.locator('.tle-sw-dialog.tle-sw-detailing').waitFor({state:'visible',timeout:10000});
  assert.equal(await detailPage.locator('.tle-sw-title').innerText(),'Your vehicle deserves a fresh start.');
+ assert.equal(await detailPage.locator('.tle-sw-dialog .tle-sw-logo').count(),0,'CB Depot welcome card must not duplicate the panda logo');
+ assert.equal(await detailPage.locator('.tle-sw-dialog .tle-sw-eyebrow').count(),0,'Welcome eyebrow must be removed');
+ assert.equal(await detailPage.getByText('A WARM WELCOME',{exact:true}).count(),0,'Stale eyebrow text appears');
+ assert.ok(await detailPage.locator('#baseBusiness img').count()>0,'Keep the original CB Depot page logo intact');
  const backdropColor=await detailPage.locator('.tle-sw-dialog').evaluate(e=>getComputedStyle(e).backgroundColor);
  assert.equal(backdropColor,'rgb(7, 17, 28)','CB Depot modal is not dark');
  await detailPage.screenshot({path:'qa-screenshots/smart-welcome-cb-depot-390.png'});
