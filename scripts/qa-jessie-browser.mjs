@@ -59,6 +59,12 @@ try{
   assert.equal(await page.locator('#team-brief-reports > article').count(),7,'Seven agent cards missing');
   const title=await page.locator('#team-overview-title').innerText();
   assert.match(title,lang==='es'?/Todo tu equipo/:/The whole team/,'Overview language mismatch');
+  assert.match(await page.locator('#ait-hero-title').innerText(),lang==='es'?/Conoce a tu equipo IA/:/Meet your AI Team/,'Hero language mismatch');
+  assert.match(await page.locator('#ait-agent-eyebrow').innerText(),lang==='es'?/TUS ESPECIALISTAS/:/YOUR SPECIALISTS/,'Specialist title language mismatch');
+  if(width===390){
+   const cols=await page.locator('#agents').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length);
+   assert.equal(cols,1,'Specialists should be one readable column on phone');
+  }
   await page.locator('#owner-diagnostic-run').click();
   await page.locator('.ait-owner-diagnostic-result').first().waitFor({timeout:12000});
   assert.equal(await page.locator('.ait-owner-diagnostic-result').count(),4,'Missing owner diagnostic checks');
