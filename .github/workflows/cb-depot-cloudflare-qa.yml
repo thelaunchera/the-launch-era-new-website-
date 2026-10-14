@@ -22,7 +22,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: node --check scripts/build-client-bookings-cloudflare.mjs && node --check scripts/qa-cb-depot-cloudflare.mjs
+      - run: node --check scripts/build-client-bookings-cloudflare.mjs && node --check scripts/qa-cb-depot-cloudflare.mjs && node --check scripts/qa-cb-depot-brand-root.mjs
       - run: node scripts/build-client-bookings-cloudflare.mjs
       - run: node scripts/qa-cb-depot-cloudflare.mjs
       - run: node scripts/qa-cb-depot-browser.mjs
