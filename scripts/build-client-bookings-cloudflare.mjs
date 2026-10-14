@@ -16,6 +16,11 @@ for(const route of ['booking/return','cb-depot/privacy','cb-depot/terms']){
  mkdirSync(out+'/'+route,{recursive:true});
  copyFileSync('public/'+route+'/index.html',out+'/'+route+'/index.html');
 }
+// Stable client-facing link. The booking public key is a public routing identifier,
+// never a login token. Keep private preview and owner credentials out of this file.
+mkdirSync(out+'/cb-depot',{recursive:true});
+const cbDepotBookingKey='05a5f9ae-9b1b-4b1c-9e06-392940e028b1';
+writeFileSync(out+'/cb-depot/index.html',`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer"><title>CB Depot · Book Detailing</title><script>const p=new URLSearchParams(location.search);const u=new URL('/booking/',location.origin);u.searchParams.set('key','${cbDepotBookingKey}');if(p.get('lang')==='es')u.searchParams.set('lang','es');location.replace(u.pathname+u.search+location.hash);<\/script></head><body><p>Opening CB Depot booking page… <a href="/booking/?key=${cbDepotBookingKey}">Continue to CB Depot</a></p></body></html>`);
 // Preserve /booking/ links used by CB Depot's policy pages.
 mkdirSync(out+'/booking',{recursive:true});
 copyFileSync('public/base-booking.html',out+'/booking/index.html');
