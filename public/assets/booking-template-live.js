@@ -448,6 +448,8 @@ try{
  }
  document.documentElement.classList.remove("buyer-live-loading");
  $("leadHero").style.opacity="1";
+ // An optional marketing layer must never block real service selection or booking.
+ if(!ownerPreview)void window.TLESmartWelcome?.init({bookingKey:key,model,ownerPreview:false,language:session.language});
 }catch(err){
  window.TLEBookingBase?.unavailable();
  document.querySelector(".screen.on").replaceChildren();
