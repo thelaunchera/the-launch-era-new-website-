@@ -831,7 +831,7 @@
   function sync(){
     const verifiedCB=document.body.classList.contains("crm-buyer-view")&&document.body.classList.contains("cb-depot-buyer");
     const awaitingAuth=!document.body.classList.contains("crm-owner-view")&&!document.body.classList.contains("crm-buyer-view");
-    const isCB=verifiedCB||(awaitingAuth&&new URLSearchParams(location.search).get("app")==="cb-depot");
+    const isCB=verifiedCB; // Tenant branding follows verified workspace identity only, never URL parameters.
     const mode=isCB?"cb":"tle";
     if(last===mode)return;
     last=mode;
