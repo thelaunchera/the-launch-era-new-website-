@@ -193,3 +193,9 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - **Verified cause:** `public/assets/booking-smart-welcome.js` automatically appended `model.branding.logo_image` as `.tle-sw-logo` and always appended `.tle-sw-eyebrow`. These are separate from CB Depot's original page/header branding.
 - **Targeted fix:** For `business_category=detailing` and `business_name=CB Depot`, suppress only the Smart Welcome logo overlay; leave the actual page/logo and hero photo intact. Remove the `A WARM WELCOME` eyebrow (EN/ES) throughout Smart Welcome. Bust the booking script cache. No booking, pricing, notification, account or form changes.
 - **Verification gate:** `scripts/qa-smart-welcome-browser.mjs` asserts no duplicate Smart Welcome logo, no eyebrow and an unchanged main-page logo for the CB Depot fixture, along with existing viewport and booking-form checks. Live deploy/provider check pending before reporting fixed.
+
+## 2026-10-14 — CB Depot returning visit showed no visible alert
+- Observed: repeat visitor reported no Welcome back greeting at the top of the booking page.
+- Root cause verified in source: repeat visits only injected a card below the trust bar, out of initial viewport; no notification component existed.
+- Fix: nonblocking, dismissible Welcome back toast with 16-second visibility, CB Depot-specific auto-detailing message, CTA scroll to existing booking form, no new logos or promotional claims. Existing card retained. Script cache version incremented.
+- Browser regression: test first visit vs repeat at six widths, CTA and close, CB Depot industry text and no changes to original booking form. Verify live deployment before closing incident.
