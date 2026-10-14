@@ -3823,7 +3823,16 @@ async function buyerUpdateRequest(sendEmail,overrideAction){
   await loadBuyerRequests();
   $("buyerRequestStatus").textContent=status+(result.warning?" "+result.warning:"");
   showSaveToast('success',sendEmail?(result.email_sent?'Update saved and email sent':'Update saved; email needs attention'):'Update saved',sendEmail?(result.email_sent?'Actualización guardada y correo enviado':'Actualización guardada; revisa el correo'):'Actualización guardada');
- }catch(e){$("buyerRequestStatus").textContent=e.message;showSaveToast('error','Could not save the update','No se pudo guardar el cambio')}
+ }catch(e){
+  const raw=String(e.message||"");
+  const slotIssue=action==="booked"&&/time cannot be reserved|cannot be reserved|availability settings|slot|schedule unavailable/i.test(raw);
+  const hint=slotIssue?buyerText(
+   "This appointment was not booked. Choose another open time. Check the booking notice period, working hours and existing appointments in Availability. No confirmation email was sent.",
+   "No se confirmó esta cita. Elige otro horario libre. Revisa la anticipación mínima, el horario de atención y las citas existentes en Disponibilidad. No se envió un correo de confirmación."
+  ):raw;
+  $("buyerRequestStatus").textContent=hint;
+  showSaveToast('error',slotIssue?'Time unavailable · Booking unchanged':'Could not save the update',slotIssue?'Horario no disponible · Reserva sin cambios':'No se pudo guardar el cambio');
+ }
  finally{b1.disabled=false;b2.disabled=false;b3.disabled=false;b4.disabled=false}
 }
 $("buyerRequestMarkReviewed").onclick=async()=>{
