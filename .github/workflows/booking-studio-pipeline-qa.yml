@@ -8,6 +8,11 @@ on:
       - 'scripts/qa-booking-studio-preview.mjs'
       - 'scripts/build-booking-studio-preview.mjs'
       - 'fixtures/booking-studio-synthetic.json'
+      - 'supabase/functions/tle-booking-studio-owner/index.ts'
+      - 'supabase/migrations/20261014_tle_booking_studio_jobs.sql'
+      - 'public/command-center/booking-studio.html'
+      - 'public/command-center/assets/booking-studio.js'
+      - 'scripts/qa-booking-studio-owner-integration.mjs'
       - '.github/workflows/booking-studio-pipeline-qa.yml'
   workflow_dispatch:
 jobs:
@@ -24,6 +29,8 @@ jobs:
         run: |
           node scripts/qa-booking-studio-pipeline.mjs
           node scripts/qa-booking-studio-preview.mjs
+          node scripts/qa-booking-studio-owner-integration.mjs
+          node --check public/command-center/assets/booking-studio.js
       - name: Build synthetic private visual preview
         run: node scripts/build-booking-studio-preview.mjs fixtures/booking-studio-synthetic.json .private-preview/booking-studio.html
       - name: Upload synthetic review artifact (not deployed)
