@@ -53,17 +53,22 @@ textarea{resize:vertical;min-height:105px}input:focus,textarea:focus,select:focu
 <script>
 (()=>{'use strict';
 const $=id=>document.getElementById(id),query=new URLSearchParams(location.search);
-const token=query.get('token')||'',mode=query.get('mode')==='request'?'request':'quote';
-const endpoint='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/'+(mode==='quote'?'tle-booking-quote-response':'tle-booking-request-response');
-const allow=mode==='quote'?['accept','talk','decline']:['confirm','talk'];
+const token=query.get('token')||'',mode=['quote','request','change'].includes(query.get('mode'))?query.get('mode'):'quote';
+const endpoint='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/'+(mode==='quote'?'tle-booking-quote-response':mode==='change'?'tle-booking-customer-change':'tle-booking-request-response');
+const allow=mode==='quote'?['accept','talk','decline']:mode==='change'?['cancel','reschedule']:['confirm','talk'];
 let data=null,lang='en',action=allow.includes(query.get('action'))?query.get('action'):'',busy=false;
 const texts={
 en:{loading:'Loading your private request…',bad:'We couldn’t open this request.',badText:'This link may have expired or changed. Please reply to the original email for help.',back:'Back to options',contact:'Reply to the original email if you need help.',status:'This response has already been received.',thanks:'Thanks! We’ve got your response.',confirmed:'Your appointment is confirmed.',confirmedText:'The appointment is booked. Watch your email for the confirmation details.',pending:'You’re all set. We’ve saved your response.',pendingText:'The team has your message and will follow up about the next step.',quote:'Your detailing quote',request:'Your car detailing request',copyQuote:'Here’s the price for your service. Take a look and choose what works for you.',copyRequest:'Thanks for sending your request. Check the details and let us know how you’d like to proceed.',proceed:'Accept this quote',talk:'Let’s talk about it',decline:'Decline quote',confirm:'Confirm my request',noticeQuote:'Accepting a quote only confirms a booking if the time you choose is available.',noticeRequest:'Confirming your request details does not reserve an appointment. CB Depot will still review your requested time.',formAccept:'Choose an appointment time',formTalk:'What would you like to talk about?',formDecline:'Why aren’t you moving forward?',reason:'Choose a reason',price:'Price',schedule:'Date or time',notNeeded:'No longer need the service',another:'Chose another company',other:'Something else',message:'Your message',optional:'Additional details (optional)',date:'Preferred date',time:'Start time',send:'Send response',sendConfirm:'Confirm details',sendAccept:'Confirm quote and book',working:'Saving your response…',retry:'We couldn’t finish that action. Your appointment has not been confirmed. Check the details or try another time.',already:'This link has already been used.',unavailable:'This time may be unavailable. Please choose another time or contact CB Depot.',service:'Service',quoteTotal:'Quote total',private:'Private link — please don’t share it.',footer:'Private customer response · Secure connection',cover:'CARE FOR EVERY DETAIL',loadingError:'Unable to load your private link right now.'},
 es:{loading:'Estamos abriendo tu solicitud…',bad:'No pudimos abrir tu solicitud.',badText:'Puede que el enlace haya vencido o cambiado. Si necesitas ayuda, responde al correo que recibiste.',back:'Volver a las opciones',contact:'Si necesitas ayuda, responde al correo original.',status:'Ya recibimos tu respuesta.',thanks:'¡Gracias! Ya recibimos tu respuesta.',confirmed:'¡Tu cita está confirmada!',confirmedText:'Tu horario quedó reservado. Revisa tu correo para ver los detalles.',pending:'¡Listo! Guardamos tu respuesta.',pendingText:'El equipo ya tiene tu mensaje y te avisará cuál es el siguiente paso.',quote:'Tu presupuesto de detailing',request:'Tu solicitud de car detailing',copyQuote:'Este es el precio que preparamos para tu vehículo. Échale un vistazo y dinos qué te parece.',copyRequest:'Gracias por enviarnos los datos de tu vehículo. Revísalos y cuéntanos cómo te gustaría seguir.',proceed:'Aceptar presupuesto',talk:'Hablemos de esto',decline:'No aceptar presupuesto',confirm:'Confirmar mi solicitud',noticeQuote:'Al aceptar el presupuesto, tu cita se confirmará solo si el horario elegido está disponible.',noticeRequest:'Confirmar los datos no reserva una cita. CB Depot revisará el horario antes de confirmarlo.',formAccept:'Elige un horario',formTalk:'¿Qué te gustaría conversar?',formDecline:'¿Por qué prefieres no continuar?',reason:'Elige un motivo',price:'Precio',schedule:'Fecha u horario',notNeeded:'Ya no necesito el servicio',another:'Elegí otro negocio',other:'Otro motivo',message:'Tu mensaje',optional:'¿Quieres contarnos algo más? (opcional)',date:'Fecha que prefieres',time:'Hora',send:'Enviar respuesta',sendConfirm:'Confirmar datos',sendAccept:'Aceptar y reservar',working:'Estamos guardando tu respuesta…',retry:'No pudimos completar esta acción. La cita aún no está confirmada. Revisa los datos o prueba otro horario.',already:'Este enlace ya se utilizó.',unavailable:'Parece que ese horario no está disponible. Elige otro o consulta con CB Depot.',service:'Servicio',quoteTotal:'Presupuesto',private:'Este enlace es privado. No lo compartas.',footer:'Respuesta privada · Conexión segura',cover:'CUIDAMOS CADA DETALLE',loadingError:'No se pudo abrir el enlace en este momento.'}
 };
 const h=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]||c));
+const changeCopy={
+ en:{headline:'Manage your appointment',intro:'Need to cancel or move your detailing appointment? Send a request to the team below.',date:'Current appointment',cancel:'Request cancellation',reschedule:'Choose a new date',rescheduleForm:'When would you like to come instead?',cancelForm:'Request cancellation',message:'Anything you would like us to know? (optional)',disclaimer:'Your appointment stays confirmed until CB Depot reviews and processes your request.',notice:'Your change request is already being reviewed. Please wait for a reply before sending another.',success:'We’ve received your request.',successText:'CB Depot has been notified. Your booking hasn’t changed yet.',send:'Send request',back:'Back to choices'},
+ es:{headline:'Gestiona tu cita',intro:'¿Necesitas cancelar o cambiar el día de tu cita? Cuéntanos qué prefieres y lo revisamos contigo.',date:'Cita actual',cancel:'Solicitar cancelación',reschedule:'Cambiar fecha',rescheduleForm:'¿Qué otro día y hora prefieres?',cancelForm:'Solicitar cancelación',message:'¿Quieres agregar algo? (opcional)',disclaimer:'Tu cita sigue confirmada hasta que CB Depot revise y procese tu solicitud.',notice:'Ya estamos revisando una solicitud de cambio. Espera nuestra respuesta antes de enviar otra.',success:'¡Ya recibimos tu solicitud!',successText:'CB Depot recibió el aviso. Por ahora, tu reserva sigue como estaba.',send:'Enviar solicitud',back:'Volver a las opciones'}
+};
+const tc=k=>String(changeCopy[lang][k]||k).replaceAll('CB Depot',data?.business||'CB Depot');
 const t=k=>String(texts[lang][k]||k).replaceAll('CB Depot',data?.business||'CB Depot');const app=$('app');
-function setLanguage(l){lang=l;document.documentElement.lang=l;$('language').textContent=l==='es'?'English':'Español';$('footerNote').textContent=t('footer');$('coverText').textContent=t('cover');if(data)render();else $('loading').textContent=t('loading')}
+function setLanguage(l){lang=l;document.documentElement.lang=l;$('language').textContent=l==='es'?'English':'Español';$('footerNote').textContent=t('footer');$('coverText').textContent=t('cover');if(data)render();else if($('loading'))$('loading').textContent=t('loading')}
 function setBrand(){
  const business=data?.business||'Service business',category=data?.category||'';
  $('brand').textContent=business;$('footerBusiness').textContent=business;document.title=business+' · Customer response';document.querySelector('.cover').classList.remove('hidden');
@@ -72,11 +77,12 @@ function setBrand(){
  const u=data?.logo;if(u&&/^https:\/\/.+\.(png|jpe?g|webp)(?:\?.*)?$/i.test(u)){$('logo').src=u;$('logo').style.display='block'}
 }
 function setAction(next){action=next;const u=new URL(location.href);if(next)u.searchParams.set('action',next);else u.searchParams.delete('action');history.replaceState({},'',u.pathname+u.search);render()}
-function error(message){app.innerHTML='<div class="eyebrow">'+h(data?.business||'Private customer response')+'</div><h1>'+h(t('bad'))+'</h1><p>'+h(message||t('badText'))+'</p>';app.appendChild(Object.assign(document.createElement('p'),{className:'status',textContent:t('contact')}))}
+function error(message){app.innerHTML='<div class="eyebrow">'+h(data?.business||'Private customer response')+'</div><h1>'+h(t('bad'))+'</h1><p>'+h(message||t('badText'))+'</p>';}
 function summary(){const amount=mode==='quote'?new Intl.NumberFormat(lang==='es'?'es-US':'en-US',{style:'currency',currency:data?.currency||'USD'}).format(Number(data?.amount||0)):'';return '<div class="summary"><div class="eyebrow">'+h(t('service'))+'</div><div class="service">'+h(data?.service||(data?.category==='detailing'?'Car detailing':lang==='es'?'Servicio solicitado':'Requested service'))+'</div>'+(mode==='quote'?'<div class="price">'+h(amount)+'</div>':'')+(mode==='quote'?'<div class="minor">'+h(t('quoteTotal'))+'</div>':'')+'</div>'}
 function actionButton(key,next,variant){return '<button type="button" class="button '+variant+'" data-choice="'+h(next)+'">'+h(t(key))+'</button>'}
 function render(){
- if(!data)return;if(busy)return; const already=mode==='quote'?(data.booked||data.status!=='pending'):(data.booked||data.status!=='pending');
+ if(!data)return;if(busy)return;
+ if(mode==='change'){renderChange();return;} const already=mode==='quote'?(data.booked||data.status!=='pending'):(data.booked||data.status!=='pending');
  if(already){const booked=!!data.booked;app.innerHTML='<div class="eyebrow">'+h(data.business)+'</div><h1>'+h(booked?t('confirmed'):t('status'))+'</h1><p>'+h(booked?t('confirmedText'):t('pendingText'))+'</p>'+summary()+'<p class="notice">'+h(t('contact'))+'</p>';return}
  const title=mode==='quote'?(data.category==='detailing'?t('quote'):lang==='es'?'Tu cotización':'Your quote'):(data.category==='detailing'?t('request'):lang==='es'?'Tu solicitud':'Your request');let contents='<div class="eyebrow">'+h(data.category==='detailing'?'CAR DETAILING':'CUSTOMER REQUEST')+'</div><h1>'+h(title)+'</h1><p>'+h(mode==='quote'?t('copyQuote'):t('copyRequest'))+'</p>'+summary();
  if(!action){contents+='<p class="notice">'+h(t(mode==='quote'?'noticeQuote':'noticeRequest'))+'</p><div class="actions">'+(mode==='quote'?actionButton('proceed','accept','dark'):actionButton('confirm','confirm','dark'))+actionButton('talk','talk','blue')+(mode==='quote'?actionButton('decline','decline','light'):'')+'</div>'}
@@ -96,14 +102,59 @@ function render(){
  if($('date')){const now=new Date();const adjusted=new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString().slice(0,10);$('date').min=adjusted;const requested=data.requestedDate||'';if(requested>=adjusted)$('date').value=requested}
  if($('time')&&data.requestedTime)$('time').value=data.requestedTime;
 }
+function renderChange(){
+ const booked=!!data.booked,old=data.existingRequest;
+ let content='<p class="eyebrow">'+h(data.business||'')+'</p><h1>'+h(tc('headline'))+'</h1><p>'+h(tc('intro'))+'</p>';
+ content+='<div class="summary"><div class="eyebrow">'+h(t('service'))+'</div><div class="service">'+h(data.service||'Car detailing')+'</div><div class="minor">'+h(tc('date'))+': '+h([data.requestedDate,data.requestedTime].filter(Boolean).join(' · '))+'</div></div>';
+ if(!booked){app.innerHTML=content+'<div class="notice">'+h(lang==='es'?'Esta reserva ya no está confirmada. Comunícate con CB Depot para recibir ayuda.':'This appointment is no longer confirmed. Contact CB Depot if you need help.')+'</div>';return}
+ if(old){
+  app.innerHTML=content+'<div class="notice">'+h(tc('notice'))+'</div><p style="font-weight:bold;color:#191919">'+h(old.action==='cancel'?tc('cancel'):tc('reschedule'))+'</p>'+(old.preferredDate?'<p>'+h([old.preferredDate,old.preferredTime].filter(Boolean).join(' · '))+'</p>':'');
+  return;
+ }
+ if(!action){
+  content+='<div class="notice">'+h(tc('disclaimer'))+'</div><div class="actions">'+actionButton('reschedule','reschedule','dark').replace(h(t('reschedule')),h(tc('reschedule')))+actionButton('cancel','cancel','blue').replace(h(t('cancel')),h(tc('cancel')))+'</div>';
+ }else{
+  content+='<h2 style="font-size:19px;margin:24px 0 8px">'+h(tc(action==='reschedule'?'rescheduleForm':'cancelForm'))+'</h2>';
+  if(action==='reschedule'){
+   content+='<div class="two"><div><label for="date">'+h(t('date'))+'</label><input type="date" id="date" required></div><div><label for="time">'+h(t('time'))+'</label><input type="time" id="time" step="1800" required></div></div>';
+  }
+  content+='<label for="message">'+h(tc('message'))+'</label><textarea id="message" maxlength="750" placeholder="'+h(tc('message'))+'"></textarea>';
+  content+='<p class="notice">'+h(tc('disclaimer'))+'</p><div class="actions"><button type="button" class="button dark" id="submit">'+h(tc('send'))+'</button><button type="button" class="button light" id="back">'+h(tc('back'))+'</button></div><div id="messageStatus" role="status" aria-live="polite" class="status"></div>';
+ }
+ app.innerHTML=content;
+ app.querySelectorAll('[data-choice]').forEach(b=>b.addEventListener('click',()=>setAction(b.dataset.choice)));
+ if($('back'))$('back').onclick=()=>setAction('');
+ if($('submit'))$('submit').onclick=submit;
+ if($('date')){$('date').min=new Date().toISOString().slice(0,10)}
+}
 async function lookup(){
  const url=endpoint+'?format=json&token='+encodeURIComponent(token);
  const response=await fetch(url,{cache:'no-store',headers:{'Accept':'application/json'}});
- if(!response.ok)throw Error('Request unavailable');
- const d=await response.json();if(!d||d.ok!==true)throw Error('Request unavailable');return d;
+ if(!response.ok)throw Error('network');
+ const d=await response.json();
+ if(!d||d.ok!==true)throw Error(d?.reason||'network');
+ return d;
 }
 async function submit(){
  if(busy)return;const fields=new FormData();fields.set('token',token);fields.set('action',action);
+ if(mode==='change'){
+  if(action==='reschedule'){
+   if(!$('date')?.value||!$('time')?.value){$('messageStatus').textContent=t('retry');return}
+   fields.set('date',$('date').value);fields.set('time',$('time').value);
+  }
+  fields.set('message',($('message')?.value||'').trim());
+  busy=true;$('submit').disabled=true;$('messageStatus').textContent=t('working');
+  try{
+   const resp=await fetch(endpoint,{method:'POST',body:fields,cache:'no-store'});
+   if(!resp.ok)throw Error('network');
+   const fresh=await lookup();
+   data=fresh;busy=false;action='';
+   const u=new URL(location.href);u.searchParams.delete('action');history.replaceState({},'',u.pathname+u.search);
+   render();
+   if(!fresh.existingRequest){const el=$('messageStatus');if(el)el.textContent=t('retry')}
+  }catch(err){busy=false;if($('submit'))$('submit').disabled=false;if($('messageStatus'))$('messageStatus').textContent=t('loadingError')}
+  return;
+ }
  if(action==='accept'){if(!$('date')?.value||!$('time')?.value){$('messageStatus').textContent=t('retry');return}fields.set('date',$('date').value);fields.set('time',$('time').value)}
  if(action==='decline'){if(!$('reason')?.value){$('messageStatus').textContent=t('reason');return}fields.set('reason',$('reason').value)}
  if(action==='talk'&&mode==='request'&&($('message')?.value||'').trim().length<2){$('messageStatus').textContent=t('formTalk');return}
@@ -119,7 +170,11 @@ async function submit(){
  }catch(e){busy=false;if($('submit'))$('submit').disabled=false;if($('messageStatus'))$('messageStatus').textContent=t('loadingError')}
 }
 $('language').onclick=()=>setLanguage(lang==='es'?'en':'es');
-(async()=>{if(!/^[0-9a-f]{64}$/i.test(token)){error();return}try{data=await lookup();lang=data.language==='es'?'es':'en';setBrand();setLanguage(lang)}catch(e){error()}})();
+(async()=>{if(!/^[0-9a-f]{64}$/i.test(token)){error();return}try{data=await lookup();lang=data.language==='es'?'es':'en';setBrand();setLanguage(lang)}catch(e){
+  if(e.message==='superseded'){error(lang==='es'?'Hay un presupuesto más reciente. Abre el último correo de CB Depot para revisar el precio y responder.':'This quote was replaced with a newer one. Open the most recent CB Depot email to view the current price.')}
+  else if(e.message==='expired')error(lang==='es'?'Este enlace ya no está activo. Responde al correo de CB Depot para recibir uno nuevo.':'This link is no longer active. Reply to the CB Depot email to request a new one.');
+  else error();
+ }})();
 })();
 </script>
 </body>
