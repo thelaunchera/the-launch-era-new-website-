@@ -71,11 +71,10 @@ function renderQa(){
   const label=document.createElement("label");label.className="qa-row";
   const input=document.createElement("input");input.type="checkbox";input.name="qa_"+id;
   const span=document.createElement("span");span.textContent=id.replaceAll("_"," ");
-  label.append(input,span);holder.append(label);
+  const evidence=document.createElement("input");evidence.name="evidence_"+id;evidence.placeholder="Specific evidence or test report reference";evidence.setAttribute("aria-label","Evidence for "+id.replaceAll("_"," "));
+  const group=document.createElement("div");group.className="qa-check";label.append(input,span);group.append(label,evidence);holder.append(group);
  }
- const l=document.createElement("label");l.className="full";l.textContent="Test report / evidence reference (required for every checked item)";
- const input=document.createElement("textarea");input.name="evidence";input.required=true;input.placeholder="Actual test run, screenshots, device details, CI URL, permission checks…";
- l.append(input);holder.append(l);
+
 }
 async function submit(action,payload){
  try{
@@ -99,9 +98,8 @@ $("build-form").onsubmit=e=>{
  submit("build",{build:{private_preview_id:String(d.get("private_preview_id")||""),artifact_commit:String(d.get("artifact_commit")||""),tenant_id:state.selected.owner_workspace_id,published:false,client_notified:false}});
 };
 $("qa-form").onsubmit=e=>{
- e.preventDefault();const d=new FormData(e.currentTarget),evidence=String(d.get("evidence")||"").trim();
- if(!evidence){showMessage("Real QA evidence is required.",true);return}
- const tests=qaIds.map(id=>({id,passed:d.has("qa_"+id),evidence:d.has("qa_"+id)?evidence:""}));
+ e.preventDefault();const d=new FormData(e.currentTarget);
+ const tests=qaIds.map(id=>({id,passed:d.has("qa_"+id),evidence:d.has("qa_"+id)?String(d.get("evidence_"+id)||"").trim():""}));
  submit("qa",{tests});
 };
 $("approve").onclick=()=>{
