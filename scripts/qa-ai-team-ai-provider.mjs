@@ -33,4 +33,7 @@ for(const agent of ["jessie","sales","projects","developer","qa","creative","car
 const sales=generate("sales","es","");
 assert.match(sales,/\[First Name\]/);
 assert.match(sales,/\[Business\]/);
+// Keep Jessie, Sales and Projects instructions grounded and human.
+assert.match(api,/const ROLE_SYSTEM=\\{/);
+assert.match(api,/const humanHint=\\{/);
 console.log("PASS — AI provider check owner-only, generated provenance, honest offline templates, no embedded secret");
