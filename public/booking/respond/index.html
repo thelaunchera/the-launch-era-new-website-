@@ -45,10 +45,10 @@ textarea{resize:vertical;min-height:105px}input:focus,textarea:focus,select:focu
 </head>
 <body>
 <main class="shell">
-<header class="brand-bar"><img id="logo" alt="" src="/assets/clients/cb-depot/approved-favicon-192.png"><div><div id="brand" translate="no" class="brand-name notranslate">CB Depot</div><div id="brandType" class="brand-type">CAR DETAILING · CUSTOMER CARE</div></div><button type="button" id="language" class="lang" aria-label="Switch language">Español</button></header>
-<div class="cover"><div id="coverText" class="cover-label">CARE FOR EVERY DETAIL</div></div>
+<header class="brand-bar"><img id="logo" alt="" style="display:none" src="/assets/clients/cb-depot/approved-favicon-192.png"><div><div id="brand" translate="no" class="brand-name notranslate">Customer response</div><div id="brandType" class="brand-type">PRIVATE BOOKING RESPONSE</div></div><button type="button" id="language" class="lang" aria-label="Switch language">Español</button></header>
+<div class="cover hidden"><div id="coverText" class="cover-label">CARE FOR EVERY DETAIL</div></div>
 <div class="content" id="app"><p id="loading" role="status">Loading your private request…</p></div>
-<footer class="footer"><span id="footerBusiness" translate="no" class="notranslate">CB Depot</span><span id="footerNote">Private customer response · Secure connection</span></footer>
+<footer class="footer"><span id="footerBusiness" translate="no" class="notranslate">Customer response</span><span id="footerNote">Private customer response · Secure connection</span></footer>
 </main>
 <script>
 (()=>{'use strict';
@@ -66,13 +66,13 @@ const t=k=>String(texts[lang][k]||k).replaceAll('CB Depot',data?.business||'CB D
 function setLanguage(l){lang=l;document.documentElement.lang=l;$('language').textContent=l==='es'?'English':'Español';$('footerNote').textContent=t('footer');$('coverText').textContent=t('cover');if(data)render();else $('loading').textContent=t('loading')}
 function setBrand(){
  const business=data?.business||'Service business',category=data?.category||'';
- $('brand').textContent=business;$('footerBusiness').textContent=business;document.title=business+' · Customer response';
+ $('brand').textContent=business;$('footerBusiness').textContent=business;document.title=business+' · Customer response';document.querySelector('.cover').classList.remove('hidden');
  $('brandType').textContent=category==='detailing'?'CAR DETAILING · CUSTOMER CARE':category==='cleaning'?'HOME CLEANING · CUSTOMER CARE':'BOOKING · CUSTOMER CARE';
  if(category!=='detailing'){$('logo').style.display='none';document.querySelector('.cover').style.backgroundImage='linear-gradient(125deg,#101820,#25516c)'}
  const u=data?.logo;if(u&&/^https:\/\/.+\.(png|jpe?g|webp)(?:\?.*)?$/i.test(u)){$('logo').src=u;$('logo').style.display='block'}
 }
 function setAction(next){action=next;const u=new URL(location.href);if(next)u.searchParams.set('action',next);else u.searchParams.delete('action');history.replaceState({},'',u.pathname+u.search);render()}
-function error(message){app.innerHTML='<div class="eyebrow">'+h(data?.business||'CB Depot')+'</div><h1>'+h(t('bad'))+'</h1><p>'+h(message||t('badText'))+'</p>';app.appendChild(Object.assign(document.createElement('p'),{className:'status',textContent:t('contact')}))}
+function error(message){app.innerHTML='<div class="eyebrow">'+h(data?.business||'Private customer response')+'</div><h1>'+h(t('bad'))+'</h1><p>'+h(message||t('badText'))+'</p>';app.appendChild(Object.assign(document.createElement('p'),{className:'status',textContent:t('contact')}))}
 function summary(){const amount=mode==='quote'?new Intl.NumberFormat(lang==='es'?'es-US':'en-US',{style:'currency',currency:data?.currency||'USD'}).format(Number(data?.amount||0)):'';return '<div class="summary"><div class="eyebrow">'+h(t('service'))+'</div><div class="service">'+h(data?.service||(data?.category==='detailing'?'Car detailing':lang==='es'?'Servicio solicitado':'Requested service'))+'</div>'+(mode==='quote'?'<div class="price">'+h(amount)+'</div>':'')+(mode==='quote'?'<div class="minor">'+h(t('quoteTotal'))+'</div>':'')+'</div>'}
 function actionButton(key,next,variant){return '<button type="button" class="button '+variant+'" data-choice="'+h(next)+'">'+h(t(key))+'</button>'}
 function render(){
