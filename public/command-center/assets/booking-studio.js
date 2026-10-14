@@ -1,3 +1,4 @@
+import {renderBookingStudioPreview} from "./booking-studio-preview.mjs";
 /* Booking Studio · owner-only companion UI. Backend enforces every permission. */
 const $=id=>document.getElementById(id);
 const SUPA="https://bowacxhmjvrqixtwaikv.supabase.co";
@@ -60,6 +61,9 @@ function paintProject(){
  };
  setText("project-note",descriptions[j.stage]||"No external actions enabled.");
  for(const id of ["research-form","design-form","build-form","qa-form","review-form","approved-state"])$(id).hidden=true;
+ $("preview-button").hidden=!["development","qa","owner_review","approved"].includes(j.stage)||!j.design?.hero_title;
+ $("preview-wrap").hidden=true;
+ $("preview-frame").srcdoc="";
  const form={research:"research-form",creative:"design-form",development:"build-form",qa:"qa-form",owner_review:"review-form"}[j.stage];
  if(form)$(form).hidden=false;
  if(j.stage==="approved")$("approved-state").hidden=false;
@@ -110,6 +114,18 @@ $("request-changes").onclick=()=>{
  const notes=String(new FormData($("review-form")).get("notes")||"").trim();
  if(!notes){showMessage("Write the changes you need before sending the project back.",true);return}
  submit("review",{decision:"request_changes",notes});
+};
+$("preview-button").onclick=()=>{
+ try{
+  const job=state.selected,account=state.account;
+  const safeServices=Array.isArray(account?.services)?account.services:[];
+  const model={...job,tenant_id:job.owner_workspace_id,order_id:job.booking_account_id,
+    client:{business_name:account?.business_name||"Cleaning Business",services:safeServices}};
+  const html=renderBookingStudioPreview(model);
+  $("preview-frame").srcdoc=html;
+  $("preview-wrap").hidden=false;
+  $("preview-wrap").scrollIntoView({behavior:"smooth",block:"start"});
+ }catch(e){showMessage("Private preview unavailable: "+errText(e),true)}
 };
 $("refresh").onclick=()=>refresh().catch(e=>showMessage(errText(e),true));
 async function boot(){
