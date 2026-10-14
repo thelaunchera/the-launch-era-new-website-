@@ -2,6 +2,7 @@ name: Private AI Team QA
 on:
   pull_request:
     paths:
+      - 'docs/jessie-unified-release-runbook.md'
       - 'public/command-center/ai-team.html'
       - 'public/command-center/index.html'
       - 'public/command-center/assets/ai-team*'
