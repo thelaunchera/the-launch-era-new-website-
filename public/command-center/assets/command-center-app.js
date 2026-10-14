@@ -3235,7 +3235,7 @@ function buyerSetDefaultMessage(){
   copy.reply=es?"Gracias por contactar a "+(workspace?.name||"nuestro negocio")+". Revisamos los detalles de tu vehículo y tu solicitud de detailing. Responde si tienes alguna pregunta.":"Thanks for contacting "+(workspace?.name||"our business")+". We've reviewed your vehicle and detailing request. Reply here with any questions.";
   copy.declined=es?"Gracias por considerar "+(workspace?.name||"nuestro negocio")+" para "+service+". Por ahora no podemos confirmar el servicio. Responde si deseas otra opción.":"Thanks for considering "+(workspace?.name||"our business")+" for "+service+". We can't confirm this service at the moment. Reply if you'd like to discuss an alternative.";
  }
- if(buyerIsContactInquiry(x)){
+ if(typeof buyerIsContactInquiry==="function"&&buyerIsContactInquiry(x)){
   copy.reply=es?"Gracias por escribir a "+(workspace?.name||"nuestro negocio")+".\n\n[Write your answer here]\n\nSi necesitas algo más, responde a este correo.":"Thanks for reaching out to "+(workspace?.name||"our business")+".\n\n[Write your reply here]\n\nFeel free to reply if you need anything else.";
  }
  $("buyerRequestMessage").value=(es?"Hola ":"Hi ")+name+",\n\n"+copy[action]+"\n\n"+(workspace?.name||"Your business")
