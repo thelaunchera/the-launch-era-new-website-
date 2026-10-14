@@ -585,6 +585,7 @@ function applyBuyerIndustryLabels(){
  const cbDepot=detailing&&String(workspace.name||'').trim().toLowerCase()==='cb depot';
  $('cbDetailingTop')?.classList.toggle('hidden',!cbDepot);
  $('cbSpecificFAQ')?.classList.toggle('hidden',!cbDepot);
+ $('cbInboxContactShortcut')?.classList.toggle('hidden',!cbDepot);
  $('buyerGeneralFAQ')?.classList.toggle('hidden',cbDepot);
  if(cbDepot)applyCbGuideLanguage();
  $('cbSettingsBanner')?.classList.toggle('hidden',!cbDepot);
@@ -2919,6 +2920,7 @@ function buyerShowChangeDecision(x,root){
 }
 
 function buyerRequestKind(v){return v.status==="booked"?"booking":v.raw_payload?.request_intent==="inquiry"?"inquiry":v.request_type==="quote"?"quote":"booking"}
+function buyerIsContactInquiry(v){return v?.source==="booking_page_contact"||(v?.raw_payload?.request_intent==="inquiry"&&String(v?.source||"").includes("contact"))}
 function buyerRequestIsEstimate(v){return buyerRequestKind(v)==="quote"&&v.raw_payload?.request_intent==="estimate"}
 function buyerRequestNeedsAttention(v){
  const p=v.raw_payload||{};
@@ -2942,6 +2944,7 @@ function buyerRequestNext(v){
  if(p.customer_request_response?.status==="confirmed_details")
   return buyerText("Customer confirmed their request details. Review the request and confirm the appointment only if the time is available.","El cliente confirmó los datos. Revisa la solicitud y confirma la cita solo si el horario está libre.");
  if(v.status==="booked")return buyerText("Booking confirmed and time reserved.","Reserva confirmada y horario reservado.");
+ if(buyerIsContactInquiry(v))return buyerText("Read the message. Choose Reply only → Send update to respond, or Mark reviewed after handling it. A contact message is not a booking.","Lee el mensaje. Selecciona Solo responder → Enviar actualización, o Marcar revisado si ya lo atendiste. Un mensaje no es una reserva.");
  if(p.final_contact_decision==="stopped")return buyerText("Final contact stopped. No more automatic emails.","Contacto final detenido. No habrá más correos automáticos.");
  if(p.final_contact_decision==="sent")return buyerText("Final personal email sent. No more automatic emails.","Último correo personal enviado. No habrá más correos automáticos.");
  if(v.request_type==="quote"&&Number(v.follow_up_count||0)>=2&&!p.quote_response?.status)return buyerText("Two automatic follow-ups completed. Preview a final email or stop contacting.","Dos seguimientos automáticos completados. Previsualiza el último correo o detén el contacto.");
@@ -3114,17 +3117,18 @@ $('cbDashCalendar').onclick=()=>premiumNavigate('buyer-calendar');
 function buyerRequestCard(x){
  const btn=buyerCreate("button",undefined,"request-card"+(buyerSelectedRequest?.id===x.id?" selected":""));btn.type="button";
  const bar=buyerCreate("div");bar.style.cssText="display:flex;justify-content:space-between;gap:7px;flex-wrap:wrap";
- bar.append(buyerCreate("span",buyerRequestKind(x)==="inquiry"?buyerText("Inquiry","Consulta"):buyerRequestKind(x)==="quote"?(buyerRequestIsEstimate(x)?buyerText("Estimate","Estimado"):buyerText("Quote","Cotización")):buyerText("Booking","Reserva"),"request-pill"),
+ bar.append(buyerCreate("span",buyerIsContactInquiry(x)?buyerText("Contact Us","Formulario de contacto"):buyerRequestKind(x)==="inquiry"?buyerText("Inquiry","Consulta"):buyerRequestKind(x)==="quote"?(buyerRequestIsEstimate(x)?buyerText("Estimate","Estimado"):buyerText("Quote","Cotización")):buyerText("Booking","Reserva"),"request-pill"),
   buyerCreate("span",buyerRequestState(x),"request-pill"));
  const title=buyerCreate("strong",x.customer_name||x.customer_email||"Customer");title.style.cssText="display:block;font-size:16px;margin:10px 0 6px";
  const time=x.raw_payload?.requested_date?[x.raw_payload.requested_date,x.raw_payload.requested_time].filter(Boolean).join(" · "):x.requested_start_at?new Date(x.requested_start_at).toLocaleString():"";
- const details=buyerCreate("div",[x.service_name,isDetailingWorkspace()?(x.raw_payload?.vehicle_type||x.raw_payload?.property_type):"",time,x.raw_payload?.estimate_display].filter(Boolean).join(" · "),"request-summary");
+ const details=buyerCreate("div",buyerIsContactInquiry(x)?String(x.notes||"").slice(0,150):[x.service_name,isDetailingWorkspace()?(x.raw_payload?.vehicle_type||x.raw_payload?.property_type):"",time,x.raw_payload?.estimate_display].filter(Boolean).join(" · "),"request-summary");
  const footer=buyerCreate("div",x.created_at?new Date(x.created_at).toLocaleString():"","request-summary");footer.style.marginTop="8px";
  btn.append(bar,title,details,footer);btn.onclick=()=>{buyerOpenRequest(x);if(window.innerWidth<=850)$('buyerRequestDetail').scrollIntoView({behavior:'smooth',block:'start'})};return btn
 }
 function buyerAssistantBrief(x){
  const p=x.raw_payload||{},missing=[];
  const es=buyerEs();
+ if(buyerIsContactInquiry(x))return {need:buyerText("New Contact Us message","Nuevo mensaje de contacto"),missing:buyerText("Reply to the customer if needed. No appointment has been created.","Responde al cliente si es necesario. No se creó ninguna cita."),response:String(x.notes||"").slice(0,1000),next:buyerRequestNext(x)};
  if(!x.service_name)missing.push(buyerText('service','servicio'));
  if(!x.customer_email&&!x.customer_phone)missing.push(buyerText('contact method','medio de contacto'));
  if(!x.service_address)missing.push(buyerText('service location','lugar del servicio'));
@@ -3149,7 +3153,7 @@ function buyerOpenRequest(x){
  const requested=[payload.requested_date,payload.requested_time].filter(Boolean).join(" · ");
  const detailing=isDetailingWorkspace();
  const fields=[
-  [buyerText("Request type","Tipo"),buyerRequestKind(x)==="inquiry"?buyerText("Inquiry","Consulta"):buyerRequestKind(x)==="quote"?(buyerRequestIsEstimate(x)?buyerText("Estimate","Estimado"):buyerText("Quote","Cotización")):buyerText("Booking","Reserva")],
+  [buyerText("Request type","Tipo"),buyerIsContactInquiry(x)?buyerText("Contact Us","Formulario de contacto"):buyerRequestKind(x)==="inquiry"?buyerText("Inquiry","Consulta"):buyerRequestKind(x)==="quote"?(buyerRequestIsEstimate(x)?buyerText("Estimate","Estimado"):buyerText("Quote","Cotización")):buyerText("Booking","Reserva")],
   [buyerText("Status","Estado"),buyerRequestState(x)],
   [detailing?buyerText("Detailing service","Servicio de detailing"):buyerText("Service","Servicio"),x.service_name],
   [buyerText("Published price / estimate","Precio o estimado"),payload.estimate_display],
@@ -3181,9 +3185,14 @@ function buyerOpenRequest(x){
  $("buyerRequestNextAction").classList.remove("hidden");$("buyerRequestNextAction").textContent=buyerRequestNext(x);
  $("buyerRequestReplyArea").classList.remove("hidden");
  $("buyerRequestMarkReviewed").classList.toggle("hidden",!buyerRequestNeedsAttention(x));
- $("buyerRequestAction").value=x.status==="booked"?"reply":"reviewing";
+ const isContact=buyerIsContactInquiry(x);
+ for(const opt of $("buyerRequestAction").options){
+  const allowed=!isContact||["reviewing","reply","closed"].includes(opt.value);
+  opt.hidden=!allowed;opt.disabled=!allowed;
+ }
+ $("buyerRequestAction").value=isContact?"reply":x.status==="booked"?"reply":"reviewing";
  $("buyerRequestQuoteAmount").value=payload.quote_offer?.amount||"";
- const finalAvailable=x.request_type==="quote"&&Number(x.follow_up_count||0)>=2&&x.status!=="booked"&&!["accepted","declined","lets_talk"].includes(payload.quote_response?.status)&&!payload.final_contact_decision;
+ const finalAvailable=!buyerIsContactInquiry(x)&&x.request_type==="quote"&&Number(x.follow_up_count||0)>=2&&x.status!=="booked"&&!["accepted","declined","lets_talk"].includes(payload.quote_response?.status)&&!payload.final_contact_decision;
  $("buyerRequestFinalChoice").classList.toggle("hidden",!finalAvailable);
  $("buyerRequestFinalStop").textContent=buyerText("Stop contacting","Detener el contacto");
  $("buyerRequestFinalSend").textContent=buyerText("Send final personal email","Enviar último correo personal");
@@ -3219,6 +3228,9 @@ function buyerSetDefaultMessage(){
   closed:detailing?(es?"Hemos cerrado esta solicitud de detailing. Si necesitas otra cita para tu vehículo, responde aquí.":"We've closed this detailing request. If your vehicle needs another appointment, feel free to reach out."):isOtherServiceWorkspace()?(es?"Hemos cerrado esta solicitud. Escríbenos si necesitas otro servicio.":"We've closed this request. Reach out if you need another service."):es?"Queríamos avisarte que hemos cerrado esta solicitud. Si necesitas una nueva limpieza, puedes escribirnos nuevamente.":"We're letting you know this request has been closed. If you need another cleaning, you're welcome to reach out.",
   reply:es?"Gracias por contactar a nuestro negocio. Revisamos tu solicitud; responde a este correo si tienes preguntas.":"Thanks for contacting our business. We've reviewed your request. Reply here if you have any questions."
  };
+ if(buyerIsContactInquiry(x)){
+  copy.reply=es?"Hola "+name+",\n\nGracias por escribir a "+(workspace?.name||"nuestro negocio")+". Sobre tu mensaje:\n\n\n\nSi necesitas algo más, responde a este correo.":"Hi "+name+",\n\nThanks for reaching out to "+(workspace?.name||"our business")+". About your message:\n\n\n\nFeel free to reply if you have any other questions.";
+ }
  if(detailing){
   copy.reviewing=es?"Recibimos tu solicitud para "+service+". Estamos revisando los detalles de tu vehículo antes de preparar la cotización o el próximo paso. Tu cita aún no está confirmada.":"We received your "+service+" request. We're reviewing your vehicle details before preparing a quote or the next step. Your appointment is not confirmed yet.";
   copy.quoted=es?"Tu cotización de detailing para "+service+" está lista. Acepta, rechaza o conversa sobre el precio; después de aceptar, elige un horario libre.":"Your detailing quote for "+service+" is ready. Accept, decline or discuss the price. After accepting, choose an available time to confirm.";
@@ -3278,9 +3290,9 @@ function buyerRenderRequestCards(){
  const q=$("buyerRequestSearch").value.toLowerCase().trim(),type=$("buyerRequestType").value;
  const status=$('buyerRequestStatusFilter').value,sort=$('buyerRequestSort').value;
  const rows=buyerRequests.filter(x=>
-  (type==="all"||(type==="attention"&&buyerRequestNeedsAttention(x))||buyerRequestKind(x)===type)
+  (type==="all"||(type==="attention"&&buyerRequestNeedsAttention(x))||(type==="contact"&&buyerIsContactInquiry(x))||buyerRequestKind(x)===type)
   &&buyerLeadQuickMatch(x)&&buyerLeadStatusMatch(x,status)
-  &&[x.customer_name,x.customer_email,x.customer_phone,x.service_name,x.status,x.workflow_stage,x.raw_payload?.vehicle_type,x.raw_payload?.property_type,x.raw_payload?.estimate_display].some(v=>String(v||"").toLowerCase().includes(q))
+  &&[x.customer_name,x.customer_email,x.customer_phone,x.service_name,x.status,x.workflow_stage,x.notes,x.raw_payload?.vehicle_type,x.raw_payload?.property_type,x.raw_payload?.estimate_display].some(v=>String(v||"").toLowerCase().includes(q))
  );
  rows.sort((a,b)=>{
   if(sort==='newest')return Date.parse(b.created_at||0)-Date.parse(a.created_at||0);
@@ -3659,6 +3671,9 @@ function renderBuyerDashboard(){
  const attention=buyerRequests.filter(buyerRequestNeedsAttention).length+buyerManualLeads().filter(buyerManualNeedsAttention).length;
  const confirmed=buyerRequests.filter(x=>x.status==="booked").length;
  const quotes=buyerRequests.filter(x=>buyerRequestKind(x)==="quote").length;
+ const contactCount=buyerRequests.filter(buyerIsContactInquiry).length;
+ if($('cbDashContactCount'))$('cbDashContactCount').textContent=String(contactCount);
+ if($('cbInboxContactCount'))$('cbInboxContactCount').textContent=String(contactCount);
  updateCbGreeting(attention);
  const area=$("buyerDashboardStats");area.replaceChildren();
  for(const [name,value] of [
@@ -3672,6 +3687,17 @@ function renderBuyerDashboard(){
  }
  $("buyerDashboardStatus").textContent=buyerText("Updated from your private business workspace.","Actualizado desde el espacio privado de tu negocio.");
 }
+function cbOpenContactInquiries(){
+ if(!document.body.classList.contains('cb-depot-buyer'))return;
+ premiumNavigate('request-center');
+ $('buyerRequestType').value='contact';
+ $('buyerRequestSearch').value='';
+ $('buyerRequestStatusFilter').value='all';
+ buyerLeadQuickFilter='all';
+ buyerRenderRequestCards();
+}
+$('cbDashContactInquiries').onclick=cbOpenContactInquiries;
+$('cbInboxContactFilter').onclick=cbOpenContactInquiries;
 $('cbDashInbox').onclick=()=>premiumNavigate('request-center');
 $('cbDashFAQ').onclick=()=>premiumNavigate('help');
 $('cbDashGuideFAQ').onclick=()=>premiumNavigate('help');
