@@ -7,8 +7,8 @@ const ASSET="/assets/jessy-avatar.webp",CSS="./assets/jessy-owner.css?v=20261012
 let root=null,log=null,form=null,input=null,send=null,quick=null,open=false,waiting=false,language="en",history=[],previousFocus=null;
 let notificationTimer=0;
 const copy={
- en:{open:"Ask Jessy",intro:"Hi! 👋 I'm Jessy, your Command Center assistant. Want to check leads, follow-ups or a client delivery?",subtitle:"Your private workspace helper",placeholder:"Ask about leads, clients or your next step…",send:"Send",close:"Close Jessy",thinking:"Checking your workspace…",error:"I couldn't check that right now. Try again or open the section directly.",note:"Private owner assistance · Drafts require your approval. Jessy never sends emails.",label:"Open this section →",quick:[["Mark alerts read","Mark all Command Center notifications as read"],["Notifications","Open my notifications"],["WhatsApp alerts","jessy-whatsapp-settings"],["Prepare follow-up draft","Prepare a follow-up email draft"],["Today's priorities","What needs my attention today?"],["Follow-ups","Which prospect follow-ups are due?"],["Website leads","Any new website inquiries?"],["Client readiness","What is missing for each client?"],["Support","I need help with a problem"]]},
- es:{open:"Pregúntale a Jessy",intro:"¡Hola! 👋 Soy Jessy, tu asistente del Command Center. ¿Revisamos leads, seguimientos o entregas?",subtitle:"Tu asistente privada de operaciones",placeholder:"Pregunta sobre leads, clientes o el próximo paso…",send:"Enviar",close:"Cerrar Jessy",thinking:"Revisando tu espacio…",error:"Ahora no pude comprobarlo. Inténtalo otra vez o abre la sección directamente.",note:"Asistencia privada · Los borradores requieren tu aprobación. Jessy no envía correos.",label:"Abrir esta sección →",quick:[["Marcar avisos leídos","Marca todas las notificaciones como leídas"],["Notificaciones","Abre mis notificaciones"],["Avisos WhatsApp","jessy-whatsapp-settings"],["Preparar seguimiento","Prepara un borrador de seguimiento"],["Prioridades de hoy","¿Qué necesita mi atención hoy?"],["Seguimientos","¿Qué seguimientos de prospectos están pendientes?"],["Leads web","¿Hay nuevas consultas del website?"],["Revisar intakes","¿Qué le falta a cada cliente?"],["Soporte","Necesito ayuda con un problema"]]}
+ en:{open:"Ask Jessy",intro:"Hi! 👋 I'm Jessy, your Command Center assistant. Want to check leads, follow-ups or a client delivery?",subtitle:"Your private workspace helper",placeholder:"Ask about leads, clients or your next step…",send:"Send",close:"Close Jessy",thinking:"Checking your workspace…",error:"I couldn't check that right now. Try again or open the section directly.",note:"Private owner assistance · Drafts require your approval. Jessy never sends emails.",label:"Open this section →",quick:[["Mark alerts read","Mark all Command Center notifications as read"],["Notifications","Open my notifications"],["WhatsApp alerts","jessy-whatsapp-settings"],["Prepare follow-up draft","Prepare a follow-up email draft"],["Today's priorities","Review the AI Team priorities"],["Follow-ups","Which prospect follow-ups are due?"],["Website leads","Any new website inquiries?"],["Client readiness","What is missing for each client?"],["Support","I need help with a problem"]]},
+ es:{open:"Pregúntale a Jessy",intro:"¡Hola! 👋 Soy Jessy, tu asistente del Command Center. ¿Revisamos leads, seguimientos o entregas?",subtitle:"Tu asistente privada de operaciones",placeholder:"Pregunta sobre leads, clientes o el próximo paso…",send:"Enviar",close:"Cerrar Jessy",thinking:"Revisando tu espacio…",error:"Ahora no pude comprobarlo. Inténtalo otra vez o abre la sección directamente.",note:"Asistencia privada · Los borradores requieren tu aprobación. Jessy no envía correos.",label:"Abrir esta sección →",quick:[["Marcar avisos leídos","Marca todas las notificaciones como leídas"],["Notificaciones","Abre mis notificaciones"],["Avisos WhatsApp","jessy-whatsapp-settings"],["Preparar seguimiento","Prepara un borrador de seguimiento"],["Prioridades de hoy","Revisa las prioridades del equipo IA"],["Seguimientos","¿Qué seguimientos de prospectos están pendientes?"],["Leads web","¿Hay nuevas consultas del website?"],["Revisar intakes","¿Qué le falta a cada cliente?"],["Soporte","Necesito ayuda con un problema"]]}
 };
 const sections={
  "owner-pages":["Clients & Purchases","Clientes y compras"],
@@ -361,6 +361,23 @@ async function ask(raw){
    pending.textContent=teamCommand.kind==="draft"?
     (result?.generation_mode==="template"?(language==="es"?"Preparé una plantilla (sin IA) para que la revises en Trabajos preparados. No envié ni publiqué nada.\n\n":"I prepared a fixed template (no AI), available under Prepared deliverables. Nothing was sent or published.\n\n"):(language==="es"?"Generé un borrador con IA para tu revisión en Trabajos preparados. No lo envié ni publiqué.\n\n":"AI draft ready under Prepared deliverables. Nothing was sent or published.\n\n"))+String(result?.content||"").slice(0,440):
     (language==="es"?"Creé la tarea para "+teamCommand.agent+". Puedes verla y aprobar sus siguientes pasos en AI Team.":"Task created for "+teamCommand.agent+". Review its next steps in AI Team.");
+   history.push({role:"user",message:question},{role:"assistant",message:pending.textContent});
+   if(history.length>8)history=history.slice(-8);
+  }catch(e){pending.textContent=String(e?.message||t("error")).slice(0,350)}
+  finally{waiting=false;if(send)send.disabled=false}
+  return;
+ }
+ const qLow=question.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+ if(window.TLEAIOpsGateway?.ready?.()&&activeContext().section==="ai-team"&&
+  /(?:priorit|resumen|status|estado|overview)/.test(qLow)&&
+  /(?:ai team|equipo|team|especialistas|agents)/.test(qLow)){
+  if(!open)show();bubble(question,"user");input.value="";
+  const pending=bubble(t("thinking"),"bot");waiting=true;send.disabled=true;
+  try{
+   const result=await window.TLEAIOpsGateway.brief();
+   const list=(result.priority_actions||[]).slice(0,3).map(x=>x.label+": "+x.count);
+   pending.textContent=(language==="es"?"Revisé los siete especialistas. ":"Checked all seven specialists. ")+
+    (list.length?list.join("\n"):(language==="es"?"No hay prioridades verificadas; revisa las fuentes parciales.":"No verified urgent priorities; review partial sources."));
    history.push({role:"user",message:question},{role:"assistant",message:pending.textContent});
    if(history.length>8)history=history.slice(-8);
   }catch(e){pending.textContent=String(e?.message||t("error")).slice(0,350)}

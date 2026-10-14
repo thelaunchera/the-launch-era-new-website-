@@ -3,6 +3,7 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - 'docs/jessie-unified-release-runbook.md'
       - 'public/base-booking.html'
       - 'public/assets/booking-template-live.js'
       - 'public/assets/booking-smart-welcome.*'

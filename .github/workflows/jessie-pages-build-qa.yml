@@ -1,0 +1,96 @@
+name: Jessie GitHub Pages Release Build QA
+
+on:
+  pull_request:
+    paths:
+      - 'docs/jessie-unified-release-runbook.md'
+      - 'scripts/qa-jessie-browser.mjs'
+      - 'public/command-center/**'
+      - 'supabase/functions/tle-ai-team/**'
+      - 'supabase/functions/tle-jessy-owner/**'
+      - 'scripts/qa-jessie-*'
+      - '.github/workflows/jessie-pages-build-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-only:
+    name: Verify GitHub Pages output without publishing
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out PR source
+        uses: actions/checkout@v4
+
+      - name: Run private Jessie security fixtures
+        run: |
+          node scripts/qa-ai-team.mjs
+          node scripts/qa-jessy-owner.mjs
+          node scripts/qa-jessie-tenanted-edge-fixture.mjs
+          node scripts/qa-jessie-owner-edge-fixture.mjs
+          node scripts/qa-jessie-owner-diagnostic.mjs
+          node scripts/qa-route-integrity.mjs --static
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install project dependencies
+        run: bun install
+
+      - name: Build as for GitHub Pages
+        run: bun run build
+
+      - name: Verify built private Command Center assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s .output/public/command-center/index.html
+          test -s .output/public/command-center/ai-team.html
+          test -s .output/public/command-center/assets/ai-team.js
+          test -s .output/public/command-center/assets/ai-team.css
+          test -s .output/public/command-center/assets/jessy-owner.js
+          test -s .output/public/command-center/assets/jessy-owner-standalone.mjs
+          grep -q 'id="owner-diagnostic-run"' .output/public/command-center/ai-team.html
+          grep -q 'id="team-brief-reports"' .output/public/command-center/ai-team.html
+          grep -q 'owner-diagnostic-run' .output/public/command-center/assets/ai-team.js
+          grep -q 'booking-smart' .output/public/command-center/index.html
+          grep -q 'jessy-owner.js?v=20261014-unified-team-v1' .output/public/command-center/index.html
+          if grep -R -n -E 'SUPABASE_SERVICE_ROLE_KEY|GROQ_API_KEY|OPENAI_API_KEY' .output/public/command-center/assets/ai-team.js .output/public/command-center/assets/jessy-owner.js; then
+            echo "::error::Private server secret references unexpectedly present in browser assets"
+            exit 1
+          fi
+          echo "PASS — GitHub Pages build contains unified Jessie, diagnostics and Smart Welcome"
+
+      - name: Install isolated Chromium for synthetic responsive checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/tle-jessie-visual-qa
+          cd /tmp/tle-jessie-visual-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          mkdir -p "$GITHUB_WORKSPACE/node_modules"
+          ln -sfn /tmp/tle-jessie-visual-qa/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-jessie-visual-qa/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+
+      - name: Verify synthetic Jessie on phone, tablet and desktop in EN/ES
+        run: node scripts/qa-jessie-browser.mjs
+
+      - name: Save synthetic Jessie screenshots for independent reviewer
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jessie-ai-team-responsive-fixtures
+          path: qa-screenshots/jessie-ai-team-*.png
+          if-no-files-found: warn
+
+      - name: Save build validation summary
+        if: always()
+        run: |
+          echo "GitHub Pages build-only rehearsal. No deployment, client mutation, send, or publication." >> "$GITHUB_STEP_SUMMARY"
+          echo "Authenticated owner and device E2E still require independent QA." >> "$GITHUB_STEP_SUMMARY"

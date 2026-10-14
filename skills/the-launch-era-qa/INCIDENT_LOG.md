@@ -206,3 +206,14 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - Asset saved in Git verbatim with SHA-256 check. CTA links to `/booking-bundle/?lang=en|es&bundle=ai-booking&source=smart-welcome`; only this inbound link preselects AI Booking, with all existing purchase choices preserved and server-side pricing remaining authoritative.
 - Feature gated by live backend discount response; fail closed on network error or if 40% turned off, avoiding stale promotion claims. SessionStorage limits interruption to first homepage visit in session.
 - Verification gate: image checksum, static routes, production build, mobile/tablet/desktop first/repeat popup and checkout choice. No payment submissions in QA. Do not declare live until Pages deploy and browser QA pass.
+
+## 2026-10-14 — Bundle checkout-only landing needed product demonstration first
+- **User feedback:** the marketing Smart Welcome flyer sent users straight to the plan selector without showing how Booking Page, Command Center or AI Assistant work; this created a sales gap.
+- **Change:** rebuild only `public/booking-bundle/index.html` as a clear sales landing with a human-centered photographed hero, sample booking interaction, fictional Command Center dashboard and a clearly illustrative AI conversation, followed by the preserved existing plan selector. Add blue/ivory/yellow responsive styling, localized English/Spanish and four generated photos from current conversation.
+- **Safety:** All demo interactions stay client-side, explicitly labeled sample data. No quote, booking, email, production workspace, sample client record or payment request is created. 40% marketing offer hidden when live pricing backend says promotion inactive, price loading fails, or any incompatible response. Existing `tle-booking-bundle.js` is loaded unchanged at the original `data-tle-bundle` mount point.
+- **QA:** original image checksum, syntax, route-integrity checks, test-only browser screenshots 360/390/820/1440 and ES, disabled offer fallback, full website build, then live smoke on release.
+
+## 2026-10-14 — Homepage Smart Welcome in-page card took over iPhone screen
+- User screenshot: large duplicate 40% flyer was repeated as a full-height homepage block after the popup; headline, discount, CTA and disclaimer consumed most of a viewport and disrupted scrolling.
+- Fix: leave original modal and approved flyer unchanged; replace only the homepage in-page block with a shallow ivory/soft-blue promotion strip, discreet yellow discount badge and one route-correct CTA. Keep EN/ES copy and 40% activation-only caveat. Do not alter bundle prices/Stripe/client booking data.
+- Regression gate: exact art remains in modal; no image in inline section; enforce mobile/desktop panel-height ceilings and mobile scroll/CTA navigation.

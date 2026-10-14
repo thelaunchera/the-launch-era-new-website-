@@ -5,7 +5,7 @@
 <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#FAF8F3">
 <title>AI Team | The Launch Era Command Center</title>
 <link rel="icon" href="/favicon.png">
-<link rel="stylesheet" href="./assets/ai-team.css?v=20261013-5">
+<link rel="stylesheet" href="./assets/ai-team.css?v=20261014-owner-diagnostic-v2">
 </head>
 <body>
 <div class="ait-loading" id="loading" role="status">Opening your private AI Team…</div>
@@ -17,11 +17,11 @@
 <div id="app" class="hidden">
 <header class="ait-topbar">
  <a class="ait-brand" href="./" aria-label="Return to The Launch Era Command Center"><img src="/assets/brand/tle-mark.svg" alt=""><span>THE LAUNCH ERA <small>OWNER COMMAND CENTER</small></span></a>
- <div class="ait-top-actions"><span class="ait-private">● Owner only</span><button id="lang" type="button" class="ait-quiet" aria-label="Change language">ES</button><a class="ait-back" href="./">← Command Center</a></div>
+ <div class="ait-top-actions"><span class="ait-private" id="ait-owner-badge">● Owner only</span><button id="lang" type="button" class="ait-quiet" aria-label="Change language">ES</button><a class="ait-back" href="./">← Command Center</a></div>
 </header>
 <main class="ait-layout">
 <section class="ait-hero">
- <div class="ait-hero-copy"><span class="ait-kicker">THE LAUNCH ERA · OPERATIONS</span><h1>Meet your <em>AI Team.</em></h1>
+ <div class="ait-hero-copy"><span class="ait-kicker" id="ait-hero-eyebrow">THE LAUNCH ERA · OPERATIONS</span><h1 id="ait-hero-title">Meet your <em>AI Team.</em></h1>
  <p id="intro">Jessie coordinates. Your specialists plan the next steps. You review every important action.</p>
  <div class="ait-hero-actions"><button id="scan" type="button" class="ait-primary">Review my workspace <span>↗</span></button><button type="button" class="ait-outline" id="new-task-top">+ New task</button></div>
  <p class="ait-truth" id="truth">AI plans are recommendations, not completed work. No automatic emails, client changes or deployments.</p></div>
@@ -30,12 +30,24 @@
 </section>
 <div class="ait-stats" id="stats" aria-live="polite"><article><span>Active team tasks</span><strong id="activeCount">—</strong></article><article><span>Awaiting approval</span><strong id="approvalCount">—</strong></article><article><span>Workspace scan</span><strong id="scanState">Not checked</strong></article></div>
 <section class="ait-provider" id="ai-provider" aria-labelledby="ai-provider-title">
- <div class="ait-provider-copy"><div class="ait-eyebrow">DRAFT GENERATOR</div><h2 id="ai-provider-title">AI connection</h2>
+ <div class="ait-provider-copy"><div class="ait-eyebrow" id="ait-provider-eyebrow">DRAFT GENERATOR</div><h2 id="ai-provider-title">AI connection</h2>
  <p id="ai-provider-status" role="status" aria-live="polite">Checking secure configuration…</p></div>
  <button type="button" id="ai-provider-check" class="ait-outline">Verify AI connection</button>
 </section>
-<section class="ait-section" aria-labelledby="agents-title"><div class="ait-section-head"><div><span class="ait-eyebrow">YOUR SPECIALISTS</span><h2 id="agents-title">One team. Clear responsibilities.</h2></div><span class="ait-micro">7 specialist roles · owner-controlled · live checks</span></div>
+<section class="ait-owner-diagnostic" id="owner-diagnostic" aria-labelledby="owner-diagnostic-title">
+ <div class="ait-section-head"><div><span class="ait-eyebrow" id="owner-diagnostic-eyebrow">PRIVATE OWNER CHECK</span><h2 id="owner-diagnostic-title">Verify your AI Team session</h2></div><span class="ait-micro" id="owner-diagnostic-note">Read-only · No client changes</span></div>
+ <p class="ait-muted" id="owner-diagnostic-intro">Check your authenticated session, seven-agent access, permissions and Groq response before release.</p>
+ <div class="ait-owner-diagnostic-buttons">
+ <button type="button" class="ait-outline" id="owner-diagnostic-run">Run private checks</button>
+ <button type="button" class="ait-small-btn" id="owner-diagnostic-copy" hidden>Copy sanitized QA report</button>
+ </div>
+ <p id="owner-diagnostic-status" role="status" aria-live="polite">Not tested in this session.</p>
+ <div id="owner-diagnostic-results" class="ait-owner-diagnostic-results" aria-live="polite"></div>
+ <p class="ait-muted" id="owner-diagnostic-disclaimer">This checks your current owner session only. Cross-tenant, unauthorized-user and device QA must be verified independently.</p>
+</section>
+<section class="ait-section" aria-labelledby="agents-title"><div class="ait-section-head"><div><span class="ait-eyebrow" id="ait-agent-eyebrow">YOUR SPECIALISTS</span><h2 id="agents-title">One team. Clear responsibilities.</h2></div><span class="ait-micro">7 specialist roles · owner-controlled · live checks</span></div>
 <div class="ait-grid" id="agents"></div></section>
+<section class="ait-section ait-team-overview" id="team-overview" aria-labelledby="team-overview-title"><div class="ait-section-head"><div><span class="ait-eyebrow" id="team-overview-eyebrow">JESSIE · VERIFIED TEAM BRIEF</span><h2 id="team-overview-title">The whole team in one view</h2></div><span class="ait-micro" id="team-overview-micro">Read-only · Owner approval for actions</span></div><p id="team-overview-status" class="ait-muted">Select Review my workspace to check all seven specialists.</p><div id="team-brief-actions" class="ait-priority-grid" aria-live="polite"></div><div id="team-brief-reports" class="ait-brief-grid" aria-live="polite"></div><p class="ait-muted" id="team-overview-note">Metricool, Drive and Resend are not yet authorized as direct AI Team data sources. Drafts and checks do not send or publish anything.</p></section>
 <section class="ait-section ait-outputs-section" id="outputs-section" aria-labelledby="outputs-title">
  <div class="ait-section-head"><div><span class="ait-eyebrow">OWNER-REVIEWED WORK</span><h2 id="outputs-title">Prepared deliverables</h2></div><span class="ait-micro">Drafts only · approval does not publish</span></div>
  <div id="outputs" class="ait-outputs-grid" aria-live="polite"><p class="ait-muted">Loading prepared work…</p></div>
@@ -64,5 +76,5 @@
 <div class="ait-dialog-footer"><button type="button" data-dialog-close="finish-dialog" class="ait-outline">Cancel</button><button class="ait-primary" type="submit" id="finish-submit">Record completion</button></div></form></dialog>
 <div id="toast" class="ait-toast" role="status" aria-live="polite" hidden></div>
 <script src="./vendor/supabase-js-v2.57.0.umd.js"></script>
-<script src="./assets/private-session-policy.js?v=20261014-12h-v1"></script><script type="module" src="./assets/ai-team.js?v=20261014-12h-v1"></script>
+<script src="./assets/private-session-policy.js?v=20261014-12h-v1"></script><script type="module" src="./assets/ai-team.js?v=20261014-owner-diagnostic-session-v1"></script>
 </body></html>

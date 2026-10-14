@@ -21,6 +21,10 @@ assert(component.includes("'&bundle=ai-booking&source=smart-welcome'"),'Joint ac
 assert(bundle.includes('key===autoSelectAI?"checked":""'),'Bundle selector must preselect only when linked from welcome');
 assert(bundle.includes('if(!addon){location.href='),'Ordinary booking-only option must remain available');
 assert(shell.includes('tle-booking-bundle.js?v=20261014-smart-welcome-v1'),'Buyer bundle page should bypass stale scripts');
+assert(!component.includes('tle-bundle-inline-art'),'Homepage inline section must not duplicate the large flyer');
+assert(component.includes('tle-bundle-inline-discount'),'Compact promotion badge must remain');
+assert(component.includes('tle-bundle-inline-cta'),'Compact promotion CTA must remain');
+assert(css.includes('min-height:107px')&&css.includes('flex-direction:column'),'Compact desktop/mobile design constraints missing');
 assert(component.includes("window.sessionStorage.setItem(SEEN_KEY"),'Welcome must not interrupt every navigation');
 assert(component.includes("event.key === 'Escape'"),'Welcome needs Escape close');
 assert(css.includes('env(safe-area-inset-bottom'),'Mobile notch/safe area handling absent');

@@ -45,6 +45,11 @@ jobs:
           node scripts/qa-ai-team-commands.mjs
           node scripts/qa-ai-team-gateway.mjs
           node scripts/qa-ai-team-ai-provider.mjs
+          node scripts/qa-jessie-unified-tenant.mjs
+          node scripts/qa-jessie-private-endpoints.mjs
+          node scripts/qa-jessie-owner-diagnostic.mjs
+          node scripts/qa-jessie-tenanted-edge-fixture.mjs
+          node scripts/qa-jessie-owner-edge-fixture.mjs
 
       - name: Install Supabase CLI
         uses: supabase/setup-cli@v1

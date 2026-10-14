@@ -20,6 +20,108 @@ const words={
 let language="es",tasks=[],events=[],runs=[],outputs=[],providerState=null,scan=null,verified=false,activeFinish=null,plans=new Map(),inFlight=false;
 try{language=localStorage.getItem("tle_crm_owner_language")==="en"?"en":"es"}catch{}
 function tx(k){return words[language][k]}
+const teamCopy={
+ en:{heroPrefix:"Meet your ",heroEm:"AI Team.",heroEyebrow:"THE LAUNCH ERA · OPERATIONS",agentsEyebrow:"YOUR SPECIALISTS",providerEyebrow:"DRAFT GENERATOR",ownerBadge:"● Owner only",eyebrow:"JESSIE · VERIFIED TEAM BRIEF",title:"The whole team in one view",micro:"Read-only · Owner approval for actions",note:"Metricool, Drive and Resend are not yet authorized as direct AI Team data sources. Drafts and checks do not send or publish anything.",intro:"Select Review my workspace to check all seven specialists.",checked:"Checked",partial:"Partial",noPriorities:"No verified urgent priorities found; partial sources still need review.",briefPrefix:"Read-only review · ",source:"Source",page:"Page",notReachable:"Not reachable",needsAttention:"Needs attention",noSummary:"Source check returned no summary."},
+ es:{heroPrefix:"Conoce a tu ",heroEm:"equipo IA.",heroEyebrow:"THE LAUNCH ERA · OPERACIONES",agentsEyebrow:"TUS ESPECIALISTAS",providerEyebrow:"GENERADOR DE BORRADORES",ownerBadge:"● Solo propietaria",eyebrow:"JESSIE · RESUMEN VERIFICADO",title:"Todo tu equipo en un solo lugar",micro:"Solo lectura · Tú apruebas las acciones",note:"Metricool, Drive y Resend aún no están autorizados como fuentes directas del AI Team. Los borradores y revisiones no envían ni publican nada.",intro:"Pulsa Revisar mi espacio para consultar los siete especialistas.",checked:"Revisado",partial:"Parcial",noPriorities:"No se detectaron prioridades confirmadas; las fuentes parciales aún requieren revisión.",briefPrefix:"Revisión de solo lectura · ",source:"Fuente",page:"Página",notReachable:"No disponible",needsAttention:"Requiere atención",noSummary:"La revisión no devolvió un resumen."}
+};
+const factSpanish={
+ "Active lead records scanned":"Prospectos activos revisados",
+ "Potential follow-ups due":"Seguimientos posiblemente pendientes",
+ "Candidates requiring final consent check":"Candidatos pendientes de comprobar consentimiento",
+ "Lead records":"Registros de prospectos",
+ "Booking accounts inspected":"Proyectos Booking revisados",
+ "Paid orders":"Pedidos pagados",
+ "Paid with intake missing":"Pedidos pagados sin intake",
+ "Intakes awaiting build start":"Intakes pendientes de inicio de producción",
+ "Paid without delivery stamp":"Pedidos pagados sin entrega registrada",
+ "AI orders not recorded delivered":"Pedidos IA sin entrega registrada",
+ "Delivery source":"Fuente de entregas",
+ "Support requests inspected":"Solicitudes de soporte revisadas",
+ "Not marked resolved":"Solicitudes sin resolver",
+ "Oldest unresolved date":"Fecha de la solicitud más antigua sin resolver",
+ "Support source":"Fuente de soporte",
+ "Public checks passed":"Rutas públicas comprobadas",
+ "Public checks attempted":"Rutas públicas revisadas",
+ "Branch":"Rama",
+ "Latest commit":"Último cambio",
+ "Latest completed CI":"Última prueba automática terminada",
+ "Latest CI workflow":"Último proceso de pruebas",
+ "Repository health":"Estado del repositorio",
+ "Public titles verified":"Títulos públicos comprobados",
+ "Marketing pages inspected":"Páginas de marketing revisadas",
+ "Metricool publishing integration":"Integración de publicación con Metricool",
+ "Active prospects":"Prospectos activos",
+ "Unread owner alerts":"Avisos sin leer",
+ "Tasks awaiting approval":"Tareas pendientes de aprobación",
+ "Blocked AI Team tasks":"Tareas bloqueadas del equipo",
+ "Public home":"Inicio público",
+ "Owner Command Center":"Command Center privado",
+ "Private AI Team":"Equipo IA privado",
+ "Password recovery":"Recuperar contraseña",
+ "Booking demo":"Demo de reservas",
+ "Homepage":"Inicio",
+ "Booking offer":"Oferta de reservas",
+ "AI Assistant offer":"Oferta del asistente IA"
+};
+const ownerCheckCopy={
+ es:{eyebrow:"VERIFICACIÓN PRIVADA",title:"Comprueba tu sesión del equipo IA",note:"Solo lectura · No se modifican clientes",intro:"Comprueba acceso, siete agentes, permisos y respuesta de Groq antes de publicar.",run:"Verificar mi sesión",copy:"Copiar informe sin datos privados",untested:"Sin comprobar en esta sesión.",checking:"Comprobando acceso y equipo…",summary:"Comprobación terminada",full:"Verificado",partial:"Requiere revisión",login:"Acceso de propietaria",roles:"Siete especialistas",permissions:"Permisos de solo lectura",provider:"Conexión del modelo IA",ok:"Verificado con la sesión actual",missing:"Sin confirmación suficiente",disabled:"Las acciones externas permanecen desactivadas",providerGood:"El modelo respondió",providerBad:"No se pudo verificar la respuesta del modelo",disclaimer:"Solo comprueba tu sesión. El revisor independiente debe validar otros usuarios, otros espacios y cada dispositivo.",copied:"Informe de QA copiado, sin datos personales.",failed:"No se pudo completar la revisión privada."},
+ en:{eyebrow:"PRIVATE OWNER CHECK",title:"Verify your AI Team session",note:"Read-only · No client changes",intro:"Check access, seven agents, permissions and Groq response before release.",run:"Verify my session",copy:"Copy sanitized QA report",untested:"Not tested in this session.",checking:"Checking access and team…",summary:"Checks completed",full:"Verified",partial:"Needs review",login:"Owner-only access",roles:"Seven specialists",permissions:"Read-only permissions",provider:"AI model connection",ok:"Verified for this session",missing:"Could not fully verify",disabled:"External actions remain disabled",providerGood:"Model responded",providerBad:"Model response not verified",disclaimer:"Checks this session only. Independent QA must verify other users, other workspaces and each device.",copied:"QA report copied without personal information.",failed:"Private checks could not finish."}
+};
+function oc(key){return ownerCheckCopy[language][key]||key}
+let ownerCheck=null;
+function renderOwnerCheck(){
+ const nodes=[["owner-diagnostic-eyebrow","eyebrow"],["owner-diagnostic-title","title"],["owner-diagnostic-note","note"],["owner-diagnostic-intro","intro"],["owner-diagnostic-disclaimer","disclaimer"],["owner-diagnostic-run","run"],["owner-diagnostic-copy","copy"]];
+ for(const [id,key] of nodes){const element=$(id);if(element)element.textContent=oc(key)}
+ const status=$("owner-diagnostic-status"),results=$("owner-diagnostic-results"),copyButton=$("owner-diagnostic-copy");
+ if(!status||!results||!copyButton)return;
+ results.replaceChildren();
+ copyButton.hidden=!ownerCheck;
+ if(!ownerCheck){status.textContent=oc("untested");return}
+ status.textContent=oc("summary")+" · "+new Date(ownerCheck.timestamp).toLocaleString(language==="es"?"es-US":"en-US");
+ const checks=[["login",ownerCheck.login],["roles",ownerCheck.roles],["permissions",ownerCheck.permissions],["provider",ownerCheck.model]];
+ for(const [key,passed] of checks){
+  const item=el("div","ait-owner-diagnostic-result");
+  const symbol=el("span","ait-owner-diagnostic-symbol",passed?"✓":"!");
+  const label=el("strong","",oc(key));
+  const state=el("span","ait-owner-diagnostic-state "+(passed?"passed":"needs-review"),passed?oc("full"):oc("partial"));
+  item.append(symbol,label,state);results.append(item);
+ }
+ const detail=el("p","ait-muted",ownerCheck.model?oc("providerGood"):oc("providerBad"));results.append(detail);
+}
+function sanitizedOwnerReport(){
+ if(!ownerCheck)return "";
+ const result={report:"TLE Jessie AI Team private session check",checked_at:ownerCheck.timestamp,
+  language:ownerCheck.language,viewport_width_px:ownerCheck.viewportWidth,
+  owner_session_verified:ownerCheck.login,all_seven_roles_reported:ownerCheck.roles,
+  external_actions_disabled:ownerCheck.permissions,ai_provider_responded:ownerCheck.model,
+  provider:ownerCheck.provider,agent_count:ownerCheck.agentCount,partial_agent_reports:ownerCheck.partial,
+  scope:"current signed-in owner only; cross-tenant, other-user and device QA not verified"};
+ return JSON.stringify(result,null,2);
+}
+async function verifyOwnerSession(){
+ const button=$("owner-diagnostic-run");if(!button||button.disabled||!verified)return;
+ button.disabled=true;button.textContent=oc("checking");
+ const results=await Promise.allSettled([
+  api({action:"capability_manifest"}),api({action:"team_brief",language}),api({action:"provider_check"})
+ ]);
+ const extract=i=>results[i].status==="fulfilled"?results[i].value:null;
+ const permission=extract(0),brief=extract(1),model=extract(2);
+ const expected=["jessie","sales","projects","developer","qa","creative","care"];
+ const allRoles=Array.isArray(permission?.roles)&&expected.every(a=>permission.roles.includes(a))&&permission.roles.length===7;
+ const reports=Array.isArray(brief?.reports)?brief.reports:[];
+ const verifiedBrief=reports.length===7&&expected.every(agent=>reports.some(r=>r.agent===agent&&r.read_only===true))
+   &&brief?.no_external_actions===true;
+ ownerCheck={timestamp:new Date().toISOString(),language,viewportWidth:Math.max(0,Math.round(window.innerWidth||0)),
+  login:!!(permission?.owner_only&&brief?.ok===true),roles:allRoles&&verifiedBrief,
+  permissions:permission?.external_actions_enabled===false&&brief?.no_external_actions===true,
+  model:model?.verified===true&&model?.reason==="connected",
+  provider:model?.provider==="groq"?"GroqCloud":model?.provider==="openai"?"OpenAI":"unverified",
+  agentCount:reports.length,partial:reports.filter(r=>r.status!=="checked").length};
+ renderOwnerCheck();
+ button.disabled=false;
+}
+function teamTx(key){return teamCopy[language][key]||key}
+function localFact(label){const original=String(label||teamTx("source"));return language==="es"?(factSpanish[original]||original):original}
 function el(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n}
 function showError(message){const toast=$("toast");toast.textContent=String(message||tx("serverError"));toast.hidden=false;toast.classList.add("error");setTimeout(()=>{toast.hidden=true;toast.classList.remove("error")},6000)}
 function notify(message){const toast=$("toast");toast.textContent=message;toast.hidden=false;toast.classList.remove("error");setTimeout(()=>toast.hidden=true,4500)}
@@ -106,6 +208,32 @@ function renderScan(){
   const item=el("div");item.append(el("span","",label),el("b","",scan.counts[key]===null?tx("partial"):String(scan.counts[key])));root.append(item);
  }
 }
+function renderTeamBrief(){
+ const status=$("team-overview-status"),reportsRoot=$("team-brief-reports"),priorityRoot=$("team-brief-actions");
+ if(!status||!reportsRoot||!priorityRoot)return;
+ reportsRoot.replaceChildren();priorityRoot.replaceChildren();
+ if(!scan?.reports?.length){status.textContent=teamTx("intro");return}
+ const when=new Date(scan.collected_at).toLocaleString(language==="es"?"es-US":"en-US");
+ status.textContent=teamTx("briefPrefix")+when;
+ const actions=Array.isArray(scan.priority_actions)?scan.priority_actions:[];
+ if(!actions.length)priorityRoot.append(el("p","ait-muted",teamTx("noPriorities")));
+ for(const action of actions.slice(0,5)){
+  const item=el("article","ait-priority");
+  item.append(el("span","ait-agent-pill",agentName(action.agent)),el("strong","",action.label),el("b","",String(action.count)));
+  priorityRoot.append(item);
+ }
+ for(const x of scan.reports){
+  const card=el("article","ait-brief-card");
+  const head=el("div","ait-task-top");
+  head.append(el("strong","",agentName(x.agent)),el("span","ait-status "+(x.status==="checked"?"completed":"needs_approval"),x.status==="checked"?teamTx("checked"):teamTx("partial")));
+  card.append(head,el("p","",String(x.summary||"")));
+  const facts=el("div","ait-run-facts");
+  for(const y of (x.facts||[]).slice(0,5)){
+   const row=el("div");row.append(el("span","",localFact(y.label)),el("b","",y.value===null||y.value===undefined?"—":String(y.value)));facts.append(row);
+  }
+  card.append(facts);reportsRoot.append(card);
+ }
+}
 async function runAgent(agentKey,taskId,button){
  if(inFlight)return;
  inFlight=true;
@@ -132,11 +260,11 @@ function renderRuns(){
     item.status==="success"?tx("successRun"):tx("partialRun")));
   card.append(header);
   const report=item.report||{};
-  card.append(el("p","ait-run-summary",String(report.summary||"Source check returned no summary.")));
+  card.append(el("p","ait-run-summary",String(report.summary||teamTx("noSummary"))));
   const facts=el("div","ait-run-facts");
   for(const x of (Array.isArray(report.facts)?report.facts:[]).slice(0,12)){
    const row=el("div");
-   const label=el("span","",String(x.label||"Source"));
+   const label=el("span","",localFact(x.label));
    const value=el("b","",x.value===null||x.value===undefined?tx("partial"):String(x.value));
    row.append(label,value);
    facts.append(row);
@@ -147,7 +275,7 @@ function renderRuns(){
    disclosure.append(el("summary","",tx("details")+" ("+report.checks.length+")"));
    const body=el("div","ait-run-checks");
    for(const check of report.checks.slice(0,12)){
-    const row=el("p","",String(check.label||"Page")+": "+String(check.http_status===null?"not reachable":check.http_status)+" · "+(check.expected_marker_found===false||check.present===false?"Needs attention":"Checked"));
+    const row=el("p","",localFact(check.label||teamTx("page"))+": "+String(check.http_status===null?teamTx("notReachable"):check.http_status)+" · "+(check.expected_marker_found===false||check.present===false?teamTx("needsAttention"):teamTx("checked")));
     body.append(row);
    }
    disclosure.append(body);card.append(disclosure);
@@ -210,6 +338,10 @@ function renderOutputs(){
 
 function applyText(){
  document.documentElement.lang=language;
+ const heroTitle=$("ait-hero-title");
+ if(heroTitle){const accent=document.createElement("em");accent.textContent=teamTx("heroEm");heroTitle.replaceChildren(document.createTextNode(teamTx("heroPrefix")),accent)}
+ for(const [id,key] of [["ait-hero-eyebrow","heroEyebrow"],["ait-agent-eyebrow","agentsEyebrow"],["ait-provider-eyebrow","providerEyebrow"],["ait-owner-badge","ownerBadge"]]){const el=$(id);if(el)el.textContent=teamTx(key)}
+ for(const [id,key] of [["team-overview-eyebrow","eyebrow"],["team-overview-title","title"],["team-overview-micro","micro"],["team-overview-note","note"]]){const e=$(id);if(e)e.textContent=teamTx(key)}
  $("intro").textContent=tx("intro");$("truth").textContent=tx("truth");
  $("scan").firstChild.textContent=tx("review")+" ";
  $("new-task-top").textContent=tx("newTask");$("new-task").textContent=tx("newTask");
@@ -222,7 +354,7 @@ function applyText(){
  const ls=ds.querySelectorAll("label");[tx("taskAgent"),tx("taskName"),tx("taskDesc"),tx("priority")].forEach((x,i)=>{ls[i].childNodes[0].textContent=x});
  $("create-submit").textContent=tx("create");
  document.querySelector("#finish-form label").childNodes[0].textContent=tx("evidence");
- renderAgents();renderTasks();renderScan();renderActivity();renderRuns();renderOutputs();showProviderState();
+ renderAgents();renderTasks();renderScan();renderTeamBrief();renderOwnerCheck();renderActivity();renderRuns();renderOutputs();showProviderState();
  const rt=$("runs-title");if(rt)rt.textContent=tx("recent");
  const ot=$("outputs-title");if(ot)ot.textContent=tx("outputs");
 }
@@ -267,6 +399,7 @@ async function start(){
  }catch(e){lock();console.warn("AI Team private access:",e.message)}
 }
 window.TLEAIOpsGateway=Object.freeze({
+ async brief(){if(!this.ready())throw Error("Owner AI Team access required");scan=await api({action:"team_brief",language});renderScan();renderTeamBrief();return scan},
  ready(){return verified===true&&!document.getElementById("app")?.classList.contains("hidden")},
  async run(agentKey){
   if(!this.ready()||!agents.some(a=>a.key===agentKey))throw Error("Owner AI Team access required");
@@ -291,8 +424,14 @@ window.TLEAIOpsGateway=Object.freeze({
    return response.output;
  }
 });
-$("lang").addEventListener("click",()=>{language=language==="es"?"en":"es";try{localStorage.setItem("tle_crm_owner_language",language)}catch{}applyText()});
+$("lang").addEventListener("click",()=>{language=language==="es"?"en":"es";if(scan?.reports)scan=null;ownerCheck=null;try{localStorage.setItem("tle_crm_owner_language",language)}catch{}applyText()});
 for(const id of ["new-task","new-task-top"])$(id).onclick=()=>showDialog();
+$("owner-diagnostic-run").onclick=verifyOwnerSession;
+$("owner-diagnostic-copy").onclick=async()=>{
+ const report=sanitizedOwnerReport();if(!report)return;
+ try{await navigator.clipboard.writeText(report);notify(oc("copied"))}
+ catch{showError(oc("failed"))}
+};
 $("ai-provider-check").onclick=async()=>{
  const button=$("ai-provider-check");if(button.disabled)return;
  button.disabled=true;button.textContent=tx("connectionChecking");
@@ -303,7 +442,7 @@ $("ai-provider-check").onclick=async()=>{
  }catch(e){showError(e.message)}
  finally{button.disabled=false}
 };
-$("scan").onclick=async()=>{const btn=$("scan");btn.disabled=true;try{scan=await api({action:"scan"});renderScan()}catch(e){showError(e.message)}finally{btn.disabled=false}};
+$("scan").onclick=async()=>{const btn=$("scan");btn.disabled=true;try{scan=await api({action:"team_brief",language});renderScan();renderTeamBrief();document.getElementById("team-overview")?.scrollIntoView({behavior:"smooth",block:"start"})}catch(e){showError(e.message)}finally{btn.disabled=false}};
 $("task-form").onsubmit=async e=>{
  e.preventDefault();const submit=$("create-submit");submit.disabled=true;
  try{const title=$("task-title").value.trim();if(title.length<3)throw Error("Task title is too short");
