@@ -1,0 +1,29 @@
+name: Agent Human Tone Regression QA
+on:
+  pull_request:
+    paths:
+      - 'supabase/functions/tle-ai-team/index.ts'
+      - 'supabase/functions/tle-jessy-owner/index.ts'
+      - 'scripts/qa-agent-human-tone.mjs'
+      - '.github/workflows/agent-human-tone-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  human-tone-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify agent fallback language and tone
+        run: node scripts/qa-agent-human-tone.mjs
+      - name: Preserve existing AI Team safety checks
+        run: |
+          node scripts/qa-ai-team.mjs
+          node scripts/qa-ai-team-commands.mjs
+          node scripts/qa-ai-team-ai-provider.mjs
