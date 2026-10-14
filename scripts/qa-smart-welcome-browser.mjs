@@ -60,6 +60,22 @@ try{
    assert.equal(await page.locator('.tle-sw-dialog').count(),0,'Returning visit interrupted at '+width);
    await ctx.close();passes++;
  }
+
+ // Detailing fixture: black/electric blue CB Depot welcome must remain inside viewport.
+ const detailCtx=await browser.newContext({viewport:{width:390,height:844}});
+ const detailPage=await detailCtx.newPage();
+ await detailPage.route('**/functions/v1/tle-booking-flow-pricing',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({...model,business_name:'CB Depot',business_category:'detailing',branding:{...model.branding,primary_color:'#07111C',accent_color:'#087DFF'}})}));
+ await detailPage.route('**/functions/v1/tle-booking-smart-welcome',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({welcome:{...welcome,offer_en:'',offer_es:'',terms_en:'',terms_es:'',headline_en:'Your vehicle deserves a fresh start.',description_en:'Professional auto detailing, made easy.',cta_en:'Request My Detail'}})}));
+ await detailPage.goto(base+'/base-booking.html?key='+key,{waitUntil:'domcontentloaded'});
+ await detailPage.locator('.tle-sw-dialog.tle-sw-detailing').waitFor({state:'visible',timeout:10000});
+ assert.equal(await detailPage.locator('.tle-sw-title').innerText(),'Your vehicle deserves a fresh start.');
+ const backdropColor=await detailPage.locator('.tle-sw-dialog').evaluate(e=>getComputedStyle(e).backgroundColor);
+ assert.equal(backdropColor,'rgb(7, 17, 28)','CB Depot modal is not dark');
+ await detailPage.screenshot({path:'qa-screenshots/smart-welcome-cb-depot-390.png'});
+ await detailPage.locator('.tle-sw-book').click();
+ assert.equal(await detailPage.locator('#booking').count(),1,'CB Depot quote flow disappeared');
+ await detailCtx.close();passes++;
+
  const context=await browser.newContext({viewport:{width:390,height:840}});
  const page=await context.newPage();
  await setup(page,null);
