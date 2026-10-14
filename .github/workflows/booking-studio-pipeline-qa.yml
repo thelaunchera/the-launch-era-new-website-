@@ -4,6 +4,8 @@ on:
     paths:
       - 'lib/booking-studio-pipeline.mjs'
       - 'scripts/qa-booking-studio-pipeline.mjs'
+      - 'lib/booking-studio-preview.mjs'
+      - 'scripts/qa-booking-studio-preview.mjs'
       - '.github/workflows/booking-studio-pipeline-qa.yml'
   workflow_dispatch:
 jobs:
@@ -17,4 +19,6 @@ jobs:
         with:
           node-version: '22'
       - name: Validate Booking Studio contract
-        run: node scripts/qa-booking-studio-pipeline.mjs
+        run: |
+          node scripts/qa-booking-studio-pipeline.mjs
+          node scripts/qa-booking-studio-preview.mjs
