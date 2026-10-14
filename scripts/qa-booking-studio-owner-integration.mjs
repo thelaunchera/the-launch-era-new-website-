@@ -19,6 +19,11 @@ assert.match(edge,/owner_start_approved!==true/);
 assert.match(edge,/owner_workspace_id=eq\./);
 assert.match(edge,/QA_IDS/);
 assert.match(edge,/creative_suggest/);
+assert.match(edge,/research_from_intake/);
+assert.match(edge,/external_research_verified:false/);
+assert.match(edge,/images_verified:false/);
+assert.match(edge,/source_type:"verified_intake"/);
+assert.match(edge,/Photo ownership and licensing not verified/);
 assert.match(edge,/GROQ_API_KEY/);
 assert.match(edge,/photos_verified:false/);
 assert.match(edge,/requires_owner_review:true/);
@@ -48,4 +53,4 @@ const browserPreview=await read("public/command-center/assets/booking-studio-pre
 const nodePreview=await read("lib/booking-studio-preview.mjs");
 assert.equal(browserPreview,nodePreview,"Browser and CI preview renderer must match");
 assert.match(html,/sandbox=""/);
-console.log("Booking Studio owner API and UI: 38 security and integration checks passed.");
+console.log("Booking Studio owner API and UI: 46 security and integration checks passed.");
