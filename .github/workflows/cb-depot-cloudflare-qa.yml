@@ -1,0 +1,23 @@
+name: CB Depot Cloudflare Booking QA
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/cb-depot-cloudflare-qa.yml'
+      - 'scripts/build-client-bookings-cloudflare.mjs'
+      - 'scripts/qa-cb-depot-cloudflare.mjs'
+      - 'public/cb-depot/**'
+      - 'public/assets/booking-template-live.js'
+  workflow_dispatch:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check scripts/build-client-bookings-cloudflare.mjs && node --check scripts/qa-cb-depot-cloudflare.mjs
+      - run: node scripts/build-client-bookings-cloudflare.mjs
+      - run: node scripts/qa-cb-depot-cloudflare.mjs
