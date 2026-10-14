@@ -11,6 +11,8 @@ import {pathToFileURL} from "node:url";
 import {renderBookingStudioPreview} from "../lib/booking-studio-preview.mjs";
 
 const fixture=JSON.parse(await readFile("fixtures/booking-studio-synthetic.json","utf8"));
+const bright=JSON.parse(await readFile("fixtures/booking-studio-bright-rooms-synthetic.json","utf8"));
+const revised={...bright,design:{...bright.design,layout:"split",cards:"photographic",typography:"elegant",hero_title:"A little more calm, right at home.",hero_body:"From everyday upkeep to a deeper refresh, tell us what your space needs. We will help with the next step."}};
 const output=resolve(".private-preview/visual-qa");
 await mkdir(output,{recursive:true});
 const browser=await chromium.launch({headless:true});
@@ -25,7 +27,9 @@ const devices=[
 try{
  for(const variant of [
   {name:"editorial-split",job:fixture},
-  {name:"immersive-tiles",job:{...fixture,design:{...fixture.design,layout:"immersive",cards:"tiles",typography:"modern"}}}
+  {name:"immersive-tiles",job:{...fixture,design:{...fixture.design,layout:"immersive",cards:"tiles",typography:"modern"}}},
+  {name:"bright-rooms-first-draft",job:bright},
+  {name:"bright-rooms-owner-revision",job:revised}
  ]){
   const filename=resolve(output,variant.name+".html");
   await writeFile(filename,renderBookingStudioPreview(variant.job),{flag:"wx"});
@@ -65,6 +69,7 @@ try{
    assert.equal(report.navVisible,true,label+": nav hidden");
    assert.equal(report.bannerVisible,true,label+": private banner hidden");
    assert.equal(report.serviceCards,3,label+": missing synthetic services");
+   assert.equal(report.title,variant.job.design.hero_title,label+": incorrect client-specific hero");
    assert.equal(report.visibleCards,3,label+": service cards not visible");
    assert.equal(report.bookingDisabled,true,label+": booking action must be disabled");
    assert.equal(report.scripts,0,label+": no scripts allowed");
