@@ -12,6 +12,7 @@ on:
       - 'scripts/qa-jessie-live-smoke.mjs'
       - 'scripts/qa-jessy-public-privacy.mjs'
       - 'scripts/qa-jessie-seven-features.mjs'
+      - 'scripts/qa-jessie-demo-lead.mjs'
       - 'supabase/functions/tle-jessie-demo-lead/**'
       - 'supabase/functions/tle-jessie-metrics/**'
       - 'supabase/migrations/20261015_tle_jessie_anonymous_insights.sql'
@@ -46,3 +47,5 @@ jobs:
         run: bun scripts/qa-jessy-public-privacy.mjs
       - name: Test live public Jessie (synthetic inquiries only, no writes)
         run: node scripts/qa-jessie-live-smoke.mjs
+      - name: Test demo lead and Sonny response without sending email
+        run: node scripts/qa-jessie-demo-lead.mjs
