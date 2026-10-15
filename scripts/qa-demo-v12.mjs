@@ -32,6 +32,37 @@ for(const width of [360,390,820,1024,1440]){
      addOn:$('.tle-ai-head small')?.textContent
     };
    });
+   const customer=await page.evaluate(()=>{
+     const $=sel=>document.querySelector(sel);
+     const banner=$('.demo-top-label')?.textContent||'';
+     const progress=$('#tleClientProgress');
+     const services=$('#residentialServiceList button.service');
+     const sticky=$('.tle-client-sticky-cta');
+     const brand=$('#demoBrandName')?.textContent||'';
+     return {
+       enabled:document.documentElement.classList.contains('tle-demo-client-v14'),
+       banner:banner,
+       brand:brand,
+       progress:!!progress,
+       progressLabel:progress?.textContent||'',
+       steps:document.querySelectorAll('.tle-client-quicksteps li').length,
+       sticky:!!sticky,
+       serviceOnclick:services?.getAttribute('onclick'),
+       note:$('#tleClientSmallNotice')?.textContent||''
+     };
+   });
+   assert(customer.enabled&&customer.progress&&customer.steps===3&&customer.sticky,
+     'Customer-first demo components missing: '+JSON.stringify(customer));
+   assert(/SAMPLE|EJEMPLO/i.test(customer.banner),
+     'The page must transparently disclose sample-only status');
+   assert(customer.brand.includes('Coastal Cleaners'),
+     'Customer-facing sample branding must reflect the configured business');
+   assert(customer.progressLabel.includes(lang==='es'?'Elige tu servicio':'Choose a cleaning'),
+     'Booking progress should start at choosing a service');
+   assert(customer.serviceOnclick?.includes('startResidential'),
+     'Sample service selection must retain the original booking functionality');
+   assert(customer.note.includes(lang==='es'?'confirma':'confirms'),
+     'Estimates must disclose that businesses confirm services/prices');
    assert(proof.sections,'missing proof sections');
    assert.equal(proof.reviews,3,'three honest review slots expected');
    assert(proof.honest,'fake unlabelled testimonials detected');
