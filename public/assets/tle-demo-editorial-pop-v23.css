@@ -1,0 +1,305 @@
+/* v23 — premium ivory editorial guide and selective photography "pop".
+   Only the unkeyed PUBLIC sample uses .tle-editorial-v23.
+   The hero and small service-card images are intentionally excluded. */
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-sections{
+ background:#0d1924!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why.tle-editorial-why-v23{
+ display:flex!important;flex-direction:column!important;
+ width:100%!important;max-width:none!important;gap:0!important;
+ margin:0!important;border:0!important;border-radius:0!important;
+ box-shadow:none!important;overflow:visible!important;
+ background:#faf8f3!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why.tle-editorial-why-v23>img{
+ box-sizing:border-box!important;
+ display:block!important;order:0!important;
+ width:100%!important;max-width:none!important;
+ min-height:0!important;max-height:none!important;
+ height:clamp(290px,42vw,530px)!important;
+ object-fit:cover!important;object-position:center 47%!important;
+ border:0!important;border-radius:0!important;box-shadow:none!important;
+ filter:none!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why.tle-editorial-why-v23 .tle-demo-v12-copy{
+ box-sizing:border-box!important;order:1!important;
+ position:relative;isolation:isolate;
+ align-self:stretch!important;
+ width:100%!important;max-width:none!important;
+ margin:0!important;
+ padding:clamp(50px,5.5vw,94px) max(28px,calc((100% - 1100px)/2)) 28px!important;
+ background:
+  radial-gradient(ellipse at 100% 26%,rgba(193,226,246,.47),transparent 49%),
+  radial-gradient(ellipse at -5% 98%,rgba(199,230,248,.48),transparent 44%),
+  #faf8f3!important;
+ overflow:hidden!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-demo-v12-copy::after{
+ content:"";position:absolute;z-index:-1;pointer-events:none;
+ top:6%;right:-22%;width:min(95vw,810px);height:94%;
+ border:1px solid rgba(255,255,255,.65);
+ border-radius:49% 51% 40% 60%;
+ transform:rotate(-26deg);
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-demo-v12-ey{
+ display:block!important;margin:0 0 21px!important;
+ font:700 clamp(10px,1.15vw,13px)/1.3 Prompt,Arial,sans-serif!important;
+ letter-spacing:.25em!important;color:#467a9b!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why h2#tleWhyTitle{
+ display:block!important;max-width:870px!important;
+ margin:0 0 22px!important;
+ color:#122131!important;letter-spacing:-.056em!important;
+ font:600 clamp(38px,5.8vw,77px)/1.075 Georgia,"Times New Roman",serif!important;
+ text-wrap:balance;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why h2#tleWhyTitle em{
+ font-family:Georgia,"Times New Roman",serif!important;
+ font-style:italic!important;font-weight:400!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-demo-v12-copy>p{
+ max-width:770px!important;margin:0!important;
+ color:#4b6373!important;
+ font:400 clamp(15px,1.65vw,19px)/1.65 "DM Sans",Arial,sans-serif!important;
+ text-wrap:pretty;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-demo-v12-perks{
+ display:grid!important;grid-template-columns:1fr!important;
+ gap:13px!important;margin:29px 0 0!important;padding:0!important;
+ width:100%!important;max-width:820px!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-editorial-service-link{
+ box-sizing:border-box!important;display:grid!important;
+ grid-template-columns:54px minmax(0,1fr) 20px!important;
+ align-items:center!important;gap:15px!important;
+ min-width:0!important;width:100%!important;
+ min-height:79px!important;margin:0!important;padding:11px 21px 11px 13px!important;
+ border:1px solid #dde8ed!important;border-radius:999px!important;
+ background:rgba(255,255,255,.78)!important;
+ box-shadow:0 3px 12px rgba(54,88,115,.035)!important;
+ color:#19374a!important;text-decoration:none!important;
+ transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-editorial-service-link:hover{
+ transform:translateY(-2px)!important;border-color:#a3d5f0!important;
+ box-shadow:0 10px 28px rgba(93,152,190,.13)!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-editorial-service-link:focus-visible,
+html.demo-editorial.tle-editorial-v23 .tle-editorial-gallery-arrow:focus-visible{
+ outline:3px solid #70b6e2!important;outline-offset:4px!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-editorial-icon{
+ display:grid!important;place-items:center!important;
+ width:52px!important;height:52px!important;
+ border-radius:50%!important;
+ color:#42799d!important;background:#e7f4fb!important;border:0!important;
+ box-shadow:none!important;padding:0!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-editorial-icon svg{
+ width:26px!important;height:26px!important;
+ display:block!important;stroke:currentColor!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-editorial-service-words{
+ display:flex;flex-direction:column;justify-content:center;
+ gap:4px;min-width:0!important;border:0!important;
+ color:#192b3c!important;background:none!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-editorial-service-words strong{
+ display:block!important;color:#1a3041!important;
+ font:700 clamp(15px,1.6vw,19px)/1.25 Prompt,Arial,sans-serif!important;
+ letter-spacing:-.025em!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-editorial-service-words small{
+ display:block!important;color:#6b91a9!important;
+ font:650 clamp(9px,1.02vw,11px)/1.35 "DM Sans",Arial,sans-serif!important;
+ letter-spacing:.15em!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-editorial-chevron{
+ font:400 29px/1 Arial,sans-serif!important;color:#6b9ab7!important;
+ border:0!important;background:none!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-editorial-scroll-cue{
+ margin:clamp(32px,4vw,53px) auto 0;
+ display:flex;flex-direction:column;align-items:center;
+ justify-content:center;gap:0;color:#7899b0;text-align:center;
+}
+html.demo-editorial.tle-editorial-v23 .tle-editorial-scroll-cue>span:first-child{
+ font:650 clamp(9px,1.1vw,11px)/1.5 "DM Sans",Arial,sans-serif;
+ letter-spacing:.19em;
+}
+html.demo-editorial.tle-editorial-v23 .tle-editorial-scroll-down{
+ font:400 32px/1 Arial,sans-serif!important;color:#4c7995;
+ display:block;margin-top:-2px;
+}
+html.demo-editorial.tle-editorial-v23 .tle-editorial-gallery-v23{
+ box-sizing:border-box!important;display:flex;flex-direction:column;
+ align-items:center;gap:clamp(22px,3vw,36px);
+ padding:12px clamp(22px,5.5vw,100px) clamp(55px,7vw,105px);
+ margin:0!important;
+ width:100%!important;max-width:none!important;
+ background:
+  radial-gradient(ellipse at 50% -8%,rgba(176,217,242,.51),transparent 55%),
+  linear-gradient(160deg,#faf8f3 0%,#ecf6fc 45%,#faf8f3 100%)!important;
+ overflow:hidden;
+}
+html.demo-editorial.tle-editorial-v23 .tle-editorial-photo-card{
+ box-sizing:border-box!important;position:relative;isolation:isolate;
+ margin:0!important;overflow:hidden!important;
+ display:block;flex:0 0 auto;
+ width:min(100%,1130px);height:clamp(280px,44vw,590px);
+ border:4px solid rgba(255,255,255,.88)!important;
+ border-radius:clamp(24px,3.7vw,45px)!important;
+ background:#cedfe8;box-shadow:0 16px 55px rgba(70,126,169,.19);
+}
+html.demo-editorial.tle-editorial-v23 .tle-editorial-photo-card::after{
+ content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+ background:linear-gradient(0deg,rgba(249,248,245,.8) 0%,rgba(249,248,245,.42) 22%,transparent 63%);
+}
+html.demo-editorial.tle-editorial-v23 .tle-editorial-photo-card>img{
+ display:block;width:100%;height:100%;
+ object-fit:cover;object-position:center 54%;
+ border:0;max-width:none!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-editorial-photo-card .tle-editorial-photo-caption{
+ position:absolute;z-index:2;left:clamp(23px,5vw,75px);bottom:clamp(23px,4vw,63px);
+ max-width:min(72%,430px);
+ display:flex;flex-direction:column;align-items:flex-start;gap:8px;
+}
+html.demo-editorial.tle-editorial-v23 .tle-editorial-photo-title{
+ display:block;color:#122535;font:500 clamp(26px,3.7vw,48px)/1.05 Georgia,"Times New Roman",serif!important;
+ letter-spacing:-.034em;text-wrap:balance;
+}
+html.demo-editorial.tle-editorial-v23 .tle-editorial-photo-title em{
+ font-style:italic;font-weight:400;
+}
+html.demo-editorial.tle-editorial-v23 .tle-editorial-photo-sub{
+ color:#466f89;font:700 clamp(9px,1.15vw,12px)/1.5 "DM Sans",Arial,sans-serif;
+ letter-spacing:.18em;max-width:330px;
+}
+html.demo-editorial.tle-editorial-v23 .tle-editorial-gallery-arrow{
+ display:inline-grid;place-items:center;
+ margin-top:5px;width:33px;height:33px;
+ border:1px solid #78a9c3;border-radius:50%;
+ background:rgba(255,255,255,.65);color:#276488!important;
+ font:600 22px/1 Arial,sans-serif;text-decoration:none;
+}
+html.demo-editorial.tle-editorial-v23 .tle-editorial-gallery-arrow:hover{
+ background:#fff;color:#133c54!important;
+}
+/* Scroll POP: only the specified editorial big photo targets.
+   Prepare in JS, enter with spring-like scale and shadow, once per image. */
+html.demo-editorial.tle-editorial-v23 .tle-pop-on-scroll.tle-pop-prepared{
+ opacity:.76!important;
+ transform:translate3d(0,34px,0) scale(.938)!important;
+ transform-origin:center center!important;
+ transition:transform .92s cubic-bezier(.19,1,.25,1),opacity .72s ease,box-shadow .92s ease!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-pop-on-scroll.tle-pop-prepared.tle-pop-visible{
+ opacity:1!important;
+ transform:translate3d(0,0,0) scale(1)!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-editorial-photo-card.tle-pop-visible{
+ box-shadow:0 21px 70px rgba(73,146,191,.22)!important;
+}
+html.demo-editorial.tle-editorial-v23 #demoCinematicStory .tle-pop-on-scroll,
+html.demo-editorial.tle-editorial-v23 #demoHow .tle-pop-on-scroll{
+ transform-origin:center center!important;
+}
+@media(min-width:901px){
+ html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why.tle-editorial-why-v23>img{
+  height:min(38vw,520px)!important;
+ }
+ html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-demo-v12-copy{
+  padding-inline:max(60px,calc((100% - 1050px)/2))!important;
+ }
+}
+@media(max-width:820px){
+ html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why.tle-editorial-why-v23>img{
+  height:clamp(270px,54vw,420px)!important;
+  min-height:0!important;max-height:none!important;
+ }
+ html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-demo-v12-copy{
+  padding:55px clamp(24px,6vw,50px) 23px!important;
+ }
+ html.demo-editorial.tle-editorial-v23 .tle-editorial-gallery-v23{
+  padding-inline:clamp(20px,4.5vw,43px)!important;
+ }
+ html.demo-editorial.tle-editorial-v23 .tle-editorial-photo-card{
+  height:clamp(330px,57vw,470px);
+ }
+}
+@media(max-width:650px){
+ html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why.tle-editorial-why-v23>img{
+  height:clamp(275px,66vw,370px)!important;
+  min-height:0!important;max-height:none!important;
+ }
+ html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-demo-v12-copy{
+  padding:46px 24px 17px!important;
+ }
+ html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why h2#tleWhyTitle{
+  font-size:clamp(36px,10vw,49px)!important;
+  line-height:1.085!important;margin-bottom:20px!important;
+ }
+ html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-demo-v12-copy>p{
+  font-size:clamp(14px,3.7vw,16px)!important;line-height:1.57!important;
+ }
+ html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-demo-v12-perks{
+  margin-top:23px!important;gap:11px!important;
+ }
+ html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-editorial-service-link{
+  grid-template-columns:48px minmax(0,1fr) 17px!important;
+  min-height:76px!important;padding:10px 17px 10px 10px!important;gap:12px!important;
+ }
+ html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-editorial-icon{
+  height:48px!important;width:48px!important;
+ }
+ html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-editorial-icon svg{
+  width:25px!important;height:25px!important;
+ }
+ html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-editorial-service-words strong{
+  font-size:clamp(14px,4vw,16px)!important;
+ }
+ html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-editorial-service-words small{
+  font-size:9px!important;letter-spacing:.095em!important;
+ }
+ html.demo-editorial.tle-editorial-v23 .tle-editorial-gallery-v23{
+  padding:5px 17px 57px!important;gap:19px!important;
+ }
+ html.demo-editorial.tle-editorial-v23 .tle-editorial-photo-card{
+  width:100%;height:clamp(325px,95vw,460px);
+  border-radius:30px!important;border-width:3px!important;
+ }
+ html.demo-editorial.tle-editorial-v23 .tle-editorial-photo-card .tle-editorial-photo-caption{
+  bottom:24px;left:24px;max-width:80%;
+ }
+ html.demo-editorial.tle-editorial-v23 .tle-editorial-photo-title{
+  font-size:clamp(28px,8vw,40px)!important;
+ }
+ html.demo-editorial.tle-editorial-v23 .tle-editorial-photo-sub{
+  font-size:9px!important;letter-spacing:.11em!important;
+ }
+ html.demo-editorial.tle-editorial-v23 .tle-editorial-scroll-cue{
+  margin-top:31px;
+ }
+ html.demo-editorial.tle-editorial-v23 .tle-editorial-scroll-cue>span:first-child{
+  font-size:9px!important;letter-spacing:.12em!important;
+ }
+}
+@media(max-width:370px){
+ html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why h2#tleWhyTitle{
+  font-size:34px!important;
+ }
+ html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-editorial-service-link{
+  gap:9px!important;grid-template-columns:45px minmax(0,1fr) 16px!important;
+ }
+ html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-editorial-icon{
+  width:45px!important;height:45px!important;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ html.demo-editorial.tle-editorial-v23 .tle-pop-on-scroll.tle-pop-prepared,
+ html.demo-editorial.tle-editorial-v23 .tle-pop-on-scroll.tle-pop-prepared.tle-pop-visible,
+ html.demo-editorial.tle-editorial-v23 .tle-demo-v12-why .tle-editorial-service-link{
+  opacity:1!important;transform:none!important;transition:none!important;
+ }
+}
