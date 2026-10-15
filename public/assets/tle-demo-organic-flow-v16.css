@@ -211,13 +211,13 @@ html.demo-editorial.tle-demo-client-v14 .tle-client-quicksteps li::before{
  }
  html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid button.service,
  html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid button.service.sel{
-  grid-template-columns:36px minmax(0,1fr) 22px!important;
+  grid-template-columns:38px minmax(0,1fr) 22px!important;
   column-gap:12px!important;row-gap:5px!important;
   min-height:106px!important;
   padding:20px 0!important;
  }
  html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid .service .ico{
-  width:36px!important;height:36px!important;
+  width:38px!important;height:38px!important;
  }
  html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid .service .ico svg{
   width:24px!important;height:24px!important;
@@ -226,7 +226,7 @@ html.demo-editorial.tle-demo-client-v14 .tle-client-quicksteps li::before{
   font-size:clamp(16px,4.2vw,19px)!important;
  }
  html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid button.service::after{
-  left:48px!important;
+  left:50px!important;
  }
  html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .tle-service-subsection{
   margin-top:17px!important;padding-top:21px!important;
