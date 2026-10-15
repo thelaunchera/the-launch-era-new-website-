@@ -186,6 +186,27 @@ html.demo-editorial.tle-editorial-v23 .tle-editorial-gallery-arrow{
 html.demo-editorial.tle-editorial-v23 .tle-editorial-gallery-arrow:hover{
  background:#fff;color:#133c54!important;
 }
+/* Override old list-only v15 rules on nested spans. The old selector
+   includes every span in the perks container, not just the old list rows. */
+html.demo-editorial.tle-editorial-v23.tle-demo-story-v15 .tle-demo-v12-why .tle-demo-v12-perks .tle-editorial-service-link > span,
+html.demo-editorial.tle-editorial-v23.tle-demo-story-v15 .tle-demo-v12-why .tle-demo-v12-perks .tle-editorial-service-link .tle-editorial-service-words span{
+ border:0!important;border-bottom:0!important;padding:0!important;margin:0!important;
+ border-radius:0!important;box-shadow:none!important;
+ background:transparent!important;color:inherit!important;
+}
+html.demo-editorial.tle-editorial-v23.tle-demo-story-v15 .tle-demo-v12-why .tle-demo-v12-perks .tle-editorial-service-link > .tle-editorial-icon{
+ display:grid!important;place-items:center!important;
+ width:52px!important;height:52px!important;
+ border-radius:50%!important;background:#e7f4fb!important;
+ color:#42799d!important;flex-shrink:0!important;
+}
+html.demo-editorial.tle-editorial-v23.tle-demo-story-v15 .tle-demo-v12-why .tle-demo-v12-perks .tle-editorial-service-link > .tle-editorial-chevron{
+ color:#6b9ab7!important;font-size:29px!important;padding:0!important;
+}
+html.demo-editorial.tle-editorial-v23.tle-demo-story-v15 .tle-demo-v12-why .tle-demo-v12-perks .tle-editorial-service-link > .tle-editorial-service-words{
+ display:flex!important;flex-direction:column!important;align-items:flex-start!important;
+ justify-content:center!important;gap:4px!important;min-width:0!important;
+}
 /* Scroll POP: only the specified editorial big photo targets.
    Prepare in JS, enter with spring-like scale and shadow, once per image. */
 html.demo-editorial.tle-editorial-v23 .tle-pop-on-scroll.tle-pop-prepared{
