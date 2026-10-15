@@ -45,7 +45,11 @@ try{
    throw Error('Unexpected request: '+JSON.stringify(input));
   });
   await page.goto(base+'/ai-booking-assistant/onboarding/?session_id=cs_live_MOCKNOCHARGE123&lang='+s.lang,{waitUntil:'domcontentloaded'});
-  await page.locator('#intake').waitFor({state:'visible'});
+  await page.locator('#intake').waitFor({state:'visible',timeout:6000}).catch(async ()=>{
+   const status=await page.locator('#status').innerText().catch(()=>'(none)');
+   const text=await page.locator('#paymentText').innerText().catch(()=>'(none)');
+   throw Error('Intake did not display for '+s.offer+'/'+s.lang+'; status='+status+'; purchase='+text+'; browserErrors='+errors.join('; '));
+  });
   assert.match(await page.locator('#paymentText').innerText(),new RegExp('\\$'+(s.paid/100).toFixed(0)));
   assert.match(await page.locator('#paymentText').innerText(),new RegExp('\\$'+(s.monthly/100).toFixed(0)));
   assert.match(await page.locator('#setupProgressText').innerText(),/1/);
