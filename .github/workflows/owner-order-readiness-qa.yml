@@ -7,6 +7,8 @@ on:
       - 'public/command-center/assets/command-center-app.js'
       - 'scripts/qa-owner-order-control.mjs'
       - 'scripts/qa-owner-order-watchdog.mjs'
+      - 'scripts/qa-owner-order-practice.mjs'
+      - 'public/command-center/order-practice/index.html'
       - 'supabase/migrations/20261015135000_tle_ai_team_order_blocker_watch.sql'
       - '.github/workflows/owner-order-readiness-qa.yml'
   workflow_dispatch:
@@ -25,4 +27,5 @@ jobs:
         run: |
           node scripts/qa-owner-order-control.mjs
           node scripts/qa-owner-order-watchdog.mjs
+          node scripts/qa-owner-order-practice.mjs
           node --check public/command-center/assets/command-center-app.js
