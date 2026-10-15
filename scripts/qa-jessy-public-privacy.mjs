@@ -15,6 +15,20 @@ for(const language of ['en','es']){
  }
  const emails=await ask({message:language==='es'?'Qué correos recibe el cliente?':'What emails does the customer receive?',language,selected_offer:'booking'});assert.match(emails.reply,/acknowledgment|acuse/);
  const price=await ask({message:language==='es'?'Cuánto?':'How much?',language,selected_offer:'booking'});assert.match(price.reply,/19\.99/);
+ // 20-minute calls are post-purchase onboarding ONLY, never an open presales booking.
+ const call=await ask({message:language==='es'?'¿Ustedes ofrecen llamadas 1:1 de 20 minutos?':'Si you offer 1:1 call ?',language,selected_offer:'booking'});
+ assert.equal(call.mode,'verified_call');
+ assert.equal(call.next_action,'none');
+ assert.match(call.reply,language==='es'?/después de comprar un servicio/:/after you purchase a service/);
+ assert.doesNotMatch(call.reply,/request one here|puedes solicitarla aqui|pre-purchase.*offer|\*\*|schedule your call now/i);
+ const explain=await ask({message:language==='es'?'¿Cómo funciona Booking Automation?':'How does Booking Automation work?',language,selected_offer:'booking'});
+ assert.match(explain.reply,language==='es'?/llamada 1:1 de 20 minutos/:/20-minute 1:1 call/);
+ assert.match(explain.reply,language==='es'?/Después de comprar un servicio/:/After purchasing a service/);
+ assert.equal(explain.next_action,'none',"No presale call booking actions on explanation.");
+ const purchased=await ask({message:language==='es'?'Ya compré mi servicio, ¿cómo hago mi llamada 1:1?':'I already purchased a service, how do I schedule my 1:1 call?',language,selected_offer:'booking'});
+ assert.equal(purchased.mode,'verified_call');
+ assert.match(purchased.reply,language==='es'?/verificar tu pedido/:/verify your order/);
+ assert.equal(purchased.next_action,'none');
 }
 assert.equal(aiCalls,0);
-console.log('PASS public confidentiality bypass prevention, contextual prices and customer emails EN/ES, no live data or messages.');
+console.log('PASS public confidentiality, contextual prices, 20-minute post-purchase-only calls and EN/ES explanations, no live data or messages.');
