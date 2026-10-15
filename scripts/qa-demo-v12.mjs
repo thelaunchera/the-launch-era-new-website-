@@ -163,7 +163,8 @@ for(const width of [360,390,820,1024,1440]){
    assert(proof.area.includes('Fort Lauderdale'),'service area is not derived from the current business');
    assert(proof.faqs>=4,'FAQ is missing');
    assert(proof.ai,'assistant robot file not loaded');
-   assert(proof.photo,'The clean-finished-kitchen image did not load');
+   const photoAfterLazyLoad=await page.locator('.tle-demo-v12-why>img').evaluate(img=>img.complete&&img.naturalWidth>=900);
+   assert(photoAfterLazyLoad,'The clean-finished-kitchen image did not load after scrolling and waiting');
    assert(proof.photoSource.includes('pristine-kitchen.png'),'Visual story must advance from active cleaning to the finished kitchen');
    assert(proof.addOn.includes(lang==='es'?'opcional':'optional'),'AI separate service disclosure missing');
    assert.equal(proof.endLink,'#bookingStarter','CTA no longer goes to the existing request UI');
