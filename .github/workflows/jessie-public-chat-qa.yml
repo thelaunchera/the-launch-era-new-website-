@@ -11,6 +11,11 @@ on:
       - 'scripts/qa-jessy-coverage.mjs'
       - 'scripts/qa-jessie-live-smoke.mjs'
       - 'scripts/qa-jessy-public-privacy.mjs'
+      - 'scripts/qa-jessie-seven-features.mjs'
+      - 'supabase/functions/tle-jessie-demo-lead/**'
+      - 'supabase/functions/tle-jessie-metrics/**'
+      - 'supabase/migrations/20261015_tle_jessie_anonymous_insights.sql'
+      - 'public/command-center/lead-insights.html'
       - '.github/workflows/jessie-public-chat-qa.yml'
   workflow_dispatch:
 
@@ -23,6 +28,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+      - name: Verify new Jessie integrations and conversion safety
+        run: node scripts/qa-jessie-seven-features.mjs
       - name: Verify public widget syntax
         run: node --check public/assets/jessy-site.js
       - name: Verify route and assistant boundaries
