@@ -22,10 +22,12 @@ assert.match(chat,/Cleaning App sample is freely accessible/);
 assert.match(crm,/clean\(data\.service,40\)!=="booking"/);
 assert.doesNotMatch(crm,/"cleaning-app":\{name:"Cleaning App"/);
 
-assert.match(front,/source:"jessie_sample"/);
-assert.match(front,/window\.self!==window\.top/);
-assert.match(front,/demoFrame\.removeAttribute\("src"\)/);
-assert.match(front,/if\(next==="demo_choice"\)/);
+assert.doesNotMatch(front,/tle-jessy-demo-frame/,"Jessie must not embed the demo after confirmation");
+assert.doesNotMatch(front,/demoFrame\.src/,"The personalized demo belongs only in the email");
+assert.doesNotMatch(front,/showDemoCard\("cleaning-app"\)/);
+assert.match(front,/else if\(next==="demo_choice"\)\{showDemoCard\("booking"\)\}/);
+assert.match(front,/else if\(next==="app_demo"\)/);
+assert.match(front,/a\.href="\/cleaning-app-demo\/\?lang="\+lang/);
 assert.match(front,/if\(next==="demo"&&offer==="booking"\)showDemoCard\("booking"\)/);
 assert.match(front,/demoGate\.addEventListener\("submit"/);
 assert.match(front,/demoBusiness=demoField\("Business name"\)/);
@@ -33,15 +35,13 @@ assert.match(front,/demoArea=demoField\("Service area/);
 assert.match(front,/demoConsent\.required=true/);
 assert.match(front,/consent:demoConsent\.checked/);
 assert.match(front,/email:demoEmail\.value\.trim\(\)/);
+assert.match(front,/demoConfirmation\.hidden=false/,"Success must be shown inside Jessie's confirmation dialog");
 assert.match(front,/demoGate\.hidden=true/);
-assert.match(front,/saved_without_email/);
-assert.match(front,/contact_unavailable/);
-assert.match(front,/rate_limited/);
-assert.match(front,/Your request was saved, but we couldn't confirm the email/);
-
-assert.match(front,/demoFrame\.src=href/);
+assert.match(front,/demoDone\.addEventListener\("click",closeDemo\)/);
+assert.match(front,/Don.t forget to try a live booking with my friend Sonny!/);
+assert.match(front,/it.s a simulation, not a real booking/);
 // User consent must precede any demo unlock and backend must require business + email + area.
-assert.ok(front.indexOf("if(!response.ok||data.ok!==true||data.email_sent!==true)")<front.indexOf("demoFrame.src=href"),"The email provider must confirm sending before preview opens");
+assert.ok(front.indexOf("data.email_sent!==true")<front.indexOf("demoConfirmation.hidden=false"),"Only show success after email provider accepts the request");
 assert.match(crm,/data\.consent!==true/);
 assert.match(crm,/business\|\|!area/);
 assert.match(crm,/jessie_demo/);
@@ -93,4 +93,4 @@ assert.ok(!/\b(email|phone|transcript|ip_address|session_id)\s+(text|varchar|uui
 assert.match(css,/tle-jessy-demo-gate/);
 assert.match(css,/max-width:600px/);
 assert.ok(!front.includes("send payment")&&!front.includes("booking_created:true"));
-console.log("PASS Jessie seven capabilities, opt-in business/email/service area demo gate, original sample, I’m Interested confirmation, buyer/privacy boundaries, responsive UI and anonymous owner insights.");
+console.log("PASS Jessie email-only demo flow, 3-field opt-in, inline confirmation, Sonny simulation reminder, no in-chat demo, app demo remains public and anonymous owner insights.");
