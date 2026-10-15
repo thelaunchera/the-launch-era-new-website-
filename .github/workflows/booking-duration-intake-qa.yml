@@ -1,0 +1,38 @@
+name: Booking Duration Intake QA
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'public/assets/tle-duration-picker.js'
+      - 'public/booking-flow-intake/index.html'
+      - 'public/es/booking-flow-intake/index.html'
+      - 'scripts/qa-booking-intake-duration.mjs'
+      - '.github/workflows/booking-duration-intake-qa.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install isolated Playwright and Chromium
+        run: |
+          mkdir -p /tmp/tle-booking-duration-qa
+          cd /tmp/tle-booking-duration-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          cd "$GITHUB_WORKSPACE"
+          ln -s /tmp/tle-booking-duration-qa/node_modules node_modules
+      - name: Test duration forms in English and Spanish on phone tablet and desktop
+        run: node scripts/qa-booking-intake-duration.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: booking-duration-intake-screenshots
+          path: qa-screenshots/booking-duration*.png
