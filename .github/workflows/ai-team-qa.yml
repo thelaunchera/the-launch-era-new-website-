@@ -1,5 +1,13 @@
 name: Private AI Team QA
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'public/command-center/assets/ai-team*'
+      - 'public/command-center/ai-team.html'
+      - 'scripts/qa-ai-team*.mjs'
+      - 'supabase/migrations/20261015124000_tle_ai_team_auto_prepared_briefs.sql'
+      - '.github/workflows/ai-team-qa.yml'
   pull_request:
     paths:
       - 'docs/jessie-unified-release-runbook.md'
@@ -35,6 +43,7 @@ jobs:
           node scripts/qa-ai-team.mjs
           node scripts/qa-ai-team-commands.mjs
           node scripts/qa-ai-team-gateway.mjs
+          node scripts/qa-ai-team-auto-briefs.mjs
           node scripts/qa-ai-team-ai-provider.mjs
           node scripts/qa-jessie-unified-tenant.mjs
           node scripts/qa-jessie-owner-diagnostic.mjs
