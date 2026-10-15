@@ -36,3 +36,27 @@ for(const fragment of [
  "a.activation_email_delivery_status==='delivered'"
 ])assert(js.includes(fragment),'Missing fail-closed owner overview behavior '+fragment);
 console.log('PASS: hourly owner watch (no sends), real delivery evidence, Booking/AI failure isolation.');
+
+const bundleWatch=readFileSync('supabase/migrations/20261015153000_tle_ai_team_bundle_stall_watch.sql','utf8');
+for(const invariant of [
+ 'private.tle_ai_team_watch_bundles()',
+ "payment_status='paid'",
+ "b.ai_addon_offer in ('ai-booking','ai-followup','ai-business')",
+ 'o.stripe_session_id=b.stripe_session_id',
+ 'o.offer=b.ai_addon_offer',
+ 'o.tle_sales_workspace_id=v_ws',
+ "interval '20 minutes'",
+ "interval '4 hours'",
+ 'missing-ai:',
+ 'ai-pending:',
+ 'booking-pending:',
+ 'external_actions',
+ 'from public,anon,authenticated'
+])assert(bundleWatch.includes(invariant),'Missing bundle alert safeguard '+invariant);
+assert(!/api\.resend|api\.stripe|net\.http|stripe\.checkout|fetch\(/i.test(bundleWatch),'Bundle watcher must not send or charge');
+assert(!/update\s+public\.tle_(booking_flow_accounts|ai_agent_orders)/i.test(bundleWatch),'Watcher must not change customer orders');
+const linkedRpc=readFileSync('supabase/migrations/20261015151000_tle_owner_bundle_queue_linked_ai.sql','utf8');
+assert(linkedRpc.includes("'ai_order_id',a.id"),'Bundle owner queue must contain linked AI id');
+assert(linkedRpc.includes('o.stripe_session_id=b.stripe_session_id'),'Owner AI order must be linked by exact verified checkout session');
+assert(linkedRpc.includes("b.payment_status='paid'"),'Never surface unpaid bundles as purchases');
+console.log('PASS: bundle lifecycle alerts are owner-only, checkout-linked, deduplicated and read-only.');
