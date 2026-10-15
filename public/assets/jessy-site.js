@@ -43,7 +43,35 @@ function pageText(kind){
 }
 function node(tag,cls,text){const x=document.createElement(tag);if(cls)x.className=cls;if(text!==undefined)x.textContent=text;return x}
 function button(cls,label,title){const b=node("button",cls,label);b.type="button";if(title)b.setAttribute("aria-label",title);return b}
-function track(action){try{window.tleTrackEvent?.("jessy_interaction",{action,language:lang})}catch{}}
+function track(action){
+ try{window.tleTrackEvent?.("jessy_interaction",{action,language:lang,service:allowedService.has(offer)?offer:"general",intent:lastIntent})}catch{}
+ if(!categoryEvents.has(action)||!/^(thelaunchera\.com|www\.thelaunchera\.com)$/.test(location.hostname))return;
+ const body={event:action,language:lang,service:allowedService.has(offer)?offer:"general",intent:lastIntent};
+ // Only categorical stats. No names, message text, email, IP or visitor identifier.
+ try{fetch(METRICS,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body),keepalive:true}).catch(()=>{})}catch{}
+}
+
+const categoryEvents=new Set(["opened","lead_start","lead_saved","demo_open","demo_close","demo_lead_saved","diagnostic","comparison","pricing","recommendation","client_help","language_switch","answered"]);
+const allowedService=new Set(["booking","cleaning-app","website","va","ai-booking","ai-followup","ai-business"]);
+function visitorLanguage(m){
+ const tokens=(String(m).toLowerCase().match(/[\p{L}]+/gu)||[]).slice(0,60);
+ const spanish=new Set(["hola","quiero","necesito","puedes","cómo","como","funciona","cuánto","cuanto","precio","reservas","clientes","limpieza","ayuda","negocio","seguimiento","mostrar","tengo","para","qué","interesa","servicios","con","saber","hacen"]);
+ const english=new Set(["hello","hey","what","how","much","need","want","with","your","business","cleaning","website","bookings","clients","follow","price","show","works","can","could","help","would","like","please","service","demo","know","about"]);
+ const es=tokens.filter(x=>spanish.has(x)).length+(String(m).match(/[¿¡ñ]/g)||[]).length, en=tokens.filter(x=>english.has(x)).length;
+ return es>=2&&es>=en+1?"es":en>=2&&en>=es+2?"en":null;
+}
+function visitorIntent(m){
+ const q=String(m).toLowerCase();
+ if(/(price|cost|cuánto|cuanto|precio|mensual|monthly)/.test(q))return "pricing";
+ if(/(demo|preview|muestra|demostraci|see it|verlo)/.test(q))return "demo";
+ if(/(already bought|purchased|already paid|ya compr|pedido|intake|soporte|support|entrega)/.test(q))return "client_help";
+ if(/(compare|versus|\bvs\b|diferencia|compar|bundle|paquete)/.test(q))return "comparison";
+ if(/(follow.?up|seguimiento|lost leads|perder clientes|olvid|reply)/.test(q))return "followups";
+ if(/(job|invoice|factura|schedule|calendar|calendario|trabajos)/.test(q))return "operations";
+ if(/(booking|reserva|cotiz|quote|request)/.test(q))return "bookings";
+ return "general";
+}
+
 function direct(href){
  if(!href||typeof href!=="string"||!href.startsWith("/")||href.startsWith("//"))return null;
  const p=href.split("?")[0];
@@ -283,6 +311,7 @@ function quickChoices(){
 function greeting(){if(!seen){msg(pageText("hello"),"bot");seen=true;quickChoices()}}
 function optionalChime(){if(!soundOn)return;try{const Context=window.AudioContext||window.webkitAudioContext;if(!Context)return;const a=new Context();const o=a.createOscillator();const gain=a.createGain();o.type="sine";o.frequency.value=660;gain.gain.setValueAtTime(.0001,a.currentTime);gain.gain.exponentialRampToValueAtTime(.03,a.currentTime+.02);gain.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.15);o.connect(gain);gain.connect(a.destination);o.start();o.stop(a.currentTime+.16);o.onended=()=>a.close()}catch{}}
 function showLead(on){
+ if(on)track("lead_start");
  details=on;lead.hidden=!on;log.hidden=on;quick.hidden=on;bottom.hidden=on;
  if(on){
   // Editable summary only: no transcript sent unless the visitor submits the consent form.
@@ -297,7 +326,10 @@ function showLead(on){
  }else{input.focus()}
 }
 function toggle(state){open=state;panel.hidden=!state;backdrop.hidden=!state;fab.setAttribute("aria-expanded",state?"true":"false");fab.hidden=state;nudge.hidden=true;document.body.classList.toggle("tle-jessy-open",state);if(state){lastFocus=document.activeElement;startedAt=Date.now()-3000;greeting();reloadOffers();optionalChime();try{navigator.vibrate?.(45)}catch{}if(window.innerWidth>600)input.focus();track("opened")}else{showLead(false);fab.hidden=false;if(lastFocus&&lastFocus.isConnected&&lastFocus.focus)lastFocus.focus();else fab.focus();track("closed")}}
-async function ask(raw){if(waiting)return;const message=String(raw||"").trim().slice(0,340);if(message.length<2)return;if(/(?:\d[ -]*?){13,19}/.test(message)){msg(lang==="es"?"Por favor, no compartas números de tarjeta aquí.":"Please don't share card numbers here.","bot");return}
+async function ask(raw){if(waiting)return;const message=String(raw||"").trim().slice(0,340);if(message.length<2)return;
+ if(!manualLanguage){const auto=visitorLanguage(message);if(auto&&auto!==lang){lang=auto;syncLanguage()}}
+ lastIntent=visitorIntent(message);
+ if(lastIntent!=="general")track("diagnostic");if(/(?:\d[ -]*?){13,19}/.test(message)){msg(lang==="es"?"Por favor, no compartas números de tarjeta aquí.":"Please don't share card numbers here.","bot");return}
 msg(message,"user");input.value="";waiting=true;send.disabled=true;const indicator=msg(t("typing"),"bot");
 if(/quiero hablar|contactar|leave my details|talk to a person|human support/i.test(message)){indicator.remove();showLead(true);waiting=false;send.disabled=false;return}
 const previous=history.slice(-12);let result=null;try{const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),16000);try{const r=await fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message,language:lang,selected_offer:offer||currentPage(),page_path:location.pathname,history:previous}),signal:controller.signal});if(r.ok)result=await r.json();else if(r.status===429)result={reply:t("limit")}}finally{clearTimeout(timeout)}}catch{}
@@ -320,6 +352,9 @@ if(result&&typeof result.reply==="string"){
   else if(next==="trial"&&result.trial)actions(null,info,result.trial);
   else if(next==="demo"&&!DEMOS[offer]&&info)actions(null,info,null);
  }
+ if(lastIntent==="comparison")track("comparison");
+ if(lastIntent==="pricing")track("pricing");
+ if(allowedService.has(offer)&&lastIntent!=="general")track("recommendation");
  track("answered");
 }else{track("chat_unavailable")}
 waiting=false;send.disabled=false;log.scrollTop=log.scrollHeight;input.focus()}
@@ -340,7 +375,7 @@ function syncLanguage(){
  consentLabel.querySelector("span").textContent=t("consent");
  submit.textContent=t("confirm");privacy.textContent=t("privacy");quickChoices();
 }
-languageBtn.addEventListener("click",()=>{lang=lang==="en"?"es":"en";syncLanguage();msg(lang==="es"?"¡También hablo español! ¿En qué te ayudo?":"I speak English too! How can I help?","bot");track("language_switch")});
+languageBtn.addEventListener("click",()=>{manualLanguage=true;lang=lang==="en"?"es":"en";syncLanguage();track("language_switch");msg(lang==="es"?"¡También hablo español! ¿En qué te ayudo?":"I speak English too! How can I help?","bot");track("language_switch")});
 form.addEventListener("submit",e=>{e.preventDefault();ask(input.value)});
 input.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();form.requestSubmit()}});
 leadTrigger.addEventListener("click",()=>showLead(true));back.addEventListener("click",()=>showLead(false));
