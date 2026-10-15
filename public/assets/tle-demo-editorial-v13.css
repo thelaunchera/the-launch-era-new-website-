@@ -1,0 +1,366 @@
+/* TLE editorial demo v13 — seamless photo story, not stacked inset cards.
+   Public fictional demo ONLY. No changes to private buyer/owner booking or Jessy.
+   Hero: caring professional → work in progress → clean kitchen → welcoming home. */
+html.demo-editorial.tle-demo-story-v13 { background:#080d13;scroll-padding-top:25px; }
+html.demo-editorial.tle-demo-story-v13 body {
+ background:#080d13!important;color:#f3f8fc!important;overflow-x:clip;
+}
+html.demo-editorial.tle-demo-story-v13 .wrap {
+ box-sizing:border-box;max-width:100%!important;width:100%!important;
+ padding:0!important;margin:0 auto!important;overflow:clip;
+}
+html.demo-editorial.tle-demo-story-v13 .demo-editorial-nav {
+ padding-inline:clamp(17px,5vw,90px)!important;border:0!important;
+ box-shadow:none!important;background:#080d13!important;
+}
+html.demo-editorial.tle-demo-story-v13 #leadHero.hero {
+ display:block!important;box-sizing:border-box;
+ border:0!important;border-radius:0!important;margin:0!important;
+ width:100%!important;max-width:none!important;
+ height:clamp(540px,79vh,810px)!important;min-height:540px!important;
+ box-shadow:none!important;background:#0b141e!important;
+}
+html.demo-editorial.tle-demo-story-v13 #leadHero .demo-cb-hero-media,
+html.demo-editorial.tle-demo-story-v13 #leadHero .demo-cb-hero-media img {
+ border-radius:0!important;
+}
+html.demo-editorial.tle-demo-story-v13 #leadHero .heroText {
+ left:clamp(22px,7.5vw,120px)!important;right:clamp(22px,7.5vw,120px)!important;
+ bottom:clamp(34px,6vw,76px)!important;max-width:700px!important;
+}
+html.demo-editorial.tle-demo-story-v13 #leadHero .demo-headline {
+ font-size:clamp(36px,5.65vw,78px)!important;line-height:1.07!important;
+}
+html.demo-editorial.tle-demo-story-v13 #leadHero .heroArea {
+ max-width:100%!important;box-shadow:none!important;
+}
+html.demo-editorial.tle-demo-story-v13 .demo-service-showcase,
+html.demo-editorial.tle-demo-story-v13 .demo-feature-bar { display:none!important; }
+
+/* A quiet booking studio embedded in the page; only choices remain interactive. */
+html.demo-editorial.tle-demo-story-v13 #bookingStarter.panel {
+ width:100%!important;max-width:1190px!important;
+ box-sizing:border-box!important;
+ padding:clamp(40px,5.8vw,85px) clamp(21px,5vw,74px)!important;
+ margin:0 auto!important;background:transparent!important;
+ border:0!important;border-radius:0!important;box-shadow:none!important;
+ overflow:visible!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter .head {
+ border-bottom:1px solid #7597b542!important;
+ padding-bottom:clamp(25px,3vw,39px)!important;margin-bottom:25px!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter .head h2 {
+ font-size:clamp(32px,4.6vw,58px)!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main button.service {
+ background:transparent!important;background-image:none!important;
+ border:0!important;border-bottom:1px solid #749bb647!important;
+ border-radius:0!important;box-shadow:none!important;
+ padding:23px 10px!important;min-height:145px!important;
+ transition:background-color .18s ease,border-color .18s ease!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main button.service:hover,
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main button.service:focus-visible,
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main button.service.sel {
+ border-bottom-color:#b1e4ff!important;
+ background:linear-gradient(90deg,#a9dfff0c,#a9dfff05)!important;
+ box-shadow:none!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter .category-tabs .choice {
+ border-radius:999px!important;min-height:58px!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .price {
+ color:#a9dfff!important;
+}
+html.demo-editorial.tle-demo-story-v13 .demo-booking-eyebrow {display:none!important;}
+
+/* One uninterrupted photograph of the work itself. */
+html.demo-editorial.tle-demo-story-v13 #demoCinematicStory {
+ display:grid!important;grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr)!important;
+ min-height:530px!important;width:100%!important;
+ margin:0!important;border:0!important;border-radius:0!important;
+ box-shadow:none!important;background:#0e1a25!important;overflow:hidden!important;
+}
+html.demo-editorial.tle-demo-story-v13 #demoCinematicStory .demo-cinematic-photo {
+ background-image:url('/assets/lead-demo/drive-cleaner-kitchen.webp')!important;
+ background-repeat:no-repeat!important;background-position:center 43%!important;
+ background-size:cover!important;min-height:530px!important;
+ border:0!important;box-shadow:none!important;
+}
+html.demo-editorial.tle-demo-story-v13 #demoCinematicStory .demo-cinematic-photo::after{
+ background:linear-gradient(90deg,transparent 75%,#0e1a253d)!important;
+}
+html.demo-editorial.tle-demo-story-v13 #demoCinematicStory .demo-cinematic-copy {
+ padding:clamp(34px,5.8vw,97px)!important;min-width:0!important;
+ background:linear-gradient(115deg,#101c27,#0d1923)!important;
+ border:0!important;border-radius:0!important;box-shadow:none!important;
+ justify-content:center!important;
+}
+html.demo-editorial.tle-demo-story-v13 #demoCinematicStory .demo-cinematic-copy h2{
+ max-width:580px!important;font-size:clamp(34px,4vw,64px)!important;
+ line-height:1.08!important;
+}
+html.demo-editorial.tle-demo-story-v13 #demoCinematicStory .demo-cinematic-highlights {
+ border-top:1px solid #b6d7ea32!important;max-width:540px;
+}
+html.demo-editorial.tle-demo-story-v13 #demoCinematicStory .demo-cinematic-highlight {
+ background:none!important;border:0!important;box-shadow:none!important;
+}
+
+/* The outcome: a sunlit, spotless kitchen, in the same visual rhythm. */
+html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-sections {
+ width:100%!important;max-width:none!important;margin:0!important;
+ padding:0!important;background:#080d13!important;
+}
+html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-why {
+ display:grid!important;grid-template-columns:1fr 1fr!important;
+ width:100%!important;margin:0!important;
+ background:#0c1721!important;border:0!important;border-radius:0!important;
+ box-shadow:none!important;overflow:hidden!important;
+}
+html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-why .tle-demo-v12-copy{
+ padding:clamp(43px,6vw,105px)!important;
+}
+html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-why>img{
+ object-fit:cover!important;object-position:center!important;
+ min-height:520px!important;max-height:none!important;height:100%!important;
+ filter:none!important;
+}
+html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-why .tle-demo-v12-perks{
+ flex-direction:column!important;align-items:flex-start!important;gap:12px!important;
+}
+html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-why .tle-demo-v12-perks span{
+ background:transparent!important;color:#d5eefa!important;
+ border:0!important;border-radius:0!important;
+ border-bottom:1px solid #8bb4ca31!important;
+ padding:6px 0 11px!important;font-size:14px!important;
+}
+
+/* Trust must be earned: three sample quotes with clear labels, not fabricated reviews. */
+html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-review {
+ margin:0!important;padding:clamp(60px,7vw,118px) clamp(23px,6vw,114px)!important;
+ background:#0a111a!important;box-shadow:none!important;border:0!important;
+}
+html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-heading{
+ text-align:left!important;max-width:1060px!important;
+ margin:0 auto 40px!important;
+}
+html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-heading h2{
+ font-size:clamp(34px,5.2vw,64px)!important;
+}
+html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-reviewgrid{
+ max-width:1220px;margin:0 auto;gap:clamp(24px,3vw,58px)!important;
+}
+html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-reviewgrid article{
+ background:transparent!important;background-image:none!important;
+ border:0!important;border-top:1px solid #b1d7ef60!important;
+ border-radius:0!important;box-shadow:none!important;
+ min-height:180px!important;padding:23px 0 0!important;gap:12px!important;
+}
+html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-tag {
+ color:#8ccfee!important;letter-spacing:.085em!important;
+}
+
+/* The finished result: a beautiful home + grounded service coverage. */
+html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-areas{
+ width:100%!important;margin:0!important;
+ grid-template-columns:1.1fr .9fr!important;
+ border:0!important;border-radius:0!important;box-shadow:none!important;
+ background:#0d1924!important;overflow:hidden!important;
+}
+html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-areas img{
+ min-height:530px!important;max-height:none!important;height:100%!important;
+ object-fit:cover!important;object-position:center!important;
+}
+html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-areas>div{
+ padding:clamp(38px,6vw,95px)!important;
+}
+html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-areatags span{
+ border:0!important;border-bottom:1px solid #9bc8e65c!important;
+ border-radius:0!important;background:transparent!important;
+ padding:11px 4px!important;font-size:14px!important;
+}
+
+/* FAQ like an editorial accordion separated by lines, not separate cards. */
+html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-faq{
+ padding:clamp(59px,7vw,100px) clamp(23px,7vw,140px)!important;
+ background:#0b141e!important;border:0!important;
+}
+html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-faqgrid{
+ max-width:1060px!important;margin-inline:auto!important;
+ gap:0 40px!important;
+}
+html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-faqgrid details{
+ border:0!important;border-top:1px solid #a2c5dc55!important;
+ border-radius:0!important;background:transparent!important;
+ padding:22px 0!important;
+}
+html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-faqgrid summary span{
+ width:24px;height:24px;flex-basis:24px;
+ background:transparent!important;border:1px solid #8dbbdc66!important;
+}
+
+/* Seamless last panel, no inset rounded sales box. */
+html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-end{
+ margin:0!important;border:0!important;border-radius:0!important;
+ box-shadow:none!important;background:linear-gradient(100deg,#183247,#0a151e)!important;
+ padding:clamp(43px,7vw,106px) clamp(22px,7vw,120px)!important;
+}
+html.demo-editorial.tle-demo-story-v13 .demo-footer{
+ border-top:1px solid #8baac13e!important;border-radius:0!important;
+ margin:0!important;max-width:none!important;padding:30px clamp(24px,6vw,92px)!important;
+}
+
+/* Only one Sonny. Greeting appears in his single launch control, never a separate bubble. */
+html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-welcome,
+html.demo-editorial.tle-demo-story-v13 #tleDemoRobotWelcome,
+html.demo-editorial.tle-demo-story-v13 .tle-jessy-fab,
+html.demo-editorial.tle-demo-story-v13 .tle-jessy-panel {
+ display:none!important;
+}
+html.demo-editorial.tle-demo-story-v13 body button.tle-ai-launch {
+ display:flex!important;align-items:center!important;
+ gap:8px!important;justify-content:flex-start!important;
+ width:auto!important;max-width:min(196px,calc(100vw - 28px))!important;
+ height:52px!important;min-height:52px!important;min-width:52px!important;
+ padding:4px 12px 4px 4px!important;
+ bottom:calc(70px + env(safe-area-inset-bottom))!important;
+ right:14px!important;border-radius:99px!important;
+ background:#102336!important;color:#f4fbff!important;
+ box-shadow:0 8px 26px #02070f80!important;
+ z-index:2147483000!important;
+}
+html.demo-editorial.tle-demo-story-v13 .tle-ai-launch .tle-demo-ai-avatar {
+ width:43px!important;height:43px!important;min-width:43px!important;
+ flex:0 0 43px!important;
+}
+html.demo-editorial.tle-demo-story-v13 .tle-ai-launch .tle-demo-ai-label{
+ display:block!important;min-width:0!important;white-space:nowrap!important;
+ max-width:135px!important;overflow:hidden!important;text-overflow:ellipsis!important;
+ font-size:12px!important;font-weight:700!important;
+}
+html.demo-editorial.tle-demo-story-v13 body button.tle-ai-launch.tle-demo-condensed{
+ width:52px!important;height:52px!important;min-width:52px!important;
+ max-width:52px!important;justify-content:center!important;
+ padding:3px!important;
+}
+html.demo-editorial.tle-demo-story-v13 .tle-ai-launch.tle-demo-condensed .tle-demo-ai-label{
+ display:none!important;
+}
+html.demo-editorial.tle-demo-story-v13 .tle-ai-panel {
+ bottom:calc(132px + env(safe-area-inset-bottom))!important;
+ right:12px!important;
+ width:min(390px,calc(100vw - 24px))!important;
+ max-height:min(570px,calc(100dvh - 155px))!important;
+}
+@media(max-width:820px){
+ html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-why,
+ html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-areas {
+  grid-template-columns:1fr!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-why .tle-demo-v12-copy {
+  padding:46px clamp(24px,6.3vw,63px)!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-why>img {
+  min-height:330px!important;max-height:480px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-areas img{
+  min-height:320px!important;max-height:460px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-areas>div {
+  padding:46px clamp(24px,6.3vw,63px)!important;
+ }
+}
+@media(max-width:650px){
+ html.demo-editorial.tle-demo-story-v13 .demo-editorial-nav{
+  padding-inline:18px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #leadHero.hero{
+  height:min(740px,calc(100svh - 40px))!important;min-height:500px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #leadHero .heroText{
+  left:25px!important;right:25px!important;bottom:44px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #leadHero .demo-headline {
+  font-size:clamp(33px,9.3vw,46px)!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #bookingStarter.panel {
+  padding:44px 22px 57px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #bookingStarter .head {
+  display:flex!important;align-items:flex-start!important;
+  flex-wrap:wrap!important;gap:18px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #bookingStarter #residentialServiceList:not([hidden]),
+ html.demo-editorial.tle-demo-story-v13 #bookingStarter #commercialServiceList:not([hidden]){
+  grid-template-columns:minmax(0,1fr)!important;gap:0!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #bookingStarter #main button.service{
+  min-height:114px!important;padding:17px 2px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #demoCinematicStory{
+  display:flex!important;flex-direction:column!important;
+  min-height:0!important;gap:0!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #demoCinematicStory .demo-cinematic-photo {
+  min-height:clamp(300px,98vw,480px)!important;
+  background-position:center 33%!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #demoCinematicStory .demo-cinematic-copy{
+  padding:42px 25px 52px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #demoCinematicStory .demo-cinematic-copy h2 {
+  font-size:clamp(32px,8.4vw,42px)!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-why>img{
+  min-height:290px!important;max-height:360px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-review {
+  padding:58px 24px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-reviewgrid {
+  grid-template-columns:minmax(0,1fr)!important;gap:26px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-reviewgrid article{
+  min-height:115px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-areas img{
+  min-height:270px!important;max-height:360px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-faq {
+  padding:52px 24px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-faqgrid {
+  grid-template-columns:minmax(0,1fr)!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 .tle-demo-v12-end {
+  display:flex!important;flex-direction:column!important;align-items:stretch!important;
+  padding:48px 24px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 body button.tle-ai-launch {
+  width:auto!important;max-width:178px!important;
+  height:46px!important;min-height:46px!important;min-width:46px!important;
+  padding:3px 9px 3px 3px!important;
+  right:12px!important;bottom:calc(82px + env(safe-area-inset-bottom))!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 .tle-ai-launch .tle-demo-ai-avatar{
+  width:38px!important;height:38px!important;min-width:38px!important;flex-basis:38px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 .tle-ai-launch .tle-demo-ai-label{
+  font-size:11px!important;max-width:111px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 body button.tle-ai-launch.tle-demo-condensed {
+  width:46px!important;height:46px!important;min-width:46px!important;max-width:46px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 .tle-ai-panel{
+  bottom:calc(139px + env(safe-area-inset-bottom))!important;
+  height:min(540px,calc(100dvh - 164px))!important;
+  min-height:260px!important;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ html.demo-editorial.tle-demo-story-v13 *,
+ html.demo-editorial.tle-demo-story-v13 *::before,
+ html.demo-editorial.tle-demo-story-v13 *::after{scroll-behavior:auto!important;animation-duration:0.01ms!important}
+}
