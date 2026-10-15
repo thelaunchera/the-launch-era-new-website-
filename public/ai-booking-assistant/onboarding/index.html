@@ -104,8 +104,8 @@ header{padding:16px max(18px,calc((100% - 760px)/2))}main{margin:20px auto 42px}
  const handoffBlock=makeField('handoffRule',es?'¿Cuándo debe pasar la consulta a una persona?':'When should it hand off to a person?',es?'Ej.: Precios especiales o problemas de reserva':'e.g. Special quotes or booking problems',90);
  const noPromiseBlock=makeField('noPromises',es?'¿Qué nunca debe prometer? (opcional)':'What should it never promise? (optional)',es?'Ej.: Precios finales sin mi aprobación':'e.g. Final prices without my approval',90);
  stepTwo.append(handoffBlock,noPromiseBlock,optionalBlock);
- $('notes').maxLength=120;$('notes').placeholder=es?'Otras indicaciones breves (máximo 120 caracteres)':'Other short notes (max 120 characters)';
- $('notesHelp').textContent=es?'Máximo 120 caracteres. Nunca compartas contraseñas, datos bancarios o información de clientes.':'Maximum 120 characters. Never share passwords, bank details or customer information.';
+ const notesInput=optionalBlock.querySelector('#notes');notesInput.maxLength=120;notesInput.placeholder=es?'Otras indicaciones breves (máximo 120 caracteres)':'Other short notes (max 120 characters)';
+ optionalBlock.querySelector('#notesHelp').textContent=es?'Máximo 120 caracteres. Nunca compartas contraseñas, datos bancarios o información de clientes.':'Maximum 120 characters. Never share passwords, bank details or customer information.';
  const consentLabel=document.createElement('label');consentLabel.className='setup-checkbox';consentLabel.id='followupConsentWrap';consentLabel.hidden=true;
  const consentCheck=document.createElement('input');consentCheck.id='followupConsent';consentCheck.type='checkbox';
  const consentText=document.createElement('span');consentText.textContent=es?'Entiendo que los seguimientos solo se enviarán a leads que autorizaron recibir mensajes.':'I understand follow-ups are only sent to leads who have agreed to receive messages.';
