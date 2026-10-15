@@ -19,8 +19,8 @@ const labels=es?{
   reviewText:["La opinión verificada de un cliente aparecerá aquí.","Una segunda reseña auténtica puede describir la experiencia.","Aquí podremos mostrar otro comentario real, con autorización."],
   areas:"Áreas que atendemos",areasSub:"La cobertura real la define el negocio. Este ejemplo se personaliza con sus ciudades y códigos postales.",
   areaUnknown:"Área de servicio por confirmar",serviceArea:"Zonas cercanas",postcodes:"Cobertura por ZIP",
-  why:"Por qué elegir este servicio",whyTitle:"Un hogar listo para disfrutar.",whyCopy:"Cocinas impecables, espacios cuidados y esa sensación de llegar a casa y encontrar todo en su lugar.",
-  whyItems:["Un cuidado que se nota","Detalles que importan","Más tiempo para disfrutar"],faq:"Preguntas frecuentes",faqSub:"Respuestas rápidas antes de solicitar una limpieza.",
+  why:"ELIGE TU LIMPIEZA",whyTitle:"Una limpieza para cada momento.",whyCopy:"Desde el mantenimiento de cada semana hasta una limpieza profunda o antes de mudarte. Elige lo que mejor se adapte a tu hogar.",
+  whyItems:["Limpieza regular","Limpieza profunda","Mudanzas y cambios de hogar"],faq:"Preguntas frecuentes",faqSub:"Respuestas rápidas antes de solicitar una limpieza.",
   faqItems:[["¿Puedo solicitar un estimado?","Sí. En esta demostración puedes conocer el proceso. Los precios son de ejemplo y el negocio confirma la cotización final."],["¿Puedo elegir limpieza recurrente?","La experiencia muestra opciones de una sola visita, semanal, quincenal o mensual."],["¿Esta prueba envía una reserva real?","No. Es una demostración y no se envían solicitudes, correos ni pagos."],["¿Me puede ayudar el asistente con IA?","Sí. Puedes explorar los servicios y preparar los datos para revisar el formulario. La IA es un servicio opcional que se contrata por separado."]],
   finalTitle:"¿Lista para probarlo?",finalText:"Explora los servicios y descubre cómo sería la experiencia de tus clientes.",finalCta:"Probar solicitud de limpieza",
   salesTitle:"Una landing que se siente como tu negocio",salesText:"Un ejemplo visual con fotografía, reseñas reales aprobadas, áreas de servicio y una reserva fácil de explorar.",
@@ -32,8 +32,8 @@ const labels=es?{
   reviewText:["An approved customer review will appear here.","A second genuine review can highlight the experience.","Add another verified customer comment with permission."],
   areas:"Areas we serve",areasSub:"Service coverage belongs to the business. Its actual cities and ZIP codes personalize this section.",
   areaUnknown:"Service area to be confirmed",serviceArea:"Nearby communities",postcodes:"ZIP coverage",
-  why:"Why choose us",whyTitle:"A home that feels taken care of.",whyCopy:"A spotless kitchen, beautifully cared-for spaces and that wonderful just-cleaned feeling when you walk in.",
-  whyItems:["Care you can see","Thoughtful finishing touches","More room to enjoy life"],faq:"Frequently asked questions",faqSub:"Helpful answers before making a cleaning request.",
+  why:"FIND YOUR CLEANING",whyTitle:"The right clean for your everyday.",whyCopy:"From a regular refresh to a deeper clean or a move-in reset, explore the service that feels right for your home.",
+  whyItems:["Regular cleaning","Deep cleaning","Move-in / move-out"],faq:"Frequently asked questions",faqSub:"Helpful answers before making a cleaning request.",
   faqItems:[["Can I request an estimate?","Yes. In this preview you can try the request process. Prices are illustrative; the business confirms final estimates."],["Can I request recurring cleanings?","The sample includes one-time, weekly, biweekly and monthly choices."],["Does this demo place a real booking?","No. This is an interactive sample; nothing is booked, charged or emailed."],["Can the AI help with the form?","Yes. It can explain services and prepare sample details for your review. AI assistance is an optional service sold separately."]],
   finalTitle:"Ready to give it a try?",finalText:"Explore the services and see how the booking experience can work for your customers.",finalCta:"Try the cleaning request",
   salesTitle:"A website that feels like your business",salesText:"See a visual example with beautiful imagery, verified customer reviews, service areas and a simple booking experience.",
@@ -180,16 +180,16 @@ function addSonnyRetry(){
 }
 function run(){
  if(isProspect){
-   document.documentElement.classList.add("tle-demo-story-v13");
+   document.documentElement.classList.add("tle-demo-story-v13","tle-demo-story-v15");
    addSections();
    // The images follow one visual story: cleaner → careful work → fresh room → home.
    // This edits public sample copy only; buyer/owner pages keep their original UI.
    const story=document.getElementById("demoCinematicStory");
    if(story){
      const title=story.querySelector(".demo-cinematic-copy h2");
-     if(title)title.innerHTML=es?"El cuidado se nota.<br><em>En cada detalle.</em>":"The care shows.<br><em>In every detail.</em>";
+     if(title)title.innerHTML=es?"El valor está<br><em>en los detalles.</em>":"The difference<br><em>is in the details.</em>";
      const desc=story.querySelector(".demo-cinematic-copy>p");
-     if(desc)desc.textContent=es?"Desde los primeros detalles hasta el último toque, cada espacio merece atención.":"From the first careful touch to the finishing details, every space deserves attention.";
+     if(desc)desc.textContent=es?"Desde las superficies que usas a diario hasta los rincones que a veces se olvidan.":"From everyday surfaces to the little corners that are easy to miss.";
    }
    addSonnyRetry();customizeChat();
    if(qs.get("sonny")==="1")window.tleOpenSonnyDemo?.({restart:true});
