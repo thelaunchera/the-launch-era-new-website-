@@ -10,7 +10,7 @@ const es=qs.get("lang")==="es"||(isSales&&document.querySelector("#language")?.v
 const image="/assets/lead-demo/ai-demo-robot.webp";
 const home="/assets/lead-demo/hero-luxury-home.png";
 const kitchen="/assets/lead-demo/pristine-kitchen.png";
-const cleaner="/assets/lead-demo/cleaner-in-home.png";
+const cleaner="/assets/lead-demo/drive-cleaner-kitchen.webp";
 const servicesTarget=isProspect?"#demoServices":"#demoForm";
 const safe=s=>String(s||"").replace(/[<>\u0000-\u001f]/g,"").trim().slice(0,100);
 const labels=es?{
@@ -55,7 +55,7 @@ function addSections(){
 <section class="tle-demo-v12-why" aria-labelledby="tleWhyTitle">
   <div class="tle-demo-v12-copy"><span class="tle-demo-v12-ey">${labels.why}</span><h2 id="tleWhyTitle">${labels.whyTitle}</h2><p>${labels.whyCopy}</p>
     <div class="tle-demo-v12-perks">${labels.whyItems.map(t=>`<span>✓ ${t}</span>`).join("")}</div></div>
-  <img src="${kitchen}" alt="Freshly cleaned modern kitchen" loading="lazy" width="1100" height="700">
+  <img src="${cleaner}" alt="Professional cleaner wiping a modern kitchen island" loading="lazy" width="1122" height="1402">
 </section>
 <section class="tle-demo-v12-review" id="tleDemoReviews" aria-labelledby="tleReviewsTitle">
  <div class="tle-demo-v12-heading"><span class="tle-demo-v12-ey">01 / TRUST</span><h2 id="tleReviewsTitle">${labels.reviews}</h2><p>${labels.reviewsSub}</p></div>
