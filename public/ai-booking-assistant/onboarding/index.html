@@ -15,7 +15,6 @@ main{width:min(760px,calc(100% - 28px));margin:38px auto 70px}.card{background:#
 body{line-height:1.46}.tle-purchase-notice{font-size:12px!important;line-height:1.45!important;padding:11px 14px!important;background:#eaf4fc!important;border-color:#c5dcea!important;color:#191919!important}
 header{padding:16px max(18px,calc((100% - 760px)/2))}main{margin:20px auto 42px}.card{padding:clamp(19px,4vw,30px)}h1{font-size:clamp(27px,5vw,36px);line-height:1.15;margin:9px 0 7px}h2{font-size:18px}.card>p{margin:5px 0 15px}.summary{margin:15px 0 18px;padding:13px 15px}.summary p{margin:4px 0 0;font-size:12px}.field{margin-top:12px}.field label{margin-bottom:6px}.field input,.field textarea,.field select{min-height:45px}.field textarea{min-height:78px}.grid{gap:12px}.avatar-card{margin:16px 0 2px;padding:16px;background:#edf7ff}.avatar-card p{margin:3px 0 7px;font-size:12px}.avatar-card .field{margin-top:10px}.optional-details{margin:15px 0 0;border:1px solid #c6dcea;border-radius:14px;background:#f4f9fc;padding:0 14px}.optional-details summary{padding:15px 0;font-size:13px;font-weight:800;cursor:pointer;color:#191919}.optional-details[open]{padding-bottom:15px}.optional-details .field{margin:0}.btn{margin-top:18px}.btn:focus-visible,.optional-details summary:focus-visible,.field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible{outline:3px solid #87bee2;outline-offset:2px}
 @media(max-width:560px){main{margin:14px auto 38px}.card{border-radius:21px;padding:20px}.avatar-card{padding:14px}.tle-purchase-notice{margin:8px 14px!important}}
-
 /* Guided AI assistant setup: three clear mobile-friendly stages. */
 .setup-progress{margin:0 0 15px;padding:12px 14px;border:1px solid #bfd9e9;border-radius:15px;background:#EAF4FC}
 .setup-progress[hidden]{display:none}.setup-progress strong{font:700 13px Prompt,Arial,sans-serif;display:block}.setup-progress .track{margin-top:9px;height:6px;border-radius:9px;background:#cbddea;overflow:hidden}
@@ -68,7 +67,6 @@ header{padding:16px max(18px,calc((100% - 760px)/2))}main{margin:20px auto 42px}
   $('goals').options[2].textContent='Reservas y seguimiento';
   $('goals').options[3].textContent='Explicar servicios y orientar consultas';
  }
-
  // Make the setup readable on phones: collect the basics, customize, then review.
  const form=$('intake'), businessGrid=form.querySelector('.grid'), avatarCard=form.querySelector('.avatar-card');
  const targetField=$('target').closest('.field'), servicesField=$('services').closest('.field'),
@@ -173,6 +171,7 @@ header{padding:16px max(18px,calc((100% - 760px)/2))}main{margin:20px auto 42px}
  step2Next.addEventListener('click',()=>{if(validateStep(2))showStep(3);});
  backFromReview.addEventListener('click',()=>showStep(2));
 
+
  function showStatus(msg,error=false){$('status').textContent=msg;$('status').classList.toggle("err",error);$('status').classList.remove("hidden");}
  let selectedAvatar=null,avatarPreviewUrl=null;
  $('avatarPhoto').addEventListener("change",()=>{const file=$('avatarPhoto').files?.[0]||null;if(avatarPreviewUrl)URL.revokeObjectURL(avatarPreviewUrl);selectedAvatar=null;$('avatarPreview').classList.add('hidden');$('avatarPhotoStatus').textContent='';if(!file)return;const allowed=/\.(jpe?g|png|webp|heic|heif)$/i.test(file.name)||['image/jpeg','image/png','image/webp','image/heic','image/heif'].includes(file.type);if(!allowed||!file.size||file.size>5242880){$('avatarPhoto').value='';$('avatarPhotoStatus').textContent=es?'Usa una foto JPG, PNG, WebP o HEIC de 5 MB o menos.':'Use a JPG, PNG, WebP or HEIC photo no larger than 5 MB.';return;}selectedAvatar=file;avatarPreviewUrl=URL.createObjectURL(file);$('avatarPreviewImage').src=avatarPreviewUrl;$('avatarPreviewName').textContent=file.name;$('avatarPreview').classList.remove('hidden');$('avatarPhotoStatus').textContent=es?'Foto lista para subir.':'Photo ready to upload.';});
@@ -192,13 +191,9 @@ header{padding:16px max(18px,calc((100% - 760px)/2))}main{margin:20px auto 42px}
   const money=cents=>'$'+(cents/100).toFixed(2).replace(/\.00$/,'');
   const paidLabel=Number.isInteger(paid)&&paid>=0?money(paid):'';
   const monthlyLabel=Number.isInteger(monthly)&&monthly>=0?money(monthly):'';
-  $('paymentText').textContent=es?
-    ('Compra verificada: '+plan.title+'. '+(paidLabel?(p.bundle_booking_flow?'Instalación de IA incluida en tu pago conjunto: '+paidLabel+'. ':'Instalación pagada: '+paidLabel+'. '):'')+'Tus primeros 30 días comienzan con la entrega.'+(monthlyLabel?' Después: '+monthlyLabel+'/mes.':'')):
-    ('Verified purchase: '+plan.title+'. '+(paidLabel?(p.bundle_booking_flow?'AI setup included in your combined payment: '+paidLabel+'. ':'Setup paid: '+paidLabel+'. '):'')+'Your first 30 days start at delivery.'+(monthlyLabel?' Then '+monthlyLabel+'/month.':''));
-  consentLabel.hidden=!['ai-followup','ai-business'].includes(selected);
-  consentCheck.required=!consentLabel.hidden;
+  $('paymentText').textContent=es?('Compra verificada: '+plan.title+'. '+(paidLabel?(p.bundle_booking_flow?'Instalación de AI incluida en tu pago conjunto: '+paidLabel+'. ':'Instalación pagada: '+paidLabel+'. '):'')+'Tus primeros 30 días comienzan con la entrega.'+(monthlyLabel?' Después: '+monthlyLabel+'/mes.':'')):('Verified purchase: '+plan.title+'. '+(paidLabel?(p.bundle_booking_flow?'AI setup included in your combined payment: '+paidLabel+'. ':'Setup paid: '+paidLabel+'. '):'')+'Your first 30 days start at delivery.'+(monthlyLabel?' Then '+monthlyLabel+'/month.':''));
+  consentLabel.hidden=!['ai-followup','ai-business'].includes(selected);consentCheck.required=!consentLabel.hidden;
   progress.hidden=false;showStep(1);
-  
   $('status').classList.add("hidden");if(p.already_submitted){$('done').classList.remove("hidden");return;}
   $('intake').classList.remove("hidden");
  }catch(e){showStatus(es?"No pudimos confirmar tu compra. Abre de nuevo el enlace que recibiste después de pagar o contáctanos.":"We couldn’t confirm your purchase yet. Try the link you received after paying, or contact us.",true);}
@@ -208,7 +203,7 @@ header{padding:16px max(18px,calc((100% - 760px)/2))}main{margin:20px auto 42px}
   try{let avatarPath='';if(selectedAvatar){showStatus(es?"Subiendo la foto del avatar…":"Uploading your avatar photo…");const fd=new FormData();fd.append('session_id',sid);fd.append('action','upload_avatar');fd.append('photo',selectedAvatar,selectedAvatar.name);const response=await fetch(endpoint,{method:'POST',body:fd});const data=await response.json().catch(()=>({}));if(!response.ok||!data.ok)throw new Error(data.error||'Avatar upload failed');avatarPath=data.path;showStatus(es?"Guardando tus datos…":"Saving your setup details…");}const result=await req({action:"submit",contact_name:$('contactName').value,avatar_name:$('avatarName').value,avatar_photo_path:avatarPath,business_name:$('business').value,install_target:$('target').value,booking_page_url:$('booking').value,website_url:$('website').value,services_offered:$('services').value,business_notes:getNotes(),agent_requested:$('agent').value,assistant_goals:$('goals').value,language:$('language').value});
   $('intake').classList.add("hidden");progress.hidden=true;$('status').classList.add("hidden");$('done').classList.remove("hidden");$('done').scrollIntoView({behavior:'smooth',block:'center'});
   if(!result.notifications_sent){$('doneBody').textContent=es?"Guardamos la solicitud, pero el correo de confirmación puede retrasarse. Escríbenos por el formulario de contacto si necesitas ayuda.":"Your request is saved, but the confirmation email may be delayed. Please use our contact form if you need help.";}
-  }catch(e){showStatus(e?.message||(es?"No pudimos guardar los datos. Inténtalo otra vez.":"We couldn\u0027t save your details. Please try again."),true);$('status').scrollIntoView({behavior:'smooth',block:'center'})}
+  }catch(e){showStatus(e?.message||(es?"No pudimos guardar los datos. Inténtalo otra vez.":"We couldn\u0027t save your details. Please try again."),true)}
   finally{$('submit').disabled=false;}
  });
 })();
