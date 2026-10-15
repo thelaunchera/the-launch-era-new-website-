@@ -13,6 +13,29 @@ function init(){
   if(!footer||!compare||!reviews||!areas||reviews.classList.contains("tle-v36-reviews"))return;
   document.documentElement.classList.add("tle-demo-v36");
   const es=params.get("lang")==="es";
+  // v25 can initialize before its dependency creates the ribbon on some
+  // browser timings. Install missing ambient bubbles once DOM is complete.
+  // Decorative only: no pointer interception and no booking changes.
+  const bubbles=[document.querySelector(".tle-client-quicksteps"),document.getElementById("tleDemoBlueRibbon")]
+    .filter(Boolean);
+  if(bubbles.length){
+    document.documentElement.classList.add("tle-demo-bubbles-v25");
+    for(const chapter of bubbles){
+      chapter.classList.add("tle-bubble-chapter-v25");
+      if(chapter.querySelector(":scope > .tle-bubble-layer-v25"))continue;
+      const layer=document.createElement("div");layer.className="tle-bubble-layer-v25";
+      layer.setAttribute("aria-hidden","true");
+      for(let i=0;i<7;i++){const bubble=document.createElement("span");bubble.className="tle-bubble-v25";layer.append(bubble);}
+      chapter.prepend(layer);
+    }
+    if("IntersectionObserver" in window){
+      const observer=new IntersectionObserver(entries=>{
+        for(const entry of entries)entry.target.classList.toggle("tle-bubbles-visible-v25",entry.isIntersecting);
+      },{threshold:.07});
+      bubbles.forEach(ch=>observer.observe(ch));
+    }else bubbles.forEach(ch=>ch.classList.add("tle-bubbles-visible-v25"));
+  }
+
   // Preserve all existing chapters: place FAQ and booking CTA BEFORE photos.
   // Finish exactly with before/after -> reviews -> service areas -> contact ->
   // legal footer -> thank you, without any other chapter between them.
