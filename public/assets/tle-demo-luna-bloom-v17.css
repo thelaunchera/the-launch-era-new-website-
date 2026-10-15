@@ -1,0 +1,221 @@
+/* Luna Bloom sample demo identity & footer — isolated from buyer/owner previews. */
+html.demo-editorial.tle-demo-brand-v17 .demo-editorial-nav .demo-logo.tle-sample-wordmark{
+  display:inline-flex!important;align-items:center!important;justify-content:flex-start!important;
+  flex:0 1 auto!important;gap:11px!important;min-width:0!important;
+  max-width:min(67vw,430px)!important;white-space:normal!important;
+  color:#f5f8fc!important;letter-spacing:normal!important;
+  line-height:1.1!important;text-decoration:none!important;
+}
+html.demo-editorial.tle-demo-brand-v17 .demo-logo .tle-bloom-emblem{
+  box-sizing:border-box;display:grid;place-items:center;
+  flex:0 0 37px;width:37px;height:37px;border-radius:50%;
+  background:linear-gradient(145deg,#dbf0fc,#e7e6f6);
+  border:1px solid rgba(255,255,255,.6);
+  color:#467d9a;font:500 25px/1 Georgia,serif;
+}
+html.demo-editorial.tle-demo-brand-v17 .demo-logo .tle-bloom-lockup{
+  min-width:0;display:flex;flex-direction:column;justify-content:center;
+  align-items:flex-start;gap:4px;overflow:hidden;
+}
+html.demo-editorial.tle-demo-brand-v17 .demo-logo .tle-bloom-name{
+  display:block!important;max-width:100%!important;overflow:hidden!important;
+  text-overflow:ellipsis!important;white-space:nowrap!important;
+  font:650 clamp(15px,1.85vw,23px)/1.14 Prompt,Arial,sans-serif!important;
+  letter-spacing:-.036em!important;color:#f5f9ff!important;
+}
+html.demo-editorial.tle-demo-brand-v17 .demo-logo .tle-bloom-descriptor{
+  display:block!important;max-width:100%!important;white-space:nowrap!important;
+  color:#b6d6e8!important;font:650 9px/1.1 "DM Sans",Arial,sans-serif!important;
+  letter-spacing:.17em!important;
+}
+html.demo-editorial.tle-demo-brand-v17 .demo-editorial-nav .demo-navlinks a{
+  color:#dce9f0!important;
+}
+html.demo-editorial.tle-demo-brand-v17 .demo-editorial-nav .demo-navlinks a:hover{
+  color:#c0e8fd!important;
+}
+/* A discreet, warmer editorial transition; retain the existing dark hero,
+   photographs, service layout and Sonny positioning. */
+html.demo-editorial.tle-demo-brand-v17 #leadHero .demo-hero-tagline{
+  text-wrap:balance!important;
+}
+html.demo-editorial.tle-demo-brand-v17 #leadHero #leadName{
+  color:#c4e4f4!important;
+}
+html.demo-editorial.tle-demo-brand-v17 #demoContact.tle-sample-contact{
+  display:grid!important;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr)!important;
+  column-gap:clamp(28px,6vw,92px)!important;row-gap:32px!important;
+  padding:clamp(50px,7vw,100px) clamp(25px,7.2vw,113px)!important;
+  margin:0!important;background:#faf8f3!important;color:#191919!important;
+  border:0!important;border-radius:0!important;box-shadow:none!important;
+}
+html.demo-editorial.tle-demo-brand-v17 .tle-sample-contact .tle-footer-overline{
+  margin:0 0 17px;color:#6189a4;font:700 10px/1.4 Prompt,Arial,sans-serif;letter-spacing:.18em;
+}
+html.demo-editorial.tle-demo-brand-v17 .tle-sample-contact h2{
+  max-width:440px;margin:0 0 19px;color:#191919;
+  font:600 clamp(32px,4vw,53px)/1.14 Prompt,Arial,sans-serif;letter-spacing:-.045em;
+  text-wrap:balance;
+}
+html.demo-editorial.tle-demo-brand-v17 .tle-sample-contact .tle-contact-intro{
+  color:#4d6372;font:400 clamp(14px,1.3vw,17px)/1.7 "DM Sans",Arial,sans-serif;
+  max-width:465px;margin:0 0 27px;
+}
+html.demo-editorial.tle-demo-brand-v17 .tle-sample-contact .tle-contact-cta{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:45px;padding:11px 22px;border-radius:999px;
+  background:#bedff4;color:#173c51;text-decoration:none;
+  font:700 13px/1.3 Prompt,Arial,sans-serif;
+}
+html.demo-editorial.tle-demo-brand-v17 .tle-sample-contact .tle-contact-cta:focus-visible{
+  outline:3px solid #467d9a;outline-offset:3px;
+}
+html.demo-editorial.tle-demo-brand-v17 .tle-contact-list{
+  display:grid;grid-template-columns:1fr 1fr;align-content:center;
+  gap:19px 28px;margin:0;padding:0;min-width:0;
+}
+html.demo-editorial.tle-demo-brand-v17 .tle-contact-list>div{
+  padding:13px 0 18px;border-bottom:1px solid #d8e2e7;min-width:0;
+}
+html.demo-editorial.tle-demo-brand-v17 .tle-contact-list dt{
+  margin:0 0 10px;color:#5f7f91;
+  font:700 11px/1.3 Prompt,Arial,sans-serif;letter-spacing:.055em;
+}
+html.demo-editorial.tle-demo-brand-v17 .tle-contact-list dd{
+  color:#203849;margin:0;overflow-wrap:anywhere;
+  font:600 clamp(13px,1.18vw,16px)/1.55 "DM Sans",Arial,sans-serif;
+}
+html.demo-editorial.tle-demo-brand-v17 .tle-contact-list .tle-demo-fake-note{
+  display:block;margin-top:7px;color:#6c8090;
+  font:400 11px/1.5 "DM Sans",Arial,sans-serif;
+}
+html.demo-editorial.tle-demo-brand-v17 footer.demo-footer.tle-demo-full-footer{
+  display:block!important;width:100%!important;max-width:none!important;
+  margin:0!important;padding:0 clamp(25px,7.2vw,113px)!important;
+  border:0!important;border-radius:0!important;
+  background:#0e1c29!important;color:#dcebf3!important;
+  font:400 13px/1.6 "DM Sans",Arial,sans-serif!important;
+}
+html.demo-editorial.tle-demo-brand-v17 .tle-footer-grid{
+  display:grid;grid-template-columns:minmax(0,1.25fr) repeat(3,minmax(0,.8fr));
+  gap:clamp(20px,3vw,48px);padding:54px 0 47px;
+}
+html.demo-editorial.tle-demo-brand-v17 .tle-footer-grid>div{min-width:0}
+html.demo-editorial.tle-demo-brand-v17 .tle-footer-name{
+  display:block;color:#f3f8ff;font:600 clamp(18px,1.7vw,25px)/1.2 Prompt,Arial,sans-serif;
+  letter-spacing:-.035em;margin-bottom:12px;
+}
+html.demo-editorial.tle-demo-brand-v17 .tle-footer-grid h3{
+  color:#f3f8ff;margin:0 0 17px;font:600 13px/1.3 Prompt,Arial,sans-serif;
+}
+html.demo-editorial.tle-demo-brand-v17 .tle-footer-grid p{
+  margin:0;color:#b8cad8;font-size:13px;line-height:1.75;
+}
+html.demo-editorial.tle-demo-brand-v17 .tle-footer-grid nav{
+  display:flex;flex-direction:column;align-items:flex-start;gap:11px;
+}
+html.demo-editorial.tle-demo-brand-v17 footer.tle-demo-full-footer a{
+  color:#cde6f6!important;text-decoration:none!important;
+  font-size:13px!important;
+}
+html.demo-editorial.tle-demo-brand-v17 footer.tle-demo-full-footer a:hover{
+  color:#fff!important;text-decoration:underline!important;text-underline-offset:3px!important;
+}
+html.demo-editorial.tle-demo-brand-v17 footer.tle-demo-full-footer a:focus-visible{
+  outline:2px solid #a9dfff;outline-offset:4px;
+}
+html.demo-editorial.tle-demo-brand-v17 .tle-footer-bottom{
+  border-top:1px solid rgba(180,215,236,.18);
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:13px 24px;padding:22px 0 30px;
+  color:#a9bdcb;font:500 11px/1.5 "DM Sans",Arial,sans-serif;
+}
+html.demo-editorial.tle-demo-brand-v17 .tle-footer-disclaimer{
+  margin:0;padding:0 0 20px;max-width:900px;color:#a7baca;
+  font:400 11px/1.55 "DM Sans",Arial,sans-serif;
+}
+html:not(.demo-editorial) #demoContact,
+html:not(.demo-editorial) #tleDemoLegalDialog{display:none!important}
+html.demo-editorial.tle-demo-brand-v17 dialog.tle-demo-policy-dialog{
+  box-sizing:border-box;width:min(670px,calc(100vw - 32px));
+  max-height:min(86dvh,830px);overflow:auto;
+  border:1px solid #d9e8f1;border-radius:24px;
+  background:#faf8f3;color:#1a2630;
+  padding:clamp(22px,5vw,43px);
+  box-shadow:0 24px 95px #030d19a3;
+}
+html.demo-editorial.tle-demo-brand-v17 dialog.tle-demo-policy-dialog::backdrop{
+  background:rgba(2,11,20,.77);backdrop-filter:blur(4px);
+}
+html.demo-editorial.tle-demo-brand-v17 .tle-policy-close{
+  position:sticky;top:0;float:right;display:grid;place-items:center;
+  width:38px;height:38px;margin:-6px -5px 0 12px;
+  border:1px solid #ccdae4;background:white;border-radius:50%;
+  font:500 22px/1 Arial,sans-serif;color:#234357;cursor:pointer;
+}
+html.demo-editorial.tle-demo-brand-v17 .tle-policy-heading{
+  font:600 clamp(25px,3.5vw,38px)/1.22 Prompt,Arial,sans-serif;
+  color:#191919;letter-spacing:-.045em;margin:5px 0 22px;
+}
+html.demo-editorial.tle-demo-brand-v17 .tle-policy-kicker{
+  color:#49748e;font:700 10px/1.5 Prompt,Arial,sans-serif;letter-spacing:.15em;
+}
+html.demo-editorial.tle-demo-brand-v17 .tle-policy-content h3{
+  font:600 17px/1.35 Prompt,Arial,sans-serif;margin:25px 0 7px;color:#1e3547;
+}
+html.demo-editorial.tle-demo-brand-v17 .tle-policy-content p{
+  font:400 14px/1.7 "DM Sans",Arial,sans-serif;color:#415564;margin:0 0 13px;
+}
+@media(max-width:860px){
+ html.demo-editorial.tle-demo-brand-v17 #demoContact.tle-sample-contact{
+  grid-template-columns:1fr!important;gap:25px!important;
+ }
+ html.demo-editorial.tle-demo-brand-v17 .tle-footer-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));gap:32px;
+ }
+}
+@media(max-width:650px){
+ html.demo-editorial.tle-demo-brand-v17 .demo-editorial-nav .demo-logo.tle-sample-wordmark{
+  max-width:calc(100vw - 48px)!important;gap:9px!important;
+ }
+ html.demo-editorial.tle-demo-brand-v17 .demo-logo .tle-bloom-emblem{
+  flex-basis:33px;width:33px;height:33px;font-size:22px;
+ }
+ html.demo-editorial.tle-demo-brand-v17 .demo-logo .tle-bloom-name{
+  font-size:clamp(15px,4.6vw,18px)!important;
+ }
+ html.demo-editorial.tle-demo-brand-v17 .demo-logo .tle-bloom-descriptor{
+  font-size:8px!important;letter-spacing:.13em!important;
+ }
+ html.demo-editorial.tle-demo-brand-v17 #demoContact.tle-sample-contact{
+  padding:49px 25px 50px!important;
+ }
+ html.demo-editorial.tle-demo-brand-v17 .tle-contact-list{
+  grid-template-columns:1fr;gap:0;
+ }
+ html.demo-editorial.tle-demo-brand-v17 .tle-contact-list>div{
+  padding:15px 0 16px;
+ }
+ html.demo-editorial.tle-demo-brand-v17 .tle-footer-grid{
+  grid-template-columns:1fr 1fr;gap:31px 14px;
+  padding:43px 0 35px;
+ }
+ html.demo-editorial.tle-demo-brand-v17 .tle-footer-grid>div:first-child{
+  grid-column:1/-1;
+ }
+ html.demo-editorial.tle-demo-brand-v17 .tle-footer-grid nav{gap:10px}
+ html.demo-editorial.tle-demo-brand-v17 .tle-footer-bottom{
+  flex-direction:column;align-items:flex-start;gap:8px;
+ }
+}
+@media(max-width:360px){
+ html.demo-editorial.tle-demo-brand-v17 .tle-footer-grid{
+  grid-template-columns:1fr 1fr;
+ }
+ html.demo-editorial.tle-demo-brand-v17 .demo-logo .tle-bloom-name{
+  font-size:15px!important;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ html.demo-editorial.tle-demo-brand-v17 .tle-contact-cta{transition:none!important}
+}
