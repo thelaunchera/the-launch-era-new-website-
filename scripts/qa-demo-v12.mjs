@@ -38,13 +38,15 @@ for(const width of [360,390,820,1024,1440]){
    assert(proof.area.includes('Fort Lauderdale'),'service area is not derived from the current business');
    assert(proof.faqs>=4,'FAQ is missing');
    assert(proof.ai,'assistant robot file not loaded');
-   assert(proof.photo,'Drive cleaner file not loaded');
-   assert(proof.photoSource.includes('drive-cleaner-kitchen.webp'),'Drive image not used');
+   assert(proof.photo,'The clean-finished-kitchen image did not load');
+   assert(proof.photoSource.includes('pristine-kitchen.png'),'Visual story must advance from active cleaning to the finished kitchen');
    assert(proof.addOn.includes(lang==='es'?'opcional':'optional'),'AI separate service disclosure missing');
    assert.equal(proof.endLink,'#bookingStarter','CTA no longer goes to the existing request UI');
    assert(proof.scrollWidth<=width+3,'horizontal overflow on prospect '+JSON.stringify(proof));
    const agentTitle=await page.locator('.tle-ai-head b').textContent();
    assert(agentTitle?.includes('Sonny'),'booking agent should be named Sonny');
+   assert.equal(await page.locator('#tleDemoRobotWelcome').count(),0,'Duplicate floating assistant welcome remains');
+   assert.equal(await page.locator('.tle-ai-launch').count(),1,'Only Sonny should have one launch button');
    await page.locator('.tle-ai-launch').click();
    await assertVisible(page,'.tle-ai-panel');
    await page.locator('.tle-ai-head button').click();
