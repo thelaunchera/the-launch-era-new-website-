@@ -74,29 +74,8 @@
  if(action){const child=[...action.childNodes].find(n=>n.nodeType===Node.TEXT_NODE);if(child)child.nodeValue=tr.heroCta+" ";}
  const areaLabel=$("#demoHeroArea");
  if(areaLabel)areaLabel.textContent=area?(es?"Atendemos ":"Serving ")+area:(es?"Zonas de servicio personalizadas":"Personalized service areas");
- // Sonny greets from the document flow, not from a second floating bubble.
- // This preserves all heading/buttons; it never overlays or blocks them.
- const hero=$("#leadHero");
- const sonny=document.querySelector(".tle-ai-launch");
- if(hero&&sonny&&!$("#tleSonnyInlineHello")){
-   const greeting=document.createElement("div");
-   greeting.id="tleSonnyInlineHello";
-   greeting.className="tle-sonny-inline-greeting";
-   const trigger=document.createElement("button");
-   trigger.type="button";
-   trigger.className="tle-sonny-inline-trigger";
-   trigger.setAttribute("aria-label",es?"Hablar con Sonny, agente de reservas":"Talk with Sonny, the booking assistant");
-   const icon=document.createElement("img");
-   icon.src="/assets/lead-demo/ai-demo-robot.webp";
-   icon.alt="";icon.width=32;icon.height=32;icon.decoding="async";
-   const txt=document.createElement("span");
-   txt.textContent=es?"¡Hola! Soy Sonny 👋 ¿Te ayudo con tu reserva?":"Hi! I'm Sonny 👋 Need help booking?";
-   const arrow=document.createElement("span");arrow.className="tle-sonny-inline-arrow";arrow.textContent="↗";arrow.setAttribute("aria-hidden","true");
-   trigger.append(icon,txt,arrow);
-   trigger.addEventListener("click",()=>{if(typeof window.tleOpenSonnyDemo==="function")window.tleOpenSonnyDemo();else sonny.click();});
-   greeting.append(trigger);
-   hero.insertAdjacentElement("afterend",greeting);
- }
+ // Sonny's only greeting is created by tle-demo-enhancements-v12.js inside
+ // the hero (#tleSonnyInlineGreeting); do not add another banner below it.
  const panel=$("#bookingStarter");
  if(!panel)return;
  const head=$("#ey");if(head)head.textContent=tr.servicesEy;
