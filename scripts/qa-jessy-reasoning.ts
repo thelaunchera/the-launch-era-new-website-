@@ -21,11 +21,10 @@ assert.match(backend,/fallbackFaq\(message,id,lang\)/);
 assert.match(backend,/console\.warn\("jessy_ai_response_unavailable"/);
 assert.match(backend,/max_tokens:230/);
 assert.match(frontend,/history:previous/);
-assert.match(backend,/b\\.history\\.slice\\(-12\\)/,"Server must consider twelve recent messages");
-assert.match(frontend,/history\\.slice\\(-12\\)/,"Browser must forward twelve recent messages");
-assert.match(frontend,/Editable summary only/,"Human handoff should be editable and opt-in");
-assert.doesNotMatch(backend,/\\$79 activation|\\$119 activation|Booking \\$19\\.99 en oferta/,"Stale fallback prices cannot be repeated");
-
+assert.ok(backend.includes("b.history.slice(-12)"),"Server must consider twelve recent messages");
+assert.ok(frontend.includes("history.slice(-12)"),"Browser must forward twelve recent messages");
+assert.ok(frontend.includes("Editable summary only"),"Human handoff should be editable and opt-in");
+assert.ok(!backend.includes("$79 activation")&&!backend.includes("$119 activation")&&!backend.includes("Booking $19.99 en oferta"),"Stale fallback prices cannot be repeated");
 assert.match(frontend,/selected_offer:offer\|\|currentPage\(\)/);
 assert.doesNotMatch(backend,/sk-proj-/);
 assert.doesNotMatch(readFileSync("supabase/functions/tle-jessy-chat/knowledge.ts","utf8"),/sk-proj-|Bearer /);
