@@ -25,7 +25,7 @@ async function rateLimit(req:Request,email:string){
  const buf=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(raw));
  const hashed=[...new Uint8Array(buf)].map(n=>n.toString(16).padStart(2,"0")).join("");
  const start=new Date();start.setUTCHours(0,0,0,0);
- const res=await fetch(BASE+"/rest/v1/rpc/tle_ai_demo_consume",{method:"POST",headers:{apikey:SR,Authorization:"Bearer "+SR,"Content-Type":"application/json"},body:JSON.stringify({p_key:"jessie-demo-request:"+hashed,p_window:start.toISOString(),p_limit:3}),signal:AbortSignal.timeout(4000)});
+ const res=await fetch(BASE+"/rest/v1/rpc/tle_ai_demo_consume",{method:"POST",headers:{apikey:SR,Authorization:"Bearer "+SR,"Content-Type":"application/json"},body:JSON.stringify({p_key:"jessie-demo-request:"+hashed,p_window:start.toISOString(),p_limit:6}),signal:AbortSignal.timeout(4000)});
  return res.ok&&(await res.json())===true;
 }
 Deno.serve(async(req:Request)=>{
@@ -44,13 +44,15 @@ Deno.serve(async(req:Request)=>{
  if(!BASE||!SR)return json({error:"Temporarily unavailable"},503,origin);
  try{if(!await rateLimit(req,email))return json({error:"Too many requests; please try again later"},429,origin);}catch{return json({error:"Please try again later"},503,origin);}
  const db=createClient(BASE,SR,{auth:{persistSession:false,autoRefreshToken:false}});
- // Preserve existing lead and opt-out choices. Never create two CRM rows for the same email.
+ // Preserve existing opt-outs and any active lead; archived leads remain untouched. A renewed, explicitly requested demo can create one new active lead.
  const {data:existing,error:lookError}=await db.from("tle_crm_leads").select("id,email_consent_status,archived_at,contact_decision,source,notes").eq("workspace_id",WORKSPACE).ilike("email",email).order("created_at",{ascending:false}).limit(30);
  if(lookError)return json({error:"Could not check existing request"},503,origin);
- const previous=existing?.[0];
+ // An archived lead is historical, not an active request. A visitor who
+ // explicitly opted in may start a NEW request without unarchiving old CRM
+ // records. Any prior withdrawal or do-not-contact decision still blocks.
  if((existing||[]).some(row=>row.email_consent_status==="withdrawn"||row.contact_decision==="no"))
-  return json({error:"This email cannot receive a new invitation. Please contact support."},409,origin);
- if(previous?.archived_at)return json({error:"This email is archived; please contact support."},409,origin);
+  return json({error:"We can't send this email automatically. Please contact support.",code:"contact_unavailable"},409,origin);
+ const previous=(existing||[]).find(row=>!row.archived_at);
  let leadId=String(previous?.id||"");
  if(previous?.id){
   // Keep the original lead source and consent status; update only the visitor's

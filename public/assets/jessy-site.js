@@ -173,7 +173,12 @@ demoGate.addEventListener("submit",async e=>{
   let response;
   try{response=await fetch(DEMO_REQUEST,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({business_name:demoBusiness.value.trim(),email:demoEmail.value.trim(),service_area:demoArea.value.trim(),service:demoSelected,language:lang,consent:demoConsent.checked,website:demoTrap.value}),signal:controller.signal})}finally{clearTimeout(timer)}
   const data=await response.json().catch(()=>({}));
-  if(!response.ok||data.ok!==true||data.email_sent!==true)throw Error("email_unconfirmed");
+  if(!response.ok||data.ok!==true||data.email_sent!==true){
+   const reason=response.status===429?"rate_limited"
+    :response.status===409?"contact_unavailable"
+    :data.saved===true?"saved_without_email":"request_unavailable";
+   throw Error(reason);
+  }
   demoAccessGranted=true;demoSavedBusiness=demoBusiness.value.trim().slice(0,100);demoSavedArea=demoArea.value.trim().slice(0,100);
   const success=lang==="es"
    ?"¡Revisa tu correo! 💌 Y no olvides probar una reserva de ejemplo con Sonny."
@@ -188,8 +193,16 @@ demoGate.addEventListener("submit",async e=>{
   const href=DEMOS[demoSelected].url+"?"+query.toString();
   demoExternal.href=href;demoExternal.hidden=false;demoFrame.src=href;demoFrame.hidden=false;
   demoGate.hidden=true;track("demo_lead_saved");
- }catch{
-  demoStatus.textContent=lang==="es"?"No pudimos guardar la solicitud ahora. Inténtalo otra vez.":"We couldn't save your request right now. Please try again.";
+ }catch(error){
+  const type=String(error?.message||"");
+  const es=lang==="es";
+  const options={
+   rate_limited:es?"Has intentado demasiadas veces hoy. Vuelve a intentarlo más tarde o contacta al equipo.":"Too many attempts today. Please try again later or contact the team.",
+   contact_unavailable:es?"No podemos enviar el demo automáticamente a este correo. Contacta al equipo para revisarlo.":"We can't automatically send a demo to this email address. Please contact the team for assistance.",
+   saved_without_email:es?"Guardamos tu solicitud, pero no pudimos confirmar el envío del correo. Contacta al equipo; no hace falta enviar el formulario varias veces.":"Your request was saved, but we couldn't confirm the email. Please contact the team; you don't need to submit it repeatedly.",
+   request_unavailable:es?"No pudimos completar tu solicitud. Revisa los datos e inténtalo de nuevo. Si continúa, contacta al equipo.":"We couldn't complete the request. Check your details and try again. If it continues, contact the team."
+  };
+  demoStatus.textContent=options[type]|| (es?"No pudimos conectar ahora. Revisa tu conexión o inténtalo más tarde.":"We couldn't connect right now. Check your connection or try again later.");
  }finally{demoBusy=false;demoSubmit.disabled=false}
 });
 
