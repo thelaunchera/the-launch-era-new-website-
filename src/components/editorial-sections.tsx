@@ -63,7 +63,7 @@ function ServiceCard({service:s,index:i}:{service:typeof services[number],index:
   {isBooking
    ? <div className="booking-offer-line">{sale&&<span className="booking-offer-tag">The Fall Refresh Offer</span>}<span className="booking-offer-price service-price-pill">{sale&&<del>$99</del>}<strong>{"$19.99"}</strong></span></div>
    : isAi
-     ? <div className="service-card-price-line"><span className="service-price-pill service-ai-price"><strong>From $59 setup</strong></span></div>
+     ? <div className="service-card-price-line"><span className="service-price-pill service-ai-price"><strong>From $29 setup</strong></span></div>
      : isWhats ? <WhatsAppOfferPrice lang="en"/>
      : isWebsite||isVa
        ? <div className="booking-offer-line service-discount-offer"><span className="booking-offer-tag">30% OFF</span><span className="booking-offer-price service-price-pill"><del>{isWebsite?"$59.99":"$49.99/mo"}</del><strong>{isWebsite?"$41.99":"$34.99/mo"}</strong></span></div>
