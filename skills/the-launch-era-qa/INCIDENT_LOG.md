@@ -1,5 +1,7 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-15 | Public sample booking services and “Cleaning made simpler” felt like repeated square blocks on iPhone | **Confirmed in screenshot and source:** full-width rules beneath quote choices, outlined square icons and a solid dark three-step block in `tle-demo-client-experience-v14.css`. | Added public-sample-only `tle-demo-organic-flow-v16.css`, flowing gradient dividers, unboxed icons, EN/ES estimate/quote grouping, connected circular timeline; kept existing booking handlers/tenant pages untouched. Extended `qa-demo-v12.mjs` for mobile/tablet/desktop. **Browser/live deployment verification pending.** | 🟡 Committed; QA pending |
+
 
 | 2026-10-15 | Sonny sample-demo chat: iPhone typing nearly invisible; automatic fullscreen welcome blocked the landing | **Verified in source and user iPhone screenshot:** `tle-ai-booking-chat.js` textarea had no text fill, caret or placeholder contrast override; `tle-demo-enhancements-v12.js` auto-opened chat when `?sonny=1`, and the greeting only lived in an overlay/launcher. | Set explicit dark text/webkit text fill/caret and white input; added hero in-flow EN/ES greeting (only open by click), swap in-page greeting with a compact avatar after scroll, prevent auto-open on navigation; regression assertions in `scripts/qa-demo-v12.mjs`. **CI / live iPhone verification pending**; do not claim production success until checked. | 🟡 Code committed; browser/production verification pending |
 
