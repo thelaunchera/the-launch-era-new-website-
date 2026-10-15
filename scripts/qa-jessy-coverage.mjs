@@ -23,9 +23,9 @@ const publicPages = [
 ];
 for (const page of publicPages) {
   const html = text("public/" + page);
-  assert.match(html, /src="\/assets\/jessy-site\.js\?v=[^"]+"/, page + " missing Jessy");
+  assert.match(html, /src="\/assets\/jessy-site\.js\?v=[^"]+"/, page + " missing Jessie");
 }
-// The Cleaning App sample workspace is embedded multiple times. No Jessy in its iframes.
+// The Cleaning App sample workspace is embedded multiple times. No Jessie in its iframes.
 const appSample = text("public/cleaning-app-demo/index.html");
 assert.doesNotMatch(appSample, /<script\s+src="\/assets\/jessy-site\.js/);
 const showcase = text("src/components/cleaning-app-showcase.tsx");
@@ -79,7 +79,7 @@ assert.match(chatCss, /\.tle-jessy-inline \.tle-jessy-action-secondary/);
 assert.match(chatCss, /min-height:44px/);
 assert.match(chatCss, /background:#dcefff/);
 assert.match(chatCss, /background:#faf8f3/);
-console.log("PASS Jessy is excluded from sample iframes; warm CTAs route to correct destinations");
+console.log("PASS Jessie is excluded from sample iframes; warm CTAs route to correct destinations");
 
 assert.match(front, /page_path:location\.pathname/);
 assert.match(front, /function handleRoute\(\)/);
@@ -119,7 +119,7 @@ function simulateJessyScroll(startY){
   fab:{setAttribute:(k,v)=>{attributes[k]=v}},
   nudge:{hidden:true,textContent:""},
   lang:"en",open:false,track:()=>{},
-  pageText:()=> "Hi! I'm Jessy 👋 Need a hand?",
+  pageText:()=> "Hi! I'm Jessie 👋 Need a hand?",
   setTimeout:(fn)=>{timers.push(fn)}
  };
  vm.createContext(box);
@@ -130,12 +130,12 @@ const entry=simulateJessyScroll(0);
 assert.equal(entry.classes.has("tle-jessy-compact"),false,"The initial bubble must be a full welcome pill");
 assert.equal(entry.timers.length,1);
 entry.timers[0]();
-assert.equal(entry.box.nudge.hidden,false,"Jessy must greet new visitors");
+assert.equal(entry.box.nudge.hidden,false,"Jessie must greet new visitors");
 entry.box.window.scrollY=40;
 entry.listeners.scroll();
-assert.equal(entry.classes.has("tle-jessy-compact"),true,"Scroll must collapse Jessy to avatar");
+assert.equal(entry.classes.has("tle-jessy-compact"),true,"Scroll must collapse Jessie to avatar");
 assert.equal(entry.box.nudge.hidden,true,"No greeting nudge while scrolling");
-assert.equal(entry.attributes.title,"Chat with Jessy");
+assert.equal(entry.attributes.title,"Chat with Jessie");
 entry.box.window.scrollY=0;entry.listeners.scroll();
 assert.equal(entry.classes.has("tle-jessy-compact"),true,"Do not expand/flicker during scroll");
 const scrollingEarly=simulateJessyScroll(0);
@@ -151,7 +151,7 @@ assert.match(css, /width:52px;height:52px;min-height:52px/);
 assert.match(css, /width:50px;height:50px;min-height:50px/);
 assert.match(css, /max-width:0;width:0;padding:0;margin:0;opacity:0;visibility:hidden/);
 assert.match(css, /\.tle-jessy-root\.tle-jessy-compact \.tle-jessy-nudge\{display:none!important\}/);
-console.log("PASS Jessy welcome nudge and scroll-to-face-only launcher on desktop and mobile");
+console.log("PASS Jessie welcome nudge and scroll-to-face-only launcher on desktop and mobile");
 
 const backend = text("supabase/functions/tle-jessy-chat/index.ts");
 assert.match(backend, /const focus=pageOffer\(b\.page_path\)/);
@@ -192,7 +192,7 @@ for(let i=0;i<ids.length;i++){
  assert.ok(p.price_en.includes("$"+monthly[i]+"/month"),"monthly price mismatch");
  assert.ok(p.checkout==="/service-checkout/?offer="+ids[i],"incorrect checkout");
 }
-console.log("PASS Jessy 3 AI plans, exact EN/ES prices, specific checkout and no default AI selection");
+console.log("PASS Jessie 3 AI plans, exact EN/ES prices, specific checkout and no default AI selection");
 
 
 /* Information-first chat: explain real steps, no repeating the same checkout/learn CTAs. */
@@ -228,6 +228,6 @@ assert.equal(knowledge.helpfulNextAction("Can I see the booking demo?","booking"
 assert.equal(knowledge.helpfulNextAction("How do I start my free trial?","cleaning-app"),"trial");
 assert.equal(knowledge.helpfulNextAction("Where can I checkout?","booking"),"checkout");
 assert.equal(knowledge.helpfulNextAction("How much does it cost?","booking"),"none");
-console.log("PASS Jessy detailed service answers, bilingual helpful content, and no repetitive CTA after explanations");
+console.log("PASS Jessie detailed service answers, bilingual helpful content, and no repetitive CTA after explanations");
 
-console.log("PASS Jessy universal public pages, English/Spanish route focus, Cleaning App answers and safe next steps");
+console.log("PASS Jessie universal public pages, English/Spanish route focus, Cleaning App answers and safe next steps");

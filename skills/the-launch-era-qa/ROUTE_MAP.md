@@ -318,3 +318,7 @@ Main website root EN/ES declares /favicon.png (512x512), /favicon.ico and /apple
 
 ### Sonny single-bubble design — 2026-10-15
 On `/lead-private-preview.html` sample only, `tle-demo-enhancements-v12.js` owns one `#tleSonnyGreetingPopup` anchored above the right-hand `.tle-ai-launch`. It is a compact dark-blue greeting that closes after approximately five seconds, on scroll, or when chat is opened. It is **not** a second assistant. Neither `#tleSonnyInlineHello` (the old wide bar) nor `#tleSonnyInlineGreeting` (the old white hero card) may render. `tle-demo-client-experience-v14.js` must not independently add another greeting. Opening Sonny requires a deliberate click, never the `?sonny=1` URL alone. The typing field retains black text and caret on white. Booking samples do not send orders or emails.
+
+## 2026-10-15 — Jessie portrait and bundle preparation
+- Public website `/assets/jessy-site.js` uses owner-approved `/assets/jessie-avatar.webp` and Jessie display name.
+- Dedicated Command Center `Dashboard → Prepare bundles` opens authenticated Clients & Purchases and selects Booking + AI Bundle. Existing tenant-scoped controls manage Booking and AI separately; AI setup links use `https://thelaunchera.com/ai-booking-assistant/owner-delivery/`.
