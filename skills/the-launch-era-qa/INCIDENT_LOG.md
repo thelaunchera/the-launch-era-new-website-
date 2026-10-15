@@ -1,5 +1,9 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-15 | User disliked rounded capsule around fictitious business name at top of Luna Bloom demo; requested dark shadow gradient and more beautiful unframed name | `tle-demo-identity-v28.css` rendered nav logo as 999px border-radius pill with border and filled blue gradient, creating an unnecessary heavy card. | Added v29 sample-only dark-to-transparent nav shadow and removed logo capsule completely; wordmark uses larger elegant serif and unclipped responsive lines; preserves accessible home link and tenant isolation. Browser EN/ES QA + deploy required. | 🟡 Pending fresh browser/deploy verification |
+
+
+
 | 2026-10-15 | User screenshot `IMG_9581.jpeg`: sample disclaimer above header felt like plain technical text and the Luna Bloom business name was a static dark pill | Existing v14 writes flat sample-only banner and v17 creates a static flower+brand name; no visual hierarchy between disclaimer/brand, despite premium moving photography and animated sections below. | Added public-sample-only v28 with separated localized preview badge/disclaimer, discreet animated blue sparkle, enhanced rounded nameplate/flower glow, responsive alignment; preserves exact fictional/personalized business label, nav action, buyer isolation and no-bookings warning. Added EN/ES viewport browser checks. | ✅ Public demo QA run `38764604073` passed EN/ES at 360/390/820/1024/1440, including badge copy, full business name, reduced motion, no overflow and booking navigation; GitHub Pages run `38764731295` deployed successfully |
 
 
