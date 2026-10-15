@@ -267,6 +267,7 @@ for(const width of [360,390,820,1024,1440]){
    assert(bloom.contact&&bloom.email.endsWith('.example')&&bloom.phone==='(305) 555-0148'
      &&bloom.footer&&bloom.policies===4&&!bloom.overflow,
      'Fictional contact/footer must be present and responsive: '+JSON.stringify(bloom));
+   const finishing=await page.evaluate(()=>document.documentElement.classList.contains('tle-demo-v36'));
    const compact=await page.evaluate(()=>{
      const footer=document.querySelector('footer.demo-footer');
      const contact=document.querySelector('#demoContact');
@@ -281,15 +282,17 @@ for(const width of [360,390,820,1024,1440]){
      };
    });
    assert(compact.active&&!compact.oldContactSection
-     &&compact.contactTag==='DETAILS'&&compact.collapsed&&compact.moreCollapsed
+     &&compact.contactTag==='DETAILS'&&(finishing?!compact.collapsed:compact.collapsed)&&compact.moreCollapsed
      &&compact.height<=340&&compact.noOverflow,
      'Compact footer must not fill a phone screen: '+JSON.stringify(compact));
-   await page.locator('#demoContact summary').click();
-   assert.equal(await page.locator('#demoContact').evaluate(el=>el.open),true,
-     'Contact should expand only when asked');
-   await page.locator('#demoContact summary').click();
-   assert.equal(await page.locator('#demoContact').evaluate(el=>el.open),false,
-     'Contact should collapse again');
+   if(!finishing){
+     await page.locator('#demoContact summary').click();
+     assert.equal(await page.locator('#demoContact').evaluate(el=>el.open),true,'Contact expands');
+     await page.locator('#demoContact summary').click();
+     assert.equal(await page.locator('#demoContact').evaluate(el=>el.open),false,'Contact collapses');
+   }else{
+     assert(await page.locator('#tleV36Contact #demoContact').isVisible(),'Contact must be clearly visible');
+   }
    await page.locator('footer.demo-footer [data-demo-policy="privacy"]').click();
    assert.equal(await page.locator('#tleDemoLegalDialog').evaluate(el=>el.open),true,'Privacy link failed to open');
    assert((await page.locator('.tle-policy-heading').textContent()).includes(lang==='es'?'privacidad':'Privacy'),
@@ -397,21 +400,38 @@ for(const width of [360,390,820,1024,1440]){
        noOverflow:document.documentElement.scrollWidth<=innerWidth+3
      };
    });
-   assert(motion.installed&&motion.reviewDisplay==='flex'
-      &&motion.reviewCount===3&&motion.trackScroll>motion.trackClient
-      &&motion.sampleLabels&&motion.controls===5,
-      'Carousel must be horizontally swipeable with only sample reviews: '+JSON.stringify(motion));
+   if(finishing){
+     const ticker=await page.evaluate(()=>{
+       const vp=document.querySelector('#tleDemoReviews .tle-v36-review-viewport');
+       const cards=[...document.querySelectorAll('#tleDemoReviews .tle-v36-review-card:not([aria-hidden])')];
+       return {exists:!!vp,slides:!!vp&&vp.scrollWidth>vp.clientWidth,
+         count:cards.length,samples:cards.every(x=>/SAMPLE|EJEMPLO/i.test(x.textContent)),
+         textColor:getComputedStyle(document.querySelector('#tleReviewsTitle')).color};
+     });
+     assert(ticker.exists&&ticker.slides&&ticker.count===4&&ticker.samples&&ticker.textColor==='rgb(255, 255, 255)',
+       'New review ribbon and honest sample labels failed: '+JSON.stringify(ticker));
+   }else{
+     assert(motion.installed&&motion.reviewDisplay==='flex'
+       &&motion.reviewCount===3&&motion.trackScroll>motion.trackClient
+       &&motion.sampleLabels&&motion.controls===5,
+       'Carousel must be swipeable with sample reviews: '+JSON.stringify(motion));
+   }
    assert(motion.ribbon&&motion.bannerAfterPhoto&&motion.bannerDots===3
       &&motion.bannerText?.includes(lang==='es'?'más fresca':'fresher home')
       &&motion.popupExists&&motion.noOverflow,
       'Blue ribbon placement or quiet Sonny entrance regressed: '+JSON.stringify(motion));
-   await page.locator('.tle-review-arrows button').nth(1).click();
-   assert.equal(await page.locator('.tle-review-dots button[aria-current="true"]').getAttribute('aria-label'),
+   if(finishing){
+     await page.locator('#tleDemoReviews .tle-v36-review-viewport').evaluate(el=>el.scrollTo({left:el.scrollWidth/3,behavior:'instant'}));
+     assert(await page.locator('#tleDemoReviews .tle-v36-review-viewport').evaluate(el=>el.scrollLeft>0),'Review ribbon must scroll');
+   }else{
+     await page.locator('.tle-review-arrows button').nth(1).click();
+     assert.equal(await page.locator('.tle-review-dots button[aria-current="true"]').getAttribute('aria-label'),
        lang==='es'?'Ver ejemplo 2':'View sample 2','Review next arrow failed');
+   }
    await page.locator('.tle-wave-dots button').nth(1).click();
    assert((await page.locator('.tle-wave-title').textContent())?.includes(lang==='es'?'Menos vueltas':'Less back-and-forth'),
       'Banner carousel cannot switch messages');
-   assert.equal(proof.reviews,3,'three honest review slots expected');
+   assert(finishing?proof.reviews>=4:proof.reviews===3,'honest review slots expected');
    assert(proof.honest,'fake unlabelled testimonials detected');
    assert(proof.area.includes('Fort Lauderdale'),'service area is not derived from the current business');
    // v20: locality selection must use business-provided area only, and FAQ
@@ -622,7 +642,7 @@ for(const width of [360,390,820,1024,1440]){
      'Booking actions must activate focused booking mode');
    const flowVisibility=await page.evaluate(()=>({
      story:getComputedStyle(document.querySelector('#demoCinematicStory')).display,
-     reviews:getComputedStyle(document.querySelector('#tleDemoReviews').closest('.tle-demo-v12-sections')).display,
+     reviews:getComputedStyle(document.querySelector('#tleDemoReviews')).display,
      hero:getComputedStyle(document.querySelector('#leadHero')).display,
      step:document.querySelector('#bookingStarter .screen.on')?.id
    }));
