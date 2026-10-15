@@ -34,7 +34,7 @@ for(const lang of ['en','es']){
      editorialSlides:document.querySelectorAll('#tleV32EditorialControls button').length,
      galleryBeforeReviews:(()=>{const g=$('#tleV31Transformations'),rv=$('#tleDemoReviews');return !!g&&!!rv&&!!(g.compareDocumentPosition(rv)&Node.DOCUMENT_POSITION_FOLLOWING)})(),
      editorialBeforeGallery:(()=>{const e=$('#tleDemoEditorialGallery'),g=$('#tleV31Transformations');return !!e&&!!g&&!!(e.compareDocumentPosition(g)&Node.DOCUMENT_POSITION_FOLLOWING)})(),
-     reviewCards:document.querySelectorAll('#tleDemoReviews .tle-demo-v12-reviewgrid article').length,
+     reviewCards:document.querySelectorAll('#tleDemoReviews .tle-v36-review-card:not([aria-hidden])').length||document.querySelectorAll('#tleDemoReviews .tle-demo-v12-reviewgrid article').length,
      galleryVisible:(()=>{const g=document.getElementById('tleV31Transformations');const r=g?.getBoundingClientRect();return !!r&&r.height>130&&getComputedStyle(g).display!=='none'})(),
      css:[...document.styleSheets].some(s=>s.href?.includes('tle-demo-booking-v7.css')),
      viewport:innerWidth,scrollWidth:document.documentElement.scrollWidth,
@@ -68,7 +68,26 @@ for(const lang of ['en','es']){
    assert(m.mode&&m.css,'Public sample styles not activated');
    assert(m.scrollWidth<=width+2,'Horizontal overflow '+JSON.stringify(m));
    if(m.cascade){
-     assert(!m.storyVisible&&m.galleryCards===3&&m.galleryVisible&&m.editorialShown&&m.editorialCards===0&&m.editorialSlides===0&&m.galleryBeforeReviews&&m.reviewCards===3,
+     if(await page.evaluate(()=>document.documentElement.classList.contains('tle-demo-v36'))){
+       const finishing=await page.evaluate(()=>{
+         const c=document.querySelector('#tleV31Transformations');
+         const r=document.querySelector('#tleDemoReviews');
+         const a=document.querySelector('#tleDemoAreas');
+         const contact=document.querySelector('#tleV36Contact');
+         const footer=document.querySelector('footer.demo-footer');
+         const thanks=document.querySelector('#tleDemoThankYou');
+         const first=document.querySelector('#tleV31GalleryRail .tle-v31-gallery-card');
+         const correct=(x,y)=>!!(x&&y&&(x.compareDocumentPosition(y)&Node.DOCUMENT_POSITION_FOLLOWING));
+         return {ordered:correct(c,r)&&correct(r,a)&&correct(a,contact)&&correct(contact,footer)&&correct(footer,thanks),
+           pairs:document.querySelectorAll('#tleV31GalleryRail .tle-v31-gallery-card').length,
+           reviewSamples:document.querySelectorAll('#tleDemoReviews .tle-v36-review-card:not([aria-hidden])').length,
+           autoRibbon:!!document.querySelector('.tle-v36-review-viewport'),
+           noOverflow:document.documentElement.scrollWidth<=innerWidth+2};
+       });
+       assert(finishing.ordered&&finishing.pairs===3&&finishing.reviewSamples===4&&finishing.autoRibbon&&finishing.noOverflow,
+         'Finish chapters and honest animated reviews missing: '+JSON.stringify(finishing));
+     }
+     assert(!m.storyVisible&&m.galleryCards===3&&m.galleryVisible&&m.editorialShown&&m.editorialCards===0&&m.editorialSlides===0&&m.galleryBeforeReviews&&m.reviewCards>=(m.cascade?3:3),
        'Service cascade -> existing chapters -> Before/After -> Reviews order failed: '+JSON.stringify(m));
      const editorialStack=await page.evaluate(()=>{
        const cards=[...document.querySelectorAll('#residentialServiceList > button.tle-service-has-photo-v21')];
