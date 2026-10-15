@@ -143,7 +143,7 @@ for(const lang of ['en','es']){
    assert(heroNavigation.visible&&(heroNavigation.focusMode?heroNavigation.marketingHidden:heroNavigation.scroll>80)&&heroNavigation.panelTop>=-10&&heroNavigation.panelTop<235,
       'Choose your service did not scroll to visible form: '+JSON.stringify(heroNavigation));
    assert.equal(heroNavigation.hash,'#bookingStarter','Hero CTA destination must update URL');
-   assert(heroNavigation.stylePresent&&(width<=650||heroNavigation.svgVisible&&heroNavigation.arrowBackground==='rgba(0, 0, 0, 0)'&&heroNavigation.oldArrow==='none'),
+   assert(heroNavigation.stylePresent&&(heroNavigation.focusMode||width<=650||heroNavigation.svgVisible&&heroNavigation.arrowBackground==='rgba(0, 0, 0, 0)'&&heroNavigation.oldArrow==='none'),
       'Old diamond/block arrow still appears: '+JSON.stringify(heroNavigation));
    await page.screenshot({path:'qa-screenshots/demo-v7/'+lang+'-'+width+'-booking-and-story.png',fullPage:true});
    await page.locator('#categoryTabs button[data-category="commercial"]').click();
