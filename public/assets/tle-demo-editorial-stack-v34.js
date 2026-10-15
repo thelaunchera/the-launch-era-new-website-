@@ -82,6 +82,12 @@
      heading.textContent=legend.textContent;
      legend.insertAdjacentElement("afterend",heading);
    });
+   // Keep the Return Home link BELOW the selected category, never between
+   // Residential and Commercial where it could break the visual sequence.
+   const returnHome=panel.querySelector("#main .tle-return-home-wrap");
+   if(returnHome&&returnHome.previousElementSibling!==commercial){
+     commercial.insertAdjacentElement("afterend",returnHome);
+   }
    // Preserve current routes, anchor links and assistant navigation without
    // creating any duplicate service panels.
    document.querySelectorAll('a[href="#demoServices"]').forEach(a=>a.href="#bookingStarter");
