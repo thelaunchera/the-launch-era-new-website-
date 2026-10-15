@@ -326,3 +326,9 @@ html.demo-editorial.tle-demo-v36 #tleDemoThankYou small{
    scroll-behavior:auto!important;
  }
 }
+
+/* In focused booking mode do not mix marketing chapters with request steps. */
+html.demo-editorial.tle-demo-v36.tle-demo-booking-active :is(
+  #tleV31Transformations,#tleDemoReviews,#tleDemoAreas,
+  #tleV36Contact,#tleDemoThankYou,#tleDemoFaq
+){display:none!important}
