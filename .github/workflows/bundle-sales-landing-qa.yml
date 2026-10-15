@@ -12,6 +12,8 @@ on:
       - 'public/assets/tle-bundle-landing.*'
       - 'public/assets/bundle-landing/**'
       - 'scripts/qa-bundle-sales*'
+      - 'scripts/qa-ai-intake-browser.mjs'
+      - 'scripts/qa-jessy-coverage.mjs'
       - '.github/workflows/bundle-sales-landing-qa.yml'
   pull_request:
     branches: [main]
@@ -31,6 +33,7 @@ jobs:
         run: |
           node scripts/qa-bundle-sales-landing.mjs
           node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-jessy-coverage.mjs
       - name: Install Playwright for responsive testing
         run: |
           mkdir -p /tmp/tle-bundle-qa
@@ -41,7 +44,9 @@ jobs:
           cd "$GITHUB_WORKSPACE"
           ln -s /tmp/tle-bundle-qa/node_modules node_modules
       - name: Test fixture demos and original purchase options at six sizes/languages
-        run: node scripts/qa-bundle-sales-browser.mjs
+        run: |
+          node scripts/qa-bundle-sales-browser.mjs
+          node scripts/qa-ai-intake-browser.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
