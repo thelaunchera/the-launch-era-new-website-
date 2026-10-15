@@ -6,6 +6,8 @@ on:
       - 'public/command-center/index.html'
       - 'public/command-center/assets/command-center-app.js'
       - 'scripts/qa-owner-order-control.mjs'
+      - 'scripts/qa-owner-order-watchdog.mjs'
+      - 'supabase/migrations/20261015135000_tle_ai_team_order_blocker_watch.sql'
       - '.github/workflows/owner-order-readiness-qa.yml'
   workflow_dispatch:
 permissions:
@@ -22,4 +24,5 @@ jobs:
       - name: Validate owner order screen and no-send behavior
         run: |
           node scripts/qa-owner-order-control.mjs
+          node scripts/qa-owner-order-watchdog.mjs
           node --check public/command-center/assets/command-center-app.js
