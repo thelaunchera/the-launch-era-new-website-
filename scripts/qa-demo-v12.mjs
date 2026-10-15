@@ -76,6 +76,7 @@ for(const width of [360,390,820,1024,1440]){
        areaEm:!!headings[2]?.querySelector('em'),
        reviewColor:cc(pick('#tleDemoReviews'))?.backgroundImage||'',
        faqColor:cc(pick('#tleDemoFaq'))?.backgroundColor||'',
+       faqGradient:cc(pick('#tleDemoFaq'))?.backgroundImage||'',
        horizontalOverflow:document.documentElement.scrollWidth>innerWidth+3
      };
    });
@@ -87,7 +88,7 @@ for(const width of [360,390,820,1024,1440]){
      &&chapterContrast.howEm&&chapterContrast.areaEm,
      'Photo/editorial headings must use the matching serif typography: '+JSON.stringify(chapterContrast));
    assert(chapterContrast.reviewColor.includes('linear-gradient')
-     &&chapterContrast.faqColor==='rgb(20, 42, 60)'&&!chapterContrast.horizontalOverflow,
+     &&chapterContrast.faqGradient.includes('linear-gradient')&&!chapterContrast.horizontalOverflow,
      'Neighboring sections need visually distinct backgrounds without overflow: '+JSON.stringify(chapterContrast));
    // v25: both light-blue chapters have noninteractive, accessible bubbles.
    // With reduced motion each bubble remains decorative but NEVER animates.
@@ -125,6 +126,42 @@ for(const width of [360,390,820,1024,1440]){
      'Bubbles must decorate only the two blue sections without covering UI: '+JSON.stringify(bubbleState));
    assert(bubbleState.steps.animation==='none'&&bubbleState.ribbon.animation==='none',
      'Reduced-motion users must not receive floating animations: '+JSON.stringify(bubbleState));
+   // v26: photo-section color difference, final CTA bubbles, no yellow
+   // decoration, no controls covered by bubbles, slightly rounded finishes.
+   const finish=await page.evaluate(()=>{
+     const areas=document.querySelector('#tleDemoAreas');
+     const faq=document.querySelector('#tleDemoFaq');
+     const final=document.querySelector('.tle-demo-v12-end');
+     const layer=final?.querySelector(':scope > .tle-bubble-layer-v25');
+     const finalLink=final?.querySelector('a[href="#bookingStarter"]');
+     const first=document.querySelector('#bookingStarter');
+     const motif=getComputedStyle(first,'::before');
+     const oldMotif=getComputedStyle(document.querySelector('#demoServices'),'::after');
+     return {
+       areaColor:getComputedStyle(areas).backgroundColor,
+       faqColor:getComputedStyle(faq).backgroundColor,
+       areaGradient:getComputedStyle(areas.querySelector(':scope > div')).backgroundImage,
+       faqGradient:getComputedStyle(faq).backgroundImage,
+       finalGradient:getComputedStyle(final).backgroundImage,
+       finalColor:getComputedStyle(final.querySelector('h2')).color,
+       finalRadius:parseFloat(getComputedStyle(final).borderTopLeftRadius),
+       finalBubbles:layer?.querySelectorAll('.tle-bubble-v25').length||0,
+       finalAria:layer?.getAttribute('aria-hidden'),
+       finalPointer:layer?getComputedStyle(layer).pointerEvents:null,
+       finalLinkVisible:!!finalLink&&getComputedStyle(finalLink).display!=='none',
+       yellowDot:motif.content==='none'||motif.display==='none',
+       yellowRing:oldMotif.content==='none'||oldMotif.display==='none',
+       noOverflow:document.documentElement.scrollWidth<=innerWidth+3
+     };
+   });
+   assert(finish.finalGradient.includes('linear-gradient')&&finish.finalColor==='rgb(21, 55, 77)'
+    &&finish.finalBubbles===7&&finish.finalAria==='true'
+    &&finish.finalPointer==='none'&&finish.finalLinkVisible
+    &&finish.finalRadius>=17&&finish.finalRadius<=24,
+     'Light-blue rounded final CTA with decorative bubbles must render: '+JSON.stringify(finish));
+   assert(finish.areaGradient.includes('linear-gradient')&&finish.faqGradient.includes('linear-gradient')
+     &&finish.yellowDot&&finish.yellowRing&&finish.noOverflow,
+     'Area and FAQ must be distinct and yellow connector removed: '+JSON.stringify(finish));
    const proof=await page.evaluate(()=>{
     const $=s=>document.querySelector(s);
     const image=$('.tle-demo-v12-why>img');
@@ -590,7 +627,15 @@ for(const width of [360,390,820,1024,1440]){
       &&state.pointerEvents==='none'&&!state.duration.startsWith('0s'),
       'Floating bubble should animate gently while visible: '+JSON.stringify({sel,...state}));
   }
-  console.log('PASS floating bubbles in both blue sections 390px');
+  await page.locator('.tle-demo-v12-end').scrollIntoViewIfNeeded();
+  await page.waitForFunction(
+    ()=>document.querySelector('.tle-demo-v12-end')?.classList.contains('tle-bubbles-visible-v25'),
+    null,{timeout:7000}
+  );
+  assert(await page.locator('.tle-demo-v12-end .tle-bubble-v25').first().evaluate(el=>
+    getComputedStyle(el).animationPlayState==='running'),
+    'Final CTA bubbles should float when in view');
+  console.log('PASS floating bubbles in three blue sections 390px');
   const target=page.locator('#tleDemoEditorialGallery .tle-editorial-photo-card').first();
   await target.waitFor({state:'attached',timeout:12000});
   const before=await target.evaluate(el=>({
