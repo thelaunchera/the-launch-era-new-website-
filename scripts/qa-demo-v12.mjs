@@ -100,7 +100,7 @@ for(const width of [360,390,820,1024,1440]){
        const bubble=layer?.querySelector('.tle-bubble-v25');
        return {
          present:!!layer,
-         bubbles:layer?.children.length||0,
+         bubbles:layer?.querySelectorAll('.tle-bubble-v25').length||0,
          hiddenFromAT:layer?.getAttribute('aria-hidden'),
          pointerEvents:layer?getComputedStyle(layer).pointerEvents:null,
          animation:bubble?getComputedStyle(bubble).animationName:null,
