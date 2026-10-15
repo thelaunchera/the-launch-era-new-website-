@@ -116,7 +116,7 @@ export function ContactForm() {
      help_needed:[String(fd.get('service')||'')].filter(Boolean),
      message:isCall?String(fd.get('message')||'')+'\nPreferred time windows: '+String(fd.get('call_availability')||'Not specified')+'\nCall type: setup guidance request; not booked yet':String(fd.get('message')||''),
      language:'en',
-     source:'main_website',
+     source:isCall?'setup_guidance_call':'main_website',
      started_at:Date.now()-3000,
      website:''
     })
