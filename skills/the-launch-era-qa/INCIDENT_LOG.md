@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+
+| 2026-10-15 | Sonny sample-demo chat: iPhone typing nearly invisible; automatic fullscreen welcome blocked the landing | **Verified in source and user iPhone screenshot:** `tle-ai-booking-chat.js` textarea had no text fill, caret or placeholder contrast override; `tle-demo-enhancements-v12.js` auto-opened chat when `?sonny=1`, and the greeting only lived in an overlay/launcher. | Set explicit dark text/webkit text fill/caret and white input; added hero in-flow EN/ES greeting (only open by click), swap in-page greeting with a compact avatar after scroll, prevent auto-open on navigation; regression assertions in `scripts/qa-demo-v12.mjs`. **CI / live iPhone verification pending**; do not claim production success until checked. | 🟡 Code committed; browser/production verification pending |
+
 **Convention:** ✅ corrected and verified; 🟡 reported/partial verification; 🔴 open. Every item must name source/destination and protect unrelated tenants. Information before 2026-10-12 may be based on earlier project work; inspect current code before assuming the fix is live.
 
 | Date | Incident / impact | Root cause or finding | Safe fix / verification | State |
