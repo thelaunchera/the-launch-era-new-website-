@@ -120,15 +120,5 @@
  const ul=document.createElement("ol");
  tr.processSteps.forEach(s=>{const li=document.createElement("li");li.textContent=s;ul.append(li)});
  mini.append(ul);panel.insertAdjacentElement("afterend",mini);
- // A discreet companion to Sonny, shown only away from the actual booking panel.
- const sticky=document.createElement("a");sticky.className="tle-client-sticky-cta";sticky.href="#bookingStarter";
- sticky.textContent=tr.sticky+"  ↗";sticky.hidden=true;sticky.setAttribute("aria-label",tr.sticky);
- document.body.appendChild(sticky);
- let panelVisible=true;
- const watcher=new IntersectionObserver(entries=>{panelVisible=entries.some(e=>e.isIntersecting);updateSticky()},{rootMargin:"-12% 0px -10% 0px"});
- watcher.observe(panel);
- const updateSticky=()=>{sticky.hidden=!(matchMedia("(max-width:650px)").matches&&scrollY>350&&!panelVisible)};
- window.addEventListener("scroll",updateSticky,{passive:true});
- window.addEventListener("resize",updateSticky,{passive:true});
- sticky.addEventListener("click",()=>{sticky.hidden=true;panel.focus({preventScroll:true})});
+ // No floating booking CTA: the booking form and navigation stay in the page.
 })();
