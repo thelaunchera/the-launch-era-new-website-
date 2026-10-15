@@ -207,3 +207,10 @@ body.tle-jessy-demo-open{overflow:hidden!important}
 .tle-jessy-demo-status{font-size:12px!important;min-height:16px;color:#3c657d!important}
 .tle-jessy-demo-trap{position:absolute!important;left:-9999px!important;opacity:0!important;width:1px!important;height:1px!important;pointer-events:none!important}
 @media(max-width:600px){.tle-jessy-demo-gate{max-width:none;width:calc(100% - 20px);max-height:calc(100dvh - 93px);padding:22px 18px;border-radius:20px;margin:11px auto}}
+
+
+.tle-jessy-demo-success[hidden]{display:none!important}
+.tle-jessy-demo-success{margin:0;padding:12px clamp(12px,3vw,24px);background:#e7f5ff;color:#194d69;border-bottom:1px solid #c4e3f4;font:700 13px/1.55 Futura,Arial,sans-serif}
+.tle-jessy-sonny-action{display:block;width:min(100%,360px);margin:7px 0 16px;text-align:center;border-radius:14px;padding:12px 16px;background:#f2d85b;border:1px solid #d6ba38;color:#191919;font:700 13px/1.4 Futura,Arial,sans-serif;cursor:pointer}
+.tle-jessy-sonny-action:hover{background:#f7e685}
+.tle-jessy-sonny-action:focus-visible{outline:3px solid #4587b6;outline-offset:2px}
