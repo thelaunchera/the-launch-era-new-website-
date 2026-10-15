@@ -15,6 +15,8 @@ for(const width of [360,390,820,1024,1440]){
   try{
    await page.goto(base+'/lead-private-preview.html?business=Coastal%20Cleaners&area=Fort%20Lauderdale&lang='+lang+'&sonny=1',{waitUntil:'domcontentloaded',timeout:30000});
    await page.locator('#tleDemoReviews').waitFor({state:'visible',timeout:12000});
+   const sonnyQuietOnEntry=await page.locator('#tleSonnyGreetingPopup').evaluate(el=>el.hidden);
+   assert(sonnyQuietOnEntry,'Sonny greeting must be hidden on page entry');
    const proof=await page.evaluate(()=>{
     const $=s=>document.querySelector(s);
     const image=$('.tle-demo-v12-why>img');
@@ -199,7 +201,7 @@ for(const width of [360,390,820,1024,1440]){
        ribbon:!!ribbon,bannerDots:ribbon?.querySelectorAll('.tle-wave-dots button').length,
        bannerAfterPhoto:why?.nextElementSibling===ribbon,
        bannerText:ribbon?.querySelector('.tle-wave-title')?.textContent,
-       initialSonnyHidden:popup?.hidden===true,
+       popupExists:!!popup,
        noOverflow:document.documentElement.scrollWidth<=innerWidth+3
      };
    });
@@ -209,7 +211,7 @@ for(const width of [360,390,820,1024,1440]){
       'Carousel must be horizontally swipeable with only sample reviews: '+JSON.stringify(motion));
    assert(motion.ribbon&&motion.bannerAfterPhoto&&motion.bannerDots===3
       &&motion.bannerText?.includes(lang==='es'?'más fresca':'fresher home')
-      &&motion.initialSonnyHidden&&motion.noOverflow,
+      &&motion.popupExists&&motion.noOverflow,
       'Blue ribbon placement or quiet Sonny entrance regressed: '+JSON.stringify(motion));
    await page.locator('.tle-review-arrows button').nth(1).click();
    assert.equal(await page.locator('.tle-review-dots button[aria-current="true"]').getAttribute('aria-label'),
