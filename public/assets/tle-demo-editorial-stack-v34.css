@@ -204,3 +204,136 @@ html.demo-editorial.tle-demo-v34 #bookingStarter #main .tle-service-subsection{
    transition:none!important;transform:none!important;opacity:1!important;
  }
 }
+
+/* v34.1 — responsive compact, single readable quote CTA and no ghost options.
+   Strictly scoped to public demo, never buyer/owner previews. */
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main #residentialServiceList[hidden],
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main #commercialServiceList[hidden]{
+  display:none!important;visibility:hidden!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-photo-services-grid-v21>button.tle-service-secondary-v21,
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-photo-services-grid-v21>button.service[hidden]{
+  display:none!important;visibility:hidden!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-photo-services-grid-v21>button.service.tle-service-has-photo-v21{
+  height:clamp(420px,50vw,570px)!important;
+  box-shadow:0 12px 31px rgba(15,52,79,.14)!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-photo-services-grid-v21>button.service.tle-service-has-photo-v21:is(:hover,:focus-visible,.tle-v33-focus){
+  box-shadow:0 16px 36px rgba(29,107,159,.20),0 0 0 4px rgba(128,204,247,.11)!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v30-main-custom.tle-v34-single-quote{
+  box-sizing:border-box!important;grid-column:1/-1!important;
+  display:flex!important;align-items:center!important;
+  justify-content:space-between!important;gap:16px!important;
+  min-height:104px!important;padding:19px 20px!important;
+  margin:4px 0 6px!important;width:100%!important;min-width:0!important;
+  border-radius:23px!important;border:1px solid #a5d2eb!important;
+  color:#163b57!important;background:linear-gradient(117deg,#e6f4fd 0%,#f4fbff 75%,#d9f1fc 100%)!important;
+  box-shadow:0 8px 23px rgba(21,79,123,.12)!important;
+  text-align:left!important;text-shadow:none!important;
+  transition:background .2s ease,transform .2s ease,border-color .2s ease!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v30-main-custom.tle-v34-single-quote .tle-v34-custom-text{
+  display:flex!important;flex:1 1 auto!important;flex-direction:column!important;
+  align-items:flex-start!important;gap:7px!important;min-width:0!important;
+  color:#153950!important;opacity:1!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v34-single-quote .tle-v34-custom-text small{
+  color:#376783!important;font:750 11px/1.35 "DM Sans",Arial,sans-serif!important;
+  letter-spacing:.10em!important;text-transform:uppercase!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v34-single-quote .tle-v34-custom-text strong{
+  color:#12354e!important;font:700 clamp(17px,2.2vw,23px)/1.28 Prompt,Arial,sans-serif!important;
+  letter-spacing:-.025em!important;overflow-wrap:anywhere!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v34-single-quote>span:last-child{
+  display:grid!important;flex:0 0 46px!important;place-items:center!important;
+  width:46px!important;height:46px!important;border-radius:50%!important;
+  color:#17577c!important;background:#c5e8fa!important;
+  border:1px solid #83bee0!important;
+  font-size:24px!important;line-height:1!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v30-main-custom.tle-v34-single-quote:is(:hover,:focus-visible){
+  background:#d8eefc!important;border-color:#75b8df!important;transform:translateY(-2px)!important;
+  outline-offset:3px!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-service-subsection{
+  margin-top:8px!important;margin-bottom:0!important;min-width:0!important;
+  border-color:rgba(141,194,222,.45)!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-return-home-wrap{
+  max-width:100%!important;margin:18px 0 26px!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-return-home-link{
+  box-sizing:border-box!important;max-width:100%!important;
+  border-radius:999px!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter fieldset.tle-v30-tasklist{
+  box-sizing:border-box!important;min-width:0!important;max-width:100%!important;
+  border:1px solid #c5e0ed!important;border-radius:23px!important;
+  background:#f5faff!important;box-shadow:0 10px 25px rgba(10,49,81,.11)!important;
+  margin:22px 0 14px!important;padding:20px 17px!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter fieldset.tle-v30-tasklist legend{
+  position:absolute!important;inline-size:1px!important;block-size:1px!important;
+  padding:0!important;margin:0!important;border:0!important;
+  clip-path:inset(50%)!important;overflow:hidden!important;
+  white-space:nowrap!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter fieldset.tle-v30-tasklist .tle-v34-task-title{
+  margin:0 0 10px!important;padding:0!important;border:0!important;
+  background:transparent!important;color:#183e58!important;
+  font:750 clamp(16px,2.3vw,20px)/1.26 Prompt,Arial,sans-serif!important;
+  letter-spacing:-.025em!important;text-wrap:balance!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter fieldset.tle-v30-tasklist>p{
+  color:#40627a!important;opacity:1!important;margin:0 0 17px!important;
+  font-size:13px!important;line-height:1.5!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter fieldset.tle-v30-tasklist .tle-v30-task{
+  background:#fff!important;border:1px solid #c6dce8!important;
+  color:#1b405c!important;border-radius:15px!important;
+  min-width:0!important;overflow-wrap:anywhere!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 .demo-editorial-nav .demo-logo.tle-dynamic-brand-v28{
+  box-sizing:border-box!important;max-width:min(100%,calc(100vw - 30px))!important;
+  min-width:0!important;overflow:hidden!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 .demo-editorial-nav .demo-logo.tle-dynamic-brand-v28 .tle-bloom-lockup{
+  min-width:0!important;max-width:100%!important;overflow:hidden!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 .demo-editorial-nav .demo-logo.tle-dynamic-brand-v28 .tle-bloom-name{
+  max-width:100%!important;overflow:hidden!important;text-overflow:ellipsis!important;
+}
+@media(max-width:650px){
+  html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-photo-services-grid-v21>button.service.tle-service-has-photo-v21{
+    height:clamp(375px,108vw,500px)!important;
+    min-height:0!important;
+  }
+  html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-photo-services-grid-v21 .tle-service-has-photo-v21 .demo-service-body b{
+    font-size:clamp(29px,7.5vw,42px)!important;
+  }
+  html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v30-main-custom.tle-v34-single-quote{
+    min-height:101px!important;padding:17px!important;
+  }
+  html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter fieldset.tle-v30-tasklist{
+    padding:19px 14px!important;border-radius:21px!important;
+  }
+  html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 .demo-editorial-nav .demo-logo.tle-dynamic-brand-v28{
+    max-width:calc(100vw - 44px)!important;
+  }
+}
+@media(max-width:375px){
+  html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-photo-services-grid-v21>button.service.tle-service-has-photo-v21{
+    height:385px!important;
+  }
+  html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-photo-services-grid-v21 .tle-service-has-photo-v21 .demo-service-body b{
+    font-size:28px!important;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v30-main-custom.tle-v34-single-quote{
+    transition:none!important;
+  }
+}
