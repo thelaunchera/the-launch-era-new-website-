@@ -1,0 +1,35 @@
+name: Jessie Public Chat QA
+
+on:
+  pull_request:
+    paths:
+      - 'public/assets/jessy-site.js'
+      - 'public/assets/jessy-offers.json'
+      - 'supabase/functions/tle-jessy-chat/**'
+      - 'scripts/qa-jessy-reasoning.ts'
+      - 'scripts/qa-jessie-capabilities.mjs'
+      - 'scripts/qa-jessy-coverage.mjs'
+      - '.github/workflows/jessie-public-chat-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  chat-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify public widget syntax
+        run: node --check public/assets/jessy-site.js
+      - name: Verify route and assistant boundaries
+        run: |
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-jessie-capabilities.mjs
+          node scripts/qa-jessy-coverage.mjs
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Verify context, verified catalog, and reply routing
+        run: bun scripts/qa-jessy-reasoning.ts
