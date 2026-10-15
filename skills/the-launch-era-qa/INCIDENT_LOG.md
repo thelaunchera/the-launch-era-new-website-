@@ -1,5 +1,9 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-15 | Public Luna Bloom demo: Areas and FAQ blended together, final CTA remained navy instead of light blue, bright bubbles were hard to see, an unwanted yellow circle appeared, and iPhone refresh caused a repeated hero/booking layout jump | Screenshots `IMG_9567.jpeg`, `IMG_9566.jpeg`, video `ScreenRecording_10-15-2026 09-30-29_1.mp4`; source had unscoped yellow pseudo-elements, successive navy gradients, v25 faint bubbles, and conflicting mobile hero sizes involving svh on Safari. | v26 isolates dark/medium-blue chapters, soft blue final CTA with working booking link plus seven floating bubbles, increases bubble contrast, removes yellow pseudo-element source CSS, fixes mobile hero height and prevents page reload scroll restoration oscillation. EN/ES mobile/tablet/desktop browser QA and deployment to be verified. | 🟡 Awaiting CI browser + Pages confirmation |
+
+
+
 | 2026-10-15 | Public cleaning sample: two blue sections ("Cleaning made simpler" process and rotating blue message banner) lacked the requested soft floating bubbles, despite overall color/typography improvements | Verified code: v24 steps had only one static ::before radial decoration; v19 blue ribbon had two static pseudo-element circles. Neither provided subtle independent motion. | Added public-demo-only v25 seven-layer translucent bubbles to each section; pointer-events none and aria-hidden, active in-view only, reduced-motion static, no updates to hero/service cards/booking. Added mobile+tablet+desktop EN/ES browser assertions plus real animation checks. CI/deploy verification pending at record time. | 🟡 Code committed, awaiting QA |
 
 
