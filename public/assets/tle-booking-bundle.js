@@ -7,7 +7,7 @@ const url=new URLSearchParams({offer:"booking-flow",lang:es?"es":"en"});
 // Smart Welcome visitors arrive to a joint activation with AI Booking preselected.
 // Other visitors retain the original booking-only default and can change plans freely.
 const autoSelectAI=qs.get("bundle")==="ai-booking"?"ai-booking":"";
-const prices={"":{setup:0,monthly:0}, "ai-booking":{setup:79,monthly:29},"ai-followup":{setup:59,monthly:19},"ai-business":{setup:119,monthly:39}};
+const prices={"":{setup:0,monthly:0}, "ai-booking":{setup:49,monthly:19},"ai-followup":{setup:29,monthly:12},"ai-business":{setup:69,monthly:25}};
 let livePricing=null;
 const pricesEndpoint="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-bundle-checkout";
 const plans=[
@@ -73,7 +73,7 @@ const btn=root.querySelector("#tleCheckoutBtn"),error=root.querySelector("#tleBu
   const response=await fetch(pricesEndpoint,{method:"GET",headers:{"Accept":"application/json"},cache:"no-store"});
   if(!response.ok)throw Error("pricing");
   const data=await response.json();
-  if(!data?.plans||![0,40].includes(data.percent_off)||data.plans["ai-booking"]?.monthly_cents!==2900)throw Error("pricing");
+  if(!data?.plans||![0,40].includes(data.percent_off)||!Object.entries(prices).every(([key,plan])=>!key||data.plans[key]?.original_setup_cents===plan.setup*100&&data.plans[key]?.monthly_cents===plan.monthly*100&&data.plans[key]?.setup_due_cents===Math.round(plan.setup*100*(100-data.percent_off)/100)))throw Error("pricing");
   livePricing=data;render();
  }catch{
   error.textContent=es?"No se pudo cargar el descuento. Intenta actualizar la página.":"Could not load current pricing. Please refresh the page.";
