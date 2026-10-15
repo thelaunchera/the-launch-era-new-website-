@@ -50,6 +50,13 @@ Verified against production page loads and repository sources on **2026-10-12**.
 | \\`/command-center/ai-team.html\\` | \\`public/command-center/ai-team.html\\` + AI Team assets | Private The Launch Era internal owner role only; tasks, AI plans, approvals, evidence, audit. No buyer access or automatic external action. |\n
 Other routes exist under \`src/routes/\`, \`public/es/\`, \`public/intake/\` and \`public/ai-booking-assistant/\`; \`scripts/qa-route-integrity.mjs\` scans the filesystem for static references. All routes must be added here when they become a production CTA.
 
+## v28 animated preview identity / sample nameplate (2026-10-15)
+- **URL/scope**: public unkeyed `/lead-private-preview.html` (including `lang=en/es`, fictional business query); never runs when `?key` is present or `?owner_preview=1`. Existing buyer/owner headers, demos and all client booking data stay untouched.
+- **Demo status line**: `.top .demo-top-label` presents two *always-visible* groups: localized `INTERACTIVE DEMO` / `DEMO INTERACTIVO` with an aria-hidden twinkling blue star, and `SAMPLE WEBSITE · NO LIVE BOOKINGS` / `SITIO DE EJEMPLO · SIN RESERVAS REALES`. Preserve truthful disclaimers; no animated auto-hiding of critical wording.
+- **Business name**: current dynamic `#demoBrandName.tle-sample-wordmark` retains the exact supplied cleaning-business text, flower mark, descriptor and original `href="#leadHero"` (the v22 booking-mode back handler still works). v28 uses an elevated pill with a low-contrast light sweep and bloom glow; all decorations have pointer-safe/keyboard-visible controls and reduced-motion fallback.
+- **Responsive**: centered max-width logo on phone; two compact lines for notice at ≤430px, one wrap-friendly line on larger screens. No layout shifting animation or new forms; old logos/links/hero unchanged. Assets: `public/assets/tle-demo-identity-v28.js/css` loaded last.
+- **QA**: `scripts/qa-demo-v12.mjs` asserts localized disclaimers, correct business name, semantic brand anchor, radius, mobile bounds, reduced-motion, and no overflow on 360, 390, 820, 1024, 1440 in EN/ES. Confirm GitHub Pages + Actions before declaring published.
+
 ## v25 ambient bubbles in both blue chapters (2026-10-15)
 - **Scope**: `/lead-private-preview.html` public unkeyed sample only; `?key` buyer/tenant and `?owner_preview=1` excluded. `tle-demo-floating-bubbles-v25.js/css` load after v24 scripts/styles.
 - **Targets**: only `.tle-client-quicksteps` ("Cleaning made simpler", powder blue) and `#tleDemoBlueRibbon` (rotating copy banner). Each receives seven `aria-hidden` decorative bubbles behind copy, not hero, service photos, buttons, Sonny or gallery. The layer is `pointer-events:none`, zero impact on booking form/navigation.
