@@ -307,7 +307,7 @@ async function reloadOffers(){try{const r=await fetch(catalogPath+"?r="+Date.now
 function quickChoices(){
  quick.replaceChildren();
  const p=currentPage(),es=lang==="es";
- let opts=[[t("service"),es?"Necesito mejorar mis reservas.":"I need better bookings."],[t("ai"),es?"¿Qué asistentes IA ofrecen?":"Which AI Assistants do you offer?"],[t("price"),es?"¿Qué precios tienen?":"What are your prices?"],[t("human"),"lead-form"]];
+ let opts=[[t("service"),es?"Necesito mejorar mis reservas.":"I need better bookings."],[t("ai"),es?"¿Qué asistentes IA ofrecen?":"Which AI Assistants do you offer?"],[es?"Ver demo":"See a demo",es?"¿Puedo ver un demo de los sistemas?":"Can I see a demo of the systems?"],[t("price"),es?"¿Qué precios tienen?":"What are your prices?"],[t("human"),"lead-form"]];
  if(p==="cleaning-app")opts=[
  [es?"Funciones de la app":"App features",es?"¿Qué puedo organizar en la Cleaning App?":"What can I manage in the Cleaning App?"],
  [es?"Prueba gratis":"Free trial",es?"¿Cómo comienzo mi prueba gratis de la app?":"How do I start my free trial in the app?"],
@@ -365,6 +365,7 @@ if(result&&typeof result.reply==="string"){
  if(!plansShown){
   const next=result.next_action;
   if(next==="demo"&&DEMOS[offer])showDemoCard(offer);
+  else if(next==="demo_choice"){showDemoCard("booking");showDemoCard("cleaning-app")}
   if(next==="client_help"){const help=node("a","tle-jessy-help-link",lang==="es"?"Ir a ayuda y soporte ↗":"Go to help & support ↗");help.href="/help/";log.append(help)}
   if(next==="checkout"&&checkout)actions(checkout,info,null);
   else if(next==="trial"&&result.trial)actions(null,info,result.trial);
