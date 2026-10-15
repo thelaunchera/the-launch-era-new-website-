@@ -1416,14 +1416,18 @@ img { display:block; width:100%; object-fit:cover; }
  .sales-home .booking-copy > .description { font-size:17px; line-height:1.6; }
 }
 
-/* Seamless full-bleed hero finish: soften photo perimeter without a pasted rectangle. */
+/* Home hero finishing pass: no shifted/cropped image, no white side seam.
+   The demo CTA intentionally straddles the photo/ivory transition on phones.
+   These selectors apply to both / and /es without touching checkout links. */
 .sales-home .hero-photo {
   background:#FAF8F3;
 }
 .sales-home .hero-photo > img.hero-main-image {
-  inset:-32px;
-  width:calc(100% + 64px);
-  height:calc(100% + 64px);
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  max-width:none;
   object-fit:cover;
   filter:blur(3px) saturate(1.02) contrast(1.02);
   transform-origin:center center;
@@ -1431,47 +1435,77 @@ img { display:block; width:100%; object-fit:cover; }
 .sales-home .hero-photo::after {
   background:
     linear-gradient(90deg,
-      rgba(250,248,243,.94) 0%,
-      rgba(250,248,243,.24) 8%,
-      rgba(250,248,243,0) 20%,
-      rgba(250,248,243,0) 80%,
-      rgba(250,248,243,.24) 92%,
-      rgba(250,248,243,.94) 100%),
+      rgba(250,248,243,.55) 0%,
+      rgba(250,248,243,0) 12%,
+      rgba(250,248,243,0) 88%,
+      rgba(250,248,243,.55) 100%),
     linear-gradient(180deg,
       rgba(250,248,243,.95) 0%,
       rgba(250,248,243,.87) 24%,
       rgba(250,248,243,.62) 43%,
       rgba(250,248,243,.08) 68%,
-      rgba(250,248,243,.18) 83%,
-      rgba(250,248,243,.70) 94%,
+      rgba(250,248,243,.17) 82%,
+      rgba(250,248,243,.68) 94%,
       #FAF8F3 100%);
 }
-@media(max-width:767px) {
+@media (max-width:767px) {
+  .sales-home .hero-photo {
+    height:clamp(530px,140vw,610px);
+    margin:0;
+    border:0;
+  }
   .sales-home .hero-photo::after {
     background:
       linear-gradient(90deg,
-        rgba(250,248,243,.76) 0%,
-        transparent 14%,
-        transparent 86%,
-        rgba(250,248,243,.76) 100%),
+        rgba(250,248,243,.35) 0%,
+        transparent 11%,
+        transparent 89%,
+        rgba(250,248,243,.35) 100%),
       linear-gradient(180deg,
-        rgba(250,248,243,.97) 0%,
-        rgba(250,248,243,.91) 23%,
-        rgba(250,248,243,.70) 43%,
-        rgba(250,248,243,.13) 69%,
-        rgba(250,248,243,.17) 82%,
-        rgba(250,248,243,.72) 95%,
+        rgba(250,248,243,.96) 0%,
+        rgba(250,248,243,.89) 23%,
+        rgba(250,248,243,.68) 43%,
+        rgba(250,248,243,.12) 69%,
+        rgba(250,248,243,.16) 80%,
+        rgba(250,248,243,.72) 94%,
         #FAF8F3 100%);
   }
+  .sales-home .hero-photo .foam-wave {display:none;}
+  .sales-home .hero-copy {
+    position:relative;
+    z-index:5;
+    box-sizing:border-box;
+    margin-top:-42px;
+    padding-top:0;
+    background:transparent;
+  }
+  .sales-home .hero-copy .hero-cta-row {
+    margin-top:0;
+    position:relative;
+    z-index:1;
+  }
+  .sales-home .hero-copy .hero-cta-row .cta-button {
+    box-shadow:0 12px 28px rgba(25,25,25,.15);
+  }
+  .sales-home .hero-copy .demo-delivery-note {
+    max-width:min(335px,calc(100% - 100px));
+    margin-left:auto;
+    margin-right:auto;
+    line-height:1.5;
+  }
 }
-@media (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion:no-preference) {
   .sales-home .hero-photo > img.hero-main-image {
-    transform:translate3d(0,calc(var(--hero-progress,0) * 46px),0) scale(calc(1.045 + var(--hero-progress,0) * .07));
+    transform:translate3d(0,calc(var(--hero-progress,0) * 35px),0) scale(calc(1.045 + var(--hero-progress,0) * .065));
     will-change:transform;
   }
 }
-@media (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion:reduce) {
   .sales-home .hero-photo > img.hero-main-image,
   .sales-home .hero-intro,
-  .sales-home .hero-notice-flow {transform:none !important;transition:none !important;}
+  .sales-home .hero-notice-flow {
+    transform:none !important;
+    transition:none !important;
+    will-change:auto;
+  }
 }
