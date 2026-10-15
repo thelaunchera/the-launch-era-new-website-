@@ -50,6 +50,13 @@ Verified against production page loads and repository sources on **2026-10-12**.
 | \\`/command-center/ai-team.html\\` | \\`public/command-center/ai-team.html\\` + AI Team assets | Private The Launch Era internal owner role only; tasks, AI plans, approvals, evidence, audit. No buyer access or automatic external action. |\n
 Other routes exist under \`src/routes/\`, \`public/es/\`, \`public/intake/\` and \`public/ai-booking-assistant/\`; \`scripts/qa-route-integrity.mjs\` scans the filesystem for static references. All routes must be added here when they become a production CTA.
 
+## v25 ambient bubbles in both blue chapters (2026-10-15)
+- **Scope**: `/lead-private-preview.html` public unkeyed sample only; `?key` buyer/tenant and `?owner_preview=1` excluded. `tle-demo-floating-bubbles-v25.js/css` load after v24 scripts/styles.
+- **Targets**: only `.tle-client-quicksteps` ("Cleaning made simpler", powder blue) and `#tleDemoBlueRibbon` (rotating copy banner). Each receives seven `aria-hidden` decorative bubbles behind copy, not hero, service photos, buttons, Sonny or gallery. The layer is `pointer-events:none`, zero impact on booking form/navigation.
+- **Behavior**: CSS keyframes move translucent rings/soft highlights slowly (14–23s), starting in staggered positions. A single `IntersectionObserver` pauses animation offscreen. CSS `prefers-reduced-motion:reduce` switches to static faint bubbles; no JS scroll listeners or timers.
+- **Routing**: unchanged. Existing blue-banner rotating messages, dots and animations continue to work. Underlying Steps CTA and Booking Studio unaffected. Existing section contrast remains; no new overlays on `#tleDemoAreas` or `#tleDemoFaq`.
+- **QA**: `scripts/qa-demo-v12.mjs` checks existence of both groups (7 each), no pointer interception, screen-reader hiding, reduced-motion policy, no horizontal overflow at 360/390/820/1024/1440 EN/ES; one non-reduced-motion viewport checks bubbles run on both chapters only while visible. Live publication/CI must be verified separately.
+
 ## v24 section contrast and unified photographic typography (2026-10-15)
 - **Scope**: only the unkeyed public `/lead-private-preview.html` EN/ES with `html.tle-editorial-v23` class; loaded `tle-demo-chapter-contrast-v24.css/js` last. No changes to any owner preview, keyed prospect booking, client tenant, backend, payment, email or business assets.
 - **Reason**: `.tle-client-quicksteps` ("Cleaning made simpler") matched the near-black cleaning service picker, making chapter boundaries indistinct on iPhone; photo/editorial headlines still used Prompt while v23's approved feature chapter used italic Georgia.
