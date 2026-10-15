@@ -13,7 +13,7 @@ for(const width of [360,390,820,1024,1440]){
   const errors=[];
   page.on('pageerror',e=>errors.push(e.message));
   try{
-   await page.goto(base+'/lead-private-preview.html?business=Coastal%20Cleaners&area=Fort%20Lauderdale&lang='+lang,{waitUntil:'domcontentloaded',timeout:30000});
+   await page.goto(base+'/lead-private-preview.html?business=Coastal%20Cleaners&area=Fort%20Lauderdale&lang='+lang+'&sonny=1',{waitUntil:'domcontentloaded',timeout:30000});
    await page.locator('#tleDemoReviews').waitFor({state:'visible',timeout:12000});
    const proof=await page.evaluate(()=>{
     const $=s=>document.querySelector(s);
@@ -159,16 +159,24 @@ for(const width of [360,390,820,1024,1440]){
      assert(mobile.noSticky,'Floating Request Cleaning button reappeared');
    }
    assert.equal(await page.locator('.tle-ai-launch').count(),1,'Only Sonny should have one launch button');
-   assert.equal(await page.locator('#tleSonnyInlineGreeting').count(),1,'Sonny needs one non-blocking greeting in the hero');
-   assert.equal(await page.locator('.tle-ai-panel').isHidden(),true,'Sonny must not open automatically over the demo');
+   assert.equal(await page.locator('#tleSonnyInlineHello').count(),0,'Obsolete dark Sonny banner must be removed');
+   assert.equal(await page.locator('#tleSonnyInlineGreeting').count(),0,'Obsolete white in-hero Sonny card must be removed');
+   assert.equal(await page.locator('#tleSonnyGreetingPopup').count(),1,'Exactly one small greeting popup');
+   assert.equal(await page.locator('.tle-ai-panel').isHidden(),true,'Sonny cannot cover the demo before visitor asks');
    const greeting=await page.evaluate(()=>{
-     const hero=document.querySelector('#leadHero'),inline=document.querySelector('#tleSonnyInlineGreeting');
-     const label=inline?.querySelector('.tle-sonny-inline-copy');
-     return {inHero:!!hero?.contains(inline),label:label?.textContent,flow:getComputedStyle(inline).position};
+     const node=document.querySelector('#tleSonnyGreetingPopup'),launcher=document.querySelector('.tle-ai-launch');
+     const css=getComputedStyle(node),rect=node.getBoundingClientRect(),bot=launcher.getBoundingClientRect();
+     return {position:css.position,background:css.backgroundColor,color:css.color,
+       popupWidth:rect.width,popupRight:innerWidth-rect.right,
+       launcherWidth:bot.width,launcherRight:innerWidth-bot.right,
+       hidden:node.hidden,chatClosed:document.querySelector('.tle-ai-panel')?.hidden};
    });
-   assert(greeting.inHero&&greeting.flow==='static'&&greeting.label.includes('Sonny'),'Greeting must be in normal page flow: '+JSON.stringify(greeting));
-   await page.locator('.tle-sonny-inline-cta').click();
+   assert(greeting.position==='fixed'&&greeting.background==='rgb(20, 43, 61)','Greeting must be a dark popup, not white: '+JSON.stringify(greeting));
+   assert(greeting.popupWidth<=236&&greeting.popupRight>=-2&&greeting.launcherRight>=-2,'Sonny popup must be compact and right-aligned: '+JSON.stringify(greeting));
+   assert(greeting.chatClosed,'Chat is not permitted to auto-open behind the popup');
+   await page.locator('.tle-ai-launch').click();
    await assertVisible(page,'.tle-ai-panel');
+   assert.equal(await page.locator('#tleSonnyGreetingPopup').isVisible(),false,'Greeting must dismiss when visitor opens Sonny');
    const field=page.locator('.tle-ai-form textarea');
    const contrast=await field.evaluate(e=>{
      const s=getComputedStyle(e),ph=getComputedStyle(e,'::placeholder');
