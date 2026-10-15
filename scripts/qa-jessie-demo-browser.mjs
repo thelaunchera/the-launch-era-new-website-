@@ -26,7 +26,16 @@ try{
   const context=await browser.newContext({viewport:{width,height:width<600?844:900}});
   const page=await context.newPage(),requests=[],errors=[];
   page.on("pageerror",e=>errors.push(String(e)));
-  await page.route("**/functions/v1/tle-jessy-chat",route=>route.fulfill({status:200,contentType:"application/json",headers:{"access-control-allow-origin":"*"},body:JSON.stringify({reply:lang==="es"?"¡Claro! Te muestro la demo de ejemplo.":"Sure! Here's the original sample demo.",selected_offer:"booking",next_action:"demo",checkout:null})}));
+  await page.route("**/functions/v1/tle-jessy-chat",route=>{
+   const msg=String(route.request().postDataJSON()?.message||"").toLowerCase();
+   const app=msg.includes("cleaning app"),all=msg.includes("all demos")||msg.includes("todas las demos");
+   const result=app
+    ?{reply:"The Cleaning App demo is open to everyone without a form.",selected_offer:"cleaning-app",next_action:"app_demo",checkout:null}
+    :all
+      ?{reply:"Here's our Booking Automation demo.",selected_offer:"",next_action:"demo_choice",checkout:null}
+      :{reply:lang==="es"?"¡Claro! Te muestro la demo de reservas.":"Sure! Here's the original booking sample demo.",selected_offer:"booking",next_action:"demo",checkout:null};
+   return route.fulfill({status:200,contentType:"application/json",headers:{"access-control-allow-origin":"*"},body:JSON.stringify(result)});
+  });
   await page.route("**/functions/v1/tle-jessie-demo-lead",route=>{
    const body=route.request().postDataJSON();requests.push(body);
    return route.fulfill({status:200,contentType:"application/json",headers:{"access-control-allow-origin":"*"},body:JSON.stringify({ok:true,saved:true,email_sent:true,service:"Booking Automation"})});
@@ -37,6 +46,7 @@ try{
   await page.locator(".tle-jessy-message-field").fill(lang==="es"?"¿Puedes mostrarme la demo de reservas?":"Can you show me the booking demo?");
   await page.locator(".tle-jessy-send").click();
   await page.locator(".tle-jessy-demo-card").first().waitFor({timeout:12000});
+  assert.equal(await page.locator(".tle-jessy-demo-card").count(),1,"Booking conversation should show exactly one demo card");
   await page.locator(".tle-jessy-demo-card").first().click();
   assert.equal(await page.locator(".tle-jessy-demo-gate").isVisible(),true,"Three-field demo gate should show");
   assert.equal(await page.locator(".tle-jessy-demo-frame").isVisible(),false,"No demo before visitor submits");
@@ -65,6 +75,18 @@ try{
   await page.locator(".tle-jessy-demo-close").click();
   assert.equal(await page.locator(".tle-jessy-demo-overlay").isVisible(),false);
   assert.equal(await page.locator(".tle-jessy-panel").isVisible(),true,"Conversation is preserved after closing demo");
+  const beforeOtherDemo=await page.locator(".tle-jessy-demo-card").count();
+  await page.locator(".tle-jessy-message-field").fill(lang==="es"?"Muéstrame todas las demos":"Show me all demos");
+  await page.locator(".tle-jessy-send").click();
+  await page.waitForFunction(n=>document.querySelectorAll(".tle-jessy-demo-card").length>n,beforeOtherDemo);
+  assert.equal(await page.locator(".tle-jessy-demo-card").count(),beforeOtherDemo+1,"Generic demos must show Booking only, not a second Cleaning App card");
+  assert.equal(await page.locator(".tle-jessy-demo-card").last().innerText().then(t=>/Cleaning App/i.test(t)),false);
+  await page.locator(".tle-jessy-message-field").fill("Can I see the Cleaning App demo?");
+  await page.locator(".tle-jessy-send").click();
+  await page.locator(".tle-jessy-help-link[href^='/cleaning-app-demo/']").waitFor({timeout:12000});
+  assert.equal(await page.locator(".tle-jessy-demo-card").count(),beforeOtherDemo+1,"Cleaning App never triggers a capture card");
+  assert.equal(requests.length,1,"Cleaning App preview must not submit another lead form");
+
   assert.equal(errors.length,0,lang+"/"+width+": "+errors.join("; "));
   tested.push(lang+"/"+width);await context.close();
  }
