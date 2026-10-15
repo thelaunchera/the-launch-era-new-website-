@@ -126,7 +126,7 @@ def build() -> None:
     with ThreadPoolExecutor(max_workers=6) as executor:
         transformations = dict(executor.map(convert_transformation, TRANSFORMATIONS.items()))
     (COMPARE_OUTPUT / "manifest.json").write_text(
-        json.dumps(transformations, indent=2) + "\\n", encoding="utf8")
+        json.dumps(transformations, indent=2) + "\n", encoding="utf8")
     print(f"COMPARE RESULT: {sum(v['available'] for v in transformations.values())}/"
           f"{len(transformations)} illustrative photos optimized", flush=True)
 
