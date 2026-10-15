@@ -159,8 +159,27 @@ for(const width of [360,390,820,1024,1440]){
      assert(mobile.noSticky,'Floating Request Cleaning button reappeared');
    }
    assert.equal(await page.locator('.tle-ai-launch').count(),1,'Only Sonny should have one launch button');
-   await page.locator('.tle-ai-launch').click();
+   assert.equal(await page.locator('#tleSonnyInlineGreeting').count(),1,'Sonny needs one non-blocking greeting in the hero');
+   assert.equal(await page.locator('.tle-ai-panel').isHidden(),true,'Sonny must not open automatically over the demo');
+   const greeting=await page.evaluate(()=>{
+     const hero=document.querySelector('#leadHero'),inline=document.querySelector('#tleSonnyInlineGreeting');
+     const label=inline?.querySelector('.tle-sonny-inline-copy');
+     return {inHero:!!hero?.contains(inline),label:label?.textContent,flow:getComputedStyle(inline).position};
+   });
+   assert(greeting.inHero&&greeting.flow==='static'&&greeting.label.includes('Sonny'),'Greeting must be in normal page flow: '+JSON.stringify(greeting));
+   await page.locator('.tle-sonny-inline-cta').click();
    await assertVisible(page,'.tle-ai-panel');
+   const field=page.locator('.tle-ai-form textarea');
+   const contrast=await field.evaluate(e=>{
+     const s=getComputedStyle(e),ph=getComputedStyle(e,'::placeholder');
+     return {color:s.color,textFill:s.webkitTextFillColor,background:s.backgroundColor,placeholder:ph.color,caret:s.caretColor};
+   });
+   assert.equal(contrast.color,'rgb(25, 25, 25)','Sonny textarea typed text must be dark');
+   assert.equal(contrast.textFill,'rgb(25, 25, 25)','iPhone text fill must not inherit white on white');
+   assert.equal(contrast.background,'rgb(255, 255, 255)','Sonny typing background must be white');
+   assert.equal(contrast.caret,'rgb(25, 25, 25)','Sonny caret must be visible');
+   await field.fill('Help with a sample booking');
+   assert.equal(await field.inputValue(),'Help with a sample booking','Typing must remain editable');
    await page.locator('.tle-ai-head button').click();
    // Simulated finished demo: no real form submission, API call, or email.
    await page.evaluate(()=>{
