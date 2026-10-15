@@ -29,8 +29,8 @@ const files={
      es?"Local comercial limpio":"Clean commercial work space"],
    medical:["1r7AcdXLbmKw4Z7sGra401HCKirx3GKJ1","/assets/lead-demo/pristine-kitchen.png",
      es?"Baño impecable y libre de desorden":"Pristine tiled bathroom, clean surfaces"],
-   floor:["1AI4lKiquJe8Y52mtzBOlGsFtt61KCtF7","/assets/lead-demo/spotless-office.png",
-     es?"Piso comercial limpio":"Commercial floor care detail"]
+   floor:["1-__BedqBlAqkTkfY5RkoUw0ok7kRcGqu","/assets/lead-demo/spotless-office.png",
+     es?"Detalle de suelo recién limpiado":"Freshly cleaned floor detail, no people"]
 };
 const attach=(list,items)=>{
   const buttons=[...list.querySelectorAll(":scope > button.service")];
