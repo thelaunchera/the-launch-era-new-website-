@@ -181,6 +181,42 @@ for(const width of [360,390,820,1024,1440]){
    if(width<=820)assert(chapters.photoBeforeText,'Finished home photo should bridge between both sections on mobile/tablet: '+JSON.stringify(chapters));
    assert(chapters.photoLoaded&&!chapters.overflow,'Editorial chapter photo failed or page overflows: '+JSON.stringify(chapters));
    assert(proof.sections,'missing proof sections');
+   // v19: horizontal sample-review carousel plus gentle promotional ribbon.
+   const motion=await page.evaluate(()=>{
+     const root=document.documentElement;
+     const block=document.getElementById('tleDemoReviews');
+     const track=block?.querySelector('.tle-demo-v12-reviewgrid');
+     const items=[...(track?.querySelectorAll('article')||[])];
+     const ribbon=document.getElementById('tleDemoBlueRibbon');
+     const why=document.querySelector('.tle-demo-v12-why');
+     const popup=document.getElementById('tleSonnyGreetingPopup');
+     return {
+       installed:root.classList.contains('tle-demo-motion-v19'),
+       reviewDisplay:track?getComputedStyle(track).display:'',
+       reviewCount:items.length,trackScroll:track?.scrollWidth||0,trackClient:track?.clientWidth||0,
+       sampleLabels:items.every(item=>/SAMPLE|EJEMPLO/.test(item.textContent)),
+       controls:block?.querySelectorAll('.tle-review-controls button').length,
+       ribbon:!!ribbon,bannerDots:ribbon?.querySelectorAll('.tle-wave-dots button').length,
+       bannerAfterPhoto:why?.nextElementSibling===ribbon,
+       bannerText:ribbon?.querySelector('.tle-wave-title')?.textContent,
+       initialSonnyHidden:popup?.hidden===true,
+       noOverflow:document.documentElement.scrollWidth<=innerWidth+3
+     };
+   });
+   assert(motion.installed&&motion.reviewDisplay==='flex'
+      &&motion.reviewCount===3&&motion.trackScroll>motion.trackClient
+      &&motion.sampleLabels&&motion.controls===5,
+      'Carousel must be horizontally swipeable with only sample reviews: '+JSON.stringify(motion));
+   assert(motion.ribbon&&motion.bannerAfterPhoto&&motion.bannerDots===3
+      &&motion.bannerText?.includes(lang==='es'?'más fresca':'fresher home')
+      &&motion.initialSonnyHidden&&motion.noOverflow,
+      'Blue ribbon placement or quiet Sonny entrance regressed: '+JSON.stringify(motion));
+   await page.locator('.tle-review-arrows button').nth(1).click();
+   assert.equal(await page.locator('.tle-review-dots button[aria-current="true"]').getAttribute('aria-label'),
+       lang==='es'?'Ver ejemplo 2':'View sample 2','Review next arrow failed');
+   await page.locator('.tle-wave-dots button').nth(1).click();
+   assert((await page.locator('.tle-wave-title').textContent())?.includes(lang==='es'?'Menos vueltas':'Less back-and-forth'),
+      'Banner carousel cannot switch messages');
    assert.equal(proof.reviews,3,'three honest review slots expected');
    assert(proof.honest,'fake unlabelled testimonials detected');
    assert(proof.area.includes('Fort Lauderdale'),'service area is not derived from the current business');
