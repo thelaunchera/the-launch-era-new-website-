@@ -8,6 +8,11 @@ on:
       - 'public/assets/cleaning-demo/tle-midnight-hero.avif'
       - 'scripts/qa-demo-editorial-v6.mjs'
       - 'scripts/qa-demo-editorial-v7.mjs'
+      - 'scripts/qa-demo-v12.mjs'
+      - 'public/assets/tle-demo-enhancements-v12.js'
+      - 'public/assets/lead-demo/ai-demo-robot.webp'
+      - 'public/assets/lead-demo/drive-cleaner-kitchen.webp'
+      - 'public/booking-demo/index.html'
       - '.github/workflows/demo-editorial-v6-qa.yml'
   pull_request:
     paths:
@@ -59,6 +64,7 @@ jobs:
           done
           QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-demo-v6-qa/node_modules/playwright/index.mjs node scripts/qa-demo-editorial-v6.mjs
           QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-demo-v6-qa/node_modules/playwright/index.mjs node scripts/qa-demo-editorial-v7.mjs
+          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-demo-v6-qa/node_modules/playwright/index.mjs node scripts/qa-demo-v12.mjs
       - name: Save screenshot contact sheet sources
         if: always()
         uses: actions/upload-artifact@v4
