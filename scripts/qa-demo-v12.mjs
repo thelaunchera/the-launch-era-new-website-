@@ -63,6 +63,34 @@ for(const width of [360,390,820,1024,1440]){
      'Sample service selection must retain the original booking functionality');
    assert(customer.note.includes(lang==='es'?'confirma':'confirms'),
      'Estimates must disclose that businesses confirm services/prices');
+   const chapters=await page.evaluate(()=>{
+     const cinematic=document.querySelector('#demoCinematicStory');
+     const highlights=cinematic.querySelector('.demo-cinematic-highlights');
+     const scene=document.querySelector('.tle-demo-v12-why');
+     const media=scene.querySelector(':scope > img');
+     const copy=scene.querySelector('.tle-demo-v12-copy');
+     const sceneTitle=scene.querySelector('h2');
+     const rect=e=>e.getBoundingClientRect();
+     return {
+       chapterStyle:document.documentElement.classList.contains('tle-demo-story-v15'),
+       dark:getComputedStyle(cinematic.querySelector('.demo-cinematic-copy')).backgroundColor,
+       ivory:getComputedStyle(copy).backgroundColor,
+       heading:sceneTitle.textContent,
+       highlightsHidden:getComputedStyle(highlights).display==='none',
+       photoBeforeText:rect(media).bottom<=rect(copy).top+1,
+       photoWidth:rect(media).width,
+       fullWidth:rect(scene).width,
+       photoLoaded:media.complete&&media.naturalWidth>700,
+       copyWidth:rect(copy).width,
+       overflow:document.documentElement.scrollWidth>innerWidth+3
+     };
+   });
+   assert(chapters.chapterStyle,'New editorial chapter styling must be active');
+   assert(chapters.highlightsHidden,'Duplicated icon-highlight list must not remain');
+   assert.equal(chapters.ivory,'rgb(250, 248, 243)','Second editorial chapter needs warm ivory to separate it from the dark story');
+   assert(chapters.heading.includes(lang==='es'?'Una limpieza para cada momento':'The right clean for your everyday'),'The service chapter repeats the earlier narrative');
+   if(width<=820)assert(chapters.photoBeforeText,'Finished home photo should bridge between both sections on mobile/tablet: '+JSON.stringify(chapters));
+   assert(chapters.photoLoaded&&!chapters.overflow,'Editorial chapter photo failed or page overflows: '+JSON.stringify(chapters));
    assert(proof.sections,'missing proof sections');
    assert.equal(proof.reviews,3,'three honest review slots expected');
    assert(proof.honest,'fake unlabelled testimonials detected');
