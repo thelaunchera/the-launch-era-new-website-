@@ -108,6 +108,7 @@ body{background:linear-gradient(180deg,#F8FBFC 0%,#FFFFFF 38%,#FAF8F3 100%)}.her
  <p class="quick-note">Your assistant gets its own review. Regular monthly billing starts after the first 30 days of service.</p>
 </section>
 
+<div class="section" style="background:#EAF4FC;border-radius:15px;padding:18px"><h2 style="font-size:20px">Would you like 1:1 guidance?</h2><p>Need help learning to manage prices, bookings or your assistant? Ask for a 20-minute guidance call. Your appointment isn't booked until a time is confirmed.</p><label style="display:flex;align-items:center;gap:12px;font-size:14px;font-weight:600"><input type="checkbox" name="setup_call_requested" value="yes" style="width:20px;height:20px;flex-shrink:0"> Yes, contact me to arrange a guidance call.</label><p style="font-size:12px;margin-top:12px"><a href="/help/?topic=setup-call">Request help separately ↗</a></p></div>
 <div class="actions"><button class="btn" id="submit" type="submit">Start My Build →</button><div class="status" id="status" aria-live="polite"></div></div>
 </form></main>
 <script src="/assets/tle-guided-intakes.js"></script>
@@ -158,6 +159,9 @@ const endpoint="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-bookin
 const guidedBooking=window.TLEGuidedIntakes.mountBooking({form,es:false});
 const aiPlan=p.get("bundle")||"",validAiPlans=["ai-booking","ai-followup","ai-business"];
 if(validAiPlans.includes(aiPlan)){
+ const overview=document.createElement("p");overview.style.cssText="margin:12px 0;padding:12px 14px;border-radius:13px;background:#EAF4FC;color:#191919;font-size:13px";
+ overview.textContent="This bundle includes Booking Page + Command Center + an AI Assistant. Complete one intake; combined production is estimated at 4 business days after the complete form is reviewed and approved.";
+ document.querySelector(".hero .notice")?.after(overview);
  document.getElementById("aiAvatarName").required=true;
  const box=document.getElementById("tleBundleAiIntake");box.style.display="";
  document.getElementById("tleBundleAiPlan").textContent=({"ai-booking":"AI Booking Assistant","ai-followup":"AI Follow-Up Assistant","ai-business":"AI Business Assistant — both agents"})[aiPlan]+" · Set up with your Booking Page. No second form needed.";
