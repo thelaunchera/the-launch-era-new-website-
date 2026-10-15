@@ -364,3 +364,293 @@ html.demo-editorial.tle-demo-story-v13 .tle-ai-panel {
  html.demo-editorial.tle-demo-story-v13 *::before,
  html.demo-editorial.tle-demo-story-v13 *::after{scroll-behavior:auto!important;animation-duration:0.01ms!important}
 }
+
+/* v13.1 — Booking chooser: remove the dark inset rectangle and old rounded cards.
+   Applies to public sample mode only. Other steps/tenant preview UI are untouched. */
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main.screen {
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  border:0!important;
+  outline:0!important;
+  border-radius:0!important;
+  padding:0!important;
+  margin:0!important;
+  overflow:visible!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main::before,
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main::after{
+  content:none!important;
+  display:none!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid,
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .choices,
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-note,
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .label{
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main #residentialServiceList:not([hidden]),
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main #commercialServiceList:not([hidden]){
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  gap:0!important;
+  width:100%!important;
+  max-width:940px!important;
+  margin:23px 0 0!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main #residentialServiceList[hidden],
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main #commercialServiceList[hidden]{
+  display:none!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid button.service,
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid button.service.sel{
+  position:relative!important;
+  box-sizing:border-box!important;
+  display:grid!important;
+  grid-template-columns:45px minmax(0,1fr) 28px!important;
+  grid-template-rows:auto auto!important;
+  align-items:center!important;
+  align-content:center!important;
+  column-gap:18px!important;
+  row-gap:6px!important;
+  min-height:104px!important;
+  width:100%!important;
+  max-width:none!important;
+  padding:18px 7px 18px 0!important;
+  margin:0!important;
+  color:#f5fbff!important;
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  border-bottom:1px solid rgba(165,205,229,.24)!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  filter:none!important;
+  overflow:visible!important;
+  transform:none!important;
+  transition:background-color .2s ease,color .2s ease,border-color .2s ease!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid button.service:first-child{
+  border-top:1px solid rgba(165,205,229,.24)!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid button.service:hover,
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid button.service:focus-visible{
+  background:linear-gradient(90deg,rgba(133,198,233,.09),transparent 88%)!important;
+  border-bottom-color:rgba(169,223,255,.58)!important;
+  box-shadow:none!important;
+  outline-offset:-2px!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid .service .ico{
+  grid-column:1!important;
+  grid-row:1 / span 2!important;
+  place-self:center!important;
+  display:grid!important;
+  place-items:center!important;
+  flex:none!important;
+  box-sizing:border-box!important;
+  width:44px!important;
+  height:44px!important;
+  padding:0!important;
+  background:rgba(169,223,255,.055)!important;
+  background-image:none!important;
+  border:1px solid rgba(169,223,255,.28)!important;
+  border-radius:13px!important;
+  color:#b7e3ff!important;
+  box-shadow:none!important;
+  filter:none!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid .service .ico svg{
+  display:block!important;
+  width:24px!important;
+  height:24px!important;
+  stroke:#b7e3ff!important;
+  stroke-width:1.7!important;
+  fill:none!important;
+  filter:none!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid .service .demo-service-body{
+  display:flex!important;
+  grid-column:2!important;
+  grid-row:1!important;
+  align-self:end!important;
+  justify-content:flex-start!important;
+  min-width:0!important;
+  gap:3px!important;
+  text-align:left!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid .service .demo-service-body b{
+  color:#f7fbff!important;
+  font-size:clamp(16px,1.45vw,20px)!important;
+  line-height:1.3!important;
+  letter-spacing:-.025em!important;
+  text-align:left!important;
+  overflow-wrap:anywhere!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid .service .muted{
+  color:#b6c9d7!important;
+  font-size:clamp(12px,1.12vw,14px)!important;
+  line-height:1.45!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid .service .price{
+  grid-column:2!important;
+  grid-row:2!important;
+  align-self:start!important;
+  margin:5px 0 0!important;
+  padding:0!important;
+  color:#a9dfff!important;
+  font-size:clamp(13px,1.13vw,15px)!important;
+  font-weight:750!important;
+  line-height:1.35!important;
+  white-space:normal!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid .service .demo-service-go{
+  display:grid!important;
+  grid-column:3!important;
+  grid-row:1 / span 2!important;
+  place-items:center!important;
+  align-self:center!important;
+  justify-self:center!important;
+  width:28px!important;
+  height:28px!important;
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  border-radius:0!important;
+  color:#a9dfff!important;
+  box-shadow:none!important;
+  transition:transform .18s ease!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid .service .demo-service-go svg{
+  width:20px!important;
+  height:20px!important;
+  stroke:#bce9ff!important;
+  stroke-width:1.65!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid button.service:hover .demo-service-go{
+  transform:translateX(3px)!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main #categoryTabs{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  width:min(100%,620px)!important;
+  gap:clamp(14px,3vw,30px)!important;
+  padding:0!important;
+  margin:3px 0 17px!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main #categoryTabs .choice,
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main #categoryTabs .choice.sel,
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main #categoryTabs .choice[aria-pressed="true"]{
+  display:flex!important;
+  justify-content:flex-start!important;
+  gap:10px!important;
+  min-width:0!important;
+  min-height:57px!important;
+  padding:9px 5px 12px!important;
+  color:#d1e2ef!important;
+  background:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  border:0!important;
+  border-bottom:1px solid rgba(169,223,255,.22)!important;
+  border-radius:0!important;
+  outline-offset:4px!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main #categoryTabs .choice.sel,
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main #categoryTabs .choice[aria-pressed="true"]{
+  color:#fff!important;
+  border-bottom:2px solid #a9dfff!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main #categoryTabs .choice:hover{
+  color:#fff!important;
+  border-bottom-color:#a9dfff!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main #categoryTabs .demo-tab-icon{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  color:#a9dfff!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main #categoryTabs .choice b{
+  color:inherit!important;
+  font-size:clamp(12px,1.3vw,15px)!important;
+  line-height:1.35!important;
+}
+html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-note{
+  max-width:690px!important;
+  padding:0!important;
+  margin:15px 0 10px!important;
+  color:#b6c9d7!important;
+  font-size:clamp(13px,1.35vw,15px)!important;
+  line-height:1.65!important;
+}
+/* Mobile-first alignment: icon, title, price and arrow all stay in a single calm row. */
+@media(max-width:650px){
+ html.demo-editorial.tle-demo-story-v13 #bookingStarter.panel{
+  padding:36px 23px 49px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #bookingStarter #main #categoryTabs{
+  gap:12px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #bookingStarter #main #categoryTabs .choice{
+  padding:7px 1px 11px!important;
+  gap:7px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #bookingStarter #main #categoryTabs .choice b{
+  font-size:clamp(11px,3.5vw,14px)!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #bookingStarter #main #categoryTabs .demo-tab-icon{
+  width:19px!important;height:19px!important;flex-basis:19px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #bookingStarter #main #categoryTabs .demo-tab-icon svg{
+  width:19px!important;height:19px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #bookingStarter #main #residentialServiceList:not([hidden]),
+ html.demo-editorial.tle-demo-story-v13 #bookingStarter #main #commercialServiceList:not([hidden]){
+  margin-top:16px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid button.service,
+ html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid button.service.sel{
+  grid-template-columns:39px minmax(0,1fr) 24px!important;
+  column-gap:12px!important;
+  row-gap:4px!important;
+  padding:18px 0!important;
+  min-height:99px!important;
+  border-radius:0!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid .service .ico{
+  width:38px!important;height:38px!important;border-radius:11px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid .service .ico svg{
+  width:21px!important;height:21px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid .service .demo-service-body b{
+  font-size:clamp(15px,4.15vw,17px)!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid .service .muted{
+  font-size:12px!important;line-height:1.4!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid .service .price{
+  font-size:13px!important;margin-top:4px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid .service .demo-service-go{
+  width:23px!important;height:23px!important;
+ }
+ html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid .service .demo-service-go svg{
+  width:19px!important;height:19px!important;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ html.demo-editorial.tle-demo-story-v13 #bookingStarter #main .demo-services-grid .service .demo-service-go{
+  transition:none!important;
+ }
+}
