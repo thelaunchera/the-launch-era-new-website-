@@ -9,6 +9,9 @@ on:
       - 'scripts/qa-demo-editorial-v6.mjs'
       - 'scripts/qa-demo-editorial-v7.mjs'
       - 'scripts/qa-demo-v12.mjs'
+      - 'scripts/build_demo_photo_assets.py'
+      - 'public/assets/tle-demo-photo-services-v21.js'
+      - 'public/assets/tle-demo-booking-focus-v22.js'
       - 'public/assets/tle-demo-enhancements-v12.js'
       - 'public/assets/lead-demo/ai-demo-robot.webp'
       - 'public/assets/lead-demo/drive-cleaner-kitchen.webp'
@@ -38,6 +41,11 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
+      - name: Import and optimize owner-approved Drive photos
+        run: |
+          python -m pip install --quiet pillow
+          python scripts/build_demo_photo_assets.py
+
       - name: Check public routes, sample isolation and customer delivery contracts
         run: |
           node scripts/qa-route-integrity.mjs --static
