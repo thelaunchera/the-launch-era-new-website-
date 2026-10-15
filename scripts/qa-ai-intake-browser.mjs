@@ -166,6 +166,27 @@ try{
   await ctx.close();
   console.log("PASS guided booking intake "+lang+" 390px");
  }
+
+ // Verify the combined paid-intake preview has one guided setup and no real submissions.
+ for(const lang of ["en","es"]){
+  const ctx=await browser.newContext({viewport:{width:390,height:844}}),page=await ctx.newPage(),errors=[];
+  let live=0;page.on("pageerror",e=>errors.push(String(e)));
+  await page.route("**/functions/v1/**",route=>{live++;return route.abort();});
+  await page.goto(base+(lang==="es"?"/es":"")+"/booking-flow-intake/?demo=1&bundle=ai-business",{waitUntil:"domcontentloaded"});
+  assert.equal(await page.locator("#tleBundleAiIntake").isVisible(),true);
+  assert.equal(await page.locator("#tleBundleAiBooking").isVisible(),true);
+  assert.equal(await page.locator("#tleBundleAiFollowup").isVisible(),true);
+  assert.equal(await page.locator('input[name="tle_pick_bundle_booking_questions"]').count(),1);
+  assert.equal(await page.locator('input[name="tle_pick_bundle_followup_quote"]').count(),1);
+  assert.match(await page.locator(".hero").innerText(),lang==="es"?/4 días hábiles/:/4 business days/);
+  assert.equal(await page.locator('input[name="setup_call_requested"]').count(),1);
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+2),true,"Bundle has horizontal overflow");
+  assert.equal(live,0,"Bundle demo must not call production");
+  assert.deepEqual(errors,[],"Bundle preview browser errors");
+  await page.screenshot({path:"qa-screenshots/bundle-intake-"+lang+".png",fullPage:true});
+  await ctx.close();
+  console.log("PASS guided bundle + optional call "+lang+" 390px");
+ }
 }finally{
  await browser.close();
  await new Promise(done=>server.close(done));
