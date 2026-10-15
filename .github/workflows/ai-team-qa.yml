@@ -44,6 +44,7 @@ jobs:
           node scripts/qa-ai-team-commands.mjs
           node scripts/qa-ai-team-gateway.mjs
           node scripts/qa-ai-team-auto-briefs.mjs
+          node scripts/qa-ai-team-public-references.mjs
           node scripts/qa-ai-team-ai-provider.mjs
           node scripts/qa-jessie-unified-tenant.mjs
           node scripts/qa-jessie-owner-diagnostic.mjs
