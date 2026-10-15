@@ -222,6 +222,11 @@ for(const width of [360,390,820,1024,1440]){
        logoName:name?.textContent?.trim(),
        brandHref:logo?.getAttribute('href'),
        logoRadius:logo?parseFloat(getComputedStyle(logo).borderTopLeftRadius):0,
+       logoBg:logo?getComputedStyle(logo).backgroundColor:null,
+       logoBorder:logo?getComputedStyle(logo).borderTopWidth:null,
+       logoFont:name?getComputedStyle(name).fontFamily:null,
+       logoTextShadow:name?getComputedStyle(name).textShadow:null,
+       navGradient:nav?getComputedStyle(nav).backgroundImage:null,
        logoVisible:!!rect&&rect.width>180&&rect.height>=55,
        withinScreen:!!rect&&rect.left>=-1&&rect.right<=innerWidth+1,
        mark:!!mark,
@@ -235,7 +240,10 @@ for(const width of [360,390,820,1024,1440]){
       &&identity.disclaimer.includes(lang==='es'?'EJEMPLO':'SAMPLE WEBSITE')
       &&identity.logoName==='Coastal Cleaners'
       &&identity.brandHref==='#leadHero'
-      &&identity.logoRadius>=25&&identity.logoVisible&&identity.withinScreen
+      &&identity.logoRadius<=2&&identity.logoBg==='rgba(0, 0, 0, 0)'
+      &&identity.logoBorder==='0px'&&identity.logoFont.includes('Georgia')
+      &&identity.logoTextShadow!=='none'&&identity.navGradient.includes('linear-gradient')
+      &&identity.logoVisible&&identity.withinScreen
       &&identity.mark&&identity.reducedMotion==='none'&&identity.noHorizontalOverflow,
      'Dynamic demo status/nameplate must be truthful, accessible and responsive: '+JSON.stringify(identity));
    const bloom=await page.evaluate(()=>{
