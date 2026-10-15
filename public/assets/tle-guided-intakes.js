@@ -62,7 +62,9 @@
   const other=input(base,es,"Another service (optional)","Otro servicio (opcional)");
   const entries=node("div");base.append(entries);
   const fixedVisible=select(base,es,"Show fixed prices on the public Booking Page?","¿Mostrar precios fijos en la Booking Page?",[["no","Not yet — I want to review first","Todavía no — quiero revisarlos antes"],["yes","Yes, only my confirmed amounts","Sí, solo importes confirmados"]]);
+  fixedVisible.id="tleFixedPriceVisibility";
   const estimateVisible=select(base,es,"Show approximate estimates to customers?","¿Mostrar estimados aproximados a clientes?",[["no","No — owner review first","No — revisión primero"],["yes","Yes — clearly marked not final","Sí — indicando que no son finales"]]);
+  estimateVisible.id="tleEstimatePriceVisibility";
   const factorPane=makePanel(base,es,"What changes your estimate?","¿Qué cambia tus estimados?","Tap all that apply; no final prices will be invented.","Marca los factores; no se inventarán precios finales.");
   const getFactors=check(factorPane,es,factors,"estimate_factors");
   let read=()=>[],rows=new Map(),active=[];
