@@ -43,9 +43,26 @@ for(const width of [360,390,820,1024,1440]){
    assert(proof.addOn.includes(lang==='es'?'opcional':'optional'),'AI separate service disclosure missing');
    assert.equal(proof.endLink,'#bookingStarter','CTA no longer goes to the existing request UI');
    assert(proof.scrollWidth<=width+3,'horizontal overflow on prospect '+JSON.stringify(proof));
+   const agentTitle=await page.locator('.tle-ai-head b').textContent();
+   assert(agentTitle?.includes('Sonny'),'booking agent should be named Sonny');
    await page.locator('.tle-ai-launch').click();
    await assertVisible(page,'.tle-ai-panel');
    await page.locator('.tle-ai-head button').click();
+   // Simulated finished demo: no real form submission, API call, or email.
+   await page.evaluate(()=>{
+      window.showBrandedRequestSuccess('Coastal Cleaners');
+      window.showDemoRequestSummary({service:'Standard Cleaning',date:'2026-10-24',time:'10:00'});
+      window.show('done','Request received','✓');
+   });
+   const retry=page.locator('#tleTrySonny');
+   await retry.waitFor({state:'visible',timeout:5000});
+   assert((await retry.textContent()).includes(lang==='es'?'Sonny':'Try it again with the booking agent'),'missing retry call to action');
+   await retry.click();
+   await assertVisible(page,'.tle-ai-panel');
+   assert(await page.locator('#main').evaluate(e=>e.classList.contains('on')),'Retry must restore the service-picker start screen');
+   assert((await page.locator('.tle-ai-head b').textContent())?.includes('Sonny'),'Retry did not open Sonny');
+   assert((await page.locator('.tle-ai-msg.bot').first().textContent())?.includes('Sonny'),'Retry did not restart Sonny conversation');
+   assert(await page.locator('#done').evaluate(e=>!e.classList.contains('on')),'Old confirmation must not remain active');
    console.log('PASS prospect',lang,width);
   }catch(e){failures.push('prospect '+lang+' '+width+': '+e.message);console.error('FAIL prospect',lang,width,e.message,'js errors:',errors)}
   finally{await page.close();}
@@ -67,12 +84,12 @@ for(const width of [360,390,820,1024,1440]){
    const photo=$('.tle-demo-v12-salesphotos img');
    return {scrollWidth:document.documentElement.scrollWidth,viewport:innerWidth,
     sales:!!$('#tleDemoSalesExperience'),reviews:!!$('#tleDemoSalesProof'),
-    form:!!$('#demoForm'),robot:avatar?.complete&&avatar.naturalWidth>=96,
+    form:!!$('#demoForm'),jessyUnchanged:!!avatar&&avatar.src.includes('/assets/jessy-avatar.webp'),
     gallery:photo?.complete&&photo.naturalWidth>900,
     controls:document.querySelectorAll('.tle-demo-v12-formactions button').length};
   });
   assert(state.sales&&state.reviews&&state.form,'sales page preview missing');
-  assert(state.robot&&state.gallery,'sales photo or avatar did not load');
+  assert(state.jessyUnchanged&&state.gallery,'Jessy must retain her own avatar; sales gallery must load');
   assert.equal(state.controls,3,'sales guide needs three help actions');
   assert(state.scrollWidth<=width+3,'sales page horizontal overflow '+JSON.stringify(state));
   await page.locator('#demoForm [name="name"]').fill('QA Tester');
@@ -84,6 +101,7 @@ for(const width of [360,390,820,1024,1440]){
   assert.equal(await page.locator('#demoForm [name="business"]').inputValue(),'Sample Company','Language switch wiped the form');
   await page.locator('.tle-jessy-fab').click();
   await assertVisible(page,'.tle-jessy-panel');
+  assert((await page.locator('.tle-jessy-title b').textContent())?.includes('Jessy'),'Jessy was incorrectly renamed on sales demo');
   console.log('PASS sales',width);
  }catch(e){failures.push('sales '+width+': '+e.message);console.error('FAIL sales',width,e.message,'js errors:',errors)}
  finally{await page.close()}
