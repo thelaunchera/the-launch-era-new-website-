@@ -19,6 +19,7 @@ async function ask(label, message, opts = {}) {
  assert.ok(!/(unknown error|internal server error|Assistant unavailable)/i.test(data.reply), `${label}: Generic backend failure`);
  const result={label,mode:data.mode,selected_offer:data.selected_offer,reply:data.reply.slice(0,450),next_action:data.next_action};
  tests.push(result);
+ console.log(JSON.stringify(result));
  return data;
 }
 
