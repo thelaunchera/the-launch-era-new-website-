@@ -1,5 +1,9 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-15 | Screenshot `IMG_9575.jpeg`: bottom "Return home" button in Luna Bloom service chooser does not return to start | In focused booking mode the hero is hidden using `html.tle-demo-booking-active`, but button was added as a plain `href="#leadHero"` link without a click handler to exit the mode. Browser hash navigation cannot unhide the target. | Reuse existing booking focus `exit()` in `tle-demo-booking-focus-v22.js` for bottom CTA; retain semantic link fallback; regression asserts active and inactive modes return to visible hero and reset the picker without side effects. | 🟡 Awaiting current EN/ES browser regression + deployment check |
+
+
+
 | 2026-10-15 | Public Luna Bloom demo: Areas and FAQ blended together, final CTA remained navy instead of light blue, bright bubbles were hard to see, an unwanted yellow circle appeared, and iPhone refresh caused a repeated hero/booking layout jump | Screenshots `IMG_9567.jpeg`, `IMG_9566.jpeg`, video `ScreenRecording_10-15-2026 09-30-29_1.mp4`; source had unscoped yellow pseudo-elements, successive navy gradients, v25 faint bubbles, and conflicting mobile hero sizes involving svh on Safari. | v26 isolates dark/medium-blue chapters, soft blue final CTA with working booking link plus seven floating bubbles, increases bubble contrast, removes yellow pseudo-element source CSS, fixes mobile hero height and prevents page reload scroll restoration oscillation. EN/ES mobile/tablet/desktop browser QA and deployment to be verified. | ✅ GitHub Pages deploy `38746014065` and EN/ES browser QA `38746014182` passed (360/390/820/1024/1440); floating bubbles in three sections, mobile refresh stability, no yellow marker, no overflow, and buyer/owner isolation verified |
 
 
