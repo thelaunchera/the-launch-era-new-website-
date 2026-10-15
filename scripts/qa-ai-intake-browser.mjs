@@ -155,8 +155,8 @@ try{
   await estimateRow.locator("select").selectOption("estimate");
   await estimateRow.locator('input[type="number"]').nth(1).fill("220");
   await estimateRow.locator('input[type="number"]').nth(2).fill("350");
-  await page.locator(".tle-guided-panel").first().locator("select").nth(1).selectOption("yes");
-  await page.locator(".tle-guided-panel").first().locator("select").nth(2).selectOption("yes");
+  await page.locator("#tleFixedPriceVisibility").selectOption("yes");
+  await page.locator("#tleEstimatePriceVisibility").selectOption("yes");
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+2),true,"Guided booking overflow");
   await page.screenshot({path:"qa-screenshots/booking-guided-"+lang+".png",fullPage:true});
   await page.locator("#submit").click();
