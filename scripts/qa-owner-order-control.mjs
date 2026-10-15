@@ -32,3 +32,45 @@ assert(code.includes("ownerPurchases=[];ownerBookingError='unavailable'"),'Clear
 assert(code.includes("void loadOwnerAIOrders();"),'AI orders must load separately from Booking status');
 
 console.log('PASS Owner Order Control: paid Booking/AI visibility, honest delivery state, mobile priority, no side effects.');
+
+
+// Bundle regression: one paid checkout and one intake, with separate Booking / AI activation gates.
+const start=code.indexOf('const ownerBundlePlans=');
+const end=code.indexOf('function renderOwnerOrderControl(){',start);
+assert(start>0&&end>start,'Combined purchase helpers must appear in owner view');
+const source=code.slice(start,end);
+const bundleLogic=(bookings,aiOrders,bundles,bookingError='',bundleError='')=>{
+ const factory=new Function('ownerPurchases','ownerAIOrders','ownerBundles','ownerBookingError','ownerBundlesError',
+   stage+';\n'+source+';\nreturn {ownerOrderBuckets,ownerPurchaseDisplayStage,ownerBundleNext};');
+ return factory(bookings,aiOrders,bundles,bookingError,bundleError);
+};
+const id='11111111-1111-4111-8111-111111111111';
+const bOrder={...completed,id,ai_addon_offer:'ai-business',intake_done:true};
+const aiOrder={id:'22222222-2222-4222-8222-222222222222',offer:'ai-business',submitted_at:'2026-10-15',delivered_at:null};
+const standaloneAI={id:'33333333-3333-4333-8333-333333333333',offer:'ai-followup',submitted_at:'2026-10-15',delivered_at:null};
+const join={id,bundle_ai:'ai-business',ai_order_id:aiOrder.id,ai_status:'in_setup',ai_delivered_at:null};
+let unit=bundleLogic([bOrder], [aiOrder,standaloneAI], [join]);
+let buckets=unit.ownerOrderBuckets();
+assert.equal(buckets.bundles.length,1,'Bundle has exactly one parent order');
+assert.equal(buckets.booking.length,0,'Booking bundle not counted as standalone booking');
+assert.equal(buckets.ai.length,1,'Bundled AI order not counted again as standalone AI');
+assert.equal(buckets.ai[0].id,standaloneAI.id,'Unrelated AI purchase remains visible');
+assert.equal(unit.ownerPurchaseDisplayStage(bOrder),'bundle','Delivered Booking is not completed bundle until AI delivered');
+assert.match(unit.ownerBundleNext(bOrder,join,true),/AI Assistant/, 'Partial bundle next step must identify AI work');
+let completedJoin={...join,ai_status:'active',ai_delivered_at:'2026-10-15'};
+unit=bundleLogic([bOrder], [{...aiOrder,delivered_at:'2026-10-15'},standaloneAI], [completedJoin]);
+buckets=unit.ownerOrderBuckets();
+assert.equal(buckets.bundles.length,0,'Fully verified bundle no longer in pending queue');
+assert.equal(unit.ownerPurchaseDisplayStage(bOrder),'completed','Only both verified deliveries can close bundle');
+unit=bundleLogic([bOrder], [aiOrder,standaloneAI], [{...join,ai_order_id:null,ai_status:'not_prepared'}]);
+buckets=unit.ownerOrderBuckets();
+assert.equal(buckets.bundles.length,1,'A missing AI order must remain visible as an incomplete bundle');
+assert.match(unit.ownerBundleNext(bOrder,buckets.bundles[0].linked,false),/linked AI order is missing/, 'Warn if AI order not created');
+unit=bundleLogic([bOrder], [aiOrder,standaloneAI], [],'','unavailable');
+assert.equal(unit.ownerOrderBuckets().bundles.length,1,'Bundle still visible with unverified backend linkage');
+assert.equal(unit.ownerPurchaseDisplayStage(bOrder),'bundle','Missing linkage cannot close the bundle');
+assert(html.includes('<option value="bundle">Booking + AI Bundle</option>'),'Bundle has dedicated purchase filter');
+assert(code.includes("void loadOwnerBundles();"),'Load bundle records independently');
+assert(code.includes("db.rpc('tle_owner_bundle_queue')"),'Use verified owner bundle purchase relation');
+assert(!source.includes('owner_email==='),'Do not join customer orders by email');
+console.log('PASS Booking+AI bundle: one owner order, two approvals, missing AI alert, no duplicate AI, fail-closed joins.');
