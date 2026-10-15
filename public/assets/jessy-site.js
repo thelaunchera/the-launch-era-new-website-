@@ -90,6 +90,69 @@ const consentLabel=node("label","tle-jessy-consent");const consent=document.crea
 const submit=button("tle-jessy-submit",t("confirm"));submit.type="submit";const formResult=node("p");formResult.setAttribute("role","status");
 const privacy=node("p","tle-jessy-note",t("privacy"));leadForm.append(submit,formResult,privacy);lead.append(back,leadTitle,leadIntro,leadForm);
 panel.append(head,log,quick,bottom,lead);root.append(fab,nudge,backdrop,panel);document.body.append(root);
+
+const DEMOS=Object.freeze({
+  booking:{url:"/lead-private-preview.html",name:"Booking Experience",es:"Experiencia de reservas",image:"/assets/lead-demo/hero-luxury-home.png"},
+  "cleaning-app":{url:"/cleaning-app-demo/",name:"Cleaning App",es:"Cleaning App",image:"/assets/cleaning-demo/living-suite.png"}
+});
+// Reuses existing public sample screens; never passes customer access keys or real booking data.
+const demoOverlay=node("div","tle-jessy-demo-overlay");
+demoOverlay.hidden=true;demoOverlay.setAttribute("role","dialog");demoOverlay.setAttribute("aria-modal","true");
+demoOverlay.setAttribute("aria-label","Interactive sample demo");
+const demoWindow=node("div","tle-jessy-demo-window"),demoToolbar=node("div","tle-jessy-demo-toolbar");
+const demoHeading=node("div","tle-jessy-demo-heading"),demoTitle=node("strong","","Interactive demo");
+const demoCaption=node("small","","Sample only · No real bookings");
+demoHeading.append(demoTitle,demoCaption);
+const demoExternal=node("a","tle-jessy-demo-external","Open full size ↗");
+demoExternal.target="_blank";demoExternal.rel="noopener noreferrer";
+const demoClose=button("tle-jessy-demo-close","×","Close demo");
+const demoFrame=node("iframe","tle-jessy-demo-frame");
+demoFrame.title="Interactive sample demo; no real bookings";
+demoFrame.loading="lazy";demoFrame.referrerPolicy="no-referrer";
+demoFrame.setAttribute("sandbox","allow-scripts allow-same-origin allow-forms");
+demoToolbar.append(demoHeading,demoExternal,demoClose);
+demoWindow.append(demoToolbar,demoFrame);demoOverlay.append(demoWindow);document.body.append(demoOverlay);
+let demoLastFocus=null;
+function closeDemo(){
+ if(demoOverlay.hidden)return;
+ demoOverlay.hidden=true;demoFrame.removeAttribute("src");
+ document.body.classList.remove("tle-jessy-demo-open");track("demo_close");
+ (demoLastFocus&&demoLastFocus.isConnected?demoLastFocus:input).focus();
+}
+function openDemo(id){
+ const d=DEMOS[id];if(!d)return;
+ demoLastFocus=document.activeElement;
+ const url=d.url+"?lang="+lang+"&source=jessie_sample";
+ demoTitle.textContent=lang==="es"?d.es:d.name;
+ demoCaption.textContent=lang==="es"?"Demo de ejemplo · Sin reservas reales":"Sample only · No real bookings";
+ demoExternal.textContent=lang==="es"?"Abrir pantalla completa ↗":"Open full size ↗";
+ demoClose.setAttribute("aria-label",lang==="es"?"Cerrar demo":"Close demo");
+ demoExternal.href=url;demoFrame.src=url;
+ demoOverlay.hidden=false;document.body.classList.add("tle-jessy-demo-open");
+ demoClose.focus();track("demo_open");
+}
+demoClose.addEventListener("click",closeDemo);
+demoOverlay.addEventListener("click",event=>{if(event.target===demoOverlay)closeDemo()});
+demoOverlay.addEventListener("keydown",event=>{
+ if(event.key==="Escape"){event.preventDefault();closeDemo()}
+ if(event.key==="Tab"){
+  if(event.shiftKey&&document.activeElement===demoExternal){event.preventDefault();demoClose.focus()}
+  else if(!event.shiftKey&&document.activeElement===demoClose){event.preventDefault();demoExternal.focus()}
+ }
+});
+function showDemoCard(id){
+ const d=DEMOS[id];if(!d)return false;
+ const card=button("tle-jessy-demo-card","","");
+ card.setAttribute("aria-label",lang==="es"?"Abrir demo interactiva":"Open interactive demo");
+ const photo=node("img","tle-jessy-demo-cover");photo.src=d.image;photo.alt="";photo.loading="lazy";
+ const copy=node("span","tle-jessy-demo-card-copy");
+ copy.append(node("strong","",lang==="es"?d.es:d.name),node("small","",lang==="es"?"Demo original · Datos de ejemplo":"Original demo · Sample data"));
+ card.append(photo,copy,node("span","tle-jessy-demo-arrow","↗"));
+ card.addEventListener("click",()=>openDemo(id));
+ log.append(card);log.scrollTop=log.scrollHeight;
+ return true;
+}
+
 function msg(text,sender){const bubble=node("div","tle-jessy-message "+sender,text);log.appendChild(bubble);log.scrollTop=log.scrollHeight;return bubble}
 function actions(checkout,detail,trial){
  const row=node("div","tle-jessy-inline");
