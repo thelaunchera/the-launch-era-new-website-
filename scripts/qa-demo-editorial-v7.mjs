@@ -28,6 +28,12 @@ for(const lang of ['en','es']){
      mode:document.documentElement.classList.contains('demo-editorial'),
      compact:document.documentElement.classList.contains('tle-demo-compact-v30'),
      galleryCards:document.querySelectorAll('#tleV31GalleryRail .tle-v31-gallery-card').length,
+     editorialCards:document.querySelectorAll('#tleDemoEditorialGallery .tle-editorial-photo-card').length,
+     editorialShown:(()=>{const e=$('.tle-demo-v12-why');return !!e&&e.getBoundingClientRect().height>100})(),
+     editorialSlides:document.querySelectorAll('#tleV32EditorialControls button').length,
+     galleryBeforeReviews:(()=>{const g=$('#tleV31Transformations'),rv=$('#tleDemoReviews');return !!g&&!!rv&&!!(g.compareDocumentPosition(rv)&Node.DOCUMENT_POSITION_FOLLOWING)})(),
+     editorialBeforeGallery:(()=>{const e=$('#tleDemoEditorialGallery'),g=$('#tleV31Transformations');return !!e&&!!g&&!!(e.compareDocumentPosition(g)&Node.DOCUMENT_POSITION_FOLLOWING)})(),
+     reviewCards:document.querySelectorAll('#tleDemoReviews .tle-demo-v12-reviewgrid article').length,
      galleryVisible:(()=>{const g=document.getElementById('tleV31Transformations');const r=g?.getBoundingClientRect();return !!r&&r.height>130&&getComputedStyle(g).display!=='none'})(),
      css:[...document.styleSheets].some(s=>s.href?.includes('tle-demo-booking-v7.css')),
      viewport:innerWidth,scrollWidth:document.documentElement.scrollWidth,
@@ -61,7 +67,7 @@ for(const lang of ['en','es']){
    assert(m.mode&&m.css,'Public sample styles not activated');
    assert(m.scrollWidth<=width+2,'Horizontal overflow '+JSON.stringify(m));
    if(m.compact){
-     assert(!m.storyVisible&&m.galleryCards===3&&m.galleryVisible,'Compact Before/After gallery absent, or redundant story still visible '+JSON.stringify(m));
+     assert(!m.storyVisible&&m.galleryCards===3&&m.galleryVisible&&m.editorialShown&&m.editorialCards===2&&m.editorialSlides>=4&&m.galleryBeforeReviews&&m.editorialBeforeGallery&&m.reviewCards===3,'Editorial -> Before/After -> Reviews order, swipe, or review rail missing: '+JSON.stringify(m));
    }else{
      assert(m.storyAfterPanel&&m.storyVisible&&m.photoVisible,'Photo editorial section missing or not directly after booking card '+JSON.stringify(m));
    }
@@ -94,13 +100,14 @@ for(const lang of ['en','es']){
      panelBg:getComputedStyle(document.querySelector('#bookingStarter')).backgroundImage,
      title:getComputedStyle(document.querySelector('#bookingStarter .head h2')).color,
      card:getComputedStyle(document.querySelector('#residentialServiceList .service')).backgroundImage,
+     cardColor:getComputedStyle(document.querySelector('#residentialServiceList .service')).backgroundColor,
      price:getComputedStyle(document.querySelector('#residentialServiceList .service .price')).color
    }));
    assert(darkUi.css&&darkUi.page==='rgb(8, 13, 19)','Midnight stylesheet/page backdrop not active '+JSON.stringify(darkUi));
    if(await page.evaluate(()=>document.documentElement.classList.contains('tle-photo-services-v21'))){
      // The v21 photo cards intentionally have a contained photo surface; unlike
      // the old giant nested options, they are compact and remain fully clickable.
-     assert(darkUi.panelBg==='none'&&darkUi.card.includes('linear-gradient'),
+     assert(darkUi.panelBg==='none'&&darkUi.cardColor==='rgb(247, 251, 255)',
        'Photo service cards should be intentional, with transparent parent: '+JSON.stringify(darkUi));
      const photoShape=await page.evaluate(()=>{
        const btn=document.querySelector('#residentialServiceList button.service');
@@ -114,7 +121,7 @@ for(const lang of ['en','es']){
    } else {
      assert(darkUi.panelBg==='none'&&darkUi.card==='none','Continuous design should not render nested booking/option cards: '+JSON.stringify(darkUi));
    }
-   assert(darkUi.title==='rgb(255, 255, 255)'&&darkUi.price==='rgb(169, 223, 255)','White/ice-blue contrast lost '+JSON.stringify(darkUi));
+   assert(darkUi.title==='rgb(255, 255, 255)'&&darkUi.price==='rgb(35, 96, 138)','Dark text and strong blue price contrast lost '+JSON.stringify(darkUi));
    assert.equal(m.ctaHref,'#categoryTabs','Begin must be a working anchor');
    assert.equal(m.categoryButtons,2,'Residential/Commercial navigation missing');
    assert(m.editorialTitle.includes(lang==='es'?'El valor está':'The difference'),'The photographic storytelling headline is missing: '+JSON.stringify(m.editorialTitle));
