@@ -97,7 +97,7 @@
    const b=blocks[id];
    if(!b)return{areas:[],custom:"",valid:true};
    const areas=[...b.fieldset.querySelectorAll('input[type="checkbox"]:checked')]
-      .map(el=>el.dataset.v30Task).filter(v=>v!==copy.other);
+      .filter(el=>el.dataset.other!=="1").map(el=>el.dataset.v30Task);
    const selected=b.otherInput?.checked;
    const custom=selected?b.otherText.value.trim():"";
    const valid=!selected||custom.length>0;
