@@ -25,16 +25,25 @@ Deno.serve(async(req:Request)=>{
  const type=String(body?.subject_type||""),id=String(body?.subject_id||""),action=String(body?.action||"status");
  if(!["booking","ai"].includes(type)||!uid.test(id)||!["status","approve"].includes(action))return respond(req,400,{error:"Invalid project or action"});
  const table=type==="booking"?"tle_booking_flow_accounts":"tle_ai_agent_orders";
- const fields=type==="booking"?"id,business_name,owner_email,language,payment_status,intake_completed_at,build_started_at,delivery_sent_at,status":"id,business_name,customer_email,preferred_language,submitted_at,delivered_at,status";
+ const fields=type==="booking"?"id,business_name,owner_email,language,payment_status,intake_completed_at,build_started_at,delivery_sent_at,status,ai_addon_offer":"id,business_name,customer_email,preferred_language,submitted_at,delivered_at,status,stripe_session_id";
  const {data:order,error:orderError}=await db.from(table).select(fields).eq("id",id).maybeSingle();
  if(orderError||!order)return respond(req,404,{error:"Project not found"});
  const paid=type==="booking"?order.payment_status==="paid":!!order.submitted_at&&["intake_submitted","in_setup","active"].includes(order.status);
  const intakeComplete=type==="booking"?!!order.intake_completed_at:!!order.submitted_at;
  const delivered=type==="booking"?!!order.delivery_sent_at:!!order.delivered_at||order.status==="active";
+ // A bundled AI order shares one reviewed production scope with its Booking Page.
+ let bundle=type==="booking"&&["ai-booking","ai-followup","ai-business"].includes(String(order.ai_addon_offer||""));
+ if(type==="ai"&&order.stripe_session_id){
+  const {data:linked}=await db.from("tle_booking_flow_accounts").select("id,ai_addon_offer,payment_status").eq("stripe_session_id",order.stripe_session_id).eq("payment_status","paid").limit(1).maybeSingle();
+  bundle=!!linked&&["ai-booking","ai-followup","ai-business"].includes(String(linked.ai_addon_offer||""));
+ }
+ const productionDuration=bundle?4:2;
+ const productionUnit=bundle?"business_days":"estimated_48_hours";
+
  const eligible=paid&&intakeComplete&&!delivered;
  const {data:existing,error:readError}=await db.from("tle_project_kickoffs").select("approved_at,email_status,resend_email_id").eq("subject_type",type).eq("subject_id",id).maybeSingle();
  if(readError)return respond(req,503,{error:"Project history unavailable"});
- if(action==="status")return respond(req,200,{ok:true,ready:eligible&&!existing&&!order.build_started_at,already_started:!!existing||!!order.build_started_at,approved_at:existing?.approved_at||order.build_started_at||null,email_status:existing?.email_status||null});
+ if(action==="status")return respond(req,200,{ok:true,ready:eligible&&!existing&&!order.build_started_at,already_started:!!existing||!!order.build_started_at,approved_at:existing?.approved_at||order.build_started_at||null,email_status:existing?.email_status||null,bundled_ai:bundle,production_duration:productionDuration,production_unit:productionUnit});
  if(body.confirm!==true)return respond(req,400,{error:"Explicit production approval is required"});
  if(existing||order.build_started_at)return respond(req,200,{ok:true,already_started:true,approved_at:existing?.approved_at||order.build_started_at,email_status:existing?.email_status||null});
  if(!eligible)return respond(req,409,{error:"Confirm the paid intake and review the data before production. Delivered projects cannot be restarted."});
@@ -61,10 +70,10 @@ Deno.serve(async(req:Request)=>{
   if(!apiKey)throw Error("Email provider not configured");
   const es=(type==="booking"?order.language:order.preferred_language)==="es";
   const name=escapeHtml(String(order.business_name||"your business").slice(0,110));
-  const service=type==="booking"?"Booking Automation + Command Center":"AI Assistant";
+  const service=type==="booking"?(bundle?"Booking Automation + Command Center + AI Assistant":"Booking Automation + Command Center"):(bundle?"AI Assistant for your combined booking system":"AI Assistant");
   const subject=es?"Tu proyecto ya está en producción — The Launch Era":"Your project is now in production — The Launch Era";
   const heading=es?"Tu proyecto ya está en producción.":"Your project is now in production.";
-  const bodyCopy=es?"Ya revisamos la información de <strong>"+name+"</strong> y aprobamos el inicio de tu proyecto. Nuestro equipo comenzó a trabajar en <strong>"+service+"</strong>. El tiempo estimado de producción es de 48 horas desde este inicio.":"We've reviewed the details for <strong>"+name+"</strong> and approved the start of your project. Our team has begun work on <strong>"+service+"</strong>. Estimated production time is 48 hours from this kickoff.";
+  const bodyCopy=es?"Ya revisamos la información de <strong>"+name+"</strong> y aprobamos el inicio de tu proyecto. Nuestro equipo comenzó a trabajar en <strong>"+service+"</strong>. "+(bundle?"La producción conjunta tiene un plazo estimado de 4 días hábiles desde esta aprobación.":"El tiempo estimado de producción es de 48 horas desde este inicio."):"We reviewed the details for <strong>"+name+"</strong> and approved the start of your project. Our team has begun work on <strong>"+service+"</strong>. "+(bundle?"Estimated combined production is 4 business days from this approved kickoff.":"Estimated production time is 48 hours from this kickoff.");
   const next=es?"Te escribiremos cuando esté listo para las pruebas o si necesitamos algún detalle adicional. No tienes que enviar otro formulario.":"We'll email you when it's ready for testing or if we need any clarification. You don't need to fill out another setup form.";
   const aiNote=type!=="ai"?"":es?"<p>Tu primer mes incluido de AI Assistant empieza cuando se entregue y active, no hoy.</p>":"<p>Your included first month of AI Assistant starts at delivery and activation, not today.</p>";
   const html='<div style="background:#f2f7fb;padding:30px 12px;font-family:Arial,sans-serif"><div style="background:#FAF8F3;max-width:560px;margin:auto;border-radius:18px;overflow:hidden;border:1px solid #dce6ed"><div style="background:#191919;padding:23px 28px"><strong style="font-size:17px;color:#F2D85B;letter-spacing:.05em">THE LAUNCH ERA</strong></div><div style="padding:32px 28px;color:#191919;line-height:1.7"><small style="color:#3379a6;font-weight:700;letter-spacing:.08em">'+(es?"PRODUCCIÓN INICIADA":"PRODUCTION STARTED")+'</small><h1 style="font-size:26px;line-height:1.2;margin:12px 0 20px">'+heading+'</h1><p>'+bodyCopy+'</p><p>'+next+'</p>'+aiNote+'<p style="margin-top:24px">The Launch Era team</p></div><div style="background:#e5f2fb;padding:16px 28px;font-size:12px;color:#52697a">'+(es?"¿Dudas? <a href='https://thelaunchera.com/es/#contacto' style='color:#246a95'>Escríbenos desde nuestro website.</a>":"Questions? <a href='https://thelaunchera.com/help/' style='color:#246a95'>Contact us through our website.</a>")+'</div></div></div>';
