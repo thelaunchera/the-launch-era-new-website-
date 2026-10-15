@@ -40,4 +40,6 @@ for(const lang of ["en","es"]){
   assert.ok(!/not confirmed|no lo tengo confirmado|don't know|no se/.test(answer),"Generic fallback reached");
 }
 assert.ok(source.indexOf("if(asksAboutJessie(message))")<source.indexOf("if(wantsAiPlanComparison(message,prior,focus))"),"Capability introduction must come before AI plan comparison");
+const widget=fs.readFileSync(new URL("../public/assets/jessy-site.js",import.meta.url),"utf8");
+assert.ok(widget.includes('if(typeof result.selected_offer==="string")offer=result.selected_offer;'),"Widget must clear stale offer after general introduction");
 console.log("Jessie capabilities QA passed: "+(yes.length+no.length)+" intents, two languages.");
