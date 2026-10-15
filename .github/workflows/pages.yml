@@ -54,6 +54,9 @@ jobs:
       - name: Verify Jessy appears on all public pages and answers in context
         run: node scripts/qa-jessy-coverage.mjs
 
+      - name: Verify Jessie answers broad help questions with real services in EN and ES
+        run: node scripts/qa-jessie-capabilities.mjs
+
       - name: Verify private owner Jessy access and read-only scope
         run: node scripts/qa-jessy-owner.mjs
 
