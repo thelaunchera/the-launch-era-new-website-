@@ -125,6 +125,47 @@ try{
   await ctx.close();
   console.log('PASS no-charge AI intake preview '+lang);
  }
+
+ // Booking Page paid-intake preview: guided selections must map into the original catalog fields.
+ for(const lang of ["en","es"]){
+  const ctx=await browser.newContext({viewport:{width:390,height:844}}),page=await ctx.newPage();
+  const errors=[];let requests=0;
+  page.on("pageerror",e=>errors.push(String(e)));
+  await page.route("**/functions/v1/**",r=>{requests++;return r.abort();});
+  const prefix=lang==="es"?"/es":"";
+  await page.goto(base+prefix+"/booking-flow-intake/?demo=1",{waitUntil:"domcontentloaded"});
+  await page.locator('input[name="owner_name"]').fill("Example Owner");
+  await page.locator('input[name="business_name"]').fill("QA Cleaning");
+  await page.locator('#businessEmail').fill("demo@example.com");
+  await page.locator('#businessCategory').selectOption("cleaning");
+  await page.locator('input[name="service_areas"]').fill("Miami");
+  await page.locator('select[name="pricing_style"]').selectOption("mixed");
+  await page.locator('select[name="quote_estimate_rules"]').selectOption("review_unpriced_jobs");
+  await page.locator('select[name="flat_price_auto_confirm"]').selectOption("false");
+  await page.locator('textarea[name="availability"]').fill("Monday-Friday 9-5");
+  await page.locator('input[name="job_duration_minutes"]').fill("120");
+  await page.locator('select[name="recurring_booking_policy"]').selectOption("weekly");
+  await page.locator('input[name="customer_payment_methods"]').fill("Cash, Zelle");
+  await page.locator('input[name="tle_pick_booking_services_standard"]').check();
+  const flatRow=page.locator(".tle-guided-row").first();
+  await flatRow.locator("select").selectOption("fixed");
+  await flatRow.locator('input[type="number"]').first().fill("150");
+  await page.locator('input[name="tle_pick_booking_services_deep"]').check();
+  const estimateRow=page.locator(".tle-guided-row").last();
+  await estimateRow.locator("select").selectOption("estimate");
+  await estimateRow.locator('input[type="number"]').nth(1).fill("220");
+  await estimateRow.locator('input[type="number"]').nth(2).fill("350");
+  await page.locator(".tle-guided-panel").first().locator("select").nth(1).selectOption("yes");
+  await page.locator(".tle-guided-panel").first().locator("select").nth(2).selectOption("yes");
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+2),true,"Guided booking overflow");
+  await page.screenshot({path:"qa-screenshots/booking-guided-"+lang+".png",fullPage:true});
+  await page.locator("#submit").click();
+  await page.locator(".success").waitFor({state:"visible",timeout:6000});
+  assert.equal(requests,0,"Booking demo must not submit to production");
+  assert.deepEqual(errors,[],"Guided booking errors");
+  await ctx.close();
+  console.log("PASS guided booking intake "+lang+" 390px");
+ }
 }finally{
  await browser.close();
  await new Promise(done=>server.close(done));
