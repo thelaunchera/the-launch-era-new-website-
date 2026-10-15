@@ -261,9 +261,11 @@ if(result&&typeof result.reply==="string"){
  // The old auto-actions repeated "Get started / How it works" after EVERY answer.
  if(!plansShown){
   const next=result.next_action;
+  if(next==="demo"&&DEMOS[offer])showDemoCard(offer);
+  if(next==="client_help"){const help=node("a","tle-jessy-help-link",lang==="es"?"Ir a ayuda y soporte ↗":"Go to help & support ↗");help.href="/help/";log.append(help)}
   if(next==="checkout"&&checkout)actions(checkout,info,null);
   else if(next==="trial"&&result.trial)actions(null,info,result.trial);
-  else if(next==="demo"&&info)actions(null,info,null);
+  else if(next==="demo"&&!DEMOS[offer]&&info)actions(null,info,null);
  }
  track("answered");
 }else{track("chat_unavailable")}
