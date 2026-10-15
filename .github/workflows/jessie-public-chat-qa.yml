@@ -9,6 +9,7 @@ on:
       - 'scripts/qa-jessy-reasoning.ts'
       - 'scripts/qa-jessie-capabilities.mjs'
       - 'scripts/qa-jessy-coverage.mjs'
+      - 'scripts/qa-jessie-live-smoke.mjs'
       - '.github/workflows/jessie-public-chat-qa.yml'
   workflow_dispatch:
 
@@ -33,3 +34,5 @@ jobs:
           bun-version: latest
       - name: Verify context, verified catalog, and reply routing
         run: bun scripts/qa-jessy-reasoning.ts
+      - name: Test live public Jessie (synthetic inquiries only, no writes)
+        run: node scripts/qa-jessie-live-smoke.mjs
