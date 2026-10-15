@@ -1,0 +1,328 @@
+/* v36 — visual finish for fictional, unkeyed Luna Bloom demo ONLY.
+   Light blue bubbles, compact matched comparisons, honest auto-moving review
+   ribbon, service coverage, visible contact/legal and gratitude finale. */
+html.demo-editorial.tle-demo-v36:not(.tle-demo-booking-active) #tleV31Transformations{
+  box-sizing:border-box!important;position:relative!important;isolation:isolate!important;
+  background:linear-gradient(140deg,#d7effe 0%,#eff9ff 54%,#d0eaf9 100%)!important;
+  border:1px solid rgba(123,185,220,.34)!important;
+  box-shadow:0 16px 50px rgba(29,91,134,.13)!important;
+  padding:clamp(20px,4vw,44px)!important;
+  margin:28px auto 18px!important;
+  max-width:1140px!important;overflow:hidden!important;
+  border-radius:28px!important;color:#12344c!important;
+}
+html.demo-editorial.tle-demo-v36 #tleV31Transformations::before,
+html.demo-editorial.tle-demo-v36 #tleV31Transformations::after{
+  content:"";position:absolute;pointer-events:none;z-index:-1;border-radius:50%;
+  box-shadow:inset 9px 8px 18px #fff9,inset -11px -10px 24px #85c8eb44;
+  border:1px solid #fffc;
+  background:radial-gradient(circle at 26% 20%,#ffffffba 0%,#c1e8fa73 44%,#76bbdf17 100%);
+}
+html.demo-editorial.tle-demo-v36 #tleV31Transformations::before{
+  width:190px;height:190px;right:-60px;top:-65px;
+}
+html.demo-editorial.tle-demo-v36 #tleV31Transformations::after{
+  width:105px;height:105px;left:-42px;bottom:-30px;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-demo-v36 #tleV31Transformations h2{
+  color:#12344d!important;font:500 clamp(28px,4.2vw,47px)/1.1 Georgia,serif!important;
+  letter-spacing:-.04em!important;margin:8px 0!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-demo-v36 #tleV31Transformations .tle-v31-kicker{
+  color:#306c90!important;font-size:12px!important;letter-spacing:.15em!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-demo-v36 #tleV31Transformations .tle-v31-gallery-top p{
+  color:#355d75!important;font:500 clamp(12px,1.6vw,15px)/1.5 "DM Sans",Arial,sans-serif!important;
+  max-width:520px!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-demo-v36 #tleV31GalleryRail{
+  box-sizing:border-box!important;display:flex!important;
+  gap:15px!important;width:100%!important;max-width:100%!important;
+  padding:10px 5px 18px!important;overflow-x:auto!important;
+  overscroll-behavior-x:contain!important;scroll-snap-type:x mandatory!important;
+  scrollbar-width:none!important;-webkit-overflow-scrolling:touch!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-demo-v36 #tleV31GalleryRail::-webkit-scrollbar{display:none!important}
+html.demo-editorial.tle-demo-compact-v30.tle-demo-v36 #tleV31GalleryRail .tle-v31-gallery-card{
+  box-sizing:border-box!important;flex:0 0 min(81%,535px)!important;
+  width:min(81%,535px)!important;min-width:0!important;
+  padding:12px!important;border:1px solid #b6dbea!important;border-radius:23px!important;
+  background:#fff!important;scroll-snap-align:start!important;
+  box-shadow:0 12px 26px rgba(27,89,129,.12)!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-demo-v36 #tleV31GalleryRail h3{
+  color:#153b56!important;font:700 clamp(15px,2.1vw,19px)/1.3 Prompt,Arial,sans-serif!important;
+  margin:3px 3px 11px!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-demo-v36 #tleV31GalleryRail .tle-v31-compare-pair{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:10px!important;min-width:0!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-demo-v36 #tleV31GalleryRail figure{
+  position:relative!important;min-width:0!important;aspect-ratio:4/4.3!important;
+  overflow:hidden!important;border-radius:14px!important;
+  background:#e4eff3!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-demo-v36 #tleV31GalleryRail img{
+  display:block!important;width:100%!important;height:100%!important;
+  object-fit:cover!important;object-position:center!important;
+  filter:none!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-demo-v36 #tleV31GalleryRail figcaption{
+  position:absolute!important;bottom:9px!important;left:9px!important;z-index:1!important;
+  padding:7px 14px!important;border-radius:100px!important;
+  font:750 12px/1.35 Prompt,Arial,sans-serif!important;
+  background:#ffffffec!important;color:#174561!important;
+  box-shadow:0 3px 10px #102b3940!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-demo-v36 #tleV31GalleryRail figure:nth-child(2) figcaption{
+  background:#c8ecffed!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-demo-v36 #tleV31Transformations button{
+  display:grid!important;place-items:center!important;
+  min-width:43px!important;width:43px!important;height:43px!important;
+  background:#fff!important;border:1px solid #84bbdb!important;
+  color:#185779!important;box-shadow:0 4px 11px #417c9920!important;
+  font-size:20px!important;border-radius:50%!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-demo-v36 #tleV31Transformations .tle-v31-gallery-note{
+  color:#466d83!important;font-size:11px!important;line-height:1.5!important;
+  margin:6px 5px 0!important;
+}
+html.demo-editorial.tle-demo-v36:not(.tle-demo-booking-active) #tleDemoReviews.tle-v36-reviews{
+  box-sizing:border-box!important;display:block!important;position:relative!important;
+  width:calc(100% - 18px)!important;max-width:1140px!important;
+  margin:10px auto 18px!important;padding:clamp(23px,4vw,41px)!important;
+  background:linear-gradient(150deg,#123a54,#102e46 70%,#144767)!important;
+  border:1px solid rgba(135,200,234,.27)!important;
+  border-radius:27px!important;color:#f4fbff!important;
+  overflow:hidden!important;box-shadow:0 14px 35px rgba(16,55,80,.15)!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoReviews.tle-v36-reviews::before{
+  content:"";position:absolute;inset:-110px -110px auto auto;width:270px;height:270px;
+  border-radius:50%;pointer-events:none;opacity:.38;
+  background:radial-gradient(circle at 30% 30%,#effbff7a,#6cc6f53b 50%,transparent 73%);
+}
+html.demo-editorial.tle-demo-v36 #tleDemoReviews .tle-demo-v12-heading{
+  position:relative;z-index:1;max-width:850px!important;margin:0 0 16px!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoReviews .tle-demo-v12-heading .tle-demo-v12-ey{
+  color:#9dd7f5!important;letter-spacing:.13em!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoReviews #tleReviewsTitle{
+  color:#fff!important;font:500 clamp(29px,4.1vw,43px)/1.08 Georgia,serif!important;
+  letter-spacing:-.035em!important;opacity:1!important;
+  text-shadow:none!important;margin:7px 0 8px!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoReviews .tle-demo-v12-heading p{
+  color:#c5dfed!important;font:500 13px/1.6 "DM Sans",Arial,sans-serif!important;
+  opacity:1!important;max-width:730px!important;margin:0!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoReviews .tle-v36-review-viewport{
+  position:relative!important;z-index:1!important;display:block!important;
+  width:100%!important;min-width:0!important;overflow-x:auto!important;
+  scrollbar-width:none!important;-webkit-overflow-scrolling:touch!important;
+  overscroll-behavior-x:contain!important;scroll-snap-type:x mandatory!important;
+  scroll-padding-inline:1px!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoReviews .tle-v36-review-viewport::-webkit-scrollbar{display:none}
+html.demo-editorial.tle-demo-v36 #tleDemoReviews .tle-v36-review-track{
+  display:flex!important;gap:14px!important;width:max-content!important;
+  max-width:none!important;padding:3px 3px 16px!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoReviews .tle-v36-review-card{
+  box-sizing:border-box!important;flex:0 0 clamp(245px,32vw,340px)!important;
+  width:clamp(245px,32vw,340px)!important;
+  display:flex!important;flex-direction:column!important;
+  padding:17px 18px 15px!important;border:1px solid rgba(164,211,237,.39)!important;
+  border-radius:19px!important;scroll-snap-align:start!important;
+  background:linear-gradient(150deg,#f9fcff,#eaf6fd)!important;
+  box-shadow:0 8px 20px #051b2a26!important;min-height:173px!important;
+  color:#16394f!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoReviews .tle-v36-review-header{
+  display:flex!important;align-items:center!important;gap:10px!important;min-width:0!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoReviews .tle-v36-review-avatar{
+  display:grid!important;place-items:center!important;flex:0 0 39px!important;
+  width:39px!important;height:39px!important;background:#c6e9f9!important;
+  border:1px solid #add6eb!important;border-radius:50%!important;
+  color:#357fa2!important;font-size:25px!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoReviews .tle-v36-review-identity{
+  min-width:0!important;display:flex!important;flex-direction:column!important;gap:2px!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoReviews .tle-v36-review-identity strong{
+  font:750 12px/1.2 Prompt,Arial,sans-serif!important;color:#183b53!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoReviews .tle-v36-review-identity small{
+  font:500 10px/1.3 "DM Sans",Arial,sans-serif!important;color:#57798c!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoReviews .tle-v36-review-stars{
+  margin-left:auto!important;color:#d39d34!important;font-size:13px!important;
+  letter-spacing:-.06em!important;white-space:nowrap!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoReviews .tle-v36-review-card p{
+  color:#1b4058!important;font:500 13px/1.5 "DM Sans",Arial,sans-serif!important;
+  margin:15px 0 10px!important;flex:1!important;opacity:1!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoReviews .tle-v36-review-disclosure{
+  color:#437490!important;font-size:9px!important;font-weight:750!important;
+  letter-spacing:.11em!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoReviews .tle-v36-reviews-note{
+  color:#a9d3eb!important;font-size:11px!important;line-height:1.5!important;
+  margin:3px 3px 0!important;opacity:1!important;
+}
+html.demo-editorial.tle-demo-v36:not(.tle-demo-booking-active) #tleDemoAreas{
+  box-sizing:border-box!important;width:calc(100% - 18px)!important;
+  max-width:1140px!important;margin:0 auto 18px!important;
+  padding:0!important;border:1px solid #add6eb!important;
+  border-radius:26px!important;overflow:hidden!important;
+  background:linear-gradient(135deg,#edf8ff,#d9eef9)!important;
+  box-shadow:0 10px 30px rgba(24,90,131,.11)!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoAreas :is(h2,#tleAreasTitle){
+  color:#143c57!important;opacity:1!important;text-shadow:none!important;
+  font:500 clamp(28px,4vw,44px)/1.12 Georgia,serif!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoAreas p{
+  color:#355e76!important;opacity:1!important;line-height:1.6!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoAreas .tle-demo-v12-areatags span{
+  color:#174f70!important;background:#f8fcff!important;
+  border:1px solid #b7d9eb!important;border-radius:100px!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoAreas .tle-demo-v12-disclaimer{
+  color:#4c7290!important;opacity:1!important;font-size:11px!important;
+}
+html.demo-editorial.tle-demo-v36:not(.tle-demo-booking-active) #tleV36Contact{
+  box-sizing:border-box!important;width:calc(100% - 18px)!important;
+  max-width:1140px!important;margin:0 auto 18px!important;
+  padding:clamp(23px,4vw,43px)!important;
+  background:linear-gradient(130deg,#e3f4ff,#f8fcff 65%,#d8edf9)!important;
+  border:1px solid #b8ddec!important;border-radius:25px!important;
+  color:#173b56!important;overflow:hidden!important;
+}
+html.demo-editorial.tle-demo-v36 .tle-v36-kicker{
+  display:block!important;color:#347b9e!important;
+  font:750 11px/1.4 Prompt,Arial,sans-serif!important;letter-spacing:.14em!important;
+}
+html.demo-editorial.tle-demo-v36 #tleV36Contact h2{
+  font:500 clamp(26px,3.8vw,40px)/1.12 Georgia,serif!important;
+  color:#12394f!important;margin:9px 0 10px!important;
+}
+html.demo-editorial.tle-demo-v36 #tleV36Contact>p{
+  color:#41667d!important;font-size:13px!important;line-height:1.55!important;
+  max-width:690px!important;margin:0 0 15px!important;
+}
+html.demo-editorial.tle-demo-v36 #tleV36Contact #demoContact.tle-mini-contact{
+  display:block!important;max-width:none!important;color:#204d69!important;
+}
+html.demo-editorial.tle-demo-v36 #tleV36Contact #demoContact summary{
+  display:none!important;
+}
+html.demo-editorial.tle-demo-v36 #tleV36Contact #demoContact .tle-mini-contact-body{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:10px!important;margin:0!important;padding:0!important;background:none!important;
+  border:0!important;overflow:visible!important;
+}
+html.demo-editorial.tle-demo-v36 #tleV36Contact #demoContact .tle-mini-contact-body p{
+  display:flex!important;align-items:center!important;
+  min-height:50px!important;padding:13px 15px!important;min-width:0!important;
+  border-radius:14px!important;background:#fff!important;border:1px solid #c9e2ee!important;
+  color:#234c67!important;overflow-wrap:anywhere!important;
+  font:550 12px/1.5 "DM Sans",Arial,sans-serif!important;
+}
+html.demo-editorial.tle-demo-v36 #tleV36Contact #demoContact .tle-mini-contact-body .tle-mini-demo-note{
+  grid-column:1/-1!important;color:#50778e!important;background:#eff8fe!important;
+  font-size:11px!important;min-height:0!important;
+}
+html.demo-editorial.tle-demo-v36 footer.demo-footer.tle-demo-compact-footer{
+  background:#112d43!important;border-top:1px solid #417e9d!important;
+  padding:clamp(23px,4vw,38px)!important;
+}
+html.demo-editorial.tle-demo-v36 .tle-mini-footer-head{
+  display:flex!important;justify-content:space-between!important;align-items:center!important;
+  gap:16px!important;
+}
+html.demo-editorial.tle-demo-v36 .tle-mini-footer-links{
+  display:flex!important;align-items:center!important;gap:13px 20px!important;
+  max-width:1150px!important;flex-wrap:wrap!important;
+  padding:14px 0 0!important;border-top:1px solid #ffffff24!important;
+}
+html.demo-editorial.tle-demo-v36 .tle-v36-footer-legal-title{
+  width:100%!important;color:#d6ecfa!important;font:750 11px/1.4 Prompt,Arial,sans-serif!important;
+  letter-spacing:.13em!important;text-transform:uppercase!important;
+}
+html.demo-editorial.tle-demo-v36 footer.tle-demo-compact-footer .tle-mini-footer-links a{
+  color:#cde9fa!important;text-decoration:none!important;
+}
+html.demo-editorial.tle-demo-v36 footer.tle-demo-compact-footer .tle-mini-footer-links a:hover,
+html.demo-editorial.tle-demo-v36 footer.tle-demo-compact-footer .tle-mini-footer-links a:focus-visible{
+  color:#fff!important;text-decoration:underline!important;
+}
+html.demo-editorial.tle-demo-v36:not(.tle-demo-booking-active) #tleDemoThankYou{
+  box-sizing:border-box!important;position:relative!important;
+  text-align:center!important;overflow:hidden!important;
+  padding:clamp(34px,6vw,68px) 24px 42px!important;
+  background:linear-gradient(142deg,#d0ebfc 0%,#f2faff 49%,#c7e8f9 100%)!important;
+  border-radius:0!important;margin:0!important;max-width:none!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoThankYou::before{
+  content:"";position:absolute;right:-48px;top:-80px;width:185px;height:185px;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%,#fff9,#8dcaef33 65%,transparent 80%);
+  pointer-events:none;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoThankYou .tle-v36-goodbye-flower{
+  margin:0 auto 14px!important;display:grid!important;place-items:center!important;
+  width:55px;height:55px;border:1px solid #a5d2e9;border-radius:50%!important;
+  background:#eef9ff!important;color:#428fb3!important;font-size:34px!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoThankYou h2{
+  font:500 clamp(30px,4.5vw,48px)/1.13 Georgia,serif!important;
+  color:#14384f!important;letter-spacing:-.04em!important;margin:0 0 12px!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoThankYou p{
+  color:#376481!important;font-size:clamp(13px,1.7vw,16px)!important;
+  line-height:1.55!important;margin:0 auto 17px!important;max-width:580px!important;
+}
+html.demo-editorial.tle-demo-v36 #tleDemoThankYou small{
+  color:#5a8097!important;display:block!important;font-size:11px!important;
+}
+@media(max-width:650px){
+ html.demo-editorial.tle-demo-v36:not(.tle-demo-booking-active) #tleV31Transformations{
+   padding:21px 13px!important;margin:18px auto 15px!important;border-radius:21px!important;
+ }
+ html.demo-editorial.tle-demo-compact-v30.tle-demo-v36 #tleV31GalleryRail .tle-v31-gallery-card{
+   flex-basis:88%!important;width:88%!important;padding:9px!important;
+ }
+ html.demo-editorial.tle-demo-compact-v30.tle-demo-v36 #tleV31GalleryRail figure{
+   aspect-ratio:3.3/4!important;
+ }
+ html.demo-editorial.tle-demo-compact-v30.tle-demo-v36 #tleV31GalleryRail .tle-v31-compare-pair{
+   gap:8px!important;
+ }
+ html.demo-editorial.tle-demo-v36:not(.tle-demo-booking-active) #tleDemoReviews.tle-v36-reviews{
+   padding:24px 14px!important;border-radius:21px!important;
+ }
+ html.demo-editorial.tle-demo-v36 #tleDemoReviews .tle-v36-review-card{
+   flex-basis:min(81vw,310px)!important;width:min(81vw,310px)!important;
+   padding:14px!important;
+ }
+ html.demo-editorial.tle-demo-v36 #tleDemoReviews .tle-v36-review-stars{
+   font-size:11px!important;
+ }
+ html.demo-editorial.tle-demo-v36 #tleV36Contact #demoContact .tle-mini-contact-body{
+   grid-template-columns:1fr!important;
+ }
+ html.demo-editorial.tle-demo-v36 #tleV36Contact #demoContact .tle-mini-contact-body p{
+   min-height:0!important;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ html.demo-editorial.tle-demo-v36 #tleV31GalleryRail,
+ html.demo-editorial.tle-demo-v36 .tle-v36-review-viewport{
+   scroll-behavior:auto!important;
+ }
+}
