@@ -35,6 +35,44 @@
        if(title)button.setAttribute("aria-label",[title,price].filter(Boolean).join(". "));
      }
    }
+   // A category switch must show ONE service list. Keep the original
+   // estimate/quote handlers in the DOM for compatibility, but remove their
+   // duplicate visual cards and tab stops. The one custom-quote CTA remains.
+   for(const list of [residential,commercial]){
+     for(const btn of list.querySelectorAll(":scope > button.tle-service-secondary-v21")){
+       btn.hidden=true;
+       btn.setAttribute("aria-hidden","true");
+       btn.tabIndex=-1;
+     }
+     const quoteButton=list.querySelector(":scope > .tle-v30-main-custom");
+     if(quoteButton){
+       const es=q.get("lang")==="es";
+       const title=es?"¿Necesitas otra limpieza?":"Need something different?";
+       const description=es?"Pide una cotización personalizada.":"Request a custom quote.";
+       const words=quoteButton.querySelector("span");
+       if(words){
+         words.textContent="";
+         const eyebrow=document.createElement("small");
+         eyebrow.textContent=title;
+         const strong=document.createElement("strong");
+         strong.textContent=description;
+         words.append(eyebrow,strong);
+         words.classList.add("tle-v34-custom-text");
+       }
+       quoteButton.setAttribute("aria-label",title+" "+description);
+       quoteButton.classList.add("tle-v34-single-quote");
+     }
+   }
+   // The fieldset's floating native legend looked like an overlapping square
+   // on mobile. Keep it for form semantics but add an in-card visual heading.
+   document.querySelectorAll("#bookingStarter fieldset.tle-v30-tasklist").forEach(fieldset=>{
+     const legend=fieldset.querySelector(":scope > legend");
+     if(!legend||fieldset.querySelector(".tle-v34-task-title"))return;
+     const heading=document.createElement("h3");
+     heading.className="tle-v34-task-title";
+     heading.textContent=legend.textContent;
+     legend.insertAdjacentElement("afterend",heading);
+   });
    // Preserve current routes, anchor links and assistant navigation without
    // creating any duplicate service panels.
    document.querySelectorAll('a[href="#demoServices"]').forEach(a=>a.href="#bookingStarter");
