@@ -24,7 +24,7 @@ header{padding:16px max(18px,calc((100% - 760px)/2))}main{margin:20px auto 42px}
 .setup-step .field-note{font-size:11px;color:#536979;display:block;margin-top:5px}.setup-actions{display:flex;gap:10px;align-items:center;margin:23px 0 0}
 .setup-actions .btn{margin:0;flex:1;min-width:0}.setup-actions .back{border:1px solid #bcd1df;background:#fff;color:#191919;flex:0 0 35%;max-width:150px}
 .setup-checkbox{display:flex;align-items:flex-start;gap:11px;border:1px solid #c5dcea;border-radius:14px;background:#f4f9fc;padding:14px;margin:18px 0 0;font-size:13px}
-.setup-checkbox input{width:20px;height:20px;flex:0 0 20px;accent-color:#191919;margin:0}.setup-review{background:#f4f9fc;border:1px solid #cbdfea;border-radius:16px;padding:16px;margin-top:15px}
+.setup-checkbox[hidden]{display:none!important}.setup-checkbox input{width:20px;height:20px;flex:0 0 20px;accent-color:#191919;margin:0}.setup-review{background:#f4f9fc;border:1px solid #cbdfea;border-radius:16px;padding:16px;margin-top:15px}
 .setup-review dl{margin:0}.setup-review dt{font-size:11px;color:#566a79;margin-top:13px}.setup-review dt:first-child{margin-top:0}.setup-review dd{margin:2px 0 0;font-size:14px;font-weight:650;color:#191919;overflow-wrap:anywhere}
 .setup-review small{font-size:11px;color:#577085}.setup-step .field input,.setup-step .field select,.setup-step .field textarea{font-size:16px}
 @media(max-width:560px){.setup-actions{gap:8px}.setup-actions .btn{font-size:13px;padding:12px}.setup-step h2{font-size:17px}}
@@ -145,6 +145,7 @@ header{padding:16px max(18px,calc((100% - 760px)/2))}main{margin:20px auto 42px}
  }
  function validateStep(n){
   for(const el of stepSections[n-1].querySelectorAll('input,select,textarea')){
+   if(el.closest('.hidden')||el.closest('[hidden]'))continue;
    if(!el.checkValidity()){el.reportValidity();el.focus();return false;}
   }
   if(n===2&&getNotes().length>600){showStatus(es?'Reduce un poco las indicaciones adicionales.':'Please shorten the extra instructions.',true);$('notes').focus();return false;}
