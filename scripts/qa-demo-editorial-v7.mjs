@@ -128,6 +128,8 @@ for(const lang of ['en','es']){
      return {
        hash:location.hash,
        scroll:window.scrollY,
+       focusMode:document.documentElement.classList.contains('tle-demo-booking-active'),
+       marketingHidden:getComputedStyle(document.getElementById('demoCinematicStory')).display==='none',
        panelTop:r.top,
        visible:r.height>100&&getComputedStyle(panel).display!=='none',
        panelIdCount:document.querySelectorAll('#bookingStarter').length,
@@ -138,7 +140,7 @@ for(const lang of ['en','es']){
      };
    });
    assert.equal(heroNavigation.panelIdCount,1,'Booking target ID must be unique');
-   assert(heroNavigation.visible&&heroNavigation.scroll>80&&heroNavigation.panelTop>=-10&&heroNavigation.panelTop<235,
+   assert(heroNavigation.visible&&(heroNavigation.focusMode?heroNavigation.marketingHidden:heroNavigation.scroll>80)&&heroNavigation.panelTop>=-10&&heroNavigation.panelTop<235,
       'Choose your service did not scroll to visible form: '+JSON.stringify(heroNavigation));
    assert.equal(heroNavigation.hash,'#bookingStarter','Hero CTA destination must update URL');
    assert(heroNavigation.stylePresent&&(width<=650||heroNavigation.svgVisible&&heroNavigation.arrowBackground==='rgba(0, 0, 0, 0)'&&heroNavigation.oldArrow==='none'),
