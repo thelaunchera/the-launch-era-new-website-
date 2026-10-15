@@ -26,10 +26,12 @@ function renderOrders(orders){
   const plan=node("p","Booking Automation + Command Center + "+(names[a.bundle_ai]||"AI Assistant"));plan.style.cssText="font-size:13px;font-weight:700;color:#195b83;background:#e9f3fb;padding:9px 10px;border-radius:10px;margin:0";
   const paid=node("p",say("Paid today: ","Pagó en la activación: ")+cents(a.amount_paid_cents));paid.style.cssText="margin:0;font-weight:700;font-size:13px";
   const progress=node("p",say("Booking intake: ","Formulario Booking: ")+(a.intake_done?"✓":"○")+"  ·  AI: "+(a.ai_status||"pending"));progress.style.cssText="font-size:12px;color:#526775;margin:0";
+  const sla=node("p",say("Production estimate: 4 business days after the paid intake is complete and production approved.","Producción estimada: 4 días hábiles desde la aprobación del intake pagado y completo."));sla.style.cssText="font-size:12px;color:#27495c;margin:0";
+  const safe=node("p",say("Agency checklist: verify services and actual prices → prepare Booking + AI → test desktop/mobile, email and quote approvals → client review → deliver. AI monthly support begins after the first 30 days from delivery.","Lista agencia: verificar servicios y precios reales → preparar Booking + AI → probar móvil/escritorio, correos y aprobación de cotizaciones → revisión del cliente → entregar. El soporte mensual de IA comienza tras 30 días desde la entrega."));safe.style.cssText="font-size:12px;line-height:1.55;color:#526775;margin:0";
   const actions=node("div");actions.style.cssText="display:flex;flex-wrap:wrap;gap:8px";
   const openBooking=node("button",say("Manage Booking","Gestionar Booking"));openBooking.type="button";openBooking.className="secondary";openBooking.onclick=()=>{$("ownerPagesNav")?.click()};
   const openAi=node("button",say("View AI delivery","Ver entrega AI"));openAi.type="button";openAi.className="secondary";openAi.onclick=()=>{$("ownerAiDeliveryPanel")?.scrollIntoView({behavior:"smooth",block:"start"})};
-  actions.append(openBooking,openAi);card.append(heading,email,plan,paid,progress,actions);root.append(card);
+  actions.append(openBooking,openAi);card.append(heading,email,plan,paid,progress,sla,safe,actions);root.append(card);
  }
 }
 async function refresh(){
