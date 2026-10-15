@@ -69,8 +69,8 @@ function oneToOneCallReply(message,lang){
   ?"¡Sí! La llamada 1:1 de 20 minutos es para clientes que ya compraron un servicio. El equipo debe verificar tu pedido antes de coordinar el horario. Puedes dejar tus datos de compra a través del canal de soporte, sin compartir información privada en este chat."
   :"Yes! The 20-minute 1:1 call is for customers who have already purchased a service. Our team needs to verify your order before coordinating a time. Please use the support contact channel without sharing private order details in this public chat.";
  return es
-  ?"Sí, ofrecemos una llamada 1:1 de 20 minutos como parte del acompañamiento **después de comprar un servicio**. No es una consulta disponible antes de la compra. El equipo coordina el horario tras verificar el pedido; no se reserva automáticamente."
-  :"Yes! A 20-minute 1:1 call is included **after you purchase a service**. It isn't a pre-purchase consultation. Our team coordinates it after verifying the order, so no time is automatically booked.";
+  ?"Sí, ofrecemos una llamada 1:1 de 20 minutos como parte del acompañamiento después de comprar un servicio. No es una consulta disponible antes de la compra. El equipo coordina el horario tras verificar el pedido; no se reserva automáticamente."
+  :"Yes! A 20-minute 1:1 call is included after you purchase a service. It isn't a pre-purchase consultation. Our team coordinates it after verifying the order, so no time is automatically booked.";
 }
 function asksPrice(msg){
  const q=norm(msg);
