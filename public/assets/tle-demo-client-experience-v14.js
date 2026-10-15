@@ -71,7 +71,7 @@
  const action=$(".demo-hero-cta");
  if(action){const child=[...action.childNodes].find(n=>n.nodeType===Node.TEXT_NODE);if(child)child.nodeValue=tr.heroCta+" ";}
  const areaLabel=$("#demoHeroArea");
- if(areaLabel)areaLabel.textContent=area?(es?"Zonas de ejemplo: ":"Sample service area: ")+area:(es?"Zonas de servicio personalizadas":"Personalized service areas");
+ if(areaLabel)areaLabel.textContent=area?(es?"Atendemos ":"Serving ")+area:(es?"Zonas de servicio personalizadas":"Personalized service areas");
  const panel=$("#bookingStarter");
  if(!panel)return;
  const head=$("#ey");if(head)head.textContent=tr.servicesEy;
