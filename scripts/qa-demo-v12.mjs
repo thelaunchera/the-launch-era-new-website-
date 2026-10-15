@@ -15,6 +15,7 @@ for(const width of [360,390,820,1024,1440]){
   try{
    await page.goto(base+'/lead-private-preview.html?business=Coastal%20Cleaners&area=Fort%20Lauderdale&lang='+lang+'&sonny=1',{waitUntil:'domcontentloaded',timeout:30000});
    await page.locator('#tleDemoReviews').waitFor({state:'visible',timeout:12000});
+   const cascade=await page.evaluate(()=>document.documentElement.classList.contains('tle-demo-v34'));
    const sonnyQuietOnEntry=await page.locator('#tleSonnyGreetingPopup').evaluate(el=>el.hidden);
    assert(sonnyQuietOnEntry,'Sonny greeting must be hidden on page entry');
    // v23 visual: only big editorial photos get pop; never hero or service images.
@@ -40,9 +41,9 @@ for(const width of [360,390,820,1024,1440]){
      };
    });
    assert(editorial.active&&editorial.why&&editorial.background==='rgb(250, 248, 243)'
-      &&editorial.links===3&&editorial.validDestinations&&editorial.gallery===2,
+      &&editorial.links===3&&editorial.validDestinations&&(cascade?editorial.gallery===0:editorial.gallery===2),
       'Premium ivory guide, 3 booking options and gallery missing: '+JSON.stringify(editorial));
-   assert(!editorial.hasHeroPop&&!editorial.hasServicePop&&editorial.eligibleFrames>=5
+   assert(!editorial.hasHeroPop&&!editorial.hasServicePop&&editorial.eligibleFrames>=(cascade?3:5)
       &&!editorial.mobileOverflow,
       'Pop must target large editorial photos only: '+JSON.stringify(editorial));
    assert(editorial.gallerySources.every(src=>src.startsWith('/assets/lead-demo/')),
@@ -325,7 +326,7 @@ for(const width of [360,390,820,1024,1440]){
    assert(organic.intro.includes(lang==='es'?'UNA SOLA EXPERIENCIA':'ONE EASY FLOW')
      &&organic.steps===3,'Timeline label/steps missing: '+JSON.stringify(organic));
    if(await page.evaluate(()=>document.documentElement.classList.contains('tle-photo-services-v21'))){
-     assert(organic.rowBorder==='1px'&&organic.iconBorder==='1px',
+     assert((cascade?organic.rowBorder==='5px':organic.rowBorder==='1px')&&organic.iconBorder==='1px',
        'Compact photo cards must use subtle, intentional 1px outlines: '+JSON.stringify(organic));
    }else{
      assert(organic.rowBorder==='0px'&&organic.iconBorder==='0px',
@@ -531,7 +532,10 @@ for(const width of [360,390,820,1024,1440]){
    assert.equal(chooser.squareBackdrop,'rgba(0, 0, 0, 0)','The square inset backdrop reappeared: '+JSON.stringify(chooser));
    assert.equal(chooser.backdropImage,'none','The inset background must be transparent');
    assert.equal(chooser.backdropShadow,'none','The square backdrop cannot have a shadow');
-   if(photoChoices.enabled){
+   if(cascade){
+     assert(chooser.rowRadius>=20&&chooser.rowShadow!=='none'&&chooser.iconWidth===0,
+       'Full-photo cascade needs rounded photo cards, subtle shadow and no icon over the image: '+JSON.stringify(chooser));
+   } else if(photoChoices.enabled){
      assert(chooser.rowBg.includes('gradient')&&chooser.rowRadius>=12&&chooser.rowShadow==='none',
        'Photo cards should be softly rounded, dark and unshadowed: '+JSON.stringify(chooser));
      assert(chooser.iconRadius<=14&&chooser.iconWidth>=27,
@@ -542,7 +546,8 @@ for(const width of [360,390,820,1024,1440]){
      assert(chooser.iconRadius<=14&&chooser.iconWidth>=37,'Lightweight outline icon sizing regressed');
    }
    assert(chooser.iconUnique>=10&&chooser.buttonCount===11,'The eleven distinct booking-service icons are missing');
-   assert(chooser.arrowWidth<=29,'Bulky circular service arrow returned');
+   assert(cascade?chooser.arrowWidth>=48:chooser.arrowWidth<=29,
+     'Circular service arrow should match the active design: '+JSON.stringify(chooser));
    assert(!chooser.overflow,'Booking row overflows the mobile viewport');
    const agentTitle=await page.locator('.tle-ai-head b').textContent();
    assert(agentTitle?.includes('Sonny'),'booking agent should be named Sonny');
@@ -634,7 +639,7 @@ for(const width of [360,390,820,1024,1440]){
    const selected=await page.evaluate(()=>({
       focused:document.documentElement.classList.contains('tle-demo-booking-active'),
       screen:document.querySelector('#bookingStarter .screen.on')?.id,
-      marketingHidden:document.querySelector('#tleDemoEditorialGallery').getClientRects().length===0
+      marketingHidden:!document.querySelector('#tleDemoEditorialGallery')||document.querySelector('#tleDemoEditorialGallery').getClientRects().length===0
    }));
    assert(selected.focused&&selected.screen==='res'&&selected.marketingHidden,
      'Deep cleaning pill must open residential booking studio, without the editorial gallery underneath: '+JSON.stringify(selected));
@@ -710,27 +715,42 @@ for(const width of [360,390,820,1024,1440]){
     getComputedStyle(el).animationPlayState==='running'),
     'Final CTA bubbles should float when in view');
   console.log('PASS floating bubbles in three blue sections 390px');
-  const target=page.locator('#tleDemoEditorialGallery .tle-editorial-photo-card').first();
-  await target.waitFor({state:'attached',timeout:12000});
-  const before=await target.evaluate(el=>({
-   prepared:el.classList.contains('tle-pop-prepared'),
-   transition:getComputedStyle(el).transitionDuration,
-   hero:!!document.querySelector('#leadHero .tle-pop-on-scroll'),
-   service:!!document.querySelector('.tle-service-photo-v21 .tle-pop-on-scroll')
-  }));
-  assert(before.prepared&&!before.hero&&!before.service
-   &&before.transition.includes('0.92s'),
-   'Full-size editorial images alone must have a scroll pop transition: '+JSON.stringify(before));
-  await target.scrollIntoViewIfNeeded();
-  await page.waitForFunction(
-   ()=>document.querySelector('#tleDemoEditorialGallery .tle-editorial-photo-card')
-     ?.classList.contains('tle-pop-visible'),
-   {timeout:5000}
-  );
-  const img=target.locator('img');
-  await img.evaluate(async el=>{try{await el.decode()}catch{}});
-  assert(await img.evaluate(el=>el.naturalWidth>=900),
-    'Large photo must render crisply during scroll pop');
+  const cascade=await page.evaluate(()=>document.documentElement.classList.contains('tle-demo-v34'));
+  if(cascade){
+    const target=page.locator('#residentialServiceList button.tle-service-has-photo-v21').first();
+    await target.scrollIntoViewIfNeeded();
+    await page.waitForFunction(
+      ()=>document.querySelector('#residentialServiceList button.tle-service-has-photo-v21')?.classList.contains('tle-v33-seen'),
+      null,{timeout:5000});
+    const image=target.locator('.tle-service-photo-v21 img');
+    await image.evaluate(async el=>{try{await el.decode()}catch{}});
+    const visible=await target.evaluate(el=>({
+      height:el.getBoundingClientRect().height,
+      photo:el.querySelector('img')?.naturalWidth,
+      label:el.querySelector('.demo-service-body b')?.textContent,
+      galleryRemoved:!document.querySelector('#tleDemoEditorialGallery')
+    }));
+    assert(visible.height>=420&&visible.photo>=400&&visible.galleryRemoved&&visible.label,
+      'Large scrolling service cards must replace the old editorial slider: '+JSON.stringify(visible));
+  }else{
+    const target=page.locator('#tleDemoEditorialGallery .tle-editorial-photo-card').first();
+    await target.waitFor({state:'attached',timeout:12000});
+    const before=await target.evaluate(el=>({
+      prepared:el.classList.contains('tle-pop-prepared'),
+      transition:getComputedStyle(el).transitionDuration,
+      hero:!!document.querySelector('#leadHero .tle-pop-on-scroll'),
+      service:!!document.querySelector('.tle-service-photo-v21 .tle-pop-on-scroll')
+    }));
+    assert(before.prepared&&!before.hero&&!before.service&&before.transition.includes('0.92s'),
+      'Full-size editorial images must have scroll pop transitions: '+JSON.stringify(before));
+    await target.scrollIntoViewIfNeeded();
+    await page.waitForFunction(
+      ()=>document.querySelector('#tleDemoEditorialGallery .tle-editorial-photo-card')?.classList.contains('tle-pop-visible'),
+      null,{timeout:5000});
+    const img=target.locator('img');
+    await img.evaluate(async el=>{try{await el.decode()}catch{}});
+    assert(await img.evaluate(el=>el.naturalWidth>=900),'Large photo must render crisply');
+  }
   console.log('PASS active pop animation 390px');
  }catch(e){
   failures.push('active scroll pop: '+e.message);
