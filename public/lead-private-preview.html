@@ -9,6 +9,20 @@ html.demo-editorial .demo-booking-eyebrow h2,html.demo-editorial .demo-booking-e
 html.demo-editorial .demo-booking-eyebrow:before{content:"✦  CHOOSE YOUR CLEAN  ✦";display:block;width:max-content;max-width:90%;margin:0 auto 20px;padding:9px 18px;border-radius:100px;background:#fff;color:#276181;font:700 11px/1.4 Arial,sans-serif;letter-spacing:.17em;text-align:center;box-shadow:0 4px 18px #3168871c}
 html.demo-editorial .demo-service-showcase{border-top:6px solid #b9e5fa!important}
 @media(max-width:600px){html.demo-editorial .demo-booking-eyebrow{padding-left:22px!important;padding-right:22px!important}html.demo-editorial #bookingStarter{scroll-margin-top:85px}}
+
+/* Connected editorial transition: one graphic language from hero to booking */
+.demo-service-showcase{position:relative!important;isolation:isolate}
+.demo-service-showcase:after{content:"";position:absolute;right:6%;bottom:-34px;width:68px;height:68px;border:13px solid #f2d85b;border-radius:50%;z-index:4;pointer-events:none}
+.demo-booking-eyebrow{position:relative!important;isolation:isolate;overflow:hidden!important;background:linear-gradient(135deg,#d8effc 0%,#eaf7fc 68%,#f9faf7 100%)!important;border-top:0!important}
+.demo-booking-eyebrow:after{content:"";position:absolute;right:-60px;top:-88px;width:220px;height:220px;border:35px solid rgba(85,165,210,.22);border-radius:50%;z-index:-1;pointer-events:none}
+.demo-booking-eyebrow h2{position:relative;z-index:1;letter-spacing:-.045em}
+.demo-booking-eyebrow h2 em{color:#286d95!important}
+.demo-booking-eyebrow .demo-booking-kicker{display:inline-flex;align-items:center;gap:9px;color:#246388!important}
+.demo-booking-eyebrow .demo-booking-kicker:before{content:"";width:24px;height:3px;background:#f2d85b;border-radius:4px}
+#bookingStarter{position:relative!important;border-top:5px solid #a7d9f0!important}
+#bookingStarter:before{content:"";position:absolute;top:-17px;left:clamp(24px,8%,95px);height:28px;width:28px;background:#f2d85b;border:5px solid #eaf7fc;border-radius:50%;pointer-events:none;z-index:2}
+@media(max-width:600px){.demo-service-showcase:after{width:48px;height:48px;border-width:9px;bottom:-24px}.demo-booking-eyebrow:after{width:150px;height:150px;right:-70px;top:-45px;border-width:22px}}
+@media(prefers-reduced-motion:no-preference){.demo-booking-eyebrow:after{animation:tleConnectorFloat 7s ease-in-out infinite alternate}@keyframes tleConnectorFloat{to{transform:translate(-10px,14px)}}}
 </style>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f6f7;color:#191919;font-family:Arial,sans-serif}button,input,select,textarea{font:inherit}.top{background:#191919;color:#fff;text-align:center;padding:10px;font-size:10px;letter-spacing:.14em}.wrap{max-width:560px;margin:auto;padding:0 14px 50px}.hero{height:220px;margin:14px 0;border-radius:26px;overflow:hidden;position:relative;background:#dfe6ec url("https://images.pexels.com/photos/37184168/pexels-photo-37184168.jpeg?auto=compress&cs=tinysrgb&w=1800&q=85") center 54%/cover}.quote-photo{height:146px;margin:11px 0 16px;border-radius:18px;overflow:hidden;background:#e6edf0 url("https://images.pexels.com/photos/37184184/pexels-photo-37184184.jpeg?auto=compress&cs=tinysrgb&w=1150&q=82") center 56%/cover;border:1px solid #d9e4ea}
