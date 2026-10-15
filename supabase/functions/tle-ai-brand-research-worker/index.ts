@@ -136,7 +136,7 @@ Deno.serve(async req=>{
  if(tasksErr)return answer(503,{ok:false,error:"Task source unavailable"});
  let attempted=0,created=0,blocked=0;
  for(const task of tasks||[]){
-   if(attempted>=3)break;
+   if(attempted>=1)break;
    const key=String(task.automation_key||"");
    if(!/^(brand-references|ai-brand-references):[0-9a-f-]{36}$/i.test(key))continue;
    const {data:existing}=await db.from("tle_ai_team_outputs").select("id")
@@ -199,34 +199,34 @@ Deno.serve(async req=>{
     "OWNER DECISION: Confirm branding and service accuracy or request clarification. Do not approve production, publication, or customer delivery from this result.",
     caution
    ].join("\n\n"));
-   const {error:creativeError}=await db.from("tle_ai_team_outputs").upsert({
+   const {error:creativeError}=await db.from("tle_ai_team_outputs").insert({
      workspace_id:scope.id,owner_id:scope.created_by,task_id:task.id,agent_key:"creative",
      kind:"marketing_draft",title:"Public evidence · "+short(task.title,105),
      content:creativeContent,status:"draft",generation_mode:"template",automation_key:"public-audit:"+task.id
-   },{onConflict:"workspace_id,automation_key",ignoreDuplicates:true});
-   if(creativeError){console.error("creative check save failed",creativeError.code);continue}
+   });
+   if(creativeError&&creativeError.code!=="23505"){console.error("creative check save failed",creativeError.code);continue}
    const {data:qTask,error:qTaskErr}=await db.from("tle_ai_team_tasks")
-     .upsert({
+     .insert({
        workspace_id:scope.id,owner_id:scope.created_by,agent_key:"qa",
        title:"Check public business references against customer intake",
        description:"Public metadata research completed for a customer intake. Review the linked QA evidence; verify site accessibility, identity and service mentions. Missing claims are not contradictions; client approval required. Nothing was published.",
        status:"needs_approval",priority:"normal",approval_required:true,
        automation_key:"public-brand-qa:"+task.id,task_origin:"platform_event"
-     },{onConflict:"workspace_id,automation_key",ignoreDuplicates:true})
+     })
      .select("id").maybeSingle();
-   if(qTaskErr){console.error("qa task save failed",qTaskErr.code);continue}
+   if(qTaskErr&&qTaskErr.code!=="23505"){console.error("qa task save failed",qTaskErr.code);continue}
    let qaId=qTask?.id;
    if(!qaId){
      const {data:foundTask}=await db.from("tle_ai_team_tasks").select("id").eq("workspace_id",scope.id).eq("automation_key","public-brand-qa:"+task.id).maybeSingle();
      qaId=foundTask?.id;
    }
    if(!qaId)continue;
-   const {error:qaErr}=await db.from("tle_ai_team_outputs").upsert({
+   const {error:qaErr}=await db.from("tle_ai_team_outputs").insert({
      workspace_id:scope.id,owner_id:scope.created_by,task_id:qaId,agent_key:"qa",
      kind:"qa_test_plan",title:"Public evidence · QA comparison",
      content:qaContent,status:"draft",generation_mode:"template",automation_key:"public-audit-qa:"+task.id
-   },{onConflict:"workspace_id,automation_key",ignoreDuplicates:true});
-   if(qaErr){console.error("qa evidence save failed",qaErr.code);continue}
+   });
+   if(qaErr&&qaErr.code!=="23505"){console.error("qa evidence save failed",qaErr.code);continue}
    // Use the existing owner alert channel; never message the customer.
    await db.from("tle_crm_notifications").upsert({
      workspace_id:scope.id,kind:"ai_team",source_key:"ai-public-review:"+task.id,
