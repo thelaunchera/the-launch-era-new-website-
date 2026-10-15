@@ -45,12 +45,12 @@ for(const lang of ['en','es']){
    assert(main.width<=main.viewport+3,'Horizontal overflow on hero: '+JSON.stringify(main));
    assert.equal(main.blue,'rgb(169, 223, 255)','Midnight demo CTA must use brand Ice Blue');
    assert(main.headlineVisible && main.headFont>=32,'Hero headline illegible');
-   assert((width<=650?!main.heroActionDisplayed:main.ctaVisible)&&main.areaVisible,'Mobile hero should use clean content, desktop CTA should remain available: '+JSON.stringify(main));
+   assert(main.ctaVisible&&main.areaVisible,'Demo hero CTA and area must remain visible at every width: '+JSON.stringify(main));
    assert(main.areaText===(lang==='es'?'Atendemos Fort Lauderdale':'Serving Fort Lauderdale'),'Area not localized or personalized: '+main.areaText);
    assert(main.showcaseTitle.includes(lang==='en'?'Clear details':'Detalles claros'),'New slogans missing');
    assert.equal(main.quoteCards,3,'Functional cleaning-service cards missing');
    assert(main.heroPhoto?.includes('/assets/cleaning-demo/hero-cleaner-original.jpg')&&main.heroImgLoaded&&main.heroCbCss,'CB Depot style cleaning professional hero must load');
-   assert((width<=650?!main.heroActionDisplayed:main.ctaInHero)&&main.areaInHero,'Hero/service area clipping or redundant mobile button: '+JSON.stringify(main));
+   assert(main.ctaInHero&&main.areaInHero,'Hero CTA or service area clipped: '+JSON.stringify(main));
    try{await page.screenshot({path:'qa-screenshots/demo-v6/'+lang+'-'+width+'-hero.png',fullPage:false});}catch(imageError){console.warn('Optional browser screenshot failed at hero for',lang,width,imageError.message);}
    await page.evaluate(()=>startQuote('estimate'));
    const quote=await page.evaluate(()=>{
