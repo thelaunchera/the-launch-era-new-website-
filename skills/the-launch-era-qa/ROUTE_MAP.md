@@ -331,3 +331,11 @@ On `/lead-private-preview.html` sample only, `tle-demo-enhancements-v12.js` owns
 
 ## 2026-10-15 — Round public assistant launcher
 - Owner requested photo-only circular button at entry and after scroll. External invitation/accessible label: Chat with the assistant / Habla con la asistente. Jessie name retained only in the open chat. Existing scroll hides invitation; no chat, form, customer data or endpoint changes. Coverage fixture updated for initial round state and generic invitation; publication/browser evidence tracked by Actions.
+
+## Jessie public website chat — broad help questions (2026-10-15)
+- **Surface:** Public Jessie chat bubble at https://thelaunchera.com/ and supported service pages; widget route unchanged.
+- **Source:** `supabase/functions/tle-jessy-chat/index.ts`, `knowledge.ts`, production Supabase Edge Function `tle-jessy-chat` in project `bowacxhmjvrqixtwaikv`.
+- **Question:** `Que puedes ayudarme hoy` / `¿En qué me puedes ayudar?` / `What can you help me with today?` responds with bilingual verified TLE service overview, prices/demo guidance and one problem-discovery question.
+- **No external action:** mode `capabilities`, cleared `selected_offer`, `next_action: none`; no checkout, contact submission, payment or booking.
+- **Specific questions:** invoices, booking, pricing or policy continue through topical facts and current catalog, without leaking private information.
+- **QA:** `node scripts/qa-jessie-capabilities.mjs` checks 13 intents, languages and reply scope.
