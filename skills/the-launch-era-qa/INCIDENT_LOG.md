@@ -1,6 +1,6 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
-| 2026-10-15 | Screenshot `IMG_9575.jpeg`: bottom "Return home" button in Luna Bloom service chooser does not return to start | In focused booking mode the hero is hidden using `html.tle-demo-booking-active`, but button was added as a plain `href="#leadHero"` link without a click handler to exit the mode. Browser hash navigation cannot unhide the target. | Reuse existing booking focus `exit()` in `tle-demo-booking-focus-v22.js` for bottom CTA; retain semantic link fallback; regression asserts active and inactive modes return to visible hero and reset the picker without side effects. | 🟡 Awaiting current EN/ES browser regression + deployment check |
+| 2026-10-15 | Screenshot `IMG_9575.jpeg`: bottom "Return home" button in Luna Bloom service chooser does not return to start | In focused booking mode the hero is hidden using `html.tle-demo-booking-active`, but button was added as a plain `href="#leadHero"` link without a click handler to exit the mode. Browser hash navigation cannot unhide the target. | Reuse existing booking focus `exit()` in `tle-demo-booking-focus-v22.js` for bottom CTA; retain semantic link fallback; regression asserts active and inactive modes return to visible hero and reset the picker without side effects. | ✅ GitHub Pages deployment `38756292218` and browser regression `38756292164` passed: 10 EN/ES viewports (360/390/820/1024/1440), including focused and unfocused Return home clicks, visible hero, restored service picker and no broken sample bookings |
 
 
 
