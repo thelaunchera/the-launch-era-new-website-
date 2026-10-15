@@ -1,0 +1,69 @@
+/* Luna Bloom magical cleaning motion v27.
+   A thin sparkle layer enhances existing v25 bubbles rather than duplicating them.
+   Applicable only with .tle-demo-bubbles-v25 on the public sample. */
+html.demo-editorial.tle-demo-bubbles-v25 .tle-bubble-layer-v25{
+  z-index:0!important;pointer-events:none!important;
+}
+html.demo-editorial.tle-demo-bubbles-v25 .tle-bubble-layer-v25 .tle-bubble-v25{
+  animation-duration:var(--bubble-duration,18s)!important;
+  animation-timing-function:ease-in-out!important;
+  animation-iteration-count:infinite!important;
+  animation-direction:alternate!important;
+  animation-play-state:paused;
+}
+html.demo-editorial.tle-demo-bubbles-v25 .tle-bubbles-visible-v25
+ .tle-bubble-layer-v25 .tle-bubble-v25{
+  animation-play-state:running!important;
+}
+html.demo-editorial.tle-demo-bubbles-v25 .tle-bubble-layer-v25 .tle-magical-spark-v27{
+  display:block;position:absolute;z-index:0;
+  width:var(--spark-size,13px);height:var(--spark-size,13px);
+  left:var(--spark-x);top:var(--spark-y);
+  pointer-events:none;opacity:.65;
+  transform:rotate(45deg) scale(.8);
+  animation:tleCleanTwinkleV27 var(--spark-time,5s) ease-in-out var(--spark-delay,0s) infinite;
+  animation-play-state:paused;
+}
+html.demo-editorial.tle-demo-bubbles-v25 .tle-magical-spark-v27::before,
+html.demo-editorial.tle-demo-bubbles-v25 .tle-magical-spark-v27::after{
+ content:"";position:absolute;inset:0;margin:auto;border-radius:9px;
+ background:#fff;box-shadow:0 0 14px 2px rgba(255,255,255,.35);
+}
+html.demo-editorial.tle-demo-bubbles-v25 .tle-magical-spark-v27::before{width:2px;height:100%}
+html.demo-editorial.tle-demo-bubbles-v25 .tle-magical-spark-v27::after{height:2px;width:100%}
+html.demo-editorial.tle-demo-bubbles-v25 .tle-bubbles-visible-v25 .tle-magical-spark-v27{
+ animation-play-state:running;
+}
+html.demo-editorial.tle-demo-bubbles-v25 .tle-magical-spark-v27:nth-last-child(1){
+ --spark-x:17%;--spark-y:13%;--spark-time:5.7s;--spark-delay:-2s;--spark-size:13px;
+}
+html.demo-editorial.tle-demo-bubbles-v25 .tle-magical-spark-v27:nth-last-child(2){
+ --spark-x:73%;--spark-y:35%;--spark-time:4.6s;--spark-delay:-1.3s;--spark-size:10px;
+}
+html.demo-editorial.tle-demo-bubbles-v25 .tle-magical-spark-v27:nth-last-child(3){
+ --spark-x:86%;--spark-y:78%;--spark-time:5.9s;--spark-delay:-3s;--spark-size:15px;
+}
+html.demo-editorial.tle-demo-bubbles-v25 .tle-magical-spark-v27:nth-last-child(4){
+ --spark-x:36%;--spark-y:82%;--spark-time:4.1s;--spark-delay:-.8s;--spark-size:11px;
+}
+@keyframes tleCleanTwinkleV27{
+ 0%,100%{opacity:.12;transform:rotate(45deg) scale(.55)}
+ 50%{opacity:.95;transform:rotate(90deg) scale(1.12)}
+}
+/* Readability and layering on the three existing blue chapters */
+html.demo-editorial.tle-demo-bubbles-v25 .tle-client-quicksteps> :not(.tle-bubble-layer-v25),
+html.demo-editorial.tle-demo-bubbles-v25 #tleDemoBlueRibbon .tle-wave-inner,
+html.demo-editorial.tle-demo-bubbles-v25 .tle-demo-v12-end> :not(.tle-bubble-layer-v25){
+ position:relative;z-index:2;
+}
+html.demo-editorial.tle-demo-bubbles-v25 .tle-client-quicksteps .tle-bubble-v25{
+ opacity:clamp(.36,var(--bubble-opacity,.60),.75)!important;
+}
+@media(prefers-reduced-motion:reduce){
+ html.demo-editorial.tle-demo-bubbles-v25 .tle-bubble-layer-v25 .tle-bubble-v25,
+ html.demo-editorial.tle-demo-bubbles-v25 .tle-magical-spark-v27{
+   animation:none!important;animation-play-state:paused!important;
+   transform:none!important;will-change:auto!important;
+ }
+ html.demo-editorial.tle-demo-bubbles-v25 .tle-magical-spark-v27{opacity:.3}
+}
