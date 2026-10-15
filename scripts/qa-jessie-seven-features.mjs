@@ -11,7 +11,17 @@ const owner=read("public/command-center/lead-insights.html");
 assert.match(chat,/missed or scattered booking requests -> Booking Automation/);
 assert.match(chat,/inquiries lost through an existing website -> Website Automation/);
 assert.match(front,/lead-private-preview\.html/);
-assert.match(front,/\/cleaning-app-demo\//);
+assert.match(front,/\/cleaning-app-demo\//); // Direct, freely accessible app sample.
+assert.doesNotMatch(front,/showDemoCard\("cleaning-app"\)/);
+assert.match(front,/else if\(next==="demo_choice"\)\{showDemoCard\("booking"\)\}/);
+assert.match(front,/else if\(next==="app_demo"\)/);
+assert.match(front,/a\.href="\/cleaning-app-demo\/\?lang="\+lang/);
+assert.doesNotMatch(front,/demoSelected="cleaning-app"/);
+assert.match(chat,/id==="cleaning-app"\?"app_demo"/);
+assert.match(chat,/Cleaning App sample is freely accessible/);
+assert.match(crm,/clean\(data\.service,40\)!=="booking"/);
+assert.doesNotMatch(crm,/"cleaning-app":\{name:"Cleaning App"/);
+
 assert.match(front,/source:"jessie_sample"/);
 assert.match(front,/window\.self!==window\.top/);
 assert.match(front,/demoFrame\.removeAttribute\("src"\)/);
