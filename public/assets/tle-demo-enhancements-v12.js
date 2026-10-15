@@ -24,8 +24,8 @@ const labels=es?{
   faqItems:[["¿Puedo solicitar un estimado?","Sí. En esta demostración puedes conocer el proceso. Los precios son de ejemplo y el negocio confirma la cotización final."],["¿Puedo elegir limpieza recurrente?","La experiencia muestra opciones de una sola visita, semanal, quincenal o mensual."],["¿Esta prueba envía una reserva real?","No. Es una demostración y no se envían solicitudes, correos ni pagos."],["¿Me puede ayudar el asistente con IA?","Sí. Puedes explorar los servicios y preparar los datos para revisar el formulario. La IA es un servicio opcional que se contrata por separado."]],
   finalTitle:"¿Lista para probarlo?",finalText:"Explora los servicios y descubre cómo sería la experiencia de tus clientes.",finalCta:"Probar solicitud de limpieza",
   salesTitle:"Una landing que se siente como tu negocio",salesText:"Un ejemplo visual con fotografía, reseñas reales aprobadas, áreas de servicio y una reserva fácil de explorar.",
-  helper:"¡Hola! Puedo explicarte nuestros servicios y ayudarte a completar el formulario, sin enviarlo por ti.",helperServices:"Preguntar por servicios",helperForm:"Ayudarme con el formulario",helperAi:"La IA es un servicio adicional",
-  welcome:"¡Hola! 👋 ¿Te ayudo a elegir un servicio o a completar el formulario?",ask:"Abrir asistente IA",separate:"Asistente con IA · complemento opcional; no incluido en la reserva."
+  helper:"Conoce a Sonny, el agente de reservas del demo. Jessy sigue disponible para hablar de The Launch Era.",helperServices:"Probar con Sonny",helperForm:"Ayuda con el formulario",helperAi:"La IA es un servicio adicional",
+  welcome:"¡Hola! Soy Sonny 👋 ¿Te ayudo a probar una reserva?",ask:"Hablar con Sonny",separate:"Asistente con IA · complemento opcional; no incluido en la reserva."
 }:{
   reviews:"Customer reviews",reviewsSub:"This is where each business's genuine customer reviews appear. The cards below are layout samples, not actual testimonials.",
   reviewBadge:"SAMPLE · REPLACE WITH A REAL REVIEW",
@@ -37,8 +37,8 @@ const labels=es?{
   faqItems:[["Can I request an estimate?","Yes. In this preview you can try the request process. Prices are illustrative; the business confirms final estimates."],["Can I request recurring cleanings?","The sample includes one-time, weekly, biweekly and monthly choices."],["Does this demo place a real booking?","No. This is an interactive sample; nothing is booked, charged or emailed."],["Can the AI help with the form?","Yes. It can explain services and prepare sample details for your review. AI assistance is an optional service sold separately."]],
   finalTitle:"Ready to give it a try?",finalText:"Explore the services and see how the booking experience can work for your customers.",finalCta:"Try the cleaning request",
   salesTitle:"A website that feels like your business",salesText:"See a visual example with beautiful imagery, verified customer reviews, service areas and a simple booking experience.",
-  helper:"Hi! I can explain the services and guide you through your demo request without submitting it for you.",helperServices:"Explore the services",helperForm:"Help with the form",helperAi:"AI is a separate add-on",
-  welcome:"Hi! 👋 Want help choosing a service or filling out the form?",ask:"Ask AI",separate:"AI Assistant · optional separate service, not included in basic booking."
+  helper:"Meet Sonny in the interactive booking demo. Jessy still answers questions about The Launch Era.",helperServices:"Try with Sonny",helperForm:"Help with the form",helperAi:"AI is a separate add-on",
+  welcome:"Hi! I’m Sonny 👋 Want to try a booking together?",ask:"Chat with Sonny",separate:"AI Assistant · optional separate service, not included in basic booking."
 };
 function h(tag,cl,html){const x=document.createElement(tag);if(cl)x.className=cl;if(html!==undefined)x.innerHTML=html;return x}
 function avatar(){const im=document.createElement("img");im.src=image;im.alt="";im.width=50;im.height=50;im.decoding="async";im.className="tle-demo-ai-avatar";return im}
@@ -97,7 +97,7 @@ function addSalesPreview(){
   b.addEventListener("click",()=>{
    if(action==="form"){form.elements.namedItem("business")?.focus();form.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"center"});return}
    if(action==="ai"){const p=document.getElementById("tleDemoSalesAiNote");if(p){p.hidden=!p.hidden;}return}
-   const fab=document.querySelector(".tle-jessy-fab");if(fab)fab.click();else location.href="/booking-lead-automation/";
+   const url=new URL("/lead-private-preview.html",location.origin);const business=form.elements.namedItem("business")?.value?.trim();const area=form.elements.namedItem("serviceArea")?.value?.trim();if(business)url.searchParams.set("business",business.slice(0,90));if(area)url.searchParams.set("area",area.slice(0,80));url.searchParams.set("lang",document.querySelector("#language")?.value||"en");url.searchParams.set("sonny","1");location.assign(url.pathname+url.search);
   });
   buttons.appendChild(b);
  });
@@ -107,8 +107,8 @@ function addSalesPreview(){
  l?.addEventListener("change",()=>{
    const isSpanish=l.value==="es";
    const local=isSpanish?{
-     helper:"¡Hola! Puedo explicarte los servicios y ayudarte con el formulario. Tú decides cuándo enviarlo.",
-     buttons:["Consultar servicios","Ayuda con formulario","IA: servicio aparte"],
+     helper:"Prueba una reserva con Sonny en el demo interactivo. Jessy sigue disponible para consultas sobre The Launch Era.",
+     buttons:["Probar con Sonny","Ayuda con formulario","IA: servicio aparte"],
      note:"El asistente con IA es un servicio opcional que se contrata por separado.",
      title:"Una landing que representa a tu negocio",
      text:"Una demo visual con fotos, reseñas aprobadas, zonas de servicio y un formulario sencillo.",
@@ -116,8 +116,8 @@ function addSalesPreview(){
      reviewInfo:"Diseño de ejemplo; mostrar solo reseñas auténticas y autorizadas.",
      areaInfo:"Las ciudades y códigos ZIP se configuran con cada negocio."
    }:{
-     helper:"Hi! I can explain our services and help with your demo form. You decide when to send it.",
-     buttons:["Explore services","Help with form","AI: separate service"],
+     helper:"Try a sample booking with Sonny in the interactive demo. Jessy remains available for questions about The Launch Era.",
+     buttons:["Try with Sonny","Help with form","AI: separate service"],
      note:"The AI assistant is an optional service purchased separately.",
      title:"A website that feels like your business",
      text:"A visual preview with photos, approved customer reviews, service areas and a simple form.",
@@ -149,15 +149,8 @@ function customizeChat(){
   log.prepend(chips);
   welcome(launch);
   window.addEventListener("scroll",()=>{launch.classList.toggle("tle-demo-condensed",scrollY>180)},{passive:true});
- } else {
-  const fab=document.querySelector(".tle-jessy-fab");
-  if(!fab)return;
-  const current=fab.querySelector("img");if(current)current.src=image;else fab.prepend(avatar());
-  document.querySelectorAll(".tle-jessy-head img").forEach(img=>{img.src=image});
-  const label=fab.querySelector(".tle-jessy-fab-label");if(label)label.textContent=labels.ask;
-  const title=document.querySelector(".tle-jessy-title small");if(title)title.textContent=labels.separate;
-  welcome(fab);
  }
+ // Jessy is unchanged on the sales demo. Sonny operates only in the interactive sample.
 }
 function welcome(button){
  if(document.getElementById("tleDemoRobotWelcome"))return;
