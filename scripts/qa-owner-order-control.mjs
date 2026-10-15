@@ -20,9 +20,9 @@ for(const id of ['ownerOrderControl','ownerOrderControlStatus','ownerOrderContro
 assert(html.indexOf('id="ownerOrderControl"')<html.indexOf('id="ownerTwoPreviews"'),'Order control must be the first useful mobile content');
 assert(html.indexOf('id="ownerAIAssistantOrders"')<html.indexOf('id="ownerTwoPreviews"'),'AI orders must not be buried below demos');
 for(const word of ['function ownerOrderNext','function renderOwnerOrderControl','function renderOwnerAIOrders','async function loadOwnerAIOrders','db.auth.getSession()','tle-ai-activation-on-delivery','ownerAIError','renderOwnerAIOrders();renderOwnerOrderControl();'])assert(code.includes(word),'Order integration missing '+word);
-assert(code.includes("filter==='active'?!['completed','delivered'].includes(ownerPurchaseStage(a))"),'Already recorded deliveries must not clutter active production');
-assert(code.includes("ownerPurchases.filter(x=>ownerPurchaseStage(x)!=='completed')"),
-  'Owner attention queue must retain all unverified deliveries, including missing buyer sign-in and server readiness');
+assert(code.includes("filter==='active'?!['completed','delivered'].includes(ownerPurchaseDisplayStage(a))"),'Verified finished orders must not clutter active production');
+assert(code.includes('const es=buyerPageLabel(),{bundles,booking,ai}=ownerOrderBuckets();'),
+  'Owner attention queue must include pending bundles and standalone products without double-counting');
 const isolated=code.slice(code.indexOf('function ownerOrderNext'),code.indexOf('function renderOwnerPurchases'));
 assert(isolated.length>3000,'Owner order functions not found');
 assert(!isolated.includes('confirm_delivery')&&!isolated.includes('send_activation')&&!isolated.includes('stripe/checkout'),'Order overview cannot send or activate');
