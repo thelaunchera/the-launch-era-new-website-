@@ -47,6 +47,10 @@ html.demo-editorial.tle-demo-compact-v18 .tle-mini-contact:focus-within summary,
 html.demo-editorial.tle-demo-compact-v18 .tle-mini-more:focus-within summary{
   outline:2px solid #a9dfff;outline-offset:3px;border-radius:4px;
 }
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-contact:not([open]) .tle-mini-contact-body,
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-more:not([open]) .tle-mini-more-panel{
+  display:none!important;
+}
 html.demo-editorial.tle-demo-compact-v18 .tle-mini-contact-body{
   display:grid;gap:6px;margin-top:11px;
   padding:12px 14px 15px;border-radius:12px;
