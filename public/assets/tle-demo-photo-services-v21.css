@@ -102,7 +102,7 @@ html.demo-editorial.tle-photo-services-v21 #bookingStarter #main .tle-service-ha
  background:transparent!important;
 }
 html.demo-editorial.tle-photo-services-v21 #bookingStarter #main .tle-service-has-photo-v21 .demo-service-go svg{
- width:20px!important;height:20px!important;
+ display:block!important;width:24px!important;height:24px!important;min-width:24px!important;min-height:24px!important;flex-shrink:0!important;max-width:none!important;
 }
 html.demo-editorial.tle-photo-services-v21 #bookingStarter #main .tle-photo-services-grid-v21 button.tle-service-has-photo-v21:hover{
  transform:translateY(-3px)!important;border-color:#a9dfff!important;
