@@ -2416,6 +2416,11 @@ function ownerIsBundle(a){return !!ownerBundlePlans[String(a?.ai_addon_offer||a?
 function ownerBundleComplete(booking,bundle){
  return !!bundle&&ownerPurchaseStage(booking)==='completed'&&bundle.ai_status==='active'&&!!bundle.ai_delivered_at;
 }
+function ownerPurchaseDisplayStage(a){
+ if(!ownerIsBundle(a))return ownerPurchaseStage(a);
+ const linked=ownerBundles.find(b=>String(b.id)===String(a.id));
+ return ownerBundleComplete(a,linked)?'completed':'bundle';
+}
 function ownerOrderBuckets(){
  const bundleById=new Map(ownerBundles.map(b=>[String(b.id),b]));
  const joinedAI=new Set(ownerBundles.map(b=>String(b.ai_order_id||'')).filter(Boolean));
@@ -2558,17 +2563,18 @@ function renderOwnerPurchases(){
   intake:es?'Nueva orden':'New Order',
   production:es?'Personalizar':'Customize',
   review:es?'Probar':'Test',
-  delivered:es?'Entrega registrada · verificar':'Delivery recorded · verify'
+  delivered:es?'Entrega registrada · verificar':'Delivery recorded · verify',
+  bundle:es?'Bundle · Booking + AI pendiente':'Bundle · Booking + AI pending'
  };
  stats.replaceChildren();
- for(const key of ['intake','production','review','delivered','completed']){
-  const count=key==='all'?all.length:all.filter(a=>ownerPurchaseStage(a)===key).length;
+ for(const key of ['intake','production','review','bundle','delivered','completed']){
+  const count=key==='all'?all.length:all.filter(a=>ownerPurchaseDisplayStage(a)===key).length;
   const tile=ownerPageElem('div',undefined);tile.className='order-summary-metric';
   const number=ownerPageElem('strong',count),caption=ownerPageElem('span',labels[key]);
   tile.append(number,caption);stats.append(tile);
  }
  const filter=$('ownerPurchaseFilter').value||'active';
- const visible=filter==='all'?all:all.filter(a=>filter==='active'?!['completed','delivered'].includes(ownerPurchaseStage(a)):ownerPurchaseStage(a)===filter);
+ const visible=filter==='all'?all:all.filter(a=>filter==='active'?!['completed','delivered'].includes(ownerPurchaseDisplayStage(a)):ownerPurchaseDisplayStage(a)===filter);
  root.replaceChildren();
  status.textContent=es?(visible.length+' de '+all.length+' compra(s) pagadas'):(visible.length+' of '+all.length+' paid purchases');
  if(!all.length){
@@ -2586,15 +2592,21 @@ function renderOwnerPurchases(){
   return;
  }
  for(const a of visible){
-  const stage=ownerPurchaseStage(a);
+  const stage=ownerPurchaseDisplayStage(a);
   const box=ownerPageElem('article',undefined,'border:1px solid #e2eaf0;background:#fff;border-radius:23px;padding:23px;box-shadow:0 11px 28px #162e3c0d;min-width:0;display:flex;flex-direction:column;gap:7px');
   const stageLabel=labels[stage];
+   const bundleRecord=ownerIsBundle(a)?ownerBundles.find(r=>String(r.id)===String(a.id)):null;
   box.appendChild(ownerPageElem('span',stageLabel,'align-self:flex-start;font-size:11px;font-weight:700;border-radius:25px;padding:8px 12px;background:'+((stage==='delivered'||stage==='completed')?'#eaf5ee':stage==='intake'?'#fff4da':'#e5f2fb')+';color:#253e4c'));
   box.appendChild(ownerPageElem('h3',a.business_name||'Cleaning Business','font-size:22px;margin:10px 0 0;letter-spacing:-.03em;overflow-wrap:anywhere'));
+   if(ownerIsBundle(a)){
+    const chosenPlan=ownerBundlePlans[String(a.ai_addon_offer)]||'AI Assistant';
+    box.append(ownerPageElem('div','Booking Automation + '+chosenPlan,'font-size:12px;font-weight:800;color:#245e80;line-height:1.5'));
+    box.append(ownerPageElem('p',ownerBundleNext(a,bundleRecord,es),'font-size:12px;line-height:1.55;color:#506c7d;margin:2px 0'));
+   }
   if(a.owner_name)box.appendChild(ownerPageElem('div',a.owner_name,'font-size:13px;font-weight:600;color:#405969'));
   if(a.owner_email)box.appendChild(ownerPageElem('div',a.owner_email,'font-size:12px;color:#667d8c;overflow-wrap:anywhere'));
   const progress=(a.intake_done?1:0)+(a.booking_page_url?1:0)+(a.crm_ready?1:0)+(a.already_queued?1:0);
-  const nextByStage={intake:es?'Esperar los datos':'Waiting for intake',production:es?'Personalizar':'Customize Booking Page',review:es?'Completar pruebas':'Complete QA',delivered:es?'Verificar correo y QA':'Verify delivery email and QA',completed:es?'Entregado · disponible para soporte':'Delivered · available for support'};
+  const nextByStage={intake:es?'Esperar los datos':'Waiting for intake',production:es?'Personalizar':'Customize Booking Page',review:es?'Completar pruebas':'Complete QA',bundle:es?'Completar Booking + AI':'Complete Booking + AI',delivered:es?'Verificar correo y QA':'Verify delivery email and QA',completed:es?'Entregado · disponible para soporte':'Delivered · available for support'};
   box.append(ownerPageElem('div',(es?'Siguiente: ':'Next: ')+nextByStage[stage],'font-size:13px;color:#2b6585;font-weight:700;margin-top:8px'));
   const step=ownerPageElem('div',undefined,'border-top:1px solid #e9eff3;padding-top:13px;margin-top:8px;display:grid;gap:5px');
   step.appendChild(ownerPageElem('div',(es?'Preparación: ':'Setup: ')+progress+'/4','font-size:12px;color:#537080;font-weight:700'));
@@ -2616,7 +2628,13 @@ function renderOwnerPurchases(){
   }
   const troubleshoot=ownerPageElem('button',es?'Diagnóstico y soporte':'Troubleshooting & support');troubleshoot.type='button';troubleshoot.className='secondary';
   troubleshoot.onclick=()=>{$('ownerSupportSearch').value=a.business_name||'';$('ownerSupportFilter').value='all';$('ownerSupportType').value='all';premiumNavigate('owner-support')};buttons.appendChild(troubleshoot);
-  box.appendChild(buttons);
+  if(ownerIsBundle(a)){
+    const openAI=ownerPageElem('a',es?'Revisar AI del paquete ↗':'Review bundled AI ↗');
+    openAI.href='/ai-booking-assistant/owner-delivery/';openAI.target='_blank';openAI.rel='noopener noreferrer';
+    openAI.style.cssText='font-size:12px;font-weight:750;min-height:42px;display:inline-flex;align-items:center;justify-content:center;flex:1 1 130px';
+    buttons.append(openAI);
+   }
+   box.appendChild(buttons);
   if(a.booking_page_url&&a.already_queued&&/^https:\/\//.test(a.booking_page_url)){
    const link=ownerPageElem('a',es?'Abrir página entregada ↗':'Open delivered Booking Page ↗');
    link.href=a.booking_page_url;link.target='_blank';link.rel='noopener noreferrer';
