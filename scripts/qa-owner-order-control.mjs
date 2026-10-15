@@ -1,0 +1,25 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+const html=readFileSync('public/command-center/index.html','utf8');
+const code=readFileSync('public/command-center/assets/command-center-app.js','utf8');
+const stage=code.match(/function ownerPurchaseStage\(a\)\{[\s\S]*?\n\}/)?.[0];
+assert(stage,'Owner Booking status classifier missing');
+const fn=new Function(stage+'; return ownerPurchaseStage;')();
+const completed={intake_done:true,booking_page_url:'https://example.org/book',crm_ready:true,status:'active',already_queued:true,qa_pass_count:6,buyer_review_status:'approved'};
+assert.equal(fn(completed),'completed','Fully audited recorded delivery');
+assert.equal(fn({...completed,qa_pass_count:3}),'delivered','Legacy delivery with missing QA must not be shown as finished');
+assert.equal(fn({...completed,buyer_review_status:'pending_review'}),'delivered','No client approval, no completed claim');
+assert.equal(fn({...completed,already_queued:false}),'review');
+assert.equal(fn({intake_done:false,already_queued:false}),'intake');
+assert.equal(fn({intake_done:true,already_queued:false,crm_ready:false}),'production');
+
+for(const id of ['ownerOrderControl','ownerOrderControlStatus','ownerOrderControlItems','ownerAIAssistantOrders','ownerAIOrdersStatus','ownerAIOrdersList'])assert(html.includes('id="'+id+'"'),'Missing owner order UI: '+id);
+assert(html.indexOf('id="ownerOrderControl"')<html.indexOf('id="ownerTwoPreviews"'),'Order control must be the first useful mobile content');
+assert(html.indexOf('id="ownerAIAssistantOrders"')<html.indexOf('id="ownerTwoPreviews"'),'AI orders must not be buried below demos');
+for(const word of ['function ownerOrderNext','function renderOwnerOrderControl','function renderOwnerAIOrders','async function loadOwnerAIOrders','db.auth.getSession()','tle-ai-activation-on-delivery','ownerAIError','renderOwnerAIOrders();renderOwnerOrderControl();'])assert(code.includes(word),'Order integration missing '+word);
+assert(code.includes("filter==='active'?!['completed','delivered'].includes(ownerPurchaseStage(a))"),'Already recorded deliveries must not clutter active production');
+const isolated=code.slice(code.indexOf('function ownerOrderNext'),code.indexOf('function renderOwnerPurchases'));
+assert(isolated.length>3000,'Owner order functions not found');
+assert(!isolated.includes('confirm_delivery')&&!isolated.includes('send_activation')&&!isolated.includes('stripe/checkout'),'Order overview cannot send or activate');
+assert(isolated.includes('if(!res.ok)throw Error('),'Errors must not count as zero AI orders');
+console.log('PASS Owner Order Control: paid Booking/AI visibility, honest delivery state, mobile priority, no side effects.');
