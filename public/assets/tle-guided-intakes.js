@@ -101,5 +101,27 @@
    return v}
   return{values,validate,apply};
  }
- window.TLEGuidedIntakes={mountAI,mountBooking};
+ function mountBundleAI({form,es,plan}){
+  const host=form.querySelector("#tleBundleAiIntake");if(!host)return null;
+  const b=makePanel(host,es,"Your booking assistant","Tu asistente de reservas",
+    "This AI uses the service prices you entered above. Nothing is activated before review.",
+    "Esta IA usa los precios que escribiste arriba. Nada se activa antes de la revisión.");
+  const bTasks=check(b,es,[["questions","Answer service questions","Responder preguntas",true],["choose","Help customers choose a service","Ayudar a elegir servicio"],["booking","Collect booking requests","Recibir solicitudes"],["pricing","Explain my approved prices only","Explicar solo precios aprobados"],["handoff","Escalate special requests","Escalar solicitudes especiales"]],"bundle_booking");
+  const bPolicy=select(b,es,"What can the assistant say about prices?","¿Qué puede decir sobre los precios?",
+    [["none","Only offer a quote request","Solo ofrecer solicitud de cotización"],
+    ["approved","Only prices I approve in my Command Center","Solo precios aprobados en mi Command Center"],
+    ["approximate","Approved approximate estimates, not final totals","Estimados aproximados aprobados, no montos finales"]]);
+  const follow=makePanel(host,es,"Your follow-up assistant","Tu asistente de seguimiento",
+    "Only contacts who consented can be messaged. Conversations stop on reply, decline or unsubscribe.",
+    "Solo mensajes a personas que lo autorizaron. Se detiene si responden, rechazan o se dan de baja.");
+  const triggers=check(follow,es,[["quote","After sending a quote","Después de enviar cotización",true],["inquiry","After an unanswered inquiry","Después de una consulta sin respuesta"],["incomplete","After incomplete booking","Después de reserva incompleta"],["completed","After a completed service","Después de un servicio terminado"]],"bundle_followup");
+  const timing=select(follow,es,"First follow-up","Primer seguimiento",[["24","24 hours","24 horas"],["48","48 hours","48 horas"],["72","3 days","3 días"],["manual","Manual approval","Aprobación manual"]]);
+  const policy=select(follow,es,"Sending approval","Aprobación para enviar",[["owner","I approve every message","Yo apruebo cada mensaje"],["rules","After I approve the automation rules","Después de aprobar las reglas"]]);
+  b.hidden=plan==="ai-followup";follow.hidden=plan==="ai-booking";
+  const values=()=>({version:1,source:"paid_booking_ai_bundle",plan,production_status:"pending_agency_review",
+    booking:plan==="ai-followup"?null:{tasks:bTasks(),price_policy:bPolicy.value,custom_quotes_require_owner_approval:true,auto_confirm:false},
+    followup:plan==="ai-booking"?null:{triggers:triggers(),delay_hours:timing.value,sending_policy:policy.value,consent_required:true,stop_on_reply:true,stop_on_decline:true,stop_on_unsubscribe:true}});
+  return{values};
+ }
+ window.TLEGuidedIntakes={mountAI,mountBooking,mountBundleAI};
 })();
