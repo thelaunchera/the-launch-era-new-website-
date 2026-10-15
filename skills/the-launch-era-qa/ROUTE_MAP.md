@@ -50,6 +50,12 @@ Verified against production page loads and repository sources on **2026-10-12**.
 | \\`/command-center/ai-team.html\\` | \\`public/command-center/ai-team.html\\` + AI Team assets | Private The Launch Era internal owner role only; tasks, AI plans, approvals, evidence, audit. No buyer access or automatic external action. |\n
 Other routes exist under \`src/routes/\`, \`public/es/\`, \`public/intake/\` and \`public/ai-booking-assistant/\`; \`scripts/qa-route-integrity.mjs\` scans the filesystem for static references. All routes must be added here when they become a production CTA.
 
+## Interactive sample locality and FAQ redesign (2026-10-15)
+- Public sample `/lead-private-preview.html` (no `?key` or `?owner_preview=1`) loads `tle-demo-purpose-v20.js/css` after existing demo scripts. Buyer/owner live routes are excluded; no backend or payment changes.
+- `#tleDemoAreas`: visual photo retained but shortened on mobile, buttons in `#tleDemoAreaTags` select a **preview locality** (no ZIP-check or actual availability promises). When `?area=...` exists, ONLY that named supplied area is displayed; generic fictional Luna Bloom shows visibly marked illustration zones (Miami, Miami Beach, Coral Gables, Doral, Kendall); personalized leads without area see pending-coverage text, not fabricated cities. `.tle-area-v20-cta` goes to existing `#bookingStarter` sample flow. Buttons stay keyboard accessible, `aria-pressed` and explanatory feedback.
+- `#tleDemoFaq`: four existing real sample FAQ details remain; `.tle-faq-v20-tab` selects exactly one visible expanded response. Topic actions go to `#bookingStarter` (estimates/scheduling/bookings) or explicitly open the existing Sonny assistant on click. No AI auto-open, no new bot.
+- EN/ES supported; CSS animations skip reduced-motion. Regression checks in `scripts/qa-demo-v12.mjs` for 360/390/820/1024/1440 and live/owner isolation. Do not confuse illustrative locations with a real business operating footprint.
+
 ## Public sample review carousel / Sonny delayed hint / blue ribbon (2026-10-15)
 - **Scope:** `/lead-private-preview.html` public sample only, not `?key` buyer pages or `?owner_preview=1`; unrelated TLE website, Command Center, and client booking routes untouched.
 - **Sonny:** `public/assets/tle-demo-enhancements-v12.js` creates exactly one avatar and one **initially hidden** `#tleSonnyGreetingPopup`. After visitors scroll past ~300–460px, a short hint may appear once for 3.7 seconds, then disappear; manual click opens the existing chat. No automatic chat, extra bubble, or form submission.
