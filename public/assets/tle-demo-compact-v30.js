@@ -126,15 +126,15 @@
       intro:"Pequeños cambios que se notan. Desliza para ver las comparaciones.",
       note:"Imágenes ilustrativas de nuestra biblioteca del demo. No son resultados verificados de clientes.",
       previous:"Ver ejemplo anterior",next:"Ver siguiente ejemplo",
-      before:"Antes",after:"Después",slide:["Juntas de ducha","Cama y dormitorio","Lavabo y encimera"]
+      before:"Antes",after:"Después",slide:["Dormitorio renovado","Rieles de ventanas","Juntas de ducha"]
     }:{
       eyebrow:"BEFORE & AFTER",title:"See what a fresh reset looks like.",
       intro:"The little details make a difference. Swipe to explore.",
       note:"Illustrative demo-library images, not verified client transformations.",
       previous:"Previous example",next:"Next example",
-      before:"Before",after:"After",slide:["Shower tile & grout","Bedroom refresh","Bathroom vanity refresh"]
+      before:"Before",after:"After",slide:["Bedroom refresh","Window track detail","Shower tile & grout"]
     };
-   const examples=[["grout","grout-before","grout-after"],["bed","bed-before","bed-after"],["vanity","vanity-before","vanity-after"]];
+   const examples=[["bed","bed-before","bed-after"],["track","track-before","track-after"],["grout","grout-before","grout-after"]];
    const top=document.createElement("div");top.className="tle-v31-gallery-top";
    const words=document.createElement("div");
    const overline=document.createElement("span");overline.className="tle-v31-kicker";overline.textContent=labels.eyebrow;
