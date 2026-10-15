@@ -987,6 +987,21 @@ async function ownerAiRequest(action,data={}){
  return body;
 }
 function aiDeliveryText(message,style=''){const node=document.createElement('div');node.textContent=message;if(style)node.style.cssText=style;return node}
+function aiProductionBrief(order,es){
+ const p=order.setup_preferences;if(!p||p.version!==1)return null;
+ const el=document.createElement('details');el.style.cssText='margin-top:12px;padding:12px;background:#eef7fd;border:1px solid #c8dce9;border-radius:15px;font-size:12px;color:#191919;overflow-wrap:anywhere';
+ const summary=document.createElement('summary');summary.textContent=es?'Brief de producción · intake del cliente':'Production brief · customer intake';summary.style.cssText='font-weight:800;cursor:pointer';el.append(summary);
+ const content=document.createElement('div');content.style.cssText='display:grid;gap:8px;margin-top:11px;line-height:1.5';el.append(content);
+ const add=(a,b)=>{if(b===null||b===undefined||b==='')return;const d=document.createElement('div');const k=document.createElement('strong');k.textContent=a+': ';d.append(k,document.createTextNode(String(b)));content.append(d)};
+ add(es?'Servicios':'Services',order.services_offered);
+ if(p.booking){const b=p.booking;add(es?'Funciones de reservas':'Booking tasks',(b.tasks||[]).join(', '));add(es?'Regla de precios':'Price rules',b.price_policy||'none');
+ if(b.fixed_service)add(es?'Precio fijo':'Fixed price',b.fixed_service+' · '+(b.fixed_amount?'$'+b.fixed_amount:'—')+' · '+(b.fixed_public_approved?(es?'Comprador autorizó; requiere QA':'Buyer approved; agency QA required'):(es?'INTERNO, NO PUBLICAR':'INTERNAL, DO NOT PUBLISH')));
+ if(b.estimate_service)add(es?'Estimado':'Estimate',b.estimate_service+' · '+(b.estimate_min?'$'+b.estimate_min:'—')+' – '+(b.estimate_max?'$'+b.estimate_max:'—')+' · '+(b.estimate_public_approved?(es?'Aproximado, requiere QA':'Approximate, requires QA'):(es?'INTERNO, NO MOSTRAR':'INTERNAL, DO NOT SHOW')));}
+ if(p.followup){const u=p.followup;add(es?'Seguimientos':'Follow-up triggers',(u.triggers||[]).join(', '));add(es?'Momento':'Timing',u.delay_hours==='manual'?'manual':u.delay_hours+'h');add(es?'Aprobación de envío':'Send approval',u.sending_policy==='owner'?(es?'Cada mensaje':'Each message'):(es?'Reglas aprobadas primero':'Rules approved first'));add(es?'Seguridad':'Safety',es?'Solo contactos con consentimiento; parar si responden o se dan de baja':'Only opted-in contacts; stop on replies and unsubscribes');}
+ add(es?'Flujo de agentes':'Agent workflow',es?'Projects revisa → Developer prepara → QA prueba móvil/tablet/escritorio → aprobación → entrega':'Projects reviews → Developer prepares → QA tests phone/tablet/desktop → approval → delivery');
+ add(es?'Importante':'Important',es?'El intake no publica precios ni activa seguimientos':'Intake does not publish prices or turn on follow-ups');
+ return el;
+}
 async function loadOwnerAiDeliveries(){
  const panel=$('ownerAiDeliveryPanel');
  if(!panel)return;
@@ -1012,6 +1027,7 @@ async function loadOwnerAiDeliveries(){
    const title=document.createElement('h3');title.textContent=order.business_name||order.customer_email||'AI order';title.style.cssText='font-size:16px;margin:0 0 8px;overflow-wrap:anywhere';item.append(title);
    item.append(aiDeliveryText((names[order.offer]||order.offer||'AI')+' · '+(order.customer_email||''),'font-size:12px;color:#657987;overflow-wrap:anywhere;margin:0 0 10px'));
    const marker=aiDeliveryText(order.status||'pending','font-size:11px;font-weight:800;color:#356b89;background:#eaf4fc;border-radius:999px;display:inline-block;padding:5px 9px');item.append(marker);
+    const productionBrief=aiProductionBrief(order,es);if(productionBrief)item.append(productionBrief);
    if(order.id&&workspace?.is_internal){
     try{
      const startState=await ownerProjectKickoff('status','ai',order.id);
