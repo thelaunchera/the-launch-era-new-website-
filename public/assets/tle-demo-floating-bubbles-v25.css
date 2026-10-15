@@ -1,0 +1,147 @@
+/* Luna Bloom public sample v25: ambient bubbles on the two blue chapters.
+   No overlays on the hero, service thumbnails, Sonny or booking controls. */
+html.demo-editorial.tle-demo-bubbles-v25 .tle-bubble-chapter-v25{
+  position:relative!important;
+  isolation:isolate!important;
+  overflow:hidden!important;
+}
+/* The separate decorative plane never intercepts clicks or scrolling. */
+html.demo-editorial.tle-demo-bubbles-v25 .tle-bubble-layer-v25{
+  position:absolute!important;
+  inset:0!important;
+  z-index:0!important;
+  overflow:hidden!important;
+  pointer-events:none!important;
+  user-select:none!important;
+  contain:layout paint style!important;
+}
+html.demo-editorial.tle-demo-bubbles-v25 .tle-bubble-layer-v25 .tle-bubble-v25{
+  position:absolute!important;
+  display:block!important;
+  box-sizing:border-box!important;
+  top:var(--bubble-y)!important;
+  left:var(--bubble-x)!important;
+  width:var(--bubble-size)!important;
+  height:var(--bubble-size)!important;
+  aspect-ratio:1;
+  border-radius:50%!important;
+  border:1px solid var(--bubble-rim)!important;
+  background:radial-gradient(circle at 28% 25%,
+    rgba(255,255,255,.45) 0%,
+    rgba(255,255,255,.13) 39%,
+    rgba(181,227,250,.075) 63%,
+    rgba(255,255,255,.02) 77%)!important;
+  box-shadow:
+    inset -8px -12px 24px rgba(127,188,221,.08),
+    inset 5px 8px 17px rgba(255,255,255,.16),
+    0 6px 32px rgba(73,147,195,.055)!important;
+  opacity:var(--bubble-opacity,.62)!important;
+  transform:translate3d(0,8px,0) scale(.94);
+  animation:tleFloatBubblesV25 var(--bubble-duration,18s) ease-in-out
+     var(--bubble-delay,0s) infinite alternate;
+  animation-play-state:paused;
+  pointer-events:none!important;
+  will-change:transform;
+}
+/* Pause off-screen to avoid wasted work on long pages. */
+html.demo-editorial.tle-demo-bubbles-v25 .tle-bubbles-visible-v25 .tle-bubble-v25{
+  animation-play-state:running;
+}
+html.demo-editorial.tle-demo-bubbles-v25 .tle-bubble-v25:nth-child(1){
+  --bubble-x:4%;--bubble-y:13%;--bubble-size:135px;
+  --bubble-duration:17s;--bubble-delay:-2s;--bubble-opacity:.42;
+}
+html.demo-editorial.tle-demo-bubbles-v25 .tle-bubble-v25:nth-child(2){
+  --bubble-x:74%;--bubble-y:6%;--bubble-size:185px;
+  --bubble-duration:23s;--bubble-delay:-8s;--bubble-opacity:.31;
+}
+html.demo-editorial.tle-demo-bubbles-v25 .tle-bubble-v25:nth-child(3){
+  --bubble-x:47%;--bubble-y:65%;--bubble-size:68px;
+  --bubble-duration:14s;--bubble-delay:-5s;--bubble-opacity:.53;
+}
+html.demo-editorial.tle-demo-bubbles-v25 .tle-bubble-v25:nth-child(4){
+  --bubble-x:86%;--bubble-y:69%;--bubble-size:84px;
+  --bubble-duration:19s;--bubble-delay:-12s;--bubble-opacity:.48;
+}
+html.demo-editorial.tle-demo-bubbles-v25 .tle-bubble-v25:nth-child(5){
+  --bubble-x:30%;--bubble-y:4%;--bubble-size:38px;
+  --bubble-duration:15s;--bubble-delay:-4s;--bubble-opacity:.55;
+}
+html.demo-editorial.tle-demo-bubbles-v25 .tle-bubble-v25:nth-child(6){
+  --bubble-x:12%;--bubble-y:76%;--bubble-size:57px;
+  --bubble-duration:21s;--bubble-delay:-10s;--bubble-opacity:.44;
+}
+html.demo-editorial.tle-demo-bubbles-v25 .tle-bubble-v25:nth-child(7){
+  --bubble-x:57%;--bubble-y:28%;--bubble-size:32px;
+  --bubble-duration:16s;--bubble-delay:-7s;--bubble-opacity:.5;
+}
+/* Process: blue rings against the pale background, as in the latest mockup. */
+html.demo-editorial.tle-demo-bubbles-v25 .tle-client-quicksteps.tle-bubble-chapter-v25{
+  --bubble-rim:rgba(78,147,185,.26);
+}
+html.demo-editorial.tle-demo-bubbles-v25 .tle-client-quicksteps.tle-bubble-chapter-v25
+  > :not(.tle-bubble-layer-v25){
+  position:relative!important;
+  z-index:2!important;
+}
+/* The ribbon already has background circles; this adds *floating* translucent
+   bubbles behind titles, stars and carousel dots, not over them. */
+html.demo-editorial.tle-demo-bubbles-v25 #tleDemoBlueRibbon.tle-bubble-chapter-v25{
+  --bubble-rim:rgba(255,255,255,.62);
+}
+html.demo-editorial.tle-demo-bubbles-v25 #tleDemoBlueRibbon .tle-wave-inner{
+  position:relative!important;
+  z-index:2!important;
+}
+html.demo-editorial.tle-demo-bubbles-v25 #tleDemoBlueRibbon .tle-bubble-v25:nth-child(1){
+  --bubble-x:-3%;--bubble-y:-15%;--bubble-size:155px;--bubble-opacity:.45;
+}
+html.demo-editorial.tle-demo-bubbles-v25 #tleDemoBlueRibbon .tle-bubble-v25:nth-child(2){
+  --bubble-x:80%;--bubble-y:14%;--bubble-size:105px;--bubble-opacity:.53;
+}
+html.demo-editorial.tle-demo-bubbles-v25 #tleDemoBlueRibbon .tle-bubble-v25:nth-child(3){
+  --bubble-x:60%;--bubble-y:81%;--bubble-size:50px;--bubble-opacity:.55;
+}
+html.demo-editorial.tle-demo-bubbles-v25 #tleDemoBlueRibbon .tle-bubble-v25:nth-child(4){
+  --bubble-x:24%;--bubble-y:71%;--bubble-size:42px;--bubble-opacity:.48;
+}
+html.demo-editorial.tle-demo-bubbles-v25 #tleDemoBlueRibbon .tle-bubble-v25:nth-child(5){
+  --bubble-x:46%;--bubble-y:6%;--bubble-size:27px;--bubble-opacity:.43;
+}
+html.demo-editorial.tle-demo-bubbles-v25 #tleDemoBlueRibbon .tle-bubble-v25:nth-child(6){
+  --bubble-x:92%;--bubble-y:77%;--bubble-size:78px;--bubble-opacity:.38;
+}
+html.demo-editorial.tle-demo-bubbles-v25 #tleDemoBlueRibbon .tle-bubble-v25:nth-child(7){
+  --bubble-x:12%;--bubble-y:40%;--bubble-size:23px;--bubble-opacity:.55;
+}
+@keyframes tleFloatBubblesV25{
+  0%{transform:translate3d(0,12px,0) scale(.94)}
+  50%{transform:translate3d(13px,-12px,0) scale(1.025)}
+  100%{transform:translate3d(-15px,-29px,0) scale(1.075)}
+}
+@media(max-width:650px){
+  html.demo-editorial.tle-demo-bubbles-v25 .tle-client-quicksteps
+    .tle-bubble-v25:nth-child(2){
+    --bubble-size:125px;--bubble-y:18%;
+  }
+  html.demo-editorial.tle-demo-bubbles-v25 .tle-client-quicksteps
+    .tle-bubble-v25:nth-child(1){
+    --bubble-size:95px;--bubble-y:5%;
+  }
+  html.demo-editorial.tle-demo-bubbles-v25 #tleDemoBlueRibbon
+    .tle-bubble-v25:nth-child(1){
+    --bubble-size:108px;
+  }
+  html.demo-editorial.tle-demo-bubbles-v25 #tleDemoBlueRibbon
+    .tle-bubble-v25:nth-child(2){
+    --bubble-size:78px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  html.demo-editorial.tle-demo-bubbles-v25 .tle-bubble-layer-v25 .tle-bubble-v25{
+    animation:none!important;
+    opacity:.27!important;
+    transform:none!important;
+    will-change:auto!important;
+  }
+}
