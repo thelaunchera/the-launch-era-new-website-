@@ -106,28 +106,81 @@ demoHeading.append(demoTitle,demoCaption);
 const demoExternal=node("a","tle-jessy-demo-external","Open full size ↗");
 demoExternal.target="_blank";demoExternal.rel="noopener noreferrer";
 const demoClose=button("tle-jessy-demo-close","×","Close demo");
+const DEMO_REQUEST="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-jessie-demo-lead";
+const demoGate=node("form","tle-jessy-demo-gate");
+const demoGateTitle=node("h3","","See the demo made for your business");
+const demoGateText=node("p","","Tell me a little about your cleaning business. I'll email the demo and show you the sample here.");
+function demoField(name,type){
+ const label=node("label","tle-jessy-demo-label");
+ const caption=node("span","",name);
+ const field=node("input","tle-jessy-demo-input");
+ field.type=type||"text";field.required=true;field.maxLength=type==="email"?200:100;
+ label.append(caption,field);demoGate.append(label);return field;
+}
+demoGate.append(demoGateTitle,demoGateText);
+const demoBusiness=demoField("Business name"),demoEmail=demoField("Email address","email"),demoArea=demoField("Service area (city / ZIP codes)");
+const demoConsentRow=node("label","tle-jessy-demo-consent");
+const demoConsent=node("input");demoConsent.type="checkbox";demoConsent.required=true;
+const demoConsentText=node("span","","I agree to receive the demo I requested by email. This is not a marketing subscription.");
+demoConsentRow.append(demoConsent,demoConsentText);
+const demoTrap=node("input");demoTrap.type="text";demoTrap.name="website";demoTrap.tabIndex=-1;demoTrap.autocomplete="off";
+demoTrap.setAttribute("aria-hidden","true");demoTrap.className="tle-jessy-demo-trap";
+const demoSubmit=button("tle-jessy-demo-submit","Email & show my demo →");demoSubmit.type="submit";
+const demoStatus=node("p","tle-jessy-demo-status");demoStatus.setAttribute("role","status");demoStatus.setAttribute("aria-live","polite");
+demoGate.append(demoConsentRow,demoTrap,demoSubmit,demoStatus);
+let demoSelected="booking",demoBusy=false;
+function demoText(){
+ const es=lang==="es";
+ demoGateTitle.textContent=es?"Mira cómo se vería para tu negocio":"See how it works for your business";
+ demoGateText.textContent=es?"Dime el nombre de tu negocio, tu correo y el área donde ofreces servicios. Te enviaremos el demo y lo podrás explorar aquí.":"Share your business name, email and service area. We'll email the demo and let you explore it right here.";
+ [demoBusiness,demoEmail,demoArea].forEach((field,i)=>{const labels=es?["Nombre del negocio","Correo electrónico","Área de servicio (ciudad / ZIP codes)"]:["Business name","Email address","Service area (city / ZIP codes)"];field.parentNode.querySelector("span").textContent=labels[i]});
+ demoConsentText.textContent=es?"Acepto recibir por correo el demo que solicito. Esto no me suscribe a correos de marketing.":"I agree to receive my requested demo by email. This does not subscribe me to marketing emails.";
+ demoSubmit.textContent=es?"Enviar y ver mi demo →":"Email & show my demo →";
+}
+demoGate.addEventListener("submit",async e=>{
+ e.preventDefault();
+ if(demoBusy||!demoGate.reportValidity())return;
+ demoBusy=true;demoSubmit.disabled=true;demoStatus.textContent=lang==="es"?"Preparando tu demo…":"Preparing your demo…";
+ try{
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),14000);
+  let response;
+  try{response=await fetch(DEMO_REQUEST,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({business_name:demoBusiness.value.trim(),email:demoEmail.value.trim(),service_area:demoArea.value.trim(),service:demoSelected,language:lang,consent:demoConsent.checked,website:demoTrap.value}),signal:controller.signal})}finally{clearTimeout(timer)}
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok||data.ok!==true)throw Error("submit_failed");
+  demoStatus.textContent=data.email_sent?(lang==="es"?"¡Listo! Te enviamos el demo por correo.":"Done! Your demo email is on its way."):data.duplicate?(lang==="es"?"Ya tenemos tu solicitud. Puedes explorar el demo aquí.":"We already have your request. You can explore the demo here."):lang==="es"?"Guardamos tu solicitud, pero el correo necesita revisión. Puedes explorar el demo.":"Your request was saved but the email needs review. You can explore the demo.";
+  const query=new URLSearchParams({lang,source:"jessie_sample"});
+  if(demoSelected==="booking"){query.set("business",demoBusiness.value.trim().slice(0,100));query.set("area",demoArea.value.trim().slice(0,100))}
+  const href=DEMOS[demoSelected].url+"?"+query.toString();
+  demoExternal.href=href;demoExternal.hidden=false;demoFrame.src=href;demoFrame.hidden=false;
+  demoGate.hidden=true;track("demo_lead_saved");
+ }catch{
+  demoStatus.textContent=lang==="es"?"No pudimos guardar la solicitud ahora. Inténtalo otra vez.":"We couldn't save your request right now. Please try again.";
+ }finally{demoBusy=false;demoSubmit.disabled=false}
+});
+
 const demoFrame=node("iframe","tle-jessy-demo-frame");
 demoFrame.title="Interactive sample demo; no real bookings";
 demoFrame.loading="lazy";demoFrame.referrerPolicy="no-referrer";
 demoFrame.setAttribute("sandbox","allow-scripts allow-same-origin allow-forms");
 demoToolbar.append(demoHeading,demoExternal,demoClose);
-demoWindow.append(demoToolbar,demoFrame);demoOverlay.append(demoWindow);document.body.append(demoOverlay);
+demoWindow.append(demoToolbar,demoGate,demoFrame);demoOverlay.append(demoWindow);document.body.append(demoOverlay);
 let demoLastFocus=null;
 function closeDemo(){
  if(demoOverlay.hidden)return;
- demoOverlay.hidden=true;demoFrame.removeAttribute("src");
+ demoOverlay.hidden=true;demoFrame.removeAttribute("src");demoFrame.hidden=true;demoGate.reset();
  document.body.classList.remove("tle-jessy-demo-open");track("demo_close");
  (demoLastFocus&&demoLastFocus.isConnected?demoLastFocus:input).focus();
 }
 function openDemo(id){
  const d=DEMOS[id];if(!d)return;
- demoLastFocus=document.activeElement;
- const url=d.url+"?lang="+lang+"&source=jessie_sample";
+ demoSelected=id;demoLastFocus=document.activeElement;
  demoTitle.textContent=lang==="es"?d.es:d.name;
  demoCaption.textContent=lang==="es"?"Demo de ejemplo · Sin reservas reales":"Sample only · No real bookings";
  demoExternal.textContent=lang==="es"?"Abrir pantalla completa ↗":"Open full size ↗";
  demoClose.setAttribute("aria-label",lang==="es"?"Cerrar demo":"Close demo");
- demoExternal.href=url;demoFrame.src=url;
+ demoText();demoGate.reset();demoStatus.textContent="";
+ demoGate.hidden=false;demoFrame.hidden=true;demoFrame.removeAttribute("src");
+ demoExternal.hidden=true;demoExternal.removeAttribute("href");
  demoOverlay.hidden=false;document.body.classList.add("tle-jessy-demo-open");
  demoClose.focus();track("demo_open");
 }
