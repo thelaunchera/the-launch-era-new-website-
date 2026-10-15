@@ -10,7 +10,8 @@
  if(!document.documentElement.classList.contains("demo-editorial"))return;
  const es=params.get("lang")==="es";
  const tidy=s=>String(s??"").replace(/[<>\u0000-\u001f]/g,"").trim().slice(0,85);
- const business=tidy(params.get("business"))||"Luna Bloom Home Cleaning";
+ const incoming=tidy(params.get("business"));
+ const business=(!params.has("rid")&&/^Coastal Home Cleaning$/i.test(incoming)?"":incoming)||"Luna Bloom Home Cleaning";
  const area=tidy(params.get("area"));
  document.documentElement.classList.add("tle-demo-client-v14");
  const tr=es?{
