@@ -7,6 +7,7 @@
 <main id="guard" class="panel"><h2>Checking your workspace…</h2><p class="hint" id="guardStatus">Only the owner of The Launch Era can view this page.</p><a class="back" href="./index.html">Return to sign in</a></main>
 <main id="app" class="wrap hidden">
 <section class="hero"><span class="topline">SALES RESEARCH / INVESTIGACIÓN</span><h1>Lead insights & personalized emails</h1><p class="hint">The problem that appears possible is not necessarily a problem the business has confirmed. Each proposed asset and draft is yours to edit. <b>No emails are sent from this page.</b> / Problema probable, asset recomendado y borrador individual.</p></section>
+<section class="panel" id="jessieAnalyticsPanel" style="margin:18px 0 23px"><div class="topline">JESSIE / PUBLIC WEBSITE</div><h2 style="margin:9px 0 5px;font-size:22px">Jessie conversation insights · Last 14 days</h2><p class="hint">Anonymous counts only. No visitor identity, chat transcripts or customer records. A demo lead means a submitted form, not a confirmed purchase.</p><div class="metrics" style="margin-bottom:0"><div class="metric"><b id="jessieAnswered">—</b><small>Answers delivered</small></div><div class="metric"><b id="jessieDemoOpened">—</b><small>Demo previews opened</small></div><div class="metric"><b id="jessieDemoLeads">—</b><small>Demo leads captured</small></div><div class="metric"><b id="jessieRecommendations">—</b><small>Service recommendations</small></div></div><div class="bar"><p class="hint" id="jessieTopTopics" style="flex:1;margin:4px 0">Loading topics…</p><button type="button" class="btn secondary" id="jessieInsightsReload">Refresh insights</button></div><p id="jessieInsightsStatus" class="hint" role="status"></p></section>
 <div class="metrics"><div class="metric"><b id="total">—</b><small>Leads</small></div><div class="metric"><b id="researched">—</b><small>With research</small></div><div class="metric"><b id="drafted">—</b><small>Individual email drafts</small></div><div class="metric"><b id="restricted">—</b><small>Restricted / review</small></div></div>
 <div class="split"><section class="panel"><div class="toolbar"><label style="flex:2;min-width:160px">Search lead / Buscar<input id="search" type="search" placeholder="Business, source, asset…"></label><label style="flex:1;min-width:135px">Stage<select id="stage"><option value="">All</option><option>New</option><option>Follow-up</option><option>Contacted</option><option>Lost</option><option>Won</option></select></label></div><p class="hint" id="count">Loading…</p><div class="list" id="list"></div></section>
 <section class="panel details" id="details"><h2 id="business">Choose a lead</h2><p id="context" class="hint"></p>
@@ -36,9 +37,29 @@ async function boot(){try{
  const {data:{user},error}=await db.auth.getUser();if(error||!user)throw Error('Please sign into the Command Center first / Inicia sesión desde Command Center.');
  const {data:w,error:we}=await db.from('tle_crm_workspaces').select('id,name,is_internal,created_by').eq('id',wsid).eq('created_by',user.id).eq('is_internal',true).maybeSingle();
  if(we||!w)throw Error('Private owner workspace access required / Solo acceso de la propietaria.');ownerInsightsUserId=user.id;
- $('guard').classList.add('hidden');$('app').classList.remove('hidden');await load();
+ $('guard').classList.add('hidden');$('app').classList.remove('hidden');await load();void loadJessieInsights();
  void import('./assets/jessy-owner-standalone.mjs?v=20261012-universal-v1').then(m=>m.mountOwnerJessy({db,workspaceId:wsid,page:'lead-insights'})).catch(e=>console.warn('Jessy owner helper unavailable',e.message));
  }catch(e){$('guardStatus').textContent=e.message}}
+async function loadJessieInsights(){
+ const status=$('jessieInsightsStatus');status.textContent='Loading anonymous Jessie insights…';
+ try{
+  const {data:{session}}=await db.auth.getSession();
+  if(!session?.access_token||!ownerInsightsUserId)throw Error('Owner sign-in required');
+  const response=await fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-jessie-metrics',{method:'GET',headers:{Authorization:'Bearer '+session.access_token}});
+  if(!response.ok)throw Error('Insights unavailable');
+  const payload=await response.json();
+  if(!payload?.ok||!payload?.summary)throw Error('Invalid summary');
+  const summary=payload.summary,events=summary.events||{},intents=summary.intents||{};
+  $('jessieAnswered').textContent=String(events.answered||0);
+  $('jessieDemoOpened').textContent=String(events.demo_open||0);
+  $('jessieDemoLeads').textContent=String(events.demo_lead_saved||0);
+  $('jessieRecommendations').textContent=String(events.recommendation||0);
+  const topics=Object.entries(intents).filter(([k])=>k!=='general').sort((a,b)=>b[1]-a[1]).slice(0,4);
+  $('jessieTopTopics').textContent=topics.length?'Most discussed: '+topics.map(([k,v])=>k.replaceAll('_',' ')+' ('+v+')').join(' · '):'No categorized conversations in the past 14 days.';
+  status.textContent='Updated · Last 14 days · Anonymous aggregates only';
+ }catch(e){status.textContent='Could not load Jessie insights: '+e.message}
+}
+$('jessieInsightsReload').onclick=loadJessieInsights;
 async function load(){
  const {data,error}=await db.from('tle_crm_leads').select('id,business,contact,email,source,language,stage,notes,research_only,contact_decision,primary_friction,observed_evidence,service_fit,research_url,insight_status,personalized_email_subject,personalized_email_body,email_consent_status').eq('workspace_id',wsid).order('created_at',{ascending:false}).limit(500);
  if(error){$('count').textContent='Loading failed: '+error.message;return}
