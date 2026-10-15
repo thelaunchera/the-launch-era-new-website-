@@ -2387,7 +2387,7 @@ document.addEventListener('visibilitychange',()=>{
 
 let ownerPurchases=[],ownerAIOrders=[],ownerAIError='checking';
 function ownerPurchaseStage(a){
- if(a.already_queued&&Number(a.qa_pass_count)===6&&a.buyer_review_status==='approved')return 'completed';
+ if(a.already_queued&&Number(a.qa_pass_count)===6&&a.buyer_review_status==='approved'&&a.activation_email_delivery_status==='delivered')return 'completed';
  if(a.already_queued)return 'delivered';
  if(!a.intake_done)return 'intake';
  if(a.booking_page_url&&a.crm_ready&&a.status==='active')return 'review';
@@ -2398,7 +2398,7 @@ function ownerOrderNext(o,ai,es){
  if(ai)return o.delivered_at?(es?'Activado. Revisar soporte y facturación.':'Activated. Review support and billing.'):
   !o.submitted_at?(es?'Revisar invitación al intake; no enviar duplicados.':'Check intake invitation; no duplicate sends.'):
   (es?'Preparar en pruebas, validar respuestas, obtener aprobación y entregar.':'Build in test mode, verify answers, approve and deliver.');
- if(o.already_queued)return es?'Entrega registrada: verificar llegada real del correo, QA y soporte.':'Delivery recorded: verify actual email receipt, QA and support.';
+ if(o.already_queued)return o.activation_email_delivery_status!=='delivered'?(es?'Entrega final registrada, pero el correo de acceso sigue sin confirmación de entrega del proveedor. Comprueba el inbox y el login; no reenvíes automáticamente.':'Final delivery recorded, but the access email has no confirmed provider delivery. Verify inbox and login; never resend automatically.'):(es?'Entrega registrada: verificar QA y soporte.':'Delivery recorded: verify QA and support.');
  if(!o.intake_done)return es?'Verificar pago e invitación al intake; esperar respuestas.':'Check payment and intake invitation; await answers.';
  if(!o.design_reviewed)return es?'Verificar sector, marca, precios, accesos y aprobar el inicio de producción por separado.':'Verify business type, branding, prices and access; approve production kickoff separately.';
  if(!o.crm_ready)return es?'Preparar el Command Center privado correcto y probar su enlace.':'Prepare the correct private Command Center and test its URL.';
@@ -2414,9 +2414,9 @@ function renderOwnerOrderControl(){
  if(!workspace?.is_internal)return;
  const root=$('ownerOrderControlItems'),state=$('ownerOrderControlStatus');
  if(!root||!state)return;
- const es=buyerPageLabel(),booking=ownerPurchases.filter(x=>!x.already_queued),ai=ownerAIOrders.filter(x=>!x.delivered_at);
+ const es=buyerPageLabel(),booking=ownerPurchases.filter(x=>!x.already_queued||x.activation_email_delivery_status!=='delivered'||Number(x.qa_pass_count||0)<6||x.buyer_review_status!=='approved'),ai=ownerAIOrders.filter(x=>!x.delivered_at);
  root.replaceChildren();
- state.textContent=(es?'Booking activos: ':'Active Booking: ')+booking.length+
+ state.textContent=(es?'Booking para revisar: ':'Booking to review: ')+booking.length+
  (ownerAIError?(es?' · AI sin verificar':' · AI orders unverified'):(es?' · AI pendientes: ':' · Pending AI: ')+ai.length);
  const card=(o,isAI)=>{
   const section=ownerPageElem('article',undefined,'border:1px solid #dce8ef;background:#fff;border-radius:13px;padding:12px;min-width:0');
