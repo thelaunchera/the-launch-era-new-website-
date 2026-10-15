@@ -4,7 +4,8 @@ import { findFaq, fallbackFaq, knowledgeForModel } from "./knowledge.ts";
 import { privateQuestion, knowledgeReply } from "./public-boundaries.mjs";
 const BASE=Deno.env.get("SUPABASE_URL")||"";
 const KEY=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")||"";
-const API=Deno.env.get("OPENAI_API_KEY")||"";
+const API=String(Deno.env.get("OPENAI_API_KEY")||"").trim();
+const GROQ=String(Deno.env.get("GROQ_API_KEY")||"").trim();
 const ORIGINS=new Set(["https://thelaunchera.com","https://www.thelaunchera.com"]);
 const serviceIds=new Set(["booking","ai-booking","ai-followup","ai-business","cleaning-app","website","va","whatsapp"]);
 const fallback=[
@@ -249,7 +250,12 @@ function guide(msg,lang,catalog,id){
  return reply;
 }
 async function aiResponse(msg,history,lang,cat,focus){
- if(!API)return null;
+ // Reuse the already configured Groq provider for Jessie's private AI team.
+ // Avoid repeatedly calling OpenAI when its quota returns HTTP 429.
+ const provider=GROQ
+  ?{name:"groq",url:"https://api.groq.com/openai/v1/chat/completions",key:GROQ,model:Deno.env.get("GROQ_MODEL")||"openai/gpt-oss-120b"}
+  :{name:"openai",url:"https://api.openai.com/v1/chat/completions",key:API,model:Deno.env.get("JESSY_MODEL")||"gpt-4.1-mini"};
+ if(!provider.key)return null;
  const catalog=cat.map(a=>a.slice(0,6).join(" | ")).join("\n");
  const facts=knowledgeForModel(msg,focus,lang);
  const instructions=[
@@ -278,16 +284,16 @@ async function aiResponse(msg,history,lang,cat,focus){
   ...history.map(h=>({role:h.role,content:h.message})),
   {role:"user",content:msg}];
  try{
-  const r=await fetch("https://api.openai.com/v1/chat/completions",{
+  const r=await fetch(provider.url,{
    method:"POST",
-   headers:{"Content-Type":"application/json","Authorization":"Bearer "+API},
-   body:JSON.stringify({model:Deno.env.get("JESSY_MODEL")||"gpt-4.1-mini",messages,temperature:0.35,max_tokens:230}),
+   headers:{"Content-Type":"application/json","Authorization":"Bearer "+provider.key},
+   body:JSON.stringify({model:provider.model,messages,temperature:0.35,max_tokens:provider.name==="groq"?650:230,...(provider.name==="groq"?{reasoning_effort:"low"}:{})}),
    signal:AbortSignal.timeout(10000)
   });
-  if(!r.ok){console.warn("jessy_ai_response_unavailable",r.status);return null;}
+  if(!r.ok){console.warn("jessy_ai_response_unavailable",provider.name,r.status);return null;}
   const d=await r.json(),answer=clean(d.choices?.[0]?.message?.content,700);
   return answer.length>=10?answer:null;
- }catch(error){console.warn("jessy_ai_response_timeout_or_error");return null;}
+ }catch(error){console.warn("jessy_ai_response_timeout_or_error",provider.name);return null;}
 }
 
 Deno.serve(async(req)=>{
