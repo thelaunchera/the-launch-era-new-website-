@@ -83,6 +83,10 @@ function addSalesPreview(){
  block.id="tleDemoSalesExperience";
  block.innerHTML=`<div class="tle-demo-v12-salescopy"><span class="tle-demo-v12-ey">PERSONALIZED CLEANING DEMO</span><h2>${labels.salesTitle}</h2><p>${labels.salesText}</p><div class="tle-demo-v12-perks"><span>✓ ${labels.reviews}</span><span>✓ ${labels.areas}</span><span>✓ ${labels.faq}</span></div><a href="#demoForm">${labels.finalCta} →</a></div><div class="tle-demo-v12-salesphotos"><img src="${cleaner}" alt="Professional cleaner working in a modern home" loading="lazy" width="800" height="550"><img src="${home}" alt="Bright, comfortable living space after cleaning" loading="lazy" width="800" height="550"></div>`;
  wrap.appendChild(block);
+ const proof=h("section","tle-demo-v12-sales-proof");
+ proof.id="tleDemoSalesProof";
+ proof.innerHTML='<div><span class="tle-demo-v12-ey">CUSTOMER TRUST</span><h3>'+labels.reviews+'</h3><p>'+labels.reviewsSub+'</p><div class="tle-demo-v12-sales-proofcards"><span>'+labels.reviewBadge+'</span><span>'+labels.reviewBadge+'</span></div></div><div><span class="tle-demo-v12-ey">LOCAL COVERAGE</span><h3>'+labels.areas+'</h3><p>'+labels.areasSub+'</p><span class="tle-demo-v12-sales-local">'+labels.areaUnknown+'</span></div>';
+ wrap.appendChild(proof);
  const form=document.getElementById("demoForm");
  if(!form)return;
  const guide=h("div","tle-demo-v12-formguide");guide.id="tleDemoFormGuide";
@@ -99,7 +103,36 @@ function addSalesPreview(){
  });
  const aiNote=h("p","tle-demo-v12-addon",labels.separate);aiNote.id="tleDemoSalesAiNote";aiNote.hidden=true;
  form.prepend(guide,buttons,aiNote);
- const l=document.querySelector("#language");l?.addEventListener("change",()=>{const current=l.value==="es";if(current===es)return;document.querySelector("#tleDemoSalesExperience")?.remove();document.querySelector("#tleDemoFormGuide")?.remove();document.querySelector(".tle-demo-v12-formactions")?.remove();document.querySelector("#tleDemoSalesAiNote")?.remove();location.search= new URLSearchParams({...Object.fromEntries(qs),lang:l.value}).toString()});
+ const l=document.querySelector("#language");
+ l?.addEventListener("change",()=>{
+   const isSpanish=l.value==="es";
+   const local=isSpanish?{
+     helper:"¡Hola! Puedo explicarte los servicios y ayudarte con el formulario. Tú decides cuándo enviarlo.",
+     buttons:["Consultar servicios","Ayuda con formulario","IA: servicio aparte"],
+     note:"El asistente con IA es un servicio opcional que se contrata por separado.",
+     title:"Una landing que representa a tu negocio",
+     text:"Una demo visual con fotos, reseñas aprobadas, zonas de servicio y un formulario sencillo.",
+     review:"Opiniones de clientes",area:"Áreas atendidas",
+     reviewInfo:"Diseño de ejemplo; mostrar solo reseñas auténticas y autorizadas.",
+     areaInfo:"Las ciudades y códigos ZIP se configuran con cada negocio."
+   }:{
+     helper:"Hi! I can explain our services and help with your demo form. You decide when to send it.",
+     buttons:["Explore services","Help with form","AI: separate service"],
+     note:"The AI assistant is an optional service purchased separately.",
+     title:"A website that feels like your business",
+     text:"A visual preview with photos, approved customer reviews, service areas and a simple form.",
+     review:"Customer reviews",area:"Areas we serve",
+     reviewInfo:"Design example only; show authentic, authorized reviews.",
+     areaInfo:"Cities and ZIP codes are customized for each business."
+   };
+   const guideText=document.querySelector("#tleDemoFormGuide p");if(guideText)guideText.textContent=local.helper;
+   document.querySelectorAll(".tle-demo-v12-formactions button").forEach((b,i)=>b.textContent=local.buttons[i]||b.textContent);
+   const note=document.getElementById("tleDemoSalesAiNote");if(note)note.textContent=local.note;
+   const title=document.querySelector("#tleDemoSalesExperience h2");if(title)title.textContent=local.title;
+   const descr=document.querySelector("#tleDemoSalesExperience .tle-demo-v12-salescopy>p");if(descr)descr.textContent=local.text;
+   const proofHeads=document.querySelectorAll("#tleDemoSalesProof h3");if(proofHeads[0])proofHeads[0].textContent=local.review;if(proofHeads[1])proofHeads[1].textContent=local.area;
+   const proofParas=document.querySelectorAll("#tleDemoSalesProof p");if(proofParas[0])proofParas[0].textContent=local.reviewInfo;if(proofParas[1])proofParas[1].textContent=local.areaInfo;
+ });
 }
 function customizeChat(){
  if(isProspect){
