@@ -2385,7 +2385,7 @@ document.addEventListener('visibilitychange',()=>{
  if(view==='owner-pages')void loadOwnerPages();
 });
 
-let ownerPurchases=[],ownerAIOrders=[],ownerAIError='checking',ownerBookingError='checking';
+let ownerPurchases=[],ownerAIOrders=[],ownerBundles=[],ownerAIError='checking',ownerBookingError='checking',ownerBundlesError='checking';
 function ownerPurchaseStage(a){
  if(a.already_queued&&Number(a.qa_pass_count)===6&&a.buyer_review_status==='approved'&&a.activation_email_delivery_status==='delivered'&&a.buyer_signed_in_after_email===true&&a.release_ready===true)return 'completed';
  if(a.already_queued)return 'delivered';
@@ -2410,14 +2410,84 @@ function ownerOrderNext(o,ai,es){
  if(!o.release_ready)return es?'Resolver bloqueos de Final QA & Delivery.':'Resolve server-side Final QA & Delivery blockers.';
  return es?'Revisado: tú autorizas manualmente la entrega final.':'Reviewed: manually authorize the final delivery.';
 }
+
+const ownerBundlePlans={'ai-booking':'AI Booking Assistant','ai-followup':'AI Follow-Up Assistant','ai-business':'AI Business Assistant'};
+function ownerIsBundle(a){return !!ownerBundlePlans[String(a?.ai_addon_offer||a?.bundle_ai||'')]}
+function ownerBundleComplete(booking,bundle){
+ return !!bundle&&ownerPurchaseStage(booking)==='completed'&&bundle.ai_status==='active'&&!!bundle.ai_delivered_at;
+}
+function ownerOrderBuckets(){
+ const bundleById=new Map(ownerBundles.map(b=>[String(b.id),b]));
+ const joinedAI=new Set(ownerBundles.map(b=>String(b.ai_order_id||'')).filter(Boolean));
+ const bundles=[],booking=[];
+ for(const order of ownerPurchases){
+  if(ownerIsBundle(order)){
+   const connected=bundleById.get(String(order.id))||null;
+   if(!ownerBundleComplete(order,connected))bundles.push({booking:order,linked:connected});
+  }else if(ownerPurchaseStage(order)!=='completed')booking.push(order);
+ }
+ // The owner bundle RPC can recover a purchase if the Booking overview is unavailable.
+ if(ownerBookingError==='unavailable'&&!ownerBundlesError){
+  for(const joined of ownerBundles){
+   if(ownerPurchases.some(b=>String(b.id)===String(joined.id))||!ownerIsBundle(joined))continue;
+   bundles.push({booking:null,linked:joined});
+  }
+ }
+ const ai=ownerAIOrders.filter(a=>!a.delivered_at&&!joinedAI.has(String(a.id)));
+ return {bundles,booking,ai,joinedAI};
+}
+function ownerBundleNext(booking,linked,es){
+ if(!booking)return es?'La compra conjunta existe, pero no pudimos verificar Booking. Abre el proyecto y revisa el estado antes de continuar.':'Bundle purchase exists, but Booking status could not be verified. Open the project and check before proceeding.';
+ if(!booking.intake_done)return es?'Pago conjunto confirmado: falta completar el intake único para Booking y AI.':'Combined purchase recorded: the single Booking + AI intake is still pending.';
+ if(!linked)return es?'Intake recibido. Falta verificar la conexión de la orden AI; no la marques como creada ni entregada.':'Intake received. AI order linkage is not verified; do not mark it created or delivered.';
+ if(!linked.ai_order_id||linked.ai_status==='not_prepared')return es?'El intake está completo, pero no aparece una orden AI vinculada. Revisa la creación del agente antes de producir o entregar.':'Intake is complete, but the linked AI order is missing. Verify assistant creation before production or delivery.';
+ const bookingDone=ownerPurchaseStage(booking)==='completed';
+ const aiDone=linked.ai_status==='active'&&!!linked.ai_delivered_at;
+ if(bookingDone&&aiDone)return es?'Ambas entregas verificadas. Mantener soporte separado para Booking y AI.':'Both deliveries verified. Continue separate Booking and AI support.';
+ if(!bookingDone&&!aiDone)return es?'Continúa la página Booking y la configuración del agente; cada uno necesita pruebas, aprobación y entrega independientes.':'Continue Booking setup and AI installation; each requires separate testing, approval and delivery.';
+ if(!bookingDone)return es?'AI aparece activado; Booking sigue pendiente de comprobación final. No cierres el bundle.':'AI shows activated, but Booking still needs final verification. Do not close the bundle.';
+ return es?'Booking está verificado; el AI Assistant sigue pendiente. Revisa instalación, QA y activación antes de cerrar.':'Booking is verified, but AI Assistant is pending. Review installation, QA and activation before closing.';
+}
+function renderOwnerBundleCard(root,entry,es){
+ const b=entry.booking,link=entry.linked,plan=ownerBundlePlans[String(b?.ai_addon_offer||link?.bundle_ai)]||'AI Assistant';
+ const card=ownerPageElem('article',undefined,'border:1px solid #a7c8de;background:#f6faff;border-radius:16px;padding:15px;min-width:0;display:grid;gap:9px');
+ card.append(ownerPageElem('strong',(b?.business_name||link?.business_name||'Business')+' · Booking + '+plan,'font-size:14px;color:#191919;line-height:1.35;overflow-wrap:anywhere'));
+ card.append(ownerPageElem('div',es?'Una compra · Un intake · Dos entregas':'One checkout · One intake · Two deliveries','font-size:12px;font-weight:750;color:#24688d'));
+ const stage=b?ownerPurchaseStage(b):'unknown',bookLabel=stage==='completed'?(es?'Booking: verificado':'Booking: verified'):b?.already_queued?(es?'Booking: entrega registrada, verificar':'Booking: delivery recorded, verify'):b?.intake_done?(es?'Booking: en preparación / QA':'Booking: setup / QA'):(es?'Booking: intake pendiente':'Booking: intake pending');
+ const aiLabel=!link?(es?'AI: estado no verificado':'AI: status unverified'):!link.ai_order_id?(es?'AI: orden no creada · revisar':'AI: order not created · review'):link.ai_status==='active'&&link.ai_delivered_at?(es?'AI: activado':'AI: activated'):(es?'AI: '+String(link.ai_status||'pendiente'):'AI: '+String(link.ai_status||'pending'));
+ card.append(ownerPageElem('div',bookLabel+'   ·   '+aiLabel,'font-size:12px;font-weight:750;color:#274d66;overflow-wrap:anywhere'));
+ card.append(ownerPageElem('p',ownerBundleNext(b,link,es),'font-size:12px;color:#4d6473;line-height:1.6;margin:0'));
+ const actions=ownerPageElem('div',undefined,'display:flex;gap:8px;flex-wrap:wrap;align-items:center');
+ const openBooking=ownerPageElem('button',es?'Gestionar Booking →':'Manage Booking →');openBooking.type='button';openBooking.className='secondary';openBooking.style.cssText='font-size:12px;min-height:42px;flex:1 1 120px';
+ openBooking.onclick=()=>{if(b)chooseOwnerBuyer(b,'builder');else $('ownerPagesNav')?.click()};
+ const openAI=ownerPageElem('a',es?'Revisar AI →':'Review AI →');openAI.href='/ai-booking-assistant/owner-delivery/';openAI.target='_blank';openAI.rel='noopener noreferrer';
+ openAI.style.cssText='font-size:12px;font-weight:750;min-height:42px;display:inline-flex;align-items:center;justify-content:center;flex:1 1 120px';
+ actions.append(openBooking,openAI);card.append(actions);root.append(card);
+}
+async function loadOwnerBundles(){
+ if(!workspace?.is_internal)return;
+ const scope=workspace.id;
+ try{
+  const {data,error}=await db.rpc('tle_owner_bundle_queue');
+  if(error)throw error;
+  if(!Array.isArray(data))throw Error('Bundle response invalid');
+  if(!workspace?.is_internal||workspace.id!==scope)return;
+  ownerBundles=data;ownerBundlesError='';
+ }catch(e){
+  if(!workspace?.is_internal||workspace.id!==scope)return;
+  ownerBundles=[];ownerBundlesError='unavailable';console.warn('Owner bundle status unavailable',String(e?.message||''));
+ }
+ renderOwnerOrderControl();
+ renderOwnerAIOrders();
+ if(!ownerBookingError)renderOwnerPurchases();
+}
 function renderOwnerOrderControl(){
  if(!workspace?.is_internal)return;
  const root=$('ownerOrderControlItems'),state=$('ownerOrderControlStatus');
  if(!root||!state)return;
- const es=buyerPageLabel(),booking=ownerPurchases.filter(x=>ownerPurchaseStage(x)!=='completed'),ai=ownerAIOrders.filter(x=>!x.delivered_at);
+ const es=buyerPageLabel(),{bundles,booking,ai}=ownerOrderBuckets();
  root.replaceChildren();
- state.textContent=(ownerBookingError?(es?'Booking sin verificar':'Booking orders unverified'):(es?'Booking para revisar: ':'Booking to review: ')+booking.length)+
- (ownerAIError?(es?' · AI sin verificar':' · AI orders unverified'):(es?' · AI pendientes: ':' · Pending AI: ')+ai.length);
+ state.textContent=(es?'Bundles: ':'Bundles: ')+bundles.length+' · '+(ownerBookingError?(es?'Booking sin verificar':'Booking unverified'):(es?'Booking: ':'Booking: ')+booking.length)+' · '+(ownerAIError?(es?'AI sin verificar':'AI unverified'):(es?'AI: ':'AI: ')+ai.length)+(ownerBundlesError?' · '+(es?'revisión de bundle sin confirmar':'bundle lookup unverified'):'');
  const card=(o,isAI)=>{
   const section=ownerPageElem('article',undefined,'border:1px solid #dce8ef;background:#fff;border-radius:13px;padding:12px;min-width:0');
   section.append(ownerPageElem('strong',(o.business_name||o.customer_email||'Business')+' · '+(isAI?(o.offer||'AI Assistant'):'Booking'),'display:block;color:#191919;font-size:13px;overflow-wrap:anywhere'));
@@ -2433,9 +2503,10 @@ function renderOwnerOrderControl(){
   }
   root.append(section);
  };
+ bundles.slice(0,5).forEach(entry=>renderOwnerBundleCard(root,entry,es));
  booking.slice(0,5).forEach(o=>card(o,false));
  ai.slice(0,5).forEach(o=>card(o,true));
- if(!booking.length&&!ai.length&&!ownerAIError)root.append(ownerPageElem('p',
+ if(!bundles.length&&!booking.length&&!ai.length&&!ownerAIError&&!ownerBookingError&&!ownerBundlesError)root.append(ownerPageElem('p',
   es?'No hay órdenes nuevas pendientes. Las entregas anteriores aparecen en Todos los pedidos.':'No new orders are pending. Older deliveries are available under All orders.',
   'font-size:13px;color:#526d7e;line-height:1.6'));
 }
@@ -2446,9 +2517,10 @@ function renderOwnerAIOrders(){
  if(ownerAIError){state.textContent=ownerAIError==='checking'?
   (es?'Cargando pedidos AI…':'Checking AI orders…'):
   (es?'No se pudieron verificar pedidos AI; reintenta. No significa que no haya órdenes.':'Could not verify AI orders; retry. This does not mean zero orders.');return;}
- state.textContent=(es?'Órdenes AI: ':'AI orders: ')+ownerAIOrders.length;
- if(!ownerAIOrders.length){root.append(ownerPageElem('p',es?'Todavía no hay órdenes AI.':'No AI orders yet.','font-size:12px;color:#526d7e'));return}
- for(const o of ownerAIOrders.slice(0,30)){
+ const standalone=ownerAIOrders.filter(o=>!ownerBundles.some(b=>String(b.ai_order_id||'')===String(o.id)));
+ state.textContent=(es?'Órdenes AI independientes: ':'Standalone AI orders: ')+standalone.length;
+ if(!standalone.length){root.append(ownerPageElem('p',es?'Todavía no hay órdenes AI.':'No AI orders yet.','font-size:12px;color:#526d7e'));return}
+ for(const o of standalone.slice(0,30)){
   const card=ownerPageElem('article',undefined,'padding:12px;border:1px solid #dce8ef;border-radius:13px;min-width:0');
   card.append(ownerPageElem('strong',(o.business_name||o.customer_email||'AI Assistant')+' · '+(o.offer||'AI'),'font-size:13px;display:block;overflow-wrap:anywhere'),
    ownerPageElem('p',ownerOrderNext(o,true,es),'font-size:12px;line-height:1.6;color:#4e697b'));
@@ -2557,6 +2629,8 @@ async function loadOwnerPages(){
  if(!workspace?.is_internal)return;
  // Independent owners-only lookup; an outage in Booking cannot hide AI purchases.
  void loadOwnerAIOrders();
+ // Bundle has a single checkout but separate linked AI installation and QA.
+ void loadOwnerBundles();
  $('ownerPagesStatus').textContent=buyerPageLabel()?'Cargando compradoras y pedidos…':'Loading clients and purchases…';
  try{
   const startedWith=workspace.id;
