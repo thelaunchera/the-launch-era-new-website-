@@ -276,7 +276,7 @@ for(const width of [360,390,820,1024,1440]){
        sampleLabels:items.every(item=>/SAMPLE|EJEMPLO/.test(item.textContent)),
        controls:block?.querySelectorAll('.tle-review-controls button').length,
        ribbon:!!ribbon,bannerDots:ribbon?.querySelectorAll('.tle-wave-dots button').length,
-       bannerAfterPhoto:why?.nextElementSibling===ribbon,
+       bannerAfterPhoto:why?.nextElementSibling===ribbon || (why?.nextElementSibling?.id==='tleDemoEditorialGallery' && why.nextElementSibling.nextElementSibling===ribbon),
        bannerText:ribbon?.querySelector('.tle-wave-title')?.textContent,
        popupExists:!!popup,
        noOverflow:document.documentElement.scrollWidth<=innerWidth+3
