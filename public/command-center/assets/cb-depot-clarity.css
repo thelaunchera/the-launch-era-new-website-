@@ -43,6 +43,7 @@ body.cb-depot-buyer .cb-dash-share-details #buyerBookingShareCard {
 }
 body.cb-depot-buyer .cb-dash-share-details #buyerBookingShareCard h3 {display:none!important}
 body.cb-depot-buyer .cb-dash-share-details #buyerBookingShareCard p {color:var(--cb-muted)!important}
+body.cb-depot-buyer #buyerBusinessSection :is(#buyerContactsGroup,#buyerAutomationGroup,#buyerConfigurationGroup) {display:none!important}
 body.cb-depot-buyer #buyerBusinessSection .cb-nav-group {
  margin:6px 0 0;border:1px solid #42596a;border-radius:13px;background:#273844;
  overflow:hidden
