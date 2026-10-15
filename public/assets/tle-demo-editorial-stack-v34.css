@@ -337,3 +337,91 @@ html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle
     transition:none!important;
   }
 }
+
+/* QUOTE BUBBLES v35 — refined blue bubbles & a clean vector arrow.
+   Scope: public demo only; don't affect client booking pages. */
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v30-main-custom.tle-v34-single-quote{
+  position:relative!important;isolation:isolate!important;
+  overflow:hidden!important;
+  background:
+    radial-gradient(circle at 88% 23%,rgba(203,234,253,.83) 0,rgba(203,234,253,0) 29%),
+    radial-gradient(circle at 9% 90%,rgba(177,220,245,.45) 0,transparent 34%),
+    linear-gradient(119deg,#effaff 0%,#e4f5ff 54%,#f8fcff 100%)!important;
+  border-color:#a5d6f0!important;
+  box-shadow:0 8px 25px rgba(42,115,161,.12),
+    inset 0 1px 0 rgba(255,255,255,.95)!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v30-main-custom.tle-v34-single-quote::before,
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v30-main-custom.tle-v34-single-quote::after{
+  content:"";position:absolute;z-index:0;pointer-events:none;
+  display:block;border-radius:50%;aspect-ratio:1;
+  border:1px solid rgba(255,255,255,.81);
+  box-shadow:inset -7px -9px 16px rgba(90,172,219,.09),
+    inset 5px 7px 10px rgba(255,255,255,.68),
+    0 8px 17px rgba(36,110,163,.07);
+  background:radial-gradient(circle at 31% 26%,
+    rgba(255,255,255,.88) 0%,rgba(223,246,255,.59) 26%,
+    rgba(160,219,251,.33) 64%,rgba(116,191,235,.12) 100%);
+  opacity:.91;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v30-main-custom.tle-v34-single-quote::before{
+  width:79px;height:79px;top:-28px;right:21%;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v30-main-custom.tle-v34-single-quote::after{
+  width:48px;height:48px;bottom:-18px;left:21%;
+  opacity:.70;animation-delay:-2.6s!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v30-main-custom.tle-v34-single-quote>span{
+  position:relative!important;z-index:1!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v30-main-custom.tle-v34-single-quote .tle-v34-custom-text{
+  isolation:isolate!important;overflow:visible!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v30-main-custom.tle-v34-single-quote .tle-v34-custom-text small,
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v30-main-custom.tle-v34-single-quote .tle-v34-custom-text strong{
+  position:relative!important;z-index:1!important;
+  text-shadow:none!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v30-main-custom.tle-v34-single-quote>span:last-child{
+  display:grid!important;place-items:center!important;
+  flex:0 0 49px!important;width:49px!important;height:49px!important;
+  border:1px solid rgba(95,168,211,.78)!important;
+  background:linear-gradient(155deg,#ecfaff 0%,#b7e2f8 100%)!important;
+  color:#125678!important;
+  box-shadow:0 5px 15px rgba(42,113,154,.12),
+    inset 0 1px 0 rgba(255,255,255,.95)!important;
+  font-size:0!important;
+  transform:none!important;
+  transition:background .25s ease,box-shadow .25s ease!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v30-main-custom.tle-v34-single-quote>span:last-child svg{
+  display:block;width:24px;height:24px;stroke:currentColor;
+  fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;
+  transition:transform .25s ease;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v30-main-custom.tle-v34-single-quote:is(:hover,:focus-visible)>span:last-child{
+  background:#c3e8fc!important;
+  box-shadow:0 6px 17px rgba(36,102,154,.16)!important;
+}
+html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v30-main-custom.tle-v34-single-quote:is(:hover,:focus-visible)>span:last-child svg{
+  transform:translateX(3px);
+}
+@keyframes tleQuoteBubbleFloat35{
+  0%,100%{transform:translate3d(0,0,0)}
+  50%{transform:translate3d(2px,-6px,0)}
+}
+@media(prefers-reduced-motion:no-preference){
+  html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v30-main-custom.tle-v34-single-quote::before,
+  html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v30-main-custom.tle-v34-single-quote::after{
+    animation:tleQuoteBubbleFloat35 7s ease-in-out infinite;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v30-main-custom.tle-v34-single-quote::before,
+  html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v30-main-custom.tle-v34-single-quote::after{
+    animation:none!important;transform:none!important;
+  }
+  html.demo-editorial.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v30-main-custom.tle-v34-single-quote>span:last-child svg{
+    transition:none!important;
+  }
+}
