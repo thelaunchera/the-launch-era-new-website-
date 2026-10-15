@@ -90,3 +90,14 @@ body:has(.tle-ai-panel:not([hidden])) .tle-demo-v12-welcome,body:has(.tle-jessy-
  .tle-demo-v12-formactions button { flex:1 1 125px; }
 }
 @media(prefers-reduced-motion:reduce) {.tle-demo-v12-sections * { scroll-behavior:auto!important; transition:none!important; }}
+
+
+.tle-demo-v12-sales-proof { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;max-width:940px;margin:16px auto 0; }
+.tle-demo-v12-sales-proof>div { min-width:0;padding:25px;background:#fff;border:1px solid #d5e5f0;border-radius:22px; }
+.tle-demo-v12-sales-proof h3 { margin:0 0 8px;color:#191919;font:600 clamp(19px,2.3vw,25px)/1.22 Prompt,Arial,sans-serif;letter-spacing:-.035em; }
+.tle-demo-v12-sales-proof p { color:#526b7e;font-size:12px;line-height:1.6;margin:0 0 14px; }
+.tle-demo-v12-sales-proof .tle-demo-v12-ey { color:#426d8a; }
+.tle-demo-v12-sales-proofcards { display:flex;gap:8px; }
+.tle-demo-v12-sales-proofcards span,.tle-demo-v12-sales-local { border:1px dashed #86b8d6;background:#f1f9fe;border-radius:12px;padding:11px;color:#376687;font-size:10px;line-height:1.4;flex:1; }
+.tle-demo-v12-sales-local {display:inline-block;flex:none;min-width:120px}
+@media(max-width:650px){.tle-demo-v12-sales-proof{grid-template-columns:1fr;gap:12px}.tle-demo-v12-sales-proof>div{padding:18px}}
