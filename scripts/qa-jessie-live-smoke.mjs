@@ -44,7 +44,8 @@ const call=await ask("English 1:1 call eligibility","Si you offer 1:1 call ?",{s
 assert.equal(call.mode,"verified_call");
 assert.equal(call.next_action,"none");
 assert.match(call.reply,/after you purchase a service/i);
-assert.doesNotMatch(call.reply,/request one here|book your call|schedule your call now|\\*\\*/i);
+assert.doesNotMatch(call.reply,/request one here|book your call|schedule your call now/i);
+assert.ok(!call.reply.includes("**"),"Chat reply must remain plain text");
 const callEs=await ask("Spanish 1:1 call eligibility","¿Ofrecen llamada 1:1 de 20 minutos?",{lang:"es",selected:"booking",path:"/es/"});
 assert.equal(callEs.mode,"verified_call");
 assert.equal(callEs.next_action,"none");
