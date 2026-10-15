@@ -64,7 +64,7 @@ html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) .trust{
 html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #bookingStarter{
   max-width:1080px!important;margin-inline:auto!important;margin-bottom:26px!important;padding:clamp(18px,2.8vw,30px)!important
 }
-html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) :is(.demo-cinematic-story,#demoHow,.tle-demo-v12-why,.tle-demo-v12-faq,.tle-demo-v12-end){
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) :is(.demo-cinematic-story,#demoHow,.tle-demo-v12-faq,.tle-demo-v12-end){
   display:none!important
 }
 html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) .tle-demo-v12-sections{max-width:1130px!important;margin:12px auto 20px!important;gap:18px!important}
