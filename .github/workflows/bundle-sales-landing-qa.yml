@@ -1,8 +1,13 @@
 name: Bundle Sales Landing QA
 on:
   push:
-    branches: [feature/bundle-sales-landing-human-20261014]
+    branches: [main, feature/bundle-sales-landing-human-20261014]
     paths:
+      - 'public/assets/tle-booking-bundle.js'
+      - 'public/ai-booking-assistant/**'
+      - 'public/es/ai-booking-assistant/**'
+      - 'public/service-checkout/**'
+      - 'public/assets/jessy-offers.json'
       - 'public/booking-bundle/index.html'
       - 'public/assets/tle-bundle-landing.*'
       - 'public/assets/bundle-landing/**'
