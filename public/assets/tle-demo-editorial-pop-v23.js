@@ -18,8 +18,8 @@
    why.classList.add("tle-editorial-why-v23");
    const title=content.querySelector("#tleWhyTitle");
    if(title)title.innerHTML=es
-     ?'Una limpieza<br>para <em>cada momento.</em>'
-     :'The right clean<br>for <em>your everyday.</em>';
+     ?'Una limpieza <br>para <em>cada momento.</em>'
+     :'The right clean <br>for <em>your everyday.</em>';
    const copy=content.querySelector("p");
    if(copy)copy.textContent=es
      ?"Desde una limpieza regular hasta una más profunda o para una mudanza, elige lo que mejor se adapta a tu hogar."
