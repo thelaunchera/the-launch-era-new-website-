@@ -1,0 +1,89 @@
+/* CB Depot private Command Center — mobile side gutters, 2026-10-14.
+   Presentation-only, scoped to the verified CB Depot buyer workspace.
+   Flatten the OUTER page card; preserve real request and booking controls. */
+@media (max-width: 760px) {
+  body.cb-depot-buyer {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+  body.cb-depot-buyer #app:not(.hidden) {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+  body.cb-depot-buyer #app:not(.hidden) .premium-workspace {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding-left: max(10px, env(safe-area-inset-left, 0px)) !important;
+    padding-right: max(10px, env(safe-area-inset-right, 0px)) !important;
+    box-sizing: border-box !important;
+  }
+  /* Remove the second, rounded "screen" around each business view.
+     Keep actual content cards so requests remain distinguishable. */
+  body.cb-depot-buyer #app:not(.hidden) .premium-workspace > section.premium-emailhub {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    overflow: visible;
+  }
+  body.cb-depot-buyer #buyerRequestsHub .request-layout {
+    width: 100%;
+    min-width: 0;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px;
+  }
+  body.cb-depot-buyer #buyerRequestsHub .request-layout > * {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+  body.cb-depot-buyer #buyerRequestsHub #buyerRequestDetail {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 16px !important;
+    border-radius: 18px !important;
+    box-sizing: border-box !important;
+  }
+  body.cb-depot-buyer #buyerRequestsHub #buyerRequestCards {
+    max-height: none !important;
+    overflow-y: visible !important;
+    min-width: 0;
+  }
+  body.cb-depot-buyer #buyerRequestsHub #buyerRequestReplyArea,
+  body.cb-depot-buyer #buyerRequestsHub #buyerRequestMessage,
+  body.cb-depot-buyer #buyerRequestsHub #buyerRequestDetails,
+  body.cb-depot-buyer #buyerRequestsHub #buyerRequestStatus {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-wrap: anywhere;
+  }
+  body.cb-depot-buyer #buyerRequestsHub #buyerRequestReplyArea :is(input, select, textarea) {
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  body.cb-depot-buyer #buyerRequestsHub #buyerRequestReplyArea > div[style*="display:flex"] {
+    max-width: 100%;
+  }
+}
+@media (max-width: 480px) {
+  body.cb-depot-buyer #buyerRequestsHub .request-detail-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  body.cb-depot-buyer #buyerRequestsHub #buyerRequestConfirmSlot {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
