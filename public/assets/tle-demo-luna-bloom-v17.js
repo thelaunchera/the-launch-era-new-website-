@@ -62,8 +62,9 @@
    mark.className="tle-bloom-emblem";mark.setAttribute("aria-hidden","true");mark.textContent="✿";
    const lockup=document.createElement("span");lockup.className="tle-bloom-lockup";
    const name=document.createElement("strong");name.className="tle-bloom-name";name.textContent=business;
-   const descriptor=document.createElement("small");descriptor.className="tle-bloom-descriptor";descriptor.textContent=text.label;
-   lockup.append(name,descriptor);brand.append(mark,lockup);
+   // The public sample logo uses its business name only. Do not add a
+   // RESIDENTIAL CLEANING descriptor: the demo also shows commercial services.
+   lockup.append(name);brand.append(mark,lockup);
    brand.setAttribute("aria-label",business+" — "+(es?"volver al inicio":"back to top"));
  }
  const nav=$(".demo-editorial-nav .demo-navlinks");
