@@ -63,6 +63,15 @@
        quoteButton.classList.add("tle-v34-single-quote");
      }
    }
+   // The current construction image shows a wall corner, not cleanup.
+   // Leave the working quote path available through the single custom CTA.
+   const construction=[...commercial.querySelectorAll(":scope > button.service")]
+     .find(button=>/Post-Construction|posconstrucción/i.test(button.textContent));
+   if(construction){
+     construction.hidden=true;
+     construction.setAttribute("aria-hidden","true");
+     construction.tabIndex=-1;
+   }
    // The fieldset's floating native legend looked like an overlapping square
    // on mobile. Keep it for form semantics but add an in-card visual heading.
    document.querySelectorAll("#bookingStarter fieldset.tle-v30-tasklist").forEach(fieldset=>{
