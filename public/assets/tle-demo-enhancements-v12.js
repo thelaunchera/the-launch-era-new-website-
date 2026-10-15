@@ -2,7 +2,7 @@
 "use strict";
 const qs=new URLSearchParams(location.search);
 const isProspect=/\/lead-private-preview\.html$/.test(location.pathname);
-const isSales=/\/booking-demo\/?$/.test(location.pathname);
+const isSales=/\/booking-demo(?:\/|\/index\.html)?$/.test(location.pathname);
 if(!isProspect&&!isSales)return;
 const isLive=qs.has("key")||qs.get("owner_preview")==="1";
 if(isProspect&&isLive)return;
