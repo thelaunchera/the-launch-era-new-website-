@@ -201,8 +201,8 @@ console.log("PASS Jessie 3 AI plans, exact EN/ES prices, specific checkout and n
 assert.match(front,/const next=result.next_action/);
 assert.match(front,/if\(next==="checkout"&&checkout\)/);
 assert.match(front,/else if\(next==="trial"&&result.trial\)/);
-assert.match(front,/if\(next==="demo"&&DEMOS\[offer\]\)showDemoCard\(offer\)/);
-assert.match(front,/else if\(next==="demo"&&!DEMOS\[offer\]&&info\)/);
+assert.match(front,/if\(next==="demo"&&offer==="booking"\)showDemoCard\("booking"\)/);
+assert.match(front,/else if\(next==="demo"&&offer!=="booking"&&info\)/);
 assert.match(front,/demoGate\.addEventListener\("submit"/);
 assert.match(front,/data\.email_sent!==true/);
 assert.match(front,/Check your inbox!.*my friend Sonny/);
