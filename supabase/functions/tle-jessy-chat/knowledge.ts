@@ -23,7 +23,7 @@ export const FAQ: Fact[] = [
   es:"Para solicitudes de cotización elegibles, el flujo configurado puede enviar hasta dos correos de seguimiento si el cliente acepta recordatorios. Los tiempos se configuran para cada negocio. Se detienen al responder, cancelar recordatorios o cerrar la solicitud; el dueño también puede pausarlos. AI Follow-Up es un plan aparte para ayudar con esas conversaciones."},
 
  {service:"general",topic:"business",
-  keywords:["what do you do","what services","what do you sell","your business","que hacen","que ofrecen","que venden","servicios tienen","who are you"],
+  keywords:["what do you do","what services","what do you sell","your business","how can you help","what can you help with","what can you do","que hacen","que ofrecen","que venden","servicios tienen","en que me puedes ayudar","que puedes ayudarme","que puedes hacer","como puedes ayudarme","who are you"],
   en:"The Launch Era helps cleaning business owners organize inquiries, bookings, follow-ups and day-to-day work. We offer Booking Automation + Command Center, the Cleaning Web App, AI Assistants, Website Automation and VA support.",
   es:"The Launch Era ayuda a negocios de limpieza a organizar consultas, reservas, seguimientos y operaciones. Ofrecemos Booking Automation + Command Center, Cleaning Web App, asistentes IA, Website Automation y apoyo VA."},
  {service:"general",topic:"audience",
