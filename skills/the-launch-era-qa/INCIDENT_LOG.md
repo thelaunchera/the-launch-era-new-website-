@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-15 | Jessie public website chat replied “Ese detalle no lo tengo confirmado” to “Que puedes ayudarme hoy” instead of explaining services | Verified: `tle-jessy-chat/index.ts` routes broad help questions to AI/FAQ and then `unknownAnswer` when the model is unavailable or no FAQ keyword matched; screenshot confirms the unhelpful public reply. | Added an EN/ES deterministic self-introduction before AI and AI plan routing: Booking Automation, Cleaning App, AI Assistants, Website Automation, VA; helpful pricing/demo guidance and one diagnostic question. Added general FAQ synonyms and `qa-jessie-capabilities.mjs` with positive/negative intent cases. No customer records or messaging modified. | 🟡 Source QA complete; production Edge Function/browser reply still requires verification. |
+
+
 | 2026-10-15 | User disliked rounded capsule around fictitious business name at top of Luna Bloom demo; requested dark shadow gradient and more beautiful unframed name | `tle-demo-identity-v28.css` rendered nav logo as 999px border-radius pill with border and filled blue gradient, creating an unnecessary heavy card. | Added v29 sample-only dark-to-transparent nav shadow and removed logo capsule completely; wordmark uses larger elegant serif and unclipped responsive lines; preserves accessible home link and tenant isolation. Browser EN/ES QA + deploy required. | 🟡 Pending fresh browser/deploy verification |
 
 
