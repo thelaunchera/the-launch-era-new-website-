@@ -84,6 +84,16 @@ function init(){
   jumpToPanel();
  });
  back.addEventListener("click",exit);
+ // Return home is inside the service chooser. A bare #leadHero anchor
+ // cannot reveal the hero while focused booking CSS intentionally hides it.
+ // Reuse the SAME exit/reset path as the working top Booking Studio button.
+ panel.querySelectorAll(".tle-return-home-link").forEach(link=>{
+   link.addEventListener("click",event=>{
+     event.preventDefault();
+     exit();
+   });
+   link.setAttribute("aria-label",es?"Volver a la portada del demo":"Return to demo home");
+ });
  // The brand remains a real way to return to the public demo cover.
  document.getElementById("demoBrandName")?.addEventListener("click",e=>{
   if(!focused)return;
