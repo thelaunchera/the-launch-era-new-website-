@@ -50,11 +50,22 @@ Deno.serve(async(req:Request)=>{
  try{if(!await rateLimit(req,email))return json({error:"Too many requests; please try again later"},429,origin);}catch{return json({error:"Please try again later"},503,origin);}
  const db=createClient(BASE,SR,{auth:{persistSession:false,autoRefreshToken:false}});
  // Preserve existing lead and opt-out choices. Never create two CRM rows for the same email.
- const {data:existing,error:lookError}=await db.from("tle_crm_leads").select("id,email_consent_status,archived_at,contact_decision,source").eq("workspace_id",WORKSPACE).ilike("email",email).order("created_at",{ascending:false}).limit(1);
+ const {data:existing,error:lookError}=await db.from("tle_crm_leads").select("id,email_consent_status,archived_at,contact_decision,source,notes").eq("workspace_id",WORKSPACE).ilike("email",email).order("created_at",{ascending:false}).limit(30);
  if(lookError)return json({error:"Could not check existing request"},503,origin);
  const previous=existing?.[0];
- if(previous&&(previous.email_consent_status==="withdrawn"||previous.archived_at||previous.contact_decision==="no"))return json({error:"This email cannot receive a new invitation. Please contact support."},409,origin);
+ if((existing||[]).some(row=>row.email_consent_status==="withdrawn"||row.contact_decision==="no"))
+  return json({error:"This email cannot receive a new invitation. Please contact support."},409,origin);
+ if(previous?.archived_at)return json({error:"This email is archived; please contact support."},409,origin);
  let leadId=String(previous?.id||"");
+ if(previous?.id){
+  // Keep the original lead source and consent status; update only the visitor's
+  // latest requested demo context so Command Center has the service area.
+  const extra="Jessie demo request — "+service.name+"; service area: "+area+". Transactional demo email requested, no marketing subscription.";
+  const notes=(String(previous.notes||"").slice(0,1000)+" | "+extra).slice(-1350);
+  const {error:updateError}=await db.from("tle_crm_leads").update({notes,updated_at:new Date().toISOString()})
+   .eq("id",previous.id).eq("workspace_id",WORKSPACE);
+  if(updateError)return json({error:"Could not update demo request"},503,origin);
+ }
  if(!leadId){
   const {data:created,error:insertError}=await db.from("tle_crm_leads").insert({
    workspace_id:WORKSPACE,business,contact:business,email,language:lang,stage:"New",
