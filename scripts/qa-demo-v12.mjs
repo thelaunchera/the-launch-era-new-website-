@@ -138,8 +138,13 @@ for(const width of [360,390,820,1024,1440]){
      'Custom request divider should be localized: '+JSON.stringify(organic));
    assert(organic.intro.includes(lang==='es'?'UNA SOLA EXPERIENCIA':'ONE EASY FLOW')
      &&organic.steps===3,'Timeline label/steps missing: '+JSON.stringify(organic));
-   assert(organic.rowBorder==='0px'&&organic.iconBorder==='0px',
-     'Service choices should have no square card borders: '+JSON.stringify(organic));
+   if(await page.evaluate(()=>document.documentElement.classList.contains('tle-photo-services-v21'))){
+     assert(organic.rowBorder==='1px'&&organic.iconBorder==='1px',
+       'Compact photo cards must use subtle, intentional 1px outlines: '+JSON.stringify(organic));
+   }else{
+     assert(organic.rowBorder==='0px'&&organic.iconBorder==='0px',
+       'Service choices should have no square card borders: '+JSON.stringify(organic));
+   }
    assert(!organic.horizontalOverflow,
      'Organic layout overflowed responsive viewport: '+JSON.stringify(organic));
    assert(customer.serviceOnclick?.includes('startResidential'),
