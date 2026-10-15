@@ -5,6 +5,9 @@ on:
     paths:
       - 'public/assets/tle-booking-bundle.js'
       - 'public/ai-booking-assistant/**'
+      - 'public/assets/tle-guided-intakes.js'
+      - 'public/booking-flow-intake/index.html'
+      - 'public/es/booking-flow-intake/index.html'
       - 'public/es/ai-booking-assistant/**'
       - 'public/service-checkout/**'
       - 'public/assets/jessy-offers.json'
@@ -51,7 +54,10 @@ jobs:
         if: always()
         with:
           name: bundle-landing-qa-screenshots
-          path: qa-screenshots/bundle-landing*.png
+          path: |
+            qa-screenshots/bundle-landing*.png
+            qa-screenshots/ai-intake*.png
+            qa-screenshots/booking-guided*.png
           if-no-files-found: ignore
       - uses: oven-sh/setup-bun@v2
         with:
