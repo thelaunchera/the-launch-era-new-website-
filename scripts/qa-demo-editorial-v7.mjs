@@ -90,7 +90,23 @@ for(const lang of ['en','es']){
      price:getComputedStyle(document.querySelector('#residentialServiceList .service .price')).color
    }));
    assert(darkUi.css&&darkUi.page==='rgb(8, 13, 19)','Midnight stylesheet/page backdrop not active '+JSON.stringify(darkUi));
-   assert(darkUi.panelBg==='none'&&darkUi.card==='none','Continuous design should not render nested booking/option cards: '+JSON.stringify(darkUi));
+   if(await page.evaluate(()=>document.documentElement.classList.contains('tle-photo-services-v21'))){
+     // The v21 photo cards intentionally have a contained photo surface; unlike
+     // the old giant nested options, they are compact and remain fully clickable.
+     assert(darkUi.panelBg==='none'&&darkUi.card.includes('linear-gradient'),
+       'Photo service cards should be intentional, with transparent parent: '+JSON.stringify(darkUi));
+     const photoShape=await page.evaluate(()=>{
+       const btn=document.querySelector('#residentialServiceList button.service');
+       const photo=btn.querySelector('.tle-service-photo-v21 img');
+       return {button:btn.getBoundingClientRect().width,image:photo.getBoundingClientRect().width,
+               count:document.querySelectorAll('.tle-service-photo-v21 img').length,
+               overflow:document.documentElement.scrollWidth>innerWidth+3};
+     });
+     assert(photoShape.count===7&&photoShape.button<=width&&photoShape.image>45&&!photoShape.overflow,
+       'Drive photo cards must be compact, visible and responsive: '+JSON.stringify(photoShape));
+   } else {
+     assert(darkUi.panelBg==='none'&&darkUi.card==='none','Continuous design should not render nested booking/option cards: '+JSON.stringify(darkUi));
+   }
    assert(darkUi.title==='rgb(255, 255, 255)'&&darkUi.price==='rgb(169, 223, 255)','White/ice-blue contrast lost '+JSON.stringify(darkUi));
    assert.equal(m.ctaHref,'#categoryTabs','Begin must be a working anchor');
    assert.equal(m.categoryButtons,2,'Residential/Commercial navigation missing');
