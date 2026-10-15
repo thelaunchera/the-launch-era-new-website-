@@ -101,3 +101,21 @@ body:has(.tle-ai-panel:not([hidden])) .tle-demo-v12-welcome,body:has(.tle-jessy-
 .tle-demo-v12-sales-proofcards span,.tle-demo-v12-sales-local { border:1px dashed #86b8d6;background:#f1f9fe;border-radius:12px;padding:11px;color:#376687;font-size:10px;line-height:1.4;flex:1; }
 .tle-demo-v12-sales-local {display:inline-block;flex:none;min-width:120px}
 @media(max-width:650px){.tle-demo-v12-sales-proof{grid-template-columns:1fr;gap:12px}.tle-demo-v12-sales-proof>div{padding:18px}}
+
+
+/* End-of-sample second-run CTA — only visible on the successful test request. */
+#done .tle-demo-v12-retry {
+ display:flex;align-items:center;justify-content:flex-start;gap:14px;
+ width:100%;max-width:100%;min-height:80px;margin:17px 0 13px;
+ padding:13px 18px;border:1px solid #a9dfff;border-radius:20px;
+ background:linear-gradient(115deg,#15364d,#122332);color:#fff;
+ font:700 15px/1.35 Prompt,Arial,sans-serif;cursor:pointer;text-align:left;
+ box-shadow:0 8px 28px #07132144;white-space:normal;
+}
+#done .tle-demo-v12-retry img{width:54px;height:54px;object-fit:contain;flex:0 0 54px;}
+#done .tle-demo-v12-retry .tle-demo-v12-retry-copy{display:flex;flex-direction:column;gap:6px;min-width:0}
+#done .tle-demo-v12-retry strong{font-size:clamp(13px,1.45vw,16px);color:#fff;line-height:1.4;}
+#done .tle-demo-v12-retry small{font-size:11px;line-height:1.35;color:#bce3f7;font-family:Arial,sans-serif;font-weight:500;}
+#done .tle-demo-v12-retry:hover{background:linear-gradient(115deg,#1d4968,#16334b);border-color:#ddf5ff}
+#done .tle-demo-v12-retry:focus-visible{outline:3px solid #a9dfff;outline-offset:3px}
+@media(max-width:480px){#done .tle-demo-v12-retry{padding:12px;gap:10px;min-height:74px}#done .tle-demo-v12-retry img{width:45px;height:45px;flex-basis:45px}}
