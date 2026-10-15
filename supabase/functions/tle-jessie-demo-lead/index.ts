@@ -9,15 +9,8 @@ const ALLOWED=new Set(["https://thelaunchera.com","https://www.thelaunchera.com"
 const clean=(v:unknown,n:number)=>String(v??"").replace(/[\u0000-\u001f\u007f<>]/g," ").trim().slice(0,n);
 const escapeHtml=(v:string)=>v.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 const json=(o:unknown,status:number,origin:string)=>new Response(JSON.stringify(o),{status,headers:{"Content-Type":"application/json","Cache-Control":"no-store","Vary":"Origin","Access-Control-Allow-Origin":ALLOWED.has(origin)?origin:"https://thelaunchera.com","Access-Control-Allow-Headers":"content-type","Access-Control-Allow-Methods":"POST, OPTIONS"}});
-const SERVICE:Record<string,{name:string,code:string,url:string}>={
- booking:{name:"Booking Automation",code:"booking-automation",url:"https://thelaunchera.com/lead-private-preview.html"},
- "cleaning-app":{name:"Cleaning App",code:"cleaning-app",url:"https://thelaunchera.com/cleaning-app-demo/"},
- "ai-booking":{name:"AI Assistants",code:"ai-assistant",url:"https://thelaunchera.com/ai-booking-assistant/"},
- "ai-followup":{name:"AI Assistants",code:"ai-assistant",url:"https://thelaunchera.com/ai-booking-assistant/"},
- "ai-business":{name:"AI Assistants",code:"ai-assistant",url:"https://thelaunchera.com/ai-booking-assistant/"},
- website:{name:"Website Automation",code:"booking-automation",url:"https://thelaunchera.com/website-automation"},
- va:{name:"VA Support",code:"booking-automation",url:"https://thelaunchera.com/virtual-assistant"}
-};
+// The public demo email gate is for Booking Automation ONLY. Cleaning App previews require no form.
+const SERVICE={name:"Booking Automation",code:"booking-automation",url:"https://thelaunchera.com/lead-private-preview.html"};
 function emailHtml(business:string,area:string,svc:{name:string,url:string},interest:string,lang:string){
  const es=lang==="es";
  const title=es?"Tu demo de The Launch Era":"Your The Launch Era demo";
@@ -44,7 +37,9 @@ Deno.serve(async(req:Request)=>{
  const data=await req.json().catch(()=>null);
  if(!data||typeof data!=="object")return json({error:"Invalid request"},400,origin);
  const business=clean(data.business_name,100),email=clean(data.email,200).toLowerCase();
- const area=clean(data.service_area,100),service=SERVICE[clean(data.service,40)]||SERVICE.booking,lang=data.language==="es"?"es":"en";
+ const area=clean(data.service_area,100),lang=data.language==="es"?"es":"en";
+ if(clean(data.service,40)!=="booking")return json({error:"Only Booking Automation demos require this form. The Cleaning App demo is available without contact details."},400,origin);
+ const service=SERVICE;
  if(!business||!area||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||data.consent!==true||clean(data.website,150))return json({error:"Business, email, service area and explicit consent are required"},400,origin);
  if(!BASE||!SR)return json({error:"Temporarily unavailable"},503,origin);
  try{if(!await rateLimit(req,email))return json({error:"Too many requests; please try again later"},429,origin);}catch{return json({error:"Please try again later"},503,origin);}

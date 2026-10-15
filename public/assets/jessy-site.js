@@ -120,8 +120,7 @@ const privacy=node("p","tle-jessy-note",t("privacy"));leadForm.append(submit,for
 panel.append(head,log,quick,bottom,lead);root.append(fab,nudge,backdrop,panel);document.body.append(root);
 
 const DEMOS=Object.freeze({
-  booking:{url:"/lead-private-preview.html",name:"Booking Experience",es:"Experiencia de reservas",image:"/assets/lead-demo/hero-luxury-home.png"},
-  "cleaning-app":{url:"/cleaning-app-demo/",name:"Cleaning App",es:"Cleaning App",image:"/assets/cleaning-demo/living-suite.png"}
+  booking:{url:"/lead-private-preview.html",name:"Booking Automation",es:"Booking Automation",image:"/assets/lead-demo/hero-luxury-home.png"}
 });
 // Reuses existing public sample screens; never passes customer access keys or real booking data.
 const demoOverlay=node("div","tle-jessy-demo-overlay");
@@ -209,8 +208,8 @@ function closeDemo(){
  (demoLastFocus&&demoLastFocus.isConnected?demoLastFocus:input).focus();
 }
 function openDemo(id){
- const d=DEMOS[id];if(!d)return;
- demoSelected=id;demoLastFocus=document.activeElement;
+ const d=DEMOS[id];if(!d||id!=="booking")return;
+ demoSelected="booking";demoLastFocus=document.activeElement;
  demoTitle.textContent=lang==="es"?d.es:d.name;
  demoCaption.textContent=lang==="es"?"Demo de ejemplo · Sin reservas reales":"Sample only · No real bookings";
  demoExternal.textContent=lang==="es"?"Abrir pantalla completa ↗":"Open full size ↗";
@@ -240,7 +239,7 @@ demoOverlay.addEventListener("keydown",event=>{
  }
 });
 function showDemoCard(id){
- const d=DEMOS[id];if(!d)return false;
+ const d=DEMOS[id];if(!d||id!=="booking")return false;
  const card=button("tle-jessy-demo-card","","");
  card.setAttribute("aria-label",lang==="es"?"Abrir demo interactiva":"Open interactive demo");
  const photo=node("img","tle-jessy-demo-cover");photo.src=d.image;photo.alt="";photo.loading="lazy";
@@ -364,12 +363,13 @@ if(result&&typeof result.reply==="string"){
  // The old auto-actions repeated "Get started / How it works" after EVERY answer.
  if(!plansShown){
   const next=result.next_action;
-  if(next==="demo"&&DEMOS[offer])showDemoCard(offer);
-  else if(next==="demo_choice"){showDemoCard("booking");showDemoCard("cleaning-app")}
+  if(next==="demo"&&offer==="booking")showDemoCard("booking");
+  else if(next==="demo_choice"){showDemoCard("booking")}
+  else if(next==="app_demo"){const a=node("a","tle-jessy-help-link",lang==="es"?"Explorar la demo de la Cleaning App ↗":"Explore the Cleaning App demo ↗");a.href="/cleaning-app-demo/?lang="+lang;a.rel="noopener";log.append(a);log.scrollTop=log.scrollHeight;track("service_demo_opened")}
   if(next==="client_help"){const help=button("tle-jessy-help-link",lang==="es"?"Contactar a soporte ↗":"Contact support securely ↗");help.addEventListener("click",()=>showLead(true));log.append(help)}
   if(next==="checkout"&&checkout)actions(checkout,info,null);
   else if(next==="trial"&&result.trial)actions(null,info,result.trial);
-  else if(next==="demo"&&!DEMOS[offer]&&info)actions(null,info,null);
+  else if(next==="demo"&&offer!=="booking"&&info)actions(null,info,null);
  }
  if(lastIntent==="comparison")track("comparison");
  if(lastIntent==="pricing")track("pricing");
