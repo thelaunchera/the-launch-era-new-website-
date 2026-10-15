@@ -73,7 +73,7 @@ for(const lang of ['en','es']){
    assert(quotePhoto.image.includes('living-room-original.jpg')&&!quotePhoto.image.includes('250, 248, 243'),'Quote card must use the original room and black overlay');
    assert.equal(quotePhoto.title,'rgb(255, 255, 255)','Quote title must stay white');
    assert.equal(m.cardCount,5,'Five working residential options must remain');
-   assert(m.cardIconWidth>=19,'Service card icons hidden or too small');
+   assert(m.cardIconWidth>=19,'Service card icons hidden or too small: '+JSON.stringify({width,cardIconWidth:m.cardIconWidth,photoMode:await page.evaluate(()=>document.documentElement.classList.contains('tle-photo-services-v21'))}));
    assert(m.serviceFont>=14.5,'Service typography too small');
    assert(m.headerFont.includes('Prompt'),'Headings not using Prompt typography');
    assert(m.ctaRadius>=24 && m.circleRadius>=16,'CTA or arrow icon still looks square');
