@@ -421,3 +421,42 @@ html.demo-editorial.tle-demo-compact-v30 #bookingStarter fieldset.tle-v30-taskli
  html.demo-editorial.tle-demo-compact-v30 #tleDemoEditorialGallery{scroll-behavior:auto!important}
  html.demo-editorial.tle-demo-compact-v30 #tleDemoEditorialGallery .tle-editorial-photo-card>img{transition:none!important}
 }
+
+/* v32 editorial carousel controls — no overlays blocking the photography. */
+html.demo-editorial.tle-demo-compact-v30 #tleV32EditorialControls{
+ box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;
+ gap:16px;max-width:100%;min-height:65px;
+ padding:8px clamp(21px,4vw,65px) 17px;
+ background:#f0f8fe;color:#244e6a
+}
+html.demo-editorial.tle-demo-compact-v30 #tleV32EditorialControls .tle-v32-editorial-hint{
+ font:750 11px/1.4 "DM Sans",Arial,sans-serif;letter-spacing:.15em;
+ color:#316a8c
+}
+html.demo-editorial.tle-demo-compact-v30 #tleV32EditorialControls .tle-v32-editorial-dots,
+html.demo-editorial.tle-demo-compact-v30 #tleV32EditorialControls .tle-v32-editorial-actions{
+ display:flex;align-items:center;justify-content:center;gap:9px
+}
+html.demo-editorial.tle-demo-compact-v30 #tleV32EditorialControls .tle-v32-editorial-dots button{
+ width:10px;height:10px;min-width:10px;border:0;border-radius:99px;
+ padding:0;background:#8eafc5;cursor:pointer;transition:width .25s,background .25s
+}
+html.demo-editorial.tle-demo-compact-v30 #tleV32EditorialControls .tle-v32-editorial-dots button[aria-current=true]{
+ background:#276d98;width:29px
+}
+html.demo-editorial.tle-demo-compact-v30 #tleV32EditorialControls .tle-v32-editorial-actions button{
+ width:41px;height:41px;display:grid;place-items:center;border-radius:50%;
+ background:#fff;border:1px solid #9cc9e2;color:#205c80;
+ font-size:20px;cursor:pointer
+}
+html.demo-editorial.tle-demo-compact-v30 #tleV32EditorialControls button:focus-visible,
+html.demo-editorial.tle-demo-compact-v30 #tleDemoEditorialGallery:focus-visible{
+ outline:3px solid #4a9ed0;outline-offset:3px
+}
+@media(max-width:550px){
+ html.demo-editorial.tle-demo-compact-v30 #tleV32EditorialControls{padding:8px 18px 18px;gap:10px}
+ html.demo-editorial.tle-demo-compact-v30 #tleV32EditorialControls .tle-v32-editorial-hint{
+  font-size:9px;letter-spacing:.1em;max-width:100px
+ }
+ html.demo-editorial.tle-demo-compact-v30 #tleV32EditorialControls .tle-v32-editorial-actions button{width:36px;height:36px}
+}
