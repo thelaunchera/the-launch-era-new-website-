@@ -44,7 +44,7 @@ assert.equal(isBusinessCleaningPriceQuestion("How much to clean a house?"),true)
 const answer=answerPrice("How much?","en",list,"booking");
 assert.ok(answer.includes(offers.find((x:any)=>x.id==="booking").price_en));
 assert.ok(!answer.includes("A customer sends a cleaning request"));
-assert.ok(answerPrice("¿Cuánto cuesta?","es",list,"ai-followup").includes("$59"));
+assert.ok(answerPrice("¿Cuánto cuesta?","es",list,"ai-followup").includes("$29"));
 assert.equal(tooSimilarAnswer("The same exact description of booking requests",[
  {role:"assistant",message:"The same exact description of booking requests"},
  {role:"user",message:"How does booking work?"}
