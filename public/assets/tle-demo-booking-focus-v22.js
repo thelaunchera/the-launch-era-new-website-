@@ -25,6 +25,20 @@ function init(){
   note:"Interactive preview · nothing is booked or sent",
   exit:"Back at the demo home. No request was submitted."
  };
+ // Marketing sections now have a real action into the connected booking
+ // experience, rather than abruptly ending with static descriptive text.
+ for(const [selector,cta] of [
+   [".demo-cinematic-copy",es?"Explorar la reserva interactiva":"Try the booking experience"],
+   ["#demoHow .demo-bottom-text",es?"Crear una solicitud de ejemplo":"Build a sample request"]
+ ]){
+   const target=document.querySelector(selector);
+   if(!target||target.querySelector(".tle-demo-connected-cta"))continue;
+   const link=document.createElement("a");
+   link.href="#bookingStarter";
+   link.className="tle-demo-connected-cta";
+   link.textContent=cta+" ↗";
+   target.append(link);
+ }
  const bar=document.createElement("div");bar.id="tleFocusBookingBar";bar.className="tle-focus-booking-bar";
  bar.setAttribute("aria-label",es?"Controles de la reserva":"Booking navigation");
  const left=document.createElement("span");left.className="tle-focus-booking-label";left.textContent=text.brand;
