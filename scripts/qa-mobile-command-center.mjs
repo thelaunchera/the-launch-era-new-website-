@@ -10,6 +10,7 @@ const ownerJS=readFileSync(base+"assets/jessy-owner.js","utf8");
 const news=readFileSync(base+"assets/command-center-notification-settings.js","utf8");
 const cbCss=readFileSync(base+"assets/cb-depot-clarity.css","utf8");
 const cbJs=readFileSync(base+"assets/cb-depot-clarity.js","utf8");
+const cbEdge=readFileSync(base+"assets/cb-depot-mobile-edge.css","utf8");
 const checks=[
  ["viewport meta uses device width",html.includes('name="viewport" content="width=device-width,initial-scale=1"')],
  ["owner and client share responsive dashboard",css.includes("#app:not(.hidden) .premium-workspace")],
@@ -29,7 +30,10 @@ const checks=[
  ["CB Depot dark mode follow-ups remain readable",cbCss.includes("#buyerFollowupsIntro details")&&cbCss.includes("var(--cb-text)!important")],
  ["CB Depot dashboard uses real request statistics",cbJs.includes("buyerDashboardStats")&&cbJs.includes("relocateDashboard()")],
  ["CB Depot groups original navigation buttons",cbJs.includes("cbNavCustomers")&&cbJs.includes("cbNavTools")&&cbJs.includes("cbNavHelp")],
- ["CB Depot email health stacks on phones",cbCss.includes("#buyerEmailHealth > .panel {grid-template-columns:1fr!important")]
+ ["CB Depot email health stacks on phones",cbCss.includes("#buyerEmailHealth > .panel {grid-template-columns:1fr!important")],
+ ["CB Depot phone gutters remain 10px with safe areas",html.includes("cb-depot-mobile-edge.css?v=")&&cbEdge.includes("max(10px, env(safe-area-inset-left, 0px))")],
+ ["CB Depot outer mobile container is flattened, not business data",cbEdge.includes("section.premium-emailhub")&&cbEdge.includes("border-radius: 0 !important")&&cbEdge.includes("body.cb-depot-buyer")],
+ ["CB Depot mobile inbox remains one column without overflow",cbEdge.includes("#buyerRequestDetail")&&cbEdge.includes("grid-template-columns: minmax(0, 1fr)")]
 ];
 new Script(i18n,{filename:"command-center-i18n.js"});
 new Script(ownerJS,{filename:"jessy-owner.js"});
