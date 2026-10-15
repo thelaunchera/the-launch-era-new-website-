@@ -1427,6 +1427,30 @@ function buildIntakeRows(intake){
   const content=ownerPageElem('p',typeof value==='string'?value:JSON.stringify(value),'font-size:13px;white-space:pre-wrap;word-break:break-word;line-height:1.55;margin:0');
   cell.append(head,content);box.append(cell);
  }
+ const guidance=intake.guided_pricing;
+ if(guidance?.version===1&&Array.isArray(guidance.services)){
+  const panel=ownerPageElem('div',undefined,'padding:16px;background:#f0f8fd;border:1px solid #bfd8e7;border-radius:16px;min-width:0;overflow-wrap:anywhere');
+  panel.append(ownerPageElem('strong',buildLabel('Pricing setup · production review','Precios del intake · revisión de producción'),'display:block;font-size:14px;margin-bottom:8px'));
+  panel.append(ownerPageElem('p',buildLabel('The customer supplied these amounts. Do not publish prices or enable automatic confirmation until the rules and page pass agency QA.','El cliente proporcionó estos importes. No publiques precios ni confirmes reservas automáticamente antes de aprobar las reglas y las pruebas.'),'font-size:12px;line-height:1.5;margin:0 0 9px'));
+  for(const service of guidance.services){
+   const fixed=service.mode==='fixed'&&Number(service.fixed_price)>0?'$'+service.fixed_price:null;
+   const range=service.mode==='estimate'?(service.estimate_min?'$'+service.estimate_min:'—')+' – '+(service.estimate_max?'$'+service.estimate_max:'—'):null;
+   const exposed=service.mode==='fixed'?guidance.fixed_price_public_approved:service.mode==='estimate'?guidance.estimate_public_approved:false;
+   panel.append(ownerPageElem('div',String(service.name||'Service')+' · '+(fixed||range||buildLabel('Custom quote','Cotización personalizada'))+' · '+(exposed?buildLabel('Buyer display preference: yes, requires QA','Preferencia de mostrar: sí, requiere QA'):buildLabel('Internal only · do not display','Solo interno · no mostrar')),'padding:8px 0;border-top:1px solid #d5e4ed;font-size:12px;line-height:1.45'));
+  }
+  if(Array.isArray(guidance.estimate_factors)&&guidance.estimate_factors.length)
+   panel.append(ownerPageElem('p',buildLabel('Estimate factors: ','Factores de estimación: ')+guidance.estimate_factors.join(', '),'font-size:12px;margin:9px 0 0'));
+  box.append(panel);
+ }
+ const bundlePreferences=intake.ai_assistant_settings?.guided_preferences;
+ if(bundlePreferences?.version===1){
+  const bundle=ownerPageElem('div',undefined,'padding:14px;border:1px solid #cddfeb;border-radius:15px;background:#f5fafe;font-size:12px');
+  bundle.append(ownerPageElem('strong',buildLabel('Bundled AI · agent production instructions','IA incluida · instrucciones para agentes'),'display:block;margin-bottom:8px'));
+  if(bundlePreferences.booking)bundle.append(ownerPageElem('p',buildLabel('Booking tasks: ','Reservas: ')+(bundlePreferences.booking.tasks||[]).join(', '),'margin:5px 0;overflow-wrap:anywhere'));
+  if(bundlePreferences.followup)bundle.append(ownerPageElem('p',buildLabel('Follow-up situations: ','Seguimientos: ')+(bundlePreferences.followup.triggers||[]).join(', '),'margin:5px 0;overflow-wrap:anywhere'));
+  bundle.append(ownerPageElem('p',buildLabel('Projects → Developer → QA → owner approval. No automatic public release.','Projects → Developer → QA → aprobación de la agencia. Nada se publica automáticamente.'),'font-weight:700;margin:9px 0 0'));
+  box.append(bundle);
+ }
  if(!box.children.length)box.append(ownerPageElem('p',buildLabel('Waiting for intake details.','Esperando el formulario de la compradora.')));
 }
 let privateEmailDraft=null,privateEmailConfirm='';
