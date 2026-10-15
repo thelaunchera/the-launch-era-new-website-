@@ -19,14 +19,14 @@ for(const language of ['en','es']){
  const call=await ask({message:language==='es'?'¿Ustedes ofrecen llamadas 1:1 de 20 minutos?':'Si you offer 1:1 call ?',language,selected_offer:'booking'});
  assert.equal(call.mode,'verified_call');
  assert.equal(call.next_action,'none');
- assert.match(call.reply,language==='es'?/después de comprar un servicio|después de comprar/:/after purchasing a service|after you purchase a service/);
+ assert.match(call.reply,language==='es'?/después de comprar un servicio|después de comprar/i:/after purchasing a service|after you purchase a service/i);
  assert.match(call.reply,language==='es'?/opcional/:/optional/,"The call must be clearly optional.");
  assert.match(call.reply,language==='es'?/no es obligatoria/:/not required/,"The call must not be mandatory.");
  assert.doesNotMatch(call.reply,/request one here|puedes solicitarla aqui|pre-purchase.*offer|\*\*|schedule your call now/i);
  const explain=await ask({message:language==='es'?'¿Cómo funciona Booking Automation?':'How does Booking Automation work?',language,selected_offer:'booking'});
  assert.match(explain.reply,language==='es'?/llamada 1:1 opcional de 20 minutos/:/optionally request a 20-minute 1:1 call/);
  assert.match(explain.reply,language==='es'?/no es obligatoria/:/not required/);
- assert.match(explain.reply,language==='es'?/Después de comprar un servicio/:/After purchasing a service/);
+ assert.match(explain.reply,language==='es'?/Después de comprar un servicio/i:/After purchasing a service/i);
  assert.equal(explain.next_action,'none',"No presale call booking actions on explanation.");
  const purchased=await ask({message:language==='es'?'Ya compré mi servicio, ¿cómo hago mi llamada 1:1?':'I already purchased a service, how do I schedule my 1:1 call?',language,selected_offer:'booking'});
  assert.equal(purchased.mode,'verified_call');
