@@ -43,19 +43,25 @@ assert.equal(privateCheck.mode,"privacy","Never claim private workspace access")
 const call=await ask("English 1:1 call eligibility","Si you offer 1:1 call ?",{selected:"booking"});
 assert.equal(call.mode,"verified_call");
 assert.equal(call.next_action,"none");
-assert.match(call.reply,/after you purchase a service/i);
+assert.match(call.reply,/after purchasing a service/i);
+assert.match(call.reply,/optional/i);
+assert.match(call.reply,/not required/i);
 assert.doesNotMatch(call.reply,/request one here|book your call|schedule your call now/i);
 assert.ok(!call.reply.includes("**"),"Chat reply must remain plain text");
 const callEs=await ask("Spanish 1:1 call eligibility","¿Ofrecen llamada 1:1 de 20 minutos?",{lang:"es",selected:"booking",path:"/es/"});
 assert.equal(callEs.mode,"verified_call");
 assert.equal(callEs.next_action,"none");
 assert.match(callEs.reply,/después de comprar un servicio/i);
+assert.match(callEs.reply,/opcional/i);
+assert.match(callEs.reply,/no es obligatoria/i);
 const how=await ask("English service walkthrough call benefit","How does Booking Automation work?",{selected:"booking"});
-assert.match(how.reply,/20-minute 1:1 call/i);
+assert.match(how.reply,/optionally request a 20-minute 1:1 call/i);
+assert.match(how.reply,/not required/i);
 assert.match(how.reply,/after purchasing a service/i);
 assert.equal(how.next_action,"none");
 const howEs=await ask("Spanish service walkthrough call benefit","¿Cómo funciona Booking Automation?",{lang:"es",selected:"booking",path:"/es/"});
-assert.match(howEs.reply,/llamada 1:1 de 20 minutos/i);
+assert.match(howEs.reply,/llamada 1:1 opcional de 20 minutos/i);
+assert.match(howEs.reply,/no es obligatoria/i);
 assert.match(howEs.reply,/después de comprar un servicio/i);
 assert.equal(howEs.next_action,"none");
 
