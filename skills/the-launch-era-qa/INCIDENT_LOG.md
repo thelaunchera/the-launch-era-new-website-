@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-15 | Public sample footer/contact overlong on iPhone; giant ivory chapter plus four-column footer, repeated disclaimer | **Verified from user iPhone screenshots and public v17 JS/CSS:** contact chapter and multiple information columns created several screen heights of duplicate details. | Introduced sample-only v18 compact footer: remove large contact chapter, keep fictional Miami phone/email/address/hours in on-demand Contact details, Privacy/Terms inline and Cookies/Accessibility under More, preserve policy modal listeners and tenant isolation. Replaced retired standalone Coastal Home Cleaning placeholder with Luna Bloom only for generic samples (not `rid` prospect demos). Add responsive footer-height / click QA. Browser/live confirmation pending at entry time. | 🟡 Committed, visual verification pending |
+
+
 | 2026-10-15 | Public sample demo brand header looked split/misaligned; sample lacked convincing but safe contact and footer legal links | Source inspection: `#demoBrandName` had multiple TLE/DEMO spans, competing JS rewrites and restrictive width; old footer had only a Powered by link. | Added sample-only v17 Luna Bloom wordmark, softly feminine blue/ivory styling, fictional Miami contact (`.example` email and reserved 555 phone), footer links and localized accessible sample policies. Personalized `business=` name retained; buyer/live and owner preview excluded. Responsive EN/ES Playwright and deployment **pending at entry time**. | 🟡 UI change committed; live/browser checks pending |
 
 
