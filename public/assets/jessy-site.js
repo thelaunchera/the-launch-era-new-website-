@@ -366,7 +366,7 @@ if(result&&typeof result.reply==="string"){
   const next=result.next_action;
   if(next==="demo"&&DEMOS[offer])showDemoCard(offer);
   else if(next==="demo_choice"){showDemoCard("booking");showDemoCard("cleaning-app")}
-  if(next==="client_help"){const help=node("a","tle-jessy-help-link",lang==="es"?"Ir a ayuda y soporte ↗":"Go to help & support ↗");help.href="/help/";log.append(help)}
+  if(next==="client_help"){const help=button("tle-jessy-help-link",lang==="es"?"Contactar a soporte ↗":"Contact support securely ↗");help.addEventListener("click",()=>showLead(true));log.append(help)}
   if(next==="checkout"&&checkout)actions(checkout,info,null);
   else if(next==="trial"&&result.trial)actions(null,info,result.trial);
   else if(next==="demo"&&!DEMOS[offer]&&info)actions(null,info,null);
