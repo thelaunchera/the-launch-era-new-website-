@@ -2385,7 +2385,7 @@ document.addEventListener('visibilitychange',()=>{
  if(view==='owner-pages')void loadOwnerPages();
 });
 
-let ownerPurchases=[],ownerAIOrders=[],ownerAIError='checking';
+let ownerPurchases=[],ownerAIOrders=[],ownerAIError='checking',ownerBookingError='checking';
 function ownerPurchaseStage(a){
  if(a.already_queued&&Number(a.qa_pass_count)===6&&a.buyer_review_status==='approved'&&a.activation_email_delivery_status==='delivered'&&a.buyer_signed_in_after_email===true&&a.release_ready===true)return 'completed';
  if(a.already_queued)return 'delivered';
@@ -2416,7 +2416,7 @@ function renderOwnerOrderControl(){
  if(!root||!state)return;
  const es=buyerPageLabel(),booking=ownerPurchases.filter(x=>!x.already_queued||x.activation_email_delivery_status!=='delivered'||Number(x.qa_pass_count||0)<6||x.buyer_review_status!=='approved'),ai=ownerAIOrders.filter(x=>!x.delivered_at);
  root.replaceChildren();
- state.textContent=(es?'Booking para revisar: ':'Booking to review: ')+booking.length+
+ state.textContent=(ownerBookingError?(es?'Booking sin verificar':'Booking orders unverified'):(es?'Booking para revisar: ':'Booking to review: ')+booking.length)+
  (ownerAIError?(es?' · AI sin verificar':' · AI orders unverified'):(es?' · AI pendientes: ':' · Pending AI: ')+ai.length);
  const card=(o,isAI)=>{
   const section=ownerPageElem('article',undefined,'border:1px solid #dce8ef;background:#fff;border-radius:13px;padding:12px;min-width:0');
@@ -2564,8 +2564,11 @@ async function loadOwnerPages(){
   if(error)throw error;
   if(!workspace?.is_internal||workspace.id!==startedWith)return;
   ownerPurchases=Array.isArray(data)?data:[];
+  ownerBookingError='';
   renderOwnerPurchases();
  }catch(e){
+  ownerPurchases=[];ownerBookingError='unavailable';
+  renderOwnerOrderControl();
   $('ownerPagesStatus').textContent=crmLocaleText("Could not load purchases: ","No se pudieron cargar las compras: ")+e.message;
   $('ownerPagesList').replaceChildren();
   $('ownerPurchaseStats').replaceChildren();
