@@ -12,16 +12,16 @@ html.demo-editorial .demo-service-showcase{border-top:6px solid #b9e5fa!importan
 
 /* Connected editorial transition: one graphic language from hero to booking */
 .demo-service-showcase{position:relative!important;isolation:isolate}
-.demo-service-showcase:after{content:"";position:absolute;right:6%;bottom:-34px;width:68px;height:68px;border:13px solid #f2d85b;border-radius:50%;z-index:4;pointer-events:none}
+
 .demo-booking-eyebrow{position:relative!important;isolation:isolate;overflow:hidden!important;background:linear-gradient(135deg,#d8effc 0%,#eaf7fc 68%,#f9faf7 100%)!important;border-top:0!important}
 .demo-booking-eyebrow:after{content:"";position:absolute;right:-60px;top:-88px;width:220px;height:220px;border:35px solid rgba(85,165,210,.22);border-radius:50%;z-index:-1;pointer-events:none}
 .demo-booking-eyebrow h2{position:relative;z-index:1;letter-spacing:-.045em}
 .demo-booking-eyebrow h2 em{color:#286d95!important}
 .demo-booking-eyebrow .demo-booking-kicker{display:inline-flex;align-items:center;gap:9px;color:#246388!important}
-.demo-booking-eyebrow .demo-booking-kicker:before{content:"";width:24px;height:3px;background:#f2d85b;border-radius:4px}
+
 #bookingStarter{position:relative!important;border-top:5px solid #a7d9f0!important}
-#bookingStarter:before{content:"";position:absolute;top:-17px;left:clamp(24px,8%,95px);height:28px;width:28px;background:#f2d85b;border:5px solid #eaf7fc;border-radius:50%;pointer-events:none;z-index:2}
-@media(max-width:600px){.demo-service-showcase:after{width:48px;height:48px;border-width:9px;bottom:-24px}.demo-booking-eyebrow:after{width:150px;height:150px;right:-70px;top:-45px;border-width:22px}}
+
+@media(max-width:600px){.demo-booking-eyebrow:after{width:150px;height:150px;right:-70px;top:-45px;border-width:22px}}
 @media(prefers-reduced-motion:no-preference){.demo-booking-eyebrow:after{animation:tleConnectorFloat 7s ease-in-out infinite alternate}@keyframes tleConnectorFloat{to{transform:translate(-10px,14px)}}}
 </style>
 <style>
@@ -292,7 +292,8 @@ html.demo-editorial .heroArea{font-size:13px;line-height:1.45;margin:0 0 12px;ba
 <link rel="stylesheet" href="/assets/tle-demo-booking-focus-v22.css?v=20261015-appflow1">
 <link rel="stylesheet" href="/assets/tle-demo-editorial-pop-v23.css?v=20261015-editorialpop1">
 <link rel="stylesheet" href="/assets/tle-demo-chapter-contrast-v24.css?v=20261015-chapter1">
-<link rel="stylesheet" href="/assets/tle-demo-floating-bubbles-v25.css?v=20261015-bubbles1"></head><body><div class="top"><span class="live-top-label">TRY IT OUT · NOTHING IS SENT OR BOOKED</span><span class="demo-top-label">INTERACTIVE PREVIEW <span aria-hidden="true">✦</span> TEST REQUESTS ONLY — NOTHING IS BOOKED OR SENT</span></div>
+<link rel="stylesheet" href="/assets/tle-demo-floating-bubbles-v25.css?v=20261015-bubbles1">
+<link rel="stylesheet" href="/assets/tle-demo-finish-v26.css?v=20261015-finish1"></head><body><div class="top"><span class="live-top-label">TRY IT OUT · NOTHING IS SENT OR BOOKED</span><span class="demo-top-label">INTERACTIVE PREVIEW <span aria-hidden="true">✦</span> TEST REQUESTS ONLY — NOTHING IS BOOKED OR SENT</span></div>
 <main class="wrap">
 <nav class="demo-editorial-nav" id="demoEditorialNav" aria-label="Demo navigation">
  <a class="demo-logo" href="#leadHero" id="demoBrandName" aria-label="Back to the top"><span class="demo-brand-pink">THE LAUNCH</span><span>ERA</span><span aria-hidden="true" class="demo-logo-spark">✦</span></a>
@@ -603,4 +604,4 @@ if(isSampleDemo){
   }
   document.querySelectorAll('a[href="#bookingStarter"]').forEach(link=>link.addEventListener('click',goToServices));
 })();
-</script><script src="/assets/tle-demo-cinematic-v1.js?v=20261013-v1" defer></script><script src="/assets/booking-template-live.js?v=20261012-handoff-v6"></script><script src="/assets/booking-template-language.js?v=20261012-handoff-v6"></script><script src="/assets/tle-ai-booking-prefill.js?v=20261012-handoff-v7"></script><script src="/assets/tle-ai-booking-chat.js?v=20261015-sonny4-popup"></script><script src="/assets/tle-demo-enhancements-v12.js?v=20261015-sonny5-scroll" defer></script><script src="/assets/tle-demo-client-experience-v14.js?v=20261015-organic2" defer></script><script src="/assets/tle-demo-luna-bloom-v17.js?v=20261015-bloom2" defer></script><script src="/assets/tle-demo-compact-footer-v18.js?v=20261015-compact1" defer></script><script src="/assets/tle-demo-motion-v19.js?v=20261015-motion1" defer></script><script src="/assets/tle-demo-purpose-v20.js?v=20261015-purpose1" defer></script><script src="/assets/tle-demo-photo-services-v21.js?v=20261015-selfhosted2" defer></script><script src="/assets/tle-demo-booking-focus-v22.js?v=20261015-appflow1" defer></script><script src="/assets/tle-demo-editorial-pop-v23.js?v=20261015-editorialpop1" defer></script><script src="/assets/tle-demo-chapter-contrast-v24.js?v=20261015-chapter1" defer></script><script src="/assets/tle-demo-floating-bubbles-v25.js?v=20261015-bubbles1" defer></script></body></html>
+</script><script src="/assets/tle-demo-cinematic-v1.js?v=20261013-v1" defer></script><script src="/assets/booking-template-live.js?v=20261012-handoff-v6"></script><script src="/assets/booking-template-language.js?v=20261012-handoff-v6"></script><script src="/assets/tle-ai-booking-prefill.js?v=20261012-handoff-v7"></script><script src="/assets/tle-ai-booking-chat.js?v=20261015-sonny4-popup"></script><script src="/assets/tle-demo-enhancements-v12.js?v=20261015-sonny5-scroll" defer></script><script src="/assets/tle-demo-client-experience-v14.js?v=20261015-organic2" defer></script><script src="/assets/tle-demo-luna-bloom-v17.js?v=20261015-bloom2" defer></script><script src="/assets/tle-demo-compact-footer-v18.js?v=20261015-compact1" defer></script><script src="/assets/tle-demo-motion-v19.js?v=20261015-motion1" defer></script><script src="/assets/tle-demo-purpose-v20.js?v=20261015-purpose1" defer></script><script src="/assets/tle-demo-photo-services-v21.js?v=20261015-selfhosted2" defer></script><script src="/assets/tle-demo-booking-focus-v22.js?v=20261015-appflow1" defer></script><script src="/assets/tle-demo-editorial-pop-v23.js?v=20261015-editorialpop1" defer></script><script src="/assets/tle-demo-chapter-contrast-v24.js?v=20261015-chapter1" defer></script><script src="/assets/tle-demo-floating-bubbles-v25.js?v=20261015-bubbles1" defer></script><script src="/assets/tle-demo-finish-v26.js?v=20261015-finish1" defer></script></body></html>
