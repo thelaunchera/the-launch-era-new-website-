@@ -1,0 +1,126 @@
+/* Compact editorial footer for the public sample — October 2026.
+   Replaces the oversized contact chapter + column layout without touching live tenants. */
+html.demo-editorial.tle-demo-brand-v17.tle-demo-compact-v18 footer.demo-footer.tle-demo-full-footer.tle-demo-compact-footer{
+  display:block!important;box-sizing:border-box!important;
+  background:#101e2b!important;color:#edf6fc!important;
+  padding:clamp(27px,4vw,43px) clamp(23px,6vw,76px) 22px!important;
+  margin:0!important;max-width:none!important;border:0!important;
+  font:400 13px/1.55 "DM Sans",Arial,sans-serif!important;
+}
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-footer-head{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;
+  gap:14px 20px;max-width:1150px;margin:auto;
+}
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-footer-brand{min-width:0}
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-footer-name{
+  display:block;color:#f5fbff;font:600 clamp(17px,1.8vw,22px)/1.25 Prompt,Arial,sans-serif;
+  letter-spacing:-.035em;overflow-wrap:break-word;
+}
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-footer-place{
+  display:block;color:#aac6d8;font:500 12px/1.5 "DM Sans",Arial,sans-serif;
+  margin-top:5px;
+}
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-contact,
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-more{
+  min-width:0;
+}
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-contact summary,
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-more summary{
+  list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:7px;
+  color:#d8ebf8;letter-spacing:.005em;
+  -webkit-tap-highlight-color:transparent;
+}
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-contact summary::-webkit-details-marker,
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-more summary::-webkit-details-marker{display:none}
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-contact summary{
+  min-height:37px;padding:6px 0 6px 12px;
+  font:650 13px/1.35 Prompt,Arial,sans-serif;
+}
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-contact summary::after,
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-more summary::after{
+  content:"⌄";display:inline-block;font:700 15px/1 Arial,sans-serif;
+  transform:translateY(-2px);transition:transform .18s ease;color:#9ccdea;
+}
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-contact[open] summary::after,
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-more[open] summary::after{transform:rotate(180deg) translateY(-1px)}
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-contact:focus-within summary,
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-more:focus-within summary{
+  outline:2px solid #a9dfff;outline-offset:3px;border-radius:4px;
+}
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-contact-body{
+  display:grid;gap:6px;margin-top:11px;
+  padding:12px 14px 15px;border-radius:12px;
+  background:rgba(180,220,242,.07);
+  border:1px solid rgba(180,220,242,.13);
+  overflow-wrap:anywhere;
+  color:#c7dfec;font:450 12px/1.6 "DM Sans",Arial,sans-serif;
+}
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-contact-body p{margin:0}
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-contact-body .tle-mini-demo-note{
+  color:#a7bdcd;font-size:11px;
+}
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-contact[open]{
+  grid-column:1 / -1;
+  grid-row:2;
+}
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-contact[open] summary{
+  justify-self:end;
+}
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-footer-links{
+  display:flex;flex-wrap:wrap;align-items:center;
+  gap:11px 19px;max-width:1150px;margin:22px auto 0;
+}
+html.demo-editorial.tle-demo-compact-v18 footer.tle-demo-compact-footer .tle-mini-footer-links a,
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-more summary{
+  color:#c8dfec!important;font:550 12px/1.45 "DM Sans",Arial,sans-serif!important;
+  text-decoration:none!important;padding:4px 0;
+}
+html.demo-editorial.tle-demo-compact-v18 footer.tle-demo-compact-footer .tle-mini-footer-links a:hover{
+  color:#fff!important;text-decoration:underline!important;
+}
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-more{
+  position:relative;display:inline-block;
+}
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-more-panel{
+  position:absolute;z-index:5;bottom:calc(100% + 9px);left:0;
+  display:grid;gap:9px;width:max-content;max-width:210px;
+  background:#203546;border:1px solid #54788c;
+  box-shadow:0 11px 26px #0005;border-radius:10px;
+  padding:13px 16px;
+}
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-footer-bottom{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+  gap:5px 18px;max-width:1150px;
+  border-top:1px solid rgba(175,214,238,.18);
+  padding-top:15px;margin:19px auto 0;
+}
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-footer-bottom small,
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-footer-bottom a{
+  color:#9fbaca!important;font:450 11px/1.5 "DM Sans",Arial,sans-serif!important;
+  letter-spacing:0!important;
+}
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-footer-bottom a{
+  text-decoration:none!important;
+}
+html.demo-editorial.tle-demo-compact-v18 .tle-mini-footer-bottom a:hover{
+  color:#e6f4ff!important;text-decoration:underline!important;
+}
+html.demo-editorial.tle-demo-compact-v18 footer.tle-demo-compact-footer a:focus-visible{
+  outline:2px solid #a9dfff!important;outline-offset:4px!important;
+}
+html.demo-editorial.tle-demo-compact-v18 #demoContact.tle-sample-contact{display:none!important}
+@media(max-width:650px){
+ html.demo-editorial.tle-demo-brand-v17.tle-demo-compact-v18 footer.tle-demo-compact-footer{
+   padding:28px 24px 27px!important;
+ }
+ html.demo-editorial.tle-demo-compact-v18 .tle-mini-footer-head{gap:10px 14px}
+ html.demo-editorial.tle-demo-compact-v18 .tle-mini-footer-place{font-size:11px}
+ html.demo-editorial.tle-demo-compact-v18 .tle-mini-footer-links{margin-top:19px;gap:8px 19px}
+ html.demo-editorial.tle-demo-compact-v18 .tle-mini-footer-bottom{
+   padding-top:14px;margin-top:15px;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ html.demo-editorial.tle-demo-compact-v18 .tle-mini-contact summary::after,
+ html.demo-editorial.tle-demo-compact-v18 .tle-mini-more summary::after{transition:none}
+}
