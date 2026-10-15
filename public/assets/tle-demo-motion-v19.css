@@ -1,0 +1,153 @@
+/* v19 — lively, accessible editorial SAMPLE only; no live tenant changes */
+html.demo-editorial.tle-demo-motion-v19 .tle-demo-v12-review{
+ padding:clamp(45px,5vw,72px) clamp(22px,6vw,98px) clamp(47px,5vw,75px)!important;
+ background:#0d1824!important;overflow:hidden!important;
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-demo-v12-review .tle-demo-v12-heading{
+ margin:0 auto 19px!important;max-width:1050px!important;
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-demo-v12-review .tle-demo-v12-heading h2{
+ margin-bottom:10px!important;font-size:clamp(32px,5vw,54px)!important;
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-demo-v12-review .tle-demo-v12-heading>p{
+ max-width:580px!important;font-size:clamp(12px,1.2vw,14px)!important;
+ line-height:1.55!important;
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-demo-v12-review .tle-demo-v12-reviewgrid{
+ display:flex!important;align-items:stretch!important;gap:14px!important;
+ width:100%!important;max-width:1120px!important;margin:0 auto!important;
+ padding:10px 4px 14px!important;overflow-x:auto!important;overflow-y:hidden!important;
+ scroll-snap-type:x mandatory!important;scroll-behavior:smooth!important;
+ scrollbar-width:none!important;overscroll-behavior-inline:contain;
+ -webkit-overflow-scrolling:touch!important;
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-demo-v12-review .tle-demo-v12-reviewgrid::-webkit-scrollbar{display:none}
+html.demo-editorial.tle-demo-motion-v19 .tle-demo-v12-review .tle-demo-v12-reviewgrid article{
+ box-sizing:border-box!important;flex:0 0 calc(50% - 8px)!important;
+ max-width:none!important;min-width:0!important;min-height:185px!important;
+ padding:20px 22px 19px!important;gap:11px!important;
+ border:1px solid rgba(170,211,235,.27)!important;border-radius:18px!important;
+ box-shadow:none!important;
+ background:linear-gradient(145deg,rgba(142,195,227,.075),rgba(142,195,227,.025))!important;
+ scroll-snap-align:start!important;
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-demo-v12-reviewgrid .tle-demo-v12-tag{
+ font-size:10px!important;letter-spacing:.08em!important;
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-demo-v12-reviewgrid article p{
+ color:#f3f9ff!important;font:600 clamp(15px,1.5vw,19px)/1.48 Prompt,Arial,sans-serif!important;
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-demo-v12-reviewgrid article small{
+ color:#a1b8c8!important;font-size:10px!important;
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-review-controls{
+ display:flex;align-items:center;justify-content:space-between;
+ gap:15px;max-width:1120px;margin:12px auto 0;
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-review-dots,
+html.demo-editorial.tle-demo-motion-v19 .tle-wave-dots{
+ display:flex;align-items:center;gap:8px;
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-review-dots button,
+html.demo-editorial.tle-demo-motion-v19 .tle-wave-dots button{
+ border:0;box-shadow:none;cursor:pointer;background:#708ca0;
+ border-radius:50%;width:8px;height:8px;min-width:8px;padding:0;
+ transition:width .2s ease,background-color .2s ease;
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-review-dots button[aria-current=true],
+html.demo-editorial.tle-demo-motion-v19 .tle-wave-dots button[aria-current=true]{
+ width:23px;border-radius:10px;background:#b5e2fc;
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-review-arrows{
+ display:flex;align-items:center;gap:10px;
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-review-arrows button{
+ display:grid;place-items:center;cursor:pointer;
+ width:39px;height:39px;border-radius:50%;border:1px solid #8bbbd788;
+ background:transparent;color:#e4f5ff;font-size:24px;line-height:1;
+}
+html.demo-editorial.tle-demo-motion-v19 :is(.tle-review-arrows button,.tle-review-dots button,.tle-wave-dots button):focus-visible{
+ outline:3px solid #b2e4ff;outline-offset:4px;
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-wave-banner{
+ isolation:isolate;position:relative;display:grid;place-items:center;
+ min-height:180px;overflow:hidden;
+ padding:32px clamp(24px,6vw,95px);
+ background:linear-gradient(112deg,#9ed5f3 0%,#c4e7f7 50%,#88c6e9 100%);
+ color:#143a52;border:0;margin:0;
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-wave-banner::before,
+html.demo-editorial.tle-demo-motion-v19 .tle-wave-banner::after{
+ content:"";position:absolute;z-index:-1;pointer-events:none;
+ aspect-ratio:1;border:1px solid rgba(255,255,255,.57);
+ border-radius:50%;
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-wave-banner::before{
+ width:230px;left:-85px;top:-120px;box-shadow:35px 40px 0 13px rgba(255,255,255,.09),75px 85px 0 -20px rgba(255,255,255,.17);
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-wave-banner::after{
+ width:200px;right:-75px;bottom:-105px;box-shadow:-80px -55px 0 -35px rgba(255,255,255,.23),-100px 20px 0 -15px rgba(255,255,255,.14);
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-wave-inner{
+ display:flex;flex-direction:column;align-items:center;text-align:center;
+ gap:12px;min-width:0;max-width:870px;
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-wave-sparkles{
+ color:#fff;font-size:19px;letter-spacing:.7em;padding-left:.7em;line-height:1;
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-wave-title{
+ display:block;max-width:100%;
+ font:650 clamp(26px,4.1vw,48px)/1.18 Prompt,Arial,sans-serif;
+ letter-spacing:-.045em;overflow-wrap:break-word;
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-wave-support{
+ font:550 clamp(12px,1.2vw,15px)/1.5 "DM Sans",Arial,sans-serif;
+ color:#385e74;
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-wave-dots{
+ margin-top:5px;min-height:12px;
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-wave-dots button{
+ background:#548cae;width:7px;height:7px;min-width:7px;
+}
+html.demo-editorial.tle-demo-motion-v19 .tle-wave-dots button[aria-current=true]{
+ background:#164a67;width:20px;
+}
+html.demo-editorial.tle-demo-motion-v19 #tleSonnyGreetingPopup[hidden]{
+ display:none!important;
+}
+@media(max-width:650px){
+ html.demo-editorial.tle-demo-motion-v19 .tle-demo-v12-review{
+   padding:43px 0 47px!important;
+ }
+ html.demo-editorial.tle-demo-motion-v19 .tle-demo-v12-review .tle-demo-v12-heading{
+   padding:0 25px!important;margin-bottom:18px!important;
+ }
+ html.demo-editorial.tle-demo-motion-v19 .tle-demo-v12-review .tle-demo-v12-reviewgrid{
+   padding:5px 25px 14px!important;
+   scroll-padding-left:25px!important;gap:11px!important;
+   max-width:100%!important;box-sizing:border-box!important;
+ }
+ html.demo-editorial.tle-demo-motion-v19 .tle-demo-v12-review .tle-demo-v12-reviewgrid article{
+   flex:0 0 min(78vw,320px)!important;min-height:180px!important;
+   padding:20px 18px!important;border-radius:16px!important;
+ }
+ html.demo-editorial.tle-demo-motion-v19 .tle-review-controls{
+   padding:0 25px!important;margin-top:8px!important;
+ }
+ html.demo-editorial.tle-demo-motion-v19 .tle-wave-banner{
+   min-height:165px!important;padding:28px 24px!important;
+ }
+ html.demo-editorial.tle-demo-motion-v19 .tle-wave-title{
+   font-size:clamp(27px,7.7vw,38px);
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ html.demo-editorial.tle-demo-motion-v19 .tle-demo-v12-review .tle-demo-v12-reviewgrid{
+   scroll-behavior:auto!important;
+ }
+ html.demo-editorial.tle-demo-motion-v19 .tle-review-dots button,
+ html.demo-editorial.tle-demo-motion-v19 .tle-wave-dots button{
+   transition:none!important;
+ }
+}
