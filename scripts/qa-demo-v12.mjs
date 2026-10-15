@@ -51,7 +51,7 @@ for(const width of [360,390,820,1024,1440]){
        note:$('#tleClientSmallNotice')?.textContent||''
      };
    });
-   assert(customer.enabled&&customer.progress&&customer.steps===3&&customer.sticky,
+   assert(customer.enabled&&customer.progress&&customer.steps===3&&!customer.sticky,
      'Customer-first demo components missing: '+JSON.stringify(customer));
    assert(/SAMPLE|EJEMPLO/i.test(customer.banner),
      'The page must transparently disclose sample-only status');
@@ -104,6 +104,24 @@ for(const width of [360,390,820,1024,1440]){
    const agentTitle=await page.locator('.tle-ai-head b').textContent();
    assert(agentTitle?.includes('Sonny'),'booking agent should be named Sonny');
    assert.equal(await page.locator('#tleDemoRobotWelcome').count(),0,'Duplicate floating assistant welcome remains');
+   if(width<=650){
+     const mobile=await page.evaluate(()=>{
+       const cs=s=>getComputedStyle(document.querySelector(s));
+       const avatar=document.querySelector('.tle-ai-launch .tle-demo-ai-avatar');
+       return {
+         heroCta:cs('#leadHero .demo-hero-cta').display,
+         begin:cs('#bookingStarter .demo-panel-start').display,
+         robotSize:parseFloat(cs('.tle-ai-launch').width),
+         robotIcon:avatar?.complete&&avatar.naturalWidth>=96,
+         botCount:document.querySelectorAll('.tle-ai-launch').length,
+         decorativeBefore:cs('.tle-ai-launch').getPropertyValue('content'),
+         noSticky:document.querySelectorAll('.tle-client-sticky-cta').length===0
+       };
+     });
+     assert(mobile.heroCta==='none'&&mobile.begin==='none','Redundant mobile Choose Services/Begin buttons still shown: '+JSON.stringify(mobile));
+     assert(mobile.robotSize<=49&&mobile.robotIcon&&mobile.botCount===1,'Sonny bubble too large or missing: '+JSON.stringify(mobile));
+     assert(mobile.noSticky,'Floating Request Cleaning button reappeared');
+   }
    assert.equal(await page.locator('.tle-ai-launch').count(),1,'Only Sonny should have one launch button');
    await page.locator('.tle-ai-launch').click();
    await assertVisible(page,'.tle-ai-panel');
