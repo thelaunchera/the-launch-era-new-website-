@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-15 | Sample cleaning booking service chooser was a dense, long list without photography; customer requested use of existing Drive photos and responsive layouts, not an all-Halloween visual theme | Verified old `#residentialServiceList` / `#commercialServiceList` had icon-only rows; verified Drive galleries include 7 context-matched photos with cleaning staff and workspaces and anyone-viewable files. | Added public-sample-only v21 responsive photo choices and lighter category tabs using verified Drive thumbnails, preserving all eleven click handlers, prices, quotes and the concise footer; local fallback per image. EN/ES viewport QA and live deployment pending. | 🟡 Committed, verification pending |
+
+
 | 2026-10-15 | Public sample on iPhone: Areas we serve was a tall, generic placeholder and FAQ was a long stack without a helpful next action | Verified in screenshots and `tle-demo-enhancements-v12.js`: areas used three generic placeholder chips when area omitted, no interaction; FAQ was four separate stacked details. | Added sample-only v20 locality-selector with real prospect param grounding and clearly marked fictional Miami zones in generic demo; book-flow CTA; FAQ one-topic-at-a-time with EN/ES short explanations and relevant actions; restrained animation and mobile shortened photo. Added responsive EN/ES tests; **passed GitHub Actions browser checks** across ten EN/ES viewport combinations in run `38727415642` and **GitHub Pages published successfully** in run `38727478632` (2026-10-15). No real bookings, messages or client records changed. | ✅ Browser QA + deployment verified |
 
 
