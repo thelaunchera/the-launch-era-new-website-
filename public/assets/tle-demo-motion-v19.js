@@ -3,6 +3,7 @@
    Paid buyer and owner previews are excluded. */
 (()=>{
  "use strict";
+ const init=()=>{
  const qs=new URLSearchParams(location.search);
  if(location.pathname!=="/lead-private-preview.html"||qs.has("key")||qs.get("owner_preview")==="1"
     ||!document.documentElement.classList.contains("demo-editorial"))return;
@@ -116,4 +117,6 @@
    if(bannerVisible&&canAnimate()&&idle(banner))showBanner(bannerIndex+1);
  },4700);
  // Touch swipes are native, not intercepted: no third-party dependency.
+ };
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init,{once:true});else init();
 })();
