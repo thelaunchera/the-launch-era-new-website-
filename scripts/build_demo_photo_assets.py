@@ -34,7 +34,7 @@ PHOTOS = {
     "office": ("1RgzYfITPbBkoK-Vkduto9ZA3Wksx98a6", "public/assets/lead-demo/spotless-office.png"),
     "retail": ("1Y4f_6WNZzddPTJ_6tmsZzryNhuu_xD1V", "public/assets/lead-demo/spotless-office.png"),
     "medical": ("1r7AcdXLbmKw4Z7sGra401HCKirx3GKJ1", "public/assets/lead-demo/pristine-kitchen.png"),
-    "floor": ("1AI4lKiquJe8Y52mtzBOlGsFtt61KCtF7", "public/assets/lead-demo/spotless-office.png"),
+    "floor": ("1-__BedqBlAqkTkfY5RkoUw0ok7kRcGqu", "public/assets/lead-demo/spotless-office.png"),
 }
 
 # Matched before/after sample pairs from the owner's link-visible Drive library.
@@ -80,6 +80,10 @@ def convert_one(item: tuple[str, tuple[str, str]]) -> tuple[str, dict]:
         source = "local-fallback"
         img = Image.open(ROOT / fallback)
     img = ImageOps.exif_transpose(img).convert("RGB")
+    if name == "retail" and source == "drive":
+        # The licensed source compares an office BEFORE/AFTER side-by-side.
+        # Show only the clean AFTER half in the service catalog.
+        img = img.crop((img.width // 2, 0, img.width, img.height))
     img.thumbnail((MAX_WIDTH, MAX_HEIGHT), Image.Resampling.LANCZOS)
     target = OUTPUT / f"{name}.webp"
     img.save(target, format="WEBP", quality=81, method=5)
