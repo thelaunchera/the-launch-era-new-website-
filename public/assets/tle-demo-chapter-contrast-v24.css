@@ -90,11 +90,11 @@ html.demo-editorial.tle-editorial-v23.tle-demo-story-v15 #tleDemoReviews{
   border:0!important;border-radius:0!important;
   box-shadow:none!important;
 }
-html.demo-editorial.tle-editorial-v23 #tleDemoFaq{
+html.demo-editorial.tle-editorial-v23.tle-demo-purpose-v20 #tleDemoFaq.tle-demo-faq-v20{
   background:#142a3c!important;
   border-top:1px solid rgba(169,218,247,.14)!important;
 }
-html.demo-editorial.tle-editorial-v23 #tleDemoAreas{
+html.demo-editorial.tle-editorial-v23.tle-demo-purpose-v20 #tleDemoAreas.tle-demo-area-v20{
   border-top:1px solid rgba(173,221,247,.23)!important;
 }
 /* Preserve modern readable microcopy, while giving primary editorial
