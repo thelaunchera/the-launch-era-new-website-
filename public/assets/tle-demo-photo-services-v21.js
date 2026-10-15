@@ -25,10 +25,10 @@ const files={
      es?"Sala vacía y limpia lista para mudanza":"Clean empty living room, ready for move-in"],
    office:["1RgzYfITPbBkoK-Vkduto9ZA3Wksx98a6","/assets/lead-demo/spotless-office.png",
      es?"Oficina limpia y luminosa":"Bright spotless home office with no people"],
-   retail:["1Y4f_6WNZzddPTJ_6tmsZzryNhuu_xD1V","/assets/lead-demo/spotless-office.png",
-     es?"Local comercial limpio":"Clean commercial work space"],
-   medical:["1r7AcdXLbmKw4Z7sGra401HCKirx3GKJ1","/assets/lead-demo/pristine-kitchen.png",
-     es?"Baño impecable y libre de desorden":"Pristine tiled bathroom, clean surfaces"],
+   retail:["1ZcBDf1NSKNycxkgC63G6LgWHJ4Mj7Lsy","/assets/lead-demo/spotless-office.png",
+     es?"Tienda y sala de exhibición moderna":"Bright retail showroom with product displays"],
+   medical:["1D56-v3lVV6FpBqW3FqYH442kiPVvjlLT","/assets/lead-demo/spotless-office.png",
+     es?"Pasillo e instalaciones de atención médica":"Clean healthcare facility corridor, not a bathroom"],
    floor:["1-__BedqBlAqkTkfY5RkoUw0ok7kRcGqu","/assets/lead-demo/spotless-office.png",
      es?"Detalle de suelo recién limpiado":"Freshly cleaned floor detail, no people"]
 };
