@@ -78,7 +78,7 @@
 .tle-jessy-root.tle-jessy-compact .tle-jessy-status{
  left:auto;right:0;bottom:1px;width:10px;height:10px
 }
-.tle-jessy-root.tle-jessy-compact .tle-jessy-nudge{display:none!important}
+/* The generic invitation remains available above the round photo until scroll/dismissal. */
 @media(max-width:600px){
  .tle-jessy-root.tle-jessy-compact .tle-jessy-fab{
   right:12px;bottom:max(18px,env(safe-area-inset-bottom));

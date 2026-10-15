@@ -328,3 +328,6 @@ On `/lead-private-preview.html` sample only, `tle-demo-enhancements-v12.js` owns
 ## 2026-10-15 — Jessie portrait and bundle preparation
 - Public website `/assets/jessy-site.js` uses owner-approved `/assets/jessie-avatar.webp` and Jessie display name.
 - Dedicated Command Center `Dashboard → Prepare bundles` opens authenticated Clients & Purchases and selects Booking + AI Bundle. Existing tenant-scoped controls manage Booking and AI separately; AI setup links use `https://thelaunchera.com/ai-booking-assistant/owner-delivery/`.
+
+## 2026-10-15 — Round public assistant launcher
+- Owner requested photo-only circular button at entry and after scroll. External invitation/accessible label: Chat with the assistant / Habla con la asistente. Jessie name retained only in the open chat. Existing scroll hides invitation; no chat, form, customer data or endpoint changes. Coverage fixture updated for initial round state and generic invitation; publication/browser evidence tracked by Actions.

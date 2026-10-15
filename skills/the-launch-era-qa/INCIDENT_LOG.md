@@ -326,3 +326,6 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 ## 2026-10-15 — Bundle preparation missing on dedicated Command Center
 - Verified root cause: dedicated deployment pinned the older October 14 portal, omitting newer owner bundle queue/rendering. Updated pin to 44b5edc with existing owner dashboard, compact assistant, practice studio and client overlays preserved. Added an owner-only Prepare bundles shortcut; no orders, payment, intake, approval or email data modified.
 - Public Jessie avatar/name synchronized separately. Static and browser deployment gates required; authenticated owner purchase-to-delivery acceptance remains pending.
+
+## 2026-10-15 — Round public assistant launcher
+- Owner requested photo-only circular button at entry and after scroll. External invitation/accessible label: Chat with the assistant / Habla con la asistente. Jessie name retained only in the open chat. Existing scroll hides invitation; no chat, form, customer data or endpoint changes. Coverage fixture updated for initial round state and generic invitation; publication/browser evidence tracked by Actions.

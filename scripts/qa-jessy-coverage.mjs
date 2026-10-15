@@ -107,7 +107,7 @@ assert.match(front, /fabLabel=node\("span","tle-jessy-fab-label"/);
 assert.match(front, /fab\.setAttribute\("aria-expanded"/);
 assert.match(front, /window\.addEventListener\("scroll",updateJessyScroll,\{passive:true\}\)/);
 assert.match(front, /if\(!open&&!compact&&window\.scrollY<=36\)/);
-assert.match(front, /nudge\.textContent=pageText\("nudge"\)/);
+assert.match(front, /nudge\.textContent=t\("nudge"\)/);
 assert.match(front, /if\(!compact&&window\.scrollY>36\)collapseJessyLauncher\(\)/);
 const scrollBlock = front.slice(front.indexOf("let compact=false;"),front.indexOf('reloadOffers();track("loaded");'));
 assert.ok(scrollBlock.startsWith("let compact=false;"),"Scroll initialization missing");
@@ -119,7 +119,7 @@ function simulateJessyScroll(startY){
   fab:{setAttribute:(k,v)=>{attributes[k]=v}},
   nudge:{hidden:true,textContent:""},
   lang:"en",open:false,track:()=>{},
-  pageText:()=> "Hi! I'm Jessie 👋 Need a hand?",
+  t:()=> "Chat with the assistant",
   setTimeout:(fn)=>{timers.push(fn)}
  };
  vm.createContext(box);
@@ -127,7 +127,7 @@ function simulateJessyScroll(startY){
  return {box,listeners,timers,classes,attributes};
 }
 const entry=simulateJessyScroll(0);
-assert.equal(entry.classes.has("tle-jessy-compact"),false,"The initial bubble must be a full welcome pill");
+assert.equal(entry.classes.has("tle-jessy-compact"),false,"Scroll flag starts unset; CSS already renders a round launcher");
 assert.equal(entry.timers.length,1);
 entry.timers[0]();
 assert.equal(entry.box.nudge.hidden,false,"Jessie must greet new visitors");
@@ -135,7 +135,7 @@ entry.box.window.scrollY=40;
 entry.listeners.scroll();
 assert.equal(entry.classes.has("tle-jessy-compact"),true,"Scroll must collapse Jessie to avatar");
 assert.equal(entry.box.nudge.hidden,true,"No greeting nudge while scrolling");
-assert.equal(entry.attributes.title,"Chat with Jessie");
+assert.equal(entry.attributes.title,"Chat with the assistant");
 entry.box.window.scrollY=0;entry.listeners.scroll();
 assert.equal(entry.classes.has("tle-jessy-compact"),true,"Do not expand/flicker during scroll");
 const scrollingEarly=simulateJessyScroll(0);
@@ -150,7 +150,9 @@ assert.match(css, /\.tle-jessy-root\.tle-jessy-compact \.tle-jessy-fab/);
 assert.match(css, /width:52px;height:52px;min-height:52px/);
 assert.match(css, /width:50px;height:50px;min-height:50px/);
 assert.match(css, /max-width:0;width:0;padding:0;margin:0;opacity:0;visibility:hidden/);
-assert.match(css, /\.tle-jessy-root\.tle-jessy-compact \.tle-jessy-nudge\{display:none!important\}/);
+assert.ok(!css.includes(".tle-jessy-root.tle-jessy-compact .tle-jessy-nudge{display:none!important}"),"Round launcher must allow generic greeting");
+assert.ok(front.includes('node("div","tle-jessy-root tle-jessy-compact")'),"Launcher must be round before any scroll");
+assert.ok(front.includes('launcherPhoto.alt=""'),"Outside portrait has no personal-name alt label");
 console.log("PASS Jessie welcome nudge and scroll-to-face-only launcher on desktop and mobile");
 
 const backend = text("supabase/functions/tle-jessy-chat/index.ts");
