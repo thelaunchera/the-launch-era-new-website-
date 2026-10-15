@@ -26,6 +26,9 @@ for(const lang of ['en','es']){
     const grid=getComputedStyle(select).gridTemplateColumns;
     return {
      mode:document.documentElement.classList.contains('demo-editorial'),
+     compact:document.documentElement.classList.contains('tle-demo-compact-v30'),
+     galleryCards:document.querySelectorAll('#tleV31GalleryRail .tle-v31-gallery-card').length,
+     galleryVisible:(()=>{const g=document.getElementById('tleV31Transformations');const r=g?.getBoundingClientRect();return !!r&&r.height>130&&getComputedStyle(g).display!=='none'})(),
      css:[...document.styleSheets].some(s=>s.href?.includes('tle-demo-booking-v7.css')),
      viewport:innerWidth,scrollWidth:document.documentElement.scrollWidth,
      storyAfterPanel:story.top>=panel.bottom-3,
@@ -57,8 +60,12 @@ for(const lang of ['en','es']){
    });
    assert(m.mode&&m.css,'Public sample styles not activated');
    assert(m.scrollWidth<=width+2,'Horizontal overflow '+JSON.stringify(m));
-   assert(m.storyAfterPanel&&m.storyVisible&&m.photoVisible,'Photo editorial section missing or not directly after booking card '+JSON.stringify(m));
-   assert(m.photoImage.includes('drive-cleaner-kitchen.webp'),'The cinematic work-in-progress photo from Drive must be used');
+   if(m.compact){
+     assert(!m.storyVisible&&m.galleryCards===3&&m.galleryVisible,'Compact Before/After gallery absent, or redundant story still visible '+JSON.stringify(m));
+   }else{
+     assert(m.storyAfterPanel&&m.storyVisible&&m.photoVisible,'Photo editorial section missing or not directly after booking card '+JSON.stringify(m));
+   }
+   if(!m.compact)assert(m.photoImage.includes('drive-cleaner-kitchen.webp'),'Drive cinematic photo missing');
    const approvedPhotoLoaded=await page.evaluate(()=>new Promise(resolve=>{
      const img=new Image();
      img.onload=()=>resolve(img.naturalWidth>=1536&&img.naturalHeight>=658);
@@ -79,7 +86,7 @@ for(const lang of ['en','es']){
    assert(m.ctaRadius>=24 && m.circleRadius>=16,'CTA or arrow icon still looks square');
    assert(m.ctaInsideHeader&&(width<=650?m.beginHidden:m.ctaWithinHeader),'Mobile Begin must be hidden; desktop Begin pill must remain inside header: '+JSON.stringify(m));
    assert(m.heroPhotoLoaded&&m.heroPhotoSource?.includes('hero-cleaner-original.jpg'),'CB-style woman cleaning photo did not load');
-   assert((width<=650?m.heroHidden:m.heroPrimaryVisible)&&m.heroAreaVisible,'Mobile hero CTA should be hidden; desktop CTA and area must fit: '+JSON.stringify(m));
+   assert((m.compact?m.heroPrimaryVisible:(width<=650?m.heroHidden:m.heroPrimaryVisible))&&m.heroAreaVisible,'Hero CTA and service area must fit: '+JSON.stringify(m));
    assert(m.heroTextColor==='rgb(255, 255, 255)','Midnight hero headline should be white');
    const darkUi=await page.evaluate(()=>({
      css:[...document.styleSheets].some(s=>s.href?.includes('tle-demo-midnight-v11.css')),
@@ -171,7 +178,7 @@ for(const lang of ['en','es']){
    assert(!quoteSize.overflow,'Expanded quote creates horizontal overflow');
    if(width>=768)assert(quoteSize.ratio>=.97&&quoteSize.height>=350,'Quote photo must fill desktop/tablet panel '+JSON.stringify(quoteSize));
    assert.equal(faults.length,0,'Unexpected JS errors '+faults.join(' | '));
-   console.log('PASS',lang,width,JSON.stringify({story:true,photo:true,fonts:m.headerFont,serviceButtons:true,editorial:true}));
+   console.log('PASS',lang,width,JSON.stringify({compact:m.compact,gallery:m.galleryCards,fonts:m.headerFont,serviceButtons:true}));
   }catch(e){errors.push(lang+' '+width+': '+e.message);console.error('FAIL',lang,width,e.message)}
   finally{await page.close()}
  }
