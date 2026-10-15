@@ -8,23 +8,23 @@
   const business = (qs.get("business") || document.getElementById("leadName")?.textContent?.replace(/^PERSONALIZED FOR\s*/i,"") || "Demo Cleaning Business").slice(0,100);
   const area = (qs.get("area") || "").slice(0,120);
   const services = (qs.get("services") || "Residential standard cleaning, deep cleaning, move-in/out cleaning").slice(0,180);
-  const threadId = (window.crypto?.randomUUID ? window.crypto.randomUUID() : "9cf5037c-8b38-42a9-9565-2b8f532ac017");
+  let threadId = (window.crypto?.randomUUID ? window.crypto.randomUUID() : "9cf5037c-8b38-42a9-9565-2b8f532ac017");
   const copy = es ? {
-    title:"Asistente de reservas con IA",subtitle:"Demostración opcional · Servicio aparte",
-    intro:"¡Hola! 👋 Te ayudaré paso a paso. Primero, ¿la limpieza es para una casa o un negocio?",
-    placeholder:"Escribe tu pregunta…",button:"Preguntar a la IA",send:"Enviar",close:"Cerrar chat",
+    title:"Sonny · Agente de reservas",subtitle:"Asistente de IA de demostración · Servicio adicional",
+    intro:"¡Hola! Soy Sonny 👋 Tu agente de reservas de prueba. Te explicaré los servicios y te ayudaré con el formulario. Primero, ¿la limpieza es para una casa o un negocio?",
+    placeholder:"Pregúntale a Sonny…",button:"Hablar con Sonny",send:"Enviar",close:"Cerrar chat",
     note:"Solo demostración. Usa datos ficticios y revisa tu solicitud al terminar.",
     error:"Ahora mismo no puedo responder. Por favor, inténtalo más tarde.",
     limit:"El chat no está disponible por ahora. Inténtalo más tarde.",
-    opening:"Abrir asistente de IA", review:"Revisar mi solicitud →",nextStep:"Siguiente: revisa lo que completé, añade los datos que falten y termina la solicitud de prueba."
+    opening:"Abrir a Sonny, agente de reservas", review:"Revisar mi solicitud →",nextStep:"Siguiente: revisa lo que completé, añade los datos que falten y termina la solicitud de prueba."
   } : {
-    title:"AI Booking Assistant",subtitle:"Optional AI demo · Separate service",
-    intro:"Hi! 👋 I’ll guide you step by step. First, is the cleaning for a home or a business?",
-    placeholder:"Ask a question…",button:"Ask AI",send:"Send",close:"Close chat",
+    title:"Sonny · Booking Agent",subtitle:"AI booking demo · Separate optional service",
+    intro:"Hi! I’m Sonny 👋 Your demo booking agent. I can explain services and help you fill out the form. First, is the cleaning for a home or a business?",
+    placeholder:"Ask Sonny a question…",button:"Chat with Sonny",send:"Send",close:"Close chat",
     note:"Demo only. Use sample details and review your request when finished.",
     error:"I can't respond right now. Please try again later.",
     limit:"Chat isn't available right now. Please try again later.",
-    opening:"Open AI Booking Assistant", review:"Review my request →",nextStep:"Next: review what I filled in, complete any missing fields, then finish the demo request."
+    opening:"Open Sonny, the booking agent", review:"Review my request →",nextStep:"Next: review what I filled in, complete any missing fields, then finish the demo request."
   };
   const css = document.createElement("style");
   css.textContent = `
@@ -100,6 +100,25 @@
     if(open){syncViewport();if(window.innerWidth>700)field.focus();}
     else{panel.style.removeProperty("--tle-ai-vv-height");panel.style.removeProperty("--tle-ai-vv-top");launch.focus();}
   }
+  // Expose a safe, sample-only way to restart the same existing AI booking agent
+  // from the demo confirmation screen. Never triggers submit, email or payment.
+  window.tleOpenSonnyDemo = ({restart=false}={}) => {
+    if (busy) return false;
+    if (restart) {
+      dialogue.length=0;
+      bookingDraft={};
+      handoffShown=false;
+      field.value="";
+      review.hidden=true;
+      reviewTip.hidden=true;
+      // Keep quick action chips installed by the editorial enhancement.
+      log.querySelectorAll(".tle-ai-msg").forEach(node=>node.remove());
+      append(copy.intro,"bot");
+      threadId = window.crypto?.randomUUID ? window.crypto.randomUUID() : threadId;
+    }
+    toggle(true);
+    return true;
+  };
   launch.addEventListener("click",()=>toggle(panel.hidden));
   close.addEventListener("click",()=>toggle(false));
   document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!panel.hidden)toggle(false)});
