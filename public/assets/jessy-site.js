@@ -165,16 +165,29 @@ function quickChoices(){
 }
 function greeting(){if(!seen){msg(pageText("hello"),"bot");seen=true;quickChoices()}}
 function optionalChime(){if(!soundOn)return;try{const Context=window.AudioContext||window.webkitAudioContext;if(!Context)return;const a=new Context();const o=a.createOscillator();const gain=a.createGain();o.type="sine";o.frequency.value=660;gain.gain.setValueAtTime(.0001,a.currentTime);gain.gain.exponentialRampToValueAtTime(.03,a.currentTime+.02);gain.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.15);o.connect(gain);gain.connect(a.destination);o.start();o.stop(a.currentTime+.16);o.onended=()=>a.close()}catch{}}
-function showLead(on){details=on;lead.hidden=!on;log.hidden=on;quick.hidden=on;bottom.hidden=on;if(on){if(offer){const entry=catalog.find(x=>x.id===offer);if(entry&&!needInput.value)needInput.value=(lang==="es"?"Me interesa ":"I'm interested in ")+entry.name}nameInput.focus()}else{input.focus()}}
+function showLead(on){
+ details=on;lead.hidden=!on;log.hidden=on;quick.hidden=on;bottom.hidden=on;
+ if(on){
+  // Editable summary only: no transcript sent unless the visitor submits the consent form.
+  if(!needInput.value){
+   const entry=catalog.find(x=>x.id===offer);
+   const lastQuestion=[...history].reverse().find(x=>x.role==="user")?.message||"";
+   const service=entry?(lang==="es"?"Me interesa ":"I'm interested in ")+entry.name:"";
+   const question=lastQuestion?(lang==="es"?"Mi consulta: ":"My question: ")+lastQuestion:"";
+   needInput.value=[service,question].filter(Boolean).join(". ").slice(0,480);
+  }
+  nameInput.focus();
+ }else{input.focus()}
+}
 function toggle(state){open=state;panel.hidden=!state;backdrop.hidden=!state;fab.setAttribute("aria-expanded",state?"true":"false");fab.hidden=state;nudge.hidden=true;document.body.classList.toggle("tle-jessy-open",state);if(state){lastFocus=document.activeElement;startedAt=Date.now()-3000;greeting();reloadOffers();optionalChime();try{navigator.vibrate?.(45)}catch{}if(window.innerWidth>600)input.focus();track("opened")}else{showLead(false);fab.hidden=false;if(lastFocus&&lastFocus.isConnected&&lastFocus.focus)lastFocus.focus();else fab.focus();track("closed")}}
 async function ask(raw){if(waiting)return;const message=String(raw||"").trim().slice(0,340);if(message.length<2)return;if(/(?:\d[ -]*?){13,19}/.test(message)){msg(lang==="es"?"Por favor, no compartas números de tarjeta aquí.":"Please don't share card numbers here.","bot");return}
 msg(message,"user");input.value="";waiting=true;send.disabled=true;const indicator=msg(t("typing"),"bot");
 if(/quiero hablar|contactar|leave my details|talk to a person|human support/i.test(message)){indicator.remove();showLead(true);waiting=false;send.disabled=false;return}
-const previous=history.slice(-6);let result=null;try{const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),16000);try{const r=await fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message,language:lang,selected_offer:offer||currentPage(),page_path:location.pathname,history:previous}),signal:controller.signal});if(r.ok)result=await r.json();else if(r.status===429)result={reply:t("limit")}}finally{clearTimeout(timeout)}}catch{}
+const previous=history.slice(-12);let result=null;try{const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),16000);try{const r=await fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message,language:lang,selected_offer:offer||currentPage(),page_path:location.pathname,history:previous}),signal:controller.signal});if(r.ok)result=await r.json();else if(r.status===429)result={reply:t("limit")}}finally{clearTimeout(timeout)}}catch{}
 indicator.textContent=result&&typeof result.reply==="string"?result.reply:t("liveError");
 if(result&&typeof result.reply==="string"){
  history.push({role:"user",message},{role:"assistant",message:result.reply});
- if(history.length>12)history=history.slice(-12);
+ if(history.length>16)history=history.slice(-16);
  // A general capabilities answer clears any stale previously selected product.
  if(typeof result.selected_offer==="string")offer=result.selected_offer;
  const entry=catalog.find(x=>x.id===offer);
