@@ -17,20 +17,20 @@ residential.classList.add("tle-photo-services-grid-v21");
 commercial.classList.add("tle-photo-services-grid-v21");
 const es=params.get("lang")==="es";
 const files={
-  regular:["1iVGFc3xiJ_9h6XBDLKw9ED90FqXOTV-_","/assets/lead-demo/cleaner-in-home.png",
-    es?"Profesional limpiando una cocina moderna":"Professional cleaner wiping a bright modern kitchen"],
-  deep:["1T8IwsLz7trh4MXDg4LZhygijvGvpwfms","/assets/lead-demo/pristine-kitchen.png",
-    es?"Profesional limpiando la mampara de una ducha":"Professional cleaner polishing a shower"],
-  move:["1gWI0VX9T4deCt1mO2CQm9V0OUCwfyepi","/assets/lead-demo/hero-luxury-home.png",
-    es?"Entrada limpia de una vivienda lista para mudarse":"Freshly cleaned empty entryway, ready for move-in"],
-  office:["1Y4f_6WNZzddPTJ_6tmsZzryNhuu_xD1V","/assets/lead-demo/spotless-office.png",
-    es?"Espacio de oficina profesional":"Bright professional shared office workspace"],
-  retail:["1D-i5Iwx8wsS64eT9pKoYYEk4nGrAU3VT","/assets/lead-demo/spotless-office.png",
-    es?"Limpieza de cristales en un espacio comercial":"Professional cleaner detailing glass in a commercial space"],
-  medical:["1VPTEfj4eP3Ehx6Uhj2RTaBrmRGpEVGFB","/assets/lead-demo/cleaner-in-home.png",
-    es?"Profesional limpiando minuciosamente una entrada":"Professional cleaner detailing a business entrance"],
-  floor:["1AI4lKiquJe8Y52mtzBOlGsFtt61KCtF7","/assets/lead-demo/spotless-office.png",
-    es?"Operario de limpieza puliendo un suelo comercial":"Professional operating a commercial floor-cleaning machine"]
+   regular:["1f5q0FsrrLIwlg27P-Rv7Co8CZ16f3XoT","/assets/cleaning-demo/living-room-original.jpg",
+     es?"Sala luminosa después de una limpieza":"Sunlit spotless living room, no people"],
+   deep:["1PLZIlv2Rh-QxSOOB2DGHQkkoTINMEvOt","/assets/lead-demo/pristine-kitchen.png",
+     es?"Baño impecable y sin personas":"Freshly cleaned residential bathroom, no people"],
+   move:["1zpWEXni_tfNuo-_bERTsQqPjCdmtM1zY","/assets/lead-demo/hero-luxury-home.png",
+     es?"Sala vacía y limpia lista para mudanza":"Clean empty living room, ready for move-in"],
+   office:["1RgzYfITPbBkoK-Vkduto9ZA3Wksx98a6","/assets/lead-demo/spotless-office.png",
+     es?"Oficina limpia y luminosa":"Bright spotless home office with no people"],
+   retail:["1Y4f_6WNZzddPTJ_6tmsZzryNhuu_xD1V","/assets/lead-demo/spotless-office.png",
+     es?"Local comercial limpio":"Clean commercial work space"],
+   medical:["1r7AcdXLbmKw4Z7sGra401HCKirx3GKJ1","/assets/lead-demo/pristine-kitchen.png",
+     es?"Baño impecable y libre de desorden":"Pristine tiled bathroom, clean surfaces"],
+   floor:["1AI4lKiquJe8Y52mtzBOlGsFtt61KCtF7","/assets/lead-demo/spotless-office.png",
+     es?"Piso comercial limpio":"Commercial floor care detail"]
 };
 const attach=(list,items)=>{
   const buttons=[...list.querySelectorAll(":scope > button.service")];
