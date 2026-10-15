@@ -2385,7 +2385,7 @@ document.addEventListener('visibilitychange',()=>{
  if(view==='owner-pages')void loadOwnerPages();
 });
 
-let ownerPurchases=[];
+let ownerPurchases=[],ownerAIOrders=[],ownerAIError='checking';
 function ownerPurchaseStage(a){
  if(a.already_queued&&Number(a.qa_pass_count)===6&&a.buyer_review_status==='approved')return 'completed';
  if(a.already_queued)return 'delivered';
@@ -2393,10 +2393,92 @@ function ownerPurchaseStage(a){
  if(a.booking_page_url&&a.crm_ready&&a.status==='active')return 'review';
  return 'production';
 }
+
+function ownerOrderNext(o,ai,es){
+ if(ai)return o.delivered_at?(es?'Activado. Revisar soporte y facturación.':'Activated. Review support and billing.'):
+  !o.submitted_at?(es?'Revisar invitación al intake; no enviar duplicados.':'Check intake invitation; no duplicate sends.'):
+  (es?'Preparar en pruebas, validar respuestas, obtener aprobación y entregar.':'Build in test mode, verify answers, approve and deliver.');
+ if(o.already_queued)return es?'Entrega registrada: verificar llegada real del correo, QA y soporte.':'Delivery recorded: verify actual email receipt, QA and support.';
+ if(!o.intake_done)return es?'Verificar pago e invitación al intake; esperar respuestas.':'Check payment and intake invitation; await answers.';
+ if(!o.design_reviewed)return es?'Verificar sector, marca, precios, accesos y aprobar el inicio de producción por separado.':'Verify business type, branding, prices and access; approve production kickoff separately.';
+ if(!o.crm_ready)return es?'Preparar el Command Center privado correcto y probar su enlace.':'Prepare the correct private Command Center and test its URL.';
+ if(!o.activation_email_sent_at)return es?'Revisar el correo de acceso y el destinatario antes de enviar.':'Review access email and recipient before sending.';
+ if(o.activation_email_delivery_status!=='delivered')return es?'Verificar entrega del correo en el proveedor; enviado no significa recibido.':'Verify email delivery with provider; sent does not mean received.';
+ if(!o.buyer_signed_in_after_email)return es?'Confirmar que el cliente pudo entrar con contraseña.':'Confirm customer can log in securely.';
+ if(Number(o.qa_pass_count||0)<6)return es?'Completar las seis pruebas reales de QA antes de aprobar la entrega.':'Complete all six real QA checks before approving delivery.';
+ if(o.buyer_review_status!=='approved')return es?'Esperar aprobación o atender los cambios del cliente.':'Wait for approval or address customer change requests.';
+ if(!o.release_ready)return es?'Resolver bloqueos de Final QA & Delivery.':'Resolve server-side Final QA & Delivery blockers.';
+ return es?'Revisado: tú autorizas manualmente la entrega final.':'Reviewed: manually authorize the final delivery.';
+}
+function renderOwnerOrderControl(){
+ if(!workspace?.is_internal)return;
+ const root=$('ownerOrderControlItems'),state=$('ownerOrderControlStatus');
+ if(!root||!state)return;
+ const es=buyerPageLabel(),booking=ownerPurchases.filter(x=>!x.already_queued),ai=ownerAIOrders.filter(x=>!x.delivered_at);
+ root.replaceChildren();
+ state.textContent=(es?'Booking activos: ':'Active Booking: ')+booking.length+
+ (ownerAIError?(es?' · AI sin verificar':' · AI orders unverified'):(es?' · AI pendientes: ':' · Pending AI: ')+ai.length);
+ const card=(o,isAI)=>{
+  const section=ownerPageElem('article',undefined,'border:1px solid #dce8ef;background:#fff;border-radius:13px;padding:12px;min-width:0');
+  section.append(ownerPageElem('strong',(o.business_name||o.customer_email||'Business')+' · '+(isAI?(o.offer||'AI Assistant'):'Booking'),'display:block;color:#191919;font-size:13px;overflow-wrap:anywhere'));
+  section.append(ownerPageElem('p',ownerOrderNext(o,isAI,es),'font-size:12px;color:#4e697b;line-height:1.6;margin:8px 0'));
+  if(isAI){
+   const link=ownerPageElem('a',es?'Abrir centro AI →':'Open AI center →');
+   link.href='/ai-booking-assistant/owner-delivery/';link.target='_blank';link.rel='noopener noreferrer';
+   link.style.cssText='font-size:12px;font-weight:750';section.append(link);
+  }else{
+   const btn=ownerPageElem('button',es?'Continuar pedido →':'Continue order →');
+   btn.type='button';btn.className='secondary';btn.style.cssText='font-size:12px;min-height:42px';
+   btn.onclick=()=>chooseOwnerBuyer(o,'builder');section.append(btn);
+  }
+  root.append(section);
+ };
+ booking.slice(0,5).forEach(o=>card(o,false));
+ ai.slice(0,5).forEach(o=>card(o,true));
+ if(!booking.length&&!ai.length&&!ownerAIError)root.append(ownerPageElem('p',
+  es?'No hay órdenes nuevas pendientes. Las entregas anteriores aparecen en Todos los pedidos.':'No new orders are pending. Older deliveries are available under All orders.',
+  'font-size:13px;color:#526d7e;line-height:1.6'));
+}
+function renderOwnerAIOrders(){
+ const root=$('ownerAIOrdersList'),state=$('ownerAIOrdersStatus');
+ if(!root||!state||!workspace?.is_internal)return;
+ const es=buyerPageLabel();root.replaceChildren();
+ if(ownerAIError){state.textContent=ownerAIError==='checking'?
+  (es?'Cargando pedidos AI…':'Checking AI orders…'):
+  (es?'No se pudieron verificar pedidos AI; reintenta. No significa que no haya órdenes.':'Could not verify AI orders; retry. This does not mean zero orders.');return;}
+ state.textContent=(es?'Órdenes AI: ':'AI orders: ')+ownerAIOrders.length;
+ if(!ownerAIOrders.length){root.append(ownerPageElem('p',es?'Todavía no hay órdenes AI.':'No AI orders yet.','font-size:12px;color:#526d7e'));return}
+ for(const o of ownerAIOrders.slice(0,30)){
+  const card=ownerPageElem('article',undefined,'padding:12px;border:1px solid #dce8ef;border-radius:13px;min-width:0');
+  card.append(ownerPageElem('strong',(o.business_name||o.customer_email||'AI Assistant')+' · '+(o.offer||'AI'),'font-size:13px;display:block;overflow-wrap:anywhere'),
+   ownerPageElem('p',ownerOrderNext(o,true,es),'font-size:12px;line-height:1.6;color:#4e697b'));
+  root.append(card);
+ }
+}
+async function loadOwnerAIOrders(){
+ if(!workspace?.is_internal)return;const scope=workspace.id;
+ try{
+  const jwt=(await db.auth.getSession())?.data?.session?.access_token;
+  if(!jwt)throw Error('Owner authorization unavailable');
+  const res=await fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-ai-activation-on-delivery',{
+   method:'POST',headers:{'Content-Type':'application/json','apikey':'sb_publishable_0TueitFYiRF3rAEMLMT8-w_FvbvY0rB','Authorization':'Bearer '+jwt},
+   body:JSON.stringify({action:'list'}),signal:AbortSignal.timeout(12000)
+  });
+  if(!res.ok)throw Error('AI service returned '+res.status);
+  const info=await res.json();if(!Array.isArray(info.orders))throw Error('Invalid AI response');
+  if(!workspace?.is_internal||workspace.id!==scope)return;
+  ownerAIOrders=info.orders;ownerAIError='';
+ }catch(e){
+  if(!workspace?.is_internal||workspace.id!==scope)return;
+  ownerAIOrders=[];ownerAIError='unavailable';console.warn('AI order status unavailable',e.message);
+ }
+ renderOwnerAIOrders();renderOwnerOrderControl();
+}
 function renderOwnerPurchases(){
  if(!workspace?.is_internal)return;
  const root=$('ownerPagesList'),status=$('ownerPagesStatus'),stats=$('ownerPurchaseStats');
  const es=buyerPageLabel(),all=ownerPurchases;
+  renderOwnerOrderControl();
  const labels={
   all:es?'Todas las compras':'All purchases',
   active:es?'Proyectos activos':'Active Projects',
@@ -2404,7 +2486,7 @@ function renderOwnerPurchases(){
   intake:es?'Nueva orden':'New Order',
   production:es?'Personalizar':'Customize',
   review:es?'Probar':'Test',
-  delivered:es?'En cola de entrega':'Delivery queued'
+  delivered:es?'Entrega registrada · verificar':'Delivery recorded · verify'
  };
  stats.replaceChildren();
  for(const key of ['intake','production','review','delivered','completed']){
@@ -2414,7 +2496,7 @@ function renderOwnerPurchases(){
   tile.append(number,caption);stats.append(tile);
  }
  const filter=$('ownerPurchaseFilter').value||'active';
- const visible=filter==='all'?all:all.filter(a=>filter==='active'?ownerPurchaseStage(a)!=='completed':ownerPurchaseStage(a)===filter);
+ const visible=filter==='all'?all:all.filter(a=>filter==='active'?!['completed','delivered'].includes(ownerPurchaseStage(a)):ownerPurchaseStage(a)===filter);
  root.replaceChildren();
  status.textContent=es?(visible.length+' de '+all.length+' compra(s) pagadas'):(visible.length+' of '+all.length+' paid purchases');
  if(!all.length){
@@ -2422,11 +2504,11 @@ function renderOwnerPurchases(){
   return;
  }
  if(!visible.length){
-  if(filter==='active'&&all.some(a=>ownerPurchaseStage(a)==='completed')){
+  if(filter==='active'&&all.some(a=>['completed','delivered'].includes(ownerPurchaseStage(a)))){
    const empty=ownerPageElem('div',undefined,'grid-column:1/-1;padding:20px;border:1px solid #dce9ee;border-radius:18px;background:#fff');
    empty.appendChild(ownerPageElem('strong',es?'Todos tus proyectos están entregados.':'All your projects are delivered.','display:block;margin-bottom:9px'));
    const go=ownerPageElem('button',es?'Ver clientes entregados →':'View Completed Clients →');go.type='button';go.className='secondary';
-   go.onclick=()=>{$('ownerPurchaseFilter').value='completed';renderOwnerPurchases()};
+   go.onclick=()=>{$('ownerPurchaseFilter').value='all';renderOwnerPurchases()};
    empty.append(go);root.append(empty);
   }else root.appendChild(ownerPageElem('p',es?'No hay pedidos con este estado.':'No purchases in this status.','grid-column:1/-1;color:#597280'));
   return;
@@ -2440,7 +2522,7 @@ function renderOwnerPurchases(){
   if(a.owner_name)box.appendChild(ownerPageElem('div',a.owner_name,'font-size:13px;font-weight:600;color:#405969'));
   if(a.owner_email)box.appendChild(ownerPageElem('div',a.owner_email,'font-size:12px;color:#667d8c;overflow-wrap:anywhere'));
   const progress=(a.intake_done?1:0)+(a.booking_page_url?1:0)+(a.crm_ready?1:0)+(a.already_queued?1:0);
-  const nextByStage={intake:es?'Esperar los datos':'Waiting for intake',production:es?'Personalizar':'Customize Booking Page',review:es?'Completar pruebas':'Complete QA',delivered:es?'Verificar correo de entrega':'Check delivery email',completed:es?'Entregado · disponible para soporte':'Delivered · available for support'};
+  const nextByStage={intake:es?'Esperar los datos':'Waiting for intake',production:es?'Personalizar':'Customize Booking Page',review:es?'Completar pruebas':'Complete QA',delivered:es?'Verificar correo y QA':'Verify delivery email and QA',completed:es?'Entregado · disponible para soporte':'Delivered · available for support'};
   box.append(ownerPageElem('div',(es?'Siguiente: ':'Next: ')+nextByStage[stage],'font-size:13px;color:#2b6585;font-weight:700;margin-top:8px'));
   const step=ownerPageElem('div',undefined,'border-top:1px solid #e9eff3;padding-top:13px;margin-top:8px;display:grid;gap:5px');
   step.appendChild(ownerPageElem('div',(es?'Preparación: ':'Setup: ')+progress+'/4','font-size:12px;color:#537080;font-weight:700'));
@@ -2481,6 +2563,7 @@ async function loadOwnerPages(){
   if(!workspace?.is_internal||workspace.id!==startedWith)return;
   ownerPurchases=Array.isArray(data)?data:[];
   renderOwnerPurchases();
+  void loadOwnerAIOrders();
  }catch(e){
   $('ownerPagesStatus').textContent=crmLocaleText("Could not load purchases: ","No se pudieron cargar las compras: ")+e.message;
   $('ownerPagesList').replaceChildren();
