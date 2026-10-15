@@ -66,6 +66,8 @@
    brand.setAttribute("aria-label",es?"Ir al inicio de la página":"Back to the top");
  }
  const heroName=$("#leadName");if(heroName)heroName.textContent=(business+" · "+tr.brandNote).toUpperCase();
+ const headline=$(".demo-headline");
+ if(headline){const words=headline.querySelectorAll("span");if(words[0])words[0].textContent=es?"Llega a casa y":"Come home to";if(words[1])words[1].textContent=es?"disfruta más.":"a fresh start."}
  const tagline=$(".demo-hero-tagline");if(tagline)tagline.textContent=tr.heroTitle;
  const description=$(".demo-hero-description");if(description)description.textContent=tr.heroSub;
  const action=$(".demo-hero-cta");
