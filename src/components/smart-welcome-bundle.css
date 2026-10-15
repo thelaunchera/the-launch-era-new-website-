@@ -43,3 +43,10 @@
 }
 @media(max-width:380px){.tle-bundle-inline{padding:12px}.tle-bundle-inline-copy{gap:9px}.tle-bundle-inline-discount{font-size:17px;padding:12px 9px}.tle-bundle-inline h2{font-size:16px}.tle-bundle-inline-text p{font-size:10px}.tle-bundle-welcome-backdrop{padding:7px;}.tle-bundle-welcome-art img{max-height:61dvh;}.tle-bundle-welcome-close{height:39px;width:39px;}.tle-bundle-welcome-footer p{font-size:10px;}}
 @media(prefers-reduced-motion:reduce){.tle-bundle-inline-cta,.tle-bundle-welcome-cta{transition:none;}}
+
+/* Keep the mobile promotion compact without hiding its terms or shrinking the CTA. */
+@media(min-width:381px) and (max-width:700px){
+ .tle-bundle-inline{padding:10px 12px;gap:10px}
+ .tle-bundle-inline-copy{gap:8px}
+ .tle-bundle-inline-discount{font-size:16px;padding:10px 8px}
+}
