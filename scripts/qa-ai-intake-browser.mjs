@@ -174,8 +174,9 @@ try{
   await page.route("**/functions/v1/**",route=>{live++;return route.abort();});
   await page.goto(base+(lang==="es"?"/es":"")+"/booking-flow-intake/?demo=1&bundle=ai-business",{waitUntil:"domcontentloaded"});
   assert.equal(await page.locator("#tleBundleAiIntake").isVisible(),true);
-  assert.equal(await page.locator("#tleBundleAiBooking").isVisible(),true);
-  assert.equal(await page.locator("#tleBundleAiFollowup").isVisible(),true);
+  assert.equal(await page.locator("#tleBundleAiBooking").isVisible(),false,"Legacy booking question must be hidden");
+  assert.equal(await page.locator("#tleBundleAiFollowup").isVisible(),false,"Legacy follow-up question must be hidden");
+  assert.equal(await page.locator("#tleBundleAiIntake .tle-guided-panel").count(),2,"Separate booking and follow-up guided checklists should display");
   assert.equal(await page.locator('input[name="tle_pick_bundle_booking_questions"]').count(),1);
   assert.equal(await page.locator('input[name="tle_pick_bundle_followup_quote"]').count(),1);
   assert.match(await page.locator(".hero").innerText(),lang==="es"?/4 días hábiles/:/4 business days/);
