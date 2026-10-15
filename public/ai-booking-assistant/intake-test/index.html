@@ -1,0 +1,228 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive"><meta name="theme-color" content="#FAF8F3">
+<title>TEST — AI Assistant Intake | The Launch Era</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#191919;--bg:#FAF8F3;--blue:#EAF4FC;--line:#D5E5F0;--yellow:#F2D85B}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Futura,"Avenir Next",Arial,sans-serif;line-height:1.5}
+a{color:inherit}header{border-bottom:1px solid var(--line);padding:21px max(18px,calc((100% - 800px)/2))}header a{font:800 18px Prompt,Arial,sans-serif;letter-spacing:.01em;text-decoration:none}
+main{width:min(760px,calc(100% - 28px));margin:38px auto 70px}.card{background:#fff;border:1px solid var(--line);border-radius:26px;box-shadow:0 14px 35px #1919190d;padding:34px}
+.ey{letter-spacing:.13em;font-size:11px;font-weight:700;color:#4E778F;text-transform:uppercase}h1,h2{font-family:Prompt,Arial,sans-serif;line-height:1.14;letter-spacing:-.04em}h1{font-size:clamp(27px,5vw,39px);margin:12px 0 12px}p{color:#576A77;font-size:14px}.summary{background:var(--blue);border:1px solid #D1E4F2;padding:18px;border-radius:17px;margin:18px 0 28px}.summary strong{color:var(--ink)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.field{margin-top:17px}.field label{display:block;font-size:12px;font-weight:800;margin-bottom:8px}.field input,.field textarea,.field select{display:block;width:100%;border:1px solid #C7D8E3;border-radius:13px;background:#FAF8F3;padding:13px 14px;min-height:48px;color:var(--ink);font:14px Futura,Arial,sans-serif}.field textarea{resize:vertical;min-height:99px}.avatar-card{margin:22px 0 4px;padding:20px;border:1px solid #bdd9ed;border-radius:18px;background:#edf7ff}.avatar-card h2{font-size:19px;margin:0 0 5px}.avatar-card p{margin:0 0 12px}.avatar-card .field{margin-top:13px}.avatar-preview{display:flex;gap:13px;align-items:center;margin-top:12px;flex-wrap:wrap}.avatar-preview img{width:82px;height:82px;border-radius:20px;object-fit:cover;border:2px solid #d1e4f2;background:#fff}.avatar-preview span{font-size:12px;color:#43586a;overflow-wrap:anywhere;max-width:calc(100% - 100px)}.avatar-card input[type=file]{background:#fff;min-height:auto;padding:11px}.avatar-card input:focus-visible{outline:3px solid #86bde4;outline-offset:2px}.field small{font-size:11px;color:#5C6A72}.btn{display:block;width:100%;margin-top:24px;min-height:49px;background:var(--ink);color:white;border:0;border-radius:99px;font-size:14px;font-weight:800;cursor:pointer}.btn:disabled{opacity:.45;cursor:wait}
+.alert{border:1px solid #D4E4EF;background:#EAF4FC;border-radius:16px;padding:17px;font-size:13px;margin-bottom:16px}.alert.err{background:#FFF4EE;border-color:#F1D8C8}.alert.ok{background:#EDF7F1;border-color:#CCE5D5}.hidden{display:none!important}.foot{font-size:11px;color:#6B7C85;margin-top:21px;text-align:center}
+@media(max-width:560px){.card{padding:21px}.grid{grid-template-columns:1fr}main{margin:20px auto 45px}}
+
+/* Mobile-first, concise and accessible onboarding */
+body{line-height:1.46}.tle-purchase-notice{font-size:12px!important;line-height:1.45!important;padding:11px 14px!important;background:#eaf4fc!important;border-color:#c5dcea!important;color:#191919!important}
+header{padding:16px max(18px,calc((100% - 760px)/2))}main{margin:20px auto 42px}.card{padding:clamp(19px,4vw,30px)}h1{font-size:clamp(27px,5vw,36px);line-height:1.15;margin:9px 0 7px}h2{font-size:18px}.card>p{margin:5px 0 15px}.summary{margin:15px 0 18px;padding:13px 15px}.summary p{margin:4px 0 0;font-size:12px}.field{margin-top:12px}.field label{margin-bottom:6px}.field input,.field textarea,.field select{min-height:45px}.field textarea{min-height:78px}.grid{gap:12px}.avatar-card{margin:16px 0 2px;padding:16px;background:#edf7ff}.avatar-card p{margin:3px 0 7px;font-size:12px}.avatar-card .field{margin-top:10px}.optional-details{margin:15px 0 0;border:1px solid #c6dcea;border-radius:14px;background:#f4f9fc;padding:0 14px}.optional-details summary{padding:15px 0;font-size:13px;font-weight:800;cursor:pointer;color:#191919}.optional-details[open]{padding-bottom:15px}.optional-details .field{margin:0}.btn{margin-top:18px}.btn:focus-visible,.optional-details summary:focus-visible,.field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible{outline:3px solid #87bee2;outline-offset:2px}
+@media(max-width:560px){main{margin:14px auto 38px}.card{border-radius:21px;padding:20px}.avatar-card{padding:14px}.tle-purchase-notice{margin:8px 14px!important}}
+/* Guided AI assistant setup: three clear mobile-friendly stages. */
+.setup-progress{margin:0 0 15px;padding:12px 14px;border:1px solid #bfd9e9;border-radius:15px;background:#EAF4FC}
+.setup-progress[hidden]{display:none}.setup-progress strong{font:700 13px Prompt,Arial,sans-serif;display:block}.setup-progress .track{margin-top:9px;height:6px;border-radius:9px;background:#cbddea;overflow:hidden}
+.setup-progress .fill{display:block;background:#3979a5;height:100%;width:33.333%;transition:width .18s ease}
+.setup-step[hidden]{display:none}.setup-step h2{font:700 18px Prompt,Arial,sans-serif;margin:12px 0 2px}.setup-step>.step-copy{font-size:12px;color:#536978;margin:0 0 15px}
+.setup-step .field-note{font-size:11px;color:#536979;display:block;margin-top:5px}.setup-actions{display:flex;gap:10px;align-items:center;margin:23px 0 0}
+.setup-actions .btn{margin:0;flex:1;min-width:0}.setup-actions .back{border:1px solid #bcd1df;background:#fff;color:#191919;flex:0 0 35%;max-width:150px}
+.setup-checkbox{display:flex;align-items:flex-start;gap:11px;border:1px solid #c5dcea;border-radius:14px;background:#f4f9fc;padding:14px;margin:18px 0 0;font-size:13px}
+.setup-checkbox[hidden]{display:none!important}.setup-checkbox input{width:20px;height:20px;flex:0 0 20px;accent-color:#191919;margin:0}.setup-review{background:#f4f9fc;border:1px solid #cbdfea;border-radius:16px;padding:16px;margin-top:15px}
+.setup-review dl{margin:0}.setup-review dt{font-size:11px;color:#566a79;margin-top:13px}.setup-review dt:first-child{margin-top:0}.setup-review dd{margin:2px 0 0;font-size:14px;font-weight:650;color:#191919;overflow-wrap:anywhere}
+.setup-review small{font-size:11px;color:#577085}.setup-step .field input,.setup-step .field select,.setup-step .field textarea{font-size:16px}
+@media(max-width:560px){.setup-actions{gap:8px}.setup-actions .btn{font-size:13px;padding:12px}.setup-step h2{font-size:17px}}
+</style></head><body><div id="testBanner" style="max-width:760px;margin:14px auto 0;padding:16px 18px;background:#FFF1BD;color:#191919;border:2px solid #D3B84A;border-radius:16px;font:700 13px/1.5 Arial,sans-serif;text-align:center">TEST PREVIEW · NO PAYMENT · NO CUSTOMER ORDER · NO INFORMATION SAVED</div>
+<nav aria-label="Test assistant plans" style="max-width:760px;margin:12px auto;display:flex;gap:7px;justify-content:center;flex-wrap:wrap;font:600 12px Arial,sans-serif">
+<a href="?plan=ai-booking&amp;lang=en" style="padding:11px 13px;background:#fff;border:1px solid #c6dbea;border-radius:99px;color:#191919;text-decoration:none">AI Booking</a>
+<a href="?plan=ai-followup&amp;lang=en" style="padding:11px 13px;background:#fff;border:1px solid #c6dbea;border-radius:99px;color:#191919;text-decoration:none">AI Follow-Up</a>
+<a href="?plan=ai-business&amp;lang=en" style="padding:11px 13px;background:#fff;border:1px solid #c6dbea;border-radius:99px;color:#191919;text-decoration:none">AI Business</a>
+</nav>
+<div id="purchaseNotice" class="tle-purchase-notice" style="padding:13px 16px;background:#FFF4D6;border:1px solid #E7D5A0;color:#31312D;border-radius:14px;font:14px/1.6 Arial,sans-serif;margin:12px auto;max-width:760px"><strong>Before you start:</strong> check your purchase email. You can complete this form anytime.</div><header><a href="/">THE LAUNCH ERA</a></header>
+<main><div class="card"><div class="ey">Private onboarding · AI Booking Assistant</div><h1 id="title">Let’s set up your AI Assistant.</h1>
+<p id="intro">A few details to make your assistant yours.</p>
+<div class="summary"><strong id="paymentTitle">Checking your purchase</strong><p id="paymentText" style="margin:7px 0 0">Making sure your payment went through…</p></div>
+<div id="status" class="alert" role="status" aria-live="polite">Verifying your purchase…</div>
+<form id="intake" class="hidden">
+<div class="field hidden"><label for="agent" id="agentLabel">Which AI assistant does your business need? *</label><select id="agent" name="agent" required><option value="ai-booking">AI Booking Assistant</option><option value="ai-followup">AI Follow-Up Assistant</option><option value="ai-business">AI Business Assistant — both agents</option></select><small id="agentHelp">Choose the assistant included in your purchase.</small></div>
+<div class="grid"><div class="field"><label for="business" id="businessLabel">Business name *</label><input id="business" name="business" maxlength="120" required autocomplete="organization"></div><div class="field"><label for="language" id="languageLabel">Preferred setup language</label><select id="language" name="language"><option value="en">English</option><option value="es">Español</option></select></div></div>
+<div class="avatar-card"><h2 id="avatarTitle">Your AI avatar</h2><p id="avatarIntro">Choose a name. Photo optional.</p><div class="grid"><div class="field"><label for="contactName" id="contactNameLabel">Your name *</label><input id="contactName" name="contact_name" autocomplete="name" maxlength="120" required placeholder="Your full name"></div><div class="field"><label for="avatarName" id="avatarNameLabel">Avatar name *</label><input id="avatarName" name="avatar_name" maxlength="80" required placeholder="e.g. Jessy"></div></div><div class="field"><label for="avatarPhoto" id="avatarPhotoLabel">Avatar photo (optional)</label><input type="file" id="avatarPhoto" name="avatar_photo" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif" aria-describedby="avatarPhotoHelp avatarPhotoStatus"><small id="avatarPhotoHelp">JPG, PNG, WebP or HEIC · max 5 MB · your photo or one used with permission.</small><div id="avatarPhotoStatus" role="status" aria-live="polite"></div><div class="avatar-preview hidden" id="avatarPreview"><img id="avatarPreviewImage" alt="Selected avatar reference"><span id="avatarPreviewName"></span><button type="button" id="avatarRemove" class="btn" style="margin:0;width:auto;min-height:37px;padding:0 15px" aria-label="Remove avatar photo">Remove</button></div></div></div>
+<div class="field"><label for="target" id="targetLabel">Where should we install it? *</label><select id="target" name="target" required><option value="booking_page">My Booking Page</option><option value="existing_website">My current website</option><option value="both">Both (subject to compatibility)</option></select></div>
+<div class="field" id="bookingGroup"><label for="booking" id="bookingLabel">Booking Page URL *</label><input id="booking" name="booking" type="url" placeholder="https://..." maxlength="260" inputmode="url"></div>
+<div class="field hidden" id="websiteGroup"><label for="website" id="websiteLabel">Website URL *</label><input id="website" name="website" type="url" placeholder="https://..." maxlength="260" inputmode="url"></div>
+<div class="field"><label for="services" id="servicesLabel">Your main services *</label><textarea id="services" name="services" required maxlength="700" placeholder="Standard cleaning, deep cleaning, move-out cleaning…"></textarea></div>
+<div class="field"><label for="goals" id="goalsLabel">What should it help with? *</label><select id="goals" name="goals" required><option value="Answer booking questions">Answer booking questions</option><option value="Follow up with approved leads">Follow up with approved leads</option><option value="Both booking and follow-up">Both booking and follow-up</option><option value="Explain services and guide people to contact us">Explain services and guide people to contact us</option></select></div>
+<details class="optional-details"><summary id="notesSummary">More details (optional)</summary><div class="field"><label for="notes" id="notesLabel">Anything else it should know?</label><textarea id="notes" name="notes" maxlength="800" placeholder="Service area, business hours, preferred greeting, brand colors…"></textarea><small id="notesHelp">Never share passwords, payment details or customer data.</small></div></details>
+<button id="submit" class="btn" type="submit">Send my setup details →</button></form>
+<div id="done" class="alert ok hidden" role="status"><strong id="doneTitle">Your setup details are saved.</strong><p id="doneBody">We'll review your information and contact you if anything is missing.</p><a href="/" id="doneLink">Return to The Launch Era ↗</a></div>
+</div><div class="foot" id="securityFoot">THE LAUNCH ERA · Only verified paid customers can submit this form.</div></main>
+<script>
+(()=>{
+ const $=id=>document.getElementById(id);
+ const endpoint="/__LOCAL_DEMO_ONLY_NEVER_REACH_BACKEND__";
+ const qs=new URLSearchParams(location.search),sid="cs_live_PREVIEWONLYNOCHARGE",es=qs.get("lang")==="es";
+ let bundleBooking=false;
+ if(es){document.documentElement.lang="es";const t={title:"Configuremos tu AI Assistant.",intro:"Unos datos para personalizar tu asistente.",paymentTitle:"Confirmación de tu compra",paymentText:"Comprobando que tu pago se completó…",businessLabel:"Nombre del negocio *",avatarTitle:"Tu avatar de IA",avatarIntro:"Elige su nombre. La foto es opcional.",contactNameLabel:"Tu nombre *",avatarNameLabel:"Nombre del avatar *",avatarPhotoLabel:"Foto del avatar (opcional)",avatarPhotoHelp:"JPG, PNG, WebP o HEIC · máx. 5 MB · foto propia o con permiso.",languageLabel:"Idioma preferido",targetLabel:"¿Dónde lo instalaremos? *",agentLabel:"¿Qué agente de IA necesita tu negocio? *",agentHelp:"Elige el agente incluido en tu compra.",bookingLabel:"Enlace de tu Booking Page *",websiteLabel:"Enlace de tu website *",servicesLabel:"Tus servicios principales *",goalsLabel:"¿En qué te ayudará? *",notesSummary:"Más detalles (opcional)",notesLabel:"¿Algo más que deba saber?",notesHelp:"Nunca compartas contraseñas, datos de pago ni información de clientes.",submit:"Enviar mis datos →",doneTitle:"Guardamos tus datos.",doneBody:"Revisaremos la información y te contactaremos si falta algo.",doneLink:"Volver a The Launch Era ↗"};Object.entries(t).forEach(([id,val])=>{$(id).textContent=val});$('target').options[0].text="Mi Booking Page";$('target').options[1].text="Mi website actual";$('target').options[2].text="Ambos (sujeto a compatibilidad)";$('agent').options[2].text="AI Business Assistant — ambos agentes";$('goals').options[0].text="Responder preguntas de reservas";$('goals').options[1].text="Seguimiento de leads con consentimiento";$('goals').options[2].text="Reservas y seguimiento";$('goals').options[3].text="Explicar servicios y guiar consultas";$('language').value="es";}
+ if(es){
+  $('purchaseNotice').innerHTML='<strong>Antes de empezar:</strong> revisa tu correo de compra. Puedes completar este formulario cuando quieras.';
+  $('securityFoot').textContent='THE LAUNCH ERA · Solo quienes tienen una compra verificada pueden enviar este formulario.';
+  $('status').textContent='Verificando tu compra…';
+  $('services').placeholder='Limpieza estándar, limpieza profunda, limpieza de mudanza…';
+  $('notes').placeholder='Área de servicio, horario, saludo preferido, colores de tu marca…';
+  $('contactName').placeholder='Tu nombre completo';$('avatarName').placeholder='Ej.: Jessy';$('avatarRemove').textContent='Quitar';
+  $('agent').options[2].textContent='AI Business Assistant — ambos asistentes';
+  $('language').options[0].textContent='Inglés';
+  $('language').options[1].textContent='Español';
+  $('goals').options[0].textContent='Responder preguntas sobre reservas';
+  $('goals').options[1].textContent='Dar seguimiento a prospectos autorizados';
+  $('goals').options[2].textContent='Reservas y seguimiento';
+  $('goals').options[3].textContent='Explicar servicios y orientar consultas';
+ }
+ // Make the setup readable on phones: collect the basics, customize, then review.
+ const form=$('intake'), businessGrid=form.querySelector('.grid'), avatarCard=form.querySelector('.avatar-card');
+ const targetField=$('target').closest('.field'), servicesField=$('services').closest('.field'),
+       goalsField=$('goals').closest('.field'), optionalBlock=form.querySelector('.optional-details'),
+       sendButton=$('submit');
+ const stepOne=document.createElement('section'),stepTwo=document.createElement('section'),stepThree=document.createElement('section');
+ const stepSections=[stepOne,stepTwo,stepThree];
+ stepSections.forEach((el,i)=>{el.className='setup-step';el.hidden=i!==0;el.setAttribute('aria-label',(es?'Paso ':'Step ')+(i+1));});
+ const heading=(n,enTitle,esTitle,enDescription,esDescription)=>{
+  const h=document.createElement('h2');h.textContent=es?esTitle:enTitle;
+  const p=document.createElement('p');p.className='step-copy';p.textContent=es?esDescription:enDescription;
+  stepSections[n-1].append(h,p);
+ };
+ heading(1,'Tell us about your business','Cuéntanos sobre tu negocio','Where you work and how customers reach you.','Dónde trabajas y cómo llegan tus clientes.');
+ heading(2,'Make your assistant yours','Personaliza tu asistente','Your preferred answers, name and handoff rules.','Su nombre, respuestas y cuándo debe pedir ayuda.');
+ heading(3,'Review before sending','Revisa antes de enviar','Make sure everything looks right. You can go back to edit.','Revisa los datos. Puedes regresar a cambiarlos.');
+ const makeField=(id,label,placeholder,max,required=false,multiline=false)=>{
+  const block=document.createElement('div');block.className='field';
+  const lbl=document.createElement('label');lbl.htmlFor=id;lbl.textContent=label;
+  const input=document.createElement(multiline?'textarea':'input');input.id=id;input.name=id;input.maxLength=max;input.required=required;
+  if(!multiline)input.type='text';input.placeholder=placeholder;
+  block.append(lbl,input);return block;
+ };
+ stepOne.append(businessGrid,targetField,$('bookingGroup'),$('websiteGroup'),servicesField);
+ const areaBlock=makeField('serviceArea',es?'Ciudades o ZIP codes donde trabajas *':'Service areas or ZIP codes *',es?'Ej.: Miami, Kendall, 33130':'e.g. Miami, Kendall, 33130',90,true);
+ const hoursBlock=makeField('businessHours',es?'Horario de atención (opcional)':'Business hours (optional)',es?'Ej.: Lun–Vie, 8 AM–5 PM':'e.g. Mon–Fri, 8 AM–5 PM',90);
+ stepOne.append(areaBlock,hoursBlock);
+ const areaHelp=document.createElement('small');areaHelp.className='field-note';areaHelp.textContent=es?'Para que el asistente no prometa servicio fuera de tu zona.':'So the assistant does not promise service outside your area.';areaBlock.append(areaHelp);
+ stepTwo.append(avatarCard,goalsField);
+ const toneBlock=document.createElement('div');toneBlock.className='field';
+ const toneLbl=document.createElement('label');toneLbl.htmlFor='assistantTone';toneLbl.textContent=es?'¿Cómo quieres que responda?':'How should it sound?';
+ const toneSelect=document.createElement('select');toneSelect.id='assistantTone';toneSelect.name='assistant_tone';
+ for(const [value,en,spanish] of [['warm','Warm and professional','Cercano y profesional'],['simple','Short and clear','Breve y claro'],['friendly','Friendly and casual','Amable e informal']]){const opt=document.createElement('option');opt.value=value;opt.textContent=es?spanish:en;toneSelect.append(opt);}
+ toneBlock.append(toneLbl,toneSelect);stepTwo.append(toneBlock);
+ const handoffBlock=makeField('handoffRule',es?'¿Cuándo debe pasar la consulta a una persona?':'When should it hand off to a person?',es?'Ej.: Precios especiales o problemas de reserva':'e.g. Special quotes or booking problems',90);
+ const noPromiseBlock=makeField('noPromises',es?'¿Qué nunca debe prometer? (opcional)':'What should it never promise? (optional)',es?'Ej.: Precios finales sin mi aprobación':'e.g. Final prices without my approval',90);
+ stepTwo.append(handoffBlock,noPromiseBlock,optionalBlock);
+ const notesInput=optionalBlock.querySelector('#notes');notesInput.maxLength=120;notesInput.placeholder=es?'Otras indicaciones breves (máximo 120 caracteres)':'Other short notes (max 120 characters)';
+ optionalBlock.querySelector('#notesHelp').textContent=es?'Máximo 120 caracteres. Nunca compartas contraseñas, datos bancarios o información de clientes.':'Maximum 120 characters. Never share passwords, bank details or customer information.';
+ const consentLabel=document.createElement('label');consentLabel.className='setup-checkbox';consentLabel.id='followupConsentWrap';consentLabel.hidden=true;
+ const consentCheck=document.createElement('input');consentCheck.id='followupConsent';consentCheck.type='checkbox';
+ const consentText=document.createElement('span');consentText.textContent=es?'Entiendo que los seguimientos solo se enviarán a leads que autorizaron recibir mensajes.':'I understand follow-ups are only sent to leads who have agreed to receive messages.';
+ consentLabel.append(consentCheck,consentText);stepTwo.append(consentLabel);
+ const review=document.createElement('div');review.className='setup-review';review.id='intakeReview';review.setAttribute('aria-live','polite');stepThree.append(review);
+ const prevBtn=document.createElement('button');prevBtn.className='btn back';prevBtn.type='button';prevBtn.textContent=es?'← Atrás':'← Back';
+ const nextBtn=document.createElement('button');nextBtn.className='btn';nextBtn.type='button';nextBtn.textContent=es?'Continuar →':'Continue →';
+ const navOne=document.createElement('div');navOne.className='setup-actions';navOne.append(nextBtn);stepOne.append(navOne);
+ const navTwo=document.createElement('div');navTwo.className='setup-actions';navTwo.append(prevBtn);
+ const step2Next=document.createElement('button');step2Next.className='btn';step2Next.type='button';step2Next.textContent=es?'Revisar →':'Review →';navTwo.append(step2Next);stepTwo.append(navTwo);
+ const backFromReview=document.createElement('button');backFromReview.type='button';backFromReview.className='btn back';backFromReview.textContent=es?'← Editar':'← Edit';
+ const reviewActions=document.createElement('div');reviewActions.className='setup-actions';reviewActions.append(backFromReview,sendButton);stepThree.append(reviewActions);
+ form.append(stepOne,stepTwo,stepThree);
+ const progress=document.createElement('div');progress.id='setupProgress';progress.className='setup-progress';progress.hidden=true;
+ const progressText=document.createElement('strong');progressText.id='setupProgressText';progressText.setAttribute('aria-live','polite');
+ const track=document.createElement('div');track.className='track';const fill=document.createElement('span');fill.className='fill';track.append(fill);progress.append(progressText,track);form.before(progress);
+ let currentStep=1;
+ const getNotes=()=>{
+  const parts=[
+   'Service area: '+$('serviceArea').value.trim(),
+   $('businessHours').value.trim()?'Hours: '+$('businessHours').value.trim():'',
+   'Tone: '+toneSelect.options[toneSelect.selectedIndex].text,
+   $('handoffRule').value.trim()?'Human handoff: '+$('handoffRule').value.trim():'',
+   $('noPromises').value.trim()?'Do not promise: '+$('noPromises').value.trim():'',
+   $('notes').value.trim()?'Additional: '+$('notes').value.trim():''
+  ].filter(Boolean);
+  return parts.join('\n');
+ };
+ function showStep(n){
+  currentStep=n;stepSections.forEach((s,i)=>{s.hidden=i!==n-1;});
+  progressText.textContent=(es?'Paso ':'Step ')+n+(es?' de 3 · ':' of 3 · ')+[es?'Tu negocio':'Your business',es?'Tu asistente':'Your assistant',es?'Confirmación':'Review'][n-1];
+  fill.style.width=(n*100/3)+'%';
+  if(n===3)renderReview();
+  if(!progress.hidden)progress.scrollIntoView({behavior:'smooth',block:'start'});
+ }
+ function validateStep(n){
+  for(const el of stepSections[n-1].querySelectorAll('input,select,textarea')){
+   if(el.closest('.hidden')||el.closest('[hidden]'))continue;
+   if(!el.checkValidity()){el.reportValidity();el.focus();return false;}
+  }
+  if(n===2&&getNotes().length>600){showStatus(es?'Reduce un poco las indicaciones adicionales.':'Please shorten the extra instructions.',true);$('notes').focus();return false;}
+  return true;
+ }
+ function renderReview(){
+  review.replaceChildren();
+  const rows=[
+   [es?'Plan':'Plan',$('agent').selectedOptions[0]?.textContent||''],
+   [es?'Negocio':'Business',$('business').value.trim()],
+   [es?'Tu nombre':'Your name',$('contactName').value.trim()],
+   [es?'Dónde se instalará':'Install on',$('target').selectedOptions[0]?.textContent||''],
+   [es?'Zona de servicio':'Service area',$('serviceArea').value.trim()],
+   [es?'Servicios':'Services',$('services').value.trim()],
+   [es?'Nombre del avatar':'Avatar name',$('avatarName').value.trim()],
+   [es?'Prioridad':'Priority',$('goals').selectedOptions[0]?.textContent||'']
+  ];
+  const dl=document.createElement('dl');
+  for(const [label,value] of rows){const dt=document.createElement('dt');dt.textContent=label;const dd=document.createElement('dd');dd.textContent=value||'—';dl.append(dt,dd);}
+  review.append(dl);
+  const note=document.createElement('small');note.textContent=es?'Nunca enviaremos tu formulario sin que toques «Enviar mis datos».':'Your setup will only be submitted when you press the final send button.';review.append(note);
+ }
+ nextBtn.addEventListener('click',()=>{if(validateStep(1))showStep(2);});
+ prevBtn.addEventListener('click',()=>showStep(1));
+ step2Next.addEventListener('click',()=>{if(validateStep(2))showStep(3);});
+ backFromReview.addEventListener('click',()=>showStep(2));
+
+
+ function showStatus(msg,error=false){$('status').textContent=msg;$('status').classList.toggle("err",error);$('status').classList.remove("hidden");}
+ let selectedAvatar=null,avatarPreviewUrl=null;
+ $('avatarPhoto').addEventListener("change",()=>{const file=$('avatarPhoto').files?.[0]||null;if(avatarPreviewUrl)URL.revokeObjectURL(avatarPreviewUrl);selectedAvatar=null;$('avatarPreview').classList.add('hidden');$('avatarPhotoStatus').textContent='';if(!file)return;const allowed=/\.(jpe?g|png|webp|heic|heif)$/i.test(file.name)||['image/jpeg','image/png','image/webp','image/heic','image/heif'].includes(file.type);if(!allowed||!file.size||file.size>5242880){$('avatarPhoto').value='';$('avatarPhotoStatus').textContent=es?'Usa una foto JPG, PNG, WebP o HEIC de 5 MB o menos.':'Use a JPG, PNG, WebP or HEIC photo no larger than 5 MB.';return;}selectedAvatar=file;avatarPreviewUrl=URL.createObjectURL(file);$('avatarPreviewImage').src=avatarPreviewUrl;$('avatarPreviewName').textContent=file.name;$('avatarPreview').classList.remove('hidden');$('avatarPhotoStatus').textContent=es?'Foto lista para subir.':'Photo ready to upload.';});
+ $('avatarRemove').addEventListener('click',()=>{selectedAvatar=null;$('avatarPhoto').value='';if(avatarPreviewUrl)URL.revokeObjectURL(avatarPreviewUrl);avatarPreviewUrl=null;$('avatarPreview').classList.add('hidden');$('avatarPhotoStatus').textContent='';});
+ const req=async(data)=>{
+  // The preview intentionally NEVER calls Stripe, Make, Resend or Supabase.
+  const planKey=["ai-booking","ai-followup","ai-business"].includes(qs.get("plan"))?qs.get("plan"):"ai-business";
+  const tariff={"ai-booking":[4900,1900],"ai-followup":[2900,1200],"ai-business":[6900,2500]}[planKey];
+  if(data.action==="verify")return {verified:true,agent_offer:planKey,bundle_booking_flow:true,setup_paid_cents:tariff[0],monthly_amount_cents:tariff[1],already_submitted:false};
+  if(data.action==="submit")return {ok:true,notifications_sent:true,already_submitted:false};
+  throw new Error("This preview cannot execute real operations.");
+ };
+ function setTarget(){const v=$('target').value;$('bookingGroup').classList.toggle("hidden",v==="existing_website");$('websiteGroup').classList.toggle("hidden",v==="booking_page");$('booking').required=v!=="existing_website"&&!bundleBooking;$('website').required=v!=="booking_page";}
+ $('target').addEventListener("change",setTarget);setTarget();
+ (async()=>{
+ if(!/^cs_live_[A-Za-z0-9_]+$/.test(sid)){showStatus(es?"Falta un enlace de pago válido.":"A valid payment confirmation link is required.",true);return;}
+ try{const p=await req({action:"verify"});
+  if(!p.verified)throw new Error("Not verified");
+  bundleBooking=p.bundle_booking_flow===true;setTarget();
+  if(bundleBooking){$('agentHelp').textContent=es?"Incluido en tu compra conjunta. Conectaremos tu Booking Page después de entregarla.":"Included in your combined purchase. We will connect your Booking Page after it is delivered."; $('booking').placeholder=es?"Se vinculará después de la entrega (opcional)":"Will be linked after delivery (optional)";}
+  const selected=p.agent_offer;const plans={"ai-booking":{title:"AI Booking Assistant",goal:"Answer booking questions"},"ai-followup":{title:"AI Follow-Up Assistant",goal:"Follow up with approved leads"},"ai-business":{title:"AI Business Assistant — both agents",goal:"Both booking and follow-up"}};const plan=plans[selected];if(!plan)throw new Error("Invalid plan");
+  $('agent').value=selected;Array.from($('agent').options).forEach(opt=>{opt.disabled=opt.value!==selected});$('goals').value=plan.goal;
+  const tariff={4900:"$49",2900:"$29",6900:"$69"};
+  const recurring={1900:"$19",1200:"$12",2500:"$25"};
+  $('paymentTitle').textContent=es?"VISTA DE PRUEBA — SIN COMPRA":"TEST PREVIEW — NO PURCHASE";
+  $('paymentText').textContent=es?("Plan de ejemplo: "+plan.title+". Instalación "+(tariff[p.setup_paid_cents]||"—")+". Mensualidad "+(recurring[p.monthly_amount_cents]||"—")+". No se hará ningún cobro."):("Sample plan: "+plan.title+". Setup "+(tariff[p.setup_paid_cents]||"—")+". Monthly "+(recurring[p.monthly_amount_cents]||"—")+". No payment will be charged.");
+  consentLabel.hidden=!['ai-followup','ai-business'].includes(selected);consentCheck.required=!consentLabel.hidden;
+  $('avatarPhoto').disabled=true;
+  $('avatarPhotoHelp').textContent=es?"Carga de foto desactivada solo en este test. En el formulario real está disponible.":"Photo upload disabled only in this test. It remains available in the real form.";
+  progress.hidden=false;showStep(1);
+  $('status').classList.add("hidden");if(p.already_submitted){$('done').classList.remove("hidden");return;}
+  $('intake').classList.remove("hidden");
+ }catch(e){showStatus(es?"No pudimos confirmar tu compra. Abre de nuevo el enlace que recibiste después de pagar o contáctanos.":"We couldn’t confirm your purchase yet. Try the link you received after paying, or contact us.",true);}
+ })();
+ $('intake').addEventListener("submit",async ev=>{
+  ev.preventDefault();$('submit').disabled=true;showStatus(es?"Guardando tus datos…":"Saving your setup details…");
+  try{let avatarPath='';if(selectedAvatar){showStatus(es?"Subiendo la foto del avatar…":"Uploading your avatar photo…");const fd=new FormData();fd.append('session_id',sid);fd.append('action','upload_avatar');fd.append('photo',selectedAvatar,selectedAvatar.name);const response=await fetch(endpoint,{method:'POST',body:fd});const data=await response.json().catch(()=>({}));if(!response.ok||!data.ok)throw new Error(data.error||'Avatar upload failed');avatarPath=data.path;showStatus(es?"Guardando tus datos…":"Saving your setup details…");}const result=await req({action:"submit",contact_name:$('contactName').value,avatar_name:$('avatarName').value,avatar_photo_path:avatarPath,business_name:$('business').value,install_target:$('target').value,booking_page_url:$('booking').value,website_url:$('website').value,services_offered:$('services').value,business_notes:getNotes(),agent_requested:$('agent').value,assistant_goals:$('goals').value,language:$('language').value});
+  $('intake').classList.add("hidden");progress.hidden=true;$('status').classList.add("hidden");$('done').classList.remove("hidden");$('done').scrollIntoView({behavior:'smooth',block:'center'});
+  $('doneTitle').textContent=es?"¡Prueba completada!":"Test completed!";
+  $('doneBody').textContent=es?"Este fue un ensayo. No enviamos datos, correos ni creamos órdenes.":"This was a preview. No data, emails or customer orders were created.";
+  $('doneLink').textContent=es?"Volver a probar otro plan ↗":"Try another plan ↗";
+  $('doneLink').href="/ai-booking-assistant/intake-test/";
+  if(!result.notifications_sent){$('doneBody').textContent=es?"Guardamos la solicitud, pero el correo de confirmación puede retrasarse. Escríbenos por el formulario de contacto si necesitas ayuda.":"Your request is saved, but the confirmation email may be delayed. Please use our contact form if you need help.";}
+  }catch(e){showStatus(e?.message||(es?"No pudimos guardar los datos. Inténtalo otra vez.":"We couldn\u0027t save your details. Please try again."),true)}
+  finally{$('submit').disabled=false;}
+ });
+})();
+</script></body></html>
