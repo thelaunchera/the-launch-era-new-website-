@@ -5,8 +5,10 @@ const code=readFileSync('public/command-center/assets/command-center-app.js','ut
 const stage=code.match(/function ownerPurchaseStage\(a\)\{[\s\S]*?\n\}/)?.[0];
 assert(stage,'Owner Booking status classifier missing');
 const fn=new Function(stage+'; return ownerPurchaseStage;')();
-const completed={intake_done:true,booking_page_url:'https://example.org/book',crm_ready:true,status:'active',already_queued:true,qa_pass_count:6,buyer_review_status:'approved',activation_email_delivery_status:'delivered'};
+const completed={intake_done:true,booking_page_url:'https://example.org/book',crm_ready:true,status:'active',already_queued:true,qa_pass_count:6,buyer_review_status:'approved',activation_email_delivery_status:'delivered',buyer_signed_in_after_email:true,release_ready:true};
 assert.equal(fn(completed),'completed','Fully audited recorded delivery');
+assert.equal(fn({...completed,buyer_signed_in_after_email:false}),'delivered','No buyer access proof means delivery still needs verification');
+assert.equal(fn({...completed,release_ready:false}),'delivered','Server readiness flag must be true');
 assert.equal(fn({...completed,qa_pass_count:3}),'delivered','Legacy delivery with missing QA must not be shown as finished');
 assert.equal(fn({...completed,activation_email_delivery_status:'sent'}),'delivered','Provider-accepted access email cannot be treated as delivered');
 assert.equal(fn({...completed,buyer_review_status:'pending_review'}),'delivered','No client approval, no completed claim');
@@ -23,4 +25,8 @@ const isolated=code.slice(code.indexOf('function ownerOrderNext'),code.indexOf('
 assert(isolated.length>3000,'Owner order functions not found');
 assert(!isolated.includes('confirm_delivery')&&!isolated.includes('send_activation')&&!isolated.includes('stripe/checkout'),'Order overview cannot send or activate');
 assert(isolated.includes('if(!res.ok)throw Error('),'Errors must not count as zero AI orders');
+assert(code.includes("ownerBookingError='unavailable'"),'Booking outages cannot be displayed as zero orders');
+assert(code.includes("ownerPurchases=[];ownerBookingError='unavailable'"),'Clear stale booking records on error');
+assert(code.includes("void loadOwnerAIOrders();"),'AI orders must load separately from Booking status');
+
 console.log('PASS Owner Order Control: paid Booking/AI visibility, honest delivery state, mobile priority, no side effects.');
