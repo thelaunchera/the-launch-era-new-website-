@@ -8,6 +8,8 @@ const i18n=readFileSync(base+"assets/command-center-i18n.js","utf8");
 const owner=readFileSync(base+"assets/jessy-owner.css","utf8");
 const ownerJS=readFileSync(base+"assets/jessy-owner.js","utf8");
 const news=readFileSync(base+"assets/command-center-notification-settings.js","utf8");
+const cbCss=readFileSync(base+"assets/cb-depot-clarity.css","utf8");
+const cbJs=readFileSync(base+"assets/cb-depot-clarity.js","utf8");
 const checks=[
  ["viewport meta uses device width",html.includes('name="viewport" content="width=device-width,initial-scale=1"')],
  ["owner and client share responsive dashboard",css.includes("#app:not(.hidden) .premium-workspace")],
@@ -21,10 +23,17 @@ const checks=[
  ["iOS form inputs avoid focus zoom",css.includes("Prevent iOS WebKit from auto-zooming")&&css.includes("font-size:max(16px,1rem)!important")],
  ["responsive assets cache busted",html.includes("command-center.css?v=20261012-preview-exit-v1")&&html.includes("command-center-i18n.js?v=20261013-production-policy-v1")&&/jessy-owner\.css\?v=2026101[2-9]-[a-z0-9-]+-v[0-9]+/.test(ownerJS)],
  ["owner production kickoff is explicit and timetable-free",html.includes("explicitly approve the production start")&&html.includes("Las 48 horas estimadas comienzan únicamente")&&i18n.includes("apruebas expresamente el inicio")&&!html.includes("Saturday after 12 PM ET")&&!i18n.includes("Sábado después de las 12 PM")],
- ["notification preferences stay available",html.includes("command-center-notification-settings.js")&&news.includes("Notification.requestPermission()")]
+ ["notification preferences stay available",html.includes("command-center-notification-settings.js")&&news.includes("Notification.requestPermission()")],
+ ["CB Depot clarity assets are loaded",html.includes("cb-depot-clarity.css?v=")&&html.includes("cb-depot-clarity.js?v=")],
+ ["CB Depot appearance is tenant scoped",cbCss.includes("body.cb-depot-buyer")&&cbJs.includes("cb-depot-buyer")],
+ ["CB Depot dark mode follow-ups remain readable",cbCss.includes("#buyerFollowupsIntro details")&&cbCss.includes("var(--cb-text)!important")],
+ ["CB Depot dashboard uses real request statistics",cbJs.includes("buyerDashboardStats")&&cbJs.includes("relocateDashboard()")],
+ ["CB Depot groups original navigation buttons",cbJs.includes("cbNavCustomers")&&cbJs.includes("cbNavTools")&&cbJs.includes("cbNavHelp")],
+ ["CB Depot email health stacks on phones",cbCss.includes("#buyerEmailHealth > .panel {grid-template-columns:1fr!important")]
 ];
 new Script(i18n,{filename:"command-center-i18n.js"});
 new Script(ownerJS,{filename:"jessy-owner.js"});
 new Script(news,{filename:"command-center-notification-settings.js"});
+new Script(cbJs,{filename:"cb-depot-clarity.js"});
 for(const [name,pass] of checks){console.log((pass?"PASS":"FAIL")+" "+name);assert.ok(pass,name)}
 console.log("PASS "+checks.length+" mobile Command Center regression checks");
