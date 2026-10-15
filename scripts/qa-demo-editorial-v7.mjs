@@ -27,6 +27,7 @@ for(const lang of ['en','es']){
     return {
      mode:document.documentElement.classList.contains('demo-editorial'),
      compact:document.documentElement.classList.contains('tle-demo-compact-v30'),
+     cascade:document.documentElement.classList.contains('tle-demo-v34'),
      galleryCards:document.querySelectorAll('#tleV31GalleryRail .tle-v31-gallery-card').length,
      editorialCards:document.querySelectorAll('#tleDemoEditorialGallery .tle-editorial-photo-card').length,
      editorialShown:(()=>{const e=$('.tle-demo-v12-why');return !!e&&e.getBoundingClientRect().height>100})(),
@@ -66,7 +67,27 @@ for(const lang of ['en','es']){
    });
    assert(m.mode&&m.css,'Public sample styles not activated');
    assert(m.scrollWidth<=width+2,'Horizontal overflow '+JSON.stringify(m));
-   if(m.compact){
+   if(m.cascade){
+     assert(!m.storyVisible&&m.galleryCards===3&&m.galleryVisible&&m.editorialShown&&m.editorialCards===0&&m.editorialSlides===0&&m.galleryBeforeReviews&&m.reviewCards===3,
+       'Service cascade -> existing chapters -> Before/After -> Reviews order failed: '+JSON.stringify(m));
+     const editorialStack=await page.evaluate(()=>{
+       const cards=[...document.querySelectorAll('#residentialServiceList > button.tle-service-has-photo-v21')];
+       const first=cards[0],rect=first.getBoundingClientRect(),cs=getComputedStyle(first);
+       const image=first.querySelector('.tle-service-photo-v21 img')?.getBoundingClientRect();
+       const next=cards[1]?.getBoundingClientRect();
+       const cover=document.querySelector('#demoServices');
+       const reviews=document.querySelector('#tleDemoReviews');
+       const compare=document.querySelector('#tleV31Transformations');
+       return {count:cards.length,display:getComputedStyle(document.querySelector('#residentialServiceList')).gridTemplateColumns,
+         height:rect.height,photoWidth:image?.width,cardWidth:rect.width,rounded:parseFloat(cs.borderTopLeftRadius),
+         nextBelow:next?.top>=rect.bottom,oldShowcase:cover?.getBoundingClientRect().height,
+         reviewsAfterCompare:!!(compare.compareDocumentPosition(reviews)&Node.DOCUMENT_POSITION_FOLLOWING)};
+     });
+     assert(editorialStack.count===3&&editorialStack.height>=420&&editorialStack.cardWidth<=width&&
+       editorialStack.photoWidth>=editorialStack.cardWidth*.85&&editorialStack.rounded>=20&&
+       editorialStack.nextBelow&&editorialStack.oldShowcase===0&&editorialStack.reviewsAfterCompare,
+       'Full-photo vertical cascade missing: '+JSON.stringify(editorialStack));
+   }else if(m.compact){
      assert(!m.storyVisible&&m.galleryCards===3&&m.galleryVisible&&m.editorialShown&&m.editorialCards===2&&m.editorialSlides>=4&&m.galleryBeforeReviews&&m.editorialBeforeGallery&&m.reviewCards===3,'Editorial -> Before/After -> Reviews order, swipe, or review rail missing: '+JSON.stringify(m));
    }else{
      assert(m.storyAfterPanel&&m.storyVisible&&m.photoVisible,'Photo editorial section missing or not directly after booking card '+JSON.stringify(m));
@@ -86,7 +107,7 @@ for(const lang of ['en','es']){
    assert(quotePhoto.image.includes('living-room-original.jpg')&&!quotePhoto.image.includes('250, 248, 243'),'Quote card must use the original room and black overlay');
    assert.equal(quotePhoto.title,'rgb(255, 255, 255)','Quote title must stay white');
    assert.equal(m.cardCount,5,'Five working residential options must remain');
-   assert(m.cardIconWidth>=19,'Service card icons hidden or too small: '+JSON.stringify({width,cardIconWidth:m.cardIconWidth,photoMode:await page.evaluate(()=>document.documentElement.classList.contains('tle-photo-services-v21'))}));
+   if(!m.cascade)assert(m.cardIconWidth>=19,'Service card icons hidden or too small: '+JSON.stringify({width,cardIconWidth:m.cardIconWidth}));
    assert(m.serviceFont>=14.5,'Service typography too small');
    assert(m.headerFont.includes('Prompt'),'Headings not using Prompt typography');
    assert(m.ctaRadius>=24 && m.circleRadius>=16,'CTA or arrow icon still looks square');
@@ -107,7 +128,7 @@ for(const lang of ['en','es']){
    if(await page.evaluate(()=>document.documentElement.classList.contains('tle-photo-services-v21'))){
      // The v21 photo cards intentionally have a contained photo surface; unlike
      // the old giant nested options, they are compact and remain fully clickable.
-     assert(darkUi.panelBg==='none'&&darkUi.cardColor==='rgb(247, 251, 255)',
+     assert(darkUi.panelBg==='none'&&(m.cascade?darkUi.cardColor==='rgb(218, 233, 241)':darkUi.cardColor==='rgb(247, 251, 255)'),
        'Photo service cards should be intentional, with transparent parent: '+JSON.stringify(darkUi));
      const photoShape=await page.evaluate(()=>{
        const btn=document.querySelector('#residentialServiceList button.service');
@@ -121,7 +142,7 @@ for(const lang of ['en','es']){
    } else {
      assert(darkUi.panelBg==='none'&&darkUi.card==='none','Continuous design should not render nested booking/option cards: '+JSON.stringify(darkUi));
    }
-   assert(darkUi.title==='rgb(255, 255, 255)'&&darkUi.price==='rgb(35, 96, 138)','Dark text and strong blue price contrast lost '+JSON.stringify(darkUi));
+   assert(darkUi.title==='rgb(255, 255, 255)'&&(m.cascade?darkUi.price==='rgb(207, 235, 255)':darkUi.price==='rgb(35, 96, 138)'),'Dark text and strong blue price contrast lost '+JSON.stringify(darkUi));
    assert.equal(m.ctaHref,'#categoryTabs','Begin must be a working anchor');
    assert.equal(m.categoryButtons,2,'Residential/Commercial navigation missing');
    assert(m.editorialTitle.includes(lang==='es'?'El valor está':'The difference'),'The photographic storytelling headline is missing: '+JSON.stringify(m.editorialTitle));
