@@ -44,7 +44,8 @@ const attach=(list,items)=>{
     picture.loading="lazy";picture.decoding="async";
     picture.width=840;picture.height=560;
     picture.alt="";
-    picture.src="https://drive.google.com/thumbnail?id="+encodeURIComponent(file[0])+"&sz=w960";
+    // Locally optimized during the website build; no Drive hotlink in the browser.
+    picture.src="/assets/demo-services/"+name+".webp";
     picture.dataset.drivePhoto=file[0];
     picture.addEventListener("error",()=>{
        if(picture.dataset.fallback==="1")return;
