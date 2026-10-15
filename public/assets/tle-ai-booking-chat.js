@@ -46,14 +46,10 @@
     .tle-ai-form textarea{flex:1;resize:none;min-height:43px;max-height:87px;border:1px solid #B7CBD9;background:#FFFFFF!important;border-radius:15px;padding:11px;font:16px Futura,"Avenir Next",Arial,sans-serif;min-width:0;color:#191919!important;-webkit-text-fill-color:#191919!important;caret-color:#191919!important;opacity:1!important;color-scheme:light!important;appearance:none;-webkit-appearance:none}
     .tle-ai-form textarea::placeholder{color:#536A7A!important;-webkit-text-fill-color:#536A7A!important;opacity:1!important}
     .tle-ai-form textarea:focus{border-color:#417BA1!important;outline:2px solid #8DC9ED;outline-offset:1px}
-    /* The greeting lives in normal page flow, not over the booking content. */
-    .tle-sonny-inline-welcome{display:flex;align-items:center;gap:9px;width:fit-content;max-width:100%;margin:15px 0 5px;padding:9px 11px;background:rgba(250,253,255,.96);border:1px solid #BDD9EA;border-radius:16px;box-shadow:0 3px 12px rgba(2,22,40,.11);color:#173449!important;-webkit-text-fill-color:#173449!important;font:600 12px/1.4 Futura,"Avenir Next",Arial,sans-serif}
-    .tle-sonny-inline-welcome .tle-demo-ai-avatar{display:block;width:33px;height:33px;flex:0 0 33px;object-fit:contain}
-    .tle-sonny-inline-copy{display:block;min-width:0;color:#173449!important;-webkit-text-fill-color:#173449!important}
-    .tle-sonny-inline-cta{flex:0 0 auto;border:1px solid #AACDDD!important;background:#E7F4FC!important;color:#154361!important;-webkit-text-fill-color:#154361!important;border-radius:999px;padding:7px 10px;min-height:35px;font:700 11px/1.2 Futura,"Avenir Next",Arial,sans-serif;cursor:pointer}
-    .tle-sonny-inline-cta:focus-visible{outline:2px solid #417BA1;outline-offset:2px}
-    /* While the in-page greeting is visible, hide the duplicate floating icon. */
-    html.tle-sonny-hero-visible body .tle-ai-launch{visibility:hidden!important;pointer-events:none!important}
+    /* ONE optional greeting: a tiny dark popup anchored above Sonny's right bubble. */
+    .tle-sonny-greeting-popup{position:fixed!important;z-index:2147482999!important;right:14px!important;bottom:calc(137px + env(safe-area-inset-bottom))!important;max-width:min(235px,calc(100vw - 34px))!important;width:max-content!important;min-height:0!important;padding:11px 14px!important;border:1px solid #8CB9D4!important;border-radius:16px 16px 5px 16px!important;box-shadow:0 10px 26px rgba(1,16,29,.28)!important;background:#142B3D!important;color:#F6FAFD!important;-webkit-text-fill-color:#F6FAFD!important;opacity:1!important;text-align:left!important;font:600 12px/1.45 Futura,"Avenir Next",Arial,sans-serif!important;white-space:normal!important;cursor:pointer!important;transition:opacity .2s ease,transform .2s ease!important}
+    .tle-sonny-greeting-popup[hidden],body.tle-ai-chat-open .tle-sonny-greeting-popup{display:none!important}
+    .tle-sonny-greeting-popup:focus-visible{outline:3px solid #A9DFFF;outline-offset:3px}
     .tle-ai-form button{background:#191919;color:#fff;border:0;border-radius:14px;padding:0 14px;min-height:43px;font-weight:700;cursor:pointer}
     .tle-ai-form button:disabled{opacity:.55;cursor:not-allowed}
     .tle-ai-review{width:100%;margin:10px 0 0;padding:12px 14px;background:#F2D85B;border:1px solid #dbc04a;color:#191919;border-radius:15px;font-weight:800;font-size:13px;cursor:pointer;text-align:center}
@@ -66,8 +62,7 @@
       .tle-ai-foot{flex-shrink:0;padding:10px 12px max(12px,env(safe-area-inset-bottom))}
       .tle-ai-form{display:flex;min-width:0;gap:8px;align-items:flex-end}
       .tle-ai-form textarea{font-size:16px!important;min-width:0;flex:1;width:1px}
-       .tle-sonny-inline-welcome{max-width:100%;width:100%;box-sizing:border-box;padding:8px 10px;gap:7px;font-size:11px}
-       .tle-sonny-inline-cta{padding:7px 9px;min-height:33px}
+       .tle-sonny-greeting-popup{right:13px!important;bottom:calc(160px + env(safe-area-inset-bottom))!important;max-width:min(220px,calc(100vw - 30px))!important;padding:9px 12px!important;font-size:11px!important}
        html.demo-editorial.tle-demo-story-v13 body .tle-ai-panel:not([hidden]){top:var(--tle-ai-vv-top,0px)!important;left:0!important;right:0!important;bottom:auto!important;width:100%!important;max-width:100%!important;height:var(--tle-ai-vv-height,100dvh)!important;max-height:none!important;min-height:0!important;border-radius:0!important}
       .tle-ai-form button{flex:0 0 auto;max-width:88px;white-space:nowrap;padding:0 12px}
       body.tle-ai-chat-open{overflow:hidden!important}
@@ -111,7 +106,7 @@
     launch.setAttribute("aria-expanded",open?"true":"false");
     document.body.classList.toggle("tle-ai-chat-open",open);
     if(open){syncViewport();if(window.innerWidth>700)field.focus();}
-    else{panel.style.removeProperty("--tle-ai-vv-height");panel.style.removeProperty("--tle-ai-vv-top");const inPage=document.querySelector(".tle-sonny-inline-cta");if(inPage&&getComputedStyle(launch).visibility==="hidden")inPage.focus();else launch.focus();}
+    else{panel.style.removeProperty("--tle-ai-vv-height");panel.style.removeProperty("--tle-ai-vv-top");launch.focus();}
   }
   // Expose a safe, sample-only way to restart the same existing AI booking agent
   // from the demo confirmation screen. Never triggers submit, email or payment.
