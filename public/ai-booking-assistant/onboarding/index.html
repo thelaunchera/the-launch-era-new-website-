@@ -45,6 +45,7 @@ header{padding:16px max(18px,calc((100% - 760px)/2))}main{margin:20px auto 42px}
 <button id="submit" class="btn" type="submit">Send my setup details →</button></form>
 <div id="done" class="alert ok hidden" role="status"><strong id="doneTitle">Your setup details are saved.</strong><p id="doneBody">We'll review your information and contact you if anything is missing.</p><a href="/" id="doneLink">Return to The Launch Era ↗</a></div>
 </div><div class="foot" id="securityFoot">THE LAUNCH ERA · Only verified paid customers can submit this form.</div></main>
+<script src="/assets/tle-guided-intakes.js"></script>
 <script>
 (()=>{
  const $=id=>document.getElementById(id);
@@ -110,6 +111,7 @@ header{padding:16px max(18px,calc((100% - 760px)/2))}main{margin:20px auto 42px}
  const consentCheck=document.createElement('input');consentCheck.id='followupConsent';consentCheck.type='checkbox';
  const consentText=document.createElement('span');consentText.textContent=es?'Entiendo que los seguimientos solo se enviarán a leads que autorizaron recibir mensajes.':'I understand follow-ups are only sent to leads who have agreed to receive messages.';
  consentLabel.append(consentCheck,consentText);stepTwo.append(consentLabel);
+ const guided=window.TLEGuidedIntakes.mountAI({one:stepOne,two:stepTwo,es,servicesField,goalsField});
  const review=document.createElement('div');review.className='setup-review';review.id='intakeReview';review.setAttribute('aria-live','polite');stepThree.append(review);
  const prevBtn=document.createElement('button');prevBtn.className='btn back';prevBtn.type='button';prevBtn.textContent=es?'← Atrás':'← Back';
  const nextBtn=document.createElement('button');nextBtn.className='btn';nextBtn.type='button';nextBtn.textContent=es?'Continuar →':'Continue →';
@@ -141,7 +143,7 @@ header{padding:16px max(18px,calc((100% - 760px)/2))}main{margin:20px auto 42px}
   if(n===3)renderReview();
   if(!progress.hidden)progress.scrollIntoView({behavior:'smooth',block:'start'});
  }
- function validateStep(n){
+ function validateStep(n){if(n===2&&!guided.validate())return false;
   for(const el of stepSections[n-1].querySelectorAll('input,select,textarea')){
    if(el.closest('.hidden')||el.closest('[hidden]'))continue;
    if(!el.checkValidity()){el.reportValidity();el.focus();return false;}
@@ -159,7 +161,8 @@ header{padding:16px max(18px,calc((100% - 760px)/2))}main{margin:20px auto 42px}
    [es?'Zona de servicio':'Service area',$('serviceArea').value.trim()],
    [es?'Servicios':'Services',$('services').value.trim()],
    [es?'Nombre del avatar':'Avatar name',$('avatarName').value.trim()],
-   [es?'Prioridad':'Priority',$('goals').selectedOptions[0]?.textContent||'']
+   [es?'Prioridad':'Priority',$('goals').selectedOptions[0]?.textContent||''],
+   [es?'Funciones seleccionadas':'Selected actions',(guided.values().booking?.tasks||guided.values().followup?.triggers||[]).join(', ')]
   ];
   const dl=document.createElement('dl');
   for(const [label,value] of rows){const dt=document.createElement('dt');dt.textContent=label;const dd=document.createElement('dd');dd.textContent=value||'—';dl.append(dt,dd);}
@@ -187,6 +190,7 @@ header{padding:16px max(18px,calc((100% - 760px)/2))}main{margin:20px auto 42px}
   if(bundleBooking){$('agentHelp').textContent=es?"Incluido en tu compra conjunta. Conectaremos tu Booking Page después de entregarla.":"Included in your combined purchase. We will connect your Booking Page after it is delivered."; $('booking').placeholder=es?"Se vinculará después de la entrega (opcional)":"Will be linked after delivery (optional)";}
   const selected=p.agent_offer;const plans={"ai-booking":{title:"AI Booking Assistant",goal:"Answer booking questions"},"ai-followup":{title:"AI Follow-Up Assistant",goal:"Follow up with approved leads"},"ai-business":{title:"AI Business Assistant — both agents",goal:"Both booking and follow-up"}};const plan=plans[selected];if(!plan)throw new Error("Invalid plan");
   $('agent').value=selected;Array.from($('agent').options).forEach(opt=>{opt.disabled=opt.value!==selected});$('goals').value=plan.goal;
+  guided.setPlan(selected);document.querySelector('.ey').textContent=(es?'Configuración privada · ':'Private onboarding · ')+plan.title;
   const paid=Number(p.setup_paid_cents),monthly=Number(p.monthly_amount_cents);
   const money=cents=>'$'+(cents/100).toFixed(2).replace(/\.00$/,'');
   const paidLabel=Number.isInteger(paid)&&paid>=0?money(paid):'';
@@ -200,7 +204,7 @@ header{padding:16px max(18px,calc((100% - 760px)/2))}main{margin:20px auto 42px}
  })();
  $('intake').addEventListener("submit",async ev=>{
   ev.preventDefault();$('submit').disabled=true;showStatus(es?"Guardando tus datos…":"Saving your setup details…");
-  try{let avatarPath='';if(selectedAvatar){showStatus(es?"Subiendo la foto del avatar…":"Uploading your avatar photo…");const fd=new FormData();fd.append('session_id',sid);fd.append('action','upload_avatar');fd.append('photo',selectedAvatar,selectedAvatar.name);const response=await fetch(endpoint,{method:'POST',body:fd});const data=await response.json().catch(()=>({}));if(!response.ok||!data.ok)throw new Error(data.error||'Avatar upload failed');avatarPath=data.path;showStatus(es?"Guardando tus datos…":"Saving your setup details…");}const result=await req({action:"submit",contact_name:$('contactName').value,avatar_name:$('avatarName').value,avatar_photo_path:avatarPath,business_name:$('business').value,install_target:$('target').value,booking_page_url:$('booking').value,website_url:$('website').value,services_offered:$('services').value,business_notes:getNotes(),agent_requested:$('agent').value,assistant_goals:$('goals').value,language:$('language').value});
+  try{let avatarPath='';if(selectedAvatar){showStatus(es?"Subiendo la foto del avatar…":"Uploading your avatar photo…");const fd=new FormData();fd.append('session_id',sid);fd.append('action','upload_avatar');fd.append('photo',selectedAvatar,selectedAvatar.name);const response=await fetch(endpoint,{method:'POST',body:fd});const data=await response.json().catch(()=>({}));if(!response.ok||!data.ok)throw new Error(data.error||'Avatar upload failed');avatarPath=data.path;showStatus(es?"Guardando tus datos…":"Saving your setup details…");}const result=await req({action:"submit",contact_name:$('contactName').value,avatar_name:$('avatarName').value,avatar_photo_path:avatarPath,business_name:$('business').value,install_target:$('target').value,booking_page_url:$('booking').value,website_url:$('website').value,services_offered:guided.getServices(),business_notes:getNotes(),setup_preferences:guided.values(),agent_requested:$('agent').value,assistant_goals:$('goals').value,language:$('language').value});
   $('intake').classList.add("hidden");progress.hidden=true;$('status').classList.add("hidden");$('done').classList.remove("hidden");$('done').scrollIntoView({behavior:'smooth',block:'center'});
   if(!result.notifications_sent){$('doneBody').textContent=es?"Guardamos la solicitud, pero el correo de confirmación puede retrasarse. Escríbenos por el formulario de contacto si necesitas ayuda.":"Your request is saved, but the confirmation email may be delayed. Please use our contact form if you need help.";}
   }catch(e){showStatus(e?.message||(es?"No pudimos guardar los datos. Inténtalo otra vez.":"We couldn\u0027t save your details. Please try again."),true)}
