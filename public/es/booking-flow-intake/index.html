@@ -104,6 +104,7 @@ body{background:linear-gradient(180deg,#F8FBFC 0%,#FFFFFF 38%,#FAF8F3 100%)}.her
  <label style="display:flex;gap:10px;align-items:flex-start;margin-top:12px"><input type="checkbox" name="ai_setup_confirm" value="yes" style="width:auto;margin-top:5px">Confirmo que deseo configurar el AI Assistant de mi compra.</label>
  <p class="quick-note">Tu asistente se revisa por separado. Su mensualidad habitual comienza después de los primeros 30 días de servicio.</p>
 </section>
+<div class="section" style="background:#EAF4FC;border-radius:15px;padding:18px"><h2 style="font-size:20px">¿Quieres orientación 1:1?</h2><p>Si necesitas aprender a usar tus precios, reservas o asistente, podemos coordinar una llamada de orientación de 20 minutos. No queda reservada hasta que te confirmemos la hora.</p><label style="display:flex;align-items:center;gap:12px;font-size:14px;font-weight:600"><input type="checkbox" name="setup_call_requested" value="yes" style="width:20px;height:20px;flex-shrink:0"> Sí, quiero que me contacten para coordinar la llamada.</label><p style="font-size:12px;margin-top:12px"><a href="/help/?topic=setup-call">Solicitar orientación por separado ↗</a></p></div>
 <div class="actions"><button class="btn" id="submit" type="submit">Empezar Mi Configuración →</button><div class="status" id="status" aria-live="polite"></div></div>
 </form></main>
 <script src="/assets/tle-guided-intakes.js"></script>
@@ -155,6 +156,9 @@ if(demoMode){status.textContent="Vista previa de prueba: no se guardarán datos.
 const guidedBooking=window.TLEGuidedIntakes.mountBooking({form,es:true});
 const aiPlan=p.get("bundle")||"",validAiPlans=["ai-booking","ai-followup","ai-business"];
 if(validAiPlans.includes(aiPlan)){
+ const overview=document.createElement("p");overview.style.cssText="margin:12px 0;padding:12px 14px;border-radius:13px;background:#EAF4FC;color:#191919;font-size:13px";
+ overview.textContent="Este bundle incluye Booking Page + Command Center + AI Assistant. Usas un solo formulario y la producción conjunta toma unos 4 días hábiles después de revisar y aprobar todos los datos.";
+ document.querySelector(".hero .notice")?.after(overview);
  document.getElementById("aiAvatarName").required=true;
  document.getElementById("tleBundleAiIntake").style.display="";
  document.getElementById("tleBundleAiPlan").textContent=({"ai-booking":"AI Booking Assistant","ai-followup":"AI Follow-Up Assistant","ai-business":"AI Business Assistant — ambos agentes"})[aiPlan]+". Un solo formulario para tus dos sistemas.";
