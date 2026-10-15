@@ -143,9 +143,30 @@ function customizeChat(){
   head.prepend(avatar());
   const subtitle=head.querySelector("small");if(subtitle)subtitle.textContent=labels.separate;
   const intro=log.querySelector(".tle-ai-msg.bot");
-  if(intro)intro.textContent=labels.welcome+" "+(es?"La IA puede ayudarte a preparar una solicitud para revisarla.":"The AI can help prepare a sample request for your review.");
-  const chips=h("div","tle-demo-v12-chat-actions");chips.innerHTML=`<button type="button" data-action="services">${labels.helperServices}</button><button type="button" data-action="form">${labels.helperForm}</button><a href="/ai-booking-assistant/">${labels.helperAi} ↗</a>`;
-  chips.addEventListener("click",e=>{const btn=e.target.closest("button");if(!btn)return;if(btn.dataset.action==="services"){document.querySelector("#demoServices")?.scrollIntoView({behavior:"smooth"});document.querySelector(".tle-ai-head button")?.click()}else if(btn.dataset.action==="form"){const input=document.querySelector(".tle-ai-form textarea");if(input){input.value=es?"Ayúdame a completar una solicitud de limpieza de ejemplo paso a paso.":"Help me fill out a sample cleaning request step by step.";input.focus()}}});
+  if(intro)intro.textContent=es
+   ?"¡Hola! Soy Sonny 👋 Te ayudaré a probar una solicitud de limpieza. ¿Empezamos con una casa o con un negocio? Es una simulación; no reservarás ni pagarás nada."
+   :"Hi! I’m Sonny 👋 Want to try a cleaning request together? Is it for a home or a business? This is a simulation—nothing is booked or charged.";
+  const chips=h("div","tle-demo-v12-chat-actions");
+  chips.setAttribute("aria-label",es?"Opciones rápidas para probar una reserva":"Quick ways to try a sample booking");
+  chips.innerHTML='<button type="button" data-action="home">'+(es?"Casa":"Home cleaning")+'</button>'
+   +'<button type="button" data-action="business">'+(es?"Negocio":"Business cleaning")+'</button>'
+   +'<button type="button" data-action="explain">'+(es?"¿Cómo funciona?":"How it works")+'</button>';
+  chips.addEventListener("click",event=>{
+   const btn=event.target.closest("button");if(!btn)return;
+   const choice=btn.dataset.action;
+   if(choice==="explain"){
+    const bubble=h("div","tle-ai-msg bot");
+    bubble.textContent=es
+     ?"Te haré una pregunta a la vez sobre el espacio, tipo de limpieza y frecuencia. Al final revisarás una solicitud de ejemplo. No se envía ninguna reserva real."
+     :"I'll ask one question at a time about the space, cleaning service and frequency. At the end, you'll review a sample request. No real booking is submitted.";
+    log.appendChild(bubble);log.scrollTop=log.scrollHeight;return;
+   }
+   const input=document.querySelector(".tle-ai-form textarea");
+   const form=input?.closest("form");if(!form||input.disabled)return;
+   input.value=choice==="home"?(es?"Es para una casa. Guíame paso a paso con una reserva de ejemplo.":"It's for a home. Guide me through a sample booking one question at a time."):(es?"Es para un negocio. Guíame paso a paso con una reserva de ejemplo.":"It's for a business space. Guide me through a sample booking one question at a time.");
+   chips.hidden=true;
+   form.requestSubmit();
+  });
   log.prepend(chips);
   // One assistant = one launcher. Previous versions created a second floating
   // welcome button which looked like another AI and obscured the mobile page.
