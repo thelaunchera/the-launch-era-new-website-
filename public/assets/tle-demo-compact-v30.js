@@ -182,9 +182,74 @@
    else services.insertAdjacentElement("afterend",gallery);
  }
 
+
+ function addEditorialNavigation(){
+   const rail=byId("tleDemoEditorialGallery");
+   if(!rail||byId("tleV32EditorialControls"))return;
+   const cards=[...rail.querySelectorAll(".tle-editorial-photo-card")];
+   if(cards.length<2)return;
+   rail.setAttribute("role","region");
+   rail.setAttribute("aria-roledescription",es?"Carrusel deslizable":"Swipe carousel");
+   rail.setAttribute("aria-label",es?"Galería de hogares limpios":"Clean-home photo gallery");
+   rail.setAttribute("tabindex","0");
+   const controls=document.createElement("nav");
+   controls.id="tleV32EditorialControls";
+   controls.className="tle-v32-editorial-controls";
+   controls.setAttribute("aria-label",es?"Navegación de fotos":"Photo gallery navigation");
+   const label=document.createElement("span");
+   label.className="tle-v32-editorial-hint";
+   label.textContent=es?"DESLIZA PARA EXPLORAR":"SWIPE TO EXPLORE";
+   const group=document.createElement("div");group.className="tle-v32-editorial-dots";
+   const actions=document.createElement("div");actions.className="tle-v32-editorial-actions";
+   const previous=document.createElement("button"),next=document.createElement("button");
+   previous.type=next.type="button";
+   previous.textContent="←";next.textContent="→";
+   previous.setAttribute("aria-label",es?"Foto anterior":"Previous photo");
+   next.setAttribute("aria-label",es?"Foto siguiente":"Next photo");
+   let current=0;
+   const dots=cards.map((_,i)=>{
+     const dot=document.createElement("button");dot.type="button";
+     dot.setAttribute("aria-label",(es?"Ver foto ":"Show photo ")+(i+1));
+     dot.addEventListener("click",()=>go(i));group.append(dot);return dot;
+   });
+   const update=i=>{
+     current=i;
+     dots.forEach((dot,n)=>dot.setAttribute("aria-current",String(n===i)));
+     cards.forEach((card,n)=>card.classList.toggle("tle-v32-active-photo",i===n));
+   };
+   const go=i=>{
+     const n=(i+cards.length)%cards.length;
+     update(n);
+     rail.scrollTo({left:cards[n].offsetLeft-cards[0].offsetLeft,
+       behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
+   };
+   previous.addEventListener("click",()=>go(current-1));
+   next.addEventListener("click",()=>go(current+1));
+   rail.addEventListener("keydown",event=>{
+     if(event.key==="ArrowRight"){event.preventDefault();go(current+1)}
+     if(event.key==="ArrowLeft"){event.preventDefault();go(current-1)}
+   });
+   let scheduled=false;
+   rail.addEventListener("scroll",()=>{
+     if(scheduled)return;scheduled=true;
+     requestAnimationFrame(()=>{
+       let nearest=0,dist=Infinity;
+       cards.forEach((card,i)=>{
+         const value=Math.abs(card.offsetLeft-cards[0].offsetLeft-rail.scrollLeft);
+         if(value<dist){nearest=i;dist=value}
+       });
+       update(nearest);scheduled=false;
+     });
+   },{passive:true});
+   actions.append(previous,next);
+   controls.append(label,group,actions);
+   rail.insertAdjacentElement("afterend",controls);
+   update(0);
+ }
  function init(){
    if(!document.documentElement.classList.contains("demo-editorial")||!byId("bookingStarter"))return;
    document.documentElement.classList.add("tle-demo-compact-v30");
+   addEditorialNavigation();
    addDemoTransformations();
    document.documentElement.classList.add("tle-demo-editorial-order-v32");
    taskBlock("res",copy.parts,byId("freq"));
