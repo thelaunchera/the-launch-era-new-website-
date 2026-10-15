@@ -289,7 +289,7 @@ for(const width of [360,390,820,1024,1440]){
        enabled:document.documentElement.classList.contains('tle-photo-services-v21'),
        residential:res.length,commercial:com.length,
        imageCount:images.length,
-       driveCount:images.filter(img=>img.src.includes('drive.google.com/thumbnail')).length,
+       localCount:images.filter(img=>img.src.includes('/assets/demo-services/')).length,
        uniqueSources:new Set(images.map(img=>img.dataset.drivePhoto)).size,
        originalActions:[...res,...com].every(button=>button.hasAttribute('onclick')),
        photosHiddenFromScreenReaders:images.every(img=>img.alt===''),
@@ -298,12 +298,34 @@ for(const width of [360,390,820,1024,1440]){
      };
    });
    assert(photoChoices.enabled&&photoChoices.residential===5&&photoChoices.commercial===6
-     &&photoChoices.imageCount===7&&photoChoices.driveCount===7
+     &&photoChoices.imageCount===7&&photoChoices.localCount===7
      &&photoChoices.uniqueSources===7&&photoChoices.originalActions
      &&photoChoices.photosHiddenFromScreenReaders&&photoChoices.noOverflow,
      'Drive-photo service cards must preserve original actions: '+JSON.stringify(photoChoices));
    assert(photoChoices.firstWidth<=width&&photoChoices.firstImageWidth>45,
      'Service photos cannot overflow or disappear on mobile: '+JSON.stringify(photoChoices));
+   // Images must resolve from The Launch Era itself, not Drive hotlinks or
+   // distant CORS redirects. Force eager loading for this test to detect any
+   // missing files even when a category is initially hidden.
+   const decoded=await page.evaluate(async()=>{
+     const imgs=[...document.querySelectorAll('.tle-service-photo-v21 img')];
+     for(const img of imgs)img.loading='eager';
+     await Promise.all(imgs.map(img=>new Promise(resolve=>{
+       if(img.complete){resolve();return;}
+       img.addEventListener('load',resolve,{once:true});
+       img.addEventListener('error',resolve,{once:true});
+       setTimeout(resolve,7000);
+     })));
+     return imgs.map(img=>({
+       src:new URL(img.src).pathname,
+       width:img.naturalWidth,height:img.naturalHeight,
+       fallback:img.dataset.fallback==='1'
+     }));
+   });
+   assert(decoded.length===7&&decoded.every(p=>p.width>=400&&p.height>=200&&!p.fallback
+      &&p.src.startsWith('/assets/demo-services/')),
+      'Every Drive-origin photo must be locally served and decoded: '+JSON.stringify(decoded));
+
    const chooser=await page.evaluate(()=>{
      const main=document.querySelector('#bookingStarter #main');
      const styles=getComputedStyle(main);
@@ -403,6 +425,26 @@ for(const width of [360,390,820,1024,1440]){
    assert((await page.locator('.tle-ai-head b').textContent())?.includes('Sonny'),'Retry did not open Sonny');
    assert((await page.locator('.tle-ai-msg.bot').first().textContent())?.includes('Sonny'),'Retry did not restart Sonny conversation');
    assert(await page.locator('#done').evaluate(e=>!e.classList.contains('on')),'Old confirmation must not remain active');
+   // A sample request must remain a clean booking workspace, never a long
+   // mixed website. Back to Demo Home restores the cover and sections.
+   assert(await page.evaluate(()=>document.documentElement.classList.contains('tle-demo-booking-active')),
+     'Booking actions must activate focused booking mode');
+   const flowVisibility=await page.evaluate(()=>({
+     story:getComputedStyle(document.querySelector('#demoCinematicStory')).display,
+     reviews:getComputedStyle(document.querySelector('#tleDemoReviews').closest('.tle-demo-v12-sections')).display,
+     hero:getComputedStyle(document.querySelector('#leadHero')).display,
+     step:document.querySelector('#bookingStarter .screen.on')?.id
+   }));
+   assert(flowVisibility.story==='none'&&flowVisibility.reviews==='none'
+     &&flowVisibility.hero==='none'&&flowVisibility.step==='main',
+     'Marketing must not interrupt the booking workflow: '+JSON.stringify(flowVisibility));
+   await page.locator('.tle-ai-head button').click();
+   await page.locator('#tleFocusBookingBar .tle-focus-home').click();
+   assert(await page.evaluate(()=>!document.documentElement.classList.contains('tle-demo-booking-active')),
+     'Home action must restore the Explore Demo mode');
+   assert(await page.locator('#leadHero').isVisible(),
+     'Demo cover must be available again after Back to Demo Home');
+
    console.log('PASS prospect',lang,width);
   }catch(e){failures.push('prospect '+lang+' '+width+': '+e.message);console.error('FAIL prospect',lang,width,e.message,'js errors:',errors)}
   finally{await page.close();}
