@@ -221,7 +221,7 @@ vm.createContext(knowledge);
 vm.runInContext("function norm(s){return s.toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'')}"+explanations,knowledge);
 for(const q of ["Could you walk me through how this service works?","How does Booking Automation work?","¿Me explicas cómo funciona?","What does Booking Automation include?","¿Qué incluye este servicio?"]){
  assert.equal(knowledge.isServiceExplanation(q),true,q);
- assert.equal(knowledge.helpfulNextAction(q,"booking"),"none",q);
+ assert.equal(knowledge.helpfulNextAction(q,"booking"),"demo",q); // Explanations now offer the original sample in chat, after explicit demo contact consent.
 }
 for(const [id,word] of [["booking","customer"],["cleaning-app","invoice"],["ai-booking","booking"],["ai-followup","leads"],["ai-business","assistant"],["website","inquiry"],["va","hours"]]){
  const answer=knowledge.helpfulExplanation(id,"en");
@@ -235,6 +235,6 @@ assert.equal(knowledge.helpfulNextAction("Can I see the booking demo?","booking"
 assert.equal(knowledge.helpfulNextAction("How do I start my free trial?","cleaning-app"),"trial");
 assert.equal(knowledge.helpfulNextAction("Where can I checkout?","booking"),"checkout");
 assert.equal(knowledge.helpfulNextAction("How much does it cost?","booking"),"none");
-console.log("PASS Jessie detailed service answers, bilingual helpful content, and no repetitive CTA after explanations");
+console.log("PASS Jessie detailed service answers, bilingual helpful content, and consent-gated original demo after explanations");
 
 console.log("PASS Jessie universal public pages, English/Spanish route focus, Cleaning App answers and safe next steps");
