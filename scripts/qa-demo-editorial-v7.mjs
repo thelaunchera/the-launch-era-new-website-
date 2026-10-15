@@ -200,7 +200,7 @@ for(const lang of ['en','es']){
          businessVisible:getComputedStyle(com).display!=='none',
          hiddenDuplicates:secondary.length===4&&secondary.every(el=>getComputedStyle(el).display==='none'),
          singleCTA:com.querySelectorAll('.tle-v30-main-custom').length===1,
-         readable:cs.color==='rgb(22, 59, 87)'&&cs.backgroundColor!=='rgba(0, 0, 0, 0)'
+         readable:cs.color==='rgb(22, 59, 87)'&&cs.backgroundImage.includes('gradient')
        };
      });
      assert(onlyOne.homeInvisible&&onlyOne.businessVisible&&onlyOne.hiddenDuplicates
