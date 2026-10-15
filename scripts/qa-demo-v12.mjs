@@ -63,6 +63,14 @@ for(const width of [360,390,820,1024,1440]){
      'Sample service selection must retain the original booking functionality');
    assert(customer.note.includes(lang==='es'?'confirma':'confirms'),
      'Estimates must disclose that businesses confirm services/prices');
+   // This image is intentionally lazy-loaded to keep the demo fast. Scroll it
+   // into view and wait for actual decoded pixels before measuring; otherwise
+   // a slow mobile browser can report a false image failure.
+   await page.locator('.tle-demo-v12-why>img').scrollIntoViewIfNeeded();
+   await page.waitForFunction(()=>{
+     const img=document.querySelector('.tle-demo-v12-why>img');
+     return Boolean(img&&img.complete&&img.naturalWidth>700);
+   },null,{timeout:12000});
    const chapters=await page.evaluate(()=>{
      const cinematic=document.querySelector('#demoCinematicStory');
      const highlights=cinematic.querySelector('.demo-cinematic-highlights');
