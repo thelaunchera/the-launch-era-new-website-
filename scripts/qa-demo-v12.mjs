@@ -318,9 +318,16 @@ for(const width of [360,390,820,1024,1440]){
    assert.equal(chooser.squareBackdrop,'rgba(0, 0, 0, 0)','The square inset backdrop reappeared: '+JSON.stringify(chooser));
    assert.equal(chooser.backdropImage,'none','The inset background must be transparent');
    assert.equal(chooser.backdropShadow,'none','The square backdrop cannot have a shadow');
-   assert.equal(chooser.rowBg,'none','Service rows may not be filled cards');
-   assert(chooser.rowRadius<=1&&chooser.rowShadow==='none','Service rows must be border-only, without rounded cards');
-   assert(chooser.iconRadius<=14&&chooser.iconWidth>=37,'Lightweight outline icon sizing regressed');
+   if(photoChoices.enabled){
+     assert(chooser.rowBg.includes('gradient')&&chooser.rowRadius>=12&&chooser.rowShadow==='none',
+       'Photo cards should be softly rounded, dark and unshadowed: '+JSON.stringify(chooser));
+     assert(chooser.iconRadius<=14&&chooser.iconWidth>=27,
+       'Photo service icon must stay visible over the thumbnail: '+JSON.stringify(chooser));
+   } else {
+     assert.equal(chooser.rowBg,'none','Service rows may not be filled cards');
+     assert(chooser.rowRadius<=1&&chooser.rowShadow==='none','Service rows must be border-only, without rounded cards');
+     assert(chooser.iconRadius<=14&&chooser.iconWidth>=37,'Lightweight outline icon sizing regressed');
+   }
    assert(chooser.iconUnique>=10&&chooser.buttonCount===11,'The eleven distinct booking-service icons are missing');
    assert(chooser.arrowWidth<=29,'Bulky circular service arrow returned');
    assert(!chooser.overflow,'Booking row overflows the mobile viewport');
