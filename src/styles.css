@@ -1415,3 +1415,63 @@ img { display:block; width:100%; object-fit:cover; }
  .sales-home .booking-copy h2 { font-size:clamp(30px,8.5vw,40px); line-height:1.12; }
  .sales-home .booking-copy > .description { font-size:17px; line-height:1.6; }
 }
+
+/* Seamless full-bleed hero finish: soften photo perimeter without a pasted rectangle. */
+.sales-home .hero-photo {
+  background:#FAF8F3;
+}
+.sales-home .hero-photo > img.hero-main-image {
+  inset:-32px;
+  width:calc(100% + 64px);
+  height:calc(100% + 64px);
+  object-fit:cover;
+  filter:blur(3px) saturate(1.02) contrast(1.02);
+  transform-origin:center center;
+}
+.sales-home .hero-photo::after {
+  background:
+    linear-gradient(90deg,
+      rgba(250,248,243,.94) 0%,
+      rgba(250,248,243,.24) 8%,
+      rgba(250,248,243,0) 20%,
+      rgba(250,248,243,0) 80%,
+      rgba(250,248,243,.24) 92%,
+      rgba(250,248,243,.94) 100%),
+    linear-gradient(180deg,
+      rgba(250,248,243,.95) 0%,
+      rgba(250,248,243,.87) 24%,
+      rgba(250,248,243,.62) 43%,
+      rgba(250,248,243,.08) 68%,
+      rgba(250,248,243,.18) 83%,
+      rgba(250,248,243,.70) 94%,
+      #FAF8F3 100%);
+}
+@media(max-width:767px) {
+  .sales-home .hero-photo::after {
+    background:
+      linear-gradient(90deg,
+        rgba(250,248,243,.76) 0%,
+        transparent 14%,
+        transparent 86%,
+        rgba(250,248,243,.76) 100%),
+      linear-gradient(180deg,
+        rgba(250,248,243,.97) 0%,
+        rgba(250,248,243,.91) 23%,
+        rgba(250,248,243,.70) 43%,
+        rgba(250,248,243,.13) 69%,
+        rgba(250,248,243,.17) 82%,
+        rgba(250,248,243,.72) 95%,
+        #FAF8F3 100%);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .sales-home .hero-photo > img.hero-main-image {
+    transform:translate3d(0,calc(var(--hero-progress,0) * 46px),0) scale(calc(1.045 + var(--hero-progress,0) * .07));
+    will-change:transform;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sales-home .hero-photo > img.hero-main-image,
+  .sales-home .hero-intro,
+  .sales-home .hero-notice-flow {transform:none !important;transition:none !important;}
+}
