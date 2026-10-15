@@ -59,6 +59,21 @@
          words.append(eyebrow,strong);
          words.classList.add("tle-v34-custom-text");
        }
+       // QUOTE ARROW v35 — replace the emoji-style glyph with an accessible,
+       // consistent right-arrow SVG. The button's original click action stays intact.
+       const arrowHolder=quoteButton.querySelector(":scope > span:last-child");
+       if(arrowHolder){
+         const ns="http://www.w3.org/2000/svg";
+         const svg=document.createElementNS(ns,"svg");
+         svg.setAttribute("viewBox","0 0 24 24");
+         svg.setAttribute("aria-hidden","true");
+         svg.setAttribute("focusable","false");
+         const path=document.createElementNS(ns,"path");
+         path.setAttribute("d","M4 12h16m-7-7 7 7-7 7");
+         svg.appendChild(path);
+         arrowHolder.replaceChildren(svg);
+         arrowHolder.setAttribute("aria-hidden","true");
+       }
        quoteButton.setAttribute("aria-label",title+" "+description);
        quoteButton.classList.add("tle-v34-single-quote");
      }
