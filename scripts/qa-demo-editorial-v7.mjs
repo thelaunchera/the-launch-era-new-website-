@@ -41,6 +41,8 @@ for(const lang of ['en','es']){
      circleRadius:parseFloat(getComputedStyle(circ).borderTopLeftRadius),
      ctaHref:cta.getAttribute('href'),
      ctaInsideHeader:$('.panel .head').contains(cta),
+     beginHidden:getComputedStyle(cta).display==='none',
+     heroHidden:getComputedStyle($('.hero .demo-hero-cta')).display==='none',
      ctaWithinHeader:cta.getBoundingClientRect().top>=$('.panel .head').getBoundingClientRect().top-2&&cta.getBoundingClientRect().bottom<=$('.panel .head').getBoundingClientRect().bottom+2,
      heroPhotoLoaded:$('.demo-cb-hero-media img')?.complete&&$('.demo-cb-hero-media img')?.naturalWidth>=1536,
      heroPhotoSource:$('.demo-cb-hero-media img')?.getAttribute('src'),
@@ -75,9 +77,9 @@ for(const lang of ['en','es']){
    assert(m.serviceFont>=14.5,'Service typography too small');
    assert(m.headerFont.includes('Prompt'),'Headings not using Prompt typography');
    assert(m.ctaRadius>=24 && m.circleRadius>=16,'CTA or arrow icon still looks square');
-   assert(m.ctaInsideHeader&&m.ctaWithinHeader,'Begin pill must sit inside header, not as a full-width bar: '+JSON.stringify(m));
+   assert(m.ctaInsideHeader&&(width<=650?m.beginHidden:m.ctaWithinHeader),'Mobile Begin must be hidden; desktop Begin pill must remain inside header: '+JSON.stringify(m));
    assert(m.heroPhotoLoaded&&m.heroPhotoSource?.includes('hero-cleaner-original.jpg'),'CB-style woman cleaning photo did not load');
-   assert(m.heroPrimaryVisible&&m.heroAreaVisible,'Hero CTA or personalized service area clipped: '+JSON.stringify(m));
+   assert((width<=650?m.heroHidden:m.heroPrimaryVisible)&&m.heroAreaVisible,'Mobile hero CTA should be hidden; desktop CTA and area must fit: '+JSON.stringify(m));
    assert(m.heroTextColor==='rgb(255, 255, 255)','Midnight hero headline should be white');
    const darkUi=await page.evaluate(()=>({
      css:[...document.styleSheets].some(s=>s.href?.includes('tle-demo-midnight-v11.css')),
@@ -96,7 +98,10 @@ for(const lang of ['en','es']){
    assert(m.mainActive,'Service selection should open by default');
    // Real tap acceptance: the CTA must move to the VISIBLE service panel,
    // never a hidden marketing eyebrow. Works for English and Spanish.
-   await page.locator('#leadHero a.demo-hero-cta').click();
+   if(width<=650){
+     // Mobile design removes the giant CTA visually, while preserving its semantic anchor fallback.
+     await page.locator('#leadHero a.demo-hero-cta').evaluate(el=>el.click());
+   }else await page.locator('#leadHero a.demo-hero-cta').click();
    await page.waitForTimeout(300);
    const heroNavigation=await page.evaluate(()=>{
      const panel=document.getElementById('bookingStarter');
@@ -120,7 +125,7 @@ for(const lang of ['en','es']){
    assert(heroNavigation.visible&&heroNavigation.scroll>80&&heroNavigation.panelTop>=-10&&heroNavigation.panelTop<235,
       'Choose your service did not scroll to visible form: '+JSON.stringify(heroNavigation));
    assert.equal(heroNavigation.hash,'#bookingStarter','Hero CTA destination must update URL');
-   assert(heroNavigation.stylePresent&&heroNavigation.svgVisible&&heroNavigation.arrowBackground==='rgba(0, 0, 0, 0)'&&heroNavigation.oldArrow==='none',
+   assert(heroNavigation.stylePresent&&(width<=650||heroNavigation.svgVisible&&heroNavigation.arrowBackground==='rgba(0, 0, 0, 0)'&&heroNavigation.oldArrow==='none'),
       'Old diamond/block arrow still appears: '+JSON.stringify(heroNavigation));
    await page.screenshot({path:'qa-screenshots/demo-v7/'+lang+'-'+width+'-booking-and-story.png',fullPage:true});
    await page.locator('#categoryTabs button[data-category="commercial"]').click();
