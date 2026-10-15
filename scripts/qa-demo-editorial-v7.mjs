@@ -56,7 +56,7 @@ for(const lang of ['en','es']){
    assert(m.mode&&m.css,'Public sample styles not activated');
    assert(m.scrollWidth<=width+2,'Horizontal overflow '+JSON.stringify(m));
    assert(m.storyAfterPanel&&m.storyVisible&&m.photoVisible,'Photo editorial section missing or not directly after booking card '+JSON.stringify(m));
-   assert(m.photoImage.includes('living-room-original.jpg'),'Approved cleaner photograph not used in editorial panel');
+   assert(m.photoImage.includes('drive-cleaner-kitchen.webp'),'The cinematic work-in-progress photo from Drive must be used');
    const approvedPhotoLoaded=await page.evaluate(()=>new Promise(resolve=>{
      const img=new Image();
      img.onload=()=>resolve(img.naturalWidth>=1536&&img.naturalHeight>=658);
@@ -88,11 +88,11 @@ for(const lang of ['en','es']){
      price:getComputedStyle(document.querySelector('#residentialServiceList .service .price')).color
    }));
    assert(darkUi.css&&darkUi.page==='rgb(8, 13, 19)','Midnight stylesheet/page backdrop not active '+JSON.stringify(darkUi));
-   assert(darkUi.panelBg.includes('linear-gradient')&&darkUi.card.includes('linear-gradient'),'Booking panel or service card lost dark styling');
+   assert(darkUi.panelBg==='none'&&darkUi.card==='none','Continuous design should not render nested booking/option cards: '+JSON.stringify(darkUi));
    assert(darkUi.title==='rgb(255, 255, 255)'&&darkUi.price==='rgb(169, 223, 255)','White/ice-blue contrast lost '+JSON.stringify(darkUi));
    assert.equal(m.ctaHref,'#categoryTabs','Begin must be a working anchor');
    assert.equal(m.categoryButtons,2,'Residential/Commercial navigation missing');
-   assert(m.editorialTitle.includes(lang==='es'?'Detalles pensados':'Thoughtful details'),'New editorial copy missing: '+JSON.stringify(m.editorialTitle));
+   assert(m.editorialTitle.includes(lang==='es'?'El cuidado se nota':'The care shows'),'The photographic storytelling headline is missing: '+JSON.stringify(m.editorialTitle));
    assert(m.mainActive,'Service selection should open by default');
    // Real tap acceptance: the CTA must move to the VISIBLE service panel,
    // never a hidden marketing eyebrow. Works for English and Spanish.
@@ -148,7 +148,7 @@ for(const lang of ['en','es']){
    assert(!quoteSize.overflow,'Expanded quote creates horizontal overflow');
    if(width>=768)assert(quoteSize.ratio>=.97&&quoteSize.height>=350,'Quote photo must fill desktop/tablet panel '+JSON.stringify(quoteSize));
    assert.equal(faults.length,0,'Unexpected JS errors '+faults.join(' | '));
-   console.log('PASS',lang,width,JSON.stringify({story:true,photo:true,fonts:m.headerFont,serviceButtons:true,ctaRound:true}));
+   console.log('PASS',lang,width,JSON.stringify({story:true,photo:true,fonts:m.headerFont,serviceButtons:true,editorial:true}));
   }catch(e){errors.push(lang+' '+width+': '+e.message);console.error('FAIL',lang,width,e.message)}
   finally{await page.close()}
  }
