@@ -37,7 +37,7 @@ async function rateLimit(req:Request,email:string){
 }
 Deno.serve(async(req:Request)=>{
  const origin=req.headers.get("origin")||"";
- if(req.method==="OPTIONS")return json({},204,origin);
+ if(req.method==="OPTIONS")return new Response(null,{status:204,headers:{"Access-Control-Allow-Origin":ALLOWED.has(origin)?origin:"https://thelaunchera.com","Access-Control-Allow-Headers":"content-type","Access-Control-Allow-Methods":"POST, OPTIONS","Vary":"Origin"}});
  if(req.method!=="POST")return json({error:"Method not allowed"},405,origin);
  if(!ALLOWED.has(origin))return json({error:"Not allowed"},403,origin);
  if(Number(req.headers.get("content-length")||0)>2000)return json({error:"Too large"},413,origin);
@@ -69,11 +69,12 @@ Deno.serve(async(req:Request)=>{
  if(sent)return json({ok:true,email_sent:false,duplicate:true,service:service.name});
  const interest="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-crm-interest?lead="+encodeURIComponent(leadId)+"&service="+encodeURIComponent(service.code);
  if(!RESEND)return json({ok:true,saved:true,email_sent:false,service:service.name});
+ const demoUrl=service.code==="booking-automation"&&service.name==="Booking Automation"?service.url+"?"+new URLSearchParams({business,area,lang,source:"jessie_email"}).toString():service.url;
  const message={
   from:"The Launch Era <hello@thelaunchera.com>",
   to:[email],subject:(lang==="es"?"Tu demo para ":"Your demo for ")+business+" — The Launch Era",
-  html:emailHtml(business,area,service,interest,lang),
-  text:"The Launch Era\n\nDemo for "+business+" · Service area: "+area+"\n\nExplore: "+service.url+"\n\nI'm Interested: "+interest+"\n\nThe interest link requires a second confirmation. No marketing subscription is added by requesting this demo."
+  html:emailHtml(business,area,{...service,url:demoUrl},interest,lang),
+  text:"The Launch Era\n\nDemo for "+business+" · Service area: "+area+"\n\nExplore: "+demoUrl+"\n\nI'm Interested: "+interest+"\n\nThe interest link requires a second confirmation. No marketing subscription is added by requesting this demo."
  };
  let accepted=false;
  try{
@@ -88,6 +89,6 @@ Deno.serve(async(req:Request)=>{
  ]);
  if(eventError)return json({ok:true,saved:true,email_sent:true,service:service.name,event_pending_review:true});
  // Notify the owner in the already-existing Command Center; do not send additional emails.
- await db.from("tle_crm_notifications").insert({workspace_id:WORKSPACE,kind:"new_lead",title:"Jessie demo requested",body:business+" · "+service.name+" · "+area,source_key:"jessie-demo-"+leadId}).catch(()=>null);
+ try{await db.from("tle_crm_notifications").insert({workspace_id:WORKSPACE,kind:"new_lead",title:"Jessie demo requested",body:business+" · "+service.name+" · "+area,source_key:"jessie-demo-"+leadId})}catch{}
  return json({ok:true,saved:true,email_sent:true,service:service.name});
 });
