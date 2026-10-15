@@ -23,6 +23,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Build self-hosted cleaning-service photo thumbnails
+        run: |
+          python -m pip install --quiet pillow
+          python scripts/build_demo_photo_assets.py
+          test -s public/assets/demo-services/regular.webp
+          test -s public/assets/demo-services/deep.webp
+          test -s public/assets/demo-services/move.webp
+          test -s public/assets/demo-services/office.webp
+          test -s public/assets/demo-services/retail.webp
+          test -s public/assets/demo-services/medical.webp
+          test -s public/assets/demo-services/floor.webp
+
       - name: Block release if routes, buttons or static assets are broken
         run: |
           node --check scripts/qa-route-integrity.mjs
