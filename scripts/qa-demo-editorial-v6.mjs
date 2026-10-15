@@ -15,7 +15,7 @@ for(const lang of ['en','es']){
   const url=base+'/lead-private-preview.html?business=Coastal%20Cleaners&area=Fort%20Lauderdale&lang='+lang;
   try{
    await page.goto(url,{waitUntil:'domcontentloaded',timeout:30000});
-   await page.locator('.demo-hero-cta').waitFor({state:'visible',timeout:18000});
+   await page.locator('#bookingStarter #main button.service').first().waitFor({state:'visible',timeout:18000});
    await page.waitForTimeout(350);
    const main=await page.evaluate(()=>{
     const q=s=>document.querySelector(s);
@@ -29,6 +29,7 @@ for(const lang of ['en','es']){
      headline:h?.textContent.trim(),headFont:parseFloat(getComputedStyle(h).fontSize),
      headlineVisible:!!rect(h)&&rect(h).width>0&&rect(h).height>0,
      ctaVisible:rect(cta).bottom<=rect(hero).bottom+2&&rect(cta).left>=rect(hero).left,
+     heroActionDisplayed:getComputedStyle(cta).display!=='none',
      areaText:area?.textContent?.trim(),areaVisible:rect(area).bottom<=rect(hero).bottom+2,
      heroPhoto:document.querySelector('#leadHero .demo-cb-hero-media img')?.getAttribute('src'),
      heroImgLoaded:(()=>{const img=document.querySelector('#leadHero .demo-cb-hero-media img');return !!img&&img.complete&&img.naturalWidth>700})(),
@@ -44,12 +45,12 @@ for(const lang of ['en','es']){
    assert(main.width<=main.viewport+3,'Horizontal overflow on hero: '+JSON.stringify(main));
    assert.equal(main.blue,'rgb(169, 223, 255)','Midnight demo CTA must use brand Ice Blue');
    assert(main.headlineVisible && main.headFont>=32,'Hero headline illegible');
-   assert(main.ctaVisible && main.areaVisible,'First-impression CTA / area clipped by hero');
+   assert((width<=650?!main.heroActionDisplayed:main.ctaVisible)&&main.areaVisible,'Mobile hero should use clean content, desktop CTA should remain available: '+JSON.stringify(main));
    assert(main.areaText===(lang==='es'?'Atendemos Fort Lauderdale':'Serving Fort Lauderdale'),'Area not localized or personalized: '+main.areaText);
    assert(main.showcaseTitle.includes(lang==='en'?'Clear details':'Detalles claros'),'New slogans missing');
    assert.equal(main.quoteCards,3,'Functional cleaning-service cards missing');
    assert(main.heroPhoto?.includes('/assets/cleaning-demo/hero-cleaner-original.jpg')&&main.heroImgLoaded&&main.heroCbCss,'CB Depot style cleaning professional hero must load');
-   assert(main.ctaInHero&&main.areaInHero,'Hero action or personalized service badge is clipped');
+   assert((width<=650?!main.heroActionDisplayed:main.ctaInHero)&&main.areaInHero,'Hero/service area clipping or redundant mobile button: '+JSON.stringify(main));
    try{await page.screenshot({path:'qa-screenshots/demo-v6/'+lang+'-'+width+'-hero.png',fullPage:false});}catch(imageError){console.warn('Optional browser screenshot failed at hero for',lang,width,imageError.message);}
    await page.evaluate(()=>startQuote('estimate'));
    const quote=await page.evaluate(()=>{
