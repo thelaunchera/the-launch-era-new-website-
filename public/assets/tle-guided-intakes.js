@@ -84,7 +84,8 @@
   function reset(){choicesBox.replaceChildren();read=check(choicesBox,es,byType[category.value]||byType.other,"booking_services");choicesBox.querySelectorAll("input").forEach(x=>x.addEventListener("change",render));rows.forEach(r=>r.wrap.remove());rows.clear();render()}
   reset();category.addEventListener("change",reset);other.addEventListener("input",render);
   // Keep legacy fields for server-side price-catalog seeding; guided fields are source of truth.
-  flat.closest("#cleaningMainServices").hidden=true;generic.closest("#genericServicesBlock").hidden=true;generic.required=false;
+  flat.closest("#cleaningMainServices").style.display="none";generic.closest("#genericServicesBlock").style.display="none";generic.required=false;
+  category.addEventListener("change",()=>{generic.required=false;flat.closest("#cleaningMainServices").style.display="none";generic.closest("#genericServicesBlock").style.display="none"});
   const values=()=>({version:1,source:"booking_page_intake",production_status:"pending_agency_review",fixed_price_public_approved:fixedVisible.value==="yes",estimate_public_approved:estimateVisible.value==="yes",custom_quotes_require_review:true,auto_confirm:false,estimate_factors:getFactors(),
    services:active.map(item=>{const r=rows.get(item.key);return {name:item.name,mode:r.mode.value,fixed_price:money(r.amount.value),estimate_min:money(r.min.value),estimate_max:money(r.max.value)}})});
   function validate(){const v=values();if(!v.services.length){alert(pick(es,"Choose at least one service.","Selecciona al menos un servicio."));return false}
@@ -96,7 +97,7 @@
    if(s.mode==="fixed"){const x=label+" — $"+s.fixed_price;f.push(x);g.push(x)}
    else{const x=label+" — "+(s.mode==="estimate"&&s.estimate_min!==null?"from $"+s.estimate_min+" (estimate only)":"custom quote");e.push(x);g.push(x)}}
    flat.value=f.join("\n");estimate.value=e.join("\n");generic.value=g.join("\n");
-   const factorsInput=form.querySelector("[name=quote_pricing_factors]");if(factorsInput)factorsInput.value=(factorsInput.value.trim()+"\nSelected estimate factors: "+v.estimate_factors.join(", ")).slice(0,4000).trim();
+   const factorsInput=form.querySelector("[name=quote_pricing_factors]");if(factorsInput)factorsInput.value=("Selected estimate factors: "+v.estimate_factors.join(", ")).slice(0,4000).trim();
    return v}
   return{values,validate,apply};
  }
