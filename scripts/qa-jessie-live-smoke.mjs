@@ -25,6 +25,7 @@ async function ask(label, message, opts = {}) {
 
 const question="I have a cleaning business. My existing website gets inquiries, but I forget to follow up. What would help?";
 const first=await ask("English pain-point discovery",question);
+assert.equal(first.mode,"reasoned_ai","A public visitor must receive an actual AI answer, not only a scripted FAQ");
 assert.equal(first.selected_offer, "website", "Inquiries lost through the existing website should target Website Automation");
 const price=await ask("English context price","How much does that cost?",{
   selected:first.selected_offer,
