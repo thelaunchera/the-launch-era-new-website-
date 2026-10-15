@@ -21,6 +21,11 @@ assert.match(backend,/fallbackFaq\(message,id,lang\)/);
 assert.match(backend,/console\.warn\("jessy_ai_response_unavailable"/);
 assert.match(backend,/max_tokens:230/);
 assert.match(frontend,/history:previous/);
+assert.match(backend,/b\\.history\\.slice\\(-12\\)/,"Server must consider twelve recent messages");
+assert.match(frontend,/history\\.slice\\(-12\\)/,"Browser must forward twelve recent messages");
+assert.match(frontend,/Editable summary only/,"Human handoff should be editable and opt-in");
+assert.doesNotMatch(backend,/\\$79 activation|\\$119 activation|Booking \\$19\\.99 en oferta/,"Stale fallback prices cannot be repeated");
+
 assert.match(frontend,/selected_offer:offer\|\|currentPage\(\)/);
 assert.doesNotMatch(backend,/sk-proj-/);
 assert.doesNotMatch(readFileSync("supabase/functions/tle-jessy-chat/knowledge.ts","utf8"),/sk-proj-|Bearer /);
@@ -31,6 +36,9 @@ const normalize=(v:string)=>v.toLowerCase().normalize("NFD").replace(/[\u0300-\u
 const {identify,asksPrice,answerPrice,tooSimilarAnswer,isBusinessCleaningPriceQuestion}=get(ids,normalize) as any;
 const list=offers.map((x:any)=>[x.id,x.name,x.short_en,x.short_es,x.price_en,x.price_es,x.checkout||x.details]);
 assert.equal(identify("How much?","booking","booking"),"booking");
+assert.equal(identify("My website gets leads, but I forget to follow up","", ""),"website");
+assert.equal(identify("Las consultas de mi sitio web se me pierden","", ""),"website");
+assert.equal(identify("My clients and invoices are scattered","", ""),"cleaning-app");
 assert.equal(identify("¿Cuánto cuesta?","ai-business","ai-booking"),"ai-business");
 assert.equal(identify("And what about invoices?","booking","booking"),"cleaning-app");
 assert.equal(identify("Can I change my follow-ups?","booking","booking"),"booking");
