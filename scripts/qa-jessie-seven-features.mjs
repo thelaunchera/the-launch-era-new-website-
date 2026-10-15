@@ -26,7 +26,7 @@ assert.match(front,/source:"jessie_sample"/);
 assert.match(front,/window\.self!==window\.top/);
 assert.match(front,/demoFrame\.removeAttribute\("src"\)/);
 assert.match(front,/if\(next==="demo_choice"\)/);
-assert.match(front,/if\(next==="demo"&&DEMOS\[offer\]\)showDemoCard\(offer\)/);
+assert.match(front,/if\(next==="demo"&&offer==="booking"\)showDemoCard\("booking"\)/);
 assert.match(front,/demoGate\.addEventListener\("submit"/);
 assert.match(front,/demoBusiness=demoField\("Business name"\)/);
 assert.match(front,/demoArea=demoField\("Service area/);
