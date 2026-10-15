@@ -238,6 +238,7 @@ function helpfulExplanation(id,lang){
 }
 function helpfulNextAction(message,id){
  const q=norm(message);
+ if(/(?:already (?:purchased|paid|bought)|i (?:purchased|bought|paid)|ya compr|ya pagu|tengo mi pedido)/.test(q)&&/(?:help|support|intake|delivery|access|login|setup|soporte|ayuda|entrega|acceso|configura|entrar|correo)/.test(q))return "client_help";
  if(isServiceExplanation(message))return (id==="booking"||id==="cleaning-app")?"demo":"none";
  if(/\b(?:try|trial|free trial|prueba gratis|probar gratis|register|signup|sign up|registrarme)\b/.test(q)&&id==="cleaning-app")return "trial";
  if(/\b(?:demo|preview|muestra|ver ejemplo|ver demostracion|ver demo|see an example)\b/.test(q))return (id==="cleaning-app"||id==="booking")?"demo":!id?"demo_choice":"none";
