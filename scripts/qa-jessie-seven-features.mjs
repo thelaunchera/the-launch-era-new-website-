@@ -26,7 +26,7 @@ assert.match(front,/email:demoEmail\.value\.trim\(\)/);
 assert.match(front,/demoGate\.hidden=true/);
 assert.match(front,/demoFrame\.src=href/);
 // User consent must precede any demo unlock and backend must require business + email + area.
-assert.ok(front.indexOf("if(!response.ok||data.ok!==true)")<front.indexOf("demoFrame.src=href"));
+assert.ok(front.indexOf("if(!response.ok||data.ok!==true||data.email_sent!==true)")<front.indexOf("demoFrame.src=href"),"The email provider must confirm sending before preview opens");
 assert.match(crm,/data\.consent!==true/);
 assert.match(crm,/business\|\|!area/);
 assert.match(crm,/jessie_demo/);
