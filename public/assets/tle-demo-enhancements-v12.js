@@ -152,6 +152,27 @@ function customizeChat(){
  }
  // Jessy is unchanged on the sales demo. Sonny operates only in the interactive sample.
 }
+function addSonnyRetry(){
+ if(!isProspect||isLive)return;
+ const done=document.querySelector("#done .success");
+ if(!done||document.getElementById("tleTrySonny"))return;
+ const button=document.createElement("button");button.type="button";button.id="tleTrySonny";button.className="tle-demo-v12-retry";
+ button.append(avatar());
+ const group=document.createElement("span");group.className="tle-demo-v12-retry-copy";
+ const strong=document.createElement("strong");strong.textContent=es?"Volver a probar con Sonny, el agente de reservas":"Try it again with the booking agent";
+ const note=document.createElement("small");note.textContent=es?"Sonny te guía desde el inicio · No es una reserva real":"Start over with Sonny · Demo only, no real booking";
+ group.append(strong,note);button.append(group);
+ button.addEventListener("click",()=>{
+   // Start a brand-new sample request without submitting an email, payment or booking.
+   window.setCategory?.("residential");
+   window.showMain?.();
+   const starter=document.getElementById("bookingStarter");
+   if(starter){starter.scrollIntoView({block:"start",behavior:"auto"});starter.focus({preventScroll:true});}
+   const opened=window.tleOpenSonnyDemo?.({restart:true});
+   if(!opened){const launch=document.querySelector(".tle-ai-launch");if(launch&&launch.getAttribute("aria-expanded")==="false")launch.click();}
+ });
+ const other=done.querySelector(".back");if(other)other.before(button);else done.appendChild(button);
+}
 function welcome(button){
  if(document.getElementById("tleDemoRobotWelcome"))return;
  const n=document.createElement("button");n.type="button";n.id="tleDemoRobotWelcome";n.className="tle-demo-v12-welcome";n.append(avatar(),document.createTextNode(labels.welcome));
@@ -161,6 +182,11 @@ function welcome(button){
  window.addEventListener("scroll",()=>{if(scrollY>140)n.remove()},{once:true,passive:true});
  setTimeout(()=>n.remove(),11000);
 }
-function run(){if(isProspect)addSections();else addSalesPreview();customizeChat()}
+function run(){
+ if(isProspect){
+   addSections();addSonnyRetry();customizeChat();
+   if(qs.get("sonny")==="1")window.tleOpenSonnyDemo?.({restart:true});
+ }else addSalesPreview();
+}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",run,{once:true});else run();
 })();
