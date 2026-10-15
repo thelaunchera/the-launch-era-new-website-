@@ -33,6 +33,9 @@ html.demo-editorial.tle-identity-v28 .top .tle-preview-chip-v28{
   letter-spacing:.14em!important;white-space:nowrap!important;
   box-shadow:0 3px 15px rgba(9,15,30,.10)!important;
 }
+html.demo-editorial.tle-identity-v28 .top .tle-preview-chip-v28>span{
+  padding:0!important;margin:0!important;
+}
 html.demo-editorial.tle-identity-v28 .top .tle-preview-star-v28{
   color:#addfff!important;
   font-size:14px!important;line-height:1!important;
