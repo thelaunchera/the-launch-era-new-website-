@@ -62,7 +62,7 @@ for(const width of [360,390,820,1024,1440]){
      ];
      const cc=el=>el?getComputedStyle(el):null;
      return {
-       installed:document.documentElement.classList.contains('tle-editorial-chapterContrast-v24'),
+       installed:document.documentElement.classList.contains('tle-editorial-contrast-v24'),
        stepsGradient:cc(steps)?.backgroundImage||'',
        stepTitleColor:cc(stepTitle)?.color||'',
        stepTitleFont:cc(stepTitle)?.fontFamily||'',
