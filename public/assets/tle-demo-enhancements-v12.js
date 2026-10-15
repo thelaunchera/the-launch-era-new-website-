@@ -161,12 +161,23 @@ function customizeChat(){
     popup.setAttribute("aria-label",labels.ask);
     popup.textContent=es?"¡Hola! Soy Sonny 👋 ¿Te ayudo a reservar?":"Hi! I'm Sonny 👋 Need help booking?";
     popup.addEventListener("click",()=>{popup.hidden=true;window.tleOpenSonnyDemo?.();});
+    // Keep the entrance completely clear: only Sonny's small avatar is visible.
+    // A short optional hint may appear once after the visitor scrolls into the page.
+    popup.hidden=true;
     document.body.appendChild(popup);
-    const dismiss=()=>{popup.hidden=true;};
+    let hinted=false,closed=false;
+    const dismiss=()=>{closed=true;popup.hidden=true;};
     launch.addEventListener("click",dismiss,{once:true});
-    window.addEventListener("scroll",()=>{if(window.scrollY>90)dismiss();},{passive:true});
-    window.setTimeout(dismiss,5200);
-    if(window.scrollY>90||document.body.classList.contains("tle-ai-chat-open"))dismiss();
+    popup.addEventListener("click",dismiss,{once:true});
+    const maybeShow=()=>{
+      if(hinted||closed||window.scrollY<Math.min(460,Math.max(300,window.innerHeight*.54))
+         ||document.body.classList.contains("tle-ai-chat-open"))return;
+      hinted=true;
+      popup.hidden=false;
+      window.setTimeout(()=>{popup.hidden=true;},3700);
+    };
+    window.addEventListener("scroll",maybeShow,{passive:true});
+    if(window.scrollY>0)maybeShow();
   }
   // Compact from first paint; no full-width CTA-shaped second banner.
   launch.classList.add("tle-demo-condensed");
