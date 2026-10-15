@@ -489,6 +489,39 @@ for(const width of [360,390,820,1024,1440]){
   finally{await page.close();}
  }
 }
+// Confirm the photographic POP is real in a moving browser, not just a
+// static mockup. Run outside reduced-motion viewport cases above.
+{
+ const page=await browser.newPage({viewport:{width:390,height:770},reducedMotion:'no-preference'});
+ try{
+  await page.goto(base+'/lead-private-preview.html?lang=en',{waitUntil:'domcontentloaded',timeout:30000});
+  const target=page.locator('#tleDemoEditorialGallery .tle-editorial-photo-card').first();
+  await target.waitFor({state:'attached',timeout:12000});
+  const before=await target.evaluate(el=>({
+   prepared:el.classList.contains('tle-pop-prepared'),
+   transition:getComputedStyle(el).transitionDuration,
+   hero:!!document.querySelector('#leadHero .tle-pop-on-scroll'),
+   service:!!document.querySelector('.tle-service-photo-v21 .tle-pop-on-scroll')
+  }));
+  assert(before.prepared&&!before.hero&&!before.service
+   &&before.transition.includes('0.92s'),
+   'Full-size editorial images alone must have a scroll pop transition: '+JSON.stringify(before));
+  await target.scrollIntoViewIfNeeded();
+  await page.waitForFunction(
+   ()=>document.querySelector('#tleDemoEditorialGallery .tle-editorial-photo-card')
+     ?.classList.contains('tle-pop-visible'),
+   {timeout:5000}
+  );
+  const img=target.locator('img');
+  await img.evaluate(async el=>{try{await el.decode()}catch{}});
+  assert(await img.evaluate(el=>el.naturalWidth>=900),
+    'Large photo must render crisply during scroll pop');
+  console.log('PASS active pop animation 390px');
+ }catch(e){
+  failures.push('active scroll pop: '+e.message);
+  console.error('FAIL active scroll pop',e.message);
+ }finally{await page.close()}
+}
 for(const width of [360,390,820,1024,1440]){
  const page=await browser.newPage({viewport:{width,height:900},reducedMotion:'reduce'});
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
