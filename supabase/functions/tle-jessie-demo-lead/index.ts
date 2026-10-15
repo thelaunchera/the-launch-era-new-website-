@@ -24,7 +24,7 @@ function emailHtml(business:string,area:string,svc:{name:string,url:string},inte
  const expl=es?"Gracias por solicitar una demostración. Aquí tienes una vista de ejemplo de nuestro sistema. No crea reservas reales.":"Thanks for requesting a demo! You can explore our sample experience below. This doesn't create real bookings.";
  const interestLabel="I'm Interested";
  const areaLine=es?"Área de servicio":"Service area";
- return '<div style="background:#faf8f3;padding:27px 16px;font:15px/1.65 Arial,sans-serif;color:#191919"><div style="max-width:580px;margin:auto;background:#fff;border:1px solid #d7e5ee;border-radius:20px;padding:28px"><div style="font-weight:800;letter-spacing:.14em;font-size:12px">THE LAUNCH ERA</div><h1 style="font-size:28px;margin:24px 0 10px">'+title+'</h1><p>'+escapeHtml(business)+' · '+areaLine+': '+escapeHtml(area)+'</p><p>'+expl+'</p><a href="'+svc.url+'" style="display:inline-block;background:#d8edfc;color:#173a54;padding:13px 21px;border-radius:12px;text-decoration:none;font-weight:800;margin:8px 0 14px">'+(es?"View the Demo":"View the Demo")+'</a><p style="color:#52697b;font-size:13px">'+(es?"¿Quieres que hablemos de cómo aplicarlo a tu negocio?":"Interested in exploring a setup for your business?")+'</p><a href="'+interest+'" style="display:inline-block;background:#191919;color:#fff;padding:13px 23px;border-radius:12px;text-decoration:none;font-weight:800">'+interestLabel+'</a><p style="font-size:12px;color:#687783;margin-top:22px">'+(es?"Ese botón abre una pantalla de confirmación. No te suscribe automáticamente a campañas.":"The interest button opens a confirmation page. It does not automatically subscribe you to campaigns.")+'</p></div></div>';
+ return '<div style="background:#faf8f3;padding:27px 16px;font:15px/1.65 Arial,sans-serif;color:#191919"><div style="max-width:580px;margin:auto;background:#fff;border:1px solid #d7e5ee;border-radius:20px;padding:28px"><div style="font-weight:800;letter-spacing:.14em;font-size:12px">THE LAUNCH ERA</div><h1 style="font-size:28px;margin:24px 0 10px">'+title+'</h1><p>'+escapeHtml(business)+' · '+areaLine+': '+escapeHtml(area)+'</p><p>'+expl+'</p><a href="'+svc.url+'" style="display:inline-block;background:#d8edfc;color:#173a54;padding:13px 21px;border-radius:12px;text-decoration:none;font-weight:800;margin:8px 0 14px">'+(es?"View the Demo":"View the Demo")+'</a><p><a href="https://thelaunchera.com/lead-private-preview.html?source=jessie_email" style="color:#276687;font-weight:800">' (es?"Try a booking with Sonny ↗":"Try a live booking with my friend Sonny ↗")'+</a></p><p style="color:#52697b;font-size:13px">'+(es?"¿Quieres que hablemos de cómo aplicarlo a tu negocio?":"Interested in exploring a setup for your business?")+'</p><a href="'+interest+'" style="display:inline-block;background:#191919;color:#fff;padding:13px 23px;border-radius:12px;text-decoration:none;font-weight:800">'+interestLabel+'</a><p style="font-size:12px;color:#687783;margin-top:22px">'+(es?"Ese botón abre una pantalla de confirmación. No te suscribe automáticamente a campañas.":"The interest button opens a confirmation page. It does not automatically subscribe you to campaigns.")+'</p></div></div>';
 }
 async function rateLimit(req:Request,email:string){
  if(!BASE||!SR)return false;
@@ -66,9 +66,9 @@ Deno.serve(async(req:Request)=>{
  }
  const {count:sent,error:sentQueryError}=await db.from("tle_crm_email_events").select("id",{count:"exact",head:true}).eq("workspace_id",WORKSPACE).eq("lead_id",leadId).eq("event_type","jessie_demo_sent");
  if(sentQueryError)return json({error:"Request saved, but email status is unavailable",saved:true,email_sent:false},503,origin);
- if(sent)return json({ok:true,email_sent:false,duplicate:true,service:service.name});
+ if(sent)return json({ok:true,email_sent:true,duplicate:true,service:service.name});
  const interest="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-crm-interest?lead="+encodeURIComponent(leadId)+"&service="+encodeURIComponent(service.code);
- if(!RESEND)return json({ok:true,saved:true,email_sent:false,service:service.name});
+ if(!RESEND)return json({error:"Demo email temporarily unavailable",saved:true,email_sent:false},503,origin);
  const demoUrl=service.code==="booking-automation"&&service.name==="Booking Automation"?service.url+"?"+new URLSearchParams({business,area,lang,source:"jessie_email"}).toString():service.url;
  const message={
   from:"The Launch Era <hello@thelaunchera.com>",
@@ -82,7 +82,7 @@ Deno.serve(async(req:Request)=>{
   const payload=await result.json().catch(()=>({}));
   accepted=result.ok&&typeof payload.id==="string"&&payload.id.length>4;
  }catch{}
- if(!accepted)return json({ok:true,saved:true,email_sent:false,service:service.name});
+ if(!accepted)return json({error:"Email provider did not confirm delivery",saved:true,email_sent:false},503,origin);
  const {error:eventError}=await db.from("tle_crm_email_events").insert([
   {workspace_id:WORKSPACE,lead_id:leadId,event_type:"email_sent",details:"Visitor consented to one demo email from Jessie; no recurring marketing consent"},
   {workspace_id:WORKSPACE,lead_id:leadId,event_type:"jessie_demo_sent",details:"Opt-in demo sent; service "+service.name}
