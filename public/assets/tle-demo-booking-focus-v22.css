@@ -112,6 +112,25 @@ html.demo-editorial .tle-focus-screenreader{
  position:absolute!important;left:-9999px!important;
  width:1px!important;height:1px!important;overflow:hidden!important;
 }
+/* Editorial proof sections should have an actual step forward. */
+html.demo-editorial .tle-demo-connected-cta{
+ display:inline-flex!important;align-items:center;justify-content:center;
+ margin-top:25px!important;min-height:44px;padding:10px 21px!important;
+ border:1px solid rgba(171,219,245,.55)!important;border-radius:999px!important;
+ color:#bde6fc!important;background:rgba(175,222,248,.08)!important;
+ font:650 13px/1.3 Prompt,Arial,sans-serif!important;
+ text-decoration:none!important;
+ transition:background-color .2s ease!important;
+}
+html.demo-editorial .tle-demo-connected-cta:hover{
+ background:rgba(175,222,248,.17)!important;
+}
+html.demo-editorial .tle-demo-connected-cta:focus-visible{
+ outline:3px solid #b3e2fc!important;outline-offset:4px!important;
+}
+html.demo-editorial #demoHow .tle-demo-connected-cta{
+ color:#19465d!important;background:#bce1f6!important;border-color:#bce1f6!important;
+}
 @media(max-width:690px){
  html.demo-editorial.tle-demo-booking-active main.wrap > #bookingStarter{
   padding:14px 22px 75px!important;min-height:calc(100dvh - 62px)!important;
