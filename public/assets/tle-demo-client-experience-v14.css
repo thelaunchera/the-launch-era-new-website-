@@ -191,3 +191,79 @@ html.demo-editorial.tle-demo-client-v14 .tle-client-sticky-cta{
   transition:none!important;
  }
 }
+
+/* v14.1 · iPhone feedback: no duplicated promotional buttons or flashy bot bubble. */
+html.demo-editorial.tle-demo-client-v14 .tle-client-sticky-cta{
+ display:none!important;
+}
+html.demo-editorial.tle-demo-client-v14 body button.tle-ai-launch::before,
+html.demo-editorial.tle-demo-client-v14 body button.tle-ai-launch::after{
+ content:none!important;display:none!important;
+}
+@media(max-width:650px){
+ /* The services are immediately below the hero. Remove the huge blue hero CTA
+    and the redundant "Begin" pill; keep the normal services navigation and form. */
+ html.demo-editorial.tle-demo-client-v14 #leadHero a.demo-hero-cta,
+ html.demo-editorial.tle-demo-client-v14 #bookingStarter a.demo-panel-start{
+  display:none!important;
+ }
+ html.demo-editorial.tle-demo-client-v14 #leadHero .heroArea{
+  margin-top:14px!important;
+  margin-bottom:0!important;
+  max-width:100%!important;
+ }
+ html.demo-editorial.tle-demo-client-v14 #bookingStarter .head{
+  display:block!important;
+  padding-bottom:26px!important;
+ }
+ html.demo-editorial.tle-demo-client-v14 #bookingStarter .head .demo-panel-head-copy{
+  max-width:100%!important;
+ }
+ /* Sonny: one simple 48px bubble with a clearly framed robot, no side sparkles,
+    no gradient ring twice, no caption floating over booking content. */
+ html.demo-editorial.tle-demo-client-v14 body button.tle-ai-launch,
+ html.demo-editorial.tle-demo-client-v14 body button.tle-ai-launch.tle-demo-condensed{
+  display:grid!important;
+  place-items:center!important;
+  width:48px!important;
+  min-width:48px!important;
+  max-width:48px!important;
+  height:48px!important;
+  min-height:48px!important;
+  padding:3px!important;
+  gap:0!important;
+  border-radius:50%!important;
+  border:1px solid rgba(178,224,250,.75)!important;
+  background:#101d30!important;
+  background-image:none!important;
+  box-shadow:0 4px 16px rgba(0,0,0,.34)!important;
+  right:13px!important;
+  bottom:calc(100px + env(safe-area-inset-bottom))!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+  transform:none!important;
+  filter:none!important;
+ }
+ html.demo-editorial.tle-demo-client-v14 button.tle-ai-launch .tle-demo-ai-avatar{
+  display:block!important;
+  width:42px!important;
+  min-width:42px!important;
+  max-width:42px!important;
+  height:42px!important;
+  min-height:42px!important;
+  flex:none!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:50%!important;
+  object-fit:contain!important;
+  box-shadow:none!important;
+ }
+ html.demo-editorial.tle-demo-client-v14 button.tle-ai-launch .tle-demo-ai-label{
+  display:none!important;
+ }
+ html.demo-editorial.tle-demo-client-v14 button.tle-ai-launch:focus-visible{
+  outline:2px solid #d3efff!important;
+  outline-offset:3px!important;
+ }
+}
