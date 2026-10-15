@@ -2414,7 +2414,7 @@ function renderOwnerOrderControl(){
  if(!workspace?.is_internal)return;
  const root=$('ownerOrderControlItems'),state=$('ownerOrderControlStatus');
  if(!root||!state)return;
- const es=buyerPageLabel(),booking=ownerPurchases.filter(x=>!x.already_queued||x.activation_email_delivery_status!=='delivered'||Number(x.qa_pass_count||0)<6||x.buyer_review_status!=='approved'),ai=ownerAIOrders.filter(x=>!x.delivered_at);
+ const es=buyerPageLabel(),booking=ownerPurchases.filter(x=>ownerPurchaseStage(x)!=='completed'),ai=ownerAIOrders.filter(x=>!x.delivered_at);
  root.replaceChildren();
  state.textContent=(ownerBookingError?(es?'Booking sin verificar':'Booking orders unverified'):(es?'Booking para revisar: ':'Booking to review: ')+booking.length)+
  (ownerAIError?(es?' · AI sin verificar':' · AI orders unverified'):(es?' · AI pendientes: ':' · Pending AI: ')+ai.length);
