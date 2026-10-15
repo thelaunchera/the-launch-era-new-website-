@@ -12,6 +12,7 @@ Usage: python scripts/build_demo_photo_assets.py
 from __future__ import annotations
 
 import io
+from concurrent.futures import ThreadPoolExecutor
 import json
 import os
 import pathlib
@@ -44,7 +45,7 @@ def read_drive(photo_id: str) -> bytes:
             request = urllib.request.Request(
                 url, headers={"User-Agent": "Mozilla/5.0 (TLE Sample Photo Import)"}
             )
-            with urllib.request.urlopen(request, timeout=22) as response:
+            with urllib.request.urlopen(request, timeout=12) as response:
                 data = response.read(18_000_000)
             if len(data) < 2048:
                 continue
@@ -55,32 +56,36 @@ def read_drive(photo_id: str) -> bytes:
             print(f"WARN: Drive thumbnail unavailable for {photo_id}: {type(err).__name__}", flush=True)
     return b""
 
+def convert_one(item: tuple[str, tuple[str, str]]) -> tuple[str, dict]:
+    name, (file_id, fallback) = item
+    data = read_drive(file_id)
+    source = "drive"
+    if data:
+        img = Image.open(io.BytesIO(data))
+    else:
+        source = "local-fallback"
+        img = Image.open(ROOT / fallback)
+    img = ImageOps.exif_transpose(img).convert("RGB")
+    img.thumbnail((MAX_WIDTH, MAX_HEIGHT), Image.Resampling.LANCZOS)
+    target = OUTPUT / f"{name}.webp"
+    img.save(target, format="WEBP", quality=81, method=5)
+    with Image.open(target) as check:
+        assert check.format == "WEBP" and check.width >= 400 and check.height >= 200
+    assert target.stat().st_size < 400_000, f"Too heavy: {target}"
+    print(f"PHOTO {name}: {source}, {target.stat().st_size} bytes", flush=True)
+    return name, {
+        "source": source, "drive_id": file_id,
+        "local_path": "/assets/demo-services/" + target.name,
+        "bytes": target.stat().st_size,
+    }
+
 def build() -> None:
     OUTPUT.mkdir(parents=True, exist_ok=True)
-    manifest = {}
-    fallback_count = 0
-    for name, (file_id, fallback) in PHOTOS.items():
-        data = read_drive(file_id)
-        source = "drive"
-        if data:
-            img = Image.open(io.BytesIO(data))
-        else:
-            source = "local-fallback"
-            fallback_count += 1
-            img = Image.open(ROOT / fallback)
-        img = ImageOps.exif_transpose(img).convert("RGB")
-        img.thumbnail((MAX_WIDTH, MAX_HEIGHT), Image.Resampling.LANCZOS)
-        target = OUTPUT / f"{name}.webp"
-        img.save(target, format="WEBP", quality=81, method=5)
-        with Image.open(target) as check:
-            assert check.format == "WEBP" and check.width >= 400 and check.height >= 200
-        assert target.stat().st_size < 400_000, f"Too heavy: {target}"
-        manifest[name] = {
-            "source": source, "drive_id": file_id, "local_path": "/assets/demo-services/" + target.name,
-            "bytes": target.stat().st_size,
-        }
-        print(f"PHOTO {name}: {source}, {target.stat().st_size} bytes", flush=True)
+    # Run downloads concurrently to avoid delaying unrelated website deployments.
+    with ThreadPoolExecutor(max_workers=7) as executor:
+        manifest = dict(executor.map(convert_one, PHOTOS.items()))
     (OUTPUT / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf8")
+    fallback_count = sum(p["source"] == "local-fallback" for p in manifest.values())
     print(f"PHOTO RESULT: {len(manifest)} optimized images; {fallback_count} fallback(s).", flush=True)
 
 if __name__ == "__main__":
