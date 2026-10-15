@@ -91,6 +91,40 @@ try{
   await context.close();
   console.log('PASS AI intake '+s.offer+' '+s.lang+' '+s.width+'px');
  }
+
+ // Production-shaped preview must never touch real checkout, emails, or data.
+ for(const lang of ['en','es']){
+  const ctx=await browser.newContext({viewport:{width:390,height:844}});
+  const page=await ctx.newPage(),errors=[];
+  let externalOps=0;
+  page.on('pageerror',e=>errors.push(String(e)));
+  await page.route('**/functions/v1/**',r=>{externalOps++;return r.abort();});
+  await page.route('**/api.stripe.com/**',r=>{externalOps++;return r.abort();});
+  await page.goto(base+'/ai-booking-assistant/intake-test/?plan=ai-business&lang='+lang,{waitUntil:'domcontentloaded'});
+  await page.locator('#intake').waitFor({state:'visible',timeout:8000});
+  assert.match(await page.locator('#testBanner').innerText(),/NO PAYMENT/);
+  assert.match(await page.locator('#paymentText').innerText(),/\$69/);
+  assert.match(await page.locator('#paymentText').innerText(),/\$25/);
+  assert.equal(await page.locator('#avatarPhoto').isDisabled(),true);
+  await page.locator('#business').fill('Preview Cleaning');
+  await page.locator('#target').selectOption('existing_website');
+  await page.locator('#website').fill('https://example.com');
+  await page.locator('#services').fill('Residential cleaning');
+  await page.locator('#serviceArea').fill('Miami, FL');
+  await page.locator('.setup-step').nth(0).getByRole('button').click();
+  await page.locator('#contactName').fill('Example Owner');
+  await page.locator('#avatarName').fill('Sam');
+  await page.locator('#followupConsent').check();
+  await page.locator('.setup-step').nth(1).getByRole('button',{name:lang==='es'?'Revisar →':'Review →'}).click();
+  await page.locator('#submit').click();
+  await page.locator('#done').waitFor({state:'visible'});
+  assert.equal(externalOps,0,'Preview should never call live services');
+  assert.deepEqual(errors,[],'Preview browser errors');
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+2),true,'Preview horizontal overflow');
+  await page.screenshot({path:'qa-screenshots/ai-intake-preview-'+lang+'.png',fullPage:true});
+  await ctx.close();
+  console.log('PASS no-charge AI intake preview '+lang);
+ }
 }finally{
  await browser.close();
  await new Promise(done=>server.close(done));
