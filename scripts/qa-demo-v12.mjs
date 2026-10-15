@@ -59,6 +59,37 @@ for(const width of [360,390,820,1024,1440]){
      'Customer-facing sample branding must reflect the configured business');
    assert(customer.progressLabel.includes(lang==='es'?'Elige tu servicio':'Choose a cleaning'),
      'Booking progress should start at choosing a service');
+   const organic=await page.evaluate(()=>{
+     const $=s=>document.querySelector(s);
+     const residential=$('#residentialServiceList');
+     const commercial=$('#commercialServiceList');
+     const custom=residential?.querySelector('.tle-service-subsection');
+     const flow=$('.tle-client-quicksteps');
+     const first=flow?.querySelector('li');
+     const service=residential?.querySelector('button.service');
+     return {
+       CSS:[...document.styleSheets].some(s=>s.href?.includes('tle-demo-organic-flow-v16.css')),
+       residentialBreak:!!custom,
+       commercialBreak:!!commercial?.querySelector('.tle-service-subsection'),
+       breakText:custom?.textContent||'',
+       intro:flow?.querySelector('.tle-steps-intro')?.textContent||'',
+       steps:flow?.querySelectorAll('li').length,
+       rowBorder:getComputedStyle(service).borderBottomWidth,
+       iconBorder:getComputedStyle(service?.querySelector('.ico')).borderWidth,
+       stepShape:getComputedStyle(first,'::before').borderRadius,
+       horizontalOverflow:document.documentElement.scrollWidth>innerWidth+3
+     };
+   });
+   assert(organic.CSS&&organic.residentialBreak&&organic.commercialBreak,
+     'Organic-flow styles or custom-request divider missing: '+JSON.stringify(organic));
+   assert(organic.breakText.includes(lang==='es'?'¿NECESITAS':'NEED SOMETHING'),
+     'Custom request divider should be localized: '+JSON.stringify(organic));
+   assert(organic.intro.includes(lang==='es'?'UNA SOLA EXPERIENCIA':'ONE EASY FLOW')
+     &&organic.steps===3,'Timeline label/steps missing: '+JSON.stringify(organic));
+   assert(organic.rowBorder==='0px'&&organic.iconBorder==='0px',
+     'Service choices should have no square card borders: '+JSON.stringify(organic));
+   assert(!organic.horizontalOverflow,
+     'Organic layout overflowed responsive viewport: '+JSON.stringify(organic));
    assert(customer.serviceOnclick?.includes('startResidential'),
      'Sample service selection must retain the original booking functionality');
    assert(customer.note.includes(lang==='es'?'confirma':'confirms'),
