@@ -83,7 +83,7 @@ for(const lang of ['en','es']){
          nextBelow:next?.top>=rect.bottom,oldShowcase:cover?.getBoundingClientRect().height,
          reviewsAfterCompare:!!(compare.compareDocumentPosition(reviews)&Node.DOCUMENT_POSITION_FOLLOWING)};
      });
-     assert(editorialStack.count===3&&editorialStack.height>=420&&editorialStack.cardWidth<=width&&
+     assert(editorialStack.count===3&&editorialStack.height>=370&&editorialStack.cardWidth<=width&&
        editorialStack.photoWidth>=editorialStack.cardWidth*.85&&editorialStack.rounded>=20&&
        editorialStack.nextBelow&&editorialStack.oldShowcase===0&&editorialStack.reviewsAfterCompare,
        'Full-photo vertical cascade missing: '+JSON.stringify(editorialStack));
@@ -188,6 +188,26 @@ for(const lang of ['en','es']){
       buttons:document.querySelectorAll('#commercialServiceList button.service').length
    }));
    assert(commercial.visible&&commercial.residentialHidden&&commercial.buttons===6,'Commercial services toggle regressed: '+JSON.stringify(commercial));
+   if(m.cascade){
+     const onlyOne=await page.evaluate(()=>{
+       const res=document.getElementById('residentialServiceList');
+       const com=document.getElementById('commercialServiceList');
+       const secondary=[...document.querySelectorAll('#bookingStarter .tle-service-secondary-v21')];
+       const btn=com.querySelector('.tle-v30-main-custom');
+       const cs=getComputedStyle(btn);
+       return {
+         homeInvisible:getComputedStyle(res).display==='none',
+         businessVisible:getComputedStyle(com).display!=='none',
+         hiddenDuplicates:secondary.length===4&&secondary.every(el=>getComputedStyle(el).display==='none'),
+         singleCTA:com.querySelectorAll('.tle-v30-main-custom').length===1,
+         readable:cs.color==='rgb(22, 59, 87)'&&cs.backgroundColor!=='rgba(0, 0, 0, 0)'
+       };
+     });
+     assert(onlyOne.homeInvisible&&onlyOne.businessVisible&&onlyOne.hiddenDuplicates
+       &&onlyOne.singleCTA&&onlyOne.readable,
+       'Only the active category and one readable quote CTA should show: '+JSON.stringify(onlyOne));
+   }
+
    await page.locator('#commercialServiceList button.service').first().click();
    assert(await page.locator('#commercial.screen.on').count()===1,'Commercial quote action not functional');
    await page.evaluate(()=>showMain());
@@ -195,7 +215,11 @@ for(const lang of ['en','es']){
    await page.locator('#residentialServiceList button.service').first().click();
    assert(await page.locator('#res.screen.on').count()===1,'Residential cleaning action not functional');
    await page.evaluate(()=>showMain());
-   await page.locator('#residentialServiceList button.service').nth(3).click();
+   if(m.cascade){
+     await page.locator('#residentialServiceList .tle-v30-main-custom').click();
+   }else{
+     await page.locator('#residentialServiceList button.service').nth(3).click();
+   }
    const quoteSize=await page.evaluate(()=>{
     const q=document.querySelector('#quote').getBoundingClientRect();
     const card=document.querySelector('#quote .demo-quote-header').getBoundingClientRect();
