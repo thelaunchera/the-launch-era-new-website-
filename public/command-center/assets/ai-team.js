@@ -165,6 +165,61 @@ function renderTasks(){
   const top=el("div","ait-task-top");top.append(el("span","ait-agent-pill",agentName(t.agent_key)),el("span","ait-status "+t.status,statusName(t.status)));
   box.append(top,el("h3","",t.title));
   if(t.description)box.append(el("p","",t.description));
+  // Source-backed automatic briefs are displayed beside the task.
+  // They are templates for owner review, not completed implementation.
+  const preparedReview=outputs.find(o=>o.task_id===t.id&&o.generation_mode==="template"&&
+    typeof o.title==="string"&&o.title.startsWith("Prepared review · "));
+  const pendingPreparedReview=preparedReview?.status==="draft"?preparedReview:null;
+  if(preparedReview){
+    const detail=el("details","ait-plan");
+    detail.style.cssText="margin:12px 0;min-width:0;background:#f0f8fd;border:1px solid #c9deeb;border-radius:13px;padding:12px;color:#191919";
+    const caption=language==="es"?"Jessie preparó una revisión interna":"Jessie prepared an internal review";
+    const reviewStatus=preparedReview.status==="draft"
+      ?(language==="es"?" · necesita tu decisión":" · needs your decision")
+      :preparedReview.status==="approved"
+       ?(language==="es"?" · revisada y aprobada":" · reviewed and approved")
+       :(language==="es"?" · se solicitaron cambios":" · changes requested");
+    const summary=el("summary","",caption+reviewStatus);summary.style.cssText="cursor:pointer;font-weight:800;font-size:13px;line-height:1.5";
+    detail.append(summary);
+    const note=el("p","",language==="es"
+      ?"Preparación basada en registros internos. No se inspeccionaron enlaces públicos ni se ejecutó el trabajo."
+      :"Prepared from internal records. No public links were inspected and no work was executed.");
+    note.style.cssText="font-size:12px;line-height:1.5;margin:10px 0";detail.append(note);
+    const pre=el("pre","ait-output-copy",preparedReview.content);
+    pre.style.cssText="white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;max-width:100%;font-size:12px;line-height:1.55;margin:0";
+    detail.append(pre);
+    if(pendingPreparedReview){
+      const options=el("div","ait-task-actions");
+      options.style.marginTop="12px";
+      for(const [decision,esLabel,enLabel] of [
+        ["approve","Aprobar revisión interna","Approve internal review"],
+        ["reject","Solicitar cambios","Request changes"]
+      ]){
+        const btn=el("button",decision==="approve"?"ait-action-primary":"",language==="es"?esLabel:enLabel);
+        btn.type="button";
+        btn.onclick=async()=>{
+          if(inFlight)return;
+          inFlight=true;btn.disabled=true;
+          try{
+            await api({action:"review_output",id:preparedReview.id,decision});
+            if(decision==="approve"&&t.status==="needs_approval"){
+              // Approve the internal work plan only, never start production or delivery.
+              await api({action:"approve",id:t.id});
+            }
+            if(decision==="reject"&&t.status==="needs_approval"){
+              await api({action:"status",id:t.id,status:"blocked"});
+            }
+            await refresh();
+            notify(language==="es"?"Decisión guardada. No se enviaron mensajes ni se modificaron pedidos.":"Decision saved. No messages sent or orders changed.");
+          }catch(e){showError(e.message);await refresh().catch(()=>{})}
+          finally{inFlight=false;btn.disabled=false}
+        };
+        options.append(btn);
+      }
+      detail.append(options);
+    }
+    box.append(detail);
+  }
   const stamp=new Date(t.created_at).toLocaleDateString(language==="es"?"es-US":"en-US");
   box.append(el("p","",stamp+" · "+(t.priority==="normal"?"Normal":t.priority)+(t.task_origin&&t.task_origin!=="manual"?" · "+(language==="es"?"Automática":"Automated"):"")));
   const buttons=el("div","ait-task-actions");
@@ -182,7 +237,7 @@ function renderTasks(){
     },true);
     if(t.status==="planned"||t.status==="blocked")add(t.status==="blocked"?tx("unblock"):tx("start"),task=>api({action:"status",id:task.id,status:"in_progress"}));
     if(["planned","in_progress","blocked"].includes(t.status))add(tx("needs"),task=>api({action:"status",id:task.id,status:"needs_approval"}));
-    if(t.status==="needs_approval")add(tx("approve"),task=>api({action:"approve",id:task.id}),true);
+    if(t.status==="needs_approval"&&!pendingPreparedReview)add(tx("approve"),task=>api({action:"approve",id:task.id}),true);
     if(t.status==="in_progress")add(tx("block"),task=>api({action:"status",id:task.id,status:"blocked"}));
     if(t.status==="approved")add(tx("complete"),task=>{activeFinish=task.id;$("finish-evidence").value="";$("finish-dialog").showModal()},true);
     if(["planned","blocked","needs_approval"].includes(t.status))add(tx("cancel"),async task=>{if(window.confirm(tx("confirmCancel")))await api({action:"status",id:task.id,status:"cancelled"});});
