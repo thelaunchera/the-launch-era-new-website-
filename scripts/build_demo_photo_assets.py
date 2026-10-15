@@ -84,7 +84,7 @@ def convert_one(item: tuple[str, tuple[str, str]]) -> tuple[str, dict]:
         # The licensed source compares an office BEFORE/AFTER side-by-side.
         # Show only the clean AFTER half in the service catalog.
         img = img.crop((img.width // 2, 0, img.width, img.height))
-    img.thumbnail((MAX_WIDTH, MAX_HEIGHT), Image.Resampling.LANCZOS)
+    img.thumbnail((MAX_WIDTH, 1120 if name == "retail" else MAX_HEIGHT), Image.Resampling.LANCZOS)
     target = OUTPUT / f"{name}.webp"
     img.save(target, format="WEBP", quality=81, method=5)
     with Image.open(target) as check:
