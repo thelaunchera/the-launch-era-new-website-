@@ -57,6 +57,12 @@ Other routes exist under \`src/routes/\`, \`public/es/\`, \`public/intake/\` and
 - **Routing**: unchanged. Existing blue-banner rotating messages, dots and animations continue to work. Underlying Steps CTA and Booking Studio unaffected. Existing section contrast remains; no new overlays on `#tleDemoAreas` or `#tleDemoFaq`.
 - **QA**: `scripts/qa-demo-v12.mjs` checks existence of both groups (7 each), no pointer interception, screen-reader hiding, reduced-motion policy, no horizontal overflow at 360/390/820/1024/1440 EN/ES; one non-reduced-motion viewport checks bubbles run on both chapters only while visible. Live publication/CI must be verified separately.
 
+## Public demo — bottom Return home button (2026-10-15)
+- **Path**: `/lead-private-preview.html` with no `key`/owner preview (Luna Bloom fictional sample); button `#bookingStarter #main .tle-return-home-link` at bottom of residential/quote service menu.
+- **Reported failure**: tap appeared inert on iPhone because `href="#leadHero"` only updated the hash while `html.tle-demo-booking-active` CSS hides the hero. Initial category-button click enters focused booking mode in v22, making a bare anchor insufficient.
+- **Fix**: `tle-demo-booking-focus-v22.js` attaches click to bottom link, prevents default and calls the existing `exit()` shared with the working upper Back to Demo Home button. `exit()` removes booking-active classes, `showMain()` resets to picker, updates hash and scrolls to visible `#leadHero`. Native `href` remains a progressive fallback. EN/ES label is available to accessibility tech; no customer data or backend actions.
+- **Regression test**: `scripts/qa-demo-v12.mjs` clicks bottom Return home from a focused service picker and again from an unfocused state on EN/ES mobile/tablet/desktop, checks URL hash, visible hero, reset picker and mode class removed. Never publish as verified without the actual browser workflow result.
+
 ## v26 blue section, final CTA and reload stabilization (2026-10-15)
 - **Scope**: unkeyed public `/lead-private-preview.html` only; keyed buyers, owner preview, CRM, Cleaning App, and forms unchanged. `tle-demo-finish-v26.css/js` loaded after v25.
 - **Areas → FAQ**: neighboring dark chapters now intentionally contrast: `#tleDemoAreas > div` dark #102b3d→#0b2030 and FAQ #21485f→#173448, with a narrow sky-blue boundary. FAQ topic controls slightly rounder (~19px), not a boxy card grid.
