@@ -10,7 +10,8 @@
     ||!document.documentElement.classList.contains("demo-editorial"))return;
  const es=p.get("lang")==="es";
  const clean=v=>String(v||"").replace(/[<>\u0000-\u001f]/g,"").trim().slice(0,85);
- const supplied=clean(p.get("business"));
+ const inputBusiness=clean(p.get("business"));
+ const supplied=!p.has("rid")&&/^Coastal Home Cleaning$/i.test(inputBusiness)?"":inputBusiness;
  const business=supplied||"Luna Bloom Home Cleaning";
  const demoEmail=supplied?"hello@samplecleaning.example":"hello@lunabloom.example";
  const phone="(305) 555-0148";
