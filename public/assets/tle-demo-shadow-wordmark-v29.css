@@ -1,0 +1,142 @@
+/* v29 — the business name floats on a continuous shadow gradient, not a pill.
+   ONLY the public unkeyed Luna Bloom / sample demo, never tenant/owner pages.
+   The business text and link stay functional and accessible.
+*/
+html.demo-editorial.tle-identity-v28 .demo-editorial-nav{
+  isolation:isolate!important;
+  background:linear-gradient(180deg,
+    rgba(5,15,26,.99) 0%,
+    rgba(8,22,36,.97) 48%,
+    rgba(12,28,43,.80) 77%,
+    rgba(14,31,46,.18) 100%)!important;
+  border:0!important;
+  border-bottom:0!important;
+  box-shadow:none!important;
+  min-height:104px!important;
+  padding-block:13px 22px!important;
+}
+html.demo-editorial.tle-identity-v28.tle-demo-brand-v17
+.demo-editorial-nav .demo-logo.tle-sample-wordmark.tle-dynamic-brand-v28{
+  display:inline-flex!important;
+  flex:0 1 auto!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:auto!important;
+  max-width:min(92vw,650px)!important;
+  min-width:0!important;
+  min-height:58px!important;
+  gap:11px!important;
+  margin:0!important;
+  padding:6px 9px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:none!important;
+  background-color:transparent!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  text-decoration:none!important;
+  transition:opacity .2s ease!important;
+}
+html.demo-editorial.tle-identity-v28
+.demo-editorial-nav .demo-logo.tle-dynamic-brand-v28::after{
+  content:none!important;display:none!important;animation:none!important;
+}
+html.demo-editorial.tle-identity-v28 .demo-editorial-nav
+.demo-logo.tle-dynamic-brand-v28:is(:hover,:focus-visible){
+  background:none!important;border-color:transparent!important;
+  box-shadow:none!important;opacity:.93!important;
+}
+html.demo-editorial.tle-identity-v28 .demo-editorial-nav
+.demo-logo.tle-dynamic-brand-v28:focus-visible{
+  outline:2px solid #a9ddfa!important;outline-offset:4px!important;
+  border-radius:5px!important;
+}
+html.demo-editorial.tle-identity-v28 .demo-editorial-nav
+.demo-logo.tle-dynamic-brand-v28 .tle-bloom-emblem{
+  display:grid!important;place-items:center!important;
+  flex:0 0 27px!important;width:27px!important;height:34px!important;
+  border:0!important;border-radius:0!important;
+  color:#b9e1f7!important;
+  background:transparent!important;box-shadow:none!important;
+  font:400 29px/1 Georgia,serif!important;
+  animation:none!important;
+  text-shadow:0 0 19px rgba(155,216,247,.22)!important;
+}
+html.demo-editorial.tle-identity-v28 .demo-editorial-nav
+.demo-logo.tle-dynamic-brand-v28 .tle-bloom-lockup{
+  overflow:visible!important;
+  align-items:flex-start!important;
+  justify-content:center!important;
+  gap:5px!important;
+  min-width:0!important;
+  padding:0!important;
+}
+html.demo-editorial.tle-identity-v28 .demo-editorial-nav
+.demo-logo.tle-dynamic-brand-v28 .tle-bloom-name{
+  overflow:visible!important;
+  text-overflow:clip!important;
+  white-space:normal!important;
+  max-width:100%!important;
+  color:#f6f9fc!important;
+  font:500 clamp(25px,3vw,40px)/1.11 Georgia,"Times New Roman",serif!important;
+  letter-spacing:-.038em!important;
+  text-shadow:0 2px 14px rgba(0,0,0,.62)!important;
+  text-wrap:balance!important;
+}
+html.demo-editorial.tle-identity-v28 .demo-editorial-nav
+.demo-logo.tle-dynamic-brand-v28 .tle-bloom-descriptor{
+  display:block!important;
+  font:700 clamp(9px,.95vw,11px)/1.4 "DM Sans",Arial,sans-serif!important;
+  letter-spacing:.22em!important;
+  color:#b7dcec!important;
+  white-space:normal!important;
+  text-shadow:0 2px 9px rgba(0,0,0,.45)!important;
+}
+html.demo-editorial.tle-identity-v28.tle-demo-booking-active
+.demo-editorial-nav{
+  /* Keep the navigation opaque once the focused booking studio is active. */
+  background:linear-gradient(180deg,#081522 0%,#0b1c2b 100%)!important;
+  min-height:76px!important;
+  padding-block:7px!important;
+}
+@media(max-width:800px){
+  html.demo-editorial.tle-identity-v28 .demo-editorial-nav{
+    min-height:100px!important;
+    padding:11px 16px 22px!important;
+    justify-content:center!important;
+    align-items:center!important;
+  }
+  html.demo-editorial.tle-identity-v28 .demo-editorial-nav
+  .demo-logo.tle-sample-wordmark.tle-dynamic-brand-v28{
+    max-width:calc(100vw - 36px)!important;
+    min-height:58px!important;
+    padding:5px 2px!important;
+  }
+  html.demo-editorial.tle-identity-v28 .demo-editorial-nav
+  .demo-logo.tle-dynamic-brand-v28 .tle-bloom-name{
+    font-size:clamp(22px,5.3vw,29px)!important;
+    line-height:1.11!important;
+  }
+  html.demo-editorial.tle-identity-v28 .demo-editorial-nav
+  .demo-logo.tle-dynamic-brand-v28 .tle-bloom-emblem{
+    width:24px!important;flex-basis:24px!important;
+    font-size:26px!important;
+  }
+}
+@media(max-width:380px){
+  html.demo-editorial.tle-identity-v28 .demo-editorial-nav
+  .demo-logo.tle-dynamic-brand-v28 .tle-bloom-name{
+    font-size:clamp(21px,5.5vw,25px)!important;
+  }
+  html.demo-editorial.tle-identity-v28 .demo-editorial-nav
+  .demo-logo.tle-dynamic-brand-v28{
+    gap:8px!important;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  html.demo-editorial.tle-identity-v28 .demo-logo.tle-dynamic-brand-v28{
+    transition:none!important;
+  }
+}
