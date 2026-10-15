@@ -478,7 +478,7 @@ for(const width of [360,390,820,1024,1440]){
    const selected=await page.evaluate(()=>({
       focused:document.documentElement.classList.contains('tle-demo-booking-active'),
       screen:document.querySelector('#bookingStarter .screen.on')?.id,
-      marketingHidden:getComputedStyle(document.querySelector('#tleDemoEditorialGallery')).display==='none'
+      marketingHidden:document.querySelector('#tleDemoEditorialGallery').getClientRects().length===0
    }));
    assert(selected.focused&&selected.screen==='res'&&selected.marketingHidden,
      'Deep cleaning pill must open residential booking studio, without the editorial gallery underneath: '+JSON.stringify(selected));
