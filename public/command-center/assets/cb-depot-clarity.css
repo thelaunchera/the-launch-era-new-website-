@@ -1,0 +1,138 @@
+/* CB Depot clarity pass · scoped to the verified CB Depot buyer only.
+   Existing bookings, inbox, customer history and automation controls remain intact. */
+body.cb-depot-buyer #buyerDashboardHub {min-width:0;overflow-wrap:anywhere}
+body.cb-depot-buyer .cb-dash-legacy-summary,
+body.cb-depot-buyer #buyerDashboardHub > .panel:last-child {display:none!important}
+body.cb-depot-buyer #buyerDashboardHub > .section-title,
+body.cb-depot-buyer #buyerDashboardHub > .section-title + p.muted {display:none!important}
+body.cb-depot-buyer .cb-summary-row {margin:13px 0 17px;min-width:0}
+body.cb-depot-buyer .cb-summary-heading {font-size:11px;font-weight:800;letter-spacing:.07em;color:var(--cb-muted);margin:0 0 9px}
+body.cb-depot-buyer #buyerDashboardStats {
+ display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ gap:10px!important;width:100%;min-width:0;max-width:100%
+}
+body.cb-depot-buyer #buyerDashboardStats .request-stat {
+ display:flex!important;flex-direction:column!important;justify-content:space-between!important;
+ gap:13px!important;min-width:0!important;min-height:105px!important;
+ padding:15px!important;border:1px solid var(--cb-border)!important;
+ border-radius:16px!important;background:var(--cb-surface-2)!important;
+ color:var(--cb-text)!important;box-shadow:none!important;
+}
+body.cb-depot-buyer #buyerDashboardStats .request-stat small {
+ display:block!important;color:var(--cb-muted)!important;font-size:12px!important;
+ font-weight:650!important;line-height:1.35!important;overflow-wrap:break-word!important;
+}
+body.cb-depot-buyer #buyerDashboardStats .request-stat b {
+ display:block!important;color:var(--cb-text)!important;font-size:30px!important;
+ font-weight:800!important;line-height:1!important;letter-spacing:-.04em!important;
+}
+body.cb-depot-buyer .cb-dash-share-details {
+ border:1px solid var(--cb-border);background:var(--cb-surface);
+ border-radius:17px;margin:14px 0 10px;overflow:hidden;color:var(--cb-text)
+}
+body.cb-depot-buyer .cb-dash-share-details > summary {
+ list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;
+ padding:17px 18px;cursor:pointer;font-size:14px;font-weight:800;color:var(--cb-text)
+}
+body.cb-depot-buyer .cb-dash-share-details > summary::-webkit-details-marker {display:none}
+body.cb-depot-buyer .cb-dash-share-details > summary::after {content:'⌄';font-size:22px;color:var(--cb-muted)}
+body.cb-depot-buyer .cb-dash-share-details[open] > summary::after {content:'⌃'}
+body.cb-depot-buyer .cb-dash-share-details #buyerBookingShareCard {
+ margin:0!important;border:0!important;border-top:1px solid var(--cb-border)!important;
+ border-radius:0!important;box-shadow:none!important;background:var(--cb-surface)!important;
+}
+body.cb-depot-buyer .cb-dash-share-details #buyerBookingShareCard h3 {display:none!important}
+body.cb-depot-buyer .cb-dash-share-details #buyerBookingShareCard p {color:var(--cb-muted)!important}
+body.cb-depot-buyer #buyerBusinessSection .cb-nav-group {
+ margin:6px 0 0;border:1px solid #42596a;border-radius:13px;background:#273844;
+ overflow:hidden
+}
+body.cb-depot-buyer #buyerBusinessSection .cb-nav-group > summary {
+ cursor:pointer;display:flex;align-items:center;gap:9px;min-height:48px;
+ padding:13px 15px;color:#edf5fa;font-size:13px;font-weight:750;list-style:none
+}
+body.cb-depot-buyer #buyerBusinessSection .cb-nav-group > summary::-webkit-details-marker {display:none}
+body.cb-depot-buyer #buyerBusinessSection .cb-nav-group > summary::after {
+ content:'⌄';margin-left:auto;color:#cbdfec;font-size:18px
+}
+body.cb-depot-buyer #buyerBusinessSection .cb-nav-group[open] > summary::after {content:'⌃'}
+body.cb-depot-buyer #buyerBusinessSection .cb-nav-group .workspace-nav-items {
+ display:grid;gap:2px;padding:0 7px 9px
+}
+body.cb-depot-buyer #buyerBusinessSection .cb-nav-group .nav-link {
+ width:100%;min-height:43px;font-size:13px;padding:11px 13px!important;
+ border-radius:10px!important
+}
+body.cb-depot-buyer #buyerBusinessSection > .nav-link {
+ display:flex;align-items:center;min-height:47px;padding:12px 15px!important;
+ border-radius:12px!important;margin:3px 0;color:#e2eef5
+}
+body.cb-depot-buyer #sidebarUtilityMenu .owner-utility-help {display:none!important}
+/* Readable contact, email and care cards in both modes, including inline legacy styles. */
+body.cb-depot-buyer #buyerFollowupsIntro .buyer-followup-step,
+body.cb-depot-buyer #buyerFollowupsIntro details {
+ background:var(--cb-surface-2)!important;color:var(--cb-text)!important;
+ border:1px solid var(--cb-border)!important;min-width:0;border-radius:14px!important
+}
+body.cb-depot-buyer #buyerFollowupsIntro .buyer-followup-step :is(b,strong,span,div),
+body.cb-depot-buyer #buyerFollowupsIntro details :is(summary,p,b,span) {
+ color:var(--cb-text)!important;opacity:1!important
+}
+body.cb-depot-buyer #buyerFollowupsIntro details p {line-height:1.65!important}
+body.cb-depot-buyer #buyerEmailHealth > .panel {
+ background:var(--cb-surface)!important;color:var(--cb-text)!important;
+ border-color:var(--cb-border)!important;gap:10px!important
+}
+body.cb-depot-buyer #buyerEmailHealth > .panel > div {
+ min-width:0;overflow-wrap:anywhere;padding:7px 4px
+}
+body.cb-depot-buyer #buyerEmailHealth > .panel :is(small,strong) {
+ display:block!important;color:var(--cb-text)!important;overflow-wrap:anywhere;
+ line-height:1.4
+}
+body.cb-depot-buyer #buyerEmailHealth > .panel small {color:var(--cb-muted)!important;font-size:12px}
+body.cb-depot-buyer #buyerEmailHealth > .panel strong {font-size:15px!important;margin-top:5px}
+body.cb-depot-buyer #buyerEmailSetup,
+body.cb-depot-buyer #buyerServiceCareHub .panel {
+ background:var(--cb-surface)!important;border-color:var(--cb-border)!important;
+ color:var(--cb-text)!important
+}
+body.cb-depot-buyer #buyerEmailSetup :is(h3,p,strong,#buyerAutomationState,#buyerEmailStatus),
+body.cb-depot-buyer #buyerServiceCareHub .panel :is(h3,strong) {color:var(--cb-text)!important}
+body.cb-depot-buyer #buyerEmailSetup .muted,
+body.cb-depot-buyer #buyerServiceCareHub .muted {color:var(--cb-muted)!important}
+body.cb-depot-buyer #buyerEmailSetup button:disabled {
+ opacity:1!important;cursor:not-allowed!important;
+ background:var(--cb-surface-2)!important;color:var(--cb-muted)!important;
+ border:1px solid var(--cb-border)!important
+}
+body.cb-depot-buyer #buyerServiceCareHub :is(.buyer-care-quick button,button.secondary) {
+ color:var(--cb-text)!important;background:var(--cb-surface-2)!important;
+ border-color:var(--cb-border)!important
+}
+html[data-cb-depot-theme="dark"] body.cb-depot-buyer #settingsHub :is(.panel,details,.buyer-followup-step),
+html[data-cb-depot-theme="dark"] body.cb-depot-buyer #buyerServiceCareHub :is(.panel,details) {
+ color:var(--cb-text)!important;border-color:var(--cb-border)!important
+}
+html[data-cb-depot-theme="dark"] body.cb-depot-buyer #settingsHub :is(.section-title,h2,h3,h4,label,summary,b,strong,span) {color:var(--cb-text)!important}
+html[data-cb-depot-theme="dark"] body.cb-depot-buyer #settingsHub :is(.muted,p.muted,small) {color:var(--cb-muted)!important}
+html[data-cb-depot-theme="dark"] body.cb-depot-buyer #settingsHub :is(.panel,details[style*="background"]) {
+ background:var(--cb-surface)!important
+}
+@media(max-width:760px){
+ body.cb-depot-buyer #buyerDashboardStats {grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:7px!important}
+ body.cb-depot-buyer #buyerDashboardStats .request-stat {min-height:96px!important;padding:11px!important;gap:8px!important}
+ body.cb-depot-buyer #buyerDashboardStats .request-stat small {font-size:11px!important}
+ body.cb-depot-buyer #buyerDashboardStats .request-stat b {font-size:27px!important}
+ body.cb-depot-buyer #buyerEmailHealth > .panel {grid-template-columns:1fr!important;gap:0!important;padding:12px 15px!important}
+ body.cb-depot-buyer #buyerEmailHealth > .panel > div {padding:10px 2px;border-bottom:1px solid var(--cb-border)}
+ body.cb-depot-buyer #buyerEmailHealth > .panel > div:last-child {border-bottom:0}
+ body.cb-depot-buyer #buyerEmailHealth > .panel strong {font-size:14px!important}
+ body.cb-depot-buyer #buyerEmailSetup {padding:16px!important}
+ body.cb-depot-buyer #buyerFollowupsIntro .buyer-followup-step {padding:15px!important}
+ body.cb-depot-buyer #buyerFollowupsIntro details {padding:13px!important}
+}
+@media(max-width:355px){
+ body.cb-depot-buyer #buyerDashboardStats {grid-template-columns:1fr!important}
+ body.cb-depot-buyer #buyerDashboardStats .request-stat {flex-direction:row!important;align-items:center!important;min-height:69px!important}
+}
