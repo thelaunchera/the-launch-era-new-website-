@@ -14,12 +14,15 @@
    const reset=()=>window.scrollTo({top:0,left:0,behavior:"instant"});
    window.addEventListener("pageshow",reset,{once:true});
  }
+ let active=false;
  const init=()=>{
-   if(!document.documentElement.classList.contains("demo-editorial"))return;
+   if(active||!document.documentElement.classList.contains("demo-editorial"))return false;
    const steps=document.querySelector(".tle-client-quicksteps");
    const ribbon=document.querySelector("#tleDemoBlueRibbon");
    const end=document.querySelector(".tle-demo-v12-end");
-   if(!end||!steps||!ribbon)return;
+   if(!end||!steps||!ribbon)return false;
+   active=true;
+   document.documentElement.dataset.tleFinishReady="true";
    const chapters=[steps,ribbon,end];
    end.classList.add("tle-cta-bubbles-v26");
    document.documentElement.classList.add("tle-demo-bubbles-v25");
@@ -49,7 +52,17 @@
    if(restoringReload){
      requestAnimationFrame(()=>window.scrollTo(0,0));
    }
+   return true;
  };
- if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init,{once:true});
- else init();
+ // Other demo chapters are inserted by their own async/DOMContentLoaded
+ // scripts. A single early check silently skipped the bubbles on iPhone.
+ // Observe only until the required chapters have mounted, then disconnect.
+ const mount=new MutationObserver(()=>{
+   if(init())mount.disconnect();
+ });
+ mount.observe(document.documentElement,{childList:true,subtree:true});
+ if(init())mount.disconnect();
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>{
+   if(init())mount.disconnect();
+ },{once:true});
 })();
