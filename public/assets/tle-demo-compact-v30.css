@@ -1,0 +1,163 @@
+/* v30 — compact, photo-led SAMPLE cleaning demo.
+   NEVER affects ?key= buyer pages or ?owner_preview=1. */
+html.demo-editorial.tle-demo-compact-v30 main.wrap{max-width:1420px!important;padding-inline:clamp(10px,2.5vw,34px)!important}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #leadHero.hero{
+  position:relative!important;isolation:isolate!important;min-height:0!important;
+  height:clamp(390px,57svh,580px)!important;margin:0 0 18px!important;
+  border:0!important;border-radius:0 0 25px 25px!important;overflow:hidden!important;
+  background:#132838!important;box-shadow:none!important
+}
+html.demo-editorial.tle-demo-compact-v30 #leadHero .demo-cb-hero-media{
+  position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+  z-index:0!important;overflow:hidden!important
+}
+html.demo-editorial.tle-demo-compact-v30 #leadHero .demo-cb-hero-media img{
+  display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;
+  object-position:center 49%!important;transform:none!important;border-radius:0!important
+}
+html.demo-editorial.tle-demo-compact-v30 #leadHero.hero:after{
+  content:""!important;display:block!important;position:absolute!important;inset:0!important;
+  z-index:1!important;background:linear-gradient(90deg,rgba(5,20,34,.83) 0%,rgba(7,28,43,.59) 43%,rgba(8,25,39,.18) 80%),linear-gradient(0deg,rgba(5,16,28,.72),transparent 65%)!important;
+  pointer-events:none!important
+}
+html.demo-editorial.tle-demo-compact-v30 #leadHero .heroText{
+  position:absolute!important;z-index:2!important;top:auto!important;bottom:clamp(24px,6vw,72px)!important;
+  left:clamp(24px,6vw,82px)!important;right:clamp(20px,6vw,82px)!important;
+  width:min(82%,710px)!important;max-width:710px!important;transform:none!important;
+  margin:0!important;padding:0!important;text-align:left!important;color:#fff!important;
+  background:transparent!important;box-shadow:none!important
+}
+html.demo-editorial.tle-demo-compact-v30 #leadHero .heroText :is(h1,.demo-hero-tagline,.demo-hero-description,.heroArea,small){
+  color:#fff!important;text-align:left!important;text-shadow:0 2px 20px rgba(4,14,25,.52)!important
+}
+html.demo-editorial.tle-demo-compact-v30 #leadHero .heroText h1{font-size:clamp(35px,4.5vw,63px)!important;line-height:1.06!important;max-width:700px!important;text-wrap:balance!important}
+html.demo-editorial.tle-demo-compact-v30 #leadHero .heroText .demo-hero-description{
+  max-width:475px!important;font-size:clamp(13px,1.4vw,17px)!important;line-height:1.5!important;margin-block:12px!important
+}
+html.demo-editorial.tle-demo-compact-v30 #leadHero .heroText .demo-hero-cta{
+  position:relative!important;display:inline-flex!important;max-width:100%!important;min-height:49px!important;
+  margin-top:16px!important;padding:12px 19px!important;background:#d5effb!important;
+  color:#112f43!important;border:1px solid #b6e0f4!important;border-radius:999px!important;
+  text-shadow:none!important;font-weight:750!important
+}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #demoExperience{display:none!important}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #demoServices{
+  padding-block:clamp(18px,3vw,38px)!important;min-height:0!important;margin-block:0 12px!important
+}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #demoServices .demo-showcase-photo{
+  min-height:180px!important;max-height:275px!important
+}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #demoServices .demo-showcase-intro h2{
+  font-size:clamp(28px,3vw,44px)!important;line-height:1.12!important;margin-bottom:12px!important
+}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #demoServices .demo-showcase-benefits{display:none!important}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) .demo-booking-eyebrow{
+  padding:clamp(24px,3.5vw,42px) 18px 18px!important;margin:0!important
+}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) .demo-booking-eyebrow:before{margin-bottom:10px!important}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) .demo-booking-eyebrow h2{
+  font-size:clamp(28px,3.3vw,43px)!important;margin-block:8px!important
+}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) .trust{
+  margin:12px auto 18px!important;justify-content:center!important
+}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #bookingStarter{
+  max-width:1080px!important;margin-inline:auto!important;margin-bottom:26px!important;padding:clamp(18px,2.8vw,30px)!important
+}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) :is(.demo-cinematic-story,#demoHow,.tle-demo-v12-why,.tle-demo-v12-faq,.tle-demo-v12-end){
+  display:none!important
+}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) .tle-demo-v12-sections{max-width:1130px!important;margin:12px auto 20px!important;gap:18px!important}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #tleDemoReviews{
+  padding:20px!important;margin:10px 0 20px!important;border-radius:23px!important
+}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #tleDemoReviews .tle-demo-v12-heading{
+  margin-bottom:14px!important
+}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #tleDemoReviews .tle-demo-v12-heading :is(h2,p){
+  margin-block:5px!important
+}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #tleDemoReviews .tle-demo-v12-reviewgrid{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:13px!important
+}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #tleDemoReviews .tle-demo-v12-reviewgrid article{
+  min-height:135px!important;padding:17px!important;gap:8px!important
+}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #tleDemoReviews .tle-demo-v12-reviewgrid article:nth-child(n+3){display:none!important}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #tleDemoReviews .tle-demo-v12-reviewgrid article p{
+  font-size:14px!important;line-height:1.45!important
+}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #tleDemoAreas{
+  display:grid!important;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr)!important;
+  margin-bottom:20px!important;border-radius:22px!important;overflow:hidden!important
+}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #tleDemoAreas>img{
+  width:100%!important;min-height:200px!important;max-height:250px!important;height:100%!important;object-fit:cover!important
+}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #tleDemoAreas>div{padding:clamp(18px,3vw,28px)!important}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #tleDemoAreas :is(h2,p){margin-block:8px!important}
+html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) .demo-footer{padding-block:18px!important}
+html.demo-editorial.tle-demo-compact-v30 .tle-v30-tasklist{
+  display:block;max-width:100%;border:1px solid #c7ddeb;border-radius:20px;
+  background:linear-gradient(145deg,#f2f9ff,#fff);padding:17px;margin:22px 0 12px
+}
+html.demo-editorial.tle-demo-compact-v30 .tle-v30-tasklist legend{
+  padding:0 5px;font:700 15px/1.35 Prompt,Arial,sans-serif;color:#183f59
+}
+html.demo-editorial.tle-demo-compact-v30 .tle-v30-tasklist>p{
+  color:#536f7f!important;font-size:13px!important;line-height:1.45!important;margin:6px 0 13px!important
+}
+html.demo-editorial.tle-demo-compact-v30 .tle-v30-task-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px
+}
+html.demo-editorial.tle-demo-compact-v30 .tle-v30-task{
+  display:flex!important;align-items:center;gap:10px;min-width:0;padding:12px;
+  border:1px solid #c8dce9;border-radius:13px;background:#fff;color:#173951!important;
+  font-size:14px!important;line-height:1.4!important;cursor:pointer;user-select:none
+}
+html.demo-editorial.tle-demo-compact-v30 .tle-v30-task:has(input:checked){
+  background:#e0f3fd!important;border-color:#5eadd7!important;box-shadow:inset 0 0 0 1px #79b9de
+}
+html.demo-editorial.tle-demo-compact-v30 .tle-v30-task input{
+  appearance:auto!important;accent-color:#286f9b;flex:0 0 19px;width:19px!important;height:19px!important;
+  margin:0!important;cursor:pointer
+}
+html.demo-editorial.tle-demo-compact-v30 .tle-v30-other{display:block;width:100%;margin-top:11px}
+html.demo-editorial.tle-demo-compact-v30 .tle-v30-other[hidden]{display:none!important}
+html.demo-editorial.tle-demo-compact-v30 .tle-v30-other label{
+  display:block;font-size:13px;color:#173951;font-weight:700;margin-bottom:7px
+}
+html.demo-editorial.tle-demo-compact-v30 .tle-v30-other textarea{
+  display:block;width:100%;min-height:88px;padding:12px;border:1px solid #a4cde5;border-radius:12px;
+  background:#fff;color:#191919;resize:vertical;font-size:16px
+}
+html.demo-editorial.tle-demo-compact-v30 .tle-v30-other .tle-v30-error{
+  color:#9e332a;font-size:12px;font-weight:700;margin-top:5px
+}
+html.demo-editorial.tle-demo-compact-v30 .tle-v30-main-custom{
+  grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:16px 18px;background:#eaf6fe;color:#183e59;border:1px solid #9bcee8;
+  border-radius:17px;font-weight:750;text-align:left;cursor:pointer
+}
+html.demo-editorial.tle-demo-compact-v30 .tle-v30-main-custom:hover{background:#d8effc}
+html.demo-editorial.tle-demo-compact-v30 :is(.tle-v30-main-custom,.tle-v30-task input, .tle-v30-other textarea):focus-visible{
+  outline:3px solid #66acd6;outline-offset:3px
+}
+@media(max-width:700px){
+ html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #leadHero.hero{height:clamp(370px,57svh,490px)!important;border-radius:0 0 20px 20px!important}
+ html.demo-editorial.tle-demo-compact-v30 #leadHero .demo-cb-hero-media img{object-position:58% center!important}
+ html.demo-editorial.tle-demo-compact-v30 #leadHero .heroText{left:24px!important;right:20px!important;bottom:30px!important;width:calc(100% - 44px)!important}
+ html.demo-editorial.tle-demo-compact-v30 #leadHero .heroText h1{font-size:clamp(30px,8.5vw,45px)!important}
+ html.demo-editorial.tle-demo-compact-v30 #leadHero .heroText .demo-hero-description{font-size:13px!important;max-width:330px!important}
+ html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #demoServices .demo-showcase-photo{min-height:155px!important;max-height:225px!important}
+ html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #tleDemoReviews .tle-demo-v12-reviewgrid{grid-template-columns:minmax(0,1fr)!important}
+ html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #tleDemoReviews .tle-demo-v12-reviewgrid article:nth-child(n+2){display:none!important}
+ html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #tleDemoAreas{grid-template-columns:minmax(0,1fr)!important}
+ html.demo-editorial.tle-demo-compact-v30:not(.tle-demo-booking-active) #tleDemoAreas>img{min-height:115px!important;max-height:160px!important}
+ html.demo-editorial.tle-demo-compact-v30 .tle-v30-task-grid{grid-template-columns:minmax(0,1fr);gap:8px}
+ html.demo-editorial.tle-demo-compact-v30 .tle-v30-tasklist{padding:14px 12px}
+ html.demo-editorial.tle-demo-compact-v30 .tle-v30-task{padding:13px 12px}
+}
+@media(prefers-reduced-motion:reduce){
+ html.demo-editorial.tle-demo-compact-v30 #leadHero .demo-cb-hero-media img{animation:none!important;transform:none!important}
+}
