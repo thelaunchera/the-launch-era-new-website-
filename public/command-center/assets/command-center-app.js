@@ -2387,7 +2387,7 @@ document.addEventListener('visibilitychange',()=>{
 
 let ownerPurchases=[],ownerAIOrders=[],ownerAIError='checking';
 function ownerPurchaseStage(a){
- if(a.already_queued&&Number(a.qa_pass_count)===6&&a.buyer_review_status==='approved'&&a.activation_email_delivery_status==='delivered')return 'completed';
+ if(a.already_queued&&Number(a.qa_pass_count)===6&&a.buyer_review_status==='approved'&&a.activation_email_delivery_status==='delivered'&&a.buyer_signed_in_after_email===true&&a.release_ready===true)return 'completed';
  if(a.already_queued)return 'delivered';
  if(!a.intake_done)return 'intake';
  if(a.booking_page_url&&a.crm_ready&&a.status==='active')return 'review';
@@ -2555,6 +2555,8 @@ function renderOwnerPurchases(){
 }
 async function loadOwnerPages(){
  if(!workspace?.is_internal)return;
+ // Independent owners-only lookup; an outage in Booking cannot hide AI purchases.
+ void loadOwnerAIOrders();
  $('ownerPagesStatus').textContent=buyerPageLabel()?'Cargando compradoras y pedidos…':'Loading clients and purchases…';
  try{
   const startedWith=workspace.id;
@@ -2563,7 +2565,6 @@ async function loadOwnerPages(){
   if(!workspace?.is_internal||workspace.id!==startedWith)return;
   ownerPurchases=Array.isArray(data)?data:[];
   renderOwnerPurchases();
-  void loadOwnerAIOrders();
  }catch(e){
   $('ownerPagesStatus').textContent=crmLocaleText("Could not load purchases: ","No se pudieron cargar las compras: ")+e.message;
   $('ownerPagesList').replaceChildren();
