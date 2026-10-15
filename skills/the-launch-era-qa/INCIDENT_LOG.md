@@ -329,3 +329,8 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 
 ## 2026-10-15 — Round public assistant launcher
 - Owner requested photo-only circular button at entry and after scroll. External invitation/accessible label: Chat with the assistant / Habla con la asistente. Jessie name retained only in the open chat. Existing scroll hides invitation; no chat, form, customer data or endpoint changes. Coverage fixture updated for initial round state and generic invitation; publication/browser evidence tracked by Actions.
+
+## 2026-10-15 — Homepage scroll depth and booking explanation
+- Owner requested dimensional hero movement, service-card pop on scroll and a more useful booking section. Added shared EN/ES passive requestAnimationFrame motion and three explicit benefit buttons with a live explanation. Native scroll, existing checkout, prices and production terms preserved. Reduced-motion preference skips motion; hover enhancement only on fine pointers.
+- Static route integrity, auth recovery and client release checks passed. Responsive browser/build and live publication verification pending until recorded below. No customer/provider/database changes.
+- Local verification: production build passed; generated output tested in headless Chromium at 360/390/820/1024/1440 for both EN/ES. All ten cases passed hero scroll response, service entry class, all three benefit controls, button boundaries/minimum 44px height, no horizontal overflow, and reduced-motion reset. Benefit panel screenshot reviewed at 390px. External providers blocked during interaction fixtures; no submissions. Existing Smart Welcome source guard also passed. Live deployment pending.
