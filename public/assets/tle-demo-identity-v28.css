@@ -1,0 +1,175 @@
+/* Luna Bloom public sample v28 — lively premium identity and honest demo strip.
+ * Decorative transitions use only opacity/background/rotation, no layout jumps.
+ */
+html.demo-editorial.tle-identity-v28 .top{
+  box-sizing:border-box!important;
+  display:flex!important;justify-content:center!important;align-items:center!important;
+  min-height:48px!important;padding:7px clamp(15px,4vw,42px)!important;
+  background:linear-gradient(105deg,#102b3d 0%,#183a52 48%,#102b3d 100%)!important;
+  border-bottom:1px solid rgba(186,229,249,.32)!important;
+  box-shadow:inset 0 -1px 0 rgba(82,155,196,.15)!important;
+  overflow:visible!important;
+}
+html.demo-editorial.tle-identity-v28 .top .demo-top-label{
+  display:flex!important;flex-wrap:wrap!important;
+  align-items:center!important;justify-content:center!important;
+  gap:7px clamp(10px,2.7vw,22px)!important;
+  padding:0!important;margin:0!important;
+  color:#d5eaf7!important;
+  font:700 clamp(10px,1.1vw,12px)/1.35 "DM Sans",Arial,sans-serif!important;
+  letter-spacing:.12em!important;text-transform:uppercase!important;
+}
+html.demo-editorial.tle-identity-v28 .top .tle-preview-chip-v28{
+  position:relative!important;isolation:isolate!important;
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  gap:7px!important;
+  min-height:27px!important;padding:5px 12px!important;
+  margin:0!important;
+  border:1px solid rgba(175,225,252,.52)!important;
+  border-radius:999px!important;
+  background:rgba(213,240,254,.14)!important;
+  color:#e9f8ff!important;
+  font:750 10px/1.2 "DM Sans",Arial,sans-serif!important;
+  letter-spacing:.14em!important;white-space:nowrap!important;
+  box-shadow:0 3px 15px rgba(9,15,30,.10)!important;
+}
+html.demo-editorial.tle-identity-v28 .top .tle-preview-star-v28{
+  color:#addfff!important;
+  font-size:14px!important;line-height:1!important;
+  display:inline-block!important;padding:0!important;
+  transform-origin:center center;
+  animation:tlePreviewTwinkleV28 5.2s ease-in-out infinite;
+}
+html.demo-editorial.tle-identity-v28 .top .tle-preview-disclaimer-v28{
+  display:inline-block!important;
+  color:#c0dfef!important;
+  text-align:center!important;
+  font:700 10px/1.4 "DM Sans",Arial,sans-serif!important;
+  letter-spacing:.135em!important;
+  padding:0!important;margin:0!important;
+  text-wrap:balance;
+}
+html.demo-editorial.tle-identity-v28 .demo-editorial-nav{
+  position:relative!important;
+  background:linear-gradient(180deg,#091420 0%,#101f2f 100%)!important;
+  border-bottom:1px solid rgba(170,214,242,.14)!important;
+  min-height:86px!important;
+}
+html.demo-editorial.tle-identity-v28 .demo-editorial-nav .demo-logo.tle-sample-wordmark.tle-dynamic-brand-v28{
+  position:relative!important;isolation:isolate!important;
+  box-sizing:border-box!important;
+  padding:9px 20px 9px 9px!important;
+  display:inline-flex!important;align-items:center!important;
+  gap:12px!important;min-height:64px!important;
+  min-width:0!important;max-width:min(65vw,530px)!important;
+  border:1px solid rgba(171,217,241,.36)!important;
+  border-radius:999px!important;
+  background:linear-gradient(115deg,rgba(48,92,121,.48),rgba(22,52,73,.84) 47%,rgba(48,94,122,.50))!important;
+  box-shadow:0 10px 32px rgba(2,14,27,.24),
+    inset 0 1px 0 rgba(221,245,255,.10)!important;
+  overflow:hidden!important;
+  color:#f5fbff!important;text-decoration:none!important;
+  transition:border-color .2s ease,box-shadow .2s ease!important;
+}
+html.demo-editorial.tle-identity-v28 .demo-editorial-nav .demo-logo.tle-dynamic-brand-v28::after{
+  content:"";position:absolute;z-index:0;pointer-events:none;
+  width:32%;height:175%;left:-47%;top:-36%;
+  transform:rotate(19deg) translateX(0);
+  background:linear-gradient(90deg,transparent,rgba(222,246,255,.13),transparent);
+  animation:tleBrandLightV28 9s ease-in-out 1.3s infinite;
+}
+html.demo-editorial.tle-identity-v28 .demo-editorial-nav .demo-logo.tle-dynamic-brand-v28:hover,
+html.demo-editorial.tle-identity-v28 .demo-editorial-nav .demo-logo.tle-dynamic-brand-v28:focus-visible{
+  border-color:#a4dcfc!important;
+  box-shadow:0 10px 32px rgba(2,14,27,.25),0 0 0 3px rgba(148,211,246,.17)!important;
+}
+html.demo-editorial.tle-identity-v28 .demo-editorial-nav .demo-logo.tle-dynamic-brand-v28:focus-visible{
+  outline:2px solid #b1e5fd!important;outline-offset:4px!important;
+}
+html.demo-editorial.tle-identity-v28 .demo-editorial-nav .demo-logo.tle-dynamic-brand-v28 .tle-bloom-emblem{
+  position:relative!important;z-index:1!important;
+  flex:0 0 43px!important;width:43px!important;height:43px!important;
+  border-radius:50%!important;
+  border:1px solid rgba(232,248,255,.8)!important;
+  background:radial-gradient(circle at 29% 24%,#effbff 0%,#cbe8f9 66%,#b5d9ee 100%)!important;
+  color:#3c799d!important;
+  box-shadow:0 4px 17px rgba(112,191,234,.13)!important;
+  animation:tleBloomSoftV28 6.6s ease-in-out infinite;
+}
+html.demo-editorial.tle-identity-v28 .demo-editorial-nav .demo-logo.tle-dynamic-brand-v28 .tle-bloom-lockup{
+  position:relative!important;z-index:1!important;
+  gap:4px!important;overflow:hidden!important;min-width:0!important;
+  align-items:flex-start!important;
+}
+html.demo-editorial.tle-identity-v28 .demo-editorial-nav .demo-logo.tle-dynamic-brand-v28 .tle-bloom-name{
+  display:block!important;
+  font:650 clamp(15px,1.85vw,24px)/1.22 Prompt,Arial,sans-serif!important;
+  letter-spacing:-.045em!important;
+  color:#f8fbff!important;
+  max-width:100%!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;text-overflow:ellipsis!important;
+}
+html.demo-editorial.tle-identity-v28 .demo-editorial-nav .demo-logo.tle-dynamic-brand-v28 .tle-bloom-descriptor{
+  color:#a8dcf5!important;
+  font:750 clamp(8px,.8vw,10px)/1.2 "DM Sans",Arial,sans-serif!important;
+  letter-spacing:.17em!important;
+  text-shadow:0 1px 10px rgba(81,171,215,.15)!important;
+}
+@keyframes tlePreviewTwinkleV28{
+  0%,32%,70%,100%{opacity:.7;transform:scale(.82) rotate(0)}
+  49%{opacity:1;transform:scale(1.18) rotate(28deg)}
+}
+@keyframes tleBrandLightV28{
+  0%,65%{left:-47%;opacity:0}
+  70%{opacity:.7}
+  87%{left:140%;opacity:0}
+  100%{opacity:0}
+}
+@keyframes tleBloomSoftV28{
+  0%,100%{box-shadow:0 3px 16px rgba(112,191,234,.09)}
+  50%{box-shadow:0 4px 22px rgba(149,212,245,.40)}
+}
+@media(max-width:800px){
+  html.demo-editorial.tle-identity-v28 .demo-editorial-nav{
+    display:flex!important;justify-content:center!important;align-items:center!important;
+    padding-inline:14px!important;min-height:78px!important;
+  }
+  html.demo-editorial.tle-identity-v28 .demo-editorial-nav .demo-logo.tle-sample-wordmark.tle-dynamic-brand-v28{
+    max-width:calc(100vw - 34px)!important;
+    min-height:61px!important;
+    padding:8px 17px 8px 8px!important;
+  }
+  html.demo-editorial.tle-identity-v28 .demo-editorial-nav .demo-logo.tle-dynamic-brand-v28 .tle-bloom-emblem{
+    width:39px!important;height:39px!important;flex-basis:39px!important;
+    font-size:24px!important;
+  }
+  html.demo-editorial.tle-identity-v28 .demo-editorial-nav .demo-logo.tle-dynamic-brand-v28 .tle-bloom-name{
+    font-size:clamp(14px,4vw,18px)!important;
+  }
+}
+@media(max-width:430px){
+  html.demo-editorial.tle-identity-v28 .top{
+    min-height:62px!important;padding:6px 12px!important;
+  }
+  html.demo-editorial.tle-identity-v28 .top .demo-top-label{
+    flex-direction:column!important;gap:3px!important;
+  }
+  html.demo-editorial.tle-identity-v28 .top .tle-preview-chip-v28{
+    min-height:25px!important;padding:4px 11px!important;
+    font-size:9px!important;
+  }
+  html.demo-editorial.tle-identity-v28 .top .tle-preview-disclaimer-v28{
+    font-size:9px!important;letter-spacing:.12em!important;
+  }
+  html.demo-editorial.tle-identity-v28 .demo-editorial-nav .demo-logo.tle-dynamic-brand-v28{
+    gap:9px!important;min-height:59px!important;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  html.demo-editorial.tle-identity-v28 .tle-preview-star-v28,
+  html.demo-editorial.tle-identity-v28 .tle-bloom-emblem,
+  html.demo-editorial.tle-identity-v28 .demo-logo.tle-dynamic-brand-v28::after{
+    animation:none!important;transition:none!important;
+  }
+}
