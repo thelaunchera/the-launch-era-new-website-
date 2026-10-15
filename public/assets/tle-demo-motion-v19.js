@@ -36,11 +36,11 @@
    dot.setAttribute("aria-label",(es?"Ver ejemplo ":"View sample ")+(i+1));
    dot.addEventListener("click",()=>jump(i));dots.append(dot);return dot;
  });
- let active=0,carouselVisible=false,busy=false,changeByUser=false;
+ let active=0,carouselVisible=false,busy=false,lastUserChange=0;
  const setCurrent=i=>{active=i;markers.forEach((dot,n)=>dot.setAttribute("aria-current",String(n===i)))};
  const jump=(index,auto=false)=>{
    const i=(index+cards.length)%cards.length;
-   if(!auto)changeByUser=true;
+   if(!auto)lastUserChange=Date.now();
    setCurrent(i);
    // Use scrollLeft for exact snap alignment: avoids page-level scroll jumps.
    track.scrollTo({left:cards[i].offsetLeft-cards[0].offsetLeft,behavior:reduce.matches?"instant":"smooth"});
@@ -53,6 +53,8 @@
    if(event.key==="ArrowLeft"){event.preventDefault();jump(active-1);}
  });
  let raf=0;
+ track.addEventListener("pointerdown",()=>{lastUserChange=Date.now()},{passive:true});
+ track.addEventListener("touchstart",()=>{lastUserChange=Date.now()},{passive:true});
  track.addEventListener("scroll",()=>{
    if(raf)cancelAnimationFrame(raf);
    raf=requestAnimationFrame(()=>{
@@ -109,9 +111,10 @@
  },{threshold:.25});
  onScreen.observe(block);onScreen.observe(banner);
  const canAnimate=()=>!reduce.matches&&!document.hidden&&!document.body.classList.contains("tle-ai-chat-open");
- const idle=node=>!node.matches(":hover")&&!node.contains(document.activeElement);
+ const idle=node=>window.matchMedia("(hover: none)").matches ||
+   (!node.matches(":hover")&&!node.contains(document.activeElement));
  window.setInterval(()=>{
-   if(carouselVisible&&canAnimate()&&idle(block)&&!changeByUser)jump(active+1,true);
+   if(carouselVisible&&canAnimate()&&idle(block)&&Date.now()-lastUserChange>12000)jump(active+1,true);
  },5600);
  window.setInterval(()=>{
    if(bannerVisible&&canAnimate()&&idle(banner))showBanner(bannerIndex+1);
