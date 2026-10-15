@@ -79,6 +79,24 @@ function tooSimilarAnswer(reply,history,msg){
  return a===b||(a.length>65&&b.length>65&&(a.includes(b.slice(0,Math.min(120,b.length)))||b.includes(a.slice(0,Math.min(120,a.length)))));
 }
 
+/**
+ * A visitor asking what Jessie can help with needs a useful service introduction,
+ * not an unverified-information fallback. Only match broad self-introduction questions;
+ * specific support questions still go through topic-specific answers.
+ */
+function asksAboutJessie(message){
+ const q=norm(message).replace(/[¿?¡!.,:;]+/g," ").replace(/\s+/g," ").trim();
+ return /^(?:(?:en|con) que|como|de que manera|que) (?:(?:me|nos) )?(?:puedes|podrias|puede|sabes) (?:ayudar(?:me|nos)?|orientar(?:me|nos)?|hacer(?: por mi| por nosotros)?)(?: (?:hoy|aqui|con mi negocio|para mi negocio|en mi negocio|con nuestro negocio))?$/.test(q)
+  || /^que (?:haces|ofreces|servicios tienes)(?: aqui)?$/.test(q)
+  || /^(?:what|how) (?:can|could|do) (?:you|jessie|jessy) (?:help(?: me)?(?: with)?|do|offer)(?: (?:today|here|for my business|with my business))?$/.test(q)
+  || /^(?:how|in what ways) (?:can|could) (?:you|jessie|jessy) help(?: me)?(?: today| here| with my business)?$/.test(q)
+  || /^what (?:services|kind of help) do you offer$/.test(q);
+}
+function jessieCapabilitiesReply(lang){
+ return lang==="es"
+  ? "¡Claro! 💙 Puedo ayudarte a conocer Booking Automation para organizar solicitudes; la Cleaning App para clientes, trabajos, cotizaciones y facturas; los asistentes IA para responder preguntas y dar seguimiento; Website Automation y apoyo VA. También puedo explicar precios, enseñarte demos y ayudarte a elegir. ¿Qué te está quitando más tiempo: las reservas, la organización o los seguimientos?"
+  : "Absolutely! 💙 I can help you explore Booking Automation for incoming requests; the Cleaning App for clients, jobs, quotes and invoices; AI Assistants for questions and follow-ups; Website Automation and VA support. I can also explain prices, show you demos and help you choose. What's taking the most time right now: bookings, organization or follow-ups?";
+}
 function wantsAiPlanComparison(message,prior,focus){
  const q=norm(message);
  const explicitSingle=/\b(ai[ -]?booking|booking assistant|asistente de reservas|ai[ -]?follow[ -]?up|follow[ -]?up assistant|asistente de seguimiento|ai[ -]?business|business assistant|asistente de negocios|asistente empresarial)\b|\$(?:79|59|119)\b/.test(q);
@@ -279,6 +297,13 @@ Deno.serve(async(req)=>{
  const catalog=await offers();
  if(Date.now()>=Date.parse("2026-11-01T04:00:00Z")){const booking=catalog.find(x=>x[0]==="booking");if(booking){booking[4]="See checkout for current price.";booking[5]="Consulta el precio vigente en checkout.";}}
  if(privateQuestion(norm(message)))return response({reply:knowledgeReply(message,lang,prior,catalog),selected_offer:prior,next_action:"none",mode:"privacy"},200,origin);
+ if(asksAboutJessie(message)){
+   return response({
+     reply:jessieCapabilitiesReply(lang),
+     selected_offer:"", checkout:null, details:null,
+     next_action:"none", mode:"capabilities"
+   },200,origin);
+ }
  if(wantsAiPlanComparison(message,prior,focus)){
    return response({
      reply:lang==="es"?"¡Claro! Te muestro los tres asistentes para que los compares con calma. Si tienes dudas, te ayudo a elegir.":"Of course! Here are all three assistants so you can compare them. Happy to help you choose.",
