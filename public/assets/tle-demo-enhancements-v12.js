@@ -150,6 +150,31 @@ function customizeChat(){
   // One assistant = one launcher. Previous versions created a second floating
   // welcome button which looked like another AI and obscured the mobile page.
   document.getElementById("tleDemoRobotWelcome")?.remove();
+  // Greet inside the hero's normal layout; never auto-open and cover a booking.
+  const hero=document.getElementById("leadHero");
+  const introAnchor=hero?.querySelector(".heroText .demo-hero-description");
+  if(introAnchor&&!document.getElementById("tleSonnyInlineGreeting")){
+    const greeting=h("div","tle-sonny-inline-welcome");
+    greeting.id="tleSonnyInlineGreeting";
+    greeting.setAttribute("role","group");
+    greeting.setAttribute("aria-label",es?"Sonny puede ayudarte con la reserva de prueba":"Sonny can help with the sample booking");
+    const welcomeText=h("span","tle-sonny-inline-copy");
+    welcomeText.textContent=es?"¡Hola! Soy Sonny 👋 Te ayudo a probar una reserva.":"Hi! I'm Sonny 👋 I can help you try a booking.";
+    const greetButton=h("button","tle-sonny-inline-cta");
+    greetButton.type="button";
+    greetButton.textContent=es?"Chatear":"Let's chat";
+    greetButton.setAttribute("aria-label",labels.ask);
+    greetButton.addEventListener("click",()=>{window.tleOpenSonnyDemo?.();});
+    greeting.append(avatar(),welcomeText,greetButton);
+    introAnchor.insertAdjacentElement("afterend",greeting);
+  }
+  // One visible control at a time: in-flow greeting at the hero, small avatar after scrolling.
+  if(hero&&"IntersectionObserver" in window){
+    const observer=new IntersectionObserver(entries=>{
+      document.documentElement.classList.toggle("tle-sonny-hero-visible",entries[0]?.isIntersecting===true);
+    },{threshold:0.08});
+    observer.observe(hero);
+  }
   const collapse=()=>{launch.classList.add("tle-demo-condensed");};
   if(scrollY>110)collapse();
   window.addEventListener("scroll",()=>{if(scrollY>110)collapse()},{passive:true});
@@ -192,7 +217,7 @@ function run(){
      if(desc)desc.textContent=es?"Desde las superficies que usas a diario hasta los rincones que a veces se olvidan.":"From everyday surfaces to the little corners that are easy to miss.";
    }
    addSonnyRetry();customizeChat();
-   if(qs.get("sonny")==="1")window.tleOpenSonnyDemo?.({restart:true});
+   // Do not auto-open from ?sonny=1: visitor sees the inline greeting first.
  }else addSalesPreview();
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",run,{once:true});else run();
