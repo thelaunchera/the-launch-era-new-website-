@@ -272,6 +272,33 @@ for(const width of [360,390,820,1024,1440]){
    assert(proof.scrollWidth<=width+3,'horizontal overflow on prospect '+JSON.stringify(proof));
    // Booking editor: no square inset shadow, no rounded service cards,
    // thin updated icon family and a small airy arrow; all 11 buttons still work.
+   // v21: the public sample shows real cleaning gallery photos, but original
+   // service click handlers, number of choices and estimate paths remain intact.
+   const photoChoices=await page.evaluate(()=>{
+     const res=[...document.querySelectorAll('#residentialServiceList button.service')];
+     const com=[...document.querySelectorAll('#commercialServiceList button.service')];
+     const images=[...document.querySelectorAll('.tle-service-photo-v21 img')];
+     const first=res[0]?.getBoundingClientRect();
+     const image=images[0]?.getBoundingClientRect();
+     return {
+       enabled:document.documentElement.classList.contains('tle-photo-services-v21'),
+       residential:res.length,commercial:com.length,
+       imageCount:images.length,
+       driveCount:images.filter(img=>img.src.includes('drive.google.com/thumbnail')).length,
+       uniqueSources:new Set(images.map(img=>img.dataset.drivePhoto)).size,
+       originalActions:[...res,...com].every(button=>button.hasAttribute('onclick')),
+       photosHiddenFromScreenReaders:images.every(img=>img.alt===''),
+       firstWidth:first?.width,firstImageWidth:image?.width,
+       noOverflow:document.documentElement.scrollWidth<=innerWidth+3
+     };
+   });
+   assert(photoChoices.enabled&&photoChoices.residential===5&&photoChoices.commercial===6
+     &&photoChoices.imageCount===7&&photoChoices.driveCount===7
+     &&photoChoices.uniqueSources===7&&photoChoices.originalActions
+     &&photoChoices.photosHiddenFromScreenReaders&&photoChoices.noOverflow,
+     'Drive-photo service cards must preserve original actions: '+JSON.stringify(photoChoices));
+   assert(photoChoices.firstWidth<=width&&photoChoices.firstImageWidth>45,
+     'Service photos cannot overflow or disappear on mobile: '+JSON.stringify(photoChoices));
    const chooser=await page.evaluate(()=>{
      const main=document.querySelector('#bookingStarter #main');
      const styles=getComputedStyle(main);
