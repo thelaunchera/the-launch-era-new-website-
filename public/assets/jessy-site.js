@@ -175,7 +175,8 @@ indicator.textContent=result&&typeof result.reply==="string"?result.reply:t("liv
 if(result&&typeof result.reply==="string"){
  history.push({role:"user",message},{role:"assistant",message:result.reply});
  if(history.length>12)history=history.slice(-12);
- if(typeof result.selected_offer==="string"&&result.selected_offer)offer=result.selected_offer;
+ // A general capabilities answer clears any stale previously selected product.
+ if(typeof result.selected_offer==="string")offer=result.selected_offer;
  const entry=catalog.find(x=>x.id===offer);
  const checkout=result.checkout||(entry?.checkout||null);const info=result.details||(entry?.details||null);
  const plansShown=showAiPlanChoices(result.ai_plans);
