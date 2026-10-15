@@ -78,6 +78,29 @@ for(const width of [360,390,820,1024,1440]){
    assert(bloom.contact&&bloom.email.endsWith('.example')&&bloom.phone==='(305) 555-0148'
      &&bloom.footer&&bloom.policies===4&&!bloom.overflow,
      'Fictional contact/footer must be present and responsive: '+JSON.stringify(bloom));
+   const compact=await page.evaluate(()=>{
+     const footer=document.querySelector('footer.demo-footer');
+     const contact=document.querySelector('#demoContact');
+     return {
+       active:document.documentElement.classList.contains('tle-demo-compact-v18'),
+       oldContactSection:!!document.querySelector('section#demoContact'),
+       contactTag:contact?.tagName,
+       collapsed:!contact?.open,
+       moreCollapsed:!document.querySelector('.tle-mini-more')?.open,
+       height:Math.round(footer?.getBoundingClientRect().height||0),
+       noOverflow:document.documentElement.scrollWidth<=innerWidth+3
+     };
+   });
+   assert(compact.active&&!compact.oldContactSection
+     &&compact.contactTag==='DETAILS'&&compact.collapsed&&compact.moreCollapsed
+     &&compact.height<=340&&compact.noOverflow,
+     'Compact footer must not fill a phone screen: '+JSON.stringify(compact));
+   await page.locator('#demoContact summary').click();
+   assert.equal(await page.locator('#demoContact').evaluate(el=>el.open),true,
+     'Contact should expand only when asked');
+   await page.locator('#demoContact summary').click();
+   assert.equal(await page.locator('#demoContact').evaluate(el=>el.open),false,
+     'Contact should collapse again');
    await page.locator('footer.demo-footer [data-demo-policy="privacy"]').click();
    assert.equal(await page.locator('#tleDemoLegalDialog').evaluate(el=>el.open),true,'Privacy link failed to open');
    assert((await page.locator('.tle-policy-heading').textContent()).includes(lang==='es'?'privacidad':'Privacy'),
