@@ -1,0 +1,157 @@
+/* Public Luna Bloom demo v26: coherent chapter rhythm, bright CTA, visible bubbles,
+   and stable mobile hero. Only unkeyed public previews receive this style. */
+html.demo-editorial.tle-editorial-v23:not(.tle-demo-booking-active) #tleDemoAreas.tle-demo-area-v20 {
+  background:#0c2130!important;
+  border:0!important;
+  border-bottom:3px solid #89bedf!important;
+  border-radius:0!important;
+}
+html.demo-editorial.tle-editorial-v23 #tleDemoAreas.tle-demo-area-v20>div{
+  background:linear-gradient(155deg,#102b3d 0%,#0b2030 100%)!important;
+}
+html.demo-editorial.tle-editorial-v23.tle-demo-purpose-v20 #tleDemoFaq.tle-demo-faq-v20{
+  background:linear-gradient(155deg,#21485f 0%,#1c3d52 55%,#173448 100%)!important;
+  border-top:0!important;
+  border-bottom:1px solid rgba(164,215,245,.2)!important;
+  border-radius:0!important;
+  margin:0!important;
+}
+html.demo-editorial.tle-editorial-v23 #tleDemoFaq .tle-faq-v20-topics{
+  margin-top:10px!important;
+}
+html.demo-editorial.tle-editorial-v23 #tleDemoFaq .tle-faq-v20-tab{
+  border-radius:19px!important;
+  background:rgba(9,27,43,.23)!important;
+  border-color:rgba(192,226,245,.5)!important;
+  color:#edf8ff!important;
+}
+html.demo-editorial.tle-editorial-v23 #tleDemoFaq .tle-faq-v20-tab[aria-pressed="true"]{
+  background:#bfe5fa!important;
+  border-color:#bfe5fa!important;
+  color:#123449!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-end.tle-cta-bubbles-v26{
+  isolation:isolate!important;
+  position:relative!important;
+  overflow:hidden!important;
+  margin:0!important;
+  width:100%!important;
+  box-sizing:border-box!important;
+  padding:clamp(45px,6.8vw,82px) clamp(26px,7vw,106px)!important;
+  gap:clamp(18px,3vw,35px)!important;
+  border:0!important;
+  border-top:4px solid #e7f6fe!important;
+  border-bottom:2px solid #a0d5ef!important;
+  border-radius:23px!important;
+  background:linear-gradient(135deg,#d2eefd 0%,#a5d9f3 51%,#d9f2fd 100%)!important;
+  box-shadow:none!important;
+  color:#14374b!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-end.tle-cta-bubbles-v26:after{
+  content:"";position:absolute;pointer-events:none;
+  inset:0;background:radial-gradient(circle at 92% 18%,rgba(255,255,255,.42),transparent 36%);
+  z-index:0;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-end.tle-cta-bubbles-v26>div:not(.tle-bubble-layer-v25),
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-end.tle-cta-bubbles-v26>a{
+  position:relative!important;
+  z-index:2!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-end.tle-cta-bubbles-v26 h2{
+  color:#15374d!important;
+  font:600 clamp(32px,4.8vw,57px)/1.1 Georgia,"Times New Roman",serif!important;
+  letter-spacing:-.047em!important;
+  text-wrap:balance;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-end.tle-cta-bubbles-v26 p{
+  color:#32556d!important;
+  font:450 clamp(14px,1.5vw,17px)/1.56 "DM Sans",Arial,sans-serif!important;
+  max-width:550px!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-end.tle-cta-bubbles-v26>a{
+  border-radius:22px!important;
+  min-height:56px!important;
+  padding:16px 26px!important;
+  background:#173d55!important;
+  color:#f5fcff!important;
+  box-shadow:0 7px 22px rgba(17,64,99,.15)!important;
+  white-space:normal!important;
+  text-align:center!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-end.tle-cta-bubbles-v26>a:hover{
+  background:#245979!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-end.tle-cta-bubbles-v26>a:focus-visible{
+  outline:3px solid #245b7b!important;
+  outline-offset:4px!important;
+}
+/* The decorative yellow connector was unintended in the actual demo. */
+html.demo-editorial #bookingStarter:before,
+html.demo-editorial .demo-service-showcase:after,
+html.demo-editorial .demo-booking-kicker:before{
+  display:none!important;
+  content:none!important;
+}
+/* Keep the hero's mobile height independent of Safari's expanding toolbar;
+   it must not switch between vh/dvh measurements after JS initializes. */
+@media(max-width:650px){
+  html.demo-editorial:not(.tle-demo-booking-active) #leadHero.hero{
+    height:660px!important;
+    min-height:660px!important;
+    max-height:660px!important;
+    overflow:hidden!important;
+    overflow-anchor:none!important;
+  }
+  html.demo-editorial.tle-demo-story-v13:not(.tle-demo-booking-active) #leadHero.hero{
+    height:660px!important;min-height:660px!important;max-height:660px!important;
+  }
+  html.demo-editorial.tle-editorial-v23 .tle-demo-v12-end.tle-cta-bubbles-v26{
+    padding:46px 25px 52px!important;
+    border-radius:18px!important;
+  }
+  html.demo-editorial.tle-editorial-v23 .tle-demo-v12-end.tle-cta-bubbles-v26>a{
+    width:100%!important;
+    border-radius:19px!important;
+    font-size:14px!important;
+  }
+}
+/* More readable actual circles, not barely perceptible white fog. */
+html.demo-editorial.tle-demo-bubbles-v25 .tle-bubble-layer-v25 .tle-bubble-v25{
+  opacity:clamp(.5, var(--bubble-opacity,.68), .76)!important;
+  background:radial-gradient(circle at 29% 26%,
+    rgba(255,255,255,.72),rgba(255,255,255,.30) 35%,
+    rgba(128,197,233,.18) 67%,rgba(255,255,255,.045) 82%)!important;
+  border:1.4px solid rgba(245,253,255,.64)!important;
+  box-shadow:inset -6px -10px 19px rgba(72,139,182,.12),
+    inset 5px 7px 12px rgba(255,255,255,.23),0 4px 21px rgba(33,111,165,.08)!important;
+}
+html.demo-editorial.tle-demo-bubbles-v25 .tle-client-quicksteps .tle-bubble-v25{
+  border-color:rgba(68,143,190,.46)!important;
+  background:radial-gradient(circle at 28% 27%,
+    rgba(255,255,255,.65),rgba(255,255,255,.27) 35%,
+    rgba(102,185,226,.19) 68%,rgba(255,255,255,.07) 86%)!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-end.tle-cta-bubbles-v26 .tle-bubble-layer-v25{
+  --bubble-rim:rgba(251,254,255,.8);
+  z-index:1!important;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-end.tle-cta-bubbles-v26 .tle-bubble-v25{
+  --bubble-opacity:.72;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-end.tle-cta-bubbles-v26 .tle-bubble-v25:nth-child(1){
+  --bubble-x:-3%;--bubble-y:-28%;--bubble-size:150px;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-end.tle-cta-bubbles-v26 .tle-bubble-v25:nth-child(2){
+  --bubble-x:80%;--bubble-y:5%;--bubble-size:110px;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-end.tle-cta-bubbles-v26 .tle-bubble-v25:nth-child(3){
+  --bubble-x:59%;--bubble-y:74%;--bubble-size:63px;
+}
+html.demo-editorial.tle-editorial-v23 .tle-demo-v12-end.tle-cta-bubbles-v26 .tle-bubble-v25:nth-child(4){
+  --bubble-x:18%;--bubble-y:65%;--bubble-size:39px;
+}
+@media(prefers-reduced-motion:reduce){
+  html.demo-editorial.tle-demo-bubbles-v25 .tle-bubble-layer-v25 .tle-bubble-v25{
+    animation:none!important;transform:none!important;will-change:auto!important;
+  }
+}
