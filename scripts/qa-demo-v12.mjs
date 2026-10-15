@@ -74,7 +74,7 @@ for(const width of [360,390,820,1024,1440]){
  const page=await browser.newPage({viewport:{width,height:900},reducedMotion:'reduce'});
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  try{
-  await page.goto(base+'/booking-demo/',{waitUntil:'domcontentloaded',timeout:30000});
+  await page.goto(base+'/booking-demo/index.html',{waitUntil:'domcontentloaded',timeout:30000});
   try{await page.locator('#tleDemoFormGuide').waitFor({state:'visible',timeout:5000})}
   catch{
    const diag=await page.evaluate(()=>({path:location.pathname,title:document.title,main:!!document.querySelector('main.wrap'),form:!!document.querySelector('#demoForm'),sales:!!document.querySelector('#tleDemoSalesExperience'),includesScript:[...document.scripts].some(s=>s.src.includes('tle-demo-enhancements-v12.js'))}));
