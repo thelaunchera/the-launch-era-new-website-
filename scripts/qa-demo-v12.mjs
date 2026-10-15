@@ -222,6 +222,46 @@ for(const width of [360,390,820,1024,1440]){
    assert.equal(proof.reviews,3,'three honest review slots expected');
    assert(proof.honest,'fake unlabelled testimonials detected');
    assert(proof.area.includes('Fort Lauderdale'),'service area is not derived from the current business');
+   // v20: locality selection must use business-provided area only, and FAQ
+   // must show one meaningful answer rather than four giant stacked blocks.
+   const purpose=await page.evaluate(()=>{
+     const $=s=>document.querySelector(s);
+     const area=$('#tleDemoAreas'),faq=$('#tleDemoFaq');
+     const areas=[...area.querySelectorAll('#tleDemoAreaTags .tle-area-v20-chip')];
+     const details=[...faq.querySelectorAll('.tle-demo-v12-faqgrid>details')];
+     const image=area.querySelector(':scope > img')?.getBoundingClientRect();
+     return {
+      installed:document.documentElement.classList.contains('tle-demo-purpose-v20'),
+      selectedAreas:areas.map(b=>b.textContent.trim()),
+      checked:areas.filter(b=>b.getAttribute('aria-pressed')==='true').length,
+      sampleNotice:area.querySelector('.tle-demo-v12-disclaimer')?.textContent||'',
+      areaCta:area.querySelector('.tle-area-v20-cta')?.getAttribute('href'),
+      faqTopics:faq.querySelectorAll('.tle-faq-v20-tab').length,
+      activeTopics:faq.querySelectorAll('.tle-faq-v20-tab[aria-pressed="true"]').length,
+      visibleAnswers:details.filter(d=>!d.hidden).length,
+      firstOpen:details[0]?.open,
+      areaImageHeight:image?.height,
+      horizontalOverflow:document.documentElement.scrollWidth>innerWidth+3
+     };
+   });
+   assert(purpose.installed&&purpose.selectedAreas.length===1
+     &&purpose.selectedAreas[0].includes('Fort Lauderdale')&&purpose.checked===1,
+     'Only grounded prospect area may be shown: '+JSON.stringify(purpose));
+   assert(purpose.sampleNotice.includes(lang==='es'?'confirma':'confirms')
+     &&purpose.areaCta==='#bookingStarter'&&purpose.faqTopics===4
+     &&purpose.activeTopics===1&&purpose.visibleAnswers===1&&purpose.firstOpen
+     &&!purpose.horizontalOverflow,
+     'Area and focused FAQ should have meaningful UI: '+JSON.stringify(purpose));
+   if(width<=820)assert(purpose.areaImageHeight<=351,
+     'Mobile/tablet coverage hero cannot occupy a full screen: '+JSON.stringify(purpose));
+   await page.locator('.tle-faq-v20-tab').nth(1).click();
+   assert.equal(await page.locator('.tle-faq-v20-tab[aria-pressed="true"]').count(),1,
+      'Only one FAQ topic may be active');
+   assert.equal(await page.locator('.tle-demo-v12-faqgrid>details:not([hidden])').count(),1,
+      'Only one FAQ answer should be visible');
+   assert.equal(await page.locator('.tle-faq-v20-action').getAttribute('href'),'#bookingStarter',
+      'FAQ booking action must lead to sample service request');
+
    assert(proof.faqs>=4,'FAQ is missing');
    assert(proof.ai,'assistant robot file not loaded');
    const photoAfterLazyLoad=await page.locator('.tle-demo-v12-why>img').evaluate(img=>img.complete&&img.naturalWidth>=900);
