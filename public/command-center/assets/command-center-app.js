@@ -1427,6 +1427,48 @@ function buildIntakeRows(intake){
   const content=ownerPageElem('p',typeof value==='string'?value:JSON.stringify(value),'font-size:13px;white-space:pre-wrap;word-break:break-word;line-height:1.55;margin:0');
   cell.append(head,content);box.append(cell);
  }
+ // Secondary intake details stay available without crowding the mobile project view.
+ const additional=[
+  ['existing_domain','Website / Sitio web','link'],
+  ['instagram_url','Instagram','link'],
+  ['google_business_url','Google Business','link'],
+  ['job_duration_minutes','Planning duration (minutes) / Duración de planificación','number'],
+  ['service_duration_rules','Per-service durations / Duración por servicio','text'],
+  ['appointment_buffer_minutes','Time between appointments (minutes) / Tiempo entre citas','number'],
+  ['recurring_booking_policy','Recurring visits / Reservas recurrentes','text'],
+  ['customer_payment_methods','Accepted payments / Métodos de pago','text'],
+  ['recurring_discount_rules','Recurring discounts / Descuentos por frecuencia','text'],
+  ['service_zip_codes','ZIP and travel rules / ZIP y desplazamientos','text'],
+  ['minimum_booking_notice','Minimum notice / Aviso mínimo','text'],
+  ['cancellation_policy','Cancellation policy / Cancelaciones','text']
+ ].filter(([key])=>intake[key]!==undefined&&intake[key]!==null&&String(intake[key]).trim()!=='');
+ if(additional.length){
+  const extra=document.createElement('details');
+  extra.style.cssText='grid-column:1/-1;border:1px solid #c7ddea;background:#f4f9fc;border-radius:16px;padding:0 15px;min-width:0';
+  const summary=document.createElement('summary');
+  summary.textContent=buildLabel('Booking settings & business links','Reservas y enlaces del negocio')+' · '+additional.length;
+  summary.style.cssText='cursor:pointer;font-size:13px;font-weight:800;padding:15px 0;color:#191919';
+  extra.append(summary);
+  const inner=document.createElement('div');
+  inner.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px;padding-bottom:15px';
+  for(const [key,title,kind] of additional){
+   const cell=ownerPageElem('div',undefined,'background:#fff;border:1px solid #dce6ed;border-radius:12px;padding:12px;min-width:0');
+   cell.append(ownerPageElem('strong',title,'display:block;font-size:11px;line-height:1.4;color:#4f6c80;margin-bottom:6px'));
+   const value=String(intake[key]);
+   let node=ownerPageElem('p',value,'font-size:13px;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere;margin:0;color:#191919');
+   if(kind==='link'){
+    try{
+     const url=new URL(value);
+     if((url.protocol==='https:'||url.protocol==='http:')&&url.hostname&&!url.username&&!url.password){
+      node=document.createElement('a');node.href=url.href;node.target='_blank';node.rel='noopener noreferrer';
+      node.textContent=value;node.style.cssText='font-size:13px;line-height:1.5;overflow-wrap:anywhere;color:#235b81';
+     }
+    }catch{/* Display a non-clickable link when the buyer entered an invalid URL. */}
+   }
+   cell.append(node);inner.append(cell);
+  }
+  extra.append(inner);box.append(extra);
+ }
  const guidance=intake.guided_pricing;
  if(guidance?.version===1&&Array.isArray(guidance.services)){
   const panel=ownerPageElem('div',undefined,'padding:16px;background:#f0f8fd;border:1px solid #bfd8e7;border-radius:16px;min-width:0;overflow-wrap:anywhere');
