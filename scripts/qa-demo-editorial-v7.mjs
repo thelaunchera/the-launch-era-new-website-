@@ -94,7 +94,7 @@ for(const lang of ['en','es']){
    assert(darkUi.title==='rgb(255, 255, 255)'&&darkUi.price==='rgb(169, 223, 255)','White/ice-blue contrast lost '+JSON.stringify(darkUi));
    assert.equal(m.ctaHref,'#categoryTabs','Begin must be a working anchor');
    assert.equal(m.categoryButtons,2,'Residential/Commercial navigation missing');
-   assert(m.editorialTitle.includes(lang==='es'?'El cuidado se nota':'The care shows'),'The photographic storytelling headline is missing: '+JSON.stringify(m.editorialTitle));
+   assert(m.editorialTitle.includes(lang==='es'?'El valor está':'The difference'),'The photographic storytelling headline is missing: '+JSON.stringify(m.editorialTitle));
    assert(m.mainActive,'Service selection should open by default');
    // Real tap acceptance: the CTA must move to the VISIBLE service panel,
    // never a hidden marketing eyebrow. Works for English and Spanish.
