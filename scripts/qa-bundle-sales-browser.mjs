@@ -16,9 +16,9 @@ const server=createServer((req,res)=>{
 await new Promise(resolveReady=>server.listen(0,'127.0.0.1',resolveReady));
 const base='http://127.0.0.1:'+server.address().port;
 const prices={percent_off:40,booking_setup_cents:1999,plans:{
- 'ai-booking':{setup_due_cents:4740,monthly_cents:2900},
- 'ai-followup':{setup_due_cents:3540,monthly_cents:1900},
- 'ai-business':{setup_due_cents:7140,monthly_cents:3900}
+ 'ai-booking':{original_setup_cents:4900,setup_due_cents:2940,monthly_cents:1900},
+ 'ai-followup':{original_setup_cents:2900,setup_due_cents:1740,monthly_cents:1200},
+ 'ai-business':{original_setup_cents:6900,setup_due_cents:4140,monthly_cents:2500}
 }};
 const browser=await chromium.launch({headless:true});
 mkdirSync('qa-screenshots',{recursive:true});
@@ -48,6 +48,14 @@ try {
    const radios=page.locator('input[name="tle-ai-bundle"]');
    assert.equal(await radios.count(),4,'Original optional AI choices must remain');
    assert.equal(await page.locator('input[name="tle-ai-bundle"]:checked').inputValue(),'ai-booking');
+   await page.waitForFunction(()=>document.querySelector('#tleTotal')?.textContent==='$41.34');
+   assert.match(await page.locator('#tleMonthly').innerText(),/\$19\/month/);
+   await page.locator('input[name="tle-ai-bundle"][value="ai-followup"]').check();
+   assert.equal(await page.locator('#tleTotal').innerText(),'$29.34');
+   assert.match(await page.locator('#tleMonthly').innerText(),/\$12\/month/);
+   await page.locator('input[name="tle-ai-bundle"][value="ai-business"]').check();
+   assert.equal(await page.locator('#tleTotal').innerText(),'$53.34');
+   assert.match(await page.locator('#tleMonthly').innerText(),/\$25\/month/);
    assert(await page.locator('#tleCheckoutBtn').isVisible());
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),true,'Horizontal overflow '+width);
    await page.screenshot({path:'qa-screenshots/bundle-landing-'+width+'.png',fullPage:true});
