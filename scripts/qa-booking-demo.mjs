@@ -678,7 +678,7 @@ for(const lang of ['en','es'])for(const viewport of [{name:'phone',width:390,hei
       horizontalOverflow:document.documentElement.scrollWidth>innerWidth+3};
   });
   assert.equal(result.sameSection,true,'Headline must be on photo');
-  assert.match(result.blur,/blur\(/,'Photo must be gently blurred');
+  assert.match(result.blur,/blur\(/,`Photo must be gently blurred (computed filter: ${result.blur}; route: ${lang}; viewport: ${viewport.name})`);
   assert(result.photoBlur<=3.5,'Hero photo must remain natural and recognizable');
   if(viewport.width<768){
    assert(result.headingTextReadable,'Small hero heading must be readable');
