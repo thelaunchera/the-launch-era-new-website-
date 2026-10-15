@@ -61,7 +61,7 @@ html.demo-editorial.tle-photo-services-v21 #bookingStarter #main .tle-service-ph
  border:0!important;filter:saturate(.87) contrast(1.02);
  transition:transform .5s ease!important;
 }
-html.demo-editorial.tle-photo-services-v21 #bookingStarter #main .tle-service-has-photo-v21 .ico{
+html.demo-editorial.tle-photo-services-v21 #bookingStarter #main .tle-photo-services-grid-v21 .tle-service-has-photo-v21 .ico{
  position:absolute!important;z-index:1!important;
  top:clamp(103px,14vw,150px)!important;left:14px!important;
  width:36px!important;height:36px!important;
