@@ -189,7 +189,16 @@ header{padding:16px max(18px,calc((100% - 760px)/2))}main{margin:20px auto 42px}
   const selected=p.agent_offer;const plans={"ai-booking":{title:"AI Booking Assistant",goal:"Answer booking questions"},"ai-followup":{title:"AI Follow-Up Assistant",goal:"Follow up with approved leads"},"ai-business":{title:"AI Business Assistant — both agents",goal:"Both booking and follow-up"}};const plan=plans[selected];if(!plan)throw new Error("Invalid plan");
   $('agent').value=selected;Array.from($('agent').options).forEach(opt=>{opt.disabled=opt.value!==selected});$('goals').value=plan.goal;
   const paid=Number(p.setup_paid_cents),monthly=Number(p.monthly_amount_cents);
-  const money=cents=>'
+  const money=cents=>'$'+(cents/100).toFixed(2).replace(/\.00$/,'');
+  const paidLabel=Number.isInteger(paid)&&paid>=0?money(paid):'';
+  const monthlyLabel=Number.isInteger(monthly)&&monthly>=0?money(monthly):'';
+  $('paymentText').textContent=es?
+    ('Compra verificada: '+plan.title+'. '+(paidLabel?(p.bundle_booking_flow?'Instalación de IA incluida en tu pago conjunto: '+paidLabel+'. ':'Instalación pagada: '+paidLabel+'. '):'')+'Tus primeros 30 días comienzan con la entrega.'+(monthlyLabel?' Después: '+monthlyLabel+'/mes.':'')):
+    ('Verified purchase: '+plan.title+'. '+(paidLabel?(p.bundle_booking_flow?'AI setup included in your combined payment: '+paidLabel+'. ':'Setup paid: '+paidLabel+'. '):'')+'Your first 30 days start at delivery.'+(monthlyLabel?' Then '+monthlyLabel+'/month.':''));
+  consentLabel.hidden=!['ai-followup','ai-business'].includes(selected);
+  consentCheck.required=!consentLabel.hidden;
+  progress.hidden=false;showStep(1);
+  
   $('status').classList.add("hidden");if(p.already_submitted){$('done').classList.remove("hidden");return;}
   $('intake').classList.remove("hidden");
  }catch(e){showStatus(es?"No pudimos confirmar tu compra. Abre de nuevo el enlace que recibiste después de pagar o contáctanos.":"We couldn’t confirm your purchase yet. Try the link you received after paying, or contact us.",true);}
@@ -200,25 +209,6 @@ header{padding:16px max(18px,calc((100% - 760px)/2))}main{margin:20px auto 42px}
   $('intake').classList.add("hidden");progress.hidden=true;$('status').classList.add("hidden");$('done').classList.remove("hidden");$('done').scrollIntoView({behavior:'smooth',block:'center'});
   if(!result.notifications_sent){$('doneBody').textContent=es?"Guardamos la solicitud, pero el correo de confirmación puede retrasarse. Escríbenos por el formulario de contacto si necesitas ayuda.":"Your request is saved, but the confirmation email may be delayed. Please use our contact form if you need help.";}
   }catch(e){showStatus(e?.message||(es?"No pudimos guardar los datos. Inténtalo otra vez.":"We couldn\u0027t save your details. Please try again."),true);$('status').scrollIntoView({behavior:'smooth',block:'center'})}
-  finally{$('submit').disabled=false;}
- });
-})();
-</script></body></html>+(cents/100).toFixed(2).replace(/\.00$/,'');
-  const paidLabel=Number.isInteger(paid)&&paid>=0?money(paid):'';
-  const monthlyLabel=Number.isInteger(monthly)&&monthly>=0?money(monthly):'';
-  $('paymentText').textContent=es?('Compra verificada: '+plan.title+'. '+(paidLabel?(p.bundle_booking_flow?'Instalación de AI incluida en tu pago conjunto: '+paidLabel+'. ':'Instalación pagada: '+paidLabel+'. '):'')+'Tus primeros 30 días comienzan con la entrega.'+(monthlyLabel?' Después: '+monthlyLabel+'/mes.':'')):('Verified purchase: '+plan.title+'. '+(paidLabel?(p.bundle_booking_flow?'AI setup included in your combined payment: '+paidLabel+'. ':'Setup paid: '+paidLabel+'. '):'')+'Your first 30 days start at delivery.'+(monthlyLabel?' Then '+monthlyLabel+'/month.':''));
-  consentLabel.hidden=!['ai-followup','ai-business'].includes(selected);consentCheck.required=!consentLabel.hidden;
-  progress.hidden=false;showStep(1);
-  $('status').classList.add("hidden");if(p.already_submitted){$('done').classList.remove("hidden");return;}
-  $('intake').classList.remove("hidden");
- }catch(e){showStatus(es?"No pudimos confirmar tu compra. Abre de nuevo el enlace que recibiste después de pagar o contáctanos.":"We couldn’t confirm your purchase yet. Try the link you received after paying, or contact us.",true);}
- })();
- $('intake').addEventListener("submit",async ev=>{
-  ev.preventDefault();$('submit').disabled=true;showStatus(es?"Guardando tus datos…":"Saving your setup details…");
-  try{let avatarPath='';if(selectedAvatar){showStatus(es?"Subiendo la foto del avatar…":"Uploading your avatar photo…");const fd=new FormData();fd.append('session_id',sid);fd.append('action','upload_avatar');fd.append('photo',selectedAvatar,selectedAvatar.name);const response=await fetch(endpoint,{method:'POST',body:fd});const data=await response.json().catch(()=>({}));if(!response.ok||!data.ok)throw new Error(data.error||'Avatar upload failed');avatarPath=data.path;showStatus(es?"Guardando tus datos…":"Saving your setup details…");}const result=await req({action:"submit",contact_name:$('contactName').value,avatar_name:$('avatarName').value,avatar_photo_path:avatarPath,business_name:$('business').value,install_target:$('target').value,booking_page_url:$('booking').value,website_url:$('website').value,services_offered:$('services').value,business_notes:$('notes').value,agent_requested:$('agent').value,assistant_goals:$('goals').value,language:$('language').value});
-  $('intake').classList.add("hidden");$('status').classList.add("hidden");$('done').classList.remove("hidden");
-  if(!result.notifications_sent){$('doneBody').textContent=es?"Guardamos la solicitud, pero el correo de confirmación puede retrasarse. Escríbenos por el formulario de contacto si necesitas ayuda.":"Your request is saved, but the confirmation email may be delayed. Please use our contact form if you need help.";}
-  }catch(e){showStatus(e?.message||(es?"No pudimos guardar los datos. Inténtalo otra vez.":"We couldn\u0027t save your details. Please try again."),true)}
   finally{$('submit').disabled=false;}
  });
 })();
