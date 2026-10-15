@@ -89,6 +89,42 @@ for(const width of [360,390,820,1024,1440]){
    assert(chapterContrast.reviewColor.includes('linear-gradient')
      &&chapterContrast.faqColor==='rgb(20, 42, 60)'&&!chapterContrast.horizontalOverflow,
      'Neighboring sections need visually distinct backgrounds without overflow: '+JSON.stringify(chapterContrast));
+   // v25: both light-blue chapters have noninteractive, accessible bubbles.
+   // With reduced motion each bubble remains decorative but NEVER animates.
+   const bubbleState=await page.evaluate(()=>{
+     const steps=document.querySelector('.tle-client-quicksteps');
+     const ribbon=document.querySelector('#tleDemoBlueRibbon');
+     const info=el=>{
+       const layer=el?.querySelector(':scope > .tle-bubble-layer-v25');
+       const bubble=layer?.querySelector('.tle-bubble-v25');
+       return {
+         present:!!layer,
+         bubbles:layer?.children.length||0,
+         hiddenFromAT:layer?.getAttribute('aria-hidden'),
+         pointerEvents:layer?getComputedStyle(layer).pointerEvents:null,
+         animation:bubble?getComputedStyle(bubble).animationName:null,
+         contentAbove:!!(el?.querySelector('.tle-wave-inner,.tle-steps-intro')),
+       };
+     };
+     return {
+       enabled:document.documentElement.classList.contains('tle-demo-bubbles-v25'),
+       steps:info(steps),
+       ribbon:info(ribbon),
+       excludedFromHero:!document.querySelector('#leadHero .tle-bubble-layer-v25'),
+       excludedFromServices:!document.querySelector('.tle-service-photo-v21 .tle-bubble-layer-v25'),
+       noOverflow:document.documentElement.scrollWidth<=innerWidth+3
+     };
+   });
+   assert(bubbleState.enabled&&bubbleState.steps.bubbles===7
+     &&bubbleState.ribbon.bubbles===7
+     &&bubbleState.steps.hiddenFromAT==='true'&&bubbleState.ribbon.hiddenFromAT==='true'
+     &&bubbleState.steps.pointerEvents==='none'&&bubbleState.ribbon.pointerEvents==='none'
+     &&bubbleState.steps.contentAbove&&bubbleState.ribbon.contentAbove
+     &&bubbleState.excludedFromHero&&bubbleState.excludedFromServices
+     &&bubbleState.noOverflow,
+     'Bubbles must decorate only the two blue sections without covering UI: '+JSON.stringify(bubbleState));
+   assert(bubbleState.steps.animation==='none'&&bubbleState.ribbon.animation==='none',
+     'Reduced-motion users must not receive floating animations: '+JSON.stringify(bubbleState));
    const proof=await page.evaluate(()=>{
     const $=s=>document.querySelector(s);
     const image=$('.tle-demo-v12-why>img');
@@ -537,6 +573,24 @@ for(const width of [360,390,820,1024,1440]){
  const page=await browser.newPage({viewport:{width:390,height:770},reducedMotion:'no-preference'});
  try{
   await page.goto(base+'/lead-private-preview.html?lang=en',{waitUntil:'domcontentloaded',timeout:30000});
+  // Motion enabled: both chapters float only when actually in view.
+  for(const sel of ['.tle-client-quicksteps','#tleDemoBlueRibbon']){
+    await page.locator(sel).scrollIntoViewIfNeeded();
+    await page.waitForFunction(selector=>{
+      const section=document.querySelector(selector);
+      return section?.classList.contains('tle-bubbles-visible-v25');
+    },sel,{timeout:7000});
+    const state=await page.locator(sel+' .tle-bubble-v25').first().evaluate(el=>({
+      animation:getComputedStyle(el).animationName,
+      playState:getComputedStyle(el).animationPlayState,
+      duration:getComputedStyle(el).animationDuration,
+      pointerEvents:getComputedStyle(el).pointerEvents
+    }));
+    assert(state.animation==='tleFloatBubblesV25'&&state.playState==='running'
+      &&state.pointerEvents==='none'&&!state.duration.startsWith('0s'),
+      'Floating bubble should animate gently while visible: '+JSON.stringify({sel,...state}));
+  }
+  console.log('PASS floating bubbles in both blue sections 390px');
   const target=page.locator('#tleDemoEditorialGallery .tle-editorial-photo-card').first();
   await target.waitFor({state:'attached',timeout:12000});
   const before=await target.evaluate(el=>({
