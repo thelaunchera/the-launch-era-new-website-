@@ -5,9 +5,10 @@ const code=readFileSync('public/command-center/assets/command-center-app.js','ut
 const stage=code.match(/function ownerPurchaseStage\(a\)\{[\s\S]*?\n\}/)?.[0];
 assert(stage,'Owner Booking status classifier missing');
 const fn=new Function(stage+'; return ownerPurchaseStage;')();
-const completed={intake_done:true,booking_page_url:'https://example.org/book',crm_ready:true,status:'active',already_queued:true,qa_pass_count:6,buyer_review_status:'approved'};
+const completed={intake_done:true,booking_page_url:'https://example.org/book',crm_ready:true,status:'active',already_queued:true,qa_pass_count:6,buyer_review_status:'approved',activation_email_delivery_status:'delivered'};
 assert.equal(fn(completed),'completed','Fully audited recorded delivery');
 assert.equal(fn({...completed,qa_pass_count:3}),'delivered','Legacy delivery with missing QA must not be shown as finished');
+assert.equal(fn({...completed,activation_email_delivery_status:'sent'}),'delivered','Provider-accepted access email cannot be treated as delivered');
 assert.equal(fn({...completed,buyer_review_status:'pending_review'}),'delivered','No client approval, no completed claim');
 assert.equal(fn({...completed,already_queued:false}),'review');
 assert.equal(fn({intake_done:false,already_queued:false}),'intake');
