@@ -597,6 +597,39 @@ for(const width of [360,390,820,1024,1440]){
    }));
    assert(selected.focused&&selected.screen==='res'&&selected.marketingHidden,
      'Deep cleaning pill must open residential booking studio, without the editorial gallery underneath: '+JSON.stringify(selected));
+   // Regression: the bottom Return home CTA must EXIT booking mode, not just
+   // jump to #leadHero (that hero is hidden while booking mode is active).
+   await page.locator('#tleFocusBookingBar .tle-focus-change').click();
+   const bottomHome=page.locator('#main .tle-return-home-link');
+   await assertVisible(page,'#main .tle-return-home-link');
+   assert.equal(await bottomHome.getAttribute('href'),'#leadHero',
+     'Return home retains a readable link fallback');
+   await bottomHome.scrollIntoViewIfNeeded();
+   await bottomHome.click();
+   await page.waitForFunction(()=>
+     location.hash==='#leadHero'&&
+     !document.documentElement.classList.contains('tle-demo-booking-active')&&
+     document.querySelector('#leadHero')?.getClientRects().length>0
+   );
+   const returnResult=await page.evaluate(()=>({
+      url:location.pathname+location.hash,
+      restored:!document.documentElement.classList.contains('tle-demo-booking-active'),
+      visible:getComputedStyle(document.querySelector('#leadHero')).display!=='none',
+      initialStep:document.querySelector('#bookingStarter .screen.on')?.id,
+      scrollTop:scrollY,
+      heroTop:document.querySelector('#leadHero').getBoundingClientRect().top
+   }));
+   assert(returnResult.restored&&returnResult.visible&&returnResult.initialStep==='main'
+     &&returnResult.heroTop<160,
+     'Bottom Return home must restore visible demo hero: '+JSON.stringify(returnResult));
+   // From a non-focused service list, the same button must also work.
+   await bottomHome.scrollIntoViewIfNeeded();
+   await bottomHome.click();
+   await page.waitForFunction(()=>
+      location.hash==='#leadHero'&&
+      !document.documentElement.classList.contains('tle-demo-booking-active')
+   );
+
 
 
    console.log('PASS prospect',lang,width);
