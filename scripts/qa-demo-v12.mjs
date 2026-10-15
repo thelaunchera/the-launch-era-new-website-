@@ -47,6 +47,48 @@ for(const width of [360,390,820,1024,1440]){
       'Pop must target large editorial photos only: '+JSON.stringify(editorial));
    assert(editorial.gallerySources.every(src=>src.startsWith('/assets/lead-demo/')),
      'Big photo gallery must use local existing image assets: '+JSON.stringify(editorial));
+   // v24: separate the formerly same-color booking steps from the service
+   // picker, and carry the new editorial serif typography into photo chapters.
+   const contrast=await page.evaluate(()=>{
+     const pick=s=>document.querySelector(s);
+     const steps=pick('.tle-client-quicksteps');
+     const stepTitle=steps?.querySelector('h3');
+     const process=pick('#bookingStarter');
+     const headings=[
+       pick('#demoCinematicStory .demo-cinematic-copy h2'),
+       pick('#demoHow .demo-bottom-text h2'),
+       pick('#tleDemoAreas #tleAreasTitle'),
+       pick('#tleDemoReviews #tleReviewsTitle')
+     ];
+     const cc=el=>el?getComputedStyle(el):null;
+     return {
+       installed:document.documentElement.classList.contains('tle-editorial-contrast-v24'),
+       stepsGradient:cc(steps)?.backgroundImage||'',
+       stepTitleColor:cc(stepTitle)?.color||'',
+       stepTitleFont:cc(stepTitle)?.fontFamily||'',
+       processBackground:cc(process)?.backgroundColor||'',
+       stepEm:!!stepTitle?.querySelector('em'),
+       headings:headings.map(el=>({
+         exists:!!el,font:cc(el)?.fontFamily,
+         color:cc(el)?.color
+       })),
+       howEm:!!headings[1]?.querySelector('em'),
+       areaEm:!!headings[2]?.querySelector('em'),
+       reviewColor:cc(pick('#tleDemoReviews'))?.backgroundImage||'',
+       faqColor:cc(pick('#tleDemoFaq'))?.backgroundColor||'',
+       horizontalOverflow:document.documentElement.scrollWidth>innerWidth+3
+     };
+   });
+   assert(contrast.installed&&contrast.stepsGradient.includes('linear-gradient')
+     &&contrast.stepTitleColor==='rgb(23, 44, 61)'
+     &&contrast.stepTitleFont.includes('Georgia')&&contrast.stepEm,
+     'The steps chapter should have a light-blue background and dark editorial title: '+JSON.stringify(contrast));
+   assert(contrast.headings.every(h=>h.exists&&h.font.includes('Georgia'))
+     &&contrast.howEm&&contrast.areaEm,
+     'Photo/editorial headings must use the matching serif typography: '+JSON.stringify(contrast));
+   assert(contrast.reviewColor.includes('linear-gradient')
+     &&contrast.faqColor==='rgb(20, 42, 60)'&&!contrast.horizontalOverflow,
+     'Neighboring sections need visually distinct backgrounds without overflow: '+JSON.stringify(contrast));
    const proof=await page.evaluate(()=>{
     const $=s=>document.querySelector(s);
     const image=$('.tle-demo-v12-why>img');
