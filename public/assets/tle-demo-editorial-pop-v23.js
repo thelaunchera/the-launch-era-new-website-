@@ -123,7 +123,7 @@
    ].filter(Boolean);
    const motion=window.matchMedia("(prefers-reduced-motion: reduce)");
    if(motion.matches||!("IntersectionObserver" in window)){
-     targets.forEach(target=>target.classList.add("tle-pop-visible"));
+     targets.forEach(target=>target.classList.add("tle-pop-on-scroll","tle-pop-visible"));
      return;
    }
    const observer=new IntersectionObserver(entries=>{
