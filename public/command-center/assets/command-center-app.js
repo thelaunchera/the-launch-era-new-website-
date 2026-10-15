@@ -2398,6 +2398,10 @@ function ownerOrderNext(o,ai,es){
  if(ai)return o.delivered_at?(es?'Activado. Revisar soporte y facturación.':'Activated. Review support and billing.'):
   !o.submitted_at?(es?'Revisar invitación al intake; no enviar duplicados.':'Check intake invitation; no duplicate sends.'):
   (es?'Preparar en pruebas, validar respuestas, obtener aprobación y entregar.':'Build in test mode, verify answers, approve and deliver.');
+ if(o.ai_addon_offer&&String(o.ai_addon_offer).trim()&&!['none','no','false'].includes(String(o.ai_addon_offer).toLowerCase())&&!o.already_queued){
+  if(!o.intake_done)return es?'Bundle Booking + AI: confirmar pago de ambos componentes y obtener los datos de Booking y del asistente.':'Booking + AI bundle: verify payment for both components and collect Booking and assistant details.';
+  return es?'Bundle Booking + AI: comprobar dos configuraciones, dos pruebas QA y aprobación del cliente. No entregar ni activar IA hasta validar ambos.':'Booking + AI bundle: verify both setups, both QA reviews and customer approval. Do not deliver or activate AI until both pass.';
+ }
  if(o.already_queued)return o.activation_email_delivery_status!=='delivered'?(es?'Entrega final registrada, pero el correo de acceso sigue sin confirmación de entrega del proveedor. Comprueba el inbox y el login; no reenvíes automáticamente.':'Final delivery recorded, but the access email has no confirmed provider delivery. Verify inbox and login; never resend automatically.'):(es?'Entrega registrada: verificar QA y soporte.':'Delivery recorded: verify QA and support.');
  if(!o.intake_done)return es?'Verificar pago e invitación al intake; esperar respuestas.':'Check payment and intake invitation; await answers.';
  if(!o.design_reviewed)return es?'Verificar sector, marca, precios, accesos y aprobar el inicio de producción por separado.':'Verify business type, branding, prices and access; approve production kickoff separately.';
