@@ -8,7 +8,7 @@ as $flow$
 declare
   a record; v_ws uuid; v_agencies integer; v_new uuid; v_count integer:=0; v_missing text:='';
 begin
-  select count(*),min(w.id) into v_agencies,v_ws from public.tle_crm_workspaces w
+  select count(*),(array_agg(w.id))[1] into v_agencies,v_ws from public.tle_crm_workspaces w
   where w.is_internal is true
   and exists(select 1 from public.platform_admins u where u.user_id=w.created_by);
   if v_agencies<>1 then return 0; end if;
@@ -121,7 +121,7 @@ set search_path to 'pg_catalog','public','private'
 as $reconcile$
 declare a record;v_created integer:=0;v_booking integer:=0;v_ai integer:=0;v_ws uuid;v_count integer;
 begin
- select min(w.id),count(*) into v_ws,v_count from public.tle_crm_workspaces w
+ select (array_agg(w.id))[1],count(*) into v_ws,v_count from public.tle_crm_workspaces w
  where w.is_internal is true and exists(select 1 from public.platform_admins x where x.user_id=w.created_by);
  if v_count<>1 then return jsonb_build_object('safe_skip','no unique internal agency workspace'); end if;
  for a in select id from public.tle_booking_flow_accounts
@@ -140,7 +140,7 @@ $reconcile$;
 -- Older paid TLE orders created before the internal agency linkage trigger need a one-time repair.
 -- This is not the buyer's command center workspace: keep that linkage separate.
 with agency as (
- select min(w.id) id,count(*) n from public.tle_crm_workspaces w
+ select (array_agg(w.id))[1] id,count(*) n from public.tle_crm_workspaces w
  where w.is_internal is true and exists(select 1 from public.platform_admins u where u.user_id=w.created_by)
 )
 update public.tle_booking_flow_accounts a
@@ -148,7 +148,7 @@ set tle_sales_workspace_id=agency.id from agency
 where agency.n=1 and a.tle_sales_workspace_id is null and a.payment_status='paid';
 
 with agency as (
- select min(w.id) id,count(*) n from public.tle_crm_workspaces w
+ select (array_agg(w.id))[1] id,count(*) n from public.tle_crm_workspaces w
  where w.is_internal is true and exists(select 1 from public.platform_admins u where u.user_id=w.created_by)
 )
 update public.tle_ai_agent_orders a
