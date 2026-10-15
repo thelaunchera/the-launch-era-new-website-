@@ -1,0 +1,281 @@
+/* The Launch Era · Organic booking flow v16 (2026-10-15).
+ * Visual-only layer for the PUBLIC sample demo. No tenant/client pages,
+ * booking data, pricing, event handlers, or email behavior are changed.
+ */
+html.demo-editorial.tle-demo-client-v14 #bookingStarter.panel{
+  padding-bottom:clamp(24px,3.6vw,44px)!important;
+}
+html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid button.service,
+html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid button.service.sel{
+  isolation:isolate!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  min-height:112px!important;
+  padding:24px 5px 24px 0!important;
+  column-gap:17px!important;
+  row-gap:5px!important;
+  grid-template-columns:45px minmax(0,1fr) 28px!important;
+  transition:background-color .2s ease!important;
+}
+html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid button.service:first-child{
+  border-top:0!important;
+}
+html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid button.service::after{
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  height:1px!important;
+  left:62px!important;
+  right:0!important;
+  bottom:0!important;
+  background:linear-gradient(90deg,rgba(158,207,233,.36),rgba(158,207,233,.15) 64%,transparent)!important;
+  pointer-events:none!important;
+}
+html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid button.service:last-child::after{
+  opacity:.36!important;
+}
+html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid .service .ico{
+  width:43px!important;
+  height:43px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  color:#b6e4fe!important;
+}
+html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid .service .ico svg{
+  width:27px!important;height:27px!important;
+  stroke:#b6e4fe!important;stroke-width:1.6!important;
+}
+html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid .service .demo-service-body{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  gap:5px!important;
+  grid-row:1!important;
+}
+html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid .service .demo-service-body b{
+  font-size:clamp(17px,1.6vw,22px)!important;
+  font-weight:650!important;
+  line-height:1.28!important;
+  letter-spacing:-.032em!important;
+}
+html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid .service .muted{
+  color:#b6cddc!important;
+  font-size:clamp(12px,1.14vw,15px)!important;
+  line-height:1.45!important;
+}
+html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid .service .price{
+  font-size:clamp(13px,1.15vw,15px)!important;
+  color:#aee1fd!important;
+  font-weight:700!important;
+  letter-spacing:.01em!important;
+}
+html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid .service .demo-service-go{
+  opacity:.88!important;
+  transition:transform .18s ease,opacity .18s ease!important;
+}
+@media(hover:hover){
+ html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid button.service:hover{
+  background:linear-gradient(90deg,rgba(173,222,249,.07),transparent 80%)!important;
+ }
+ html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid button.service:hover .demo-service-go{
+  transform:translateX(4px)!important;opacity:1!important;
+ }
+}
+html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid button.service:focus-visible{
+  outline:2px solid #a9dfff!important;
+  outline-offset:3px!important;
+}
+html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .tle-service-subsection{
+  grid-column:1 / -1!important;
+  position:relative;
+  margin:22px 0 0!important;
+  padding:22px 0 9px!important;
+  display:flex;flex-direction:column;align-items:flex-start;
+  gap:6px;
+  border:0!important;
+  background:transparent!important;
+}
+html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .tle-service-subsection::before{
+  content:"";position:absolute;left:0;right:0;top:0;height:1px;
+  background:linear-gradient(90deg,rgba(169,223,255,.48),rgba(169,223,255,.1) 73%,transparent);
+}
+html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .tle-service-subsection strong{
+  font:700 10px/1.4 Prompt,Arial,sans-serif;
+  letter-spacing:.17em;
+  color:#a9dfff;
+}
+html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .tle-service-subsection span{
+  font:500 clamp(13px,1.25vw,16px)/1.5 "DM Sans",Arial,sans-serif;
+  color:#d1e2ed;
+}
+html.demo-editorial.tle-demo-client-v14 .tle-client-quicksteps{
+  position:relative!important;
+  overflow:hidden!important;
+  width:100%!important;
+  padding:clamp(42px,6vw,89px) clamp(24px,7vw,112px) clamp(50px,6.4vw,94px)!important;
+  display:grid!important;
+  grid-template-columns:minmax(215px,.7fr) minmax(0,1.3fr)!important;
+  align-items:start!important;
+  gap:clamp(24px,4vw,70px)!important;
+  background:linear-gradient(180deg,#0e1923 0%,#112333 100%)!important;
+  border:0!important;border-radius:0!important;box-shadow:none!important;
+}
+html.demo-editorial.tle-demo-client-v14 .tle-steps-intro{
+  display:flex;flex-direction:column;align-items:flex-start;
+  max-width:420px;gap:13px;
+}
+html.demo-editorial.tle-demo-client-v14 .tle-steps-ey{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font:700 10px/1.4 Prompt,Arial,sans-serif;
+  letter-spacing:.18em;
+  color:#a9dfff;
+}
+html.demo-editorial.tle-demo-client-v14 .tle-steps-ey::before{
+  content:"";width:25px;height:1px;background:#a9dfff;
+}
+html.demo-editorial.tle-demo-client-v14 .tle-client-quicksteps .tle-steps-intro h3{
+  margin:0!important;
+  color:#f0f8ff!important;
+  max-width:420px!important;
+  font:600 clamp(27px,3.2vw,42px)/1.16 Prompt,Arial,sans-serif!important;
+  letter-spacing:-.045em!important;
+  text-wrap:balance;
+}
+html.demo-editorial.tle-demo-client-v14 .tle-steps-intro p{
+  margin:0!important;
+  max-width:370px!important;
+  color:#b9ccda!important;
+  font:400 clamp(13px,1.15vw,15px)/1.6 "DM Sans",Arial,sans-serif!important;
+}
+html.demo-editorial.tle-demo-client-v14 .tle-client-quicksteps ol{
+  position:relative!important;
+  align-self:center!important;
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:clamp(14px,2.5vw,32px)!important;
+  margin:0!important;padding:0!important;
+  border:0!important;
+  list-style:none!important;
+}
+html.demo-editorial.tle-demo-client-v14 .tle-client-quicksteps ol::before{
+  content:"";
+  position:absolute;
+  top:20px;left:20px;right:20px;height:1px;
+  background:linear-gradient(90deg,rgba(153,211,243,.55),rgba(153,211,243,.24),rgba(153,211,243,.1));
+  pointer-events:none;
+}
+html.demo-editorial.tle-demo-client-v14 .tle-client-quicksteps li{
+  position:relative;
+  display:flex!important;flex-direction:column!important;
+  align-items:flex-start!important;gap:17px!important;
+  min-width:0!important;
+  margin:0!important;padding:0!important;
+  border:0!important;
+  font:600 clamp(13px,1.25vw,16px)/1.45 "DM Sans",Arial,sans-serif!important;
+  color:#e3f1fa!important;
+}
+html.demo-editorial.tle-demo-client-v14 .tle-client-quicksteps li::before{
+  box-sizing:border-box!important;
+  display:grid!important;place-items:center!important;
+  width:40px!important;height:40px!important;
+  flex:0 0 40px!important;
+  margin:0!important;
+  border:1px solid rgba(169,223,255,.48)!important;
+  border-radius:50%!important;
+  background:#162e40!important;
+  color:#bfeaff!important;
+  font:700 12px/1 Prompt,Arial,sans-serif!important;
+  letter-spacing:.03em!important;
+  box-shadow:0 0 0 5px #0e1e2c!important;
+}
+@media(max-width:820px){
+ html.demo-editorial.tle-demo-client-v14 .tle-client-quicksteps{
+  grid-template-columns:1fr!important;gap:29px!important;
+  padding:45px clamp(25px,6vw,54px) 53px!important;
+ }
+ html.demo-editorial.tle-demo-client-v14 .tle-steps-intro{
+  max-width:600px!important;
+ }
+}
+@media(max-width:650px){
+ html.demo-editorial.tle-demo-client-v14 #bookingStarter.panel{
+  padding-bottom:28px!important;
+ }
+ html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid button.service,
+ html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid button.service.sel{
+  grid-template-columns:36px minmax(0,1fr) 22px!important;
+  column-gap:12px!important;row-gap:5px!important;
+  min-height:106px!important;
+  padding:20px 0!important;
+ }
+ html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid .service .ico{
+  width:36px!important;height:36px!important;
+ }
+ html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid .service .ico svg{
+  width:24px!important;height:24px!important;
+ }
+ html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid .service .demo-service-body b{
+  font-size:clamp(16px,4.2vw,19px)!important;
+ }
+ html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid button.service::after{
+  left:48px!important;
+ }
+ html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .tle-service-subsection{
+  margin-top:17px!important;padding-top:21px!important;
+ }
+ html.demo-editorial.tle-demo-client-v14 .tle-client-quicksteps{
+  gap:23px!important;
+  padding:42px 25px 55px!important;
+ }
+ html.demo-editorial.tle-demo-client-v14 .tle-client-quicksteps .tle-steps-intro h3{
+  font-size:clamp(30px,8vw,39px)!important;
+ }
+ html.demo-editorial.tle-demo-client-v14 .tle-steps-intro p{
+  font-size:13px!important;
+ }
+ html.demo-editorial.tle-demo-client-v14 .tle-client-quicksteps ol{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:0!important;
+  padding:1px 0 0!important;
+ }
+ html.demo-editorial.tle-demo-client-v14 .tle-client-quicksteps ol::before{
+  top:21px!important;
+  bottom:24px!important;
+  left:19px!important;
+  right:auto!important;
+  width:1px!important;
+  height:auto!important;
+  background:linear-gradient(180deg,rgba(158,215,245,.55),rgba(158,215,245,.08))!important;
+ }
+ html.demo-editorial.tle-demo-client-v14 .tle-client-quicksteps li{
+  display:grid!important;
+  grid-template-columns:40px minmax(0,1fr)!important;
+  align-items:center!important;
+  column-gap:19px!important;
+  padding:0 0 22px!important;
+  min-height:68px!important;
+  line-height:1.4!important;
+  font-size:14px!important;
+ }
+ html.demo-editorial.tle-demo-client-v14 .tle-client-quicksteps li:last-child{
+  padding-bottom:0!important;
+ }
+ html.demo-editorial.tle-demo-client-v14 .tle-client-quicksteps li::before{
+  grid-column:1!important;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid button.service,
+ html.demo-editorial.tle-demo-client-v14 #bookingStarter #main .demo-services-grid .service .demo-service-go{
+  transition:none!important;
+ }
+}
