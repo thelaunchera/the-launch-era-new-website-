@@ -23,6 +23,10 @@
   serviceDesc:"Elige el servicio que mejor se adapte a tu espacio. Puedes revisar todos los detalles antes de terminar.",
   stepLabels:["Elige tu servicio","Cuéntanos los detalles","Revisa la solicitud","Solicitud de ejemplo lista"],
   processTitle:"Así de sencillo",
+  processEy:"UNA SOLA EXPERIENCIA",
+  processDesc:"Explora las opciones a tu ritmo. Esta demostración no envía solicitudes.",
+  moreChoicesEy:"¿NECESITAS ALGO DIFERENTE?",
+  moreChoicesText:"Pide un estimado o una cotización personalizada.",
   processSteps:["Elige el tipo de limpieza","Añade los detalles de tu espacio","Revisa todo antes de finalizar"],
   progress:"Paso",
   footer:"Vista de demostración · Los precios, zonas y horarios son ejemplos; no se realizan reservas ni pagos.",
@@ -44,6 +48,10 @@
   serviceDesc:"Pick the cleaning that fits your space. You can review every detail before finishing.",
   stepLabels:["Choose a cleaning","Tell us the details","Review your request","Sample request complete"],
   processTitle:"Cleaning made simpler",
+  processEy:"ONE EASY FLOW",
+  processDesc:"Take your time exploring. No request is sent from this demo.",
+  moreChoicesEy:"NEED SOMETHING DIFFERENT?",
+  moreChoicesText:"Start with a home estimate or a custom quote.",
   processSteps:["Choose your cleaning service","Tell us about your space","Review the details before finishing"],
   progress:"Step",
   footer:"Interactive sample · Prices, service areas and times are illustrative. No booking or payment is made.",
@@ -116,9 +124,24 @@
  }
  const footer=$(".demo-footer");
  if(footer){const status=footer.querySelector("span");if(status)status.textContent=tr.footer;}
+ const addChoiceBreak=(id,index)=>{
+  const list=$(id);if(!list||list.querySelector(".tle-service-subsection"))return;
+  const buttons=[...list.querySelectorAll(":scope > button.service")];
+  if(!buttons[index])return;
+  const section=document.createElement("div");section.className="tle-service-subsection";
+  const heading=document.createElement("strong");heading.textContent=tr.moreChoicesEy;
+  const desc=document.createElement("span");desc.textContent=tr.moreChoicesText;
+  section.append(heading,desc);list.insertBefore(section,buttons[index]);
+ };
+ addChoiceBreak("#residentialServiceList",3);
+ addChoiceBreak("#commercialServiceList",4);
  const mini=document.createElement("div");mini.className="tle-client-quicksteps";
  mini.setAttribute("aria-label",tr.processTitle);
- const h=document.createElement("h3");h.textContent=tr.processTitle;mini.append(h);
+ const intro=document.createElement("div");intro.className="tle-steps-intro";
+ const overline=document.createElement("span");overline.className="tle-steps-ey";overline.textContent=tr.processEy;
+ const h=document.createElement("h3");h.textContent=tr.processTitle;
+ const sub=document.createElement("p");sub.textContent=tr.processDesc;
+ intro.append(overline,h,sub);mini.append(intro);
  const ul=document.createElement("ol");
  tr.processSteps.forEach(s=>{const li=document.createElement("li");li.textContent=s;ul.append(li)});
  mini.append(ul);panel.insertAdjacentElement("afterend",mini);
