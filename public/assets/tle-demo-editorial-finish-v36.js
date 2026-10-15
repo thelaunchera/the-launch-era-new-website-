@@ -201,5 +201,8 @@ function init(){
     :"Design preview · no cleaning service has been booked.";
   goodbye.append(flower,h2,subtitle,fine);footer.after(goodbye);
 }
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init,{once:true});else init();
+// Deferred scripts execute at document.readyState="interactive", before earlier
+// DOMContentLoaded builders have created reviews / areas. Always wait for them.
+if(document.readyState==="complete")init();
+else document.addEventListener("DOMContentLoaded",init,{once:true});
 })();
