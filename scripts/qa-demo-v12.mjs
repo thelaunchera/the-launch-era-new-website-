@@ -43,6 +43,33 @@ for(const width of [360,390,820,1024,1440]){
    assert(proof.addOn.includes(lang==='es'?'opcional':'optional'),'AI separate service disclosure missing');
    assert.equal(proof.endLink,'#bookingStarter','CTA no longer goes to the existing request UI');
    assert(proof.scrollWidth<=width+3,'horizontal overflow on prospect '+JSON.stringify(proof));
+   // Booking editor: no square inset shadow, no rounded service cards,
+   // thin updated icon family and a small airy arrow; all 11 buttons still work.
+   const chooser=await page.evaluate(()=>{
+     const main=document.querySelector('#bookingStarter #main');
+     const styles=getComputedStyle(main);
+     const buttons=[...document.querySelectorAll('#residentialServiceList button.service,#commercialServiceList button.service')];
+     const row=buttons[0], icon=row.querySelector('.ico'), arrow=row.querySelector('.demo-service-go');
+     const s=getComputedStyle(row),i=getComputedStyle(icon),a=getComputedStyle(arrow);
+     const rect=row.getBoundingClientRect(), iconRect=icon.getBoundingClientRect();
+     const iconShapes=buttons.map(b=>b.querySelector('.ico svg')?.innerHTML).filter(Boolean);
+     return {
+       squareBackdrop:styles.backgroundColor,backdropImage:styles.backgroundImage,backdropShadow:styles.boxShadow,
+       rowBg:s.backgroundImage,rowRadius:parseFloat(s.borderTopLeftRadius),rowShadow:s.boxShadow,
+       iconBg:i.backgroundColor,iconRadius:parseFloat(i.borderTopLeftRadius),
+       iconWidth:iconRect.width,arrowWidth:parseFloat(a.width),iconUnique:new Set(iconShapes).size,
+       buttonCount:buttons.length,overflow:rect.right>innerWidth+2||rect.left<0
+     };
+   });
+   assert.equal(chooser.squareBackdrop,'rgba(0, 0, 0, 0)','The square inset backdrop reappeared: '+JSON.stringify(chooser));
+   assert.equal(chooser.backdropImage,'none','The inset background must be transparent');
+   assert.equal(chooser.backdropShadow,'none','The square backdrop cannot have a shadow');
+   assert.equal(chooser.rowBg,'none','Service rows may not be filled cards');
+   assert(chooser.rowRadius<=1&&chooser.rowShadow==='none','Service rows must be border-only, without rounded cards');
+   assert(chooser.iconRadius<=14&&chooser.iconWidth>=37,'Lightweight outline icon sizing regressed');
+   assert(chooser.iconUnique>=10&&chooser.buttonCount===11,'The eleven distinct booking-service icons are missing');
+   assert(chooser.arrowWidth<=29,'Bulky circular service arrow returned');
+   assert(!chooser.overflow,'Booking row overflows the mobile viewport');
    const agentTitle=await page.locator('.tle-ai-head b').textContent();
    assert(agentTitle?.includes('Sonny'),'booking agent should be named Sonny');
    assert.equal(await page.locator('#tleDemoRobotWelcome').count(),0,'Duplicate floating assistant welcome remains');
