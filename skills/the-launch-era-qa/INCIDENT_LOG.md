@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-15 | Public cleaning demo on iPhone: Sonny greeting overlays entrance, review placeholders stretch down the page, no moving brand detail below photo | **Verified** by user iPhone screenshots and `tle-demo-enhancements-v12.js`: greeting shown before user interaction with 5.2s timer; three review articles stacked on mobile. | Set one small Sonny popup hidden on entry and reveal briefly after scroll; add public-sample-only review scroll-snap carousel with manual controls, truthful sample labels, plus rotating pale-blue 3-message banner after finished-photo chapter. Opt out of autoplay on reduced motion. Extended EN/ES responsive Playwright checks; CI/live review pending. | 🟡 Committed; validation pending |
+
+
 | 2026-10-15 | Public sample footer/contact overlong on iPhone; giant ivory chapter plus four-column footer, repeated disclaimer | **Verified from user iPhone screenshots and public v17 JS/CSS:** contact chapter and multiple information columns created several screen heights of duplicate details. | Introduced sample-only v18 compact footer: remove large contact chapter, keep fictional Miami phone/email/address/hours in on-demand Contact details, Privacy/Terms inline and Cookies/Accessibility under More, preserve policy modal listeners and tenant isolation. Replaced retired standalone Coastal Home Cleaning placeholder with Luna Bloom only for generic samples (not `rid` prospect demos). Add responsive footer-height / click QA. Browser/live confirmation pending at entry time. | 🟡 Committed, visual verification pending |
 
 
