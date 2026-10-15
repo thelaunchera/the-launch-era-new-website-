@@ -205,6 +205,39 @@ for(const width of [360,390,820,1024,1440]){
    assert(customer.brand.includes('Coastal Cleaners'),
      'Customer-facing sample branding must reflect the configured business');
    // Public fictional contact and legal details must not leak to paid tenants.
+   // v28 premium preview identity: the two visible zones must remain
+   // truthful, accessible and unclipped in EN/ES and every viewport.
+   const identity=await page.evaluate(()=>{
+     const badge=document.querySelector('.top .tle-preview-chip-v28');
+     const copy=document.querySelector('.top .tle-preview-disclaimer-v28');
+     const logo=document.querySelector('#demoBrandName.tle-dynamic-brand-v28');
+     const mark=logo?.querySelector('.tle-bloom-emblem');
+     const name=logo?.querySelector('.tle-bloom-name');
+     const nav=document.querySelector('#demoEditorialNav');
+     const rect=logo?.getBoundingClientRect();
+     return {
+       ready:document.documentElement.classList.contains('tle-identity-v28'),
+       badge:badge?.textContent?.trim(),
+       disclaimer:copy?.textContent?.trim(),
+       logoName:name?.textContent?.trim(),
+       brandHref:logo?.getAttribute('href'),
+       logoRadius:logo?parseFloat(getComputedStyle(logo).borderTopLeftRadius):0,
+       logoVisible:!!rect&&rect.width>180&&rect.height>=55,
+       withinScreen:!!rect&&rect.left>=-1&&rect.right<=innerWidth+1,
+       mark:!!mark,
+       reducedMotion:badge?getComputedStyle(badge.querySelector('.tle-preview-star-v28')).animationName:null,
+       noHorizontalOverflow:document.documentElement.scrollWidth<=innerWidth+3,
+       navHeight:nav?.getBoundingClientRect().height
+     };
+   });
+   assert(identity.ready&&identity.badge===(lang==='es'?'✦DEMO INTERACTIVO':'✦INTERACTIVE DEMO')
+      &&identity.disclaimer.includes(lang==='es'?'SIN RESERVAS REALES':'NO LIVE BOOKINGS')
+      &&identity.disclaimer.includes(lang==='es'?'EJEMPLO':'SAMPLE WEBSITE')
+      &&identity.logoName==='Coastal Cleaners'
+      &&identity.brandHref==='#leadHero'
+      &&identity.logoRadius>=25&&identity.logoVisible&&identity.withinScreen
+      &&identity.mark&&identity.reducedMotion==='none'&&identity.noHorizontalOverflow,
+     'Dynamic demo status/nameplate must be truthful, accessible and responsive: '+JSON.stringify(identity));
    const bloom=await page.evaluate(()=>{
      const $=s=>document.querySelector(s), logo=$('#demoBrandName');
      return {
