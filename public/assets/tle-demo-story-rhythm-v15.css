@@ -1,0 +1,203 @@
+/* Editorial chapter rhythm v15 — public sample ONLY.
+   Flow: hands-at-work photo → short dark editorial text → finished-kitchen
+   image → ivory service-choice chapter → reviews. No inset cards. */
+html.demo-editorial.tle-demo-story-v15 #demoCinematicStory {
+ background:#101d29!important;
+ border:0!important;
+ border-radius:0!important;
+ box-shadow:none!important;
+}
+html.demo-editorial.tle-demo-story-v15 #demoCinematicStory .demo-cinematic-copy{
+ background:#101d29!important;
+ background-image:none!important;
+ box-shadow:none!important;
+ border:0!important;
+}
+html.demo-editorial.tle-demo-story-v15 #demoCinematicStory .demo-cinematic-overline{
+ color:#9cd5f6!important;
+ letter-spacing:.17em!important;
+}
+html.demo-editorial.tle-demo-story-v15 #demoCinematicStory .demo-cinematic-copy h2{
+ max-width:570px!important;
+ margin:19px 0 21px!important;
+ line-height:1.14!important;
+ text-wrap:balance!important;
+}
+html.demo-editorial.tle-demo-story-v15 #demoCinematicStory .demo-cinematic-copy>p{
+ max-width:440px!important;
+ margin:0!important;
+ font-size:clamp(15px,1.3vw,18px)!important;
+ line-height:1.75!important;
+ color:#d4e3ec!important;
+}
+html.demo-editorial.tle-demo-story-v15 #demoCinematicStory .demo-cinematic-highlights{
+ display:none!important;
+}
+/* A completely different chapter, rather than the next dark card or repeated
+   paragraph. The clean finished-kitchen image anchors the new theme. */
+html.demo-editorial.tle-demo-story-v15 .tle-demo-v12-why{
+ background:#FAF8F3!important;
+ background-image:none!important;
+ margin:0!important;
+ border:0!important;
+ border-radius:0!important;
+ box-shadow:none!important;
+}
+html.demo-editorial.tle-demo-story-v15 .tle-demo-v12-why .tle-demo-v12-copy{
+ background:#FAF8F3!important;
+ border:0!important;
+ border-radius:0!important;
+ box-shadow:none!important;
+ display:flex!important;
+ flex-direction:column!important;
+ justify-content:center!important;
+ padding:clamp(50px,6.4vw,100px) clamp(30px,6.4vw,110px)!important;
+}
+html.demo-editorial.tle-demo-story-v15 .tle-demo-v12-why .tle-demo-v12-ey{
+ color:#36688a!important;
+ font-size:11px!important;
+ letter-spacing:.17em!important;
+}
+html.demo-editorial.tle-demo-story-v15 .tle-demo-v12-why h2#tleWhyTitle{
+ color:#191919!important;
+ font-size:clamp(34px,4.8vw,66px)!important;
+ line-height:1.12!important;
+ letter-spacing:-.045em!important;
+ margin:0 0 23px!important;
+ text-wrap:balance!important;
+ max-width:610px!important;
+}
+html.demo-editorial.tle-demo-story-v15 .tle-demo-v12-why .tle-demo-v12-copy>p{
+ color:#415665!important;
+ line-height:1.7!important;
+ font-size:clamp(15px,1.35vw,17px)!important;
+ max-width:510px!important;
+ margin:0!important;
+}
+html.demo-editorial.tle-demo-story-v15 .tle-demo-v12-why .tle-demo-v12-perks{
+ display:flex!important;
+ flex-direction:column!important;
+ align-items:stretch!important;
+ gap:0!important;
+ max-width:510px!important;
+ margin-top:32px!important;
+ padding:0!important;
+}
+html.demo-editorial.tle-demo-story-v15 .tle-demo-v12-why .tle-demo-v12-perks span{
+ border:0!important;
+ border-bottom:1px solid rgba(53,93,117,.22)!important;
+ border-radius:0!important;
+ color:#2a4b60!important;
+ background:transparent!important;
+ background-image:none!important;
+ padding:12px 0!important;
+ margin:0!important;
+ font-weight:650!important;
+ font-size:clamp(13px,1.15vw,15px)!important;
+ box-shadow:none!important;
+}
+html.demo-editorial.tle-demo-story-v15 .tle-demo-v12-why .tle-demo-v12-perks span:last-child{
+ border-bottom:0!important;
+}
+html.demo-editorial.tle-demo-story-v15 .tle-demo-v12-why>img{
+ display:block!important;
+ object-fit:cover!important;
+ object-position:center 47%!important;
+ border:0!important;
+ border-radius:0!important;
+ box-shadow:none!important;
+ filter:none!important;
+}
+/* Gentle section transition; no outer borders, shadows or framed rows. */
+html.demo-editorial.tle-demo-story-v15 #tleDemoReviews{
+ background:#0e1925!important;
+ border:0!important;
+ border-radius:0!important;
+ box-shadow:none!important;
+}
+@media(max-width:820px){
+ html.demo-editorial.tle-demo-story-v15 .tle-demo-v12-why{
+  display:flex!important;
+  flex-direction:column!important;
+ }
+ html.demo-editorial.tle-demo-story-v15 .tle-demo-v12-why>img{
+  order:0!important;
+  width:100%!important;
+  max-height:clamp(310px,57vw,480px)!important;
+  height:clamp(310px,57vw,480px)!important;
+  min-height:0!important;
+ }
+ html.demo-editorial.tle-demo-story-v15 .tle-demo-v12-why .tle-demo-v12-copy{
+  order:1!important;
+  padding:clamp(48px,7vw,75px) clamp(27px,5.5vw,55px)!important;
+ }
+}
+@media(max-width:650px){
+ html.demo-editorial.tle-demo-story-v15 #demoCinematicStory{
+  display:flex!important;
+  flex-direction:column!important;
+ }
+ html.demo-editorial.tle-demo-story-v15 #demoCinematicStory .demo-cinematic-photo{
+  min-height:305px!important;
+  height:clamp(305px,93vw,430px)!important;
+  background-position:center 33%!important;
+  border:0!important;
+  border-radius:0!important;
+ }
+ html.demo-editorial.tle-demo-story-v15 #demoCinematicStory .demo-cinematic-copy{
+  padding:47px 25px 61px!important;
+  min-height:0!important;
+  gap:0!important;
+  text-align:left!important;
+ }
+ html.demo-editorial.tle-demo-story-v15 #demoCinematicStory .demo-cinematic-overline{
+  font-size:10px!important;
+ }
+ html.demo-editorial.tle-demo-story-v15 #demoCinematicStory .demo-cinematic-copy h2{
+  font-size:clamp(35px,9vw,46px)!important;
+  line-height:1.12!important;
+  margin:17px 0 19px!important;
+ }
+ html.demo-editorial.tle-demo-story-v15 #demoCinematicStory .demo-cinematic-copy>p{
+  margin:0!important;
+  font-size:14px!important;
+  line-height:1.67!important;
+  max-width:390px!important;
+ }
+ html.demo-editorial.tle-demo-story-v15 .tle-demo-v12-why>img{
+  order:0!important;
+  width:100%!important;
+  height:clamp(265px,78vw,370px)!important;
+  min-height:0!important;
+  max-height:none!important;
+  object-position:center 49%!important;
+ }
+ html.demo-editorial.tle-demo-story-v15 .tle-demo-v12-why .tle-demo-v12-copy{
+  order:1!important;
+  padding:51px 25px 62px!important;
+  display:block!important;
+ }
+ html.demo-editorial.tle-demo-story-v15 .tle-demo-v12-why h2#tleWhyTitle{
+  font-size:clamp(32px,8.6vw,43px)!important;
+  margin:0 0 18px!important;
+  line-height:1.15!important;
+ }
+ html.demo-editorial.tle-demo-story-v15 .tle-demo-v12-why .tle-demo-v12-copy>p{
+  font-size:14px!important;
+  line-height:1.75!important;
+ }
+ html.demo-editorial.tle-demo-story-v15 .tle-demo-v12-why .tle-demo-v12-perks{
+  margin-top:24px!important;
+ }
+ html.demo-editorial.tle-demo-story-v15 .tle-demo-v12-why .tle-demo-v12-perks span{
+  font-size:13px!important;
+  padding:11px 0!important;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ html.demo-editorial.tle-demo-story-v15 #demoCinematicStory *,
+ html.demo-editorial.tle-demo-story-v15 .tle-demo-v12-why *{
+  animation:none!important;
+  transition:none!important;
+ }
+}
