@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="referrer" content="no-referrer"><meta name="theme-color" content="#faf8f3">
+<title>Practice an Order · The Launch Era</title>
+<style>
+:root{color-scheme:light}*{box-sizing:border-box}
+body{margin:0;background:#faf8f3;color:#191919;font:15px/1.6 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+a{color:#2b6c95}button,select{font:inherit}
+.shell{width:min(940px,calc(100% - 28px));margin:0 auto;padding:26px 0 70px}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.brand{font-size:13px;letter-spacing:.14em;font-weight:900}.brand span{display:block;color:#5a7285;letter-spacing:.06em;font-size:10px}
+.top a{font-size:13px;font-weight:750;text-decoration:none}
+h1{font-size:clamp(29px,5vw,45px);line-height:1.13;letter-spacing:-.055em;margin:22px 0 10px}
+h2{font-size:clamp(22px,4vw,30px);line-height:1.2;margin:7px 0}
+p{margin:8px 0 16px;color:#4f6170}.intro{font-size:16px;max-width:680px}
+.flag{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:800;background:#e7f3fc;color:#254e69;padding:7px 11px;border-radius:99px}
+.sim{border:1px solid #d1dfe9;background:#fff;border-radius:23px;padding:clamp(17px,3vw,26px);margin-top:22px;box-shadow:0 10px 28px #182e3b09;min-width:0}
+.controls{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end}
+label.c{display:block;font-size:12px;font-weight:800;color:#354b5a;margin:0 0 6px}
+select{width:100%;min-height:49px;border:1px solid #b7cedd;border-radius:11px;background:#fff;padding:9px 13px;color:#191919}
+button{min-height:45px;border-radius:12px;padding:10px 18px;border:1px solid #191919;background:#191919;color:#fff;font-weight:750;cursor:pointer}
+button.alt{background:#fff;color:#191919;border-color:#a5c1d5}
+button:disabled{opacity:.42;cursor:not-allowed}
+button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #79afd2;outline-offset:3px}
+.progressline{height:8px;border-radius:99px;background:#e5edf3;overflow:hidden;margin:23px 0 9px}
+.bar{height:100%;background:#5697c2;transition:width .25s}
+.progresslabel{font-size:12px;font-weight:800;color:#536d7c}
+.title-row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:start;gap:12px;margin-top:24px}
+.tag{font-size:12px;color:#50697c;border:1px solid #cfe0ea;border-radius:99px;padding:5px 11px;background:#f5fbff}
+.detail{margin:12px 0 16px;max-width:760px}
+.checks{display:grid;gap:10px}
+.check{display:flex;gap:11px;align-items:flex-start;background:#f6fafd;border:1px solid #d7e6f1;border-radius:14px;padding:13px;cursor:pointer;color:#191919;line-height:1.45;font-weight:600}
+.check input{appearance:auto;accent-color:#2e6f9e;width:19px;height:19px;flex:0 0 19px;margin:2px 0 0}
+.warning{margin:17px 0;background:#fff9e6;border:1px solid #ead58f;border-radius:13px;padding:12px 14px;font-size:13px;color:#66552a}
+.warning strong{color:#4d3f19}
+footer.actions{margin-top:24px;display:flex;gap:11px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.stepnote{font-size:12px;font-weight:700;color:#55728a;margin:12px 0 0}
+.end{background:#ebf7f1;border:1px solid #b8dfcf;border-radius:15px;padding:18px;color:#275442;margin-top:24px}
+.end p{color:#315c4e}
+.legend{border-top:1px solid #e4edf2;margin-top:24px;padding-top:15px;font-size:12px;color:#607482}
+@media(max-width:560px){.controls{grid-template-columns:1fr}.shell{width:calc(100% - 22px)}.top{align-items:start}.top a{font-size:12px}.sim{border-radius:18px}footer.actions button{flex:1}footer.actions{gap:8px}}
+</style></head>
+<body><main class="shell">
+<div class="top"><div class="brand">THE LAUNCH ERA <span>PRIVATE WORKFLOW TRAINING · SAMPLE DATA ONLY</span></div><a href="/command-center/" id="back">← Command Center</a></div>
+<h1 id="mainTitle">Practica una orden sin pagar.</h1>
+<p class="intro" id="intro">Ensaya lo que harás al recibir una compra de Booking Automation o un AI Assistant. Esta práctica no crea compras, órdenes, clientes, correos ni cobros.</p>
+<div class="flag" id="flag">✓ MODO PRÁCTICA · CERO COBROS · SIN GUARDAR DATOS</div>
+<section class="sim" aria-label="Order simulation">
+<div class="controls">
+<div><label for="product" class="c" id="chooseLabel">Tipo de pedido de prueba</label>
+<select id="product"><option value="booking">Booking Automation + Command Center</option><option value="ai">AI Assistant</option></select></div>
+<button class="alt" id="language" type="button" aria-label="Change language">English</button>
+</div>
+<div class="progressline" aria-hidden="true"><div class="bar" id="bar" style="width:0%"></div></div>
+<div id="progress" class="progresslabel" aria-live="polite"></div>
+<div id="step" class="title-row"></div>
+<p id="details" class="detail"></p>
+<div id="checks" class="checks"></div>
+<div id="warning" class="warning" role="note"></div>
+<p id="feedback" class="stepnote" aria-live="polite"></p>
+<footer class="actions">
+<button id="prev" class="alt" type="button">← Atrás</button>
+<button id="next" type="button">Continuar →</button>
+</footer>
+<div id="finish" class="end" hidden></div>
+<div class="legend" id="legend">Los controles de esta pantalla son únicamente de práctica. No marcan las comprobaciones reales de QA ni aprueban producción, entrega o facturación.</div>
+</section>
+</main>
+<script>
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id);
+const es=[
+ {title:"Pago recibido",detail:"Comprueba en el Command Center que Stripe confirmó el pago. Un checkout abierto o expirado no es una orden pagada.",checks:["La orden aparece en Clients & Purchases y figura como pagada.","He identificado el negocio correcto, sin duplicados."],warning:"No crear un cliente ni empezar a trabajar usando solamente una captura de pantalla del checkout."},
+ {title:"Intake y detalles del negocio",detail:"Confirma sector, horarios, dirección o zona de servicio, servicios, precios, logo, fotos, dominio e idioma.",checks:["El intake del cliente está recibido, completo y asociado al pedido correcto.","Lo que falta está anotado para aclarar; no invento servicios ni precios."],warning:"No supongas que un negocio de limpieza es detailing ni lo contrario. No uses las fotos de CB Depot para otro cliente."},
+ {title:"Aprobación del inicio",detail:"Verifica los accesos necesarios y aprueba el inicio de producción desde el Command Center. El plazo estimado de 48 horas comienza después de la aprobación, no del pago.",checks:["Tengo confirmados los requisitos para iniciar.","El inicio está aprobado mediante el control real y consta en el sistema."],warning:"En esta práctica no se envía ningún correo ni se registra una aprobación real."},
+ {title:"Personalizar y configurar",detail:"Prepara la página pública propia del negocio y enlaza su Command Center privado. Configura precios, horas, cotizaciones y duración por servicio.",checks:["La página utiliza marca, fotos, idioma y servicios de ese negocio.","El enlace público es propio y el Command Center privado pertenece solo a este cliente."],warning:"Nunca compartas un enlace de sesión privada como si fuera un enlace de Booking."},
+ {title:"Pruebas reales de QA",detail:"Las comprobaciones de código no reemplazan las pruebas de reservas, leads y correo.",checks:["He comprobado móvil, tablet, computadora, enlaces, formularios y precios.","Las seis pruebas reales de entrega están verificadas, incluidas notificaciones y aislamiento entre negocios."],warning:"No marques una prueba real sin haberla realizado. Una reserva solicitada no es automáticamente una cita confirmada."},
+ {title:"Acceso y revisión del cliente",detail:"Primero verifica su acceso al Command Center y que pueda revisar la página; permite la revisión incluida.",checks:["El correo de acceso fue entregado realmente; 'enviado' no basta.","El cliente pudo entrar y aprobó o solicitó cambios por el canal correcto."],warning:"Si un enlace se dirige al website general, revisa el destino y corrige sin enviar copias duplicadas."},
+ {title:"Entrega final y soporte",detail:"Con toda la evidencia, autorizas manualmente la entrega; después revisas que el proveedor confirma el correo y que el cliente sabe compartir su booking link.",checks:["El sistema confirma disponibilidad de entrega y la aprobación final es mía.","La entrega y su seguimiento quedan identificados en el proyecto; la cuenta sigue disponible para soporte."],warning:"La finalización de la práctica no entrega nada ni activa suscripciones."}
+];
+const aiEs=[
+ {title:"Compra del AI Assistant",detail:"Verifica el cobro del servicio en Stripe y el plan elegido. La Cleaning App es independiente y no usa Stripe.",checks:["La orden real está vinculada al checkout correcto.","El plan y el importe son los del pedido comprobado."],warning:"No uses una sesión de prueba ni actives la suscripción solo porque alguien abrió un enlace."},
+ {title:"Intake del agente",detail:"Revisa empresa, servicios, idioma, URL de instalación, preguntas frecuentes y reglas de respuesta.",checks:["El formulario está recibido y corresponde al negocio.","Sé dónde se instalará el agente y qué información es verificable."],warning:"No supongas servicios, horarios ni testimonios a partir de una página inaccesible."},
+ {title:"Inicio y configuración",detail:"Prepara el asistente con un lenguaje humano y respuestas específicas para su negocio. Define cuándo pasa la conversación a una persona.",checks:["El inicio de producción fue aprobado.","Las respuestas, permisos y escalamiento humano están configurados en pruebas."],warning:"El agente no puede contestar inventando información ni enviar mensajes sin los permisos necesarios."},
+ {title:"Pruebas antes de la entrega",detail:"Prueba preguntas normales, excepciones, formularios, seguridad, móvil, tablet, escritorio y recuperación de errores.",checks:["QA comprobó respuestas y las limitaciones del asistente.","Los formularios y avisos llevan al negocio correcto, no a The Launch Era."],warning:"Un chatbot que responde una pregunta no demuestra que una reserva o un correo se procesó."},
+ {title:"Aprobación del cliente",detail:"Comparte la versión privada de revisión. Permite las dos revisiones incluidas en AI Assistant.",checks:["El cliente revisó la experiencia con su marca.","Los cambios solicitados se atendieron o quedó constancia de su aprobación."],warning:"La aprobación de un borrador interno no significa aprobación del producto final."},
+ {title:"Entrega y facturación",detail:"Confirma personalmente que el AI Assistant funciona en el enlace real. Solamente después registra la entrega y activa los primeros 30 días incluidos.",checks:["El enlace de instalación funciona y el cliente ya recibió el acceso.","La entrega fue autorizada y verificada; comprobé la fecha futura de cobro mensual."],warning:"Nunca inicies el ciclo mensual antes de una instalación y entrega verificadas."}
+];
+const en=[
+ {title:"Paid order verified",detail:"Check that Stripe confirmed the payment. An open or expired checkout is not a paid order.",checks:["Clients & Purchases shows a verified paid order.","The right business is identified without duplicates."],warning:"A checkout screenshot alone does not authorize production."},
+ {title:"Client intake",detail:"Verify industry, hours, service area, pricing, services, logo, photos and language.",checks:["The correct client intake is complete and linked to the order.","Missing information is marked for clarification rather than invented."],warning:"Do not reuse CB Depot branding or business-specific content for another buyer."},
+ {title:"Approve the kickoff",detail:"Owner approval and required access start the estimated 48-hour production window.",checks:["Required production inputs are verified.","The real kickoff is separately approved and recorded."],warning:"This practice creates no real approval or email."},
+ {title:"Personalize and configure",detail:"Set up a unique public booking page and private Command Center, with services, quotes, price and duration rules.",checks:["The branding, services and copy belong to this business.","The booking page and private customer workspace are correctly isolated."],warning:"Never share a private account URL in place of the public booking link."},
+ {title:"Real QA",detail:"Code checks are not real booking tests. Verify forms, requests, routing, emails, notifications and every device.",checks:["Phone, tablet, desktop, links, services and pricing were checked.","Six delivery QA checks passed, including privacy and isolation."],warning:"A requested quote is not an automatically confirmed booking."},
+ {title:"Access and customer review",detail:"Confirm access email delivery and actual client sign-in before the final handoff.",checks:["The provider verified access email delivery.","The buyer signed in and reviewed or requested changes."],warning:"Provider accepted does not mean delivered. Do not send duplicates."},
+ {title:"Final delivery and support",detail:"Owner approves final delivery only after evidence. Confirm the customer has working links and ongoing support.",checks:["Server readiness and the final owner approval are confirmed.","The delivery record and support path remain accessible."],warning:"Finishing practice does not create a delivery or a subscription."}
+];
+const aiEn=[
+ {title:"AI Assistant purchase",detail:"Verify the Stripe payment and selected plan. The separate Cleaning App does not use Stripe.",checks:["This order matches a verified paid checkout.","The plan and pricing match the real order."],warning:"A test session must not start any subscription."},
+ {title:"AI intake",detail:"Review business identity, website, services, language, FAQs and human escalation preferences.",checks:["The intake belongs to the correct buyer.","The installation target and verified business facts are clear."],warning:"Do not invent business claims when the website is inaccessible."},
+ {title:"Owner kickoff and setup",detail:"Configure human answers and approved handoff behavior in a safe environment.",checks:["The production kickoff is approved.","Agent answers, consent and escalation rules were reviewed."],warning:"The assistant must not promise unavailable time slots or send unauthorized messages."},
+ {title:"Pre-delivery QA",detail:"Test answers, exceptions, forms, security, mobile/tablet/desktop and failure recovery.",checks:["QA checked factual answers and restrictions.","All leads and notifications route to this business."],warning:"A chatbot response is not proof that a reservation or email was processed."},
+ {title:"Buyer approval",detail:"Share the private preview and honor the two included AI Assistant revisions.",checks:["The buyer saw their own branded experience.","Requested changes were addressed or approval recorded."],warning:"An internal draft approval does not equal product delivery approval."},
+ {title:"Delivery and billing",detail:"Personally confirm a working installation and customer receipt, then authorize delivery and the included 30-day period.",checks:["The live installation link works and the buyer has access.","The owner confirmed real delivery and reviewed the future monthly billing date."],warning:"Do not activate monthly billing before verified delivery."}
+];
+let lang='es',index=0,finished=false;const history={booking:{},ai:{}};
+const labels=()=>lang==='es'?{title:"Practica una orden sin pagar.",intro:"Ensaya el recorrido antes de recibir compras reales. Esta pantalla no conecta Stripe, Supabase, Resend ni Make y no crea órdenes, clientes, correos ni cobros.",flag:"✓ MODO PRÁCTICA · SIN PAGOS · NO SE GUARDAN DATOS",choose:"Tipo de pedido de prueba",previous:"← Atrás",next:"Continuar →",done:"Terminar práctica ✓",reset:"Empezar de nuevo",progress:"Paso",counter:"Marcar las dos comprobaciones de práctica antes de continuar.",complete:"Práctica completada",final:"Ya conoces el proceso y los controles que requieren tu aprobación. Esto no verifica ningún cliente real. Cuando tengas un pedido, entra a Clients & Purchases y comprueba cada paso en la orden correspondiente.",legend:"Solo práctica. Las casillas no se guardan y no aprueban pruebas, producción, entrega, pagos ni envíos."}:
+ {title:"Practice an order without paying.",intro:"Learn the process before real orders arrive. This page does not connect to Stripe, Supabase, Resend or Make and does not create orders, customers, messages or charges.",flag:"✓ PRACTICE MODE · NO CHARGES · NO DATA SAVED",choose:"Practice order type",previous:"← Back",next:"Continue →",done:"Finish practice ✓",reset:"Start again",progress:"Step",counter:"Check both practice items to continue.",complete:"Practice complete",final:"You know the steps that require your approval. No real customer has been verified. When an order arrives, open Clients & Purchases and verify each step on the correct order.",legend:"Practice only. Checkboxes are not saved and do not authorize real QA, production, delivery, billing or messaging."};
+const active=()=>($('product').value==='ai'?(lang==='es'?aiEs:aiEn):(lang==='es'?es:en));
+function render(){
+ const t=labels(),steps=active(),s=steps[Math.min(index,steps.length-1)],p=$('product').value;
+ $('mainTitle').textContent=t.title;$('intro').textContent=t.intro;$('flag').textContent=t.flag;
+ $('chooseLabel').textContent=t.choose;$('language').textContent=lang==='es'?'English':'Español';
+ $('back').textContent=lang==='es'?'← Command Center':'← Command Center';
+ $('progress').textContent=t.progress+' '+(index+1)+' / '+steps.length+' · '+(p==='ai'?'AI Assistant':'Booking Automation');
+ $('bar').style.width=((index+1)/steps.length*100)+'%';
+ $('step').replaceChildren();
+ const h=document.createElement('h2');h.textContent=s.title;$('step').append(h);
+ const tag=document.createElement('span');tag.className='tag';tag.textContent=lang==='es'?'CLIENTE FICTICIO':'SAMPLE BUYER';$('step').append(tag);
+ $('details').textContent=s.detail;$('warning').replaceChildren();
+ const strong=document.createElement('strong');strong.textContent=lang==='es'?'Evita este error: ':'Avoid this mistake: ';
+ $('warning').append(strong,document.createTextNode(s.warning));
+ const root=$('checks');root.replaceChildren();const record=history[p][index]||[false,false];
+ s.checks.forEach((value,i)=>{
+  const label=document.createElement('label');label.className='check';
+  const input=document.createElement('input');input.type='checkbox';input.checked=Boolean(record[i]);
+  input.addEventListener('change',()=>{history[p][index]=root.querySelectorAll('input').length?Array.from(root.querySelectorAll('input')).map(x=>x.checked):[false,false];validate()});
+  const text=document.createElement('span');text.textContent=value;label.append(input,text);root.append(label);
+ });
+ $('prev').textContent=t.previous;$('next').textContent=index===steps.length-1?t.done:t.next;
+ $('prev').disabled=index===0;$('feedback').textContent=t.counter;
+ $('finish').hidden=!finished;$('finish').replaceChildren();
+ if(finished){const h=document.createElement('h2');h.textContent=t.complete;const note=document.createElement('p');note.textContent=t.final;$('finish').append(h,note);}
+ $('legend').textContent=t.legend;
+ validate();
+}
+function validate(){
+ const valid=Array.from($('checks').querySelectorAll('input')).every(x=>x.checked);
+ $('next').disabled=!valid;$('feedback').style.color=valid?'#386b55':'#55728a';
+ if(valid)$('feedback').textContent=lang==='es'?'✓ Puedes continuar con la simulación.':'✓ You can continue the simulation.';
+}
+$('prev').addEventListener('click',()=>{if(index>0){index--;finished=false;render()}});
+$('next').addEventListener('click',()=>{if($('next').disabled)return;if(index+1>=active().length){finished=true;render();$('finish').scrollIntoView({block:'nearest',behavior:'smooth'});return;}index++;finished=false;render()});
+$('product').addEventListener('change',()=>{index=0;finished=false;render()});
+$('language').addEventListener('click',()=>{lang=lang==='es'?'en':'es';document.documentElement.lang=lang;finished=false;render()});
+render();
+})();
+</script></body></html>
