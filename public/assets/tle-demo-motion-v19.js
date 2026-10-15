@@ -118,5 +118,5 @@
  },4700);
  // Touch swipes are native, not intercepted: no third-party dependency.
  };
- if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init,{once:true});else init();
+ if(document.readyState==="complete")init();else document.addEventListener("DOMContentLoaded",init,{once:true});
 })();
