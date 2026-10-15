@@ -663,6 +663,34 @@ for(const width of [360,390,820,1024,1440]){
   console.error('FAIL active scroll pop',e.message);
  }finally{await page.close()}
 }
+// iPhone-sized reload: preserve a stable hero box and return to the top,
+// rather than bouncing between saved scroll and reflowed sections.
+{
+ const page=await browser.newPage({viewport:{width:390,height:780},reducedMotion:'reduce'});
+ try{
+   await page.goto(base+'/lead-private-preview.html?lang=en',{waitUntil:'domcontentloaded',timeout:30000});
+   await page.evaluate(()=>window.scrollTo(0,460));
+   await page.reload({waitUntil:'domcontentloaded',timeout:30000});
+   await page.locator('#tleDemoFaq').waitFor({state:'attached',timeout:10000});
+   const sample=()=>page.evaluate(()=>({
+     scroll:window.scrollY,
+     height:document.querySelector('#leadHero').getBoundingClientRect().height,
+     finish:document.documentElement.dataset.tleFinishReady,
+     yellow:getComputedStyle(document.querySelector('#bookingStarter'),'::before').content
+   }));
+   const a=await sample();
+   await page.waitForTimeout(420);
+   const b=await sample();
+   assert(a.scroll<=3&&b.scroll<=3&&Math.abs(a.height-b.height)<1
+     &&a.height===660&&b.height===660
+     &&b.finish==='true'&&b.yellow==='none',
+     'Reload must not jump between the hero and the booking panel: '+JSON.stringify({a,b}));
+   console.log('PASS stable mobile refresh and 660px hero');
+ }catch(e){
+   failures.push('mobile refresh stability: '+e.message);
+   console.error('FAIL mobile refresh stability',e.message);
+ }finally{await page.close()}
+}
 for(const width of [360,390,820,1024,1440]){
  const page=await browser.newPage({viewport:{width,height:900},reducedMotion:'reduce'});
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
