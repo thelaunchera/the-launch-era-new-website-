@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepare the sample demo's user-owned cleaning images as local, optimized WebP.
+"""Prepare the sample demo's cleaning-service images as local, optimized WebP.
 
 These source Drive assets were selected from folders that the owner has shared
 with anyone who has the link. They are ONLY used in the fictional public sample.
@@ -32,8 +32,8 @@ PHOTOS = {
     "deep": ("1PLZIlv2Rh-QxSOOB2DGHQkkoTINMEvOt", "public/assets/lead-demo/pristine-kitchen.png"),
     "move": ("1zpWEXni_tfNuo-_bERTsQqPjCdmtM1zY", "public/assets/lead-demo/hero-luxury-home.png"),
     "office": ("1RgzYfITPbBkoK-Vkduto9ZA3Wksx98a6", "public/assets/lead-demo/spotless-office.png"),
-    "retail": ("1Y4f_6WNZzddPTJ_6tmsZzryNhuu_xD1V", "public/assets/lead-demo/spotless-office.png"),
-    "medical": ("1r7AcdXLbmKw4Z7sGra401HCKirx3GKJ1", "public/assets/lead-demo/pristine-kitchen.png"),
+    "retail": ("https://images.unsplash.com/photo-1771033834141-023d630b3965?auto=format&fit=crop&w=1200&q=85", "public/assets/lead-demo/spotless-office.png"),
+    "medical": ("https://images.unsplash.com/photo-1777269749032-d8d458ae594d?auto=format&fit=crop&w=1200&q=85", "public/assets/lead-demo/spotless-office.png"),
     "floor": ("1-__BedqBlAqkTkfY5RkoUw0ok7kRcGqu", "public/assets/lead-demo/spotless-office.png"),
 }
 
@@ -44,14 +44,14 @@ TRANSFORMATIONS = {
     "grout-after": "1NI4NCYnrH1o4ijzLbgL0FN7khuzeeviW",
     "bed-before": "1Jmm1J7EcMvzU-TGIfjCbSIEjr2mixNNi",
     "bed-after": "1rKIMLZwWFepjlfNlVstdZqETg-FLKFfr",
-    "pantry-before": "1Zps22cYeqaKlUKaVIR4QRYLx1wY-gkF0",
-    "pantry-after": "1t_qWRwVD9sBfP3D1feCv6ewFEuJcg9wI",
+    "vanity-before": "12Hgmr2Qsn6zQLuUhrC0Ll3rMzw2JFAjB",
+    "vanity-after": "1JySU3I6EccZsgL5j7WlPFdVZvUETifND",
 }
 
 
 def read_drive(photo_id: str) -> bytes:
     urls = (
-        f"https://drive.google.com/thumbnail?id={photo_id}&sz=w1200",
+        (photo_id if photo_id.startswith("https://") else f"https://drive.google.com/thumbnail?id={photo_id}&sz=w1200"),
         f"https://drive.usercontent.google.com/download?id={photo_id}&export=download&confirm=t",
     )
     for url in urls:
@@ -73,14 +73,21 @@ def read_drive(photo_id: str) -> bytes:
 def convert_one(item: tuple[str, tuple[str, str]]) -> tuple[str, dict]:
     name, (file_id, fallback) = item
     data = read_drive(file_id)
-    source = "drive"
+    source = "unsplash" if file_id.startswith("https://") else "drive"
+    if not data and source == "unsplash":
+        # Shared Drive backups remain public and show professional spaces.
+        drive_backup = {"retail": "1ZcBDf1NSKNycxkgC63G6LgWHJ4Mj7Lsy",
+                        "medical": "1D56-v3lVV6FpBqW3FqYH442kiPVvjlLT"}
+        data = read_drive(drive_backup[name])
+        if data:
+            source = "drive-fallback"
     if data:
         img = Image.open(io.BytesIO(data))
     else:
         source = "local-fallback"
         img = Image.open(ROOT / fallback)
     img = ImageOps.exif_transpose(img).convert("RGB")
-    if name == "retail" and source == "drive":
+    if name == "retail" and source == "drive" and not file_id.startswith("https://"):
         # The licensed source compares an office BEFORE/AFTER side-by-side.
         # Show only the clean AFTER half in the service catalog.
         img = img.crop((img.width // 2, 0, img.width, img.height))
