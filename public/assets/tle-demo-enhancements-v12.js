@@ -150,35 +150,26 @@ function customizeChat(){
   // One assistant = one launcher. Previous versions created a second floating
   // welcome button which looked like another AI and obscured the mobile page.
   document.getElementById("tleDemoRobotWelcome")?.remove();
-  // Greet inside the hero's normal layout; never auto-open and cover a booking.
-  const hero=document.getElementById("leadHero");
-  const introAnchor=hero?.querySelector(".heroText .demo-hero-description");
-  if(introAnchor&&!document.getElementById("tleSonnyInlineGreeting")){
-    const greeting=h("div","tle-sonny-inline-welcome");
-    greeting.id="tleSonnyInlineGreeting";
-    greeting.setAttribute("role","group");
-    greeting.setAttribute("aria-label",es?"Sonny puede ayudarte con la reserva de prueba":"Sonny can help with the sample booking");
-    const welcomeText=h("span","tle-sonny-inline-copy");
-    welcomeText.textContent=es?"¡Hola! Soy Sonny 👋 Te ayudo a probar una reserva.":"Hi! I'm Sonny 👋 I can help you try a booking.";
-    const greetButton=h("button","tle-sonny-inline-cta");
-    greetButton.type="button";
-    greetButton.textContent=es?"Chatear":"Let's chat";
-    greetButton.setAttribute("aria-label",labels.ask);
-    greetButton.addEventListener("click",()=>{window.tleOpenSonnyDemo?.();});
-    greeting.append(avatar(),welcomeText,greetButton);
-    introAnchor.insertAdjacentElement("afterend",greeting);
+  // Only one small Sonny launcher; a temporary dark message pops up beside it.
+  // The notification is not another assistant and never opens a chat automatically.
+  document.getElementById("tleSonnyInlineHello")?.remove();
+  document.getElementById("tleSonnyInlineGreeting")?.remove();
+  if(!document.getElementById("tleSonnyGreetingPopup")){
+    const popup=h("button","tle-sonny-greeting-popup");
+    popup.id="tleSonnyGreetingPopup";
+    popup.type="button";
+    popup.setAttribute("aria-label",labels.ask);
+    popup.textContent=es?"¡Hola! Soy Sonny 👋 ¿Te ayudo a reservar?":"Hi! I'm Sonny 👋 Need help booking?";
+    popup.addEventListener("click",()=>{popup.hidden=true;window.tleOpenSonnyDemo?.();});
+    document.body.appendChild(popup);
+    const dismiss=()=>{popup.hidden=true;};
+    launch.addEventListener("click",dismiss,{once:true});
+    window.addEventListener("scroll",()=>{if(window.scrollY>90)dismiss();},{passive:true});
+    window.setTimeout(dismiss,5200);
+    if(window.scrollY>90||document.body.classList.contains("tle-ai-chat-open"))dismiss();
   }
-  // One visible control at a time: in-flow greeting at the hero, small avatar after scrolling.
-  if(hero&&"IntersectionObserver" in window){
-    const observer=new IntersectionObserver(entries=>{
-      document.documentElement.classList.toggle("tle-sonny-hero-visible",entries[0]?.isIntersecting===true);
-    },{threshold:0.08});
-    observer.observe(hero);
-  }
-  const collapse=()=>{launch.classList.add("tle-demo-condensed");};
-  if(scrollY>110)collapse();
-  window.addEventListener("scroll",()=>{if(scrollY>110)collapse()},{passive:true});
-  setTimeout(collapse,6500);
+  // Compact from first paint; no full-width CTA-shaped second banner.
+  launch.classList.add("tle-demo-condensed");
  }
  // Jessy is unchanged on the sales demo. Sonny operates only in the interactive sample.
 }
