@@ -50,6 +50,14 @@ Verified against production page loads and repository sources on **2026-10-12**.
 | \\`/command-center/ai-team.html\\` | \\`public/command-center/ai-team.html\\` + AI Team assets | Private The Launch Era internal owner role only; tasks, AI plans, approvals, evidence, audit. No buyer access or automatic external action. |\n
 Other routes exist under \`src/routes/\`, \`public/es/\`, \`public/intake/\` and \`public/ai-booking-assistant/\`; \`scripts/qa-route-integrity.mjs\` scans the filesystem for static references. All routes must be added here when they become a production CTA.
 
+## Public sample review carousel / Sonny delayed hint / blue ribbon (2026-10-15)
+- **Scope:** `/lead-private-preview.html` public sample only, not `?key` buyer pages or `?owner_preview=1`; unrelated TLE website, Command Center, and client booking routes untouched.
+- **Sonny:** `public/assets/tle-demo-enhancements-v12.js` creates exactly one avatar and one **initially hidden** `#tleSonnyGreetingPopup`. After visitors scroll past ~300–460px, a short hint may appear once for 3.7 seconds, then disappear; manual click opens the existing chat. No automatic chat, extra bubble, or form submission.
+- **Reviews:** `#tleDemoReviews` `.tle-demo-v12-reviewgrid` becomes horizontal scroll-snap with swipe, Previous/Next and 3 dot buttons. All three slides stay plainly marked as **sample layouts, not actual testimonials**. Auto-advances only when in view and motion is allowed, stops once manual carousel buttons are used.
+- **Ribbon:** `#tleDemoBlueRibbon` appears immediately **after** `.tle-demo-v12-why` (finished-kitchen photo chapter) and **before** reviews. Three EN/ES human-centered short messages rotate in a soft-blue stars/bubbles banner, manual dot buttons, paused offscreen/on reduced-motion/hidden tab.
+- **Files:** `public/assets/tle-demo-motion-v19.css`, `public/assets/tle-demo-motion-v19.js`, loader in `public/lead-private-preview.html`, regression assertions in `scripts/qa-demo-v12.mjs` run across EN/ES and 360/390/820/1024/1440.
+- **Action destinations:** Carousel controls and banner dots are local UI-only. All original `#bookingStarter`, service, quote, contact, privacy and Sonny chat actions keep their existing destinations. No fabricated reviews, prices, real bookings or emails.
+
 ## Public sample contact and legal navigation (2026-10-15)
 - **Scope:** `/lead-private-preview.html` without `key` and without `owner_preview=1`, using `public/assets/tle-demo-luna-bloom-v17.js` and `.css`. Generic default brand is **Luna Bloom Home Cleaning**; a `business=` query parameter still personalizes the prospect's demo.
 - **Brand:** `#demoBrandName` → `#leadHero`. Single aligned wordmark + decorative blossom icon, EN/ES. No old TLE "ERA" second wordmark or stray "DEMO" next to it.
