@@ -50,6 +50,14 @@ Verified against production page loads and repository sources on **2026-10-12**.
 | \\`/command-center/ai-team.html\\` | \\`public/command-center/ai-team.html\\` + AI Team assets | Private The Launch Era internal owner role only; tasks, AI plans, approvals, evidence, audit. No buyer access or automatic external action. |\n
 Other routes exist under \`src/routes/\`, \`public/es/\`, \`public/intake/\` and \`public/ai-booking-assistant/\`; \`scripts/qa-route-integrity.mjs\` scans the filesystem for static references. All routes must be added here when they become a production CTA.
 
+## Public sample contact and legal navigation (2026-10-15)
+- **Scope:** `/lead-private-preview.html` without `key` and without `owner_preview=1`, using `public/assets/tle-demo-luna-bloom-v17.js` and `.css`. Generic default brand is **Luna Bloom Home Cleaning**; a `business=` query parameter still personalizes the prospect's demo.
+- **Brand:** `#demoBrandName` → `#leadHero`. Single aligned wordmark + decorative blossom icon, EN/ES. No old TLE "ERA" second wordmark or stray "DEMO" next to it.
+- **Footer/contact:** `#demoContact` within the same demo → fictional Miami location, reserved **(305) 555-0148** and `.example` mailbox, explicitly disclosed as mock data. Contact CTA → `#bookingStarter` existing demo request form (no email, call, payment or real booking).
+- **Footer quick links:** `#leadHero` (home), `#demoServices` (services), `#bookingStarter` (request), `#demoContact` (contact). Legal links `#demoPrivacy`, `#demoTerms`, `#demoCookies`, `#demoAccessibility` open `#tleDemoLegalDialog` with localized sample text and working close/Escape. The legal links are demonstration policies, **not** TLE's actual terms or any tenant's legal policies.
+- **Tenant isolation:** no rendering of Luna contact or policies when `key`/owner preview is present. No modifications to booking submission handlers, real-client branding, Supabase, Resend or public TLE legal documents.
+- **QA:** `scripts/qa-demo-v12.mjs` tests phone/tablet/desktop, EN/ES mock identity, `.example` mailbox, reserved phone, legal open/close, no overflow and buyer isolation; browser/live verification required before resolved status.
+
 ## Button/link contract (source → destination → condition)
 | Source / button | Expected destination or action | Must verify |
 |---|---|---|
