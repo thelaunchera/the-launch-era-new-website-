@@ -1,0 +1,92 @@
+/* TLE demo v12: sample-only editorial proof, service coverage and AI demo assistance.
+   Applies only to private prospect SAMPLE or public booking-demo request page.
+   Never touches real tenant booking keys/owner previews. */
+html.demo-editorial .tle-demo-v12-sections { color:#f5faff; font-family:Inter,"DM Sans",Arial,sans-serif; }
+.tle-demo-v12-ey { display:inline-block; color:#a9dfff; font-size:11px; font-weight:800; letter-spacing:.15em; text-transform:uppercase; margin-bottom:15px; }
+.tle-demo-v12-sections h2 { margin:0 0 18px; color:#fff; font-size:clamp(30px,4vw,49px); letter-spacing:-.045em; line-height:1.11; text-wrap:balance; }
+.tle-demo-v12-sections p { margin:0; color:#c7d9e5; font-size:clamp(14px,1.5vw,16px); line-height:1.65; }
+.tle-demo-v12-why { display:grid; grid-template-columns:1fr 1fr; align-items:stretch; gap:0; background:#101b27; margin:22px 0 0; border-radius:24px; overflow:hidden; border:1px solid #729db540; }
+.tle-demo-v12-copy { padding:clamp(25px,4vw,58px); align-self:center; }
+.tle-demo-v12-why > img { display:block; width:100%; height:100%; max-height:500px; min-height:340px; object-fit:cover; }
+.tle-demo-v12-perks { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-top:26px; }
+.tle-demo-v12-perks span { display:inline-flex; align-items:center; border:1px solid #92b5cf63; border-radius:99px; padding:9px 12px; color:#d8edfa; font-size:12px; line-height:1.35; background:#182b3b; }
+.tle-demo-v12-review,.tle-demo-v12-faq { padding:clamp(46px,6.5vw,84px) clamp(16px,3vw,37px); }
+.tle-demo-v12-heading { text-align:center; margin:0 auto 32px; max-width:750px; }
+.tle-demo-v12-reviewgrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:17px; }
+.tle-demo-v12-reviewgrid article { background:linear-gradient(160deg,#172738,#101923); border:1px solid #698ba752; border-radius:22px; min-width:0; padding:clamp(19px,2.5vw,32px); display:flex; flex-direction:column; gap:22px; min-height:214px; }
+.tle-demo-v12-tag { color:#abdfff; font-size:10px; font-weight:800; line-height:1.55; letter-spacing:.1em; }
+.tle-demo-v12-reviewgrid article p { font-size:clamp(16px,1.8vw,20px); color:#f5fbff; line-height:1.45; font-weight:650; }
+.tle-demo-v12-reviewgrid small { display:block; margin-top:auto; font-size:10px; letter-spacing:.12em; color:#94abbc; }
+.tle-demo-v12-areas { display:grid; grid-template-columns:1fr 1fr; gap:0; align-items:center; border:1px solid #698ba74c; background:#102031; border-radius:24px; overflow:hidden; }
+.tle-demo-v12-areas>img { display:block; width:100%; height:100%; min-height:370px; object-fit:cover; }
+.tle-demo-v12-areas>div { padding:clamp(26px,4.5vw,55px); }
+.tle-demo-v12-areatags { display:flex; flex-wrap:wrap; gap:9px; margin-top:27px; }
+.tle-demo-v12-areatags span { padding:11px 14px; border-radius:16px; color:#f2fbff; border:1px solid #95bdd678; background:#20394a; font-size:13px; line-height:1.35; }
+.tle-demo-v12-disclaimer { display:block; color:#a5bdcb; line-height:1.55; font-size:11px; margin-top:24px; }
+.tle-demo-v12-faqgrid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; }
+.tle-demo-v12-faqgrid details { padding:20px 21px; background:#111f2b; border:1px solid #7092a84b; border-radius:17px; min-width:0; }
+.tle-demo-v12-faqgrid summary { cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:14px; font-size:15px; line-height:1.45; font-weight:750; color:#f2faff; list-style:none; }
+.tle-demo-v12-faqgrid summary::-webkit-details-marker { display:none; }
+.tle-demo-v12-faqgrid summary span { display:grid; place-items:center; background:#264255; color:#a9dfff; width:27px; height:27px; flex:0 0 27px; border-radius:50%; font-size:20px; }
+.tle-demo-v12-faqgrid details[open] summary span { transform:rotate(45deg); }
+.tle-demo-v12-faqgrid details p { margin-top:14px; color:#bed0df; font-size:13px; }
+.tle-demo-v12-end { margin:4px 0 27px; padding:clamp(28px,4.5vw,49px); display:flex; align-items:center; justify-content:space-between; gap:22px; border-radius:24px; border:1px solid #8ac5ea68; background:linear-gradient(120deg,#1b3b50,#0c1d2a); }
+.tle-demo-v12-end h2 { font-size:clamp(27px,3.5vw,42px); margin-bottom:11px; }
+.tle-demo-v12-end a { display:inline-flex; justify-content:center; align-items:center; gap:14px; flex-shrink:0; text-decoration:none; padding:17px 23px; min-height:52px; border-radius:99px; background:#a9dfff; color:#10202a; font-size:14px; font-weight:850; }
+.tle-demo-v12-end a:hover { background:#d4f1ff; }
+.tle-demo-v12-sections a:focus-visible,.tle-demo-v12-sections summary:focus-visible { outline:3px solid #b4e7ff; outline-offset:4px; }
+
+/* Use existing Drive-photo assets in the sales-demo visual example. */
+.tle-demo-v12-sales { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); background:#122331; color:#fff; border:1px solid #b6d8e7; border-radius:28px; overflow:hidden; margin:32px auto 3px; max-width:940px; }
+.tle-demo-v12-salescopy { padding:clamp(24px,4vw,42px); align-self:center; }
+.tle-demo-v12-salescopy h2 { color:#fff; font:600 clamp(27px,3.4vw,39px)/1.13 Prompt,Arial,sans-serif; letter-spacing:-.04em; margin:0 0 13px; }
+.tle-demo-v12-salescopy p { color:#d0dfea; font-size:14px; line-height:1.65; }
+.tle-demo-v12-salescopy .tle-demo-v12-perks { gap:7px; margin:21px 0; }
+.tle-demo-v12-salescopy .tle-demo-v12-perks span { font-size:11px; padding:8px 10px; }
+.tle-demo-v12-salescopy a { display:inline-flex; padding:12px 18px; border-radius:99px; color:#0c1b25; background:#a9dfff; text-decoration:none; font-size:13px; font-weight:850; }
+.tle-demo-v12-salesphotos { min-width:0; display:grid; grid-template-columns:1fr 1fr; overflow:hidden; min-height:380px; gap:3px; }
+.tle-demo-v12-salesphotos img { display:block; width:100%; height:100%; object-fit:cover; min-width:0; }
+.tle-demo-v12-formguide { display:flex; gap:10px; align-items:center; border:1px solid #b5d7e9; background:#ecf7fd; border-radius:18px; padding:12px; margin-bottom:16px; }
+.tle-demo-v12-formguide p { font-size:12px; line-height:1.5; margin:0!important; color:#284c67; }
+.tle-demo-v12-formguide img { height:45px; width:45px; object-fit:contain; flex:0 0 45px; }
+.tle-demo-v12-formactions { display:flex; flex-wrap:wrap; gap:7px; margin-bottom:14px; }
+.tle-demo-v12-formactions button { color:#245475; background:#f3f9fc; border:1px solid #c6dce8; padding:9px 12px; border-radius:99px; font-size:11px; line-height:1.35; font-weight:700; }
+.tle-demo-v12-formactions button:hover { border-color:#598daf; background:#e5f5fd; }
+.tle-demo-v12-addon { padding:10px 12px; border-radius:12px; border:1px solid #c9dfea; background:#eaf5fb; color:#28516a; font-size:12px; line-height:1.4; }
+.tle-demo-v12-addon[hidden] { display:none!important; }
+
+/* New robot, existing real AI: no duplicated assistant or fake API call. */
+.tle-ai-launch { background:#122437!important; padding:5px 12px 5px 5px!important; border:1px solid #7dc9f5!important; box-shadow:0 9px 32px #0715277a!important; }
+.tle-ai-launch .tle-demo-ai-avatar { width:47px; height:47px; display:block; object-fit:contain; }
+.tle-ai-launch .tle-demo-ai-label { color:#effaff; font-size:13px; white-space:nowrap; }
+.tle-ai-launch.tle-demo-condensed { width:54px; height:54px; padding:3px!important; border-radius:50%; justify-content:center; }
+.tle-ai-launch.tle-demo-condensed .tle-demo-ai-label { display:none; }
+.tle-ai-head>.tle-demo-ai-avatar { width:43px; height:43px; flex:0 0 43px; margin-right:5px; object-fit:contain; }
+.tle-ai-head small { line-height:1.35; }
+.tle-demo-v12-chat-actions { display:flex; flex-wrap:wrap; gap:7px; margin:3px 0 8px; }
+.tle-demo-v12-chat-actions :is(button,a) { font:700 11px/1.3 Arial,sans-serif; background:#eaf4fd; border:1px solid #badbed; border-radius:15px; color:#1b506f; padding:8px 11px; text-decoration:none; cursor:pointer; }
+.tle-demo-v12-welcome { position:fixed; z-index:2147482999; bottom:90px; right:16px; width:min(300px,calc(100vw - 32px)); min-height:65px; display:flex; align-items:center; gap:10px; padding:11px 14px 11px 9px; border:1px solid #8ccaf0; border-radius:20px; box-shadow:0 14px 38px #030a14a6; background:#eaf7ff; color:#172d3e; font:700 12px/1.45 Arial,sans-serif; text-align:left; cursor:pointer; }
+.tle-demo-v12-welcome img { width:45px; height:45px; flex:0 0 45px; object-fit:contain; }
+body:has(.tle-ai-panel:not([hidden])) .tle-demo-v12-welcome,body:has(.tle-jessy-panel:not([hidden])) .tle-demo-v12-welcome { display:none; }
+.tle-jessy-fab img,.tle-jessy-head img { object-fit:contain!important; }
+@media(max-width:950px) {
+ .tle-demo-v12-why,.tle-demo-v12-areas { grid-template-columns:1fr; }
+ .tle-demo-v12-why>img { min-height:270px; max-height:390px; }
+ .tle-demo-v12-areas>img { min-height:300px; max-height:390px; }
+ .tle-demo-v12-reviewgrid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .tle-demo-v12-sales { grid-template-columns:1fr; }
+ .tle-demo-v12-salesphotos { min-height:250px; max-height:350px; }
+}
+@media(max-width:650px) {
+ .tle-demo-v12-reviewgrid,.tle-demo-v12-faqgrid { grid-template-columns:minmax(0,1fr); }
+ .tle-demo-v12-review,.tle-demo-v12-faq { padding:37px 8px; }
+ .tle-demo-v12-reviewgrid article { min-height:155px; }
+ .tle-demo-v12-areas>img { min-height:235px; max-height:275px; }
+ .tle-demo-v12-end { align-items:stretch; flex-direction:column; }
+ .tle-demo-v12-end a { width:100%; }
+ .tle-demo-v12-why { margin-top:12px; }
+ .tle-demo-v12-salesphotos { max-height:260px; min-height:230px; }
+ .tle-demo-v12-welcome { bottom:calc(77px + env(safe-area-inset-bottom)); }
+ .tle-demo-v12-formactions button { flex:1 1 125px; }
+}
+@media(prefers-reduced-motion:reduce) {.tle-demo-v12-sections * { scroll-behavior:auto!important; transition:none!important; }}
