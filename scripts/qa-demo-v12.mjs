@@ -17,6 +17,36 @@ for(const width of [360,390,820,1024,1440]){
    await page.locator('#tleDemoReviews').waitFor({state:'visible',timeout:12000});
    const sonnyQuietOnEntry=await page.locator('#tleSonnyGreetingPopup').evaluate(el=>el.hidden);
    assert(sonnyQuietOnEntry,'Sonny greeting must be hidden on page entry');
+   // v23 visual: only big editorial photos get pop; never hero or service images.
+   const editorial=await page.evaluate(()=>{
+     const why=document.querySelector('.tle-editorial-why-v23');
+     const title=why?.querySelector('#tleWhyTitle');
+     const gallery=document.getElementById('tleDemoEditorialGallery');
+     const perks=[...document.querySelectorAll('.tle-editorial-service-link')];
+     const frames=[...document.querySelectorAll('.tle-pop-on-scroll')];
+     return {
+       active:document.documentElement.classList.contains('tle-editorial-v23'),
+       why:!!why,background:why?getComputedStyle(why).backgroundColor:null,
+       title:title?.textContent||'',
+       links:perks.length,
+       validDestinations:perks.every(a=>a.getAttribute('href')==='#bookingStarter'),
+       caption:why?.querySelector('.tle-editorial-scroll-cue')?.textContent||'',
+       gallery:gallery?.querySelectorAll('.tle-editorial-photo-card').length||0,
+       gallerySources:[...(gallery?.querySelectorAll('figure>img')||[])].map(i=>i.getAttribute('src')),
+       hasHeroPop:!!document.querySelector('#leadHero .tle-pop-on-scroll'),
+       hasServicePop:!!document.querySelector('.tle-service-photo-v21 .tle-pop-on-scroll'),
+       eligibleFrames:frames.length,
+       mobileOverflow:document.documentElement.scrollWidth>innerWidth+3
+     };
+   });
+   assert(editorial.active&&editorial.why&&editorial.background==='rgb(250, 248, 243)'
+      &&editorial.links===3&&editorial.validDestinations&&editorial.gallery===2,
+      'Premium ivory guide, 3 booking options and gallery missing: '+JSON.stringify(editorial));
+   assert(!editorial.hasHeroPop&&!editorial.hasServicePop&&editorial.eligibleFrames>=5
+      &&!editorial.mobileOverflow,
+      'Pop must target large editorial photos only: '+JSON.stringify(editorial));
+   assert(editorial.gallerySources.every(src=>src.startsWith('/assets/lead-demo/')),
+     'Big photo gallery must use local existing image assets: '+JSON.stringify(editorial));
    const proof=await page.evaluate(()=>{
     const $=s=>document.querySelector(s);
     const image=$('.tle-demo-v12-why>img');
@@ -444,6 +474,15 @@ for(const width of [360,390,820,1024,1440]){
      'Home action must restore the Explore Demo mode');
    assert(await page.locator('#leadHero').isVisible(),
      'Demo cover must be available again after Back to Demo Home');
+   await page.locator('.tle-editorial-service-link[data-service-index="1"]').click();
+   const selected=await page.evaluate(()=>({
+      focused:document.documentElement.classList.contains('tle-demo-booking-active'),
+      screen:document.querySelector('#bookingStarter .screen.on')?.id,
+      marketingHidden:getComputedStyle(document.querySelector('#tleDemoEditorialGallery')).display==='none'
+   }));
+   assert(selected.focused&&selected.screen==='res'&&selected.marketingHidden,
+     'Deep cleaning pill must open residential booking studio, without the editorial gallery underneath: '+JSON.stringify(selected));
+
 
    console.log('PASS prospect',lang,width);
   }catch(e){failures.push('prospect '+lang+' '+width+': '+e.message);console.error('FAIL prospect',lang,width,e.message,'js errors:',errors)}
