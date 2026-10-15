@@ -21,8 +21,8 @@ let language="es",tasks=[],events=[],runs=[],outputs=[],providerState=null,scan=
 try{language=localStorage.getItem("tle_crm_owner_language")==="en"?"en":"es"}catch{}
 function tx(k){return words[language][k]}
 const teamCopy={
- en:{heroPrefix:"Meet your ",heroEm:"AI Team.",heroEyebrow:"THE LAUNCH ERA · OPERATIONS",agentsEyebrow:"YOUR SPECIALISTS",providerEyebrow:"DRAFT GENERATOR",ownerBadge:"● Owner only",eyebrow:"JESSIE · VERIFIED TEAM BRIEF",title:"The whole team in one view",micro:"Read-only · Owner approval for actions",note:"Metricool, Drive and Resend are not yet authorized as direct AI Team data sources. Drafts and checks do not send or publish anything.",intro:"Select Review my workspace to check all seven specialists.",checked:"Checked",partial:"Partial",noPriorities:"No verified urgent priorities found; partial sources still need review.",briefPrefix:"Read-only review · ",source:"Source",page:"Page",notReachable:"Not reachable",needsAttention:"Needs attention",noSummary:"Source check returned no summary."},
- es:{heroPrefix:"Conoce a tu ",heroEm:"equipo IA.",heroEyebrow:"THE LAUNCH ERA · OPERACIONES",agentsEyebrow:"TUS ESPECIALISTAS",providerEyebrow:"GENERADOR DE BORRADORES",ownerBadge:"● Solo propietaria",eyebrow:"JESSIE · RESUMEN VERIFICADO",title:"Todo tu equipo en un solo lugar",micro:"Solo lectura · Tú apruebas las acciones",note:"Metricool, Drive y Resend aún no están autorizados como fuentes directas del AI Team. Los borradores y revisiones no envían ni publican nada.",intro:"Pulsa Revisar mi espacio para consultar los siete especialistas.",checked:"Revisado",partial:"Parcial",noPriorities:"No se detectaron prioridades confirmadas; las fuentes parciales aún requieren revisión.",briefPrefix:"Revisión de solo lectura · ",source:"Fuente",page:"Página",notReachable:"No disponible",needsAttention:"Requiere atención",noSummary:"La revisión no devolvió un resumen."}
+ en:{heroPrefix:"Meet your ",heroEm:"AI Team.",heroEyebrow:"THE LAUNCH ERA · OPERATIONS",agentsEyebrow:"YOUR SPECIALISTS",providerEyebrow:"DRAFT GENERATOR",ownerBadge:"● Owner only",eyebrow:"JESSIE · VERIFIED TEAM BRIEF",title:"The whole team in one view",micro:"Read-only · Owner approval for actions",note:"Metricool, Drive and Resend are not yet authorized as direct AI Team data sources. Drafts and checks do not send or publish anything.",intro:"The seven specialists check your live workspace when this page opens. Choose Review my workspace to refresh.",checked:"Checked",partial:"Partial",noPriorities:"No verified urgent priorities found; partial sources still need review.",briefPrefix:"Read-only review · ",source:"Source",page:"Page",notReachable:"Not reachable",needsAttention:"Needs attention",noSummary:"Source check returned no summary."},
+ es:{heroPrefix:"Conoce a tu ",heroEm:"equipo IA.",heroEyebrow:"THE LAUNCH ERA · OPERACIONES",agentsEyebrow:"TUS ESPECIALISTAS",providerEyebrow:"GENERADOR DE BORRADORES",ownerBadge:"● Solo propietaria",eyebrow:"JESSIE · RESUMEN VERIFICADO",title:"Todo tu equipo en un solo lugar",micro:"Solo lectura · Tú apruebas las acciones",note:"Metricool, Drive y Resend aún no están autorizados como fuentes directas del AI Team. Los borradores y revisiones no envían ni publican nada.",intro:"Los siete especialistas revisan tu espacio al abrir esta página. Pulsa Revisar mi espacio para actualizar.",checked:"Revisado",partial:"Parcial",noPriorities:"No se detectaron prioridades confirmadas; las fuentes parciales aún requieren revisión.",briefPrefix:"Revisión de solo lectura · ",source:"Fuente",page:"Página",notReachable:"No disponible",needsAttention:"Requiere atención",noSummary:"La revisión no devolvió un resumen."}
 };
 const factSpanish={
  "Active lead records scanned":"Prospectos activos revisados",
@@ -387,6 +387,16 @@ async function start(){
   $("loading").hidden=true;$("locked").hidden=true;$("app").classList.remove("hidden");
   document.body.classList.add("crm-owner-view");
   applyText();
+  // Automatic, owner-authenticated read-only checks on opening the AI Team.
+  // Do not block Jessie if a source is temporarily unavailable; no client state changes.
+  void api({action:"team_brief",language}).then(data=>{
+   if(!verified)return;
+   scan=data;
+   renderScan();
+   renderTeamBrief();
+  }).catch(e=>{
+   if(verified)console.warn("AI Team automatic read-only brief unavailable:",e.message);
+  });
   await mountJessie();
  }catch(e){lock();console.warn("AI Team private access:",e.message)}
 }
