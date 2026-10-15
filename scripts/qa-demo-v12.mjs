@@ -57,6 +57,33 @@ for(const width of [360,390,820,1024,1440]){
      'The page must transparently disclose sample-only status');
    assert(customer.brand.includes('Coastal Cleaners'),
      'Customer-facing sample branding must reflect the configured business');
+   // Public fictional contact and legal details must not leak to paid tenants.
+   const bloom=await page.evaluate(()=>{
+     const $=s=>document.querySelector(s), logo=$('#demoBrandName');
+     return {
+       enabled:document.documentElement.classList.contains('tle-demo-brand-v17'),
+       logoCount:logo?.querySelectorAll('.tle-bloom-name').length,
+       oldLogoCount:logo?.querySelectorAll('.demo-brand-pink,.demo-logo-spark').length,
+       logoAlignment:getComputedStyle(logo).alignItems,
+       contact:!!$('#demoContact'),
+       email:$('#demoContact .tle-sample-email')?.textContent||'',
+       phone:$('#demoContact .tle-sample-phone')?.textContent,
+       footer:$('footer.demo-footer')?.classList.contains('tle-demo-full-footer'),
+       policies:document.querySelectorAll('footer.demo-footer [data-demo-policy]').length,
+       overflow:document.documentElement.scrollWidth>innerWidth+3
+     };
+   });
+   assert(bloom.enabled&&bloom.logoCount===1&&bloom.oldLogoCount===0&&bloom.logoAlignment==='center',
+     'Sample brand should have one aligned wordmark: '+JSON.stringify(bloom));
+   assert(bloom.contact&&bloom.email.endsWith('.example')&&bloom.phone==='(305) 555-0148'
+     &&bloom.footer&&bloom.policies===4&&!bloom.overflow,
+     'Fictional contact/footer must be present and responsive: '+JSON.stringify(bloom));
+   await page.locator('footer.demo-footer [data-demo-policy="privacy"]').click();
+   assert.equal(await page.locator('#tleDemoLegalDialog').evaluate(el=>el.open),true,'Privacy link failed to open');
+   assert((await page.locator('.tle-policy-heading').textContent()).includes(lang==='es'?'privacidad':'Privacy'),
+     'Policy dialog is not localized');
+   await page.locator('.tle-policy-close').click();
+   assert.equal(await page.locator('#tleDemoLegalDialog').evaluate(el=>el.open),false,'Policy dialog did not close');
    assert(customer.progressLabel.includes(lang==='es'?'Elige tu servicio':'Choose a cleaning'),
      'Booking progress should start at choosing a service');
    const organic=await page.evaluate(()=>{
