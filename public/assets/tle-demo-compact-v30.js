@@ -126,15 +126,15 @@
       intro:"Pequeños cambios que se notan. Desliza para ver las comparaciones.",
       note:"Imágenes ilustrativas de nuestra biblioteca del demo. No son resultados verificados de clientes.",
       previous:"Ver ejemplo anterior",next:"Ver siguiente ejemplo",
-      before:"Antes",after:"Después",slide:["Juntas de ducha","Cama y dormitorio","Organización de despensa"]
+      before:"Antes",after:"Después",slide:["Juntas de ducha","Cama y dormitorio","Lavabo y encimera"]
     }:{
       eyebrow:"BEFORE & AFTER",title:"See what a fresh reset looks like.",
       intro:"The little details make a difference. Swipe to explore.",
       note:"Illustrative demo-library images, not verified client transformations.",
       previous:"Previous example",next:"Next example",
-      before:"Before",after:"After",slide:["Shower tile & grout","Bedroom refresh","Organized pantry"]
+      before:"Before",after:"After",slide:["Shower tile & grout","Bedroom refresh","Bathroom vanity refresh"]
     };
-   const examples=[["grout","grout-before","grout-after"],["bed","bed-before","bed-after"],["pantry","pantry-before","pantry-after"]];
+   const examples=[["grout","grout-before","grout-after"],["bed","bed-before","bed-after"],["vanity","vanity-before","vanity-after"]];
    const top=document.createElement("div");top.className="tle-v31-gallery-top";
    const words=document.createElement("div");
    const overline=document.createElement("span");overline.className="tle-v31-kicker";overline.textContent=labels.eyebrow;
@@ -176,13 +176,17 @@
      rail.scrollBy({left:direction*distance,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
    };
    prev.addEventListener("click",()=>jump(-1));next.addEventListener("click",()=>jump(1));
-   services.insertAdjacentElement("afterend",gallery);
+   // Editorial large images first, comparisons next, sample reviews after.
+   const reviews=byId("tleDemoReviews");
+   if(reviews)reviews.insertAdjacentElement("beforebegin",gallery);
+   else services.insertAdjacentElement("afterend",gallery);
  }
 
  function init(){
    if(!document.documentElement.classList.contains("demo-editorial")||!byId("bookingStarter"))return;
    document.documentElement.classList.add("tle-demo-compact-v30");
    addDemoTransformations();
+   document.documentElement.classList.add("tle-demo-editorial-order-v32");
    taskBlock("res",copy.parts,byId("freq"));
    taskBlock("quote",copy.quotes,byId("qsize"));
    taskBlock("commercial",copy.commercial,byId("csize"));
