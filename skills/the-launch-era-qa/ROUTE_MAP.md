@@ -64,6 +64,12 @@ Other routes exist under \`src/routes/\`, \`public/es/\`, \`public/intake/\` and
 - **Routing**: unchanged. Existing blue-banner rotating messages, dots and animations continue to work. Underlying Steps CTA and Booking Studio unaffected. Existing section contrast remains; no new overlays on `#tleDemoAreas` or `#tleDemoFaq`.
 - **QA**: `scripts/qa-demo-v12.mjs` checks existence of both groups (7 each), no pointer interception, screen-reader hiding, reduced-motion policy, no horizontal overflow at 360/390/820/1024/1440 EN/ES; one non-reduced-motion viewport checks bubbles run on both chapters only while visible. Live publication/CI must be verified separately.
 
+## Public demo v29 — dark shadow gradient without business-name capsule (2026-10-15)
+- **Where**: public **unkeyed** `/lead-private-preview.html` Luna Bloom/fictional sample, desktop/tablet/iPhone EN/ES. Never owner-preview or keyed customer links.
+- **Why**: user rejected the pill behind `Luna Bloom Home Cleaning` in the sticky demo header. The v28 identity overlay explicitly drew a rounded border/gradient capsule around `#demoBrandName.tle-dynamic-brand-v28` (see `tle-demo-identity-v28.css`).
+- **Change**: `tle-demo-shadow-wordmark-v29.css` loads after v28 and renders the nav as a dark-black-to-transparent shadow gradient instead of a solid strip, sets logo anchor border/background/radius/shadow to **none**, and gives `.tle-bloom-name` editorial Georgia serif with high-contrast white, text-only shadow, refined lighter small descriptor. Bloom emblem becomes a small unframed flourish. At 800px/380px breakpoints the name can wrap rather than clip. Focus-mode nav stays solid and its link continues routing back to the hero via existing v22 behavior.
+- **Invariants**: original `#demoBrandName` href, brand text, subtitle, localization, responsive layout, Sonny, service card links and booking state unchanged. Existing QA updated to assert no capsule, Georgia font, dark gradient and bounded logo across viewports.
+
 ## Public demo — bottom Return home button (2026-10-15)
 - **Path**: `/lead-private-preview.html` with no `key`/owner preview (Luna Bloom fictional sample); button `#bookingStarter #main .tle-return-home-link` at bottom of residential/quote service menu.
 - **Reported failure**: tap appeared inert on iPhone because `href="#leadHero"` only updated the hash while `html.tle-demo-booking-active` CSS hides the hero. Initial category-button click enters focused booking mode in v22, making a bare anchor insufficient.
