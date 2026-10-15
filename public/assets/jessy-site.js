@@ -177,11 +177,11 @@ demoGate.addEventListener("submit",async e=>{
   if(!response.ok||data.ok!==true||data.email_sent!==true)throw Error("email_unconfirmed");
   demoAccessGranted=true;demoSavedBusiness=demoBusiness.value.trim().slice(0,100);demoSavedArea=demoArea.value.trim().slice(0,100);
   const success=lang==="es"
-   ?"¡Revisa tu correo! 💌 Y no olvides probar una reserva de ejemplo con mi amigo Sonny."
-   :"Check your inbox! 💌 And don’t forget to try a live booking with my friend Sonny.";
+   ?"¡Revisa tu correo! 💌 Y no olvides probar una reserva de ejemplo con Sonny."
+   :"Check your inbox! 💌 And don’t forget to try a sample booking with my friend Sonny.";
   demoStatus.textContent=success;demoNotice.textContent=success;demoNotice.hidden=false;
   msg(success,"bot");
-  const trySonny=button("tle-jessy-sonny-action",lang==="es"?"Try live booking with Sonny →":"Try live booking with Sonny →");
+  const trySonny=button("tle-jessy-sonny-action",lang==="es"?"Try the sample booking with Sonny →":"Try the sample booking with Sonny →");
   trySonny.addEventListener("click",()=>openDemo("booking"));
   log.append(trySonny);log.scrollTop=log.scrollHeight;
   const query=new URLSearchParams({lang,source:"jessie_sample"});
@@ -218,7 +218,7 @@ function openDemo(id){
  demoText();demoGate.reset();demoStatus.textContent="";
  demoNotice.hidden=!demoAccessGranted;
  if(demoAccessGranted){
-  demoNotice.textContent=lang==="es"?"Revisa tu correo 💌 · Prueba una reserva con mi amigo Sonny.":"Check your inbox! 💌 And don't forget to try a live booking with my friend Sonny.";
+  demoNotice.textContent=lang==="es"?"Revisa tu correo 💌 · Prueba una reserva de ejemplo con Sonny.":"Check your inbox! 💌 And don't forget to try a sample booking with my friend Sonny.";
   const params=new URLSearchParams({lang,source:"jessie_sample"});
   if(id==="booking"){params.set("business",demoSavedBusiness);params.set("area",demoSavedArea)}
   const url=d.url+"?"+params.toString();
