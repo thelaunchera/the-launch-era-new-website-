@@ -1,0 +1,264 @@
+/* Luna Bloom interactive sample demo v20. No changes to real buyer/owner pages. */
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreas.tle-demo-area-v20{
+ position:relative!important;
+ grid-template-columns:1.05fr .95fr!important;
+ background:#102331!important;border:0!important;border-radius:0!important;
+ box-shadow:none!important;overflow:hidden!important;isolation:isolate;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreas.tle-demo-area-v20>img{
+ height:100%!important;min-height:460px!important;
+ max-height:none!important;object-position:center 53%!important;
+ filter:saturate(.89);
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreas.tle-demo-area-v20>div{
+ padding:clamp(32px,5.2vw,86px)!important;min-width:0!important;
+ background:linear-gradient(155deg,#102331 0%,#0c1b29 100%);
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreas .tle-demo-v12-ey{
+ font-size:10px!important;letter-spacing:.16em!important;
+ color:#a6d9f6!important;margin-bottom:14px!important;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreas #tleAreasTitle{
+ font:600 clamp(31px,4vw,54px)/1.12 Prompt,Arial,sans-serif!important;
+ letter-spacing:-.048em!important;color:#f8fbff!important;
+ margin:0 0 17px!important;max-width:570px!important;
+ text-wrap:balance;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreas #tleAreasTitle+p{
+ font-size:clamp(13px,1.2vw,16px)!important;
+ line-height:1.58!important;max-width:480px!important;
+ color:#c6dbe9!important;
+}
+html.demo-editorial.tle-demo-purpose-v20 .tle-area-v20-label{
+ color:#89c9ee;font:700 10px/1.5 Prompt,Arial,sans-serif;
+ letter-spacing:.16em;margin-top:25px;margin-bottom:12px;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreaTags.tle-demo-v12-areatags{
+ display:flex!important;flex-wrap:wrap!important;gap:9px!important;
+ margin:0!important;max-width:580px!important;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreaTags .tle-area-v20-chip{
+ display:inline-flex;align-items:center;gap:7px;
+ border:1px solid rgba(157,210,239,.34)!important;border-radius:999px!important;
+ padding:10px 13px!important;background:rgba(139,192,223,.06)!important;
+ color:#d5edfc!important;cursor:pointer;min-width:0;max-width:100%;
+ font:600 12px/1.3 "DM Sans",Arial,sans-serif!important;
+ transition:background .23s ease,border-color .23s ease,transform .23s ease;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreaTags .tle-area-v20-chip span{
+ border:0!important;background:transparent!important;border-radius:0!important;
+ padding:0!important;margin:0!important;min-width:0!important;
+ font:inherit!important;color:inherit!important;overflow-wrap:anywhere;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreaTags .tle-area-v20-chip .tle-area-v20-pin{
+ color:#a3dcfd!important;font-size:15px!important;font-weight:700!important;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreaTags .tle-area-v20-chip[aria-pressed=true]{
+ background:rgba(160,214,245,.2)!important;
+ border-color:#a9dfff!important;color:#fff!important;
+ box-shadow:inset 0 0 0 1px rgba(184,228,254,.08);
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreaTags .tle-area-v20-chip:hover{
+ border-color:#a9dfff!important;transform:translateY(-2px);
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreaTags .tle-area-v20-empty{
+ color:#d4e4ed!important;font-size:13px!important;line-height:1.55!important;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreas .tle-area-v20-feedback{
+ margin:16px 0 0!important;font:500 12px/1.62 "DM Sans",Arial,sans-serif!important;
+ color:#b6d4e6!important;max-width:500px!important;min-height:34px;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreas .tle-area-v20-cta{
+ display:inline-flex;align-items:center;justify-content:center;min-height:43px;
+ margin-top:18px;padding:10px 19px;
+ background:#b9def4;border:1px solid #b9def4;border-radius:999px;
+ color:#143348;text-decoration:none;
+ font:700 12px/1.35 Prompt,Arial,sans-serif;
+ transition:background-color .2s ease,transform .2s ease;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreas .tle-area-v20-cta:hover{
+ background:#d3efff;transform:translateY(-2px);
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreas .tle-area-v20-note{
+ display:block;font:500 11px/1.5 "DM Sans",Arial,sans-serif;
+ color:#849fb2;margin-top:10px;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreas .tle-demo-v12-disclaimer{
+ display:block!important;color:#97b4c8!important;
+ font-size:10px!important;line-height:1.5!important;margin-top:17px!important;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreas .tle-area-v20-photo-mark{
+ position:absolute;z-index:1;top:20px;left:20px;
+ display:grid;place-items:center;width:44px;height:44px;
+ border-radius:50%;color:#17445b;font:600 25px/1 Georgia,serif;
+ background:rgba(242,251,255,.84);border:1px solid rgba(255,255,255,.75);
+ box-shadow:0 5px 28px rgba(15,40,65,.18);
+ animation:tlePurposeGlow 5s ease-in-out infinite;
+}
+html.demo-editorial.tle-demo-purpose-v20 .tle-area-v20-chip:focus-visible,
+html.demo-editorial.tle-demo-purpose-v20 .tle-area-v20-cta:focus-visible{
+ outline:3px solid #d7f1ff!important;outline-offset:3px!important;
+}
+html.demo-editorial.tle-demo-purpose-v20 .tle-area-v20-pulse{
+ animation:tlePurposePulse .38s ease both;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoFaq.tle-demo-faq-v20{
+ padding:clamp(44px,5vw,78px) clamp(24px,6vw,100px) clamp(50px,5vw,80px)!important;
+ background:radial-gradient(ellipse at 93% 1%,rgba(100,177,220,.11),transparent 35%),#0b1722!important;
+ border:0!important;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoFaq .tle-demo-v12-heading{
+ margin:0 auto 26px!important;max-width:980px!important;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoFaq .tle-demo-v12-ey{
+ font-size:10px!important;letter-spacing:.16em!important;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoFaq #tleFaqTitle{
+ margin:0 0 13px!important;
+ font:600 clamp(31px,4.3vw,52px)/1.12 Prompt,Arial,sans-serif!important;
+ letter-spacing:-.045em!important;max-width:770px;text-wrap:balance;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoFaq #tleFaqTitle+p{
+ font-size:clamp(13px,1.25vw,16px)!important;
+ line-height:1.58!important;color:#b4cfe0!important;
+}
+html.demo-editorial.tle-demo-purpose-v20 .tle-faq-v20-topics{
+ display:flex;gap:9px;overflow-x:auto;overflow-y:hidden;
+ padding:2px 1px 12px;margin:0 auto 21px;
+ max-width:980px;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+}
+html.demo-editorial.tle-demo-purpose-v20 .tle-faq-v20-topics::-webkit-scrollbar{display:none}
+html.demo-editorial.tle-demo-purpose-v20 .tle-faq-v20-tab{
+ min-width:max-content;padding:10px 15px;border-radius:999px;
+ border:1px solid rgba(163,205,231,.24);
+ background:transparent;color:#c5d9e6;cursor:pointer;
+ font:600 12px/1.3 Prompt,Arial,sans-serif;
+ transition:background .23s ease,transform .23s ease,color .23s ease;
+}
+html.demo-editorial.tle-demo-purpose-v20 .tle-faq-v20-tab[aria-pressed=true]{
+ background:#b2ddf7;border-color:#b2ddf7;color:#12364c;
+}
+html.demo-editorial.tle-demo-purpose-v20 .tle-faq-v20-tab:hover{transform:translateY(-2px)}
+html.demo-editorial.tle-demo-purpose-v20 .tle-faq-v20-tab:focus-visible,
+html.demo-editorial.tle-demo-purpose-v20 .tle-faq-v20-action:focus-visible{
+ outline:3px solid #b2ddf7;outline-offset:4px;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoFaq .tle-demo-v12-faqgrid{
+ display:block!important;max-width:980px!important;
+ margin:0 auto!important;min-height:139px!important;
+ padding:0!important;border-top:1px solid rgba(153,198,228,.38)!important;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoFaq .tle-demo-v12-faqgrid details[hidden]{
+ display:none!important;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoFaq .tle-demo-v12-faqgrid details.tle-faq-v20-entry{
+ border:0!important;outline:0!important;border-radius:0!important;
+ margin:0!important;padding:21px 0 10px!important;
+ background:transparent!important;box-shadow:none!important;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoFaq .tle-demo-v12-faqgrid summary{
+ font:600 clamp(18px,1.95vw,24px)/1.38 Prompt,Arial,sans-serif!important;
+ color:#f6fbff!important;padding-right:4px!important;
+ cursor:pointer;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoFaq .tle-demo-v12-faqgrid summary span{
+ display:none!important;
+}
+html.demo-editorial.tle-demo-purpose-v20 #tleDemoFaq .tle-demo-v12-faqgrid details>p{
+ display:block!important;max-width:760px!important;
+ margin:16px 0 5px!important;
+ color:#c9deeb!important;font-size:clamp(13px,1.35vw,16px)!important;
+ line-height:1.68!important;
+}
+html.demo-editorial.tle-demo-purpose-v20 .tle-faq-v20-next{
+ display:flex;align-items:center;flex-wrap:wrap;gap:10px 20px;
+ justify-content:space-between;max-width:980px;
+ margin:8px auto 0;padding:18px 0 0;border-top:1px solid rgba(153,198,228,.25);
+}
+html.demo-editorial.tle-demo-purpose-v20 .tle-faq-v20-action{
+ display:inline-flex;align-items:center;justify-content:center;
+ text-decoration:none;color:#addcf7;background:transparent;
+ font:700 13px/1.45 Prompt,Arial,sans-serif;
+ padding:7px 0;border-bottom:1px solid #addcf7;
+}
+html.demo-editorial.tle-demo-purpose-v20 .tle-faq-v20-hint{
+ color:#91aebf!important;
+ font:500 11px/1.55 "DM Sans",Arial,sans-serif!important;
+}
+html.demo-editorial.tle-demo-purpose-v20 .tle-faq-v20-change{
+ animation:tlePurposePulse .3s ease both;
+}
+@keyframes tlePurposeGlow{
+ 0%,100%{box-shadow:0 5px 22px rgba(15,40,65,.18);transform:translateY(0)}
+ 50%{box-shadow:0 8px 30px rgba(19,98,138,.26);transform:translateY(-3px)}
+}
+@keyframes tlePurposePulse{
+ from{opacity:.58;transform:translateY(5px)}
+ to{opacity:1;transform:translateY(0)}
+}
+html.demo-editorial.tle-demo-purpose-v20 .tle-demo-area-v20>div,
+html.demo-editorial.tle-demo-purpose-v20 .tle-demo-faq-v20 .tle-demo-v12-heading{
+ transition:opacity .58s ease,transform .58s ease;
+}
+@media(max-width:950px){
+ html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreas.tle-demo-area-v20{
+  grid-template-columns:1fr!important;
+ }
+ html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreas.tle-demo-area-v20>img{
+  height:clamp(240px,43vw,350px)!important;min-height:240px!important;
+  max-height:350px!important;object-position:center 46%!important;
+ }
+ html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreas.tle-demo-area-v20>div{
+  padding:40px clamp(25px,6vw,52px) 44px!important;
+ }
+ html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreas .tle-area-v20-photo-mark{
+  width:37px;height:37px;font-size:22px;
+ }
+}
+@media(max-width:650px){
+ html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreas.tle-demo-area-v20>img{
+  height:245px!important;min-height:245px!important;max-height:245px!important;
+ }
+ html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreas.tle-demo-area-v20>div{
+  padding:37px 25px 43px!important;
+ }
+ html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreas #tleAreasTitle{
+  font-size:clamp(30px,8vw,39px)!important;
+ }
+ html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreaTags.tle-demo-v12-areatags{
+  gap:8px!important;
+ }
+ html.demo-editorial.tle-demo-purpose-v20 #tleDemoAreaTags .tle-area-v20-chip{
+  font-size:12px!important;padding:9px 11px!important;
+ }
+ html.demo-editorial.tle-demo-purpose-v20 #tleDemoFaq.tle-demo-faq-v20{
+  padding:47px 25px 52px!important;
+ }
+ html.demo-editorial.tle-demo-purpose-v20 #tleDemoFaq #tleFaqTitle{
+  font-size:clamp(31px,8vw,40px)!important;
+ }
+ html.demo-editorial.tle-demo-purpose-v20 .tle-faq-v20-topics{
+  margin-right:-25px;padding-right:25px;gap:7px;
+ }
+ html.demo-editorial.tle-demo-purpose-v20 .tle-faq-v20-tab{
+  padding:9px 12px;font-size:11px;
+ }
+ html.demo-editorial.tle-demo-purpose-v20 #tleDemoFaq .tle-demo-v12-faqgrid summary{
+  font-size:clamp(18px,4.7vw,21px)!important;
+ }
+ html.demo-editorial.tle-demo-purpose-v20 .tle-faq-v20-next{align-items:flex-start;flex-direction:column;gap:8px}
+}
+@media(prefers-reduced-motion:reduce){
+ html.demo-editorial.tle-demo-purpose-v20 .tle-area-v20-photo-mark{
+  animation:none!important;
+ }
+ html.demo-editorial.tle-demo-purpose-v20 .tle-faq-v20-change,
+ html.demo-editorial.tle-demo-purpose-v20 .tle-area-v20-pulse{
+  animation:none!important;
+ }
+ html.demo-editorial.tle-demo-purpose-v20 .tle-faq-v20-tab,
+ html.demo-editorial.tle-demo-purpose-v20 .tle-area-v20-chip,
+ html.demo-editorial.tle-demo-purpose-v20 .tle-area-v20-cta{
+  transition:none!important;
+ }
+}
