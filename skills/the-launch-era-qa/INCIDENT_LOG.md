@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-15 | Public cleaning sample: two blue sections ("Cleaning made simpler" process and rotating blue message banner) lacked the requested soft floating bubbles, despite overall color/typography improvements | Verified code: v24 steps had only one static ::before radial decoration; v19 blue ribbon had two static pseudo-element circles. Neither provided subtle independent motion. | Added public-demo-only v25 seven-layer translucent bubbles to each section; pointer-events none and aria-hidden, active in-view only, reduced-motion static, no updates to hero/service cards/booking. Added mobile+tablet+desktop EN/ES browser assertions plus real animation checks. CI/deploy verification pending at record time. | 🟡 Code committed, awaiting QA |
+
+
 | 2026-10-15 | Screenshot QA: "Cleaning made simpler" visually blends with service picker; photo chapter headings use older bold sans-serif while v23 guide uses refined italic serif | `tle-demo-organic-flow-v16.css` set dark navy `.tle-client-quicksteps`; `tle-demo-editorial-v13.css` and other historical styles retained Prompt photo titles. | New sample-only v24 overlay changes step chapter to light powder blue with navy text and gives photographic chapters consistent Georgia serif / italic accents. Adjacent review/FAQ backgrounds gently alternate without extra cards. Preserves existing photos, service handlers, booking studio and pop animations. EN/ES multi-device visual browser QA pending. | 🟡 Pending v24 browser/deployment verification |
 
 
