@@ -19,8 +19,8 @@ const labels=es?{
   reviewText:["La opinión verificada de un cliente aparecerá aquí.","Una segunda reseña auténtica puede describir la experiencia.","Aquí podremos mostrar otro comentario real, con autorización."],
   areas:"Áreas que atendemos",areasSub:"La cobertura real la define el negocio. Este ejemplo se personaliza con sus ciudades y códigos postales.",
   areaUnknown:"Área de servicio por confirmar",serviceArea:"Zonas cercanas",postcodes:"Cobertura por ZIP",
-  why:"Por qué elegir este servicio",whyTitle:"Detalles claros. Una experiencia sencilla.",whyCopy:"Servicios fáciles de explorar, solicitudes organizadas y seguimiento de cada consulta.",
-  whyItems:["Solicitudes fáciles","Servicios a tu medida","Seguimiento claro"],faq:"Preguntas frecuentes",faqSub:"Respuestas rápidas antes de solicitar una limpieza.",
+  why:"Por qué elegir este servicio",whyTitle:"Un hogar listo para disfrutar.",whyCopy:"Cocinas impecables, espacios cuidados y esa sensación de llegar a casa y encontrar todo en su lugar.",
+  whyItems:["Un cuidado que se nota","Detalles que importan","Más tiempo para disfrutar"],faq:"Preguntas frecuentes",faqSub:"Respuestas rápidas antes de solicitar una limpieza.",
   faqItems:[["¿Puedo solicitar un estimado?","Sí. En esta demostración puedes conocer el proceso. Los precios son de ejemplo y el negocio confirma la cotización final."],["¿Puedo elegir limpieza recurrente?","La experiencia muestra opciones de una sola visita, semanal, quincenal o mensual."],["¿Esta prueba envía una reserva real?","No. Es una demostración y no se envían solicitudes, correos ni pagos."],["¿Me puede ayudar el asistente con IA?","Sí. Puedes explorar los servicios y preparar los datos para revisar el formulario. La IA es un servicio opcional que se contrata por separado."]],
   finalTitle:"¿Lista para probarlo?",finalText:"Explora los servicios y descubre cómo sería la experiencia de tus clientes.",finalCta:"Probar solicitud de limpieza",
   salesTitle:"Una landing que se siente como tu negocio",salesText:"Un ejemplo visual con fotografía, reseñas reales aprobadas, áreas de servicio y una reserva fácil de explorar.",
@@ -32,8 +32,8 @@ const labels=es?{
   reviewText:["An approved customer review will appear here.","A second genuine review can highlight the experience.","Add another verified customer comment with permission."],
   areas:"Areas we serve",areasSub:"Service coverage belongs to the business. Its actual cities and ZIP codes personalize this section.",
   areaUnknown:"Service area to be confirmed",serviceArea:"Nearby communities",postcodes:"ZIP coverage",
-  why:"Why choose us",whyTitle:"Thoughtful details. A simpler experience.",whyCopy:"Clear service choices, straightforward requests and every important detail in one place.",
-  whyItems:["Simple requests","Services for your space","Clear next steps"],faq:"Frequently asked questions",faqSub:"Helpful answers before making a cleaning request.",
+  why:"Why choose us",whyTitle:"A home that feels taken care of.",whyCopy:"A spotless kitchen, beautifully cared-for spaces and that wonderful just-cleaned feeling when you walk in.",
+  whyItems:["Care you can see","Thoughtful finishing touches","More room to enjoy life"],faq:"Frequently asked questions",faqSub:"Helpful answers before making a cleaning request.",
   faqItems:[["Can I request an estimate?","Yes. In this preview you can try the request process. Prices are illustrative; the business confirms final estimates."],["Can I request recurring cleanings?","The sample includes one-time, weekly, biweekly and monthly choices."],["Does this demo place a real booking?","No. This is an interactive sample; nothing is booked, charged or emailed."],["Can the AI help with the form?","Yes. It can explain services and prepare sample details for your review. AI assistance is an optional service sold separately."]],
   finalTitle:"Ready to give it a try?",finalText:"Explore the services and see how the booking experience can work for your customers.",finalCta:"Try the cleaning request",
   salesTitle:"A website that feels like your business",salesText:"See a visual example with beautiful imagery, verified customer reviews, service areas and a simple booking experience.",
@@ -55,7 +55,7 @@ function addSections(){
 <section class="tle-demo-v12-why" aria-labelledby="tleWhyTitle">
   <div class="tle-demo-v12-copy"><span class="tle-demo-v12-ey">${labels.why}</span><h2 id="tleWhyTitle">${labels.whyTitle}</h2><p>${labels.whyCopy}</p>
     <div class="tle-demo-v12-perks">${labels.whyItems.map(t=>`<span>✓ ${t}</span>`).join("")}</div></div>
-  <img src="${cleaner}" alt="Professional cleaner wiping a modern kitchen island" loading="lazy" width="1122" height="1402">
+  <img src="${kitchen}" alt="Sunlit, freshly cleaned kitchen ready to enjoy" loading="lazy" width="1200" height="820">
 </section>
 <section class="tle-demo-v12-review" id="tleDemoReviews" aria-labelledby="tleReviewsTitle">
  <div class="tle-demo-v12-heading"><span class="tle-demo-v12-ey">01 / TRUST</span><h2 id="tleReviewsTitle">${labels.reviews}</h2><p>${labels.reviewsSub}</p></div>
@@ -138,7 +138,7 @@ function customizeChat(){
  if(isProspect){
   const launch=document.querySelector(".tle-ai-launch"),head=document.querySelector(".tle-ai-head"),log=document.querySelector(".tle-ai-log");
   if(!launch||!head||!log)return;
-  const v=document.createElement("span");v.className="tle-demo-ai-label";v.textContent=labels.ask;
+  const v=document.createElement("span");v.className="tle-demo-ai-label";v.textContent=matchMedia("(max-width:700px)").matches?(es?"¡Hola! Soy Sonny 👋":"Hi! I’m Sonny 👋"):labels.ask;
   launch.replaceChildren(avatar(),v);launch.setAttribute("aria-label",labels.ask+" — "+labels.separate);
   head.prepend(avatar());
   const subtitle=head.querySelector("small");if(subtitle)subtitle.textContent=labels.separate;
@@ -147,8 +147,13 @@ function customizeChat(){
   const chips=h("div","tle-demo-v12-chat-actions");chips.innerHTML=`<button type="button" data-action="services">${labels.helperServices}</button><button type="button" data-action="form">${labels.helperForm}</button><a href="/ai-booking-assistant/">${labels.helperAi} ↗</a>`;
   chips.addEventListener("click",e=>{const btn=e.target.closest("button");if(!btn)return;if(btn.dataset.action==="services"){document.querySelector("#demoServices")?.scrollIntoView({behavior:"smooth"});document.querySelector(".tle-ai-head button")?.click()}else if(btn.dataset.action==="form"){const input=document.querySelector(".tle-ai-form textarea");if(input){input.value=es?"Ayúdame a completar una solicitud de limpieza de ejemplo paso a paso.":"Help me fill out a sample cleaning request step by step.";input.focus()}}});
   log.prepend(chips);
-  welcome(launch);
-  window.addEventListener("scroll",()=>{launch.classList.toggle("tle-demo-condensed",scrollY>180)},{passive:true});
+  // One assistant = one launcher. Previous versions created a second floating
+  // welcome button which looked like another AI and obscured the mobile page.
+  document.getElementById("tleDemoRobotWelcome")?.remove();
+  const collapse=()=>{launch.classList.add("tle-demo-condensed");};
+  if(scrollY>110)collapse();
+  window.addEventListener("scroll",()=>{if(scrollY>110)collapse()},{passive:true});
+  setTimeout(collapse,6500);
  }
  // Jessy is unchanged on the sales demo. Sonny operates only in the interactive sample.
 }
@@ -173,18 +178,20 @@ function addSonnyRetry(){
  });
  const other=done.querySelector(".back");if(other)other.before(button);else done.appendChild(button);
 }
-function welcome(button){
- if(document.getElementById("tleDemoRobotWelcome"))return;
- const n=document.createElement("button");n.type="button";n.id="tleDemoRobotWelcome";n.className="tle-demo-v12-welcome";n.append(avatar(),document.createTextNode(labels.welcome));
- n.addEventListener("click",()=>{n.remove();button.click()});
- document.body.appendChild(n);
- button.addEventListener("click",()=>n.remove(),{once:true});
- window.addEventListener("scroll",()=>{if(scrollY>140)n.remove()},{once:true,passive:true});
- setTimeout(()=>n.remove(),11000);
-}
 function run(){
  if(isProspect){
-   addSections();addSonnyRetry();customizeChat();
+   document.documentElement.classList.add("tle-demo-story-v13");
+   addSections();
+   // The images follow one visual story: cleaner → careful work → fresh room → home.
+   // This edits public sample copy only; buyer/owner pages keep their original UI.
+   const story=document.getElementById("demoCinematicStory");
+   if(story){
+     const title=story.querySelector(".demo-cinematic-copy h2");
+     if(title)title.innerHTML=es?"El cuidado se nota.<br><em>En cada detalle.</em>":"The care shows.<br><em>In every detail.</em>";
+     const desc=story.querySelector(".demo-cinematic-copy>p");
+     if(desc)desc.textContent=es?"Desde los primeros detalles hasta el último toque, cada espacio merece atención.":"From the first careful touch to the finishing details, every space deserves attention.";
+   }
+   addSonnyRetry();customizeChat();
    if(qs.get("sonny")==="1")window.tleOpenSonnyDemo?.({restart:true});
  }else addSalesPreview();
 }
