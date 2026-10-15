@@ -160,3 +160,57 @@
 @media(prefers-reduced-motion:reduce){
  .tle-jessy-inline .tle-jessy-action{transition:none}
 }
+
+
+/* Jessie: interactive original sample, rendered above (not inside) the chat. */
+.tle-jessy-demo-overlay[hidden]{display:none!important}
+.tle-jessy-demo-overlay{position:fixed;inset:0;z-index:2147483646;background:rgba(12,28,42,.82);display:flex;align-items:center;justify-content:center;padding:clamp(8px,2vw,22px);overscroll-behavior:contain}
+.tle-jessy-demo-window{display:flex;flex-direction:column;width:min(1160px,100%);height:min(92dvh,980px);min-height:0;overflow:hidden;border-radius:24px;background:#faf8f3;border:1px solid #afcee2;box-shadow:0 35px 110px rgba(0,0,0,.45)}
+.tle-jessy-demo-toolbar{min-height:65px;display:flex;align-items:center;gap:13px;padding:11px 17px;background:linear-gradient(110deg,#faf8f3,#e7f3fc);border-bottom:1px solid #c5ddec;color:#191919}
+.tle-jessy-demo-heading{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+.tle-jessy-demo-heading strong{font:700 16px/1.2 Prompt,Arial,sans-serif}
+.tle-jessy-demo-heading small{font:500 12px/1.3 Futura,Arial,sans-serif;color:#3c6179}
+.tle-jessy-demo-external{font:700 12px/1.3 Futura,Arial,sans-serif;color:#174c6d;text-decoration:none;border:1px solid #b3d2e7;border-radius:14px;padding:11px 13px}
+.tle-jessy-demo-close{border:0;width:39px;height:39px;border-radius:50%;background:#191919;color:white;font-size:26px;cursor:pointer;flex:none}
+.tle-jessy-demo-frame{flex:1;min-height:0;width:100%;border:0;background:#fff}
+.tle-jessy-demo-card{width:min(100%,400px);display:grid;grid-template-columns:110px minmax(0,1fr) 23px;gap:10px;text-align:left;align-items:center;padding:8px;background:#faf8f3;color:#191919;border:1px solid #bbd9e9;border-radius:19px;margin:8px 0 16px;cursor:pointer;box-shadow:0 8px 20px rgba(30,76,105,.09)}
+.tle-jessy-demo-card .tle-jessy-demo-cover{width:110px;height:85px;object-fit:cover;border-radius:12px}
+.tle-jessy-demo-card-copy{display:flex;flex-direction:column;gap:7px;min-width:0}
+.tle-jessy-demo-card-copy strong{font:700 14px/1.25 Prompt,Arial,sans-serif}
+.tle-jessy-demo-card-copy small{font:500 12px/1.4 Futura,Arial,sans-serif;color:#4d6575}
+.tle-jessy-demo-arrow{font-size:20px;color:#407c9d}
+.tle-jessy-help-link{display:inline-flex;margin:8px 0 15px;text-decoration:none;border:1px solid #b0d2e7;color:#154c70;background:#e8f4fc;border-radius:12px;padding:12px 14px;font:700 13px/1.4 Futura,Arial,sans-serif}
+.tle-jessy-demo-card:focus-visible,.tle-jessy-demo-external:focus-visible,.tle-jessy-demo-close:focus-visible,.tle-jessy-help-link:focus-visible{outline:3px solid #4089b4;outline-offset:2px}
+body.tle-jessy-demo-open{overflow:hidden!important}
+@media(max-width:600px){
+ .tle-jessy-demo-overlay{padding:0;align-items:stretch}
+ .tle-jessy-demo-window{width:100%;height:100dvh;max-height:100dvh;border-radius:0;border:0}
+ .tle-jessy-demo-toolbar{min-height:66px;padding:10px 12px}
+ .tle-jessy-demo-external{font-size:11px;padding:9px}
+ .tle-jessy-demo-card{grid-template-columns:88px minmax(0,1fr) 20px}
+ .tle-jessy-demo-card .tle-jessy-demo-cover{width:88px;height:78px}
+}
+@media(prefers-reduced-motion:reduce){.tle-jessy-demo-overlay,.tle-jessy-demo-card{scroll-behavior:auto;transition:none}}
+
+
+/* Jessie demo conversion gate: three visitor-provided fields, no forced presale calls. */
+.tle-jessy-demo-gate[hidden],.tle-jessy-demo-frame[hidden],.tle-jessy-demo-external[hidden]{display:none!important}
+.tle-jessy-demo-gate{max-width:510px;width:calc(100% - 32px);margin:auto;display:flex;flex-direction:column;gap:13px;overflow-y:auto;padding:clamp(19px,4vw,38px);background:white;border:1px solid #c9dfec;border-radius:25px;box-shadow:0 17px 50px rgba(30,77,105,.13);color:#191919}
+.tle-jessy-demo-gate h3{font:700 clamp(22px,3vw,31px)/1.14 Prompt,Arial,sans-serif;margin:0;letter-spacing:-.04em}
+.tle-jessy-demo-gate p{font:500 13px/1.55 Futura,Arial,sans-serif;color:#557082;margin:0}
+.tle-jessy-demo-label{display:flex;flex-direction:column;gap:7px;font:700 12px/1.3 Futura,Arial,sans-serif;color:#304d5f}
+.tle-jessy-demo-input{width:100%;min-height:46px;border:1px solid #bfd5e3;border-radius:13px;padding:12px 13px;font:500 14px/1.4 Futura,Arial,sans-serif;color:#191919;background:#fafcfe;outline-color:#397fa9}
+.tle-jessy-demo-consent{display:flex;gap:10px;align-items:start;font:500 12px/1.5 Futura,Arial,sans-serif;color:#344c5c}
+.tle-jessy-demo-consent input{width:17px;height:17px;min-width:17px;margin:1px 0;accent-color:#4087af}
+.tle-jessy-demo-submit{min-height:48px;border-radius:13px;background:#191919;border:0;color:white;font:700 14px/1.4 Prompt,Arial,sans-serif;cursor:pointer;padding:12px}
+.tle-jessy-demo-submit:disabled{opacity:.55;cursor:wait}
+.tle-jessy-demo-status{font-size:12px!important;min-height:16px;color:#3c657d!important}
+.tle-jessy-demo-trap{position:absolute!important;left:-9999px!important;opacity:0!important;width:1px!important;height:1px!important;pointer-events:none!important}
+@media(max-width:600px){.tle-jessy-demo-gate{max-width:none;width:calc(100% - 20px);max-height:calc(100dvh - 93px);padding:22px 18px;border-radius:20px;margin:11px auto}}
+
+
+.tle-jessy-demo-success[hidden]{display:none!important}
+.tle-jessy-demo-success{margin:0;padding:12px clamp(12px,3vw,24px);background:#e7f5ff;color:#194d69;border-bottom:1px solid #c4e3f4;font:700 13px/1.55 Futura,Arial,sans-serif}
+.tle-jessy-sonny-action{display:block;width:min(100%,360px);margin:7px 0 16px;text-align:center;border-radius:14px;padding:12px 16px;background:#f2d85b;border:1px solid #d6ba38;color:#191919;font:700 13px/1.4 Futura,Arial,sans-serif;cursor:pointer}
+.tle-jessy-sonny-action:hover{background:#f7e685}
+.tle-jessy-sonny-action:focus-visible{outline:3px solid #4587b6;outline-offset:2px}

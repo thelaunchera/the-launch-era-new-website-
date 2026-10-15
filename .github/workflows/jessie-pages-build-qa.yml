@@ -58,7 +58,7 @@ jobs:
           grep -q 'id="team-brief-reports"' .output/public/command-center/ai-team.html
           grep -q 'owner-diagnostic-run' .output/public/command-center/assets/ai-team.js
           grep -q 'booking-smart' .output/public/command-center/index.html
-          grep -q 'jessy-owner.js?v=20261014-unified-team-v1' .output/public/command-center/index.html
+          grep -q 'jessy-owner.js?v=20261014-compact-alert-v1' .output/public/command-center/index.html
           if grep -R -n -E 'SUPABASE_SERVICE_ROLE_KEY|GROQ_API_KEY|OPENAI_API_KEY' .output/public/command-center/assets/ai-team.js .output/public/command-center/assets/jessy-owner.js; then
             echo "::error::Private server secret references unexpectedly present in browser assets"
             exit 1
@@ -80,13 +80,17 @@ jobs:
 
       - name: Verify synthetic Jessie on phone, tablet and desktop in EN/ES
         run: node scripts/qa-jessie-browser.mjs
+      - name: Verify consent-gated public demo with no real sends in EN/ES
+        run: node scripts/qa-jessie-demo-browser.mjs
 
       - name: Save synthetic Jessie screenshots for independent reviewer
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: jessie-ai-team-responsive-fixtures
-          path: qa-screenshots/jessie-ai-team-*.png
+          path: |
+            qa-screenshots/jessie-ai-team-*.png
+            qa-screenshots/jessie-demo-*.png
           if-no-files-found: warn
 
       - name: Save build validation summary

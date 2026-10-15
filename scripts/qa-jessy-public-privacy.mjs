@@ -27,7 +27,7 @@ for(const language of ['en','es']){
  assert.match(explain.reply,language==='es'?/llamada 1:1 opcional de 20 minutos/:/optionally request a 20-minute 1:1 call/);
  assert.match(explain.reply,language==='es'?/no es obligatoria/i:/not required/);
  assert.match(explain.reply,language==='es'?/Después de comprar un servicio/i:/After purchasing a service/i);
- assert.equal(explain.next_action,'none',"No presale call booking actions on explanation.");
+ assert.equal(explain.next_action,'demo',"Offer only the existing demo with its consent gate; never a presale call.");
  const purchased=await ask({message:language==='es'?'Ya compré mi servicio, ¿cómo hago mi llamada 1:1?':'I already purchased a service, how do I schedule my 1:1 call?',language,selected_offer:'booking'});
  assert.equal(purchased.mode,'verified_call');
  assert.match(purchased.reply,language==='es'?/verifica tu pedido/:/verifies the purchase/);
