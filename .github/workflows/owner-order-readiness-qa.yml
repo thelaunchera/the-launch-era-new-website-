@@ -7,6 +7,8 @@ on:
       - 'public/command-center/assets/command-center-app.js'
       - 'scripts/qa-owner-order-control.mjs'
       - 'scripts/qa-owner-order-watchdog.mjs'
+      - 'scripts/qa-owner-order-bundle-integrity.mjs'
+      - 'supabase/migrations/20261015145000_tle_owner_bundle_integrity_watch.sql'
       - 'scripts/qa-owner-order-practice.mjs'
       - 'public/command-center/order-practice/index.html'
       - 'supabase/migrations/20261015135000_tle_ai_team_order_blocker_watch.sql'
@@ -29,5 +31,6 @@ jobs:
         run: |
           node scripts/qa-owner-order-control.mjs
           node scripts/qa-owner-order-watchdog.mjs
+          node scripts/qa-owner-order-bundle-integrity.mjs
           node scripts/qa-owner-order-practice.mjs
           node --check public/command-center/assets/command-center-app.js
