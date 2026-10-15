@@ -114,9 +114,75 @@
    const detail=document.createElement("b");detail.textContent=[...b.areas,b.custom].filter(Boolean).join(", ");
    row.append(label,detail);box.append(row);
  }
+ function addDemoTransformations(){
+   const services=byId("demoServices");
+   if(!services||byId("tleV31Transformations"))return;
+   const gallery=document.createElement("section");
+   gallery.id="tleV31Transformations";
+   gallery.className="tle-v31-transformations";
+   gallery.setAttribute("aria-labelledby","tleV31Title");
+   const labels=es?{
+      eyebrow:"ANTES Y DESPUÉS",title:"La diferencia está en los detalles.",
+      intro:"Pequeños cambios que se notan. Desliza para ver las comparaciones.",
+      note:"Imágenes ilustrativas de nuestra biblioteca del demo. No son resultados verificados de clientes.",
+      previous:"Ver ejemplo anterior",next:"Ver siguiente ejemplo",
+      before:"Antes",after:"Después",slide:["Juntas de ducha","Cama y dormitorio","Organización de despensa"]
+    }:{
+      eyebrow:"BEFORE & AFTER",title:"See what a fresh reset looks like.",
+      intro:"The little details make a difference. Swipe to explore.",
+      note:"Illustrative demo-library images, not verified client transformations.",
+      previous:"Previous example",next:"Next example",
+      before:"Before",after:"After",slide:["Shower tile & grout","Bedroom refresh","Organized pantry"]
+    };
+   const examples=[["grout","grout-before","grout-after"],["bed","bed-before","bed-after"],["pantry","pantry-before","pantry-after"]];
+   const top=document.createElement("div");top.className="tle-v31-gallery-top";
+   const words=document.createElement("div");
+   const overline=document.createElement("span");overline.className="tle-v31-kicker";overline.textContent=labels.eyebrow;
+   const heading=document.createElement("h2");heading.id="tleV31Title";heading.textContent=labels.title;
+   const intro=document.createElement("p");intro.textContent=labels.intro;
+   words.append(overline,heading,intro);
+   const buttons=document.createElement("div");buttons.className="tle-v31-controls";
+   const prev=document.createElement("button");prev.type="button";prev.textContent="←";prev.setAttribute("aria-label",labels.previous);
+   const next=document.createElement("button");next.type="button";next.textContent="→";next.setAttribute("aria-label",labels.next);
+   buttons.append(prev,next);top.append(words,buttons);
+   const rail=document.createElement("div");rail.className="tle-v31-gallery-rail";
+   rail.id="tleV31GalleryRail";rail.setAttribute("tabindex","0");rail.setAttribute("aria-label",labels.eyebrow);
+   examples.forEach(([id,before,after],i)=>{
+     const card=document.createElement("article");card.className="tle-v31-gallery-card";
+     const title=document.createElement("h3");title.textContent=labels.slide[i];
+     const photos=document.createElement("div");photos.className="tle-v31-compare-pair";
+     [[before,labels.before],[after,labels.after]].forEach(([source,label])=>{
+       const tile=document.createElement("figure");tile.className="tle-v31-compare-photo";
+       const img=document.createElement("img");
+       img.loading="lazy";img.decoding="async";img.width=520;img.height=600;
+       img.src="/assets/demo-transformations/"+source+".webp";
+       img.alt=labels.slide[i]+" — "+label;
+       const caption=document.createElement("figcaption");caption.textContent=label;
+       img.addEventListener("error",()=>{
+         // No invented before/after or mismatched fallback if a Drive photo cannot build.
+         card.remove();
+         if(!rail.querySelector(".tle-v31-gallery-card"))gallery.hidden=true;
+       },{once:true});
+       tile.append(img,caption);photos.append(tile);
+     });
+     card.append(title,photos);rail.append(card);
+   });
+   const notice=document.createElement("p");notice.className="tle-v31-gallery-note";notice.textContent=labels.note;
+   gallery.append(top,rail,notice);
+   const jump=direction=>{
+     const card=rail.querySelector(".tle-v31-gallery-card");
+     if(!card)return;
+     const distance=card.getBoundingClientRect().width+14;
+     rail.scrollBy({left:direction*distance,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
+   };
+   prev.addEventListener("click",()=>jump(-1));next.addEventListener("click",()=>jump(1));
+   services.insertAdjacentElement("afterend",gallery);
+ }
+
  function init(){
    if(!document.documentElement.classList.contains("demo-editorial")||!byId("bookingStarter"))return;
    document.documentElement.classList.add("tle-demo-compact-v30");
+   addDemoTransformations();
    taskBlock("res",copy.parts,byId("freq"));
    taskBlock("quote",copy.quotes,byId("qsize"));
    taskBlock("commercial",copy.commercial,byId("csize"));
