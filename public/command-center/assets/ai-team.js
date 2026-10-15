@@ -168,6 +168,8 @@ function renderTasks(){
   // Source-backed automatic briefs are displayed beside the task.
   // They are templates for owner review, not completed implementation.
   const preparedReview=outputs.find(o=>o.task_id===t.id&&o.generation_mode==="template"&&
+    typeof o.title==="string"&&o.title.startsWith("Public evidence · "))||
+    outputs.find(o=>o.task_id===t.id&&o.generation_mode==="template"&&
     typeof o.title==="string"&&o.title.startsWith("Prepared review · "));
   const pendingPreparedReview=preparedReview?.status==="draft"?preparedReview:null;
   if(preparedReview){
@@ -182,8 +184,12 @@ function renderTasks(){
     const summary=el("summary","",caption+reviewStatus);summary.style.cssText="cursor:pointer;font-weight:800;font-size:13px;line-height:1.5";
     detail.append(summary);
     const note=el("p","",language==="es"
-      ?"Preparación basada en registros internos. No se inspeccionaron enlaces públicos ni se ejecutó el trabajo."
-      :"Prepared from internal records. No public links were inspected and no work was executed.");
+      ?(preparedReview.title.startsWith("Public evidence · ")?
+          "Revisión de referencias públicas. Las coincidencias son orientativas; comprueba los enlaces y autoriza cada decisión."
+          :"Preparación basada en registros internos. No se inspeccionaron enlaces públicos ni se ejecutó el trabajo.")
+      :(preparedReview.title.startsWith("Public evidence · ")?
+          "Public reference review. Text matches are clues only; verify links and approve every decision."
+          :"Prepared from internal records. No public links were inspected and no work was executed."));
     note.style.cssText="font-size:12px;line-height:1.5;margin:10px 0";detail.append(note);
     const pre=el("pre","ait-output-copy",preparedReview.content);
     pre.style.cssText="white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;max-width:100%;font-size:12px;line-height:1.55;margin:0";
