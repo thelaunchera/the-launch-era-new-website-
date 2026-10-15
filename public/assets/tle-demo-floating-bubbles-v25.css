@@ -145,3 +145,12 @@ html.demo-editorial.tle-demo-bubbles-v25 #tleDemoBlueRibbon .tle-bubble-v25:nth-
     will-change:auto!important;
   }
 }
+
+/* Legibility fix: process numbers were dark blue on navy circles. */
+html.demo-editorial.tle-demo-bubbles-v25 .tle-client-quicksteps ol li::before{
+  color:#f4fbff!important;
+  background:#204d6a!important;
+  border:2px solid #a9ddf7!important;
+  text-shadow:none!important;
+  box-shadow:0 0 0 5px rgba(20,57,79,.12)!important;
+}
