@@ -42,6 +42,7 @@ try{
    await page.waitForURL('**/booking-demo-reset.html?lang='+lang,{timeout:15000});
    assert.equal(await page.locator('html').getAttribute('lang'),lang);
    const floating=page.locator('#sonnyAvatarLauncher');
+   await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
    await floating.waitFor({state:'visible',timeout:10000});
    const avatarCheck=await floating.evaluate(button=>{
      const image=button.querySelector('img'),r=button.getBoundingClientRect();
