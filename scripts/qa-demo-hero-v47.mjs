@@ -19,13 +19,13 @@ try {
     const inside=(a,b)=>a&&b&&a.top>=b.top-2&&a.bottom<=b.bottom+2&&a.left>=b.left-2&&a.right<=b.right+2;
     const b=stage.getBoundingClientRect();
     const words=stage.querySelector(".tle47-hero-phrase");
-    const top=r(".tle46-caption"),headline=r(".demo-hero-tagline"),sub=r(".demo-hero-description"),cta=r(".demo-hero-cta");
+    const top=r(".tle46-caption"),headline=r("h1.demo-headline"),sub=r(".demo-hero-description"),cta=r(".demo-hero-cta");
     return {clip:getComputedStyle(hero).overflow,stripClip:getComputedStyle(hero.querySelector(".tle46-thumb-strip")).overflow,
       heroSrc:stage.querySelector("img")?.getAttribute("src"),
       thumbs:hero.querySelectorAll("button.tle46-thumb-slot").length,
       captions:words?.innerText,wordCount:words?.querySelectorAll(".tle47-word").length,
       heroRect:b.toJSON(),sloganRect:top?.toJSON(),headlineRect:headline?.toJSON(),subRect:sub?.toJSON(),ctaRect:cta?.toJSON(),
-      taglineText:hero.querySelector(".demo-hero-tagline")?.innerText,
+      taglineText:hero.querySelector("h1.demo-headline")?.innerText,
       oldServiceSlogans:document.querySelectorAll(".tle-v46-photo-words").length,
       within:inside(headline,b)&&inside(sub,b)&&inside(cta,b),
       overlapping:top&&headline&&top.bottom>headline.top,
