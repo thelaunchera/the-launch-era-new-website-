@@ -13,6 +13,23 @@ try{
   page.on("request",r=>{if(["POST","PUT","PATCH","DELETE"].includes(r.method()))writes.push(r.url())});
   await page.goto(base+"/lead-private-preview.html?lang="+lang,{waitUntil:"load"});
   await page.waitForSelector("html.tle-demo-v45",{timeout:15000});
+  // The full-bleed section has an entrance transform. Verify its settled
+  // layout, not a transient scale(0.95) in the middle of animation.
+  try {
+   await page.waitForFunction(expected=>{
+    const section=document.querySelector("#bookingStarter");
+    return !!section && Math.abs(section.getBoundingClientRect().width-expected)<=2;
+   },width,{timeout:9000});
+  }catch(error){
+   const state=await page.evaluate(()=>{
+    const section=document.querySelector("#bookingStarter");
+    const root=document.querySelector("main.wrap");
+    return {width:innerWidth,sectionRect:section?.getBoundingClientRect().width,
+     sectionCSS:section&&{width:getComputedStyle(section).width,transform:getComputedStyle(section).transform,scale:getComputedStyle(section).scale},
+     parentTransform:root&&getComputedStyle(root).transform};
+   });
+   throw new Error("Demo full-bleed failed to settle: "+JSON.stringify(state),{cause:error});
+  }
   const before=await page.evaluate(()=>{
    const logo=document.querySelector("#demoEditorialNav #demoBrandName .tle-bloom-name");
    const hero=document.querySelector("#leadHero");
