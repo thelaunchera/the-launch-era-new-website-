@@ -94,7 +94,7 @@ function init(){
   const launcher=document.querySelector(".tle-ai-launch.tle-demo-condensed");
   if(!launcher||!matchMedia("(max-width:759px)").matches)return;
   const booking=root.classList.contains("tle-demo-booking-active");
-  launcher.style.setProperty("top",booking?"152px":"auto","important");
+  launcher.style.setProperty("top",booking?"206px":"auto","important");
   launcher.style.setProperty("bottom",booking?"auto":"calc(12px + env(safe-area-inset-bottom))","important");
   launcher.style.setProperty("right","calc(10px + env(safe-area-inset-right))","important");
  };
