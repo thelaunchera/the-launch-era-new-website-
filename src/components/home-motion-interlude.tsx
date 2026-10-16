@@ -45,7 +45,7 @@ export function HomeMotionInterlude({lang='en'}:{lang?:Lang}) {
   // Neither the scene, background, nor its animation is modified.
   const heading=el.querySelector<HTMLElement>('.tle-time-heading');
   const syncHeadingContrast=()=>{
-   const top=el.style.background.match(/rgb\\(\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)\\s*\\)/);
+   const top=el.style.background.match(/rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)/);
    if(!heading||!top)return;
    const linear=[Number(top[1]),Number(top[2]),Number(top[3])].map(v=>{
     const c=v/255;return c<=.04045?c/12.92:((c+.055)/1.055)**2.4;
