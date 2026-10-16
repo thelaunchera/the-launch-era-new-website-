@@ -1,0 +1,21 @@
+name: CRM Phase 1 Static Guards
+on:
+  pull_request:
+    paths:
+      - 'public/command-center/**'
+      - 'scripts/qa-crm-ui-phase1-static.mjs'
+      - 'docs/crm-ui-functional-upgrade.md'
+jobs:
+  crm-phase1-static:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify owner-only assets and pipeline wiring
+        run: node scripts/qa-crm-ui-phase1-static.mjs
