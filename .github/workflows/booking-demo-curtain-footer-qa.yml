@@ -1,0 +1,53 @@
+name: Booking Demo Curtain Footer QA
+on:
+  pull_request:
+    paths:
+      - 'public/booking-demo-reset.html'
+      - 'public/assets/tle-demo-curtain-footer.css'
+      - 'scripts/qa-demo-curtain-footer.mjs'
+      - '.github/workflows/booking-demo-curtain-footer-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'public/booking-demo-reset.html'
+      - 'public/assets/tle-demo-curtain-footer.css'
+      - 'scripts/qa-demo-curtain-footer.mjs'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  demo-curtain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate demo boundaries and build
+        run: |
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-public-demo-integrity.mjs
+          node --check scripts/qa-demo-curtain-footer.mjs
+          bun install
+          bun run build
+      - name: Install Chromium
+        run: |
+          mkdir -p /tmp/tle-demo-curtain-chromium
+          cd /tmp/tle-demo-curtain-chromium
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          ln -sfn /tmp/tle-demo-curtain-chromium/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-demo-curtain-chromium/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: Verify footer reveal at six breakpoints
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-demo-curtain-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for i in $(seq 1 45); do
+            if curl -fsS http://127.0.0.1:4173/booking-demo-reset.html >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-demo-curtain-footer.mjs
