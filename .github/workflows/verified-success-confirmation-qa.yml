@@ -7,7 +7,7 @@ on:
       - 'src/routes/es.index.tsx'
       - 'src/components/freebie-page.tsx'
       - 'scripts/qa-marketing-cta-motion.mjs'
-      - 'scripts/qa-verified-success.mjs'
+      - 'scripts/qa-verified-success*.mjs'
       - 'supabase/migrations/20261016143000_fix_tle_crm_capture_goal_guard.sql'
       - '.github/workflows/verified-success-confirmation-qa.yml'
   push:
@@ -60,4 +60,4 @@ jobs:
             if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
             sleep 1
           done
-          QA_URL=http://127.0.0.1:4173 node scripts/qa-marketing-cta-motion.mjs --browser
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-verified-success-browser.mjs
