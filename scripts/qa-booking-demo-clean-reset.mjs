@@ -46,6 +46,32 @@ try{
    await page.goto(base+'/lead-private-preview.html?lang='+lang,{waitUntil:'load',timeout:45000});
    await page.waitForURL('**/booking-demo-reset.html?lang='+lang,{timeout:15000});
    assert.equal(await page.locator('html').getAttribute('lang'),lang);
+   // Same restored blue-bubble story in the public site AND Jessie's email lead magnet.
+   assert.equal(await page.locator('#bookingBubbleStory').count(),1,'One bubble chapter only');
+   const bubbles=await page.evaluate(()=>{
+     const story=document.getElementById('bookingBubbleStory');
+     const layer=story?.querySelector('.booking-bubble-layer');
+     const first=layer?.querySelector('span');
+     const card=document.getElementById('customQuote');
+     return {
+       count:layer?.children.length,
+       pointer:getComputedStyle(layer).pointerEvents,
+       rim:getComputedStyle(first).borderTopColor,
+       storyBg:getComputedStyle(story).backgroundImage,
+       pageBg:getComputedStyle(document.body).backgroundColor,
+       quoteBg:getComputedStyle(card).backgroundImage,
+       quoteTitle:getComputedStyle(document.getElementById('bookingCustomAction')).color,
+       bookingLink:document.getElementById('bookingBubbleAction')?.getAttribute('href'),
+       heading:document.getElementById('bookingBubbleTitle')?.textContent,
+       overflow:document.documentElement.scrollWidth-innerWidth
+     };
+   });
+   assert(bubbles.count===7&&bubbles.pointer==='none','Old seven decorative bubbles must not block touches: '+JSON.stringify(bubbles));
+   assert(bubbles.storyBg.includes('linear-gradient')&&bubbles.quoteBg.includes('linear-gradient'),'Blue bubble treatment missing in story or quote card: '+JSON.stringify(bubbles));
+   assert.equal(bubbles.bookingLink,'#bookingPage','Bridge CTA must link to functioning booking steps');
+   assert.match(bubbles.heading,lang==='es'?/primer mensaje/:/first hello/,'Bubble story language did not match email lead');
+   assert(bubbles.overflow<=2,lang+' '+width+' bubble backgrounds cannot cause horizontal scrolling '+JSON.stringify(bubbles));
+
    const headerAvatar=page.locator('.sonny-avatar-mark img');
    assert(await headerAvatar.evaluate(img=>img.complete&&img.naturalWidth>30),'Original blue Sonny avatar loads in '+lang);
    assert.equal(await page.locator('.sonny-avatar-mark').count(),1,'One approved Sonny avatar');
