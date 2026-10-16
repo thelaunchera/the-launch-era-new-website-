@@ -1,0 +1,26 @@
+// Static regression checks. These do not replace authenticated browser or RLS tests.
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { Script } from 'node:vm';
+const root = new URL('../public/command-center/', import.meta.url);
+const read = path => readFileSync(new URL(path, root), 'utf8');
+const html = read('index.html');
+const app = read('assets/command-center-app.js');
+const css = read('assets/crm-ui-upgrade.css');
+const gesture = read('assets/crm-pipeline-enhancements.js');
+assert.equal((html.match(/crm-ui-upgrade\.css/g) || []).length, 1, 'CSS must be linked once');
+assert.equal((html.match(/crm-pipeline-enhancements\.js/g) || []).length, 1, 'JS must be linked once');
+assert.match(html, /command-center-app\.js/, 'Existing application script must remain loaded');
+assert.match(css, /body\.crm-owner-view #board/, 'Upgrade styling must remain owner-scoped');
+assert.match(css, /prefers-reduced-motion/, 'Reduced motion support required');
+assert.match(css, /scroll-snap-type:\s*x mandatory/, 'Mobile board needs scroll snapping');
+assert.match(gesture, /classList\.contains\('crm-owner-view'\)/, 'Owner gate required');
+assert.match(gesture, /classList\.contains\('crm-buyer-view'\)/, 'Buyer exclusion required');
+assert.match(gesture, /setPointerCapture/, 'Pointer gestures need capture');
+assert.match(gesture, /ArrowLeft/, 'Keyboard support required');
+assert.match(gesture, /ArrowRight/, 'Keyboard support required');
+assert.match(gesture, /dispatchEvent\(new Event\('change'/, 'Must use existing persisted stage control');
+assert.doesNotMatch(gesture, /db\.from\s*\(/, 'Do not create a second unscoped database writer');
+assert.match(app, /\.eq\('workspace_id',workspace\.id\)/, 'Existing stage update must scope workspace');
+new Script(gesture, {filename: 'crm-pipeline-enhancements.js'});
+console.log('CRM phase 1 static checks: PASS');
