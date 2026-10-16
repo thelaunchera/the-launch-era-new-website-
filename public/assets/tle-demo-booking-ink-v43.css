@@ -1,0 +1,12 @@
+/* v43: last-layer visual contrast patch for sample-only sky booking.
+   Does not affect keyed customer pages, photo captions or hero overlays. */
+html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter .head #title,
+html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter .head .demo-panel-desc,
+html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter .tle-client-progress .tle-client-progress-step,
+html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter .tle-client-progress small,
+html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter .head #count{
+ color:#194761!important;opacity:1!important;text-shadow:none!important
+}
+html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter .head #title{
+ -webkit-text-fill-color:#194761!important
+}
