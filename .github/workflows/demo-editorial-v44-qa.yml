@@ -1,12 +1,13 @@
-name: Demo Welcome Hero and Gallery QA
+name: Demo Natural Editorial QA
 on:
   push:
     branches: [main]
     paths:
-      - 'public/assets/tle-demo-editorial-v44.css'
+      - 'public/assets/tle-demo-natural-v45.css'
+      - 'public/assets/tle-demo-natural-v45.js'
       - 'public/assets/tle-demo-editorial-v44.js'
       - 'public/lead-private-preview.html'
-      - 'scripts/qa-demo-editorial-v44.mjs'
+      - 'scripts/qa-demo-natural-v45.mjs'
       - '.github/workflows/demo-editorial-v44-qa.yml'
   workflow_dispatch:
 permissions:
@@ -25,27 +26,28 @@ jobs:
           node scripts/qa-route-integrity.mjs --static
           node scripts/qa-public-demo-integrity.mjs
           node --check public/assets/tle-demo-editorial-v44.js
-          node --check scripts/qa-demo-editorial-v44.mjs
+          node --check public/assets/tle-demo-natural-v45.js
+          node --check scripts/qa-demo-natural-v45.mjs
       - name: Install Chromium
         run: |
           bun install
-          mkdir -p /tmp/tle-v44-pw
+          mkdir -p /tmp/tle-v45-pw
           cd /tmp/tle-v44-pw
           npm init -y >/dev/null
           npm install --no-audit --no-fund playwright@1.57.0
           npx playwright install --with-deps chromium
-      - name: Validate EN ES hero, no overlaps, photo cards, calendar and isolation
+      - name: Validate natural full-bleed gallery, add-ons, quote and tenant isolation
         run: |
-          bun run dev -- --host 127.0.0.1 --port 4173 >/tmp/tle-demo-v44.log 2>&1 &
+          bun run dev -- --host 127.0.0.1 --port 4173 >/tmp/tle-demo-v45.log 2>&1 &
           for i in $(seq 1 45); do
             if curl -sf http://127.0.0.1:4173/lead-private-preview.html >/dev/null; then break; fi
             sleep 2
           done
-          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-v44-pw/node_modules/playwright/index.mjs node scripts/qa-demo-editorial-v44.mjs
+          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-v44-pw/node_modules/playwright/index.mjs node scripts/qa-demo-natural-v45.mjs
       - name: Save visual screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: demo-v44-mobile-tablet-desktop
-          path: qa-screenshots/demo-v44/
+          name: demo-v45-mobile-tablet-desktop
+          path: qa-screenshots/demo-v45/
           if-no-files-found: ignore
