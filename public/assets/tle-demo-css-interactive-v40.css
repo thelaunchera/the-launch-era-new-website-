@@ -3,3 +3,6 @@ html.demo-editorial #bookingStarter #categoryTabs{position:relative;isolation:is
 html.demo-editorial #bookingStarter #categoryTabs::before{content:"";position:absolute;inset:5px auto 5px 5px;width:calc((100% - 10px)/2);background:#fff;border-radius:14px;box-shadow:0 4px 15px #357e9e20;transition:transform .48s cubic-bezier(.32,.72,0,1)}
 html.demo-editorial #bookingStarter #categoryTabs:has(button[data-category="commercial"].sel)::before{transform:translateX(100%)}
 html.demo-editorial #bookingStarter #categoryTabs button.choice{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;min-height:56px;padding:10px 7px!important;border:0!important;border-radius:14px!important;box-shadow:none!important;background:transparent!important;color:#466b85!important}
+html.demo-editorial #bookingStarter #categoryTabs button.choice.sel{color:#153f5e!important}
+html.demo-editorial #bookingStarter #categoryTabs button.choice b{font-size:clamp(11px,1.6vw,14px);line-height:1.3}
+html.demo-editorial #bookingStarter #categoryTabs button.choice:focus-visible{outline:3px solid #4b9ecb!important;outline-offset:-3px!important}
