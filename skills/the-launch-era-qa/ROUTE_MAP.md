@@ -1,5 +1,11 @@
 # ROUTE_MAP.md — The Launch Era route & button registry
 
+## Homepage 3-step shared-element details (2026-10-16)
+- **Public EN `/` and ES `/es/` only:** `ProcessSection` and the Spanish home process area now mount the same `ProcessSteps` component (`src/components/process-view-transitions.tsx`) and locally scoped CSS. Each existing step becomes a native button with a blue thumbnail that expands into an informational dialog hero through the View Transitions API; measured FLIP animates where unsupported, and reduced-motion uses an instant state swap. The original three step messages and `#contacto` real forms remain, no new path or backend.
+- **Accessibility:** dialog, Escape and close, backdrop click, focus trap/return, unique view-transition-name for the active pair, visible focus rings, EN/ES detail text. No checkout, demo, email, client data or Command Center behavior is changed.
+- **QA gate:** `node scripts/qa-process-view-transitions.mjs`, Vitest interactive tests, `bun run build`, `node scripts/qa-route-integrity.mjs --static`, and Playwright at 390/820/1440 in EN/ES plus reduced-motion and normal-motion. New dedicated CI runs on the feature PR/main. Browser/live publication must be verified separately.
+
+
 ## Public fictional booking demo: inline calendar + cleaning frequency selector (2026-10-16)
 - **Surface:** `/lead-private-preview.html?lang=en|es` only without a buyer `key` or `owner_preview=1`; code: `public/assets/tle-demo-inline-booking-v41.js/css`, `tle-demo-frequency-v41.js/css` and `tle-demo-readability-v41.css`. CSS is imported by the existing v38 sample style. JavaScript is loaded from the existing sample-only v27 loader after the page load.
 - **Hero:** a responsive photo-led headline alongside a white calendar card on wide screens; on phone and tablet the card sits below the untouched photo. Real month dates; elapsed dates disabled; keyboard and touch day/time selection. Confirm switches to "Booked in demo", explicitly says nothing was booked or sent and only pre-fills local date and time fields. The real service selection and form still require deliberate visitor action; no network writes.
