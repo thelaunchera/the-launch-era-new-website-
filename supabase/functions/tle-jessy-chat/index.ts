@@ -76,6 +76,48 @@ function asksPrice(msg){
  const q=norm(msg);
  return /\bhow much\b|how much(?: is| does| will| would| per| for)?|what(?:s| is| are)? (?:the |your )?(?:price|cost|monthly fee)|\bprice(?:s|d|ing)?\b|\bcost(?:s|ly)?\b|\bfees?\b|\bmonthly\b|\bsubscription\b|\bdiscount\b|\bcuanto\b|cuanto (?:cuesta|vale|sale|es|seria)|cuanto por|precios?|cuesta|costo|tarifa|mensualidad|suscrip|descuento/.test(q);
 }
+// Promotional facts are drawn from the approved live offer catalog, never a model guess.
+// This path also works when the generative provider is unavailable.
+function asksPromotion(msg){
+ const q=norm(msg);
+ return /\b(?:discounts?|promo(?:tion)?s?|deals?|sale|special offers?|fall refresh|reduced price|descuentos?|ofertas?|promociones?|rebajas?)\b/.test(q);
+}
+function asksCustomServicePrice(msg){
+ const q=norm(msg);
+ return /\b(?:fixed[ -]?(?:price|quote|rate|cost)|custom(?:ized)?[ -]?(?:price|quote|pricing)|personalized (?:quote|price)|negotiat(?:e|able|ion)|better (?:rate|price)|special (?:rate|price)|precio fijo|cotizaci[oó]n personalizada|presupuesto personalizado|precio personalizado|negociar (?:el )?precio|hablar del precio|discutir el precio)\b/.test(q);
+}
+function quoteReviewReply(lang){
+ return lang==="es"
+  ?"Si prefieres un precio fijo o una propuesta adaptada a tu negocio, el equipo puede revisar lo que necesitas y conversar contigo sobre una cotización personalizada. No puedo garantizar una rebaja adicional ni confirmar un precio sin revisar el alcance."
+  :"If you'd prefer a fixed-price proposal tailored to your business, our team can review what you need and discuss a custom quote. I can't promise an extra discount or confirm a final price before they review the scope.";
+}
+function answerPromotion(msg,lang,catalog,id){
+ const es=lang==="es";
+ const find=(key)=>catalog.find(row=>row[0]===key);
+ const booking=find("booking"),website=find("website"),va=find("va");
+ const current=Date.now()<Date.parse("2026-11-01T04:00:00Z");
+ const bookingText=booking?.[es?5:4]||"";
+ const hasFall=current&&/fall refresh/i.test(bookingText)&&/\$19\.99/.test(bookingText);
+ const hasBundle=hasFall&&/40%/.test(bookingText);
+ const hasWebsite=/30%/.test(website?.[es?5:4]||"");
+ const hasVA=/30%/.test(va?.[es?5:4]||"");
+ const pieces=[];
+ if(hasFall)pieces.push(es?"Booking Automation está a $19.99 hasta el 31 de octubre.":"Booking Automation is $19.99 through October 31.");
+ if(hasBundle)pieces.push(es
+  ?"Booking Automation + un AI Assistant puede calificar para un 40% de descuento en la activación conjunta; la mensualidad normal del asistente aplica después del primer mes y el checkout confirma el total."
+  :"Booking Automation + an AI Assistant may qualify for 40% off the combined activation; the standard AI monthly price applies after the first month, and checkout confirms the total.");
+ if(id==="website"&&hasWebsite)pieces.unshift(es?"Website Automation también muestra un 30% de descuento.":"Website Automation also lists 30% off.");
+ if(id==="va"&&hasVA)pieces.unshift(es?"VA Essential Support también muestra un 30% de descuento.":"VA Essential Support also lists 30% off.");
+ if(!hasFall){
+  if(hasWebsite)pieces.push(es?"Website Automation muestra un 30% de descuento.":"Website Automation currently lists 30% off.");
+  if(hasVA)pieces.push(es?"VA Essential Support muestra un 30% de descuento.":"VA Essential Support currently lists 30% off.");
+ }
+ const start=pieces.length?(es?"¡Sí! Tenemos estas ofertas publicadas: ":"Yes! We have these published offers: "):(es?"No veo una promoción adicional confirmada ahora mismo. ":"I don't see an additional confirmed promotion right now. ");
+ const custom=es
+  ?" Si quieres consultar un precio fijo o una propuesta personalizada, puedo ponerte en contacto con el equipo para que lo conversen. El precio final se confirma después de revisar los detalles."
+  :" If you'd like a fixed-price or tailored proposal, I can put you in touch with the team to discuss it. They will confirm any final pricing after reviewing the details.";
+ return start+pieces.join(" ")+custom;
+}
 function isBusinessCleaningPriceQuestion(msg){
  const q=norm(msg);
  return /(?:how much|cuanto|price|precio|cost|costo).{0,65}(?:house cleaning|clean a house|deep clean|per cleaning|service visit|una limpieza|limpiar casa|por casa|por limpieza|por trabajo)/.test(q);
@@ -121,6 +163,8 @@ function jessieCapabilitiesReply(lang){
   : "Of course! 💙 I can help you organize inquiries and clients, understand our AI Assistants, compare services and prices, or explore demos. That includes Booking Automation, the Cleaning App, Website Automation and VA support. What's been taking up the most time in your business lately?";
 }
 function wantsAiPlanComparison(message,prior,focus){
+ // Asking for a discount after comparing AI plans is not a request to show those cards again.
+ if(asksPromotion(message)||asksCustomServicePrice(message))return false;
  const q=norm(message);
  const explicitSingle=/\b(ai[ -]?booking|booking assistant|asistente de reservas|ai[ -]?follow[ -]?up|follow[ -]?up assistant|asistente de seguimiento|ai[ -]?business|business assistant|asistente de negocios|asistente empresarial)\b|\$(?:79|59|119)\b/.test(q);
  if(explicitSingle)return false;
@@ -286,6 +330,7 @@ async function aiResponse(msg,history,lang,cat,focus){
   "Read the recent conversation carefully: resolve short follow-ups such as 'How much?', 'Why?', 'Does it?', 'And invoices?' to the previous discussed service and question.",
   "Directly address the CURRENT question, not the last one. Never repeat the previous answer unless asked to repeat. Never recycle one generic booking description for unrelated questions.",
   "Use ONLY verified facts in the catalog and internal FAQ. Prices and bundles are confirmed by the live catalog or checkout, never memory. If a capability or policy is unknown, state what is and is not confirmed, and offer human follow-up only when appropriate.",
+  "Active catalog discounts are real: acknowledge published offers when visitors ask. Discount eligibility for bundles is conditional and checkout decides the final amount. Visitors may request a tailored fixed-price proposal from the team, but do not promise additional discounts or a fixed amount without scope review.",
   "Do not claim all external automations are fully tested. Exact AI follow-up behavior is agreed during setup and requires appropriate lead consent and owner oversight.",
   "The Launch Era offers an OPTIONAL 20-minute 1:1 call ONLY AFTER someone purchases a service. Make it explicit that this call is NOT required to start or use the purchased service, and do not describe it as mandatory, automatically scheduled, or a step all buyers must attend. Never deny the existence of the call, but NEVER present it as a free consultation, presale appointment, standalone offer, or an option to request before buying. The team verifies the purchase and coordinates a time ONLY if the buyer wants one; no booking is automatic. Do not invent links or a call fee.",
   "If someone asks how a service works, first give the practical explanation and, where appropriate, close by mentioning the OPTIONAL 20-minute 1:1 call available AFTER purchase for extra setup guidance. Clarify that buyers can skip it and use their service normally. This is not an invitation to book a presale call.",
@@ -366,10 +411,12 @@ Deno.serve(async(req)=>{
  const id=identify(message,prior,focus);
  const row=catalog.find(x=>x[0]===id);
  const isCombo=/booking.{0,32}(with|con|\+|y).{0,22}(ai|ia|assistant|asistente)|booking.{0,24}(follow.?up|seguimiento)|paquete.{0,22}(ia|asistente)/i.test(message);
+ const promotionQuestion=asksPromotion(message);
+ const customPricingQuestion=!promotionQuestion&&asksCustomServicePrice(message)&&!isBusinessCleaningPriceQuestion(message);
  const priceQuestion=asksPrice(message);
  const faqCandidates=findFaq(message,id,3);
  // A safe, deterministic price answer must use the current live catalog, not a model's memorized value.
- const fixed=priceQuestion?answerPrice(message,lang,catalog,id):null;
+ const fixed=promotionQuestion?answerPromotion(message,lang,catalog,id):customPricingQuestion?quoteReviewReply(lang):priceQuestion?answerPrice(message,lang,catalog,id):null;
  // Use the actual AI for explanations and unexpected questions instead of always intercepting
  // them with the same prewritten explanation. If unavailable, use the TOPICAL FAQ.
  const ai=fixed?null:await aiResponse(message,history,lang,catalog,id||focus);
@@ -391,7 +438,7 @@ Deno.serve(async(req)=>{
  if(id==="whatsapp"||id==="cleaning-app")checkout=null;
  if(checkout&&checkout.startsWith("/service-checkout/")&&!checkout.includes("lang="))checkout+="&lang="+lang;
  if(id==="booking"||isCombo)checkout="/booking-bundle/?lang="+lang;
- const nextAction=priceQuestion&&!isBusinessCleaningPriceQuestion(message)?"checkout":helpfulNextAction(message,id);
+ const nextAction=promotionQuestion||customPricingQuestion?"team_quote":priceQuestion&&!isBusinessCleaningPriceQuestion(message)?"checkout":helpfulNextAction(message,id);
  // Avoid implying the Cleaning App requires any demo capture form.
  if(nextAction==="demo_choice"){
   finalReply=lang==="es"
@@ -410,6 +457,6 @@ Deno.serve(async(req)=>{
    id==="whatsapp"?"/whatsapp-ai-agent/":null,
   trial:id==="cleaning-app"?"https://app.thelaunchera.com/?entry=signup":null,
   next_action:nextAction,
-  mode:fixed?"verified_price":ai?"reasoned_ai":knowledge?"verified_faq":"needs_team"
+  mode:promotionQuestion?"verified_promotion":customPricingQuestion?"verified_quote_review":fixed?"verified_price":ai?"reasoned_ai":knowledge?"verified_faq":"needs_team"
  },200,origin);
 });
