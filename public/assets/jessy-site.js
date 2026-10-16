@@ -386,6 +386,7 @@ if(result&&typeof result.reply==="string"){
   else if(next==="demo_choice"){showDemoCard("booking")}
   else if(next==="app_demo"){const a=node("a","tle-jessy-help-link",lang==="es"?"Explorar la demo de la Cleaning App ↗":"Explore the Cleaning App demo ↗");a.href="/cleaning-app-demo/?lang="+lang;a.rel="noopener";log.append(a);log.scrollTop=log.scrollHeight;track("service_demo_opened")}
   if(next==="client_help"){const help=button("tle-jessy-help-link",lang==="es"?"Contactar a soporte ↗":"Contact support securely ↗");help.addEventListener("click",()=>showLead(true));log.append(help)}
+  if(next==="team_quote"){const quote=button("tle-jessy-help-link",lang==="es"?"Hablar sobre un precio personalizado ↗":"Discuss a custom quote ↗");quote.addEventListener("click",()=>showLead(true));log.append(quote);log.scrollTop=log.scrollHeight}
   if(next==="checkout"&&checkout)actions(checkout,info,null);
   else if(next==="trial"&&result.trial)actions(null,info,result.trial);
   else if(next==="demo"&&offer!=="booking"&&info)actions(null,info,null);
