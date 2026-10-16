@@ -5,6 +5,8 @@ on:
     paths:
       - 'public/assets/tle-demo-redesign-v42.js'
       - 'public/assets/tle-demo-redesign-v42.css'
+      - 'public/assets/tle-demo-booking-ink-v43.js'
+      - 'public/assets/tle-demo-booking-ink-v43.css'
       - 'public/assets/tle-demo-magical-clean-v27.js'
       - 'public/assets/tle-demo-stack-nav-v38.css'
       - 'scripts/qa-demo-redesign-v42.mjs'
@@ -26,6 +28,7 @@ jobs:
           node scripts/qa-route-integrity.mjs --static
           node scripts/qa-public-demo-integrity.mjs
           node --check public/assets/tle-demo-redesign-v42.js
+          node --check public/assets/tle-demo-booking-ink-v43.js
       - name: Install local browser
         run: |
           bun install
