@@ -185,6 +185,17 @@ html.demo-editorial.tle-demo-v45.tle-demo-v48.tle-demo-compact-v30.tle-photo-ser
  left:21px!important;bottom:23px!important;max-width:calc(100% - 89px)!important;
  font-size:14px!important;color:#f1faff!important;-webkit-text-fill-color:#f1faff!important;
 }
+/* Commercial categories without a relevant source photo: honest premium
+   typography rather than repeating or mislabelling domestic rooms. */
+html.demo-editorial.tle-demo-v45.tle-demo-v48.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v42-grid>button.service.tle48-nonphoto-commercial{
+ background:radial-gradient(ellipse at 82% 13%,#5085a2 0%,transparent 39%),linear-gradient(135deg,#244f68,#173e58)!important;
+}
+html.demo-editorial.tle-demo-v48 #bookingStarter #main .tle48-nonphoto-commercial .tle-service-photo-v21{
+ display:none!important;
+}
+html.demo-editorial.tle-demo-v45.tle-demo-v48.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v42-grid>button.service.tle48-nonphoto-commercial::before{
+ background:linear-gradient(180deg,transparent 22%,rgba(7,25,38,.38) 100%)!important;
+}
 html.demo-editorial.tle-demo-v45.tle-demo-v48 #bookingStarter #main .tle-v42-grid>button.tle48-duplicate-quote[hidden]{
  display:none!important;visibility:hidden!important;
 }
