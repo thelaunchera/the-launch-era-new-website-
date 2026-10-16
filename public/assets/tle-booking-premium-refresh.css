@@ -127,3 +127,40 @@ body .sonny:has(.sonny-body:not([hidden])) .sonny-body{background:#f9fcff}
  body .booking-portal{height:auto;min-height:clamp(650px,100svh,960px)}
  body .sonny *,body .service{transition:none!important}
 }
+
+/* iPhone Sonny safety: the open assistant must not blanket the entire
+   booking/price/portfolio viewport. Closed = only its small original robot. */
+@media(max-width:700px){
+  body .sonny:not(:has(.sonny-body:not([hidden]))){
+    width:54px;height:54px;min-width:54px;max-width:54px;
+    right:calc(16px + env(safe-area-inset-right,0px));
+    bottom:calc(19px + env(safe-area-inset-bottom,0px));
+  }
+  body .sonny:not(:has(.sonny-body:not([hidden]))) .sonny-avatar-mark{
+    width:50px;height:50px;flex-basis:50px;
+  }
+  body .sonny:not(:has(.sonny-body:not([hidden]))) .sonny-avatar-mark img{
+    width:48px;height:48px;
+  }
+  body .sonny:has(.sonny-body:not([hidden])){
+    right:calc(17px + env(safe-area-inset-right,0px));
+    bottom:calc(17px + env(safe-area-inset-bottom,0px));
+    width:min(340px,calc(100vw - 34px));
+    max-height:min(56dvh,410px);
+    display:flex;flex-direction:column;
+  }
+  body .sonny:has(.sonny-body:not([hidden])) .sonny-head{
+    flex:0 0 auto;padding:10px 12px;
+  }
+  body .sonny:has(.sonny-body:not([hidden])) .sonny-head h2{
+    font-size:15px;line-height:1.15;
+  }
+  body .sonny:has(.sonny-body:not([hidden])) .sonny-body{
+    min-height:0;max-height:min(40dvh,300px);
+    overflow-y:auto;overscroll-behavior:contain;
+    padding:12px;
+  }
+  body .sonny:has(.sonny-body:not([hidden])) .sonny-log{
+    min-height:38px;max-height:min(18dvh,125px);
+  }
+}
