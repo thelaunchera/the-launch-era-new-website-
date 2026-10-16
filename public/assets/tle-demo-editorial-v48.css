@@ -96,7 +96,7 @@ html.demo-editorial.tle-demo-v47.tle-demo-v48 #leadHero .tle47-hero-phrase{
  font-size:clamp(14px,1.55vw,19px)!important;letter-spacing:.005em!important;
 }
 html.demo-editorial.tle-demo-v48 #leadHero .tle48-sample-note{
- position:absolute;left:clamp(32px,5vw,72px);bottom:clamp(23px,4vw,44px);
+ position:absolute;left:clamp(32px,5vw,72px);bottom:clamp(74px,7vw,104px);
  z-index:6;color:#c9ebfd;letter-spacing:.14em;
  font:700 9px/1.5 "DM Sans",Arial,sans-serif;
 }
