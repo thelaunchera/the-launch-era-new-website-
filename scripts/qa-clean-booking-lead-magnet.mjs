@@ -19,7 +19,7 @@ assert.match(chat,/tle-ai-booking-demo/,'Keep the existing Sonny demo backend wi
 assert.match(template,/id="demoForm"/,'Personalized lead magnet intake must not be replaced with booking sample');
 assert(!/(?:@keyframes|\banimation\s*:|\btransition\s*:|\btransform\s*:|\bzoom\s*:|gsap\.|Flip\.|mix-blend-mode\s*:)/i.test(html),'New public demo must have zero visual zoom/motion');
 assert.deepEqual([...html.matchAll(/<link[^>]*rel="stylesheet"[^>]*href="([^"]+)"/g)].map(m=>m[1]),
-  ['/assets/tle-demo-hero-portal.css?v=20261016-portal1'],'Only the isolated hero CSS may be linked');
+  ['/assets/tle-demo-hero-portal.css?v=20261016-portal1','/assets/tle-booking-month-wheel.css?v=20261016-wheel1'],'Only scoped hero and time wheel CSS may be linked');
 
 const browser=await chromium.launch({headless:true});
 const outputs=[];
