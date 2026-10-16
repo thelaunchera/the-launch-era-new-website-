@@ -55,7 +55,7 @@ for (const [lang,path] of [['en','/'],['es','/es/']]) {
      },phase);
      observed.push(state);
      await page.waitForTimeout(120);
-     console.log('CENTRING_DIAG +JSON.stringify({lang,width,mobile,...state,errors:errors.slice(0,2)}));
+     console.log('CENTRING_DIAG '+JSON.stringify({lang,width,mobile,...state,errors:errors.slice(0,2)}));
    }
    if(width<768) {
      const offending=observed.filter(x=>x.scrollWidth>x.clientWidth+2);
