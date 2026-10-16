@@ -6,6 +6,7 @@ export function HomeMotion() {
   const media = window.matchMedia('(prefers-reduced-motion: reduce)');
   let frame = 0;
   const hero = document.querySelector<HTMLElement>('.sales-home .hero-scroll');
+  const heroIntro = hero?.querySelector<HTMLElement>('.hero-intro');
   const cards = Array.from(document.querySelectorAll<HTMLElement>('.sales-home .service-card'));
   const clamp = (value: number) => Math.max(0, Math.min(1, value));
   const update = () => {
@@ -14,6 +15,7 @@ export function HomeMotion() {
     if (media.matches) {
      hero.style.removeProperty('--hero-scroll-progress');
      hero.classList.remove('hero-scroll-revealed');
+     heroIntro?.removeAttribute('inert');
     } else {
      const rect = hero.getBoundingClientRect();
      // The sticky stage runs for section height minus one viewport.
@@ -21,6 +23,8 @@ export function HomeMotion() {
      const progress = clamp(-rect.top / travel);
      hero.style.setProperty('--hero-scroll-progress', progress.toFixed(4));
      hero.classList.toggle('hero-scroll-revealed', progress >= 0.7);
+     // Never leave an invisible CTA in the keyboard tab order.
+     heroIntro?.toggleAttribute('inert', progress >= 0.5);
     }
    }
    cards.forEach(card => {
@@ -41,6 +45,7 @@ export function HomeMotion() {
    media.removeEventListener('change', schedule);
    hero?.style.removeProperty('--hero-scroll-progress');
    hero?.classList.remove('hero-scroll-revealed');
+   heroIntro?.removeAttribute('inert');
    cards.forEach(card => card.classList.remove('service-in-view'));
   };
  }, []);
