@@ -3,6 +3,7 @@ import { SuccessConfirmation } from '@/components/success-confirmation';
 import { ProcessSteps } from '@/components/process-view-transitions';
 import { MorphSubmit } from '@/components/morph-submit';
 import { ContactSteps } from '@/components/contact-stepper';
+import { WorkflowLogoMarquee } from '@/components/workflow-logo-marquee';
 import { MarketingCTA } from '@/components/marketing-cta';
 import { HomeMotion, BookingBenefits } from '@/components/home-motion';
 import { BookingToneShift } from '@/components/booking-tone-shift';
@@ -123,6 +124,7 @@ function SpanishHome(){const [active,setActive]=useState(0);const [heroLoaded,se
   <div className="homepage-contact-panel"><SpanishContact/></div>
  </div>
  </div></section>
+<WorkflowLogoMarquee lang="es"/>
 <section className="final-section"><div className="eyebrow">DALE UN LUGAR A TU PRÓXIMA CONSULTA.</div><h2 className="editorial">Que tu próximo cliente<br/><em>sea fácil de encontrar.</em></h2><p>Tu Booking Page personalizada y tu Command Center privado.</p><div className="final-actions"><MarketingCTA className="cta-button" href="/booking-bundle/?lang=es">Quiero mi sistema — {bookingSale?"$19.99":"$49.99"} <ArrowRight/></MarketingCTA></div></section>
 <ServiceFAQ topic="general" lang="es"/>
 </main>}
