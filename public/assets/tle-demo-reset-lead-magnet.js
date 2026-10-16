@@ -135,6 +135,8 @@
     el('sonnyTitle').textContent=p.sonnyTitle;
     el('sonnySubtitle').textContent=p.sonnySub;
     el('sonnyToggle').textContent=shown ? p.sonnyClose:p.sonnyToggle;
+    const launcher=el('sonnyAvatarLauncher');
+    if(launcher)launcher.setAttribute('aria-label',lang()==='es'?'Hablar con Sonny — solo demo':'Chat with Sonny — sample demo');
     el('sonnyInput').placeholder=p.sonnyPlaceholder;
     el('sonnyInput').setAttribute('aria-label',p.sonnyPlaceholder);
     el('sonnySend').textContent=p.sonnySend;
@@ -145,6 +147,7 @@
     shown=next;
     el('sonnyBody').hidden=!next;
     el('sonnyToggle').setAttribute('aria-expanded',String(next));
+    el('sonnyAvatarLauncher')?.setAttribute('aria-expanded',String(next));
     updateSonnyWords();
     if(next){
       if(!el('sonnyLog').children.length) addLine(phrases().intro);
@@ -152,6 +155,22 @@
     }
   }
   el('sonnyToggle').addEventListener('click',()=>toggleSonny(!shown));
+  const sonnyLauncher=el('sonnyAvatarLauncher');
+  if(sonnyLauncher){
+    sonnyLauncher.addEventListener('click',()=>{
+      if(!shown)toggleSonny(true);
+      document.querySelector('section.sonny')?.scrollIntoView({block:'center',behavior:'auto'});
+      el('sonnyInput').focus({preventScroll:true});
+    });
+    const card=document.querySelector('section.sonny');
+    if(card&&'IntersectionObserver' in window){
+      const observer=new IntersectionObserver(entries=>{
+        // When the in-page Sonny card is visible, avoid a duplicate launcher.
+        sonnyLauncher.hidden=entries.some(entry=>entry.isIntersecting);
+      },{threshold:0.18});
+      observer.observe(card);
+    }else sonnyLauncher.hidden=false;
+  }
   updateSonnyWords();
   el('sonnyForm').addEventListener('submit',async event=>{
     event.preventDefault();
