@@ -1,5 +1,5 @@
 /* v50: sample-only appointment preference, original inputs and booking actions untouched. */
-html.demo-editorial.tle-demo-v50 #res .tle50-original{display:none!important}
+html.demo-editorial.tle-demo-v50 #res .tle50-original,\nhtml.demo-editorial.tle-demo-v50 #res #tle-v42-picker-date{display:none!important}
 html.demo-editorial.tle-demo-v50 #res .tle50-appointment{
  box-sizing:border-box;width:min(100%,430px)!important;margin:20px auto 32px!important;
  padding:clamp(18px,4.5vw,25px)!important;border:1px solid #d0e3ef!important;
