@@ -28,6 +28,13 @@ for(const lang of ['en','es']){
  assert(html.includes(lang==='es'?'Me interesa':"I'm Interested"));
  assert(html.includes(lang==='es'?'Sonny dentro del demo':'Sonny inside the demo'));
 }
+const enService=readFileSync('src/routes/booking-lead-automation.tsx','utf8');
+const esService=readFileSync('src/routes/es.booking-lead-automation.tsx','utf8');
+assert(enService.includes('href="/lead-private-preview.html?lang=en&source=website"'),'English website sample opens canonical demo');
+assert(esService.includes('href="/lead-private-preview.html?lang=es&source=website"'),'Spanish website sample opens canonical demo');
+assert(enService.includes('href="/booking-demo/?lang=en"'),'English personalized request stays email-gated');
+assert(esService.includes('href="/booking-demo/?lang=es"'),'Spanish personalized request stays email-gated');
+assert(!enService.includes('pages.dev')&&!esService.includes('pages.dev'),'Website has no technical preview URLs');
 assert(api.includes('Idempotency-Key'), 'Original provider idempotency preserved');
 assert(api.includes('email_followup_enabled:false'),'Transactional demo is not recurring marketing');
 assert(website.includes('Sonny está dentro del demo'));
