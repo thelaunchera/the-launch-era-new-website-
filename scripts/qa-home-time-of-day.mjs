@@ -20,6 +20,11 @@ assert(css.includes('prefers-reduced-motion:reduce'),'Reduced motion CSS is mand
 assert(css.includes('translate3d(-50%,0,0)')&&css.includes('tle-marquee-right'),'Both seamless marquee directions required');
 assert(!css.includes('body{')&&!css.includes('html{'),'Global CSS changes disallowed');
 assert(js.includes('RoundedBoxGeometry')&&js.includes('RoomEnvironment'),'Three.js diorama requirements');
+assert(js.includes('renderer.toneMappingExposure=1.18'),'Daylight exposure must retain house details instead of blowing out white walls');
+assert(js.includes('const windowTrim=standard(0x8caec5)'),'3D windows require visible outlines');
+assert(js.includes('const compact=holder.clientWidth<600'),'The 3D house must be more legible on phone viewports');
+assert(jsx.includes('house-detail3'),'Home must load refreshed 3D house instead of a cached older model');
+assert(css.includes('.tle-time-art{inset:12% -15% 24% -15%}'),'Lift house scene out of phone card overlap');
 assert(js.includes('160*3')&&js.includes('scene.environmentIntensity')&&js.includes('glass.emissiveIntensity'),'Night transition requirements');
 assert(js.includes('observer.disconnect()')&&js.includes('renderer.dispose()')&&js.includes('forceContextLoss()'),'Unmount cleanup required');
 execFileSync(process.execPath,['--check','public/assets/tle-home-time-of-day.js'],{stdio:'pipe'});
