@@ -60,6 +60,14 @@ try {
    assert(layout.visibleHeadings[0].className.includes("tle49-hook"),"Active H1 must be animated hook");
    assert.equal(layout.hintCount,1,"One disclaimer");
    assert.equal(layout.hintPointer,"none","Disclaimer must not intercept CTA");
+   if(width>=760){
+    const noteClearance=await page.evaluate(()=>{
+     const parent=document.querySelector("#leadHero .tle46-hero-slot").getBoundingClientRect();
+     const note=document.querySelector("#leadHero .tle48-sample-note").getBoundingClientRect();
+     return parent.bottom-note.bottom;
+    });
+    assert(noteClearance>=52,"Tablet/desktop notice must sit above pale hero curve: "+noteClearance);
+   }
    assert.equal(layout.galleryDisplay,"flex","Keep expanding flex photo panels");
    assert.equal(layout.panelCount,3,"Keep three real residential service buttons");
    assert.equal(layout.active,1,"Exactly one panel starts expanded");
