@@ -7,6 +7,7 @@ on:
       - 'src/routes/__root.tsx'
       - 'src/components/smart-welcome-bundle.tsx'
       - 'scripts/qa-smart-welcome-flyer-fallback.mjs'
+      - 'scripts/qa-home-hydration-stress.mjs'
   workflow_dispatch:
 jobs:
   compare:
@@ -38,3 +39,4 @@ jobs:
           done
           QA_URL=http://127.0.0.1:4173 node scripts/qa-home-hydration-diagnostic.mjs
           QA_URL=http://127.0.0.1:4173 node scripts/qa-smart-welcome-flyer-fallback.mjs
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-home-hydration-stress.mjs
