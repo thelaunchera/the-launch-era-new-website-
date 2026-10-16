@@ -1,5 +1,7 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-16 | User iPad video: homepage three-stage "Your booking flow" felt empty, with a large blue geometric icon and disconnected copy | Confirmed in `src/components/home-sales.tsx` and `booking-scrollytelling.css`: sticky scene had only shape + icons, no contextual media; the organized state scaled the illustration down to 78%, magnifying empty space. | Isolated homepage-only photo scenes for Request/Organized/Follow-up using three distinct existing first-party bundle images inside the animated shape; enlarge iPad scene, keep native scroll/nav state and bilingual text, honor reduced motion. Add asset/static guard and EN/ES phone/iPad/desktop Playwright photo-loading + click checks; no changes to demo, checkout, data, CTA, customers or routes. | 🟡 Isolated PR source; CI and live iPad Safari confirmation pending. |
+
 | 2026-10-16 | Screenshot: homepage See how it works / Explore the flow hero hint looked small and overlapping on desktop | The original link used ~14–17px text and the two clipped word halves left too little breathing room when revealing the center label. | In existing EN/ES scroll hint only: enlarge typography to ~20–24px desktop / 17–19px mobile, widen underline/click target, separate split halves to 1.10em; preserve native #hero-next, reduced-motion and all hero interactions; add responsive link size QA. | 🟡 Awaiting browser CI and GitHub Pages confirmation. |
 
 
