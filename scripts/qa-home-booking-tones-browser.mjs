@@ -12,7 +12,7 @@ mkdirSync('qa-screenshots', {recursive:true});
 async function afterHydration(page) {
   // SSR is visible before React's interactive listeners attach.
   await page.waitForFunction(() => {
-    const el = document.querySelector('.booking-section .product-tabs button');
+    const el = document.querySelector('.booking-section .tle-connected-flow__note');
     return Boolean(el && Object.keys(el).some(key =>
       key.startsWith('__reactProps') && typeof el[key]?.onClick === 'function'));
   }, null, {timeout:30000});
@@ -38,18 +38,18 @@ try {
       await afterHydration(page);
       const section=page.locator('.sales-home .booking-section');
       const preview=section.locator('.home-booking-explorer');
-      assert.equal(await preview.locator('.product-tabs button').count(),3,lang+' '+width+': missing interactive tabs');
+      assert.equal(await preview.locator('.tle-connected-flow__note').count(),5,lang+' '+width+': missing five interactive workflow steps');
       assert.equal(await section.locator('.booking-tone-dots span').count(),2,lang+' '+width+': missing two discreet orientation dots');
       const checkout=await section.locator('a[href*="/booking-bundle/"]').first().getAttribute('href');
       assert.equal(checkout,`/booking-bundle/?lang=${lang}`,lang+' '+width+': checkout destination changed');
       assert.match(await section.locator('.booking-hero-offer').innerText(), /\$19\.99/,lang+' '+width+': offer price changed');
 
-      // Click real React-controlled tabs, no mock or forced clicks.
-      await preview.locator('.product-tabs button').nth(1).click();
-      assert.equal(await preview.locator('.product-tabs button').nth(1).getAttribute('aria-pressed'),'true');
-      await preview.locator('.product-tabs button').nth(2).click();
-      assert.equal(await preview.locator('.product-tabs button').nth(2).getAttribute('aria-pressed'),'true');
-      assert.equal(await preview.locator('.followup-preview li').count(),3,lang+' '+width+': first/second/owner next steps missing');
+      // Click the real React-controlled booking flow notes, not synthetic tabs.
+      await preview.locator('.tle-connected-flow__note').nth(1).click();
+      assert.equal(await preview.locator('.tle-connected-flow__note').nth(1).getAttribute('aria-pressed'),'true');
+      await preview.locator('.tle-connected-flow__note').nth(4).click();
+      assert.equal(await preview.locator('.tle-connected-flow__note').nth(4).getAttribute('aria-pressed'),'true');
+      assert.match(await preview.locator('.tle-connected-flow__detail').innerText(), /05 \/ 05/,lang+' '+width+': owner confirmation details missing');
 
       await scrollToChapter(page,'.booking-section .booking-copy',.36);
       const introTone=await section.getAttribute('data-tone');
@@ -74,7 +74,7 @@ try {
       assert(state.sectionWidth<=state.sectionClient+3,lang+' '+width+': booking section horizontal overflow '+JSON.stringify(state));
       assert(state.previewLeft>=-3&&state.previewRight<=width+3,lang+' '+width+': preview cropped '+JSON.stringify(state));
       if(width===390){await section.screenshot({path:`qa-screenshots/booking-tones-${lang}-390.png`});}
-      results.push({lang,width,tone:introTone+'→2',tabs:3,checkout,errors:errors.length});
+      results.push({lang,width,tone:introTone+'→2',steps:5,checkout,errors:errors.length});
       await page.close();
     }
   }
