@@ -87,8 +87,10 @@ try {
    const heading=await page.locator("#leadHero h1.tle49-hook:not([aria-hidden=\"true\"])").evaluate(h=>({
     label:h.getAttribute("aria-label"),words:[...h.querySelectorAll(".tle49-hook-word")].map(w=>w.textContent),
     fontSize:parseFloat(getComputedStyle(h).fontSize)}));
-   assert(heading.words.length===3&&heading.label.includes(heading.words[0])&&heading.fontSize>=38,
-     "Animated words must be in the prominent accessible H1");
+   const readable=(value)=>String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9 ]+/g," ").replace(/\s+/g," ").trim();
+   const spokenHook=readable(heading.label), firstWord=readable(heading.words[0]);
+   assert(heading.words.length===3&&firstWord.length>3&&spokenHook.includes(firstWord)&&heading.fontSize>=38,
+     "Animated words must be in the prominent accessible H1: "+JSON.stringify(heading));
    if(width<=412){
     const bubble=await page.evaluate(()=>{
      const bot=document.querySelector(".tle-ai-launch.tle-demo-condensed"),cta=document.querySelector("#leadHero .demo-hero-cta");
