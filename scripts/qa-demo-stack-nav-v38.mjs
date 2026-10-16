@@ -18,7 +18,20 @@ try{
   assert.equal(await page.evaluate(()=>document.activeElement?.id),"title","focus new heading");
   await page.locator("#homes button").first().click();
   await page.locator("#res button.next").click();
-  await page.waitForSelector("#resReview.on");
+  const details=await page.evaluate(()=>{
+    const p=document.querySelector("#resReview");
+    const r=p?.getBoundingClientRect();
+    const on=[...document.querySelectorAll("#bookingStarter .screen.on")].map(x=>x.id);
+    const block=document.querySelector("#tleV30Tasksres");
+    return {active:on,reviewClass:p?.className,reviewDisplay:p&&getComputedStyle(p).display,
+      reviewRect:r&&{w:r.width,h:r.height},stageHeight:document.querySelector(".tle-stack-stage")?.style.height,
+      home:typeof state!=="undefined"?state.home:null,
+      otherChecked:block?.querySelector('[data-other="1"]')?.checked,
+      errors:[...document.querySelectorAll("#res [role=alert]")].map(x=>x.textContent).filter(Boolean)};
+  });
+  console.log("NAV DEBUG "+lang+" "+width+" "+JSON.stringify(details));
+  assert(details.active.includes("resReview") && details.reviewRect?.h>0,
+    "Review request must be shown and measured: "+JSON.stringify(details));
   await page.waitForTimeout(250);
   await page.locator("#resReview button.back").click();
   await page.waitForSelector("#res.on");
