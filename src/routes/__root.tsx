@@ -168,9 +168,7 @@ function RootShell({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
-        <script src="/assets/jessy-site.js?v=20261016-compact-checkout-v2" defer />
-        <script src="/assets/tle-purchase-proof.js?v=20261016-mini3" defer />
-        <script src="/assets/tle-footer-newsletter.js?v=20261016-ios3" defer />
+        {/* DOM-enhancing scripts load after React hydration (RootComponent effect). */}
         <Scripts />
       </body>
     </html>
@@ -179,15 +177,43 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  // Give nested SSR boundaries time to hydrate before marketing DOM enhancement.
+  // No changes to the existing assistant, verified purchase or newsletter logic.
+  useEffect(() => {
+    const sources = [
+      '/assets/jessy-site.js?v=20261016-compact-checkout-v2',
+      '/assets/tle-purchase-proof.js?v=20261016-mini3',
+      '/assets/tle-footer-newsletter.js?v=20261016-ios3',
+    ];
+    const added: HTMLScriptElement[] = [];
+    const timer = window.setTimeout(() => {
+      for (const src of sources) {
+        if (document.querySelector('script[data-tle-after-hydration][src="' + src + '"]')) continue;
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = false;
+        script.dataset.tleAfterHydration = 'true';
+        document.body.appendChild(script);
+        added.push(script);
+      }
+    }, 1200);
+    return () => {
+      window.clearTimeout(timer);
+      added.forEach((script) => script.remove());
+    };
+  }, []);
   // Load DOM-enhancing services motion only after React has hydrated the SSR
   // homepage. Injecting a script before hydration caused React error #418.
   useEffect(() => {
-    const element = document.createElement('script');
-    element.src = '/assets/tle-services-color-shift.js?v=20261016-v4';
-    element.async = true;
-    element.setAttribute('data-tle-service-motion', '1');
-    document.body.appendChild(element);
-    return () => { element.remove(); };
+    let element: HTMLScriptElement | null = null;
+    const timer = window.setTimeout(() => {
+      element = document.createElement('script');
+      element.src = '/assets/tle-services-color-shift.js?v=20261016-v4';
+      element.async = true;
+      element.setAttribute('data-tle-service-motion', '1');
+      document.body.appendChild(element);
+    }, 1850);
+    return () => { window.clearTimeout(timer); element?.remove(); };
   }, []);
 
   // Public pricing enhancements mount only after React hydration; this must
@@ -195,12 +221,15 @@ function RootComponent() {
   useEffect(() => {
     const blockedPricingPaths=['/booking-demo/','/cleaning-app-demo/','/lead-private-preview','/command-center/','/service-checkout/'];
     if (blockedPricingPaths.some(path=>window.location.pathname.startsWith(path))) return;
-    const script=document.createElement('script');
-    script.src='/assets/tle-pricing-motion.js?v=20261016-1';
-    script.async=true;
-    script.setAttribute('data-tle-pricing-motion','1');
-    document.body.appendChild(script);
-    return ()=>{script.remove();};
+    let script: HTMLScriptElement | null = null;
+    const timer = window.setTimeout(() => {
+      script=document.createElement('script');
+      script.src='/assets/tle-pricing-motion.js?v=20261016-1';
+      script.async=true;
+      script.setAttribute('data-tle-pricing-motion','1');
+      document.body.appendChild(script);
+    }, 1850);
+    return ()=>{window.clearTimeout(timer);script?.remove();};
   }, []);
 
   return (

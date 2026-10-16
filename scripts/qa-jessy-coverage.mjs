@@ -4,7 +4,10 @@ import vm from "node:vm";
 
 const text = (path) => readFileSync(path, "utf8");
 const root = text("src/routes/__root.tsx");
-assert.match(root, /<script src="\/assets\/jessy-site\.js\?v=[^"]+" defer \/>/);
+assert.match(root, /document\.createElement\('script'\)/, 'Marketing assistant must initialize after hydration');
+assert.match(root, /'\/assets\/jessy-site\.js\?v=[^']+'/, 'Jessie must remain installed');
+assert.match(root, /tleAfterHydration/, 'Post-hydration script guard missing');
+assert.doesNotMatch(root, /<script src="\/assets\/jessy-site\.js\?v=[^"]+" defer/, 'Jessie must not run during SSR hydration');
 
 const publicPages = [
   "ai-booking-assistant/index.html",

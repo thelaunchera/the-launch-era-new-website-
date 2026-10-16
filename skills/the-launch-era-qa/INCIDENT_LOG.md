@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-16 | Public English and Spanish homepages intermittently produced React hydration error #418 in desktop/tablet QA | Read-only browser comparisons found inconsistent errors when DOM-enhancement scripts load alongside streaming route hydration; the earlier partial delay still failed four of sixteen repeated browser runs, so it was NOT deployed. | A new isolated candidate delays all five public marketing DOM enhancers (Jessie, verified notices, newsletter, services motion, pricing motion) until after hydration, while preserving original assets and destinations. Strict browser QA requires 16/16 fresh EN/ES phone/tablet/desktop loads with no hydration errors, working assistant and zero overflow. | 🟡 Unreleased experiment; deployment blocked until strict test passes. |
+
+
 | 2026-10-16 | The Launch Era public Smart Welcome flyer sometimes failed to load and left a blank offer photo in browser QA | The approved JPEG asset is present in GitHub (438,992 bytes), but image/network delivery can fail or time out independently of pricing. | Preserve the original photo, offer validation, footer and Stripe checkout route; show branded bilingual promotional text only on image onError, with original CTA and modal dismissal intact. Isolated EN/ES browser tests simulate success and image-network failure without posting data. | 🟡 Source fix tested with mocked browser; deployment and live imagery pending. |
 
 
