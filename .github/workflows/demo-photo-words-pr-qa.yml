@@ -1,0 +1,41 @@
+name: Photo slogan readiness regression (PR)
+on:
+  pull_request:
+    paths:
+      - 'public/assets/tle-demo-photo-words-v46.js'
+      - 'scripts/qa-demo-natural-v45.mjs'
+      - '.github/workflows/demo-photo-words-pr-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Compile and check all sample routes
+        run: |
+          node --check public/assets/tle-demo-photo-words-v46.js
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-public-demo-integrity.mjs
+          bun install
+          bun run build
+      - name: Install Chromium
+        run: |
+          mkdir -p /tmp/tle-v46-pw
+          cd /tmp/tle-v46-pw
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+      - name: Test 7 visible word overlays and intact booking (sample only)
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-v46-demo.log 2>&1 &
+          for i in $(seq 1 40); do
+            if curl -sf http://127.0.0.1:4173/lead-private-preview.html >/dev/null; then break; fi
+            sleep 2
+          done
+          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-v46-pw/node_modules/playwright/index.mjs node scripts/qa-demo-natural-v45.mjs
