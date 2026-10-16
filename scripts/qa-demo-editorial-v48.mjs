@@ -3,7 +3,7 @@
  * NEVER submit a real booking, email, payment, or backend write. */
 import assert from "node:assert/strict";
 import {existsSync,mkdirSync} from "node:fs";
-const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||"playwright");
+const {chromium,webkit}=await import(process.env.PLAYWRIGHT_MODULE||"playwright");
 const base=(process.env.QA_URL||"http://127.0.0.1:4173").replace(/\/$/,"");
 const assets=[
   "public/assets/drive-house-gallery/quiet-luxury.png",
@@ -62,8 +62,9 @@ try {
    assert.equal(geometry.storyCount,1,"Exactly one editorial story");
    assert(geometry.photoSrc.includes("/assets/drive-house-gallery/"),"Hero must use existing Drive asset");
    assert(new Set(geometry.servicePhotos).size===3&&geometry.servicePhotos.every(src=>src?.includes("/assets/demo-editorial/")),
-     "Three different local Drive service photos: "+JSON.stringify(geometry.servicePhotos));
-   assert(geometry.samplePrices?.includes("$120"),"Must preserve real sample pricing");
+     "Three different optimized Drive service photos: "+JSON.stringify(geometry.servicePhotos));
+   assert(geometry.samplePrices?.includes("$120")&&geometry.samplePrices?.includes("$190")&&geometry.samplePrices?.includes("$240"),"All original sample prices retained");
+   assert(geometry.singleVisibleQuote===1,"Only one visible custom quote CTA: "+JSON.stringify(geometry));
    assert(geometry.overflow<=7,"No horizontal overflow "+JSON.stringify(geometry));
    assert(geometry.headline&&geometry.cta&&geometry.heroStage&&geometry.story,"Hero/story/CTA must exist");
    assert(geometry.cta.top>=geometry.heroStage.top-3&&geometry.cta.bottom<=geometry.heroStage.bottom+3,
@@ -75,6 +76,12 @@ try {
    }else{
     assert(Math.abs(geometry.photo.width-geometry.heroStage.width)<7,"Phone gets full-width photo");
    }
+   const allImages=await page.evaluate(()=>({
+     src:[...document.querySelectorAll("#leadHero img.tle46-gallery-img,#tle48Story img,#residentialServiceList>button.service.tle-service-has-photo-v21 img")].map(i=>i.getAttribute("src")),
+     commercial:[...document.querySelectorAll("#commercialServiceList>button.service.tle-service-has-photo-v21 img")].slice(0,4).map(i=>i.getAttribute("src"))
+   }));
+   assert.equal(new Set(allImages.src).size,10,"Hero, story, and residential services use ten DISTINCT photos: "+JSON.stringify(allImages));
+   assert(allImages.commercial.every(src=>src?.includes("/assets/demo-services/")),"Commercial photos must show the right type of space");
    const loaded=await page.evaluate(async()=>{
     const imgs=[...document.querySelectorAll("#leadHero .tle46-hero-slot>img.tle46-gallery-img,#tle48Story img")];
     await Promise.all(imgs.map(img=>img.decode().catch(()=>{})));
@@ -89,6 +96,15 @@ try {
    await page.locator("#leadHero .demo-hero-cta").click();
    await page.waitForSelector("html.tle-demo-booking-active",{timeout:7500});
    assert(await page.locator("#residentialServiceList .service").count()>=3,"Keep pricing service buttons");
+   for(const price of ["$120","$190","$240"]){
+    const btn=page.locator("#residentialServiceList button.service.tle-service-has-photo-v21").filter({hasText:price}).first();
+    assert.equal(await btn.count(),1,"Expected photo card with "+price);
+    const p=btn.locator(".price");
+    assert.equal(await p.isVisible(),true,"Price must stay readable for "+price);
+    const within=await btn.evaluate(el=>{const c=el.getBoundingClientRect(),x=el.querySelector(".price").getBoundingClientRect();
+      return x.left>=c.left-2&&x.right<=c.right+2&&x.top>=c.top-2&&x.bottom<=c.bottom+2;});
+    assert(within,"Price must stay inside its photo card: "+price);
+   }
    await page.screenshot({path:"qa-screenshots/demo-v48/services-"+lang+"-"+width+".png",fullPage:false});
    const category=page.locator("#categoryTabs button[data-category='commercial']");
    await category.click();
@@ -116,4 +132,20 @@ try {
   finally{await page.close()}
  }
 }finally{await browser.close()}
+for(const lang of ["en","es"]){
+ const b=await webkit.launch({headless:true});
+ try{
+  const p=await b.newPage({viewport:{width:390,height:844},reducedMotion:"reduce"});
+  await p.goto(base+"/lead-private-preview.html?lang="+lang,{waitUntil:"load"});
+  await p.waitForSelector("html.tle-demo-v48",{timeout:18000});
+  const v=await p.evaluate(()=>({overflow:document.documentElement.scrollWidth-innerWidth,
+    story:!!document.getElementById("tle48Story"),
+    quotes:[...document.querySelectorAll("#residentialServiceList>button")].filter(e=>/quote/i.test(e.textContent)&&!e.hidden&&getComputedStyle(e).display!=="none").length}));
+  assert(v.overflow<=7&&v.story&&v.quotes===1,"Safari iPhone layout: "+JSON.stringify(v));
+  await p.locator("#leadHero .demo-hero-cta").click();
+  await p.waitForSelector("html.tle-demo-booking-active",{timeout:10000});
+  console.log("PASS Safari iPhone",lang);
+ }catch(e){problems.push("Safari iPhone "+lang+" "+e.message)}
+ finally{await b.close()}
+}
 if(problems.length){console.error(problems.join("\n"));process.exit(1)}
