@@ -22,7 +22,7 @@ assert(component.includes('aria-pressed={i===active}')&&component.includes('aria
 assert(component.includes('IntersectionObserver')&&component.includes('observer.disconnect()'),'In-view animation trigger missing');
 assert(component.includes('pathLength={1}')&&component.includes('viewBox="0 0 160 100"')&&component.includes('preserveAspectRatio="none"'),'Six true SVG connectors required');
 assert(component.includes('No outside')===false,'No fake integration endorsement in rendered UI');
-assert.equal((component.split("heading:").length-1),12,'Exactly six feature headings per language');
+assert.equal((component.match(/\{heading:'/g)||[]).length,12,'Exactly six feature headings per language');
 assert(!component.includes('fetch('),'Diagram is illustrative, never an API request');
 assert(css.includes('tle-hub-draw')&&css.includes('tle-hub-dot')&&css.includes('tle-hub-pulse'),'Arrival sequence missing');
 assert(css.includes('450ms')&&css.includes('1.1s')&&css.includes('animation:tle-hub-draw .7s'),'Stagger, draw and travel duration required');
