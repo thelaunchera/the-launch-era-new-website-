@@ -1,0 +1,44 @@
+/* Homepage problem statement only; no global pointer or typography changes. */
+.problem-section .tle-mask-headline {
+  position: relative;
+  width: 100%;
+  isolation: isolate;
+  margin-top: 18px;
+}
+
+.problem-section .tle-mask-headline h2.editorial {
+  margin: 0;
+  width: 100%;
+}
+
+/* Identical type, wraps, layout and line-height in both layers. */
+.problem-section .tle-mask-headline__mask {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  background: var(--secondary, #b7e2f8);
+  clip-path: circle(0px at 50% 50%);
+  will-change: clip-path;
+}
+
+.problem-section .tle-mask-headline .tle-mask-headline__reveal,
+.problem-section .tle-mask-headline .tle-mask-headline__reveal em {
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+}
+
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .problem-section .tle-mask-headline--enabled,
+  .problem-section .tle-mask-headline--enabled * {
+    cursor: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce), (pointer: coarse) {
+  .problem-section .tle-mask-headline__mask {
+    display: none;
+    will-change: auto;
+  }
+}
