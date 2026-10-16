@@ -40,10 +40,15 @@ export function HomeMotionInterlude({lang='en'}:{lang?:Lang}) {
  useEffect(()=>{
   const el=root.current;if(!el)return;
   let cancelled=false;let dispose:(()=>void)|undefined;
-  import(/* @vite-ignore */ '/assets/tle-home-time-of-day.js?v=20261016-1')
-   .then(mod=>{if(!cancelled&&typeof mod.mountTimeOfDay==='function')dispose=mod.mountTimeOfDay(el)})
-   .catch(()=>{/* Static SVG remains visible if WebGL/CDN is blocked. */});
-  return()=>{cancelled=true;dispose?.()};
+  const load=()=>{
+   watcher.disconnect();
+   import(/* @vite-ignore */ '/assets/tle-home-time-of-day.js?v=20261016-1')
+    .then(mod=>{if(!cancelled&&typeof mod.mountTimeOfDay==='function')dispose=mod.mountTimeOfDay(el)})
+    .catch(()=>{/* Static SVG remains visible if WebGL/CDN is blocked. */});
+  };
+  const watcher=new IntersectionObserver(([entry])=>{if(entry.isIntersecting)load()},{rootMargin:'700px'});
+  watcher.observe(el);
+  return()=>{cancelled=true;watcher.disconnect();dispose?.()};
  },[]);
  return <>
   <section ref={root} className="tle-day-night" data-tle-time-scene aria-label={es?'Una jornada del día a la noche':'A workday from morning to night'}>
