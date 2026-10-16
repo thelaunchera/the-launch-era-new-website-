@@ -5,6 +5,7 @@ import { ContactSteps } from '@/components/contact-stepper';
 import { MarketingCTA } from '@/components/marketing-cta';
 import { HomeMotion, BookingBenefits } from '@/components/home-motion';
 import { BookingToneShift } from '@/components/booking-tone-shift';
+import { HeroSplitWordLink } from '@/components/hero-split-word-link';
 import { useHeroWipe } from '@/components/use-hero-wipe';
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
@@ -89,7 +90,7 @@ function SpanishContact(){
  /></>}</div>
 }
 function SpanishHome(){const [active,setActive]=useState(0);const [heroLoaded,setHeroLoaded]=useState(false);const heroImageRef=useRef<HTMLImageElement>(null);const {heroRef,revealed}=useHeroWipe();useEffect(()=>{if(heroImageRef.current?.complete)setHeroLoaded(true)},[]);const [bookingSale,setBookingSale]=useState(()=>Date.now()<new Date('2026-11-01T04:00:00Z').getTime());useEffect(()=>{const sync=()=>setBookingSale(Date.now()<new Date('2026-11-01T04:00:00Z').getTime());const id=window.setInterval(sync,30000);return()=>window.clearInterval(id)},[]);return <main className="sales-home"><HomeMotion/>
-<section className="hero-scroll" aria-label="Ejemplo de la experiencia de reservas de The Launch Era"><div className="hero-scroll-stage"><div className="hero-scroll-reveal"><span>TU FLUJO DE RESERVAS</span><a href="#hero-next">Descubre cómo funciona <ArrowRight size={18} aria-hidden="true"/></a></div><div ref={heroRef} data-wipe-visible={revealed && heroLoaded} className={`hero-photo hero-scroll-frame hero-split ${heroLoaded?'hero-media-ready':'hero-media-loading'}`}>
+<section className="hero-scroll" aria-label="Ejemplo de la experiencia de reservas de The Launch Era"><div className="hero-scroll-stage"><div className="hero-scroll-reveal"><span>TU FLUJO DE RESERVAS</span><HeroSplitWordLink lang="es"/></div><div ref={heroRef} data-wipe-visible={revealed && heroLoaded} className={`hero-photo hero-scroll-frame hero-split ${heroLoaded?'hero-media-ready':'hero-media-loading'}`}>
  <div className="hero-intro">
    <div className="eyebrow">PARA DUEÑAS DE NEGOCIOS DE LIMPIEZA</div>
    <h1>Menos tiempo buscando mensajes.<br/>Más tiempo para tu negocio.</h1>
