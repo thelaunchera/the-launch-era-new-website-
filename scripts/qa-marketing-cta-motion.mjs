@@ -175,10 +175,10 @@ try{
   await root.locator('input[name="name"]').fill('Synthetic QA');
   await root.locator('input[name="email"]').fill('synthetic@example.invalid');
   await root.locator('.tle-contact-next').click();
-  await page.waitForFunction(()=>document.querySelector('.contact-form .tle-contact-steps')?.getAttribute('data-step')==='1',{timeout:8000});
+  await page.waitForFunction(()=>document.querySelector('.contact-form .tle-contact-steps')?.getAttribute('data-step')==='1',null,{timeout:8000});
   await root.locator('input[name="business"]').fill('Synthetic Business');
   await root.locator('.tle-contact-next').click();
-  await page.waitForFunction(()=>document.querySelector('.contact-form .tle-contact-steps')?.getAttribute('data-step')==='2',{timeout:8000});
+  await page.waitForFunction(()=>document.querySelector('.contact-form .tle-contact-steps')?.getAttribute('data-step')==='2',null,{timeout:8000});
   await root.locator('textarea[name="message"]').fill('Please help us understand the booking flow.');
   const failureButton=root.locator('.tle-morph-submit');
   assert.equal(await root.getAttribute('data-step'),'2',route+' must show review step');
