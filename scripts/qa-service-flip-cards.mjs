@@ -64,9 +64,13 @@ try {
   await page.goto(base+route,{waitUntil:'domcontentloaded'});
   const card=page.locator(selector).first();
   await page.waitForFunction(s=>document.querySelector(s)?.classList.contains('is-flipped'),selector);
-  const state=await card.evaluate(el=>({transform:getComputedStyle(el.querySelector(selectorFrom(el))).transform,backInert:el.querySelector(el.matches('.tle-service-flip')?'.tle-service-flip__back':'.service-flip-back').inert}));
-  function selectorFrom() {return '.tle-service-flip__inner';}
-  assert(!state.backInert,'Reduced motion should expose final back face');
+  const state=await card.evaluate(el=>{
+    const site=el.matches('.tle-service-flip');
+    const inner=el.querySelector(site?'.tle-service-flip__inner':'.service-flip-inner');
+    const back=el.querySelector(site?'.tle-service-flip__back':'.service-flip-back');
+    return {transform:getComputedStyle(inner).transform,transition:getComputedStyle(inner).transitionDuration,backInert:back.inert};
+  });
+  assert(!state.backInert&&state.transform==='none','Reduced motion should expose final back face without any rotation: '+JSON.stringify(state));
   await page.close();
  }
  console.log('PASS flip cards EN ES demo and reduced motion');
