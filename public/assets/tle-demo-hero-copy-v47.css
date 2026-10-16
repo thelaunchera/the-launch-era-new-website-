@@ -195,3 +195,31 @@ html.demo-editorial.tle-demo-v47 #leadHero .tle46-hero-slot > .heroText{
 html.demo-editorial.tle-demo-v47 #bookingStarter{
  position:relative!important;z-index:1!important;
 }
+
+/* The visible demo hero headline is h1.demo-headline; the old paragraph is hidden.
+   Keep both lines inside the mobile photo, above description and CTA. */
+html.demo-editorial.tle-demo-v47 #leadHero .tle46-hero-slot>.heroText h1.demo-headline{
+ display:flex!important;flex-direction:column!important;align-items:flex-start!important;
+ font:800 clamp(39px,5vw,63px)/1.07 Prompt,Arial,sans-serif!important;
+ letter-spacing:-.055em!important;
+ width:100%!important;max-width:100%!important;
+ overflow:visible!important;margin:0 0 14px!important;
+ padding:0!important;color:#fff!important;
+ text-wrap:balance!important;
+}
+html.demo-editorial.tle-demo-v47 #leadHero .tle46-hero-slot>.heroText h1.demo-headline span{
+ display:block!important;max-width:100%!important;
+ white-space:normal!important;overflow-wrap:normal!important;
+ font:inherit!important;letter-spacing:inherit!important;
+ color:#fff!important;-webkit-text-fill-color:#fff!important;
+ text-shadow:0 3px 17px #09223690!important;
+}
+html.demo-editorial.tle-demo-v47 #leadHero .tle46-hero-slot>.heroText h1.demo-headline .hero-highlight{
+ color:#b7e5ff!important;-webkit-text-fill-color:#b7e5ff!important;
+}
+@media(max-width:768px){
+ html.demo-editorial.tle-demo-v47 #leadHero .tle46-hero-slot>.heroText h1.demo-headline{
+  font-size:clamp(39px,9.7vw,50px)!important;
+  line-height:1.05!important;margin:0 0 12px!important;
+ }
+}
