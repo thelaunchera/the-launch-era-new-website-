@@ -1,9 +1,18 @@
 /* Marketing homepage only. No demo, checkout, tenant, or private CRM selectors. */
 .tle-day-night{--tle-time-ink:#191919;--tle-time-surface:rgba(255,255,255,.86);position:relative;isolation:isolate;overflow:clip;background:linear-gradient(160deg,#f8fbff,#e3f2fc 58%,#cce8f8);color:var(--tle-time-ink);transition:color .4s}
 .tle-time-sticky{position:sticky;top:0;height:100svh;min-height:540px;z-index:1;overflow:hidden;pointer-events:none}
-.tle-time-heading{position:absolute;top:clamp(23px,5vh,55px);left:max(6vw,calc((100vw - 1180px)/2));right:6%;z-index:3;display:grid;gap:9px;max-width:550px}
-.tle-time-heading span{font:700 clamp(11px,1.1vw,13px) Prompt,sans-serif;letter-spacing:.15em}
+.tle-time-heading{position:absolute;top:clamp(23px,5vh,55px);left:max(6vw,calc((100vw - 1180px)/2));right:6%;z-index:3;display:grid;gap:9px;max-width:550px;color:#0a1521;transition:color .4s}
+.tle-time-heading[data-ink="night"]{color:#fff}
+.tle-time-heading>span{font:700 clamp(11px,1.1vw,13px) Prompt,sans-serif;letter-spacing:.15em}
 .tle-time-heading strong{font:700 clamp(25px,4vw,48px)/1.13 Prompt,sans-serif;letter-spacing:-.05em}
+.tle-time-heading strong .tle-time-rotator{display:inline-grid;vertical-align:baseline;perspective:520px;white-space:nowrap;color:#082038;transition:color .4s}
+.tle-time-heading[data-ink="night"] strong .tle-time-rotator{color:#fff4c4}
+.tle-time-heading strong .tle-time-rotator>span{grid-area:1/1;font:inherit;letter-spacing:inherit;backface-visibility:hidden;transform-origin:center;animation:tle-time-word-turn 6s cubic-bezier(.32,.72,0,1) infinite both}
+@keyframes tle-time-word-turn{
+ 0%{transform:rotateX(-90deg) translateY(.2em);opacity:0}
+ 8%,30%{transform:none;opacity:1}
+ 38%,100%{transform:rotateX(90deg) translateY(-.2em);opacity:0}
+}
 .tle-time-art{position:absolute;inset:13% 1% 12% 27%;z-index:1;display:grid;place-items:center}
 .tle-time-art canvas{position:absolute;inset:0;display:block;width:100%;height:100%;opacity:0;transition:opacity .4s}
 .tle-day-night[data-render="webgl"] .tle-time-art canvas{opacity:1}
@@ -50,6 +59,10 @@
  .tle-kinetic-band{padding:44px 0}
 }
 @media(prefers-reduced-motion:reduce){
+ .tle-time-heading{color:#fff;transition:none}
+ .tle-time-heading strong .tle-time-rotator{color:#fff4c4;transition:none}
+ .tle-time-heading strong .tle-time-rotator>span{animation:none;opacity:0;transform:none}
+ .tle-time-heading strong .tle-time-rotator>span:first-child{opacity:1}
  .tle-day-night{--tle-time-ink:#f8fbff;--tle-time-surface:rgba(249,252,255,.94);background:linear-gradient(150deg,#577eaa,#273f66)!important;transition:none!important}
  .tle-time-fallback{transition:none!important}
  .tle-time-static-sun{opacity:0}

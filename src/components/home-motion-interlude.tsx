@@ -41,6 +41,21 @@ export function HomeMotionInterlude({lang='en'}:{lang?:Lang}) {
   const el=root.current;if(!el)return;
   let cancelled=false;let dispose:(()=>void)|undefined;
   let fallbackFrame=0;let fallbackActive=true;
+  // Text-only contrast adjustment tracks the existing daylight-to-nightfall sky.
+  // Neither the scene, background, nor its animation is modified.
+  const heading=el.querySelector<HTMLElement>('.tle-time-heading');
+  const syncHeadingContrast=()=>{
+   const top=el.style.background.match(/rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)/);
+   if(!heading||!top)return;
+   const linear=[Number(top[1]),Number(top[2]),Number(top[3])].map(v=>{
+    const c=v/255;return c<=.04045?c/12.92:((c+.055)/1.055)**2.4;
+   });
+   const luminance=linear[0]*.2126+linear[1]*.7152+linear[2]*.0722;
+   const ink=luminance<.18?'night':'day';
+   if(heading.dataset.ink!==ink)heading.dataset.ink=ink;
+  };
+  const inkWatcher=new MutationObserver(syncHeadingContrast);
+  inkWatcher.observe(el,{attributes:true,attributeFilter:['style']});
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   // Native scroll scene remains functional even when the 3D engine or network is unavailable.
   const clamp=(v:number)=>Math.min(1,Math.max(0,v));
@@ -89,7 +104,7 @@ export function HomeMotionInterlude({lang='en'}:{lang?:Lang}) {
   const watcher=new IntersectionObserver(([entry])=>{if(entry.isIntersecting)load()},{rootMargin:'700px'});
   watcher.observe(el);
   return()=>{
-   cancelled=true;watcher.disconnect();stopFallback();dispose?.();
+   cancelled=true;watcher.disconnect();stopFallback();inkWatcher.disconnect();dispose?.();
    el.style.removeProperty('background');
    delete el.dataset.evening;delete el.dataset.activeStep;
   };
@@ -97,7 +112,18 @@ export function HomeMotionInterlude({lang='en'}:{lang?:Lang}) {
  return <>
   <section ref={root} className="tle-day-night" data-tle-time-scene aria-label={es?'Una jornada del día a la noche':'A workday from morning to night'}>
    <div className="tle-time-sticky" aria-hidden="true">
-    <div className="tle-time-heading"><span>{es?'UN SISTEMA PARA TODO EL DÍA':'ONE SYSTEM. ALL DAY LONG.'}</span><strong>{es?'De la primera consulta al último seguimiento.':'From the first request to the last follow-up.'}</strong></div>
+    <div className="tle-time-heading">
+     <span>{es?'UN SISTEMA PARA TODO EL DÍA':'ONE SYSTEM. ALL DAY LONG.'}</span>
+     <strong aria-label={es?'De la primera consulta al último seguimiento.':'From the first request to the last follow-up.'}>
+      {es?'De la primera':'From the first'}{' '}
+      <span className="tle-time-rotator" aria-hidden="true">
+       {(es?['consulta','cotización','reserva']:['request','quote','booking']).map((word,i)=>
+        <span key={word} style={{animationDelay:`${i*2}s`}}>{word}</span>
+       )}
+      </span>{' '}
+      {es?'al último seguimiento.':'to the last follow-up.'}
+     </strong>
+    </div>
     <div className="tle-time-art" data-tle-canvas><StaticScene/></div>
     <div className="tle-time-index"><span data-tle-count>01</span> / 04 <i/></div>
    </div>
