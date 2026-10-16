@@ -1,0 +1,107 @@
+/* Booking lead-magnet appointment step: full month + iOS scroll-snap wheel.
+   All motion is scoped to service image hover, wheel selection, and sample sheet.
+   NO live availability/booking or changes to buyer private booking templates. */
+
+/* The only new zoom: photos INSIDE the service cards. */
+.service-media img {
+  transform:scale(1);
+  transition:transform 680ms cubic-bezier(.32,.72,0,1);
+}
+@media (hover:hover) and (pointer:fine) {
+  .service:hover .service-media img,
+  .service:focus-visible .service-media img { transform:scale(1.065); }
+}
+
+#tleBookingAppointment { --appt-blue:#326F94; --appt-soft:#E5F3FC; --appt-ink:#192C39;
+  max-width:430px;margin:25px auto 4px; border:1px solid #C6DCE9; border-radius:22px;
+  padding:20px; background:#F9FCFF; color:var(--appt-ink); }
+#tleBookingAppointment * { box-sizing:border-box; }
+#tleBookingAppointment button { min-height:44px; }
+#tleBookingAppointment h3 { font-size:19px;letter-spacing:-.035em;line-height:1.3;margin:5px 0 13px; }
+#tleBookingAppointment .appt-mini { margin:0 0 4px;letter-spacing:.09em;font-size:10px;font-weight:800;color:#47758F;text-transform:uppercase; }
+.appt-provider { display:flex; gap:13px;align-items:center; padding:14px;margin-bottom:22px;
+  border-radius:15px;background:white;border:1px solid #DCE8F0; }
+.appt-provider-avatar {display:grid;place-items:center;flex:none;width:58px;height:58px;
+  border-radius:15px;background:#D6EAF7;color:#285C7E;font-size:20px;font-weight:800}
+.appt-provider-info {min-width:0;flex:1}
+.appt-provider-info strong {display:block;line-height:1.2;font-size:14px;overflow-wrap:anywhere}
+.appt-provider-info small {display:block;color:#526E7B;line-height:1.4;margin-top:4px;font-size:12px}
+.appt-sample-badge {border:1px solid #BCD8E8;border-radius:999px;padding:5px 8px;display:inline-block;
+  font-size:10px;font-weight:750;color:#396B83;margin-top:7px}
+.appt-month-bar {display:flex;gap:9px;align-items:center;justify-content:space-between;margin-bottom:14px}
+.appt-month-bar strong {font-size:17px;letter-spacing:-.03em}
+.appt-month-actions{display:flex;gap:7px}
+.appt-month-actions button{display:grid;place-items:center;min-width:44px;border:1px solid #CDDFE8;background:#fff;border-radius:10px;font-size:22px}
+.appt-month-actions button:disabled{opacity:.32;cursor:not-allowed}
+.appt-weekdays,.appt-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px}
+.appt-weekdays {margin-bottom:6px}
+.appt-weekdays span{text-align:center;font-size:11px;font-weight:750;color:#657B87;padding:6px 0}
+.appt-days button,.appt-days .appt-empty{min-width:0;min-height:44px;display:grid;place-items:center;border-radius:10px;
+  font-size:13px;font-weight:700;border:1px solid transparent;background:transparent;padding:0}
+.appt-days button:hover:not(:disabled){background:#EAF5FC}
+.appt-days button[aria-checked=true] {color:white;background:#326F94;border-color:#326F94}
+.appt-days button:disabled{color:#ADB9BF;cursor:not-allowed}
+.appt-native-date {display:block;color:#546A76;font-size:12px;margin:15px 0 0}
+.appt-native-date input {max-width:100%;margin-top:7px;width:100%;min-height:44px;
+  border:1px solid #C7DCE8;border-radius:9px;background:white;padding:8px;font-size:14px}
+.appt-divider {border:0;height:1px;background:#D5E5EE;margin:24px 0}
+.appt-time-heading {display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:11px}
+.appt-time-heading h3 {margin:0}
+.appt-readout {font-size:15px;font-weight:800;letter-spacing:-.03em;color:#235F82}
+.appt-wheel-frame {position:relative;display:grid;grid-template-columns:1fr 1fr .85fr;
+  background:white;border:1px solid #D4E3ED;border-radius:14px;padding:10px 12px;overflow:hidden}
+.appt-wheel-band {position:absolute;pointer-events:none;z-index:0;left:12px;right:12px;top:calc(50% - 15px);
+  height:30px;border-radius:9px;background:#E2F2FC;border:1px solid #C0DDEC}
+.appt-wheel {position:relative;z-index:1;height:110px;overflow-y:auto;overscroll-behavior:contain;
+  scroll-snap-type:y mandatory;scrollbar-width:none;-ms-overflow-style:none;perspective:190px;
+  touch-action:pan-y;outline-offset:-2px;user-select:none}
+.appt-wheel::-webkit-scrollbar{display:none}
+.appt-wheel-option{display:flex;align-items:center;justify-content:center;height:22px;min-height:22px;line-height:22px;
+  scroll-snap-align:center;font-size:17px;font-weight:650;color:#28485B;transform-origin:center center;
+  backface-visibility:hidden;pointer-events:none}
+.appt-wheel::before,.appt-wheel::after{content:"";display:block;height:44px;flex:none}
+.appt-wheel:focus-visible{outline:2px solid #327CA5;border-radius:7px}
+.appt-use-time{display:block;margin:13px auto 0;min-height:44px;border:1px solid #A5C8DE;border-radius:10px;
+  background:white;color:#245D7D;font-weight:750;padding:9px 18px}
+.appt-time-help{color:#516F81;font-size:12px;line-height:1.6;margin:11px 0 0}
+.appt-sticky{position:sticky;bottom:0;z-index:5;display:flex;gap:9px;
+  align-items:center;padding:12px 0 max(12px,env(safe-area-inset-bottom));margin-top:20px;
+  background:rgba(249,252,255,.96);border-top:1px solid #D3E4EE;
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.appt-sticky button{flex:1;min-height:50px;border:0;border-radius:11px;background:#235F83;color:white;
+  padding:11px 13px;font-weight:750;font-size:14px}
+.appt-sticky button:disabled{background:#B8C8D2;cursor:not-allowed}
+.appt-note{font-size:11px;color:#607785;line-height:1.3}
+.appt-booking-scrim[hidden],.appt-confirm-sheet[hidden] {display:none!important}
+.appt-booking-scrim {position:fixed;inset:0;background:rgba(13,36,49,.34);z-index:200}
+.appt-confirm-sheet{position:fixed;z-index:201;bottom:0;left:50%;width:min(100%,430px);
+  max-height:min(90dvh,750px);overflow:auto;padding:12px 24px max(24px,env(safe-area-inset-bottom));
+  transform:translate(-50%,112%);border-radius:30px 30px 0 0;box-shadow:0 -12px 50px rgba(13,36,49,.16);
+  background:white;color:#172F40;outline:none}
+.appt-confirm-sheet.is-open {transform:translate(-50%,0);
+  transition:transform 590ms linear(0,0.094 5.6%,0.274 11.1%,0.455 16.7%,0.608 22.2%,0.726 27.8%,0.812 33.3%,0.873 38.9%,0.944 50%,0.976 61.1%,1 100%)}
+.appt-sheet-handle{display:block;margin:0 auto 22px;width:42px;height:5px;background:#C5D4DD;border-radius:99px}
+.appt-confirm-sheet h3{font-size:24px;margin:0 0 7px}
+.appt-confirm-sheet p {font-size:13px;line-height:1.6;color:#526C7D}
+.appt-sheet-list {display:grid;gap:0;margin:18px 0;border:1px solid #DBE7EF;border-radius:13px;overflow:hidden}
+.appt-sheet-row{display:grid;grid-template-columns:26px 1fr;gap:9px;align-items:center;padding:13px 12px;border-bottom:1px solid #DBE7EF}
+.appt-sheet-row:last-child{border-bottom:0}
+.appt-sheet-row span{font-size:18px}
+.appt-sheet-row strong{font-size:13px;overflow-wrap:anywhere}
+.appt-sheet-confirm{display:block;width:100%;min-height:50px;background:#245E82;color:white;border:0;border-radius:11px;font-weight:750;position:relative;overflow:hidden}
+.appt-sheet-confirm.is-booked{background:#2A8169}
+.appt-sheet-confirm.is-booking::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.22),transparent 80%);animation:appt-sheen .8s linear 1}
+@keyframes appt-sheen {from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.appt-sheet-cancel{display:block;margin:8px auto 0;padding:10px 20px;min-height:44px;background:none;border:0;color:#3B6680}
+body.appt-dialog-open{overflow:hidden}
+@media (max-width:540px){
+  #tleBookingAppointment{padding:14px;border-radius:15px;margin:21px auto 0}
+  .appt-provider{padding:11px}.appt-days{gap:1px}.appt-days button{min-height:44px}
+  .appt-confirm-sheet{border-radius:25px 25px 0 0}
+}
+@media(prefers-reduced-motion:reduce){
+  .service-media img{transition:none!important;transform:none!important}
+  .appt-wheel-option {transform:none!important;opacity:1!important}
+  .appt-confirm-sheet,.appt-confirm-sheet.is-open{transition:none!important}
+  .appt-sheet-confirm.is-booking::after{animation:none!important}
+}
