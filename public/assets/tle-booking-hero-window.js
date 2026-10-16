@@ -113,6 +113,10 @@
     if(!before||!after||!slider)return;
     let failures=0;
     const check=()=>{failures++;if(failures)card.hidden=true};
+    // Only real matched before/after pairs from the original demo library.
+    // Missing source -> hide the affected pair, never show a fake image.
+    before.src=before.dataset.before;
+    after.src=after.dataset.after;
     before.addEventListener('error',check,{once:true});
     after.addEventListener('error',check,{once:true});
     slider.addEventListener('input',()=>card.style.setProperty('--split',slider.value+'%'));
