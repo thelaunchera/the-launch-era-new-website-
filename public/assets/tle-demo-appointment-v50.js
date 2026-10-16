@@ -116,6 +116,7 @@ function init(){
  dialog.append(handle,closeButton,sheetHeading,sheetNote,summary,confirm,cancel);overlay.append(scrim,dialog);document.body.append(overlay);
  function setNative(el,value){el.value=value;el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));}
  function updateBar(){
+  updateVisibility();
   if(!slot){continueButton.textContent=msg.choose;continueButton.disabled=true;status.textContent='';return;}
   const when=fullFmt.format(days[index].day)+' · '+(times.find(t=>t.value===slot)?.label||slot);
   continueButton.textContent=approved?msg.done+' ✓':msg.continue+' — '+when;
