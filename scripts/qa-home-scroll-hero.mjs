@@ -124,6 +124,28 @@ try {
    if ([390,820,1440].includes(viewport.width)) await page.screenshot({ path:`qa-screenshots/home-scroll-${lang}-${viewport.width}-final.png`, fullPage:false });
    await page.close();
   }
+  // Regress the exact touch-only effect: on iPads its one-time animation must
+  // start when the scroll link becomes visible, not before first scroll.
+  const ipadTouch = await browser.newPage({
+    viewport: { width: 834, height: 1194 },
+    hasTouch: true,
+    isMobile: true,
+    reducedMotion: 'no-preference'
+  });
+  await ipadTouch.goto(base + route, { waitUntil:'domcontentloaded', timeout:45000 });
+  await ipadTouch.waitForFunction(() => document.querySelector('.hero-split')?.getAttribute('data-wipe-visible') === 'true');
+  const beforePeek = await ipadTouch.locator('.hero-scroll-reveal .tle-hero-split-upper').evaluate(el=>getComputedStyle(el).animationName);
+  assert.equal(beforePeek, 'none', lang + ': iPad touch peek must wait until the link is visible');
+  await ipadTouch.evaluate(() => {
+    document.documentElement.style.scrollBehavior='auto';
+    const hero=document.querySelector('.hero-scroll');
+    window.scrollTo(0, scrollY + hero.getBoundingClientRect().top + hero.offsetHeight - innerHeight);
+  });
+  await ipadTouch.waitForFunction(() => document.querySelector('.hero-scroll')?.classList.contains('hero-scroll-revealed'), null, { timeout: 10000 });
+  const afterPeek = await ipadTouch.locator('.hero-scroll-reveal .tle-hero-split-upper').evaluate(el=>getComputedStyle(el).animationName);
+  assert(afterPeek.includes('tle-word-peek-upper'), lang + ': iPad touch effect did not restart on reveal');
+  await ipadTouch.close();
+
   const reduced = await browser.newPage({ viewport: { width:390, height:844 }, reducedMotion:'reduce' });
   await reduced.goto(base + route, { waitUntil:'domcontentloaded', timeout:45000 });
   await reduced.locator('.hero-split').waitFor({ state:'visible' });
