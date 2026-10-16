@@ -17,6 +17,7 @@ export function ServiceFlipCard({title,description,href,points,lang='en',childre
   const front=useRef<HTMLButtonElement>(null);
   const link=useRef<HTMLAnchorElement>(null);
   const suppressFocus=useRef(false);
+  const openingFocus=useRef(false);
   const open=flipped||reduced;
 
   useEffect(()=>{
@@ -28,7 +29,13 @@ export function ServiceFlipCard({title,description,href,points,lang='en',childre
   },[]);
   const reveal=(moveFocus=false)=>{
     setFlipped(true);
-    if(moveFocus)window.requestAnimationFrame(()=>link.current?.focus());
+    if(moveFocus){
+      openingFocus.current=true;
+      window.requestAnimationFrame(()=>{
+        link.current?.focus();
+        window.requestAnimationFrame(()=>{openingFocus.current=false;});
+      });
+    }
   };
   const restore=()=>{
     suppressFocus.current=true;
@@ -43,9 +50,9 @@ export function ServiceFlipCard({title,description,href,points,lang='en',childre
   };
   return <article ref={root} className={'service-card tle-service-flip'+(open?' is-flipped':'')+(reduced?' is-reduced':'')}
     onMouseEnter={()=>{if(!reduced&&window.matchMedia('(hover: hover) and (pointer: fine)').matches)reveal();}}
-    onMouseLeave={()=>{if(!reduced&&!root.current?.contains(document.activeElement))setFlipped(false);}}
+    onMouseLeave={()=>{if(!reduced&&!openingFocus.current&&!root.current?.contains(document.activeElement))setFlipped(false);}}
     onFocusCapture={e=>{if(e.target===front.current&&!suppressFocus.current&&!open)reveal(true);}}
-    onBlurCapture={e=>{if(!reduced&&!e.currentTarget.contains(e.relatedTarget as Node))setFlipped(false);}}
+    onBlurCapture={e=>{if(!reduced&&!openingFocus.current&&!e.currentTarget.contains(e.relatedTarget as Node))setFlipped(false);}}
     onKeyDown={onKeys}>
     <div className="tle-service-flip__inner">
       <div className="tle-service-flip__face tle-service-flip__front" inert={open} aria-hidden={open}>
