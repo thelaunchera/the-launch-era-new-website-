@@ -83,7 +83,7 @@ export function ServicesColorMotion() {
         current = next;
         const theme = themes[next];
         if (counter) counter.textContent = `${String(next + 1).padStart(2, '0')} / 05`;
-        bars.forEach((bar, i) => bar.dataset.active = String(i <= Math.floor(next * 3 / themes.length));
+        bars.forEach((bar, i) => { bar.dataset.active = String(i <= Math.floor(next * 3 / themes.length)); });
         const vars = {
           backgroundColor: theme.bg,
           color: theme.ink,
