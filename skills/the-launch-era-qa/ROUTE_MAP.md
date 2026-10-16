@@ -1,3 +1,9 @@
+## 2026-10-16 — Booking Automation section connection hub (EN + ES)
+- **Scoped routes:** Public marketing homepage `/` and `/es/`, in `BookingSection` immediately below the existing "Explore the flow" / section CTA. The existing `ConnectedBookingFlow` component's internal 5-note scroll board becomes a premium **6-tile stationary connected hub**, NOT six external integration endorsements or new service functionality.
+- **Six real internal workflow labels:** service requests, client details, preferred dates, quotes/estimates, follow-up, booked jobs. Center: private Command Center. One SVG per connection in `viewBox="0 0 160 100" preserveAspectRatio="none"`, draw each line in 700ms; dots converge in 1100ms staggered 450ms, tile lights at launch, center ring pulses on arrival. Buttons select localized explanatory copy; no links that imply integrations, no network writes, fake bookings or customer records. Spanish parity.
+- **Responsive/accessibility:** no rotations or overlay over checkout/promo, 6 tiles stay readable in an unscrolling full-width mobile/iPad stage, keyboard buttons with aria-pressed and aria-live detail; prefers-reduced-motion shows all static final lines/tiles with dots hidden. Decorative homepage hero `HeroConnectionBackdrop` unchanged.
+- **QA:** `scripts/qa-connected-booking-flow.mjs` tests 360/390/820/1024/1440 EN/ES stage bounds, six SVG paths and pulses, no writes, final-state reduced motion and retention of demo link + Booking purchase CTA. GitHub Pages deploy after PR gate only.
+
 ## 2026-10-16 — Homepage logo marquee positioned below final CTA
 - **Routes:** English `/` and Spanish `/es/` in `src/routes/index.tsx` / `src/routes/es.index.tsx`.
 - **Order:** Contact form / process section → final blue Booking CTA → the existing `WorkflowLogoMarquee` (two rows) → services FAQ.
