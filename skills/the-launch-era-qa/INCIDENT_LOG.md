@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-16 | Screenshot: booking hero final `remarkable.` was incorrectly crossed out and homepage daytime 3D house nearly disappeared into white sky | Root cause verified: strike was absolute sibling sized to replacement word grid and remained after new word entered; 3D renderer exposure 1.55 plus pale roof/window colors and phone-distant camera washed out architectural details | Move strike INSIDE old word so it fades with the old text and add a slower 450ms stroke + 400ms beat; preserve EN/ES translations and accessible reduced motion. Lower renderer exposure, deepen blue house roof/windows, add entry detail, shift camera on mobile, preserve daylight-to-night 3D | 🟡 Fixed in staged PR; GitHub Actions and live iOS verification pending |
+
+
 | 2026-10-16 | Owner iPhone video at 17:02: public Booking Demo hero zoom vanished in about a second | Verified premium CSS constrained sticky hero to 146svh on iPhone (only 46svh for the camera transition), with JS zoom/fade complete at 70% and native browser smooth click scroll of uncontrolled duration | Isolated 205svh sticky journey, later zoom/fade through 82%, 2800ms timed click scroll cancellable by user input, cache bust and browser test against disappearing within 550ms. No live bookings, Sonny, blue bubbles or keyed previews changed | 🟡 Release awaiting focused CI / GitHub Pages verification |
 
 
