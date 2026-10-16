@@ -35,8 +35,7 @@ export function HomeHero() {
  const heroImageRef=useRef<HTMLImageElement>(null);
  const {heroRef,revealed}=useHeroWipe();
  useEffect(()=>{if(heroImageRef.current?.complete)setHeroLoaded(true)},[]);
- return <><section className="hero-scroll" aria-label="An example of The Launch Era booking experience"><div className="hero-scroll-stage"><HeroConnectionBackdrop lang="en"/><div className="hero-scroll-reveal"><span>YOUR BOOKING FLOW</span><HeroSplitWordLink lang="en"/></div><div ref={heroRef} data-wipe-visible={revealed && heroLoaded} className={`hero-photo hero-scroll-frame hero-split ${heroLoaded?'hero-media-ready':'hero-media-loading'}`}>
- <div className="tle-hero-soft-mesh" aria-hidden="true"><span/><span/><span/><span/></div>
+ return <><section className="hero-scroll" aria-label="An example of The Launch Era booking experience"><div className="hero-scroll-stage"><HeroConnectionBackdrop lang="en"/><div className="tle-hero-soft-mesh" aria-hidden="true"><span/><span/><span/><span/></div><div className="hero-scroll-reveal"><span>YOUR BOOKING FLOW</span><HeroSplitWordLink lang="en"/></div><div ref={heroRef} data-wipe-visible={revealed && heroLoaded} className={`hero-photo hero-scroll-frame hero-split ${heroLoaded?'hero-media-ready':'hero-media-loading'}`}>
  <div className="hero-intro">
    <div className="eyebrow">FOR CLEANING BUSINESS OWNERS</div>
    <h1>Less time chasing messages.<br/>More time for your business.</h1>
