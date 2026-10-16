@@ -87,9 +87,9 @@ try{
  try{
   await normal.goto(base+"/lead-private-preview.html?lang=en",{waitUntil:"load"});
   await normal.waitForSelector("html.tle-demo-v46",{timeout:15000});
-  const libraries=await normal.evaluate(()=>({gsap:typeof window.gsap,Flip:typeof window.Flip}));
-  assert.equal(libraries.gsap,"function","GSAP core must load");
-  assert.equal(libraries.Flip,"function","GSAP Flip plugin must load");
+  const libraries=await normal.evaluate(()=>({gsap:typeof window.gsap?.to,Flip:typeof window.Flip?.getState}));
+  assert.equal(libraries.gsap,"function","GSAP core animation methods must load");
+  assert.equal(libraries.Flip,"function","GSAP Flip getState must load");
   await normal.locator("#leadHero .tle46-thumb-slot").first().click();
   await normal.waitForTimeout(1100);
   assert.match(await normal.locator("#leadHero .tle46-caption").innerText(),/whole-home/i);
