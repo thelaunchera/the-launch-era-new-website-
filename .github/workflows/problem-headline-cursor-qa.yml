@@ -1,0 +1,51 @@
+name: Problem Headline Cursor QA
+on:
+  pull_request:
+    paths:
+      - 'src/components/mask-cursor-headline.tsx'
+      - 'src/components/mask-cursor-headline.css'
+      - 'src/components/editorial-sections.tsx'
+      - 'src/routes/es.index.tsx'
+      - 'scripts/qa-problem-headline-cursor-browser.mjs'
+      - '.github/workflows/problem-headline-cursor-qa.yml'
+  workflow_dispatch:
+jobs:
+  scoped-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Route guard
+        run: node scripts/qa-route-integrity.mjs --static
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install
+        run: bun install
+      - name: Build public site
+        run: bun run build
+      - name: Install isolated Chromium
+        run: |
+          mkdir -p /tmp/tle-mask-cursor-qa
+          cd /tmp/tle-mask-cursor-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          ln -sfn /tmp/tle-mask-cursor-qa/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-mask-cursor-qa/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: Verify EN/ES alignment, pointer circle, touch and reduced motion
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-mask-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for n in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-problem-headline-cursor-browser.mjs
+      - name: Screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tle-problem-headline-mask
+          path: qa-screenshots/problem-mask-*.png
+          if-no-files-found: ignore
