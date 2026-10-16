@@ -105,3 +105,17 @@
   .sales-home .booking-section .booking-tone-dots,
   .sales-home .booking-section .booking-tone-dots span { transition: none; }
 }
+
+/* iPhone width guard: the shared marketing ripple scales to 134% and can
+   extend beyond 20px page gutters. Keep both rings and the functional
+   animated primary border, but constrain the decorative bloom in this
+   one public homepage booking CTA. Do not alter other service CTAs. */
+@keyframes tle-booking-contained-pulse {
+  0% { transform: scale(1); opacity: .24; }
+  55%, 100% { transform: scale(1.05, 1.12); opacity: 0; }
+}
+@media (max-width: 767px) {
+  .sales-home .booking-section .homepage-booking-actions .tle-cta-pulse-shell > .tle-cta-pulse-ring {
+    animation-name: tle-booking-contained-pulse;
+  }
+}

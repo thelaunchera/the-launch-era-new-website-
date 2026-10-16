@@ -26,9 +26,12 @@ export function BookingToneShift() {
       // Stacked on phones: the section passing the viewport midpoint wins.
       // Side-by-side on desktop: shift at the visual midpoint of the shared story.
       const stacked = detail.top >= intro.bottom - 8;
+      // Desktop columns share one visual row; use the preview's actual
+      // viewport position rather than an arbitrary fraction of a tall wrapper.
+      // Tablet previews can exceed the height of the text column.
       const second = stacked
         ? detail.top <= middle
-        : outer.top + outer.height * .47 <= middle;
+        : detail.top + Math.min(detail.height * .18, 112) <= middle;
       section.dataset.tone = second ? '2' : '1';
     };
     const schedule = () => { if (!frame) frame = window.requestAnimationFrame(paint); };

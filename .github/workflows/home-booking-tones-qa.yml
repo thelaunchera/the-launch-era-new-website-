@@ -10,6 +10,7 @@ on:
       - 'src/routes/__root.tsx'
       - 'public/assets/tle-booking-tones.css'
       - 'scripts/qa-home-booking-tones.mjs'
+      - 'scripts/qa-home-booking-tones-browser.mjs'
       - '.github/workflows/home-booking-tones-qa.yml'
   workflow_dispatch:
 
@@ -30,3 +31,29 @@ jobs:
         run: bun install
       - name: Build TLE website
         run: bun run build
+      - name: Install isolated Chromium for responsive booking QA
+        run: |
+          mkdir -p /tmp/tle-booking-tones-qa
+          cd /tmp/tle-booking-tones-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          ln -sfn /tmp/tle-booking-tones-qa/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-booking-tones-qa/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: Verify EN/ES mobile tabs, scroll tones and reduced motion
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-booking-tones-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for n in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-home-booking-tones-browser.mjs
+      - name: Archive EN/ES mobile screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tle-booking-tones-mobile
+          path: qa-screenshots/booking-tones-*.png
+          if-no-files-found: ignore
