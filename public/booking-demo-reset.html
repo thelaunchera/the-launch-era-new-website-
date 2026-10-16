@@ -153,7 +153,7 @@
 <link rel="stylesheet" href="/assets/tle-booking-month-wheel.css?v=20261016-responsive2">
 <link rel="stylesheet" href="/assets/tle-booking-premium-refresh.css?v=20261016-sonny-mobile-safe3">
 <link rel="stylesheet" href="/assets/tle-booking-blue-orbs.css?v=20261016-orbs1">
-<link rel="stylesheet" href="/assets/tle-booking-bubbles-continuity.css?v=20261016-details-options3">
+<link rel="stylesheet" href="/assets/tle-booking-bubbles-continuity.css?v=20261016-flip-service4">
 </head>
 <body>
 <header>
@@ -229,14 +229,86 @@
     <button type="button" id="comTab" data-kind="commercial" aria-pressed="false">Commercial</button>
    </div>
    <div class="kind-panel services" id="resServices">
-    <button type="button" class="service" data-id="standard" data-kind="residential" data-price="120" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/cleaning-demo/living-room-original.jpg" data-photo="/assets/demo-services/regular.webp" data-fallback="/assets/cleaning-demo/living-room-original.jpg" alt="" width="840" height="560" loading="lazy" decoding="async"></span><span class="service-copy"><span class="service-title" data-i18n="standard">Standard Cleaning</span><span class="service-detail" data-i18n="standardHint">Regular home care</span></span><span class="service-price" data-i18n="sample120">From $120*</span></button>
-    <button type="button" class="service" data-id="deep" data-kind="residential" data-price="190" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/lead-demo/pristine-kitchen.png" data-photo="/assets/demo-services/deep.webp" data-fallback="/assets/lead-demo/pristine-kitchen.png" alt="" width="840" height="560" loading="lazy" decoding="async"></span><span class="service-copy"><span class="service-title" data-i18n="deep">Deep Cleaning</span><span class="service-detail" data-i18n="deepHint">A more detailed clean</span></span><span class="service-price" data-i18n="sample190">From $190*</span></button>
-    <button type="button" class="service" data-id="move" data-kind="residential" data-price="240" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/lead-demo/hero-luxury-home.png" data-photo="/assets/demo-services/move.webp" data-fallback="/assets/lead-demo/hero-luxury-home.png" alt="" width="840" height="560" loading="lazy" decoding="async"></span><span class="service-copy"><span class="service-title" data-i18n="move">Move In / Move Out</span><span class="service-detail" data-i18n="moveHint">Prepare for the next chapter</span></span><span class="service-price" data-i18n="sample240">From $240*</span></button>
+    <div class="service-flip-card" data-flip-card data-service="standard">
+  <div class="service-flip-inner">
+   <div class="service-flip-face service-flip-front"><button type="button" class="service" data-id="standard" data-kind="residential" data-price="120" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/cleaning-demo/living-room-original.jpg" data-photo="/assets/demo-services/regular.webp" data-fallback="/assets/cleaning-demo/living-room-original.jpg" alt="" width="840" height="560" loading="lazy" decoding="async"></span><span class="service-copy"><span class="service-title" data-i18n="standard">Standard Cleaning</span><span class="service-detail" data-i18n="standardHint">Regular home care</span></span><span class="service-price" data-i18n="sample120">From $120*</span><span class="service-flip-cue" data-i18n="flipCue">Tap for details ↗</span></button></div>
+   <div class="service-flip-face service-flip-back" aria-hidden="true" inert>
+    <button type="button" class="service-flip-return" aria-label="Back to service photo" data-flip-return>←</button>
+    <span class="service-flip-kicker" data-i18n="flipKicker">EXPLORE THIS CLEAN</span>
+    <h3 data-i18n="standard">Standard Cleaning</h3>
+    <p data-i18n="standardHint">Regular home care</p>
+    <ul><li data-i18n="flipFeature1">Choose your preferred date</li><li data-i18n="flipFeature2">Tell us about your space</li><li data-i18n="flipFeature3">Review your sample estimate</li></ul>
+    <button type="button" class="service-flip-select" data-flip-select data-i18n="flipContinue">Continue with this service →</button>
+   </div>
+  </div>
+ </div>
+    <div class="service-flip-card" data-flip-card data-service="deep">
+  <div class="service-flip-inner">
+   <div class="service-flip-face service-flip-front"><button type="button" class="service" data-id="deep" data-kind="residential" data-price="190" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/lead-demo/pristine-kitchen.png" data-photo="/assets/demo-services/deep.webp" data-fallback="/assets/lead-demo/pristine-kitchen.png" alt="" width="840" height="560" loading="lazy" decoding="async"></span><span class="service-copy"><span class="service-title" data-i18n="deep">Deep Cleaning</span><span class="service-detail" data-i18n="deepHint">A more detailed clean</span></span><span class="service-price" data-i18n="sample190">From $190*</span><span class="service-flip-cue" data-i18n="flipCue">Tap for details ↗</span></button></div>
+   <div class="service-flip-face service-flip-back" aria-hidden="true" inert>
+    <button type="button" class="service-flip-return" aria-label="Back to service photo" data-flip-return>←</button>
+    <span class="service-flip-kicker" data-i18n="flipKicker">EXPLORE THIS CLEAN</span>
+    <h3 data-i18n="deep">Deep Cleaning</h3>
+    <p data-i18n="deepHint">A more detailed clean</p>
+    <ul><li data-i18n="flipFeature1">Choose your preferred date</li><li data-i18n="flipFeature2">Tell us about your space</li><li data-i18n="flipFeature3">Review your sample estimate</li></ul>
+    <button type="button" class="service-flip-select" data-flip-select data-i18n="flipContinue">Continue with this service →</button>
+   </div>
+  </div>
+ </div>
+    <div class="service-flip-card" data-flip-card data-service="move">
+  <div class="service-flip-inner">
+   <div class="service-flip-face service-flip-front"><button type="button" class="service" data-id="move" data-kind="residential" data-price="240" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/lead-demo/hero-luxury-home.png" data-photo="/assets/demo-services/move.webp" data-fallback="/assets/lead-demo/hero-luxury-home.png" alt="" width="840" height="560" loading="lazy" decoding="async"></span><span class="service-copy"><span class="service-title" data-i18n="move">Move In / Move Out</span><span class="service-detail" data-i18n="moveHint">Prepare for the next chapter</span></span><span class="service-price" data-i18n="sample240">From $240*</span><span class="service-flip-cue" data-i18n="flipCue">Tap for details ↗</span></button></div>
+   <div class="service-flip-face service-flip-back" aria-hidden="true" inert>
+    <button type="button" class="service-flip-return" aria-label="Back to service photo" data-flip-return>←</button>
+    <span class="service-flip-kicker" data-i18n="flipKicker">EXPLORE THIS CLEAN</span>
+    <h3 data-i18n="move">Move In / Move Out</h3>
+    <p data-i18n="moveHint">Prepare for the next chapter</p>
+    <ul><li data-i18n="flipFeature1">Choose your preferred date</li><li data-i18n="flipFeature2">Tell us about your space</li><li data-i18n="flipFeature3">Review your sample estimate</li></ul>
+    <button type="button" class="service-flip-select" data-flip-select data-i18n="flipContinue">Continue with this service →</button>
+   </div>
+  </div>
+ </div>
    </div>
    <div class="kind-panel services" id="comServices" hidden>
-    <button type="button" class="service" data-id="office" data-kind="commercial" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/lead-demo/spotless-office.png" data-photo="/assets/demo-services/office.webp" data-fallback="/assets/lead-demo/spotless-office.png" alt="" width="840" height="560" loading="lazy" decoding="async"></span><span class="service-copy"><span class="service-title" data-i18n="office">Office Cleaning</span><span class="service-detail" data-i18n="officeHint">Offices and workspaces</span></span><span class="service-price" data-i18n="quote">Custom quote</span></button>
-    <button type="button" class="service" data-id="retail" data-kind="commercial" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/lead-demo/spotless-office.png" data-photo="/assets/demo-services/retail.webp" data-fallback="/assets/lead-demo/spotless-office.png" alt="" width="840" height="560" loading="lazy" decoding="async"></span><span class="service-copy"><span class="service-title" data-i18n="retail">Retail & Showrooms</span><span class="service-detail" data-i18n="retailHint">Customer-facing spaces</span></span><span class="service-price" data-i18n="quote">Custom quote</span></button>
-    <button type="button" class="service" data-id="medical" data-kind="commercial" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/lead-demo/spotless-office.png" data-photo="/assets/demo-services/medical.webp" data-fallback="/assets/lead-demo/spotless-office.png" alt="" width="840" height="560" loading="lazy" decoding="async"></span><span class="service-copy"><span class="service-title" data-i18n="medical">Medical & Professional</span><span class="service-detail" data-i18n="medicalHint">Spaces with specialized needs</span></span><span class="service-price" data-i18n="quote">Custom quote</span></button>
+    <div class="service-flip-card" data-flip-card data-service="office">
+  <div class="service-flip-inner">
+   <div class="service-flip-face service-flip-front"><button type="button" class="service" data-id="office" data-kind="commercial" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/lead-demo/spotless-office.png" data-photo="/assets/demo-services/office.webp" data-fallback="/assets/lead-demo/spotless-office.png" alt="" width="840" height="560" loading="lazy" decoding="async"></span><span class="service-copy"><span class="service-title" data-i18n="office">Office Cleaning</span><span class="service-detail" data-i18n="officeHint">Offices and workspaces</span></span><span class="service-price" data-i18n="quote">Custom quote</span><span class="service-flip-cue" data-i18n="flipCue">Tap for details ↗</span></button></div>
+   <div class="service-flip-face service-flip-back" aria-hidden="true" inert>
+    <button type="button" class="service-flip-return" aria-label="Back to service photo" data-flip-return>←</button>
+    <span class="service-flip-kicker" data-i18n="flipKicker">EXPLORE THIS CLEAN</span>
+    <h3 data-i18n="office">Office Cleaning</h3>
+    <p data-i18n="officeHint">Offices and workspaces</p>
+    <ul><li data-i18n="flipQuote1">Share details about the space</li><li data-i18n="flipQuote2">Choose a preferred date</li><li data-i18n="flipQuote3">Ask for a custom quote</li></ul>
+    <button type="button" class="service-flip-select" data-flip-select data-i18n="flipContinue">Continue with this service →</button>
+   </div>
+  </div>
+ </div>
+    <div class="service-flip-card" data-flip-card data-service="retail">
+  <div class="service-flip-inner">
+   <div class="service-flip-face service-flip-front"><button type="button" class="service" data-id="retail" data-kind="commercial" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/lead-demo/spotless-office.png" data-photo="/assets/demo-services/retail.webp" data-fallback="/assets/lead-demo/spotless-office.png" alt="" width="840" height="560" loading="lazy" decoding="async"></span><span class="service-copy"><span class="service-title" data-i18n="retail">Retail & Showrooms</span><span class="service-detail" data-i18n="retailHint">Customer-facing spaces</span></span><span class="service-price" data-i18n="quote">Custom quote</span><span class="service-flip-cue" data-i18n="flipCue">Tap for details ↗</span></button></div>
+   <div class="service-flip-face service-flip-back" aria-hidden="true" inert>
+    <button type="button" class="service-flip-return" aria-label="Back to service photo" data-flip-return>←</button>
+    <span class="service-flip-kicker" data-i18n="flipKicker">EXPLORE THIS CLEAN</span>
+    <h3 data-i18n="retail">Retail & Showrooms</h3>
+    <p data-i18n="retailHint">Customer-facing spaces</p>
+    <ul><li data-i18n="flipQuote1">Share details about the space</li><li data-i18n="flipQuote2">Choose a preferred date</li><li data-i18n="flipQuote3">Ask for a custom quote</li></ul>
+    <button type="button" class="service-flip-select" data-flip-select data-i18n="flipContinue">Continue with this service →</button>
+   </div>
+  </div>
+ </div>
+    <div class="service-flip-card" data-flip-card data-service="medical">
+  <div class="service-flip-inner">
+   <div class="service-flip-face service-flip-front"><button type="button" class="service" data-id="medical" data-kind="commercial" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/lead-demo/spotless-office.png" data-photo="/assets/demo-services/medical.webp" data-fallback="/assets/lead-demo/spotless-office.png" alt="" width="840" height="560" loading="lazy" decoding="async"></span><span class="service-copy"><span class="service-title" data-i18n="medical">Medical & Professional</span><span class="service-detail" data-i18n="medicalHint">Spaces with specialized needs</span></span><span class="service-price" data-i18n="quote">Custom quote</span><span class="service-flip-cue" data-i18n="flipCue">Tap for details ↗</span></button></div>
+   <div class="service-flip-face service-flip-back" aria-hidden="true" inert>
+    <button type="button" class="service-flip-return" aria-label="Back to service photo" data-flip-return>←</button>
+    <span class="service-flip-kicker" data-i18n="flipKicker">EXPLORE THIS CLEAN</span>
+    <h3 data-i18n="medical">Medical & Professional</h3>
+    <p data-i18n="medicalHint">Spaces with specialized needs</p>
+    <ul><li data-i18n="flipQuote1">Share details about the space</li><li data-i18n="flipQuote2">Choose a preferred date</li><li data-i18n="flipQuote3">Ask for a custom quote</li></ul>
+    <button type="button" class="service-flip-select" data-flip-select data-i18n="flipContinue">Continue with this service →</button>
+   </div>
+  </div>
+ </div>
    </div>
    <div class="booking-custom-invite" aria-labelledby="bookingCustomTitle">
     <p id="bookingCustomOverline" class="booking-custom-overline">NEED SOMETHING DIFFERENT?</p>
@@ -318,8 +390,8 @@
 <script>
 (()=>{
   'use strict';
-  const en={languageLabel:'Language',siteLink:'Back to website',eyebrow:'BOOKING PAGE PREVIEW',pageTitle:'A simpler way to book a clean.',pageIntro:'Explore a straightforward cleaning booking process, without extra effects or distracting screens.',sampleWarning:'Interactive sample only · No real booking or email is sent',resTab:'Residential',comTab:'Commercial',standard:'Standard Cleaning',standardHint:'Regular home care',deep:'Deep Cleaning',deepHint:'A more detailed clean',move:'Move In / Move Out',moveHint:'Prepare for the next chapter',office:'Office Cleaning',officeHint:'Offices and workspaces',retail:'Retail & Showrooms',retailHint:'Customer-facing spaces',medical:'Medical & Professional',medicalHint:'Spaces with specialized needs',quote:'Custom quote',sample120:'From $120*',sample190:'From $190*',sample240:'From $240*',customQuote:'Request a custom quote →',bookingCustomOverline:'NEED SOMETHING DIFFERENT?',bookingCustomSummary:'Start with a home estimate or a custom quote.',bookingCustomTitle:'NEED SOMETHING DIFFERENT?',bookingCustomAction:'Request a custom quote.',chooseHint:'*Sample starting estimates; your provider confirms the final price.',chooseNext:'Continue',detailNote:'Enter sample details to explore the next step. Nothing is submitted.',nameLabel:'Your name',emailLabel:'Email',zipLabel:'Service ZIP code',dateLabel:'Preferred date',bedsLabel:'Bedrooms',bathsLabel:'Bathrooms',frequencyLabel:'Frequency',spaceLabel:'Type of space',bookingExtrasTitle:'Optional cleaning details',bookingExtrasHint:'Select anything that applies. Extras are requests only — no price is added in this demo.',petsLabel:'Pets at home',firstLabel:'First-time cleaning',ovenLabel:'Inside oven',fridgeLabel:'Inside refrigerator',notesLabel:'Additional notes (optional)',backDetails:'Back',reviewNext:'Review details',reviewNote:'Check this sample request before completing the preview.',backReview:'Edit details',finish:'Finish preview',doneHeading:'Preview complete.',doneBody:'This is how a booking request could be reviewed. No booking, payment, email, or client record was created.',restart:'Start again',footerNote:'*Prices are sample estimates, not guaranteed quotes. Final scope and availability are confirmed by the cleaning business.',footerCopy:'The Launch Era · Cleaning booking page preview · No live client data',step1:'STEP 1 OF 3',step2:'STEP 2 OF 3',step3:'STEP 3 OF 3',stepDone:'COMPLETE',chooseTitle:'Choose your service',detailsTitle:'Tell us about your space',reviewTitle:'Review your request',doneTitle:'Preview complete',service:'Service',contact:'Name',location:'ZIP code',date:'Preferred date',frequency:'Frequency',estimate:'Starting estimate',details:'Notes',one:'One time',weekly:'Weekly',biweekly:'Biweekly',monthly:'Monthly',other:'Custom quote',none:'None',invalid:'Please complete the required fields with a valid email and ZIP code.',dateInvalid:'Choose today or a future date.'};
-  const es={languageLabel:'Idioma',siteLink:'Volver al sitio web',eyebrow:'DEMO DE RESERVAS',pageTitle:'Una forma más sencilla de reservar una limpieza.',pageIntro:'Explora cómo reservar una limpieza, sin efectos adicionales ni pantallas que distraen.',sampleWarning:'Ejemplo interactivo · No se realiza ninguna reserva ni se envía correo',resTab:'Residencial',comTab:'Comercial',standard:'Limpieza estándar',standardHint:'Mantenimiento del hogar',deep:'Limpieza profunda',deepHint:'Limpieza más detallada',move:'Mudanza / Salida',moveHint:'Prepara el siguiente capítulo',office:'Limpieza de oficinas',officeHint:'Oficinas y espacios de trabajo',retail:'Tiendas y salas de exhibición',retailHint:'Espacios de atención al público',medical:'Médico y profesional',medicalHint:'Espacios con necesidades especiales',quote:'Cotización personalizada',sample120:'Desde $120*',sample190:'Desde $190*',sample240:'Desde $240*',customQuote:'Solicitar cotización personalizada →',bookingCustomOverline:'¿NECESITAS ALGO DIFERENTE?',bookingCustomSummary:'Empieza con un estimado o una cotización personalizada.',bookingCustomTitle:'¿NECESITAS ALGO DIFERENTE?',bookingCustomAction:'Solicita una cotización personalizada.',chooseHint:'*Precios de ejemplo; el negocio confirma la tarifa final.',chooseNext:'Continuar',detailNote:'Ingresa datos de ejemplo para ver el siguiente paso. Nada se envía.',nameLabel:'Tu nombre',emailLabel:'Correo electrónico',zipLabel:'Código postal',dateLabel:'Fecha preferida',bedsLabel:'Habitaciones',bathsLabel:'Baños',frequencyLabel:'Frecuencia',spaceLabel:'Tipo de espacio',bookingExtrasTitle:'Detalles opcionales de la limpieza',bookingExtrasHint:'Marca lo que corresponda. Son solicitudes de ejemplo y no agregan cargos al precio.',petsLabel:'Mascotas en casa',firstLabel:'Primera limpieza',ovenLabel:'Interior del horno',fridgeLabel:'Interior del refrigerador',notesLabel:'Notas adicionales (opcional)',backDetails:'Volver',reviewNext:'Revisar datos',reviewNote:'Revisa esta solicitud de ejemplo antes de terminar.',backReview:'Editar datos',finish:'Terminar demo',doneHeading:'Demo completado.',doneBody:'Así podría revisarse una solicitud. No se creó una reserva, un pago, un correo ni un registro de cliente.',restart:'Empezar de nuevo',footerNote:'*Los precios son estimados de ejemplo, no cotizaciones garantizadas. El negocio confirma servicios y disponibilidad.',footerCopy:'The Launch Era · Demo de reservas · Sin datos reales de clientes',step1:'PASO 1 DE 3',step2:'PASO 2 DE 3',step3:'PASO 3 DE 3',stepDone:'COMPLETADO',chooseTitle:'Elige un servicio',detailsTitle:'Cuéntanos sobre el espacio',reviewTitle:'Revisa tu solicitud',doneTitle:'Demo completado',service:'Servicio',contact:'Nombre',location:'Código postal',date:'Fecha preferida',frequency:'Frecuencia',estimate:'Precio inicial estimado',details:'Notas',one:'Una vez',weekly:'Semanal',biweekly:'Cada dos semanas',monthly:'Mensual',other:'Cotización personalizada',none:'Ninguna',invalid:'Completa los campos obligatorios con un correo y código postal válidos.',dateInvalid:'Selecciona la fecha de hoy o una futura.'};
+  const en={languageLabel:'Language',siteLink:'Back to website',eyebrow:'BOOKING PAGE PREVIEW',pageTitle:'A simpler way to book a clean.',pageIntro:'Explore a straightforward cleaning booking process, without extra effects or distracting screens.',sampleWarning:'Interactive sample only · No real booking or email is sent',resTab:'Residential',comTab:'Commercial',standard:'Standard Cleaning',standardHint:'Regular home care',deep:'Deep Cleaning',deepHint:'A more detailed clean',move:'Move In / Move Out',moveHint:'Prepare for the next chapter',office:'Office Cleaning',officeHint:'Offices and workspaces',retail:'Retail & Showrooms',retailHint:'Customer-facing spaces',medical:'Medical & Professional',medicalHint:'Spaces with specialized needs',quote:'Custom quote',sample120:'From $120*',sample190:'From $190*',sample240:'From $240*',customQuote:'Request a custom quote →',bookingCustomOverline:'NEED SOMETHING DIFFERENT?',bookingCustomSummary:'Start with a home estimate or a custom quote.',bookingCustomTitle:'NEED SOMETHING DIFFERENT?',bookingCustomAction:'Request a custom quote.',chooseHint:'*Sample starting estimates; your provider confirms the final price.',chooseNext:'Continue',detailNote:'Enter sample details to explore the next step. Nothing is submitted.',nameLabel:'Your name',emailLabel:'Email',zipLabel:'Service ZIP code',dateLabel:'Preferred date',bedsLabel:'Bedrooms',bathsLabel:'Bathrooms',frequencyLabel:'Frequency',spaceLabel:'Type of space',bookingExtrasTitle:'Optional cleaning details',bookingExtrasHint:'Select anything that applies. Extras are requests only — no price is added in this demo.',petsLabel:'Pets at home',firstLabel:'First-time cleaning',ovenLabel:'Inside oven',fridgeLabel:'Inside refrigerator',flipCue:'Tap for details ↗',flipKicker:'EXPLORE THIS CLEAN',flipFeature1:'Choose your preferred date',flipFeature2:'Tell us about your space',flipFeature3:'Review your sample estimate',flipQuote1:'Share details about the space',flipQuote2:'Choose a preferred date',flipQuote3:'Ask for a custom quote',flipContinue:'Continue with this service →',notesLabel:'Additional notes (optional)',backDetails:'Back',reviewNext:'Review details',reviewNote:'Check this sample request before completing the preview.',backReview:'Edit details',finish:'Finish preview',doneHeading:'Preview complete.',doneBody:'This is how a booking request could be reviewed. No booking, payment, email, or client record was created.',restart:'Start again',footerNote:'*Prices are sample estimates, not guaranteed quotes. Final scope and availability are confirmed by the cleaning business.',footerCopy:'The Launch Era · Cleaning booking page preview · No live client data',step1:'STEP 1 OF 3',step2:'STEP 2 OF 3',step3:'STEP 3 OF 3',stepDone:'COMPLETE',chooseTitle:'Choose your service',detailsTitle:'Tell us about your space',reviewTitle:'Review your request',doneTitle:'Preview complete',service:'Service',contact:'Name',location:'ZIP code',date:'Preferred date',frequency:'Frequency',estimate:'Starting estimate',details:'Notes',one:'One time',weekly:'Weekly',biweekly:'Biweekly',monthly:'Monthly',other:'Custom quote',none:'None',invalid:'Please complete the required fields with a valid email and ZIP code.',dateInvalid:'Choose today or a future date.'};
+  const es={languageLabel:'Idioma',siteLink:'Volver al sitio web',eyebrow:'DEMO DE RESERVAS',pageTitle:'Una forma más sencilla de reservar una limpieza.',pageIntro:'Explora cómo reservar una limpieza, sin efectos adicionales ni pantallas que distraen.',sampleWarning:'Ejemplo interactivo · No se realiza ninguna reserva ni se envía correo',resTab:'Residencial',comTab:'Comercial',standard:'Limpieza estándar',standardHint:'Mantenimiento del hogar',deep:'Limpieza profunda',deepHint:'Limpieza más detallada',move:'Mudanza / Salida',moveHint:'Prepara el siguiente capítulo',office:'Limpieza de oficinas',officeHint:'Oficinas y espacios de trabajo',retail:'Tiendas y salas de exhibición',retailHint:'Espacios de atención al público',medical:'Médico y profesional',medicalHint:'Espacios con necesidades especiales',quote:'Cotización personalizada',sample120:'Desde $120*',sample190:'Desde $190*',sample240:'Desde $240*',customQuote:'Solicitar cotización personalizada →',bookingCustomOverline:'¿NECESITAS ALGO DIFERENTE?',bookingCustomSummary:'Empieza con un estimado o una cotización personalizada.',bookingCustomTitle:'¿NECESITAS ALGO DIFERENTE?',bookingCustomAction:'Solicita una cotización personalizada.',chooseHint:'*Precios de ejemplo; el negocio confirma la tarifa final.',chooseNext:'Continuar',detailNote:'Ingresa datos de ejemplo para ver el siguiente paso. Nada se envía.',nameLabel:'Tu nombre',emailLabel:'Correo electrónico',zipLabel:'Código postal',dateLabel:'Fecha preferida',bedsLabel:'Habitaciones',bathsLabel:'Baños',frequencyLabel:'Frecuencia',spaceLabel:'Tipo de espacio',bookingExtrasTitle:'Detalles opcionales de la limpieza',bookingExtrasHint:'Marca lo que corresponda. Son solicitudes de ejemplo y no agregan cargos al precio.',petsLabel:'Mascotas en casa',firstLabel:'Primera limpieza',ovenLabel:'Interior del horno',fridgeLabel:'Interior del refrigerador',flipCue:'Toca para ver detalles ↗',flipKicker:'CONOCE ESTE SERVICIO',flipFeature1:'Elige tu fecha preferida',flipFeature2:'Cuéntanos sobre tu espacio',flipFeature3:'Revisa el estimado de ejemplo',flipQuote1:'Cuéntanos sobre el espacio',flipQuote2:'Elige una fecha preferida',flipQuote3:'Solicita una cotización personalizada',flipContinue:'Continuar con este servicio →',notesLabel:'Notas adicionales (opcional)',backDetails:'Volver',reviewNext:'Revisar datos',reviewNote:'Revisa esta solicitud de ejemplo antes de terminar.',backReview:'Editar datos',finish:'Terminar demo',doneHeading:'Demo completado.',doneBody:'Así podría revisarse una solicitud. No se creó una reserva, un pago, un correo ni un registro de cliente.',restart:'Empezar de nuevo',footerNote:'*Los precios son estimados de ejemplo, no cotizaciones garantizadas. El negocio confirma servicios y disponibilidad.',footerCopy:'The Launch Era · Demo de reservas · Sin datos reales de clientes',step1:'PASO 1 DE 3',step2:'PASO 2 DE 3',step3:'PASO 3 DE 3',stepDone:'COMPLETADO',chooseTitle:'Elige un servicio',detailsTitle:'Cuéntanos sobre el espacio',reviewTitle:'Revisa tu solicitud',doneTitle:'Demo completado',service:'Servicio',contact:'Nombre',location:'Código postal',date:'Fecha preferida',frequency:'Frecuencia',estimate:'Precio inicial estimado',details:'Notas',one:'Una vez',weekly:'Semanal',biweekly:'Cada dos semanas',monthly:'Mensual',other:'Cotización personalizada',none:'Ninguna',invalid:'Completa los campos obligatorios con un correo y código postal válidos.',dateInvalid:'Selecciona la fecha de hoy o una futura.'};
   const $=id=>document.getElementById(id);
   const params=new URLSearchParams(location.search);
   let lang=params.get('lang')==='es'?'es':'en', kind='residential', selected=null, step=1, custom=false;
@@ -416,7 +488,59 @@
   }
   $('resTab').addEventListener('click',()=>chooseKind('residential'));
   $('comTab').addEventListener('click',()=>chooseKind('commercial'));
-  document.querySelectorAll('.service').forEach(button=>button.addEventListener('click',()=>chooseService(button)));
+  // Preview service details before committing to the booking form.
+  // Only the face facing the visitor is focusable and interactive.
+  const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+  const flipCards=[...document.querySelectorAll('[data-flip-card]')];
+  function setCardFlip(card,requested,focusTarget=false){
+    const open=requested||reducedMotion.matches;
+    card.classList.toggle('is-flipped',open);
+    const front=card.querySelector('.service-flip-front');
+    const back=card.querySelector('.service-flip-back');
+    if(front){front.inert=open;front.setAttribute('aria-hidden',String(open));}
+    if(back){back.inert=!open;back.setAttribute('aria-hidden',String(!open));}
+    if(focusTarget)requestAnimationFrame(()=>card.querySelector('.service-flip-select')?.focus());
+  }
+  function closeCardFlip(card,focusFront=false){
+    if(reducedMotion.matches)return;
+    // Avoid instantly reopening on programmatic focus after a Back action.
+    card.dataset.returning=focusFront?'true':'false';
+    setCardFlip(card,false);
+    if(focusFront)requestAnimationFrame(()=>{
+      card.querySelector('.service')?.focus();
+      requestAnimationFrame(()=>{delete card.dataset.returning;});
+    });
+  }
+  flipCards.forEach(card=>{
+    const front=card.querySelector('.service');
+    const select=card.querySelector('[data-flip-select]');
+    const backButton=card.querySelector('[data-flip-return]');
+    front.addEventListener('click',()=>setCardFlip(card,true,true));
+    front.addEventListener('focus',()=>{
+      if(card.dataset.returning!=='true')setCardFlip(card,true,true);
+    });
+    card.addEventListener('pointerenter',e=>{
+      if(e.pointerType==='mouse'&&window.matchMedia('(hover:hover) and (pointer:fine)').matches)
+        setCardFlip(card,true);
+    });
+    card.addEventListener('pointerleave',()=>{
+      if(!card.contains(document.activeElement))closeCardFlip(card);
+    });
+    card.addEventListener('focusout',e=>{
+      if(!card.contains(e.relatedTarget))closeCardFlip(card);
+    });
+    card.addEventListener('keydown',e=>{
+      if(e.key==='Escape'&&!reducedMotion.matches){
+        e.preventDefault();
+        closeCardFlip(card,true);
+      }
+    });
+    backButton.addEventListener('click',()=>closeCardFlip(card,true));
+    select.addEventListener('click',()=>chooseService(front));
+  });
+  const syncReducedFlip=()=>flipCards.forEach(card=>setCardFlip(card,reducedMotion.matches));
+  reducedMotion.addEventListener?.('change',syncReducedFlip);
+  syncReducedFlip();
   $('customQuote').addEventListener('click',()=>{
     custom=true;selected={id:'other',kind,price:null};
     document.querySelectorAll('.service').forEach(el=>el.setAttribute('aria-pressed','false'));
