@@ -143,7 +143,11 @@ try{
   await page.locator('select[name="quote_estimate_rules"]').selectOption("review_unpriced_jobs");
   await page.locator('select[name="flat_price_auto_confirm"]').selectOption("false");
   await page.locator('textarea[name="availability"]').fill("Monday-Friday 9-5");
-  await page.locator('input[name="job_duration_minutes"]').fill("120");
+  // Appointment duration is now a guided, visible radio/select control.
+  // The original job_duration_minutes input is intentionally hidden.
+  const duration=page.locator('[data-tle-duration-picker]');
+  await duration.locator('input[name="duration_mode"][value="same"]').check();
+  await duration.locator('#durationOne').selectOption("120");
   await page.locator('select[name="recurring_booking_policy"]').selectOption("weekly");
   await page.locator('input[name="customer_payment_methods"]').fill("Cash, Zelle");
   await page.locator('input[name="tle_pick_booking_services_standard"]').check();
