@@ -55,6 +55,88 @@
   });
   schedule();
  }
+ // A single language switch controls the SAME hero and proof that email leads see.
+ const translations={
+   en:{
+     bookingPortalKicker:"THE LAUNCH ERA · BOOKING AUTOMATION",
+     bookingPortalLine:"Make your booking flow",
+     bookingPortalOld:"decent.",
+     bookingPortalNew:"remarkable.",
+     bookingPortalSub:"A simpler way to turn cleaning inquiries into a clear booking experience.",
+     bookingHeroDemo:"Explore booking",bookingHeroSonny:"Ask Sonny",
+     bookingPortalEnterText:"Enter the demo ↗",
+     bookingPortalIntroKicker:"A CLEARER WAY TO BOOK",
+     bookingPortalIntro:"Your next booking experience starts here.",
+     bookingPortalCue:"Scroll to explore ↓",
+     bookingProofKicker:"A BETTER FIRST IMPRESSION",
+     bookingProofTitle:"See what a simpler booking flow can do.",
+     bookingProofDesc:"These example review cards describe the experience in this demo. They are not published customer testimonials.",
+     bookingReview1Title:"Services, clearly explained",
+     bookingReview1Text:"Visitors can see what each type of clean includes and choose the right place to start.",
+     bookingReview2Title:"Fewer back-and-forth messages",
+     bookingReview2Text:"A straightforward request gathers the basics in one step-by-step flow.",
+     bookingReview3Title:"Details together",
+     bookingReview3Text:"Your sample Command Center shows how one request can stay organized.",
+     bookingCompareKicker:"BEFORE & AFTER",
+     bookingCompareTitle:"A fresh perspective on every clean.",
+     bookingCompareDesc:"Explore matched illustrative before-and-after photo pairs from the demo library. These are examples, not a claim about any customer's results.",
+     bookingPair1Title:"Grout detail",bookingPair2Title:"Bedroom refresh",bookingPair3Title:"Vanity polish",
+     bookingCompareUnavailable:"Photo comparisons are temporarily unavailable.",
+     finalHeadline:"Make your booking flow remarkable.",
+     reviewsFoot:"Illustrative demo experience",pairsFoot:"Illustrative matched photo pair",
+     before:"Before",after:"After",enter:"Enter the Booking Demo",
+     comparisons:["Compare grout before and after","Compare bedroom before and after","Compare vanity before and after"]
+   },
+   es:{
+     bookingPortalKicker:"THE LAUNCH ERA · RESERVAS AUTOMATIZADAS",
+     bookingPortalLine:"Haz que tus reservas sean",
+     bookingPortalOld:"aceptables.",
+     bookingPortalNew:"extraordinarias.",
+     bookingPortalSub:"Convierte las consultas de limpieza en una experiencia de reservas clara y sencilla.",
+     bookingHeroDemo:"Explorar reservas",bookingHeroSonny:"Hablar con Sonny",
+     bookingPortalEnterText:"Entrar al demo ↗",
+     bookingPortalIntroKicker:"RESERVAS MÁS SENCILLAS",
+     bookingPortalIntro:"Tu próxima experiencia de reservas empieza aquí.",
+     bookingPortalCue:"Desliza para explorar ↓",
+     bookingProofKicker:"UNA MEJOR PRIMERA IMPRESIÓN",
+     bookingProofTitle:"Descubre una forma más fácil de reservar.",
+     bookingProofDesc:"Estas tarjetas muestran situaciones de ejemplo del demo. No son reseñas publicadas de clientes reales.",
+     bookingReview1Title:"Servicios claros",
+     bookingReview1Text:"Los visitantes pueden ver los tipos de limpieza y elegir el servicio adecuado.",
+     bookingReview2Title:"Menos mensajes de ida y vuelta",
+     bookingReview2Text:"Una solicitud sencilla reúne los detalles necesarios paso a paso.",
+     bookingReview3Title:"Todo en un mismo lugar",
+     bookingReview3Text:"El Command Center de ejemplo muestra cómo organizar las solicitudes.",
+     bookingCompareKicker:"ANTES Y DESPUÉS",
+     bookingCompareTitle:"Una nueva perspectiva de cada limpieza.",
+     bookingCompareDesc:"Explora pares de fotos ilustrativas del antes y después. Son ejemplos, no resultados atribuidos a clientes.",
+     bookingPair1Title:"Detalles de juntas",bookingPair2Title:"Dormitorio renovado",bookingPair3Title:"Lavabo impecable",
+     bookingCompareUnavailable:"Las comparaciones no están disponibles temporalmente.",
+     finalHeadline:"Haz que tus reservas sean extraordinarias.",
+     reviewsFoot:"Ejemplo ilustrativo del demo",pairsFoot:"Par de fotos ilustrativas",
+     before:"Antes",after:"Después",enter:"Entrar al demo de reservas",
+     comparisons:["Comparar antes y después de las juntas","Comparar antes y después del dormitorio","Comparar antes y después del lavabo"]
+   }
+ };
+ function updateTranslations(){
+  const selected=document.getElementById("language")?.value==="es"?"es":"en";
+  const t=translations[selected];
+  for(const [id,value] of Object.entries(t)){
+   const el=document.getElementById(id);
+   if(el&&typeof value==="string")el.textContent=value;
+  }
+  document.getElementById("bookingPortalHeadline")?.setAttribute("aria-label",t.finalHeadline);
+  windowButton?.setAttribute("aria-label",t.enter);
+  document.querySelectorAll(".booking-review-foot").forEach(el=>el.textContent=t.reviewsFoot);
+  document.querySelectorAll(".booking-pair-caption").forEach(el=>el.textContent=t.pairsFoot);
+  document.querySelectorAll(".booking-compare-visual").forEach((el,index)=>{
+    el.querySelectorAll(".labels span").forEach((label,i)=>label.textContent=i===0?t.before:t.after);
+    el.querySelector('input[type="range"]')?.setAttribute("aria-label",t.comparisons[index]||t.comparisons[0]);
+  });
+ }
+ document.getElementById("language")?.addEventListener("change",updateTranslations);
+ updateTranslations();
+
  // Hero Sonny shortcut toggles the existing REAL Sonny conversation.
  document.getElementById("bookingHeroSonny")?.addEventListener("click",()=>{
    const button=document.getElementById("sonnyToggle");
