@@ -22,7 +22,7 @@ try{
     assert.match(await page.locator('#formTitle').innerText(),/Pide tu demo personalizada/i);
     assert.match(await page.locator('#submit').innerText(),/Quiero mi demo/i);
     assert.match(await page.locator('#serviceBack').getAttribute('href'),/\/es\/booking-lead-automation/);
-    assert.match(await page.locator('input[name="name"]').getAttribute('placeholder'),/Nombre y apellido/i);
+    assert.match(await page.locator('#demoForm input[name="name"]').getAttribute('placeholder'),/Nombre y apellido/i);
    }else{
     assert.match(heading,/A smoother way to book/i);
     assert.match(await page.locator('#formTitle').innerText(),/Request your personalized demo/i);
