@@ -24,14 +24,14 @@ function StaticScene() {
   <ellipse cx="320" cy="347" rx="216" ry="45" fill="#1c3549" opacity=".15"/>
   <path d="M104 294v36c0 43 432 43 432 0v-36" fill="#7b9cb6"/>
   <ellipse cx="320" cy="294" rx="216" ry="72" fill="url(#tle-time-grass)"/>
-  <rect x="213" y="155" width="209" height="146" rx="9" fill="#f8fcff"/>
-  <rect x="368" y="191" width="105" height="110" rx="7" fill="#dfebf5"/>
-  <path d="M199 166 312 102l128 64v18H199z" fill="#a3c8e7"/>
-  <path d="M357 192 419 146l63 46v15H357z" fill="#7eaed6"/>
-  <rect x="292" y="238" width="46" height="63" rx="4" fill="#6b94b4"/>
-  <rect x="235" y="208" width="40" height="41" rx="4" fill="#a9d1ea" stroke="white" strokeWidth="6"/>
-  <rect className="tle-time-static-window" x="390" y="227" width="45" height="39" rx="4" fill="#a9d1ea" stroke="white" strokeWidth="6"/>
-  <g fill="#83b29d"><rect x="155" y="245" width="11" height="51" rx="3" fill="#a58d75"/><circle cx="160" cy="237" r="30"/><rect x="496" y="248" width="10" height="49" rx="3" fill="#a58d75"/><circle cx="500" cy="242" r="27"/><rect x="467" y="272" width="9" height="31" rx="3" fill="#a58d75"/><circle cx="471" cy="267" r="20"/></g>
+  <rect x="213" y="155" width="209" height="146" rx="9" fill="#e5f1fa"/>
+  <rect x="368" y="191" width="105" height="110" rx="7" fill="#cfe4f2"/>
+  <path d="M199 166 312 102l128 64v18H199z" fill="#7aadd2"/>
+  <path d="M357 192 419 146l63 46v15H357z" fill="#5e96c2"/>
+  <rect x="292" y="238" width="46" height="63" rx="4" fill="#4f81a5"/>
+  <rect x="235" y="208" width="40" height="41" rx="4" fill="#80bfdf" stroke="#f8fcff" strokeWidth="6"/>
+  <rect className="tle-time-static-window" x="390" y="227" width="45" height="39" rx="4" fill="#80bfdf" stroke="#f8fcff" strokeWidth="6"/>
+  <path d="M255 306h117l18 14H237z" fill="#b7cdda"/><path d="M286 317h54v8h-54z" fill="#91b4ca"/><g fill="#77a995"><rect x="155" y="245" width="11" height="51" rx="3" fill="#a58d75"/><circle cx="160" cy="237" r="30"/><rect x="496" y="248" width="10" height="49" rx="3" fill="#a58d75"/><circle cx="500" cy="242" r="27"/><rect x="467" y="272" width="9" height="31" rx="3" fill="#a58d75"/><circle cx="471" cy="267" r="20"/></g>
  </svg>;
 }
 export function HomeMotionInterlude({lang='en'}:{lang?:Lang}) {
@@ -93,7 +93,7 @@ export function HomeMotionInterlude({lang='en'}:{lang?:Lang}) {
   const load=()=>{
    watcher.disconnect();
    if(reduced)return;
-   import(/* @vite-ignore */ '/assets/tle-home-time-of-day.js?v=20261016-2')
+   import(/* @vite-ignore */ '/assets/tle-home-time-of-day.js?v=20261016-house-detail3')
     .then(mod=>{
      if(cancelled||typeof mod.mountTimeOfDay!=='function')return;
      dispose=mod.mountTimeOfDay(el);
