@@ -1,6 +1,13 @@
 name: TLE Homepage Time-of-Day 3D and Kinetic QA
 on:
   workflow_dispatch:
+  pull_request:
+    paths:
+      - 'scripts/qa-home-time-browser.mjs'
+      - 'scripts/qa-home-time-of-day.mjs'
+      - 'src/components/home-motion-interlude.*'
+      - 'public/assets/tle-home-time-of-day.js'
+      - '.github/workflows/home-time-of-day-qa.yml'
   push:
     branches: [main]
     paths:
