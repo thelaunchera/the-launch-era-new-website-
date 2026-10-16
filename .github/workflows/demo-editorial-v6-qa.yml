@@ -35,7 +35,7 @@ permissions:
   contents: read
 concurrency:
   group: cleaning-demo-editorial-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   sample-layout:
     runs-on: ubuntu-latest
