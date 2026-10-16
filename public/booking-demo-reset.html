@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="theme-color" content="#FAF8F3">
+<title>Cleaning Booking Demo | The Launch Era</title>
+<style>
+  :root { color-scheme:light; --ivory:#FAF8F3; --ink:#191919; --blue:#D7EDFA; --line:#DDE2E5; --yellow:#F2D85B; --muted:#53606B; }
+  *,*::before,*::after { box-sizing:border-box; }
+  html { font-family:Arial,Helvetica,sans-serif; font-size:16px; background:var(--ivory); color:var(--ink); }
+  body { margin:0; min-width:0; }
+  button,input,select,textarea { font:inherit; color:inherit; }
+  button { cursor:pointer; }
+  a { color:inherit; }
+  button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible { outline:3px solid #468AB2; outline-offset:3px; }
+  .shell { width:min(100% - 40px,980px); margin:0 auto; }
+  header { border-bottom:1px solid var(--line); background:var(--ivory); }
+  header .shell { display:flex; justify-content:space-between; align-items:center; gap:20px; min-height:74px; }
+  .brand { font-weight:800; font-size:14px; letter-spacing:.11em; text-decoration:none; }
+  .header-right { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  .language { padding:8px 11px; border:1px solid #BECBD3; background:#fff; border-radius:8px; }
+  .back-link { font-size:13px; font-weight:650; text-decoration:underline; text-underline-offset:3px; }
+  main { padding:58px 0 78px; }
+  .eyebrow { margin:0 0 16px; font-size:12px; font-weight:800; letter-spacing:.13em; color:#3B677C; }
+  h1 { font-size:clamp(30px,4.5vw,48px); line-height:1.13; letter-spacing:-.04em; font-weight:750; max-width:660px; margin:0; }
+  .intro { font-size:16px; line-height:1.65; color:var(--muted); max-width:620px; margin:18px 0 25px; }
+  .disclaimer { display:inline-block; font-size:12px; font-weight:700; border:1px solid #BDD7E8; background:#EDF7FC; border-radius:6px; padding:9px 12px; color:#20475A; }
+  .flow { border:1px solid var(--line); background:#fff; border-radius:16px; overflow:hidden; margin-top:40px; }
+  .flow-header { padding:24px 28px; border-bottom:1px solid var(--line); }
+  .steps { color:var(--muted); font-size:12px; font-weight:700; letter-spacing:.04em; }
+  h2 { margin:9px 0 0; font-size:clamp(22px,2.8vw,28px); line-height:1.23; letter-spacing:-.02em; }
+  .panel { padding:24px 28px 32px; }
+  .panel[hidden],.kind-panel[hidden],.commercial-details[hidden],.residential-details[hidden] { display:none!important; }
+  .switch { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-bottom:24px; }
+  .switch button { text-align:center; padding:14px 12px; border-radius:9px; background:#F6F8F9; border:1px solid var(--line); font-weight:750; }
+  .switch button[aria-pressed=true] { background:var(--blue); border-color:#7DAFC8; }
+  .services { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+  .service { display:flex; flex-direction:column; justify-content:space-between; gap:12px; min-height:155px; text-align:left; padding:18px; background:#fff; border:1px solid #CBD5DC; border-radius:12px; min-width:0; }
+  .service[aria-pressed=true] { background:#F0F8FD; border:2px solid #3D87B2; padding:17px; }
+  .service-title { font-size:17px; font-weight:750; line-height:1.3; }
+  .service-detail { color:var(--muted); font-size:13px; line-height:1.45; }
+  .service-price { color:#2B5770; font-size:13px; font-weight:700; }
+  .custom { margin-top:14px; width:100%; text-align:left; background:#F7FAFC; border:1px solid var(--line); border-radius:9px; padding:15px 18px; font-weight:700; }
+  .actions { display:flex; justify-content:space-between; align-items:center; gap:14px; margin-top:28px; }
+  .primary { background:var(--ink); color:#fff; border:1px solid var(--ink); border-radius:9px; min-height:48px; padding:11px 23px; font-weight:700; }
+  .primary:disabled { background:#B6BEC3; border-color:#B6BEC3; cursor:not-allowed; }
+  .secondary { background:#fff; border:1px solid #C4CDD4; border-radius:9px; min-height:46px; padding:10px 18px; }
+  .fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px 16px; }
+  label.field { display:flex; flex-direction:column; gap:8px; font-size:13px; font-weight:750; min-width:0; }
+  .field input,.field select,.field textarea { width:100%; min-width:0; min-height:46px; padding:10px 12px; border:1px solid #AFBDC7; border-radius:8px; background:#fff; font-weight:500; font-size:15px; }
+  .field textarea { min-height:100px; resize:vertical; }
+  .full { grid-column:1/-1; }
+  .notice { margin:0 0 23px; font-size:13px; line-height:1.6; color:var(--muted); }
+  .review { margin:0; border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  .review-row { display:grid; grid-template-columns:35% 1fr; gap:15px; padding:14px 16px; font-size:14px; line-height:1.5; border-bottom:1px solid var(--line); overflow-wrap:anywhere; }
+  .review-row:last-child { border-bottom:0; }
+  .review-row dt { color:var(--muted); }
+  .review-row dd { margin:0; font-weight:650; }
+  .complete { display:block; max-width:680px; }
+  .complete h3 { font-size:26px; letter-spacing:-.03em; margin:0 0 14px; }
+  .complete p { font-size:15px; line-height:1.65; color:var(--muted); }
+  .bottom-note { padding:20px 0; color:var(--muted); font-size:12px; line-height:1.5; }
+  footer { border-top:1px solid var(--line); padding:28px 0 36px; color:var(--muted); font-size:12px; }
+  @media(max-width:700px) {
+    header .shell { min-height:65px; }
+    .brand { font-size:12px; }
+    .back-link { display:none; }
+    main { padding:37px 0 56px; }
+    .flow { margin-top:29px; border-radius:12px; }
+    .flow-header { padding:20px; }
+    .panel { padding:20px; }
+    .services { grid-template-columns:1fr; }
+    .service { min-height:90px; flex-direction:row; align-items:center; gap:12px; }
+    .service-price { white-space:nowrap; text-align:right; }
+    .fields { grid-template-columns:1fr; }
+    .actions { flex-wrap:wrap; }
+    .review-row { grid-template-columns:32% 1fr; }
+  }
+  @media(max-width:385px) {
+    .shell { width:calc(100% - 28px); }
+    .service { padding:14px; }
+    .service[aria-pressed=true] { padding:13px; }
+    .service-title { font-size:15px; }
+    .service-detail { font-size:12px; }
+    .service-price { font-size:12px; }
+  }
+</style>
+</head>
+<body>
+<header>
+ <div class="shell">
+  <a href="https://thelaunchera.com/" class="brand" aria-label="The Launch Era">THE LAUNCH ERA</a>
+  <div class="header-right">
+   <label for="language" style="font-size:12px;font-weight:650" id="languageLabel">Language</label>
+   <select id="language" class="language" aria-label="Language"><option value="en">English</option><option value="es">Español</option></select>
+   <a class="back-link" href="https://thelaunchera.com/" id="siteLink">Back to website</a>
+  </div>
+ </div>
+</header>
+<main class="shell" id="bookingPage">
+ <p class="eyebrow" id="eyebrow">BOOKING PAGE PREVIEW</p>
+ <h1 id="pageTitle">A simpler way to book a clean.</h1>
+ <p class="intro" id="pageIntro">Explore a straightforward cleaning booking process, without extra effects or distracting screens.</p>
+ <span class="disclaimer" id="sampleWarning">Interactive sample only · No real booking or email is sent</span>
+ <section class="flow" aria-labelledby="flowTitle">
+  <div class="flow-header"><div class="steps" id="stepLabel">STEP 1 OF 3</div><h2 id="flowTitle">Choose your service</h2></div>
+  <div id="choosePanel" class="panel">
+   <div class="switch" role="group" aria-label="Cleaning type">
+    <button type="button" id="resTab" data-kind="residential" aria-pressed="true">Residential</button>
+    <button type="button" id="comTab" data-kind="commercial" aria-pressed="false">Commercial</button>
+   </div>
+   <div class="kind-panel services" id="resServices">
+    <button type="button" class="service" data-id="standard" data-kind="residential" data-price="120" aria-pressed="false"><span><span class="service-title" data-i18n="standard">Standard Cleaning</span><span class="service-detail" data-i18n="standardHint">Regular home care</span></span><span class="service-price" data-i18n="sample120">From $120*</span></button>
+    <button type="button" class="service" data-id="deep" data-kind="residential" data-price="190" aria-pressed="false"><span><span class="service-title" data-i18n="deep">Deep Cleaning</span><span class="service-detail" data-i18n="deepHint">A more detailed clean</span></span><span class="service-price" data-i18n="sample190">From $190*</span></button>
+    <button type="button" class="service" data-id="move" data-kind="residential" data-price="240" aria-pressed="false"><span><span class="service-title" data-i18n="move">Move In / Move Out</span><span class="service-detail" data-i18n="moveHint">Prepare for the next chapter</span></span><span class="service-price" data-i18n="sample240">From $240*</span></button>
+   </div>
+   <div class="kind-panel services" id="comServices" hidden>
+    <button type="button" class="service" data-id="office" data-kind="commercial" aria-pressed="false"><span><span class="service-title" data-i18n="office">Office Cleaning</span><span class="service-detail" data-i18n="officeHint">Offices and workspaces</span></span><span class="service-price" data-i18n="quote">Custom quote</span></button>
+    <button type="button" class="service" data-id="retail" data-kind="commercial" aria-pressed="false"><span><span class="service-title" data-i18n="retail">Retail & Showrooms</span><span class="service-detail" data-i18n="retailHint">Customer-facing spaces</span></span><span class="service-price" data-i18n="quote">Custom quote</span></button>
+    <button type="button" class="service" data-id="medical" data-kind="commercial" aria-pressed="false"><span><span class="service-title" data-i18n="medical">Medical & Professional</span><span class="service-detail" data-i18n="medicalHint">Spaces with specialized needs</span></span><span class="service-price" data-i18n="quote">Custom quote</span></button>
+   </div>
+   <button type="button" class="custom" id="customQuote">Request a custom quote →</button>
+   <div class="actions"><small style="color:var(--muted)" id="chooseHint">*Sample starting estimates; your provider confirms the final price.</small><button class="primary" id="chooseNext" type="button" disabled>Continue</button></div>
+  </div>
+  <form id="detailsPanel" class="panel" hidden novalidate>
+   <p class="notice" id="detailNote">Enter sample details to explore the next step. Nothing is submitted.</p>
+   <div class="fields">
+    <label class="field"><span id="nameLabel">Your name</span><input id="customerName" type="text" autocomplete="name" required maxlength="80"></label>
+    <label class="field"><span id="emailLabel">Email</span><input id="customerEmail" type="email" autocomplete="email" required maxlength="120"></label>
+    <label class="field"><span id="zipLabel">Service ZIP code</span><input id="customerZip" type="text" inputmode="numeric" autocomplete="postal-code" minlength="5" maxlength="10" required></label>
+    <label class="field"><span id="dateLabel">Preferred date</span><input id="preferredDate" type="date" required></label>
+    <div class="residential-details full fields" id="resDetails">
+     <label class="field"><span id="bedsLabel">Bedrooms</span><select id="beds"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5+</option></select></label>
+     <label class="field"><span id="bathsLabel">Bathrooms</span><select id="baths"><option selected>1</option><option>2</option><option>3</option><option>4+</option></select></label>
+     <label class="field full"><span id="frequencyLabel">Frequency</span><select id="frequency"><option value="one">One time</option><option value="weekly">Weekly</option><option value="biweekly">Biweekly</option><option value="monthly">Monthly</option></select></label>
+    </div>
+    <div class="commercial-details full fields" id="comDetails" hidden>
+     <label class="field full"><span id="spaceLabel">Type of space</span><select id="spaceType"><option value="office">Office</option><option value="retail">Retail</option><option value="medical">Medical / Professional</option><option value="other">Other</option></select></label>
+    </div>
+    <label class="field full"><span id="notesLabel">Additional notes (optional)</span><textarea id="notes" rows="3" maxlength="1000"></textarea></label>
+   </div>
+   <div class="actions"><button type="button" class="secondary" id="backDetails">Back</button><button class="primary" type="submit" id="reviewNext">Review details</button></div>
+  </form>
+  <div id="reviewPanel" class="panel" hidden><p class="notice" id="reviewNote">Check this sample request before completing the preview.</p><dl class="review" id="reviewList"></dl>
+   <div class="actions"><button type="button" class="secondary" id="backReview">Edit details</button><button type="button" class="primary" id="finish">Finish preview</button></div>
+  </div>
+  <div id="completePanel" class="panel" hidden><div class="complete"><h3 id="doneHeading">Preview complete.</h3><p id="doneBody">This is how a booking request could be reviewed. No booking, payment, email, or client record was created.</p><button type="button" class="primary" id="restart">Start again</button></div></div>
+ </section>
+ <p class="bottom-note" id="footerNote">*Prices are sample estimates, not guaranteed quotes. Final scope and availability are confirmed by the cleaning business.</p>
+</main>
+<footer><div class="shell" id="footerCopy">The Launch Era · Cleaning booking page preview · No live client data</div></footer>
+<script>
+(()=>{
+  'use strict';
+  const en={languageLabel:'Language',siteLink:'Back to website',eyebrow:'BOOKING PAGE PREVIEW',pageTitle:'A simpler way to book a clean.',pageIntro:'Explore a straightforward cleaning booking process, without extra effects or distracting screens.',sampleWarning:'Interactive sample only · No real booking or email is sent',resTab:'Residential',comTab:'Commercial',standard:'Standard Cleaning',standardHint:'Regular home care',deep:'Deep Cleaning',deepHint:'A more detailed clean',move:'Move In / Move Out',moveHint:'Prepare for the next chapter',office:'Office Cleaning',officeHint:'Offices and workspaces',retail:'Retail & Showrooms',retailHint:'Customer-facing spaces',medical:'Medical & Professional',medicalHint:'Spaces with specialized needs',quote:'Custom quote',sample120:'From $120*',sample190:'From $190*',sample240:'From $240*',customQuote:'Request a custom quote →',chooseHint:'*Sample starting estimates; your provider confirms the final price.',chooseNext:'Continue',detailNote:'Enter sample details to explore the next step. Nothing is submitted.',nameLabel:'Your name',emailLabel:'Email',zipLabel:'Service ZIP code',dateLabel:'Preferred date',bedsLabel:'Bedrooms',bathsLabel:'Bathrooms',frequencyLabel:'Frequency',spaceLabel:'Type of space',notesLabel:'Additional notes (optional)',backDetails:'Back',reviewNext:'Review details',reviewNote:'Check this sample request before completing the preview.',backReview:'Edit details',finish:'Finish preview',doneHeading:'Preview complete.',doneBody:'This is how a booking request could be reviewed. No booking, payment, email, or client record was created.',restart:'Start again',footerNote:'*Prices are sample estimates, not guaranteed quotes. Final scope and availability are confirmed by the cleaning business.',footerCopy:'The Launch Era · Cleaning booking page preview · No live client data',step1:'STEP 1 OF 3',step2:'STEP 2 OF 3',step3:'STEP 3 OF 3',stepDone:'COMPLETE',chooseTitle:'Choose your service',detailsTitle:'Tell us about your space',reviewTitle:'Review your request',doneTitle:'Preview complete',service:'Service',contact:'Name',location:'ZIP code',date:'Preferred date',frequency:'Frequency',estimate:'Starting estimate',details:'Notes',one:'One time',weekly:'Weekly',biweekly:'Biweekly',monthly:'Monthly',other:'Custom quote',none:'None',invalid:'Please complete the required fields with a valid email and ZIP code.',dateInvalid:'Choose today or a future date.'};
+  const es={languageLabel:'Idioma',siteLink:'Volver al sitio web',eyebrow:'DEMO DE RESERVAS',pageTitle:'Una forma más sencilla de reservar una limpieza.',pageIntro:'Explora cómo reservar una limpieza, sin efectos adicionales ni pantallas que distraen.',sampleWarning:'Ejemplo interactivo · No se realiza ninguna reserva ni se envía correo',resTab:'Residencial',comTab:'Comercial',standard:'Limpieza estándar',standardHint:'Mantenimiento del hogar',deep:'Limpieza profunda',deepHint:'Limpieza más detallada',move:'Mudanza / Salida',moveHint:'Prepara el siguiente capítulo',office:'Limpieza de oficinas',officeHint:'Oficinas y espacios de trabajo',retail:'Tiendas y salas de exhibición',retailHint:'Espacios de atención al público',medical:'Médico y profesional',medicalHint:'Espacios con necesidades especiales',quote:'Cotización personalizada',sample120:'Desde $120*',sample190:'Desde $190*',sample240:'Desde $240*',customQuote:'Solicitar cotización personalizada →',chooseHint:'*Precios de ejemplo; el negocio confirma la tarifa final.',chooseNext:'Continuar',detailNote:'Ingresa datos de ejemplo para ver el siguiente paso. Nada se envía.',nameLabel:'Tu nombre',emailLabel:'Correo electrónico',zipLabel:'Código postal',dateLabel:'Fecha preferida',bedsLabel:'Habitaciones',bathsLabel:'Baños',frequencyLabel:'Frecuencia',spaceLabel:'Tipo de espacio',notesLabel:'Notas adicionales (opcional)',backDetails:'Volver',reviewNext:'Revisar datos',reviewNote:'Revisa esta solicitud de ejemplo antes de terminar.',backReview:'Editar datos',finish:'Terminar demo',doneHeading:'Demo completado.',doneBody:'Así podría revisarse una solicitud. No se creó una reserva, un pago, un correo ni un registro de cliente.',restart:'Empezar de nuevo',footerNote:'*Los precios son estimados de ejemplo, no cotizaciones garantizadas. El negocio confirma servicios y disponibilidad.',footerCopy:'The Launch Era · Demo de reservas · Sin datos reales de clientes',step1:'PASO 1 DE 3',step2:'PASO 2 DE 3',step3:'PASO 3 DE 3',stepDone:'COMPLETADO',chooseTitle:'Elige un servicio',detailsTitle:'Cuéntanos sobre el espacio',reviewTitle:'Revisa tu solicitud',doneTitle:'Demo completado',service:'Servicio',contact:'Nombre',location:'Código postal',date:'Fecha preferida',frequency:'Frecuencia',estimate:'Precio inicial estimado',details:'Notas',one:'Una vez',weekly:'Semanal',biweekly:'Cada dos semanas',monthly:'Mensual',other:'Cotización personalizada',none:'Ninguna',invalid:'Completa los campos obligatorios con un correo y código postal válidos.',dateInvalid:'Selecciona la fecha de hoy o una futura.'};
+  const $=id=>document.getElementById(id);
+  const params=new URLSearchParams(location.search);
+  let lang=params.get('lang')==='es'?'es':'en', kind='residential', selected=null, step=1, custom=false;
+  const dict=()=>lang==='es'?es:en;
+  $('language').value=lang;
+  const today=()=>{const now=new Date();const local=new Date(now.getTime()-now.getTimezoneOffset()*60000);return local.toISOString().slice(0,10)};
+  $('preferredDate').min=today();
+  function updateWords(){
+    document.documentElement.lang=lang;
+    const copy=dict();
+    for(const [id,val] of Object.entries(copy)){const el=$(id);if(el)el.textContent=val}
+    document.querySelectorAll('[data-i18n]').forEach(el=>{const text=copy[el.dataset.i18n];if(text)el.textContent=text});
+    $('stepLabel').textContent=copy['step'+(step===4?'Done':step)];
+    $('flowTitle').textContent=copy[step===1?'chooseTitle':step===2?'detailsTitle':step===3?'reviewTitle':'doneTitle'];
+    const u=new URL(location.href);u.searchParams.set('lang',lang);history.replaceState(null,'',u.pathname+u.search+u.hash);
+    if(step===3)renderReview();
+  }
+  function showStep(next){
+    step=next;
+    for(const [id,n] of [['choosePanel',1],['detailsPanel',2],['reviewPanel',3],['completePanel',4]]) $(id).hidden=step!==n;
+    $('resDetails').hidden=kind!=='residential'||custom;
+    $('comDetails').hidden=kind!=='commercial'&&!custom;
+    updateWords();
+    $('flowTitle').focus?.();
+    $('flowTitle').scrollIntoView({block:'start',behavior:'auto'});
+  }
+  function chooseKind(next){
+    kind=next;selected=null;custom=false;
+    $('resTab').setAttribute('aria-pressed',String(kind==='residential'));
+    $('comTab').setAttribute('aria-pressed',String(kind==='commercial'));
+    $('resServices').hidden=kind!=='residential';
+    $('comServices').hidden=kind!=='commercial';
+    document.querySelectorAll('.service').forEach(button=>button.setAttribute('aria-pressed','false'));
+    $('chooseNext').disabled=true;
+  }
+  function chooseService(button){
+    selected={id:button.dataset.id,kind:button.dataset.kind,price:Number(button.dataset.price)||null};
+    custom=false;
+    document.querySelectorAll('.service').forEach(el=>el.setAttribute('aria-pressed',String(el===button)));
+    $('chooseNext').disabled=false;
+  }
+  function makeRow(label,value){
+    const wrapper=document.createElement('div');wrapper.className='review-row';
+    const dt=document.createElement('dt');dt.textContent=label;
+    const dd=document.createElement('dd');dd.textContent=value||'—';
+    wrapper.append(dt,dd);return wrapper;
+  }
+  function renderReview(){
+    if(!selected)return;
+    const copy=dict(), list=$('reviewList');list.replaceChildren();
+    const lookup=copy[selected.id]||copy.other;
+    const frequency=copy[$('frequency').value]||copy.one;
+    const data=[
+      [copy.service,lookup],
+      [copy.contact,$('customerName').value.trim()],
+      ['Email',$('customerEmail').value.trim()],
+      [copy.location,$('customerZip').value.trim()],
+      [copy.date,$('preferredDate').value],
+      [copy.frequency,kind==='residential'&&!custom?frequency:copy.other],
+      [copy.estimate,selected.price?'$'+selected.price+'*':copy.quote],
+      [copy.details,$('notes').value.trim()||copy.none]
+    ];
+    data.forEach(x=>list.append(makeRow(...x)));
+  }
+  $('language').addEventListener('change',event=>{lang=event.target.value;updateWords();});
+  $('resTab').addEventListener('click',()=>chooseKind('residential'));
+  $('comTab').addEventListener('click',()=>chooseKind('commercial'));
+  document.querySelectorAll('.service').forEach(button=>button.addEventListener('click',()=>chooseService(button)));
+  $('customQuote').addEventListener('click',()=>{
+    custom=true;selected={id:'other',kind,price:null};
+    document.querySelectorAll('.service').forEach(el=>el.setAttribute('aria-pressed','false'));
+    $('chooseNext').disabled=false;showStep(2);
+  });
+  $('chooseNext').addEventListener('click',()=>{if(selected)showStep(2);});
+  $('backDetails').addEventListener('click',()=>showStep(1));
+  $('detailsPanel').addEventListener('submit',event=>{
+    event.preventDefault();
+    const inputs=['customerName','customerEmail','customerZip','preferredDate'].map($);
+    const bad=inputs.find(el=>!el.value.trim()||!el.checkValidity());
+    if(bad){bad.focus();bad.reportValidity();return;}
+    if(!/^[A-Za-z0-9 -]{5,10}$/.test($('customerZip').value.trim())){$('customerZip').focus();$('customerZip').setCustomValidity(dict().invalid);$('customerZip').reportValidity();$('customerZip').setCustomValidity('');return;}
+    if($('preferredDate').value<today()){$('preferredDate').focus();$('preferredDate').setCustomValidity(dict().dateInvalid);$('preferredDate').reportValidity();$('preferredDate').setCustomValidity('');return;}
+    showStep(3);
+  });
+  $('backReview').addEventListener('click',()=>showStep(2));
+  $('finish').addEventListener('click',()=>showStep(4));
+  $('restart').addEventListener('click',()=>{
+    $('detailsPanel').reset();$('preferredDate').min=today();chooseKind('residential');showStep(1);
+  });
+  chooseKind('residential');updateWords();
+})();
+</script>
+</body>
+</html>
