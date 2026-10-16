@@ -43,6 +43,36 @@ try {
    console.log('PASS site flip '+lang+' '+width);
   }
  }
+ // Every CTA must navigate from the flipped face, including real touch behavior.
+ const serviceRoutes={
+  en:['/booking-lead-automation','/ai-booking-assistant','/whatsapp-ai-agent','/cleaning-web-app','/website-automation','/virtual-assistant'],
+  es:['/es/booking-lead-automation','/es/ai-booking-assistant','/es/whatsapp-ai-agent','/es/cleaning-web-app','/es/website-automation','/es/virtual-assistant']
+ };
+ for(const [lang,route] of [['en','/'],['es','/es/']]){
+  const expectedRoutes=serviceRoutes[lang];
+  for(let i=0;i<expectedRoutes.length;i++){
+   const page=await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true,reducedMotion:'no-preference'});
+   const errors=[];page.on('pageerror',e=>errors.push(e.message));
+   await page.goto(base+route,{waitUntil:'domcontentloaded',timeout:45000});
+   const card=page.locator('.sales-home .tle-service-flip').nth(i);
+   const front=card.locator('.tle-service-flip__front-button');
+   const back=card.locator('.tle-service-flip__cta');
+   await front.click();
+   await page.waitForFunction(index=>document.querySelectorAll('.sales-home .tle-service-flip')[index]?.classList.contains('is-flipped'),i);
+   await page.waitForTimeout(820); // Let the 760ms turn finish before a real tap.
+   const href=await back.getAttribute('href');
+   assert.equal(new URL(href,base).pathname.replace(/\\/$/,''),expectedRoutes[i],lang+' service '+i+' points to its own landing');
+   const fontWeight=Number(await card.locator('.tle-service-flip__hint').evaluate(el=>getComputedStyle(el).fontWeight));
+   assert(fontWeight<700,lang+' front tap hint should stay secondary');
+   await Promise.all([
+    page.waitForURL(url=>url.pathname.replace(/\\/$/,'')===expectedRoutes[i],{timeout:18000}),
+    back.click({timeout:12000})
+   ]);
+   assert.deepEqual(errors,[],lang+' service '+i+' JS errors');
+   await page.close();
+   console.log('PASS real CTA navigation '+lang+' service '+(i+1));
+  }
+ }
  for(const width of [360,390,820,1440]){
   const page=await browser.newPage({viewport:{width,height:850},reducedMotion:'no-preference'});
   const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));
