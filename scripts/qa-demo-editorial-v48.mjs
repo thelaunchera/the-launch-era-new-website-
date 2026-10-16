@@ -107,7 +107,7 @@ try {
    }
    await page.screenshot({path:"qa-screenshots/demo-v48/services-"+lang+"-"+width+".png",fullPage:false});
    const category=page.locator("#categoryTabs button[data-category='commercial']");
-   await category.click();
+   if(await category.isVisible())await category.click(); // v42 hides legacy category tabs; never click a retired button
    const commercial=await page.evaluate(()=>{
     const c=document.getElementById("commercialServiceList");
     const visible=c&&!c.hidden&&getComputedStyle(c).display!=="none";
@@ -116,6 +116,10 @@ try {
    });
    assert(commercial.count>=4,"Preserve commercial options");
    assert(commercial.overflow<=7,"Commercial should not overflow");
+   const standard=page.locator("#residentialServiceList button.service.tle-service-has-photo-v21").first();
+   await standard.click();
+   await page.waitForFunction(()=>!document.getElementById("main")?.classList.contains("on"),null,{timeout:9000});
+   assert(!await page.locator("#main").evaluate(el=>el.classList.contains("on")),"Selecting a priced service opens its real booking request steps");
    assert.deepEqual(writes,[],"Browsing demo must never send backend writes");
    assert.deepEqual(errors,[],"No Javascript runtime errors");
    console.log("PASS v48",lang,width,JSON.stringify({overflow:geometry.overflow,commercial}));
