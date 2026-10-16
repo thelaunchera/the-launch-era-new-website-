@@ -52,7 +52,7 @@ try{
       heading:pick("#bookingStarter #title")};
   });
   assert(contrast.progress&&contrast.heading,"Booking progress and heading remain visible");
-  const brightness=str=>{const m=str.match(/rgb\\((\\d+),\\s*(\\d+),\\s*(\\d+)/);return m?(.2126*Number(m[1])+.7152*Number(m[2])+.0722*Number(m[3])):256};
+  const brightness=str=>{const m=str.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);return m?(.2126*Number(m[1])+.7152*Number(m[2])+.0722*Number(m[3])):256};
   assert(brightness(contrast.progress.color)<160,"Progress label must use dark ink: "+JSON.stringify(contrast));
   assert(brightness(contrast.heading.color)<160,"Booking heading must use dark ink: "+JSON.stringify(contrast));
   assert(brightness(contrast.count.color)<160,"Step badge must use dark ink: "+JSON.stringify(contrast));
