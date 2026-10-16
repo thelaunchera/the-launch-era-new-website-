@@ -100,6 +100,8 @@ export function SiteFooter() {
    const button=control.getBoundingClientRect(), bounds=footer.getBoundingClientRect();
    footer.style.setProperty('--tle-footer-reveal-x', String(button.left+button.width/2-bounds.left)+'px');
    footer.style.setProperty('--tle-footer-reveal-y', String(button.top+button.height/2-bounds.top)+'px');
+   document.documentElement.style.setProperty('--tle-footer-reveal-x', String(button.left+button.width/2-bounds.left)+'px');
+   document.documentElement.style.setProperty('--tle-footer-reveal-y', String(button.top+button.height/2-bounds.top)+'px');
   }
   const next=!dark;
   try{window.localStorage.setItem('tle_footer_theme_v1',next?'dark':'light')}catch{}
