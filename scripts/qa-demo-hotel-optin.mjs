@@ -194,6 +194,55 @@ for(const lang of ["en","es"]){
 }
 if(problems.length){console.error(problems.join("\n"));process.exit(1)}
 
+
+/* TOUCH QA: true mobile emulation instead of merely shrinking a desktop viewport.
+   A first tap expands the chosen card without opening the form. A second tap
+   invokes its ORIGINAL onclick. Never submit a lead, email or paid order. */
+for(const engine of [chromium,webkit]){
+ const mobile=await engine.launch({headless:true});
+ try{
+  for(const lang of ["en","es"]){
+   const page=await mobile.newPage({
+     viewport:{width:390,height:844},isMobile:true,hasTouch:true,reducedMotion:"reduce"
+   });
+   const errors=[];
+   page.on("pageerror",e=>errors.push(e.message));
+   try{
+    await page.goto(base+"/lead-private-preview.html?layout=hotel49&lang="+lang,{waitUntil:"load"});
+    await page.waitForSelector("html.tle-demo-v49",{timeout:18000});
+    await page.locator("#leadHero .demo-hero-cta").tap();
+    await page.waitForSelector("html.tle-demo-booking-active",{timeout:10000});
+    const cards=page.locator("#residentialServiceList>button.service.tle49-panel");
+    assert.equal(await cards.count(),3,"Touch gallery must retain all three priced services");
+    const actualTouch=await page.evaluate(()=>({
+      touch:matchMedia("(max-width:759px) and (hover:none)").matches,
+      hero:!!document.querySelector("#leadHero h1.tle49-hook"),
+      active:document.querySelectorAll("#residentialServiceList>.tle49-panel.tle49-active").length
+    }));
+    assert(actualTouch.touch,"Touch emulation must use the real touch-gesture branch");
+    assert.equal(actualTouch.active,1);
+    await cards.nth(1).tap();
+    assert.equal(await cards.nth(1).getAttribute("aria-expanded"),"true","First tap expands second service");
+    assert.equal(await page.locator("#main").evaluate(el=>el.classList.contains("on")),true,
+      "First tap must NOT open a booking unexpectedly");
+    await page.screenshot({path:"qa-screenshots/demo-v49-optin/touch-expanded-"+engine.name()+"-"+lang+".png"});
+    const visible=await cards.nth(1).evaluate(el=>{
+      const p=el.querySelector(".price"),h=el.querySelector(".demo-service-body b");
+      const a=el.getBoundingClientRect(),r=p.getBoundingClientRect(),t=h.getBoundingClientRect();
+      return {price:!!p&&getComputedStyle(p).opacity==="1",title:!!h&&getComputedStyle(h).visibility!=="hidden",
+       within:r.left>=a.left-3&&r.right<=a.right+3&&r.bottom<=a.bottom+3&&t.bottom<=a.bottom+3};
+    });
+    assert(visible.price&&visible.title&&visible.within,"Expanded mobile content must not be hidden by effect: "+JSON.stringify(visible));
+    await cards.nth(1).tap();
+    await page.waitForFunction(()=>!document.getElementById("main")?.classList.contains("on"),null,{timeout:10000});
+    assert.deepEqual(errors,[],"Mobile touch must not generate JS errors");
+    console.log("PASS real touch",engine.name(),lang,"first tap opens panel, second tap opens real booking steps");
+   }catch(err){problems.push("real-touch "+engine.name()+" "+lang+" "+err.message)}
+   finally{await page.close()}
+  }
+ }finally{await mobile.close()}
+}
+
 const ordinary=await chromium.launch({headless:true});
 try{
  const page=await ordinary.newPage({viewport:{width:390,height:844}});
