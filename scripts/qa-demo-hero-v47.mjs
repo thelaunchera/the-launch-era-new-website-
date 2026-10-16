@@ -62,6 +62,7 @@ try {
       count:document.querySelectorAll("#main .tle-v44-intro").length};
    });
    console.log("V47_SERVICE_GEOMETRY",lang,width,JSON.stringify(services));
+   assert(services.rows.every(x=>!/Post-Construction|posconstrucción/i.test(x.label)),"Empty Post-Construction card must not remain in the public DOM");
    assert(services.rows.filter(x=>x.hidden||x.ariaHidden==="true").every(x=>x.display==="none"),"Hidden service must not reserve a ghost photo slot");
    assert(services.blank==null||services.blank<350,"Large empty block after services: "+JSON.stringify(services));
    assert(services.overflow<=7,"No service horizontal overflow");

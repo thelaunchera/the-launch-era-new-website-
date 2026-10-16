@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-16 | Public sample demo commercial Post-Construction tile still occupied empty photo-card space after previous fix | v34 only applied `hidden=true`, `aria-hidden=true` and `tabIndex=-1`, but v21/v49 photo CSS may force `display`/min-height, creating a blank grid item; the sample retained the dead commercial photo. | In the guarded public-sample-only v34 script, remove the Post-Construction button DOM node entirely instead of applying `hidden`; bump its URL query to refresh cached JS. Preserve the Office/Retail/Medical photo cards, the single custom quote action, and keyed/owner private preview. Add synthetic EN/ES 360/390/820/1440 QA and update six-card expectation. | 🟡 Awaiting isolated CI and GitHub Pages publication; no customer actions performed. |
+
+
 | 2026-10-16 | Screenshot: homepage See how it works / Explore the flow hero hint looked small and overlapping on desktop | The original link used ~14–17px text and the two clipped word halves left too little breathing room when revealing the center label. | In existing EN/ES scroll hint only: enlarge typography to ~20–24px desktop / 17–19px mobile, widen underline/click target, separate split halves to 1.10em; preserve native #hero-next, reduced-motion and all hero interactions; add responsive link size QA. | 🟡 Awaiting browser CI and GitHub Pages confirmation. |
 
 

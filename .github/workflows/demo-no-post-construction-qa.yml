@@ -1,0 +1,54 @@
+name: Demo Post-Construction Removal QA
+on:
+  pull_request:
+    paths:
+      - 'public/assets/tle-demo-editorial-stack-v34.js'
+      - 'public/lead-private-preview.html'
+      - 'scripts/qa-demo-no-post-construction.mjs'
+      - 'scripts/qa-demo-natural-v45.mjs'
+      - 'scripts/qa-demo-hero-v47.mjs'
+      - '.github/workflows/demo-no-post-construction-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  demo-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+      - name: Guard routes and demo isolation
+        run: |
+          node --check public/assets/tle-demo-editorial-stack-v34.js
+          node --check scripts/qa-demo-no-post-construction.mjs
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-public-demo-integrity.mjs
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Build the public website
+        run: |
+          bun install
+          bun run build
+          test -s .output/public/lead-private-preview.html
+      - name: Install Chromium
+        run: |
+          mkdir -p /tmp/tle-no-ghost-card
+          cd /tmp/tle-no-ghost-card
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          ln -sfn /tmp/tle-no-ghost-card/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-no-ghost-card/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: Test EN ES service grid, no blank tile and original private preview
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-demo-no-ghost.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4173/lead-private-preview.html >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-demo-no-post-construction.mjs
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-demo-natural-v45.mjs
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-demo-hero-v47.mjs
