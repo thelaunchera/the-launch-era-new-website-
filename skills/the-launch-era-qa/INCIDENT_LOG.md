@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-16 | Owner requested integration-style animation on Booking Automation hero section from screenshot, with six stationary service tiles connected to a center | Existing public EN/ES `ConnectedBookingFlow` used five scrollable whiteboard notes and moving dashed wiring, not a stable central hub | Changed ONLY the illustrative marketing flow to six grounded internal feature tiles around private Command Center, SVG paths + staggered dots + arrival pulse, focused/pressed explanations and reduced-motion final state. No fake external integrations, live data, prices, checkout or client tenant changes | 🟡 Staged PR; awaiting full GitHub CI and production Pages check |
+
+
 | 2026-10-16 | Owner iPhone screenshot: giant empty blue-outline checkbox squares obstruct service photographs. They were intended for the form data step, not service gallery. | `booking-demo-reset.html` inserted six `.service-photo-check` spans under image media; late-loaded `tle-booking-bubbles-continuity.css` rendered squares regardless of selected state. Existing Step 2 already had single-choice radio chips. | Remove image overlays entirely; preserve full-card tap-to-advance; add genuinely optional residential checkbox choices inside details, with labels EN/ES, preview review and demo-only sample notes. No added charges, actual booking submissions or protected client routes; QA image count/optional checks/hand-off and mobile widths. | 🟡 Staged PR; awaiting GitHub checks, Pages deploy and iPhone confirmation |
 
 
