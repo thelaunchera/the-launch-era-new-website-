@@ -1,3 +1,11 @@
+## Booking lead magnet — blue photo-window hero (2026-10-16)
+- Scope: **only** public unkeyed `/booking-demo-reset.html`, reached by existing emailed `/lead-private-preview.html?business=...&area=...&lang=...&source=jessie_email`. The original email URL, Sonny API, sample Command Center session handoff, service categories and indicative amounts are unchanged. Paid client `?key` and `?owner_preview=1` pages remain untouched.
+- Hero: uses the user's exact newly generated sunlit home/cleaner hero image as a local website AVIF; zoom-through-window uses only transforms/opacities while sticky, touch/click support, bilingual accessible strike-and-replace copy, reduced-motion safe.
+- Services: six already-approved large photo **cards**, no thumbnail lists. Theme warm ivory, powder blue, darker blue and near-black.
+- Proof: three visually original *sample-only* review slots (never invented verified testimonials), and three matched before/after image comparisons from the earlier demo photo library: bedroom, track, grout. Cards hide themselves if a genuine paired asset is unavailable, never substitute unrelated imagery.
+- Sonny: existing working API and sample form transfer stay unchanged; only the toggle is presented as a small fixed bubble with functional accessible label, one compact chat panel.
+- QA: `scripts/qa-booking-hero-window.mjs` plus existing `scripts/qa-booking-demo-clean-reset.mjs` and `scripts/qa-clean-booking-lead-magnet.mjs`, mobile/tablet/desktop EN/ES and reduced motion. No email, checkout or live booking is sent by these tests.
+
 ## Homepage connected workflow illustration (2026-10-16)
 - Scope: public EN / and ES /es/ homepages only. No changes to booking demo, checkout, public Luna Bloom sample, private Command Centers or customer records.
 - Hero: HeroConnectionBackdrop stays under the existing scaled hero photo, with small blue dashed lines, two labels, pointer-events:none; hidden on phone and reduced-motion. Original sticky reveal and personalized-demo link remain.
