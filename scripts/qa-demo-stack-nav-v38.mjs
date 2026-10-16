@@ -30,6 +30,17 @@ try{
       errors:[...document.querySelectorAll("#res [role=alert]")].map(x=>x.textContent).filter(Boolean)};
   });
   console.log("NAV DEBUG "+lang+" "+width+" "+JSON.stringify(details));
+  if(!details.active.includes("resReview")){
+    const why=await page.evaluate(()=>{
+      const btn=document.querySelector("#res button.next");
+      const stateBefore={screen:[...document.querySelectorAll("#bookingStarter .screen.on")].map(p=>p.id),inert:document.querySelector("#res")?.inert};
+      try{window.reviewResidential()}catch(e){return {stateBefore,callError:String(e),button:btn?.outerHTML}}
+      return {stateBefore,after:[...document.querySelectorAll("#bookingStarter .screen.on")].map(p=>p.id),
+        home:state.home,button:btn?.outerHTML,onclick:btn?.onclick?.toString()?.slice(0,280),
+        override:String(window.reviewResidential).slice(0,400)};
+    });
+    console.log("NAV DIRECT "+lang+" "+width+" "+JSON.stringify(why));
+  }
   assert(details.active.includes("resReview") && details.reviewRect?.h>0,
     "Review request must be shown and measured: "+JSON.stringify(details));
   await page.waitForTimeout(250);
