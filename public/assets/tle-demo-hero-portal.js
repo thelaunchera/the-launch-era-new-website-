@@ -11,6 +11,12 @@
  const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
  let raf=0;
  let lastProgress=-1;
+ let portalClickFrame=0;
+ // Native smooth-scroll can complete almost instantly on iPhone.
+ const portalClickDuration=2800;
+ const cancelPortalClick=()=>{
+  if(portalClickFrame){window.cancelAnimationFrame(portalClickFrame);portalClickFrame=0;}
+ };
  function updatePortal(){
   raf=0;
   if(!root||!front||!copy)return;
@@ -30,13 +36,14 @@
   const windowWidth=Math.max(1,windowButton?.offsetWidth||320);
   const windowHeight=Math.max(1,windowButton?.offsetHeight||235);
   const target=clamp(Math.max(window.innerWidth/windowWidth,window.innerHeight/windowHeight)*1.06,1,4.35);
-  const t=clamp(progress/.7,0,1);
+  // Give the photographic window a deliberate first beat before the zoom begins.
+ const t=clamp((progress-.04)/.74,0,1);
   // Smooth ease in/out, consistent with the requested cubic-bezier feeling.
   const eased=t*t*(3-2*t);
   front.style.setProperty("--portal-scale",String(1+(target-1)*eased));
-  const fade=1-clamp((progress-.53)/.18,0,1);
+  const fade=1-clamp((progress-.63)/.19,0,1);
   front.style.setProperty("--portal-opacity",String(fade));
-  const open=progress>.70;
+  const open=progress>.82;
   front.style.pointerEvents=open?"none":"auto";
   copy.classList.toggle("is-active",open);
   root.classList.toggle("is-open",open);
@@ -48,10 +55,31 @@
   window.addEventListener("scroll",schedule,{passive:true});
   window.addEventListener("resize",()=>{lastProgress=-1;schedule()},{passive:true});
   reduced.addEventListener?.("change",()=>{lastProgress=-1;schedule()});
+  // A touch, wheel or keyboard scroll cancels the timed entrance naturally.
+  window.addEventListener("wheel",cancelPortalClick,{passive:true});
+  window.addEventListener("touchstart",cancelPortalClick,{passive:true});
+  window.addEventListener("keydown",event=>{
+   if(["ArrowDown","ArrowUp","PageDown","PageUp"," ","Home","End"].includes(event.key))cancelPortalClick();
+  });
   windowButton.addEventListener("click",()=>{
-    const top=window.scrollY+root.getBoundingClientRect().top;
-    const distance=Math.max(0,root.offsetHeight-window.innerHeight);
-    window.scrollTo({top:top+distance,behavior:reduced.matches?"instant":"smooth"});
+   cancelPortalClick();
+   const top=window.scrollY+root.getBoundingClientRect().top;
+   const distance=Math.max(0,root.offsetHeight-window.innerHeight);
+   if(reduced.matches){
+    window.scrollTo({top:top+distance,behavior:"instant"});
+    return;
+   }
+   const startY=window.scrollY;
+   // Stop shortly before the hero exits so the new headline is readable.
+   const endY=top+distance*.9;
+   const started=performance.now();
+   const animate=(now)=>{
+    const t=clamp((now-started)/portalClickDuration,0,1);
+    const ease=t*t*(3-2*t);
+    window.scrollTo({top:startY+(endY-startY)*ease,behavior:"instant"});
+    portalClickFrame=t<1?window.requestAnimationFrame(animate):0;
+   };
+   portalClickFrame=window.requestAnimationFrame(animate);
   });
   schedule();
  }
