@@ -77,7 +77,8 @@
  const checkout=selectedCard.querySelector('[data-selected-checkout]');
  const badge=selectedCard.querySelector('.tle-savings-badge');
  const live=selectedCard.querySelector('[aria-live="polite"]');
- const fineprint=selectedCard.querySelector('.tle-plan-savings-fineprint');
+ const fineprint=document.querySelector('#plans .tle-plan-picker .tle-plan-savings-fineprint');
+ if(!fineprint||!name||!price||!cadence||!desc||!checkout||!badge||!live)return;
  const choiceMap={
   booking:{en:['AI Booking Assistant','$49','$19/month','Answers booking questions.','Choose Booking AI →'],es:['AI Booking Assistant','$49','$19/mes','Responde preguntas de reservas.','Elegir IA de reservas →']},
   business:{en:['AI Business Assistant','$69','$25/month','Booking and follow-up assistants together.','Choose both agents →'],es:['AI Business Assistant','$69','$25/mes','Reservas y seguimiento en un solo plan.','Elegir ambos agentes →']},
