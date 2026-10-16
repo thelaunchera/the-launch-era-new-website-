@@ -24,6 +24,7 @@ try{
    // Native anchor must respond on the very first tap and retain browser hash/history.
    await link.tap();
    await page.waitForFunction(()=>location.hash==='#hero-next',{timeout:6000});
+   await page.waitForFunction(()=>scrollY>20,{},{timeout:6000});
    const scroll=await page.evaluate(()=>scrollY);
    assert(scroll>20,lang+' '+width+': tap did not scroll to the next section');
    await page.close();
