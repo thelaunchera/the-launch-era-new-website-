@@ -283,6 +283,14 @@ html.demo-editorial.tle-demo-v45.tle-demo-v48 #bookingStarter #main #commercialS
  }
  html.demo-editorial.tle-demo-v48 #bookingStarter{overflow-x:clip!important;}
 }
+/* The old compact demo sets a fixed height on .hero. The new photo stage
+   is taller on phones, so let the parent grow or its CTA appears below the
+   hero boundary. This restores real tap targets without changing handlers. */
+html.demo-editorial.tle-demo-compact-v30.tle-demo-v46.tle-demo-v48:not(.tle-demo-booking-active) #leadHero.hero.tle46-gallery-hero{
+ display:block!important;position:relative!important;
+ height:auto!important;min-height:0!important;max-height:none!important;
+ overflow:visible!important;
+}
 @media(prefers-reduced-motion:reduce){
  html.demo-editorial.tle-demo-v48 #leadHero .tle46-hero-slot .tle47-word{
   animation:none!important;
