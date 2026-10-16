@@ -18,7 +18,16 @@ try{
   page.on('pageerror',err=>errors.push(err.message));
   page.on('request',r=>{if(['POST','PATCH','PUT','DELETE'].includes(r.method()))writes.push(r.url());});
   await page.goto(base+'/lead-private-preview.html?lang='+language,{waitUntil:'load'});
-  await page.locator('html.tle-demo-v50').waitFor({state:'attached',timeout:18000});
+  await page.locator('html.tle-demo-v50').waitFor({state:'attached',timeout:8000}).catch(async e=>{
+    const diagnostic=await page.evaluate(()=>({
+      href:location.href,classes:document.documentElement.className,
+      hasHero:!!document.getElementById('leadHero'),hasStage:!!document.querySelector('.tle46-hero-slot'),
+      hasTag:!!document.querySelector('.tle46-hero-slot .demo-hero-tagline'),
+      count:document.querySelectorAll('#residentialServiceList > button.service.tle-service-has-photo-v21').length,
+      hasV50Script:[...document.scripts].some(s=>s.src.includes('tle-demo-appointment-v50.js'))
+    }));
+    throw new Error('v50 init timed out: '+JSON.stringify({language,width,errors,diagnostic})+'; '+e.message);
+  });
   const hero=await page.evaluate(()=>{
    const image=document.querySelector('#leadHero .tle46-hero-slot>img.tle46-gallery-img');
    const frame=document.querySelector('#leadHero .tle46-hero-slot');
