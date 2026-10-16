@@ -24,6 +24,7 @@ jobs:
       - name: Guard EN/ES copy, offer, tone and contrast
         run: |
           node --check scripts/qa-home-booking-tones.mjs
+          node --check scripts/qa-homepage-horizontal-centering.mjs
           node scripts/qa-home-booking-tones.mjs
           node scripts/qa-route-integrity.mjs --static
       - uses: oven-sh/setup-bun@v2
