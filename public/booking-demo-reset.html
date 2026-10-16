@@ -138,6 +138,7 @@
     .service[aria-pressed=true] .service-media { height:clamp(193px,calc(53vw - 1px),234px); }
   }
 </style>
+<link rel="stylesheet" href="/assets/tle-booking-hero-window.css?v=20261016-window1">
 </head>
 <body>
 <header>
@@ -150,10 +151,39 @@
   </div>
  </div>
 </header>
+<section class="tle-window-hero" id="tleBookingHero" aria-label="Cleaning booking demo introduction">
+ <div class="tle-window-stage">
+  <div class="tle-window-scene tle-window-next">
+   <img src="/assets/lead-demo/tle-booking-hero-window.avif" alt="" width="1200" height="676" decoding="async" fetchpriority="high">
+   <div class="tle-window-copy">
+    <p class="tle-window-kicker" data-hero-i18n="ey">A BETTER WAY TO BOOK</p>
+    <h1 class="tle-window-title" id="tleBookingHeadline" aria-label="Make booking remarkable.">
+      <span data-hero-i18n="heading">Make booking</span>
+      <span class="tle-swap-slot" aria-hidden="true">
+       <span class="tle-swap-old" data-hero-i18n="old">decent</span>
+       <span class="tle-swap-strike"></span>
+       <span class="tle-swap-new" data-hero-i18n="new">remarkable</span>
+      </span>
+    </h1>
+    <p class="tle-window-sub" data-hero-i18n="intro">A beautiful first impression. Easy service choices. A cleaner way to request a visit.</p>
+    <a href="#bookingPage" id="tleWindowContinue" class="tle-window-cta" data-hero-i18n="cta">Explore cleaning services</a>
+   </div>
+  </div>
+  <div class="tle-window-scene tle-window-front" aria-hidden="true">
+   <img src="/assets/lead-demo/tle-booking-hero-window.avif" alt="" width="1200" height="676" decoding="async" fetchpriority="high">
+   <button type="button" class="tle-window-lens" id="tleWindowEnter" aria-label="Step inside the demo" aria-hidden="false">
+    <img src="/assets/lead-demo/tle-booking-hero-window.avif" alt="" width="1200" height="676" decoding="async">
+    <span class="tle-window-lens-label"><span data-hero-i18n="enter">Step inside the demo</span><span aria-hidden="true">↗</span></span>
+   </button>
+  </div>
+  <span class="tle-window-subtitle" data-hero-i18n="hint">Scroll or tap to explore</span>
+  <div class="tle-window-progress" aria-hidden="true"></div>
+ </div>
+</section>
 <main class="shell" id="bookingPage">
  <p class="eyebrow" id="eyebrow">BOOKING PAGE PREVIEW</p>
- <h1 id="pageTitle">A simpler way to book a clean.</h1>
- <p class="intro" id="pageIntro">Explore a straightforward cleaning booking process, without extra effects or distracting screens.</p>
+ <h2 id="pageTitle">A simpler way to book a clean.</h2>
+ <p class="intro" id="pageIntro">Choose a service and try how simple a cleaning request can be. No real booking is made.</p>
  <div id="leadContext" class="lead-context" hidden aria-live="polite"><span id="leadContextLabel">PERSONALIZED FOR</span><strong id="leadBusiness"></strong><p id="leadArea"></p></div>
  <span class="disclaimer" id="sampleWarning">Interactive sample only · No real booking or email is sent</span>
  <section class="flow" aria-labelledby="flowTitle">
@@ -201,7 +231,7 @@
   <div id="completePanel" class="panel" hidden><div class="complete"><h3 id="doneHeading">Preview complete.</h3><p id="doneBody">This is how a booking request could be reviewed. No booking, payment, email, or client record was created.</p><button type="button" class="primary" id="restart">Start again</button><div id="finishLinks" class="finish-links"><a id="trackerLink" href="/lead-demo-tracker.html">View demo Command Center →</a></div></div></div>
  </section>
  <section class="sonny" aria-labelledby="sonnyTitle">
-  <div class="sonny-head"><div><h2 id="sonnyTitle">Want to try Sonny?</h2><small id="sonnySubtitle">Optional AI booking assistant · Demo only</small></div><button type="button" class="secondary" id="sonnyToggle" aria-controls="sonnyBody" aria-expanded="false">Try Sonny</button></div>
+  <div class="sonny-head"><div><h2 id="sonnyTitle">Want to try Sonny?</h2><small id="sonnySubtitle">Optional AI booking assistant · Demo only</small></div><button type="button" class="secondary" id="sonnyToggle" aria-controls="sonnyBody" aria-expanded="false"><span class="sonny-avatar" aria-hidden="true">S</span><span class="sonny-toggle-label">Try Sonny</span></button></div>
   <div class="sonny-body" id="sonnyBody" hidden><div id="sonnyLog" class="sonny-log" role="log" aria-label="Sonny conversation" aria-live="polite"></div>
     <form id="sonnyForm" class="sonny-form"><input id="sonnyInput" type="text" maxlength="650" aria-label="Your message for Sonny" placeholder="Ask about a cleaning appointment" required><button id="sonnySend" type="submit">Send</button></form>
     <p class="sonny-status" id="sonnyStatus">Simulation only. No real booking or email will be sent.</p><button type="button" class="secondary" id="sonnyUse" hidden style="margin-top:12px">Use details in the sample form</button>
@@ -209,12 +239,57 @@
  </section>
  <p class="bottom-note" id="footerNote">*Prices are sample estimates, not guaranteed quotes. Final scope and availability are confirmed by the cleaning business.</p>
 </main>
+<section class="tle-proof-area" id="tleDemoProof" aria-labelledby="tleReviewHeading">
+ <p class="tle-proof-label" data-hero-i18n="reviewsEy">CUSTOMER REVIEWS</p>
+ <h2 id="tleReviewHeading" class="tle-proof-title" data-hero-i18n="reviewsHead">The space for your customers’ words.</h2>
+ <p class="tle-proof-desc" data-hero-i18n="reviewsIntro">These are layout examples—not real customer reviews. Replace them only with authentic, approved feedback.</p>
+ <div class="tle-review-grid" aria-label="Sample review layout">
+  <article class="tle-review-card"><strong data-hero-i18n="badge">SAMPLE REVIEW</strong><p data-hero-i18n="review1">An approved customer review will appear here.</p><small data-hero-i18n="samples">EXAMPLE · NOT A VERIFIED REVIEW</small></article>
+  <article class="tle-review-card"><strong data-hero-i18n="badge">SAMPLE REVIEW</strong><p data-hero-i18n="review2">A second genuine review can highlight the experience.</p><small data-hero-i18n="samples">EXAMPLE · NOT A VERIFIED REVIEW</small></article>
+  <article class="tle-review-card"><strong data-hero-i18n="badge">SAMPLE REVIEW</strong><p data-hero-i18n="review3">Add another verified customer comment with permission.</p><small data-hero-i18n="samples">EXAMPLE · NOT A VERIFIED REVIEW</small></article>
+ </div>
+</section>
+<section class="tle-proof-area" id="tleBeforeAfter" aria-labelledby="tleBeforeAfterHeading">
+ <p class="tle-proof-label" data-hero-i18n="baEy">BEFORE & AFTER</p>
+ <h2 id="tleBeforeAfterHeading" class="tle-proof-title" data-hero-i18n="baHead">See the difference in the details.</h2>
+ <p class="tle-proof-desc" data-hero-i18n="baIntro">The same three comparison examples used in the earlier demo, without an auto-playing gallery.</p>
+ <div class="tle-comparison-grid">
+  <article class="tle-compare-card" style="--split:50%">
+    <h3 data-hero-i18n="bed">Bedroom refresh</h3>
+    <div class="tle-compare-stack">
+     <img data-before="/assets/demo-transformations/bed-before.webp" alt="" loading="lazy" width="520" height="600">
+     <img class="tle-compare-after" data-after="/assets/demo-transformations/bed-after.webp" alt="" loading="lazy" width="520" height="600">
+     <div class="tle-compare-tags"><span data-hero-i18n="before">Before</span><span data-hero-i18n="after">After</span></div><span class="tle-compare-handle" aria-hidden="true"></span>
+    </div>
+    <input type="range" min="0" max="100" value="50" aria-label="Compare bedroom before and after">
+  </article>
+  <article class="tle-compare-card" style="--split:50%">
+    <h3 data-hero-i18n="track">Window track detail</h3>
+    <div class="tle-compare-stack">
+     <img data-before="/assets/demo-transformations/track-before.webp" alt="" loading="lazy" width="520" height="600">
+     <img class="tle-compare-after" data-after="/assets/demo-transformations/track-after.webp" alt="" loading="lazy" width="520" height="600">
+     <div class="tle-compare-tags"><span data-hero-i18n="before">Before</span><span data-hero-i18n="after">After</span></div><span class="tle-compare-handle" aria-hidden="true"></span>
+    </div>
+    <input type="range" min="0" max="100" value="50" aria-label="Compare window track before and after">
+  </article>
+  <article class="tle-compare-card" style="--split:50%">
+    <h3 data-hero-i18n="grout">Shower tile &amp; grout</h3>
+    <div class="tle-compare-stack">
+     <img data-before="/assets/demo-transformations/grout-before.webp" alt="" loading="lazy" width="520" height="600">
+     <img class="tle-compare-after" data-after="/assets/demo-transformations/grout-after.webp" alt="" loading="lazy" width="520" height="600">
+     <div class="tle-compare-tags"><span data-hero-i18n="before">Before</span><span data-hero-i18n="after">After</span></div><span class="tle-compare-handle" aria-hidden="true"></span>
+    </div>
+    <input type="range" min="0" max="100" value="50" aria-label="Compare shower tiles before and after">
+  </article>
+ </div>
+ <p class="tle-compare-note" data-hero-i18n="baNote">Illustrative demo-library photos. These are not verified transformations by this business.</p>
+</section>
 <footer><div class="shell" id="footerCopy">The Launch Era · Cleaning booking page preview · No live client data</div></footer>
 <script>
 (()=>{
   'use strict';
   const en={languageLabel:'Language',siteLink:'Back to website',eyebrow:'BOOKING PAGE PREVIEW',pageTitle:'A simpler way to book a clean.',pageIntro:'Explore a straightforward cleaning booking process, without extra effects or distracting screens.',sampleWarning:'Interactive sample only · No real booking or email is sent',resTab:'Residential',comTab:'Commercial',standard:'Standard Cleaning',standardHint:'Regular home care',deep:'Deep Cleaning',deepHint:'A more detailed clean',move:'Move In / Move Out',moveHint:'Prepare for the next chapter',office:'Office Cleaning',officeHint:'Offices and workspaces',retail:'Retail & Showrooms',retailHint:'Customer-facing spaces',medical:'Medical & Professional',medicalHint:'Spaces with specialized needs',quote:'Custom quote',sample120:'From $120*',sample190:'From $190*',sample240:'From $240*',customQuote:'Request a custom quote →',chooseHint:'*Sample starting estimates; your provider confirms the final price.',chooseNext:'Continue',detailNote:'Enter sample details to explore the next step. Nothing is submitted.',nameLabel:'Your name',emailLabel:'Email',zipLabel:'Service ZIP code',dateLabel:'Preferred date',bedsLabel:'Bedrooms',bathsLabel:'Bathrooms',frequencyLabel:'Frequency',spaceLabel:'Type of space',notesLabel:'Additional notes (optional)',backDetails:'Back',reviewNext:'Review details',reviewNote:'Check this sample request before completing the preview.',backReview:'Edit details',finish:'Finish preview',doneHeading:'Preview complete.',doneBody:'This is how a booking request could be reviewed. No booking, payment, email, or client record was created.',restart:'Start again',footerNote:'*Prices are sample estimates, not guaranteed quotes. Final scope and availability are confirmed by the cleaning business.',footerCopy:'The Launch Era · Cleaning booking page preview · No live client data',step1:'STEP 1 OF 3',step2:'STEP 2 OF 3',step3:'STEP 3 OF 3',stepDone:'COMPLETE',chooseTitle:'Choose your service',detailsTitle:'Tell us about your space',reviewTitle:'Review your request',doneTitle:'Preview complete',service:'Service',contact:'Name',location:'ZIP code',date:'Preferred date',frequency:'Frequency',estimate:'Starting estimate',details:'Notes',one:'One time',weekly:'Weekly',biweekly:'Biweekly',monthly:'Monthly',other:'Custom quote',none:'None',invalid:'Please complete the required fields with a valid email and ZIP code.',dateInvalid:'Choose today or a future date.'};
-  const es={languageLabel:'Idioma',siteLink:'Volver al sitio web',eyebrow:'DEMO DE RESERVAS',pageTitle:'Una forma más sencilla de reservar una limpieza.',pageIntro:'Explora cómo reservar una limpieza, sin efectos adicionales ni pantallas que distraen.',sampleWarning:'Ejemplo interactivo · No se realiza ninguna reserva ni se envía correo',resTab:'Residencial',comTab:'Comercial',standard:'Limpieza estándar',standardHint:'Mantenimiento del hogar',deep:'Limpieza profunda',deepHint:'Limpieza más detallada',move:'Mudanza / Salida',moveHint:'Prepara el siguiente capítulo',office:'Limpieza de oficinas',officeHint:'Oficinas y espacios de trabajo',retail:'Tiendas y salas de exhibición',retailHint:'Espacios de atención al público',medical:'Médico y profesional',medicalHint:'Espacios con necesidades especiales',quote:'Cotización personalizada',sample120:'Desde $120*',sample190:'Desde $190*',sample240:'Desde $240*',customQuote:'Solicitar cotización personalizada →',chooseHint:'*Precios de ejemplo; el negocio confirma la tarifa final.',chooseNext:'Continuar',detailNote:'Ingresa datos de ejemplo para ver el siguiente paso. Nada se envía.',nameLabel:'Tu nombre',emailLabel:'Correo electrónico',zipLabel:'Código postal',dateLabel:'Fecha preferida',bedsLabel:'Habitaciones',bathsLabel:'Baños',frequencyLabel:'Frecuencia',spaceLabel:'Tipo de espacio',notesLabel:'Notas adicionales (opcional)',backDetails:'Volver',reviewNext:'Revisar datos',reviewNote:'Revisa esta solicitud de ejemplo antes de terminar.',backReview:'Editar datos',finish:'Terminar demo',doneHeading:'Demo completado.',doneBody:'Así podría revisarse una solicitud. No se creó una reserva, un pago, un correo ni un registro de cliente.',restart:'Empezar de nuevo',footerNote:'*Los precios son estimados de ejemplo, no cotizaciones garantizadas. El negocio confirma servicios y disponibilidad.',footerCopy:'The Launch Era · Demo de reservas · Sin datos reales de clientes',step1:'PASO 1 DE 3',step2:'PASO 2 DE 3',step3:'PASO 3 DE 3',stepDone:'COMPLETADO',chooseTitle:'Elige un servicio',detailsTitle:'Cuéntanos sobre el espacio',reviewTitle:'Revisa tu solicitud',doneTitle:'Demo completado',service:'Servicio',contact:'Nombre',location:'Código postal',date:'Fecha preferida',frequency:'Frecuencia',estimate:'Precio inicial estimado',details:'Notas',one:'Una vez',weekly:'Semanal',biweekly:'Cada dos semanas',monthly:'Mensual',other:'Cotización personalizada',none:'Ninguna',invalid:'Completa los campos obligatorios con un correo y código postal válidos.',dateInvalid:'Selecciona la fecha de hoy o una futura.'};
+  const es={languageLabel:'Idioma',siteLink:'Volver al sitio web',eyebrow:'DEMO DE RESERVAS',pageTitle:'Una forma más sencilla de reservar una limpieza.',pageIntro:'Elige un servicio y prueba cómo sería solicitar una limpieza. No se realiza ninguna reserva real.',sampleWarning:'Ejemplo interactivo · No se realiza ninguna reserva ni se envía correo',resTab:'Residencial',comTab:'Comercial',standard:'Limpieza estándar',standardHint:'Mantenimiento del hogar',deep:'Limpieza profunda',deepHint:'Limpieza más detallada',move:'Mudanza / Salida',moveHint:'Prepara el siguiente capítulo',office:'Limpieza de oficinas',officeHint:'Oficinas y espacios de trabajo',retail:'Tiendas y salas de exhibición',retailHint:'Espacios de atención al público',medical:'Médico y profesional',medicalHint:'Espacios con necesidades especiales',quote:'Cotización personalizada',sample120:'Desde $120*',sample190:'Desde $190*',sample240:'Desde $240*',customQuote:'Solicitar cotización personalizada →',chooseHint:'*Precios de ejemplo; el negocio confirma la tarifa final.',chooseNext:'Continuar',detailNote:'Ingresa datos de ejemplo para ver el siguiente paso. Nada se envía.',nameLabel:'Tu nombre',emailLabel:'Correo electrónico',zipLabel:'Código postal',dateLabel:'Fecha preferida',bedsLabel:'Habitaciones',bathsLabel:'Baños',frequencyLabel:'Frecuencia',spaceLabel:'Tipo de espacio',notesLabel:'Notas adicionales (opcional)',backDetails:'Volver',reviewNext:'Revisar datos',reviewNote:'Revisa esta solicitud de ejemplo antes de terminar.',backReview:'Editar datos',finish:'Terminar demo',doneHeading:'Demo completado.',doneBody:'Así podría revisarse una solicitud. No se creó una reserva, un pago, un correo ni un registro de cliente.',restart:'Empezar de nuevo',footerNote:'*Los precios son estimados de ejemplo, no cotizaciones garantizadas. El negocio confirma servicios y disponibilidad.',footerCopy:'The Launch Era · Demo de reservas · Sin datos reales de clientes',step1:'PASO 1 DE 3',step2:'PASO 2 DE 3',step3:'PASO 3 DE 3',stepDone:'COMPLETADO',chooseTitle:'Elige un servicio',detailsTitle:'Cuéntanos sobre el espacio',reviewTitle:'Revisa tu solicitud',doneTitle:'Demo completado',service:'Servicio',contact:'Nombre',location:'Código postal',date:'Fecha preferida',frequency:'Frecuencia',estimate:'Precio inicial estimado',details:'Notas',one:'Una vez',weekly:'Semanal',biweekly:'Cada dos semanas',monthly:'Mensual',other:'Cotización personalizada',none:'Ninguna',invalid:'Completa los campos obligatorios con un correo y código postal válidos.',dateInvalid:'Selecciona la fecha de hoy o una futura.'};
   const $=id=>document.getElementById(id);
   const params=new URLSearchParams(location.search);
   let lang=params.get('lang')==='es'?'es':'en', kind='residential', selected=null, step=1, custom=false;
@@ -318,6 +393,7 @@
   chooseKind('residential');updateWords();
 })();
 </script>
-<script src="/assets/tle-demo-reset-lead-magnet.js?v=20261016-clean2"></script>
+<script src="/assets/tle-demo-reset-lead-magnet.js?v=20261016-clean3"></script>
+<script src="/assets/tle-booking-hero-window.js?v=20261016-window1"></script>
 </body>
 </html>
