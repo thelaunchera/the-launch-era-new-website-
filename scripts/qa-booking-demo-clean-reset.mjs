@@ -127,7 +127,7 @@ try{
      const imgs=[...document.querySelectorAll('#resServices .service-media img')];
      return imgs.length===3&&imgs.every(i=>i.complete&&i.naturalWidth>=400);
    },null,{timeout:12000});
-   assert.equal(await page.locator('.service-photo-check').count(),6,'Service photos have six check overlays');
+   assert.equal(await page.locator('.service-photo-check').count(),0,'No empty checkboxes may float on service photos');
    await page.locator('button[data-id="standard"]').click();
    assert.equal(await page.locator('#detailsPanel').isVisible(),true,'Service tap must open the form directly');
    assert.equal(await page.locator('#chooseNext').isVisible(),false,'No far-away Continue control');
@@ -141,6 +141,15 @@ try{
    assert.equal(await page.locator('#baths').inputValue(),'2');
    assert.equal(await page.locator('#frequency').inputValue(),'biweekly');
    assert.notEqual(await page.locator('.choice-check input:checked+span').first().evaluate(x=>getComputedStyle(x).backgroundColor),'rgb(255, 255, 255)','Selected options must visibly turn blue');
+   const extras=page.locator('input[name="demo-extras"]');
+   assert.equal(await extras.count(),4,'Four optional checkboxes should be inside Step 2, not over photo cards');
+   assert.equal(await page.locator('#bookingExtrasTitle').isVisible(),true);
+   assert.equal(await page.locator('input[name="demo-extras"]:checked').count(),0,'Optional details start unchecked');
+   await page.locator('input[name="demo-extras"][value="petsLabel"]').check();
+   await page.locator('input[name="demo-extras"][value="ovenLabel"]').check();
+   assert.equal(await page.locator('input[name="demo-extras"]:checked').count(),2,'Multiple optional details can be chosen');
+   const focusStyle=await page.locator('input[name="demo-extras"][value="petsLabel"] + span').evaluate(x=>getComputedStyle(x).backgroundColor);
+   assert.notEqual(focusStyle,'rgb(255, 255, 255)','Checked details should have a pale blue highlight');
   
    await page.locator('#customerName').fill('Sample Customer');
    await page.locator('#customerEmail').fill('sample@example.test');
@@ -149,6 +158,8 @@ try{
    await page.locator('#reviewNext').click();
    await page.locator('#reviewPanel').waitFor({state:'visible'});
    assert.match(await page.locator('#reviewList').innerText(),/Sample Customer/);
+   assert.match(await page.locator('#reviewList').innerText(),lang==='es'?/Mascotas en casa/:/Pets at home/,'Requested details appear on review screen');
+   assert.match(await page.locator('#reviewList').innerText(),lang==='es'?/Interior del horno/:/Inside oven/,'Requested oven service appears without adding to estimated price');
    await page.locator('#finish').click();
    await page.locator('#completePanel').waitFor({state:'visible'});
    const tracker=await page.locator('#trackerLink').getAttribute('href');
@@ -156,9 +167,12 @@ try{
      'Lead magnet must retain demo Command Center handoff');
    const saved=await page.evaluate(()=>[...Object.keys(sessionStorage)]
      .filter(k=>k.startsWith('tleSampleBooking:')).map(k=>JSON.parse(sessionStorage.getItem(k))));
-   assert(saved.some(x=>x.demoOnly&&x.name==='Sample Customer'),
-     'Sample owner-side request must stay in sessionStorage only');
+   assert(saved.some(x=>x.demoOnly&&x.name==='Sample Customer'
+     &&x.extras?.includes('petsLabel')&&x.extras?.includes('ovenLabel')
+     &&(lang==='es'?x.notes.includes('Mascotas en casa'):x.notes.includes('Pets at home'))),
+     'Sample Command Center handoff should include optional checkbox requests, no real writes');
    await page.locator('#restart').click();
+   assert.equal(await page.locator('input[name="demo-extras"]:checked').count(),0,'Restart clears optional checkboxes');
    await page.locator('#comTab').click();
    await page.locator('#comServices .service').first().scrollIntoViewIfNeeded();
    await page.waitForFunction(()=>{
@@ -175,6 +189,7 @@ try{
 
    await page.locator('button[data-id="office"]').click();
    assert.equal(await page.locator('#comDetails').isVisible(),true);
+   assert.equal(await page.locator('.booking-extras').isVisible(),false,'Residential optional choices stay hidden on commercial forms');
    await page.locator('#backDetails').click();
    assert.equal(await page.locator('button[data-id="office"]').getAttribute('aria-pressed'),'true','Back keeps selected commercial service');
    const layout=await page.evaluate(()=>{

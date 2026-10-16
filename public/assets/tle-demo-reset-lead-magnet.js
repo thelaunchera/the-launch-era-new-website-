@@ -93,6 +93,16 @@
       || (lang()==='es'?'Cotización personalizada':'Custom quote');
     const price=active ? Number(active.dataset.price)||0 : 0;
     const freq=active?.dataset.kind==='residential' ? input('frequency') : 'Custom quote';
+    const extras=active?.dataset.kind==='residential'
+      ? [...document.querySelectorAll('input[name="demo-extras"]:checked')].map(item=>item.value)
+      : [];
+    const extraWords=lang()==='es'
+      ? {petsLabel:'Mascotas en casa',firstLabel:'Primera limpieza',ovenLabel:'Interior del horno',fridgeLabel:'Interior del refrigerador'}
+      : {petsLabel:'Pets at home',firstLabel:'First-time cleaning',ovenLabel:'Inside oven',fridgeLabel:'Inside refrigerator'};
+    const extraDescription=extras.map(key=>extraWords[key]).filter(Boolean).join(', ');
+    const combinedNotes=[input('notes'),extraDescription
+      ? (lang()==='es'?'Detalles opcionales: ':'Optional details: ')+extraDescription
+      : ''].filter(Boolean).join('\n');
     const details={
       name:input('customerName'),
       email:input('customerEmail'),
@@ -107,7 +117,8 @@
       zip:input('customerZip'),
       date:input('preferredDate'),
       time:el('tlePreferredTime')?.value||'Flexible',
-      notes:input('notes'),
+      notes:combinedNotes,
+      extras,
       status:'new',
       demoOnly:true
     };
