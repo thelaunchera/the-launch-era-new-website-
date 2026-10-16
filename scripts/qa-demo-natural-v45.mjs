@@ -13,7 +13,10 @@ try{
   page.on("request",r=>{if(["POST","PUT","PATCH","DELETE"].includes(r.method()))writes.push(r.url())});
   await page.goto(base+"/lead-private-preview.html?lang="+lang,{waitUntil:"load"});
   await page.waitForSelector("html.tle-demo-v45",{timeout:15000});
+  // v46 is installed asynchronously after all seven real photos exist.
+  // Never assert against a partially mounted v45 DOM.
   await page.waitForSelector("html.tle-demo-v46",{timeout:15000});
+  await page.waitForFunction(()=>document.querySelectorAll("#residentialServiceList .tle-v46-photo-words,#commercialServiceList .tle-v46-photo-words").length===7,null,{timeout:15000});
   const words=await page.evaluate(()=>{
    const all=[...document.querySelectorAll("#residentialServiceList .tle-v46-photo-words,#commercialServiceList .tle-v46-photo-words")];
    const first=all[0],grid=first?.querySelector(".tle-v46-rotate");
