@@ -15,12 +15,14 @@
  box-shadow:0 19px 45px rgba(39,93,132,.17),0 6px 14px rgba(30,70,106,.09)
 }
 #plans.tle-price-motion .tle-featured-badge{
- position:absolute;top:-12px;left:50%;z-index:3;transform:translateX(-50%) scale(.3);
+ position:absolute;top:-12px;left:50%;z-index:3;transform:translateX(-50%) scale(1);
  transform-origin:center;opacity:1;white-space:nowrap;pointer-events:none;
  border-radius:999px;padding:5px 15px;font:750 11px/1.35 Futura,"DM Sans",Arial,sans-serif;
  background:linear-gradient(110deg,#609DC5,#D7EFFF);color:#172F3F;
  box-shadow:0 4px 12px rgba(75,132,170,.14);
 }
+#plans.tle-price-motion .tle-featured-badge{opacity:1}
+.tle-pricing-ready #plans.tle-price-motion .tle-featured-badge{transform:translateX(-50%) scale(.3);opacity:0}
 #plans.tle-price-motion .cards.is-visible .tle-featured-badge{animation:tle-price-badge-pop 620ms var(--tle-price-spring) 140ms both}
 @keyframes tle-price-badge-pop{from{transform:translateX(-50%) scale(.3);opacity:0}to{transform:translateX(-50%) scale(1);opacity:1}}
 #plans.tle-price-motion .tle-price-features{
