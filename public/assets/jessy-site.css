@@ -271,3 +271,46 @@ body.tle-jessy-demo-open{overflow:hidden!important}
 .tle-jessy-whatsapp-choice{background:#f8fcff;color:#234d68;border:1px solid #b0d5e9;border-radius:999px;padding:10px 14px;min-height:42px;font:700 13px/1.35 Futura,Arial,sans-serif;cursor:pointer}
 .tle-jessy-whatsapp-choice:hover{background:#e4f3fd}
 .tle-jessy-whatsapp-choice:focus-visible{outline:3px solid #3e89ba;outline-offset:2px}
+
+
+/* Jessie conversion flow — compact mobile checklist, checkout shown only by visitor choice. */
+.tle-jessy-root .tle-jessy-needs,.tle-jessy-root .tle-jessy-checkout-choices{
+ display:grid;gap:10px;max-width:100%;margin:7px 0 16px 28px;padding:14px;
+ background:#f7fbfe;border:1px solid #c9e2f1;border-radius:17px;
+ box-shadow:0 5px 17px #1e628210
+}
+.tle-jessy-root .tle-jessy-needs fieldset{border:0;min-width:0;margin:0;padding:0;display:grid;gap:7px}
+.tle-jessy-root .tle-jessy-needs legend,.tle-jessy-root .tle-jessy-choice-heading{
+ display:block;font-family:Prompt,Arial,sans-serif;font-weight:700;font-size:14px;line-height:1.35;color:#191919;
+ padding:0;margin:0 0 4px
+}
+.tle-jessy-root .tle-jessy-needs p{font-size:12px;color:#556f7e;margin:0 0 4px;line-height:1.4}
+.tle-jessy-root .tle-jessy-need{
+ display:flex;align-items:center;gap:10px;padding:9px 10px;background:#fff;
+ border:1px solid #d5e7f2;border-radius:12px;font-size:12px;line-height:1.35;
+ font-weight:600;color:#233c4d;cursor:pointer
+}
+.tle-jessy-root .tle-jessy-need:has(input:checked){border-color:#74b4d8;background:#e7f4ff}
+.tle-jessy-root .tle-jessy-need input{appearance:auto;accent-color:#287eae;inline-size:18px;block-size:18px;min-width:18px;margin:0;cursor:pointer}
+.tle-jessy-root .tle-jessy-needs-submit,.tle-jessy-root .tle-jessy-checkout-link{
+ display:flex;align-items:center;justify-content:center;width:100%;min-height:43px;
+ border:1px solid #276b96;border-radius:12px;background:#307dac;color:#fff;
+ font-family:Prompt,Arial,sans-serif;font-weight:700;font-size:12px;
+ text-align:center;text-decoration:none;cursor:pointer;padding:10px 13px
+}
+.tle-jessy-root .tle-jessy-needs-submit:disabled{background:#eaf4fa;border-color:#c3d9e7;color:#487188;cursor:default}
+.tle-jessy-root .tle-jessy-needs-status{font-size:12px;margin:0;color:#376b88}
+.tle-jessy-root .tle-jessy-checkout-choices{background:#f4faff}
+.tle-jessy-root .tle-jessy-checkout-link{background:#191919;border-color:#191919;min-height:46px}
+.tle-jessy-root .tle-jessy-checkout-note{font-size:11px;line-height:1.5;color:#516a7a}
+.tle-jessy-root .tle-jessy-needs input:focus-visible,.tle-jessy-root .tle-jessy-needs button:focus-visible,.tle-jessy-root .tle-jessy-checkout-link:focus-visible{outline:3px solid #3586b6;outline-offset:3px}
+@media(max-width:600px){
+ .tle-jessy-root .tle-jessy-quick{display:flex;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;gap:7px;padding:7px 12px 9px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+ .tle-jessy-root .tle-jessy-quick button{flex:0 0 auto;white-space:nowrap;min-height:37px;font-size:12px;padding:8px 12px}
+ .tle-jessy-root .tle-jessy-needs,.tle-jessy-root .tle-jessy-checkout-choices{padding:12px;margin-left:26px}
+ .tle-jessy-root .tle-jessy-need{min-height:40px}
+ .tle-jessy-root .tle-jessy-note{margin-top:5px}
+}
+@media(prefers-reduced-motion:reduce){
+ .tle-jessy-root .tle-jessy-needs,.tle-jessy-root .tle-jessy-checkout-choices{animation:none!important;transition:none!important}
+}
