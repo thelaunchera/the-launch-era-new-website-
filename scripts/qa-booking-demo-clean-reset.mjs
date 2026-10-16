@@ -128,6 +128,7 @@ try{
      return imgs.length===3&&imgs.every(i=>i.complete&&i.naturalWidth>=400);
    },null,{timeout:12000});
    assert.equal(await page.locator('.service-photo-check').count(),0,'No empty checkboxes may float on service photos');
+   await page.mouse.move(0,0); // clear pointer hover before checking hidden back-face accessibility
    const firstFlip=page.locator('.service-flip-card[data-service="standard"]');
    assert.equal(await page.locator('.service-flip-card').count(),6,'Six services must have front and back');
    assert.equal(await firstFlip.locator('.service-flip-back').evaluate(x=>x.inert),true,'Hidden back CTA cannot receive focus');
