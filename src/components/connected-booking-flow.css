@@ -35,7 +35,7 @@
 .tle-connection-hub__core-brand{font:800 10px/1.2 'Prompt','DM Sans',sans-serif;letter-spacing:.08em;color:#3b7393}
 .tle-connection-hub__core strong{font:800 clamp(15px,2vw,21px)/1.18 'Prompt','DM Sans',sans-serif;letter-spacing:-.03em}
 .tle-connection-hub__core small{font:550 11px/1.3 'DM Sans',sans-serif;color:#4e758d}
-.tle-connection-hub__ring{position:absolute;inset:0;border:2px solid #5ba4cb;border-radius:inherit;opacity:0;pointer-events:none;z-index:-1}
+.tle-connection-hub__ring{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:25%;max-width:236px;height:140px;border:2px solid #5ba4cb;border-radius:22px;opacity:0;pointer-events:none;z-index:2}
 .tle-connection-hub__tile{
  position:absolute;left:var(--hub-x);top:var(--hub-y);transform:translate(-50%,-50%);
  z-index:2;width:24%;max-width:218px;min-width:0;height:103px;
@@ -80,7 +80,7 @@
 @keyframes tle-hub-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
 @keyframes tle-hub-dot{0%{opacity:0;transform:translate(0,0)}10%{opacity:1}82%{opacity:1}100%{opacity:0;transform:translate(var(--hub-move-x),var(--hub-move-y))}}
 @keyframes tle-hub-tile{from{background:#fff;border-color:#c8dbe8;color:#1c435c}to{background:#e9f6fe;border-color:#75afce;color:#164568}}
-@keyframes tle-hub-pulse{0%{transform:scale(1);opacity:.25}100%{transform:scale(1.7);opacity:0}}
+@keyframes tle-hub-pulse{0%{transform:translate(-50%,-50%) scale(1);opacity:.28}100%{transform:translate(-50%,-50%) scale(1.7);opacity:0}}
 @media(max-width:767px){
  .sales-home .home-booking-explorer.tle-flow-explorer{padding:12px;border-radius:20px}
  .tle-connected-flow__intro{padding:11px 6px 4px}
@@ -92,6 +92,7 @@
  .tle-connection-hub__tile small{font-size:9px;line-height:1.28;overflow-wrap:anywhere}
  .tle-connection-hub__tile svg{width:16px;height:16px;padding:3px}
  .tle-connection-hub__core{width:37%;min-height:126px;padding:12px 7px;border-radius:18px}
+ .tle-connection-hub__ring{width:37%;height:126px;border-radius:18px}
  .tle-connection-hub__core-icon{width:34px;height:34px}
  .tle-connection-hub__core strong{font-size:15px;overflow-wrap:anywhere}
  .tle-connection-hub__core-brand{font-size:8px}
