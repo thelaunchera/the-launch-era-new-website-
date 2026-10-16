@@ -100,7 +100,7 @@ try{
      'Service/proof cards need rounded blue outlines '+JSON.stringify(skin));
    assert(skin.serviceWidth>230&&skin.proofWidth>245,'Cards must not be narrow '+JSON.stringify(skin));
    if(width<=390)assert(skin.mainMargin<=17,'Phone booking cards should use nearly full width '+JSON.stringify(skin));
-   assert(skin.heroHeight<skin.vertical*1.7,'Hero should no longer demand nearly two viewport heights');
+   assert(skin.heroHeight>=skin.vertical*1.98&&skin.heroHeight<=skin.vertical*2.10,'Hero needs enough sticky scroll distance for a readable window transition');
 
    await page.locator('#sonnyToggle').click();
    await page.locator('#sonnyBody').waitFor({state:'visible'});
