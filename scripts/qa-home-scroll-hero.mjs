@@ -9,6 +9,7 @@ const observer = read('src/components/use-hero-wipe.ts');
 const root = read('src/routes/__root.tsx');
 const scrollCSS = read('public/assets/tle-hero-scroll.css');
 const styles = read('src/styles.css');
+const splitWord = read('src/components/hero-split-word-link.tsx');
 const englishHero = en.split('export function HomeHero()')[1]?.split('const services =')[0] || '';
 const spanishHero = es.split('function SpanishHome()')[1]?.split('<SmartWelcomeBundle lang="es"/>')[0] || '';
 
@@ -18,7 +19,7 @@ for (const [lang, hero, expected] of [
 ]) {
   assert(hero.includes('className="hero-scroll"'), lang + ': scroll stage missing');
   assert(hero.includes('hero-scroll-stage') && hero.includes('hero-scroll-frame'), lang + ': scroll frame missing');
-  assert(hero.includes('hero-scroll-reveal') && hero.includes('href="#hero-next"'), lang + ': scroll destination missing');
+  assert(hero.includes('hero-scroll-reveal') && hero.includes('<HeroSplitWordLink lang="' + lang.toLowerCase() + '"/>'), lang + ': split-word scroll link missing');
   assert(hero.includes('id="hero-next"'), lang + ': next-section target missing');
   assert(hero.includes('className="hero-split-visual"'), lang + ': separate image panel missing');
   assert(hero.includes('data-wipe-visible={revealed && heroLoaded}'), lang + ': image-ready reveal gate missing');
@@ -27,6 +28,7 @@ for (const [lang, hero, expected] of [
   assert(hero.indexOf('hero-cta-row') < hero.indexOf('hero-split-visual'), lang + ': copy must lead on desktop');
   assert(hero.indexOf('hero-split-visual') < hero.indexOf('hero-notice-flow'), lang + ': notifications must sit inside image');
 }
+assert(splitWord.includes('href="#hero-next"') && splitWord.includes('aria-label=') && splitWord.includes('tle-hero-split-upper') && splitWord.includes('tle-hero-split-lower') && splitWord.includes('tle-hero-split-reveal'), 'accessible native scroll anchor or two word halves missing');
 assert(observer.includes('IntersectionObserver') && observer.includes('observer.disconnect()'));
 assert(scrollCSS.includes('height: 180svh') && scrollCSS.includes('position: sticky'));
 assert(scrollCSS.includes('scale(calc(1 - .3 * var(--hero-scroll-progress, 0)))'));
