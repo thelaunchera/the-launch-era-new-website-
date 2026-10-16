@@ -60,6 +60,12 @@ try{
    const page=await browser.newPage({viewport});
    page.on('pageerror',error=>errors.push(route+' '+viewport.width+' '+error.message));
    await page.goto(site+route,{waitUntil:'domcontentloaded',timeout:45000});
+   // Hydration may replace SSR nodes after DOMContentLoaded. Wait for real CSS,
+   // not just an attached element, to avoid false visual passes or false failures.
+   await page.waitForFunction(()=>{
+     const el=document.querySelector('.tle-cta-pulse-ring');
+     return el?.isConnected && getComputedStyle(el).animationName==='tle-cta-quiet-pulse';
+   },null,{timeout:18000});
    const ctas=page.locator('.tle-cta-pulse-shell');
    await ctas.first().waitFor({state:'attached',timeout:14000});
    const links=await ctas.locator('a').evaluateAll(els=>els.map(el=>({href:el.getAttribute('href'),left:el.getBoundingClientRect().left,right:el.getBoundingClientRect().right})));
