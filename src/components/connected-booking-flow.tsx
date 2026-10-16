@@ -62,18 +62,18 @@ export function ConnectedBookingFlow({lang='en'}:{lang?:Language}){
       const x=p.x*1.6;
       const y=p.y;
       return <g key={i} className="tle-connection-hub__wire-group" style={{'--hub-index':i} as CSSProperties}>
-       <path className="tle-connection-hub__path" pathLength="1" d={`M ${x} ${y} L 80 50`}/>
+       <path className="tle-connection-hub__path" pathLength={1} d={`M ${x} ${y} L 80 50`}/>
        <circle className="tle-connection-hub__travel-dot" cx={x} cy={y} r="1.2"
         style={{'--hub-move-x':(50-p.x)+'%','--hub-move-y':(50-p.y)+'%'} as CSSProperties}/>
       </g>;
     })}
    </svg>
+   {locations.map((_,i)=><span key={i} className="tle-connection-hub__ring" aria-hidden="true" style={{'--hub-index':i} as CSSProperties}/>)}
    <div className="tle-connection-hub__core" aria-label={es?'Centro de tu sistema: Command Center privado':'Center of the system: Private Command Center'}>
     <span className="tle-connection-hub__core-icon"><ClipboardList size={25} aria-hidden="true"/></span>
     <span className="tle-connection-hub__core-brand">THE LAUNCH ERA</span>
     <strong>Command Center</strong>
     <small>{es?'Tu espacio privado':'Your private workspace'}</small>
-    {locations.map((_,i)=><span key={i} className="tle-connection-hub__ring" aria-hidden="true" style={{'--hub-index':i} as CSSProperties}/>)}
    </div>
    {nodes.map((node,i)=>{
     const pos=locations[i];
