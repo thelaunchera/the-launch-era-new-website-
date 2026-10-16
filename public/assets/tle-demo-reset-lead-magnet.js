@@ -135,8 +135,6 @@
     el('sonnyTitle').textContent=p.sonnyTitle;
     el('sonnySubtitle').textContent=p.sonnySub;
     el('sonnyToggle').textContent=shown ? p.sonnyClose:p.sonnyToggle;
-    const launcher=el('sonnyAvatarLauncher');
-    if(launcher)launcher.setAttribute('aria-label',lang()==='es'?'Hablar con Sonny — solo demo':'Chat with Sonny — sample demo');
     el('sonnyInput').placeholder=p.sonnyPlaceholder;
     el('sonnyInput').setAttribute('aria-label',p.sonnyPlaceholder);
     el('sonnySend').textContent=p.sonnySend;
@@ -147,7 +145,6 @@
     shown=next;
     el('sonnyBody').hidden=!next;
     el('sonnyToggle').setAttribute('aria-expanded',String(next));
-    el('sonnyAvatarLauncher')?.setAttribute('aria-expanded',String(next));
     updateSonnyWords();
     if(next){
       if(!el('sonnyLog').children.length) addLine(phrases().intro);
@@ -155,34 +152,6 @@
     }
   }
   el('sonnyToggle').addEventListener('click',()=>toggleSonny(!shown));
-  const sonnyLauncher=el('sonnyAvatarLauncher');
-  if(sonnyLauncher){
-    sonnyLauncher.addEventListener('click',()=>{
-      if(!shown)toggleSonny(true);
-      document.querySelector('section.sonny')?.scrollIntoView({block:'center',behavior:'auto'});
-      el('sonnyInput').focus({preventScroll:true});
-    });
-    const card=document.querySelector('section.sonny');
-    // Reveal by default; hide only when the real Sonny card is already near
-    // the reading area. A passive scroll listener handles SPA/hero scroll jumps.
-    sonnyLauncher.hidden=false;
-    if(card){
-      let queued=false;
-      const sync=()=>{
-        queued=false;
-        const r=card.getBoundingClientRect();
-        sonnyLauncher.hidden=r.bottom>0&&r.top<innerHeight*.93;
-      };
-      const queue=()=>{
-        if(queued)return;
-        queued=true;
-        requestAnimationFrame(sync);
-      };
-      window.addEventListener('scroll',queue,{passive:true});
-      window.addEventListener('resize',queue,{passive:true});
-      queue();
-    }
-  }
   updateSonnyWords();
   el('sonnyForm').addEventListener('submit',async event=>{
     event.preventDefault();
