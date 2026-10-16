@@ -1,3 +1,8 @@
+## 2026-10-16 — Slower window zoom on the shared public Booking Demo
+- **Scope:** The unkeyed public/email demo at `/booking-demo-reset.html` only. Paid `?key`, owner previews, homepage, hero photo, blue bubbles, sample booking, calendar, quote controls and Sonny are unchanged.
+- **Source:** `tle-demo-hero-portal.js` uses scroll progress over a 205svh sticky hero instead of 146svh phone / 156svh desktop. Zoom waits through first 4% of scroll and the photograph fades later. Window click animates to 90% of sticky travel over **2800ms**, instead of browser-dependent near-instant smooth scrolling. Wheel, touch and keyboard cancel scripted motion. Reduced-motion remains immediate.
+- **QA:** HTML cache-busts both changed assets; `qa-demo-hero-portal-proof.mjs` checks the first 550ms, and `qa-booking-demo-clean-reset.mjs` checks scroll travel. Jessie email lead magnet stays sample-only. Canonical GitHub Pages route: `https://thelaunchera.com/booking-demo-reset.html?lang=en`.
+
 ## 2026-10-16 — Public homepage cleaner photo moved up on phones
 - Public `/` and `/es/` homepages <=767px only. Original `#hero-next` link and animation remain; fewer vertical gaps place existing photo ~37px closer to “See how it works”. Original image, notifications, CTA, desktop/tablet and private routes unchanged.
 - Sources `public/assets/tle-hero-scroll.css` and global stylesheet cache in `src/routes/__root.tsx`. Full PR #185 browser QA passed prior to promoting these two identical source changes directly to main; did not merge competing incident-log edits from ongoing work. Production-domain Pages deployment verification required.
