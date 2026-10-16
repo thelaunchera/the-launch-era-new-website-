@@ -326,6 +326,13 @@ html.demo-editorial.tle-demo-v48 #bookingStarter#bookingStarter #main#main #comm
  }
  html.demo-editorial.tle-demo-v48 #tleSonnyGreetingPopup{display:none!important;}
 }
+/* v48 card placement: older service styles forced every photo to
+   grid-column:1/-1. Keep ONLY the custom quote CTA full-width. */
+html.demo-editorial.tle-demo-v48 #bookingStarter#bookingStarter #main#main #residentialServiceList#residentialServiceList.tle-v42-grid > button.service.tle-service-has-photo-v21,
+html.demo-editorial.tle-demo-v48 #bookingStarter#bookingStarter #main#main #commercialServiceList#commercialServiceList.tle-v42-grid > button.service.tle-service-has-photo-v21{
+ grid-column:auto!important;grid-row:auto!important;min-width:0!important;
+ max-width:100%!important;width:100%!important;justify-self:stretch!important;
+}
 @media(prefers-reduced-motion:reduce){
  html.demo-editorial.tle-demo-v48 #leadHero .tle46-hero-slot .tle47-word{
   animation:none!important;
