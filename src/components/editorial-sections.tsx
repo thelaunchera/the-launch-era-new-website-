@@ -142,6 +142,8 @@ export function ContactForm() {
     business:String(fd.get('business')||''),
     service:String(fd.get('service')||'')
    });
+   setStatus('done');
+   await new Promise<void>(resolve => window.setTimeout(resolve, 780));
    setStatus('sent');
   }catch(err){
    setError(err instanceof Error?err.message:'We couldn’t send your inquiry. Please try again.');
