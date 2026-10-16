@@ -1,0 +1,114 @@
+import assert from 'node:assert/strict';
+import {readFileSync,mkdirSync} from 'node:fs';
+const read=p=>readFileSync(new URL('../'+p, import.meta.url),'utf8');
+const css=read('public/assets/tle-marketing-cta-motion.css');
+const root=read('src/routes/__root.tsx');
+const cta=read('src/components/marketing-cta.tsx');
+const morph=read('src/components/morph-submit.tsx');
+const routeFiles=[
+ 'src/components/editorial-sections.tsx','src/routes/es.index.tsx',
+ 'src/routes/booking-lead-automation.tsx','src/routes/es.booking-lead-automation.tsx',
+ 'src/routes/website-automation.tsx','src/routes/es.website-automation.tsx',
+ 'src/routes/virtual-assistant.tsx','src/routes/es.virtual-assistant.tsx',
+ 'src/components/service-sales.tsx','src/components/cleaning-app-editorial.tsx',
+ 'src/components/freebie-page.tsx','src/components/ai-agent-addon.tsx',
+];
+for(const p of routeFiles){
+ const s=read(p);
+ assert(s.includes('MarketingCTA'),p+': missing marketing action');
+ assert.equal((s.match(/<MarketingCTA/g)||[]).length,s.split('</MarketingCTA>').length-1,p+': unbalanced CTA tags');
+}
+assert(root.includes('tle-marketing-cta-motion.css'), 'missing scoped marketing stylesheet');
+assert(css.includes('animation:tle-cta-quiet-pulse 2.8s cubic-bezier(.32,.72,0,1) infinite'));
+assert(css.includes('animation-delay:450ms')&&css.includes('scale(1.34,1.7)'));
+assert(css.includes('conic-gradient(')&&css.includes('height:300px')&&css.includes('inset:2px'));
+assert(css.includes('clip-path:inset(0 var(--tle-morph-inset,127px) round 999px)'));
+assert(css.includes('560ms cubic-bezier(.32,.72,0,1)'));
+assert(css.includes('tle-cta-draw-check 380ms')&&css.includes('stroke-dashoffset'));
+assert(css.includes('prefers-reduced-motion:reduce'));
+assert(morph.includes('aria-busy')&&morph.includes('aria-live')&&morph.includes('ResizeObserver'));
+assert(cta.includes('demo|preview|\\/command-center')&&cta.includes('href={href}'));
+for(const p of ['src/components/editorial-sections.tsx','src/routes/es.index.tsx','src/components/freebie-page.tsx']){
+ const s=read(p);
+ assert(s.includes('MorphSubmit status={status}'),p+': missing real form morph');
+ assert(s.includes("setStatus('done')")&&s.includes("setStatus('sent')"),p+': success must follow server response');
+}
+for(const p of ['public/ai-booking-assistant/index.html','public/es/ai-booking-assistant/index.html']){
+ const s=read(p);
+ assert(s.includes('tle-marketing-standalone')&&s.includes('tle-marketing-cta-motion.css'));
+ assert.equal((s.match(/class="tle-cta-pulse-shell"/g)||[]).length,3,p+': only three real plan links should pulse');
+ assert(!/class="btn alt tle-cta-gradient"/.test(s),p+': demo cannot animate');
+}
+console.log('[TLE CTA STATIC PASSED] marketing actions, form states, isolation and destinations');
+if(!process.argv.includes('--browser'))process.exit(0);
+const {chromium}=await import('playwright');
+const browser=await chromium.launch({headless:true});
+const baseURL=process.env.QA_URL||'http://127.0.0.1:4173';
+const site=baseURL.endsWith('/')?baseURL.slice(0,-1):baseURL;
+const sizes=[{width:360,height:780},{width:390,height:844},{width:820,height:1000},{width:1024,height:768},{width:1440,height:900}];
+const errors=[];
+mkdirSync('qa-screenshots',{recursive:true});
+try{
+ for(const route of ['/','/es/','/booking-lead-automation/','/es/booking-lead-automation/','/ai-booking-assistant/','/es/ai-booking-assistant/']){
+  for(const viewport of sizes){
+   const page=await browser.newPage({viewport});
+   page.on('pageerror',error=>errors.push(route+' '+viewport.width+' '+error.message));
+   await page.goto(site+route,{waitUntil:'domcontentloaded',timeout:45000});
+   const ctas=page.locator('.tle-cta-pulse-shell');
+   await ctas.first().waitFor({state:'attached',timeout:14000});
+   const links=await ctas.locator('a').evaluateAll(els=>els.map(el=>({href:el.getAttribute('href'),left:el.getBoundingClientRect().left,right:el.getBoundingClientRect().right})));
+   assert(links.length>0,route+' missing marketing CTAs');
+   assert(links.every(x=>x.href&&!/demo|preview|command-center/i.test(x.href)),route+' demo/private CTA was animated');
+   assert(links.every(x=>x.left>=-3&&x.right<=viewport.width+3),route+' '+viewport.width+' CTA crosses viewport '+JSON.stringify(links));
+   const ring=await ctas.first().locator('.tle-cta-pulse-ring').first().evaluate(el=>getComputedStyle(el).animationName);
+   assert(ring==='tle-cta-quiet-pulse',route+' '+viewport.width+' pulse absent: '+ring);
+   if(route==='/'||route==='/es/'){
+    assert.equal(await page.locator('.hero-intro .tle-cta-pulse-shell').count(),0,'Do not animate demo CTA');
+    if(viewport.width===390)await page.screenshot({path:`qa-screenshots/cta-marketing-${route==='/es/'?'es':'en'}-390.png`});
+   }
+   await page.close();
+  }
+ }
+ // Real submit tests intercept all requests — no customer message is sent.
+ for(const [route,form,endpoint,lang] of [
+  ['/help/','.contact-form form','tle-contact','en'],
+  ['/es/','.contact-form form','tle-contact','es'],
+  ['/free-cleaning-lead-guide/','.tle-freebie-page form','tle-freebie','en']
+ ]){
+  const page=await browser.newPage({viewport:{width:390,height:844}});
+  page.on('pageerror',error=>errors.push(route+' form: '+error.message));
+  await page.route('**/functions/v1/'+endpoint,async request=>{
+   await new Promise(resolve=>setTimeout(resolve,650));
+   await request.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,email_sent:true})});
+  });
+  await page.goto(site+route,{waitUntil:'domcontentloaded',timeout:45000});
+  await page.locator(form).waitFor({state:'attached',timeout:15000});
+  if(endpoint==='tle-contact'){
+   await page.locator(form+' input[name="name"]').fill('Synthetic QA');
+   await page.locator(form+' input[name="email"]').fill('synthetic@example.invalid');
+   await page.locator(form+' input[name="business"]').fill('Fixture Business');
+   await page.locator(form+' textarea[name="message"]').fill('Synthetic QA only; never send.');
+  }else await page.locator('#freebie-email').fill('synthetic@example.invalid');
+  const button=page.locator(form+' .tle-morph-submit');
+  assert.equal(await button.getAttribute('data-state'),'idle',route+' initial state');
+  await button.click();
+  await page.waitForTimeout(85);
+  assert.equal(await button.getAttribute('data-state'),'loading',route+' loading');
+  assert.equal(await button.getAttribute('aria-busy'),'true',route+' aria-busy');
+  await button.locator('.tle-morph-dots').waitFor({state:'attached'});
+  await page.waitForFunction(()=>document.querySelector('.tle-morph-submit')?.dataset.state==='done',{timeout:9000});
+  assert.equal(await button.getAttribute('data-state'),'done',route+' verified success');
+  assert((await page.locator('[aria-live="polite"]').allTextContents()).some(x=>/success|correctamente/i.test(x)),route+' aria-live');
+  await page.waitForTimeout(1450);
+  assert.equal(await page.locator(form).count(),0,route+' old form should yield to existing success confirmation');
+  await page.close();
+ }
+ // Reduced-motion must remove the decorative animations.
+ const reduced=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});
+ await reduced.goto(site+'/',{waitUntil:'domcontentloaded',timeout:45000});
+ const anim=await reduced.locator('.tle-cta-pulse-ring').first().evaluate(el=>getComputedStyle(el).animationName);
+ assert(anim==='none','reduced-motion ring should be disabled');
+ await reduced.close();
+ assert.deepEqual(errors,[], 'Unexpected browser errors');
+ console.log('[TLE CTA BROWSER PASSED] EN/ES five widths, isolated demos, mocked success, reduced motion');
+}finally{await browser.close();}

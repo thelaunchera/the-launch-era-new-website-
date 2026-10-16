@@ -1,0 +1,128 @@
+/* The Launch Era public marketing CTAs only — no demo, client or checkout overrides. */
+:where(.sales-home,.service-hero,.service-sales,.service-story,.service-fit,.service-sales-close,.final-section,.tle-app-landing,.tle-freebie-page,.tle-marketing-standalone) .tle-cta-pulse-shell {
+  position:relative;isolation:isolate;display:inline-flex;align-items:stretch;
+  max-width:100%;border-radius:999px;vertical-align:middle;
+  flex:0 1 auto;
+}
+.tle-cta-pulse-shell .tle-cta-pulse-button {
+  position:relative;z-index:1;display:inline-flex;align-items:center;
+  justify-content:center;gap:10px;min-height:48px;
+  max-width:100%;border-radius:999px;text-decoration:none;
+}
+.tle-cta-pulse-shell > .tle-cta-pulse-ring {
+  position:absolute;inset:0;z-index:-1;border-radius:inherit;
+  pointer-events:none;background:#D7EFFF;opacity:0;
+  animation:tle-cta-quiet-pulse 2.8s cubic-bezier(.32,.72,0,1) infinite;
+}
+.tle-cta-pulse-shell > .tle-cta-pulse-ring:nth-child(2) { animation-delay:450ms; }
+@keyframes tle-cta-quiet-pulse{
+  0%{transform:scale(1);opacity:.30}
+  55%{transform:scale(1.34,1.7);opacity:0}
+  55.01%,100%{transform:scale(1.34,1.7);opacity:0}
+}
+.tle-cta-pulse-shell:hover > .tle-cta-pulse-ring,
+.tle-cta-pulse-shell:focus-within > .tle-cta-pulse-ring {animation-play-state:paused;opacity:0}
+.tle-cta-pulse-shell .tle-cta-pulse-button:focus-visible {outline:3px solid #5F9FC6;outline-offset:4px}
+@media(max-width:420px){.tle-cta-pulse-shell{max-width:100%}.tle-cta-pulse-shell .tle-cta-pulse-button{white-space:normal;text-align:center;min-width:0}}
+
+/* Secondary non-demo marketing links. Single 2px ring, no neon/glow. */
+:where(.sales-home,.service-hero,.service-sales,.service-story,.service-fit,.service-sales-close,.final-section,.tle-app-landing,.tle-freebie-page,.tle-marketing-standalone)
+  a:is(.service-demo-link,.tle-cta-gradient):not([href*="demo"]):not([href*="preview"]) {
+  position:relative;isolation:isolate;overflow:hidden;
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  min-height:46px;max-width:100%;padding:10px 19px;
+  border:0;border-radius:999px;background:#B8D6E8;
+  color:#191919;text-decoration:none;white-space:normal;
+  box-shadow:none;transition:color .2s ease;
+}
+:where(.sales-home,.service-hero,.service-sales,.service-story,.service-fit,.service-sales-close,.final-section,.tle-app-landing,.tle-freebie-page,.tle-marketing-standalone)
+  a:is(.service-demo-link,.tle-cta-gradient):not([href*="demo"]):not([href*="preview"])::before {
+  content:"";position:absolute;z-index:-2;top:50%;left:50%;
+  width:300px;height:300px;margin:-150px 0 0 -150px;pointer-events:none;
+  background:conic-gradient(from 0deg,transparent 0 58%,#EAF4FC 82%,#8CBEDC 100%);
+  animation:tle-cta-border-spin 3s linear infinite;
+}
+:where(.sales-home,.service-hero,.service-sales,.service-story,.service-fit,.service-sales-close,.final-section,.tle-app-landing,.tle-freebie-page,.tle-marketing-standalone)
+  a:is(.service-demo-link,.tle-cta-gradient):not([href*="demo"]):not([href*="preview"])::after {
+  content:"";position:absolute;inset:2px;z-index:-1;border-radius:inherit;
+  background:#FAF8F3;pointer-events:none;transition:background .2s ease;
+}
+:where(.sales-home,.service-hero,.service-sales,.service-story,.service-fit,.service-sales-close,.final-section,.tle-app-landing,.tle-freebie-page,.tle-marketing-standalone)
+  a:is(.service-demo-link,.tle-cta-gradient):not([href*="demo"]):not([href*="preview"]):hover::after{background:#EAF4FC}
+:where(.sales-home,.service-hero,.service-sales,.service-story,.service-fit,.service-sales-close,.final-section,.tle-app-landing,.tle-freebie-page,.tle-marketing-standalone)
+  a:is(.service-demo-link,.tle-cta-gradient):not([href*="demo"]):not([href*="preview"]):focus-visible{outline:3px solid #5F9FC6;outline-offset:4px}
+@keyframes tle-cta-border-spin{to{transform:rotate(360deg)}}
+
+/* Real submissions only. Fixed button width while the visible pill clips to a circle. */
+.tle-morph-wrap{
+  display:inline-block;position:relative;isolation:isolate;
+  width:min(100%,310px);max-width:100%;height:56px;
+  vertical-align:middle;filter:drop-shadow(0 6px 12px rgba(25,25,25,.10));
+}
+.tle-morph-submit{
+  position:relative;isolation:isolate;overflow:hidden;
+  width:100%;height:56px;min-height:56px;
+  padding:0 15px;border:0;border-radius:999px;
+  color:#fff;background:#191919;font:600 15px/1.2 'Prompt','DM Sans',sans-serif;
+  cursor:pointer;
+  clip-path:inset(0 0 round 999px);
+  transition:clip-path 560ms cubic-bezier(.32,.72,0,1),background-color .25s ease;
+}
+.tle-morph-submit[data-state="loading"],
+.tle-morph-submit[data-state="done"]{
+  clip-path:inset(0 var(--tle-morph-inset,127px) round 999px);
+  cursor:default;
+}
+.tle-morph-submit:focus-visible{outline:3px solid #5F9FC6;outline-offset:-4px}
+.tle-morph-submit .tle-morph-label{
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  opacity:1;white-space:nowrap;transition:opacity 150ms ease;
+}
+.tle-morph-submit:is([data-state="loading"],[data-state="done"]) .tle-morph-label{opacity:0}
+.tle-morph-submit .tle-morph-green{
+  position:absolute;inset:0;z-index:-1;background:#3A896C;opacity:0;
+  transition:opacity .22s ease;
+}
+.tle-morph-submit[data-state="done"] .tle-morph-green{opacity:1}
+.tle-morph-submit .tle-morph-dots,
+.tle-morph-submit .tle-morph-check{
+  position:absolute;inset:0;margin:auto;
+  opacity:0;pointer-events:none;
+}
+.tle-morph-submit .tle-morph-dots{
+  display:flex;justify-content:center;align-items:center;gap:4px;
+}
+.tle-morph-submit .tle-morph-dots i{
+  display:block;width:5px;height:5px;border-radius:50%;background:#fff;
+  animation:tle-cta-dot-bounce .9s ease-in-out infinite;
+}
+.tle-morph-submit .tle-morph-dots i:nth-child(2){animation-delay:120ms}
+.tle-morph-submit .tle-morph-dots i:nth-child(3){animation-delay:240ms}
+.tle-morph-submit[data-state="loading"] .tle-morph-dots{opacity:1}
+.tle-morph-submit .tle-morph-check{width:28px;height:28px;color:#fff}
+.tle-morph-submit .tle-morph-check path{stroke-dasharray:32;stroke-dashoffset:32}
+.tle-morph-submit[data-state="done"] .tle-morph-check{opacity:1}
+.tle-morph-submit[data-state="done"] .tle-morph-check path{
+  animation:tle-cta-draw-check 380ms ease 120ms both;
+}
+@keyframes tle-cta-dot-bounce{
+  0%,65%,100%{transform:translateY(0);opacity:.55}
+  32%{transform:translateY(-5px);opacity:1}
+}
+@keyframes tle-cta-draw-check{to{stroke-dashoffset:0}}
+/* Existing yellow Lead Tracker identity; only genuine server-confirmed send turns green. */
+.tle-freebie-page .tle-morph-wrap{display:block;width:100%;height:56px}
+.tle-freebie-page .tle-morph-submit{color:#191919;background:#F2D85B}
+.tle-freebie-page .tle-morph-submit .tle-morph-dots i{background:#191919}
+.tle-freebie-page .tle-morph-submit[data-state="done"]{color:#fff}
+.tle-freebie-page .tle-morph-submit[data-state="done"] .tle-morph-dots i{background:#fff}
+@media(prefers-reduced-motion:reduce){
+  .tle-cta-pulse-shell > .tle-cta-pulse-ring{animation:none!important;display:none!important}
+  :where(.sales-home,.service-hero,.service-sales,.service-story,.service-fit,.service-sales-close,.final-section,.tle-app-landing,.tle-freebie-page,.tle-marketing-standalone)
+  a:is(.service-demo-link,.tle-cta-gradient)::before{animation:none!important;transform:none!important}
+  .tle-morph-submit{clip-path:none!important;transition:background-color .2s ease!important}
+  .tle-morph-submit .tle-morph-label{transition:opacity .2s ease}
+  .tle-morph-submit .tle-morph-dots i{animation:none!important}
+  .tle-morph-submit[data-state="loading"] .tle-morph-dots i{opacity:1}
+  .tle-morph-submit[data-state="done"] .tle-morph-check path{animation:none!important;stroke-dashoffset:0}
+}
