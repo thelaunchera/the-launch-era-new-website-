@@ -29,14 +29,14 @@
   // getBoundingClientRect changes as front scales. offsetWidth/Height do not.
   const windowWidth=Math.max(1,windowButton?.offsetWidth||320);
   const windowHeight=Math.max(1,windowButton?.offsetHeight||235);
-  const target=clamp(Math.max(window.innerWidth/windowWidth,window.innerHeight/windowHeight)*1.12,1,5.8);
-  const t=clamp(progress/.78,0,1);
+  const target=clamp(Math.max(window.innerWidth/windowWidth,window.innerHeight/windowHeight)*1.06,1,4.35);
+  const t=clamp(progress/.7,0,1);
   // Smooth ease in/out, consistent with the requested cubic-bezier feeling.
   const eased=t*t*(3-2*t);
   front.style.setProperty("--portal-scale",String(1+(target-1)*eased));
-  const fade=1-clamp((progress-.71)/.18,0,1);
+  const fade=1-clamp((progress-.53)/.18,0,1);
   front.style.setProperty("--portal-opacity",String(fade));
-  const open=progress>.82;
+  const open=progress>.70;
   front.style.pointerEvents=open?"none":"auto";
   copy.classList.toggle("is-active",open);
   root.classList.toggle("is-open",open);
