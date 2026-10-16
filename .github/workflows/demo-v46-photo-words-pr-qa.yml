@@ -1,0 +1,41 @@
+name: v46 photo words isolated browser regression
+on:
+  pull_request:
+    paths:
+      - 'public/assets/tle-demo-photo-words-v46.js'
+      - 'scripts/qa-demo-photo-words-v46.mjs'
+      - '.github/workflows/demo-v46-photo-words-pr-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Verify sample code and build
+        run: |
+          node --check public/assets/tle-demo-photo-words-v46.js
+          node --check scripts/qa-demo-photo-words-v46.mjs
+          node scripts/qa-public-demo-integrity.mjs
+          bun install
+          bun run build
+      - name: Isolated Chromium
+        run: |
+          mkdir -p /tmp/tle-v46-pr-pw
+          cd /tmp/tle-v46-pr-pw
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+      - name: Verify real seven captions, six devices, focus and tenant isolation
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-v46-pr.log 2>&1 &
+          for n in $(seq 1 45); do
+            if curl -sf http://127.0.0.1:4173/lead-private-preview.html >/dev/null; then break; fi
+            sleep 2
+          done
+          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-v46-pr-pw/node_modules/playwright/index.mjs node scripts/qa-demo-photo-words-v46.mjs

@@ -54,12 +54,16 @@ function createSlogan(prefix,words){
 function install(){
  const root=document.documentElement;
  if(!root.classList.contains("demo-editorial")||!root.classList.contains("tle-demo-v45"))return false;
- if(root.classList.contains("tle-demo-v46"))return true;
+ if(root.classList.contains("tle-v46-photo-words-ready"))return true;
  const lists=[
   {list:document.getElementById("residentialServiceList"),content:lines.home},
   {list:document.getElementById("commercialServiceList"),content:lines.business}
  ];
  if(lists.some(x=>!x.list||x.list.querySelectorAll(":scope > button.service.tle-service-has-photo-v21").length<x.content.length))return false;
+ // The service grid may mount its buttons before each photo is injected.
+ // Keep the dedicated ready flag unset until all seven photographs exist.
+ if(lists.some(({list,content})=>[...list.querySelectorAll(":scope > button.service.tle-service-has-photo-v21")]
+   .slice(0,content.length).some(button=>!button.querySelector(".tle-service-photo-v21 img"))))return false;
  for(const {list,content} of lists){
   const buttons=[...list.querySelectorAll(":scope > button.service.tle-service-has-photo-v21")];
   for(const [i,[prefix,words]] of content.entries()){
@@ -69,7 +73,9 @@ function install(){
    button.append(slogan);
   }
  }
- root.classList.add("tle-demo-v46");
+ if(lists.reduce((sum,{list,content})=>sum+[...list.querySelectorAll(":scope > button.service.tle-service-has-photo-v21")]
+    .slice(0,content.length).filter(button=>button.querySelector(".tle-v46-photo-words")).length,0)!==7)return false;
+ root.classList.add("tle-demo-v46","tle-v46-photo-words-ready");
  return true;
 }
 if(!install()){
