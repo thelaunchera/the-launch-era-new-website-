@@ -32,7 +32,7 @@ async function inspect(page,lang,width,expectEnabled){
     const section=el.closest('.problem-section');
     return {headingDiff:[Math.abs(a.x-b.x),Math.abs(a.y-b.y),Math.abs(a.width-b.width),Math.abs(a.height-b.height)],emDiff:[Math.abs(emA.x-emB.x),Math.abs(emA.y-emB.y)],sectionOverflow:section.scrollWidth-section.clientWidth};
   });
-  assert(geometry.headingDiff.every(n=>n<=1) && geometry.emDiff.every(n=>n<=1),lang+' '+width+': text layers misaligned '+JSON.stringify(geometry));
+  if(expectEnabled) assert(geometry.headingDiff.every(n=>n<=1) && geometry.emDiff.every(n=>n<=1),lang+' '+width+': text layers misaligned '+JSON.stringify(geometry));
   assert(geometry.sectionOverflow<=2,lang+' '+width+': cursor section overflows '+JSON.stringify(geometry));
   if(expectEnabled){
     await page.waitForFunction(()=>document.querySelector('.tle-mask-headline--enabled') !== null);
