@@ -1,0 +1,43 @@
+name: Public demo minimal hero QA (PR only)
+on:
+  pull_request:
+    paths:
+      - 'public/assets/tle-demo-hero-copy-v47.css'
+      - 'scripts/qa-demo-hero-minimal-v47.mjs'
+      - '.github/workflows/demo-minimal-v47-pr.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  clean-hero:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Validate sources and build static website
+        run: |
+          node --check scripts/qa-demo-hero-minimal-v47.mjs
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-public-demo-integrity.mjs
+          bun install
+          bun run build
+          test -s .output/public/lead-private-preview.html
+      - name: Install isolated Chromium browser
+        run: |
+          mkdir -p /tmp/tle-clean-hero-pw
+          cd /tmp/tle-clean-hero-pw
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+      - name: Verify v47 photo, text layers, click and booking safety EN/ES
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-clean-hero-server.log 2>&1 &
+          for i in $(seq 1 45); do
+            if curl -fsS http://127.0.0.1:4173/lead-private-preview.html | grep -q 'id="leadHero"'; then break; fi
+            sleep 2
+          done
+          curl -fsS http://127.0.0.1:4173/lead-private-preview.html | grep -q 'id="leadHero"'
+          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-clean-hero-pw/node_modules/playwright/index.mjs node scripts/qa-demo-hero-minimal-v47.mjs
