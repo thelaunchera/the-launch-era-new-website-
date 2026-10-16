@@ -25,6 +25,16 @@ jobs:
           node --check scripts/qa-demo-editorial-v48.mjs
           node scripts/qa-route-integrity.mjs --static
           node scripts/qa-public-demo-integrity.mjs
+      - name: Prepare optimized local Drive photography
+        run: |
+          python3 -m pip install --quiet Pillow
+          python3 scripts/build_demo_photo_assets.py
+          test -s public/assets/demo-editorial/story-room.webp
+          test -s public/assets/demo-editorial/story-detail.webp
+          test -s public/assets/demo-editorial/service-standard.webp
+          test -s public/assets/demo-editorial/service-deep.webp
+          test -s public/assets/demo-editorial/service-move.webp
+          test -s public/assets/demo-editorial/manifest.json
       - name: Build isolated preview (no production deploy)
         run: |
           bun install --frozen-lockfile
