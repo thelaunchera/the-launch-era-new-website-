@@ -129,13 +129,19 @@ try{
   }else await page.locator('#freebie-email').fill('synthetic@example.invalid');
   const button=page.locator(form+' .tle-morph-submit');
   assert.equal(await button.getAttribute('data-state'),'idle',route+' initial state');
+  // Capture genuine transitions even when network timing varies.
+  await button.evaluate(el=>{
+   window.__tleStages=[];
+   const record=()=>window.__tleStages.push({state:el.dataset.state,busy:el.getAttribute('aria-busy')});
+   record();
+   new MutationObserver(record).observe(el,{attributes:true,attributeFilter:['data-state','aria-busy']});
+  });
   await button.click();
-  await page.waitForTimeout(85);
-  assert.equal(await button.getAttribute('data-state'),'loading',route+' loading');
-  assert.equal(await button.getAttribute('aria-busy'),'true',route+' aria-busy');
+  await page.waitForFunction(()=>document.querySelector('.tle-morph-submit')?.dataset.state==='done',null,{timeout:9000});
+  const states=await page.evaluate(()=>window.__tleStages||[]);
+  assert(states.some(x=>x.state==='loading'&&x.busy==='true'),route+' missing loading state: '+JSON.stringify(states));
+  assert.equal(await button.getAttribute('data-state'),'done',route+' confirmed success');
   await button.locator('.tle-morph-dots').waitFor({state:'attached'});
-  await page.waitForFunction(()=>document.querySelector('.tle-morph-submit')?.dataset.state==='done',{timeout:9000});
-  assert.equal(await button.getAttribute('data-state'),'done',route+' verified success');
   assert((await page.locator('[aria-live="polite"]').allTextContents()).some(x=>/success|correctamente/i.test(x)),route+' aria-live');
   await page.waitForTimeout(1450);
   assert.equal(await page.locator(form).count(),0,route+' old form should yield to existing success confirmation');
