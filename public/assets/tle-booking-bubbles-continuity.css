@@ -1,0 +1,143 @@
+/* TLE public/email Booking Demo — cohesive light-blue bubble continuation.
+   Built from the approved v25/v1 blue bubble treatment, not old demo v49 effects.
+   Scoped to the unkeyed booking-demo-reset.html only. */
+:root {
+  --booking-bubbles-bg:#dff2fd;
+  --booking-bubbles-lighter:#f0faff;
+  --booking-bubbles-accent:#92c9e9;
+  --booking-bubbles-deep:#235b7d;
+  --booking-bubbles-ink:#18384c;
+}
+html {background:var(--booking-bubbles-bg);}
+body {
+  background-color:var(--booking-bubbles-bg);
+  background-image:
+    radial-gradient(circle at 8% 17%,rgba(255,255,255,.64) 0 92px,rgba(127,192,230,.24) 94px 96px,transparent 98px),
+    radial-gradient(circle at 94% 58%,rgba(247,253,255,.54) 0 82px,rgba(139,200,234,.27) 84px 87px,transparent 89px),
+    linear-gradient(160deg,#e4f5ff 0%,#d6edfa 55%,#e8f7ff 100%);
+  color:var(--booking-bubbles-ink);
+}
+body header {background-color:#e5f5ff;}
+body .booking-portal {background-color:#cfe8fa;}
+body>main#bookingPage {
+  background-color:transparent;
+  background-image:
+    radial-gradient(circle at 97% 12%,rgba(255,255,255,.36) 0 83px,rgba(109,188,228,.19) 85px 87px,transparent 89px),
+    radial-gradient(circle at 3% 74%,rgba(255,255,255,.28) 0 74px,rgba(143,210,240,.18) 76px 78px,transparent 80px);
+}
+body #bookingPage .flow {
+  background:#eef8ff;
+  border-color:#96c5e2;
+  box-shadow:0 16px 36px rgba(30,89,125,.1);
+}
+body #bookingPage .flow-header {
+  background:linear-gradient(135deg,#cfe9f9,#e4f5ff 70%,#d8edfa);
+  border-bottom-color:#aad5eb;
+}
+body #bookingPage .panel {background:#f1faff;}
+body #bookingPage .notice,
+body #bookingPage .intro,
+body #bookingPage .bottom-note {color:#365a71;}
+body #bookingPage .custom,
+body #bookingPage .booking-custom-invite {isolation:isolate;}
+body #bookingPage .booking-custom-overline {color:#235a79;}
+body #bookingPage .booking-custom-summary {color:#365e78;}
+body #bookingPage .custom {
+  overflow:hidden;
+  border-color:#79b9de;
+  background-image:linear-gradient(117deg,#d3edff 0%,#e7f7ff 58%,#c6e6fb 100%);
+  box-shadow:0 14px 33px rgba(33,97,136,.13);
+}
+body #bookingPage .custom::before,
+body #bookingPage .custom::after {
+  content:"";position:absolute;z-index:0;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.78);
+  background:radial-gradient(circle at 29% 25%,rgba(255,255,255,.42),rgba(210,240,253,.13) 70%,transparent 85%);
+  box-shadow:inset -8px -12px 24px rgba(87,163,205,.075);
+  pointer-events:none;opacity:.9;
+  animation:booking-bubble-drift 18s ease-in-out infinite alternate;
+}
+body #bookingPage .custom::before {width:144px;height:144px;right:20%;top:-58px;}
+body #bookingPage .custom::after {width:89px;height:89px;left:24%;bottom:-50px;animation-duration:22s;animation-delay:-8s;}
+body #bookingPage .custom .booking-custom-text,
+body #bookingPage .custom .booking-custom-arrow {position:relative;z-index:1;}
+body #bookingPage .custom .booking-custom-text small {color:#225c7a;}
+body #bookingPage .custom .booking-custom-text strong {color:#133b54;}
+body #bookingPage .custom .booking-custom-arrow {background:#d0ecfc;border:1.5px solid #75b5d8;color:#245a78;}
+body .booking-proof,body .booking-before-after {
+  background-color:#e2f3fd;
+  background-image:
+    radial-gradient(circle at 97% 12%,rgba(255,255,255,.45) 0 83px,rgba(131,196,233,.23) 85px 88px,transparent 90px),
+    radial-gradient(circle at 4% 81%,rgba(255,255,255,.5) 0 67px,rgba(141,204,237,.2) 69px 71px,transparent 73px),
+    linear-gradient(145deg,#ddf1ff,#eaf8ff 58%,#d8edfb);
+  color:#18384c;
+}
+body .booking-compare-card,body .booking-review {
+  background:#f4fbff;border-color:#93c5e3;box-shadow:0 10px 28px rgba(32,99,140,.09);
+}
+body footer {background:#dbf0fd;color:#305d78;border-top-color:#a6d1e7;}
+/* Restored standalone bubble chapter from the previous demo's 3-step experience. */
+.booking-bubble-story {
+  position:relative;isolation:isolate;overflow:hidden;
+  background:linear-gradient(145deg,#d2ebfb 0%,#e5f5ff 57%,#d0eafb 100%);
+  border-block:1px solid #aed6ec;
+  padding:clamp(52px,7vw,92px) 0;
+  color:#18384c;
+}
+.booking-bubble-story .shell {position:relative;z-index:2;width:min(1040px,calc(100% - 36px));}
+.booking-bubble-story .story-kicker {font-size:12px;line-height:1.4;letter-spacing:.15em;color:#295f80;font-weight:800;margin:0 0 13px;}
+.booking-bubble-story h2 {font-size:clamp(29px,4vw,49px);letter-spacing:-.05em;line-height:1.12;margin:0;max-width:730px;color:#193b53;}
+.booking-bubble-story .story-intro {margin:17px 0 29px;max-width:640px;font-size:clamp(14px,1.5vw,17px);line-height:1.66;color:#365e78;}
+.booking-bubble-steps {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(11px,2vw,20px);}
+.booking-bubble-step {
+  min-width:0;padding:clamp(18px,2.1vw,25px);
+  border:1.5px solid #a2cbe2;border-radius:24px;
+  background:rgba(250,254,255,.84);box-shadow:0 10px 26px rgba(37,97,130,.075);
+}
+.booking-bubble-step .story-step-number {display:grid;place-items:center;width:47px;height:47px;border-radius:50%;background:#c5e8fa;border:1px solid #8ac4e3;color:#20587a;font-size:15px;font-weight:800;}
+.booking-bubble-step h3 {font-size:clamp(17px,1.9vw,22px);line-height:1.25;margin:19px 0 9px;color:#173c53;}
+.booking-bubble-step p {font-size:14px;line-height:1.58;margin:0;color:#43677e;}
+.booking-bubble-story .story-action {
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:48px;margin-top:24px;padding:12px 23px;
+  background:#255e80;color:#fff;border:1px solid #255e80;
+  border-radius:999px;text-decoration:none;font-weight:800;font-size:14px;
+}
+.booking-bubble-story .story-action:focus-visible {outline:3px solid #0e3348;outline-offset:4px;}
+.booking-bubble-layer {position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;user-select:none;}
+.booking-bubble-layer span {
+  position:absolute;left:var(--bx);top:var(--by);
+  width:var(--bs);height:var(--bs);border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.75);
+  background:radial-gradient(circle at 28% 23%,rgba(255,255,255,.45) 0%,rgba(231,247,255,.24) 49%,rgba(140,204,237,.065) 76%,transparent 100%);
+  box-shadow:inset -8px -13px 25px rgba(73,150,190,.08),inset 5px 8px 16px rgba(255,255,255,.21),0 9px 30px rgba(65,140,183,.065);
+  opacity:var(--bo,.75);
+  animation:booking-bubble-drift var(--bd,19s) ease-in-out var(--delay,0s) infinite alternate;
+  transform:translate3d(0,0,0);
+}
+.booking-bubble-layer span:nth-child(1){--bx:-3%;--by:5%;--bs:168px;--bd:19s;--bo:.65;}
+.booking-bubble-layer span:nth-child(2){--bx:75%;--by:-18%;--bs:225px;--bd:25s;--bo:.61;--delay:-7s;}
+.booking-bubble-layer span:nth-child(3){--bx:45%;--by:56%;--bs:75px;--bd:16s;--bo:.84;--delay:-5s;}
+.booking-bubble-layer span:nth-child(4){--bx:92%;--by:68%;--bs:105px;--bd:22s;--bo:.68;--delay:-10s;}
+.booking-bubble-layer span:nth-child(5){--bx:34%;--by:2%;--bs:40px;--bd:17s;--bo:.76;--delay:-2s;}
+.booking-bubble-layer span:nth-child(6){--bx:12%;--by:83%;--bs:57px;--bd:21s;--bo:.81;--delay:-9s;}
+.booking-bubble-layer span:nth-child(7){--bx:64%;--by:32%;--bs:29px;--bd:15s;--bo:.7;--delay:-11s;}
+@keyframes booking-bubble-drift {
+  from{transform:translate3d(-7px,9px,0) scale(.96);}
+  to{transform:translate3d(11px,-16px,0) scale(1.045);}
+}
+@media(max-width:760px){
+ .booking-bubble-steps{grid-template-columns:1fr;gap:12px;}
+ .booking-bubble-step{padding:19px 20px;border-radius:19px;}
+ .booking-bubble-step h3{margin:12px 0 8px;}
+ .booking-bubble-story .shell{width:calc(100% - 32px);}
+ .booking-bubble-layer span:nth-child(2){--bs:145px;--bx:81%;--by:7%;}
+ .booking-bubble-layer span:nth-child(1){--bs:94px;}
+ .booking-bubble-layer span:nth-child(3){--bx:79%;--by:69%;--bs:68px;}
+ .booking-bubble-layer span:nth-child(4){--bs:72px;--bx:-6%;--by:55%;}
+ body #bookingPage .custom::before{width:108px;height:108px;right:15%;top:-25px;}
+ body #bookingPage .custom::after{width:65px;height:65px;left:25%;bottom:-32px;}
+}
+@media(prefers-reduced-motion:reduce){
+ .booking-bubble-layer span,body #bookingPage .custom::before,body #bookingPage .custom::after{animation:none!important;transform:none!important;}
+}
