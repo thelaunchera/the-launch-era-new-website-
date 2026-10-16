@@ -6,6 +6,7 @@ on:
       - 'public/assets/tle-demo-editorial-v48.css'
       - 'public/assets/tle-demo-editorial-v48.js'
       - 'scripts/qa-demo-editorial-v48.mjs'
+      - 'scripts/qa-demo-v49-safety.mjs'
       - '.github/workflows/demo-editorial-v48-pr-qa.yml'
   workflow_dispatch:
 permissions:
@@ -23,6 +24,7 @@ jobs:
         run: |
           node --check public/assets/tle-demo-editorial-v48.js
           node --check scripts/qa-demo-editorial-v48.mjs
+          node --check scripts/qa-demo-v49-safety.mjs
           node scripts/qa-route-integrity.mjs --static
           node scripts/qa-public-demo-integrity.mjs
       - name: Prepare optimized local Drive photography
@@ -54,10 +56,13 @@ jobs:
             sleep 2
           done
           QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-v48-browser/node_modules/playwright/index.mjs node scripts/qa-demo-editorial-v48.mjs
+          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-v48-browser/node_modules/playwright/index.mjs node scripts/qa-demo-v49-safety.mjs
       - name: Save review screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: tle-booking-demo-v48-phone-tablet-desktop
-          path: qa-screenshots/demo-v48/
+          path: |
+            qa-screenshots/demo-v48/
+            qa-screenshots/demo-v49-guard/
           if-no-files-found: ignore
