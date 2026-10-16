@@ -1,3 +1,52 @@
+/* Reattach the three previously approved body>main & sibling section styles
+   to their new demo-only wrapper. This preserves 12px mobile gutters and blue bubbles. */
+body .tle-demo-curtain-page>main#bookingPage{
+ width:min(1180px,calc(100% - 44px));
+ padding:clamp(38px,5.8vw,76px) 0 clamp(62px,7vw,98px);
+ background-color:transparent;
+ background-image:
+  radial-gradient(circle at 89% 8%,rgba(255,255,255,.63) 0 70px,rgba(144,204,236,.29) 72px 74px,transparent 76px),
+  radial-gradient(circle at 8% 39%,rgba(251,254,255,.47) 0 87px,rgba(172,222,247,.24) 89px 91px,transparent 93px),
+  radial-gradient(circle at 86% 81%,rgba(239,251,255,.61) 0 52px,rgba(255,255,255,.74) 54px 56px,transparent 58px);
+}
+body .tle-demo-curtain-page>main#bookingPage .disclaimer{
+ border-color:#b1d6ea;background:#e1f2fc;border-radius:999px;color:#214f68;
+}
+body .tle-demo-curtain-page>main#bookingPage .lead-context{
+ background:#e5f4fc;border:1.5px solid var(--tle-demo-outline);border-radius:22px;
+}
+body .tle-demo-curtain-page>main#bookingPage .flow{
+ background:#f8fcff;border:1.5px solid #a9cde1;border-radius:29px;
+ box-shadow:0 16px 42px rgba(36,91,121,.085);overflow:hidden;
+}
+body .tle-demo-curtain-page>main#bookingPage .flow-header{
+ background:linear-gradient(120deg,#d9edf9,#f0f9fe);
+ border-bottom:1px solid #bedbec;
+}
+body .tle-demo-curtain-page>main#bookingPage .panel{background:#f8fcff}
+body .tle-demo-curtain-page>.booking-before-after{
+ border-top:1px solid #bfdfef;
+ background-color:#e0f2fc;
+ background-image:
+  radial-gradient(circle at 88% 12%,rgba(255,255,255,.7) 0 65px,rgba(134,197,236,.3) 67px 69px,transparent 71px),
+  linear-gradient(150deg,#ddf1fd,#eaf8ff 62%,#d5edfc);
+}
+body .tle-demo-curtain-page>.booking-proof{
+ border-top:1px solid #bddcec;
+ background-color:#e1f3ff;
+ background-image:
+  radial-gradient(circle at 97% 14%,rgba(255,255,255,.45) 0 83px,rgba(131,196,233,.23) 85px 88px,transparent 90px),
+  linear-gradient(145deg,#ddf1ff,#eaf8ff 58%,#d8edfb);
+}
+@media(max-width:540px){
+ body .tle-demo-curtain-page>main#bookingPage{
+  width:calc(100% - 24px);padding-top:39px;
+ }
+ body .tle-demo-curtain-page>main#bookingPage .flow{border-radius:25px}
+ body .tle-demo-curtain-page>main#bookingPage .flow-header{padding:21px 19px}
+ body .tle-demo-curtain-page>main#bookingPage .panel{padding:15px 13px 23px}
+}
+
 /* The Launch Era: public Booking Demo only. Static/paid website footers are untouched.
    The demo's content lifts to reveal the footer. No JS scroll handlers. */
 :root{--tle-demo-curtain-height:clamp(390px,55svh,640px)}
