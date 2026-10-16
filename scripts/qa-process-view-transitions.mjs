@@ -37,4 +37,20 @@ for (const text of [
   '.tle-process-detail-hero', '.tle-process-card:focus-visible',
   'prefers-reduced-motion: reduce', '@media (max-width: 767px)'
 ]) assert(styles.includes(text), 'Missing visual, responsive or reduced motion rule: ' + text);
+// The three steps must tell a real, distinct visual story using existing
+// first-party Booking + Command Center photos, not generic enlarged icons.
+const expectedPhotos = [
+  '/assets/bundle-landing/bundle-booking.png',
+  '/assets/bundle-landing/bundle-hero.png',
+  '/assets/bundle-landing/bundle-command.png'
+];
+assert.equal(new Set(expectedPhotos).size, 3, 'Each step needs a different photo');
+for (const photo of expectedPhotos) {
+  assert(component.includes(photo), 'Missing context photo: ' + photo);
+  assert(read('public' + photo).length > 1000, 'Photo file absent or empty: ' + photo);
+}
+assert(component.includes('className="tle-process-detail-photo"'), 'Dialog must render a real photo');
+assert(component.includes('alt={stepPhotos[active].alt[lang]}'), 'Photo alt text must be bilingual');
+assert(styles.includes('object-fit: cover'), 'Photos should crop without distortion');
+assert(!component.includes('tle-process-detail-art'), 'Old oversized icon should not return');
 console.log('[PROCESS TRANSITIONS QA PASSED] EN/ES cards open an accessible, responsive, reduced-motion-safe shared-element detail; contact forms are preserved.');
