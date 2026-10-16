@@ -28,7 +28,7 @@ function init(){
  const easing="cubic-bezier(0.32, 0.72, 0, 1)";
  let active=pages.find(p=>p.classList.contains("on"))||byId.get("main");
  let stack=[{id:active.id,title:title.textContent,count:count.textContent}];
- let busy=false,queued=null,swipe=null,skip=false;
+ let busy=false,finishActive=null,swipe=null,skip=false;
  const sh=p=>p.querySelector(":scope > .tle-stack-shade");
  const height=p=>Math.ceil(p.scrollHeight||p.getBoundingClientRect().height||1);
  const size=(a,b)=>stage.style.height=Math.max(height(a),b?height(b):0,1)+"px";
@@ -55,7 +55,7 @@ function init(){
  };
  function navigate(id,label,step){
    const next=byId.get(id);if(!next)return false;
-   if(busy){queued={id,label,step};return true}
+   if(busy&&finishActive)finishActive();
    const found=stack.findIndex(item=>item.id===id);
    const goingBack=found>=0&&found<stack.length-1;
    const newStack=goingBack?stack.slice(0,found+1):found===stack.length-1?stack:[...stack,{id,title:label,count:step}];
@@ -89,11 +89,12 @@ function init(){
        next.style.transform="translate3d(0,0,0)";
      }
    });
-   setTimeout(()=>{
-     busy=false;stack=newStack;settle(next);focus();
-     const todo=queued;queued=null;
-     if(todo)navigate(todo.id,todo.label,todo.step);
-   },duration+55);
+   const finish=()=>{
+     if(finishActive!==finish)return;
+     busy=false;finishActive=null;stack=newStack;settle(next);focus();
+   };
+   finishActive=finish;
+   setTimeout(finish,duration+55);
    try{panel.scrollIntoView({block:"start",behavior:"instant"})}catch{}
    return true;
  }
