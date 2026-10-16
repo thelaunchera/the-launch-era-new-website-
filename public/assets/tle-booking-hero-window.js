@@ -32,16 +32,16 @@
     // Centered lens: scale from 1 to viewport-width / lens-width, capped to
     // prevent pathological zoom on very narrow screens.
     const target=Math.min(limited.matches?3.1:4,stage.clientWidth/Math.max(1,lens.offsetWidth));
-    const t=clamp((p-.05)/.78);
+    const t=clamp((p-.05)/.60);
     const smooth=t*t*(3-2*t);
     const scale=1+(target-1)*smooth;
-    const fade=1-clamp((p-.70)/.16);
-    const caption=clamp((p-.72)/.18);
+    const fade=1-clamp((p-.55)/.13);
+    const caption=clamp((p-.59)/.13);
     hero.style.setProperty('--hero-zoom',scale.toFixed(4));
     hero.style.setProperty('--hero-progress',p.toFixed(4));
     hero.style.setProperty('--hero-front-opacity',fade.toFixed(3));
     hero.style.setProperty('--hero-caption',caption.toFixed(3));
-    const complete=p>.85;
+    const complete=p>.70;
     hero.classList.toggle('is-complete',complete);
     // Avoid a sticky, invisible front layer blocking final calls to action.
     front.style.pointerEvents=complete?'none':'none';
@@ -57,7 +57,7 @@
       document.getElementById('bookingPage')?.scrollIntoView({behavior:'auto'});
       return;
     }
-    const pageEnd=window.scrollY+hero.getBoundingClientRect().top+Math.max(0,hero.offsetHeight-stage.clientHeight);
+    const pageEnd=window.scrollY+hero.getBoundingClientRect().top+Math.max(0,hero.offsetHeight-stage.clientHeight)*.80;
     window.scrollTo({top:pageEnd,behavior:'smooth'});
   }
   lens.addEventListener('click',advance);
@@ -100,6 +100,7 @@
       document.querySelectorAll('[data-hero-i18n="'+key+'"]').forEach(node=>node.textContent=value);
     }
     document.getElementById('tleBookingHeadline')?.setAttribute('aria-label',copy.heading+' '+copy.new+'.');
+    hero.style.setProperty('--old-ratio',copy===labels.es?'43%':'58%');
     document.getElementById('tleWindowEnter')?.setAttribute('aria-label',copy.enter);
   }
   document.getElementById('language')?.addEventListener('change',updateCopy);
