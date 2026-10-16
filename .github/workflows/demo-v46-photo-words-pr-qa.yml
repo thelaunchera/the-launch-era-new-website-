@@ -3,7 +3,7 @@ on:
   pull_request:
     paths:
       - 'public/assets/tle-demo-photo-words-v46.js'
-      - 'scripts/qa-demo-natural-v45.mjs'
+      - 'scripts/qa-demo-photo-words-v46.mjs'
       - '.github/workflows/demo-v46-photo-words-pr-qa.yml'
   workflow_dispatch:
 permissions:
@@ -20,7 +20,7 @@ jobs:
       - name: Verify sample code and build
         run: |
           node --check public/assets/tle-demo-photo-words-v46.js
-          node --check scripts/qa-demo-natural-v45.mjs
+          node --check scripts/qa-demo-photo-words-v46.mjs
           node scripts/qa-public-demo-integrity.mjs
           bun install
           bun run build
@@ -38,4 +38,4 @@ jobs:
             if curl -sf http://127.0.0.1:4173/lead-private-preview.html >/dev/null; then break; fi
             sleep 2
           done
-          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-v46-pr-pw/node_modules/playwright/index.mjs node scripts/qa-demo-natural-v45.mjs
+          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-v46-pr-pw/node_modules/playwright/index.mjs node scripts/qa-demo-photo-words-v46.mjs
