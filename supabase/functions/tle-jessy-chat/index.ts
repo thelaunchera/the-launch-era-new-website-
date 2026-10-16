@@ -420,6 +420,7 @@ Deno.serve(async(req)=>{
  if(wantsCheckoutNow(message,history,prior)){
   const chosen=row&&id!=="whatsapp"?id:(serviceIds.has(prior)?prior:"");
   let target=chosen==="booking"?"/service-checkout/?offer=booking-flow":chosen==="cleaning-app"?null:chosen?catalog.find(x=>x[0]===chosen)?.[6]||null:null;
+  if(chosen!=="cleaning-app"&&/(?:booking.{0,32}(?:with|con|\+|y).{0,22}(?:ai|ia|assistant|asistente)|booking.{0,24}follow.?up)/i.test(message))target="/booking-bundle/?lang="+lang+"#choose-plan";
   if(target?.startsWith("/service-checkout/")&&!target.includes("lang="))target+="&lang="+lang;
   if(!chosen||chosen==="whatsapp")return response({reply:lang==="es"?"Elige el servicio que quieres comprar.":"Which service would you like to buy?",selected_offer:"",next_action:"service_choices",checkout:null,mode:"purchase_select"},200,origin);
   if(chosen==="cleaning-app")return response({reply:lang==="es"?"Comienza tu prueba gratuita de la Cleaning App, sin pagar aquí.":"Start your Cleaning App free trial—no payment needed here.",selected_offer:chosen,next_action:"trial",trial:"https://app.thelaunchera.com/?entry=signup",checkout:null,mode:"purchase_trial"},200,origin);
