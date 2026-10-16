@@ -139,6 +139,7 @@
   }
 </style>
 <link rel="stylesheet" href="/assets/tle-demo-hero-portal.css?v=20261016-portal1">
+<link rel="stylesheet" href="/assets/tle-booking-month-wheel.css?v=20261016-wheel1">
 </head>
 <body>
 <header>
@@ -347,6 +348,7 @@
       ['Email',$('customerEmail').value.trim()],
       [copy.location,$('customerZip').value.trim()],
       [copy.date,$('preferredDate').value],
+      [lang==='es'?'Hora preferida':'Preferred time', $('tlePreferredTime')?.value||'Flexible'],
       [copy.frequency,kind==='residential'&&!custom?frequency:copy.other],
       [copy.estimate,selected.price?'$'+selected.price+'*':copy.quote],
       [copy.details,$('notes').value.trim()||copy.none]
@@ -382,6 +384,7 @@
 })();
 </script>
 <script src="/assets/tle-demo-reset-lead-magnet.js?v=20261016-clean2"></script>
+<script src="/assets/tle-booking-month-wheel.js?v=20261016-wheel1" defer></script>
 <script src="/assets/tle-demo-hero-portal.js?v=20261016-portal1" defer></script>
 </body>
 </html>
