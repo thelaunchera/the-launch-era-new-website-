@@ -100,7 +100,7 @@ try{
   assert.equal(libraries.Flip,"function","GSAP Flip getState must load");
   await normal.locator("#leadHero .tle46-thumb-slot").first().click();
   await normal.waitForTimeout(1100);
-  assert.match(await normal.locator("#leadHero .tle46-caption").innerText(),/whole-home/i);
+  assert.match(await normal.locator("#leadHero .tle47-hero-phrase").innerText(),/More room/i);
   console.log("PASS v46 GSAP Flip normal motion");
  }catch(e){errors.push("GSAP motion: "+e.message)}
  finally{await normal.close()}
