@@ -1,0 +1,41 @@
+name: Homepage Hydration Stability QA
+on:
+  pull_request:
+    paths:
+      - 'src/routes/__root.tsx'
+      - 'scripts/qa-jessy-coverage.mjs'
+      - 'scripts/qa-home-hydration-stress.mjs'
+      - '.github/workflows/home-hydration-stability-qa.yml'
+  workflow_dispatch:
+jobs:
+  safe-hydration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-jessy-coverage.mjs
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+      - name: Install Chromium
+        run: |
+          mkdir -p /tmp/tle-hydration-stability
+          cd /tmp/tle-hydration-stability
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          ln -sfn /tmp/tle-hydration-stability/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-hydration-stability/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: Test 16 fresh EN/ES mobile tablet and desktop loads
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-hydration-stability-server.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for n in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-home-hydration-stress.mjs
