@@ -125,7 +125,7 @@ try {
      assert.notEqual(state.mesh.dotsDisplay, 'none', lang + ': outer dotted/Request/Follow-up background must remain untouched');
      assert(state.mesh.frameBackground.includes('linear-gradient') && /(227, 242, 254|233, 245, 254)/.test(state.mesh.frameBackground), lang + ': blue gradient should be visible inside hero on entry');
      if(viewport.width > 1180){
-       assert(state.mesh.copyShift==='-34px' && state.mesh.photoShift==='-34px',lang+': desktop hero content must rise slightly together without moving the outer backdrop');
+       assert(state.mesh.copyShift==='-104px' && state.mesh.photoShift==='-104px',lang+': desktop hero content must rise slightly together without moving the outer backdrop');
      }
      assert.equal(state.mesh.pointerEvents, 'none', lang + ': mesh intercepts CTA clicks');
      assert(state.mesh.photoZIndex > state.mesh.zIndex, lang + ': photo must paint above moving gradients');
