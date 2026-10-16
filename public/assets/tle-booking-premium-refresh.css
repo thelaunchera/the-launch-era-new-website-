@@ -15,7 +15,7 @@ body>.booking-proof,
 body>.booking-before-after{isolation:isolate}
 body>main.shell{width:min(1180px,calc(100% - 44px));padding:clamp(38px,5.8vw,76px) 0 clamp(62px,7vw,98px)}
 body header{background:#f5fbfe;border-color:#c5e0ef}
-body .booking-portal{height:156svh;background:#d4eaf7}
+body .booking-portal{height:205svh;background:#d4eaf7}
 body .booking-portal-scene img.booking-portal-picture{filter:saturate(1.06) contrast(1.055)}
 body .booking-portal-front::after{background:linear-gradient(180deg,rgba(9,29,45,.05) 0%,rgba(9,29,45,.06) 42%,rgba(8,33,51,.52) 100%)}
 body .booking-portal-back::after{background:linear-gradient(95deg,rgba(228,244,253,.79) 0%,rgba(228,244,253,.72) 36%,rgba(227,242,250,.29) 77%,rgba(227,242,250,.08) 100%)}
@@ -94,14 +94,14 @@ body .sonny:has(.sonny-body:not([hidden])) #sonnyToggle{display:flex;justify-con
 body .sonny:has(.sonny-body:not([hidden])) #sonnyToggle::before{content:none}
 body .sonny:has(.sonny-body:not([hidden])) .sonny-body{background:#f9fcff}
 @media(max-width:800px){
- body .booking-portal{height:148svh}
+ body .booking-portal{height:205svh}
  body .booking-portal-back::after{background:linear-gradient(95deg,rgba(228,244,253,.83),rgba(228,244,253,.48) 68%,rgba(228,244,253,.12))}
  body .booking-portal-window{width:min(65vw,355px);border-width:5px}
 }
 @media(max-width:540px){
  body>main.shell{width:calc(100% - 24px);padding-top:39px}
  body .booking-proof .shell,body .booking-before-after .shell{width:calc(100% - 24px)}
- body .booking-portal{height:146svh}
+ body .booking-portal{height:205svh}
  body .booking-portal-back::after{background:linear-gradient(180deg,rgba(232,247,255,.05) 0%,rgba(230,245,253,.44) 34%,rgba(228,244,252,.77) 68%,rgba(228,244,252,.88) 100%)}
  body .booking-portal-window{top:41%;width:75vw;height:min(30vh,252px);min-height:182px;border-width:4px;border-radius:21px}
  body .booking-portal-copy{left:clamp(14px,4vw,22px);right:clamp(14px,4vw,22px);bottom:clamp(76px,13vh,114px)}
