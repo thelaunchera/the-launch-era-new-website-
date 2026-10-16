@@ -62,6 +62,10 @@ try{
   await reduced.goto(origin+path+'#qa-split-check',{waitUntil:'domcontentloaded',timeout:45000});
   const link=reduced.locator('.hero-scroll-reveal a.tle-hero-split-link');
   await link.waitFor({state:'visible'});
+  await reduced.waitForFunction(()=>{
+    const el=document.querySelector('.hero-scroll-reveal .tle-hero-split-upper');
+    return Boolean(el?.isConnected && getComputedStyle(el).transitionDuration === '0s');
+  },null,{timeout:10000});
   const reducedMotion=await link.locator('.tle-hero-split-upper').evaluate(el=>getComputedStyle(el).transitionDuration);
   assert.equal(reducedMotion,'0s',lang+': prefers-reduced-motion must disable sliding transition');
   await link.click();
