@@ -41,7 +41,7 @@ for(const item of cases){
    if(item.type==='demo'){
     assert(out.sampleMode,'Public sample did not enter demo mode');
     assert(out.formPresent,'Sample booking UI missing');
-    assert.equal(out.bg,'rgb(215, 239, 255)','Demo CTA is not Butter/Soft Blue '+JSON.stringify(out));
+    assert.equal(out.bg,'rgb(169, 223, 255)','Demo CTA is not the approved current Soft Blue '+JSON.stringify(out));
    }else{
     assert(out.brandStyles,'Unified marketing stylesheet absent');
     assert.equal(out.linkCount,0,'Repeated Get in Touch remains in footer');
