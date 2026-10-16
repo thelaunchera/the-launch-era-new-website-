@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-16 | Screenshot: requested a premium integrations-style converging dot/link motion in the Booking Automation section, above its Command Center preview | Old illustration was a wide pannable five-note dotted whiteboard and did not communicate centralization in mobile layout | Six stationary blue internal-function tiles around private Command Center, 700ms path drawing/1100ms inward dots/450ms stagger/arrival ripple, responsive/localized and reduced-motion-safe, NO invented third-party integrations, tracking, customer writes, pricing changes or conflicts with merged flip-card feature | 🟡 New branch reconciled with latest main; CI/deploy pending |
+
+
 | 2026-10-16 | Owner wants premium 900px/760ms flip transitions on marketing service cards AND six public Booking Demo cards, while preserving clean service photos after removal of floating checkboxes. | Marketing uses React `ServiceCard` EN/ES; Booking Demo is isolated HTML with a front button that previously auto-advanced on click. These cannot be replaced with a single nested interactive button. | New EN/ES accessible React flip wrapper and separate scoped HTML two-face demo wrappers. The flipped back contains real links or a deliberate sample Continue button, inert hidden controls, Escape/keyboard, reduced motion and EN/ES translations. Updated read-only browser tests. | 🟡 Staged for CI and GitHub Pages verify; no active tenant mutations |
 
 
