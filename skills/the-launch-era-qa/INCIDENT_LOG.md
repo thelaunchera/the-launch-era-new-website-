@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-16 | Owner wants premium 900px/760ms flip transitions on marketing service cards AND six public Booking Demo cards, while preserving clean service photos after removal of floating checkboxes. | Marketing uses React `ServiceCard` EN/ES; Booking Demo is isolated HTML with a front button that previously auto-advanced on click. These cannot be replaced with a single nested interactive button. | New EN/ES accessible React flip wrapper and separate scoped HTML two-face demo wrappers. The flipped back contains real links or a deliberate sample Continue button, inert hidden controls, Escape/keyboard, reduced motion and EN/ES translations. Updated read-only browser tests. | 🟡 Staged for CI and GitHub Pages verify; no active tenant mutations |
+
+
 | 2026-10-16 | Owner iPhone screenshot: giant empty blue-outline checkbox squares obstruct service photographs. They were intended for the form data step, not service gallery. | `booking-demo-reset.html` inserted six `.service-photo-check` spans under image media; late-loaded `tle-booking-bubbles-continuity.css` rendered squares regardless of selected state. Existing Step 2 already had single-choice radio chips. | Remove image overlays entirely; preserve full-card tap-to-advance; add genuinely optional residential checkbox choices inside details, with labels EN/ES, preview review and demo-only sample notes. No added charges, actual booking submissions or protected client routes; QA image count/optional checks/hand-off and mobile widths. | 🟡 Staged PR; awaiting GitHub checks, Pages deploy and iPhone confirmation |
 
 
