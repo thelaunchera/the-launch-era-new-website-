@@ -161,7 +161,7 @@ function RootShell({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
-        <script src="/assets/jessy-site.js?v=20261015-whatsapp-clarity-v6" defer />
+        <script src="/assets/jessy-site.js?v=20261016-recovery-v1" defer />
         <script src="/assets/tle-purchase-proof.js?v=20261016-1" defer />
         <Scripts />
       </body>
