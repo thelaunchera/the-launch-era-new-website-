@@ -42,7 +42,8 @@ try{
   await card.click();
   if(!(await page.locator('#res.on').isVisible()))await card.click();
   await page.locator('#res.on').waitFor({state:'visible',timeout:9000});
-  assert.equal(await page.locator('#res .tle50-day').count(),5,'Five readable date chips');\n  assert.equal(await page.locator('#res #tle-v42-picker-date').isVisible(),false,'Legacy calendar is not duplicated below new picker');
+  assert.equal(await page.locator('#res .tle50-day').count(),5,'Five readable date chips');
+  assert.equal(await page.locator('#res #tle-v42-picker-date').isVisible(),false,'Legacy calendar is not duplicated below new picker');
   assert.equal(await page.locator('#res .tle50-time').count(),3,'Preserve the three actual native sample time choices');
   assert.equal(await page.locator('#res .tle50-days[role=radiogroup]').count(),1);
   assert.equal(await page.locator('#res .tle50-slots[role=radiogroup]').count(),1);
@@ -71,7 +72,8 @@ try{
   await page.locator('#tle50Overlay').waitFor({state:'hidden',timeout:1600});
   assert.equal(await bar.isEnabled(),true,'Cancel preserves selection for deliberate retry');
   await bar.click();
-  if(width<=390)await page.screenshot({path:'qa-screenshots/demo-v50/'+language+'-'+width+'-sheet.png'});\n  await page.locator('#tle50Overlay .tle50-confirm').click();
+  if(width<=390)await page.screenshot({path:'qa-screenshots/demo-v50/'+language+'-'+width+'-sheet.png'});
+  await page.locator('#tle50Overlay .tle50-confirm').click();
   await page.locator('#tle50Overlay').waitFor({state:'hidden',timeout:2900});
   assert.equal(await page.locator('#res .tle50-status').textContent(),language==='es'?'Continúa con tus datos de contacto':'Continue with your contact details');
   assert.equal(await page.locator('#res.on').count(),1,'Stay in original residential form');
