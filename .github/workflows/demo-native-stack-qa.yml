@@ -1,13 +1,8 @@
 name: Native Service Stack QA
+# Retired automatic visual regression: old animated sample v6-v49 no longer
+# represents the clean PUBLIC demo. Kept for explicit legacy reference only.
+# The live baseline is checked by booking-demo-clean-reset-qa.yml.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'public/lead-private-preview.html'
-      - 'public/assets/tle-demo-stack-nav-v38.js'
-      - 'public/assets/tle-demo-stack-nav-v38.css'
-      - 'scripts/qa-demo-stack-nav-v38.mjs'
-      - '.github/workflows/demo-native-stack-qa.yml'
   workflow_dispatch:
 permissions:
   contents: read
