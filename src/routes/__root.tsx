@@ -106,7 +106,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
       { rel: "stylesheet", href: "/assets/tle-brand.css?v=20261012" },
       { rel: "stylesheet", href: "/assets/tle-saas-ui-v1.css?v=20261013-1" },
-      { rel: "stylesheet", href: "/assets/tle-hero-scroll.css?v=20261016-1" },
+      { rel: "stylesheet", href: "/assets/tle-hero-scroll.css?v=20261016-2" },
       { rel: "stylesheet", href: "/assets/tle-marketing-cta-motion.css?v=20261016-3" },
       { rel: "stylesheet", href: "/assets/tle-pricing-motion.css?v=20261016-2" },
       { rel: "stylesheet", href: "/assets/tle-services-color-shift.css?v=20261016-1" },
