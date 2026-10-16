@@ -12,6 +12,6 @@ export function MarketingCTA({children,className='',href,...attrs}:MarketingCTAP
   return <span className="tle-cta-pulse-shell">
     <span className="tle-cta-pulse-ring" aria-hidden="true"/>
     <span className="tle-cta-pulse-ring" aria-hidden="true"/>
-    <a {...attrs} href={href} className={`${className} tle-cta-pulse-button`.trim()}>{children}</a>
+    <a {...attrs} href={href} className={`${className} tle-cta-pulse-button`.trim()}><span className="tle-cta-text">{children}</span></a>
   </span>;
 }
