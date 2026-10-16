@@ -113,12 +113,12 @@ html.demo-editorial.tle-demo-v42 #leadHero .demo-cb-hero-media,
 html.demo-editorial.tle-demo-v42 #leadHero .heroText{transition:transform 1350ms cubic-bezier(.6,0,.3,1),opacity .5s ease!important;transform-origin:64% 35%!important}
 html.demo-editorial.tle-demo-v42 #leadHero.tle-v42-travel .demo-cb-hero-media{transform:scale(3.4)!important;opacity:0!important;transition:transform 1350ms cubic-bezier(.6,0,.3,1),opacity .3s 1s ease!important}
 html.demo-editorial.tle-demo-v42 #leadHero.tle-v42-travel .heroText{transform:scale(1.2)!important;opacity:0!important;transition:transform 1150ms cubic-bezier(.6,0,.3,1),opacity .4s .45s ease!important}
-html.demo-editorial.tle-demo-v42 #leadHero.tle-v42-travel .tle-v42-window{transform:translate(-50%,-50%) scale(5);opacity:0;transition:transform 1450ms cubic-bezier(.6,0,.3,1),opacity .4s 1s ease}
+html.demo-editorial.tle-demo-v42 #leadHero.tle-v42-travel .tle-v42-window{transform:translate(-50%,-50%) scale(var(--tle-v42-zoom,5));opacity:0;transition:transform 1450ms cubic-bezier(.6,0,.3,1),opacity .4s 1s ease}
 html.demo-editorial.tle-demo-v42 #leadHero.tle-v42-travel .tle-v42-second-scene{opacity:1;transition-delay:.8s}
 html.demo-editorial.tle-demo-v42 #leadHero.tle-v42-travel .tle-v42-second-scene h2{transform:translateY(0);transition-delay:1s}
 @media(max-width:767px){html.demo-editorial.tle-demo-v42 #leadHero .tle-v42-window{left:50%;top:29%;width:clamp(126px,42vw,174px);height:125px}
  html.demo-editorial.tle-demo-v42 #leadHero .demo-cb-hero-media,html.demo-editorial.tle-demo-v42 #leadHero .heroText{transform-origin:50% 29%!important}
- html.demo-editorial.tle-demo-v42 #leadHero.tle-v42-travel .tle-v42-window{transform:translate(-50%,-50%) scale(5)}
+ html.demo-editorial.tle-demo-v42 #leadHero.tle-v42-travel .tle-v42-window{transform:translate(-50%,-50%) scale(var(--tle-v42-zoom,5))}
 }
 @media(prefers-reduced-motion:reduce){html.demo-editorial.tle-demo-v42 #leadHero :is(.tle-v42-window,.tle-v42-second-scene,.demo-cb-hero-media,.heroText,.tle-v42-second-scene h2),html.demo-editorial.tle-demo-v42 #bookingStarter .tle-v42-cal-grid button{transition:none!important;animation:none!important}html.demo-editorial.tle-demo-v42 #leadHero.tle-v42-travel :is(.demo-cb-hero-media,.heroText){transform:none!important}}
 
