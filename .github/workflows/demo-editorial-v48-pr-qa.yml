@@ -1,0 +1,53 @@
+name: Booking Demo Editorial v48 Preview QA
+on:
+  pull_request:
+    paths:
+      - 'public/lead-private-preview.html'
+      - 'public/assets/tle-demo-editorial-v48.css'
+      - 'public/assets/tle-demo-editorial-v48.js'
+      - 'scripts/qa-demo-editorial-v48.mjs'
+      - '.github/workflows/demo-editorial-v48-pr-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser-and-isolation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Check JS, routes and existing demo protections
+        run: |
+          node --check public/assets/tle-demo-editorial-v48.js
+          node --check scripts/qa-demo-editorial-v48.mjs
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-public-demo-integrity.mjs
+      - name: Build isolated preview (no production deploy)
+        run: |
+          bun install --frozen-lockfile
+          bun run build
+      - name: Install browser for visual QA
+        run: |
+          mkdir -p /tmp/tle-v48-browser
+          cd /tmp/tle-v48-browser
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+      - name: Test six EN/ES phone tablet desktop views and client isolation
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-v48-browser.log 2>&1 &
+          for n in $(seq 1 45); do
+            if curl -sf http://127.0.0.1:4173/lead-private-preview.html >/dev/null; then break; fi
+            sleep 2
+          done
+          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-v48-browser/node_modules/playwright/index.mjs node scripts/qa-demo-editorial-v48.mjs
+      - name: Save review screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tle-booking-demo-v48-phone-tablet-desktop
+          path: qa-screenshots/demo-v48/
+          if-no-files-found: ignore
