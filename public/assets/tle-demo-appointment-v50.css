@@ -116,6 +116,9 @@ html.demo-editorial.tle-demo-v50 body .tle50-dialog{
 html.demo-editorial.tle-demo-v50 body .tle50-overlay.is-open .tle50-scrim{opacity:1}
 html.demo-editorial.tle-demo-v50 body .tle50-overlay.is-open .tle50-dialog{transform:translateY(0)}
 html.demo-editorial.tle-demo-v50 body.tle50-sheet-open{overflow:hidden!important}
+/* Avoid a second floating layer obscuring the sheet's Cancel action. */
+html.demo-editorial.tle-demo-v50 body.tle50-sheet-open .tle-ai-launch,
+html.demo-editorial.tle-demo-v50 body.tle50-sheet-open #tleSonnyGreetingPopup{visibility:hidden!important;pointer-events:none!important}
 html.demo-editorial.tle-demo-v50 body .tle50-grab{width:44px;height:5px;background:#d9e5eb;border-radius:30px;margin:0 auto 20px}
 html.demo-editorial.tle-demo-v50 body .tle50-close{
  position:absolute;right:17px;top:12px;display:grid;place-items:center;
