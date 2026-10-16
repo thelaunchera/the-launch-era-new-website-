@@ -16,7 +16,7 @@ const routeFiles=[
 for(const p of routeFiles){
  const s=read(p);
  assert(s.includes('MarketingCTA'),p+': missing marketing action');
- assert.equal((s.match(/<MarketingCTA/g)||[]).length,(s.match(/<\\/MarketingCTA>/g)||[]).length,p+': unbalanced CTA tags');
+ assert.equal((s.match(/<MarketingCTA/g)||[]).length,s.split('</MarketingCTA>').length-1,p+': unbalanced CTA tags');
 }
 assert(root.includes('tle-marketing-cta-motion.css'), 'missing scoped marketing stylesheet');
 assert(css.includes('animation:tle-cta-quiet-pulse 2.8s cubic-bezier(.32,.72,0,1) infinite'));
