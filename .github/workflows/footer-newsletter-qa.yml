@@ -10,6 +10,7 @@ on:
       - 'supabase/functions/tle-newsletter-subscribe/index.ts'
       - 'supabase/migrations/20261016_tle_website_footer_newsletter_subscribers.sql'
       - 'scripts/qa-footer-newsletter.mjs'
+      - 'scripts/qa-footer-newsletter-interaction.mjs'
   workflow_dispatch:
 
 jobs:
@@ -22,3 +23,4 @@ jobs:
           node-version: '22'
       - run: node --check public/assets/tle-footer-newsletter.js
       - run: node scripts/qa-footer-newsletter.mjs
+      - run: node scripts/qa-footer-newsletter-interaction.mjs
