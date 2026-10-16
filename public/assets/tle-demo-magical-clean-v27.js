@@ -31,4 +31,13 @@ if(!mount()){
  const observer=new MutationObserver(()=>{if(mount())observer.disconnect()});
  observer.observe(document.documentElement,{subtree:true,childList:true});
 }
+
+window.addEventListener("load",()=>{
+ for(const asset of ["tle-demo-segment-v40.js","tle-demo-compare-v40.js"]){
+  const tag=document.createElement("script");
+  tag.src="/assets/"+asset+"?v=20261016-v40a";
+  document.head.append(tag);
+ }
+},{once:true});
+
 })();
