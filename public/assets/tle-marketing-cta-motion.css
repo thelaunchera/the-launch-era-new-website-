@@ -128,77 +128,34 @@
 }
 
 
-/* v2 visibility fix, 2026-10-16.
-   Previous #D7EFFF pulses disappeared over the exact same-color homepage endcap,
-   and rotating borders were absent from primary sales CTAs. */
-.tle-cta-pulse-shell > .tle-cta-pulse-ring {
-  background:#568FB3;
+/* Single attention treatment for primary marketing CTAs: two flat quiet rings.
+   Removes the earlier conic-gradient rotating-border effect, avoiding stacked motion.
+   CTA hrefs, tracking, typography, colors and click handling are unchanged. */
+.tle-cta-pulse-shell > .tle-cta-pulse-ring{
+  background:#75A9C8;
 }
-/* Make the border a genuine visible, clipped 2px animated ring, with text above.
-   Separate stacking surfaces retain the clickable anchor and leave demo CTAs alone. */
-.tle-cta-pulse-shell > .tle-cta-pulse-button {
-  position:relative;
-  isolation:isolate;
-  overflow:hidden;
-  color:#fff;
-  background:#BCDCEC;
-  box-shadow:none;
-  border:0;
-}
-.tle-cta-pulse-shell > .tle-cta-pulse-button::before {
-  content:"";
-  position:absolute;
-  z-index:-1;
-  top:50%;
-  left:50%;
-  width:300px;
-  height:300px;
-  margin-left:-150px;
-  margin-top:-150px;
-  background:conic-gradient(from 0deg,transparent 0 58%,#D7EFFF 82%,#6FA8C9 100%);
-  animation:tle-primary-cta-border-spin 3s linear infinite;
-  pointer-events:none;
-}
-.tle-cta-pulse-shell > .tle-cta-pulse-button::after {
-  content:"";
-  position:absolute;
-  z-index:0;
-  inset:2px;
-  border-radius:inherit;
-  background:#191919;
-  pointer-events:none;
-}
-.tle-cta-pulse-shell > .tle-cta-pulse-button > .tle-cta-text {
+.tle-cta-pulse-shell > .tle-cta-pulse-button{
   position:relative;
   z-index:1;
-  min-width:0;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:9px;
+  isolation:isolate;
+  overflow:visible;
+  background:#191919;
+  border:1px solid #191919;
   color:#fff;
-  line-height:1.35;
-  text-align:center;
 }
-@keyframes tle-primary-cta-border-spin {
-  from {transform:rotate(0deg)}
-  to {transform:rotate(360deg)}
+.tle-cta-pulse-shell > .tle-cta-pulse-button::before,
+.tle-cta-pulse-shell > .tle-cta-pulse-button::after{content:none!important;animation:none!important}
+.tle-cta-pulse-shell > .tle-cta-pulse-button > .tle-cta-text{
+  position:relative;z-index:1;display:inline-flex;align-items:center;
+  justify-content:center;flex-wrap:wrap;gap:9px;
+  line-height:1.35;text-align:center;min-width:0;
+  color:inherit;
 }
-/* Keep the ripples outside the button while the moving border stays clipped.
-   The inherited wide-screen card is unchanged, compact mobile CTAs fill their row. */
+/* Respect narrow phone gutters instead of expanding the document viewport. */
 @media(max-width:767px){
   .service-hero-actions > .tle-cta-pulse-shell {width:100%}
   .service-hero-actions > .tle-cta-pulse-shell > .tle-cta-pulse-button {width:100%}
 }
-/* The unanimated version is still premium and clearly legible. */
-@media(prefers-reduced-motion:reduce){
-  .tle-cta-pulse-shell > .tle-cta-pulse-button::before{
-    animation:none!important;
-    transform:rotate(0deg)!important;
-  }
-}
-
 
 /* Homepage iPhone final CTA: the existing 134%-wide decorative pulse
    extended the *document* 13–38px beyond the visual viewport.
