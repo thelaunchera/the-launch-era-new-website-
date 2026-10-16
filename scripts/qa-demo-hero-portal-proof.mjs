@@ -100,6 +100,10 @@ try {
       transform:getComputedStyle(el).transform
     }));
     assert(zoom.opacity<.1,lang+' '+width+' front window must fade to reveal second scene: '+JSON.stringify(zoom));
+    await page.waitForFunction(()=>{
+      const line=document.querySelector('.booking-portal-strike');
+      return line&&parseFloat(getComputedStyle(line).opacity)<.12;
+    },null,{timeout:3600});
     await page.locator('#bookingHeroSonny').click();
     assert.equal(await page.locator('#sonnyBody').isVisible(),true,'Hero shortcut must open the real Sonny chat');
     await page.locator('#sonnyToggle').click();
@@ -113,7 +117,6 @@ try {
   await first.evaluate(el=>{el.value='72';el.dispatchEvent(new Event('input',{bubbles:true}))});
   assert.equal(await first.evaluate(el=>el.closest('.booking-compare-visual').style.getPropertyValue('--compare-split')),'72%');
   await page.locator('#resServices .service').first().click();
-  await page.locator('#chooseNext').click();
   assert.equal(await page.locator('#detailsPanel').isVisible(),true,'Booking flow must remain functional');
   assert.deepEqual(unexpectedWrites,[],'Demo must not create orders or email leads');
   assert.deepEqual(errors,[],lang+' '+width+' JS exception(s)');

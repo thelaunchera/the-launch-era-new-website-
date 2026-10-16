@@ -127,9 +127,21 @@ try{
      const imgs=[...document.querySelectorAll('#resServices .service-media img')];
      return imgs.length===3&&imgs.every(i=>i.complete&&i.naturalWidth>=400);
    },null,{timeout:12000});
+   assert.equal(await page.locator('.service-photo-check').count(),6,'Service photos have six check overlays');
    await page.locator('button[data-id="standard"]').click();
-   assert.equal(await page.locator('#chooseNext').isEnabled(),true);
-   await page.locator('#chooseNext').click();
+   assert.equal(await page.locator('#detailsPanel').isVisible(),true,'Service tap must open the form directly');
+   assert.equal(await page.locator('#chooseNext').isVisible(),false,'No far-away Continue control');
+   assert.equal(await page.locator('input[name="demo-beds"]:checked').inputValue(),'2');
+   assert.equal(await page.locator('input[name="demo-baths"]:checked').inputValue(),'1');
+   assert.equal(await page.locator('input[name="demo-frequency"]:checked').inputValue(),'one');
+   await page.locator('input[name="demo-beds"][value="3"]').check();
+   await page.locator('input[name="demo-baths"][value="2"]').check();
+   await page.locator('input[name="demo-frequency"][value="biweekly"]').check();
+   assert.equal(await page.locator('#beds').inputValue(),'3');
+   assert.equal(await page.locator('#baths').inputValue(),'2');
+   assert.equal(await page.locator('#frequency').inputValue(),'biweekly');
+   assert.notEqual(await page.locator('.choice-check input:checked+span').first().evaluate(x=>getComputedStyle(x).backgroundColor),'rgb(255, 255, 255)','Selected options must visibly turn blue');
+  
    await page.locator('#customerName').fill('Sample Customer');
    await page.locator('#customerEmail').fill('sample@example.test');
    await page.locator('#customerZip').fill('33101');
@@ -162,9 +174,9 @@ try{
     lang+' '+width+': commercial should also be photo cards, not thumbnail rows '+JSON.stringify(commercial));
 
    await page.locator('button[data-id="office"]').click();
-   await page.locator('#chooseNext').click();
    assert.equal(await page.locator('#comDetails').isVisible(),true);
    await page.locator('#backDetails').click();
+   assert.equal(await page.locator('button[data-id="office"]').getAttribute('aria-pressed'),'true','Back keeps selected commercial service');
    const layout=await page.evaluate(()=>{
      const rect=document.querySelector('.flow').getBoundingClientRect();
      return {bodyOverflow:document.documentElement.scrollWidth-innerWidth,flowWidth:rect.width,

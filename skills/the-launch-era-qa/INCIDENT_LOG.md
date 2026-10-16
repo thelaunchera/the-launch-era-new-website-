@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-16 | Owner iPhone screenshots: booking details showed dropdowns for bedrooms/bathrooms/frequency instead of checkable selections; tapping a photo service required a long scroll to reach `Continue`; final hero color/strike stayed over the replacement word. | Verified public unkeyed booking form used native selects, `chooseService()` only enabled the far-below `#chooseNext`, and hero `.booking-portal-strike` animation used `both` fill preserving a cross-out over `remarkable`. | Replace only single-choice detail selects with compact radio chips synced to existing data values, add blue check-square to service images, advance directly to Step 2 on card click (Back still works), visually hide redundant Continue and retain pricing notice; fade out completed hero strike and increase blue text contrast. Bilingual visual QA and no-send protected-route gate before website deploy. | 🟡 PR QA and production pending. |
+
+
 | 2026-10-16 | Owner iPhone video at 17:02: public Booking Demo hero zoom vanished in about a second | Verified premium CSS constrained sticky hero to 146svh on iPhone (only 46svh for the camera transition), with JS zoom/fade complete at 70% and native browser smooth click scroll of uncontrolled duration | Isolated 205svh sticky journey, later zoom/fade through 82%, 2800ms timed click scroll cancellable by user input, cache bust and browser test against disappearing within 550ms. No live bookings, Sonny, blue bubbles or keyed previews changed | 🟡 Release awaiting focused CI / GitHub Pages verification |
 
 
