@@ -167,7 +167,7 @@
   55%,100% { transform:scale(1.045,1.10); opacity:0; }
 }
 @media (max-width:767px) {
-  .sales-home .final-section .tle-cta-pulse-shell > .tle-cta-pulse-ring {
+  :is(.sales-home .final-section, .tle-app-landing, .service-hero-actions) .tle-cta-pulse-shell > .tle-cta-pulse-ring {
     animation-name:tle-final-mobile-safe-pulse;
   }
 }
