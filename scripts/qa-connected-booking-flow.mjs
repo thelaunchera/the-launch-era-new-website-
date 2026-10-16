@@ -22,10 +22,10 @@ assert(component.includes('aria-pressed={i===active}')&&component.includes('aria
 assert(component.includes('IntersectionObserver')&&component.includes('observer.disconnect()'),'In-view animation trigger missing');
 assert(component.includes('pathLength={1}')&&component.includes('viewBox="0 0 160 100"')&&component.includes('preserveAspectRatio="none"'),'Six true SVG connectors required');
 assert(component.includes('No outside')===false,'No fake integration endorsement in rendered UI');
-assert.equal((component.split("heading:").length-1),13,'Exactly six feature headings per language');
+assert.equal((component.split("heading:").length-1),12,'Exactly six feature headings per language');
 assert(!component.includes('fetch('),'Diagram is illustrative, never an API request');
 assert(css.includes('tle-hub-draw')&&css.includes('tle-hub-dot')&&css.includes('tle-hub-pulse'),'Arrival sequence missing');
-assert(css.includes('450ms')&&css.includes('1.1s')&&css.includes('700ms')===false,'Stagger + travel duration required');
+assert(css.includes('450ms')&&css.includes('1.1s')&&css.includes('animation:tle-hub-draw .7s'),'Stagger, draw and travel duration required');
 assert(css.includes('prefers-reduced-motion:reduce')&&css.includes('animation:none!important'),'Reduced-motion fallback missing');
 assert(css.includes('tle-hero-connection-backdrop')&&heroCSS.includes('z-index: 2'),'Original hero backdrop preserved');
 console.log('[CONNECTED FLOW STATIC PASS] Six internal functions, EN/ES, no external logos or writes, original purchase CTA.');
@@ -85,7 +85,7 @@ try{
   await reduced.goto(base+route,{waitUntil:'domcontentloaded'});
   const motion=await reduced.locator('.tle-connection-hub__path').first().evaluate(el=>({offset:getComputedStyle(el).strokeDashoffset,animation:getComputedStyle(el).animationName}));
   assert.equal(motion.animation,'none',lang+' reduced motion must be static');
-  assert.equal(motion.offset,'0',lang+' reduced motion must show final connectors');
+  assert(Math.abs(parseFloat(motion.offset))<.001,lang+' reduced motion must show final connectors');
   const hidden=await reduced.locator('.tle-connection-hub__travel-dot').first().evaluate(el=>getComputedStyle(el).display);
   assert.equal(hidden,'none',lang+' reduced motion should hide traveling dots');
   await reduced.close();
