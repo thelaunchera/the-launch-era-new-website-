@@ -9,7 +9,7 @@ const pageHtml=readFileSync('public/booking-demo-reset.html','utf8');
 const bubbles=readFileSync('public/assets/tle-booking-blue-orbs.css','utf8');
 const original=readFileSync('public/lead-private-preview.html','utf8');
 const emailSource=readFileSync('supabase/functions/tle-jessie-demo-lead/index.ts','utf8');
-assert.match(pageHtml,/tle-demo-blue-bubbles\.css/,'Blue bubbles theme stylesheet missing');
+assert.match(pageHtml,/tle-booking-blue-orbs\.css/,'Blue bubbles theme stylesheet missing');
 assert.match(pageHtml,/id="bookingCustomOverline"/);
 assert.match(pageHtml,/id="bookingCustomSummary"/);
 assert.match(pageHtml,/id="bookingCustomAction"/);
