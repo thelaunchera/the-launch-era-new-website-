@@ -41,9 +41,12 @@ try{
    await page.goto(base+'/lead-private-preview.html?lang='+lang,{waitUntil:'load',timeout:45000});
    await page.waitForURL('**/booking-demo-reset.html?lang='+lang,{timeout:15000});
    assert.equal(await page.locator('html').getAttribute('lang'),lang);
+   const headerAvatar=page.locator('.sonny-avatar-mark img');
+   assert(await headerAvatar.evaluate(img=>img.complete&&img.naturalWidth>30),'Original Sonny robot must load in the chat heading');
    const floating=page.locator('#sonnyAvatarLauncher');
-   await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
-   console.log('SONNY AVATAR BEFORE WAIT '+JSON.stringify(await page.evaluate(()=>{const a=document.getElementById('sonnyAvatarLauncher'),c=document.querySelector('section.sonny');const r=c?.getBoundingClientRect();return {url:location.href,scrollY:scrollY,viewportHeight:innerHeight,bodyHeight:document.body.scrollHeight,avatarHidden:a?.hidden,avatarDisplay:a&&getComputedStyle(a).display,sonnyCard:r&&{y:r.y,height:r.height,bottom:r.bottom},sonnyBodyHidden:document.getElementById('sonnyBody')?.hidden};}))); 
+   // The Sonny card may already peek into the initial viewport: hiding the
+   // floating avatar in that case is correct, not a missing launcher.
+   await page.evaluate(()=>window.scrollTo({top:document.body.scrollHeight,behavior:'instant'}));
    await floating.waitFor({state:'visible',timeout:10000});
    const avatarCheck=await floating.evaluate(button=>{
      const image=button.querySelector('img'),r=button.getBoundingClientRect();
