@@ -762,3 +762,38 @@
     animation:none!important;transform:none!important;will-change:auto;
   }
 }
+
+
+/* tle-desktop-hero-blue-surface-20261016
+   The ambient blue belongs to the ENTIRE original photo+heading card on first
+   paint, not to the dotted outer scroll stage. It is always under the copy,
+   image and demo button. No edits to image wipe or scroll-transform logic. */
+@media (min-width:1024px) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split {
+    background:linear-gradient(118deg,#E3F2FE 0%,#EFF8FE 43%,#DDEFFF 100%);
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .tle-hero-soft-mesh {
+    isolation:isolate;
+  }
+}
+/* Desktop with a shorter screen: restore breathing room above and below the
+   existing image, and move the approved content up only ten pixels. Tablet
+   portrait and phone compositions retain all original dimensions. */
+@media (min-width:1200px) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
+    height:min(clamp(455px,40vw,590px),calc(100svh - 190px));
+    top:-10px;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro {
+    top:-10px;
+  }
+}
+@media (min-width:1200px) and (max-height:640px) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
+    height:min(60svh,430px);
+    top:-6px;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro {
+    top:-6px;
+  }
+}
