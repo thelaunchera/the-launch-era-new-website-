@@ -7,6 +7,9 @@ const crm=read("supabase/functions/tle-jessie-demo-lead/index.ts");
 const metrics=read("supabase/functions/tle-jessie-metrics/index.ts");
 const sql=read("supabase/migrations/20261015_tle_jessie_anonymous_insights.sql");
 const owner=read("public/command-center/lead-insights.html");
+const sonny=read("public/assets/tle-demo-enhancements-v12.js");
+const sonnyChat=read("public/assets/tle-ai-booking-chat.js");
+const sonnyCss=read("public/assets/tle-demo-enhancements-v12.css");
 // Product fit + two original interactive samples: no second copy, private tokens or real booking endpoint.
 assert.match(chat,/missed or scattered booking requests -> Booking Automation/);
 assert.match(chat,/inquiries lost through an existing website -> Website Automation/);
@@ -39,6 +42,14 @@ assert.match(front,/demoConfirmation\.hidden=false/,"Success must be shown insid
 assert.match(front,/demoGate\.hidden=true/);
 assert.match(front,/demoDone\.addEventListener\("click",closeDemo\)/);
 assert.match(front,/Don.t forget to try a live booking with my friend Sonny!/);
+assert.match(sonny,/data-action="home"/,"Sonny must let sample visitors choose home cleaning");
+assert.match(sonny,/data-action="business"/,"Sonny must let sample visitors choose business cleaning");
+assert.match(sonny,/data-action="explain"/,"Sonny must explain how the simulation works");
+assert.match(sonny,/form\.requestSubmit\(\)/,"Choosing a category should start Sonny immediately");
+assert.match(sonny,/No real booking is submitted/,"Do not imply sample bookings are real");
+assert.match(sonnyCss,/tle-demo-v12-chat-actions\[hidden\]/,"Hide Sonny sample chips after selection");
+assert.match(sonnyChat,/quick\.hidden=false/,"Reset sample chips when Sonny restarts");
+
 assert.match(front,/it.s a simulation, not a real booking/);
 // User consent must precede any demo unlock and backend must require business + email + area.
 assert.ok(front.indexOf("data.email_sent!==true")<front.indexOf("demoConfirmation.hidden=false"),"Only show success after email provider accepts the request");
