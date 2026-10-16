@@ -1,6 +1,8 @@
 import { Link, useRouterState } from '@tanstack/react-router';
-import { useEffect, useState } from 'react';
-import { Menu, X, Timer } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
+import './footer-theme-sweep.css';
+import { Menu, X, Timer, Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 function SaleCountdown({es=false}:{es?:boolean}) {
@@ -79,7 +81,43 @@ export function SiteHeader() {
 export function SiteFooter() {
  const path=useRouterState({select:(state)=>state.location.pathname});
  const es=path==='/es'||path.startsWith('/es/');
- return <footer className="site-footer"><div className="container"><div className="footer-top"><div className="footer-brand"><a className="wordmark" href={es?'/es':'/'} aria-label="The Launch Era"><img className="tle-brand-logo" src="/assets/brand/tle-wordmark.svg" alt="The Launch Era" width="184" height="37" loading="lazy" /></a><p>{es?'Menos trabajo administrativo. Más espacio para crecer.':'A little less admin. A lot more possibility.'}</p><div className="footer-contact" aria-label={es?'Contacto':'Contact'}><span className="footer-contact-label">{es?'¿TIENES UNA PREGUNTA?':'QUESTIONS? WE’RE HERE TO HELP.'}</span><p>{es?'Escríbenos cuando quieras. Te responderemos lo antes posible.':'Send us a message anytime. We’ll get back to you as soon as we can.'}</p></div></div><nav className="footer-links" aria-label={es?'Navegación del pie de página':'Footer navigation'}><a href={es?'/es#soluciones':'/solutions'}>{es?'Soluciones':'Solutions'}</a><a href={es?'/es#como-funciona':'/how-it-works'}>{es?'Cómo funciona':'How It Works'}</a><a href={es?'/es#contacto':'/help'}>{es?'Contacto':'Contact'}</a><a href={es?'/es/privacy.html':'/privacy.html'}>{es?'Privacidad':'Privacy'}</a><a href={es?'/es/terms.html':'/terms.html'}>{es?'Términos':'Terms'}</a></nav><section className="tle-newsletter" aria-label={es?'Boletín por correo':'Email newsletter'}>
+ const footerRef=useRef<HTMLElement|null>(null);
+ const [dark,setDark]=useState(false);
+ const [ready,setReady]=useState(false);
+ useEffect(()=>{
+  let stored:string|null=null;
+  try{stored=window.localStorage.getItem('tle_footer_theme_v1')}catch{}
+  const prefersDark=window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
+  setDark(stored==='dark'||(stored!=='light'&&prefersDark));
+  const frame=window.requestAnimationFrame(()=>setReady(true));
+  return ()=>window.cancelAnimationFrame(frame);
+ },[]);
+ function toggleFooterTheme(){
+  const footer=footerRef.current;
+  if(!footer)return;
+  const control=footer.querySelector<HTMLElement>('.tle-footer-toggle');
+  if(control){
+   const button=control.getBoundingClientRect(), bounds=footer.getBoundingClientRect();
+   footer.style.setProperty('--tle-footer-reveal-x', String(button.left+button.width/2-bounds.left)+'px');
+   footer.style.setProperty('--tle-footer-reveal-y', String(button.top+button.height/2-bounds.top)+'px');
+  }
+  const next=!dark;
+  try{window.localStorage.setItem('tle_footer_theme_v1',next?'dark':'light')}catch{}
+  const doc=document as Document & {startViewTransition?:(update:()=>void)=>{finished:Promise<void>}};
+  const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+  if(!reduced&&doc.startViewTransition){
+   document.documentElement.dataset.tleFooterDirection=next?'open':'close';
+   try{
+    const transition=doc.startViewTransition(()=>flushSync(()=>setDark(next)));
+    void transition.finished.finally(()=>delete document.documentElement.dataset.tleFooterDirection).catch(()=>{});
+   }catch{
+    delete document.documentElement.dataset.tleFooterDirection;
+    setDark(next);
+   }
+  }else setDark(next);
+ }
+
+ return <footer ref={footerRef} className={'site-footer tle-footer-theme'+(dark?' tle-footer-dark':'')+(ready?' tle-footer-ready':'')}><span className="tle-footer-dark-layer" aria-hidden="true"/><div className="container"><div className="footer-top"><div className="footer-brand"><a className="wordmark" href={es?'/es':'/'} aria-label="The Launch Era"><img className="tle-brand-logo" src="/assets/brand/tle-wordmark.svg" alt="The Launch Era" width="184" height="37" loading="lazy" /></a><p>{es?'Menos trabajo administrativo. Más espacio para crecer.':'A little less admin. A lot more possibility.'}</p><div className="footer-contact" aria-label={es?'Contacto':'Contact'}><span className="footer-contact-label">{es?'¿TIENES UNA PREGUNTA?':'QUESTIONS? WE’RE HERE TO HELP.'}</span><p>{es?'Escríbenos cuando quieras. Te responderemos lo antes posible.':'Send us a message anytime. We’ll get back to you as soon as we can.'}</p></div></div><nav className="footer-links" aria-label={es?'Navegación del pie de página':'Footer navigation'}><a href={es?'/es#soluciones':'/solutions'}>{es?'Soluciones':'Solutions'}</a><a href={es?'/es#como-funciona':'/how-it-works'}>{es?'Cómo funciona':'How It Works'}</a><a href={es?'/es#contacto':'/help'}>{es?'Contacto':'Contact'}</a><a href={es?'/es/privacy.html':'/privacy.html'}>{es?'Privacidad':'Privacy'}</a><a href={es?'/es/terms.html':'/terms.html'}>{es?'Términos':'Terms'}</a></nav><section className="tle-newsletter" aria-label={es?'Boletín por correo':'Email newsletter'}>
   <h2 className="tle-newsletter-title">{es?'Ideas útiles para tu negocio.':'Good ideas for a smoother workday.'}</h2>
   <p className="tle-newsletter-copy">{es?'Consejos breves de reservas y seguimiento para negocios de limpieza.':'Short tips on bookings and follow-ups for cleaning business owners.'}</p>
   <form data-tle-newsletter data-language={es?'es':'en'} noValidate>
@@ -96,5 +134,5 @@ export function SiteFooter() {
     <p className="tle-newsletter-error" id="tle-newsletter-error" data-newsletter-error aria-live="polite"></p>
   </form>
   <p className="tle-newsletter-consent">{es?<>Al suscribirte aceptas recibir correos ocasionales. Puedes darte de baja cuando quieras. <a href="/es/privacy.html">Privacidad</a>.</>:<>By subscribing, you agree to occasional emails. Unsubscribe anytime. <a href="/privacy.html">Privacy</a>.</>}</p>
-</section></div><div className="footer-bottom"><span>© 2026 THE LAUNCH ERA. {es?'Todos los derechos reservados.':'All rights reserved.'}</span><span>{es?'Creado para negocios de limpieza en EE. UU.':'Thoughtfully built for U.S. cleaning businesses.'}</span></div></div></footer>
+</section></div><div className="footer-bottom"><span>© 2026 THE LAUNCH ERA. {es?'Todos los derechos reservados.':'All rights reserved.'}</span><span>{es?'Creado para negocios de limpieza en EE. UU.':'Thoughtfully built for U.S. cleaning businesses.'}</span><div className="tle-footer-theme-control"><span className="tle-footer-theme-label">{es?'Apariencia':'Appearance'}</span><button className="tle-footer-toggle" type="button" role="switch" aria-checked={dark} aria-label={es?'Alternar el modo claro u oscuro del pie de página':'Toggle light or dark footer theme'} onClick={toggleFooterTheme}><span className="tle-footer-toggle-track"><span className="tle-footer-toggle-thumb"><Sun className="tle-footer-icon-sun" size={13} aria-hidden="true"/><Moon className="tle-footer-icon-moon" size={13} aria-hidden="true"/></span></span></button></div></div></div></footer>
 }
