@@ -80,6 +80,7 @@ export function ProcessSteps({ lang = 'en' }: { lang?: Language }) {
   const closeButton = useRef<HTMLButtonElement | null>(null);
   const returnFocus = useRef<HTMLButtonElement | null>(null);
   const transitioning = useRef(false);
+  const queuedChange = useRef<{ next: number | null; index: number } | null>(null);
 
   useEffect(() => {
     if (active === null) return;
@@ -90,7 +91,11 @@ export function ProcessSteps({ lang = 'en' }: { lang?: Language }) {
   }, [active]);
 
   function changeStep(next: number | null, index: number) {
-    if (transitioning.current) return;
+    // A fast second tap should never get lost during the 500ms visual morph.
+    if (transitioning.current) {
+      queuedChange.current = { next, index };
+      return;
+    }
     transitioning.current = true;
     const opening = next !== null;
     if (opening) returnFocus.current = sourceButtons.current[index];
@@ -103,6 +108,9 @@ export function ProcessSteps({ lang = 'en' }: { lang?: Language }) {
       document.documentElement.classList.remove('tle-process-transitioning');
       transitioning.current = false;
       if (!opening) returnFocus.current?.focus({ preventScroll: true });
+      const pending = queuedChange.current;
+      queuedChange.current = null;
+      if (pending) queueMicrotask(() => changeStep(pending.next, pending.index));
     };
 
     const browser = document as TransitionDocument;
