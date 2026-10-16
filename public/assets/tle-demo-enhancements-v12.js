@@ -167,7 +167,7 @@ function customizeChat(){
    chips.hidden=true;
    form.requestSubmit();
   });
-  log.prepend(chips);
+  if(intro)intro.after(chips);else log.prepend(chips); // Show choices below Sonny’s explanation, not above it.
   // One assistant = one launcher. Previous versions created a second floating
   // welcome button which looked like another AI and obscured the mobile page.
   document.getElementById("tleDemoRobotWelcome")?.remove();
