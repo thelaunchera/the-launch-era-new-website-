@@ -1,3 +1,4 @@
+import { MarketingCTA } from '@/components/marketing-cta';
 import { ArrowRight, MessageCircleMore } from 'lucide-react';
 
 export function AIAgentAddon({ lang = 'en' }: { lang?: 'en' | 'es' }) {
@@ -9,7 +10,7 @@ export function AIAgentAddon({ lang = 'en' }: { lang?: 'en' | 'es' }) {
     <h2 className="editorial" style={{fontSize:'clamp(23px,3vw,32px)',margin:'10px 0'}}>{es?'Integra un asistente de IA.':'Connect an AI Assistant.'}</h2>
     <p style={{margin:'0',fontSize:14,lineHeight:1.55,color:'#3c5568'}}>{es?'Es un sistema independiente y opcional que podemos integrar a tu Booking Page o website. Se contrata por separado y NO está incluido en el precio de Booking Automation + Command Center.':'This is a separate, optional system we can integrate with your Booking Page or website. It is purchased separately and is NOT included in the Booking Automation + Command Center price.'}</p>
    </div>
-   <a className="cta-button service-cta" href={es?'/es/ai-booking-assistant/':'/ai-booking-assistant/'} style={{display:'inline-flex',alignItems:'center',gap:8,flex:'0 0 auto',maxWidth:'100%'}}>{es?'Ver asistentes de IA':'Explore AI Assistants'} <ArrowRight size={18}/></a>
+   <MarketingCTA className="cta-button service-cta" href={es?'/es/ai-booking-assistant/':'/ai-booking-assistant/'} style={{display:'inline-flex',alignItems:'center',gap:8,flex:'0 0 auto',maxWidth:'100%'}}>{es?'Ver asistentes de IA':'Explore AI Assistants'} <ArrowRight size={18}/></MarketingCTA>
   </div>
  </section>;
 }
