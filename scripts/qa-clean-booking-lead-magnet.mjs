@@ -19,7 +19,7 @@ assert.match(chat,/tle-ai-booking-demo/,'Keep the existing Sonny demo backend wi
 assert.match(template,/id="demoForm"/,'Personalized lead magnet intake must not be replaced with booking sample');
 assert(!/(?:@keyframes|\banimation\s*:|\btransition\s*:|\btransform\s*:|\bzoom\s*:|gsap\.|Flip\.|mix-blend-mode\s*:)/i.test(html),'New public demo must have zero visual zoom/motion');
 assert.deepEqual([...html.matchAll(/<link[^>]*rel="stylesheet"[^>]*href="([^"]+)"/g)].map(m=>m[1]),
-  ['/assets/tle-demo-hero-portal.css?v=20261016-brand2','/assets/tle-booking-month-wheel.css?v=20261016-responsive2','/assets/tle-booking-premium-refresh.css?v=20261016-sonny-blue-polish-slow2','/assets/tle-booking-blue-orbs.css?v=20261016-orbs1','/assets/tle-booking-bubbles-continuity.css?v=20261016-bubble-continuity1'],'Only scoped hero, time wheel, approved cards and original blue bubble treatments may be linked');
+  ['/assets/tle-demo-hero-portal.css?v=20261016-brand2','/assets/tle-booking-month-wheel.css?v=20261016-responsive2','/assets/tle-booking-premium-refresh.css?v=20261016-sonny-mobile-safe3','/assets/tle-booking-blue-orbs.css?v=20261016-orbs1','/assets/tle-booking-bubbles-continuity.css?v=20261016-bubble-continuity1'],'Only scoped hero, time wheel, approved cards and original blue bubble treatments may be linked');
 
 const browser=await chromium.launch({headless:true});
 const outputs=[];
@@ -70,6 +70,28 @@ try {
   assert.equal(await page.locator('#bookingPortalEnter').count(),1,'Missing hero window zoom entrance');
   assert.equal(await page.locator('#sonnyToggle').count(),1,'Sonny missing');
   assert.equal(await page.locator('#trackerLink').count(),1,'Sample Command Center link missing');
+
+  // Prevent the original iPhone regression: an opened chat must not remain
+  // over prices, services, or Before & After as visitors continue scrolling.
+  if(width<=390){
+    const floating=page.locator('.sonny');
+    const collapsed=await floating.boundingBox();
+    assert(collapsed.width>=55&&collapsed.width<=65,'Sonny stays a small round robot by default');
+    await page.locator('#sonnyToggle').click();
+    await page.locator('#sonnyBody').waitFor({state:'visible'});
+    const expanded=await floating.boundingBox();
+    assert(expanded.width<=width-30&&expanded.height<=(880*.56+6),
+      'Open Sonny must be short enough to preserve the booking viewport: '+JSON.stringify(expanded));
+    await page.waitForTimeout(800); // Do not confuse the click/focus settling with user scroll.
+    await page.evaluate(()=>window.scrollBy(0,95));
+    await page.waitForFunction(()=>document.getElementById('sonnyBody')?.hidden===true,
+      null,{timeout:5000});
+    assert.equal(await page.locator('#sonnyToggle').getAttribute('aria-expanded'),'false');
+    await page.locator('#sonnyToggle').click();
+    assert.equal(await page.locator('#sonnyBody').isVisible(),true,'Sonny must reopen normally');
+    await page.locator('#sonnyToggle').click();
+    assert.equal(await page.locator('#sonnyBody').isHidden(),true);
+  }
   const tracker=new URL(await page.locator('#trackerLink').getAttribute('href'),origin);
   assert.equal(tracker.searchParams.get('rid'),'email-test-42');
   assert.equal(tracker.searchParams.get('business'),'Bright & Tidy Cleaning');
