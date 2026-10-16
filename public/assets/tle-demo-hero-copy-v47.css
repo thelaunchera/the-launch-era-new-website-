@@ -177,3 +177,21 @@ html.demo-editorial.tle-demo-v45.tle-demo-v47.tle-demo-compact-v30.tle-photo-ser
 html.demo-editorial.tle-demo-v45.tle-demo-v47.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter#bookingStarter #main#main .tle-v42-grid > button.tle-v34-single-quote::after{
  content:none!important;display:none!important;
 }
+
+/* iPhone click blocker: the next section overlapped the hero CTA.
+   Keep the photo/CTA stacking above the following editorial section,
+   without trapping a Flip transition behind an overflow clipping layer. */
+html.demo-editorial.tle-demo-v47 #leadHero.tle46-gallery-hero{
+ position:relative!important;z-index:20!important;isolation:isolate!important;
+ overflow:visible!important;
+}
+html.demo-editorial.tle-demo-v47 #leadHero .tle46-gallery,
+html.demo-editorial.tle-demo-v47 #leadHero .tle46-hero-slot{
+ position:relative!important;z-index:1!important;
+}
+html.demo-editorial.tle-demo-v47 #leadHero .tle46-hero-slot > .heroText{
+ z-index:25!important;pointer-events:auto!important;
+}
+html.demo-editorial.tle-demo-v47 #bookingStarter{
+ position:relative!important;z-index:1!important;
+}
