@@ -8,7 +8,7 @@ assert.ok(widget.includes("service_area:demoArea.value.trim()"));
 assert.ok(widget.includes("email:demoEmail.value.trim()"));
 assert.ok(widget.includes("consent:demoConsent.checked"));
 assert.ok(widget.includes("data.email_sent!==true"),"Only a provider-confirmed email allows a success confirmation");
-assert.match(widget,/Check your email for your personalized demo/);
+assert.match(widget,/Check your email to open your personalized demo/);
 assert.match(widget,/Sonny is included to help you explore the booking flow/);
 assert.match(widget,/Sonny está dentro del demo/);
 assert.ok(api.includes('url:"https://thelaunchera.com/lead-private-preview.html"'),"Canonical website demo URL");
