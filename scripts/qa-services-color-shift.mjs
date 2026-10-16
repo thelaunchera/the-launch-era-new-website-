@@ -59,7 +59,12 @@ try {
        await section.locator('.service-grid').evaluate(el => { el.scrollLeft = (el.scrollWidth - el.clientWidth) * .56; });
        await page.waitForTimeout(600);
        const second = await section.evaluate(el => ({bg:getComputedStyle(el).backgroundColor, phase:el.dataset.colorPhase}));
-       assert.notEqual(first.phase, second.phase, lang + ' ' + width + ': swipe did not change phase');
+       const railMetrics = await section.locator('.service-grid').evaluate(el=>({
+         scrollLeft:el.scrollLeft, scrollWidth:el.scrollWidth, clientWidth:el.clientWidth,
+         display:getComputedStyle(el).display, overflowX:getComputedStyle(el).overflowX,
+         snap:getComputedStyle(el).scrollSnapType,
+       }));
+       assert.notEqual(first.phase, second.phase, lang + ' ' + width + ': swipe did not change phase: '+JSON.stringify({first,second,railMetrics}));
        assert.notEqual(first.bg,second.bg,lang + ' ' + width + ': swipe did not change background');
      }
      const safe = await page.evaluate(() => {
