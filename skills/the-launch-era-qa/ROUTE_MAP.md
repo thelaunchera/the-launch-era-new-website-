@@ -1,5 +1,13 @@
 # ROUTE_MAP.md — The Launch Era route & button registry
 
+## Homepage time-of-day diorama + kinetic headline (2026-10-16)
+- **Scope:** public EN homepage / and Spanish homepage /es/ only. New reusable component src/components/home-motion-interlude.tsx is inserted directly after the existing Booking Page / Command Center / Follow-ups ProductExplorer and before ProcessSection. No booking demo, live booking action, checkout, protected Command Center, client tenant, auth or backend route is altered.
+- **Assets:** scoped src/components/home-motion-interlude.css and lazy-loaded public/assets/tle-home-time-of-day.js; the latter imports Three.js and its RoundedBoxGeometry/RoomEnvironment add-ons on demand. The React section always renders bilingual accessible copy plus static inline SVG fallback, so a blocked CDN or unavailable WebGL does not hide essential content.
+- **Motion:** four daypart chapters scroll through day/dusk/night, with island/house/trees, sun/moon/halo, 160 stars, directional light, emissive windows, environment dimming and soft orbit. Only dedicated .tle-day-night gets the changing gradient, not the body. The two-row kinetic band scrolls in opposing 25s/29s seamless loops, pauses on hover, and is static for reduced motion.
+- **Safety:** renderer uses conservative mobile pixel ratio, intersection-based pause, resize observer and full GPU asset disposal on unmount. Reduced motion displays an evening scene without continuous rendering; no user data, booking, API, email, payment, third-party tracking, or actual customer activity is generated.
+- **QA:** node scripts/qa-home-time-of-day.mjs, node scripts/qa-route-integrity.mjs --static, build and visual inspection of EN/ES at 360/390/820/1024/1440 with iPhone Safari, reduced motion, CDN-blocked fallback and unchanged product tabs/CTAs. Code publication and live QA must be independently confirmed.
+
+
 ## Public CTA visibility / cached asset fix (2026-10-16)
 - Public EN/ES marketing CTA implementation existed but did not visibly communicate the promised animation: original `#D7EFFF` pulse matched the blue final chapter exactly; purchase CTA links had pulse only, not the requested moving border; CSS asset remained under `?v=20261016-1`, permitting old cached style to persist.
 - Corrected shared primary CTA shell with accent `#568FB3` pulse, inner text above a 2px clipped conic border on purchase/signup CTA buttons, respecting `prefers-reduced-motion`. Preserved native links/destinations, and excluded /demo, /preview and Command Center.
