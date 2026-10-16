@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-16 | Public Booking Demo reset replaced Sonny's blue robot avatar with text only; user wanted the previous one back. | Existing original approved `/assets/lead-demo/ai-demo-robot.webp` used in former guarded sample. The reset has an already-visible `.sonny` card with a working `#sonnyToggle`; a second floating launcher conflicted with it. | Restore the **same blue robot** in the existing Sonny title/header only. Preserve one assistant, all booking flow handlers, EN/ES, email links, and private buyer routes. Add EN/ES browser QA for image and existing toggle. | 🟡 PR #171 pending browser QA and GitHub Pages deployment. |
+
+
 | 2026-10-16 | Emailed/public Booking lead magnet requested zoom ONLY in service cards plus interactive date/time: full month (not 5 days), iOS wheel, sample bottom-sheet confirmation. | The original clean demo had a native date field but no time preference; adding interactive motion elsewhere risks reverting previous zoom regressions. | Scoped CSS zoom to `.service-media img` on pointer-hover with reduced-motion opt-out; new isolated `tle-booking-month-wheel.js/css` augments details form with 7-column accessible month, native scroll-snap hour/minutes-in-5/AM-PM, keyboard and pointer drag, bilingual sheet, strict sample-only review and original date field fallback. Preference propagates to review and session-only Command Center example. No dentist, unavailable-slot claims, real sends/checkout or keyed buyer changes. | 🟡 PR #170 browser QA underway; do not deploy until all targeted gates pass. |
 
 
