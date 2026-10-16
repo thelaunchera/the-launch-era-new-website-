@@ -95,6 +95,7 @@ function SpanishContact(){
 }
 function SpanishHome(){const [active,setActive]=useState(0);const [heroLoaded,setHeroLoaded]=useState(false);const heroImageRef=useRef<HTMLImageElement>(null);const {heroRef,revealed}=useHeroWipe();useEffect(()=>{if(heroImageRef.current?.complete)setHeroLoaded(true)},[]);const [bookingSale,setBookingSale]=useState(()=>Date.now()<new Date('2026-11-01T04:00:00Z').getTime());useEffect(()=>{const sync=()=>setBookingSale(Date.now()<new Date('2026-11-01T04:00:00Z').getTime());const id=window.setInterval(sync,30000);return()=>window.clearInterval(id)},[]);return <main className="sales-home"><HomeMotion/>
 <section className="hero-scroll" aria-label="Ejemplo de la experiencia de reservas de The Launch Era"><div className="hero-scroll-stage"><HeroConnectionBackdrop lang="es"/><div className="hero-scroll-reveal"><span>TU FLUJO DE RESERVAS</span><HeroSplitWordLink lang="es"/></div><div ref={heroRef} data-wipe-visible={revealed && heroLoaded} className={`hero-photo hero-scroll-frame hero-split ${heroLoaded?'hero-media-ready':'hero-media-loading'}`}>
+ <div className="tle-hero-soft-mesh" aria-hidden="true"><span/><span/><span/><span/></div>
  <div className="hero-intro">
    <div className="eyebrow">PARA DUEÑAS DE NEGOCIOS DE LIMPIEZA</div>
    <h1>Menos tiempo buscando mensajes.<br/>Más tiempo para tu negocio.</h1>
