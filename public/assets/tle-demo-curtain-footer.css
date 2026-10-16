@@ -1,0 +1,129 @@
+/* The Launch Era: public Booking Demo only. Static/paid website footers are untouched.
+   The demo's content lifts to reveal the footer. No JS scroll handlers. */
+:root{--tle-demo-curtain-height:clamp(390px,55svh,640px)}
+body:has(#tleDemoCurtainFooter){background:#cce7f7}
+body .tle-demo-curtain-page{
+ position:relative;z-index:1;isolation:isolate;
+ margin-bottom:var(--tle-demo-curtain-height);
+ background:#e2f3fd;
+ border-radius:0 0 24px 24px;
+ box-shadow:0 22px 38px rgba(22,62,92,.19);
+}
+body .tle-demo-curtain-page>.booking-proof{
+ border-radius:0 0 24px 24px;
+ overflow:hidden;
+}
+body footer.tle-demo-curtain-footer{
+ position:fixed!important;bottom:0;left:0;right:0;z-index:0;
+ width:100%;height:var(--tle-demo-curtain-height);
+ margin:0;padding:0!important;box-sizing:border-box;
+ border:0!important;color:#163f59!important;
+ background:#cce8f9!important;
+ background-image:
+  radial-gradient(circle at 4% 18%,rgba(255,255,255,.48) 0 64px,rgba(116,182,218,.2) 65px 68px,transparent 70px),
+  radial-gradient(circle at 90% 80%,rgba(255,255,255,.4) 0 95px,rgba(115,187,226,.17) 96px 100px,transparent 102px),
+  linear-gradient(142deg,#c7e5f8 0%,#e2f4ff 47%,#bfdff2 100%)!important;
+}
+body footer.tle-demo-curtain-footer .tle-demo-curtain-footer__inner{
+ display:flex;flex-direction:column;justify-content:space-between;
+ width:min(1160px,calc(100% - 48px));max-width:none;height:100%;
+ box-sizing:border-box;padding:clamp(28px,5vh,56px) 0 max(22px,env(safe-area-inset-bottom));
+ gap:22px;position:relative;min-width:0;
+}
+.tle-demo-curtain-footer__top{
+ display:grid;grid-template-columns:minmax(0,1fr) minmax(200px,.42fr);
+ gap:clamp(24px,5vw,70px);align-items:start;
+}
+.tle-demo-curtain-footer__message{min-width:0}
+.tle-demo-curtain-footer__eyebrow{
+ display:block;color:#3b789c;font:800 11px/1.5 'Prompt',Arial,sans-serif;
+ letter-spacing:.14em;margin-bottom:12px;
+}
+body footer.tle-demo-curtain-footer h2{
+ margin:0;color:#183f59;max-width:670px;
+ font:750 clamp(30px,4.1vw,53px)/1.07 'Prompt',Arial,sans-serif;
+ letter-spacing:-.04em;
+}
+body footer.tle-demo-curtain-footer .tle-demo-curtain-footer__message p{
+ margin:clamp(12px,1.6vw,17px) 0 0;max-width:550px;
+ color:#3e647b;font:450 clamp(13px,1.2vw,16px)/1.6 Arial,sans-serif;
+}
+.tle-demo-curtain-footer__links{
+ display:grid;align-content:start;gap:9px;min-width:0;padding-top:20px;
+}
+body footer.tle-demo-curtain-footer .tle-demo-curtain-footer__links a{
+ display:flex;align-items:center;justify-content:space-between;
+ color:#1e506f;text-decoration:none;font:750 13px/1.4 'Prompt',Arial,sans-serif;
+ padding:12px 14px;min-height:45px;
+ border:1.5px solid rgba(65,130,165,.27);border-radius:13px;
+ background:rgba(255,255,255,.64);
+ transition:background-color 220ms ease,transform 220ms ease;
+}
+body footer.tle-demo-curtain-footer .tle-demo-curtain-footer__links a:hover{
+ background:#fff;transform:translateY(-2px);
+}
+body footer.tle-demo-curtain-footer .tle-demo-curtain-footer__links a:focus-visible{
+ outline:3px solid #286d98;outline-offset:3px;
+}
+.tle-demo-curtain-footer__bottom{
+ border-top:1px solid rgba(56,117,152,.23);
+ display:flex;align-items:center;justify-content:space-between;gap:15px;
+ padding-top:16px;min-width:0;color:#4c6f85;
+ font:600 11px/1.55 Arial,sans-serif;
+}
+.tle-demo-curtain-footer__seal{
+ white-space:nowrap;color:#245c7c;
+ font:800 14px/1 'Prompt',Arial,sans-serif;letter-spacing:.1em;
+}
+.tle-demo-curtain-footer__seal span{font-size:19px;vertical-align:middle;color:#3889b9}
+@supports (animation-timeline:scroll()){
+ @media(prefers-reduced-motion:no-preference){
+  body footer.tle-demo-curtain-footer .tle-demo-curtain-footer__inner{
+   animation:tle-demo-footer-lift linear both;
+   animation-timeline:scroll(root block);
+   animation-range:85% 100%;
+  }
+ }
+}
+@keyframes tle-demo-footer-lift{
+ from{transform:translateY(22px);opacity:.88}
+ to{transform:translateY(0);opacity:1}
+}
+@media(max-width:700px){
+ :root{--tle-demo-curtain-height:clamp(430px,59svh,640px)}
+ body footer.tle-demo-curtain-footer .tle-demo-curtain-footer__inner{
+  width:calc(100% - 42px);gap:15px;padding:clamp(22px,4vh,32px) 0 max(19px,env(safe-area-inset-bottom));
+ }
+ .tle-demo-curtain-footer__top{display:flex;flex-direction:column;gap:17px}
+ .tle-demo-curtain-footer__eyebrow{margin-bottom:8px;font-size:10px}
+ body footer.tle-demo-curtain-footer h2{font-size:clamp(27px,7.2vw,36px);line-height:1.12}
+ body footer.tle-demo-curtain-footer .tle-demo-curtain-footer__message p{
+  font-size:13px;line-height:1.43;margin-top:9px;
+ }
+ .tle-demo-curtain-footer__links{padding:0;width:100%;gap:7px}
+ body footer.tle-demo-curtain-footer .tle-demo-curtain-footer__links a{
+  min-height:40px;padding:9px 12px;font-size:12px;border-radius:11px;
+ }
+ .tle-demo-curtain-footer__bottom{padding-top:11px;font-size:10px}
+}
+@media(max-width:375px){
+ :root{--tle-demo-curtain-height:clamp(450px,67svh,660px)}
+ .tle-demo-curtain-footer__top{gap:12px}
+ body footer.tle-demo-curtain-footer h2{font-size:27px}
+ body footer.tle-demo-curtain-footer .tle-demo-curtain-footer__message p{font-size:12px}
+ body footer.tle-demo-curtain-footer .tle-demo-curtain-footer__links a{min-height:37px;padding:7px 11px}
+}
+@media(max-height:580px) and (orientation:landscape){
+ /* Avoid trapping footer links under landscape Safari toolbar. */
+ body .tle-demo-curtain-page{margin-bottom:0}
+ body footer.tle-demo-curtain-footer{position:relative!important;height:auto;min-height:0}
+ body footer.tle-demo-curtain-footer .tle-demo-curtain-footer__inner{height:auto;min-height:280px}
+}
+@media(prefers-reduced-motion:reduce){
+ body .tle-demo-curtain-page{margin-bottom:0!important;box-shadow:none;border-radius:0}
+ body footer.tle-demo-curtain-footer{position:relative!important;height:auto!important;min-height:0}
+ body footer.tle-demo-curtain-footer .tle-demo-curtain-footer__inner{
+  height:auto;min-height:320px;transform:none!important;opacity:1!important;animation:none!important;
+ }
+ body footer.tle-demo-curtain-footer .tle-demo-curtain-footer__links a{transition:none!important}
+}
