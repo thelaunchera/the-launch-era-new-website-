@@ -238,3 +238,16 @@ html.demo-editorial.tle-demo-v49 #bookingStarter#bookingStarter #main#main .tle4
   transition:none!important;
  }
 }
+/* Respect iOS/Android reduced motion even over the older high-specificity
+   flex-grow/height transitions; card state must settle on the first frame. */
+@media(prefers-reduced-motion:reduce){
+ html.demo-editorial.tle-demo-v49 #bookingStarter#bookingStarter #main#main .tle49-expanding-gallery>button.service.tle49-service-panel,
+ html.demo-editorial.tle-demo-v49 #bookingStarter#bookingStarter #main#main .tle49-expanding-gallery>button.service.tle49-service-panel.tle49-active{
+  animation:none!important;
+  transition:none!important;
+ }
+ html.demo-editorial.tle-demo-v49 #bookingStarter#bookingStarter #main#main .tle49-service-panel .demo-service-body,
+ html.demo-editorial.tle-demo-v49 #bookingStarter#bookingStarter #main#main .tle49-service-panel .price{
+  transition:none!important;
+ }
+}
