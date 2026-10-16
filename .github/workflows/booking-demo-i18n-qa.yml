@@ -1,0 +1,42 @@
+name: Personalized demo bilingual browser guard
+on:
+  pull_request:
+    paths:
+      - 'public/booking-demo/index.html'
+      - 'scripts/qa-booking-demo-i18n-browser.mjs'
+      - '.github/workflows/booking-demo-i18n-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Test source and build actual static routes
+        run: |
+          node --check scripts/qa-booking-demo-i18n-browser.mjs
+          node scripts/qa-route-integrity.mjs --static
+          bun install
+          bun run build
+          test -s .output/public/booking-demo/index.html
+      - name: Install Chromium
+        run: |
+          mkdir -p /tmp/tle-booking-i18n-pw
+          cd /tmp/tle-booking-i18n-pw
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+      - name: Confirm English Spanish accessibility and responsive layouts without form submission
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-booking-i18n.log 2>&1 &
+          for i in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:4173/booking-demo/ | grep -q 'id="demoForm"'; then break; fi
+            sleep 2
+          done
+          curl -fsS http://127.0.0.1:4173/booking-demo/ | grep -q 'id="demoForm"'
+          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-booking-i18n-pw/node_modules/playwright/index.mjs node scripts/qa-booking-demo-i18n-browser.mjs
