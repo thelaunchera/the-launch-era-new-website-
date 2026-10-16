@@ -67,7 +67,7 @@ try {
    assert(geometry.singleVisibleQuote===1,"Only one visible custom quote CTA: "+JSON.stringify(geometry));
    assert(geometry.overflow<=7,"No horizontal overflow "+JSON.stringify(geometry));
    const columns=await page.locator("#residentialServiceList").evaluate(el=>({
-     count:getComputedStyle(el).gridTemplateColumns.split(/\\s+/).filter(Boolean).length,
+     count:getComputedStyle(el).gridTemplateColumns.trim().split(/\s+/).filter(Boolean).length,
      display:getComputedStyle(el).display
    }));
    const expected=width>=1051?3:width>=760?2:1;
