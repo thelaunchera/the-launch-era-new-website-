@@ -33,6 +33,7 @@ assert(observer.includes('IntersectionObserver') && observer.includes('observer.
 assert(scrollCSS.includes('height: 180svh') && scrollCSS.includes('position: sticky'));
 assert(scrollCSS.includes('scale(calc(1 - .3 * var(--hero-scroll-progress, 0)))'));
 assert(scrollCSS.includes('2026 split-hero extension') && scrollCSS.includes('hero-split-visual'));
+assert(scrollCSS.includes('2026-10-16 iPad/tablet parity'), 'portrait iPad responsive override missing');
 assert(styles.includes('clip-path:inset(0 0 0 100% round 20px)'));
 assert(styles.includes('clip-path:inset(0 0 0 0 round 20px)'));
 assert(styles.includes('transition:clip-path 900ms cubic-bezier(.32,.72,0,1)'));
@@ -49,7 +50,8 @@ const base = (process.env.QA_URL || 'http://127.0.0.1:4173').replace(/\/$/, '');
 const browser = await chromium.launch({ headless: true });
 const viewports = [
   { width: 360, height: 780 }, { width: 390, height: 844 },
-  { width: 820, height: 1000 }, { width: 1024, height: 768 },
+  { width: 820, height: 1000 }, { width: 834, height: 1194 },
+  { width: 1024, height: 1366 }, { width: 1024, height: 768 },
   { width: 1440, height: 900 },
 ];
 const errors = [];
@@ -78,7 +80,7 @@ try {
      clipPath: getComputedStyle(panel).clipPath,
      imageScale: new DOMMatrixReadOnly(getComputedStyle(photo).transform).a,
      introOpacity: Number(getComputedStyle(intro).opacity),
-     panel: { top:a.top, left:a.left, width:a.width },
+     panel: { top:a.top, left:a.left, width:a.width, height:a.height },
      copy: { top:b.top, left:b.left, width:b.width },
      stagePosition: getComputedStyle(stage).position,
      framePosition: getComputedStyle(frame).position,
@@ -98,7 +100,13 @@ try {
     assert(state.stagePosition !== 'sticky' && state.framePosition !== 'absolute', lang + ': mobile must use natural height');
     assert(Math.abs(state.frameScale - 1) < .04, lang + ': mobile hero cannot shrink');
    } else {
-    assert(state.panel.left > state.copy.left, lang + ': photo must be on the right on desktop');
+    if (viewport.width <= 1100 && viewport.height > viewport.width) {
+     assert(state.panel.top < state.copy.top, lang + ' ' + viewport.width + ': portrait tablet photo must be ABOVE copy');
+     assert(state.panel.width > viewport.width * .78, lang + ' ' + viewport.width + ': portrait tablet image too narrow: ' + state.panel.width);
+     assert(state.panel.height > viewport.height * .35, lang + ' ' + viewport.width + ': portrait tablet image too short: ' + state.panel.height);
+    } else {
+     assert(state.panel.left > state.copy.left, lang + ' ' + viewport.width + ': landscape/desktop photo must be on the right');
+    }
     assert(state.stagePosition === 'sticky', lang + ': desktop sticky scroll effect removed');
     assert(state.travel > 0.65 * viewport.height, lang + ': scroll stage too short');
     await page.evaluate(y => { document.documentElement.style.scrollBehavior='auto'; window.scrollTo(0,y); }, state.top + state.travel);
@@ -136,7 +144,7 @@ try {
   await reduced.close();
  }
  assert.deepEqual(errors, [], 'Browser console errors');
- console.log('[HERO BROWSER QA PASSED] EN/ES five widths, viewport wipe, sticky desktop and static reduced-motion mobile.');
+ console.log('[HERO BROWSER QA PASSED] EN/ES seven widths incl. large portrait iPad, scroll wipe, sticky tablet/desktop and static reduced-motion mobile.');
 } finally {
  await browser.close();
 }
