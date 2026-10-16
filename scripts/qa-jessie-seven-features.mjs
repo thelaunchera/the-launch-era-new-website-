@@ -77,6 +77,8 @@ assert.equal(suppressed([examples[0]]),false,"Archival alone does not mean unsub
 assert.deepEqual(active([examples[0],examples[1]]),examples[1],"Reuse the active record if one exists");
 assert.equal(suppressed([examples[2]]),true,"A previous opt-out must block the transactional request");
 
+assert.match(crm,/href="'\+svc\.url\+'".*color:#276687/,"Sonny link in email must use the SAME personalized sample URL");
+assert.match(crm,/Try a live booking simulation with my friend Sonny/,"Email presents a simulated, not real, booking");
 assert.match(crm,/Idempotency-Key/);
 assert.match(crm,/tle-crm-interest\?lead=/);
 assert.match(crm,/event_type:"email_sent"/);
