@@ -555,3 +555,101 @@
     transition:none !important;
   }
 }
+
+/* 2026-10-16 iPad/tablet parity: portrait is a reading layout, not a squeezed
+   desktop split. Keep the original scroll-to-card and photo wipe intact. */
+@media (min-width:768px) and (max-width:1100px) and (orientation:portrait) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split {
+    grid-template-columns:minmax(0,1fr);
+    grid-template-rows:minmax(0,1fr) auto;
+    align-items:stretch;
+    align-content:stretch;
+    gap:clamp(16px,2vh,25px);
+    padding:clamp(18px,2.5vw,28px) clamp(18px,3.2vw,34px) clamp(42px,5.5vh,70px) !important;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
+    grid-column:1;
+    grid-row:1;
+    align-self:stretch;
+    height:100%;
+    min-height:0;
+    max-height:none;
+    width:100%;
+    border-radius:22px;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro {
+    grid-column:1;
+    grid-row:2;
+    align-self:end;
+    width:100%;
+    max-width:100%;
+    padding:0;
+    margin:0;
+    text-align:left;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro h1 {
+    max-width:24ch;
+    margin:10px 0 11px;
+    font-size:clamp(34px,4.7vw,45px);
+    line-height:1.12;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro p:not(.demo-delivery-note) {
+    max-width:62ch;
+    font-size:clamp(14px,1.75vw,16px);
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro .hero-cta-row {
+    margin:16px 0 0;
+    justify-content:flex-start;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro .demo-delivery-note {
+    margin:8px 0 0;
+    font-size:11px;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow {
+    inset:auto auto 20px 20px !important;
+    width:min(300px,calc(100% - 40px));
+  }
+}
+/* Landscape iPads keep text beside the photo, but allocate the image more
+   room and remove desktop-sized outer gutters. */
+@media (min-width:768px) and (max-width:1180px) and (orientation:landscape) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split {
+    grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);
+    gap:clamp(16px,2.5vw,32px);
+    padding:clamp(22px,3vw,42px) clamp(20px,3.2vw,40px) !important;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
+    height:clamp(415px,70svh,560px);
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro h1 {
+    font-size:clamp(34px,3.7vw,46px);
+  }
+}
+/* On a touch iPad the scroll hint appears later. Begin the slow split-word
+   demonstration when it actually becomes visible, not on the first page paint. */
+@media (min-width:768px) and (max-width:1180px) and (hover:none) and (pointer:coarse) and (prefers-reduced-motion:no-preference) {
+  .sales-home .hero-scroll .hero-scroll-reveal .tle-hero-split-upper,
+  .sales-home .hero-scroll .hero-scroll-reveal .tle-hero-split-lower,
+  .sales-home .hero-scroll .hero-scroll-reveal .tle-hero-split-reveal {
+    animation:none;
+  }
+  .sales-home .hero-scroll.hero-scroll-revealed .hero-scroll-reveal .tle-hero-split-upper {
+    animation:tle-word-peek-upper 8.2s ease-in-out .25s 1 both;
+  }
+  .sales-home .hero-scroll.hero-scroll-revealed .hero-scroll-reveal .tle-hero-split-lower {
+    animation:tle-word-peek-lower 8.2s ease-in-out .25s 1 both;
+  }
+  .sales-home .hero-scroll.hero-scroll-revealed .hero-scroll-reveal .tle-hero-split-reveal {
+    animation:tle-word-peek-reveal 8.2s ease-in-out .25s 1 both;
+  }
+}
+/* No scroll reveal on reduced motion: show a full-sized photo, with readable
+   text following in document flow; never reserve an empty fractional track. */
+@media (min-width:768px) and (max-width:1100px) and (orientation:portrait) and (prefers-reduced-motion:reduce) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split {
+    grid-template-rows:auto auto;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
+    height:clamp(440px,72vw,680px);
+  }
+}
