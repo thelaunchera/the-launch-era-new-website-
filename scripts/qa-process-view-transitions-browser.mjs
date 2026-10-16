@@ -13,8 +13,9 @@ try {
       await button.waitFor({ state: 'visible', timeout: 25000 });
       const count = await page.locator('.tle-process-grid .tle-process-card').count();
       assert.equal(count, 3, language + ' should have three clickable cards at ' + width);
-      await button.scrollIntoViewIfNeeded();
-      await button.click();
+      // Locator.click() scrolls into view and retries React DOM replacements itself.
+      // Keep genuine hit-testing (no force click) for interactive QA.
+      await button.click({ timeout: 15000 });
       const dialog = page.getByRole('dialog');
       await dialog.waitFor({ state: 'visible' });
       assert.equal(await dialog.getAttribute('aria-modal'), 'true');
@@ -31,8 +32,8 @@ try {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: 'no-preference' });
   await page.goto(base + '/', { waitUntil: 'domcontentloaded', timeout: 30000 });
   const first = page.locator('.tle-process-grid .tle-process-card').first();
-  await first.scrollIntoViewIfNeeded();
-  await first.click();
+  // Avoid a separate scroll call: React can replace the button between actions.
+  await first.click({ timeout: 15000 });
   await page.getByRole('dialog').waitFor({ state: 'visible' });
   const heroName = await page.locator('.tle-process-detail-hero').evaluate(el => el.style.viewTransitionName);
   assert.equal(heroName, 'tle-process-0', 'Source to hero transition name must match');
