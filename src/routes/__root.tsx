@@ -168,9 +168,8 @@ function RootShell({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
-        <script src="/assets/jessy-site.js?v=20261016-compact-checkout-v2" defer />
-        <script src="/assets/tle-purchase-proof.js?v=20261016-mini3" defer />
-        <script src="/assets/tle-footer-newsletter.js?v=20261016-ios3" defer />
+        {/* Hydration owns the SSR body. These DOM-enhancing scripts are loaded
+            in RootComponent's effect AFTER hydration, never as parser-time defer. */}
         <Scripts />
       </body>
     </html>
@@ -179,6 +178,29 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  // SSR safety: do not allow marketing assistants, verified purchase notices,
+  // or newsletter enhancements to mutate React-owned DOM before hydration.
+  // Maintain existing scripts and their order; no service or data behavior changes.
+  useEffect(() => {
+    const sources = [
+      '/assets/jessy-site.js?v=20261016-compact-checkout-v2',
+      '/assets/tle-purchase-proof.js?v=20261016-mini3',
+      '/assets/tle-footer-newsletter.js?v=20261016-ios3',
+    ];
+    const added: HTMLScriptElement[] = [];
+    for (const src of sources) {
+      if (document.querySelector('script[data-tle-after-hydration][src="' + src + '"]')) continue;
+      const script = document.createElement('script');
+      script.src = src;
+      script.async = false;
+      script.dataset.tleAfterHydration = 'true';
+      document.body.appendChild(script);
+      added.push(script);
+    }
+    // The site shell lives for the whole SPA session. Clean up any script nodes
+    // on root unmount without undoing the initialized standalone widgets.
+    return () => added.forEach((script) => script.remove());
+  }, []);
   // Load DOM-enhancing services motion only after React has hydrated the SSR
   // homepage. Injecting a script before hydration caused React error #418.
   useEffect(() => {
