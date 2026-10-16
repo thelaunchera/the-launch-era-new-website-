@@ -61,7 +61,7 @@ document.body.append(scrim,sheet);
 const wheelIds=['apptHours','apptMinutes','apptPeriod'];
 const values=[Array.from({length:12},(_,i)=>String(i+1)),Array.from({length:12},(_,i)=>String(i*5).padStart(2,'0')),['AM','PM']];
 const now=new Date(),state={year:now.getFullYear(),month:now.getMonth(),day:native.value||'',
-indices:[8,0,0],picked:false,program:false,open:false,restore:null,done:false};
+indices:[8,0,0],picked:false,program:false,wheelArmed:false,open:false,restore:null,done:false};
 const time=()=>values[0][state.indices[0]]+':'+values[1][state.indices[1]]+' '+values[2][state.indices[2]];
 const pretty=()=>{const d=parse(state.day);return d?new Intl.DateTimeFormat(locale(),{weekday:'short',month:'short',day:'numeric',year:'numeric'}).format(d):''};
 function service(){return document.querySelector('.service[aria-pressed="true"] .service-title')?.textContent?.trim()||lex().quote}
@@ -102,7 +102,7 @@ $('apptDays').replaceChildren(...nodes)
 function selectDay(day){
 if(!day||day<today())return;const changed=state.day!==day;state.day=day;
 native.value=day;native.dispatchEvent(new Event('input',{bubbles:true}));
-if(changed){state.picked=false;state.done=false;$('tlePreferredTime').value=''}
+if(changed){state.picked=false;state.done=false;state.wheelArmed=false;$('tlePreferredTime').value=''}
 renderCalendar();updateBar()
 }
 function paintWheel(col,index){
@@ -126,23 +126,23 @@ const col=$(id);col.replaceChildren(...values[which].map((value,i)=>{
 const el=document.createElement('div');el.className='appt-wheel-option';el.id=id+'-'+i;el.setAttribute('role','option');el.textContent=value;return el
 }));
 let touched=false,drag=null,raf=0;
-col.addEventListener('wheel',()=>{touched=true},{passive:true});
-col.addEventListener('touchstart',()=>{touched=true},{passive:true});
+col.addEventListener('wheel',()=>{touched=true;state.wheelArmed=true},{passive:true});
+col.addEventListener('touchstart',()=>{touched=true;state.wheelArmed=true},{passive:true});
 col.addEventListener('scroll',()=>{
 if(raf)cancelAnimationFrame(raf);
 raf=requestAnimationFrame(()=>{
 const index=Math.max(0,Math.min(values[which].length-1,Math.round(col.scrollTop/22)));
 state.indices[which]=index;paintWheel(col,index);
-if(touched&&!state.program)commitTime()
+if(touched&&state.wheelArmed&&!state.program)commitTime()
 })
 },{passive:true});
 col.addEventListener('keydown',e=>{
-if(!['ArrowUp','ArrowDown','Home','End'].includes(e.key))return;e.preventDefault();touched=true;
+if(!['ArrowUp','ArrowDown','Home','End'].includes(e.key))return;e.preventDefault();touched=true;state.wheelArmed=true;
 const index=e.key==='Home'?0:e.key==='End'?values[which].length-1:state.indices[which]+(e.key==='ArrowUp'?-1:1);
 setWheel(which,index,true,true)
 });
 col.addEventListener('pointerdown',e=>{
-if(e.pointerType==='touch')return;touched=true;drag={y:e.clientY,top:col.scrollTop,prev:e.clientY,at:performance.now(),velocity:0};
+if(e.pointerType==='touch')return;touched=true;state.wheelArmed=true;drag={y:e.clientY,top:col.scrollTop,prev:e.clientY,at:performance.now(),velocity:0};
 col.style.scrollSnapType='none';col.setPointerCapture(e.pointerId)
 });
 col.addEventListener('pointermove',e=>{
@@ -203,7 +203,7 @@ $('chooseNext').addEventListener('click',()=>requestAnimationFrame(()=>{showProv
 $('customQuote').addEventListener('click',()=>requestAnimationFrame(()=>{showProvider();align()}));
 $('backReview').addEventListener('click',()=>requestAnimationFrame(align));
 function reset(){
-state.day='';state.picked=false;state.done=false;state.indices=[8,0,0];state.year=new Date().getFullYear();state.month=new Date().getMonth();
+state.day='';state.picked=false;state.done=false;state.wheelArmed=false;state.indices=[8,0,0];state.year=new Date().getFullYear();state.month=new Date().getMonth();
 $('tlePreferredTime').value='';native.value='';align();renderCalendar();updateBar()
 }
 $('restart').addEventListener('click',()=>setTimeout(reset,0));
