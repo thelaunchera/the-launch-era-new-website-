@@ -35,7 +35,7 @@ if(!mount()){
 window.addEventListener("load",()=>{
  for(const asset of ["tle-demo-compare-v40.js","tle-demo-redesign-v42.js"]){
   const tag=document.createElement("script");
-  tag.src="/assets/"+asset+"?v=20261016-v42a";
+  tag.src="/assets/"+asset+"?v=20261016-v42c";
   document.head.append(tag);
  }
 },{once:true});
