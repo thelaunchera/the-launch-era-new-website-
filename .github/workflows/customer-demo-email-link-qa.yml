@@ -1,7 +1,7 @@
 name: Customer Demo Email Link QA
 on:
   push:
-    branches: ['fix/canonical-demo-email-links-20261016']
+    branches: ['fix/demo-email-website-clean-reset-20261016']
     paths:
       - 'supabase/functions/tle-jessie-demo-lead/index.ts'
       - 'public/assets/jessy-site.js'
@@ -30,5 +30,6 @@ jobs:
           node --check public/assets/jessy-site.js
           node --check scripts/qa-canonical-demo-email.mjs
           node scripts/qa-canonical-demo-email.mjs
-          node scripts/qa-public-demo-integrity.mjs
+          node scripts/qa-jessie-seven-features.mjs
+          node scripts/qa-jessy-coverage.mjs
           node scripts/qa-route-integrity.mjs --static
