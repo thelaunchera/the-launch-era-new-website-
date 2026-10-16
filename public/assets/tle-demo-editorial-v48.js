@@ -10,12 +10,6 @@ const pictures={
     "/assets/drive-house-gallery/quiet-luxury.png",
     "/assets/drive-house-gallery/pristine-kitchen.png",
     "/assets/drive-house-gallery/whole-home.png"
-  ],
-  commercial:[
-    "/assets/lead-demo/spotless-office.png",
-    "/assets/drive-house-gallery/dining-room.png",
-    "/assets/lead-demo/sunroom.png",
-    "/assets/lead-demo/poolside-living.png"
   ]
 };
 const copy=es?{
@@ -85,8 +79,15 @@ function setup(){
   if(image){image.src=pictures.residential[index];image.alt="";image.removeAttribute("data-drive-photo");}
  });
  const commercial=document.getElementById("commercialServiceList");
- const commercialImages=[...(commercial?.querySelectorAll(":scope > button.service.tle-service-has-photo-v21 img")||[])];
- commercialImages.slice(0,4).forEach((image,index)=>{image.src=pictures.commercial[index];image.alt="";});
+ const commercialCards=[...(commercial?.querySelectorAll(":scope > button.service.tle-service-has-photo-v21")||[])];
+ // One office image can be verified locally. Other categories retain their
+ // names and click behavior, but use designed backgrounds rather than a
+ // misleading living-room photograph pretending to be a medical/retail site.
+ commercialCards.forEach((card,index)=>{
+  const image=card.querySelector(".tle-service-photo-v21 img");
+  if(index===0&&image){image.src="/assets/lead-demo/spotless-office.png";image.alt="";}
+  else card.classList.add("tle48-nonphoto-commercial");
+ });
  // Keep the custom quote path with its checked-area flow, and hide only
  // the older duplicate custom-quote tile when that replacement is present.
  const dynamic=list.querySelector("button.tle-v30-main-custom");
