@@ -1,202 +1,117 @@
-/* Public EN/ES homepage only. A clear explanation of the workflow, not
-   a fake live CRM or a customer-facing booking tool. */
-.sales-home .booking-layout:has(.tle-flow-explorer) {
-  grid-template-columns: minmax(0,1fr);
-  gap: clamp(24px,3vw,38px);
+/* The Booking Automation section ONLY: an illustrative system diagram.
+   Stationary feature tiles; drawn connectors + six dots converge on the private hub.
+   No outside brand/logo or unverified integration claims. */
+.sales-home .booking-layout:has(.tle-flow-explorer){grid-template-columns:minmax(0,1fr);gap:clamp(22px,3vw,38px)}
+.sales-home .booking-layout:has(.tle-flow-explorer)>.booking-copy{max-width:860px}
+.sales-home .home-booking-explorer.tle-flow-explorer{
+ width:100%;max-width:100%;min-width:0;box-sizing:border-box;
+ padding:clamp(12px,2vw,22px);background:#f8fcff;border:1px solid #d3e5f0;
+ border-radius:26px;box-shadow:0 12px 33px rgba(45,80,103,.06);overflow:hidden;
 }
-.sales-home .booking-layout:has(.tle-flow-explorer) > .booking-copy {
-  max-width: 860px;
+.tle-connected-flow{width:100%;min-width:0;color:#191919;--hub-blue:#367fab}
+.tle-connected-flow__intro{padding:clamp(14px,2.5vw,24px) clamp(9px,3vw,26px) 4px}
+.tle-connected-flow__intro .eyebrow{display:block;font:750 11px/1.5 'Prompt','DM Sans',sans-serif;letter-spacing:.1em;color:#4b7690}
+.tle-connected-flow__intro h3{font:750 clamp(24px,3vw,34px)/1.14 'Prompt','DM Sans',sans-serif;letter-spacing:-.025em;margin:9px 0 7px}
+.tle-connected-flow__intro p{margin:0;color:#4b6676;font-size:14px;line-height:1.55;max-width:68ch}
+.tle-connection-hub__stage{
+ position:relative;isolation:isolate;width:100%;height:540px;
+ border:1px solid #e0ebf3;border-radius:22px;overflow:hidden;margin-top:16px;
+ background-color:#eef7fe;
+ background-image:radial-gradient(circle,rgba(82,137,173,.19) 1px,transparent 1.6px),
+ radial-gradient(ellipse at center,#f8fcff 0%,#eff8ff 54%,#e8f5fe 100%);
+ background-size:26px 26px,100% 100%;background-position:0 0,center;
 }
-.sales-home .home-booking-explorer.tle-flow-explorer {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  padding: clamp(12px,2vw,20px);
-  min-width: 0;
-  background: #F9FCFF;
-  border: 1px solid #D5E4ED;
-  border-radius: 24px;
-  box-shadow: 0 12px 32px rgba(45,80,103,.055);
-  overflow: hidden;
+.tle-connection-hub__svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
+.tle-connection-hub__path{fill:none;stroke:#82b0ce;stroke-width:.65;stroke-dasharray:1;stroke-dashoffset:0;vector-effect:none}
+.tle-connection-hub__travel-dot{fill:#267ca9;opacity:0;transform-box:view-box;transform-origin:0 0}
+.tle-connection-hub__core{
+ position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;
+ width:25%;max-width:236px;min-height:140px;padding:16px 12px;
+ display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;
+ border:2px solid #79b0d0;border-radius:22px;background:linear-gradient(145deg,#e7f5ff,#fff 60%,#dbeffa);
+ box-shadow:0 13px 30px rgba(38,99,135,.15);text-align:center;color:#173f5a;
 }
-.tle-connected-flow {
-  --tle-line: #87ABC6;
-  width: 100%;
-  min-width: 0;
-  color: #191919;
+.tle-connection-hub__core-icon{width:40px;height:40px;border-radius:12px;background:#d6ecfa;display:grid;place-items:center;color:#267aa8}
+.tle-connection-hub__core-brand{font:800 10px/1.2 'Prompt','DM Sans',sans-serif;letter-spacing:.08em;color:#3b7393}
+.tle-connection-hub__core strong{font:800 clamp(15px,2vw,21px)/1.18 'Prompt','DM Sans',sans-serif;letter-spacing:-.03em}
+.tle-connection-hub__core small{font:550 11px/1.3 'DM Sans',sans-serif;color:#4e758d}
+.tle-connection-hub__ring{position:absolute;inset:0;border:2px solid #5ba4cb;border-radius:inherit;opacity:0;pointer-events:none;z-index:-1}
+.tle-connection-hub__tile{
+ position:absolute;left:var(--hub-x);top:var(--hub-y);transform:translate(-50%,-50%);
+ z-index:2;width:24%;max-width:218px;min-width:0;height:103px;
+ display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:5px;
+ padding:12px 16px;background:#fff;border:1.5px solid #c8dbe8;border-radius:17px;
+ box-shadow:0 7px 17px rgba(43,88,114,.08);color:#1c435c;text-align:left;
+ cursor:pointer;transition:transform .22s cubic-bezier(.32,.72,0,1),box-shadow .22s ease;
 }
-.tle-connected-flow__intro {
-  padding: clamp(12px,2.5vw,22px) clamp(10px,3vw,26px) 12px;
-  text-align: left;
+.tle-connection-hub__tile svg{color:#367fab;background:#e5f4fd;border-radius:8px;padding:4px;box-sizing:content-box;flex:none}
+.tle-connection-hub__tile strong{font:750 clamp(12px,1.35vw,15px)/1.22 'Prompt','DM Sans',sans-serif;letter-spacing:-.015em}
+.tle-connection-hub__tile small{font:450 11px/1.27 'DM Sans',sans-serif;color:#527084}
+.tle-connection-hub__tile:hover{transform:translate(-50%,calc(-50% - 2px));box-shadow:0 11px 24px rgba(43,88,114,.15)}
+.tle-connection-hub__tile[aria-pressed=true]{outline:2px solid #3b86af;outline-offset:2px}
+.tle-connection-hub__tile:focus-visible{outline:3px solid #246d98;outline-offset:3px}
+.tle-connected-flow__detail{
+ display:grid;grid-template-columns:60px minmax(0,1fr);align-items:center;
+ gap:14px;min-height:88px;margin:12px 0 0;padding:15px 18px;
+ background:#fff;border:1px solid #d8e8f2;border-radius:16px;box-sizing:border-box;
 }
-.tle-connected-flow__intro .eyebrow {
-  display: block;
-  font: 650 10px/1.45 'Prompt','DM Sans',sans-serif;
-  letter-spacing: .1em;
-  color: #4B7690;
+.tle-connected-flow__detail>span{font:800 12px/1.5 'Prompt','DM Sans',sans-serif;color:#3d7da3;white-space:nowrap}
+.tle-connected-flow__detail strong{display:block;font:750 15px/1.35 'Prompt','DM Sans',sans-serif;color:#1c3d54}
+.tle-connected-flow__detail p{font:450 13px/1.5 'DM Sans',sans-serif;margin:4px 0 0;color:#496b80}
+.tle-connection-hub__disclaimer{margin:11px 5px 3px;color:#577487;font-size:11px;line-height:1.5}
+@media(prefers-reduced-motion:no-preference){
+ .tle-connection-hub.is-visible .tle-connection-hub__path{
+  animation:tle-hub-draw .7s cubic-bezier(.32,.72,0,1) both;
+  animation-delay:calc(var(--hub-index)*450ms);
+ }
+ .tle-connection-hub.is-visible .tle-connection-hub__travel-dot{
+  animation:tle-hub-dot 1.1s cubic-bezier(.32,.72,0,1) both;
+  animation-delay:calc(var(--hub-index)*450ms);
+ }
+ .tle-connection-hub.is-visible .tle-connection-hub__tile{
+  animation:tle-hub-tile .04s step-end both;
+  animation-delay:calc(var(--hub-index)*450ms);
+ }
+ .tle-connection-hub.is-visible .tle-connection-hub__ring{
+  animation:tle-hub-pulse 850ms cubic-bezier(.32,.72,0,1) both;
+  animation-delay:calc(var(--hub-index)*450ms + 1.1s);
+ }
 }
-.tle-connected-flow__intro h3 {
-  font: 650 clamp(24px,3.2vw,35px)/1.15 'Prompt','DM Sans',sans-serif;
-  margin: 8px 0 7px;
-  letter-spacing: -.025em;
+@keyframes tle-hub-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes tle-hub-dot{0%{opacity:0;transform:translate(0,0)}10%{opacity:1}82%{opacity:1}100%{opacity:0;transform:translate(var(--hub-move-x),var(--hub-move-y))}}
+@keyframes tle-hub-tile{from{background:#fff;border-color:#c8dbe8;color:#1c435c}to{background:#e9f6fe;border-color:#75afce;color:#164568}}
+@keyframes tle-hub-pulse{0%{transform:scale(1);opacity:.25}100%{transform:scale(1.7);opacity:0}}
+@media(max-width:767px){
+ .sales-home .home-booking-explorer.tle-flow-explorer{padding:12px;border-radius:20px}
+ .tle-connected-flow__intro{padding:11px 6px 4px}
+ .tle-connected-flow__intro h3{font-size:24px}
+ .tle-connected-flow__intro p{font-size:12px;line-height:1.55}
+ .tle-connection-hub__stage{height:610px;border-radius:18px;margin-top:14px;background-size:20px 20px,100% 100%}
+ .tle-connection-hub__tile{width:31%;height:100px;max-width:none;padding:9px 9px;border-radius:14px;gap:4px}
+ .tle-connection-hub__tile strong{font-size:11px;line-height:1.22;overflow-wrap:anywhere}
+ .tle-connection-hub__tile small{font-size:9px;line-height:1.28;overflow-wrap:anywhere}
+ .tle-connection-hub__tile svg{width:16px;height:16px;padding:3px}
+ .tle-connection-hub__core{width:37%;min-height:126px;padding:12px 7px;border-radius:18px}
+ .tle-connection-hub__core-icon{width:34px;height:34px}
+ .tle-connection-hub__core strong{font-size:15px;overflow-wrap:anywhere}
+ .tle-connection-hub__core-brand{font-size:8px}
+ .tle-connection-hub__core small{font-size:9px}
+ .tle-connected-flow__detail{grid-template-columns:48px minmax(0,1fr);gap:8px;padding:12px}
+ .tle-connected-flow__detail strong{font-size:14px}
+ .tle-connected-flow__detail p{font-size:12px}
 }
-.tle-connected-flow__intro p {
-  margin: 0;
-  color: #4B6676;
-  font-size: 14px;
-  line-height: 1.55;
+@media(max-width:365px){
+ .tle-connection-hub__stage{height:635px}
+ .tle-connection-hub__tile{padding:8px 7px;height:103px}
+ .tle-connection-hub__tile strong{font-size:10.5px}
+ .tle-connection-hub__tile small{font-size:9px}
 }
-.tle-connected-flow__viewport {
-  min-width: 0;
-  max-width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  overscroll-behavior-inline: contain;
-  scroll-behavior: smooth;
-  touch-action: pan-x;
-  scrollbar-width: thin;
-  scrollbar-color: #ACC7D9 transparent;
-  border-radius: 18px;
-  background-color: #F3F9FE;
-  background-image: radial-gradient(circle,rgba(87,137,170,.2) 1px,transparent 1.3px);
-  background-size: 24px 24px;
-  border: 1px solid #E3EDF4;
+@media(prefers-reduced-motion:reduce){
+ .tle-connection-hub__path{stroke-dashoffset:0!important;animation:none!important}
+ .tle-connection-hub__travel-dot,.tle-connection-hub__ring{display:none!important;animation:none!important}
+ .tle-connection-hub__tile{background:#e9f6fe;border-color:#75afce;animation:none!important;transition:none!important}
 }
-.tle-connected-flow__viewport:focus-visible {
-  outline: 3px solid #367FAB;
-  outline-offset: 2px;
-}
-.tle-connected-flow__plane {
-  width: min(900px,100%);
-  min-width: 760px;
-  height: 450px;
-  position: relative;
-  margin: 0 auto;
-}
-.tle-connected-flow__wires {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-.tle-connected-flow__signal {
-  opacity: .9;
-}
-.tle-connected-flow__dotted { opacity: .55; }
-.tle-connected-flow__note {
-  position: absolute;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  box-sizing: border-box;
-  width: 166px;
-  min-height: 144px;
-  padding: 13px 14px;
-  gap: 7px;
-  text-align: left;
-  border: 1px solid #D4E2EB;
-  background: #FFFFFF;
-  color: #191919;
-  border-radius: 15px;
-  box-shadow: 0 7px 18px rgba(39,82,109,.095),0 1px 2px rgba(39,82,109,.06);
-  cursor: pointer;
-  transition: border-color 360ms ease, background-color 360ms ease, box-shadow 360ms ease, transform 360ms cubic-bezier(.32,.72,0,1);
-}
-.tle-connected-flow__note:hover,.tle-connected-flow__note[aria-pressed="true"] {
-  background: #EAF5FD;
-  border-color: #7DAFD0;
-  box-shadow: 0 10px 24px rgba(39,82,109,.14);
-}
-.tle-connected-flow__note[aria-pressed="true"] { transform: translateY(-4px); }
-.tle-connected-flow__note:focus-visible { outline: 3px solid #367FAB; outline-offset: 3px; }
-.tle-connected-flow__note-top {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: #47758E;
-  font: 700 11px/1 'Prompt','DM Sans',sans-serif;
-}
-.tle-connected-flow__note-top svg {
-  color: #3776A0;
-  border-radius: 10px;
-  background: #D9EDFA;
-  padding: 7px;
-  box-sizing: content-box;
-}
-.tle-connected-flow__note strong {
-  display: block;
-  font: 650 15px/1.24 'Prompt','DM Sans',sans-serif;
-  letter-spacing: -.02em;
-}
-.tle-connected-flow__note small {
-  display: block;
-  color: #526A79;
-  font: 450 11px/1.4 'DM Sans',sans-serif;
-}
-.tle-connected-flow__detail {
-  display: grid;
-  grid-template-columns: 58px minmax(0,1fr);
-  align-items: center;
-  gap: 15px;
-  background: #FFFFFF;
-  border: 1px solid #DDE8EF;
-  border-radius: 14px;
-  padding: 14px 18px;
-  margin: 12px 0 0;
-  min-height: 88px;
-  box-sizing: border-box;
-}
-.tle-connected-flow__detail > span {
-  font: 700 12px/1.5 'Prompt','DM Sans',sans-serif;
-  color: #3F789E;
-  white-space: nowrap;
-}
-.tle-connected-flow__detail strong {
-  display: block;
-  color: #191919;
-  font: 650 15px/1.4 'Prompt','DM Sans',sans-serif;
-}
-.tle-connected-flow__detail p {
-  margin: 3px 0 0;
-  color: #425A6B;
-  font-size: 13px;
-  line-height: 1.5;
-  max-width: 75ch;
-}
-.tle-connected-flow__mobile-hint { display: none; }
-@media (prefers-reduced-motion:no-preference) {
-  .tle-connected-flow.is-visible .tle-connected-flow__signal {
-    animation: tle-flow-signals 8s linear infinite;
-  }
-  .tle-connected-flow:not(.is-visible) .tle-connected-flow__note { opacity: .96; }
-}
-@keyframes tle-flow-signals {
-  from { stroke-dashoffset: 0; }
-  to { stroke-dashoffset: -176; }
-}
-@media (max-width: 767px) {
-  .sales-home .home-booking-explorer.tle-flow-explorer {
-    padding: 12px;
-    border-radius: 20px;
-  }
-  .tle-connected-flow__intro { padding: 10px 5px 14px; }
-  .tle-connected-flow__intro h3 { font-size: 25px; }
-  .tle-connected-flow__intro p { font-size: 13px; }
-  .tle-connected-flow__detail { grid-template-columns: 50px minmax(0,1fr); padding: 12px; gap: 9px; }
-  .tle-connected-flow__detail p { font-size: 12px; }
-  .tle-connected-flow__mobile-hint {
-    display: block;
-    margin: 9px 4px 0;
-    font-size: 11px;
-    color: #4B6676;
-    text-align: center;
-  }
-}
+
 /* Existing homepage shrink-to-card remains the foreground. The wiring lives
    BEHIND it; it becomes visible only in the opened negative space. */
 .sales-home .hero-scroll-stage { isolation: isolate; }
