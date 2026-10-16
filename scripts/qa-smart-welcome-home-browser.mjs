@@ -23,7 +23,13 @@ try {
    const modal=page.getByRole('dialog',{name:'The Launch Era bundle offer'});
    await modal.waitFor({state:'visible',timeout:15000});
    const image=modal.locator('img');
-   assert(await image.evaluate(el=>el.complete&&el.naturalWidth>500),'approved flyer failed to load');
+   // The dialog can become visible before the 439 KB approved flyer decodes.
+   // Wait for actual image completion instead of mistaking normal loading for a failure.
+   await page.waitForFunction(() => {
+     const img=document.querySelector('.tle-bundle-welcome-dialog img');
+     return img?.complete && img.naturalWidth > 500;
+   },null,{timeout:15000});
+   assert(await image.evaluate(el=>el.complete&&el.naturalWidth>500),'approved flyer failed to load after 15s');
    assert.equal(await page.locator('#smart-welcome-bundle').count(),1,'No inline promotion');
    const rect=await modal.evaluate(el=>{const r=el.getBoundingClientRect();return {l:r.left,right:r.right,w:window.innerWidth,h:r.height,screenH:window.innerHeight}});
    assert(rect.l>=-2&&rect.right<=rect.w+2&&rect.h<=rect.screenH+2,'Modal overflow '+width);
