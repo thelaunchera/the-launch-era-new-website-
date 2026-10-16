@@ -1,0 +1,65 @@
+name: Booking Demo Editorial v48 PR QA
+on:
+  pull_request:
+    paths:
+      - 'public/lead-private-preview.html'
+      - 'public/assets/tle-demo-editorial-v48.css'
+      - 'public/assets/tle-demo-editorial-v48.js'
+      - 'scripts/build_demo_photo_assets.py'
+      - 'scripts/qa-demo-editorial-v48.mjs'
+      - '.github/workflows/demo-editorial-v48-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-sample-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 24
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Verify syntax, static routes and client isolation
+        run: |
+          node --check public/assets/tle-demo-editorial-v48.js
+          node --check scripts/qa-demo-editorial-v48.mjs
+          python3 -m py_compile scripts/build_demo_photo_assets.py
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-public-demo-integrity.mjs
+      - name: Build all locally hosted Drive images
+        run: |
+          python3 -m pip install --quiet Pillow
+          python3 scripts/build_demo_photo_assets.py
+          for name in story-room story-detail service-standard service-deep service-move; do
+            test -s "public/assets/demo-editorial/$name.webp"
+          done
+          python3 - <<'PY'
+          import json
+          p=json.load(open("public/assets/demo-editorial/manifest.json"))
+          assert len(p)==5
+          print("Editorial image sources:",{name:item["source"] for name,item in p.items()})
+          PY
+      - name: Install isolated Chrome and Safari browser engines
+        run: |
+          bun install
+          mkdir -p /tmp/tle-v48-browser
+          cd /tmp/tle-v48-browser
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium webkit
+      - name: Test phone tablet desktop EN ES and Safari iPhone
+        run: |
+          bun run dev -- --host 127.0.0.1 --port 4173 >/tmp/tle-v48-dev.log 2>&1 &
+          for n in $(seq 1 45); do
+            if curl -sf http://127.0.0.1:4173/lead-private-preview.html >/dev/null; then break; fi
+            sleep 2
+          done
+          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-v48-browser/node_modules/playwright/index.mjs node scripts/qa-demo-editorial-v48.mjs
+      - name: Upload screenshot proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: booking-demo-editorial-v48-qa
+          path: qa-screenshots/demo-v48/
+          if-no-files-found: ignore
