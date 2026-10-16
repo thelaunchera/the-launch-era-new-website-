@@ -180,25 +180,22 @@ function customizeChat(){
     popup.id="tleSonnyGreetingPopup";
     popup.type="button";
     popup.setAttribute("aria-label",labels.ask);
-    popup.textContent=es?"¡Hola! Soy Sonny 👋 ¿Te ayudo a reservar?":"Hi! I'm Sonny 👋 Need help booking?";
+    popup.textContent=es?"Habla conmigo":"Chat with me";
+    popup.setAttribute("aria-label",es?"Hablar con Sonny":"Chat with Sonny");
     popup.addEventListener("click",()=>{popup.hidden=true;window.tleOpenSonnyDemo?.();});
-    // Keep the entrance completely clear: only Sonny's small avatar is visible.
-    // A short optional hint may appear once after the visitor scrolls into the page.
+    // One understated hint shortly after arrival, never another large greeting
+    // or a second launcher. Do not interrupt the hero or open chat unasked.
     popup.hidden=true;
     document.body.appendChild(popup);
-    let hinted=false,closed=false;
-    const dismiss=()=>{closed=true;popup.hidden=true;};
+    let dismissed=false;
+    const dismiss=()=>{dismissed=true;popup.hidden=true;};
     launch.addEventListener("click",dismiss,{once:true});
     popup.addEventListener("click",dismiss,{once:true});
-    const maybeShow=()=>{
-      if(hinted||closed||window.scrollY<Math.min(460,Math.max(300,window.innerHeight*.54))
-         ||document.body.classList.contains("tle-ai-chat-open"))return;
-      hinted=true;
+    window.setTimeout(()=>{
+      if(dismissed||document.hidden||document.body.classList.contains("tle-ai-chat-open"))return;
       popup.hidden=false;
-      window.setTimeout(()=>{popup.hidden=true;},3700);
-    };
-    window.addEventListener("scroll",maybeShow,{passive:true});
-    if(window.scrollY>0)maybeShow();
+      window.setTimeout(()=>{popup.hidden=true;},4100);
+    },850);
   }
   // Compact from first paint; no full-width CTA-shaped second banner.
   launch.classList.add("tle-demo-condensed");
