@@ -79,6 +79,8 @@ function init(){
    }else next.style.transform="translate3d(100%,0,0)";
    size(old,next);void stage.offsetWidth;
    requestAnimationFrame(()=>{
+     // A newer navigation cancels this scheduled frame before any stale transforms run.
+     if(finishActive!==finish)return;
      motion(old,duration);motion(next,duration);
      if(reduce.matches){old.style.opacity="0";next.style.opacity="1"}
      else if(goingBack){
