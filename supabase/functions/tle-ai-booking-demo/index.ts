@@ -117,7 +117,7 @@ function explicitDetails(message:string,previous:ReturnType<typeof bookingDraft>
   found.commercial_space_type=kind==="Restaurant"?"Other":kind;
   if(kind==="Restaurant")found.commercial_space_description="Restaurant";
  }else if(/\b(?:for (?:a )?home|home cleaning|residential|residencial|para una vivienda|para una casa)\b/i.test(q))found.category="residential";
- const bed=q.match(/\b(\d{1,2}|one|two|three|four|five|six|seven|eight|nine|uno|una|dos|tres|cuatro|cinco|seis|siete|ocho|nueve)\s*(?:bedrooms?|beds?|habitaciones?|dormitorios?|cuartos?)\b/i);
+ const bed=q.match(/\b(\d{1,2}|one|two|three|four|five|six|seven|eight|nine|uno|una|dos|tres|cuatro|cinco|seis|siete|ocho|nueve)[\s-]*(?:bedrooms?|beds?|habitaciones?|dormitorios?|cuartos?)\b/i);
  const bath=q.match(/\b(\d{1,2}|one|two|three|four|five|six|seven|eight|nine|uno|una|dos|tres|cuatro|cinco|seis|siete|ocho|nueve)\s*(?:bathrooms?|baths?|baños?|banos?)\b/i);
  if(bed){const value=n(bed[1]);if(value&&value<=9)found.bedrooms=value;}
  if(bath){const value=n(bath[1]);if(value&&value<=9)found.bathrooms=value;}
