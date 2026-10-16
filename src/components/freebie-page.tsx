@@ -1,3 +1,4 @@
+import { SuccessConfirmation } from '@/components/success-confirmation';
 import { MorphSubmit } from '@/components/morph-submit';
 import { MarketingCTA } from '@/components/marketing-cta';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
@@ -36,6 +37,8 @@ export function FreebiePage({language}:{language:Language}){
   const [status,setStatus]=useState<'idle'|'sending'|'done'|'sent'|'error'>('idle');
   const startedAt=useRef(Date.now());
   const formStarted=useRef(false);
+  const sendingRef=useRef(false);
+  const [emailAccepted,setEmailAccepted]=useState(false);
 
   useEffect(()=>{
     try{
@@ -57,7 +60,8 @@ export function FreebiePage({language}:{language:Language}){
 
   async function submit(event:FormEvent<HTMLFormElement>){
     event.preventDefault();
-    if(!email.trim()) return;
+    if(!email.trim() || sendingRef.current || status==='sending' || status==='sent') return;
+    sendingRef.current=true;
     setStatus('sending');
     const form=new FormData(event.currentTarget);
     const context=trafficContext();
@@ -77,9 +81,10 @@ export function FreebiePage({language}:{language:Language}){
       if(!response.ok||!data?.ok) throw new Error(data?.error||'request failed');
       track('freebie_submit',{freebie:'cleaning_lead_tracker',language,...context});
       if(data?.email_sent) track('freebie_email_sent',{freebie:'cleaning_lead_tracker',language,...context});
-      setStatus('done');
-      window.setTimeout(()=>setStatus('sent'),1450);
+      setEmailAccepted(data?.email_sent === true);
+      setStatus('sent');
     }catch{
+      sendingRef.current=false;
       setStatus('error');
     }
   }
@@ -142,18 +147,7 @@ export function FreebiePage({language}:{language:Language}){
         </aside>
 
         <div className="rounded-[30px] border border-black/10 bg-white p-7 shadow-[0_20px_60px_rgba(25,25,25,.06)] md:p-10">
-          {status==='sent' ? <div className="flex min-h-[290px] flex-col justify-center">
-            <Sparkles className="mb-5 text-[#87546F]" size={34}/>
-            <h2 className="font-serif text-5xl leading-none">{es?'¡Listo! Revisa tu correo.':'Your free kit is on its way.'}</h2>
-            <p className="mt-4 max-w-lg leading-7 text-black/60">
-              {es
-                ?<>Te enviamos un correo a <strong className="text-[#191919]">{email}</strong> con un botón para abrir tu Starter Kit. Revísalo en unos minutos.</>
-                :<>Check <strong className="text-[#191919]">{email}</strong> for an email with a button to open your Starter Kit. It should arrive shortly.</>}
-            </p>
-            <p className="mt-6 max-w-lg rounded-2xl bg-[#FAF8F3] px-4 py-3 text-sm leading-6 text-black/60">
-              {es?'¿No lo encuentras? Revisa también Promociones o Spam.':'Can’t find it? Check Promotions or Spam, too.'}
-            </p>
-          </div> : <>
+          {status==='sent' ? <SuccessConfirmation language={language} kind="freebie" email={email} emailSent={emailAccepted} /> : <>
             <div className="mb-7 flex h-12 w-12 items-center justify-center rounded-full bg-[#DCEBFA]"><Mail size={21}/></div>
             <h2 className="font-serif text-5xl leading-none">{es?'Envíamelo a mi correo.':'Send it to my inbox.'}</h2>
             <p className="mt-4 leading-7 text-black/60">
