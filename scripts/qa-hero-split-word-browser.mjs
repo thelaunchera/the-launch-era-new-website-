@@ -18,6 +18,7 @@ try{
    assert.equal(await link.locator('.tle-hero-split-reveal').count(),1);
    assert.equal(await link.locator('.tle-hero-split-front').first().innerText(),copy);
    const clip=await link.locator('.tle-hero-split-front').evaluateAll(els=>els.map(el=>getComputedStyle(el).clipPath));
+   console.log('[SPLIT CLIP DIAG]',lang,width,JSON.stringify(clip));
    assert(clip[0].includes('50%')&&clip[1].includes('50%'),lang+': uncut word halves');
    const before=await page.evaluate(()=>({width:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth}));
    assert(before.scroll <= before.width+2,lang+' '+width+': horizontal scroll');
