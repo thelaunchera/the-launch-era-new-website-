@@ -91,3 +91,24 @@ html.demo-editorial.tle-demo-v45.tle-demo-v46 #bookingStarter #main .tle-v46-wor
   opacity:1!important;
  }
 }
+
+/* Keep the pre-existing custom quote action in the approved frameless design.
+   v34 had higher-specificity decorative tile styles. */
+html.demo-editorial.tle-demo-v45.tle-demo-v46.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter#bookingStarter #main#main .tle-v42-grid > button.tle-v30-main-custom.tle-v34-single-quote{
+ display:flex!important;align-items:center!important;
+ justify-content:space-between!important;
+ min-height:76px!important;
+ margin:0!important;padding:15px 0!important;
+ background:transparent!important;background-image:none!important;
+ border:0!important;border-top:1px solid #9fc8dd!important;
+ border-bottom:1px solid #9fc8dd!important;border-radius:0!important;
+ box-shadow:none!important;outline-offset:4px!important;
+ transform:none!important;
+}
+html.demo-editorial.tle-demo-v45.tle-demo-v46.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter#bookingStarter #main#main .tle-v42-grid > button.tle-v34-single-quote::before,
+html.demo-editorial.tle-demo-v45.tle-demo-v46.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter#bookingStarter #main#main .tle-v42-grid > button.tle-v34-single-quote::after{
+ content:none!important;display:none!important;animation:none!important;
+}
+html.demo-editorial.tle-demo-v45.tle-demo-v46 #bookingStarter #main .tle-v42-grid > button.tle-v34-single-quote .tle-v34-custom-text{
+ background:transparent!important;box-shadow:none!important;
+}
