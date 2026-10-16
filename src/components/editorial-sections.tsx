@@ -24,12 +24,14 @@ export function HomeHero() {
  const [heroLoaded,setHeroLoaded]=useState(false);
  const heroImageRef=useRef<HTMLImageElement>(null);
  useEffect(()=>{if(heroImageRef.current?.complete)setHeroLoaded(true)},[]);
- return <><section className={`hero-photo ${heroLoaded?'hero-media-ready':'hero-media-loading'}`} aria-label="An example of The Launch Era booking experience">
+ return <><section className="hero-scroll" aria-label="An example of The Launch Era booking experience"><div className="hero-scroll-stage"><div className="hero-scroll-reveal"><span>YOUR BOOKING FLOW</span><a href="#hero-next">See how it works <ArrowRight size={18} aria-hidden="true"/></a></div><div className={`hero-photo hero-scroll-frame ${heroLoaded?'hero-media-ready':'hero-media-loading'}`}>
  <img ref={heroImageRef} className="hero-main-image" src={cleaner} alt="Professional cleaner working in a sunlit home, softly blurred behind the headline" width={1920} height={1024} loading="eager" fetchPriority="high" decoding="sync" onLoad={()=>setHeroLoaded(true)} onError={()=>setHeroLoaded(true)}/>
  <div className="hero-intro">
    <div className="eyebrow">FOR CLEANING BUSINESS OWNERS</div>
    <h1>Less time chasing messages.<br/>More time for your business.</h1>
    <p>Requests, quotes, and follow-ups in one place. No more digging through messages.</p>
+   <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/booking-demo/?lang=en">Get my personalized demo <ArrowRight/></a></Button></div>
+   <p className="demo-delivery-note">Your personalized demo arrives automatically by email.</p>
  </div>
  <div className="hero-notice-flow" aria-label="Example notifications; no live activity is shown">
    {notifications.map((n,i)=>{const Icon=n.icon;return <div className={`notification notice-${i+1}`} key={n.title}>
@@ -37,7 +39,7 @@ export function HomeHero() {
      <div className="notice-body"><div className="notice-meta"><span>{n.app}</span><time>{n.when}</time></div><strong>{n.title}</strong><p>{n.text}</p></div>
    </div>})}
  </div><Wave foam/>
- </section><section className="hero-copy"><div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/booking-demo/?lang=en">Get my personalized demo <ArrowRight/></a></Button></div><p className="demo-delivery-note">Your personalized demo arrives automatically by email.</p><BookingWalkthrough/></section></>;
+ </div></div></section><section id="hero-next" className="hero-copy"><BookingWalkthrough/></section></>;
 }
 const services = [
  {title:'Booking Automation + Command Center',landing:'/booking-lead-automation',description:'Your personalized booking page and private workspace for prices, availability, and requests.',image:cleaner,alt:'Cleaner working in a bright residential home',tag:'YOUR BOOKING FLOW, CONNECTED',points:['A personalized Booking Page with available time slots','Your private Command Center with editable prices','Automatic follow-up to keep inquiries moving'],checkout:'/booking-lead-automation'},
