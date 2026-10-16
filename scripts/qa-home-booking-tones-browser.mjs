@@ -34,7 +34,7 @@ try {
       const page=await browser.newPage({viewport:{width,height:844},reducedMotion:'no-preference'});
       const errors=[];
       page.on('pageerror',error=>errors.push(error.message));
-      await page.goto(base+path,{waitUntil:'domcontentloaded',timeout:45000});
+      await page.goto(base+path+'#booking-lead-automation',{waitUntil:'domcontentloaded',timeout:45000});
       await afterHydration(page);
       const section=page.locator('.sales-home .booking-section');
       const preview=section.locator('.home-booking-explorer');
@@ -73,7 +73,7 @@ try {
   }
   for(const [lang,path] of cases){
     const page=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});
-    await page.goto(base+path,{waitUntil:'domcontentloaded',timeout:45000});
+    await page.goto(base+path+'#booking-lead-automation',{waitUntil:'domcontentloaded',timeout:45000});
     await afterHydration(page);
     await scrollToChapter(page,'.booking-section .home-booking-explorer',.19);
     const durations=await page.locator('.booking-section').evaluate(el=>[
