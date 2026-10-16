@@ -268,8 +268,8 @@ function demoText(){
   ?"Te enviamos el enlace de tu demo personalizada por correo. Revisa tu bandeja de entrada y la carpeta de spam si no lo ves."
   :"We've emailed the link to your personalized demo. Check your inbox (and spam folder if needed).";
  demoSuccessSonny.textContent=es
-  ?"Jessie: ¡No olvides probar una reserva en vivo con mi amigo Sonny! Es una simulación; no crea una reserva real."
-  :"Jessie: Don’t forget to try a live booking with my friend Sonny! It’s a simulation—no real bookings are made.";
+  ?"Jessie: Dentro del demo puedes probar el Booking Flow con Sonny. Es una simulación; no se reserva ni se envía nada."
+  :"Jessie: Inside your demo, you can explore the Booking Flow with Sonny. It’s a simulation; no real bookings or messages are sent.";
  demoSuccessNote.textContent=es
   ?"En tu correo también encontrarás el botón “I'm Interested” si decides continuar."
   :"Your email also includes an “I'm Interested” button if you'd like to take the next step.";
@@ -324,8 +324,8 @@ demoGate.addEventListener("submit",async event=>{
   demoSent=true;demoText();demoGate.hidden=true;demoConfirmation.hidden=false;
   demoDone.focus();track("demo_lead_saved");
   const reply=lang==="es"
-   ?"¡Listo! 💌 Revisa tu correo para encontrar tu demo personalizada. Y no olvides probar una reserva en vivo con mi amigo Sonny; es una simulación, sin reservas reales."
-   :"All set! 💌 Check your email for your personalized demo. Don’t forget to try a live booking with my friend Sonny—it’s a simulation, not a real booking.";
+   ?"¡Listo! 💌 Revisa tu correo para abrir tu demo personalizada. Sonny está dentro del demo para ayudarte a explorar el flujo; no se crea ninguna reserva real."
+   :"All set! 💌 Check your email to open your personalized demo. Sonny is included to help you explore the booking flow; no real booking is created.";
   msg(reply,"bot");
  }catch(error){
   const type=String(error?.message||""),es=lang==="es";
