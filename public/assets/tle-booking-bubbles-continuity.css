@@ -212,7 +212,7 @@ body footer {background:#dbf0fd;color:#305d78;border-top-color:#a6d1e7;}
  min-height:50px;display:flex;align-items:center;gap:11px;padding:11px 12px;
  border:1.5px solid #9dbfd4;border-radius:13px;background:#fff;color:#24475e;
  font-size:13px;line-height:1.35;font-weight:700;
- transition:border-color .16s ease,background-color .16s ease;
+ transition:none;
 }
 #bookingPage #detailsPanel .extra-check span::before{
  content:"";flex:0 0 20px;width:20px;height:20px;box-sizing:border-box;
