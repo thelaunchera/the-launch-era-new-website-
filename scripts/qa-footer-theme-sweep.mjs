@@ -22,7 +22,7 @@ for(const guard of ['::view-transition-new(tle-footer)','::view-transition-old(t
 assert(footer.includes('.tle-footer-dark .tle-newsletter-consent'), 'Newsletter consent must contrast in dark mode');
 assert(toast.includes('width:min(221px'),'Verified toast should be small on iPhone');
 assert(toastJs.includes('footerVisible()') && toastJs.includes('dismissNearFooter'), 'Purchase notices cannot block footer content');
-assert(root.includes('tle-footer-theme-sweep.css?v=20261016-3'), 'Footer dark mode stylesheet must load explicitly');
+assert(root.includes('tle-footer-theme-sweep.css?v=20261016-4'), 'Footer dark mode stylesheet must load explicitly');
 assert(root.includes('tle-purchase-proof.css?v=20261016-mini3') && root.includes('tle-purchase-proof.js?v=20261016-mini3'),'Toast styling/script must be cache refreshed');
 assert(contact.includes('validStep(step)') && contact.includes('inert={index !== step}'),'Contact validation and inactive panels are mandatory');
 console.log('PASS — Public footer theme, newsletter/link uniqueness, mobile toast and contact protections.');
