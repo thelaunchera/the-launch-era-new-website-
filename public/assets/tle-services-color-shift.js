@@ -125,7 +125,13 @@
         rail = liveRail;
         cards = Array.from(rail.querySelectorAll('.service-card'));
       }
-      if (window.innerWidth < 768 && rail.scrollLeft > 8) touched = true;
+      if (window.innerWidth < 768 && rail.scrollLeft > 8) {
+        touched = true;
+        // Paint immediately from horizontal progress; the vertical viewport may
+        // be moving independently while the user swipes the carousel.
+        var fraction = rail.scrollLeft / Math.max(1, rail.scrollWidth - rail.clientWidth);
+        paint(Math.round(clamp(fraction, 0, 1) * (themes.length - 1)));
+      }
       schedule();
     }
     function onScrollCapture(event) {
