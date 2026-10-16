@@ -1,6 +1,85 @@
 
 (function(){
 "use strict";
+/* Shared motion pattern. The real conversation never loops, fabricates a reply, or resets. */
+function attachTleChatMotion(chatLog){
+ if(!chatLog||chatLog.dataset.tleChatMotionReady)return;
+ chatLog.dataset.tleChatMotionReady="true";
+ if(!document.getElementById("tle-chat-motion-styles")){
+  const style=document.createElement("style");
+  style.id="tle-chat-motion-styles";
+  style.textContent="\n/* Shared Jessy/Jessie/Sonny conversational motion. Scoped to chat widgets only. */\n.tle-jessy-root .tle-jessy-message,.tle-ai-panel .tle-ai-msg,.jo-root .jo-bubble{position:relative;transform-origin:0 100%;animation:tleChatBubbleIn .6s cubic-bezier(.2,1.22,.32,1) both}\n.tle-jessy-root .tle-jessy-message.user,.tle-ai-panel .tle-ai-msg.user,.jo-root .jo-bubble.user{background:linear-gradient(130deg,#377fad 0%,#286c99 100%)!important;color:#fff!important;-webkit-text-fill-color:#fff!important;transform-origin:100% 100%;border:1px solid #3679a3!important;box-shadow:0 5px 14px #286c9924}\n.tle-jessy-root .tle-jessy-message.bot,.tle-ai-panel .tle-ai-msg.bot,.jo-root .jo-bubble.bot{background:#f5faff!important;border:1px solid #d4e7f3!important;color:#203d50!important;-webkit-text-fill-color:#203d50!important;margin-left:29px!important;max-width:calc(100% - 31px)!important;box-shadow:0 5px 15px #286c9912}\n.tle-jessy-root .tle-jessy-message.bot::before,.tle-ai-panel .tle-ai-msg.bot::before,.jo-root .jo-bubble.bot::before{content:\"✦\";position:absolute;top:5px;left:-29px;width:23px;height:23px;display:grid;place-items:center;border-radius:50%;background:#d8efff;border:1px solid #b3d9ef;font:700 12px/1 Prompt,Arial,sans-serif;color:#357fac;-webkit-text-fill-color:#357fac;box-shadow:0 3px 8px #285b8018}\n.tle-jessy-root .tle-jessy-form,.tle-ai-panel .tle-ai-form,.jo-root .jo-form{border:1px solid #c5dfed;border-radius:999px;background:#f8fcff;padding:3px;align-items:center!important}\n.tle-jessy-root .tle-jessy-message-field,.tle-ai-panel .tle-ai-form textarea,.jo-root .jo-input{background:transparent!important;border:0!important;outline-offset:0!important;border-radius:22px!important;resize:none;min-height:38px!important;padding:10px 13px!important;box-shadow:none!important}\n.tle-jessy-root .tle-jessy-send,.tle-ai-panel .tle-ai-form button,.jo-root .jo-send{min-height:38px!important;border-radius:999px!important}\n.tle-chat-waiting{font-size:0!important;min-height:38px}\n.tle-chat-dots{display:inline-flex;gap:6px;align-items:center;vertical-align:middle;padding:4px 0;min-height:15px}\n.tle-chat-dots i{display:block;width:6px;height:6px;border-radius:50%;background:#458bb5;animation:tleChatDot .9s ease-in-out infinite}\n.tle-chat-dots i:nth-child(2){animation-delay:.15s}.tle-chat-dots i:nth-child(3){animation-delay:.3s}\n.tle-chat-caret{display:inline-block;vertical-align:-2px;width:2px;height:1em;margin-left:2px;background:#4b8fb8;animation:tleChatCaret .75s steps(1,end) infinite}\n@keyframes tleChatBubbleIn{from{opacity:0;transform:translateY(8px) scale(.9)}70%{opacity:1}to{opacity:1;transform:translateY(0) scale(1)}}\n@keyframes tleChatDot{0%,65%,100%{transform:translateY(0);opacity:.45}30%{transform:translateY(-5px);opacity:1}}\n@keyframes tleChatCaret{50%{opacity:0}}\n@media(prefers-reduced-motion:reduce){.tle-jessy-root .tle-jessy-message,.tle-ai-panel .tle-ai-msg,.jo-root .jo-bubble{animation:none!important}.tle-chat-dots i,.tle-chat-caret{animation:none!important}}\n";
+  document.head.appendChild(style);
+ }
+ const reduce=window.matchMedia("(prefers-reduced-motion: reduce)");
+ const seen=new WeakMap(), pendingAt=new WeakMap(), active=new Map();
+ const bubbles=".tle-jessy-message, .tle-ai-msg, .jo-bubble";
+ function visible(node){return !document.hidden&&chatLog.getClientRects().length>0&&node.getClientRects().length>0;}
+ function finish(node){
+  const state=active.get(node);
+  if(!state)return;
+  clearTimeout(state.timer);active.delete(node);
+  node.classList.remove("tle-chat-waiting");
+  node.removeAttribute("aria-label");node.removeAttribute("aria-live");
+  node.textContent=state.text;seen.set(node,state.text);
+ }
+ function finishAll(){for(const node of active.keys())finish(node)}
+ function startReply(node,reply){
+  node.classList.remove("tle-chat-waiting");node.removeAttribute("aria-label");
+  if(reduce.matches||!visible(node)){seen.set(node,reply);return}
+  const words=reply.match(/\S+\s*/g)||[reply];
+  if(words.length<2){seen.set(node,reply);return}
+  const state={text:reply,timer:0};active.set(node,state);
+  node.setAttribute("aria-label",reply);node.setAttribute("aria-live","off");
+  const span=document.createElement("span"),caret=document.createElement("span");
+  span.setAttribute("aria-hidden","true");
+  caret.className="tle-chat-caret";caret.setAttribute("aria-hidden","true");
+  node.replaceChildren(span,caret);
+  let index=0;
+  const next=()=>{
+   if(!node.isConnected||!visible(node)||reduce.matches){finish(node);return}
+   const limit=Math.min(words.length,32);
+   if(index>=limit){finish(node);return}
+   span.textContent+=words[index++];
+   chatLog.scrollTop=chatLog.scrollHeight;
+   state.timer=setTimeout(next,150);
+  };
+  const delay=Math.max(0,900-(Date.now()-(pendingAt.get(node)||0)));
+  state.timer=setTimeout(next,delay);
+ }
+ function check(){
+  const all=chatLog.querySelectorAll(bubbles);
+  for(const node of all){
+   if(active.has(node))continue;
+   const message=node.textContent;
+   const before=seen.get(node);
+   if(message===before)continue;
+   if(node.classList.contains("user")){finishAll();seen.set(node,message);continue}
+   const waiting=/^(typing|escribiendo|un momento|one moment|checking your workspace|revisando tu espacio)/i.test(message.trim());
+   if(waiting){
+    seen.set(node,message);
+    if(!pendingAt.has(node)){
+     pendingAt.set(node,Date.now());node.classList.add("tle-chat-waiting");
+     node.setAttribute("aria-label",message);
+     const dots=document.createElement("span");dots.className="tle-chat-dots";dots.setAttribute("aria-hidden","true");
+     for(let i=0;i<3;i++)dots.appendChild(document.createElement("i"));
+     node.appendChild(dots);
+    }
+    continue;
+   }
+   seen.set(node,message);
+   if(before!==undefined&&pendingAt.has(node))startReply(node,message);
+  }
+ }
+ const observer=new MutationObserver(check);
+ observer.observe(chatLog,{subtree:true,childList:true,characterData:true});
+ document.addEventListener("visibilitychange",()=>{if(document.hidden)finishAll()});
+ reduce.addEventListener?.("change",()=>{if(reduce.matches)finishAll()});
+ check();
+}
+
+if(window.__tleOwnerJessyInstalled)return;
+window.__tleOwnerJessyInstalled=true;
 // Never create a second assistant inside sample demos or embedded previews.
 if(location.pathname.replace(/\/+$/,"")==="/cleaning-app-demo"||window.self!==window.top)return;
 if(window.__tleJessyInstalled)return;
@@ -100,7 +179,7 @@ const head=node("header","tle-jessy-head");head.append(makeImage());
 const who=node("div","tle-jessy-title");const headName=node("b","",t("name"));const status=node("small","",t("status"));who.append(headName,status);
 const languageBtn=button("tle-jessy-icon",lang==="en"?"ES":"EN","Switch language / Cambiar idioma");languageBtn.style.fontSize="11px";languageBtn.style.fontWeight="800";
 const soundBtn=button("tle-jessy-icon","♪̸",t("sound"));const closeBtn=button("tle-jessy-icon","×",t("close"));head.append(who,languageBtn,soundBtn,closeBtn);
-const log=node("div","tle-jessy-log");log.setAttribute("role","log");log.setAttribute("aria-live","polite");log.setAttribute("aria-relevant","additions text");
+const log=node("div","tle-jessy-log");log.setAttribute("role","log");log.setAttribute("aria-live","polite");log.setAttribute("aria-relevant","additions text");attachTleChatMotion(log);
 const quick=node("div","tle-jessy-quick");
 const bottom=node("footer","tle-jessy-bottom");
 const form=node("form","tle-jessy-form");const input=node("textarea","tle-jessy-message-field");input.rows=1;input.maxLength=340;input.required=true;input.placeholder=t("input");input.setAttribute("aria-label",t("input"));
