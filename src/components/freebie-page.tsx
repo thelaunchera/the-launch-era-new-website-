@@ -1,3 +1,4 @@
+import { MorphSubmit } from '@/components/morph-submit';
 import { MarketingCTA } from '@/components/marketing-cta';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { ArrowRight, Check, Mail, Sparkles } from 'lucide-react';
@@ -32,7 +33,7 @@ function trafficContext(){
 export function FreebiePage({language}:{language:Language}){
   const es=language==='es';
   const [email,setEmail]=useState('');
-  const [status,setStatus]=useState<'idle'|'sending'|'sent'|'error'>('idle');
+  const [status,setStatus]=useState<'idle'|'sending'|'done'|'sent'|'error'>('idle');
   const startedAt=useRef(Date.now());
   const formStarted=useRef(false);
 
@@ -76,7 +77,8 @@ export function FreebiePage({language}:{language:Language}){
       if(!response.ok||!data?.ok) throw new Error(data?.error||'request failed');
       track('freebie_submit',{freebie:'cleaning_lead_tracker',language,...context});
       if(data?.email_sent) track('freebie_email_sent',{freebie:'cleaning_lead_tracker',language,...context});
-      setStatus('sent');
+      setStatus('done');
+      window.setTimeout(()=>setStatus('sent'),1450);
     }catch{
       setStatus('error');
     }
@@ -164,9 +166,7 @@ export function FreebiePage({language}:{language:Language}){
               {status==='error'&&<p className="mt-3 rounded-2xl bg-[#FFF8D8] p-3 text-sm">
                 {es?'No pudimos enviarte el correo esta vez. Inténtalo de nuevo.':'We couldn’t send your email this time. Please try again.'}
               </p>}
-              <button type="submit" disabled={status==='sending'} className="mt-5 inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-[#F2D85B] px-5 text-sm font-bold text-[#191919] transition hover:-translate-y-0.5 disabled:opacity-60">
-                {status==='sending'?(es?'Enviando…':'Sending…'):(es?'ENVIARME EL LEAD TRACKER':'SEND ME THE FREE LEAD TRACKER')} <ArrowRight size={17}/>
-              </button>
+              <div className="mt-5"><MorphSubmit status={status} language={language}>{es?'ENVIARME EL LEAD TRACKER':'SEND ME THE FREE LEAD TRACKER'} <ArrowRight size={17}/></MorphSubmit></div>
               <p className="mt-3 text-center text-xs leading-5 text-black/50">
                 {es?'Usaremos tu correo para enviarte el Starter Kit que pediste.':'We’ll use your email to send the Starter Kit you requested.'}
               </p>
