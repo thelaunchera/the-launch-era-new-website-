@@ -36,7 +36,7 @@ try{
    await page.locator('#customerName').fill('Sample Customer');
    await page.locator('#customerEmail').fill('sample@example.test');
    await page.locator('#customerZip').fill('33101');
-   await page.locator('#preferredDate').fill('2026-11-18');
+   await page.locator('#preferredDate').fill(new Date(Date.now()+45*86400000).toISOString().slice(0,10));
    await page.locator('#reviewNext').click();
    await page.locator('#reviewPanel').waitFor({state:'visible'});
    assert.match(await page.locator('#reviewList').innerText(),/Sample Customer/);
