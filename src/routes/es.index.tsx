@@ -1,6 +1,7 @@
 import { MorphSubmit } from '@/components/morph-submit';
 import { MarketingCTA } from '@/components/marketing-cta';
 import { HomeMotion, BookingBenefits } from '@/components/home-motion';
+import { useHeroWipe } from '@/components/use-hero-wipe';
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { ArrowRight, ArrowUpRight, Bell, CalendarCheck2, Check, CircleCheck, ClipboardList, MessageCircle, MessagesSquare, Send, Sparkles, Timer } from 'lucide-react';
@@ -33,9 +34,8 @@ function SpanishContact(){
  async function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();setStatus('sending');const fd=new FormData(e.currentTarget);try{const r=await fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:String(fd.get('name')||''),email:String(fd.get('email')||''),business_name:String(fd.get('business')||''),help_needed:[String(fd.get('service')||'')],message:String(fd.get('message')||''),language:'es',source:'main_website_es',started_at:Date.now()-3000,website:''})});const d=await r.json().catch(()=>({}));if(!r.ok||!d.ok)throw 0;setStatus('done');window.setTimeout(()=>setStatus('sent'),1450)}catch{setStatus('error')}}
  return <div className="contact-form">{status==='sent'?<div className="form-confirm"><Sparkles/><h3 className="editorial">Gracias, {name.split(' ')[0]}.</h3><p>Ya recibimos tu consulta. La revisaremos y te escribiremos pronto.</p><Button variant="outline" onClick={()=>setStatus('idle')}>Enviar otra consulta <ArrowRight/></Button></div>:<><h2 className="editorial">Cuéntanos un poquito de tu negocio.</h2><p>No necesitas tener todo resuelto. Solo dinos qué se está sintiendo pesado ahora mismo.</p><form onSubmit={submit}><div className="form-grid"><label className="field">Tu nombre<input name="name" required value={name} onChange={e=>setName(e.target.value)} placeholder="Nombre y apellido"/></label><label className="field">Correo electrónico<input name="email" type="email" required placeholder="Donde podamos contactarte"/></label></div><label className="field">Nombre del negocio<input name="business" required placeholder="Tu negocio de limpieza"/></label><label className="field">¿Con qué te gustaría recibir ayuda?<select name="service">{services.map(s=><option key={s.title}>{s.title}</option>)}<option>No estoy segura todavía</option></select></label><label className="field">¿Qué te está quitando demasiado tiempo?<textarea name="message" required placeholder="Cuéntanos qué pasa en tu día a día…"/></label>{status==='error'&&<p className="text-sm">No pudimos enviarlo. Inténtalo otra vez.</p>}<MorphSubmit status={status} language="es">Enviar mi consulta <ArrowRight size={17}/></MorphSubmit><p className="form-disclaimer">Tu consulta llega directamente a The Launch Era. Usaremos estos datos solo para responderte.</p></form></>}</div>
 }
-function SpanishHome(){const [active,setActive]=useState(0);const [heroLoaded,setHeroLoaded]=useState(false);const heroImageRef=useRef<HTMLImageElement>(null);useEffect(()=>{if(heroImageRef.current?.complete)setHeroLoaded(true)},[]);const [bookingSale,setBookingSale]=useState(()=>Date.now()<new Date('2026-11-01T04:00:00Z').getTime());useEffect(()=>{const sync=()=>setBookingSale(Date.now()<new Date('2026-11-01T04:00:00Z').getTime());const id=window.setInterval(sync,30000);return()=>window.clearInterval(id)},[]);return <main className="sales-home"><HomeMotion/>
-<section className="hero-scroll" aria-label="Ejemplo de la experiencia de reservas de The Launch Era"><div className="hero-scroll-stage"><div className="hero-scroll-reveal"><span>TU FLUJO DE RESERVAS</span><a href="#hero-next">Descubre cómo funciona <ArrowRight size={18} aria-hidden="true"/></a></div><div className={`hero-photo hero-scroll-frame ${heroLoaded?'hero-media-ready':'hero-media-loading'}`}>
- <img ref={heroImageRef} className="hero-main-image" src={cleaner} alt="Profesional de limpieza trabajando en una casa luminosa, suavemente desenfocada detrás del título" width={1920} height={1024} loading="eager" fetchPriority="high" decoding="sync" onLoad={()=>setHeroLoaded(true)} onError={()=>setHeroLoaded(true)}/>
+function SpanishHome(){const [active,setActive]=useState(0);const [heroLoaded,setHeroLoaded]=useState(false);const heroImageRef=useRef<HTMLImageElement>(null);const {heroRef,revealed}=useHeroWipe();useEffect(()=>{if(heroImageRef.current?.complete)setHeroLoaded(true)},[]);const [bookingSale,setBookingSale]=useState(()=>Date.now()<new Date('2026-11-01T04:00:00Z').getTime());useEffect(()=>{const sync=()=>setBookingSale(Date.now()<new Date('2026-11-01T04:00:00Z').getTime());const id=window.setInterval(sync,30000);return()=>window.clearInterval(id)},[]);return <main className="sales-home"><HomeMotion/>
+<section className="hero-scroll" aria-label="Ejemplo de la experiencia de reservas de The Launch Era"><div className="hero-scroll-stage"><div className="hero-scroll-reveal"><span>TU FLUJO DE RESERVAS</span><a href="#hero-next">Descubre cómo funciona <ArrowRight size={18} aria-hidden="true"/></a></div><div ref={heroRef} data-wipe-visible={revealed} className={`hero-photo hero-scroll-frame hero-split ${heroLoaded?'hero-media-ready':'hero-media-loading'}`}>
  <div className="hero-intro">
    <div className="eyebrow">PARA DUEÑAS DE NEGOCIOS DE LIMPIEZA</div>
    <h1>Menos tiempo buscando mensajes.<br/>Más tiempo para tu negocio.</h1>
@@ -43,12 +43,14 @@ function SpanishHome(){const [active,setActive]=useState(0);const [heroLoaded,se
    <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/booking-demo/?lang=es">Quiero mi demo personalizada <ArrowRight/></a></Button></div>
    <p className="demo-delivery-note">Tu demo llega automáticamente por correo.</p>
  </div>
+ <div className="hero-split-visual">
+ <img ref={heroImageRef} className="hero-main-image" src={cleaner} alt="Profesional de limpieza trabajando en una casa luminosa, con luz natural" width={1920} height={1024} loading="eager" fetchPriority="high" decoding="sync" onLoad={()=>setHeroLoaded(true)} onError={()=>setHeroLoaded(true)}/>
  <div className="hero-notice-flow" aria-label="Notificaciones de ejemplo; no muestran actividad real">
    {notices.map(([app,when,title,text,Icon],i)=><div className={`notification notice-${i+1}`} key={title}>
      <span className="notice-icon" aria-hidden="true"><Icon size={17}/></span>
      <div className="notice-body"><div className="notice-meta"><span>{app}</span><time>{when}</time></div><strong>{title}</strong><p>{text}</p></div>
    </div>)}
- </div><Wave foam/>
+ </div></div>
 </div></div></section>
 <section id="hero-next" className="hero-copy"><BookingWalkthrough lang="es"/></section>
 <SmartWelcomeBundle lang="es"/>
