@@ -159,8 +159,8 @@ html.demo-editorial.tle-demo-v49 #bookingStarter#bookingStarter #main#main .tle4
  html.demo-editorial.tle-demo-v49 #bookingStarter#bookingStarter #main#main .tle49-expanding-gallery>button.service.tle49-service-panel{
   flex:0 0 auto!important;flex-grow:0!important;
   display:block!important;width:100%!important;max-width:100%!important;
-  height:106px!important;min-height:106px!important;
-  border-radius:7px!important;margin:0!important;
+  height:236px!important;min-height:236px!important;
+  border-radius:6px!important;margin:0!important;
   transition:height 800ms linear(0,.094 5.6%,.274 11.1%,.455 16.7%,.608 22.2%,.726 27.8%,.812 33.3%,.873 38.9%,.944 50%,.976 61.1%,1 100%),box-shadow 250ms ease!important;
  }
  html.demo-editorial.tle-demo-v49 #bookingStarter#bookingStarter #main#main .tle49-expanding-gallery>button.service.tle49-service-panel.tle49-active{
