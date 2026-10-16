@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-16 | Owner asks specifically for curtain reveal on public Booking Demo footer, immediately after revisiting the three Before & After review cards | Demo had small plain static footer and a large gap before its existing honest illustrative reviews | Wrap only demo content in solid raised page with 24px lower corners + shadow, place one blue branded footer beneath it at fixed viewport bottom, reserve equal bottom space, optional native scroll-linked 22px lift, responsive iPhone/iPad/desktop and static reduced-motion/short landscape. Restore original review card visibility without invented customer testimonials. Preserve demo form, Sonny and protected customer routes; marketing footer untouched | 🟡 Branch QA and release pending |
+
+
 | 2026-10-16 | Requested curtain-reveal footer only on the public Booking Demo, with an optional 22px scroll parallax and an accessible reduced-motion fallback | Existing demo footer was one static text line after Before & After / sample review cards, independent from React marketing shared footer with newsletter and theme switch | Wrap the public demo main content only, place one fixed pale-blue footer underneath with safe links and original EN/ES disclaimer, add scroll-linked parallax and static fallbacks, no changes to React/sitewide footer. QA checks viewport geometry, links, sample-only integrity and reduced motion. Review-card repositioning staged in same demo-only base branch. | 🟡 PR pending GitHub CI and official Pages deploy |
 
 
