@@ -22,7 +22,7 @@ function currentPage(){
 }
 let lang=(location.pathname==="/es"||location.pathname.startsWith("/es/")||new URLSearchParams(location.search).get("lang")==="es")?"es":"en";
 let open=false,waiting=false,seen=false,details=false,soundOn=false,catalog=[],offer=currentPage(),history=[],draft=[],lastFocus=null;
-let startedAt=Date.now(),manualLanguage=false,lastIntent="general";
+let startedAt=Date.now(),manualLanguage=false,lastIntent="general",lastUnansweredQuestion="";
 const words={
  en:{name:"Jessie",status:"AI Assistant · The Launch Era",nudge:"Chat with the assistant",hello:"Hi! I’m Jessie 👋 Glad you’re here. Want a hand finding what works best for your cleaning business?",opening:"Chat with the assistant",close:"Close assistant",sound:"Toggle welcome sound",label:"Ask Jessie",typing:"One moment…",input:"Ask me anything about our services…",send:"Send",lead:"Leave my details for the team",leadTitle:"Let's keep in touch",leadIntro:"Share a few details. We'll review your question and get back to you.",nameLabel:"Your name",businessLabel:"Business name",emailLabel:"Email address",needLabel:"What do you need help with?",consent:"I agree that The Launch Era may contact me about this request. This does not subscribe me to marketing emails.",confirm:"Send my request",back:"← Back to chat",privacy:"Your details are only used to reply to this request.",sent:"Thanks! We received your request. Our team will review it soon.",error:"Your request didn't go through. Please try again.",liveError:"I'm having trouble answering right now. You can still explore a service or send us your details.",limit:"I'm a little busy right now. Please try again soon or leave your details.",next:"Ready for the next step?",checkout:"Get started",learn:"How it works",service:"Booking automation",ai:"AI assistants",price:"Pricing",human:"Contact the team",hint:"Here to help you choose—no pressure."},
  es:{name:"Jessie",status:"Asistente IA · The Launch Era",nudge:"Habla con la asistente",hello:"¡Hola! Soy Jessie 👋 Qué gusto verte por aquí. ¿Te ayudo a encontrar lo que mejor le viene a tu negocio?",opening:"Hablar con la asistente",close:"Cerrar asistente",sound:"Activar o desactivar sonido",label:"Pregúntale a Jessie",typing:"Un momento…",input:"Pregúntame sobre nuestros servicios…",send:"Enviar",lead:"Dejar mis datos al equipo",leadTitle:"Sigamos en contacto",leadIntro:"Compártenos algunos datos. Revisaremos tu consulta y te responderemos.",nameLabel:"Tu nombre",businessLabel:"Nombre del negocio",emailLabel:"Correo electrónico",needLabel:"¿En qué necesitas ayuda?",consent:"Acepto que The Launch Era me contacte sobre esta consulta. Esto no me suscribe a correos de marketing.",confirm:"Enviar mi solicitud",back:"← Volver al chat",privacy:"Solo usamos tus datos para responder esta consulta.",sent:"¡Gracias! Recibimos tu solicitud. Nuestro equipo la revisará pronto.",error:"No se pudo enviar tu solicitud. Inténtalo nuevamente.",liveError:"Ahora mismo no puedo responder en vivo. Puedes explorar el servicio o dejarnos tus datos.",limit:"Estoy un poco ocupada. Inténtalo después o déjanos tus datos.",next:"¿Lista para el próximo paso?",checkout:"Comenzar",learn:"Cómo funciona",service:"Reservas automáticas",ai:"Asistentes IA",price:"Precios",human:"Contactar al equipo",hint:"Estoy aquí para ayudarte a elegir, sin presión."}
@@ -374,7 +374,7 @@ function showLead(on){
   // Editable summary only: no transcript sent unless the visitor submits the consent form.
   if(!needInput.value){
    const entry=catalog.find(x=>x.id===offer);
-   const lastQuestion=[...history].reverse().find(x=>x.role==="user")?.message||"";
+   const lastQuestion=lastUnansweredQuestion||[...history].reverse().find(x=>x.role==="user")?.message||"";
    const service=entry?(lang==="es"?"Me interesa ":"I'm interested in ")+entry.name:"";
    const question=lastQuestion?(lang==="es"?"Mi consulta: ":"My question: ")+lastQuestion:"";
    needInput.value=[service,question].filter(Boolean).join(". ").slice(0,480);
@@ -392,6 +392,7 @@ if(/quiero hablar|contactar|leave my details|talk to a person|human support/i.te
 const previous=history.slice(-12);let result=null;try{const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),16000);try{const r=await fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message,language:lang,selected_offer:offer||currentPage(),page_path:location.pathname,history:previous}),signal:controller.signal});if(r.ok)result=await r.json();else if(r.status===429)result={reply:t("limit")}}finally{clearTimeout(timeout)}}catch{}
 indicator.textContent=result&&typeof result.reply==="string"?result.reply:t("liveError");
 if(result&&typeof result.reply==="string"){
+ lastUnansweredQuestion="";
  history.push({role:"user",message},{role:"assistant",message:result.reply});
  if(history.length>16)history=history.slice(-16);
  // A general capabilities answer clears any stale previously selected product.
@@ -417,7 +418,15 @@ if(result&&typeof result.reply==="string"){
  if(lastIntent==="pricing")track("pricing");
  if(allowedService.has(offer)&&lastIntent!=="general")track("recommendation");
  track("answered");
-}else{track("chat_unavailable")}
+ }else{
+ lastUnansweredQuestion=message;
+ // A connection failure must never strand a visitor or silently submit their data.
+ // The team form still requires the visitor's explicit contact consent.
+ const fallback=button("tle-jessy-help-link",lang==="es"?"Enviar mi pregunta al equipo →":"Send my question to the team →");
+ fallback.addEventListener("click",()=>showLead(true));
+ log.append(fallback);
+ track("chat_unavailable");
+}
 waiting=false;send.disabled=false;log.scrollTop=log.scrollHeight;input.focus()}
 fab.addEventListener("click",()=>toggle(true));closeBtn.addEventListener("click",()=>toggle(false));backdrop.addEventListener("click",()=>toggle(false));
 soundBtn.addEventListener("click",()=>{soundOn=!soundOn;soundBtn.textContent=soundOn?"♫":"♪̸";soundBtn.setAttribute("aria-pressed",soundOn?"true":"false");optionalChime()});
