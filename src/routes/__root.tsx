@@ -168,7 +168,6 @@ function RootShell({ children }: { children: ReactNode }) {
         <script src="/assets/jessy-site.js?v=20261016-recovery-v1" defer />
         <script src="/assets/tle-purchase-proof.js?v=20261016-1" defer />
         <script src="/assets/tle-footer-newsletter.js?v=20261016-ios3" defer />
-        <script src="/assets/tle-services-color-shift.js?v=20261016-v3" defer />
         <Scripts />
       </body>
     </html>
@@ -177,6 +176,16 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  // Load DOM-enhancing services motion only after React has hydrated the SSR
+  // homepage. Injecting a script before hydration caused React error #418.
+  useEffect(() => {
+    const element = document.createElement('script');
+    element.src = '/assets/tle-services-color-shift.js?v=20261016-v4';
+    element.async = true;
+    element.setAttribute('data-tle-service-motion', '1');
+    document.body.appendChild(element);
+    return () => { element.remove(); };
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
