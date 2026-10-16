@@ -1,0 +1,74 @@
+name: Footer Theme QA
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/components/site-shell.tsx'
+      - 'public/assets/tle-footer-theme-sweep.css'
+      - 'public/assets/tle-purchase-proof.css'
+      - 'public/assets/tle-purchase-proof.js'
+      - 'src/routes/__root.tsx'
+      - 'scripts/qa-footer-theme-browser.mjs'
+      - 'scripts/qa-footer-theme-sweep.mjs'
+      - '.github/workflows/footer-theme-qa.yml'
+  pull_request:
+    paths:
+      - 'src/components/site-shell.tsx'
+      - 'public/assets/tle-footer-theme-sweep.css'
+      - 'src/routes/__root.tsx'
+      - 'scripts/qa-footer-theme-browser.mjs'
+      - '.github/workflows/footer-theme-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  footer-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check footer controls, notifications and route integrity
+        run: |
+          node scripts/qa-footer-theme-sweep.mjs
+          node scripts/qa-footer-theme-browser.mjs
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-verified-purchase-proof.mjs
+      - name: Build production website
+        run: |
+          bun install
+          bun run build
+          test -s .output/public/assets/tle-footer-theme-sweep.css
+      - name: Install isolated Chromium
+        run: |
+          mkdir -p /tmp/tle-footer-test
+          cd /tmp/tle-footer-test
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          ln -sfn /tmp/tle-footer-test/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-footer-test/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: Test real bilingual footer in browser without sending forms
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-footer-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 25); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-footer-theme-browser.mjs --browser
+      - name: Preserve footer visual evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-footer-theme-screens
+          path: qa-screenshots/footer-theme-*.png
+          if-no-files-found: ignore
