@@ -257,3 +257,17 @@ body .sonny:has(.sonny-body:not([hidden])) .sonny-head button::before {display:n
  /* All bubbles are static. Preserve the original portal's reduced-motion cut. */
  body .sonny, #bookingPage .custom {transition:none!important;animation:none!important}
 }
+/* Reliable robot portrait in the ONE existing Sonny toggle, even if a
+   third-party reset changes the collapsed header flex arrangement. */
+body #sonnyToggle {
+ background-image:url("/assets/lead-demo/ai-demo-robot.webp");
+ background-repeat:no-repeat;
+}
+body .sonny:not(:has(.sonny-body:not([hidden]))) #sonnyToggle {
+ background-image:url("/assets/lead-demo/ai-demo-robot.webp");
+ background-position:center center;
+ background-size:cover;
+}
+body .sonny:has(.sonny-body:not([hidden])) #sonnyToggle {
+ background-image:none;
+}
