@@ -17,32 +17,11 @@ try{
   assert.equal(await page.locator("#main[inert]").count(),1,"chooser must become inert");
   assert.equal(await page.evaluate(()=>document.activeElement?.id),"title","focus new heading");
   await page.locator("#homes button").first().click();
+  // The existing form guard requires a real bedroom + bathroom selection.
+  await page.locator("#beds").selectOption({index:1});
+  await page.locator("#baths").selectOption({index:1});
   await page.locator("#res button.next").click();
-  const details=await page.evaluate(()=>{
-    const p=document.querySelector("#resReview");
-    const r=p?.getBoundingClientRect();
-    const on=[...document.querySelectorAll("#bookingStarter .screen.on")].map(x=>x.id);
-    const block=document.querySelector("#tleV30Tasksres");
-    return {active:on,reviewClass:p?.className,reviewDisplay:p&&getComputedStyle(p).display,
-      reviewRect:r&&{w:r.width,h:r.height},stageHeight:document.querySelector(".tle-stack-stage")?.style.height,
-      home:typeof state!=="undefined"?state.home:null,
-      otherChecked:block?.querySelector('[data-other="1"]')?.checked,
-      errors:[...document.querySelectorAll("#res [role=alert]")].map(x=>x.textContent).filter(Boolean)};
-  });
-  console.log("NAV DEBUG "+lang+" "+width+" "+JSON.stringify(details));
-  if(!details.active.includes("resReview")){
-    const why=await page.evaluate(()=>{
-      const btn=document.querySelector("#res button.next");
-      const stateBefore={screen:[...document.querySelectorAll("#bookingStarter .screen.on")].map(p=>p.id),inert:document.querySelector("#res")?.inert};
-      try{window.reviewResidential()}catch(e){return {stateBefore,callError:String(e),button:btn?.outerHTML}}
-      return {stateBefore,after:[...document.querySelectorAll("#bookingStarter .screen.on")].map(p=>p.id),
-        home:state.home,button:btn?.outerHTML,onclick:btn?.onclick?.toString()?.slice(0,280),
-        override:String(window.reviewResidential).slice(0,400)};
-    });
-    console.log("NAV DIRECT "+lang+" "+width+" "+JSON.stringify(why));
-  }
-  assert(details.active.includes("resReview") && details.reviewRect?.h>0,
-    "Review request must be shown and measured: "+JSON.stringify(details));
+  await page.waitForSelector("#resReview.on",{state:"visible",timeout:5000});
   await page.waitForTimeout(250);
   await page.locator("#resReview button.back").click();
   await page.waitForSelector("#res.on");
@@ -65,6 +44,16 @@ try{
     show("done","Request received","✓");
   });
   assert.equal(await page.locator("#done.on").count(),1,"rapid step changes must not stall");
+  // Quote assistant creates extra review screens at runtime; they must join the stack.
+  await page.evaluate(()=>{
+    const dynamic=document.createElement("div");dynamic.id="qaDynamicReview";
+    dynamic.className="screen";dynamic.textContent="Extra review screen";
+    document.getElementById("done").before(dynamic);
+    window.show("qaDynamicReview","Review additional details","REVIEW");
+  });
+  assert.equal(await page.locator("#qaDynamicReview.on").count(),1,"dynamic reviews must become active");
+  assert(await page.locator("#qaDynamicReview").isVisible(),"dynamic review must be painted");
+  assert.equal(await page.locator("#done[inert]").count(),1,"covered confirmation must be inert");
   assert.equal(errors.length,0,"browser errors: "+errors.join(", "));
   // Real-client/owner preview must never mount sample-only navigation.
   await page.goto(base+"/lead-private-preview.html?key=isolated-fixture&lang="+lang,{waitUntil:"domcontentloaded"});
