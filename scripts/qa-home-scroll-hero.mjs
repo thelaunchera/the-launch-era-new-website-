@@ -22,6 +22,7 @@ for (const [lang, hero, expected] of [
   assert(hero.includes('hero-scroll-reveal') && hero.includes('<HeroSplitWordLink lang="' + lang.toLowerCase() + '"/>'), lang + ': split-word scroll link missing');
   assert(hero.includes('id="hero-next"'), lang + ': next-section target missing');
   assert(hero.includes('className="hero-split-visual"'), lang + ': separate image panel missing');
+  assert(hero.includes('className="tle-hero-soft-mesh" aria-hidden="true"'), lang + ': decorative mesh absent or exposed to assistive technology');
   assert(hero.includes('data-wipe-visible={revealed && heroLoaded}'), lang + ': image-ready reveal gate missing');
   assert(hero.includes('ref={heroRef}'), lang + ': IntersectionObserver hero ref missing');
   assert.equal(hero.split('href="' + expected + '"').length - 1, 1, lang + ': duplicate or absent personalized demo CTA');
@@ -34,6 +35,9 @@ assert(scrollCSS.includes('height: 180svh') && scrollCSS.includes('position: sti
 assert(scrollCSS.includes('scale(calc(1 - .3 * var(--hero-scroll-progress, 0)))'));
 assert(scrollCSS.includes('2026 split-hero extension') && scrollCSS.includes('hero-split-visual'));
 assert(scrollCSS.includes('2026-10-16 iPad/tablet parity'), 'portrait iPad responsive override missing');
+assert(scrollCSS.includes('@keyframes tle-hero-mesh-a') && scrollCSS.includes('@keyframes tle-hero-mesh-d'), 'four independent mesh animations missing');
+assert(scrollCSS.includes('pointer-events:none') && scrollCSS.includes('prefers-reduced-motion:reduce'), 'mesh must be non-interactive and respect reduced motion');
+assert(scrollCSS.includes('radial-gradient(circle') && !scrollCSS.includes('filter:blur('), 'soft mesh must not use blur filters');
 assert(styles.includes('clip-path:inset(0 0 0 100% round 20px)'));
 assert(styles.includes('clip-path:inset(0 0 0 0 round 20px)'));
 assert(styles.includes('transition:clip-path 900ms cubic-bezier(.32,.72,0,1)'));
@@ -73,6 +77,8 @@ try {
     const panel = hero.querySelector('.hero-split-visual');
     const photo = panel.querySelector('img');
     const intro = hero.querySelector('.hero-intro');
+    const mesh = hero.querySelector('.tle-hero-soft-mesh');
+    const blobs = Array.from(mesh.querySelectorAll('span'));
     const a = panel.getBoundingClientRect();
     const b = intro.getBoundingClientRect();
     return {
@@ -80,6 +86,14 @@ try {
      clipPath: getComputedStyle(panel).clipPath,
      imageScale: new DOMMatrixReadOnly(getComputedStyle(photo).transform).a,
      introOpacity: Number(getComputedStyle(intro).opacity),
+     mesh: {
+       count:blobs.length,
+       display:getComputedStyle(mesh).display,
+       pointerEvents:getComputedStyle(mesh).pointerEvents,
+       zIndex:Number(getComputedStyle(mesh).zIndex),
+       photoZIndex:Number(getComputedStyle(panel).zIndex),
+       animations:blobs.map(blob=>getComputedStyle(blob).animationName)
+     },
      panel: { top:a.top, left:a.left, width:a.width, height:a.height },
      copy: { top:b.top, left:b.left, width:b.width },
      stagePosition: getComputedStyle(stage).position,
@@ -95,6 +109,16 @@ try {
    assert(!state.clipPath.includes('100%'), lang + ' ' + viewport.width + ': wipe never opened: ' + state.clipPath);
    assert(Math.abs(state.imageScale - 1) < .04, lang + ' ' + viewport.width + ': photo still zoomed');
    assert(state.introOpacity > .96, lang + ' ' + viewport.width + ': copy did not appear');
+   assert.equal(state.mesh.count, 4, lang + ': exactly four decorative gradients expected');
+   if (viewport.width >= 1024) {
+     assert(state.mesh.display !== 'none', lang + ': desktop mesh missing');
+     assert.equal(state.mesh.pointerEvents, 'none', lang + ': mesh intercepts CTA clicks');
+     assert(state.mesh.photoZIndex > state.mesh.zIndex, lang + ': photo must paint above moving gradients');
+     assert(state.mesh.animations.every(name=>name.startsWith('tle-hero-mesh-')), lang + ': desktop ambient animations not running');
+   } else {
+     assert.equal(state.mesh.display, 'none', lang + ': do not change phone/tablet composition');
+   }
+   if (viewport.width === 1440) await page.screenshot({ path:`qa-screenshots/home-scroll-${lang}-1440-mesh-initial.png`, fullPage:false });
    if (viewport.width < 768) {
     assert(state.panel.top < state.copy.top, lang + ': image must stack above text on phone');
     assert(state.stagePosition !== 'sticky' && state.framePosition !== 'absolute', lang + ': mobile must use natural height');
@@ -164,6 +188,17 @@ try {
   assert(!stable.clip.includes('100%') && stable.stage !== 'sticky' && stable.transform === 'none' && stable.opacity === 1 && stable.imageAbove,
    lang + ': reduced motion must show finished mobile split: ' + JSON.stringify(stable));
   await reduced.close();
+
+  // Static gradient is visible on desktop for reduced-motion preferences.
+  const reducedDesktop=await browser.newPage({ viewport:{width:1440,height:900}, reducedMotion:'reduce' });
+  await reducedDesktop.goto(base + route,{waitUntil:'domcontentloaded',timeout:45000});
+  const meshReduced=await reducedDesktop.locator('.tle-hero-soft-mesh').evaluate(node=>({
+    display:getComputedStyle(node).display,
+    pointerEvents:getComputedStyle(node).pointerEvents,
+    animations:Array.from(node.querySelectorAll('span')).map(el=>getComputedStyle(el).animationName)
+  }));
+  assert(meshReduced.display!=='none'&&meshReduced.pointerEvents==='none'&&meshReduced.animations.every(name=>name==='none'),lang+': static reduced-motion mesh must not animate or capture taps');
+  await reducedDesktop.close();
  }
  assert.deepEqual(errors, [], 'Browser console errors');
  console.log('[HERO BROWSER QA PASSED] EN/ES seven widths incl. large portrait iPad, scroll wipe, sticky tablet/desktop and static reduced-motion mobile.');
