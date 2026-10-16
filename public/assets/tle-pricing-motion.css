@@ -16,7 +16,7 @@
 }
 #plans.tle-price-motion .tle-featured-badge{
  position:absolute;top:-12px;left:50%;z-index:3;transform:translateX(-50%) scale(.3);
- transform-origin:center;opacity:0;white-space:nowrap;pointer-events:none;
+ transform-origin:center;opacity:1;white-space:nowrap;pointer-events:none;
  border-radius:999px;padding:5px 15px;font:750 11px/1.35 Futura,"DM Sans",Arial,sans-serif;
  background:linear-gradient(110deg,#609DC5,#D7EFFF);color:#172F3F;
  box-shadow:0 4px 12px rgba(75,132,170,.14);
@@ -41,8 +41,8 @@
 #plans .tle-plan-picker{margin-top:25px;padding:23px;border:1px solid #D4E6F0;border-radius:24px;background:linear-gradient(145deg,#ECF7FF,#FAF8F3);max-width:760px;margin-inline:auto}
 #plans .tle-plan-picker h3{font-size:20px;line-height:1.2;margin:0 0 13px;text-align:center}
 #plans .tle-plan-toggle{--i:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));position:relative;isolation:isolate;gap:0;background:#DCEBF5;padding:4px;border-radius:999px;min-height:48px}
-#plans .tle-plan-toggle::before{content:"";position:absolute;z-index:-1;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/3);border-radius:999px;background:#fff;box-shadow:0 2px 9px #3B729122;transform:translateX(calc(var(--i)*100%));transition:transform 590ms var(--tle-price-spring)}
-#plans .tle-plan-toggle [role="radio"]{border:0;background:transparent;color:#43667E;min-width:0;min-height:40px;padding:8px 5px;border-radius:999px;font:750 12px/1.3 Futura,"DM Sans",Arial,sans-serif;cursor:pointer}
+#plans .tle-plan-toggle::before{content:"";position:absolute;z-index:0;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/3);border-radius:999px;background:#fff;box-shadow:0 2px 9px #3B729122;transform:translateX(calc(var(--i)*100%));transition:transform 590ms var(--tle-price-spring)}
+#plans .tle-plan-toggle [role="radio"]{position:relative;z-index:1;border:0;background:transparent;color:#43667E;min-width:0;min-height:40px;padding:8px 5px;border-radius:999px;font:750 12px/1.3 Futura,"DM Sans",Arial,sans-serif;cursor:pointer}
 #plans .tle-plan-toggle [role="radio"][aria-checked="true"]{color:#191919}
 #plans .tle-plan-toggle [role="radio"]:focus-visible{outline:3px solid #438DBB;outline-offset:4px}
 #plans .tle-plan-selected{position:relative;background:white;border:1px solid #D5E6F0;border-radius:18px;margin-top:16px;padding:20px 23px 19px;min-height:205px}
@@ -67,13 +67,13 @@
 
 /* Prices are editorial, not promotional offers. Only animate actual currently
    rendered discount badges; promotion eligibility remains decided upstream. */
-:where(.sales-home,.service-hero,.service-sales,.tle-bundle-inline) :is(.booking-offer-tag,.tle-bundle-inline-discount),
-:where(.sales-home,.service-hero,.service-sales) .service-discount-offer > .booking-offer-tag{
+.tle-pricing-ready :where(.sales-home,.service-hero,.service-sales,.tle-bundle-inline) :is(.booking-offer-tag,.tle-bundle-inline-discount),
+.tle-pricing-ready :where(.sales-home,.service-hero,.service-sales) .service-discount-offer > .booking-offer-tag{
  transform:translateY(5px) scale(.94) rotate(-5deg);opacity:0;
  transition:transform 650ms var(--tle-price-spring),opacity 650ms ease;
 }
-:where(.sales-home,.service-hero,.service-sales,.tle-bundle-inline) :is(.booking-offer-tag,.tle-bundle-inline-discount).is-price-visible,
-:where(.sales-home,.service-hero,.service-sales) .service-discount-offer > .booking-offer-tag.is-price-visible{
+.tle-pricing-ready :where(.sales-home,.service-hero,.service-sales,.tle-bundle-inline) :is(.booking-offer-tag,.tle-bundle-inline-discount).is-price-visible,
+.tle-pricing-ready :where(.sales-home,.service-hero,.service-sales) .service-discount-offer > .booking-offer-tag.is-price-visible{
  transform:translateY(0) scale(1) rotate(-4deg);opacity:1;
 }
 :where(.sales-home,.service-hero,.service-sales) :is(.service-discount-offer,.booking-offer-line) .service-price-pill{
@@ -98,11 +98,11 @@
 }
 @media(prefers-reduced-motion:reduce){
  #plans.tle-price-motion .card,#plans .tle-plan-toggle::before,
- #plans .tle-savings-badge, :where(.sales-home,.service-hero,.service-sales,.tle-bundle-inline) :is(.booking-offer-tag,.tle-bundle-inline-discount),
+ #plans .tle-savings-badge, .tle-pricing-ready :where(.sales-home,.service-hero,.service-sales,.tle-bundle-inline) :is(.booking-offer-tag,.tle-bundle-inline-discount),
  :where(.sales-home,.service-hero,.service-sales) :is(.service-discount-offer,.booking-offer-line) .service-price-pill{
  animation:none!important;transition:none!important
  }
  #plans.tle-price-motion .cards .tle-featured-card{transform:translateY(-7px) scale(1.03)}
  #plans.tle-price-motion .tle-featured-badge{animation:none!important;transform:translateX(-50%) scale(1);opacity:1}
- :where(.sales-home,.service-hero,.service-sales,.tle-bundle-inline) :is(.booking-offer-tag,.tle-bundle-inline-discount){opacity:1;transform:rotate(-4deg)}
+ .tle-pricing-ready :where(.sales-home,.service-hero,.service-sales,.tle-bundle-inline) :is(.booking-offer-tag,.tle-bundle-inline-discount){opacity:1;transform:rotate(-4deg)}
 }
