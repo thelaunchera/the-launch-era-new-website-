@@ -4,6 +4,8 @@ on:
     branches: [main]
     paths:
       - 'src/components/home-motion.tsx'
+      - 'src/components/use-hero-wipe.ts'
+      - 'src/styles.css'
       - 'src/components/editorial-sections.tsx'
       - 'src/routes/es.index.tsx'
       - 'src/routes/__root.tsx'
@@ -14,6 +16,8 @@ on:
     branches: [main]
     paths:
       - 'src/components/home-motion.tsx'
+      - 'src/components/use-hero-wipe.ts'
+      - 'src/styles.css'
       - 'src/components/editorial-sections.tsx'
       - 'src/routes/es.index.tsx'
       - 'src/routes/__root.tsx'
