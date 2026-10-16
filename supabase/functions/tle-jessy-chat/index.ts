@@ -163,6 +163,8 @@ function jessieCapabilitiesReply(lang){
   : "Of course! 💙 I can help you organize inquiries and clients, understand our AI Assistants, compare services and prices, or explore demos. That includes Booking Automation, the Cleaning App, Website Automation and VA support. What's been taking up the most time in your business lately?";
 }
 function wantsAiPlanComparison(message,prior,focus){
+ // Asking for a discount after comparing AI plans is not a request to show those cards again.
+ if(asksPromotion(message)||asksCustomServicePrice(message))return false;
  const q=norm(message);
  const explicitSingle=/\b(ai[ -]?booking|booking assistant|asistente de reservas|ai[ -]?follow[ -]?up|follow[ -]?up assistant|asistente de seguimiento|ai[ -]?business|business assistant|asistente de negocios|asistente empresarial)\b|\$(?:79|59|119)\b/.test(q);
  if(explicitSingle)return false;
