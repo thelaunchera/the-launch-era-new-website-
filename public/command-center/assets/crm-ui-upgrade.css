@@ -95,6 +95,8 @@ body.crm-owner-view #board .premium-lead:hover {
   border-color: #bbd7e9;
   box-shadow: 0 11px 24px #2d658219;
 }
+body.crm-owner-view #board .premium-lead-upper {padding-right: 31px; min-width: 0;}
+body.crm-owner-view #board .premium-lead-status {min-width: 0; overflow-wrap: anywhere; max-width: 100%;}
 body.crm-owner-view #board .premium-lead-name {
   display: block;
   overflow-wrap: anywhere;
