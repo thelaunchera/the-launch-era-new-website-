@@ -1,3 +1,8 @@
+## 2026-10-16 — Homepage mobile hero photo first-fold spacing
+- **Scope:** public EN `/` and ES `/es/` homepages only at widths <=767px; no navigation, customer demos, bookings, tenant data or checkout changes.
+- **Visual adjustment:** `public/assets/tle-hero-scroll.css` tightens the oversized animated “See how it works” hint and top spacing of the existing split hero. This shifts the *existing* photo upward ~40px without changing its crop, size, hero wipe, notifications, or desktop/tablet layout. Same `#hero-next` native link and reduced-motion treatment. Root stylesheet cache key updated.
+- **Verification:** responsive mobile 360/390/414, desktop 1440, EN/ES, link click, image load, reduced motion, no overflow and deployment review before claiming live.
+
 ## 2026-10-16 — Public Booking Demo calendar responsive width fix
 - **Problem verified:** Owner's Chrome desktop photos showed a 430px appointment card floating inside a much wider Booking Demo flow, with tiny full-month dates and hour wheels plus large empty gutters. The root selector `#tleBookingAppointment` was capped at `max-width:430px` on **all** devices. Other client tenant calendars are unrelated.
 - **Scoped fix:** Only `public/booking-demo-reset.html` unkeyed sample (and canonical emailed `/lead-private-preview.html` redirect) loads the new desktop calendar CSS/JS cache `responsive2`. `tle-booking-month-wheel.js` wraps the **existing** date controls and existing time wheels in `.appt-date-pane` and `.appt-time-pane`; no handlers, availability, states, form fields or booking APIs changed. Same full-month/7-day keyboard calendar, same minute increments and same no-live-booking sheet.
