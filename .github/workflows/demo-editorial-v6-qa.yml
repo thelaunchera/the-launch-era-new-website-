@@ -13,6 +13,7 @@ on:
       - 'scripts/build_demo_photo_assets.py'
       - 'public/assets/tle-demo-photo-services-v21.js'
       - 'public/assets/tle-demo-booking-focus-v22.js'
+      - 'public/assets/tle-demo-stack-nav-v38.js'
       - 'public/assets/tle-demo-floating-bubbles-v25.js'
       - 'public/assets/tle-demo-finish-v26.js'
       - 'public/assets/tle-demo-enhancements-v12.js'
