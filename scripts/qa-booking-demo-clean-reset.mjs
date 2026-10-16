@@ -47,6 +47,14 @@ try{
    // The Sonny card may already peek into the initial viewport: hiding the
    // floating avatar in that case is correct, not a missing launcher.
    await page.evaluate(()=>window.scrollTo({top:document.body.scrollHeight,behavior:'instant'}));
+   console.log('SONNY DIAGNOSTIC '+JSON.stringify(await page.evaluate(()=>({
+     scrollY:window.scrollY,bodyHeight:document.body.scrollHeight,viewportHeight:innerHeight,
+     card:(()=>{const r=document.querySelector('section.sonny')?.getBoundingClientRect();return r&&{top:r.top,bottom:r.bottom}})(),
+     hidden:document.getElementById('sonnyAvatarLauncher')?.hidden,
+     label:document.getElementById('sonnyTitle')?.textContent,
+     tracker:document.getElementById('trackerLink')?.getAttribute('href'),
+     scripts:[...document.scripts].map(s=>s.src).filter(s=>/reset-lead-magnet/.test(s))
+   })))+' / errors '+JSON.stringify(errors));
    await floating.waitFor({state:'visible',timeout:10000});
    const avatarCheck=await floating.evaluate(button=>{
      const image=button.querySelector('img'),r=button.getBoundingClientRect();
