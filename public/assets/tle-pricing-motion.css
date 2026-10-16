@@ -108,3 +108,24 @@
  #plans.tle-price-motion .tle-featured-badge{animation:none!important;transform:translateX(-50%) scale(1);opacity:1}
  .tle-pricing-ready :where(.sales-home,.service-hero,.service-sales,.tle-bundle-inline) :is(.booking-offer-tag,.tle-bundle-inline-discount){opacity:1;transform:rotate(-4deg)}
 }
+
+/* QA: reserve space for the featured 1.06x visual lift so tablet/desktop
+   never gain horizontal scroll; cards stack before three-up gets cramped. */
+@media(min-width:981px){
+ #plans.tle-price-motion .cards{padding-left:28px;padding-right:28px}
+}
+@media(min-width:701px) and (max-width:980px){
+ #plans.tle-price-motion .cards{
+  grid-template-columns:minmax(0,1fr);
+  width:min(680px,100%);
+  margin-inline:auto;
+  padding:18px 23px 24px;
+  gap:18px;
+ }
+ #plans.tle-price-motion .cards.is-visible .tle-featured-card{
+  transform:translateY(-6px) scale(1.025);
+ }
+}
+@media(max-width:700px){
+ #plans.tle-price-motion .cards{padding-inline:16px}
+}
