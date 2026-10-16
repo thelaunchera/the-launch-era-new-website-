@@ -7,6 +7,8 @@ const url=new URLSearchParams({offer:"booking-flow",lang:es?"es":"en"});
 // Smart Welcome visitors arrive to a joint activation with AI Booking preselected.
 // Other visitors retain the original booking-only default and can change plans freely.
 const autoSelectAI=qs.get("bundle")==="ai-booking"?"ai-booking":"";
+const bookingBaseCents=()=>Date.now()<Date.parse("2026-11-01T04:00:00Z")?1999:4999;
+const bookingDisplayPrice="$"+(bookingBaseCents()/100).toFixed(2);
 const prices={"":{setup:0,monthly:0}, "ai-booking":{setup:49,monthly:19},"ai-followup":{setup:29,monthly:12},"ai-business":{setup:69,monthly:25}};
 let livePricing=null;
 const pricesEndpoint="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-bundle-checkout";
@@ -31,12 +33,12 @@ const safe=t=>String(t).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;"
 root.innerHTML=`<div class="tle-ey">${es?"TU SISTEMA, A TU MANERA":"BUILD YOUR BOOKING SYSTEM"}</div>
 <h2>${es?"¿Lista para automatizar tus reservas?":"Ready to automate your bookings?"}</h2>
 <p>${es?"Comienza con tu Booking Page y Command Center. Si quieres, añade un asistente de IA independiente en esta misma compra.":"Start with your Booking Page and Command Center. Add a separate AI Assistant if it fits your business — all in one checkout."}</p>
-<div class="tle-included"><div><b>Booking Automation + Command Center</b><br><span>${es?"Página personalizada + panel privado":"Personalized Booking Page + private workspace"}</span></div><b>$19.99</b></div>
+<div class="tle-included"><div><b>Booking Automation + Command Center</b><br><span>${es?"Página personalizada + panel privado":"Personalized Booking Page + private workspace"}</span></div><b>${bookingDisplayPrice}</b></div>
 <div class="tle-ey">${es?"TAMBIÉN TE PUEDE INTERESAR · OPCIONAL":"YOU MAY ALSO LIKE · OPTIONAL"}</div>
 <div class="tle-options" role="radiogroup" aria-label="${es?"Añadir AI Assistant":"Add an AI Assistant"}">
 ${plans.map(([key,name,desc])=>`<label class="tle-opt"><input type="radio" name="tle-ai-bundle" value="${safe(key)}" ${key===autoSelectAI?"checked":""}><span class="tle-opt-main"><strong>${safe(name)}</strong><small>${safe(desc)}</small></span><span class="tle-opt-price">${key?"+$"+prices[key].setup:"$0"}<small>${key?(es?"luego $":"then $")+prices[key].monthly+(es?"/mes":"/mo"):(es?"Sin cargo":"No charge")}</small></span></label>`).join("")}
 </div>
-<div class="tle-summary" aria-live="polite"><div class="tle-sumrow"><span>Booking Automation + Command Center</span><b id="tleBookingPrice">$19.99</b></div><div class="tle-sumrow" id="tleAddonRow" hidden><span id="tleAddonName"></span><b id="tleAddonPrice"></b></div><div class="tle-sumrow" id="tleDiscountRow" hidden><span>${es?"Ahorro de activación (40%)":"Activation discount (40%)"}</span><b id="tleDiscountAmount"></b></div><div class="tle-sumrow total"><span>${es?"Total a pagar hoy":"Total due today"}</span><strong id="tleTotal">$19.99</strong></div><div class="tle-monthly" id="tleMonthly">${es?"Sin mensualidad de AI Assistant.":"No AI Assistant monthly fee."}</div></div>
+<div class="tle-summary" aria-live="polite"><div class="tle-sumrow"><span>Booking Automation + Command Center</span><b id="tleBookingPrice">${bookingDisplayPrice}</b></div><div class="tle-sumrow" id="tleAddonRow" hidden><span id="tleAddonName"></span><b id="tleAddonPrice"></b></div><div class="tle-sumrow" id="tleDiscountRow" hidden><span>${es?"Ahorro de activación (40%)":"Activation discount (40%)"}</span><b id="tleDiscountAmount"></b></div><div class="tle-sumrow total"><span>${es?"Total a pagar hoy":"Total due today"}</span><strong id="tleTotal">${bookingDisplayPrice}</strong></div><div class="tle-monthly" id="tleMonthly">${es?"Sin mensualidad de AI Assistant.":"No AI Assistant monthly fee."}</div></div>
 <button type="button" class="tle-buy" id="tleCheckoutBtn">${es?"Continuar al checkout seguro →":"Continue to secure checkout →"}</button>
 <p class="tle-hint">${es?"El AI Assistant se compra por separado del Booking Automation. En esta opción puedes pagar las dos instalaciones juntas. Los primeros 30 días del asistente comienzan con la entrega; después aplica su mensualidad.":"AI Assistant is sold separately from Booking Automation. You can pay both setup fees together here. The assistant's first 30 days begin at delivery; the selected monthly plan follows."}</p>
 <p class="tle-hint" id="tleProductionPromise" aria-live="polite"></p><p class="tle-hint" id="tleCarePromise"></p><a class="tle-hint" href="/help/?topic=setup-call" style="display:inline-block;text-decoration:underline;color:#1D577C">${es?"Solicitar una llamada 1:1 de orientación ↗":"Request a 1:1 guidance call ↗"}</a>
@@ -44,14 +46,14 @@ ${plans.map(([key,name,desc])=>`<label class="tle-opt"><input type="radio" name=
 const money=n=>"$"+n.toFixed(2);
 const selected=()=>root.querySelector('input[name="tle-ai-bundle"]:checked')?.value||"";
 function expected(key){
- const details=livePricing?.plans?.[key],bookCents=key?(livePricing?.booking_setup_cents??1999):1999;
- return {bookCents,aiCents:key?(details?.setup_due_cents??prices[key].setup*100):0,original:key?(1999+prices[key].setup*100):1999};
+ const base=bookingBaseCents(),details=livePricing?.plans?.[key],bookCents=key?(livePricing?.booking_setup_cents??base):base;
+ return {bookCents,aiCents:key?(details?.setup_due_cents??prices[key].setup*100):0,original:key?(base+prices[key].setup*100):base};
 }
 function render(){
  const key=selected(),plan=prices[key],v=expected(key),total=v.bookCents+v.aiCents;
  root.querySelector("#tleAddonRow").hidden=!key;
  root.querySelector("#tleAddonName").textContent=plans.find(p=>p[0]===key)?.[1]||"";
- root.querySelector("#tleBookingPrice").textContent=money(19.99);
+ root.querySelector("#tleBookingPrice").textContent=money(bookingBaseCents()/100);
  root.querySelector("#tleAddonPrice").textContent=money(plan.setup);
  root.querySelector("#tleTotal").textContent=money(total/100);
  const discount=v.original-total;
