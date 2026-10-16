@@ -60,6 +60,20 @@ try{
       const color=s=>{const el=document.querySelector(s);return el?getComputedStyle(el).color:null};
       return {title:color("#bookingStarter #title"),progress:color(".tle-client-progress-step"),step:color("#bookingStarter #count")};
     });
+    if(width===360&&lang==="en"){
+     const debug=await page.evaluate(()=>{
+      const el=document.getElementById("title"),progress=document.querySelector(".tle-client-progress-step");
+      const rule='html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter .head #title';
+      return {htmlClass:document.documentElement.className,titleHTML:el?.outerHTML.slice(0,260),
+        titleInline:el?.style.cssText,progressHTML:progress?.outerHTML.slice(0,250),
+        matches:el?.matches(rule),
+        inkCSS:[...document.styleSheets].filter(s=>s.href?.includes("booking-ink-v43")).map(s=>({url:s.href,count:s.cssRules?.length})),
+        actualColor:getComputedStyle(el).color,
+        fill:getComputedStyle(el).webkitTextFillColor,
+        rules:[...document.styleSheets].filter(s=>s.href?.includes("booking-ink-v43")).flatMap(s=>[...s.cssRules].slice(0,8).map(r=>r.selectorText||r.cssText.slice(0,130)))};
+     });
+     console.log("V43_INK_DIAGNOSTIC",JSON.stringify(debug));
+    }
     const brightness=s=>{const m=s?.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);return m?.length?Number(m[1])*.2126+Number(m[2])*.7152+Number(m[3])*.0722:256;};
     assert(brightness(ink.title)<165&&brightness(ink.progress)<165&&brightness(ink.step)<165,
       "Dark foreground is required on the pale booking canvas: "+JSON.stringify(ink));

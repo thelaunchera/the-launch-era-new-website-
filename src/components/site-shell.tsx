@@ -1,7 +1,6 @@
 import { Link, useRouterState } from '@tanstack/react-router';
 import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
-import './footer-theme-sweep.css';
 import { Menu, X, Timer, Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
