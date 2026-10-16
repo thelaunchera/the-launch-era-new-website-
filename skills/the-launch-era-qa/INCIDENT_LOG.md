@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-16 | Homepage desktop screenshot showed tiny centered "YOUR BOOKING FLOW / See how it works" link with tightly stacked overlapping text fragments while revealing "Explore the flow" | Existing hero hint was only 14–17px on computer and its two clipped visual halves had insufficient separation; the hover animation placed fragments too close to the center copy. | Enlarged only the existing EN/ES native `#hero-next` link to ~20–24px on desktop / ~17–19px mobile, increased vertical hit area and kicker legibility and shifted split halves 1.10em apart. Preserved real in-page navigation, no new floating UI, pricing, app, demo or tenant changes. Added responsive browser sizing assertions with full existing split-word QA. | 🟡 Awaiting CI, deployment and real device verification; do not claim live fixed until checks pass. |
+
+
 | 2026-10-16 | Public English and Spanish homepages intermittently produced React hydration error #418 in desktop/tablet QA | Read-only browser comparisons found inconsistent errors when DOM-enhancement scripts load alongside streaming route hydration; the earlier partial delay still failed four of sixteen repeated browser runs, so it was NOT deployed. | A new isolated candidate delays all five public marketing DOM enhancers (Jessie, verified notices, newsletter, services motion, pricing motion) until after hydration, while preserving original assets and destinations. Strict browser QA requires 16/16 fresh EN/ES phone/tablet/desktop loads with no hydration errors, working assistant and zero overflow. | 🟡 Unreleased experiment; deployment blocked until strict test passes. |
 
 
