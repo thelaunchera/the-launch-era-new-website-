@@ -38,20 +38,44 @@
     button.disabled = true;
     label.textContent = es ? 'Enviando…' : 'Sending…';
     try {
-      var response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: email,
-          language: es ? 'es' : 'en',
-          source: 'site_footer',
-          consent: true,
-          company_web: form.querySelector('[data-newsletter-website]')?.value || '',
-          started_at: Number(form.dataset.startedAt || 0)
-        })
+      // WebKit can receive the HTTP 200 but hang while consuming the body.
+      // This endpoint sends HTTP 200 ONLY after a successful database write.
+      // Trust that server acknowledgement; do not wait on response.json().
+      var controller = new AbortController();
+      var watchdog;
+      var timeout = new Promise(function (_, reject) {
+        watchdog = window.setTimeout(function () {
+          controller.abort();
+          reject(new Error('Newsletter request timed out'));
+        }, 10000);
       });
-      var result = await response.json().catch(function () { return null; });
-      if (!response.ok || !result || result.ok !== true) throw new Error('Subscription not saved');
+      var response;
+      try {
+        response = await Promise.race([
+          fetch(endpoint, {
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'omit',
+            cache: 'no-store',
+            signal: controller.signal,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: email,
+              language: es ? 'es' : 'en',
+              source: 'site_footer',
+              consent: true,
+              company_web: form.querySelector('[data-newsletter-website]')?.value || '',
+              started_at: Number(form.dataset.startedAt || 0)
+            })
+          }),
+          timeout
+        ]);
+      } finally {
+        window.clearTimeout(watchdog);
+      }
+      if (!response || response.status !== 200 || !response.ok) {
+        throw new Error('Subscription not confirmed');
+      }
       var confirmation = form.querySelector('[data-newsletter-confirmation]');
       var confirmationLabel = form.querySelector('[data-newsletter-confirmation-label]');
       if (confirmation) confirmation.setAttribute('aria-hidden', 'false');
@@ -63,7 +87,7 @@
       input.disabled = false;
       button.disabled = false;
       label.textContent = es ? 'Suscribirme' : 'Subscribe';
-      fail(form, input, es ? 'No se pudo guardar tu suscripción. Inténtalo otra vez.' : "We couldn't save your subscription. Please try again.");
+      fail(form, input, es ? 'No pudimos confirmar tu suscripción. Inténtalo de nuevo.' : "We couldn't confirm your subscription. Please try again.");
     } finally {
       delete form.dataset.sending;
       form.removeAttribute('aria-busy');
