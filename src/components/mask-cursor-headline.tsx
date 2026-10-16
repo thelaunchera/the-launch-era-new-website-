@@ -28,7 +28,7 @@ export function MaskCursorHeadline({ children }: MaskCursorHeadlineProps) {
     const render = () => {
       x += (targetX - x) * 0.14;
       y += (targetY - y) * 0.14;
-      radiusVelocity = (radiusVelocity + (targetRadius - radius) * 0.16) * 0.72;
+      radiusVelocity = (radiusVelocity + (targetRadius - radius) * 0.3) * 0.45;
       radius = Math.max(0, radius + radiusVelocity);
       if (Math.abs(radius - targetRadius) < 0.1 && Math.abs(radiusVelocity) < 0.1) {
         radius = targetRadius;
