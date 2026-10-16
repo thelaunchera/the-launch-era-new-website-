@@ -82,24 +82,17 @@ try {
    const cards=page.locator("#residentialServiceList>button.service.tle49-service-panel");
    assert.equal(await cards.count(),3,"Do not replace original booking service buttons");
    await cards.nth(1).scrollIntoViewIfNeeded();
-   if(touch&&width<=412){
-    const mainBefore=await page.locator("#main").evaluate(el=>({on:el.classList.contains("on"),visible:getComputedStyle(el).display!=="none"}));
+   if(touch){
+    const mainBefore=await page.locator("#main").evaluate(el=>({on:el.classList.contains("on")}));
     await cards.nth(1).tap();
     const tapState=await page.evaluate(()=>({
-     innerWidth,phoneQuery:matchMedia("(max-width:759px) and (hover:none)").matches,
-     noHover:matchMedia("(hover:none)").matches,
      mainOn:document.getElementById("main")?.classList.contains("on"),
      resOn:document.getElementById("res")?.classList.contains("on"),
-     active:[...document.querySelectorAll("#residentialServiceList>button.tle49-service-panel")].map(b=>b.getAttribute("aria-expanded")),
-     downValue:document.querySelectorAll("#residentialServiceList>button.tle49-service-panel")[1]?.dataset.tle49DownActive
+     active:[...document.querySelectorAll("#residentialServiceList>button.tle49-service-panel")].map(b=>b.getAttribute("aria-expanded"))
     }));
-    console.log("V49_TOUCH_DIAG",lang,width,JSON.stringify({mainBefore,tapState}));
     assert(mainBefore.on,"Booking service picker must be active before first touch");
-    assert.equal(await cards.nth(1).getAttribute("aria-expanded"),"true","First phone tap expands selected photo");
-    assert(tapState.mainOn&&!tapState.resOn,"First phone tap must not book: "+JSON.stringify(tapState));
-    await cards.nth(1).tap();
-   }else if(touch){
-    // Tablet may directly continue on tap; no mouse hover is required.
+    assert.equal(await cards.nth(1).getAttribute("aria-expanded"),"true","First touch expands selected photo");
+    assert(tapState.mainOn&&!tapState.resOn,"First touch must not book: "+JSON.stringify(tapState));
     await cards.nth(1).tap();
    }else{
     await cards.nth(1).hover();
