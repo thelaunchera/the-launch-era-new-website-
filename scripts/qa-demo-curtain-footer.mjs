@@ -47,7 +47,7 @@ try {
      assert(s.gap>=s.footer.height-2,'Curtain spacer must equal footer height '+JSON.stringify(s));
      assert(s.footer.bottom>height-3&&s.footer.bottom<=height+3,'Footer anchored at viewport bottom');
    }
-   await page.evaluate(()=>window.scrollTo(0,document.documentElement.scrollHeight));
+   await page.evaluate(()=>window.scrollTo({top:document.documentElement.scrollHeight,behavior:'instant'}));
    await page.waitForTimeout(320);
    const result=await page.evaluate(()=>{
     const wrapper=document.getElementById('tleDemoCurtainPage');
