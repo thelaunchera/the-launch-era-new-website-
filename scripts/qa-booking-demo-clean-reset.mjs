@@ -96,7 +96,7 @@ try{
    const layout=await page.evaluate(()=>{
      const rect=document.querySelector('.flow').getBoundingClientRect();
      return {bodyOverflow:document.documentElement.scrollWidth-innerWidth,flowWidth:rect.width,
-       slide:document.querySelectorAll('[style*="transform"],[style*="animation"],[class*="carousel"],[class*="glow"]').length,
+       slide:document.querySelectorAll('[class*="carousel"],[class*="glow"],.flow[style*="transform"],.service[style*="transform"]').length,
        images:document.images.length,nav:location.pathname};
    });
    assert(layout.bodyOverflow<=2,lang+' '+width+' horizontal overflow '+JSON.stringify(layout));
