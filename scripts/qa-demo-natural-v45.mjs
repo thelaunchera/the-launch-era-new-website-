@@ -14,7 +14,6 @@ try{
   await page.goto(base+"/lead-private-preview.html?lang="+lang,{waitUntil:"load"});
   await page.waitForSelector("html.tle-demo-v45",{timeout:15000});
   await page.waitForSelector("html.tle-demo-v46",{timeout:15000});
-  await page.waitForSelector("html.tle-v46-photo-words-ready",{timeout:15000});
   const words=await page.evaluate(()=>{
    const all=[...document.querySelectorAll("#residentialServiceList .tle-v46-photo-words,#commercialServiceList .tle-v46-photo-words")];
    const first=all[0],grid=first?.querySelector(".tle-v46-rotate");
