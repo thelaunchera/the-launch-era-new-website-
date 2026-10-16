@@ -60,6 +60,11 @@ function install(){
   {list:document.getElementById("commercialServiceList"),content:lines.business}
  ];
  if(lists.some(x=>!x.list||x.list.querySelectorAll(":scope > button.service.tle-service-has-photo-v21").length<x.content.length))return false;
+ // An async photo-card enhancer may create the service buttons before
+ // inserting their images. Stay pending until every photo is in the DOM;
+ // otherwise the completed flag would suppress slogans forever.
+ if(lists.some(({list,content})=>[...list.querySelectorAll(":scope > button.service.tle-service-has-photo-v21")]
+  .slice(0,content.length).some(button=>!button.querySelector(".tle-service-photo-v21 img"))))return false;
  for(const {list,content} of lists){
   const buttons=[...list.querySelectorAll(":scope > button.service.tle-service-has-photo-v21")];
   for(const [i,[prefix,words]] of content.entries()){
@@ -69,6 +74,8 @@ function install(){
    button.append(slogan);
   }
  }
+ const added=lists.reduce((total,{list,content})=>total+[...list.querySelectorAll(":scope > button.service.tle-service-has-photo-v21")].slice(0,content.length).filter(button=>!!button.querySelector(".tle-v46-photo-words")).length,0);
+ if(added!==7)return false;
  root.classList.add("tle-demo-v46");
  return true;
 }
