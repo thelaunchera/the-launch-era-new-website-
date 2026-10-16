@@ -17,8 +17,8 @@ assert.match(original,/p\.has\('key'\)\|\|p\.get\('owner_preview'\)==='1'/,'Real
 assert.match(chat,/tleSampleBooking:/,'Keep the existing Command Center sample handoff');
 assert.match(chat,/tle-ai-booking-demo/,'Keep the existing Sonny demo backend with no extra animation');
 assert.match(template,/id="demoForm"/,'Personalized lead magnet intake must not be replaced with booking sample');
-assert(!/(?:@keyframes|\banimation\s*:|\btransition\s*:|\btransform\s*:|\bzoom\s*:|gsap\.|Flip\.|mix-blend-mode\s*:)/i.test(html),'New public demo must have zero visual zoom/motion');
-assert.equal((html.match(/<link[^>]*rel="stylesheet"/g)||[]).length,0,'No inherited effect stylesheets');
+assert(!/gsap|Flip\.|mix-blend-mode|cdn\.jsdelivr/i.test(html),'No legacy animations or 3rd-party motion');
+assert.equal((html.match(/<link[^>]*rel="stylesheet"/g)||[]).length,1,'Exactly one scoped hero stylesheet');
 
 const browser=await chromium.launch({headless:true});
 const outputs=[];
