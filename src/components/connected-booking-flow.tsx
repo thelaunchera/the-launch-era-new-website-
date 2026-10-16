@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { BellRing, CalendarCheck2, CalendarDays, ClipboardList, FileText, UsersRound } from 'lucide-react';
 import './connected-booking-flow.css';
 
@@ -61,10 +61,10 @@ export function ConnectedBookingFlow({lang='en'}:{lang?:Language}){
     {locations.map((p,i)=>{
       const x=p.x*1.6;
       const y=p.y;
-      return <g key={i} className="tle-connection-hub__wire-group" style={{'--hub-index':i} as React.CSSProperties}>
+      return <g key={i} className="tle-connection-hub__wire-group" style={{'--hub-index':i} as CSSProperties}>
        <path className="tle-connection-hub__path" pathLength="1" d={`M ${x} ${y} L 80 50`}/>
        <circle className="tle-connection-hub__travel-dot" cx={x} cy={y} r="1.2"
-        style={{'--hub-move-x':(50-p.x)+'%','--hub-move-y':(50-p.y)+'%'} as React.CSSProperties}/>
+        style={{'--hub-move-x':(50-p.x)+'%','--hub-move-y':(50-p.y)+'%'} as CSSProperties}/>
       </g>;
     })}
    </svg>
@@ -73,13 +73,13 @@ export function ConnectedBookingFlow({lang='en'}:{lang?:Language}){
     <span className="tle-connection-hub__core-brand">THE LAUNCH ERA</span>
     <strong>Command Center</strong>
     <small>{es?'Tu espacio privado':'Your private workspace'}</small>
-    {locations.map((_,i)=><span key={i} className="tle-connection-hub__ring" aria-hidden="true" style={{'--hub-index':i} as React.CSSProperties}/>)}
+    {locations.map((_,i)=><span key={i} className="tle-connection-hub__ring" aria-hidden="true" style={{'--hub-index':i} as CSSProperties}/>)}
    </div>
    {nodes.map((node,i)=>{
     const pos=locations[i];
     const Icon=icons[i];
     return <button key={node.heading} className="tle-connection-hub__tile" type="button"
-     style={{'--hub-x':pos.x+'%','--hub-y':pos.y+'%','--hub-index':i} as React.CSSProperties}
+     style={{'--hub-x':pos.x+'%','--hub-y':pos.y+'%','--hub-index':i} as CSSProperties}
      onClick={()=>setActive(i)} aria-pressed={i===active} aria-controls={'tle-flow-detail-'+lang}>
       <Icon aria-hidden="true" size={21}/>
       <strong>{node.heading}</strong>
