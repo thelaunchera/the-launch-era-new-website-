@@ -48,7 +48,7 @@ function setup(){
  const subtitle=text.querySelector(".demo-hero-description");
  const lead=text.querySelector("#leadName");
  if(lead)lead.textContent=copy.eyebrow;
- if(tagline)tagline.textContent=copy.title;
+ if(tagline){tagline.textContent=copy.title;tagline.setAttribute("role","heading");tagline.setAttribute("aria-level","1");}
  if(subtitle)subtitle.textContent=copy.body;
  const story=document.createElement("section");
  story.id="tle48Story";
