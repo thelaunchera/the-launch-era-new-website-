@@ -5,6 +5,8 @@ on:
     paths:
       - 'public/assets/tle-demo-natural-v45.css'
       - 'public/assets/tle-demo-natural-v45.js'
+      - 'public/assets/tle-demo-photo-words-v46.js'
+      - 'public/assets/tle-demo-photo-words-v46.css'
       - 'public/assets/tle-demo-editorial-v44.js'
       - 'public/lead-private-preview.html'
       - 'scripts/qa-demo-natural-v45.mjs'
@@ -27,6 +29,7 @@ jobs:
           node scripts/qa-public-demo-integrity.mjs
           node --check public/assets/tle-demo-editorial-v44.js
           node --check public/assets/tle-demo-natural-v45.js
+          node --check public/assets/tle-demo-photo-words-v46.js
           node --check scripts/qa-demo-natural-v45.mjs
       - name: Install Chromium
         run: |
