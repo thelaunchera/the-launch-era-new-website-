@@ -24,7 +24,8 @@ try{
    await root.waitFor({state:'attached',timeout:15000});
    assert.equal(await page.locator('.tle-time-chapter').count(),4,lang+' chapter count');
    assert.equal(await page.locator('.tle-marquee-row').count(),2,lang+' kinetic rows');
-   assert.equal(await page.locator('.product-tabs button').count(),3,lang+' public product tabs');
+   // Product tabs are no longer mounted on the redesigned homepage; validate this section instead.
+   assert.equal(await page.locator('.tle-time-rotator > span').count(),3,lang+' rotating headline words');
    await page.evaluate(()=>document.querySelector('.tle-day-night')?.scrollIntoView());
    await page.waitForTimeout(1000);
    const webgl=await page.evaluate(()=>{try{return Boolean(document.createElement('canvas').getContext('webgl2'))}catch{return false}});
