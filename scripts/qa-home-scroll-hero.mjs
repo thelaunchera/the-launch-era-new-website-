@@ -38,6 +38,7 @@ assert(scrollCSS.includes('2026-10-16 iPad/tablet parity'), 'portrait iPad respo
 assert(scrollCSS.includes('@keyframes tle-hero-mesh-a') && scrollCSS.includes('@keyframes tle-hero-mesh-d'), 'four independent mesh animations missing');
 assert(scrollCSS.includes('pointer-events:none') && scrollCSS.includes('prefers-reduced-motion:reduce'), 'mesh must be non-interactive and respect reduced motion');
 assert(scrollCSS.includes('radial-gradient(circle') && !scrollCSS.includes('filter:blur('), 'soft mesh must not use blur filters');
+assert(!scrollCSS.includes('.hero-scroll-stage > .tle-hero-soft-mesh'), 'gradient must not be placed behind the exterior scroll background');
 assert(styles.includes('clip-path:inset(0 0 0 100% round 20px)'));
 assert(styles.includes('clip-path:inset(0 0 0 0 round 20px)'));
 assert(styles.includes('transition:clip-path 900ms cubic-bezier(.32,.72,0,1)'));
@@ -90,7 +91,9 @@ try {
        count:blobs.length,
        insideHeroFrame:mesh.parentElement === frame,
        dotsDisplay:getComputedStyle(hero.querySelector('.tle-hero-connection-backdrop')).display,
-       frameBackground:getComputedStyle(frame).backgroundColor,
+       frameBackground:getComputedStyle(frame).backgroundImage,
+       copyShift:getComputedStyle(intro).top,
+       photoShift:getComputedStyle(panel).top,
        display:getComputedStyle(mesh).display,
        pointerEvents:getComputedStyle(mesh).pointerEvents,
        zIndex:Number(getComputedStyle(mesh).zIndex),
@@ -117,7 +120,10 @@ try {
      assert(state.mesh.display !== 'none', lang + ': desktop mesh missing');
      assert(state.mesh.insideHeroFrame, lang + ': gradient must stay INSIDE the hero card, not the outer scroll background');
      assert.notEqual(state.mesh.dotsDisplay, 'none', lang + ': outer dotted/Request/Follow-up background must remain untouched');
-     assert.equal(state.mesh.frameBackground, 'rgb(250, 248, 243)', lang + ': original ivory hero surface must stay unchanged');
+     assert(state.mesh.frameBackground.includes('linear-gradient') && state.mesh.frameBackground.includes('233, 245, 254'), lang + ': blue gradient should be visible inside hero on entry');
+     if(viewport.width > 1180){
+       assert(state.mesh.copyShift==='-10px' && state.mesh.photoShift==='-10px',lang+': desktop hero content must rise slightly together without moving the outer backdrop');
+     }
      assert.equal(state.mesh.pointerEvents, 'none', lang + ': mesh intercepts CTA clicks');
      assert(state.mesh.photoZIndex > state.mesh.zIndex, lang + ': photo must paint above moving gradients');
      assert(state.mesh.animations.every(name=>name.startsWith('tle-hero-mesh-')), lang + ': desktop ambient animations not running');
