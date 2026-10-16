@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-16 | Owner video showed Sonny still as huge white/blue "Try Sonny" pill, narrow white/gray card sections detached from sky-blue landing and hazy overlong hero zoom. | The approved Sonny avatar was in HTML but hidden by later fixed-widget CSS. The scroll portal waited until ~82% to reveal headline after 195svh/170svh journey. Proof, before/after, chooser cards all had stark white square-ish surfaces, while shell was inset. | Last-loaded scoped premium stylesheet: closed Sonny is only original blue robot head circle, same existing chat/keyboard/EN-ES button on open; cohesive powder-blue gradient cards with 22+px rounding/blue outlines and 12px mobile gutters, more continuous section backgrounds; portal zoom capped, photo clarity restored and reveal earlier. Browser QA EN/ES 360/390/820/1440 incl original form/quotes, proof sliders and sample-only/no writes. | 🟡 PR / regression and live deploy pending. |
+
+
 | 2026-10-16 | Public Booking Demo reset replaced Sonny's blue robot avatar with text only; user wanted the previous one back. | Existing original approved `/assets/lead-demo/ai-demo-robot.webp` used in former guarded sample. The reset has an already-visible `.sonny` card with a working `#sonnyToggle`; a second floating launcher conflicted with it. | Restore the **same blue robot** in the existing Sonny title/header only. Preserve one assistant, all booking flow handlers, EN/ES, email links, and private buyer routes. Add EN/ES browser QA for image and existing toggle. | 🟡 PR #171 pending browser QA and GitHub Pages deployment. |
 
 
