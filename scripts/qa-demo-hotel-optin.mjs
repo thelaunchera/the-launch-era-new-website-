@@ -234,6 +234,15 @@ for(const engine of [chromium,webkit]){
     assert.equal(actualTouch.active,1);
     await cards.nth(1).tap();
     assert.equal(await cards.nth(1).getAttribute("aria-expanded"),"true","First tap expands second service");
+    const reduced=await page.locator("#residentialServiceList").evaluate(list=>{
+      const nodes=[...list.querySelectorAll(":scope>button.service.tle49-panel")];
+      return {heights:nodes.slice(0,3).map(n=>Math.round(n.getBoundingClientRect().height)),
+        motion:getComputedStyle(nodes[0]).transitionDuration};
+    });
+    assert(reduced.heights[0]<=242&&reduced.heights[1]>=320&&reduced.heights[1]<=335,
+      "Reduced-motion devices should settle collapsed/expanded heights instantly: "+JSON.stringify(reduced));
+    assert(reduced.motion.split(",").every(x=>parseFloat(x)===0),
+      "Reduced-motion setting must remove panel motion: "+JSON.stringify(reduced));
     assert.equal(await page.locator("#main").evaluate(el=>el.classList.contains("on")),true,
       "First tap must NOT open a booking unexpectedly");
     await page.screenshot({path:"qa-screenshots/demo-v49-optin/touch-expanded-"+engine.name()+"-"+lang+".png"});
