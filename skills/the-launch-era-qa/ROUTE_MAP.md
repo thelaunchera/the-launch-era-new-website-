@@ -6,6 +6,21 @@
 
 # ROUTE_MAP.md — The Launch Era route & button registry
 
+## Homepage 3-step shared-element details (2026-10-16)
+- **Public EN `/` and ES `/es/` only:** `ProcessSection` and the Spanish home process area now mount the same `ProcessSteps` component (`src/components/process-view-transitions.tsx`) and locally scoped CSS. Each existing step becomes a native button with a blue thumbnail that expands into an informational dialog hero through the View Transitions API; measured FLIP animates where unsupported, and reduced-motion uses an instant state swap. The original three step messages and `#contacto` real forms remain, no new path or backend.
+- **Accessibility:** dialog, Escape and close, backdrop click, focus trap/return, unique view-transition-name for the active pair, visible focus rings, EN/ES detail text. No checkout, demo, email, client data or Command Center behavior is changed.
+- **QA gate:** `node scripts/qa-process-view-transitions.mjs`, Vitest interactive tests, `bun run build`, `node scripts/qa-route-integrity.mjs --static`, and Playwright at 390/820/1440 in EN/ES plus reduced-motion and normal-motion. New dedicated CI runs on the feature PR/main. Browser/live publication must be verified separately.
+
+
+## Public fictional booking demo: inline calendar + cleaning frequency selector (2026-10-16)
+- **Surface:** `/lead-private-preview.html?lang=en|es` only without a buyer `key` or `owner_preview=1`; code: `public/assets/tle-demo-inline-booking-v41.js/css`, `tle-demo-frequency-v41.js/css` and `tle-demo-readability-v41.css`. CSS is imported by the existing v38 sample style. JavaScript is loaded from the existing sample-only v27 loader after the page load.
+- **Hero:** a responsive photo-led headline alongside a white calendar card on wide screens; on phone and tablet the card sits below the untouched photo. Real month dates; elapsed dates disabled; keyboard and touch day/time selection. Confirm switches to "Booked in demo", explicitly says nothing was booked or sent and only pre-fills local date and time fields. The real service selection and form still require deliberate visitor action; no network writes.
+- **Frequency comparison:** three radio-semantic options One time / Weekly / Biweekly with arrow-key roving tabindex, sample starting price for Standard Cleaning ($120 per one-time visit), existing example discounts of 15% weekly and 10% biweekly, and illustrative annual savings of $936 (52 visits) and $312 (26 visits). Does not promise an actual contracted subscription/price, no new payment, invoice, lead or order. Hides in Business/Commercial category. "Customize" opens the existing residential flow and selects the chosen frequency.
+- **Screenshot repair:** the white active Home/Residential pill must show dark-blue text; the booking studio background is powder blue rather than black. Existing service-card photo legibility is unchanged. Scoped CSS never themes client previews or CB Depot.
+- **QA:** `scripts/qa-demo-inline-widgets-v41.mjs`, dedicated workflow `demo-inline-v41-qa.yml`, plus existing native navigation and route integrity checks. Verify EN/ES on phone/tablet/desktop and production only after deployment. No live booking/email/checkout test.
+
+
+
 ## Public pricing and true savings motion (2026-10-16)
 - EN `/ai-booking-assistant/` and ES `/es/ai-booking-assistant/`: three published offers, `ai-booking` $49 setup + $19/mo, `ai-business` $69 setup + $25/mo, `ai-followup` $29 setup + $12/mo. Middle featured card is **AI Business** ("Best value/Mejor valor"), not an unsupported popularity ranking. Existing Stripe checkout URLs preserved; demo unchanged.
 - The combined plan saves $6 per billed month vs the $19+$12 individual monthly plans; only that selected plan shows `Save $72/yr` as the annualized difference over 12 monthly charges. Explicit on-page note says it is **not** an annual subscription discount; there is no annual billing option or unapproved plan. Other selections display no savings badge.
