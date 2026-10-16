@@ -85,4 +85,25 @@ try{
   await page.close();
   console.log("PASS v44",lang,width);
  }
+ const animated=await browser.newPage({viewport:{width:390,height:844},reducedMotion:"no-preference"});
+ const animationErrors=[];
+ animated.on("pageerror",e=>animationErrors.push(e.message));
+ await animated.goto(root+"/lead-private-preview.html?lang=en",{waitUntil:"load"});
+ await animated.waitForSelector("html.tle-demo-v44",{timeout:13000});
+ await animated.locator("#leadHero .tle-v42-window").click();
+ await animated.waitForTimeout(450);
+ const motion=await animated.evaluate(()=>{
+  const hero=document.querySelector("#leadHero");
+  const portal=hero.querySelector(".tle-v42-window");
+  const photo=hero.querySelector(".demo-cb-hero-media");
+  return {active:hero.classList.contains("tle-v42-travel"),
+    portalTransform:getComputedStyle(portal).transform,
+    photoTransform:getComputedStyle(photo).transform,
+    sceneOpacity:getComputedStyle(hero.querySelector(".tle-v42-second-scene")).opacity};
+ });
+ assert(motion.active&&motion.portalTransform!=="none"&&motion.photoTransform!=="none",
+   "Real zoom through the original photo must animate on normal motion: "+JSON.stringify(motion));
+ await animated.waitForSelector("html.tle-demo-booking-active",{timeout:6000});
+ assert.deepEqual(animationErrors,[],"No errors during animated Welcome");
+ await animated.close();
 }finally{await browser.close();}
