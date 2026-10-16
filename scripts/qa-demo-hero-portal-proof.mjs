@@ -24,6 +24,7 @@ assert(!/gsap|Flip\.min|zoom:|backdrop-filter/.test(style),'No unrelated zoom li
 assert.match(style,/@media\(prefers-reduced-motion:reduce\)/,'Respect reduced-motion accessibility');
 assert.match(style, /--portal-scale/, 'Window zoom through focal point missing');
 assert.match(script,/sonnyToggle/,'Must open real Sonny chat, no dummy widget');
+assert.match(script,/portalClickDuration=2800/,'Window click must use the deliberate 2.8s transition instead of native smooth scrolling');
 const base=(process.env.QA_URL||'http://127.0.0.1:4173').replace(/\/$/,'');
 const browser=await chromium.launch({headless:true});
 const records=[];
@@ -81,6 +82,16 @@ try {
     assert.equal(viewport.open,true,'Reduced motion must expose final heading');
   }else{
     await page.locator('#bookingPortalEnter').click();
+    // On an iPhone tap the window should still be visible after the first half second,
+    // rather than immediately disappearing as it did in the supplied screen recording.
+    await page.waitForTimeout(550);
+    const early=await page.locator('#bookingPortalFront').evaluate(el=>({
+      opacity:parseFloat(getComputedStyle(el).opacity),
+      fraction:Math.max(0,-document.getElementById('bookingPortal').getBoundingClientRect().top)/
+        Math.max(1,document.getElementById('bookingPortal').offsetHeight-innerHeight)
+    }));
+    assert(early.opacity>.5&&early.fraction<.5,
+      'Entrance vanished in under a second instead of progressing gradually: '+JSON.stringify(early));
     await page.waitForFunction(()=>document.querySelector('.booking-portal-copy')?.classList.contains('is-active'),null,{timeout:10000});
     await page.waitForFunction(()=>parseFloat(getComputedStyle(document.getElementById('bookingPortalFront')).opacity)<.08,
       null,{timeout:8000});
