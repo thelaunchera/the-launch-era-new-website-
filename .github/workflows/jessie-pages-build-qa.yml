@@ -41,6 +41,9 @@ jobs:
       - name: Install project dependencies
         run: bun install
 
+      - name: Verify Sonny booking memory and no-repeat logic
+        run: node scripts/qa-jessie-sonny-slot-memory.mjs
+
       - name: Build as for GitHub Pages
         run: bun run build
 
@@ -82,6 +85,8 @@ jobs:
         run: node scripts/qa-jessie-browser.mjs
       - name: Verify consent-gated public demo with no real sends in EN/ES
         run: node scripts/qa-jessie-demo-browser.mjs
+      - name: Verify Sonny visual sample summary EN/ES (synthetic, no sends)
+        run: node scripts/qa-jessie-sonny-memory-browser.mjs
 
       - name: Save synthetic Jessie screenshots for independent reviewer
         if: always()
@@ -91,6 +96,7 @@ jobs:
           path: |
             qa-screenshots/jessie-ai-team-*.png
             qa-screenshots/jessie-demo-*.png
+            qa-screenshots/sonny-memory-*.png
           if-no-files-found: warn
 
       - name: Save build validation summary
