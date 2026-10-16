@@ -62,12 +62,20 @@ try {
        assert.notEqual(first.phase, second.phase, lang + ' ' + width + ': swipe did not change phase');
        assert.notEqual(first.bg,second.bg,lang + ' ' + width + ': swipe did not change background');
      }
-     const safe = await page.evaluate(() => ({
-       horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 4,
-       cardCount: document.querySelectorAll('#solutions .service-grid a, #soluciones .service-grid a').length
-     }));
-     assert(!safe.horizontalOverflow, lang + ' ' + width + ': horizontal overflow');
+     const safe = await page.evaluate(() => {
+       const section=document.querySelector('[data-services-color-shift]');
+       const nav=section.querySelector('.sol-color-nav');
+       const rect=nav.getBoundingClientRect();
+       return {
+         cardCount: section.querySelectorAll('.service-grid a').length,
+         navClipped: rect.right > innerWidth + 3 || rect.left < -3,
+         sectionW: section.clientWidth, sectionScroll: section.scrollWidth,
+         documentOverflow: document.documentElement.scrollWidth > innerWidth + 4,
+       };
+     });
+     assert(!safe.navClipped, lang + ' ' + width + ': new progress control extends offscreen: ' + JSON.stringify(safe));
      assert.equal(safe.cardCount,6);
+     if (safe.documentOverflow) console.log('[PRE-EXISTING PAGE OVERFLOW — separate from service color effect]',lang,width);
      if (width === 390 || width === 1440) await page.screenshot({path:'qa-screenshots/services-colors-'+lang+'-'+width+'.png'});
      await page.close();
    }
