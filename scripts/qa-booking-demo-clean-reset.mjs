@@ -18,6 +18,7 @@ assert.equal(inline.length,1,'One compact booking wizard controller');
 assert.equal(external.length,1,'One optional Sonny / email lead-magnet enhancer');
 assert.match(external[0][0],/\/assets\/tle-demo-reset-lead-magnet\.js/,'Only clean enhancement asset allowed');
 new vm.Script(inline[0][1]);
+new vm.Script(readFileSync('public/assets/tle-demo-reset-lead-magnet.js','utf8'));
 for(const tag of ['id="resServices"','id="comServices"','id="detailsPanel"','id="reviewPanel"','id="completePanel"','id="customerName"','id="customerEmail"'])assert(html.includes(tag),'Missing service/booking field '+tag);
 assert(!/Post-Construction|posconstrucción/i.test(html),'Removed construction tile must stay removed');
 const base=(process.env.QA_URL||'http://127.0.0.1:4173').replace(/\/$/,'');
@@ -104,6 +105,7 @@ try{
    assert.equal(sonnyPayload?.service_area,'Miami 33101','Sonny must receive recipient service area');
    assert.equal(sonnyPayload?.language,lang);
    assert.equal(typeof sonnyPayload.thread_id,'string');
+   await page.locator('#sonnyUse').waitFor({state:'visible',timeout:12000});
    assert.equal(await page.locator('#sonnyUse').isVisible(),true,'Keep Sonny to form handoff');
    await page.locator('#sonnyUse').click();
    assert.equal(await page.locator('#customerName').inputValue(),'Test Lead');
