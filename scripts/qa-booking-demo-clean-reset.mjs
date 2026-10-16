@@ -42,6 +42,13 @@ try{
    assert.match(await page.locator('#reviewList').innerText(),/Sample Customer/);
    await page.locator('#finish').click();
    await page.locator('#completePanel').waitFor({state:'visible'});
+   const tracker=await page.locator('#trackerLink').getAttribute('href');
+   assert(tracker?.startsWith('/lead-demo-tracker.html?')&&tracker.includes('lang='+lang),
+     'Lead magnet must retain demo Command Center handoff');
+   const saved=await page.evaluate(()=>[...Object.keys(sessionStorage)]
+     .filter(k=>k.startsWith('tleSampleBooking:')).map(k=>JSON.parse(sessionStorage.getItem(k))));
+   assert(saved.some(x=>x.demoOnly&&x.name==='Sample Customer'),
+     'Sample owner-side request must stay in sessionStorage only');
    await page.locator('#restart').click();
    await page.locator('#comTab').click();
    await page.locator('button[data-id="office"]').click();
@@ -88,7 +95,7 @@ try{
    await page.locator('#sonnyToggle').click();
    await page.locator('#sonnyInput').fill('Can you help me book a cleaning?');
    await page.locator('#sonnySend').click();
-   await page.waitForFunction(()=>document.querySelectorAll('#sonnyMessages p').length>=3);
+   await page.waitForFunction(()=>document.querySelectorAll('#sonnyLog p').length>=3);
    assert.equal(sonnyPayload?.business_name,'Sample Cleaning Company','Sonny must receive personalized business context');
    assert.equal(sonnyPayload?.service_area,'Miami 33101','Sonny must receive recipient service area');
    assert.equal(sonnyPayload?.language,lang);
@@ -97,7 +104,7 @@ try{
    await page.locator('#sonnyUse').click();
    assert.equal(await page.locator('#customerName').inputValue(),'Test Lead');
    assert.equal(await page.locator('#detailsPanel').isVisible(),true);
-   assert.equal(await page.locator('#sonnyPanel').isVisible(),false);
+   assert.equal(await page.locator('#sonnyBody').isVisible(),false);
    console.log('PASS email lead magnet personalization and Sonny mocked handoff '+lang);
    await page.close();
  }
