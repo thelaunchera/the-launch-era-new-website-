@@ -148,7 +148,7 @@ jobs:
           for attempt in {1..15}; do
             page="$(curl --fail --silent --show-error --location --max-time 15 "https://thelaunchera.com/?colors_release=${GITHUB_SHA}" || true)"
             asset="$(curl --fail --silent --show-error --location --max-time 15 "https://thelaunchera.com/assets/tle-services-color-shift.js?colors_release=${GITHUB_SHA}" || true)"
-            if [[ "$page" == *'tle-services-color-shift.js'* ]] && [[ "$asset" == *'function ensureGsap()'* ]]; then
+            if [[ "$page" == *'tle-services-color-shift.css'* ]] && [[ "$asset" == *'function ensureGsap()'* ]]; then
               echo "PASS — the published homepage includes the real color-shift controller and the asset is accessible."
               exit 0
             fi
