@@ -35,6 +35,16 @@ assert(esService.includes('href="/lead-private-preview.html?lang=es&source=websi
 assert(enService.includes('href="/booking-demo/?lang=en"'),'English personalized request stays email-gated');
 assert(esService.includes('href="/booking-demo/?lang=es"'),'Spanish personalized request stays email-gated');
 assert(!enService.includes('pages.dev')&&!esService.includes('pages.dev'),'Website has no technical preview URLs');
+const frontDoor=readFileSync('public/lead-private-preview.html','utf8');
+const reset=readFileSync('public/booking-demo-reset.html','utf8');
+const enhancer=readFileSync('public/assets/tle-demo-reset-lead-magnet.js','utf8');
+assert(frontDoor.includes("location.replace('/booking-demo-reset.html'+location.search+location.hash)"),'Official email URL redirects to clean demo preserving all URL parameters');
+assert(frontDoor.includes("p.has('key')||p.get('owner_preview')==='1'"),'Private buyer and owner routes bypass public redirect');
+assert(reset.includes("id=\"leadContext\""),'Clean demo supports personalized business and area');
+assert(reset.includes("id=\"sonnyForm\""),'Sonny remains on the same clean demo');
+assert(enhancer.includes("qs.get('business')")&&enhancer.includes("qs.get('area')"),'Business and service area carried from original emails');
+assert(enhancer.includes("'rid'")&&enhancer.includes("'source'"),'Email attribution and unique request id preserved');
+assert(!/pages\\.dev|cloudflare/i.test(reset),'Technical preview must not appear in customer demo');
 assert(api.includes('Idempotency-Key'), 'Original provider idempotency preserved');
 assert(api.includes('email_followup_enabled:false'),'Transactional demo is not recurring marketing');
 assert(website.includes('Sonny está dentro del demo'));
