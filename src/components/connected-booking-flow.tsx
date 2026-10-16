@@ -101,7 +101,7 @@ export function ConnectedBookingFlow({ lang = 'en' }: { lang?: Language }) {
 }
 
 /** Purely decorative dotted wiring visible AROUND a shrunken homepage hero. */
-export function HeroConnectionBackdrop() {
+export function HeroConnectionBackdrop({ lang = 'en' }: { lang?: Language }) {
   return <div className="tle-hero-connection-backdrop" aria-hidden="true">
     <svg viewBox="0 0 1200 800" preserveAspectRatio="none" focusable="false">
       <path className="tle-hero-backdrop-wire" d="M -60 206 C 70 206 90 345 250 345 S 445 90 610 110 S 845 590 1030 590 S 1150 495 1260 495"/>
@@ -109,7 +109,7 @@ export function HeroConnectionBackdrop() {
       <circle cx="98" cy="260" r="7"/><circle cx="1108" cy="565" r="7"/>
       <circle cx="114" cy="543" r="5"/><circle cx="1125" cy="395" r="5"/>
     </svg>
-    <span className="tle-hero-backdrop-chip tle-hero-backdrop-chip--left">01 <b>Request</b></span>
-    <span className="tle-hero-backdrop-chip tle-hero-backdrop-chip--right">02 <b>Follow-up</b></span>
+    <span className="tle-hero-backdrop-chip tle-hero-backdrop-chip--left">01 <b>{lang === "es" ? "Solicitud" : "Request"}</b></span>
+    <span className="tle-hero-backdrop-chip tle-hero-backdrop-chip--right">02 <b>{lang === "es" ? "Seguimiento" : "Follow-up"}</b></span>
   </div>;
 }
