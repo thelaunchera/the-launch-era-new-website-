@@ -18,7 +18,8 @@ assert.match(chat,/tleSampleBooking:/,'Keep the existing Command Center sample h
 assert.match(chat,/tle-ai-booking-demo/,'Keep the existing Sonny demo backend with no extra animation');
 assert.match(template,/id="demoForm"/,'Personalized lead magnet intake must not be replaced with booking sample');
 assert(!/(?:@keyframes|\banimation\s*:|\btransition\s*:|\btransform\s*:|\bzoom\s*:|gsap\.|Flip\.|mix-blend-mode\s*:)/i.test(html),'New public demo must have zero visual zoom/motion');
-assert.equal((html.match(/<link[^>]*rel="stylesheet"/g)||[]).length,0,'No inherited effect stylesheets');
+assert.deepEqual([...html.matchAll(/<link[^>]*rel="stylesheet"[^>]*href="([^"]+)"/g)].map(m=>m[1]),
+  ['/assets/tle-demo-hero-portal.css?v=20261016-portal1'],'Only the isolated hero CSS may be linked');
 
 const browser=await chromium.launch({headless:true});
 const outputs=[];
@@ -49,7 +50,7 @@ try {
    };
   });
   assert(context.scroll<=2&&context.onScreen,locale+' '+width+' overflow '+JSON.stringify(context));
-  assert.equal(context.importCount,0,'Old animations loaded');
+  assert.equal(context.importCount,1,'Only requested hero stylesheet; no legacy effects');
   assert.equal(context.cards.length,6,'Exactly six service choices, none Post-Construction');
   assert(context.cards.filter(x=>x.width>0).length===3,'Only one service category may be visible');
   assert(context.cards.filter(x=>x.width>0).every(x=>x.width>225&&x.height>=280&&x.imageWidth>x.width*.94&&x.imageHeight>=125),
@@ -60,6 +61,9 @@ try {
     const photos=[...document.querySelectorAll('#resServices .service-media img')];
     return photos.length===3&&photos.every(img=>img.complete&&img.naturalWidth>=400);
   },null,{timeout:12000});
+  assert.equal(await page.locator('#bookingPortalHeadline').getAttribute('aria-label'),
+    locale==='es'?'Haz que tus reservas sean extraordinarias.':'Make your booking flow remarkable.');
+  assert.equal(await page.locator('#bookingPortalEnter').count(),1,'Missing hero window zoom entrance');
   assert.equal(await page.locator('#sonnyToggle').count(),1,'Sonny missing');
   assert.equal(await page.locator('#trackerLink').count(),1,'Sample Command Center link missing');
   const tracker=new URL(await page.locator('#trackerLink').getAttribute('href'),origin);
