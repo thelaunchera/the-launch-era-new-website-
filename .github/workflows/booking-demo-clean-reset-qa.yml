@@ -1,0 +1,55 @@
+name: Public Booking Demo Clean Reset QA
+on:
+  pull_request:
+    paths:
+      - 'public/lead-private-preview.html'
+      - 'public/booking-demo-reset.html'
+      - 'scripts/qa-booking-demo-clean-reset.mjs'
+      - '.github/workflows/booking-demo-clean-reset-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'public/lead-private-preview.html'
+      - 'public/booking-demo-reset.html'
+      - 'scripts/qa-booking-demo-clean-reset.mjs'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  booking-reset:
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+      - name: Guard all routes and client isolation
+        run: |
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-public-demo-integrity.mjs
+          node --check scripts/qa-booking-demo-clean-reset.mjs
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Build website
+        run: |
+          bun install
+          bun run build
+          test -s .output/public/booking-demo-reset.html
+      - name: Install isolated Chromium
+        run: |
+          mkdir -p /tmp/tle-clean-reset-playwright
+          cd /tmp/tle-clean-reset-playwright
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          ln -sfn /tmp/tle-clean-reset-playwright/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-clean-reset-playwright/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: EN ES 360 390 820 1440 sample flow and no effects
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-reset-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for i in $(seq 1 45); do
+            if curl -fsS http://127.0.0.1:4173/booking-demo-reset.html >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-booking-demo-clean-reset.mjs
