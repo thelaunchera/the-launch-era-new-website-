@@ -10,7 +10,12 @@ const assets=[
   "public/assets/drive-house-gallery/whole-home.png",
   "public/assets/drive-house-gallery/pristine-kitchen.png",
   "public/assets/drive-house-gallery/dining-room.png",
-  "public/assets/drive-house-gallery/miami-condo.png"
+  "public/assets/drive-house-gallery/miami-condo.png",
+  "public/assets/demo-editorial/story-room.webp",
+  "public/assets/demo-editorial/story-detail.webp",
+  "public/assets/demo-editorial/service-standard.webp",
+  "public/assets/demo-editorial/service-deep.webp",
+  "public/assets/demo-editorial/service-move.webp"
 ];
 for(const path of assets)assert(existsSync(path),"Missing Drive image: "+path);
 const browser=await chromium.launch({headless:true});
@@ -56,7 +61,7 @@ try {
    });
    assert.equal(geometry.storyCount,1,"Exactly one editorial story");
    assert(geometry.photoSrc.includes("/assets/drive-house-gallery/"),"Hero must use existing Drive asset");
-   assert(new Set(geometry.servicePhotos).size===3&&geometry.servicePhotos.every(src=>src?.includes("/assets/drive-house-gallery/")),
+   assert(new Set(geometry.servicePhotos).size===3&&geometry.servicePhotos.every(src=>src?.includes("/assets/demo-editorial/")),
      "Three different local Drive service photos: "+JSON.stringify(geometry.servicePhotos));
    assert(geometry.samplePrices?.includes("$120"),"Must preserve real sample pricing");
    assert(geometry.overflow<=7,"No horizontal overflow "+JSON.stringify(geometry));
