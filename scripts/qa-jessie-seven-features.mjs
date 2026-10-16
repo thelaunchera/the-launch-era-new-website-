@@ -13,7 +13,8 @@ const sonnyCss=read("public/assets/tle-demo-enhancements-v12.css");
 // Product fit + two original interactive samples: no second copy, private tokens or real booking endpoint.
 assert.match(chat,/missed or scattered booking requests -> Booking Automation/);
 assert.match(chat,/inquiries lost through an existing website -> Website Automation/);
-assert.match(front,/lead-private-preview\.html/);
+assert.match(crm,/lead-private-preview\.html/,"The original personalized demo URL is emailed by the backend");
+assert.doesNotMatch(front,/lead-private-preview\.html/,"Never reveal the sample demo URL inside Jessie");
 assert.match(front,/\/cleaning-app-demo\//); // Direct, freely accessible app sample.
 assert.doesNotMatch(front,/showDemoCard\("cleaning-app"\)/);
 assert.match(front,/else if\(next==="demo_choice"\)\{showDemoCard\("booking"\)\}/);
