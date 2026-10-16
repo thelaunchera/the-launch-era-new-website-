@@ -75,6 +75,19 @@ try{
      console.log("V43_INK_DIAGNOSTIC",JSON.stringify(debug));
     }
     const brightness=s=>{const m=s?.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);return m?.length?Number(m[1])*.2126+Number(m[2])*.7152+Number(m[3])*.0722:256;};
+    if(brightness(ink.title)>=165||brightness(ink.progress)>=165){
+      const details=await page.evaluate(()=>{
+       const e=document.querySelector("#title"),progress=document.querySelector(".tle-client-progress-step");
+       const rule="html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter#bookingStarter#bookingStarter #title#title";
+       return {classes:document.documentElement.className,bodyClass:document.body.className,cssRuleMatches:!!e?.matches(rule),
+         inkLoaded:[...document.styleSheets].filter(s=>s.href?.includes("tle-demo-booking-ink-v43")).map(s=>s.href),
+         computed:getComputedStyle(e).color,inline:e?.getAttribute("style"),progressInline:progress?.getAttribute("style"),
+         progressParent:progress?.parentElement?.outerHTML.slice(0,350),
+         heading:e?.parentElement?.outerHTML.slice(0,450),
+         styleSheets:[...document.styleSheets].filter(s=>s.href?.includes("tle-demo")).slice(-7).map(s=>s.href)};
+      });
+      console.error("CONTRAST DEBUG "+JSON.stringify(details));
+    }
     assert(brightness(ink.title)<165&&brightness(ink.progress)<165&&brightness(ink.step)<165,
       "Dark foreground is required on the pale booking canvas: "+JSON.stringify(ink));
     await page.locator("#commercialServiceList button.service.tle-service-has-photo-v21").first().click();
