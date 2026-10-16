@@ -55,6 +55,20 @@
     .tle-ai-review{width:100%;margin:10px 0 0;padding:12px 14px;background:#F2D85B;border:1px solid #dbc04a;color:#191919;border-radius:15px;font-weight:800;font-size:13px;cursor:pointer;text-align:center}
     .tle-ai-review[hidden],.tle-ai-review-tip[hidden]{display:none!important}
     .tle-ai-review-tip{font-size:11px!important;color:#32556D!important;margin:12px 1px 0!important;line-height:1.4!important}
+
+    .tle-ai-sample-summary[hidden],.tle-ai-sample-continue[hidden]{display:none!important}
+    .tle-ai-sample-summary{box-sizing:border-box;width:100%;max-width:100%;min-width:0;padding:15px 14px;background:linear-gradient(145deg,#f9fcff,#e9f4fc);border:1px solid #a9cfe5;border-radius:19px;color:#191919;box-shadow:0 8px 20px rgba(35,88,122,.09)}
+    .tle-ai-sample-title{display:flex;align-items:center;justify-content:space-between;gap:9px;margin-bottom:12px}
+    .tle-ai-sample-title strong{font:800 15px/1.25 Prompt,Arial,sans-serif}
+    .tle-ai-sample-title span{font:700 9px/1.3 Futura,Arial,sans-serif;color:#315b74;border:1px solid #a9cfe5;border-radius:9px;padding:5px 6px;white-space:nowrap}
+    .tle-ai-sample-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:0}
+    .tle-ai-sample-field{background:#fff;border:1px solid #ddebf4;border-radius:12px;padding:9px 10px;min-width:0}
+    .tle-ai-sample-field dt{font:700 10px/1.35 Futura,Arial,sans-serif;color:#527083;margin-bottom:3px}
+    .tle-ai-sample-field dd{font:700 13px/1.3 Futura,Arial,sans-serif;color:#191919;margin:0;overflow-wrap:anywhere}
+    .tle-ai-sample-missing{font:500 11px/1.5 Futura,Arial,sans-serif!important;color:#365c72!important;margin:12px 2px 0!important}
+    .tle-ai-sample-continue{width:100%;min-height:44px;margin-top:12px;padding:11px 12px;border:0;border-radius:12px;background:#191919;color:#fff;font:700 13px/1.4 Prompt,Arial,sans-serif;cursor:pointer}
+    .tle-ai-sample-continue:focus-visible{outline:3px solid #4088bc;outline-offset:2px}
+
     @media(max-width:700px){
       .tle-ai-panel{top:var(--tle-ai-vv-top,0px)!important;left:0!important;right:0!important;bottom:auto!important;width:100vw!important;max-width:100vw!important;height:var(--tle-ai-vv-height,100dvh)!important;min-height:0!important;border-radius:0!important;border:0!important;box-shadow:none!important}
       .tle-ai-head{padding-top:max(15px,env(safe-area-inset-top));flex-shrink:0}
@@ -89,7 +103,64 @@
   const dialogue=[];
   let bookingDraft={};
   let handoffShown=false;
-  review.addEventListener("click",()=>{const success=window.tleAIBookingPrefill?.(bookingDraft);if(success)toggle(false);else append(copy.error,"bot");});
+  let summaryActive=false;
+  const sampleSummary=document.createElement("section");
+  sampleSummary.className="tle-ai-sample-summary";
+  sampleSummary.hidden=true;sampleSummary.setAttribute("aria-label",es?"Resumen de solicitud de ejemplo":"Sample request summary");
+  const sampleHeader=document.createElement("div");sampleHeader.className="tle-ai-sample-title";
+  const sampleLabel=document.createElement("strong");
+  sampleLabel.textContent=es?"Tu solicitud de ejemplo":"Your sample request";
+  const sampleBadge=document.createElement("span");sampleBadge.textContent=es?"NO ENVIADA":"NOT SUBMITTED";
+  sampleHeader.append(sampleLabel,sampleBadge);
+  const sampleDetails=document.createElement("dl");sampleDetails.className="tle-ai-sample-grid";
+  const sampleMissing=document.createElement("p");sampleMissing.className="tle-ai-sample-missing";
+  const sampleAction=document.createElement("button");sampleAction.type="button";sampleAction.className="tle-ai-sample-continue";
+  sampleAction.textContent=es?"Revisar en el formulario →":"Review in sample form →";
+  sampleSummary.append(sampleHeader,sampleDetails,sampleMissing,sampleAction);
+  function filled(key){const value=bookingDraft[key];return value!==undefined&&value!==null&&String(value).trim()!=="";}
+  function updateSampleSummary(serverSummary,ready){
+    const summary=serverSummary&&typeof serverSummary==="object"?serverSummary:{};
+    const detail=[
+      [es?"Tipo":"Type",bookingDraft.category==="commercial"?(es?"Negocio":"Business"):bookingDraft.category==="residential"?(es?"Casa":"Home"):""],
+      [es?"Servicio":"Service",bookingDraft.service||""],
+      [es?"Espacio":"Space",summary.space||bookingDraft.property_type||bookingDraft.commercial_space_type||""],
+      [es?"Habitaciones":"Bedrooms",bookingDraft.category==="residential"&&filled("bedrooms")?String(bookingDraft.bedrooms):""],
+      [es?"Baños":"Bathrooms",bookingDraft.category==="residential"&&filled("bathrooms")?String(bookingDraft.bathrooms):""],
+      [es?"Tamaño":"Size",filled("square_feet")?String(bookingDraft.square_feet)+" sq ft":""],
+      [es?"Frecuencia":"Frequency",bookingDraft.frequency||""],
+      [es?"Código postal":"ZIP",bookingDraft.zip||""],
+      [es?"Fecha":"Date",bookingDraft.date||""],
+      [es?"Hora":"Time",bookingDraft.time||""]
+    ].filter(row=>row[1]!==""&&row[1]!==null&&row[1]!==undefined);
+    if(!detail.length)return;
+    sampleDetails.replaceChildren();
+    detail.forEach(([label,value])=>{
+      const line=document.createElement("div");line.className="tle-ai-sample-field";
+      const dt=document.createElement("dt"),dd=document.createElement("dd");
+      dt.textContent=label;dd.textContent=String(value);line.append(dt,dd);sampleDetails.append(line);
+    });
+    const missing=Array.isArray(summary.missing)?summary.missing.filter(x=>typeof x==="string"&&x.length<45).slice(0,5):[];
+    sampleMissing.textContent=ready?(es?"Revisa el ejemplo antes de continuar. Puedes cambiar los datos en el formulario.":"Review this example before continuing. You can edit details in the form."):(es?"Falta por definir: ":"Still needed: ")+(missing.length?missing.join(" · "):(es?"algunos detalles":"a few details"));
+    sampleAction.hidden=!ready;
+    sampleSummary.hidden=false;
+    if(!sampleSummary.isConnected)log.append(sampleSummary);
+    else log.append(sampleSummary);
+    if(ready&&!summaryActive){
+      summaryActive=true;sampleSummary.scrollIntoView({block:"nearest",behavior:"smooth"});
+    }
+  }
+  function continueToSampleForm(){
+    const success=window.tleAIBookingPrefill?.(bookingDraft);
+    if(success)toggle(false);else append(copy.error,"bot");
+  }
+  sampleAction.addEventListener("click",continueToSampleForm);
+  review.textContent=es?"Ver el resumen →":"View my sample summary →";
+  review.addEventListener("click",()=>{
+    sampleSummary.hidden=false;
+    if(!sampleSummary.isConnected)log.append(sampleSummary);
+    sampleSummary.scrollIntoView({block:"nearest",behavior:"smooth"});
+    sampleAction.focus();
+  });
   function append(text,who){const div=document.createElement("div");div.className="tle-ai-msg "+who;div.textContent=text;log.appendChild(div);log.scrollTop=log.scrollHeight;return div;}
   append(copy.intro,"bot");
   function syncViewport(){
@@ -115,7 +186,8 @@
     if (restart) {
       dialogue.length=0;
       bookingDraft={};
-      handoffShown=false;
+      handoffShown=false;summaryActive=false;
+      sampleSummary.hidden=true;sampleSummary.remove();sampleDetails.replaceChildren();
       field.value="";
       review.hidden=true;
       reviewTip.hidden=true;
@@ -153,11 +225,15 @@
         dialogue.push({role:"Visitor",message:message.slice(0,230)},{role:"Assistant",message:data.reply.slice(0,230)});
         if(dialogue.length>16)dialogue.splice(0,dialogue.length-16);
         if(data.booking&&typeof data.booking==="object"&&!Array.isArray(data.booking)){
-          for(const [key,val] of Object.entries(data.booking)){if((typeof val==="string"&&val.trim())||(typeof val==="number"&&Number.isFinite(val)))bookingDraft[key]=val;}
+          for(const [key,val] of Object.entries(data.booking)){
+            if((typeof val==="string"&&val.trim())||(typeof val==="number"&&Number.isFinite(val)))
+              bookingDraft[key]=val;
+          }
           const canReview=data.ready_for_review===true||handoffShown;
           review.hidden=!bookingDraft.service||!canReview;
           reviewTip.hidden=review.hidden;
           if(data.ready_for_review===true)handoffShown=true;
+          updateSampleSummary(data.summary,canReview);
         }
       }
       else if(res.status===429){send.disabled=true;field.disabled=true;}
