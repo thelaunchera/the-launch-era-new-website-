@@ -119,8 +119,9 @@
       field.value="";
       review.hidden=true;
       reviewTip.hidden=true;
-      // Keep quick action chips installed by the editorial enhancement.
+      // Restore quick start choices on a fresh safe sample session.
       log.querySelectorAll(".tle-ai-msg").forEach(node=>node.remove());
+      const quick=log.querySelector(".tle-demo-v12-chat-actions");if(quick)quick.hidden=false;
       append(copy.intro,"bot");
       threadId = window.crypto?.randomUUID ? window.crypto.randomUUID() : threadId;
     }
