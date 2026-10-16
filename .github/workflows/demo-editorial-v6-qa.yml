@@ -1,36 +1,9 @@
 name: Cleaning Demo Editorial v6 QA
+# Retired automatic visual regression: old animated sample v6-v49 no longer
+# represents the clean PUBLIC demo. Kept for explicit legacy reference only.
+# The live baseline is checked by booking-demo-clean-reset-qa.yml.
 on:
-  push:
-    branches: [main, design/cleaning-demo-hero-confirmation-v6-20261013, design/demo-booking-editorial-v7-20261013]
-    paths:
-      - 'public/lead-private-preview.html'
-      - 'public/assets/tle-demo-*.css'
-      - 'public/assets/cleaning-demo/tle-midnight-hero.avif'
-      - 'scripts/qa-demo-editorial-v6.mjs'
-      - 'scripts/qa-demo-editorial-v7.mjs'
-      - 'scripts/qa-demo-v12.mjs'
-      - 'scripts/qa-demo-stack-nav-v38.mjs'
-      - 'scripts/build_demo_photo_assets.py'
-      - 'public/assets/tle-demo-photo-services-v21.js'
-      - 'public/assets/tle-demo-booking-focus-v22.js'
-      - 'public/assets/tle-demo-stack-nav-v38.js'
-      - 'public/assets/tle-demo-floating-bubbles-v25.js'
-      - 'public/assets/tle-demo-finish-v26.js'
-      - 'public/assets/tle-demo-enhancements-v12.js'
-      - 'public/assets/lead-demo/ai-demo-robot.webp'
-      - 'public/assets/lead-demo/drive-cleaner-kitchen.webp'
-      - 'public/booking-demo/index.html'
-      - '.github/workflows/demo-editorial-v6-qa.yml'
-  pull_request:
-    paths:
-      - 'public/lead-private-preview.html'
-      - 'public/assets/tle-demo-editorial-v6.css'
-      - 'public/assets/tle-demo-booking-v7.css'
-      - 'public/assets/tle-demo-cb-hero-v8.css'
-      - 'public/assets/tle-demo-cta-v9.css'
-      - 'scripts/qa-demo-editorial-v7.mjs'
-      - 'scripts/qa-demo-editorial-v6.mjs'
-      - '.github/workflows/demo-editorial-v6-qa.yml'
+  workflow_dispatch:
 permissions:
   contents: read
 concurrency:
