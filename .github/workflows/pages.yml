@@ -43,6 +43,7 @@ jobs:
           node scripts/qa-public-demo-integrity.mjs
           node scripts/qa-services-color-shift.mjs
           node scripts/qa-booking-hero-floating-chips.mjs
+          node scripts/qa-booking-scrollytelling.mjs
           node --check public/command-center/assets/command-center-app.js
           node scripts/qa-owner-internal-incidents.mjs
           node scripts/qa-ai-team.mjs
