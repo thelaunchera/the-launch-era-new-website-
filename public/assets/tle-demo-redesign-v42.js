@@ -23,7 +23,7 @@ function init(){
  const label=main.querySelector(":scope > .label");
  if(label)label.textContent=es?"ELIGE TU LIMPIEZA":"EXPLORE THE SERVICES";
  const description=main.querySelector(".demo-services-note");
- if(description)description.textContent=es?"Elige el servicio que necesitas. Cada opción abre su propia solicitud.":"Browse the available services. Each opens its own simple request.";
+ if(description)description.textContent=es?"Elige un servicio y personaliza tu solicitud. Los precios son estimados.":"Choose a service and customize your request. Prices are estimates.";
  function makeHead(title,kicker,hint){
   const el=document.createElement("div");el.className="tle-v42-section-head";
   const block=document.createElement("div");
@@ -59,6 +59,9 @@ function init(){
  portal.addEventListener("click",()=>{
   if(moving)return;moving=true;
   const cta=hero.querySelector(".demo-hero-cta");
+  const windowWidth=Math.max(1,portal.getBoundingClientRect().width);
+  const heroWidth=Math.max(1,hero.getBoundingClientRect().width);
+  portal.style.setProperty("--tle-v42-zoom",String(Math.min(7,Math.max(2.2,heroWidth/windowWidth*1.12))));
   if(!reduce.matches)hero.classList.add("tle-v42-travel");
   portal.disabled=true;
   window.setTimeout(()=>{
