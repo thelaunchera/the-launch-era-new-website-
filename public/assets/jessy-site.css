@@ -264,3 +264,10 @@ body.tle-jessy-demo-open{overflow:hidden!important}
   bottom:calc(158px + env(safe-area-inset-bottom))!important;
  }
 }
+
+
+/* Natural clarification when WhatsApp could mean contact or the coming-soon AI service. */
+.tle-jessy-whatsapp-choices{display:flex;flex-wrap:wrap;gap:9px;margin:7px 0 15px;max-width:100%}
+.tle-jessy-whatsapp-choice{background:#f8fcff;color:#234d68;border:1px solid #b0d5e9;border-radius:999px;padding:10px 14px;min-height:42px;font:700 13px/1.35 Futura,Arial,sans-serif;cursor:pointer}
+.tle-jessy-whatsapp-choice:hover{background:#e4f3fd}
+.tle-jessy-whatsapp-choice:focus-visible{outline:3px solid #3e89ba;outline-offset:2px}

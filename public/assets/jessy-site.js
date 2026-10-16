@@ -90,7 +90,7 @@ function routeFor(href){
  return s;
 }
 function makeImage(){const x=node("img","tle-jessy-avatar");x.src=avatarPath;x.alt="Jessie · AI Assistant";x.loading="lazy";x.width=53;x.height=53;return x}
-const style=node("link");style.rel="stylesheet";style.href="/assets/jessy-site.css?v=20261015-floating-spacing-v2";document.head.appendChild(style);
+const style=node("link");style.rel="stylesheet";style.href="/assets/jessy-site.css?v=20261015-whatsapp-clarity-v3";document.head.appendChild(style);
 const root=node("div","tle-jessy-root tle-jessy-compact");root.setAttribute("data-tle-jessy","true");
 const fab=button("tle-jessy-fab","",t("opening"));const fabLabel=node("span","tle-jessy-fab-label",lang==="es"?"Habla con la asistente":"Chat with the assistant");const launcherPhoto=makeImage();launcherPhoto.alt="";fab.append(launcherPhoto,fabLabel);fab.append(node("span","tle-jessy-status"));fab.setAttribute("aria-expanded","false");
 const nudge=node("div","tle-jessy-nudge",t("nudge"));nudge.hidden=true;
@@ -299,6 +299,27 @@ function actions(checkout,detail,trial){
  }
  if(row.children.length){log.appendChild(row);log.scrollTop=log.scrollHeight}
 }
+function showWhatsappChoices(){
+ const wrap=node("div","tle-jessy-whatsapp-choices");
+ wrap.setAttribute("role","group");
+ wrap.setAttribute("aria-label",lang==="es"?"Aclarar consulta sobre WhatsApp":"Clarify WhatsApp question");
+ const items=lang==="es"?
+  [{label:"Contactar al equipo",message:"¿Puedo contactar a su equipo por WhatsApp?"},
+   {label:"WhatsApp AI",message:"¿Qué es WhatsApp AI? ¿Ya está disponible?"}]:
+  [{label:"Contact the team",message:"Can I contact your team on WhatsApp?"},
+   {label:"WhatsApp AI",message:"Is WhatsApp AI available for purchase?"}];
+ items.forEach(item=>{
+  const b=button("tle-jessy-whatsapp-choice",item.label);
+  b.addEventListener("click",()=>{wrap.remove();ask(item.message)});
+  wrap.appendChild(b);
+ });
+ log.appendChild(wrap);log.scrollTop=log.scrollHeight;
+}
+function showWhatsappContact(){
+ const b=button("tle-jessy-help-link",lang==="es"?"Dejar un mensaje para el equipo ↗":"Leave a message for the team ↗");
+ b.addEventListener("click",()=>showLead(true));
+ log.append(b);log.scrollTop=log.scrollHeight;
+}
 function showAiPlanChoices(plans){
  const wanted=["ai-booking","ai-followup","ai-business"];
  if(!Array.isArray(plans)||plans.length!==3||wanted.some(id=>!plans.some(p=>p&&p.id===id)))return false;
@@ -367,7 +388,7 @@ async function ask(raw){if(waiting)return;const message=String(raw||"").trim().s
  lastIntent=visitorIntent(message);
  if(lastIntent!=="general")track("diagnostic");if(/(?:\d[ -]*?){13,19}/.test(message)){msg(lang==="es"?"Por favor, no compartas números de tarjeta aquí.":"Please don't share card numbers here.","bot");return}
 msg(message,"user");input.value="";waiting=true;send.disabled=true;const indicator=msg(t("typing"),"bot");
-if(/quiero hablar|contactar|leave my details|talk to a person|human support/i.test(message)){indicator.remove();showLead(true);waiting=false;send.disabled=false;return}
+if(/quiero hablar|contactar|leave my details|talk to a person|human support/i.test(message)&&!/whats.?app/i.test(message)&&!/do you mean messaging our team on whatsapp|te refieres a escribirle a nuestro equipo por whatsapp/i.test(history.at(-1)?.message||"")){indicator.remove();showLead(true);waiting=false;send.disabled=false;return}
 const previous=history.slice(-12);let result=null;try{const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),16000);try{const r=await fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message,language:lang,selected_offer:offer||currentPage(),page_path:location.pathname,history:previous}),signal:controller.signal});if(r.ok)result=await r.json();else if(r.status===429)result={reply:t("limit")}}finally{clearTimeout(timeout)}}catch{}
 indicator.textContent=result&&typeof result.reply==="string"?result.reply:t("liveError");
 if(result&&typeof result.reply==="string"){
@@ -385,6 +406,8 @@ if(result&&typeof result.reply==="string"){
   if(next==="demo"&&offer==="booking")showDemoCard("booking");
   else if(next==="demo_choice"){showDemoCard("booking")}
   else if(next==="app_demo"){const a=node("a","tle-jessy-help-link",lang==="es"?"Explorar la demo de la Cleaning App ↗":"Explore the Cleaning App demo ↗");a.href="/cleaning-app-demo/?lang="+lang;a.rel="noopener";log.append(a);log.scrollTop=log.scrollHeight;track("service_demo_opened")}
+  if(next==="whatsapp_clarify")showWhatsappChoices();
+  if(next==="contact_team")showWhatsappContact();
   if(next==="client_help"){const help=button("tle-jessy-help-link",lang==="es"?"Contactar a soporte ↗":"Contact support securely ↗");help.addEventListener("click",()=>showLead(true));log.append(help)}
   if(next==="checkout"&&checkout)actions(checkout,info,null);
   else if(next==="trial"&&result.trial)actions(null,info,result.trial);

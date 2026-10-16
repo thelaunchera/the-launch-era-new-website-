@@ -34,5 +34,37 @@ for(const language of ['en','es']){
  assert.match(purchased.reply,language==='es'?/opcional/:/optional/);
  assert.equal(purchased.next_action,'none');
 }
+// WhatsApp might mean team contact, NOT the coming-soon WhatsApp AI product.
+for(const language of ["en","es"]){
+ const ambiguous=await ask({message:language==="es"?"¿WhatsApp?":"WhatsApp?",language,selected_offer:"booking",page_path:"/"});
+ assert.equal(ambiguous.mode,"verified_whatsapp_intent");
+ assert.equal(ambiguous.next_action,"whatsapp_clarify");
+ assert.equal(ambiguous.selected_offer,"");
+ assert.match(ambiguous.reply,language==="es"?/¿Te refieres a escribirle/:/Do you mean messaging our team/);
+ assert.match(ambiguous.reply,/WhatsApp AI/);
+ assert.equal(ambiguous.checkout,null);
+ const contact=await ask({message:language==="es"?"¿Puedo comunicarme con ustedes por WhatsApp?":"Can I contact your team on WhatsApp?",language,selected_offer:"booking",page_path:"/"});
+ assert.equal(contact.mode,"verified_whatsapp_intent");
+ assert.equal(contact.next_action,"contact_team");
+ assert.equal(contact.selected_offer,"");
+ assert.match(contact.reply,language==="es"?/número de WhatsApp verificado/:/verified WhatsApp contact number/);
+ assert.doesNotMatch(contact.reply,/https?:\/\/wa\.me|https?:\/\/api\.whatsapp\.com/);
+ const informal=await ask({message:language==="es"?"¿Tienen WhatsApp?":"Can I WhatsApp you?",language,selected_offer:"booking"});
+ assert.equal(informal.next_action,"contact_team","Do not treat requests to message the team as WhatsApp AI sales.");
+ const product=await ask({message:language==="es"?"¿Tienen WhatsApp AI?":"Is WhatsApp AI available for purchase?",language,selected_offer:"booking"});
+ assert.equal(product.mode,"verified_whatsapp_intent");
+ assert.equal(product.selected_offer,"whatsapp");
+ assert.equal(product.next_action,"none");
+ assert.match(product.reply,language==="es"?/Próximamente/:/coming soon/);
+ const follow=await ask({
+  message:language==="es"?"El asistente":"The AI assistant",language,selected_offer:"",
+  history:[{role:"user",message:language==="es"?"WhatsApp?":"WhatsApp?"},
+   {role:"assistant",message:ambiguous.reply}]
+ });
+ assert.equal(follow.mode,"verified_whatsapp_intent");
+ assert.equal(follow.selected_offer,"whatsapp");
+ assert.equal(follow.next_action,"none");
+}
+
 assert.equal(aiCalls,0);
 console.log('PASS public confidentiality, contextual prices, 20-minute post-purchase-only calls and EN/ES explanations, no live data or messages.');
