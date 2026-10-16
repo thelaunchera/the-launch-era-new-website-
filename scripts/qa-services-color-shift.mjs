@@ -12,7 +12,7 @@ assert(root.includes('<script src="/assets/tle-services-color-shift.js'), 'Missi
 assert(en.includes('id="solutions" className="solutions-section"'), 'EN services section moved');
 assert(es.includes('id="soluciones" className="solutions-section"'), 'ES services section moved');
 assert(script.includes('gsap.context(') && script.includes('gsap.matchMedia(') && script.includes('ScrollTrigger.create('), 'GSAP lifecycle missing');
-assert(script.includes('function update()') && script.includes("rail.addEventListener('scroll'"), 'No native scroll/swipe fallback');
+assert(script.includes('function update()') && script.includes("document.addEventListener('scroll', onScrollCapture, true)"), 'No native scroll/swipe fallback');
 assert(script.includes('section.style.backgroundColor = theme.bg'), 'Native fallback no longer paints');
 assert(script.includes("observer.observe(document.documentElement"), 'React route remount handling missing');
 for (const shade of ['#FAF8F3', '#D7EFFF', '#316C95', '#173F59', '#EAF4FC']) assert(script.includes(shade), 'Missing palette tone ' + shade);
