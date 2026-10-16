@@ -105,7 +105,7 @@
  <p class="intro" id="pageIntro">Explore a straightforward cleaning booking process, without extra effects or distracting screens.</p>
  <span class="disclaimer" id="sampleWarning">Interactive sample only · No real booking or email is sent</span>
  <section class="flow" aria-labelledby="flowTitle">
-  <div class="flow-header"><div class="steps" id="stepLabel">STEP 1 OF 3</div><h2 id="flowTitle">Choose your service</h2></div>
+  <div class="flow-header"><div class="steps" id="stepLabel">STEP 1 OF 3</div><h2 id="flowTitle" tabindex="-1">Choose your service</h2></div>
   <div id="choosePanel" class="panel">
    <div class="switch" role="group" aria-label="Cleaning type">
     <button type="button" id="resTab" data-kind="residential" aria-pressed="true">Residential</button>
@@ -177,7 +177,7 @@
     step=next;
     for(const [id,n] of [['choosePanel',1],['detailsPanel',2],['reviewPanel',3],['completePanel',4]]) $(id).hidden=step!==n;
     $('resDetails').hidden=kind!=='residential'||custom;
-    $('comDetails').hidden=kind!=='commercial'&&!custom;
+    $('comDetails').hidden=kind!=='commercial';
     updateWords();
     $('flowTitle').focus?.();
     $('flowTitle').scrollIntoView({block:'start',behavior:'auto'});
