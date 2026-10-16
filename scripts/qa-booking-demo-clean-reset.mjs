@@ -11,6 +11,14 @@ assert.match(original,/p\.has\('key'\)\|\|p\.get\('owner_preview'\)==='1'/,'Buye
 assert.match(original,/location\.replace\('\/booking-demo-reset\.html'/,'Public sample must leave legacy effect stack');
 assert.match(original,/startResidential\('Standard Cleaning',120\)/,'Original source forms remain for keyed clients');
 assert.match(html,/class="sonny-avatar-mark"/,'Restore owner-approved robot avatar in existing Sonny card');
+const premium=readFileSync('public/assets/tle-booking-premium-refresh.css','utf8');
+assert.match(html,/tle-booking-premium-refresh\.css/,'Premium blue card and Sonny bubble styles must be loaded');
+assert.match(premium,/\.sonny:not\(:has\(\.sonny-body:not\(\[hidden\]\)\)\)/,'Only the existing Sonny card becomes a head-only bubble');
+assert.match(premium,/\.service\{background:linear-gradient/,'Service cards use cohesive blue-tinted surfaces');
+assert.match(premium,/\.booking-review,/,'Illustrative proof cards share the premium treatment');
+assert.match(premium,/\.booking-compare-card/,'Before/after cards share the premium treatment');
+assert(!/backdrop-filter|glassmorphism|gsap/i.test(premium),'Visual polish never adds glass/zoom libraries');
+
 assert.equal((html.match(/src="\/assets\/lead-demo\/ai-demo-robot\.webp"/g)||[]).length,1,'Use exactly one original blue Sonny robot image');
 assert.doesNotMatch(html,/sonnyAvatarLauncher|tleSonnyGreetingPopup/,'No duplicate floating bot or popup');
 assert(!/gsap|Flip\.min|cdn\.jsdelivr|scroll-behavior\s*:\s*smooth|mix-blend-mode/i.test(html),'Booking form must not inherit the old animation library');
@@ -41,6 +49,33 @@ try{
    const headerAvatar=page.locator('.sonny-avatar-mark img');
    assert(await headerAvatar.evaluate(img=>img.complete&&img.naturalWidth>30),'Original blue Sonny avatar loads in '+lang);
    assert.equal(await page.locator('.sonny-avatar-mark').count(),1,'One approved Sonny avatar');
+   const skin=await page.evaluate(()=>{
+     const popup=document.querySelector('.sonny'),robot=popup?.querySelector('.sonny-avatar-mark img');
+     const bubble=popup?.getBoundingClientRect(),service=document.querySelector('#resServices .service');
+     const sr=service?.getBoundingClientRect(),proof=document.querySelector('.booking-review');
+     const pr=proof?.getBoundingClientRect();
+     return {bubbleWidth:bubble?.width,bubbleHeight:bubble?.height,
+       avatarVisible:robot&&getComputedStyle(robot).display!=='none'&&robot.complete&&robot.naturalWidth>0,
+       buttonLabel:popup?.querySelector('#sonnyToggle')?.getAttribute('aria-label'),
+       radius:parseFloat(getComputedStyle(popup).borderTopLeftRadius),
+       serviceRadius:parseFloat(getComputedStyle(service).borderTopLeftRadius),
+       serviceBorder:parseFloat(getComputedStyle(service).borderTopWidth),
+       serviceWidth:sr?.width,proofRadius:parseFloat(getComputedStyle(proof).borderTopLeftRadius),
+       proofWidth:pr?.width,
+       mainMargin:document.querySelector('main.shell')?.getBoundingClientRect().left,
+       heroHeight:document.querySelector('#bookingPortal')?.getBoundingClientRect().height,
+       vertical:innerHeight};
+   });
+   assert(skin.bubbleWidth>=55&&skin.bubbleWidth<=70&&Math.abs(skin.bubbleWidth-skin.bubbleHeight)<2,
+     lang+' Sonny must be a small circular HEAD, not a wide Try Sonny pill '+JSON.stringify(skin));
+   assert(skin.avatarVisible&&skin.radius>=25,'Sonny robot HEAD must be visible on the closed bubble');
+   assert(skin.buttonLabel=== (lang==='es'?'Probar Sonny':'Try Sonny'),'Head bubble must retain native EN/ES button accessibility');
+   assert(skin.serviceRadius>=20&&skin.serviceBorder>=1.4&&skin.proofRadius>=20,
+     'Service/proof cards need rounded blue outlines '+JSON.stringify(skin));
+   assert(skin.serviceWidth>230&&skin.proofWidth>245,'Cards must not be narrow '+JSON.stringify(skin));
+   if(width<=390)assert(skin.mainMargin<=17,'Phone booking cards should use nearly full width '+JSON.stringify(skin));
+   assert(skin.heroHeight<skin.vertical*1.7,'Hero should no longer demand nearly two viewport heights');
+
    await page.locator('#sonnyToggle').click();
    await page.locator('#sonnyBody').waitFor({state:'visible'});
    assert.equal(await page.locator('.sonny').count(),1,'Original Sonny chat still functional');
