@@ -98,3 +98,23 @@
   .solutions-section[data-services-color-shift],
   .solutions-section[data-services-color-shift] .sol-color-bars i { transition: none !important; }
 }
+
+
+/* TLE SOLUTIONS CONTRAST SYNC 2026-10-16
+ * The standalone /solutions cards sit directly on the animated section background.
+ * Headings, descriptions, tags and Coming Soon helper text must follow the
+ * CURRENT animated ink, rather than fixed dark grays that vanish on blue.
+ * Homepage service cards have their own light surfaces: leave them untouched.
+ */
+main:not(.sales-home) .solutions-section[data-services-color-shift] .service-card > h3,
+main:not(.sales-home) .solutions-section[data-services-color-shift] .service-card > p,
+main:not(.sales-home) .solutions-section[data-services-color-shift] .service-card > .card-tag,
+main:not(.sales-home) .solutions-section[data-services-color-shift] .service-discount-offer > span[style] {
+  color: var(--inkc, #191919) !important;
+}
+main:not(.sales-home) .solutions-section[data-services-color-shift] .service-card > p {
+  opacity: .94;
+}
+main:not(.sales-home) .solutions-section[data-services-color-shift] .service-card > .card-tag {
+  opacity: .92;
+}
