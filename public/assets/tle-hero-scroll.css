@@ -105,7 +105,7 @@
   visibility: visible;
   pointer-events: auto;
 }
-.sales-home .hero-scroll-reveal span {
+.sales-home .hero-scroll-reveal > span {
   font: 600 10px/1.3 'Prompt', 'DM Sans', sans-serif;
   letter-spacing: .11em;
   color: #527D96;
@@ -164,7 +164,7 @@
     bottom: clamp(12px, 3vh, 25px);
     gap: 1px;
   }
-  .sales-home .hero-scroll-reveal span { font-size: 9px; }
+  .sales-home .hero-scroll-reveal > span { font-size: 9px; }
   .sales-home .hero-scroll-reveal a { padding-block: 3px; font-size: 13px; }
 }
 @media (max-width: 420px) and (max-height: 650px) {
@@ -368,6 +368,7 @@
   isolation:isolate;
 }
 .sales-home .hero-scroll-reveal .tle-hero-split-stack > span {
+  font:inherit;
   grid-area:1 / 1;
   display:inline-flex;
   align-items:center;
