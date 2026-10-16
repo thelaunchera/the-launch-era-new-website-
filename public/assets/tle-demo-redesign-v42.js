@@ -15,6 +15,10 @@ function init(){
  if(!main||!home||!business||!hero)return;
  // Retire the original category toggle entirely, but retain both real service lists
  // and each existing button/route/quote function.
+ // The original Begin link targeted the retired category-tabs node.
+ // Keep its existing focus/booking handler and point it to a live section.
+ const begin=document.querySelector("#bookingStarter .demo-panel-start");
+ if(begin?.getAttribute("href")==="#categoryTabs")begin.setAttribute("href","#bookingStarter");
  document.getElementById("categoryTabs")?.remove();
  document.getElementById("tle41Frequency")?.remove();
  document.getElementById("tle41HeroBooking")?.remove();
