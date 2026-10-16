@@ -164,3 +164,28 @@ html.demo-editorial.tle-demo-v42 #leadHero .tle-v42-second-scene{background-imag
  html.demo-editorial.tle-demo-v42 #bookingStarter .tle-v42-cal{padding:12px}
  html.demo-editorial.tle-demo-v42 #bookingStarter .tle-v42-cal-grid button{min-height:40px}
 }
+
+/* v42.2: actual source of washed-out progress labels was the former navy theme. */
+html.demo-editorial.tle-demo-v42.tle-demo-client-v14.tle-demo-booking-active #bookingStarter .head .demo-panel-desc,
+html.demo-editorial.tle-demo-v42.tle-demo-client-v14.tle-demo-booking-active #bookingStarter .tle-client-notice{
+ color:#355f79!important;text-shadow:none!important;opacity:1!important
+}
+html.demo-editorial.tle-demo-v42.tle-demo-client-v14.tle-demo-booking-active #bookingStarter .tle-client-progress-step{
+ color:#1b4c69!important;text-shadow:none!important;opacity:1!important
+}
+html.demo-editorial.tle-demo-v42.tle-demo-client-v14.tle-demo-booking-active #bookingStarter .tle-client-progress small{
+ color:#356b8a!important;text-shadow:none!important;opacity:1!important
+}
+html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter #count{
+ background:#d5eefa!important;color:#194c69!important;border:1px solid #a9d2e9!important;
+ text-shadow:none!important;opacity:1!important
+}
+html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter .screen .choices label.choice{
+ background:#fff!important;color:#1c4865!important;border:1px solid #bad4e5!important
+}
+html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter .screen .choices label.choice:has(input:checked){
+ background:#d1efff!important;color:#164260!important;border-color:#8ac6e7!important
+}
+html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter :is(.ey,.label,.note,.verified,.tle-v42-date-trigger){
+ opacity:1!important;text-shadow:none!important
+}
