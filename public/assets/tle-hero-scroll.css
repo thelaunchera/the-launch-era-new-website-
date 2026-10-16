@@ -746,7 +746,7 @@
 @media (min-width:1181px) {
   .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro,
   .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
-    top:-34px;
+    top:-104px;
   }
   .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
     height:min(clamp(465px,42vw,590px),calc(100svh - 265px));
