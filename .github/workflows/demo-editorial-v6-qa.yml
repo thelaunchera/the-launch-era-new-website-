@@ -73,8 +73,8 @@ jobs:
             if curl -sf http://127.0.0.1:4173/lead-private-preview.html >/dev/null; then break; fi
             sleep 2
           done
-          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-demo-v6-qa/node_modules/playwright/index.mjs node scripts/qa-demo-editorial-v6.mjs
           QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-demo-v6-qa/node_modules/playwright/index.mjs node scripts/qa-demo-stack-nav-v38.mjs
+          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-demo-v6-qa/node_modules/playwright/index.mjs node scripts/qa-demo-editorial-v6.mjs
           QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-demo-v6-qa/node_modules/playwright/index.mjs node scripts/qa-demo-editorial-v7.mjs
           QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-demo-v6-qa/node_modules/playwright/index.mjs node scripts/qa-demo-v12.mjs
       - name: Save screenshot contact sheet sources
