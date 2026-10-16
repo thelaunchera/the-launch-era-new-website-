@@ -1,3 +1,7 @@
+## 2026-10-16 — Public homepage cleaner photo moved up on phones
+- Public `/` and `/es/` homepages <=767px only. Original `#hero-next` link and animation remain; fewer vertical gaps place existing photo ~37px closer to “See how it works”. Original image, notifications, CTA, desktop/tablet and private routes unchanged.
+- Sources `public/assets/tle-hero-scroll.css` and global stylesheet cache in `src/routes/__root.tsx`. Full PR #185 browser QA passed prior to promoting these two identical source changes directly to main; did not merge competing incident-log edits from ongoing work. Production-domain Pages deployment verification required.
+
 ## 2026-10-16 — Personalized business in booking photo hero / window before-and-after
 - **Only** public `/booking-demo-reset.html`, also reached via emailed `/lead-private-preview.html?business=...&area=...&lang=en|es`; paid buyer `?key=`, owner `owner_preview=1`, tenant and CB Depot templates untouched.
 - `tle-demo-reset-lead-magnet.js` safely (textContent, no HTML injection) populates `#bookingPortalCompany` and `#bookingPortalCompanyFinal` from the EXISTING resolved business query/lead mapping, falling back to the explicitly fictional `Sunshine Cleaning Demo` when no business is provided. The original lead context IDs remain in DOM for existing QA/session handoff but `#leadContext` stays hidden visually; no duplicate brand panel in the booking form. Area, source, rid and customer personalization remain unchanged in existing state and tracker.
