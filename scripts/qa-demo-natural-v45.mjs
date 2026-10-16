@@ -98,4 +98,21 @@ try{
   await page.close();
   console.log("PASS natural layout",lang,width);
  }
+ const motionPage=await browser.newPage({viewport:{width:390,height:860},reducedMotion:"no-preference"});
+ await motionPage.goto(base+"/lead-private-preview.html?lang=es",{waitUntil:"load"});
+ await motionPage.waitForSelector("html.tle-demo-v46",{timeout:15000});
+ const animation=await motionPage.evaluate(()=>{
+  const first=document.querySelector("#residentialServiceList .tle-v46-photo-words");
+  const grid=first.querySelector(".tle-v46-rotate");
+  return {perspective:getComputedStyle(grid).perspective,
+   animations:[...grid.children].map(e=>({name:getComputedStyle(e).animationName,
+     duration:getComputedStyle(e).animationDuration,delay:getComputedStyle(e).animationDelay})),
+   scrollWidth:document.documentElement.scrollWidth-innerWidth};
+ });
+ assert.equal(animation.perspective,"520px","Rotating words should retain 3D perspective");
+ assert(animation.animations.every(x=>x.name==="tleV46RotateWord"&&x.duration==="6s"),
+   "Each word must rotate for six seconds: "+JSON.stringify(animation));
+ assert.deepEqual(animation.animations.map(x=>x.delay),["0s","2s","4s"],"Word cadence must be staggered 2s");
+ assert(animation.scrollWidth<=7,"Caption motion must not create horizontal overflow: "+JSON.stringify(animation));
+ await motionPage.close();
 }finally{await browser.close()}
