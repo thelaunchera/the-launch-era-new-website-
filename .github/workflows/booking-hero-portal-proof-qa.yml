@@ -1,0 +1,58 @@
+name: Booking Hero Portal and Proof QA
+on:
+  pull_request:
+    paths:
+      - 'public/booking-demo-reset.html'
+      - 'public/assets/tle-demo-hero-portal.css'
+      - 'public/assets/tle-demo-hero-portal.js'
+      - 'public/assets/lead-demo/tle-booking-hero-original.webp'
+      - 'scripts/qa-demo-hero-portal-proof.mjs'
+      - '.github/workflows/booking-hero-portal-proof-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  portal-and-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Check public files and scripts
+        run: |
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-public-demo-integrity.mjs
+          node --check public/assets/tle-demo-hero-portal.js
+          node --check scripts/qa-demo-hero-portal-proof.mjs
+          test -s public/assets/lead-demo/tle-booking-hero-original.webp
+      - name: Prepare existing matched library photos
+        run: |
+          python3 -m pip install --quiet pillow
+          python3 scripts/build_demo_photo_assets.py
+      - name: Build
+        run: |
+          bun install
+          bun run build
+          test -s .output/public/assets/lead-demo/tle-booking-hero-original.webp
+          test -s .output/public/booking-demo-reset.html
+      - name: Chromium
+        run: |
+          mkdir -p /tmp/tle-booking-portal
+          cd /tmp/tle-booking-portal
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          ln -sfn /tmp/tle-booking-portal/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-booking-portal/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: Verify portal, headline, Sonny, before/after and no client writes
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public > /tmp/tle-booking-portal-server.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4173/booking-demo-reset.html >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-demo-hero-portal-proof.mjs
