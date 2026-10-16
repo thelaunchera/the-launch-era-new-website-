@@ -26,27 +26,6 @@
   .eyebrow { margin:0 0 16px; font-size:12px; font-weight:800; letter-spacing:.13em; color:#3B677C; }
   h1 { font-size:clamp(30px,4.5vw,48px); line-height:1.13; letter-spacing:-.04em; font-weight:750; max-width:660px; margin:0; }
   .intro { font-size:16px; line-height:1.65; color:var(--muted); max-width:620px; margin:18px 0 25px; }
-  .lead-context { margin:24px 0 0; padding:16px 18px; border-left:4px solid #8FC5E0; background:#F1F8FC; max-width:690px; line-height:1.5; }
-  .lead-context[hidden] { display:none!important; }
-  .lead-context strong { display:block; font-size:16px; margin-bottom:4px; overflow-wrap:anywhere; }
-  .lead-context p { color:var(--muted);font-size:13px;margin:0;overflow-wrap:anywhere; }
-  .sonny-entry { margin-top:18px;display:flex;gap:12px;align-items:center;flex-wrap:wrap; }
-  .sonny-entry button { min-height:44px; padding:9px 15px; border:1px solid #A8CDE2; background:#FFF; border-radius:9px; font-weight:700; }
-  .sonny-entry small {color:var(--muted);font-size:12px;}
-  .sonny { margin-top:20px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:20px;max-width:690px; }
-  .sonny[hidden] {display:none!important;}
-  .sonny h2{margin:0 0 8px;font-size:21px;}
-  .sonny p{font-size:13px;line-height:1.55;color:var(--muted);margin:0 0 12px;}
-  .sonny-messages{max-height:250px;overflow-y:auto;border:1px solid var(--line);padding:12px;border-radius:8px;background:#FBFCFD;}
-  .sonny-messages p {background:#fff;border:1px solid var(--line);border-radius:7px;padding:9px 11px;margin:0 0 9px;color:var(--ink);font-size:13px;overflow-wrap:anywhere;}
-  .sonny-messages p:last-child {margin-bottom:0;}
-  .sonny-messages p[data-role=user]{background:var(--blue);border-color:#BCD9EC;}
-  .sonny-messages strong{display:block;margin-bottom:3px;font-size:12px;color:#3B677C;}
-  .sonny-form{display:flex;gap:8px;margin-top:12px;}
-  .sonny-form input{flex:1;min-width:0;min-height:44px;padding:9px 10px;border:1px solid #A9BAC7;border-radius:8px;font-size:14px;}
-  .sonny-form button{min-height:44px;background:var(--ink);color:#fff;border-radius:8px;border:0;padding:9px 15px;font-weight:700;}
-  .sonny-form button:disabled{opacity:.65;cursor:wait;}
-  .sonny-status{margin-top:8px!important;font-size:12px!important;}
   .disclaimer { display:inline-block; font-size:12px; font-weight:700; border:1px solid #BDD7E8; background:#EDF7FC; border-radius:6px; padding:9px 12px; color:#20475A; }
   .flow { border:1px solid var(--line); background:#fff; border-radius:16px; overflow:hidden; margin-top:40px; }
   .flow-header { padding:24px 28px; border-bottom:1px solid var(--line); }
@@ -83,7 +62,7 @@
   .complete h3 { font-size:26px; letter-spacing:-.03em; margin:0 0 14px; }
   .complete p { font-size:15px; line-height:1.65; color:var(--muted); }
   .bottom-note { padding:20px 0; color:var(--muted); font-size:12px; line-height:1.5; }
-  /* Lead magnet context + simple Sonny assistant; deliberately no motion or overlays. */
+/* Lead magnet context + simple Sonny assistant; deliberately no motion or overlays. */
   .lead-context { margin:24px 0 0; padding:15px 18px; border:1px solid #C1DCEB; border-radius:9px; background:#EDF6FB; font-size:13px; line-height:1.6; }
   .lead-context strong { display:block; font-size:16px; margin-top:4px; overflow-wrap:anywhere; }
   .lead-context p { margin:6px 0 0; color:#365B70; }
@@ -150,13 +129,10 @@
  <p class="eyebrow" id="eyebrow">BOOKING PAGE PREVIEW</p>
  <h1 id="pageTitle">A simpler way to book a clean.</h1>
  <p class="intro" id="pageIntro">Explore a straightforward cleaning booking process, without extra effects or distracting screens.</p>
- <section class="lead-context" id="leadContext" hidden aria-label="Personalized demonstration"><strong id="leadBusiness"></strong><p id="leadArea"></p></section>
- <span class="disclaimer" id="sampleWarning">Interactive sample only · No real booking or email is sent</span>
  <div id="leadContext" class="lead-context" hidden aria-live="polite"><span id="leadContextLabel">PERSONALIZED FOR</span><strong id="leadBusiness"></strong><p id="leadArea"></p></div>
- <div class="sonny-entry"><button type="button" id="sonnyToggle" aria-controls="sonnyPanel" aria-expanded="false">Chat with Sonny · AI booking demo</button><small id="sonnyLeadHint">Optional AI assistant · try a booking conversation</small></div>
- <section class="sonny" id="sonnyPanel" hidden aria-labelledby="sonnyTitle"><h2 id="sonnyTitle">Talk with Sonny</h2><p id="sonnyIntro">Try asking about cleaning services or describing a booking request. Sonny is an optional AI assistant demo.</p><div class="sonny-messages" id="sonnyMessages" role="log" aria-live="polite" aria-relevant="additions"></div><form class="sonny-form" id="sonnyForm"><input id="sonnyInput" required maxlength="350" autocomplete="off" aria-label="Message to Sonny" placeholder="Ask Sonny a question…" /><button type="submit" id="sonnySend">Send</button></form><p class="sonny-status" id="sonnyStatus">Demo conversation only. Sonny does not book jobs or send emails.</p><button type="button" class="secondary" id="sonnyUse" hidden>Use details in the sample form</button></section>
+ <span class="disclaimer" id="sampleWarning">Interactive sample only · No real booking or email is sent</span>
  <section class="flow" aria-labelledby="flowTitle">
-  <div class="flow-header"><div class="steps" id="stepLabel">STEP 1 OF 3</div><h2 id="flowTitle" tabindex="-1">Choose your service</h2></div>
+  <div class="flow-header"><div class="steps" id="stepLabel">STEP 1 OF 3</div><h2 id="flowTitle">Choose your service</h2></div>
   <div id="choosePanel" class="panel">
    <div class="switch" role="group" aria-label="Cleaning type">
     <button type="button" id="resTab" data-kind="residential" aria-pressed="true">Residential</button>
@@ -212,30 +188,18 @@
 <script>
 (()=>{
   'use strict';
-  const en={sonnyToggle:'Chat with Sonny · AI booking demo',sonnyLeadHint:'Optional AI assistant · try a booking conversation',sonnyTitle:'Talk with Sonny',sonnyIntro:'Ask about cleaning services or describe a booking request. Sonny is an optional AI assistant demo.',sonnyStatus:'Demo conversation only. Sonny does not book jobs or send emails.',sonnyInput:'Ask Sonny a question…',sonnySend:'Send',sonnyUse:'Use details in the sample form',sonnyUnavailable:'Sonny is temporarily unavailable. The booking preview remains available.',sonnyBusy:'Sonny is replying…',businessFor:'Personalized demo for',areaFor:'Service area',sonnyGreeting:'Hi! I’m Sonny, your demo booking assistant. Is your cleaning for a home or business?',languageLabel:'Language',siteLink:'Back to website',eyebrow:'BOOKING PAGE PREVIEW',pageTitle:'A simpler way to book a clean.',pageIntro:'Explore a straightforward cleaning booking process, without extra effects or distracting screens.',sampleWarning:'Interactive sample only · No real booking or email is sent',resTab:'Residential',comTab:'Commercial',standard:'Standard Cleaning',standardHint:'Regular home care',deep:'Deep Cleaning',deepHint:'A more detailed clean',move:'Move In / Move Out',moveHint:'Prepare for the next chapter',office:'Office Cleaning',officeHint:'Offices and workspaces',retail:'Retail & Showrooms',retailHint:'Customer-facing spaces',medical:'Medical & Professional',medicalHint:'Spaces with specialized needs',quote:'Custom quote',sample120:'From $120*',sample190:'From $190*',sample240:'From $240*',customQuote:'Request a custom quote →',chooseHint:'*Sample starting estimates; your provider confirms the final price.',chooseNext:'Continue',detailNote:'Enter sample details to explore the next step. Nothing is submitted.',nameLabel:'Your name',emailLabel:'Email',zipLabel:'Service ZIP code',dateLabel:'Preferred date',bedsLabel:'Bedrooms',bathsLabel:'Bathrooms',frequencyLabel:'Frequency',spaceLabel:'Type of space',notesLabel:'Additional notes (optional)',backDetails:'Back',reviewNext:'Review details',reviewNote:'Check this sample request before completing the preview.',backReview:'Edit details',finish:'Finish preview',doneHeading:'Preview complete.',doneBody:'This is how a booking request could be reviewed. No booking, payment, email, or client record was created.',restart:'Start again',footerNote:'*Prices are sample estimates, not guaranteed quotes. Final scope and availability are confirmed by the cleaning business.',footerCopy:'The Launch Era · Cleaning booking page preview · No live client data',step1:'STEP 1 OF 3',step2:'STEP 2 OF 3',step3:'STEP 3 OF 3',stepDone:'COMPLETE',chooseTitle:'Choose your service',detailsTitle:'Tell us about your space',reviewTitle:'Review your request',doneTitle:'Preview complete',service:'Service',contact:'Name',location:'ZIP code',date:'Preferred date',frequency:'Frequency',estimate:'Starting estimate',details:'Notes',one:'One time',weekly:'Weekly',biweekly:'Biweekly',monthly:'Monthly',other:'Custom quote',none:'None',invalid:'Please complete the required fields with a valid email and ZIP code.',dateInvalid:'Choose today or a future date.'};
-  const es={sonnyToggle:'Hablar con Sonny · Demo del agente IA',sonnyLeadHint:'Asistente opcional · prueba una conversación de reservas',sonnyTitle:'Habla con Sonny',sonnyIntro:'Pregunta por servicios de limpieza o describe una solicitud. Sonny es un asistente opcional de demostración.',sonnyStatus:'Solo demostración. Sonny no crea reservas ni envía correos.',sonnyInput:'Pregúntale a Sonny…',sonnySend:'Enviar',sonnyUse:'Usar los datos en el formulario de ejemplo',sonnyUnavailable:'Sonny no está disponible ahora. Puedes continuar con el demo de reservas.',sonnyBusy:'Sonny está respondiendo…',businessFor:'Demo personalizado para',areaFor:'Zona de servicio',sonnyGreeting:'¡Hola! Soy Sonny, tu agente de reservas de prueba. ¿Es una limpieza residencial o comercial?',languageLabel:'Idioma',siteLink:'Volver al sitio web',eyebrow:'DEMO DE RESERVAS',pageTitle:'Una forma más sencilla de reservar una limpieza.',pageIntro:'Explora cómo reservar una limpieza, sin efectos adicionales ni pantallas que distraen.',sampleWarning:'Ejemplo interactivo · No se realiza ninguna reserva ni se envía correo',resTab:'Residencial',comTab:'Comercial',standard:'Limpieza estándar',standardHint:'Mantenimiento del hogar',deep:'Limpieza profunda',deepHint:'Limpieza más detallada',move:'Mudanza / Salida',moveHint:'Prepara el siguiente capítulo',office:'Limpieza de oficinas',officeHint:'Oficinas y espacios de trabajo',retail:'Tiendas y salas de exhibición',retailHint:'Espacios de atención al público',medical:'Médico y profesional',medicalHint:'Espacios con necesidades especiales',quote:'Cotización personalizada',sample120:'Desde $120*',sample190:'Desde $190*',sample240:'Desde $240*',customQuote:'Solicitar cotización personalizada →',chooseHint:'*Precios de ejemplo; el negocio confirma la tarifa final.',chooseNext:'Continuar',detailNote:'Ingresa datos de ejemplo para ver el siguiente paso. Nada se envía.',nameLabel:'Tu nombre',emailLabel:'Correo electrónico',zipLabel:'Código postal',dateLabel:'Fecha preferida',bedsLabel:'Habitaciones',bathsLabel:'Baños',frequencyLabel:'Frecuencia',spaceLabel:'Tipo de espacio',notesLabel:'Notas adicionales (opcional)',backDetails:'Volver',reviewNext:'Revisar datos',reviewNote:'Revisa esta solicitud de ejemplo antes de terminar.',backReview:'Editar datos',finish:'Terminar demo',doneHeading:'Demo completado.',doneBody:'Así podría revisarse una solicitud. No se creó una reserva, un pago, un correo ni un registro de cliente.',restart:'Empezar de nuevo',footerNote:'*Los precios son estimados de ejemplo, no cotizaciones garantizadas. El negocio confirma servicios y disponibilidad.',footerCopy:'The Launch Era · Demo de reservas · Sin datos reales de clientes',step1:'PASO 1 DE 3',step2:'PASO 2 DE 3',step3:'PASO 3 DE 3',stepDone:'COMPLETADO',chooseTitle:'Elige un servicio',detailsTitle:'Cuéntanos sobre el espacio',reviewTitle:'Revisa tu solicitud',doneTitle:'Demo completado',service:'Servicio',contact:'Nombre',location:'Código postal',date:'Fecha preferida',frequency:'Frecuencia',estimate:'Precio inicial estimado',details:'Notas',one:'Una vez',weekly:'Semanal',biweekly:'Cada dos semanas',monthly:'Mensual',other:'Cotización personalizada',none:'Ninguna',invalid:'Completa los campos obligatorios con un correo y código postal válidos.',dateInvalid:'Selecciona la fecha de hoy o una futura.'};
+  const en={languageLabel:'Language',siteLink:'Back to website',eyebrow:'BOOKING PAGE PREVIEW',pageTitle:'A simpler way to book a clean.',pageIntro:'Explore a straightforward cleaning booking process, without extra effects or distracting screens.',sampleWarning:'Interactive sample only · No real booking or email is sent',resTab:'Residential',comTab:'Commercial',standard:'Standard Cleaning',standardHint:'Regular home care',deep:'Deep Cleaning',deepHint:'A more detailed clean',move:'Move In / Move Out',moveHint:'Prepare for the next chapter',office:'Office Cleaning',officeHint:'Offices and workspaces',retail:'Retail & Showrooms',retailHint:'Customer-facing spaces',medical:'Medical & Professional',medicalHint:'Spaces with specialized needs',quote:'Custom quote',sample120:'From $120*',sample190:'From $190*',sample240:'From $240*',customQuote:'Request a custom quote →',chooseHint:'*Sample starting estimates; your provider confirms the final price.',chooseNext:'Continue',detailNote:'Enter sample details to explore the next step. Nothing is submitted.',nameLabel:'Your name',emailLabel:'Email',zipLabel:'Service ZIP code',dateLabel:'Preferred date',bedsLabel:'Bedrooms',bathsLabel:'Bathrooms',frequencyLabel:'Frequency',spaceLabel:'Type of space',notesLabel:'Additional notes (optional)',backDetails:'Back',reviewNext:'Review details',reviewNote:'Check this sample request before completing the preview.',backReview:'Edit details',finish:'Finish preview',doneHeading:'Preview complete.',doneBody:'This is how a booking request could be reviewed. No booking, payment, email, or client record was created.',restart:'Start again',footerNote:'*Prices are sample estimates, not guaranteed quotes. Final scope and availability are confirmed by the cleaning business.',footerCopy:'The Launch Era · Cleaning booking page preview · No live client data',step1:'STEP 1 OF 3',step2:'STEP 2 OF 3',step3:'STEP 3 OF 3',stepDone:'COMPLETE',chooseTitle:'Choose your service',detailsTitle:'Tell us about your space',reviewTitle:'Review your request',doneTitle:'Preview complete',service:'Service',contact:'Name',location:'ZIP code',date:'Preferred date',frequency:'Frequency',estimate:'Starting estimate',details:'Notes',one:'One time',weekly:'Weekly',biweekly:'Biweekly',monthly:'Monthly',other:'Custom quote',none:'None',invalid:'Please complete the required fields with a valid email and ZIP code.',dateInvalid:'Choose today or a future date.'};
+  const es={languageLabel:'Idioma',siteLink:'Volver al sitio web',eyebrow:'DEMO DE RESERVAS',pageTitle:'Una forma más sencilla de reservar una limpieza.',pageIntro:'Explora cómo reservar una limpieza, sin efectos adicionales ni pantallas que distraen.',sampleWarning:'Ejemplo interactivo · No se realiza ninguna reserva ni se envía correo',resTab:'Residencial',comTab:'Comercial',standard:'Limpieza estándar',standardHint:'Mantenimiento del hogar',deep:'Limpieza profunda',deepHint:'Limpieza más detallada',move:'Mudanza / Salida',moveHint:'Prepara el siguiente capítulo',office:'Limpieza de oficinas',officeHint:'Oficinas y espacios de trabajo',retail:'Tiendas y salas de exhibición',retailHint:'Espacios de atención al público',medical:'Médico y profesional',medicalHint:'Espacios con necesidades especiales',quote:'Cotización personalizada',sample120:'Desde $120*',sample190:'Desde $190*',sample240:'Desde $240*',customQuote:'Solicitar cotización personalizada →',chooseHint:'*Precios de ejemplo; el negocio confirma la tarifa final.',chooseNext:'Continuar',detailNote:'Ingresa datos de ejemplo para ver el siguiente paso. Nada se envía.',nameLabel:'Tu nombre',emailLabel:'Correo electrónico',zipLabel:'Código postal',dateLabel:'Fecha preferida',bedsLabel:'Habitaciones',bathsLabel:'Baños',frequencyLabel:'Frecuencia',spaceLabel:'Tipo de espacio',notesLabel:'Notas adicionales (opcional)',backDetails:'Volver',reviewNext:'Revisar datos',reviewNote:'Revisa esta solicitud de ejemplo antes de terminar.',backReview:'Editar datos',finish:'Terminar demo',doneHeading:'Demo completado.',doneBody:'Así podría revisarse una solicitud. No se creó una reserva, un pago, un correo ni un registro de cliente.',restart:'Empezar de nuevo',footerNote:'*Los precios son estimados de ejemplo, no cotizaciones garantizadas. El negocio confirma servicios y disponibilidad.',footerCopy:'The Launch Era · Demo de reservas · Sin datos reales de clientes',step1:'PASO 1 DE 3',step2:'PASO 2 DE 3',step3:'PASO 3 DE 3',stepDone:'COMPLETADO',chooseTitle:'Elige un servicio',detailsTitle:'Cuéntanos sobre el espacio',reviewTitle:'Revisa tu solicitud',doneTitle:'Demo completado',service:'Servicio',contact:'Nombre',location:'Código postal',date:'Fecha preferida',frequency:'Frecuencia',estimate:'Precio inicial estimado',details:'Notas',one:'Una vez',weekly:'Semanal',biweekly:'Cada dos semanas',monthly:'Mensual',other:'Cotización personalizada',none:'Ninguna',invalid:'Completa los campos obligatorios con un correo y código postal válidos.',dateInvalid:'Selecciona la fecha de hoy o una futura.'};
   const $=id=>document.getElementById(id);
   const params=new URLSearchParams(location.search);
   let lang=params.get('lang')==='es'?'es':'en', kind='residential', selected=null, step=1, custom=false;
   const dict=()=>lang==='es'?es:en;
-  const business=(params.get('business')||'').trim().slice(0,100);
-  const area=(params.get('area')||'').trim().slice(0,120);
-  const offered=(params.get('services')||'Residential cleaning, deep cleaning, move in / out cleaning').trim().slice(0,180);
-  let sonnyThread=(window.crypto&&window.crypto.randomUUID)?window.crypto.randomUUID():String(Date.now())+'-'+Math.floor(Math.random()*1e6);
-  let sonnyHistory=[],sonnyDraft={},sonnyBusy=false;
-  const sonnyApi='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-ai-booking-demo';
   $('language').value=lang;
   const today=()=>{const now=new Date();const local=new Date(now.getTime()-now.getTimezoneOffset()*60000);return local.toISOString().slice(0,10)};
   $('preferredDate').min=today();
   function updateWords(){
     document.documentElement.lang=lang;
     const copy=dict();
-    $('sonnyInput').placeholder=copy.sonnyInput;
-    $('sonnyInput').setAttribute('aria-label',copy.sonnyInput);
-    $('leadContext').hidden=!business&&!area;
-    $('leadBusiness').textContent=business?copy.businessFor+' '+business:copy.businessFor+' '+(lang==='es'?'tu negocio':'your business');
-    $('leadArea').textContent=area?copy.areaFor+': '+area:'';
-    $('leadArea').hidden=!area;
     for(const [id,val] of Object.entries(copy)){const el=$(id);if(el)el.textContent=val}
     document.querySelectorAll('[data-i18n]').forEach(el=>{const text=copy[el.dataset.i18n];if(text)el.textContent=text});
     $('stepLabel').textContent=copy['step'+(step===4?'Done':step)];
@@ -247,7 +211,7 @@
     step=next;
     for(const [id,n] of [['choosePanel',1],['detailsPanel',2],['reviewPanel',3],['completePanel',4]]) $(id).hidden=step!==n;
     $('resDetails').hidden=kind!=='residential'||custom;
-    $('comDetails').hidden=kind!=='commercial';
+    $('comDetails').hidden=kind!=='commercial'&&!custom;
     updateWords();
     $('flowTitle').focus?.();
     $('flowTitle').scrollIntoView({block:'start',behavior:'auto'});
@@ -290,72 +254,6 @@
     ];
     data.forEach(x=>list.append(makeRow(...x)));
   }
-  function sonnyAppend(role,message){
-    const row=document.createElement('p');row.dataset.role=role;
-    const label=document.createElement('strong');label.textContent=role==='user'?(lang==='es'?'Tú':'You'):'Sonny';
-    row.append(label,document.createTextNode(String(message).slice(0,700)));
-    $('sonnyMessages').append(row);
-    $('sonnyMessages').scrollTop=$('sonnyMessages').scrollHeight;
-  }
-  $('sonnyToggle').addEventListener('click',()=>{
-    $('sonnyPanel').hidden=!$('sonnyPanel').hidden;
-    $('sonnyToggle').setAttribute('aria-expanded',String(!$('sonnyPanel').hidden));
-    if(!$('sonnyPanel').hidden && !$('sonnyMessages').childElementCount)sonnyAppend('bot',dict().sonnyGreeting);
-    if(!$('sonnyPanel').hidden)$('sonnyInput').focus();
-  });
-  $('sonnyForm').addEventListener('submit',async event=>{
-    event.preventDefault();
-    if(sonnyBusy)return;
-    const msg=$('sonnyInput').value.trim().slice(0,350);
-    if(!msg)return;
-    sonnyBusy=true;$('sonnySend').disabled=true;$('sonnyInput').value='';
-    const recent=sonnyHistory.slice(-8).map(x=>x.role+': '+x.message).join('\n').slice(-1100);
-    sonnyAppend('user',msg);
-    $('sonnyStatus').textContent=dict().sonnyBusy;
-    const ctrl=new AbortController(),timeout=setTimeout(()=>ctrl.abort(),27000);
-    try{
-      const response=await fetch(sonnyApi,{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({customer_message:msg,business_name:business||'Demo Cleaning Business',
-          service_area:area,services_offered:offered,thread_id:sonnyThread,
-          language:lang,conversation_history:recent,booking_draft:sonnyDraft}),signal:ctrl.signal});
-      const data=await response.json();
-      if(!response.ok||typeof data.reply!=='string')throw new Error('Sonny unavailable');
-      sonnyAppend('bot',data.reply);
-      sonnyHistory.push({role:'Visitor',message:msg.slice(0,230)},{role:'Assistant',message:data.reply.slice(0,230)});
-      if(sonnyHistory.length>16)sonnyHistory=sonnyHistory.slice(-16);
-      if(data.booking&&typeof data.booking==='object'&&!Array.isArray(data.booking)){
-        for(const [key,value] of Object.entries(data.booking)){
-          if(typeof value==='string'||(typeof value==='number'&&Number.isFinite(value)))sonnyDraft[key]=value;
-        }
-      }
-      if(data.ready_for_review===true)$('sonnyUse').hidden=false;
-      $('sonnyStatus').textContent=dict().sonnyStatus;
-    }catch{
-      sonnyAppend('bot',dict().sonnyUnavailable);
-      $('sonnyStatus').textContent=dict().sonnyUnavailable;
-    }finally{clearTimeout(timeout);sonnyBusy=false;$('sonnySend').disabled=false;}
-  });
-  $('sonnyUse').addEventListener('click',()=>{
-    const d=sonnyDraft;
-    const service=String(d.service||'').toLowerCase(),category=String(d.category||'').toLowerCase();
-    chooseKind(category==='commercial'||['office','retail','medical','commercial'].includes(service)?'commercial':'residential');
-    const button=[...document.querySelectorAll('.service')].find(b=>b.dataset.id===service||b.dataset.id==='standard'&&/regular|standard/.test(service)
-      ||b.dataset.id==='deep'&&service.includes('deep')||b.dataset.id==='move'&&service.includes('move'));
-    if(button&&!button.closest('[hidden]'))chooseService(button);
-    else {custom=true;selected={id:'other',kind,price:null};}
-    const name=[d.first_name,d.last_name].filter(Boolean).join(' ')||d.customer_name||d.name;
-    if(typeof name==='string')$('customerName').value=name.slice(0,80);
-    const email=d.email||d.customer_email;
-    if(typeof email==='string')$('customerEmail').value=email.slice(0,120);
-    if(typeof d.zip==='string')$('customerZip').value=d.zip.slice(0,10);
-    if(typeof d.date==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(d.date))$('preferredDate').value=d.date;
-    if(Number.isFinite(d.bedrooms))$('beds').value=String(Math.min(4,Math.max(1,d.bedrooms)));
-    if(Number.isFinite(d.bathrooms))$('baths').value=String(Math.min(3,Math.max(1,d.bathrooms)));
-    if(typeof d.frequency==='string'&&['one','weekly','biweekly','monthly'].includes(d.frequency))$('frequency').value=d.frequency;
-    if(typeof d.notes==='string')$('notes').value=d.notes.slice(0,1000);
-    $('sonnyPanel').hidden=true;$('sonnyToggle').setAttribute('aria-expanded','false');
-    showStep(2);
-  });
   $('language').addEventListener('change',event=>{lang=event.target.value;updateWords();});
   $('resTab').addEventListener('click',()=>chooseKind('residential'));
   $('comTab').addEventListener('click',()=>chooseKind('commercial'));
@@ -384,6 +282,6 @@
   chooseKind('residential');updateWords();
 })();
 </script>
-<script src="/assets/tle-demo-reset-lead-magnet.js?v=20261016-clean1"></script>
+<script src="/assets/tle-demo-reset-lead-magnet.js?v=20261016-clean2"></script>
 </body>
 </html>
