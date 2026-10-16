@@ -49,7 +49,8 @@ try{
   assert.equal(await page.locator(".tle-jessy-demo-card").count(),1,"Booking conversation should show exactly one demo card");
   await page.locator(".tle-jessy-demo-card").first().click();
   assert.equal(await page.locator(".tle-jessy-demo-gate").isVisible(),true,"Three-field demo gate should show");
-  assert.equal(await page.locator(".tle-jessy-demo-frame").isVisible(),false,"No demo before visitor submits");
+  assert.equal(await page.locator(".tle-jessy-demo-frame").count(),0,"No embedded demo anywhere in Jessie");
+  assert.equal(await page.locator(".tle-jessy-demo-confirmation").isVisible(),false,"Do not confirm before submitting");
   assert.equal(await page.locator(".tle-jessy-demo-label").count(),3);
   await page.locator(".tle-jessy-demo-label input").nth(0).fill("Sunshine Cleaning QA");
   await page.locator(".tle-jessy-demo-label input").nth(1).fill("fixture@example.test");
@@ -59,22 +60,30 @@ try{
   assert.equal(requests.length,0,"Must not submit without explicit consent");
   await page.locator(".tle-jessy-demo-consent input").check();
   await page.locator(".tle-jessy-demo-submit").click();
-  await page.locator(".tle-jessy-demo-frame").waitFor({state:"visible",timeout:12000});
-  assert.equal(requests.length,1,"One visitor-approved demo request");
+  await page.locator(".tle-jessy-demo-confirmation").waitFor({state:"visible",timeout:12000});
+  assert.equal(await page.locator(".tle-jessy-demo-gate").isVisible(),false,"Form disappears after confirmation");
+  assert.equal(requests.length,1,"Exactly one consented transactional demo request");
   assert.equal(requests[0].consent,true);
   assert.equal(requests[0].business_name,"Sunshine Cleaning QA");
   assert.equal(requests[0].email,"fixture@example.test");
   assert.equal(requests[0].service_area,"Boynton Beach 33436");
-  const demo=await page.locator(".tle-jessy-demo-frame").getAttribute("src");
-  assert.ok(demo.startsWith("/lead-private-preview.html?"),"Original safe sample route required");
-  assert.ok(demo.includes("business=Sunshine+Cleaning+QA")&&demo.includes("area=Boynton+Beach+33436"));
-  assert.ok(!demo.includes("email=")&&!demo.includes("key="),"No email/private token in preview URL");
+  assert.equal(await page.locator(".tle-jessy-demo-frame").count(),0,"Never show an interactive sample in the chat");
+  assert.equal(await page.locator(".tle-jessy-demo-external").count(),0,"Never reveal the personalized demo URL in Jessie");
+  const banner=await page.locator(".tle-jessy-demo-confirmation").innerText();
+  assert.match(banner,lang==="es"?/correo/i:/email|inbox/i,"Confirmation should direct visitor to their inbox");
+  assert.match(banner,/Sonny/,"Jessie reminds them to try Sonny in the email demo");
+  assert.match(banner,lang==="es"?/simulación/i:/simulation/i,"Sonny does not create real bookings");
   const w=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:innerWidth}));
   assert.ok(w.scroll<=w.width+4,lang+"/"+width+": horizontal overflow "+JSON.stringify(w));
   await page.screenshot({path:"qa-screenshots/jessie-demo-"+lang+"-"+width+".png"});
-  await page.locator(".tle-jessy-demo-close").click();
+  await page.locator(".tle-jessy-demo-done").click();
   assert.equal(await page.locator(".tle-jessy-demo-overlay").isVisible(),false);
   assert.equal(await page.locator(".tle-jessy-panel").isVisible(),true,"Conversation is preserved after closing demo");
+  assert.ok((await page.locator(".tle-jessy-log").innerText()).includes("Sonny"),"Jessie says to try Sonny in the existing chat");
+  await page.locator(".tle-jessy-demo-card").first().click();
+  assert.equal(await page.locator(".tle-jessy-demo-confirmation").isVisible(),true,"Returning to the card shows confirmation; do not repeat form");
+  await page.locator(".tle-jessy-demo-done").click();
+  assert.equal(requests.length,1,"Reopening a confirmation never resends the email");
   const beforeOtherDemo=await page.locator(".tle-jessy-demo-card").count();
   await page.locator(".tle-jessy-message-field").fill(lang==="es"?"Muéstrame todas las demos":"Show me all demos");
   await page.locator(".tle-jessy-send").click();
@@ -90,5 +99,5 @@ try{
   assert.equal(errors.length,0,lang+"/"+width+": "+errors.join("; "));
   tested.push(lang+"/"+width);await context.close();
  }
- console.log("PASS synthetic Jessie demo gate: 3 fields, explicit consent, original sample, no identity in URL, bilingual responsive UI, chat preserved — "+tested.join(", "));
+ console.log("PASS synthetic Jessie emailed demo: opt-in fields, on-site confirmation, no embedded sample, Sonny sample reminder, bilingual responsive UI, chat preserved — "+tested.join(", "));
 }finally{await browser.close();await new Promise(resolve=>http.close(resolve))}

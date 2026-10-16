@@ -143,10 +143,31 @@ function customizeChat(){
   head.prepend(avatar());
   const subtitle=head.querySelector("small");if(subtitle)subtitle.textContent=labels.separate;
   const intro=log.querySelector(".tle-ai-msg.bot");
-  if(intro)intro.textContent=labels.welcome+" "+(es?"La IA puede ayudarte a preparar una solicitud para revisarla.":"The AI can help prepare a sample request for your review.");
-  const chips=h("div","tle-demo-v12-chat-actions");chips.innerHTML=`<button type="button" data-action="services">${labels.helperServices}</button><button type="button" data-action="form">${labels.helperForm}</button><a href="/ai-booking-assistant/">${labels.helperAi} ↗</a>`;
-  chips.addEventListener("click",e=>{const btn=e.target.closest("button");if(!btn)return;if(btn.dataset.action==="services"){document.querySelector("#demoServices")?.scrollIntoView({behavior:"smooth"});document.querySelector(".tle-ai-head button")?.click()}else if(btn.dataset.action==="form"){const input=document.querySelector(".tle-ai-form textarea");if(input){input.value=es?"Ayúdame a completar una solicitud de limpieza de ejemplo paso a paso.":"Help me fill out a sample cleaning request step by step.";input.focus()}}});
-  log.prepend(chips);
+  if(intro)intro.textContent=es
+   ?"¡Hola! Soy Sonny 👋 Te ayudaré a probar una solicitud de limpieza. ¿Empezamos con una casa o con un negocio? Es una simulación; no reservarás ni pagarás nada."
+   :"Hi! I’m Sonny 👋 Want to try a cleaning request together? Is it for a home or a business? This is a simulation—nothing is booked or charged.";
+  const chips=h("div","tle-demo-v12-chat-actions");
+  chips.setAttribute("aria-label",es?"Opciones rápidas para probar una reserva":"Quick ways to try a sample booking");
+  chips.innerHTML='<button type="button" data-action="home">'+(es?"Casa":"Home cleaning")+'</button>'
+   +'<button type="button" data-action="business">'+(es?"Negocio":"Business cleaning")+'</button>'
+   +'<button type="button" data-action="explain">'+(es?"¿Cómo funciona?":"How it works")+'</button>';
+  chips.addEventListener("click",event=>{
+   const btn=event.target.closest("button");if(!btn)return;
+   const choice=btn.dataset.action;
+   if(choice==="explain"){
+    const bubble=h("div","tle-ai-msg bot");
+    bubble.textContent=es
+     ?"Te haré una pregunta a la vez sobre el espacio, tipo de limpieza y frecuencia. Al final revisarás una solicitud de ejemplo. No se envía ninguna reserva real."
+     :"I'll ask one question at a time about the space, cleaning service and frequency. At the end, you'll review a sample request. No real booking is submitted.";
+    log.appendChild(bubble);log.scrollTop=log.scrollHeight;return;
+   }
+   const input=document.querySelector(".tle-ai-form textarea");
+   const form=input?.closest("form");if(!form||input.disabled)return;
+   input.value=choice==="home"?(es?"Es para una casa. Guíame paso a paso con una reserva de ejemplo.":"It's for a home. Guide me through a sample booking one question at a time."):(es?"Es para un negocio. Guíame paso a paso con una reserva de ejemplo.":"It's for a business space. Guide me through a sample booking one question at a time.");
+   chips.hidden=true;
+   form.requestSubmit();
+  });
+  if(intro)intro.after(chips);else log.prepend(chips); // Show choices below Sonny’s explanation, not above it.
   // One assistant = one launcher. Previous versions created a second floating
   // welcome button which looked like another AI and obscured the mobile page.
   document.getElementById("tleDemoRobotWelcome")?.remove();
@@ -159,25 +180,22 @@ function customizeChat(){
     popup.id="tleSonnyGreetingPopup";
     popup.type="button";
     popup.setAttribute("aria-label",labels.ask);
-    popup.textContent=es?"¡Hola! Soy Sonny 👋 ¿Te ayudo a reservar?":"Hi! I'm Sonny 👋 Need help booking?";
+    popup.textContent=es?"Habla conmigo":"Chat with me";
+    popup.setAttribute("aria-label",es?"Hablar con Sonny":"Chat with Sonny");
     popup.addEventListener("click",()=>{popup.hidden=true;window.tleOpenSonnyDemo?.();});
-    // Keep the entrance completely clear: only Sonny's small avatar is visible.
-    // A short optional hint may appear once after the visitor scrolls into the page.
+    // One understated hint shortly after arrival, never another large greeting
+    // or a second launcher. Do not interrupt the hero or open chat unasked.
     popup.hidden=true;
     document.body.appendChild(popup);
-    let hinted=false,closed=false;
-    const dismiss=()=>{closed=true;popup.hidden=true;};
+    let dismissed=false;
+    const dismiss=()=>{dismissed=true;popup.hidden=true;};
     launch.addEventListener("click",dismiss,{once:true});
     popup.addEventListener("click",dismiss,{once:true});
-    const maybeShow=()=>{
-      if(hinted||closed||window.scrollY<Math.min(460,Math.max(300,window.innerHeight*.54))
-         ||document.body.classList.contains("tle-ai-chat-open"))return;
-      hinted=true;
+    window.setTimeout(()=>{
+      if(dismissed||document.hidden||document.body.classList.contains("tle-ai-chat-open"))return;
       popup.hidden=false;
-      window.setTimeout(()=>{popup.hidden=true;},3700);
-    };
-    window.addEventListener("scroll",maybeShow,{passive:true});
-    if(window.scrollY>0)maybeShow();
+      window.setTimeout(()=>{popup.hidden=true;},4100);
+    },850);
   }
   // Compact from first paint; no full-width CTA-shaped second banner.
   launch.classList.add("tle-demo-condensed");

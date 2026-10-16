@@ -119,3 +119,6 @@ body:has(.tle-ai-panel:not([hidden])) .tle-demo-v12-welcome,body:has(.tle-jessy-
 #done .tle-demo-v12-retry:hover{background:linear-gradient(115deg,#1d4968,#16334b);border-color:#ddf5ff}
 #done .tle-demo-v12-retry:focus-visible{outline:3px solid #a9dfff;outline-offset:3px}
 @media(max-width:480px){#done .tle-demo-v12-retry{padding:12px;gap:10px;min-height:74px}#done .tle-demo-v12-retry img{width:45px;height:45px;flex-basis:45px}}
+
+/* Initial Sonny choices are hidden after the visitor selects a home/business sample. */
+.tle-demo-v12-chat-actions[hidden]{display:none!important}
