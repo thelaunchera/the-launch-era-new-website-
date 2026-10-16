@@ -1,0 +1,107 @@
+/* The Launch Era homepage: two subtle, accessible booking story tones.
+   One paint layer for the section, never a full-page overlay or fixed background. */
+.sales-home .booking-section[data-tone] {
+  --booking-story-bg: #FAF8F3;
+  --booking-story-ink: #191919;
+  position: relative;
+  isolation: isolate;
+  background: transparent;
+  color: var(--booking-story-ink);
+}
+.sales-home .booking-section[data-tone="2"] { --booking-story-bg: #EAF4FC; }
+.sales-home .booking-section[data-tone]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-color: var(--booking-story-bg);
+  transition: background-color 700ms ease;
+}
+.sales-home .booking-section[data-tone] > .booking-layout { position: relative; z-index: 1; }
+.sales-home .booking-section .booking-copy,
+.sales-home .booking-section .home-booking-explorer { min-width: 0; }
+.sales-home .booking-section .booking-copy h2 {
+  font-size: clamp(29px, 3.2vw, 43px);
+  line-height: 1.17;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+.sales-home .booking-section .booking-copy > .description {
+  max-width: 39ch;
+  margin-top: 14px;
+  line-height: 1.5;
+}
+.sales-home .booking-section .booking-benefits { margin: 18px 0; }
+.sales-home .booking-section .booking-benefits-hint { margin-bottom: 8px; }
+.sales-home .booking-section .booking-benefit-panel { min-height: 0; padding: 10px 0 10px 16px; margin-top: 12px; }
+.sales-home .booking-section .booking-benefit-panel strong { font-size: 17px; }
+.sales-home .booking-section .booking-benefit-panel p { font-size: 14px; line-height: 1.5; margin-top: 4px; color: #40596A; }
+.sales-home .booking-section .booking-production-note { font-size: 12px; line-height: 1.55; color: #40596A; }
+.sales-home .booking-section .product-preview-intro { margin-bottom: 16px; padding-bottom: 15px; }
+.sales-home .booking-section .product-preview-intro h3 { font-size: clamp(24px, 2.6vw, 32px); line-height: 1.2; }
+.sales-home .booking-section .product-preview-intro p { line-height: 1.45; }
+.sales-home .booking-section .home-booking-explorer .product-tabs button { min-height: 44px; border-radius: 999px; }
+.sales-home .booking-section .followup-preview { padding: clamp(15px, 2vw, 24px); border-radius: 18px; }
+.sales-home .booking-section .followup-preview .eyebrow { font-size: 10px; letter-spacing: .09em; }
+.sales-home .booking-section .followup-preview h3 { font-size: clamp(22px, 2.4vw, 28px); margin: 9px 0 15px; line-height: 1.25; }
+.sales-home .booking-section .followup-preview ol { gap: 12px; }
+.sales-home .booking-section .followup-preview li { gap: 10px; align-items: flex-start; }
+.sales-home .booking-section .followup-preview li > span { width: 31px; height: 31px; font-size: 12px; }
+.sales-home .booking-section .followup-preview strong { font-size: 14px; line-height: 1.36; }
+.sales-home .booking-section .followup-preview li p { font-size: 13px; line-height: 1.45; margin-top: 3px; color: #40596A; }
+.sales-home .booking-section .followup-preview > small { margin-top: 12px; color: #40596A; }
+.sales-home .booking-section .booking-tone-dots {
+  position: fixed;
+  z-index: 8;
+  right: max(10px, env(safe-area-inset-right));
+  top: 49%;
+  display: grid;
+  gap: 7px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+.sales-home .booking-section[data-booking-visible="true"] .booking-tone-dots { opacity: .85; }
+.sales-home .booking-section .booking-tone-dots span {
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #6E90A5;
+  transition: transform 220ms ease, background-color 220ms ease;
+}
+.sales-home .booking-section[data-tone="1"] .booking-tone-dots span:first-child,
+.sales-home .booking-section[data-tone="2"] .booking-tone-dots span:last-child {
+  background: #191919;
+  transform: scale(1.45);
+}
+@media (max-width: 767px) {
+  .sales-home .booking-section { padding-top: 32px; padding-bottom: 34px; }
+  .sales-home .booking-section .booking-layout { gap: 20px; }
+  .sales-home .booking-section .booking-copy h2 { font-size: clamp(29px, 8.1vw, 36px); line-height: 1.18; }
+  .sales-home .booking-section .booking-copy > .description { font-size: 15px; line-height: 1.52; margin-top: 12px; }
+  .sales-home .booking-section .booking-benefits { margin: 14px 0; }
+  .sales-home .booking-section .booking-benefits-hint { font-size: 12px; }
+  .sales-home .booking-section .booking-benefit-controls { gap: 6px; }
+  .sales-home .booking-section .booking-benefit-controls button { min-height: 43px; padding: 8px 10px; font-size: 12px; }
+  .sales-home .booking-section .booking-benefit-panel { margin-top: 9px; }
+  .sales-home .booking-section .booking-hero-offer { margin: 12px 0 8px; }
+  .sales-home .booking-section .home-booking-explorer { padding: 17px 13px 18px; border-radius: 20px; }
+  .sales-home .booking-section .product-preview-intro { margin-bottom: 13px; padding: 0 2px 12px; }
+  .sales-home .booking-section .product-preview-intro h3 { font-size: clamp(24px, 7vw, 29px); margin: 5px 0; }
+  .sales-home .booking-section .product-preview-intro p { font-size: 13px; }
+  .sales-home .booking-section .home-booking-explorer .product-tabs { gap: 5px; }
+  .sales-home .booking-section .home-booking-explorer .product-tabs button { font-size: clamp(11px, 2.9vw, 13px); padding: 8px 4px; }
+  .sales-home .booking-section .followup-preview { padding: 16px 13px; }
+  .sales-home .booking-section .followup-preview h3 { font-size: 23px; }
+  .sales-home .booking-section .followup-preview ol { gap: 11px; }
+  .sales-home .booking-section .followup-preview li > span { width: 28px; height: 28px; font-size: 11px; }
+  .sales-home .booking-section .followup-preview li strong { font-size: 14px; }
+  .sales-home .booking-section .followup-preview li p { font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sales-home .booking-section[data-tone]::before,
+  .sales-home .booking-section .booking-tone-dots,
+  .sales-home .booking-section .booking-tone-dots span { transition: none; }
+}
