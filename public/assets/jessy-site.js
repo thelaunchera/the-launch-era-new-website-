@@ -529,7 +529,7 @@ async function ask(raw){if(waiting)return;const message=String(raw||"").trim().s
 msg(message,"user");input.value="";
  if(allowedService.has(offer)&&purchaseReady(message)){
   if(offer==="cleaning-app"){msg(lang==="es"?"Comienza tu prueba gratis de la app.":"Start your app free trial.","bot");showCheckoutOptions(["cleaning-app"]);}
-  else if(checkoutFor(offer)){msg(lang==="es"?"¡Listo! Aquí tienes el checkout seguro.":"Ready! Here is your secure checkout.","bot");showCheckoutOptions([offer]);}
+  else if(checkoutFor(offer)){msg(lang==="es"?"¡Listo! Aquí tienes el checkout seguro.":"Ready! Here is your secure checkout.","bot");showCheckoutOptions(offer==="booking"&&/\b(?:ai|ia|assistant|asistente)\b/i.test(message)?["booking-bundle"]:[offer]);}
   history.push({role:"user",message},{role:"assistant",message:"Checkout offered"});
   if(history.length>16)history=history.slice(-16);return;
  }
