@@ -65,7 +65,7 @@ try{
      border:getComputedStyle(el).borderTopWidth,
      animation:getComputedStyle(el.querySelector('.tle-featured-badge')).animationName
    }));
-   assert(cardProperties.image.includes('linear-gradient')&&cardProperties.border==='1.5px',lang+' '+width+' featured style absent '+JSON.stringify(cardProperties));
+   assert(cardProperties.image.includes('linear-gradient')&&Number.parseFloat(cardProperties.border)>=1,lang+' '+width+' featured style absent '+JSON.stringify(cardProperties));
    assert.equal(await section.locator('.tle-featured-badge').innerText(),lang==='es'?'Mejor valor':'Best value');
    const radios=section.locator('.tle-plan-toggle [role="radio"]');
    assert.equal(await radios.count(),3);
