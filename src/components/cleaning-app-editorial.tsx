@@ -20,7 +20,7 @@ export function CleaningAppEditorial({ lang = 'en' }: Props) {
   ];
   const faqs: Array<[string, string]> = es ? [
     ['¿Necesito descargar la App desde una tienda?', 'No. Funciona en el navegador de tu teléfono, tablet o computadora. También puedes añadirla a la pantalla de inicio.'],
-    ['¿Qué puedo organizar?', 'Clientes, reservas, cotizaciones, trabajos, facturas, tiempo del equipo, millaje y rutas. Puedes configurar tus precios para utilizar el Pricing Calculator.'],
+    ['¿Qué puedo organizar?', 'Tu agenda, clientes, trabajos, cotizaciones, facturas, horas del equipo y millas recorridas. También puedes configurar las tarifas que usa la calculadora de precios.'],
     ['¿La Booking Page personalizada está incluida?', 'No. La Cleaning App organiza las operaciones de tu negocio. Booking Automation + Command Center se compra por separado e incluye una página de reservas personalizada.'],
     ['¿Cómo comienzo y cuánto cuesta?', 'Crea tu cuenta y comienza la prueba gratis de 30 días, sin tarjeta. Después cuesta $3.99 al mes. También puedes explorar la demo antes de registrarte.']
   ] : [
@@ -31,8 +31,8 @@ export function CleaningAppEditorial({ lang = 'en' }: Props) {
   ];
 
   const features = [
-    { icon:CalendarDays, title:es?'Calendario y trabajos':'Bookings & calendar', desc:es?'Ve trabajos próximos, recurrentes y detalles de cada limpieza.':'See upcoming jobs, recurring visits and every cleaning detail.' },
-    { icon:UsersRound, title:es?'Clientes y cotizaciones':'Clients & quotes', desc:es?'Historial, notas y estimados sin buscar en mensajes.':'Keep customer history, notes and estimates together.' },
+    { icon:CalendarDays, title:es?'Agenda y trabajos':'Bookings & calendar', desc:es?'Ve trabajos próximos, recurrentes y detalles de cada limpieza.':'See upcoming jobs, recurring visits and every cleaning detail.' },
+    { icon:UsersRound, title:es?'Clientes y cotizaciones':'Clients & quotes', desc:es?'Consulta el historial, las notas y los estimados de cada cliente sin buscar entre mensajes.':'Keep customer history, notes and estimates together.' },
     { icon:Receipt, title:es?'Facturas y precios':'Invoices & pricing', desc:es?'Prepara estimados y registra facturas y pagos.':'Build estimates and track invoices and recorded payments.' },
     { icon:Clock3, title:es?'Equipo y rutas':'Team & routes', desc:es?'Organiza el trabajo, las horas y el millaje.':'Stay on top of assignments, time and mileage.' }
   ];
@@ -44,8 +44,8 @@ export function CleaningAppEditorial({ lang = 'en' }: Props) {
         <div className="tle-app-hero-grid">
           <div className="tle-app-intro">
             <p className="tle-app-eyebrow">{es?'MENOS CAOS. MÁS CONTROL.':'LESS CHAOS. MORE CONTROL.'}</p>
-            <h1>{es?'Tu negocio.':'Your business.'}<span>{es?' Todo en un lugar.':' All in one place.'}</span></h1>
-            <p className="tle-app-lead">{es?'Clientes, reservas, trabajos, cotizaciones y facturas. Organízalo todo desde el teléfono o la computadora.':'Bookings, clients, jobs, quotes and invoices. All organized from your phone or computer.'}</p>
+            <h1>{es?'Tus limpiezas al día.':'Your business.'}<span>{es?' Todo más a mano.':' All in one place.'}</span></h1>
+            <p className="tle-app-lead">{es?'Consulta tus próximas limpiezas, los datos de cada cliente, las cotizaciones y las facturas, desde tu teléfono o computadora.':'Bookings, clients, jobs, quotes and invoices. All organized from your phone or computer.'}</p>
             <div className="tle-app-actions">
               <MarketingCTA className="tle-app-btn primary" href={signup}>{es?'Comenzar prueba gratis':'Start free trial'} <ArrowRight size={18} aria-hidden="true"/></MarketingCTA>
               <a className="tle-app-btn secondary" href={demo}>{es?'Ver demo':'Explore demo'} <ArrowRight size={18} aria-hidden="true"/></a>
