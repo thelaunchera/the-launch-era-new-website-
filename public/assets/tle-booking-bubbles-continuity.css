@@ -142,23 +142,7 @@ body footer {background:#dbf0fd;color:#305d78;border-top-color:#a6d1e7;}
  .booking-bubble-layer span,body #bookingPage .custom::before,body #bookingPage .custom::after{animation:none!important;transform:none!important;}
 }
 
-/* Tap-to-advance services and clearly checked image selections — public sample
-   only. The booking/quote engine keeps its original single selection state. */
-#bookingPage .service-media{position:relative;isolation:isolate}
-#bookingPage .service-photo-check{
- position:absolute;top:12px;right:12px;z-index:2;
- width:36px;height:36px;display:grid;place-items:center;
- border:2px solid #4385aa;border-radius:11px;
- background:rgba(255,255,255,.95);color:transparent;
- box-shadow:0 4px 13px rgba(11,47,72,.18);
- font-size:22px;font-weight:900;line-height:1;
- transition:background-color .18s,color .18s,border-color .18s;
- pointer-events:none;
-}
-#bookingPage .service[aria-pressed="true"] .service-photo-check{
- background:#245f85;border-color:#e5f7ff;color:white;
- box-shadow:0 4px 16px rgba(12,58,91,.35);
-}
+/* Cards are fully clickable; checkable options belong only inside Step 2. */
 #bookingPage .service:focus-visible{outline:3px solid #377ca5;outline-offset:3px}
 #bookingPage #chooseNext{display:none}
 #bookingPage #choosePanel>.actions{margin-top:17px;justify-content:flex-start}
@@ -204,6 +188,51 @@ body footer {background:#dbf0fd;color:#305d78;border-top-color:#a6d1e7;}
 }
 #bookingPage #detailsPanel .choice-check:hover span{border-color:#367fab}
 #bookingPage #detailsPanel .choice-source-select{display:none!important}
+/* Actual optional checkboxes live alongside contact, home and frequency details.
+   No add-on prices or real bookings are calculated from these demo-only choices. */
+#bookingPage #detailsPanel .booking-extras{
+ grid-column:1/-1;min-width:0;margin:2px 0 0;padding:16px;
+ border:1.5px solid #9dc8e0;border-radius:20px;
+ background:linear-gradient(155deg,#eef8fe,#f8fcff);
+}
+#bookingPage #detailsPanel .booking-extras legend{
+ padding:0 8px;color:#173e56;font-size:15px;line-height:1.45;font-weight:800;
+}
+#bookingPage #detailsPanel .booking-extras-hint{
+ margin:0 0 14px;color:#3e6178;font-size:12px;line-height:1.6;
+}
+#bookingPage #detailsPanel .booking-extras-grid{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;
+}
+#bookingPage #detailsPanel .extra-check{position:relative;display:block;min-width:0;cursor:pointer}
+#bookingPage #detailsPanel .extra-check input{
+ position:absolute;inset:0;margin:0;width:100%;height:100%;opacity:0;cursor:pointer;
+}
+#bookingPage #detailsPanel .extra-check span{
+ min-height:50px;display:flex;align-items:center;gap:11px;padding:11px 12px;
+ border:1.5px solid #9dbfd4;border-radius:13px;background:#fff;color:#24475e;
+ font-size:13px;line-height:1.35;font-weight:700;
+ transition:border-color .16s ease,background-color .16s ease;
+}
+#bookingPage #detailsPanel .extra-check span::before{
+ content:"";flex:0 0 20px;width:20px;height:20px;box-sizing:border-box;
+ display:grid;place-items:center;border:1.5px solid #689cb9;border-radius:6px;background:#f9fdff;
+}
+#bookingPage #detailsPanel .extra-check input:checked+span{
+ border-color:#317fab;background:#d7effe;color:#173e56;
+}
+#bookingPage #detailsPanel .extra-check input:checked+span::before{
+ content:"✓";background:#286b94;border-color:#286b94;color:white;
+ font-size:14px;font-weight:900;
+}
+#bookingPage #detailsPanel .extra-check input:focus-visible+span{
+ outline:3px solid #286b94;outline-offset:3px;
+}
+@media(max-width:380px){
+ #bookingPage #detailsPanel .booking-extras{padding:14px 12px}
+ #bookingPage #detailsPanel .booking-extras-grid{grid-template-columns:1fr}
+}
+
 #bookingPage #detailsPanel .field>span,
 #bookingPage #detailsPanel .choice-label{color:#173e56}
 #bookingPage #detailsPanel .field input:not([type="radio"]),
@@ -215,12 +244,11 @@ body footer {background:#dbf0fd;color:#305d78;border-top-color:#a6d1e7;}
 #bookingPage #detailsPanel #dateLabel{color:#183d56}
 #bookingPage #detailsPanel input[type="date"]{color-scheme:light}
 @media(max-width:700px){
- #bookingPage .service-photo-check{width:37px;height:37px;top:11px;right:11px}
  #bookingPage #detailsPanel .fields{gap:18px 12px}
  #bookingPage #detailsPanel .choice-check{flex:1 1 calc(33.333% - 10px)}
  #bookingPage #detailsPanel .choice-field.full .choice-check{flex:1 1 calc(50% - 8px)}
  #bookingPage #detailsPanel .choice-check span{min-height:48px;font-size:14px}
 }
 @media(prefers-reduced-motion:reduce){
- #bookingPage .service-photo-check,#bookingPage .choice-check span{transition:none}
+ #bookingPage .choice-check span,#bookingPage .extra-check span{transition:none}
 }
