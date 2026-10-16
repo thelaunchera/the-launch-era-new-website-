@@ -18,12 +18,15 @@
    const el=document.querySelector(selector);
    if(!el)continue;
    if(active){
-    if(!old.has(el))old.set(el,{color:el.style.getPropertyValue("color"),priority:el.style.getPropertyPriority("color")});
+    if(!old.has(el))old.set(el,{color:el.style.getPropertyValue("color"),priority:el.style.getPropertyPriority("color"),transition:el.style.getPropertyValue("transition"),transitionPriority:el.style.getPropertyPriority("transition")});
     el.style.setProperty("color","#194761","important");
+    el.style.setProperty("transition","none","important");
    }else if(old.has(el)){
     const previous=old.get(el);
     if(previous.color)el.style.setProperty("color",previous.color,previous.priority);
     else el.style.removeProperty("color");
+    if(previous.transition)el.style.setProperty("transition",previous.transition,previous.transitionPriority);
+    else el.style.removeProperty("transition");
     old.delete(el);
    }
   }
