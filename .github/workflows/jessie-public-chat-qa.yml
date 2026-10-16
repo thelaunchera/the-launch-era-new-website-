@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'public/assets/jessy-site.js'
+      - 'public/assets/tle-ai-booking-chat.js'
       - 'public/assets/jessy-offers.json'
       - 'supabase/functions/tle-jessy-chat/**'
       - 'scripts/qa-jessy-reasoning.ts'
@@ -32,7 +33,9 @@ jobs:
       - name: Verify new Jessie integrations and conversion safety
         run: node scripts/qa-jessie-seven-features.mjs
       - name: Verify public widget syntax
-        run: node --check public/assets/jessy-site.js
+        run: |
+          node --check public/assets/jessy-site.js
+          node --check public/assets/tle-ai-booking-chat.js
       - name: Verify route and assistant boundaries
         run: |
           node scripts/qa-route-integrity.mjs --static
