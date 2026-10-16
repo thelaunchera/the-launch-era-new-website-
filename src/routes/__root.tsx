@@ -191,7 +191,8 @@ function RootComponent() {
   // Public pricing enhancements mount only after React hydration; this must
   // never run inside the checkout, demo or private Command Center.
   useEffect(() => {
-    if (/\\/(?:booking-demo|cleaning-app-demo|lead-private-preview|command-center|service-checkout)(?:\\/|$)/.test(window.location.pathname)) return;
+    const blockedPricingPaths=['/booking-demo/','/cleaning-app-demo/','/lead-private-preview','/command-center/','/service-checkout/'];
+    if (blockedPricingPaths.some(path=>window.location.pathname.startsWith(path))) return;
     const script=document.createElement('script');
     script.src='/assets/tle-pricing-motion.js?v=20261016-1';
     script.async=true;
