@@ -499,7 +499,13 @@
     const back=card.querySelector('.service-flip-back');
     if(front){front.inert=open;front.setAttribute('aria-hidden',String(open));}
     if(back){back.inert=!open;back.setAttribute('aria-hidden',String(!open));}
-    if(focusTarget)requestAnimationFrame(()=>card.querySelector('.service-flip-select')?.focus());
+    if(focusTarget){
+      card.dataset.opening='true';
+      requestAnimationFrame(()=>{
+        card.querySelector('.service-flip-select')?.focus();
+        requestAnimationFrame(()=>{delete card.dataset.opening;});
+      });
+    }
   }
   function closeCardFlip(card,focusFront=false){
     if(reducedMotion.matches)return;
@@ -527,7 +533,7 @@
       if(!card.contains(document.activeElement))closeCardFlip(card);
     });
     card.addEventListener('focusout',e=>{
-      if(!card.contains(e.relatedTarget))closeCardFlip(card);
+      if(card.dataset.opening!=='true'&&!card.contains(e.relatedTarget))closeCardFlip(card);
     });
     card.addEventListener('keydown',e=>{
       if(e.key==='Escape'&&!reducedMotion.matches){
