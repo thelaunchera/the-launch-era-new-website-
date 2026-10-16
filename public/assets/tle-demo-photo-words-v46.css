@@ -1,0 +1,93 @@
+/* v46 · Human rotating words on real sample service photographs.
+   Open typography only: no pills, cards, frames or extra square surfaces. */
+html.demo-editorial.tle-demo-v45.tle-demo-v46 #bookingStarter #main .tle-v42-grid > button.service.tle-service-has-photo-v21{
+ position:relative!important;
+}
+html.demo-editorial.tle-demo-v45.tle-demo-v46 #bookingStarter #main .tle-v42-grid > button.service.tle-service-has-photo-v21 .tle-v46-photo-words{
+ position:absolute!important;
+ z-index:8!important;
+ top:clamp(24px,2.8vw,36px)!important;
+ left:clamp(21px,2.6vw,34px)!important;
+ right:clamp(21px,2.6vw,34px)!important;
+ display:flex!important;
+ flex-wrap:wrap!important;
+ align-items:baseline!important;
+ justify-content:flex-start!important;
+ gap:.18em!important;
+ min-width:0!important;
+ max-width:calc(100% - 42px)!important;
+ width:auto!important;
+ margin:0!important;padding:0!important;
+ border:0!important;border-radius:0!important;
+ background:none!important;box-shadow:none!important;
+ color:#fff!important;-webkit-text-fill-color:#fff!important;
+ font:650 clamp(14px,1.35vw,18px)/1.36 "DM Sans",Arial,sans-serif!important;
+ letter-spacing:-.02em!important;
+ text-shadow:0 2px 11px rgba(5,20,29,.98),0 0 27px rgba(8,24,38,.74)!important;
+ text-align:left!important;
+ pointer-events:none!important;
+ isolation:isolate!important;
+}
+html.demo-editorial.tle-demo-v45.tle-demo-v46 #bookingStarter #main .tle-v42-grid > button.service.tle-service-has-photo-v21 .tle-v46-photo-words::before{
+ content:""!important;
+ position:absolute!important;z-index:-1!important;
+ top:-17px!important;bottom:-14px!important;
+ left:-14px!important;right:-14px!important;
+ border:0!important;border-radius:0!important;
+ background:linear-gradient(180deg,rgba(7,29,43,.52),rgba(7,29,43,.22) 65%,transparent)!important;
+ pointer-events:none!important;
+}
+html.demo-editorial.tle-demo-v45.tle-demo-v46 #bookingStarter #main .tle-v46-static{
+ color:#f8fdff!important;-webkit-text-fill-color:#f8fdff!important;
+ font:inherit!important;white-space:normal!important;
+}
+html.demo-editorial.tle-demo-v45.tle-demo-v46 #bookingStarter #main .tle-v46-rotate{
+ display:grid!important;
+ grid-template-columns:max-content!important;
+ grid-template-rows:minmax(0,1fr)!important;
+ align-items:baseline!important;
+ perspective:520px!important;
+ min-width:0!important;
+ width:max-content!important;
+ max-width:100%!important;
+ text-align:left!important;
+ color:#bcecff!important;-webkit-text-fill-color:#bcecff!important;
+ font:750 inherit!important;
+ white-space:nowrap!important;
+}
+html.demo-editorial.tle-demo-v45.tle-demo-v46 #bookingStarter #main .tle-v46-word{
+ grid-area:1/1!important;
+ display:block!important;
+ margin:0!important;padding:0!important;
+ width:max-content!important;
+ max-width:none!important;
+ color:#bcecff!important;-webkit-text-fill-color:#bcecff!important;
+ font-weight:750!important;
+ transform-origin:50% 50%!important;
+ backface-visibility:hidden!important;
+ opacity:0;
+ transform:rotateX(-90deg) translateY(.2em);
+ animation:tleV46RotateWord 6s cubic-bezier(.32,.72,0,1) var(--tle-v46-delay,0s) infinite both!important;
+}
+@keyframes tleV46RotateWord{
+ 0%{opacity:0;transform:rotateX(-90deg) translateY(.2em)}
+ 8%{opacity:1;transform:rotateX(0) translateY(0)}
+ 28%{opacity:1;transform:rotateX(0) translateY(0)}
+ 33.33%,100%{opacity:0;transform:rotateX(90deg) translateY(-.2em)}
+}
+@media(max-width:800px){
+ html.demo-editorial.tle-demo-v45.tle-demo-v46 #bookingStarter #main .tle-v42-grid > button.service.tle-service-has-photo-v21 .tle-v46-photo-words{
+  top:24px!important;left:24px!important;right:20px!important;
+  font-size:clamp(14px,3.8vw,18px)!important;
+  line-height:1.4!important;max-width:calc(100% - 44px)!important;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ html.demo-editorial.tle-demo-v45.tle-demo-v46 #bookingStarter #main .tle-v46-word{
+  animation:none!important;transform:none!important;
+  opacity:0!important;
+ }
+ html.demo-editorial.tle-demo-v45.tle-demo-v46 #bookingStarter #main .tle-v46-word:first-child{
+  opacity:1!important;
+ }
+}
