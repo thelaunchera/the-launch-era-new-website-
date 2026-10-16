@@ -24,6 +24,29 @@ afterEach(() => {
 });
 
 describe('The Launch Era shared-element process cards', () => {
+  it('pairs each step with a different relevant first-party photo, including the expanded view', () => {
+    const expected = [
+      '/assets/bundle-landing/bundle-booking.png',
+      '/assets/bundle-landing/bundle-hero.png',
+      '/assets/bundle-landing/bundle-command.png'
+    ];
+    for (const [index, path] of expected.entries()) {
+      const view = render(<ProcessSteps lang="en"/>);
+      const button = screen.getAllByRole('button', { name: /Explore step/ })[index];
+      expect(button.querySelector('img')?.getAttribute('src')).toBe(path);
+      fireEvent.click(button);
+      const photo = screen.getByRole('dialog').querySelector('.tle-process-detail-photo') as HTMLImageElement;
+      expect(photo.getAttribute('src')).toBe(path);
+      expect(photo.alt.toLowerCase()).toContain('cleaning business owners');
+      fireEvent.click(screen.getByRole('button', { name: 'Close step details' }));
+      view.unmount();
+    }
+    render(<ProcessSteps lang="es"/>);
+    fireEvent.click(screen.getByRole('button', { name: /Explorar paso 02/ }));
+    const spanishPhoto = screen.getByRole('dialog').querySelector('.tle-process-detail-photo') as HTMLImageElement;
+    expect(spanishPhoto.alt).toMatch(/Dueñas de un negocio de limpieza/);
+  });
+
   it('opens details and restores keyboard focus without changing the contact flow', () => {
     render(<ProcessSteps lang="en"/>);
     const steps = screen.getAllByRole('button', { name: /Explore step/ });

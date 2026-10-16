@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { flushSync } from 'react-dom';
 import { createPortal } from 'react-dom';
-import { ArrowUpRight, ClipboardList, LayoutDashboard, SlidersHorizontal, X } from 'lucide-react';
+import { ArrowUpRight, X } from 'lucide-react';
 import './process-view-transitions.css';
 
 type Language = 'en' | 'es';
@@ -66,7 +66,19 @@ const copy = {
   }
 } as const;
 
-const icons = [ClipboardList, SlidersHorizontal, LayoutDashboard] as const;
+// First-party photos are already used on our Booking + Command Center landing.
+// One meaningful photograph per step, shared by the small card and detail.
+const stepPhotos = [
+  { src: '/assets/bundle-landing/bundle-booking.png', alt: {
+      en: 'Cleaning business owners working together at a laptop booking page',
+      es: 'Dueñas de un negocio de limpieza trabajando juntas con una página de reservas en una laptop' } },
+  { src: '/assets/bundle-landing/bundle-hero.png', alt: {
+      en: 'Cleaning business owners planning their daily workflow together',
+      es: 'Dueñas de un negocio de limpieza planificando juntas su trabajo diario' } },
+  { src: '/assets/bundle-landing/bundle-command.png', alt: {
+      en: 'Cleaning business owners reviewing their workspace dashboard',
+      es: 'Dueñas de un negocio de limpieza revisando su panel de trabajo' } }
+] as const;
 const motionName = (index: number) => 'tle-process-' + index;
 const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -171,13 +183,12 @@ export function ProcessSteps({ lang = 'en' }: { lang?: Language }) {
   }
 
   const selected = active === null ? null : strings.steps[active];
-  const SelectedIcon = active === null ? null : icons[active];
 
   return <>
     <p className="tle-process-hint">{strings.hint}</p>
     <div className="process-grid tle-process-grid">
       {strings.steps.map((item, index) => {
-        const Icon = icons[index];
+        const photo = stepPhotos[index];
         const number = String(index + 1).padStart(2, '0');
         const isSource = active === null && shared === index;
         return <button
@@ -196,13 +207,13 @@ export function ProcessSteps({ lang = 'en' }: { lang?: Language }) {
             className="tle-process-thumbnail"
             style={{ viewTransitionName: isSource ? motionName(index) : 'none' }}
             aria-hidden="true"
-          ><Icon size={26} strokeWidth={1.7}/></span>
+          ><img className="tle-process-thumbnail-photo" src={photo.src} alt="" loading="lazy" decoding="async"/></span>
           <span className="tle-process-card-copy"><span className="tle-process-card-title">{item.title}</span><span className="tle-process-card-summary">{item.summary}</span></span>
           <span className="tle-process-card-arrow" aria-hidden="true"><ArrowUpRight size={18}/></span>
         </button>;
       })}
     </div>
-    {active !== null && selected && SelectedIcon && createPortal(
+    {active !== null && selected && createPortal(
       <div className="tle-process-overlay" onPointerDown={(event) => {
         if (event.target === event.currentTarget) changeStep(null, active);
       }}>
@@ -216,7 +227,7 @@ export function ProcessSteps({ lang = 'en' }: { lang?: Language }) {
         >
           <button ref={closeButton} type="button" className="tle-process-close" onClick={() => changeStep(null, active)} aria-label={strings.close}><X size={22}/></button>
           <div ref={detailHero} className="tle-process-detail-hero" style={{ viewTransitionName: shared === active ? motionName(active) : 'none' }}>
-            <div className="tle-process-detail-art" aria-hidden="true"><SelectedIcon size={76} strokeWidth={1.25}/></div>
+            <img className="tle-process-detail-photo" src={stepPhotos[active].src} alt={stepPhotos[active].alt[lang]} decoding="async"/>
             <div className="tle-process-detail-index">{strings.step} {String(active + 1).padStart(2, '0')}</div>
           </div>
           <div className="tle-process-detail-body">
