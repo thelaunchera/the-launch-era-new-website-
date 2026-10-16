@@ -740,13 +740,13 @@
   from { transform:translate3d(-4%,4%,0) scale(.98); }
   to { transform:translate3d(14%,-15%,0) scale(1.12); }
 }
-/* Desktop alignment: raise the photo+copy slightly and protect the photo
-   from being clipped in shorter laptop browser viewports. Leave the existing
-   clip-path reveal/scale transitions and portrait tablet layout unchanged. */
+/* One authoritative desktop first-fold alignment. The matching photo and
+   heading stay inside the initial laptop viewport; keep the scroll scaling
+   wrapper, original photo wipe and outer dotted stage unchanged. */
 @media (min-width:1181px) {
   .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro,
   .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
-    top:-104px;
+    top:-72px;
   }
   .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
     height:min(clamp(465px,42vw,590px),calc(100svh - 265px));
@@ -776,24 +776,14 @@
     isolation:isolate;
   }
 }
-/* Desktop with a shorter screen: restore breathing room above and below the
-   existing image, and move the approved content up only ten pixels. Tablet
-   portrait and phone compositions retain all original dimensions. */
-@media (min-width:1200px) {
-  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
-    height:min(clamp(455px,40vw,590px),calc(100svh - 190px));
-    top:-10px;
-  }
-  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro {
-    top:-10px;
-  }
-}
-@media (min-width:1200px) and (max-height:640px) {
+/* Extra-short laptop windows: keep the photo fully visible without
+   placing it on top of the headline or changing tablet/phone layouts. */
+@media (min-width:1181px) and (max-height:640px) {
   .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
     height:min(60svh,430px);
-    top:-6px;
+    top:-40px;
   }
   .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro {
-    top:-6px;
+    top:-40px;
   }
 }
