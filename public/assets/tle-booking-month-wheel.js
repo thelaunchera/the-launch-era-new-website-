@@ -32,16 +32,16 @@ section.innerHTML=[
 '<p class="appt-mini">BOOKING DEMO</p><h3 id="apptTitle"></h3>',
 '<div class="appt-provider"><span class="appt-provider-avatar" id="apptAvatar" aria-hidden="true">CL</span>',
 '<div class="appt-provider-info"><strong id="apptProvider"></strong><small id="apptService"></small><span class="appt-sample-badge" id="apptBadge"></span></div></div>',
-'<div class="appt-month-bar"><strong id="apptMonth" aria-live="polite"></strong><div class="appt-month-actions">',
+'<div class="appt-date-pane"><div class="appt-month-bar"><strong id="apptMonth" aria-live="polite"></strong><div class="appt-month-actions">',
 '<button type="button" id="apptPrev" aria-label="Previous month">‹</button><button type="button" id="apptNext" aria-label="Next month">›</button></div></div>',
-'<div id="apptWeekdays" class="appt-weekdays" aria-hidden="true"></div><div id="apptDays" class="appt-days" role="radiogroup" aria-label="Preferred day"></div>',
-'<hr class="appt-divider"><div class="appt-time-heading"><h3 id="apptTimeHeading"></h3><output id="apptReadout" class="appt-readout" aria-live="polite">9:00 AM</output></div>',
+'<div id="apptWeekdays" class="appt-weekdays" aria-hidden="true"></div><div id="apptDays" class="appt-days" role="radiogroup" aria-label="Preferred day"></div></div>',
+'<div class="appt-time-pane"><hr class="appt-divider"><div class="appt-time-heading"><h3 id="apptTimeHeading"></h3><output id="apptReadout" class="appt-readout" aria-live="polite">9:00 AM</output></div>',
 '<div class="appt-wheel-frame"><div class="appt-wheel-band" aria-hidden="true"></div>',
 '<div id="apptHours" class="appt-wheel" role="listbox" aria-label="Hours" tabindex="0"></div>',
 '<div id="apptMinutes" class="appt-wheel" role="listbox" aria-label="Minutes" tabindex="0"></div>',
 '<div id="apptPeriod" class="appt-wheel" role="listbox" aria-label="AM or PM" tabindex="0"></div></div>',
 '<button type="button" id="apptUseTime" class="appt-use-time"></button>',
-'<p class="appt-time-help" id="apptHelp"></p><input type="hidden" id="tlePreferredTime" name="tlePreferredTime">',
+'<p class="appt-time-help" id="apptHelp"></p><input type="hidden" id="tlePreferredTime" name="tlePreferredTime"></div>',
 '<div class="appt-sticky"><button type="button" id="apptContinue" disabled></button></div><p class="appt-note" id="apptNote"></p>'
 ].join('');
 form.querySelector('.actions').before(section);
