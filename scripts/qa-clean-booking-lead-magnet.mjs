@@ -76,9 +76,10 @@ try {
 
   if(width===360||width===390){
    await page.locator('.service[data-id=deep]').click();
-   assert.equal(await page.locator('#chooseNext').isEnabled(),true);
-   await page.locator('#chooseNext').click();
    assert.equal(await page.locator('#detailsPanel').isVisible(),true);
+  assert.equal(await page.locator('#chooseNext').isVisible(),false,'No extra scroll for Continue');
+  assert.equal(await page.locator('input[name="demo-frequency"]').count(),4);
+  
    await page.locator('#customerName').fill('Demo Test');
    await page.locator('#customerEmail').fill('test@example.invalid');
    await page.locator('#customerZip').fill('33139');
@@ -105,7 +106,6 @@ try {
     assert.equal(await page.locator('#comServices').isVisible(),true);
     assert.equal(await page.locator('#resServices').isVisible(),false);
     await page.locator('.service[data-id=medical]').click();
-    await page.locator('#chooseNext').click();
     assert.equal(await page.locator('#comDetails').isVisible(),true);
     assert.equal(await page.locator('#resDetails').isVisible(),false);
     await page.locator('#backDetails').click();
