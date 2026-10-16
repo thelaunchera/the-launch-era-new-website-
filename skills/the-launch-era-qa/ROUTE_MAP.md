@@ -1,3 +1,9 @@
+## 2026-10-16 — Homepage logo marquee positioned below final CTA
+- **Routes:** English `/` and Spanish `/es/` in `src/routes/index.tsx` / `src/routes/es.index.tsx`.
+- **Order:** Contact form / process section → final blue Booking CTA → the existing `WorkflowLogoMarquee` (two rows) → services FAQ.
+- **Preserved:** the marquee's motion, first-party labels and accessibility, the promo CTA destination and price, the contact form handler, footer/FAQ, the booking demo, private routes and CB Depot. No new links or backend changes.
+- **Release QA:** confirm exactly one marquee, below the final CTA and above FAQ at 360/390/820/1024/1440 widths in both languages. GitHub Pages production verify required.
+
 ## 2026-10-16 — Service-photo checkboxes removed; optional choices inside booking details
 - **Owner/URL:** public unkeyed `public/booking-demo-reset.html` at `https://thelaunchera.com/booking-demo-reset.html`, including the Jessie personalized-email redirect. Paid `?key`/owner pages, real tenant forms, apps, payments, and CB Depot unaffected.
 - **Service step:** all six image-card `.service-photo-check` overlays deleted from HTML and scoped bubble CSS; cards remain fully clickable buttons with existing `aria-pressed` + blue selection outline; tapping a service still opens Step 2 directly and Back retains the selected service.
