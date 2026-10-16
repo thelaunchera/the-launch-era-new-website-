@@ -17,13 +17,13 @@ const faqs: Record<Topic, Record<Language, [string, string][]>> = {
     ],
     es: [
       ['¿Cuándo estará listo mi servicio?', 'Primero revisamos tu pago, formulario y accesos necesarios. Las 48 horas estimadas de producción comienzan solo cuando aprobamos el proyecto y recibes el correo de inicio. Los datos faltantes, los cierres o las demoras de terceros pueden afectar el plazo estimado.'],
-      ['¿Dónde encuentro el correo de compra?', 'Te enviaremos la confirmación y los próximos pasos por correo. Si no aparecen, revisa también Promociones y Spam.'],
-      ['¿Qué servicio necesita mi negocio de limpieza?', 'Si las nuevas solicitudes se te pierden entre mensajes, empieza por Booking Automation + Command Center. Los asistentes de IA pueden responder preguntas sobre reservas, ayudar con seguimientos autorizados o hacer ambas cosas. La Cleaning App organiza clientes y trabajos; Website Automation conecta tu website actual; y Virtual Assistant te ayuda con tareas administrativas.'],
+      ['¿Dónde encuentro el correo de compra?', 'Te enviaremos la confirmación y los próximos pasos por correo. Si no ves el correo, revisa también Promociones y Correo no deseado.'],
+      ['¿Qué servicio necesita mi negocio de limpieza?', 'Si las nuevas solicitudes se te pierden entre mensajes, empieza por Booking Automation + Command Center. Los asistentes de IA pueden responder preguntas sobre reservas, ayudar con seguimientos autorizados o hacer ambas cosas. La Cleaning App reúne clientes, trabajos, cotizaciones y facturas; Website Automation conecta el formulario de tu website actual; y Virtual Assistant te ayuda con tareas administrativas.'],
       ['¿El AI Assistant viene incluido en Booking Automation + Command Center?', 'No. Es un sistema independiente y opcional, con su propio precio de instalación y plan. Podemos integrarlo a tu Booking Page o website, pero no está incluido en la compra de Booking Automation + Command Center.'],
       ['¿Puedo comenzar con un solo servicio?', 'Sí. Cada servicio tiene su propia página y proceso de compra. Empieza por lo que más necesita tu negocio.'],
       ['¿Puedo ver cómo funciona antes de comprar?', 'Sí. Solicita la demo personalizada de Booking Page o prueba el asistente de reservas con IA. También puedes explorar la demo de Cleaning App y la vista de Website Automation. Los otros agentes de IA no tienen demos independientes.'],
       ['¿Qué pasa después de pagar?', 'Si compraste un servicio personalizado, sigue los pasos después del pago y comparte los datos de tu negocio. Cada página explica su proceso. Para Cleaning App, crea una cuenta y comienza tu prueba.'],
-      ['¿Puedo recibir atención en español?', 'Sí. Puedes explorar el website y la información de los servicios en inglés o español.']
+      ['¿Puedo recibir atención en español?', 'Sí. Puedes ver los servicios y enviar tus consultas en inglés o en español.']
     ]
   },
   website: {
