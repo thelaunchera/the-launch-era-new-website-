@@ -7,9 +7,13 @@ assert.ok(widget.includes("business_name:demoBusiness.value.trim()"));
 assert.ok(widget.includes("service_area:demoArea.value.trim()"));
 assert.ok(widget.includes("email:demoEmail.value.trim()"));
 assert.ok(widget.includes("consent:demoConsent.checked"));
-assert.ok(widget.includes("data.email_sent!==true"),"Only a provider-confirmed email unlocks the demo and inbox message");
-assert.match(widget,/Check your inbox![\s\S]{0,70}my friend Sonny/);
-assert.ok(widget.includes('openDemo("booking")'),"Sonny reuses the original booking sample");
+assert.ok(widget.includes("data.email_sent!==true"),"Only a provider-confirmed email allows a success confirmation");
+assert.match(widget,/Check your email for your personalized demo/);
+assert.match(widget,/Don.t forget to try a live booking with my friend Sonny/);
+assert.match(widget,/simulation, not a real booking/);
+assert.match(widget,/demoConfirmation.hidden=false/,"The confirmation appears inside the chat modal");
+assert.doesNotMatch(widget,/tle-jessy-demo-frame|demoFrame\.src/,"No preview opens immediately after form submission");
+assert.doesNotMatch(widget,/tleOpenSonnyDemo/,"Sonny runs exclusively in the emailed original sample");
 assert.ok(api.includes("jessie_demo_sent")&&api.includes('event_type:"email_sent"'));
 assert.ok(api.includes("email_followup_enabled:false"),"Demo request cannot enable follow-up subscription");
 assert.ok(api.includes("tle-crm-interest?lead="),"Interest requires a separate explicit confirmation");
@@ -25,4 +29,4 @@ assert.equal(unauthorized.status,401,"Anonymous visitors cannot read owner Jessi
 const invalidMetric=await fetch(endpoint+"tle-jessie-metrics",{method:"POST",headers,
  body:JSON.stringify({event:"private_transcript",service:"booking",intent:"demo",language:"en"})});
 assert.equal(invalidMetric.status,400,"Unknown metrics must be rejected, no transcripts stored");
-console.log("PASS Jessie demo asks business/email/area and consent, blocks unsent mail claims, links Sonny & double opt-in, and guards owner analytics.");
+console.log("PASS Jessie demo asks business/email/area and consent, blocks unsent mail claims, keeps Sonny in the emailed demo & double opt-in, and guards owner analytics.");
