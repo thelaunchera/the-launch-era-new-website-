@@ -9,6 +9,7 @@ on:
       - 'src/routes/es.index.tsx'
       - 'src/routes/__root.tsx'
       - 'public/assets/tle-booking-tones.css'
+      - 'public/assets/tle-marketing-cta-motion.css'
       - 'scripts/qa-home-booking-tones.mjs'
       - 'scripts/qa-home-booking-tones-browser.mjs'
       - 'scripts/qa-homepage-horizontal-centering.mjs'
