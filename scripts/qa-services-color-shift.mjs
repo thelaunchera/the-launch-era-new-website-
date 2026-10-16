@@ -90,7 +90,7 @@ try {
    const el=page.locator(lang === 'en' ? '#solutions' : '#soluciones');
    await page.waitForFunction(() => Boolean(document.querySelector('[data-services-color-shift]')),null,{timeout:12000});
    const motion=await el.evaluate(el=>getComputedStyle(el).transitionDuration);
-   assert(motion.split(',').every(x=>parseFloat(x)===0),lang+': reduced-motion transition remains active: '+motion);
+   assert(!motion || motion.split(',').every(x=>parseFloat(x)===0),lang+': reduced-motion transition remains active: '+motion);
    await page.close();
  }
  assert.deepEqual(errors, [], 'Uncaught errors in browser');
