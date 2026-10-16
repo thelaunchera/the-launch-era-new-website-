@@ -205,7 +205,10 @@ assert.match(front,/if\(next==="demo"&&offer==="booking"\)showDemoCard\("booking
 assert.match(front,/else if\(next==="demo"&&offer!=="booking"&&info\)/);
 assert.match(front,/demoGate\.addEventListener\("submit"/);
 assert.match(front,/data\.email_sent!==true/);
-assert.match(front,/Check your inbox!.*my friend Sonny/);
+assert.match(front,/Check your email for your personalized demo/);
+assert.match(front,/Don.t forget to try a live booking with my friend Sonny/);
+assert.match(front,/simulation, not a real booking/);
+assert.doesNotMatch(front,/tle-jessy-demo-frame/,"Jessie must never embed the emailed demo");
 assert.match(front,/service_area:demoArea\.value\.trim\(\)/);
 assert.doesNotMatch(front,/if\(!showAiPlanChoices\(result\.ai_plans\)&&\(checkout\|\|info\|\|result\.trial\)\)/);
 assert.doesNotMatch(front,/actions\(null,"\/solutions"\)/);
