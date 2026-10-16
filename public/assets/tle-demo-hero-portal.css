@@ -165,3 +165,22 @@ body .sonny:not(:has(.sonny-body:not([hidden]))) .sonny-head button{padding:9px 
   max-width:calc(100vw - 42px);
  }
 }
+
+
+/* Fade the cross-out line AFTER the old word disappears. In the previous
+   mobile hero the strike stayed across the NEW "remarkable" headline. */
+@keyframes booking-strike-complete{
+ 0%{transform:scaleX(0);opacity:1}
+ 30%{transform:scaleX(1);opacity:1}
+ 51%{transform:scaleX(1);opacity:1}
+ 100%{transform:scaleX(1);opacity:0}
+}
+.booking-portal-copy.is-active .booking-portal-strike{
+ animation:booking-strike-complete 1.1s cubic-bezier(.32,.72,0,1) .18s both;
+}
+.booking-portal-copy .booking-portal-new{color:#1b6188}
+.booking-portal-copy .booking-portal-old{color:#15394f}
+.booking-portal-copy p.booking-portal-sub{color:#28516d}
+@media(prefers-reduced-motion:reduce){
+ .booking-portal-copy.is-active .booking-portal-strike{animation:none;opacity:0}
+}
