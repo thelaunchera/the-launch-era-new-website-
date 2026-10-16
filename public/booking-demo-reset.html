@@ -396,55 +396,7 @@
       [copy.date,$('preferredDate').value],
       [lang==='es'?'Hora preferida':'Preferred time', $('tlePreferredTime')?.value||'Flexible'],
       [copy.frequency,kind==='residential'&&!custom?frequency:copy.other],
-      [copy.estimate,selected.price?'
-    ];
-    data.forEach(x=>list.append(makeRow(...x)));
-  }
-  $('language').addEventListener('change',event=>{lang=event.target.value;updateWords();});
-  for(const fieldId of ['beds','baths','frequency']){
-    const select=$(fieldId);
-    document.querySelectorAll('input[name="demo-'+fieldId+'"]').forEach(radio=>{
-      radio.addEventListener('change',()=>{
-        if(radio.checked){
-          select.value=radio.value;
-          select.dispatchEvent(new Event('change',{bubbles:true}));
-        }
-      });
-    });
-  }
-  $('resTab').addEventListener('click',()=>chooseKind('residential'));
-  $('comTab').addEventListener('click',()=>chooseKind('commercial'));
-  document.querySelectorAll('.service').forEach(button=>button.addEventListener('click',()=>chooseService(button)));
-  $('customQuote').addEventListener('click',()=>{
-    custom=true;selected={id:'other',kind,price:null};
-    document.querySelectorAll('.service').forEach(el=>el.setAttribute('aria-pressed','false'));
-    $('chooseNext').disabled=false;showStep(2);
-  });
-  $('chooseNext').addEventListener('click',()=>{if(selected)showStep(2);});
-  $('backDetails').addEventListener('click',()=>showStep(1));
-  $('detailsPanel').addEventListener('submit',event=>{
-    event.preventDefault();
-    const inputs=['customerName','customerEmail','customerZip','preferredDate'].map($);
-    const bad=inputs.find(el=>!el.value.trim()||!el.checkValidity());
-    if(bad){bad.focus();bad.reportValidity();return;}
-    if(!/^[A-Za-z0-9 -]{5,10}$/.test($('customerZip').value.trim())){$('customerZip').focus();$('customerZip').setCustomValidity(dict().invalid);$('customerZip').reportValidity();$('customerZip').setCustomValidity('');return;}
-    if($('preferredDate').value<today()){$('preferredDate').focus();$('preferredDate').setCustomValidity(dict().dateInvalid);$('preferredDate').reportValidity();$('preferredDate').setCustomValidity('');return;}
-    showStep(3);
-  });
-  $('backReview').addEventListener('click',()=>showStep(2));
-  $('finish').addEventListener('click',()=>showStep(4));
-  $('restart').addEventListener('click',()=>{
-    $('detailsPanel').reset();$('preferredDate').min=today();chooseKind('residential');showStep(1);
-  });
-  chooseKind('residential');updateWords();
-})();
-</script>
-<script src="/assets/tle-demo-reset-lead-magnet.js?v=20261016-detail-options3"></script>
-<script src="/assets/tle-booking-month-wheel.js?v=20261016-responsive2" defer></script>
-<script src="/assets/tle-demo-hero-portal.js?v=20261016-strike4" defer></script>
-</body>
-</html>
-+selected.price+'*':copy.quote],
+      [copy.estimate,selected.price?'$'+selected.price+'*':copy.quote],
       ...(kind==='residential'&&!custom&&selectedExtras.length?[[copy.bookingExtrasTitle,selectedExtras.join(', ')]]:[]),
       [copy.details,$('notes').value.trim()||copy.none]
     ];
@@ -489,7 +441,7 @@
   chooseKind('residential');updateWords();
 })();
 </script>
-<script src="/assets/tle-demo-reset-lead-magnet.js?v=20261016-sonny-mobile-safe3"></script>
+<script src="/assets/tle-demo-reset-lead-magnet.js?v=20261016-detail-options3"></script>
 <script src="/assets/tle-booking-month-wheel.js?v=20261016-responsive2" defer></script>
 <script src="/assets/tle-demo-hero-portal.js?v=20261016-strike4" defer></script>
 </body>
