@@ -108,6 +108,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: "/assets/tle-saas-ui-v1.css?v=20261013-1" },
       { rel: "stylesheet", href: "/assets/tle-hero-scroll.css?v=20261016-1" },
       { rel: "stylesheet", href: "/assets/tle-marketing-cta-motion.css?v=20261016-2" },
+      { rel: "stylesheet", href: "/assets/tle-pricing-motion.css?v=20261016-1" },
       { rel: "stylesheet", href: "/assets/tle-services-color-shift.css?v=20261016-1" },
       { rel: "stylesheet", href: "/assets/tle-purchase-proof.css?v=20261016-1" },
       { rel: "stylesheet", href: "/assets/tle-footer-newsletter.css?v=20261016-ios2" },
@@ -185,6 +186,18 @@ function RootComponent() {
     element.setAttribute('data-tle-service-motion', '1');
     document.body.appendChild(element);
     return () => { element.remove(); };
+  }, []);
+
+  // Public pricing enhancements mount only after React hydration; this must
+  // never run inside the checkout, demo or private Command Center.
+  useEffect(() => {
+    if (/\\/(?:booking-demo|cleaning-app-demo|lead-private-preview|command-center|service-checkout)(?:\\/|$)/.test(window.location.pathname)) return;
+    const script=document.createElement('script');
+    script.src='/assets/tle-pricing-motion.js?v=20261016-1';
+    script.async=true;
+    script.setAttribute('data-tle-pricing-motion','1');
+    document.body.appendChild(script);
+    return ()=>{script.remove();};
   }, []);
 
   return (
