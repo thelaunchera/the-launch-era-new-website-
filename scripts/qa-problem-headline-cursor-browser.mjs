@@ -21,7 +21,7 @@ async function inspect(page,lang,width,expectEnabled){
   assert.equal(await original.count(),1,lang+' '+width+': SEO heading missing');
   assert.equal(await clone.count(),1,lang+' '+width+': decorative copy missing');
   assert.equal(await colored.getAttribute('aria-hidden'),'true');
-  assert.equal(await original.innerText(),await clone.innerText(),'Text layers diverged');
+  assert.equal(await original.textContent(),await clone.textContent(),'Text layers diverged');
   assert.equal(await colored.evaluate(el=>getComputedStyle(el).pointerEvents),'none');
   const geometry=await block.evaluate(el=>{
     const orig=el.querySelector('.tle-mask-headline__base');
