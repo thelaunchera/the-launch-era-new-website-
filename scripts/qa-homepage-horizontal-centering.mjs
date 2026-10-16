@@ -1,5 +1,6 @@
 /* Diagnostics-only: locate actual viewport overflow without hiding or shifting any content. */
 import { chromium } from 'playwright';
+import assert from 'node:assert/strict';
 const browser = await chromium.launch({headless:true});
 const base=(process.env.QA_URL || 'http://127.0.0.1:4173').replace(/\/$/,'');
 for (const [lang,path] of [['en','/'],['es','/es/']]) {
@@ -30,6 +31,7 @@ for (const [lang,path] of [['en','/'],['es','/es/']]) {
      return {before,view:root.clientWidth,sections:values};
    });
    console.log('SECTION_DIAG '+JSON.stringify({lang,width,mobile,...isolation}));
+   const observed=[];
    for (const phase of ['top','hero','booking','end']) {
      const state=await page.evaluate(phase=>{
        const html=document.documentElement, body=document.body, main=document.querySelector('.sales-home');
@@ -51,8 +53,13 @@ for (const [lang,path] of [['en','/'],['es','/es/']]) {
        }
        return {phase,innerWidth:view,clientWidth:html.clientWidth,scrollWidth:html.scrollWidth,bodyWidth:body.scrollWidth,mainWidth:main?.scrollWidth,visualWidth:visualViewport?.width,scrollX,offenders:over.sort((a,b)=>b.extra-a.extra).slice(0,25)};
      },phase);
+     observed.push(state);
      await page.waitForTimeout(120);
-     console.log('CENTRING_DIAG '+JSON.stringify({lang,width,mobile,...state,errors:errors.slice(0,2)}));
+     console.log('CENTRING_DIAG +JSON.stringify({lang,width,mobile,...state,errors:errors.slice(0,2)}));
+   }
+   if(width<768) {
+     const offending=observed.filter(x=>x.scrollWidth>x.clientWidth+2);
+     assert.equal(offending.length,0,lang+' '+width+' mobile='+mobile+': document must remain horizontally centered at ALL story phases: '+JSON.stringify(offending.map(x=>({phase:x.phase,scroll:x.scrollWidth,view:x.clientWidth}))));
    }
    await page.close();
   }
