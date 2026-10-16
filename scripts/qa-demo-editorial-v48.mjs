@@ -49,7 +49,7 @@ try {
       servicePhotos:list.map(el=>el.querySelector(".tle-service-photo-v21 img")?.getAttribute("src")),
       samplePrices:document.querySelector("#residentialServiceList")?.textContent,
       singleVisibleQuote:[...document.querySelectorAll("#residentialServiceList>button")].filter(el=>{
-        if(!/quote/i.test(el.textContent))return false;
+        if(!/quote|cotiz/i.test(el.textContent))return false;
         const st=getComputedStyle(el),r=el.getBoundingClientRect();
         return !el.hidden&&st.display!=="none"&&r.width>0&&r.height>0;
       }).length,
@@ -140,7 +140,7 @@ for(const lang of ["en","es"]){
   await p.waitForSelector("html.tle-demo-v48",{timeout:18000});
   const v=await p.evaluate(()=>({overflow:document.documentElement.scrollWidth-innerWidth,
     story:!!document.getElementById("tle48Story"),
-    quotes:[...document.querySelectorAll("#residentialServiceList>button")].filter(e=>/quote/i.test(e.textContent)&&!e.hidden&&getComputedStyle(e).display!=="none").length}));
+    quotes:[...document.querySelectorAll("#residentialServiceList>button")].filter(e=>/quote|cotiz/i.test(e.textContent)&&!e.hidden&&getComputedStyle(e).display!=="none").length}));
   assert(v.overflow<=7&&v.story&&v.quotes===1,"Safari iPhone layout: "+JSON.stringify(v));
   await p.locator("#leadHero .demo-hero-cta").click();
   await p.waitForSelector("html.tle-demo-booking-active",{timeout:10000});
