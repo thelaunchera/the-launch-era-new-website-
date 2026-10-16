@@ -681,3 +681,66 @@
   .sales-home .hero-scroll-reveal { gap: 9px; }
   .sales-home .hero-scroll-reveal > span { font-size: 11px; }
 }
+
+
+/* Homepage desktop only: 4 quiet, independently drifting soft-blue gradients
+   below the existing copy, photo, notification cards and scroll animation. */
+@media (min-width:1024px) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .tle-hero-soft-mesh {
+    position:absolute;inset:0;z-index:0;overflow:hidden;
+    pointer-events:none;border-radius:inherit;background:transparent;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
+    z-index:2; /* Photo and overlays always paint above the mesh. */
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .tle-hero-soft-mesh > span {
+    position:absolute;display:block;aspect-ratio:1;border-radius:50%;
+    pointer-events:none;transform:translate3d(0,0,0);will-change:transform;
+  }
+  .sales-home .tle-hero-soft-mesh > span:nth-child(1) {
+    width:clamp(360px,45vw,740px);left:-13%;top:-31%;
+    background:radial-gradient(circle,rgba(167,216,245,.42) 0%,rgba(167,216,245,0) 68%);
+    animation:tle-hero-mesh-a 9.5s ease-in-out infinite alternate;
+  }
+  .sales-home .tle-hero-soft-mesh > span:nth-child(2) {
+    width:clamp(330px,40vw,650px);left:12%;top:54%;
+    background:radial-gradient(circle,rgba(207,234,250,.55) 0%,rgba(207,234,250,0) 68%);
+    animation:tle-hero-mesh-b 11.7s ease-in-out infinite alternate;
+  }
+  .sales-home .tle-hero-soft-mesh > span:nth-child(3) {
+    width:clamp(330px,42vw,680px);left:43%;top:-23%;
+    background:radial-gradient(circle,rgba(127,186,225,.26) 0%,rgba(127,186,225,0) 68%);
+    animation:tle-hero-mesh-c 8.6s ease-in-out infinite alternate;
+  }
+  .sales-home .tle-hero-soft-mesh > span:nth-child(4) {
+    width:clamp(270px,30vw,520px);left:52%;top:66%;
+    background:radial-gradient(circle,rgba(233,245,252,.68) 0%,rgba(233,245,252,0) 68%);
+    animation:tle-hero-mesh-d 10.8s ease-in-out infinite alternate;
+  }
+}
+@keyframes tle-hero-mesh-a {
+  from { transform:translate3d(-3%,0,0) scale(.95); }
+  to { transform:translate3d(18%,9%,0) scale(1.12); }
+}
+@keyframes tle-hero-mesh-b {
+  from { transform:translate3d(8%,-8%,0) scale(1.04); }
+  to { transform:translate3d(-15%,6%,0) scale(.9); }
+}
+@keyframes tle-hero-mesh-c {
+  from { transform:translate3d(2%,8%,0) scale(.92); }
+  to { transform:translate3d(-16%,-8%,0) scale(1.09); }
+}
+@keyframes tle-hero-mesh-d {
+  from { transform:translate3d(-4%,4%,0) scale(.98); }
+  to { transform:translate3d(14%,-15%,0) scale(1.12); }
+}
+@media (max-width:1023px) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .tle-hero-soft-mesh {
+    display:none;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .tle-hero-soft-mesh > span {
+    animation:none!important;transform:none!important;will-change:auto;
+  }
+}
