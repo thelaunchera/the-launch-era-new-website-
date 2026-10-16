@@ -1,5 +1,12 @@
 # ROUTE_MAP.md — The Launch Era route & button registry
 
+## Homepage services GSAP five-phase palette (2026-10-16)
+- **Scope**: existing six sales cards remain in place on EN `/#solutions`, ES `/es/#soluciones` and the shared EN `/solutions` presentation. Background/text colors shift only inside `.solutions-section[data-services-color-shift]`; does not theme the site header, demo, buyer previews, checkout, Cleaning App or Command Centers.
+- **Entry navigation**: compact, five-phase progress wordmark with three decorative bars and a functioning internal Explore anchor, EN `#service-rail-en` / ES `#service-rail-es`. Existing per-card link destinations, photographs, offers, Stripe checkout flow, and the iPhone horizontal scroll-snap remain unchanged.
+- **Motion**: `src/components/services-color-motion.tsx`, GSAP 3 + ScrollTrigger loaded only when the services section mounts. Vertical scroll advances five high-contrast brand palette states, with a horizontally swiped card determining the palette on phones. `gsap.context` reverts scroll animations on React unmount; reduced-motion settings use instant changes without card entrance tweens; unavailable CDN keeps static accessible colors.
+- **CSS**: `public/assets/tle-services-color-shift.css` loaded in `src/routes/__root.tsx` after base SaaS styles. Card surfaces retain fixed dark typography to remain readable on blue/dark chapter backgrounds. Contrast tested above 4.5:1 for each section background/text pair. QA: 360/390/768/820/1024/1440 widths, EN/ES scroll & swipe, reduced motion, anchors, no horizontal overflow, no unintended link changes.
+
+
 ## Footer newsletter signup (2026-10-16)
 - **Scope:** shared TanStack public SiteFooter for EN/ES marketing pages, source `src/components/site-shell.tsx`; no checkout, booking demo, Cleaning App, protected CRM or client-specific pages changed.
 - **Assets:** `public/assets/tle-footer-newsletter.css` and `public/assets/tle-footer-newsletter.js`, both loaded by `src/routes/__root.tsx`. Native form submit handler, no widget dependencies. The form's 42px pill has inline validation/errors; its success mask animates from button to input after a real `ok:true` POST, keeps its done state, and uses reduced-motion opacity fallback.
