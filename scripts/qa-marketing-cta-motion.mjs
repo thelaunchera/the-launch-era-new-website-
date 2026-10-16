@@ -59,14 +59,15 @@ mkdirSync('qa-screenshots',{recursive:true});
 try{
  for(const route of ['/','/es/','/booking-lead-automation/','/es/booking-lead-automation/','/cleaning-web-app/','/es/cleaning-web-app/','/ai-booking-assistant/','/es/ai-booking-assistant/']){
   for(const viewport of sizes){
+   console.log('[TLE CTA]',route,viewport.width);
    const page=await browser.newPage({viewport});
    page.on('pageerror',error=>errors.push(route+' '+viewport.width+' '+error.message));
    await page.goto(site+route,{waitUntil:'domcontentloaded',timeout:45000});
    // Hydration may replace SSR nodes after DOMContentLoaded. Wait for real CSS,
    // not just an attached element, to avoid false visual passes or false failures.
    await page.waitForFunction(()=>{
-     const el=document.querySelector('.tle-cta-pulse-ring');
-     return el?.isConnected && ['tle-cta-quiet-pulse','tle-final-mobile-safe-pulse'].includes(getComputedStyle(el).animationName);
+     const rings=[...document.querySelectorAll('.tle-cta-pulse-ring')];
+     return rings.some(el=>el.isConnected&&['tle-cta-quiet-pulse','tle-final-mobile-safe-pulse'].includes(getComputedStyle(el).animationName));
    },null,{timeout:18000});
    const ctas=page.locator('.tle-cta-pulse-shell');
    await ctas.first().waitFor({state:'attached',timeout:14000});
