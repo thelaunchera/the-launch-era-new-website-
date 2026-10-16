@@ -32,7 +32,7 @@ jobs:
         run: |
           bun install
           mkdir -p /tmp/tle-v45-pw
-          cd /tmp/tle-v44-pw
+          cd /tmp/tle-v45-pw
           npm init -y >/dev/null
           npm install --no-audit --no-fund playwright@1.57.0
           npx playwright install --with-deps chromium
