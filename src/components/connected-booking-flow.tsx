@@ -19,12 +19,12 @@ const messages: Record<Language,HubNode[]> = {
   {heading:'Booked jobs',short:'Your next steps',detail:'Approved bookings and jobs are easier to find and manage from your private workspace.'}
  ],
  es:[
-  {heading:'Solicitudes',short:'Desde tu Booking Page',detail:'Tu Booking Page reúne el servicio que necesita el cliente para comenzar la solicitud de forma clara.'},
-  {heading:'Datos del cliente',short:'Contacto en un lugar',detail:'El cliente comparte su nombre, contacto y ubicación para que puedas revisar su solicitud.'},
-  {heading:'Fechas preferidas',short:'Horarios solicitados',detail:'Tus clientes pueden pedir fecha y horario; tú decides qué reservas se confirman.'},
+  {heading:'Nueva solicitud',short:'Desde tu Booking Page',detail:'Tu cliente elige el servicio que necesita y la solicitud llega con ese dato desde el principio.'},
+  {heading:'Datos del cliente',short:'Sus datos, juntos',detail:'Nombre, forma de contacto y ubicación: todo listo para que revises la solicitud.'},
+  {heading:'Fecha y horario',short:'Horario solicitado',detail:'Tu cliente indica cuándo le gustaría recibir la limpieza. Tú decides qué reservas confirmar.'},
   {heading:'Cotizaciones',short:'Precios bajo tu control',detail:'Revisa los detalles de la limpieza y edita o confirma la cotización final.'},
   {heading:'Seguimiento',short:'Hasta dos recordatorios',detail:'Las consultas elegibles pueden recibir hasta dos seguimientos automáticos bajo tu control.'},
-  {heading:'Trabajos reservados',short:'Tus próximos pasos',detail:'Encuentra y organiza las reservas y trabajos aprobados en tu espacio privado.'}
+  {heading:'Trabajos confirmados',short:'Tu agenda, más clara',detail:'Revisa las reservas aprobadas y los próximos trabajos desde tu espacio privado.'}
  ]
 };
 const icons=[ClipboardList,UsersRound,CalendarDays,FileText,BellRing,CalendarCheck2];
@@ -53,8 +53,8 @@ export function ConnectedBookingFlow({lang='en'}:{lang?:Language}){
  return <div ref={root} className={'tle-connected-flow tle-connection-hub'+(inView?' is-visible':'')}>
   <div className="tle-connected-flow__intro">
    <span className="eyebrow">{es?'ASÍ SE CONECTA TU FLUJO':'YOUR FLOW, CONNECTED'}</span>
-   <h3>{es?'Todo conectado. Nada perdido.':'Every request has its place.'}</h3>
-   <p>{es?'Seis partes de tu sistema, conectadas a tu Command Center privado. Este es un recorrido ilustrativo.':'Six parts of your booking system connected to your private Command Center. An illustrative walkthrough.'}</p>
+   <h3>{es?'De la consulta al próximo trabajo.':'Every request has its place.'}</h3>
+   <p>{es?'Mira cómo llegan los datos de tu Booking Page al Command Center y qué puedes hacer después. Este recorrido usa ejemplos.':'Six parts of your booking system connected to your private Command Center. An illustrative walkthrough.'}</p>
   </div>
   <div className="tle-connection-hub__stage" aria-label={es?'Diagrama de seis funciones conectadas al Command Center privado':'Six booking functions connected to the private Command Center'}>
    <svg className="tle-connection-hub__svg" viewBox="0 0 160 100" preserveAspectRatio="none" aria-hidden="true">
