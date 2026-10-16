@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import './booking-scrollytelling.css';
+import { FAQTopicTabs } from './faq-topic-tabs';
 import { ArrowRight, CalendarCheck2, ClipboardList, Send, Plus } from 'lucide-react';
 
 type Language = 'en' | 'es';
@@ -122,5 +123,6 @@ export function PurchaseClarity({lang='en'}:{lang?:Language}) {
  ['Can I change prices and availability?','Yes. Edit flat rates, estimated starting prices, and extras in your pricing settings, and your schedule in your calendar settings. Preview and adjust a customer quote before sending.'],
  ['Who handles the follow-up emails?','We handle up to two automatic follow-ups for eligible unanswered quotes. You can preview the emails, and they stop when the customer responds. A third personal email is always your choice: send it or stop contacting.']
  ];
- return <div className="purchase-clarity"><p>{es?'Tu Booking Page + tu Command Center privado, personalizados para tu negocio.':'Your Booking Page + your private Command Center, personalized for your business.'}</p>{questions.map(([q,a])=><details key={q}><summary>{q}<Plus size={17}/></summary><p>{a}</p></details>)}</div>;
+ return <div className="purchase-clarity"><p>{es?'Tu Booking Page + tu Command Center privado, personalizados para tu negocio.':'Your Booking Page + your private Command Center, personalized for your business.'}</p><FAQTopicTabs lang={lang} billing={[questions[1]]} account={questions.filter((_,index)=>index!==1)} /></div>;
+
 }

@@ -1,3 +1,9 @@
+## Shared public FAQ topic tabs (2026-10-16)
+- **Public EN/ES only:** shared marketing FAQ in homepage `/#faq`, website automation and virtual assistant pages, plus Booking Automation + Command Center and Cleaning App service-sales FAQs.
+- **Source:** `src/components/faq-topic-tabs.tsx` and scoped `faq-topic-tabs.css`, consumed by existing `service-faq.tsx`, `home-sales.tsx`, `service-sales.tsx`. Existing question/answer text, accordions, checkout and demos are preserved; general privacy questions link to the existing public EN/ES Privacy Policy. No new routes or backend actions.
+- **UX:** three Billing/Account/Privacy tabs (Pagos/Cuenta/Privacidad in ES), visible 2.5px moving blue underline, horizontal fade/slide of absolutely stacked panels, measured active height, native `details/summary` accordions. Tabs use roving tabindex, Left/Right/Home/End, paired `aria-controls`/`aria-labelledby`, `inert` inactive panels, focus-visible rings and reduced-motion instant state.
+- **Release checks:** `node scripts/qa-faq-topic-tabs.mjs` in Pages build plus `node scripts/qa-route-integrity.mjs --static`; browser review of EN/ES 360/390/820/1024/1440 px and real keyboard/reduced-motion navigation. No private Command Center or client tenant changes.
+
 # ROUTE_MAP.md — The Launch Era route & button registry
 
 ## Public fictional booking demo: inline calendar + cleaning frequency selector (2026-10-16)
