@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-16 | Owner iPhone screenshot: giant empty blue-outline checkbox squares obstruct service photographs. They were intended for the form data step, not service gallery. | `booking-demo-reset.html` inserted six `.service-photo-check` spans under image media; late-loaded `tle-booking-bubbles-continuity.css` rendered squares regardless of selected state. Existing Step 2 already had single-choice radio chips. | Remove image overlays entirely; preserve full-card tap-to-advance; add genuinely optional residential checkbox choices inside details, with labels EN/ES, preview review and demo-only sample notes. No added charges, actual booking submissions or protected client routes; QA image count/optional checks/hand-off and mobile widths. | 🟡 Staged PR; awaiting GitHub checks, Pages deploy and iPhone confirmation |
+
+
 | 2026-10-16 | Booking Demo iPhone: final `remarkable.` visibly crossed out; homepage 3D house too pale and small | Existing strike sibling spanned shared replacement width and lived on after old text vanished; WebGL exposure 1.55 and distant phone framing washed out white house | Nested strike in old word with 450ms draw + 400ms beat then parent's fade, preserve EN/ES/reduced motion. Denoise 3D exposure, richer roof/windows, doorstep and closer phone camera; preserve all latest mobile Booking work from concurrent agents | 🟡 Pending GitHub CI and live release verification |
 
 
