@@ -332,7 +332,7 @@
   function updateWords(){
     document.documentElement.lang=lang;
     const copy=dict();
-    for(const [id,val] of Object.entries(copy)){const el=$(id);if(el&&id!=='customQuote')el.textContent=val}
+    for(const [id,val] of Object.entries(copy)){const el=$(id);if(el&&id!=='customQuote'&&!el.matches('select,input,textarea'))el.textContent=val}
     document.querySelectorAll('[data-i18n]').forEach(el=>{const text=copy[el.dataset.i18n];if(text)el.textContent=text});
     $('stepLabel').textContent=copy['step'+(step===4?'Done':step)];
     $('flowTitle').textContent=copy[step===1?'chooseTitle':step===2?'detailsTitle':step===3?'reviewTitle':'doneTitle'];
@@ -362,8 +362,9 @@
     custom=false;
     document.querySelectorAll('.service').forEach(el=>el.setAttribute('aria-pressed',String(el===button)));
     $('chooseNext').disabled=false;
-    // Service card itself advances; no scroll past the quote to reach Continue.
-    showStep(2);
+    // Reuse the original Continue event for all date/time/calendar handlers,
+    // but do it immediately, without a second button or scrolling.
+    $('chooseNext').click();
   }
   function makeRow(label,value){
     const wrapper=document.createElement('div');wrapper.className='review-row';
