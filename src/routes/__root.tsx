@@ -160,7 +160,7 @@ function RootShell({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
-        <script src="/assets/jessy-site.js?v=20261015-email-only-sonny-v4" defer />
+        <script src="/assets/jessy-site.js?v=20261015-floating-spacing-v5" defer />
         <Scripts />
       </body>
     </html>
