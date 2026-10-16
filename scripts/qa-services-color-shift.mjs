@@ -8,7 +8,7 @@ const css = read('public/assets/tle-services-color-shift.css');
 const en = read('src/components/editorial-sections.tsx');
 const es = read('src/routes/es.index.tsx');
 assert(root.includes('tle-services-color-shift.css'), 'Missing service palette stylesheet from root');
-assert(root.includes('<script src="/assets/tle-services-color-shift.js'), 'Missing executable service palette script from root');
+assert(root.includes("element.src = '/assets/tle-services-color-shift.js") && root.includes('document.body.appendChild(element)'), 'Missing post-hydration services script loader from root');
 assert(en.includes('id="solutions" className="solutions-section"'), 'EN services section moved');
 assert(es.includes('id="soluciones" className="solutions-section"'), 'ES services section moved');
 assert(script.includes('gsap.context(') && script.includes('gsap.matchMedia(') && script.includes('ScrollTrigger.create('), 'GSAP lifecycle missing');
