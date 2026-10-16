@@ -28,7 +28,7 @@ export function HomeHero() {
  const heroImageRef=useRef<HTMLImageElement>(null);
  const {heroRef,revealed}=useHeroWipe();
  useEffect(()=>{if(heroImageRef.current?.complete)setHeroLoaded(true)},[]);
- return <><section className="hero-scroll" aria-label="An example of The Launch Era booking experience"><div className="hero-scroll-stage"><div className="hero-scroll-reveal"><span>YOUR BOOKING FLOW</span><a href="#hero-next">See how it works <ArrowRight size={18} aria-hidden="true"/></a></div><div ref={heroRef} data-wipe-visible={revealed} className={`hero-photo hero-scroll-frame hero-split ${heroLoaded?'hero-media-ready':'hero-media-loading'}`}>
+ return <><section className="hero-scroll" aria-label="An example of The Launch Era booking experience"><div className="hero-scroll-stage"><div className="hero-scroll-reveal"><span>YOUR BOOKING FLOW</span><a href="#hero-next">See how it works <ArrowRight size={18} aria-hidden="true"/></a></div><div ref={heroRef} data-wipe-visible={revealed && heroLoaded} className={`hero-photo hero-scroll-frame hero-split ${heroLoaded?'hero-media-ready':'hero-media-loading'}`}>
  <div className="hero-intro">
    <div className="eyebrow">FOR CLEANING BUSINESS OWNERS</div>
    <h1>Less time chasing messages.<br/>More time for your business.</h1>
@@ -37,7 +37,7 @@ export function HomeHero() {
    <p className="demo-delivery-note">Your personalized demo arrives automatically by email.</p>
  </div>
  <div className="hero-split-visual">
- <img ref={heroImageRef} className="hero-main-image" src={cleaner} alt="Professional cleaner working in a sunlit home, " width={1920} height={1024} loading="eager" fetchPriority="high" decoding="sync" onLoad={()=>setHeroLoaded(true)} onError={()=>setHeroLoaded(true)}/>
+ <img ref={heroImageRef} className="hero-main-image" src={cleaner} alt="Professional home cleaner at work in a bright, sunlit room" width={1920} height={1024} loading="eager" fetchPriority="high" decoding="sync" onLoad={()=>setHeroLoaded(true)} onError={()=>setHeroLoaded(true)}/>
  <div className="hero-notice-flow" aria-label="Example notifications; no live activity is shown">
    {notifications.map((n,i)=>{const Icon=n.icon;return <div className={`notification notice-${i+1}`} key={n.title}>
      <span className="notice-icon" aria-hidden="true"><Icon size={17}/></span>

@@ -196,3 +196,152 @@
   }
   .sales-home .hero-scroll-reveal { display: none; }
 }
+
+
+/* 2026 split-hero extension: retain the established desktop scroll-to-card motion,
+   while revealing the photograph from the right independently, once per view. */
+@media (min-width:768px) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split {
+    display:grid;
+    grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+    align-items:center;
+    gap:clamp(22px,4vw,70px);
+    padding:clamp(32px,5vw,80px) clamp(26px,6vw,105px) !important;
+    background:#FAF8F3;
+  }
+}
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro {
+  position:relative;
+  z-index:3;
+  flex:none;
+  align-self:center;
+  width:100%;
+  margin:0;
+  padding:0;
+  text-align:left;
+  will-change:auto;
+}
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro .hero-cta-row {
+  justify-content:flex-start;
+  margin:26px 0 0;
+}
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro .demo-delivery-note {
+  margin:11px 0 0;
+  max-width:46ch;
+}
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow {
+  position:absolute !important;
+  inset:auto auto 24px 22px !important;
+  z-index:4;
+  width:min(295px,calc(100% - 44px));
+  margin:0 !important;
+  opacity:1;
+  transform:none !important;
+  pointer-events:none;
+  will-change:auto;
+}
+@media (prefers-reduced-motion:no-preference) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro {
+    opacity:0;
+    transform:translate3d(-12px,0,0) !important;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split[data-wipe-visible="true"] .hero-intro {
+    opacity:1;
+    transform:translate3d(0,0,0) !important;
+  }
+}
+@media (max-width:767px) {
+  .sales-home .hero-scroll {
+    height:auto;
+    padding:0;
+  }
+  .sales-home .hero-scroll-stage {
+    position:relative;
+    top:auto;
+    height:auto;
+    overflow:visible;
+    background:#FAF8F3;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split {
+    position:relative;
+    inset:auto;
+    display:flex;
+    flex-direction:column;
+    width:100%;
+    height:auto !important;
+    min-height:0 !important;
+    padding:14px 18px 45px !important;
+    border-radius:0;
+    box-shadow:none;
+    transform:none !important;
+    overflow:visible;
+    gap:25px;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro {
+    padding:0 2px;
+    width:100%;
+    max-width:560px;
+    margin:0 auto;
+    text-align:left;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro h1 {
+    margin:12px 0 13px;
+    text-align:left;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro .hero-cta-row {
+    margin:19px 0 0;
+    justify-content:flex-start;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow {
+    inset:auto auto 15px 13px !important;
+    width:min(250px,calc(100% - 26px));
+  }
+  .sales-home .hero-scroll-reveal,
+  .sales-home .hero-scroll.hero-scroll-revealed .hero-scroll-reveal {
+    position:relative;
+    inset:auto;
+    padding:0 16px 19px;
+    margin:0 auto;
+    opacity:1;
+    transform:none;
+    visibility:visible;
+    pointer-events:auto;
+  }
+}
+/* Reduced motion keeps both columns (or mobile image first) immediately visible. */
+@media (prefers-reduced-motion:reduce) {
+  .sales-home .hero-scroll {
+    height:auto;
+    padding:0;
+  }
+  .sales-home .hero-scroll-stage {
+    position:relative;
+    height:auto;
+    overflow:visible;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split {
+    position:relative;
+    inset:auto;
+    width:100%;
+    height:auto !important;
+    min-height:0 !important;
+    padding:clamp(30px,5vw,80px) clamp(24px,6vw,100px) !important;
+    border-radius:0 !important;
+    transform:none !important;
+    box-shadow:none;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro {
+    opacity:1 !important;
+    transform:none !important;
+    padding:0;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow {
+    opacity:1 !important;
+  }
+  .sales-home .hero-scroll-reveal { display:none; }
+}
+@media (max-width:767px) and (prefers-reduced-motion:reduce) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split {
+    padding:14px 18px 45px !important;
+  }
+}

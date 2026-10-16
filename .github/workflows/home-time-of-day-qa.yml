@@ -1,0 +1,52 @@
+name: TLE Homepage Time-of-Day 3D and Kinetic QA
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/qa-home-time-browser.mjs'
+      - 'scripts/qa-home-time-of-day.mjs'
+      - 'src/components/home-motion-interlude.*'
+      - 'public/assets/tle-home-time-of-day.js'
+      - '.github/workflows/home-time-of-day-qa.yml'
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify motion sources and normal route safety
+        run: |
+          node scripts/qa-home-time-of-day.mjs
+          node scripts/qa-home-time-browser.mjs
+          node scripts/qa-route-integrity.mjs --static
+      - name: Build actual public pages
+        run: |
+          bun install
+          bun run build
+          test -s .output/public/assets/tle-home-time-of-day.js
+      - name: Install headless Chromium for responsive scene QA
+        run: |
+          mkdir -p /tmp/tle-3d-qa
+          cd /tmp/tle-3d-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          ln -sfn /tmp/tle-3d-qa/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-3d-qa/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: Render-check EN ES and reduced motion
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-3d-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for n in $(seq 1 25); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-home-time-browser.mjs --browser

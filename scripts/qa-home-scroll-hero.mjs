@@ -1,37 +1,47 @@
-/* Homepage scroll-hero regression test. No real bookings, emails or checkouts. */
+/* Homepage split-and-scroll hero regression checks. No booking submission or email. */
 import assert from 'node:assert/strict';
 import { readFileSync, mkdirSync } from 'node:fs';
 const read = path => readFileSync(new URL('../' + path, import.meta.url), 'utf8');
 const en = read('src/components/editorial-sections.tsx');
 const es = read('src/routes/es.index.tsx');
 const motion = read('src/components/home-motion.tsx');
+const observer = read('src/components/use-hero-wipe.ts');
 const root = read('src/routes/__root.tsx');
-const css = read('public/assets/tle-hero-scroll.css');
+const scrollCSS = read('public/assets/tle-hero-scroll.css');
+const styles = read('src/styles.css');
 const englishHero = en.split('export function HomeHero()')[1]?.split('const services =')[0] || '';
 const spanishHero = es.split('function SpanishHome()')[1]?.split('<SmartWelcomeBundle lang="es"/>')[0] || '';
+
 for (const [lang, hero, expected] of [
   ['EN', englishHero, '/booking-demo/?lang=en'],
   ['ES', spanishHero, '/booking-demo/?lang=es'],
 ]) {
-  assert(hero.includes('className="hero-scroll"'), lang + ': missing sticky section');
-  assert(hero.includes('hero-scroll-stage') && hero.includes('hero-scroll-frame'), lang + ': missing full-screen image wrapper');
-  assert(hero.includes('hero-scroll-reveal') && hero.includes('href="#hero-next"'), lang + ': missing underlay anchor');
-  assert(hero.includes('id="hero-next"'), lang + ': missing next-section target');
-  assert.equal(hero.split('href="' + expected + '"').length - 1, 1, lang + ': demo CTA missing or duplicated');
-  assert(hero.indexOf('hero-cta-row') < hero.indexOf('hero-notice-flow'), lang + ': CTA must be inside photo hero');
+  assert(hero.includes('className="hero-scroll"'), lang + ': scroll stage missing');
+  assert(hero.includes('hero-scroll-stage') && hero.includes('hero-scroll-frame'), lang + ': scroll frame missing');
+  assert(hero.includes('hero-scroll-reveal') && hero.includes('href="#hero-next"'), lang + ': scroll destination missing');
+  assert(hero.includes('id="hero-next"'), lang + ': next-section target missing');
+  assert(hero.includes('className="hero-split-visual"'), lang + ': separate image panel missing');
+  assert(hero.includes('data-wipe-visible={revealed && heroLoaded}'), lang + ': image-ready reveal gate missing');
+  assert(hero.includes('ref={heroRef}'), lang + ': IntersectionObserver hero ref missing');
+  assert.equal(hero.split('href="' + expected + '"').length - 1, 1, lang + ': duplicate or absent personalized demo CTA');
+  assert(hero.indexOf('hero-cta-row') < hero.indexOf('hero-split-visual'), lang + ': copy must lead on desktop');
+  assert(hero.indexOf('hero-split-visual') < hero.indexOf('hero-notice-flow'), lang + ': notifications must sit inside image');
 }
-assert(css.includes('height: 180svh') && css.includes('position: sticky') && css.includes('height: 100svh'));
-assert(css.includes('transform-origin: 50% 40%') && css.includes('scale(calc(1 - .3 * var(--hero-scroll-progress, 0)))'));
-assert(css.includes('border-radius: calc(24px * var(--hero-scroll-progress, 0))'));
-assert(css.includes('opacity: clamp(0, calc(1 - 2 * var(--hero-scroll-progress, 0)), 1)'));
-assert(css.includes('@media (prefers-reduced-motion: reduce)'));
+assert(observer.includes('IntersectionObserver') && observer.includes('observer.disconnect()'));
+assert(scrollCSS.includes('height: 180svh') && scrollCSS.includes('position: sticky'));
+assert(scrollCSS.includes('scale(calc(1 - .3 * var(--hero-scroll-progress, 0)))'));
+assert(scrollCSS.includes('2026 split-hero extension') && scrollCSS.includes('hero-split-visual'));
+assert(styles.includes('clip-path:inset(0 0 0 100% round 20px)'));
+assert(styles.includes('clip-path:inset(0 0 0 0 round 20px)'));
+assert(styles.includes('transition:clip-path 900ms cubic-bezier(.32,.72,0,1)'));
+assert(styles.includes('@media (prefers-reduced-motion:reduce)'));
 assert(motion.includes("addEventListener('scroll', schedule, { passive: true })"));
-assert(motion.includes('requestAnimationFrame(update)') && motion.includes('Math.max(1, hero.offsetHeight - window.innerHeight)'));
-assert(motion.includes("toggleAttribute('inert', progress >= 0.5)"));
-assert(root.indexOf('tle-hero-scroll.css') > root.indexOf('tle-saas-ui-v1.css'), 'Hero theme must load last');
-console.log('[HERO STATIC QA PASSED] EN/ES layout, unchanged demo destinations, scroll math, reduced motion.');
-if (!process.argv.includes('--browser')) process.exit(0);
+assert(motion.includes('requestAnimationFrame(update)'));
+assert(motion.includes('!splitHero && progress >= 0.5'), 'CTA must stay keyboard-accessible during scroll');
+assert(root.indexOf('tle-hero-scroll.css') > root.indexOf('tle-saas-ui-v1.css'), 'Scroll overrides must load after the theme');
+console.log('[HERO STATIC QA PASSED] EN/ES split wipe, mobile stack, scroll shrink, intact demo CTA.');
 
+if (!process.argv.includes('--browser')) process.exit(0);
 const { chromium } = await import('playwright');
 const base = (process.env.QA_URL || 'http://127.0.0.1:4173').replace(/\/$/, '');
 const browser = await chromium.launch({ headless: true });
@@ -50,52 +60,81 @@ try {
    await page.goto(base + route, { waitUntil: 'domcontentloaded', timeout: 45000 });
    const hero = page.locator('.hero-scroll');
    await hero.waitFor({ state: 'visible', timeout: 20000 });
-   await page.waitForTimeout(180);
-   const snapshot = await page.evaluate(() => {
-    const h = document.querySelector('.hero-scroll');
-    return { top: scrollY + h.getBoundingClientRect().top, travel: h.offsetHeight - innerHeight };
-   });
-   assert(snapshot.travel > 0.65 * viewport.height, lang + ' ' + viewport.width + ': section too short');
-   assert.equal(await hero.locator('.hero-intro .cta-button').count(), 1, 'CTA missing inside hero');
-   await page.evaluate(y => { document.documentElement.style.scrollBehavior = 'auto'; window.scrollTo(0, y); }, snapshot.top);
-   await page.waitForTimeout(130);
-   const initial = await hero.locator('.hero-scroll-frame').evaluate(el => new DOMMatrixReadOnly(getComputedStyle(el).transform).a);
-   assert(Math.abs(initial - 1) < .04, lang + ' ' + viewport.width + ': initial full-bleed scale incorrect: ' + initial);
-   await page.evaluate(y => window.scrollTo(0, y), snapshot.top + snapshot.travel);
-   await page.waitForTimeout(180);
-   const finish = await hero.evaluate(el => {
-    const frame = el.querySelector('.hero-scroll-frame');
-    const intro = el.querySelector('.hero-intro');
-    const hint = el.querySelector('.hero-scroll-reveal');
-    const style = getComputedStyle(frame);
+   await page.waitForFunction(() => document.querySelector('.hero-split')?.getAttribute('data-wipe-visible') === 'true', null, { timeout: 25000 });
+   await page.waitForTimeout(1050); // 900ms clip-path + copy's 120ms entrance delay
+   const state = await page.evaluate(() => {
+    const hero = document.querySelector('.hero-scroll');
+    const frame = hero.querySelector('.hero-scroll-frame');
+    const stage = hero.querySelector('.hero-scroll-stage');
+    const panel = hero.querySelector('.hero-split-visual');
+    const photo = panel.querySelector('img');
+    const intro = hero.querySelector('.hero-intro');
+    const a = panel.getBoundingClientRect();
+    const b = intro.getBoundingClientRect();
     return {
-     progress: Number(el.style.getPropertyValue('--hero-scroll-progress')),
-     scale: new DOMMatrixReadOnly(style.transform).a,
-     radius: parseFloat(style.borderTopLeftRadius),
+     clipped: hero.scrollWidth > hero.clientWidth + 3,
+     clipPath: getComputedStyle(panel).clipPath,
+     imageScale: new DOMMatrixReadOnly(getComputedStyle(photo).transform).a,
      introOpacity: Number(getComputedStyle(intro).opacity),
-     hintVisible: getComputedStyle(hint).visibility,
-     clipped: el.scrollWidth > el.clientWidth + 3
+     panel: { top:a.top, left:a.left, width:a.width },
+     copy: { top:b.top, left:b.left, width:b.width },
+     stagePosition: getComputedStyle(stage).position,
+     framePosition: getComputedStyle(frame).position,
+     frameScale: new DOMMatrixReadOnly(getComputedStyle(frame).transform).a,
+     travel: hero.offsetHeight - innerHeight,
+     top:scrollY + hero.getBoundingClientRect().top,
     };
    });
-   assert(finish.progress > .98 && Math.abs(finish.scale - .7) < .04, lang + ' ' + viewport.width + ': final scale: ' + JSON.stringify(finish));
-   assert(Math.abs(finish.radius - 24) < 2, lang + ' ' + viewport.width + ': rounded card radius');
-   assert(finish.introOpacity < .05 && finish.hintVisible === 'visible' && !finish.clipped, lang + ' ' + viewport.width + ': fade/reveal/overflow');
-   if ([390, 820, 1440].includes(viewport.width)) await page.screenshot({ path: `qa-screenshots/home-scroll-${lang}-${viewport.width}-final.png` });
+   assert.equal(await hero.locator('.hero-intro .cta-button').count(), 1, lang + ': CTA missing');
+   assert(!state.clipped, lang + ' ' + viewport.width + ': hero horizontal clipping');
+   assert(state.panel.width > 160, lang + ' ' + viewport.width + ': image panel compressed');
+   assert(!state.clipPath.includes('100%'), lang + ' ' + viewport.width + ': wipe never opened: ' + state.clipPath);
+   assert(Math.abs(state.imageScale - 1) < .04, lang + ' ' + viewport.width + ': photo still zoomed');
+   assert(state.introOpacity > .96, lang + ' ' + viewport.width + ': copy did not appear');
+   if (viewport.width < 768) {
+    assert(state.panel.top < state.copy.top, lang + ': image must stack above text on phone');
+    assert(state.stagePosition !== 'sticky' && state.framePosition !== 'absolute', lang + ': mobile must use natural height');
+    assert(Math.abs(state.frameScale - 1) < .04, lang + ': mobile hero cannot shrink');
+   } else {
+    assert(state.panel.left > state.copy.left, lang + ': photo must be on the right on desktop');
+    assert(state.stagePosition === 'sticky', lang + ': desktop sticky scroll effect removed');
+    assert(state.travel > 0.65 * viewport.height, lang + ': scroll stage too short');
+    await page.evaluate(y => { document.documentElement.style.scrollBehavior='auto'; window.scrollTo(0,y); }, state.top + state.travel);
+    await page.waitForTimeout(180);
+    const end = await hero.evaluate(el => ({
+     scale:new DOMMatrixReadOnly(getComputedStyle(el.querySelector('.hero-scroll-frame')).transform).a,
+     opacity:Number(getComputedStyle(el.querySelector('.hero-intro')).opacity),
+     hint:getComputedStyle(el.querySelector('.hero-scroll-reveal')).visibility,
+     inert:el.querySelector('.hero-intro').hasAttribute('inert')
+    }));
+    assert(Math.abs(end.scale - .7) < .045, lang + ' ' + viewport.width + ': expected scroll shrink to .7: ' + JSON.stringify(end));
+    assert(end.opacity > .95 && !end.inert, lang + ': visible demo CTA became inaccessible');
+    assert(end.hint === 'visible', lang + ': scroll continue hint missing');
+   }
+   if ([390,820,1440].includes(viewport.width)) await page.screenshot({ path:`qa-screenshots/home-scroll-${lang}-${viewport.width}-final.png`, fullPage:false });
    await page.close();
   }
-  const reduced = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
-  await reduced.goto(base + route, { waitUntil: 'domcontentloaded', timeout: 45000 });
-  await reduced.locator('.hero-scroll').waitFor({ state: 'visible' });
+  const reduced = await browser.newPage({ viewport: { width:390, height:844 }, reducedMotion:'reduce' });
+  await reduced.goto(base + route, { waitUntil:'domcontentloaded', timeout:45000 });
+  await reduced.locator('.hero-split').waitFor({ state:'visible' });
   const stable = await reduced.evaluate(() => {
-   const frame = document.querySelector('.hero-scroll-frame');
-   const stage = document.querySelector('.hero-scroll-stage');
-   return { transform: getComputedStyle(frame).transform, radius: parseFloat(getComputedStyle(frame).borderTopLeftRadius),
-     sticky: getComputedStyle(stage).position, titleOpacity: Number(getComputedStyle(document.querySelector('.hero-intro')).opacity) };
+   const hero=document.querySelector('.hero-scroll');
+   const panel=hero.querySelector('.hero-split-visual');
+   const intro=hero.querySelector('.hero-intro');
+   return {
+    clip:getComputedStyle(panel).clipPath,
+    stage:getComputedStyle(hero.querySelector('.hero-scroll-stage')).position,
+    transform:getComputedStyle(hero.querySelector('.hero-scroll-frame')).transform,
+    opacity:Number(getComputedStyle(intro).opacity),
+    imageAbove:panel.getBoundingClientRect().top<intro.getBoundingClientRect().top
+   };
   });
-  assert(stable.transform === 'none' && Math.abs(stable.radius - 24) < 1 && stable.sticky !== 'sticky' && stable.titleOpacity === 1,
-   lang + ': reduced-motion card must be static/readable: ' + JSON.stringify(stable));
+  assert(!stable.clip.includes('100%') && stable.stage !== 'sticky' && stable.transform === 'none' && stable.opacity === 1 && stable.imageAbove,
+   lang + ': reduced motion must show finished mobile split: ' + JSON.stringify(stable));
   await reduced.close();
  }
- assert.deepEqual(errors, [], 'Browser errors');
- console.log('[HERO BROWSER QA PASSED] EN/ES at 360/390/820/1024/1440 + static reduced-motion card.');
-} finally { await browser.close(); }
+ assert.deepEqual(errors, [], 'Browser console errors');
+ console.log('[HERO BROWSER QA PASSED] EN/ES five widths, viewport wipe, sticky desktop and static reduced-motion mobile.');
+} finally {
+ await browser.close();
+}
