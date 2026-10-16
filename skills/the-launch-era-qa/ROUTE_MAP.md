@@ -1,3 +1,8 @@
+## 2026-10-16 — Homepage hero photo higher on phones
+- **Scope:** only public EN `/` and ES `/es/` homepages <=767px, no route, tenant, checkout, demo, auth or booking changes.
+- **Visual fix:** `public/assets/tle-hero-scroll.css` reserves ~40px less before the original photo by compacting the animated “See how it works” element and frame top padding. Photo composition, motion, notifications, native `#hero-next` anchor, tablet and desktop stay intact. Root CSS query bumped for browsers.
+- **QA required:** EN/ES 360/390/414px, iPad 820 and desktop 1440, `See how it works` tap and split, reduced motion, viewport bounds and no overflow before production confirmation.
+
 ## 2026-10-16 — Continuous blue bubbles across public and emailed booking demo
 - **Owner:** `public/booking-demo-reset.html` only; public website and Jessie’s personalized email leads share this route. Keyed and owner-preview client pages on `lead-private-preview.html` stay isolated.
 - **UI:** `public/assets/tle-booking-bubbles-continuity.css` layers a sky-blue backdrop throughout the demo, restores the previous seven softly floating translucent bubble design in a three-step chapter directly after the approved photographic portal hero, and carries matching circles into the **single** working custom quote card. Reviews and illustrative before/after remain with blue-tinted surfaces; Sonny retains the single functional robot-head bubble. EN/ES strings live in the existing hero portal controller.
