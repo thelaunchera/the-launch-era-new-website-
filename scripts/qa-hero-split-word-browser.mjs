@@ -49,13 +49,42 @@ try{
   });
   await a.waitFor({state:'visible',timeout:10000});
   await a.hover({timeout:10000});
-  await desktop.waitForTimeout(640);
+  await desktop.waitForTimeout(1250);
   const hovered=await a.evaluate(el=>{
    const upper=el.querySelector('.tle-hero-split-upper'),lower=el.querySelector('.tle-hero-split-lower'),reveal=el.querySelector('.tle-hero-split-reveal');
    return {upper:new DOMMatrixReadOnly(getComputedStyle(upper).transform).m42,lower:new DOMMatrixReadOnly(getComputedStyle(lower).transform).m42,opacity:Number(getComputedStyle(reveal).opacity)};
   });
-  assert(hovered.upper<-2&&hovered.lower>2&&hovered.opacity>.9,lang+': split-word hover did not reveal accent label '+JSON.stringify(hovered));
+  assert(hovered.upper<-10&&hovered.lower>10&&hovered.opacity>.95,lang+': split-word hover did not reveal accent label '+JSON.stringify(hovered));
   await desktop.close();
+
+  // A touchscreen needs a readable, slower one-time reveal without hovering
+  // or requiring a second tap. Sample it mid-animation in a separate page.
+  const touchPeek=await browser.newPage({viewport:{width:390,height:844},hasTouch:true,isMobile:true,reducedMotion:'no-preference'});
+  await touchPeek.goto(origin+path+'#qa-split-check',{waitUntil:'domcontentloaded',timeout:45000});
+  const touchLink=touchPeek.locator('.hero-scroll-reveal a.tle-hero-split-link');
+  await touchLink.waitFor({state:'visible',timeout:20000});
+  await touchPeek.waitForFunction(()=>{
+    const el=document.querySelector('.hero-scroll-reveal .tle-hero-split-upper');
+    return Boolean(el?.isConnected && getComputedStyle(el).animationName.includes('tle-word-peek-upper'));
+  },null,{timeout:10000});
+  await touchPeek.waitForTimeout(3750);
+  const peekState=await touchLink.evaluate(el=>{
+    const up=el.querySelector('.tle-hero-split-upper'),down=el.querySelector('.tle-hero-split-lower'),reveal=el.querySelector('.tle-hero-split-reveal');
+    const cs=getComputedStyle(el);
+    return {
+      top:new DOMMatrixReadOnly(getComputedStyle(up).transform).m42,
+      bottom:new DOMMatrixReadOnly(getComputedStyle(down).transform).m42,
+      label:Number(getComputedStyle(reveal).opacity),
+      background:cs.backgroundColor, shadow:cs.boxShadow,
+      root:document.documentElement.scrollWidth,viewport:document.documentElement.clientWidth,
+      duration:getComputedStyle(up).animationDuration,
+    };
+  });
+  assert(peekState.top<-8 && peekState.bottom>8 && peekState.label>.85,lang+': touch peek halves overlap or center label is hidden '+JSON.stringify(peekState));
+  assert(peekState.background==='rgba(0, 0, 0, 0)' && peekState.shadow==='none',lang+': white press card returned '+JSON.stringify(peekState));
+  assert(peekState.root<=peekState.viewport+2,lang+': animated split causes horizontal overflow');
+  assert.equal(peekState.duration,'8.2s',lang+': touch should be slow and one-time');
+  await touchPeek.close();
 
   // Motion-reduction users still get the link and a static label switch.
   const reduced=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});
@@ -72,5 +101,5 @@ try{
   await reduced.waitForFunction(()=>location.hash==='#hero-next',{timeout:6000});
   await reduced.close();
  }
- console.log('[SPLIT-WORD HERO QA PASSED] EN/ES 360/390/414 native tap, desktop hover, reduced-motion click.');
+ console.log('[SPLIT-WORD HERO QA PASSED] EN/ES 360/390/414 first tap, 1.08s desktop hover, slow touch reveal and reduced motion.');
 } finally {await browser.close()}
