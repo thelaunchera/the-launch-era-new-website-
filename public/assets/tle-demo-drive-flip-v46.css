@@ -145,3 +145,12 @@ html.demo-editorial.tle-demo-v46 #leadHero button.tle46-thumb-slot>.tle46-galler
    transition:none!important;
  }
 }
+/* Absolute priority over the legacy picture-container clipping rules.
+   A Flip image must be able to travel beyond both slots unhindered. */
+html.demo-editorial.tle-demo-v42.tle-demo-v44.tle-demo-v46 main.wrap #leadHero#leadHero#leadHero.tle46-gallery-hero,
+html.demo-editorial.tle-demo-v42.tle-demo-v44.tle-demo-v46 main.wrap #leadHero#leadHero#leadHero.tle46-gallery-hero .tle46-gallery,
+html.demo-editorial.tle-demo-v42.tle-demo-v44.tle-demo-v46 main.wrap #leadHero#leadHero#leadHero.tle46-gallery-hero .tle46-hero-slot,
+html.demo-editorial.tle-demo-v42.tle-demo-v44.tle-demo-v46 main.wrap #leadHero#leadHero#leadHero.tle46-gallery-hero .tle46-thumb-strip{
+ overflow:visible!important;overflow-x:visible!important;overflow-y:visible!important;
+ clip-path:none!important;contain:none!important;
+}
