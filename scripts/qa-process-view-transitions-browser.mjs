@@ -10,7 +10,11 @@ async function waitForHydratedProcess(page) {
   await page.waitForFunction(() => {
     const card = document.querySelector('.tle-process-grid .tle-process-card');
     return card && Object.keys(card).some(key =>
-      key.startsWith('__reactProps
+      key.startsWith('__reactProps') && typeof card[key]?.onClick === 'function'
+    );
+  }, null, { timeout: 20000 });
+}
+
 try {
   for (const [language, path] of [['en', '/'], ['es', '/es/']]) {
     for (const width of [390, 820, 1440]) {
