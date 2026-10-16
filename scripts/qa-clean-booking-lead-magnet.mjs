@@ -19,7 +19,7 @@ assert.match(chat,/tle-ai-booking-demo/,'Keep the existing Sonny demo backend wi
 assert.match(template,/id="demoForm"/,'Personalized lead magnet intake must not be replaced with booking sample');
 assert(!/(?:@keyframes|\banimation\s*:|\btransition\s*:|\btransform\s*:|\bzoom\s*:|gsap\.|Flip\.|mix-blend-mode\s*:)/i.test(html),'New public demo must have zero visual zoom/motion');
 assert.deepEqual([...html.matchAll(/<link[^>]*rel="stylesheet"[^>]*href="([^"]+)"/g)].map(m=>m[1]),
-  ['/assets/tle-demo-hero-portal.css?v=20261016-brand2','/assets/tle-booking-month-wheel.css?v=20261016-responsive2','/assets/tle-booking-premium-refresh.css?v=20261016-sonny-blue-polish-slow2','/assets/tle-booking-blue-orbs.css?v=20261016-orbs1','/assets/tle-booking-bubbles-continuity.css?v=20261016-bubble-continuity1'],'Only scoped hero, time wheel, approved cards and original blue bubble treatments may be linked');
+  ['/assets/tle-demo-hero-portal.css?v=20261016-contrast3','/assets/tle-booking-month-wheel.css?v=20261016-responsive2','/assets/tle-booking-premium-refresh.css?v=20261016-sonny-blue-polish-slow2','/assets/tle-booking-blue-orbs.css?v=20261016-orbs1','/assets/tle-booking-bubbles-continuity.css?v=20261016-checkchoices2'],'Only scoped hero, time wheel, approved cards and original blue bubble treatments may be linked');
 
 const browser=await chromium.launch({headless:true});
 const outputs=[];
@@ -76,9 +76,8 @@ try {
 
   if(width===360||width===390){
    await page.locator('.service[data-id=deep]').click();
-   assert.equal(await page.locator('#chooseNext').isEnabled(),true);
-   await page.locator('#chooseNext').click();
    assert.equal(await page.locator('#detailsPanel').isVisible(),true);
+   assert.equal(await page.locator('#chooseNext').isVisible(),false);
    await page.locator('#customerName').fill('Demo Test');
    await page.locator('#customerEmail').fill('test@example.invalid');
    await page.locator('#customerZip').fill('33139');
@@ -105,7 +104,6 @@ try {
     assert.equal(await page.locator('#comServices').isVisible(),true);
     assert.equal(await page.locator('#resServices').isVisible(),false);
     await page.locator('.service[data-id=medical]').click();
-    await page.locator('#chooseNext').click();
     assert.equal(await page.locator('#comDetails').isVisible(),true);
     assert.equal(await page.locator('#resDetails').isVisible(),false);
     await page.locator('#backDetails').click();
