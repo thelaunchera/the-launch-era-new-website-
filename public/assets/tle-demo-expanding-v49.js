@@ -23,7 +23,11 @@ function init(){
  root.classList.add('tle-demo-v49');
  // The main 48-63px headline is the only rotating hook. Keep a stable
  // accessible name and ignore the visual rotating copies for screen readers.
- tag.replaceChildren();
+ const heading=document.createElement('h1');
+ heading.className=tag.className+' tle49-hook';
+ tag.replaceWith(heading);
+ const legacy=stage.querySelector('.heroText h1.demo-headline');
+ if(legacy){legacy.setAttribute('aria-hidden','true');legacy.style.setProperty('display','none','important');}
  const prefix=document.createElement('span');prefix.className='tle49-hook-prefix';prefix.textContent=hook.prefix;
  const flip=document.createElement('span');flip.className='tle49-hook-flip';flip.setAttribute('aria-hidden','true');
  hook.words.forEach((word,index)=>{
@@ -31,10 +35,10 @@ function init(){
   item.style.setProperty('--tle49-phase',(-index*3)+'s');
   item.textContent=word;flip.append(item);
  });
- tag.append(prefix,flip);
- tag.setAttribute('role','heading');tag.setAttribute('aria-level','1');
- tag.setAttribute('aria-label',hook.accessible);
- tag.classList.add('tle49-hook');
+ heading.append(prefix,flip);
+
+ heading.setAttribute('aria-label',hook.accessible);
+
  const small=stage.querySelector('.tle46-caption');
  if(small){small.setAttribute('aria-hidden','true');small.setAttribute('aria-live','off');small.classList.add('tle49-old-caption');}
  // Keep each *existing* service button (and its inline onclick) in place.
@@ -56,7 +60,7 @@ function init(){
    });
   };
   cards.forEach((btn,index)=>{
-   btn.classList.add('tle49-service-panel');btn.setAttribute('aria-expanded',String(index===0));
+   btn.classList.add('tle49-service-panel','tle49-panel');btn.setAttribute('aria-expanded',String(index===0));
    if(index===0)btn.classList.add('tle49-active');
    const image=btn.querySelector('.tle-service-photo-v21 img');
    if(image){image.alt=btn.querySelector('.demo-service-body b')?.textContent.trim()||'Cleaning service';}
