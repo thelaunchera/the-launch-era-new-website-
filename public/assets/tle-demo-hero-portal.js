@@ -171,7 +171,12 @@
   const t=translations[selected];
   for(const [id,value] of Object.entries(t)){
    const el=document.getElementById(id);
-   if(el&&typeof value==="string")el.textContent=value;
+   if(!el||typeof value!=="string")continue;
+   // Preserve the strike line INSIDE only the old word during EN/ES switches.
+   if(id==="bookingPortalOld"){
+    const word=el.querySelector(".booking-portal-old-word");
+    if(word)word.textContent=value;
+   }else el.textContent=value;
   }
   document.getElementById("bookingPortalHeadline")?.setAttribute("aria-label",t.finalHeadline);
   windowButton?.setAttribute("aria-label",t.enter);
