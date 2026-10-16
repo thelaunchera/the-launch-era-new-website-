@@ -687,6 +687,11 @@
    approved photo and main heading. Outer dotted/connection background is
    unchanged. The mesh has no input handling, overlay or new scroll logic. */
 @media (min-width:1024px) {
+  /* Change ONLY the interior ivory surface, never the dotted scroll backdrop.
+     This powder-blue base remains visible even before the blobs drift. */
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split {
+    background:linear-gradient(116deg,#E9F5FE 0%,#F3F9FF 38%,#EAF4FD 73%,#F7FAFE 100%);
+  }
   .sales-home .hero-scroll .hero-scroll-frame.hero-split .tle-hero-soft-mesh {
     position:absolute;inset:0;z-index:0;overflow:hidden;
     pointer-events:none;border-radius:inherit;background:transparent;
@@ -700,22 +705,22 @@
   }
   .sales-home .tle-hero-soft-mesh > span:nth-child(1) {
     width:clamp(360px,45vw,740px);left:-13%;top:-31%;
-    background:radial-gradient(circle,rgba(167,216,245,.42) 0%,rgba(167,216,245,0) 68%);
+    background:radial-gradient(circle,rgba(160,212,244,.62) 0%,rgba(167,216,245,0) 68%);
     animation:tle-hero-mesh-a 9.5s ease-in-out infinite alternate;
   }
   .sales-home .tle-hero-soft-mesh > span:nth-child(2) {
     width:clamp(330px,40vw,650px);left:12%;top:54%;
-    background:radial-gradient(circle,rgba(207,234,250,.55) 0%,rgba(207,234,250,0) 68%);
+    background:radial-gradient(circle,rgba(195,229,249,.72) 0%,rgba(207,234,250,0) 68%);
     animation:tle-hero-mesh-b 11.7s ease-in-out infinite alternate;
   }
   .sales-home .tle-hero-soft-mesh > span:nth-child(3) {
     width:clamp(330px,42vw,680px);left:43%;top:-23%;
-    background:radial-gradient(circle,rgba(127,186,225,.26) 0%,rgba(127,186,225,0) 68%);
+    background:radial-gradient(circle,rgba(139,194,230,.43) 0%,rgba(127,186,225,0) 68%);
     animation:tle-hero-mesh-c 8.6s ease-in-out infinite alternate;
   }
   .sales-home .tle-hero-soft-mesh > span:nth-child(4) {
     width:clamp(270px,30vw,520px);left:52%;top:66%;
-    background:radial-gradient(circle,rgba(233,245,252,.68) 0%,rgba(233,245,252,0) 68%);
+    background:radial-gradient(circle,rgba(223,242,253,.80) 0%,rgba(233,245,252,0) 68%);
     animation:tle-hero-mesh-d 10.8s ease-in-out infinite alternate;
   }
 }
@@ -734,6 +739,18 @@
 @keyframes tle-hero-mesh-d {
   from { transform:translate3d(-4%,4%,0) scale(.98); }
   to { transform:translate3d(14%,-15%,0) scale(1.12); }
+}
+/* Desktop alignment: raise the photo+copy slightly and protect the photo
+   from being clipped in shorter laptop browser viewports. Leave the existing
+   clip-path reveal/scale transitions and portrait tablet layout unchanged. */
+@media (min-width:1181px) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro,
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
+    top:-10px;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
+    height:min(clamp(465px,42vw,590px),calc(100svh - 145px));
+  }
 }
 @media (max-width:1023px) {
   .sales-home .hero-scroll .hero-scroll-frame.hero-split .tle-hero-soft-mesh {
