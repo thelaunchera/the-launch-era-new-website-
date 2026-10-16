@@ -43,6 +43,7 @@ try{
    assert.equal(await page.locator('html').getAttribute('lang'),lang);
    const floating=page.locator('#sonnyAvatarLauncher');
    await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
+   console.log('SONNY AVATAR BEFORE WAIT '+JSON.stringify(await page.evaluate(()=>{const a=document.getElementById('sonnyAvatarLauncher'),c=document.querySelector('section.sonny');const r=c?.getBoundingClientRect();return {url:location.href,scrollY:scrollY,viewportHeight:innerHeight,bodyHeight:document.body.scrollHeight,avatarHidden:a?.hidden,avatarDisplay:a&&getComputedStyle(a).display,sonnyCard:r&&{y:r.y,height:r.height,bottom:r.bottom},sonnyBodyHidden:document.getElementById('sonnyBody')?.hidden};}))); 
    await floating.waitFor({state:'visible',timeout:10000});
    const avatarCheck=await floating.evaluate(button=>{
      const image=button.querySelector('img'),r=button.getBoundingClientRect();
