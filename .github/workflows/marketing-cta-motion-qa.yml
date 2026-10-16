@@ -1,0 +1,71 @@
+name: Public Marketing CTA Motion QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/components/**'
+      - 'src/routes/**'
+      - 'public/assets/tle-marketing-cta-motion.css'
+      - 'public/ai-booking-assistant/index.html'
+      - 'public/es/ai-booking-assistant/index.html'
+      - 'scripts/qa-marketing-cta-motion.mjs'
+      - '.github/workflows/marketing-cta-motion-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'src/components/**'
+      - 'src/routes/**'
+      - 'public/assets/tle-marketing-cta-motion.css'
+      - 'public/ai-booking-assistant/index.html'
+      - 'public/es/ai-booking-assistant/index.html'
+      - 'scripts/qa-marketing-cta-motion.mjs'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-build-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check routes, marketing button destinations and real form state
+        run: |
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-marketing-cta-motion.mjs
+      - name: Build the existing production website
+        run: |
+          bun install
+          bun run build
+          test -s .output/public/assets/tle-marketing-cta-motion.css
+      - name: Install Chromium for isolated local QA
+        run: |
+          mkdir -p /tmp/tle-cta-qa
+          cd /tmp/tle-cta-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          ln -sfn /tmp/tle-cta-qa/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-cta-qa/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: Browser QA in five sizes and mocked sends only
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-cta-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 25); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-marketing-cta-motion.mjs --browser
+      - name: Save marketing CTA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tle-marketing-cta-qa
+          path: qa-screenshots/cta-marketing-*.png
+          if-no-files-found: ignore
