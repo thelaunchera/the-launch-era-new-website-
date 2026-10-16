@@ -17,8 +17,11 @@ try{
   assert.equal(await page.locator("#main[inert]").count(),1,"chooser must become inert");
   assert.equal(await page.evaluate(()=>document.activeElement?.id),"title","focus new heading");
   await page.locator("#homes button").first().click();
+  // The existing form guard requires a real bedroom + bathroom selection.
+  await page.locator("#beds").selectOption({index:1});
+  await page.locator("#baths").selectOption({index:1});
   await page.locator("#res button.next").click();
-  await page.waitForSelector("#resReview.on");
+  await page.waitForSelector("#resReview.on",{state:"visible",timeout:5000});
   await page.waitForTimeout(250);
   await page.locator("#resReview button.back").click();
   await page.waitForSelector("#res.on");
@@ -41,6 +44,16 @@ try{
     show("done","Request received","✓");
   });
   assert.equal(await page.locator("#done.on").count(),1,"rapid step changes must not stall");
+  // Quote assistant creates extra review screens at runtime; they must join the stack.
+  await page.evaluate(()=>{
+    const dynamic=document.createElement("div");dynamic.id="qaDynamicReview";
+    dynamic.className="screen";dynamic.textContent="Extra review screen";
+    document.getElementById("done").before(dynamic);
+    window.show("qaDynamicReview","Review additional details","REVIEW");
+  });
+  assert.equal(await page.locator("#qaDynamicReview.on").count(),1,"dynamic reviews must become active");
+  assert(await page.locator("#qaDynamicReview").isVisible(),"dynamic review must be painted");
+  assert.equal(await page.locator("#done[inert]").count(),1,"covered confirmation must be inert");
   assert.equal(errors.length,0,"browser errors: "+errors.join(", "));
   // Real-client/owner preview must never mount sample-only navigation.
   await page.goto(base+"/lead-private-preview.html?key=isolated-fixture&lang="+lang,{waitUntil:"domcontentloaded"});

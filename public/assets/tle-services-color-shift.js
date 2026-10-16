@@ -118,21 +118,39 @@
     function schedule() {
       if (!frame) frame = window.requestAnimationFrame(function () { frame = 0; update(); });
     }
+    var boundRail = rail;
     function onRailScroll() {
-      if (window.innerWidth < 768 && rail.scrollLeft > 8) touched = true;
+      var liveRail = section.querySelector('.service-grid');
+      if (liveRail && liveRail !== rail) {
+        rail = liveRail;
+        cards = Array.from(rail.querySelectorAll('.service-card'));
+      }
+      if (window.innerWidth < 768 && rail.scrollLeft > 8) {
+        touched = true;
+        // Paint immediately from horizontal progress; the vertical viewport may
+        // be moving independently while the user swipes the carousel.
+        var fraction = rail.scrollLeft / Math.max(1, rail.scrollWidth - rail.clientWidth);
+        paint(Math.round(clamp(fraction, 0, 1) * (themes.length - 1)));
+      }
       schedule();
+    }
+    function onScrollCapture(event) {
+      // Scroll events from horizontal rails do not bubble. Capture also survives
+      // React replacing the rail element during hydration or a card update.
+      if (event.target === section.querySelector('.service-grid')) onRailScroll();
     }
     function onResize() { if (window.innerWidth >= 768) touched = false; schedule(); }
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', onResize);
-    rail.addEventListener('scroll', onRailScroll, { passive: true });
+    boundRail.addEventListener('scroll', onRailScroll, { passive: true });
+    document.addEventListener('scroll', onScrollCapture, true);
     var mediaUpdate = function () { paint(current, true); schedule(); };
     reducedMotion.addEventListener('change', mediaUpdate);
     paint(0, true);
     schedule();
     if (!reducedMotion.matches) {
       ensureGsap().then(function (available) {
-        if (!available || !section.isConnected || state !== cleanup) return;
+        if (!available || !section.isConnected || (!state || state.cleanup !== cleanup)) return;
         var gsap = window.gsap, ScrollTrigger = window.ScrollTrigger;
         gsap.registerPlugin(ScrollTrigger);
         gsapReady = true;
@@ -161,7 +179,8 @@
       window.cancelAnimationFrame(frame);
       window.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', onResize);
-      rail.removeEventListener('scroll', onRailScroll);
+      boundRail.removeEventListener('scroll', onRailScroll);
+      document.removeEventListener('scroll', onScrollCapture, true);
       reducedMotion.removeEventListener('change', mediaUpdate);
       if (window.gsap) window.gsap.killTweensOf(section);
       if (ctx) ctx.revert();

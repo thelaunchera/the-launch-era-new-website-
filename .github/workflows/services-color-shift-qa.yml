@@ -1,0 +1,73 @@
+name: Services Scroll Color Shift QA
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'public/assets/tle-services-color-shift.js'
+      - 'public/assets/tle-services-color-shift.css'
+      - 'src/routes/__root.tsx'
+      - 'src/components/editorial-sections.tsx'
+      - 'src/routes/es.index.tsx'
+      - 'scripts/qa-services-color-shift.mjs'
+      - '.github/workflows/services-color-shift-qa.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'public/assets/tle-services-color-shift.js'
+      - 'public/assets/tle-services-color-shift.css'
+      - 'src/routes/__root.tsx'
+      - 'src/components/editorial-sections.tsx'
+      - 'src/routes/es.index.tsx'
+      - 'scripts/qa-services-color-shift.mjs'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test-service-color-shift:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Guard routes and service color script
+        run: |
+          node scripts/qa-route-integrity.mjs --static
+          node --check public/assets/tle-services-color-shift.js
+          node scripts/qa-services-color-shift.mjs
+      - name: Build website
+        run: |
+          bun install
+          bun run build
+          test -s .output/public/assets/tle-services-color-shift.css
+          test -s .output/public/assets/tle-services-color-shift.js
+      - name: Install Chromium browser
+        run: |
+          mkdir -p /tmp/tle-services-color-test
+          cd /tmp/tle-services-color-test
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          ln -sfn /tmp/tle-services-color-test/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-services-color-test/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: Browser-verify EN/ES phone and desktop background color changes, CDN blocked, reduced motion
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-services-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 25); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-services-color-shift.mjs --browser
+      - name: Archive screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tle-services-color-shift-screenshots
+          path: qa-screenshots/services-colors-*.png
+          if-no-files-found: ignore
