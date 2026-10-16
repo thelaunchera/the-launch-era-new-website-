@@ -1,0 +1,54 @@
+name: Audit website demo and natural gallery (PR only)
+on:
+  pull_request:
+    paths:
+      - 'public/assets/tle-demo-natural-v45.css'
+      - 'public/assets/tle-demo-natural-v45.js'
+      - 'public/lead-private-preview.html'
+      - 'public/booking-demo/index.html'
+      - 'scripts/qa-demo-natural-v45.mjs'
+      - 'scripts/qa-booking-demo-i18n-browser.mjs'
+      - '.github/workflows/tle-website-audit-pr.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Build and validate real site sources
+        run: |
+          node --check scripts/qa-demo-natural-v45.mjs
+          node --check scripts/qa-booking-demo-i18n-browser.mjs
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-public-demo-integrity.mjs
+          bun install
+          bun run build
+      - name: Install isolated Chromium
+        run: |
+          mkdir -p /tmp/tle-website-audit-pw
+          cd /tmp/tle-website-audit-pw
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+      - name: Browser smoke test EN and ES demo without sends
+        run: |
+          bun run dev -- --host 127.0.0.1 --port 4173 >/tmp/tle-website-audit.log 2>&1 &
+          for i in $(seq 1 45); do
+            if curl -sf http://127.0.0.1:4173/booking-demo/ >/dev/null; then break; fi
+            sleep 2
+          done
+          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-website-audit-pw/node_modules/playwright/index.mjs node scripts/qa-booking-demo-i18n-browser.mjs
+          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-website-audit-pw/node_modules/playwright/index.mjs node scripts/qa-demo-natural-v45.mjs
+      - name: Save sample-only screen captures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tle-audit-v45-synthetic-views
+          path: qa-screenshots/demo-v45/
+          if-no-files-found: ignore
