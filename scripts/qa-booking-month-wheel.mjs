@@ -32,8 +32,9 @@ try {
     rootOverflow:document.documentElement.scrollWidth-innerWidth
   }));
   assert.equal(initial.link,1);assert.equal(initial.photos,6);assert(initial.rootOverflow<=3,lang+' overflow');
-  await page.locator('.service[data-id="standard"]').click();
-  assert.equal(await page.locator('#detailsPanel').isVisible(),true,'Service tap opens calendar immediately');
+  await page.locator('.service[data-id="standard"]').dispatchEvent('click');
+   await page.locator('.service-flip-card[data-service="standard"] .service-flip-select').click();
+  assert.equal(await page.locator('#detailsPanel').isVisible(),true,'Back CTA opens the appointment calendar');
   await page.locator('#tleBookingAppointment').waitFor({state:'visible'});
   assert.equal(await page.locator('#apptDays button[role="radio"]').count(),new Date(new Date().getFullYear(),new Date().getMonth()+1,0).getDate(),
     'Must render EVERY day of a full month');
