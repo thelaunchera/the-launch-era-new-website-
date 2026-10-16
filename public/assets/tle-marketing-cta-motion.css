@@ -1,5 +1,5 @@
 /* The Launch Era public marketing CTAs only — no demo, client or checkout overrides. */
-:where(.sales-home,.service-hero,.service-sales,.service-story,.service-fit,.service-sales-close,.final-section,.tle-app-landing,.tle-freebie-page) .tle-cta-pulse-shell {
+:where(.sales-home,.service-hero,.service-sales,.service-story,.service-fit,.service-sales-close,.final-section,.tle-app-landing,.tle-freebie-page,.tle-marketing-standalone) .tle-cta-pulse-shell {
   position:relative;isolation:isolate;display:inline-flex;align-items:stretch;
   max-width:100%;border-radius:999px;vertical-align:middle;
   flex:0 1 auto;
@@ -26,7 +26,7 @@
 @media(max-width:420px){.tle-cta-pulse-shell{max-width:100%}.tle-cta-pulse-shell .tle-cta-pulse-button{white-space:normal;text-align:center;min-width:0}}
 
 /* Secondary non-demo marketing links. Single 2px ring, no neon/glow. */
-:where(.sales-home,.service-hero,.service-sales,.service-story,.service-fit,.service-sales-close,.final-section,.tle-app-landing,.tle-freebie-page)
+:where(.sales-home,.service-hero,.service-sales,.service-story,.service-fit,.service-sales-close,.final-section,.tle-app-landing,.tle-freebie-page,.tle-marketing-standalone)
   a:is(.service-demo-link,.tle-cta-gradient):not([href*="demo"]):not([href*="preview"]) {
   position:relative;isolation:isolate;overflow:hidden;
   display:inline-flex;align-items:center;justify-content:center;gap:9px;
@@ -35,21 +35,21 @@
   color:#191919;text-decoration:none;white-space:normal;
   box-shadow:none;transition:color .2s ease;
 }
-:where(.sales-home,.service-hero,.service-sales,.service-story,.service-fit,.service-sales-close,.final-section,.tle-app-landing,.tle-freebie-page)
+:where(.sales-home,.service-hero,.service-sales,.service-story,.service-fit,.service-sales-close,.final-section,.tle-app-landing,.tle-freebie-page,.tle-marketing-standalone)
   a:is(.service-demo-link,.tle-cta-gradient):not([href*="demo"]):not([href*="preview"])::before {
   content:"";position:absolute;z-index:-2;top:50%;left:50%;
   width:300px;height:300px;margin:-150px 0 0 -150px;pointer-events:none;
   background:conic-gradient(from 0deg,transparent 0 58%,#EAF4FC 82%,#8CBEDC 100%);
   animation:tle-cta-border-spin 3s linear infinite;
 }
-:where(.sales-home,.service-hero,.service-sales,.service-story,.service-fit,.service-sales-close,.final-section,.tle-app-landing,.tle-freebie-page)
+:where(.sales-home,.service-hero,.service-sales,.service-story,.service-fit,.service-sales-close,.final-section,.tle-app-landing,.tle-freebie-page,.tle-marketing-standalone)
   a:is(.service-demo-link,.tle-cta-gradient):not([href*="demo"]):not([href*="preview"])::after {
   content:"";position:absolute;inset:2px;z-index:-1;border-radius:inherit;
   background:#FAF8F3;pointer-events:none;transition:background .2s ease;
 }
-:where(.sales-home,.service-hero,.service-sales,.service-story,.service-fit,.service-sales-close,.final-section,.tle-app-landing,.tle-freebie-page)
+:where(.sales-home,.service-hero,.service-sales,.service-story,.service-fit,.service-sales-close,.final-section,.tle-app-landing,.tle-freebie-page,.tle-marketing-standalone)
   a:is(.service-demo-link,.tle-cta-gradient):not([href*="demo"]):not([href*="preview"]):hover::after{background:#EAF4FC}
-:where(.sales-home,.service-hero,.service-sales,.service-story,.service-fit,.service-sales-close,.final-section,.tle-app-landing,.tle-freebie-page)
+:where(.sales-home,.service-hero,.service-sales,.service-story,.service-fit,.service-sales-close,.final-section,.tle-app-landing,.tle-freebie-page,.tle-marketing-standalone)
   a:is(.service-demo-link,.tle-cta-gradient):not([href*="demo"]):not([href*="preview"]):focus-visible{outline:3px solid #5F9FC6;outline-offset:4px}
 @keyframes tle-cta-border-spin{to{transform:rotate(360deg)}}
 
@@ -118,7 +118,7 @@
 .tle-freebie-page .tle-morph-submit[data-state="done"] .tle-morph-dots i{background:#fff}
 @media(prefers-reduced-motion:reduce){
   .tle-cta-pulse-shell > .tle-cta-pulse-ring{animation:none!important;display:none!important}
-  :where(.sales-home,.service-hero,.service-sales,.service-story,.service-fit,.service-sales-close,.final-section,.tle-app-landing,.tle-freebie-page)
+  :where(.sales-home,.service-hero,.service-sales,.service-story,.service-fit,.service-sales-close,.final-section,.tle-app-landing,.tle-freebie-page,.tle-marketing-standalone)
   a:is(.service-demo-link,.tle-cta-gradient)::before{animation:none!important;transform:none!important}
   .tle-morph-submit{clip-path:none!important;transition:background-color .2s ease!important}
   .tle-morph-submit .tle-morph-label{transition:opacity .2s ease}
