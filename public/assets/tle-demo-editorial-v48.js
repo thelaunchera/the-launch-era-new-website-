@@ -59,8 +59,8 @@ function setup(){
  large.alt=copy.photoAlt;large.width=900;large.height=1000;large.loading="lazy";large.decoding="async";
  const small=document.createElement("img");small.src="/assets/demo-editorial/story-detail.webp";
  small.alt=copy.detailAlt;small.width=500;small.height=420;small.loading="lazy";small.decoding="async";
- large.addEventListener("error",()=>{if(!large.dataset.fallback){large.dataset.fallback="1";large.src="/assets/lead-demo/sunroom.png";}});
- small.addEventListener("error",()=>{if(!small.dataset.fallback){small.dataset.fallback="1";small.src="/assets/lead-demo/poolside-living.png";}});
+ large.addEventListener("error",()=>{if(!large.dataset.fallback){large.dataset.fallback="1";large.src="/assets/drive-house-gallery/whole-home.png";}});
+ small.addEventListener("error",()=>{if(!small.dataset.fallback){small.dataset.fallback="1";small.src="/assets/drive-house-gallery/pristine-kitchen.png";}});
  photos.append(large,small);
  const body=document.createElement("div");body.className="tle48-story-copy";
  const kicker=document.createElement("span");kicker.className="tle48-story-label";kicker.textContent=copy.storyLabel;
@@ -80,7 +80,7 @@ function setup(){
   const image=button.querySelector(".tle-service-photo-v21 img");
   if(image){
    image.src=pictures.residential[index];image.alt="";image.removeAttribute("data-drive-photo");
-   image.addEventListener("error",()=>{if(!image.dataset.editorialFallback){image.dataset.editorialFallback="1";image.src=["/assets/cleaning-demo/living-room-original.jpg","/assets/lead-demo/pristine-kitchen.png","/assets/lead-demo/hero-luxury-home.png"][index];}});
+   image.addEventListener("error",()=>{if(!image.dataset.editorialFallback){image.dataset.editorialFallback="1";image.src=["/assets/drive-house-gallery/quiet-luxury.png","/assets/drive-house-gallery/pristine-kitchen.png","/assets/drive-house-gallery/miami-condo.png"][index];}});
   }
  });
  const commercial=document.getElementById("commercialServiceList");
@@ -92,8 +92,9 @@ function setup(){
   image.src="/assets/demo-services/"+commercialPhotos[index]+".webp";
   image.alt="";
   image.addEventListener("error",()=>{
-   if(!image.dataset.editorialFallback){image.dataset.editorialFallback="1";image.src="/assets/lead-demo/spotless-office.png";}
-  });
+   card.classList.add("tle48-nonphoto-commercial");
+   image.setAttribute("aria-hidden","true");
+  },{once:true});
  });
  // Keep the custom quote path with its checked-area flow, and hide only
  // the older duplicate custom-quote tile when that replacement is present.
