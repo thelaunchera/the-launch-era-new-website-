@@ -1,0 +1,334 @@
+/* CRM upgrade phase 1: owner-only, non-destructive visual enhancements.
+   Customer workspaces retain their current approved UI and functionality. */
+body.crm-owner-view {
+  --crm-upgrade-accent: #78a8cc;
+  --crm-upgrade-accent-strong: #3d779e;
+  --crm-upgrade-accent-soft: #eaf3fb;
+  --crm-upgrade-ink: #191919;
+  --crm-upgrade-ivory: #faf8f3;
+  --crm-upgrade-border: #e0e9ef;
+  --crm-upgrade-focus: #377eae;
+}
+body.crm-owner-view #pipeline .premium-heading h1,
+body.crm-owner-view #pipeline h2,
+body.crm-owner-view #pipeline .section-title {
+  color: var(--crm-upgrade-ink);
+  letter-spacing: -.035em;
+  font-family: Prompt, Inter, ui-sans-serif, system-ui, sans-serif;
+}
+body.crm-owner-view .premium-sidebar {
+  background: #fff;
+  border-right: 1px solid var(--crm-upgrade-border);
+}
+body.crm-owner-view .premium-sidebar .nav-link {
+  border-radius: 12px;
+  min-height: 40px;
+}
+body.crm-owner-view .premium-sidebar .nav-link.active {
+  background: var(--crm-upgrade-accent-soft);
+  color: #225b7c;
+  box-shadow: inset 0 0 0 1px #b8d5e9;
+}
+body.crm-owner-view #leadToolbar,
+body.crm-owner-view #leadFilters {
+  gap: 12px;
+}
+body.crm-owner-view #leadToolbar button,
+body.crm-owner-view #leadFilters input,
+body.crm-owner-view #leadFilters select {
+  min-height: 42px;
+  border-radius: 12px;
+}
+body.crm-owner-view #board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(208px, 1fr));
+  align-items: stretch;
+  gap: 14px;
+  min-width: 0;
+  padding: 6px 3px 16px;
+}
+body.crm-owner-view #board .premium-lane {
+  background: linear-gradient(180deg, #f1f6fa 0%, #fafbfc 100%);
+  border: 1px solid var(--crm-upgrade-border);
+  border-radius: 19px;
+  min-width: 0;
+  padding: 14px 12px;
+  transition: background .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+body.crm-owner-view #board .premium-lane.crm-drag-target {
+  background: var(--crm-upgrade-accent-soft);
+  border-color: var(--crm-upgrade-accent);
+  box-shadow: inset 0 0 0 1px var(--crm-upgrade-accent);
+}
+body.crm-owner-view #board .premium-lane-head {
+  min-height: 64px;
+}
+body.crm-owner-view #board .premium-lane-label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  font-weight: 750;
+  color: var(--crm-upgrade-ink);
+}
+body.crm-owner-view #board .premium-stage-dot {
+  background: var(--crm-upgrade-accent-strong);
+}
+body.crm-owner-view #board .premium-lane[data-stage="Won"] .premium-stage-dot {
+  background: #39966f;
+}
+body.crm-owner-view #board .premium-lane-count {
+  font-variant-numeric: tabular-nums;
+}
+body.crm-owner-view #board .premium-lead {
+  position: relative;
+  min-width: 0;
+  border-radius: 16px;
+  border: 1px solid #e2eaf0;
+  padding: 17px 13px 14px;
+  background: white;
+  box-shadow: 0 3px 14px #2953730b;
+  transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+}
+body.crm-owner-view #board .premium-lead:hover {
+  transform: translateY(-2px);
+  border-color: #bbd7e9;
+  box-shadow: 0 11px 24px #2d658219;
+}
+body.crm-owner-view #board .premium-lead-upper {padding-right: 31px; min-width: 0;}
+body.crm-owner-view #board .premium-lead-status {min-width: 0; overflow-wrap: anywhere; max-width: 100%;}
+body.crm-owner-view #board .premium-lead-name {
+  display: block;
+  overflow-wrap: anywhere;
+  padding-right: 20px;
+  color: var(--crm-upgrade-ink);
+}
+body.crm-owner-view #board .premium-lead-contact,
+body.crm-owner-view #board .premium-lead-bottom {
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+}
+body.crm-owner-view #board .crm-drag-handle {
+  position: absolute;
+  top: 10px;
+  right: 9px;
+  z-index: 2;
+  width: 30px;
+  height: 32px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: #7294a8;
+  font: 700 20px/1 system-ui, sans-serif;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+body.crm-owner-view #board .crm-drag-handle:hover,
+body.crm-owner-view #board .crm-drag-handle:focus-visible {
+  background: var(--crm-upgrade-accent-soft);
+  border-color: #bbd6e6;
+  color: #275d80;
+}
+body.crm-owner-view #board .crm-drag-handle:active {
+  cursor: grabbing;
+}
+body.crm-owner-view #board .premium-lead.crm-drag-origin {
+  opacity: .52;
+  box-shadow: inset 0 0 0 1px #83b1cd;
+}
+.crm-stage-ghost {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  margin: 0;
+  padding: 14px;
+  background: #fff;
+  border: 1px solid #76a7c9;
+  border-radius: 15px;
+  box-shadow: 0 20px 48px #234d6940;
+  transform: rotate(1.6deg) scale(1.03);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  color: #191919;
+  will-change: left, top;
+}
+.crm-stage-ghost strong {font-size: 14px; overflow-wrap: anywhere;}
+.crm-stage-ghost small {color: #627989; font-size: 11px;}
+body.crm-owner-view #board .premium-lane-empty {
+  border: 1px dashed #a7c7db;
+  border-radius: 12px;
+  padding: 19px 11px;
+  color: #667b89;
+  text-align: center;
+}
+body.crm-owner-view .premium-drawer {
+  border-left: 1px solid var(--crm-upgrade-border);
+  box-shadow: -18px 0 45px #274e6719;
+}
+body.crm-owner-view .premium-drawer .lead-detail-tabs [aria-selected="true"] {
+  color: #265d81;
+}
+body.crm-owner-view :is(button, a, [role="button"], input, select, textarea):focus-visible {
+  outline: 2px solid var(--crm-upgrade-focus);
+  outline-offset: 3px;
+}
+@media (max-width: 1120px) {
+  body.crm-owner-view #board {
+    overflow-x: auto;
+    grid-template-columns: repeat(4, minmax(230px, 1fr));
+    scroll-snap-type: x proximity;
+    overscroll-behavior-x: contain;
+  }
+  body.crm-owner-view #board .premium-lane {scroll-snap-align: start;}
+}
+@media (max-width: 760px) {
+  body.crm-owner-view #board {
+    display: flex;
+    gap: 12px;
+    padding-bottom: 18px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+  body.crm-owner-view #board .premium-lane {
+    flex: 0 0 min(78vw, 350px);
+    scroll-snap-align: start;
+    min-width: 0;
+  }
+  body.crm-owner-view #board .premium-lead {padding: 15px 13px;}
+  body.crm-owner-view #leadToolbar {align-items: flex-start;}
+  body.crm-owner-view #leadFilters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 8px;
+  }
+  body.crm-owner-view #leadFilters input {flex: 1 1 100%; max-width: none;}
+  body.crm-owner-view #leadFilters select {flex: 1 1 45%; min-width: 0;}
+}
+@media (prefers-reduced-motion: reduce) {
+  body.crm-owner-view #board .premium-lead,
+  body.crm-owner-view #board .premium-lane,
+  .crm-stage-ghost {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
+  body.crm-owner-view #board .premium-lead:hover {transform: none;}
+}
+
+/* Consistent visual language for existing owner lead/profile/inbox/calendar sections.
+   These styles never create synthetic messages, tasks, opportunities, or activities. */
+body.crm-owner-view #inboundHub,
+body.crm-owner-view #emailHub,
+body.crm-owner-view #ownerCalendarHub {
+  background: #fff;
+  border: 1px solid var(--crm-upgrade-border);
+  border-radius: 19px;
+  box-shadow: 0 5px 18px #2d65820b;
+  padding: clamp(16px, 2vw, 26px);
+}
+body.crm-owner-view #inboundHub .section-title,
+body.crm-owner-view #emailHub .section-title,
+body.crm-owner-view #ownerCalendarHub .section-title {
+  font-family: Prompt, Inter, system-ui, sans-serif;
+  font-size: clamp(18px, 2vw, 23px);
+  letter-spacing: -.035em;
+  color: var(--crm-upgrade-ink);
+}
+body.crm-owner-view #inboundHub button,
+body.crm-owner-view #emailHub button,
+body.crm-owner-view #ownerCalendarHub button {
+  border-radius: 11px;
+}
+body.crm-owner-view #inboundHub input,
+body.crm-owner-view #emailHub input,
+body.crm-owner-view #emailHub textarea,
+body.crm-owner-view #ownerCalendarHub input,
+body.crm-owner-view #ownerCalendarHub select {
+  border-color: var(--crm-upgrade-border);
+  border-radius: 12px;
+  min-width: 0;
+}
+body.crm-owner-view #inboundHub .inbound-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+body.crm-owner-view #inboundHub .inbound-filters button {
+  min-height: 35px;
+  border-radius: 999px;
+  border: 1px solid var(--crm-upgrade-border);
+  background: #fff;
+  padding: 8px 13px;
+  font-size: 12px;
+}
+body.crm-owner-view #inboundHub .inbound-filters button.active {
+  border-color: #bad7e9;
+  background: var(--crm-upgrade-accent-soft);
+  color: #285f81;
+}
+body.crm-owner-view #leadProfileSummary {
+  border: 1px solid var(--crm-upgrade-border);
+  background: #f5f9fc;
+  color: #647788;
+  border-radius: 13px;
+  padding: 14px 16px;
+  line-height: 1.5;
+}
+body.crm-owner-view #leadOverviewSection,
+body.crm-owner-view #leadNotesSection,
+body.crm-owner-view #leadEmailSection {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+body.crm-owner-view .premium-drawer .lead-detail-tabs {
+  border-bottom: 1px solid var(--crm-upgrade-border);
+  display: flex;
+  gap: 7px;
+}
+body.crm-owner-view .premium-drawer .lead-detail-tabs button {
+  border-radius: 10px;
+  min-height: 39px;
+}
+body.crm-owner-view .premium-drawer .lead-detail-tabs button[aria-selected="true"] {
+  background: var(--crm-upgrade-accent-soft);
+  color: #205d81;
+  box-shadow: inset 0 0 0 1px #bbd8e8;
+}
+body.crm-owner-view #clients .client-directory {
+  min-width: 0;
+  gap: 14px;
+}
+body.crm-owner-view #clients .premium-client-card {
+  border: 1px solid var(--crm-upgrade-border);
+  border-radius: 17px;
+  box-shadow: 0 4px 15px #2b5e7911;
+}
+body.crm-owner-view .quickhome,
+body.crm-owner-view #leadToolbar,
+body.crm-owner-view #reminderBanner {
+  border-radius: 16px;
+}
+@media (max-width: 760px) {
+  body.crm-owner-view #inboundHub,
+  body.crm-owner-view #emailHub,
+  body.crm-owner-view #ownerCalendarHub {
+    padding: 15px;
+    border-radius: 16px;
+  }
+  body.crm-owner-view #leadProfileSummary {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  body.crm-owner-view #clients .client-directory {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
