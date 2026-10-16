@@ -105,7 +105,7 @@
   visibility: visible;
   pointer-events: auto;
 }
-.sales-home .hero-scroll-reveal span {
+.sales-home .hero-scroll-reveal > span {
   font: 600 10px/1.3 'Prompt', 'DM Sans', sans-serif;
   letter-spacing: .11em;
   color: #527D96;
@@ -164,7 +164,7 @@
     bottom: clamp(12px, 3vh, 25px);
     gap: 1px;
   }
-  .sales-home .hero-scroll-reveal span { font-size: 9px; }
+  .sales-home .hero-scroll-reveal > span { font-size: 9px; }
   .sales-home .hero-scroll-reveal a { padding-block: 3px; font-size: 13px; }
 }
 @media (max-width: 420px) and (max-height: 650px) {
@@ -344,4 +344,110 @@
   .sales-home .hero-scroll .hero-scroll-frame.hero-split {
     padding:14px 18px 45px !important;
   }
+}
+
+
+/* The booking-flow hint beneath the homepage logo: overlapping clipped text
+   halves, genuine native hash anchor, no new floating layer or page overflow. */
+.sales-home .hero-scroll-reveal a.tle-hero-split-link {
+  display:inline-grid;
+  place-items:center;
+  min-height:44px;
+  max-width:100%;
+  padding:7px 8px;
+  font-weight:600;
+  touch-action:manipulation;
+}
+.sales-home .hero-scroll-reveal .tle-hero-split-stack {
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  place-items:center;
+  position:relative;
+  max-width:100%;
+  white-space:nowrap;
+  isolation:isolate;
+}
+.sales-home .hero-scroll-reveal .tle-hero-split-stack > span {
+  font:inherit;
+  grid-area:1 / 1;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  min-width:0;
+  line-height:1.4;
+  letter-spacing:-.01em;
+}
+.sales-home .hero-scroll-reveal .tle-hero-split-stack svg {
+  flex:none;
+  width:1.1em;
+  height:1.1em;
+  stroke-width:2;
+}
+.sales-home .hero-scroll-reveal .tle-hero-split-front {
+  z-index:2;
+  color:#191919;
+  transform:translate3d(0,0,0);
+  transition:transform 587ms linear(0,0.094 5.6%,0.455 16.7%,0.726 27.8%,0.873 38.9%,0.944 50%,0.985 66.7%,1 100%);
+}
+.sales-home .hero-scroll-reveal .tle-hero-split-upper {clip-path:inset(0 0 50% 0)}
+.sales-home .hero-scroll-reveal .tle-hero-split-lower {clip-path:inset(50% 0 0 0)}
+.sales-home .hero-scroll-reveal .tle-hero-split-reveal {
+  z-index:1;
+  color:#406D88; /* WCAG AA text contrast on ivory and powder blue */
+  font-weight:600;
+  font-size:.79em;
+  letter-spacing:0;
+  opacity:0;
+  transform:scale(.88);
+  transition:transform 587ms cubic-bezier(.32,.72,0,1), opacity 320ms ease;
+}
+@media (hover:hover) and (pointer:fine) {
+  .sales-home .hero-scroll-reveal .tle-hero-split-link:hover .tle-hero-split-upper {
+    transform:translate3d(0,-.30em,0);
+  }
+  .sales-home .hero-scroll-reveal .tle-hero-split-link:hover .tle-hero-split-lower {
+    transform:translate3d(0,.30em,0);
+  }
+  .sales-home .hero-scroll-reveal .tle-hero-split-link:hover .tle-hero-split-reveal {
+    opacity:1;
+    transform:scale(1);
+  }
+}
+.sales-home .hero-scroll-reveal .tle-hero-split-link:focus-visible .tle-hero-split-upper,
+.sales-home .hero-scroll-reveal .tle-hero-split-link:active .tle-hero-split-upper {transform:translate3d(0,-.30em,0)}
+.sales-home .hero-scroll-reveal .tle-hero-split-link:focus-visible .tle-hero-split-lower,
+.sales-home .hero-scroll-reveal .tle-hero-split-link:active .tle-hero-split-lower {transform:translate3d(0,.30em,0)}
+.sales-home .hero-scroll-reveal .tle-hero-split-link:focus-visible .tle-hero-split-reveal,
+.sales-home .hero-scroll-reveal .tle-hero-split-link:active .tle-hero-split-reveal {opacity:1;transform:scale(1)}
+@media (max-width:767px) {
+  .sales-home .hero-scroll-reveal a.tle-hero-split-link {padding:5px 8px;font-size:clamp(13px,3.4vw,15px)}
+}
+@media (prefers-reduced-motion:reduce) {
+  .sales-home .hero-scroll-reveal .tle-hero-split-front,
+  .sales-home .hero-scroll-reveal .tle-hero-split-reveal {transition:none!important}
+  .sales-home .hero-scroll-reveal .tle-hero-split-link:focus-visible .tle-hero-split-front,
+  .sales-home .hero-scroll-reveal .tle-hero-split-link:active .tle-hero-split-front {
+    transform:none!important;
+    opacity:0;
+  }
+  .sales-home .hero-scroll-reveal .tle-hero-split-link:focus-visible .tle-hero-split-reveal,
+  .sales-home .hero-scroll-reveal .tle-hero-split-link:active .tle-hero-split-reveal {
+    transform:none!important;
+    opacity:1;
+  }
+}
+@media (prefers-reduced-motion:reduce) and (hover:hover) and (pointer:fine) {
+  .sales-home .hero-scroll-reveal .tle-hero-split-link:hover .tle-hero-split-front {
+    transform:none!important;
+    opacity:0;
+  }
+  .sales-home .hero-scroll-reveal .tle-hero-split-link:hover .tle-hero-split-reveal {
+    transform:none!important;
+    opacity:1;
+  }
+}
+@media (max-width:767px) and (prefers-reduced-motion:reduce) {
+  /* Keep the useful in-page link visible even when page-scale motion is off. */
+  .sales-home .hero-scroll .hero-scroll-reveal {display:grid}
 }
