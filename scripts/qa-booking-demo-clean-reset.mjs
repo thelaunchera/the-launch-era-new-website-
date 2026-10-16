@@ -10,13 +10,15 @@ const original=readFileSync('public/lead-private-preview.html','utf8');
 assert.match(original,/p\.has\('key'\)\|\|p\.get\('owner_preview'\)==='1'/,'Buyer/private preview gate must stay intact');
 assert.match(original,/location\.replace\('\/booking-demo-reset\.html'/,'Public sample must leave legacy effect stack');
 assert.match(original,/startResidential\('Standard Cleaning',120\)/,'Original source forms remain for keyed clients');
-assert(!/gsap|Flip\.min|cdn\.jsdelivr|animation\s*:|transition\s*:|transform\s*:|scroll-behavior\s*:\s*smooth|mix-blend-mode/i.test(html),'New public demo must have no effects or third-party motion');
+assert(!/gsap|Flip\.min|cdn\.jsdelivr|scroll-behavior\s*:\s*smooth|mix-blend-mode/i.test(html),'Booking form must not inherit the old animation library');
+assert.match(html,/\/assets\/tle-demo-hero-portal\.css/,'Only scoped requested hero animations are enabled');
 const scripts=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)];
 const inline=scripts.filter(x=>!/<script\s+src=/.test(x[0]));
 const external=scripts.filter(x=>/<script\s+src=/.test(x[0]));
 assert.equal(inline.length,1,'One compact booking wizard controller');
-assert.equal(external.length,1,'One optional Sonny / email lead-magnet enhancer');
-assert.match(external[0][0],/\/assets\/tle-demo-reset-lead-magnet\.js/,'Only clean enhancement asset allowed');
+assert.equal(external.length,2,'Only two scoped scripts: Sonny lead magnet and hero portal');
+assert.match(external[0][0],/\/assets\/tle-demo-reset-lead-magnet\.js/,'Sonny/lead context must remain unchanged');
+assert.match(external[1][0],/\/assets\/tle-demo-hero-portal\.js/,'Only the user-approved hero portal script may be added');
 new vm.Script(inline[0][1]);
 new vm.Script(readFileSync('public/assets/tle-demo-reset-lead-magnet.js','utf8'));
 for(const tag of ['id="resServices"','id="comServices"','id="detailsPanel"','id="reviewPanel"','id="completePanel"','id="customerName"','id="customerEmail"'])assert(html.includes(tag),'Missing service/booking field '+tag);
@@ -127,6 +129,14 @@ try{
    assert.equal(new URL(page.url()).searchParams.get('source'),'jessie_email',
      'Preserve email campaign attribution');
    assert.equal(await page.locator('#language').inputValue(),lang,'Preserve recipient language');
+   assert.equal(await page.locator('#bookingPortalHeadline').getAttribute('aria-label'),
+      lang==='es'?'Haz que tus reservas sean extraordinarias.':'Make your booking flow remarkable.');
+   const heroPhoto=page.locator('.booking-portal-picture').first();
+   await page.waitForFunction(()=>{
+      const img=document.querySelector('.booking-portal-picture');
+      return img&&img.complete&&img.naturalWidth>=1100;
+   },null,{timeout:15000});
+   assert.equal(await page.locator('#bookingPortalEnter').count(),1,'Window portal button must exist');
    await page.locator('#sonnyToggle').click();
    await page.locator('#sonnyInput').fill('Can you help me book a cleaning?');
    await page.locator('#sonnySend').click();

@@ -4,6 +4,8 @@ on:
     paths:
       - 'public/lead-private-preview.html'
       - 'public/booking-demo-reset.html'
+      - 'public/assets/tle-demo-hero-portal.css'
+      - 'public/assets/tle-demo-hero-portal.js'
       - 'scripts/qa-booking-demo-clean-reset.mjs'
       - '.github/workflows/booking-demo-clean-reset-qa.yml'
   push:
@@ -25,6 +27,7 @@ jobs:
         run: |
           node scripts/qa-route-integrity.mjs --static
           node scripts/qa-public-demo-integrity.mjs
+          node --check public/assets/tle-demo-hero-portal.js
           node --check scripts/qa-booking-demo-clean-reset.mjs
       - uses: oven-sh/setup-bun@v2
         with:
@@ -40,6 +43,7 @@ jobs:
         run: |
           bun install
           bun run build
+          test -s .output/public/assets/lead-demo/tle-booking-hero-original.webp
           test -s .output/public/booking-demo-reset.html
       - name: Install isolated Chromium
         run: |

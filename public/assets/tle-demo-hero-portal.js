@@ -1,0 +1,190 @@
+/* TLE Booking lead magnet: one controlled portal transition + verified gallery.
+   No booking/form writes. Existing Sonny and Jessie email handlers remain owner.
+*/
+(() => {
+ "use strict";
+ const root=document.getElementById("bookingPortal");
+ const front=document.getElementById("bookingPortalFront");
+ const windowButton=document.getElementById("bookingPortalEnter");
+ const copy=document.getElementById("bookingPortalCopy");
+ const reduced=window.matchMedia("(prefers-reduced-motion: reduce)");
+ const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
+ let raf=0;
+ let lastProgress=-1;
+ function updatePortal(){
+  raf=0;
+  if(!root||!front||!copy)return;
+  if(reduced.matches){
+   copy.classList.add("is-active");
+   front.style.setProperty("--portal-opacity","0");
+   return;
+  }
+  const rect=root.getBoundingClientRect();
+  const travel=Math.max(1,rect.height-window.innerHeight);
+  const progress=clamp(-rect.top/travel,0,1);
+  if(Math.abs(progress-lastProgress)<.002)return;
+  lastProgress=progress;
+  // The measured real window size controls the focal zoom on every breakpoint.
+  const portal=windowButton?.getBoundingClientRect();
+  // getBoundingClientRect changes as front scales. offsetWidth/Height do not.
+  const windowWidth=Math.max(1,windowButton?.offsetWidth||320);
+  const windowHeight=Math.max(1,windowButton?.offsetHeight||235);
+  const target=clamp(Math.max(window.innerWidth/windowWidth,window.innerHeight/windowHeight)*1.12,1,5.8);
+  const t=clamp(progress/.78,0,1);
+  // Smooth ease in/out, consistent with the requested cubic-bezier feeling.
+  const eased=t*t*(3-2*t);
+  front.style.setProperty("--portal-scale",String(1+(target-1)*eased));
+  const fade=1-clamp((progress-.71)/.18,0,1);
+  front.style.setProperty("--portal-opacity",String(fade));
+  const open=progress>.82;
+  front.style.pointerEvents=open?"none":"auto";
+  copy.classList.toggle("is-active",open);
+  root.classList.toggle("is-open",open);
+ }
+ const schedule=()=>{
+  if(!raf)raf=window.requestAnimationFrame(updatePortal);
+ };
+ if(root&&front&&windowButton&&copy){
+  window.addEventListener("scroll",schedule,{passive:true});
+  window.addEventListener("resize",()=>{lastProgress=-1;schedule()},{passive:true});
+  reduced.addEventListener?.("change",()=>{lastProgress=-1;schedule()});
+  windowButton.addEventListener("click",()=>{
+    const top=window.scrollY+root.getBoundingClientRect().top;
+    const distance=Math.max(0,root.offsetHeight-window.innerHeight);
+    window.scrollTo({top:top+distance,behavior:reduced.matches?"instant":"smooth"});
+  });
+  schedule();
+ }
+ // A single language switch controls the SAME hero and proof that email leads see.
+ const translations={
+   en:{
+     bookingPortalKicker:"THE LAUNCH ERA · BOOKING AUTOMATION",
+     bookingPortalLine:"Make your booking flow",
+     bookingPortalOld:"decent.",
+     bookingPortalNew:"remarkable.",
+     bookingPortalSub:"A simpler way to turn cleaning inquiries into a clear booking experience.",
+     bookingHeroDemo:"Explore booking",bookingHeroSonny:"Ask Sonny",
+     bookingPortalEnterText:"Enter the demo ↗",
+     bookingPortalIntroKicker:"A CLEARER WAY TO BOOK",
+     bookingPortalIntro:"Your next booking experience starts here.",
+     bookingPortalCue:"Scroll to explore ↓",
+     bookingProofKicker:"A BETTER FIRST IMPRESSION",
+     bookingProofTitle:"See what a simpler booking flow can do.",
+     bookingProofDesc:"These example review cards describe the experience in this demo. They are not published customer testimonials.",
+     bookingReview1Title:"Services, clearly explained",
+     bookingReview1Text:"Visitors can see what each type of clean includes and choose the right place to start.",
+     bookingReview2Title:"Fewer back-and-forth messages",
+     bookingReview2Text:"A straightforward request gathers the basics in one step-by-step flow.",
+     bookingReview3Title:"Details together",
+     bookingReview3Text:"Your sample Command Center shows how one request can stay organized.",
+     bookingCompareKicker:"BEFORE & AFTER",
+     bookingCompareTitle:"A fresh perspective on every clean.",
+     bookingCompareDesc:"Explore matched illustrative before-and-after photo pairs from the demo library. These are examples, not a claim about any customer's results.",
+     bookingPair1Title:"Grout detail",bookingPair2Title:"Bedroom refresh",bookingPair3Title:"Vanity polish",
+     bookingCompareUnavailable:"Photo comparisons are temporarily unavailable.",
+     finalHeadline:"Make your booking flow remarkable.",
+     reviewsFoot:"Illustrative demo experience",pairsFoot:"Illustrative matched photo pair",
+     before:"Before",after:"After",enter:"Enter the Booking Demo",
+     comparisons:["Compare grout before and after","Compare bedroom before and after","Compare vanity before and after"]
+   },
+   es:{
+     bookingPortalKicker:"THE LAUNCH ERA · RESERVAS AUTOMATIZADAS",
+     bookingPortalLine:"Haz que tus reservas sean",
+     bookingPortalOld:"aceptables.",
+     bookingPortalNew:"extraordinarias.",
+     bookingPortalSub:"Convierte las consultas de limpieza en una experiencia de reservas clara y sencilla.",
+     bookingHeroDemo:"Explorar reservas",bookingHeroSonny:"Hablar con Sonny",
+     bookingPortalEnterText:"Entrar al demo ↗",
+     bookingPortalIntroKicker:"RESERVAS MÁS SENCILLAS",
+     bookingPortalIntro:"Tu próxima experiencia de reservas empieza aquí.",
+     bookingPortalCue:"Desliza para explorar ↓",
+     bookingProofKicker:"UNA MEJOR PRIMERA IMPRESIÓN",
+     bookingProofTitle:"Descubre una forma más fácil de reservar.",
+     bookingProofDesc:"Estas tarjetas muestran situaciones de ejemplo del demo. No son reseñas publicadas de clientes reales.",
+     bookingReview1Title:"Servicios claros",
+     bookingReview1Text:"Los visitantes pueden ver los tipos de limpieza y elegir el servicio adecuado.",
+     bookingReview2Title:"Menos mensajes de ida y vuelta",
+     bookingReview2Text:"Una solicitud sencilla reúne los detalles necesarios paso a paso.",
+     bookingReview3Title:"Todo en un mismo lugar",
+     bookingReview3Text:"El Command Center de ejemplo muestra cómo organizar las solicitudes.",
+     bookingCompareKicker:"ANTES Y DESPUÉS",
+     bookingCompareTitle:"Una nueva perspectiva de cada limpieza.",
+     bookingCompareDesc:"Explora pares de fotos ilustrativas del antes y después. Son ejemplos, no resultados atribuidos a clientes.",
+     bookingPair1Title:"Detalles de juntas",bookingPair2Title:"Dormitorio renovado",bookingPair3Title:"Lavabo impecable",
+     bookingCompareUnavailable:"Las comparaciones no están disponibles temporalmente.",
+     finalHeadline:"Haz que tus reservas sean extraordinarias.",
+     reviewsFoot:"Ejemplo ilustrativo del demo",pairsFoot:"Par de fotos ilustrativas",
+     before:"Antes",after:"Después",enter:"Entrar al demo de reservas",
+     comparisons:["Comparar antes y después de las juntas","Comparar antes y después del dormitorio","Comparar antes y después del lavabo"]
+   }
+ };
+ function updateTranslations(){
+  const selected=document.getElementById("language")?.value==="es"?"es":"en";
+  const t=translations[selected];
+  for(const [id,value] of Object.entries(t)){
+   const el=document.getElementById(id);
+   if(el&&typeof value==="string")el.textContent=value;
+  }
+  document.getElementById("bookingPortalHeadline")?.setAttribute("aria-label",t.finalHeadline);
+  windowButton?.setAttribute("aria-label",t.enter);
+  document.querySelectorAll(".booking-review-foot").forEach(el=>el.textContent=t.reviewsFoot);
+  document.querySelectorAll(".booking-pair-caption").forEach(el=>el.textContent=t.pairsFoot);
+  document.querySelectorAll(".booking-compare-visual").forEach((el,index)=>{
+    el.querySelectorAll(".labels span").forEach((label,i)=>label.textContent=i===0?t.before:t.after);
+    el.querySelector('input[type="range"]')?.setAttribute("aria-label",t.comparisons[index]||t.comparisons[0]);
+  });
+ }
+ document.getElementById("language")?.addEventListener("change",updateTranslations);
+ updateTranslations();
+
+ // Hero Sonny shortcut toggles the existing REAL Sonny conversation.
+ document.getElementById("bookingHeroSonny")?.addEventListener("click",()=>{
+   const button=document.getElementById("sonnyToggle");
+   if(!button)return;
+   if(button.getAttribute("aria-expanded")!=="true")button.click();
+   document.getElementById("sonnyInput")?.focus({preventScroll:true});
+ });
+ // Paired real before & after images from the demo's existing library.
+ // Never substitute unrelated images as fabricated results.
+ const comparisons=[...document.querySelectorAll(".booking-compare-visual")];
+ let goodCount=0;
+ let checkedCount=0;
+ const info=document.getElementById("bookingCompareUnavailable");
+ function mark(card,isGood){
+   if(card.dataset.checked)return;
+   card.dataset.checked="1";
+   checkedCount++;
+   if(isGood)goodCount++;
+   else card.hidden=true;
+   if(info)info.hidden=goodCount>0||checkedCount!==comparisons.length;
+ }
+ comparisons.forEach(card=>{
+   const before=card.querySelector("img.before");
+   const after=card.querySelector("img.after");
+   const slider=card.querySelector('input[type="range"]');
+   const images=[before,after].filter(Boolean);
+   let failed=false;
+   function inspect(){
+     if(card.dataset.checked)return;
+     if(failed){mark(card,false);return}
+     if(images.some(img=>!img.complete))return;
+     mark(card,images.length===2&&images.every(img=>img.naturalWidth>0));
+   }
+   images.forEach(img=>{
+     img.addEventListener("error",()=>{failed=true;inspect()},{once:true});
+     img.addEventListener("load",inspect,{once:true});
+     // These matched pairs are generated by the existing image build. Never
+     // make the route-integrity scanner require build-time optional binaries.
+     const photo=img.dataset.photo;
+     if(photo)img.src=photo;
+     else failed=true;
+   });
+   slider?.addEventListener("input",()=>{
+     const value=clamp(Number(slider.value),0,100);
+     card.style.setProperty("--compare-split",value+"%");
+   });
+   inspect();
+ });
+ // Lazy photos finalize individually on load/error, preserving usable cards
+ // even when some illustrative source pairs cannot be downloaded.
+})();

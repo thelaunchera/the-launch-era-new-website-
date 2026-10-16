@@ -1,0 +1,119 @@
+/* TLE Booking lead magnet hero + proof — 2026-10-16
+   Isolated from booking form and customer-owned/private previews.
+   One deliberate portal transition, one accessible strike/replace.
+*/
+:root{
+ --booking-sky:#e5f5ff;--booking-blue:#afd9f2;--booking-blue-ink:#285f83;--booking-black:#191919;
+}
+body{background:#f4faff}
+.booking-portal{position:relative;height:195svh;isolation:isolate;background:#d7eafa;}
+.booking-portal-stage{position:sticky;top:0;overflow:hidden;height:100svh;min-height:480px;isolation:isolate}
+.booking-portal-scene{position:absolute;inset:0;overflow:hidden}
+.booking-portal-picture{width:100%;height:100%;display:block;object-fit:cover;object-position:center 48%}
+.booking-portal-back{z-index:1;background:#c8e6f5}
+.booking-portal-back::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(228,245,255,.94) 0%,rgba(227,245,255,.86) 28%,rgba(224,243,253,.36) 61%,rgba(228,245,255,.04) 100%);pointer-events:none}
+.booking-portal-front{z-index:3;transform-origin:50% 46%;transform:scale(var(--portal-scale,1));opacity:var(--portal-opacity,1);pointer-events:auto}
+.booking-portal-front::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,40,57,.18) 0%,rgba(11,32,48,.08) 52%,rgba(12,35,52,.45) 100%);pointer-events:none}
+.booking-portal-window{position:absolute;top:46%;left:50%;width:clamp(240px,28vw,440px);height:clamp(200px,29vh,315px);transform:translate(-50%,-50%);background:rgba(240,250,255,.32);border:7px solid rgba(255,255,255,.91);border-radius:13px;box-shadow:0 18px 50px rgba(7,37,53,.19);overflow:hidden;z-index:3;cursor:pointer;display:grid;place-items:end center;padding:0;outline-offset:5px}
+.booking-portal-window:focus-visible{outline:3px solid #191919}
+.booking-portal-preview{position:absolute;inset:0;background-image:url("/assets/lead-demo/tle-booking-hero-original.webp");background-position:center;background-size:cover;filter:saturate(.9)}
+.booking-portal-window::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 25%,rgba(0,18,33,.48));pointer-events:none}
+.booking-portal-enter{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:space-between;gap:24px;background:rgba(255,255,255,.93);padding:11px 18px;margin-bottom:15px;border-radius:999px;color:#191919;font-size:13px;font-weight:800;pointer-events:none}
+.booking-portal-front-caption{position:absolute;z-index:4;left:max(24px,calc((100vw - 1080px)/2));bottom:clamp(36px,8vh,95px);max-width:min(510px,65vw);color:#fff}
+.booking-portal-front-caption p{font-size:clamp(14px,1.4vw,18px);font-weight:700;line-height:1.45;margin:0 0 8px;text-shadow:0 2px 12px rgba(0,0,0,.32)}
+.booking-portal-front-caption span{display:block;font-size:11px;letter-spacing:.14em;font-weight:750}
+.booking-portal-copy{position:absolute;z-index:2;left:max(24px,calc((100vw - 1080px)/2));top:50%;transform:translateY(calc(-50% + 20px));max-width:min(680px,74vw);opacity:0;pointer-events:none}
+.booking-portal-copy.is-active{opacity:1;pointer-events:auto;transform:translateY(-50%);transition:opacity .4s ease,transform .55s cubic-bezier(.32,.72,0,1)}
+.booking-portal-kicker{font-size:clamp(11px,1vw,13px);font-weight:800;letter-spacing:.13em;color:#285f83;margin:0 0 18px}
+.booking-portal-copy h1{font-size:clamp(38px,5.5vw,78px);line-height:1.01;letter-spacing:-.055em;color:#191919;margin:0;max-width:690px;font-weight:800}
+.booking-portal-final-line{display:block;padding-bottom:.14em}
+.booking-portal-swap{display:grid;width:max-content;max-width:100%;position:relative;overflow:visible}
+.booking-portal-old,.booking-portal-new{grid-area:1/1;display:block;white-space:nowrap}
+.booking-portal-old{color:#191919}
+.booking-portal-new{color:#286c93;opacity:0;transform:translateY(-.35em)}
+.booking-portal-strike{position:absolute;left:0;top:55%;height:3px;width:min(100%,12ch);background:#286c93;transform:scaleX(0);transform-origin:left center}
+.booking-portal-copy.is-active .booking-portal-strike{animation:booking-strike .45s cubic-bezier(.32,.72,0,1) .18s both}
+.booking-portal-copy.is-active .booking-portal-old{animation:booking-old-out .42s cubic-bezier(.32,.72,0,1) .62s both}
+.booking-portal-copy.is-active .booking-portal-new{animation:booking-new-in .5s cubic-bezier(.32,.72,0,1) .62s both}
+@keyframes booking-strike{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes booking-old-out{to{opacity:0;transform:translateY(.3em)}}
+@keyframes booking-new-in{to{opacity:1;transform:translateY(0)}}
+.booking-portal-copy p.booking-portal-sub{font-size:clamp(14px,1.7vw,18px);line-height:1.6;color:#26495d;max-width:560px;margin:18px 0 24px}
+.booking-portal-actions{display:flex;gap:11px;flex-wrap:wrap}
+.booking-portal-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;border:1px solid #285f83;border-radius:999px;padding:11px 21px;background:#285f83;color:#fff;text-decoration:none;font-size:14px;font-weight:800;cursor:pointer}
+.booking-portal-btn.alt{background:rgba(255,255,255,.78);color:#191919;border-color:#85b2cc}
+.booking-portal-btn:focus-visible{outline:3px solid #191919;outline-offset:3px}
+.booking-portal-cue{position:absolute;right:max(22px,calc((100vw - 1100px)/2));bottom:30px;z-index:4;font-size:12px;font-weight:700;letter-spacing:.03em;color:#234c64}
+.booking-proof,.booking-before-after{padding:clamp(54px,7vw,92px) 0;background:#eff8fd}
+.booking-before-after{background:#f7fbfd}
+.booking-proof .shell,.booking-before-after .shell{max-width:1080px}
+.booking-proof-kicker{font-size:11px;font-weight:800;letter-spacing:.16em;color:#285f83;margin:0 0 10px}
+.booking-proof h2,.booking-before-after h2{font-size:clamp(28px,3.6vw,45px);letter-spacing:-.045em;line-height:1.1;margin:0 0 15px}
+.booking-proof-desc{max-width:670px;color:#455d6b;font-size:15px;line-height:1.65;margin:0 0 28px}
+.booking-review-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.booking-review{background:#fff;border:1px solid #d0e5f2;border-radius:17px;padding:21px;min-width:0}
+.booking-review-mark{font-size:13px;font-weight:800;letter-spacing:.06em;color:#285f83}
+.booking-review h3{font-size:17px;line-height:1.25;margin:12px 0 8px}
+.booking-review p{font-size:14px;line-height:1.6;color:#435766;margin:0}
+.booking-review small{display:block;margin-top:17px;color:#53606b;font-size:11px}
+.booking-compare-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.booking-compare-card{background:#fff;border:1px solid #d0e5f2;border-radius:17px;padding:13px;overflow:hidden;min-width:0}
+.booking-compare-card h3{font-size:16px;margin:5px 4px 12px}
+.booking-compare-visual{position:relative;isolation:isolate;aspect-ratio:1.24;overflow:hidden;background:#e6f3f8;border-radius:12px;--compare-split:50%}
+.booking-compare-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.booking-compare-visual img.after{clip-path:inset(0 calc(100% - var(--compare-split)) 0 0)}
+.booking-compare-visual .divider{position:absolute;z-index:2;left:var(--compare-split);top:0;bottom:0;width:2px;background:#fff;pointer-events:none}
+.booking-compare-visual .handle{position:absolute;z-index:2;left:var(--compare-split);top:50%;transform:translate(-50%,-50%);width:35px;height:35px;background:#fff;border-radius:50%;display:grid;place-items:center;font-weight:800;color:#285f83;pointer-events:none}
+.booking-compare-visual .labels{position:absolute;z-index:3;left:9px;right:9px;top:10px;display:flex;justify-content:space-between;pointer-events:none}
+.booking-compare-visual .labels span{background:rgba(255,255,255,.92);color:#191919;border-radius:6px;padding:5px 8px;font-size:11px;font-weight:800}
+.booking-compare-visual input{position:absolute;z-index:4;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize}
+.booking-compare-visual input:focus-visible{outline:3px solid #285f83;outline-offset:-4px;opacity:.01}
+.booking-compare-card p{font-size:12px;line-height:1.5;color:#4f626c;padding:0 3px}
+.booking-compare-card[hidden]{display:none!important}
+.booking-compare-empty{font-size:13px;color:#53606b}
+body .sonny{position:fixed;right:clamp(12px,3vw,30px);bottom:max(14px,env(safe-area-inset-bottom));width:min(370px,calc(100vw - 24px));z-index:60;border:1px solid #95c1db;border-radius:19px;background:#fff;box-shadow:0 14px 36px rgba(20,56,78,.2);overflow:hidden;margin:0}
+body .sonny-head{padding:0;display:block}
+body .sonny-head h2,body .sonny-head small{display:none}
+body .sonny-head button{min-height:54px;width:100%;display:flex;align-items:center;justify-content:flex-start;border:0;border-radius:0;background:#d6eefa;color:#191919;text-align:left;padding:11px 19px;font-size:14px;font-weight:800}
+body .sonny-head button::before{content:"✦";display:grid;place-items:center;width:29px;height:29px;margin-right:12px;background:#285f83;color:#fff;border-radius:50%;font-size:14px}
+body .sonny-body{max-height:min(66dvh,540px);overflow:auto;border-top:1px solid #c8e1ef}
+body .sonny-log{max-height:260px}
+body .sonny:not(:has(.sonny-body:not([hidden]))){width:auto;max-width:calc(100vw - 24px);border-radius:999px}
+body .sonny:not(:has(.sonny-body:not([hidden]))) .sonny-head button{padding:9px 18px 9px 10px;border-radius:999px}
+@media(max-width:800px){
+ .booking-portal{height:175svh}
+ .booking-portal-picture{object-position:58% center}
+ .booking-portal-back::after{background:linear-gradient(90deg,rgba(231,245,254,.92),rgba(231,245,254,.49) 70%,rgba(231,245,254,.1))}
+ .booking-portal-copy{left:24px;right:24px;max-width:540px}
+ .booking-review-grid,.booking-compare-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .booking-portal-window{width:min(64vw,350px);height:min(32vh,280px)}
+}
+@media(max-width:540px){
+ .booking-portal{height:170svh}
+ .booking-portal-stage{min-height:0;height:100svh}
+ .booking-portal-picture{object-position:62% center}
+ .booking-portal-back::after{background:linear-gradient(180deg,rgba(231,245,254,.61),rgba(231,245,254,.94) 59%,rgba(231,245,254,.98))}
+ .booking-portal-window{top:40%;width:70vw;height:29vh;max-height:260px;min-height:175px}
+ .booking-portal-front{transform-origin:50% 40%}
+ .booking-portal-front-caption{left:19px;right:19px;bottom:clamp(55px,11vh,95px);max-width:none}
+ .booking-portal-copy{left:20px;right:20px;top:auto;bottom:clamp(48px,10vh,90px);transform:translateY(18px);max-width:none}
+ .booking-portal-copy.is-active{transform:none}
+ .booking-portal-copy h1{font-size:clamp(33px,9.2vw,51px)}
+ .booking-portal-kicker{font-size:10px;margin-bottom:10px}
+ .booking-portal-copy p.booking-portal-sub{font-size:14px;line-height:1.45;margin:12px 0 16px}
+ .booking-portal-actions{gap:8px}
+ .booking-portal-btn{min-height:43px;font-size:13px;padding:10px 14px}
+ .booking-portal-cue{right:19px;bottom:18px}
+ .booking-review-grid,.booking-compare-grid{grid-template-columns:1fr}
+ .booking-review{padding:18px}
+ body .sonny{right:12px;bottom:max(12px,env(safe-area-inset-bottom));width:min(350px,calc(100vw - 24px))}
+}
+@media(prefers-reduced-motion:reduce){
+ .booking-portal{height:auto;min-height:clamp(650px,100svh,960px)}
+ .booking-portal-stage{position:relative;height:100svh;min-height:650px}
+ .booking-portal-front{display:none}
+ .booking-portal-copy,.booking-portal-copy.is-active{opacity:1;transform:none;pointer-events:auto;transition:none}
+ .booking-portal-strike,.booking-portal-old{display:none!important}
+ .booking-portal-new{opacity:1;transform:none;animation:none!important}
+ .booking-portal-back::after{background:linear-gradient(90deg,rgba(231,245,254,.95),rgba(231,245,254,.5))}
+}
