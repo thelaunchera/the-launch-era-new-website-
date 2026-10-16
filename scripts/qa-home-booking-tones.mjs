@@ -14,7 +14,7 @@ for (const [label, source] of [['English', en], ['Spanish', es]]) {
   assert.match(source, /booking-bundle\/\?lang=(?:en|es)/, label + ': checkout destination removed');
   assert.match(source, /\$19\.99/, label + ': offer price must remain unchanged');
   assert.match(source, /12 PM ET/, label + ': Saturday timing must be visible');
-  assert.match(source, /<ProductExplorer/, label + ': product preview must stay interactive');
+  assert.match(source, /<ConnectedBookingFlow lang="(?:en|es)"\/>/, label + ': connected preview must stay interactive');
 }
 assert.match(shared, /TWO AUTOMATIC FOLLOW-UPS/, 'Follow-up count not explained');
 assert.match(shared, /DOS SEGUIMIENTOS AUTOMÁTICOS/, 'Spanish follow-up count not explained');
@@ -40,4 +40,4 @@ for (const bg of ['#FAF8F3', '#EAF4FC', '#FFFFFF']) {
     assert.ok((a + 0.05) / (b + 0.05) >= 4.5, 'WCAG AA contrast failure ' + fg + '/' + bg);
   }
 }
-console.log('✅ Homepage EN/ES booking tones: copy, checkout, tabs, motion, cleanup and AA contrast guards passed');
+console.log('✅ Homepage EN/ES booking tones: copy, checkout, connected board, motion, cleanup and AA contrast guards passed');
