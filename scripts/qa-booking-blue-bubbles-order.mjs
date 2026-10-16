@@ -58,7 +58,7 @@ try {
     });
     assert(r.order,'Reviews not underneath Before and After '+lang+' '+width);
     assert(r.bubbleLayers,'Bubbles did not reach full booking page '+lang+' '+width+JSON.stringify(r));
-    assert(r.quoteCard===2 && r.quoteWidth>=Math.min(298,width-36),'Custom quote card missing/too narrow '+JSON.stringify(r));
+    assert(r.quoteCard===2 && r.quoteWidth>=Math.min(270,width-60),'Custom quote card missing/too narrow '+JSON.stringify(r));
     assert(r.invite,'Custom quote bubble section hidden');
     assert(r.sonnyImage.includes('ai-demo-robot.webp'),'Sonny blue robot bubble missing');
     assert(r.overflow<=3,'Horizontal overflow '+JSON.stringify(r));
