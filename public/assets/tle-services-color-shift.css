@@ -4,8 +4,10 @@
   --inkc: #191919;
   background: var(--bgc);
   color: var(--inkc);
-  transition: none;
+  transition: background-color .45s ease, color .45s ease;
 }
+.solutions-section[data-services-color-shift].gsap-ready { transition: none; }
+.solutions-section[data-services-color-shift] .service-grid { scroll-margin-top: 86px; }
 .solutions-section[data-services-color-shift] .section-heading,
 .solutions-section[data-services-color-shift] .section-heading .eyebrow,
 .solutions-section[data-services-color-shift] .section-heading h2,
@@ -93,5 +95,6 @@
   .solutions-section[data-services-color-shift] .sol-color-bars { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .solutions-section[data-services-color-shift] .sol-color-bars i { transition: none; }
+  .solutions-section[data-services-color-shift],
+  .solutions-section[data-services-color-shift] .sol-color-bars i { transition: none !important; }
 }
