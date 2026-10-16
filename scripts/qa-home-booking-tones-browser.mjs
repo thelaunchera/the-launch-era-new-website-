@@ -64,6 +64,13 @@ try {
         return {bg,windowWidth:innerWidth,sectionWidth:el.scrollWidth,sectionClient:el.clientWidth,previewLeft:exp.left,previewRight:exp.right,copyRight:intro.right};
       });
       assert.equal(state.bg,'rgb(234, 244, 252)',lang+' '+width+': not the approved ice blue');
+      if (state.sectionWidth > state.sectionClient + 3) {
+        const offenders = await section.evaluate(el => [...el.querySelectorAll('*')].map(x => {
+          const rect=x.getBoundingClientRect();
+          return {tag:x.tagName, cls:typeof x.className === 'string' ? x.className.slice(0,75) : '',text:x.textContent?.trim().slice(0,85),left:Math.round(rect.left),right:Math.round(rect.right),inner:x.scrollWidth-x.clientWidth};
+        }).filter(x=>x.right>innerWidth+2 || x.left < -3 || x.inner > 12).slice(0,20));
+        console.log('[OVERFLOW DIAGNOSTIC]',lang,width,JSON.stringify(offenders));
+      }
       assert(state.sectionWidth<=state.sectionClient+3,lang+' '+width+': booking section horizontal overflow '+JSON.stringify(state));
       assert(state.previewLeft>=-3&&state.previewRight<=width+3,lang+' '+width+': preview cropped '+JSON.stringify(state));
       if(width===390){await section.screenshot({path:`qa-screenshots/booking-tones-${lang}-390.png`});}
