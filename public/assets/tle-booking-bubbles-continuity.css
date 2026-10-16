@@ -252,3 +252,48 @@ body footer {background:#dbf0fd;color:#305d78;border-top-color:#a6d1e7;}
 @media(prefers-reduced-motion:reduce){
  #bookingPage .choice-check span,#bookingPage .extra-check span{transition:none}
 }
+
+
+/* Booking demo service preview flips, isolated from paid/keyed customer pages.
+   Photos remain free of overlays. Only the back has a Continue action. */
+#bookingPage .service-flip-card{position:relative;height:365px;min-width:0;perspective:900px;isolation:isolate}
+#bookingPage .service-flip-inner{height:100%;width:100%;position:relative;transform-style:preserve-3d;transition:transform 760ms cubic-bezier(.34,1.4,.64,1)}
+#bookingPage .service-flip-card.is-flipped .service-flip-inner{transform:rotateY(180deg)}
+#bookingPage .service-flip-face{position:absolute;inset:0;overflow:hidden;border-radius:23px;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+#bookingPage .service-flip-front .service{width:100%;height:100%;min-height:0;display:grid;grid-template-rows:54% auto auto 1fr;padding:0!important;text-align:left;border-radius:23px;overflow:hidden}
+#bookingPage .service-flip-front .service-media,
+#bookingPage .service-flip-front .service[aria-pressed="true"] .service-media{height:100%;width:100%}
+#bookingPage .service-flip-front .service-copy{padding:12px 15px 5px}
+#bookingPage .service-flip-front .service-price{padding:8px 15px 3px;align-self:start}
+#bookingPage .service-flip-cue{display:flex;align-items:end;padding:4px 15px 12px;font-size:12px;font-weight:800;color:#285f83;line-height:1.45}
+#bookingPage .service-flip-back{transform:rotateY(180deg);display:flex;flex-direction:column;gap:10px;padding:20px 18px 17px;background:linear-gradient(148deg,#e1f3fe,#fafdff 61%,#d6ebf9);border:1.5px solid #87b9d7;box-shadow:0 12px 28px rgba(45,113,151,.1);color:#193b54}
+#bookingPage .service-flip-back h3{font-size:clamp(18px,2vw,23px);font-weight:800;letter-spacing:-.02em;line-height:1.18;margin:2px 37px 0 0}
+#bookingPage .service-flip-back p{font-size:13px;line-height:1.5;color:#45697e;margin:0}
+#bookingPage .service-flip-back ul{list-style:none;margin:5px 0 6px;padding:0;display:grid;gap:10px}
+#bookingPage .service-flip-back li{font-size:12px;color:#234d66;line-height:1.38;font-weight:675;padding-left:18px;position:relative}
+#bookingPage .service-flip-back li::before{content:"✓";position:absolute;left:0;top:0;color:#2b7aa9;font-weight:900}
+#bookingPage .service-flip-kicker{color:#3d7696;letter-spacing:.12em;font-size:10px;font-weight:800;padding-right:34px}
+#bookingPage .service-flip-return{position:absolute;right:13px;top:12px;border:1px solid #9fc9e0;width:35px;height:35px;border-radius:999px;display:grid;place-items:center;color:#245e82;background:white;cursor:pointer;font-size:18px}
+#bookingPage .service-flip-select{margin-top:auto;border:1px solid #245f83;color:white;background:#245f83;min-height:48px;padding:12px 15px;border-radius:999px;font-size:13px;font-weight:800;text-align:center;cursor:pointer}
+#bookingPage .service-flip-select:hover{background:#184967}
+#bookingPage .service-flip-card .service:focus-visible,
+#bookingPage .service-flip-return:focus-visible,
+#bookingPage .service-flip-select:focus-visible{outline:3px solid #276b98;outline-offset:-5px}
+@media(max-width:700px){
+ #bookingPage .service-flip-card{height:355px}
+ #bookingPage .service-flip-front .service{grid-template-rows:55% auto auto 1fr}
+ #bookingPage .service-flip-back{padding:17px 16px 14px;gap:8px}
+ #bookingPage .service-flip-back ul{gap:8px}
+ #bookingPage .service-flip-cue{padding-bottom:10px}
+}
+@media(max-width:380px){
+ #bookingPage .service-flip-card{height:344px}
+ #bookingPage .service-flip-back{gap:7px;padding:15px}
+ #bookingPage .service-flip-back ul{gap:8px}
+}
+@media(prefers-reduced-motion:reduce){
+ #bookingPage .service-flip-inner{transform:none!important;transition:none!important}
+ #bookingPage .service-flip-front{display:none!important}
+ #bookingPage .service-flip-back{transform:none!important;backface-visibility:visible;-webkit-backface-visibility:visible}
+ #bookingPage .service-flip-return{display:none!important}
+}
