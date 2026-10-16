@@ -267,11 +267,13 @@
   margin: 0;
 }
 @media (min-width: 650px) and (max-width: 1000px) {
-  .sales-home .booking-scrolly-card { width: min(48%, 440px); }
+  .sales-home .booking-scrolly-card { width: min(54%, 450px); }
   .sales-home .booking-scrolly-shape,
-  .sales-home .booking-scrolly-icon-ring { left: 7%; top: 34%; }
-  .sales-home .booking-scrolly-wrap[data-step="1"] .booking-scrolly-shape { transform: translate(2vw, 2vh) scale(.96) rotate(45deg); }
-  .sales-home .booking-scrolly-wrap[data-step="1"] .booking-scrolly-icon-ring { transform: translate(2vw, 2vh) scale(.96); }
+  .sales-home .booking-scrolly-icon-ring { left: 7%; top: 34%; width: clamp(325px, 42vw, 390px); }
+  .sales-home .booking-scrolly-wrap[data-step="1"] .booking-scrolly-shape { transform: translate(-2vw, 2vh) scale(.96) rotate(45deg); }
+  .sales-home .booking-scrolly-wrap[data-step="1"] .booking-scrolly-icon-ring { transform: translate(-2vw, 2vh) scale(.96); }
+  .sales-home .booking-scrolly-wrap[data-step="2"] .booking-scrolly-shape { transform: translate(-3vw, -3vh) scale(.92) rotate(100deg); }
+  .sales-home .booking-scrolly-wrap[data-step="2"] .booking-scrolly-icon-ring { transform: translate(-3vw, -3vh) scale(.92); }
 }
 @media (max-width: 649px) {
   .sales-home .booking-scrolly-sticky { padding: clamp(22px,4svh,36px) 14px; }
