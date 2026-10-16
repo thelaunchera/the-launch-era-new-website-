@@ -64,6 +64,8 @@ try {
   }else{
     await page.locator('#bookingPortalEnter').click();
     await page.waitForFunction(()=>document.querySelector('.booking-portal-copy')?.classList.contains('is-active'),null,{timeout:10000});
+    await page.waitForFunction(()=>parseFloat(getComputedStyle(document.getElementById('bookingPortalFront')).opacity)<.08,
+      null,{timeout:8000});
     const zoom=await page.locator('#bookingPortalFront').evaluate(el=>({
       opacity:parseFloat(getComputedStyle(el).opacity),
       transform:getComputedStyle(el).transform
