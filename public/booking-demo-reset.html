@@ -80,6 +80,24 @@
   .finish-links a { display:inline-flex; padding:13px 16px; border-radius:8px; background:#D7EDFA; border:1px solid #AECEDF; font-size:14px; font-weight:750; text-decoration:none; }
   .sonny { margin-top:20px; border:1px solid var(--line); background:#fff; border-radius:14px; overflow:hidden; }
   .sonny-head { padding:18px 22px; display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  /* Restore Sonny's approved blue robot avatar without restoring the old overlays. */
+  .sonny-title-group { display:flex; align-items:center; gap:13px; min-width:0; }
+  .sonny-title-group>div { min-width:0; }
+  .sonny-avatar-mark { display:grid; place-items:center; flex:0 0 54px; width:54px; height:54px; border-radius:50%; background:#122437; border:1px solid #7dc9f5; box-shadow:0 5px 14px rgba(7,21,39,.2); overflow:hidden; }
+  .sonny-avatar-mark img { display:block; width:49px; height:49px; object-fit:contain; }
+  #sonnyAvatarLauncher { position:fixed; z-index:80; right:calc(18px + env(safe-area-inset-right, 0px)); bottom:calc(19px + env(safe-area-inset-bottom, 0px)); display:grid; place-items:center; width:64px; height:64px; padding:4px; border:1px solid #7dc9f5; border-radius:50%; background:#122437; box-shadow:0 9px 28px rgba(7,21,39,.32); cursor:pointer; }
+  #sonnyAvatarLauncher[hidden] { display:none!important; }
+  #sonnyAvatarLauncher img { display:block; width:54px; height:54px; object-fit:contain; }
+  #sonnyAvatarLauncher:hover { background:#1b354a; }
+  #sonnyAvatarLauncher:focus-visible { outline:3px solid #438db7; outline-offset:4px; }
+  @media(max-width:700px) {
+    .sonny-title-group { gap:10px; }
+    .sonny-avatar-mark { flex-basis:47px; width:47px; height:47px; }
+    .sonny-avatar-mark img { width:43px; height:43px; }
+    #sonnyAvatarLauncher { width:58px; height:58px; right:calc(12px + env(safe-area-inset-right, 0px)); bottom:calc(14px + env(safe-area-inset-bottom, 0px)); }
+    #sonnyAvatarLauncher img { width:49px; height:49px; }
+  }
+
   .sonny-head h2 { margin:0; font-size:20px; }
   .sonny-head small { display:block; color:var(--muted); margin-top:5px; font-size:12px; }
   .sonny-body { border-top:1px solid var(--line); padding:18px 22px 22px; }
@@ -239,12 +257,13 @@
   <div id="completePanel" class="panel" hidden><div class="complete"><h3 id="doneHeading">Preview complete.</h3><p id="doneBody">This is how a booking request could be reviewed. No booking, payment, email, or client record was created.</p><button type="button" class="primary" id="restart">Start again</button><div id="finishLinks" class="finish-links"><a id="trackerLink" href="/lead-demo-tracker.html">View demo Command Center →</a></div></div></div>
  </section>
  <section class="sonny" aria-labelledby="sonnyTitle">
-  <div class="sonny-head"><div><h2 id="sonnyTitle">Want to try Sonny?</h2><small id="sonnySubtitle">Optional AI booking assistant · Demo only</small></div><button type="button" class="secondary" id="sonnyToggle" aria-controls="sonnyBody" aria-expanded="false">Try Sonny</button></div>
+  <div class="sonny-head"><div class="sonny-title-group"><span class="sonny-avatar-mark" aria-hidden="true"><img src="/assets/lead-demo/ai-demo-robot.webp" width="49" height="49" alt="" decoding="async"></span><div><h2 id="sonnyTitle">Want to try Sonny?</h2><small id="sonnySubtitle">Optional AI booking assistant · Demo only</small></div></div><button type="button" class="secondary" id="sonnyToggle" aria-controls="sonnyBody" aria-expanded="false">Try Sonny</button></div>
   <div class="sonny-body" id="sonnyBody" hidden><div id="sonnyLog" class="sonny-log" role="log" aria-label="Sonny conversation" aria-live="polite"></div>
     <form id="sonnyForm" class="sonny-form"><input id="sonnyInput" type="text" maxlength="650" aria-label="Your message for Sonny" placeholder="Ask about a cleaning appointment" required><button id="sonnySend" type="submit">Send</button></form>
     <p class="sonny-status" id="sonnyStatus">Simulation only. No real booking or email will be sent.</p><button type="button" class="secondary" id="sonnyUse" hidden style="margin-top:12px">Use details in the sample form</button>
   </div>
  </section>
+ <button type="button" id="sonnyAvatarLauncher" hidden aria-label="Chat with Sonny — sample demo" aria-controls="sonnyBody" aria-expanded="false" title="Sonny"><img src="/assets/lead-demo/ai-demo-robot.webp" width="54" height="54" alt="" decoding="async"></button>
  <p class="bottom-note" id="footerNote">*Prices are sample estimates, not guaranteed quotes. Final scope and availability are confirmed by the cleaning business.</p>
 
 </main>
