@@ -1,3 +1,9 @@
+## Mobile homepage centering fix (2026-10-16)
+- **Scope**: only The Launch Era EN/ES public homepages, not customer sites, Command Centers, demo, or checkout.
+- **Cause verified**: EN 390px browser viewport previously produced 415px root scrollWidth; 360px EN produced 398px and 360px ES produced 373px. Final marketing CTA ripple scaled to 134% and projected outside the mobile gutters, moving the whole page sideways.
+- **Fix**: `public/assets/tle-marketing-cta-motion.css` scopes the ripple to `tle-final-mobile-safe-pulse` on `.sales-home .final-section` below 768px. Keeps the live CTA, spinning border, links, and original design; root stylesheet cache key `20261016-3`.
+- **QA**: `scripts/qa-homepage-horizontal-centering.mjs` via the Homepage Booking Tone QA CI job checks EN/ES at 360/390/414/768, mobile/touch and desktop simulation, all 4 vertical phases. Prior branch passed 64/64 at 0px overflow; final deployment requires the same gate. Do not substitute global `overflow-x:hidden` for a real layout fix.
+
 ## Fictional cleaning demo v46 — rotating human lines on photographs (2026-10-16)
 - **Scope:** only unkeyed EN/ES `/lead-private-preview.html`; guard against `?key=` and `?owner_preview=1`. No changes to CB Depot, customer previews, billing, Cleaning App or private Command Center.
 - **Files:** `public/assets/tle-demo-photo-words-v46.js/css` loaded last in the public demo; adds microcopy **inside seven existing real photo service buttons** (3 residential and 4 commercial). Original button onclick, service labels, photos/source Drive ids, price estimates, quote and calendar untouched. Never use fake annual savings or a hero booking calendar.
