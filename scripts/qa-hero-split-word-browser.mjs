@@ -17,6 +17,16 @@ try{
    assert.equal(await link.locator('.tle-hero-split-front').count(),2);
    assert.equal(await link.locator('.tle-hero-split-reveal').count(),1);
    assert.equal(await link.locator('.tle-hero-split-front').first().innerText(),copy);
+   // The actual link—not a decorative container—must be readable at phone size.
+   const mobileSize=await link.evaluate(el=>{
+     const box=el.getBoundingClientRect();
+     const style=getComputedStyle(el);
+     return {font:parseFloat(style.fontSize),height:box.height,width:box.width,viewport:innerWidth,
+       kicker:parseFloat(getComputedStyle(el.closest('.hero-scroll-reveal').querySelector(':scope > span')).fontSize)};
+   });
+   assert(mobileSize.font>=17 && mobileSize.height>=90 && mobileSize.kicker>=10.5,
+     lang+' '+width+': booking-flow hint still too small '+JSON.stringify(mobileSize));
+   assert(mobileSize.width<=mobileSize.viewport+1,lang+' '+width+': oversized link '+JSON.stringify(mobileSize));
    // SSR markup can briefly be replaced during hydration; check attached
    // nodes and their final computed clip rather than a transient detached node.
    await page.waitForFunction(()=>{
@@ -61,13 +71,16 @@ try{
    scrollTo({top:top+hero.offsetHeight-innerHeight+18,behavior:'instant'});
   });
   await a.waitFor({state:'visible',timeout:10000});
+  const desktopSize=await a.evaluate(el=>({font:parseFloat(getComputedStyle(el).fontSize),height:el.getBoundingClientRect().height,width:el.getBoundingClientRect().width}));
+  assert(desktopSize.font>=20 && desktopSize.height>=100 && desktopSize.width>=420,
+    lang+': booking-flow text must be readable and centered on computer '+JSON.stringify(desktopSize));
   await a.hover({timeout:10000});
   await desktop.waitForTimeout(1250);
   const hovered=await a.evaluate(el=>{
    const upper=el.querySelector('.tle-hero-split-upper'),lower=el.querySelector('.tle-hero-split-lower'),reveal=el.querySelector('.tle-hero-split-reveal');
    return {upper:new DOMMatrixReadOnly(getComputedStyle(upper).transform).m42,lower:new DOMMatrixReadOnly(getComputedStyle(lower).transform).m42,opacity:Number(getComputedStyle(reveal).opacity)};
   });
-  assert(hovered.upper<-10&&hovered.lower>10&&hovered.opacity>.95,lang+': split-word hover did not reveal accent label '+JSON.stringify(hovered));
+  assert(hovered.upper<-19&&hovered.lower>19&&hovered.opacity>.95,lang+': split-word hover did not reveal accent label '+JSON.stringify(hovered));
   await desktop.close();
 
   // A touchscreen needs a readable, slower one-time reveal without hovering
@@ -114,5 +127,5 @@ try{
   await reduced.waitForFunction(()=>location.hash==='#hero-next',{timeout:6000});
   await reduced.close();
  }
- console.log('[SPLIT-WORD HERO QA PASSED] EN/ES 360/390/414 first tap, 1.08s desktop hover, slow touch reveal and reduced motion.');
+ console.log('[SPLIT-WORD HERO QA PASSED] EN/ES readable sizing, clean hover split, 360/390/414 first tap, slow touch and reduced motion.');
 } finally {await browser.close()}
