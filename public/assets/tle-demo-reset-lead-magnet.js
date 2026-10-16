@@ -166,8 +166,8 @@
     if(card&&'IntersectionObserver' in window){
       const observer=new IntersectionObserver(entries=>{
         // When the in-page Sonny card is visible, avoid a duplicate launcher.
-        sonnyLauncher.hidden=entries.some(entry=>entry.isIntersecting);
-      },{threshold:0.18});
+        sonnyLauncher.hidden=entries.some(entry=>entry.isIntersecting&&entry.intersectionRatio>=0.45);
+      },{threshold:[0,0.45]});
       observer.observe(card);
     }else sonnyLauncher.hidden=false;
   }
