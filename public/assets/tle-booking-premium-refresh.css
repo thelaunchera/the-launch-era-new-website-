@@ -1,0 +1,129 @@
+/* The Launch Era — unified public Booking Demo polish.
+   Visual-only: approved assets and ONE existing Sonny assistant. No changes to
+   client/owner keyed previews, emails, booking, checkout or data.
+*/
+:root{
+  --tle-demo-surface:#eef7fc;
+  --tle-demo-outline:#a7cde4;
+  --tle-demo-ink:#18384d;
+  --tle-demo-shadow:0 12px 29px rgba(40,92,123,.085);
+}
+body{background:#edf7fc;color:#172f41}
+body>.booking-portal,
+body>main,
+body>.booking-proof,
+body>.booking-before-after{isolation:isolate}
+body>main.shell{width:min(1180px,calc(100% - 44px));padding:clamp(38px,5.8vw,76px) 0 clamp(62px,7vw,98px)}
+body header{background:#f5fbfe;border-color:#c5e0ef}
+body .booking-portal{height:156svh;background:#d4eaf7}
+body .booking-portal-scene img.booking-portal-picture{filter:saturate(1.06) contrast(1.055)}
+body .booking-portal-front::after{background:linear-gradient(180deg,rgba(9,29,45,.05) 0%,rgba(9,29,45,.06) 42%,rgba(8,33,51,.52) 100%)}
+body .booking-portal-back::after{background:linear-gradient(95deg,rgba(228,244,253,.79) 0%,rgba(228,244,253,.72) 36%,rgba(227,242,250,.29) 77%,rgba(227,242,250,.08) 100%)}
+body .booking-portal-window{border:5px solid rgba(255,255,255,.97);border-radius:26px;background:#ddecf4;box-shadow:0 20px 48px rgba(8,42,63,.27),0 0 0 1px rgba(27,81,115,.22)}
+body .booking-portal-preview{filter:saturate(1.06) contrast(1.06);background-position:55% center}
+body .booking-portal-window::after{background:linear-gradient(180deg,transparent 42%,rgba(12,37,51,.52))}
+body .booking-portal-enter{box-shadow:0 5px 20px rgba(9,37,54,.16)}
+body .booking-portal-copy{max-width:min(730px,78vw)}
+body .booking-portal-copy h1{color:#142e42;text-shadow:0 1px 0 rgba(255,255,255,.16)}
+body .booking-portal-copy p.booking-portal-sub{color:#274d63}
+body .booking-portal-copy .booking-portal-old{color:#142e42}
+body .booking-portal-copy .booking-portal-new{color:#246489}
+body .booking-portal-cue{color:#225773}
+/* One continuous pale-blue language across the booking flow and the proof. */
+body>main.shell{background:transparent}
+body>main.shell .disclaimer{border-color:#b1d6ea;background:#e1f2fc;border-radius:999px;color:#214f68}
+body>main.shell .lead-context{background:#e5f4fc;border:1.5px solid var(--tle-demo-outline);border-radius:22px}
+body>main.shell .flow{background:#f8fcff;border:1.5px solid #a9cde1;border-radius:29px;box-shadow:0 16px 42px rgba(36,91,121,.085);overflow:hidden}
+body>main.shell .flow-header{background:linear-gradient(120deg,#d9edf9,#f0f9fe);border-bottom:1px solid #bedbec}
+body>main.shell .panel{background:#f8fcff}
+body .switch button{border-radius:16px;border:1.5px solid #bad9e9;background:#eef6fb;color:#254b61}
+body .switch button[aria-pressed="true"]{background:#cce8f8;border-color:#5093bb;color:#12384d;box-shadow:inset 0 0 0 1px rgba(43,111,151,.13)}
+body .services{gap:clamp(13px,1.6vw,21px)}
+body .service{background:linear-gradient(180deg,#ffffff 0%,#f0f8fd 100%);border:1.5px solid #aacfe4;border-radius:24px;box-shadow:var(--tle-demo-shadow);color:#18384d;transition:border-color .24s ease,box-shadow .24s ease,transform .24s ease}
+body .service-media{border-bottom:1px solid #d6e7f1}
+body .service-copy{gap:9px}
+body .service-title{color:#173e56}
+body .service-detail{color:#48677a}
+body .service-price{color:#276484}
+body .service[aria-pressed="true"]{background:linear-gradient(180deg,#f5fbff 0%,#dff1fb 100%);border:2px solid #458bb6;box-shadow:0 13px 31px rgba(43,117,163,.15)}
+body .service:hover{border-color:#66a3c6;box-shadow:0 15px 32px rgba(39,100,139,.13)}
+body .service:focus-visible{outline:3px solid #448db4;outline-offset:3px}
+body .custom{background:#e9f5fc;border:1.5px solid #aacfe4;border-radius:18px;color:#235471}
+body .primary{background:#285f83;border-color:#285f83;border-radius:15px}
+body .secondary{border-color:#a9cee1;border-radius:15px;color:#27516b}
+body .finish-links a{border-radius:15px}
+body .booking-proof,
+body .booking-before-after{background:#edf7fc}
+body .booking-proof{padding-top:clamp(55px,6.5vw,84px);padding-bottom:clamp(35px,4.5vw,65px)}
+body .booking-before-after{padding-top:clamp(30px,4.5vw,64px);padding-bottom:clamp(60px,7vw,98px)}
+body .booking-proof .shell,
+body .booking-before-after .shell{width:min(1180px,calc(100% - 44px));max-width:none}
+body .booking-review-grid,
+body .booking-compare-grid{gap:clamp(14px,1.8vw,22px)}
+body .booking-review,
+body .booking-compare-card{background:linear-gradient(155deg,#fff 0%,#edf7fd 100%);border:1.5px solid #a7cee6;border-radius:25px;box-shadow:var(--tle-demo-shadow)}
+body .booking-review{padding:clamp(20px,2.1vw,30px)}
+body .booking-review-mark{font-size:12px;color:#307095}
+body .booking-review h3{color:#173e56;font-size:clamp(18px,1.6vw,22px)}
+body .booking-review p{color:#45677b}
+body .booking-review small{color:#517486}
+body .booking-compare-card{padding:clamp(13px,1.55vw,19px)}
+body .booking-compare-card h3{color:#1e4a63}
+body .booking-compare-visual{border-radius:18px}
+body footer{background:#edf7fc;border-color:#c3deed}
+/* CLOSED = only Sonny's blue robot HEAD. Not a pill, star or second agent.
+   The original #sonnyToggle is still the only real chat controller. */
+body .sonny{right:calc(15px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));width:min(370px,calc(100vw - 30px));background:#f5fbff;border:1.5px solid #7db8d7;border-radius:24px;box-shadow:0 12px 36px rgba(20,66,98,.22);overflow:hidden;z-index:70}
+body .sonny:not(:has(.sonny-body:not([hidden]))){width:66px;height:66px;max-width:66px;min-width:66px;border:1.5px solid #80c3e8;border-radius:50%;background:#133147;box-shadow:0 9px 29px rgba(16,65,98,.3);overflow:visible}
+body .sonny:not(:has(.sonny-body:not([hidden]))) .sonny-head{position:relative;display:grid;place-items:center;width:100%;height:100%;padding:0}
+body .sonny:not(:has(.sonny-body:not([hidden]))) .sonny-title-group{display:grid;place-items:center;width:100%;height:100%}
+body .sonny:not(:has(.sonny-body:not([hidden]))) .sonny-title-group>div{display:none}
+body .sonny:not(:has(.sonny-body:not([hidden]))) .sonny-avatar-mark{display:grid;place-items:center;flex:0 0 62px;width:62px;height:62px;border-radius:50%;background:#133147;border:none;box-shadow:none;overflow:hidden}
+body .sonny:not(:has(.sonny-body:not([hidden]))) .sonny-avatar-mark img{display:block;width:60px;height:60px;object-fit:contain}
+body .sonny:not(:has(.sonny-body:not([hidden]))) #sonnyToggle{position:absolute;inset:0;display:block;width:100%;height:100%;min-height:0;padding:0;margin:0;border:0;border-radius:50%;background:transparent;color:transparent;font-size:0;opacity:0;cursor:pointer}
+body .sonny:not(:has(.sonny-body:not([hidden]))) #sonnyToggle::before{content:none}
+body .sonny:not(:has(.sonny-body:not([hidden]))):focus-within{outline:3px solid #418cbb;outline-offset:4px}
+body .sonny:has(.sonny-body:not([hidden])) .sonny-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 15px;background:#e6f4fc}
+body .sonny:has(.sonny-body:not([hidden])) .sonny-title-group{display:flex;align-items:center;gap:9px;min-width:0;flex:1}
+body .sonny:has(.sonny-body:not([hidden])) .sonny-avatar-mark{display:grid;flex:0 0 48px;width:48px;height:48px;border-radius:50%}
+body .sonny:has(.sonny-body:not([hidden])) .sonny-avatar-mark img{width:45px;height:45px}
+body .sonny:has(.sonny-body:not([hidden])) .sonny-title-group>div{display:block}
+body .sonny:has(.sonny-body:not([hidden])) .sonny-head h2{display:block;font-size:17px;margin:0 0 4px;line-height:1.2;color:#17394f}
+body .sonny:has(.sonny-body:not([hidden])) .sonny-head small{display:block;font-size:11px;color:#426b83;line-height:1.2}
+body .sonny:has(.sonny-body:not([hidden])) #sonnyToggle{display:flex;justify-content:center;align-items:center;flex:0 0 auto;width:auto;min-height:38px;border:1px solid #a6cbe0;border-radius:999px;padding:6px 12px;background:#fff;color:#19445e;font-size:12px}
+body .sonny:has(.sonny-body:not([hidden])) #sonnyToggle::before{content:none}
+body .sonny:has(.sonny-body:not([hidden])) .sonny-body{background:#f9fcff}
+@media(max-width:800px){
+ body .booking-portal{height:148svh}
+ body .booking-portal-back::after{background:linear-gradient(95deg,rgba(228,244,253,.83),rgba(228,244,253,.48) 68%,rgba(228,244,253,.12))}
+ body .booking-portal-window{width:min(65vw,355px);border-width:5px}
+}
+@media(max-width:540px){
+ body>main.shell{width:calc(100% - 24px);padding-top:39px}
+ body .booking-proof .shell,body .booking-before-after .shell{width:calc(100% - 24px)}
+ body .booking-portal{height:146svh}
+ body .booking-portal-back::after{background:linear-gradient(180deg,rgba(232,247,255,.05) 0%,rgba(230,245,253,.44) 34%,rgba(228,244,252,.77) 68%,rgba(228,244,252,.88) 100%)}
+ body .booking-portal-window{top:41%;width:75vw;height:min(30vh,252px);min-height:182px;border-width:4px;border-radius:21px}
+ body .booking-portal-copy{left:clamp(14px,4vw,22px);right:clamp(14px,4vw,22px);bottom:clamp(76px,13vh,114px)}
+ body .booking-portal-copy h1{font-size:clamp(34px,8.7vw,44px);line-height:1.06}
+ body .booking-portal-front-caption{bottom:clamp(82px,12vh,110px)}
+ body .booking-portal-cue{bottom:20px}
+ body>main.shell .flow{border-radius:25px}
+ body>main.shell .flow-header{padding:21px 19px}
+ body>main.shell .panel{padding:15px 13px 23px}
+ body .service{border-radius:22px}
+ body .services{gap:14px}
+ body .booking-review,body .booking-compare-card{border-radius:24px}
+ body .booking-review{padding:22px 20px}
+ body .booking-compare-card{padding:14px}
+ body .sonny{right:calc(13px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));width:min(370px,calc(100vw - 26px))}
+ body .sonny:not(:has(.sonny-body:not([hidden]))){width:61px;height:61px;min-width:61px;max-width:61px}
+ body .sonny:not(:has(.sonny-body:not([hidden]))) .sonny-avatar-mark{width:57px;height:57px;flex-basis:57px}
+ body .sonny:not(:has(.sonny-body:not([hidden]))) .sonny-avatar-mark img{width:55px;height:55px}
+ body .sonny:has(.sonny-body:not([hidden])) .sonny-head{flex-wrap:nowrap;gap:8px;padding:12px}
+ body .sonny:has(.sonny-body:not([hidden])) .sonny-head small{max-width:140px}
+}
+@media(prefers-reduced-motion:reduce){
+ body .booking-portal{height:auto;min-height:clamp(650px,100svh,960px)}
+ body .sonny *,body .service{transition:none!important}
+}
