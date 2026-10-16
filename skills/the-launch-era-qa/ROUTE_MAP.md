@@ -1,3 +1,9 @@
+## Homepage connected workflow illustration (2026-10-16)
+- Scope: public EN / and ES /es/ homepages only. No changes to booking demo, checkout, public Luna Bloom sample, private Command Centers or customer records.
+- Hero: HeroConnectionBackdrop stays under the existing scaled hero photo, with small blue dashed lines, two labels, pointer-events:none; hidden on phone and reduced-motion. Original sticky reveal and personalized-demo link remain.
+- Homepage Booking section: a bilingual five-step diagram replaces only the oversized ProductExplorer *presentation*: customer request, private Command Center, owner quote review, up to two eligible follow-ups, then owner confirms final booking. No invented live CRM state or collaborative users. ProductExplorer component remains in source and can be used elsewhere.
+- QA: src/components/connected-booking-flow.tsx/css; scripts/qa-connected-booking-flow.mjs; .github/workflows/connected-booking-flow-qa.yml; responsive EN/ES 360/390/820/1024/1440 and reduced motion. CI, deploy and iPad confirmation before claiming complete.
+
 ## Public Luna Bloom demo v47 — corrected HERO-only motion and empty-space fix (2026-10-16)
 - **Source:** `public/lead-private-preview.html` imports `tle-demo-drive-flip-v46.js/css` for 5 locally hosted Drive home photographs and swaps the actual images with GSAP 3 Flip. Only in unkeyed sample route (`?lang=en/es`); `?key` and `?owner_preview=1` are excluded.
 - **Correction to v46 interpretation:** user wanted short rotating words ON THE CURRENT HERO PHOTO for each of the five houses, **not** additional text on seven service photo buttons. `tle-demo-photo-words-v46.js/css` are no longer imported. `tle-demo-hero-copy-v47.js/css` append one phrase to the hero's existing live caption; it updates on thumbnail swapping, with three 6s words offset 0/2/4s and first-word-only reduced-motion / screen-reader fallback.

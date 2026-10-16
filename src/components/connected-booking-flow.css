@@ -1,0 +1,262 @@
+/* Public EN/ES homepage only. A clear explanation of the workflow, not
+   a fake live CRM or a customer-facing booking tool. */
+.sales-home .booking-layout:has(.tle-flow-explorer) {
+  grid-template-columns: minmax(0,1fr);
+  gap: clamp(24px,3vw,38px);
+}
+.sales-home .booking-layout:has(.tle-flow-explorer) > .booking-copy {
+  max-width: 860px;
+}
+.sales-home .home-booking-explorer.tle-flow-explorer {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: clamp(12px,2vw,20px);
+  min-width: 0;
+  background: #F9FCFF;
+  border: 1px solid #D5E4ED;
+  border-radius: 24px;
+  box-shadow: 0 12px 32px rgba(45,80,103,.055);
+  overflow: hidden;
+}
+.tle-connected-flow {
+  --tle-line: #87ABC6;
+  width: 100%;
+  min-width: 0;
+  color: #191919;
+}
+.tle-connected-flow__intro {
+  padding: clamp(12px,2.5vw,22px) clamp(10px,3vw,26px) 12px;
+  text-align: left;
+}
+.tle-connected-flow__intro .eyebrow {
+  display: block;
+  font: 650 10px/1.45 'Prompt','DM Sans',sans-serif;
+  letter-spacing: .1em;
+  color: #4B7690;
+}
+.tle-connected-flow__intro h3 {
+  font: 650 clamp(24px,3.2vw,35px)/1.15 'Prompt','DM Sans',sans-serif;
+  margin: 8px 0 7px;
+  letter-spacing: -.025em;
+}
+.tle-connected-flow__intro p {
+  margin: 0;
+  color: #4B6676;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.tle-connected-flow__viewport {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  scroll-behavior: smooth;
+  touch-action: pan-x;
+  scrollbar-width: thin;
+  scrollbar-color: #ACC7D9 transparent;
+  border-radius: 18px;
+  background-color: #F3F9FE;
+  background-image: radial-gradient(circle,rgba(87,137,170,.2) 1px,transparent 1.3px);
+  background-size: 24px 24px;
+  border: 1px solid #E3EDF4;
+}
+.tle-connected-flow__viewport:focus-visible {
+  outline: 3px solid #367FAB;
+  outline-offset: 2px;
+}
+.tle-connected-flow__plane {
+  width: min(900px,100%);
+  min-width: 760px;
+  height: 450px;
+  position: relative;
+  margin: 0 auto;
+}
+.tle-connected-flow__wires {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.tle-connected-flow__signal {
+  opacity: .9;
+}
+.tle-connected-flow__dotted { opacity: .55; }
+.tle-connected-flow__note {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+  width: 166px;
+  min-height: 144px;
+  padding: 13px 14px;
+  gap: 7px;
+  text-align: left;
+  border: 1px solid #D4E2EB;
+  background: #FFFFFF;
+  color: #191919;
+  border-radius: 15px;
+  box-shadow: 0 7px 18px rgba(39,82,109,.095),0 1px 2px rgba(39,82,109,.06);
+  cursor: pointer;
+  transition: border-color 360ms ease, background-color 360ms ease, box-shadow 360ms ease, transform 360ms cubic-bezier(.32,.72,0,1);
+}
+.tle-connected-flow__note:hover,.tle-connected-flow__note[aria-pressed="true"] {
+  background: #EAF5FD;
+  border-color: #7DAFD0;
+  box-shadow: 0 10px 24px rgba(39,82,109,.14);
+}
+.tle-connected-flow__note[aria-pressed="true"] { transform: translateY(-4px); }
+.tle-connected-flow__note:focus-visible { outline: 3px solid #367FAB; outline-offset: 3px; }
+.tle-connected-flow__note-top {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #47758E;
+  font: 700 11px/1 'Prompt','DM Sans',sans-serif;
+}
+.tle-connected-flow__note-top svg {
+  color: #3776A0;
+  border-radius: 10px;
+  background: #D9EDFA;
+  padding: 7px;
+  box-sizing: content-box;
+}
+.tle-connected-flow__note strong {
+  display: block;
+  font: 650 15px/1.24 'Prompt','DM Sans',sans-serif;
+  letter-spacing: -.02em;
+}
+.tle-connected-flow__note small {
+  display: block;
+  color: #526A79;
+  font: 450 11px/1.4 'DM Sans',sans-serif;
+}
+.tle-connected-flow__detail {
+  display: grid;
+  grid-template-columns: 58px minmax(0,1fr);
+  align-items: center;
+  gap: 15px;
+  background: #FFFFFF;
+  border: 1px solid #DDE8EF;
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin: 12px 0 0;
+  min-height: 88px;
+  box-sizing: border-box;
+}
+.tle-connected-flow__detail > span {
+  font: 700 12px/1.5 'Prompt','DM Sans',sans-serif;
+  color: #3F789E;
+  white-space: nowrap;
+}
+.tle-connected-flow__detail strong {
+  display: block;
+  color: #191919;
+  font: 650 15px/1.4 'Prompt','DM Sans',sans-serif;
+}
+.tle-connected-flow__detail p {
+  margin: 3px 0 0;
+  color: #425A6B;
+  font-size: 13px;
+  line-height: 1.5;
+  max-width: 75ch;
+}
+.tle-connected-flow__mobile-hint { display: none; }
+@media (prefers-reduced-motion:no-preference) {
+  .tle-connected-flow.is-visible .tle-connected-flow__signal {
+    animation: tle-flow-signals 8s linear infinite;
+  }
+  .tle-connected-flow:not(.is-visible) .tle-connected-flow__note { opacity: .96; }
+}
+@keyframes tle-flow-signals {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -176; }
+}
+@media (max-width: 767px) {
+  .sales-home .home-booking-explorer.tle-flow-explorer {
+    padding: 12px;
+    border-radius: 20px;
+  }
+  .tle-connected-flow__intro { padding: 10px 5px 14px; }
+  .tle-connected-flow__intro h3 { font-size: 25px; }
+  .tle-connected-flow__intro p { font-size: 13px; }
+  .tle-connected-flow__detail { grid-template-columns: 50px minmax(0,1fr); padding: 12px; gap: 9px; }
+  .tle-connected-flow__detail p { font-size: 12px; }
+  .tle-connected-flow__mobile-hint {
+    display: block;
+    margin: 9px 4px 0;
+    font-size: 11px;
+    color: #4B6676;
+    text-align: center;
+  }
+}
+/* Existing homepage shrink-to-card remains the foreground. The wiring lives
+   BEHIND it; it becomes visible only in the opened negative space. */
+.sales-home .hero-scroll-stage { isolation: isolate; }
+.sales-home .tle-hero-connection-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  color: #5988A7;
+  opacity: clamp(0,calc((var(--hero-scroll-progress,0) - .32) * 2),1);
+  background-image: radial-gradient(circle,rgba(68,134,178,.15) 1px,transparent 1.6px);
+  background-size: 24px 24px;
+  background-position: 12px 12px;
+}
+.sales-home .tle-hero-connection-backdrop svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.sales-home .tle-hero-backdrop-wire {
+  fill: none;
+  stroke: #84AFCA;
+  stroke-width: 2.2;
+  stroke-dasharray: 4 9;
+  opacity: .76;
+}
+.sales-home .tle-hero-backdrop-wire--second {
+  stroke: #B6C9D7;
+  stroke-dasharray: 2 8;
+}
+.sales-home .tle-hero-connection-backdrop circle { fill: #367FAB; }
+.sales-home .tle-hero-backdrop-chip {
+  position: absolute;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  border: 1px solid #D2E2EB;
+  background: rgba(255,255,255,.95);
+  padding: 9px 11px;
+  border-radius: 12px;
+  box-shadow: 0 9px 23px rgba(58,92,113,.1);
+  color: #427A99;
+  font: 700 10px/1.3 'Prompt','DM Sans',sans-serif;
+}
+.sales-home .tle-hero-backdrop-chip b { color: #191919; font-weight: 650; font-size: 12px; }
+.sales-home .tle-hero-backdrop-chip--left { left: 2%; top: 33%; }
+.sales-home .tle-hero-backdrop-chip--right { right: 1.5%; top: 62%; }
+@media (prefers-reduced-motion:no-preference) {
+  .sales-home .hero-scroll.hero-scroll-revealed .tle-hero-backdrop-wire {
+    animation: tle-flow-signals 8s linear infinite;
+  }
+}
+@media (max-width:767px) {
+  .sales-home .tle-hero-connection-backdrop { display: none; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .tle-connected-flow__note,.tle-connected-flow__signal,.sales-home .tle-hero-connection-backdrop {
+    animation: none !important;
+    transition: none !important;
+  }
+  .sales-home .tle-hero-connection-backdrop { display: none; }
+}
