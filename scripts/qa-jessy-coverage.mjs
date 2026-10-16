@@ -217,7 +217,7 @@ assert.match(backend,/function helpfulExplanation\(id,lang\)/);
 assert.match(backend,/function helpfulNextAction\(message,id\)/);
 assert.match(backend,/const nextAction=promotionQuestion\|\|customPricingQuestion\?"team_quote"/);
 assert.match(backend,/next_action:nextAction/);
-assert.match(backend,/mode:fixed\?"verified_price":ai\?"reasoned_ai":knowledge\?"verified_faq"/);
+assert.match(backend,/mode:promotionQuestion\?"verified_promotion":customPricingQuestion\?"verified_quote_review":fixed\?"verified_price"/);
 const explanations=backend.slice(backend.indexOf("function isServiceExplanation("),backend.indexOf("function guide("));
 const knowledge= {};
 vm.createContext(knowledge);
