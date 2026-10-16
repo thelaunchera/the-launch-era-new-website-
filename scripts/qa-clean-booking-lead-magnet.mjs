@@ -19,7 +19,7 @@ assert.match(chat,/tle-ai-booking-demo/,'Keep the existing Sonny demo backend wi
 assert.match(template,/id="demoForm"/,'Personalized lead magnet intake must not be replaced with booking sample');
 assert(!/(?:@keyframes|\banimation\s*:|\btransition\s*:|\btransform\s*:|\bzoom\s*:|gsap\.|Flip\.|mix-blend-mode\s*:)/i.test(html),'New public demo must have zero visual zoom/motion');
 assert.deepEqual([...html.matchAll(/<link[^>]*rel="stylesheet"[^>]*href="([^"]+)"/g)].map(m=>m[1]),
-  ['/assets/tle-demo-hero-portal.css?v=20261016-portal1','/assets/tle-booking-month-wheel.css?v=20261016-responsive2','/assets/tle-booking-premium-refresh.css?v=20261016-sonny-blue-polish1','/assets/tle-booking-blue-orbs.css?v=20261016-orbs1','/assets/tle-booking-bubbles-continuity.css?v=20261016-bubble-continuity1'],'Only scoped hero, time wheel, approved cards and original blue bubble treatments may be linked');
+  ['/assets/tle-demo-hero-portal.css?v=20261016-brand2','/assets/tle-booking-month-wheel.css?v=20261016-responsive2','/assets/tle-booking-premium-refresh.css?v=20261016-sonny-blue-polish1','/assets/tle-booking-blue-orbs.css?v=20261016-orbs1','/assets/tle-booking-bubbles-continuity.css?v=20261016-bubble-continuity1'],'Only scoped hero, time wheel, approved cards and original blue bubble treatments may be linked');
 
 const browser=await chromium.launch({headless:true});
 const outputs=[];
@@ -33,8 +33,12 @@ try {
   await page.goto(origin+'/lead-private-preview.html?'+qs.toString(),{waitUntil:'load',timeout:45000});
   await page.waitForURL('**/booking-demo-reset.html?*',{timeout:12000});
   await page.locator('#pageTitle').waitFor({state:'visible'});
-  assert.equal(await page.locator('#leadBusiness').innerText(),'Bright & Tidy Cleaning','Email business name lost');
-  assert.match(await page.locator('#leadArea').innerText(),/Miami Beach/,'Email service area lost');
+  assert.equal(await page.locator('#leadBusiness').textContent(),'Bright & Tidy Cleaning','Email business name lost');
+  assert.match(await page.locator('#leadArea').textContent(),/Miami Beach/,'Email service area lost');
+  assert.equal(await page.locator('#bookingPortalCompany').textContent(),'Bright & Tidy Cleaning','Email recipient business must show in photo hero');
+  assert.equal(await page.locator('#bookingPortalCompanyFinal').textContent(),'Bright & Tidy Cleaning','Business must remain visible in both hero scenes');
+  assert.equal(await page.locator('#leadContext').isVisible(),false,'Do not repeat name in booking panel');
+
   assert.equal(new URL(page.url()).searchParams.get('source'),'jessie_email','Email attribution lost');
   const context=await page.evaluate(()=>{
    const root=document.querySelector('.flow');
