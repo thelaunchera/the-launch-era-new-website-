@@ -1,7 +1,10 @@
 /* The Launch Era: public Booking Demo only. Static/paid website footers are untouched.
    The demo's content lifts to reveal the footer. No JS scroll handlers. */
 :root{--tle-demo-curtain-height:clamp(390px,55svh,640px)}
-body:has(#tleDemoCurtainFooter){background:#cce7f7}
+/* Keep the original radial-bubble layers on BODY. Background shorthand erased
+   them and broke the approved sky-blue booking theme. The extra 48px compensates
+   for the final iPad Safari scroll extent without increasing the footer height. */
+body:has(#tleDemoCurtainFooter){background-color:#cce7f7;padding-bottom:48px}
 body .tle-demo-curtain-page{
  position:relative;z-index:1;isolation:isolate;
  margin-bottom:var(--tle-demo-curtain-height);
@@ -114,16 +117,48 @@ body footer.tle-demo-curtain-footer .tle-demo-curtain-footer__links a:focus-visi
  body footer.tle-demo-curtain-footer .tle-demo-curtain-footer__links a{min-height:37px;padding:7px 11px}
 }
 @media(max-height:580px) and (orientation:landscape){
+ body:has(#tleDemoCurtainFooter){padding-bottom:0}
  /* Avoid trapping footer links under landscape Safari toolbar. */
  body .tle-demo-curtain-page{margin-bottom:0}
  body footer.tle-demo-curtain-footer{position:relative!important;height:auto;min-height:0}
  body footer.tle-demo-curtain-footer .tle-demo-curtain-footer__inner{height:auto;min-height:280px}
 }
 @media(prefers-reduced-motion:reduce){
+ body:has(#tleDemoCurtainFooter){padding-bottom:0}
  body .tle-demo-curtain-page{margin-bottom:0!important;box-shadow:none;border-radius:0}
  body footer.tle-demo-curtain-footer{position:relative!important;height:auto!important;min-height:0}
  body footer.tle-demo-curtain-footer .tle-demo-curtain-footer__inner{
   height:auto;min-height:320px;transform:none!important;opacity:1!important;animation:none!important;
  }
  body footer.tle-demo-curtain-footer .tle-demo-curtain-footer__links a{transition:none!important}
+}
+
+/* Before this page received a wrapper the approved photo/booking styles were
+   scoped to body > main.shell. Restore those exact surfaces INSIDE the new
+   wrapper rather than changing the original shared demo CSS. */
+body .tle-demo-curtain-page>main.shell{
+ width:min(1180px,calc(100% - 44px));
+ margin-left:auto;margin-right:auto;
+ padding:clamp(38px,5.8vw,76px) 0 clamp(62px,7vw,98px);
+ background-color:transparent;
+ background-image:
+  radial-gradient(circle at 97% 12%,rgba(255,255,255,.36) 0 83px,rgba(109,188,228,.19) 85px 87px,transparent 89px),
+  radial-gradient(circle at 3% 74%,rgba(255,255,255,.28) 0 74px,rgba(143,210,240,.18) 76px 78px,transparent 80px);
+}
+body .tle-demo-curtain-page>main.shell .disclaimer{border-color:#b1d6ea;background:#e1f2fc;border-radius:999px;color:#214f68}
+body .tle-demo-curtain-page>main.shell .lead-context{background:#e5f4fc;border:1.5px solid #9fc4d9;border-radius:22px}
+body .tle-demo-curtain-page>main.shell .flow{background:#f8fcff;border:1.5px solid #a9cde1;border-radius:29px;box-shadow:0 16px 42px rgba(36,91,121,.085);overflow:hidden}
+body .tle-demo-curtain-page>main.shell .flow-header{background:linear-gradient(120deg,#d9edf9,#f0f9fe);border-bottom:1px solid #bedbec}
+body .tle-demo-curtain-page>main.shell .panel{background:#f8fcff}
+body .tle-demo-curtain-page>.booking-before-after{
+ background-color:#e0f2fc;
+ background-image:
+  radial-gradient(circle at 88% 12%,rgba(255,255,255,.7) 0 65px,rgba(134,197,236,.3) 67px 69px,transparent 71px),
+  radial-gradient(circle at 7% 77%,rgba(252,255,255,.56) 0 72px,rgba(158,216,244,.26) 74px 76px,transparent 78px);
+}
+@media(max-width:700px){
+ body .tle-demo-curtain-page>main.shell{width:calc(100% - 24px);padding-top:39px}
+ body .tle-demo-curtain-page>main.shell .flow{border-radius:25px}
+ body .tle-demo-curtain-page>main.shell .flow-header{padding:21px 19px}
+ body .tle-demo-curtain-page>main.shell .panel{padding:15px 13px 23px}
 }
