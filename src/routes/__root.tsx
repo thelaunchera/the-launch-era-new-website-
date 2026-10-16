@@ -188,18 +188,24 @@ function RootComponent() {
       '/assets/tle-footer-newsletter.js?v=20261016-ios3',
     ];
     const added: HTMLScriptElement[] = [];
-    for (const src of sources) {
-      if (document.querySelector('script[data-tle-after-hydration][src="' + src + '"]')) continue;
-      const script = document.createElement('script');
-      script.src = src;
-      script.async = false;
-      script.dataset.tleAfterHydration = 'true';
-      document.body.appendChild(script);
-      added.push(script);
-    }
-    // The site shell lives for the whole SPA session. Clean up any script nodes
-    // on root unmount without undoing the initialized standalone widgets.
-    return () => added.forEach((script) => script.remove());
+    // A route can still be hydrating nested React boundaries when the root's
+    // first effect runs. Let hydration settle before third-party DOM mutation.
+    // This small one-time delay is only for the public enhancement scripts.
+    const timer = window.setTimeout(() => {
+      for (const src of sources) {
+        if (document.querySelector('script[data-tle-after-hydration][src="' + src + '"]')) continue;
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = false;
+        script.dataset.tleAfterHydration = 'true';
+        document.body.appendChild(script);
+        added.push(script);
+      }
+    }, 1200);
+    return () => {
+      window.clearTimeout(timer);
+      added.forEach((script) => script.remove());
+    };
   }, []);
   // Load DOM-enhancing services motion only after React has hydrated the SSR
   // homepage. Injecting a script before hydration caused React error #418.
