@@ -10,12 +10,9 @@ const original=readFileSync('public/lead-private-preview.html','utf8');
 assert.match(original,/p\.has\('key'\)\|\|p\.get\('owner_preview'\)==='1'/,'Buyer/private preview gate must stay intact');
 assert.match(original,/location\.replace\('\/booking-demo-reset\.html'/,'Public sample must leave legacy effect stack');
 assert.match(original,/startResidential\('Standard Cleaning',120\)/,'Original source forms remain for keyed clients');
-assert.match(html,/id="sonnyAvatarLauncher"/,'One restored floating Sonny avatar');
-assert.match(html,/class="sonny-avatar-mark"/,'Restore original avatar beside in-page Sonny');
-assert.equal((html.match(/id="sonnyAvatarLauncher"/g)||[]).length,1,'Exactly one original Sonny floating launcher');
-assert.equal((html.match(/src="\/assets\/lead-demo\/ai-demo-robot\.webp"/g)||[]).length,2,'Reuse approved historical Sonny robot artwork in header and launcher');
-assert.match(readFileSync('public/assets/tle-demo-reset-lead-magnet.js','utf8'),/sonnyLauncher\.addEventListener\('click'/,'Avatar must open existing Sonny rather than render a second assistant');
-
+assert.match(html,/class="sonny-avatar-mark"/,'Restore owner-approved robot avatar in existing Sonny card');
+assert.equal((html.match(/src="\/assets\/lead-demo\/ai-demo-robot\.webp"/g)||[]).length,1,'Use exactly one original blue Sonny robot image');
+assert.doesNotMatch(html,/sonnyAvatarLauncher|tleSonnyGreetingPopup/,'No duplicate floating bot or popup');
 assert(!/gsap|Flip\.min|cdn\.jsdelivr|scroll-behavior\s*:\s*smooth|mix-blend-mode/i.test(html),'Booking form must not inherit the old animation library');
 assert.match(html,/\/assets\/tle-demo-hero-portal\.css/,'Only scoped requested hero animations are enabled');
 const scripts=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)];
@@ -42,35 +39,13 @@ try{
    await page.waitForURL('**/booking-demo-reset.html?lang='+lang,{timeout:15000});
    assert.equal(await page.locator('html').getAttribute('lang'),lang);
    const headerAvatar=page.locator('.sonny-avatar-mark img');
-   assert(await headerAvatar.evaluate(img=>img.complete&&img.naturalWidth>30),'Original Sonny robot must load in the chat heading');
-   const floating=page.locator('#sonnyAvatarLauncher');
-   // The Sonny card may already peek into the initial viewport: hiding the
-   // floating avatar in that case is correct, not a missing launcher.
-   await page.evaluate(()=>window.scrollTo({top:document.body.scrollHeight,behavior:'instant'}));
-   console.log('SONNY DIAGNOSTIC '+JSON.stringify(await page.evaluate(()=>({
-     scrollY:window.scrollY,bodyHeight:document.body.scrollHeight,viewportHeight:innerHeight,
-     card:(()=>{const r=document.querySelector('section.sonny')?.getBoundingClientRect();return r&&{top:r.top,bottom:r.bottom}})(),
-     hidden:document.getElementById('sonnyAvatarLauncher')?.hidden,
-     label:document.getElementById('sonnyTitle')?.textContent,
-     tracker:document.getElementById('trackerLink')?.getAttribute('href'),
-     scripts:[...document.scripts].map(s=>s.src).filter(s=>/reset-lead-magnet/.test(s))
-   })))+' / errors '+JSON.stringify(errors));
-   await floating.waitFor({state:'visible',timeout:10000});
-   const avatarCheck=await floating.evaluate(button=>{
-     const image=button.querySelector('img'),r=button.getBoundingClientRect();
-     return {loaded:image.complete&&image.naturalWidth>30,left:r.left,right:r.right,bottom:r.bottom,
-       imgSrc:new URL(image.getAttribute('src'),location.href).pathname};
-   });
-   assert(avatarCheck.loaded&&avatarCheck.imgSrc==='/assets/lead-demo/ai-demo-robot.webp','Old robot avatar must load in '+lang);
-   assert(avatarCheck.left>=0&&avatarCheck.right<=width+1&&avatarCheck.bottom<=901,'Avatar must stay within phone/tablet/desktop bounds '+JSON.stringify(avatarCheck));
-   await floating.click();
+   assert(await headerAvatar.evaluate(img=>img.complete&&img.naturalWidth>30),'Original blue Sonny avatar loads in '+lang);
+   assert.equal(await page.locator('.sonny-avatar-mark').count(),1,'One approved Sonny avatar');
+   await page.locator('#sonnyToggle').click();
    await page.locator('#sonnyBody').waitFor({state:'visible'});
-   assert.equal(await page.locator('.sonny').count(),1,'Floating avatar must reuse the one in-page Sonny assistant');
-   assert.equal(await floating.getAttribute('aria-expanded'),'true');
-   assert.match(await floating.getAttribute('aria-label'),lang==='es'?/Sonny.*demo/i:/Chat with Sonny/);
+   assert.equal(await page.locator('.sonny').count(),1,'Original Sonny chat still functional');
    await page.locator('#sonnyToggle').click();
    assert.equal(await page.locator('#sonnyBody').isHidden(),true);
-
    assert.equal(await page.locator('.service').count(),6,'Expected six real service choices');
    assert.equal(await page.locator('.service-media img').count(),6,'Each of the six services needs one full-card photo');
    assert.equal(await page.locator('video,canvas').count(),0,'No cinematic layers, video, or movement');
