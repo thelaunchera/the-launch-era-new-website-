@@ -1,5 +1,6 @@
 import { MarketingCTA } from '@/components/marketing-cta';
 import { CleaningAppShowcase } from './cleaning-app-showcase';
+import { FAQTopicTabs } from './faq-topic-tabs';
 import { ArrowRight, CalendarDays, UsersRound, Receipt, Calculator, Clock3, MapPinned, Check, Sparkles } from 'lucide-react';
 
 type Props = { lang?: 'en' | 'es' };
@@ -17,6 +18,18 @@ export function CleaningAppEditorial({ lang = 'en' }: Props) {
     { initials:'AB', name:'Amanda Brooks', service: es?'Limpieza profunda':'Deep cleaning', time:'1:00 PM', status: es?'Confirmado':'Confirmed', kind:'ivory' },
     { initials:'JR', name:'Jordan Rivera', service: es?'Limpieza de mudanza':'Move-out cleaning', time:'3:30 PM', status: es?'Por confirmar':'To confirm', kind:'pale' },
   ];
+  const faqs: Array<[string, string]> = es ? [
+    ['¿Necesito descargar la App desde una tienda?', 'No. Funciona en el navegador de tu teléfono, tablet o computadora. También puedes añadirla a la pantalla de inicio.'],
+    ['¿Qué puedo organizar?', 'Clientes, reservas, cotizaciones, trabajos, facturas, tiempo del equipo, millaje y rutas. Puedes configurar tus precios para utilizar el Pricing Calculator.'],
+    ['¿La Booking Page personalizada está incluida?', 'No. La Cleaning App organiza las operaciones de tu negocio. Booking Automation + Command Center se compra por separado e incluye una página de reservas personalizada.'],
+    ['¿Cómo comienzo y cuánto cuesta?', 'Crea tu cuenta y comienza la prueba gratis de 30 días, sin tarjeta. Después cuesta $3.99 al mes. También puedes explorar la demo antes de registrarte.']
+  ] : [
+    ['Do I need an app store download?', 'No. The Cleaning App works in your phone, tablet, or computer browser. You can also add it to your home screen.'],
+    ['What can I organize?', 'Clients, bookings, quotes, jobs, invoices, team time, mileage and routes. Configure your business pricing to use the Pricing Calculator.'],
+    ['Does it include a personalized Booking Page?', 'No. The Cleaning App organizes your operations. Booking Automation + Command Center is a separate purchase and includes a personalized Booking Page.'],
+    ['How do I start, and what does it cost?', 'Create your account to start a free 30-day trial, with no card required. The plan costs $3.99 per month afterward. You can explore the demo before signing up.']
+  ];
+
   const features = [
     { icon:CalendarDays, title:es?'Calendario y trabajos':'Bookings & calendar', desc:es?'Ve trabajos próximos, recurrentes y detalles de cada limpieza.':'See upcoming jobs, recurring visits and every cleaning detail.' },
     { icon:UsersRound, title:es?'Clientes y cotizaciones':'Clients & quotes', desc:es?'Historial, notas y estimados sin buscar en mensajes.':'Keep customer history, notes and estimates together.' },
@@ -66,6 +79,19 @@ export function CleaningAppEditorial({ lang = 'en' }: Props) {
         <div className="tle-app-section-intro"><p className="tle-app-eyebrow">{es?'LO QUE NECESITAS':'THE ESSENTIALS'}</p><h2>{es?'Todo lo importante, sin complicarte.':'Everything that matters, without the mess.'}</h2></div>
         <div className="tle-app-feature-grid">{features.map(({icon:Icon,title,desc})=><article className="tle-app-feature" key={title}><span className="tle-app-feature-icon"><Icon size={24} strokeWidth={1.9} aria-hidden="true"/></span><div><h3>{title}</h3><p>{desc}</p></div></article>)}</div>
         <div className="tle-app-feature-foot"><span><Calculator size={18} aria-hidden="true"/> {es?'Calculadora de precios':'Pricing calculator'}</span><span><MapPinned size={18} aria-hidden="true"/> {es?'Rutas y millaje':'Routes & mileage'}</span><a href={demo}>{es?'Ver cómo funciona':'See it in action'} <ArrowRight size={17} aria-hidden="true"/></a></div>
+      </div>
+    </section>
+
+    <section className="service-faq-section tle-app-faq-section" aria-label={es ? 'Preguntas frecuentes de Cleaning App' : 'Cleaning App frequently asked questions'}>
+      <div className="container service-faq-container">
+        <div className="service-faq-intro">
+          <span className="eyebrow">{es ? 'ANTES DE COMENZAR' : 'BEFORE YOU GET STARTED'}</span>
+          <h2 className="editorial">{es ? 'Preguntas sobre la Cleaning App' : 'Questions about the Cleaning App'}</h2>
+          <p>{es ? 'Todo lo que necesitas saber antes de empezar.' : 'A few clear answers before you get started.'}</p>
+        </div>
+        <div className="service-faq-list">
+          <FAQTopicTabs lang={lang} billing={[faqs[3]]} account={faqs.slice(0, 3)} />
+        </div>
       </div>
     </section>
 

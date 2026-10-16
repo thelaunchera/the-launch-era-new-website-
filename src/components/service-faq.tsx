@@ -1,4 +1,4 @@
-import { Plus } from 'lucide-react';
+import { FAQTopicTabs } from './faq-topic-tabs';
 
 type Language = 'en' | 'es';
 type Topic = 'general' | 'website' | 'va';
@@ -60,14 +60,32 @@ const faqs: Record<Topic, Record<Language, [string, string][]>> = {
   }
 };
 
-export function ServiceFAQ({topic, lang='en'}:{topic:Topic; lang?:Language}) {
-  const es=lang==='es';
-  const heading=topic==='general'?(es?'Preguntas frecuentes':'Frequently asked questions'):(es?'Preguntas sobre este servicio':'Questions about this service');
-  const label=topic==='general'?(es?'TODOS NUESTROS SERVICIOS':'ALL OUR SERVICES'):(es?'ANTES DE COMENZAR':'BEFORE YOU GET STARTED');
-  return <section id={topic==='general'?'faq':undefined} className={`service-faq-section ${topic==='general'?'general-faq':''}`} aria-label={heading}>
-    <div className="container service-faq-container">
-      <div className="service-faq-intro"><span className="eyebrow">{label}</span><h2 className="editorial">{heading}</h2><p>{topic==='general'?(es?'Respuestas rápidas para que elijas con tranquilidad.':'A few clear answers to help you choose.'):(es?'Todo más claro antes de comprar.':'A little clarity before you buy.')}</p></div>
-      <div className="service-faq-list">{faqs[topic][lang].map(([question,answer])=><details key={question}><summary><span>{question}</span><Plus size={19} aria-hidden="true"/></summary><p>{answer}</p></details>)}</div>
-    </div>
-  </section>;
+export function ServiceFAQ({ topic, lang = 'en' }: { topic: Topic; lang?: Language }) {
+  const es = lang === 'es';
+  const heading = topic === 'general'
+    ? (es ? 'Preguntas frecuentes' : 'Frequently asked questions')
+    : (es ? 'Preguntas sobre este servicio' : 'Questions about this service');
+  const label = topic === 'general'
+    ? (es ? 'TODOS NUESTROS SERVICIOS' : 'ALL OUR SERVICES')
+    : (es ? 'ANTES DE COMENZAR' : 'BEFORE YOU GET STARTED');
+  const questions = faqs[topic][lang];
+  const billingIndices = topic === 'general' ? [0, 1, 3, 4, 6] : topic === 'website' ? [1, 3] : [2, 3];
+  const billing = questions.filter((_, index) => billingIndices.includes(index));
+  const account = questions.filter((_, index) => !billingIndices.includes(index));
+  return (
+    <section id={topic === 'general' ? 'faq' : undefined} className={'service-faq-section ' + (topic === 'general' ? 'general-faq' : '')} aria-label={heading}>
+      <div className="container service-faq-container">
+        <div className="service-faq-intro">
+          <span className="eyebrow">{label}</span>
+          <h2 className="editorial">{heading}</h2>
+          <p>{topic === 'general'
+            ? (es ? 'Respuestas rápidas para que elijas con tranquilidad.' : 'A few clear answers to help you choose.')
+            : (es ? 'Todo más claro antes de comprar.' : 'A little clarity before you buy.')}</p>
+        </div>
+        <div className="service-faq-list">
+          <FAQTopicTabs lang={lang} billing={billing} account={account} />
+        </div>
+      </div>
+    </section>
+  );
 }
