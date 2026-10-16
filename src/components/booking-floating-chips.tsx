@@ -1,14 +1,14 @@
-import { Bell, CircleCheck, MessageCircle, TrendingUp } from 'lucide-react';
+import { Bell, CircleCheck, MessageCircle, CalendarClock } from 'lucide-react';
 import type { CSSProperties } from 'react';
 import './booking-floating-chips.css';
 
 type Language = 'en' | 'es';
 
 const previewChips = [
-  { id: 'signup', Icon: Bell, en: 'New signup · Maya R.', es: 'Nuevo registro · Maya R.', duration: '3.3s', delay: '-1.1s' },
-  { id: 'metric', Icon: TrendingUp, en: '+24% revenue', es: '+24% ingresos', duration: '4.1s', delay: '-2.4s' },
-  { id: 'payment', Icon: CircleCheck, en: 'Paid $480', es: 'Pagado $480', duration: '3.7s', delay: '-.7s' },
-  { id: 'messages', Icon: MessageCircle, en: '3 new messages', es: '3 mensajes nuevos', duration: '3.9s', delay: '-3.2s' },
+  { id: 'signup', Icon: Bell, en: 'New quote request · Maya R.', es: 'Nueva cotización · Maya R.', duration: '3.3s', delay: '-1.1s' },
+  { id: 'metric', Icon: CalendarClock, en: 'Availability updated', es: 'Horarios actualizados', duration: '4.1s', delay: '-2.4s' },
+  { id: 'payment', Icon: CircleCheck, en: 'Estimate ready to review', es: 'Cotización lista para revisar', duration: '3.7s', delay: '-.7s' },
+  { id: 'messages', Icon: MessageCircle, en: 'Follow-up ready', es: 'Seguimiento listo', duration: '3.9s', delay: '-3.2s' },
 ] as const;
 
 /** Decorative sample UI only: no real clients, revenue claims, purchases or events. */

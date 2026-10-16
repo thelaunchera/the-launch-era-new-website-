@@ -90,7 +90,7 @@ check('WhatsApp AI launch stays Coming Soon without public prices or checkout', 
     assert.match(content, /class="offer-panel" hidden aria-hidden="true"/, 'Price panel must stay hidden: '+path);
     assert.match(content, /#setup\[hidden\],\.offer-panel\[hidden\]\{display:none!important\}/, 'Hide launch setup and prices: '+path);
     assert.match(content, /coming-soon-note/, 'Coming Soon state must be prominent');
-    assert.match(content, /COMING SOON/, 'Coming Soon label missing');
+    assert.match(content, path.startsWith('public/es/') ? /PRÓXIMAMENTE/ : /COMING SOON/, 'Localized coming soon label missing: '+path);
     assert.match(content, /<p hidden aria-hidden="true">[^<]*\$48/, 'Retain existing prices in hidden markup for later: '+path);
     assert.doesNotMatch(content, /href="[^"]*service-checkout/, 'WhatsApp purchase must not open a checkout');
   }

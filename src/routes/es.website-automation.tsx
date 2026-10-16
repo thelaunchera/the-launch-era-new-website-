@@ -14,9 +14,9 @@ export const Route=createFileRoute('/es/website-automation/')({head:()=>({meta:[
 ],links:[{rel:'canonical',href:'https://thelaunchera.com/es/website-automation/'},{rel:'alternate',hrefLang:'en-US',href:'https://thelaunchera.com/website-automation'},{rel:'alternate',hrefLang:'es-US',href:'https://thelaunchera.com/es/website-automation/'},{rel:'alternate',hrefLang:'x-default',href:'https://thelaunchera.com/website-automation'}]}),component:Page});
 
 const stages=[
-  {label:'01 · RECIBIDA',title:'Ya tienes los datos',detail:'El nombre del cliente y lo que necesita aparecen juntos.',Icon:MessageSquareText},
-  {label:'02 · ORGANIZADA',title:'Todo en un solo lugar',detail:'Ya no tienes que buscar entre mensajes para encontrar los detalles.',Icon:Workflow},
-  {label:'03 · SIGUIENTE PASO',title:'Sabes a quién dar seguimiento',detail:'Sabes a quién responder y qué hacer después.',Icon:BellRing},
+  {label:'01 · RECIBIDA',title:'La consulta llegó con sus datos',detail:'El nombre del cliente y lo que necesita aparecen juntos.',Icon:MessageSquareText},
+  {label:'02 · ORGANIZADA',title:'Los detalles, juntos',detail:'Puedes revisar los detalles sin buscar en distintos mensajes.',Icon:Workflow},
+  {label:'03 · SIGUIENTE PASO',title:'Sabes a quién dar seguimiento',detail:'Identifica a quién responder y qué quedó pendiente.',Icon:BellRing},
 ] as const;
 
 function Page(){
@@ -35,7 +35,7 @@ function Page(){
 
   function submit(e:FormEvent<HTMLFormElement>){
     e.preventDefault();
-    if(!name.trim()) setName('Nuevo lead');
+    if(!name.trim()) setName('Nueva consulta');
     setRun(v=>v+1);
   }
 
@@ -69,7 +69,7 @@ function Page(){
             <form className="automation-demo-form" onSubmit={submit}>
               <label>
                 <span>Nombre + contacto</span>
-                <input value={name} onChange={e=>setName(e.target.value)} aria-label="Nombre o contacto del lead"/>
+                <input value={name} onChange={e=>setName(e.target.value)} aria-label="Nombre o contacto del cliente"/>
               </label>
               <label>
                 <span>Servicio que necesita</span>
@@ -84,8 +84,8 @@ function Page(){
               <button type="submit">Ver cómo funciona <ArrowRight/></button>
             </form>
             <div className="automation-demo-note">
-              <span>{active<0?'Cuando quieras':'Lead de prueba'}</span>
-              <strong>{active<0?'Pruébalo con tranquilidad. Es un ejemplo y no se enviará nada.':name+' · '+service}</strong>
+              <span>{active<0?'LISTO PARA PROBAR':'Consulta de ejemplo'}</span>
+              <strong>{active<0?'Cambia los datos y mira el recorrido. Es una prueba: no se envía nada.':name+' · '+service}</strong>
             </div>
           </div>
         </div>
@@ -124,7 +124,7 @@ function Page(){
 
       <div className="service-endcap">
         <span>TU WEBSITE</span><ArrowRight/><span>CONSULTA</span><ArrowRight/><span>AUTOMATIZACIÓN</span><ArrowRight/><strong>PRÓXIMO PASO ✓</strong>
-        <small>Conecta el formulario de tu website · Configuración única $41.99 · Evita que las consultas nuevas se pierdan.</small>
+        <small>Conecta el formulario de tu website · Configuración única $41.99 · Revisa las consultas nuevas desde un solo lugar.</small>
       </div>
     </section>
   <ServiceFAQ topic="website" lang="es"/></main>
