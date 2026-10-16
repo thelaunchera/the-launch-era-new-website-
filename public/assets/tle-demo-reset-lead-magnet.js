@@ -163,13 +163,25 @@
       el('sonnyInput').focus({preventScroll:true});
     });
     const card=document.querySelector('section.sonny');
-    if(card&&'IntersectionObserver' in window){
-      const observer=new IntersectionObserver(entries=>{
-        // When the in-page Sonny card is visible, avoid a duplicate launcher.
-        sonnyLauncher.hidden=entries.some(entry=>entry.isIntersecting&&entry.intersectionRatio>=0.45);
-      },{threshold:[0,0.45]});
-      observer.observe(card);
-    }else sonnyLauncher.hidden=false;
+    // Reveal by default; hide only when the real Sonny card is already near
+    // the reading area. A passive scroll listener handles SPA/hero scroll jumps.
+    sonnyLauncher.hidden=false;
+    if(card){
+      let queued=false;
+      const sync=()=>{
+        queued=false;
+        const r=card.getBoundingClientRect();
+        sonnyLauncher.hidden=r.bottom>0&&r.top<innerHeight*.93;
+      };
+      const queue=()=>{
+        if(queued)return;
+        queued=true;
+        requestAnimationFrame(sync);
+      };
+      window.addEventListener('scroll',queue,{passive:true});
+      window.addEventListener('resize',queue,{passive:true});
+      queue();
+    }
   }
   updateSonnyWords();
   el('sonnyForm').addEventListener('submit',async event=>{
