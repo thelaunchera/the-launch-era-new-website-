@@ -4,6 +4,8 @@ on:
     paths:
       - 'public/lead-private-preview.html'
       - 'public/booking-demo-reset.html'
+      - 'public/assets/tle-demo-hero-portal.css'
+      - 'public/assets/tle-demo-hero-portal.js'
       - 'public/assets/tle-demo-reset-lead-magnet.js'
       - 'scripts/qa-clean-booking-lead-magnet.mjs'
       - '.github/workflows/clean-booking-lead-magnet-qa.yml'
@@ -20,6 +22,7 @@ jobs:
         run: |
           node scripts/qa-route-integrity.mjs --static
           node scripts/qa-public-demo-integrity.mjs
+          node --check public/assets/tle-demo-hero-portal.js
           node --check public/assets/tle-demo-reset-lead-magnet.js
           node --check scripts/qa-clean-booking-lead-magnet.mjs
       - uses: oven-sh/setup-bun@v2
@@ -36,6 +39,7 @@ jobs:
         run: |
           bun install
           bun run build
+          test -s .output/public/assets/lead-demo/tle-booking-hero-original.webp
           test -s .output/public/booking-demo-reset.html
           test -s .output/public/lead-private-preview.html
       - name: Install independent Chromium
