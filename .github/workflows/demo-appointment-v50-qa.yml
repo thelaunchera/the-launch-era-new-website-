@@ -1,0 +1,59 @@
+name: Booking Demo Appointment v50 QA
+on:
+  push:
+    branches:
+      - feature/demo-appointment-picker-20261016
+    paths:
+      - 'public/assets/tle-demo-appointment-v50.*'
+      - 'public/lead-private-preview.html'
+      - 'scripts/qa-demo-appointment-v50.mjs'
+      - '.github/workflows/demo-appointment-v50-qa.yml'
+  pull_request:
+    branches:
+      - redesign/booking-demo-editorial-20261016
+    paths:
+      - 'public/assets/tle-demo-appointment-v50.*'
+      - 'public/lead-private-preview.html'
+      - 'scripts/qa-demo-appointment-v50.mjs'
+      - '.github/workflows/demo-appointment-v50-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sample-booking-appointment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Static route, syntax and tenant guards
+        run: |
+          node --check public/assets/tle-demo-appointment-v50.js
+          node --check scripts/qa-demo-appointment-v50.mjs
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-public-demo-integrity.mjs
+      - name: Install headless browser
+        run: |
+          bun install
+          mkdir -p /tmp/tle-demo-v50-playwright
+          cd /tmp/tle-demo-v50-playwright
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+      - name: Browser test EN ES phone tablet desktop reduced motion
+        run: |
+          bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/tle-demo-v50.log 2>&1 &
+          for i in $(seq 1 45); do
+            if curl -sf http://127.0.0.1:4173/lead-private-preview.html >/dev/null; then break; fi
+            sleep 2
+          done
+          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-demo-v50-playwright/node_modules/playwright/index.mjs node scripts/qa-demo-appointment-v50.mjs
+      - name: Store device screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: booking-v50-appointment-mobile-tablet-desktop
+          path: qa-screenshots/demo-v50/
+          if-no-files-found: ignore
