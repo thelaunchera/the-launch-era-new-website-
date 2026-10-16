@@ -62,6 +62,32 @@
   .complete h3 { font-size:26px; letter-spacing:-.03em; margin:0 0 14px; }
   .complete p { font-size:15px; line-height:1.65; color:var(--muted); }
   .bottom-note { padding:20px 0; color:var(--muted); font-size:12px; line-height:1.5; }
+  /* Lead magnet context + simple Sonny assistant; deliberately no motion or overlays. */
+  .lead-context { margin:24px 0 0; padding:15px 18px; border:1px solid #C1DCEB; border-radius:9px; background:#EDF6FB; font-size:13px; line-height:1.6; }
+  .lead-context strong { display:block; font-size:16px; margin-top:4px; overflow-wrap:anywhere; }
+  .lead-context p { margin:6px 0 0; color:#365B70; }
+  .finish-links { display:flex; align-items:center; gap:15px; flex-wrap:wrap; margin-top:20px; }
+  .finish-links a { display:inline-flex; padding:13px 16px; border-radius:8px; background:#D7EDFA; border:1px solid #AECEDF; font-size:14px; font-weight:750; text-decoration:none; }
+  .sonny { margin-top:20px; border:1px solid var(--line); background:#fff; border-radius:14px; overflow:hidden; }
+  .sonny-head { padding:18px 22px; display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  .sonny-head h2 { margin:0; font-size:20px; }
+  .sonny-head small { display:block; color:var(--muted); margin-top:5px; font-size:12px; }
+  .sonny-body { border-top:1px solid var(--line); padding:18px 22px 22px; }
+  .sonny-body[hidden] { display:none!important; }
+  .sonny-log { min-height:60px; max-height:320px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; margin-bottom:14px; }
+  .sonny-line { width:fit-content; max-width:95%; border:1px solid #D9E5ED; background:#F7FBFE; padding:11px 13px; border-radius:9px; font-size:14px; line-height:1.55; white-space:pre-wrap; overflow-wrap:anywhere; }
+  .sonny-line.user { margin-left:auto; background:#E8F3FA; }
+  .sonny-form { display:flex; gap:9px; }
+  .sonny-form input { flex:1; min-width:0; min-height:46px; border:1px solid #AEBFC9; border-radius:8px; padding:10px 12px; font-size:15px; }
+  .sonny-form button { min-height:46px; padding:10px 17px; background:var(--ink); color:white; border:0; border-radius:8px; font-weight:700; }
+  .sonny-status { color:var(--muted); font-size:12px; margin:10px 0 0; }
+  @media (max-width:700px) {
+    .sonny-head,.sonny-body { padding:15px; }
+    .sonny-head { flex-wrap:wrap; }
+    .sonny-form { flex-wrap:wrap; }
+    .sonny-form input { flex-basis:100%; }
+    .sonny-form button { flex:1; }
+  }
   footer { border-top:1px solid var(--line); padding:28px 0 36px; color:var(--muted); font-size:12px; }
   @media(max-width:700px) {
     header .shell { min-height:65px; }
@@ -104,6 +130,7 @@
  <h1 id="pageTitle">A simpler way to book a clean.</h1>
  <p class="intro" id="pageIntro">Explore a straightforward cleaning booking process, without extra effects or distracting screens.</p>
  <span class="disclaimer" id="sampleWarning">Interactive sample only · No real booking or email is sent</span>
+ <div id="leadContext" class="lead-context" hidden aria-live="polite"><span id="leadContextLabel">PERSONALIZED FOR</span><strong id="leadBusiness"></strong><p id="leadArea"></p></div>
  <section class="flow" aria-labelledby="flowTitle">
   <div class="flow-header"><div class="steps" id="stepLabel">STEP 1 OF 3</div><h2 id="flowTitle" tabindex="-1">Choose your service</h2></div>
   <div id="choosePanel" class="panel">
@@ -146,7 +173,14 @@
   <div id="reviewPanel" class="panel" hidden><p class="notice" id="reviewNote">Check this sample request before completing the preview.</p><dl class="review" id="reviewList"></dl>
    <div class="actions"><button type="button" class="secondary" id="backReview">Edit details</button><button type="button" class="primary" id="finish">Finish preview</button></div>
   </div>
-  <div id="completePanel" class="panel" hidden><div class="complete"><h3 id="doneHeading">Preview complete.</h3><p id="doneBody">This is how a booking request could be reviewed. No booking, payment, email, or client record was created.</p><button type="button" class="primary" id="restart">Start again</button></div></div>
+  <div id="completePanel" class="panel" hidden><div class="complete"><h3 id="doneHeading">Preview complete.</h3><p id="doneBody">This is how a booking request could be reviewed. No booking, payment, email, or client record was created.</p><button type="button" class="primary" id="restart">Start again</button><div id="finishLinks" class="finish-links"><a id="trackerLink" href="/lead-demo-tracker.html">View demo Command Center →</a></div></div></div>
+ </section>
+ <section class="sonny" aria-labelledby="sonnyTitle">
+  <div class="sonny-head"><div><h2 id="sonnyTitle">Want to try Sonny?</h2><small id="sonnySubtitle">Optional AI booking assistant · Demo only</small></div><button type="button" class="secondary" id="sonnyToggle" aria-controls="sonnyBody" aria-expanded="false">Try Sonny</button></div>
+  <div class="sonny-body" id="sonnyBody" hidden><div id="sonnyLog" class="sonny-log" role="log" aria-label="Sonny conversation" aria-live="polite"></div>
+    <form id="sonnyForm" class="sonny-form"><input id="sonnyInput" type="text" maxlength="650" aria-label="Your message for Sonny" placeholder="Ask about a cleaning appointment" required><button id="sonnySend" type="submit">Send</button></form>
+    <p class="sonny-status" id="sonnyStatus">Simulation only. No real booking or email will be sent.</p>
+  </div>
  </section>
  <p class="bottom-note" id="footerNote">*Prices are sample estimates, not guaranteed quotes. Final scope and availability are confirmed by the cleaning business.</p>
 </main>
@@ -248,5 +282,6 @@
   chooseKind('residential');updateWords();
 })();
 </script>
+<script src="/assets/tle-demo-reset-lead-magnet.js?v=20261016-clean1"></script>
 </body>
 </html>
