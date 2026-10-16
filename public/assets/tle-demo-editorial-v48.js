@@ -102,6 +102,21 @@ function setup(){
  const old=[...list.querySelectorAll(":scope > button.service")].find(button=>button.getAttribute("onclick")==="startQuote('quote')");
  if(dynamic&&old){old.hidden=true;old.classList.add("tle48-duplicate-quote");}
  root.classList.add("tle-demo-v48");
+ // The compact AI launcher is useful, but must sit below the primary hero CTA
+ // on narrow phones. Keep the actual Sonny chat and its click handler intact.
+ const alignSonny=()=>{
+  if(!window.matchMedia("(max-width:759px)").matches)return;
+  const launcher=document.querySelector(".tle-ai-launch.tle-demo-condensed");
+  if(launcher){
+   launcher.style.setProperty("right","calc(12px + env(safe-area-inset-right))","important");
+   launcher.style.setProperty("bottom","calc(12px + env(safe-area-inset-bottom))","important");
+  }
+  const popup=document.getElementById("tleSonnyGreetingPopup");
+  if(popup)popup.hidden=true;
+ };
+ alignSonny();
+ window.requestAnimationFrame(alignSonny);
+ window.addEventListener("resize",()=>window.requestAnimationFrame(alignSonny),{passive:true});
  ready=true;
  return true;
 }
