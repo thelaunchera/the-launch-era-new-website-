@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-16 | EN/ES language audit: some Spanish sales, FAQ, demo and checkout copy sounded translated, a bundle heading had a grammatical error, Spanish WhatsApp landing displayed COMING SOON, and Booking hero examples implied irrelevant revenue/payment results | Content drift across React bilingual components and standalone HTML translation dictionaries; no server-side logic issue | Copy-only refinements across both languages, cleaning-specific sample chips (no fabricated revenue/payment proof), Spanish headings/CTA/FAQ/demo labels, preserved prices, URLs, form names, data writes, backend logic, protected previews, tenant isolation and active Booking redesign; release through an isolated PR | 🟡 Copy branch prepared; CI and live browser proof pending; do not merge over concurrent redesign without conflict review |
+
+
 | 2026-10-16 | Screenshot: requested a premium integrations-style converging dot/link motion in the Booking Automation section, above its Command Center preview | Old illustration was a wide pannable five-note dotted whiteboard and did not communicate centralization in mobile layout | Six stationary blue internal-function tiles around private Command Center, 700ms path drawing/1100ms inward dots/450ms stagger/arrival ripple, responsive/localized and reduced-motion-safe, NO invented third-party integrations, tracking, customer writes, pricing changes or conflicts with merged flip-card feature | 🟡 New branch reconciled with latest main; CI/deploy pending |
 
 
