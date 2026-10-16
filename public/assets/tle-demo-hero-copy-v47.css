@@ -223,3 +223,14 @@ html.demo-editorial.tle-demo-v47 #leadHero .tle46-hero-slot>.heroText h1.demo-he
   line-height:1.05!important;margin:0 0 12px!important;
  }
 }
+
+/* Root cause of the huge empty mobile region: deliberately hidden
+   Post-Construction button was forced display:block by six-class photo CSS.
+   Out-prioritize those legacy selectors without hiding any visible service. */
+html.demo-editorial.tle-demo-v45.tle-demo-v47.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main #commercialServiceList.tle-v42-grid > button.service[hidden],
+html.demo-editorial.tle-demo-v45.tle-demo-v47.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main #commercialServiceList.tle-v42-grid > button.service[aria-hidden="true"]{
+ display:none!important;visibility:hidden!important;
+ position:absolute!important;inset:auto!important;
+ height:0!important;min-height:0!important;max-height:0!important;
+ padding:0!important;margin:0!important;
+}
