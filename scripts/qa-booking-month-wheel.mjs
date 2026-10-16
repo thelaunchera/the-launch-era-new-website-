@@ -18,7 +18,7 @@ assert.match(js,/window\.tleBookingPreference/);
 const base=(process.env.QA_URL||'http://127.0.0.1:4173').replace(/\/$/,'');
 const browser=await chromium.launch({headless:true});
 try {
- for(const [lang,width,reduced] of [['en',360,false],['es',390,true],['en',820,false],['es',1440,false]]){
+ for(const [lang,width,reduced] of [['en',360,false],['es',390,true],['en',820,false],['es',1024,false],['en',1440,false]]){
   const page=await browser.newPage({viewport:{width,height:844},reducedMotion:reduced?'reduce':'no-preference'});
   const errors=[],writes=[];
   page.on('pageerror',e=>errors.push(e.message));
@@ -37,6 +37,26 @@ try {
   await page.locator('#tleBookingAppointment').waitFor({state:'visible'});
   assert.equal(await page.locator('#apptDays button[role="radio"]').count(),new Date(new Date().getFullYear(),new Date().getMonth()+1,0).getDate(),
     'Must render EVERY day of a full month');
+  const geometry=await page.evaluate(()=>{
+    const bounds=(selector)=>{const r=document.querySelector(selector)?.getBoundingClientRect();return r?{left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height}:null;};
+    return {appointment:bounds('#tleBookingAppointment'),panel:bounds('#detailsPanel'),
+      calendar:bounds('.appt-date-pane'),time:bounds('.appt-time-pane'),
+      day:bounds('#apptDays button[data-day]'),viewport:innerWidth,
+      cssWidth:getComputedStyle(document.querySelector('#tleBookingAppointment')).maxWidth,
+      overflow:document.documentElement.scrollWidth-innerWidth};
+  });
+  assert(geometry.appointment?.width>=geometry.panel.width*.88,
+    'Appointment card must fill the booking form instead of staying 430px: '+JSON.stringify({lang,width,geometry}));
+  assert(geometry.overflow<=3,'Appointment caused horizontal scroll '+JSON.stringify({lang,width,geometry}));
+  if(width>=800){
+    assert(geometry.appointment.width>=650,'Desktop/tablet appointment should be wide '+JSON.stringify(geometry));
+    assert(Math.abs(geometry.calendar.top-geometry.time.top)<5,'Calendar and time should sit side by side '+JSON.stringify(geometry));
+    assert(geometry.calendar.width>=320&&geometry.time.width>=245,'Both desktop panes must be readable '+JSON.stringify(geometry));
+    assert(geometry.day.width>=40,'Desktop dates must no longer appear tiny '+JSON.stringify(geometry));
+  }else{
+    assert(geometry.time.top>geometry.calendar.bottom-5,'Phone date and time should stack vertically '+JSON.stringify(geometry));
+    assert(geometry.day.width>=32,'Phone dates must remain tappable without clipping '+JSON.stringify(geometry));
+  }
   assert.equal(await page.locator('.appt-wheel').count(),3);
   assert.equal(await page.locator('#apptHours [role="option"]').count(),12);
   assert.equal(await page.locator('#apptMinutes [role="option"]').count(),12);
