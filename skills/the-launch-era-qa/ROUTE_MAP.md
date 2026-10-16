@@ -16,6 +16,21 @@
 - **Privacy:** public footer includes a clear occasional-emails consent line and link to EN/ES privacy policies. No new routes. Static source checks and database RLS verified 2026-10-16; live browser submit and GitHub Pages post-deploy smoke tests must be completed before claiming production delivery.
 
 
+## Homepage services GSAP five-phase palette (2026-10-16)
+- **Scope**: existing six sales cards remain in place on EN `/#solutions`, ES `/es/#soluciones` and the shared EN `/solutions` presentation. Background/text colors shift only inside `.solutions-section[data-services-color-shift]`; does not theme the site header, demo, buyer previews, checkout, Cleaning App or Command Centers.
+- **Entry navigation**: compact, five-phase progress wordmark with three decorative bars and a functioning internal Explore anchor, EN `#service-rail-en` / ES `#service-rail-es`. Existing per-card link destinations, photographs, offers, Stripe checkout flow, and the iPhone horizontal scroll-snap remain unchanged.
+- **Motion**: `src/components/services-color-motion.tsx`, GSAP 3 + ScrollTrigger loaded only when the services section mounts. Vertical scroll advances five high-contrast brand palette states, with a horizontally swiped card determining the palette on phones. `gsap.context` reverts scroll animations on React unmount; reduced-motion settings use instant changes without card entrance tweens; unavailable CDN keeps static accessible colors.
+- **CSS**: `public/assets/tle-services-color-shift.css` loaded in `src/routes/__root.tsx` after base SaaS styles. Card surfaces retain fixed dark typography to remain readable on blue/dark chapter backgrounds. Contrast tested above 4.5:1 for each section background/text pair. QA: 360/390/768/820/1024/1440 widths, EN/ES scroll & swipe, reduced motion, anchors, no horizontal overflow, no unintended link changes.
+
+
+## Footer newsletter signup (2026-10-16)
+- **Scope:** shared TanStack public SiteFooter for EN/ES marketing pages, source `src/components/site-shell.tsx`; no checkout, booking demo, Cleaning App, protected CRM or client-specific pages changed.
+- **Assets:** `public/assets/tle-footer-newsletter.css` and `public/assets/tle-footer-newsletter.js`, both loaded by `src/routes/__root.tsx`. Native form submit handler, no widget dependencies. The form's 42px pill has inline validation/errors; its success mask animates from button to input after a real `ok:true` POST, keeps its done state, and uses reduced-motion opacity fallback.
+- **Public POST/OPTIONS:** `https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-newsletter-subscribe` (`supabase/functions/tle-newsletter-subscribe/index.ts`); browser input `email`, `language=en|es`, `source=site_footer`, `consent=true`, `started_at`, honeypot `company_web`. Failure leaves form editable and displays an error. CORS is limited to approved TLE hosts; no secret key is exposed in client JS.
+- **Subscriber store:** `public.tle_newsletter_subscribers` in production (source migration `supabase/migrations/20261016_tle_website_footer_newsletter_subscribers.sql`), unique normalized email, consent timestamp/status/language, RLS enabled and anonymous direct access revoked. Newsletter **subscription storage only**: there is no automatic email campaign or welcome message from this form; every future mailing must check `status` and include a working unsubscribe method.
+- **Privacy:** public footer includes a clear occasional-emails consent line and link to EN/ES privacy policies. No new routes. Static source checks and database RLS verified 2026-10-16; live browser submit and GitHub Pages post-deploy smoke tests must be completed before claiming production delivery.
+
+
 ## Homepage sticky photo-card hero (2026-10-16)
 - **Scope**: public EN `/` and ES `/es/` only, using the existing `HomeHero` and SpanishHome markup. No demo, checkout, customer tenant or Command Center pages are modified.
 - **Hero stage**: `public/assets/tle-hero-scroll.css` loaded after `tle-saas-ui-v1.css` by `src/routes/__root.tsx`. `.hero-scroll` is approximately 180svh; `.hero-scroll-stage` sticks at top at 100svh; the existing full-photo wrapper smoothly scales from 1 to .7, rounds from 0 to 24px, and fades headline/CTA by half progress.
@@ -82,6 +97,12 @@ Verified against production page loads and repository sources on **2026-10-12**.
 
 | \\`/command-center/ai-team.html\\` | \\`public/command-center/ai-team.html\\` + AI Team assets | Private The Launch Era internal owner role only; tasks, AI plans, approvals, evidence, audit. No buyer access or automatic external action. |\n
 Other routes exist under \`src/routes/\`, \`public/es/\`, \`public/intake/\` and \`public/ai-booking-assistant/\`; \`scripts/qa-route-integrity.mjs\` scans the filesystem for static references. All routes must be added here when they become a production CTA.
+
+## v38 service screen stack (2026-10-16)
+- **Scope:** public **unkeyed** `/lead-private-preview.html` only (`lang=en/es`), existing `#bookingStarter` service chooser / residential details / review / residential quote / commercial quote / sample confirmation. Never run on `?key` or `?owner_preview=1`; no client records or real submissions.
+- **Owner/files:** `public/lead-private-preview.html` delegates its existing `show(id,title,count)` to `public/assets/tle-demo-stack-nav-v38.js`, with `tle-demo-stack-nav-v38.css`. If JS is missing, legacy `show` still works. Buttons, payment paths, quote calculations, and backend are unchanged.
+- **Interaction:** forward 450ms right-to-left push; outgoing step shifts left 28% and dims up to 0.16; back reverses. A left-edge touch gesture drags and velocity-snaps to the previous step. Covered pages are inert and hidden from accessibility; focus moves to the active `#title` heading. Reduced motion uses a 130ms opacity fade. Original top navigation's `Change service` and `Back to Demo Home` remain functional.
+- **QA:** `scripts/qa-demo-stack-nav-v38.mjs` exercises EN/ES responsive forward/back/edge-swipe, focus, state retention and keyed isolation without sending demo requests. Run via `.github/workflows/demo-editorial-v6-qa.yml` alongside static route QA.
 
 ## v28 animated preview identity / sample nameplate (2026-10-15)
 - **URL/scope**: public unkeyed `/lead-private-preview.html` (including `lang=en/es`, fictional business query); never runs when `?key` is present or `?owner_preview=1`. Existing buyer/owner headers, demos and all client booking data stay untouched.
