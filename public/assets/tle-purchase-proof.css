@@ -1,0 +1,47 @@
+/* The Launch Era · verified sales only; never obscure main CTAs or chat controls. */
+.tle-proof-pop {
+ position:fixed;left:clamp(14px,2.5vw,34px);
+ bottom:calc(23px + env(safe-area-inset-bottom,0px));z-index:600;
+ width:min(355px,calc(100vw - 28px));pointer-events:auto;
+ display:flex;align-items:flex-start;gap:12px;
+ padding:14px 38px 14px 13px;
+ font-family:Futura,"Avenir Next",Arial,sans-serif;
+ border:1px solid rgba(114,164,217,.33);border-radius:18px;
+ background:rgba(250,248,243,.96);color:#191919;
+ box-shadow:0 13px 32px rgba(45,109,200,.19),0 3px 13px rgba(63,143,229,.13);
+ backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+ opacity:0;transform:translateY(12px);
+ transition:opacity .28s ease,transform .28s ease;
+ box-sizing:border-box;
+}
+.tle-proof-pop.tle-proof-visible{opacity:1;transform:translateY(0)}
+.tle-proof-mark{
+ width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;
+ border-radius:14px;background:linear-gradient(145deg,#dcebff,#f5faff);
+ color:#3670c4;border:1px solid rgba(68,126,202,.15)
+}
+.tle-proof-mark svg{width:21px;height:21px}
+.tle-proof-copy{min-width:0;flex:1;font-size:12px;line-height:1.42}
+.tle-proof-copy strong{display:block;font-family:Prompt,sans-serif;font-size:12px;font-weight:600;line-height:1.4}
+.tle-proof-copy small{display:block;color:#55738b;font-size:10.5px;margin-top:4px}
+.tle-proof-close{
+ position:absolute;top:7px;right:8px;width:28px;height:28px;
+ color:#536575;background:transparent;border:0;border-radius:9px;
+ cursor:pointer;font-size:20px;line-height:1;display:grid;place-items:center
+}
+.tle-proof-close:hover,.tle-proof-close:focus-visible{background:#e8f2ff}
+.tle-proof-close:focus-visible{outline:2px solid #3e7fd2;outline-offset:2px}
+.tle-proof-timebar{position:absolute;left:13px;bottom:0;width:calc(100% - 26px);
+ height:2px;background:#bedcff;border-radius:4px;overflow:hidden}
+.tle-proof-timebar:after{content:"";display:block;height:100%;background:#4b89df;
+ animation:tleProofDuration 4s linear both}
+@keyframes tleProofDuration{from{width:100%}to{width:0}}
+@media(max-width:600px){
+ .tle-proof-pop{bottom:calc(88px + env(safe-area-inset-bottom,0px));left:12px;
+ width:min(320px,calc(100vw - 24px));padding:12px 36px 13px 12px;gap:10px}
+ .tle-proof-mark{width:38px;height:38px;flex-basis:38px}
+}
+@media(prefers-reduced-motion:reduce){
+ .tle-proof-pop{transition:none;transform:none}
+ .tle-proof-timebar:after{animation:none;width:100%}
+}
