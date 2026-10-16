@@ -1,0 +1,259 @@
+/* Booking lead magnet — unified soft-blue bubble direction.
+   Scoped to the public/emailed clean demo only. No glassmorphism, no effects
+   on customer-owned booking pages, no new scroll motion or huge zoom. */
+:root {
+ --booking-sky:#e6f5ff;
+ --booking-blue:#a9d8f3;
+ --booking-blue-ink:#245d7f;
+ --booking-black:#191919;
+ --bubble-line:rgba(255,255,255,.83);
+ --bubble-ink:#153c55;
+}
+html { background:#e5f4fd; }
+body {
+ color:#191919;
+ background-color:#e5f4fd;
+ background-image:
+  radial-gradient(circle at 15% 18%,rgba(255,255,255,.86) 0 4.5rem,rgba(191,230,251,.33) 4.6rem,transparent 5rem),
+  radial-gradient(circle at 92% 32%,rgba(210,239,253,.85) 0 3.7rem,rgba(255,255,255,.73) 3.75rem 3.88rem,transparent 3.94rem),
+  radial-gradient(circle at 10% 80%,rgba(255,255,255,.55) 0 4.1rem,rgba(118,188,225,.26) 4.2rem 4.3rem,transparent 4.45rem),
+  linear-gradient(150deg,#e7f6ff 0%,#daeffc 46%,#f2faff 100%);
+ background-size:100% 100%;
+}
+header {
+ background:#e8f6ff;
+ border-bottom:1px solid #b9d9ec;
+}
+header .brand { color:#173b53; }
+header .language { background:#f6fbff; border-color:#a4cbe0; color:#173b53; }
+header .back-link { color:#245d7f; }
+main#bookingPage {
+ position:relative;
+ isolation:isolate;
+ padding-bottom:clamp(52px,7vw,100px);
+ background-color:transparent;
+ background-image:
+  radial-gradient(circle at 84% 9%,rgba(255,255,255,.69) 0 62px,rgba(155,214,244,.37) 63px 65px,transparent 67px),
+  radial-gradient(circle at 8% 31%,rgba(236,249,255,.61) 0 87px,rgba(255,255,255,.6) 88px 90px,transparent 92px),
+  radial-gradient(circle at 89% 74%,rgba(215,239,253,.6) 0 58px,rgba(255,255,255,.74) 59px 61px,transparent 63px);
+}
+#bookingPage .eyebrow {color:#285f83}
+#bookingPage h1,#bookingPage h2 {color:#191919}
+#bookingPage .intro {color:#385d74}
+#bookingPage .disclaimer {background:#e3f3fc;border-color:#a9d3e9;color:#234d67}
+#bookingPage .lead-context {
+ background:#dcf1ff;
+ border:1px solid #a9d2e9;
+ box-shadow:0 4px 18px rgba(37,97,137,.06);
+}
+#bookingPage .flow {
+ background:#f7fcff;
+ border:1px solid #a9cfdf;
+ border-radius:23px;
+ box-shadow:0 16px 40px rgba(49,110,144,.1);
+}
+#bookingPage .flow-header {
+ background:linear-gradient(110deg,#cce9f9 0%,#e8f6ff 70%,#d9effc 100%);
+ border-color:#b6d5e8;
+}
+#bookingPage .steps {color:#326a8d}
+#bookingPage .switch button {
+ background:#e4f3fc;
+ color:#20465d;
+ border-color:#b9d9ec;
+}
+#bookingPage .switch button[aria-pressed=true] {
+ background:#a8d4ed;
+ border-color:#528fb4;
+ color:#153c55;
+}
+#bookingPage .service {
+ background:#fff;
+ border-color:#b7d7e9;
+ border-radius:16px;
+ box-shadow:0 6px 18px rgba(36,93,127,.06);
+}
+#bookingPage .service[aria-pressed=true] {
+ background:#eef8ff;
+ border-color:#397fa8;
+ box-shadow:0 0 0 2px rgba(80,154,199,.13);
+}
+#bookingPage .service-price {color:#265f84}
+#bookingPage .primary {background:#235d81;border-color:#235d81;color:#fff}
+#bookingPage .primary:disabled {background:#a7becd;border-color:#a7becd;color:#354f61}
+#bookingPage .secondary {border-color:#a8cadf;background:#edf8ff;color:#1c536f}
+#bookingPage .field input,#bookingPage .field select,#bookingPage .field textarea {
+ border-color:#a8cadd;
+ background:#fff;
+}
+#bookingPage .notice,#bookingPage .bottom-note {color:#3a6076}
+#bookingPage .review {border-color:#aed1e5}
+#bookingPage .review-row {border-color:#d8eaf5}
+#bookingPage .finish-links a {border-color:#95c6e2;background:#d5edfc;color:#164763}
+#bookingPage .sonny {border-color:#a0cae0}
+.booking-portal {background:#d3ecfb}
+.booking-portal-cue {color:#235d7f}
+.booking-before-after,.booking-proof {
+ position:relative;
+ isolation:isolate;
+ background-color:#deeffb;
+ background-image:
+  radial-gradient(circle at 87% 11%,rgba(255,255,255,.63) 0 67px,rgba(133,194,231,.28) 68px 70px,transparent 72px),
+  radial-gradient(circle at 14% 91%,rgba(239,250,255,.8) 0 49px,rgba(255,255,255,.87) 50px 52px,transparent 54px),
+  linear-gradient(153deg,#ddf1fc 0%,#eaf7ff 54%,#d5edfa 100%);
+ border-top:1px solid #b8d8eb;
+}
+.booking-proof {
+ background-image:
+  radial-gradient(circle at 90% 80%,rgba(255,255,255,.72) 0 85px,rgba(144,205,235,.37) 86px 88px,transparent 90px),
+  radial-gradient(circle at 9% 15%,rgba(228,246,255,.7) 0 54px,rgba(255,255,255,.82) 55px 57px,transparent 59px),
+  linear-gradient(160deg,#d9eefb,#edf8ff 65%,#d9eefa);
+}
+.booking-compare-card,.booking-review {
+ border-color:#9bc8e0;
+ background:#fafdff;
+ border-radius:19px;
+ box-shadow:0 11px 26px rgba(41,102,139,.09);
+}
+.booking-proof-kicker {color:#245f86}
+.booking-proof-desc {color:#3e6178}
+.booking-compare-visual {background:#cae5f4}
+.booking-compare-card h3,.booking-review h3 {color:#191919}
+.booking-review-mark {color:#28698f}
+.booking-review small {color:#3a627c}
+footer {
+ background:#d9eefb;
+ border-color:#b7d8ec;
+ color:#355c76;
+}
+/* Restore the soft orb section from the sample demo near Request a Quote. */
+.booking-custom-invite {
+ position:relative;
+ margin-top:26px;
+ padding-top:22px;
+ border-top:1px solid #b5d8ea;
+}
+.booking-custom-overline {
+ margin:0 0 9px 4px;
+ font-size:12px;
+ line-height:1.4;
+ letter-spacing:.16em;
+ font-weight:800;
+ color:#28658a;
+}
+.booking-custom-summary {
+ margin:0 0 22px 4px;
+ color:#446c83;
+ line-height:1.55;
+ font-size:14px;
+}
+#bookingPage .custom {
+ position:relative;
+ isolation:isolate;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:18px;
+ width:100%;
+ min-height:158px;
+ margin:0;
+ padding:26px clamp(20px,3vw,36px);
+ background-color:#d9f0ff;
+ background-image:
+  radial-gradient(circle at 69% 3%,rgba(255,255,255,.5) 0 54px,rgba(255,255,255,.76) 55px 56px,transparent 58px),
+  radial-gradient(circle at 30% 99%,rgba(255,255,255,.48) 0 42px,rgba(255,255,255,.67) 43px 44px,transparent 46px),
+  linear-gradient(115deg,#d6f0ff,#e8f8ff 58%,#c9eafd);
+ border:1.5px solid #87c1df;
+ border-radius:31px;
+ box-shadow:0 16px 32px rgba(57,127,169,.13);
+ color:#153c55;
+ text-align:left;
+}
+.booking-custom-text {display:flex;flex-direction:column;gap:13px;min-width:0}
+.booking-custom-text small {
+ font-size:clamp(11px,1.4vw,14px);
+ font-weight:800;
+ line-height:1.3;
+ letter-spacing:.1em;
+ color:#336984;
+}
+.booking-custom-text strong {
+ font-size:clamp(20px,3vw,30px);
+ font-weight:800;
+ line-height:1.15;
+ letter-spacing:-.035em;
+ color:#123b55;
+}
+.booking-custom-arrow {
+ flex:0 0 clamp(52px,7vw,68px);
+ height:clamp(52px,7vw,68px);
+ display:grid;
+ place-items:center;
+ border:1.5px solid #83bddb;
+ border-radius:50%;
+ background:linear-gradient(140deg,#e7f8ff,#bee6f8);
+ color:#285f83;
+ font-size:clamp(25px,3vw,33px);
+}
+#bookingPage .custom:focus-visible {outline:3px solid #235e86;outline-offset:4px}
+/* Preserve one real Sonny assistant and show its existing blue robot avatar
+   inside a compact floating circle, not a second or fake chatbot. */
+body .sonny {border-color:#8ec8e8;box-shadow:0 12px 34px rgba(22,68,101,.26)}
+body .sonny:not(:has(.sonny-body:not([hidden]))) {
+ width:66px;
+ height:66px;
+ max-width:66px;
+ border-radius:50%;
+ overflow:visible;
+ background:#11394d;
+}
+body .sonny:not(:has(.sonny-body:not([hidden]))) .sonny-title-group {display:none}
+body .sonny:not(:has(.sonny-body:not([hidden]))) .sonny-head {width:100%;height:100%}
+body .sonny:not(:has(.sonny-body:not([hidden]))) .sonny-head button {
+ width:100%;height:100%;min-height:0;
+ display:block;
+ padding:0;
+ border-radius:50%;
+ border:3px solid #b8eaff;
+ background-color:#0b3148;
+ background-image:url("/assets/lead-demo/ai-demo-robot.webp");
+ background-repeat:no-repeat;
+ background-position:center;
+ background-size:100% 100%;
+ font-size:0;
+ color:transparent;
+}
+body .sonny:not(:has(.sonny-body:not([hidden]))) .sonny-head button::before {display:none}
+body .sonny:has(.sonny-body:not([hidden])) {width:min(370px,calc(100vw - 24px));border-radius:21px}
+body .sonny:has(.sonny-body:not([hidden])) .sonny-head {padding:12px 15px 0}
+body .sonny:has(.sonny-body:not([hidden])) .sonny-title-group {display:flex;align-items:center;gap:10px}
+body .sonny:has(.sonny-body:not([hidden])) .sonny-head h2 {
+ display:block;
+ font-size:17px;
+ margin:0;
+ color:#123b55;
+}
+body .sonny:has(.sonny-body:not([hidden])) .sonny-head small {display:block;font-size:11px;color:#3b6885}
+body .sonny:has(.sonny-body:not([hidden])) .sonny-head button {
+ background:#d4edfc;
+ border:1px solid #a9cfdf;
+ border-radius:999px;
+ min-height:37px;
+ margin:9px 0 11px;
+ padding:8px 15px;
+ font-size:13px;
+}
+body .sonny:has(.sonny-body:not([hidden])) .sonny-head button::before {display:none}
+@media(max-width:540px) {
+ #bookingPage .flow{border-radius:18px}
+ #bookingPage .custom {min-height:152px;padding:20px 17px;border-radius:26px}
+ .booking-custom-text strong {font-size:clamp(19px,5.5vw,25px)}
+ .booking-custom-arrow {flex-basis:53px;height:53px}
+ .booking-custom-overline {font-size:11px}
+ .booking-proof,.booking-before-after {padding-block:55px}
+ body .sonny:not(:has(.sonny-body:not([hidden]))) {width:62px;height:62px}
+}
+@media(prefers-reduced-motion:reduce) {
+ /* All bubbles are static. Preserve the original portal's reduced-motion cut. */
+ body .sonny, #bookingPage .custom {transition:none!important;animation:none!important}
+}
