@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-16 | Owner screenshots: `remarkable.` was crossed out in the Booking Demo hero; the day/night homepage house appeared tiny and whitewashed on phone | Strike was an absolute sibling sized to the longest replacement grid cell, and remained visible after old word faded; WebGL scene had 1.55 exposure, strong warm light, pastel white materials and distant phone camera | Put strike INSIDE old word, preserve old span during EN/ES translation, extend hold and fade old with strike; preserve accessibility. Reduce WebGL exposure, deepen roof/window contrast, add entrance detail and move camera closer only on phone; match SVG fallback and bust caches | 🟡 Staged on isolated branch; pending responsive browser CI and GitHub Pages production verification |
+
+
 | 2026-10-16 | Owner iPhone video at 17:02: public Booking Demo hero zoom vanished in about a second | Verified premium CSS constrained sticky hero to 146svh on iPhone (only 46svh for the camera transition), with JS zoom/fade complete at 70% and native browser smooth click scroll of uncontrolled duration | Isolated 205svh sticky journey, later zoom/fade through 82%, 2800ms timed click scroll cancellable by user input, cache bust and browser test against disappearing within 550ms. No live bookings, Sonny, blue bubbles or keyed previews changed | 🟡 Release awaiting focused CI / GitHub Pages verification |
 
 
