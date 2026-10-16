@@ -128,8 +128,15 @@ try{
      return imgs.length===3&&imgs.every(i=>i.complete&&i.naturalWidth>=400);
    },null,{timeout:12000});
    assert.equal(await page.locator('.service-photo-check').count(),0,'No empty checkboxes may float on service photos');
-   await page.locator('button[data-id="standard"]').click();
-   assert.equal(await page.locator('#detailsPanel').isVisible(),true,'Service tap must open the form directly');
+   const firstFlip=page.locator('.service-flip-card[data-service="standard"]');
+   assert.equal(await page.locator('.service-flip-card').count(),6,'Six services must have front and back');
+   assert.equal(await firstFlip.locator('.service-flip-back').evaluate(x=>x.inert),true,'Hidden back CTA cannot receive focus');
+   await firstFlip.locator('.service').dispatchEvent('click');
+   assert.equal(await firstFlip.getAttribute('class').then(x=>x.includes('is-flipped')),true);
+   assert.equal(await page.locator('#detailsPanel').isVisible(),false,'First tap reveals details rather than opening the form');
+   assert.equal(await firstFlip.locator('.service-flip-back').evaluate(x=>x.inert),false,'Visible back CTA must accept focus');
+   await firstFlip.locator('.service-flip-select').click();
+   assert.equal(await page.locator('#detailsPanel').isVisible(),true,'Back CTA must advance to booking details');
    assert.equal(await page.locator('#chooseNext').isVisible(),false,'No far-away Continue control');
    assert.equal(await page.locator('input[name="demo-beds"]:checked').inputValue(),'2');
    assert.equal(await page.locator('input[name="demo-baths"]:checked').inputValue(),'1');
@@ -187,7 +194,8 @@ try{
    assert(commercial.every(x=>x.photo>x.width*.94&&x.height>=125),
     lang+' '+width+': commercial should also be photo cards, not thumbnail rows '+JSON.stringify(commercial));
 
-   await page.locator('button[data-id="office"]').click();
+   await page.locator('.service-flip-card[data-service="office"] .service').dispatchEvent('click');
+   await page.locator('.service-flip-card[data-service="office"] .service-flip-select').click();
    assert.equal(await page.locator('#comDetails').isVisible(),true);
    assert.equal(await page.locator('.booking-extras').isVisible(),false,'Residential optional choices stay hidden on commercial forms');
    await page.locator('#backDetails').click();
