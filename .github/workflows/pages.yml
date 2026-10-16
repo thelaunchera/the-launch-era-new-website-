@@ -141,6 +141,23 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
+      - name: Confirm the service color effect is published
+        shell: bash
+        run: |
+          set -euo pipefail
+          for attempt in {1..15}; do
+            page="$(curl --fail --silent --show-error --location --max-time 15 "https://thelaunchera.com/?colors_release=${GITHUB_SHA}" || true)"
+            asset="$(curl --fail --silent --show-error --location --max-time 15 "https://thelaunchera.com/assets/tle-services-color-shift.js?colors_release=${GITHUB_SHA}" || true)"
+            if [[ "$page" == *'tle-services-color-shift.js'* ]] && [[ "$asset" == *'function ensureGsap()'* ]]; then
+              echo "PASS — the published homepage includes the real color-shift controller and the asset is accessible."
+              exit 0
+            fi
+            echo "Waiting for live website service-color assets ($attempt/15)"
+            sleep 5
+          done
+          echo "::error::The live homepage still lacks its services color-shift script or asset."
+          exit 1
+
       - name: Smoke test live Command Center recovery (no customer credentials)
         shell: bash
         run: |
