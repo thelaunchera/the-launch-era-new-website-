@@ -458,7 +458,12 @@
    black and blue words overlapped during touch, as seen in mobile screenshots.
    Scope everything to the existing link; do not enlarge or shift the hero. */
 .sales-home .hero-scroll-reveal a.tle-hero-split-link {
-  min-height: 70px;
+  min-height: 104px;
+  width: min(100%, 480px);
+  padding: 12px clamp(12px, 2vw, 24px);
+  font-size: clamp(20px, 1.95vw, 24px);
+  line-height: 1.16;
+  letter-spacing: -.02em;
   background: transparent !important;
   box-shadow: none !important;
   -webkit-tap-highlight-color: transparent;
@@ -474,18 +479,18 @@
   transition: transform 1080ms cubic-bezier(.32,.72,0,1);
 }
 .sales-home .hero-scroll-reveal .tle-hero-split-reveal {
-  color: #346681;
-  font-size: .88em;
+  color: #275F81;
+  font-size: .94em;
   opacity: 0;
   transform: scale(.90);
   transition: transform 1000ms cubic-bezier(.32,.72,0,1), opacity 160ms ease;
 }
 @media (hover:hover) and (pointer:fine) {
   .sales-home .hero-scroll-reveal .tle-hero-split-link:hover .tle-hero-split-upper {
-    transform: translate3d(0,-.82em,0);
+    transform: translate3d(0,-1.10em,0);
   }
   .sales-home .hero-scroll-reveal .tle-hero-split-link:hover .tle-hero-split-lower {
-    transform: translate3d(0,.82em,0);
+    transform: translate3d(0,1.10em,0);
   }
   .sales-home .hero-scroll-reveal .tle-hero-split-link:hover .tle-hero-split-reveal {
     opacity: 1;
@@ -495,10 +500,10 @@
   }
 }
 .sales-home .hero-scroll-reveal .tle-hero-split-link:focus-visible .tle-hero-split-upper {
-  transform: translate3d(0,-.82em,0);
+  transform: translate3d(0,-1.10em,0);
 }
 .sales-home .hero-scroll-reveal .tle-hero-split-link:focus-visible .tle-hero-split-lower {
-  transform: translate3d(0,.82em,0);
+  transform: translate3d(0,1.10em,0);
 }
 .sales-home .hero-scroll-reveal .tle-hero-split-link:focus-visible .tle-hero-split-reveal {
   opacity: 1;
@@ -511,18 +516,19 @@
     gap: 8px;
   }
   .sales-home .hero-scroll-reveal a.tle-hero-split-link {
-    min-height: 72px;
-    padding: 8px 8px;
-    font-size: clamp(14px,3.7vw,16px);
+    min-height: 96px;
+    width: min(100%, 420px);
+    padding: 12px 9px;
+    font-size: clamp(17px,4.6vw,19px);
   }
 }
 @keyframes tle-word-peek-upper {
   0%,13%,88%,100% {transform:translate3d(0,0,0)}
-  34%,68% {transform:translate3d(0,-.84em,0)}
+  34%,68% {transform:translate3d(0,-1.10em,0)}
 }
 @keyframes tle-word-peek-lower {
   0%,13%,88%,100% {transform:translate3d(0,0,0)}
-  34%,68% {transform:translate3d(0,.84em,0)}
+  34%,68% {transform:translate3d(0,1.10em,0)}
 }
 @keyframes tle-word-peek-reveal {
   0%,23%,83%,100% {opacity:0;transform:scale(.9)}
@@ -652,4 +658,26 @@
   .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
     height:clamp(440px,72vw,680px);
   }
+}
+
+/* Enlarged booking-flow hint; scoped to the original native in-page link.
+   Wider lettering, improved breathing room, no overlap during the split reveal. */
+.sales-home .hero-scroll-reveal { gap: 10px; }
+.sales-home .hero-scroll-reveal > span {
+  font-size: clamp(11px, 1.08vw, 13px);
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+.sales-home .hero-scroll-reveal .tle-hero-split-stack > span {
+  line-height: 1.18;
+  letter-spacing: -.018em;
+}
+@media (min-width: 768px) and (max-width: 1100px) {
+  .sales-home .hero-scroll-reveal a.tle-hero-split-link {
+    font-size: clamp(20px, 2.3vw, 23px);
+  }
+}
+@media (max-width: 767px) {
+  .sales-home .hero-scroll-reveal { gap: 9px; }
+  .sales-home .hero-scroll-reveal > span { font-size: 11px; }
 }
