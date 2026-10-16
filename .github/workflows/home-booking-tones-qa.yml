@@ -6,6 +6,9 @@ on:
       - 'src/components/editorial-sections.tsx'
       - 'src/components/home-motion.tsx'
       - 'src/components/home-sales.tsx'
+      - 'src/components/booking-scrollytelling.css'
+      - 'scripts/qa-booking-scrollytelling.mjs'
+      - 'scripts/qa-booking-story-photo-browser.mjs'
       - 'src/routes/es.index.tsx'
       - 'src/routes/__root.tsx'
       - 'public/assets/tle-booking-tones.css'
@@ -26,6 +29,7 @@ jobs:
           node --check scripts/qa-home-booking-tones.mjs
           node --check scripts/qa-homepage-horizontal-centering.mjs
           node scripts/qa-home-booking-tones.mjs
+          node scripts/qa-booking-scrollytelling.mjs
           node scripts/qa-route-integrity.mjs --static
       - uses: oven-sh/setup-bun@v2
         with:
@@ -53,11 +57,14 @@ jobs:
             sleep 1
           done
           QA_URL=http://127.0.0.1:4173 node scripts/qa-home-booking-tones-browser.mjs
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-booking-story-photo-browser.mjs
           QA_URL=http://127.0.0.1:4173 node scripts/qa-homepage-horizontal-centering.mjs
       - name: Archive EN/ES mobile screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: tle-booking-tones-mobile
-          path: qa-screenshots/booking-tones-*.png
+          path: |
+            qa-screenshots/booking-tones-*.png
+            qa-screenshots/booking-photo-story-*.png
           if-no-files-found: ignore
