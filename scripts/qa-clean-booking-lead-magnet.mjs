@@ -19,7 +19,7 @@ assert.match(chat,/tle-ai-booking-demo/,'Keep the existing Sonny demo backend wi
 assert.match(template,/id="demoForm"/,'Personalized lead magnet intake must not be replaced with booking sample');
 assert(!/(?:@keyframes|\banimation\s*:|\btransition\s*:|\btransform\s*:|\bzoom\s*:|gsap\.|Flip\.|mix-blend-mode\s*:)/i.test(html),'New public demo must have zero visual zoom/motion');
 assert.deepEqual([...html.matchAll(/<link[^>]*rel="stylesheet"[^>]*href="([^"]+)"/g)].map(m=>m[1]),
-  ['/assets/tle-demo-hero-portal.css?v=20261016-strike4','/assets/tle-booking-month-wheel.css?v=20261016-responsive2','/assets/tle-booking-premium-refresh.css?v=20261016-sonny-mobile-safe3','/assets/tle-booking-blue-orbs.css?v=20261016-orbs1','/assets/tle-booking-bubbles-continuity.css?v=20261016-checkchoices2'],'Only scoped hero, time wheel, approved cards and original blue bubble treatments may be linked');
+  ['/assets/tle-demo-hero-portal.css?v=20261016-strike4','/assets/tle-booking-month-wheel.css?v=20261016-responsive2','/assets/tle-booking-premium-refresh.css?v=20261016-sonny-mobile-safe3','/assets/tle-booking-blue-orbs.css?v=20261016-orbs1','/assets/tle-booking-bubbles-continuity.css?v=20261016-details-options3'],'Only scoped hero, time wheel, approved cards and original blue bubble treatments may be linked');
 
 const browser=await chromium.launch({headless:true});
 const outputs=[];
@@ -60,6 +60,8 @@ try {
   assert(context.cards.filter(x=>x.width>0).every(x=>x.width>225&&x.height>=280&&x.imageWidth>x.width*.94&&x.imageHeight>=125),
     locale+' '+width+' service must remain an image-topped CARD, not a mini-photo list '+JSON.stringify(context));
   assert.equal(await page.locator('.service-media img').count(),6,'Six full-width service photographs required');
+  assert.equal(await page.locator('.service-photo-check').count(),0,'No checkbox decoration over service imagery');
+  assert.equal(await page.locator('input[name="demo-extras"]').count(),4,'Real optional checkboxes belong inside form details');
   await page.locator('#resServices .service-media img').first().scrollIntoViewIfNeeded();
   await page.waitForFunction(()=>{
     const photos=[...document.querySelectorAll('#resServices .service-media img')];
@@ -103,9 +105,12 @@ try {
    await page.locator('#customerEmail').fill('test@example.invalid');
    await page.locator('#customerZip').fill('33139');
    await page.locator('#preferredDate').fill('2027-11-15');
+   await page.locator('input[name="demo-extras"][value="petsLabel"]').check();
+   await page.locator('input[name="demo-extras"][value="fridgeLabel"]').check();
    await page.locator('#reviewNext').click();
    await page.locator('#reviewPanel').waitFor({state:'visible'});
    assert.match(await page.locator('#reviewList').innerText(),/Deep Cleaning|Limpieza profunda/);
+   assert.match(await page.locator('#reviewList').innerText(),locale==='es'?/Mascotas en casa/:/Pets at home/);
    await page.locator('#finish').click();
    await page.locator('#completePanel').waitFor({state:'visible'});
    const session=await page.evaluate(()=>{
@@ -113,7 +118,8 @@ try {
      const key='tleSampleBooking:'+JSON.stringify([q.get('business')||'',q.get('lead')||'',q.get('rid')||'']);
      return JSON.parse(sessionStorage.getItem(key)||'null');
    });
-   assert(session&&session.demoOnly===true&&session.service&&session.email==='test@example.invalid','Lead magnet sample handoff not saved');
+   assert(session&&session.demoOnly===true&&session.service&&session.email==='test@example.invalid'
+     &&session.extras?.includes('petsLabel')&&session.extras?.includes('fridgeLabel'),'Lead magnet optional requests not saved to sample handoff');
    await page.locator('#trackerLink').click();
    await page.waitForURL('**/lead-demo-tracker.html?*');
    assert.match(await page.locator('body').innerText(),/Bright & Tidy Cleaning/,'Sample tracker personalization missing');
