@@ -141,3 +141,87 @@ body footer {background:#dbf0fd;color:#305d78;border-top-color:#a6d1e7;}
 @media(prefers-reduced-motion:reduce){
  .booking-bubble-layer span,body #bookingPage .custom::before,body #bookingPage .custom::after{animation:none!important;transform:none!important;}
 }
+
+
+/* Tap-to-advance services and clearly checked image selections — public sample
+   only. The booking/quote engine keeps its original single selection state. */
+#bookingPage .service-media{position:relative;isolation:isolate}
+#bookingPage .service-photo-check{
+ position:absolute;top:12px;right:12px;z-index:2;
+ width:36px;height:36px;display:grid;place-items:center;
+ border:2px solid #4385aa;border-radius:11px;
+ background:rgba(255,255,255,.95);color:transparent;
+ box-shadow:0 4px 13px rgba(11,47,72,.18);
+ font-size:22px;font-weight:900;line-height:1;
+ transition:background-color .18s,color .18s,border-color .18s;
+ pointer-events:none;
+}
+#bookingPage .service[aria-pressed="true"] .service-photo-check{
+ background:#245f85;border-color:#e5f7ff;color:white;
+ box-shadow:0 4px 16px rgba(12,58,91,.35);
+}
+#bookingPage .service:focus-visible{outline:3px solid #377ca5;outline-offset:3px}
+#bookingPage #chooseNext{display:none}
+#bookingPage #choosePanel>.actions{margin-top:17px;justify-content:flex-start}
+#bookingPage #chooseHint{color:#355e79!important;line-height:1.5}
+/* Name/email/ZIP remain typed fields; quantities and frequency are
+   single-choice checkbox-style radio chips (never multi-select duplicates). */
+#bookingPage #detailsPanel .choice-field{
+ display:flex;flex-direction:column;gap:9px;min-width:0;
+ font-size:13px;font-weight:750;color:#173d55;
+}
+#bookingPage #detailsPanel .choice-options{
+ display:flex;align-items:stretch;flex-wrap:wrap;gap:9px;width:100%;
+}
+#bookingPage #detailsPanel .choice-check{
+ position:relative;display:block;flex:1 1 58px;min-width:56px;
+ cursor:pointer;
+}
+#bookingPage #detailsPanel .choice-check input{
+ position:absolute;inset:0;width:100%;height:100%;
+ opacity:0;margin:0;cursor:pointer;
+}
+#bookingPage #detailsPanel .choice-check span{
+ display:flex;align-items:center;justify-content:center;gap:7px;
+ height:47px;min-width:0;padding:8px 9px;border:1.5px solid #91bed8;
+ border-radius:14px;background:#fff;color:#22455b;
+ font-size:14px;line-height:1.15;font-weight:750;
+ transition:border-color .16s,background-color .16s,color .16s;
+}
+#bookingPage #detailsPanel .choice-check span::before{
+ content:"";flex:0 0 15px;width:15px;height:15px;
+ border:1.5px solid #6ca1bf;border-radius:5px;background:#f7fcff;
+}
+#bookingPage #detailsPanel .choice-check input:checked+span{
+ background:#d7eefb;border-color:#367fab;color:#143b56;
+ box-shadow:inset 0 0 0 1px rgba(61,130,174,.18);
+}
+#bookingPage #detailsPanel .choice-check input:checked+span::before{
+ content:"✓";display:grid;place-items:center;
+ color:#fff;background:#286b94;border-color:#286b94;font-size:12px;
+}
+#bookingPage #detailsPanel .choice-check input:focus-visible+span{
+ outline:3px solid #286b94;outline-offset:3px;
+}
+#bookingPage #detailsPanel .choice-check:hover span{border-color:#367fab}
+#bookingPage #detailsPanel .choice-source-select{display:none!important}
+#bookingPage #detailsPanel .field>span,
+#bookingPage #detailsPanel .choice-label{color:#173e56}
+#bookingPage #detailsPanel .field input:not([type="radio"]),
+#bookingPage #detailsPanel .field select:not(.choice-source-select),
+#bookingPage #detailsPanel .field textarea{
+ border-color:#92b9d0;background:#fff;color:#19394c;opacity:1;
+}
+#bookingPage #detailsPanel .notice{color:#2e5972}
+#bookingPage #detailsPanel #dateLabel{color:#183d56}
+#bookingPage #detailsPanel input[type="date"]{color-scheme:light}
+@media(max-width:700px){
+ #bookingPage .service-photo-check{width:37px;height:37px;top:11px;right:11px}
+ #bookingPage #detailsPanel .fields{gap:18px 12px}
+ #bookingPage #detailsPanel .choice-check{flex:1 1 calc(33.333% - 10px)}
+ #bookingPage #detailsPanel .choice-field.full .choice-check{flex:1 1 calc(50% - 8px)}
+ #bookingPage #detailsPanel .choice-check span{min-height:48px;font-size:14px}
+}
+@media(prefers-reduced-motion:reduce){
+ #bookingPage .service-photo-check,#bookingPage .choice-check span{transition:none}
+}
