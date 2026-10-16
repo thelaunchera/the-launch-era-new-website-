@@ -82,6 +82,8 @@ try {
   assert.equal(await page.locator('#apptContinue').isEnabled(),false);
   assert.equal(await page.locator('#tlePreferredTime').inputValue(),'');
   await page.locator('#apptUseTime').click();
+  const finalTime=await page.locator('#tlePreferredTime').inputValue();
+  assert.match(finalTime,/^\d{1,2}:\d{2} (AM|PM)$/,'New date needs fresh time selection');
   await page.locator('#customerName').fill('Demo Customer');
   await page.locator('#customerEmail').fill('demo@example.test');
   await page.locator('#customerZip').fill('33101');
@@ -106,7 +108,7 @@ try {
     return JSON.parse(sessionStorage.getItem(key)||'null');
   });
   assert(stored&&stored.demoOnly===true,'Sample storage handoff missing');
-  assert.equal(stored.time,changed,'Command Center example must retain picked time');
+  assert.equal(stored.time,finalTime,'Command Center must retain confirmed time for the new date (not previous date)');
   assert.equal(await page.locator('.service').count(),6,'Do not add miniature service list or construction');
   const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
   assert(overflow<=3,'Calendar or time wheel exceeds screen '+lang+' '+width+' overflow '+overflow);
