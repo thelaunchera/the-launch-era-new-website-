@@ -1,0 +1,147 @@
+/* v46 — photographic gallery with actual house images brought from user's
+   Google Drive library, hosted locally on the TLE sample website.
+   GSAP Flip re-parents the exact DOM images; no duplicate image layers. */
+html.demo-editorial.tle-demo-v46 #leadHero.tle46-gallery-hero{
+ position:relative!important;display:block!important;
+ height:auto!important;min-height:0!important;
+ border:0!important;border-radius:0!important;overflow:visible!important;
+ isolation:visible!important;background:#eaf7ff!important;
+}
+html.demo-editorial.tle-demo-v46 #leadHero.tle46-gallery-hero::after{
+ display:none!important;content:none!important
+}
+html.demo-editorial.tle-demo-v46 main.wrap{
+ overflow:visible!important;
+}
+html.demo-editorial.tle-demo-v46 #leadHero .demo-cb-hero-media,
+html.demo-editorial.tle-demo-v46 #leadHero .tle-v42-window,
+html.demo-editorial.tle-demo-v46 #leadHero .tle-v42-second-scene{display:none!important}
+html.demo-editorial.tle-demo-v46 #leadHero .tle46-gallery{
+ display:block!important;position:relative!important;
+ width:100%!important;max-width:none!important;
+ padding:0!important;margin:0!important;
+ overflow:visible!important;background:#eaf7ff!important
+}
+html.demo-editorial.tle-demo-v46 #leadHero .tle46-hero-slot{
+ display:block!important;position:relative!important;
+ height:clamp(540px,66vw,730px)!important;
+ width:100%!important;
+ overflow:visible!important;border:0!important;border-radius:0!important;
+ background:#d9eaf3!important;
+}
+html.demo-editorial.tle-demo-v46 #leadHero .tle46-hero-slot::after{
+ content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+ background:linear-gradient(90deg,#0a2b4185 0%,#0a2b4133 44%,transparent 80%),
+ linear-gradient(0deg,#061f35db 0%,#10283d2b 45%,transparent 85%);
+}
+html.demo-editorial.tle-demo-v46 #leadHero .tle46-gallery-img{
+ position:absolute!important;inset:0!important;
+ display:block!important;box-sizing:border-box!important;
+ width:100%!important;height:100%!important;
+ max-width:none!important;max-height:none!important;
+ margin:0!important;padding:0!important;border:0!important;
+ border-radius:inherit!important;object-fit:cover!important;
+ object-position:center center!important;pointer-events:none!important;
+ user-select:none!important;-webkit-user-drag:none!important;
+ transform-origin:50% 50%!important;
+}
+html.demo-editorial.tle-demo-v46 #leadHero .tle46-gallery-img.fly{
+ will-change:transform!important;box-shadow:0 12px 32px #092a3f30;
+}
+html.demo-editorial.tle-demo-v46 #leadHero .tle46-caption{
+ position:absolute;top:clamp(19px,3vw,35px);
+ left:clamp(22px,4.5vw,66px);right:20px;z-index:4;
+ display:flex;align-items:center;gap:11px;width:fit-content;
+ max-width:calc(100% - 44px);padding:8px 14px;
+ border:1px solid #ebf8ff74;border-radius:999px;
+ background:#0c304b77;backdrop-filter:blur(8px);
+ color:#fff;font:650 12px/1.25 "DM Sans",Arial,sans-serif;
+ box-shadow:none!important;
+}
+html.demo-editorial.tle-demo-v46 #leadHero .tle46-caption-counter{
+ opacity:.78;font-size:10px;font-variant-numeric:tabular-nums;
+ white-space:nowrap;letter-spacing:.07em;
+}
+html.demo-editorial.tle-demo-v46 #leadHero .tle46-hero-slot > .heroText{
+ position:absolute!important;z-index:6!important;
+ left:clamp(24px,4.5vw,64px)!important;right:auto!important;
+ bottom:clamp(25px,5vw,69px)!important;
+ width:min(68%,660px)!important;max-width:660px!important;
+ margin:0!important;padding:0!important;
+ background:transparent!important;pointer-events:auto!important;
+ transform:none!important;opacity:1!important;
+}
+html.demo-editorial.tle-demo-v46 #leadHero .tle46-hero-slot .demo-hero-tagline,
+html.demo-editorial.tle-demo-v46 #leadHero .tle46-hero-slot .demo-hero-description{
+ color:#fff!important;-webkit-text-fill-color:#fff!important;
+ text-shadow:0 2px 18px #061e3599!important
+}
+html.demo-editorial.tle-demo-v46 #leadHero .tle46-hero-slot .demo-hero-description{
+ max-width:490px!important;
+}
+html.demo-editorial.tle-demo-v46 #leadHero .tle46-thumb-strip{
+ display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;
+ gap:clamp(8px,1.4vw,16px)!important;
+ width:min(100%,950px)!important;max-width:100%!important;
+ padding:clamp(13px,2.2vw,21px) clamp(16px,3vw,28px)!important;
+ margin:0 auto!important;border:0!important;overflow:visible!important;
+ background:transparent!important;
+}
+html.demo-editorial.tle-demo-v46 #leadHero button.tle46-thumb-slot{
+ display:block!important;position:relative!important;
+ width:100%!important;height:clamp(85px,11vw,132px)!important;
+ min-height:0!important;max-width:none!important;
+ border:2px solid #e7f7ff!important;
+ border-radius:clamp(12px,1.7vw,18px)!important;
+ background:#d5eaf6!important;
+ margin:0!important;padding:0!important;
+ cursor:pointer!important;overflow:visible!important;
+ box-shadow:0 5px 18px #195a7b18!important;
+ -webkit-tap-highlight-color:transparent!important;
+ transition:transform .22s ease,box-shadow .22s ease!important;
+}
+html.demo-editorial.tle-demo-v46 #leadHero button.tle46-thumb-slot:hover{
+ transform:translateY(-3px)!important;box-shadow:0 9px 23px #174b682a!important;
+}
+html.demo-editorial.tle-demo-v46 #leadHero button.tle46-thumb-slot:focus-visible{
+ outline:3px solid #2786be!important;outline-offset:5px!important;
+}
+html.demo-editorial.tle-demo-v46 #leadHero button.tle46-thumb-slot:active{
+ transform:scale(.97)!important;transition-duration:90ms!important;
+}
+html.demo-editorial.tle-demo-v46 #leadHero button.tle46-thumb-slot>.tle46-gallery-img{
+ border-radius:inherit!important;
+}
+@media(max-width:768px){
+ html.demo-editorial.tle-demo-v46 #leadHero .tle46-hero-slot{
+   height:clamp(575px,72svh,735px)!important;
+ }
+ html.demo-editorial.tle-demo-v46 #leadHero .tle46-hero-slot::after{
+   background:linear-gradient(0deg,#08253de3 0%,#09263d7a 37%,#112d4326 65%,transparent 100%)!important;
+ }
+ html.demo-editorial.tle-demo-v46 #leadHero .tle46-caption{
+   top:20px!important;left:17px!important;right:16px!important;
+   font-size:11px!important;padding:8px 11px!important;
+ }
+ html.demo-editorial.tle-demo-v46 #leadHero .tle46-hero-slot > .heroText{
+   width:calc(100% - 42px)!important;max-width:none!important;
+   left:22px!important;right:20px!important;bottom:24px!important;
+ }
+ html.demo-editorial.tle-demo-v46 #leadHero .tle46-hero-slot .demo-hero-tagline{
+   font-size:clamp(38px,9vw,54px)!important;line-height:1.05!important;
+ }
+ html.demo-editorial.tle-demo-v46 #leadHero .tle46-hero-slot .demo-hero-description{
+   font-size:clamp(13px,3.55vw,16px)!important;line-height:1.48!important;
+ }
+ html.demo-editorial.tle-demo-v46 #leadHero .tle46-thumb-strip{
+   gap:8px!important;padding:12px 13px 22px!important;
+ }
+ html.demo-editorial.tle-demo-v46 #leadHero button.tle46-thumb-slot{
+   height:clamp(76px,21vw,104px)!important;border-radius:12px!important;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ html.demo-editorial.tle-demo-v46 #leadHero button.tle46-thumb-slot{
+   transition:none!important;
+ }
+}
