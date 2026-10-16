@@ -6,7 +6,7 @@ type MarketingCTAProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'children
 };
 export function MarketingCTA({children,className='',href,...attrs}:MarketingCTAProps){
   // The demo and sample experiences must never receive promotional motion.
-  if (!href || /demo|preview|\/command-center|\/service-checkout|\/booking-flow-intake/i.test(href) && /demo|preview|\/command-center/i.test(href)){
+  if (!href || /demo|preview|\/command-center/i.test(href)){
     return <a {...attrs} href={href} className={className}>{children}</a>;
   }
   return <span className="tle-cta-pulse-shell">
