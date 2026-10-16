@@ -5,6 +5,8 @@ on:
       - 'scripts/qa-home-hydration-diagnostic.mjs'
       - '.github/workflows/home-hydration-diagnostic.yml'
       - 'src/routes/__root.tsx'
+      - 'src/components/smart-welcome-bundle.tsx'
+      - 'scripts/qa-smart-welcome-flyer-fallback.mjs'
   workflow_dispatch:
 jobs:
   compare:
@@ -35,3 +37,4 @@ jobs:
             sleep 1
           done
           QA_URL=http://127.0.0.1:4173 node scripts/qa-home-hydration-diagnostic.mjs
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-smart-welcome-flyer-fallback.mjs
