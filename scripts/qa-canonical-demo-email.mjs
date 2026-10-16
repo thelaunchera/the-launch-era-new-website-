@@ -1,0 +1,36 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {stripTypeScriptTypes} from 'node:module';
+import vm from 'node:vm';
+const api=readFileSync('supabase/functions/tle-jessie-demo-lead/index.ts','utf8');
+const website=readFileSync('public/assets/jessy-site.js','utf8');
+const src=stripTypeScriptTypes(api,{mode:'strip'});
+const first=src.indexOf('function emailHtml('), last=src.indexOf('\nasync function rateLimit(',first);
+assert(first>=0&&last>first,'Email renderer is available for fixture-only QA');
+const context={URLSearchParams};
+vm.createContext(context);
+vm.runInContext('function escapeHtml(v){return v.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}\n'+src.slice(first,last),context);
+for(const lang of ['en','es']){
+ const business='QA Fixture & Co',area='Sample ZIP';
+ const params=new URLSearchParams({business,area,lang,source:'jessie_email'});
+ const url='https://thelaunchera.com/lead-private-preview.html?'+params;
+ const interest='https://example.invalid/interest?lead=synthetic';
+ const html=context.emailHtml(business,area,{name:'Booking Automation',url},interest,lang);
+ const links=[...html.matchAll(/<a href="([^"]+)"/g)].map(m=>m[1]);
+ assert.equal(links.length,2,'One demo CTA plus a separate consent-based interest CTA');
+ assert.equal(links[0],url,'Official demo host only');
+ assert.equal(links[1],interest,'Original interest confirmation path stays separate');
+ assert(!/pages\.dev|workers\.dev|cloudflare/i.test(html),'No Cloudflare preview in customer email');
+ assert(!/live booking/i.test(html),'Do not falsely promise real availability');
+ assert(!html.includes('Try a booking with Sonny ↗'),'No duplicate Sonny demo CTA');
+ assert(html.includes('QA Fixture &amp; Co'),'Escape customer-entered business names');
+ assert(html.includes(lang==='es'?'Ver mi demo':'View my demo'));
+ assert(html.includes(lang==='es'?'Me interesa':"I'm Interested"));
+ assert(html.includes(lang==='es'?'Sonny dentro del demo':'Sonny inside the demo'));
+}
+assert(api.includes('Idempotency-Key'), 'Original provider idempotency preserved');
+assert(api.includes('email_followup_enabled:false'),'Transactional demo is not recurring marketing');
+assert(website.includes('Sonny está dentro del demo'));
+assert(website.includes('Sonny is included to help you explore the booking flow'));
+assert(!/pages\.dev|workers\.dev/.test(website),'No Cloudflare preview link in Jessie');
+console.log('PASS EN/ES rendered mail: canonical demo host, single CTA, consent confirmation, safe text and idempotency; no emails sent');
