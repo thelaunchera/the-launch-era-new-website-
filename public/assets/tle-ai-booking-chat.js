@@ -57,7 +57,7 @@
     .tle-ai-review-tip{font-size:11px!important;color:#32556D!important;margin:12px 1px 0!important;line-height:1.4!important}
 
     .tle-ai-sample-summary[hidden],.tle-ai-sample-continue[hidden]{display:none!important}
-    .tle-ai-sample-summary{width:100%;padding:15px 14px;background:linear-gradient(145deg,#f9fcff,#e9f4fc);border:1px solid #a9cfe5;border-radius:19px;color:#191919;box-shadow:0 8px 20px rgba(35,88,122,.09)}
+    .tle-ai-sample-summary{box-sizing:border-box;width:100%;max-width:100%;min-width:0;padding:15px 14px;background:linear-gradient(145deg,#f9fcff,#e9f4fc);border:1px solid #a9cfe5;border-radius:19px;color:#191919;box-shadow:0 8px 20px rgba(35,88,122,.09)}
     .tle-ai-sample-title{display:flex;align-items:center;justify-content:space-between;gap:9px;margin-bottom:12px}
     .tle-ai-sample-title strong{font:800 15px/1.25 Prompt,Arial,sans-serif}
     .tle-ai-sample-title span{font:700 9px/1.3 Futura,Arial,sans-serif;color:#315b74;border:1px solid #a9cfe5;border-radius:9px;padding:5px 6px;white-space:nowrap}
