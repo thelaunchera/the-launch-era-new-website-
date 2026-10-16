@@ -4,7 +4,7 @@ const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||"playwright");
 const base=(process.env.QA_URL||"http://127.0.0.1:4173").replace(/\/$/,"");
 const browser=await chromium.launch({headless:true});
 try{
- for(const [lang,width] of [["en",390],["es",820],["en",1440]]){
+ for(const [lang,width] of [["en",360],["en",390],["es",820],["en",1440]]){
   const page=await browser.newPage({viewport:{width,height:900},reducedMotion:"reduce"});
   const errors=[];page.on("pageerror",e=>errors.push(e.message));
   await page.goto(base+"/lead-private-preview.html?lang="+lang,{waitUntil:"domcontentloaded"});
