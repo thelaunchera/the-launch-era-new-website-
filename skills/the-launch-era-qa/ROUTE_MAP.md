@@ -1,3 +1,10 @@
+## 2026-10-16 — Home service card CTA: subtle hint + reliable EN/ES landing navigation
+- **Owner:** marketing flip cards `src/components/service-flip-card.tsx` + scoped CSS in `src/components/service-flip-card.css`. Routes `/` and `/es/` show six interactive cards. The small "Tap to view ↗" / "Toca para ver ↗" cue is secondary; the entire front card remains tappable.
+- **Tap behavior:** tap front → rotate 760ms to the detailed face; tap **Explore service** / **Explorar servicio** → a regular same-tab link to the correct service's own landing, not a generic homepage, demo or checkout. Pointer-down activation prevents a transient mobile focus/blur from closing or disabling the back face before the link's native click. Escape/back arrow continue to restore the front; reduced-motion support and keyboard accessibility unchanged.
+- **EN destination order:** `/booking-lead-automation`, `/ai-booking-assistant/`, `/whatsapp-ai-agent/`, `/cleaning-web-app`, `/website-automation`, `/virtual-assistant`.
+- **ES destination order:** `/es/booking-lead-automation/`, `/es/ai-booking-assistant/`, `/es/whatsapp-ai-agent/`, `/es/cleaning-web-app/`, `/es/website-automation/`, `/es/virtual-assistant/`.
+- **Safety:** no edit to price, checkout, form, sample Booking Demo, tenant routes, product content or Supabase. `scripts/qa-service-flip-cards.mjs` checks actual touch activation of every back CTA for both languages and the lighter front label. GitHub Pages/browser verification required before claiming live.
+
 ## 2026-10-16 — Remove duplicate homepage Booking Automation sales panel (EN/ES)
 - Home routes `/` and `/es/` no longer render the standalone `booking-section` panel beginning “Bookings in one place. Less chasing messages.” (Spanish: “Reservas organizadas. Menos mensajes pendientes.”), its three-step explainer, animated six-tile hub, promotion and large purchase button.
 - The preceding Problems section now flows directly into the existing HomeMotionInterlude, Process/Contact and Final CTA. Keep those adjacent sections and homepage hero, service cards and logo marquee.
