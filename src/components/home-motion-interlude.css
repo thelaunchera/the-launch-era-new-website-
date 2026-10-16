@@ -48,7 +48,7 @@
 @media(max-width:700px){
  .tle-time-heading{top:clamp(20px,5svh,34px);left:6%;right:6%}
  .tle-time-heading strong{font-size:clamp(24px,6vw,32px);max-width:360px}
- .tle-time-art{inset:18% -15% 19% -15%}
+ .tle-time-art{inset:12% -15% 24% -15%}
  .tle-time-chapter{padding:0 5vw max(8svh,62px)}
  .tle-time-card{max-width:min(100%,370px);margin:0 auto;border-radius:21px;padding:19px 21px}
  .tle-time-card h3{font-size:clamp(22px,6vw,28px);margin:8px 0}
