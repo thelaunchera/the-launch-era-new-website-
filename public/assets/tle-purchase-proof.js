@@ -17,9 +17,15 @@
  function locale(){return safePath()==="/es"||safePath().startsWith("/es/")?"es":"en";}
  function shownBefore(){try{return sessionStorage.getItem(key)==="yes";}catch{return shownInPage;}}
  function markSeen(){shownInPage=true;try{sessionStorage.setItem(key,"yes");}catch{}}
+ function footerVisible(){
+  const footer=document.querySelector(".site-footer");
+  const rect=footer?.getBoundingClientRect?.();
+  return !!rect && rect.top < (window.innerHeight || 0);
+ }
  function busyPage(){
   return document.visibilityState!=="visible"||
    document.body.classList.contains("tle-jessy-open")||
+   footerVisible()||
    !!document.querySelector('[role="dialog"][aria-modal="true"]:not([hidden]),dialog[open]');
  }
  function place(kind){
@@ -53,7 +59,10 @@
   markSeen();
   let removed=false;
   const remove=()=>{if(removed)return;removed=true;element.classList.remove("tle-proof-visible");
+    window.removeEventListener?.("scroll",dismissNearFooter);
     window.setTimeout(()=>element.remove(),300);};
+  const dismissNearFooter=()=>{if(footerVisible())remove();};
+  window.addEventListener?.("scroll",dismissNearFooter,{passive:true});
   close.addEventListener("click",remove);
   window.requestAnimationFrame(()=>window.requestAnimationFrame(()=>element.classList.add("tle-proof-visible")));
   window.setTimeout(remove,4000);

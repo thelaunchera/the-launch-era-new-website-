@@ -2,9 +2,9 @@
 .tle-proof-pop {
  position:fixed;left:clamp(12px,2vw,26px);
  bottom:calc(22px + env(safe-area-inset-bottom,0px));z-index:600;
- width:min(282px,calc(100vw - 24px));pointer-events:auto;
- display:flex;align-items:center;gap:8px;
- padding:9px 31px 10px 9px;
+ width:min(244px,calc(100vw - 24px));pointer-events:auto;
+ display:flex;align-items:center;gap:7px;
+ padding:8px 28px 8px 8px;
  font-family:Futura,"Avenir Next",Arial,sans-serif;
  border:1px solid rgba(114,164,217,.33);border-radius:16px;
  background:rgba(250,248,243,.97);color:#191919;
@@ -16,16 +16,16 @@
 }
 .tle-proof-pop.tle-proof-visible{opacity:1;transform:translateY(0) scale(1)}
 .tle-proof-mark{
- width:30px;height:30px;flex:0 0 30px;display:grid;place-items:center;
+ width:27px;height:27px;flex:0 0 27px;display:grid;place-items:center;
  border-radius:10px;background:linear-gradient(145deg,#dcebff,#f5faff);
  color:#3670c4;border:1px solid rgba(68,126,202,.15)
 }
-.tle-proof-mark svg{width:16px;height:16px}
+.tle-proof-mark svg{width:14px;height:14px}
 .tle-proof-visible .tle-proof-mark{animation:tleProofBob 3.3s ease-in-out -1.1s infinite alternate}
 @keyframes tleProofBob{from{transform:translateY(2px) rotate(-1deg)}to{transform:translateY(-2px) rotate(1deg)}}
-.tle-proof-copy{min-width:0;flex:1;font-size:10.5px;line-height:1.3;overflow-wrap:break-word}
-.tle-proof-copy strong{display:block;font-family:Prompt,sans-serif;font-size:10.5px;font-weight:600;line-height:1.3}
-.tle-proof-copy small{display:block;color:#55738b;font-size:8.5px;margin-top:3px;line-height:1.25}
+.tle-proof-copy{min-width:0;flex:1;font-size:10px;line-height:1.3;overflow-wrap:break-word}
+.tle-proof-copy strong{display:block;font-family:Prompt,sans-serif;font-size:10px;font-weight:600;line-height:1.3}
+.tle-proof-copy small{display:block;color:#55738b;font-size:8px;margin-top:2px;line-height:1.25}
 .tle-proof-close{
  position:absolute;top:5px;right:5px;width:24px;height:24px;
  color:#536575;background:transparent;border:0;border-radius:8px;
@@ -41,10 +41,10 @@
 @media(max-width:600px){
  .tle-proof-pop{
   bottom:calc(88px + env(safe-area-inset-bottom,0px));left:10px;
-  width:min(266px,calc(100vw - 20px));padding:8px 30px 9px 8px;gap:7px
+  width:min(221px,calc(100vw - 20px));padding:7px 27px 8px 7px;gap:7px
  }
- .tle-proof-mark{width:28px;height:28px;flex-basis:28px}
- .tle-proof-mark svg{width:15px;height:15px}
+ .tle-proof-mark{width:25px;height:25px;flex-basis:25px}
+ .tle-proof-mark svg{width:13px;height:13px}
 }
 @media(prefers-reduced-motion:reduce){
  .tle-proof-pop{transition:none;transform:none}
