@@ -88,7 +88,7 @@ try {
      introOpacity: Number(getComputedStyle(intro).opacity),
      mesh: {
        count:blobs.length,
-       inStickyStage:mesh.parentElement === stage,
+       insideHeroFrame:mesh.parentElement === frame,
        dotsDisplay:getComputedStyle(hero.querySelector('.tle-hero-connection-backdrop')).display,
        frameBackground:getComputedStyle(frame).backgroundColor,
        display:getComputedStyle(mesh).display,
@@ -115,14 +115,14 @@ try {
    assert.equal(state.mesh.count, 4, lang + ': exactly four decorative gradients expected');
    if (viewport.width >= 1024) {
      assert(state.mesh.display !== 'none', lang + ': desktop mesh missing');
-     assert(state.mesh.inStickyStage, lang + ': mesh must remain in full-screen stage, outside shrinking frame');
-     assert.equal(state.mesh.dotsDisplay, 'none', lang + ': old dotted/Request/Follow-up backdrop competes with the new mesh');
-     assert(/rgba\(250, 248, 243, 0\.48\)/.test(state.mesh.frameBackground), lang + ': card must reveal the stationary mesh behind headline and photo: ' + state.mesh.frameBackground);
+     assert(state.mesh.insideHeroFrame, lang + ': gradient must stay INSIDE the hero card, not the outer scroll background');
+     assert.notEqual(state.mesh.dotsDisplay, 'none', lang + ': outer dotted/Request/Follow-up background must remain untouched');
+     assert.equal(state.mesh.frameBackground, 'rgb(250, 248, 243)', lang + ': original ivory hero surface must stay unchanged');
      assert.equal(state.mesh.pointerEvents, 'none', lang + ': mesh intercepts CTA clicks');
      assert(state.mesh.photoZIndex > state.mesh.zIndex, lang + ': photo must paint above moving gradients');
      assert(state.mesh.animations.every(name=>name.startsWith('tle-hero-mesh-')), lang + ': desktop ambient animations not running');
    } else {
-     assert(state.mesh.inStickyStage, lang + ': mesh should still be attached to shared stage');
+     assert(state.mesh.insideHeroFrame, lang + ': gradient placement must remain inside hero at all sizes');
      assert.equal(state.mesh.display, 'none', lang + ': do not change phone/tablet composition');
    }
    if (viewport.width === 1440) await page.screenshot({ path:`qa-screenshots/home-scroll-${lang}-1440-mesh-initial.png`, fullPage:false });
