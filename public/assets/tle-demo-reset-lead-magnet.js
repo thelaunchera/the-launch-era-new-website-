@@ -134,7 +134,7 @@
     const p=phrases();
     el('sonnyTitle').textContent=p.sonnyTitle;
     el('sonnySubtitle').textContent=p.sonnySub;
-    el('sonnyToggle').textContent=shown ? p.sonnyClose:p.sonnyToggle;
+    el('sonnyToggle').querySelector('.sonny-toggle-label').textContent=shown ? p.sonnyClose:p.sonnyToggle;
     el('sonnyInput').placeholder=p.sonnyPlaceholder;
     el('sonnyInput').setAttribute('aria-label',p.sonnyPlaceholder);
     el('sonnySend').textContent=p.sonnySend;
