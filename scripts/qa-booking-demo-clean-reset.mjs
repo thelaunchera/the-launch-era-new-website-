@@ -62,6 +62,45 @@ try{
    console.log('PASS clean booking demo '+lang+' '+width+' '+JSON.stringify(layout));
    await page.close();
  }
+ // Verify the SAME marketing demo sent by email, preserving its business,
+ // location, language and attribution. Sonny must work as a plain inline card.
+ for(const lang of ['en','es']){
+   const page=await browser.newPage({viewport:{width:390,height:844}});
+   let sonnyPayload=null;
+   await page.route('**/functions/v1/tle-ai-booking-demo',async route=>{
+     sonnyPayload=route.request().postDataJSON();
+     await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({
+       reply:lang==='es'?'Claro, te ayudo con tu reserva de ejemplo.':'I can help with your sample booking.',
+       mode:'demo_only',booking_created:false,email_sent:false,ready_for_review:true,
+       booking:{category:'residential',service:'standard',first_name:'Test',last_name:'Lead',zip:'33101'}
+     })});
+   });
+   const emailLink='/lead-private-preview.html?business=Sample+Cleaning+Company&area=Miami+33101&lang='+lang+'&source=jessie_email';
+   await page.goto(base+emailLink,{waitUntil:'load'});
+   await page.waitForURL('**/booking-demo-reset.html?*');
+   assert.match(await page.locator('#leadBusiness').textContent(),/Sample Cleaning Company/,
+     'Email lead magnet must retain recipient business branding');
+   assert.match(await page.locator('#leadArea').textContent(),/Miami 33101/,
+     'Email link must retain recipient service area');
+   assert.equal(new URL(page.url()).searchParams.get('source'),'jessie_email',
+     'Preserve email campaign attribution');
+   assert.equal(await page.locator('#language').inputValue(),lang,'Preserve recipient language');
+   await page.locator('#sonnyToggle').click();
+   await page.locator('#sonnyInput').fill('Can you help me book a cleaning?');
+   await page.locator('#sonnySend').click();
+   await page.waitForFunction(()=>document.querySelectorAll('#sonnyMessages p').length>=3);
+   assert.equal(sonnyPayload?.business_name,'Sample Cleaning Company','Sonny must receive personalized business context');
+   assert.equal(sonnyPayload?.service_area,'Miami 33101','Sonny must receive recipient service area');
+   assert.equal(sonnyPayload?.language,lang);
+   assert.equal(typeof sonnyPayload.thread_id,'string');
+   assert.equal(await page.locator('#sonnyUse').isVisible(),true,'Keep Sonny to form handoff');
+   await page.locator('#sonnyUse').click();
+   assert.equal(await page.locator('#customerName').inputValue(),'Test Lead');
+   assert.equal(await page.locator('#detailsPanel').isVisible(),true);
+   assert.equal(await page.locator('#sonnyPanel').isVisible(),false);
+   console.log('PASS email lead magnet personalization and Sonny mocked handoff '+lang);
+   await page.close();
+ }
  const page=await browser.newPage({viewport:{width:390,height:844}});
  await page.goto(base+'/lead-private-preview.html?owner_preview=1&lang=en',{waitUntil:'domcontentloaded'});
  assert(!page.url().includes('booking-demo-reset.html'),'Owner preview redirected away from original');
