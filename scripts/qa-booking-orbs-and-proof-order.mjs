@@ -55,7 +55,12 @@ try {
         invite:!!invite&&getComputedStyle(invite).display!=='none',
         sonnyImage:avatar?.getAttribute('src'),sonnyVisible:!!avatarBox&&avatarBox.width>=40&&avatarBox.height>=40,
         overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth,
-        beforeWidth:before.width,proofWidth:proof.width
+        beforeWidth:before.width,proofWidth:proof.width,
+        lastCompareBottom:document.querySelector('.booking-compare-card:last-child').getBoundingClientRect().bottom,
+        firstReviewTop:document.querySelector('.booking-review:first-child').getBoundingClientRect().top,
+        firstReviewTopCode:document.querySelector('#bookingReview1Mark')?.textContent,
+        disclosureBelow:document.getElementById('bookingProofDesc').getBoundingClientRect().top>
+          document.querySelector('.booking-review:last-child').getBoundingClientRect().bottom
       };
     });
     assert(r.order,'Reviews not underneath Before and After '+lang+' '+width);
@@ -65,7 +70,12 @@ try {
     assert(r.sonnyImage.includes('ai-demo-robot.webp')&&r.sonnyVisible,'Approved Sonny blue robot head must remain visible');
     assert(r.overflow<=3,'Horizontal overflow '+JSON.stringify(r));
     assert.equal(await page.locator('.booking-compare-card').count(),3,'Matched Before/After missing');
-    assert.equal(await page.locator('.booking-review').count(),3,'Reviews cards missing');
+    assert.equal(await page.locator('.booking-review').count(),3,'The three original illustrative demo review cards are missing');
+    assert(r.firstReviewTop>r.lastCompareBottom&&r.firstReviewTop-r.lastCompareBottom<275,
+      'Reviews must appear shortly after the matched photo comparisons without the previous excessive gap '+JSON.stringify(r));
+    assert(r.disclosureBelow,'Review cards should appear before the truthful illustrative disclosure');
+    assert.match(r.firstReviewTopCode,lang==='es'?/EXPLORA SIN COMPLICARTE/:/EASY TO EXPLORE/,
+      'Original cards and their label must be localized EN ES');
     assert.match(await page.locator('#bookingProofDesc').textContent(),
       /not published customer testimonials|No son reseñas publicadas/,'Do not invent customer testimonials');
     assert.equal(await page.locator('.service-media img').count(),6,'Approved service photo cards missing');
