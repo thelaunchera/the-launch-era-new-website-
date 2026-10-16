@@ -138,6 +138,7 @@
     .service[aria-pressed=true] .service-media { height:clamp(193px,calc(53vw - 1px),234px); }
   }
 </style>
+<link rel="stylesheet" href="/assets/tle-demo-hero-portal.css?v=20261016-portal1">
 </head>
 <body>
 <header>
@@ -149,7 +150,43 @@
    <a class="back-link" href="https://thelaunchera.com/" id="siteLink">Back to website</a>
   </div>
  </div>
+
 </header>
+<section class="booking-portal" id="bookingPortal" aria-label="Booking demo introduction">
+  <div class="booking-portal-stage">
+    <div class="booking-portal-scene booking-portal-back" aria-hidden="true">
+      <img class="booking-portal-picture" src="/assets/lead-demo/tle-booking-hero-original.webp" alt="" width="1200" height="675">
+    </div>
+    <div class="booking-portal-copy" id="bookingPortalCopy">
+      <p class="booking-portal-kicker" id="bookingPortalKicker">THE LAUNCH ERA · BOOKING AUTOMATION</p>
+      <h1 id="bookingPortalHeadline" aria-label="Make your booking flow remarkable.">
+        <span class="booking-portal-final-line" id="bookingPortalLine">Make your booking flow</span>
+        <span class="booking-portal-swap" aria-hidden="true">
+          <span class="booking-portal-old" id="bookingPortalOld">decent.</span>
+          <span class="booking-portal-strike"></span>
+          <span class="booking-portal-new" id="bookingPortalNew">remarkable.</span>
+        </span>
+      </h1>
+      <p class="booking-portal-sub" id="bookingPortalSub">A simpler way to turn cleaning inquiries into a clear booking experience.</p>
+      <div class="booking-portal-actions">
+        <a href="#bookingPage" class="booking-portal-btn" id="bookingHeroDemo">Explore booking</a>
+        <button class="booking-portal-btn alt" type="button" id="bookingHeroSonny">Ask Sonny</button>
+      </div>
+    </div>
+    <div class="booking-portal-scene booking-portal-front" id="bookingPortalFront">
+      <img class="booking-portal-picture" src="/assets/lead-demo/tle-booking-hero-original.webp" alt="Beautiful sunlit modern living room and kitchen with a cleaner working naturally" width="1200" height="675">
+      <button type="button" class="booking-portal-window" id="bookingPortalEnter" aria-label="Enter the Booking Demo">
+        <span class="booking-portal-preview" aria-hidden="true"></span>
+        <span class="booking-portal-enter" id="bookingPortalEnterText">Enter the demo <span aria-hidden="true">↗</span></span>
+      </button>
+      <div class="booking-portal-front-caption">
+        <span id="bookingPortalIntroKicker">A CLEARER WAY TO BOOK</span>
+        <p id="bookingPortalIntro">Your next booking experience starts here.</p>
+      </div>
+    </div>
+    <span class="booking-portal-cue" aria-hidden="true" id="bookingPortalCue">Scroll to explore ↓</span>
+  </div>
+</section>
 <main class="shell" id="bookingPage">
  <p class="eyebrow" id="eyebrow">BOOKING PAGE PREVIEW</p>
  <h1 id="pageTitle">A simpler way to book a clean.</h1>
@@ -208,7 +245,33 @@
   </div>
  </section>
  <p class="bottom-note" id="footerNote">*Prices are sample estimates, not guaranteed quotes. Final scope and availability are confirmed by the cleaning business.</p>
+
 </main>
+<section class="booking-proof" id="bookingProof" aria-labelledby="bookingProofTitle">
+ <div class="shell">
+  <p class="booking-proof-kicker" id="bookingProofKicker">A BETTER FIRST IMPRESSION</p>
+  <h2 id="bookingProofTitle">See what a simpler booking flow can do.</h2>
+  <p class="booking-proof-desc" id="bookingProofDesc">These example review cards describe the experience in this demo. They are not published customer testimonials.</p>
+  <div class="booking-review-grid">
+   <article class="booking-review"><span class="booking-review-mark" aria-hidden="true">01 — EASY TO EXPLORE</span><h3 id="bookingReview1Title">Services, clearly explained</h3><p id="bookingReview1Text">Visitors can see what each type of clean includes and choose the right place to start.</p><small class="booking-review-foot">Illustrative demo experience</small></article>
+   <article class="booking-review"><span class="booking-review-mark" aria-hidden="true">02 — EASY TO REQUEST</span><h3 id="bookingReview2Title">Fewer back-and-forth messages</h3><p id="bookingReview2Text">A straightforward request gathers the basics in one step-by-step flow.</p><small class="booking-review-foot">Illustrative demo experience</small></article>
+   <article class="booking-review"><span class="booking-review-mark" aria-hidden="true">03 — EASY TO FOLLOW</span><h3 id="bookingReview3Title">Details together</h3><p id="bookingReview3Text">Your sample Command Center shows how one request can stay organized.</p><small class="booking-review-foot">Illustrative demo experience</small></article>
+  </div>
+ </div>
+</section>
+<section class="booking-before-after" id="bookingBeforeAfter" aria-labelledby="bookingCompareTitle">
+ <div class="shell">
+  <p class="booking-proof-kicker" id="bookingCompareKicker">BEFORE & AFTER</p>
+  <h2 id="bookingCompareTitle">A fresh perspective on every clean.</h2>
+  <p class="booking-proof-desc" id="bookingCompareDesc">Explore matched illustrative before-and-after photo pairs from the demo library. These are examples, not a claim about any customer's results.</p>
+  <div class="booking-compare-grid">
+   <article class="booking-compare-card"><h3 id="bookingPair1Title">Grout detail</h3><div class="booking-compare-visual"><img class="before" src="/assets/demo-transformations/grout-before.webp" alt="Grout area before cleaning" loading="lazy"><img class="after" src="/assets/demo-transformations/grout-after.webp" alt="Matching grout area after cleaning" loading="lazy"><span class="divider" aria-hidden="true"></span><span class="handle" aria-hidden="true">↔</span><span class="labels" aria-hidden="true"><span>Before</span><span>After</span></span><input aria-label="Compare grout before and after" type="range" min="0" max="100" value="50"></div><p class="booking-pair-caption">Illustrative matched photo pair</p></article>
+   <article class="booking-compare-card"><h3 id="bookingPair2Title">Bedroom refresh</h3><div class="booking-compare-visual"><img class="before" src="/assets/demo-transformations/bed-before.webp" alt="Bedroom before refresh" loading="lazy"><img class="after" src="/assets/demo-transformations/bed-after.webp" alt="Matching bedroom after refresh" loading="lazy"><span class="divider" aria-hidden="true"></span><span class="handle" aria-hidden="true">↔</span><span class="labels" aria-hidden="true"><span>Before</span><span>After</span></span><input aria-label="Compare bedroom before and after" type="range" min="0" max="100" value="50"></div><p class="booking-pair-caption">Illustrative matched photo pair</p></article>
+   <article class="booking-compare-card"><h3 id="bookingPair3Title">Vanity polish</h3><div class="booking-compare-visual"><img class="before" src="/assets/demo-transformations/vanity-before.webp" alt="Vanity area before cleaning" loading="lazy"><img class="after" src="/assets/demo-transformations/vanity-after.webp" alt="Matching vanity after cleaning" loading="lazy"><span class="divider" aria-hidden="true"></span><span class="handle" aria-hidden="true">↔</span><span class="labels" aria-hidden="true"><span>Before</span><span>After</span></span><input aria-label="Compare vanity before and after" type="range" min="0" max="100" value="50"></div><p class="booking-pair-caption">Illustrative matched photo pair</p></article>
+  </div>
+  <p class="booking-compare-empty" id="bookingCompareUnavailable" hidden>Photo comparison is temporarily unavailable.</p>
+ </div>
+</section>
 <footer><div class="shell" id="footerCopy">The Launch Era · Cleaning booking page preview · No live client data</div></footer>
 <script>
 (()=>{
@@ -319,5 +382,6 @@
 })();
 </script>
 <script src="/assets/tle-demo-reset-lead-magnet.js?v=20261016-clean2"></script>
+<script src="/assets/tle-demo-hero-portal.js?v=20261016-portal1" defer></script>
 </body>
 </html>
