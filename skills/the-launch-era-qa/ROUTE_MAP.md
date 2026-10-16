@@ -1,6 +1,6 @@
 ## 2026-10-16 — Homepage hero photo higher on phones
 - **Scope:** only public EN `/` and ES `/es/` homepages <=767px, no route, tenant, checkout, demo, auth or booking changes.
-- **Visual fix:** `public/assets/tle-hero-scroll.css` reserves ~40px less before the original photo by compacting the animated “See how it works” element and frame top padding. Photo composition, motion, notifications, native `#hero-next` anchor, tablet and desktop stay intact. Root CSS query bumped for browsers.
+- **Visual fix:** `public/assets/tle-hero-scroll.css` reserves ~37px less before the original photo by compacting the animated “See how it works” element and frame top padding. Photo composition, motion, notifications, native `#hero-next` anchor, tablet and desktop stay intact. Root CSS query bumped for browsers.
 - **QA required:** EN/ES 360/390/414px, iPad 820 and desktop 1440, `See how it works` tap and split, reduced motion, viewport bounds and no overflow before production confirmation.
 
 ## 2026-10-16 — Continuous blue bubbles across public and emailed booking demo
