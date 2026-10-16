@@ -300,22 +300,22 @@ html.demo-editorial.tle-demo-compact-v30.tle-demo-v46.tle-demo-v48:not(.tle-demo
 }
 /* Explicit three-card responsive composition. Earlier v42-v45 rules carry
    more specific selectors; this is a layout contract, not a visual overlay. */
-html.demo-editorial.tle-demo-v48 #bookingStarter#bookingStarter #main#main #residentialServiceList#residentialServiceList.tle-v42-grid{
+html.demo-editorial.tle-demo-v48 #bookingStarter#bookingStarter #main#main #residentialServiceList#residentialServiceList{
  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
  gap:clamp(14px,2vw,24px)!important;width:100%!important;max-width:1210px!important;
 }
-html.demo-editorial.tle-demo-v48 #bookingStarter#bookingStarter #main#main #commercialServiceList#commercialServiceList.tle-v42-grid{
+html.demo-editorial.tle-demo-v48 #bookingStarter#bookingStarter #main#main #commercialServiceList#commercialServiceList{
  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
  gap:clamp(14px,2vw,24px)!important;width:100%!important;max-width:1210px!important;
 }
 @media(min-width:760px) and (max-width:1050px){
- html.demo-editorial.tle-demo-v48 #bookingStarter#bookingStarter #main#main #residentialServiceList#residentialServiceList.tle-v42-grid{
+ html.demo-editorial.tle-demo-v48 #bookingStarter#bookingStarter #main#main #residentialServiceList#residentialServiceList{
   grid-template-columns:repeat(2,minmax(0,1fr))!important;
  }
 }
 @media(max-width:759px){
- html.demo-editorial.tle-demo-v48 #bookingStarter#bookingStarter #main#main #residentialServiceList#residentialServiceList.tle-v42-grid,
- html.demo-editorial.tle-demo-v48 #bookingStarter#bookingStarter #main#main #commercialServiceList#commercialServiceList.tle-v42-grid{
+ html.demo-editorial.tle-demo-v48 #bookingStarter#bookingStarter #main#main #residentialServiceList#residentialServiceList,
+ html.demo-editorial.tle-demo-v48 #bookingStarter#bookingStarter #main#main #commercialServiceList#commercialServiceList{
   grid-template-columns:minmax(0,1fr)!important;gap:18px!important;
  }
  html.demo-editorial.tle-demo-v48 .tle-ai-launch.tle-demo-condensed{
