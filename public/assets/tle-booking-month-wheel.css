@@ -105,3 +105,124 @@ body.appt-dialog-open{overflow:hidden}
   .appt-confirm-sheet,.appt-confirm-sheet.is-open{transition:none!important}
   .appt-sheet-confirm.is-booking::after{animation:none!important}
 }
+
+/* Desktop/tablet calendar: stop constraining the booking experience to 430px.
+   Only the public, simulated #tleBookingAppointment. All date/time behavior,
+   22px wheel snapping, no-live-availability and private booking paths remain. */
+#tleBookingAppointment {
+  width:100%;
+  max-width:1060px;
+  margin:clamp(22px,3vw,36px) auto 8px;
+  padding:clamp(18px,2.5vw,32px);
+  border:1.5px solid #9fc9e1;
+  border-radius:28px;
+  background:linear-gradient(150deg,#f8fcff 0%,#ebf6fd 100%);
+  box-shadow:0 17px 44px rgba(30,85,119,.1);
+  min-width:0;
+}
+#tleBookingAppointment .appt-date-pane,
+#tleBookingAppointment .appt-time-pane {min-width:0;}
+#tleBookingAppointment .appt-provider {
+  background:linear-gradient(95deg,#e7f4fd,#fff);
+  border-color:#bddaea;
+  border-radius:20px;
+}
+#tleBookingAppointment .appt-month-bar strong {font-size:clamp(17px,1.7vw,22px);color:#173e58;}
+#tleBookingAppointment .appt-month-actions button {border-radius:12px;}
+#tleBookingAppointment .appt-days {gap:clamp(2px,.35vw,5px);}
+#tleBookingAppointment .appt-weekdays span {font-size:12px;}
+#tleBookingAppointment .appt-days button {
+  font-size:clamp(14px,1.2vw,17px);
+  border-radius:13px;
+}
+#tleBookingAppointment .appt-time-pane {
+  border-radius:22px;
+  background:linear-gradient(145deg,#e4f3fc,#f9fdff);
+  border:1px solid #c5e0ef;
+  padding:clamp(17px,2vw,25px);
+  align-self:stretch;
+}
+#tleBookingAppointment .appt-time-pane .appt-divider{display:none;}
+#tleBookingAppointment .appt-time-heading h3{font-size:clamp(18px,1.6vw,22px);color:#173e58;}
+#tleBookingAppointment .appt-wheel-frame{
+  min-height:148px;
+  align-items:center;
+  padding:18px clamp(8px,1.3vw,20px);
+  border-radius:17px;
+  border-color:#c2dceb;
+}
+#tleBookingAppointment .appt-wheel-band {left:clamp(8px,1.2vw,20px);right:clamp(8px,1.2vw,20px);}
+#tleBookingAppointment .appt-use-time{border-radius:13px;background:#fff;color:#285f83;}
+#tleBookingAppointment .appt-sticky {
+  background:transparent;
+  border-top:1px solid #bad9e9;
+  -webkit-backdrop-filter:none;
+  backdrop-filter:none;
+}
+#tleBookingAppointment .appt-sticky button {border-radius:15px;}
+@media(min-width:800px) {
+  #tleBookingAppointment {
+    display:grid;
+    grid-template-columns:minmax(0,1.22fr) minmax(0,1fr);
+    align-items:start;
+    column-gap:clamp(19px,2.7vw,39px);
+    row-gap:0;
+  }
+  #tleBookingAppointment>.appt-mini,
+  #tleBookingAppointment>#apptTitle,
+  #tleBookingAppointment>.appt-provider,
+  #tleBookingAppointment>.appt-sticky,
+  #tleBookingAppointment>.appt-note {grid-column:1/-1;}
+  #tleBookingAppointment>.appt-mini {margin-bottom:6px;}
+  #tleBookingAppointment>#apptTitle {font-size:clamp(23px,2.15vw,32px);margin-bottom:19px;}
+  #tleBookingAppointment>.appt-provider {margin-bottom:24px;}
+  #tleBookingAppointment>.appt-date-pane{grid-column:1;grid-row:4;}
+  #tleBookingAppointment>.appt-time-pane{grid-column:2;grid-row:4;}
+  #tleBookingAppointment .appt-days button,
+  #tleBookingAppointment .appt-days .appt-empty {min-height:clamp(46px,4.1vw,58px);}
+  #tleBookingAppointment>.appt-sticky {grid-row:5;margin-top:25px;padding-top:20px;}
+  #tleBookingAppointment>.appt-note {grid-row:6;}
+  #tleBookingAppointment .appt-sticky button {max-width:none;min-height:53px;font-size:15px;}
+}
+@media(min-width:1100px){
+  /* Use the generous desktop width for the confirmation too. */
+  .appt-confirm-sheet{
+    width:min(640px,calc(100vw - 48px));
+    padding-inline:clamp(28px,3vw,46px);
+  }
+}
+@media(max-width:799px){
+  #tleBookingAppointment{
+    display:block;
+    max-width:none;
+    padding:clamp(13px,2.5vw,23px);
+  }
+  #tleBookingAppointment .appt-time-pane{margin-top:22px;}
+  #tleBookingAppointment .appt-days button,
+  #tleBookingAppointment .appt-days .appt-empty {min-height:clamp(43px,6vw,53px);}
+  #tleBookingAppointment .appt-sticky {margin-top:24px;}
+}
+@media(max-width:540px){
+  #tleBookingAppointment {
+    width:calc(100% + 20px);
+    max-width:none;
+    margin-left:-10px;
+    margin-right:-10px;
+    padding:16px 10px 18px;
+    border-radius:23px;
+  }
+  #tleBookingAppointment .appt-provider{gap:10px;padding:12px;border-radius:17px;}
+  #tleBookingAppointment .appt-date-pane{padding:0 2px;}
+  #tleBookingAppointment .appt-days{gap:2px;}
+  #tleBookingAppointment .appt-days button {font-size:14px;}
+  #tleBookingAppointment .appt-time-pane{
+    padding:17px 12px;
+    border-radius:18px;
+  }
+  #tleBookingAppointment .appt-wheel-frame{
+    padding:13px 6px;
+    min-height:137px;
+  }
+  #tleBookingAppointment .appt-wheel-band{left:6px;right:6px;}
+  #tleBookingAppointment .appt-note{line-height:1.5;}
+}
