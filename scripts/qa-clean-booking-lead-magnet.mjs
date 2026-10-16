@@ -49,7 +49,8 @@ try {
   assert(context.scroll<=2&&context.onScreen,locale+' '+width+' overflow '+JSON.stringify(context));
   assert.equal(context.importCount,0,'Old animations loaded');
   assert.equal(context.cards.length,6,'Exactly six service choices, none Post-Construction');
-  assert(context.cards.every(x=>x.width>125&&x.height>=85),locale+' '+width+' compressed card '+JSON.stringify(context));
+  assert(context.cards.filter(x=>x.width>0).length===3,'Only one service category may be visible');
+  assert(context.cards.filter(x=>x.width>0).every(x=>x.width>125&&x.height>=85),locale+' '+width+' compressed visible card '+JSON.stringify(context));
   assert.equal(await page.locator('#sonnyToggle').count(),1,'Sonny missing');
   assert.equal(await page.locator('#trackerLink').count(),1,'Sample Command Center link missing');
   const tracker=new URL(await page.locator('#trackerLink').getAttribute('href'),origin);
