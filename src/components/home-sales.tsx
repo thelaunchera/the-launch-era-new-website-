@@ -40,7 +40,7 @@ export function BookingWalkthrough({lang='en'}:{lang?:Language}) {
    if(!node)return;
    const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
    setStep(index);
-   node.scrollIntoView({behavior:reduce?'instant':'smooth',block:'start'});
+   node.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
    track('booking_flow',String(index));
  };
 
