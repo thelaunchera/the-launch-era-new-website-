@@ -10,3 +10,12 @@ html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter .head #
 html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter .head #title{
  -webkit-text-fill-color:#194761!important
 }
+
+/* Explicit precedence over the legacy ultra-specific midnight selectors. */
+html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter#bookingStarter#bookingStarter #title#title,
+html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter#bookingStarter#bookingStarter .tle-client-progress .tle-client-progress-step,
+html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter#bookingStarter#bookingStarter .tle-client-progress small,
+html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter#bookingStarter#bookingStarter .head .demo-panel-desc {
+ color:#194761!important;-webkit-text-fill-color:#194761!important;
+ opacity:1!important;text-shadow:none!important;
+}
