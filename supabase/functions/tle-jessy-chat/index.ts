@@ -40,7 +40,8 @@ function whatsappQuestion(message,history){
  const previousClarification=/do you mean messaging our team on whatsapp|te refieres a escribirle a nuestro equipo por whatsapp/i.test(lastReply);
  if(!hasWhatsapp&&!previousClarification)return "";
  const explicitProduct=/(?:whats\s?app.{0,50}(?:ai|ia|agent|agente|assistant|asistente|automatiz|automation|bot|product|producto|service|servicio))|(?:(?:ai|ia|agent|agente|assistant|asistente|automatiz|automation|bot).{0,40}whats\s?app)/.test(q);
- const explicitContact=/(?:number|numero|telefono|phone|contact|contactar|contacto|message|mensaje|mensaje|write|escribir|text|hablar|speak|reach|chatear|chat with|chat con|communicat|comunicar|enviar|send|hablarles)/.test(q)
+ const explicitContact=/(?:number|numero|telefono|phone|contact|contactar|contacto|message|mensaje|write|escribir|text|hablar|speak|reach|chatear|chat with|chat con|communicat|comunicar|enviar|send|hablarles)/.test(q)
+  ||/(?:can i|could i|may i|puedo|podria|do you|do we|tienen|tienes|podemos|can we).{0,35}whats\s?app/.test(q)
   ||previousClarification&&/^(?:the team|your team|contact|contactar|contacto|i mean contact|contact them|hablar con ustedes|escribirles|el equipo|su numero|their number)$/.test(q);
  if(explicitProduct)return "product";
  if(explicitContact)return "contact";
