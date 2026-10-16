@@ -10,6 +10,8 @@ const edge = read('supabase/functions/tle-newsletter-subscribe/index.ts');
 const sql = read('supabase/migrations/20261016_tle_website_footer_newsletter_subscribers.sql');
 function has(body, needle, message) { assert.ok(body.includes(needle), message); }
 has(shell, 'data-tle-newsletter', 'Footer signup is missing');
+has(shell, '<form className="tle-newsletter-form" data-tle-newsletter', 'Footer must have the CSS class required to reveal its success animation');
+has(css, '.tle-newsletter-form.done .tle-newsletter-confirm', 'Success state must reveal newsletter confirmation');
 has(shell, 'noValidate', 'Custom inline validation is missing');
 has(shell, 'aria-live="polite"', 'Accessible status region is missing');
 has(shell, 'tle-newsletter-email', 'Email field is missing');
