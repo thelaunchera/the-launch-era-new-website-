@@ -1,4 +1,10 @@
 ## Homepage connected workflow illustration (2026-10-16)
+
+## Public and emailed lead magnet clean reset (2026-10-16)
+- **Single experience:** Jessie sends `/lead-private-preview.html?business=...&area=...&lang=...&source=jessie_email`. That existing URL now opens the same uncluttered responsive booking lead magnet as the public sample by redirecting only unkeyed requests to `/booking-demo-reset.html` with all query parameters preserved. The standalone `/booking-demo/` intake continues sending the personalized demo by email.
+- **Sample functionality:** three residential sample prices, three commercial custom-quote services (without Post-Construction), responsive form, review and sample confirmation, preserved business/area branding, optional Sonny AI simulation, and the original `lead-demo-tracker.html` session handoff. No motion libraries, image zoom, stacked CSS or simulated client emails.
+- **Isolation:** `?key` and `?owner_preview=1` remain on the preexisting buyer booking HTML and are never redirected to the sample; CB Depot/cleaning app/customer pages untouched. `scripts/qa-clean-booking-lead-magnet.mjs` tests email link, no email send, four actions, responsive and Sonny mocked in browser.
+
 - Scope: public EN / and ES /es/ homepages only. No changes to booking demo, checkout, public Luna Bloom sample, private Command Centers or customer records.
 - Hero: HeroConnectionBackdrop stays under the existing scaled hero photo, with small blue dashed lines, two labels, pointer-events:none; hidden on phone and reduced-motion. Original sticky reveal and personalized-demo link remain.
 - Homepage Booking section: a bilingual five-step diagram replaces only the oversized ProductExplorer *presentation*: customer request, private Command Center, owner quote review, up to two eligible follow-ups, then owner confirms final booking. No invented live CRM state or collaborative users. ProductExplorer component remains in source and can be used elsewhere.
