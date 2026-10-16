@@ -1,3 +1,10 @@
+## Homepage Booking story: compact copy and midpoint tone transition (2026-10-16)
+- **Only marketing homepages:** EN `/#booking-lead-automation`, ES `/es/#booking-lead-automation` (existing BookingSection or in-page booking block). No new routes or CTA destinations.
+- **Files:** `src/components/booking-tone-shift.tsx`, `public/assets/tle-booking-tones.css` loaded in root, `src/components/editorial-sections.tsx`, `src/routes/es.index.tsx`, `src/components/home-sales.tsx`, `src/components/home-motion.tsx`.
+- **Motion:** native IntersectionObserver at mid-viewport plus requestAnimationFrame scroll fallback; on stacked phone layouts `.booking-copy` transitions to `.home-booking-explorer`; desktop shared story shifts midway. Two accessible high-contrast warm-ivory/ice-blue stops, decorative dots only while section visible. No pinned overlay or blocking input. `prefers-reduced-motion` removes transitions.
+- **Business rules preserved:** both checkout links remain `/booking-bundle/?lang=en|es`, offer $19.99 / $99 crossed out and Oct 31 cutoff unchanged, estimated 48-hour production after intake review/kickoff and Saturday after noon ET unchanged, two automatic follow-ups and optional owner final action, no real data in previews. ProductExplorer tabs remain clickable. Never paint this on a private Command Center, checkout or client site.
+- **QA:** `node scripts/qa-home-booking-tones.mjs` runs as part of the Pages static release gate; browser and post-deploy phone/tablet/desktop checks remain required before claiming full visual verification.
+
 ## Public demo booking contrast v43 — first-frame ink guard (2026-10-16)
 - **Scope**: `/lead-private-preview.html` public unkeyed EN/ES demo. Never mount in `?key=` buyer/private previews, `?owner_preview=1`, client preview, Command Center or Cleaning App.
 - **Files**: `public/assets/tle-demo-booking-ink-v43.js/css`; stylesheet loaded after v38 on the demo page, and defer script only affects `html.demo-editorial.tle-demo-v42.tle-demo-booking-active`.
