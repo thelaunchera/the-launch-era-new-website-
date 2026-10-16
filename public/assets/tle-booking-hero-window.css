@@ -17,7 +17,7 @@ main.shell { padding-top:32px; padding-bottom:66px; }
 .review-row dt { color:#455d6b; }
 
 .tle-window-hero { --hero-zoom:1; --hero-front-opacity:1; --hero-progress:0; --hero-caption:0;
-  position:relative; height:185svh; background:#b8d6e8; isolation:isolate; }
+  position:relative; height:220svh; background:#b8d6e8; isolation:isolate; }
 .tle-window-stage { height:100svh; min-height:580px; position:sticky; top:0; overflow:hidden; isolation:isolate; }
 .tle-window-scene { position:absolute; inset:0; overflow:hidden; }
 .tle-window-scene > img { width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
@@ -29,14 +29,14 @@ main.shell { padding-top:32px; padding-bottom:66px; }
   opacity:var(--hero-caption); transform:translate3d(0,calc((1 - var(--hero-caption))*18px),0);
   max-width:100%; }
 .tle-window-copy > * { pointer-events:auto; }
-.tle-window-kicker { font-size:12px; letter-spacing:.18em; font-weight:800; color:#b6ddf1; margin:0 0:14px; }
+.tle-window-kicker { font-size:12px; letter-spacing:.18em; font-weight:800; color:#b6ddf1; margin:0 0 14px; }
 .tle-window-title { font-size:clamp(43px,7vw,96px); line-height:.98; letter-spacing:-.055em;
   font-weight:800; max-width:860px; margin:22px 0; text-wrap:balance; }
 .tle-swap-slot { position:relative; display:inline-grid; vertical-align:baseline; min-height:1.06em; }
 .tle-swap-old,.tle-swap-new { grid-area:1/1; display:inline-block; }
 .tle-swap-old { color:#fff; }
 .tle-swap-new { color:#bce5fc; opacity:0; transform:translateY(-.35em); }
-.tle-swap-strike { display:block; position:absolute; top:53%; height:3px;left:0;right:0;
+.tle-swap-strike { display:block; position:absolute; top:53%; height:3px;left:0;width:var(--old-ratio,58%);
   background:#9ccde9; transform:scaleX(0);transform-origin:left center; }
 .tle-window-hero.is-complete .tle-swap-strike { animation:tle-window-strike .45s cubic-bezier(.32,.72,0,1) forwards; }
 .tle-window-hero.is-complete .tle-swap-old { animation:tle-window-old .45s cubic-bezier(.32,.72,0,1) .40s forwards; }
@@ -117,7 +117,7 @@ main.shell { padding-top:32px; padding-bottom:66px; }
   max-height:min(620px,calc(100dvh - 115px));overflow-y:auto;overscroll-behavior:contain;padding:20px;}
 .sonny-body[hidden] {display:none!important;}
 @media(max-width:760px) {
- .tle-window-hero {height:158svh;}
+ .tle-window-hero {height:185svh;}
  .tle-window-stage {min-height:510px;}
  .tle-window-lens {width:clamp(210px,66vw,320px);height:clamp(240px,73vw,355px);border-width:9px;}
  .tle-window-next:after {background:linear-gradient(0deg,rgba(4,31,49,.84) 0%,rgba(4,31,49,.60) 55%,rgba(4,31,49,.04) 100%);}
