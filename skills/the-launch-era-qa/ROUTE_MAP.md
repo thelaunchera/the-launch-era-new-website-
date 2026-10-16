@@ -1,4 +1,13 @@
 # ROUTE_MAP.md — The Launch Era route & button registry
+
+## Verified purchase social proof (2026-10-16)
+- **Server-only public read route**: `https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-public-purchase-proof` (`GET`/OPTIONS only), source `supabase/functions/tle-public-purchase-proof/index.ts`. Service-role reads are server-side; RLS tables must not be exposed directly to site visitors.
+- **Source of truth**: `tle_booking_flow_accounts` rows written by the verified **live** Stripe checkout completion path; require `payment_status=paid`, `payment_provider=stripe`, non-null paid timestamp within seven days, `product_code=booking_flow_setup`, and `cs_live_` session format. Don't infer sales from leads, demo simulations, payment links, visits, intents, card clicks, Stripe test sessions or Cleaning App payments. AI add-on labels are drawn only from the same verified combined checkout row.
+- **Contract**: `{show:boolean,kind?:"booking"|"booking_bundle"}`. No purchaser name, business name, email, amount, place, exact timestamp, raw purchase count or Stripe IDs returned. False/no data/errors hide silently. No follow-on purchases, email, checkout, lead or database writes.
+- **Front-end**: `public/assets/tle-purchase-proof.js/css` mounted in `src/routes/__root.tsx`, only on public marketing route allowlist, EN/ES copy, once per session, ~7.5 seconds after data arrives, closes automatically after 4 seconds or via X. Never on checkout, demo, Command Center, activation, buyer, Cleaning App or CB Depot pages. Suppress while Jessie's chat or modal is open, support reduced motion and mobile safe area.
+- **QA**: `scripts/qa-verified-purchase-proof.mjs` and `verified-purchase-proof-qa.yml`; verify live function GET/OPTIONS, non-mutating invalid method, and browser display at 360, 390, 820, 1024, 1440 EN/ES after release. Public deployment and Supabase function must be separately verified.
+
+
 Verified against production page loads and repository sources on **2026-10-12**. This is a living contract; check code after every release. A page rendering does NOT prove a sensitive form action works.
 
 ## Sources of truth
