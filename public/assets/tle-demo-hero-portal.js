@@ -90,12 +90,12 @@
      bookingCompareKicker:"BEFORE & AFTER",
      bookingCompareTitle:"A fresh perspective on every clean.",
      bookingCompareDesc:"Explore matched illustrative before-and-after photo pairs from the demo library. These are examples, not a claim about any customer's results.",
-     bookingPair1Title:"Grout detail",bookingPair2Title:"Bedroom refresh",bookingPair3Title:"Vanity polish",
+     bookingPair1Title:"Grout detail",bookingPair2Title:"Bedroom refresh",bookingPair3Title:"Window tracks",
      bookingCompareUnavailable:"Photo comparisons are temporarily unavailable.",
      finalHeadline:"Make your booking flow remarkable.",
      reviewsFoot:"Illustrative demo experience",pairsFoot:"Illustrative matched photo pair",
      before:"Before",after:"After",enter:"Enter the Booking Demo",
-     comparisons:["Compare grout before and after","Compare bedroom before and after","Compare vanity before and after"]
+     comparisons:["Compare grout before and after","Compare bedroom before and after","Compare window tracks before and after"]
    },
    es:{
      bookingPortalKicker:"THE LAUNCH ERA · RESERVAS AUTOMATIZADAS",
@@ -130,12 +130,12 @@
      bookingCompareKicker:"ANTES Y DESPUÉS",
      bookingCompareTitle:"Una nueva perspectiva de cada limpieza.",
      bookingCompareDesc:"Explora pares de fotos ilustrativas del antes y después. Son ejemplos, no resultados atribuidos a clientes.",
-     bookingPair1Title:"Detalles de juntas",bookingPair2Title:"Dormitorio renovado",bookingPair3Title:"Lavabo impecable",
+     bookingPair1Title:"Detalles de juntas",bookingPair2Title:"Dormitorio renovado",bookingPair3Title:"Rieles de ventana",
      bookingCompareUnavailable:"Las comparaciones no están disponibles temporalmente.",
      finalHeadline:"Haz que tus reservas sean extraordinarias.",
      reviewsFoot:"Ejemplo ilustrativo del demo",pairsFoot:"Par de fotos ilustrativas",
      before:"Antes",after:"Después",enter:"Entrar al demo de reservas",
-     comparisons:["Comparar antes y después de las juntas","Comparar antes y después del dormitorio","Comparar antes y después del lavabo"]
+     comparisons:["Comparar antes y después de las juntas","Comparar antes y después del dormitorio","Comparar antes y después de los rieles de ventana"]
    }
  };
  function updateTranslations(){
