@@ -1,2 +1,21 @@
 /* Public sample sky theme */
 html.demo-editorial body { background: #eaf7ff; }
+
+/* Only fictional sample. Existing photo headline keeps its legibility scrim. */
+html.demo-editorial.tle-demo-v36:not(.tle-demo-booking-active) #tleDemoReviews.tle-v36-reviews{background:linear-gradient(145deg,#d5edfc,#f1faff 55%,#c6e6f9)!important;border:1px solid #add4e9!important;color:#193f59!important}
+html.demo-editorial.tle-demo-v36 #tleDemoReviews #tleReviewsTitle{color:#143c56!important}
+html.demo-editorial.tle-demo-v36 #tleDemoReviews .tle-demo-v12-heading .tle-demo-v12-ey{color:#2e6d90!important}
+html.demo-editorial.tle-demo-v36 #tleDemoReviews :is(.tle-demo-v12-heading p,.tle-v36-reviews-note){color:#355f79!important}
+html.demo-editorial.tle-demo-v36 footer.demo-footer.tle-demo-compact-footer{background:linear-gradient(140deg,#d7effd,#eff9ff)!important;color:#235574!important;border-top:1px solid #a5d4ec!important}
+html.demo-editorial.tle-demo-v36 footer.demo-footer.tle-demo-compact-footer :is(a,.tle-v36-footer-legal-title){color:#194e6d!important}
+html.demo-editorial.tle-demo-booking-active,html.demo-editorial.tle-demo-booking-active body{background:#e2f3fe!important;color:#183e56!important}
+html.demo-editorial.tle-demo-booking-active main.wrap{background:linear-gradient(155deg,#f0faff,#d5effd)!important}
+html.demo-editorial.tle-demo-booking-active main.wrap > .demo-editorial-nav{background:#e1f4fe!important;border-bottom:1px solid #abd4eb!important}
+html.demo-editorial.tle-demo-booking-active .demo-editorial-nav :is(a,.demo-logo,.tle-bloom-name){color:#194d69!important}
+html.demo-editorial.tle-demo-booking-active #bookingStarter .tle-stack-stage > .screen{background:#eff9ff!important}
+html.demo-editorial.tle-demo-booking-active #bookingStarter .head :is(h2,p,.ey),html.demo-editorial.tle-demo-booking-active #bookingStarter :is(.label,.muted,.note){color:#234e68!important}
+html.demo-editorial.tle-demo-booking-active .tle-focus-booking-label{color:#2b688b!important}
+html.demo-editorial.tle-demo-booking-active .tle-focus-booking-actions button{background:#f6fcff!important;color:#265f7d!important;border-color:#b1d7eb!important}
+html.demo-editorial.tle-demo-booking-active #bookingStarter :is(input.field,select.field,textarea.field){background:#fff!important;color:#19405a!important;border-color:#b1d5e9!important}
+html.demo-editorial.tle-demo-booking-active #bookingStarter :is(.next,.demo-panel-start){background:#a6ddfa!important;color:#173f59!important;border:1px solid #87c6e7!important}
+html.demo-editorial.tle-demo-booking-active #bookingStarter .back{color:#2e6888!important}
