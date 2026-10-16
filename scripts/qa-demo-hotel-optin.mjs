@@ -201,9 +201,9 @@ if(problems.length){console.error(problems.join("\n"));process.exit(1)}
 for(const engine of [chromium,webkit]){
  const mobile=await engine.launch({headless:true});
  try{
-  for(const lang of ["en","es"]){
+  for(const [lang,width] of [["en",320],["es",390]]){
    const page=await mobile.newPage({
-     viewport:{width:390,height:844},isMobile:true,hasTouch:true,reducedMotion:"reduce"
+     viewport:{width,height:844},isMobile:true,hasTouch:true,reducedMotion:"reduce"
    });
    const errors=[];
    page.on("pageerror",e=>errors.push(e.message));
@@ -212,6 +212,17 @@ for(const engine of [chromium,webkit]){
     await page.waitForSelector("html.tle-demo-v49",{timeout:18000});
     await page.locator("#leadHero .demo-hero-cta").tap();
     await page.waitForSelector("html.tle-demo-booking-active",{timeout:10000});
+    const placement=await page.evaluate(()=>{
+      const bot=document.querySelector(".tle-ai-launch.tle-demo-condensed");
+      const card=document.querySelector("#residentialServiceList>button.service.tle49-panel");
+      const b=bot?.getBoundingClientRect(),c=card?.getBoundingClientRect();
+      return {bot:b?.toJSON(),card:c?.toJSON(),overflow:document.documentElement.scrollWidth-innerWidth};
+    });
+    assert(placement.overflow<=7,"Even 320px touch screens may not scroll sideways: "+JSON.stringify(placement));
+    if(placement.bot&&placement.card){
+      assert(placement.bot.bottom<=placement.card.top+4,
+        "Sonny must not cover the cleaning cards, prices, or action arrow: "+JSON.stringify(placement));
+    }
     const cards=page.locator("#residentialServiceList>button.service.tle49-panel");
     assert.equal(await cards.count(),3,"Touch gallery must retain all three priced services");
     const actualTouch=await page.evaluate(()=>({
