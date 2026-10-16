@@ -199,6 +199,20 @@ function customizeChat(){
   }
   // Compact from first paint; no full-width CTA-shaped second banner.
   launch.classList.add("tle-demo-condensed");
+  // The demo's later CSS can override normal stylesheet rules.
+  // An inline !important offset on the public SAMPLE launcher wins safely.
+  const placeSonnyLauncher=()=>{
+    const mobile=window.matchMedia("(max-width:700px)").matches;
+    launch.style.setProperty("right",mobile?"calc(24px + env(safe-area-inset-right))":"calc(25px + env(safe-area-inset-right))","important");
+    launch.style.setProperty("bottom",mobile?"calc(100px + env(safe-area-inset-bottom))":"calc(76px + env(safe-area-inset-bottom))","important");
+    const popup=document.getElementById("tleSonnyGreetingPopup");
+    if(popup){
+      popup.style.setProperty("right",mobile?"calc(25px + env(safe-area-inset-right))":"calc(26px + env(safe-area-inset-right))","important");
+      popup.style.setProperty("bottom",mobile?"calc(166px + env(safe-area-inset-bottom))":"calc(140px + env(safe-area-inset-bottom))","important");
+    }
+  };
+  placeSonnyLauncher();
+  window.addEventListener("resize",placeSonnyLauncher,{passive:true});
  }
  // Jessy is unchanged on the sales demo. Sonny operates only in the interactive sample.
 }

@@ -42,6 +42,11 @@ try{
   });
   await page.route("**/functions/v1/tle-jessie-metrics",route=>route.fulfill({status:200,contentType:"application/json",headers:{"access-control-allow-origin":"*"},body:'{"ok":true}'}));
   await page.goto(base+(lang==="es"?"/es/":"/"),{waitUntil:"domcontentloaded"});
+  const floating=await page.locator(".tle-jessy-fab").evaluate(el=>{
+   const r=el.getBoundingClientRect();
+   return {right:innerWidth-r.right,bottom:innerHeight-r.bottom,width:r.width};
+  });
+  assert.ok(floating.bottom>=60&&floating.right>=16,"Jessie avatar must sit inward and above the phone bottom edge: "+JSON.stringify(floating));
   await page.locator(".tle-jessy-fab").click();
   await page.locator(".tle-jessy-message-field").fill(lang==="es"?"¿Puedes mostrarme la demo de reservas?":"Can you show me the booking demo?");
   await page.locator(".tle-jessy-send").click();

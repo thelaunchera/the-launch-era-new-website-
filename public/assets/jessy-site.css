@@ -237,3 +237,30 @@ body.tle-jessy-demo-open{overflow:hidden!important}
  .tle-jessy-demo-gate{width:100%;max-height:calc(100dvh - 100px);padding:22px 18px;margin:0;border-radius:0}
  .tle-jessy-demo-confirmation{max-height:calc(100dvh - 95px);padding:24px 20px}
 }
+
+
+/* Floating assistants: lift the launcher clear of the browser bottom edge.
+   The chat panels and private booking pages keep their existing layouts. */
+.tle-jessy-root .tle-jessy-fab{
+ right:calc(24px + env(safe-area-inset-right))!important;
+ bottom:calc(76px + env(safe-area-inset-bottom))!important;
+}
+.tle-jessy-root.tle-jessy-compact .tle-jessy-fab{
+ right:calc(24px + env(safe-area-inset-right))!important;
+ bottom:calc(76px + env(safe-area-inset-bottom))!important;
+}
+.tle-jessy-nudge{
+ right:calc(23px + env(safe-area-inset-right))!important;
+ bottom:calc(147px + env(safe-area-inset-bottom))!important;
+}
+@media(max-width:600px){
+ .tle-jessy-root .tle-jessy-fab,
+ .tle-jessy-root.tle-jessy-compact .tle-jessy-fab{
+  right:calc(22px + env(safe-area-inset-right))!important;
+  bottom:calc(88px + env(safe-area-inset-bottom))!important;
+ }
+ .tle-jessy-nudge{
+  right:calc(21px + env(safe-area-inset-right))!important;
+  bottom:calc(158px + env(safe-area-inset-bottom))!important;
+ }
+}

@@ -17,6 +17,16 @@ for(const lang of ['en','es']){
    await page.goto(url,{waitUntil:'domcontentloaded',timeout:30000});
    await page.locator('#bookingStarter #main button.service').first().waitFor({state:'visible',timeout:18000});
    await page.waitForTimeout(350);
+   const sonny=page.locator(".tle-ai-launch.tle-demo-condensed");
+   await sonny.waitFor({state:"visible",timeout:8000});
+   const popup=page.locator("#tleSonnyGreetingPopup");
+   await popup.waitFor({state:"visible",timeout:6000});
+   assert.equal((await popup.innerText()).trim(),lang==="es"?"Habla conmigo":"Chat with me","Sonny should greet subtly on page entry, not after scrolling");
+   const bubble=await sonny.evaluate(el=>{const r=el.getBoundingClientRect();return {right:innerWidth-r.right,bottom:innerHeight-r.bottom}});
+   assert.ok(bubble.bottom>=60&&bubble.right>=16,"Sonny bubble must be above and away from the viewport edge: "+JSON.stringify(bubble));
+   const hint=await popup.evaluate(el=>{const r=el.getBoundingClientRect();return {width:r.width,bottom:innerHeight-r.bottom}});
+   assert.ok(hint.width<=135,"Sonny entrance invitation should stay compact: "+JSON.stringify(hint));
+
    const main=await page.evaluate(()=>{
     const q=s=>document.querySelector(s);
     const rect=e=>e?.getBoundingClientRect();
