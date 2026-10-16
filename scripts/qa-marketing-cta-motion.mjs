@@ -26,8 +26,9 @@ assert(css.includes('clip-path:inset(0 var(--tle-morph-inset,127px) round 999px)
 assert(css.includes('560ms cubic-bezier(.32,.72,0,1)'));
 assert(css.includes('tle-cta-draw-check 380ms')&&css.includes('stroke-dashoffset'));
 assert(css.includes('prefers-reduced-motion:reduce'));
-assert(root.includes('tle-marketing-cta-motion.css?v=20261016-2'),'old stylesheet version may be cached');
+assert(root.includes('tle-marketing-cta-motion.css?v=20261016-3'),'old stylesheet version may be cached');
 assert(css.includes('background:#568FB3'),'endcap ripple must contrast with the endcap');
+assert(css.includes('tle-final-mobile-safe-pulse')&&css.includes('.sales-home .final-section .tle-cta-pulse-shell'),'mobile homepage final CTA pulse must remain within viewport');
 assert(css.includes('tle-primary-cta-border-spin 3s'),'primary purchase CTA must have moving border');
 assert(cta.includes('className="tle-cta-text"'),'purchase label must sit above animated border');
 assert(morph.includes('aria-busy')&&morph.includes('aria-live')&&morph.includes('ResizeObserver'));
