@@ -88,7 +88,7 @@ try{
     const contrast=await page.locator('.final-section .tle-cta-pulse-shell').first().evaluate(el=>{
       const parent=getComputedStyle(el.closest('.final-section')).backgroundColor;
       const ring=getComputedStyle(el.querySelector('.tle-cta-pulse-ring')).backgroundColor;
-      const rgb=x=>(x.match(/\\d+/g)||[]).slice(0,3).map(Number);
+      const rgb=x=>(x.match(/[0-9]+/g)||[]).slice(0,3).map(Number);
       const a=rgb(parent),b=rgb(ring);
       return {parent,ring,maxDiff:Math.max(...a.map((v,i)=>Math.abs(v-b[i])))};
     });
