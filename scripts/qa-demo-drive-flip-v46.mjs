@@ -50,6 +50,14 @@ try{
    assert(before.mainCTA&&before.showIntro,"Keep original service CTA and section");
    assert(before.width<8,"No horizontal overflow: "+JSON.stringify(before));
    assert(!before.clipHero.includes("hidden")&&!before.clipStrip.includes("hidden"),"Flight path must not clip: "+JSON.stringify(before));
+   if(width===360){
+    const layout=await page.evaluate(()=>{
+      const r=s=>{const e=document.querySelector(s);return e?{rect:e.getBoundingClientRect().toJSON(),position:getComputedStyle(e).position,zIndex:getComputedStyle(e).zIndex,margin:getComputedStyle(e).margin}:null};
+      const b=document.querySelector("#leadHero .tle46-thumb-slot").getBoundingClientRect();
+      const target=document.elementFromPoint(b.left+b.width/2,b.top+b.height/2);
+      return {hero:r("#leadHero"),gallery:r("#leadHero .tle46-gallery"),stage:r("#leadHero .tle46-hero-slot"),strip:r("#leadHero .tle46-thumb-strip"),button:r("#leadHero .tle46-thumb-slot"),panel:r("#bookingStarter"),target:target?.outerHTML.slice(0,270)}
+    });console.log("V46_LAYOUT",JSON.stringify(layout));
+   }
    await thumbs.first().click();
    const after=await page.evaluate(()=>{
     const hero=document.querySelector("#leadHero"),stage=hero.querySelector(".tle46-hero-slot"),thumb=hero.querySelector(".tle46-thumb-slot");
