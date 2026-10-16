@@ -51,7 +51,7 @@ assert.match(sonny,/No real booking is submitted/,"Do not imply sample bookings 
 assert.match(sonnyCss,/tle-demo-v12-chat-actions\[hidden\]/,"Hide Sonny sample chips after selection");
 assert.match(sonnyChat,/quick\.hidden=false/,"Reset sample chips when Sonny restarts");
 
-assert.match(front,/it.s a simulation, not a real booking/);
+assert.match(front,/It’s a simulation; no real bookings or messages are sent/);
 // User consent must precede any demo unlock and backend must require business + email + area.
 assert.ok(front.indexOf("data.email_sent!==true")<front.indexOf("demoConfirmation.hidden=false"),"Only show success after email provider accepts the request");
 assert.match(crm,/data\.consent!==true/);
