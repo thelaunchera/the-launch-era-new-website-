@@ -127,6 +127,36 @@ def convert_transformation(item: tuple[str, str]) -> tuple[str, dict]:
         "bytes": target.stat().st_size,
     }
 
+
+# Five NEW and non-repeating photos for the hotel-inspired booking sample,
+# separate from the hero's five images. No client-owned photo is modified.
+EDITORIAL_PHOTOS = {
+    "story-room": ("1f5q0FsrrLIwlg27P-Rv7Co8CZ16f3XoT", "public/assets/lead-demo/sunroom.png"),
+    "story-detail": ("1kpLBLpYXmZ__HBlo-Je3PgFdoiNCYRL9", "public/assets/lead-demo/poolside-living.png"),
+    "service-standard": ("1cHABVpf2gfnoJBIOyz2gtr9NGesOwptx", "public/assets/cleaning-demo/living-room-original.jpg"),
+    "service-deep": ("17YR_MIQ-Qbe6wHqSbNBPadxU1CYp66Ib", "public/assets/lead-demo/pristine-kitchen.png"),
+    "service-move": ("1JWKxVid9rb8d95BiODZf1Bs7-ZpkxyOd", "public/assets/lead-demo/hero-luxury-home.png"),
+}
+
+
+def convert_editorial(item: tuple[str, tuple[str, str]]) -> tuple[str, dict]:
+    name, (photo_id, fallback) = item
+    data = read_drive(photo_id)
+    source = "drive" if data else "local-fallback"
+    img = Image.open(io.BytesIO(data)) if data else Image.open(ROOT / fallback)
+    img = ImageOps.exif_transpose(img).convert("RGB")
+    img.thumbnail((1300, 900), Image.Resampling.LANCZOS)
+    target_dir = ROOT / "public/assets/demo-editorial"
+    target_dir.mkdir(parents=True, exist_ok=True)
+    target = target_dir / f"{name}.webp"
+    img.save(target, "WEBP", quality=82, method=6)
+    assert target.stat().st_size < 450_000, f"Heavy editorial photo: {target}"
+    with Image.open(target) as check:
+        assert check.width >= 400 and check.height >= 200
+    return name, {"source": source, "drive_id": photo_id,
+                  "local_path": f"/assets/demo-editorial/{name}.webp",
+                  "bytes": target.stat().st_size}
+
 def build() -> None:
     OUTPUT.mkdir(parents=True, exist_ok=True)
     COMPARE_OUTPUT.mkdir(parents=True, exist_ok=True)
@@ -136,6 +166,12 @@ def build() -> None:
     (OUTPUT / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf8")
     fallback_count = sum(p["source"] == "local-fallback" for p in manifest.values())
     print(f"PHOTO RESULT: {len(manifest)} optimized images; {fallback_count} fallback(s).", flush=True)
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        editorial = dict(executor.map(convert_editorial, EDITORIAL_PHOTOS.items()))
+    (ROOT / "public/assets/demo-editorial/manifest.json").write_text(
+        json.dumps(editorial, indent=2) + "\n", encoding="utf8")
+    print(f"EDITORIAL: {len(editorial)} photographs prepared; "
+          f"{sum(v['source'] == 'drive' for v in editorial.values())} from Drive.", flush=True)
     with ThreadPoolExecutor(max_workers=6) as executor:
         transformations = dict(executor.map(convert_transformation, TRANSFORMATIONS.items()))
     (COMPARE_OUTPUT / "manifest.json").write_text(

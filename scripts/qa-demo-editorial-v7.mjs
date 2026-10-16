@@ -32,6 +32,7 @@ try{
       heroImage:heroImage?.complete&&heroImage?.naturalWidth>600,
       heroCTA:visible("#leadHero .demo-hero-cta"),
       portal:visible("#leadHero .tle-v42-window"),
+      gallery:visible("#leadHero .tle46-hero-slot>img.tle46-gallery-img")&&document.querySelectorAll("#leadHero .tle46-thumb-slot").length===4,
       oldTabs:!!$("#categoryTabs"),oldCalendar:!!$("#tle41HeroBooking"),oldSavings:!!$("#tle41Frequency"),
       headline:headline?.textContent,headlineColor:headline?getComputedStyle(headline).color:null,
       progressColor:progress?getComputedStyle(progress).color:null,
@@ -47,14 +48,15 @@ try{
       customerPreview:""+new URLSearchParams(location.search).get("key")
      };
     });
-    assert(state.heroImage&&state.portal&&state.heroCTA,"Hero photo, existing CTA and window zoom must remain available: "+JSON.stringify(state));
+    assert(state.heroImage&&(state.portal||state.gallery)&&state.heroCTA,"Hero photo, existing CTA and active gallery/zoom must remain available: "+JSON.stringify(state));
     assert(!state.oldTabs&&!state.oldCalendar&&!state.oldSavings,"Rejected UI returned: "+JSON.stringify(state));
     assert(!/what kind of space/i.test(state.label||""),"Obsolete technical question visible");
     assert(state.resVisible&&state.comVisible&&state.homeCards===3&&state.businessCards>=2,"Both visual service collections must be visible: "+JSON.stringify(state));
     assert(state.photoCount>=7&&state.reviewCards>=4&&state.comparison===3&&state.chapterOrder,"Photos, comparisons or honest example reviews missing: "+JSON.stringify(state));
     assert(state.scrollWidth<=width+8&&state.serviceOverflow===0,"Service/card overflow: "+JSON.stringify(state));
     await page.screenshot({path:"qa-screenshots/demo-v7/"+lang+"-"+width+"-services.png",fullPage:false});
-    await page.locator("#leadHero .tle-v42-window").click();
+    if(state.portal) await page.locator("#leadHero .tle-v42-window").click();
+    else await page.locator("#leadHero .demo-hero-cta").click();
     await page.locator("html.tle-demo-booking-active").waitFor({state:"attached",timeout:5000});
     const ink=await page.evaluate(()=>{
       const color=s=>{const el=document.querySelector(s);return el?getComputedStyle(el).color:null};
