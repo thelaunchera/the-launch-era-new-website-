@@ -19,7 +19,7 @@ assert.match(backend,/const fixed=priceQuestion\?answerPrice/);
 assert.match(backend,/if\(tooSimilarAnswer\(finalReply,history,message\)\)/);
 assert.match(backend,/fallbackFaq\(message,id,lang\)/);
 assert.match(backend,/console\.warn\("jessy_ai_response_unavailable"/);
-assert.match(backend,/max_tokens:provider\.name===\"groq\"\?650:230/);
+assert.match(backend,/max_tokens:provider\.name===\"groq\"\?220:180/);
 assert.ok(backend.includes("GROQ_API_KEY")&&backend.includes("openai/gpt-oss-120b"),"Public Jessie should use existing Groq provider when configured");
 assert.match(frontend,/history:previous/);
 assert.ok(backend.includes("b.history.slice(-12)"),"Server must consider twelve recent messages");
