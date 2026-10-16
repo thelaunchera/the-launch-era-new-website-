@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-16 | Requested curtain-reveal effect only for the Booking Demo footer, plus prior request to surface original review cards immediately after Before & After | Demo previously had a tiny single-line static footer, and the large gap/disclosure appeared before the three original illustrative cards. React website has a separate newsletter/footer theme control that must remain untouched | Added one fixed-under-page pale blue demo footer, content wrapper margin matching footer height, CSS parallax with reduced-motion static fallback, EN/ES navigation, compact illustrative cards before disclosure, scoped CSS and browser regression CI. Does not affect the marketing shared footer, form logic, pricing, Sonny or buyer previews | 🟡 Rebased PR; pending QA and GitHub Pages release |
+
+
 | 2026-10-16 | Owner iPhone screenshots: "Tap for details" on marketing service cards too prominent; "Explore service" should open that exact product's landing | The flip card CTA already held the intended href, but mobile blur/leave could reset the back face before a pointer click completed, making navigation unreliable; live reproduction still pending | Reduce visual weight/size and shorten hint in EN/ES; preserve back face during CTA pointer activation; add touch-driven browser QA for all six EN/ES landing routes. Keep original native anchors, prices, animations, accessibility and demo isolation | 🟡 Branch staged; QA and live browser verification pending |
 
 
