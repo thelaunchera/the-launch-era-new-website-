@@ -42,7 +42,7 @@ assert.match(front,/email:demoEmail\.value\.trim\(\)/);
 assert.match(front,/demoConfirmation\.hidden=false/,"Success must be shown inside Jessie's confirmation dialog");
 assert.match(front,/demoGate\.hidden=true/);
 assert.match(front,/demoDone\.addEventListener\("click",closeDemo\)/);
-assert.match(front,/Don.t forget to try a live booking with my friend Sonny!/);
+assert.match(front,/Inside your demo, you can explore the Booking Flow with Sonny/);
 assert.match(sonny,/data-action="home"/,"Sonny must let sample visitors choose home cleaning");
 assert.match(sonny,/data-action="business"/,"Sonny must let sample visitors choose business cleaning");
 assert.match(sonny,/data-action="explain"/,"Sonny must explain how the simulation works");
@@ -77,8 +77,8 @@ assert.equal(suppressed([examples[0]]),false,"Archival alone does not mean unsub
 assert.deepEqual(active([examples[0],examples[1]]),examples[1],"Reuse the active record if one exists");
 assert.equal(suppressed([examples[2]]),true,"A previous opt-out must block the transactional request");
 
-assert.match(crm,/href="'\+svc\.url\+'".*color:#276687/,"Sonny link in email must use the SAME personalized sample URL");
-assert.match(crm,/Try a live booking simulation with my friend Sonny/,"Email presents a simulated, not real, booking");
+assert.match(crm,/url:"https:\/\/thelaunchera.com\/lead-private-preview.html"/,"Email reuses official personalized sample path");
+assert.match(crm,/Sonny inside the demo/,"Email says Sonny is included in the demo, not a separate booking");
 assert.match(crm,/Idempotency-Key/);
 assert.match(crm,/tle-crm-interest\?lead=/);
 assert.match(crm,/event_type:"email_sent"/);
@@ -86,7 +86,7 @@ assert.match(crm,/event_type:"jessie_demo_sent"/);
 assert.doesNotMatch(crm,/email_followup_enabled:true/);
 // Explicit opt-in is NOT the same as interest confirmation; no auto followup.
 assert.match(crm,/I'm Interested/);
-assert.match(crm,/No marketing subscription is added/);
+assert.match(crm,/Requesting a demo does not subscribe you to marketing/);
 assert.match(chat,/For returning buyers/);
 assert.match(chat,/client_help/);
 assert.match(front,/visitorLanguage/);
