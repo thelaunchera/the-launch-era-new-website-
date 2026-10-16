@@ -110,7 +110,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: "/assets/tle-marketing-cta-motion.css?v=20261016-1" },
       { rel: "stylesheet", href: "/assets/tle-services-color-shift.css?v=20261016-1" },
       { rel: "stylesheet", href: "/assets/tle-purchase-proof.css?v=20261016-1" },
-      { rel: "stylesheet", href: "/assets/tle-footer-newsletter.css?v=20261016-1" },
+      { rel: "stylesheet", href: "/assets/tle-footer-newsletter.css?v=20261016-ios2" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Prompt:wght@400;500;600;700&display=swap" },
@@ -167,7 +167,7 @@ function RootShell({ children }: { children: ReactNode }) {
         {children}
         <script src="/assets/jessy-site.js?v=20261016-recovery-v1" defer />
         <script src="/assets/tle-purchase-proof.js?v=20261016-1" defer />
-        <script src="/assets/tle-footer-newsletter.js?v=20261016-1" defer />
+        <script src="/assets/tle-footer-newsletter.js?v=20261016-ios2" defer />
         <Scripts />
       </body>
     </html>
