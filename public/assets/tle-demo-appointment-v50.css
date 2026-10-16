@@ -1,0 +1,181 @@
+/* v50: sample-only appointment preference, original inputs and booking actions untouched. */
+html.demo-editorial.tle-demo-v50 #res .tle50-original{display:none!important}
+html.demo-editorial.tle-demo-v50 #res .tle50-appointment{
+ box-sizing:border-box;width:min(100%,430px)!important;margin:20px auto 32px!important;
+ padding:clamp(18px,4.5vw,25px)!important;border:1px solid #d0e3ef!important;
+ border-radius:22px!important;background:#fff!important;color:#143e55!important;
+ box-shadow:0 20px 48px rgba(17,57,78,.08)!important;isolation:isolate;
+ font-family:'DM Sans',Arial,sans-serif!important;overflow:visible!important
+}
+html.demo-editorial.tle-demo-v50 #res .tle50-heading h3{
+ margin:7px 0 21px!important;font:650 clamp(22px,5vw,28px)/1.18 Prompt,sans-serif!important;
+ letter-spacing:-.035em!important;color:#173f57!important
+}
+html.demo-editorial.tle-demo-v50 #res .tle50-eyebrow{font:750 10px/1.4 'DM Sans',sans-serif;color:#286d95;letter-spacing:.13em}
+html.demo-editorial.tle-demo-v50 #res .tle50-provider{
+ display:flex;align-items:center;gap:13px;margin:0 0 25px;padding:14px!important;
+ background:#eef7fd;border-radius:15px!important;border:1px solid #d9ebf5
+}
+html.demo-editorial.tle-demo-v50 #res .tle50-avatar{
+ display:grid;place-items:center;flex:0 0 58px;width:58px;height:58px;border-radius:13px;
+ background:#cceafa;color:#21638b;font:700 27px Prompt,sans-serif
+}
+html.demo-editorial.tle-demo-v50 #res .tle50-provider-text{display:flex;flex-direction:column;min-width:0;gap:3px}
+html.demo-editorial.tle-demo-v50 #res .tle50-provider-text strong{font:700 15px/1.2 'DM Sans',sans-serif;color:#143e55}
+html.demo-editorial.tle-demo-v50 #res .tle50-service-name{font-size:13px;color:#326b8b}
+html.demo-editorial.tle-demo-v50 #res .tle50-provider-caption{font-size:11px;line-height:1.35;color:#4f768a}
+html.demo-editorial.tle-demo-v50 #res .tle50-titleline,
+html.demo-editorial.tle-demo-v50 #res .tle50-times-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 13px}
+html.demo-editorial.tle-demo-v50 #res .tle50-titleline strong,
+html.demo-editorial.tle-demo-v50 #res .tle50-times-head strong{font-size:14px;font-weight:750;color:#153f57}
+html.demo-editorial.tle-demo-v50 #res .tle50-titleline span,
+html.demo-editorial.tle-demo-v50 #res .tle50-time-hint{font-size:11px;color:#567d91}
+html.demo-editorial.tle-demo-v50 #res .tle50-days{
+ --tle50-index:0;position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;
+ width:100%;isolation:isolate;margin-bottom:25px
+}
+html.demo-editorial.tle-demo-v50 #res .tle50-moving-pill{
+ position:absolute;top:0;left:0;width:calc((100% - 32px)/5);height:76px;border-radius:12px;
+ background:#287cae;box-shadow:0 7px 17px rgba(37,104,146,.18);z-index:-1;
+ transform:translateX(calc(var(--tle50-index)*(100% + 8px)));
+ transition:transform 590ms linear(0,.094 5.6%,.274 11.1%,.455 16.7%,.608 22.2%,.726 27.8%,.812 33.3%,.873 38.9%,.944 50%,.976 61.1%,1 100%)
+}
+html.demo-editorial.tle-demo-v50 #res .tle50-day{
+ appearance:none;min-width:0;min-height:76px;height:76px;padding:8px 2px;
+ display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;
+ border:1px solid #d8e9f3!important;border-radius:12px!important;
+ background:transparent!important;color:#315e78!important;
+ box-shadow:none!important;cursor:pointer;position:relative;z-index:1
+}
+html.demo-editorial.tle-demo-v50 #res .tle50-day.is-selected{
+ color:white!important;-webkit-text-fill-color:white!important;border-color:transparent!important
+}
+html.demo-editorial.tle-demo-v50 #res .tle50-day small{font:650 11px/1.2 'DM Sans',sans-serif;color:inherit!important}
+html.demo-editorial.tle-demo-v50 #res .tle50-day strong{font:700 22px/1.1 Prompt,sans-serif;color:inherit!important}
+html.demo-editorial.tle-demo-v50 #res .tle50-slots{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px
+}
+html.demo-editorial.tle-demo-v50 #res .tle50-time{
+ display:grid;place-items:center;min-width:0;min-height:48px;padding:7px 3px!important;
+ background:#fff!important;border:1px solid #ccdeec!important;border-radius:10px!important;
+ color:#214f6d!important;-webkit-text-fill-color:#214f6d!important;font:700 12px/1.2 'DM Sans',sans-serif!important;
+ opacity:1;animation:tle50SlotIn 280ms both;
+ animation-delay:calc(var(--tle50-slot-index)*35ms);cursor:pointer
+}
+html.demo-editorial.tle-demo-v50 #res .tle50-time.is-selected{
+ background:#287cae!important;border-color:#287cae!important;color:white!important;-webkit-text-fill-color:white!important
+}
+html.demo-editorial.tle-demo-v50 #res .tle50-time:disabled{
+ opacity:.4!important;cursor:not-allowed;text-decoration:line-through!important;background:#edf2f5!important
+}
+html.demo-editorial.tle-demo-v50 #res .tle50-day:focus-visible,
+html.demo-editorial.tle-demo-v50 #res .tle50-time:focus-visible{outline:3px solid #f2d85b!important;outline-offset:3px!important}
+html.demo-editorial.tle-demo-v50 #res .tle50-note{
+ font:500 12px/1.5 'DM Sans',sans-serif;color:#597b8b!important;margin:16px 0 0!important
+}
+html.demo-editorial.tle-demo-v50 #res .tle50-status{min-height:0;margin:8px 0 0!important;color:#286d95!important;font-size:12px}
+html.demo-editorial.tle-demo-v50 #res .tle50-status:empty{display:none!important}
+@keyframes tle50SlotIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+html.demo-editorial.tle-demo-v50 #res.on{padding-bottom:105px!important}
+html.demo-editorial.tle-demo-v50 body .tle50-continue-bar{
+ position:fixed;z-index:130;bottom:0;left:50%;transform:translateX(-50%);
+ width:min(100%,460px);box-sizing:border-box;padding:13px 16px calc(12px + env(safe-area-inset-bottom,0px));
+ background:rgba(255,255,255,.96);border:1px solid #d3e5ef;border-bottom:0;border-radius:15px 15px 0 0;
+ backdrop-filter:blur(18px);box-shadow:0 -10px 26px rgba(14,49,72,.11)
+}
+html.demo-editorial.tle-demo-v50 body .tle50-continue-bar[hidden],
+html.demo-editorial.tle-demo-v50 body .tle50-overlay[hidden]{display:none!important}
+html.demo-editorial.tle-demo-v50 body .tle50-continue-bar.is-keyboarding{display:none!important}
+html.demo-editorial.tle-demo-v50 body .tle50-primary{
+ width:100%;min-height:50px;display:flex;align-items:center;justify-content:center;
+ padding:11px 15px;border-radius:12px;border:1px solid #287cae;background:#287cae;
+ color:#fff;font:700 13px/1.35 'DM Sans',Arial,sans-serif;cursor:pointer;
+ text-align:center;white-space:normal
+}
+html.demo-editorial.tle-demo-v50 body .tle50-primary:disabled{
+ background:#d8e7ef;border-color:#d8e7ef;color:#657f8e;cursor:not-allowed
+}
+html.demo-editorial.tle-demo-v50 body .tle50-overlay{
+ position:fixed;inset:0;display:flex;align-items:flex-end;justify-content:center;z-index:1000;
+ padding:0;margin:0;isolation:isolate
+}
+html.demo-editorial.tle-demo-v50 body .tle50-scrim{
+ position:absolute;inset:0;background:rgba(9,31,48,.34);
+ opacity:0;transition:opacity 390ms ease
+}
+html.demo-editorial.tle-demo-v50 body .tle50-dialog{
+ position:relative;z-index:1;width:min(100%,460px);box-sizing:border-box;
+ max-height:min(90dvh,700px);overflow-y:auto;overscroll-behavior:contain;
+ padding:10px 25px calc(24px + env(safe-area-inset-bottom,0px));
+ background:#fff;border-radius:30px 30px 0 0;box-shadow:0 -20px 65px rgba(13,37,50,.16);
+ transform:translateY(112%);
+ transition:transform 590ms linear(0,.094 5.6%,.274 11.1%,.455 16.7%,.608 22.2%,.726 27.8%,.812 33.3%,.873 38.9%,.944 50%,.976 61.1%,1 100%);
+ color:#143e55!important;outline:0
+}
+html.demo-editorial.tle-demo-v50 body .tle50-overlay.is-open .tle50-scrim{opacity:1}
+html.demo-editorial.tle-demo-v50 body .tle50-overlay.is-open .tle50-dialog{transform:translateY(0)}
+html.demo-editorial.tle-demo-v50 body.tle50-sheet-open{overflow:hidden!important}
+html.demo-editorial.tle-demo-v50 body .tle50-grab{width:44px;height:5px;background:#d9e5eb;border-radius:30px;margin:0 auto 20px}
+html.demo-editorial.tle-demo-v50 body .tle50-close{
+ position:absolute;right:17px;top:12px;display:grid;place-items:center;
+ width:44px;height:44px;border:0;background:transparent;color:#31627b;font-size:29px;cursor:pointer
+}
+html.demo-editorial.tle-demo-v50 body .tle50-dialog h3{
+ margin:8px 40px 10px 0;color:#143e55!important;font:650 25px/1.2 Prompt,sans-serif!important;
+ letter-spacing:-.025em
+}
+html.demo-editorial.tle-demo-v50 body .tle50-sheet-note{color:#57788d;font:500 12px/1.5 'DM Sans',sans-serif;margin:0 0 20px}
+html.demo-editorial.tle-demo-v50 body .tle50-summary{margin:0 0 20px}
+html.demo-editorial.tle-demo-v50 body .tle50-summary-row{
+ display:flex;gap:13px;padding:12px 0;border-top:1px solid #e3edf3;align-items:center
+}
+html.demo-editorial.tle-demo-v50 body .tle50-summary-icon{flex:0 0 25px;color:#327ba3;font-size:20px;text-align:center}
+html.demo-editorial.tle-demo-v50 body .tle50-summary-row dt{font-size:11px;color:#597b8b;margin-bottom:2px}
+html.demo-editorial.tle-demo-v50 body .tle50-summary-row dd{font-size:14px;font-weight:700;color:#173f57;margin:0;overflow-wrap:anywhere}
+html.demo-editorial.tle-demo-v50 body .tle50-confirm{position:relative;isolation:isolate;overflow:hidden}
+html.demo-editorial.tle-demo-v50 body .tle50-confirm.is-saving::after{
+ content:'';position:absolute;inset:0;transform:translateX(-150%) skewX(-18deg);
+ background:linear-gradient(90deg,transparent,rgba(255,255,255,.27),transparent);
+ animation:tle50Sheen 1s ease-in-out infinite;pointer-events:none
+}
+html.demo-editorial.tle-demo-v50 body .tle50-confirm.is-done{background:#287e65;border-color:#287e65;color:white}
+@keyframes tle50Sheen{to{transform:translateX(150%) skewX(-18deg)}}
+html.demo-editorial.tle-demo-v50 body .tle50-cancel{
+ display:block;margin:12px auto 0;padding:9px 25px;min-height:44px;
+ border:0;background:transparent;color:#316985;font:700 13px 'DM Sans',sans-serif;cursor:pointer
+}
+html.demo-editorial.tle-demo-v50 body .tle50-dialog button:focus-visible,
+html.demo-editorial.tle-demo-v50 body .tle50-primary:focus-visible{outline:3px solid #f2d85b;outline-offset:3px}
+/* Hero: show significantly more of the actual photo, not a magnified crop.
+ * The GSAP gallery remains intact; no transform overrides. */
+@media(min-width:760px){
+ html.demo-editorial.tle-demo-v49.tle-demo-v50 #leadHero .tle46-hero-slot>img.tle46-gallery-img{
+  top:11%!important;width:45.5%!important;max-width:45.5%!important;
+  height:62%!important;object-fit:contain!important;object-position:center!important;
+  background:#214e69!important
+ }
+}
+@media(max-width:759px){
+ html.demo-editorial.tle-demo-v49.tle-demo-v50 #leadHero .tle46-hero-slot>img.tle46-gallery-img{
+  inset:auto 0 auto 0!important;top:0!important;width:100%!important;max-width:100%!important;
+  height:52%!important;object-fit:contain!important;object-position:top center!important;
+  background:#173f57!important;border:0!important
+ }
+ html.demo-editorial.tle-demo-v49.tle-demo-v50 #leadHero .tle46-hero-slot::after{
+  background:linear-gradient(0deg,#173f57 0%,rgba(23,63,87,.97) 34%,rgba(23,63,87,.48) 57%,transparent 77%)!important
+ }
+ html.demo-editorial.tle-demo-v49.tle-demo-v50 #leadHero .tle46-hero-slot>.heroText{
+  bottom:74px!important
+ }
+ html.demo-editorial.tle-demo-v49.tle-demo-v50 #leadHero .heroText .demo-hero-tagline.tle49-hook{
+  font-size:clamp(35px,9.5vw,45px)!important
+ }
+ html.demo-editorial.tle-demo-v50 #res .tle50-appointment{margin:12px auto 26px!important;border-radius:13px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ html.demo-editorial.tle-demo-v50 #res .tle50-moving-pill,
+ html.demo-editorial.tle-demo-v50 body .tle50-scrim,
+ html.demo-editorial.tle-demo-v50 body .tle50-dialog{transition:none!important}
+ html.demo-editorial.tle-demo-v50 #res .tle50-time{animation:none!important}
+ html.demo-editorial.tle-demo-v50 body .tle50-confirm.is-saving::after{animation:none!important}
+}
