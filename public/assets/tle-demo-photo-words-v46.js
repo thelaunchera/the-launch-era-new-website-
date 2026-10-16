@@ -54,7 +54,7 @@ function createSlogan(prefix,words){
 function install(){
  const root=document.documentElement;
  if(!root.classList.contains("demo-editorial")||!root.classList.contains("tle-demo-v45"))return false;
- if(root.classList.contains("tle-demo-v46"))return true;
+ if(root.classList.contains("tle-v46-photo-words-ready"))return true;
  const lists=[
   {list:document.getElementById("residentialServiceList"),content:lines.home},
   {list:document.getElementById("commercialServiceList"),content:lines.business}
@@ -69,7 +69,7 @@ function install(){
    button.append(slogan);
   }
  }
- root.classList.add("tle-demo-v46");
+ root.classList.add("tle-demo-v46","tle-v46-photo-words-ready");
  return true;
 }
 if(!install()){
