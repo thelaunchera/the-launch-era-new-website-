@@ -37,7 +37,7 @@ function init(){
  });
  heading.append(prefix,flip);
 
- heading.setAttribute('aria-label',hook.accessible);
+ heading.setAttribute('aria-label',hook.prefix+' '+hook.words.join(' '));
 
  const small=stage.querySelector('.tle46-caption');
  if(small){small.setAttribute('aria-hidden','true');small.setAttribute('aria-live','off');small.classList.add('tle49-old-caption');}
