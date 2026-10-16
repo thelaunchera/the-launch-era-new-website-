@@ -50,7 +50,7 @@ try {
    };
   });
   assert(context.scroll<=2&&context.onScreen,locale+' '+width+' overflow '+JSON.stringify(context));
-  assert.equal(context.importCount,1,'Only requested hero stylesheet; no legacy effects');
+  assert.equal(context.importCount,2,'Only the hero and appointment stylesheet; no legacy effects');
   assert.equal(context.cards.length,6,'Exactly six service choices, none Post-Construction');
   assert(context.cards.filter(x=>x.width>0).length===3,'Only one service category may be visible');
   assert(context.cards.filter(x=>x.width>0).every(x=>x.width>225&&x.height>=280&&x.imageWidth>x.width*.94&&x.imageHeight>=125),
