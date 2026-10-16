@@ -1,103 +1,98 @@
 import { useEffect, useRef, useState } from 'react';
-import { BellRing, CalendarCheck2, ClipboardList, MonitorSmartphone, Send } from 'lucide-react';
+import { BellRing, CalendarCheck2, CalendarDays, ClipboardList, FileText, UsersRound } from 'lucide-react';
 import './connected-booking-flow.css';
 
 type Language = 'en' | 'es';
 
-const positions = [
-  { left: 3, top: 10 }, { left: 36, top: 10 }, { left: 69, top: 10 },
-  { left: 69, top: 63 }, { left: 36, top: 63 },
-];
-
-const messages = {
-  en: [
-    { heading: 'New request', short: 'Customer reaches out', detail: 'Your Booking Page collects the requested service, contact details, and preferred time.' },
-    { heading: 'In one place', short: 'Command Center', detail: 'Review each request in your private Command Center instead of searching through messages.' },
-    { heading: 'Review & quote', short: 'You decide pricing', detail: 'Review the details and confirm a final estimate when you are ready.' },
-    { heading: 'Follow-ups', short: 'Up to two reminders', detail: 'Eligible unanswered inquiries can receive up to two follow-ups. You stay in control.' },
-    { heading: 'Next booking', short: 'Owner confirmation', detail: 'Confirm the booking details with the customer and keep the next step organized.' },
-  ],
-  es: [
-    { heading: 'Nueva solicitud', short: 'El cliente escribe', detail: 'Tu Booking Page recibe el servicio solicitado, los datos de contacto y el horario preferido.' },
-    { heading: 'Todo en un lugar', short: 'Command Center', detail: 'Revisa las solicitudes en tu Command Center privado, sin buscar entre mensajes.' },
-    { heading: 'Revisa y cotiza', short: 'Tú decides el precio', detail: 'Revisa los detalles y confirma el estimado final cuando estés lista.' },
-    { heading: 'Seguimientos', short: 'Hasta dos avisos', detail: 'Las consultas elegibles sin respuesta pueden recibir hasta dos seguimientos. Tú tienes el control.' },
-    { heading: 'Próxima reserva', short: 'Tú confirmas', detail: 'Confirma los detalles de la reserva con tu cliente y mantén claro el próximo paso.' },
-  ],
+type HubNode = {heading:string;short:string;detail:string;};
+const locations=[
+ {x:20,y:27},{x:50,y:11},{x:80,y:27},
+ {x:20,y:73},{x:50,y:89},{x:80,y:73}
+] as const;
+const messages: Record<Language,HubNode[]> = {
+ en:[
+  {heading:'Service requests',short:'From your Booking Page',detail:'Your Booking Page collects the service a customer needs so the request has a clear starting point.'},
+  {heading:'Client details',short:'Contact info in one place',detail:'The customer shares a name, contact information and location for you to review.'},
+  {heading:'Preferred dates',short:'Requested appointments',detail:'Customers can request a date and time; you decide what gets confirmed.'},
+  {heading:'Quotes & estimates',short:'Owner-reviewed pricing',detail:'Review the cleaning details and edit or confirm the final quote under your control.'},
+  {heading:'Follow-up',short:'Up to two reminders',detail:'Eligible inquiries can receive up to two automatic follow-ups while you stay in control.'},
+  {heading:'Booked jobs',short:'Your next steps',detail:'Approved bookings and jobs are easier to find and manage from your private workspace.'}
+ ],
+ es:[
+  {heading:'Solicitudes',short:'Desde tu Booking Page',detail:'Tu Booking Page reúne el servicio que necesita el cliente para comenzar la solicitud de forma clara.'},
+  {heading:'Datos del cliente',short:'Contacto en un lugar',detail:'El cliente comparte su nombre, contacto y ubicación para que puedas revisar su solicitud.'},
+  {heading:'Fechas preferidas',short:'Horarios solicitados',detail:'Tus clientes pueden pedir fecha y horario; tú decides qué reservas se confirman.'},
+  {heading:'Cotizaciones',short:'Precios bajo tu control',detail:'Revisa los detalles de la limpieza y edita o confirma la cotización final.'},
+  {heading:'Seguimiento',short:'Hasta dos recordatorios',detail:'Las consultas elegibles pueden recibir hasta dos seguimientos automáticos bajo tu control.'},
+  {heading:'Trabajos reservados',short:'Tus próximos pasos',detail:'Encuentra y organiza las reservas y trabajos aprobados en tu espacio privado.'}
+ ]
 };
+const icons=[ClipboardList,UsersRound,CalendarDays,FileText,BellRing,CalendarCheck2];
 
-const symbols = [ClipboardList, MonitorSmartphone, Send, BellRing, CalendarCheck2];
-
-/**
- * Marketing illustration: interactive explanation, not a CRM/editor or a live
- * status feed. No fake leads, collaborators, database requests, or submissions.
- */
-export function ConnectedBookingFlow({ lang = 'en' }: { lang?: Language }) {
-  const [active, setActive] = useState(0);
-  const [inView, setInView] = useState(false);
-  const root = useRef<HTMLDivElement>(null);
-  const es = lang === 'es';
-  const nodes = messages[lang];
-
-  useEffect(() => {
-    const el = root.current;
-    if (!el) return;
-    if (!('IntersectionObserver' in window)) { setInView(true); return; }
-    const observer = new IntersectionObserver(entries => {
-      if (entries.some(entry => entry.isIntersecting)) {
-        setInView(true);
-        observer.disconnect();
-      }
-    }, { threshold: .15 });
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  return <div ref={root} className={'tle-connected-flow' + (inView ? ' is-visible' : '')}>
-    <div className="tle-connected-flow__intro">
-      <span className="eyebrow">{es ? 'ASÍ SE CONECTA TU FLUJO' : 'YOUR FLOW, CONNECTED'}</span>
-      <h3>{es ? 'Cada paso tiene su lugar.' : 'Every step has its place.'}</h3>
-      <p>{es ? 'Explora un recorrido de ejemplo. Tú confirmas las reservas.' : 'Explore an example journey. You confirm the bookings.'}</p>
-    </div>
-    <div className="tle-connected-flow__viewport" tabIndex={0}
-      aria-label={es ? 'Desliza para explorar las cinco etapas de la solicitud' : 'Scroll to explore five steps of a booking request'}>
-      <div className="tle-connected-flow__plane">
-        <svg className="tle-connected-flow__wires" viewBox="0 0 900 450" preserveAspectRatio="none" aria-hidden="true">
-          <defs>
-            <marker id={'tle-flow-arrow-' + lang} viewBox="0 0 10 10" refX="8" refY="5"
-              markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-              <path d="M 0 0 L 10 5 L 0 10 z" fill="#709CB6"/>
-            </marker>
-          </defs>
-          <path className="tle-connected-flow__wire" d="M 193 122 C 245 122 285 122 324 122 M 492 122 C 554 122 584 122 621 122 M 700 176 C 700 225 700 250 700 284 M 621 345 C 560 345 538 345 492 345"
-            fill="none" stroke="#9ABAD0" strokeWidth="2.5" strokeLinecap="round"
-            markerEnd={'url(#tle-flow-arrow-' + lang + ')'}/>
-          <path className="tle-connected-flow__signal" d="M 193 122 C 245 122 285 122 324 122 M 492 122 C 554 122 584 122 621 122 M 700 176 C 700 225 700 250 700 284 M 621 345 C 560 345 538 345 492 345"
-            fill="none" stroke="#327AA7" strokeWidth="2.5" strokeLinecap="round" strokeDasharray="5 17"/>
-          <path className="tle-connected-flow__dotted" d="M 82 314 C 150 236 186 270 272 298 S 324 369 345 385"
-            fill="none" stroke="#A8BDD0" strokeWidth="2" strokeDasharray="2 7"/>
-        </svg>
-        {nodes.map((node, index) => {
-          const Icon = symbols[index];
-          return <button key={node.heading} type="button"
-            className="tle-connected-flow__note"
-            style={{ left: positions[index].left + '%', top: positions[index].top + '%' }}
-            aria-pressed={active === index}
-            aria-controls={'tle-flow-detail-' + lang}
-            onClick={() => setActive(index)}>
-            <span className="tle-connected-flow__note-top"><span>0{index + 1}</span><Icon size={22} aria-hidden="true"/></span>
-            <strong>{node.heading}</strong>
-            <small>{node.short}</small>
-          </button>;
-        })}
-      </div>
-    </div>
-    <div className="tle-connected-flow__detail" id={'tle-flow-detail-' + lang} role="status" aria-live="polite">
-      <span>0{active + 1} / 05</span>
-      <div><strong>{nodes[active].heading}</strong><p>{nodes[active].detail}</p></div>
-    </div>
-    <p className="tle-connected-flow__mobile-hint">{es ? 'Desliza para seguir las conexiones →' : 'Swipe to follow the connections →'}</p>
-  </div>;
+/** Illustrative first-party workflow; not a list of external integrations,
+ * a live CRM, a payment transaction or real customer activity. */
+export function ConnectedBookingFlow({lang='en'}:{lang?:Language}){
+ const [active,setActive]=useState(0);
+ const [inView,setInView]=useState(false);
+ const root=useRef<HTMLDivElement>(null);
+ const es=lang==='es';
+ const nodes=messages[lang];
+ useEffect(()=>{
+  const el=root.current;
+  if(!el)return;
+  if(!('IntersectionObserver' in window)){setInView(true);return;}
+  const observer=new IntersectionObserver(entries=>{
+   if(entries.some(entry=>entry.isIntersecting)){
+    setInView(true);
+    observer.disconnect();
+   }
+  },{threshold:.12});
+  observer.observe(el);
+  return()=>observer.disconnect();
+ },[]);
+ return <div ref={root} className={'tle-connected-flow tle-connection-hub'+(inView?' is-visible':'')}>
+  <div className="tle-connected-flow__intro">
+   <span className="eyebrow">{es?'ASÍ SE CONECTA TU FLUJO':'YOUR FLOW, CONNECTED'}</span>
+   <h3>{es?'Todo conectado. Nada perdido.':'Every request has its place.'}</h3>
+   <p>{es?'Seis partes de tu sistema, conectadas a tu Command Center privado. Este es un recorrido ilustrativo.':'Six parts of your booking system connected to your private Command Center. An illustrative walkthrough.'}</p>
+  </div>
+  <div className="tle-connection-hub__stage" aria-label={es?'Diagrama de seis funciones conectadas al Command Center privado':'Six booking functions connected to the private Command Center'}>
+   <svg className="tle-connection-hub__svg" viewBox="0 0 160 100" preserveAspectRatio="none" aria-hidden="true">
+    {locations.map((p,i)=>{
+      const x=p.x*1.6;
+      const y=p.y;
+      return <g key={i} className="tle-connection-hub__wire-group" style={{'--hub-index':i} as React.CSSProperties}>
+       <path className="tle-connection-hub__path" pathLength="1" d={`M ${x} ${y} L 80 50`}/>
+       <circle className="tle-connection-hub__travel-dot" cx={x} cy={y} r="1.2"
+        style={{'--hub-move-x':(50-p.x)+'%','--hub-move-y':(50-p.y)+'%'} as React.CSSProperties}/>
+      </g>;
+    })}
+   </svg>
+   <div className="tle-connection-hub__core" aria-label={es?'Centro de tu sistema: Command Center privado':'Center of the system: Private Command Center'}>
+    <span className="tle-connection-hub__core-icon"><ClipboardList size={25} aria-hidden="true"/></span>
+    <span className="tle-connection-hub__core-brand">THE LAUNCH ERA</span>
+    <strong>Command Center</strong>
+    <small>{es?'Tu espacio privado':'Your private workspace'}</small>
+    {locations.map((_,i)=><span key={i} className="tle-connection-hub__ring" aria-hidden="true" style={{'--hub-index':i} as React.CSSProperties}/>)}
+   </div>
+   {nodes.map((node,i)=>{
+    const pos=locations[i];
+    const Icon=icons[i];
+    return <button key={node.heading} className="tle-connection-hub__tile" type="button"
+     style={{'--hub-x':pos.x+'%','--hub-y':pos.y+'%','--hub-index':i} as React.CSSProperties}
+     onClick={()=>setActive(i)} aria-pressed={i===active} aria-controls={'tle-flow-detail-'+lang}>
+      <Icon aria-hidden="true" size={21}/>
+      <strong>{node.heading}</strong>
+      <small>{node.short}</small>
+     </button>;
+   })}
+  </div>
+  <div className="tle-connected-flow__detail" id={'tle-flow-detail-'+lang} role="status" aria-live="polite">
+   <span>0{active+1} / 06</span>
+   <div><strong>{nodes[active].heading}</strong><p>{nodes[active].detail}</p></div>
+  </div>
+  <p className="tle-connection-hub__disclaimer">{es?'Ilustración del funcionamiento · Tú confirmas los precios y las reservas.':'Illustrative workflow · You approve final prices and bookings.'}</p>
+ </div>;
 }
 
 /** Purely decorative dotted wiring visible AROUND a shrunken homepage hero. */
