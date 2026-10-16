@@ -270,7 +270,7 @@
     width:100%;
     height:auto !important;
     min-height:0 !important;
-    padding:14px 18px 45px !important;
+    padding:8px 18px 45px !important;
     border-radius:0;
     box-shadow:none;
     transform:none !important;
@@ -300,7 +300,7 @@
   .sales-home .hero-scroll.hero-scroll-revealed .hero-scroll-reveal {
     position:relative;
     inset:auto;
-    padding:0 16px 19px;
+    padding:0 16px 8px;
     margin:0 auto;
     opacity:1;
     transform:none;
@@ -342,7 +342,7 @@
 }
 @media (max-width:767px) and (prefers-reduced-motion:reduce) {
   .sales-home .hero-scroll .hero-scroll-frame.hero-split {
-    padding:14px 18px 45px !important;
+    padding:8px 18px 45px !important;
   }
 }
 
@@ -516,7 +516,7 @@
     gap: 8px;
   }
   .sales-home .hero-scroll-reveal a.tle-hero-split-link {
-    min-height: 96px;
+    min-height: 76px;
     width: min(100%, 420px);
     padding: 12px 9px;
     font-size: clamp(17px,4.6vw,19px);
@@ -678,7 +678,7 @@
   }
 }
 @media (max-width: 767px) {
-  .sales-home .hero-scroll-reveal { gap: 9px; }
+  .sales-home .hero-scroll-reveal { gap: 6px; }
   .sales-home .hero-scroll-reveal > span { font-size: 11px; }
 }
 
