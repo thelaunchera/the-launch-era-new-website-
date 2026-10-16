@@ -29,6 +29,12 @@ function init(){
  // Needed for the Flip image to travel beyond the former rounded hero.
  hero.style.setProperty("overflow","visible","important");
  // Short lines keep the actual hero headline and CTA completely inside the photo.
+ const mainHeadline=heroText.querySelector("h1.demo-headline");
+ if(mainHeadline){
+  const parts=mainHeadline.querySelectorAll("span");
+  if(parts[0])parts[0].textContent=es?"Vuelve a casa.":"Come home.";
+  if(parts[1])parts[1].textContent=es?"Disfruta más.":"Feel good.";
+ }
  const tagline=heroText.querySelector(".demo-hero-tagline");
  const sub=heroText.querySelector(".demo-hero-description");
  const label=heroText.querySelector("#leadName");
