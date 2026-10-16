@@ -89,6 +89,12 @@ try {
       transform:getComputedStyle(el).transform
     }));
     assert(zoom.opacity<.1,lang+' '+width+' front window must fade to reveal second scene: '+JSON.stringify(zoom));
+    await page.waitForFunction(()=>{
+      const strike=document.querySelector('.booking-portal-strike');
+      return strike&&parseFloat(getComputedStyle(strike).opacity)<.12;
+    },null,{timeout:3500});
+    assert.equal(await page.locator('#bookingPortalNew').textContent(),lang==='es'?'extraordinarias.':'remarkable.');
+
     await page.locator('#bookingHeroSonny').click();
     assert.equal(await page.locator('#sonnyBody').isVisible(),true,'Hero shortcut must open the real Sonny chat');
     await page.locator('#sonnyToggle').click();
