@@ -54,7 +54,23 @@ function init(){
    active=p;size(p);
  };
  function navigate(id,label,step){
-   const next=byId.get(id);if(!next)return false;
+   // An existing demo script builds extra quote-review steps on demand.
+   // Register those screens without intercepting their validation or submit handlers.
+   let next=byId.get(id);
+   if(!next){
+     const candidate=document.getElementById(id);
+     if(candidate?.classList.contains("screen")&&stage.contains(candidate)){
+       next=candidate;byId.set(id,next);pages.push(next);
+       next.classList.remove("on","tle-stack-visible");
+       next.inert=true;next.setAttribute("aria-hidden","true");
+       if(!next.querySelector(":scope > .tle-stack-shade")){
+         const veil=document.createElement("span");
+         veil.className="tle-stack-shade";veil.setAttribute("aria-hidden","true");
+         next.append(veil);
+       }
+     }
+   }
+   if(!next)return false;
    if(busy&&finishActive)finishActive();
    const found=stack.findIndex(item=>item.id===id);
    const goingBack=found>=0&&found<stack.length-1;
