@@ -1,5 +1,13 @@
 # ROUTE_MAP.md — The Launch Era route & button registry
 
+## Homepage sticky photo-card hero (2026-10-16)
+- **Scope**: public EN `/` and ES `/es/` only, using the existing `HomeHero` and SpanishHome markup. No demo, checkout, customer tenant or Command Center pages are modified.
+- **Hero stage**: `public/assets/tle-hero-scroll.css` loaded after `tle-saas-ui-v1.css` by `src/routes/__root.tsx`. `.hero-scroll` is approximately 180svh; `.hero-scroll-stage` sticks at top at 100svh; the existing full-photo wrapper smoothly scales from 1 to .7, rounds from 0 to 24px, and fades headline/CTA by half progress.
+- **Scroll controller**: `src/components/home-motion.tsx`, passive scroll + one requestAnimationFrame with progress clamped against section travel; clears listeners, inline progress, reveal class and temporary inert state on unmount or reduced motion. Card is static and readable when reduced motion is enabled.
+- **CTA**: EN `Get my personalized demo` stays linked to `/booking-demo/?lang=en`; ES `Quiero mi demo personalizada` stays linked to `/booking-demo/?lang=es`. Each remains in the first visible hero screen, not hidden beneath the sticky stage. No payment, email or demo endpoint changes.
+- **Next section anchor**: `/#hero-next` and `/es/#hero-next` scroll to the existing `BookingWalkthrough`; the hint link emerges behind the photo only near the end of its shrinking animation. Solutions and subsequent sections retain their original order.
+- **QA**: `node scripts/qa-home-scroll-hero.mjs` for source guards, `node scripts/qa-home-scroll-hero.mjs --browser` with a local build for EN/ES visual behavior and reduced motion (360/390/820/1024/1440).
+
 ## Verified purchase social proof (2026-10-16)
 - **Server-only public read route**: `https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-public-purchase-proof` (`GET`/OPTIONS only), source `supabase/functions/tle-public-purchase-proof/index.ts`. Service-role reads are server-side; RLS tables must not be exposed directly to site visitors.
 - **Source of truth**: `tle_booking_flow_accounts` rows written by the verified **live** Stripe checkout completion path; require `payment_status=paid`, `payment_provider=stripe`, non-null paid timestamp within seven days, `product_code=booking_flow_setup`, and `cs_live_` session format. Don't infer sales from leads, demo simulations, payment links, visits, intents, card clicks, Stripe test sessions or Cleaning App payments. AI add-on labels are drawn only from the same verified combined checkout row.
