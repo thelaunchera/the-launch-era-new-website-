@@ -97,12 +97,12 @@ html.demo-editorial.tle-demo-v42 #bookingStarter .tle-v42-date-picker :is(button
 }
 /* Zoom-through-window hero: the second layer matches the inset preview image. */
 html.demo-editorial.tle-demo-v42 #leadHero.tle-v42-portal{isolation:isolate;position:relative}
-html.demo-editorial.tle-demo-v42 #leadHero .tle-v42-second-scene{position:absolute;inset:0;z-index:7;opacity:0;pointer-events:none;background:linear-gradient(0deg,#0c304cba,#0c304c0a 60%),url('/assets/demo-services/regular.webp') center/cover no-repeat;display:flex;align-items:flex-end;padding:clamp(22px,4vw,48px);transition:opacity .45s ease}
+html.demo-editorial.tle-demo-v42 #leadHero .tle-v42-second-scene{position:absolute;inset:0;z-index:7;opacity:0;pointer-events:none;background:linear-gradient(0deg,#0c304cba,#0c304c0a 60%),url('/assets/cleaning-demo/living-room-original.jpg') center/cover no-repeat;display:flex;align-items:flex-end;padding:clamp(22px,4vw,48px);transition:opacity .45s ease}
 html.demo-editorial.tle-demo-v42 #leadHero .tle-v42-second-scene h2{color:#fff!important;font:500 clamp(31px,4vw,54px)/1.06 Georgia,serif!important;max-width:520px;margin:0!important;transform:translateY(12px);transition:transform .45s ease}
 html.demo-editorial.tle-demo-v42 #leadHero .tle-v42-window{
  position:absolute;z-index:8;left:64%;top:35%;width:clamp(110px,17vw,210px);height:clamp(116px,16vw,178px);
  transform:translate(-50%,-50%);border:5px solid #f4fbff;
- border-radius:21px;background:linear-gradient(#ffffff08,#09233631),url('/assets/demo-services/regular.webp') center/cover no-repeat;
+ border-radius:21px;background:linear-gradient(#ffffff08,#09233631),url('/assets/cleaning-demo/living-room-original.jpg') center/cover no-repeat;
  box-shadow:0 0 0 2px #b4dbed,0 14px 36px #071f3570;cursor:pointer;overflow:hidden;
  transition:box-shadow .3s ease,opacity .15s ease;
 }
@@ -121,3 +121,46 @@ html.demo-editorial.tle-demo-v42 #leadHero.tle-v42-travel .tle-v42-second-scene 
  html.demo-editorial.tle-demo-v42 #leadHero.tle-v42-travel .tle-v42-window{transform:translate(-50%,-50%) scale(5)}
 }
 @media(prefers-reduced-motion:reduce){html.demo-editorial.tle-demo-v42 #leadHero :is(.tle-v42-window,.tle-v42-second-scene,.demo-cb-hero-media,.heroText,.tle-v42-second-scene h2),html.demo-editorial.tle-demo-v42 #bookingStarter .tle-v42-cal-grid button{transition:none!important;animation:none!important}html.demo-editorial.tle-demo-v42 #leadHero.tle-v42-travel :is(.demo-cb-hero-media,.heroText){transform:none!important}}
+
+/* Contrast repair: previous dark-scene text styles must not leak onto powder-blue booking. */
+html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter :is(.head h2,.head p,.ey,.label,.count,.demo-panel-desc),
+html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter .screen :is(h2,h3,p:not(.tle-v42-section-head p),legend){
+ color:#193f5b!important;text-shadow:none!important;opacity:1!important
+}
+html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter :is(#tleClientProgress,.tle-client-progress,.tle-client-quicksteps){
+ color:#245775!important
+}
+html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter .screen .choices button.choice{
+ background:#fff!important;color:#1d4d69!important;border:1px solid #a2cce2!important;
+ text-shadow:none!important;box-shadow:0 4px 12px #195a8012!important
+}
+html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter .screen .choices button.choice.sel{
+ background:#caeaff!important;color:#123e59!important;border:2px solid #6cb3db!important
+}
+html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter .screen .choices button.choice b,
+html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter .screen .choices button.choice span{
+ color:inherit!important;text-shadow:none!important
+}
+html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter :is(.field,select,input,textarea){
+ color:#19465f!important;background:#fff!important;border-color:#a9d0e6!important
+}
+html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter :is(.next,.smallbtn){
+ color:#153e57!important;background:#a9dffa!important
+}
+html.demo-editorial.tle-demo-v42 #bookingStarter #main .tle-v42-section-head h3,
+html.demo-editorial.tle-demo-v42 #bookingStarter #main .tle-v42-intro{color:#1c4661!important;text-shadow:none!important;opacity:1!important}
+html.demo-editorial.tle-demo-v42 #bookingStarter #main .tle-v42-grid .tle-service-has-photo-v21 .demo-service-body :is(b,.muted),
+html.demo-editorial.tle-demo-v42 #bookingStarter #main .tle-v42-grid .tle-service-has-photo-v21 .price{
+ color:#fff!important;opacity:1!important;text-shadow:0 2px 13px #081d2dbf!important
+}
+html.demo-editorial.tle-demo-v42 #bookingStarter #main .tle-v42-grid>button.service:focus-visible{
+ outline:3px solid #378bbc!important;outline-offset:3px!important
+}
+html.demo-editorial.tle-demo-v42 #leadHero .tle-v42-window{background-image:linear-gradient(#ffffff08,#09233631),url('/assets/cleaning-demo/living-room-original.jpg')}
+html.demo-editorial.tle-demo-v42 #leadHero .tle-v42-second-scene{background-image:linear-gradient(0deg,#0c304cba,#0c304c0a 60%),url('/assets/cleaning-demo/living-room-original.jpg')}
+@media(max-width:430px){
+ html.demo-editorial.tle-demo-v42 #bookingStarter #main .tle-v42-section-head{align-items:flex-start!important}
+ html.demo-editorial.tle-demo-v42 #bookingStarter #main .tle-v42-section-head small{max-width:100px}
+ html.demo-editorial.tle-demo-v42 #bookingStarter .tle-v42-cal{padding:12px}
+ html.demo-editorial.tle-demo-v42 #bookingStarter .tle-v42-cal-grid button{min-height:40px}
+}
