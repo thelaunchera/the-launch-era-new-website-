@@ -42,7 +42,9 @@ try {
      size:getComputedStyle(document.querySelector('#pageTitle')).fontSize,
      cssSheets:document.styleSheets.length,
      importCount:document.querySelectorAll('link[rel=stylesheet]').length,
-     cards:[...document.querySelectorAll('.service')].map(x=>({label:x.dataset.id,width:x.getBoundingClientRect().width,height:x.getBoundingClientRect().height})),
+     cards:[...document.querySelectorAll('.service')].map(x=>({label:x.dataset.id,width:x.getBoundingClientRect().width,height:x.getBoundingClientRect().height,
+      imageWidth:x.querySelector('.service-media')?.getBoundingClientRect().width||0,
+      imageHeight:x.querySelector('.service-media')?.getBoundingClientRect().height||0})),
      onScreen:form.left>=0&&form.right<=innerWidth+1
    };
   });
@@ -50,7 +52,14 @@ try {
   assert.equal(context.importCount,0,'Old animations loaded');
   assert.equal(context.cards.length,6,'Exactly six service choices, none Post-Construction');
   assert(context.cards.filter(x=>x.width>0).length===3,'Only one service category may be visible');
-  assert(context.cards.filter(x=>x.width>0).every(x=>x.width>125&&x.height>=85),locale+' '+width+' compressed visible card '+JSON.stringify(context));
+  assert(context.cards.filter(x=>x.width>0).every(x=>x.width>225&&x.height>=280&&x.imageWidth>x.width*.94&&x.imageHeight>=125),
+    locale+' '+width+' service must remain an image-topped CARD, not a mini-photo list '+JSON.stringify(context));
+  assert.equal(await page.locator('.service-media img').count(),6,'Six full-width service photographs required');
+  await page.locator('#resServices .service-media img').first().scrollIntoViewIfNeeded();
+  await page.waitForFunction(()=>{
+    const photos=[...document.querySelectorAll('#resServices .service-media img')];
+    return photos.length===3&&photos.every(img=>img.complete&&img.naturalWidth>=400);
+  },null,{timeout:12000});
   assert.equal(await page.locator('#sonnyToggle').count(),1,'Sonny missing');
   assert.equal(await page.locator('#trackerLink').count(),1,'Sample Command Center link missing');
   const tracker=new URL(await page.locator('#trackerLink').getAttribute('href'),origin);

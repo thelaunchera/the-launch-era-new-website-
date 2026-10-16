@@ -25,6 +25,13 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
+      - name: Prepare six locally hosted, service-matched images
+        run: |
+          python3 -m pip install --quiet pillow
+          python3 scripts/build_demo_photo_assets.py
+          for image in regular deep move office retail medical; do
+            test -s "public/assets/demo-services/$image.webp"
+          done
       - name: Build
         run: |
           bun install
