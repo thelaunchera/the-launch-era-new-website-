@@ -110,6 +110,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: "/assets/tle-marketing-cta-motion.css?v=20261016-2" },
       { rel: "stylesheet", href: "/assets/tle-pricing-motion.css?v=20261016-2" },
       { rel: "stylesheet", href: "/assets/tle-services-color-shift.css?v=20261016-1" },
+      { rel: "stylesheet", href: "/assets/tle-booking-tones.css?v=20261016-1" },
       { rel: "stylesheet", href: "/assets/tle-purchase-proof.css?v=20261016-mini3" },
       { rel: "stylesheet", href: "/assets/tle-footer-newsletter.css?v=20261016-ios2" },
       { rel: "stylesheet", href: "/assets/tle-footer-theme-sweep.css?v=20261016-4" },
