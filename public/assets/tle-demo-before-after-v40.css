@@ -1,0 +1,7 @@
+/* Interactive comparison from three existing matched photo pairs. */
+html.demo-editorial.tle-demo-v36 #tleV31GalleryRail .tle-v31-compare-pair.tle-v40-wipe{--tle-v40-split:50%;display:block!important;position:relative!important;width:100%;aspect-ratio:1.32/1!important;min-height:190px;border:1px solid #a7d2e8;border-radius:17px!important;overflow:hidden;background:#dceaf1}
+html.demo-editorial.tle-demo-v36 #tleV31GalleryRail .tle-v40-wipe figure{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;margin:0!important;aspect-ratio:auto!important;border-radius:0!important;overflow:hidden!important}
+html.demo-editorial.tle-demo-v36 #tleV31GalleryRail .tle-v40-wipe figure:nth-child(2){clip-path:inset(0 calc(100% - var(--tle-v40-split)) 0 0);z-index:1}
+html.demo-editorial.tle-demo-v36 #tleV31GalleryRail .tle-v40-wipe figure:first-child figcaption{right:9px!important;left:auto!important;top:9px!important;bottom:auto!important}
+html.demo-editorial.tle-demo-v36 #tleV31GalleryRail .tle-v40-wipe figure:nth-child(2) figcaption{top:9px!important;bottom:auto!important;left:9px!important}
+html.demo-editorial.tle-demo-v36 #tleV31GalleryRail .tle-v40-wipe .tle-v40-divider{position:absolute;z-index:3;top:0;bottom:0;left:var(--tle-v40-split);width:2px;transform:translateX(-50%);background:#fff;box-shadow:0 0 0 1px #1d668e4a,0 0 17px #234c6277;pointer-events:none}
