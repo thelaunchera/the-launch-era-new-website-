@@ -26,6 +26,10 @@ try{
    return {width:rect("#bookingStarter")?.width,viewport:innerWidth,voidSpace:Math.round(head.top-intro.bottom),
     introCount:document.querySelectorAll("#main .tle-v44-intro").length,
     cards:document.querySelectorAll("#main button.tle-service-has-photo-v21").length,
+    residentialPhotos:document.querySelectorAll("#residentialServiceList > button.tle-service-has-photo-v21").length,
+    commercialPhotos:document.querySelectorAll("#commercialServiceList > button.tle-service-has-photo-v21").length,
+    postConstruction:document.querySelectorAll('#commercialServiceList > button[onclick*="Post-Construction"]').length,
+    commercialCustomQuotes:document.querySelectorAll("#commercialServiceList > button.tle-v34-single-quote").length,
     border:css("#bookingStarter").borderTopLeftRadius,
     photoBorder:getComputedStyle(first).borderTopWidth,
     quoteBorder:custom?getComputedStyle(custom).borderTopLeftRadius:null,
@@ -33,7 +37,10 @@ try{
   });
   assert(Math.abs(geometry.width-width)<3,"Natural gallery fills screen: "+JSON.stringify(geometry));
   assert(geometry.voidSpace<70&&geometry.introCount===1,"No empty stack between header and cleaning photos");
-  assert(geometry.cards>=7,"Keep original photo services");
+  assert(geometry.cards===6&&geometry.residentialPhotos===3&&geometry.commercialPhotos===3,
+   "Keep the six approved service photo cards, no empty construction tile: "+JSON.stringify(geometry));
+  assert(geometry.postConstruction===0,"Post-Construction must be removed from sample DOM");
+  assert(geometry.commercialCustomQuotes===1,"Preserve one working commercial custom-quote path");
   assert(parseFloat(geometry.border)<=1&&parseFloat(geometry.photoBorder)===0,"No rectangular parent cards");
   assert(geometry.quoteBorder==="0px","Inline custom quote, not a boxed callout: "+JSON.stringify(geometry));
   assert(geometry.horizontallyScrollable<=7,"No horizontal overflow: "+JSON.stringify(geometry));
@@ -44,6 +51,8 @@ try{
   assert.deepEqual(writes,[],"No real bookings or messages sent");
   await page.goto(base+"/lead-private-preview.html?key=qa-private&lang="+lang,{waitUntil:"load"});
   assert.equal(await page.locator("html.tle-demo-v47").count(),0,"Sample copy cannot enter private demos");
+  assert.equal(await page.locator('#commercialServiceList > button[onclick*="Post-Construction"]').count(),1,
+   "Do not remove a separately customized buyer's commercial option");
   await page.close();
   console.log("PASS v47 natural smoke",lang,width);
  }
