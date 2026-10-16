@@ -11,7 +11,8 @@ function init(){
  if(document.getElementById('tle50Appointment'))return true;
  const form=document.getElementById('res'),date=document.getElementById('date'),time=document.getElementById('time');
  if(!form||!date||!time||time.tagName!=='SELECT')return false;
- const originalLabel=[...form.querySelectorAll(':scope > .label')].find(el=>/PREFERRED DATE\s*&\s*TIME/i.test(el.textContent));
+ // The native date field is stable across locales; its visible label is translated.
+ const originalLabel=date.previousElementSibling?.classList.contains('label')?date.previousElementSibling:null;
  if(!originalLabel)return false;
  const es=params.get('lang')==='es';
  const locale=es?'es-US':'en-US';
