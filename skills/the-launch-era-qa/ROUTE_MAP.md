@@ -1,5 +1,13 @@
 # ROUTE_MAP.md — The Launch Era route & button registry
 
+## Homepage booking scrollytelling (2026-10-16)
+- Public EN `/` and ES `/es/` only, at `#hero-next` immediately after the existing scroll-photo hero and **before** the already-eligible `SmartWelcomeBundle` promotion. No route, navigation, checkout, price, provider, or tenant change.
+- Shared `BookingWalkthrough` is in `src/components/home-sales.tsx` with scoped `src/components/booking-scrollytelling.css`. Three semantic `article` sections contain real EN/ES headings and paragraphs. A 100svh sticky scene is covered by 3 × 100svh reading steps with `margin-top:-100svh`; `data-step=0|1|2` drives decorative blue shape transform and icon fades via CSS. IntersectionObserver uses `rootMargin:-45% 0px -45% 0px`; disconnects on teardown.
+- Original Request/Organized/Follow-up selectors remain native buttons with accessible `aria-pressed` and now scroll to the corresponding story heading. Keyboard focus outlines and `prefers-reduced-motion:reduce` (instant state changes, no smooth scroll) are required. Scene `aria-hidden=true`, copy remains reachable in reading order. iPhone story cards use a separate lower region and should never cover the controls. No fabricated customer data or background network calls.
+- Unchanged offer CTA: `/booking-bundle/?lang=en|es&bundle=ai-booking&source=smart-welcome` exists only if read-only 40% pricing eligibility is verified; optional AI remains separately priced. Do not move the offer into the pinned scene.
+- CI static guard: `node scripts/qa-booking-scrollytelling.mjs` in `pages.yml`. Verify production after Pages deploy, EN/ES at 360/390/820/1024/1440px, real scroll 0→1→2, button navigation, `prefers-reduced-motion`, no horizontal overflow and bundle after story.
+
+
 ## Public CTA visibility / cached asset fix (2026-10-16)
 - Public EN/ES marketing CTA implementation existed but did not visibly communicate the promised animation: original `#D7EFFF` pulse matched the blue final chapter exactly; purchase CTA links had pulse only, not the requested moving border; CSS asset remained under `?v=20261016-1`, permitting old cached style to persist.
 - Corrected shared primary CTA shell with accent `#568FB3` pulse, inner text above a 2px clipped conic border on purchase/signup CTA buttons, respecting `prefers-reduced-motion`. Preserved native links/destinations, and excluded /demo, /preview and Command Center.
