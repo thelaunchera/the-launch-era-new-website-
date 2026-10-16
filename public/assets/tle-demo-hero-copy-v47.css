@@ -86,9 +86,15 @@ html.demo-editorial.tle-demo-v47 #leadHero .heroText .demo-hero-description{
  margin:0 0 16px!important;max-width:520px!important;
  color:#fff!important;-webkit-text-fill-color:#fff!important;
 }
+/* One clean hero hierarchy: the animated image caption, one H1, one supporting
+   line, one CTA. Hide legacy decorative/duplicate hero labels only in PUBLIC v47. */
 html.demo-editorial.tle-demo-v47 #leadHero .heroText #leadName{
- margin:0 0 9px!important;line-height:1.35!important;
- font-size:11px!important;color:#cceeff!important;
+ display:none!important;
+}
+html.demo-editorial.tle-demo-v47 #leadHero .heroText::before,
+html.demo-editorial.tle-demo-v47 #leadHero .heroText::after,
+html.demo-editorial.tle-demo-v47 #leadHero .tle46-gallery::before{
+ content:none!important;display:none!important;
 }
 html.demo-editorial.tle-demo-v47 #leadHero .heroText #demoHeroArea{
  display:none!important;
@@ -222,4 +228,15 @@ html.demo-editorial.tle-demo-v47 #leadHero .tle46-hero-slot>.heroText h1.demo-he
   font-size:clamp(39px,9.7vw,50px)!important;
   line-height:1.05!important;margin:0 0 12px!important;
  }
+}
+
+/* Root cause of the huge empty mobile region: deliberately hidden
+   Post-Construction button was forced display:block by six-class photo CSS.
+   Out-prioritize those legacy selectors without hiding any visible service. */
+html.demo-editorial.tle-demo-v45.tle-demo-v47.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main #commercialServiceList.tle-v42-grid > button.service[hidden],
+html.demo-editorial.tle-demo-v45.tle-demo-v47.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main #commercialServiceList.tle-v42-grid > button.service[aria-hidden="true"]{
+ display:none!important;visibility:hidden!important;
+ position:absolute!important;inset:auto!important;
+ height:0!important;min-height:0!important;max-height:0!important;
+ padding:0!important;margin:0!important;
 }

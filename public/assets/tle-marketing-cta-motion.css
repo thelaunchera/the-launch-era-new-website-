@@ -198,3 +198,19 @@
     transform:rotate(0deg)!important;
   }
 }
+
+
+/* Homepage iPhone final CTA: the existing 134%-wide decorative pulse
+   extended the *document* 13–38px beyond the visual viewport.
+   Preserve the black primary button, its rotating border, pointer behavior,
+   and the pulse; simply contain the mobile ring within the 20px gutters.
+   Do not clip the hero, entire page, or interactive tab panels. */
+@keyframes tle-final-mobile-safe-pulse {
+  0% { transform:scale(1); opacity:.24; }
+  55%,100% { transform:scale(1.045,1.10); opacity:0; }
+}
+@media (max-width:767px) {
+  .sales-home .final-section .tle-cta-pulse-shell > .tle-cta-pulse-ring {
+    animation-name:tle-final-mobile-safe-pulse;
+  }
+}
