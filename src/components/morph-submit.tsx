@@ -1,4 +1,5 @@
 import { useEffect, useRef, type ReactNode } from 'react';
+import './morph-submit.css';
 
 type Status = 'idle' | 'sending' | 'done' | 'sent' | 'error';
 export function MorphSubmit({status,children,language='en',className=''}:{
@@ -25,7 +26,7 @@ export function MorphSubmit({status,children,language='en',className=''}:{
    <span className="tle-morph-green" aria-hidden="true"/>
    <span className="tle-morph-label">{children}</span>
    <span className="tle-morph-dots" aria-hidden="true"><i/><i/><i/></span>
-   <svg className="tle-morph-check" viewBox="0 0 28 28" fill="none" aria-hidden="true"><path d="m6 14 5.5 5.5L22 8" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.7"/></svg>
+   <svg className="tle-morph-check" viewBox="0 0 28 28" fill="none" aria-hidden="true"><path d="m6 14 5.5 5.5L22 8" pathLength="1" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.7"/></svg>
   </button>
   <span className="sr-only" role="status" aria-live="polite" aria-atomic="true">{live}</span>
  </span>;
