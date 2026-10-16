@@ -66,6 +66,21 @@ try {
    assert(geometry.samplePrices?.includes("$120")&&geometry.samplePrices?.includes("$190")&&geometry.samplePrices?.includes("$240"),"All original sample prices retained");
    assert(geometry.singleVisibleQuote===1,"Only one visible custom quote CTA: "+JSON.stringify(geometry));
    assert(geometry.overflow<=7,"No horizontal overflow "+JSON.stringify(geometry));
+   const columns=await page.locator("#residentialServiceList").evaluate(el=>({
+     count:getComputedStyle(el).gridTemplateColumns.split(/\\s+/).filter(Boolean).length,
+     display:getComputedStyle(el).display
+   }));
+   const expected=width>=1051?3:width>=760?2:1;
+   assert.equal(columns.count,expected,"Expected "+expected+" readable service columns at "+width+": "+JSON.stringify(columns));
+   if(width<=412){
+    const bubble=await page.evaluate(()=>{
+     const bot=document.querySelector(".tle-ai-launch.tle-demo-condensed"),cta=document.querySelector("#leadHero .demo-hero-cta");
+     if(!bot||!cta)return {overlap:false};
+     const a=bot.getBoundingClientRect(),b=cta.getBoundingClientRect();
+     return {overlap:Math.min(a.right,b.right)>Math.max(a.left,b.left)+2&&Math.min(a.bottom,b.bottom)>Math.max(a.top,b.top)+2};
+    });
+    assert(!bubble.overlap,"Sonny must not cover the Booking CTA on mobile");
+   }
    assert(geometry.headline&&geometry.cta&&geometry.heroStage&&geometry.story,"Hero/story/CTA must exist");
    assert(geometry.cta.top>=geometry.heroStage.top-3&&geometry.cta.bottom<=geometry.heroStage.bottom+3,
      "CTA inside photo hero: "+JSON.stringify(geometry));
