@@ -1,5 +1,13 @@
 # ROUTE_MAP.md — The Launch Era route & button registry
 
+## Footer newsletter signup (2026-10-16)
+- **Scope:** shared TanStack public SiteFooter for EN/ES marketing pages, source `src/components/site-shell.tsx`; no checkout, booking demo, Cleaning App, protected CRM or client-specific pages changed.
+- **Assets:** `public/assets/tle-footer-newsletter.css` and `public/assets/tle-footer-newsletter.js`, both loaded by `src/routes/__root.tsx`. Native form submit handler, no widget dependencies. The form's 42px pill has inline validation/errors; its success mask animates from button to input after a real `ok:true` POST, keeps its done state, and uses reduced-motion opacity fallback.
+- **Public POST/OPTIONS:** `https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-newsletter-subscribe` (`supabase/functions/tle-newsletter-subscribe/index.ts`); browser input `email`, `language=en|es`, `source=site_footer`, `consent=true`, `started_at`, honeypot `company_web`. Failure leaves form editable and displays an error. CORS is limited to approved TLE hosts; no secret key is exposed in client JS.
+- **Subscriber store:** `public.tle_newsletter_subscribers` in production (source migration `supabase/migrations/20261016_tle_website_footer_newsletter_subscribers.sql`), unique normalized email, consent timestamp/status/language, RLS enabled and anonymous direct access revoked. Newsletter **subscription storage only**: there is no automatic email campaign or welcome message from this form; every future mailing must check `status` and include a working unsubscribe method.
+- **Privacy:** public footer includes a clear occasional-emails consent line and link to EN/ES privacy policies. No new routes. Static source checks and database RLS verified 2026-10-16; live browser submit and GitHub Pages post-deploy smoke tests must be completed before claiming production delivery.
+
+
 ## Homepage sticky photo-card hero (2026-10-16)
 - **Scope**: public EN `/` and ES `/es/` only, using the existing `HomeHero` and SpanishHome markup. No demo, checkout, customer tenant or Command Center pages are modified.
 - **Hero stage**: `public/assets/tle-hero-scroll.css` loaded after `tle-saas-ui-v1.css` by `src/routes/__root.tsx`. `.hero-scroll` is approximately 180svh; `.hero-scroll-stage` sticks at top at 100svh; the existing full-photo wrapper smoothly scales from 1 to .7, rounds from 0 to 24px, and fades headline/CTA by half progress.
