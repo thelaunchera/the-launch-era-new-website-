@@ -1,0 +1,41 @@
+/* Diagnostics-only: locate actual viewport overflow without hiding or shifting any content. */
+import { chromium } from 'playwright';
+const browser = await chromium.launch({headless:true});
+const base=(process.env.QA_URL || 'http://127.0.0.1:4173').replace(/\/$/,'');
+for (const [lang,path] of [['en','/'],['es','/es/']]) {
+ for (const width of [360,390,414,768]) {
+  for (const mobile of [true,false]) {
+   const page=await browser.newPage({viewport:{width,height:844},deviceScaleFactor:mobile?3:1,isMobile:mobile,hasTouch:mobile});
+   const errors=[];
+   page.on('pageerror',e=>errors.push(e.message.slice(0,250)));
+   await page.goto(base+path+'#booking-lead-automation',{waitUntil:'domcontentloaded',timeout:45000});
+   await page.waitForTimeout(1250);
+   for (const phase of ['top','hero','booking','end']) {
+     const state=await page.evaluate(phase=>{
+       const html=document.documentElement, body=document.body, main=document.querySelector('.sales-home');
+       const view=innerWidth;
+       const selectors={top:null,hero:'.hero-scroll',booking:'.booking-section',end:'.final-section'};
+       const el=selectors[phase] ? document.querySelector(selectors[phase]):null;
+       const top=el?scrollY+el.getBoundingClientRect().top : phase==='end'?html.scrollHeight-innerHeight:0;
+       scrollTo({top,behavior:'instant',left:0});
+       const over=[];
+       for(const n of document.querySelectorAll('body *')){
+         const cs=getComputedStyle(n);
+         if(cs.display==='none'||cs.visibility==='hidden')continue;
+         const b=n.getBoundingClientRect();
+         const extra=Math.max(0,b.right-view, -b.left);
+         if(extra>3 || (n.scrollWidth-n.clientWidth)>4) {
+           const cls=typeof n.className==='string'?n.className.slice(0,70):'';
+           over.push({tag:n.tagName,cls,id:n.id||'',extra:Math.round(extra),right:Math.round(b.right),left:Math.round(b.left),width:Math.round(b.width),sw:n.scrollWidth,cw:n.clientWidth,position:cs.position,overflowX:cs.overflowX,transform:cs.transform==='none'?'none':'yes',text:n.textContent?.replace(/\\s+/g,' ').slice(0,42)});
+         }
+       }
+       return {phase,innerWidth:view,clientWidth:html.clientWidth,scrollWidth:html.scrollWidth,bodyWidth:body.scrollWidth,mainWidth:main?.scrollWidth,visualWidth:visualViewport?.width,scrollX,offenders:over.sort((a,b)=>b.extra-a.extra).slice(0,25)};
+     },phase);
+     await page.waitForTimeout(120);
+     console.log('CENTRING_DIAG '+JSON.stringify({lang,width,mobile,...state,errors:errors.slice(0,2)}));
+   }
+   await page.close();
+  }
+ }
+}
+await browser.close();
