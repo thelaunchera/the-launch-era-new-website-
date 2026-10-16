@@ -1,0 +1,108 @@
+/* Public marketing pricing: real AI plans and verified offer badges only.
+   No demo, checkout, owner CRM, tenant or Cleaning App runtime styles. */
+:root{--tle-price-spring:linear(0,0.457 16.7%,0.876 33.3%,1.008 50%,1.02 61.1%,1)}
+#plans.tle-price-motion .cards{gap:clamp(18px,2.5vw,30px);padding:18px 5px 26px;overflow:visible;align-items:stretch}
+#plans.tle-price-motion .card{position:relative;isolation:isolate;min-width:0;padding:22px 20px 23px;border-radius:21px;box-shadow:0 7px 22px rgba(37,83,116,.07);transform:translateY(0) scale(1);transition:transform 600ms var(--tle-price-spring),box-shadow 600ms ease,opacity 600ms ease}
+#plans.tle-price-motion .card:not(.tle-featured-card){border-color:#D3E4EF}
+#plans.tle-price-motion .card.tle-featured-card{
+ padding-top:26px;padding-bottom:29px;
+ border:1.5px solid transparent;
+ background:linear-gradient(#fff,#fff) padding-box,linear-gradient(135deg,#5A9AC3,#D7EFFF) border-box;
+ z-index:2
+}
+#plans.tle-price-motion .cards.is-visible .tle-featured-card{
+ transform:translateY(-7px) scale(1.06);
+ box-shadow:0 19px 45px rgba(39,93,132,.17),0 6px 14px rgba(30,70,106,.09)
+}
+#plans.tle-price-motion .tle-featured-badge{
+ position:absolute;top:-12px;left:50%;z-index:3;transform:translateX(-50%) scale(.3);
+ transform-origin:center;opacity:0;white-space:nowrap;pointer-events:none;
+ border-radius:999px;padding:5px 15px;font:750 11px/1.35 Futura,"DM Sans",Arial,sans-serif;
+ background:linear-gradient(110deg,#609DC5,#D7EFFF);color:#172F3F;
+ box-shadow:0 4px 12px rgba(75,132,170,.14);
+}
+#plans.tle-price-motion .cards.is-visible .tle-featured-badge{animation:tle-price-badge-pop 620ms var(--tle-price-spring) 140ms both}
+@keyframes tle-price-badge-pop{from{transform:translateX(-50%) scale(.3);opacity:0}to{transform:translateX(-50%) scale(1);opacity:1}}
+#plans.tle-price-motion .tle-price-features{
+ list-style:none;display:grid;gap:8px;padding:0;margin:5px 0 8px;
+ color:#3D5666;font:500 12px/1.45 Futura,"DM Sans",Arial,sans-serif
+}
+#plans.tle-price-motion .tle-price-features li{display:flex;align-items:flex-start;gap:8px}
+#plans.tle-price-motion .tle-price-features li::before{
+ content:"✓";width:17px;height:17px;border-radius:50%;flex:none;text-align:center;
+ background:#E4F2FC;color:#286E9B;font-weight:900;font-size:11px;line-height:17px;margin-top:1px
+}
+#plans.tle-price-motion .tle-price-explainer{font-size:11px;line-height:1.5;color:#527081;margin-top:6px}
+#plans.tle-price-motion .card.tle-featured-card .month{color:#246C99}
+#plans.tle-price-motion .card .tle-cta-pulse-shell{margin-top:auto;width:100%}
+#plans.tle-price-motion .card .tle-cta-pulse-button{width:100%}
+
+/* Interactive three-way selector: retains real setup and monthly prices in the DOM. */
+#plans .tle-plan-picker{margin-top:25px;padding:23px;border:1px solid #D4E6F0;border-radius:24px;background:linear-gradient(145deg,#ECF7FF,#FAF8F3);max-width:760px;margin-inline:auto}
+#plans .tle-plan-picker h3{font-size:20px;line-height:1.2;margin:0 0 13px;text-align:center}
+#plans .tle-plan-toggle{--i:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));position:relative;isolation:isolate;gap:0;background:#DCEBF5;padding:4px;border-radius:999px;min-height:48px}
+#plans .tle-plan-toggle::before{content:"";position:absolute;z-index:-1;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/3);border-radius:999px;background:#fff;box-shadow:0 2px 9px #3B729122;transform:translateX(calc(var(--i)*100%));transition:transform 590ms var(--tle-price-spring)}
+#plans .tle-plan-toggle [role="radio"]{border:0;background:transparent;color:#43667E;min-width:0;min-height:40px;padding:8px 5px;border-radius:999px;font:750 12px/1.3 Futura,"DM Sans",Arial,sans-serif;cursor:pointer}
+#plans .tle-plan-toggle [role="radio"][aria-checked="true"]{color:#191919}
+#plans .tle-plan-toggle [role="radio"]:focus-visible{outline:3px solid #438DBB;outline-offset:4px}
+#plans .tle-plan-selected{position:relative;background:white;border:1px solid #D5E6F0;border-radius:18px;margin-top:16px;padding:20px 23px 19px;min-height:205px}
+#plans .tle-plan-selected h4{font:750 19px/1.3 Prompt,Arial,sans-serif;margin:0 0 9px;padding-right:120px}
+#plans .tle-plan-price{font:750 31px/1.2 Prompt,Arial,sans-serif;color:#191919}
+#plans .tle-plan-price small{font:500 12px/1.4 Futura,"DM Sans",Arial,sans-serif;color:#526D7B}
+#plans .tle-plan-monthly{font:750 13px/1.6 Futura,"DM Sans",Arial,sans-serif;color:#2B678B}
+#plans .tle-plan-selected .tle-plan-description{font-size:12px;color:#4D6574;max-width:490px;margin:9px 0}
+#plans .tle-plan-selected .tle-plan-checkout{display:inline-flex;min-height:44px;align-items:center;justify-content:center;padding:10px 19px;border-radius:999px;color:#fff;background:#191919;text-decoration:none;font-weight:750;font-size:12px;margin-top:6px}
+#plans .tle-plan-selected .tle-plan-checkout:focus-visible{outline:3px solid #438DBB;outline-offset:4px}
+#plans .tle-savings-badge{
+ position:absolute;right:13px;top:-14px;transform:scale(1) rotate(-4deg);transform-origin:center;opacity:1;
+ padding:9px 13px;border-radius:999px;
+ background:linear-gradient(120deg,#6EA6CE,#D7EFFF);color:#193B53;
+ box-shadow:0 4px 13px #3577A022;font:850 11px/1.25 Futura,"DM Sans",Arial,sans-serif;white-space:nowrap
+}
+#plans .tle-savings-badge[hidden]{display:none!important}
+#plans .tle-savings-badge.is-popping{animation:tle-savings-pop 760ms var(--tle-price-spring) both}
+@keyframes tle-savings-pop{from{transform:scale(.1) rotate(-22deg);opacity:0}to{transform:scale(1) rotate(-4deg);opacity:1}}
+#plans .tle-plan-savings-fineprint{font-size:10px;line-height:1.5;color:#576D7B;margin-top:9px;max-width:670px}
+#plans .tle-a11y-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+/* Prices are editorial, not promotional offers. Only animate actual currently
+   rendered discount badges; promotion eligibility remains decided upstream. */
+:where(.sales-home,.service-hero,.service-sales,.tle-bundle-inline) :is(.booking-offer-tag,.tle-bundle-inline-discount),
+:where(.sales-home,.service-hero,.service-sales) .service-discount-offer > .booking-offer-tag{
+ transform:translateY(5px) scale(.94) rotate(-5deg);opacity:0;
+ transition:transform 650ms var(--tle-price-spring),opacity 650ms ease;
+}
+:where(.sales-home,.service-hero,.service-sales,.tle-bundle-inline) :is(.booking-offer-tag,.tle-bundle-inline-discount).is-price-visible,
+:where(.sales-home,.service-hero,.service-sales) .service-discount-offer > .booking-offer-tag.is-price-visible{
+ transform:translateY(0) scale(1) rotate(-4deg);opacity:1;
+}
+:where(.sales-home,.service-hero,.service-sales) :is(.service-discount-offer,.booking-offer-line) .service-price-pill{
+ transition:transform 600ms var(--tle-price-spring),box-shadow 600ms ease;
+}
+:where(.sales-home,.service-hero,.service-sales) :is(.service-discount-offer,.booking-offer-line).is-price-visible .service-price-pill{
+ transform:translateY(-3px);box-shadow:0 7px 18px #2B73951C;
+}
+@media(max-width:700px){
+ #plans.tle-price-motion .cards{gap:15px;padding:12px 0 8px;grid-template-columns:1fr}
+ #plans.tle-price-motion .card.tle-featured-card{padding:21px 18px 23px}
+ #plans.tle-price-motion .cards.is-visible .tle-featured-card{transform:translateY(-3px) scale(1.005)}
+ #plans.tle-price-motion .tle-plan-picker{padding:16px 12px;margin-top:18px}
+ #plans .tle-plan-selected{padding:20px 15px 16px}
+ #plans .tle-plan-selected h4{padding-right:85px;font-size:17px}
+ #plans .tle-savings-badge{font-size:10px;right:5px}
+ #plans .tle-plan-toggle [role="radio"]{font-size:11px}
+}
+@media(min-width:701px) and (max-width:850px){
+ #plans.tle-price-motion .card{padding-inline:13px}
+ #plans.tle-price-motion .cards.is-visible .tle-featured-card{transform:translateY(-6px) scale(1.03)}
+}
+@media(prefers-reduced-motion:reduce){
+ #plans.tle-price-motion .card,#plans .tle-plan-toggle::before,
+ #plans .tle-savings-badge, :where(.sales-home,.service-hero,.service-sales,.tle-bundle-inline) :is(.booking-offer-tag,.tle-bundle-inline-discount),
+ :where(.sales-home,.service-hero,.service-sales) :is(.service-discount-offer,.booking-offer-line) .service-price-pill{
+ animation:none!important;transition:none!important
+ }
+ #plans.tle-price-motion .cards .tle-featured-card{transform:translateY(-7px) scale(1.03)}
+ #plans.tle-price-motion .tle-featured-badge{animation:none!important;transform:translateX(-50%) scale(1);opacity:1}
+ :where(.sales-home,.service-hero,.service-sales,.tle-bundle-inline) :is(.booking-offer-tag,.tle-bundle-inline-discount){opacity:1;transform:rotate(-4deg)}
+}
