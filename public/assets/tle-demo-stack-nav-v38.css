@@ -1,3 +1,6 @@
+@import url("/assets/tle-demo-sky-v40.css?v=20261016-v40a");
+@import url("/assets/tle-demo-segment-v40.css?v=20261016-v40a");
+@import url("/assets/tle-demo-before-after-v40.css?v=20261016-v40a");
 /* v38 — native-style stacked service navigation. Public unkeyed demo only. */
 html.demo-editorial.tle-demo-stack-v38 #bookingStarter .tle-stack-stage{
   position:relative;width:100%;min-width:0;isolation:isolate;overflow:hidden;
@@ -25,7 +28,7 @@ html.demo-editorial.tle-demo-stack-v38 #bookingStarter .tle-stack-stage > .scree
   box-shadow:-12px 0 26px rgba(16,24,40,.14);border-radius:18px;
 }
 html.demo-editorial.tle-demo-stack-v38.tle-demo-booking-active #bookingStarter .tle-stack-stage > .screen{
-  background:#0c1c29;
+  background:#eff9ff;
 }
 html.demo-editorial.tle-demo-stack-v38:not(.tle-demo-booking-active) #bookingStarter .tle-stack-stage > .screen{
   background:#fff;
