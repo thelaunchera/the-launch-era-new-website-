@@ -28,9 +28,9 @@
   };
   const css = document.createElement("style");
   css.textContent = `
-    .tle-ai-launch{position:fixed!important;right:max(16px,env(safe-area-inset-right));bottom:max(17px,env(safe-area-inset-bottom));z-index:2147483000!important;border:1px solid rgba(25,25,25,.12);background:#F2D85B;color:#191919;font:700 13px Futura,"Avenir Next",Arial,sans-serif;padding:13px 18px;border-radius:999px;box-shadow:0 7px 27px #19191929;min-height:46px;display:flex;align-items:center;gap:8px;cursor:pointer}
+    .tle-ai-launch{position:fixed!important;right:calc(23px + env(safe-area-inset-right));bottom:calc(76px + env(safe-area-inset-bottom));z-index:2147483000!important;border:1px solid rgba(25,25,25,.12);background:#F2D85B;color:#191919;font:700 13px Futura,"Avenir Next",Arial,sans-serif;padding:13px 18px;border-radius:999px;box-shadow:0 7px 27px #19191929;min-height:46px;display:flex;align-items:center;gap:8px;cursor:pointer}
     .tle-ai-launch:focus-visible,.tle-ai-panel button:focus-visible,.tle-ai-panel textarea:focus-visible{outline:3px solid #528FC3;outline-offset:2px}
-    .tle-ai-panel{position:fixed!important;z-index:2147483001!important;right:max(12px,env(safe-area-inset-right));bottom:calc(max(17px,env(safe-area-inset-bottom)) + 60px);width:min(395px,calc(100vw - 24px));height:min(540px,calc(100dvh - 105px));min-height:300px;background:#FAF8F3;border:1px solid #D1E2EF;border-radius:22px;box-shadow:0 20px 65px #19191939;overflow:hidden;display:flex;flex-direction:column;font:14px/1.45 Futura,"Avenir Next",Arial,sans-serif;color:#191919}
+    .tle-ai-panel{position:fixed!important;z-index:2147483001!important;right:calc(18px + env(safe-area-inset-right));bottom:calc(140px + env(safe-area-inset-bottom));width:min(395px,calc(100vw - 24px));height:min(540px,calc(100dvh - 105px));min-height:300px;background:#FAF8F3;border:1px solid #D1E2EF;border-radius:22px;box-shadow:0 20px 65px #19191939;overflow:hidden;display:flex;flex-direction:column;font:14px/1.45 Futura,"Avenir Next",Arial,sans-serif;color:#191919}
     .tle-ai-panel[hidden]{display:none!important}
     .tle-ai-head{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:17px 18px;background:#EAF4FC;border-bottom:1px solid #D1E2EF}
     .tle-ai-head b{font:700 16px/1.1 Prompt,Arial,sans-serif;display:block;margin-bottom:5px}
@@ -47,7 +47,7 @@
     .tle-ai-form textarea::placeholder{color:#536A7A!important;-webkit-text-fill-color:#536A7A!important;opacity:1!important}
     .tle-ai-form textarea:focus{border-color:#417BA1!important;outline:2px solid #8DC9ED;outline-offset:1px}
     /* ONE optional greeting: a tiny dark popup anchored above Sonny's right bubble. */
-    .tle-sonny-greeting-popup{position:fixed!important;z-index:2147482999!important;right:14px!important;bottom:calc(137px + env(safe-area-inset-bottom))!important;max-width:min(235px,calc(100vw - 34px))!important;width:max-content!important;min-height:0!important;padding:11px 14px!important;border:1px solid #8CB9D4!important;border-radius:16px 16px 5px 16px!important;box-shadow:0 10px 26px rgba(1,16,29,.28)!important;background:#142B3D!important;color:#F6FAFD!important;-webkit-text-fill-color:#F6FAFD!important;opacity:1!important;text-align:left!important;font:600 12px/1.45 Futura,"Avenir Next",Arial,sans-serif!important;white-space:normal!important;cursor:pointer!important;transition:opacity .2s ease,transform .2s ease!important}
+    .tle-sonny-greeting-popup{position:fixed!important;z-index:2147482999!important;right:calc(25px + env(safe-area-inset-right))!important;bottom:calc(141px + env(safe-area-inset-bottom))!important;max-width:min(125px,calc(100vw - 48px))!important;width:max-content!important;min-height:0!important;padding:7px 10px!important;border:1px solid #afd4e9!important;border-radius:12px 12px 5px 12px!important;box-shadow:0 6px 18px rgba(1,16,29,.17)!important;background:rgba(20,43,61,.94)!important;color:#F6FAFD!important;-webkit-text-fill-color:#F6FAFD!important;opacity:1!important;text-align:left!important;font:600 11px/1.35 Futura,"Avenir Next",Arial,sans-serif!important;white-space:normal!important;cursor:pointer!important;transition:opacity .2s ease,transform .2s ease!important}
     .tle-sonny-greeting-popup[hidden],body.tle-ai-chat-open .tle-sonny-greeting-popup{display:none!important}
     .tle-sonny-greeting-popup:focus-visible{outline:3px solid #A9DFFF;outline-offset:3px}
     .tle-ai-form button{background:#191919;color:#fff;border:0;border-radius:14px;padding:0 14px;min-height:43px;font-weight:700;cursor:pointer}
@@ -62,7 +62,7 @@
       .tle-ai-foot{flex-shrink:0;padding:10px 12px max(12px,env(safe-area-inset-bottom))}
       .tle-ai-form{display:flex;min-width:0;gap:8px;align-items:flex-end}
       .tle-ai-form textarea{font-size:16px!important;min-width:0;flex:1;width:1px}
-       .tle-sonny-greeting-popup{right:13px!important;bottom:calc(160px + env(safe-area-inset-bottom))!important;max-width:min(220px,calc(100vw - 30px))!important;padding:9px 12px!important;font-size:11px!important}
+       .tle-sonny-greeting-popup{right:calc(24px + env(safe-area-inset-right))!important;bottom:calc(142px + env(safe-area-inset-bottom))!important;max-width:120px!important;padding:7px 10px!important;font-size:10px!important}
        html.demo-editorial.tle-demo-story-v13 body .tle-ai-panel:not([hidden]){top:var(--tle-ai-vv-top,0px)!important;left:0!important;right:0!important;bottom:auto!important;width:100%!important;max-width:100%!important;height:var(--tle-ai-vv-height,100dvh)!important;max-height:none!important;min-height:0!important;border-radius:0!important}
       .tle-ai-form button{flex:0 0 auto;max-width:88px;white-space:nowrap;padding:0 12px}
       body.tle-ai-chat-open{overflow:hidden!important}
