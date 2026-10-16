@@ -316,7 +316,7 @@
   function updateWords(){
     document.documentElement.lang=lang;
     const copy=dict();
-    for(const [id,val] of Object.entries(copy)){const el=$(id);if(el)el.textContent=val}
+    for(const [id,val] of Object.entries(copy)){const el=$(id);if(el&&id!=='customQuote')el.textContent=val}
     document.querySelectorAll('[data-i18n]').forEach(el=>{const text=copy[el.dataset.i18n];if(text)el.textContent=text});
     $('stepLabel').textContent=copy['step'+(step===4?'Done':step)];
     $('flowTitle').textContent=copy[step===1?'chooseTitle':step===2?'detailsTitle':step===3?'reviewTitle':'doneTitle'];
