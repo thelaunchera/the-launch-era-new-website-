@@ -20,6 +20,12 @@ try{
   assert.equal(await page.locator("#main .tle-v42-section-head").count(),2);
   await page.locator("#leadHero .tle-v42-window").click();
   await page.waitForSelector(".tle-demo-booking-active",{timeout:7000});
+  const entryInk=await page.evaluate(()=>{
+    const color=id=>getComputedStyle(document.querySelector(id)).color;
+    return {heading:color("#bookingStarter #title"),progress:color("#bookingStarter .tle-client-progress-step")};
+  });
+  assert.equal(entryInk.heading,"rgb(25, 71, 97)","Header must be readable immediately after opening: "+JSON.stringify(entryInk));
+  assert.equal(entryInk.progress,"rgb(25, 71, 97)","Progress must be readable immediately after opening: "+JSON.stringify(entryInk));
   await page.locator("#residentialServiceList button.service:visible").first().click();
   await page.waitForSelector("#res.on",{timeout:5000});
   assert.equal(await page.locator("#tle-v42-picker-date").count(),1);
