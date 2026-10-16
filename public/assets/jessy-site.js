@@ -90,7 +90,7 @@ function routeFor(href){
  return s;
 }
 function makeImage(){const x=node("img","tle-jessy-avatar");x.src=avatarPath;x.alt="Jessie · AI Assistant";x.loading="lazy";x.width=53;x.height=53;return x}
-const style=node("link");style.rel="stylesheet";style.href="/assets/jessy-site.css?v=20261015-floating-spacing-v2";document.head.appendChild(style);
+const style=node("link");style.rel="stylesheet";style.href="/assets/jessy-site.css?v=20261015-whatsapp-clarity-v3";document.head.appendChild(style);
 const root=node("div","tle-jessy-root tle-jessy-compact");root.setAttribute("data-tle-jessy","true");
 const fab=button("tle-jessy-fab","",t("opening"));const fabLabel=node("span","tle-jessy-fab-label",lang==="es"?"Habla con la asistente":"Chat with the assistant");const launcherPhoto=makeImage();launcherPhoto.alt="";fab.append(launcherPhoto,fabLabel);fab.append(node("span","tle-jessy-status"));fab.setAttribute("aria-expanded","false");
 const nudge=node("div","tle-jessy-nudge",t("nudge"));nudge.hidden=true;
