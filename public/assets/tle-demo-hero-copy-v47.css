@@ -1,0 +1,166 @@
+/* v47: visual repair for user-supplied iPhone screenshots.
+   Copy animates ONLY on the five-image Flip hero, never on service photos. */
+html.demo-editorial.tle-demo-v47 main.wrap,
+html.demo-editorial.tle-demo-v47 #leadHero.tle46-gallery-hero,
+html.demo-editorial.tle-demo-v47 #leadHero .tle46-gallery,
+html.demo-editorial.tle-demo-v47 #leadHero .tle46-hero-slot,
+html.demo-editorial.tle-demo-v47 #leadHero .tle46-thumb-strip{
+ overflow:visible!important;clip-path:none!important;
+}
+html.demo-editorial.tle-demo-v47 #leadHero .tle46-hero-slot{
+ height:clamp(675px,65vw,740px)!important;min-height:0!important;
+}
+html.demo-editorial.tle-demo-v47 #leadHero .tle46-hero-slot::after{
+ background:linear-gradient(0deg,rgba(7,25,40,.86) 0%,rgba(7,25,40,.48) 37%,transparent 72%)!important;
+}
+html.demo-editorial.tle-demo-v47 #leadHero .tle46-caption{
+ position:absolute!important;
+ left:clamp(22px,4.4vw,64px)!important;
+ right:clamp(22px,4.4vw,64px)!important;
+ top:clamp(28px,5vw,58px)!important;
+ width:auto!important;max-width:min(86%,690px)!important;
+ z-index:7!important;
+ display:block!important;
+ margin:0!important;padding:0!important;
+ background:transparent!important;backdrop-filter:none!important;
+ -webkit-backdrop-filter:none!important;border:0!important;
+ border-radius:0!important;box-shadow:none!important;
+ transform:none!important;text-align:left!important;color:#fff!important;
+ opacity:1!important;
+}
+html.demo-editorial.tle-demo-v47 #leadHero .tle46-caption>.tle46-caption-text,
+html.demo-editorial.tle-demo-v47 #leadHero .tle46-caption>.tle46-caption-counter{
+ display:none!important;
+}
+html.demo-editorial.tle-demo-v47 #leadHero .tle47-hero-phrase{
+ display:flex!important;flex-wrap:wrap!important;align-items:baseline!important;
+ gap:.22em!important;
+ background:transparent!important;border:0!important;
+ margin:0!important;padding:0!important;
+ font:650 clamp(17px,2.1vw,25px)/1.3 "DM Sans",Arial,sans-serif!important;
+ text-shadow:0 2px 13px #071e31ae!important;
+ letter-spacing:-.015em!important;
+}
+html.demo-editorial.tle-demo-v47 #leadHero .tle47-prefix{
+ color:#fff!important;-webkit-text-fill-color:#fff!important;
+ white-space:normal!important;
+}
+html.demo-editorial.tle-demo-v47 #leadHero .tle47-rotator{
+ display:grid!important;grid-template-columns:max-content!important;
+ perspective:520px!important;position:relative!important;
+ max-width:100%!important;color:#bde9ff!important;
+ -webkit-text-fill-color:#bde9ff!important;
+}
+html.demo-editorial.tle-demo-v47 #leadHero .tle47-word{
+ grid-area:1/1!important;width:max-content!important;max-width:100%!important;
+ margin:0!important;padding:0!important;
+ color:#bde9ff!important;-webkit-text-fill-color:#bde9ff!important;
+ backface-visibility:hidden!important;
+ transform-origin:50% 50%!important;
+ animation:tle47rotate 6s cubic-bezier(.32,.72,0,1) var(--delay,0s) infinite both!important;
+ opacity:0;transform:rotateX(-90deg) translateY(.2em);
+}
+@keyframes tle47rotate{
+ 0%{opacity:0;transform:rotateX(-90deg) translateY(.2em)}
+ 8%{opacity:1;transform:rotateX(0) translateY(0)}
+ 28%{opacity:1;transform:rotateX(0) translateY(0)}
+ 33.33%,100%{opacity:0;transform:rotateX(90deg) translateY(-.2em)}
+}
+html.demo-editorial.tle-demo-v47 #leadHero .tle46-hero-slot>.heroText{
+ position:absolute!important;z-index:6!important;
+ left:clamp(23px,4.6vw,68px)!important;
+ right:clamp(23px,4.6vw,68px)!important;
+ bottom:clamp(34px,5vw,66px)!important;
+ width:min(82%,650px)!important;max-width:650px!important;
+ transform:none!important;opacity:1!important;
+ overflow:visible!important;
+}
+html.demo-editorial.tle-demo-v47 #leadHero .heroText .demo-hero-tagline{
+ font-size:clamp(39px,4.9vw,64px)!important;
+ line-height:1.07!important;letter-spacing:-.045em!important;
+ margin:0 0 15px!important;color:#fff!important;
+ -webkit-text-fill-color:#fff!important;
+}
+html.demo-editorial.tle-demo-v47 #leadHero .heroText .demo-hero-description{
+ font-size:clamp(14px,1.5vw,17px)!important;line-height:1.5!important;
+ margin:0 0 16px!important;max-width:520px!important;
+ color:#fff!important;-webkit-text-fill-color:#fff!important;
+}
+html.demo-editorial.tle-demo-v47 #leadHero .heroText #leadName{
+ margin:0 0 9px!important;line-height:1.35!important;
+ font-size:11px!important;color:#cceeff!important;
+}
+html.demo-editorial.tle-demo-v47 #leadHero .heroText #demoHeroArea{
+ display:none!important;
+}
+html.demo-editorial.tle-demo-v47 #leadHero .heroText .demo-hero-cta{
+ max-width:100%!important;min-height:48px!important;
+ padding:12px 22px!important;
+}
+/* Hidden commercial services must not create an empty 500px grid row.
+   Historical card selectors used display:block !important, overriding [hidden]. */
+html.demo-editorial.tle-demo-v47 #bookingStarter #commercialServiceList > button.service[hidden],
+html.demo-editorial.tle-demo-v47 #bookingStarter #commercialServiceList > button.service[aria-hidden="true"]{
+ display:none!important;position:absolute!important;
+ height:0!important;min-height:0!important;margin:0!important;
+ padding:0!important;visibility:hidden!important;
+}
+html.demo-editorial.tle-demo-v47 #bookingStarter #commercialServiceList{
+ align-content:start!important;grid-auto-flow:row!important;
+}
+/* Keep the custom quote row inside the phone width, including the arrow. */
+html.demo-editorial.tle-demo-v47 #bookingStarter #main .tle-v42-grid > button.tle-v34-single-quote{
+ box-sizing:border-box!important;
+ min-width:0!important;width:100%!important;
+ gap:14px!important;
+}
+html.demo-editorial.tle-demo-v47 #bookingStarter #main .tle-v42-grid > button.tle-v34-single-quote .tle-v34-custom-text,
+html.demo-editorial.tle-demo-v47 #bookingStarter #main .tle-v42-grid > button.tle-v34-single-quote .tle-v34-custom-text strong{
+ min-width:0!important;max-width:calc(100% - 78px)!important;
+ white-space:normal!important;overflow-wrap:anywhere!important;
+ line-height:1.35!important;
+}
+html.demo-editorial.tle-demo-v47 #bookingStarter #main .tle-v42-grid > button.tle-v34-single-quote > span:last-child{
+ flex:0 0 49px!important;
+ width:49px!important;height:49px!important;
+}
+@media(max-width:768px){
+ html.demo-editorial.tle-demo-v47 #leadHero .tle46-hero-slot{
+  height:680px!important;min-height:680px!important;
+ }
+ html.demo-editorial.tle-demo-v47 #leadHero .tle46-caption{
+  top:28px!important;left:22px!important;right:18px!important;max-width:calc(100% - 40px)!important;
+ }
+ html.demo-editorial.tle-demo-v47 #leadHero .tle47-hero-phrase{
+  font-size:clamp(16px,4vw,19px)!important;line-height:1.38!important;
+ }
+ html.demo-editorial.tle-demo-v47 #leadHero .tle46-hero-slot>.heroText{
+  width:calc(100% - 44px)!important;max-width:none!important;
+  left:22px!important;right:22px!important;bottom:34px!important;
+ }
+ html.demo-editorial.tle-demo-v47 #leadHero .heroText .demo-hero-tagline{
+  font-size:clamp(38px,9.5vw,48px)!important;line-height:1.07!important;
+  margin-bottom:13px!important;
+ }
+ html.demo-editorial.tle-demo-v47 #leadHero .heroText .demo-hero-description{
+  font-size:14px!important;line-height:1.43!important;
+  max-width:100%!important;margin-bottom:14px!important;
+ }
+ html.demo-editorial.tle-demo-v47 #leadHero .tle46-thumb-strip{
+  padding:12px 16px 16px!important;gap:8px!important;
+ }
+ html.demo-editorial.tle-demo-v47 #leadHero .tle46-thumb-strip button{
+  height:79px!important;
+ }
+ html.demo-editorial.tle-demo-v47 #bookingStarter #main .tle-v42-grid > button.tle-v34-single-quote{
+  margin-inline:20px!important;width:calc(100% - 40px)!important;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ html.demo-editorial.tle-demo-v47 #leadHero .tle47-word{
+  animation:none!important;opacity:0!important;transform:none!important;
+ }
+ html.demo-editorial.tle-demo-v47 #leadHero .tle47-word:first-child{
+  opacity:1!important;
+ }
+}
