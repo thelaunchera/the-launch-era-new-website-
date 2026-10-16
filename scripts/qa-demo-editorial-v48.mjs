@@ -32,12 +32,12 @@ try {
   page.on("request",r=>{if(["POST","PUT","PATCH","DELETE"].includes(r.method()))writes.push(r.url())});
   try {
    await page.goto(base+"/lead-private-preview.html?lang="+lang,{waitUntil:"load"});
-   await page.waitForSelector("html.tle-demo-v48",{timeout:17000});
+   await page.waitForSelector("html.tle-demo-v49",{timeout:17000});
    await page.locator("#tle48Story img").first().waitFor({state:"visible"});
    const geometry=await page.evaluate(()=>{
     const get=s=>document.querySelector(s),box=s=>get(s)?.getBoundingClientRect(),
       rect=s=>box(s)?.toJSON(),stage=box("#leadHero .tle46-hero-slot"),
-      head=box("#leadHero .heroText .demo-hero-tagline"),
+      head=box("#leadHero .heroText h1.tle49-hook"),
       cta=box("#leadHero .demo-hero-cta"),
       photo=box("#leadHero .tle46-hero-slot>img.tle46-gallery-img"),
       story=box("#tle48Story");
@@ -66,12 +66,27 @@ try {
    assert(geometry.samplePrices?.includes("$120")&&geometry.samplePrices?.includes("$190")&&geometry.samplePrices?.includes("$240"),"All original sample prices retained");
    assert(geometry.singleVisibleQuote===1,"Only one visible custom quote CTA: "+JSON.stringify(geometry));
    assert(geometry.overflow<=7,"No horizontal overflow "+JSON.stringify(geometry));
-   const columns=await page.locator("#residentialServiceList").evaluate(el=>({
-     count:getComputedStyle(el).gridTemplateColumns.trim().split(/\s+/).filter(Boolean).length,
-     display:getComputedStyle(el).display
-   }));
-   const expected=width>=1051?3:width>=760?2:1;
-   assert.equal(columns.count,expected,"Expected "+expected+" readable service columns at "+width+": "+JSON.stringify(columns));
+   const initial=await page.locator("#residentialServiceList").evaluate(el=>{
+    const cards=[...el.querySelectorAll(":scope>button.service.tle49-panel")].slice(0,3);
+    return {display:getComputedStyle(el).display,rect:el.getBoundingClientRect().toJSON(),
+     cards:cards.map(c=>({rect:c.getBoundingClientRect().toJSON(),radius:getComputedStyle(c).borderTopLeftRadius})),
+     active:cards.filter(c=>c.getAttribute("aria-expanded")==="true").length};
+   });
+   assert(initial.display==="flex"&&initial.cards.length===3&&initial.active===1,
+     "Photo service gallery must be accessible flex with one expanded item: "+JSON.stringify(initial));
+   if(width<1100){
+     assert(initial.cards.every(c=>c.rect.left>=18&&c.rect.right<=width-18&&c.rect.height>=225),
+       "Phone/tablet cards must have clear side margins: "+JSON.stringify(initial));
+     if(width<=600)assert(initial.cards.every(c=>parseFloat(c.radius)<=6),"Phone cards should have nearly square corners");
+   }else{
+     assert(initial.cards[0].rect.width>initial.cards[1].rect.width*2.2,
+       "First desktop photo must be visibly expanded");
+   }
+   const heading=await page.locator("#leadHero h1.tle49-hook").evaluate(h=>({
+    label:h.getAttribute("aria-label"),words:[...h.querySelectorAll(".tle49-hook-word")].map(w=>w.textContent),
+    fontSize:parseFloat(getComputedStyle(h).fontSize)}));
+   assert(heading.words.length===3&&heading.label.includes(heading.words[0])&&heading.fontSize>=38,
+     "Animated words must be in the prominent accessible H1");
    if(width<=412){
     const bubble=await page.evaluate(()=>{
      const bot=document.querySelector(".tle-ai-launch.tle-demo-condensed"),cta=document.querySelector("#leadHero .demo-hero-cta");
@@ -111,19 +126,16 @@ try {
    await page.locator("#leadHero .demo-hero-cta").click();
    await page.waitForSelector("html.tle-demo-booking-active",{timeout:7500});
    assert(await page.locator("#residentialServiceList .service").count()>=3,"Keep pricing service buttons");
-   const activeGrid=await page.locator("#residentialServiceList").evaluate(el=>{
-     const buttons=[...el.querySelectorAll(":scope>button.service.tle-service-has-photo-v21")].slice(0,3);
-     const list=el.getBoundingClientRect();
-     return {
-       template:getComputedStyle(el).gridTemplateColumns,
-       count:getComputedStyle(el).gridTemplateColumns.trim().split(/\s+/).filter(Boolean).length,
-       cards:buttons.map(b=>({width:b.getBoundingClientRect().width,column:getComputedStyle(b).gridColumn})),
-       listWidth:list.width,hasMain:!!el.closest("#main"),parent:el.parentElement?.className
-     };
+   const activeGallery=await page.locator("#residentialServiceList").evaluate(el=>{
+     const cards=[...el.querySelectorAll(":scope>button.service.tle49-panel")].slice(0,3);
+     return {display:getComputedStyle(el).display,width:el.getBoundingClientRect().width,
+       cards:cards.map(c=>({width:c.getBoundingClientRect().width,top:c.getBoundingClientRect().top}))};
    });
-   assert.equal(activeGrid.count,expected,"Active booking studio grid should stay "+expected+" columns: "+JSON.stringify(activeGrid));
-   assert(activeGrid.cards.every(c=>c.width<=activeGrid.listWidth/expected+16),
-      "Photo service cards must fit side by side, not span entire layout: "+JSON.stringify(activeGrid));
+   assert.equal(activeGallery.display,"flex","Booking gallery must stay flex");
+   if(width>=1100)assert(activeGallery.cards[0].width>activeGallery.cards[1].width*2.2,
+      "Expanded panel width must be much larger than collapsed panels: "+JSON.stringify(activeGallery));
+   else assert(activeGallery.cards.every(c=>c.width<=activeGallery.width+2),
+      "Mobile panels must not overflow: "+JSON.stringify(activeGallery));
    for(const price of ["$120","$190","$240"]){
     const btn=page.locator("#residentialServiceList button.service.tle-service-has-photo-v21").filter({hasText:price}).first();
     assert.equal(await btn.count(),1,"Expected photo card with "+price);
@@ -169,7 +181,7 @@ for(const lang of ["en","es"]){
  try{
   const p=await b.newPage({viewport:{width:390,height:844},reducedMotion:"reduce"});
   await p.goto(base+"/lead-private-preview.html?lang="+lang,{waitUntil:"load"});
-  await p.waitForSelector("html.tle-demo-v48",{timeout:18000});
+  await p.waitForSelector("html.tle-demo-v49",{timeout:18000});
   const v=await p.evaluate(()=>({overflow:document.documentElement.scrollWidth-innerWidth,
     story:!!document.getElementById("tle48Story"),
     quotes:[...document.querySelectorAll("#residentialServiceList>button")].filter(e=>/quote|cotiz/i.test(e.textContent)&&!e.hidden&&getComputedStyle(e).display!=="none").length}));
