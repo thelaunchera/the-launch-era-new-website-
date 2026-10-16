@@ -1,5 +1,6 @@
 import { ProcessSteps } from './process-view-transitions';
 import { MorphSubmit } from '@/components/morph-submit';
+import { ContactSteps } from '@/components/contact-stepper';
 import { MarketingCTA } from '@/components/marketing-cta';
 import { BookingBenefits } from './home-motion';
 import { useHeroWipe } from './use-hero-wipe';
@@ -132,7 +133,19 @@ export function ContactForm() {
    window.setTimeout(()=>setStatus('sent'),1450);
   }catch(err){setError(err instanceof Error?err.message:'We couldn’t send your inquiry. Please try again.');setStatus('error');}
  }
- return <div className="contact-form">{status==='sent'?<div className="form-confirm"><Sparkles size={30}/><h3 className="editorial">Thank you, {name.split(' ')[0]}.</h3><p>Your inquiry has been sent to The Launch Era. We’ll review it and follow up with you soon.</p><Button variant="outline" onClick={()=>setStatus('idle')}>Send another inquiry <ArrowRight/></Button></div>:<><h2 className="editorial">Tell us about your business.</h2><p>Tell us what’s taking up your time. We’ll help you figure out the next step.</p><form onSubmit={submitInquiry}><div className="form-grid"><label className="field">Your name<input name="name" autoComplete="name" required value={name} onChange={e=>setName(e.target.value)} placeholder="First & last name"/></label><label className="field">Email address<input name="email" type="email" autoComplete="email" required placeholder="Where we can reach you"/></label></div><label className="field">Business name<input name="business" autoComplete="organization" required placeholder="Your cleaning business"/></label><label className="field">What can we help with?<select name="service" value={serviceChoice} onChange={e=>setServiceChoice(e.target.value)}>{services.map(s=><option key={s.title}>{s.title}</option>)}<option value="1:1 Setup Guidance Call">1:1 Setup Guidance Call (20 minutes)</option><option>I’m not sure yet</option></select></label>{isCall&&<><p className="form-disclaimer">Tell us what you need help with and when you're generally available. We'll email you to arrange a time; submitting this form does not book an appointment.</p><label className="field">Preferred time windows (optional)<input name="call_availability" maxLength={180} placeholder="e.g. Tuesday or Thursday afternoons (Eastern Time)"/></label></>}<label className="field">{isCall?"What would you like help learning?":"What’s taking up too much of your time?"}<textarea name="message" required placeholder={isCall?"e.g. How to change my services and prices":"Tell us a little about your day-to-day…"}/></label>{status==='error'&&<p className="text-sm" role="alert">{error}</p>}<MorphSubmit status={status} language="en">Send my inquiry <ArrowRight size={17}/></MorphSubmit><p className="form-disclaimer">Your inquiry goes directly to The Launch Era. We’ll use these details only to respond to your request.</p></form></>}</div>
+ return <div className="contact-form">{status==='sent'?<div className="form-confirm"><Sparkles size={30}/><h3 className="editorial">Thank you, {name.split(' ')[0]}.</h3><p>Your inquiry has been sent to The Launch Era. We’ll review it and follow up with you soon.</p><Button variant="outline" onClick={()=>setStatus('idle')}>Send another inquiry <ArrowRight/></Button></div>:<><h2 className="editorial">Tell us about your business.</h2><p>Tell us what’s taking up your time. We’ll help you figure out the next step.</p><ContactSteps
+  language="en"
+  status={status}
+  onSubmit={submitInquiry}
+  panels={[
+   <><div className="form-grid"><label className="field">Your name<input name="name" autoComplete="name" required value={name} onChange={e=>setName(e.target.value)} placeholder="First & last name"/></label><label className="field">Email address<input name="email" type="email" autoComplete="email" required placeholder="Where we can reach you"/></label></div></>,
+   <><label className="field">Business name<input name="business" autoComplete="organization" required placeholder="Your cleaning business"/></label><label className="field">What can we help with?<select name="service" value={serviceChoice} onChange={e=>setServiceChoice(e.target.value)}>{services.map(s=><option key={s.title}>{s.title}</option>)}<option value="1:1 Setup Guidance Call">1:1 Setup Guidance Call (20 minutes)</option><option>I’m not sure yet</option></select></label></>,
+   <><label className="field">{isCall?"What would you like help learning?":"What’s taking up too much of your time?"}<textarea name="message" required placeholder={isCall?"e.g. How to change my services and prices":"Tell us a little about your day-to-day…"}/></label>{isCall&&<><p className="form-disclaimer">Tell us what you need help with and when you're generally available. We'll email you to arrange a time; submitting this form does not book an appointment.</p><label className="field">Preferred time windows (optional)<input name="call_availability" maxLength={180} placeholder="e.g. Tuesday or Thursday afternoons (Eastern Time)"/></label></>}</>
+  ]}
+  error={status==='error'?<p className="text-sm" role="alert">{error}</p>:null}
+  finish={<MorphSubmit status={status} language="en">Finish &amp; send <ArrowRight size={17}/></MorphSubmit>}
+  disclaimer="Your inquiry goes directly to The Launch Era. We’ll use these details only to respond to your request."
+ /></>}</div>
 }
 export function HelpContent() {
  return <div className="container help-layout">
