@@ -1,3 +1,8 @@
+## 2026-10-16 — 760ms service flip cards (public website + shared Booking Demo)
+- **Marketing EN/ES:** / and /es/ solution cards use `ServiceFlipCard`: original photos, service/offer pricing and destination retained on front. On hover, keyboard focus or tap, 900px perspective rotates 180° over 760ms to contextual benefits and an actual service CTA. Hidden face inert/ARIA, Escape restores front, reduced motion exposes static final back. No CRM, app, owner, payment or checkout edit.
+- **Public booking demo:** `/booking-demo-reset.html?lang=en|es` and Jessie's public email redirect show six residential/commercial two-face service cards. Photo/title/estimate on front, service details on back. Front touch only previews; the BACK button explicitly calls preexisting `chooseService` and advances to the original data step. Preserve date wheel, forms, EN/ES, four residential optional checkbox choices, Sonny integration, session-only Command Center sample, original prices and owner isolation. Do not restore photo checkbox overlays.
+- **QA:** `scripts/qa-service-flip-cards.mjs` plus adapted `qa-booking-demo-clean-reset.mjs`, `qa-clean-booking-lead-magnet.mjs`, `qa-demo-hero-portal-proof.mjs`, `qa-booking-month-wheel.mjs`. Check GitHub Pages canonical production. Protected buyer key, owner preview, CB Depot, Cleaning App and Stripe unchanged.
+
 ## 2026-10-16 — Homepage logo marquee positioned below final CTA
 - **Routes:** English `/` and Spanish `/es/` in `src/routes/index.tsx` / `src/routes/es.index.tsx`.
 - **Order:** Contact form / process section → final blue Booking CTA → the existing `WorkflowLogoMarquee` (two rows) → services FAQ.
