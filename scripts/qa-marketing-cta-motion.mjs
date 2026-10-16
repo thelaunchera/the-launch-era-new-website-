@@ -163,6 +163,27 @@ try{
   if(endpoint==='tle-contact') assert.equal(await page.locator('.tle-success-card.tle-success-compact').count(),1,route+' contact should remain compact');
   await page.close();
  }
+ // Server rejection must NEVER show the green check; keep fields and retry visible.
+ for(const route of ['/help/','/es/']){
+  const page=await browser.newPage({viewport:{width:390,height:844}});
+  await page.route('**/functions/v1/tle-contact',async request=>
+   request.fulfill({status:500,contentType:'application/json',body:JSON.stringify({ok:false,error:'Unable to save this request'})})
+  );
+  await page.goto(site+route,{waitUntil:'domcontentloaded',timeout:45000});
+  const root=page.locator('.contact-form .tle-contact-steps');
+  await root.waitFor({state:'visible'});
+  await root.locator('input[name="name"]').fill('Synthetic QA');
+  await root.locator('input[name="email"]').fill('synthetic@example.invalid');
+  await root.locator('.tle-contact-next').click();
+  await root.locator('input[name="business"]').fill('Synthetic Business');
+  await root.locator('.tle-contact-next').click();
+  await root.locator('textarea[name="message"]').fill('Please help us understand the booking flow.');
+  await root.locator('.tle-morph-submit').click();
+  await root.getByRole('alert').waitFor({state:'visible',timeout:8000});
+  assert.equal(await page.locator('.tle-success-card').count(),0,route+' must not celebrate failed server receipt');
+  assert.equal(await root.locator('.tle-morph-submit').isEnabled(),true,route+' must allow retry');
+  await page.close();
+ }
  // Reduced-motion must remove the decorative animations.
  const reduced=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});
  await reduced.goto(site+'/',{waitUntil:'domcontentloaded',timeout:45000});
