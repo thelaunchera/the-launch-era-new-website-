@@ -10,6 +10,8 @@ on:
       - 'src/routes/es.index.tsx'
       - 'src/routes/__root.tsx'
       - 'public/assets/tle-hero-scroll.css'
+      - 'src/components/hero-split-word-link.tsx'
+      - 'scripts/qa-hero-split-word-browser.mjs'
       - 'scripts/qa-home-scroll-hero.mjs'
       - '.github/workflows/home-scroll-hero-qa.yml'
   push:
@@ -22,6 +24,8 @@ on:
       - 'src/routes/es.index.tsx'
       - 'src/routes/__root.tsx'
       - 'public/assets/tle-hero-scroll.css'
+      - 'src/components/hero-split-word-link.tsx'
+      - 'scripts/qa-hero-split-word-browser.mjs'
       - 'scripts/qa-home-scroll-hero.mjs'
   workflow_dispatch:
 permissions:
@@ -65,6 +69,7 @@ jobs:
             if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
             sleep 1
           done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-hero-split-word-browser.mjs
           QA_URL=http://127.0.0.1:4173 node scripts/qa-home-scroll-hero.mjs --browser
       - name: Archive EN/ES responsive screenshots
         if: always()
