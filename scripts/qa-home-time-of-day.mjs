@@ -1,0 +1,26 @@
+import { readFileSync } from 'node:fs';
+import { strict as assert } from 'node:assert';
+import { execFileSync } from 'node:child_process';
+const read=p=>readFileSync(p,'utf8');
+const en=read('src/routes/index.tsx');
+const es=read('src/routes/es.index.tsx');
+const jsx=read('src/components/home-motion-interlude.tsx');
+const css=read('src/components/home-motion-interlude.css');
+const js=read('public/assets/tle-home-time-of-day.js');
+for (const [file,s] of [['EN home',en],['ES home',es]]) {
+ assert(s.includes("HomeMotionInterlude"),file+' must include the new chapter');
+ assert(s.indexOf('HomeMotionInterlude lang=')<s.indexOf('process-section')||file==='EN home',file+' must place the chapter before the process section');
+}
+assert(en.includes('<BookingSection/><HomeMotionInterlude lang="en"/><ProcessSection/>'),'EN ordering must preserve booking and process sections');
+assert(es.includes('<HomeMotionInterlude lang="es"/>'),'ES home must remain translated');
+assert(jsx.includes('data-tle-canvas')&&jsx.includes('data-tle-chapter'),'React scene anchors missing');
+assert(jsx.includes("dispose?.()"),'Unmount must dispose the scene');
+assert(jsx.includes('Booking Page')&&jsx.includes('Command Center'),'Booking marketing language must remain accurate');
+assert(css.includes('prefers-reduced-motion:reduce'),'Reduced motion CSS is mandatory');
+assert(css.includes('translate3d(-50%,0,0)')&&css.includes('tle-marquee-right'),'Both seamless marquee directions required');
+assert(!css.includes('body{')&&!css.includes('html{'),'Global CSS changes disallowed');
+assert(js.includes('RoundedBoxGeometry')&&js.includes('RoomEnvironment'),'Three.js diorama requirements');
+assert(js.includes('160*3')&&js.includes('scene.environmentIntensity')&&js.includes('glass.emissiveIntensity'),'Night transition requirements');
+assert(js.includes('observer.disconnect()')&&js.includes('renderer.dispose()')&&js.includes('forceContextLoss()'),'Unmount cleanup required');
+execFileSync(process.execPath,['--check','public/assets/tle-home-time-of-day.js'],{stdio:'pipe'});
+console.log('PASS: EN/ES scene placement, 3D design, reduced motion, self-cleaning and marquee');
