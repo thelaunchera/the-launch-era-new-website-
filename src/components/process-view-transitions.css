@@ -1,0 +1,301 @@
+/* Only the homepage process cards. No global page or navigation animation. */
+.sales-home .tle-process-hint {
+  margin: 15px auto 0;
+  color: #55758a;
+  font-size: 12px;
+  letter-spacing: .035em;
+  text-align: center;
+}
+.sales-home .tle-process-grid {
+  gap: 18px;
+  margin-top: 25px;
+  align-items: stretch;
+}
+.sales-home .tle-process-grid .tle-process-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto 1fr;
+  justify-items: start;
+  align-content: start;
+  text-align: left;
+  min-width: 0;
+  min-height: 244px;
+  padding: 24px;
+  border-radius: 26px;
+  border: 1px solid #d2e0e8;
+  background: #fff;
+  color: #191919;
+  font: inherit;
+  cursor: pointer;
+  box-shadow: 0 9px 25px rgba(43, 77, 96, .045);
+  transition: transform .38s cubic-bezier(.32,.72,0,1), box-shadow .38s ease, border-color .25s ease;
+}
+.sales-home .tle-process-grid .tle-process-card:hover {
+  border-color: #88b9d4;
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(43, 77, 96, .11);
+}
+.sales-home .tle-process-grid .tle-process-card:active { transform: scale(.985); }
+.sales-home .tle-process-grid .tle-process-card:focus-visible,
+.tle-process-close:focus-visible {
+  outline: 3px solid #3e8ab7;
+  outline-offset: 4px;
+}
+.sales-home .tle-process-grid .process-number {
+  grid-column: 1;
+  grid-row: 1;
+  font-family: 'DM Sans', sans-serif;
+  color: #4b83a4;
+  font-size: 31px;
+  font-weight: 800;
+  line-height: 1;
+  margin: 0 0 12px;
+}
+.sales-home .tle-process-grid .tle-process-thumbnail {
+  display: grid;
+  place-items: center;
+  grid-column: 2;
+  grid-row: 1 / 3;
+  flex: none;
+  width: 62px;
+  height: 62px;
+  border-radius: 19px;
+  color: #437b9d;
+  background: linear-gradient(135deg, #f3f9fd 0%, #d6eafa 100%);
+  border: 1px solid #d2e6f3;
+  contain: layout;
+}
+.sales-home .tle-process-card-copy {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  align-self: end;
+  padding-right: 9px;
+}
+.sales-home .tle-process-card-title {
+  display: block;
+  font-size: clamp(17px, 1.45vw, 21px);
+  font-weight: 720;
+  line-height: 1.3;
+  letter-spacing: -.035em;
+}
+.sales-home .tle-process-card-summary {
+  display: block;
+  color: #586b77;
+  font-size: 14px;
+  line-height: 1.65;
+}
+.sales-home .tle-process-card-arrow {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #fff;
+  color: #457b9b;
+  opacity: 0;
+  transform: translate(-4px,4px);
+  transition: transform .3s ease,opacity .3s ease;
+}
+.sales-home .tle-process-card:hover .tle-process-card-arrow,
+.sales-home .tle-process-card:focus-visible .tle-process-card-arrow {
+  opacity: 1;
+  transform: none;
+}
+.tle-process-overlay {
+  position: fixed;
+  z-index: 2147482000;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: max(20px, env(safe-area-inset-top)) 16px max(20px, env(safe-area-inset-bottom));
+  background: rgba(20, 42, 58, .52);
+  backdrop-filter: blur(5px);
+  animation: tle-process-backdrop-in .3s ease both;
+}
+.tle-process-dialog {
+  position: relative;
+  width: min(100%, 620px);
+  margin: auto;
+  padding: 12px;
+  overflow: visible;
+  border: 1px solid #d7e6f0;
+  border-radius: 30px;
+  background: #fff;
+  box-shadow: 0 24px 85px rgba(10,33,51,.24);
+  color: #191919;
+}
+.tle-process-close {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid #c7dbe8;
+  border-radius: 50%;
+  color: #21465f;
+  background: rgba(255,255,255,.94);
+  cursor: pointer;
+  transition: transform .2s ease;
+}
+.tle-process-close:hover { transform: scale(1.06); }
+.tle-process-detail-hero {
+  position: relative;
+  height: clamp(180px, 29vh, 255px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 23px;
+  border: 1px solid #d2e6f3;
+  color: #437b9d;
+  background: linear-gradient(135deg, #f3f9fd 0%, #d6eafa 100%);
+  transform-origin: top left;
+}
+.tle-process-detail-hero::before,
+.tle-process-detail-hero::after {
+  content: '';
+  position: absolute;
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  border: 1px solid rgba(91,151,186,.17);
+  transform: translate(66%, -32%);
+}
+.tle-process-detail-hero::after {
+  width: 310px;
+  height: 310px;
+  transform: translate(40%, -22%);
+}
+.tle-process-detail-art {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 126px;
+  height: 126px;
+  border-radius: 32px;
+  border: 1px solid #c0deee;
+  background: rgba(255,255,255,.63);
+}
+.tle-process-detail-index {
+  position: absolute;
+  bottom: 17px;
+  left: 21px;
+  font-weight: 750;
+  font-size: 11px;
+  letter-spacing: .14em;
+}
+.tle-process-detail-body {
+  padding: clamp(20px,4vw,34px) clamp(12px,4vw,34px) 28px;
+  animation: tle-process-text-in .42s .08s both cubic-bezier(.32,.72,0,1);
+}
+.tle-process-detail-label {
+  font-size: 11px;
+  color: #5487a5;
+  letter-spacing: .14em;
+  font-weight: 800;
+}
+.tle-process-detail-body h3 {
+  margin: 13px 0 12px;
+  font-size: clamp(25px,4vw,35px);
+  letter-spacing: -.045em;
+  line-height: 1.15;
+  font-weight: 750;
+}
+.tle-process-detail-body p {
+  margin: 0;
+  max-width: 47ch;
+  color: #4e6472;
+  line-height: 1.68;
+  font-size: 15px;
+}
+.tle-process-detail-note {
+  margin-top: 24px;
+  padding: 13px 17px;
+  border-left: 3px solid #76b3d6;
+  background: #f2f8fc;
+  border-radius: 0 12px 12px 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #38586a;
+}
+html.tle-process-transitioning::view-transition-old(root),
+html.tle-process-transitioning::view-transition-new(root) {
+  animation-duration: 0s;
+}
+::view-transition-group(tle-process-0),
+::view-transition-group(tle-process-1),
+::view-transition-group(tle-process-2) {
+  animation-duration: 500ms;
+  animation-timing-function: cubic-bezier(.32,.72,0,1);
+}
+@keyframes tle-process-backdrop-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes tle-process-text-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (max-width: 767px) {
+  .sales-home .tle-process-grid { gap: 13px; margin-top: 24px; }
+  .sales-home .tle-process-grid .tle-process-card {
+    grid-template-columns: 50px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    gap: 0 16px;
+    min-height: 0;
+    padding: 23px 20px;
+    border-radius: 24px;
+    align-content: center;
+  }
+  .sales-home .tle-process-grid .process-number {
+    grid-column: 1;
+    grid-row: 1;
+    margin: 0;
+    font-size: 29px;
+  }
+  .sales-home .tle-process-grid .tle-process-thumbnail {
+    grid-column: 1;
+    grid-row: 2;
+    width: 40px;
+    height: 40px;
+    margin-top: 16px;
+    border-radius: 13px;
+  }
+  .sales-home .tle-process-grid .tle-process-thumbnail svg { width: 21px; height: 21px; }
+  .sales-home .tle-process-card-copy {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    align-self: center;
+    gap: 10px;
+    padding-right: 0;
+  }
+  .sales-home .tle-process-card-title { font-size: clamp(17px, 4.4vw, 21px); }
+  .sales-home .tle-process-card-summary { font-size: 14px; line-height: 1.62; }
+  .sales-home .tle-process-card-arrow { display: none; }
+  .tle-process-overlay { align-items: safe center; }
+  .tle-process-dialog { border-radius: 26px; }
+  .tle-process-detail-hero { height: min(28vh,210px); border-radius: 20px; }
+  .tle-process-detail-art { width: 98px; height: 98px; border-radius: 25px; }
+  .tle-process-detail-art svg { width: 60px; height: 60px; }
+  .tle-process-detail-body { padding: 22px 13px 22px; }
+  .tle-process-detail-body p { font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sales-home .tle-process-card,
+  .sales-home .tle-process-card-arrow,
+  .tle-process-overlay,
+  .tle-process-close,
+  .tle-process-detail-body { animation: none !important; transition: none !important; }
+  ::view-transition-group(tle-process-0),
+  ::view-transition-group(tle-process-1),
+  ::view-transition-group(tle-process-2) { animation-duration: 0s !important; }
+}
