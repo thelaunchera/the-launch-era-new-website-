@@ -30,7 +30,20 @@ try{
    // Native anchor must respond on the very first tap and retain browser hash/history.
    await link.tap();
    await page.waitForFunction(()=>location.hash==='#hero-next',{timeout:6000});
-   await page.waitForFunction(()=>scrollY>20,{},{timeout:6000});
+   try {
+     await page.waitForFunction(()=>{
+       const target=document.querySelector('#hero-next');
+       return scrollY>20 || (target && Math.abs(target.getBoundingClientRect().top)<120);
+     },null,{timeout:10500});
+   }catch(err){
+     const debug=await page.evaluate(()=>({
+       hash:location.hash, y:scrollY, top:document.querySelector('#hero-next')?.getBoundingClientRect().top,
+       rootHeight:document.documentElement.scrollHeight, innerHeight, scrollBehavior:getComputedStyle(document.documentElement).scrollBehavior,
+       bodyOverflow:getComputedStyle(document.body).overflow, focused:document.activeElement?.outerHTML?.slice(0,250),
+     }));
+     console.log('[HERO NATIVE TAP DEBUG]',lang,width,JSON.stringify(debug));
+     throw err;
+   }
    const scroll=await page.evaluate(()=>scrollY);
    assert(scroll>20,lang+' '+width+': tap did not scroll to the next section');
    await page.close();
