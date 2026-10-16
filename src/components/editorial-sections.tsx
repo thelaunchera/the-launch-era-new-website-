@@ -1,3 +1,4 @@
+import { SuccessConfirmation } from './success-confirmation';
 import { ProcessSteps } from './process-view-transitions';
 import { MorphSubmit } from '@/components/morph-submit';
 import { ContactSteps } from '@/components/contact-stepper';
@@ -106,8 +107,12 @@ export function ContactForm() {
  useEffect(()=>{try{if(new URLSearchParams(window.location.search).get('topic')==='setup-call')setServiceChoice('1:1 Setup Guidance Call')}catch{}},[]);
  const isCall=serviceChoice==='1:1 Setup Guidance Call';
  const [error,setError]=useState('');
+ const sendingRef=useRef(false);
+ const [receipt,setReceipt]=useState({ name:'', email:'', business:'', service:'' });
  async function submitInquiry(e:FormEvent<HTMLFormElement>){
   e.preventDefault();
+  if(sendingRef.current || status==='sending' || status==='sent') return;
+  sendingRef.current=true;
   setStatus('sending'); setError('');
   const form=e.currentTarget;
   const fd=new FormData(form);
@@ -129,11 +134,25 @@ export function ContactForm() {
    });
    const data=await response.json().catch(()=>({}));
    if(!response.ok||!data?.ok) throw new Error(data?.error||'We couldn’t send your inquiry. Please try again.');
-   setStatus('done');
-   window.setTimeout(()=>setStatus('sent'),1450);
-  }catch(err){setError(err instanceof Error?err.message:'We couldn’t send your inquiry. Please try again.');setStatus('error');}
+   // Only the backend's acknowledged insert/duplicate can open the confirmation.
+   setReceipt({
+    name:String(fd.get('name')||''),
+    email:String(fd.get('email')||''),
+    business:String(fd.get('business')||''),
+    service:String(fd.get('service')||'')
+   });
+   setStatus('sent');
+  }catch(err){
+   setError(err instanceof Error?err.message:'We couldn’t send your inquiry. Please try again.');
+   setStatus('error');
+   sendingRef.current=false;
+  }
  }
- return <div className="contact-form">{status==='sent'?<div className="form-confirm"><Sparkles size={30}/><h3 className="editorial">Thank you, {name.split(' ')[0]}.</h3><p>Your inquiry has been sent to The Launch Era. We’ll review it and follow up with you soon.</p><Button variant="outline" onClick={()=>setStatus('idle')}>Send another inquiry <ArrowRight/></Button></div>:<><h2 className="editorial">Tell us about your business.</h2><p>Tell us what’s taking up your time. We’ll help you figure out the next step.</p><ContactSteps
+ return <div className="contact-form">{status==='sent'?<SuccessConfirmation
+  language="en" kind="contact" compact
+  name={receipt.name} email={receipt.email} business={receipt.business} service={receipt.service}
+  onAgain={()=>{sendingRef.current=false;setError('');setStatus('idle');}}
+ />:<><h2 className="editorial">Tell us about your business.</h2><p>Tell us what’s taking up your time. We’ll help you figure out the next step.</p><ContactSteps
   language="en"
   status={status}
   onSubmit={submitInquiry}
