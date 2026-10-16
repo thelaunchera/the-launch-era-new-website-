@@ -210,7 +210,7 @@ assert.match(front,/demoGate\.addEventListener\("submit"/);
 assert.match(front,/data\.email_sent!==true/);
 assert.match(front,/Check your email to open your personalized demo/);
 assert.match(front,/Sonny is included to help you explore the booking flow/);
-assert.match(front,/simulation, not a real booking/);
+assert.match(front,/no real booking is created/);
 assert.doesNotMatch(front,/tle-jessy-demo-frame/,"Jessie must never embed the emailed demo");
 assert.match(front,/service_area:demoArea\.value\.trim\(\)/);
 assert.doesNotMatch(front,/if\(!showAiPlanChoices\(result\.ai_plans\)&&\(checkout\|\|info\|\|result\.trial\)\)/);
