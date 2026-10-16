@@ -15,6 +15,20 @@ for(const language of ['en','es']){
  }
  const emails=await ask({message:language==='es'?'Qué correos recibe el cliente?':'What emails does the customer receive?',language,selected_offer:'booking'});assert.match(emails.reply,/acknowledgment|acuse/);
  const price=await ask({message:language==='es'?'Cuánto?':'How much?',language,selected_offer:'booking'});assert.match(price.reply,/19\.99/);
+ const promotion=await ask({message:language==='es'?'¿Puedo tener descuento?':'Can I have discount?',language,selected_offer:'ai-plans'});
+ assert.equal(promotion.mode,'verified_promotion',"Do not re-show AI plan cards for a discount follow-up");
+ assert.equal(promotion.next_action,'team_quote',"Allow optional quote review rather than forcing checkout");
+ assert.match(promotion.reply,/19\.99/);
+ assert.match(promotion.reply,/40%/);
+ assert.match(promotion.reply,language==='es'?/puede calificar/:/may qualify/);
+ assert.match(promotion.reply,language==='es'?/precio fijo/:/fixed-price/);
+ assert.ok(!promotion.ai_plans,"No unwanted plan carousel on discount follow-up");
+ const tailored=await ask({message:language==='es'?'¿Podemos hablar de un precio fijo?':'Can we discuss a fixed price?',language,selected_offer:'ai-business'});
+ assert.equal(tailored.mode,'verified_quote_review');
+ assert.equal(tailored.next_action,'team_quote');
+ assert.match(tailored.reply,language==='es'?/propuesta|cotización/:/proposal|custom quote/);
+ assert.match(tailored.reply,language==='es'?/No puedo garantizar/:/can't promise/);
+
  // 20-minute calls are post-purchase onboarding ONLY, never an open presales booking.
  const call=await ask({message:language==='es'?'¿Ustedes ofrecen llamadas 1:1 de 20 minutos?':'Si you offer 1:1 call ?',language,selected_offer:'booking'});
  assert.equal(call.mode,'verified_call');
