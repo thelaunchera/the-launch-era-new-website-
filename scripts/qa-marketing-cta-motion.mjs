@@ -124,9 +124,16 @@ try{
   await page.goto(site+route,{waitUntil:'domcontentloaded',timeout:45000});
   await page.locator(form).waitFor({state:'attached',timeout:15000});
   if(endpoint==='tle-contact'){
+   const steps=page.locator(form+'.tle-contact-steps');
+   await steps.waitFor({state:'visible'});
+   assert.equal(await steps.getAttribute('data-step'),'0',route+' initial contact step');
    await page.locator(form+' input[name="name"]').fill('Synthetic QA');
    await page.locator(form+' input[name="email"]').fill('synthetic@example.invalid');
+   await page.locator(form+' .tle-contact-next').click();
+   assert.equal(await steps.getAttribute('data-step'),'1',route+' business contact step');
    await page.locator(form+' input[name="business"]').fill('Fixture Business');
+   await page.locator(form+' .tle-contact-next').click();
+   assert.equal(await steps.getAttribute('data-step'),'2',route+' message contact step');
    await page.locator(form+' textarea[name="message"]').fill('Synthetic QA only; never send.');
   }else await page.locator('#freebie-email').fill('synthetic@example.invalid');
   const button=page.locator(form+' .tle-morph-submit');
