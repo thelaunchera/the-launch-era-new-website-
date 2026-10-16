@@ -72,22 +72,24 @@ try{
    assert(links.length>0,route+' missing marketing CTAs');
    assert(links.every(x=>x.href&&!/demo|preview|command-center/i.test(x.href)),route+' demo/private CTA was animated');
    assert(links.every(x=>x.left>=-3&&x.right<=viewport.width+3),route+' '+viewport.width+' CTA crosses viewport '+JSON.stringify(links));
-   const ring=await ctas.first().locator('.tle-cta-pulse-ring').first().evaluate(el=>getComputedStyle(el).animationName);
-   assert(ring==='tle-cta-quiet-pulse',route+' '+viewport.width+' pulse absent: '+ring);
-
-   // v2 visual regression: animation existence alone does not prove visibility.
-   const effective=await ctas.first().evaluate(shell=>{
+   // Inspect pulse + conic border in one hydrated DOM snapshot.
+   const sample=await page.waitForFunction(()=>{
+    const shell=[...document.querySelectorAll('.tle-cta-pulse-shell')].find(item=>{
+     const ring=item.querySelector('.tle-cta-pulse-ring');
+     return ring?.isConnected&&getComputedStyle(ring).animationName==='tle-cta-quiet-pulse';
+    });
+    if(!shell)return false;
     const a=shell.querySelector('a.tle-cta-pulse-button');
     const ring=shell.querySelector('.tle-cta-pulse-ring');
-    const rotor=getComputedStyle(a,'::before');
-    const face=getComputedStyle(a,'::after');
+    const label=a?.querySelector('.tle-cta-text');
+    if(!a||!label)return false;
+    const rotor=getComputedStyle(a,'::before'),face=getComputedStyle(a,'::after');
+    if(rotor.animationName!=='tle-primary-cta-border-spin')return false;
     return {pulse:getComputedStyle(ring).backgroundColor,
-      borderAnimation:rotor.animationName,
-      borderShape:rotor.backgroundImage,
-      faceInset:face.inset,
-      labelVisible:getComputedStyle(a.querySelector('.tle-cta-text')).color,
-      labelMarkup:!!a.querySelector('.tle-cta-text')};
-   });
+      borderAnimation:rotor.animationName,borderShape:rotor.backgroundImage,
+      faceInset:face.inset,labelVisible:getComputedStyle(label).color,labelMarkup:true};
+   },null,{timeout:18000});
+   const effective=await sample.jsonValue();
    assert(effective.pulse==='rgb(86, 143, 179)',route+' '+viewport.width+' ripple must be visible on pale blue: '+JSON.stringify(effective));
    assert(effective.borderAnimation==='tle-primary-cta-border-spin'&&effective.borderShape.includes('conic-gradient')&&effective.labelMarkup,route+' '+viewport.width+' border/text not rendered: '+JSON.stringify(effective));
    if(route==='/'||route==='/es/'){
