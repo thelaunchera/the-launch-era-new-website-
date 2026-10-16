@@ -1,4 +1,5 @@
-import { useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+import './booking-scrollytelling.css';
 import { ArrowRight, CalendarCheck2, ClipboardList, Send, Plus } from 'lucide-react';
 
 type Language = 'en' | 'es';
@@ -6,12 +7,76 @@ const track = (part: string, value: string) => window.tleTrackEvent?.('homepage_
 
 export function BookingWalkthrough({lang='en'}:{lang?:Language}) {
  const [step,setStep]=useState(0);
+ const wrapRef=useRef<HTMLElement|null>(null);
+ const stepNodes=useRef<Array<HTMLElement|null>>([]);
  const es=lang==='es';
  const labels=es?['Solicitud','Organizada','Seguimiento']:['Request','Organized','Follow-up'];
  const titles=es?['Tu cliente elige un servicio.','Todo llega a un mismo lugar.','Sabes qué sigue.']:['Your client chooses a service.','Everything arrives in one place.','You know what happens next.'];
  const copy=es?['Tu Booking Page reúne el servicio, los datos y el horario solicitado.','Los datos llegan a tu Command Center privado para revisarlos.','Los primeros dos seguimientos son automáticos. Tú decides el siguiente paso.']:['Your Booking Page collects the service, client details, and requested time.','Details reach your private Command Center, ready for review.','The first two follow-ups run automatically. You decide the next step.'];
  const icons=[CalendarCheck2,ClipboardList,Send];
- return <div className="booking-walkthrough"><div className="walkthrough-controls" aria-label={es?'Explora el recorrido de una solicitud':'Explore a booking request'}>{labels.map((label,i)=>{const Icon=icons[i];return <button type="button" key={label} aria-pressed={step===i} aria-controls={`walkthrough-${lang}`} onClick={()=>{setStep(i);track('booking_flow',String(i))}}><Icon size={19}/><span>{label}</span></button>})}</div><div id={`walkthrough-${lang}`} className="walkthrough-stage" aria-live="polite"><span className="walkthrough-count">0{step+1}</span><div><strong>{titles[step]}</strong><p>{copy[step]}</p></div><span className="walkthrough-status">{labels[step]}</span></div><small className="walkthrough-note">{es?'Toca cada paso para ver cómo se conecta.':'Tap each step to see how it connects.'}</small></div>;
+
+ useEffect(()=>{
+   const root=wrapRef.current;
+   if(!root || !('IntersectionObserver' in window))return;
+   // The narrow center band makes each step active only as its copy crosses the viewport center.
+   const observer=new IntersectionObserver((entries)=>{
+     const entered=entries.filter(entry=>entry.isIntersecting);
+     if(!entered.length)return;
+     const mid=window.innerHeight/2;
+     const nearest=entered.sort((a,b)=>{
+       const ac=(a.boundingClientRect.top+a.boundingClientRect.bottom)/2;
+       const bc=(b.boundingClientRect.top+b.boundingClientRect.bottom)/2;
+       return Math.abs(ac-mid)-Math.abs(bc-mid);
+     })[0];
+     const index=Number((nearest.target as HTMLElement).dataset.storyStep);
+     if(Number.isInteger(index)&&index>=0&&index<3)setStep(index);
+   },{root:null,rootMargin:'-45% 0px -45% 0px',threshold:0});
+   stepNodes.current.forEach(node=>{if(node)observer.observe(node)});
+   return ()=>observer.disconnect();
+ },[lang]);
+
+ const goTo=(index:number)=>{
+   const node=stepNodes.current[index];
+   if(!node)return;
+   const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+   setStep(index);
+   node.scrollIntoView({behavior:reduce?'instant':'smooth',block:'start'});
+   track('booking_flow',String(index));
+ };
+
+ return <section className="booking-walkthrough booking-scrolly-wrap" data-step={step} ref={wrapRef} aria-label={es?'Cómo pasa una solicitud a seguimiento':'How a booking request moves to follow-up'}>
+  <div className="booking-scrolly-sticky">
+   <span className="booking-scrolly-kicker">{es?'TU FLUJO DE RESERVAS':'YOUR BOOKING FLOW'}</span>
+   <div className="walkthrough-controls" role="group" aria-label={es?'Explora el recorrido de una solicitud':'Explore a booking request'}>
+    {labels.map((label,i)=>{const Icon=icons[i];return <button type="button" key={label} aria-pressed={step===i} aria-controls={`booking-story-${lang}-${i}`} onClick={()=>goTo(i)}><Icon size={19} aria-hidden="true"/><span>{label}</span></button>})}
+   </div>
+   <div className="booking-scrolly-scene" aria-hidden="true">
+    <div className="booking-scrolly-ambient"/>
+    <div className="booking-scrolly-shape"/>
+    <div className="booking-scrolly-icon-ring">
+      <span className="booking-scrolly-icon booking-scrolly-icon--request"><CalendarCheck2/></span>
+      <span className="booking-scrolly-icon booking-scrolly-icon--organized"><ClipboardList/></span>
+      <span className="booking-scrolly-icon booking-scrolly-icon--follow"><Send/></span>
+    </div>
+    <div className="booking-scrolly-route"><span/><span/><span/></div>
+   </div>
+   <small className="booking-scrolly-note">{es?'Desliza para ver cómo se conecta cada paso.':'Scroll to see how each step connects.'}</small>
+  </div>
+  <div className="booking-scrolly-steps">
+    {titles.map((title,i)=><article
+      key={title}
+      id={`booking-story-${lang}-${i}`}
+      className="booking-scrolly-step"
+      data-story-step={i}
+      ref={node=>{stepNodes.current[i]=node}}
+      aria-labelledby={`booking-story-heading-${lang}-${i}`}
+    ><div className="booking-scrolly-card">
+       <span className="booking-scrolly-number">0{i+1} / 03 · {labels[i]}</span>
+       <h2 id={`booking-story-heading-${lang}-${i}`}>{title}</h2>
+       <p>{copy[i]}</p>
+     </div></article>)}
+  </div>
+ </section>;
 }
 
 export function PainCards({lang='en'}:{lang?:Language}) {
