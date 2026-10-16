@@ -162,6 +162,29 @@
   }
   el('sonnyToggle').addEventListener('click',()=>toggleSonny(!shown));
   updateSonnyWords();
+
+  // Keep the optional chat from covering the booking flow after the visitor
+  // resumes scrolling or selects another control. Preserve the conversation
+  // and the original #sonnyToggle/#sonnyBody handlers; only collapse the panel.
+  let sonnyOpenedAt=0;
+  const originalSonnyClick=el('sonnyToggle');
+  originalSonnyClick.addEventListener('click',()=>{
+    if(shown)sonnyOpenedAt=Date.now();
+  });
+  let previousPageScroll=window.scrollY;
+  window.addEventListener('scroll',()=>{
+    const current=window.scrollY;
+    const moved=Math.abs(current-previousPageScroll);
+    previousPageScroll=current;
+    if(shown && window.matchMedia('(max-width:700px)').matches &&
+       moved>=12 && Date.now()-sonnyOpenedAt>650){
+      toggleSonny(false);
+    }
+  },{passive:true});
+  document.addEventListener('pointerdown',event=>{
+    if(!shown || event.target.closest('.sonny, #bookingHeroSonny'))return;
+    toggleSonny(false);
+  },{passive:true});
   el('sonnyForm').addEventListener('submit',async event=>{
     event.preventDefault();
     if(busy)return;
