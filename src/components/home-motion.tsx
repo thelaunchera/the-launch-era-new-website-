@@ -12,7 +12,13 @@ export function HomeMotion() {
   const update = () => {
    frame = 0;
    if (hero) {
-    if (media.matches) {
+    // The split hero no longer has a long pinned scroll stage. Keep the CTA
+    // keyboard-accessible and let the dedicated wipe observer own its motion.
+    if (hero.querySelector('.hero-split')) {
+     hero.style.removeProperty('--hero-scroll-progress');
+     hero.classList.remove('hero-scroll-revealed');
+     heroIntro?.removeAttribute('inert');
+    } else if (media.matches) {
      hero.style.removeProperty('--hero-scroll-progress');
      hero.classList.remove('hero-scroll-revealed');
      heroIntro?.removeAttribute('inert');
