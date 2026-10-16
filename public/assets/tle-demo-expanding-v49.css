@@ -32,7 +32,11 @@ html.demo-editorial.tle-demo-v49 #leadHero .tle49-hook-word{
 }
 /* The old photo word badge is gone; keep a single hero, one primary CTA. */
 html.demo-editorial.tle-demo-v49 #leadHero .tle48-sample-note{
- bottom:clamp(21px,2.6vw,31px)!important;
+ /* Keep the notice on the dark photo hero, ABOVE its pale curved transition. */
+ bottom:clamp(70px,7vw,88px)!important;
+ color:#eaf7ff!important;
+ text-shadow:0 1px 2px rgba(6,26,40,.3)!important;
+ pointer-events:none!important;
 }
 /* Existing primary service buttons become an accessible flex gallery.
    Original onclick handlers still own navigation and prices. */

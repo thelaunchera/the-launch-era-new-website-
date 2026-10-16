@@ -50,7 +50,9 @@ function init(){
   list.classList.add('tle49-expanding-gallery');
   list.setAttribute('aria-label',(list===res?(es?'Servicios residenciales':'Residential services'):(es?'Servicios comerciales':'Commercial services')));
   let active=cards[0];
-  const phone=()=>matchMedia('(max-width:759px) and (hover:none)').matches;
+  // Touch navigation is armed by a completed first tap, never by focus.
+  // Focus may occur before pointerdown on iOS / automated touch browsers.
+  let touchArmed=null;
   const pick=(card)=>{
    if(active===card)return;
    active=card;
@@ -69,17 +71,24 @@ function init(){
    const hint=document.createElement('span');hint.className='tle49-panel-hint';hint.setAttribute('aria-hidden','true');hint.textContent=labels.mobile;btn.append(hint);
    btn.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'||matchMedia('(hover:hover) and (pointer:fine)').matches)pick(btn);},{passive:true});
    btn.addEventListener('focus',()=>pick(btn),{passive:true});
-   // Save state *before* focus causes an expansion on touchscreen.
-   btn.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'||phone())btn.dataset.tle49DownActive=String(btn===active);},{capture:true,passive:true});
+   // Only a genuine touch pointer engages two-tap selection.
+   // Mouse, keyboard, and programmatic clicks retain their original handlers.
+   btn.addEventListener('pointerdown',e=>{
+    if(e.pointerType==='touch')btn.dataset.tle49TouchTap='1';
+   },{capture:true,passive:true});
    btn.addEventListener('click',e=>{
-    if(!phone())return; // Desktop click continues native onclick immediately.
-    const already=btn.dataset.tle49DownActive==='true';
-    delete btn.dataset.tle49DownActive;
-    if(!already){
-     e.preventDefault();e.stopImmediatePropagation();pick(btn);
-     // Clear affordance text is inside the expanded panel.
+    const byTouch=btn.dataset.tle49TouchTap==='1';
+    delete btn.dataset.tle49TouchTap;
+    if(!byTouch)return;
+    if(touchArmed!==btn){
+     e.preventDefault();
+     e.stopImmediatePropagation();
+     pick(btn);
+     touchArmed=btn;
+     return;
     }
-    // Second tap allows the original onclick. No synthetic submission.
+    // Second tap invokes the original button onclick, with no synthetic booking.
+    touchArmed=null;
    },true);
   });
   // Recover a selected card after a tab switch or on back navigation.
