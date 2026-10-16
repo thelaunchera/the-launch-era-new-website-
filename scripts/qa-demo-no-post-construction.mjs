@@ -41,8 +41,10 @@ try {
 
   await page.locator('#leadHero .demo-hero-cta').click();
   await page.waitForSelector('html.tle-demo-booking-active',{timeout:8000});
-  const commercialTab=page.locator('#categoryTabs [data-category="commercial"], #categoryTabs button[onclick*="commercial"]').first();
-  await commercialTab.click();
+  // The approved editorial redesign can replace the original category tabs,
+  // but the existing service-category handler stays as the demo's source of truth.
+  // Switch to Commercial without submitting a quote or relying on old tab markup.
+  await page.evaluate(()=>setCategory('commercial'));
   await page.waitForFunction(()=>{
     const list=document.getElementById('commercialServiceList');
     return list&&!list.hidden&&getComputedStyle(list).display!=='none';
