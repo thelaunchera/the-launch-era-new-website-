@@ -57,7 +57,7 @@ const viewports = [
   { width: 360, height: 780 }, { width: 390, height: 844 },
   { width: 820, height: 1000 }, { width: 834, height: 1194 },
   { width: 1024, height: 1366 }, { width: 1024, height: 768 },
-  { width: 1440, height: 900 },
+  { width: 1440, height: 768 }, { width: 1440, height: 900 },
 ];
 const errors = [];
 mkdirSync('qa-screenshots', { recursive: true });
@@ -100,7 +100,7 @@ try {
        photoZIndex:Number(getComputedStyle(panel).zIndex),
        animations:blobs.map(blob=>getComputedStyle(blob).animationName)
      },
-     panel: { top:a.top, left:a.left, width:a.width, height:a.height },
+     panel: { top:a.top, left:a.left, width:a.width, height:a.height, bottom:a.bottom },
      copy: { top:b.top, left:b.left, width:b.width },
      stagePosition: getComputedStyle(stage).position,
      framePosition: getComputedStyle(frame).position,
@@ -112,6 +112,9 @@ try {
    assert.equal(await hero.locator('.hero-intro .cta-button').count(), 1, lang + ': CTA missing');
    assert(!state.clipped, lang + ' ' + viewport.width + ': hero horizontal clipping');
    assert(state.panel.width > 160, lang + ' ' + viewport.width + ': image panel compressed');
+   if (viewport.width === 1440 && viewport.height === 768) {
+     assert(state.panel.bottom < viewport.height - 12, lang + ': hero photo is cut off by short desktop screen: ' + state.panel.bottom);
+   }
    assert(!state.clipPath.includes('100%'), lang + ' ' + viewport.width + ': wipe never opened: ' + state.clipPath);
    assert(Math.abs(state.imageScale - 1) < .04, lang + ' ' + viewport.width + ': photo still zoomed');
    assert(state.introOpacity > .96, lang + ' ' + viewport.width + ': copy did not appear');
@@ -120,7 +123,7 @@ try {
      assert(state.mesh.display !== 'none', lang + ': desktop mesh missing');
      assert(state.mesh.insideHeroFrame, lang + ': gradient must stay INSIDE the hero card, not the outer scroll background');
      assert.notEqual(state.mesh.dotsDisplay, 'none', lang + ': outer dotted/Request/Follow-up background must remain untouched');
-     assert(state.mesh.frameBackground.includes('linear-gradient') && state.mesh.frameBackground.includes('233, 245, 254'), lang + ': blue gradient should be visible inside hero on entry');
+     assert(state.mesh.frameBackground.includes('linear-gradient') && state.mesh.frameBackground.includes('227, 242, 254'), lang + ': blue gradient should be visible inside hero on entry');
      if(viewport.width > 1180){
        assert(state.mesh.copyShift==='-10px' && state.mesh.photoShift==='-10px',lang+': desktop hero content must rise slightly together without moving the outer backdrop');
      }
@@ -131,7 +134,7 @@ try {
      assert(state.mesh.insideHeroFrame, lang + ': gradient placement must remain inside hero at all sizes');
      assert.equal(state.mesh.display, 'none', lang + ': do not change phone/tablet composition');
    }
-   if (viewport.width === 1440) await page.screenshot({ path:`qa-screenshots/home-scroll-${lang}-1440-mesh-initial.png`, fullPage:false });
+   if (viewport.width === 1440) await page.screenshot({ path:`qa-screenshots/home-scroll-${lang}-1440x${viewport.height}-mesh-initial.png`, fullPage:false });
    if (viewport.width < 768) {
     assert(state.panel.top < state.copy.top, lang + ': image must stack above text on phone');
     assert(state.stagePosition !== 'sticky' && state.framePosition !== 'absolute', lang + ': mobile must use natural height');
