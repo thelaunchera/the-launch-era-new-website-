@@ -118,14 +118,26 @@
     function schedule() {
       if (!frame) frame = window.requestAnimationFrame(function () { frame = 0; update(); });
     }
+    var boundRail = rail;
     function onRailScroll() {
+      var liveRail = section.querySelector('.service-grid');
+      if (liveRail && liveRail !== rail) {
+        rail = liveRail;
+        cards = Array.from(rail.querySelectorAll('.service-card'));
+      }
       if (window.innerWidth < 768 && rail.scrollLeft > 8) touched = true;
       schedule();
+    }
+    function onScrollCapture(event) {
+      // Scroll events from horizontal rails do not bubble. Capture also survives
+      // React replacing the rail element during hydration or a card update.
+      if (event.target === section.querySelector('.service-grid')) onRailScroll();
     }
     function onResize() { if (window.innerWidth >= 768) touched = false; schedule(); }
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', onResize);
-    rail.addEventListener('scroll', onRailScroll, { passive: true });
+    boundRail.addEventListener('scroll', onRailScroll, { passive: true });
+    document.addEventListener('scroll', onScrollCapture, true);
     var mediaUpdate = function () { paint(current, true); schedule(); };
     reducedMotion.addEventListener('change', mediaUpdate);
     paint(0, true);
@@ -161,7 +173,8 @@
       window.cancelAnimationFrame(frame);
       window.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', onResize);
-      rail.removeEventListener('scroll', onRailScroll);
+      boundRail.removeEventListener('scroll', onRailScroll);
+      document.removeEventListener('scroll', onScrollCapture, true);
       reducedMotion.removeEventListener('change', mediaUpdate);
       if (window.gsap) window.gsap.killTweensOf(section);
       if (ctx) ctx.revert();
