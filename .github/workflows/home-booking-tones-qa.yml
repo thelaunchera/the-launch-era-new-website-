@@ -11,6 +11,7 @@ on:
       - 'public/assets/tle-booking-tones.css'
       - 'scripts/qa-home-booking-tones.mjs'
       - 'scripts/qa-home-booking-tones-browser.mjs'
+      - 'scripts/qa-homepage-horizontal-centering.mjs'
       - '.github/workflows/home-booking-tones-qa.yml'
   workflow_dispatch:
 
@@ -50,6 +51,7 @@ jobs:
             sleep 1
           done
           QA_URL=http://127.0.0.1:4173 node scripts/qa-home-booking-tones-browser.mjs
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-homepage-horizontal-centering.mjs
       - name: Archive EN/ES mobile screenshots
         if: always()
         uses: actions/upload-artifact@v4
