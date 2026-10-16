@@ -56,6 +56,24 @@ try {
   assert.equal(await page.locator('#bookingPortalHeadline').getAttribute('aria-label'),
     lang==='es'?'Haz que tus reservas sean extraordinarias.':'Make your booking flow remarkable.');
   assert.equal(await page.locator('#bookingPortalHeadline .booking-portal-swap').getAttribute('aria-hidden'),'true');
+  // Only the OLD word may carry the strike. The replacement stays clean in both languages.
+  const strikeScope=await page.locator('#bookingPortalHeadline').evaluate(heading=>{
+   const old=heading.querySelector('.booking-portal-old');
+   const next=heading.querySelector('.booking-portal-new');
+   const line=heading.querySelector('.booking-portal-strike');
+   const word=heading.querySelector('.booking-portal-old-word');
+   return {parent:line?.parentElement===old,oldHidden:old?.getAttribute('aria-hidden'),
+    newHidden:next?.getAttribute('aria-hidden'),oldText:word?.textContent,
+    newText:next?.textContent,strokeWidth:line?.getBoundingClientRect().width,
+    oldWidth:word?.getBoundingClientRect().width,swapWidth:heading.querySelector('.booking-portal-swap')?.getBoundingClientRect().width,
+    nextWidth:next?.getBoundingClientRect().width};
+  });
+  assert(strikeScope.parent&&strikeScope.oldHidden==='true'&&strikeScope.newHidden==='true',
+   'Strike must be nested exclusively in accessible-hidden OLD word: '+JSON.stringify(strikeScope));
+  assert(strikeScope.strokeWidth<=strikeScope.oldWidth+2&&strikeScope.swapWidth>=strikeScope.nextWidth-2,
+   'Line must not stretch to replacement word: '+JSON.stringify(strikeScope));
+  assert.equal(strikeScope.oldText,lang==='es'?'aceptables.':'decent.');
+  assert.equal(strikeScope.newText,lang==='es'?'extraordinarias.':'remarkable.');
   const stage=await page.locator('.booking-portal-stage').boundingBox();
   assert(stage?.width>=width-3,'Hero must use full viewport width: '+JSON.stringify(stage));
   const linked=await page.locator('#bookingHeroDemo').getAttribute('href');
@@ -100,6 +118,14 @@ try {
       transform:getComputedStyle(el).transform
     }));
     assert(zoom.opacity<.1,lang+' '+width+' front window must fade to reveal second scene: '+JSON.stringify(zoom));
+    // Final headline must remain visibly clean after the 450ms stroke and 400ms beat.
+    await page.waitForTimeout(2350);
+    const words=await page.locator('#bookingPortalHeadline').evaluate(heading=>({
+      oldOpacity:Number(getComputedStyle(heading.querySelector('.booking-portal-old')).opacity),
+      newOpacity:Number(getComputedStyle(heading.querySelector('.booking-portal-new')).opacity)
+    }));
+    assert(words.oldOpacity<.05&&words.newOpacity>.95,
+      'Old word AND its nested strike must fade before clean replacement settles: '+JSON.stringify(words));
     await page.locator('#bookingHeroSonny').click();
     assert.equal(await page.locator('#sonnyBody').isVisible(),true,'Hero shortcut must open the real Sonny chat');
     await page.locator('#sonnyToggle').click();
