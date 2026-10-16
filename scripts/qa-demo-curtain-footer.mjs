@@ -61,7 +61,7 @@ try {
    });
    assert(result.overflow<=3,'Post-scroll width overflow '+JSON.stringify(result));
    assert(result.links.every(l=>l.inside),'Footer links clipped on phone '+JSON.stringify(result));
-   if(!reduced)assert(result.wrBottom<=result.frTop+3,'Wrapper still covers fixed footer at page end '+JSON.stringify(result));
+   if(!reduced)assert(result.links.every(link=>link.top>result.wrBottom+3),'Page curtain must expose every clickable footer link at page end '+JSON.stringify(result));
    assert.match(result.topLink,lang==='es'?/Volver arriba/:/Back to top/,'Footer translation lost');
    assert.match(result.headline,lang==='es'?/Reservas más sencillas/:/A simpler way to book/);
    await page.locator('#tleDemoFooterTop').click();
