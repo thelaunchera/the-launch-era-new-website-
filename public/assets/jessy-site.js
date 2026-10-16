@@ -407,7 +407,7 @@ function showCheckoutOptions(ids,label){
    const a=node("a","tle-jessy-checkout-link",lang==="es"?"Iniciar prueba gratis de Cleaning App →":"Start Cleaning App free trial →");
    a.href="https://app.thelaunchera.com/?entry=signup";a.rel="noopener";wrap.append(a);return;
   }
-  const href=id==="booking-bundle"?"/booking-bundle/?lang="+lang:checkoutFor(id);
+  const href=id==="booking-bundle"?"/booking-bundle/?lang="+lang+"#choose-plan":checkoutFor(id);
   if(!href)return;
   const names={booking:"Booking Automation","ai-booking":"AI Booking Assistant","ai-followup":"AI Follow-Up Assistant","ai-business":"AI Business Assistant",website:"Website Automation",va:"VA Support","booking-bundle":"Booking + AI bundle"};
   const a=node("a","tle-jessy-checkout-link",unique.length===1?(lang==="es"?"Abrir checkout seguro →":"Open secure checkout →"):(names[id]||id)+" →");
