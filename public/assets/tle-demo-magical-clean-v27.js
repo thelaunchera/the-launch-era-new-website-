@@ -33,9 +33,9 @@ if(!mount()){
 }
 
 window.addEventListener("load",()=>{
- for(const asset of ["tle-demo-segment-v40.js","tle-demo-compare-v40.js","tle-demo-inline-booking-v41.js","tle-demo-frequency-v41.js"]){
+ for(const asset of ["tle-demo-compare-v40.js","tle-demo-redesign-v42.js"]){
   const tag=document.createElement("script");
-  tag.src="/assets/"+asset+"?v=20261016-v40a";
+  tag.src="/assets/"+asset+"?v=20261016-v42a";
   document.head.append(tag);
  }
 },{once:true});
