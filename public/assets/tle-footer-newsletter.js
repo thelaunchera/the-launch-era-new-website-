@@ -26,7 +26,7 @@
     var email = input.value.trim();
     if (error) error.textContent = '';
     input.removeAttribute('aria-invalid');
-    if (!input.validity.valid || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/.test(email)) {
+    if (!input.validity.valid || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
       fail(form, input, es ? 'Escribe un correo electrónico válido.' : 'Enter a valid email address.');
       input.focus();
       return;
