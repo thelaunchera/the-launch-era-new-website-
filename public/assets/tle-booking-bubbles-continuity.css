@@ -297,3 +297,73 @@ body footer {background:#dbf0fd;color:#305d78;border-top-color:#a6d1e7;}
  #bookingPage .service-flip-back{transform:none!important;backface-visibility:visible;-webkit-backface-visibility:visible}
  #bookingPage .service-flip-return{display:none!important}
 }
+
+
+/* The original three honest DEMO review cards directly follow Before & After.
+   Keep labels illustrative — never turn sample copy into invented testimonials. */
+body .booking-before-after{padding-bottom:clamp(16px,2.4vw,28px)!important}
+body .booking-proof{
+ padding-top:clamp(15px,2.6vw,32px)!important;
+ padding-bottom:clamp(36px,5vw,62px);
+ background-image:
+  radial-gradient(circle at 97% 14%,rgba(255,255,255,.45) 0 83px,rgba(131,196,233,.23) 85px 88px,transparent 90px),
+  linear-gradient(145deg,#ddf1ff,#eaf8ff 58%,#d8edfb);
+}
+body .booking-proof .shell{max-width:1180px}
+body .booking-proof .booking-proof-kicker{
+ margin:0 0 9px;font-size:clamp(11px,1.1vw,13px);letter-spacing:.15em;
+}
+body .booking-proof h2{
+ max-width:760px;font-size:clamp(26px,3.4vw,41px);
+ line-height:1.17;margin:0 0 clamp(16px,2.1vw,23px);
+ letter-spacing:-.035em;color:#173e56;
+}
+body .booking-review-grid{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:clamp(12px,1.8vw,20px);align-items:stretch;
+}
+body .booking-review{
+ position:relative;display:flex;flex-direction:column;min-width:0;
+ border-radius:22px;padding:clamp(19px,2vw,27px);
+ border:1.5px solid #8ebfdc;
+ background:linear-gradient(155deg,#fff 0%,#f5fbff 100%);
+ box-shadow:0 12px 29px rgba(32,99,140,.1);
+}
+body .booking-review::before{
+ content:"";position:absolute;top:0;left:24px;right:24px;height:3px;
+ background:linear-gradient(90deg,#9cd3f1,#e2f3ff);
+ border-radius:999px;
+}
+body .booking-review-mark{
+ display:block;font-size:11px;font-weight:800;letter-spacing:.12em;
+ line-height:1.55;color:#2c769c;margin-bottom:clamp(16px,2vw,23px);
+}
+body .booking-review h3{
+ font:750 clamp(18px,1.8vw,23px)/1.22 'Prompt',Arial,sans-serif;
+ color:#173f57;margin:0 0 10px;
+}
+body .booking-review p{
+ font-size:clamp(13px,1.2vw,15px);line-height:1.55;
+ color:#3c6075;margin:0 0 24px;flex:1;
+}
+body .booking-review .booking-review-foot{
+ margin-top:auto;display:block;font-size:11px;line-height:1.4;
+ color:#53778d;border-top:1px solid #d9e9f3;padding-top:12px;
+}
+body .booking-proof-disclosure{
+ margin:clamp(13px,1.8vw,19px) 2px 0;
+ padding:0;font-size:12px;line-height:1.55;
+ max-width:730px;color:#3b6981;
+}
+@media(max-width:800px){body .booking-review-grid{grid-template-columns:1fr}}
+@media(max-width:700px){
+ body .booking-before-after{padding-bottom:14px!important}
+ body .booking-proof{padding-top:12px!important}
+ body .booking-proof h2{font-size:clamp(25px,6.8vw,32px);margin-bottom:15px}
+ body .booking-review-grid{gap:13px}
+ body .booking-review{padding:21px 20px 18px;border-radius:20px}
+ body .booking-review-mark{margin-bottom:11px}
+ body .booking-review h3{font-size:20px}
+ body .booking-review p{font-size:14px;margin-bottom:14px}
+ body .booking-proof-disclosure{font-size:11px;margin-top:14px}
+}
