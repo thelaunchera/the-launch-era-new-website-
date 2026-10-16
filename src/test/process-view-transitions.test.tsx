@@ -63,10 +63,13 @@ describe('The Launch Era shared-element process cards', () => {
     const button = screen.getByRole('button', { name: /Explore step 03/ });
     fireEvent.click(button);
     expect(startViewTransition).toHaveBeenCalledTimes(1);
-    const activeNames = [...document.querySelectorAll<HTMLElement>('[style*="view-transition-name"]')]
-      .filter(node => node.style.viewTransitionName !== 'none')
-      .map(node => node.style.viewTransitionName);
-    expect(activeNames).toEqual(['tle-process-2']);
+    // JSDOM may not serialize this newer CSS property in the style attribute,
+    // even when React correctly assigns its DOM style property.
+    const hero = document.querySelector<HTMLElement>('.tle-process-detail-hero');
+    expect(hero?.style.viewTransitionName).toBe('tle-process-2');
+    const visibleNames = [...document.querySelectorAll<HTMLElement>('.tle-process-thumbnail, .tle-process-detail-hero')]
+      .map(node => node.style.viewTransitionName).filter(name => name && name !== 'none');
+    expect(visibleNames).toEqual(['tle-process-2']);
     fireEvent.click(screen.getByRole('button', { name: 'Close step details' }));
     await waitFor(() => expect(startViewTransition).toHaveBeenCalledTimes(2));
     expect(screen.queryByRole('dialog')).toBeNull();
