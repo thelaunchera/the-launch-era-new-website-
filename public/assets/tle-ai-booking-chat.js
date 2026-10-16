@@ -8,7 +8,17 @@
   const business = (qs.get("business") || document.getElementById("leadName")?.textContent?.replace(/^PERSONALIZED FOR\s*/i,"") || "Demo Cleaning Business").slice(0,100);
   const area = (qs.get("area") || "").slice(0,120);
   const services = (qs.get("services") || "Residential standard cleaning, deep cleaning, move-in/out cleaning").slice(0,180);
-  let threadId = (window.crypto?.randomUUID ? window.crypto.randomUUID() : "9cf5037c-8b38-42a9-9565-2b8f532ac017");
+  // Each demo session needs its own identifier, including browsers without randomUUID.
+  function freshThreadId(){
+    if(window.crypto?.randomUUID)return window.crypto.randomUUID();
+    const bytes=new Uint8Array(16);
+    if(window.crypto?.getRandomValues)window.crypto.getRandomValues(bytes);
+    else for(let i=0;i<16;i++)bytes[i]=Math.floor(Math.random()*256);
+    bytes[6]=(bytes[6]&15)|64;bytes[8]=(bytes[8]&63)|128;
+    const hex=Array.from(bytes,b=>b.toString(16).padStart(2,"0")).join("");
+    return [hex.slice(0,8),hex.slice(8,12),hex.slice(12,16),hex.slice(16,20),hex.slice(20)].join("-");
+  }
+  let threadId=freshThreadId();
   const copy = es ? {
     title:"Sonny · Agente de reservas",subtitle:"Asistente de IA de demostración · Servicio adicional",
     intro:"¡Hola! Soy Sonny 👋 Tu agente de reservas de prueba. Te explicaré los servicios y te ayudaré con el formulario. Primero, ¿la limpieza es para una casa o un negocio?",
@@ -195,7 +205,7 @@
       log.querySelectorAll(".tle-ai-msg").forEach(node=>node.remove());
       const quick=log.querySelector(".tle-demo-v12-chat-actions");if(quick)quick.hidden=false;
       append(copy.intro,"bot");
-      threadId = window.crypto?.randomUUID ? window.crypto.randomUUID() : threadId;
+      threadId = freshThreadId();
     }
     toggle(true);
     return true;
@@ -217,6 +227,8 @@
       const res=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({customer_message:message,business_name:business,service_area:area,services_offered:services,thread_id:threadId,language:lang,conversation_history,booking_draft:bookingDraft}),signal:controller.signal});
       const data=await res.json();
       const reply=res.ok&&typeof data.reply==="string"?data.reply:res.status===429?copy.limit:copy.error;
+      // Keep the visitor’s question editable if a non-rate-limit server failure occurs.
+      if(!res.ok&&res.status!==429&&!field.value.trim())field.value=message;
       wait.textContent=reply;
       if(res.ok&&typeof data.reply==="string"){
         if(data.ready_for_review===true&&handoffShown){
@@ -238,6 +250,6 @@
       }
       else if(res.status===429){send.disabled=true;field.disabled=true;}
 
-    }catch{wait.textContent=copy.error;}finally{window.clearTimeout(timer);busy=false;if(!field.disabled)send.disabled=false;log.scrollTop=log.scrollHeight;field.focus();}
+    }catch{wait.textContent=copy.error;if(!field.value.trim())field.value=message;}finally{window.clearTimeout(timer);busy=false;if(!field.disabled)send.disabled=false;log.scrollTop=log.scrollHeight;field.focus();}
   });
 })();
