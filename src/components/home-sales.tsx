@@ -6,6 +6,14 @@ import { ArrowRight, CalendarCheck2, ClipboardList, Send, Plus } from 'lucide-re
 type Language = 'en' | 'es';
 const track = (part: string, value: string) => window.tleTrackEvent?.('homepage_interaction', { part, value });
 
+// Existing first-party booking/operations photography. The scroll story is a
+// visual explanation only: no sample records, external images or form changes.
+const bookingStoryPhotos = [
+ '/assets/bundle-landing/bundle-booking.png',
+ '/assets/bundle-landing/bundle-command.png',
+ '/assets/bundle-landing/bundle-hero.png'
+] as const;
+
 export function BookingWalkthrough({lang='en'}:{lang?:Language}) {
  const [step,setStep]=useState(0);
  const wrapRef=useRef<HTMLElement|null>(null);
@@ -53,7 +61,12 @@ export function BookingWalkthrough({lang='en'}:{lang?:Language}) {
    </div>
    <div className="booking-scrolly-scene" aria-hidden="true">
     <div className="booking-scrolly-ambient"/>
-    <div className="booking-scrolly-shape"/>
+    <div className="booking-scrolly-shape">
+      {bookingStoryPhotos.map((photo,i)=><img key={photo}
+        className={'booking-scrolly-photo booking-scrolly-photo--'+i}
+        src={photo} alt="" loading="lazy" decoding="async"/>)}
+      <span className="booking-scrolly-photo-tint"/>
+    </div>
     <div className="booking-scrolly-icon-ring">
       <span className="booking-scrolly-icon booking-scrolly-icon--request"><CalendarCheck2/></span>
       <span className="booking-scrolly-icon booking-scrolly-icon--organized"><ClipboardList/></span>
