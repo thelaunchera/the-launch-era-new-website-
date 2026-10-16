@@ -133,7 +133,9 @@ try {
   const first=sliders.first();
   await first.evaluate(el=>{el.value='72';el.dispatchEvent(new Event('input',{bubbles:true}))});
   assert.equal(await first.evaluate(el=>el.closest('.booking-compare-visual').style.getPropertyValue('--compare-split')),'72%');
-  await page.locator('#resServices .service').first().click();
+  await page.locator('#resServices .service').first().dispatchEvent('click');
+   assert.equal(await page.locator('#resServices .service-flip-card').first().getAttribute('class').then(x=>x.includes('is-flipped')),true);
+   await page.locator('#resServices .service-flip-select').first().click();
   assert.equal(await page.locator('#detailsPanel').isVisible(),true,'Booking flow must remain functional');
   assert.deepEqual(unexpectedWrites,[],'Demo must not create orders or email leads');
   assert.deepEqual(errors,[],lang+' '+width+' JS exception(s)');

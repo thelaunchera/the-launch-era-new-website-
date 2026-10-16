@@ -1,0 +1,53 @@
+name: TLE Flip Service Cards QA
+on:
+  pull_request:
+    paths:
+      - 'src/components/service-flip-card.*'
+      - 'src/components/editorial-sections.tsx'
+      - 'src/routes/es.index.tsx'
+      - 'public/booking-demo-reset.html'
+      - 'public/assets/tle-booking-bubbles-continuity.css'
+      - 'scripts/qa-service-flip-cards.mjs'
+      - '.github/workflows/service-flip-cards-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'src/components/service-flip-card.*'
+      - 'scripts/qa-service-flip-cards.mjs'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  service-flip:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build and verify protected route boundaries
+        run: |
+          node scripts/qa-route-integrity.mjs --static
+          bun install
+          bun run build
+      - name: Prepare Chromium QA
+        run: |
+          mkdir -p /tmp/tle-flip-qa
+          cd /tmp/tle-flip-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          ln -sfn /tmp/tle-flip-qa/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-flip-qa/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: Verify EN ES home and all six demo service flips
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-flip-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for i in $(seq 1 35); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-service-flip-cards.mjs
