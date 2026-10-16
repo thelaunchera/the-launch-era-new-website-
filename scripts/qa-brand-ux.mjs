@@ -21,27 +21,28 @@ for(const item of cases){
   const page=await browser.newPage({viewport:{width:w,height:900},reducedMotion:'reduce'});
   try{
    await page.goto(base+item.url,{waitUntil:'domcontentloaded',timeout:30000});
-   const selector=item.type==='demo'?'html.demo-editorial':item.type==='app'?'.tle-app-landing':item.type==='booking'?'.service-hero':'.sales-home';
+   const selector=item.type==='demo'?'.flow #resServices':item.type==='app'?'.tle-app-landing':item.type==='booking'?'.service-hero':'.sales-home';
    await page.locator(selector).waitFor({state:'attached',timeout:15000});
+   if(item.type==='demo') assert.equal(new URL(page.url()).pathname,'/booking-demo-reset.html','Public unkeyed preview must use the canonical clean booking demo');
    await page.waitForTimeout(300);
    const out=await page.evaluate((t)=>{
     const html=document.documentElement;
     const body=document.body;
     const screenshotWidth=html.scrollWidth;
     const viewport=window.innerWidth;
-    const paletteProbe=t==='demo'?document.querySelector('.demo-hero-cta'):document.querySelector('.site-footer');
+    const paletteProbe=t==='demo'?document.querySelector('.disclaimer'):document.querySelector('.site-footer');
     const bg=paletteProbe?getComputedStyle(paletteProbe).backgroundColor:null;
     const linkCount=[...document.querySelectorAll('.site-footer a')].filter(x=>/get in touch/i.test(x.textContent||'')).length;
     const brandStyles=[...document.styleSheets].some(s=>s.href?.includes('tle-saas-ui-v1.css'));
     const cta=[...document.querySelectorAll('.cta-button svg.lucide-arrow-right,.service-cta svg.lucide-arrow-right')][0];
     const icon=cta?getComputedStyle(cta):null;
-    return {width:screenshotWidth,viewport,bg,linkCount,brandStyles,iconWidth:icon?parseFloat(icon.width):null,sampleMode:html.classList.contains('demo-editorial'),formPresent:!!document.querySelector('.panel #main .category-tabs')};
+    return {width:screenshotWidth,viewport,bg,linkCount,brandStyles,iconWidth:icon?parseFloat(icon.width):null,sampleMode:window.location.pathname==='/booking-demo-reset.html' && !new URLSearchParams(location.search).has('key'),formPresent:!!document.querySelector('#resServices .service') && !!document.querySelector('#detailsPanel')};
    },item.type);
    assert(out.width<=out.viewport+3,'horizontal overflow '+JSON.stringify(out));
    if(item.type==='demo'){
     assert(out.sampleMode,'Public sample did not enter demo mode');
     assert(out.formPresent,'Sample booking UI missing');
-    assert.equal(out.bg,'rgb(169, 223, 255)','Demo CTA is not the approved current Soft Blue '+JSON.stringify(out));
+    assert.equal(out.bg,'rgb(237, 247, 252)','Current sample demo disclaimer lost its soft-blue approved surface '+JSON.stringify(out));
    }else{
     assert(out.brandStyles,'Unified marketing stylesheet absent');
     assert.equal(out.linkCount,0,'Repeated Get in Touch remains in footer');
