@@ -1,0 +1,36 @@
+// Static release guards for the vanilla newsletter widget; no production network writes.
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+const read = (file) => readFileSync(new URL('../' + file, import.meta.url), 'utf8');
+const shell = read('src/components/site-shell.tsx');
+const root = read('src/routes/__root.tsx');
+const css = read('public/assets/tle-footer-newsletter.css');
+const js = read('public/assets/tle-footer-newsletter.js');
+const edge = read('supabase/functions/tle-newsletter-subscribe/index.ts');
+const sql = read('supabase/migrations/20261016_tle_website_footer_newsletter_subscribers.sql');
+function has(body, needle, message) { assert.ok(body.includes(needle), message); }
+has(shell, 'data-tle-newsletter', 'Footer signup is missing');
+has(shell, 'noValidate', 'Custom inline validation is missing');
+has(shell, 'aria-live="polite"', 'Accessible status region is missing');
+has(shell, 'tle-newsletter-email', 'Email field is missing');
+has(shell, "'Suscribirme'", 'Spanish variant is missing');
+has(root, '/assets/tle-footer-newsletter.js', 'Vanilla handler is not loaded');
+has(root, '/assets/tle-footer-newsletter.css', 'Stylesheet is not loaded');
+has(css, 'height:42px', 'Pill is not 42px');
+has(css, 'clip-path:circle(0% at 88% 50%)', 'Flood animation start is missing');
+has(css, 'clip-path:circle(150% at 88% 50%)', 'Flood animation end is missing');
+has(css, '640ms cubic-bezier(.32,.72,0,1)', 'Flood easing is incorrect');
+has(css, 'stroke-dasharray:24', 'Check draw animation is missing');
+has(css, 'prefers-reduced-motion:reduce', 'Reduced motion must be supported');
+has(js, 'input.validity.valid', 'Client validation is missing');
+has(js, 'fetch(endpoint', 'Real request is missing');
+has(js, 'result.ok !== true', 'Backend acknowledgment is required');
+assert.ok(js.indexOf("form.classList.add('done')") > js.indexOf('result.ok !== true'), 'Never confirm before response');
+assert.ok(!js.includes('setTimeout(function () { form.classList.remove'), 'Do not auto-reset successful subscription');
+assert.ok(!js.includes('SUPABASE_SERVICE_ROLE_KEY'), 'Never publish server secrets to the browser');
+has(edge, 'consent!==true', 'Explicit opt-in required');
+has(edge, 'tle_newsletter_subscribers', 'Newsletter write target is missing');
+has(edge, 'OPTIONS', 'CORS preflight is required');
+has(sql, 'enable row level security', 'RLS must be on');
+has(sql, 'revoke all', 'No direct unauthenticated subscriber access');
+console.log('PASS: footer newsletter source, accessibility, persistence and privacy guards');
