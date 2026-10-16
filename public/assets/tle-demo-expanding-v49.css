@@ -251,3 +251,19 @@ html.demo-editorial.tle-demo-v49 #bookingStarter#bookingStarter #main#main .tle4
   transition:none!important;
  }
 }
+
+/* Preserve a legible action arrow in the opened photo panels.
+   The older service-theme styles painted the icon in nearly the same
+   pale blue as its button disc on very narrow phones. */
+html.demo-editorial.tle-demo-v49 #bookingStarter#bookingStarter #main#main .tle49-expanding-gallery>button.tle49-service-panel.tle49-active .demo-service-go{
+ background:#c9ecff!important;color:#143e55!important;
+ -webkit-text-fill-color:#143e55!important;
+}
+html.demo-editorial.tle-demo-v49 #bookingStarter#bookingStarter #main#main .tle49-expanding-gallery>button.tle49-service-panel.tle49-active .demo-service-go svg{
+ display:block!important;width:22px!important;height:22px!important;
+ color:#143e55!important;stroke:#143e55!important;
+ opacity:1!important;visibility:visible!important;
+}
+html.demo-editorial.tle-demo-v49 #bookingStarter#bookingStarter #main#main .tle49-expanding-gallery>button.tle49-service-panel.tle49-active .demo-service-go svg path{
+ stroke:#143e55!important;stroke-width:2.2!important;
+}
