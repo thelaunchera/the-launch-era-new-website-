@@ -17,9 +17,14 @@ try{
    assert.equal(await link.locator('.tle-hero-split-front').count(),2);
    assert.equal(await link.locator('.tle-hero-split-reveal').count(),1);
    assert.equal(await link.locator('.tle-hero-split-front').first().innerText(),copy);
+   // SSR markup can briefly be replaced during hydration; check attached
+   // nodes and their final computed clip rather than a transient detached node.
+   await page.waitForFunction(()=>{
+     const words=[...document.querySelectorAll('.hero-scroll-reveal .tle-hero-split-front')];
+     return words.length===2 && words.every(el=>el.isConnected && getComputedStyle(el).clipPath.includes('50%'));
+   },null,{timeout:10000});
    const clip=await link.locator('.tle-hero-split-front').evaluateAll(els=>els.map(el=>getComputedStyle(el).clipPath));
-   console.log('[SPLIT CLIP DIAG]',lang,width,JSON.stringify(clip));
-   assert(clip[0].includes('50%')&&clip[1].includes('50%'),lang+': uncut word halves');
+   assert(clip.every(x=>x.includes('50%')),lang+': uncut word halves');
    const before=await page.evaluate(()=>({width:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth}));
    assert(before.scroll <= before.width+2,lang+' '+width+': horizontal scroll');
    // Native anchor must respond on the very first tap and retain browser hash/history.
