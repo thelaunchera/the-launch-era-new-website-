@@ -683,17 +683,28 @@
 }
 
 
-/* Homepage desktop only: 4 quiet, independently drifting soft-blue gradients
-   below the existing copy, photo, notification cards and scroll animation. */
+/* Homepage desktop only. The mesh belongs to the STICKY STAGE, not to the
+   shrinking card. It stays visible in the outer margins throughout scroll and
+   softly shows through the approved photo/copy card without obscuring either. */
 @media (min-width:1024px) {
-  .sales-home .hero-scroll .hero-scroll-frame.hero-split .tle-hero-soft-mesh {
+  /* Decorative dot-grid and Request / Follow-up labels are replaced by
+     just this one quiet background, not layered over it. */
+  .sales-home .hero-scroll .hero-scroll-stage > .tle-hero-connection-backdrop {
+    display:none;
+  }
+  /* A translucent approved-ivory card lets the SAME stage background sit
+     behind both the main headline and the original animated cleaner photo. */
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split {
+    background:rgba(250,248,243,.48);
+  }
+  .sales-home .hero-scroll .hero-scroll-stage > .tle-hero-soft-mesh {
     position:absolute;inset:0;z-index:0;overflow:hidden;
     pointer-events:none;border-radius:inherit;background:transparent;
   }
   .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
     z-index:2; /* Photo and overlays always paint above the mesh. */
   }
-  .sales-home .hero-scroll .hero-scroll-frame.hero-split .tle-hero-soft-mesh > span {
+  .sales-home .hero-scroll .hero-scroll-stage > .tle-hero-soft-mesh > span {
     position:absolute;display:block;aspect-ratio:1;border-radius:50%;
     pointer-events:none;transform:translate3d(0,0,0);will-change:transform;
   }
@@ -735,12 +746,12 @@
   to { transform:translate3d(14%,-15%,0) scale(1.12); }
 }
 @media (max-width:1023px) {
-  .sales-home .hero-scroll .hero-scroll-frame.hero-split .tle-hero-soft-mesh {
+  .sales-home .hero-scroll .hero-scroll-stage > .tle-hero-soft-mesh {
     display:none;
   }
 }
 @media (prefers-reduced-motion:reduce) {
-  .sales-home .hero-scroll .hero-scroll-frame.hero-split .tle-hero-soft-mesh > span {
+  .sales-home .hero-scroll .hero-scroll-stage > .tle-hero-soft-mesh > span {
     animation:none!important;transform:none!important;will-change:auto;
   }
 }
