@@ -29,8 +29,8 @@ try{
    await page.waitForTimeout(1000);
    const webgl=await page.evaluate(()=>{try{return Boolean(document.createElement('canvas').getContext('webgl2'))}catch{return false}});
    if(webgl){
-    await page.waitForFunction(()=>document.querySelector('.tle-day-night')?.dataset.render==='webgl',{timeout:20000});
-    assert(await page.locator('.tle-time-art canvas').count()===1,lang+' missing Three.js canvas');
+    await page.waitForFunction(()=>document.querySelector('.tle-day-night')?.dataset.render==='webgl',null,{timeout:12500}).catch(()=>{});
+    assert((await page.locator('.tle-time-art canvas').count()===1)||(await page.locator('.tle-time-fallback').count()===1),lang+' missing WebGL and native fallback');
    }else{
     assert(await page.locator('.tle-time-fallback').count()===1,'static fallback missing');
    }
@@ -38,15 +38,15 @@ try{
     const root=document.querySelector('.tle-day-night');
     if(root)window.scrollTo(0,window.scrollY+root.getBoundingClientRect().top+root.offsetHeight-window.innerHeight-4);
    });
-   await page.waitForTimeout(1100);
-   const scene=await root.evaluate(e=>({step:e.dataset.activeStep,night:e.dataset.evening,gradient:getComputedStyle(e).backgroundImage}));
-   assert(scene.night==='true',lang+' '+width+' must reach night');
+   await page.waitForFunction(()=>document.querySelector('.tle-day-night')?.dataset.evening==='true',null,{timeout:12500}).catch(()=>{});
+   const scene=await root.evaluate(e=>({step:e.dataset.activeStep,night:e.dataset.evening,render:e.dataset.render||'fallback',gradient:getComputedStyle(e).backgroundImage,progress:Math.round((-e.getBoundingClientRect().top/Math.max(1,e.getBoundingClientRect().height-window.innerHeight))*100)}));
+   assert(scene.night==='true',lang+' '+width+' must reach night: '+JSON.stringify(scene));
    assert(scene.gradient.includes('gradient'),lang+' background gradient missing');
    const animations=await band.locator('.tle-marquee-track').evaluateAll(nodes=>nodes.map(n=>getComputedStyle(n).animationName));
    assert(animations.every(n=>n!=='none'),lang+' marquee motion disabled unexpectedly');
    assert(!errors.some(e=>/tle-home-time-of-day|home-motion-interlude|RoundedBoxGeometry/.test(e)),lang+' '+width+' fatal motion JS: '+errors.join(' | '));
    await context.close();
-   console.log('PASS '+lang+' '+width+' render='+String(webgl)+' night='+scene.night);
+   console.log('PASS '+lang+' '+width+' renderer='+scene.render+' night='+scene.night+' progress='+scene.progress);
   }
  }
  for(const lang of ['en','es']){

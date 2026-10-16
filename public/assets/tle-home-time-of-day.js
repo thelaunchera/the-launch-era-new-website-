@@ -117,7 +117,7 @@ export function mountTimeOfDay(root){
  const lightDay=new THREE.Color(0xffe2b0),lightNight=new THREE.Color(0x94b3e5);
  const steps=Array.from(root.querySelectorAll('[data-tle-chapter]'));
  const index=root.querySelector('[data-tle-count]');
- let visible=false,raf=0,dead=false,progress=0,smoothed=0;
+ let visible=false,raf=0,dead=false,progress=0,smoothed=0,lastFrame=0;
  function scrollProgress(){
   const rect=root.getBoundingClientRect();
   return clamp(-rect.top/Math.max(1,rect.height-window.innerHeight));
@@ -158,16 +158,19 @@ export function mountTimeOfDay(root){
   if(index)index.textContent='0'+(step+1);
   root.dataset.activeStep=String(step);
  }
- function tick(){
+ function tick(now){
   raf=0;if(dead||!visible)return;
   progress=scrollProgress();
-  smoothed+=((progress)-smoothed)*.075;
+  // Time-corrected smoothing works even with slow software-rendered WebGL frames.
+  const dt=lastFrame?Math.min(1250,now-lastFrame):16.667;
+  lastFrame=now;
+  smoothed+=(progress-smoothed)*(1-Math.pow(.925,dt/16.667));
   const n=nightKeyframe(smoothed);
   paint(n,smoothed);
   renderer.render(scene,camera);
   raf=requestAnimationFrame(tick);
  }
- function start(){if(dead||reduced)return;visible=true;if(!raf)raf=requestAnimationFrame(tick)}
+ function start(){if(dead||reduced)return;visible=true;lastFrame=0;if(!raf)raf=requestAnimationFrame(tick)}
  function stop(){visible=false;if(raf)cancelAnimationFrame(raf);raf=0}
  const observer=new IntersectionObserver(entries=>{if(entries[0]?.isIntersecting&&document.visibilityState==='visible')start();else stop()},{rootMargin:'250px'});
  observer.observe(root);

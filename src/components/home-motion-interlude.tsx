@@ -40,15 +40,59 @@ export function HomeMotionInterlude({lang='en'}:{lang?:Lang}) {
  useEffect(()=>{
   const el=root.current;if(!el)return;
   let cancelled=false;let dispose:(()=>void)|undefined;
+  let fallbackFrame=0;let fallbackActive=true;
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Native scroll scene remains functional even when the 3D engine or network is unavailable.
+  const clamp=(v:number)=>Math.min(1,Math.max(0,v));
+  const mix=(a:number,b:number,t:number)=>a+(b-a)*t;
+  const rgb=(a:number[],b:number[],t:number)=>'rgb('+a.map((v,i)=>Math.round(mix(v,b[i],t))).join(',')+')';
+  const paintFallback=()=>{
+   if(!fallbackActive||!el.isConnected)return;
+   if(reduced){el.dataset.evening='true';el.dataset.activeStep='3';return;}
+   const rect=el.getBoundingClientRect();
+   const p=clamp(-rect.top/Math.max(1,rect.height-window.innerHeight));
+   const dusk=clamp((p-.30)/.38);
+   const n=p<.68?.55*(dusk*dusk*(3-2*dusk)):.55+.45*clamp((p-.68)/.32);
+   const light=n<.55?clamp(n/.55):1,evening=n>.55?clamp((n-.55)/.45):0;
+   const top=evening?rgb([167,198,226],[29,50,84],evening):rgb([247,251,255],[167,198,226],light);
+   const bottom=evening?rgb([111,152,197],[18,32,63],evening):rgb([205,233,248],[111,152,197],light);
+   el.style.background='linear-gradient(160deg,'+top+','+bottom+')';
+   el.dataset.evening=String(n>.3);
+   el.dataset.activeStep=String(Math.min(3,Math.floor(p*4+.02)));
+   const count=el.querySelector('[data-tle-count]');
+   if(count)count.textContent='0'+(Math.min(3,Math.floor(p*4+.02))+1);
+  };
+  const onScroll=()=>{
+   if(!fallbackActive||fallbackFrame)return;
+   fallbackFrame=requestAnimationFrame(()=>{fallbackFrame=0;paintFallback()});
+  };
+  const stopFallback=()=>{
+   fallbackActive=false;
+   if(fallbackFrame)cancelAnimationFrame(fallbackFrame);
+   window.removeEventListener('scroll',onScroll);
+   window.removeEventListener('resize',onScroll);
+  };
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',onScroll,{passive:true});
+  paintFallback();
   const load=()=>{
    watcher.disconnect();
-   import(/* @vite-ignore */ '/assets/tle-home-time-of-day.js?v=20261016-1')
-    .then(mod=>{if(!cancelled&&typeof mod.mountTimeOfDay==='function')dispose=mod.mountTimeOfDay(el)})
-    .catch(()=>{/* Static SVG remains visible if WebGL/CDN is blocked. */});
+   if(reduced)return;
+   import(/* @vite-ignore */ '/assets/tle-home-time-of-day.js?v=20261016-2')
+    .then(mod=>{
+     if(cancelled||typeof mod.mountTimeOfDay!=='function')return;
+     dispose=mod.mountTimeOfDay(el);
+     if(el.dataset.render==='webgl')stopFallback();
+    })
+    .catch(()=>{/* Native CSS/SVG scroll animation continues without WebGL or external modules. */});
   };
   const watcher=new IntersectionObserver(([entry])=>{if(entry.isIntersecting)load()},{rootMargin:'700px'});
   watcher.observe(el);
-  return()=>{cancelled=true;watcher.disconnect();dispose?.()};
+  return()=>{
+   cancelled=true;watcher.disconnect();stopFallback();dispose?.();
+   el.style.removeProperty('background');
+   delete el.dataset.evening;delete el.dataset.activeStep;
+  };
  },[]);
  return <>
   <section ref={root} className="tle-day-night" data-tle-time-scene aria-label={es?'Una jornada del día a la noche':'A workday from morning to night'}>
