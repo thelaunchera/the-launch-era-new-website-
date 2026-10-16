@@ -394,7 +394,7 @@
 .sales-home .hero-scroll-reveal .tle-hero-split-lower {clip-path:inset(50% 0 0 0)}
 .sales-home .hero-scroll-reveal .tle-hero-split-reveal {
   z-index:1;
-  color:#447D9E;
+  color:#406D88; /* WCAG AA text contrast on ivory and powder blue */
   font-weight:600;
   font-size:.79em;
   letter-spacing:0;
