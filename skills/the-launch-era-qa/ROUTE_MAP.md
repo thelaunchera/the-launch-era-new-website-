@@ -1,5 +1,12 @@
 # ROUTE_MAP.md — The Launch Era route & button registry
 
+## Public CTA visibility / cached asset fix (2026-10-16)
+- Public EN/ES marketing CTA implementation existed but did not visibly communicate the promised animation: original `#D7EFFF` pulse matched the blue final chapter exactly; purchase CTA links had pulse only, not the requested moving border; CSS asset remained under `?v=20261016-1`, permitting old cached style to persist.
+- Corrected shared primary CTA shell with accent `#568FB3` pulse, inner text above a 2px clipped conic border on purchase/signup CTA buttons, respecting `prefers-reduced-motion`. Preserved native links/destinations, and excluded /demo, /preview and Command Center.
+- Cache-bust `/assets/tle-marketing-cta-motion.css?v=20261016-2` in `src/routes/__root.tsx` and EN/ES AI Assistants pages. Secondary demo-free gradient links and server-confirmed contact/freebie state machines unchanged.
+- Added source and browser regressions for actual endcap contrast, computed pseudo-element animation, label visibility, 5 responsive widths, reduced motion and synthetic form sends without contacting production endpoints. Production live rollout must be separately verified.
+
+
 ## Booking Automation floating illustrative chips (2026-10-16)
 - **Affected public routes only**: EN `/booking-lead-automation` and ES `/es/booking-lead-automation/`. Both render `src/components/booking-floating-chips.tsx` beside the existing heading, with its scoped `booking-floating-chips.css`.
 - Four visually decorative sample activity chips (new signup, example revenue metric, example payment, message count) float on desktops; under 640px only signup + messages remain in their own layout row below the heading so neither title nor CTAs are obscured. Example disclaimer is visible in each chip; `aria-hidden=true` prevents duplicate assistive announcements. No real customer data, purchases, provider calls or analytics/events.
