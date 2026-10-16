@@ -1,0 +1,286 @@
+/* Booking demo / premium residential editorial — 2026-10-16.
+   UNKEYED SAMPLE ONLY. Keyed customer/owner previews are intentionally untouched. */
+html.demo-editorial.tle-demo-v48{
+  --tle48-ink:#193f55;--tle48-night:#11384b;--tle48-water:#dff1f8;
+  --tle48-sky:#e8f7fc;--tle48-white:#fffefb;--tle48-line:#c9dfeb;
+  --tle48-shadow:0 24px 60px rgba(21,67,94,.13)
+}
+html.demo-editorial.tle-demo-v48,
+html.demo-editorial.tle-demo-v48 body,
+html.demo-editorial.tle-demo-v48 main.wrap{
+  background:var(--tle48-sky)!important;color:var(--tle48-ink)!important
+}
+html.demo-editorial.tle-demo-v48 #demoEditorialNav{
+  background:rgba(229,247,253,.96)!important;
+  border-bottom:1px solid rgba(75,139,168,.15)!important;
+  backdrop-filter:blur(12px);
+}
+html.demo-editorial.tle-demo-v48 #leadHero.tle46-gallery-hero{
+  background:var(--tle48-night)!important
+}
+html.demo-editorial.tle-demo-v48 #leadHero .tle46-gallery{
+  background:var(--tle48-night)!important
+}
+html.demo-editorial.tle-demo-v48.tle-demo-v47 #leadHero .tle46-hero-slot{
+  height:clamp(620px,61vw,750px)!important;
+  background:var(--tle48-night)!important
+}
+html.demo-editorial.tle-demo-v48.tle-demo-v47 #leadHero .tle46-hero-slot::after{
+  background:
+    linear-gradient(90deg,rgba(5,38,55,.86),rgba(6,43,61,.46) 55%,rgba(6,43,61,.18)),
+    linear-gradient(0deg,rgba(3,31,48,.78),transparent 63%)!important
+}
+html.demo-editorial.tle-demo-v48 #leadHero .tle46-caption{
+  left:clamp(24px,4.5vw,69px)!important;top:clamp(30px,4.3vw,57px)!important;
+  max-width:min(59%,570px)!important
+}
+html.demo-editorial.tle-demo-v48 #leadHero .tle47-hero-phrase{
+  font:600 clamp(16px,1.85vw,23px)/1.36 Prompt,Arial,sans-serif!important;
+  letter-spacing:-.02em!important
+}
+html.demo-editorial.tle-demo-v48.tle-demo-v47 #leadHero .tle46-hero-slot>.heroText{
+  left:clamp(24px,5.4vw,82px)!important;right:auto!important;
+  bottom:clamp(56px,7vw,94px)!important;width:min(58%,690px)!important;
+  max-width:690px!important;z-index:8!important
+}
+html.demo-editorial.tle-demo-v48 #leadHero .heroText .demo-hero-tagline{
+  font-family:Prompt,Arial,sans-serif!important;
+  font-size:clamp(43px,5.3vw,77px)!important;line-height:1.03!important;
+  font-weight:600!important;letter-spacing:-.057em!important;
+  color:#fff!important;-webkit-text-fill-color:#fff!important
+}
+html.demo-editorial.tle-demo-v48 #leadHero .heroText .demo-hero-tagline em{
+  color:#caecfb!important;-webkit-text-fill-color:#caecfb!important;font-style:normal
+}
+html.demo-editorial.tle-demo-v48 #leadHero .heroText .demo-hero-description{
+  font-size:clamp(14px,1.4vw,17px)!important;max-width:410px!important;
+  line-height:1.55!important;margin:0 0 23px!important
+}
+html.demo-editorial.tle-demo-v48 #leadHero .heroText .demo-hero-cta{
+  background:#56abd1!important;color:#fff!important;-webkit-text-fill-color:#fff!important;
+  border:1px solid rgba(255,255,255,.5)!important;border-radius:999px!important;
+  box-shadow:0 14px 36px rgba(3,32,48,.29)!important;
+  min-height:52px!important;padding:12px 22px!important
+}
+html.demo-editorial.tle-demo-v48 #leadHero .heroText .demo-hero-cta:hover{
+  background:#328dbb!important
+}
+html.demo-editorial.tle-demo-v48 #leadHero .tle48-floating-photo{
+  position:absolute;z-index:7;top:20%;right:clamp(26px,5.4vw,80px);
+  width:clamp(165px,24vw,323px);height:clamp(218px,29vw,350px);
+  overflow:hidden;border-radius:25px;border:2px solid rgba(248,253,255,.8);
+  background:#daeaf0;box-shadow:0 25px 55px rgba(1,24,42,.3);
+  transform:rotate(2.4deg);
+  pointer-events:none
+}
+html.demo-editorial.tle-demo-v48 #leadHero .tle48-floating-photo img{
+  width:100%;height:100%;object-fit:cover;object-position:center;
+  display:block;filter:saturate(.92)
+}
+html.demo-editorial.tle-demo-v48 #leadHero .tle48-photo-label{
+  position:absolute;bottom:12px;left:11px;right:11px;padding:10px 12px;
+  border-radius:13px;background:rgba(252,254,255,.94);color:#153e53;
+  font:650 11px/1.25 Prompt,Arial,sans-serif;
+  box-shadow:0 6px 20px rgba(0,38,60,.14)
+}
+html.demo-editorial.tle-demo-v48 #leadHero .tle46-thumb-strip{
+  background:var(--tle48-night)!important;
+  padding:clamp(12px,2vw,20px) clamp(16px,3vw,30px) 30px!important;
+  width:100%!important;max-width:none!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important
+}
+html.demo-editorial.tle-demo-v48 #leadHero .tle46-thumb-slot{
+  border:2px solid rgba(223,246,255,.53)!important;
+  box-shadow:0 8px 25px rgba(0,20,40,.22)!important;
+  height:clamp(78px,10vw,116px)!important
+}
+html.demo-editorial.tle-demo-v48 .tle48-wave{
+  display:block;position:relative;line-height:0;
+  background:var(--tle48-night);width:100%;margin:0;
+}
+html.demo-editorial.tle-demo-v48 .tle48-wave svg{
+  display:block;width:100%;height:clamp(35px,7vw,98px);
+  fill:var(--tle48-sky)
+}
+html.demo-editorial.tle-demo-v48 .tle48-story{
+  width:min(1180px,100%);margin:0 auto;
+  padding:clamp(30px,5.7vw,86px) clamp(22px,4vw,55px) clamp(48px,6vw,90px);
+  display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+  align-items:center;gap:clamp(36px,6vw,96px);
+  background:var(--tle48-sky);
+}
+html.demo-editorial.tle-demo-v48 .tle48-photos{
+  display:grid;grid-template-columns:1fr 1fr;
+  align-items:end;gap:clamp(10px,2vw,24px);min-width:0;min-height:290px
+}
+html.demo-editorial.tle-demo-v48 .tle48-photos figure{
+  position:relative;margin:0;overflow:hidden;
+  border:6px solid #f7fcff;border-radius:27px;background:#d2e9f3;
+  box-shadow:var(--tle48-shadow)
+}
+html.demo-editorial.tle-demo-v48 .tle48-photos figure:first-child{
+  aspect-ratio:3/4;transform:translateY(-22px)
+}
+html.demo-editorial.tle-demo-v48 .tle48-photos figure:nth-child(2){aspect-ratio:3/3.6}
+html.demo-editorial.tle-demo-v48 .tle48-photos img{
+  display:block;width:100%;height:100%;object-fit:cover
+}
+html.demo-editorial.tle-demo-v48 .tle48-photos figure figcaption{
+  position:absolute;bottom:10px;left:10px;right:10px;
+  background:rgba(252,254,255,.96);border-radius:12px;padding:9px;
+  color:#16435d;font:600 11px/1.3 Prompt,Arial,sans-serif;text-align:center
+}
+html.demo-editorial.tle-demo-v48 .tle48-kicker{
+  display:block;margin:0 0 12px;color:#347fa6;
+  font:700 11px/1.3 Prompt,Arial,sans-serif;letter-spacing:.15em
+}
+html.demo-editorial.tle-demo-v48 .tle48-story h2{
+  color:#153f57!important;font:600 clamp(34px,4.7vw,58px)/1.08 Prompt,Arial,sans-serif!important;
+  letter-spacing:-.055em!important;margin:0 0 17px!important;
+  text-wrap:balance
+}
+html.demo-editorial.tle-demo-v48 .tle48-story p{
+  color:#456577;font:400 clamp(14px,1.6vw,17px)/1.65 Futura,"DM Sans",Arial,sans-serif;
+  margin:0 0 20px;max-width:440px
+}
+html.demo-editorial.tle-demo-v48 .tle48-points{
+  display:grid;gap:10px;max-width:420px
+}
+html.demo-editorial.tle-demo-v48 .tle48-points span{
+  background:rgba(255,255,255,.72);border:1px solid #c4e1ed;
+  border-radius:16px;padding:12px 14px;
+  font:600 13px/1.4 "DM Sans",Arial,sans-serif;color:#1c4b65
+}
+html.demo-editorial.tle-demo-v48 .tle48-points span::before{
+  content:"✓";display:inline-grid;place-items:center;
+  width:22px;height:22px;margin-right:11px;border-radius:50%;
+  background:#d3edf8;color:#2876a0;font-weight:800
+}
+html.demo-editorial.tle-demo-v48:not(.tle-demo-booking-active) #bookingStarter{
+  background:linear-gradient(180deg,#f9fcfd 0%,#e9f7fd 100%)!important;
+  padding-top:clamp(45px,6vw,92px)!important;
+}
+html.demo-editorial.tle-demo-v48 #bookingStarter #main .tle-v44-intro h2{
+  color:#153f55!important;-webkit-text-fill-color:#153f55!important;
+  font-size:clamp(33px,5vw,55px)!important
+}
+html.demo-editorial.tle-demo-v48 #bookingStarter #main .tle-v44-intro p{
+  color:#3c6077!important;-webkit-text-fill-color:#3c6077!important
+}
+/* Re-style the EXISTING actionable cards; keep their original click handlers,
+   prices and quote/booking functions (no duplicate CTA or sample numbers). */
+html.demo-editorial.tle-demo-v48 #bookingStarter #main
+:is(#residentialServiceList,#commercialServiceList).tle-v42-grid{
+  gap:clamp(14px,2vw,26px)!important;
+  max-width:1120px!important
+}
+html.demo-editorial.tle-demo-v48 #bookingStarter #main
+:is(#residentialServiceList,#commercialServiceList).tle-v42-grid > button.service.tle-service-has-photo-v21{
+  border:0!important;border-radius:24px!important;
+  box-shadow:0 12px 40px rgba(31,88,118,.11)!important;
+  overflow:hidden!important;isolation:isolate!important;
+  background:#fcfeff!important;
+  min-width:0!important;max-width:100%!important
+}
+html.demo-editorial.tle-demo-v48 #bookingStarter #main
+:is(#residentialServiceList,#commercialServiceList) > button.service .tle-service-photo-v21,
+html.demo-editorial.tle-demo-v48 #bookingStarter #main
+:is(#residentialServiceList,#commercialServiceList) > button.service .tle-service-photo-v21 img{
+  width:100%!important;max-width:100%!important;object-fit:cover!important
+}
+html.demo-editorial.tle-demo-v48 #bookingStarter #main
+:is(#residentialServiceList,#commercialServiceList) > button.service .demo-service-body{
+  background:rgba(255,254,252,.96)!important;border:0!important;
+  color:#183f57!important;-webkit-text-fill-color:#183f57!important;
+}
+html.demo-editorial.tle-demo-v48 #bookingStarter #main
+:is(#residentialServiceList,#commercialServiceList) > button.service .demo-service-body b{
+  color:#183f57!important;-webkit-text-fill-color:#183f57!important;
+  font-family:Prompt,Arial,sans-serif!important;font-weight:600!important
+}
+html.demo-editorial.tle-demo-v48 #bookingStarter #main
+:is(#residentialServiceList,#commercialServiceList) > button.service .price{
+  color:#174e6b!important;-webkit-text-fill-color:#174e6b!important;
+  background:rgba(255,255,255,.97)!important;
+  border:1px solid #c5e3f1!important;border-radius:999px!important;
+  font-weight:750!important;z-index:5!important;
+  box-shadow:0 5px 14px rgba(11,54,78,.1)!important
+}
+html.demo-editorial.tle-demo-v48 #bookingStarter #main
+:is(#residentialServiceList,#commercialServiceList) > button.service .demo-service-go{
+  background:#d7f0fa!important;color:#1a648b!important;
+}
+html.demo-editorial.tle-demo-v48 #bookingStarter #main
+:is(#residentialServiceList,#commercialServiceList) > button.service:focus-visible{
+  outline:3px solid #3c95c1!important;outline-offset:4px!important
+}
+html.demo-editorial.tle-demo-v48 #bookingStarter #main
+:is(#residentialServiceList,#commercialServiceList)[hidden]{
+  display:none!important
+}
+html.demo-editorial.tle-demo-v48 #bookingStarter #main
+:is(#residentialServiceList,#commercialServiceList) > button.service[hidden]{
+  display:none!important
+}
+@media(max-width:900px){
+  html.demo-editorial.tle-demo-v48 .tle48-story{
+    grid-template-columns:minmax(0,1fr);gap:24px
+  }
+  html.demo-editorial.tle-demo-v48 .tle48-photos{max-width:560px;margin:auto;width:100%}
+  html.demo-editorial.tle-demo-v48 .tle48-copy{max-width:590px;margin:auto;width:100%}
+}
+@media(max-width:700px){
+  html.demo-editorial.tle-demo-v48.tle-demo-v47 #leadHero .tle46-hero-slot{
+    height:clamp(610px,80svh,715px)!important
+  }
+  html.demo-editorial.tle-demo-v48 #leadHero .tle46-caption{
+    left:20px!important;top:27px!important;max-width:calc(100% - 45px)!important
+  }
+  html.demo-editorial.tle-demo-v48 #leadHero .tle47-hero-phrase{
+    font-size:clamp(15px,3.8vw,19px)!important
+  }
+  html.demo-editorial.tle-demo-v48.tle-demo-v47 #leadHero .tle46-hero-slot>.heroText{
+    left:22px!important;right:22px!important;width:calc(100% - 44px)!important;
+    bottom:35px!important
+  }
+  html.demo-editorial.tle-demo-v48 #leadHero .heroText .demo-hero-tagline{
+    font-size:clamp(39px,9.4vw,55px)!important;max-width:390px!important
+  }
+  html.demo-editorial.tle-demo-v48 #leadHero .heroText .demo-hero-description{
+    max-width:320px!important;font-size:14px!important
+  }
+  html.demo-editorial.tle-demo-v48 #leadHero .tle48-floating-photo{
+    top:127px;right:21px;width:clamp(132px,39vw,204px);
+    height:clamp(178px,47vw,242px);border-radius:18px;
+    transform:rotate(3deg)
+  }
+  html.demo-editorial.tle-demo-v48 #leadHero .tle48-photo-label{
+    font-size:9px;padding:8px;bottom:8px;left:7px;right:7px
+  }
+  html.demo-editorial.tle-demo-v48 #leadHero .tle46-thumb-strip{
+    gap:8px!important;padding:12px 11px 24px!important
+  }
+  html.demo-editorial.tle-demo-v48 #leadHero .tle46-thumb-slot{
+    height:clamp(70px,21vw,91px)!important
+  }
+  html.demo-editorial.tle-demo-v48 .tle48-story{
+    padding:30px 22px 58px;gap:25px
+  }
+  html.demo-editorial.tle-demo-v48 .tle48-photos{min-height:0}
+  html.demo-editorial.tle-demo-v48 .tle48-photos figure{
+    border-width:4px;border-radius:19px
+  }
+  html.demo-editorial.tle-demo-v48 .tle48-photos figure figcaption{font-size:9px}
+  html.demo-editorial.tle-demo-v48 .tle48-story h2{font-size:clamp(31px,8vw,45px)!important}
+  html.demo-editorial.tle-demo-v48 .tle48-points span{font-size:12px}
+}
+@media(max-width:360px){
+  html.demo-editorial.tle-demo-v48 #leadHero .tle48-floating-photo{
+    width:125px;height:170px;right:13px;top:123px
+  }
+  html.demo-editorial.tle-demo-v48 #leadHero .heroText .demo-hero-tagline{font-size:38px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  html.demo-editorial.tle-demo-v48 #leadHero .tle48-floating-photo{transform:none}
+  html.demo-editorial.tle-demo-v48 .tle48-photos figure:first-child{transform:none}
+}
