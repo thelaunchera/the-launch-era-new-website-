@@ -182,6 +182,7 @@ native.addEventListener('change',()=>{const d=parse(native.value);if(!d||native.
 state.year=d.getFullYear();state.month=d.getMonth();selectDay(native.value)});
 $('apptUseTime').addEventListener('click',commitTime);$('apptContinue').addEventListener('click',openSheet);
 $('apptSheetCancel').addEventListener('click',closeSheet);scrim.addEventListener('click',closeSheet);
+document.addEventListener('keydown',e=>{if(state.open&&e.key==='Escape'){e.preventDefault();closeSheet()}});
 sheet.addEventListener('keydown',e=>{
 if(e.key==='Escape'){e.preventDefault();closeSheet()}
 if(e.key!=='Tab')return;const buttons=[...sheet.querySelectorAll('button:not(:disabled)')];
