@@ -1,3 +1,4 @@
+import { ProcessSteps } from './process-view-transitions';
 import { MorphSubmit } from '@/components/morph-submit';
 import { MarketingCTA } from '@/components/marketing-cta';
 import { BookingBenefits } from './home-motion';
@@ -89,11 +90,7 @@ export function BookingSection({detail=false}:{detail?:boolean}) { const {price,
 export function ProcessSection() {
  return <section className="process-section"><div className="container">
   <div className="section-heading"><div className="eyebrow">SIMPLE TO START. BUILT AROUND YOU.</div><h2 className="editorial">A better flow, in three steps.</h2></div>
-  <div className="process-grid">
-   <div className="process-step"><div className="process-number">01</div><h3>Share your business details.</h3><p>Complete the setup form after purchase.</p></div>
-   <div className="process-step"><div className="process-number">02</div><h3>We personalize your system.</h3><p>Your brand, services, prices, and booking flow.</p></div>
-   <div className="process-step"><div className="process-number">03</div><h3>Open your workspace.</h3><p>Your access links arrive by email when ready.</p></div>
-  </div>
+  <ProcessSteps lang="en"/>
   <div id="contacto" className="homepage-demo-contact" aria-label="Contact The Launch Era">
    <div className="homepage-contact-panel"><ContactForm/></div>
   </div>
