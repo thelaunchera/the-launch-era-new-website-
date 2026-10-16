@@ -10,6 +10,26 @@ for (const [lang,path] of [['en','/'],['es','/es/']]) {
    page.on('pageerror',e=>errors.push(e.message.slice(0,250)));
    await page.goto(base+path+'#booking-lead-automation',{waitUntil:'domcontentloaded',timeout:45000});
    await page.waitForTimeout(1250);
+   // Counterfactual isolation: hiding one homepage section at a time identifies
+   // the layout owner, without modifying committed page structure/styles.
+   const isolation = await page.evaluate(() => {
+     const home=document.querySelector('.sales-home');
+     const root=document.documentElement;
+     const sections=[...home.children].filter(el=>el.nodeType===1);
+     const before=root.scrollWidth;
+     const values=sections.map((el,i)=>{
+       const rect=el.getBoundingClientRect();
+       const old=el.style.display;
+       el.style.display='none';
+       const after=root.scrollWidth;
+       el.style.display=old;
+       return {i,name:el.className||el.tagName,id:el.id,outer:Math.round(rect.width),
+         scroll:el.scrollWidth,client:el.clientWidth,left:Math.round(rect.left),
+         right:Math.round(rect.right),afterHide:after,fixes:before-after};
+     });
+     return {before,view:root.clientWidth,sections:values};
+   });
+   console.log('SECTION_DIAG '+JSON.stringify({lang,width,mobile,...isolation}));
    for (const phase of ['top','hero','booking','end']) {
      const state=await page.evaluate(phase=>{
        const html=document.documentElement, body=document.body, main=document.querySelector('.sales-home');
