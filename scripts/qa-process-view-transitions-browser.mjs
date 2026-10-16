@@ -32,6 +32,34 @@ try {
       await dialog.waitFor({ state: 'visible' });
       assert.equal(await dialog.getAttribute('aria-modal'), 'true');
       assert(await page.locator('.tle-process-detail-hero').isVisible(), 'Detail hero is hidden');
+      const expandedPhoto = page.locator('.tle-process-detail-photo');
+      await page.waitForFunction(() => {
+        const img = document.querySelector('.tle-process-detail-photo');
+        return img instanceof HTMLImageElement && img.complete && img.naturalWidth > 0;
+      }, null, { timeout: 15000 });
+      assert((await expandedPhoto.getAttribute('alt'))?.length > 20, 'The photo needs descriptive alt text');
+      assert.equal(await expandedPhoto.getAttribute('src'), '/assets/bundle-landing/bundle-booking.png');
+      if (width === 390) {
+        const expected = [
+          '/assets/bundle-landing/bundle-booking.png',
+          '/assets/bundle-landing/bundle-hero.png',
+          '/assets/bundle-landing/bundle-command.png'
+        ];
+        for (let i = 1; i < 3; i++) {
+          await page.keyboard.press('Escape');
+          await dialog.waitFor({ state: 'hidden' });
+          await page.locator('.tle-process-grid .tle-process-card').nth(i).click();
+          await dialog.waitFor({ state: 'visible' });
+          await page.waitForFunction(() => {
+            const img = document.querySelector('.tle-process-detail-photo');
+            return img instanceof HTMLImageElement && img.complete && img.naturalWidth > 0;
+          }, null, { timeout: 15000 });
+          assert.equal(await page.locator('.tle-process-detail-photo').getAttribute('src'), expected[i]);
+          const rect = await page.locator('.tle-process-dialog').boundingBox();
+          assert(rect && rect.x >= 0 && rect.x + rect.width <= width + 1, 'Photo dialog must fit iPhone');
+        }
+      }
+
       await page.keyboard.press('Escape');
       await dialog.waitFor({ state: 'hidden' });
       assert(await page.locator('#contacto form').count(), 'Contact form must not disappear');
