@@ -53,5 +53,15 @@ try{
   assert.equal(await page.locator(".tle-v42-date-picker").count(),0,"client native dates unchanged");
   await page.close();
  }
+ const animated=await browser.newPage({viewport:{width:390,height:844},reducedMotion:"no-preference"});
+ await animated.goto(base+"/lead-private-preview.html?lang=en",{waitUntil:"load"});
+ await animated.waitForSelector("#leadHero .tle-v42-window",{timeout:12000});
+ await animated.locator("#leadHero .tle-v42-window").click();
+ await animated.waitForSelector("#leadHero.tle-v42-travel",{timeout:1500});
+ await animated.waitForTimeout(180);
+ const zoom=await animated.locator("#leadHero .demo-cb-hero-media").evaluate(el=>getComputedStyle(el).transform);
+ assert.notEqual(zoom,"none","non-reduced-motion portal must actually zoom the hero");
+ await animated.waitForSelector(".tle-demo-booking-active",{timeout:6000});
+ await animated.close();
  console.log("PASS: portal zoom, both service groups, date pickers, EN/ES responsive & client isolation");
 }finally{await browser.close()}
