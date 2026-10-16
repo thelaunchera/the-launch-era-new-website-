@@ -33,8 +33,25 @@ try{
    await page.waitForURL('**/booking-demo-reset.html?lang='+lang,{timeout:15000});
    assert.equal(await page.locator('html').getAttribute('lang'),lang);
    assert.equal(await page.locator('.service').count(),6,'Expected six real service choices');
-   assert.equal(await page.locator('img,video,canvas').count(),0,'No cinematic/photo layers during clean rebuild');
+   assert.equal(await page.locator('.service-media img').count(),6,'Each of the six services needs one full-card photo');
+   assert.equal(await page.locator('video,canvas').count(),0,'No cinematic layers, video, or movement');
    assert.equal(await page.locator('button[data-id="standard"]').count(),1);
+   await page.locator('button[data-id="standard"]').scrollIntoViewIfNeeded();
+   const cardLayout=await page.evaluate(()=>{
+     const list=document.getElementById('resServices');
+     const cards=[...list.querySelectorAll('button.service')];
+     return cards.map(button=>{
+       const photo=button.querySelector('.service-media');
+       const br=button.getBoundingClientRect(),pr=photo.getBoundingClientRect();
+       return {width:br.width,height:br.height,imageWidth:pr.width,imageHeight:pr.height,top:pr.top,cardTop:br.top};
+     });
+   });
+   assert(cardLayout.length===3&&cardLayout.every(x=>x.width>230&&x.imageWidth>x.width*.94&&x.imageHeight>=125&&Math.abs(x.top-x.cardTop)<4),
+     lang+' '+width+': service cards must be large photos above titles, NEVER mini image list '+JSON.stringify(cardLayout));
+   await page.waitForFunction(()=>{
+     const imgs=[...document.querySelectorAll('#resServices .service-media img')];
+     return imgs.length===3&&imgs.every(i=>i.complete&&i.naturalWidth>=400);
+   },null,{timeout:12000});
    await page.locator('button[data-id="standard"]').click();
    assert.equal(await page.locator('#chooseNext').isEnabled(),true);
    await page.locator('#chooseNext').click();
@@ -56,6 +73,19 @@ try{
      'Sample owner-side request must stay in sessionStorage only');
    await page.locator('#restart').click();
    await page.locator('#comTab').click();
+   await page.locator('#comServices .service').first().scrollIntoViewIfNeeded();
+   await page.waitForFunction(()=>{
+     const imgs=[...document.querySelectorAll('#comServices .service-media img')];
+     return imgs.length===3&&imgs.every(i=>i.complete&&i.naturalWidth>=400);
+   },null,{timeout:12000});
+   const commercial=await page.evaluate(()=>[...document.querySelectorAll('#comServices .service')].map(b=>({
+      width:b.getBoundingClientRect().width,
+      photo:b.querySelector('.service-media').getBoundingClientRect().width,
+      height:b.querySelector('.service-media').getBoundingClientRect().height
+   })));
+   assert(commercial.every(x=>x.photo>x.width*.94&&x.height>=125),
+    lang+' '+width+': commercial should also be photo cards, not thumbnail rows '+JSON.stringify(commercial));
+
    await page.locator('button[data-id="office"]').click();
    await page.locator('#chooseNext').click();
    assert.equal(await page.locator('#comDetails').isVisible(),true);
