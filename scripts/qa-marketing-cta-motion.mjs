@@ -21,16 +21,17 @@ for(const p of routeFiles){
 assert(root.includes('tle-marketing-cta-motion.css'), 'missing scoped marketing stylesheet');
 assert(css.includes('animation:tle-cta-quiet-pulse 2.8s cubic-bezier(.32,.72,0,1) infinite'));
 assert(css.includes('animation-delay:450ms')&&css.includes('scale(1.34,1.7)'));
-assert(css.includes('conic-gradient(')&&css.includes('height:300px')&&css.includes('inset:2px'));
+assert(css.includes('background:#75A9C8'),'quiet CTA rings need one flat blue fill');
+assert(css.includes('content:none!important;animation:none!important'),'legacy rotating primary CTA border must be disabled');
 assert(css.includes('clip-path:inset(0 var(--tle-morph-inset,127px) round 999px)'));
 assert(css.includes('560ms cubic-bezier(.32,.72,0,1)'));
 assert(css.includes('tle-cta-draw-check 380ms')&&css.includes('stroke-dashoffset'));
 assert(css.includes('prefers-reduced-motion:reduce'));
-assert(root.includes('tle-marketing-cta-motion.css?v=20261016-3'),'old stylesheet version may be cached');
-assert(css.includes('background:#568FB3'),'endcap ripple must contrast with the endcap');
-assert(css.includes('tle-final-mobile-safe-pulse')&&css.includes('.sales-home .final-section .tle-cta-pulse-shell'),'mobile homepage final CTA pulse must remain within viewport');
-assert(css.includes('tle-primary-cta-border-spin 3s'),'primary purchase CTA must have moving border');
-assert(cta.includes('className="tle-cta-text"'),'purchase label must sit above animated border');
+assert(root.includes('tle-marketing-cta-motion.css?v=20261016-quiet4'),'new quiet CTA stylesheet must not be cached');
+assert(css.includes('background:#75A9C8'),'endcap ripple must contrast with the endcap');
+assert(css.includes('tle-final-mobile-safe-pulse')&&css.includes('.tle-app-landing, .service-hero-actions'),'mobile home, trial and service pulses must remain within viewport');
+assert(!css.includes('tle-primary-cta-border-spin 3s'),'primary purchase CTA must not stack a rotating border');
+assert(cta.includes('className="tle-cta-text"'),'CTA label remains above the quiet accent rings');
 assert(morph.includes('aria-busy')&&morph.includes('aria-live')&&morph.includes('ResizeObserver'));
 assert(cta.includes('demo|preview|\\/command-center')&&cta.includes('href={href}'));
 for(const p of ['src/components/editorial-sections.tsx','src/routes/es.index.tsx','src/components/freebie-page.tsx']){
@@ -56,7 +57,7 @@ const sizes=[{width:360,height:780},{width:390,height:844},{width:820,height:100
 const errors=[];
 mkdirSync('qa-screenshots',{recursive:true});
 try{
- for(const route of ['/','/es/','/booking-lead-automation/','/es/booking-lead-automation/','/ai-booking-assistant/','/es/ai-booking-assistant/']){
+ for(const route of ['/','/es/','/booking-lead-automation/','/es/booking-lead-automation/','/cleaning-web-app/','/es/cleaning-web-app/','/ai-booking-assistant/','/es/ai-booking-assistant/']){
   for(const viewport of sizes){
    const page=await browser.newPage({viewport});
    page.on('pageerror',error=>errors.push(route+' '+viewport.width+' '+error.message));
@@ -65,7 +66,7 @@ try{
    // not just an attached element, to avoid false visual passes or false failures.
    await page.waitForFunction(()=>{
      const el=document.querySelector('.tle-cta-pulse-ring');
-     return el?.isConnected && getComputedStyle(el).animationName==='tle-cta-quiet-pulse';
+     return el?.isConnected && ['tle-cta-quiet-pulse','tle-final-mobile-safe-pulse'].includes(getComputedStyle(el).animationName);
    },null,{timeout:18000});
    const ctas=page.locator('.tle-cta-pulse-shell');
    await ctas.first().waitFor({state:'attached',timeout:14000});
@@ -73,11 +74,11 @@ try{
    assert(links.length>0,route+' missing marketing CTAs');
    assert(links.every(x=>x.href&&!/demo|preview|command-center/i.test(x.href)),route+' demo/private CTA was animated');
    assert(links.every(x=>x.left>=-3&&x.right<=viewport.width+3),route+' '+viewport.width+' CTA crosses viewport '+JSON.stringify(links));
-   // Inspect pulse + conic border in one hydrated DOM snapshot.
+   // Inspect one quiet two-ring pulse without the former rotating border.
    const sample=await page.waitForFunction(()=>{
     const shell=[...document.querySelectorAll('.tle-cta-pulse-shell')].find(item=>{
      const ring=item.querySelector('.tle-cta-pulse-ring');
-     return ring?.isConnected&&getComputedStyle(ring).animationName==='tle-cta-quiet-pulse';
+     return ring?.isConnected&&['tle-cta-quiet-pulse','tle-final-mobile-safe-pulse'].includes(getComputedStyle(ring).animationName);
     });
     if(!shell)return false;
     const a=shell.querySelector('a.tle-cta-pulse-button');
@@ -85,14 +86,14 @@ try{
     const label=a?.querySelector('.tle-cta-text');
     if(!a||!label)return false;
     const rotor=getComputedStyle(a,'::before'),face=getComputedStyle(a,'::after');
-    if(rotor.animationName!=='tle-primary-cta-border-spin')return false;
+    if(rotor.animationName!=='none')return false;
     return {pulse:getComputedStyle(ring).backgroundColor,
-      borderAnimation:rotor.animationName,borderShape:rotor.backgroundImage,
-      faceInset:face.inset,labelVisible:getComputedStyle(label).color,labelMarkup:true};
+      borderAnimation:rotor.animationName,rotorContent:rotor.content,
+      faceContent:face.content,labelVisible:getComputedStyle(label).color,labelMarkup:true};
    },null,{timeout:18000});
    const effective=await sample.jsonValue();
-   assert(effective.pulse==='rgb(86, 143, 179)',route+' '+viewport.width+' ripple must be visible on pale blue: '+JSON.stringify(effective));
-   assert(effective.borderAnimation==='tle-primary-cta-border-spin'&&effective.borderShape.includes('conic-gradient')&&effective.labelMarkup,route+' '+viewport.width+' border/text not rendered: '+JSON.stringify(effective));
+   assert(effective.pulse==='rgb(117, 169, 200)',route+' '+viewport.width+' pulse must use the single soft blue accent: '+JSON.stringify(effective));
+   assert(effective.borderAnimation==='none'&&effective.rotorContent==='none'&&effective.faceContent==='none'&&effective.labelMarkup,route+' '+viewport.width+' CTA must not stack decorative borders: '+JSON.stringify(effective));
    if(route==='/'||route==='/es/'){
     const contrast=await page.locator('.final-section .tle-cta-pulse-shell').first().evaluate(el=>{
       const parent=getComputedStyle(el.closest('.final-section')).backgroundColor;
@@ -199,7 +200,7 @@ try{
  const anim=await reduced.locator('.tle-cta-pulse-ring').first().evaluate(el=>getComputedStyle(el).animationName);
  assert(anim==='none','reduced-motion ring should be disabled');
  const rotor=await reduced.locator('.tle-cta-pulse-button').last().evaluate(el=>getComputedStyle(el,'::before').animationName);
- assert(rotor==='none','reduced-motion border should not spin');
+ assert(rotor==='none','primary button border must never spin');
  await reduced.close();
  assert.deepEqual(errors,[], 'Unexpected browser errors');
  console.log('[TLE CTA BROWSER PASSED] EN/ES five widths, isolated demos, mocked success, reduced motion');
