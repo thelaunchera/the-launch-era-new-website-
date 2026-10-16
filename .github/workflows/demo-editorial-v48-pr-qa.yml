@@ -45,7 +45,7 @@ jobs:
           cd /tmp/tle-v48-browser
           npm init -y >/dev/null
           npm install --no-audit --no-fund playwright@1.57.0
-          npx playwright install --with-deps chromium
+          npx playwright install --with-deps chromium webkit
       - name: Test six EN/ES phone tablet desktop views and client isolation
         run: |
           python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-v48-browser.log 2>&1 &
