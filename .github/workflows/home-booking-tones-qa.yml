@@ -9,8 +9,10 @@ on:
       - 'src/routes/es.index.tsx'
       - 'src/routes/__root.tsx'
       - 'public/assets/tle-booking-tones.css'
+      - 'public/assets/tle-marketing-cta-motion.css'
       - 'scripts/qa-home-booking-tones.mjs'
       - 'scripts/qa-home-booking-tones-browser.mjs'
+      - 'scripts/qa-homepage-horizontal-centering.mjs'
       - '.github/workflows/home-booking-tones-qa.yml'
   workflow_dispatch:
 
@@ -22,6 +24,7 @@ jobs:
       - name: Guard EN/ES copy, offer, tone and contrast
         run: |
           node --check scripts/qa-home-booking-tones.mjs
+          node --check scripts/qa-homepage-horizontal-centering.mjs
           node scripts/qa-home-booking-tones.mjs
           node scripts/qa-route-integrity.mjs --static
       - uses: oven-sh/setup-bun@v2
@@ -50,6 +53,7 @@ jobs:
             sleep 1
           done
           QA_URL=http://127.0.0.1:4173 node scripts/qa-home-booking-tones-browser.mjs
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-homepage-horizontal-centering.mjs
       - name: Archive EN/ES mobile screenshots
         if: always()
         uses: actions/upload-artifact@v4
