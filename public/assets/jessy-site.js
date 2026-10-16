@@ -169,7 +169,7 @@ function routeFor(href){
  return s;
 }
 function makeImage(){const x=node("img","tle-jessy-avatar");x.src=avatarPath;x.alt="Jessie · AI Assistant";x.loading="lazy";x.width=53;x.height=53;return x}
-const style=node("link");style.rel="stylesheet";style.href="/assets/jessy-site.css?v=20261015-whatsapp-clarity-v3";document.head.appendChild(style);
+const style=node("link");style.rel="stylesheet";style.href="/assets/jessy-site.css?v=20261016-compact-checkout-v2";document.head.appendChild(style);
 const root=node("div","tle-jessy-root tle-jessy-compact");root.setAttribute("data-tle-jessy","true");
 const fab=button("tle-jessy-fab","",t("opening"));const fabLabel=node("span","tle-jessy-fab-label",lang==="es"?"Habla con la asistente":"Chat with the assistant");const launcherPhoto=makeImage();launcherPhoto.alt="";fab.append(launcherPhoto,fabLabel);fab.append(node("span","tle-jessy-status"));fab.setAttribute("aria-expanded","false");
 const nudge=node("div","tle-jessy-nudge",t("nudge"));nudge.hidden=true;
@@ -358,7 +358,7 @@ function actions(checkout,detail,trial){
   options.push({href:trial,label:isEs?"Probar gratis":"Try it free",kind:"primary"});
   if(detail)options.push({href:detail,label:isEs?"Ver demo":"See the demo",kind:"secondary"});
  }else if(checkout){
-  options.push({href:checkout,label:isEs?"Comenzar":"Get started",kind:"primary",checkout:true});
+  options.push({href:checkout,label:isEs?"Abrir checkout seguro →":"Open secure checkout →",kind:"primary",checkout:true});
   options.push({prompt:isEs?"¿Me explicas un poco cómo funciona este servicio?":"Could you walk me through how this service works?",label:isEs?"Cómo funciona":"How it works",kind:"secondary"});
  }else if(detail){
   options.push({href:detail,label:isEs?"Ver opciones":"See your options",kind:"primary"});
@@ -377,6 +377,66 @@ function actions(checkout,detail,trial){
   row.appendChild(el);
  }
  if(row.children.length){log.appendChild(row);log.scrollTop=log.scrollHeight}
+}
+const approvedCheckout={booking:"/service-checkout/?offer=booking-flow","ai-booking":"/service-checkout/?offer=ai-booking","ai-followup":"/service-checkout/?offer=ai-followup","ai-business":"/service-checkout/?offer=ai-business",website:"/service-checkout/?offer=website-automation",va:"/service-checkout/?offer=va"};
+function checkoutFor(id){
+ if(!Object.hasOwn(approvedCheckout,id))return null;
+ const fromCatalog=catalog.find(x=>x.id===id)?.checkout;
+ const valid=fromCatalog&&fromCatalog.split("&")[0]===approvedCheckout[id]?fromCatalog:approvedCheckout[id];
+ return routeFor(valid);
+}
+function purchaseReady(message){
+ const q=String(message).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();
+ if(/\b(?:checkout|buy now|purchase|pay now|ready to (?:buy|pay)|send (?:me )?(?:the )?(?:checkout|link)|give me (?:the )?(?:checkout|link)|quiero (?:comprar|pagar)|list[oa] para (?:comprar|pagar)|enviame (?:el )?(?:link|enlace)|ir al pago)\b/.test(q))return true;
+ if(/^(?:dame|give me|show me|send) (?:the |el )?(?:next step|siguiente paso|proximo paso)/.test(q))return true;
+ const last=[...history].reverse().find(x=>x.role==="assistant")?.message||"";
+ return /^(?:1\s*)?(?:yes|si|yes please|si por favor|sure|dale|ok|okay)[.! ]*$/.test(q)&&/\b(?:checkout|purchase|buy|comprar|pagar|payment|enlace de pago)\b/i.test(last);
+}
+function conciseText(text,mode){
+ const clean=String(text||"").replace(/\*\*/g,"").replace(/\s+/g," ").trim();
+ if(clean.length<=310||mode==="verified_price")return clean;
+ const first=clean.split(/(?<=[.!?])\s+(?=[A-ZÁÉÍÓÚ¿¡])/).slice(0,2).join(" ");
+ if(first.length>=25&&first.length<=310)return first;
+ const short=clean.slice(0,305);return short.slice(0,Math.max(40,short.lastIndexOf(" ")))+"…";
+}
+function showCheckoutOptions(ids,label){
+ const unique=[...new Set(ids)],wrap=node("div","tle-jessy-checkout-choices");
+ wrap.append(node("strong","tle-jessy-choice-heading",label||(lang==="es"?"Tus opciones":"Your options")));
+ unique.forEach(id=>{
+  if(id==="cleaning-app"){
+   const a=node("a","tle-jessy-checkout-link",lang==="es"?"Iniciar prueba gratis de Cleaning App →":"Start Cleaning App free trial →");
+   a.href="https://app.thelaunchera.com/?entry=signup";a.rel="noopener";wrap.append(a);return;
+  }
+  const href=id==="booking-bundle"?"/booking-bundle/?lang="+lang:checkoutFor(id);
+  if(!href)return;
+  const names={booking:"Booking Automation","ai-booking":"AI Booking Assistant","ai-followup":"AI Follow-Up Assistant","ai-business":"AI Business Assistant",website:"Website Automation",va:"VA Support","booking-bundle":"Booking + AI bundle"};
+  const a=node("a","tle-jessy-checkout-link",unique.length===1?(lang==="es"?"Abrir checkout seguro →":"Open secure checkout →"):(names[id]||id)+" →");
+  a.href=href;a.rel="noopener";a.setAttribute("aria-label",(lang==="es"?"Abrir pago o acceso de ":"Open checkout or access for ")+(names[id]||id));a.addEventListener("click",()=>track("checkout_opened"));wrap.append(a);
+ });
+ if(wrap.querySelector("a")){
+  wrap.append(node("small","tle-jessy-checkout-note",lang==="es"?"Revisa el precio antes de pagar. No pedimos tarjetas en el chat.":"Review the price before paying. No cards are collected in chat."));
+  log.append(wrap);log.scrollTop=log.scrollHeight;
+ }
+}
+function showNeedsChecklist(){
+ const existing=log.querySelector(".tle-jessy-needs");
+ if(existing){existing.scrollIntoView({block:"nearest",behavior:"auto"});return;}
+ const form=node("form","tle-jessy-needs"),fieldset=node("fieldset");
+ fieldset.append(node("legend","",lang==="es"?"¿Qué quieres mejorar?":"What would you like help with?"),node("p","",lang==="es"?"Selecciona una o varias opciones.":"Select one or more."));
+ const options=[["booking",lang==="es"?"Recibir y organizar reservas":"Capture and organize bookings"],["ai-booking",lang==="es"?"Responder preguntas con IA":"Answer visitor questions with AI"],["ai-followup",lang==="es"?"Dar seguimiento a interesados":"Follow up with interested leads"],["cleaning-app",lang==="es"?"Organizar clientes y trabajos":"Organize clients and jobs"]];
+ for(const [id,title] of options){const label=node("label","tle-jessy-need"),box=node("input");box.type="checkbox";box.name="needs";box.value=id;label.append(box,node("span","",title));fieldset.append(label)}
+ const submit=button("tle-jessy-needs-submit",lang==="es"?"Ver mis opciones →":"See my options →");submit.type="submit";
+ const status=node("p","tle-jessy-needs-status");status.setAttribute("role","status");form.append(fieldset,submit,status);
+ form.addEventListener("submit",e=>{
+  e.preventDefault();const ids=[...form.querySelectorAll('input[name="needs"]:checked')].map(x=>x.value);
+  if(!ids.length){status.textContent=lang==="es"?"Elige una opción.":"Choose at least one.";return}
+  status.textContent=lang==="es"?"Seleccionado ✓":"Selected ✓";submit.disabled=true;
+  let offers=[...ids];
+  if(ids.includes("booking")&&ids.includes("ai-booking")&&ids.length===2)offers=["booking-bundle"];
+  else if(ids.includes("ai-booking")&&ids.includes("ai-followup"))offers=["ai-business",...ids.filter(x=>x!=="ai-booking"&&x!=="ai-followup")];
+  msg(lang==="es"?"Estas son tus opciones:":"Here are your options:","bot");showCheckoutOptions(offers,lang==="es"?"Cuando estés listo":"When you're ready");
+ });
+ log.append(form);log.scrollTop=log.scrollHeight;
 }
 function showWhatsappChoices(){
  const wrap=node("div","tle-jessy-whatsapp-choices");
@@ -425,7 +485,7 @@ async function reloadOffers(){try{const r=await fetch(catalogPath+"?r="+Date.now
 function quickChoices(){
  quick.replaceChildren();
  const p=currentPage(),es=lang==="es";
- let opts=[[t("service"),es?"Necesito mejorar mis reservas.":"I need better bookings."],[t("ai"),es?"¿Qué asistentes IA ofrecen?":"Which AI Assistants do you offer?"],[es?"Ver demo":"See a demo",es?"¿Puedo ver un demo de los sistemas?":"Can I see a demo of the systems?"],[t("price"),es?"¿Qué precios tienen?":"What are your prices?"],[t("human"),"lead-form"]];
+ let opts=[[es?"✓ Elegir necesidades":"✓ Choose needs","needs-form"],[t("ai"),es?"¿Qué asistentes IA ofrecen?":"Which AI Assistants do you offer?"],[es?"Ver demo":"See a demo",es?"¿Puedo ver un demo de los sistemas?":"Can I see a demo of the systems?"],[t("price"),es?"¿Qué precios tienen?":"What are your prices?"],[t("human"),"lead-form"]];
  if(p==="cleaning-app")opts=[
  [es?"Funciones de la app":"App features",es?"¿Qué puedo organizar en la Cleaning App?":"What can I manage in the Cleaning App?"],
  [es?"Prueba gratis":"Free trial",es?"¿Cómo comienzo mi prueba gratis de la app?":"How do I start my free trial in the app?"],
@@ -442,9 +502,9 @@ function quickChoices(){
  [es?"Seguimientos":"Follow-ups",es?"¿Qué hace el AI Follow-Up Assistant?":"What does AI Follow-Up Assistant do?"],
  [es?"Ambos asistentes":"Both assistants",es?"¿Qué hace AI Business Assistant?":"What does AI Business Assistant do?"],
  [t("human"),"lead-form"]];
- opts.forEach(function(entry){const b=button("",entry[0]);b.addEventListener("click",()=>{if(entry[1]==="lead-form")showLead(true);else ask(entry[1])});quick.appendChild(b)});
+ opts.forEach(function(entry){const b=button("",entry[0]);b.addEventListener("click",()=>{if(entry[1]==="lead-form")showLead(true);else if(entry[1]==="needs-form")showNeedsChecklist();else ask(entry[1])});quick.appendChild(b)});
 }
-function greeting(){if(!seen){msg(pageText("hello"),"bot");seen=true;quickChoices()}}
+function greeting(){if(!seen){msg(pageText("hello"),"bot");seen=true;quickChoices();showNeedsChecklist()}}
 function optionalChime(){if(!soundOn)return;try{const Context=window.AudioContext||window.webkitAudioContext;if(!Context)return;const a=new Context();const o=a.createOscillator();const gain=a.createGain();o.type="sine";o.frequency.value=660;gain.gain.setValueAtTime(.0001,a.currentTime);gain.gain.exponentialRampToValueAtTime(.03,a.currentTime+.02);gain.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.15);o.connect(gain);gain.connect(a.destination);o.start();o.stop(a.currentTime+.16);o.onended=()=>a.close()}catch{}}
 function showLead(on){
  if(on)track("lead_start");
@@ -466,13 +526,20 @@ async function ask(raw){if(waiting)return;const message=String(raw||"").trim().s
  if(!manualLanguage){const auto=visitorLanguage(message);if(auto&&auto!==lang){lang=auto;syncLanguage()}}
  lastIntent=visitorIntent(message);
  if(lastIntent!=="general")track("diagnostic");if(/(?:\d[ -]*?){13,19}/.test(message)){msg(lang==="es"?"Por favor, no compartas números de tarjeta aquí.":"Please don't share card numbers here.","bot");return}
-msg(message,"user");input.value="";waiting=true;send.disabled=true;const indicator=msg(t("typing"),"bot");
+msg(message,"user");input.value="";
+ if(allowedService.has(offer)&&purchaseReady(message)){
+  if(offer==="cleaning-app"){msg(lang==="es"?"Comienza tu prueba gratis de la app.":"Start your app free trial.","bot");showCheckoutOptions(["cleaning-app"]);}
+  else if(checkoutFor(offer)){msg(lang==="es"?"¡Listo! Aquí tienes el checkout seguro.":"Ready! Here is your secure checkout.","bot");showCheckoutOptions([offer]);}
+  history.push({role:"user",message},{role:"assistant",message:"Checkout offered"});
+  if(history.length>16)history=history.slice(-16);return;
+ }
+ waiting=true;send.disabled=true;const indicator=msg(t("typing"),"bot");
 if(/quiero hablar|contactar|leave my details|talk to a person|human support/i.test(message)&&!/whats.?app/i.test(message)&&!/do you mean messaging our team on whatsapp|te refieres a escribirle a nuestro equipo por whatsapp/i.test(history.at(-1)?.message||"")){indicator.remove();showLead(true);waiting=false;send.disabled=false;return}
 const previous=history.slice(-12);let result=null;try{const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),16000);try{const r=await fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message,language:lang,selected_offer:offer||currentPage(),page_path:location.pathname,history:previous}),signal:controller.signal});if(r.ok)result=await r.json();else if(r.status===429)result={reply:t("limit")}}finally{clearTimeout(timeout)}}catch{}
-indicator.textContent=result&&typeof result.reply==="string"?result.reply:t("liveError");
+indicator.textContent=result&&typeof result.reply==="string"?conciseText(result.reply,result.mode):t("liveError");
 if(result&&typeof result.reply==="string"){
  lastUnansweredQuestion="";
- history.push({role:"user",message},{role:"assistant",message:result.reply});
+ history.push({role:"user",message},{role:"assistant",message:indicator.textContent});
  if(history.length>16)history=history.slice(-16);
  // A general capabilities answer clears any stale previously selected product.
  if(typeof result.selected_offer==="string")offer=result.selected_offer;
@@ -488,6 +555,7 @@ if(result&&typeof result.reply==="string"){
   else if(next==="app_demo"){const a=node("a","tle-jessy-help-link",lang==="es"?"Explorar la demo de la Cleaning App ↗":"Explore the Cleaning App demo ↗");a.href="/cleaning-app-demo/?lang="+lang;a.rel="noopener";log.append(a);log.scrollTop=log.scrollHeight;track("service_demo_opened")}
   if(next==="whatsapp_clarify")showWhatsappChoices();
   if(next==="contact_team")showWhatsappContact();
+   if(next==="service_choices")showNeedsChecklist();
   if(next==="client_help"){const help=button("tle-jessy-help-link",lang==="es"?"Contactar a soporte ↗":"Contact support securely ↗");help.addEventListener("click",()=>showLead(true));log.append(help)}
   if(next==="checkout"&&checkout)actions(checkout,info,null);
   else if(next==="trial"&&result.trial)actions(null,info,result.trial);
