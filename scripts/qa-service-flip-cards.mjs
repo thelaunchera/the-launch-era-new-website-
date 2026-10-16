@@ -61,11 +61,11 @@ try {
    await page.waitForFunction(index=>document.querySelectorAll('.sales-home .tle-service-flip')[index]?.classList.contains('is-flipped'),i);
    await page.waitForTimeout(820); // Let the 760ms turn finish before a real tap.
    const href=await back.getAttribute('href');
-   assert.equal(new URL(href,base).pathname.replace(/\\/$/,''),expectedRoutes[i],lang+' service '+i+' points to its own landing');
+   assert.equal(new URL(href,base).pathname.replace(/\/$/,''),expectedRoutes[i],lang+' service '+i+' points to its own landing');
    const fontWeight=Number(await card.locator('.tle-service-flip__hint').evaluate(el=>getComputedStyle(el).fontWeight));
    assert(fontWeight<700,lang+' front tap hint should stay secondary');
    await Promise.all([
-    page.waitForURL(url=>url.pathname.replace(/\\/$/,'')===expectedRoutes[i],{timeout:18000}),
+    page.waitForURL(url=>url.pathname.replace(/\/$/,'')===expectedRoutes[i],{timeout:18000}),
     back.click({timeout:12000})
    ]);
    assert.deepEqual(errors,[],lang+' service '+i+' JS errors');
