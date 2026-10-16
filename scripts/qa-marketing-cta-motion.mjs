@@ -43,7 +43,8 @@ console.log('[TLE CTA STATIC PASSED] marketing actions, form states, isolation a
 if(!process.argv.includes('--browser'))process.exit(0);
 const {chromium}=await import('playwright');
 const browser=await chromium.launch({headless:true});
-const site=(process.env.QA_URL||'http://127.0.0.1:4173').replace(/\\/$/,'');
+const baseURL=process.env.QA_URL||'http://127.0.0.1:4173';
+const site=baseURL.endsWith('/')?baseURL.slice(0,-1):baseURL;
 const sizes=[{width:360,height:780},{width:390,height:844},{width:820,height:1000},{width:1024,height:768},{width:1440,height:900}];
 const errors=[];
 mkdirSync('qa-screenshots',{recursive:true});
