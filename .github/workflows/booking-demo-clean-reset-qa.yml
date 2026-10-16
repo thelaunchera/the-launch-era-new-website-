@@ -4,6 +4,10 @@ on:
     paths:
       - 'public/lead-private-preview.html'
       - 'public/booking-demo-reset.html'
+      - 'public/assets/tle-booking-hero-window.css'
+      - 'public/assets/tle-booking-hero-window.js'
+      - 'public/assets/lead-demo/tle-booking-hero-window.avif'
+      - 'scripts/qa-booking-hero-window.mjs'
       - 'scripts/qa-booking-demo-clean-reset.mjs'
       - '.github/workflows/booking-demo-clean-reset-qa.yml'
   push:
@@ -11,6 +15,10 @@ on:
     paths:
       - 'public/lead-private-preview.html'
       - 'public/booking-demo-reset.html'
+      - 'public/assets/tle-booking-hero-window.css'
+      - 'public/assets/tle-booking-hero-window.js'
+      - 'public/assets/lead-demo/tle-booking-hero-window.avif'
+      - 'scripts/qa-booking-hero-window.mjs'
       - 'scripts/qa-booking-demo-clean-reset.mjs'
   workflow_dispatch:
 permissions:
@@ -60,3 +68,4 @@ jobs:
             sleep 1
           done
           QA_URL=http://127.0.0.1:4173 node scripts/qa-booking-demo-clean-reset.mjs
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-booking-hero-window.mjs
