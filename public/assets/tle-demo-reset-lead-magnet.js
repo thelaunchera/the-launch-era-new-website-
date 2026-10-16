@@ -21,7 +21,7 @@
   const business = clean(qs.get('business') || leadBrand[qs.get('lead')] || '',100);
   const area = clean(qs.get('area'),100);
   const services = clean(qs.get('services')||'Standard cleaning, deep cleaning, move-in/out cleaning, commercial quotes',180);
-  const scope = ['business','lead','rid','area','services','lang'];
+  const scope = ['business','lead','rid','area','services','lang','source'];
   const sourceScope = {};
   for (const key of scope) {
     if(qs.has(key)) sourceScope[key] = qs.get(key);
@@ -43,7 +43,8 @@
     waiting:'Sonny está respondiendo…',
     error:'Sonny no está disponible en este momento. Puedes seguir usando el formulario.',
     limit:'Se alcanzó el límite de esta demostración.',
-    complete:'Tu solicitud está lista para revisar. Puedes completar la reserva de ejemplo en el formulario de arriba.'
+    complete:'Tu solicitud está lista para revisar. Puedes completar la reserva de ejemplo en el formulario de arriba.',
+    use:'Usar los datos en el formulario de ejemplo'
   } : {
     person:'PERSONALIZED FOR',
     area:'Service area: ',
@@ -59,7 +60,8 @@
     waiting:'Sonny is responding…',
     error:'Sonny is temporarily unavailable. You can still use the booking form above.',
     limit:'You have reached the demo conversation limit.',
-    complete:'Your sample request is ready for review. You can finish the example booking form above.'
+    complete:'Your sample request is ready for review. You can finish the example booking form above.',
+    use:'Use details in the sample form'
   };
   function renderBrand(){
     if (business || area) {
@@ -70,7 +72,7 @@
       document.title=(business? business+' — ':'')+(lang()==='es'?'Demo de reservas':'Booking Demo')+' | The Launch Era';
     }
     const qp = new URLSearchParams();
-    for(const key of ['business','lead','rid','area','services']){
+    for(const key of ['business','lead','rid','area','services','source']){
       if (sourceScope[key]) qp.set(key,sourceScope[key]);
     }
     qp.set('lang',lang());
@@ -136,6 +138,7 @@
     el('sonnyInput').placeholder=p.sonnyPlaceholder;
     el('sonnyInput').setAttribute('aria-label',p.sonnyPlaceholder);
     el('sonnySend').textContent=p.sonnySend;
+    el('sonnyUse').textContent=p.use;
     if(!busy)el('sonnyStatus').textContent=p.status;
   }
   function toggleSonny(next){
@@ -191,7 +194,7 @@
             if((typeof v==='string'&&v.trim())||(typeof v==='number'&&Number.isFinite(v)))bookingDraft[k]=v;
           }
         }
-        if(result.ready_for_review===true)addLine(phrases().complete);
+        if(result.ready_for_review===true){addLine(phrases().complete);el('sonnyUse').hidden=false;}
       }
       if(res.status===429){el('sonnyInput').disabled=true;}
     } catch {pending.textContent=phrases().error;}
@@ -201,5 +204,35 @@
       el('sonnyStatus').textContent=phrases().status;
       el('sonnyLog').scrollTop=el('sonnyLog').scrollHeight;
     }
+  });
+  // Sonny only prepares a sample request; the visitor must review it and
+  // explicitly finish the offline demo. Never submit a real booking or email.
+  el('sonnyUse').addEventListener('click',()=>{
+    const d=bookingDraft;
+    const svc=String(d.service||'').toLowerCase();
+    const commercial=d.category==='commercial'||['office','retail','medical','commercial'].includes(svc);
+    el(commercial?'comTab':'resTab').click();
+    const options=[...document.querySelectorAll('.service')];
+    let picked=options.find(b=>b.dataset.kind===(commercial?'commercial':'residential')&&(
+      b.dataset.id===svc || b.dataset.id==='standard'&&/standard|regular/.test(svc)||
+      b.dataset.id==='deep'&&svc.includes('deep')||b.dataset.id==='move'&&svc.includes('move')
+    ));
+    if(picked)picked.click();
+    else el('customQuote').click();
+    if(picked)el('chooseNext').click();
+    const name=[d.first_name,d.last_name].filter(v=>typeof v==='string'&&v.trim()).join(' ')
+      ||d.customer_name||d.name||'';
+    if(typeof name==='string')el('customerName').value=name.slice(0,80);
+    const email=d.email||d.customer_email;
+    if(typeof email==='string')el('customerEmail').value=email.slice(0,120);
+    if(typeof d.zip==='string')el('customerZip').value=d.zip.slice(0,10);
+    if(typeof d.date==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(d.date))el('preferredDate').value=d.date;
+    if(Number.isFinite(d.bedrooms))el('beds').value=String(Math.min(4,Math.max(1,d.bedrooms)));
+    if(Number.isFinite(d.bathrooms))el('baths').value=String(Math.min(3,Math.max(1,d.bathrooms)));
+    if(['one time','weekly','biweekly','monthly'].includes(d.frequency))
+      el('frequency').value=d.frequency==='one time'?'one':d.frequency;
+    if(typeof d.notes==='string')el('notes').value=d.notes.slice(0,1000);
+    toggleSonny(false);
+    el('detailsPanel').scrollIntoView({behavior:'auto',block:'start'});
   });
 })();
