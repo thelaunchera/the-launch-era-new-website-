@@ -111,6 +111,19 @@ try {
    await page.locator("#leadHero .demo-hero-cta").click();
    await page.waitForSelector("html.tle-demo-booking-active",{timeout:7500});
    assert(await page.locator("#residentialServiceList .service").count()>=3,"Keep pricing service buttons");
+   const activeGrid=await page.locator("#residentialServiceList").evaluate(el=>{
+     const buttons=[...el.querySelectorAll(":scope>button.service.tle-service-has-photo-v21")].slice(0,3);
+     const list=el.getBoundingClientRect();
+     return {
+       template:getComputedStyle(el).gridTemplateColumns,
+       count:getComputedStyle(el).gridTemplateColumns.trim().split(/\s+/).filter(Boolean).length,
+       cards:buttons.map(b=>({width:b.getBoundingClientRect().width,column:getComputedStyle(b).gridColumn})),
+       listWidth:list.width,hasMain:!!el.closest("#main"),parent:el.parentElement?.className
+     };
+   });
+   assert.equal(activeGrid.count,expected,"Active booking studio grid should stay "+expected+" columns: "+JSON.stringify(activeGrid));
+   assert(activeGrid.cards.every(c=>c.width<=activeGrid.listWidth/expected+16),
+      "Photo service cards must fit side by side, not span entire layout: "+JSON.stringify(activeGrid));
    for(const price of ["$120","$190","$240"]){
     const btn=page.locator("#residentialServiceList button.service.tle-service-has-photo-v21").filter({hasText:price}).first();
     assert.equal(await btn.count(),1,"Expected photo card with "+price);
