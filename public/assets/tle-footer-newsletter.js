@@ -56,7 +56,6 @@
             method: 'POST',
             mode: 'cors',
             credentials: 'omit',
-            cache: 'no-store',
             signal: controller.signal,
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
