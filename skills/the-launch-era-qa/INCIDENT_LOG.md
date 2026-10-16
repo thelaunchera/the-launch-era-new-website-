@@ -1,5 +1,7 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-16 | iPhone screenshot: homepage photo sits low below “See how it works”, with excessive ivory space above the photo. | Mobile CSS reserved a 96px animated split-word link, 19px hint bottom padding, 14px hero top padding, 9px reveal gap. | Only on widths <=767px: link 76px, hint bottom 8px, photo top 8px, reveal gap 6px; preserve motion, photo, CTA, ES, iPad, desktop. Cache-bust stylesheet. | 🟡 Browser QA and production confirmation pending. |
+
 | 2026-10-16 | Booking lead magnet still felt visually split: washed-out quote prompt and barely visible bubble motifs despite existing light-blue CSS | Static orb gradients on body and the custom quote CTA did not restore the older three-step bubble chapter; several section backgrounds differed in tint, hiding the requested continuity. | Add one contained seven-bubble process chapter between current hero and booking form; retain single real `#customQuote` action and restore translucent rings within it, carry powder-blue/medium-blue/ink across the full unkeyed EN/ES booking demo, proof and before-after; no new zoom, duplicate Sonny, fabricated reviews, checkout or tenant changes. Existing Jessie emailed URL routes to same demo. Targeted 360/390/820/1440 browser QA verifies 7 decorative nonblocking bubbles, language and clean layout. | 🟡 Pending GitHub QA and Pages deploy; protected buyer `?key` pages unchanged. |
 
 
