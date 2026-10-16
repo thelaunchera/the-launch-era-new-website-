@@ -1,0 +1,97 @@
+/* Public TLE service palette shift — only the services chapter, not checkout or demos. */
+.solutions-section[data-services-color-shift] {
+  --bgc: #FAF8F3;
+  --inkc: #191919;
+  background: var(--bgc);
+  color: var(--inkc);
+  transition: none;
+}
+.solutions-section[data-services-color-shift] .section-heading,
+.solutions-section[data-services-color-shift] .section-heading .eyebrow,
+.solutions-section[data-services-color-shift] .section-heading h2,
+.solutions-section[data-services-color-shift] .section-heading p,
+.solutions-section[data-services-color-shift] .service-rail-hint {
+  color: inherit !important;
+}
+.solutions-section[data-services-color-shift] .section-heading .eyebrow,
+.solutions-section[data-services-color-shift] .service-rail-hint { opacity: .78; }
+.solutions-section[data-services-color-shift] .service-card { color: #191919; }
+.solutions-section[data-services-color-shift] .sol-color-nav {
+  position: sticky;
+  top: 8px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: min(100%, 460px);
+  margin: 0 0 22px auto;
+  padding: 10px 15px;
+  background: var(--bgc);
+  color: inherit;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(16,24,40,.06);
+  font-family: 'DM Sans', sans-serif;
+}
+.solutions-section[data-services-color-shift] .sol-color-brand {
+  font-family: 'Prompt', 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  white-space: nowrap;
+}
+.solutions-section[data-services-color-shift] .sol-color-counter {
+  font: 600 12px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+  opacity: .85;
+}
+.solutions-section[data-services-color-shift] .sol-color-bars {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.solutions-section[data-services-color-shift] .sol-color-bars i {
+  display: block;
+  height: 3px;
+  width: 15px;
+  border-radius: 5px;
+  background: currentColor;
+  opacity: .25;
+  transition: opacity .18s ease;
+}
+.solutions-section[data-services-color-shift] .sol-color-bars i[data-active="true"] { opacity: 1; }
+.solutions-section[data-services-color-shift] .sol-color-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 11px;
+  border-radius: 999px;
+  background: currentColor;
+  text-decoration: none;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 650;
+}
+.solutions-section[data-services-color-shift] .sol-color-link span { color: var(--bgc); }
+.solutions-section[data-services-color-shift] .sol-color-link:focus-visible {
+  outline: 3px solid #73B5E5;
+  outline-offset: 3px;
+}
+@media (max-width: 767px) {
+  .solutions-section[data-services-color-shift] .sol-color-nav {
+    top: 7px;
+    width: 100%;
+    padding: 9px 12px;
+    margin-bottom: 22px;
+    gap: 8px;
+  }
+  .solutions-section[data-services-color-shift] .sol-color-brand { font-size: 10px; letter-spacing: .04em; }
+  .solutions-section[data-services-color-shift] .sol-color-link { padding: 6px 9px; font-size: 10px; }
+  .solutions-section[data-services-color-shift] .sol-color-bars i { width: 11px; }
+}
+@media (max-width: 359px) {
+  .solutions-section[data-services-color-shift] .sol-color-bars { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .solutions-section[data-services-color-shift] .sol-color-bars i { transition: none; }
+}

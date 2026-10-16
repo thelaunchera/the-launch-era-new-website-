@@ -1,0 +1,30 @@
+/* TLE footer newsletter: self-confirming 42px pill. Vanilla JS behavior. */
+.site-footer .footer-top {grid-template-columns:minmax(0,1.15fr) auto minmax(270px,355px);align-items:start;column-gap:clamp(18px,3vw,40px)}
+.tle-newsletter {width:100%;min-width:0;max-width:355px;font-family:Futura,"DM Sans",sans-serif;color:#191919}
+.tle-newsletter-title {margin:0 0 6px!important;font-family:Prompt,"DM Sans",sans-serif!important;font-size:17px;line-height:1.3;font-weight:600;letter-spacing:-.02em}
+.site-footer .tle-newsletter-copy {margin:0 0 12px;font-size:13px;line-height:1.5;color:#52616B}
+.tle-newsletter-form {margin:0}
+.tle-newsletter-row {position:relative;display:flex;align-items:center;width:100%;height:42px;min-width:0;padding:4px;background:#EDF6FC;border-radius:999px;box-shadow:inset 0 0 0 1px rgba(54,96,124,.24);transition:box-shadow .18s ease;isolation:isolate;overflow:hidden}
+.tle-newsletter-row:focus-within {box-shadow:inset 0 0 0 1px #5D9EC8,0 0 0 3px rgba(76,148,198,.23)}
+.tle-newsletter-input {flex:1 1 0;min-width:0;height:100%;border:0!important;outline:0!important;box-shadow:none!important;background:transparent!important;padding:0 11px!important;font:500 13px/1.3 Futura,"DM Sans",sans-serif!important;color:#191919!important}
+.tle-newsletter-input::placeholder {color:#687D8B;opacity:1}
+.tle-newsletter-input:disabled {opacity:1}
+.tle-newsletter-submit {flex:0 0 auto;height:34px;min-width:104px;border:0;border-radius:999px;background:#191919;color:#fff;padding:0 14px;font:600 12px/1.2 Futura,"DM Sans",sans-serif;cursor:pointer;transition:transform 90ms ease,background-color .2s ease}
+.tle-newsletter-submit:hover:not(:disabled) {background:#324956}
+.tle-newsletter-submit:active:not(:disabled) {transform:scale(.94)}
+.tle-newsletter-submit:focus-visible {outline:2px solid #5D9EC8;outline-offset:2px}
+.tle-newsletter-submit:disabled {cursor:default;opacity:.72}
+.tle-newsletter-confirm {position:absolute;inset:0;z-index:2;display:flex;gap:9px;align-items:center;justify-content:center;border-radius:999px;color:#fff;background:linear-gradient(110deg,#4D91C6 0%,#3679BC 58%,#66AFE0 100%);clip-path:circle(0% at 88% 50%);transition:clip-path 640ms cubic-bezier(.32,.72,0,1);pointer-events:none;font:600 13px/1.2 Futura,"DM Sans",sans-serif}
+.tle-newsletter-form.done .tle-newsletter-confirm {clip-path:circle(150% at 88% 50%)}
+.tle-newsletter-check {width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.tle-newsletter-check path {stroke-dasharray:24;stroke-dashoffset:24}
+.tle-newsletter-form.done .tle-newsletter-check path {animation:tle-newsletter-checkmark 420ms ease 320ms both}
+@keyframes tle-newsletter-checkmark {to{stroke-dashoffset:0}}
+.site-footer .tle-newsletter-error {min-height:0;margin:6px 0 0;color:#AB3037;font-size:12px;line-height:1.4}
+.site-footer .tle-newsletter-error:empty {display:none}
+.site-footer .tle-newsletter-consent {margin:9px 0 0;font-size:11px;line-height:1.5;color:#52616B}
+.tle-newsletter-consent a {color:#254E72;text-decoration:underline;text-underline-offset:2px}
+.tle-newsletter-honeypot {position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important}
+@media(max-width:980px){.site-footer .footer-top{grid-template-columns:minmax(0,1fr) auto;row-gap:25px}.site-footer .tle-newsletter{grid-column:1/-1;max-width:420px}}
+@media(max-width:620px){.site-footer .footer-top{grid-template-columns:minmax(0,1fr);gap:23px}.site-footer .tle-newsletter{grid-column:auto;max-width:none}.tle-newsletter-input{font-size:16px!important}.tle-newsletter-submit{min-width:106px}.site-footer .tle-newsletter-copy{font-size:13px}}
+@media(prefers-reduced-motion:reduce){.tle-newsletter-confirm{clip-path:none;opacity:0;transition:opacity 160ms ease}.tle-newsletter-form.done .tle-newsletter-confirm{opacity:1}.tle-newsletter-form.done .tle-newsletter-check path{animation:none;stroke-dashoffset:0}.tle-newsletter-submit{transition:none}}

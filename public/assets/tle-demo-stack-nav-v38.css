@@ -1,0 +1,41 @@
+/* v38 — native-style stacked service navigation. Public unkeyed demo only. */
+html.demo-editorial.tle-demo-stack-v38 #bookingStarter .tle-stack-stage{
+  position:relative;width:100%;min-width:0;isolation:isolate;overflow:hidden;
+  border-radius:20px;touch-action:pan-y;overscroll-behavior-x:contain;
+}
+html.demo-editorial.tle-demo-stack-v38 #bookingStarter .tle-stack-stage > .screen{
+  position:absolute!important;top:0;left:0;width:100%!important;max-width:none!important;
+  margin:0!important;box-sizing:border-box;transform:translate3d(0,0,0);
+  opacity:1;will-change:auto;display:none!important;
+}
+html.demo-editorial.tle-demo-stack-v38 #bookingStarter .tle-stack-stage > .screen.tle-stack-visible{
+  display:block!important;
+}
+html.demo-editorial.tle-demo-stack-v38 #bookingStarter .tle-stack-stage > .screen:not(#main){
+  padding-inline:max(0px,calc((100% - 760px)/2));
+}
+html.demo-editorial.tle-demo-stack-v38 #bookingStarter .tle-stack-stage > .screen.tle-stack-moving{
+  will-change:transform,opacity;
+}
+html.demo-editorial.tle-demo-stack-v38 #bookingStarter .tle-stack-shade{
+  position:absolute;z-index:15;inset:0;display:block;pointer-events:none;
+  background:rgba(16,24,40,1);opacity:0;border-radius:inherit;
+}
+html.demo-editorial.tle-demo-stack-v38 #bookingStarter .tle-stack-stage > .screen.tle-stack-foreground{
+  box-shadow:-12px 0 26px rgba(16,24,40,.14);border-radius:18px;
+}
+html.demo-editorial.tle-demo-stack-v38.tle-demo-booking-active #bookingStarter .tle-stack-stage > .screen{
+  background:#0c1c29;
+}
+html.demo-editorial.tle-demo-stack-v38:not(.tle-demo-booking-active) #bookingStarter .tle-stack-stage > .screen{
+  background:#fff;
+}
+html.demo-editorial.tle-demo-stack-v38 #bookingStarter #title:focus{outline:none}
+html.demo-editorial.tle-demo-stack-v38 #bookingStarter #title:focus-visible{
+  outline:3px solid #8ac5e9;outline-offset:5px;border-radius:5px;
+}
+@media(prefers-reduced-motion:reduce){
+ html.demo-editorial.tle-demo-stack-v38 #bookingStarter .tle-stack-stage > .screen.tle-stack-foreground{
+   box-shadow:none!important;
+ }
+}
