@@ -86,9 +86,15 @@ html.demo-editorial.tle-demo-v47 #leadHero .heroText .demo-hero-description{
  margin:0 0 16px!important;max-width:520px!important;
  color:#fff!important;-webkit-text-fill-color:#fff!important;
 }
+/* One clean hero hierarchy: the animated image caption, one H1, one supporting
+   line, one CTA. Hide legacy decorative/duplicate hero labels only in PUBLIC v47. */
 html.demo-editorial.tle-demo-v47 #leadHero .heroText #leadName{
- margin:0 0 9px!important;line-height:1.35!important;
- font-size:11px!important;color:#cceeff!important;
+ display:none!important;
+}
+html.demo-editorial.tle-demo-v47 #leadHero .heroText::before,
+html.demo-editorial.tle-demo-v47 #leadHero .heroText::after,
+html.demo-editorial.tle-demo-v47 #leadHero .tle46-gallery::before{
+ content:none!important;display:none!important;
 }
 html.demo-editorial.tle-demo-v47 #leadHero .heroText #demoHeroArea{
  display:none!important;
