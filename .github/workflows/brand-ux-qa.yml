@@ -45,11 +45,28 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Test desktop/mobile marketing and public preview
         run: |
-          bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/tle-ux-qa-server.log 2>&1 &
+          # Verify the actual published static build, not Vite's development
+          # server (which can return an unhydrated shell for prerendered routes).
+          test -s .output/public/index.html
+          test -s .output/public/booking-demo-reset.html
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public > /tmp/tle-ux-qa-server.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          ready=0
           for attempt in $(seq 1 35); do
-            if curl -sf http://127.0.0.1:4173/ >/dev/null; then break; fi
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null &&
+               curl -fsS http://127.0.0.1:4173/es/ >/dev/null &&
+               curl -fsS http://127.0.0.1:4173/booking-demo-reset.html >/dev/null; then
+              ready=1
+              break
+            fi
             sleep 2
           done
+          if [ "$ready" -ne 1 ]; then
+            cat /tmp/tle-ux-qa-server.log
+            echo "Prerendered public pages not ready for brand QA"
+            exit 1
+          fi
           QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-ux-qa/node_modules/playwright/index.mjs node scripts/qa-brand-ux.mjs
       - name: Collect screenshots
         if: always()

@@ -681,3 +681,109 @@
   .sales-home .hero-scroll-reveal { gap: 9px; }
   .sales-home .hero-scroll-reveal > span { font-size: 11px; }
 }
+
+
+/* Soft blue gradient is confined to the SAME shrinking hero card as the
+   approved photo and main heading. Outer dotted/connection background is
+   unchanged. The mesh has no input handling, overlay or new scroll logic. */
+@media (min-width:1024px) {
+  /* Change ONLY the interior ivory surface, never the dotted scroll backdrop.
+     This powder-blue base remains visible even before the blobs drift. */
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split {
+    background:linear-gradient(116deg,#E9F5FE 0%,#F3F9FF 38%,#EAF4FD 73%,#F7FAFE 100%);
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .tle-hero-soft-mesh {
+    position:absolute;inset:0;z-index:0;overflow:hidden;
+    pointer-events:none;border-radius:inherit;background:transparent;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
+    z-index:2; /* Photo and overlays always paint above the mesh. */
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .tle-hero-soft-mesh > span {
+    position:absolute;display:block;aspect-ratio:1;border-radius:50%;
+    pointer-events:none;transform:translate3d(0,0,0);will-change:transform;
+  }
+  .sales-home .tle-hero-soft-mesh > span:nth-child(1) {
+    width:clamp(360px,45vw,740px);left:-13%;top:-31%;
+    background:radial-gradient(circle,rgba(160,212,244,.62) 0%,rgba(167,216,245,0) 68%);
+    animation:tle-hero-mesh-a 9.5s ease-in-out infinite alternate;
+  }
+  .sales-home .tle-hero-soft-mesh > span:nth-child(2) {
+    width:clamp(330px,40vw,650px);left:12%;top:54%;
+    background:radial-gradient(circle,rgba(195,229,249,.72) 0%,rgba(207,234,250,0) 68%);
+    animation:tle-hero-mesh-b 11.7s ease-in-out infinite alternate;
+  }
+  .sales-home .tle-hero-soft-mesh > span:nth-child(3) {
+    width:clamp(330px,42vw,680px);left:43%;top:-23%;
+    background:radial-gradient(circle,rgba(139,194,230,.43) 0%,rgba(127,186,225,0) 68%);
+    animation:tle-hero-mesh-c 8.6s ease-in-out infinite alternate;
+  }
+  .sales-home .tle-hero-soft-mesh > span:nth-child(4) {
+    width:clamp(270px,30vw,520px);left:52%;top:66%;
+    background:radial-gradient(circle,rgba(223,242,253,.80) 0%,rgba(233,245,252,0) 68%);
+    animation:tle-hero-mesh-d 10.8s ease-in-out infinite alternate;
+  }
+}
+@keyframes tle-hero-mesh-a {
+  from { transform:translate3d(-3%,0,0) scale(.95); }
+  to { transform:translate3d(18%,9%,0) scale(1.12); }
+}
+@keyframes tle-hero-mesh-b {
+  from { transform:translate3d(8%,-8%,0) scale(1.04); }
+  to { transform:translate3d(-15%,6%,0) scale(.9); }
+}
+@keyframes tle-hero-mesh-c {
+  from { transform:translate3d(2%,8%,0) scale(.92); }
+  to { transform:translate3d(-16%,-8%,0) scale(1.09); }
+}
+@keyframes tle-hero-mesh-d {
+  from { transform:translate3d(-4%,4%,0) scale(.98); }
+  to { transform:translate3d(14%,-15%,0) scale(1.12); }
+}
+/* One authoritative desktop first-fold alignment. The matching photo and
+   heading stay inside the initial laptop viewport; keep the scroll scaling
+   wrapper, original photo wipe and outer dotted stage unchanged. */
+@media (min-width:1181px) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro,
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
+    top:-72px;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
+    height:min(clamp(465px,42vw,590px),calc(100svh - 265px));
+  }
+}
+@media (max-width:1023px) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .tle-hero-soft-mesh {
+    display:none;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .tle-hero-soft-mesh > span {
+    animation:none!important;transform:none!important;will-change:auto;
+  }
+}
+
+
+/* tle-desktop-hero-blue-surface-20261016
+   The ambient blue belongs to the ENTIRE original photo+heading card on first
+   paint, not to the dotted outer scroll stage. It is always under the copy,
+   image and demo button. No edits to image wipe or scroll-transform logic. */
+@media (min-width:1024px) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split {
+    background:linear-gradient(118deg,#E3F2FE 0%,#EFF8FE 43%,#DDEFFF 100%);
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .tle-hero-soft-mesh {
+    isolation:isolate;
+  }
+}
+/* Extra-short laptop windows: keep the photo fully visible without
+   placing it on top of the headline or changing tablet/phone layouts. */
+@media (min-width:1181px) and (max-height:640px) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
+    height:min(60svh,430px);
+    top:-40px;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro {
+    top:-40px;
+  }
+}
