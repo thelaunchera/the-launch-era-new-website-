@@ -1,5 +1,12 @@
 # ROUTE_MAP.md — The Launch Era route & button registry
 
+## Booking Automation floating illustrative chips (2026-10-16)
+- **Affected public routes only**: EN `/booking-lead-automation` and ES `/es/booking-lead-automation/`. Both render `src/components/booking-floating-chips.tsx` beside the existing heading, with its scoped `booking-floating-chips.css`.
+- Four visually decorative sample activity chips (new signup, example revenue metric, example payment, message count) float on desktops; under 640px only signup + messages remain in their own layout row below the heading so neither title nor CTAs are obscured. Example disclaimer is visible in each chip; `aria-hidden=true` prevents duplicate assistive announcements. No real customer data, purchases, provider calls or analytics/events.
+- Hover and click behavior of existing CTA `/booking-bundle/?lang=en|es` and personalized demo `/booking-demo/?lang=en|es` is unchanged; pricing, sale date and production copy unchanged. Motion uses CSS bobbing with staggered entry and fully disables under `prefers-reduced-motion`.
+- QA: `node scripts/qa-booking-hero-floating-chips.mjs` (source guard), normal route integrity and production build; check EN/ES 360,390,820,1024,1440, reduced motion and no overflow. Live GitHub Pages verification required before marking publication complete.
+
+
 ## Public marketing CTA microinteractions (2026-10-16)
 - Scope: active `thelaunchera/the-launch-era-new-website-` home, EN/ES service sales routes, approved AI Assistants marketing standalones, Cleaning App marketing landing, and real Contact/Lead Tracker forms only. CSS `public/assets/tle-marketing-cta-motion.css`; reusable native-anchor wrapper `src/components/marketing-cta.tsx`; real form button `src/components/morph-submit.tsx`. No changes to demos (including sample/booking demo), Command Center, owner preview, client-specific pages, checkout code or the external Cleaning App runtime.
 - Purchase/signup CTAs: preserve original `href`, accessible link/keyboard behavior, icons and copy. Subtle 2.8s dual blue flat-fill ripple behind dark pill, delayed 450ms; no box-shadow animation or neon. Motion pauses on hover/focus and is omitted for reduced motion.
