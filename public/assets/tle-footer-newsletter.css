@@ -8,6 +8,18 @@
 .tle-newsletter-row:focus-within {box-shadow:inset 0 0 0 1px #5D9EC8,0 0 0 3px rgba(76,148,198,.23)}
 .tle-newsletter-input {flex:1 1 0;min-width:0;height:100%;border:0!important;outline:0!important;box-shadow:none!important;background:transparent!important;padding:0 11px!important;font:500 13px/1.3 Futura,"DM Sans",sans-serif!important;color:#191919!important}
 .tle-newsletter-input::placeholder {color:#687D8B;opacity:1}
+/* iOS Safari autofill must match the pill instead of painting the field yellow. */
+.tle-newsletter-input:-webkit-autofill,
+.tle-newsletter-input:-webkit-autofill:hover,
+.tle-newsletter-input:-webkit-autofill:focus,
+.tle-newsletter-input:autofill {
+  -webkit-box-shadow: inset 0 0 0 1000px #EDF6FC!important;
+  box-shadow: inset 0 0 0 1000px #EDF6FC!important;
+  -webkit-text-fill-color: #191919!important;
+  caret-color: #191919!important;
+  border-radius:999px;
+}
+
 .tle-newsletter-input:disabled {opacity:1}
 .tle-newsletter-submit {flex:0 0 auto;height:34px;min-width:104px;border:0;border-radius:999px;background:#191919;color:#fff;padding:0 14px;font:600 12px/1.2 Futura,"DM Sans",sans-serif;cursor:pointer;transition:transform 90ms ease,background-color .2s ease}
 .tle-newsletter-submit:hover:not(:disabled) {background:#324956}
