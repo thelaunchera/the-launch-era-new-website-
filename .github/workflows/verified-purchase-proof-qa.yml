@@ -7,6 +7,7 @@ on:
       - 'supabase/functions/tle-public-purchase-proof/**'
       - 'src/routes/__root.tsx'
       - 'scripts/qa-verified-purchase-proof.mjs'
+      - 'scripts/qa-live-verified-purchase-proof.mjs'
       - 'skills/the-launch-era-qa/**'
       - '.github/workflows/verified-purchase-proof-qa.yml'
   workflow_dispatch:
@@ -33,3 +34,6 @@ jobs:
           node scripts/qa-route-integrity.mjs --static
           node scripts/qa-auth-recovery.mjs
           node scripts/qa-client-release.mjs
+
+      - name: Verify deployed read-only purchase-proof API and privacy
+        run: node scripts/qa-live-verified-purchase-proof.mjs
