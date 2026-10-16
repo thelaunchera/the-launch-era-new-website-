@@ -43,6 +43,7 @@ jobs:
           node scripts/qa-public-demo-integrity.mjs
           node scripts/qa-services-color-shift.mjs
           node scripts/qa-booking-hero-floating-chips.mjs
+          node scripts/qa-footer-theme-sweep.mjs
           node scripts/qa-booking-scrollytelling.mjs
           node scripts/qa-faq-topic-tabs.mjs
           node --check public/command-center/assets/command-center-app.js
