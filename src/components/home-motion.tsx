@@ -12,11 +12,12 @@ export function HomeMotion() {
   const update = () => {
    frame = 0;
    if (hero) {
-    // The split hero no longer has a long pinned scroll stage. Keep the CTA
-    // keyboard-accessible and let the dedicated wipe observer own its motion.
-    if (hero.querySelector('.hero-split')) {
+    const splitHero = Boolean(hero.querySelector('.hero-split'));
+    const staticSplit = splitHero && window.innerWidth < 768;
+    if (staticSplit) {
+     // On phones the picture stacks above the copy; never pin or shrink the stage.
      hero.style.removeProperty('--hero-scroll-progress');
-     hero.classList.remove('hero-scroll-revealed');
+     hero.classList.add('hero-scroll-revealed');
      heroIntro?.removeAttribute('inert');
     } else if (media.matches) {
      hero.style.removeProperty('--hero-scroll-progress');
@@ -30,7 +31,7 @@ export function HomeMotion() {
      hero.style.setProperty('--hero-scroll-progress', progress.toFixed(4));
      hero.classList.toggle('hero-scroll-revealed', progress >= 0.7);
      // Never leave an invisible CTA in the keyboard tab order.
-     heroIntro?.toggleAttribute('inert', progress >= 0.5);
+     heroIntro?.toggleAttribute('inert', !splitHero && progress >= 0.5);
     }
    }
    cards.forEach(card => {
