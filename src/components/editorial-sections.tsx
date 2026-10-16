@@ -1,4 +1,5 @@
 import { BookingBenefits } from './home-motion';
+import { ServicesColorMotion } from './services-color-motion';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Link } from '@tanstack/react-router';
 import { ArrowRight, ArrowUpRight, Bell, CalendarCheck2, Check, CircleCheck, ClipboardList, MessageCircle, MessagesSquare, Send, Sparkles, Timer, Workflow } from 'lucide-react';
@@ -50,7 +51,7 @@ const services = [
  {title:'Virtual Assistant',landing:'/virtual-assistant',description:'Thoughtful, behind-the-scenes support for your busy days.',image:assistant,alt:'A virtual assistant working at a laptop in her home office',tag:'A LITTLE HELP GOES A LONG WAY',points:['Help with your everyday admin','A more organized inbox and client information','Support shaped around your business'],checkout:'/virtual-assistant'}
 ];
 export function SolutionsSection() {
- return <section id="solutions" className="solutions-section"><Wave/><div className="container"><div className="section-heading"><div className="eyebrow">LESS TO CHASE. MORE ROOM TO RUN YOUR BUSINESS.</div><h2 className="editorial">A new cleaning request<br/>shouldn’t get lost in your messages.</h2><p>You’re busy enough with the cleaning. We’ll help you keep track of who asked, what they need, and when to follow up.</p></div><p className="service-rail-hint">Explore our solutions</p><div className="service-grid" aria-label="Cleaning business services">{services.map((s,i)=><a className="service-card" key={s.title} href={s.landing}><ServiceCard service={s} index={i}/></a>)}</div></div></section>;
+ return <section id="solutions" className="solutions-section" data-services-color-shift><ServicesColorMotion/><Wave/><div className="container"><div className="sol-color-nav" aria-label="Services color progress"><span className="sol-color-brand">THE LAUNCH ERA</span><span className="sol-color-counter" data-service-theme-counter>01 / 05</span><span className="sol-color-bars" aria-hidden="true"><i data-service-theme-bar data-active="true"/><i data-service-theme-bar/><i data-service-theme-bar/></span><a className="sol-color-link" href="#service-rail-en"><span>Explore</span></a></div><div className="section-heading"><div className="eyebrow">LESS TO CHASE. MORE ROOM TO RUN YOUR BUSINESS.</div><h2 className="editorial">A new cleaning request<br/>shouldn’t get lost in your messages.</h2><p>You’re busy enough with the cleaning. We’ll help you keep track of who asked, what they need, and when to follow up.</p></div><p className="service-rail-hint">Explore our solutions</p><div id="service-rail-en" className="service-grid" aria-label="Cleaning business services">{services.map((s,i)=><a className="service-card" key={s.title} href={s.landing}><ServiceCard service={s} index={i}/></a>)}</div></div></section>;
 }
 function ServiceCard({service:s,index:i}:{service:typeof services[number],index:number}) {
  const {sale}=useBookingPrice();
