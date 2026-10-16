@@ -60,6 +60,8 @@ try {
     };
    });
    assert.equal(geometry.storyCount,1,"Exactly one editorial story");
+   assert.equal(await page.locator("#leadHero h1.tle49-hook").count(),1,"A single active v49 hook prevents competing scripts");
+   assert.equal(await page.locator("#leadHero .tle48-sample-note").evaluate(el=>getComputedStyle(el).pointerEvents),"none","Sample disclaimer must never steal pointer events from CTA");
    assert(geometry.photoSrc.includes("/assets/drive-house-gallery/"),"Hero must use existing Drive asset");
    assert(new Set(geometry.servicePhotos).size===3&&geometry.servicePhotos.every(src=>src?.includes("/assets/demo-editorial/")),
      "Three different optimized Drive service photos: "+JSON.stringify(geometry.servicePhotos));
@@ -82,11 +84,13 @@ try {
      assert(initial.cards[0].rect.width>initial.cards[1].rect.width*2.2,
        "First desktop photo must be visibly expanded");
    }
-   const heading=await page.locator("#leadHero h1.tle49-hook").evaluate(h=>({
+   const heading=await page.locator("#leadHero h1.tle49-hook:not([aria-hidden=\"true\"])").evaluate(h=>({
     label:h.getAttribute("aria-label"),words:[...h.querySelectorAll(".tle49-hook-word")].map(w=>w.textContent),
     fontSize:parseFloat(getComputedStyle(h).fontSize)}));
-   assert(heading.words.length===3&&heading.label.includes(heading.words[0])&&heading.fontSize>=38,
-     "Animated words must be in the prominent accessible H1");
+   const readable=(value)=>String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9 ]+/g," ").replace(/\s+/g," ").trim();
+   const spokenHook=readable(heading.label), firstWord=readable(heading.words[0]);
+   assert(heading.words.length===3&&firstWord.length>3&&spokenHook.includes(firstWord)&&heading.fontSize>=38,
+     "Animated words must be in the prominent accessible H1: "+JSON.stringify(heading));
    if(width<=412){
     const bubble=await page.evaluate(()=>{
      const bot=document.querySelector(".tle-ai-launch.tle-demo-condensed"),cta=document.querySelector("#leadHero .demo-hero-cta");
