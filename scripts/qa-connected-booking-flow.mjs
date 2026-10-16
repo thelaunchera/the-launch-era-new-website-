@@ -12,7 +12,7 @@ for (const [lang, source, demo] of [
   ['en',en,'/booking-demo/?lang=en'],
   ['es',es,'/booking-demo/?lang=es'],
 ]) {
-  assert(source.includes('<HeroConnectionBackdrop/>'), lang + ': no hero backdrop');
+  assert(source.includes('<HeroConnectionBackdrop lang="' + lang + '"/>'), lang + ': no localized hero backdrop');
   assert(source.includes('<ConnectedBookingFlow lang="' + lang + '"/>'), lang + ': flow board not mounted');
   assert(source.includes('home-booking-explorer tle-flow-explorer'), lang + ': old preview not replaced');
   assert(!source.includes('<ProductExplorer lang=') && !source.includes('<ProductExplorer>'), lang + ': old preview duplicate');
