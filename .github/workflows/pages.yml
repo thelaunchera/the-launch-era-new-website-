@@ -41,6 +41,7 @@ jobs:
           node scripts/qa-route-integrity.mjs --static
           node --check scripts/qa-public-demo-integrity.mjs
           node scripts/qa-public-demo-integrity.mjs
+          node scripts/qa-services-color-shift.mjs
           node --check public/command-center/assets/command-center-app.js
           node scripts/qa-owner-internal-incidents.mjs
           node scripts/qa-ai-team.mjs
