@@ -87,6 +87,23 @@ function init(){
   list.addEventListener('focusin',e=>{if(cards.includes(e.target))pick(e.target);});
  }
  gallery(res);gallery(com);
+ // On the mobile booking studio, park Sonny at the upper-right of the
+ // viewport, well away from photo-panel labels, prices and action arrows.
+ // Keep Sonny accessible and preserve the original open-chat function.
+ const placeSonny=()=>{
+  const launcher=document.querySelector(".tle-ai-launch.tle-demo-condensed");
+  if(!launcher||!matchMedia("(max-width:759px)").matches)return;
+  const booking=root.classList.contains("tle-demo-booking-active");
+  launcher.style.setProperty("top",booking?"152px":"auto","important");
+  launcher.style.setProperty("bottom",booking?"auto":"calc(12px + env(safe-area-inset-bottom))","important");
+  launcher.style.setProperty("right","calc(10px + env(safe-area-inset-right))","important");
+ };
+ const watchBooking=new MutationObserver(()=>requestAnimationFrame(placeSonny));
+ watchBooking.observe(root,{attributes:true,attributeFilter:["class"]});
+ placeSonny();
+ requestAnimationFrame(placeSonny);
+ addEventListener("resize",()=>requestAnimationFrame(placeSonny),{passive:true});
+ addEventListener("pagehide",()=>watchBooking.disconnect(),{once:true});
  return true;
 }
 if(!init()){
