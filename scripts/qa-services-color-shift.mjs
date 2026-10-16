@@ -56,7 +56,7 @@ try {
        assert.notEqual(first.phase,second.phase, lang + ' ' + width + ': scroll did not shift phase');
        assert.notEqual(first.bg,second.bg,lang + ' ' + width + ': background did not change on scroll');
      } else {
-       await section.locator('.service-grid').evaluate(el => { el.scrollLeft = el.scrollWidth - el.clientWidth; });
+       await section.locator('.service-grid').evaluate(el => { el.scrollLeft = (el.scrollWidth - el.clientWidth) * .56; });
        await page.waitForTimeout(600);
        const second = await section.evaluate(el => ({bg:getComputedStyle(el).backgroundColor, phase:el.dataset.colorPhase}));
        assert.notEqual(first.phase, second.phase, lang + ' ' + width + ': swipe did not change phase');
