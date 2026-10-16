@@ -8,7 +8,7 @@ const js=read('public/assets/tle-pricing-motion.js');
 const root=read('src/routes/__root.tsx');
 const sales=read('src/components/editorial-sections.tsx');
 for(const [lang,html] of [['en',en],['es',es]]){
- assert(html.includes('tle-pricing-motion.css?v=20261016-1'),lang+' CSS missing');
+ assert(html.includes('tle-pricing-motion.css?v=20261016-2'),lang+' CSS missing');
  assert(html.includes('tle-pricing-motion.js?v=20261016-1'),lang+' JS missing');
  assert.equal((html.match(/class="card(?: tle-featured-card)?"/g)||[]).length,3,lang+' must have 3 genuine pricing cards');
  assert.equal((html.match(/class="tle-featured-card"/g)||[]).length,0,'featured class is shared with card');
@@ -35,7 +35,7 @@ assert(css.includes('tle-pricing-ready'),'no-JS offers must remain visible');
 assert(js.includes('offsetWidth')&&js.includes("aria-checked")&&js.includes('ArrowRight')&&js.includes('Home')&&js.includes('End'),'keyboard and repeatable animation');
 assert(js.includes("const saves=key==='business'")&&js.includes("badge.hidden=!saves"),'no invented discount on individual plans');
 assert(js.includes("if(el.hidden||el.closest('[hidden]'))return"),'server-gated offers must remain hidden');
-assert(root.includes('tle-pricing-motion.css?v=20261016-1')&&root.includes('tle-pricing-motion.js?v=20261016-1'),'root sales price asset missing');
+assert(root.includes('tle-pricing-motion.css?v=20261016-2')&&root.includes('tle-pricing-motion.js?v=20261016-1'),'root sales price asset missing');
 assert(sales.includes('30% OFF')&&sales.includes('"$41.99"')&&sales.includes('"$34.99/mo"'),'existing sales prices must remain untouched');
 console.log('[TLE PUBLIC PRICING STATIC PASSED] EN/ES 3 actual plans, truthful savings, checkout isolation, SSR safety');
 if(!process.argv.includes('--browser'))process.exit(0);
