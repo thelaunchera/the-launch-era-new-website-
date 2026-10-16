@@ -82,6 +82,8 @@ export function FreebiePage({language}:{language:Language}){
       track('freebie_submit',{freebie:'cleaning_lead_tracker',language,...context});
       if(data?.email_sent) track('freebie_email_sent',{freebie:'cleaning_lead_tracker',language,...context});
       setEmailAccepted(data?.email_sent === true);
+      setStatus('done');
+      await new Promise<void>(resolve => window.setTimeout(resolve, 780));
       setStatus('sent');
     }catch{
       sendingRef.current=false;
