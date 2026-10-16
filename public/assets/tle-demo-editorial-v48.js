@@ -7,9 +7,9 @@ if(location.pathname!=="/lead-private-preview.html"||query.has("key")||query.get
 const es=query.get("lang")==="es";
 const pictures={
   residential:[
-    "/assets/drive-house-gallery/quiet-luxury.png",
-    "/assets/drive-house-gallery/pristine-kitchen.png",
-    "/assets/drive-house-gallery/whole-home.png"
+    "/assets/demo-editorial/service-standard.webp",
+    "/assets/demo-editorial/service-deep.webp",
+    "/assets/demo-editorial/service-move.webp"
   ]
 };
 const copy=es?{
@@ -43,7 +43,7 @@ function setup(){
  const text=stage?.querySelector(".heroText");
  const list=document.getElementById("residentialServiceList");
  const panel=document.getElementById("bookingStarter");
- if(!root.classList.contains("demo-editorial")||!stage||!text||!list||!panel)return false;
+ if(!root.classList.contains("demo-editorial")||!root.classList.contains("tle-demo-v47")||!root.classList.contains("tle-photo-services-v21")||!stage||!text||!list||!panel||list.querySelectorAll(":scope > button.service.tle-service-has-photo-v21").length<3)return false;
  const tagline=text.querySelector(".demo-hero-tagline");
  const subtitle=text.querySelector(".demo-hero-description");
  const lead=text.querySelector("#leadName");
@@ -55,10 +55,12 @@ function setup(){
  story.className="tle48-story";
  story.setAttribute("aria-label",copy.storyLabel);
  const photos=document.createElement("div");photos.className="tle48-story-photos";
- const large=document.createElement("img");large.src="/assets/drive-house-gallery/whole-home.png";
+ const large=document.createElement("img");large.src="/assets/demo-editorial/story-room.webp";
  large.alt=copy.photoAlt;large.width=900;large.height=1000;large.loading="lazy";large.decoding="async";
- const small=document.createElement("img");small.src="/assets/drive-house-gallery/pristine-kitchen.png";
+ const small=document.createElement("img");small.src="/assets/demo-editorial/story-detail.webp";
  small.alt=copy.detailAlt;small.width=500;small.height=420;small.loading="lazy";small.decoding="async";
+ large.addEventListener("error",()=>{if(!large.dataset.fallback){large.dataset.fallback="1";large.src="/assets/lead-demo/sunroom.png";}});
+ small.addEventListener("error",()=>{if(!small.dataset.fallback){small.dataset.fallback="1";small.src="/assets/lead-demo/poolside-living.png";}});
  photos.append(large,small);
  const body=document.createElement("div");body.className="tle48-story-copy";
  const kicker=document.createElement("span");kicker.className="tle48-story-label";kicker.textContent=copy.storyLabel;
@@ -76,17 +78,22 @@ function setup(){
  const residential=[...list.querySelectorAll(":scope > button.service.tle-service-has-photo-v21")];
  residential.slice(0,3).forEach((button,index)=>{
   const image=button.querySelector(".tle-service-photo-v21 img");
-  if(image){image.src=pictures.residential[index];image.alt="";image.removeAttribute("data-drive-photo");}
+  if(image){
+   image.src=pictures.residential[index];image.alt="";image.removeAttribute("data-drive-photo");
+   image.addEventListener("error",()=>{if(!image.dataset.editorialFallback){image.dataset.editorialFallback="1";image.src=["/assets/cleaning-demo/living-room-original.jpg","/assets/lead-demo/pristine-kitchen.png","/assets/lead-demo/hero-luxury-home.png"][index];}});
+  }
  });
  const commercial=document.getElementById("commercialServiceList");
  const commercialCards=[...(commercial?.querySelectorAll(":scope > button.service.tle-service-has-photo-v21")||[])];
- // One office image can be verified locally. Other categories retain their
- // names and click behavior, but use designed backgrounds rather than a
- // misleading living-room photograph pretending to be a medical/retail site.
- commercialCards.forEach((card,index)=>{
+ const commercialPhotos=["office","retail","medical","floor"];
+ commercialCards.slice(0,4).forEach((card,index)=>{
   const image=card.querySelector(".tle-service-photo-v21 img");
-  if(index===0&&image){image.src="/assets/lead-demo/spotless-office.png";image.alt="";}
-  else card.classList.add("tle48-nonphoto-commercial");
+  if(!image)return;
+  image.src="/assets/demo-services/"+commercialPhotos[index]+".webp";
+  image.alt="";
+  image.addEventListener("error",()=>{
+   if(!image.dataset.editorialFallback){image.dataset.editorialFallback="1";image.src="/assets/lead-demo/spotless-office.png";}
+  });
  });
  // Keep the custom quote path with its checked-area flow, and hide only
  // the older duplicate custom-quote tile when that replacement is present.
