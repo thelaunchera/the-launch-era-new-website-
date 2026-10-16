@@ -16,7 +16,7 @@
 .site-footer.tle-footer-theme .footer-links a{
  position:relative;display:inline-block;padding:3px 0;
  text-underline-offset:4px;color:#191919;
- transition:color 180ms ease;font-weight:600
+ font-weight:600
 }
 .site-footer.tle-footer-theme .footer-links a::after{
  content:'';position:absolute;inset:auto 0 0;
