@@ -7,6 +7,7 @@ import {chromium} from 'playwright';
 
 const pageHtml=readFileSync('public/booking-demo-reset.html','utf8');
 const bubbles=readFileSync('public/assets/tle-booking-blue-orbs.css','utf8');
+const curtain=readFileSync('public/assets/tle-demo-curtain-footer.css','utf8');
 const original=readFileSync('public/lead-private-preview.html','utf8');
 const emailSource=readFileSync('supabase/functions/tle-jessie-demo-lead/index.ts','utf8');
 assert.match(pageHtml,/tle-booking-blue-orbs\.css/,'Blue bubbles theme stylesheet missing');
@@ -18,6 +19,15 @@ assert.match(pageHtml,/class="booking-custom-arrow"/);
 assert(pageHtml.indexOf('id="bookingBeforeAfter"')<pageHtml.indexOf('id="bookingProof"'),
   'Before & After must be above Reviews');
 assert.match(bubbles,/radial-gradient/);
+assert.match(pageHtml,/tle-demo-curtain-footer\.css/,'Booking demo curtain style missing');
+assert(pageHtml.indexOf('id="tleDemoCurtainPage"')<pageHtml.indexOf('id="bookingPortal"')
+ &&pageHtml.indexOf('id="bookingProof"')<pageHtml.indexOf('id="tleDemoCurtainFooter"'),
+ 'Wrap only the demo content before its single footer');
+assert.equal((pageHtml.match(/id="tleDemoCurtainFooter"/g)||[]).length,1,'Only one demo footer');
+assert(!pageHtml.includes('site-footer tle-footer-theme'),'Do not merge main marketing footer into demo');
+assert.match(curtain,/position:fixed!important/,'Curtain must reveal its fixed footer under the page');
+assert.match(curtain,/prefers-reduced-motion:reduce/,'Reduced-motion static footer is required');
+assert.match(curtain,/animation-timeline:scroll\(root block\)/,'CSS-only parallax where supported');
 const premium=readFileSync('public/assets/tle-booking-premium-refresh.css','utf8');
 assert.match(premium,/sonny-avatar-mark/,'Original approved Sonny robot bubble must stay intact');
 assert.match(emailSource,/lead-private-preview\.html/,'Existing email lead magnet link must remain');
@@ -74,6 +84,48 @@ try {
     assert(r.firstReviewTop>r.lastCompareBottom&&r.firstReviewTop-r.lastCompareBottom<275,
       'Reviews must appear shortly after the matched photo comparisons without the previous excessive gap '+JSON.stringify(r));
     assert(r.disclosureBelow,'Review cards should appear before the truthful illustrative disclosure');
+    await page.evaluate(()=>window.scrollTo({top:document.documentElement.scrollHeight,behavior:'instant'}));
+    await page.waitForTimeout(120);
+    const curtainState=await page.evaluate(()=>{
+      const wrap=document.getElementById('tleDemoCurtainPage');
+      const footer=document.getElementById('tleDemoCurtainFooter');
+      const footerInner=footer.querySelector('.tle-demo-curtain-footer__inner');
+      const footerLinks=[...footer.querySelectorAll('nav a')];
+      const pos=el=>{const v=el.getBoundingClientRect();return {left:v.left,right:v.right,top:v.top,bottom:v.bottom,width:v.width,height:v.height}};
+      const first=footerLinks[0],r=pos(first);
+      const clickedOn=document.elementFromPoint((r.left+r.right)/2,(r.top+r.bottom)/2);
+      return {
+       fixed:getComputedStyle(footer).position,
+       margin:parseFloat(getComputedStyle(wrap).marginBottom)||0,
+       height:footer.getBoundingClientRect().height,
+       end:wrap.getBoundingClientRect().bottom,
+       innerScroll:footerInner.scrollHeight,
+       innerHeight:footerInner.clientHeight,
+       links:footerLinks.map(l=>({text:l.textContent.trim(),rect:pos(l),href:l.getAttribute('href')})),
+       exposed:!!clickedOn&&(first===clickedOn||first.contains(clickedOn)),
+       footerColor:getComputedStyle(footer).backgroundColor,
+       overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth,
+       viewHeight:innerHeight
+      };
+    });
+    const shouldBeStatic=reduced;
+    assert.equal(curtainState.fixed,shouldBeStatic?'relative':'fixed',
+      'Footers must be static in reduced motion and fixed in regular demo: '+JSON.stringify(curtainState));
+    assert.equal(curtainState.links.length,3,'Do not lose demo footer links');
+    assert(curtainState.links.every(l=>l.href&&l.rect.left>=-2&&l.rect.right<=width+2),
+      'Footer links must remain horizontally accessible: '+JSON.stringify(curtainState));
+    assert(curtainState.overflow<=3,'Curtain must not create horizontal overflow '+JSON.stringify(curtainState));
+    if(!shouldBeStatic){
+      assert(Math.abs(curtainState.margin-curtainState.height)<3,'End spacer must equal fixed footer height '+JSON.stringify(curtainState));
+      assert(Math.abs(curtainState.end-(curtainState.viewHeight-curtainState.height))<8,'Main must lift above footer reveal '+JSON.stringify(curtainState));
+      assert(curtainState.innerScroll<=curtainState.innerHeight+3,'Footer content clipped at '+lang+' '+width+' '+JSON.stringify(curtainState));
+      assert(curtainState.exposed,'First footer link is covered by an overlay '+JSON.stringify(curtainState));
+    }else{
+      assert(curtainState.margin<2,'Reduced-motion footer must return to normal reading order');
+    }
+    assert.match(await page.locator('#tleDemoFooterHeadline').textContent(),
+      lang==='es'?/Una forma más sencilla|Una manera más fácil|Reservar debería/:/A simpler way to book/i,
+      'Curtain footer must translate naturally EN/ES');
     assert.match(r.firstReviewTopCode,lang==='es'?/EXPLORA SIN COMPLICARTE/:/EASY TO EXPLORE/,
       'Original cards and their label must be localized EN ES');
     assert.match(await page.locator('#bookingProofDesc').textContent(),
