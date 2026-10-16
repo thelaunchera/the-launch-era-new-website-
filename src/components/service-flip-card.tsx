@@ -18,6 +18,8 @@ export function ServiceFlipCard({title,description,href,points,lang='en',childre
   const link=useRef<HTMLAnchorElement>(null);
   const suppressFocus=useRef(false);
   const openingFocus=useRef(false);
+  // Keep the back face active through touch/pointer click so blur cannot cancel the link.
+  const activatingLink=useRef(false);
   const open=flipped||reduced;
 
   useEffect(()=>{
@@ -50,9 +52,9 @@ export function ServiceFlipCard({title,description,href,points,lang='en',childre
   };
   return <article ref={root} className={'service-card tle-service-flip'+(open?' is-flipped':'')+(reduced?' is-reduced':'')}
     onMouseEnter={()=>{if(!reduced&&window.matchMedia('(hover: hover) and (pointer: fine)').matches)reveal();}}
-    onMouseLeave={()=>{if(!reduced&&!openingFocus.current&&!root.current?.contains(document.activeElement))setFlipped(false);}}
+    onMouseLeave={()=>{if(!reduced&&!openingFocus.current&&!activatingLink.current&&!root.current?.contains(document.activeElement))setFlipped(false);}}
     onFocusCapture={e=>{if(e.target===front.current&&!suppressFocus.current&&!open)reveal(true);}}
-    onBlurCapture={e=>{if(!reduced&&!openingFocus.current&&!e.currentTarget.contains(e.relatedTarget as Node))setFlipped(false);}}
+    onBlurCapture={e=>{if(!reduced&&!openingFocus.current&&!activatingLink.current&&!e.currentTarget.contains(e.relatedTarget as Node))setFlipped(false);}}
     onKeyDown={onKeys}>
     <div className="tle-service-flip__inner">
       <div className="tle-service-flip__face tle-service-flip__front" inert={open} aria-hidden={open}>
@@ -60,7 +62,7 @@ export function ServiceFlipCard({title,description,href,points,lang='en',childre
           aria-label={(lang==='es'?'Ver detalles de ':'See details for ')+title} aria-expanded={open}
           onClick={()=>reveal(true)}>
           {children}
-          <span className="tle-service-flip__hint" aria-hidden="true">{lang==='es'?'Toca para conocer más ↗':'Tap for details ↗'}</span>
+          <span className="tle-service-flip__hint" aria-hidden="true">{lang==='es'?'Toca para ver ↗':'Tap to view ↗'}</span>
         </button>
       </div>
       <div className="tle-service-flip__face tle-service-flip__back" inert={!open} aria-hidden={!open}>
@@ -71,7 +73,10 @@ export function ServiceFlipCard({title,description,href,points,lang='en',childre
         <h3>{title}</h3>
         <p>{description}</p>
         <ul>{points.slice(0,3).map(point=><li key={point}><Check size={16} aria-hidden="true"/><span>{point}</span></li>)}</ul>
-        <a ref={link} href={href} className="tle-service-flip__cta">
+        <a ref={link} href={href} className="tle-service-flip__cta"
+          onPointerDown={()=>{activatingLink.current=true;}}
+          onPointerCancel={()=>{activatingLink.current=false;}}
+          onPointerUp={()=>{window.requestAnimationFrame(()=>{activatingLink.current=false;});}}>
           {lang==='es'?'Explorar servicio':'Explore service'} <ArrowRight size={17} aria-hidden="true"/>
         </a>
       </div>
