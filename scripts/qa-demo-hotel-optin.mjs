@@ -247,12 +247,14 @@ for(const engine of [chromium,webkit]){
       "First tap must NOT open a booking unexpectedly");
     await page.screenshot({path:"qa-screenshots/demo-v49-optin/touch-expanded-"+engine.name()+"-"+lang+".png"});
     const visible=await cards.nth(1).evaluate(el=>{
-      const p=el.querySelector(".price"),h=el.querySelector(".demo-service-body b");
+      const p=el.querySelector(".price"),h=el.querySelector(".demo-service-body b"),icon=el.querySelector(".demo-service-go svg path");
       const a=el.getBoundingClientRect(),r=p.getBoundingClientRect(),t=h.getBoundingClientRect();
       return {price:!!p&&getComputedStyle(p).opacity==="1",title:!!h&&getComputedStyle(h).visibility!=="hidden",
-       within:r.left>=a.left-3&&r.right<=a.right+3&&r.bottom<=a.bottom+3&&t.bottom<=a.bottom+3};
+       within:r.left>=a.left-3&&r.right<=a.right+3&&r.bottom<=a.bottom+3&&t.bottom<=a.bottom+3,
+       arrow:icon?getComputedStyle(icon).stroke:null};
     });
     assert(visible.price&&visible.title&&visible.within,"Expanded mobile content must not be hidden by effect: "+JSON.stringify(visible));
+    assert(visible.arrow==="rgb(20, 62, 85)","Booking arrow must have dark contrast against pale blue disc: "+JSON.stringify(visible));
     await cards.nth(1).tap();
     await page.waitForFunction(()=>!document.getElementById("main")?.classList.contains("on"),null,{timeout:10000});
     assert.deepEqual(errors,[],"Mobile touch must not generate JS errors");
