@@ -1,5 +1,11 @@
 # ROUTE_MAP.md — The Launch Era route & button registry
 
+## Public CTA visibility / cached asset fix (2026-10-16)
+- Public EN/ES marketing CTA implementation existed but did not visibly communicate the promised animation: original `#D7EFFF` pulse matched the blue final chapter exactly; purchase CTA links had pulse only, not the requested moving border; CSS asset remained under `?v=20261016-1`, permitting old cached style to persist.
+- Corrected shared primary CTA shell with accent `#568FB3` pulse, inner text above a 2px clipped conic border on purchase/signup CTA buttons, respecting `prefers-reduced-motion`. Preserved native links/destinations, and excluded /demo, /preview and Command Center.
+- Cache-bust `/assets/tle-marketing-cta-motion.css?v=20261016-2` in `src/routes/__root.tsx` and EN/ES AI Assistants pages. Secondary demo-free gradient links and server-confirmed contact/freebie state machines unchanged.
+- Added source and browser regressions for actual endcap contrast, computed pseudo-element animation, label visibility, 5 responsive widths, reduced motion and synthetic form sends without contacting production endpoints. Production live rollout must be separately verified.
+
 ## Public marketing CTA microinteractions (2026-10-16)
 - Scope: active `thelaunchera/the-launch-era-new-website-` home, EN/ES service sales routes, approved AI Assistants marketing standalones, Cleaning App marketing landing, and real Contact/Lead Tracker forms only. CSS `public/assets/tle-marketing-cta-motion.css`; reusable native-anchor wrapper `src/components/marketing-cta.tsx`; real form button `src/components/morph-submit.tsx`. No changes to demos (including sample/booking demo), Command Center, owner preview, client-specific pages, checkout code or the external Cleaning App runtime.
 - Purchase/signup CTAs: preserve original `href`, accessible link/keyboard behavior, icons and copy. Subtle 2.8s dual blue flat-fill ripple behind dark pill, delayed 450ms; no box-shadow animation or neon. Motion pauses on hover/focus and is omitted for reduced motion.
