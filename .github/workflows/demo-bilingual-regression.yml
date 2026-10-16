@@ -1,0 +1,47 @@
+name: Personalized demo EN ES browser regression
+on:
+  pull_request:
+    paths:
+      - 'public/booking-demo/index.html'
+      - 'scripts/qa-booking-demo-i18n-browser.mjs'
+      - '.github/workflows/demo-bilingual-regression.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'public/booking-demo/index.html'
+      - 'scripts/qa-booking-demo-i18n-browser.mjs'
+      - '.github/workflows/demo-bilingual-regression.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Validate source and build
+        run: |
+          node --check scripts/qa-booking-demo-i18n-browser.mjs
+          node scripts/qa-route-integrity.mjs --static
+          bun install
+          bun run build
+      - name: Install browser for isolated test
+        run: |
+          mkdir -p /tmp/tle-i18n-pw
+          cd /tmp/tle-i18n-pw
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+      - name: Verify rendered EN ES pages at phone tablet desktop widths
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-i18n.log 2>&1 &
+          for i in $(seq 1 35); do
+            if curl -sf http://127.0.0.1:4173/booking-demo/ | grep -q 'id="demoForm"'; then break; fi
+            sleep 2
+          done
+          curl -fsS http://127.0.0.1:4173/booking-demo/ | grep -q 'id="demoForm"'
+          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-i18n-pw/node_modules/playwright/index.mjs node scripts/qa-booking-demo-i18n-browser.mjs
