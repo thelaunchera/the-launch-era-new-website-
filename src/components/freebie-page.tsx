@@ -1,3 +1,4 @@
+import { MarketingCTA } from '@/components/marketing-cta';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { ArrowRight, Check, Mail, Sparkles } from 'lucide-react';
 
@@ -102,9 +103,9 @@ export function FreebiePage({language}:{language:Language}){
               :['Editable Lead Tracker','12-page Starter Kit','Inquiry + quote scripts','10-minute lead reset']
             ).map(item=><span key={item} className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-3 py-2 text-sm font-medium"><Check size={15}/>{item}</span>)}
           </div>
-          <a href="#freebie-form" className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#191919] px-6 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5">
+          <MarketingCTA href="#freebie-form" className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#191919] px-6 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5">
             {es?'Quiero el Lead Tracker gratis':'Get the Free Lead Tracker'} <ArrowRight size={17}/>
-          </a>
+          </MarketingCTA>
         </div>
 
         <div className="relative min-h-[460px] md:min-h-[560px]">
