@@ -13,6 +13,27 @@ try{
   page.on("request",r=>{if(["POST","PUT","PATCH","DELETE"].includes(r.method()))writes.push(r.url())});
   await page.goto(base+"/lead-private-preview.html?lang="+lang,{waitUntil:"load"});
   await page.waitForSelector("html.tle-demo-v45",{timeout:15000});
+  await page.waitForSelector("html.tle-demo-v46",{timeout:15000});
+  const words=await page.evaluate(()=>{
+   const all=[...document.querySelectorAll("#residentialServiceList .tle-v46-photo-words,#commercialServiceList .tle-v46-photo-words")];
+   const first=all[0],grid=first?.querySelector(".tle-v46-rotate");
+   return {count:all.length,
+    allOnPhoto:all.every(e=>!!e.parentElement.querySelector(".tle-service-photo-v21 img")),
+    triplets:all.every(e=>e.querySelectorAll(".tle-v46-word").length===3),
+    uniquePrefixes:new Set(all.map(e=>e.querySelector(".tle-v46-static")?.textContent)).size,
+    firstWords:all.map(e=>e.querySelector(".tle-v46-word")?.textContent),
+    aria:all.map(e=>[...e.querySelectorAll(".tle-v46-word")].map(w=>w.getAttribute("aria-hidden"))),
+    motion:[...grid?.children||[]].map(el=>({name:getComputedStyle(el).animationName,opacity:getComputedStyle(el).opacity})),
+    intro:document.querySelector(".tle-v44-intro h2")?.textContent
+   };
+  });
+  assert.equal(words.count,7,"Each of 7 original service photos needs human overlay copy: "+JSON.stringify(words));
+  assert(words.allOnPhoto&&words.triplets&&words.uniquePrefixes>=6,"Rotating copy must be unique and photo-specific");
+  assert(words.aria.every(a=>a[0]===null&&a[1]==="true"&&a[2]==="true"),"Only primary word available to assistive tech");
+  assert(words.motion[0].name==="none"&&Number(words.motion[0].opacity)===1
+      &&words.motion.slice(1).every(x=>Number(x.opacity)===0),"Reduced-motion uses the first static word");
+  assert(words.firstWords[0]===(lang==="es"?"fresco":"fresh"),"Translations should be idiomatic EN/ES");
+
   const before=await page.evaluate(()=>{
    const logo=document.querySelector("#demoEditorialNav #demoBrandName .tle-bloom-name");
    const hero=document.querySelector("#leadHero");
@@ -73,6 +94,7 @@ try{
   assert.deepEqual(writes,[],"No real sample writes");
   await page.goto(base+"/lead-private-preview.html?key=fictional-tenant-check&lang="+lang,{waitUntil:"load"});
   assert.equal(await page.locator("html.tle-demo-v45").count(),0,"No v45 on customer pages");
+  assert.equal(await page.locator(".tle-v46-photo-words").count(),0,"No v46 photo marketing copy on private customers");
   await page.close();
   console.log("PASS natural layout",lang,width);
  }
