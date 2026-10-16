@@ -83,7 +83,7 @@ try {
     duration:getComputedStyle(n).animationDuration,delay:getComputedStyle(n).animationDelay})));
   assert(vals.every(x=>x.animation==="tle47rotate"&&x.duration==="6s")&&vals.map(x=>x.delay).join(",")==="0s,2s,4s",
    "Human headline should animate 3 words on 6-second cycle: "+JSON.stringify(vals));
-  assert(typeof(await page.evaluate(()=>window.Flip))==="object" || !!(await page.evaluate(()=>window.Flip)),"Flip library must be available");
+  assert.equal(await page.evaluate(()=>typeof window.Flip),"function","GSAP Flip plugin must load and register");
   console.log("PASS v47 normal motion");
  }catch(e){errors.push("motion "+e.message)}
  finally{await page.close();}
