@@ -42,7 +42,7 @@ for(const item of cases){
    if(item.type==='demo'){
     assert(out.sampleMode,'Public sample did not enter demo mode');
     assert(out.formPresent,'Sample booking UI missing');
-    assert.equal(out.bg,'rgb(237, 247, 252)','Current sample demo disclaimer lost its soft-blue approved surface '+JSON.stringify(out));
+    assert.equal(out.bg,'rgb(225, 242, 252)','Current clean sample disclaimer must retain its soft-blue approved surface '+JSON.stringify(out));
    }else{
     assert(out.brandStyles,'Unified marketing stylesheet absent');
     assert.equal(out.linkCount,0,'Repeated Get in Touch remains in footer');
