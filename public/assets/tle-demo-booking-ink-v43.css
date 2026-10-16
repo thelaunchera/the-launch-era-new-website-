@@ -19,3 +19,15 @@ html.demo-editorial.tle-demo-v42.tle-demo-booking-active #bookingStarter#booking
  color:#194761!important;-webkit-text-fill-color:#194761!important;
  opacity:1!important;text-shadow:none!important;
 }
+
+/* During entry into Booking Studio, legacy color transitions temporarily win
+   over even inline !important declarations. Header ink must update instantly. */
+html.demo-editorial.tle-demo-v42 #bookingStarter #title,
+html.demo-editorial.tle-demo-v42 #bookingStarter .tle-client-progress-step,
+html.demo-editorial.tle-demo-v42 #bookingStarter .tle-client-progress small,
+html.demo-editorial.tle-demo-v42 #bookingStarter .head .demo-panel-desc,
+html.demo-editorial.tle-demo-v42 #bookingStarter #count{
+  transition-property:none!important;
+  transition-duration:0ms!important;
+  transition-delay:0ms!important;
+}
