@@ -64,8 +64,15 @@
     use:'Use details in the sample form'
   };
   function renderBrand(){
+    // Keep historic DOM IDs for existing route/customer QA, but put all
+    // visible personalized branding INSIDE the photographic hero only.
+    const companyName=business || 'Sunshine Cleaning Demo';
+    for (const id of ['bookingPortalCompany','bookingPortalCompanyFinal']) {
+      const target=el(id);
+      if(target)target.textContent=companyName;
+    }
+    el('leadContext').hidden=true;
     if (business || area) {
-      el('leadContext').hidden=false;
       el('leadContextLabel').textContent=phrases().person;
       el('leadBusiness').textContent=business || (lang()==='es'?'Tu negocio de limpieza':'Your cleaning business');
       el('leadArea').textContent=area ? phrases().area+area : '';

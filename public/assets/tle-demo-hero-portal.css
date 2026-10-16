@@ -117,3 +117,51 @@ body .sonny:not(:has(.sonny-body:not([hidden]))) .sonny-head button{padding:9px 
  .booking-portal-new{opacity:1;transform:none;animation:none!important}
  .booking-portal-back::after{background:linear-gradient(90deg,rgba(231,245,254,.95),rgba(231,245,254,.5))}
 }
+
+
+/* Owner-approved lead identity belongs IN the photo hero, not in a second
+   rectangular "Personalized for" panel beneath it. */
+.booking-portal-company{
+ display:inline-block;
+ box-sizing:border-box;
+ max-width:min(95%,550px);
+ overflow-wrap:anywhere;
+ background:rgba(15,53,77,.86);
+ color:#fff;
+ border:1px solid rgba(213,239,253,.81);
+ border-radius:17px;
+ padding:10px 16px;
+ font-size:clamp(13px,1.65vw,20px);
+ font-weight:800;
+ line-height:1.3;
+ letter-spacing:-.02em;
+ box-shadow:0 10px 24px rgba(7,32,47,.16);
+ text-shadow:none;
+}
+.booking-portal-front-caption .booking-portal-company{
+ display:inline-block;
+ font-size:clamp(14px,1.9vw,21px);
+ letter-spacing:-.025em;
+ font-weight:800;
+ margin:0 0 11px;
+}
+.booking-portal-copy .booking-portal-company-final{
+ display:inline-block;
+ margin:0 0 clamp(13px,2vw,21px);
+}
+#leadContext[hidden]{display:none!important}
+@media(max-width:540px){
+ .booking-portal-front-caption{
+  max-width:calc(100% - 92px);
+  right:auto;
+ }
+ .booking-portal-company{padding:9px 12px;border-radius:14px;max-width:100%}
+ .booking-portal-front-caption .booking-portal-company{
+  font-size:clamp(13px,3.9vw,17px);
+  margin-bottom:10px;
+ }
+ .booking-portal-copy .booking-portal-company-final{
+  font-size:clamp(13px,3.7vw,17px);
+  max-width:calc(100vw - 42px);
+ }
+}

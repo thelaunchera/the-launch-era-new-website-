@@ -12,6 +12,13 @@ assert.match(html,/tle-booking-hero-original\.webp/);
 assert.match(html,/bookingPortalHeadline/);
 assert.match(html,/bookingBeforeAfter/);
 assert.match(html,/bookingHeroSonny/);
+assert.match(html,/id="bookingPortalCompany"/,'Hero must show a company name immediately');
+assert.match(html,/id="bookingPortalCompanyFinal"/,'Hero name must survive window zoom');
+assert.doesNotMatch(html,/id="pageIntro"|id="eyebrow"/,'Booking heading must have no unnecessary preheading or intro');
+assert.match(html,/id="pageTitle">A simpler way to book a clean\./,'Preserve requested short booking heading');
+assert.match(html,/data-photo="\/assets\/demo-transformations\/track-before\.webp"/,'Restore real paired window tracks before photo');
+assert.match(html,/data-photo="\/assets\/demo-transformations\/track-after\.webp"/,'Restore matching window tracks after photo');
+assert.doesNotMatch(html,/data-photo="\/assets\/demo-transformations\/vanity-(before|after)\.webp"/,'Remove subdued bathroom comparison');
 assert.match(html,/These example review cards.+not published customer testimonials/);
 assert(!/gsap|Flip\.min|zoom:|backdrop-filter/.test(style),'No unrelated zoom libraries or glassmorphism');
 assert.match(style,/@media\(prefers-reduced-motion:reduce\)/,'Respect reduced-motion accessibility');
@@ -38,6 +45,12 @@ try {
     return img?.complete&&img.naturalWidth>=1100;
   },null,{timeout:16000});
   assert.equal(await page.locator('#leadBusiness').textContent(),'Sample Sunny Cleaning');
+  assert.equal(await page.locator('#bookingPortalCompany').textContent(),'Sample Sunny Cleaning','Personalized business must be in original photo hero');
+  assert.equal(await page.locator('#bookingPortalCompanyFinal').textContent(),'Sample Sunny Cleaning','Business name must stay on the hero after window zoom');
+  assert.equal(await page.locator('#leadContext').isVisible(),false,'Do not repeat company in a white box under hero');
+  assert.equal(await page.locator('#pageTitle').textContent(),lang==='es'?'Una forma más sencilla de reservar una limpieza.':'A simpler way to book a clean.');
+  assert.equal(await page.locator('#pageIntro').count(),0,'Remove redundant paragraph');
+
   assert.equal(await page.locator('#leadArea').textContent().then(x=>x.includes('Palm Beach')),true);
   assert.equal(await page.locator('#bookingPortalHeadline').getAttribute('aria-label'),
     lang==='es'?'Haz que tus reservas sean extraordinarias.':'Make your booking flow remarkable.');
@@ -50,6 +63,11 @@ try {
   assert.equal(await page.locator('.booking-review').count(),3,'Three clearly illustrative proof cards');
   assert.match(await page.locator('#bookingProofDesc').textContent(),/not published customer testimonials|No son reseñas publicadas/);
   assert.equal(await page.locator('.booking-compare-card').count(),3,'Existing matched before/after library pairs reused');
+  assert.match(await page.locator('#bookingPair3Title').textContent(),lang==='es'?/Rieles de ventana/:/Window tracks/);
+  const track=page.locator('.booking-compare-card').nth(2);
+  assert.equal(await track.locator('img.before').getAttribute('data-photo'),'/assets/demo-transformations/track-before.webp');
+  assert.equal(await track.locator('img.after').getAttribute('data-photo'),'/assets/demo-transformations/track-after.webp');
+
   assert.equal(await page.locator('.service-media img').count(),6,'Existing large service cards preserved');
   const viewport=await page.evaluate(()=>({
    extra:document.documentElement.scrollWidth-document.documentElement.clientWidth,
@@ -92,5 +110,10 @@ try {
   console.log('PASS HERO_PORTAL '+JSON.stringify(records.at(-1)));
   await page.close();
  }
+ const defaultPage=await browser.newPage({viewport:{width:390,height:844}});
+ await defaultPage.goto(base+'/booking-demo-reset.html?lang=en',{waitUntil:'load'});
+ assert.equal(await defaultPage.locator('#bookingPortalCompany').textContent(),'Sunshine Cleaning Demo','Unpersonalized public hero should show fictional company');
+ assert.equal(await defaultPage.locator('#bookingPortalCompanyFinal').textContent(),'Sunshine Cleaning Demo');
+ await defaultPage.close();
  console.log('[HERO PORTAL AND PROOF QA PASS] '+JSON.stringify(records));
 } finally {await browser.close()}
