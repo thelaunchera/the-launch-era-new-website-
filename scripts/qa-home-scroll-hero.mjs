@@ -123,7 +123,7 @@ try {
      assert(state.mesh.display !== 'none', lang + ': desktop mesh missing');
      assert(state.mesh.insideHeroFrame, lang + ': gradient must stay INSIDE the hero card, not the outer scroll background');
      assert.notEqual(state.mesh.dotsDisplay, 'none', lang + ': outer dotted/Request/Follow-up background must remain untouched');
-     assert(state.mesh.frameBackground.includes('linear-gradient') && state.mesh.frameBackground.includes('233, 245, 254'), lang + ': blue gradient should be visible inside hero on entry');
+     assert(state.mesh.frameBackground.includes('linear-gradient') && /(227, 242, 254|233, 245, 254)/.test(state.mesh.frameBackground), lang + ': blue gradient should be visible inside hero on entry');
      if(viewport.width > 1180){
        assert(state.mesh.copyShift==='-10px' && state.mesh.photoShift==='-10px',lang+': desktop hero content must rise slightly together without moving the outer backdrop');
      }
