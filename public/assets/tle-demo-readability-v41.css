@@ -1,0 +1,19 @@
+/* v41 scoped mobile contrast repairs from supplied iPhone screenshot. */
+html.demo-editorial.tle-demo-booking-active body,
+html.demo-editorial.tle-demo-booking-active body main.wrap{background:#e7f5fe!important;color:#183e58!important}
+html.demo-editorial.tle-demo-booking-active main.wrap > #bookingStarter{background:transparent!important;color:#173e5a!important}
+html.demo-editorial.tle-demo-booking-active #bookingStarter .head,
+html.demo-editorial.tle-demo-booking-active #bookingStarter #main{color:#173f5b!important}
+html.demo-editorial.tle-demo-booking-active #bookingStarter .head :is(h2,.ey,p),
+html.demo-editorial.tle-demo-booking-active #bookingStarter #main :is(.label,.demo-services-note){color:#1b4968!important;text-shadow:none!important}
+html.demo-editorial.tle-demo-booking-active #bookingStarter #main #categoryTabs{background:#d9eefb!important;border:1px solid #aad3eb!important}
+html.demo-editorial #bookingStarter #main #categoryTabs button.choice b,
+html.demo-editorial.tle-demo-booking-active #bookingStarter #main #categoryTabs button.choice b{color:#255b7a!important;opacity:1!important;visibility:visible!important;mix-blend-mode:normal!important;text-shadow:none!important}
+html.demo-editorial #bookingStarter #main #categoryTabs button.choice.sel b,
+html.demo-editorial.tle-demo-booking-active #bookingStarter #main #categoryTabs button.choice.sel b{color:#153f5a!important}
+html.demo-editorial #bookingStarter #main #categoryTabs button.choice .demo-tab-icon{color:#2979a5!important}
+html.demo-editorial.tle-demo-booking-active #bookingStarter .tle-focus-booking-bar{border-bottom-color:#a9d3e9!important}
+html.demo-editorial.tle-demo-booking-active #bookingStarter #tleClientProgress{color:#1b4f6d!important}
+html.demo-editorial.tle-demo-booking-active #bookingStarter #title,
+html.demo-editorial.tle-demo-booking-active #bookingStarter #count{color:#1a4663!important}
+html.demo-editorial.tle-demo-booking-active #bookingStarter #main .tle-return-home-link{color:#1a526f!important}
