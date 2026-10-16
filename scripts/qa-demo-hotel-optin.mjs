@@ -86,7 +86,7 @@ try {
     label:h.getAttribute("aria-label"),words:[...h.querySelectorAll(".tle49-hook-word")].map(w=>w.textContent),
     fontSize:parseFloat(getComputedStyle(h).fontSize)}));
    assert(heading.words.length===3&&heading.label.includes(heading.words[0])&&heading.fontSize>=38,
-     "Animated words must be in the prominent accessible H1");
+     "Animated words must be in the prominent accessible H1: "+JSON.stringify(heading));
    if(width<=412){
     const bubble=await page.evaluate(()=>{
      const bot=document.querySelector(".tle-ai-launch.tle-demo-condensed"),cta=document.querySelector("#leadHero .demo-hero-cta");
