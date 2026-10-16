@@ -40,7 +40,10 @@ for(const lang of ['en','es']){
    const main=await page.evaluate(()=>{
     const q=s=>document.querySelector(s);
     const rect=e=>e?.getBoundingClientRect();
-    const hero=q('.hero'),h=q('.heroText h1.demo-headline'),cta=q('.demo-hero-cta'),area=q('#demoHeroArea');
+    const hero=q('.hero'),isV49=document.documentElement.classList.contains('tle-demo-v49'),
+      h=isV49?q('#leadHero .heroText h1.tle49-hook:not([aria-hidden="true"])'):q('.heroText h1.demo-headline'),
+      cta=q('.demo-hero-cta'),area=q('#demoHeroArea'),
+      heroImage=q(isV49?'#leadHero .tle46-hero-slot > img.tle46-gallery-img':'#leadHero .demo-cb-hero-media img');
     return {
      width:document.documentElement.scrollWidth,viewport:innerWidth,
      style:[...document.styleSheets].some(s=>s.href?.includes('tle-demo-editorial-v6.css')),
@@ -51,8 +54,8 @@ for(const lang of ['en','es']){
      ctaVisible:rect(cta).bottom<=rect(hero).bottom+2&&rect(cta).left>=rect(hero).left,
      heroActionDisplayed:getComputedStyle(cta).display!=='none',
      areaText:area?.textContent?.trim(),areaVisible:rect(area).bottom<=rect(hero).bottom+2,
-     heroPhoto:document.querySelector('#leadHero .demo-cb-hero-media img')?.getAttribute('src'),
-     heroImgLoaded:(()=>{const img=document.querySelector('#leadHero .demo-cb-hero-media img');return !!img&&img.complete&&img.naturalWidth>700})(),
+     isV49,heroPhoto:heroImage?.getAttribute('src'),
+     heroImgLoaded:!!heroImage&&heroImage.complete&&heroImage.naturalWidth>700,
      heroCbCss:[...document.styleSheets].some(sheet=>sheet.href?.includes('tle-demo-cb-hero-v8.css')),
      ctaInHero:rect(cta).bottom<=rect(hero).bottom+2&&rect(cta).left>=rect(hero).left,
      areaInHero:rect(area).bottom<=rect(hero).bottom+2,
@@ -69,7 +72,8 @@ for(const lang of ['en','es']){
    assert(main.areaText===(lang==='es'?'Atendemos Fort Lauderdale':'Serving Fort Lauderdale'),'Area not localized or personalized: '+main.areaText);
    assert(main.showcaseTitle.includes(lang==='en'?'Clear details':'Detalles claros'),'New slogans missing');
    assert.equal(main.quoteCards,3,'Functional cleaning-service cards missing');
-   assert(main.heroPhoto?.includes('/assets/cleaning-demo/hero-cleaner-original.jpg')&&main.heroImgLoaded&&main.heroCbCss,'CB Depot style cleaning professional hero must load');
+   assert((main.isV49?main.heroPhoto?.includes('/assets/drive-house-gallery/'):main.heroPhoto?.includes('/assets/cleaning-demo/hero-cleaner-original.jpg'))&&main.heroImgLoaded&&main.heroCbCss,
+     'Approved photographic hero must load for the active demo version: '+JSON.stringify(main));
    assert(main.ctaInHero&&main.areaInHero,'Hero CTA or service area clipped: '+JSON.stringify(main));
    try{await page.screenshot({path:'qa-screenshots/demo-v6/'+lang+'-'+width+'-hero.png',fullPage:false});}catch(imageError){console.warn('Optional browser screenshot failed at hero for',lang,width,imageError.message);}
    await page.evaluate(()=>startQuote('estimate'));
