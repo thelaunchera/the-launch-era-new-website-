@@ -1,0 +1,24 @@
+name: Footer Newsletter QA
+on:
+  push:
+    paths:
+      - '.github/workflows/footer-newsletter-qa.yml'
+      - 'src/components/site-shell.tsx'
+      - 'src/routes/__root.tsx'
+      - 'public/assets/tle-footer-newsletter.css'
+      - 'public/assets/tle-footer-newsletter.js'
+      - 'supabase/functions/tle-newsletter-subscribe/index.ts'
+      - 'supabase/migrations/20261016_tle_website_footer_newsletter_subscribers.sql'
+      - 'scripts/qa-footer-newsletter.mjs'
+  workflow_dispatch:
+
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check public/assets/tle-footer-newsletter.js
+      - run: node scripts/qa-footer-newsletter.mjs
