@@ -12,8 +12,12 @@ assert.match(original,/location\.replace\('\/booking-demo-reset\.html'/,'Public 
 assert.match(original,/startResidential\('Standard Cleaning',120\)/,'Original source forms remain for keyed clients');
 assert(!/gsap|Flip\.min|cdn\.jsdelivr|animation\s*:|transition\s*:|transform\s*:|scroll-behavior\s*:\s*smooth|mix-blend-mode/i.test(html),'New public demo must have no effects or third-party motion');
 const scripts=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)];
-assert.equal(scripts.length,1,'New demo must have one minimal controller');
-new vm.Script(scripts[0][1]);
+const inline=scripts.filter(x=>!/<script\s+src=/.test(x[0]));
+const external=scripts.filter(x=>/<script\s+src=/.test(x[0]));
+assert.equal(inline.length,1,'One compact booking wizard controller');
+assert.equal(external.length,1,'One optional Sonny / email lead-magnet enhancer');
+assert.match(external[0][0],/\/assets\/tle-demo-reset-lead-magnet\.js/,'Only clean enhancement asset allowed');
+new vm.Script(inline[0][1]);
 for(const tag of ['id="resServices"','id="comServices"','id="detailsPanel"','id="reviewPanel"','id="completePanel"','id="customerName"','id="customerEmail"'])assert(html.includes(tag),'Missing service/booking field '+tag);
 assert(!/Post-Construction|posconstrucción/i.test(html),'Removed construction tile must stay removed');
 const base=(process.env.QA_URL||'http://127.0.0.1:4173').replace(/\/$/,'');
