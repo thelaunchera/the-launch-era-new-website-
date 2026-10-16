@@ -8,6 +8,7 @@ const errors=[];
 async function contactFields(page) {
  const form=page.locator('.contact-form .tle-contact-steps');
  await form.waitFor({state:'visible',timeout:12000});
+ await page.waitForFunction(()=>document.querySelector('.contact-form .tle-contact-steps')?.dataset.ready==='true',null,{timeout:12000});
  await form.locator('input[name="name"]').fill('Synthetic QA');
  await form.locator('input[name="email"]').fill('synthetic@example.invalid');
  await form.locator('.tle-contact-next').click();
