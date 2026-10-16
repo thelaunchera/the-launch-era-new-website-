@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type CSSProperties } from 'react';
 import './success-confirmation.css';
 
 type Language = 'en' | 'es';
@@ -71,7 +71,7 @@ export function SuccessConfirmation({
     <h2 className="tle-success-title" ref={heading} tabIndex={-1}>{headingText}</h2>
     <p className="tle-success-copy">{explanation}</p>
     {details.length > 0 && <dl className="tle-success-summary">
-      {details.map((item, index) => <div className="tle-success-row" key={item.label} style={{ '--tle-row-index': index } as React.CSSProperties}>
+      {details.map((item, index) => <div className="tle-success-row" key={item.label} style={{ '--tle-row-index': index } as CSSProperties}>
         <dt>{item.label}</dt><dd>{item.value}</dd>
       </div>)}
     </dl>}
