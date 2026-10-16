@@ -1,3 +1,4 @@
+import { MarketingCTA } from '@/components/marketing-cta';
 import { CleaningAppShowcase } from './cleaning-app-showcase';
 import { ArrowRight, CalendarDays, UsersRound, Receipt, Calculator, Clock3, MapPinned, Check, Sparkles } from 'lucide-react';
 
@@ -33,7 +34,7 @@ export function CleaningAppEditorial({ lang = 'en' }: Props) {
             <h1>{es?'Tu negocio.':'Your business.'}<span>{es?' Todo en un lugar.':' All in one place.'}</span></h1>
             <p className="tle-app-lead">{es?'Clientes, reservas, trabajos, cotizaciones y facturas. Organízalo todo desde el teléfono o la computadora.':'Bookings, clients, jobs, quotes and invoices. All organized from your phone or computer.'}</p>
             <div className="tle-app-actions">
-              <a className="tle-app-btn primary" href={signup}>{es?'Comenzar prueba gratis':'Start free trial'} <ArrowRight size={18} aria-hidden="true"/></a>
+              <MarketingCTA className="tle-app-btn primary" href={signup}>{es?'Comenzar prueba gratis':'Start free trial'} <ArrowRight size={18} aria-hidden="true"/></MarketingCTA>
               <a className="tle-app-btn secondary" href={demo}>{es?'Ver demo':'Explore demo'} <ArrowRight size={18} aria-hidden="true"/></a>
             </div>
             <p className="tle-app-trial-note">{es?'30 días gratis · Sin tarjeta · Después $3.99/mes':'30 days free · No card required · Then $3.99/month'}</p>
@@ -71,7 +72,7 @@ export function CleaningAppEditorial({ lang = 'en' }: Props) {
     <section className="tle-app-finish">
       <div className="tle-app-wrap tle-app-finish-inner">
         <div><p className="tle-app-eyebrow">{es?'COMIENZA CUANDO QUIERAS':'READY WHEN YOU ARE'}</p><h2>{es?'Empieza con una agenda más organizada.':'Make your next workday easier.'}</h2><p>{es?'Explora la demo o abre tu propio espacio. Sin instalar nada desde App Store.':'Try the demo first, or open your own workspace. No App Store download needed.'}</p></div>
-        <div className="tle-app-finish-action"><div className="tle-app-price"><span>{es?'PRUEBA GRATIS':'FREE TRIAL'}</span><strong>{es?'30 días':'30 days'}</strong><small>{es?'Después $3.99/mes · Sin tarjeta':'Then $3.99/month · No card required'}</small></div><a className="tle-app-btn primary" href={signup}>{es?'Crear mi cuenta':'Create my account'} <ArrowRight size={18} aria-hidden="true"/></a></div>
+        <div className="tle-app-finish-action"><div className="tle-app-price"><span>{es?'PRUEBA GRATIS':'FREE TRIAL'}</span><strong>{es?'30 días':'30 days'}</strong><small>{es?'Después $3.99/mes · Sin tarjeta':'Then $3.99/month · No card required'}</small></div><MarketingCTA className="tle-app-btn primary" href={signup}>{es?'Crear mi cuenta':'Create my account'} <ArrowRight size={18} aria-hidden="true"/></MarketingCTA></div>
       </div>
     </section>
   </main>;
