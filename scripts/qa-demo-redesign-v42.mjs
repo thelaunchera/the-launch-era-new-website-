@@ -44,6 +44,18 @@ try{
   await page.locator("#tle-v42-picker-cdate .tle-v42-date-trigger").click();
   await page.locator("#cdate-calendar .tle-v42-cal-grid button:enabled").first().click();
   assert.match(await page.locator("#cdate").inputValue(),/^\d{4}-\d{2}-\d{2}$/);
+  const contrast=await page.evaluate(()=>{
+    const pick=sel=>{const el=document.querySelector(sel);return el?{color:getComputedStyle(el).color,background:getComputedStyle(el).backgroundColor,rect:el.getBoundingClientRect().toJSON()}:null};
+    return {progress:pick("#bookingStarter .tle-client-progress-step"),
+      summary:pick("#bookingStarter .head .demo-panel-desc"),
+      count:pick("#bookingStarter #count"),
+      heading:pick("#bookingStarter #title")};
+  });
+  assert(contrast.progress&&contrast.heading,"Booking progress and heading remain visible");
+  const brightness=str=>{const m=str.match(/rgb\\((\\d+),\\s*(\\d+),\\s*(\\d+)/);return m?(.2126*Number(m[1])+.7152*Number(m[2])+.0722*Number(m[3])):256};
+  assert(brightness(contrast.progress.color)<160,"Progress label must use dark ink: "+JSON.stringify(contrast));
+  assert(brightness(contrast.heading.color)<160,"Booking heading must use dark ink: "+JSON.stringify(contrast));
+  assert(brightness(contrast.count.color)<160,"Step badge must use dark ink: "+JSON.stringify(contrast));
   const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
   assert(overflow<=8,"Viewport overflow "+width+": "+overflow);
   assert.deepEqual(errors,[],"browser errors");
