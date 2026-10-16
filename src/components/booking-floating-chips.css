@@ -1,0 +1,140 @@
+/* Booking Automation marketing hero: illustrative activity, not live customer or revenue data.
+   Scoped to its own EN/ES routes. Keep all headlines, CTAs and checkout events interactive. */
+.booking-motion-hero .booking-headline-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(258px, 300px);
+  gap: clamp(18px, 3vw, 42px);
+  align-items: center;
+  min-width: 0;
+  margin-top: 14px;
+}
+.booking-motion-hero .booking-headline-stage h1 {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  margin: 0;
+  max-width: 780px;
+  font-size: clamp(3.05rem, 5.3vw, 5.55rem);
+  line-height: 1.04;
+}
+.booking-float-field {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  height: 340px;
+  pointer-events: none;
+}
+.booking-float-item {
+  position: absolute;
+  width: max-content;
+  max-width: 100%;
+  opacity: 0;
+  animation: booking-chip-enter .75s cubic-bezier(.2,1.35,.34,1) var(--chip-enter-delay, 0ms) both;
+}
+.booking-float-item--signup { top: 6%; left: 0; }
+.booking-float-item--metric { top: 30%; right: -5px; }
+.booking-float-item--payment { top: 55%; left: -10px; }
+.booking-float-item--messages { right: 2px; bottom: 2%; }
+.booking-float-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: max-content;
+  max-width: 100%;
+  min-height: 56px;
+  padding: 8px 14px 8px 9px;
+  border: 1px solid rgba(151, 189, 214, .65);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .97);
+  box-shadow: 0 12px 27px rgba(37, 80, 108, .10), 0 3px 8px rgba(37, 80, 108, .055), inset 0 1px 0 #fff;
+  color: #191919;
+  font-family: Futura, "DM Sans", "Avenir Next", Arial, sans-serif;
+  animation: booking-chip-bob var(--chip-duration, 3.5s) ease-in-out var(--chip-phase, -1s) infinite alternate;
+  will-change: transform;
+}
+.booking-float-icon {
+  flex: 0 0 37px;
+  width: 37px;
+  height: 37px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #316b8e;
+  background: #d7efff;
+}
+.booking-float-copy { display: grid; gap: 2px; min-width: 0; }
+.booking-float-copy strong {
+  display: block;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.16;
+  letter-spacing: -.015em;
+}
+.booking-float-copy small {
+  display: block;
+  font-size: 9px;
+  color: #6a8190;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+@keyframes booking-chip-bob {
+  from { transform: translateY(4px) rotate(-1.2deg); }
+  to { transform: translateY(-6px) rotate(1.2deg); }
+}
+@keyframes booking-chip-enter {
+  0% { opacity: 0; transform: translateY(18px) scale(.82); }
+  72% { opacity: 1; transform: translateY(-3px) scale(1.035); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (min-width: 641px) and (max-width: 1099px) {
+  .booking-motion-hero .booking-headline-stage { display: block; }
+  .booking-motion-hero .booking-headline-stage h1 { max-width: 850px; font-size: clamp(3rem, 7.4vw, 5.2rem); }
+  .booking-float-field {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 14px;
+    height: auto;
+    margin: 25px 0 8px;
+  }
+  .booking-float-item { position: relative; inset: auto; }
+}
+@media (max-width: 640px) {
+  .booking-motion-hero .booking-headline-stage { display: block; margin-top: 13px; }
+  .booking-motion-hero .booking-headline-stage h1 {
+    max-width: 100%;
+    font-size: clamp(36px, 10.3vw, 55px) !important;
+    line-height: 1.055;
+  }
+  .booking-float-field {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+    gap: 9px;
+    height: auto;
+    margin: 24px 0 8px;
+  }
+  .booking-float-item { position: relative; inset: auto; width: 100%; max-width: 100%; }
+  .booking-float-item--metric,
+  .booking-float-item--payment { display: none; }
+  .booking-float-pill { width: 100%; min-width: 0; min-height: 49px; padding: 6px; gap: 6px; box-shadow: 0 7px 18px rgba(37, 80, 108, .1), 0 1px 5px rgba(37, 80, 108, .04); }
+  .booking-float-icon { flex-basis: 29px; width: 29px; height: 29px; }
+  .booking-float-icon svg { width: 14px; height: 14px; }
+  .booking-float-copy strong { font-size: clamp(9px, 2.45vw, 11px); overflow-wrap: normal; }
+  .booking-float-copy small { font-size: 8px; }
+}
+@media (max-width: 370px) {
+  .booking-float-field { gap: 6px; }
+  .booking-float-pill { gap: 5px; padding: 5px; }
+  .booking-float-icon { flex-basis: 25px; width: 25px; height: 25px; }
+  .booking-float-copy strong { font-size: 8.7px; }
+  .booking-float-copy small { font-size: 7px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .booking-float-item,
+  .booking-float-pill { animation: none !important; transition: none !important; transform: none !important; }
+  .booking-float-item { opacity: 1; }
+}
