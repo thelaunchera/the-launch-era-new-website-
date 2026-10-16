@@ -1,3 +1,9 @@
+## Homepage mobile horizontal centering — full-document overflow fix (2026-10-16)
+- **Scope:** EN `/` and ES `/es/` public mobile marketing pages only; no client Command Center, booking form, cleaning app or private CRM.
+- **Verified issue:** mobile EN root `scrollWidth` 398 at 360px and 415 at 390px; mobile ES 373 at 360px. These extra 13–38px create a sideways scrollbar and visually shift the centered hero/logo. A 134% decorative pulse on the *final marketing CTA* extends outside page gutters. The earlier scoped booking-section pulse fix is untouched.
+- **Safe fix:** `public/assets/tle-marketing-cta-motion.css` uses `tle-final-mobile-safe-pulse` only for `.sales-home .final-section .tle-cta-pulse-ring` at widths under 768px, 1.045/1.10 scale. Rotating border, click target, label, checkout href and other sales buttons remain unchanged. Cache key `src/routes/__root.tsx` bumped to `20261016-3`.
+- **Regression:** `scripts/qa-homepage-horizontal-centering.mjs` runs in `.github/workflows/home-booking-tones-qa.yml` on EN/ES 360/390/414/768 in touch + normal Chromium, checking top/hero/booking/end. 64 of 64 readings had 0px excess after the fix. A global `overflow-x:hidden` workaround is **not** used because it would hide, not fix, the component responsible.
+
 ## Public demo v44 — Welcome single-photo hero and open services (2026-10-16)
 - **Only surface:** `https://thelaunchera.com/lead-private-preview.html?lang=en|es` in unkeyed public sample mode. Never render on `?key=`, `?owner_preview=1`, personalized client demos, real client bookings, Command Center, app or CB Depot.
 - **Assets:** `public/assets/tle-demo-editorial-v44.css/js` loaded after the v43 booking ink guard inside `public/lead-private-preview.html`. Preserve the existing v42 zoom and native stacked navigation; neither public service onclick nor quote/card price nor date/calendar handler is replaced.
