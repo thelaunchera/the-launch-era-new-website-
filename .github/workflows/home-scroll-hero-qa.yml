@@ -1,0 +1,71 @@
+name: Homepage Scroll Hero QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/components/home-motion.tsx'
+      - 'src/components/editorial-sections.tsx'
+      - 'src/routes/es.index.tsx'
+      - 'src/routes/__root.tsx'
+      - 'public/assets/tle-hero-scroll.css'
+      - 'scripts/qa-home-scroll-hero.mjs'
+      - '.github/workflows/home-scroll-hero-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'src/components/home-motion.tsx'
+      - 'src/components/editorial-sections.tsx'
+      - 'src/routes/es.index.tsx'
+      - 'src/routes/__root.tsx'
+      - 'public/assets/tle-hero-scroll.css'
+      - 'scripts/qa-home-scroll-hero.mjs'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  home-hero-release-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Route and hero static regressions
+        run: |
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-home-scroll-hero.mjs
+      - name: Build the production website
+        run: |
+          bun install
+          bun run build
+          test -s .output/public/assets/tle-hero-scroll.css
+      - name: Install Chromium browser QA in isolated package
+        run: |
+          mkdir -p /tmp/tle-home-hero-qa
+          cd /tmp/tle-home-hero-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          ln -sfn /tmp/tle-home-hero-qa/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-home-hero-qa/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: Verify hero at phone tablet desktop and reduced motion
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-hero-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 25); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-home-scroll-hero.mjs --browser
+      - name: Archive EN/ES responsive screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tle-home-scroll-hero-qa
+          path: qa-screenshots/home-scroll-*.png
+          if-no-files-found: ignore
