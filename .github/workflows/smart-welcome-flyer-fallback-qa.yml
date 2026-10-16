@@ -1,0 +1,39 @@
+name: Smart Welcome Flyer Fallback QA
+on:
+  pull_request:
+    paths:
+      - 'src/components/smart-welcome-bundle.tsx'
+      - 'src/components/smart-welcome-bundle.css'
+      - 'scripts/qa-smart-welcome-flyer-fallback.mjs'
+      - '.github/workflows/smart-welcome-flyer-fallback-qa.yml'
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: node scripts/qa-route-integrity.mjs --static
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+      - name: Install Chromium
+        run: |
+          mkdir -p /tmp/tle-flyer-qa
+          cd /tmp/tle-flyer-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          ln -sfn /tmp/tle-flyer-qa/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-flyer-qa/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: Verify original flyer, simulated network error and CTA EN/ES
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-flyer.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for n in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-smart-welcome-flyer-fallback.mjs

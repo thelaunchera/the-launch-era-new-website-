@@ -13,6 +13,7 @@ type Props = { lang?: 'en' | 'es' };
 export function SmartWelcomeBundle({ lang = 'en' }: Props) {
   const [eligible, setEligible] = useState(false);
   const [open, setOpen] = useState(false);
+  const [flyerFailed, setFlyerFailed] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
   const es = lang === 'es';
   const href = '/booking-bundle/?lang=' + lang + '&bundle=ai-booking&source=smart-welcome';
@@ -102,7 +103,14 @@ export function SmartWelcomeBundle({ lang = 'en' }: Props) {
       <section className="tle-bundle-welcome-dialog" role="dialog" aria-modal="true" aria-label={es ? 'Oferta de The Launch Era' : 'The Launch Era bundle offer'}>
         <button ref={closeRef} type="button" className="tle-bundle-welcome-close" onClick={() => setOpen(false)} aria-label={es ? 'Cerrar promoción' : 'Close promotion'}>×</button>
         <a className="tle-bundle-welcome-art" href={href} aria-label={cta}>
-          <img src={ART} alt={es ? 'Flyer con dos limpiadoras: 40% de descuento en activación conjunta' : 'Flyer featuring two cleaners: 40% off combined activation'} width="1122" height="1402" decoding="async"/>
+          {flyerFailed
+            ? <div className="tle-bundle-art-fallback" role="img" aria-label={es ? 'Oferta de activación de Booking + AI Assistant' : 'Booking + AI Assistant activation offer'}>
+                <span>THE LAUNCH ERA</span>
+                <strong>{es ? 'Un negocio más organizado comienza aquí.' : 'Your next chapter starts here.'}</strong>
+                <b>{es ? '40% MENOS EN LA ACTIVACIÓN CONJUNTA' : '40% OFF COMBINED ACTIVATION'}</b>
+                <small>{es ? 'Booking + Command Center y AI Assistant opcional' : 'Booking + Command Center with optional AI Assistant'}</small>
+              </div>
+            : <img src={ART} alt={es ? 'Flyer con dos limpiadoras: 40% de descuento en activación conjunta' : 'Flyer featuring two cleaners: 40% off combined activation'} width="1122" height="1402" decoding="async" onError={() => setFlyerFailed(true)}/>}
         </a>
         <div className="tle-bundle-welcome-footer">
           <a className="tle-bundle-welcome-cta" href={href}>{cta} <span aria-hidden="true">↗</span></a>

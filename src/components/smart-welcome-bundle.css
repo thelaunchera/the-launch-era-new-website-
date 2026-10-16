@@ -50,3 +50,10 @@
  .tle-bundle-inline-copy{gap:8px}
  .tle-bundle-inline-discount{font-size:16px;padding:10px 8px}
 }
+
+/* Network-safe fallback ONLY when the approved promotional photograph fails to load. */
+.tle-bundle-art-fallback{min-height:clamp(250px,48dvh,480px);padding:clamp(24px,6vw,42px);display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:19px;background:linear-gradient(145deg,#d7efff 0%,#eaf4fc 60%,#faf8f3 100%);color:#191919;}
+.tle-bundle-art-fallback span{font:700 12px/1.2 Prompt,Arial,sans-serif;letter-spacing:.13em;}
+.tle-bundle-art-fallback strong{font:700 clamp(25px,5vw,40px)/1.12 Prompt,Arial,sans-serif;letter-spacing:-.04em;}
+.tle-bundle-art-fallback b{background:#f2d85b;padding:11px 13px;border-radius:10px;font:800 14px/1.3 'DM Sans',Arial,sans-serif;}
+.tle-bundle-art-fallback small{font:500 13px/1.5 'DM Sans',Arial,sans-serif;}
