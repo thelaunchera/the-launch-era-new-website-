@@ -1,0 +1,37 @@
+name: Homepage Hydration Diagnosis
+on:
+  pull_request:
+    paths:
+      - 'scripts/qa-home-hydration-diagnostic.mjs'
+      - '.github/workflows/home-hydration-diagnostic.yml'
+      - 'src/routes/__root.tsx'
+  workflow_dispatch:
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+      - name: Install Chromium
+        run: |
+          mkdir -p /tmp/tle-hydration
+          cd /tmp/tle-hydration
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          ln -sfn /tmp/tle-hydration/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-hydration/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: Compare SSR hydration with deferred scripts enabled and blocked
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-hydration-server.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for n in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-home-hydration-diagnostic.mjs
