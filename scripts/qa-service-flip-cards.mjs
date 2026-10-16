@@ -33,6 +33,8 @@ try {
    await page.waitForFunction(()=>document.querySelector('.sales-home .tle-service-flip')?.classList.contains('is-flipped'));
    assert.equal(await first.locator('.tle-service-flip__back').evaluate(e=>e.inert),false);
    const href=await back.getAttribute('href');assert(href?.startsWith('/'),lang+' back CTA must be a real site link');
+   // Desktop hover may have opened the card before front-focus; focus a real back control before Escape.
+   await back.evaluate(el=>el.focus());
    await page.keyboard.press('Escape');
    await page.waitForFunction(()=>!document.querySelector('.sales-home .tle-service-flip')?.classList.contains('is-flipped'));
    assert.equal(await first.locator('.tle-service-flip__back').evaluate(e=>e.inert),true);
