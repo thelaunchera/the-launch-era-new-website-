@@ -451,3 +451,107 @@
   /* Keep the useful in-page link visible even when page-scale motion is off. */
   .sales-home .hero-scroll .hero-scroll-reveal {display:grid}
 }
+
+
+/* v3 / 2026-10-16: legible slower split-word treatment.
+   Previous .30em travel left less room than the reveal's line-height, so the
+   black and blue words overlapped during touch, as seen in mobile screenshots.
+   Scope everything to the existing link; do not enlarge or shift the hero. */
+.sales-home .hero-scroll-reveal a.tle-hero-split-link {
+  min-height: 70px;
+  background: transparent !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.sales-home .hero-scroll-reveal .tle-hero-split-stack {
+  align-self: center;
+  overflow: visible;
+}
+.sales-home .hero-scroll-reveal .tle-hero-split-front {
+  transition: transform 1080ms cubic-bezier(.32,.72,0,1);
+}
+.sales-home .hero-scroll-reveal .tle-hero-split-reveal {
+  color: #346681;
+  font-size: .88em;
+  opacity: 0;
+  transform: scale(.90);
+  transition: transform 1000ms cubic-bezier(.32,.72,0,1), opacity 160ms ease;
+}
+@media (hover:hover) and (pointer:fine) {
+  .sales-home .hero-scroll-reveal .tle-hero-split-link:hover .tle-hero-split-upper {
+    transform: translate3d(0,-.82em,0);
+  }
+  .sales-home .hero-scroll-reveal .tle-hero-split-link:hover .tle-hero-split-lower {
+    transform: translate3d(0,.82em,0);
+  }
+  .sales-home .hero-scroll-reveal .tle-hero-split-link:hover .tle-hero-split-reveal {
+    opacity: 1;
+    transform: scale(1);
+    transition-delay: 0s, 260ms;
+    transition-duration: 1000ms, 520ms;
+  }
+}
+.sales-home .hero-scroll-reveal .tle-hero-split-link:focus-visible .tle-hero-split-upper {
+  transform: translate3d(0,-.82em,0);
+}
+.sales-home .hero-scroll-reveal .tle-hero-split-link:focus-visible .tle-hero-split-lower {
+  transform: translate3d(0,.82em,0);
+}
+.sales-home .hero-scroll-reveal .tle-hero-split-link:focus-visible .tle-hero-split-reveal {
+  opacity: 1;
+  transform: scale(1);
+  transition-delay: 0s, 260ms;
+  transition-duration: 1000ms, 520ms;
+}
+@media (max-width:767px) {
+  .sales-home .hero-scroll-reveal {
+    gap: 8px;
+  }
+  .sales-home .hero-scroll-reveal a.tle-hero-split-link {
+    min-height: 72px;
+    padding: 8px 8px;
+    font-size: clamp(14px,3.7vw,16px);
+  }
+}
+@keyframes tle-word-peek-upper {
+  0%,13%,88%,100% {transform:translate3d(0,0,0)}
+  34%,68% {transform:translate3d(0,-.84em,0)}
+}
+@keyframes tle-word-peek-lower {
+  0%,13%,88%,100% {transform:translate3d(0,0,0)}
+  34%,68% {transform:translate3d(0,.84em,0)}
+}
+@keyframes tle-word-peek-reveal {
+  0%,23%,83%,100% {opacity:0;transform:scale(.9)}
+  37%,67% {opacity:1;transform:scale(1)}
+}
+/* Touch screens have no hover. Demonstrate the effect once, slowly, without
+   requiring a long press or intercepting the native first-tap navigation. */
+@media (hover:none) and (pointer:coarse) and (prefers-reduced-motion:no-preference) {
+  .sales-home .hero-scroll-reveal .tle-hero-split-upper {
+    animation:tle-word-peek-upper 8.2s ease-in-out .8s 1 both;
+  }
+  .sales-home .hero-scroll-reveal .tle-hero-split-lower {
+    animation:tle-word-peek-lower 8.2s ease-in-out .8s 1 both;
+  }
+  .sales-home .hero-scroll-reveal .tle-hero-split-reveal {
+    animation:tle-word-peek-reveal 8.2s ease-in-out .8s 1 both;
+  }
+  .sales-home .hero-scroll-reveal .tle-hero-split-link:active .tle-hero-split-upper,
+  .sales-home .hero-scroll-reveal .tle-hero-split-link:active .tle-hero-split-lower {
+    /* Never collapse into the old .3em overlapping press state. */
+    transform:none;
+  }
+}
+/* Motion-reduction means the simple, original readable link stays in place. */
+@media (prefers-reduced-motion:reduce) {
+  .sales-home .hero-scroll-reveal .tle-hero-split-upper,
+  .sales-home .hero-scroll-reveal .tle-hero-split-lower,
+  .sales-home .hero-scroll-reveal .tle-hero-split-reveal {
+    animation:none !important;
+    transition:none !important;
+  }
+}
