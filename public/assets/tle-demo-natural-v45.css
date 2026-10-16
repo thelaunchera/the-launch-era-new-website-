@@ -203,6 +203,18 @@ html.demo-editorial.tle-demo-v45.tle-demo-compact-v30.tle-photo-services-v21.tle
 html.demo-editorial.tle-demo-v45 #bookingStarter #main .tle-v42-grid > button.service.tle-service-has-photo-v21:is(:hover,:focus-visible){
  transform:translateY(-2px)!important;box-shadow:none!important;
 }
+/* v45 regression: custom quote must be a plain, accessible action row.
+   Scope to the fictional sample gallery and beat earlier v30/v42 card styles. */
+html.demo-editorial.tle-demo-v45 #bookingStarter #main #residentialServiceList button.tle-v30-main-custom,
+html.demo-editorial.tle-demo-v45 #bookingStarter #main #commercialServiceList button.tle-v30-main-custom{
+ border-radius:0!important;
+ border:0!important;
+ border-top:1px solid #abcbdc!important;
+ border-bottom:1px solid #abcbdc!important;
+ background:transparent!important;
+ background-image:none!important;
+ box-shadow:none!important;
+}
 /* Custom quote = a quiet next choice, NOT a large decorative blue card. */
 html.demo-editorial.tle-demo-v45 #bookingStarter #main .tle-v42-grid>button.tle-v30-main-custom{
  grid-column:1/-1!important;display:flex!important;align-items:center!important;
