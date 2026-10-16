@@ -27,6 +27,7 @@ jobs:
           node-version: '22'
       - run: node --check scripts/qa-route-integrity.mjs
       - run: node scripts/qa-route-integrity.mjs --static
+      - run: node scripts/qa-chat-motion.mjs
   live-smoke:
     name: Published pages and interest CORS (read only)
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || startsWith(github.event.head_commit.message, 'verify:')
