@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-16 | Booking Demo iPhone: final `remarkable.` visibly crossed out; homepage 3D house too pale and small | Existing strike sibling spanned shared replacement width and lived on after old text vanished; WebGL exposure 1.55 and distant phone framing washed out white house | Nested strike in old word with 450ms draw + 400ms beat then parent's fade, preserve EN/ES/reduced motion. Denoise 3D exposure, richer roof/windows, doorstep and closer phone camera; preserve all latest mobile Booking work from concurrent agents | 🟡 Pending GitHub CI and live release verification |
+
+
 | 2026-10-16 | Owner iPhone screenshots: booking details showed dropdowns for bedrooms/bathrooms/frequency instead of checkable selections; tapping a photo service required a long scroll to reach `Continue`; final hero color/strike stayed over the replacement word. | Verified public unkeyed booking form used native selects, `chooseService()` only enabled the far-below `#chooseNext`, and hero `.booking-portal-strike` animation used `both` fill preserving a cross-out over `remarkable`. | Replace only single-choice detail selects with compact radio chips synced to existing data values, add blue check-square to service images, advance directly to Step 2 on card click (Back still works), visually hide redundant Continue and retain pricing notice; fade out completed hero strike and increase blue text contrast. Bilingual visual QA and no-send protected-route gate before website deploy. | 🟡 PR QA and production pending. |
 
 

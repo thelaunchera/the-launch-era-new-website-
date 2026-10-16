@@ -42,7 +42,7 @@ export function mountTimeOfDay(root){
  renderer.setClearColor(0x000000,0);
  renderer.outputColorSpace=THREE.SRGBColorSpace;
  renderer.toneMapping=THREE.ACESFilmicToneMapping;
- renderer.toneMappingExposure=1.55;
+ renderer.toneMappingExposure=1.18; // Preserve white-wall texture and stronger blue roof contrast on iPhone.
  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,window.innerWidth<700?1.25:1.6));
  renderer.domElement.setAttribute('aria-hidden','true');
  renderer.domElement.setAttribute('data-tle-webgl','true');
@@ -62,25 +62,33 @@ export function mountTimeOfDay(root){
  const base=standard(0x8baec0),ground=standard(0xb9d6c9);
  add(geo(new THREE.CylinderGeometry(2.72,2.64,.46,56)),base,0,-.25,0,rootGroup);
  add(geo(new THREE.CylinderGeometry(2.74,2.74,.18,56)),ground,0,.03,0,rootGroup);
- const white=standard(0xf5faff),white2=standard(0xe7f1fa),roof=standard(0x9cc5e7);
+ const white=standard(0xe5f1fa),white2=standard(0xcfe4f2),roof=standard(0x7aadd2);
  add(round(2.04,1.65,1.72),white,-.54,.91,0,rootGroup);
  add(round(1.46,1.36,1.47),white2,1.03,.77,-.06,rootGroup);
  add(round(2.28,.19,1.94,.06),roof,-.54,1.83,0,rootGroup);
- const roof2=standard(0x79abd3);
+ const roof2=standard(0x5e96c2);
  add(round(1.68,.18,1.68,.05),roof2,1.03,1.55,-.06,rootGroup);
- const door=standard(0x6d96b5);
+ const door=standard(0x4f81a5);
  add(round(.50,.93,.065,.025),door,-.53,.54,.89,rootGroup);
  add(geo(new THREE.SphereGeometry(.033,10,10)),standard(0xf3d85b),-.35,.55,.95,rootGroup);
- const glass=standard(0x9ed3ef,{emissive:0xffdba5,emissiveIntensity:.02,roughness:.25,metalness:.04});
- const frame=standard(0xffffff);
+ const glass=standard(0x80bfdf,{emissive:0xffdba5,emissiveIntensity:.015,roughness:.25,metalness:.04});
+ const windowTrim=standard(0x8caec5),frame=standard(0xf8fcff);
  function windowAt(x,y,z,w,h){
-  add(round(w+.1,h+.1,.068,.035),frame,x,y,z,rootGroup);
-  add(round(w,h,.075,.02),glass,x,y,z+.055,rootGroup);
-  add(round(.04,h,.055,.016),frame,x,y,z+.111,rootGroup);
+  add(round(w+.17,h+.17,.075,.04),windowTrim,x,y,z,rootGroup);
+  add(round(w+.10,h+.10,.07,.033),frame,x,y,z+.044,rootGroup);
+  add(round(w,h,.075,.02),glass,x,y,z+.091,rootGroup);
+  add(round(.035,h,.054,.016),frame,x,y,z+.147,rootGroup);
+  add(round(w,.025,.054,.012),frame,x,y,z+.149,rootGroup);
  }
  windowAt(-1.1,1.04,.91,.42,.48);
  windowAt(1.12,.93,.71,.45,.45);
- const trunk=standard(0xa48f79),leaves=standard(0x8eb8a5);
+ // Readable architectural layers, not an extra image over the scroll scene.
+ const stepStone=standard(0xb7cdda),frontTrim=standard(0x9dbed4);
+ add(round(.94,.075,.78,.03),stepStone,-.52,.09,1.19,rootGroup);
+ add(round(.62,.045,.38,.018),frontTrim,-.52,.095,1.63,rootGroup);
+ add(round(2.05,.045,.105,.016),frontTrim,-.54,1.68,.94,rootGroup);
+ add(round(1.48,.04,.09,.016),frontTrim,1.03,1.42,.76,rootGroup);
+ const trunk=standard(0x967d63),leaves=standard(0x77a995);
  [[-2.02,-.32],[-1.87,1.03],[2.04,.29],[1.98,-1.00]].forEach(([x,z],i)=>{
   add(geo(new THREE.CylinderGeometry(.065,.09,.43,7)),trunk,x,.34,z,rootGroup);
   const top=add(geo(new THREE.SphereGeometry(i%2?.30:.37,9,7)),leaves,x,.68,z,rootGroup);
@@ -100,20 +108,20 @@ export function mountTimeOfDay(root){
  const starsGeo=geo(new THREE.BufferGeometry());starsGeo.setAttribute('position',new THREE.BufferAttribute(starPositions,3));
  const starsMat=mat(new THREE.PointsMaterial({color:0xf4fbff,size:.072,transparent:true,opacity:0,depthWrite:false,sizeAttenuation:true}));
  scene.add(new THREE.Points(starsGeo,starsMat));
- const keyLight=new THREE.DirectionalLight(0xffe2b0,2.7);keyLight.position.set(3,7,5);scene.add(keyLight);
- const fill=new THREE.AmbientLight(0xe1f0ff,.65);scene.add(fill);
+ const keyLight=new THREE.DirectionalLight(0xffe2b0,2.1);keyLight.position.set(3,7,5);scene.add(keyLight);
+ const fill=new THREE.AmbientLight(0xe1f0ff,.53);scene.add(fill);
  let pmrem,room,environment;
  try {
   room=new RoomEnvironment();
   pmrem=new THREE.PMREMGenerator(renderer);
   environment=pmrem.fromScene(room,.04).texture;
   scene.environment=environment;
-  scene.environmentIntensity=1.05;
+  scene.environmentIntensity=.82;
  } catch {scene.environment=null}
  const topDay='#f7fbff',topDusk='#a8c9e4',topNight='#21395e';
  const bottomDay='#cbe5f6',bottomDusk='#6f98c5',bottomNight='#111e3e';
  const groundDay=new THREE.Color(0xb9d6c9),groundNight=new THREE.Color(0x526c83);
- const leafDay=new THREE.Color(0x8eb8a5),leafNight=new THREE.Color(0x4f738b);
+ const leafDay=new THREE.Color(0x77a995),leafNight=new THREE.Color(0x4f738b);
  const lightDay=new THREE.Color(0xffe2b0),lightNight=new THREE.Color(0x94b3e5);
  const steps=Array.from(root.querySelectorAll('[data-tle-chapter]'));
  const index=root.querySelector('[data-tle-count]');
@@ -126,7 +134,7 @@ export function mountTimeOfDay(root){
   if(dead)return;
   const w=Math.max(holder.clientWidth,1),h=Math.max(holder.clientHeight,1);
   renderer.setSize(w,h,false);
-  camera.aspect=w/h;camera.fov=w<480?47:37;camera.updateProjectionMatrix();
+  camera.aspect=w/h;camera.fov=w<600?43:37;camera.updateProjectionMatrix();
  }
  function paint(n,p){
   let top,bottom;
@@ -137,9 +145,9 @@ export function mountTimeOfDay(root){
   ground.color.copy(groundDay).lerp(groundNight,n);
   leaves.color.copy(leafDay).lerp(leafNight,n);
   keyLight.color.copy(lightDay).lerp(lightNight,n);
-  keyLight.intensity=mix(2.7,.48,n);
-  fill.intensity=mix(.65,.23,n);
-  scene.environmentIntensity=mix(1.05,.24,n);
+  keyLight.intensity=mix(2.1,.48,n);
+  fill.intensity=mix(.53,.23,n);
+  scene.environmentIntensity=mix(.82,.24,n);
   glass.emissiveIntensity=mix(.02,2.5,ease((n-.15)/.65));
   starsMat.opacity=ease((n-.17)/.65)*.85;
   sun.position.x=mix(3.8,-4.1,p);
@@ -151,7 +159,8 @@ export function mountTimeOfDay(root){
   moon.visible=n>.05;
   moonGlow.opacity=n*.68;
   moon.material.opacity=1;
-  camera.position.set(6.8+Math.sin(p*Math.PI)*.36,5.3,9.1);
+  const compact=holder.clientWidth<600;
+  camera.position.set((compact?5.9:6.8)+Math.sin(p*Math.PI)*.27,compact?4.65:5.3,compact?7.8:9.1);
   camera.lookAt(0,.80,0);
   rootGroup.rotation.y=.10+Math.sin(p*Math.PI)*.1;
   const step=Math.min(3,Math.floor(p*4+.09));

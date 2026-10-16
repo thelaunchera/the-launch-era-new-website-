@@ -56,6 +56,19 @@ try {
   assert.equal(await page.locator('#bookingPortalHeadline').getAttribute('aria-label'),
     lang==='es'?'Haz que tus reservas sean extraordinarias.':'Make your booking flow remarkable.');
   assert.equal(await page.locator('#bookingPortalHeadline .booking-portal-swap').getAttribute('aria-hidden'),'true');
+  const swap=await page.locator('#bookingPortalHeadline').evaluate(el=>{
+    const old=el.querySelector('.booking-portal-old'),newWord=el.querySelector('.booking-portal-new');
+    const strike=el.querySelector('.booking-portal-strike'),word=el.querySelector('.booking-portal-old-word');
+    return {nested: strike?.parentElement===old,oldHidden:old?.getAttribute('aria-hidden'),newHidden:newWord?.getAttribute('aria-hidden'),
+      oldText:word?.textContent,newText:newWord?.textContent,
+      oldWidth:word?.getBoundingClientRect().width,strikeWidth:strike?.getBoundingClientRect().width,
+      swapWidth:el.querySelector('.booking-portal-swap')?.getBoundingClientRect().width,
+      newWidth:newWord?.getBoundingClientRect().width};
+  });
+  assert(swap.nested&&swap.oldHidden==='true'&&swap.newHidden==='true','Strike belongs only to old word: '+JSON.stringify(swap));
+  assert(swap.strikeWidth<=swap.oldWidth+2&&swap.swapWidth>=swap.newWidth-2,'Strike may not cross longer replacement: '+JSON.stringify(swap));
+  assert.equal(swap.oldText,lang==='es'?'aceptables.':'decent.');
+  assert.equal(swap.newText,lang==='es'?'extraordinarias.':'remarkable.');
   const stage=await page.locator('.booking-portal-stage').boundingBox();
   assert(stage?.width>=width-3,'Hero must use full viewport width: '+JSON.stringify(stage));
   const linked=await page.locator('#bookingHeroDemo').getAttribute('href');
@@ -102,8 +115,12 @@ try {
     assert(zoom.opacity<.1,lang+' '+width+' front window must fade to reveal second scene: '+JSON.stringify(zoom));
     await page.waitForFunction(()=>{
       const line=document.querySelector('.booking-portal-strike');
-      return line&&parseFloat(getComputedStyle(line).opacity)<.12;
-    },null,{timeout:3600});
+      const old=line?.closest('.booking-portal-old');
+      const newer=document.querySelector('.booking-portal-new');
+      // With the line inside old text, the parent's opacity also hides its line.
+      return old&&newer&&parseFloat(getComputedStyle(old).opacity)<.08
+        &&parseFloat(getComputedStyle(newer).opacity)>.95;
+    },null,{timeout:5000});
     await page.locator('#bookingHeroSonny').click();
     assert.equal(await page.locator('#sonnyBody').isVisible(),true,'Hero shortcut must open the real Sonny chat');
     await page.locator('#sonnyToggle').click();
