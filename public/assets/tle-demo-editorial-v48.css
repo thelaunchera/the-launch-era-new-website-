@@ -19,6 +19,13 @@ html.demo-editorial.tle-demo-v48 #demoEditorialNav{
  width:100%!important;max-width:1440px!important;margin-inline:auto!important;
  background:#eaf7ff!important;border-bottom:1px solid #c9e2ef!important;
 }
+/* Legacy v30 set a fixed-height .hero on narrow screens. The new gallery
+   needs the outer hero to contain its full stage AND thumbnails; otherwise
+   the CTA is visually outside the section and cannot be trusted by QA. */
+html.demo-editorial.tle-demo-compact-v30.tle-demo-v46.tle-demo-v47.tle-demo-v48:not(.tle-demo-booking-active) main.wrap #leadHero.hero.tle46-gallery-hero{
+ height:auto!important;min-height:0!important;max-height:none!important;
+ overflow:visible!important;
+}
 html.demo-editorial.tle-demo-v48 #leadHero.tle46-gallery-hero{
  width:100%!important;max-width:1440px!important;margin:0 auto!important;
  border:0!important;border-radius:0!important;background:#eaf7ff!important;
