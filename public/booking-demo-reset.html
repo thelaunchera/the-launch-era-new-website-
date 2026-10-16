@@ -149,11 +149,11 @@
     .service[aria-pressed=true] .service-media { height:clamp(193px,calc(53vw - 1px),234px); }
   }
 </style>
-<link rel="stylesheet" href="/assets/tle-demo-hero-portal.css?v=20261016-brand2">
+<link rel="stylesheet" href="/assets/tle-demo-hero-portal.css?v=20261016-contrast3">
 <link rel="stylesheet" href="/assets/tle-booking-month-wheel.css?v=20261016-responsive2">
 <link rel="stylesheet" href="/assets/tle-booking-premium-refresh.css?v=20261016-sonny-blue-polish-slow2">
 <link rel="stylesheet" href="/assets/tle-booking-blue-orbs.css?v=20261016-orbs1">
-<link rel="stylesheet" href="/assets/tle-booking-bubbles-continuity.css?v=20261016-bubble-continuity1">
+<link rel="stylesheet" href="/assets/tle-booking-bubbles-continuity.css?v=20261016-checkchoices2">
 </head>
 <body>
 <header>
@@ -230,14 +230,14 @@
     <button type="button" id="comTab" data-kind="commercial" aria-pressed="false">Commercial</button>
    </div>
    <div class="kind-panel services" id="resServices">
-    <button type="button" class="service" data-id="standard" data-kind="residential" data-price="120" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/cleaning-demo/living-room-original.jpg" data-photo="/assets/demo-services/regular.webp" data-fallback="/assets/cleaning-demo/living-room-original.jpg" alt="" width="840" height="560" loading="lazy" decoding="async"></span><span class="service-copy"><span class="service-title" data-i18n="standard">Standard Cleaning</span><span class="service-detail" data-i18n="standardHint">Regular home care</span></span><span class="service-price" data-i18n="sample120">From $120*</span></button>
-    <button type="button" class="service" data-id="deep" data-kind="residential" data-price="190" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/lead-demo/pristine-kitchen.png" data-photo="/assets/demo-services/deep.webp" data-fallback="/assets/lead-demo/pristine-kitchen.png" alt="" width="840" height="560" loading="lazy" decoding="async"></span><span class="service-copy"><span class="service-title" data-i18n="deep">Deep Cleaning</span><span class="service-detail" data-i18n="deepHint">A more detailed clean</span></span><span class="service-price" data-i18n="sample190">From $190*</span></button>
-    <button type="button" class="service" data-id="move" data-kind="residential" data-price="240" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/lead-demo/hero-luxury-home.png" data-photo="/assets/demo-services/move.webp" data-fallback="/assets/lead-demo/hero-luxury-home.png" alt="" width="840" height="560" loading="lazy" decoding="async"></span><span class="service-copy"><span class="service-title" data-i18n="move">Move In / Move Out</span><span class="service-detail" data-i18n="moveHint">Prepare for the next chapter</span></span><span class="service-price" data-i18n="sample240">From $240*</span></button>
+    <button type="button" class="service" data-id="standard" data-kind="residential" data-price="120" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/cleaning-demo/living-room-original.jpg" data-photo="/assets/demo-services/regular.webp" data-fallback="/assets/cleaning-demo/living-room-original.jpg" alt="" width="840" height="560" loading="lazy" decoding="async"><span class="service-photo-check" aria-hidden="true">✓</span></span><span class="service-copy"><span class="service-title" data-i18n="standard">Standard Cleaning</span><span class="service-detail" data-i18n="standardHint">Regular home care</span></span><span class="service-price" data-i18n="sample120">From $120*</span></button>
+    <button type="button" class="service" data-id="deep" data-kind="residential" data-price="190" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/lead-demo/pristine-kitchen.png" data-photo="/assets/demo-services/deep.webp" data-fallback="/assets/lead-demo/pristine-kitchen.png" alt="" width="840" height="560" loading="lazy" decoding="async"><span class="service-photo-check" aria-hidden="true">✓</span></span><span class="service-copy"><span class="service-title" data-i18n="deep">Deep Cleaning</span><span class="service-detail" data-i18n="deepHint">A more detailed clean</span></span><span class="service-price" data-i18n="sample190">From $190*</span></button>
+    <button type="button" class="service" data-id="move" data-kind="residential" data-price="240" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/lead-demo/hero-luxury-home.png" data-photo="/assets/demo-services/move.webp" data-fallback="/assets/lead-demo/hero-luxury-home.png" alt="" width="840" height="560" loading="lazy" decoding="async"><span class="service-photo-check" aria-hidden="true">✓</span></span><span class="service-copy"><span class="service-title" data-i18n="move">Move In / Move Out</span><span class="service-detail" data-i18n="moveHint">Prepare for the next chapter</span></span><span class="service-price" data-i18n="sample240">From $240*</span></button>
    </div>
    <div class="kind-panel services" id="comServices" hidden>
-    <button type="button" class="service" data-id="office" data-kind="commercial" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/lead-demo/spotless-office.png" data-photo="/assets/demo-services/office.webp" data-fallback="/assets/lead-demo/spotless-office.png" alt="" width="840" height="560" loading="lazy" decoding="async"></span><span class="service-copy"><span class="service-title" data-i18n="office">Office Cleaning</span><span class="service-detail" data-i18n="officeHint">Offices and workspaces</span></span><span class="service-price" data-i18n="quote">Custom quote</span></button>
-    <button type="button" class="service" data-id="retail" data-kind="commercial" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/lead-demo/spotless-office.png" data-photo="/assets/demo-services/retail.webp" data-fallback="/assets/lead-demo/spotless-office.png" alt="" width="840" height="560" loading="lazy" decoding="async"></span><span class="service-copy"><span class="service-title" data-i18n="retail">Retail & Showrooms</span><span class="service-detail" data-i18n="retailHint">Customer-facing spaces</span></span><span class="service-price" data-i18n="quote">Custom quote</span></button>
-    <button type="button" class="service" data-id="medical" data-kind="commercial" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/lead-demo/spotless-office.png" data-photo="/assets/demo-services/medical.webp" data-fallback="/assets/lead-demo/spotless-office.png" alt="" width="840" height="560" loading="lazy" decoding="async"></span><span class="service-copy"><span class="service-title" data-i18n="medical">Medical & Professional</span><span class="service-detail" data-i18n="medicalHint">Spaces with specialized needs</span></span><span class="service-price" data-i18n="quote">Custom quote</span></button>
+    <button type="button" class="service" data-id="office" data-kind="commercial" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/lead-demo/spotless-office.png" data-photo="/assets/demo-services/office.webp" data-fallback="/assets/lead-demo/spotless-office.png" alt="" width="840" height="560" loading="lazy" decoding="async"><span class="service-photo-check" aria-hidden="true">✓</span></span><span class="service-copy"><span class="service-title" data-i18n="office">Office Cleaning</span><span class="service-detail" data-i18n="officeHint">Offices and workspaces</span></span><span class="service-price" data-i18n="quote">Custom quote</span></button>
+    <button type="button" class="service" data-id="retail" data-kind="commercial" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/lead-demo/spotless-office.png" data-photo="/assets/demo-services/retail.webp" data-fallback="/assets/lead-demo/spotless-office.png" alt="" width="840" height="560" loading="lazy" decoding="async"><span class="service-photo-check" aria-hidden="true">✓</span></span><span class="service-copy"><span class="service-title" data-i18n="retail">Retail & Showrooms</span><span class="service-detail" data-i18n="retailHint">Customer-facing spaces</span></span><span class="service-price" data-i18n="quote">Custom quote</span></button>
+    <button type="button" class="service" data-id="medical" data-kind="commercial" aria-pressed="false"><span class="service-media" aria-hidden="true"><img src="/assets/lead-demo/spotless-office.png" data-photo="/assets/demo-services/medical.webp" data-fallback="/assets/lead-demo/spotless-office.png" alt="" width="840" height="560" loading="lazy" decoding="async"><span class="service-photo-check" aria-hidden="true">✓</span></span><span class="service-copy"><span class="service-title" data-i18n="medical">Medical & Professional</span><span class="service-detail" data-i18n="medicalHint">Spaces with specialized needs</span></span><span class="service-price" data-i18n="quote">Custom quote</span></button>
    </div>
    <div class="booking-custom-invite" aria-labelledby="bookingCustomTitle">
     <p id="bookingCustomOverline" class="booking-custom-overline">NEED SOMETHING DIFFERENT?</p>
@@ -254,9 +254,9 @@
     <label class="field"><span id="zipLabel">Service ZIP code</span><input id="customerZip" type="text" inputmode="numeric" autocomplete="postal-code" minlength="5" maxlength="10" required></label>
     <label class="field"><span id="dateLabel">Preferred date</span><input id="preferredDate" type="date" required></label>
     <div class="residential-details full fields" id="resDetails">
-     <label class="field"><span id="bedsLabel">Bedrooms</span><select id="beds"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5+</option></select></label>
-     <label class="field"><span id="bathsLabel">Bathrooms</span><select id="baths"><option selected>1</option><option>2</option><option>3</option><option>4+</option></select></label>
-     <label class="field full"><span id="frequencyLabel">Frequency</span><select id="frequency"><option value="one">One time</option><option value="weekly">Weekly</option><option value="biweekly">Biweekly</option><option value="monthly">Monthly</option></select></label>
+     <div class="field choice-field"><span id="bedsLabel" class="choice-label">Bedrooms</span><div class="choice-options" role="radiogroup" aria-labelledby="bedsLabel"><label class="choice-check"><input type="radio" name="demo-beds" value="1"><span>1</span></label><label class="choice-check"><input type="radio" name="demo-beds" value="2" checked><span>2</span></label><label class="choice-check"><input type="radio" name="demo-beds" value="3"><span>3</span></label><label class="choice-check"><input type="radio" name="demo-beds" value="4"><span>4</span></label><label class="choice-check"><input type="radio" name="demo-beds" value="5+"><span>5+</span></label></div><select id="beds" class="choice-source-select" aria-hidden="true" tabindex="-1"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5+</option></select></div>
+     <div class="field choice-field"><span id="bathsLabel" class="choice-label">Bathrooms</span><div class="choice-options" role="radiogroup" aria-labelledby="bathsLabel"><label class="choice-check"><input type="radio" name="demo-baths" value="1" checked><span>1</span></label><label class="choice-check"><input type="radio" name="demo-baths" value="2"><span>2</span></label><label class="choice-check"><input type="radio" name="demo-baths" value="3"><span>3</span></label><label class="choice-check"><input type="radio" name="demo-baths" value="4+"><span>4+</span></label></div><select id="baths" class="choice-source-select" aria-hidden="true" tabindex="-1"><option selected>1</option><option>2</option><option>3</option><option>4+</option></select></div>
+     <div class="field choice-field full"><span id="frequencyLabel" class="choice-label">Frequency</span><div class="choice-options" role="radiogroup" aria-labelledby="frequencyLabel"><label class="choice-check"><input type="radio" name="demo-frequency" value="one" checked><span data-i18n="one">One time</span></label><label class="choice-check"><input type="radio" name="demo-frequency" value="weekly"><span data-i18n="weekly">Weekly</span></label><label class="choice-check"><input type="radio" name="demo-frequency" value="biweekly"><span data-i18n="biweekly">Biweekly</span></label><label class="choice-check"><input type="radio" name="demo-frequency" value="monthly"><span data-i18n="monthly">Monthly</span></label></div><select id="frequency" class="choice-source-select" aria-hidden="true" tabindex="-1"><option value="one">One time</option><option value="weekly">Weekly</option><option value="biweekly">Biweekly</option><option value="monthly">Monthly</option></select></div>
     </div>
     <div class="commercial-details full fields" id="comDetails" hidden>
      <label class="field full"><span id="spaceLabel">Type of space</span><select id="spaceType"><option value="office">Office</option><option value="retail">Retail</option><option value="medical">Medical / Professional</option><option value="other">Other</option></select></label>
@@ -362,6 +362,8 @@
     custom=false;
     document.querySelectorAll('.service').forEach(el=>el.setAttribute('aria-pressed',String(el===button)));
     $('chooseNext').disabled=false;
+    // Service card itself advances; no scroll past the quote to reach Continue.
+    showStep(2);
   }
   function makeRow(label,value){
     const wrapper=document.createElement('div');wrapper.className='review-row';
@@ -388,6 +390,17 @@
     data.forEach(x=>list.append(makeRow(...x)));
   }
   $('language').addEventListener('change',event=>{lang=event.target.value;updateWords();});
+  for(const fieldId of ['beds','baths','frequency']){
+    const select=$(fieldId);
+    document.querySelectorAll('input[name="demo-'+fieldId+'"]').forEach(radio=>{
+      radio.addEventListener('change',()=>{
+        if(radio.checked){
+          select.value=radio.value;
+          select.dispatchEvent(new Event('change',{bubbles:true}));
+        }
+      });
+    });
+  }
   $('resTab').addEventListener('click',()=>chooseKind('residential'));
   $('comTab').addEventListener('click',()=>chooseKind('commercial'));
   document.querySelectorAll('.service').forEach(button=>button.addEventListener('click',()=>chooseService(button)));
