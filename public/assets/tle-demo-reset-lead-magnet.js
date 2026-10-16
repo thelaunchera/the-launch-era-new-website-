@@ -260,9 +260,18 @@
       b.dataset.id===svc || b.dataset.id==='standard'&&/standard|regular/.test(svc)||
       b.dataset.id==='deep'&&svc.includes('deep')||b.dataset.id==='move'&&svc.includes('move')
     ));
-    if(picked)picked.click();
-    else el('customQuote').click();
-    if(picked)el('chooseNext').click();
+    // The public service gallery first flips to explain a clean.
+    // Sonny explicitly chooses its back CTA when using a prepared draft.
+    if(picked){
+      const card=picked.closest('[data-flip-card]');
+      if(card){
+        const select=card.querySelector('[data-flip-select]');
+        const front=card.querySelector('.service');
+        // Clear the preview face's inert state via its normal flip handler.
+        front?.click();
+        select?.click();
+      }else picked.click();
+    }else el('customQuote').click();
     const name=[d.first_name,d.last_name].filter(v=>typeof v==='string'&&v.trim()).join(' ')
       ||d.customer_name||d.name||'';
     if(typeof name==='string')el('customerName').value=name.slice(0,80);
