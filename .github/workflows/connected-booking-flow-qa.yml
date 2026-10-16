@@ -1,0 +1,66 @@
+name: Connected Booking Flow QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/components/connected-booking-flow.tsx'
+      - 'src/components/connected-booking-flow.css'
+      - 'src/components/editorial-sections.tsx'
+      - 'src/routes/es.index.tsx'
+      - 'scripts/qa-connected-booking-flow.mjs'
+      - '.github/workflows/connected-booking-flow-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'src/components/connected-booking-flow.tsx'
+      - 'src/components/connected-booking-flow.css'
+      - 'src/components/editorial-sections.tsx'
+      - 'src/routes/es.index.tsx'
+      - 'scripts/qa-connected-booking-flow.mjs'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  website-connected-flow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Confirm routes and no customer write paths changed
+        run: |
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-connected-booking-flow.mjs
+      - name: Build production website
+        run: |
+          bun install
+          bun run build
+      - name: Install Playwright Chromium
+        run: |
+          mkdir -p /tmp/tle-connected-flow-qa
+          cd /tmp/tle-connected-flow-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          ln -sfn /tmp/tle-connected-flow-qa/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-connected-flow-qa/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: EN/ES mobile iPad and desktop browser check
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-connected-flow-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-connected-booking-flow.mjs --browser
+      - name: Save screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: connected-booking-flow-screenshots
+          path: qa-screenshots/connected-flow/
+          if-no-files-found: ignore
