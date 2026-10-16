@@ -199,6 +199,19 @@ function customizeChat(){
   }
   // Compact from first paint; no full-width CTA-shaped second banner.
   launch.classList.add("tle-demo-condensed");
+  // Some later sample styles overrode the avatar offsets. This is scoped
+  // exclusively to the public sample, never an actual customer booking page.
+  if(!document.getElementById("tleSonnyFloatingSpacing")){
+    const spacing=document.createElement("style");
+    spacing.id="tleSonnyFloatingSpacing";
+    spacing.textContent=[
+      'html.demo-editorial body .tle-ai-launch.tle-demo-condensed{right:calc(25px + env(safe-area-inset-right))!important;bottom:calc(76px + env(safe-area-inset-bottom))!important}',
+      'html.demo-editorial body .tle-sonny-greeting-popup{right:calc(26px + env(safe-area-inset-right))!important;bottom:calc(140px + env(safe-area-inset-bottom))!important}',
+      '@media(max-width:700px){html.demo-editorial body .tle-ai-launch.tle-demo-condensed{right:calc(24px + env(safe-area-inset-right))!important;bottom:calc(100px + env(safe-area-inset-bottom))!important}',
+      'html.demo-editorial body .tle-sonny-greeting-popup{right:calc(25px + env(safe-area-inset-right))!important;bottom:calc(166px + env(safe-area-inset-bottom))!important}}'
+    ].join("");
+    document.head.appendChild(spacing);
+  }
  }
  // Jessy is unchanged on the sales demo. Sonny operates only in the interactive sample.
 }
