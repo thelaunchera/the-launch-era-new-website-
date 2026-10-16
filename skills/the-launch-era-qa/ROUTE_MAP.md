@@ -1,3 +1,9 @@
+## Public Booking lead magnet: full-month calendar + wheel (2026-10-16)
+- **Owner/route:** `/lead-private-preview.html?business=...&area=...&lang=...` redirects only unkeyed leads to `/booking-demo-reset.html`; same demo sent by Jessie. `?key=` and `?owner_preview=1` remain on original private buyer template.
+- **Step:** `#detailsPanel` keeps its existing `#preferredDate` native field, form validation and `#reviewNext`; `tle-booking-month-wheel.js/css` adds a seven-column full-month calendar, 1–12 hour / minutes in five-minute increments / AM-PM scroll-snap wheels (touch, desktop drag, keyboard), a compact sticky time CTA and a small confirmation sheet. The sheet validates through original form review, and `#tlePreferredTime` goes to example session tracker only. No *real* slot availability, booking, payment or email submissions.
+- **Visual isolation:** only `.service-media img` gets a 1.065x hover zoom; no gallery, hero, or page-wide zoom. Blue/ink theme, Sonny, proof photo pairs and bilingual hero are preserved.
+- **QA:** `scripts/qa-booking-month-wheel.mjs`, `.github/workflows/booking-month-wheel-qa.yml` test EN/ES 360/390/820/1440 plus keyboard, day reset, dialog focus, optional sample time, customer isolation and no writes. Current public booking and lead-magnet browser suites remain mandatory.
+
 ## Homepage connected workflow illustration (2026-10-16)
 - Scope: public EN / and ES /es/ homepages only. No changes to booking demo, checkout, public Luna Bloom sample, private Command Centers or customer records.
 - Hero: HeroConnectionBackdrop stays under the existing scaled hero photo, with small blue dashed lines, two labels, pointer-events:none; hidden on phone and reduced-motion. Original sticky reveal and personalized-demo link remain.

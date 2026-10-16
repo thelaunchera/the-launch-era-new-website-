@@ -99,7 +99,7 @@
       estimateValue:price,
       zip:input('customerZip'),
       date:input('preferredDate'),
-      time:'Flexible',
+      time:el('tlePreferredTime')?.value||'Flexible',
       notes:input('notes'),
       status:'new',
       demoOnly:true

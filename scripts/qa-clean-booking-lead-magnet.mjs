@@ -19,7 +19,7 @@ assert.match(chat,/tle-ai-booking-demo/,'Keep the existing Sonny demo backend wi
 assert.match(template,/id="demoForm"/,'Personalized lead magnet intake must not be replaced with booking sample');
 assert(!/(?:@keyframes|\banimation\s*:|\btransition\s*:|\btransform\s*:|\bzoom\s*:|gsap\.|Flip\.|mix-blend-mode\s*:)/i.test(html),'New public demo must have zero visual zoom/motion');
 assert.deepEqual([...html.matchAll(/<link[^>]*rel="stylesheet"[^>]*href="([^"]+)"/g)].map(m=>m[1]),
-  ['/assets/tle-demo-hero-portal.css?v=20261016-portal1'],'Only the isolated hero CSS may be linked');
+  ['/assets/tle-demo-hero-portal.css?v=20261016-portal1','/assets/tle-booking-month-wheel.css?v=20261016-wheel1'],'Only scoped hero and time wheel CSS may be linked');
 
 const browser=await chromium.launch({headless:true});
 const outputs=[];
@@ -50,7 +50,7 @@ try {
    };
   });
   assert(context.scroll<=2&&context.onScreen,locale+' '+width+' overflow '+JSON.stringify(context));
-  assert.equal(context.importCount,1,'Only requested hero stylesheet; no legacy effects');
+  assert.equal(context.importCount,2,'Only the hero and appointment stylesheet; no legacy effects');
   assert.equal(context.cards.length,6,'Exactly six service choices, none Post-Construction');
   assert(context.cards.filter(x=>x.width>0).length===3,'Only one service category may be visible');
   assert(context.cards.filter(x=>x.width>0).every(x=>x.width>225&&x.height>=280&&x.imageWidth>x.width*.94&&x.imageHeight>=125),

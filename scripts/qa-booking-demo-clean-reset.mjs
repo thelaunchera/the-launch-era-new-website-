@@ -16,9 +16,10 @@ const scripts=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)];
 const inline=scripts.filter(x=>!/<script\s+src=/.test(x[0]));
 const external=scripts.filter(x=>/<script\s+src=/.test(x[0]));
 assert.equal(inline.length,1,'One compact booking wizard controller');
-assert.equal(external.length,2,'Only two scoped scripts: Sonny lead magnet and hero portal');
+assert.equal(external.length,3,'Only three scoped scripts: Sonny, appointment and hero portal');
 assert.match(external[0][0],/\/assets\/tle-demo-reset-lead-magnet\.js/,'Sonny/lead context must remain unchanged');
-assert.match(external[1][0],/\/assets\/tle-demo-hero-portal\.js/,'Only the user-approved hero portal script may be added');
+assert.match(external[1][0],/\/assets\/tle-booking-month-wheel\.js/,'Full month / wheel script must remain present');
+assert.match(external[2][0],/\/assets\/tle-demo-hero-portal\.js/,'Existing hero portal must remain present');
 new vm.Script(inline[0][1]);
 new vm.Script(readFileSync('public/assets/tle-demo-reset-lead-magnet.js','utf8'));
 for(const tag of ['id="resServices"','id="comServices"','id="detailsPanel"','id="reviewPanel"','id="completePanel"','id="customerName"','id="customerEmail"'])assert(html.includes(tag),'Missing service/booking field '+tag);
@@ -95,7 +96,7 @@ try{
    const layout=await page.evaluate(()=>{
      const rect=document.querySelector('.flow').getBoundingClientRect();
      return {bodyOverflow:document.documentElement.scrollWidth-innerWidth,flowWidth:rect.width,
-       slide:document.querySelectorAll('[style*="transform"],[style*="animation"],[class*="carousel"],[class*="glow"]').length,
+       slide:document.querySelectorAll('[class*="carousel"],[class*="glow"],.flow[style*="transform"],.service[style*="transform"]').length,
        images:document.images.length,nav:location.pathname};
    });
    assert(layout.bodyOverflow<=2,lang+' '+width+' horizontal overflow '+JSON.stringify(layout));
