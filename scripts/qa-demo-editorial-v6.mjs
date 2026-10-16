@@ -20,12 +20,22 @@ for(const lang of ['en','es']){
    const sonny=page.locator(".tle-ai-launch.tle-demo-condensed");
    await sonny.waitFor({state:"visible",timeout:8000});
    const popup=page.locator("#tleSonnyGreetingPopup");
-   await popup.waitFor({state:"visible",timeout:6000});
-   assert.equal((await popup.innerText()).trim(),lang==="es"?"Habla conmigo":"Chat with me","Sonny should greet subtly on page entry, not after scrolling");
+   const v48=await page.locator("html").evaluate(el=>el.classList.contains("tle-demo-v48"));
+   const mobile=width<=759;
+   // The new hotel-inspired public demo intentionally suppresses the transient
+   // greeting on phones so no overlay obscures the primary booking action.
+   if(v48&&mobile){
+     assert.equal(await popup.isVisible(),false,"Mobile v48 has only the small Sonny launcher, no overlay");
+   }else{
+     await popup.waitFor({state:"visible",timeout:6000});
+     assert.equal((await popup.innerText()).trim(),lang==="es"?"Habla conmigo":"Chat with me",
+       "Sonny entrance greeting should be compact");
+     const hint=await popup.evaluate(el=>{const r=el.getBoundingClientRect();return {width:r.width}});
+     assert.ok(hint.width<=135,"Sonny entrance invitation remains compact: "+JSON.stringify(hint));
+   }
    const bubble=await sonny.evaluate(el=>{const r=el.getBoundingClientRect();return {right:innerWidth-r.right,bottom:innerHeight-r.bottom}});
-   assert.ok(bubble.bottom>=60&&bubble.right>=16,"Sonny bubble must be above and away from the viewport edge: "+JSON.stringify(bubble));
-   const hint=await popup.evaluate(el=>{const r=el.getBoundingClientRect();return {width:r.width,bottom:innerHeight-r.bottom}});
-   assert.ok(hint.width<=135,"Sonny entrance invitation should stay compact: "+JSON.stringify(hint));
+   assert.ok(bubble.bottom>=(v48&&mobile?8:60)&&bubble.right>=(v48&&mobile?8:16),
+     "Sonny button stays touchable inside its viewport: "+JSON.stringify(bubble));
 
    const main=await page.evaluate(()=>{
     const q=s=>document.querySelector(s);
