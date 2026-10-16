@@ -35,6 +35,12 @@ try{
   await page.waitForTimeout(450);
   assert.equal(await page.locator("#main.on").count(),1,"edge swipe must return to chooser");
   assert.equal(await page.locator("#res[inert]").count(),1,"popped page must become inert");
+  // Rapid successive steps must update the active screen synchronously.
+  await page.evaluate(()=>{
+    startQuote("estimate");
+    show("done","Request received","✓");
+  });
+  assert.equal(await page.locator("#done.on").count(),1,"rapid step changes must not stall");
   assert.equal(errors.length,0,"browser errors: "+errors.join(", "));
   // Real-client/owner preview must never mount sample-only navigation.
   await page.goto(base+"/lead-private-preview.html?key=isolated-fixture&lang="+lang,{waitUntil:"domcontentloaded"});
