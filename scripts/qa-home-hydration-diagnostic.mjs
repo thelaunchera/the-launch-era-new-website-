@@ -25,7 +25,7 @@ try{
       const btn=document.querySelector('.booking-section .product-tabs button');
       return !!(btn && Object.keys(btn).some(k=>k.startsWith('__reactProps')));
     },null,{timeout:30000}).catch(()=>{});
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1800); // Include delayed post-hydration Jessie initialization.
     const d=await page.evaluate(()=>({
       chat:!!document.querySelector('.tle-jessy-root'),
       reactBtn:!!document.querySelector('.booking-section .product-tabs button'),
