@@ -1,22 +1,20 @@
-name: Sample Calendar and Frequency QA
+name: Demo Services and Date Picker QA
 on:
   push:
     branches: [main]
     paths:
-      - 'public/assets/tle-demo-inline-booking-v41.js'
-      - 'public/assets/tle-demo-inline-booking-v41.css'
-      - 'public/assets/tle-demo-frequency-v41.js'
-      - 'public/assets/tle-demo-frequency-v41.css'
+      - 'public/assets/tle-demo-redesign-v42.js'
+      - 'public/assets/tle-demo-redesign-v42.css'
       - 'public/assets/tle-demo-readability-v41.css'
       - 'public/assets/tle-demo-stack-nav-v38.css'
       - 'public/assets/tle-demo-magical-clean-v27.js'
-      - 'scripts/qa-demo-inline-widgets-v41.mjs'
+      - 'scripts/qa-demo-redesign-v42.mjs'
       - '.github/workflows/demo-inline-v41-qa.yml'
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
-  sample-calendar-and-pricing:
+  sample-service-date-flow:
     runs-on: ubuntu-latest
     timeout-minutes: 13
     steps:
@@ -28,8 +26,7 @@ jobs:
         run: |
           node scripts/qa-route-integrity.mjs --static
           node scripts/qa-public-demo-integrity.mjs
-          node --check public/assets/tle-demo-inline-booking-v41.js
-          node --check public/assets/tle-demo-frequency-v41.js
+          node --check public/assets/tle-demo-redesign-v42.js
       - name: Install browser
         run: |
           bun install
@@ -38,11 +35,11 @@ jobs:
           npm init -y >/dev/null
           npm install --no-audit --no-fund playwright@1.57.0
           npx playwright install --with-deps chromium
-      - name: Check calendar, switcher, contrast, no live writes, customer isolation
+      - name: Verify inline date calendar, window hero zoom, services and tenant isolation
         run: |
           bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/tle-inline-preview.log 2>&1 &
           for i in $(seq 1 40); do
             if curl -sf http://127.0.0.1:4173/lead-private-preview.html >/dev/null; then break; fi
             sleep 2
           done
-          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-inline-playwright/node_modules/playwright/index.mjs node scripts/qa-demo-inline-widgets-v41.mjs
+          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-inline-playwright/node_modules/playwright/index.mjs node scripts/qa-demo-redesign-v42.mjs
