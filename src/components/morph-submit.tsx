@@ -8,10 +8,16 @@ export function MorphSubmit({status,children,language='en',className=''}:{
  useEffect(()=>{
   const element=buttonRef.current;
   if(!element) return;
-  const width=element.getBoundingClientRect().width;
-  const height=element.getBoundingClientRect().height;
-  if(width>height) element.style.setProperty('--tle-morph-inset', `${Math.max(0,(width-height)/2)}px`);
- },[children]);
+  const measure=()=>{
+   const {width,height}=element.getBoundingClientRect();
+   element.style.setProperty('--tle-morph-inset', `${Math.max(0,(width-height)/2)}px`);
+  };
+  measure();
+  const observer=typeof ResizeObserver!=='undefined'?new ResizeObserver(measure):null;
+  observer?.observe(element);
+  window.addEventListener('resize',measure,{passive:true});
+  return ()=>{observer?.disconnect();window.removeEventListener('resize',measure)};
+ },[]);
  const stage=status==='sending'?'loading':status==='done'||status==='sent'?'done':'idle';
  const live=stage==='done'?(language==='es'?'Enviado correctamente':'Successfully submitted'):status==='error'?(language==='es'?'No se pudo enviar. Inténtalo nuevamente.':'Could not send. Please try again.'):stage==='loading'?(language==='es'?'Enviando solicitud':'Sending request'):'';
  return <span className="tle-morph-wrap">
