@@ -132,15 +132,15 @@ body .sonny:has(.sonny-body:not([hidden])) .sonny-body{background:#f9fcff}
    booking/price/portfolio viewport. Closed = only its small original robot. */
 @media(max-width:700px){
   body .sonny:not(:has(.sonny-body:not([hidden]))){
-    width:54px;height:54px;min-width:54px;max-width:54px;
+    width:58px;height:58px;min-width:58px;max-width:58px;
     right:calc(16px + env(safe-area-inset-right,0px));
     bottom:calc(19px + env(safe-area-inset-bottom,0px));
   }
   body .sonny:not(:has(.sonny-body:not([hidden]))) .sonny-avatar-mark{
-    width:50px;height:50px;flex-basis:50px;
+    width:54px;height:54px;flex-basis:54px;
   }
   body .sonny:not(:has(.sonny-body:not([hidden]))) .sonny-avatar-mark img{
-    width:48px;height:48px;
+    width:52px;height:52px;
   }
   body .sonny:has(.sonny-body:not([hidden])){
     right:calc(17px + env(safe-area-inset-right,0px));
