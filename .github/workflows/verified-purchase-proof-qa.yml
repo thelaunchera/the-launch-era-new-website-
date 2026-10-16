@@ -1,0 +1,35 @@
+name: Verified Purchase Notice QA
+
+on:
+  pull_request:
+    paths:
+      - 'public/assets/tle-purchase-proof.*'
+      - 'supabase/functions/tle-public-purchase-proof/**'
+      - 'src/routes/__root.tsx'
+      - 'scripts/qa-verified-purchase-proof.mjs'
+      - 'skills/the-launch-era-qa/**'
+      - '.github/workflows/verified-purchase-proof-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verified-social-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify purchase notices do not invent sales or expose customer details
+        run: |
+          node --check public/assets/tle-purchase-proof.js
+          node --check scripts/qa-verified-purchase-proof.mjs
+          node scripts/qa-verified-purchase-proof.mjs
+      - name: Ensure main website routes and recovery links remain intact
+        run: |
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-auth-recovery.mjs
+          node scripts/qa-client-release.mjs
