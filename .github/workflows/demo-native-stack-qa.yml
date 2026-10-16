@@ -1,0 +1,45 @@
+name: Native Service Stack QA
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'public/lead-private-preview.html'
+      - 'public/assets/tle-demo-stack-nav-v38.js'
+      - 'public/assets/tle-demo-stack-nav-v38.css'
+      - 'scripts/qa-demo-stack-nav-v38.mjs'
+      - '.github/workflows/demo-native-stack-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: native-stack-qa-${{ github.sha }}
+  cancel-in-progress: false
+jobs:
+  public-sample-navigation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Static route and tenant isolation guards
+        run: |
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-public-demo-integrity.mjs
+      - name: Prepare isolated browser
+        run: |
+          bun install
+          mkdir -p /tmp/tle-stack-playwright
+          cd /tmp/tle-stack-playwright
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+      - name: Verify EN ES navigation on phone tablet and desktop
+        run: |
+          bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/tle-stack-preview.log 2>&1 &
+          for i in $(seq 1 40); do
+            if curl -sf http://127.0.0.1:4173/lead-private-preview.html >/dev/null; then break; fi
+            sleep 2
+          done
+          QA_URL=http://127.0.0.1:4173 PLAYWRIGHT_MODULE=/tmp/tle-stack-playwright/node_modules/playwright/index.mjs node scripts/qa-demo-stack-nav-v38.mjs
