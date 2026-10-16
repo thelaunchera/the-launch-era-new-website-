@@ -62,6 +62,8 @@ function SpanishContact(){
     const d=await r.json().catch(()=>({}));
     if(!r.ok||!d?.ok)throw new Error(d?.error||'No pudimos enviar tu consulta. Inténtalo otra vez.');
     setReceipt({name:String(fd.get('name')||''),email:String(fd.get('email')||''),business:String(fd.get('business')||''),service:String(fd.get('service')||'')});
+    setStatus('done');
+    await new Promise<void>(resolve => window.setTimeout(resolve, 780));
     setStatus('sent');
   }catch(err){
     setSendError(err instanceof Error?err.message:'No pudimos enviar tu consulta. Inténtalo otra vez.');
