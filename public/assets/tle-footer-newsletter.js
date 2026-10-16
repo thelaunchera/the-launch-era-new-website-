@@ -54,8 +54,8 @@
       if (!response.ok || !result || result.ok !== true) throw new Error('Subscription not saved');
       var confirmation = form.querySelector('[data-newsletter-confirmation]');
       var confirmationLabel = form.querySelector('[data-newsletter-confirmation-label]');
-      if (confirmationLabel) confirmationLabel.textContent = es ? '¡Listo!' : "You're in";
       if (confirmation) confirmation.setAttribute('aria-hidden', 'false');
+      if (confirmationLabel) confirmationLabel.textContent = es ? '¡Listo!' : "You're in";
       form.classList.add('done'); // Persistent success; never auto-reset.
       button.disabled = true;
       input.disabled = true;
