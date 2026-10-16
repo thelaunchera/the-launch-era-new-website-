@@ -75,6 +75,12 @@ Verified against production page loads and repository sources on **2026-10-12**.
 | \\`/command-center/ai-team.html\\` | \\`public/command-center/ai-team.html\\` + AI Team assets | Private The Launch Era internal owner role only; tasks, AI plans, approvals, evidence, audit. No buyer access or automatic external action. |\n
 Other routes exist under \`src/routes/\`, \`public/es/\`, \`public/intake/\` and \`public/ai-booking-assistant/\`; \`scripts/qa-route-integrity.mjs\` scans the filesystem for static references. All routes must be added here when they become a production CTA.
 
+## v38 service screen stack (2026-10-16)
+- **Scope:** public **unkeyed** `/lead-private-preview.html` only (`lang=en/es`), existing `#bookingStarter` service chooser / residential details / review / residential quote / commercial quote / sample confirmation. Never run on `?key` or `?owner_preview=1`; no client records or real submissions.
+- **Owner/files:** `public/lead-private-preview.html` delegates its existing `show(id,title,count)` to `public/assets/tle-demo-stack-nav-v38.js`, with `tle-demo-stack-nav-v38.css`. If JS is missing, legacy `show` still works. Buttons, payment paths, quote calculations, and backend are unchanged.
+- **Interaction:** forward 450ms right-to-left push; outgoing step shifts left 28% and dims up to 0.16; back reverses. A left-edge touch gesture drags and velocity-snaps to the previous step. Covered pages are inert and hidden from accessibility; focus moves to the active `#title` heading. Reduced motion uses a 130ms opacity fade. Original top navigation's `Change service` and `Back to Demo Home` remain functional.
+- **QA:** `scripts/qa-demo-stack-nav-v38.mjs` exercises EN/ES responsive forward/back/edge-swipe, focus, state retention and keyed isolation without sending demo requests. Run via `.github/workflows/demo-editorial-v6-qa.yml` alongside static route QA.
+
 ## v28 animated preview identity / sample nameplate (2026-10-15)
 - **URL/scope**: public unkeyed `/lead-private-preview.html` (including `lang=en/es`, fictional business query); never runs when `?key` is present or `?owner_preview=1`. Existing buyer/owner headers, demos and all client booking data stay untouched.
 - **Demo status line**: `.top .demo-top-label` presents two *always-visible* groups: localized `INTERACTIVE DEMO` / `DEMO INTERACTIVO` with an aria-hidden twinkling blue star, and `SAMPLE WEBSITE · NO LIVE BOOKINGS` / `SITIO DE EJEMPLO · SIN RESERVAS REALES`. Preserve truthful disclaimers; no animated auto-hiding of critical wording.
