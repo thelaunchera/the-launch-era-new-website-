@@ -60,7 +60,7 @@ try{
   assert(parseFloat(details.cardBorder)===0&&parseFloat(details.cardRadius)===0,"Photo is still a rounded card: "+JSON.stringify(details));
   assert(details.cardShadow==="none","Remove big floating card shadows");
   assert(details.photoHeight>=400,"Service photo should breathe: "+JSON.stringify(details));
-  assert(details.customRadius==="0px","Custom quote must be an inline row, not a tile");
+  assert(details.customRadius==="0px","Custom quote must be an inline row, not a tile: "+JSON.stringify(details));
   assert(details.grids.length===2&&details.grids.every(x=>x.visible),"Home and business galleries remain");
   assert(details.scrollWidth<=7,"No focused horizontal overflow");
   await page.screenshot({path:"qa-screenshots/demo-v45/"+lang+"-"+width+"-gallery.png",fullPage:false});
