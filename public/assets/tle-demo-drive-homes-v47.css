@@ -1,0 +1,47 @@
+/* v47 · Exact-match override for the legacy decorated custom quote card. */
+html.demo-editorial.tle-demo-v45.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v42-grid > button.tle-v30-main-custom.tle-v34-single-quote{
+ display:flex!important;align-items:center!important;justify-content:space-between!important;
+ min-height:74px!important;max-width:none!important;width:100%!important;
+ gap:12px!important;margin:0!important;padding:14px 0!important;
+ background:transparent!important;background-image:none!important;
+ border:0!important;border-top:1px solid #a5cbdc!important;
+ border-bottom:1px solid #a5cbdc!important;border-radius:0!important;
+ box-shadow:none!important;outline-offset:4px!important;
+ color:#1a4a67!important;transform:none!important;
+}
+html.demo-editorial.tle-demo-v45.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v42-grid > button.tle-v30-main-custom.tle-v34-single-quote::before,
+html.demo-editorial.tle-demo-v45.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main .tle-v42-grid > button.tle-v30-main-custom.tle-v34-single-quote::after{
+ content:none!important;display:none!important;animation:none!important;
+}
+html.demo-editorial.tle-demo-v45.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main button.tle-v34-single-quote .tle-v34-custom-text{
+ gap:3px!important;padding:0!important;
+ color:#1c4f6d!important;-webkit-text-fill-color:#1c4f6d!important;
+}
+html.demo-editorial.tle-demo-v45.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main button.tle-v34-single-quote .tle-v34-custom-text small{
+ display:none!important;
+}
+html.demo-editorial.tle-demo-v45.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main button.tle-v34-single-quote .tle-v34-custom-text strong{
+ font:650 clamp(16px,2vw,20px)/1.3 Prompt,Arial,sans-serif!important;
+ color:#194762!important;-webkit-text-fill-color:#194762!important;
+}
+html.demo-editorial.tle-demo-v45.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main button.tle-v34-single-quote > span:last-child{
+ display:grid!important;place-items:center!important;
+ flex:0 0 42px!important;width:42px!important;height:42px!important;
+ background:transparent!important;border:0!important;border-radius:0!important;
+ box-shadow:none!important;
+}
+html.demo-editorial.tle-demo-v45.tle-demo-compact-v30.tle-photo-services-v21.tle-demo-v33.tle-demo-v34 #bookingStarter #main button.tle-v34-single-quote:focus-visible{
+ outline:3px solid #438eb9!important;
+}
+/* Make new Drive images reach every edge and keep readable photo labels. */
+html.demo-editorial.tle-demo-v45 #bookingStarter #main #residentialServiceList .tle-service-photo-v21,
+html.demo-editorial.tle-demo-v45 #bookingStarter #main #residentialServiceList .tle-service-photo-v21 img{
+ width:100%!important;height:100%!important;object-fit:cover!important;
+ border:0!important;border-radius:0!important;
+}
+@media(max-width:800px){
+ html.demo-editorial.tle-demo-v45 #bookingStarter #main button.tle-v34-single-quote{
+  margin-inline:clamp(21px,5vw,38px)!important;
+  width:calc(100% - clamp(42px,10vw,76px))!important;
+ }
+}
