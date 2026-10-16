@@ -20,11 +20,13 @@ export function ContactSteps({ language, status, panels, finish, onSubmit, error
   const es = language === 'es';
   const labels = es ? ['Contacto', 'Negocio', 'Mensaje'] : ['Contact', 'Business', 'Message'];
   const [step, setStep] = useState(0);
+  const [ready, setReady] = useState(false);
   const [height, setHeight] = useState<number | null>(null);
   const fieldsets = useRef<Array<HTMLFieldSetElement | null>>([]);
   const didMount = useRef(false);
   const id = useId().replace(/:/g, '');
   const busy = status === 'sending' || status === 'done';
+  useEffect(() => { setReady(true); }, []);
 
   useEffect(() => {
     const panel = fieldsets.current[step];
@@ -62,13 +64,13 @@ export function ContactSteps({ language, status, panels, finish, onSubmit, error
   };
 
   const advance = () => {
-    if (busy || !validStep(step)) return;
+    if (!ready || busy || !validStep(step)) return;
     setStep(current => Math.min(STEP_COUNT - 1, current + 1));
   };
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (busy) return;
+    if (!ready || busy) return;
     if (step !== STEP_COUNT - 1) { advance(); return; }
     if (!validStep(step)) return;
     // Autofill can update earlier fields; do not send if a previous step is invalid.
@@ -85,7 +87,7 @@ export function ContactSteps({ language, status, panels, finish, onSubmit, error
   const shift = `${(-100 * step) / STEP_COUNT}%`;
   const progress = step / (STEP_COUNT - 1);
 
-  return <form className="tle-contact-steps" onSubmit={submit} noValidate data-step={step}>
+  return <form className="tle-contact-steps" onSubmit={submit} noValidate data-step={step} data-ready={ready}>
     <div className="tle-contact-progress" aria-label={es ? 'Progreso del formulario' : 'Form progress'}>
       <div className="tle-contact-progress-line" aria-hidden="true"><span style={{ transform: `scaleX(${progress})` }} /></div>
       {labels.map((label, index) => <div className="tle-contact-progress-point" key={label} data-state={index < step ? 'complete' : index === step ? 'current' : 'upcoming'}>
@@ -113,8 +115,8 @@ export function ContactSteps({ language, status, panels, finish, onSubmit, error
     </div>
     {error}
     <div className="tle-contact-actions">
-      {step > 0 && <button className="tle-contact-back" type="button" onClick={() => setStep(current => current - 1)} disabled={busy}>{es ? 'Atrás' : 'Back'}</button>}
-      {step < STEP_COUNT - 1 ? <button className="tle-contact-next" type="button" onClick={advance} disabled={busy}>{es ? 'Siguiente' : 'Next'} <span aria-hidden="true">→</span></button> : finish}
+      {step > 0 && <button className="tle-contact-back" type="button" onClick={() => setStep(current => current - 1)} disabled={busy || !ready}>{es ? 'Atrás' : 'Back'}</button>}
+      {step < STEP_COUNT - 1 ? <button className="tle-contact-next" type="button" onClick={advance} disabled={busy || !ready}>{es ? 'Siguiente' : 'Next'} <span aria-hidden="true">→</span></button> : finish}
     </div>
     <p className="form-disclaimer">{disclaimer}</p>
   </form>;

@@ -35,7 +35,7 @@ assert(cta.includes('demo|preview|\\/command-center')&&cta.includes('href={href}
 for(const p of ['src/components/editorial-sections.tsx','src/routes/es.index.tsx','src/components/freebie-page.tsx']){
  const s=read(p);
  assert(s.includes('MorphSubmit status={status}'),p+': missing real form morph');
- assert(s.includes("setStatus('done')")&&s.includes("setStatus('sent')"),p+': success must follow server response');
+ assert(s.includes("setStatus('sent')")&&s.includes('SuccessConfirmation'),p+': visible success requires server-acknowledged confirmation');
 }
 for(const p of ['public/ai-booking-assistant/index.html','public/es/ai-booking-assistant/index.html']){
  const s=read(p);
@@ -154,14 +154,13 @@ try{
    new MutationObserver(record).observe(el,{attributes:true,attributeFilter:['data-state','aria-busy']});
   });
   await button.click();
-  await page.waitForFunction(()=>document.querySelector('.tle-morph-submit')?.dataset.state==='done',null,{timeout:9000});
+  await page.locator('.tle-success-card[role="status"]').waitFor({state:'visible',timeout:9000});
   const states=await page.evaluate(()=>window.__tleStages||[]);
   assert(states.some(x=>x.state==='loading'&&x.busy==='true'),route+' missing loading state: '+JSON.stringify(states));
-  assert.equal(await button.getAttribute('data-state'),'done',route+' confirmed success');
-  await button.locator('.tle-morph-dots').waitFor({state:'attached'});
-  assert((await page.locator('[aria-live="polite"]').allTextContents()).some(x=>/success|correctamente/i.test(x)),route+' aria-live');
-  await page.waitForTimeout(1450);
-  assert.equal(await page.locator(form).count(),0,route+' old form should yield to existing success confirmation');
+  assert.equal(await page.locator(form).count(),0,route+' form must immediately yield to server-confirmed success');
+  assert((await page.locator('.tle-success-card').innerText()).includes('synthetic@example.invalid'),route+' missing accurate destination summary');
+  assert.equal(await page.locator('.tle-success-disc .tle-success-check').count(),1,route+' missing check icon');
+  if(endpoint==='tle-contact') assert.equal(await page.locator('.tle-success-card.tle-success-compact').count(),1,route+' contact should remain compact');
   await page.close();
  }
  // Shared footer theme: test real switch, persistent preference, safe links and a single newsletter.

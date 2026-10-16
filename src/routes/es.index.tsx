@@ -1,3 +1,4 @@
+import { SuccessConfirmation } from '@/components/success-confirmation';
 import { ProcessSteps } from '@/components/process-view-transitions';
 import { MorphSubmit } from '@/components/morph-submit';
 import { ContactSteps } from '@/components/contact-stepper';
@@ -34,8 +35,45 @@ const notices=[
 const flow=[['NUEVO LEAD','Llega una solicitud de reserva.','Los detalles entran en un solo lugar.',CalendarCheck2],['ORGANIZADO','Se guarda en tu Command Center.','Cada consulta tiene su lugar. Sin buscar entre mensajes.',ClipboardList],['SEGUIMIENTO','El próximo paso sigue avanzando.','Un seguimiento claro mantiene la conversación viva.',Send]] as const;
 function SpanishContact(){
  const [status,setStatus]=useState<'idle'|'sending'|'done'|'sent'|'error'>('idle'); const [name,setName]=useState('');
- async function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();setStatus('sending');const fd=new FormData(e.currentTarget);try{const r=await fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:String(fd.get('name')||''),email:String(fd.get('email')||''),business_name:String(fd.get('business')||''),help_needed:[String(fd.get('service')||'')],message:String(fd.get('message')||''),language:'es',source:'main_website_es',started_at:Date.now()-3000,website:''})});const d=await r.json().catch(()=>({}));if(!r.ok||!d.ok)throw 0;setStatus('done');window.setTimeout(()=>setStatus('sent'),1450)}catch{setStatus('error')}}
- return <div className="contact-form">{status==='sent'?<div className="form-confirm"><Sparkles/><h3 className="editorial">Gracias, {name.split(' ')[0]}.</h3><p>Ya recibimos tu consulta. La revisaremos y te escribiremos pronto.</p><Button variant="outline" onClick={()=>setStatus('idle')}>Enviar otra consulta <ArrowRight/></Button></div>:<><h2 className="editorial">Cuéntanos un poquito de tu negocio.</h2><p>No necesitas tener todo resuelto. Solo dinos qué se está sintiendo pesado ahora mismo.</p><ContactSteps
+ const sendingRef=useRef(false);
+ const [receipt,setReceipt]=useState({name:'',email:'',business:'',service:''});
+ const [sendError,setSendError]=useState('');
+ async function submit(e:FormEvent<HTMLFormElement>){
+  e.preventDefault();
+  if(sendingRef.current || status==='sending' || status==='sent') return;
+  sendingRef.current=true;
+  setSendError('');
+  setStatus('sending');
+  const fd=new FormData(e.currentTarget);
+  try {
+    const r=await fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-contact',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        name:String(fd.get('name')||''),
+        email:String(fd.get('email')||''),
+        business_name:String(fd.get('business')||''),
+        help_needed:[String(fd.get('service')||'')],
+        message:String(fd.get('message')||''),
+        language:'es',source:'main_website_es',started_at:Date.now()-3000,website:''
+      })
+    });
+    const d=await r.json().catch(()=>({}));
+    if(!r.ok||!d?.ok)throw new Error(d?.error||'No pudimos enviar tu consulta. Inténtalo otra vez.');
+    setReceipt({name:String(fd.get('name')||''),email:String(fd.get('email')||''),business:String(fd.get('business')||''),service:String(fd.get('service')||'')});
+    setStatus('sent');
+  }catch(err){
+    setSendError(err instanceof Error?err.message:'No pudimos enviar tu consulta. Inténtalo otra vez.');
+    setStatus('error');
+    sendingRef.current=false;
+  }
+ }
+
+ return <div className="contact-form">{status==='sent'?<SuccessConfirmation
+ language="es" kind="contact" compact
+ name={receipt.name} email={receipt.email} business={receipt.business} service={receipt.service}
+ onAgain={()=>{sendingRef.current=false;setSendError('');setStatus('idle');}}
+ />:<><h2 className="editorial">Cuéntanos un poquito de tu negocio.</h2><p>No necesitas tener todo resuelto. Solo dinos qué se está sintiendo pesado ahora mismo.</p><ContactSteps
  language="es"
  status={status}
  onSubmit={submit}
@@ -44,7 +82,7 @@ function SpanishContact(){
   <><label className="field">Nombre del negocio<input name="business" autoComplete="organization" required placeholder="Tu negocio de limpieza"/></label><label className="field">¿Con qué te gustaría recibir ayuda?<select name="service">{services.map(s=><option key={s.title}>{s.title}</option>)}<option>No estoy segura todavía</option></select></label></>,
   <><label className="field">¿Qué te está quitando demasiado tiempo?<textarea name="message" required placeholder="Cuéntanos qué pasa en tu día a día…"/></label></>
  ]}
- error={status==='error'?<p className="text-sm" role="alert">No pudimos enviarlo. Inténtalo otra vez.</p>:null}
+ error={status==='error'?<p className="text-sm" role="alert">{sendError||'No pudimos enviarlo. Inténtalo otra vez.'}</p>:null}
  finish={<MorphSubmit status={status} language="es">Finalizar y enviar <ArrowRight size={17}/></MorphSubmit>}
  disclaimer="Tu consulta llega directamente a The Launch Era. Usaremos estos datos solo para responderte."
  /></>}</div>
