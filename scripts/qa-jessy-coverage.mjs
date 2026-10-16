@@ -61,7 +61,7 @@ function simulateActions(checkout,detail,trial){
 }
 const regular=simulateActions("/service-checkout/?offer=ai-booking","/ai-booking-assistant/",null);
 assert.equal(regular.links.length,2);
-assert.equal(regular.links[0].label,"Get started");
+assert.equal(regular.links[0].label,"Open secure checkout →");
 assert.equal(regular.links[0].url,"/service-checkout/?offer=ai-booking");
 assert.equal(regular.links[0].attrs["aria-label"],"Continue to this service's checkout");
 assert.equal(regular.links[1].tag,"button");
