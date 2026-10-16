@@ -175,10 +175,15 @@ try{
   await root.locator('input[name="name"]').fill('Synthetic QA');
   await root.locator('input[name="email"]').fill('synthetic@example.invalid');
   await root.locator('.tle-contact-next').click();
+  await page.waitForFunction(()=>document.querySelector('.contact-form .tle-contact-steps')?.getAttribute('data-step')==='1',{timeout:8000});
   await root.locator('input[name="business"]').fill('Synthetic Business');
   await root.locator('.tle-contact-next').click();
+  await page.waitForFunction(()=>document.querySelector('.contact-form .tle-contact-steps')?.getAttribute('data-step')==='2',{timeout:8000});
   await root.locator('textarea[name="message"]').fill('Please help us understand the booking flow.');
-  await root.locator('.tle-morph-submit').click();
+  const failureButton=root.locator('.tle-morph-submit');
+  assert.equal(await root.getAttribute('data-step'),'2',route+' must show review step');
+  await failureButton.waitFor({state:'visible',timeout:9000});
+  await failureButton.click();
   await root.getByRole('alert').waitFor({state:'visible',timeout:8000});
   assert.equal(await page.locator('.tle-success-card').count(),0,route+' must not celebrate failed server receipt');
   assert.equal(await root.locator('.tle-morph-submit').isEnabled(),true,route+' must allow retry');
