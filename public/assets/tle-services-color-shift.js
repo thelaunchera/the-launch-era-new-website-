@@ -132,7 +132,7 @@
     schedule();
     if (!reducedMotion.matches) {
       ensureGsap().then(function (available) {
-        if (!available || !section.isConnected || state !== cleanup) return;
+        if (!available || !section.isConnected || (!state || state.cleanup !== cleanup)) return;
         var gsap = window.gsap, ScrollTrigger = window.ScrollTrigger;
         gsap.registerPlugin(ScrollTrigger);
         gsapReady = true;
