@@ -35,7 +35,7 @@ try{
   assert(words.firstWords[0]===(lang==="es"?"fresco":"fresh"),"Translations should be idiomatic EN/ES");
 
   const before=await page.evaluate(()=>{
-   const logo=document.querySelector("#demoEditorialNav #demoBrandName .tle-bloom-name");
+   const logo=document.querySelector("#demoEditorialNav #demoBrandName");
    const hero=document.querySelector("#leadHero");
    return {logoInk:getComputedStyle(logo).color,logoFill:getComputedStyle(logo).webkitTextFillColor,
      logoBackground:getComputedStyle(logo).backgroundColor,
