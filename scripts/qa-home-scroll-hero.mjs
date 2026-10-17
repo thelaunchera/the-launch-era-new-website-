@@ -1,6 +1,7 @@
 /* Homepage split-and-scroll hero regression checks. No booking submission or email. */
 import assert from 'node:assert/strict';
 import { readFileSync, mkdirSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 const read = path => readFileSync(new URL('../' + path, import.meta.url), 'utf8');
 const en = read('src/components/editorial-sections.tsx');
 const es = read('src/routes/es.index.tsx');
@@ -10,6 +11,12 @@ const root = read('src/routes/__root.tsx');
 const scrollCSS = read('public/assets/tle-hero-scroll.css');
 const styles = read('src/styles.css');
 const splitWord = read('src/components/hero-split-word-link.tsx');
+const heroPhoto = read('src/lib/home-hero-photo.ts');
+const homeRoute = read('src/routes/index.tsx');
+const photoBytes = readFileSync(new URL('../public/assets/hero-cleaner-lights-20261017.jpg', import.meta.url));
+assert.equal(createHash('sha256').update(photoBytes).digest('hex'),'d8f17885281acb7893bfa21270c45e946d22c8b1222b6438afd546fbaf743e6f','Original approved hero photo must stay byte-for-byte intact');
+assert(heroPhoto.includes("HOME_HERO_PHOTO = '/assets/hero-cleaner-lights-20261017.jpg'"),'Shared approved hero image missing');
+assert(homeRoute.includes('href:HOME_HERO_PHOTO'),'English homepage must preload selected image');
 const englishHero = en.split('export function HomeHero()')[1]?.split('const services =')[0] || '';
 const spanishHero = es.split('function SpanishHome()')[1]?.split('<SmartWelcomeBundle lang="es"/>')[0] || '';
 
@@ -24,6 +31,8 @@ for (const [lang, hero, expected] of [
   assert(hero.includes('className="hero-split-visual"'), lang + ': separate image panel missing');
   assert(hero.includes('className="tle-hero-soft-mesh" aria-hidden="true"'), lang + ': decorative mesh absent or exposed to assistive technology');
   assert(hero.includes('data-wipe-visible={revealed && heroLoaded}'), lang + ': image-ready reveal gate missing');
+  assert(hero.includes('src={HOME_HERO_PHOTO}'), lang + ': selected photo not installed on real hero');
+  assert(hero.includes('width={1122} height={1402}'), lang + ': portrait hero dimensions changed');
   assert(hero.includes('ref={heroRef}'), lang + ': IntersectionObserver hero ref missing');
   assert.equal(hero.split('href="' + expected + '"').length - 1, 1, lang + ': duplicate or absent personalized demo CTA');
   assert(hero.indexOf('hero-cta-row') < hero.indexOf('hero-split-visual'), lang + ': copy must lead on desktop');
@@ -92,6 +101,7 @@ try {
      clipped: hero.scrollWidth > hero.clientWidth + 3,
      clipPath: getComputedStyle(panel).clipPath,
      imageScale: new DOMMatrixReadOnly(getComputedStyle(photo).transform).a,
+     image: {src:photo.currentSrc,loaded:photo.complete && photo.naturalWidth===1122 && photo.naturalHeight===1402,position:getComputedStyle(photo).objectPosition},
      introOpacity: Number(getComputedStyle(intro).opacity),
      mesh: {
        count:blobs.length,
@@ -124,6 +134,7 @@ try {
    assert.equal(await hero.locator('.hero-intro .cta-button').count(), 1, lang + ': CTA missing');
    assert(!state.clipped, lang + ' ' + viewport.width + ': hero horizontal clipping');
    assert(state.panel.width > 160, lang + ' ' + viewport.width + ': image panel compressed');
+   assert(state.image.loaded && state.image.src.includes('hero-cleaner-lights-20261017.jpg'),lang+' '+viewport.width+': approved photo not loaded');
    assert.equal(state.notices.count,4,lang+': four illustrative notices expected');
    assert.equal(state.notices.visible,viewport.width<768?2:4,lang+' '+viewport.width+': wrong responsive notice count');
    assert.equal(state.notices.hitTest,'none',lang+': chips must not block hero taps');
