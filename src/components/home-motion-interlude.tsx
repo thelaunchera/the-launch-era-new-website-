@@ -98,7 +98,7 @@ export function HomeMotionInterlude({lang='en'}:{lang?:Lang}) {
   const load=()=>{
    watcher.disconnect();
    if(reduced)return;
-   import(/* @vite-ignore */ '/assets/tle-home-time-of-day.js?v=20261017-idle-gpu')
+   import(/* @vite-ignore */ '/assets/tle-home-time-of-day.js?v=20261017-house-rotation-restored')
     .then(mod=>{
      if(cancelled||typeof mod.mountTimeOfDay!=='function')return;
      dispose=mod.mountTimeOfDay(el);
