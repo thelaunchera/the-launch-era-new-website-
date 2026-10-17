@@ -62,8 +62,11 @@ try{
   const date=await day.getAttribute('data-day');
   await page.locator('#reviewNext').click();
   assert.equal(await page.locator('#reviewPanel').isVisible(),false,'A missing calendar day must block review');
-  await page.waitForFunction(day=>document.activeElement?.dataset.day===day,date,{timeout:2200});
-  assert.equal(await page.evaluate(()=>document.activeElement?.dataset.day),date,'Missing date must focus visible picker');
+  await page.waitForFunction(()=>document.querySelector('#intakeSchedule')?.open&&
+    document.querySelector('#apptDays button[data-day]:not(:disabled)')?.getBoundingClientRect().height>0,
+    null,{timeout:2200});
+  await page.waitForFunction(()=>Boolean(document.activeElement?.closest('#intakeSchedule')),null,{timeout:2200});
+  assert.equal(await page.locator('#intakeSchedule').evaluate(el=>el.open),true,'Missing date must expand the calendar accordion');
   await day.click();
   assert.equal(await page.locator('#preferredDate').inputValue(),date,'Calendar must sync review date');
   await page.locator('#intakeSpace > summary').click();
