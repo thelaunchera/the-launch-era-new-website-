@@ -20,8 +20,8 @@
       "name": "AI Booking Assistant",
       "short_en": "Answers questions and helps visitors prepare booking requests. For a Booking Page or website.",
       "short_es": "Responde preguntas y ayuda a preparar solicitudes. Para una Booking Page o website.",
-      "price_en": "$39 activation, first month included; $14/month from day 31 after delivery.",
-      "price_es": "$39 de activación, primer mes incluido; $14/mes desde el día 31 después de la entrega.",
+      "price_en": "$25 activation, first month included; $14/month from day 31 after delivery.",
+      "price_es": "$25 de activación, primer mes incluido; $14/mes desde el día 31 después de la entrega.",
       "checkout": "/service-checkout/?offer=ai-booking",
       "details": "/ai-booking-assistant/"
     },
@@ -40,8 +40,8 @@
       "name": "AI Business Assistant",
       "short_en": "Booking Assistant plus Follow-Up Assistant for a website, Booking Page, or both.",
       "short_es": "Booking Assistant + Follow-Up Assistant para website, Booking Page o ambos.",
-      "price_en": "$59 activation, first month included; $19/month from day 31 after delivery.",
-      "price_es": "$59 de activación, primer mes incluido; $19/mes desde el día 31 después de la entrega.",
+      "price_en": "$39.99 activation, first month included; $19/month from day 31 after delivery.",
+      "price_es": "$39.99 de activación, primer mes incluido; $19/mes desde el día 31 después de la entrega.",
       "checkout": "/service-checkout/?offer=ai-business",
       "details": "/ai-booking-assistant/"
     },
