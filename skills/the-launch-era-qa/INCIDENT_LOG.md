@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-16 | Owner iPhone screenshots: previous bubble chapter has oversized three vertically stacked text cards; requested GSAP3/ScrollTrigger pinned sideways photo story and related Drive imagery | The old chapter was a static grid. A correct mobile conversion needs four distinct locally hosted Drive photos, real GSAP pin timing and a fallback when reduced motion is enabled | New one-intro/four-card horizontal track, matched Drive cleaner/bathroom/living room/bedroom photos committed locally, self-hosted licensed GSAP3/ScrollTrigger, pinned 0.6 scrub, per-card art/parallax, progress bar, original button anchor and EN/ES. Reduced-motion/short landscape/native fallback, no form writes or other route impact | 🟡 Staged on isolated GitHub branch, QA and deploy pending |
+
+
 | 2026-10-16 | Requested curtain-reveal effect only for the Booking Demo footer, plus prior request to surface original review cards immediately after Before & After | Demo previously had a tiny single-line static footer, and the large gap/disclosure appeared before the three original illustrative cards. React website has a separate newsletter/footer theme control that must remain untouched | Added one fixed-under-page pale blue demo footer, content wrapper margin matching footer height, CSS parallax with reduced-motion static fallback, EN/ES navigation, compact illustrative cards before disclosure, scoped CSS and browser regression CI. Does not affect the marketing shared footer, form logic, pricing, Sonny or buyer previews | 🟡 Rebased PR; pending QA and GitHub Pages release |
 
 
