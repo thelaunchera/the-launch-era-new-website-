@@ -99,12 +99,12 @@ export function FreebiePage({language}:{language:Language}){
             {es?'Free Cleaning Lead Tracker':'Free Cleaning Lead Tracker'}
           </div>
           <h1 className="max-w-3xl font-serif text-[clamp(3rem,7vw,6.7rem)] leading-[.92] tracking-[-.055em]">
-            {es?'Deja de guardar leads en tu memoria.':'Stop keeping leads in your memory.'}
+            {es?'Organiza tus consultas sin perder detalles.':'Keep every inquiry organized.'}
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-black/65">
             {es
-              ?'Recibe gratis el Lead Tracker + Starter Kit para organizar consultas, cotizaciones y seguimientos sin buscar entre DMs, screenshots y notas.'
-              :'Get the free Lead Tracker + Starter Kit to organize inquiries, quotes, and follow-ups without digging through DMs, screenshots, and notes.'}
+              ?'Tracker + Starter Kit gratis para organizar consultas y seguimientos.'
+              :'Free tracker and starter kit for inquiries, quotes, and follow-ups.'}
           </p>
           <div className="mt-7 flex flex-wrap gap-2">
             {(es
@@ -125,7 +125,7 @@ export function FreebiePage({language}:{language:Language}){
             <span className="text-[10px] font-bold uppercase tracking-[.14em] text-[#87546F]">THE LAUNCH ERA</span>
             <h2 className="mt-3 font-serif text-4xl leading-none">Free Cleaning Lead Tracker</h2>
             <p className="mt-3 text-sm leading-6 text-black/60">
-              {es?'Cada consulta con un estado. Cada lead con un próximo paso.':'Every inquiry with a status. Every lead with a next step.'}
+              {es?'Cada consulta con un próximo paso.':'Every inquiry has a next step.'}
             </p>
           </div>
         </div>
@@ -138,7 +138,7 @@ export function FreebiePage({language}:{language:Language}){
           <span className="text-[11px] font-bold uppercase tracking-[.14em] text-[#F2D85B]">{es?'Qué recibes':'What you get'}</span>
           <h2 className="mt-4 font-serif text-5xl leading-[.98]">{es?'Un recurso. Cuatro herramientas útiles.':'One resource. Four useful tools.'}</h2>
           <p className="mt-5 leading-7 text-white/65">
-            {es?'Sin otro sistema complicado. Solo una forma práctica de saber quién necesita atención y cuál es el próximo paso.':'No complicated new system. Just a practical way to know who needs attention and what the next step is.'}
+            {es?'Ve quién necesita respuesta y qué sigue.':'See who needs a reply and what comes next.'}
           </p>
           <div className="mt-7 grid gap-3 text-sm">
             {(es
