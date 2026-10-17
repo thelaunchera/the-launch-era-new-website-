@@ -328,7 +328,7 @@
     const count=window.innerWidth<=600?Math.round(area.count*.65):area.count;
     particles=Array.from({length:count},()=>make());
    }
-   paint();
+   if(visible&&!document.hidden)paint();
   };
   const cancel=()=>{if(frame){cancelAnimationFrame(frame);frame=0;}last=0;};
   const allowed=()=>alive&&visible&&!document.hidden&&!reduced.matches&&w>0&&h>0;
@@ -346,7 +346,7 @@
    frame=requestAnimationFrame(tick);
   };
   const sync=()=>{
-   if(!allowed()){cancel();if(reduced.matches)paint();return;}
+   if(!allowed()){cancel();if(reduced.matches&&visible&&!document.hidden)paint();return;}
    if(!frame)frame=requestAnimationFrame(tick);
   };
   size();
