@@ -562,3 +562,391 @@ body .tle-demo-curtain-footer #tleDemoFooterHeadline{
   font-size:clamp(41px,12vw,55px)!important;
  }
 }
+
+
+/* TLE-4 | 2026-10-17 — owner-approved editorial Booking Demo treatment.
+   Presentation only. The existing three-stage controller, validation, service
+   flip buttons, address collection, sample disclaimer and OTP gate stay intact.
+   This stylesheet is loaded by the *protected* server-rendered Booking template.
+   No hidden/private HTML or customer information is published here. */
+#tleDemoCurtainPage #bookingPage{
+  --booking-editorial-blue:#527da1;
+  --booking-editorial-ink:#191919;
+  --booking-editorial-ivory:#FAF8F3;
+  --booking-editorial-yellow:#e6b848;
+  --booking-editorial-script:var(--tle-demo-handwriting,'Caveat','Segoe Print',cursive);
+}
+#tleDemoCurtainPage #bookingPage .flow{
+  border:1px solid #d6e2e8!important;
+  border-radius:26px!important;
+  background:linear-gradient(148deg,#faf8f3,#ffffff 53%,#f4f9fd)!important;
+  box-shadow:0 18px 48px rgba(49,88,118,.10)!important;
+}
+#tleDemoCurtainPage #bookingPage .flow-header{
+  background:linear-gradient(140deg,#faf8f3,#fcfaf6 62%,#edf5fa)!important;
+  border-bottom:1px solid #dbe8ef!important;
+  padding:clamp(21px,3.5vw,40px) clamp(18px,4vw,40px) clamp(19px,2.8vw,29px)!important;
+}
+#tleDemoCurtainPage #bookingPage #flowTitle{
+  font-family:var(--tle-demo-display,Georgia,serif)!important;
+  font-size:clamp(38px,6.6vw,76px)!important;
+  font-weight:650!important;
+  line-height:.94!important;
+  letter-spacing:-.048em!important;
+  color:#191919!important;
+  margin:0!important;
+  max-width:100%;
+  overflow-wrap:normal;
+  text-wrap:balance;
+}
+#tleDemoCurtainPage #bookingPage #flowTitle::after{
+  content:"your way";
+  display:block;
+  width:fit-content;
+  margin:0 0 0 clamp(18px,8vw,110px);
+  color:var(--booking-editorial-blue);
+  font:500 clamp(43px,7.3vw,87px)/.93 var(--booking-editorial-script)!important;
+  letter-spacing:-.045em;
+  transform:rotate(-3deg);
+  pointer-events:none;
+}
+#tleDemoCurtainPage #bookingPage .flow:has(#detailsPanel:not([hidden])) #flowTitle::after{
+  content:"the details";
+  color:#c59525;
+  margin-left:clamp(15px,6vw,95px);
+}
+#tleDemoCurtainPage #bookingPage .flow:has(#reviewPanel:not([hidden])) #flowTitle::after{
+  content:"almost ready";
+  color:var(--booking-editorial-blue);
+}
+html[lang="es"] #tleDemoCurtainPage #bookingPage #flowTitle::after{content:"a tu manera"}
+html[lang="es"] #tleDemoCurtainPage #bookingPage .flow:has(#detailsPanel:not([hidden])) #flowTitle::after{content:"los detalles"}
+html[lang="es"] #tleDemoCurtainPage #bookingPage .flow:has(#reviewPanel:not([hidden])) #flowTitle::after{content:"casi listo"}
+#tleDemoCurtainPage #bookingPage .booking-progress{
+  max-width:590px;
+  margin:clamp(18px,2vw,26px) auto 0!important;
+}
+#tleDemoCurtainPage #bookingPage .booking-progress-line,
+#tleDemoCurtainPage #bookingPage .demo-mini-track-line{
+  background:#d3e2ea;
+}
+#tleDemoCurtainPage #bookingPage .booking-progress-line>span,
+#tleDemoCurtainPage #bookingPage .demo-mini-track-line>span{
+  background:#527da1;
+}
+#tleDemoCurtainPage #bookingPage .booking-progress-dot,
+#tleDemoCurtainPage #bookingPage .demo-mini-dot>b{
+  border-color:#b3cbd9;
+  background:#fff;
+  color:#52758b;
+}
+#tleDemoCurtainPage #bookingPage .booking-progress-item.is-current .booking-progress-dot,
+#tleDemoCurtainPage #bookingPage .demo-mini-dot.is-current>b{
+  background:#dcecf8;
+  border-color:#527da1;
+  color:#244963;
+  box-shadow:0 0 0 4px rgba(82,125,161,.13);
+}
+#tleDemoCurtainPage #bookingPage .booking-progress-item.is-done .booking-progress-dot,
+#tleDemoCurtainPage #bookingPage .demo-mini-dot.is-complete>b{
+  background:#527da1;
+  border-color:#527da1;
+  color:#fff;
+}
+/* Existing photo-card flip retains its accessible two-tap/keyboard mechanics.
+   A portrait image plus white editorial copy replaces the heavy black overlay. */
+#tleDemoCurtainPage #bookingPage .kind-panel.services{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:13px!important;
+  align-items:stretch!important;
+}
+#tleDemoCurtainPage #bookingPage .service-flip-card{
+  height:288px!important;
+  min-width:0;
+  border-radius:19px;
+  isolation:isolate;
+}
+#tleDemoCurtainPage #bookingPage .service-flip-face{
+  border-radius:19px!important;
+}
+#tleDemoCurtainPage #bookingPage .service-flip-front .service{
+  display:grid!important;
+  grid-template-columns:minmax(94px,32%) minmax(0,1fr)!important;
+  grid-template-rows:minmax(0,1fr) auto!important;
+  align-items:stretch!important;
+  padding:0!important;
+  background:#fffefb!important;
+  border:1px solid #d3dfe8!important;
+  border-radius:19px!important;
+  color:#191919!important;
+  box-shadow:0 8px 24px rgba(39,83,114,.09)!important;
+  transition:box-shadow 220ms ease,border-color 220ms ease!important;
+}
+#tleDemoCurtainPage #bookingPage .service-flip-front .service[aria-pressed="true"]{
+  background:#f6fbff!important;
+  border:2px solid #527da1!important;
+}
+#tleDemoCurtainPage #bookingPage .service-flip-front .service::after{
+  content:""!important;
+  position:absolute!important;
+  inset:13px 13px auto auto!important;
+  display:block!important;
+  width:19px!important;
+  height:19px!important;
+  border:2px solid #aac1d2!important;
+  border-radius:50%!important;
+  background:#fff!important;
+  box-shadow:none!important;
+  z-index:4!important;
+}
+#tleDemoCurtainPage #bookingPage .service-flip-front .service[aria-pressed="true"]::after{
+  border-color:#527da1!important;
+  background:radial-gradient(circle,#527da1 0 42%,#fff 47%)!important;
+}
+#tleDemoCurtainPage #bookingPage .service-flip-front .service-media,
+#tleDemoCurtainPage #bookingPage .service-flip-front .service[aria-pressed="true"] .service-media{
+  position:relative!important;
+  inset:auto!important;
+  grid-column:1!important;
+  grid-row:1/3!important;
+  width:calc(100% - 16px)!important;
+  height:calc(100% - 16px)!important;
+  min-height:0!important;
+  margin:8px!important;
+  border-radius:13px!important;
+  border:0!important;
+  background:#edf3f6!important;
+  overflow:hidden!important;
+}
+#tleDemoCurtainPage #bookingPage .service-flip-front .service-media img{
+  filter:saturate(.9) contrast(1.03)!important;
+  transform:none!important;
+}
+#tleDemoCurtainPage #bookingPage .service-flip-front .service-copy{
+  position:relative!important;
+  inset:auto!important;
+  z-index:2!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-self:center!important;
+  grid-column:2!important;
+  grid-row:1!important;
+  gap:9px!important;
+  padding:24px 30px 4px 9px!important;
+  background:transparent!important;
+  color:#191919!important;
+}
+#tleDemoCurtainPage #bookingPage .service-flip-front .service-title{
+  font:650 clamp(24px,2.55vw,31px)/1.02 var(--tle-demo-display,Georgia,serif)!important;
+  letter-spacing:-.034em!important;
+  text-shadow:none!important;
+  color:#191919!important;
+  overflow-wrap:break-word;
+}
+#tleDemoCurtainPage #bookingPage .service-flip-front .service-detail{
+  display:block!important;
+  color:#536977!important;
+  font:500 clamp(11px,1.12vw,13px)/1.35 var(--tle-demo-interface,Arial,sans-serif)!important;
+  text-shadow:none!important;
+}
+#tleDemoCurtainPage #bookingPage .service-flip-front .service-price{
+  position:relative!important;
+  inset:auto!important;
+  align-self:end!important;
+  grid-column:2!important;
+  grid-row:2!important;
+  width:auto!important;
+  margin:0!important;
+  padding:7px 7px 43px 9px!important;
+  color:#376888!important;
+  background:none!important;
+  text-shadow:none!important;
+  font:750 13px/1.2 var(--tle-demo-interface,Arial,sans-serif)!important;
+}
+#tleDemoCurtainPage #bookingPage .service-flip-front .service-flip-cue{
+  position:absolute!important;
+  z-index:2!important;
+  inset:auto 12px 14px auto!important;
+  width:auto!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  text-align:right!important;
+  color:#527da1!important;
+  background:none!important;
+  text-shadow:none!important;
+  font:700 11px/1.2 var(--tle-demo-interface,Arial,sans-serif)!important;
+}
+#tleDemoCurtainPage #bookingPage .service-flip-back{
+  border:1px solid #b8cfdd!important;
+  border-radius:19px!important;
+  background:linear-gradient(150deg,#fffdf9,#eff7fc)!important;
+  box-shadow:0 8px 25px rgba(39,83,114,.09)!important;
+  padding:clamp(14px,1.5vw,19px)!important;
+  gap:6px!important;
+}
+#tleDemoCurtainPage #bookingPage .service-flip-back h3{
+  font-size:clamp(24px,2.6vw,31px)!important;
+  margin-bottom:0!important;
+}
+#tleDemoCurtainPage #bookingPage .service-flip-back :is(li,p){
+  line-height:1.3!important;
+}
+#tleDemoCurtainPage #bookingPage .service-flip-select{
+  min-height:40px!important;
+  border-radius:999px!important;
+  background:#527da1!important;
+  border-color:#527da1!important;
+}
+#tleDemoCurtainPage #bookingPage .switch{
+  max-width:530px;
+  margin:0 auto 21px!important;
+}
+#tleDemoCurtainPage #bookingPage .switch button{
+  min-height:48px;
+  border-radius:15px!important;
+}
+#tleDemoCurtainPage #bookingPage .switch button[aria-pressed="true"]{
+  border-color:#527da1!important;
+  background:#e3f1f9!important;
+}
+/* Step 2: calm three-dot progress, compact full address, room selections. */
+#tleDemoCurtainPage #bookingPage .demo-substep{
+  border:1px solid #d5e5ef!important;
+  border-radius:18px!important;
+  background:#fffefa!important;
+  box-shadow:0 8px 25px rgba(41,84,111,.05)!important;
+}
+#tleDemoCurtainPage #bookingPage .demo-substep-head{
+  background:#f3f8fa!important;
+  border-bottom:1px solid #d8e8f1!important;
+  padding:14px 16px!important;
+}
+#tleDemoCurtainPage #bookingPage .demo-intake-index{
+  background:#527da1!important;
+  border-radius:50%!important;
+  width:33px!important;
+  height:33px!important;
+  flex-basis:33px!important;
+}
+#tleDemoCurtainPage #bookingPage .demo-intake-heading strong{
+  font-size:clamp(25px,3.2vw,35px)!important;
+  line-height:1.03!important;
+}
+#tleDemoCurtainPage #bookingPage .demo-intake-body{
+  padding:clamp(13px,2vw,22px)!important;
+}
+#tleDemoCurtainPage #bookingPage .demo-intake .fields{
+  gap:11px!important;
+}
+#tleDemoCurtainPage #bookingPage .field :is(input,select,textarea){
+  background:#fff!important;
+  border:1px solid #c7d8e2!important;
+  border-radius:12px!important;
+  color:#191919!important;
+  min-height:45px;
+  box-shadow:none!important;
+}
+#tleDemoCurtainPage #bookingPage .field :is(input,select,textarea):focus-visible{
+  outline:2px solid #527da1!important;
+  outline-offset:1px;
+}
+#tleDemoCurtainPage #bookingPage .choice-options{
+  gap:7px!important;
+}
+#tleDemoCurtainPage #bookingPage .choice-check span{
+  border-radius:11px!important;
+  border-color:#cadce7!important;
+  background:#fff!important;
+  min-height:44px!important;
+}
+#tleDemoCurtainPage #bookingPage .choice-check input:checked+span{
+  border-color:#527da1!important;
+  background:#deedf8!important;
+  color:#234a65!important;
+  box-shadow:inset 0 0 0 1px #527da1!important;
+}
+#tleDemoCurtainPage #bookingPage .booking-extras{
+  border-radius:15px!important;
+  border:1px solid #d5e3ed!important;
+  background:#fafcfd!important;
+}
+#tleDemoCurtainPage #bookingPage .booking-extras input{
+  accent-color:#527da1;
+}
+#tleDemoCurtainPage #bookingPage .review{
+  border:1px solid #d4e2eb;
+  border-radius:16px;
+  padding:clamp(16px,2.7vw,26px);
+  background:#fffdfa;
+}
+#tleDemoCurtainPage #bookingPage .actions .primary,
+#tleDemoCurtainPage #bookingPage .primary{
+  border-radius:999px!important;
+  background:#527da1!important;
+  border-color:#527da1!important;
+  color:#fff!important;
+  min-height:49px;
+  padding-inline:23px;
+  box-shadow:0 7px 18px rgba(43,91,126,.14)!important;
+}
+#tleDemoCurtainPage #bookingPage .actions .primary:disabled{
+  background:#9db1bd!important;
+  border-color:#9db1bd!important;
+  box-shadow:none!important;
+}
+#tleDemoCurtainPage #bookingPage .actions .secondary{
+  border-radius:999px!important;
+  border-color:#b1c9d8!important;
+  color:#285574!important;
+  min-height:47px;
+}
+#tleDemoCurtainPage #bookingPage .flow :is(button,input,select,textarea):focus-visible{
+  outline:3px solid #3978a2!important;
+  outline-offset:2px!important;
+}
+@media(max-width:760px){
+ #tleDemoCurtainPage #bookingPage .kind-panel.services{
+  grid-template-columns:minmax(0,1fr)!important;
+  gap:11px!important;
+ }
+ #tleDemoCurtainPage #bookingPage .service-flip-card{height:278px!important}
+ #tleDemoCurtainPage #bookingPage .flow-header{
+  padding:20px 15px 17px!important;
+ }
+ #tleDemoCurtainPage #bookingPage #flowTitle{
+  font-size:clamp(37px,10vw,52px)!important;
+ }
+ #tleDemoCurtainPage #bookingPage #flowTitle::after{
+  margin-left:clamp(9px,8vw,54px);
+  font-size:clamp(45px,13vw,67px)!important;
+ }
+ #tleDemoCurtainPage #bookingPage .service-flip-front .service-title{
+  font-size:clamp(24px,7.4vw,32px)!important;
+ }
+ #tleDemoCurtainPage #bookingPage .service-flip-front .service-copy{
+  padding-right:30px!important;
+ }
+ #tleDemoCurtainPage #bookingPage .demo-intake-body{padding:12px!important}
+ #tleDemoCurtainPage #bookingPage .review{padding:15px}
+}
+@media(max-width:380px){
+ #tleDemoCurtainPage #bookingPage .service-flip-card{height:270px!important}
+ #tleDemoCurtainPage #bookingPage .service-flip-front .service{
+  grid-template-columns:minmax(91px,34%) minmax(0,1fr)!important;
+ }
+ #tleDemoCurtainPage #bookingPage .service-flip-front .service-title{
+  font-size:24px!important;
+ }
+ #tleDemoCurtainPage #bookingPage .service-flip-front .service-copy{
+  padding-right:25px!important;
+ }
+ #tleDemoCurtainPage #bookingPage .service-flip-back{padding:12px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ #tleDemoCurtainPage #bookingPage :is(.service-flip-front .service,.booking-progress-line>span,.booking-step-track,.demo-mini-slide-track,.demo-mini-dot>b){
+  animation:none!important;
+  transition:none!important;
+ }
+ #tleDemoCurtainPage #bookingPage #flowTitle::after{transform:none!important}
+}
