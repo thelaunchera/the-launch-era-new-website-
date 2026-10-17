@@ -16,6 +16,19 @@ try{
    const errors=[];page.on('pageerror',e=>errors.push(e.message));
    const res=await page.goto(base+path,{waitUntil:'domcontentloaded',timeout:45000});
    assert.equal(res?.status(),200,'Landing must exist: '+path);
+   // Landing priority: visitors request the personalized demo. Checkout stays
+   // available to ready buyers and never submits a purchase during QA.
+   const actions=page.locator('.booking-motion-hero .service-hero-actions a');
+   assert.equal(await actions.count(),2,lang+' should have a demo action and a purchase option');
+   const primary=await actions.nth(0).getAttribute('href');
+   const secondary=await actions.nth(1).getAttribute('href');
+   assert.equal(primary,'/booking-demo/?lang='+lang+'&source=booking-landing',lang+' primary action must request a personalized demo');
+   assert.equal(secondary,'/booking-bundle/?lang='+lang,lang+' purchase option must remain available');
+   const close=page.locator('.service-sales-close .service-hero-actions a');
+   assert.equal(await close.count(),2,lang+' bottom sales actions must include demo and checkout');
+   assert.match((await close.nth(0).getAttribute('href'))||'',new RegExp('/booking-demo/\\?lang='+lang),lang+' bottom primary must request a demo');
+   assert.equal(await close.nth(1).getAttribute('href'),secondary,lang+' bottom purchase route changed');
+   assert((await actions.nth(0).textContent()||'').toLowerCase().includes(lang==='es'?'demo personalizada':'personalized demo'),lang+' should make the requested demo obvious');
    const link=page.locator('.service-sales .service-fit a.service-demo-link');
    await link.waitFor({state:'visible',timeout:15000});
    const d=await link.evaluate(el=>{
@@ -48,6 +61,18 @@ try{
    }).slice(0,12).map(el=>({tag:el.tagName,classes:String(el.className).slice(0,100),text:(el.textContent||'').slice(0,42),left:Math.round(el.getBoundingClientRect().left),right:Math.round(el.getBoundingClientRect().right)}))
   }));
   console.log('DIAGNOSTIC',path,JSON.stringify(out));
+  await page.close();
+ }
+ // Verify the real demo request route renders its correct language, with no
+ // form submission, email, purchase or personal data.
+ for(const lang of ['en','es']){
+  const page=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});
+  await page.goto(base+'/booking-demo/?lang='+lang+'&source=booking-landing',{waitUntil:'domcontentloaded',timeout:45000});
+  await page.waitForFunction((language)=>document.documentElement.lang===language,lang);
+  const submit=page.locator('#submit');
+  assert(await submit.isVisible(),lang+' personalized demo request form submit missing');
+  assert.match(await submit.textContent()||'',lang==='es'?/demo personalizada/i:/personalized demo/i,lang+' form language mismatched');
+  assert.equal(await page.locator('#serviceBack').getAttribute('href'),lang==='es'?'/es/booking-lead-automation/':'/booking-lead-automation',lang+' demo return path mismatched');
   await page.close();
  }
  console.log('PASS booking cross-link EN/ES across four sizes');
