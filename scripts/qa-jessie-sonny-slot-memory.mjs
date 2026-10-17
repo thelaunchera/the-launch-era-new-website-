@@ -11,7 +11,7 @@ const result=ts.transpileModule(code,{
 });
 assert.equal((result.diagnostics||[]).filter(d=>d.category===ts.DiagnosticCategory.Error).length,0,"Sonny TypeScript helper parse errors");
 const helpers=Function("const clean=(x,max=400)=>String(x??'').trim().slice(0,max);"+
- result.outputText+";return {bookingDraft,explicitDetails,nextAction,repeatedQuestion,requestSummary};")();
+ result.outputText+";return {bookingDraft,explicitDetails,shortNumericAnswer,safePublicReply,nextAction,repeatedQuestion,requestSummary};")();
 const prior=helpers.bookingDraft({category:"residential",property_type:"House",bedrooms:3,bathrooms:null,service:"deep",frequency:"weekly"});
 const extracted=helpers.explicitDetails("I have a 3 bedroom house and 2 bathrooms. Weekly deep cleaning.",prior);
 assert.deepEqual({category:extracted.category,property_type:extracted.property_type,bedrooms:extracted.bedrooms,bathrooms:extracted.bathrooms,frequency:extracted.frequency,service:extracted.service},
@@ -35,6 +35,13 @@ assert.equal(commercial.commercial_space_type,"Other");
 assert.equal(commercial.commercial_space_description,"Restaurant");
 assert.equal(commercial.square_feet,2500);
 assert.equal(commercial.frequency,"weekly");
+assert.match(source,/msg\\.length<1/, "Single-number visitor answers must be accepted by the API");
+assert.deepEqual(helpers.shortNumericAnswer("5","Visitor: It's a house\\nAssistant: Great—how many bedrooms does the house have?"),{bedrooms:5});
+assert.deepEqual(helpers.shortNumericAnswer("2","Visitor: 5\\nAssistant: And how many bathrooms?"),{bathrooms:2});
+assert.deepEqual(helpers.shortNumericAnswer("5","Visitor: What can you do?"),{}, "Do not guess a field without a matching previous question");
+const longNatural="I can answer cleaning questions, remember your details and prepare a sample booking request so the business owner doesn't need to chase messages.";
+assert.equal(helpers.safePublicReply(longNatural,"What can you help with?",draft,"en"),longNatural,
+ "Preserve helpful AI-generated replies instead of replacing them with canned questions");
 assert.match(source,/booking_created:false,email_sent:false/);
 const client=readFileSync("public/assets/tle-ai-booking-chat.js","utf8");
 assert.doesNotThrow(()=>new Function(client));
