@@ -7,9 +7,9 @@ const url=new URLSearchParams({offer:"booking-flow",lang:es?"es":"en"});
 // Smart Welcome visitors arrive to a joint activation with AI Booking preselected.
 // Other visitors retain the original booking-only default and can change plans freely.
 const autoSelectAI=qs.get("bundle")==="ai-booking"?"ai-booking":"";
-const bookingBaseCents=()=>1299;
+const bookingBaseCents=()=>1500;
 const bookingDisplayPrice="$"+(bookingBaseCents()/100).toFixed(2);
-const prices={"":{setup:0,monthly:0}, "ai-booking":{setup:25,monthly:14},"ai-followup":{setup:19,monthly:6.99},"ai-business":{setup:39.99,monthly:19}};
+const prices={"":{setup:0,monthly:0}, "ai-booking":{setup:25,monthly:14},"ai-followup":{setup:19,monthly:7},"ai-business":{setup:39,monthly:19}};
 let livePricing=null;
 const pricesEndpoint="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-bundle-checkout";
 const plans=[
