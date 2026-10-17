@@ -1,0 +1,60 @@
+/** Fail-closed release guard: Booking Automation ONLY. Never sends an email or changes data. */
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+const read=path=>fs.readFileSync(path,'utf8');
+const booking=read('public/booking-demo-reset.html');
+const tracker=read('public/lead-demo-tracker.html');
+const app=read('public/cleaning-app-demo/index.html');
+const request=read('public/booking-demo/index.html');
+const privatePreview=read('public/lead-private-preview.html');
+const backend=read('supabase/functions/tle-booking-demo-gate/index.ts');
+const jessie=read('supabase/functions/tle-jessie-demo-lead/index.ts');
+const name='tle-booking-demo-gate';
+const url='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/'+name;
+for(const [label,page] of [['booking',booking],['tracker',tracker]]){
+ assert.match(page,/<title>Private Booking Automation Demo/);
+ assert.match(page,new RegExp(url));
+ assert.match(page,/new URLSearchParams\(location.search\)/);
+ assert.match(page,/action:"content"/);
+ assert.match(page,/action:"verify"/);
+ assert.match(page,/action:"request"/);
+ assert.match(page,/sessionStorage/);
+ assert.match(page,/document\.write\(response\.html\)/);
+ assert.doesNotMatch(page,/<(?:section|div)[^>]+(?:id="bookingPage"|id="trackerBrand"|id="sonnyBody")/);
+ assert.doesNotMatch(page,/const SERVICE_CATALOG|booking-portal-hero|tle-demo-reset-lead-magnet\.js/);
+ const scripts=[...page.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)];
+ assert.equal(scripts.length,1,label+' should have a single gated bootstrap');
+ new vm.Script(scripts[0][1],{filename:label+'-gate.js'});
+}
+assert(booking.includes('const PAGE="booking"'));
+assert(tracker.includes('const PAGE="tracker"'));
+assert.match(backend,/import \{ HTML as BOOKING_HTML \} from "\.\/booking-template\.ts"/);
+assert.match(backend,/import \{ HTML as TRACKER_HTML \} from "\.\/tracker-template\.ts"/);
+assert.match(backend,/r\.status!=="sent"/);
+assert.match(backend,/lead\.email_consent_status!=="authorized"/);
+assert.match(backend,/types\.has\("confirmation_sent"\)/);
+assert.match(backend,/types\.has\("demo_sent"\)/);
+assert.match(backend,/session_hash/);
+assert.match(backend,/code_attempts/);
+assert.match(backend,/verified_at/);
+assert.match(backend,/emailCode\(user\.email/);
+assert.match(backend,/action==="content"/);
+assert.match(backend,/return reply\(\{ok:true,html:page==="booking"\?BOOKING_HTML:TRACKER_HTML\}/);
+assert(!jessie.includes('demoUrl'),'Jessie must not send an unverified private-demo direct link');
+assert(jessie.includes('Confirm your interest to receive your private demo'));
+assert.match(privatePreview,/location\.replace\('\/booking-demo-reset\.html'\+location\.search\+location\.hash\)/);
+assert.match(privatePreview,/p\.has\('key'\)\|\|p\.get\('owner_preview'\)==='1'/);
+assert.match(app,/Cleaning App \| Interactive Preview/);
+assert.match(app,/Pick a section|Choose a section|sample/);
+assert.match(request,/tle-personalized-demo/,'Public form still requests demos');
+for(const template of ['booking-template.ts','tracker-template.ts']){
+ const source=read('supabase/functions/tle-booking-demo-gate/'+template);
+ assert(source.includes('export const HTML='));
+ const literal=source.slice(source.indexOf('export const HTML=')+'export const HTML='.length).trim().replace(/;$/,'');
+ const original=JSON.parse(literal);
+ assert(original.length>10000);
+ assert.match(original,/<html/);
+ assert.match(original,/<\/html>/);
+}
+console.log('PASS: Booking Automation only; no public raw HTML; server funnel+OTP; Jessie confirmation; buyer and Cleaning App retained.');
