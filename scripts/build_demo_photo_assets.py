@@ -193,7 +193,7 @@ def convert_demo_cleaning(item: tuple[str, str]) -> tuple[str, dict]:
     if not data:
         raise RuntimeError(f"Required cleaning photo is unavailable from Drive: {name} ({file_id})")
     img = ImageOps.exif_transpose(Image.open(io.BytesIO(data))).convert("RGB")
-    img.thumbnail((1400 if name == "hero" else 980, 1000), Image.Resampling.LANCZOS)
+    img.thumbnail((1400, 1550) if name == "hero" else (980, 1000), Image.Resampling.LANCZOS)
     target_dir = ROOT / "public/assets/demo-cleaning-20261017"
     target_dir.mkdir(parents=True, exist_ok=True)
     target = target_dir / (name + ".webp")
