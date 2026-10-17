@@ -36,7 +36,7 @@ const services=[
 const notices=[
  ['PÁGINA DE RESERVAS','ahora','Nueva solicitud','Una persona quiere una cotización de limpieza.',CalendarCheck2],
  ['COMMAND CENTER','hace 12 min','Seguimiento enviado','Tu cliente recibió un recordatorio amable.',Send],
- ['COTIZACIONES','ejemplo','Cotización lista','Revisa el siguiente paso en un lugar.',ClipboardList],
+ ['COTIZACIONES','ejemplo','Cotización lista','Revisa los detalles antes de enviarla.',ClipboardList],
  ['PÁGINA DE RESERVAS','ejemplo','Reserva confirmada','Otro trabajo en el calendario.',CircleCheck]
 ] as const;
 const flow=[['NUEVO LEAD','Llega una solicitud de reserva.','Los detalles entran en un solo lugar.',CalendarCheck2],['ORGANIZADO','Se guarda en tu Command Center.','Cada consulta tiene su lugar. Sin buscar entre mensajes.',ClipboardList],['SEGUIMIENTO','El próximo paso sigue avanzando.','Un seguimiento claro mantiene la conversación viva.',Send]] as const;
