@@ -8,18 +8,19 @@ const css=readFileSync('public/assets/tle-booking-bubbles-continuity.css','utf8'
 const script=readFileSync('public/assets/tle-demo-horizontal-story.js','utf8');
 const dictionary=readFileSync('public/assets/tle-demo-hero-portal.js','utf8');
 const sources=[
- ['choose-cleaner-kitchen.png','Professional cleaner'],
- ['share-details-bathroom.png','family bathroom'],
- ['choose-time-living-room.png','living room'],
- ['review-ready-bedroom.png','guest bedroom']
+ ['journey-service.webp','Cleaner carefully wiping a laundry counter'],
+ ['journey-property.webp','Detail polishing of a bathroom faucet'],
+ ['journey-schedule.webp','Cleaner vacuuming a lived-in living room'],
+ ['journey-review.webp','Cleaner carefully detailing a kitchen window']
 ];
 assert.equal((html.match(/data-booking-story-card/g)||[]).length,4,'Exactly four photo cards');
 assert.equal((html.match(/id="bookingStoryTrack"/g)||[]).length,1,'Single horizontal track');
 assert(html.indexOf('id="bookingBubbleStory"')<html.indexOf('id="bookingPage"'),'Flow stays before the sample form');
 assert(html.indexOf('id="bookingPage"')<html.indexOf('id="tleDemoCurtainFooter"'),'Footer reveal stays last');
-for(const [name] of sources) {
- assert(html.includes('/assets/drive-booking-journey/'+name),'Missing original Drive photo '+name);
- assert(existsSync('public/assets/drive-booking-journey/'+name),'Drive photo not stored locally '+name);
+for(const [name,description] of sources) {
+ assert(html.includes('/assets/demo-cleaning-20261017/'+name),'Missing selected Drive cleaning photo '+name);
+ assert(html.includes(description),'Meaningful scene description missing '+name);
+ assert(existsSync('public/assets/demo-cleaning-20261017/'+name),'Builder did not produce selected local photo '+name);
 }
 assert(html.includes('id="bookingBubbleStep4Title"'),'Fourth step missing');
 assert(dictionary.includes('bookingBubbleStep4Title:"Revisa tu solicitud"'),'Spanish chapter translation missing');
