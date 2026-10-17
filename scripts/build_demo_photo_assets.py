@@ -31,7 +31,7 @@ PHOTOS = {
     "regular": ("1f5q0FsrrLIwlg27P-Rv7Co8CZ16f3XoT", "public/assets/cleaning-demo/living-room-original.jpg"),
     "deep": ("1PLZIlv2Rh-QxSOOB2DGHQkkoTINMEvOt", "public/assets/lead-demo/pristine-kitchen.png"),
     "move": ("1zpWEXni_tfNuo-_bERTsQqPjCdmtM1zY", "public/assets/lead-demo/hero-luxury-home.png"),
-    "office": ("1RgzYfITPbBkoK-Vkduto9ZA3Wksx98a6", "public/assets/lead-demo/spotless-office.png"),
+    "office": ("1D56-v3lVV6FpBqW3FqYH442kiPVvjlLT", "public/assets/lead-demo/spotless-office.png"),
     "retail": ("https://images.unsplash.com/photo-1771033834141-023d630b3965?auto=format&fit=crop&w=1200&q=85", "public/assets/lead-demo/spotless-office.png"),
     "medical": ("https://images.unsplash.com/photo-1777269749032-d8d458ae594d?auto=format&fit=crop&w=1200&q=85", "public/assets/lead-demo/spotless-office.png"),
     "floor": ("1-__BedqBlAqkTkfY5RkoUw0ok7kRcGqu", "public/assets/lead-demo/spotless-office.png"),
