@@ -18,10 +18,11 @@ for(const [label,homepage,product,lang] of [
  assert.match(product,/\$49\.99/,label+': regular booking price missing from product landing');
  assert.match(product,/\$19\.99/,label+': Fall Refresh promotion missing');
  assert(product.includes('/booking-bundle/?lang='+lang),label+': product checkout missing');
- assert(product.includes('12 PM ET'),label+': production timing information missing');
+ assert(!/Saturday 12 PM ET|after-hours|next business day/i.test(product),label+': removed weekend limits must not reappear');
 }
 assert(!es.includes('<section className="booking-section">'),'Spanish homepage duplicate persists');
 assert(en.includes('<FinalCTA/>')&&editorial.includes('export function FinalCTA'),'English final CTA removed');
 assert(es.includes('className="final-section"'),'Spanish final CTA removed');
+assert(!/After Saturday 12 PM ET|work starts the next business day/i.test(editorial),'Retired English booking block cannot bring back weekend cutoff copy');
 assert(editorial.includes('<HeroConnectionBackdrop lang="en"/>')&&es.includes('<HeroConnectionBackdrop lang="es"/>'),'Do not remove approved hero effects');
 console.log('✅ Retired home booking tone panel absent EN/ES; independent product pages, pricing, and final checkout preserved');
