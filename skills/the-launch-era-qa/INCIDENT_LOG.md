@@ -1,5 +1,8 @@
 # INCIDENT_LOG.md — failures, root causes and regression checks
 
+| 2026-10-16 | Owner's iPhone Booking Demo: all service flip backs repeated generic "choose date / enter details / review" text, and the booking form lacked linked, animated progress between steps | All six backs shared flipFeature/flipQuote keys even for unrelated residential/commercial work. Existing `showStep` swapped hidden panels abruptly without clear navigation state. | Added eighteen carefully scoped localized service tasks, six final-scope notes, 3 linked numbered progress dots with current/completed states, real 3-panel transform slider, `inert`/ARIA/focus/announcements, retained native validation and popup date wheel. New EN/ES, phone/tablet/desktop reduced-motion browser QA. No customer/owner checkout changes. | 🟡 PR staged; awaiting CI/Pages |
+
+
 | 2026-10-16 | Requested curtain-reveal effect only for the Booking Demo footer, plus prior request to surface original review cards immediately after Before & After | Demo previously had a tiny single-line static footer, and the large gap/disclosure appeared before the three original illustrative cards. React website has a separate newsletter/footer theme control that must remain untouched | Added one fixed-under-page pale blue demo footer, content wrapper margin matching footer height, CSS parallax with reduced-motion static fallback, EN/ES navigation, compact illustrative cards before disclosure, scoped CSS and browser regression CI. Does not affect the marketing shared footer, form logic, pricing, Sonny or buyer previews | 🟡 Rebased PR; pending QA and GitHub Pages release |
 
 
