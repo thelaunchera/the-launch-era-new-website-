@@ -447,7 +447,7 @@ body .tle-demo-curtain-footer h2{
 /* Keep the owner-approved black photo outlines, but soften their weight. */
 #tleDemoCurtainPage #bookingPage .service-flip-front .service,
 #tleDemoCurtainPage #bookingPage .service-flip-back{
- border:1.5px solid rgba(25,25,25,.58)!important;
+ border:2px solid rgba(25,25,25,.42)!important;
  box-shadow:0 13px 29px rgba(25,25,25,.12),inset 0 1px rgba(255,255,255,.14)!important;
 }
 #tleDemoCurtainPage #bookingPage .flow-header{padding-top:clamp(19px,3vw,29px)}
