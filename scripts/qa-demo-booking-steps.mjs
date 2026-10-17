@@ -65,6 +65,7 @@ try{
   assert.equal(await page.evaluate(()=>document.activeElement?.dataset.day),date,'Missing date must focus visible picker');
   await day.click();
   assert.equal(await page.locator('#preferredDate').inputValue(),date,'Calendar must sync review date');
+  await page.locator('#intakeSpace > summary').click();
   await page.locator('input[name="demo-extras"][value="petsLabel"]').check();
   await page.locator('#reviewNext').click();
   assert.equal(await page.locator('#reviewPanel').isVisible(),true);
