@@ -10,7 +10,8 @@ const html=read('public/booking-demo-reset.html');
 const demoCss=read('public/assets/tle-booking-bubbles-continuity.css');
 const demoInkCss=read('public/assets/tle-demo-ink-service-cards.css');
 assert(demoInkCss.includes('service-flip-front .service')&&demoInkCss.includes('#191919'),'Demo ink style must remain scoped');
-assert(demoInkCss.includes("family=Cormorant+Garamond")&&demoInkCss.includes("family=Manrope"),'Two editorial demo font families must be declared with swap');
+assert(html.includes('family=Cormorant+Garamond')&&html.includes('family=Manrope')&&html.includes('rel="preload" as="style"'),'Both fonts must load without blocking local CSS');
+assert(demoInkCss.includes("'Cormorant Garamond'")&&demoInkCss.includes("'Manrope'"),'Two editorial font families must be used consistently');
 assert(demoInkCss.includes('.flow-header')&&demoInkCss.includes('rgba(92,131,153,.45)'), 'Outer wizard should have a light slate-blue frame, not a hard black stroke');
 assert(demoInkCss.includes('.service-flip-front .service-detail')&&demoInkCss.includes('.disclaimer'),'Only redundant descriptions should be minimized, not sample disclosures');
 
