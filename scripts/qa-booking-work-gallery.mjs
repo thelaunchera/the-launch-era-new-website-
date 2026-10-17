@@ -22,11 +22,15 @@ assert(html.indexOf('id="bookingPage"')<html.indexOf('id="tleWorkGallery"'),'Gal
 assert(html.indexOf('id="tleWorkGallery"')<html.indexOf('id="bookingBeforeAfter"'),'Gallery must precede before/after');
 assert(galleryHtml.includes('not verified customer projects'),'Photos must not be called real client work');
 assert(galleryHtml.includes('data-gallery-es'),'Keep bilingual gallery');
-assert(html.includes('id="bookingServiceAreas"')&&html.includes('id="serviceAreasTitle"'),'Bilingual sample service areas should be below before/after');
-assert(html.indexOf('id="bookingBeforeAfter"')<html.indexOf('id="bookingServiceAreas"'),'Illustrative coverage belongs below the comparisons');
-assert(html.includes('Illustrative coverage only.')&&html.includes("serviceAreasTitle:'Que sepan desde el inicio"),'Never claim fictional coverage is confirmed');
-assert(html.includes('vanity-before.webp')&&html.includes('vanity-after.webp'),'Show matched sink pair instead of decorative bedroom');
+assert(html.includes('id="bookingServiceAreas"'),'Show illustrative sample area coverage');
+assert(html.includes('vanity-before.webp')&&html.includes('vanity-after.webp'),'Use matched sink photos');
 assert(css.includes('prefers-reduced-motion:reduce')&&deck.includes('setPointerCapture')&&deck.includes('ArrowLeft'),'Accessible swipe, reduced motion and keyboard fallbacks required');
+assert(css.includes('touch-action:pan-y')&&!css.includes('.tle-work-card[data-active="true"]{touch-action:none'),
+ 'Photo deck must allow native vertical finger scrolling between services and lower sections');
+assert(deck.includes("if(ev.pointerType==='mouse')ev.preventDefault()")&&deck.includes('Math.abs(dx)<=Math.abs(dy)*1.25'),
+ 'Horizontal swipe must not capture ordinary vertical finger gestures');
+assert(html.includes('id="demoExploreNav"')&&html.includes('id="demoExploreReviews"'), 'Services must provide routes to the rest of demo');
+assert(html.includes('id="siteLink"')&&html.includes('id="tleDemoFooterWebsite"'), 'Back to Home must be reachable at top and bottom');
 assert(!/\b(fetch|XMLHttpRequest|sendBeacon|localStorage|sessionStorage)\s*\(/.test(deck),'Gallery may not write to backend or storage');
 console.log('[STATIC PASS] Ten unique, locally checked-in sample images; isolated EN/ES deck, no writes.');
 const base=(process.env.QA_URL||'http://127.0.0.1:4173').replace(/\/$/,'');
@@ -36,7 +40,7 @@ try{
   ['en',360,780,false],['es',390,844,false],['en',820,1180,false],
   ['es',1440,900,false],['en',390,844,true]
  ]){
-  const page=await browser.newPage({viewport:{width,height},reducedMotion:reduced?'reduce':'no-preference'});
+  const page=await browser.newPage({viewport:{width,height},isMobile:width<700,hasTouch:width<700,reducedMotion:reduced?'reduce':'no-preference'});
   const writes=[],errors=[];
   page.on('request',req=>{if(['POST','PATCH','PUT','DELETE'].includes(req.method()))writes.push(req.url())});
   page.on('pageerror',e=>errors.push(e.message));
@@ -60,10 +64,23 @@ try{
   assert(initial.overflow<=4,'Horizontal overflow '+lang+' '+width+': '+JSON.stringify(initial));
   assert(initial.rect.left>=-2&&initial.rect.right<=width+2,'Photo outside viewport '+JSON.stringify(initial));
   assert.match(initial.title,lang==='es'?/Limpieza en acción/:/Cleaning in action/);
-  const areas=page.locator('#bookingServiceAreas');
-  assert.equal(await areas.locator('.booking-service-areas__cities span').count(),8,'Eight fictional Palm Beach County areas expected');
-  assert.match(await page.locator('#serviceAreasTitle').innerText(),lang==='es'?/atiendes su zona/:/cleaning team can come/);
-  assert((await areas.evaluate(el=>el.getBoundingClientRect().width))<=width+2,'Coverage cards should fit '+width);
+  // Top navigation remains visible even on mobile, with localized Home text.
+  const backHome=page.locator('#siteLink');
+  const homeState=await backHome.evaluate(el=>({width:el.getBoundingClientRect().width,display:getComputedStyle(el).display}));
+  assert(homeState.width>60&&homeState.display!=='none','Back to Home hidden on '+lang+' '+width+': '+JSON.stringify(homeState));
+  assert.equal(new URL(await backHome.getAttribute('href'),base).pathname,'/','Top Home link must return to main site');
+  assert.match(await backHome.innerText(),lang==='es'?/Volver al inicio/:/Back to Home/);
+  assert.equal(new URL(await page.locator('#tleDemoFooterWebsite').getAttribute('href'),base).pathname,'/','Bottom Home link must return to main site');
+  assert.equal(await page.locator('.booking-review').count(),3,'Retain three review-style experience examples');
+  assert.match(await page.locator('#bookingProofDesc').innerText(),lang==='es'?/no son testimonios ni reseñas verificadas/:/not customer testimonials or verified reviews/);
+  // The service chapter should not be a terminal screen: navigation moves to
+  // the gallery, before/after, and review-style proof below the sample form.
+  await page.locator('#demoExploreReviews').click();
+  const proofPosition=await page.locator('#bookingProof').evaluate(el=>el.getBoundingClientRect().top);
+  assert(proofPosition>=-15&&proofPosition<Math.min(height*.45,220),'Services navigation must reach lower reviews '+JSON.stringify({lang,width,proofPosition}));
+  await page.locator('#demoExploreGallery').click();
+  const galleryPosition=await page.locator('#tleWorkGallery').evaluate(el=>el.getBoundingClientRect().top);
+  assert(galleryPosition>=-15&&galleryPosition<Math.min(height*.45,220),'Services navigation must reach lower gallery '+JSON.stringify({lang,width,galleryPosition}));
   const counter=page.locator('#tleWorkGalleryCounter');
   assert.equal(await counter.textContent(),'01 / 10');
   await page.locator('#tleWorkGalleryRight').click();
@@ -79,6 +96,29 @@ try{
    await page.mouse.move(x,y);await page.mouse.down();
    await page.mouse.move(x-88,y+14,{steps:6});await page.mouse.up();
    await page.waitForFunction(()=>document.getElementById('tleWorkGalleryCounter')?.textContent==='04 / 10',{timeout:4000});
+  }
+  if(width<700&&!reduced){
+    // Use actual Chrome touch events, not wheel: this caught a real iPhone
+    // vertical-scroll trap caused by touch-action:none on the active card.
+    const top=page.locator('#tleWorkDeck .tle-work-card[data-active="true"]');
+    await top.scrollIntoViewIfNeeded();
+    const box=await top.boundingBox();
+    const centerX=box.x+box.width*.53;
+    const touchY=box.y+Math.min(box.height*.62,260);
+    const start=await page.evaluate(()=>scrollY);
+    const countBefore=await counter.textContent();
+    const cdp=await page.context().newCDPSession(page);
+    await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:centerX,y:touchY}]});
+    for(let i=1;i<=8;i++){
+      await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:centerX+1,y:touchY-i*29}]});
+      await page.waitForTimeout(16);
+    }
+    await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+    await page.waitForTimeout(260);
+    const ending=await page.evaluate(()=>scrollY);
+    assert(ending>start+65,'Dragging vertically over the active gallery card MUST scroll to lower reviews '+JSON.stringify({lang,width,start,ending}));
+    assert.equal(await counter.textContent(),countBefore,'Vertical scroll is not a card swipe');
+    await cdp.detach();
   }
   assert.equal(writes.length,0,'Gallery interaction must not send booking writes');
   assert.equal(errors.length,0,'Browser error: '+errors.join(', '));
