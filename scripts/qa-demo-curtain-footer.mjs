@@ -47,14 +47,24 @@ try {
      assert(s.gap>=s.footer.height-2,'Curtain spacer must equal footer height '+JSON.stringify(s));
      assert(s.footer.bottom>height-3&&s.footer.bottom<=height+3,'Footer anchored at viewport bottom');
    }
-   await page.evaluate(()=>window.scrollTo({top:document.documentElement.scrollHeight,behavior:'instant'}));
-   await page.waitForTimeout(320);
+   // GSAP's pinned journey can finish measuring after initial document load.
+   // Scroll to the *settled* bottom, not a stale pre-pin scrollHeight.
+   for(let attempt=0;attempt<6;attempt++){
+     const scroll=await page.evaluate(()=>{
+       const limit=Math.max(0,document.scrollingElement.scrollHeight-innerHeight);
+       window.scrollTo({top:limit,behavior:'instant'});
+       return {limit,current:window.scrollY};
+     });
+     await page.waitForTimeout(180);
+     const settled=await page.evaluate(()=>Math.max(0,document.scrollingElement.scrollHeight-innerHeight)-window.scrollY);
+     if(settled<=2)break;
+   }
    const result=await page.evaluate(()=>{
     const wrapper=document.getElementById('tleDemoCurtainPage');
     const footer=document.getElementById('tleDemoCurtainFooter');
     const wr=wrapper.getBoundingClientRect(),fr=footer.getBoundingClientRect();
     const links=[...footer.querySelectorAll('a')].map(x=>{const b=x.getBoundingClientRect();return {top:b.top,bottom:b.bottom,inside:b.top>=fr.top-2&&b.bottom<=fr.bottom+2}});
-    return {wrBottom:wr.bottom,frTop:fr.top,frBottom:fr.bottom,links,
+    return {wrBottom:wr.bottom,frTop:fr.top,frBottom:fr.bottom,scrollY:scrollY,maxScroll:document.scrollingElement.scrollHeight-innerHeight,links,
       overflow:document.documentElement.scrollWidth-innerWidth,
       headline:document.getElementById('tleDemoFooterHeadline').textContent,
       topLink:document.getElementById('tleDemoFooterTop').textContent};
