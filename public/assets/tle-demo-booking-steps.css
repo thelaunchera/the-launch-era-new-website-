@@ -1,0 +1,91 @@
+/* Unkeyed public Booking Demo only: preserve the calendar, flip cards and sample data.
+   Accessible three-step horizontal motion; body-level calendar dialogs remain unclipped. */
+#bookingPage .sr-only{
+ position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;
+ overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;
+}
+#bookingPage .flow-header{position:relative;z-index:1}
+#bookingPage .booking-progress{
+ --booking-progress:0;position:relative;width:min(590px,100%);margin:20px auto 1px;
+ padding:0;box-sizing:border-box;min-width:0;
+}
+#bookingPage .booking-progress-line{
+ position:absolute;z-index:0;left:16.6667%;right:16.6667%;top:18px;
+ height:3px;border-radius:9px;background:#aacddd;overflow:hidden;pointer-events:none;
+}
+#bookingPage .booking-progress-line>span{
+ display:block;width:100%;height:100%;background:#2d80ac;border-radius:inherit;
+ transform:scaleX(var(--booking-progress,0));transform-origin:left center;
+ transition:transform 560ms cubic-bezier(.32,.72,0,1);
+}
+#bookingPage .booking-progress-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
+#bookingPage .booking-progress-item{
+ display:flex;flex-direction:column;gap:7px;align-items:center;text-align:center;
+ min-width:0;color:#456b82;font:750 clamp(11px,1.55vw,13px)/1.35 'Prompt',Arial,sans-serif;
+}
+#bookingPage .booking-progress-dot{
+ display:grid;place-items:center;position:relative;
+ width:39px;height:39px;box-sizing:border-box;border-radius:999px;
+ border:2px solid #9cbed2;background:#eff9ff;color:#356483;font-size:14px;
+ transform:scale(1);transition:transform 560ms cubic-bezier(.34,1.4,.64,1),background-color 230ms ease,border-color 230ms ease;
+}
+#bookingPage .booking-progress-item.is-current .booking-progress-dot{
+ background:#d2ecfc;border-color:#2a80b0;color:#194f73;
+ box-shadow:0 0 0 4px rgba(113,191,235,.22);transform:scale(1.095);
+}
+#bookingPage .booking-progress-item.is-done .booking-progress-dot{
+ color:transparent;background:#2d80ac;border-color:#2d80ac;
+}
+#bookingPage .booking-progress-item.is-done .booking-progress-dot::after{
+ content:"✓";position:absolute;color:white;font-weight:900;font-size:19px;
+}
+#bookingPage .booking-step-viewport{
+ position:relative;display:block;width:100%;min-width:0;height:auto;overflow:hidden;
+ contain:layout;isolation:isolate;
+}
+#bookingPage .booking-step-viewport[hidden]{display:none!important}
+#bookingPage .booking-step-track{
+ --slide-offset:0%;position:relative;display:flex;align-items:flex-start;
+ width:300%;min-width:0;max-width:none;
+ will-change:transform;transform:translateX(var(--slide-offset,0%));
+ transition:transform 560ms cubic-bezier(.32,.72,0,1);
+}
+#bookingPage .booking-step-pane{
+ box-sizing:border-box;flex:0 0 33.333333%;width:33.333333%;min-width:0;max-width:33.333333%;
+ display:block;margin:0;
+}
+#bookingPage .booking-step-pane[hidden]{display:none!important}
+#bookingPage .booking-step-pane[aria-hidden="true"]:not(.is-step-leaving){
+ visibility:hidden;pointer-events:none;
+}
+#bookingPage .booking-step-pane.is-step-leaving{visibility:visible;pointer-events:none}
+#bookingPage .booking-step-fieldset{
+ border:0;padding:0;margin:0;min-inline-size:0;min-width:0;max-width:100%;
+}
+#bookingPage .booking-step-pane .actions{margin-top:20px}
+#bookingPage .service-flip-back .service-flip-scope-note{
+ flex:none;margin:0!important;color:#496e83;font:550 10px/1.4 Arial,sans-serif;
+}
+#bookingPage .service-flip-back ul{margin:3px 0 2px}
+#bookingPage .service-flip-back li{line-height:1.3}
+#bookingPage .service-flip-back .service-flip-select{margin-top:auto}
+@media(max-width:700px){
+ #bookingPage .booking-progress{margin:17px 0 0}
+ #bookingPage .booking-progress-line{top:16px}
+ #bookingPage .booking-progress-dot{width:35px;height:35px}
+ #bookingPage .booking-progress-item{font-size:11px;gap:7px}
+ #bookingPage .service-flip-back .service-flip-scope-note{font-size:10px;line-height:1.32}
+ #bookingPage .service-flip-back li{font-size:11.5px}
+ #bookingPage .booking-step-pane .actions{margin-top:17px}
+}
+@media(max-width:370px){
+ #bookingPage .service-flip-back{gap:6px!important}
+ #bookingPage .service-flip-back h3{font-size:17px}
+ #bookingPage .service-flip-back li{font-size:11px}
+ #bookingPage .service-flip-back .service-flip-scope-note{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){
+ #bookingPage .booking-step-track{transition:none!important;will-change:auto!important}
+ #bookingPage .booking-progress-line>span,#bookingPage .booking-progress-dot{transition:none!important;transform:none!important}
+ #bookingPage .booking-progress-item.is-current .booking-progress-dot{outline:3px solid #2d80ac;outline-offset:2px}
+}
