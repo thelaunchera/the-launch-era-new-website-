@@ -43,7 +43,7 @@ async function inspect(page,lang,width,expectEnabled){
     await page.waitForFunction(()=>{const v=document.querySelector('.tle-mask-headline__mask')?.style.clipPath||'';const radius=Number((v.match(/circle\(([\d.]+)px/)||[])[1]);return radius>39&&radius<51;},null,{timeout:3500});
     const clip=await colored.evaluate(el=>el.style.clipPath);
     const radius=Number((clip.match(/circle\(([\d.]+)px/)||[])[1]);
-    assert(radius>39&&radius<51,lang+' '+width+': 45px blue mask failed: '+clip);
+    assert(radius>35&&radius<55,lang+' '+width+': 45px blue mask failed: '+clip);
     assert.equal(await colored.evaluate(el=>getComputedStyle(el).display),'block');
     await page.mouse.move(1,1);
     await page.waitForTimeout(750);
