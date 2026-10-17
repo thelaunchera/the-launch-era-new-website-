@@ -74,10 +74,10 @@ try {
     assert(r.firstReviewTop>r.lastCompareBottom&&r.firstReviewTop-r.lastCompareBottom<275,
       'Reviews must appear shortly after the matched photo comparisons without the previous excessive gap '+JSON.stringify(r));
     assert(r.disclosureBelow,'Review cards should appear before the truthful illustrative disclosure');
-    assert.match(r.firstReviewTopCode,lang==='es'?/EXPLORA SIN COMPLICARTE/:/EASY TO EXPLORE/,
+    assert.match(r.firstReviewTopCode,lang==='es'?/OPCIONES CLARAS/:/CLEAR CHOICES/,
       'Original cards and their label must be localized EN ES');
     assert.match(await page.locator('#bookingProofDesc').textContent(),
-      /not published customer testimonials|No son reseñas publicadas/,'Do not invent customer testimonials');
+      /not customer testimonials or verified reviews|no son testimonios ni reseñas verificadas/,'Do not invent customer testimonials');
     assert.equal(await page.locator('.service-media img').count(),6,'Approved service photo cards missing');
     assert.match(await page.locator('#bookingCustomAction').textContent(),
       lang==='es'?/cotización personalizada/i:/custom quote/i,'Quote card lost translation');
