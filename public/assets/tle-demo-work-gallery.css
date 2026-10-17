@@ -111,3 +111,20 @@
  .tle-work-card,.tle-work-gallery__controls button{transition:none!important;animation:none!important}
  .tle-work-card{will-change:auto}
 }
+
+
+/* Sample cleaning service coverage, beneath the before/after examples.
+   Not The Launch Era's own service territory. */
+.booking-service-areas{position:relative;isolation:isolate;padding:clamp(38px,5vw,68px) 18px;background:#faf8f3;color:#191919;overflow:hidden}
+.booking-service-areas::before{content:"";position:absolute;right:-170px;top:-220px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(137,194,231,.16),transparent 70%);z-index:-1;pointer-events:none}
+.booking-service-areas .booking-service-areas__inner{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);align-items:center;gap:clamp(24px,5vw,65px);max-width:1120px;margin:0 auto}
+.booking-service-areas__copy{min-width:0}
+.booking-service-areas__copy .booking-proof-kicker{margin:0 0 12px;color:#366a8c;letter-spacing:.15em;font-size:11px}
+.booking-service-areas__copy h2{font-family:Prompt,Arial,sans-serif;line-height:1.1;font-size:clamp(26px,3.3vw,43px);letter-spacing:-.045em;font-weight:750;margin:0 0 13px;max-width:19ch}
+.booking-service-areas__copy>p:not(.booking-proof-kicker){font-size:clamp(14px,1.25vw,16px);line-height:1.6;color:#425b6a;margin:0 0 11px;max-width:49ch}
+.booking-service-areas__copy .booking-service-areas__note{font-size:12px!important;color:#6f8793!important}
+.booking-service-areas__cities{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.booking-service-areas__cities span{display:flex;align-items:center;min-width:0;gap:8px;padding:13px 12px;border:1px solid #c7dcea;border-radius:14px;background:#fff;box-shadow:0 4px 13px rgba(51,97,124,.045);font:650 clamp(12px,1.4vw,14px)/1.25 Futura,Arial,sans-serif;color:#28526b}
+.booking-service-areas__cities span::before{content:"";display:block;width:7px;height:7px;flex:0 0 7px;border-radius:50%;background:#85b7d6}
+@media(max-width:720px){.booking-service-areas{padding:38px 16px 42px}.booking-service-areas .booking-service-areas__inner{grid-template-columns:minmax(0,1fr);gap:22px}.booking-service-areas__copy h2{max-width:25ch}.booking-service-areas__cities{gap:8px}.booking-service-areas__cities span{padding:12px 10px}}
+@media(max-width:370px){.booking-service-areas__cities span{font-size:11px;gap:6px;padding:11px 8px}}
