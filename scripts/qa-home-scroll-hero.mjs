@@ -33,6 +33,8 @@ for (const [lang, hero, expected] of [
   assert(hero.includes('data-wipe-visible={revealed && heroLoaded}'), lang + ': image-ready reveal gate missing');
   assert(hero.includes('src={HOME_HERO_PHOTO}'), lang + ': selected photo not installed on real hero');
   assert(hero.includes('<h1 className="tle-hero-heading-shine">'),lang+': shine must decorate the original H1');
+  assert(!hero.match(/<h1 className="tle-hero-heading-shine">[^<]*<br\s*\/?\s*>/),lang+': do not forcibly break the heading into stacked blocks');
+
   assert(hero.includes('width={1122} height={1402}'), lang + ': portrait hero dimensions changed');
   assert(hero.includes('ref={heroRef}'), lang + ': IntersectionObserver hero ref missing');
   assert.equal(hero.split('href="' + expected + '"').length - 1, 1, lang + ': duplicate or absent personalized demo CTA');
@@ -58,8 +60,9 @@ assert(motion.includes('requestAnimationFrame(update)'));
 assert(motion.includes('!splitHero && progress >= 0.5'), 'CTA must stay keyboard-accessible during scroll');
 assert(root.indexOf('tle-hero-scroll.css') > root.indexOf('tle-saas-ui-v1.css'), 'Scroll overrides must load after the theme');
 assert(scrollCSS.includes('tle-mobile-hero-photo-balance-20261017'),'Mobile hero composition must keep the compact-photo override');
+assert(scrollCSS.includes('tle-home-heading-horizontal-flow-20261017'),'Long-form heading mobile typography missing');
 for(const marker of ['tle-home-hero-text-shine-20261017','background-size:260% 100%','background-position:130% 0','70%,100% {background-position:-30% 0}','animation:tle-home-hero-ink-shine 3.8s linear infinite','background-position:50% 0 !important']) assert(scrollCSS.includes(marker),'Heading shine CSS missing '+marker);
-assert(root.includes('tle-hero-scroll.css?v=20261017-heading-shine2'),'Mobile hero CSS must bypass previous iPhone cache');
+assert(root.includes('tle-hero-scroll.css?v=20261017-horizontal-headline1'),'Mobile hero CSS must bypass previous iPhone cache');
 // Localized marketing activity floats (illustrative only, never real customer records).
 assert.equal((en.match(/app:'(?:BOOKING PAGE|COMMAND CENTER|QUOTES)'/g)||[]).length,4,'EN four marketing notices missing');
 assert(es.includes("'Cotización lista'") && es.includes("'Reserva confirmada'"),'ES localized activity notices missing');
@@ -114,7 +117,7 @@ try {
        splitLinkHeight:hero.querySelector('.tle-hero-split-link').getBoundingClientRect().height
      },
      introOpacity: Number(getComputedStyle(intro).opacity),
-     heading:(()=>{const h=intro.querySelector('h1'),c=getComputedStyle(h),r=h.getBoundingClientRect();return {text:h.innerText,width:r.width,left:r.left,right:r.right,animation:c.animationName,clip:c.backgroundClip,fill:c.webkitTextFillColor}})(),
+     heading:(()=>{const h=intro.querySelector('h1'),c=getComputedStyle(h),r=h.getBoundingClientRect();return {text:h.innerText,width:r.width,left:r.left,right:r.right,height:r.height,font:parseFloat(c.fontSize),weight:c.fontWeight,lineHeight:parseFloat(c.lineHeight),lines:Math.round(r.height/parseFloat(c.lineHeight)),forcedBreaks:h.querySelectorAll('br').length,animation:c.animationName,clip:c.backgroundClip,fill:c.webkitTextFillColor}})(),
      mesh: {
        count:blobs.length,
        insideHeroFrame:mesh.parentElement === frame,
@@ -162,6 +165,9 @@ try {
    assert(state.heading.clip==='text',lang+' '+viewport.width+': headline text clip missing');
    if(viewport.width<768){
      assert(state.heading.width>=viewport.width-38,lang+' '+viewport.width+': headline still too narrow '+JSON.stringify(state.heading));
+     assert(state.heading.forcedBreaks===0,lang+': heading should wrap naturally');
+     assert(state.heading.lines<=3,lang+' '+viewport.width+': heading still appears in stacked blocks '+JSON.stringify(state.heading));
+     assert(state.heading.font>=23 && state.heading.weight<=550,lang+': headline type remains overly heavy '+JSON.stringify(state.heading));
      assert(state.heading.left>=-2 && state.heading.right<=viewport.width+2,lang+': headline spills off phone '+JSON.stringify(state.heading));
    }
    assert.equal(state.mesh.count, 4, lang + ': exactly four decorative gradients expected');
