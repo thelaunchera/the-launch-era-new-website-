@@ -1,0 +1,28 @@
+name: Booking Demo Editorial Reference QA
+on:
+  pull_request:
+    paths:
+      - 'public/assets/tle-demo-ink-service-cards.css'
+      - 'scripts/qa-booking-editorial-reference.mjs'
+      - '.github/workflows/booking-editorial-reference-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  editorial-booking:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: bun install --frozen-lockfile
+      - name: Scope, CSS parse and protected demo access contracts
+        run: |
+          node scripts/qa-booking-editorial-reference.mjs
+          node scripts/qa-booking-demo-funnel-gate.mjs
+          node scripts/qa-route-integrity.mjs --static
+      - name: Website release build
+        run: bun run build
