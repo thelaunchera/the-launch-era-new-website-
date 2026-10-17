@@ -19,8 +19,7 @@ assert.match(chat,/tle-ai-booking-demo/,'Keep the existing Sonny demo backend wi
 assert.match(template,/id="demoForm"/,'Personalized lead magnet intake must not be replaced with booking sample');
 assert(!/(?:@keyframes|\banimation\s*:|\btransition\s*:|\btransform\s*:|\bzoom\s*:|gsap\.|Flip\.|mix-blend-mode\s*:)/i.test(html),'New public demo must have zero visual zoom/motion');
 assert.deepEqual([...html.matchAll(/<link[^>]*rel="stylesheet"[^>]*href="([^"]+)"/g)].map(m=>m[1]),
-  ['/assets/tle-demo-hero-portal.css?v=20261016-strike4','/assets/tle-booking-month-wheel.css?v=20261016-responsive2','/assets/tle-booking-premium-refresh.css?v=20261016-sonny-mobile-safe3','/assets/tle-booking-blue-orbs.css?v=20261016-orbs1','/assets/tle-booking-bubbles-continuity.css?v=20261017-short-cinematic2','/assets/tle-demo-curtain-footer.css?v=20261016-curtain1','/assets/tle-demo-booking-steps.css?v=20261017-compact-intake1','/assets/tle-demo-work-gallery.css?v=20261017-deck1'],'Only scoped hero, time wheel, approved cards and original blue bubble treatments may be linked');
-  '/assets/tle-demo-ink-service-cards.css?v=20261017-black-accent1',
+  ['/assets/tle-demo-hero-portal.css?v=20261016-strike4','/assets/tle-booking-month-wheel.css?v=20261016-responsive2','/assets/tle-booking-premium-refresh.css?v=20261016-sonny-mobile-safe3','/assets/tle-booking-blue-orbs.css?v=20261016-orbs1','/assets/tle-booking-bubbles-continuity.css?v=20261017-short-cinematic2','/assets/tle-demo-curtain-footer.css?v=20261016-curtain1','/assets/tle-demo-booking-steps.css?v=20261017-compact-intake1','/assets/tle-demo-work-gallery.css?v=20261017-deck1','/assets/tle-demo-ink-service-cards.css?v=20261017-black-accent1'],'Only scoped hero, time wheel, approved cards and original blue bubble treatments may be linked');
 
 const browser=await chromium.launch({headless:true});
 const outputs=[];
@@ -55,7 +54,7 @@ try {
    };
   });
   assert(context.scroll<=2&&context.onScreen,locale+' '+width+' overflow '+JSON.stringify(context));
-  assert.equal(context.importCount,8,'Eight approved scoped stylesheets including compact booking intake and sample photo deck');
+  assert.equal(context.importCount,9,'Nine approved scoped stylesheets including black-ink photo cards');
   assert.equal(context.cards.length,6,'Exactly six service choices, none Post-Construction');
   assert(context.cards.filter(x=>x.width>0).length===3,'Only one service category may be visible');
   assert(context.cards.filter(x=>x.width>0).every(x=>x.width>225&&x.height>=280&&x.imageWidth>x.width*.94&&x.imageHeight>=125),
