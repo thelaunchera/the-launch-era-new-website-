@@ -34,7 +34,7 @@ function existsRoute(pathname){
    const name=posix.basename(path,'.webp');
    const sourceTable=path.includes('demo-cleaning-20261017')?'DEMO_CLEANING_PHOTOS':path.includes('demo-work-gallery')?'WORK_GALLERY_PHOTOS':'PHOTOS';
    const part=builder.split(sourceTable+' = {')[1]?.split('\\n}')[0]||'';
-   if(new RegExp('["\\']'+name+'["\\']\\s*:').test(part))return true;
+   if(part.includes('"'+name+'":')||part.includes("'"+name+"':"))return true;
  }
  return false;
 }
