@@ -34,9 +34,8 @@ for(const question of yes)assert.equal(asksAboutJessie(question),true,"Missing o
 for(const question of no)assert.equal(asksAboutJessie(question),false,"Should keep topical answer for: "+question);
 for(const lang of ["en","es"]){
   const answer=jessieCapabilitiesReply(lang);
-  for(const topic of ["Booking Automation","Cleaning App","Website Automation","VA"]){
-    if(topic)assert.ok(answer.includes(topic),"Missing "+topic+" in "+lang+" response");
-  }
+  assert.ok(answer.length<180,"Keep the introduction short");
+  assert.match(answer,lang==="es"?/reservas.*clientes.*seguimientos/i:/bookings.*clients.*follow-ups/i);
   assert.ok(!/not confirmed|no lo tengo confirmado|don't know|no se/.test(answer),"Generic fallback reached");
 }
 assert.ok(source.indexOf("if(asksAboutJessie(message))")<source.indexOf("if(!wantsCheckoutNow(message,history,prior)&&wantsAiPlanComparison(message,prior,focus))"),"Capability introduction must come before AI plan comparison; ready buyers override it");
