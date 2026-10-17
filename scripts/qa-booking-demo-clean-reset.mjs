@@ -163,7 +163,9 @@ try{
    await page.locator('#customerName').fill('Sample Customer');
    await page.locator('#customerEmail').fill('sample@example.test');
    await page.locator('#customerZip').fill('33101');
-   await page.locator('#preferredDate').fill(new Date(Date.now()+45*86400000).toISOString().slice(0,10));
+   const calendarDay=page.locator('#apptDays button[data-day]:not(:disabled)').first();
+   await calendarDay.click();
+   assert.equal(await page.locator('#preferredDate').inputValue(),await calendarDay.getAttribute('data-day'),'Calendar selection must sync the review date');
    await page.locator('#reviewNext').click();
    await page.locator('#reviewPanel').waitFor({state:'visible'});
    assert.match(await page.locator('#reviewList').innerText(),/Sample Customer/);

@@ -16,7 +16,7 @@ for(const id of keys)for(let j=1;j<=3;j++)assert(h.includes('data-i18n="scope_'+
 assert(css.includes('560ms')&&css.includes('prefers-reduced-motion:reduce'),'Animated progress and reduced-motion safety required');
 assert(css.includes('overflow:hidden')&&css.includes('translateX(var(--slide-offset'),'True clipped three-panel slide track required');
 assert(h.includes('inert=complete||n!==next')&&h.includes('bookingProgressAnnounce'),'ARIA/inert on off-screen steps required');
-assert(h.includes("if(bad){bad.focus();bad.reportValidity();return;}"),'Preserve per-step validation');
+assert(h.includes("if(bad){if(bad.id==='preferredDate')focusPreferredDate();else{bad.focus();bad.reportValidity();}return;}"),'Preserve per-step validation and visible calendar focus');
 assert(!/gsap|cdn\.jsdelivr|new XMLHttpRequest/i.test(h),'No external libraries or real booking network writes');
 const base=(process.env.QA_URL||'http://127.0.0.1:4173').replace(/\/$/,'');
 const browser=await chromium.launch({headless:true});
@@ -56,7 +56,15 @@ try{
   await page.locator('#reviewNext').click();
   assert.equal(await page.locator('#reviewPanel').isVisible(),false,'Required fields must block next');
   await name.fill('Sample Customer');await page.locator('#customerEmail').fill('test@example.invalid');
-  await page.locator('#customerZip').fill('33101');await page.locator('#preferredDate').fill('2027-11-15');
+  await page.locator('#customerZip').fill('33101');
+  assert.equal(await page.locator('#preferredDate').isVisible(),false,'Old preferred date must not appear above new calendar');
+  const day=page.locator('#apptDays button[data-day]:not([disabled])').first();
+  const date=await day.getAttribute('data-day');
+  await page.locator('#reviewNext').click();
+  assert.equal(await page.locator('#reviewPanel').isVisible(),false,'A missing calendar day must block review');
+  assert.equal(await page.evaluate(()=>document.activeElement?.dataset.day),date,'Missing date must focus visible picker');
+  await day.click();
+  assert.equal(await page.locator('#preferredDate').inputValue(),date,'Calendar must sync review date');
   await page.locator('input[name="demo-extras"][value="petsLabel"]').check();
   await page.locator('#reviewNext').click();
   assert.equal(await page.locator('#reviewPanel').isVisible(),true);

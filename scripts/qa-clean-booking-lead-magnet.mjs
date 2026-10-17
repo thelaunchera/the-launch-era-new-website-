@@ -107,7 +107,9 @@ try {
    await page.locator('#customerName').fill('Demo Test');
    await page.locator('#customerEmail').fill('test@example.invalid');
    await page.locator('#customerZip').fill('33139');
-   await page.locator('#preferredDate').fill('2027-11-15');
+   const calendarDay=page.locator('#apptDays button[data-day]:not(:disabled)').first();
+   await calendarDay.click();
+   assert.equal(await page.locator('#preferredDate').inputValue(),await calendarDay.getAttribute('data-day'),'Calendar selection must sync the review date');
    await page.locator('input[name="demo-extras"][value="petsLabel"]').check();
    await page.locator('input[name="demo-extras"][value="fridgeLabel"]').check();
    await page.locator('#reviewNext').click();
