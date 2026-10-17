@@ -24,7 +24,7 @@ for(const [lang,html] of [['en',en],['es',es]]){
  }
  assert(html.includes('Save $24/yr')||html.includes('Ahorra $24/año'),lang+' combined savings badge absent');
  assert(!html.includes('Starter / Pro / Team'),'no fictitious plans');
- assert(html.includes('id="demo"')&&html.includes('/lead-private-preview.html'),'demo preserved');
+ assert(html.includes('id="demo"')&&html.includes('/booking-demo/?lang='+lang),'private Booking preview invitation preserved');
 }
 assert(css.includes('linear-gradient(#fff,#fff) padding-box')&&css.includes('border-box'),'gradient border');
 assert(css.includes('translateY(-7px) scale(1.06)'),'featured lift');
