@@ -11,7 +11,7 @@ for (const [file,s] of [['EN home',en],['ES home',es]]) {
  assert(s.includes("HomeMotionInterlude"),file+' must include the new chapter');
  assert(s.indexOf('HomeMotionInterlude lang=')<s.indexOf('process-section')||file==='EN home',file+' must place the chapter before the process section');
 }
-assert(en.includes('<BookingSection/><HomeMotionInterlude lang="en"/><ProcessSection/>'),'EN ordering must preserve booking and process sections');
+assert(en.includes('<HomeMotionInterlude lang="en"/><ProcessSection/>'),'EN ordering must preserve the day/night chapter before process, using the current home layout');
 assert(es.includes('<HomeMotionInterlude lang="es"/>'),'ES home must remain translated');
 assert(jsx.includes('data-tle-canvas')&&jsx.includes('data-tle-chapter'),'React scene anchors missing');
 assert(jsx.includes("dispose?.()"),'Unmount must dispose the scene');
@@ -23,7 +23,9 @@ assert(js.includes('RoundedBoxGeometry')&&js.includes('RoomEnvironment'),'Three.
 assert(js.includes('renderer.toneMappingExposure=1.18'),'Daylight exposure must retain house details instead of blowing out white walls');
 assert(js.includes('const windowTrim=standard(0x8caec5)'),'3D windows require visible outlines');
 assert(js.includes('const compact=holder.clientWidth<600'),'The 3D house must be more legible on phone viewports');
-assert(jsx.includes('house-detail3'),'Home must load refreshed 3D house instead of a cached older model');
+assert(jsx.includes('20261017-idle-gpu'),'Home must load the refreshed, idle-safe 3D scene');
+assert(js.includes('if(!settled)raf=requestAnimationFrame(tick)'),'3D rendering must pause between scroll movements');
+assert(js.includes("window.removeEventListener('scroll',requestFrame)"),'Three.js scroll listener must be cleaned up');
 assert(css.includes('.tle-time-art{inset:12% -15% 24% -15%}'),'Lift house scene out of phone card overlap');
 assert(js.includes('160*3')&&js.includes('scene.environmentIntensity')&&js.includes('glass.emissiveIntensity'),'Night transition requirements');
 assert(js.includes('observer.disconnect()')&&js.includes('renderer.dispose()')&&js.includes('forceContextLoss()'),'Unmount cleanup required');
