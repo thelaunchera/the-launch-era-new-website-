@@ -92,9 +92,20 @@ try{
   const beforeOtherDemo=await page.locator(".tle-jessy-demo-card").count();
   await page.locator(".tle-jessy-message-field").fill(lang==="es"?"Muéstrame todas las demos":"Show me all demos");
   await page.locator(".tle-jessy-send").click();
-  await page.waitForFunction(n=>document.querySelectorAll(".tle-jessy-demo-card").length>n,beforeOtherDemo);
-  assert.equal(await page.locator(".tle-jessy-demo-card").count(),beforeOtherDemo+1,"Generic demos must show Booking only, not a second Cleaning App card");
-  assert.equal(await page.locator(".tle-jessy-demo-card").last().innerText().then(t=>/Cleaning App/i.test(t)),false);
+  // The approved assistant offers a choice for an unspecified demo; it must
+  // not automatically open a Booking form or collect a Cleaning App lead.
+  const choices=page.locator(".tle-jessy-checkout-choices").last();
+  await choices.waitFor({state:"visible",timeout:12000});
+  assert.equal(await choices.locator("button").count(),1,"Booking choice must be a button");
+  assert.equal(await choices.locator("a[href^='/cleaning-app-demo/']").count(),1,
+    "Cleaning App choice must link to its freely accessible demo");
+  assert.equal(await page.locator(".tle-jessy-demo-card").count(),beforeOtherDemo,
+    "No extra Booking capture card until visitor chooses Booking");
+  assert.equal(requests.length,1,"Showing available demos must never resubmit a lead");
+  await choices.locator("button").click();
+  await page.waitForFunction(n=>document.querySelectorAll(".tle-jessy-demo-card").length>n,beforeOtherDemo,{timeout:12000});
+  assert.equal(await page.locator(".tle-jessy-demo-card").count(),beforeOtherDemo+1,
+    "Choosing Booking must open its consent-gated demo card");
   await page.locator(".tle-jessy-message-field").fill("Can I see the Cleaning App demo?");
   await page.locator(".tle-jessy-send").click();
   await page.locator(".tle-jessy-help-link[href^='/cleaning-app-demo/']").waitFor({timeout:12000});
