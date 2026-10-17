@@ -25,6 +25,13 @@ assert.match(style,/@media\(prefers-reduced-motion:reduce\)/,'Respect reduced-mo
 assert.match(style, /--portal-scale/, 'Window zoom through focal point missing');
 assert.match(script,/sonnyToggle/,'Must open real Sonny chat, no dummy widget');
 assert.match(script,/portalClickDuration=2800/,'Window click must use the deliberate 2.8s transition instead of native smooth scrolling');
+assert.match(style,/booking-portal-back::after[\\s\\S]*linear-gradient/,'Hero back scene must have gradient');
+assert.match(style,/2026-10-17 Blue cinematic hero/,'Blue upgrade must be scoped to existing hero');
+assert.match(style,/booking-strike/,'Do not lose remarkable original strike animation');
+assert.match(html,/family=Caveat:wght@500;600;700/,'Handwriting font must be requested non-blocking alongside interface fonts');
+const ink=readFileSync('public/assets/tle-demo-ink-service-cards.css','utf8');
+assert.match(ink,/--tle-demo-handwriting:'Caveat'/,'Use same handwriting family across editorial headings');
+assert.match(ink,/#bookingProofTitle/,'Editorial proof must share handwritten font');
 const base=(process.env.QA_URL||'http://127.0.0.1:4173').replace(/\/$/,'');
 const browser=await chromium.launch({headless:true});
 const records=[];
@@ -69,6 +76,43 @@ try {
   assert(swap.strikeWidth<=swap.oldWidth+2&&swap.swapWidth>=swap.newWidth-2,'Strike may not cross longer replacement: '+JSON.stringify(swap));
   assert.equal(swap.oldText,lang==='es'?'aceptables.':'decent.');
   assert.equal(swap.newText,lang==='es'?'extraordinarias.':'remarkable.');
+  const editorial=await page.evaluate(()=>{
+    const headline=document.getElementById('bookingPortalHeadline');
+    const scriptLine=document.getElementById('bookingPortalLine');
+    const swap=document.querySelector('.booking-portal-swap');
+    const old=document.getElementById('bookingPortalOld');
+    const newWord=document.getElementById('bookingPortalNew');
+    const rect=scriptLine.getBoundingClientRect();
+    const gradient=getComputedStyle(document.querySelector('.booking-portal-back'),'::after').backgroundImage;
+    return {
+      font:getComputedStyle(scriptLine).fontFamily,
+      swapFont:getComputedStyle(newWord).fontFamily,
+      margin:getComputedStyle(swap).marginTop,
+      effect:getComputedStyle(newWord).animationName,
+      oldEffect:getComputedStyle(old).animationName,
+      left:rect.left,right:rect.right,
+      within:rect.left>=0&&rect.right<=innerWidth+3,
+      heroWidth:headline.getBoundingClientRect().width,
+      gradient,
+      proofFont:getComputedStyle(document.getElementById('bookingProofTitle')).fontFamily,
+      galleryFont:getComputedStyle(document.getElementById('tleWorkGalleryTitle')).fontFamily,
+      journeyFont:getComputedStyle(document.getElementById('bookingBubbleTitle')).fontFamily,
+      comparisonFont:getComputedStyle(document.getElementById('bookingCompareTitle')).fontFamily,
+      footerFont:getComputedStyle(document.getElementById('tleDemoFooterHeadline')).fontFamily
+    };
+  });
+  assert(editorial.font.includes('Caveat'),'Make your booking flow must use the one handwriting family '+JSON.stringify(editorial));
+  assert(!editorial.swapFont.includes('Caveat'),'Preserve remarkable as serif, never handwriting');
+  assert(editorial.proofFont.includes('Caveat')&&editorial.galleryFont.includes('Caveat')&&editorial.journeyFont.includes('Caveat')&&editorial.comparisonFont.includes('Caveat')&&editorial.footerFont.includes('Caveat'),
+   'All editorial chapter titles must reuse one consistent handwriting style');
+  assert(editorial.within,lang+' '+width+' booking flow must fit one line without overflow '+JSON.stringify(editorial));
+  assert(editorial.gradient.includes('linear-gradient')&&editorial.gradient.includes('rgba(4, 28, 51'),
+   'Hero must show dark blue overlay instead of a white wash '+JSON.stringify(editorial));
+  assert(parseFloat(editorial.margin)<0,'Raise remarkable slightly, preserving its old/new swap');
+  if(!reduced){
+    assert(editorial.effect.includes('booking-new-in')&&editorial.oldEffect.includes('booking-old-out'),
+     'Keep the existing remarkable strike/reveal animation intact');
+  }
   const stage=await page.locator('.booking-portal-stage').boundingBox();
   assert(stage?.width>=width-3,'Hero must use full viewport width: '+JSON.stringify(stage));
   const linked=await page.locator('#bookingHeroDemo').getAttribute('href');
