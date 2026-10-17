@@ -29,6 +29,11 @@ try{
    assert.match((await close.nth(0).getAttribute('href'))||'',new RegExp('/booking-demo/\\?lang='+lang),lang+' bottom primary must request a demo');
    assert.equal(await close.nth(1).getAttribute('href'),secondary,lang+' bottom purchase route changed');
    assert((await actions.nth(0).textContent()||'').toLowerCase().includes(lang==='es'?'demo personalizada':'personalized demo'),lang+' should make the requested demo obvious');
+   const fitDemo=page.locator('.service-sales .service-fit a.service-fit-request-link');
+   assert.equal(await fitDemo.count(),1,lang+' qualification should request the personalized demo');
+   assert.equal(await fitDemo.getAttribute('href'),'/booking-demo/?lang='+lang+'&source=booking-landing-fit',lang+' mid-page demo route changed');
+   const fitLink=await fitDemo.evaluate(el=>{const r=el.getBoundingClientRect();return {left:r.left,right:r.right,height:r.height}});
+   assert(fitLink.height>=46 && fitLink.left>=-2 && fitLink.right<=width+2,lang+' mid-page demo link not accessible on phone');
    const link=page.locator('.service-sales .service-fit a.service-demo-link');
    await link.waitFor({state:'visible',timeout:15000});
    const d=await link.evaluate(el=>{
