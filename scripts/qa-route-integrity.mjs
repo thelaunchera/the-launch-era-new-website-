@@ -16,6 +16,28 @@ function existsRoute(pathname){
  const f=join(pub,path.slice(1));
  return (existsSync(f)&&statSync(f).isFile())||existsSync(join(f,'index.html'))||existsSync(f+'.html');
 }
+// These are intentionally generated from owner-selected Drive photo IDs at build
+// time (scripts/build_demo_photo_assets.py), not checked-in static binaries.
+// Only these exact filenames bypass prebuild existence; CI validates files
+// after conversion. Other missing images continue to fail this route gate.
+const BUILT_DEMO_IMAGES = new Set([
+  ...['hero','journey-service','journey-property','journey-schedule','journey-review']
+    .map(x=>'/assets/demo-cleaning-20261017/'+x+'.webp'),
+  ...['regular','deep','move','office','retail','medical','floor']
+    .map(x=>'/assets/demo-services/'+x+'.webp'),
+  ...['kitchen-refresh','living-space','bathroom-detail','dining-room','bedroom',
+      'miami-condo','sunroom','poolside-living','office','whole-home']
+    .map(x=>'/assets/demo-work-gallery/'+x+'.webp'),
+  ...['grout-before','grout-after','vanity-before','vanity-after','track-before','track-after']
+    .map(x=>'/assets/demo-transformations/'+x+'.webp'),
+]);
+const demoBuilder=readFileSync(join(root,'scripts/build_demo_photo_assets.py'),'utf8');
+function isPlannedDemoImage(pathname){
+ return BUILT_DEMO_IMAGES.has(pathname)&&
+    demoBuilder.includes('DEMO_CLEANING_PHOTOS')&&
+    demoBuilder.includes('WORK_GALLERY_PHOTOS')&&
+    demoBuilder.includes('TRANSFORMATIONS');
+}
 function staticChecks(){
  if(!existsSync(pub))throw Error('Run this script from the website repository root');
  const pages=walk(pub).filter(f=>extname(f)==='.html');
@@ -30,7 +52,7 @@ function staticChecks(){
    let target;try{target=new URL(raw,base)}catch{warnings.push('Invalid URI: '+relative+' '+raw);continue}
    if(target.hostname!==domain)continue;
    checked++;
-   if(existsRoute(target.pathname))valid++;
+   if(existsRoute(target.pathname)||isPlannedDemoImage(target.pathname))valid++;
    else errors.push('Missing local route/asset: '+relative+' '+match[1]+'='+raw+' -> '+target.pathname);
   }
  }

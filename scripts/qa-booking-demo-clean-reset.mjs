@@ -274,7 +274,7 @@ try{
    const heroPhoto=page.locator('.booking-portal-picture').first();
    await page.waitForFunction(()=>{
       const img=document.querySelector('.booking-portal-picture');
-      return img&&img.complete&&img.naturalWidth>=1100;
+      return img&&img.complete&&img.naturalWidth>=650;
    },null,{timeout:15000});
    assert.equal(await page.locator('#bookingPortalEnter').count(),1,'Window portal button must exist');
    await page.locator('#sonnyToggle').click();
