@@ -36,7 +36,8 @@ assert.match(price.reply,/\$41\.99/, "Price must agree with the approved publish
 assert.ok(!/\$79 activation|\$119 activation/.test(price.reply),"Avoid stale AI prices");
 const spanish=await ask("Spanish capabilities","¿En qué me puedes ayudar?",{lang:"es",path:"/es/"});
 assert.equal(spanish.mode,"capabilities","A broad capabilities request must get actual information");
-assert.match(spanish.reply,/Booking Automation|Cleaning App|Website Automation/);
+assert.match(spanish.reply,/reservas|clientes|seguimientos/i);
+assert.ok(spanish.reply.length<180,"Keep the introduction short");
 const privateCheck=await ask("Private workspace boundary","Can you see other customers' private Command Center data?");
 assert.equal(privateCheck.mode,"privacy","Never claim private workspace access");
 // Post-purchase 20-minute consultation is a buyer onboarding benefit, NEVER presales.
@@ -69,6 +70,10 @@ const readyEs=await ask("Lista para comprar","Estoy lista para comprar",{lang:"e
 assert.equal(readyEs.mode,"purchase_ready");
 assert.equal(readyEs.next_action,"checkout");
 assert.match(readyEs.reply,/¡Hurra!.*Nos alegra ayudarte.*¡Nos vemos dentro!/s);
+const info=await ask("Info only - no demo","How does Booking Automation work?",{selected:"booking"});
+assert.equal(info.next_action,"none","Ordinary questions must not automatically open demos");
+const justPrice=await ask("Price only - no checkout","How much?",{selected:"booking"});
+assert.notEqual(justPrice.next_action,"checkout","Pricing questions are not purchase intent");
 const notReady=await ask("Not ready, asks for demo","Not ready to buy, show me the demo",{selected:"booking"});
 assert.notEqual(notReady.mode,"purchase_ready","Do not send someone hesitant to checkout");
 
