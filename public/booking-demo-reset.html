@@ -149,6 +149,10 @@
     .service[aria-pressed=true] .service-media { height:clamp(193px,calc(53vw - 1px),234px); }
   }
 </style>
+<!-- Non-blocking, optional display-font enhancement: local CSS/styles work immediately. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <link rel="stylesheet" href="/assets/tle-demo-hero-portal.css?v=20261016-strike4">
 <link rel="stylesheet" href="/assets/tle-booking-month-wheel.css?v=20261016-responsive2">
 <link rel="stylesheet" href="/assets/tle-booking-premium-refresh.css?v=20261016-sonny-mobile-safe3">
