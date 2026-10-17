@@ -54,6 +54,12 @@ body .tle-demo-curtain-page>.booking-proof{
    them and broke the approved sky-blue booking theme. The extra 48px compensates
    for the final iPad Safari scroll extent without increasing the footer height. */
 body:has(#tleDemoCurtainFooter){background-color:#cce7f7;padding-bottom:48px}
+/* On taller iPad/desktop screens the former 48px document tail left the
+   z-index:1 page curtain covering the first footer link at max scroll.
+   Reserve more scroll travel without changing the 55svh footer itself. */
+@media (min-width:701px) and (min-height:581px){
+ body:has(#tleDemoCurtainFooter){padding-bottom:clamp(160px,18svh,230px)}
+}
 body .tle-demo-curtain-page{
  position:relative;z-index:1;isolation:isolate;
  margin-bottom:var(--tle-demo-curtain-height);
