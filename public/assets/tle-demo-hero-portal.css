@@ -16,7 +16,7 @@ body{background:#f4faff}
 .booking-portal-front::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,40,57,.18) 0%,rgba(11,32,48,.08) 52%,rgba(12,35,52,.45) 100%);pointer-events:none}
 .booking-portal-window{position:absolute;top:46%;left:50%;width:clamp(240px,28vw,440px);height:clamp(200px,29vh,315px);transform:translate(-50%,-50%);background:rgba(240,250,255,.32);border:7px solid rgba(255,255,255,.91);border-radius:13px;box-shadow:0 18px 50px rgba(7,37,53,.19);overflow:hidden;z-index:3;cursor:pointer;display:grid;place-items:end center;padding:0;outline-offset:5px}
 .booking-portal-window:focus-visible{outline:3px solid #191919}
-.booking-portal-preview{position:absolute;inset:0;background-image:url("/assets/lead-demo/tle-booking-hero-original.webp");background-position:center;background-size:cover;filter:saturate(.9)}
+.booking-portal-preview{position:absolute;inset:0;background-image:url("/assets/demo-cleaning-20261017/hero.webp");background-position:center;background-size:cover;filter:saturate(.9)}
 .booking-portal-window::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 25%,rgba(0,18,33,.48));pointer-events:none}
 .booking-portal-enter{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:space-between;gap:24px;background:rgba(255,255,255,.93);padding:11px 18px;margin-bottom:15px;border-radius:999px;color:#191919;font-size:13px;font-weight:800;pointer-events:none}
 .booking-portal-front-caption{position:absolute;z-index:4;left:max(24px,calc((100vw - 1080px)/2));bottom:clamp(36px,8vh,95px);max-width:min(510px,65vw);color:#fff}
@@ -205,4 +205,31 @@ body .sonny:not(:has(.sonny-body:not([hidden]))) .sonny-head button{padding:9px 
  .booking-portal-back::after{
   background:linear-gradient(130deg,rgba(4,28,51,.94),rgba(8,37,63,.78) 57%,rgba(11,40,68,.34))!important;
  }
+}
+
+/* 2026-10-17: one continuous cleaner photograph in the hero and its portal.
+   The photo-only preview remains independently framed/animated. */
+#tleDemoCurtainPage .booking-portal-preview{background-image:url("/assets/demo-cleaning-20261017/hero.webp");background-position:center 48%}
+#tleDemoCurtainPage .booking-portal-copy p.booking-portal-sub{
+ color:#fff!important;font-weight:650;opacity:1;
+ text-shadow:0 2px 12px rgba(0,16,34,.7),0 0 3px rgba(0,16,34,.45);
+}
+#tleDemoCurtainPage .booking-portal-copy .booking-portal-kicker{
+ color:#f0faff!important;font-weight:850;text-shadow:0 2px 10px rgba(0,19,40,.65);
+}
+#tleDemoCurtainPage .booking-portal-copy .booking-portal-new{
+ color:#87d4ff!important;text-shadow:0 3px 18px rgba(0,14,34,.64);
+}
+#tleDemoCurtainPage .sonny-line{color:#173246;font-size:15px;line-height:1.5}
+#tleDemoCurtainPage .sonny-line.user{background:#ddecf8;color:#173246}
+#tleDemoCurtainPage .sonny-status{color:#334e60;font-size:12px}
+#tleDemoCurtainPage .sonny-form input{color:#191919;background:#fff}
+#tleDemoCurtainPage .sonny-form input::placeholder{color:#4e6473;opacity:1}
+#tleDemoCurtainPage .sonny-ideas{display:flex;gap:7px;flex-wrap:wrap;margin:-3px 0 12px}
+#tleDemoCurtainPage .sonny-idea{border:1px solid #accddd;border-radius:999px;background:#eef7fd;color:#19465e;font:650 12px/1.25 inherit;padding:8px 10px;cursor:pointer}
+#tleDemoCurtainPage .sonny-idea:hover,#tleDemoCurtainPage .sonny-idea:focus-visible{background:#d8eeff;border-color:#478bb5}
+#tleDemoCurtainPage .sonny-learn{display:inline-flex;align-items:center;color:#1b5275;text-underline-offset:3px;font-size:12px;font-weight:750;margin-top:8px}
+@media(max-width:540px){
+ #tleDemoCurtainPage .booking-portal-copy p.booking-portal-sub{font-size:14px;line-height:1.48}
+ #tleDemoCurtainPage .sonny-idea{font-size:12px;padding:7px 9px}
 }
