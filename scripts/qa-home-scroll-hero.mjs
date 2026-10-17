@@ -109,7 +109,7 @@ try {
      notices: {
        count:panel.querySelectorAll('.hero-notice-flow .notification').length,
        visible:Array.from(panel.querySelectorAll('.hero-notice-flow .notification')).filter(el=>getComputedStyle(el).display!=='none').length,
-       animated:Array.from(panel.querySelectorAll('.hero-notice-flow .notification')).filter(el=>getComputedStyle(el).animationName.includes('tle-home-notification-bob')).length,
+       animated:Array.from(panel.querySelectorAll('.hero-notice-flow .notification')).filter(el=>getComputedStyle(el).display!=='none' && getComputedStyle(el).animationName.includes('tle-home-notification-bob')).length,
        hitTest:getComputedStyle(panel.querySelector('.hero-notice-flow')).pointerEvents
      },
      panel: { top:a.top, left:a.left, width:a.width, height:a.height, bottom:a.bottom },
