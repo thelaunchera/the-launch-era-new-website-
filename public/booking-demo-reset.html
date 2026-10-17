@@ -628,11 +628,16 @@
   }
   // Keep the START of every newly opened stage visible. iOS/Safari scroll anchoring
   // otherwise leaves visitors at the bottom when the prior tall pane shrinks.
-  let stepScrollRevision=0;
+  let stepScrollRevision=0,stepUserInteraction=0;
+  // Don't yank the page back if someone begins scrolling/tapping immediately.
+  for(const type of ['touchstart','wheel','keydown','pointerdown']){
+    window.addEventListener(type,()=>{stepUserInteraction++;},{passive:true});
+  }
   function revealStageStart(which='outer'){
     const revision=++stepScrollRevision;
+    const interaction=stepUserInteraction;
     const jump=()=>{
-      if(revision!==stepScrollRevision)return;
+      if(revision!==stepScrollRevision||interaction!==stepUserInteraction)return;
       const anchor=which==='mini'?$('demoMiniProgress'):which==='done'?$('completePanel'):$('flowTitle');
       if(!anchor)return;
       const top=Math.max(0,Math.round(window.scrollY+anchor.getBoundingClientRect().top-16));
@@ -640,6 +645,11 @@
     };
     jump();
     requestAnimationFrame(()=>{jump();requestAnimationFrame(jump);});
+    // Account for any late mobile layout/viewport adjustment without
+    // waiting at the bottom while the animated horizontal track settles.
+    setTimeout(jump,80);
+    setTimeout(jump,190);
+    setTimeout(jump,470);
   }
   const panes=[['choosePanel',1],['detailsPanel',2],['reviewPanel',3]];
   let slideCleanup=null;
