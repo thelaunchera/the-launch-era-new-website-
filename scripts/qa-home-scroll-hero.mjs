@@ -56,6 +56,8 @@ assert(motion.includes("addEventListener('scroll', schedule, { passive: true })"
 assert(motion.includes('requestAnimationFrame(update)'));
 assert(motion.includes('!splitHero && progress >= 0.5'), 'CTA must stay keyboard-accessible during scroll');
 assert(root.indexOf('tle-hero-scroll.css') > root.indexOf('tle-saas-ui-v1.css'), 'Scroll overrides must load after the theme');
+assert(scrollCSS.includes('tle-mobile-hero-photo-balance-20261017'),'Mobile hero composition must keep the compact-photo override');
+assert(root.includes('tle-hero-scroll.css?v=20261017-mobile-hero-balance1'),'Mobile hero CSS must bypass previous iPhone cache');
 // Localized marketing activity floats (illustrative only, never real customer records).
 assert.equal((en.match(/app:'(?:BOOKING PAGE|COMMAND CENTER|QUOTES)'/g)||[]).length,4,'EN four marketing notices missing');
 assert(es.includes("'Cotización lista'") && es.includes("'Reserva confirmada'"),'ES localized activity notices missing');
@@ -102,6 +104,13 @@ try {
      clipPath: getComputedStyle(panel).clipPath,
      imageScale: new DOMMatrixReadOnly(getComputedStyle(photo).transform).a,
      image: {src:photo.currentSrc,loaded:photo.complete && photo.naturalWidth===1122 && photo.naturalHeight===1402,position:getComputedStyle(photo).objectPosition},
+     phoneGeometry: {
+       visual: { width:a.width,height:a.height,left:a.left,right:a.right,top:a.top },
+       screenWidth:innerWidth,
+       revealBottom:hero.querySelector('.hero-scroll-reveal').getBoundingClientRect().bottom,
+       cards:Array.from(panel.querySelectorAll('.hero-notice-flow .notification')).filter(el=>getComputedStyle(el).display!=='none').map(el=>{const r=el.getBoundingClientRect();return {width:r.width,top:r.top,bottom:r.bottom,left:r.left,right:r.right}}),
+       splitLinkHeight:hero.querySelector('.tle-hero-split-link').getBoundingClientRect().height
+     },
      introOpacity: Number(getComputedStyle(intro).opacity),
      mesh: {
        count:blobs.length,
@@ -164,6 +173,14 @@ try {
    if (viewport.width === 1440) await page.screenshot({ path:`qa-screenshots/home-scroll-${lang}-1440x${viewport.height}-mesh-initial.png`, fullPage:false });
    if (viewport.width < 768) {
     assert(state.panel.top < state.copy.top, lang + ': image must stack above text on phone');
+    assert(state.phoneGeometry.visual.height >= 339, lang + ' ' + viewport.width + ': photo still too short');
+    assert(state.phoneGeometry.visual.width >= viewport.width - 26, lang + ' ' + viewport.width + ': photo not wide enough');
+    assert(state.phoneGeometry.visual.left >= -1 && state.phoneGeometry.visual.right <= viewport.width + 1, lang + ': picture escapes viewport');
+    assert(state.phoneGeometry.splitLinkHeight <= 73, lang + ': split CTA reserves too much vertical space');
+    assert(state.phoneGeometry.visual.top - state.phoneGeometry.revealBottom < 28, lang + ': excess white space above photo');
+    assert(state.phoneGeometry.cards.length === 2, lang + ': mobile shows wrong number of notification chips');
+    assert(state.phoneGeometry.cards.every(c=>c.width <= 211), lang + ': mobile chips still oversized');
+    assert(state.phoneGeometry.cards[0].bottom + 4 < state.phoneGeometry.cards[1].top, lang + ': mobile notification chips overlap');
     assert(state.stagePosition !== 'sticky' && state.framePosition !== 'absolute', lang + ': mobile must use natural height');
     assert(Math.abs(state.frameScale - 1) < .04, lang + ': mobile hero cannot shrink');
    } else {
