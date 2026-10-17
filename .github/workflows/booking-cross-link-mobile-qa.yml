@@ -1,0 +1,51 @@
+name: Booking Landing Small-Phone Cross-Link QA
+on:
+  pull_request:
+    paths:
+      - 'public/assets/tle-sales.css'
+      - 'src/routes/__root.tsx'
+      - 'scripts/qa-booking-cross-link-mobile.mjs'
+      - '.github/workflows/booking-cross-link-mobile-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'public/assets/tle-sales.css'
+      - 'scripts/qa-booking-cross-link-mobile.mjs'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  booking-cross-link:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate source and production build
+        run: |
+          node scripts/qa-route-integrity.mjs --static
+          node --check scripts/qa-booking-cross-link-mobile.mjs
+          bun install
+          bun run build
+      - name: Prepare Chromium
+        run: |
+          mkdir -p /tmp/tle-link-qa
+          cd /tmp/tle-link-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          ln -sfn /tmp/tle-link-qa/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-link-qa/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: Test EN ES on four device widths
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-link-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for i in $(seq 1 35); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-booking-cross-link-mobile.mjs
