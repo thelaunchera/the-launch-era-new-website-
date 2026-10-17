@@ -8,6 +8,7 @@ on:
       - 'public/booking-demo-reset.html'
       - 'public/assets/tle-booking-bubbles-continuity.css'
       - 'scripts/qa-service-flip-cards.mjs'
+      - 'scripts/qa-service-card-readability.mjs'
       - '.github/workflows/service-flip-cards-qa.yml'
   push:
     branches: [main]
@@ -50,4 +51,5 @@ jobs:
             if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
             sleep 1
           done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-service-card-readability.mjs
           QA_URL=http://127.0.0.1:4173 node scripts/qa-service-flip-cards.mjs
