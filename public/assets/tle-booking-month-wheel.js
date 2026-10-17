@@ -46,6 +46,12 @@ section.innerHTML=[
 ].join('');
 form.querySelector('.actions').before(section);
 const native=$('preferredDate'), nativeLabel=native.closest('label');nativeLabel.classList.add('appt-native-date');
+// The interactive calendar below is the only visible date control.
+// Keep the original input as the form/review source so the chosen date stays synced.
+nativeLabel.hidden=true;
+nativeLabel.style.display='none';
+native.required=false;
+native.tabIndex=-1;
 const scrim=document.createElement('div');scrim.id='apptScrim';scrim.className='appt-booking-scrim';scrim.hidden=true;
 const sheet=document.createElement('section');sheet.id='apptSheet';sheet.className='appt-confirm-sheet';sheet.hidden=true;
 sheet.setAttribute('role','dialog');sheet.setAttribute('aria-modal','true');sheet.setAttribute('aria-labelledby','apptSheetTitle');
