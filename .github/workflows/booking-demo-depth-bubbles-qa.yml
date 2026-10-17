@@ -1,0 +1,29 @@
+name: Booking Demo Depth Bubbles QA
+on:
+  pull_request:
+    paths:
+      - 'public/assets/tle-demo-horizontal-story.js'
+      - 'public/assets/tle-demo-ink-service-cards.css'
+      - 'scripts/qa-booking-demo-depth-bubbles.mjs'
+      - '.github/workflows/booking-demo-depth-bubbles-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  bubbles:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - name: Bubble motion, CSS parsing, private access guard
+        run: |
+          node scripts/qa-booking-demo-depth-bubbles.mjs
+          node scripts/qa-booking-demo-funnel-gate.mjs
+          node scripts/qa-route-integrity.mjs --static
+      - name: Build website
+        run: bun run build
