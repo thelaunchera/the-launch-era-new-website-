@@ -80,8 +80,8 @@
  const fineprint=document.querySelector('#plans .tle-plan-picker .tle-plan-savings-fineprint');
  if(!fineprint||!name||!price||!cadence||!desc||!checkout||!badge||!live)return;
  const choiceMap={
-  booking:{en:['AI Booking Assistant','$39','$14/month','Answers booking questions.','Choose Booking AI →'],es:['AI Booking Assistant','$39','$14/mes','Responde preguntas de reservas.','Elegir IA de reservas →']},
-  business:{en:['AI Business Assistant','$59','$19/month','Booking and follow-up assistants together.','Choose both agents →'],es:['AI Business Assistant','$59','$19/mes','Reservas y seguimiento en un solo plan.','Elegir ambos agentes →']},
+  booking:{en:['AI Booking Assistant','$25','$14/month','Answers booking questions.','Choose Booking AI →'],es:['AI Booking Assistant','$25','$14/mes','Responde preguntas de reservas.','Elegir IA de reservas →']},
+  business:{en:['AI Business Assistant','$39.99','$19/month','Booking and follow-up assistants together.','Choose both agents →'],es:['AI Business Assistant','$39.99','$19/mes','Reservas y seguimiento en un solo plan.','Elegir ambos agentes →']},
   followup:{en:['AI Follow-Up Assistant','$19','$6.99/month','Follows up with leads who gave consent.','Choose Follow-Up AI →'],es:['AI Follow-Up Assistant','$19','$6.99/mes','Da seguimiento a contactos que dieron su consentimiento.','Elegir seguimiento →']}
  };
  const es=document.documentElement.lang.toLowerCase().startsWith('es');
