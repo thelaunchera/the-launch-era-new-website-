@@ -163,3 +163,116 @@
  }
  #bookingPage #intakeContact input{width:100%;min-width:0;box-sizing:border-box}
 }
+
+/* TLE 2026-10-17: stage top + refined completion, PUBLIC sample only.
+   Explicit JS alignment wins over mobile scroll anchoring during pane resizing. */
+/* Prevent document-level scroll anchoring from restoring the prior long pane
+   after Contact shrinks to Space/Calendar (iOS and Chromium). */
+html:has(#bookingPage),body:has(#bookingPage){overflow-anchor:none}
+#bookingPage .flow,
+#bookingPage .booking-step-viewport,
+#bookingPage .demo-mini-viewport{overflow-anchor:none}
+#bookingPage .demo-mini-viewport{transition:height 0s!important}
+#bookingPage #flowTitle,
+#bookingPage #demoMiniProgress,
+#bookingPage #completePanel{scroll-margin-top:16px}
+#bookingPage .flow.is-preview-complete .flow-header{display:none!important}
+#bookingPage .flow.is-preview-complete #completePanel{
+ position:relative;overflow:hidden;
+ padding:clamp(30px,5.5vw,60px) clamp(18px,6vw,50px) clamp(27px,5vw,48px);
+ background:
+  radial-gradient(circle at 92% 8%,rgba(167,215,243,.52),transparent 33%),
+  radial-gradient(circle at 3% 89%,rgba(230,242,252,.8),transparent 35%),
+  linear-gradient(145deg,#FAF8F3 0%,#f7fbff 55%,#e8f4fc 100%);
+}
+#bookingPage .flow.is-preview-complete .complete{
+ position:relative;display:flex;flex-direction:column;align-items:center;
+ width:100%;max-width:620px;margin:0 auto;text-align:center;
+}
+#bookingPage .complete-icon{
+ display:grid;place-items:center;width:76px;height:76px;flex:none;
+ margin:0 0 20px;border-radius:50%;background:#191919;
+ color:#fff;box-shadow:0 0 0 9px rgba(125,184,219,.19),0 10px 27px rgba(18,41,55,.15);
+ font:800 37px/1 Prompt,Arial,sans-serif;
+}
+#bookingPage .complete-icon span{position:relative;top:-1px}
+#bookingPage .complete-eyebrow{
+ margin:0 0 10px!important;color:#376680!important;
+ font:750 11px/1.35 Prompt,Arial,sans-serif!important;
+ letter-spacing:.13em;text-transform:uppercase;
+}
+#bookingPage .flow.is-preview-complete .complete h3{
+ margin:0 0 12px!important;max-width:17ch;color:#191919!important;
+ font:750 clamp(27px,5vw,41px)/1.13 Prompt,Arial,sans-serif!important;
+ letter-spacing:-.035em!important;
+}
+#bookingPage .flow.is-preview-complete .complete>p#doneBody{
+ width:100%;max-width:43ch;margin:0 auto 22px!important;
+ color:#3a5566!important;font-size:clamp(13px,1.8vw,15px)!important;
+ line-height:1.58!important;
+}
+#bookingPage .complete-milestones{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:8px;width:100%;max-width:430px;align-items:stretch;
+ margin:0 auto 26px;
+}
+#bookingPage .complete-milestones>span{
+ display:flex;align-items:center;justify-content:center;gap:7px;
+ min-width:0;padding:9px 7px;
+ background:rgba(255,255,255,.72);border:1px solid rgba(25,25,25,.18);
+ border-radius:999px;color:#191919;
+}
+#bookingPage .complete-milestones b{
+ display:grid;place-items:center;flex:0 0 21px;
+ height:21px;width:21px;border-radius:50%;background:#d6edf9;
+ color:#191919;font:850 13px/1 Prompt,Arial,sans-serif;
+}
+#bookingPage .complete-milestones small{
+ font:700 clamp(10px,1.45vw,12px)/1.25 Prompt,Arial,sans-serif;
+ white-space:nowrap;
+}
+#bookingPage .complete-actions{
+ display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
+ gap:10px;width:100%;
+}
+#bookingPage .flow.is-preview-complete .complete-actions #restart,
+#bookingPage .flow.is-preview-complete .complete-actions #trackerLink{
+ display:inline-flex;justify-content:center;align-items:center;
+ min-height:47px;padding:12px 18px;border-radius:999px;
+ font:750 13px/1.35 Prompt,Arial,sans-serif;text-decoration:none;
+ text-align:center;box-sizing:border-box;
+}
+#bookingPage .flow.is-preview-complete #restart{
+ background:#191919!important;color:#fff!important;border:1.5px solid #191919!important;
+}
+#bookingPage .flow.is-preview-complete #finishLinks{
+ margin:0!important;display:flex;align-items:center;justify-content:center;
+}
+#bookingPage .flow.is-preview-complete #trackerLink{
+ gap:8px;background:#e1f2fd!important;color:#191919!important;
+ border:1.5px solid #9ccbe6!important;
+}
+#bookingPage .flow.is-preview-complete #trackerLink:hover{
+ border-color:#191919!important;background:#d2ebfa!important;
+}
+#bookingPage .flow.is-preview-complete #trackerLink:focus-visible,
+#bookingPage .flow.is-preview-complete #restart:focus-visible,
+#bookingPage .flow.is-preview-complete #doneHeading:focus-visible{
+ outline:3px solid #3978a2;outline-offset:4px;
+}
+@media(max-width:700px){
+ #bookingPage .flow.is-preview-complete #completePanel{padding:30px 19px 28px}
+ #bookingPage .complete-icon{height:64px;width:64px;margin-bottom:19px;font-size:32px}
+ #bookingPage .complete-milestones{gap:5px;margin-bottom:23px}
+ #bookingPage .complete-milestones>span{padding:8px 3px;gap:4px}
+ #bookingPage .complete-milestones b{flex-basis:18px;width:18px;height:18px;font-size:11px}
+ #bookingPage .complete-milestones small{font-size:10px}
+ #bookingPage .complete-actions{flex-direction:column;gap:10px}
+ #bookingPage .complete-actions #restart,
+ #bookingPage .complete-actions #finishLinks,
+ #bookingPage .complete-actions #trackerLink{width:100%;max-width:330px}
+}
+@media(prefers-reduced-motion:reduce){
+ #bookingPage .flow.is-preview-complete #restart,
+ #bookingPage .flow.is-preview-complete #trackerLink{transition:none!important}
+}
