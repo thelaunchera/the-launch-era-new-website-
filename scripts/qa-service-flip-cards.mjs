@@ -129,8 +129,19 @@ try {
   await page.goto(base+'/booking-demo-reset.html?lang='+lang,{waitUntil:'domcontentloaded'});
   if(type==='commercial')await page.locator('#comTab').click();
   const card=page.locator('.service-flip-card[data-service="'+id+'"]');
+  await card.scrollIntoViewIfNeeded();
+  const beforeFlip=await card.evaluate(el=>({height:el.getBoundingClientRect().height,scrollY:window.scrollY}));
   await card.locator('.service').click();
   await page.waitForTimeout(850);
+  const afterFlip=await card.evaluate(el=>{
+    const back=el.querySelector('.service-flip-back');
+    return {height:el.getBoundingClientRect().height,scrollY:window.scrollY,
+      backHeight:back.clientHeight,contentHeight:back.scrollHeight,
+      backVisible:back.getBoundingClientRect().height>0};
+  });
+  assert(Math.abs(beforeFlip.scrollY-afterFlip.scrollY)<30,lang+' '+id+' flipping should not unexpectedly scroll the whole page: '+JSON.stringify({beforeFlip,afterFlip}));
+  assert(Math.abs(beforeFlip.height-afterFlip.height)<2,lang+' '+id+' flip must not change card geometry');
+  assert(afterFlip.contentHeight<=afterFlip.backHeight+3,lang+' '+id+' flipped copy/button must not clip or overflow: '+JSON.stringify(afterFlip));
   assert.equal(await page.locator('#detailsPanel').isVisible(),false,lang+' '+id+' first tap may only flip');
   assert.equal(await card.locator('.service-flip-back').evaluate(el=>el.inert),false,lang+' '+id+' back must be tappable');
   await card.locator('.service-flip-back h3').click();
