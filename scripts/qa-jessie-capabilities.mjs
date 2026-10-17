@@ -42,4 +42,25 @@ for(const lang of ["en","es"]){
 assert.ok(source.indexOf("if(asksAboutJessie(message))")<source.indexOf("if(wantsAiPlanComparison(message,prior,focus))"),"Capability introduction must come before AI plan comparison");
 const widget=fs.readFileSync(new URL("../public/assets/jessy-site.js",import.meta.url),"utf8");
 assert.ok(widget.includes('if(typeof result.selected_offer==="string")offer=result.selected_offer;'),"Widget must clear stale offer after general introduction");
-console.log("Jessie capabilities QA passed: "+(yes.length+no.length)+" intents, two languages.");
+// A concise answer must remain COMPLETE on the server and in the website widget.
+const serverStart=source.indexOf("function compactAiReply(input){");
+const serverEnd=source.indexOf("function helpfulNextAction(",serverStart);
+assert.ok(serverStart>=0&&serverEnd>serverStart,"Public AI reply formatter is missing");
+const compactAiReply=vm.runInNewContext(source.slice(serverStart,serverEnd)+"\ncompactAiReply");
+const widgetStart=widget.indexOf("function conciseText(text,mode){");
+const widgetEnd=widget.indexOf("function showCheckoutOptions(",widgetStart);
+assert.ok(widgetStart>=0&&widgetEnd>widgetStart,"Public widget formatter is missing");
+const conciseText=vm.runInNewContext(widget.slice(widgetStart,widgetEnd)+"\nconciseText");
+const complete=[
+ "Booking Automation receives cleaning inquiries through your booking page.",
+ "The details stay organized so you can review requests and follow up instead of looking through scattered messages.",
+ "You still approve the final price and booking, so nothing is confirmed without your review."
+].join(" ").repeat(2);
+assert.ok(complete.length>310&&complete.length<720,"QA fixture must exceed the previous clipping threshold");
+assert.equal(compactAiReply(complete),complete,"Server must not cut a valid, complete reply");
+assert.equal(conciseText(complete,"reasoned_ai"),complete,"Website must preserve the full answer");
+assert.equal(conciseText(complete,"verified_price"),complete,"Pricing replies must remain complete");
+assert.ok(widget.includes("const limit=words.length;"),"Typing animation must show all words, not jump after 32");
+assert.ok(!source.includes("if(explainCall)finalReply+="),"Avoid unsolicited 1:1 call add-on");
+assert.ok(source.includes('if(choice?.finish_reason==="length")return null;'),"Handle incomplete AI generation safely");
+console.log("Jessie capabilities and full-reply QA passed: "+(yes.length+no.length)+" intents, two languages.");
