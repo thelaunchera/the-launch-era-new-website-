@@ -19,7 +19,7 @@ assert.match(backend,/const fixed=priceQuestion\?answerPrice/);
 assert.match(backend,/if\(tooSimilarAnswer\(finalReply,history,message\)\)/);
 assert.match(backend,/fallbackFaq\(message,id,lang\)/);
 assert.match(backend,/console\.warn\("jessy_ai_response_unavailable"/);
-const tokenBudgets=/max_tokens:provider\.name===\\"groq\\"\?(\d+):(\d+)/.exec(backend);
+const tokenBudgets=/max_tokens:provider\.name==="groq"\?(\d+):(\d+)/.exec(backend);
 assert.ok(tokenBudgets,"Backend must retain per-provider output length limits");
 assert.ok(Number(tokenBudgets[1])>=180&&Number(tokenBudgets[1])<=400
  &&Number(tokenBudgets[2])>=180&&Number(tokenBudgets[2])<=320,
