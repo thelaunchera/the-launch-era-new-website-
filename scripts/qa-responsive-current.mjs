@@ -52,7 +52,7 @@ for(const viewport of sizes){
     }).length;
     const small=[...document.querySelectorAll('.solutions-section .section-heading p,.solutions-section .tle-service-flip__front p')]
      .filter(el=>{const s=getComputedStyle(el);return s.display!=='none'&&s.visibility!=='hidden'&&el.getClientRects().length>0&&parseFloat(s.fontSize)<15.5;})
-     .map(el=>el.tagName+'.'+el.className);
+     .map(el=>el.tagName+'.'+el.className+' size='+getComputedStyle(el).fontSize+' homeRule='+el.matches('.sales-home .solutions-section .tle-service-flip__front p'));
     const steps=[...document.querySelectorAll('.process-section .tle-process-card')];
     const unstyledSteps=steps.filter(el=>getComputedStyle(el).borderRadius==='0px').length;
     return {over,offenders,badCards,cardCount:cards.length,small,stepCount:steps.length,unstyledSteps};
