@@ -1726,3 +1726,13 @@ img { display:block; width:100%; object-fit:cover; }
     transition:none !important;
   }
 }
+
+
+/* Very narrow phones: clip only off-screen decorative pulses and sliding step
+   panes to their sections. Form controls remain reachable inside their viewport. */
+@media (max-width:350px) {
+ .sales-home .solutions-section,
+ .sales-home .process-section { overflow-x:clip; }
+ .sales-home .homepage-demo-contact,
+ .sales-home .homepage-contact-panel { min-width:0; max-width:100%; }
+}

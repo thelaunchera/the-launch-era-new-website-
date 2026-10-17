@@ -1,0 +1,39 @@
+name: Sitewide Copy Clarity QA
+on:
+  pull_request:
+    paths:
+      - 'src/routes/**'
+      - 'src/components/**'
+      - 'public/booking-demo/index.html'
+      - 'public/booking-bundle/index.html'
+      - 'public/ai-booking-assistant/index.html'
+      - 'public/es/ai-booking-assistant/index.html'
+      - 'public/whatsapp-ai-agent/index.html'
+      - 'public/es/whatsapp-ai-agent/index.html'
+      - 'scripts/qa-sitewide-clarity.mjs'
+      - '.github/workflows/sitewide-clarity-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  clarity-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Keep public copy brief and all booking rules intact
+        run: |
+          node --check scripts/qa-sitewide-clarity.mjs
+          node scripts/qa-sitewide-clarity.mjs
+          node scripts/qa-booking-demo-funnel-gate.mjs
+          node scripts/qa-route-integrity.mjs --static
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install deps
+        run: bun install --frozen-lockfile
+      - name: Build site without touching production
+        run: bun run build

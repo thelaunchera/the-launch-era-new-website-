@@ -20,19 +20,19 @@ const copy = {
       {
         title: 'Share your business details.',
         summary: 'Complete the setup form after purchase.',
-        detail: 'After purchasing, tell us about your cleaning business through the setup form. Your business information helps shape the system we prepare for you.',
+        detail: 'After purchase, complete the setup form with your business details.',
         note: 'Your setup starts with the details you share.'
       },
       {
         title: 'We personalize your system.',
         summary: 'Your brand, services, prices, and booking flow.',
-        detail: 'We tailor your setup around the business information you provide: your branding, cleaning services, pricing preferences, and booking process.',
+        detail: 'We set up your branding, services, prices and booking flow.',
         note: 'Built around your business, not a generic demo.'
       },
       {
         title: 'Open your workspace.',
         summary: 'Your access links arrive by email when ready.',
-        detail: 'When your setup is ready, we send the access information by email so you can open your workspace and get familiar with your booking flow.',
+        detail: 'We email your access links when your system is ready.',
         note: 'Your workspace is yours to explore.'
       }
     ]
@@ -47,19 +47,19 @@ const copy = {
       {
         title: 'Comparte los datos de tu negocio.',
         summary: 'Completa el formulario de inicio después de comprar.',
-        detail: 'Después de comprar, cuéntanos sobre tu negocio de limpieza en el formulario de inicio. Esa información nos ayuda a preparar tu sistema.',
+        detail: 'Después de comprar, completa el formulario con los datos de tu negocio.',
         note: 'Todo empieza con los datos que compartes.'
       },
       {
         title: 'Personalizamos tu sistema.',
         summary: 'Tu marca, servicios, precios y flujo de reservas.',
-        detail: 'Adaptamos la configuración según los datos de tu negocio: tu marca, servicios de limpieza, preferencias de precios y proceso de reservas.',
+        detail: 'Configuramos tu marca, servicios, precios y reservas.',
         note: 'Diseñado alrededor de tu negocio, no de un demo genérico.'
       },
       {
         title: 'Abre tu espacio de trabajo.',
         summary: 'Recibes tus enlaces por correo cuando esté listo.',
-        detail: 'Cuando esté listo, recibirás un correo con los enlaces de acceso para abrir tu espacio de trabajo y conocer tu flujo de reservas.',
+        detail: 'Te enviamos los accesos por correo cuando esté listo.',
         note: 'Tu espacio listo para explorar.'
       }
     ]

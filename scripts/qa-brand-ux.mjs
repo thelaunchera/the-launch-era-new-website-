@@ -1,4 +1,4 @@
-/** Brand experience smoke checks: public marketing and fictional demo ONLY.
+/** Brand experience smoke checks: public marketing and private-demo entry ONLY.
  * Does not authenticate, send inquiries, submit bookings or access tenant data.
  */
 import {strict as assert} from 'node:assert';
@@ -21,28 +21,28 @@ for(const item of cases){
   const page=await browser.newPage({viewport:{width:w,height:900},reducedMotion:'reduce'});
   try{
    await page.goto(base+item.url,{waitUntil:'domcontentloaded',timeout:30000});
-   const selector=item.type==='demo'?'.flow #resServices':item.type==='app'?'.tle-app-landing':item.type==='booking'?'.service-hero':'.sales-home';
+   const selector=item.type==='demo'?'#authStep':item.type==='app'?'.tle-app-landing':item.type==='booking'?'.service-hero':'.sales-home';
    await page.locator(selector).waitFor({state:'attached',timeout:15000});
-   if(item.type==='demo') assert.equal(new URL(page.url()).pathname,'/booking-demo-reset.html','Public unkeyed preview must use the canonical clean booking demo');
+   if(item.type==='demo') assert.equal(new URL(page.url()).pathname,'/booking-demo-reset.html','Unkeyed lead link must redirect to the private Booking access screen');
    await page.waitForTimeout(300);
    const out=await page.evaluate((t)=>{
     const html=document.documentElement;
     const body=document.body;
     const screenshotWidth=html.scrollWidth;
     const viewport=window.innerWidth;
-    const paletteProbe=t==='demo'?document.querySelector('.disclaimer'):document.querySelector('.site-footer');
+    const paletteProbe=t==='demo'?document.querySelector('main'):document.querySelector('.site-footer');
     const bg=paletteProbe?getComputedStyle(paletteProbe).backgroundColor:null;
     const linkCount=[...document.querySelectorAll('.site-footer a')].filter(x=>/get in touch/i.test(x.textContent||'')).length;
     const brandStyles=[...document.styleSheets].some(s=>s.href?.includes('tle-saas-ui-v1.css'));
     const cta=[...document.querySelectorAll('.cta-button svg.lucide-arrow-right,.service-cta svg.lucide-arrow-right')][0];
     const icon=cta?getComputedStyle(cta):null;
-    return {width:screenshotWidth,viewport,bg,linkCount,brandStyles,iconWidth:icon?parseFloat(icon.width):null,sampleMode:window.location.pathname==='/booking-demo-reset.html' && !new URLSearchParams(location.search).has('key'),formPresent:!!document.querySelector('#resServices .service') && !!document.querySelector('#detailsPanel')};
+    return {width:screenshotWidth,viewport,bg,linkCount,brandStyles,iconWidth:icon?parseFloat(icon.width):null,sampleMode:window.location.pathname==='/booking-demo-reset.html' && !new URLSearchParams(location.search).has('key'),formPresent:!!document.querySelector('#resServices .service') || !!document.querySelector('#detailsPanel'),privateEntry:!!document.querySelector('#authStep') && !!document.querySelector('#requestLink')};
    },item.type);
    assert(out.width<=out.viewport+3,'horizontal overflow '+JSON.stringify(out));
    if(item.type==='demo'){
-    assert(out.sampleMode,'Public sample did not enter demo mode');
-    assert(out.formPresent,'Sample booking UI missing');
-    assert.equal(out.bg,'rgb(225, 242, 252)','Current clean sample disclaimer must retain its soft-blue approved surface '+JSON.stringify(out));
+    assert(out.sampleMode,'Uninvited direct link must use the Booking private entry');
+    assert(out.privateEntry,'Private Booking demo must show an invitation request');
+    assert.equal(out.formPresent,false,'Uninvited visitor must not see booking services or customer form');
    }else{
     assert(out.brandStyles,'Unified marketing stylesheet absent');
     assert.equal(out.linkCount,0,'Repeated Get in Touch remains in footer');

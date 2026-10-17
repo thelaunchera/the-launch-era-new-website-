@@ -52,8 +52,8 @@ function Page(){
     <section className="container service-hero">
       <div className="eyebrow">WEBSITE AUTOMATION</div>
       <p className="booking-offer-line service-discount-offer"><span className="booking-offer-tag">OFERTA ESPECIAL</span><span className="booking-offer-price"><del>$59.99</del><strong>$35</strong></span></p><h1 className="editorial">Conserva tu website. Mejora lo que pasa después.</h1>
-      <p>¿Ya tienes website? Organizamos las consultas que llegan desde tu formulario de contacto o cotización para que puedas responder y dar seguimiento sin perder oportunidades.</p>
-      <MarketingCTA className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=es">Comenzar — $35 <ArrowRight/></MarketingCTA><p className="muted" style={{fontSize:13,margin:"13px 0 10px",lineHeight:1.6}}>Preparación inicial: producción estimada de 48 horas después de recibir tu formulario completo y confirmar los detalles.</p><div className="service-proof-strip" aria-label="Detalles del servicio"><span>TU WEBSITE ACTUAL</span><span>ORGANIZACIÓN DE CONSULTAS</span><span>CONFIGURACIÓN ÚNICA</span></div>
+      <p>Conserva tu website. Organiza tus consultas y seguimientos en un solo lugar.</p>
+      <MarketingCTA className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=es">Comenzar — $35 <ArrowRight/></MarketingCTA><p className="muted" style={{fontSize:13,margin:"13px 0 10px",lineHeight:1.6}}>Preparación estimada de 48 horas tras revisar tus datos y confirmar el inicio.</p><div className="service-proof-strip" aria-label="Detalles del servicio"><span>TU WEBSITE ACTUAL</span><span>ORGANIZACIÓN DE CONSULTAS</span><span>CONFIGURACIÓN ÚNICA</span></div>
     </section>
 
     <section className="container service-story">
@@ -65,7 +65,7 @@ function Page(){
           <div className="browser-page">
             <Globe2/>
             <strong>Nueva consulta</strong>
-            <p>Mira cómo podrías recibir una consulta sin perder los detalles.</p>
+            <p>Mira cómo se organiza una nueva consulta.</p>
             <form className="automation-demo-form" onSubmit={submit}>
               <label>
                 <span>Nombre + contacto</span>
@@ -85,7 +85,7 @@ function Page(){
             </form>
             <div className="automation-demo-note">
               <span>{active<0?'Cuando quieras':'Lead de prueba'}</span>
-              <strong>{active<0?'Pruébalo con tranquilidad. Es un ejemplo y no se enviará nada.':name+' · '+service}</strong>
+              <strong>{active<0?'Pruébalo. No se envía nada.':name+' · '+service}</strong>
             </div>
           </div>
         </div>
@@ -124,7 +124,7 @@ function Page(){
 
       <div className="service-endcap">
         <span>TU WEBSITE</span><ArrowRight/><span>CONSULTA</span><ArrowRight/><span>AUTOMATIZACIÓN</span><ArrowRight/><strong>PRÓXIMO PASO ✓</strong>
-        <small>Conecta el formulario de tu website · Configuración única $35 · Evita que las consultas nuevas se pierdan.</small>
+        <small>Tu formulario actual · Configuración única $35 · Consultas organizadas.</small>
       </div>
     </section>
   <ServiceFAQ topic="website" lang="es"/></main>

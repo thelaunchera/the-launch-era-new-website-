@@ -17,7 +17,7 @@ for(const key of [
   "rootMargin:'-45% 0px -45% 0px'", 'observer.disconnect()',
   'scrollIntoView', 'booking-story-heading-', 'aria-pressed={step===i}',
   'Tu cliente elige un servicio.', 'Your client chooses a service.',
-  'Detalles llegan' === 'not-present' ? '' : 'Details reach your private Command Center'
+  'Review everything in your Command Center.'
 ]) if(key)assert(story.includes(key), 'Missing story item '+key);
 assert(story.includes("reduce?'auto':'smooth'"), 'Reduced motion must avoid smooth scroll');
 assert(story.includes('bookingStoryPhotos.map'), 'Each step must render its own real image');

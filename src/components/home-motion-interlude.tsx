@@ -4,16 +4,16 @@ import './home-motion-interlude.css';
 type Lang = 'en' | 'es';
 const copy = {
  en: [
-  ['MORNING', 'A new request comes in.', 'Your Booking Page collects the details while you focus on your work.'],
-  ['AFTERNOON', 'Everything has its place.', 'Review inquiries, requested times and quotes in your private Command Center.'],
-  ['GOLDEN HOUR', 'No quote left floating.', 'Eligible unanswered quotes receive up to two automatic follow-ups.'],
-  ['EVENING', 'A clearer end to your day.', 'Know what needs your attention next. You stay in control of each booking.'],
+  ['MORNING', 'A new request comes in.', 'Your Booking Page collects the details.'],
+  ['AFTERNOON', 'Everything has its place.', 'Requests, times and quotes in your Command Center.'],
+  ['GOLDEN HOUR', 'No quote left floating.', 'Up to two follow-ups for eligible unanswered quotes.'],
+  ['EVENING', 'A clearer end to your day.', 'Know what’s next. You control every booking.'],
  ],
  es: [
-  ['MAÑANA', 'Llega una nueva solicitud.', 'Tu Booking Page recoge los detalles mientras te concentras en el trabajo.'],
-  ['TARDE', 'Todo tiene su lugar.', 'Revisa consultas, horarios y cotizaciones en tu Command Center privado.'],
-  ['ATARDECER', 'Que ninguna cotización se pierda.', 'Las cotizaciones elegibles sin respuesta reciben hasta dos seguimientos automáticos.'],
-  ['NOCHE', 'Termina el día con más claridad.', 'Sabes qué necesita tu atención. Tú tienes el control de cada reserva.'],
+  ['MAÑANA', 'Llega una nueva solicitud.', 'Tu Booking Page recoge los detalles.'],
+  ['TARDE', 'Todo tiene su lugar.', 'Consultas, horarios y cotizaciones en tu Command Center.'],
+  ['ATARDECER', 'Que ninguna cotización se pierda.', 'Hasta dos seguimientos para cotizaciones elegibles.'],
+  ['NOCHE', 'Termina el día con más claridad.', 'Sabes qué sigue. Tú controlas cada reserva.'],
  ],
 };
 function StaticScene() {
