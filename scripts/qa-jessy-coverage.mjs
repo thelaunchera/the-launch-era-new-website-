@@ -244,7 +244,7 @@ assert.equal(knowledge.helpfulNextAction("Can I see the booking demo?","booking"
 assert.equal(knowledge.helpfulNextAction("How do I start my free trial?","cleaning-app"),"trial");
 assert.equal(knowledge.helpfulNextAction("Where can I checkout?","booking"),"checkout");
 assert.equal(knowledge.helpfulNextAction("How much does it cost?","booking"),"none");
-assert.match(front,/photo\.src="\/assets\/drive-house-gallery\/pristine-kitchen\.png"/,"Photo should be relevant to cleaning");
+assert.match(front,/photo\.src="\/assets\/lead-demo\/drive-cleaner-kitchen\.webp"/,"Photo should be relevant to cleaning");
 assert.match(front,/node\("a","tle-jessy-demo-card"\)/,"Demo card should be one accessible link");
 assert.match(front,/tle-jessy-demo-reveal/,"Demo needs its real caption text");
 console.log("PASS Jessie detailed service answers, bilingual helpful content, and consent-gated original demo after explanations");
