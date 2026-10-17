@@ -65,5 +65,39 @@ for(const language of ["en","es"]){
  assert.equal(follow.next_action,"none");
 }
 
+// Follow-up context: a 30-day app trial must never turn into a Booking Automation demo.
+const appHistory=[
+ {role:'user',message:'What can you help me with?'},
+ {role:'assistant',message:'We offer Booking Automation, Cleaning App and Website Automation.'},
+ {role:'user',message:'Help me organize clients'},
+ {role:'assistant',message:'I can help with the Cleaning Web App, which organizes your clients and jobs. Would you like a 30-day free demo?'}
+];
+const organized=await ask({message:'Help me organize clients',language:'en',selected_offer:'',page_path:'/',history:appHistory.slice(0,2)});
+assert.equal(organized.selected_offer,'cleaning-app',"Organizing clients means Cleaning App, not Booking Automation");
+const clarify=await ask({message:'30 days free demo??',language:'en',selected_offer:'',page_path:'/',history:appHistory});
+assert.equal(clarify.selected_offer,'cleaning-app');
+assert.equal(clarify.mode,'app_trial_clarification');
+assert.equal(clarify.next_action,'trial',"A Cleaning App trial question needs the app trial signup");
+assert.equal(clarify.trial,'https://app.thelaunchera.com/?entry=signup');
+assert.equal(clarify.checkout,null);
+assert.match(clarify.reply,/free trial of the actual Cleaning App, not a 30-day demo/);
+assert.doesNotMatch(clarify.reply,/Booking Automation/i);
+const wrongDemoHistory=[
+ ...appHistory,
+ {role:'user',message:'30 days free demo??'},
+ {role:'assistant',message:"Here is the Booking Automation interactive demo."}
+];
+const corrected=await ask({message:"That's not what I asked",language:'en',selected_offer:'booking',page_path:'/',history:wrongDemoHistory});
+assert.equal(corrected.selected_offer,'cleaning-app');
+assert.equal(corrected.next_action,'trial');
+assert.match(corrected.reply,/You’re right/);
+const clarifyEs=await ask({message:'¿Demo de 30 días gratis?',language:'es',selected_offer:'cleaning-app',page_path:'/es/',history:[]});
+assert.equal(clarifyEs.mode,'app_trial_clarification');
+assert.match(clarifyEs.reply,/prueba de la Cleaning App real/);
+const unspecified=await ask({message:'Can I see a demo?',language:'en',selected_offer:'',page_path:'/',history:[]});
+assert.equal(unspecified.next_action,'demo_choice',"Unspecified demo must let visitors choose a service");
+assert.match(unspecified.reply,/two different demos/);
+assert.doesNotMatch(unspecified.reply,/Here's the Booking Automation interactive demo/);
+
 assert.equal(aiCalls,0);
 console.log('PASS public confidentiality, contextual prices, 20-minute post-purchase-only calls and EN/ES explanations, no live data or messages.');
