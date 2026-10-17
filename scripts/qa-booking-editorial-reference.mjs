@@ -5,7 +5,7 @@ import postcss from 'postcss';
 
 const stylesheet='public/assets/tle-demo-ink-service-cards.css';
 const css=readFileSync(stylesheet,'utf8');
-const marker='TLE-4 | 2026-10-17';
+const marker='/* TLE-4 | 2026-10-17';
 assert.equal(css.split(marker).length-1,1,'Editorial patch must be unique');
 const scoped=css.slice(css.indexOf(marker));
 postcss.parse(css,{from:stylesheet});
