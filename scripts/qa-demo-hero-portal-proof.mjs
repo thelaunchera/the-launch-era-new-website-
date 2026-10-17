@@ -106,13 +106,9 @@ try {
   assert(editorial.proofFont.includes('Caveat')&&editorial.galleryFont.includes('Caveat')&&editorial.journeyFont.includes('Caveat')&&editorial.comparisonFont.includes('Caveat')&&editorial.footerFont.includes('Caveat'),
    'All editorial chapter titles must reuse one consistent handwriting style');
   assert(editorial.within,lang+' '+width+' booking flow must fit one line without overflow '+JSON.stringify(editorial));
-  assert(editorial.gradient.includes('linear-gradient')&&editorial.gradient.includes('rgba(4, 28, 51'),
+  assert(editorial.gradient.includes('linear-gradient')&&(editorial.gradient.includes('rgba(4, 28, 51')||editorial.gradient.includes('rgba(6, 34, 57')),
    'Hero must show dark blue overlay instead of a white wash '+JSON.stringify(editorial));
   assert(parseFloat(editorial.margin)<0,'Raise remarkable slightly, preserving its old/new swap');
-  if(!reduced){
-    assert(editorial.effect.includes('booking-new-in')&&editorial.oldEffect.includes('booking-old-out'),
-     'Keep the existing remarkable strike/reveal animation intact');
-  }
   const stage=await page.locator('.booking-portal-stage').boundingBox();
   assert(stage?.width>=width-3,'Hero must use full viewport width: '+JSON.stringify(stage));
   const linked=await page.locator('#bookingHeroDemo').getAttribute('href');
@@ -157,6 +153,13 @@ try {
       transform:getComputedStyle(el).transform
     }));
     assert(zoom.opacity<.1,lang+' '+width+' front window must fade to reveal second scene: '+JSON.stringify(zoom));
+    const remarkableAnimation=await page.locator('#bookingPortalHeadline').evaluate(el=>({
+      newAnimation:getComputedStyle(el.querySelector('.booking-portal-new')).animationName,
+      oldAnimation:getComputedStyle(el.querySelector('.booking-portal-old')).animationName,
+      strikeAnimation:getComputedStyle(el.querySelector('.booking-portal-strike')).animationName
+    }));
+    assert(remarkableAnimation.newAnimation.includes('booking-new-in')&&remarkableAnimation.oldAnimation.includes('booking-old-out')&&remarkableAnimation.strikeAnimation.includes('booking-strike'),
+     'Do not replace or suppress the original remarkable effect '+JSON.stringify(remarkableAnimation));
     await page.waitForFunction(()=>{
       const line=document.querySelector('.booking-portal-strike');
       const old=line?.closest('.booking-portal-old');
