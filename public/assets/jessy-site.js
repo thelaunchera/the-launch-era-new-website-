@@ -38,11 +38,11 @@ function attachTleChatMotion(chatLog){
   let index=0;
   const next=()=>{
    if(!node.isConnected||!visible(node)||reduce.matches){finish(node);return}
-   const limit=Math.min(words.length,32);
+   const limit=words.length;
    if(index>=limit){finish(node);return}
    span.textContent+=words[index++];
    chatLog.scrollTop=chatLog.scrollHeight;
-   state.timer=setTimeout(next,150);
+   state.timer=setTimeout(next,60);
   };
   const delay=Math.max(0,900-(Date.now()-(pendingAt.get(node)||0)));
   state.timer=setTimeout(next,delay);
@@ -393,11 +393,9 @@ function purchaseReady(message){
  return /^(?:1\s*)?(?:yes|si|yes please|si por favor|sure|dale|ok|okay)[.! ]*$/.test(q)&&/\b(?:checkout|purchase|buy|comprar|pagar|payment|enlace de pago)\b/i.test(last);
 }
 function conciseText(text,mode){
- const clean=String(text||"").replace(/\*\*/g,"").replace(/\s+/g," ").trim();
- if(clean.length<=310||mode==="verified_price")return clean;
- const first=clean.split(/(?<=[.!?])\s+(?=[A-ZÁÉÍÓÚ¿¡])/).slice(0,2).join(" ");
- if(first.length>=25&&first.length<=310)return first;
- const short=clean.slice(0,305);return short.slice(0,Math.max(40,short.lastIndexOf(" ")))+"…";
+ // The server owns response length. Never cut an important answer mid-thought in the widget.
+ // Keep all verified pricing and service details, as well as the answer's next step.
+ return String(text||"").replace(/\*\*/g,"").replace(/\s+/g," ").trim();
 }
 function showCheckoutOptions(ids,label){
  const unique=[...new Set(ids)],wrap=node("div","tle-jessy-checkout-choices");
