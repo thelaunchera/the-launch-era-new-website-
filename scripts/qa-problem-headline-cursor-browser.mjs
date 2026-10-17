@@ -40,7 +40,7 @@ async function inspect(page,lang,width,expectEnabled){
     const box=await block.boundingBox();
     await page.mouse.move(box.x+Math.min(90,box.width/3),box.y+box.height/2);
     // Animations may settle a few frames later under CI load. Assert the actual 45px end state.
-    await page.waitForFunction(()=>{const v=document.querySelector('.tle-mask-headline__mask')?.style.clipPath||'';const radius=Number((v.match(/circle\(([\d.]+)px/)||[])[1]);return radius>39&&radius<51;},{timeout:3500});
+    await page.waitForFunction(()=>{const v=document.querySelector('.tle-mask-headline__mask')?.style.clipPath||'';const radius=Number((v.match(/circle\(([\d.]+)px/)||[])[1]);return radius>39&&radius<51;},null,{timeout:3500});
     const clip=await colored.evaluate(el=>el.style.clipPath);
     const radius=Number((clip.match(/circle\(([\d.]+)px/)||[])[1]);
     assert(radius>39&&radius<51,lang+' '+width+': 45px blue mask failed: '+clip);
