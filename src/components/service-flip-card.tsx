@@ -76,7 +76,14 @@ export function ServiceFlipCard({title,description,href,points,lang='en',childre
         <a ref={link} href={href} className="tle-service-flip__cta"
           onPointerDown={()=>{activatingLink.current=true;}}
           onPointerCancel={()=>{activatingLink.current=false;}}
-          onPointerUp={()=>{window.requestAnimationFrame(()=>{activatingLink.current=false;});}}>
+          onClick={event=>{
+            // Explicit navigation avoids a WebKit/Safari 3D-flip blur cancelling
+            // the default anchor activation before the destination is opened.
+            if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+            event.preventDefault();
+            activatingLink.current=true;
+            window.location.assign(event.currentTarget.href);
+          }}>
           {lang==='es'?'Explorar servicio':'Explore service'} <ArrowRight size={17} aria-hidden="true"/>
         </a>
       </div>
