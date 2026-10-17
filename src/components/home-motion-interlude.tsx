@@ -57,6 +57,12 @@ export function HomeMotionInterlude({lang='en'}:{lang?:Lang}) {
   const inkWatcher=new MutationObserver(syncHeadingContrast);
   inkWatcher.observe(el,{attributes:true,attributeFilter:['style']});
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Avoid a second WebGL renderer and third-party 3D download on resource-limited
+  // devices; the native SVG + scroll-linked day/night gradient stays visible.
+  const device=navigator as Navigator & { deviceMemory?:number; connection?:{saveData?:boolean} };
+  const lowPower=Boolean(device.connection?.saveData ||
+    (typeof device.deviceMemory==='number' && device.deviceMemory<=4) ||
+    (typeof navigator.hardwareConcurrency==='number' && navigator.hardwareConcurrency<=4));
   // Native scroll scene remains functional even when the 3D engine or network is unavailable.
   const clamp=(v:number)=>Math.min(1,Math.max(0,v));
   const mix=(a:number,b:number,t:number)=>a+(b-a)*t;
@@ -92,8 +98,8 @@ export function HomeMotionInterlude({lang='en'}:{lang?:Lang}) {
   paintFallback();
   const load=()=>{
    watcher.disconnect();
-   if(reduced)return;
-   import(/* @vite-ignore */ '/assets/tle-home-time-of-day.js?v=20261016-house-detail3')
+   if(reduced||lowPower)return;
+   import(/* @vite-ignore */ '/assets/tle-home-time-of-day.js?v=20261017-idle-gpu')
     .then(mod=>{
      if(cancelled||typeof mod.mountTimeOfDay!=='function')return;
      dispose=mod.mountTimeOfDay(el);

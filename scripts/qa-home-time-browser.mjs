@@ -4,7 +4,7 @@ import { execFileSync } from 'node:child_process';
 const f=p=>readFileSync(p,'utf8');
 const en=f('src/routes/index.tsx'),es=f('src/routes/es.index.tsx');
 const css=f('src/components/home-motion-interlude.css'),mod=f('public/assets/tle-home-time-of-day.js');
-assert(en.includes('<BookingSection/><HomeMotionInterlude lang="en"/><ProcessSection/>'),'English sequence');
+assert(en.includes('<HomeMotionInterlude lang="en"/><ProcessSection/>'),'English chapter precedes process in current home');
 assert(es.includes('<HomeMotionInterlude lang="es"/>'),'Spanish sequence');
 assert(css.includes('@media(prefers-reduced-motion:reduce)'),'reduced-motion');
 assert(mod.includes('160*3')&&mod.includes('RoomEnvironment'),'real Three.js scene');

@@ -135,6 +135,7 @@ export function mountTimeOfDay(root){
   const w=Math.max(holder.clientWidth,1),h=Math.max(holder.clientHeight,1);
   renderer.setSize(w,h,false);
   camera.aspect=w/h;camera.fov=w<600?43:37;camera.updateProjectionMatrix();
+  requestFrame();
  }
  function paint(n,p){
   let top,bottom;
@@ -164,28 +165,35 @@ export function mountTimeOfDay(root){
   camera.lookAt(0,.80,0);
   rootGroup.rotation.y=.10+Math.sin(p*Math.PI)*.1;
   const step=Math.min(3,Math.floor(p*4+.09));
-  if(index)index.textContent='0'+(step+1);
-  root.dataset.activeStep=String(step);
+  const label='0'+(step+1);
+  if(index && index.textContent!==label)index.textContent=label;
+  if(root.dataset.activeStep!==String(step))root.dataset.activeStep=String(step);
  }
  function tick(now){
   raf=0;if(dead||!visible)return;
   progress=scrollProgress();
-  // Time-corrected smoothing works even with slow software-rendered WebGL frames.
+  // Keep the original scroll smoothing, but never render 60fps forever
+  // after the viewer stops scrolling. Resume on the next passive scroll event.
   const dt=lastFrame?Math.min(1250,now-lastFrame):16.667;
   lastFrame=now;
   smoothed+=(progress-smoothed)*(1-Math.pow(.925,dt/16.667));
+  const settled=Math.abs(progress-smoothed)<.0005;
+  if(settled)smoothed=progress;
   const n=nightKeyframe(smoothed);
   paint(n,smoothed);
   renderer.render(scene,camera);
-  raf=requestAnimationFrame(tick);
+  if(!settled)raf=requestAnimationFrame(tick);
+  else lastFrame=0;
  }
- function start(){if(dead||reduced)return;visible=true;lastFrame=0;if(!raf)raf=requestAnimationFrame(tick)}
- function stop(){visible=false;if(raf)cancelAnimationFrame(raf);raf=0}
+ function requestFrame(){if(!dead&&visible&&!reduced&&!raf)raf=requestAnimationFrame(tick)}
+ function start(){if(dead||reduced)return;visible=true;lastFrame=0;requestFrame()}
+ function stop(){visible=false;if(raf)cancelAnimationFrame(raf);raf=0;lastFrame=0}
  const observer=new IntersectionObserver(entries=>{if(entries[0]?.isIntersecting&&document.visibilityState==='visible')start();else stop()},{rootMargin:'250px'});
  observer.observe(root);
  const resizeObserver=typeof ResizeObserver!=='undefined'?new ResizeObserver(resize):null;
  resizeObserver?.observe(holder);
  window.addEventListener('resize',resize,{passive:true});
+ window.addEventListener('scroll',requestFrame,{passive:true});
  const visibility=()=>{if(document.visibilityState==='visible'&&root.getBoundingClientRect().bottom>0&&root.getBoundingClientRect().top<window.innerHeight)start();else stop()};
  document.addEventListener('visibilitychange',visibility);
  resize();
@@ -196,7 +204,7 @@ export function mountTimeOfDay(root){
  if(reduced){root.dataset.evening='true';root.style.background='linear-gradient(160deg,#567aa3,#243f66)'}
  return ()=>{
   dead=true;stop();observer.disconnect();resizeObserver?.disconnect();
-  window.removeEventListener('resize',resize);document.removeEventListener('visibilitychange',visibility);
+  window.removeEventListener('resize',resize);window.removeEventListener('scroll',requestFrame);document.removeEventListener('visibilitychange',visibility);
   root.style.removeProperty('background');delete root.dataset.render;delete root.dataset.evening;
   scene.traverse(obj=>{if(obj.isMesh||obj.isPoints){geometries.add(obj.geometry);if(Array.isArray(obj.material))obj.material.forEach(m=>materials.add(m));else materials.add(obj.material)}});
   for(const g of geometries)g.dispose();

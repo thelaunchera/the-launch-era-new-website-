@@ -125,8 +125,12 @@ export function ProcessSteps({ lang = 'en' }: { lang?: Language }) {
       if (pending) queueMicrotask(() => changeStep(pending.next, pending.index));
     };
 
+    // A full-page ViewTransition snapshot can glitch and stall lower-powered phones.
+    // Keep the accessible dialog and all its data, but use instant image switching
+    // on small touch viewports instead of two GPU-heavy page snapshots.
+    const animateDetail = !reduceMotion() && window.innerWidth >= 768;
     const browser = document as TransitionDocument;
-    if (!reduceMotion() && typeof browser.startViewTransition === 'function') {
+    if (animateDetail && typeof browser.startViewTransition === 'function') {
       document.documentElement.classList.add('tle-process-transitioning');
       try {
         const transition = browser.startViewTransition(update);
@@ -138,7 +142,7 @@ export function ProcessSteps({ lang = 'en' }: { lang?: Language }) {
     }
 
     // FLIP fallback: the same visual grows from its measured thumbnail rectangle.
-    if (!opening && !reduceMotion() && from && detailHero.current?.animate) {
+    if (!opening && animateDetail && from && detailHero.current?.animate) {
       const target = sourceThumbs.current[index]?.getBoundingClientRect();
       if (target) {
         const dx = target.left - from.left;
@@ -152,7 +156,7 @@ export function ProcessSteps({ lang = 'en' }: { lang?: Language }) {
       }
     }
     update();
-    if (opening && !reduceMotion() && from && detailHero.current?.animate) {
+    if (opening && animateDetail && from && detailHero.current?.animate) {
       const target = detailHero.current.getBoundingClientRect();
       const dx = from.left - target.left;
       const dy = from.top - target.top;
