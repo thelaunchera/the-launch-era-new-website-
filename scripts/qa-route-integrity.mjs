@@ -33,7 +33,7 @@ function existsRoute(pathname){
    const builder=readFileSync(join(root,'scripts/build_demo_photo_assets.py'),'utf8');
    const name=posix.basename(path,'.webp');
    const sourceTable=path.includes('demo-cleaning-20261017')?'DEMO_CLEANING_PHOTOS':path.includes('demo-work-gallery')?'WORK_GALLERY_PHOTOS':'PHOTOS';
-   const part=builder.split(sourceTable+' = {')[1]?.split('\\n}')[0]||'';
+   const part=builder.split(sourceTable+' = {')[1]?.split('}')[0]||'';
    if(part.includes('"'+name+'":')||part.includes("'"+name+"':"))return true;
  }
  return false;
