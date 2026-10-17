@@ -334,7 +334,7 @@ body.tle-jessy-demo-open{overflow:hidden!important}
 .tle-jessy-root .tle-jessy-note{font-size:12px;line-height:1.5}
 .tle-jessy-root .tle-jessy-demo-card{
  position:relative;isolation:isolate;display:block;width:min(100%,450px);height:220px;
- margin:11px 0 16px;padding:0;overflow:hidden;clip-path:inset(0 round 20px);
+ margin:11px 0 16px;padding:0;overflow:hidden;
  border:1px solid #b9d7e8;border-radius:20px;background:#191919;
  color:#fff;text-align:left;text-decoration:none;cursor:pointer;
  box-shadow:0 12px 28px rgba(28,74,103,.16);
