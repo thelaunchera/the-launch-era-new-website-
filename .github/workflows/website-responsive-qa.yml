@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'scripts/qa-booking-demo.mjs'
+      - 'scripts/qa-responsive-current.mjs'
       - 'public/booking-demo/index.html'
       - 'public/booking/return/index.html'
       - 'public/base-booking.html'
@@ -44,8 +44,8 @@ jobs:
           done
           echo "The current Booking Page is not live yet"
           exit 1
-      - name: Test website at mobile, tablet and desktop widths
-        run: node scripts/qa-booking-demo.mjs
+      - name: Test current pages, interactions, and safe mocked email at four widths
+        run: node scripts/qa-responsive-current.mjs
         env:
           QA_URL: https://thelaunchera.com
       - name: Upload visual QA captures
