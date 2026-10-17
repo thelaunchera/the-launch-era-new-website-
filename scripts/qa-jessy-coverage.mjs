@@ -192,7 +192,7 @@ for (const [message,previous,focus,expected] of requests)
  assert.equal(planContext.wantsAiPlanComparison(message,previous,focus),expected,message);
 const offers=JSON.parse(text("public/assets/jessy-offers.json")).offers;
 const ids=["ai-booking","ai-followup","ai-business"];
-const amounts=[39,19,59],monthly=[14,6.99,19];
+const amounts=[25,19,39.99],monthly=[14,6.99,19];
 for(let i=0;i<ids.length;i++){
  const p=offers.find(o=>o.id===ids[i]);
  assert.ok(p,"missing AI plan "+ids[i]);
