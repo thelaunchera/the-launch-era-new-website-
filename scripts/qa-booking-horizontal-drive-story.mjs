@@ -113,6 +113,17 @@ try{
   assert.equal(state.cards,4);
   assert(state.contentWidth>state.viewWidth*3,'Keep 4 distinct photo cards and intro');
   assert(state.docWidth<=width+4,'No horizontal page overflow '+JSON.stringify({lang,state}));
+  const geometry=await section.evaluate(el=>{
+   const v=el.querySelector('.booking-story-window').getBoundingClientRect();
+   const slide=el.querySelector('.booking-story-intro-panel').getBoundingClientRect();
+   const bar=el.querySelector('.booking-story-progress-wrap').getBoundingClientRect();
+   const nav=el.querySelector('#bookingStoryNav').getBoundingClientRect();
+   return {window:v.toJSON(),slide:slide.toJSON(),progress:bar.toJSON(),nav:nav.toJSON()};
+  });
+  assert(geometry.slide.left>=geometry.window.left-2,'Intro must not be cropped at start '+JSON.stringify(geometry));
+  assert(geometry.slide.right<=geometry.window.right+2,'Intro must fit inside one mobile viewport '+JSON.stringify(geometry));
+  assert(geometry.progress.top>=geometry.window.bottom-2,'Progress must sit BELOW cards, not across their text '+JSON.stringify(geometry));
+  assert(geometry.nav.top>=geometry.progress.bottom-2,'Arrows must sit below progress, outside the photo '+JSON.stringify(geometry));
   assert.equal(await page.locator('#bookingStoryCount').innerText(),'1 / 5');
   const first=await section.evaluate(el=>el.querySelector('.booking-story-window').scrollLeft);
   const sectionTop=await section.evaluate(el=>window.scrollY+el.getBoundingClientRect().top);
@@ -139,7 +150,7 @@ try{
      return Math.max(0,Math.min(v.right,r.right)-Math.max(v.left,r.left))/v.width;
     });
    });
-   assert(photo[n-1]>.64,'Each selected image remains visible; no blank section '+JSON.stringify({n,photo}));
+   assert(photo[n-1]>.90,'One full card must be visible after each arrow, not two half cards '+JSON.stringify({n,photo}));
   }
   assert.equal(await page.locator('#bookingStoryNext').isDisabled(),true,'End at fourth photo');
   await page.locator('#bookingStoryPrev').click();
