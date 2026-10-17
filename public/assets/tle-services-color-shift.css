@@ -81,7 +81,11 @@
 }
 @media (max-width: 767px) {
   .solutions-section[data-services-color-shift] .sol-color-nav {
-    top: 7px;
+    /* Sticky navigation covered the first lines of cards while swiping on iPhone.
+       Keep the progress pill in normal flow so it never overlays readable content. */
+    position: relative;
+    top: auto;
+    z-index: 1;
     width: 100%;
     padding: 9px 12px;
     margin-bottom: 22px;
