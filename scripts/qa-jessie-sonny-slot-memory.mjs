@@ -35,7 +35,7 @@ assert.equal(commercial.commercial_space_type,"Other");
 assert.equal(commercial.commercial_space_description,"Restaurant");
 assert.equal(commercial.square_feet,2500);
 assert.equal(commercial.frequency,"weekly");
-assert.match(source,/msg\\.length<1/, "Single-number visitor answers must be accepted by the API");
+assert.match(source,/msg\.length<1/, "Single-number visitor answers must be accepted by the API");
 assert.deepEqual(helpers.shortNumericAnswer("5","Visitor: It's a house\\nAssistant: Great—how many bedrooms does the house have?"),{bedrooms:5});
 assert.deepEqual(helpers.shortNumericAnswer("2","Visitor: 5\\nAssistant: And how many bathrooms?"),{bathrooms:2});
 assert.deepEqual(helpers.shortNumericAnswer("5","Visitor: What can you do?"),{}, "Do not guess a field without a matching previous question");
