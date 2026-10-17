@@ -11,6 +11,7 @@ on:
       - 'public/assets/tle-booking-bundle.js'
       - 'public/booking-bundle/index.html'
       - 'scripts/qa-smart-welcome-home*'
+      - 'scripts/qa-smart-welcome-flyer-fallback.mjs'
       - '.github/workflows/tle-smart-welcome-home-qa.yml'
   pull_request:
     branches: [main]
@@ -23,6 +24,7 @@ on:
       - 'public/assets/tle-booking-bundle.js'
       - 'public/booking-bundle/index.html'
       - 'scripts/qa-smart-welcome-home*'
+      - 'scripts/qa-smart-welcome-flyer-fallback.mjs'
       - '.github/workflows/tle-smart-welcome-home-qa.yml'
   workflow_dispatch:
 permissions:
