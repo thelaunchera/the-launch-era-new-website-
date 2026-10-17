@@ -57,6 +57,8 @@ try {
         overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth,
         beforeWidth:before.width,proofWidth:proof.width,
         lastCompareBottom:document.querySelector('.booking-compare-card:last-child').getBoundingClientRect().bottom,
+        areasTop:document.getElementById('bookingServiceAreas').getBoundingClientRect().top,
+        areasBottom:document.getElementById('bookingServiceAreas').getBoundingClientRect().bottom,
         firstReviewTop:document.querySelector('.booking-review:first-child').getBoundingClientRect().top,
         firstReviewTopCode:document.querySelector('#bookingReview1Mark')?.textContent,
         disclosureBelow:document.getElementById('bookingProofDesc').getBoundingClientRect().top>
@@ -71,8 +73,10 @@ try {
     assert(r.overflow<=3,'Horizontal overflow '+JSON.stringify(r));
     assert.equal(await page.locator('.booking-compare-card').count(),3,'Matched Before/After missing');
     assert.equal(await page.locator('.booking-review').count(),3,'The three original illustrative demo review cards are missing');
-    assert(r.firstReviewTop>r.lastCompareBottom&&r.firstReviewTop-r.lastCompareBottom<275,
-      'Reviews must appear shortly after the matched photo comparisons without the previous excessive gap '+JSON.stringify(r));
+    assert(r.areasTop>r.lastCompareBottom&&r.areasTop-r.lastCompareBottom<275,
+      'Sample service areas must follow the comparisons without a dead gap '+JSON.stringify(r));
+    assert(r.firstReviewTop>r.areasBottom&&r.firstReviewTop-r.areasBottom<275,
+      'Review-style proof should follow the new service-area module without a dead gap '+JSON.stringify(r));
     assert(r.disclosureBelow,'Review cards should appear before the truthful illustrative disclosure');
     assert.match(r.firstReviewTopCode,lang==='es'?/OPCIONES CLARAS/:/CLEAR CHOICES/,
       'Original cards and their label must be localized EN ES');
