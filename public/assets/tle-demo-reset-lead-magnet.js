@@ -109,8 +109,12 @@
       service:selected,
       businessName:business,
       homeType:active?.dataset.kind==='residential'
-        ? input('beds')+' bedrooms · '+input('baths')+' bathrooms'
-        : input('spaceType'),
+        ? [input('propertyType'),input('beds')+' bedrooms',input('baths')+' bathrooms',input('squareFeet')?input('squareFeet')+' sq ft':''].filter(Boolean).join(' · ')
+        : [input('spaceType'),input('squareFeet')?input('squareFeet')+' sq ft':''].filter(Boolean).join(' · '),
+      propertyType:active?.dataset.kind==='residential'?input('propertyType'):input('spaceType'),
+      squareFeet:input('squareFeet'),
+      bedrooms:active?.dataset.kind==='residential'?input('beds'):'',
+      bathrooms:active?.dataset.kind==='residential'?input('baths'):'',
       freq:freq,
       estimate:price ? 'Est. $'+price : 'Custom quote',
       estimateValue:price,
