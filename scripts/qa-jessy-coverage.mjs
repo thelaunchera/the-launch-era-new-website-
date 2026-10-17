@@ -200,6 +200,31 @@ for(let i=0;i<ids.length;i++){
  assert.ok(p.price_en.includes("$"+monthly[i]+"/month"),"monthly price mismatch");
  assert.ok(p.checkout==="/service-checkout/?offer="+ids[i],"incorrect checkout");
 }
+// Lock the entire approved bilingual catalog, not only the three AI plans.
+const approvedCatalog=[
+ ["booking","$15","$15"],
+ ["website","$35","$35"],
+ ["va","$25/month","$25/mes"],
+ ["ai-booking","$25","$25"],
+ ["ai-followup","$19","$19"],
+ ["ai-business","$39","$39"]
+];
+for(const [id,en,es] of approvedCatalog){
+ const p=offers.find(o=>o.id===id);
+ assert.ok(p,"Missing approved offer "+id);
+ assert.ok(p.price_en.includes(en),"Outdated English price for "+id);
+ assert.ok(p.price_es.includes(es),"Outdated Spanish price for "+id);
+}
+const booking=offers.find(o=>o.id==="booking");
+assert.ok(booking.price_en.includes("$49.99")&&booking.price_es.includes("$49.99"),"Approved booking regular price comparison missing");
+assert.ok(booking.price_en.includes("40%")&&booking.price_es.includes("40%"),"40% bundle activation discount must remain available");
+const finalPrices=JSON.parse(text("public/assets/jessy-offers.json"));
+assert.ok(finalPrices.constraints.bundles.includes("40%"),"Bundle discount description removed");
+assert.ok(!/\\$(?:12\\.99|31\\.99|24\\.99|41\\.99|39\\.99|6\\.99)/.test(approvedCatalog.map(([id])=>{
+ const p=offers.find(o=>o.id===id);return p.price_en+" "+p.price_es;
+}).join(" ")),"Jessie catalog must not contain retired public offer prices");
+console.log("PASS Jessie all final EN/ES prices, booking regular comparison, and existing 40% bundle promotion");
+
 console.log("PASS Jessie 3 AI plans, exact EN/ES prices, specific checkout and no default AI selection");
 
 
