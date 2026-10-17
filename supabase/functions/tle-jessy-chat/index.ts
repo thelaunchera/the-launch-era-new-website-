@@ -341,6 +341,20 @@ function helpfulNextAction(message,id){
  // Ordinary questions get an actual answer instead of repeating the same sales buttons.
  return "none";
 }
+function nextActionFromIntent(message,id,history){
+ const direct=helpfulNextAction(message,id);
+ if(direct!=="none")return direct;
+ const q=norm(message).replace(/[¿?¡!.,:;]+/g," ").replace(/\s+/g," ").trim();
+ // A short positive follow-up refers to the last offered action, not a fresh product pitch.
+ if(!/^(?:yes|yes please|sure|okay|ok|yep|show me|send it|let me see|sounds good|si|claro|dale|perfecto|muestramelo|enviamelo|si por favor)$/.test(q))return "none";
+ const last=[...history].reverse().find(h=>h.role==="assistant")?.message||"";
+ const earlier=norm(last);
+ if(id==="cleaning-app"&&/(?:30[ -]?day|30 dias|free trial|prueba gratis)/.test(earlier))return "trial";
+ if(/\b(?:demo|preview|sample|demostracion|ejemplo)\b/.test(earlier))
+  return id==="booking"?"demo":id==="cleaning-app"?"app_demo":!id?"demo_choice":"none";
+ if(id==="cleaning-app"&&/\b(?:trial|prueba)\b/.test(earlier))return "trial";
+ return "none";
+}
 function guide(msg,lang,catalog,id){
  const es=lang==="es";const row=catalog.find(a=>a[0]===id);
  const s=norm(msg);let reply;
@@ -524,7 +538,7 @@ Deno.serve(async(req)=>{
  if(checkout&&checkout.startsWith("/service-checkout/")&&!checkout.includes("lang="))checkout+="&lang="+lang;
  if(id==="booking")checkout="/service-checkout/?offer=booking-flow&lang="+lang;
   if(isCombo)checkout="/booking-bundle/?lang="+lang;
- const nextAction=priceQuestion&&!isBusinessCleaningPriceQuestion(message)?"checkout":helpfulNextAction(message,id);
+ const nextAction=nextActionFromIntent(message,id,history);
  // Avoid implying the Cleaning App requires any demo capture form.
  if(nextAction==="demo_choice"){
   finalReply=lang==="es"
