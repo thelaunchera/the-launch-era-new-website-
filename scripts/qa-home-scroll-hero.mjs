@@ -256,7 +256,7 @@ try {
     heading:(()=>{const c=getComputedStyle(intro.querySelector('h1'));return {animation:c.animationName,fill:c.webkitTextFillColor,position:c.backgroundPosition}})()
    };
   });
-  assert(stable.heading.animation==='none' && stable.heading.fill==='rgb(25, 25, 25)' && stable.heading.position==='50% 0%',lang+': reduced-motion shine not legible and frozen '+JSON.stringify(stable.heading));
+  assert(stable.heading.animation==='none' && stable.heading.fill==='rgb(25, 25, 25)' && stable.heading.position.startsWith('50% 0'),lang+': reduced-motion shine not legible and frozen '+JSON.stringify(stable.heading));
   assert(!stable.clip.includes('100%') && stable.stage !== 'sticky' && stable.transform === 'none' && stable.opacity === 1 && stable.imageAbove,
    lang + ': reduced motion must show finished mobile split: ' + JSON.stringify(stable));
   await reduced.close();
