@@ -10,6 +10,11 @@ const html=read('public/booking-demo-reset.html');
 const demoCss=read('public/assets/tle-booking-bubbles-continuity.css');
 const demoInkCss=read('public/assets/tle-demo-ink-service-cards.css');
 assert(demoInkCss.includes('service-flip-front .service')&&demoInkCss.includes('#191919'),'Demo ink style must remain scoped');
+assert(html.includes('family=Cormorant+Garamond')&&html.includes('family=Manrope')&&html.includes('rel="preload" as="style"'),'Both fonts must load without blocking local CSS');
+assert(demoInkCss.includes("'Cormorant Garamond'")&&demoInkCss.includes("'Manrope'"),'Two editorial font families must be used consistently');
+assert(demoInkCss.includes('.flow-header')&&demoInkCss.includes('rgba(92,131,153,.45)'), 'Outer wizard should have a light slate-blue frame, not a hard black stroke');
+assert(demoInkCss.includes('.service-flip-front .service-detail')&&demoInkCss.includes('.disclaimer'),'Only redundant descriptions should be minimized, not sample disclosures');
+
 assert(read('scripts/build_demo_photo_assets.py').includes('1D56-v3lVV6FpBqW3FqYH442kiPVvjlLT'),'Office demo must use approved commercial cleaning photo from Drive');
 assert(en.includes('ServiceFlipCard')&&es.includes('ServiceFlipCard'),'Both public languages use flipping service cards');
 assert(component.includes('inert={!open}')&&component.includes('inert={open}'),'Only visible card face can be focused');
@@ -101,7 +106,31 @@ try {
     photoHeight:photo.getBoundingClientRect().height,
     copyBottom:el.getBoundingClientRect().bottom-copy.getBoundingClientRect().bottom};
   });
-  assert.equal(visual.border,'rgb(25, 25, 25)','Card should have refined black ink border');
+  const editorial=await page.evaluate(()=>{
+    const shell=document.querySelector('#bookingPage .flow');
+    const heading=document.getElementById('flowTitle');
+    const ui=document.getElementById('resTab');
+    const hidden=document.querySelector('#resServices .service-detail');
+    const body=document.getElementById('sampleWarning');
+    const legal=document.getElementById('footerNote');
+    const f=getComputedStyle(shell);
+    return {border:f.borderTopColor,borderWidth:parseFloat(f.borderTopWidth),
+     headingFont:getComputedStyle(heading).fontFamily,
+     uiFont:getComputedStyle(ui).fontFamily,
+     redundant:getComputedStyle(hidden).display,
+     warning:getComputedStyle(body).display,
+     pricing:getComputedStyle(legal).display,
+     overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth};
+  });
+  assert(editorial.border.includes('92, 131, 153')&&editorial.borderWidth<1.5,
+   'Wizard outline should be softly blue-grey '+JSON.stringify(editorial));
+  assert(editorial.headingFont.includes('Cormorant Garamond'), 'The heading needs elegant display typography');
+  assert(editorial.uiFont.includes('Manrope'), 'Inputs and controls should use readable Manrope');
+  assert.equal(editorial.redundant,'none','Remove cluttering service caption');
+  assert.notEqual(editorial.warning,'none','Keep demo-only disclosure visible');
+  assert.notEqual(editorial.pricing,'none','Keep transparent sample-price disclaimer');
+  assert(editorial.overflow<=4,'No horizontal overflow '+JSON.stringify(editorial));
+  assert.equal(visual.border,'rgba(25, 25, 25, 0.42)','Photo keeps a readable black-ink edge without a heavy stroke');
   assert.equal(visual.photoPosition,'absolute','Photo should fill card instead of a top banner');
   assert.equal(visual.copyPosition,'absolute','Service text should overlay photo, not use a separate banner');
   assert.equal(visual.titleColor,'rgb(255, 255, 255)','Photo headline needs contrast');
