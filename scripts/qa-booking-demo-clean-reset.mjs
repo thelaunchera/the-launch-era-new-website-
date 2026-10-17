@@ -140,7 +140,13 @@ try{
    await firstFlip.locator('.service-flip-select').click();
    assert.equal(await page.locator('#detailsPanel').isVisible(),true,'Back CTA must advance to booking details');
    assert.equal(await page.locator('#chooseNext').isVisible(),false,'No far-away Continue control');
+   assert.equal(await page.locator('#intakeContact').evaluate(el=>el.open),true,'Only the compact contact accordion is initially expanded');
+   assert.equal(await page.locator('#intakeSpace').evaluate(el=>el.open),false,'Property details start compact');
+   assert.equal(await page.locator('#intakeSchedule').evaluate(el=>el.open),false,'Calendar starts compact');
    await page.locator('#intakeSpace > summary').click();
+   assert.equal(await page.locator('#intakeContact').evaluate(el=>el.open),false,'Expanding property closes contact');
+   await page.locator('#propertyType').selectOption('townhouse');
+   await page.locator('#squareFeet').fill('1850');
    assert.equal(await page.locator('input[name="demo-beds"]:checked').inputValue(),'2');
    assert.equal(await page.locator('input[name="demo-baths"]:checked').inputValue(),'1');
    assert.equal(await page.locator('input[name="demo-frequency"]:checked').inputValue(),'one');
@@ -172,6 +178,8 @@ try{
    await page.locator('#reviewNext').click();
    await page.locator('#reviewPanel').waitFor({state:'visible'});
    assert.match(await page.locator('#reviewList').innerText(),/Sample Customer/);
+   assert.match(await page.locator('#reviewList').innerText(),/1850 sq ft/,'Review includes entered square footage');
+   assert.match(await page.locator('#reviewList').innerText(),lang==='es'?/Casa adosada/:/Townhouse/,'Review includes the home type');
    assert.match(await page.locator('#reviewList').innerText(),lang==='es'?/Mascotas en casa/:/Pets at home/,'Requested details appear on review screen');
    assert.match(await page.locator('#reviewList').innerText(),lang==='es'?/Interior del horno/:/Inside oven/,'Requested oven service appears without adding to estimated price');
    await page.locator('#finish').click();
@@ -181,7 +189,7 @@ try{
      'Lead magnet must retain demo Command Center handoff');
    const saved=await page.evaluate(()=>[...Object.keys(sessionStorage)]
      .filter(k=>k.startsWith('tleSampleBooking:')).map(k=>JSON.parse(sessionStorage.getItem(k))));
-   assert(saved.some(x=>x.demoOnly&&x.name==='Sample Customer'
+   assert(saved.some(x=>x.demoOnly&&x.name==='Sample Customer'&&x.propertyType==='townhouse'&&x.squareFeet==='1850'
      &&x.extras?.includes('petsLabel')&&x.extras?.includes('ovenLabel')
      &&(lang==='es'?x.notes.includes('Mascotas en casa'):x.notes.includes('Pets at home'))),
      'Sample Command Center handoff should include optional checkbox requests, no real writes');
