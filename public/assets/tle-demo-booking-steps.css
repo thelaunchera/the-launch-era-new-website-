@@ -89,3 +89,52 @@
  #bookingPage .booking-progress-line>span,#bookingPage .booking-progress-dot{transition:none!important;transform:none!important}
  #bookingPage .booking-progress-item.is-current .booking-progress-dot{outline:3px solid #2d80ac;outline-offset:2px}
 }
+
+/* Public unkeyed demo only: compact native, keyboard-accessible intake accordions.
+   All fields and sample calendar remain in the original Step 2 form. */
+#bookingPage .demo-intake{display:grid;gap:10px;margin-top:13px;min-width:0}
+#bookingPage .demo-intake-section{
+  min-width:0;border:1px solid #bfd7e6;border-radius:18px;overflow:clip;
+  background:#f9fcfe;box-shadow:0 3px 12px rgba(28,89,130,.035)
+}
+#bookingPage .demo-intake-section[open]{background:white;border-color:#83b9d8;box-shadow:0 7px 22px rgba(47,119,159,.08)}
+#bookingPage .demo-intake-section>summary{
+  display:flex;align-items:center;gap:11px;min-height:64px;list-style:none;cursor:pointer;
+  padding:11px 15px;color:#1f4963;user-select:none;touch-action:manipulation
+}
+#bookingPage .demo-intake-section>summary::-webkit-details-marker{display:none}
+#bookingPage .demo-intake-section>summary:focus-visible{outline:3px solid #2b7ca9;outline-offset:-4px;border-radius:15px}
+#bookingPage .demo-intake-index{display:grid;place-items:center;flex:0 0 31px;width:31px;height:31px;border-radius:11px;background:#e7f3fb;color:#245c7f;font:800 11px Prompt,Arial,sans-serif}
+#bookingPage .demo-intake-section[open] .demo-intake-index{background:#2e719a;color:white}
+#bookingPage .demo-intake-heading{display:grid;gap:3px;flex:1;min-width:0}
+#bookingPage .demo-intake-heading strong{font:750 clamp(14px,1.65vw,17px)/1.2 Prompt,Arial,sans-serif;letter-spacing:-.02em}
+#bookingPage .demo-intake-heading small{font:500 11px/1.35 Arial,sans-serif;color:#688499}
+#bookingPage .demo-intake-chevron{flex:0 0 9px;width:9px;height:9px;border-right:2px solid #487998;border-bottom:2px solid #487998;transform:rotate(45deg);transition:transform .23s ease;margin-right:6px}
+#bookingPage .demo-intake-section[open] .demo-intake-chevron{transform:rotate(225deg)}
+#bookingPage .demo-intake-body{padding:5px 15px 16px;border-top:1px solid #edf3f7;min-width:0}
+#bookingPage .demo-intake-section:not([open])>.demo-intake-body{display:none}
+#bookingPage .demo-intake .fields{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#bookingPage .demo-intake .fields>.full{grid-column:1/-1}
+#bookingPage .demo-intake-fields>label.field{margin:0}
+#bookingPage .demo-intake .field input,#bookingPage .demo-intake .field select{min-height:44px}
+#bookingPage .demo-intake .field textarea{min-height:72px;resize:vertical}
+#bookingPage .demo-intake .demo-property-type{padding:0;margin:0;gap:0}
+#bookingPage .demo-intake .demo-property-type>label{grid-column:1/-1}
+#bookingPage .demo-property-area small{display:block;color:#6b8290;font-size:11px;font-weight:500}
+#bookingPage .demo-intake .choice-options{gap:5px}
+#bookingPage .demo-intake .choice-check span{min-height:41px}
+#bookingPage .demo-intake .booking-extras{margin-top:2px;padding:12px}
+#bookingPage #appointmentMount{min-width:0}
+#bookingPage .demo-intake-schedule .demo-intake-body{padding:0 8px 9px}
+#bookingPage .demo-intake-schedule #tleBookingAppointment{width:100%;margin:0!important;max-width:100%}
+#bookingPage #apptSheetPropertyRow[hidden]{display:none!important}
+@media(max-width:700px){
+ #bookingPage .demo-intake-section>summary{min-height:60px;padding:10px 12px}
+ #bookingPage .demo-intake-body{padding:6px 12px 13px}
+ #bookingPage .demo-intake .fields{grid-template-columns:minmax(0,1fr);gap:12px}
+ #bookingPage .demo-intake .fields>.full{grid-column:1}
+ #bookingPage .demo-intake .choice-check span{min-height:42px}
+ #bookingPage .demo-intake .demo-property-area{width:100%}
+ #bookingPage .demo-intake-schedule .demo-intake-body{padding:0 4px 8px}
+}
+@media(prefers-reduced-motion:reduce){#bookingPage .demo-intake-chevron{transition:none}}
