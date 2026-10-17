@@ -503,7 +503,7 @@ body .booking-proof-disclosure{
  #bookingBubbleStory .booking-story-window{
   height:auto;max-width:100%;overflow-x:auto!important;overflow-y:hidden;
   scroll-snap-type:x mandatory;scroll-padding-inline:16px;
-  -webkit-overflow-scrolling:touch;touch-action:pan-x;
+  -webkit-overflow-scrolling:touch;touch-action:auto;
  }
  #bookingBubbleStory .booking-bubble-steps{
   gap:14px;height:clamp(380px,65svh,550px);
