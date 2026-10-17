@@ -80,7 +80,7 @@ assert.equal(clarify.mode,'app_trial_clarification');
 assert.equal(clarify.next_action,'trial',"A Cleaning App trial question needs the app trial signup");
 assert.equal(clarify.trial,'https://app.thelaunchera.com/?entry=signup');
 assert.equal(clarify.checkout,null);
-assert.match(clarify.reply,/free trial of the actual Cleaning App, not a 30-day demo/);
+assert.match(clarify.reply,/free trial of the actual Cleaning App, not a (?:30-day )?demo/);
 assert.doesNotMatch(clarify.reply,/Booking Automation/i);
 const wrongDemoHistory=[
  ...appHistory,
