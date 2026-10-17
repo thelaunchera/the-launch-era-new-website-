@@ -81,8 +81,8 @@
  if(!fineprint||!name||!price||!cadence||!desc||!checkout||!badge||!live)return;
  const choiceMap={
   booking:{en:['AI Booking Assistant','$25','$14/month','Answers booking questions.','Choose Booking AI →'],es:['AI Booking Assistant','$25','$14/mes','Responde preguntas de reservas.','Elegir IA de reservas →']},
-  business:{en:['AI Business Assistant','$39.99','$19/month','Booking and follow-up assistants together.','Choose both agents →'],es:['AI Business Assistant','$39.99','$19/mes','Reservas y seguimiento en un solo plan.','Elegir ambos agentes →']},
-  followup:{en:['AI Follow-Up Assistant','$19','$6.99/month','Follows up with leads who gave consent.','Choose Follow-Up AI →'],es:['AI Follow-Up Assistant','$19','$6.99/mes','Da seguimiento a contactos que dieron su consentimiento.','Elegir seguimiento →']}
+  business:{en:['AI Business Assistant','$39','$19/month','Booking and follow-up assistants together.','Choose both agents →'],es:['AI Business Assistant','$39','$19/mes','Reservas y seguimiento en un solo plan.','Elegir ambos agentes →']},
+  followup:{en:['AI Follow-Up Assistant','$19','$7/month','Follows up with leads who gave consent.','Choose Follow-Up AI →'],es:['AI Follow-Up Assistant','$19','$7/mes','Da seguimiento a contactos que dieron su consentimiento.','Elegir seguimiento →']}
  };
  const es=document.documentElement.lang.toLowerCase().startsWith('es');
  const l=es?'es':'en';
@@ -113,7 +113,7 @@
    badge.classList.add('is-popping');
   }else badge.classList.remove('is-popping');
   live.textContent=saves
-   ?(es?'Ahorra $23.88 en 12 meses de mensualidades al elegir ambos agentes juntos frente a contratarlos por separado.':'Save $23.88 over 12 months of monthly charges compared with buying both assistants separately.')
+   ?(es?'Ahorra $24 en 12 meses de mensualidades al elegir ambos agentes juntos frente a contratarlos por separado.':'Save $24 over 12 months of monthly charges compared with buying both assistants separately.')
    :(es?'Plan '+choice[0]+'. Instalación '+choice[1]+'; luego '+choice[2]+'.':'Plan '+choice[0]+'. '+choice[1]+' setup, then '+choice[2]+'.');
   if(focus)activeRadio.focus();
  }
