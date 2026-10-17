@@ -35,7 +35,9 @@ const services=[
  {title:'Virtual Assistant',landing:'/es/virtual-assistant/',description:'Apoyo detrás de escena para que no todo dependa de ti.',image:assistant,tag:'MÁS APOYO. MENOS CARGA',points:["Apoyo administrativo cotidiano","Información de clientes organizada","Ayuda según tus necesidades"]}];
 const notices=[
  ['PÁGINA DE RESERVAS','ahora','Nueva solicitud','Una persona quiere una cotización de limpieza.',CalendarCheck2],
- ['COMMAND CENTER','hace 12 min','Seguimiento enviado','Tu cliente recibió un recordatorio amable.',Send]
+ ['COMMAND CENTER','hace 12 min','Seguimiento enviado','Tu cliente recibió un recordatorio amable.',Send],
+ ['COTIZACIONES','ejemplo','Cotización lista','Revisa el siguiente paso en un lugar.',ClipboardList],
+ ['PÁGINA DE RESERVAS','ejemplo','Reserva confirmada','Otro trabajo en el calendario.',CircleCheck]
 ] as const;
 const flow=[['NUEVO LEAD','Llega una solicitud de reserva.','Los detalles entran en un solo lugar.',CalendarCheck2],['ORGANIZADO','Se guarda en tu Command Center.','Cada consulta tiene su lugar. Sin buscar entre mensajes.',ClipboardList],['SEGUIMIENTO','El próximo paso sigue avanzando.','Un seguimiento claro mantiene la conversación viva.',Send]] as const;
 function SpanishContact(){
@@ -106,7 +108,7 @@ function SpanishHome(){const [active,setActive]=useState(0);const [heroLoaded,se
  </div>
  <div className="hero-split-visual">
  <img ref={heroImageRef} className="hero-main-image" src={cleaner} alt="Profesional de limpieza trabajando en una casa luminosa, con luz natural" width={1920} height={1024} loading="eager" fetchPriority="high" decoding="sync" onLoad={()=>setHeroLoaded(true)} onError={()=>setHeroLoaded(true)}/>
- <div className="hero-notice-flow" aria-label="Notificaciones de ejemplo; no muestran actividad real">
+ <div className="hero-notice-flow" aria-hidden="true">
    {notices.map(([app,when,title,text,Icon],i)=><div className={`notification notice-${i+1}`} key={title}>
      <span className="notice-icon" aria-hidden="true"><Icon size={17}/></span>
      <div className="notice-body"><div className="notice-meta"><span>{app}</span><time>{when}</time></div><strong>{title}</strong><p>{text}</p></div>
