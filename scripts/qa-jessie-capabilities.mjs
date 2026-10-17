@@ -63,4 +63,44 @@ assert.equal(conciseText(complete,"verified_price"),complete,"Pricing replies mu
 assert.ok(widget.includes("const limit=words.length;"),"Typing animation must show all words, not jump after 32");
 assert.ok(!source.includes("if(explainCall)finalReply+="),"Avoid unsolicited 1:1 call add-on");
 assert.ok(source.includes('if(choice?.finish_reason==="length")return null;'),"Handle incomplete AI generation safely");
+// Conversion regression: ready-to-buy intent must win over demo/AI comparisons.
+const intentStart=source.indexOf("function wantsCheckoutNow(");
+const intentEnd=source.indexOf("function compactAiReply(",intentStart);
+assert.ok(intentStart>=0&&intentEnd>intentStart,"Server checkout intent matcher missing");
+const wantCheckout=vm.runInNewContext(source.slice(intentStart,intentEnd)+"\n;wantsCheckoutNow",
+ {norm,serviceIds:new Set(["booking","ai-booking","ai-followup","ai-business","cleaning-app","website","va","whatsapp"])});
+const checkoutCases=[
+ ["I'm ready to buy Booking Automation","booking",true],
+ ["I'm ready to purchase","ai-booking",true],
+ ["Estoy lista para comprar","booking",true],
+ ["I want to purchase the AI plan","ai-plans",true],
+ ["I'm ready","booking",true],
+ ["Let's do it","booking",true],
+ ["I already purchased it","booking",false],
+ ["Not ready to buy, show me the demo","booking",false],
+ ["When I'm ready to buy, what's next?","booking",false],
+ ["No estoy lista para comprar","booking",false],
+ ["Can I see a demo?","booking",false],
+ ["How much is it?","booking",false]
+];
+for(const [message,selected,wanted] of checkoutCases)
+ assert.equal(wantCheckout(message,[],selected),wanted,"Checkout intent incorrect for: "+message);
+assert.ok(source.includes("if(!wantsCheckoutNow(message,history,prior)&&wantsAiPlanComparison("),
+ "Ready buyers must bypass plan-comparison sales text");
+assert.ok(source.includes('mode:"purchase_ready"')&&source.includes("Hurray! 🥳"),
+ "Ready buyers must receive a celebratory direct-checkout response");
+assert.ok(source.includes('mode:"purchase_select_ai"'),"Buyers comparing AI plans must choose a plan");
+const purchaseStart=widget.indexOf("function purchaseReady(message){");
+const purchaseEnd=widget.indexOf("function conciseText(",purchaseStart);
+assert.ok(purchaseStart>=0&&purchaseEnd>purchaseStart,"Website fallback checkout matcher missing");
+const widgetPurchase=vm.runInNewContext(widget.slice(purchaseStart,purchaseEnd)+"\n;purchaseReady");
+assert.equal(widgetPurchase("I'm ready to buy"),true);
+assert.equal(widgetPurchase("Not ready to buy, show me a demo"),false);
+assert.equal(widgetPurchase("I already purchased it"),false);
+assert.ok(widget.includes('actions(checkout,info,null,result.mode==="purchase_ready")'),
+ "Ready-to-pay checkout must not suggest a second demo/how-it-works action");
+assert.ok(widget.includes('if(!checkoutOnly)options.push({prompt:'),
+ "Ready-to-pay response must display only its payment CTA");
+console.log("Jessie buying-intent QA passed: "+checkoutCases.length+" server cases, website fallback and EN/ES conversion.");
+
 console.log("Jessie capabilities and full-reply QA passed: "+(yes.length+no.length)+" intents, two languages.");
