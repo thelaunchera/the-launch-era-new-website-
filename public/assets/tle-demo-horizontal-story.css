@@ -18,13 +18,13 @@ body .booking-horizontal-track{
  display:flex!important;grid-template-columns:none!important;
  flex-wrap:nowrap!important;align-items:stretch!important;gap:clamp(14px,2.3vw,32px);
  padding-inline:max(20px,4vw);padding-block:8px;
- width:max-content;max-width:none;min-width:0;
+ width:100%;max-width:100%;min-width:0;
  overflow-x:auto;overscroll-behavior-x:contain;
  scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
  will-change:auto;box-sizing:border-box;
 }
 body .booking-horizontal-story.is-gsap-active .booking-horizontal-track{
- overflow:visible;scroll-snap-type:none;will-change:transform;
+ width:max-content;max-width:none;overflow:visible;scroll-snap-type:none;will-change:transform;
 }
 body .booking-horizontal-intro,
 body .booking-horizontal-card{
