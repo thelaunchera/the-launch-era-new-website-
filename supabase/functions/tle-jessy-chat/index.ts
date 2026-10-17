@@ -276,10 +276,15 @@ function wantsCheckoutNow(message,history,prior){
 }
 function compactAiReply(input){
  const answer=String(input||"").replace(/\*\*/g,"").replace(/\s*\n+\s*/g," ").replace(/\s+/g," ").trim();
- if(answer.length<=295)return answer;
- const pieces=answer.split(/(?<=[.!?])\s+(?=[A-ZÁÉÍÓÚ¿¡])/),short=pieces.slice(0,2).join(" ");
- if(short.length>=25&&short.length<=295)return short;
- const cut=answer.slice(0,290);return cut.slice(0,cut.lastIndexOf(" "))+"…";
+ // Prefer compact, complete thoughts; never append an ellipsis to a cut-off sentence.
+ if(answer.length<=720)return answer;
+ const sentences=answer.match(/[^.!?]+[.!?]+(?:["'”’])?/g)||[];
+ let complete="";
+ for(const sentence of sentences){
+  if((complete+sentence).length>720)break;
+  complete+=sentence;
+ }
+ return complete.trim().length>=30?complete.trim():answer;
 }
 function helpfulNextAction(message,id){
  const q=norm(message);
@@ -323,7 +328,8 @@ async function aiResponse(msg,history,lang,cat,focus){
  const facts=knowledgeForModel(msg,focus,lang);
  const instructions=[
   "You are Jessy, the friendly bilingual public website assistant for The Launch Era, serving cleaning business owners.",
-  "Respond only in "+(lang==="es"?"Spanish":"English")+". Be friendly, human and direct. Use at most TWO short sentences (45 words), with at most one relevant next step. No numbered procedures, markdown, lists, repeated explanations or long sales pitches. You are an AI assistant, not a human employee.",
+  "Respond only in "+(lang==="es"?"Spanish":"English")+". Be friendly, human and clear. Usually write 2-3 complete short sentences (about 35-65 words; up to 80 if answering more than one question), with at most one relevant next step. Never leave an answer unfinished. No numbered procedures, markdown, lists, repeated explanations or long pitches. You are an AI assistant, not a human employee.",
+  "Lead with the direct answer, explain the practical benefit relevant to the visitor's real cleaning-business problem, and say what happens next only if helpful. Be specific about what the verified service can do; do not imply guaranteed results. Avoid abrupt one-line fragments, empty marketing slogans and unnecessary sales questions.",
   "First respond to the actual question or concern. Acknowledge what the visitor told you in their own words without parroting them. Ask at most ONE relevant, easy follow-up question when it would improve the advice; do not ask questions just to keep talking.",
   "Understand their situation before recommending a service: missed or scattered booking requests -> Booking Automation; inquiries lost through an existing website -> Website Automation; repeated booking questions -> AI Booking Assistant; consent-based lead follow-ups -> AI Follow-Up Assistant; disorganized jobs, invoices and customers -> Cleaning App. These are guidance, not automatic guarantees; use only the approved feature knowledge.",
   "When a visitor is uncertain, explain the difference between no more than two relevant services; ask one practical question to identify the biggest bottleneck. Do not push checkout in every reply. You CAN offer to show an existing interactive sample when the visitor asks how Booking Automation or the Cleaning App works.",
@@ -354,11 +360,14 @@ async function aiResponse(msg,history,lang,cat,focus){
   const r=await fetch(provider.url,{
    method:"POST",
    headers:{"Content-Type":"application/json","Authorization":"Bearer "+provider.key},
-   body:JSON.stringify({model:provider.model,messages,temperature:0.35,max_tokens:provider.name==="groq"?220:180,...(provider.name==="groq"?{reasoning_effort:"low"}:{})}),
+   body:JSON.stringify({model:provider.model,messages,temperature:0.35,max_tokens:provider.name==="groq"?360:300,...(provider.name==="groq"?{reasoning_effort:"low"}:{})}),
    signal:AbortSignal.timeout(10000)
   });
   if(!r.ok){console.warn("jessy_ai_response_unavailable",provider.name,r.status);return null;}
-  const d=await r.json(),answer=compactAiReply(clean(d.choices?.[0]?.message?.content,650));
+  const d=await r.json(),choice=d.choices?.[0];
+  // An output capped by the model is not a complete customer-facing answer.
+  if(choice?.finish_reason==="length")return null;
+  const answer=compactAiReply(clean(choice?.message?.content,2000));
   return answer.length>=10?answer:null;
  }catch(error){console.warn("jessy_ai_response_timeout_or_error",provider.name);return null;}
 }
@@ -443,11 +452,7 @@ Deno.serve(async(req)=>{
   finalReply=alternate?.[lang]||
     (lang==="es"?"Quiero responder justo lo que preguntas, no repetirte lo mismo. ¿Te refieres al precio, una función o cómo se configura?":"I want to answer what you actually asked, not repeat myself. Do you mean the price, a feature or how setup works?");
  }
- // Mention the post-purchase call as an onboarding benefit, NOT a pre-sale offer.
- const explainCall=isServiceExplanation(message)&&id!=="whatsapp"&&!/20[ -]?minute 1:1 call|20 minutos|20-minute 1:1 call/i.test(finalReply);
- if(explainCall)finalReply+=" "+(lang==="es"
-  ?"Después de comprar un servicio, si lo deseas, puedes solicitar una llamada 1:1 opcional de 20 minutos para aclarar dudas sobre tu configuración. No es obligatoria; el equipo coordina el horario tras verificar tu pedido."
-  :"After purchasing a service, you can optionally request a 20-minute 1:1 call if you'd like help walking through your setup. It's not required; the team coordinates a time after verifying your order.");
+ // The optional post-purchase call is discussed only when visitors ask about calls or setup guidance.
  let checkout=row?.[6]||null;
  if(id==="whatsapp"||id==="cleaning-app")checkout=null;
  if(checkout&&checkout.startsWith("/service-checkout/")&&!checkout.includes("lang="))checkout+="&lang="+lang;
