@@ -17,6 +17,8 @@ assert(script.includes('section.style.backgroundColor = theme.bg'), 'Native fall
 assert(script.includes("observer.observe(document.documentElement"), 'React route remount handling missing');
 for (const shade of ['#FAF8F3', '#D7EFFF', '#316C95', '#173F59', '#EAF4FC']) assert(script.includes(shade), 'Missing palette tone ' + shade);
 assert(css.includes('[data-services-color-shift]') && css.includes('prefers-reduced-motion'), 'Scoped style or motion preference missing');
+assert(css.includes('position: relative;') && css.includes('top: auto;'),'Mobile progress nav must not overlay card text');
+
 console.log('[SERVICES COLOR STATIC QA PASSED] Script mounted in root, six real service cards preserved, native fallback, GSAP, EN/ES and reduced motion.');
 if (!process.argv.includes('--browser')) process.exit(0);
 
@@ -79,6 +81,11 @@ try {
        };
      });
      assert(!safe.navClipped, lang + ' ' + width + ': new progress control extends offscreen: ' + JSON.stringify(safe));
+     if(width<768){
+       const navPosition=await section.locator('.sol-color-nav').evaluate(el=>getComputedStyle(el).position);
+       assert.equal(navPosition,'relative',lang+' mobile progress pill must scroll above cards instead of covering text');
+     }
+
      assert.equal(safe.cardCount,6);
      if (safe.documentOverflow) console.log('[PRE-EXISTING PAGE OVERFLOW — separate from service color effect]',lang,width);
      if (width === 390 || width === 1440) await page.screenshot({path:'qa-screenshots/services-colors-'+lang+'-'+width+'.png'});
