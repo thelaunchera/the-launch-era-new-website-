@@ -176,7 +176,7 @@ try {
     assert(state.phoneGeometry.visual.height >= 339, lang + ' ' + viewport.width + ': photo still too short');
     assert(state.phoneGeometry.visual.width >= viewport.width - 26, lang + ' ' + viewport.width + ': photo not wide enough');
     assert(state.phoneGeometry.visual.left >= -1 && state.phoneGeometry.visual.right <= viewport.width + 1, lang + ': picture escapes viewport');
-    assert(state.phoneGeometry.splitLinkHeight <= 73, lang + ': split CTA reserves too much vertical space');
+    assert(state.phoneGeometry.splitLinkHeight >= 90 && state.phoneGeometry.splitLinkHeight <= 95, lang + ': animated split CTA lost its full touch area');
     assert(state.phoneGeometry.visual.top - state.phoneGeometry.revealBottom < 28, lang + ': excess white space above photo');
     assert(state.phoneGeometry.cards.length === 2, lang + ': mobile shows wrong number of notification chips');
     assert(state.phoneGeometry.cards.every(c=>c.width <= 211), lang + ': mobile chips still oversized');
