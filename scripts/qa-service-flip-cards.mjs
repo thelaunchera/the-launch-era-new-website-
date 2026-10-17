@@ -7,14 +7,9 @@ const en=read('src/components/editorial-sections.tsx'),es=read('src/routes/es.in
 const component=read('src/components/service-flip-card.tsx');
 const css=read('src/components/service-flip-card.css');
 const html=read('public/booking-demo-reset.html');
-const demoCss=read('public/assets/tle-booking-bubbles-continuity.css');
-const demoInkCss=read('public/assets/tle-demo-ink-service-cards.css');
-assert(demoInkCss.includes('service-flip-front .service')&&demoInkCss.includes('#191919'),'Demo ink style must remain scoped');
-assert(html.includes('family=Cormorant+Garamond')&&html.includes('family=Manrope')&&html.includes('rel="preload" as="style"'),'Both fonts must load without blocking local CSS');
-assert(demoInkCss.includes("'Cormorant Garamond'")&&demoInkCss.includes("'Manrope'"),'Two editorial font families must be used consistently');
-assert(demoInkCss.includes('.flow-header')&&demoInkCss.includes('rgba(92,131,153,.45)'), 'Outer wizard should have a light slate-blue frame, not a hard black stroke');
-assert(demoInkCss.includes('.service-flip-front .service-detail')&&demoInkCss.includes('.disclaimer'),'Only redundant descriptions should be minimized, not sample disclosures');
-
+// Private Booking Automation is never served as unprotected public markup.
+assert(html.includes('tle-booking-demo-gate')&&html.includes('id="authStep"'),'Private access shell is required');
+assert(!html.includes('id="bookingPage"'),'Service cards and booking data must not be public');
 assert(read('scripts/build_demo_photo_assets.py').includes('1D56-v3lVV6FpBqW3FqYH442kiPVvjlLT'),'Office demo must use approved commercial cleaning photo from Drive');
 assert(en.includes('ServiceFlipCard')&&es.includes('ServiceFlipCard'),'Both public languages use flipping service cards');
 assert(component.includes('inert={!open}')&&component.includes('inert={open}'),'Only visible card face can be focused');
@@ -24,10 +19,6 @@ assert(component.includes('window.location.assign(event.currentTarget.href)'),'E
 assert(css.includes('.tle-service-flip{height:570px}'),'Mobile front card must have room for complete descriptions and pricing');
 assert(css.includes('transform:none!important;transition:none!important;transform-style:flat'),'Touch devices must avoid 3D link hit-testing');
 
-assert.equal((html.match(/data-flip-card data-service=/g)||[]).length,6,'All six demo services must flip');
-assert.equal((html.match(/class="service-flip-select"/g)||[]).length,6,'Only six demo back faces may advance booking');
-assert(!html.includes('service-photo-check'),'Do not reintroduce squares over photos');
-assert(demoCss.includes('perspective:900px')&&demoCss.includes('760ms')&&demoCss.includes('prefers-reduced-motion:reduce'),'Demo spring/reduced motion');
 const base=(process.env.QA_URL||'http://127.0.0.1:4173').replace(/\/$/,'');
 const browser=await chromium.launch({headless:true});
 try {
@@ -85,106 +76,23 @@ try {
    console.log('PASS real CTA navigation '+lang+' service '+(i+1));
   }
  }
- for(const width of [360,390,820,1440]){
-  const page=await browser.newPage({viewport:{width,height:850},reducedMotion:'no-preference'});
-  const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));
-  page.on('request',r=>{if(['POST','PATCH','PUT','DELETE'].includes(r.method()))writes.push(r.url())});
-  await page.goto(base+'/booking-demo-reset.html?lang=en',{waitUntil:'domcontentloaded'});
-  const card=page.locator('#resServices .service-flip-card').first();
-  assert.equal(await page.locator('.service-flip-card').count(),6);
-  const visual=await card.locator('.service').evaluate(el=>{
-   const photo=el.querySelector('.service-media');
-   const copy=el.querySelector('.service-copy');
-   const title=el.querySelector('.service-title');
-   const price=el.querySelector('.service-price');
-   return {border:getComputedStyle(el).borderTopColor,
-    photoPosition:getComputedStyle(photo).position,
-    copyPosition:getComputedStyle(copy).position,
-    titleColor:getComputedStyle(title).color,
-    priceColor:getComputedStyle(price).color,
-    cardHeight:el.getBoundingClientRect().height,
-    photoHeight:photo.getBoundingClientRect().height,
-    copyBottom:el.getBoundingClientRect().bottom-copy.getBoundingClientRect().bottom};
-  });
-  const editorial=await page.evaluate(()=>{
-    const shell=document.querySelector('#bookingPage .flow');
-    const heading=document.getElementById('flowTitle');
-    const ui=document.getElementById('resTab');
-    const hidden=document.querySelector('#resServices .service-detail');
-    const body=document.getElementById('sampleWarning');
-    const legal=document.getElementById('footerNote');
-    const f=getComputedStyle(shell);
-    return {border:f.borderTopColor,borderWidth:parseFloat(f.borderTopWidth),
-     headingFont:getComputedStyle(heading).fontFamily,
-     uiFont:getComputedStyle(ui).fontFamily,
-     redundant:getComputedStyle(hidden).display,
-     warning:getComputedStyle(body).display,
-     pricing:getComputedStyle(legal).display,
-     overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth};
-  });
-  assert(editorial.border.includes('92, 131, 153')&&editorial.borderWidth<1.5,
-   'Wizard outline should be softly blue-grey '+JSON.stringify(editorial));
-  assert(editorial.headingFont.includes('Cormorant Garamond'), 'The heading needs elegant display typography');
-  assert(editorial.uiFont.includes('Manrope'), 'Inputs and controls should use readable Manrope');
-  assert.equal(editorial.redundant,'none','Remove cluttering service caption');
-  assert.notEqual(editorial.warning,'none','Keep demo-only disclosure visible');
-  assert.notEqual(editorial.pricing,'none','Keep transparent sample-price disclaimer');
-  assert(editorial.overflow<=4,'No horizontal overflow '+JSON.stringify(editorial));
-  assert.equal(visual.border,'rgba(25, 25, 25, 0.42)','Photo keeps a readable black-ink edge without a heavy stroke');
-  assert.equal(visual.photoPosition,'absolute','Photo should fill card instead of a top banner');
-  assert.equal(visual.copyPosition,'absolute','Service text should overlay photo, not use a separate banner');
-  assert.equal(visual.titleColor,'rgb(255, 255, 255)','Photo headline needs contrast');
-  assert.equal(visual.priceColor,'rgb(255, 255, 255)','Photo quote/price needs contrast');
-  assert(visual.photoHeight>visual.cardHeight*.95,'Photograph should occupy full card '+JSON.stringify(visual));
-  assert(visual.copyBottom>=75,'Photo labels should clear the quote and CTA '+JSON.stringify(visual));
-  assert.equal(await card.locator('.service-flip-back').evaluate(el=>el.inert),true);
-  await card.locator('.service').dispatchEvent('click');
-  assert.equal(await page.locator('#detailsPanel').isVisible(),false,'Flip may not skip to booking form');
-  assert.equal(await card.locator('.service-flip-back').evaluate(el=>el.inert),false);
-  await card.locator('.service-flip-select').click();
-  assert.equal(await page.locator('#detailsPanel').isVisible(),true,'Only deliberate back CTA should open form');
-  assert.deepEqual(writes,[],'Demo flip must not submit a booking');
-  assert.deepEqual(errors,[],width+' JS errors');
+ // Direct, uninvited links reveal only the invitation screen, never Booking demo content.
+ for(const lang of ['en','es']){
+  const page=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});
+  const response=await page.goto(base+'/booking-demo-reset.html?lang='+lang,{waitUntil:'domcontentloaded'});
+  assert.equal(response?.status(),200,'Private demo entry route must exist');
+  await page.waitForFunction(l=>document.documentElement.lang===l,lang);
+  assert.equal(await page.locator('#authStep').isVisible(),true,lang+' must require invitation');
+  assert.equal(await page.locator('.service-flip-card').count(),0,lang+' private service cards must not be public');
+  assert.equal(await page.locator('#bookingPage').count(),0,lang+' private Booking data must not be public');
+  assert((await page.locator('#requestLink').getAttribute('href'))?.includes('/booking-demo/'));
   await page.close();
-  console.log('PASS demo flip '+width);
  }
- // Touch regression: first tap must ONLY reveal service details, second tap
- // anywhere on the description opens the matching Step 2 form (EN and ES).
- for(const lang of ['en','es'])for(const [type,id] of [['residential','standard'],['commercial','retail']]){
-  const page=await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true,reducedMotion:'no-preference'});
-  const errors=[],writes=[];
-  page.on('pageerror',e=>errors.push(e.message));
-  page.on('request',req=>{if(['POST','PUT','PATCH','DELETE'].includes(req.method()))writes.push(req.url())});
-  await page.goto(base+'/booking-demo-reset.html?lang='+lang,{waitUntil:'domcontentloaded'});
-  if(type==='commercial')await page.locator('#comTab').click();
-  const card=page.locator('.service-flip-card[data-service="'+id+'"]');
-  await card.scrollIntoViewIfNeeded();
-  const beforeFlip=await card.evaluate(el=>({height:el.getBoundingClientRect().height,scrollY:window.scrollY}));
-  await card.locator('.service').click();
-  await page.waitForTimeout(850);
-  const afterFlip=await card.evaluate(el=>{
-    const back=el.querySelector('.service-flip-back');
-    return {height:el.getBoundingClientRect().height,scrollY:window.scrollY,
-      backHeight:back.clientHeight,contentHeight:back.scrollHeight,
-      backVisible:back.getBoundingClientRect().height>0};
-  });
-  assert(Math.abs(beforeFlip.scrollY-afterFlip.scrollY)<30,lang+' '+id+' flipping should not unexpectedly scroll the whole page: '+JSON.stringify({beforeFlip,afterFlip}));
-  assert(Math.abs(beforeFlip.height-afterFlip.height)<2,lang+' '+id+' flip must not change card geometry');
-  assert(afterFlip.contentHeight<=afterFlip.backHeight+3,lang+' '+id+' flipped copy/button must not clip or overflow: '+JSON.stringify(afterFlip));
-  assert.equal(await page.locator('#detailsPanel').isVisible(),false,lang+' '+id+' first tap may only flip');
-  assert.equal(await card.locator('.service-flip-back').evaluate(el=>el.inert),false,lang+' '+id+' back must be tappable');
-  await card.locator('.service-flip-back h3').click();
-  assert.equal(await page.locator('#detailsPanel').isVisible(),true,lang+' '+id+' second tap on description must open form');
-  assert.equal(await card.locator('.service').getAttribute('aria-pressed'),'true',lang+' '+id+' correct service must be selected');
-  assert.deepEqual(writes,[],lang+' '+id+' may not send real booking');
-  assert.deepEqual(errors,[],lang+' '+id+' browser errors');
-  await page.close();
-  console.log('PASS two-tap mobile service '+lang+' '+id);
- }
- for(const [route,selector] of [['/','.tle-service-flip'],['/booking-demo-reset.html?lang=es','.service-flip-card']]){
+ for(const [route,selector] of [['/','.tle-service-flip']]){
   const page=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});
   await page.goto(base+route,{waitUntil:'domcontentloaded'});
   const card=page.locator(selector).first();
+  await card.locator('.tle-service-flip__front-button').focus();
   await page.waitForFunction(s=>document.querySelector(s)?.classList.contains('is-flipped'),selector);
   const state=await card.evaluate(el=>{
     const site=el.matches('.tle-service-flip');
@@ -195,5 +103,5 @@ try {
   assert(!state.backInert&&state.transform==='none','Reduced motion should expose final back face without any rotation: '+JSON.stringify(state));
   await page.close();
  }
- console.log('PASS flip cards EN ES demo and reduced motion');
+ console.log('PASS homepage flip cards EN ES, private gate and reduced motion');
 } finally {await browser.close();}
