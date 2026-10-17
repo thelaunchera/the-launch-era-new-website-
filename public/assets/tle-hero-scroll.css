@@ -891,3 +891,71 @@
     translate:none;scale:1;will-change:auto;
   }
 }
+
+/* tle-mobile-hero-photo-balance-20261017
+   More photo, less blank space after the animated booking-flow link.
+   All overrides are mobile-only and preserve the native word-split animation,
+   hero wipe, scroll motion, and separately animated floating UI cards. */
+@media (max-width:767px) {
+  .sales-home .hero-scroll .hero-scroll-reveal,
+  .sales-home .hero-scroll.hero-scroll-revealed .hero-scroll-reveal {
+    padding:0 12px;
+    gap:2px;
+  }
+  .sales-home .hero-scroll .hero-scroll-reveal a.tle-hero-split-link {
+    min-height:66px;
+    padding:7px 8px;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split {
+    padding:0 18px 36px !important;
+    gap:19px;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
+    width:calc(100% + 16px);
+    max-width:none;
+    height:clamp(340px,100vw,430px);
+    min-height:0;
+    margin-inline:-8px;
+    border-radius:20px;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual > img.hero-main-image {
+    object-position:52% 43%;
+  }
+  /* Size the pills themselves; do not scale their transform, which is owned
+     by the existing bob animation and would trigger a visual glitch. */
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notification {
+    width:min(208px,calc(100% - 32px));
+    max-width:calc(100% - 32px);
+    padding:7px 8px;
+    grid-template-columns:27px minmax(0,1fr);
+    gap:7px;
+    border-radius:14px;
+    box-shadow:0 8px 18px rgba(25,48,65,.14),0 2px 5px rgba(25,48,65,.06);
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notice-icon {
+    width:27px;height:27px;border-radius:9px;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notice-icon svg {
+    width:15px;height:15px;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notice-meta {
+    font-size:7px;gap:4px;margin-bottom:2px;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notification strong {
+    font-size:10.5px;line-height:1.2;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notification p {
+    font-size:9px;line-height:1.25;margin-top:2px;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notice-1 {
+    inset:auto auto 88px 12px;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notice-2 {
+    inset:auto auto 13px 17px;
+  }
+}
+@media (max-width:767px) and (prefers-reduced-motion:reduce) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split {
+    padding:0 18px 36px !important;
+  }
+}
