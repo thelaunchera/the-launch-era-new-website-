@@ -28,6 +28,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Build optimized local Drive cleaning photos
+        run: |
+          python3 -m pip install --quiet pillow
+          python3 scripts/build_demo_photo_assets.py
+          for asset in journey-service journey-property journey-schedule journey-review; do
+            test -s "public/assets/demo-cleaning-20261017/$asset.webp"
+          done
       - name: Check sample route integrity and build
         run: |
           node scripts/qa-route-integrity.mjs --static
