@@ -301,6 +301,8 @@ function showDemoCard(id){
  photo.src="/assets/lead-demo/drive-cleaner-kitchen.webp";
  photo.alt="";photo.loading="lazy";photo.decoding="async";
  const shade=node("span","tle-jessy-demo-shade");shade.setAttribute("aria-hidden","true");
+ const bubbles=node("span","tle-jessy-demo-bubbles");bubbles.setAttribute("aria-hidden","true");
+ for(let n=0;n<3;n++)bubbles.append(node("span","tle-jessy-demo-bubble tle-jessy-demo-bubble-"+(n+1)));
  const resting=node("span","tle-jessy-demo-resting");
  resting.append(node("small","",lang==="es"?"PRUEBA EL FLUJO DE RESERVAS":"EXPLORE THE BOOKING FLOW"),node("strong","","Booking Automation"));
  const panel=node("span","tle-jessy-demo-reveal");
@@ -310,9 +312,23 @@ function showDemoCard(id){
   node("span","tle-jessy-demo-summary",lang==="es"?"Explora tu experiencia de reservas.":"Explore your booking experience."),
   node("span","tle-jessy-demo-cta",lang==="es"?"Solicitar mi demo ↗":"Request my demo ↗")
  );
- card.append(photo,shade,resting,panel);
+ card.append(photo,shade,bubbles,resting,panel);
  card.addEventListener("click",event=>{event.preventDefault();openDemo("booking")});
  log.append(card);log.scrollTop=log.scrollHeight;
+ // Touch devices have no hover: reveal the caption deliberately when the card enters
+ // the scrollable chat, without requiring a tap or delaying the actual demo link.
+ const reduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+ const touchCard=window.matchMedia("(hover: none), (pointer: coarse)").matches;
+ if(touchCard&&!reduceMotion&&typeof IntersectionObserver==="function"){
+  const watcher=new IntersectionObserver(entries=>{
+   if(!entries.some(item=>item.isIntersecting&&item.intersectionRatio>=0.35))return;
+   watcher.disconnect();
+   setTimeout(()=>{if(card.isConnected)card.classList.add("is-revealed")},550);
+  },{root:log,threshold:[0,.35,.65]});
+  watcher.observe(card);
+ }else if(touchCard){
+  card.classList.add("is-revealed");
+ }
  return true;
 }
 demoGate.addEventListener("submit",async event=>{
