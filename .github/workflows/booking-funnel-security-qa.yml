@@ -1,0 +1,46 @@
+name: Booking Funnel Security Gate QA
+on:
+  pull_request:
+    paths:
+      - 'public/booking-demo-reset.html'
+      - 'public/lead-demo-tracker.html'
+      - 'supabase/functions/tle-jessie-demo-lead/index.ts'
+      - 'scripts/qa-booking-demo-funnel-gate.mjs'
+      - 'scripts/qa-canonical-demo-email.mjs'
+      - '.github/workflows/booking-funnel-security-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'public/booking-demo-reset.html'
+      - 'public/lead-demo-tracker.html'
+      - 'supabase/functions/tle-jessie-demo-lead/index.ts'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  booking-funnel-security:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check frontend syntax and route access contracts
+        run: |
+          node --check scripts/qa-booking-demo-funnel-gate.mjs
+          node scripts/qa-booking-demo-funnel-gate.mjs
+          node --check scripts/qa-canonical-demo-email.mjs
+          node --disable-warning=ExperimentalWarning scripts/qa-canonical-demo-email.mjs
+          node scripts/qa-route-integrity.mjs --static
+      - name: Live negative-access tests (never create lead, send email or book a job)
+        run: |
+          set -euo pipefail
+          url="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-demo-gate"
+          status=$(curl --max-time 18 -sS -o /tmp/tle-preflight-body -w '%{http_code}' -X OPTIONS -H 'Origin: https://thelaunchera.com' -H 'Access-Control-Request-Method: POST' "$url")
+          test "$status" = "204"
+          status=$(curl --max-time 18 -sS -o /tmp/tle-no-rid-body -w '%{http_code}' -H 'Origin: https://thelaunchera.com' -H 'Content-Type: application/json' -d '{"action":"content","rid":"","session":""}' "$url")
+          test "$status" = "403"
+          status=$(curl --max-time 18 -sS -o /tmp/tle-fake-rid-body -w '%{http_code}' -H 'Origin: https://thelaunchera.com' -H 'Content-Type: application/json' -d '{"action":"content","rid":"00000000-0000-4000-8000-000000000001","session":"0000000000000000000000000000000000000000000000000000000000000000"}' "$url")
+          test "$status" = "403"
+          echo "PASS: no funnel ID and nonexistent ID denied, CORS preflight works."
