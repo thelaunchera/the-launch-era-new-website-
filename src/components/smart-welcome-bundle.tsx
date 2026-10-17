@@ -20,8 +20,8 @@ export function SmartWelcomeBundle({ lang = 'en' }: Props) {
   const href = '/booking-bundle/?lang=' + lang + '&bundle=ai-booking&source=smart-welcome';
   const cta = es ? 'Ver el paquete' : 'Get the bundle';
   const footnote = es
-    ? '40% de descuento en la activación conjunta de Booking + AI Assistant. El plan mensual de IA mantiene su precio normal después de los primeros 30 días desde la entrega. El total se confirma antes de pagar.'
-    : '40% off the combined Booking + AI Assistant activation. Regular AI monthly pricing follows after the first 30 days from delivery. Your total is confirmed before payment.';
+    ? '40% menos en la activación conjunta. La mensualidad normal de IA comienza después de 30 días desde la entrega. Ves el total antes de pagar.'
+    : '40% off combined activation. Regular AI monthly pricing starts 30 days after delivery. See your total before paying.';
 
   useEffect(() => {
     const controller = new AbortController();
@@ -92,7 +92,7 @@ export function SmartWelcomeBundle({ lang = 'en' }: Props) {
         <div className="tle-bundle-inline-text">
           <span className="tle-bundle-inline-kicker">{es ? 'OFERTA DE ACTIVACIÓN CONJUNTA' : 'LIMITED-TIME COMBINED ACTIVATION'}</span>
           <h2>{es ? 'Un poco más de ayuda para tu negocio.' : 'A little extra help for your cleaning business.'}</h2>
-          <p>{es ? 'Booking + Command Center, con AI Assistant opcional. El 40% de descuento aplica solo a la activación conjunta. La mensualidad estándar del AI Assistant se cobra después de los primeros 30 días desde la entrega.' : 'Booking + Command Center, with an optional AI Assistant. The 40% discount applies to the combined activation only. Standard AI monthly pricing still applies after the first 30 days from delivery.'}</p>
+          <p>{es ? 'Booking + Command Center y AI opcional. 40% menos en la activación conjunta; mensualidad normal de IA después de 30 días desde la entrega.' : 'Booking + Command Center with optional AI. 40% off combined activation; regular AI monthly pricing after 30 days from delivery.'}</p>
         </div>
       </div>
       <a className="tle-bundle-inline-cta" href={href}>{es ? 'Ver paquete' : 'Explore the bundle'} <span aria-hidden="true">↗</span></a>
