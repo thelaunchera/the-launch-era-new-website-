@@ -45,9 +45,9 @@
 }
 #bookingPage .booking-step-viewport[hidden]{display:none!important}
 #bookingPage .booking-step-track{
- --step:0;position:relative;display:flex;align-items:flex-start;
+ --slide-offset:0%;position:relative;display:flex;align-items:flex-start;
  width:300%;min-width:0;max-width:none;
- will-change:transform;transform:translateX(calc(var(--step)*-100%/3));
+ will-change:transform;transform:translateX(var(--slide-offset,0%));
  transition:transform 560ms cubic-bezier(.32,.72,0,1);
 }
 #bookingPage .booking-step-pane{
