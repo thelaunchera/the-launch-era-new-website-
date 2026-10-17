@@ -596,18 +596,20 @@
   window.addEventListener('resize',sizeActivePane,{passive:true});
   const intakeSections=[...document.querySelectorAll('#demoIntake .demo-intake-section')];
   function openIntake(id){
-    intakeSections.forEach(section=>{section.open=section.id===id;});
+    const target=$(id);
+    if(!target)return;
+    // Close other panels first, then open the target. Repeated toggle events
+    // must never close the calendar as the user is being directed to it.
+    intakeSections.forEach(section=>{if(section!==target)section.open=false;});
+    target.open=true;
     requestAnimationFrame(sizeActivePane);
   }
-  // Exclusive, accessible native accordions. Values persist while folded.
+  // Native details name groups keep one section open; JS keeps layout sized.
   intakeSections.forEach(section=>{
     section.querySelector('summary')?.addEventListener('click',()=>{
       if(!section.open)intakeSections.filter(other=>other!==section).forEach(other=>{other.open=false;});
     });
-    section.addEventListener('toggle',()=>{
-    if(section.open)intakeSections.filter(other=>other!==section).forEach(other=>{other.open=false;});
-    requestAnimationFrame(sizeActivePane);
-    });
+    section.addEventListener('toggle',()=>requestAnimationFrame(sizeActivePane));
   });
   $('squareFeet').addEventListener('input',event=>{
     const el=event.currentTarget;
@@ -818,11 +820,20 @@
     openIntake('intakeSchedule');
     if(calendar&&nativeDate.closest('label')?.hidden){
       const focusDay=()=>{
-        calendar.scrollIntoView({block:'start',behavior:'auto'});
-        $('apptDays')?.querySelector('button[data-day]:not(:disabled)')?.focus({preventScroll:true});
+        if(step!==2)return;
+        if(!$('intakeSchedule').open)openIntake('intakeSchedule');
+        const day=$('apptDays')?.querySelector('button[data-day]:not(:disabled)');
+        if(day){
+          calendar.scrollIntoView({block:'nearest',behavior:'auto'});
+          day.focus({preventScroll:true});
+        }
       };
-      focusDay();
-      requestAnimationFrame(focusDay);
+      // Allow the native <details> layout and its toggle event to settle
+      // before focusing a calendar button, especially on iPhone/Safari.
+      requestAnimationFrame(()=>requestAnimationFrame(focusDay));
+      setTimeout(()=>{
+        if(step===2&&!$('apptDays')?.contains(document.activeElement))focusDay();
+      },100);
     }else{
       nativeDate.focus();nativeDate.reportValidity();
     }
