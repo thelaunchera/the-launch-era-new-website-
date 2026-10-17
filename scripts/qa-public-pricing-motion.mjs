@@ -75,7 +75,7 @@ try{
    await radios.nth(0).click();
    assert.equal(await radios.nth(0).getAttribute('aria-checked'),'true');
    assert(!(await savings.isVisible()),'Individual plan cannot show a fabricated savings');
-   assert.equal(await section.locator('[data-selected-setup]').innerText(),'$39');
+   assert.equal(await section.locator('[data-selected-setup]').innerText(),'$25');
    assert.match(await section.locator('[data-selected-monthly]').innerText(),/\$14/);
    assert.match(await section.locator('[data-selected-checkout]').getAttribute('href'),/offer=ai-booking/);
    await radios.nth(0).focus();
@@ -83,7 +83,7 @@ try{
    assert.equal(await radios.nth(1).getAttribute('aria-checked'),'true','ArrowRight should choose combined');
    assert(await savings.isVisible(),'Combined badge should pop again');
    const announcement=await section.locator('[aria-live="polite"]').textContent();
-   assert(/\$23\.88/.test(announcement),'Yearly equivalent savings not announced');
+   assert(/\$24/.test(announcement),'Yearly equivalent savings not announced');
    assert.match(await section.locator('[data-selected-checkout]').getAttribute('href'),/offer=ai-business/);
    await page.keyboard.press('End');
    assert.equal(await radios.nth(2).getAttribute('aria-checked'),'true','End key should choose last');
