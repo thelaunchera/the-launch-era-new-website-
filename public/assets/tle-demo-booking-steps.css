@@ -127,7 +127,7 @@
 #bookingPage #appointmentMount{min-width:0}
 #bookingPage .demo-intake-schedule .demo-intake-body{padding:0 8px 9px}
 #bookingPage .demo-intake-schedule #tleBookingAppointment{width:100%;margin:0!important;max-width:100%}
-#bookingPage #apptSheetPropertyRow[hidden]{display:none!important}
+#apptSheetPropertyRow[hidden]{display:none!important}
 @media(max-width:700px){
  #bookingPage .demo-intake-section>summary{min-height:60px;padding:10px 12px}
  #bookingPage .demo-intake-body{padding:6px 12px 13px}
