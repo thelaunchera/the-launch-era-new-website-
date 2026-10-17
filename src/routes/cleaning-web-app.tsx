@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { SeoStructuredData, cleaningAppSchema } from '@/components/seo-structured-data';
 import { CleaningAppEditorial } from '../components/cleaning-app-editorial';
 
 export const Route = createFileRoute('/cleaning-web-app')({
@@ -22,4 +23,4 @@ export const Route = createFileRoute('/cleaning-web-app')({
   component: Page
 });
 
-function Page() { return <CleaningAppEditorial lang="en"/>; }
+function Page() { return <><SeoStructuredData data={cleaningAppSchema("en")} /><CleaningAppEditorial lang="en"/></>; }
