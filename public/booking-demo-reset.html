@@ -661,7 +661,13 @@
     // After the first tap flips the card, a second tap anywhere on its
     // description (not the return arrow) enters this specific service form.
     // Keep the visible Continue button working for keyboard and touch users.
-    card.querySelector('.service-flip-back').addEventListener('click',event=>{
+    // Remember where the gesture began: Safari may move focus and flip
+    // before it dispatches the first tap's click. That first tap must NOT book.
+    card.addEventListener('pointerdown',event=>{
+      card.dataset.tapStartedFront=String(!card.classList.contains('is-flipped')||front.contains(event.target));
+    });
+    card.addEventListener('click',event=>{
+      if(card.dataset.tapStartedFront==='true')return;
       if(event.target instanceof Element && event.target.closest('button'))return;
       if(card.classList.contains('is-flipped'))chooseService(front);
     });
