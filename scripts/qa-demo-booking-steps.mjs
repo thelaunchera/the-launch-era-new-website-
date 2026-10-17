@@ -16,7 +16,7 @@ for(const id of keys)for(let j=1;j<=3;j++)assert(h.includes('data-i18n="scope_'+
 assert(css.includes('560ms')&&css.includes('prefers-reduced-motion:reduce'),'Animated progress and reduced-motion safety required');
 assert(css.includes('overflow:hidden')&&css.includes('translateX(var(--slide-offset'),'True clipped three-panel slide track required');
 assert(h.includes('inert=complete||n!==next')&&h.includes('bookingProgressAnnounce'),'ARIA/inert on off-screen steps required');
-assert(h.includes("if(bad){if(bad.id==='preferredDate')focusPreferredDate();else{bad.focus();bad.reportValidity();}return;}"),'Preserve per-step validation and visible calendar focus');
+assert(h.includes("if(bad){if(bad.id==='preferredDate')focusPreferredDate();else{openIntake('intakeContact');requestAnimationFrame(()=>{bad.focus();bad.reportValidity();});}return;}"),'Preserve per-step validation and visible calendar focus');
 assert(!/gsap|cdn\.jsdelivr|new XMLHttpRequest/i.test(h),'No external libraries or real booking network writes');
 const base=(process.env.QA_URL||'http://127.0.0.1:4173').replace(/\/$/,'');
 const browser=await chromium.launch({headless:true});
