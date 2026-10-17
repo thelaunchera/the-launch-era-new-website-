@@ -5,6 +5,7 @@ import './smart-welcome-bundle.css';
  * The promotion is gated by the existing read-only server pricing endpoint.
  * This component cannot create quotes, purchases, leads or customer records. */
 const ART = '/assets/promo/tle-smart-welcome-bundle-flyer.jpg';
+const ART_ES = '/assets/promo/tle-smart-welcome-bundle-flyer-es.svg';
 const PRICING = 'https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-bundle-checkout';
 const SEEN_KEY = 'tle:bundle-welcome:oct-2026:v1';
 
@@ -110,7 +111,7 @@ export function SmartWelcomeBundle({ lang = 'en' }: Props) {
                 <b>{es ? '40% MENOS EN LA ACTIVACIÓN CONJUNTA' : '40% OFF COMBINED ACTIVATION'}</b>
                 <small>{es ? 'Booking + Command Center y AI Assistant opcional' : 'Booking + Command Center with optional AI Assistant'}</small>
               </div>
-            : <img src={ART} alt={es ? 'Flyer con dos limpiadoras: 40% de descuento en activación conjunta' : 'Flyer featuring two cleaners: 40% off combined activation'} width="1122" height="1402" decoding="async" onError={() => setFlyerFailed(true)}/>}
+            : <img src={es ? ART_ES : ART} alt={es ? 'Flyer en español con dos limpiadoras: 40% menos en la activación conjunta de Booking, Command Center y AI Assistant' : 'Flyer featuring two cleaners: 40% off combined activation'} width="1122" height="1402" decoding="async" onError={() => setFlyerFailed(true)}/>}
         </a>
         <div className="tle-bundle-welcome-footer">
           <a className="tle-bundle-welcome-cta" href={href}>{cta} <span aria-hidden="true">↗</span></a>
