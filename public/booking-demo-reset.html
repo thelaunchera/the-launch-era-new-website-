@@ -613,8 +613,8 @@
     card.classList.toggle('is-flipped',open);
     const front=card.querySelector('.service-flip-front');
     const back=card.querySelector('.service-flip-back');
-    if(front){front.inert=open;front.setAttribute('aria-hidden',String(open));}
-    if(back){back.inert=!open;back.setAttribute('aria-hidden',String(!open));}
+    if(front){front.inert=open;front.setAttribute('aria-hidden',String(open));front.style.pointerEvents=open?'none':'auto';}
+    if(back){back.inert=!open;back.setAttribute('aria-hidden',String(!open));back.style.pointerEvents=open?'auto':'none';}
     if(focusTarget){
       card.dataset.opening='true';
       requestAnimationFrame(()=>{
@@ -646,10 +646,10 @@
         setCardFlip(card,true);
     });
     card.addEventListener('pointerleave',()=>{
-      if(!card.contains(document.activeElement))closeCardFlip(card);
+      if(card.dataset.tapPending!=='true'&&!card.contains(document.activeElement))closeCardFlip(card);
     });
     card.addEventListener('focusout',e=>{
-      if(card.dataset.opening!=='true'&&!card.contains(e.relatedTarget))closeCardFlip(card);
+      if(card.dataset.opening!=='true'&&card.dataset.tapPending!=='true'&&!card.contains(e.relatedTarget))closeCardFlip(card);
     });
     card.addEventListener('keydown',e=>{
       if(e.key==='Escape'&&!reducedMotion.matches){
@@ -658,6 +658,22 @@
       }
     });
     backButton.addEventListener('click',()=>closeCardFlip(card,true));
+    // After the first tap flips the card, a second tap anywhere on its
+    // description (not the return arrow) enters this specific service form.
+    // Keep the visible Continue button working for keyboard and touch users.
+    // Remember where the gesture began: Safari may move focus and flip
+    // before it dispatches the first tap's click. That first tap must NOT book.
+    card.addEventListener('pointerdown',event=>{
+      card.dataset.tapPending='true';
+      card.dataset.tapStartedFront=String(!card.classList.contains('is-flipped')||front.contains(event.target));
+    });
+    card.addEventListener('pointercancel',()=>{delete card.dataset.tapPending});
+    card.addEventListener('click',event=>{
+      delete card.dataset.tapPending;
+      if(card.dataset.tapStartedFront==='true')return;
+      if(event.target instanceof Element && event.target.closest('button'))return;
+      if(card.classList.contains('is-flipped'))chooseService(front);
+    });
     select.addEventListener('click',()=>chooseService(front));
   });
   const syncReducedFlip=()=>flipCards.forEach(card=>setCardFlip(card,reducedMotion.matches));

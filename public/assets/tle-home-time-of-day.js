@@ -163,7 +163,8 @@ export function mountTimeOfDay(root){
   const compact=holder.clientWidth<600;
   camera.position.set((compact?5.9:6.8)+Math.sin(p*Math.PI)*.27,compact?4.65:5.3,compact?7.8:9.1);
   camera.lookAt(0,.80,0);
-  rootGroup.rotation.y=.10+Math.sin(p*Math.PI)*.1;
+  // Restored scroll-linked house turn: show the front and side as the day progresses.
+  rootGroup.rotation.y=.08+.85*ease(p);
   const step=Math.min(3,Math.floor(p*4+.09));
   const label='0'+(step+1);
   if(index && index.textContent!==label)index.textContent=label;

@@ -16,7 +16,7 @@
 .tle-time-art{position:absolute;inset:13% 1% 12% 27%;z-index:1;display:grid;place-items:center}
 .tle-time-art canvas{position:absolute;inset:0;display:block;width:100%;height:100%;opacity:0;transition:opacity .4s}
 .tle-day-night[data-render="webgl"] .tle-time-art canvas{opacity:1}
-.tle-time-fallback{width:min(100%,680px);max-height:100%;filter:drop-shadow(0 20px 35px rgba(23,54,83,.14));transition:opacity .3s}
+.tle-time-fallback{width:min(100%,680px);max-height:100%;filter:drop-shadow(0 20px 35px rgba(23,54,83,.14));transform:perspective(900px) rotateY(var(--tle-house-turn,0deg));transform-origin:center;transition:transform .22s ease-out,opacity .3s}
 .tle-day-night[data-render="webgl"] .tle-time-fallback{opacity:0}
 .tle-time-static-moon{opacity:0}
 .tle-day-night[data-evening="true"] .tle-time-static-sun{opacity:0}
@@ -64,7 +64,7 @@
  .tle-time-heading strong .tle-time-rotator>span{animation:none;opacity:0;transform:none}
  .tle-time-heading strong .tle-time-rotator>span:first-child{opacity:1}
  .tle-day-night{--tle-time-ink:#f8fbff;--tle-time-surface:rgba(249,252,255,.94);background:linear-gradient(150deg,#577eaa,#273f66)!important;transition:none!important}
- .tle-time-fallback{transition:none!important}
+ .tle-time-fallback{transition:none!important;transform:none!important}
  .tle-time-static-sun{opacity:0}
  .tle-time-static-moon{opacity:1}
  .tle-time-static-window{fill:#ffe0a1}
