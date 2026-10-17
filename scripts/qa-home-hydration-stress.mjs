@@ -1,7 +1,7 @@
 /* Strict read-only SSR hydration release gate.
  * 16 fresh browser loads across both language routes and viewport classes.
  * Wait long enough for Jessie, purchase proof and footer enhancement to initialize.
- * Uses the current six-tile ConnectedBookingFlow hub (after the five-note replacement).\n * No bookings, forms, emails, payments or customer records. */
+ * Checks the currently mounted Solutions service flip cards, not a removed BookingSection.\n * No bookings, forms, emails, payments or customer records. */
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
 const base=(process.env.QA_URL||'http://127.0.0.1:4173').replace(/\/$/,'');
@@ -15,22 +15,21 @@ try{
     const errors=[];
     page.on('pageerror',err=>errors.push(err.message));
     await page.goto(base+(lang==='es'?'/es/':'/'),{waitUntil:'domcontentloaded',timeout:45000});
-    // React's private __reactProps keys are not a stable hydration contract.
-    // Verify the actual hydrated user interaction instead of implementation details.
-    const hubTiles=page.locator('.booking-section .tle-connection-hub__tile');
-    await hubTiles.last().waitFor({state:'visible',timeout:15000});
-    assert.equal(await hubTiles.count(),6,'Six real workflow tiles required');
-    await hubTiles.last().click({timeout:12000});
-    await page.waitForFunction(()=>{
-      const tiles=document.querySelectorAll('.booking-section .tle-connection-hub__tile');
-      return tiles.length===6&&tiles[5].getAttribute('aria-pressed')==='true'
-       &&document.querySelector('.booking-section .tle-connected-flow__detail')?.textContent?.includes('06 / 06');
-    },null,{timeout:12000});
+    // Test the live current homepage, not removed BookingSection content.
+    // A flip card must respond to keyboard focus (hydrated React interaction).
+    const flipCards=page.locator('.sales-home .tle-service-flip');
+    await flipCards.first().waitFor({state:'visible',timeout:15000});
+    assert.equal(await flipCards.count(),6,'Six actual service cards expected');
+    await flipCards.first().locator('.tle-service-flip__front-button').evaluate(el=>el.focus());
+    await page.waitForFunction(()=>document.querySelector('.sales-home .tle-service-flip')?.classList.contains('is-flipped'),null,{timeout:12000});
+    assert.equal(await flipCards.first().locator('.tle-service-flip__back').getAttribute('aria-hidden'),'false');
+    await page.keyboard.press('Escape');
+    await page.waitForFunction(()=>!document.querySelector('.sales-home .tle-service-flip')?.classList.contains('is-flipped'),null,{timeout:12000});
     await page.waitForTimeout(1850);
     const details=await page.evaluate(()=>({
       assistant:!!document.querySelector('.tle-jessy-root'),
       heading:!!document.querySelector('.problem-section .tle-mask-headline__base'),
-      buttons:document.querySelectorAll('.booking-section .tle-connection-hub__tile').length,
+      buttons:document.querySelectorAll('.sales-home .tle-service-flip').length,
       overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth
     }));
     const result={lang,width,repeat,errors,details};
