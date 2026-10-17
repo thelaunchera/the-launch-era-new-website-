@@ -5,6 +5,8 @@ on:
       - 'src/components/service-sales.tsx'
       - 'src/routes/booking-lead-automation.tsx'
       - 'src/routes/es.booking-lead-automation.tsx'
+      - 'public/booking-demo/index.html'
+      - 'public/booking-demo-reset.html'
       - 'src/components/service-sales-mobile-cta.css'
       - 'scripts/qa-booking-cross-link-mobile.mjs'
       - '.github/workflows/booking-cross-link-mobile-qa.yml'
@@ -14,6 +16,8 @@ on:
       - 'src/components/service-sales.tsx'
       - 'src/routes/booking-lead-automation.tsx'
       - 'src/routes/es.booking-lead-automation.tsx'
+      - 'public/booking-demo/index.html'
+      - 'public/booking-demo-reset.html'
       - 'src/components/service-sales-mobile-cta.css'
       - 'scripts/qa-booking-cross-link-mobile.mjs'
   workflow_dispatch:
