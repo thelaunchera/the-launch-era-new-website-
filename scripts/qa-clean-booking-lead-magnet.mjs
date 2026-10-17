@@ -106,6 +106,10 @@ try {
    assert.equal(await page.locator('#chooseNext').isVisible(),false);
    await page.locator('#customerName').fill('Demo Test');
    await page.locator('#customerEmail').fill('test@example.invalid');
+   await page.locator('#customerStreet').fill('123 Ocean Drive');
+   await page.locator('#customerUnit').fill('Apt 4B');
+   await page.locator('#customerCity').fill('Miami Beach');
+   await page.locator('#customerState').fill('FL');
    await page.locator('#customerZip').fill('33139');
    await page.locator('#reviewNext').click();
    await page.locator('#propertyType').selectOption('house');
@@ -143,6 +147,10 @@ try {
      await medical.locator('.service-flip-select').click();
     await page.locator('#customerName').fill('Commercial Customer');
     await page.locator('#customerEmail').fill('commercial@example.invalid');
+    await page.locator('#customerStreet').fill('123 Ocean Drive');
+    await page.locator('#customerUnit').fill('Apt 4B');
+    await page.locator('#customerCity').fill('Miami Beach');
+    await page.locator('#customerState').fill('FL');
     await page.locator('#customerZip').fill('33101');
     await page.locator('#reviewNext').click();
     assert.equal(await page.locator('#comDetails').isVisible(),true);
