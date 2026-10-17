@@ -16,7 +16,7 @@ for(const [label,homepage,product,lang] of [
  assert(!homepage.includes('<ConnectedBookingFlow'),label+': retired workflow hub reintroduced');
  assert(homepage.includes('<HomeMotionInterlude lang="'+lang+'"/>'),label+': homepage successor removed');
  assert.match(product,/\$49\.99/,label+': regular booking price missing from product landing');
- assert.match(product,/\$12\.99/,label+': approved $12.99 booking offer missing');
+ assert.match(product,/\$15/,label+': approved $15 booking offer missing');
  assert(product.includes('/booking-bundle/?lang='+lang),label+': product checkout missing');
  assert(product.includes(lang==='es'?'Las 48 horas estimadas de producción':'Estimated 48-hour production'),label+': correct production estimate missing');
  assert(product.includes(lang==='es'?'te enviamos el correo de inicio':'kickoff confirmation'),label+': production should begin after review and email kickoff confirmation');
