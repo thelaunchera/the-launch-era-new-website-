@@ -903,12 +903,13 @@
     gap:2px;
   }
   .sales-home .hero-scroll .hero-scroll-reveal a.tle-hero-split-link {
-    min-height:66px;
+    min-height:90px;
     padding:7px 8px;
   }
   .sales-home .hero-scroll .hero-scroll-frame.hero-split {
     padding:0 18px 36px !important;
     gap:19px;
+    margin-top:-14px;
   }
   .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
     width:calc(100% + 16px);
