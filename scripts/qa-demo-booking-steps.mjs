@@ -137,7 +137,10 @@ try{
   assert.equal(await page.locator('#doneHeading').isVisible(),true,'Single celebratory heading is visible');
   assert.equal(await page.locator('.complete-milestones>span').count(),3,'Service/details/review compact confirmations');
   assert.match(await page.locator('#doneBody').innerText(),lang==='es'?/No se creó ninguna reserva/:/No booking, email, payment/);
-  assert.equal(await page.locator('#trackerLink').getAttribute('href'),'/lead-demo-tracker.html','Preserve demo Command Center CTA');
+  const trackerHref=await page.locator('#trackerLink').getAttribute('href');
+  const trackerUrl=new URL(trackerHref,base);
+  assert.equal(trackerUrl.pathname,'/lead-demo-tracker.html','Preserve demo Command Center CTA');
+  assert.equal(trackerUrl.searchParams.get('lang'),lang,'Keep the tracker CTA bilingual');
   await page.locator('#restart').click();
   assert.equal(await page.locator('#choosePanel').isVisible(),true,'Restart returns to service choice');
   await assertStageAtTop(page,'flowTitle','Restart → Service '+lang+' '+width);
