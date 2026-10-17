@@ -1017,3 +1017,26 @@
     color:#191919;
   }
 }
+
+/* tle-home-heading-horizontal-flow-20261017
+   Do not force a break between the two sentences. Let real text wrap naturally
+   as a long editorial heading, not four short heavy lines. Keep the existing
+   background-position shine and every other hero layer unchanged. */
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro h1.tle-hero-heading-shine {
+  max-width:none;
+  font-weight:540;
+  letter-spacing:-.012em;
+  line-height:1.18;
+  text-wrap:wrap;
+}
+@media (max-width:767px) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro h1.tle-hero-heading-shine {
+    width:calc(100% + 18px);
+    max-width:none;
+    margin-left:-9px;
+    font-size:clamp(24px,6.35vw,29px);
+    font-weight:540;
+    letter-spacing:-.013em;
+    line-height:1.24;
+  }
+}
