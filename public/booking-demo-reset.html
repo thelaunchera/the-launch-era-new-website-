@@ -818,11 +818,15 @@
     openIntake('intakeSchedule');
     if(calendar&&nativeDate.closest('label')?.hidden){
       const focusDay=()=>{
-        calendar.scrollIntoView({block:'start',behavior:'auto'});
-        $('apptDays')?.querySelector('button[data-day]:not(:disabled)')?.focus({preventScroll:true});
+        // The native accordion may finish opening after the submit click.
+        // Never leave keyboard focus on the off-screen Review button.
+        if(step!==2||!$('intakeSchedule').open)return;
+        const day=$('apptDays')?.querySelector('button[data-day]:not(:disabled)');
+        (day||$('intakeSchedule').querySelector('summary'))?.focus({preventScroll:true});
+        calendar.scrollIntoView({block:'nearest',behavior:'auto'});
       };
-      focusDay();
       requestAnimationFrame(focusDay);
+      setTimeout(focusDay,100);
     }else{
       nativeDate.focus();nativeDate.reportValidity();
     }
