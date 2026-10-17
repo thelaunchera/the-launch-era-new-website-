@@ -363,7 +363,7 @@
   <form id="detailsPanel" class="panel booking-step-pane" data-step-pane="2" aria-labelledby="detailsFieldsetTitle" hidden novalidate><fieldset class="booking-step-fieldset"><legend class="sr-only" id="detailsFieldsetTitle">Your booking details</legend>
    <p class="notice" id="detailNote">Enter sample details to explore the next step. Nothing is submitted.</p>
    <div class="demo-intake" id="demoIntake">
-    <details class="demo-intake-section" id="intakeContact" open>
+    <details class="demo-intake-section" name="tle-demo-intake" id="intakeContact" open>
      <summary><span class="demo-intake-index">01</span><span class="demo-intake-heading"><strong id="intakeContactTitle">Contact details</strong><small id="intakeContactHint">Who should we contact?</small></span><span class="demo-intake-chevron" aria-hidden="true"></span></summary>
      <div class="demo-intake-body"><div class="fields demo-intake-fields">
     <label class="field"><span id="nameLabel">Your name</span><input id="customerName" type="text" autocomplete="name" required maxlength="80"></label>
@@ -371,7 +371,7 @@
     <label class="field"><span id="zipLabel">Service ZIP code</span><input id="customerZip" type="text" inputmode="numeric" autocomplete="postal-code" minlength="5" maxlength="10" required></label>
      </div></div>
     </details>
-    <details class="demo-intake-section" id="intakeSpace">
+    <details class="demo-intake-section" name="tle-demo-intake" id="intakeSpace">
      <summary><span class="demo-intake-index">02</span><span class="demo-intake-heading"><strong id="intakeSpaceTitle">About your space</strong><small id="intakeSpaceHint">Home type, rooms and cleaning needs</small></span><span class="demo-intake-chevron" aria-hidden="true"></span></summary>
      <div class="demo-intake-body"><div class="fields demo-intake-fields">
     <div class="residential-details full fields demo-property-type" id="resProperty">
@@ -405,7 +405,7 @@
     <label class="field full"><span id="notesLabel">Additional notes (optional)</span><textarea id="notes" rows="3" maxlength="1000"></textarea></label>
      </div></div>
     </details>
-    <details class="demo-intake-section demo-intake-schedule" id="intakeSchedule">
+    <details class="demo-intake-section demo-intake-schedule" name="tle-demo-intake" id="intakeSchedule">
      <summary><span class="demo-intake-index">03</span><span class="demo-intake-heading"><strong id="intakeScheduleTitle">Preferred date & time</strong><small id="intakeScheduleHint">Choose a convenient time</small></span><span class="demo-intake-chevron" aria-hidden="true"></span></summary>
      <div class="demo-intake-body">
       <div class="demo-native-date"><label class="field"><span id="dateLabel">Preferred date</span><input id="preferredDate" type="date" required></label></div>
@@ -528,10 +528,15 @@
     requestAnimationFrame(sizeActivePane);
   }
   // Exclusive, accessible native accordions. Values persist while folded.
-  intakeSections.forEach(section=>section.addEventListener('toggle',()=>{
+  intakeSections.forEach(section=>{
+    section.querySelector('summary')?.addEventListener('click',()=>{
+      if(!section.open)intakeSections.filter(other=>other!==section).forEach(other=>{other.open=false;});
+    });
+    section.addEventListener('toggle',()=>{
     if(section.open)intakeSections.filter(other=>other!==section).forEach(other=>{other.open=false;});
     requestAnimationFrame(sizeActivePane);
-  }));
+    });
+  });
   $('squareFeet').addEventListener('input',event=>{
     const el=event.currentTarget;
     el.value=el.value.replace(/\D/g,'').slice(0,6);
