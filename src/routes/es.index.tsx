@@ -102,7 +102,7 @@ function SpanishHome(){const [active,setActive]=useState(0);const [heroLoaded,se
  <div className="tle-hero-soft-mesh" aria-hidden="true"><span/><span/><span/><span/></div>
  <div className="hero-intro">
    <div className="eyebrow">PARA DUEÑAS DE NEGOCIOS DE LIMPIEZA</div>
-   <h1>Menos tiempo buscando mensajes.<br/>Más tiempo para tu negocio.</h1>
+   <h1 className="tle-hero-heading-shine">Menos tiempo buscando mensajes.<br/>Más tiempo para tu negocio.</h1>
    <p>Solicitudes, cotizaciones y seguimientos en un solo lugar. Sin buscar entre mensajes.</p>
    <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/booking-demo/?lang=es">Quiero mi demo personalizada <ArrowRight/></a></Button></div>
    <p className="demo-delivery-note">Tu demo llega automáticamente por correo.</p>
