@@ -1,3 +1,8 @@
+## 2026-10-17 — Pages deployment gate: retired Saturday deadline mismatch
+- **Impacted release:** Public website main GitHub Pages deployment after service card readability PR #233; the updated six-card UI passed dedicated EN/ES responsive/flip/CTA browser checks, but Pages was blocked in `scripts/qa-home-booking-tones.mjs` by a stale assertion requiring `12 PM ET` in the current EN product page.
+- **Fix:** Delete that obsolete cutoff expectation and guard against reintroducing Saturday/after-hours restrictions on public booking product landings; remove the dormant Saturday cutoff sentence in the already-retired English `BookingSection`. Keep regular/promotional prices, product links, demo routes, bookings and owner/client data unchanged.
+- **Release gate:** Re-run GitHub Pages build, static route integrity and marketing browser CI. Distinguish an independently failing Cloudflare Workers build from GitHub Pages deployment; do not claim published until Pages deploy succeeds.
+
 ## 2026-10-17 — Website service cards: readable descriptions and compact CTA
 - **Surface:** public homepage EN `/`, ES `/es/`, and shared service-choice cards on `/solutions` and `/how-it-works`. Same six services and **unchanged** landing hrefs; the demo booking flow, owner Command Center, Cleaning App, private clients and Stripe remain outside scope.
 - **Issue:** at narrow cards, 3-line clamp hid descriptive content while fixed 420–488px shells clipped the price/title/tag; on flip backs the generous full-width CTA and long point list competed for the same height.
