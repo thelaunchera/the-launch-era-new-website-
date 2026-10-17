@@ -43,3 +43,18 @@
   padding:13px 14px;
  }
 }
+
+/* Demo-first qualification is a simple, real anchor: no simulated proof. */
+.service-sales .service-fit a.service-fit-request-link{
+ display:inline-flex;align-items:center;justify-content:center;gap:9px;
+ width:fit-content;max-width:100%;min-height:48px;
+ padding:12px 17px;margin:14px 12px 10px 0;
+ border-radius:999px;border:1px solid #191919;
+ background:#191919;color:#fff;font-size:15px;font-weight:700;
+ line-height:1.35;text-decoration:none;vertical-align:middle;
+}
+.service-sales .service-fit a.service-fit-request-link svg{width:19px;height:19px;flex-shrink:0}
+.service-sales .service-fit a.service-fit-request-link:focus-visible{outline:3px solid #7eb6da;outline-offset:3px}
+@media(max-width:420px){
+ .service-sales .service-fit a.service-fit-request-link{width:100%;justify-content:space-between;margin-right:0}
+}
