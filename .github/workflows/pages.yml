@@ -46,6 +46,8 @@ jobs:
           node scripts/qa-footer-theme-sweep.mjs
           node scripts/qa-booking-scrollytelling.mjs
           node scripts/qa-home-booking-tones.mjs
+          node --check scripts/qa-no-weekend-cutoffs.mjs
+          node scripts/qa-no-weekend-cutoffs.mjs
           node scripts/qa-faq-topic-tabs.mjs
           node --check public/command-center/assets/command-center-app.js
           node scripts/qa-owner-internal-incidents.mjs

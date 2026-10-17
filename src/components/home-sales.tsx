@@ -128,7 +128,7 @@ export function PurchaseClarity({lang='en'}:{lang?:Language}) {
  ['¿Quién se encarga de los correos de seguimiento?','Nosotros gestionamos hasta dos seguimientos automáticos para cotizaciones elegibles sin respuesta. Puedes ver sus vistas previas; si el cliente responde, se detienen. El tercer contacto es tu elección: enviar un último correo personal o detener el seguimiento.']
  ]:[
  ['What comes with Booking Automation + Command Center?','A personalized Booking Page, your private Command Center, and automation to manage requests, estimates, and follow-ups.'],
- ['When will I receive my system?','After we verify payment and review your complete setup, we approve the kickoff by email. The estimated 48-hour production period starts then, during our available working periods. We send access after testing and approval.'],
+ ['When will I receive my system?','After we verify payment and review your complete setup, we approve the kickoff by email. The estimated 48-hour production period starts then. We send access after testing and approval.'],
  ['When does a booking confirm automatically?','Only for flat-price services when you enable automatic confirmation and the time slot is available. With it off, the request waits for your approval and does not hold a slot.'],
  ['How do estimated prices work?','Customers can Accept, Decline, or Discuss Price. Their response appears in your Command Center where you track inquiries. If they accept, the booking confirms only after an available time is selected.'],
  ['Is there a price calculator?','Yes, exclusively for cleaning businesses. Set your own rates, property sizes, add-ons, frequency discounts, and ZIP travel fees in your pricing settings. Results are estimates, not automatically confirmed prices.'],
