@@ -81,6 +81,9 @@
   /* The former 11–12px body copy failed phone readability checks. */
   .solutions-section .section-heading p { font-size:16px; line-height:1.55; }
   .solutions-section .tle-service-flip__front p { font-size:16px; line-height:1.35; }
+  /* Home-only visual layers load after the shared card styles: win their
+     12px declaration without changing standalone /solutions. */
+  .sales-home .solutions-section .tle-service-flip__front p { font-size:16px; line-height:1.35; }
   .solutions-section .tle-service-flip__back p { font-size:16px; line-height:1.4; }
   .solutions-section .tle-service-flip__back li { font-size:14px; }
 }
