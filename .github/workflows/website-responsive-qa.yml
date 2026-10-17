@@ -57,9 +57,11 @@ jobs:
         if: github.event_name != 'pull_request'
         run: |
           expected=$(sha256sum public/lead-private-preview.html | cut -d ' ' -f 1)
+          expected_scene=$(sha256sum public/assets/tle-home-time-of-day.js | cut -d ' ' -f 1)
           for attempt in $(seq 1 18); do
             actual=$(curl -fsS "https://thelaunchera.com/lead-private-preview.html?qa=$GITHUB_SHA" | sha256sum | cut -d ' ' -f 1)
-            if [ "$actual" = "$expected" ]; then exit 0; fi
+            actual_scene=$(curl -fsS "https://thelaunchera.com/assets/tle-home-time-of-day.js?qa=$GITHUB_SHA" | sha256sum | cut -d ' ' -f 1)
+            if [ "$actual" = "$expected" ] && [ "$actual_scene" = "$expected_scene" ]; then exit 0; fi
             sleep 15
           done
           echo "The current Booking Page is not live yet"
