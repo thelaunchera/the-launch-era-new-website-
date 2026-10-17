@@ -141,11 +141,15 @@ try{
    await firstFlip.locator('.service-flip-select').click();
    assert.equal(await page.locator('#detailsPanel').isVisible(),true,'Back CTA must advance to booking details');
    assert.equal(await page.locator('#chooseNext').isVisible(),false,'No far-away Continue control');
-   assert.equal(await page.locator('#intakeContact').evaluate(el=>el.open),true,'Only the compact contact accordion is initially expanded');
-   assert.equal(await page.locator('#intakeSpace').evaluate(el=>el.open),false,'Property details start compact');
-   assert.equal(await page.locator('#intakeSchedule').evaluate(el=>el.open),false,'Calendar starts compact');
-   await page.locator('#intakeSpace > summary').click();
-   assert.equal(await page.locator('#intakeContact').evaluate(el=>el.open),false,'Expanding property closes contact');
+   assert.equal(await page.locator('.demo-mini-dot.is-current').getAttribute('data-mini-progress'),'0','Start with compact contact step');
+   assert.equal(await page.locator('#intakeSchedule').isVisible(),false,'Only one mini-step is displayed');
+   await page.locator('#customerName').fill('Sample Customer');
+   await page.locator('#customerEmail').fill('sample@example.test');
+   await page.locator('#customerZip').fill('33101');
+   await page.locator('#reviewNext').click();
+   assert.equal(await page.locator('.demo-mini-dot.is-current').getAttribute('data-mini-progress'),'1','Contact slides into house information');
+   assert.equal(await page.locator('#intakeSpace').isVisible(),true,'Property fields are now visible');
+   assert.equal(await page.locator('#intakeContact').isVisible(),false,'Contact panel is hidden when property panel is shown');
    await page.locator('#propertyType').selectOption('townhouse');
    await page.locator('#squareFeet').fill('1850');
    assert.equal(await page.locator('input[name="demo-beds"]:checked').inputValue(),'2');
@@ -168,11 +172,9 @@ try{
    const focusStyle=await page.locator('input[name="demo-extras"][value="petsLabel"] + span').evaluate(x=>getComputedStyle(x).backgroundColor);
    assert.notEqual(focusStyle,'rgb(255, 255, 255)','Checked details should have a pale blue highlight');
   
-   await page.locator('#intakeContact > summary').click();
-   await page.locator('#customerName').fill('Sample Customer');
-   await page.locator('#customerEmail').fill('sample@example.test');
-   await page.locator('#customerZip').fill('33101');
-   await page.locator('#intakeSchedule > summary').click();
+   await page.locator('#reviewNext').click();
+   assert.equal(await page.locator('.demo-mini-dot.is-current').getAttribute('data-mini-progress'),'2','Property details slide into schedule');
+   assert.equal(await page.locator('#intakeSchedule').isVisible(),true);
    const calendarDay=page.locator('#apptDays button[data-day]:not(:disabled)').first();
    await calendarDay.click();
    assert.equal(await page.locator('#preferredDate').inputValue(),await calendarDay.getAttribute('data-day'),'Calendar selection must sync the review date');
@@ -212,9 +214,13 @@ try{
 
    await page.locator('.service-flip-card[data-service="office"] .service').dispatchEvent('click');
    await page.locator('.service-flip-card[data-service="office"] .service-flip-select').click();
-   await page.locator('#intakeSpace > summary').click();
+   await page.locator('#customerName').fill('Commercial Customer');
+   await page.locator('#customerEmail').fill('commercial@example.test');
+   await page.locator('#customerZip').fill('33101');
+   await page.locator('#reviewNext').click();
    assert.equal(await page.locator('#comDetails').isVisible(),true);
    assert.equal(await page.locator('.booking-extras').isVisible(),false,'Residential optional choices stay hidden on commercial forms');
+   await page.locator('#backDetails').click();
    await page.locator('#backDetails').click();
    assert.equal(await page.locator('button[data-id="office"]').getAttribute('aria-pressed'),'true','Back keeps selected commercial service');
    const layout=await page.evaluate(()=>{

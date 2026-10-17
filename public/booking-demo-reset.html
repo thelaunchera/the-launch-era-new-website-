@@ -155,7 +155,7 @@
 <link rel="stylesheet" href="/assets/tle-booking-blue-orbs.css?v=20261016-orbs1">
 <link rel="stylesheet" href="/assets/tle-booking-bubbles-continuity.css?v=20261017-short-cinematic2">
 <link rel="stylesheet" href="/assets/tle-demo-curtain-footer.css?v=20261016-curtain1">
-<link rel="stylesheet" href="/assets/tle-demo-booking-steps.css?v=20261017-compact-intake1">
+<link rel="stylesheet" href="/assets/tle-demo-booking-steps.css?v=20261017-animated-mini-steps1">
 <link rel="stylesheet" href="/assets/tle-demo-work-gallery.css?v=20261017-deck1">
 <link rel="stylesheet" href="/assets/tle-demo-ink-service-cards.css?v=20261017-black-accent1">
 </head>
@@ -367,16 +367,27 @@
   <form id="detailsPanel" class="panel booking-step-pane" data-step-pane="2" aria-labelledby="detailsFieldsetTitle" hidden novalidate><fieldset class="booking-step-fieldset"><legend class="sr-only" id="detailsFieldsetTitle">Your booking details</legend>
    <p class="notice" id="detailNote">Enter sample details to explore the next step. Nothing is submitted.</p>
    <div class="demo-intake" id="demoIntake">
-    <details class="demo-intake-section" name="tle-demo-intake" id="intakeContact" open>
-     <summary><span class="demo-intake-index">01</span><span class="demo-intake-heading"><strong id="intakeContactTitle">Contact details</strong><small id="intakeContactHint">Who should we contact?</small></span><span class="demo-intake-chevron" aria-hidden="true"></span></summary>
+    <div class="demo-mini-progress" id="demoMiniProgress" aria-label="Form details progress">
+     <span class="demo-mini-track-line" aria-hidden="true"><span id="demoMiniFill"></span></span>
+     <div class="demo-mini-dots" aria-hidden="true">
+      <div class="demo-mini-dot is-current" data-mini-progress="0"><b>1</b><span id="intakeShortContact">Contact</span></div>
+      <div class="demo-mini-dot" data-mini-progress="1"><b>2</b><span id="intakeShortSpace">Space</span></div>
+      <div class="demo-mini-dot" data-mini-progress="2"><b>3</b><span id="intakeShortSchedule">Date & time</span></div>
+     </div>
+     <p id="demoMiniAnnounce" class="sr-only" aria-live="polite">1 of 3: Contact</p>
+    </div>
+    <div id="demoIntakeViewport" class="demo-mini-viewport">
+     <div id="demoMiniTrack" class="demo-mini-slide-track">
+    <section class="demo-substep" id="intakeContact" data-mini-pane="0" role="group" aria-labelledby="intakeContactTitle" aria-hidden="false">
+     <div class="demo-substep-head" tabindex="-1"><span class="demo-intake-index">01</span><span class="demo-intake-heading"><strong id="intakeContactTitle">Contact details</strong><small id="intakeContactHint">Who should we contact?</small></span></div>
      <div class="demo-intake-body"><div class="fields demo-intake-fields">
     <label class="field"><span id="nameLabel">Your name</span><input id="customerName" type="text" autocomplete="name" required maxlength="80"></label>
     <label class="field"><span id="emailLabel">Email</span><input id="customerEmail" type="email" autocomplete="email" required maxlength="120"></label>
     <label class="field"><span id="zipLabel">Service ZIP code</span><input id="customerZip" type="text" inputmode="numeric" autocomplete="postal-code" minlength="5" maxlength="10" required></label>
      </div></div>
-    </details>
-    <details class="demo-intake-section" name="tle-demo-intake" id="intakeSpace">
-     <summary><span class="demo-intake-index">02</span><span class="demo-intake-heading"><strong id="intakeSpaceTitle">About your space</strong><small id="intakeSpaceHint">Home type, rooms and cleaning needs</small></span><span class="demo-intake-chevron" aria-hidden="true"></span></summary>
+    </section>
+    <section class="demo-substep" id="intakeSpace" data-mini-pane="1" role="group" aria-labelledby="intakeSpaceTitle" aria-hidden="true" inert>
+     <div class="demo-substep-head" tabindex="-1"><span class="demo-intake-index">02</span><span class="demo-intake-heading"><strong id="intakeSpaceTitle">About your space</strong><small id="intakeSpaceHint">Home type, rooms and cleaning needs</small></span></div>
      <div class="demo-intake-body"><div class="fields demo-intake-fields">
     <div class="residential-details full fields demo-property-type" id="resProperty">
      <label class="field"><span id="propertyTypeLabel">Type of home</span><select id="propertyType">
@@ -408,14 +419,16 @@
     </div>
     <label class="field full"><span id="notesLabel">Additional notes (optional)</span><textarea id="notes" rows="3" maxlength="1000"></textarea></label>
      </div></div>
-    </details>
-    <details class="demo-intake-section demo-intake-schedule" name="tle-demo-intake" id="intakeSchedule">
-     <summary><span class="demo-intake-index">03</span><span class="demo-intake-heading"><strong id="intakeScheduleTitle">Preferred date & time</strong><small id="intakeScheduleHint">Choose a convenient time</small></span><span class="demo-intake-chevron" aria-hidden="true"></span></summary>
+    </section>
+    <section class="demo-substep demo-intake-schedule" id="intakeSchedule" data-mini-pane="2" role="group" aria-labelledby="intakeScheduleTitle" aria-hidden="true" inert>
+     <div class="demo-substep-head" tabindex="-1"><span class="demo-intake-index">03</span><span class="demo-intake-heading"><strong id="intakeScheduleTitle">Preferred date & time</strong><small id="intakeScheduleHint">Choose a convenient time</small></span></div>
      <div class="demo-intake-body">
       <div class="demo-native-date"><label class="field"><span id="dateLabel">Preferred date</span><input id="preferredDate" type="date" required></label></div>
       <div id="appointmentMount"></div>
      </div>
-    </details>
+    </section>
+    </div>
+   </div>
    </div>
    <div class="actions"><button type="button" class="secondary" id="backDetails">Back</button><button class="primary" type="submit" id="reviewNext">Review details</button></div>
   </fieldset></form>
@@ -556,8 +569,8 @@
 <script>
 (()=>{
   'use strict';
-  const en={languageLabel:'Language',siteLink:'Back to website',eyebrow:'BOOKING PAGE PREVIEW',pageTitle:'A simpler way to book a clean.',pageIntro:'Explore a straightforward cleaning booking process, without extra effects or distracting screens.',sampleWarning:'Interactive sample only · No real booking or email is sent',resTab:'Residential',comTab:'Commercial',standard:'Standard Cleaning',standardHint:'Regular home care',deep:'Deep Cleaning',deepHint:'A more detailed clean',move:'Move In / Move Out',moveHint:'Prepare for the next chapter',office:'Office Cleaning',officeHint:'Offices and workspaces',retail:'Retail & Showrooms',retailHint:'Customer-facing spaces',medical:'Medical & Professional',medicalHint:'Spaces with specialized needs',quote:'Custom quote',sample120:'From $120*',sample190:'From $190*',sample240:'From $240*',customQuote:'Request a custom quote →',bookingCustomOverline:'NEED SOMETHING DIFFERENT?',bookingCustomSummary:'Start with a home estimate or a custom quote.',bookingCustomTitle:'CUSTOM CLEANING REQUEST',bookingCustomAction:'Request a custom quote.',chooseHint:'*Sample starting estimates; your provider confirms the final price.',chooseNext:'Continue',detailNote:'Enter sample details to explore the next step. Nothing is submitted.',intakeContactTitle:'Your details',intakeContactHint:'Name, email and service area',intakeSpaceTitle:'About your space',intakeSpaceHint:'Home type, rooms and cleaning needs',intakeScheduleTitle:'Preferred date & time',intakeScheduleHint:'Pick a day and a sample time',propertyTypeLabel:'Type of home',squareFeetLabel:'Approx. size (sq ft · optional)',squareFeetHint:'A rough estimate is fine.',propertyChoose:'Select a home type',propertyHouse:'House',propertyApartment:'Apartment / Condo',propertyTownhouse:'Townhouse',propertyOther:'Other',propertyReview:'Property',sizeReview:'Approx. size',roomsReview:'Rooms',nameLabel:'Your name',emailLabel:'Email',zipLabel:'Service ZIP code',dateLabel:'Preferred date',bedsLabel:'Bedrooms',bathsLabel:'Bathrooms',frequencyLabel:'Frequency',spaceLabel:'Type of space',bookingExtrasTitle:'Optional cleaning details',bookingExtrasHint:'Select anything that applies. Extras are requests only — no price is added in this demo.',petsLabel:'Pets at home',firstLabel:'First-time cleaning',ovenLabel:'Inside oven',fridgeLabel:'Inside refrigerator',scope_standard_1:"Dust reachable surfaces",scope_standard_2:"Clean kitchen counters and sinks",scope_standard_3:"Vacuum carpets and mop floors",scope_deep_1:"Detail baseboards and reachable edges",scope_deep_2:"Scrub bathroom tiles and fixtures",scope_deep_3:"Address buildup on kitchen surfaces",scope_move_1:"Clean inside empty cabinets as agreed",scope_move_2:"Wipe reachable shelves and surfaces",scope_move_3:"Vacuum and mop empty rooms",scope_office_1:"Desks and reachable work surfaces",scope_office_2:"Shared areas and breakroom counters",scope_office_3:"Restrooms and floor care",scope_retail_1:"Entrances and customer-facing areas",scope_retail_2:"Counters and accessible display surfaces",scope_retail_3:"Floor care for walkways",scope_medical_1:"Waiting areas and common spaces",scope_medical_2:"Restrooms and accessible touchpoints",scope_medical_3:"Routine floor and surface cleaning",flipCue:'Tap for details →',flipKicker:'EXPLORE THIS CLEAN',scopeIntro:'Typical tasks to discuss · Your cleaning business confirms the final scope.',flipFeature1:'Choose your preferred date',flipFeature2:'Tell us about your space',flipFeature3:'Review your sample estimate',flipQuote1:'Share details about the space',flipQuote2:'Choose a preferred date',flipQuote3:'Ask for a custom quote',flipContinue:'Continue with this service →',notesLabel:'Additional notes (optional)',backDetails:'Back',reviewNext:'Review details',reviewNote:'Check this sample request before completing the preview.',backReview:'Edit details',finish:'Finish preview',doneHeading:'Preview complete.',doneBody:'This is how a booking request could be reviewed. No booking, payment, email, or client record was created.',restart:'Start again',footerNote:'*Prices are sample estimates, not guaranteed quotes. Final scope and availability are confirmed by the cleaning business.',tleDemoFooterEyebrow:'THE LAUNCH ERA · BOOKING EXPERIENCE',tleDemoFooterHeadline:'A simpler way to book. A clearer way to grow.',tleDemoFooterDescription:'Explore how a clean, organized booking flow can make things easier for your customers.',tleDemoFooterTop:'Back to top ↑',tleDemoFooterServices:'Explore services ↗',tleDemoFooterWebsite:'Visit The Launch Era ↗',footerCopy:'The Launch Era · Cleaning booking page preview · No live client data',progressService:"Service",progressDetails:"Details",progressReview:"Review",chooseFieldsetTitle:"Choose a cleaning service",detailsFieldsetTitle:"Your booking details",reviewFieldsetTitle:"Review your sample request",step1:'STEP 1 OF 3',step2:'STEP 2 OF 3',step3:'STEP 3 OF 3',stepDone:'COMPLETE',chooseTitle:'Choose your service',detailsTitle:'Tell us about your space',reviewTitle:'Review your request',doneTitle:'Preview complete',service:'Service',contact:'Name',location:'ZIP code',date:'Preferred date',frequency:'Frequency',estimate:'Starting estimate',details:'Notes',one:'One time',weekly:'Weekly',biweekly:'Biweekly',monthly:'Monthly',other:'Custom quote',none:'None',invalid:'Please complete the required fields with a valid email and ZIP code.',dateInvalid:'Choose today or a future date.'};
-  const es={languageLabel:'Idioma',siteLink:'Volver al sitio web',eyebrow:'DEMO DE RESERVAS',pageTitle:'Una forma más sencilla de reservar una limpieza.',pageIntro:'Explora cómo reservar una limpieza, sin efectos adicionales ni pantallas que distraen.',sampleWarning:'Ejemplo interactivo · No se realiza ninguna reserva ni se envía correo',resTab:'Residencial',comTab:'Comercial',standard:'Limpieza estándar',standardHint:'Mantenimiento del hogar',deep:'Limpieza profunda',deepHint:'Limpieza más detallada',move:'Mudanza / Salida',moveHint:'Prepara el siguiente capítulo',office:'Limpieza de oficinas',officeHint:'Oficinas y espacios de trabajo',retail:'Tiendas y salas de exhibición',retailHint:'Espacios de atención al público',medical:'Médico y profesional',medicalHint:'Espacios con necesidades especiales',quote:'Cotización personalizada',sample120:'Desde $120*',sample190:'Desde $190*',sample240:'Desde $240*',customQuote:'Solicitar cotización personalizada →',bookingCustomOverline:'¿NECESITAS ALGO DIFERENTE?',bookingCustomSummary:'Empieza con un estimado o una cotización personalizada.',bookingCustomTitle:'SOLICITUD PERSONALIZADA',bookingCustomAction:'Solicita una cotización personalizada.',chooseHint:'*Precios de ejemplo; el negocio confirma la tarifa final.',chooseNext:'Continuar',detailNote:'Ingresa datos de ejemplo para ver el siguiente paso. Nada se envía.',intakeContactTitle:'Tus datos',intakeContactHint:'Nombre, correo y zona de servicio',intakeSpaceTitle:'Sobre el espacio',intakeSpaceHint:'Tipo de vivienda, habitaciones y limpieza',intakeScheduleTitle:'Fecha y hora preferidas',intakeScheduleHint:'Elige un día y una hora de ejemplo',propertyTypeLabel:'Tipo de vivienda',squareFeetLabel:'Tamaño aproximado (pies² · opcional)',squareFeetHint:'Puedes poner un estimado.',propertyChoose:'Elige el tipo de vivienda',propertyHouse:'Casa',propertyApartment:'Apartamento / Condominio',propertyTownhouse:'Casa adosada',propertyOther:'Otro',propertyReview:'Propiedad',sizeReview:'Tamaño aproximado',roomsReview:'Habitaciones y baños',nameLabel:'Tu nombre',emailLabel:'Correo electrónico',zipLabel:'Código postal',dateLabel:'Fecha preferida',bedsLabel:'Habitaciones',bathsLabel:'Baños',frequencyLabel:'Frecuencia',spaceLabel:'Tipo de espacio',bookingExtrasTitle:'Detalles opcionales de la limpieza',bookingExtrasHint:'Marca lo que corresponda. Son solicitudes de ejemplo y no agregan cargos al precio.',petsLabel:'Mascotas en casa',firstLabel:'Primera limpieza',ovenLabel:'Interior del horno',fridgeLabel:'Interior del refrigerador',scope_standard_1:"Quitar polvo de superficies accesibles",scope_standard_2:"Limpiar encimeras y fregaderos",scope_standard_3:"Aspirar alfombras y trapear pisos",scope_deep_1:"Detallar zócalos y bordes accesibles",scope_deep_2:"Frotar azulejos y accesorios del baño",scope_deep_3:"Trabajar la suciedad acumulada en la cocina",scope_move_1:"Limpiar gabinetes vacíos según lo acordado",scope_move_2:"Limpiar estantes y superficies accesibles",scope_move_3:"Aspirar y trapear habitaciones vacías",scope_office_1:"Escritorios y superficies accesibles",scope_office_2:"Áreas comunes y mostradores de descanso",scope_office_3:"Baños y cuidado de pisos",scope_retail_1:"Entradas y áreas de atención al cliente",scope_retail_2:"Mostradores y vitrinas accesibles",scope_retail_3:"Limpieza de pisos y zonas de paso",scope_medical_1:"Salas de espera y áreas comunes",scope_medical_2:"Baños y superficies de contacto accesibles",scope_medical_3:"Limpieza habitual de pisos y superficies",flipCue:'Toca para ver detalles →',flipKicker:'CONOCE ESTE SERVICIO',scopeIntro:'Tareas habituales para consultar · El negocio confirma el alcance final.',flipFeature1:'Elige tu fecha preferida',flipFeature2:'Cuéntanos sobre tu espacio',flipFeature3:'Revisa el estimado de ejemplo',flipQuote1:'Cuéntanos sobre el espacio',flipQuote2:'Elige una fecha preferida',flipQuote3:'Solicita una cotización personalizada',flipContinue:'Continuar con este servicio →',notesLabel:'Notas adicionales (opcional)',backDetails:'Volver',reviewNext:'Revisar datos',reviewNote:'Revisa esta solicitud de ejemplo antes de terminar.',backReview:'Editar datos',finish:'Terminar demo',doneHeading:'Demo completado.',doneBody:'Así podría revisarse una solicitud. No se creó una reserva, un pago, un correo ni un registro de cliente.',restart:'Empezar de nuevo',footerNote:'*Los precios son estimados de ejemplo, no cotizaciones garantizadas. El negocio confirma servicios y disponibilidad.',tleDemoFooterEyebrow:'THE LAUNCH ERA · EXPERIENCIA DE RESERVAS',tleDemoFooterHeadline:'Reservas más sencillas. Un negocio mejor organizado.',tleDemoFooterDescription:'Descubre cómo un proceso de reservas claro ayuda a tus clientes y te facilita el trabajo.',tleDemoFooterTop:'Volver arriba ↑',tleDemoFooterServices:'Explorar servicios ↗',tleDemoFooterWebsite:'Visitar The Launch Era ↗',footerCopy:'The Launch Era · Demo de reservas · Sin datos reales de clientes',progressService:"Servicio",progressDetails:"Datos",progressReview:"Revisar",chooseFieldsetTitle:"Elige el servicio",detailsFieldsetTitle:"Datos de tu solicitud",reviewFieldsetTitle:"Revisa la solicitud de ejemplo",step1:'PASO 1 DE 3',step2:'PASO 2 DE 3',step3:'PASO 3 DE 3',stepDone:'COMPLETADO',chooseTitle:'Elige un servicio',detailsTitle:'Cuéntanos sobre el espacio',reviewTitle:'Revisa tu solicitud',doneTitle:'Demo completado',service:'Servicio',contact:'Nombre',location:'Código postal',date:'Fecha preferida',frequency:'Frecuencia',estimate:'Precio inicial estimado',details:'Notas',one:'Una vez',weekly:'Semanal',biweekly:'Cada dos semanas',monthly:'Mensual',other:'Cotización personalizada',none:'Ninguna',invalid:'Completa los campos obligatorios con un correo y código postal válidos.',dateInvalid:'Selecciona la fecha de hoy o una futura.'};
+  const en={languageLabel:'Language',siteLink:'Back to website',eyebrow:'BOOKING PAGE PREVIEW',pageTitle:'A simpler way to book a clean.',pageIntro:'Explore a straightforward cleaning booking process, without extra effects or distracting screens.',sampleWarning:'Interactive sample only · No real booking or email is sent',resTab:'Residential',comTab:'Commercial',standard:'Standard Cleaning',standardHint:'Regular home care',deep:'Deep Cleaning',deepHint:'A more detailed clean',move:'Move In / Move Out',moveHint:'Prepare for the next chapter',office:'Office Cleaning',officeHint:'Offices and workspaces',retail:'Retail & Showrooms',retailHint:'Customer-facing spaces',medical:'Medical & Professional',medicalHint:'Spaces with specialized needs',quote:'Custom quote',sample120:'From $120*',sample190:'From $190*',sample240:'From $240*',customQuote:'Request a custom quote →',bookingCustomOverline:'NEED SOMETHING DIFFERENT?',bookingCustomSummary:'Start with a home estimate or a custom quote.',bookingCustomTitle:'CUSTOM CLEANING REQUEST',bookingCustomAction:'Request a custom quote.',chooseHint:'*Sample starting estimates; your provider confirms the final price.',chooseNext:'Continue',detailNote:'A quick three-part sample form. Nothing is submitted.',intakeShortContact:'Contact',intakeShortSpace:'Space',intakeShortSchedule:'Date & time',intakeContactTitle:'Your details',intakeContactHint:'Name, email and service area',intakeSpaceTitle:'About your space',intakeSpaceHint:'Home type, rooms and cleaning needs',intakeScheduleTitle:'Preferred date & time',intakeScheduleHint:'Pick a day and a sample time',propertyTypeLabel:'Type of home',squareFeetLabel:'Approx. size (sq ft · optional)',squareFeetHint:'A rough estimate is fine.',propertyChoose:'Select a home type',propertyHouse:'House',propertyApartment:'Apartment / Condo',propertyTownhouse:'Townhouse',propertyOther:'Other',propertyReview:'Property',sizeReview:'Approx. size',roomsReview:'Rooms',nameLabel:'Your name',emailLabel:'Email',zipLabel:'Service ZIP code',dateLabel:'Preferred date',bedsLabel:'Bedrooms',bathsLabel:'Bathrooms',frequencyLabel:'Frequency',spaceLabel:'Type of space',bookingExtrasTitle:'Optional cleaning details',bookingExtrasHint:'Select anything that applies. Extras are requests only — no price is added in this demo.',petsLabel:'Pets at home',firstLabel:'First-time cleaning',ovenLabel:'Inside oven',fridgeLabel:'Inside refrigerator',scope_standard_1:"Dust reachable surfaces",scope_standard_2:"Clean kitchen counters and sinks",scope_standard_3:"Vacuum carpets and mop floors",scope_deep_1:"Detail baseboards and reachable edges",scope_deep_2:"Scrub bathroom tiles and fixtures",scope_deep_3:"Address buildup on kitchen surfaces",scope_move_1:"Clean inside empty cabinets as agreed",scope_move_2:"Wipe reachable shelves and surfaces",scope_move_3:"Vacuum and mop empty rooms",scope_office_1:"Desks and reachable work surfaces",scope_office_2:"Shared areas and breakroom counters",scope_office_3:"Restrooms and floor care",scope_retail_1:"Entrances and customer-facing areas",scope_retail_2:"Counters and accessible display surfaces",scope_retail_3:"Floor care for walkways",scope_medical_1:"Waiting areas and common spaces",scope_medical_2:"Restrooms and accessible touchpoints",scope_medical_3:"Routine floor and surface cleaning",flipCue:'Tap for details →',flipKicker:'EXPLORE THIS CLEAN',scopeIntro:'Typical tasks to discuss · Your cleaning business confirms the final scope.',flipFeature1:'Choose your preferred date',flipFeature2:'Tell us about your space',flipFeature3:'Review your sample estimate',flipQuote1:'Share details about the space',flipQuote2:'Choose a preferred date',flipQuote3:'Ask for a custom quote',flipContinue:'Continue with this service →',notesLabel:'Additional notes (optional)',backDetails:'Back',reviewNext:'Review details',reviewNote:'Check this sample request before completing the preview.',backReview:'Edit details',finish:'Finish preview',doneHeading:'Preview complete.',doneBody:'This is how a booking request could be reviewed. No booking, payment, email, or client record was created.',restart:'Start again',footerNote:'*Prices are sample estimates, not guaranteed quotes. Final scope and availability are confirmed by the cleaning business.',tleDemoFooterEyebrow:'THE LAUNCH ERA · BOOKING EXPERIENCE',tleDemoFooterHeadline:'A simpler way to book. A clearer way to grow.',tleDemoFooterDescription:'Explore how a clean, organized booking flow can make things easier for your customers.',tleDemoFooterTop:'Back to top ↑',tleDemoFooterServices:'Explore services ↗',tleDemoFooterWebsite:'Visit The Launch Era ↗',footerCopy:'The Launch Era · Cleaning booking page preview · No live client data',progressService:"Service",progressDetails:"Details",progressReview:"Review",chooseFieldsetTitle:"Choose a cleaning service",detailsFieldsetTitle:"Your booking details",reviewFieldsetTitle:"Review your sample request",step1:'STEP 1 OF 3',step2:'STEP 2 OF 3',step3:'STEP 3 OF 3',stepDone:'COMPLETE',chooseTitle:'Choose your service',detailsTitle:'Tell us about your space',reviewTitle:'Review your request',doneTitle:'Preview complete',service:'Service',contact:'Name',location:'ZIP code',date:'Preferred date',frequency:'Frequency',estimate:'Starting estimate',details:'Notes',one:'One time',weekly:'Weekly',biweekly:'Biweekly',monthly:'Monthly',other:'Custom quote',none:'None',invalid:'Please complete the required fields with a valid email and ZIP code.',dateInvalid:'Choose today or a future date.'};
+  const es={languageLabel:'Idioma',siteLink:'Volver al sitio web',eyebrow:'DEMO DE RESERVAS',pageTitle:'Una forma más sencilla de reservar una limpieza.',pageIntro:'Explora cómo reservar una limpieza, sin efectos adicionales ni pantallas que distraen.',sampleWarning:'Ejemplo interactivo · No se realiza ninguna reserva ni se envía correo',resTab:'Residencial',comTab:'Comercial',standard:'Limpieza estándar',standardHint:'Mantenimiento del hogar',deep:'Limpieza profunda',deepHint:'Limpieza más detallada',move:'Mudanza / Salida',moveHint:'Prepara el siguiente capítulo',office:'Limpieza de oficinas',officeHint:'Oficinas y espacios de trabajo',retail:'Tiendas y salas de exhibición',retailHint:'Espacios de atención al público',medical:'Médico y profesional',medicalHint:'Espacios con necesidades especiales',quote:'Cotización personalizada',sample120:'Desde $120*',sample190:'Desde $190*',sample240:'Desde $240*',customQuote:'Solicitar cotización personalizada →',bookingCustomOverline:'¿NECESITAS ALGO DIFERENTE?',bookingCustomSummary:'Empieza con un estimado o una cotización personalizada.',bookingCustomTitle:'SOLICITUD PERSONALIZADA',bookingCustomAction:'Solicita una cotización personalizada.',chooseHint:'*Precios de ejemplo; el negocio confirma la tarifa final.',chooseNext:'Continuar',detailNote:'Tres pasos sencillos para probar la reserva. Nada se envía.',intakeShortContact:'Contacto',intakeShortSpace:'Espacio',intakeShortSchedule:'Fecha y hora',intakeContactTitle:'Tus datos',intakeContactHint:'Nombre, correo y zona de servicio',intakeSpaceTitle:'Sobre el espacio',intakeSpaceHint:'Tipo de vivienda, habitaciones y limpieza',intakeScheduleTitle:'Fecha y hora preferidas',intakeScheduleHint:'Elige un día y una hora de ejemplo',propertyTypeLabel:'Tipo de vivienda',squareFeetLabel:'Tamaño aproximado (pies² · opcional)',squareFeetHint:'Puedes poner un estimado.',propertyChoose:'Elige el tipo de vivienda',propertyHouse:'Casa',propertyApartment:'Apartamento / Condominio',propertyTownhouse:'Casa adosada',propertyOther:'Otro',propertyReview:'Propiedad',sizeReview:'Tamaño aproximado',roomsReview:'Habitaciones y baños',nameLabel:'Tu nombre',emailLabel:'Correo electrónico',zipLabel:'Código postal',dateLabel:'Fecha preferida',bedsLabel:'Habitaciones',bathsLabel:'Baños',frequencyLabel:'Frecuencia',spaceLabel:'Tipo de espacio',bookingExtrasTitle:'Detalles opcionales de la limpieza',bookingExtrasHint:'Marca lo que corresponda. Son solicitudes de ejemplo y no agregan cargos al precio.',petsLabel:'Mascotas en casa',firstLabel:'Primera limpieza',ovenLabel:'Interior del horno',fridgeLabel:'Interior del refrigerador',scope_standard_1:"Quitar polvo de superficies accesibles",scope_standard_2:"Limpiar encimeras y fregaderos",scope_standard_3:"Aspirar alfombras y trapear pisos",scope_deep_1:"Detallar zócalos y bordes accesibles",scope_deep_2:"Frotar azulejos y accesorios del baño",scope_deep_3:"Trabajar la suciedad acumulada en la cocina",scope_move_1:"Limpiar gabinetes vacíos según lo acordado",scope_move_2:"Limpiar estantes y superficies accesibles",scope_move_3:"Aspirar y trapear habitaciones vacías",scope_office_1:"Escritorios y superficies accesibles",scope_office_2:"Áreas comunes y mostradores de descanso",scope_office_3:"Baños y cuidado de pisos",scope_retail_1:"Entradas y áreas de atención al cliente",scope_retail_2:"Mostradores y vitrinas accesibles",scope_retail_3:"Limpieza de pisos y zonas de paso",scope_medical_1:"Salas de espera y áreas comunes",scope_medical_2:"Baños y superficies de contacto accesibles",scope_medical_3:"Limpieza habitual de pisos y superficies",flipCue:'Toca para ver detalles →',flipKicker:'CONOCE ESTE SERVICIO',scopeIntro:'Tareas habituales para consultar · El negocio confirma el alcance final.',flipFeature1:'Elige tu fecha preferida',flipFeature2:'Cuéntanos sobre tu espacio',flipFeature3:'Revisa el estimado de ejemplo',flipQuote1:'Cuéntanos sobre el espacio',flipQuote2:'Elige una fecha preferida',flipQuote3:'Solicita una cotización personalizada',flipContinue:'Continuar con este servicio →',notesLabel:'Notas adicionales (opcional)',backDetails:'Volver',reviewNext:'Revisar datos',reviewNote:'Revisa esta solicitud de ejemplo antes de terminar.',backReview:'Editar datos',finish:'Terminar demo',doneHeading:'Demo completado.',doneBody:'Así podría revisarse una solicitud. No se creó una reserva, un pago, un correo ni un registro de cliente.',restart:'Empezar de nuevo',footerNote:'*Los precios son estimados de ejemplo, no cotizaciones garantizadas. El negocio confirma servicios y disponibilidad.',tleDemoFooterEyebrow:'THE LAUNCH ERA · EXPERIENCIA DE RESERVAS',tleDemoFooterHeadline:'Reservas más sencillas. Un negocio mejor organizado.',tleDemoFooterDescription:'Descubre cómo un proceso de reservas claro ayuda a tus clientes y te facilita el trabajo.',tleDemoFooterTop:'Volver arriba ↑',tleDemoFooterServices:'Explorar servicios ↗',tleDemoFooterWebsite:'Visitar The Launch Era ↗',footerCopy:'The Launch Era · Demo de reservas · Sin datos reales de clientes',progressService:"Servicio",progressDetails:"Datos",progressReview:"Revisar",chooseFieldsetTitle:"Elige el servicio",detailsFieldsetTitle:"Datos de tu solicitud",reviewFieldsetTitle:"Revisa la solicitud de ejemplo",step1:'PASO 1 DE 3',step2:'PASO 2 DE 3',step3:'PASO 3 DE 3',stepDone:'COMPLETADO',chooseTitle:'Elige un servicio',detailsTitle:'Cuéntanos sobre el espacio',reviewTitle:'Revisa tu solicitud',doneTitle:'Demo completado',service:'Servicio',contact:'Nombre',location:'Código postal',date:'Fecha preferida',frequency:'Frecuencia',estimate:'Precio inicial estimado',details:'Notas',one:'Una vez',weekly:'Semanal',biweekly:'Cada dos semanas',monthly:'Mensual',other:'Cotización personalizada',none:'Ninguna',invalid:'Completa los campos obligatorios con un correo y código postal válidos.',dateInvalid:'Selecciona la fecha de hoy o una futura.'};
   const $=id=>document.getElementById(id);
   const params=new URLSearchParams(location.search);
   let lang=params.get('lang')==='es'?'es':'en', kind='residential', selected=null, step=1, custom=false;
@@ -581,10 +594,11 @@
     const copy=dict();
     for(const [id,val] of Object.entries(copy)){const el=$(id);if(el&&id!=='customQuote'&&!el.matches('select,input,textarea'))el.textContent=val}
     document.querySelectorAll('[data-i18n]').forEach(el=>{const text=copy[el.dataset.i18n];if(text)el.textContent=text});
-    $('stepLabel').textContent=copy['step'+(step===4?'Done':step)];
+    $('stepLabel').textContent=step===2?(lang==='es'?'DATOS DE LA RESERVA':'BOOKING DETAILS'):copy['step'+(step===4?'Done':step)];
     $('flowTitle').textContent=copy[step===1?'chooseTitle':step===2?'detailsTitle':step===3?'reviewTitle':'doneTitle'];
     const u=new URL(location.href);u.searchParams.set('lang',lang);history.replaceState(null,'',u.pathname+u.search+u.hash);
     $('squareFeet').placeholder=lang==='es'?'Ej. 1500':'e.g. 1500';
+    showMini(miniStep,false);
     if(step===3)renderReview();
   }
   const panes=[['choosePanel',1],['detailsPanel',2],['reviewPanel',3]];
@@ -597,21 +611,47 @@
   const paneObserver=typeof ResizeObserver==='function'?new ResizeObserver(()=>sizeActivePane()):null;
   if(paneObserver)panes.forEach(([id])=>paneObserver.observe($(id)));
   window.addEventListener('resize',sizeActivePane,{passive:true});
-  const intakeSections=[...document.querySelectorAll('#demoIntake .demo-intake-section')];
-  function openIntake(id){
-    intakeSections.forEach(section=>{section.open=section.id===id;});
+  const miniPanes=['intakeContact','intakeSpace','intakeSchedule'].map($);
+  let miniStep=0;
+  function resizeMini(){
+    if(step!==2)return;
+    const active=miniPanes[miniStep];
+    if(active){
+      const height=Math.ceil(active.scrollHeight);
+      const vp=$('demoIntakeViewport');
+      if(Math.abs(vp.offsetHeight-height)>1)vp.style.height=height+'px';
+    }
     requestAnimationFrame(sizeActivePane);
   }
-  // Exclusive, accessible native accordions. Values persist while folded.
-  intakeSections.forEach(section=>{
-    section.querySelector('summary')?.addEventListener('click',()=>{
-      if(!section.open)intakeSections.filter(other=>other!==section).forEach(other=>{other.open=false;});
+  const miniObserver=typeof ResizeObserver==='function'?new ResizeObserver(()=>resizeMini()):null;
+  if(miniObserver)miniPanes.forEach(p=>miniObserver.observe(p));
+  function showMini(index,focus=true){
+    miniStep=Math.max(0,Math.min(2,index));
+    $('demoMiniTrack').style.setProperty('--demo-mini-offset',(-100*miniStep/3)+'%');
+    $('demoMiniFill').style.transform='scaleX('+(miniStep/2)+')';
+    miniPanes.forEach((pane,i)=>{
+      pane.inert=i!==miniStep;
+      pane.setAttribute('aria-hidden',String(i!==miniStep));
+      pane.classList.toggle('is-current',i===miniStep);
     });
-    section.addEventListener('toggle',()=>{
-    if(section.open)intakeSections.filter(other=>other!==section).forEach(other=>{other.open=false;});
-    requestAnimationFrame(sizeActivePane);
+    document.querySelectorAll('[data-mini-progress]').forEach(dot=>{
+      const i=Number(dot.dataset.miniProgress);
+      dot.classList.toggle('is-current',i===miniStep);
+      dot.classList.toggle('is-complete',i<miniStep);
     });
-  });
+    const copy=dict();
+    $('demoMiniAnnounce').textContent=(lang==='es'?'Parte ':'Part ')+(miniStep+1)+(lang==='es'?' de 3: ':' of 3: ')+
+      [copy.intakeShortContact,copy.intakeShortSpace,copy.intakeShortSchedule][miniStep];
+    $('backDetails').textContent=miniStep===0?copy.backDetails:(lang==='es'?'Anterior':'Back');
+    $('reviewNext').textContent=miniStep===2?copy.reviewNext:(lang==='es'?'Continuar':'Continue');
+    requestAnimationFrame(resizeMini);
+    if(focus){
+      const target=miniStep===0?$('customerName'):miniStep===1?(kind==='residential'?$('propertyType'):$('spaceType')):miniPanes[2].querySelector('.demo-substep-head');
+      // Set focus synchronously so a later animation frame cannot redirect typing.
+      if(!miniPanes[miniStep].contains(document.activeElement)||!document.activeElement?.matches('input,select,textarea'))target?.focus({preventScroll:true});
+      resizeMini();
+    }
+  }
   $('squareFeet').addEventListener('input',event=>{
     const el=event.currentTarget;
     el.value=el.value.replace(/\D/g,'').slice(0,6);
@@ -623,6 +663,8 @@
     $('completePanel').hidden=!complete;
     $('bookingStepViewport').hidden=complete;
     const progress=$('bookingProgress');
+    // Step 2 has its own three-part motion indicator: avoid two stacked steppers.
+    progress.hidden=next===2;
     progress.style.setProperty('--booking-progress',String((Math.min(next,3)-1)/2));
     $('bookingStepTrack').style.setProperty('--slide-offset',(-100*(Math.min(next,3)-1)/3)+'%');
     progress.setAttribute('aria-label',(lang==='es'?'Progreso de reserva, paso ':'Booking progress, step ')+Math.min(next,3)+' '+(lang==='es'?'de':'of')+' 3');
@@ -643,7 +685,7 @@
     $('resDetails').hidden=kind!=='residential';
     $('resProperty').hidden=kind!=='residential';
     $('comDetails').hidden=kind!=='commercial';
-    if(next===2&&previous===1)openIntake('intakeContact');
+    if(next===2)showMini(previous===3?2:0,false);
     updateWords();
     $('bookingProgressAnnounce').textContent=complete
       ? (lang==='es'?'Vista previa completada':'Preview complete')
@@ -656,11 +698,16 @@
       },580);
     }
     if(!initial){
+      // Focus the first input immediately; delayed autofocus can steal the next field's typing.
+      if(next===2){
+        const current=document.activeElement;
+        if(!$('detailsPanel').contains(current)||!current?.matches('input,select,textarea'))
+          (miniStep===0?$('customerName'):miniStep===1?(kind==='residential'?$('propertyType'):$('spaceType')):miniPanes[2].querySelector('.demo-substep-head'))?.focus({preventScroll:true});
+      }
       requestAnimationFrame(()=>{
-        if(next===2)$('customerName').focus({preventScroll:true});
-        else if(next===3)$('reviewList').focus({preventScroll:true});
+        if(next===3)$('reviewList').focus({preventScroll:true});
         else if(next===1)$('resTab').focus({preventScroll:true});
-        else $('restart').focus({preventScroll:true});
+        else if(next===4)$('restart').focus({preventScroll:true});
         $('flowTitle').scrollIntoView({block:'start',behavior:'auto'});
       });
     }
@@ -813,36 +860,48 @@
     $('chooseNext').disabled=false;showStep(2);
   });
   $('chooseNext').addEventListener('click',()=>{if(selected)showStep(2);});
-  $('backDetails').addEventListener('click',()=>showStep(1));
+  $('backDetails').addEventListener('click',()=>{if(miniStep>0)showMini(miniStep-1);else showStep(1)});
   // When the calendar enhancement is active, validation should guide visitors
   // to the visible calendar instead of the hidden legacy date input.
   function focusPreferredDate(){
-    const nativeDate=$('preferredDate'), calendar=$('tleBookingAppointment');
-    openIntake('intakeSchedule');
-    if(calendar&&nativeDate.closest('label')?.hidden){
-      const focusDay=()=>{
-        calendar.scrollIntoView({block:'start',behavior:'auto'});
-        $('apptDays')?.querySelector('button[data-day]:not(:disabled)')?.focus({preventScroll:true});
-      };
-      focusDay();
-      requestAnimationFrame(focusDay);
-    }else{
-      nativeDate.focus();nativeDate.reportValidity();
+    showMini(2,false);
+    const calendar=$('tleBookingAppointment');
+    requestAnimationFrame(()=>{
+      const day=$('apptDays')?.querySelector('button[data-day]:not(:disabled)');
+      if(day){day.focus({preventScroll:true});calendar?.scrollIntoView({block:'nearest',behavior:'auto'});}
+      else miniPanes[2].querySelector('.demo-substep-head')?.focus({preventScroll:true});
+    });
+  }
+  function validateContact(){
+    const fields=['customerName','customerEmail','customerZip'].map($);
+    const bad=fields.find(el=>!el.value.trim()||!el.checkValidity());
+    if(bad){showMini(0,false);bad.focus({preventScroll:true});bad.reportValidity();return false;}
+    const zip=$('customerZip');
+    if(!/^[A-Za-z0-9 -]{5,10}$/.test(zip.value.trim())){
+      showMini(0,false);zip.setCustomValidity(dict().invalid);zip.reportValidity();zip.setCustomValidity('');zip.focus({preventScroll:true});return false;
     }
+    return true;
+  }
+  function validateProperty(){
+    if(kind==='residential'&&!$('propertyType').value){
+      showMini(1,false);$('propertyType').setCustomValidity(lang==='es'?'Elige el tipo de vivienda.':'Choose a home type.');$('propertyType').reportValidity();$('propertyType').setCustomValidity('');$('propertyType').focus({preventScroll:true});return false;
+    }
+    return true;
   }
   $('detailsPanel').addEventListener('submit',event=>{
     event.preventDefault();
-    const inputs=['customerName','customerEmail','customerZip','preferredDate'].map($);
-    const bad=inputs.find(el=>!el.value.trim()||!el.checkValidity());
-    if(bad){if(bad.id==='preferredDate')focusPreferredDate();else{openIntake('intakeContact');requestAnimationFrame(()=>{bad.focus();bad.reportValidity();});}return;}
-    if(!/^[A-Za-z0-9 -]{5,10}$/.test($('customerZip').value.trim())){openIntake('intakeContact');$('customerZip').focus();$('customerZip').setCustomValidity(dict().invalid);$('customerZip').reportValidity();$('customerZip').setCustomValidity('');return;}
-    if($('preferredDate').value<today()){if($('preferredDate').closest('label')?.hidden)focusPreferredDate();else{$('preferredDate').focus();$('preferredDate').setCustomValidity(dict().dateInvalid);$('preferredDate').reportValidity();$('preferredDate').setCustomValidity('');}return;}
+    if(!validateContact())return;
+    if(miniStep===0){showMini(1);return;}
+    if(!validateProperty())return;
+    if(miniStep===1){showMini(2);return;}
+    const date=$('preferredDate');
+    if(!date.value||!date.checkValidity()||date.value<today()){focusPreferredDate();return;}
     showStep(3);
   });
   $('backReview').addEventListener('click',()=>showStep(2));
   $('finish').addEventListener('click',()=>showStep(4));
   $('restart').addEventListener('click',()=>{
-    $('detailsPanel').reset();$('preferredDate').min=today();chooseKind('residential');openIntake('intakeContact');showStep(1);
+    $('detailsPanel').reset();$('preferredDate').min=today();chooseKind('residential');showMini(0,false);showStep(1);
   });
   chooseKind('residential');showStep(1,true);
 })();

@@ -35,11 +35,14 @@ try {
   await page.locator('.service[data-id="standard"]').dispatchEvent('click');
    await page.locator('.service-flip-card[data-service="standard"] .service-flip-select').click();
   assert.equal(await page.locator('#detailsPanel').isVisible(),true,'Back CTA opens step 2');
-  assert.equal(await page.locator('#intakeSchedule').isVisible(),true,'Schedule accordion remains in step 2');
+  assert.equal(await page.locator('#intakeContact').isVisible(),true,'The contact panel is the first mini-step');
   await page.locator('#customerName').fill('Demo Customer');
   await page.locator('#customerEmail').fill('demo@example.test');
   await page.locator('#customerZip').fill('33101');
-  await page.locator('#intakeSchedule > summary').click();
+  await page.locator('#reviewNext').click();
+  await page.locator('#propertyType').selectOption('house');
+  await page.locator('#reviewNext').click();
+  assert.equal(await page.locator('#intakeSchedule').isVisible(),true,'The date/time picker is the final mini-step');
   await page.locator('#tleBookingAppointment').waitFor({state:'visible'});
   assert.equal(await page.locator('#preferredDate').isVisible(),false,'Only the appointment calendar should be shown, not the older date field');
   assert.equal(await page.locator('#apptDays').isVisible(),true,'The replacement date picker remains visible');
