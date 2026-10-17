@@ -13,7 +13,7 @@ assert(component.includes('inert={!open}')&&component.includes('inert={open}'),'
 assert(component.includes('onKeyDown={onKeys}')&&component.includes("event.key==='Escape'"),'Keyboard return required');
 assert(css.includes('perspective:900px')&&css.includes('760ms')&&css.includes('prefers-reduced-motion:reduce'),'Site spring/reduced motion');
 assert(component.includes('window.location.assign(event.currentTarget.href)'),'Every Explore service link must navigate reliably on Safari');
-assert(css.includes('.tle-service-flip{height:488px}'),'Mobile front card must have room for all price and title text');
+assert(css.includes('.tle-service-flip{height:570px}'),'Mobile front card must have room for complete descriptions and pricing');
 assert(css.includes('transform:none!important;transition:none!important;transform-style:flat'),'Touch devices must avoid 3D link hit-testing');
 
 assert.equal((html.match(/data-flip-card data-service=/g)||[]).length,6,'All six demo services must flip');
