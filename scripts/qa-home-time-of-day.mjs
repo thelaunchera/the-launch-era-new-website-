@@ -23,7 +23,10 @@ assert(js.includes('RoundedBoxGeometry')&&js.includes('RoomEnvironment'),'Three.
 assert(js.includes('renderer.toneMappingExposure=1.18'),'Daylight exposure must retain house details instead of blowing out white walls');
 assert(js.includes('const windowTrim=standard(0x8caec5)'),'3D windows require visible outlines');
 assert(js.includes('const compact=holder.clientWidth<600'),'The 3D house must be more legible on phone viewports');
-assert(jsx.includes('20261017-idle-gpu'),'Home must load the refreshed, idle-safe 3D scene');
+assert(jsx.includes('20261017-house-rotation-restored'),'Home must load the restored, idle-safe 3D scene');
+assert(!jsx.includes('if(reduced||lowPower)return'),'Mobile device-core count must not disable 3D house');
+assert(jsx.includes("--tle-house-turn"),'SVG fallback must turn on scroll when WebGL is unavailable');
+assert(js.includes('rootGroup.rotation.y=.08+.85*ease(p)'),'3D house must visibly turn throughout the scroll chapter');
 assert(js.includes('if(!settled)raf=requestAnimationFrame(tick)'),'3D rendering must pause between scroll movements');
 assert(js.includes("window.removeEventListener('scroll',requestFrame)"),'Three.js scroll listener must be cleaned up');
 assert(css.includes('.tle-time-art{inset:12% -15% 24% -15%}'),'Lift house scene out of phone card overlap');
