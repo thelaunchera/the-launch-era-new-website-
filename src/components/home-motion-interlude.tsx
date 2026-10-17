@@ -57,12 +57,9 @@ export function HomeMotionInterlude({lang='en'}:{lang?:Lang}) {
   const inkWatcher=new MutationObserver(syncHeadingContrast);
   inkWatcher.observe(el,{attributes:true,attributeFilter:['style']});
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // Avoid a second WebGL renderer and third-party 3D download on resource-limited
-  // devices; the native SVG + scroll-linked day/night gradient stays visible.
-  const device=navigator as Navigator & { deviceMemory?:number; connection?:{saveData?:boolean} };
-  const lowPower=Boolean(device.connection?.saveData ||
-    (typeof device.deviceMemory==='number' && device.deviceMemory<=4) ||
-    (typeof navigator.hardwareConcurrency==='number' && navigator.hardwareConcurrency<=4));
+  // Keep the original 3D house active on phones (including 4-core iPhones).
+  // WebGL is loaded only when this section approaches view, and stops rendering
+  // between scroll changes; reduced-motion visitors keep the static fallback.
   // Native scroll scene remains functional even when the 3D engine or network is unavailable.
   const clamp=(v:number)=>Math.min(1,Math.max(0,v));
   const mix=(a:number,b:number,t:number)=>a+(b-a)*t;
@@ -80,6 +77,8 @@ export function HomeMotionInterlude({lang='en'}:{lang?:Lang}) {
    el.style.background='linear-gradient(160deg,'+top+','+bottom+')';
    el.dataset.evening=String(n>.3);
    el.dataset.activeStep=String(Math.min(3,Math.floor(p*4+.02)));
+   // Scroll-responsive depth cue while WebGL loads or is unavailable.
+   el.style.setProperty('--tle-house-turn',((p-.5)*24).toFixed(2)+'deg');
    const count=el.querySelector('[data-tle-count]');
    if(count)count.textContent='0'+(Math.min(3,Math.floor(p*4+.02))+1);
   };
@@ -98,7 +97,7 @@ export function HomeMotionInterlude({lang='en'}:{lang?:Lang}) {
   paintFallback();
   const load=()=>{
    watcher.disconnect();
-   if(reduced||lowPower)return;
+   if(reduced)return;
    import(/* @vite-ignore */ '/assets/tle-home-time-of-day.js?v=20261017-idle-gpu')
     .then(mod=>{
      if(cancelled||typeof mod.mountTimeOfDay!=='function')return;
@@ -112,6 +111,7 @@ export function HomeMotionInterlude({lang='en'}:{lang?:Lang}) {
   return()=>{
    cancelled=true;watcher.disconnect();stopFallback();inkWatcher.disconnect();dispose?.();
    el.style.removeProperty('background');
+   el.style.removeProperty('--tle-house-turn');
    delete el.dataset.evening;delete el.dataset.activeStep;
   };
  },[]);
