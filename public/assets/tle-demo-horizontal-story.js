@@ -1,6 +1,6 @@
-/* Public Booking Demo chapter only. Desktop uses GSAP pinned storytelling.
-   Phone uses a compact, native swipe gallery so there is never a long, empty
-   scroll-pinned section. The real booking form and tenant routes are untouched. */
+/* Public Booking Demo chapter only. Desktop keeps GSAP horizontal pinning.
+   On phones vertical scroll moves the same photos horizontally through a
+   shorter sticky scene. Reduced motion retains accessible native swipe. */
 (() => {
  'use strict';
  const section=document.getElementById('bookingBubbleStory');
@@ -18,15 +18,19 @@
  let controller=null;
  let destroyed=false;
  let booting=false;
+ let mobileActive=false;
+ let mobileFrame=0;
+ const pinStage=section.querySelector('.booking-story-pin-stage');
 
  const updateHint=()=>{
   if(!hint)return;
   const es=document.documentElement.lang.toLowerCase().startsWith('es');
-  if(mobile.matches)hint.textContent=es?'Desliza las cuatro tarjetas →':'Swipe through all four cards →';
+  if(mobile.matches&&!reduce.matches&&!short.matches)hint.textContent=es?'Desplázate para seguir las cuatro fotos ↓':'Scroll to follow all four photos ↓';
+  else if(mobile.matches)hint.textContent=es?'Desliza las cuatro tarjetas →':'Swipe through all four cards →';
   else hint.textContent=es?'Desliza para seguir el recorrido →':'Scroll to follow the booking journey →';
  };
  const updateNativeProgress=()=>{
-  if(section.classList.contains('is-gsap-ready'))return;
+  if(section.classList.contains('is-gsap-ready')||mobileActive)return;
   const total=Math.max(0,windowEl.scrollWidth-windowEl.clientWidth);
   const percent=total>1?Math.max(0,Math.min(100,Math.round(100*windowEl.scrollLeft/total))):100;
   fill.style.transform='scaleX('+(percent/100)+')';
@@ -39,6 +43,54 @@
   updateNativeProgress();
  };
  windowEl.addEventListener('scroll',updateNativeProgress,{passive:true});
+ // Calculate horizontal translation from the REAL card track width. The last
+ // card must still occupy the stage when vertical progress reaches 100%.
+ const renderMobile=()=>{
+  mobileFrame=0;
+  if(!mobileActive||destroyed)return;
+  const travel=Math.max(1,section.offsetHeight-pinStage.clientHeight);
+  const fraction=Math.max(0,Math.min(1,-section.getBoundingClientRect().top/travel));
+  const maxX=Math.max(0,track.scrollWidth-windowEl.clientWidth);
+  const x=maxX*fraction;
+  track.style.transform='translate3d('+-x+'px,0,0)';
+  fill.style.transform='scaleX('+fraction+')';
+  progress.setAttribute('aria-valuenow',String(Math.round(fraction*100)));
+  cards.forEach(card=>{
+   const art=card.querySelector('.booking-story-card-art');
+   if(!art)return;
+   const r=card.getBoundingClientRect();
+   const dx=Math.min(1,Math.abs((r.left+r.right)*.5-windowEl.clientWidth*.5)/windowEl.clientWidth);
+   const prominence=1-dx;
+   art.style.transform='scale('+(0.93+0.07*prominence)+')';
+   art.style.opacity=String(0.82+0.18*prominence);
+  });
+ };
+ const scheduleMobile=()=>{
+  if(mobileActive&&!mobileFrame)mobileFrame=requestAnimationFrame(renderMobile);
+ };
+ const enableMobile=()=>{
+  if(mobileActive||!pinStage)return;
+  mobileActive=true;
+  section.classList.add('is-mobile-scroll-story');
+  windowEl.scrollLeft=0;
+  updateHint();
+  renderMobile();
+ };
+ const disableMobile=()=>{
+  if(!mobileActive)return;
+  mobileActive=false;
+  if(mobileFrame){cancelAnimationFrame(mobileFrame);mobileFrame=0;}
+  section.classList.remove('is-mobile-scroll-story');
+  track.style.removeProperty('transform');
+  cards.forEach(card=>{
+   const art=card.querySelector('.booking-story-card-art');
+   art?.style.removeProperty('transform');
+   art?.style.removeProperty('opacity');
+  });
+  showNative();
+ };
+ window.addEventListener('scroll',scheduleMobile,{passive:true});
+ window.addEventListener('resize',scheduleMobile,{passive:true});
 
  const addScript=(src,ready)=>{
   if(ready())return Promise.resolve();
@@ -53,8 +105,9 @@
  const init=async()=>{
   if(destroyed)return;
   showNative();
-  // Pinning a horizontal track on iPhone produces an empty vertical tail.
-  // Keep the 4 distinct photos reachable with finger swipe, no GSAP on phones.
+  // Mobile uses a compact CSS-sticky stage controlled by vertical scrolling,
+  // preserving the original cinematic direction without a long GSAP spacer.
+  if(mobile.matches&&!reduce.matches&&!short.matches){enableMobile();return;}
   if(reduce.matches||short.matches||mobile.matches||controller||booting)return;
   booting=true;
   try{
@@ -112,11 +165,17 @@
  };
  const onViewportChange=()=>{
   if(destroyed)return;
-  if(reduce.matches||short.matches||mobile.matches){
+  if(mobile.matches&&!reduce.matches&&!short.matches){
    if(controller){controller.revert();controller=null;}
-   showNative();
-  }else if(!controller&&!booting){
-   init();
+   enableMobile();
+  }else{
+   disableMobile();
+   if(reduce.matches||short.matches){
+    if(controller){controller.revert();controller=null;}
+    showNative();
+   }else if(!controller&&!booting){
+    init();
+   }
   }
  };
  reduce.addEventListener?.('change',onViewportChange);
@@ -125,8 +184,11 @@
  const dispose=()=>{
   destroyed=true;
   controller?.revert();
+  disableMobile();
   showNative();
   windowEl.removeEventListener('scroll',updateNativeProgress);
+  window.removeEventListener('scroll',scheduleMobile);
+  window.removeEventListener('resize',scheduleMobile);
   reduce.removeEventListener?.('change',onViewportChange);
   short.removeEventListener?.('change',onViewportChange);
   mobile.removeEventListener?.('change',onViewportChange);
