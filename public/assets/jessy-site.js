@@ -387,6 +387,7 @@ function checkoutFor(id){
 }
 function purchaseReady(message){
  const q=String(message||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[¿?¡!.,:;]+/g," ").replace(/\s+/g," ").trim();
+ if(/\b(?:not|never|dont|don\'t) (?:quite |really |yet )?ready to\b|\b(?:when|if|once) (?:i\'?m|i am|we\'?re|we are) ready to\b|\b(?:no estoy|todavia no estoy|aun no estoy) list[oa] para\b/.test(q))return false;
  if(/\b(?:already|just|previously) (?:bought|purchased|paid)|\b(?:my|our) (?:order|purchase)|\b(?:ya (?:compre|pague)|mi pedido|mi compra)\b/.test(q))return false;
  if(/\b(?:ready to (?:buy|purchase|pay|order|check out|checkout|get started)|(?:i|we) (?:want|need) to (?:buy|purchase|pay|order|checkout|check out)|i(?:'d| would) like to (?:buy|purchase|pay|order|checkout|check out)|(?:buy|purchase|pay|checkout|check out) now)\b/.test(q))return true;
  if(/\b(?:send|show|give|open|take me to)\b.{0,35}\b(?:checkout|payment link|purchase link|payment page|buy link)\b/.test(q))return true;
