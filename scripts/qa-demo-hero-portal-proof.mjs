@@ -25,7 +25,7 @@ assert.match(style,/@media\(prefers-reduced-motion:reduce\)/,'Respect reduced-mo
 assert.match(style, /--portal-scale/, 'Window zoom through focal point missing');
 assert.match(script,/sonnyToggle/,'Must open real Sonny chat, no dummy widget');
 assert.match(script,/portalClickDuration=2800/,'Window click must use the deliberate 2.8s transition instead of native smooth scrolling');
-assert.match(style,/booking-portal-back::after[\\s\\S]*linear-gradient/,'Hero back scene must have gradient');
+assert(style.includes('booking-portal-back::after')&&style.includes('background:linear-gradient('),'Hero back scene must have gradient');
 assert.match(style,/2026-10-17 Blue cinematic hero/,'Blue upgrade must be scoped to existing hero');
 assert.match(style,/booking-strike/,'Do not lose remarkable original strike animation');
 assert.match(html,/family=Caveat:wght@500;600;700/,'Handwriting font must be requested non-blocking alongside interface fonts');
