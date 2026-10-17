@@ -7,6 +7,9 @@ on:
       - 'public/assets/tle-demo-hero-portal.css'
       - 'public/assets/tle-demo-hero-portal.js'
       - 'public/assets/tle-demo-horizontal-story.js'
+      - 'public/assets/tle-demo-work-gallery.css'
+      - 'public/assets/tle-demo-work-gallery.js'
+      - 'scripts/qa-booking-work-gallery.mjs'
       - 'public/assets/tle-booking-bubbles-continuity.css'
       - 'public/assets/drive-booking-journey/**'
       - 'scripts/qa-booking-demo-clean-reset.mjs'
@@ -32,6 +35,8 @@ jobs:
           node scripts/qa-public-demo-integrity.mjs
           node --check public/assets/tle-demo-hero-portal.js
           node --check scripts/qa-booking-demo-clean-reset.mjs
+          node --check public/assets/tle-demo-work-gallery.js
+          node --check scripts/qa-booking-work-gallery.mjs
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -41,6 +46,9 @@ jobs:
           python3 scripts/build_demo_photo_assets.py
           for image in regular deep move office retail medical; do
             test -s "public/assets/demo-services/$image.webp"
+          done
+          for image in kitchen-refresh living-space bathroom-detail dining-room bedroom miami-condo sunroom poolside-living office whole-home; do
+            test -s "public/assets/demo-work-gallery/$image.webp"
           done
       - name: Build website
         run: |
@@ -68,3 +76,4 @@ jobs:
           done
           QA_URL=http://127.0.0.1:4173 node scripts/qa-booking-demo-clean-reset.mjs
           QA_URL=http://127.0.0.1:4173 node scripts/qa-booking-horizontal-drive-story.mjs
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-booking-work-gallery.mjs

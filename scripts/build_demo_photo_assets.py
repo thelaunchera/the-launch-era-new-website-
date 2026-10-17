@@ -157,6 +157,35 @@ def convert_editorial(item: tuple[str, tuple[str, str]]) -> tuple[str, dict]:
                   "local_path": f"/assets/demo-editorial/{name}.webp",
                   "bytes": target.stat().st_size}
 
+
+# Distinct, already-approved sample interiors used by the optional swipe deck.
+# Every conversion is from a checked-in local file; never fetch customer data.
+WORK_GALLERY_PHOTOS = {
+    "kitchen-refresh": "public/assets/drive-house-gallery/pristine-kitchen.png",
+    "living-space": "public/assets/drive-house-gallery/quiet-luxury.png",
+    "bathroom-detail": "public/assets/drive-booking-journey/share-details-bathroom.png",
+    "dining-room": "public/assets/drive-house-gallery/dining-room.png",
+    "bedroom": "public/assets/drive-booking-journey/review-ready-bedroom.png",
+    "miami-condo": "public/assets/drive-house-gallery/miami-condo.png",
+    "sunroom": "public/assets/lead-demo/sunroom.png",
+    "poolside-living": "public/assets/lead-demo/poolside-living.png",
+    "office": "public/assets/lead-demo/spotless-office.png",
+    "whole-home": "public/assets/drive-house-gallery/whole-home.png",
+}
+
+
+def convert_work_gallery(item: tuple[str, str]) -> tuple[str, dict]:
+    name, source = item
+    img = ImageOps.exif_transpose(Image.open(ROOT / source)).convert("RGB")
+    img.thumbnail((940, 1100), Image.Resampling.LANCZOS)
+    target = ROOT / "public/assets/demo-work-gallery" / f"{name}.webp"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    img.save(target, format="WEBP", quality=79, method=5)
+    assert target.stat().st_size < 390_000, f"Heavy work gallery image: {target}"
+    return name, {"source": "local-illustrative", "local_path": "/assets/demo-work-gallery/" + target.name,
+                  "bytes": target.stat().st_size}
+
+
 def build() -> None:
     OUTPUT.mkdir(parents=True, exist_ok=True)
     COMPARE_OUTPUT.mkdir(parents=True, exist_ok=True)
@@ -172,6 +201,11 @@ def build() -> None:
         json.dumps(editorial, indent=2) + "\n", encoding="utf8")
     print(f"EDITORIAL: {len(editorial)} photographs prepared; "
           f"{sum(v['source'] == 'drive' for v in editorial.values())} from Drive.", flush=True)
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        work_gallery = dict(executor.map(convert_work_gallery, WORK_GALLERY_PHOTOS.items()))
+    (ROOT / "public/assets/demo-work-gallery/manifest.json").write_text(
+        json.dumps(work_gallery, indent=2) + "\n", encoding="utf8")
+    print(f"WORK GALLERY: {len(work_gallery)} optimized sample photos prepared.", flush=True)
     with ThreadPoolExecutor(max_workers=6) as executor:
         transformations = dict(executor.map(convert_transformation, TRANSFORMATIONS.items()))
     (COMPARE_OUTPUT / "manifest.json").write_text(
