@@ -81,12 +81,12 @@ function nextAction(b:ReturnType<typeof bookingDraft>,language:string){
 }
 function safePublicReply(candidate:string,message:string,booking:ReturnType<typeof bookingDraft>,language:string){
  const step=nextAction(booking,language);
- let reply=clean(candidate,210).replace(/\\s+/g," ").trim();
+ let reply=clean(candidate,210).replace(/\s+/g," ").trim();
  // The owner confirms actual prices, discounts and payments. Talking about
  // the ability to prepare a quote request is not itself a price promise.
  const asksForMoney=moneyWords.test(message)&&
    !/^(?:can you|do you|how do you|puedes|puede|c[oó]mo).{0,55}(?:quote requests?|cotizaciones?|presupuestos?)/i.test(message);
- const inventedAmount=/(?:[$€£]\\s*\\d|\\b\\d+[.,]?\\d*\\s*(?:dollars?|usd|euros?)\\b)/i.test(reply);
+ const inventedAmount=/(?:[$€£]\s*\d|\b\d+[.,]?\d*\s*(?:dollars?|usd|euros?)\b)/i.test(reply);
  if(asksForMoney||inventedAmount){
   const intro=language==="es"?"La persona encargada confirma los precios y pagos.":"The business owner confirms prices and payments.";
   return (intro+" "+step).slice(0,190);
@@ -95,10 +95,10 @@ function safePublicReply(candidate:string,message:string,booking:ReturnType<type
  // Preserve relevant, contextual AI answers instead of replacing every
  // 110-character reply with a fixed booking question.
  if(reply.length>190){
-  const sentences=reply.split(/(?<=[.!?])\\s+/);
+  const sentences=reply.split(/(?<=[.!?])\s+/);
   const natural=sentences.slice(0,2).join(" ");
   reply=(natural.length>25&&natural.length<=190)?natural:
-    reply.slice(0,187).replace(/\\s+\\S*$/,"")+"…";
+    reply.slice(0,187).replace(/\s+\S*$/,"")+"…";
  }
  return reply;
 }
@@ -142,8 +142,8 @@ function explicitDetails(message:string,previous:ReturnType<typeof bookingDraft>
 // without an explicit, matching prior assistant question.
 function shortNumericAnswer(message:string,transcript:string):Record<string,number>{
  const value=Number(message.trim());
- if(!/^\\d{1,2}$/.test(message.trim())||value<1||value>9)return {};
- const answers=[...transcript.matchAll(/(?:^|\\n)Assistant:\\s*([^\\n]+)/g)];
+ if(!/^\d{1,2}$/.test(message.trim())||value<1||value>9)return {};
+ const answers=[...transcript.matchAll(/(?:^|\n)Assistant:\s*([^\n]+)/g)];
  const prompt=(answers.at(-1)?.[1]||"").toLowerCase();
  if(/(?:bedrooms?|beds?|habitaciones?|dormitorios?|cuartos?)/i.test(prompt))return {bedrooms:value};
  if(/(?:bathrooms?|baths?|baños?|banos?)/i.test(prompt))return {bathrooms:value};
