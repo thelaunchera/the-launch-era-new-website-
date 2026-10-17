@@ -26,7 +26,7 @@ for(const language of ['en','es']){
  const explain=await ask({message:language==='es'?'¿Cómo funciona Booking Automation?':'How does Booking Automation work?',language,selected_offer:'booking'});
  assert.match(explain.reply,language==='es'?/reserva|solicitud|cliente/i:/booking|request|customer|inquiry/i,"Explain the service first, with a useful concrete answer.");
  assert.doesNotMatch(explain.reply,/20-minute 1:1|llamada 1:1 opcional|after purchasing a service|después de comprar un servicio/i,"Do not add unsolicited call details to ordinary service explanations.");
- assert.equal(explain.next_action,'demo',"Only a service walkthrough may offer the existing consent-gated demo.");
+ assert.equal(explain.next_action,'none',"A how-it-works question should not trigger an unrequested demo.");
  const purchased=await ask({message:language==='es'?'Ya compré mi servicio, ¿cómo hago mi llamada 1:1?':'I already purchased a service, how do I schedule my 1:1 call?',language,selected_offer:'booking'});
  assert.equal(purchased.mode,'verified_call');
  assert.match(purchased.reply,language==='es'?/verifica tu pedido/:/verifies the purchase/);
