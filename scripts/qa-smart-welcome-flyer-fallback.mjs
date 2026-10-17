@@ -9,7 +9,7 @@ try{
   for(const broken of [false,true]){
    const page=await browser.newPage({viewport:{width:390,height:844}});
    await page.route('**/functions/v1/tle-booking-bundle-checkout',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify(offer)}));
-   if(broken) await page.route('**/assets/promo/tle-smart-welcome-bundle-flyer.jpg*',r=>r.abort());
+   if(broken) await page.route('**/assets/promo/tle-smart-welcome-bundle-flyer*',r=>r.abort());
    await page.goto(base+path,{waitUntil:'domcontentloaded',timeout:45000});
    const dialog=page.getByRole('dialog',{name:lang==='es'?'Oferta de The Launch Era':'The Launch Era bundle offer'});
    await dialog.waitFor({state:'visible',timeout:20000});
@@ -19,6 +19,7 @@ try{
    }else{
     await page.waitForFunction(()=>{let img=document.querySelector('.tle-bundle-welcome-dialog img');return !!img&&img.complete&&img.naturalWidth>500},null,{timeout:10000});
     assert.equal(await dialog.locator('img').count(),1,'Approved flyer replaced');
+    assert.match(await dialog.locator('img').getAttribute('src'),lang==='es'?/flyer-es\\.svg/:/flyer\\.jpg/,'Incorrect localized pop-up flyer image');
    }
    const link=dialog.locator('.tle-bundle-welcome-cta');
    assert.match(await link.getAttribute('href'),/\/booking-bundle\/\?lang=(en|es)&bundle=ai-booking/);
