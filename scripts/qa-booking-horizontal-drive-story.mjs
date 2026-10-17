@@ -79,68 +79,75 @@ try{
   await page.close();
   console.log('PASS pinned Drive-photo story '+lang+' '+width);
  }
- // iPhone keeps the original scroll-driven horizontal animation, now
- // inside a SHORT sticky stage (rather than the old long blank GSAP pin).
+ // iPhone: no auto-run on vertical scroll, no multi-screen blue spacer.
+ // Visitors can inspect each photo at their pace by touch or 850ms arrows.
  for(const [lang,width,height] of [['en',360,780],['es',390,844]]){
-  const page=await browser.newPage({viewport:{width,height},reducedMotion:'no-preference'});
+  const page=await browser.newPage({viewport:{width,height},reducedMotion:'no-preference',hasTouch:true,isMobile:true});
   const errors=[],writes=[];
   page.on('pageerror',e=>errors.push(e.message));
   page.on('request',req=>{if(['POST','PUT','PATCH','DELETE'].includes(req.method()))writes.push(req.url())});
   await page.goto(base+'/booking-demo-reset.html?lang='+lang,{waitUntil:'domcontentloaded'});
   const section=page.locator('#bookingBubbleStory');
-  await page.waitForFunction(()=>document.getElementById('bookingBubbleStory')?.classList.contains('is-mobile-scroll-story'));
-  const before=await section.evaluate(el=>{
+  const state=await section.evaluate(el=>{
    const view=el.querySelector('.booking-story-window');
    const stage=el.querySelector('.booking-story-pin-stage');
-   const bar=el.querySelector('#bookingStoryProgress');
-   return {pinnedByGsap:el.classList.contains('is-gsap-ready'),
-    sectionHeight:el.getBoundingClientRect().height,stageHeight:stage.getBoundingClientRect().height,
-    position:getComputedStyle(stage).position,overflow:getComputedStyle(view).overflowX,
+   const nav=el.querySelector('#bookingStoryNav');
+   return {
+    sectionHeight:el.getBoundingClientRect().height,
+    stagePosition:getComputedStyle(stage).position,
+    overflow:getComputedStyle(view).overflowX,
+    snap:getComputedStyle(view).scrollSnapType,
+    viewWidth:view.clientWidth,contentWidth:view.scrollWidth,
+    navVisible:nav.getBoundingClientRect().height>0,
     cards:el.querySelectorAll('[data-booking-story-card]').length,
-    progress:Number(bar.getAttribute('aria-valuenow')),
-    docWidth:document.documentElement.scrollWidth};
+    docWidth:document.documentElement.scrollWidth,
+    mobileAuto:el.classList.contains('is-mobile-scroll-story')
+   };
   });
-  assert(!before.pinnedByGsap,'Avoid the old empty GSAP scroll pin on iPhone');
-  assert.equal(before.position,'sticky','Keep scroll-driven cinematic scene on iPhone');
-  assert.equal(before.overflow,'hidden','Phone animation must clip track, not swipe natively');
-  assert(before.sectionHeight>=height*1.9&&before.sectionHeight<=height*2.2,'Short 2.1-screen chapter '+JSON.stringify(before));
-  assert(before.stageHeight>=height*.95&&before.stageHeight<=height*1.05,'Sticky viewport '+JSON.stringify(before));
-  assert.equal(before.cards,4,'Preserve all four photographs');
-  assert(before.docWidth<=width+4,'No horizontal page overflow '+JSON.stringify(before));
-  const bounds=await section.evaluate(el=>({
-   top:window.scrollY+el.getBoundingClientRect().top,
-   travel:el.offsetHeight-el.querySelector('.booking-story-pin-stage').clientHeight
-  }));
-  for(const fraction of [0.0,0.25,0.50,0.75,1.0]){
-   await page.evaluate(pos=>window.scrollTo({top:pos,behavior:'instant'}),bounds.top+bounds.travel*fraction);
-   await page.waitForTimeout(160);
-   const state=await section.evaluate(el=>{
-    const win=el.querySelector('.booking-story-window').getBoundingClientRect();
-    const cards=[...el.querySelectorAll('[data-booking-story-card]')];
-    return {
-     progress:Number(el.querySelector('#bookingStoryProgress').getAttribute('aria-valuenow')),
-     visible:cards.map(card=>{
-      const r=card.getBoundingClientRect();
-      return Math.max(0,Math.min(r.right,win.right)-Math.max(r.left,win.left))/win.width;
-     }),
-     titleVisible:el.querySelector('.booking-story-intro-panel').getBoundingClientRect().right>win.left+30,
-     stageTop:el.querySelector('.booking-story-pin-stage').getBoundingClientRect().top
-    };
+  assert.equal(state.stagePosition,'relative','Phone has no sticky pin');
+  assert.equal(state.overflow,'auto','Use native touch swipe');
+  assert.match(state.snap,/mandatory/,'Swipe should snap to one photo');
+  assert(!state.mobileAuto,'No automatic vertical-driven sliding on mobile');
+  assert(state.sectionHeight>=height*.47&&state.sectionHeight<=height*1.02,'Compact photo area instead of >2 screens '+JSON.stringify({lang,state}));
+  assert(state.navVisible,'Small manual navigation remains accessible');
+  assert.equal(state.cards,4);
+  assert(state.contentWidth>state.viewWidth*3,'Keep 4 distinct photo cards and intro');
+  assert(state.docWidth<=width+4,'No horizontal page overflow '+JSON.stringify({lang,state}));
+  assert.equal(await page.locator('#bookingStoryCount').innerText(),'1 / 5');
+  const first=await section.evaluate(el=>el.querySelector('.booking-story-window').scrollLeft);
+  const sectionTop=await section.evaluate(el=>window.scrollY+el.getBoundingClientRect().top);
+  await page.evaluate(top=>window.scrollTo({top:top+85,behavior:'instant'}),sectionTop);
+  await page.waitForTimeout(180);
+  assert.equal(await section.evaluate(el=>el.querySelector('.booking-story-window').scrollLeft),first,
+    'Vertical scrolling must never auto-advance the photo cards');
+  for(let n=2;n<=5;n++){
+   await page.locator('#bookingStoryNext').click();
+   await page.waitForFunction(expected=>document.getElementById('bookingStoryCount')?.textContent.trim()===expected+'/ 5',n,{timeout:2500});
+   await page.waitForTimeout(930);
+   const photo=await section.evaluate(el=>{
+    const v=el.querySelector('.booking-story-window').getBoundingClientRect();
+    const items=[el.querySelector('.booking-story-intro-panel'),...el.querySelectorAll('[data-booking-story-card]')];
+    return items.map(a=>{
+     const r=a.getBoundingClientRect();
+     return Math.max(0,Math.min(v.right,r.right)-Math.max(v.left,r.left))/v.width;
+    });
    });
-   assert(Math.abs(state.progress-100*fraction)<=7,'Progress must track vertical scroll '+JSON.stringify({fraction,state}));
-   assert(state.stageTop>=-6&&state.stageTop<=6,'Sticky stage remains in viewport '+JSON.stringify({fraction,state}));
-   if(fraction===0)assert(state.titleVisible,'Intro remains visible at start');
-   else assert(Math.max(...state.visible)>.53,'No empty blue section at progress '+fraction+' '+JSON.stringify(state));
-   if(fraction===1)assert(state.visible[3]>.68,'Fourth image remains visible until stage releases');
+   assert(photo[n-1]>.64,'Each selected image remains visible; no blank section '+JSON.stringify({n,photo}));
   }
-  await page.evaluate(pos=>window.scrollTo({top:pos,behavior:'instant'}),bounds.top+bounds.travel+height*.42);
-  await page.waitForTimeout(150);
-  const follow=await page.evaluate(()=>document.getElementById('bookingPage').getBoundingClientRect().top);
-  assert(follow<height*.7,'Form follows gallery without extra blank viewport '+JSON.stringify({follow,height}));
-  assert.deepEqual(writes,[],'Scroll effect must not submit bookings');
-  assert.deepEqual(errors,[],'Phone browser errors');
+  assert.equal(await page.locator('#bookingStoryNext').isDisabled(),true,'End at fourth photo');
+  await page.locator('#bookingStoryPrev').click();
+  await page.waitForTimeout(980);
+  assert.equal(await page.locator('#bookingStoryCount').innerText(),'4 / 5','Previous works without replaying the entire scroll chapter');
+  const follow=await section.evaluate(el=>{
+   const bottom=el.getBoundingClientRect().bottom;
+   const next=document.getElementById('bookingPage').getBoundingClientRect().top;
+   return next-bottom;
+  });
+  assert(Math.abs(follow)<8,'Booking form must follow gallery without a blank sticky spacer '+follow);
+  assert.deepEqual(writes,[],'Illustrative gallery must not send booking requests');
+  assert.deepEqual(errors,[],'No mobile browser errors');
   await page.close();
-  console.log('PASS short scroll-driven iPhone cinematic chapter '+lang+' '+width);
+  console.log('PASS compact swipe-at-your-pace phone journey '+lang+' '+width);
  }
  for(const [lang,width,height] of [['en',390,844],['es',360,780]]){
   const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'});
@@ -162,4 +169,4 @@ try{
   console.log('PASS native fallback '+lang+' '+width);
  }
 }finally{await browser.close();}
-console.log('[BROWSER PASS] GSAP horizontal drive story, EN ES and reduced motion.');
+console.log('[BROWSER PASS] Desktop GSAP story and compact manual photo swipe on phones, EN ES and reduced motion.');
