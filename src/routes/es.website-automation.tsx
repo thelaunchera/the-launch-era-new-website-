@@ -51,9 +51,9 @@ function Page(){
   return <main style={{background:'#faf4f7'}}>
     <section className="container service-hero">
       <div className="eyebrow">WEBSITE AUTOMATION</div>
-      <p className="booking-offer-line service-discount-offer"><span className="booking-offer-tag">OFERTA ESPECIAL</span><span className="booking-offer-price"><del>$59.99</del><strong>$31.99</strong></span></p><h1 className="editorial">Conserva tu website. Mejora lo que pasa después.</h1>
+      <p className="booking-offer-line service-discount-offer"><span className="booking-offer-tag">OFERTA ESPECIAL</span><span className="booking-offer-price"><del>$59.99</del><strong>$35</strong></span></p><h1 className="editorial">Conserva tu website. Mejora lo que pasa después.</h1>
       <p>¿Ya tienes website? Organizamos las consultas que llegan desde tu formulario de contacto o cotización para que puedas responder y dar seguimiento sin perder oportunidades.</p>
-      <MarketingCTA className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=es">Comenzar — $31.99 <ArrowRight/></MarketingCTA><p className="muted" style={{fontSize:13,margin:"13px 0 10px",lineHeight:1.6}}>Preparación inicial: producción estimada de 48 horas después de recibir tu formulario completo y confirmar los detalles.</p><div className="service-proof-strip" aria-label="Detalles del servicio"><span>TU WEBSITE ACTUAL</span><span>ORGANIZACIÓN DE CONSULTAS</span><span>CONFIGURACIÓN ÚNICA</span></div>
+      <MarketingCTA className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=es">Comenzar — $35 <ArrowRight/></MarketingCTA><p className="muted" style={{fontSize:13,margin:"13px 0 10px",lineHeight:1.6}}>Preparación inicial: producción estimada de 48 horas después de recibir tu formulario completo y confirmar los detalles.</p><div className="service-proof-strip" aria-label="Detalles del servicio"><span>TU WEBSITE ACTUAL</span><span>ORGANIZACIÓN DE CONSULTAS</span><span>CONFIGURACIÓN ÚNICA</span></div>
     </section>
 
     <section className="container service-story">
@@ -124,7 +124,7 @@ function Page(){
 
       <div className="service-endcap">
         <span>TU WEBSITE</span><ArrowRight/><span>CONSULTA</span><ArrowRight/><span>AUTOMATIZACIÓN</span><ArrowRight/><strong>PRÓXIMO PASO ✓</strong>
-        <small>Conecta el formulario de tu website · Configuración única $31.99 · Evita que las consultas nuevas se pierdan.</small>
+        <small>Conecta el formulario de tu website · Configuración única $35 · Evita que las consultas nuevas se pierdan.</small>
       </div>
     </section>
   <ServiceFAQ topic="website" lang="es"/></main>
