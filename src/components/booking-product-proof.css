@@ -1,0 +1,30 @@
+/* Real-interface proof for the Booking Automation product landing (EN/ES).
+   Matches the approved ivory/blue/soft-black brand without adding animation or heavy embeds. */
+.tle-booking-proof {
+  display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);
+  align-items:center;gap:clamp(18px,4vw,52px);
+  padding:clamp(24px,4vw,46px);margin-block:clamp(18px,3vw,42px);
+  border-radius:26px;background:#FAF8F3;border:1px solid #cfdde8;
+  box-shadow:0 14px 36px rgba(25,25,25,.04);
+}
+.tle-booking-proof .eyebrow{color:#497691}
+.tle-booking-proof h2{font-size:clamp(27px,3vw,40px);line-height:1.13;max-width:20ch;margin:12px 0}
+.tle-booking-proof p{font-size:clamp(15px,1.3vw,17px);line-height:1.55;color:#3a5564;max-width:44ch}
+.tle-booking-proof-steps{display:grid;gap:10px;margin:20px 0}
+.tle-booking-proof-steps span{font-size:14px;line-height:1.45;color:#263d4c}
+.tle-booking-proof-steps b{color:#191919;display:inline}
+.tle-booking-proof-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:22px}
+.tle-booking-proof-actions .cta-button{max-width:100%}
+.tle-booking-proof-actions .service-demo-link{font-weight:700;color:#285b79}
+.tle-booking-proof-visual{margin:0;min-width:0}
+.tle-booking-proof-image-link{display:block;overflow:hidden;border-radius:19px;border:1px solid #c5d8e6;box-shadow:0 13px 29px rgba(28,53,70,.12)}
+.tle-booking-proof-image-link:focus-visible{outline:3px solid #5f9fc6;outline-offset:4px}
+.tle-booking-proof-image-link img{display:block;width:100%;height:auto;aspect-ratio:1348/886;object-fit:cover;object-position:top center}
+.tle-booking-proof figcaption{font-size:12px;color:#506778;line-height:1.5;margin-top:10px}
+@media(max-width:820px){
+ .tle-booking-proof{grid-template-columns:1fr;padding:20px 16px;gap:20px;border-radius:20px}
+ .tle-booking-proof h2{max-width:none}
+ .tle-booking-proof-actions{align-items:stretch}
+ .tle-booking-proof-actions .cta-button{min-height:46px}
+}
+@media(prefers-reduced-motion:reduce){.tle-booking-proof-image-link,.tle-booking-proof-actions *{scroll-behavior:auto}}
