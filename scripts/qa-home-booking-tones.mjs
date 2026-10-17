@@ -18,7 +18,8 @@ for(const [label,homepage,product,lang] of [
  assert.match(product,/\$49\.99/,label+': regular booking price missing from product landing');
  assert.match(product,/\$19\.99/,label+': Fall Refresh promotion missing');
  assert(product.includes('/booking-bundle/?lang='+lang),label+': product checkout missing');
- assert(product.includes('12 PM ET'),label+': production timing information missing');
+ assert(product.includes(lang==='es'?'Las 48 horas estimadas de producción':'Estimated 48-hour production'),label+': correct production estimate missing');
+ assert(product.includes(lang==='es'?'te enviamos el correo de inicio':'kickoff confirmation'),label+': production should begin after review and email kickoff confirmation');
 }
 assert(!es.includes('<section className="booking-section">'),'Spanish homepage duplicate persists');
 assert(en.includes('<FinalCTA/>')&&editorial.includes('export function FinalCTA'),'English final CTA removed');
