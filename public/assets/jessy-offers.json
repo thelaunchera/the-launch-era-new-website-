@@ -9,8 +9,8 @@
       "name": "Booking Automation + Command Center",
       "short_en": "Booking requests, approximate estimates, owner alerts, organized leads and automatic first follow-ups.",
       "short_es": "Solicitudes de reserva, estimados aproximados, avisos, leads organizados y primeros seguimientos automáticos.",
-      "price_en": "$12.99 Fall Refresh through October 31. Booking + an AI Assistant may qualify for 40% off the combined activation; normal AI monthly rate applies later.",
-      "price_es": "$12.99 de oferta Fall Refresh hasta el 31 de octubre. Booking + AI Assistant puede tener 40% de descuento en la activación conjunta; luego aplica la mensualidad normal.",
+      "price_en": "$12.99 current offer (regular $49.99). Booking + an AI Assistant may qualify for 40% off the combined activation; normal AI monthly rate applies later.",
+      "price_es": "$12.99 de oferta actual (precio regular $49.99). Booking + AI Assistant puede tener 40% de descuento en la activación conjunta; luego aplica la mensualidad normal.",
       "checkout": "/service-checkout/?offer=booking-flow",
       "details": "/booking-lead-automation",
       "bundle": "/booking-bundle/?lang=en"
