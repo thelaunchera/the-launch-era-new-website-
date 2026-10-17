@@ -368,7 +368,7 @@
    </div>
    <div class="actions"><button type="button" class="secondary" id="backDetails">Back</button><button class="primary" type="submit" id="reviewNext">Review details</button></div>
   </fieldset></form>
-  <div id="reviewPanel" class="panel booking-step-pane" data-step-pane="3" role="group" aria-labelledby="reviewFieldsetTitle" hidden><fieldset class="booking-step-fieldset"><legend class="sr-only" id="reviewFieldsetTitle">Review your sample request</legend><p class="notice" id="reviewNote">Check this sample request before completing the preview.</p><dl class="review" id="reviewList"></dl>
+  <div id="reviewPanel" class="panel booking-step-pane" data-step-pane="3" role="group" aria-labelledby="reviewFieldsetTitle" hidden><fieldset class="booking-step-fieldset"><legend class="sr-only" id="reviewFieldsetTitle">Review your sample request</legend><p class="notice" id="reviewNote">Check this sample request before completing the preview.</p><dl class="review" id="reviewList" tabindex="-1"></dl>
    <div class="actions"><button type="button" class="secondary" id="backReview">Edit details</button><button type="button" class="primary" id="finish">Finish preview</button></div>
   </fieldset></div>
     </div>
@@ -464,14 +464,62 @@
     const u=new URL(location.href);u.searchParams.set('lang',lang);history.replaceState(null,'',u.pathname+u.search+u.hash);
     if(step===3)renderReview();
   }
-  function showStep(next){
+  const panes=[['choosePanel',1],['detailsPanel',2],['reviewPanel',3]];
+  let slideCleanup=null;
+  function sizeActivePane(){
+    if(step>3)return;
+    const active=$(panes[step-1][0]),viewport=$('bookingStepViewport');
+    if(active&&!active.hidden)viewport.style.height=Math.ceil(active.scrollHeight)+'px';
+  }
+  const paneObserver=typeof ResizeObserver==='function'?new ResizeObserver(()=>sizeActivePane()):null;
+  if(paneObserver)panes.forEach(([id])=>paneObserver.observe($(id)));
+  window.addEventListener('resize',sizeActivePane,{passive:true});
+  function showStep(next,initial=false){
+    const previous=step;
     step=next;
-    for(const [id,n] of [['choosePanel',1],['detailsPanel',2],['reviewPanel',3],['completePanel',4]]) $(id).hidden=step!==n;
+    const complete=next===4;
+    $('completePanel').hidden=!complete;
+    $('bookingStepViewport').hidden=complete;
+    const progress=$('bookingProgress');
+    progress.style.setProperty('--booking-progress',String((Math.min(next,3)-1)/2));
+    $('bookingStepTrack').style.setProperty('--step',String(Math.min(next,3)-1));
+    progress.setAttribute('aria-label',(lang==='es'?'Progreso de reserva, paso ':'Booking progress, step ')+Math.min(next,3)+' '+(lang==='es'?'de':'of')+' 3');
+    progress.querySelectorAll('[data-progress-item]').forEach(item=>{
+      const n=Number(item.dataset.progressItem);
+      item.classList.toggle('is-current',n===next);
+      item.classList.toggle('is-done',n<next);
+    });
+    if(slideCleanup){clearTimeout(slideCleanup);slideCleanup=null;}
+    panes.forEach(([id,n])=>{
+      const el=$(id);
+      el.hidden=complete;
+      el.inert=complete||n!==next;
+      el.setAttribute('aria-hidden',String(complete||n!==next));
+      el.classList.toggle('is-step-active',n===next&&!complete);
+      el.classList.toggle('is-step-leaving',!initial&&!complete&&n===previous&&n!==next);
+    });
     $('resDetails').hidden=kind!=='residential'||custom;
     $('comDetails').hidden=kind!=='commercial'&&!custom;
     updateWords();
-    $('flowTitle').focus?.();
-    $('flowTitle').scrollIntoView({block:'start',behavior:'auto'});
+    $('bookingProgressAnnounce').textContent=complete
+      ? (lang==='es'?'Vista previa completada':'Preview complete')
+      : (lang==='es'?'Paso ':'Step ')+next+(lang==='es'?' de 3: ':' of 3: ')+
+        dict()[next===1?'progressService':next===2?'progressDetails':'progressReview'];
+    if(!complete){
+      sizeActivePane();
+      if(previous!==next&&!initial)slideCleanup=setTimeout(()=>{
+        panes.forEach(([id])=>$(id).classList.remove('is-step-leaving'));
+      },580);
+    }
+    if(!initial){
+      requestAnimationFrame(()=>{
+        if(next===2)$('customerName').focus({preventScroll:true});
+        else if(next===3)$('reviewList').focus({preventScroll:true});
+        else if(next===1)$('resTab').focus({preventScroll:true});
+        else $('restart').focus({preventScroll:true});
+        $('flowTitle').scrollIntoView({block:'start',behavior:'auto'});
+      });
+    }
   }
   function chooseKind(next){
     kind=next;selected=null;custom=false;
@@ -518,7 +566,10 @@
     ];
     data.forEach(x=>list.append(makeRow(...x)));
   }
-  $('language').addEventListener('change',event=>{lang=event.target.value;updateWords();});
+  $('language').addEventListener('change',event=>{
+    lang=event.target.value;updateWords();
+    $('bookingProgressAnnounce').textContent=(lang==='es'?'Paso ':'Step ')+Math.min(step,3)+(lang==='es'?' de 3: ':' of 3: ')+dict()[step===1?'progressService':step===2?'progressDetails':'progressReview'];
+  });
   for(const fieldId of ['beds','baths','frequency']){
     const select=$(fieldId);
     document.querySelectorAll('input[name="demo-'+fieldId+'"]').forEach(radio=>{
@@ -612,7 +663,7 @@
   $('restart').addEventListener('click',()=>{
     $('detailsPanel').reset();$('preferredDate').min=today();chooseKind('residential');showStep(1);
   });
-  chooseKind('residential');updateWords();
+  chooseKind('residential');showStep(1,true);
 })();
 </script>
 <script src="/assets/tle-demo-reset-lead-magnet.js?v=20261016-detail-options3"></script>
