@@ -173,3 +173,36 @@ body .sonny:not(:has(.sonny-body:not([hidden]))) .sonny-head button{padding:9px 
 @media(prefers-reduced-motion:reduce){
  .booking-portal-copy.is-active .booking-portal-strike{animation:none;opacity:0}
 }
+
+/* 2026-10-17 Blue cinematic hero — preserve existing strike/replace timeline. */
+.booking-portal-back::after{
+ background:linear-gradient(93deg,rgba(4,28,51,.94) 0%,rgba(8,37,63,.82) 40%,rgba(13,47,73,.44) 73%,rgba(11,40,68,.26) 100%)!important;
+}
+.booking-portal-copy .booking-portal-kicker{color:#b0dbf5;text-shadow:0 2px 12px rgba(0,0,0,.22)}
+.booking-portal-copy #bookingPortalHeadline{color:#fff;text-shadow:0 4px 25px rgba(2,18,32,.18)}
+.booking-portal-copy .booking-portal-old{color:#eff8fe}
+.booking-portal-copy .booking-portal-new{color:#b3ddf8}
+.booking-portal-copy .booking-portal-strike{background:#98d3f6}
+.booking-portal-copy p.booking-portal-sub{color:#e6f1f8;max-width:530px;text-shadow:0 2px 9px rgba(0,0,0,.18)}
+.booking-portal-copy .booking-portal-btn{background:#17577f;border-color:#76b8dd;color:#fff;box-shadow:0 7px 22px rgba(3,24,43,.17)}
+.booking-portal-copy .booking-portal-btn.alt{background:#f6fbff;color:#172d3d;border-color:#b5daef}
+.booking-portal-cue{color:#d0eafa;text-shadow:0 1px 8px rgba(0,0,0,.3)}
+/* Lift only the word-swap row; do not alter its crossing/fading keyframes. */
+.booking-portal-copy .booking-portal-swap{margin-top:-.12em}
+@media(max-width:800px){
+ .booking-portal-back::after{
+  background:linear-gradient(180deg,rgba(6,34,57,.19) 0%,rgba(7,38,66,.48) 30%,rgba(5,33,59,.87) 63%,rgba(3,24,46,.97) 100%)!important;
+ }
+}
+@media(max-width:540px){
+ .booking-portal-copy .booking-portal-kicker{font-size:10px;color:#c7e4f8;letter-spacing:.1em}
+ .booking-portal-copy .booking-portal-swap{margin-top:-.13em}
+ .booking-portal-copy p.booking-portal-sub{margin:10px 0 17px;font-size:13px;line-height:1.48}
+ .booking-portal-copy .booking-portal-btn{min-height:44px}
+ .booking-portal-cue{bottom:13px;right:82px;font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){
+ .booking-portal-back::after{
+  background:linear-gradient(130deg,rgba(4,28,51,.94),rgba(8,37,63,.78) 57%,rgba(11,40,68,.34))!important;
+ }
+}
