@@ -107,9 +107,11 @@ try {
    await page.locator('#customerName').fill('Demo Test');
    await page.locator('#customerEmail').fill('test@example.invalid');
    await page.locator('#customerZip').fill('33139');
+   await page.locator('#intakeSchedule > summary').click();
    const calendarDay=page.locator('#apptDays button[data-day]:not(:disabled)').first();
    await calendarDay.click();
    assert.equal(await page.locator('#preferredDate').inputValue(),await calendarDay.getAttribute('data-day'),'Calendar selection must sync the review date');
+   await page.locator('#intakeSpace > summary').click();
    await page.locator('input[name="demo-extras"][value="petsLabel"]').check();
    await page.locator('input[name="demo-extras"][value="fridgeLabel"]').check();
    await page.locator('#reviewNext').click();
@@ -138,10 +140,12 @@ try {
     const medical=page.locator('.service-flip-card[data-service="medical"]');
      await medical.locator('.service').dispatchEvent('click');
      await medical.locator('.service-flip-select').click();
+    await page.locator('#intakeSpace > summary').click();
     assert.equal(await page.locator('#comDetails').isVisible(),true);
     assert.equal(await page.locator('#resDetails').isVisible(),false);
     await page.locator('#backDetails').click();
     await page.locator('#customQuote').click();
+    await page.locator('#intakeSpace > summary').click();
     assert.equal(await page.locator('#comDetails').isVisible(),true,'Custom commercial request lost');
   }
 
