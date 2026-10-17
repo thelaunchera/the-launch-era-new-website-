@@ -43,7 +43,7 @@ export function HomeHero() {
  <div className="tle-hero-soft-mesh" aria-hidden="true"><span/><span/><span/><span/></div>
  <div className="hero-intro">
    <div className="eyebrow">FOR CLEANING BUSINESS OWNERS</div>
-   <h1 className="tle-hero-heading-shine">Less time chasing messages.<br/>More time for your business.</h1>
+   <h1 className="tle-hero-heading-shine">Less time chasing messages. More time for your business.</h1>
    <p>Requests, quotes, and follow-ups in one place. No more digging through messages.</p>
    <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/booking-demo/?lang=en">Get my personalized demo <ArrowRight/></a></Button></div>
    <p className="demo-delivery-note">Your personalized demo arrives automatically by email.</p>
