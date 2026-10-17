@@ -14,7 +14,7 @@ for(const [lang,landing,copy] of [
 ]){
  for(const term of copy)assert(landing.includes(term),lang+' landing must clearly explain the personalized final design: '+term);
 }
-for(const term of ['Demo only — this is not your final design','your own photos','chosen colors','Solo es una demo, no tu diseño final','tus propias fotos','los colores que elijas'])assert(requestForm.includes(term),'Personalized demo request missing bilingual expectation: '+term);
+for(const term of ['Preview only. Your finished Booking Page','your photos','colors, and branding','Es una vista previa. Tu Booking Page final','tus fotos','colores y marca']) assert(requestForm.includes(term),'Private demo request must disclose personalized final design: '+term);
 for(const term of ['tle-booking-demo-gate','id="authStep"','id="startStep"','id="codeStep"','action:"content"']) assert(sampleDemo.includes(term),'Private Booking demo must require verified invitation: '+term);
 assert(!sampleDemo.includes('id="bookingPage"'),'Booking demo content must not be publicly accessible');
 assert(css.includes('.service-sales .service-fit a.service-demo-link'),'Scoped booking/app link style missing');
@@ -94,7 +94,7 @@ try{
   assert.match(await submit.textContent()||'',lang==='es'?/demo personalizada/i:/personalized demo/i,lang+' form language mismatched');
   assert.equal(await page.locator('#serviceBack').getAttribute('href'),lang==='es'?'/es/booking-lead-automation/':'/booking-lead-automation',lang+' demo return path mismatched');
   const designDisclosure=await page.locator('#disclaimer').textContent();
-  assert(lang==='es'?designDisclosure.includes('no tu diseño final')&&designDisclosure.includes('los colores que elijas'):designDisclosure.includes('not your final design')&&designDisclosure.includes('chosen colors'),lang+' request form missing promise of unique final design');
+  assert(lang==='es'?designDisclosure.includes('vista previa')&&designDisclosure.includes('fotos, colores y marca'):designDisclosure.includes('Preview only')&&designDisclosure.includes('photos, colors, and branding'),lang+' request form missing personalized final design disclosure');
   await page.close();
  }
  // Direct, uninvited Booking demo visits must show an access gate, never the service content.
