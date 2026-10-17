@@ -14,9 +14,13 @@ for(const path of paths){
  for(const requirement of [
   "function attachTleChatMotion(", "attachTleChatMotion(log)",
   "MutationObserver", "prefers-reduced-motion: reduce", "document.hidden",
-  "role", "aria-live", "setTimeout(next,150)", "Math.max(0,900-",
+  "role", "aria-live", "Math.max(0,900-",
   "tle-chat-waiting", "tleChatBubbleIn", "tle-chat-caret"
  ])assert(source.includes(requirement),path+" missing motion guard: "+requirement);
+ const pace=path==="public/assets/jessy-site.js"?"setTimeout(next,60)":"setTimeout(next,150)";
+ assert(source.includes(pace),path+" must use its verified word animation interval");
+ if(path==="public/assets/jessy-site.js")assert(source.includes("const limit=words.length;"),
+  "Public Jessie must reveal all words, without an abrupt 32-word jump");
  assert(source.includes('if(node.classList.contains("user")){finishAll()'),
   path+" must never replay or stream real user messages");
  assert(source.includes("if(reduce.matches||!visible(node))"),
