@@ -1,0 +1,48 @@
+name: Import approved hero photo
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/tle-home-hero-photo-import.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import-approved-photo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Copy owner's exact hero photograph into the active website repository
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p public/assets
+          curl --fail --location --retry 3 --retry-delay 3 --connect-timeout 20 --max-time 120 \
+            'https://d2ol7oe51mr4n9.cloudfront.net/user_3FC9GcVebQE6WAxiCP5Hh9w95GF/9aa10c18-6000-4416-8091-c96ff1bc9b34.jpg' \
+            --output public/assets/hero-cleaner-lights-20261017.jpg
+          echo 'd8f17885281acb7893bfa21270c45e946d22c8b1222b6438afd546fbaf743e6f  public/assets/hero-cleaner-lights-20261017.jpg' | sha256sum --check
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('public/assets/hero-cleaner-lights-20261017.jpg')
+          assert p.read_bytes().startswith(bytes.fromhex('ffd8ff'))
+          assert 200_000 <= p.stat().st_size <= 600_000
+          print('Approved original JPEG verified, bytes:',p.stat().st_size)
+          PY
+      - name: Commit the original photo to main without changing any hero effects
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/assets/hero-cleaner-lights-20261017.jpg
+          if git diff --cached --quiet; then
+            echo 'Photo is already in the repository.'
+            exit 0
+          fi
+          git commit -m 'assets(home): store approved woman-cleaning hero photo'
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
