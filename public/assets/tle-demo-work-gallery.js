@@ -20,10 +20,22 @@
     // The original project photos are large. Load only the current and the
     // two approaching images, never all ten as a hidden mobile slideshow.
     order.slice(0,3).forEach(card=>{
-      const img=card.querySelector('img[data-src]');
-      if(img && !img.getAttribute('src')){
-        img.src=img.dataset.src;
+      const img=card.querySelector('img');
+      if(!img||img.dataset.photoReady==='true')return;
+      img.dataset.photoReady='true';
+      const original=img.getAttribute('src')||img.dataset.src;
+      const optimized=img.dataset.optimized;
+      if(!original)return;
+      if(optimized){
+        img.addEventListener('error',()=>{
+          // Non-Pages previews may not run the build-time WebP optimizer.
+          if(img.dataset.galleryFallback!=='true'){
+            img.dataset.galleryFallback='true';
+            img.src=original;
+          }
+        },{once:true});
       }
+      img.src=optimized||original;
     });
   }
 
