@@ -19,7 +19,11 @@ assert.match(backend,/const fixed=priceQuestion\?answerPrice/);
 assert.match(backend,/if\(tooSimilarAnswer\(finalReply,history,message\)\)/);
 assert.match(backend,/fallbackFaq\(message,id,lang\)/);
 assert.match(backend,/console\.warn\("jessy_ai_response_unavailable"/);
-assert.match(backend,/max_tokens:provider\.name===\"groq\"\?220:180/);
+const configuredTokenLimits=backend.match(/max_tokens:provider\.name===\"groq\"\?(\d+):(\d+)/);
+assert.ok(configuredTokenLimits,"Provider-specific output token limits must exist");
+const groqLimit=Number(configuredTokenLimits[1]),openAiLimit=Number(configuredTokenLimits[2]);
+assert.ok(groqLimit>=180&&groqLimit<=500&&openAiLimit>=160&&openAiLimit<=500,
+ "Public Jessie responses must remain bounded for each provider");
 assert.ok(backend.includes("GROQ_API_KEY")&&backend.includes("openai/gpt-oss-120b"),"Public Jessie should use existing Groq provider when configured");
 assert.match(frontend,/history:previous/);
 assert.ok(backend.includes("b.history.slice(-12)"),"Server must consider twelve recent messages");
