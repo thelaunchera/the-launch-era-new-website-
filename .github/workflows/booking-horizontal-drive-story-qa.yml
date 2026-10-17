@@ -2,14 +2,12 @@ name: Booking Drive Horizontal Journey QA
 on:
   pull_request:
     paths:
-      - 'public/booking-demo-reset.html'
       - 'public/assets/tle-booking-bubbles-continuity.css'
       - 'public/assets/tle-demo-horizontal-story.js'
       - 'public/assets/tle-demo-hero-portal.js'
       - 'public/assets/drive-booking-journey/**'
       - 'public/assets/vendor/**'
       - 'scripts/qa-booking-horizontal-drive-story.mjs'
-      - '.github/workflows/booking-horizontal-drive-story-qa.yml'
   push:
     branches: [main]
     paths:
