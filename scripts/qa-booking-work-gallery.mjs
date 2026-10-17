@@ -22,6 +22,10 @@ assert(html.indexOf('id="bookingPage"')<html.indexOf('id="tleWorkGallery"'),'Gal
 assert(html.indexOf('id="tleWorkGallery"')<html.indexOf('id="bookingBeforeAfter"'),'Gallery must precede before/after');
 assert(galleryHtml.includes('not verified customer projects'),'Photos must not be called real client work');
 assert(galleryHtml.includes('data-gallery-es'),'Keep bilingual gallery');
+assert(html.includes('id="bookingServiceAreas"')&&html.includes('id="serviceAreasTitle"'),'Bilingual sample service areas should be below before/after');
+assert(html.indexOf('id="bookingBeforeAfter"')<html.indexOf('id="bookingServiceAreas"'),'Illustrative coverage belongs below the comparisons');
+assert(html.includes('Illustrative coverage only.')&&html.includes("serviceAreasTitle:'Que sepan desde el inicio"),'Never claim fictional coverage is confirmed');
+assert(html.includes('vanity-before.webp')&&html.includes('vanity-after.webp'),'Show matched sink pair instead of decorative bedroom');
 assert(css.includes('prefers-reduced-motion:reduce')&&deck.includes('setPointerCapture')&&deck.includes('ArrowLeft'),'Accessible swipe, reduced motion and keyboard fallbacks required');
 assert(!/\b(fetch|XMLHttpRequest|sendBeacon|localStorage|sessionStorage)\s*\(/.test(deck),'Gallery may not write to backend or storage');
 console.log('[STATIC PASS] Ten unique, locally checked-in sample images; isolated EN/ES deck, no writes.');
@@ -55,7 +59,11 @@ try{
   assert(initial.initialSources<=3,'Load only the first three optimized gallery photos');
   assert(initial.overflow<=4,'Horizontal overflow '+lang+' '+width+': '+JSON.stringify(initial));
   assert(initial.rect.left>=-2&&initial.rect.right<=width+2,'Photo outside viewport '+JSON.stringify(initial));
-  assert.match(initial.title,lang==='es'?/Espacios limpios/:/Clean spaces/);
+  assert.match(initial.title,lang==='es'?/Limpieza en acción/:/Cleaning in action/);
+  const areas=page.locator('#bookingServiceAreas');
+  assert.equal(await areas.locator('.booking-service-areas__cities span').count(),8,'Eight fictional Palm Beach County areas expected');
+  assert.match(await page.locator('#serviceAreasTitle').innerText(),lang==='es'?/atiendes su zona/:/cleaning team can come/);
+  assert((await areas.evaluate(el=>el.getBoundingClientRect().width))<=width+2,'Coverage cards should fit '+width);
   const counter=page.locator('#tleWorkGalleryCounter');
   assert.equal(await counter.textContent(),'01 / 10');
   await page.locator('#tleWorkGalleryRight').click();
