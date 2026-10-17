@@ -3,7 +3,6 @@ on:
   pull_request:
     paths:
       - 'public/lead-private-preview.html'
-      - 'public/booking-demo-reset.html'
       - 'public/assets/tle-demo-hero-portal.css'
       - 'public/assets/tle-demo-hero-portal.js'
       - 'public/assets/tle-demo-horizontal-story.js'
@@ -13,12 +12,10 @@ on:
       - 'public/assets/tle-booking-bubbles-continuity.css'
       - 'public/assets/drive-booking-journey/**'
       - 'scripts/qa-booking-demo-clean-reset.mjs'
-      - '.github/workflows/booking-demo-clean-reset-qa.yml'
   push:
     branches: [main]
     paths:
       - 'public/lead-private-preview.html'
-      - 'public/booking-demo-reset.html'
       - 'scripts/qa-booking-demo-clean-reset.mjs'
   workflow_dispatch:
 permissions:
