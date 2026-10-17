@@ -22,6 +22,10 @@ assert(html.indexOf('id="bookingPage"')<html.indexOf('id="tleWorkGallery"'),'Gal
 assert(html.indexOf('id="tleWorkGallery"')<html.indexOf('id="bookingBeforeAfter"'),'Gallery must precede before/after');
 assert(galleryHtml.includes('not verified customer projects'),'Photos must not be called real client work');
 assert(galleryHtml.includes('data-gallery-es'),'Keep bilingual gallery');
+assert(html.includes('id="bookingServiceAreas"')&&html.includes('id="serviceAreasTitle"'),'Bilingual sample coverage should appear below before/after');
+assert(html.indexOf('id="bookingBeforeAfter"')<html.indexOf('id="bookingServiceAreas"'),'Service areas below comparisons');
+assert(html.includes('Illustrative coverage only.')&&html.includes("serviceAreasTitle:'Que sepan desde el inicio"),'Do not present fictional coverage as confirmed');
+assert(html.includes('vanity-before.webp')&&html.includes('vanity-after.webp'),'Match bathroom sink before/after images');
 assert(css.includes('prefers-reduced-motion:reduce')&&deck.includes('setPointerCapture')&&deck.includes('ArrowLeft'),'Accessible swipe, reduced motion and keyboard fallbacks required');
 assert(css.includes('touch-action:pan-y')&&!css.includes('.tle-work-card[data-active="true"]{touch-action:none'),
  'Photo deck must allow native vertical finger scrolling between services and lower sections');
@@ -61,7 +65,7 @@ try{
   assert(initial.initialSources<=3,'Load only the first three optimized gallery photos');
   assert(initial.overflow<=4,'Horizontal overflow '+lang+' '+width+': '+JSON.stringify(initial));
   assert(initial.rect.left>=-2&&initial.rect.right<=width+2,'Photo outside viewport '+JSON.stringify(initial));
-  assert.match(initial.title,lang==='es'?/Espacios limpios/:/Clean spaces/);
+  assert.match(initial.title,lang==='es'?/Limpieza en acción/:/Cleaning in action/);
   // Top navigation remains visible even on mobile, with localized Home text.
   const backHome=page.locator('#siteLink');
   const homeState=await backHome.evaluate(el=>({width:el.getBoundingClientRect().width,display:getComputedStyle(el).display}));
@@ -73,6 +77,10 @@ try{
   assert.match(await page.locator('#bookingProofDesc').innerText(),lang==='es'?/no son testimonios ni reseñas verificadas/:/not customer testimonials or verified reviews/);
   // The service chapter should not be a terminal screen: navigation moves to
   // the gallery, before/after, and review-style proof below the sample form.
+  const areas=page.locator('#bookingServiceAreas');
+  assert.equal(await areas.locator('.booking-service-areas__cities span').count(),8,'8 example coverage locations');
+  assert.match(await page.locator('#serviceAreasTitle').innerText(),lang==='es'?/atiendes su zona/:/cleaning team can come/);
+  assert((await areas.evaluate(el=>el.getBoundingClientRect().width))<=width+2,'Responsive area section should not overflow');
   await page.locator('#demoExploreReviews').click();
   const proofPosition=await page.locator('#bookingProof').evaluate(el=>el.getBoundingClientRect().top);
   assert(proofPosition>=-15&&proofPosition<Math.min(height*.45,220),'Services navigation must reach lower reviews '+JSON.stringify({lang,width,proofPosition}));
