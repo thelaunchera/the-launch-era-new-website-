@@ -9,7 +9,7 @@ const url=new URLSearchParams({offer:"booking-flow",lang:es?"es":"en"});
 const autoSelectAI=qs.get("bundle")==="ai-booking"?"ai-booking":"";
 const bookingBaseCents=()=>1299;
 const bookingDisplayPrice="$"+(bookingBaseCents()/100).toFixed(2);
-const prices={"":{setup:0,monthly:0}, "ai-booking":{setup:39,monthly:19},"ai-followup":{setup:19,monthly:12},"ai-business":{setup:59,monthly:25}};
+const prices={"":{setup:0,monthly:0}, "ai-booking":{setup:39,monthly:14},"ai-followup":{setup:19,monthly:6.99},"ai-business":{setup:59,monthly:19}};
 let livePricing=null;
 const pricesEndpoint="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-bundle-checkout";
 const plans=[
