@@ -45,8 +45,8 @@ function Page(){
     <section className="container service-hero">
       <div className="eyebrow">WEBSITE AUTOMATION</div>
       <p className="booking-offer-line service-discount-offer"><span className="booking-offer-tag">SPECIAL OFFER</span><span className="booking-offer-price"><del>$59.99</del><strong>$35</strong></span></p><h1 className="editorial">Keep your website. Upgrade what happens next.</h1>
-      <p>Already have a website? We help organize the inquiries from your existing contact or quote form, so you can respond and follow up without losing track.</p>
-      <MarketingCTA className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=en">Get Started — $35 <ArrowRight/></MarketingCTA><p className="muted" style={{fontSize:13,margin:"13px 0 10px",lineHeight:1.6}}>Initial setup: an estimated 48 hours of production after we receive your completed setup form and confirm the details.</p><div className="service-proof-strip" aria-label="Service details"><span>YOUR EXISTING WEBSITE</span><span>INQUIRY ROUTING</span><span>ONE-TIME SETUP</span></div>
+      <p>Keep your website. Organize form inquiries and follow-ups in one place.</p>
+      <MarketingCTA className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=en">Get Started — $35 <ArrowRight/></MarketingCTA><p className="muted" style={{fontSize:13,margin:"13px 0 10px",lineHeight:1.6}}>Estimated 48-hour setup after we review your details and confirm kickoff.</p><div className="service-proof-strip" aria-label="Service details"><span>YOUR EXISTING WEBSITE</span><span>INQUIRY ROUTING</span><span>ONE-TIME SETUP</span></div>
     </section>
 
     <section className="container service-story">
@@ -58,7 +58,7 @@ function Page(){
           <div className="browser-page">
             <Globe2/>
             <strong>New inquiry</strong>
-            <p>See how a new customer request could reach you without getting lost.</p>
+            <p>See how a new inquiry stays organized.</p>
             <form className="automation-demo-form" onSubmit={submit}>
               <label>
                 <span>Name + contact</span>
@@ -78,7 +78,7 @@ function Page(){
             </form>
             <div className="automation-demo-note">
               <span>{active<0?'Ready when you are':'Demo lead'}</span>
-              <strong>{active<0?'Try it out. This is an example, so nothing will be sent.':name+' · '+service}</strong>
+              <strong>{active<0?'Try it. Nothing is sent.':name+' · '+service}</strong>
             </div>
           </div>
         </div>
@@ -117,7 +117,7 @@ function Page(){
 
       <div className="service-endcap">
         <span>YOUR WEBSITE</span><ArrowRight/><span>INQUIRY</span><ArrowRight/><span>AUTOMATION</span><ArrowRight/><strong>NEXT STEP ✓</strong>
-        <small>Connect your existing inquiry form · One-time setup $35 · Keep new requests from getting lost.</small>
+        <small>Your existing form · One-time setup $35 · Organized inquiries.</small>
       </div>
     </section>
   <ServiceFAQ topic="website" lang="en"/></main>
