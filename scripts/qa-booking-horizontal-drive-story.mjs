@@ -122,8 +122,15 @@ try{
     'Vertical scrolling must never auto-advance the photo cards');
   for(let n=2;n<=5;n++){
    await page.locator('#bookingStoryNext').click();
-   await page.waitForFunction(expected=>document.getElementById('bookingStoryCount')?.textContent.trim()===expected+'/ 5',n,{timeout:2500});
-   await page.waitForTimeout(930);
+   await page.waitForTimeout(940);
+   const debug=await section.evaluate(el=>{
+    const v=el.querySelector('.booking-story-window'),items=[el.querySelector('.booking-story-intro-panel'),...el.querySelectorAll('[data-booking-story-card]')];
+    return {count:el.querySelector('#bookingStoryCount')?.textContent,scrollLeft:v.scrollLeft,max:v.scrollWidth-v.clientWidth,
+      snap:getComputedStyle(v).scrollSnapType,navDisabled:el.querySelector('#bookingStoryNext')?.disabled,
+      rects:items.map(a=>Math.round(a.getBoundingClientRect().left-v.getBoundingClientRect().left))};
+   });
+   console.log('SWIPE NAV '+lang+' '+n+' '+JSON.stringify(debug));
+   assert.equal(debug.count?.trim(),n+' / 5','Arrow should land on one photo '+JSON.stringify(debug));
    const photo=await section.evaluate(el=>{
     const v=el.querySelector('.booking-story-window').getBoundingClientRect();
     const items=[el.querySelector('.booking-story-intro-panel'),...el.querySelectorAll('[data-booking-story-card]')];
