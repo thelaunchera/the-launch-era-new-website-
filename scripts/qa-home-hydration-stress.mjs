@@ -15,10 +15,17 @@ try{
     const errors=[];
     page.on('pageerror',err=>errors.push(err.message));
     await page.goto(base+(lang==='es'?'/es/':'/'),{waitUntil:'domcontentloaded',timeout:45000});
+    // React's private __reactProps keys are not a stable hydration contract.
+    // Verify the actual hydrated user interaction instead of implementation details.
+    const hubTiles=page.locator('.booking-section .tle-connection-hub__tile');
+    await hubTiles.last().waitFor({state:'visible',timeout:15000});
+    assert.equal(await hubTiles.count(),6,'Six real workflow tiles required');
+    await hubTiles.last().click({timeout:12000});
     await page.waitForFunction(()=>{
-      const el=document.querySelector('.booking-section .tle-connection-hub__tile');
-      return !!(el && Object.keys(el).some(k=>k.startsWith('__reactProps')));
-    },null,{timeout:30000});
+      const tiles=document.querySelectorAll('.booking-section .tle-connection-hub__tile');
+      return tiles.length===6&&tiles[5].getAttribute('aria-pressed')==='true'
+       &&document.querySelector('.booking-section .tle-connected-flow__detail')?.textContent?.includes('06 / 06');
+    },null,{timeout:12000});
     await page.waitForTimeout(1850);
     const details=await page.evaluate(()=>({
       assistant:!!document.querySelector('.tle-jessy-root'),
