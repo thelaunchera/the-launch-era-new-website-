@@ -12,7 +12,7 @@ const demoInkCss=read('public/assets/tle-demo-ink-service-cards.css');
 assert(demoInkCss.includes('service-flip-front .service')&&demoInkCss.includes('#191919'),'Demo ink style must remain scoped');
 assert(demoInkCss.includes("family=Cormorant+Garamond")&&demoInkCss.includes("family=Manrope"),'Two editorial demo font families must be declared with swap');
 assert(demoInkCss.includes('.flow-header')&&demoInkCss.includes('rgba(92,131,153,.45)'), 'Outer wizard should have a light slate-blue frame, not a hard black stroke');
-assert(demoInkCss.includes('.service-flip-front .service-detail')&&demoInkCss.includes('#sampleWarning'),'Only redundant descriptions should be minimized, not sample disclosures');
+assert(demoInkCss.includes('.service-flip-front .service-detail')&&demoInkCss.includes('.disclaimer'),'Only redundant descriptions should be minimized, not sample disclosures');
 
 assert(read('scripts/build_demo_photo_assets.py').includes('1D56-v3lVV6FpBqW3FqYH442kiPVvjlLT'),'Office demo must use approved commercial cleaning photo from Drive');
 assert(en.includes('ServiceFlipCard')&&es.includes('ServiceFlipCard'),'Both public languages use flipping service cards');
