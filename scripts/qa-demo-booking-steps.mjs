@@ -61,6 +61,9 @@ try{
   assert.equal(await page.locator('.demo-mini-dot.is-current').getAttribute('data-mini-progress'),'0','Required contact data must block Next');
   await name.fill('Sample Customer');
   await page.locator('#customerEmail').fill('test@example.invalid');
+  await page.locator('#customerZip').fill('33101');
+  await page.locator('#reviewNext').click();
+  assert.equal(await page.locator('.demo-mini-dot.is-current').getAttribute('data-mini-progress'),'0','Incomplete street/city/state cannot advance');
   await page.locator('#customerStreet').fill('123 Ocean Drive');
   await page.locator('#customerUnit').fill('Apt 4B');
   await page.locator('#customerCity').fill('Miami Beach');
@@ -93,6 +96,7 @@ try{
   assert.equal(await page.locator('#preferredDate').inputValue(),date,'Previous schedule choice is retained');
   await page.locator('#reviewNext').click();
   assert.equal(await page.locator('#reviewPanel').isVisible(),true,'Final mini-step advances to overall Review');
+  assert.match(await page.locator('#reviewList').innerText(),/123 Ocean Drive, Apt 4B, Miami Beach, FL, 33101/,'Review must show the complete address');
   assert.equal(await page.locator('.booking-progress-item.is-current').getAttribute('data-progress-item'),'3');
   assert.equal(await page.locator('#bookingProgress').isVisible(),true,'Outer progress returns for final review');
   assert.match(await page.locator('#reviewList').innerText(),lang==='es'?/Mascotas en casa/:/Pets at home/);
