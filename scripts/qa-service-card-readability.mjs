@@ -18,11 +18,10 @@ try{
     const grid=cards[0]?.closest('.service-grid');
     const bounds=x=>{const r=x.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom}};
     return {overflow:document.documentElement.scrollWidth-innerWidth,
-     columns:getComputedStyle(grid).gridTemplateColumns.split(' ').length,
+     columns:cards.filter(c=>Math.abs(c.getBoundingClientRect().top-cards[0].getBoundingClientRect().top)<3).length,
      gridTemplate:getComputedStyle(grid).gridTemplateColumns,
      gridWidth:grid.getBoundingClientRect().width,
      gridClass:grid.className,
-     gridCss:[...document.styleSheets].flatMap(sheet=>{try{return [...sheet.cssRules].filter(rule=>rule.cssText.includes('.solutions-section .service-grid')).map(rule=>rule.cssText.slice(0,500));}catch{return []}}).slice(-10),
      cards:cards.map((card,i)=>{
        const front=card.querySelector('.tle-service-flip__front');
        const button=card.querySelector('.tle-service-flip__front-button');
@@ -44,7 +43,7 @@ try{
    });
    assert.equal(report.cards.length,6,'Six service cards required');
    const expected=width<=700?1:width<=1000?2:3;
-   assert.equal(report.columns,expected,lang+' '+width+' column count '+JSON.stringify({gridTemplate:report.gridTemplate,gridWidth:report.gridWidth,gridCss:report.gridCss}));
+   assert.equal(report.columns,expected,lang+' '+width+' first-row card count '+JSON.stringify({gridTemplate:report.gridTemplate,gridWidth:report.gridWidth}));
    assert(report.overflow<=3,lang+' '+width+' page overflows horizontally '+report.overflow);
    for(const c of report.cards){
     assert(c.originalLink.startsWith('/'),'CTA destination missing '+c.title);
