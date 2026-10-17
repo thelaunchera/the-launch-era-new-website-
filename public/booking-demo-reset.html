@@ -482,7 +482,7 @@
     $('bookingStepViewport').hidden=complete;
     const progress=$('bookingProgress');
     progress.style.setProperty('--booking-progress',String((Math.min(next,3)-1)/2));
-    $('bookingStepTrack').style.setProperty('--step',String(Math.min(next,3)-1));
+    $('bookingStepTrack').style.setProperty('--slide-offset',(-100*(Math.min(next,3)-1)/3)+'%');
     progress.setAttribute('aria-label',(lang==='es'?'Progreso de reserva, paso ':'Booking progress, step ')+Math.min(next,3)+' '+(lang==='es'?'de':'of')+' 3');
     progress.querySelectorAll('[data-progress-item]').forEach(item=>{
       const n=Number(item.dataset.progressItem);
