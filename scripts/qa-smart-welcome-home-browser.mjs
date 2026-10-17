@@ -64,6 +64,10 @@ try {
  await esPage.goto(base+'/es/',{waitUntil:'domcontentloaded'});
  const esModal=esPage.getByRole('dialog',{name:'Oferta de The Launch Era'});
  await esModal.waitFor({state:'visible',timeout:15000});
+ const esImg=esModal.locator('img');
+ await esPage.waitForFunction(()=>{const img=document.querySelector('.tle-bundle-welcome-dialog img');return !!img&&img.complete&&img.naturalWidth===1122},null,{timeout:15000});
+ assert.match(await esImg.getAttribute('src'),/tle-smart-welcome-bundle-flyer-es\.svg$/,'Spanish pop-up still uses the English flyer');
+ await esPage.screenshot({path:'qa-screenshots/home-welcome-es-390.png'});
  assert(await esModal.getByRole('link',{name:'Ver el paquete'}).count()>=1,'Spanish bundle CTA missing');
  await esModal.getByRole('button',{name:'Cerrar promoción'}).click();
  assert.equal(await esPage.locator('.tle-bundle-inline').count(),1,'Spanish inline offer missing');
