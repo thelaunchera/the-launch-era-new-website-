@@ -44,9 +44,9 @@ function Page(){
   return <main style={{background:'#faf4f7'}}>
     <section className="container service-hero">
       <div className="eyebrow">WEBSITE AUTOMATION</div>
-      <p className="booking-offer-line service-discount-offer"><span className="booking-offer-tag">30% OFF</span><span className="booking-offer-price"><del>$59.99</del><strong>$41.99</strong></span></p><h1 className="editorial">Keep your website. Upgrade what happens next.</h1>
+      <p className="booking-offer-line service-discount-offer"><span className="booking-offer-tag">SPECIAL OFFER</span><span className="booking-offer-price"><del>$59.99</del><strong>$31.99</strong></span></p><h1 className="editorial">Keep your website. Upgrade what happens next.</h1>
       <p>Already have a website? We help organize the inquiries from your existing contact or quote form, so you can respond and follow up without losing track.</p>
-      <MarketingCTA className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=en">Get Started — $41.99 <ArrowRight/></MarketingCTA><p className="muted" style={{fontSize:13,margin:"13px 0 10px",lineHeight:1.6}}>Initial setup: an estimated 48 hours of production after we receive your completed setup form and confirm the details.</p><div className="service-proof-strip" aria-label="Service details"><span>YOUR EXISTING WEBSITE</span><span>INQUIRY ROUTING</span><span>ONE-TIME SETUP</span></div>
+      <MarketingCTA className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=en">Get Started — $31.99 <ArrowRight/></MarketingCTA><p className="muted" style={{fontSize:13,margin:"13px 0 10px",lineHeight:1.6}}>Initial setup: an estimated 48 hours of production after we receive your completed setup form and confirm the details.</p><div className="service-proof-strip" aria-label="Service details"><span>YOUR EXISTING WEBSITE</span><span>INQUIRY ROUTING</span><span>ONE-TIME SETUP</span></div>
     </section>
 
     <section className="container service-story">
@@ -117,7 +117,7 @@ function Page(){
 
       <div className="service-endcap">
         <span>YOUR WEBSITE</span><ArrowRight/><span>INQUIRY</span><ArrowRight/><span>AUTOMATION</span><ArrowRight/><strong>NEXT STEP ✓</strong>
-        <small>Connect your existing inquiry form · One-time setup $41.99 · Keep new requests from getting lost.</small>
+        <small>Connect your existing inquiry form · One-time setup $31.99 · Keep new requests from getting lost.</small>
       </div>
     </section>
   <ServiceFAQ topic="website" lang="en"/></main>
