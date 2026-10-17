@@ -57,7 +57,7 @@ assert(motion.includes('requestAnimationFrame(update)'));
 assert(motion.includes('!splitHero && progress >= 0.5'), 'CTA must stay keyboard-accessible during scroll');
 assert(root.indexOf('tle-hero-scroll.css') > root.indexOf('tle-saas-ui-v1.css'), 'Scroll overrides must load after the theme');
 assert(scrollCSS.includes('tle-mobile-hero-photo-balance-20261017'),'Mobile hero composition must keep the compact-photo override');
-assert(root.includes('tle-hero-scroll.css?v=20261017-mobile-hero-balance1'),'Mobile hero CSS must bypass previous iPhone cache');
+assert(root.includes('tle-hero-scroll.css?v=20261017-mobile-hero-balance2'),'Mobile hero CSS must bypass previous iPhone cache');
 // Localized marketing activity floats (illustrative only, never real customer records).
 assert.equal((en.match(/app:'(?:BOOKING PAGE|COMMAND CENTER|QUOTES)'/g)||[]).length,4,'EN four marketing notices missing');
 assert(es.includes("'Cotización lista'") && es.includes("'Reserva confirmada'"),'ES localized activity notices missing');
