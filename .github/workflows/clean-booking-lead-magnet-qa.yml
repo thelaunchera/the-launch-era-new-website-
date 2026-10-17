@@ -3,12 +3,10 @@ on:
   pull_request:
     paths:
       - 'public/lead-private-preview.html'
-      - 'public/booking-demo-reset.html'
       - 'public/assets/tle-demo-hero-portal.css'
       - 'public/assets/tle-demo-hero-portal.js'
       - 'public/assets/tle-demo-reset-lead-magnet.js'
       - 'scripts/qa-clean-booking-lead-magnet.mjs'
-      - '.github/workflows/clean-booking-lead-magnet-qa.yml'
   workflow_dispatch:
 permissions:
   contents: read
