@@ -12,6 +12,10 @@ assert(en.includes('ServiceFlipCard')&&es.includes('ServiceFlipCard'),'Both publ
 assert(component.includes('inert={!open}')&&component.includes('inert={open}'),'Only visible card face can be focused');
 assert(component.includes('onKeyDown={onKeys}')&&component.includes("event.key==='Escape'"),'Keyboard return required');
 assert(css.includes('perspective:900px')&&css.includes('760ms')&&css.includes('prefers-reduced-motion:reduce'),'Site spring/reduced motion');
+assert(component.includes('window.location.assign(event.currentTarget.href)'),'Every Explore service link must navigate reliably on Safari');
+assert(css.includes('.tle-service-flip{height:488px}'),'Mobile front card must have room for all price and title text');
+assert(css.includes('transform:none!important;transition:none!important;transform-style:flat'),'Touch devices must avoid 3D link hit-testing');
+
 assert.equal((html.match(/data-flip-card data-service=/g)||[]).length,6,'All six demo services must flip');
 assert.equal((html.match(/class="service-flip-select"/g)||[]).length,6,'Only six demo back faces may advance booking');
 assert(!html.includes('service-photo-check'),'Do not reintroduce squares over photos');
