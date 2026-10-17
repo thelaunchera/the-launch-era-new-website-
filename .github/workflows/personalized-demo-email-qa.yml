@@ -1,0 +1,27 @@
+name: Personalized Demo Email QA
+on:
+  push:
+    paths:
+      - 'public/booking-demo/index.html'
+      - 'supabase/functions/tle-personalized-demo/index.ts'
+      - 'scripts/qa-personalized-demo-email.mjs'
+      - '.github/workflows/personalized-demo-email-qa.yml'
+  pull_request:
+    paths:
+      - 'public/booking-demo/index.html'
+      - 'supabase/functions/tle-personalized-demo/index.ts'
+      - 'scripts/qa-personalized-demo-email.mjs'
+      - '.github/workflows/personalized-demo-email-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  demo-mail:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/qa-personalized-demo-email.mjs
