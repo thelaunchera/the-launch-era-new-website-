@@ -806,7 +806,7 @@
     if(focusTarget){
       card.dataset.opening='true';
       requestAnimationFrame(()=>{
-        card.querySelector('.service-flip-select')?.focus();
+        card.querySelector('.service-flip-select')?.focus({preventScroll:true});
         requestAnimationFrame(()=>{delete card.dataset.opening;});
       });
     }
@@ -825,19 +825,24 @@
     const front=card.querySelector('.service');
     const select=card.querySelector('[data-flip-select]');
     const backButton=card.querySelector('[data-flip-return]');
-    front.addEventListener('click',()=>setCardFlip(card,true,true));
+    front.addEventListener('click',event=>setCardFlip(card,true,event.detail===0));
+    // On iOS tapping a button also focuses it before the click. Flipping at
+    // that early focus then moving focus to Continue caused a jump/glitch.
     front.addEventListener('focus',()=>{
-      if(card.dataset.returning!=='true')setCardFlip(card,true,true);
+      if(front.matches(':focus-visible')&&card.dataset.returning!=='true')setCardFlip(card,true,false);
     });
     card.addEventListener('pointerenter',e=>{
       if(e.pointerType==='mouse'&&window.matchMedia('(hover:hover) and (pointer:fine)').matches)
         setCardFlip(card,true);
     });
-    card.addEventListener('pointerleave',()=>{
-      if(card.dataset.tapPending!=='true'&&!card.contains(document.activeElement))closeCardFlip(card);
+    card.addEventListener('pointerleave',event=>{
+      // Touch scroll generates pointerleave on Safari; only a mouse hover
+      // leaving the card should close the back side.
+      if(event.pointerType==='mouse'&&card.dataset.tapPending!=='true'&&!card.contains(document.activeElement))closeCardFlip(card);
     });
     card.addEventListener('focusout',e=>{
-      if(card.dataset.opening!=='true'&&card.dataset.tapPending!=='true'&&!card.contains(e.relatedTarget))closeCardFlip(card);
+      if(card.dataset.opening!=='true'&&card.dataset.tapPending!=='true'&&
+         !card.contains(e.relatedTarget)&&e.relatedTarget!==null)closeCardFlip(card);
     });
     card.addEventListener('keydown',e=>{
       if(e.key==='Escape'&&!reducedMotion.matches){
