@@ -521,6 +521,14 @@ body .tle-demo-curtain-footer{
  line-height:1.05!important;
  text-wrap:balance;
 }
+body .tle-demo-curtain-footer #tleDemoFooterHeadline{
+ font-family:'Caveat','Segoe Print','Bradley Hand',cursive!important;
+ font-size:clamp(44px,5.5vw,76px)!important;
+ font-weight:600!important;
+ letter-spacing:-.045em!important;
+ line-height:1.03!important;
+ text-wrap:balance;
+}
 @media(max-width:800px){
  #tleDemoCurtainPage .booking-portal-copy #bookingPortalHeadline .booking-portal-final-line{
   font-size:clamp(31px,5.2vw,43px)!important;
