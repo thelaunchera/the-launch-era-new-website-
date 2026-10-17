@@ -32,6 +32,7 @@ for (const [lang, hero, expected] of [
   assert(hero.includes('className="tle-hero-soft-mesh" aria-hidden="true"'), lang + ': decorative mesh absent or exposed to assistive technology');
   assert(hero.includes('data-wipe-visible={revealed && heroLoaded}'), lang + ': image-ready reveal gate missing');
   assert(hero.includes('src={HOME_HERO_PHOTO}'), lang + ': selected photo not installed on real hero');
+  assert(hero.includes('<h1 className="tle-hero-heading-shine">'),lang+': shine must decorate the original H1');
   assert(hero.includes('width={1122} height={1402}'), lang + ': portrait hero dimensions changed');
   assert(hero.includes('ref={heroRef}'), lang + ': IntersectionObserver hero ref missing');
   assert.equal(hero.split('href="' + expected + '"').length - 1, 1, lang + ': duplicate or absent personalized demo CTA');
@@ -57,7 +58,8 @@ assert(motion.includes('requestAnimationFrame(update)'));
 assert(motion.includes('!splitHero && progress >= 0.5'), 'CTA must stay keyboard-accessible during scroll');
 assert(root.indexOf('tle-hero-scroll.css') > root.indexOf('tle-saas-ui-v1.css'), 'Scroll overrides must load after the theme');
 assert(scrollCSS.includes('tle-mobile-hero-photo-balance-20261017'),'Mobile hero composition must keep the compact-photo override');
-assert(root.includes('tle-hero-scroll.css?v=20261017-mobile-hero-balance2'),'Mobile hero CSS must bypass previous iPhone cache');
+for(const marker of ['tle-home-hero-text-shine-20261017','background-size:260% 100%','background-position:130% 0','70%,100% {background-position:-30% 0}','animation:tle-home-hero-ink-shine 3.8s linear infinite','background-position:50% 0 !important']) assert(scrollCSS.includes(marker),'Heading shine CSS missing '+marker);
+assert(root.includes('tle-hero-scroll.css?v=20261017-heading-shine1'),'Mobile hero CSS must bypass previous iPhone cache');
 // Localized marketing activity floats (illustrative only, never real customer records).
 assert.equal((en.match(/app:'(?:BOOKING PAGE|COMMAND CENTER|QUOTES)'/g)||[]).length,4,'EN four marketing notices missing');
 assert(es.includes("'Cotización lista'") && es.includes("'Reserva confirmada'"),'ES localized activity notices missing');
@@ -112,6 +114,7 @@ try {
        splitLinkHeight:hero.querySelector('.tle-hero-split-link').getBoundingClientRect().height
      },
      introOpacity: Number(getComputedStyle(intro).opacity),
+     heading:(()=>{const h=intro.querySelector('h1'),c=getComputedStyle(h),r=h.getBoundingClientRect();return {text:h.innerText,width:r.width,left:r.left,right:r.right,animation:c.animationName,clip:c.backgroundClip,fill:c.webkitTextFillColor}})(),
      mesh: {
        count:blobs.length,
        insideHeroFrame:mesh.parentElement === frame,
@@ -154,6 +157,13 @@ try {
    assert(!state.clipPath.includes('100%'), lang + ' ' + viewport.width + ': wipe never opened: ' + state.clipPath);
    assert(Math.abs(state.imageScale - 1) < .04, lang + ' ' + viewport.width + ': photo still zoomed');
    assert(state.introOpacity > .96, lang + ' ' + viewport.width + ': copy did not appear');
+   assert(state.heading.text.includes(lang==='en'?'Less time chasing messages.':'Menos tiempo buscando mensajes.'),lang+': headline text changed');
+   assert(state.heading.animation.includes('tle-home-hero-ink-shine'),lang+' '+viewport.width+': headline shine not running');
+   assert(state.heading.clip==='text',lang+' '+viewport.width+': headline text clip missing');
+   if(viewport.width<768){
+     assert(state.heading.width>=viewport.width-38,lang+' '+viewport.width+': headline still too narrow '+JSON.stringify(state.heading));
+     assert(state.heading.left>=-2 && state.heading.right<=viewport.width+2,lang+': headline spills off phone '+JSON.stringify(state.heading));
+   }
    assert.equal(state.mesh.count, 4, lang + ': exactly four decorative gradients expected');
    if (viewport.width >= 1024) {
      assert(state.mesh.display !== 'none', lang + ': desktop mesh missing');
@@ -242,9 +252,11 @@ try {
     stage:getComputedStyle(hero.querySelector('.hero-scroll-stage')).position,
     transform:getComputedStyle(hero.querySelector('.hero-scroll-frame')).transform,
     opacity:Number(getComputedStyle(intro).opacity),
-    imageAbove:panel.getBoundingClientRect().top<intro.getBoundingClientRect().top
+    imageAbove:panel.getBoundingClientRect().top<intro.getBoundingClientRect().top,
+    heading:(()=>{const c=getComputedStyle(intro.querySelector('h1'));return {animation:c.animationName,fill:c.webkitTextFillColor,position:c.backgroundPosition}})()
    };
   });
+  assert(stable.heading.animation==='none' && stable.heading.fill==='rgb(25, 25, 25)' && stable.heading.position==='50% 0%',lang+': reduced-motion shine not legible and frozen '+JSON.stringify(stable.heading));
   assert(!stable.clip.includes('100%') && stable.stage !== 'sticky' && stable.transform === 'none' && stable.opacity === 1 && stable.imageAbove,
    lang + ': reduced motion must show finished mobile split: ' + JSON.stringify(stable));
   await reduced.close();
