@@ -161,7 +161,7 @@ function routeFor(href){
  if(!href)return null;
  if(href==="https://app.thelaunchera.com/?entry=signup")return href;
  const s=direct(href);if(!s)return null;
- if(s.startsWith("/booking-bundle/"))return "/booking-bundle/?lang="+lang;
+ if(s.startsWith("/booking-bundle/"))return "/booking-bundle/?lang="+lang+"#choose-plan";
  if(s.startsWith("/cleaning-app-demo/")||s.startsWith("/booking-demo/"))return s.includes("lang=")?s.replace(/lang=(en|es)/,"lang="+lang):s+"?lang="+lang;
  if(s.includes("lang="))return s.replace(/lang=(en|es)/,"lang="+lang);
  if(s.startsWith("/service-checkout/"))return s+"&lang="+lang;
@@ -350,16 +350,16 @@ demoOverlay.addEventListener("keydown",event=>{
 });
 
 function msg(text,sender){const bubble=node("div","tle-jessy-message "+sender,text);log.appendChild(bubble);log.scrollTop=log.scrollHeight;return bubble}
-function actions(checkout,detail,trial){
+function actions(checkout,detail,trial,checkoutOnly=false){
  const row=node("div","tle-jessy-inline");
  const isEs=lang==="es";
  const options=[];
  if(trial){
   options.push({href:trial,label:isEs?"Probar gratis":"Try it free",kind:"primary"});
-  if(detail)options.push({href:detail,label:isEs?"Ver demo":"See the demo",kind:"secondary"});
+  if(detail&&!checkoutOnly)options.push({href:detail,label:isEs?"Ver demo":"See the demo",kind:"secondary"});
  }else if(checkout){
   options.push({href:checkout,label:isEs?"Abrir checkout seguro →":"Open secure checkout →",kind:"primary",checkout:true});
-  options.push({prompt:isEs?"¿Me explicas un poco cómo funciona este servicio?":"Could you walk me through how this service works?",label:isEs?"Cómo funciona":"How it works",kind:"secondary"});
+  if(!checkoutOnly)options.push({prompt:isEs?"¿Me explicas un poco cómo funciona este servicio?":"Could you walk me through how this service works?",label:isEs?"Cómo funciona":"How it works",kind:"secondary"});
  }else if(detail){
   options.push({href:detail,label:isEs?"Ver opciones":"See your options",kind:"primary"});
  }
@@ -386,11 +386,12 @@ function checkoutFor(id){
  return routeFor(valid);
 }
 function purchaseReady(message){
- const q=String(message).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();
- if(/\b(?:checkout|buy now|purchase|pay now|ready to (?:buy|pay)|send (?:me )?(?:the )?(?:checkout|link)|give me (?:the )?(?:checkout|link)|quiero (?:comprar|pagar)|list[oa] para (?:comprar|pagar)|enviame (?:el )?(?:link|enlace)|ir al pago)\b/.test(q))return true;
- if(/^(?:dame|give me|show me|send) (?:the |el )?(?:next step|siguiente paso|proximo paso)/.test(q))return true;
- const last=[...history].reverse().find(x=>x.role==="assistant")?.message||"";
- return /^(?:1\s*)?(?:yes|si|yes please|si por favor|sure|dale|ok|okay)[.! ]*$/.test(q)&&/\b(?:checkout|purchase|buy|comprar|pagar|payment|enlace de pago)\b/i.test(last);
+ const q=String(message||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[¿?¡!.,:;]+/g," ").replace(/\s+/g," ").trim();
+ if(/\b(?:already|just|previously) (?:bought|purchased|paid)|\b(?:my|our) (?:order|purchase)|\b(?:ya (?:compre|pague)|mi pedido|mi compra)\b/.test(q))return false;
+ if(/\b(?:ready to (?:buy|purchase|pay|order|check out|checkout|get started)|(?:i|we) (?:want|need) to (?:buy|purchase|pay|order|checkout|check out)|i(?:'d| would) like to (?:buy|purchase|pay|order|checkout|check out)|(?:buy|purchase|pay|checkout|check out) now)\b/.test(q))return true;
+ if(/\b(?:send|show|give|open|take me to)\b.{0,35}\b(?:checkout|payment link|purchase link|payment page|buy link)\b/.test(q))return true;
+ if(/\b(?:quiero (?:comprar|pagar|el checkout)|quiero comprarlo|estoy list[oa] para (?:comprar|pagar)|ya estoy list[oa] para (?:comprar|pagar)|list[oa] para (?:comprar|pagar)|enviame (?:el |un )?(?:checkout|enlace de pago|link de pago)|dame (?:el |un )?(?:checkout|enlace de pago|link de pago)|ir al (?:checkout|pago)|comprar ahora|pagar ahora)\b/.test(q))return true;
+ return /^(?:i'?m ready|i am ready|ready|ready now|i'?m in|let'?s do it|lets do it|yes please|yes|okay|ok|estoy list[oa]|ya estoy list[oa]|list[oa]|vamos a hacerlo|dale|si|claro|lo quiero|me lo llevo)$/.test(q);
 }
 function conciseText(text,mode){
  // The server owns response length. Never cut an important answer mid-thought in the widget.
@@ -525,12 +526,7 @@ async function ask(raw){if(waiting)return;const message=String(raw||"").trim().s
  lastIntent=visitorIntent(message);
  if(lastIntent!=="general")track("diagnostic");if(/(?:\d[ -]*?){13,19}/.test(message)){msg(lang==="es"?"Por favor, no compartas números de tarjeta aquí.":"Please don't share card numbers here.","bot");return}
 msg(message,"user");input.value="";
- if(allowedService.has(offer)&&purchaseReady(message)){
-  if(offer==="cleaning-app"){msg(lang==="es"?"Comienza tu prueba gratis de la app.":"Start your app free trial.","bot");showCheckoutOptions(["cleaning-app"]);}
-  else if(checkoutFor(offer)){msg(lang==="es"?"¡Listo! Aquí tienes el checkout seguro.":"Ready! Here is your secure checkout.","bot");showCheckoutOptions(offer==="booking"&&/\b(?:ai|ia|assistant|asistente)\b/i.test(message)?["booking-bundle"]:[offer]);}
-  history.push({role:"user",message},{role:"assistant",message:"Checkout offered"});
-  if(history.length>16)history=history.slice(-16);return;
- }
+ // Let the verified server resolve the product and prioritize checkout over demos.
  waiting=true;send.disabled=true;const indicator=msg(t("typing"),"bot");
 if(/quiero hablar|contactar|leave my details|talk to a person|human support/i.test(message)&&!/whats.?app/i.test(message)&&!/do you mean messaging our team on whatsapp|te refieres a escribirle a nuestro equipo por whatsapp/i.test(history.at(-1)?.message||"")){indicator.remove();showLead(true);waiting=false;send.disabled=false;return}
 const previous=history.slice(-12);let result=null;try{const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),16000);try{const r=await fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message,language:lang,selected_offer:offer||currentPage(),page_path:location.pathname,history:previous}),signal:controller.signal});if(r.ok)result=await r.json();else if(r.status===429)result={reply:t("limit")}}finally{clearTimeout(timeout)}}catch{}
@@ -555,8 +551,8 @@ if(result&&typeof result.reply==="string"){
   if(next==="contact_team")showWhatsappContact();
    if(next==="service_choices")showNeedsChecklist();
   if(next==="client_help"){const help=button("tle-jessy-help-link",lang==="es"?"Contactar a soporte ↗":"Contact support securely ↗");help.addEventListener("click",()=>showLead(true));log.append(help)}
-  if(next==="checkout"&&checkout)actions(checkout,info,null);
-  else if(next==="trial"&&result.trial)actions(null,info,result.trial);
+  if(next==="checkout"&&checkout)actions(checkout,info,null,result.mode==="purchase_ready");
+  else if(next==="trial"&&result.trial)actions(null,info,result.trial,result.mode==="purchase_trial");
   else if(next==="demo"&&offer!=="booking"&&info)actions(null,info,null);
  }
  if(lastIntent==="comparison")track("comparison");
@@ -564,6 +560,13 @@ if(result&&typeof result.reply==="string"){
  if(allowedService.has(offer)&&lastIntent!=="general")track("recommendation");
  track("answered");
  }else{
+ if(allowedService.has(offer)&&purchaseReady(message)){
+  indicator.textContent=lang==="es"?"¡Hurra! 🥳 Nos alegra ayudarte. Aquí está el siguiente paso seguro. ¡Nos vemos dentro! 😄✨🌱🧤🫧🧹":"Hurray! 🥳 We’re happy to assist you! Here’s your secure next step. See you inside! 😄✨🌱🧤🫧🧹";
+  showCheckoutOptions([offer]);
+  history.push({role:"user",message},{role:"assistant",message:indicator.textContent});
+  if(history.length>16)history=history.slice(-16);
+  waiting=false;send.disabled=false;log.scrollTop=log.scrollHeight;input.focus();return;
+ }
  lastUnansweredQuestion=message;
  // A connection failure must never strand a visitor or silently submit their data.
  // The team form still requires the visitor's explicit contact consent.
