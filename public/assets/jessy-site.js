@@ -298,7 +298,7 @@ function showDemoCard(id){
  card.href="/booking-lead-automation";
  // Let screen readers use the real title and overlay copy as the accessible link name.
  const photo=node("img","tle-jessy-demo-cover");
- photo.src="/assets/drive-house-gallery/pristine-kitchen.png";
+ photo.src="/assets/lead-demo/drive-cleaner-kitchen.webp";
  photo.alt="";photo.loading="lazy";photo.decoding="async";
  const shade=node("span","tle-jessy-demo-shade");shade.setAttribute("aria-hidden","true");
  const resting=node("span","tle-jessy-demo-resting");
