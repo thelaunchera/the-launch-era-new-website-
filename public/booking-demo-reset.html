@@ -613,8 +613,8 @@
     card.classList.toggle('is-flipped',open);
     const front=card.querySelector('.service-flip-front');
     const back=card.querySelector('.service-flip-back');
-    if(front){front.inert=open;front.setAttribute('aria-hidden',String(open));}
-    if(back){back.inert=!open;back.setAttribute('aria-hidden',String(!open));}
+    if(front){front.inert=open;front.setAttribute('aria-hidden',String(open));front.style.pointerEvents=open?'none':'auto';}
+    if(back){back.inert=!open;back.setAttribute('aria-hidden',String(!open));back.style.pointerEvents=open?'auto':'none';}
     if(focusTarget){
       card.dataset.opening='true';
       requestAnimationFrame(()=>{
@@ -658,6 +658,13 @@
       }
     });
     backButton.addEventListener('click',()=>closeCardFlip(card,true));
+    // After the first tap flips the card, a second tap anywhere on its
+    // description (not the return arrow) enters this specific service form.
+    // Keep the visible Continue button working for keyboard and touch users.
+    card.querySelector('.service-flip-back').addEventListener('click',event=>{
+      if(event.target instanceof Element && event.target.closest('button'))return;
+      if(card.classList.contains('is-flipped'))chooseService(front);
+    });
     select.addEventListener('click',()=>chooseService(front));
   });
   const syncReducedFlip=()=>flipCards.forEach(card=>setCardFlip(card,reducedMotion.matches));
