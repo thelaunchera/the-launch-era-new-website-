@@ -95,6 +95,28 @@ try {
   await page.close();
   console.log('PASS demo flip '+width);
  }
+ // Touch regression: first tap must ONLY reveal service details, second tap
+ // anywhere on the description opens the matching Step 2 form (EN and ES).
+ for(const lang of ['en','es'])for(const [type,id] of [['residential','standard'],['commercial','retail']]){
+  const page=await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true,reducedMotion:'no-preference'});
+  const errors=[],writes=[];
+  page.on('pageerror',e=>errors.push(e.message));
+  page.on('request',req=>{if(['POST','PUT','PATCH','DELETE'].includes(req.method()))writes.push(req.url())});
+  await page.goto(base+'/booking-demo-reset.html?lang='+lang,{waitUntil:'domcontentloaded'});
+  if(type==='commercial')await page.locator('#comTab').click();
+  const card=page.locator('.service-flip-card[data-service="'+id+'"]');
+  await card.locator('.service').click();
+  await page.waitForTimeout(850);
+  assert.equal(await page.locator('#detailsPanel').isVisible(),false,lang+' '+id+' first tap may only flip');
+  assert.equal(await card.locator('.service-flip-back').evaluate(el=>el.inert),false,lang+' '+id+' back must be tappable');
+  await card.locator('.service-flip-back h3').click();
+  assert.equal(await page.locator('#detailsPanel').isVisible(),true,lang+' '+id+' second tap on description must open form');
+  assert.equal(await card.locator('.service').getAttribute('aria-pressed'),'true',lang+' '+id+' correct service must be selected');
+  assert.deepEqual(writes,[],lang+' '+id+' may not send real booking');
+  assert.deepEqual(errors,[],lang+' '+id+' browser errors');
+  await page.close();
+  console.log('PASS two-tap mobile service '+lang+' '+id);
+ }
  for(const [route,selector] of [['/','.tle-service-flip'],['/booking-demo-reset.html?lang=es','.service-flip-card']]){
   const page=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});
   await page.goto(base+route,{waitUntil:'domcontentloaded'});
