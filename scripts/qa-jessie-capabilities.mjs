@@ -39,7 +39,7 @@ for(const lang of ["en","es"]){
   }
   assert.ok(!/not confirmed|no lo tengo confirmado|don't know|no se/.test(answer),"Generic fallback reached");
 }
-assert.ok(source.indexOf("if(asksAboutJessie(message))")<source.indexOf("if(wantsAiPlanComparison(message,prior,focus))"),"Capability introduction must come before AI plan comparison");
+assert.ok(source.indexOf("if(asksAboutJessie(message))")<source.indexOf("if(!wantsCheckoutNow(message,history,prior)&&wantsAiPlanComparison(message,prior,focus))"),"Capability introduction must come before AI plan comparison; ready buyers override it");
 const widget=fs.readFileSync(new URL("../public/assets/jessy-site.js",import.meta.url),"utf8");
 assert.ok(widget.includes('if(typeof result.selected_offer==="string")offer=result.selected_offer;'),"Widget must clear stale offer after general introduction");
 // A concise answer must remain COMPLETE on the server and in the website widget.
