@@ -2,10 +2,8 @@ name: Booking Sky Orbs and Proof Order QA
 on:
   pull_request:
     paths:
-      - 'public/booking-demo-reset.html'
       - 'public/assets/tle-booking-blue-orbs.css'
       - 'scripts/qa-booking-orbs-and-proof-order.mjs'
-      - '.github/workflows/booking-orbs-proof-order-qa.yml'
   workflow_dispatch:
 permissions:
   contents: read
