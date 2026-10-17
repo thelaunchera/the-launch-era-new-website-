@@ -27,7 +27,9 @@ const BOOKING_SALE_END=new Date('2026-11-01T04:00:00Z').getTime();
 function useBookingPrice(){const [sale,setSale]=useState(()=>Date.now()<BOOKING_SALE_END);useEffect(()=>{const sync=()=>setSale(Date.now()<BOOKING_SALE_END);sync();const id=window.setInterval(sync,30000);return()=>window.clearInterval(id)},[]);return {price:sale?'$19.99':'$49.99',sale};}
 const notifications = [
  {app:'BOOKING PAGE',when:'now',title:'New booking request',text:'A customer would like a cleaning quote.',icon:CalendarCheck2},
- {app:'COMMAND CENTER',when:'12m ago',title:'Follow-up sent',text:'Your customer got a friendly reminder.',icon:Send}
+ {app:'COMMAND CENTER',when:'12m ago',title:'Follow-up sent',text:'Your customer got a friendly reminder.',icon:Send},
+ {app:'QUOTES',when:'preview',title:'Quote ready to review',text:'Keep the next step organized.',icon:ClipboardList},
+ {app:'BOOKING PAGE',when:'preview',title:'Booking confirmed',text:'One more job on the calendar.',icon:CircleCheck}
 ];
 const flow = [{title:'NEW LEAD',text:'Booking request comes in.',detail:'Your personalized Booking Page collects service details and available appointment requests.',icon:CalendarCheck2},{title:'TRACKED',text:'Added to your Command Center automatically.',detail:'Every inquiry has a home. No more searching through messages.',icon:ClipboardList},{title:'FOLLOWED UP',text:'The next step keeps moving.',detail:'A thoughtful follow-up keeps the conversation going.',icon:Send}];
 export function HomeHero() {
@@ -47,7 +49,7 @@ export function HomeHero() {
  </div>
  <div className="hero-split-visual">
  <img ref={heroImageRef} className="hero-main-image" src={cleaner} alt="Professional home cleaner at work in a bright, sunlit room" width={1920} height={1024} loading="eager" fetchPriority="high" decoding="sync" onLoad={()=>setHeroLoaded(true)} onError={()=>setHeroLoaded(true)}/>
- <div className="hero-notice-flow" aria-label="Example notifications; no live activity is shown">
+ <div className="hero-notice-flow" aria-hidden="true">
    {notifications.map((n,i)=>{const Icon=n.icon;return <div className={`notification notice-${i+1}`} key={n.title}>
      <span className="notice-icon" aria-hidden="true"><Icon size={17}/></span>
      <div className="notice-body"><div className="notice-meta"><span>{n.app}</span><time>{n.when}</time></div><strong>{n.title}</strong><p>{n.text}</p></div>
