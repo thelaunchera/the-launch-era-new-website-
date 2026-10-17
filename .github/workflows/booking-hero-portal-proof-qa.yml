@@ -2,12 +2,10 @@ name: Booking Hero Portal and Proof QA
 on:
   pull_request:
     paths:
-      - 'public/booking-demo-reset.html'
       - 'public/assets/tle-demo-hero-portal.css'
       - 'public/assets/tle-demo-hero-portal.js'
       - 'public/assets/lead-demo/tle-booking-hero-original.webp'
       - 'scripts/qa-demo-hero-portal-proof.mjs'
-      - '.github/workflows/booking-hero-portal-proof-qa.yml'
   workflow_dispatch:
 permissions:
   contents: read
