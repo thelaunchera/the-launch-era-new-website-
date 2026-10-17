@@ -22,6 +22,10 @@ for(const [label,page] of [['booking',booking],['tracker',tracker]]){
  assert.match(page,/document\.write\(response\.html\)/);
  assert.doesNotMatch(page,/<(?:section|div)[^>]+(?:id="bookingPage"|id="trackerBrand"|id="sonnyBody")/);
  assert.doesNotMatch(page,/const SERVICE_CATALOG|booking-portal-hero|tle-demo-reset-lead-magnet\.js/);
+ assert.doesNotMatch(page,/funnel|embudo|lead catcher|lead capture|captaci[oó]n/i,label+" must not explain internal marketing mechanics to visitors");
+ assert.match(page,/personal invitation|personal email link/,"Visitors see invitation-led language");
+ assert.match(page,/invitación|enlace personal/,"Spanish visitors see natural invitation-led language");
+ assert.match(page,/invitation_required/,"Access denial response stays actionable and consistent");
  const scripts=[...page.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)];
  assert.equal(scripts.length,1,label+' should have a single gated bootstrap');
  new vm.Script(scripts[0][1],{filename:label+'-gate.js'});
@@ -38,4 +42,4 @@ assert.match(request,/tle-personalized-demo/,'Public form still requests demos')
 assert(!fs.existsSync('supabase/functions/tle-booking-demo-gate/booking-template.ts'),'Protected Booking source must not be in public repo');
 assert(!fs.existsSync('supabase/functions/tle-booking-demo-gate/tracker-template.ts'),'Protected tracker source must not be in public repo');
 assert(!fs.existsSync('supabase/functions/tle-booking-demo-gate/index.ts'),'Backend implementation is deployed privately in Supabase, not public GitHub');
-console.log('PASS: Booking Automation only; no public raw HTML; server funnel+OTP; Jessie confirmation; buyer and Cleaning App retained.');
+console.log('PASS: Booking Automation only; no public raw HTML; private code verification; Jessie confirmation; buyer and Cleaning App retained.');
