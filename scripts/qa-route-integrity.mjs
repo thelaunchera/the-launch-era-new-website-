@@ -10,11 +10,33 @@ const domain=new URL(site).hostname,errors=[],warnings=[];
 const routes=['/','/es/','/solutions/','/how-it-works/','/help/','/booking-lead-automation/','/cleaning-web-app/','/virtual-assistant/','/website-automation/','/free-cleaning-lead-guide/','/es/booking-lead-automation/','/es/cleaning-web-app/','/es/virtual-assistant/','/es/website-automation/','/es/free-cleaning-lead-guide/'];
 const known=new Set(routes.map(x=>x==='/'?'/':x.replace(/\/$/,'')));
 function walk(folder){if(!existsSync(folder))return [];return readdirSync(folder,{withFileTypes:true}).flatMap(x=>{const f=join(folder,x.name);return x.isDirectory()?walk(f):x.isFile()?[f]:[]})}
+// Photos below are generated from selected Drive originals by
+// scripts/build_demo_photo_assets.py during the Pages build. Source-only
+// QA runs before asset generation, so it checks only *exact* allowlisted
+// paths, and the deploy job must produce all files successfully.
+const generatedPhotoPaths=new Set([
+  ...['hero','journey-service','journey-property','journey-schedule','journey-review']
+    .map(x=>'/assets/demo-cleaning-20261017/'+x+'.webp'),
+  ...['regular','deep','move','office','retail','medical','floor']
+    .map(x=>'/assets/demo-services/'+x+'.webp'),
+  ...['kitchen-refresh','living-space','bathroom-detail','dining-room','bedroom','miami-condo','sunroom','poolside-living','office','whole-home']
+    .map(x=>'/assets/demo-work-gallery/'+x+'.webp')
+]);
 function existsRoute(pathname){
  const path=posix.normalize('/'+pathname.replace(/^\/+/,'')).replace(/\/$/,'')||'/';
  if(known.has(path))return true;
  const f=join(pub,path.slice(1));
- return (existsSync(f)&&statSync(f).isFile())||existsSync(join(f,'index.html'))||existsSync(f+'.html');
+ if((existsSync(f)&&statSync(f).isFile())||existsSync(join(f,'index.html'))||existsSync(f+'.html'))return true;
+ // Do not exempt arbitrary assets: these are the names mapped to Drive
+ // sources in the build script, and only on the public sample booking route.
+ if(generatedPhotoPaths.has(path)&&existsSync(join(root,'scripts/build_demo_photo_assets.py'))){
+   const builder=readFileSync(join(root,'scripts/build_demo_photo_assets.py'),'utf8');
+   const name=posix.basename(path,'.webp');
+   const sourceTable=path.includes('demo-cleaning-20261017')?'DEMO_CLEANING_PHOTOS':path.includes('demo-work-gallery')?'WORK_GALLERY_PHOTOS':'PHOTOS';
+   const part=builder.split(sourceTable+' = {')[1]?.split('\\n}')[0]||'';
+   if(new RegExp('["\\']'+name+'["\\']\\s*:').test(part))return true;
+ }
+ return false;
 }
 function staticChecks(){
  if(!existsSync(pub))throw Error('Run this script from the website repository root');
