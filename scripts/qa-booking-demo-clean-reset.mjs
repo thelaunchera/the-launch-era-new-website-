@@ -145,6 +145,10 @@ try{
    assert.equal(await page.locator('#intakeSchedule').isVisible(),false,'Only one mini-step is displayed');
    await page.locator('#customerName').fill('Sample Customer');
    await page.locator('#customerEmail').fill('sample@example.test');
+   await page.locator('#customerStreet').fill('123 Ocean Drive');
+   await page.locator('#customerUnit').fill('Apt 4B');
+   await page.locator('#customerCity').fill('Miami Beach');
+   await page.locator('#customerState').fill('FL');
    await page.locator('#customerZip').fill('33101');
    await page.locator('#reviewNext').click();
    assert.equal(await page.locator('.demo-mini-dot.is-current').getAttribute('data-mini-progress'),'1','Contact slides into house information');
@@ -181,6 +185,7 @@ try{
    await page.locator('#reviewNext').click();
    await page.locator('#reviewPanel').waitFor({state:'visible'});
    assert.match(await page.locator('#reviewList').innerText(),/Sample Customer/);
+   assert.match(await page.locator('#reviewList').innerText(),/123 Ocean Drive, Apt 4B, Miami Beach, FL, 33101/,'Complete property address must appear on review');
    assert.match(await page.locator('#reviewList').innerText(),/1850 sq ft/,'Review includes entered square footage');
    assert.match(await page.locator('#reviewList').innerText(),lang==='es'?/Casa adosada/:/Townhouse/,'Review includes the home type');
    assert.match(await page.locator('#reviewList').innerText(),lang==='es'?/Mascotas en casa/:/Pets at home/,'Requested details appear on review screen');
@@ -192,7 +197,7 @@ try{
      'Lead magnet must retain demo Command Center handoff');
    const saved=await page.evaluate(()=>[...Object.keys(sessionStorage)]
      .filter(k=>k.startsWith('tleSampleBooking:')).map(k=>JSON.parse(sessionStorage.getItem(k))));
-   assert(saved.some(x=>x.demoOnly&&x.name==='Sample Customer'&&x.propertyType==='townhouse'&&x.squareFeet==='1850'
+   assert(saved.some(x=>x.demoOnly&&x.name==='Sample Customer'&&x.propertyType==='townhouse'&&x.squareFeet==='1850'&&x.streetAddress==='123 Ocean Drive'&&x.addressLine2==='Apt 4B'&&x.city==='Miami Beach'&&x.state==='FL'
      &&x.extras?.includes('petsLabel')&&x.extras?.includes('ovenLabel')
      &&(lang==='es'?x.notes.includes('Mascotas en casa'):x.notes.includes('Pets at home'))),
      'Sample Command Center handoff should include optional checkbox requests, no real writes');
@@ -216,6 +221,10 @@ try{
    await page.locator('.service-flip-card[data-service="office"] .service-flip-select').click();
    await page.locator('#customerName').fill('Commercial Customer');
    await page.locator('#customerEmail').fill('commercial@example.test');
+   await page.locator('#customerStreet').fill('123 Ocean Drive');
+   await page.locator('#customerUnit').fill('Apt 4B');
+   await page.locator('#customerCity').fill('Miami Beach');
+   await page.locator('#customerState').fill('FL');
    await page.locator('#customerZip').fill('33101');
    await page.locator('#reviewNext').click();
    assert.equal(await page.locator('#comDetails').isVisible(),true);

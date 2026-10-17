@@ -38,6 +38,10 @@ try {
   assert.equal(await page.locator('#intakeContact').isVisible(),true,'The contact panel is the first mini-step');
   await page.locator('#customerName').fill('Demo Customer');
   await page.locator('#customerEmail').fill('demo@example.test');
+  await page.locator('#customerStreet').fill('123 Ocean Drive');
+  await page.locator('#customerUnit').fill('Apt 4B');
+  await page.locator('#customerCity').fill('Miami Beach');
+  await page.locator('#customerState').fill('FL');
   await page.locator('#customerZip').fill('33101');
   await page.locator('#reviewNext').click();
   await page.locator('#propertyType').selectOption('house');

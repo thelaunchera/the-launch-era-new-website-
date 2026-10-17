@@ -19,7 +19,7 @@ assert.match(chat,/tle-ai-booking-demo/,'Keep the existing Sonny demo backend wi
 assert.match(template,/id="demoForm"/,'Personalized lead magnet intake must not be replaced with booking sample');
 assert(!/(?:@keyframes|\banimation\s*:|\btransition\s*:|\btransform\s*:|\bzoom\s*:|gsap\.|Flip\.|mix-blend-mode\s*:)/i.test(html),'New public demo must have zero visual zoom/motion');
 assert.deepEqual([...html.matchAll(/<link[^>]*rel="stylesheet"[^>]*href="([^"]+)"/g)].map(m=>m[1]),
-  ['/assets/tle-demo-hero-portal.css?v=20261016-strike4','/assets/tle-booking-month-wheel.css?v=20261016-responsive2','/assets/tle-booking-premium-refresh.css?v=20261016-sonny-mobile-safe3','/assets/tle-booking-blue-orbs.css?v=20261016-orbs1','/assets/tle-booking-bubbles-continuity.css?v=20261017-mobile-swipe-compact1','/assets/tle-demo-curtain-footer.css?v=20261016-curtain1','/assets/tle-demo-booking-steps.css?v=20261017-animated-mini-steps1','/assets/tle-demo-work-gallery.css?v=20261017-deck1','/assets/tle-demo-ink-service-cards.css?v=20261017-black-accent1'],'Only scoped hero, time wheel, approved cards and original blue bubble treatments may be linked');
+  ['/assets/tle-demo-hero-portal.css?v=20261016-strike4','/assets/tle-booking-month-wheel.css?v=20261016-responsive2','/assets/tle-booking-premium-refresh.css?v=20261016-sonny-mobile-safe3','/assets/tle-booking-blue-orbs.css?v=20261016-orbs1','/assets/tle-booking-bubbles-continuity.css?v=20261017-ios-layout-fix2','/assets/tle-demo-curtain-footer.css?v=20261016-curtain1','/assets/tle-demo-booking-steps.css?v=20261017-address-compact2','/assets/tle-demo-work-gallery.css?v=20261017-deck1','/assets/tle-demo-ink-service-cards.css?v=20261017-black-accent1'],'Only scoped hero, time wheel, approved cards and original blue bubble treatments may be linked');
 
 const browser=await chromium.launch({headless:true});
 const outputs=[];
@@ -106,6 +106,10 @@ try {
    assert.equal(await page.locator('#chooseNext').isVisible(),false);
    await page.locator('#customerName').fill('Demo Test');
    await page.locator('#customerEmail').fill('test@example.invalid');
+   await page.locator('#customerStreet').fill('123 Ocean Drive');
+   await page.locator('#customerUnit').fill('Apt 4B');
+   await page.locator('#customerCity').fill('Miami Beach');
+   await page.locator('#customerState').fill('FL');
    await page.locator('#customerZip').fill('33139');
    await page.locator('#reviewNext').click();
    await page.locator('#propertyType').selectOption('house');
@@ -143,6 +147,10 @@ try {
      await medical.locator('.service-flip-select').click();
     await page.locator('#customerName').fill('Commercial Customer');
     await page.locator('#customerEmail').fill('commercial@example.invalid');
+    await page.locator('#customerStreet').fill('123 Ocean Drive');
+    await page.locator('#customerUnit').fill('Apt 4B');
+    await page.locator('#customerCity').fill('Miami Beach');
+    await page.locator('#customerState').fill('FL');
     await page.locator('#customerZip').fill('33101');
     await page.locator('#reviewNext').click();
     assert.equal(await page.locator('#comDetails').isVisible(),true);
