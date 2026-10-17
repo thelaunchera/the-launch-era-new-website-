@@ -10,6 +10,13 @@ const galleryHtml=html.slice(html.indexOf('id="tleWorkGallery"'),html.indexOf('<
 const galleryPhotos=[...galleryHtml.matchAll(/(?:src|data-src)="(\/assets\/[^"]+\.(?:png|jpg|webp))"/g)].map(m=>m[1]);
 assert.equal((galleryHtml.match(/class="tle-work-card"/g)||[]).length,10,'Exactly 10 photo cards');
 assert.equal(new Set(galleryPhotos).size,10,'No repeated paths in the deck');
+const optimizedPhotos=[...galleryHtml.matchAll(/data-optimized="(\/assets\/demo-work-gallery\/[^"]+\.webp)"/g)].map(m=>m[1]);
+assert.equal(optimizedPhotos.length,10,'All 10 photos need lightweight WebP choices');
+assert.equal(new Set(optimizedPhotos).size,10,'Do not repeat optimized gallery images');
+optimizedPhotos.forEach(path=>{
+ assert(existsSync('public'+path),'Missing built WebP '+path);
+});
+
 galleryPhotos.forEach(path=>assert(existsSync('public'+path),'Missing local image '+path));
 assert(html.indexOf('id="bookingPage"')<html.indexOf('id="tleWorkGallery"'),'Gallery must follow sample booking');
 assert(html.indexOf('id="tleWorkGallery"')<html.indexOf('id="bookingBeforeAfter"'),'Gallery must precede before/after');
@@ -45,7 +52,7 @@ try{
   assert.equal(initial.lang,lang,'Wrong language');
   assert.equal(initial.cards,10,'Missing photos');
   assert.equal(initial.hidden,9,'Only the active photo may be accessible');
-  assert(initial.initialSources<=3,'Do not eagerly load all 10 heavy photos');
+  assert(initial.initialSources<=3,'Load only the first three optimized gallery photos');
   assert(initial.overflow<=4,'Horizontal overflow '+lang+' '+width+': '+JSON.stringify(initial));
   assert(initial.rect.left>=-2&&initial.rect.right<=width+2,'Photo outside viewport '+JSON.stringify(initial));
   assert.match(initial.title,lang==='es'?/Espacios limpios/:/Clean spaces/);
