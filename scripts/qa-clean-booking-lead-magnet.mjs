@@ -20,6 +20,7 @@ assert.match(template,/id="demoForm"/,'Personalized lead magnet intake must not 
 assert(!/(?:@keyframes|\banimation\s*:|\btransition\s*:|\btransform\s*:|\bzoom\s*:|gsap\.|Flip\.|mix-blend-mode\s*:)/i.test(html),'New public demo must have zero visual zoom/motion');
 assert.deepEqual([...html.matchAll(/<link[^>]*rel="stylesheet"[^>]*href="([^"]+)"/g)].map(m=>m[1]),
   ['/assets/tle-demo-hero-portal.css?v=20261016-strike4','/assets/tle-booking-month-wheel.css?v=20261016-responsive2','/assets/tle-booking-premium-refresh.css?v=20261016-sonny-mobile-safe3','/assets/tle-booking-blue-orbs.css?v=20261016-orbs1','/assets/tle-booking-bubbles-continuity.css?v=20261017-short-cinematic2','/assets/tle-demo-curtain-footer.css?v=20261016-curtain1','/assets/tle-demo-booking-steps.css?v=20261017-compact-intake1','/assets/tle-demo-work-gallery.css?v=20261017-deck1'],'Only scoped hero, time wheel, approved cards and original blue bubble treatments may be linked');
+  '/assets/tle-demo-ink-service-cards.css?v=20261017-black-accent1',
 
 const browser=await chromium.launch({headless:true});
 const outputs=[];
