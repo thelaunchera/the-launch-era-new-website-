@@ -57,6 +57,8 @@ try {
         overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth,
         beforeWidth:before.width,proofWidth:proof.width,
         lastCompareBottom:document.querySelector('.booking-compare-card:last-child').getBoundingClientRect().bottom,
+        areasTop:document.getElementById('bookingServiceAreas').getBoundingClientRect().top,
+        areasBottom:document.getElementById('bookingServiceAreas').getBoundingClientRect().bottom,
         firstReviewTop:document.querySelector('.booking-review:first-child').getBoundingClientRect().top,
         firstReviewTopCode:document.querySelector('#bookingReview1Mark')?.textContent,
         disclosureBelow:document.getElementById('bookingProofDesc').getBoundingClientRect().top>
@@ -71,8 +73,15 @@ try {
     assert(r.overflow<=3,'Horizontal overflow '+JSON.stringify(r));
     assert.equal(await page.locator('.booking-compare-card').count(),3,'Matched Before/After missing');
     assert.equal(await page.locator('.booking-review').count(),3,'The three original illustrative demo review cards are missing');
-    assert(r.firstReviewTop>r.lastCompareBottom&&r.firstReviewTop-r.lastCompareBottom<275,
-      'Reviews must appear shortly after the matched photo comparisons without the previous excessive gap '+JSON.stringify(r));
+    // Requested Areas We Serve is deliberately between matched cleaning
+    // comparisons and the sample experience proof; guard whitespace,
+    // rather than incorrectly rejecting that meaningful extra section.
+    assert(r.areasTop>=r.lastCompareBottom-4&&r.areasTop-r.lastCompareBottom<150,
+      'Sample service areas must immediately follow matched comparisons '+JSON.stringify(r));
+    assert(r.firstReviewTop>=r.areasBottom-3&&r.firstReviewTop-r.areasBottom<190,
+      'Illustrative reviews must follow areas without a blank scroll gap '+JSON.stringify(r));
+    assert.equal(await page.locator('#bookingServiceAreas .booking-service-areas__cities span').count(),8,
+      'Sample should demonstrate eight service cities, never live booking availability');
     assert(r.disclosureBelow,'Review cards should appear before the truthful illustrative disclosure');
     assert.match(r.firstReviewTopCode,lang==='es'?/OPCIONES CLARAS/:/CLEAR CHOICES/,
       'Original cards and their label must be localized EN ES');
