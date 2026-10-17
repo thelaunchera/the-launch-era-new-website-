@@ -1,0 +1,57 @@
+name: Booking Drive Horizontal Journey QA
+on:
+  pull_request:
+    paths:
+      - 'public/booking-demo-reset.html'
+      - 'public/assets/tle-booking-bubbles-continuity.css'
+      - 'public/assets/tle-demo-horizontal-story.js'
+      - 'public/assets/tle-demo-hero-portal.js'
+      - 'public/assets/drive-booking-journey/**'
+      - 'public/assets/vendor/**'
+      - 'scripts/qa-booking-horizontal-drive-story.mjs'
+      - '.github/workflows/booking-horizontal-drive-story-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'public/assets/tle-demo-horizontal-story.js'
+      - 'scripts/qa-booking-horizontal-drive-story.mjs'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  horizontal-journey:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check sample route integrity and build
+        run: |
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-public-demo-integrity.mjs
+          node --check public/assets/tle-demo-horizontal-story.js
+          node --check public/assets/tle-demo-hero-portal.js
+          bun install
+          bun run build
+      - name: Install Chromium
+        run: |
+          mkdir -p /tmp/tle-drive-scroll-playwright
+          cd /tmp/tle-drive-scroll-playwright
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          ln -sfn /tmp/tle-drive-scroll-playwright/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-drive-scroll-playwright/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: Verify actual GSAP pin and native fallback
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-drive-scroll-server.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for i in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:4173/booking-demo-reset.html >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-booking-horizontal-drive-story.mjs
