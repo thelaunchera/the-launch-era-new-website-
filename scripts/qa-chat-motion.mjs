@@ -14,9 +14,12 @@ for(const path of paths){
  for(const requirement of [
   "function attachTleChatMotion(", "attachTleChatMotion(log)",
   "MutationObserver", "prefers-reduced-motion: reduce", "document.hidden",
-  "role", "aria-live", "setTimeout(next,150)", "Math.max(0,900-",
+  "role", "aria-live", "Math.max(0,900-",
   "tle-chat-waiting", "tleChatBubbleIn", "tle-chat-caret"
  ])assert(source.includes(requirement),path+" missing motion guard: "+requirement);
+ const typeDelay=/state\.timer=setTimeout\(next,(\d+)\)/.exec(source);
+ assert(typeDelay&&Number(typeDelay[1])>=45&&Number(typeDelay[1])<=150,
+  path+" should animate one word at a human-readable, bounded 45–150ms interval");
  assert(source.includes('if(node.classList.contains("user")){finishAll()'),
   path+" must never replay or stream real user messages");
  assert(source.includes("if(reduce.matches||!visible(node))"),
