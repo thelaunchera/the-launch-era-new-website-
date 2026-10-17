@@ -20,13 +20,13 @@ try{
    if(lang==='es'){
     assert.match(heading,/Una forma más sencilla de recibir reservas/i);
     assert.match(await page.locator('#formTitle').innerText(),/Pide tu demo personalizada/i);
-    assert.match(await page.locator('#submit').innerText(),/Quiero mi demo/i);
+    assert.match(await page.locator('#submit').innerText(),/Enviarme el enlace de verificación/i);
     assert.match(await page.locator('#serviceBack').getAttribute('href'),/\/es\/booking-lead-automation/);
     assert.match(await page.locator('#demoForm input[name="name"]').getAttribute('placeholder'),/Nombre y apellido/i);
    }else{
     assert.match(heading,/A smoother way to book/i);
     assert.match(await page.locator('#formTitle').innerText(),/Request your personalized demo/i);
-    assert.match(await page.locator('#submit').innerText(),/Get my personalized demo/i);
+    assert.match(await page.locator('#submit').innerText(),/Send my verification link/i);
    }
    assert.equal(await page.locator('#demoForm input[required]').count(),4,'Four required fields');
    assert.equal(await page.locator('#success').isHidden(),true,'Do not show receipt before actual request');
