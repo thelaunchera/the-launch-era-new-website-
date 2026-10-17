@@ -14,6 +14,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { ArrowRight, ArrowUpRight, Bell, CalendarCheck2, Check, CircleCheck, ClipboardList, MessageCircle, MessagesSquare, Send, Sparkles, Timer } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import cleaner from '@/assets/cleaner-home.jpg';
+import { HOME_HERO_PHOTO } from '@/lib/home-hero-photo';
 import { Wave } from '@/components/editorial-sections';
 import webapp from '@/assets/webapp-phone.jpg';
 import website from '@/assets/website-workspace.jpg';
@@ -107,7 +108,7 @@ function SpanishHome(){const [active,setActive]=useState(0);const [heroLoaded,se
    <p className="demo-delivery-note">Tu demo llega automáticamente por correo.</p>
  </div>
  <div className="hero-split-visual">
- <img ref={heroImageRef} className="hero-main-image" src={cleaner} alt="Profesional de limpieza trabajando en una casa luminosa, con luz natural" width={1920} height={1024} loading="eager" fetchPriority="high" decoding="sync" onLoad={()=>setHeroLoaded(true)} onError={()=>setHeroLoaded(true)}/>
+ <img ref={heroImageRef} className="hero-main-image" src={HOME_HERO_PHOTO} alt="Profesional de limpieza limpiando una encimera en una sala moderna y luminosa, con lámparas de techo" width={1122} height={1402} loading="eager" fetchPriority="high" decoding="sync" onLoad={()=>setHeroLoaded(true)} onError={()=>setHeroLoaded(true)}/>
  <div className="hero-notice-flow" aria-hidden="true">
    {notices.map(([app,when,title,text,Icon],i)=><div className={`notification notice-${i+1}`} key={title}>
      <span className="notice-icon" aria-hidden="true"><Icon size={17}/></span>
