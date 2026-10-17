@@ -355,7 +355,7 @@ function actions(checkout,detail,trial,checkoutOnly=false){
  const isEs=lang==="es";
  const options=[];
  if(trial){
-  options.push({href:trial,label:isEs?"Probar gratis":"Try it free",kind:"primary"});
+  options.push({href:trial,label:checkoutOnly?(isEs?"Iniciar prueba gratis de 30 días →":"Start 30-day free trial →"):(isEs?"Probar gratis":"Try it free"),kind:"primary"});
   if(detail&&!checkoutOnly)options.push({href:detail,label:isEs?"Ver demo":"See the demo",kind:"secondary"});
  }else if(checkout){
   options.push({href:checkout,label:isEs?"Abrir checkout seguro →":"Open secure checkout →",kind:"primary",checkout:true});
@@ -437,6 +437,21 @@ function showNeedsChecklist(){
   msg(lang==="es"?"Estas son tus opciones:":"Here are your options:","bot");showCheckoutOptions(offers,lang==="es"?"Cuando estés listo":"When you're ready");
  });
  log.append(form);log.scrollTop=log.scrollHeight;
+}
+function showDemoChoices(){
+ const wrap=node("div","tle-jessy-checkout-choices");
+ wrap.setAttribute("role","group");
+ wrap.setAttribute("aria-label",lang==="es"?"Elegir demo del servicio":"Choose the service demo");
+ wrap.append(node("strong","tle-jessy-choice-heading",lang==="es"?"Elige qué quieres explorar":"Choose what you'd like to explore"));
+ const booking=button("tle-jessy-checkout-link",lang==="es"?"Demo de Booking Automation →":"Booking Automation demo →");
+ booking.type="button";
+ booking.addEventListener("click",()=>{wrap.remove();showDemoCard("booking")});
+ const app=node("a","tle-jessy-checkout-link",lang==="es"?"Demo de Cleaning App →":"Cleaning App demo →");
+ app.href="/cleaning-app-demo/?lang="+lang;
+ app.rel="noopener";
+ app.addEventListener("click",()=>track("service_demo_opened"));
+ wrap.append(booking,app);
+ log.append(wrap);log.scrollTop=log.scrollHeight;
 }
 function showWhatsappChoices(){
  const wrap=node("div","tle-jessy-whatsapp-choices");
@@ -546,14 +561,14 @@ if(result&&typeof result.reply==="string"){
  if(!plansShown){
   const next=result.next_action;
   if(next==="demo"&&offer==="booking")showDemoCard("booking");
-  else if(next==="demo_choice"){showDemoCard("booking")}
+  else if(next==="demo_choice"){showDemoChoices()}
   else if(next==="app_demo"){const a=node("a","tle-jessy-help-link",lang==="es"?"Explorar la demo de la Cleaning App ↗":"Explore the Cleaning App demo ↗");a.href="/cleaning-app-demo/?lang="+lang;a.rel="noopener";log.append(a);log.scrollTop=log.scrollHeight;track("service_demo_opened")}
   if(next==="whatsapp_clarify")showWhatsappChoices();
   if(next==="contact_team")showWhatsappContact();
    if(next==="service_choices")showNeedsChecklist();
   if(next==="client_help"){const help=button("tle-jessy-help-link",lang==="es"?"Contactar a soporte ↗":"Contact support securely ↗");help.addEventListener("click",()=>showLead(true));log.append(help)}
   if(next==="checkout"&&checkout)actions(checkout,info,null,result.mode==="purchase_ready");
-  else if(next==="trial"&&result.trial)actions(null,info,result.trial,result.mode==="purchase_trial");
+  else if(next==="trial"&&result.trial)actions(null,info,result.trial,result.mode==="purchase_trial"||result.mode==="app_trial_clarification");
   else if(next==="demo"&&offer!=="booking"&&info)actions(null,info,null);
  }
  if(lastIntent==="comparison")track("comparison");
