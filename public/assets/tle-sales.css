@@ -163,3 +163,37 @@ button:focus-visible,.sales-home a:focus-visible,.sales-home summary:focus-visib
  .sales-home .walkthrough-controls button span{min-width:0;max-width:100%;overflow-wrap:anywhere}
  .sales-home .service-grid{min-width:0;max-width:100%;overflow-x:auto}
 }
+
+
+/* Mobile booking/product cross-link: keep the full translated CTA visible.
+   The 320px EN/ES audit found the Explore Cleaning App link's text scroll
+   region taller than its pill. Do not change service destinations or checkout. */
+.service-sales .service-fit .service-demo-link{
+ box-sizing:border-box;
+ display:inline-flex;
+ align-items:center;
+ gap:10px;
+ max-width:100%;
+ width:auto;
+ height:auto;
+ min-height:50px;
+ padding:13px 16px;
+ line-height:1.5;
+ white-space:normal;
+ overflow-wrap:anywhere;
+ text-align:left;
+ vertical-align:middle;
+}
+.service-sales .service-fit .service-demo-link svg{
+ flex:0 0 16px;
+ width:16px;
+ height:16px;
+}
+@media(max-width:420px){
+ .service-sales .service-fit .service-demo-link{
+  width:100%;
+  justify-content:space-between;
+  min-height:52px;
+  padding:13px 14px;
+ }
+}
