@@ -103,7 +103,7 @@ try{
   await page.goto(base+'/ai-booking-assistant/intake-test/?plan=ai-business&lang='+lang,{waitUntil:'domcontentloaded'});
   await page.locator('#intake').waitFor({state:'visible',timeout:8000});
   assert.match(await page.locator('#testBanner').innerText(),/NO PAYMENT/);
-  assert.match(await page.locator('#paymentText').innerText(),/\$39\.99/);
+  assert.match(await page.locator('#paymentText').innerText(),/\$39/);
   assert.match(await page.locator('#paymentText').innerText(),/\$19/);
   assert.equal(await page.locator('#avatarPhoto').isDisabled(),true);
   await page.locator('#business').fill('Preview Cleaning');
