@@ -25,8 +25,7 @@
  const updateHint=()=>{
   if(!hint)return;
   const es=document.documentElement.lang.toLowerCase().startsWith('es');
-  if(mobile.matches&&!reduce.matches&&!short.matches)hint.textContent=es?'Desplázate para seguir las cuatro fotos ↓':'Scroll to follow all four photos ↓';
-  else if(mobile.matches)hint.textContent=es?'Desliza las cuatro tarjetas →':'Swipe through all four cards →';
+  if(mobile.matches)hint.textContent=es?'Desliza para ver cada foto a tu ritmo →':'Swipe through the photos at your own pace →';
   else hint.textContent=es?'Desliza para seguir el recorrido →':'Scroll to follow the booking journey →';
  };
  const updateNativeProgress=()=>{
@@ -43,6 +42,64 @@
   updateNativeProgress();
  };
  windowEl.addEventListener('scroll',updateNativeProgress,{passive:true});
+
+ // On phones the journey is one compact swipe gallery, rather than a long
+ // pinned scroll chapter. Each photo waits for an intentional swipe or click.
+ const slides=[track.querySelector('.booking-story-intro-panel'),...cards].filter(Boolean);
+ const prev=document.getElementById('bookingStoryPrev');
+ const next=document.getElementById('bookingStoryNext');
+ const count=document.getElementById('bookingStoryCount');
+ let navFrame=0;
+ let activeSlide=0;
+ const closestSlide=()=>{
+  const left=windowEl.getBoundingClientRect().left+16;
+  let best=0,dist=Infinity;
+  slides.forEach((slide,i)=>{
+   const d=Math.abs(slide.getBoundingClientRect().left-left);
+   if(d<dist){dist=d;best=i;}
+  });
+  return best;
+ };
+ const updateNav=()=>{
+  if(!mobile.matches||!slides.length)return;
+  activeSlide=closestSlide();
+  if(count)count.textContent=(activeSlide+1)+' / '+slides.length;
+  if(prev)prev.disabled=activeSlide===0;
+  if(next)next.disabled=activeSlide===slides.length-1;
+ };
+ const cancelNav=()=>{
+  if(navFrame){cancelAnimationFrame(navFrame);navFrame=0;}
+  windowEl.style.removeProperty('scroll-snap-type');
+ };
+ const goSlide=index=>{
+  if(!mobile.matches||!slides.length)return;
+  const i=Math.max(0,Math.min(slides.length-1,index));
+  const rect=windowEl.getBoundingClientRect();
+  const dx=slides[i].getBoundingClientRect().left-rect.left-16;
+  const start=windowEl.scrollLeft;
+  const max=Math.max(0,windowEl.scrollWidth-windowEl.clientWidth);
+  const target=Math.max(0,Math.min(max,start+dx));
+  cancelNav();
+  if(reduce.matches){windowEl.scrollLeft=target;updateNav();return;}
+  windowEl.style.scrollSnapType='none';
+  const began=performance.now();
+  const duration=850;
+  const tick=now=>{
+   const p=Math.max(0,Math.min(1,(now-began)/duration));
+   const eased=1-Math.pow(1-p,3);
+   windowEl.scrollLeft=start+(target-start)*eased;
+   if(p<1){navFrame=requestAnimationFrame(tick);}
+   else{navFrame=0;windowEl.style.removeProperty('scroll-snap-type');updateNav();}
+  };
+  navFrame=requestAnimationFrame(tick);
+ };
+ prev?.addEventListener('click',()=>goSlide(closestSlide()-1));
+ next?.addEventListener('click',()=>goSlide(closestSlide()+1));
+ windowEl.addEventListener('touchstart',cancelNav,{passive:true});
+ windowEl.addEventListener('pointerdown',cancelNav,{passive:true});
+ windowEl.addEventListener('scroll',updateNav,{passive:true});
+ window.addEventListener('resize',updateNav,{passive:true});
+
  // Calculate horizontal translation from the REAL card track width. The last
  // card must still occupy the stage when vertical progress reaches 100%.
  const renderMobile=()=>{
@@ -107,7 +164,7 @@
   showNative();
   // Mobile uses a compact CSS-sticky stage controlled by vertical scrolling,
   // preserving the original cinematic direction without a long GSAP spacer.
-  if(mobile.matches&&!reduce.matches&&!short.matches){enableMobile();return;}
+  if(mobile.matches){showNative();return;}
   if(reduce.matches||short.matches||mobile.matches||controller||booting)return;
   booting=true;
   try{
@@ -165,9 +222,10 @@
  };
  const onViewportChange=()=>{
   if(destroyed)return;
-  if(mobile.matches&&!reduce.matches&&!short.matches){
+  if(mobile.matches){
    if(controller){controller.revert();controller=null;}
-   enableMobile();
+   disableMobile();
+   showNative();
   }else{
    disableMobile();
    if(reduce.matches||short.matches){
@@ -182,6 +240,8 @@
  short.addEventListener?.('change',onViewportChange);
  mobile.addEventListener?.('change',onViewportChange);
  const dispose=()=>{
+  cancelNav();
+  window.removeEventListener('resize',updateNav);
   destroyed=true;
   controller?.revert();
   disableMobile();
@@ -195,4 +255,5 @@
  };
  window.addEventListener('pagehide',dispose,{once:true});
  init();
+ updateNav();
 })();
