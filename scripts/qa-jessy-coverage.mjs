@@ -246,6 +246,13 @@ assert.equal(knowledge.helpfulNextAction("Where can I checkout?","booking"),"che
 assert.equal(knowledge.helpfulNextAction("How much does it cost?","booking"),"none");
 assert.match(front,/photo\.src="\/assets\/lead-demo\/drive-cleaner-kitchen\.webp"/,"Photo should be relevant to cleaning");
 assert.match(front,/node\("a","tle-jessy-demo-card"\)/,"Demo card should be one accessible link");
+assert.match(front,/tle-jessy-demo-bubbles/,"Blue bubbles must be real decorative content, behind the demo caption");
+assert.match(front,/root:log,threshold:\[0,\.35,\.65\]/,"Touch reveal should begin when the card enters the chat viewport");
+assert.match(front,/card\.classList\.add\("is-revealed"\)/,"Touch reveal must persist without requiring hover");
+assert.match(chatCss,/\.tle-jessy-demo-card\{height:182px\}/,"Compact card should fit on phones");
+assert.match(chatCss,/transition:transform 1150ms/,"Demo caption animation should be visibly slower");
+assert.match(chatCss,/\.tle-jessy-demo-bubble-3/,"Three soft blue bubbles should decorate the photo");
+assert.match(chatCss,/prefers-reduced-motion:reduce[\s\S]*tle-jessy-demo-bubble\{animation:none!important/,"Reduced-motion users must see a static readable card");
 assert.match(front,/tle-jessy-demo-reveal/,"Demo needs its real caption text");
 console.log("PASS Jessie detailed service answers, bilingual helpful content, and consent-gated original demo after explanations");
 
