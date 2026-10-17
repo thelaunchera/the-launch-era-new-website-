@@ -32,36 +32,40 @@
     person:'PERSONALIZADO PARA',
     area:'Zona de servicio: ',
     tracker:'Ver Command Center de ejemplo →',
-    sonnyTitle:'¿Quieres probar a Sonny?',
-    sonnySub:'Asistente de reservas con IA opcional · Solo demo',
+    sonnyTitle:'Conoce a Sonny',
+    sonnySub:'Prueba cómo ayuda a tus clientes · Demo con IA',
     sonnyToggle:'Probar Sonny',
     sonnyClose:'Cerrar chat',
     sonnySend:'Enviar',
     sonnyPlaceholder:'Pregunta por una cita de limpieza',
-    intro:'¡Hola! Soy Sonny, el asistente de reservas de ejemplo. ¿Qué tipo de limpieza necesitas?',
+    intro:'¡Hola! Soy Sonny 👋 Puedo resolver dudas, ayudarte a elegir una limpieza y preparar una solicitud organizada. Probemos: ¿es para una casa o un negocio?',
     status:'Simulación: no se envía ninguna reserva ni correo.',
     waiting:'Sonny está respondiendo…',
-    error:'Sonny no está disponible en este momento. Puedes seguir usando el formulario.',
+    error:'No pude responder ahora mismo. Prueba otra vez o continúa con el formulario de ejemplo.',
     limit:'Se alcanzó el límite de esta demostración.',
     complete:'Tu solicitud está lista para revisar. Puedes completar la reserva de ejemplo en el formulario de arriba.',
-    use:'Usar los datos en el formulario de ejemplo'
+    use:'Usar los datos en el formulario de ejemplo',
+    retry:'No entendí esa respuesta. Prueba otra vez.',
+    learn:'Añade un asistente de IA a tu página de reservas'
   } : {
     person:'PERSONALIZED FOR',
     area:'Service area: ',
     tracker:'View demo Command Center →',
-    sonnyTitle:'Want to try Sonny?',
-    sonnySub:'Optional AI booking assistant · Demo only',
+    sonnyTitle:'Meet Sonny',
+    sonnySub:'See how I help your customers · AI demo',
     sonnyToggle:'Try Sonny',
     sonnyClose:'Close chat',
     sonnySend:'Send',
     sonnyPlaceholder:'Ask about a cleaning appointment',
-    intro:'Hi! I’m Sonny, your sample booking assistant. What kind of cleaning do you need?',
+    intro:'Hi! I’m Sonny 👋 I can answer questions, help customers choose a cleaning and organize a booking request. Let’s try it! Is this for a home or a business?',
     status:'Simulation only. No real booking or email will be sent.',
     waiting:'Sonny is responding…',
-    error:'Sonny is temporarily unavailable. You can still use the booking form above.',
+    error:'I couldn’t answer just now. Please try again, or continue with the sample form.',
     limit:'You have reached the demo conversation limit.',
     complete:'Your sample request is ready for review. You can finish the example booking form above.',
-    use:'Use details in the sample form'
+    use:'Use details in the sample form',
+    retry:'I didn’t catch that. Please try again.',
+    learn:'Add an AI assistant to your booking page'
   };
   function renderBrand(){
     // Keep historic DOM IDs for existing route/customer QA, but put all
@@ -168,6 +172,15 @@
     el('sonnyInput').setAttribute('aria-label',p.sonnyPlaceholder);
     el('sonnySend').textContent=p.sonnySend;
     el('sonnyUse').textContent=p.use;
+    const learn=el('sonnyLearn');
+    if(learn){
+      learn.textContent=p.learn+' ↗';
+      learn.href=lang()==='es'?'/es/ai-booking-assistant/':'/ai-booking-assistant/';
+    }
+    document.querySelectorAll('#sonnyIdeas .sonny-idea').forEach(button=>{
+      button.textContent=button.dataset[lang()]||button.textContent;
+    });
+    el('sonnyIdeas')?.setAttribute('aria-label',lang()==='es'?'Prueba un ejemplo con Sonny':'Try an example with Sonny');
     if(!busy)el('sonnyStatus').textContent=p.status;
   }
   function toggleSonny(next){
@@ -182,6 +195,14 @@
   }
   el('sonnyToggle').addEventListener('click',()=>toggleSonny(!shown));
   updateSonnyWords();
+  // Suggestions are real user messages to the same AI endpoint, not canned bot replies.
+  document.querySelectorAll('#sonnyIdeas .sonny-idea').forEach(button=>{
+    button.addEventListener('click',()=>{
+      if(busy||el('sonnyInput').disabled)return;
+      el('sonnyInput').value=button.dataset[lang()]||'';
+      el('sonnyForm').requestSubmit();
+    });
+  });
 
   // Keep the optional chat from covering the booking flow after the visitor
   // resumes scrolling or selects another control. Preserve the conversation
@@ -214,6 +235,7 @@
     el('sonnyInput').value='';
     el('sonnySend').disabled=true;
     addLine(msg,'user');
+    el('sonnyIdeas').hidden=true;
     el('sonnyStatus').textContent=phrases().waiting;
     const pending=addLine(phrases().waiting);
     const controller=new AbortController();
@@ -236,8 +258,8 @@
         signal:controller.signal
       });
       const result=await res.json().catch(()=>({}));
-      const valid=res.ok&&typeof result.reply==='string';
-      pending.textContent=valid?result.reply:(res.status===429?phrases().limit:phrases().error);
+      const valid=res.ok&&typeof result.reply==='string'&&result.reply.trim().length>0;
+      pending.textContent=valid?result.reply:(res.status===429?phrases().limit:res.status===400?phrases().retry:phrases().error);
       if(valid){
         history.push({role:'Visitor',message:msg.slice(0,230)},{role:'Assistant',message:result.reply.slice(0,230)});
         if(history.length>16)history.splice(0,history.length-16);
