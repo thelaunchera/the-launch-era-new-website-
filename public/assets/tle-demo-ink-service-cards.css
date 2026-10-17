@@ -478,3 +478,87 @@ body .tle-demo-curtain-footer{
 @media(prefers-reduced-motion:reduce){
  #tleDemoCurtainPage #bookingPage .flow{transition:none!important}
 }
+
+/* 2026-10-17 approved handwritten accents for editorial phrases only.
+   The animated old/new "decent." -> "remarkable." stays in the serif face
+   with its original crossing and reveal keyframes. */
+#tleDemoCurtainPage{
+ --tle-demo-handwriting:'Caveat','Segoe Print','Bradley Hand',cursive;
+}
+#tleDemoCurtainPage .booking-portal-copy #bookingPortalHeadline .booking-portal-final-line{
+ display:block!important;
+ font-family:var(--tle-demo-handwriting)!important;
+ font-weight:600!important;
+ font-size:clamp(32px,5.55vw,67px)!important;
+ letter-spacing:-.055em!important;
+ line-height:1.04!important;
+ color:#fff!important;
+ padding:0 0 .17em!important;
+ white-space:nowrap;
+ width:max-content;
+ max-width:100%;
+ text-shadow:0 4px 23px rgba(2,20,38,.27);
+}
+#tleDemoCurtainPage .booking-portal-copy #bookingPortalHeadline .booking-portal-swap,
+#tleDemoCurtainPage .booking-portal-copy #bookingPortalHeadline .booking-portal-old,
+#tleDemoCurtainPage .booking-portal-copy #bookingPortalHeadline .booking-portal-new{
+ font-family:var(--tle-demo-display)!important;
+ font-weight:700!important;
+ font-size:clamp(40px,5.65vw,75px)!important;
+ letter-spacing:-.04em!important;
+ line-height:1.03!important;
+}
+/* One consistently handwritten signature style for the demo's editorial
+   chapter headings; informational/UI titles remain legible Cormorant/Manrope. */
+#tleDemoCurtainPage #bookingBubbleTitle,
+#tleDemoCurtainPage #tleWorkGalleryTitle,
+#tleDemoCurtainPage #bookingCompareTitle,
+#tleDemoCurtainPage #bookingProofTitle{
+ font-family:var(--tle-demo-handwriting)!important;
+ font-weight:600!important;
+ font-size:clamp(43px,5vw,73px)!important;
+ letter-spacing:-.04em!important;
+ line-height:1.05!important;
+ text-wrap:balance;
+}
+body .tle-demo-curtain-footer #tleDemoFooterHeadline{
+ font-family:'Caveat','Segoe Print','Bradley Hand',cursive!important;
+ font-size:clamp(44px,5.5vw,76px)!important;
+ font-weight:600!important;
+ letter-spacing:-.045em!important;
+ line-height:1.03!important;
+ text-wrap:balance;
+}
+@media(max-width:800px){
+ #tleDemoCurtainPage .booking-portal-copy #bookingPortalHeadline .booking-portal-final-line{
+  font-size:clamp(31px,5.2vw,43px)!important;
+ }
+ #tleDemoCurtainPage #bookingBubbleTitle,
+ #tleDemoCurtainPage #tleWorkGalleryTitle,
+ #tleDemoCurtainPage #bookingCompareTitle,
+ #tleDemoCurtainPage #bookingProofTitle{
+  font-size:clamp(42px,7.3vw,58px)!important;
+ }
+}
+@media(max-width:540px){
+ #tleDemoCurtainPage .booking-portal-copy #bookingPortalHeadline .booking-portal-final-line{
+  font-size:clamp(28px,8.5vw,34px)!important;
+  letter-spacing:-.06em!important;
+  padding-bottom:.12em!important;
+ }
+ #tleDemoCurtainPage .booking-portal-copy #bookingPortalHeadline .booking-portal-swap,
+ #tleDemoCurtainPage .booking-portal-copy #bookingPortalHeadline .booking-portal-old,
+ #tleDemoCurtainPage .booking-portal-copy #bookingPortalHeadline .booking-portal-new{
+  font-size:clamp(38px,10vw,51px)!important;
+ }
+ /* Spanish needs its longer full line to stay within the iPhone safe area. */
+ html[lang="es"] #tleDemoCurtainPage .booking-portal-copy #bookingPortalHeadline .booking-portal-final-line{
+  font-size:clamp(27px,7.5vw,31px)!important;
+ }
+ #tleDemoCurtainPage #bookingBubbleTitle,
+ #tleDemoCurtainPage #tleWorkGalleryTitle,
+ #tleDemoCurtainPage #bookingCompareTitle,
+ #tleDemoCurtainPage #bookingProofTitle{
+  font-size:clamp(41px,12vw,55px)!important;
+ }
+}
