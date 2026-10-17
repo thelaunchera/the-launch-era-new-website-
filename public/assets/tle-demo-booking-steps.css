@@ -144,3 +144,22 @@
 }
 
 #bookingPage .booking-progress[hidden]{display:none!important}
+
+
+/* Keep complete-address intake compact in phone portrait. */
+@media(max-width:700px){
+ #bookingPage #intakeContact .demo-intake-fields{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:10px 12px!important;
+ }
+ #bookingPage #intakeContact .demo-intake-fields>label.field:nth-child(-n+3){
+  grid-column:1/-1!important;
+ }
+ #bookingPage #intakeContact .demo-intake-fields>label.field{
+  min-width:0!important;grid-column:auto;
+ }
+ #bookingPage #intakeContact .demo-intake-fields>label.field.full{
+  grid-column:1/-1!important;
+ }
+ #bookingPage #intakeContact input{width:100%;min-width:0;box-sizing:border-box}
+}
