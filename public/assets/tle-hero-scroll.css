@@ -787,3 +787,107 @@
     top:-40px;
   }
 }
+
+/* tle-home-notification-bob-v1: localized illustrative UI, no live transactions.
+   Two layers of animation: the card enters via opacity/individual translate+scale,
+   then floats using transform; no JS/parallax or external motion library. */
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow {
+  position:absolute !important;
+  inset:0 !important;
+  display:block;
+  width:100% !important;
+  height:100%;
+  margin:0 !important;
+  opacity:1;
+  pointer-events:none;
+  transform:none !important;
+  z-index:4;
+}
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notification {
+  position:absolute;
+  box-sizing:border-box;
+  width:min(225px,calc(100% - 36px));
+  max-width:calc(100% - 28px);
+  min-height:0;
+  margin:0;
+  padding:9px 11px;
+  grid-template-columns:31px minmax(0,1fr);
+  gap:9px;
+  border:1px solid rgba(210,227,239,.94);
+  border-radius:17px;
+  background:rgba(255,255,255,.97);
+  box-shadow:0 12px 26px rgba(25,48,65,.17),0 2px 6px rgba(25,48,65,.07),inset 0 1px 0 #fff;
+  opacity:1;
+  transform:none;
+  animation:none;
+  pointer-events:none;
+  will-change:auto;
+}
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notice-icon {
+  width:31px;height:31px;border-radius:10px;
+  background:#dceffd;color:#356b8a;
+}
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notice-icon svg {
+  width:17px;height:17px;
+}
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notice-meta {
+  font-size:8px;gap:6px;
+}
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notification strong {
+  font-size:12px;line-height:1.18;
+}
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notification p {
+  font-size:10px;line-height:1.25;margin-top:2px;
+}
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notice-1 {
+  inset:18px auto auto 15px;--tle-bob-duration:3.2s;--tle-bob-delay:-.9s;--tle-enter-delay:0ms;
+}
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notice-2 {
+  inset:auto auto 17px 23px;--tle-bob-duration:3.9s;--tle-bob-delay:-2.3s;--tle-enter-delay:100ms;
+}
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notice-3 {
+  inset:116px 13px auto auto;--tle-bob-duration:4.1s;--tle-bob-delay:-1.5s;--tle-enter-delay:200ms;
+}
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notice-4 {
+  inset:auto 12px 109px auto;--tle-bob-duration:3.6s;--tle-bob-delay:-3.1s;--tle-enter-delay:300ms;
+}
+@keyframes tle-home-notification-bob {
+  from { transform:translate3d(0,4px,0) rotate(-1.2deg); }
+  to { transform:translate3d(0,-6px,0) rotate(1.2deg); }
+}
+@keyframes tle-home-notification-enter {
+  0% { opacity:0; translate:0 13px; scale:.88; }
+  70% { opacity:1; translate:0 -3px; scale:1.025; }
+  100% { opacity:1; translate:0 0; scale:1; }
+}
+@media (prefers-reduced-motion:no-preference) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split.hero-media-ready[data-wipe-visible="true"] .hero-split-visual .hero-notice-flow .notification {
+    animation:
+      tle-home-notification-enter 680ms cubic-bezier(.2,1,.32,1) var(--tle-enter-delay,0ms) both,
+      tle-home-notification-bob var(--tle-bob-duration,3.6s) ease-in-out var(--tle-bob-delay,-1s) infinite alternate;
+    will-change:transform;
+  }
+}
+@media (max-width:767px) {
+  /* Phone photo keeps its two original notices; the added ones stay on tablet/desktop. */
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notice-3,
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notice-4 {
+    display:none;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notification {
+    width:min(238px,calc(100% - 35px));
+    max-width:calc(100% - 35px);
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notice-1 {
+    inset:auto auto 99px 13px;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notice-2 {
+    inset:auto auto 16px 20px;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual .hero-notice-flow .notification {
+    opacity:1;animation:none !important;transform:none !important;
+    translate:none;scale:1;will-change:auto;
+  }
+}
