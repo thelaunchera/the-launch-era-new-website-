@@ -19,7 +19,7 @@ try{
    }else{
     await page.waitForFunction(()=>{let img=document.querySelector('.tle-bundle-welcome-dialog img');return !!img&&img.complete&&img.naturalWidth>500},null,{timeout:10000});
     assert.equal(await dialog.locator('img').count(),1,'Approved flyer replaced');
-    assert.match(await dialog.locator('img').getAttribute('src'),lang==='es'?/flyer-es\\.svg/:/flyer\\.jpg/,'Incorrect localized pop-up flyer image');
+    assert.match(await dialog.locator('img').getAttribute('src'),lang==='es'?/flyer-es\.svg/:/flyer\.jpg/,'Incorrect localized pop-up flyer image');
    }
    const link=dialog.locator('.tle-bundle-welcome-cta');
    assert.match(await link.getAttribute('href'),/\/booking-bundle\/\?lang=(en|es)&bundle=ai-booking/);
