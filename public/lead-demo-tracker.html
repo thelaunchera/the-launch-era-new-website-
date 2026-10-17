@@ -1,76 +1,138 @@
-<!doctype html><html><head><meta name="robots" content="noindex,nofollow,noarchive"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Command Center Demo — The Launch Era</title><style>
-*{box-sizing:border-box}body{margin:0;background:#f4f6f7;color:#191919;font-family:Arial,sans-serif}.top{background:#191919;color:#fff;text-align:center;padding:11px;font-size:10px;letter-spacing:.14em}.wrap{max-width:560px;margin:auto;padding:18px 14px 50px}.panel{background:#faf8f3;border-radius:24px;padding:20px;box-shadow:0 14px 36px #13201a12}.ey{font-size:11px;letter-spacing:.12em;color:#65747a;font-weight:700}h1{font-size:26px;margin:6px 0}.mini{font-size:12px;color:#718087;line-height:1.5}.card{background:#fff;border:1px solid #e0ddd5;border-radius:18px;padding:15px;margin:10px 0}.row{display:flex;justify-content:space-between;gap:12px}.badge{background:#fff7cc;border-radius:999px;padding:6px 9px;font-size:10px}.status-confirmed{background:#dff5e8;color:#185c36}.btn{border:1px solid #d8d5cd;background:#fff;border-radius:999px;padding:10px 13px;font-weight:700;margin-top:10px}.primary{display:block;text-align:center;text-decoration:none;background:#191919;color:#fff;border-radius:999px;padding:15px;margin-top:18px;font-weight:700}.detail{display:none;margin-top:12px;padding-top:12px;border-top:1px solid #eee}.detail.show,.editbox.show{display:block}.editbox{display:none;background:#faf8f3;border:1px solid #e0ddd5;border-radius:16px;padding:14px;margin-top:12px}.editbox label{display:block;font-size:10px;font-weight:700;letter-spacing:.08em;color:#65747a;margin:11px 0 4px}.editbox input{width:100%;padding:12px;border:1px solid #d8d5cd;border-radius:12px;background:#fff}.info{background:#eef5f8;border-radius:16px;padding:15px;margin-top:15px}.timeline{display:flex;gap:5px;margin:15px 0}.timeline i{height:5px;flex:1;background:#ddd;border-radius:9px}.timeline i.on{background:#191919}.locked{opacity:.62;border-style:dashed}.brand{background:#191919;color:#fff;border-radius:20px;padding:18px;margin-top:16px}.brand .mini{color:#d8dddd}.confirmed{background:#eef8f1;border-radius:16px;padding:14px;margin-top:12px}.sendstate{font-size:12px;margin-top:9px;color:#65747a}.sendstate.ok{background:#eaf7ee;color:#185c36;border-radius:14px;padding:13px;font-weight:700;font-size:14px}.sendstate.err{background:#fff0ee;color:#8b2d22;border-radius:14px;padding:13px;font-weight:700;font-size:13px}
-</style></head><body><div class="top">YOUR BOOKING DEMO · EXAMPLE DETAILS</div><main class="wrap"><section class="panel"><div class="ey" id="trackerBrand">THE LAUNCH ERA • PRIVATE DEMO</div><h1>See how your requests could look</h1><p class="mini">Here’s an example of where new customer requests could appear. These are sample details, not real bookings.</p><div id="mine"></div>
-<div class="card"><div class="row"><b>Maya R.</b><span class="badge">Demo data</span></div><p class="mini">Deep Cleaning · Biweekly · Est. $214</p></div><div class="card"><div class="row"><b>Lauren T.</b><span class="badge">Demo data</span></div><p class="mini">Standard Cleaning · Monthly · Est. $152</p></div><div class="card"><div class="row"><b>Ashley B.</b><span class="badge">Demo data</span></div><p class="mini">Move In / Move Out · One time · Est. $270</p></div>
-<div class="timeline"><i class="on"></i><i class="on"></i><i id="tlConfirm"></i><i></i><i></i></div><p class="mini">Request received → Price reviewed → Confirmation → Reminder → Follow-up</p>
-<div class="card locked"><b>🔒 This is only a preview</b><p class="mini">This demo shows one example of how your booking and follow-up flow could work. Your final setup will depend on your business needs and selected service.</p></div>
-<div class="brand"><div class="ey" style="color:#d8dddd">THE LAUNCH ERA DEMO ↓ YOUR CLEANING BUSINESS</div><h2 style="margin:8px 0">Built around your business.</h2><p class="mini">Your logo · your services · your prices · your business</p><b>We’ll make this your own with your services and prices.</b></div>
-<div class="info"><b>✨ In your personalized system</b><p class="mini">The owner reviews the estimate, controls the final price, and the customer can confirm from the email without back-and-forth.</p></div><a class="primary" id="bookingLink" href="lead-private-preview.html">Try the booking demo</a><div data-tle-bundle></div></section></main>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#FAF8F3">
+<title>Private Booking Automation Demo · The Launch Era</title>
+<style>
+:root{color-scheme:light;--ink:#191919;--blue:#dceef9;--edge:#c8dde9}
+*{box-sizing:border-box}body{margin:0;min-height:100dvh;display:grid;place-items:center;padding:22px;background:linear-gradient(155deg,#e5f2fb,#faf8f3 58%);font:15px/1.6 "Avenir Next",Inter,Arial,sans-serif;color:var(--ink)}
+main{width:min(100%,465px);padding:clamp(23px,5vw,36px);border:1px solid var(--edge);border-radius:28px;background:white;box-shadow:0 18px 60px #25547416}
+.ey{font-size:11px;letter-spacing:.15em;font-weight:800;color:#3a7294}h1{font-size:clamp(27px,4vw,35px);font-weight:650;letter-spacing:-.03em;line-height:1.15;margin:18px 0 12px}p{margin:9px 0 15px;color:#536676}.hint{font-size:13px;margin-top:14px}
+label{display:block;font-weight:700;font-size:13px;margin:18px 0 6px}input{width:100%;border-radius:14px;border:1px solid #abcde0;background:#f9fcfe;color:var(--ink);font:700 22px/1.3 ui-monospace,monospace;letter-spacing:.18em;text-align:center;padding:13px 12px}button,.link{display:flex;justify-content:center;align-items:center;min-height:49px;border-radius:999px;padding:12px 21px;font-size:15px;font-weight:750;cursor:pointer;text-decoration:none}button{width:100%;background:#246fa4;color:white;border:1px solid #246fa4;margin-top:13px}button:disabled{opacity:.6;cursor:wait}.link{background:#eef6fb;border:1px solid #c7deea;color:#235777;margin-top:13px}a{color:#236b9a}a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid #347db4;outline-offset:3px}.error{color:#9f2435!important}.ok{color:#19674c!important}.status{font-size:13px;min-height:20px;overflow-wrap:anywhere}#codeStep[hidden],#startStep[hidden],#authStep[hidden]{display:none!important}.row{display:flex;gap:8px;align-items:center;justify-content:space-between}.tag{font-size:11px;border:1px solid #c7deea;background:#e7f2fa;border-radius:99px;padding:5px 11px;font-weight:700;color:#306b8e}
+@media(max-width:380px){main{padding:20px}body{padding:13px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+ <div class="row"><span class="ey">THE LAUNCH ERA</span><span class="tag" id="privateTag">PRIVATE DEMO</span></div>
+ <h1 id="title">Your Booking Automation preview</h1>
+ <p id="summary">This interactive demo is reserved for people who have completed the request and authorization process.</p>
+ <section id="authStep" hidden>
+  <p id="requestNote">First request your personalized demo, then use the private link sent to your email.</p>
+  <a class="link" id="requestLink" href="/booking-demo/">Request my demo →</a>
+ </section>
+ <section id="startStep" hidden>
+  <p id="sendNote">We’ll send a short verification code to the email address used for your authorized demo.</p>
+  <button type="button" id="sendBtn">Email my access code</button>
+ </section>
+ <section id="codeStep" hidden>
+  <p id="codeNote">Enter the six-digit code from your email. It expires in 10 minutes.</p>
+  <form id="codeForm">
+   <label for="accessCode" id="codeLabel">Verification code</label>
+   <input id="accessCode" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" minlength="6" autocomplete="one-time-code" required>
+   <button type="submit" id="verifyBtn">Open my private demo</button>
+  </form>
+  <button type="button" id="retryBtn" class="link">Send another code</button>
+ </section>
+ <p id="status" class="status" aria-live="polite">Checking your access…</p>
+ <a class="link" id="serviceLink" href="/booking-lead-automation/">Back to Booking Automation</a>
+</main>
 <script>
-const safe=v=>String(v||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-const emailBusiness=(new URLSearchParams(location.search).get('business')||'').trim().slice(0,140);
-const scope=new URLSearchParams(location.search);
-const demoStorageKey='tleSampleBooking:'+JSON.stringify([scope.get('business')||'',scope.get('lead')||'',scope.get('rid')||'']);
-function getSavedDemo(){try{return JSON.parse(sessionStorage.getItem(demoStorageKey)||'null')}catch{return null}}
-function saveDemoState(){try{sessionStorage.setItem(demoStorageKey,JSON.stringify({...d,demoOnly:true}))}catch{}}
-const d=getSavedDemo()||{name:emailBusiness?('Sample request — '+emailBusiness):'Sample demo request',email:'',service:'Sample residential cleaning',homeType:'House',freq:'One time',estimate:'Demo',estimateValue:0,zip:''};
+(()=>{
+"use strict";
+const PAGE="tracker";
+const ENDPOINT="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-demo-gate";
 const p=new URLSearchParams(location.search);
-if(p.get('confirmed')==='1'){d.status='confirmed';if(p.get('price'))d.finalPrice=Number(p.get('price'))||d.finalPrice;saveDemoState();p.delete('confirmed');p.delete('price');history.replaceState({},'',location.pathname+'?'+p.toString())}
-const estimateNumber=Number(d.estimateValue)||Number(String(d.estimate||'').replace(/[^0-9.]/g,''))||0;
-function render(){
- const yes=d.status==='confirmed';
- document.getElementById('tlConfirm').classList.toggle('on',yes);
- document.getElementById('mine').innerHTML='<div class="card" style="border-color:#191919"><div class="row"><b>'+safe(d.name)+'</b><span class="badge '+(yes?'status-confirmed':'')+'">'+(yes?'CONFIRMED':'NEW')+'</span></div><p class="mini">'+safe(d.service)+' · '+safe(d.homeType)+' · '+safe(d.freq)+' · '+safe(d.estimate)+'</p><button class="btn" onclick="openRequest()">Open request</button><div id="detail" class="detail"><p class="mini"><b>Customer</b><br>'+safe(d.name)+' · '+safe(d.email||'No email')+'</p><p class="mini"><b>Service</b><br>'+safe(d.service)+' · '+safe(d.homeType)+'</p><p class="mini"><b>Frequency</b><br>'+safe(d.freq)+'</p><p class="mini"><b>Service ZIP</b><br>'+safe(d.zip||'Not entered')+'</p><p class="mini"><b>Online estimate</b><br>$'+estimateNumber.toFixed(2)+'</p>'+(yes?'<div class="confirmed"><b>✓ Demo cleaning confirmed</b><p class="mini">Final confirmed price: $'+Number(d.finalPrice||0).toFixed(2)+'</p></div>':'<button class="btn" onclick="editPrice()">Edit final price</button><div id="editBox" class="editbox"><label>ONLINE ESTIMATE</label><input id="editEstimate" type="number" min="0" step=".01" value="'+estimateNumber.toFixed(2)+'"><label>DISCOUNT / ADJUSTMENT</label><input id="editDiscount" type="number" min="0" step=".01" value="0"><label>ZIP / TRAVEL ADJUSTMENT</label><input id="editTravel" type="number" min="0" step=".01" value="0"><label>FINAL PRICE</label><input id="editFinal" type="number" min="0" step=".01" value="'+estimateNumber.toFixed(2)+'"><button id="sendEstimateBtn" class="btn" onclick="sendEstimate()">Preview customer confirmation</button><div id="sendState" class="sendstate">Take a look. This won’t send an email or make a real booking.</div></div>')+'</div></div>';
+const rid=String(p.get("rid")||"").trim();
+const isEs=p.get("lang")==="es"||(!p.get("lang")&&navigator.language?.toLowerCase().startsWith("es"));
+const phrases=isEs?{
+ tag:"DEMO PRIVADA",title:"Tu demo de Booking Automation",
+ summary:"La demo interactiva es solo para quienes completaron la solicitud y autorización.",
+ requestNote:"Primero solicita tu demo personalizada y después abre el enlace privado que te enviaremos por correo.",
+ request:"Solicitar mi demo →",sendNote:"Te enviaremos un código al correo utilizado para solicitar y autorizar la demo.",
+ send:"Enviarme un código",codeNote:"Escribe el código de seis dígitos que te llegó por correo. Vence en 10 minutos.",
+ codeLabel:"Código de verificación",verify:"Abrir mi demo privada",retry:"Enviar otro código",
+ back:"Volver a Booking Automation",checking:"Comprobando el acceso…",
+ opening:"Abriendo tu demo…",notAllowed:"El acceso requiere completar el funnel y recibir una demo autorizada.",
+ mailed:"Enviamos un código a tu correo registrado.",invalid:"No se pudo verificar el acceso.",
+ error:"No se pudo conectar. Inténtalo de nuevo.",expired:"Tu sesión terminó. Solicita otro código."
+}:{
+ tag:"PRIVATE DEMO",title:"Your Booking Automation preview",
+ summary:"This interactive preview is reserved for visitors who completed the request and authorization process.",
+ requestNote:"First request your personalized demo, then use the private link we send you by email.",
+ request:"Request my demo →",sendNote:"We’ll send a code to the email address used for your authorized demo request.",
+ send:"Email my access code",codeNote:"Enter the six-digit code sent to your email. It expires in 10 minutes.",
+ codeLabel:"Verification code",verify:"Open my private demo",retry:"Send another code",
+ back:"Back to Booking Automation",checking:"Checking your access…",
+ opening:"Opening your demo…",notAllowed:"Access requires a completed funnel and an authorized demo request.",
+ mailed:"A verification code was sent to your registered email.",invalid:"We couldn't verify access.",
+ error:"Could not connect. Please try again.",expired:"Your session expired. Request a new code."
+};
+const el=k=>document.getElementById(k);
+const show=k=>["authStep","startStep","codeStep"].forEach(x=>{el(x).hidden=x!==k});
+const message=(s,kind="")=>{el("status").textContent=s;el("status").className="status "+kind};
+const setBusy=v=>{el("sendBtn").disabled=v;el("verifyBtn").disabled=v;el("retryBtn").disabled=v};
+const storageKey="tle_booking_demo_session:"+rid;
+for(const [id,value] of Object.entries({privateTag:phrases.tag,title:phrases.title,summary:phrases.summary,requestNote:phrases.requestNote,requestLink:phrases.request,sendNote:phrases.sendNote,sendBtn:phrases.send,codeNote:phrases.codeNote,codeLabel:phrases.codeLabel,verifyBtn:phrases.verify,retryBtn:phrases.retry,serviceLink:phrases.back}))el(id).textContent=value;
+if(isEs){document.documentElement.lang="es";el("requestLink").href="/booking-demo/?lang=es";el("serviceLink").href="/es/booking-lead-automation/"}
+async function call(payload){
+ const controller=new AbortController();
+ const timer=setTimeout(()=>controller.abort(),15000);
+ try{
+  const result=await fetch(ENDPOINT,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({rid,...payload}),signal:controller.signal,cache:"no-store"});
+  const data=await result.json().catch(()=>({}));
+  if(!result.ok){const e=new Error(String(data.error||phrases.error));e.code=data.code||"";throw e}
+  return data;
+ }finally{clearTimeout(timer)}
 }
-function openRequest(){document.getElementById('detail')?.classList.add('show')}
-function editPrice(){document.getElementById('editBox')?.classList.add('show')}
-document.addEventListener('input',e=>{if(!['editEstimate','editDiscount','editTravel'].includes(e.target?.id))return;const a=Number(document.getElementById('editEstimate')?.value||0),b=Number(document.getElementById('editDiscount')?.value||0),x=Number(document.getElementById('editTravel')?.value||0);const f=document.getElementById('editFinal');if(f)f.value=Math.max(0,a-b+x).toFixed(2)});
-function sendEstimate(){
- const final=Number(document.getElementById('editFinal').value);
- if(!Number.isFinite(final)||final<0){alert(new URLSearchParams(location.search).get('lang')==='es'?'Escribe un precio válido.':'Enter a valid price.');return}
- d.finalPrice=final;saveDemoState();
- const msg=document.getElementById('sendState');msg.className='sendstate ok';
- msg.replaceChildren();
- const copy=document.createElement('p');copy.textContent='Customer preview: review your cleaning estimate of $'+final.toFixed(2)+'. No email was sent.';
- const confirm=document.createElement('button');confirm.type='button';confirm.className='btn';confirm.textContent='Try customer confirmation (example)';
- confirm.onclick=()=>{d.status='confirmed';saveDemoState();render();openRequest()};
- msg.append(copy,confirm);
+async function openContent(session){
+ const response=await call({action:"content",page:PAGE,session});
+ if(typeof response.html!=="string"||!response.html.startsWith("<!doctype"))throw new Error(phrases.error);
+ // The protected markup is only received after server-side approval AND emailed one-time-code verification.
+ message(phrases.opening,"ok");
+ document.open();document.write(response.html);document.close();
 }
-
-render();
-
-const demoParams=new URLSearchParams(location.search);
-const customBusiness=(demoParams.get('business')||'').trim().slice(0,140);
-const customArea=(demoParams.get('area')||'').trim().slice(0,140);
-const customServices=(demoParams.get('services')||'').trim().slice(0,220);
-const customRid=(demoParams.get('rid')||'').trim().slice(0,60);
-if(customBusiness){
- document.getElementById('trackerBrand').textContent='PRIVATE DEMO • '+customBusiness.toUpperCase();
- document.title=customBusiness+' — Command Center Demo';
- const booking=document.getElementById('bookingLink');
- if(booking){
-  const q=new URLSearchParams();
-  q.set('business',customBusiness);
-  q.set('lang',demoParams.get('lang')==='es'?'es':'en');
-  if(customArea)q.set('area',customArea);
-  if(customServices)q.set('services',customServices);
-  if(customRid)q.set('rid',customRid);
-  booking.href='lead-private-preview.html?'+q.toString();
+async function start(){
+ if(!/^[0-9a-f-]{36}$/i.test(rid)){show("authStep");message(phrases.notAllowed,"error");return}
+ let current="";try{current=sessionStorage.getItem(storageKey)||""}catch{}
+ if(current){
+  try{await openContent(current);return}
+  catch(e){if(e.code==="funnel_required"){show("authStep");message(phrases.notAllowed,"error");return}try{sessionStorage.removeItem(storageKey)}catch{}}
  }
- const brand=document.querySelector('.brand .mini');
- if(brand)brand.textContent=(customServices?customServices+' · ':'')+(customArea?'Serving '+customArea:'Your services · your pricing · your workflow');
- const h2=document.querySelector('.brand h2'); if(h2)h2.textContent='Built around '+customBusiness+'.';
- if(customRid){
-  document.querySelectorAll('a.primary').forEach(a=>a.addEventListener('click',()=>fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-personalized-demo',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'get_started',id:customRid})}).catch(()=>{})));
- }
+ show("startStep");message("");
 }
-
-const leadLabels={paula:'PAULA DIAS CLEANING',yalanda:'HAVENS TOUCH HOUSEKEEPING',ako:'AKO CLEANING SERVICES',ceaz:'CEAZ CLEANING SERVICES',maidright:'CLEANING MAID RIGHT',novaclean:'NOVACLEAN',gleamglow:'GLEAM GLOW CLEANING'};
-const leadKey=new URLSearchParams(location.search).get('lead')||'';
-if(leadLabels[leadKey]){
- document.getElementById('trackerBrand').textContent='PRIVATE DEMO • '+leadLabels[leadKey];
- document.title=leadLabels[leadKey]+' — Command Center Demo';
- const booking=document.getElementById('bookingLink'); if(booking)booking.href='lead-private-preview.html?lead='+encodeURIComponent(leadKey)+'&lang='+(demoParams.get('lang')==='es'?'es':'en');
+async function send(){
+ setBusy(true);message(phrases.checking);
+ try{const r=await call({action:"request"});show("codeStep");message(String(r.message||phrases.mailed),"ok");el("accessCode").focus();}
+ catch(e){
+  if(e.code==="funnel_required"){show("authStep");message(phrases.notAllowed,"error")}
+  else message(String(e.message||phrases.error),"error");
+ }finally{setBusy(false)}
 }
-const bookingLink=document.getElementById('bookingLink');const linkParams=new URLSearchParams(bookingLink.search);linkParams.set('lang',demoParams.get('lang')==='es'?'es':'en');bookingLink.search=linkParams.toString();
-</script><script src="/assets/booking-template-language.js?v=20261010-demo-separated-es2"></script><script src="/assets/tle-booking-bundle.js?v=20261012-discount40-v2" defer></script><!-- personalized-lead-demo-2026-10-06 --></body></html>
+el("sendBtn").addEventListener("click",send);
+el("retryBtn").addEventListener("click",send);
+el("codeForm").addEventListener("submit",async event=>{
+ event.preventDefault();setBusy(true);message(phrases.checking);
+ try{
+  const code=el("accessCode").value.trim();
+  const result=await call({action:"verify",code});
+  if(!result.session)throw new Error(phrases.invalid);
+  try{sessionStorage.setItem(storageKey,result.session)}catch{}
+  await openContent(result.session);
+ }catch(e){
+  if(e.code==="funnel_required"){show("authStep");message(phrases.notAllowed,"error")}
+  else message(String(e.message||phrases.invalid),"error");
+ }finally{setBusy(false)}
+});
+start();
+})();
+</script>
+</body>
+</html>

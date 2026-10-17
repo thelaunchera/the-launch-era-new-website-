@@ -78,7 +78,8 @@ assert.deepEqual(active([examples[0],examples[1]]),examples[1],"Reuse the active
 assert.equal(suppressed([examples[2]]),true,"A previous opt-out must block the transactional request");
 
 assert.match(crm,/url:"https:\/\/thelaunchera.com\/lead-private-preview.html"/,"Email reuses official personalized sample path");
-assert.match(crm,/Sonny inside the demo/,"Email says Sonny is included in the demo, not a separate booking");
+assert.match(crm,/Your private access will then arrive by email/,"Jessie must deliver demo only after a confirmed interest funnel");
+assert.doesNotMatch(crm,/const demoUrl=/,"No direct Booking Demo link may be sent before authorization");
 assert.match(crm,/Idempotency-Key/);
 assert.match(crm,/tle-crm-interest\?lead=/);
 assert.match(crm,/event_type:"email_sent"/);

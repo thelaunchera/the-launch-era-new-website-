@@ -2,14 +2,11 @@ name: Booking Demo 3-Step Slider QA
 on:
   pull_request:
     paths:
-      - 'public/booking-demo-reset.html'
       - 'public/assets/tle-demo-booking-steps.css'
       - 'scripts/qa-demo-booking-steps.mjs'
-      - '.github/workflows/demo-booking-steps-qa.yml'
   push:
     branches: [main]
     paths:
-      - 'public/booking-demo-reset.html'
       - 'public/assets/tle-demo-booking-steps.css'
       - 'scripts/qa-demo-booking-steps.mjs'
   workflow_dispatch:

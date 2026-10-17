@@ -1,0 +1,41 @@
+/** Fail-closed release guard: Booking Automation ONLY. Never sends an email or changes data. */
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+const read=path=>fs.readFileSync(path,'utf8');
+const booking=read('public/booking-demo-reset.html');
+const tracker=read('public/lead-demo-tracker.html');
+const app=read('public/cleaning-app-demo/index.html');
+const request=read('public/booking-demo/index.html');
+const privatePreview=read('public/lead-private-preview.html');
+const jessie=read('supabase/functions/tle-jessie-demo-lead/index.ts');
+const name='tle-booking-demo-gate';
+const url='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/'+name;
+for(const [label,page] of [['booking',booking],['tracker',tracker]]){
+ assert.match(page,/<title>Private Booking Automation Demo/);
+ assert.match(page,new RegExp(url));
+ assert.match(page,/new URLSearchParams\(location.search\)/);
+ assert.match(page,/action:"content"/);
+ assert.match(page,/action:"verify"/);
+ assert.match(page,/action:"request"/);
+ assert.match(page,/sessionStorage/);
+ assert.match(page,/document\.write\(response\.html\)/);
+ assert.doesNotMatch(page,/<(?:section|div)[^>]+(?:id="bookingPage"|id="trackerBrand"|id="sonnyBody")/);
+ assert.doesNotMatch(page,/const SERVICE_CATALOG|booking-portal-hero|tle-demo-reset-lead-magnet\.js/);
+ const scripts=[...page.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)];
+ assert.equal(scripts.length,1,label+' should have a single gated bootstrap');
+ new vm.Script(scripts[0][1],{filename:label+'-gate.js'});
+}
+assert(booking.includes('const PAGE="booking"'));
+assert(tracker.includes('const PAGE="tracker"'));
+assert(!jessie.includes('demoUrl'),'Jessie must not send an unverified private-demo direct link');
+assert(jessie.includes('Confirm your interest to receive your private demo'));
+assert.match(privatePreview,/location\.replace\('\/booking-demo-reset\.html'\+location\.search\+location\.hash\)/);
+assert.match(privatePreview,/p\.has\('key'\)\|\|p\.get\('owner_preview'\)==='1'/);
+assert.match(app,/Cleaning App \| Interactive Preview/);
+assert.match(app,/Pick a section|Choose a section|sample/);
+assert.match(request,/tle-personalized-demo/,'Public form still requests demos');
+assert(!fs.existsSync('supabase/functions/tle-booking-demo-gate/booking-template.ts'),'Protected Booking source must not be in public repo');
+assert(!fs.existsSync('supabase/functions/tle-booking-demo-gate/tracker-template.ts'),'Protected tracker source must not be in public repo');
+assert(!fs.existsSync('supabase/functions/tle-booking-demo-gate/index.ts'),'Backend implementation is deployed privately in Supabase, not public GitHub');
+console.log('PASS: Booking Automation only; no public raw HTML; server funnel+OTP; Jessie confirmation; buyer and Cleaning App retained.');

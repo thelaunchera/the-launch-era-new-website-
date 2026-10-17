@@ -14,10 +14,10 @@ const SERVICE={name:"Booking Automation",code:"booking-automation",url:"https://
 function emailHtml(business:string,area:string,svc:{name:string,url:string},interest:string,lang:string){
  const es=lang==="es";
  const title=es?"Tu demo de Booking Automation":"Your Booking Automation demo";
- const expl=es?"Aquí está tu demo de Booking Automation con el nombre y área de servicio de tu negocio. Explora los servicios y prueba el recorrido con Sonny dentro del demo. Es una simulación: no se envían solicitudes ni se crean reservas reales.":"Here is your Booking Automation demo with your business name and service area. Explore the services and try the booking flow with Sonny inside the demo. This is a simulation: no requests are sent and no real bookings are created.";
+ const expl=es?"Para ver tu demo personalizada, primero confirma tu interés. Después recibirás el acceso privado por correo.":"To see your personalized demo, first confirm your interest. Your private access will then arrive by email.";
  const interestLabel=es?"Me interesa":"I'm Interested";
  const areaLine=es?"Área de servicio":"Service area";
- return '<div style="background:#faf8f3;padding:27px 16px;font:15px/1.65 Arial,sans-serif;color:#191919"><div style="max-width:580px;margin:auto;background:#fff;border:1px solid #d7e5ee;border-radius:20px;padding:28px"><div style="font-weight:800;letter-spacing:.14em;font-size:12px">THE LAUNCH ERA</div><h1 style="font-size:28px;margin:24px 0 10px">'+title+'</h1><p>'+escapeHtml(business)+' · '+areaLine+': '+escapeHtml(area)+'</p><p>'+expl+'</p><a href="'+svc.url+'" style="display:inline-block;background:#d8edfc;color:#173a54;padding:13px 21px;border-radius:12px;text-decoration:none;font-weight:800;margin:8px 0 14px">'+(es?"Ver mi demo":"View my demo")+'</a><p style="color:#52697b;font-size:13px">'+(es?"¿Quieres que hablemos de cómo aplicarlo a tu negocio?":"Interested in exploring a setup for your business?")+'</p><a href="'+interest+'" style="display:inline-block;background:#191919;color:#fff;padding:13px 23px;border-radius:12px;text-decoration:none;font-weight:800">'+interestLabel+'</a><p style="font-size:12px;color:#687783;margin-top:22px">'+(es?"Ese botón abre una pantalla de confirmación. No te suscribe automáticamente a campañas.":"The interest button opens a confirmation page. It does not automatically subscribe you to campaigns.")+'</p></div></div>';
+ return '<div style="background:#faf8f3;padding:27px 16px;font:15px/1.65 Arial,sans-serif;color:#191919"><div style="max-width:580px;margin:auto;background:#fff;border:1px solid #d7e5ee;border-radius:20px;padding:28px"><div style="font-weight:800;letter-spacing:.14em;font-size:12px">THE LAUNCH ERA</div><h1 style="font-size:28px;margin:24px 0 10px">'+title+'</h1><p>'+escapeHtml(business)+' · '+areaLine+': '+escapeHtml(area)+'</p><p>'+expl+'</p><p style="color:#52697b;font-size:13px">'+(es?"¿Quieres que hablemos de cómo aplicarlo a tu negocio?":"Interested in exploring a setup for your business?")+'</p><a href="'+interest+'" style="display:inline-block;background:#191919;color:#fff;padding:13px 23px;border-radius:12px;text-decoration:none;font-weight:800">'+interestLabel+'</a><p style="font-size:12px;color:#687783;margin-top:22px">'+(es?"Ese botón abre una pantalla de confirmación. No te suscribe automáticamente a campañas.":"The interest button opens a confirmation page. It does not automatically subscribe you to campaigns.")+'</p></div></div>';
 }
 async function rateLimit(req:Request,email:string){
  if(!BASE||!SR)return false;
@@ -77,12 +77,11 @@ Deno.serve(async(req:Request)=>{
  if(sent)return json({ok:true,email_sent:true,duplicate:true,service:service.name});
  const interest="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-crm-interest?lead="+encodeURIComponent(leadId)+"&service="+encodeURIComponent(service.code);
  if(!RESEND)return json({error:"Demo email temporarily unavailable",saved:true,email_sent:false},503,origin);
- const demoUrl=service.code==="booking-automation"&&service.name==="Booking Automation"?service.url+"?"+new URLSearchParams({business,area,lang,source:"jessie_email"}).toString():service.url;
  const message={
   from:"The Launch Era <hello@thelaunchera.com>",
   to:[email],subject:(lang==="es"?"Tu demo para ":"Your demo for ")+business+" — The Launch Era",
-  html:emailHtml(business,area,{...service,url:demoUrl},interest,lang),
-  text:(lang==="es"?"The Launch Era\n\nTu demo para "+business+" · Área de servicio: "+area+"\n\nAbre tu demo (Sonny está dentro): "+demoUrl+"\n\nMe interesa: "+interest+"\n\nEl botón de interés requiere una segunda confirmación. Solicitar el demo no te suscribe a campañas.":"The Launch Era\n\nDemo for "+business+" · Service area: "+area+"\n\nOpen your demo (Sonny is included): "+demoUrl+"\n\nI'm Interested: "+interest+"\n\nThe interest button requires a second confirmation. Requesting a demo does not subscribe you to marketing.")
+  html:emailHtml(business,area,service,interest,lang),
+  text:(lang==="es"?"The Launch Era\n\nTu demo para "+business+" · Área de servicio: "+area+"\n\nConfirma tu interés para recibir tu demo privada: "+interest+"\n\nEl botón de interés requiere una segunda confirmación. Solicitar el demo no te suscribe a campañas.":"The Launch Era\n\nDemo for "+business+" · Service area: "+area+"\n\nConfirm your interest to receive your private demo: "+interest+"\n\nThe interest button requires a second confirmation. Requesting a demo does not subscribe you to marketing.")
  };
  let accepted=false;
  try{

@@ -2,12 +2,10 @@ name: Booking Month and Wheel QA
 on:
   pull_request:
     paths:
-      - 'public/booking-demo-reset.html'
       - 'public/assets/tle-booking-month-wheel.js'
       - 'public/assets/tle-booking-month-wheel.css'
       - 'public/assets/tle-demo-reset-lead-magnet.js'
       - 'scripts/qa-booking-month-wheel.mjs'
-      - '.github/workflows/booking-month-wheel-qa.yml'
   workflow_dispatch:
 permissions:
   contents: read

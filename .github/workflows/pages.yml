@@ -39,6 +39,7 @@ jobs:
         run: |
           node --check scripts/qa-route-integrity.mjs
           node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-booking-demo-funnel-gate.mjs
           node --check scripts/qa-public-demo-integrity.mjs
           node scripts/qa-public-demo-integrity.mjs
           node scripts/qa-services-color-shift.mjs
