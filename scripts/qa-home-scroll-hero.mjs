@@ -47,6 +47,12 @@ assert(motion.includes("addEventListener('scroll', schedule, { passive: true })"
 assert(motion.includes('requestAnimationFrame(update)'));
 assert(motion.includes('!splitHero && progress >= 0.5'), 'CTA must stay keyboard-accessible during scroll');
 assert(root.indexOf('tle-hero-scroll.css') > root.indexOf('tle-saas-ui-v1.css'), 'Scroll overrides must load after the theme');
+// Localized marketing activity floats (illustrative only, never real customer records).
+assert.equal((en.match(/app:'(?:BOOKING PAGE|COMMAND CENTER|QUOTES)'/g)||[]).length>=4,true,'EN four marketing notices missing');
+assert(es.includes("'Cotización lista'") && es.includes("'Reserva confirmada'"),'ES localized activity notices missing');
+assert(englishHero.includes('className="hero-notice-flow" aria-hidden="true"') && spanishHero.includes('className="hero-notice-flow" aria-hidden="true"'),'Decorative hero notices must be hidden from screen readers');
+for(const marker of ['tle-home-notification-bob-v1','@keyframes tle-home-notification-bob','@keyframes tle-home-notification-enter','max-width:767px','prefers-reduced-motion:reduce']) assert(scrollCSS.includes(marker),'Hero chip CSS missing '+marker);
+
 console.log('[HERO STATIC QA PASSED] EN/ES split wipe, mobile stack, scroll shrink, intact demo CTA.');
 
 if (!process.argv.includes('--browser')) process.exit(0);
