@@ -57,7 +57,7 @@ try{
    const cards=section.locator('.cards > .card');
    assert.equal(await cards.count(),3,lang+' '+width+' expected three cards');
    assert.equal(await cards.nth(1).getAttribute('data-plan'),'business',lang+' middle should be combined');
-   assert.match(await cards.nth(1).innerText(),/\$59[\s\S]*\$19/);
+   assert.match(await cards.nth(1).innerText(),/\$39[\s\S]*\$19/);
    await section.locator('.cards').scrollIntoViewIfNeeded();
    await page.waitForFunction(()=>document.querySelector('#plans .cards')?.classList.contains('is-visible'),null,{timeout:8000});
    const cardProperties=await cards.nth(1).evaluate(el=>({
