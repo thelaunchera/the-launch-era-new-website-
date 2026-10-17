@@ -5,11 +5,9 @@ on:
       - 'src/components/service-flip-card.*'
       - 'src/components/editorial-sections.tsx'
       - 'src/routes/es.index.tsx'
-      - 'public/booking-demo-reset.html'
       - 'public/assets/tle-booking-bubbles-continuity.css'
       - 'scripts/qa-service-flip-cards.mjs'
       - 'scripts/qa-service-card-readability.mjs'
-      - '.github/workflows/service-flip-cards-qa.yml'
   push:
     branches: [main]
     paths:
