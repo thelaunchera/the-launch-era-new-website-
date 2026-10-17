@@ -23,13 +23,13 @@ label{display:block;font-weight:700;font-size:13px;margin:18px 0 6px}input{width
 <main>
  <div class="row"><span class="ey">THE LAUNCH ERA</span><span class="tag" id="privateTag">PRIVATE DEMO</span></div>
  <h1 id="title">Your Booking Automation preview</h1>
- <p id="summary">This interactive demo is reserved for people who have completed the request and authorization process.</p>
+ <p id="summary">Explore a smoother booking experience, designed around your cleaning business.</p>
  <section id="authStep" hidden>
-  <p id="requestNote">First request your personalized demo, then use the private link sent to your email.</p>
-  <a class="link" id="requestLink" href="/booking-demo/">Request my demo →</a>
+  <p id="requestNote">This preview is shared through a personal invitation. Open your email link to continue.</p>
+  <a class="link" id="requestLink" href="/booking-demo/">Request a private preview →</a>
  </section>
  <section id="startStep" hidden>
-  <p id="sendNote">We’ll send a short verification code to the email address used for your authorized demo.</p>
+  <p id="sendNote">We’ll send a one-time access code to your email.</p>
   <button type="button" id="sendBtn">Email my access code</button>
  </section>
  <section id="codeStep" hidden>
@@ -54,24 +54,24 @@ const rid=String(p.get("rid")||"").trim();
 const isEs=p.get("lang")==="es"||(!p.get("lang")&&navigator.language?.toLowerCase().startsWith("es"));
 const phrases=isEs?{
  tag:"DEMO PRIVADA",title:"Tu demo de Booking Automation",
- summary:"La demo interactiva es solo para quienes completaron la solicitud y autorización.",
- requestNote:"Primero solicita tu demo personalizada y después abre el enlace privado que te enviaremos por correo.",
- request:"Solicitar mi demo →",sendNote:"Te enviaremos un código al correo utilizado para solicitar y autorizar la demo.",
+ summary:"Descubre una experiencia de reservas más sencilla para tu negocio de limpieza.",
+ requestNote:"Esta experiencia se comparte por invitación. Abre el enlace personal que recibiste por correo.",
+ request:"Solicitar mi vista privada →",sendNote:"Te enviaremos un código de acceso de un solo uso a tu correo.",
  send:"Enviarme un código",codeNote:"Escribe el código de seis dígitos que te llegó por correo. Vence en 10 minutos.",
  codeLabel:"Código de verificación",verify:"Abrir mi demo privada",retry:"Enviar otro código",
  back:"Volver a Booking Automation",checking:"Comprobando el acceso…",
- opening:"Abriendo tu demo…",notAllowed:"El acceso requiere completar el funnel y recibir una demo autorizada.",
+ opening:"Abriendo tu demo…",notAllowed:"Este enlace no está disponible. Abre tu invitación personal o solicita una vista privada.",
  mailed:"Enviamos un código a tu correo registrado.",invalid:"No se pudo verificar el acceso.",
  error:"No se pudo conectar. Inténtalo de nuevo.",expired:"Tu sesión terminó. Solicita otro código."
 }:{
  tag:"PRIVATE DEMO",title:"Your Booking Automation preview",
- summary:"This interactive preview is reserved for visitors who completed the request and authorization process.",
- requestNote:"First request your personalized demo, then use the private link we send you by email.",
- request:"Request my demo →",sendNote:"We’ll send a code to the email address used for your authorized demo request.",
+ summary:"Discover a simpler booking experience for your cleaning business.",
+ requestNote:"This preview is shared by invitation. Open your personal email link to continue.",
+ request:"Request a private preview →",sendNote:"We’ll send a one-time code to your email for secure access.",
  send:"Email my access code",codeNote:"Enter the six-digit code sent to your email. It expires in 10 minutes.",
  codeLabel:"Verification code",verify:"Open my private demo",retry:"Send another code",
  back:"Back to Booking Automation",checking:"Checking your access…",
- opening:"Opening your demo…",notAllowed:"Access requires a completed funnel and an authorized demo request.",
+ opening:"Opening your demo…",notAllowed:"This link isn’t available. Use your personal invitation or request a private preview.",
  mailed:"A verification code was sent to your registered email.",invalid:"We couldn't verify access.",
  error:"Could not connect. Please try again.",expired:"Your session expired. Request a new code."
 };
@@ -95,7 +95,7 @@ async function call(payload){
 async function openContent(session){
  const response=await call({action:"content",page:PAGE,session});
  if(typeof response.html!=="string"||!response.html.startsWith("<!doctype"))throw new Error(phrases.error);
- // The protected markup is only received after server-side approval AND emailed one-time-code verification.
+ // Private content remains restricted to server-verified email access.
  message(phrases.opening,"ok");
  document.open();document.write(response.html);document.close();
 }
@@ -104,7 +104,7 @@ async function start(){
  let current="";try{current=sessionStorage.getItem(storageKey)||""}catch{}
  if(current){
   try{await openContent(current);return}
-  catch(e){if(e.code==="funnel_required"){show("authStep");message(phrases.notAllowed,"error");return}try{sessionStorage.removeItem(storageKey)}catch{}}
+  catch(e){if(e.code==="invitation_required"){show("authStep");message(phrases.notAllowed,"error");return}try{sessionStorage.removeItem(storageKey)}catch{}}
  }
  show("startStep");message("");
 }
@@ -112,7 +112,7 @@ async function send(){
  setBusy(true);message(phrases.checking);
  try{const r=await call({action:"request"});show("codeStep");message(String(r.message||phrases.mailed),"ok");el("accessCode").focus();}
  catch(e){
-  if(e.code==="funnel_required"){show("authStep");message(phrases.notAllowed,"error")}
+  if(e.code==="invitation_required"){show("authStep");message(phrases.notAllowed,"error")}
   else message(String(e.message||phrases.error),"error");
  }finally{setBusy(false)}
 }
@@ -127,7 +127,7 @@ el("codeForm").addEventListener("submit",async event=>{
   try{sessionStorage.setItem(storageKey,result.session)}catch{}
   await openContent(result.session);
  }catch(e){
-  if(e.code==="funnel_required"){show("authStep");message(phrases.notAllowed,"error")}
+  if(e.code==="invitation_required"){show("authStep");message(phrases.notAllowed,"error")}
   else message(String(e.message||phrases.invalid),"error");
  }finally{setBusy(false)}
 });
