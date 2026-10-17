@@ -20,12 +20,16 @@ try{
     const flipCards=page.locator('.sales-home .tle-service-flip');
     await flipCards.first().waitFor({state:'visible',timeout:15000});
     assert.equal(await flipCards.count(),6,'Six actual service cards expected');
-    await flipCards.first().locator('.tle-service-flip__front-button').evaluate(el=>el.focus());
+    // Dispatch the actual UI click handler without relying on mouse hover timing
+    // during the 3D transform transition in headless mobile Chromium.
+    await flipCards.first().locator('.tle-service-flip__front-button').dispatchEvent('click');
     await page.waitForFunction(()=>document.querySelector('.sales-home .tle-service-flip')?.classList.contains('is-flipped'),null,{timeout:12000});
     assert.equal(await flipCards.first().locator('.tle-service-flip__back').getAttribute('aria-hidden'),'false');
     await page.keyboard.press('Escape');
     await page.waitForFunction(()=>!document.querySelector('.sales-home .tle-service-flip')?.classList.contains('is-flipped'),null,{timeout:12000});
-    await page.waitForTimeout(1850);
+    // Jessie is intentionally loaded after hydration on a delayed script.
+    // Wait for its actual launcher instead of asserting at an arbitrary 1.85s.
+    await page.locator('.tle-jessy-root').waitFor({state:'attached',timeout:12000});
     const details=await page.evaluate(()=>({
       assistant:!!document.querySelector('.tle-jessy-root'),
       heading:!!document.querySelector('.problem-section .tle-mask-headline__base'),
