@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - 'src/components/service-sales.tsx'
+      - 'src/routes/booking-lead-automation.tsx'
+      - 'src/routes/es.booking-lead-automation.tsx'
       - 'src/components/service-sales-mobile-cta.css'
       - 'scripts/qa-booking-cross-link-mobile.mjs'
       - '.github/workflows/booking-cross-link-mobile-qa.yml'
@@ -10,6 +12,8 @@ on:
     branches: [main]
     paths:
       - 'src/components/service-sales.tsx'
+      - 'src/routes/booking-lead-automation.tsx'
+      - 'src/routes/es.booking-lead-automation.tsx'
       - 'src/components/service-sales-mobile-cta.css'
       - 'scripts/qa-booking-cross-link-mobile.mjs'
   workflow_dispatch:
