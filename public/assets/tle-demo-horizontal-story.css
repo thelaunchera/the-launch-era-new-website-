@@ -76,6 +76,12 @@ body .booking-horizontal-card .story-step-number{
  border:1.5px solid rgba(91,164,206,.8);
  box-shadow:0 4px 14px rgba(35,92,129,.18);
 }
+body .booking-horizontal-outline-number{
+ position:absolute;bottom:-31px;right:3%;font:900 clamp(90px,17vw,220px)/1 'Prompt',Arial,sans-serif;
+ letter-spacing:-.08em;color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.69);
+ text-shadow:0 8px 20px rgba(37,91,135,.06);pointer-events:none;
+ transform:translateX(0);
+}
 body .booking-horizontal-card .booking-horizontal-copy{
  display:flex;flex-direction:column;justify-content:center;gap:12px;
  padding:clamp(19px,2.6vw,34px);min-width:0;
