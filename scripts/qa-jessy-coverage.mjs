@@ -221,7 +221,7 @@ assert.doesNotMatch(front,/actions\(null,"\/solutions"\)/);
 assert.match(backend,/function isServiceExplanation\(message\)/);
 assert.match(backend,/function helpfulExplanation\(id,lang\)/);
 assert.match(backend,/function helpfulNextAction\(message,id\)/);
-assert.match(backend,/const nextAction=priceQuestion/);
+assert.match(backend,/const nextAction=nextActionFromIntent\(message,id,history\)/);
 assert.match(backend,/next_action:nextAction/);
 assert.match(backend,/mode:fixed\?"verified_price":ai\?"reasoned_ai":knowledge\?"verified_faq"/);
 const explanations=backend.slice(backend.indexOf("function isServiceExplanation("),backend.indexOf("function guide("));
@@ -230,7 +230,7 @@ vm.createContext(knowledge);
 vm.runInContext("function norm(s){return s.toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'')}"+explanations,knowledge);
 for(const q of ["Could you walk me through how this service works?","How does Booking Automation work?","¿Me explicas cómo funciona?","What does Booking Automation include?","¿Qué incluye este servicio?"]){
  assert.equal(knowledge.isServiceExplanation(q),true,q);
- assert.equal(knowledge.helpfulNextAction(q,"booking"),"demo",q); // Explanations now offer the original sample in chat, after explicit demo contact consent.
+ assert.equal(knowledge.helpfulNextAction(q,"booking"),"none",q); // A how-it-works question does not force a demo.
 }
 for(const [id,word] of [["booking","customer"],["cleaning-app","invoice"],["ai-booking","booking"],["ai-followup","leads"],["ai-business","assistant"],["website","inquiry"],["va","hours"]]){
  const answer=knowledge.helpfulExplanation(id,"en");
@@ -244,6 +244,9 @@ assert.equal(knowledge.helpfulNextAction("Can I see the booking demo?","booking"
 assert.equal(knowledge.helpfulNextAction("How do I start my free trial?","cleaning-app"),"trial");
 assert.equal(knowledge.helpfulNextAction("Where can I checkout?","booking"),"checkout");
 assert.equal(knowledge.helpfulNextAction("How much does it cost?","booking"),"none");
+assert.match(front,/photo\.src="\/assets\/drive-house-gallery\/pristine-kitchen\.png"/,"Photo should be relevant to cleaning");
+assert.match(front,/node\("a","tle-jessy-demo-card"\)/,"Demo card should be one accessible link");
+assert.match(front,/tle-jessy-demo-reveal/,"Demo needs its real caption text");
 console.log("PASS Jessie detailed service answers, bilingual helpful content, and consent-gated original demo after explanations");
 
 console.log("PASS Jessie universal public pages, English/Spanish route focus, Cleaning App answers and safe next steps");
