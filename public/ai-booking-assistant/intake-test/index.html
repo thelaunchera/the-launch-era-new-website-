@@ -188,7 +188,7 @@ header{padding:16px max(18px,calc((100% - 760px)/2))}main{margin:20px auto 42px}
  const req=async(data)=>{
   // The preview intentionally NEVER calls Stripe, Make, Resend or Supabase.
   const planKey=["ai-booking","ai-followup","ai-business"].includes(qs.get("plan"))?qs.get("plan"):"ai-business";
-  const tariff={"ai-booking":[2500,1400],"ai-followup":[1900,699],"ai-business":[3999,1900]}[planKey];
+  const tariff={"ai-booking":[2500,1400],"ai-followup":[1900,700],"ai-business":[3900,1900]}[planKey];
   if(data.action==="verify")return {verified:true,agent_offer:planKey,bundle_booking_flow:true,setup_paid_cents:tariff[0],monthly_amount_cents:tariff[1],already_submitted:false};
   if(data.action==="submit")return {ok:true,notifications_sent:true,already_submitted:false};
   throw new Error("This preview cannot execute real operations.");
@@ -204,8 +204,8 @@ header{padding:16px max(18px,calc((100% - 760px)/2))}main{margin:20px auto 42px}
   const selected=p.agent_offer;const plans={"ai-booking":{title:"AI Booking Assistant",goal:"Answer booking questions"},"ai-followup":{title:"AI Follow-Up Assistant",goal:"Follow up with approved leads"},"ai-business":{title:"AI Business Assistant — both agents",goal:"Both booking and follow-up"}};const plan=plans[selected];if(!plan)throw new Error("Invalid plan");
   $('agent').value=selected;Array.from($('agent').options).forEach(opt=>{opt.disabled=opt.value!==selected});$('goals').value=plan.goal;
   guided.setPlan(selected);document.querySelector('.ey').textContent=(es?'Configuración privada · ':'Private onboarding · ')+plan.title;
-  const tariff={2500:"$25",1900:"$19",3999:"$39.99"};
-  const recurring={1400:"$14",699:"$6.99",1900:"$19"};
+  const tariff={2500:"$25",1900:"$19",3900:"$39"};
+  const recurring={1400:"$14",700:"$7",1900:"$19"};
   $('paymentTitle').textContent=es?"VISTA DE PRUEBA — SIN COMPRA":"TEST PREVIEW — NO PURCHASE";
   $('paymentText').textContent=es?("Plan de ejemplo: "+plan.title+". Instalación "+(tariff[p.setup_paid_cents]||"—")+". Mensualidad "+(recurring[p.monthly_amount_cents]||"—")+". No se hará ningún cobro."):("Sample plan: "+plan.title+". Setup "+(tariff[p.setup_paid_cents]||"—")+". Monthly "+(recurring[p.monthly_amount_cents]||"—")+". No payment will be charged.");
   consentLabel.hidden=!['ai-followup','ai-business'].includes(selected);consentCheck.required=!consentLabel.hidden;
