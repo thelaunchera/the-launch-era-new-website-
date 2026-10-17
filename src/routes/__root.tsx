@@ -14,6 +14,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader, SiteFooter } from "@/components/site-shell";
+import { SeoStructuredData, organizationWebsiteSchema } from "@/components/seo-structured-data";
 import { Analytics } from "@/components/analytics";
 
 function NotFoundComponent() {
@@ -132,6 +133,7 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang={language}>
       <head>
         <HeadContent />
+        <SeoStructuredData data={organizationWebsiteSchema} />
         {/* Handle legacy recovery callbacks before analytics or the public website loads. */}
         <script
           dangerouslySetInnerHTML={{ __html: `

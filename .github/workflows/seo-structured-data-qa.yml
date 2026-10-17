@@ -1,0 +1,33 @@
+name: SEO Structured Data QA
+on:
+  pull_request:
+    paths:
+      - 'src/components/seo-structured-data.tsx'
+      - 'src/routes/__root.tsx'
+      - 'src/routes/booking-lead-automation.tsx'
+      - 'src/routes/es.booking-lead-automation.tsx'
+      - 'src/routes/cleaning-web-app.tsx'
+      - 'src/routes/es.cleaning-web-app.tsx'
+      - 'public/sitemap.xml'
+      - 'scripts/qa-seo-structured-data.mjs'
+      - '.github/workflows/seo-structured-data-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  schema-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install dependencies
+        run: bun install
+      - name: Validate bilingual schema output and sitemap
+        run: bun scripts/qa-seo-structured-data.mjs
+      - name: Protect public routes and build
+        run: |
+          node scripts/qa-route-integrity.mjs --static
+          bun run build
