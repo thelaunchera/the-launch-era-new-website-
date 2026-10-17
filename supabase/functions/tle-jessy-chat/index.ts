@@ -79,6 +79,8 @@ function identify(msg,previous,pageFocus){
  if(/(?:website|web ?site|sitio web|pagina web|página web|contact form|formulario web)/.test(s)&&/(?:inquir|lead|solicitud|consulta|follow.?up|seguimiento|olvid|perd|lost|miss|respond|reply)/.test(s))return "website";
  // Organizing internal jobs and scattered client details is the app use case.
  if(/(?:disorganiz|desorganiz|scattered|regad[oa]s|all over the place)/.test(s)&&/(?:clients?|clientes?|jobs?|trabajos?|invoices?|facturas?|calendar|calendario)/.test(s))return "cleaning-app";
+ // Managing a client list is a Cleaning App need even without words like "scattered".
+ if(/\b(?:organiz|organis|manag|track|store|save|keep|add|registr|guard|gestion|administr|agreg)\w*\b/.test(s)&&/\b(?:clients?|customers?|clientes?)\b/.test(s)&&!/\b(?:booking automation|booking page|pagina de reservas)\b/.test(s))return "cleaning-app";
  // "Follow-up" is a feature of Booking Automation as well as an AI plan.
  // Respect the visitor's page or previous choice unless an AI assistant is explicit.
  if(/follow.?up|seguimiento/.test(s))return (known==="booking"||known==="website"||known==="ai-followup")?known:"ai-followup";
@@ -86,6 +88,41 @@ function identify(msg,previous,pageFocus){
  return known;
 }
 // Calls are an offered human consultation, not an instantly confirmed booking.
+function resolveConversationService(message,previous,focus,history){
+ const direct=identify(message,previous,focus);
+ const q=norm(message).trim();
+ // Resolve short follow-ups and corrections from the visitor's last specific request,
+ // never from a generic introduction that lists every product.
+ const followup=/\b(?:30[ -]?(?:days?|dias?)|free[ -]?(?:demo|trial)|prueba gratis|demo gratis|30[ -]?day)\b/.test(q)
+  ||/^(?:that's not what i asked|that is not what i asked|not what i asked|that's not it|no fue lo que pregunte|eso no fue lo que pregunte|no es lo que pregunte|no me entendiste)[.!? ]*$/.test(q);
+ if(!followup||/\b(?:booking automation|booking page|ai booking|website automation|cleaning (?:web )?app)\b/.test(q))return direct;
+ for(const h of [...history].reverse()){
+  if(h.role!=="user")continue;
+  const earlier=norm(h.message);
+  if(/\b(?:organiz|organis|manag|track|store|save|keep|add|registr|guard|gestion|administr|agreg)\w*\b/.test(earlier)&&/\b(?:clients?|customers?|clientes?)\b/.test(earlier))return "cleaning-app";
+  if(/\b(?:cleaning (?:web )?app|aplicacion de limpieza)\b/.test(earlier))return "cleaning-app";
+  if(/\b(?:booking automation|booking page|pagina de reservas)\b/.test(earlier))return "booking";
+ }
+ const recent=[...history].reverse().find(h=>h.role==="assistant"&&
+  /\bcleaning (?:web )?app\b|\bbooking automation\b/i.test(h.message));
+ if(recent){
+  const mentionedApp=/\bcleaning (?:web )?app\b/i.test(recent.message);
+  const mentionedBooking=/\bbooking automation\b/i.test(recent.message);
+  if(mentionedApp&&!mentionedBooking)return "cleaning-app";
+  if(mentionedBooking&&!mentionedApp)return "booking";
+ }
+ return direct;
+}
+function isCleaningTrialClarification(message,history){
+ const q=norm(message).trim();
+ if(/\b(?:30[ -]?(?:days?|dias?)|30[ -]?day)\b/.test(q)
+  &&/\b(?:free|trial|demo|prueba|gratis|demostracion|promocion)\b/.test(q))return true;
+ if(/^(?:that's not what i asked|that is not what i asked|not what i asked|that's not it|no fue lo que pregunte|eso no fue lo que pregunte|no es lo que pregunte|no me entendiste)[.!? ]*$/.test(q))
+  return [...history].reverse().some(h=>h.role==="user"&&
+   /\b(?:30[ -]?(?:days?|dias?)|30[ -]?day)\b/.test(norm(h.message))&&
+   /\b(?:free|trial|demo|prueba|gratis)\b/.test(norm(h.message)));
+ return false;
+}
 function asksOneToOneCall(message){
  const q=norm(message);
  if(/1\s*[:\-\/]\s*1|one[\s-]*on[\s-]*one|one[\s-]*to[\s-]*one|20[\s-]*(?:min|mins|minute|minutes|minuto|minutos)|uno a uno|una a una/.test(q))return /(?:call|llamad|reunion|meeting|consult|asesor|hablar|talk|speak|book|schedule|reserv|agend|offer|ofrec|have|tienen|tiene)/.test(q);
@@ -432,7 +469,7 @@ Deno.serve(async(req)=>{
      mode:"plan_comparison"
    },200,origin);
  }
- const id=identify(message,prior,focus);
+ const id=resolveConversationService(message,prior,focus,history);
  const row=catalog.find(x=>x[0]===id);
  if(wantsCheckoutNow(message,history,prior)){
   // Someone who compared three AI plans must select the specific checkout first.
@@ -448,6 +485,17 @@ Deno.serve(async(req)=>{
   if(!chosen||chosen==="whatsapp")return response({reply:lang==="es"?"Elige el servicio que quieres comprar.":"Which service would you like to buy?",selected_offer:"",next_action:"service_choices",checkout:null,mode:"purchase_select"},200,origin);
   if(chosen==="cleaning-app")return response({reply:lang==="es"?"¡Hurra! 🥳 Nos alegra ayudarte. La Cleaning App empieza con una prueba gratis; aquí tienes el acceso para registrarte. ¡Nos vemos dentro!":"Hurray! 🥳 We’re happy to assist you! The Cleaning App starts with a free trial—here’s your signup link. See you inside!",selected_offer:chosen,next_action:"trial",trial:"https://app.thelaunchera.com/?entry=signup",checkout:null,mode:"purchase_trial"},200,origin);
   return response({reply:lang==="es"?"¡Hurra! 🥳 Nos alegra ayudarte. Aquí tienes el enlace al checkout seguro para continuar con tu compra. ¡Nos vemos dentro!":"Hurray! 🥳 We’re happy to assist you! Here’s your secure checkout link to get started. See you inside!",selected_offer:chosen,next_action:"checkout",checkout:target,mode:"purchase_ready"},200,origin);
+ }
+ if(id==="cleaning-app"&&isCleaningTrialClarification(message,history)){
+  return response({
+   reply:lang==="es"
+    ?"Los 30 días gratis son una prueba de la Cleaning App real, no una demo de 30 días. La demo interactiva es otra cosa: un ejemplo gratuito con datos ficticios. Después de la prueba, la app cuesta $3.99 al mes. Puedes comenzar aquí, sin tarjeta."
+    :"The 30 days are a free trial of the actual Cleaning App, not a 30-day demo. The interactive demo is a separate free preview with sample data. After the trial, the app is $3.99/month. You can start the trial here, with no card needed.",
+   selected_offer:"cleaning-app",checkout:null,
+   trial:"https://app.thelaunchera.com/?entry=signup",
+   details:"/cleaning-app-demo/?lang="+lang,
+   next_action:"trial",mode:"app_trial_clarification"
+  },200,origin);
  }
  const isCombo=/booking.{0,32}(with|con|\+|y).{0,22}(ai|ia|assistant|asistente)|booking.{0,24}(follow.?up|seguimiento)|paquete.{0,22}(ia|asistente)/i.test(message);
  const priceQuestion=asksPrice(message);
