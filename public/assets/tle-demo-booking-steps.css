@@ -166,9 +166,13 @@
 
 /* TLE 2026-10-17: stage top + refined completion, PUBLIC sample only.
    Explicit JS alignment wins over mobile scroll anchoring during pane resizing. */
+/* Prevent document-level scroll anchoring from restoring the prior long pane
+   after Contact shrinks to Space/Calendar (iOS and Chromium). */
+html:has(#bookingPage),body:has(#bookingPage){overflow-anchor:none}
 #bookingPage .flow,
 #bookingPage .booking-step-viewport,
 #bookingPage .demo-mini-viewport{overflow-anchor:none}
+#bookingPage .demo-mini-viewport{transition:height 0s!important}
 #bookingPage #flowTitle,
 #bookingPage #demoMiniProgress,
 #bookingPage #completePanel{scroll-margin-top:16px}
