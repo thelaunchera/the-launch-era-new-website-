@@ -83,7 +83,9 @@
   .solutions-section .tle-service-flip__front p { font-size:16px; line-height:1.35; }
   /* Home-only visual layers load after the shared card styles: win their
      12px declaration without changing standalone /solutions. */
-  .sales-home .solutions-section .tle-service-flip__front p { font-size:16px; line-height:1.35; }
+  /* The homepage sales bundle currently applies a later 14px declaration. This
+     one mobile-only exception keeps preview copy legible in EN/ES. */
+  .sales-home .solutions-section .tle-service-flip__front p { font-size:16px!important; line-height:1.35; }
   .solutions-section .tle-service-flip__back p { font-size:16px; line-height:1.4; }
   .solutions-section .tle-service-flip__back li { font-size:14px; }
 }
