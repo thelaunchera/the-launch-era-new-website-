@@ -333,7 +333,7 @@ body.tle-jessy-demo-open{overflow:hidden!important}
 .tle-jessy-root .tle-jessy-inline .tle-jessy-action{font-size:14px;min-height:44px}
 .tle-jessy-root .tle-jessy-note{font-size:12px;line-height:1.5}
 .tle-jessy-root .tle-jessy-demo-card{
- position:relative;isolation:isolate;display:block;width:min(100%,450px);height:220px;
+ position:relative;isolation:isolate;display:block;width:min(100%,430px);height:202px;
  margin:11px 0 16px;padding:0;overflow:hidden;
  border:1px solid #b9d7e8;border-radius:20px;background:#191919;
  color:#fff;text-align:left;text-decoration:none;cursor:pointer;
@@ -350,23 +350,37 @@ body.tle-jessy-demo-open{overflow:hidden!important}
 }
 .tle-jessy-root .tle-jessy-demo-resting{
  position:absolute;left:18px;right:18px;bottom:17px;display:flex;flex-direction:column;gap:5px;
- z-index:1;transition:opacity 250ms ease;pointer-events:none;color:white;
+ z-index:2;transition:opacity 450ms ease;pointer-events:none;color:white;
 }
 .tle-jessy-root .tle-jessy-demo-resting small{
  font:700 11px/1.35 Futura,Arial,sans-serif;letter-spacing:.11em;color:#f5faff;
 }
 .tle-jessy-root .tle-jessy-demo-resting strong{font:750 clamp(18px,3vw,23px)/1.2 Prompt,Arial,sans-serif;color:white}
 .tle-jessy-root .tle-jessy-demo-reveal{
- position:absolute;inset:auto 8px 8px;z-index:2;display:flex;flex-direction:column;gap:7px;
- background:#fff;color:#191919;border-radius:14px;padding:16px 17px;
+ position:absolute;inset:auto 8px 8px;z-index:3;display:flex;flex-direction:column;gap:5px;
+ background:#fff;color:#191919;border-radius:14px;padding:12px 15px;
  transform:translateY(calc(100% + 16px));
- transition:transform 640ms linear(0, 0.094 5.6%, 0.274 11.1%, 0.455 16.7%, 0.608 22.2%, 0.726 27.8%, 0.812 33.3%, 0.873 38.9%, 0.916 44.4%, 0.944 50%, 0.964 55.6%, 0.976 61.1%, 0.985 66.7%, 0.99 72.2%, 0.994 77.8%, 0.996 83.3%, 0.998 88.9%, 1 100%);
+ transition:transform 1150ms linear(0, 0.094 5.6%, 0.274 11.1%, 0.455 16.7%, 0.608 22.2%, 0.726 27.8%, 0.812 33.3%, 0.873 38.9%, 0.916 44.4%, 0.944 50%, 0.964 55.6%, 0.976 61.1%, 0.985 66.7%, 0.99 72.2%, 0.994 77.8%, 0.996 83.3%, 0.998 88.9%, 1 100%);
  pointer-events:none;
 }
 .tle-jessy-root .tle-jessy-demo-kicker{font:800 11px/1.3 Futura,Arial,sans-serif;letter-spacing:.10em;color:#317da9}
 .tle-jessy-root .tle-jessy-demo-reveal strong{font:750 19px/1.25 Prompt,Arial,sans-serif}
 .tle-jessy-root .tle-jessy-demo-summary{font:500 14px/1.4 Futura,Arial,sans-serif;color:#405767}
 .tle-jessy-root .tle-jessy-demo-cta{font:750 14px/1.3 Futura,Arial,sans-serif;color:#225e82;text-decoration:underline;text-underline-offset:3px}
+
+/* Three soft blue bubbles stay behind the caption and never block the link. */
+.tle-jessy-root .tle-jessy-demo-bubbles{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none}
+.tle-jessy-root .tle-jessy-demo-bubble{
+ position:absolute;display:block;border-radius:50%;pointer-events:none;
+ background:radial-gradient(circle at 34% 27%,rgba(237,249,255,.80) 0%,rgba(117,203,255,.49) 31%,rgba(55,153,218,.24) 60%,rgba(73,169,225,0) 74%);
+ border:1px solid rgba(188,229,255,.22);
+ box-shadow:inset 0 0 9px rgba(212,242,255,.22),0 0 17px rgba(107,200,255,.09);
+ will-change:transform;animation:tleJessieDemoBubble 11s ease-in-out infinite alternate;
+}
+.tle-jessy-root .tle-jessy-demo-bubble-1{width:73px;height:73px;top:9px;left:18px;animation-duration:12s}
+.tle-jessy-root .tle-jessy-demo-bubble-2{width:47px;height:47px;top:26px;right:19px;animation-duration:14s;animation-delay:-4s}
+.tle-jessy-root .tle-jessy-demo-bubble-3{width:27px;height:27px;bottom:41px;left:40%;animation-duration:10s;animation-delay:-6s}
+@keyframes tleJessieDemoBubble{from{transform:translate3d(0,2px,0)}to{transform:translate3d(9px,-14px,0)}}
 .tle-jessy-root .tle-jessy-demo-card:hover .tle-jessy-demo-reveal,
 .tle-jessy-root .tle-jessy-demo-card:focus-within .tle-jessy-demo-reveal,
 .tle-jessy-root .tle-jessy-demo-card:focus-visible .tle-jessy-demo-reveal{transform:translateY(0)}
@@ -375,17 +389,25 @@ body.tle-jessy-demo-open{overflow:hidden!important}
 .tle-jessy-root .tle-jessy-demo-card:focus-visible .tle-jessy-demo-resting{opacity:0}
 .tle-jessy-root .tle-jessy-demo-card:focus-visible{outline:3px solid #2a87c0;outline-offset:3px}
 @media(hover:none),(pointer:coarse){
- .tle-jessy-root .tle-jessy-demo-card{height:222px}
- .tle-jessy-root .tle-jessy-demo-reveal{transform:translateY(0);transition:none}
- .tle-jessy-root .tle-jessy-demo-resting{opacity:0}
+ .tle-jessy-root .tle-jessy-demo-card{height:182px}
+ /* Start on the photograph, then reveal ONCE after entering the chat viewport. */
+ .tle-jessy-root .tle-jessy-demo-card.is-revealed .tle-jessy-demo-reveal{transform:translateY(0)}
+ .tle-jessy-root .tle-jessy-demo-card.is-revealed .tle-jessy-demo-resting{opacity:0}
 }
 @media(max-width:600px){
  .tle-jessy-root .tle-jessy-message{font-size:16px;line-height:1.5}
  .tle-jessy-root .tle-jessy-quick button{font-size:14px}
- .tle-jessy-root .tle-jessy-demo-card{width:calc(100% - 30px);max-width:450px;height:215px;margin-left:29px}
- .tle-jessy-root .tle-jessy-demo-reveal{padding:13px 15px}
+ .tle-jessy-root .tle-jessy-demo-card{width:calc(100% - 30px);max-width:420px;height:182px;margin-left:29px}
+ .tle-jessy-root .tle-jessy-demo-reveal{padding:10px 12px;gap:3px;border-radius:12px}
+ .tle-jessy-root .tle-jessy-demo-kicker{font-size:10px}
+ .tle-jessy-root .tle-jessy-demo-reveal strong{font-size:16px;line-height:1.18}
+ .tle-jessy-root .tle-jessy-demo-summary{font-size:12px;line-height:1.25}
+ .tle-jessy-root .tle-jessy-demo-cta{font-size:13px;line-height:1.3}
+ .tle-jessy-root .tle-jessy-demo-bubble-1{width:57px;height:57px}
+ .tle-jessy-root .tle-jessy-demo-bubble-2{width:38px;height:38px}
 }
 @media(prefers-reduced-motion:reduce){
  .tle-jessy-root .tle-jessy-demo-card .tle-jessy-demo-reveal{transition:none!important;transform:translateY(0)}
  .tle-jessy-root .tle-jessy-demo-card .tle-jessy-demo-resting{transition:none!important;opacity:0}
+ .tle-jessy-root .tle-jessy-demo-bubble{animation:none!important;will-change:auto}
 }
