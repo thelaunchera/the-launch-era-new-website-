@@ -1,4 +1,4 @@
-name: Booking Funnel Security Gate QA
+name: Private Booking Demo Access QA
 on:
   pull_request:
     paths:
@@ -18,7 +18,7 @@ on:
 permissions:
   contents: read
 jobs:
-  booking-funnel-security:
+  private-demo-access:
     runs-on: ubuntu-latest
     timeout-minutes: 9
     steps:
@@ -43,4 +43,9 @@ jobs:
           test "$status" = "403"
           status=$(curl --max-time 18 -sS -o /tmp/tle-fake-rid-body -w '%{http_code}' -H 'Origin: https://thelaunchera.com' -H 'Content-Type: application/json' -d '{"action":"content","rid":"00000000-0000-4000-8000-000000000001","session":"0000000000000000000000000000000000000000000000000000000000000000"}' "$url")
           test "$status" = "403"
-          echo "PASS: no funnel ID and nonexistent ID denied, CORS preflight works."
+          grep -q '"code":"invitation_required"' /tmp/tle-no-rid-body
+          grep -q '"code":"invitation_required"' /tmp/tle-fake-rid-body
+          if grep -Eiq 'funnel|embudo|lead.?capture|lead.?catcher' /tmp/tle-no-rid-body /tmp/tle-fake-rid-body; then
+            echo "Public access messages exposed internal marketing terms"; exit 1
+          fi
+          echo "PASS: visitors without private invitations denied; public language stays natural."
