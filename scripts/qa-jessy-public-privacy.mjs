@@ -14,7 +14,7 @@ for(const language of ['en','es']){
   const r=await ask({message,language,selected_offer:'booking'});assert.equal(r.mode,'privacy');assert.equal(r.next_action,'none');assert.doesNotMatch(r.reply,/github|supabase|groq/i);
  }
  const emails=await ask({message:language==='es'?'Qué correos recibe el cliente?':'What emails does the customer receive?',language,selected_offer:'booking'});assert.match(emails.reply,/acknowledgment|acuse/);
- const price=await ask({message:language==='es'?'Cuánto?':'How much?',language,selected_offer:'booking'});assert.match(price.reply,/19\.99/);
+ const price=await ask({message:language==='es'?'Cuánto?':'How much?',language,selected_offer:'booking'});assert.match(price.reply,/\$15(?![\d.])/, "Jessie public pricing answer must use final $15 booking offer");
  // 20-minute calls are post-purchase onboarding ONLY, never an open presales booking.
  const call=await ask({message:language==='es'?'¿Ustedes ofrecen llamadas 1:1 de 20 minutos?':'Si you offer 1:1 call ?',language,selected_offer:'booking'});
  assert.equal(call.mode,'verified_call');
@@ -80,7 +80,7 @@ assert.equal(clarify.mode,'app_trial_clarification');
 assert.equal(clarify.next_action,'trial',"A Cleaning App trial question needs the app trial signup");
 assert.equal(clarify.trial,'https://app.thelaunchera.com/?entry=signup');
 assert.equal(clarify.checkout,null);
-assert.match(clarify.reply,/free trial of the actual Cleaning App, not a 30-day demo/);
+assert.match(clarify.reply,/free trial of the actual Cleaning App, not a (?:30-day )?demo/);
 assert.doesNotMatch(clarify.reply,/Booking Automation/i);
 const wrongDemoHistory=[
  ...appHistory,

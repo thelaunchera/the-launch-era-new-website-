@@ -32,7 +32,8 @@ const price=await ask("English context price","How much does that cost?",{
   history:[{role:"user",message:question},{role:"assistant",message:first.reply}]
 });
 assert.equal(price.selected_offer, "website", "A short price follow-up must preserve the selected service");
-assert.match(price.reply,/\$41\.99/, "Price must agree with the approved published catalog");
+assert.match(price.reply,/\$35(?![\d.])/, "Website Automation must match the approved $35 published price");
+assert.doesNotMatch(price.reply,/\$41\.99|\$31\.99/, "Jessie must not quote retired Website Automation prices");
 assert.ok(!/\$79 activation|\$119 activation/.test(price.reply),"Avoid stale AI prices");
 const spanish=await ask("Spanish capabilities","¿En qué me puedes ayudar?",{lang:"es",path:"/es/"});
 assert.equal(spanish.mode,"capabilities","A broad capabilities request must get actual information");
