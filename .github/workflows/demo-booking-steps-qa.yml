@@ -1,0 +1,53 @@
+name: Booking Demo 3-Step Slider QA
+on:
+  pull_request:
+    paths:
+      - 'public/booking-demo-reset.html'
+      - 'public/assets/tle-demo-booking-steps.css'
+      - 'scripts/qa-demo-booking-steps.mjs'
+      - '.github/workflows/demo-booking-steps-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'public/booking-demo-reset.html'
+      - 'public/assets/tle-demo-booking-steps.css'
+      - 'scripts/qa-demo-booking-steps.mjs'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  demo-booking-steps:
+    runs-on: ubuntu-latest
+    timeout-minutes: 19
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check source boundaries and build
+        run: |
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-public-demo-integrity.mjs
+          node --check scripts/qa-demo-booking-steps.mjs
+          bun install
+          bun run build
+      - name: Install test browser
+        run: |
+          mkdir -p /tmp/tle-steps-qa
+          cd /tmp/tle-steps-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          ln -sfn /tmp/tle-steps-qa/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-steps-qa/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: EN ES iPhone tablet desktop stepper validation
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-steps-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for i in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:4173/booking-demo-reset.html >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-demo-booking-steps.mjs
