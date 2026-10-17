@@ -70,7 +70,7 @@
 .tle-work-card__label h3{font-family:Prompt,Arial,sans-serif;font-size:clamp(21px,2.5vw,28px);line-height:1.22;font-weight:650;letter-spacing:-.025em;margin:0}
 .tle-work-gallery__deck:not([data-enhanced="true"]) .tle-work-card:not(:first-child){display:none}
 .tle-work-gallery__deck[data-enhanced="true"] .tle-work-card[data-visible="false"]{visibility:hidden;pointer-events:none}
-.tle-work-gallery__deck[data-enhanced="true"] .tle-work-card[data-active="true"]{touch-action:none;cursor:grab}
+.tle-work-gallery__deck[data-enhanced="true"] .tle-work-card[data-active="true"]{touch-action:pan-y;cursor:grab}
 .tle-work-gallery__deck[data-enhanced="true"] .tle-work-card[data-active="true"]:active{cursor:grabbing}
 .tle-work-gallery__controls {
   display:flex;justify-content:center;align-items:center;gap:20px;
