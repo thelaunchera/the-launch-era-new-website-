@@ -140,6 +140,7 @@ try{
    await firstFlip.locator('.service-flip-select').click();
    assert.equal(await page.locator('#detailsPanel').isVisible(),true,'Back CTA must advance to booking details');
    assert.equal(await page.locator('#chooseNext').isVisible(),false,'No far-away Continue control');
+   await page.locator('#intakeSpace > summary').click();
    assert.equal(await page.locator('input[name="demo-beds"]:checked').inputValue(),'2');
    assert.equal(await page.locator('input[name="demo-baths"]:checked').inputValue(),'1');
    assert.equal(await page.locator('input[name="demo-frequency"]:checked').inputValue(),'one');
@@ -160,9 +161,11 @@ try{
    const focusStyle=await page.locator('input[name="demo-extras"][value="petsLabel"] + span').evaluate(x=>getComputedStyle(x).backgroundColor);
    assert.notEqual(focusStyle,'rgb(255, 255, 255)','Checked details should have a pale blue highlight');
   
+   await page.locator('#intakeContact > summary').click();
    await page.locator('#customerName').fill('Sample Customer');
    await page.locator('#customerEmail').fill('sample@example.test');
    await page.locator('#customerZip').fill('33101');
+   await page.locator('#intakeSchedule > summary').click();
    const calendarDay=page.locator('#apptDays button[data-day]:not(:disabled)').first();
    await calendarDay.click();
    assert.equal(await page.locator('#preferredDate').inputValue(),await calendarDay.getAttribute('data-day'),'Calendar selection must sync the review date');
@@ -200,6 +203,7 @@ try{
 
    await page.locator('.service-flip-card[data-service="office"] .service').dispatchEvent('click');
    await page.locator('.service-flip-card[data-service="office"] .service-flip-select').click();
+   await page.locator('#intakeSpace > summary').click();
    assert.equal(await page.locator('#comDetails').isVisible(),true);
    assert.equal(await page.locator('.booking-extras').isVisible(),false,'Residential optional choices stay hidden on commercial forms');
    await page.locator('#backDetails').click();
