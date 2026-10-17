@@ -89,6 +89,11 @@
 .tle-work-gallery__controls button:focus-visible{outline:3px solid #287eae;outline-offset:3px}
 .tle-work-gallery__counter{font-size:13px;min-width:70px;text-align:center;font-weight:750;letter-spacing:.08em;color:#406981;font-variant-numeric:tabular-nums}
 .tle-work-gallery__hint {font-size:12px;text-align:center;color:#4b6b7f;line-height:1.6;margin:3px 0 0}
+.tle-work-gallery__sr{
+  position:absolute!important;width:1px!important;height:1px!important;
+  margin:-1px!important;padding:0!important;border:0!important;
+  clip:rect(0,0,0,0)!important;overflow:hidden!important;white-space:nowrap!important;
+}
 .tle-work-gallery__deck:not([data-enhanced="true"])~.tle-work-gallery__controls {display:none}
 @media (max-width:790px){
  .tle-work-gallery__inner{grid-template-columns:minmax(0,1fr);gap:27px;max-width:510px}
