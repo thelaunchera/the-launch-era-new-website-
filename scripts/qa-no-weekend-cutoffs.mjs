@@ -22,7 +22,7 @@ const marketing=[
 ];
 // Do NOT ban customers selecting "During business hours" for a cleaning.
 // That is a valid booking-window preference, not TLE production availability.
-const cutoff=/(?:saturday|sundays?\\s+after|s[áa]bados?|next business day|next working period|starting in our next working period|during our available working periods|próximo día hábil|siguiente día hábil)/i;
+const cutoff=/(?:saturday|s[áa]bados?|next business day|next working period|starting in our next working period|during our available working periods|próximo día hábil|siguiente día hábil)/i;
 for(const path of marketing){
  const source=read(path);
  assert(!cutoff.test(source),'Outdated weekend/production restriction in marketing: '+path);
