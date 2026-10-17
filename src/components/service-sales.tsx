@@ -2,6 +2,7 @@ import { MarketingCTA } from '@/components/marketing-cta';
 import { FAQTopicTabs } from './faq-topic-tabs';
 import { ArrowRight, Plus } from 'lucide-react';
 import { PurchaseClarity } from './home-sales';
+import './service-sales-mobile-cta.css';
 type Props={product:'booking'|'app';lang?:'en'|'es'};
 export function ServiceSales({product,lang='en'}:Props){
  const es=lang==='es',booking=product==='booking';
