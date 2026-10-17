@@ -1,0 +1,45 @@
+/* Isolated cross-product link fix for Booking Automation and Cleaning App.
+   The old global 300px conic-spinner pseudo-element creates scroll dimensions
+   larger than the CTA on iPhone. Keep the real link and its readable touch size. */
+.service-sales .service-fit a.service-demo-link{
+ box-sizing:border-box;
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ gap:10px;
+ max-width:100%;
+ width:auto;
+ height:auto;
+ min-height:50px;
+ padding:13px 16px;
+ border:1.5px solid #9ec7df;
+ border-radius:999px;
+ background:#d7efff;
+ color:#1c4d6a;
+ font-size:16px;
+ line-height:1.5;
+ white-space:normal;
+ overflow:visible;
+ overflow-wrap:anywhere;
+ text-align:left;
+ vertical-align:middle;
+}
+.service-sales .service-fit a.service-demo-link::before,
+.service-sales .service-fit a.service-demo-link::after{
+ content:none!important;
+ display:none!important;
+ animation:none!important;
+}
+.service-sales .service-fit a.service-demo-link svg{
+ flex:0 0 29px;
+ width:29px;
+ height:29px;
+}
+@media(max-width:420px){
+ .service-sales .service-fit a.service-demo-link{
+  width:100%;
+  justify-content:space-between;
+  min-height:52px;
+  padding:13px 14px;
+ }
+}
