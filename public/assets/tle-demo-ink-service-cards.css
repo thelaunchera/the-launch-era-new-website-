@@ -314,3 +314,167 @@ body footer.tle-demo-curtain-footer #tleDemoFooterWebsite{
  #tleDemoCurtainPage header .shell{justify-content:center}
  #tleDemoCurtainPage header .header-right{margin-left:0}
 }
+
+/* 2026-10-17 owner-approved editorial refinement. Public sample ONLY.
+   Two intentionally contrasting fonts; no change to booking data or handlers. */
+#tleDemoCurtainPage{
+ --tle-demo-display:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+ --tle-demo-interface:'Manrope','Avenir Next',Arial,sans-serif;
+ --tle-demo-quiet-line:rgba(91,126,145,.38);
+ font-family:var(--tle-demo-interface)!important;
+ color:#191919;
+}
+#tleDemoCurtainPage :is(p,span,small,label,input,select,textarea,button,a,dt,dd,li),
+body .tle-demo-curtain-footer :is(p,span,small,a){
+ font-family:var(--tle-demo-interface,'Manrope','Avenir Next',Arial,sans-serif);
+}
+#tleDemoCurtainPage :is(h1,h2,h3),
+body .tle-demo-curtain-footer h2{
+ font-family:'Cormorant Garamond',Georgia,'Times New Roman',serif!important;
+ font-weight:600!important;
+ letter-spacing:-.024em!important;
+ line-height:1.06!important;
+}
+#tleDemoCurtainPage #bookingPage #pageTitle{
+ font-family:var(--tle-demo-display)!important;
+ font-size:clamp(37px,5.5vw,55px)!important;
+ max-width:16ch;
+ letter-spacing:-.025em!important;
+ line-height:1.02!important;
+}
+#tleDemoCurtainPage #bookingPage #flowTitle{
+ font-family:var(--tle-demo-display)!important;
+ font-weight:600!important;
+ font-size:clamp(37px,5.5vw,50px)!important;
+ line-height:1.04!important;
+ letter-spacing:-.028em!important;
+}
+#tleDemoCurtainPage #bookingPage .flow{
+ border:1.15px solid rgba(92,131,153,.45)!important;
+ border-radius:clamp(22px,4.4vw,30px)!important;
+ background:linear-gradient(155deg,rgba(250,248,243,.98),rgba(250,253,255,.97) 42%,#f2f9fd 100%)!important;
+ box-shadow:0 16px 44px rgba(33,85,120,.075),0 2px 8px rgba(33,85,120,.028),
+   inset 0 1px rgba(255,255,255,.94)!important;
+}
+#tleDemoCurtainPage #bookingPage .flow-header{
+ background:linear-gradient(122deg,rgba(250,248,243,.96) 0%,rgba(226,241,250,.88) 100%)!important;
+ border-bottom:1px solid rgba(112,158,183,.24)!important;
+}
+#tleDemoCurtainPage #bookingPage .switch button{
+ border:1px solid rgba(122,162,181,.47)!important;
+ border-radius:17px!important;
+ background:rgba(255,255,255,.69)!important;
+ box-shadow:none!important;
+ font-family:var(--tle-demo-interface)!important;
+ font-weight:700!important;
+ letter-spacing:-.02em;
+}
+#tleDemoCurtainPage #bookingPage .switch button[aria-pressed="true"]{
+ border:1.4px solid rgba(55,111,143,.65)!important;
+ background:linear-gradient(145deg,#e3f2fb,#d8ebf7)!important;
+ box-shadow:0 4px 15px rgba(68,135,169,.1),inset 0 1px rgba(255,255,255,.9)!important;
+}
+#tleDemoCurtainPage #bookingPage .booking-progress-item,
+#tleDemoCurtainPage #bookingPage .demo-mini-dot,
+#tleDemoCurtainPage #bookingPage .demo-mini-dot>b,
+#tleDemoCurtainPage #bookingPage .demo-intake-index,
+#tleDemoCurtainPage #bookingPage :is(.primary,.secondary,.field,.booking-review-mark){
+ font-family:var(--tle-demo-interface)!important;
+}
+#tleDemoCurtainPage #bookingPage .service-flip-front .service-title{
+ font-family:var(--tle-demo-display)!important;
+ font-weight:700!important;
+ font-size:clamp(31px,3.6vw,40px)!important;
+ letter-spacing:-.03em!important;
+ line-height:.98!important;
+}
+#tleDemoCurtainPage #bookingPage .service-flip-back h3,
+#tleDemoCurtainPage #bookingPage .demo-intake-heading strong{
+ font-family:var(--tle-demo-display)!important;
+ font-size:clamp(27px,3.1vw,34px)!important;
+ font-weight:650!important;
+ line-height:1.05!important;
+}
+#tleDemoCurtainPage #bookingPage .complete h3,
+#tleDemoCurtainPage #bookingPage .flow.is-preview-complete .complete h3{
+ font-family:var(--tle-demo-display)!important;
+ font-size:clamp(36px,5vw,49px)!important;
+ line-height:1.04!important;
+ letter-spacing:-.035em!important;
+}
+#tleDemoCurtainPage .booking-review h3{
+ font-family:var(--tle-demo-display)!important;
+ font-size:clamp(29px,3.15vw,37px)!important;
+ line-height:1.02!important;
+}
+#tleDemoCurtainPage .booking-proof h2,
+#tleDemoCurtainPage .booking-before-after h2,
+#tleDemoCurtainPage .tle-work-gallery h2{
+ font-family:var(--tle-demo-display)!important;
+ font-size:clamp(34px,4.25vw,52px)!important;
+ font-weight:600!important;
+ line-height:1.04!important;
+}
+#tleDemoCurtainPage #bookingPage .field :is(input,textarea,select){
+ font-family:var(--tle-demo-interface)!important;
+ font-size:15px!important;
+}
+/* Remove repeated explanatory microcopy, never real field labels or safety
+   disclosures. The real service title, sample price and flip cue stay visible. */
+#tleDemoCurtainPage #bookingPage :is(
+ .demo-section-nav-label,
+ .service-flip-front .service-detail,
+ .demo-intake-heading small,
+ #stepLabel,
+ #chooseHint,
+ #detailNote,
+ #reviewNote,
+ #demoKeepExploring
+){display:none!important}
+#tleDemoCurtainPage :is(
+ .booking-story-card-copy>p,
+ .booking-review-foot,
+ #sonnySubtitle
+){display:none!important}
+#tleDemoCurtainPage #bookingPage .demo-section-nav{
+ margin-top:15px;gap:8px;
+}
+#tleDemoCurtainPage #bookingPage .demo-section-next{
+ justify-content:center;
+ padding:10px 13px;
+ border-color:rgba(111,152,177,.28);
+}
+/* Keep the owner-approved black photo outlines, but soften their weight. */
+#tleDemoCurtainPage #bookingPage .service-flip-front .service,
+#tleDemoCurtainPage #bookingPage .service-flip-back{
+ border:2px solid rgba(25,25,25,.42)!important;
+ box-shadow:0 13px 29px rgba(25,25,25,.12),inset 0 1px rgba(255,255,255,.14)!important;
+}
+#tleDemoCurtainPage #bookingPage .flow-header{padding-top:clamp(19px,3vw,29px)}
+#tleDemoCurtainPage #bookingPage .booking-progress{margin-top:16px}
+#tleDemoCurtainPage #bookingPage .demo-intake-heading{gap:0}
+#tleDemoCurtainPage #bookingPage .demo-substep-head{min-height:56px}
+#tleDemoCurtainPage #bookingPage :is(.disclaimer,.bottom-note,.booking-proof-disclosure,#doneBody){
+ font-family:var(--tle-demo-interface)!important;
+}
+body .tle-demo-curtain-footer{
+ --tle-demo-interface:'Manrope','Avenir Next',Arial,sans-serif;
+}
+@media(max-width:700px){
+ #tleDemoCurtainPage #bookingPage #pageTitle{
+  font-size:clamp(35px,10vw,43px)!important;
+ }
+ #tleDemoCurtainPage #bookingPage #flowTitle{
+  font-size:clamp(35px,10vw,43px)!important;
+ }
+ #tleDemoCurtainPage #bookingPage .service-flip-front .service-title{
+  font-size:clamp(33px,9vw,40px)!important;
+ }
+ #tleDemoCurtainPage #bookingPage .service-flip-front .service-copy{
+  inset:auto 16px 83px 16px!important;
+ }
+ #tleDemoCurtainPage #bookingPage .flow{box-shadow:0 11px 31px rgba(43,89,117,.07),inset 0 1px #fff!important}
+}
+@media(prefers-reduced-motion:reduce){
+ #tleDemoCurtainPage #bookingPage .flow{transition:none!important}
+}
