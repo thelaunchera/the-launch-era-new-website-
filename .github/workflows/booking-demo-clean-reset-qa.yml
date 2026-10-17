@@ -47,6 +47,9 @@ jobs:
           for image in regular deep move office retail medical; do
             test -s "public/assets/demo-services/$image.webp"
           done
+          for image in kitchen-refresh living-space bathroom-detail dining-room bedroom miami-condo sunroom poolside-living office whole-home; do
+            test -s "public/assets/demo-work-gallery/$image.webp"
+          done
       - name: Build website
         run: |
           bun install
