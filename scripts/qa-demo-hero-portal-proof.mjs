@@ -19,7 +19,7 @@ assert.match(html,/id="pageTitle">A simpler way to book a clean\./,'Preserve req
 assert.match(html,/data-photo="\/assets\/demo-transformations\/track-before\.webp"/,'Restore real paired window tracks before photo');
 assert.match(html,/data-photo="\/assets\/demo-transformations\/track-after\.webp"/,'Restore matching window tracks after photo');
 assert.doesNotMatch(html,/data-photo="\/assets\/demo-transformations\/vanity-(before|after)\.webp"/,'Remove subdued bathroom comparison');
-assert.match(html,/These example review cards.+not published customer testimonials/);
+assert.match(html,/Experience snapshots from this interactive sample, not customer testimonials or verified reviews/);
 assert(!/gsap|Flip\.min|zoom:|backdrop-filter/.test(style),'No unrelated zoom libraries or glassmorphism');
 assert.match(style,/@media\(prefers-reduced-motion:reduce\)/,'Respect reduced-motion accessibility');
 assert.match(style, /--portal-scale/, 'Window zoom through focal point missing');
@@ -75,7 +75,7 @@ try {
   assert.equal(linked,'#bookingPage');
   assert.equal(await page.locator('#bookingPortalEnter').count(),1);
   assert.equal(await page.locator('.booking-review').count(),3,'Three clearly illustrative proof cards');
-  assert.match(await page.locator('#bookingProofDesc').textContent(),/not published customer testimonials|No son reseñas publicadas/);
+  assert.match(await page.locator('#bookingProofDesc').textContent(),/not customer testimonials or verified reviews|no son testimonios ni reseñas verificadas/);
   assert.equal(await page.locator('.booking-compare-card').count(),3,'Existing matched before/after library pairs reused');
   assert.match(await page.locator('#bookingPair3Title').textContent(),lang==='es'?/Rieles de ventana/:/Window tracks/);
   const track=page.locator('.booking-compare-card').nth(2);
