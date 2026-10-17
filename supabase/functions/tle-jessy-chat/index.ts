@@ -269,6 +269,8 @@ function helpfulExplanation(id,lang){
 function wantsCheckoutNow(message,history,prior){
  const q=norm(message).replace(/[¿?¡!.,:;]+/g," ").replace(/\s+/g," ").trim();
  const last=[...history].reverse().find(h=>h.role==="assistant")?.message||"";
+ // A future possibility, hesitation or explicit refusal is NOT current buying intent.
+ if(/\b(?:not|never|dont|don't) (?:quite |really |yet )?ready to\b|\b(?:when|if|once) (?:i'?m|i am|we'?re|we are) ready to\b|\b(?:no estoy|todavia no estoy|aun no estoy) list[oa] para\b/.test(q))return false;
  // Questions about a past purchase must never be mistaken for permission to buy again.
  if(/\b(?:already|just|previously) (?:bought|purchased|paid)|\b(?:my|our) (?:order|purchase)|\b(?:ya (?:compre|pague)|mi pedido|mi compra|ya tengo mi cuenta)\b/.test(q))return false;
  // Explicit intent to buy takes priority over demos and plan comparisons.
@@ -433,6 +435,12 @@ Deno.serve(async(req)=>{
  const id=identify(message,prior,focus);
  const row=catalog.find(x=>x[0]===id);
  if(wantsCheckoutNow(message,history,prior)){
+  // Someone who compared three AI plans must select the specific checkout first.
+  const specificAi=/(?:ai[ -]?booking|booking assistant|ai[ -]?follow[ -]?up|follow[ -]?up assistant|ai[ -]?business|business assistant|asistente (?:de )?reservas|asistente (?:de )?seguimiento|asistente empresarial)/i.test(message);
+  const anotherProduct=/(?:cleaning app|website automation|booking automation|booking bundle|va support|asistente virtual)/i.test(message);
+  if(prior==="ai-plans"&&!specificAi&&!anotherProduct){
+   return response({reply:lang==="es"?"¡Hurra! 🥳 Nos alegra ayudarte. Elige el asistente IA que quieres y abre su checkout seguro. ¡Nos vemos dentro! 😄✨🌱🧤🫧🧹":"Hurray! 🥳 We’re happy to assist you! Choose your AI Assistant below to open its secure checkout. See you inside! 😄✨🌱🧤🫧🧹",selected_offer:"ai-plans",ai_plans:aiPlanChoices(catalog,lang),next_action:"none",checkout:null,mode:"purchase_select_ai"},200,origin);
+  }
   const chosen=row&&id!=="whatsapp"?id:(serviceIds.has(prior)?prior:"");
   let target=chosen==="booking"?"/service-checkout/?offer=booking-flow":chosen==="cleaning-app"?null:chosen?catalog.find(x=>x[0]===chosen)?.[6]||null:null;
   if(chosen!=="cleaning-app"&&/(?:booking.{0,32}(?:with|con|\+|y).{0,22}(?:ai|ia|assistant|asistente)|booking.{0,24}follow.?up)/i.test(message))target="/booking-bundle/?lang="+lang+"#choose-plan";
