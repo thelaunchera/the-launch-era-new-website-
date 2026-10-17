@@ -52,7 +52,9 @@
       card.style.transition='';
       card.style.transform='';
       card.style.opacity='';
-      card.style.setProperty('--tle-work-position',String(i));
+      card.style.setProperty('--tle-work-y',(i*10)+'px');
+      card.style.setProperty('--tle-work-scale',String(1-i*.055));
+      card.style.setProperty('--tle-work-z',String(15-i));
       card.dataset.visible=i<4?'true':'false';
       card.dataset.active=i===0?'true':'false';
       card.setAttribute('aria-hidden',i===0?'false':'true');
@@ -81,7 +83,9 @@
     // Reveal the fourth underlying card as the others rise into place.
     order.slice(1,5).forEach((card,i)=>{
       card.dataset.visible='true';
-      card.style.setProperty('--tle-work-position',String(i));
+      card.style.setProperty('--tle-work-y',(i*10)+'px');
+      card.style.setProperty('--tle-work-scale',String(1-i*.055));
+      card.style.setProperty('--tle-work-z',String(15-i));
     });
     top.style.transition='transform 520ms cubic-bezier(.3,.7,.2,1), opacity 520ms ease';
     // Flush the dragged transform before the exit frame.
