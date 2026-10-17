@@ -1,6 +1,6 @@
-/* Public Booking Demo chapter only. GSAP 3.14.2 and ScrollTrigger are
-   checked-in first-party copies of official GreenSock distribution files.
-   If JS fails or reduced motion is set: accessible native horizontal scroll. */
+/* Public Booking Demo chapter only. Desktop uses GSAP pinned storytelling.
+   Phone uses a compact, native swipe gallery so there is never a long, empty
+   scroll-pinned section. The real booking form and tenant routes are untouched. */
 (() => {
  'use strict';
  const section=document.getElementById('bookingBubbleStory');
@@ -11,17 +11,35 @@
  if(!section||!track||!windowEl||!progress||!fill||section.dataset.storyBound)return;
  section.dataset.storyBound='true';
  const cards=[...track.querySelectorAll('[data-booking-story-card]')];
+ const hint=document.getElementById('bookingStoryHint');
  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
  const short=window.matchMedia('(max-height: 610px) and (orientation: landscape)');
+ const mobile=window.matchMedia('(max-width: 760px)');
  let controller=null;
  let destroyed=false;
+ let booting=false;
 
+ const updateHint=()=>{
+  if(!hint)return;
+  const es=document.documentElement.lang.toLowerCase().startsWith('es');
+  if(mobile.matches)hint.textContent=es?'Desliza las cuatro tarjetas →':'Swipe through all four cards →';
+  else hint.textContent=es?'Desliza para seguir el recorrido →':'Scroll to follow the booking journey →';
+ };
+ const updateNativeProgress=()=>{
+  if(section.classList.contains('is-gsap-ready'))return;
+  const total=Math.max(0,windowEl.scrollWidth-windowEl.clientWidth);
+  const percent=total>1?Math.max(0,Math.min(100,Math.round(100*windowEl.scrollLeft/total))):100;
+  fill.style.transform='scaleX('+(percent/100)+')';
+  progress.setAttribute('aria-valuenow',String(percent));
+ };
  const showNative=()=>{
   section.classList.remove('is-gsap-ready');
   track.style.removeProperty('transform');
-  fill.style.removeProperty('transform');
-  progress.setAttribute('aria-valuenow','100');
+  updateHint();
+  updateNativeProgress();
  };
+ windowEl.addEventListener('scroll',updateNativeProgress,{passive:true});
+
  const addScript=(src,ready)=>{
   if(ready())return Promise.resolve();
   return new Promise((resolve,reject)=>{
@@ -33,17 +51,21 @@
   });
  };
  const init=async()=>{
+  if(destroyed)return;
   showNative();
-  if(reduce.matches||short.matches)return;
+  // Pinning a horizontal track on iPhone produces an empty vertical tail.
+  // Keep the 4 distinct photos reachable with finger swipe, no GSAP on phones.
+  if(reduce.matches||short.matches||mobile.matches||controller||booting)return;
+  booting=true;
   try{
    await addScript('/assets/vendor/gsap-3.14.2.min.js',()=>!!window.gsap);
    await addScript('/assets/vendor/ScrollTrigger-3.14.2.min.js',()=>!!window.ScrollTrigger);
-   if(destroyed)return;
+   if(destroyed||reduce.matches||short.matches||mobile.matches)return;
    const gsap=window.gsap,ScrollTrigger=window.ScrollTrigger;
    gsap.registerPlugin(ScrollTrigger);
    const mm=gsap.matchMedia();
    controller=mm;
-   mm.add('(min-height: 611px) and (prefers-reduced-motion: no-preference)',()=>{
+   mm.add('(min-width: 761px) and (min-height: 611px) and (prefers-reduced-motion: no-preference)',()=>{
     const ctx=gsap.context(()=>{
      section.classList.add('is-gsap-ready');
      const width=()=>Math.max(1,track.scrollWidth-section.clientWidth);
@@ -84,20 +106,30 @@
     return ()=>{ctx.revert();showNative()};
    });
   }catch(e){
-   // The actual booking form remains usable if any motion library is unavailable.
+   // Photo browsing and the sample booking form still work offline/without GSAP.
    showNative();
+  }finally{booting=false;}
+ };
+ const onViewportChange=()=>{
+  if(destroyed)return;
+  if(reduce.matches||short.matches||mobile.matches){
+   if(controller){controller.revert();controller=null;}
+   showNative();
+  }else if(!controller&&!booting){
+   init();
   }
  };
- const ensureNativeOnChange=()=>{
-  if(reduce.matches||short.matches)showNative();
- };
- reduce.addEventListener?.('change',ensureNativeOnChange);
- short.addEventListener?.('change',ensureNativeOnChange);
+ reduce.addEventListener?.('change',onViewportChange);
+ short.addEventListener?.('change',onViewportChange);
+ mobile.addEventListener?.('change',onViewportChange);
  const dispose=()=>{
-  destroyed=true;controller?.revert();
+  destroyed=true;
+  controller?.revert();
   showNative();
-  reduce.removeEventListener?.('change',ensureNativeOnChange);
-  short.removeEventListener?.('change',ensureNativeOnChange);
+  windowEl.removeEventListener('scroll',updateNativeProgress);
+  reduce.removeEventListener?.('change',onViewportChange);
+  short.removeEventListener?.('change',onViewportChange);
+  mobile.removeEventListener?.('change',onViewportChange);
  };
  window.addEventListener('pagehide',dispose,{once:true});
  init();

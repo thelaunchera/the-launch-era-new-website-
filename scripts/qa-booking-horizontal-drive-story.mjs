@@ -33,7 +33,7 @@ console.log('[STATIC PASS] Four distinct Drive images, EN/ES, locally hosted GSA
 const base=(process.env.QA_URL||'http://127.0.0.1:4173').replace(/\/$/,'');
 const browser=await chromium.launch({headless:true});
 try{
- for(const [lang,width,height] of [['en',360,780],['es',390,844],['en',820,1180],['es',1440,900]]){
+ for(const [lang,width,height] of [['en',820,1180],['es',1440,900]]){
   const page=await browser.newPage({viewport:{width,height},reducedMotion:'no-preference'});
   const errors=[],writes=[];
   page.on('pageerror',e=>errors.push(e.message));
@@ -78,6 +78,49 @@ try{
   assert.deepEqual(errors,[],'Booking demo browser errors '+JSON.stringify(errors));
   await page.close();
   console.log('PASS pinned Drive-photo story '+lang+' '+width);
+ }
+ // On iPhone, a pinned ScrollTrigger used to leave a full-screen empty blue
+ // tail after the photos. The native gallery must fit in one viewport, and
+ // swiping must reveal all four unique cards with a live progress indicator.
+ for(const [lang,width,height] of [['en',360,780],['es',390,844]]){
+  const page=await browser.newPage({viewport:{width,height},reducedMotion:'no-preference'});
+  const errors=[],writes=[];
+  page.on('pageerror',e=>errors.push(e.message));
+  page.on('request',req=>{if(['POST','PUT','PATCH','DELETE'].includes(req.method()))writes.push(req.url())});
+  await page.goto(base+'/booking-demo-reset.html?lang='+lang,{waitUntil:'domcontentloaded'});
+  const section=page.locator('#bookingBubbleStory');
+  await page.waitForFunction(()=>document.getElementById('bookingBubbleStory')?.dataset.storyBound==='true');
+  const before=await section.evaluate(el=>{
+   const view=el.querySelector('.booking-story-window');
+   const bar=el.querySelector('#bookingStoryProgress');
+   return {pinned:el.classList.contains('is-gsap-ready'),spacer:!!el.closest('.pin-spacer'),
+    height:el.getBoundingClientRect().height,overflow:getComputedStyle(view).overflowX,
+    cards:el.querySelectorAll('[data-booking-story-card]').length,
+    progress:Number(bar.getAttribute('aria-valuenow')),
+    docWidth:document.documentElement.scrollWidth,
+    galleryWidth:view.scrollWidth,viewWidth:view.clientWidth};
+  });
+  assert(!before.pinned&&!before.spacer,'No GSAP pin/empty scroll spacer on phone '+JSON.stringify(before));
+  assert(before.height<=height,'Mobile chapter cannot exceed one viewport '+JSON.stringify(before));
+  assert.equal(before.overflow,'auto','Phone gallery must be touch-scrollable');
+  assert.equal(before.cards,4,'Preserve all four Drive photos');
+  assert(before.galleryWidth>before.viewWidth+500,'Four images must remain horizontally reachable');
+  assert(before.docWidth<=width+4,'No horizontal body overflow '+JSON.stringify(before));
+  await section.locator('.booking-story-window').evaluate(el=>{el.scrollLeft=el.scrollWidth;});
+  await page.waitForTimeout(250);
+  const after=await section.evaluate(el=>{
+   const view=el.querySelector('.booking-story-window');
+   const last=el.querySelectorAll('[data-booking-story-card]')[3].getBoundingClientRect();
+   const rect=view.getBoundingClientRect();
+   const visible=Math.max(0,Math.min(last.right,rect.right)-Math.max(last.left,rect.left));
+   return {progress:Number(el.querySelector('#bookingStoryProgress').getAttribute('aria-valuenow')),
+    visible,viewWidth:rect.width};
+  });
+  assert(after.progress>=95&&after.visible>after.viewWidth*.55,'Last photo must be visible with no empty tail '+JSON.stringify(after));
+  assert.deepEqual(writes,[],'Gallery must not place a real booking');
+  assert.deepEqual(errors,[],'Browser error in mobile swipe gallery');
+  await page.close();
+  console.log('PASS compact phone story '+lang+' '+width);
  }
  for(const [lang,width,height] of [['en',390,844],['es',360,780]]){
   const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'});

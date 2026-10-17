@@ -494,10 +494,23 @@ body .booking-proof-disclosure{
 }
 #bookingBubbleStory:not(.is-gsap-ready) .booking-story-progress-fill{transform:scaleX(1)}
 @media(max-width:760px){
- #bookingBubbleStory.booking-bubble-horizontal{height:100svh;min-height:600px}
- #bookingBubbleStory .booking-bubble-steps{
-  gap:14px;height:min(76svh,650px);padding-left:16px;padding-right:28px;
+ /* Native mobile gallery: no pinned scroll distance, no vacant bubble panel.
+    The fourth card leads straight into the form after the gallery section. */
+ #bookingBubbleStory.booking-bubble-horizontal{
+  height:auto;min-height:0;max-height:none;
+  padding:clamp(22px,4svh,36px) 0 66px;align-items:flex-start;
  }
+ #bookingBubbleStory .booking-story-window{
+  height:auto;max-width:100%;overflow-x:auto!important;overflow-y:hidden;
+  scroll-snap-type:x mandatory;scroll-padding-inline:16px;
+  -webkit-overflow-scrolling:touch;touch-action:auto;
+ }
+ #bookingBubbleStory .booking-bubble-steps{
+  gap:14px;height:clamp(380px,65svh,550px);
+  padding-left:16px;padding-right:28px;will-change:auto;
+  scroll-snap-type:none;
+ }
+ #bookingBubbleStory .booking-story-progress-wrap{bottom:18px}
  #bookingBubbleStory .booking-story-intro-panel{flex-basis:84vw;padding:clamp(20px,5vw,28px);border-radius:24px}
  #bookingBubbleStory h2{font-size:clamp(30px,8.2vw,42px)}
  #bookingBubbleStory .story-intro{font-size:14px;line-height:1.55}
