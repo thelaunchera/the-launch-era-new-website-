@@ -17,12 +17,12 @@ for(const [lang,html] of [['en',en],['es',es]]){
  assert(html.includes('role="radiogroup"')&&html.includes('aria-live="polite"'),lang+' accessible plan choice');
  assert(html.indexOf('data-plan="booking"')<html.indexOf('data-plan="business"'),lang+' Booking before combined');
  assert(html.indexOf('data-plan="business"')<html.indexOf('data-plan="followup"'),lang+' combined is middle');
- for(const [offer,setup,monthly] of [['ai-booking','$49',19],['ai-business','$69',25],['ai-followup','$29',12]]){
+ for(const [offer,setup,monthly] of [['ai-booking','$39',14],['ai-business','$59',19],['ai-followup','$19',6.99]]){
    const link='/service-checkout/?offer='+offer+'&amp;lang='+lang;
    assert(html.includes(link),lang+' offer link missing '+offer);
    assert(html.includes(setup)&&html.includes('$'+monthly),lang+' real pricing not preserved '+offer);
  }
- assert(html.includes('Save $72/yr')||html.includes('Ahorra $72/año'),lang+' combined savings badge absent');
+ assert(html.includes('Save $23.88/yr')||html.includes('Ahorra $23.88/año'),lang+' combined savings badge absent');
  assert(!html.includes('Starter / Pro / Team'),'no fictitious plans');
  assert(html.includes('id="demo"')&&html.includes('/lead-private-preview.html'),'demo preserved');
 }
@@ -36,7 +36,7 @@ assert(js.includes('offsetWidth')&&js.includes("aria-checked")&&js.includes('Arr
 assert(js.includes("const saves=key==='business'")&&js.includes("badge.hidden=!saves"),'no invented discount on individual plans');
 assert(js.includes("if(el.hidden||el.closest('[hidden]'))return"),'server-gated offers must remain hidden');
 assert(root.includes('tle-pricing-motion.css?v=20261016-2')&&root.includes('tle-pricing-motion.js?v=20261016-1'),'root sales price asset missing');
-assert(sales.includes('30% OFF')&&sales.includes('"$41.99"')&&sales.includes('"$34.99/mo"'),'existing sales prices must remain untouched');
+assert(sales.includes('SPECIAL OFFER')&&sales.includes('"$31.99"')&&sales.includes('"$24.99/mo"'),'existing sales prices must remain untouched');
 console.log('[TLE PUBLIC PRICING STATIC PASSED] EN/ES 3 actual plans, truthful savings, checkout isolation, SSR safety');
 if(!process.argv.includes('--browser'))process.exit(0);
 const {chromium}=await import('playwright');
@@ -57,7 +57,7 @@ try{
    const cards=section.locator('.cards > .card');
    assert.equal(await cards.count(),3,lang+' '+width+' expected three cards');
    assert.equal(await cards.nth(1).getAttribute('data-plan'),'business',lang+' middle should be combined');
-   assert.match(await cards.nth(1).innerText(),/\$69[\s\S]*\$25/);
+   assert.match(await cards.nth(1).innerText(),/\$59[\s\S]*\$19/);
    await section.locator('.cards').scrollIntoViewIfNeeded();
    await page.waitForFunction(()=>document.querySelector('#plans .cards')?.classList.contains('is-visible'),null,{timeout:8000});
    const cardProperties=await cards.nth(1).evaluate(el=>({
@@ -75,15 +75,15 @@ try{
    await radios.nth(0).click();
    assert.equal(await radios.nth(0).getAttribute('aria-checked'),'true');
    assert(!(await savings.isVisible()),'Individual plan cannot show a fabricated savings');
-   assert.equal(await section.locator('[data-selected-setup]').innerText(),'$49');
-   assert.match(await section.locator('[data-selected-monthly]').innerText(),/\$19/);
+   assert.equal(await section.locator('[data-selected-setup]').innerText(),'$39');
+   assert.match(await section.locator('[data-selected-monthly]').innerText(),/\$14/);
    assert.match(await section.locator('[data-selected-checkout]').getAttribute('href'),/offer=ai-booking/);
    await radios.nth(0).focus();
    await page.keyboard.press('ArrowRight');
    assert.equal(await radios.nth(1).getAttribute('aria-checked'),'true','ArrowRight should choose combined');
    assert(await savings.isVisible(),'Combined badge should pop again');
    const announcement=await section.locator('[aria-live="polite"]').textContent();
-   assert(/\$72/.test(announcement),'Yearly equivalent savings not announced');
+   assert(/\$23\.88/.test(announcement),'Yearly equivalent savings not announced');
    assert.match(await section.locator('[data-selected-checkout]').getAttribute('href'),/offer=ai-business/);
    await page.keyboard.press('End');
    assert.equal(await radios.nth(2).getAttribute('aria-checked'),'true','End key should choose last');
@@ -104,7 +104,7 @@ try{
   const anim=await reduce.locator('#plans .tle-featured-badge').evaluate(el=>getComputedStyle(el).animationName);
   assert(anim==='none',lang+' reduced-motion badge should never animate');
   await reduce.locator('#plans [role="radio"][data-plan="followup"]').click();
-  assert.equal(await reduce.locator('[data-selected-setup]').innerText(),'$29');
+  assert.equal(await reduce.locator('[data-selected-setup]').innerText(),'$19');
   await reduce.close();
  }
  assert.deepEqual(errors,[], 'No browser errors permitted');
