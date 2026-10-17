@@ -16,7 +16,7 @@ const results=[];
 mkdirSync('qa-screenshots',{recursive:true});
 const browser=await chromium.launch({headless:true});
 async function check(name,viewport,fn){
- const context=await browser.newContext({viewport,deviceScaleFactor:1, reducedMotion:'reduce'});
+ const context=await browser.newContext({viewport,deviceScaleFactor:1, reducedMotion:'no-preference'});
  const page=await context.newPage();
  try{
   await fn(page);
