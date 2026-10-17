@@ -141,6 +141,13 @@ try{
    await firstFlip.locator('.service-flip-select').click();
    assert.equal(await page.locator('#detailsPanel').isVisible(),true,'Back CTA must advance to booking details');
    assert.equal(await page.locator('#chooseNext').isVisible(),false,'No far-away Continue control');
+   assert.equal(await page.locator('#intakeContact').evaluate(el=>el.open),true,'Only the compact contact accordion is initially expanded');
+   assert.equal(await page.locator('#intakeSpace').evaluate(el=>el.open),false,'Property details start compact');
+   assert.equal(await page.locator('#intakeSchedule').evaluate(el=>el.open),false,'Calendar starts compact');
+   await page.locator('#intakeSpace > summary').click();
+   assert.equal(await page.locator('#intakeContact').evaluate(el=>el.open),false,'Expanding property closes contact');
+   await page.locator('#propertyType').selectOption('townhouse');
+   await page.locator('#squareFeet').fill('1850');
    assert.equal(await page.locator('input[name="demo-beds"]:checked').inputValue(),'2');
    assert.equal(await page.locator('input[name="demo-baths"]:checked').inputValue(),'1');
    assert.equal(await page.locator('input[name="demo-frequency"]:checked').inputValue(),'one');
@@ -161,15 +168,19 @@ try{
    const focusStyle=await page.locator('input[name="demo-extras"][value="petsLabel"] + span').evaluate(x=>getComputedStyle(x).backgroundColor);
    assert.notEqual(focusStyle,'rgb(255, 255, 255)','Checked details should have a pale blue highlight');
   
+   await page.locator('#intakeContact > summary').click();
    await page.locator('#customerName').fill('Sample Customer');
    await page.locator('#customerEmail').fill('sample@example.test');
    await page.locator('#customerZip').fill('33101');
+   await page.locator('#intakeSchedule > summary').click();
    const calendarDay=page.locator('#apptDays button[data-day]:not(:disabled)').first();
    await calendarDay.click();
    assert.equal(await page.locator('#preferredDate').inputValue(),await calendarDay.getAttribute('data-day'),'Calendar selection must sync the review date');
    await page.locator('#reviewNext').click();
    await page.locator('#reviewPanel').waitFor({state:'visible'});
    assert.match(await page.locator('#reviewList').innerText(),/Sample Customer/);
+   assert.match(await page.locator('#reviewList').innerText(),/1850 sq ft/,'Review includes entered square footage');
+   assert.match(await page.locator('#reviewList').innerText(),lang==='es'?/Casa adosada/:/Townhouse/,'Review includes the home type');
    assert.match(await page.locator('#reviewList').innerText(),lang==='es'?/Mascotas en casa/:/Pets at home/,'Requested details appear on review screen');
    assert.match(await page.locator('#reviewList').innerText(),lang==='es'?/Interior del horno/:/Inside oven/,'Requested oven service appears without adding to estimated price');
    await page.locator('#finish').click();
@@ -179,7 +190,7 @@ try{
      'Lead magnet must retain demo Command Center handoff');
    const saved=await page.evaluate(()=>[...Object.keys(sessionStorage)]
      .filter(k=>k.startsWith('tleSampleBooking:')).map(k=>JSON.parse(sessionStorage.getItem(k))));
-   assert(saved.some(x=>x.demoOnly&&x.name==='Sample Customer'
+   assert(saved.some(x=>x.demoOnly&&x.name==='Sample Customer'&&x.propertyType==='townhouse'&&x.squareFeet==='1850'
      &&x.extras?.includes('petsLabel')&&x.extras?.includes('ovenLabel')
      &&(lang==='es'?x.notes.includes('Mascotas en casa'):x.notes.includes('Pets at home'))),
      'Sample Command Center handoff should include optional checkbox requests, no real writes');
@@ -201,6 +212,7 @@ try{
 
    await page.locator('.service-flip-card[data-service="office"] .service').dispatchEvent('click');
    await page.locator('.service-flip-card[data-service="office"] .service-flip-select').click();
+   await page.locator('#intakeSpace > summary').click();
    assert.equal(await page.locator('#comDetails').isVisible(),true);
    assert.equal(await page.locator('.booking-extras').isVisible(),false,'Residential optional choices stay hidden on commercial forms');
    await page.locator('#backDetails').click();

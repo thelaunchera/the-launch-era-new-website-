@@ -44,7 +44,9 @@ section.innerHTML=[
 '<p class="appt-time-help" id="apptHelp"></p><input type="hidden" id="tlePreferredTime" name="tlePreferredTime"></div>',
 '<div class="appt-sticky"><button type="button" id="apptContinue" disabled></button></div><p class="appt-note" id="apptNote"></p>'
 ].join('');
-form.querySelector('.actions').before(section);
+const appointmentMount=$('appointmentMount');
+if(appointmentMount)appointmentMount.append(section);
+else form.querySelector('.actions').before(section);
 const native=$('preferredDate'), nativeLabel=native.closest('label');nativeLabel.classList.add('appt-native-date');
 // The interactive calendar below is the only visible date control.
 // Keep the original input as the form/review source so the chosen date stays synced.
@@ -60,7 +62,8 @@ sheet.innerHTML=[
 '<div class="appt-sheet-list"><div class="appt-sheet-row"><span aria-hidden="true">✦</span><strong id="apptSheetProvider"></strong></div>',
 '<div class="appt-sheet-row"><span aria-hidden="true">▦</span><strong id="apptSheetDate"></strong></div>',
 '<div class="appt-sheet-row"><span aria-hidden="true">◷</span><strong id="apptSheetTime"></strong></div>',
-'<div class="appt-sheet-row"><span aria-hidden="true">⌖</span><strong id="apptSheetArea"></strong></div></div>',
+'<div class="appt-sheet-row"><span aria-hidden="true">⌖</span><strong id="apptSheetArea"></strong></div>',
+'<div class="appt-sheet-row" id="apptSheetPropertyRow" hidden><span aria-hidden="true">⌂</span><strong id="apptSheetProperty"></strong></div></div>',
 '<button type="button" id="apptSheetConfirm" class="appt-sheet-confirm"></button><button type="button" id="apptSheetCancel" class="appt-sheet-cancel"></button>'
 ].join('');
 document.body.append(scrim,sheet);
@@ -173,6 +176,12 @@ $('apptSheetProvider').textContent=provider()+' · '+service();
 $('apptSheetDate').textContent=c.when+': '+pretty();
 $('apptSheetTime').textContent=c.at+': '+time();
 $('apptSheetArea').textContent=c.area+': '+($('customerZip').value.trim()||new URLSearchParams(location.search).get('area')||c.areaTbd);
+const res=!$('resDetails')?.hidden, size=$('squareFeet')?.value.trim()||'';
+const rooms=res?[$('beds')?.value+' '+(locale()==='es-ES'?'hab.':'beds'),$('baths')?.value+' '+(locale()==='es-ES'?'baños':'baths')].join(' · '):'';
+const type=res?$('propertyType')?.selectedOptions[0]?.textContent.trim():$('spaceType')?.selectedOptions[0]?.textContent.trim();
+const description=[type&&$('propertyType')?.value!==''?type:'',rooms,size?size+' sq ft':''].filter(Boolean).join(' · ');
+$('apptSheetPropertyRow').hidden=!description;
+$('apptSheetProperty').textContent=description;
 $('apptSheetConfirm').textContent=c.confirm;$('apptSheetConfirm').classList.remove('is-booking','is-booked');
 $('apptSheetConfirm').disabled=false;$('apptSheetCancel').textContent=c.cancel;
 scrim.hidden=false;sheet.hidden=false;document.body.classList.add('appt-dialog-open');
