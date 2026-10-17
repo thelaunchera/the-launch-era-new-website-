@@ -35,8 +35,9 @@
       const img=card.querySelector('img');
       img.alt=spanish()?img.dataset.altEs:img.dataset.altEn;
     });
-    left.setAttribute('aria-label',spanish()?'Deslizar la foto hacia la derecha':'Swipe photo right');
-    right.setAttribute('aria-label',spanish()?'Deslizar la foto hacia la izquierda':'Swipe photo left');
+    left.setAttribute('aria-label',spanish()?'Deslizar la foto hacia la izquierda':'Swipe photo left');
+    right.setAttribute('aria-label',spanish()?'Deslizar la foto hacia la derecha':'Swipe photo right');
+    deck.setAttribute('aria-label',spanish()?'Galería de fotos de limpieza, diez ejemplos':'Cleaning photo gallery, ten examples');
     announce();
   }
   function announce(){
@@ -133,8 +134,8 @@
       ev.preventDefault();swipe(ev.key==='ArrowLeft'?-1:1);
     }
   });
-  left.addEventListener('click',()=>swipe(1));
-  right.addEventListener('click',()=>swipe(-1));
+  left.addEventListener('click',()=>swipe(-1));
+  right.addEventListener('click',()=>swipe(1));
   document.getElementById('language')?.addEventListener('change',()=>queueMicrotask(localize));
   deck.dataset.enhanced='true';
   layout();
