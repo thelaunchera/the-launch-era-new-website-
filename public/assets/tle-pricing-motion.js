@@ -113,7 +113,7 @@
    badge.classList.add('is-popping');
   }else badge.classList.remove('is-popping');
   live.textContent=saves
-   ?(es?'Ahorra $72 en 12 meses de mensualidades al elegir ambos agentes juntos frente a contratarlos por separado.':'Save $72 over 12 months of monthly charges compared with buying both assistants separately.')
+   ?(es?'Ahorra $23.88 en 12 meses de mensualidades al elegir ambos agentes juntos frente a contratarlos por separado.':'Save $23.88 over 12 months of monthly charges compared with buying both assistants separately.')
    :(es?'Plan '+choice[0]+'. Instalación '+choice[1]+'; luego '+choice[2]+'.':'Plan '+choice[0]+'. '+choice[1]+' setup, then '+choice[2]+'.');
   if(focus)activeRadio.focus();
  }
