@@ -960,3 +960,60 @@
     padding:0 18px 36px !important;
   }
 }
+
+/* tle-home-hero-text-shine-20261017
+   Native EN/ES homepage h1 only. Wider letterforms / more useful line length,
+   decorative ink-blue-white sweep with solid-ink fallback. No JS, overlays or
+   transforms; the hero/photo/scroll/chips animations remain independent. */
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro h1.tle-hero-heading-shine {
+  color:#191919;
+  width:100%;
+  max-width:none;
+  font-weight:620;
+  letter-spacing:-.018em;
+  line-height:1.14;
+  text-wrap:wrap;
+  overflow-wrap:normal;
+}
+@supports ((-webkit-background-clip:text) or (background-clip:text)) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro h1.tle-hero-heading-shine {
+    background-image:linear-gradient(105deg,#191919 38%,#93C6E5 47%,#FFFFFF 50%,#93C6E5 53%,#191919 62%);
+    background-size:260% 100%;
+    background-position:130% 0;
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    color:transparent;
+  }
+}
+@keyframes tle-home-hero-ink-shine {
+  0% {background-position:130% 0}
+  70%,100% {background-position:-30% 0}
+}
+@media (prefers-reduced-motion:no-preference) {
+  @supports ((-webkit-background-clip:text) or (background-clip:text)) {
+    .sales-home .hero-scroll .hero-scroll-frame.hero-split.hero-media-ready[data-wipe-visible="true"] .hero-intro h1.tle-hero-heading-shine {
+      animation:tle-home-hero-ink-shine 3.8s linear infinite;
+    }
+  }
+}
+@media (max-width:767px) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro h1.tle-hero-heading-shine {
+    /* Use more of the phone width rather than balancing text into a narrow block. */
+    width:calc(100% + 12px);
+    margin-left:-6px;
+    max-width:none;
+    font-size:clamp(29px,7.5vw,38px);
+    line-height:1.16;
+    letter-spacing:-.018em;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro h1.tle-hero-heading-shine {
+    animation:none !important;
+    background-position:50% 0 !important;
+    background-image:none !important;
+    -webkit-text-fill-color:#191919;
+    color:#191919;
+  }
+}
