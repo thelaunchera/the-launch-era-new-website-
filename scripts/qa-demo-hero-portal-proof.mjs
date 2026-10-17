@@ -18,7 +18,8 @@ assert.doesNotMatch(html,/id="pageIntro"|id="eyebrow"/,'Booking heading must hav
 assert.match(html,/id="pageTitle">A simpler way to book a clean\./,'Preserve requested short booking heading');
 assert.match(html,/data-photo="\/assets\/demo-transformations\/track-before\.webp"/,'Restore real paired window tracks before photo');
 assert.match(html,/data-photo="\/assets\/demo-transformations\/track-after\.webp"/,'Restore matching window tracks after photo');
-assert.doesNotMatch(html,/data-photo="\/assets\/demo-transformations\/vanity-(before|after)\.webp"/,'Remove subdued bathroom comparison');
+assert.match(html,/data-photo="\/assets\/demo-transformations\/vanity-before\.webp"/,'Show close-up sink cleaning before');
+assert.match(html,/data-photo="\/assets\/demo-transformations\/vanity-after\.webp"/,'Show the matching sink after cleaning');
 assert.match(html,/Experience snapshots from this interactive sample, not customer testimonials or verified reviews/);
 assert(!/gsap|Flip\.min|zoom:|backdrop-filter/.test(style),'No unrelated zoom libraries or glassmorphism');
 assert.match(style,/@media\(prefers-reduced-motion:reduce\)/,'Respect reduced-motion accessibility');
