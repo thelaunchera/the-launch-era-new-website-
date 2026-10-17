@@ -17,7 +17,7 @@ assert.match(crm,/lead-private-preview\.html/,"The original personalized demo UR
 assert.doesNotMatch(front,/lead-private-preview\.html/,"Never reveal the sample demo URL inside Jessie");
 assert.match(front,/\/cleaning-app-demo\//); // Direct, freely accessible app sample.
 assert.doesNotMatch(front,/showDemoCard\("cleaning-app"\)/);
-assert.match(front,/else if\(next==="demo_choice"\)\{showDemoCard\("booking"\)\}/);
+assert.match(front,/else if\(next==="demo_choice"\)\{showDemoChoices\(\)\}/);
 assert.match(front,/else if\(next==="app_demo"\)/);
 assert.match(front,/a\.href="\/cleaning-app-demo\/\?lang="\+lang/);
 assert.doesNotMatch(front,/demoSelected="cleaning-app"/);
@@ -29,7 +29,7 @@ assert.doesNotMatch(crm,/"cleaning-app":\{name:"Cleaning App"/);
 assert.doesNotMatch(front,/tle-jessy-demo-frame/,"Jessie must not embed the demo after confirmation");
 assert.doesNotMatch(front,/demoFrame\.src/,"The personalized demo belongs only in the email");
 assert.doesNotMatch(front,/showDemoCard\("cleaning-app"\)/);
-assert.match(front,/else if\(next==="demo_choice"\)\{showDemoCard\("booking"\)\}/);
+assert.match(front,/else if\(next==="demo_choice"\)\{showDemoChoices\(\)\}/);
 assert.match(front,/else if\(next==="app_demo"\)/);
 assert.match(front,/a\.href="\/cleaning-app-demo\/\?lang="\+lang/);
 assert.match(front,/if\(next==="demo"&&offer==="booking"\)showDemoCard\("booking"\)/);
