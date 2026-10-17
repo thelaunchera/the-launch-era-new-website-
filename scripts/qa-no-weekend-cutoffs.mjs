@@ -20,7 +20,9 @@ const marketing=[
    !/^public\/(?:command-center|cb-depot|demos)\//.test(path)),
  'public/command-center/buyer-account-preview.html'
 ];
-const cutoff=/(?:saturday|sundays?\s+after|s[áa]bados?|next business day|next working period|starting in our next working period|during our available working periods|during business hours|horario laborable|horario laboral|próximo día hábil|siguiente día hábil)/i;
+// Do NOT ban customers selecting "During business hours" for a cleaning.
+// That is a valid booking-window preference, not TLE production availability.
+const cutoff=/(?:saturday|sundays?\\s+after|s[áa]bados?|next business day|next working period|starting in our next working period|during our available working periods|próximo día hábil|siguiente día hábil)/i;
 for(const path of marketing){
  const source=read(path);
  assert(!cutoff.test(source),'Outdated weekend/production restriction in marketing: '+path);
@@ -36,6 +38,8 @@ for(const [en,es,enLink,esLink] of pairs){
  const enText=read(en),esText=read(es);
  assert(/48.hour|48 hours/i.test(enText),en+' must keep the 48-hour estimate');
  assert(/48 horas/i.test(esText),es+' must keep the 48-hour estimate');
+ assert(!/production.{0,160}during business hours/i.test(enText),en+' production should not be limited to office hours');
+ assert(!/producci[oó]n.{0,180}(horario laborable|horario laboral)/i.test(esText),es+' production should not be limited to office hours');
  if(enLink)assert(enText.includes(enLink),en+' checkout link changed');
  if(esLink)assert(esText.includes(esLink),es+' checkout link changed');
 }
