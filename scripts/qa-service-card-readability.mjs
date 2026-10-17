@@ -18,7 +18,7 @@ try{
     const grid=cards[0]?.closest('.service-grid');
     const bounds=x=>{const r=x.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom}};
     return {overflow:document.documentElement.scrollWidth-innerWidth,
-     columns:cards.filter(c=>Math.abs(c.getBoundingClientRect().top-cards[0].getBoundingClientRect().top)<3).length,
+     columns:(getComputedStyle(grid).gridTemplateColumns.match(/minmax\\([^)]*\\)|[^\\s]+/g)||[]).length,
      gridTemplate:getComputedStyle(grid).gridTemplateColumns,
      gridWidth:grid.getBoundingClientRect().width,
      gridClass:grid.className,
