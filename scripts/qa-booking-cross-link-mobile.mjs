@@ -9,13 +9,14 @@ const esLanding=readFileSync('src/routes/es.booking-lead-automation.tsx','utf8')
 const requestForm=readFileSync('public/booking-demo/index.html','utf8');
 const sampleDemo=readFileSync('public/booking-demo-reset.html','utf8');
 for(const [lang,landing,copy] of [
- ['en',enLanding,['This demo is only an example','not your final design','your business photos','colors you choose']],
- ['es',esLanding,['La demo es solo un ejemplo','no es el diseño final','fotos de tu negocio','colores que elijas']]
+ ['en',enLanding,['Preview only','not your final design','photos','colors']],
+ ['es',esLanding,['La demo es un ejemplo','no tu diseño final','fotos','colores']]
 ]){
- for(const term of copy)assert(landing.includes(term),lang+' landing missing design transparency: '+term);
+ for(const term of copy)assert(landing.includes(term),lang+' landing must clearly explain the personalized final design: '+term);
 }
 for(const term of ['Demo only — this is not your final design','your own photos','chosen colors','Solo es una demo, no tu diseño final','tus propias fotos','los colores que elijas'])assert(requestForm.includes(term),'Personalized demo request missing bilingual expectation: '+term);
-for(const term of ['id="demoDesignNote"','demoDesignNote:\'Sample design only','demoDesignNote:\'Solo es una demo','colors you choose','colores que tú elijas'])assert(sampleDemo.includes(term),'Interactive public sample missing localized design transparency: '+term);
+for(const term of ['tle-booking-demo-gate','id="authStep"','id="startStep"','id="codeStep"','action:"content"']) assert(sampleDemo.includes(term),'Private Booking demo must require verified invitation: '+term);
+assert(!sampleDemo.includes('id="bookingPage"'),'Booking demo content must not be publicly accessible');
 assert(css.includes('.service-sales .service-fit a.service-demo-link'),'Scoped booking/app link style missing');
 assert(component.includes("import './service-sales-mobile-cta.css'"),'ServiceSales must import cache-busted scoped styling');
 const base=(process.env.QA_URL||'http://127.0.0.1:4173').replace(/\/$/,'');
@@ -42,7 +43,7 @@ try{
    assert.equal(await close.nth(1).getAttribute('href'),secondary,lang+' bottom purchase route changed');
    assert((await actions.nth(0).textContent()||'').toLowerCase().includes(lang==='es'?'demo personalizada':'personalized demo'),lang+' should make the requested demo obvious');
    const disclosure=await page.locator('.booking-motion-hero p').allTextContents();
-   assert(disclosure.some(v=>lang==='es'?v.includes('no es el diseño final')&&v.includes('colores que elijas'):v.includes('not your final design')&&v.includes('colors you choose')),lang+' landing should explain demo is not the final brand design');
+   assert(disclosure.some(v=>lang==='es'?v.includes('no tu diseño final')&&v.includes('fotos')&&v.includes('colores'):v.includes('not your final design')&&v.includes('photos')&&v.includes('colors')),lang+' landing should explain personalized final brand design');
    const fitDemo=page.locator('.service-sales .service-fit a.service-fit-request-link');
    assert.equal(await fitDemo.count(),1,lang+' qualification should request the personalized demo');
    assert.equal(await fitDemo.getAttribute('href'),'/booking-demo/?lang='+lang+'&source=booking-landing-fit',lang+' mid-page demo route changed');
@@ -96,17 +97,17 @@ try{
   assert(lang==='es'?designDisclosure.includes('no tu diseño final')&&designDisclosure.includes('los colores que elijas'):designDisclosure.includes('not your final design')&&designDisclosure.includes('chosen colors'),lang+' request form missing promise of unique final design');
   await page.close();
  }
- // The unkeyed public interactive sample is only an illustrative booking flow;
- // ensure the message is localized without creating a customer booking.
+ // Direct, uninvited Booking demo visits must show an access gate, never the service content.
  for(const lang of ['en','es']){
   const page=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});
   const response=await page.goto(base+'/booking-demo-reset.html?lang='+lang,{waitUntil:'domcontentloaded',timeout:45000});
-  assert.equal(response?.status(),200,lang+' interactive sample route missing');
+  assert.equal(response?.status(),200,lang+' private demo entry route missing');
   await page.waitForFunction(l=>document.documentElement.lang===l,lang);
-  const note=page.locator('#demoDesignNote');
-  await note.waitFor({state:'attached',timeout:10000});
-  const noteText=await note.textContent()||'';
-  assert(lang==='es'?noteText.includes('diseño final')&&noteText.includes('colores que tú elijas'):noteText.includes('finished page')&&noteText.includes('colors you choose'),lang+' public sample must clarify buyer final visual design');
+  assert.equal(await page.locator('#authStep').isVisible(),true,lang+' uninvited visitor must be directed to request access');
+  assert.equal(await page.locator('#bookingPage').count(),0,lang+' must not expose interactive Booking demo');
+  assert.equal(await page.locator('#demoForm').count(),0,lang+' must not include customer booking form');
+  const link=await page.locator('#requestLink').getAttribute('href');
+  assert(link?.startsWith('/booking-demo/'),lang+' invite request link must be available');
   await page.close();
  }
  console.log('PASS booking cross-link EN/ES across four sizes');
