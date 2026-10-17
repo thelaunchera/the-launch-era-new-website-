@@ -292,13 +292,26 @@ function openDemo(id){
 }
 function showDemoCard(id){
  if(id!=="booking")return false;
- const card=button("tle-jessy-demo-card","","");
- card.setAttribute("aria-label",lang==="es"?"Solicitar demo de Booking Automation por correo":"Request Booking Automation demo by email");
- const photo=node("img","tle-jessy-demo-cover");photo.src=DEMOS.booking.image;photo.alt="";photo.loading="lazy";
- const copy=node("span","tle-jessy-demo-card-copy");
- copy.append(node("strong","","Booking Automation"),node("small","",lang==="es"?"Recibe tu demo personalizada por correo":"Get your personalized demo by email"));
- card.append(photo,copy,node("span","tle-jessy-demo-arrow","↗"));
- card.addEventListener("click",()=>openDemo("booking"));
+ // One accessible link opens the existing consent-gated Booking Automation demo request.
+ // The href is a meaningful fallback when script execution is unavailable.
+ const card=node("a","tle-jessy-demo-card");
+ card.href="/booking-lead-automation";
+ card.setAttribute("aria-label",lang==="es"?"Solicitar demo personalizada de Booking Automation":"Request your personalized Booking Automation demo");
+ const photo=node("img","tle-jessy-demo-cover");
+ photo.src="/assets/drive-house-gallery/pristine-kitchen.png";
+ photo.alt="";photo.loading="lazy";photo.decoding="async";
+ const shade=node("span","tle-jessy-demo-shade");shade.setAttribute("aria-hidden","true");
+ const resting=node("span","tle-jessy-demo-resting");
+ resting.append(node("small","",lang==="es"?"PRUEBA EL FLUJO DE RESERVAS":"EXPLORE THE BOOKING FLOW"),node("strong","","Booking Automation"));
+ const panel=node("span","tle-jessy-demo-reveal");
+ panel.append(
+  node("small","tle-jessy-demo-kicker",lang==="es"?"DEMO INTERACTIVA":"INTERACTIVE DEMO"),
+  node("strong","",lang==="es"?"Descubre cómo funciona":"See how it works"),
+  node("span","tle-jessy-demo-summary",lang==="es"?"Explora tu experiencia de reservas.":"Explore your booking experience."),
+  node("span","tle-jessy-demo-cta",lang==="es"?"Solicitar mi demo ↗":"Request my demo ↗")
+ );
+ card.append(photo,shade,resting,panel);
+ card.addEventListener("click",event=>{event.preventDefault();openDemo("booking")});
  log.append(card);log.scrollTop=log.scrollHeight;
  return true;
 }
