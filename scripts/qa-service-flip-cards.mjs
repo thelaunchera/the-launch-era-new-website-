@@ -8,6 +8,9 @@ const component=read('src/components/service-flip-card.tsx');
 const css=read('src/components/service-flip-card.css');
 const html=read('public/booking-demo-reset.html');
 const demoCss=read('public/assets/tle-booking-bubbles-continuity.css');
+const demoInkCss=read('public/assets/tle-demo-ink-service-cards.css');
+assert(demoInkCss.includes('service-flip-front .service')&&demoInkCss.includes('#191919'),'Demo ink style must remain scoped');
+assert(read('scripts/build_demo_photo_assets.py').includes('1D56-v3lVV6FpBqW3FqYH442kiPVvjlLT'),'Office demo must use approved commercial cleaning photo from Drive');
 assert(en.includes('ServiceFlipCard')&&es.includes('ServiceFlipCard'),'Both public languages use flipping service cards');
 assert(component.includes('inert={!open}')&&component.includes('inert={open}'),'Only visible card face can be focused');
 assert(component.includes('onKeyDown={onKeys}')&&component.includes("event.key==='Escape'"),'Keyboard return required');
@@ -84,6 +87,27 @@ try {
   await page.goto(base+'/booking-demo-reset.html?lang=en',{waitUntil:'domcontentloaded'});
   const card=page.locator('#resServices .service-flip-card').first();
   assert.equal(await page.locator('.service-flip-card').count(),6);
+  const visual=await card.locator('.service').evaluate(el=>{
+   const photo=el.querySelector('.service-media');
+   const copy=el.querySelector('.service-copy');
+   const title=el.querySelector('.service-title');
+   const price=el.querySelector('.service-price');
+   return {border:getComputedStyle(el).borderTopColor,
+    photoPosition:getComputedStyle(photo).position,
+    copyPosition:getComputedStyle(copy).position,
+    titleColor:getComputedStyle(title).color,
+    priceColor:getComputedStyle(price).color,
+    cardHeight:el.getBoundingClientRect().height,
+    photoHeight:photo.getBoundingClientRect().height,
+    copyBottom:el.getBoundingClientRect().bottom-copy.getBoundingClientRect().bottom};
+  });
+  assert.equal(visual.border,'rgb(25, 25, 25)','Card should have refined black ink border');
+  assert.equal(visual.photoPosition,'absolute','Photo should fill card instead of a top banner');
+  assert.equal(visual.copyPosition,'absolute','Service text should overlay photo, not use a separate banner');
+  assert.equal(visual.titleColor,'rgb(255, 255, 255)','Photo headline needs contrast');
+  assert.equal(visual.priceColor,'rgb(255, 255, 255)','Photo quote/price needs contrast');
+  assert(visual.photoHeight>visual.cardHeight*.95,'Photograph should occupy full card '+JSON.stringify(visual));
+  assert(visual.copyBottom>=75,'Photo labels should clear the quote and CTA '+JSON.stringify(visual));
   assert.equal(await card.locator('.service-flip-back').evaluate(el=>el.inert),true);
   await card.locator('.service').dispatchEvent('click');
   assert.equal(await page.locator('#detailsPanel').isVisible(),false,'Flip may not skip to booking form');
