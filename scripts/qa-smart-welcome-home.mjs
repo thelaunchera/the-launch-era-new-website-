@@ -13,6 +13,13 @@ const image=readFileSync(jpg);
 assert.equal(image.byteLength,438992,'The flyer byte length was changed');
 assert.equal(createHash('sha256').update(image).digest('hex'),'4b81811c533c735b755bfcb960c71d470f060265289b5bce19ad186873a97ce3','The approved flyer was altered');
 assert(image[0]===255&&image[1]===216&&image[2]===255,'Flyer should be a valid JPEG');
+const spanishFlyer='public/assets/promo/tle-smart-welcome-bundle-flyer-es.svg';
+assert(existsSync(spanishFlyer),'Spanish version of approved pop-up flyer must exist');
+const esImage=read(spanishFlyer);
+for(const literal of ['viewBox="0 0 1122 1402"','data:image/jpeg;base64,','40% MENOS','PARA TU NEGOCIO DE LIMPIEZA','RESERVAS','ASISTENTE DE IA','Ver el paquete']) {
+ assert(esImage.includes(literal),'Spanish flyer missing '+literal);
+}
+assert(component.includes('es ? ART_ES : ART'),'Spanish website must use localized photo while English remains original');
 assert(main.includes('<SmartWelcomeBundle lang="en"/>'),'English home must display the welcome');
 assert(spanish.includes('<SmartWelcomeBundle lang="es"/>'),'Spanish home must display the welcome');
 assert(component.includes("pricing?.percent_off !== 40"),'Do not show 40% marketing after server disables it');
