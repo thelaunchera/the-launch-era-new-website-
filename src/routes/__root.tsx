@@ -99,7 +99,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "stylesheet", href: "/assets/tle-mobile.css?v=20261009" },
-      { rel: "stylesheet", href: "/assets/tle-sales.css?v=20261009-sales-3" },
+      { rel: "stylesheet", href: "/assets/tle-sales.css?v=20261016-cta-clip4" },
       { rel: "stylesheet", href: "/assets/tle-editorial-refresh.css?v=20261012-wave-clear-1" },
       { rel: "icon", href: "/favicon-tle.svg?v=20261014", type: "image/svg+xml", sizes: "any" },
       { rel: "icon", href: "/favicon.ico", sizes: "16x16 32x32 48x48 64x64" },
