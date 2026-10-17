@@ -379,6 +379,7 @@ async function aiResponse(msg,history,lang,cat,focus){
   "Understand their situation before recommending a service: missed or scattered booking requests -> Booking Automation; inquiries lost through an existing website -> Website Automation; repeated booking questions -> AI Booking Assistant; consent-based lead follow-ups -> AI Follow-Up Assistant; disorganized jobs, invoices and customers -> Cleaning App. These are guidance, not automatic guarantees; use only the approved feature knowledge.",
   "When a visitor is uncertain, explain the difference between no more than two relevant services; ask one practical question to identify the biggest bottleneck. Do not push checkout in every reply. You CAN offer to show an existing interactive sample when the visitor asks how Booking Automation or the Cleaning App works.",
   "Vary sentence openings and avoid repeating greetings, filler, emojis, generic sympathy, or a sales pitch. Answer short follow-up questions conversationally.",
+  "Keep Cleaning App's real 30-day free trial separate from the free interactive sample demo. NEVER call the trial a 30-day demo. When a visitor asks about a trial, answer directly, avoid another sales question, and offer the app signup action; a demo request should receive only the demo for the discussed product.",
   "Read the recent conversation carefully: resolve short follow-ups such as 'How much?', 'Why?', 'Does it?', 'And invoices?' to the previous discussed service and question.",
   "Directly address the CURRENT question, not the last one. Never repeat the previous answer unless asked to repeat. Never recycle one generic booking description for unrelated questions.",
   "Use ONLY verified facts in the catalog and internal FAQ. Prices and bundles are confirmed by the live catalog or checkout, never memory. If a capability or policy is unknown, state what is and is not confirmed, and offer human follow-up only when appropriate.",
@@ -487,10 +488,12 @@ Deno.serve(async(req)=>{
   return response({reply:lang==="es"?"¡Hurra! 🥳 Nos alegra ayudarte. Aquí tienes el enlace al checkout seguro para continuar con tu compra. ¡Nos vemos dentro!":"Hurray! 🥳 We’re happy to assist you! Here’s your secure checkout link to get started. See you inside!",selected_offer:chosen,next_action:"checkout",checkout:target,mode:"purchase_ready"},200,origin);
  }
  if(id==="cleaning-app"&&isCleaningTrialClarification(message,history)){
+  const correction=/^(?:that.s not what i asked|that is not what i asked|not what i asked|that.s not it|no fue lo que pregunte|eso no fue lo que pregunte|no es lo que pregunte|no me entendiste)[.!? ]*$/i.test(norm(message).trim());
   return response({
-   reply:lang==="es"
-    ?"Los 30 días gratis son una prueba de la Cleaning App real, no una demo de 30 días. La demo interactiva es otra cosa: un ejemplo gratuito con datos ficticios. Después de la prueba, la app cuesta $3.99 al mes. Puedes comenzar aquí, sin tarjeta."
-    :"The 30 days are a free trial of the actual Cleaning App, not a 30-day demo. The interactive demo is a separate free preview with sample data. After the trial, the app is $3.99/month. You can start the trial here, with no card needed.",
+   reply:(lang==="es"?(correction?"Tienes razón, confundí los productos. ":""):"")+
+    (lang==="es"
+    ?"Los 30 días gratis son una prueba de la Cleaning App real, no una demo de 30 días. La demo interactiva es un ejemplo gratuito con datos ficticios. Después de la prueba, la app cuesta $3.99 al mes. Puedes comenzar aquí, sin tarjeta."
+    :(correction?"You’re right—I switched products. ":"")+"The 30 days are a free trial of the actual Cleaning App, not a 30-day demo. The interactive demo is a separate free preview with sample data. After the trial, the app is $3.99/month. You can start the trial here, with no card needed."),
    selected_offer:"cleaning-app",checkout:null,
    trial:"https://app.thelaunchera.com/?entry=signup",
    details:"/cleaning-app-demo/?lang="+lang,
@@ -524,8 +527,8 @@ Deno.serve(async(req)=>{
  // Avoid implying the Cleaning App requires any demo capture form.
  if(nextAction==="demo_choice"){
   finalReply=lang==="es"
-   ?"¡Claro! Aquí tienes nuestra demo interactiva de Booking Automation. Para enviártela y mostrarte el ejemplo personalizado, te pediré nombre del negocio, correo y área de servicio con tu autorización."
-   :"Absolutely! Here's the Booking Automation interactive demo. To email it and show your personalized sample, I'll ask for your business name, email and service area with your permission.";
+   ?"Tenemos dos demos diferentes: la de Booking Automation y la demo de Cleaning App con datos ficticios. ¿Cuál te gustaría explorar?"
+   :"We have two different demos: Booking Automation and the Cleaning App sample with fictional data. Which one would you like to explore?";
  }else if(nextAction==="app_demo"){
   finalReply=lang==="es"
    ?"¡Claro! Puedes explorar la demo de la Cleaning App directamente, sin formulario ni dejar tus datos. Te dejo el acceso aquí."
