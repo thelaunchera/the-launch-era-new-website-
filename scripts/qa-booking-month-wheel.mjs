@@ -36,6 +36,8 @@ try {
    await page.locator('.service-flip-card[data-service="standard"] .service-flip-select').click();
   assert.equal(await page.locator('#detailsPanel').isVisible(),true,'Back CTA opens the appointment calendar');
   await page.locator('#tleBookingAppointment').waitFor({state:'visible'});
+  assert.equal(await page.locator('#preferredDate').isVisible(),false,'Only the appointment calendar should be shown, not the older date field');
+  assert.equal(await page.locator('#apptDays').isVisible(),true,'The replacement date picker remains visible');
   assert.equal(await page.locator('#apptDays button[role="radio"]').count(),new Date(new Date().getFullYear(),new Date().getMonth()+1,0).getDate(),
     'Must render EVERY day of a full month');
   const geometry=await page.evaluate(()=>{
