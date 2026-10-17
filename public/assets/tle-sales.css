@@ -197,3 +197,19 @@ button:focus-visible,.sales-home a:focus-visible,.sales-home summary:focus-visib
   padding:13px 14px;
  }
 }
+
+/* The animated 300px conic ::before from tle-marketing-cta-motion.css
+   increases this small cross-link's scrollHeight/scrollWidth despite clipping.
+   This secondary informational link does not need a spinning border. */
+.service-sales .service-fit a.service-demo-link::before,
+.service-sales .service-fit a.service-demo-link::after{
+ content:none!important;
+ display:none!important;
+ animation:none!important;
+}
+.service-sales .service-fit a.service-demo-link{
+ overflow:visible;
+ border:1.5px solid #9ec7df;
+ background:#d7efff;
+ color:#1c4d6a;
+}
