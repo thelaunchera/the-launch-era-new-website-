@@ -48,7 +48,7 @@ assert(motion.includes('requestAnimationFrame(update)'));
 assert(motion.includes('!splitHero && progress >= 0.5'), 'CTA must stay keyboard-accessible during scroll');
 assert(root.indexOf('tle-hero-scroll.css') > root.indexOf('tle-saas-ui-v1.css'), 'Scroll overrides must load after the theme');
 // Localized marketing activity floats (illustrative only, never real customer records).
-assert.equal((en.match(/app:'(?:BOOKING PAGE|COMMAND CENTER|QUOTES)'/g)||[]).length>=4,true,'EN four marketing notices missing');
+assert.equal((en.match(/app:'(?:BOOKING PAGE|COMMAND CENTER|QUOTES)'/g)||[]).length,4,'EN four marketing notices missing');
 assert(es.includes("'Cotización lista'") && es.includes("'Reserva confirmada'"),'ES localized activity notices missing');
 assert(englishHero.includes('className="hero-notice-flow" aria-hidden="true"') && spanishHero.includes('className="hero-notice-flow" aria-hidden="true"'),'Decorative hero notices must be hidden from screen readers');
 for(const marker of ['tle-home-notification-bob-v1','@keyframes tle-home-notification-bob','@keyframes tle-home-notification-enter','max-width:767px','prefers-reduced-motion:reduce']) assert(scrollCSS.includes(marker),'Hero chip CSS missing '+marker);
@@ -106,6 +106,12 @@ try {
        photoZIndex:Number(getComputedStyle(panel).zIndex),
        animations:blobs.map(blob=>getComputedStyle(blob).animationName)
      },
+     notices: {
+       count:panel.querySelectorAll('.hero-notice-flow .notification').length,
+       visible:Array.from(panel.querySelectorAll('.hero-notice-flow .notification')).filter(el=>getComputedStyle(el).display!=='none').length,
+       animated:Array.from(panel.querySelectorAll('.hero-notice-flow .notification')).filter(el=>getComputedStyle(el).animationName.includes('tle-home-notification-bob')).length,
+       hitTest:getComputedStyle(panel.querySelector('.hero-notice-flow')).pointerEvents
+     },
      panel: { top:a.top, left:a.left, width:a.width, height:a.height, bottom:a.bottom },
      copy: { top:b.top, left:b.left, width:b.width },
      stagePosition: getComputedStyle(stage).position,
@@ -118,6 +124,10 @@ try {
    assert.equal(await hero.locator('.hero-intro .cta-button').count(), 1, lang + ': CTA missing');
    assert(!state.clipped, lang + ' ' + viewport.width + ': hero horizontal clipping');
    assert(state.panel.width > 160, lang + ' ' + viewport.width + ': image panel compressed');
+   assert.equal(state.notices.count,4,lang+': four illustrative notices expected');
+   assert.equal(state.notices.visible,viewport.width<768?2:4,lang+' '+viewport.width+': wrong responsive notice count');
+   assert.equal(state.notices.hitTest,'none',lang+': chips must not block hero taps');
+   assert.equal(state.notices.animated,state.notices.visible,lang+' '+viewport.width+': visible chips must bob independently');
    if (viewport.width === 1440 && viewport.height === 768) {
      assert(state.panel.bottom < viewport.height - 12, lang + ': hero photo is cut off by short desktop screen: ' + state.panel.bottom);
    }
