@@ -81,7 +81,7 @@
   const target=Math.max(0,Math.min(max,start+dx));
   cancelNav();
   if(reduce.matches){windowEl.scrollLeft=target;updateNav();return;}
-  windowEl.style.scrollSnapType='none';
+  windowEl.style.setProperty('scroll-snap-type','none','important');
   const began=performance.now();
   const duration=850;
   const tick=now=>{
