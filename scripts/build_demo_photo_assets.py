@@ -28,20 +28,21 @@ MAX_HEIGHT = 760
 
 PHOTOS = {
     # No people in these service photographs: only the cleaned space.
-    "regular": ("1f5q0FsrrLIwlg27P-Rv7Co8CZ16f3XoT", "public/assets/cleaning-demo/living-room-original.jpg"),
-    "deep": ("1PLZIlv2Rh-QxSOOB2DGHQkkoTINMEvOt", "public/assets/lead-demo/pristine-kitchen.png"),
-    "move": ("1zpWEXni_tfNuo-_bERTsQqPjCdmtM1zY", "public/assets/lead-demo/hero-luxury-home.png"),
+    # Working cleaners and visible detail replace beautiful-but-empty interiors.
+    "regular": ("1S6jtvi5zjF_406RSvYqmKWWIu5IZwpmG", "public/assets/cleaning-demo/cleaner-action.png"),
+    "deep": ("1XeSx3BLRzsnBORYJfexjObaqRCCqrRLV", "public/assets/cleaning-demo/cleaner-action.png"),
+    "move": ("1RLDhPCYZRz5E9nR46ld3ORuYzTq1sXLd", "public/assets/cleaning-demo/cleaner-action.png"),
     "office": ("1D56-v3lVV6FpBqW3FqYH442kiPVvjlLT", "public/assets/lead-demo/spotless-office.png"),
-    "retail": ("https://images.unsplash.com/photo-1771033834141-023d630b3965?auto=format&fit=crop&w=1200&q=85", "public/assets/lead-demo/spotless-office.png"),
-    "medical": ("https://images.unsplash.com/photo-1777269749032-d8d458ae594d?auto=format&fit=crop&w=1200&q=85", "public/assets/lead-demo/spotless-office.png"),
+    "retail": ("173q939tEw2c0I1jLFv8nkMtQEECNib10", "public/assets/cleaning-demo/cleaner-action.png"),
+    "medical": ("1VPTEfj4eP3Ehx6Uhj2RTaBrmRGpEVGFB", "public/assets/cleaning-demo/cleaner-action.png"),
     "floor": ("1-__BedqBlAqkTkfY5RkoUw0ok7kRcGqu", "public/assets/lead-demo/spotless-office.png"),
 }
 
 # Matched before/after sample pairs from the owner's link-visible Drive library.
 # These are illustrative images, NOT verified work by a particular client.
 TRANSFORMATIONS = {
-    "grout-before": "1SkXPez5hn5teDqKDarWQuue3HxmZMlbj",
-    "grout-after": "1NI4NCYnrH1o4ijzLbgL0FN7khuzeeviW",
+    "grout-before": "1a7BDMhN69nn3JU1eaq3HhxepR0fVGOF0",
+    "grout-after": "1OWiVlmtTiDOs6ZYDyEOzo6bG8LAd915d",
     "bed-before": "1Jmm1J7EcMvzU-TGIfjCbSIEjr2mixNNi",
     "bed-after": "1rKIMLZwWFepjlfNlVstdZqETg-FLKFfr",
     "vanity-before": "12Hgmr2Qsn6zQLuUhrC0Ll3rMzw2JFAjB",
@@ -160,29 +161,64 @@ def convert_editorial(item: tuple[str, tuple[str, str]]) -> tuple[str, dict]:
 
 # Distinct, already-approved sample interiors used by the optional swipe deck.
 # Every conversion is from a checked-in local file; never fetch customer data.
+# Hand-picked non-repeating cleaning work, not decorated empty rooms.
+# Names match existing 10-card responsive/gallery QA and frontend selectors.
 WORK_GALLERY_PHOTOS = {
-    "kitchen-refresh": "public/assets/drive-house-gallery/pristine-kitchen.png",
-    "living-space": "public/assets/drive-house-gallery/quiet-luxury.png",
-    "bathroom-detail": "public/assets/drive-booking-journey/share-details-bathroom.png",
-    "dining-room": "public/assets/drive-house-gallery/dining-room.png",
-    "bedroom": "public/assets/drive-booking-journey/review-ready-bedroom.png",
-    "miami-condo": "public/assets/drive-house-gallery/miami-condo.png",
-    "sunroom": "public/assets/lead-demo/sunroom.png",
-    "poolside-living": "public/assets/lead-demo/poolside-living.png",
-    "office": "public/assets/lead-demo/spotless-office.png",
-    "whole-home": "public/assets/drive-house-gallery/whole-home.png",
+    "kitchen-refresh": "1qsB1km7L6s2uMU5Lqld2scQOq6vR-LTw", # Kitchen faucet detail
+    "living-space": "1T8IwsLz7trh4MXDg4LZhygijvGvpwfms", # Cleaner on shower glass
+    "bathroom-detail": "1UH-TCxlkopy8FRkl9F2LFcQAg2-FT0br", # Window track deep detail
+    "dining-room": "1yS4NMb8qzpKVoh6FENY42nZRKJZ55Hws", # Oven rack
+    "bedroom": "1p7I-DGGCL-LQHI9HiQ2lQCsyRIJeFwMk", # Baseboards/door jamb
+    "miami-condo": "1ogJNjnuze8u2KDlbNwR5YMy92QKVLhRP", # Sofa seam vacuum
+    "sunroom": "1xHhJURdyu5lXGaXJHEkJV9cbav7epcEe", # Ceiling fan
+    "poolside-living": "1k0iUBlcHWBM9je9a86pp_EVaEqCRaZCz", # Stainless fingerprints
+    "office": "1p1b4uHgnA0xeuTmOzQgnDoyhyqUOdNpO", # Patio glass
+    "whole-home": "1rAdK0u2xltni8OfJiZLOYbRcBtS_d7Ym", # Oven finish inspection
+}
+
+# Distinct cleaning work chosen from the owner's Drive gallery.
+# All output is optimized locally at build, no Google image URL is served.
+DEMO_CLEANING_PHOTOS = {
+    "hero": "1iVGFc3xiJ_9h6XBDLKw9ED90FqXOTV-_",   # Cleaner wiping kitchen island
+    "journey-service": "19YlYsb4Nh0WHYzzhZ1LdlGOB2-JyGnMZ", # Laundry counter
+    "journey-property": "1NsvLuh2VyOxlfuBcAvyP2Y0Imx2TPbuH", # Bathroom faucet polishing
+    "journey-schedule": "1kGjyffimouv--0LdYzpS2_JocWX8qJ8I", # Vacuum in progress
+    "journey-review": "1zGSf7ZI1pIUncr0WmITKHqE_EmE-vwG8", # Window cleaning
 }
 
 
+def convert_demo_cleaning(item: tuple[str, str]) -> tuple[str, dict]:
+    name, file_id = item
+    data = read_drive(file_id)
+    if not data:
+        raise RuntimeError(f"Required cleaning photo is unavailable from Drive: {name} ({file_id})")
+    img = ImageOps.exif_transpose(Image.open(io.BytesIO(data))).convert("RGB")
+    img.thumbnail((1400 if name == "hero" else 980, 1000), Image.Resampling.LANCZOS)
+    target_dir = ROOT / "public/assets/demo-cleaning-20261017"
+    target_dir.mkdir(parents=True, exist_ok=True)
+    target = target_dir / (name + ".webp")
+    img.save(target, format="WEBP", quality=78, method=5)
+    assert target.stat().st_size < 425_000, f"Too heavy: {name} {target.stat().st_size}"
+    with Image.open(target) as check:
+        assert check.width >= 400 and check.height >= 200
+    return name, {"source": "drive", "drive_id": file_id,
+                  "local_path": "/assets/demo-cleaning-20261017/" + target.name,
+                  "bytes": target.stat().st_size}
+
+
 def convert_work_gallery(item: tuple[str, str]) -> tuple[str, dict]:
-    name, source = item
-    img = ImageOps.exif_transpose(Image.open(ROOT / source)).convert("RGB")
+    name, file_id = item
+    data = read_drive(file_id)
+    if not data:
+        raise RuntimeError(f"Required cleaning gallery photo unavailable from Drive: {name} ({file_id})")
+    img = ImageOps.exif_transpose(Image.open(io.BytesIO(data))).convert("RGB")
     img.thumbnail((940, 1100), Image.Resampling.LANCZOS)
     target = ROOT / "public/assets/demo-work-gallery" / f"{name}.webp"
     target.parent.mkdir(parents=True, exist_ok=True)
-    img.save(target, format="WEBP", quality=79, method=5)
-    assert target.stat().st_size < 390_000, f"Heavy work gallery image: {target}"
-    return name, {"source": "local-illustrative", "local_path": "/assets/demo-work-gallery/" + target.name,
+    img.save(target, format="WEBP", quality=77, method=5)
+    assert target.stat().st_size < 360_000, f"Heavy gallery image: {target}"
+    return name, {"source": "drive-cleaning-action", "drive_id": file_id,
+                  "local_path": "/assets/demo-work-gallery/" + target.name,
                   "bytes": target.stat().st_size}
 
 
@@ -201,7 +237,12 @@ def build() -> None:
         json.dumps(editorial, indent=2) + "\n", encoding="utf8")
     print(f"EDITORIAL: {len(editorial)} photographs prepared; "
           f"{sum(v['source'] == 'drive' for v in editorial.values())} from Drive.", flush=True)
-    with ThreadPoolExecutor(max_workers=4) as executor:
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        action_photos = dict(executor.map(convert_demo_cleaning, DEMO_CLEANING_PHOTOS.items()))
+    (ROOT / "public/assets/demo-cleaning-20261017/manifest.json").write_text(
+        json.dumps(action_photos, indent=2) + "\n", encoding="utf8")
+    print(f"DEMO CLEANING: {len(action_photos)} unique hero/journey Drive photos optimized.", flush=True)
+    with ThreadPoolExecutor(max_workers=5) as executor:
         work_gallery = dict(executor.map(convert_work_gallery, WORK_GALLERY_PHOTOS.items()))
     (ROOT / "public/assets/demo-work-gallery/manifest.json").write_text(
         json.dumps(work_gallery, indent=2) + "\n", encoding="utf8")

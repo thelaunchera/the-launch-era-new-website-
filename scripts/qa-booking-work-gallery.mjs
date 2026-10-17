@@ -22,6 +22,8 @@ assert(html.indexOf('id="bookingPage"')<html.indexOf('id="tleWorkGallery"'),'Gal
 assert(html.indexOf('id="tleWorkGallery"')<html.indexOf('id="bookingBeforeAfter"'),'Gallery must precede before/after');
 assert(galleryHtml.includes('not verified customer projects'),'Photos must not be called real client work');
 assert(galleryHtml.includes('data-gallery-es'),'Keep bilingual gallery');
+assert(html.includes('id="bookingServiceAreas"'),'Show illustrative sample area coverage');
+assert(html.includes('vanity-before.webp')&&html.includes('vanity-after.webp'),'Use matched sink photos');
 assert(css.includes('prefers-reduced-motion:reduce')&&deck.includes('setPointerCapture')&&deck.includes('ArrowLeft'),'Accessible swipe, reduced motion and keyboard fallbacks required');
 assert(css.includes('touch-action:pan-y')&&!css.includes('.tle-work-card[data-active="true"]{touch-action:none'),
  'Photo deck must allow native vertical finger scrolling between services and lower sections');
@@ -61,7 +63,7 @@ try{
   assert(initial.initialSources<=3,'Load only the first three optimized gallery photos');
   assert(initial.overflow<=4,'Horizontal overflow '+lang+' '+width+': '+JSON.stringify(initial));
   assert(initial.rect.left>=-2&&initial.rect.right<=width+2,'Photo outside viewport '+JSON.stringify(initial));
-  assert.match(initial.title,lang==='es'?/Espacios limpios/:/Clean spaces/);
+  assert.match(initial.title,lang==='es'?/Limpieza en acción/:/Cleaning in action/);
   // Top navigation remains visible even on mobile, with localized Home text.
   const backHome=page.locator('#siteLink');
   const homeState=await backHome.evaluate(el=>({width:el.getBoundingClientRect().width,display:getComputedStyle(el).display}));

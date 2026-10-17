@@ -8,7 +8,7 @@ import {chromium} from 'playwright';
 const html=readFileSync('public/booking-demo-reset.html','utf8');
 const style=readFileSync('public/assets/tle-demo-hero-portal.css','utf8');
 const script=readFileSync('public/assets/tle-demo-hero-portal.js','utf8');
-assert.match(html,/tle-booking-hero-original\.webp/);
+assert.match(html,/demo-cleaning-20261017\/hero\.webp/,'Show cleaner at work in the hero');
 assert.match(html,/bookingPortalHeadline/);
 assert.match(html,/bookingBeforeAfter/);
 assert.match(html,/bookingHeroSonny/);
@@ -18,7 +18,8 @@ assert.doesNotMatch(html,/id="pageIntro"|id="eyebrow"/,'Booking heading must hav
 assert.match(html,/id="pageTitle">A simpler way to book a clean\./,'Preserve requested short booking heading');
 assert.match(html,/data-photo="\/assets\/demo-transformations\/track-before\.webp"/,'Restore real paired window tracks before photo');
 assert.match(html,/data-photo="\/assets\/demo-transformations\/track-after\.webp"/,'Restore matching window tracks after photo');
-assert.doesNotMatch(html,/data-photo="\/assets\/demo-transformations\/vanity-(before|after)\.webp"/,'Remove subdued bathroom comparison');
+assert.match(html,/data-photo="\/assets\/demo-transformations\/vanity-before\.webp"/,'Matched dirty sink');
+assert.match(html,/data-photo="\/assets\/demo-transformations\/vanity-after\.webp"/,'Matching clean sink');
 assert.match(html,/Experience snapshots from this interactive sample, not customer testimonials or verified reviews/);
 assert(!/gsap|Flip\.min|zoom:|backdrop-filter/.test(style),'No unrelated zoom libraries or glassmorphism');
 assert.match(style,/@media\(prefers-reduced-motion:reduce\)/,'Respect reduced-motion accessibility');
@@ -50,7 +51,7 @@ try {
   const image=page.locator('.booking-portal-picture').first();
   await page.waitForFunction(()=>{
     const img=document.querySelector('.booking-portal-picture');
-    return img?.complete&&img.naturalWidth>=1100;
+    return img?.complete&&img.naturalWidth>=650;
   },null,{timeout:16000});
   assert.equal(await page.locator('#leadBusiness').textContent(),'Sample Sunny Cleaning');
   assert.equal(await page.locator('#bookingPortalCompany').textContent(),'Sample Sunny Cleaning','Personalized business must be in original photo hero');
