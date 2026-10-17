@@ -36,8 +36,8 @@ assert.equal(commercial.commercial_space_description,"Restaurant");
 assert.equal(commercial.square_feet,2500);
 assert.equal(commercial.frequency,"weekly");
 assert.match(source,/msg\.length<1/, "Single-number visitor answers must be accepted by the API");
-assert.deepEqual(helpers.shortNumericAnswer("5","Visitor: It's a house\\nAssistant: Great—how many bedrooms does the house have?"),{bedrooms:5});
-assert.deepEqual(helpers.shortNumericAnswer("2","Visitor: 5\\nAssistant: And how many bathrooms?"),{bathrooms:2});
+assert.deepEqual(helpers.shortNumericAnswer("5","Visitor: It's a house\nAssistant: Great—how many bedrooms does the house have?"),{bedrooms:5});
+assert.deepEqual(helpers.shortNumericAnswer("2","Visitor: 5\nAssistant: And how many bathrooms?"),{bathrooms:2});
 assert.deepEqual(helpers.shortNumericAnswer("5","Visitor: What can you do?"),{}, "Do not guess a field without a matching previous question");
 const longNatural="I can answer cleaning questions, remember your details and prepare a sample booking request so the business owner doesn't need to chase messages.";
 assert.equal(helpers.safePublicReply(longNatural,"What can you help with?",draft,"en"),longNatural,
