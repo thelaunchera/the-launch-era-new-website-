@@ -950,3 +950,171 @@ html[lang="es"] #tleDemoCurtainPage #bookingPage .flow:has(#reviewPanel:not([hid
  }
  #tleDemoCurtainPage #bookingPage #flowTitle::after{transform:none!important}
 }
+
+
+/* TLE BUBBLE DRIFT V1 — visual continuity across the private Booking Demo.
+   Backdrop only. Booking service selection, OTP, prices and submissions
+   remain untouched. Accessible text is always on opaque legible surfaces. */
+#tleDemoCurtainPage #bookingBubbleStory.has-depth-bubble-canvas{
+ background:linear-gradient(142deg,#193f5d 0%,#28698f 51%,#1a496c 100%)!important;
+ border-block-color:#1d5679!important;
+ isolation:isolate;
+}
+#tleDemoCurtainPage #bookingBubbleStory.has-depth-bubble-canvas .booking-bubble-layer{
+ display:none!important; /* Old unrelated CSS bubbles only hidden if canvas works */
+}
+#tleDemoCurtainPage .tle-depth-bubble-canvas{
+ display:block;position:absolute;inset:0;z-index:0;pointer-events:none!important;
+ max-width:100%;max-height:100%;width:100%;height:100%;
+ opacity:1;user-select:none;
+}
+#tleDemoCurtainPage #bookingBubbleStory .booking-story-pin-stage,
+#tleDemoCurtainPage #bookingBubbleStory .booking-story-progress-wrap,
+#tleDemoCurtainPage #bookingBubbleStory .booking-story-mobile-nav{position:relative;z-index:2}
+#tleDemoCurtainPage #bookingBubbleStory .booking-story-progress-wrap,
+#tleDemoCurtainPage #bookingBubbleStory .booking-story-mobile-nav{position:absolute}
+#tleDemoCurtainPage #bookingBubbleStory .booking-story-intro-panel{
+ background:linear-gradient(152deg,#fffdf9,#eef7fd)!important;
+ border:1px solid #b5d8eb!important;
+ border-radius:36px!important;
+ box-shadow:0 22px 48px rgba(7,37,59,.20)!important;
+ color:#193b51!important;
+}
+#tleDemoCurtainPage #bookingBubbleStory .booking-story-intro-panel h2{
+ color:#193b51!important;
+}
+#tleDemoCurtainPage #bookingBubbleStory .booking-story-intro-panel :is(.story-kicker,.story-intro,.booking-story-intro-hint){
+ color:#315b76!important;
+}
+#tleDemoCurtainPage #bookingBubbleStory .booking-story-photo-card{
+ border-radius:36px!important;border-color:#bad7e9!important;
+ box-shadow:0 22px 52px rgba(8,37,61,.20)!important;
+}
+#tleDemoCurtainPage #bookingBubbleStory .booking-story-card-art{
+ border-radius:35px 35px 0 0;
+}
+#tleDemoCurtainPage #bookingBubbleStory .booking-story-card-copy{
+ background:linear-gradient(157deg,#fffdfa,#eef7fd)!important;
+ color:#163d57!important;
+}
+#tleDemoCurtainPage #bookingBubbleStory .booking-story-card-copy :is(h3,p){
+ color:#173e57!important;
+}
+#tleDemoCurtainPage #bookingBubbleStory .booking-story-progress-label{
+ color:#f2f9ff!important;
+ text-shadow:0 1px 5px rgba(5,30,49,.45);
+}
+#tleDemoCurtainPage #bookingBubbleStory .booking-story-progress{
+ background:rgba(228,245,255,.30)!important;
+}
+#tleDemoCurtainPage #bookingBubbleStory .booking-story-progress-fill{
+ background:#c8eaff!important;
+}
+#tleDemoCurtainPage #bookingBubbleStory .booking-story-mobile-nav{
+ color:#eff9ff!important;
+}
+#tleDemoCurtainPage #bookingBubbleStory :is(.story-action,.booking-story-last-cta){
+ background:#1e587f!important;border-color:#1e587f!important;
+ color:#fff!important;border-radius:999px!important;
+}
+#tleDemoCurtainPage #bookingPage.has-depth-bubble-canvas{
+ position:relative!important;isolation:isolate;
+ background:linear-gradient(150deg,#c6ddec 0%,#e7f2f9 46%,#bdd8ea 100%)!important;
+ border-radius:0;
+}
+#tleDemoCurtainPage #bookingPage.has-depth-bubble-canvas>.tle-depth-bubble-canvas{
+ z-index:0;
+}
+#tleDemoCurtainPage #bookingPage.has-depth-bubble-canvas>:not(.tle-depth-bubble-canvas){
+ position:relative;z-index:1;
+}
+#tleDemoCurtainPage #bookingPage .flow{
+ border:1.5px solid #8cb8d0!important;
+ border-radius:38px!important;
+ background:#f7fbfe!important;
+ box-shadow:0 22px 54px rgba(21,68,100,.16)!important;
+ overflow:hidden;
+}
+#tleDemoCurtainPage #bookingPage .flow-header{
+ background:linear-gradient(135deg,#f9fcff 0%,#c9e1f0 100%)!important;
+ border-bottom:1px solid #abcddd!important;
+ border-radius:37px 37px 0 0;
+}
+#tleDemoCurtainPage #bookingPage #flowTitle::after{color:#245e83!important}
+#tleDemoCurtainPage #bookingPage .flow:has(#detailsPanel:not([hidden])) #flowTitle::after{
+ color:#c39324!important;
+}
+#tleDemoCurtainPage #bookingPage :is(.booking-step-pane,.panel){
+ background:#f9fcfe!important;
+}
+#tleDemoCurtainPage #bookingPage .service-flip-card,
+#tleDemoCurtainPage #bookingPage .service-flip-face,
+#tleDemoCurtainPage #bookingPage .service-flip-front .service,
+#tleDemoCurtainPage #bookingPage .service-flip-back{
+ border-radius:27px!important;
+}
+#tleDemoCurtainPage #bookingPage .service-flip-front .service{
+ border-color:#b1cbda!important;
+ box-shadow:0 9px 25px rgba(21,68,100,.11)!important;
+}
+#tleDemoCurtainPage #bookingPage .service-flip-front .service[aria-pressed="true"]{
+ border-color:#205d83!important;
+ box-shadow:0 0 0 3px rgba(37,100,140,.14),0 9px 24px rgba(21,68,100,.14)!important;
+}
+#tleDemoCurtainPage #bookingPage .service-flip-front .service-media{
+ border-radius:19px!important;
+}
+#tleDemoCurtainPage #bookingPage :is(.demo-substep,.review,.booking-extras,.lead-context){
+ border-radius:25px!important;
+ border-color:#b3d0e1!important;
+ background:#fffefa!important;
+}
+#tleDemoCurtainPage #bookingPage .demo-substep-head{
+ border-radius:24px 24px 0 0!important;
+ background:linear-gradient(120deg,#eff8fc,#dceefa)!important;
+}
+#tleDemoCurtainPage #bookingPage :is(.actions .primary,.primary,.service-flip-select){
+ background:#1e597f!important;border-color:#1e597f!important;
+ color:#fff!important;
+ box-shadow:0 8px 21px rgba(20,75,111,.20)!important;
+}
+#tleDemoCurtainPage #bookingPage .actions .primary:disabled{
+ background:#98b0c1!important;border-color:#98b0c1!important;
+ box-shadow:none!important;
+}
+#tleDemoCurtainPage #bookingPage :is(.field input,.field select,.field textarea){
+ border-radius:17px!important;
+}
+#tleDemoCurtainPage #bookingPage .choice-check span{
+ border-radius:17px!important;
+}
+#tleDemoCurtainPage #bookingPage .choice-check input:checked+span{
+ border-color:#1f6088!important;background:#dceef9!important;
+ color:#194664!important;
+}
+#tleDemoCurtainPage #bookingPage .booking-progress-item.is-current .booking-progress-dot,
+#tleDemoCurtainPage #bookingPage .demo-mini-dot.is-current>b{
+ border-color:#205d83!important;color:#194664!important;
+}
+#tleDemoCurtainPage #bookingPage .booking-progress-item.is-done .booking-progress-dot,
+#tleDemoCurtainPage #bookingPage .demo-mini-dot.is-complete>b{
+ background:#205d83!important;border-color:#205d83!important;
+}
+@media(max-width:760px){
+ #tleDemoCurtainPage #bookingBubbleStory .booking-story-intro-panel,
+ #tleDemoCurtainPage #bookingBubbleStory .booking-story-photo-card{border-radius:29px!important}
+ #tleDemoCurtainPage #bookingBubbleStory .booking-story-card-art{border-radius:28px 28px 0 0}
+ #tleDemoCurtainPage #bookingPage .flow{border-radius:30px!important}
+ #tleDemoCurtainPage #bookingPage .flow-header{border-radius:29px 29px 0 0}
+ #tleDemoCurtainPage #bookingPage .service-flip-card,
+ #tleDemoCurtainPage #bookingPage .service-flip-face,
+ #tleDemoCurtainPage #bookingPage .service-flip-front .service,
+ #tleDemoCurtainPage #bookingPage .service-flip-back{border-radius:23px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ #tleDemoCurtainPage .tle-depth-bubble-canvas{animation:none!important}
+}
+
+/* One bubble system only: the former oversized CSS rings no longer compete with canvas. */
+#tleDemoCurtainPage #bookingPage.has-depth-bubble-canvas .custom::before,
+#tleDemoCurtainPage #bookingPage.has-depth-bubble-canvas .custom::after{display:none!important;animation:none!important}

@@ -7,7 +7,9 @@ const stylesheet='public/assets/tle-demo-ink-service-cards.css';
 const css=readFileSync(stylesheet,'utf8');
 const marker='/* TLE-4 | 2026-10-17';
 assert.equal(css.split(marker).length-1,1,'Editorial patch must be unique');
-const scoped=css.slice(css.indexOf(marker));
+const start=css.indexOf(marker);
+const nextPatch=css.indexOf('/* TLE BUBBLE DRIFT V1',start+marker.length);
+const scoped=css.slice(start,nextPatch<0?undefined:nextPatch);
 postcss.parse(css,{from:stylesheet});
 const rules=postcss.parse(scoped,{from:stylesheet}).nodes.flatMap(
   node=>node.type==='atrule'&&node.nodes?node.nodes:[node]

@@ -257,3 +257,114 @@
  init();
  updateNav();
 })();
+
+
+/* TLE BUBBLE DRIFT V1 — independent canvas backdrop for the private Booking
+   Demo story and real three-step form; no form/OTP/GSAP code is changed. */
+(() => {
+ 'use strict';
+ if(!document.getElementById('tleDemoCurtainPage'))return;
+ const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+ const areas=[
+  {root:document.getElementById('bookingBubbleStory'),count:72,dark:true},
+  {root:document.getElementById('bookingPage'),count:60,dark:false}
+ ];
+ for(const area of areas){
+  const host=area.root;
+  if(!host||host.querySelector(':scope > .tle-depth-bubble-canvas'))continue;
+  const canvas=document.createElement('canvas');
+  canvas.className='tle-depth-bubble-canvas';
+  canvas.setAttribute('aria-hidden','true');
+  canvas.setAttribute('role','presentation');
+  const ctx=canvas.getContext('2d',{alpha:true});
+  if(!ctx)continue;
+  host.insertBefore(canvas,host.firstChild);
+  host.classList.add('has-depth-bubble-canvas');
+  let w=0,h=0,ratio=1,frame=0,last=0,visible=false,alive=true;
+  let particles=[];
+  const rand=(min,max)=>min+Math.random()*(max-min);
+  const make=(fromBottom=false)=>({
+   x:rand(0,w),
+   y:fromBottom?h+rand(4,25):rand(0,h),
+   z:Math.random(),
+   phase:rand(0,Math.PI*2),
+   time:rand(0,Math.PI*2)
+  });
+  const paint=()=>{
+   ctx.clearRect(0,0,w,h);
+   for(const bubble of particles){
+    const z=bubble.z,rad=2.4+z*8.3;
+    const alpha=(.17+z*.40)*(area.dark?1:.68);
+    const x=bubble.x+Math.sin(bubble.time+bubble.phase)*(1.2+z*4.1);
+    const y=bubble.y;
+    if(x+rad<0||x-rad>w||y+rad<0||y-rad>h)continue;
+    ctx.beginPath();
+    ctx.arc(x,y,rad,0,Math.PI*2);
+    ctx.fillStyle=area.dark?'rgba(208,240,255,'+(alpha*.17)+')':'rgba(60,122,169,'+(alpha*.10)+')';
+    ctx.fill();
+    ctx.strokeStyle=area.dark?'rgba(226,246,255,'+alpha+')':'rgba(43,107,151,'+alpha+')';
+    ctx.lineWidth=Math.max(.8,Math.min(1.3,rad*.14));
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(x-rad*.26,y-rad*.24,Math.max(.5,rad*.33),3.46,4.96);
+    ctx.strokeStyle=area.dark?'rgba(255,255,255,'+(alpha*.80)+')':'rgba(255,255,255,'+(alpha*.9)+')';
+    ctx.lineWidth=Math.max(.65,rad*.11);
+    ctx.stroke();
+   }
+  };
+  const size=()=>{
+   if(!alive)return;
+   const width=Math.round(host.clientWidth),height=Math.round(host.clientHeight);
+   if(width<1||height<1)return;
+   const oldW=w,oldH=h;
+   w=width;h=height;
+   ratio=Math.min(2,window.devicePixelRatio||1);
+   canvas.width=Math.round(w*ratio);
+   canvas.height=Math.round(h*ratio);
+   ctx.setTransform(ratio,0,0,ratio,0,0);
+   if(particles.length){
+    for(const b of particles){b.x*=w/Math.max(oldW,1);b.y*=h/Math.max(oldH,1);}
+   }else{
+    const count=window.innerWidth<=600?Math.round(area.count*.65):area.count;
+    particles=Array.from({length:count},()=>make());
+   }
+   if(visible&&!document.hidden)paint();
+  };
+  const cancel=()=>{if(frame){cancelAnimationFrame(frame);frame=0;}last=0;};
+  const allowed=()=>alive&&visible&&!document.hidden&&!reduced.matches&&w>0&&h>0;
+  const tick=now=>{
+   frame=0;
+   if(!allowed())return;
+   const dt=last?Math.min((now-last)/1000,.05):0;
+   last=now;
+   for(const p of particles){
+    p.y-=(6+p.z*17)*dt;
+    p.time+=dt*(.35+p.z*.7);
+    if(p.y<-(3+p.z*10))Object.assign(p,make(true));
+   }
+   paint();
+   frame=requestAnimationFrame(tick);
+  };
+  const sync=()=>{
+   if(!allowed()){cancel();if(reduced.matches&&visible&&!document.hidden)paint();return;}
+   if(!frame)frame=requestAnimationFrame(tick);
+  };
+  size();
+  const observer=typeof IntersectionObserver==='function'
+   ?new IntersectionObserver(entries=>{visible=!!entries[0]?.isIntersecting;sync();},{threshold:0})
+   :null;
+  if(observer)observer.observe(host);else visible=true;
+  const resize=typeof ResizeObserver==='function'?new ResizeObserver(()=>{size();sync();}):null;
+  if(resize)resize.observe(host);
+  window.addEventListener('resize',size,{passive:true});
+  document.addEventListener('visibilitychange',sync);
+  reduced.addEventListener?.('change',sync);
+  window.addEventListener('pagehide',()=>{
+   alive=false;cancel();resize?.disconnect();observer?.disconnect();
+   document.removeEventListener('visibilitychange',sync);
+   window.removeEventListener('resize',size);
+   reduced.removeEventListener?.('change',sync);
+  },{once:true});
+  sync();
+ }
+})();

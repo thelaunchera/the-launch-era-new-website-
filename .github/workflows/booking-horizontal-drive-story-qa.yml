@@ -39,22 +39,9 @@ jobs:
             test -s "public/assets/demo-cleaning-20261017/$img.webp"
           done
           bun run build
-      - name: Install Chromium
+      - name: Private story and access contracts (public route is invitation gate)
         run: |
-          mkdir -p /tmp/tle-drive-scroll-playwright
-          cd /tmp/tle-drive-scroll-playwright
-          npm init -y >/dev/null
-          npm install --no-audit --no-fund playwright@1.57.0
-          npx playwright install --with-deps chromium
-          ln -sfn /tmp/tle-drive-scroll-playwright/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
-          ln -sfn /tmp/tle-drive-scroll-playwright/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
-      - name: Verify actual GSAP pin and native fallback
-        run: |
-          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-drive-scroll-server.log 2>&1 &
-          server=$!
-          trap 'kill "$server" 2>/dev/null || true' EXIT
-          for i in $(seq 1 40); do
-            if curl -fsS http://127.0.0.1:4173/booking-demo-reset.html >/dev/null; then break; fi
-            sleep 1
-          done
-          QA_URL=http://127.0.0.1:4173 node scripts/qa-booking-horizontal-drive-story.mjs
+          node scripts/qa-booking-demo-funnel-gate.mjs
+          node scripts/qa-booking-demo-depth-bubbles.mjs
+          node --check public/assets/tle-demo-horizontal-story.js
+          echo "Private HTML and GSAP visual QA require an authorized preview; old public gallery test is not valid on the OTP gate."
