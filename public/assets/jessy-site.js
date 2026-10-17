@@ -296,7 +296,7 @@ function showDemoCard(id){
  // The href is a meaningful fallback when script execution is unavailable.
  const card=node("a","tle-jessy-demo-card");
  card.href="/booking-lead-automation";
- card.setAttribute("aria-label",lang==="es"?"Solicitar demo personalizada de Booking Automation":"Request your personalized Booking Automation demo");
+ // Let screen readers use the real title and overlay copy as the accessible link name.
  const photo=node("img","tle-jessy-demo-cover");
  photo.src="/assets/drive-house-gallery/pristine-kitchen.png";
  photo.alt="";photo.loading="lazy";photo.decoding="async";
