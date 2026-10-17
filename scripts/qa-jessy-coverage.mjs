@@ -38,7 +38,7 @@ const front = text("public/assets/jessy-site.js");
 new Function(front); // Syntax-check without running a browser assistant.
 
 assert.match(front, /if\(location\.pathname\.replace\(\/\\\/\+\$\/,""\)==="\/cleaning-app-demo"\|\|window\.self!==window\.top\)return/);
-assert.match(front, /function actions\(checkout,detail,trial\)/);
+assert.match(front, /function actions\(checkout,detail,trial(?:,checkoutOnly=false)?\)/);
 assert.match(front, /options\.slice\(0,2\)/);
 assert.match(front, /Get started/);
 assert.match(front, /How it works/);
