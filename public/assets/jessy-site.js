@@ -562,7 +562,7 @@ if(result&&typeof result.reply==="string"){
  track("answered");
  }else{
  if(allowedService.has(offer)&&purchaseReady(message)){
-  indicator.textContent=lang==="es"?"¡Hurra! 🥳 Nos alegra ayudarte. Aquí está el siguiente paso seguro. ¡Nos vemos dentro! 😄✨🌱🧤🫧🧹":"Hurray! 🥳 We’re happy to assist you! Here’s your secure next step. See you inside! 😄✨🌱🧤🫧🧹";
+  indicator.textContent=lang==="es"?"¡Hurra! 🥳 Nos alegra ayudarte. Aquí está el siguiente paso seguro. ¡Nos vemos dentro!":"Hurray! 🥳 We’re happy to assist you! Here’s your secure next step. See you inside!";
   showCheckoutOptions([offer]);
   history.push({role:"user",message},{role:"assistant",message:indicator.textContent});
   if(history.length>16)history=history.slice(-16);
