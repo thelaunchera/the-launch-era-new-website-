@@ -14,6 +14,7 @@ import { Link } from '@tanstack/react-router';
 import { ArrowRight, ArrowUpRight, Bell, CalendarCheck2, Check, CircleCheck, ClipboardList, MessageCircle, MessagesSquare, Send, Sparkles, Timer, Workflow } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import cleaner from '@/assets/cleaner-home.jpg';
+import { HOME_HERO_PHOTO } from '@/lib/home-hero-photo';
 import webapp from '@/assets/webapp-phone.jpg';
 import website from '@/assets/website-workspace.jpg';
 import assistant from '@/assets/assistant-workspace.jpg';
@@ -48,7 +49,7 @@ export function HomeHero() {
    <p className="demo-delivery-note">Your personalized demo arrives automatically by email.</p>
  </div>
  <div className="hero-split-visual">
- <img ref={heroImageRef} className="hero-main-image" src={cleaner} alt="Professional home cleaner at work in a bright, sunlit room" width={1920} height={1024} loading="eager" fetchPriority="high" decoding="sync" onLoad={()=>setHeroLoaded(true)} onError={()=>setHeroLoaded(true)}/>
+ <img ref={heroImageRef} className="hero-main-image" src={HOME_HERO_PHOTO} alt="Cleaning professional wiping a countertop in a bright modern living room with pendant lights" width={1122} height={1402} loading="eager" fetchPriority="high" decoding="sync" onLoad={()=>setHeroLoaded(true)} onError={()=>setHeroLoaded(true)}/>
  <div className="hero-notice-flow" aria-hidden="true">
    {notifications.map((n,i)=>{const Icon=n.icon;return <div className={`notification notice-${i+1}`} key={n.title}>
      <span className="notice-icon" aria-hidden="true"><Icon size={17}/></span>
