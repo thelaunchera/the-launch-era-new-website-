@@ -2,14 +2,11 @@ name: Booking Demo Curtain Footer QA
 on:
   pull_request:
     paths:
-      - 'public/booking-demo-reset.html'
       - 'public/assets/tle-demo-curtain-footer.css'
       - 'scripts/qa-demo-curtain-footer.mjs'
-      - '.github/workflows/booking-demo-curtain-footer-qa.yml'
   push:
     branches: [main]
     paths:
-      - 'public/booking-demo-reset.html'
       - 'public/assets/tle-demo-curtain-footer.css'
       - 'scripts/qa-demo-curtain-footer.mjs'
   workflow_dispatch:
