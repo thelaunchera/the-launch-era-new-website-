@@ -670,13 +670,24 @@
   });
   $('chooseNext').addEventListener('click',()=>{if(selected)showStep(2);});
   $('backDetails').addEventListener('click',()=>showStep(1));
+  // When the calendar enhancement is active, validation should guide visitors
+  // to the visible calendar instead of the hidden legacy date input.
+  function focusPreferredDate(){
+    const nativeDate=$('preferredDate'), calendar=$('tleBookingAppointment');
+    if(calendar&&nativeDate.closest('label')?.hidden){
+      calendar.scrollIntoView({block:'start',behavior:'auto'});
+      $('apptDays')?.querySelector('button:not(:disabled)')?.focus();
+    }else{
+      nativeDate.focus();nativeDate.reportValidity();
+    }
+  }
   $('detailsPanel').addEventListener('submit',event=>{
     event.preventDefault();
     const inputs=['customerName','customerEmail','customerZip','preferredDate'].map($);
     const bad=inputs.find(el=>!el.value.trim()||!el.checkValidity());
-    if(bad){bad.focus();bad.reportValidity();return;}
+    if(bad){if(bad.id==='preferredDate')focusPreferredDate();else{bad.focus();bad.reportValidity();}return;}
     if(!/^[A-Za-z0-9 -]{5,10}$/.test($('customerZip').value.trim())){$('customerZip').focus();$('customerZip').setCustomValidity(dict().invalid);$('customerZip').reportValidity();$('customerZip').setCustomValidity('');return;}
-    if($('preferredDate').value<today()){$('preferredDate').focus();$('preferredDate').setCustomValidity(dict().dateInvalid);$('preferredDate').reportValidity();$('preferredDate').setCustomValidity('');return;}
+    if($('preferredDate').value<today()){if($('preferredDate').closest('label')?.hidden)focusPreferredDate();else{$('preferredDate').focus();$('preferredDate').setCustomValidity(dict().dateInvalid);$('preferredDate').reportValidity();$('preferredDate').setCustomValidity('');}return;}
     showStep(3);
   });
   $('backReview').addEventListener('click',()=>showStep(2));
