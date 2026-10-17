@@ -153,7 +153,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&amp;family=Cormorant+Garamond:wght@500;600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'">
-<link rel="stylesheet" href="/assets/tle-demo-hero-portal.css?v=20261017-deep-blue-caveat1">
+<link rel="stylesheet" href="/assets/tle-demo-hero-portal.css?v=20261017-sonny-contrast-photo1">
 <link rel="stylesheet" href="/assets/tle-booking-month-wheel.css?v=20261016-responsive2">
 <link rel="stylesheet" href="/assets/tle-booking-premium-refresh.css?v=20261016-sonny-mobile-safe3">
 <link rel="stylesheet" href="/assets/tle-booking-blue-orbs.css?v=20261016-orbs1">
@@ -480,8 +480,12 @@
  <section class="sonny" aria-labelledby="sonnyTitle">
   <div class="sonny-head"><div class="sonny-title-group"><span class="sonny-avatar-mark" aria-hidden="true"><img src="/assets/lead-demo/ai-demo-robot.webp" width="49" height="49" alt="" decoding="async"></span><div><h2 id="sonnyTitle">Want to try Sonny?</h2><small id="sonnySubtitle">Optional AI booking assistant · Demo only</small></div></div><button type="button" class="secondary" id="sonnyToggle" aria-controls="sonnyBody" aria-expanded="false">Try Sonny</button></div>
   <div class="sonny-body" id="sonnyBody" hidden><div id="sonnyLog" class="sonny-log" role="log" aria-label="Sonny conversation" aria-live="polite"></div>
+    <div class="sonny-ideas" id="sonnyIdeas" role="group" aria-label="Try Sonny with an example">
+      <button class="sonny-idea" type="button" data-en="I need a deep cleaning" data-es="Necesito una limpieza profunda">I need a deep cleaning</button>
+      <button class="sonny-idea" type="button" data-en="What can you help with?" data-es="¿En qué me puedes ayudar?">What can you help with?</button>
+    </div>
     <form id="sonnyForm" class="sonny-form"><input id="sonnyInput" type="text" maxlength="650" aria-label="Your message for Sonny" placeholder="Ask about a cleaning appointment" required><button id="sonnySend" type="submit">Send</button></form>
-    <p class="sonny-status" id="sonnyStatus">Simulation only. No real booking or email will be sent.</p><button type="button" class="secondary" id="sonnyUse" hidden style="margin-top:12px">Use details in the sample form</button>
+    <p class="sonny-status" id="sonnyStatus">Simulation only. No real booking or email will be sent.</p><a class="sonny-learn" id="sonnyLearn" href="/ai-booking-assistant/">Add an AI assistant to your booking page ↗</a><button type="button" class="secondary" id="sonnyUse" hidden style="margin-top:12px">Use details in the sample form</button>
   </div>
  </section>
  <p class="bottom-note" id="footerNote">*Prices are sample estimates, not guaranteed quotes. Final scope and availability are confirmed by the cleaning business.</p>
@@ -989,7 +993,7 @@
   chooseKind('residential');showStep(1,true);
 })();
 </script>
-<script src="/assets/tle-demo-reset-lead-magnet.js?v=20261017-complete-address2"></script>
+<script src="/assets/tle-demo-reset-lead-magnet.js?v=20261017-sonny-intent-short-answer1"></script>
 <script src="/assets/tle-booking-month-wheel.js?v=20261017-accordion-schedule1" defer></script>
 <script src="/assets/tle-demo-hero-portal.js?v=20261017-proof-nav1" defer></script>
 <script src="/assets/tle-demo-horizontal-story.js?v=20261017-mobile-swipe-compact1" defer></script>
