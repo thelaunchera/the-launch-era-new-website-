@@ -120,7 +120,9 @@
     if(top.hasPointerCapture?.(ev.pointerId))top.releasePointerCapture(ev.pointerId);
     const elapsed=Math.max(16,performance.now()-d.start);
     const velocity=d.dx/elapsed;
-    if(!cancelled&&(Math.abs(d.dx)>50||(Math.abs(d.dx)>25&&Math.abs(velocity)>.48))){
+    // Only intentional horizontal swipes may change photos. Normal vertical
+    // gestures are owned by the page, so visitors can continue to reviews.
+    if(d.horizontal&&!cancelled&&(Math.abs(d.dx)>50||(Math.abs(d.dx)>25&&Math.abs(velocity)>.48))){
       swipe(d.dx>=0?1:-1);
     }else{
       top.style.transition='';
@@ -130,15 +132,22 @@
   deck.addEventListener('pointerdown',ev=>{
     const top=order[0];
     if(busy||drag||!ev.isPrimary||ev.target!==top||(ev.pointerType==='mouse'&&ev.button!==0))return;
-    ev.preventDefault();
-    drag={id:ev.pointerId,x:ev.clientX,y:ev.clientY,dx:0,start:performance.now()};
-    top.setPointerCapture(ev.pointerId);
-    top.style.transition='none';
+    // Don't preventDefault/capture touch on pointerdown: that swallowed
+    // upward finger gestures on iPhone and trapped users at the photo deck.
+    if(ev.pointerType==='mouse')ev.preventDefault();
+    drag={id:ev.pointerId,x:ev.clientX,y:ev.clientY,dx:0,start:performance.now(),horizontal:false};
   });
   deck.addEventListener('pointermove',ev=>{
     if(!drag||ev.pointerId!==drag.id||busy)return;
     const top=order[0];
     const dx=ev.clientX-drag.x,dy=ev.clientY-drag.y;
+    if(!drag.horizontal){
+      // Wait for an actual horizontal intention; native pan-y remains free.
+      if(Math.abs(dx)<10||Math.abs(dx)<=Math.abs(dy)*1.25)return;
+      drag.horizontal=true;
+      top.setPointerCapture?.(ev.pointerId);
+      top.style.transition='none';
+    }
     drag.dx=dx;
     top.style.transform='translate('+dx+'px,'+(dy*.3)+'px) rotate('+(dx*.07)+'deg)';
   });
