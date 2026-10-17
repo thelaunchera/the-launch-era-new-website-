@@ -205,19 +205,40 @@
     <span class="booking-portal-cue" aria-hidden="true" id="bookingPortalCue">Scroll to explore ↓</span>
   </div>
 </section>
-<section class="booking-bubble-story" id="bookingBubbleStory" aria-labelledby="bookingBubbleTitle">
+<section class="booking-bubble-story booking-bubble-horizontal" id="bookingBubbleStory" aria-labelledby="bookingBubbleTitle">
  <div class="booking-bubble-layer" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
- <div class="shell">
-  <p class="story-kicker" id="bookingBubbleKicker">THE SIMPLE WAY TO BOOK</p>
-  <h2 id="bookingBubbleTitle">From first hello to a clear next step.</h2>
-  <p class="story-intro" id="bookingBubbleIntro">A smoother experience for your customers, with everything easy to understand in one place.</p>
-  <div class="booking-bubble-steps" aria-label="Three steps in the sample booking flow">
-   <article class="booking-bubble-step"><span class="story-step-number" aria-hidden="true">01</span><h3 id="bookingBubbleStep1Title">Choose a cleaning service</h3><p id="bookingBubbleStep1Text">Find the right starting point without searching through messages.</p></article>
-   <article class="booking-bubble-step"><span class="story-step-number" aria-hidden="true">02</span><h3 id="bookingBubbleStep2Title">Share the details</h3><p id="bookingBubbleStep2Text">Add the home, date and contact information in a simple flow.</p></article>
-   <article class="booking-bubble-step"><span class="story-step-number" aria-hidden="true">03</span><h3 id="bookingBubbleStep3Title">Review the request</h3><p id="bookingBubbleStep3Text">See what a clear, organized request can look like before sending.</p></article>
+ <div class="booking-story-window">
+  <div class="booking-bubble-steps" id="bookingStoryTrack" aria-label="Illustrated sample booking journey">
+   <div class="booking-story-intro-panel">
+    <p class="story-kicker" id="bookingBubbleKicker">THE SIMPLE WAY TO BOOK</p>
+    <h2 id="bookingBubbleTitle">From first hello to a clear next step.</h2>
+    <p class="story-intro" id="bookingBubbleIntro">A smoother experience for your customers, with everything easy to understand in one place.</p>
+    <a class="story-action" id="bookingBubbleAction" href="#bookingPage">Explore the booking demo ↓</a>
+    <p class="booking-story-intro-hint" id="bookingStoryHint">Scroll to follow the booking journey →</p>
+   </div>
+   <article class="booking-bubble-step booking-story-photo-card" data-booking-story-card>
+    <span class="story-step-outline" aria-hidden="true">01</span>
+    <div class="booking-story-card-art"><img src="/assets/drive-booking-journey/choose-cleaner-kitchen.png" alt="Professional cleaner wiping a kitchen counter in a bright modern home" width="1122" height="1402" loading="lazy" decoding="async"></div>
+    <div class="booking-story-card-copy"><span class="story-step-number" aria-hidden="true">01</span><h3 id="bookingBubbleStep1Title">Choose a cleaning service</h3><p id="bookingBubbleStep1Text">Find the right starting point without searching through messages.</p></div>
+   </article>
+   <article class="booking-bubble-step booking-story-photo-card" data-booking-story-card>
+    <span class="story-step-outline" aria-hidden="true">02</span>
+    <div class="booking-story-card-art"><img src="/assets/drive-booking-journey/share-details-bathroom.png" alt="Bright family bathroom showing a typical residential space" width="1122" height="1402" loading="lazy" decoding="async"></div>
+    <div class="booking-story-card-copy"><span class="story-step-number" aria-hidden="true">02</span><h3 id="bookingBubbleStep2Title">Share the details</h3><p id="bookingBubbleStep2Text">Add the home, date and contact information in a simple flow.</p></div>
+   </article>
+   <article class="booking-bubble-step booking-story-photo-card" data-booking-story-card>
+    <span class="story-step-outline" aria-hidden="true">03</span>
+    <div class="booking-story-card-art"><img src="/assets/drive-booking-journey/choose-time-living-room.png" alt="Sunlit modern living room with a clean sofa and open kitchen" width="1983" height="793" loading="lazy" decoding="async"></div>
+    <div class="booking-story-card-copy"><span class="story-step-number" aria-hidden="true">03</span><h3 id="bookingBubbleStep3Title">Choose a preferred time</h3><p id="bookingBubbleStep3Text">Request a date that works for you. The cleaning business confirms availability.</p></div>
+   </article>
+   <article class="booking-bubble-step booking-story-photo-card" data-booking-story-card>
+    <span class="story-step-outline" aria-hidden="true">04</span>
+    <div class="booking-story-card-art"><img src="/assets/drive-booking-journey/review-ready-bedroom.png" alt="Freshly prepared guest bedroom with neat white bedding" width="1122" height="1402" loading="lazy" decoding="async"></div>
+    <div class="booking-story-card-copy"><span class="story-step-number" aria-hidden="true">04</span><h3 id="bookingBubbleStep4Title">Review the request</h3><p id="bookingBubbleStep4Text">See your details together before completing the sample preview.</p><a href="#bookingPage" class="booking-story-last-cta" id="bookingBubbleFinish">Try the demo →</a></div>
+   </article>
   </div>
-  <a class="story-action" id="bookingBubbleAction" href="#bookingPage">Explore the booking demo ↓</a>
  </div>
+ <div class="booking-story-progress-wrap"><span class="booking-story-progress-label" id="bookingStoryProgressLabel">BOOKING JOURNEY</span><div class="booking-story-progress" role="progressbar" aria-label="Booking journey progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="bookingStoryProgress"><span class="booking-story-progress-fill" id="bookingStoryProgressFill"></span></div></div>
 </section>
 <main class="shell" id="bookingPage">
  <h1 id="pageTitle">A simpler way to book a clean.</h1>
