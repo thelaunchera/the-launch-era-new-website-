@@ -1114,3 +1114,7 @@ html[lang="es"] #tleDemoCurtainPage #bookingPage .flow:has(#reviewPanel:not([hid
 @media(prefers-reduced-motion:reduce){
  #tleDemoCurtainPage .tle-depth-bubble-canvas{animation:none!important}
 }
+
+/* One bubble system only: the former oversized CSS rings no longer compete with canvas. */
+#tleDemoCurtainPage #bookingPage.has-depth-bubble-canvas .custom::before,
+#tleDemoCurtainPage #bookingPage.has-depth-bubble-canvas .custom::after{display:none!important;animation:none!important}
