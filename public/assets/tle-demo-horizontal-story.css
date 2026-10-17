@@ -1,0 +1,133 @@
+/* Blue Booking Demo chapter only: 1 intro + 4 images sourced from owner's Drive.
+   Accessible native sideways scroll is available before GSAP and as motion fallback. */
+body .booking-horizontal-story{
+ position:relative;isolation:isolate;
+ width:100%;height:100svh;min-height:590px;max-height:none;
+ display:flex;align-items:center;overflow:hidden;
+ padding:0!important;
+ border-block:1px solid #b5d8eb;
+ background:linear-gradient(135deg,#d6edfb,#eaf8ff 49%,#c9e9fa);
+}
+body .booking-horizontal-story .booking-bubble-layer{z-index:0}
+body .booking-horizontal-shell{
+ position:relative;z-index:2;width:100%;min-width:0;
+ display:flex;flex-direction:column;justify-content:center;gap:17px;
+ padding:clamp(12px,2vw,24px) 0;box-sizing:border-box;overflow:hidden;
+}
+body .booking-horizontal-track{
+ display:flex!important;grid-template-columns:none!important;
+ flex-wrap:nowrap!important;align-items:stretch!important;gap:clamp(14px,2.3vw,32px);
+ padding-inline:max(20px,4vw);padding-block:8px;
+ width:max-content;max-width:none;min-width:0;
+ overflow-x:auto;overscroll-behavior-x:contain;
+ scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
+ will-change:auto;box-sizing:border-box;
+}
+body .booking-horizontal-story.is-gsap-active .booking-horizontal-track{
+ overflow:visible;scroll-snap-type:none;will-change:transform;
+}
+body .booking-horizontal-intro,
+body .booking-horizontal-card{
+ flex:0 0 clamp(290px,58vw,700px);
+ width:clamp(290px,58vw,700px);min-width:0;
+ height:clamp(480px,75svh,710px);max-height:710px;
+ box-sizing:border-box;border-radius:28px;scroll-snap-align:center;
+}
+body .booking-horizontal-intro{
+ display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
+ gap:clamp(15px,2.1vw,23px);padding:clamp(25px,3.5vw,48px);
+ border:1.5px solid #a2cde4;background:linear-gradient(151deg,#edf9ff,#d5effd 90%);
+ box-shadow:0 14px 28px rgba(40,102,142,.09);
+}
+body .booking-horizontal-intro .story-kicker{
+ margin:0;color:#2c6688;letter-spacing:.15em;font-size:11px;font-weight:850;
+}
+body .booking-horizontal-intro h2{
+ max-width:18ch;font:800 clamp(29px,4.7vw,59px)/1.09 'Prompt',Arial,sans-serif;
+ letter-spacing:-.045em;color:#183b53;margin:0;
+}
+body .booking-horizontal-intro .story-intro{
+ color:#3d6278;margin:0;font:450 clamp(13px,1.4vw,17px)/1.57 Arial,sans-serif;max-width:39ch;
+}
+body .booking-horizontal-intro .story-action{
+ margin:7px 0 0!important;min-height:48px;padding:12px 22px;
+ border-radius:999px;background:#245f82;border:1px solid #245f82;color:white;
+}
+body .booking-horizontal-card{
+ position:relative;display:grid;grid-template-rows:minmax(0,1.2fr) minmax(0,.8fr);
+ padding:0!important;border:1.5px solid #9dcbe6;
+ background:#f8fcff;box-shadow:0 18px 34px rgba(45,108,145,.11);
+ overflow:hidden;
+}
+body .booking-horizontal-card .booking-horizontal-art{
+ position:relative;min-height:0;overflow:hidden;
+ background:#d5e9f7;
+}
+body .booking-horizontal-card .booking-horizontal-art img{
+ display:block;width:100%;height:100%;object-fit:cover;object-position:center;
+ opacity:1;transform:scale(1);
+}
+body .booking-horizontal-card .story-step-number{
+ display:grid;place-items:center;position:absolute;
+ top:clamp(13px,2vw,23px);left:clamp(13px,2vw,23px);
+ width:clamp(58px,6vw,87px);height:clamp(58px,6vw,87px);
+ border-radius:100%;font:850 clamp(19px,2.7vw,35px)/1 'Prompt',Arial,sans-serif;
+ color:#17577f;background:rgba(223,246,255,.92);
+ border:1.5px solid rgba(91,164,206,.8);
+ box-shadow:0 4px 14px rgba(35,92,129,.18);
+}
+body .booking-horizontal-card .booking-horizontal-copy{
+ display:flex;flex-direction:column;justify-content:center;gap:12px;
+ padding:clamp(19px,2.6vw,34px);min-width:0;
+}
+body .booking-horizontal-card .booking-horizontal-kicker{
+ margin:0;font:800 11px/1.4 'Prompt',Arial,sans-serif;letter-spacing:.12em;color:#4383a7;
+}
+body .booking-horizontal-card h3{
+ margin:0;color:#153c55;font:780 clamp(20px,2.9vw,31px)/1.18 'Prompt',Arial,sans-serif;
+ letter-spacing:-.03em;
+}
+body .booking-horizontal-card p:not(.booking-horizontal-kicker){
+ margin:0;color:#45677c;font:450 clamp(13px,1.35vw,16px)/1.55 Arial,sans-serif;
+}
+body .booking-horizontal-progress{
+ position:relative;height:4px;border-radius:999px;background:#a6cce1;
+ margin:0 max(20px,4vw);overflow:hidden;pointer-events:none;
+}
+body .booking-horizontal-progress>span{
+ display:block;width:100%;height:100%;background:#2a7299;transform:scaleX(0);
+ transform-origin:left center;
+}
+body .booking-horizontal-help{
+ align-self:flex-end;margin:0 max(20px,4vw);color:#2b688a;
+ font:700 11px/1.4 'Prompt',Arial,sans-serif;letter-spacing:.025em;
+}
+@media(max-width:760px){
+ body .booking-horizontal-story{min-height:575px;height:100svh}
+ body .booking-horizontal-shell{gap:13px}
+ body .booking-horizontal-intro,body .booking-horizontal-card{
+  flex-basis:min(83vw,420px);width:min(83vw,420px);
+  height:clamp(460px,74svh,670px);border-radius:23px;
+ }
+ body .booking-horizontal-track{gap:13px;padding-inline:18px}
+ body .booking-horizontal-intro{padding:clamp(21px,6vw,34px);gap:18px}
+ body .booking-horizontal-intro h2{font-size:clamp(29px,7.4vw,39px)}
+ body .booking-horizontal-intro .story-intro{font-size:14px}
+ body .booking-horizontal-card{grid-template-rows:minmax(0,1.15fr) minmax(0,.85fr)}
+ body .booking-horizontal-card .booking-horizontal-copy{padding:20px;gap:10px}
+ body .booking-horizontal-card h3{font-size:22px}
+ body .booking-horizontal-card p:not(.booking-horizontal-kicker){font-size:13px;line-height:1.5}
+ body .booking-horizontal-progress{margin-inline:18px}
+ body .booking-horizontal-help{margin-inline:18px}
+}
+@media(max-height:600px) and (orientation:landscape){
+ body .booking-horizontal-story{height:auto;min-height:500px;padding:15px 0!important}
+ body .booking-horizontal-intro,body .booking-horizontal-card{height:435px}
+}
+@media(prefers-reduced-motion:reduce){
+ body .booking-horizontal-story{height:auto;min-height:0;padding:26px 0!important}
+ body .booking-horizontal-track{overflow-x:auto!important;will-change:auto!important;transform:none!important}
+ body .booking-horizontal-card .booking-horizontal-art img{transform:none!important;opacity:1!important}
+ body .booking-horizontal-card .story-step-number{transform:none!important}
+ body .booking-horizontal-progress>span{transform:scaleX(1)!important}
+}
