@@ -566,3 +566,60 @@ body .booking-proof-disclosure{
   bottom:clamp(18px,3svh,30px);
  }
 }
+
+
+/* Compact, user-controlled iPhone/iPad portrait chapter.
+   Replace the long auto-scrub spacer with one swipeable photo deck:
+   movement starts only on swipe/arrow, and the booking form follows immediately. */
+#bookingBubbleStory .booking-story-mobile-nav{display:none}
+@media(max-width:760px){
+ #bookingBubbleStory.booking-bubble-horizontal,
+ #bookingBubbleStory.is-mobile-scroll-story.booking-bubble-horizontal{
+  position:relative!important;display:block!important;
+  height:auto!important;min-height:0!important;max-height:none!important;
+  overflow:hidden!important;padding:14px 0 89px!important;
+ }
+ #bookingBubbleStory .booking-story-pin-stage,
+ #bookingBubbleStory.is-mobile-scroll-story .booking-story-pin-stage{
+  position:relative!important;top:auto!important;display:block!important;
+  height:auto!important;min-height:0!important;overflow:visible!important;
+ }
+ #bookingBubbleStory .booking-story-window,
+ #bookingBubbleStory.is-mobile-scroll-story .booking-story-window{
+  height:auto!important;min-height:0!important;
+  width:100%!important;overflow-x:auto!important;overflow-y:hidden!important;
+  scroll-snap-type:x mandatory!important;scroll-padding-left:16px;
+  overscroll-behavior-x:contain;touch-action:pan-x pan-y;
+ }
+ #bookingBubbleStory .booking-bubble-steps,
+ #bookingBubbleStory.is-mobile-scroll-story .booking-bubble-steps{
+  height:clamp(345px,58svh,505px)!important;min-height:0!important;
+  transform:none!important;will-change:auto!important;
+  gap:14px;padding:0 18px 0 16px;
+ }
+ #bookingBubbleStory .booking-story-intro-panel,
+ #bookingBubbleStory .booking-story-photo-card{scroll-snap-align:start;scroll-snap-stop:always}
+ #bookingBubbleStory .booking-story-intro-panel{flex-basis:calc(100vw - 42px);padding:20px 22px}
+ #bookingBubbleStory .booking-story-photo-card{flex-basis:calc(100vw - 42px)}
+ #bookingBubbleStory .booking-story-progress-wrap,
+ #bookingBubbleStory.is-mobile-scroll-story .booking-story-progress-wrap{
+  bottom:56px!important;width:calc(100% - 42px)!important;gap:6px;
+ }
+ #bookingBubbleStory .booking-story-mobile-nav{
+  position:absolute;bottom:10px;left:18px;z-index:4;display:flex;
+  align-items:center;gap:11px;color:#285d7d;
+ }
+ #bookingBubbleStory .booking-story-arrow{
+  width:36px;height:36px;border:1px solid #91bfd9;border-radius:50%;
+  background:#f7fcff;color:#1b5577;display:grid;place-items:center;
+  font:700 22px/1 Arial,sans-serif;cursor:pointer;touch-action:manipulation;
+  box-shadow:0 3px 10px rgba(26,77,108,.07);
+ }
+ #bookingBubbleStory .booking-story-arrow:disabled{opacity:.35;cursor:default}
+ #bookingBubbleStory .booking-story-arrow:focus-visible{outline:3px solid #1d78b0;outline-offset:2px}
+ #bookingBubbleStory .booking-story-count{font:700 12px/1 'Prompt',Arial,sans-serif;min-width:36px;text-align:center}
+}
+@media(max-width:760px) and (prefers-reduced-motion:reduce){
+ #bookingBubbleStory .booking-story-window{scroll-behavior:auto!important}
+ #bookingBubbleStory .booking-bubble-steps{transform:none!important}
+}
