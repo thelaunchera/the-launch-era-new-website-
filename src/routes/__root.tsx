@@ -181,7 +181,7 @@ function RootComponent() {
   // No changes to the existing assistant, verified purchase or newsletter logic.
   useEffect(() => {
     const sources = [
-      '/assets/jessy-site.js?v=20261016-trial-context-v6',
+      '/assets/jessy-site.js?v=20261016-smart-demo-card-v8',
       '/assets/tle-purchase-proof.js?v=20261016-mini3',
       '/assets/tle-footer-newsletter.js?v=20261016-ios3',
     ];
