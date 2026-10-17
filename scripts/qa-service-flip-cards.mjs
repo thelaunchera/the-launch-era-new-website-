@@ -130,7 +130,7 @@ try {
   assert.notEqual(editorial.warning,'none','Keep demo-only disclosure visible');
   assert.notEqual(editorial.pricing,'none','Keep transparent sample-price disclaimer');
   assert(editorial.overflow<=4,'No horizontal overflow '+JSON.stringify(editorial));
-  assert.equal(visual.border,'rgba(25, 25, 25, 0.58)','Photo keeps a readable black-ink edge without a heavy stroke');
+  assert.equal(visual.border,'rgba(25, 25, 25, 0.42)','Photo keeps a readable black-ink edge without a heavy stroke');
   assert.equal(visual.photoPosition,'absolute','Photo should fill card instead of a top banner');
   assert.equal(visual.copyPosition,'absolute','Service text should overlay photo, not use a separate banner');
   assert.equal(visual.titleColor,'rgb(255, 255, 255)','Photo headline needs contrast');
