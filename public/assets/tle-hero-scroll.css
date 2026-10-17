@@ -977,7 +977,7 @@
 }
 @supports ((-webkit-background-clip:text) or (background-clip:text)) {
   .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro h1.tle-hero-heading-shine {
-    background-image:linear-gradient(105deg,#191919 38%,#93C6E5 47%,#FFFFFF 50%,#93C6E5 53%,#191919 62%);
+    background-image:linear-gradient(105deg,#191919 43%,#5686A1 48.6%,#FFFFFF 50%,#5686A1 51.4%,#191919 57%);
     background-size:260% 100%;
     background-position:130% 0;
     -webkit-background-clip:text;
