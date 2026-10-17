@@ -181,7 +181,7 @@ function RootComponent() {
   // No changes to the existing assistant, verified purchase or newsletter logic.
   useEffect(() => {
     const sources = [
-      '/assets/jessy-site.js?v=20261016-complete-replies-v3',
+      '/assets/jessy-site.js?v=20261016-buyer-checkout-v4',
       '/assets/tle-purchase-proof.js?v=20261016-mini3',
       '/assets/tle-footer-newsletter.js?v=20261016-ios3',
     ];
