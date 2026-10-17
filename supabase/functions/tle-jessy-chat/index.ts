@@ -267,13 +267,19 @@ function helpfulExplanation(id,lang){
  return (explanations[id]||explanations.general)[es?1:0];
 }
 function wantsCheckoutNow(message,history,prior){
- const q=norm(message).replace(/\s+/g," ").trim();
- if(/\b(?:checkout|buy now|purchase now|pay now|ready to (?:buy|purchase|pay)|i want to (?:buy|purchase|pay)|send (?:me )?(?:the )?(?:checkout|payment|link)|give me (?:the )?(?:checkout|link)|enviame (?:el )?(?:link|enlace|checkout)|quiero (?:comprar|pagar)|list[oa] para (?:comprar|pagar)|ir al (?:checkout|pago)|dame (?:el )?(?:checkout|enlace))\b/.test(q))return true;
+ const q=norm(message).replace(/[¿?¡!.,:;]+/g," ").replace(/\s+/g," ").trim();
  const last=[...history].reverse().find(h=>h.role==="assistant")?.message||"";
- if(/^(?:1\s*)?(?:yes|si|yes please|si por favor|yep|sure|ok|okay|dale|confirm|confirmo)[!.\s]*$/.test(q)&&/(?:checkout|buy|purchase|comprar|pagar|payment|send.{0,30}link|envi.{0,30}enlace)/i.test(last))return true;
- if(/^(?:dame|send|give me|show me|what is|what.s|cual es) (?:the |el |los )?(?:next step|siguiente paso|proximo paso)/.test(q)&&serviceIds.has(prior))return true;
- return false;
+ // Questions about a past purchase must never be mistaken for permission to buy again.
+ if(/\b(?:already|just|previously) (?:bought|purchased|paid)|\b(?:my|our) (?:order|purchase)|\b(?:ya (?:compre|pague)|mi pedido|mi compra|ya tengo mi cuenta)\b/.test(q))return false;
+ // Explicit intent to buy takes priority over demos and plan comparisons.
+ if(/\b(?:ready to (?:buy|purchase|pay|order|check out|checkout|get started)|(?:i|we) (?:want|need) to (?:buy|purchase|pay|order|checkout|check out)|i(?:'d| would) like to (?:buy|purchase|pay|order|checkout|check out)|(?:buy|purchase|pay|checkout|check out) now|(?:let'?s|lets) (?:buy|purchase|checkout|check out|pay))\b/.test(q))return true;
+ if(/\b(?:send|show|give|open|take me to)\b.{0,35}\b(?:checkout|payment link|purchase link|payment page|buy link)\b/.test(q))return true;
+ if(/\b(?:quiero (?:comprar|pagar|el checkout)|quiero comprarlo|list[oa] para (?:comprar|pagar)|estoy list[oa] para (?:comprar|pagar)|ya estoy list[oa] para (?:comprar|pagar)|vamos a (?:comprar|pagar)|enviame (?:el |un )?(?:checkout|enlace de pago|link de pago)|dame (?:el |un )?(?:checkout|enlace de pago|link de pago)|ir al (?:checkout|pago)|comprar ahora|pagar ahora)\b/.test(q))return true;
+ const known=serviceIds.has(prior);
+ const affirmative=/^(?:i'?m ready|i am ready|we'?re ready|we are ready|ready|ready now|i'?m in|i am in|i'?ll take it|i will take it|let'?s do it|lets do it|yes i'?m ready|yes i am ready|yes please|yes|sure|okay|ok|yep|i want this|i want it|estoy list[oa]|ya estoy list[oa]|list[oa]|vamos a hacerlo|lo quiero|me lo llevo|dale|si|claro|perfecto|quiero este|quiero esto)$/;
+ return affirmative.test(q)&&(known||/\b(?:checkout|purchase|buy|comprar|pagar|payment link|enlace de pago)\b/i.test(last));
 }
+
 function compactAiReply(input){
  const answer=String(input||"").replace(/\*\*/g,"").replace(/\s*\n+\s*/g," ").replace(/\s+/g," ").trim();
  // Prefer compact, complete thoughts; never append an ellipsis to a cut-off sentence.
@@ -414,7 +420,7 @@ Deno.serve(async(req)=>{
      next_action:"none", mode:"capabilities"
    },200,origin);
  }
- if(wantsAiPlanComparison(message,prior,focus)){
+ if(!wantsCheckoutNow(message,history,prior)&&wantsAiPlanComparison(message,prior,focus)){
    return response({
      reply:lang==="es"?"¡Claro! Te muestro los tres asistentes para que los compares con calma. Si tienes dudas, te ayudo a elegir.":"Of course! Here are all three assistants so you can compare them. Happy to help you choose.",
      selected_offer:"ai-plans",
@@ -432,8 +438,8 @@ Deno.serve(async(req)=>{
   if(chosen!=="cleaning-app"&&/(?:booking.{0,32}(?:with|con|\+|y).{0,22}(?:ai|ia|assistant|asistente)|booking.{0,24}follow.?up)/i.test(message))target="/booking-bundle/?lang="+lang+"#choose-plan";
   if(target?.startsWith("/service-checkout/")&&!target.includes("lang="))target+="&lang="+lang;
   if(!chosen||chosen==="whatsapp")return response({reply:lang==="es"?"Elige el servicio que quieres comprar.":"Which service would you like to buy?",selected_offer:"",next_action:"service_choices",checkout:null,mode:"purchase_select"},200,origin);
-  if(chosen==="cleaning-app")return response({reply:lang==="es"?"Comienza tu prueba gratuita de la Cleaning App, sin pagar aquí.":"Start your Cleaning App free trial—no payment needed here.",selected_offer:chosen,next_action:"trial",trial:"https://app.thelaunchera.com/?entry=signup",checkout:null,mode:"purchase_trial"},200,origin);
-  return response({reply:lang==="es"?"¡Listo! Abre el checkout seguro. Verás el precio final antes de pagar.":"You're ready! Open secure checkout below to review the price before paying.",selected_offer:chosen,next_action:"checkout",checkout:target,mode:"purchase_ready"},200,origin);
+  if(chosen==="cleaning-app")return response({reply:lang==="es"?"¡Hurra! 🥳 Nos alegra ayudarte. La Cleaning App empieza con una prueba gratis; aquí tienes el acceso para registrarte. ¡Nos vemos dentro! 😄✨🌱🧤🫧🧹":"Hurray! 🥳 We’re happy to assist you! The Cleaning App starts with a free trial—here’s your signup link. See you inside! 😄✨🌱🧤🫧🧹",selected_offer:chosen,next_action:"trial",trial:"https://app.thelaunchera.com/?entry=signup",checkout:null,mode:"purchase_trial"},200,origin);
+  return response({reply:lang==="es"?"¡Hurra! 🥳 Nos alegra ayudarte. Aquí tienes el enlace al checkout seguro para continuar con tu compra. ¡Nos vemos dentro! 😄✨🌱🧤🫧🧹":"Hurray! 🥳 We’re happy to assist you! Here’s your secure checkout link to get started. See you inside! 😄✨🌱🧤🫧🧹",selected_offer:chosen,next_action:"checkout",checkout:target,mode:"purchase_ready"},200,origin);
  }
  const isCombo=/booking.{0,32}(with|con|\+|y).{0,22}(ai|ia|assistant|asistente)|booking.{0,24}(follow.?up|seguimiento)|paquete.{0,22}(ia|asistente)/i.test(message);
  const priceQuestion=asksPrice(message);
