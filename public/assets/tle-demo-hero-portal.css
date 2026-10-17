@@ -226,6 +226,7 @@ body .sonny:not(:has(.sonny-body:not([hidden]))) .sonny-head button{padding:9px 
 #tleDemoCurtainPage .sonny-form input{color:#191919;background:#fff}
 #tleDemoCurtainPage .sonny-form input::placeholder{color:#4e6473;opacity:1}
 #tleDemoCurtainPage .sonny-ideas{display:flex;gap:7px;flex-wrap:wrap;margin:-3px 0 12px}
+#tleDemoCurtainPage .sonny-ideas[hidden]{display:none!important}
 #tleDemoCurtainPage .sonny-idea{border:1px solid #accddd;border-radius:999px;background:#eef7fd;color:#19465e;font-weight:650;font-size:12px;line-height:1.25;font-family:inherit;padding:8px 10px;cursor:pointer}
 #tleDemoCurtainPage .sonny-idea:hover,#tleDemoCurtainPage .sonny-idea:focus-visible{background:#d8eeff;border-color:#478bb5}
 #tleDemoCurtainPage .sonny-learn{display:inline-flex;align-items:center;color:#1b5275;text-underline-offset:3px;font-size:12px;font-weight:750;margin-top:8px}
