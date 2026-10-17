@@ -6,6 +6,9 @@ on:
       - 'public/booking-demo-reset.html'
       - 'public/assets/tle-demo-hero-portal.css'
       - 'public/assets/tle-demo-hero-portal.js'
+      - 'public/assets/tle-demo-horizontal-story.js'
+      - 'public/assets/tle-booking-bubbles-continuity.css'
+      - 'public/assets/drive-booking-journey/**'
       - 'scripts/qa-booking-demo-clean-reset.mjs'
       - '.github/workflows/booking-demo-clean-reset-qa.yml'
   push:
@@ -64,3 +67,4 @@ jobs:
             sleep 1
           done
           QA_URL=http://127.0.0.1:4173 node scripts/qa-booking-demo-clean-reset.mjs
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-booking-horizontal-drive-story.mjs

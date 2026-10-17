@@ -103,8 +103,13 @@
      bookingBubbleStep1Text:"Find the right starting point without searching through messages.",
      bookingBubbleStep2Title:"Share the details",
      bookingBubbleStep2Text:"Add the home, date and contact information in a simple flow.",
-     bookingBubbleStep3Title:"Review the request",
-     bookingBubbleStep3Text:"See what a clear, organized request can look like before sending.",
+     bookingBubbleStep3Title:"Choose a preferred time",
+     bookingBubbleStep3Text:"Request a date that works for you. The cleaning business confirms availability.",
+     bookingBubbleStep4Title:"Review the request",
+     bookingBubbleStep4Text:"See your details together before completing the sample preview.",
+     bookingBubbleFinish:"Try the demo →",
+     bookingStoryHint:"Scroll to follow the booking journey →",
+     bookingStoryProgressLabel:"BOOKING JOURNEY",
      bookingBubbleAction:"Explore the booking demo ↓",
      bookingProofKicker:"A BETTER FIRST IMPRESSION",
      bookingProofTitle:"See what a simpler booking flow can do.",
@@ -144,8 +149,13 @@
      bookingBubbleStep1Text:"Encuentra la limpieza adecuada sin buscar entre tantos mensajes.",
      bookingBubbleStep2Title:"Comparte los detalles",
      bookingBubbleStep2Text:"Añade la información del hogar, la fecha y tus datos en pocos pasos.",
-     bookingBubbleStep3Title:"Revisa la solicitud",
-     bookingBubbleStep3Text:"Mira cómo se organiza la información antes de enviar una solicitud.",
+     bookingBubbleStep3Title:"Elige una fecha y hora",
+     bookingBubbleStep3Text:"Pide la fecha que te venga bien. El negocio de limpieza confirma la disponibilidad.",
+     bookingBubbleStep4Title:"Revisa tu solicitud",
+     bookingBubbleStep4Text:"Comprueba los detalles antes de terminar esta demostración.",
+     bookingBubbleFinish:"Probar el demo →",
+     bookingStoryHint:"Desliza para seguir el recorrido →",
+     bookingStoryProgressLabel:"RECORRIDO DE RESERVAS",
      bookingBubbleAction:"Explorar el demo de reservas ↓",
      bookingProofKicker:"UNA MEJOR PRIMERA IMPRESIÓN",
      bookingProofTitle:"Descubre una forma más fácil de reservar.",
@@ -180,6 +190,8 @@
     if(word)word.textContent=value;
    }else el.textContent=value;
   }
+  document.getElementById("bookingStoryTrack")?.setAttribute("aria-label",selected==="es"?"Recorrido ilustrado para solicitar una limpieza":"Illustrated sample booking journey");
+  document.getElementById("bookingStoryProgress")?.setAttribute("aria-label",selected==="es"?"Progreso del recorrido de reservas":"Booking journey progress");
   document.getElementById("bookingPortalHeadline")?.setAttribute("aria-label",t.finalHeadline);
   windowButton?.setAttribute("aria-label",t.enter);
   document.querySelectorAll(".booking-review-foot").forEach(el=>el.textContent=t.reviewsFoot);
