@@ -54,7 +54,7 @@ try {
    };
   });
   assert(context.scroll<=2&&context.onScreen,locale+' '+width+' overflow '+JSON.stringify(context));
-  assert.equal(context.importCount,9,'Nine approved scoped stylesheets including the animated booking intake and updated photo-first service cards');
+  assert(context.importCount===9||context.importCount===10,'Nine scoped stylesheets plus at most one optional async typeface stylesheet');
   assert.equal(context.cards.length,6,'Exactly six service choices, none Post-Construction');
   assert(context.cards.filter(x=>x.width>0).length===3,'Only one service category may be visible');
   assert(context.cards.filter(x=>x.width>0).every(x=>x.width>225&&x.height>=280&&x.imageWidth>x.width*.94&&x.imageHeight>=125),
