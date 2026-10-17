@@ -377,6 +377,10 @@ body .booking-proof-disclosure{
  padding:0;overflow:hidden;overscroll-behavior-x:contain;
  background:linear-gradient(139deg,#d2eaf9 0%,#ecf8ff 46%,#d2ebfa 100%);
 }
+#bookingBubbleStory .booking-story-pin-stage{
+ position:relative;z-index:2;width:100%;height:100%;min-width:0;min-height:0;
+ display:flex;align-items:center;
+}
 #bookingBubbleStory .booking-bubble-layer{position:absolute;z-index:0}
 #bookingBubbleStory .booking-story-window{
  position:relative;z-index:2;display:flex;align-items:center;
@@ -537,4 +541,28 @@ body .booking-proof-disclosure{
  #bookingBubbleStory .story-step-outline{transform:none!important}
  #bookingBubbleStory .booking-bubble-layer span{animation:none!important}
  #bookingBubbleStory .booking-story-progress-fill{transform:scaleX(1)!important}
+}
+
+/* Owner-approved effect on phones: vertical scroll advances the same four
+   horizontal photo cards. A fixed-distance sticky stage (~1.1 screens) replaces
+   the original GSAP spacer and releases immediately after the fourth card. */
+@media(max-width:760px) and (min-height:611px){
+ #bookingBubbleStory.is-mobile-scroll-story.booking-bubble-horizontal{
+  display:block;height:210svh;min-height:0;max-height:none;
+  padding:0;overflow:visible;overscroll-behavior-x:auto;
+ }
+ #bookingBubbleStory.is-mobile-scroll-story .booking-story-pin-stage{
+  position:sticky;top:0;z-index:2;display:flex;align-items:center;
+  height:100svh;width:100%;min-height:0;overflow:hidden;
+ }
+ #bookingBubbleStory.is-mobile-scroll-story .booking-story-window{
+  height:100%;width:100%;overflow:hidden!important;
+  scroll-snap-type:none;touch-action:pan-y;-webkit-overflow-scrolling:auto;
+ }
+ #bookingBubbleStory.is-mobile-scroll-story .booking-bubble-steps{
+  scroll-snap-type:none;will-change:transform;
+ }
+ #bookingBubbleStory.is-mobile-scroll-story .booking-story-progress-wrap{
+  bottom:clamp(18px,3svh,30px);
+ }
 }
