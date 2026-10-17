@@ -7,6 +7,7 @@ on:
       - 'src/routes/index.tsx'
       - 'src/routes/es.index.tsx'
       - 'public/assets/promo/tle-smart-welcome-bundle-flyer.jpg'
+      - 'public/assets/promo/tle-smart-welcome-bundle-flyer-es.svg'
       - 'public/assets/tle-booking-bundle.js'
       - 'public/booking-bundle/index.html'
       - 'scripts/qa-smart-welcome-home*'
@@ -18,6 +19,7 @@ on:
       - 'src/routes/index.tsx'
       - 'src/routes/es.index.tsx'
       - 'public/assets/promo/tle-smart-welcome-bundle-flyer.jpg'
+      - 'public/assets/promo/tle-smart-welcome-bundle-flyer-es.svg'
       - 'public/assets/tle-booking-bundle.js'
       - 'public/booking-bundle/index.html'
       - 'scripts/qa-smart-welcome-home*'
@@ -45,7 +47,9 @@ jobs:
       - name: Check the final flyer and bundle files are in website build
         run: |
           test -s .output/public/assets/promo/tle-smart-welcome-bundle-flyer.jpg
+          test -s .output/public/assets/promo/tle-smart-welcome-bundle-flyer-es.svg
           cmp -s public/assets/promo/tle-smart-welcome-bundle-flyer.jpg .output/public/assets/promo/tle-smart-welcome-bundle-flyer.jpg
+          cmp -s public/assets/promo/tle-smart-welcome-bundle-flyer-es.svg .output/public/assets/promo/tle-smart-welcome-bundle-flyer-es.svg
           test -s .output/public/booking-bundle/index.html
   live-browser:
     if: github.ref == 'refs/heads/main'
@@ -83,6 +87,8 @@ jobs:
           exit 1
       - name: Browser QA English/Spanish and mobile/tablet/desktop
         run: node scripts/qa-smart-welcome-home-browser.mjs
+      - name: Verify localized flyer and fallback in both languages
+        run: node scripts/qa-smart-welcome-flyer-fallback.mjs
         env:
           QA_URL: https://thelaunchera.com
       - uses: actions/upload-artifact@v4
