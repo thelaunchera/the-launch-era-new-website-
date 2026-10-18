@@ -275,3 +275,53 @@ html:has(.tle-freebie-page),body:has(.tle-freebie-page){max-width:100%;overflow-
     font-size: 15px;
   }
 }
+
+/* Brand System C · iPhone contrast repair, 2026-10-18.
+   The flip component ships color:white!important; override the LEGACY ink
+   declaration at equal importance when its marketing button turns soft blue.
+   Preserve the card faces, touch navigation, transitions and imagery. */
+.sales-home .solutions-section .tle-service-flip__back a.tle-service-flip__cta,
+.sales-home .solutions-section .tle-service-flip__back a.tle-service-flip__cta:visited {
+  background-color: #D7EFFF;
+  border-color: #D7EFFF;
+  color: #191919 !important;
+  min-height: 48px;
+  font-size: 14px;
+}
+.sales-home .solutions-section .tle-service-flip__back a.tle-service-flip__cta:hover {
+  background-color: #C8E5F6;
+  border-color: #C8E5F6;
+  color: #191919 !important;
+}
+.sales-home .solutions-section .tle-service-flip__back a.tle-service-flip__cta:focus-visible {
+  outline: 3px solid #356E8C;
+  outline-offset: -3px;
+}
+/* First-party scrolling wordmarks: restore legible text without pausing
+   their existing horizontal scroll or replacing any of the original icons. */
+.sales-home .tle-logo-marquee .tle-wordmark {
+  color: #345267;
+  opacity: 1;
+}
+.sales-home .tle-logo-marquee .tle-logo-marquee-intro h2 {
+  color: #345267;
+}
+.sales-home .tle-logo-marquee .tle-logo-marquee-intro p {
+  color: #40566B;
+}
+@media (max-width: 600px) {
+  /* Reserve copy space from the floating Jessie avatar seen on iPhones.
+     Do not move or disable Jessie and do not clip the moving wordmark track. */
+  .sales-home .tle-logo-marquee .tle-logo-marquee-intro {
+    box-sizing: border-box;
+    max-width: calc(100% - 80px);
+    margin-left: 0;
+    margin-right: auto;
+    padding: 0 10px 0 22px;
+    text-align: left;
+  }
+  .sales-home .tle-logo-marquee .tle-logo-marquee-rows {
+    box-sizing: border-box;
+    padding-right: 74px;
+  }
+}
