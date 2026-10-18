@@ -842,6 +842,51 @@ function navigateWorkspaceBack(){
  }finally{workspaceBackTravel=false;updateWorkspaceBack()}
 }
 $('workspaceBack').onclick=navigateWorkspaceBack;
+ // The signed-in owner can preview privately using the existing Command Center session.
+ // Never allow an unauthenticated direct URL or a buyer workspace to open this.
+ const privateDemoModal=$('ownerDemoQuickView');
+ const privateDemoFrame=$('ownerDemoQuickFrame');
+ const privateDemoStatus=$('ownerDemoQuickStatus');
+ async function openOwnerBookingDemo(){
+  if(!workspace?.is_internal||$('app').classList.contains('hidden')||!document.body.classList.contains('crm-owner-view'))return;
+  closePremiumSidebar();
+  privateDemoModal.hidden=false;
+  privateDemoStatus.textContent='Preparing your secure preview…';
+  privateDemoStatus.hidden=false;
+  privateDemoFrame.removeAttribute('srcdoc');
+  $('ownerDemoQuickClose').focus();
+  try{
+   const {data:{session},error}=await db.auth.getSession();
+   if(error||!session?.access_token)throw new Error('Your Owner session expired. Sign in to Command Center.');
+   const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),17000);
+   let response;
+   try{
+    response=await fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-demo-gate',{
+     method:'POST',
+     headers:{'Content-Type':'application/json','Authorization':'Bearer '+session.access_token},
+     body:JSON.stringify({action:'owner_preview'}),
+     signal:controller.signal,
+     cache:'no-store'
+    });
+   }finally{clearTimeout(timeout)}
+   const result=await response.json().catch(()=>({}));
+   if(!response.ok||result.ok!==true||typeof result.html!=='string'||!/^<!doctype html>/i.test(result.html))throw new Error(result.error||'Owner preview is unavailable.');
+   if(privateDemoModal.hidden)return;
+   privateDemoFrame.srcdoc=result.html;
+   privateDemoStatus.hidden=true;
+  }catch(err){if(!privateDemoModal.hidden){privateDemoStatus.hidden=false;privateDemoStatus.textContent=err?.message||'Unable to open the demo. Please try again.'}}
+ }
+ function closeOwnerBookingDemo(){
+  privateDemoModal.hidden=true;
+  privateDemoFrame.removeAttribute('srcdoc');
+  privateDemoStatus.textContent='';
+  $('ownerDemoQuickNav').focus();
+ }
+ $('ownerDemoQuickNav').onclick=openOwnerBookingDemo;
+ $('ownerDemoQuickClose').onclick=closeOwnerBookingDemo;
+ privateDemoModal.addEventListener('click',e=>{if(e.target===privateDemoModal)closeOwnerBookingDemo()});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!privateDemoModal.hidden)closeOwnerBookingDemo()});
+
 function premiumNavigate(target){
  if(!workspace?.is_internal&&['owner-pages','owner-calendar','owner-preview','owner-build','owner-help','owner-support'].includes(target))target='home';if(workspace?.is_internal&&['buyer-followups','request-center'].includes(target))target='owner-pages';
  if(workspace?.is_internal&&target==='home')target='owner-pages';
