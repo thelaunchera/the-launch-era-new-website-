@@ -883,8 +883,8 @@ $('workspaceBack').onclick=navigateWorkspaceBack;
    }finally{clearTimeout(timeout)}
    const result=await response.json().catch(()=>({}));
    if(!response.ok||result.ok!==true||typeof result.html!=='string'||!/^<!doctype html>/i.test(result.html)||
-      !result.html.includes('Residential Cleaning')||!result.html.includes('Commercial Cleaning')||
-      !result.html.includes('Request a Quote'))throw new Error(result.error||'We could not load the Booking Automation demo.');
+      !result.html.includes('Standard Cleaning')||!result.html.includes('Commercial Cleaning')||
+      !result.html.includes('id="demoLanguage"')||!result.html.includes('Complete sample request'))throw new Error(result.error||'We could not load the Booking Automation demo.');
    if(privateDemoModal.hidden||attempt!==ownerDemoAttempt)return;
    // A valid Owner session may finish after the global splash watchdog.
    // Do not let that unrelated Command Center splash cover the private preview.
@@ -898,7 +898,9 @@ $('workspaceBack').onclick=navigateWorkspaceBack;
     privateDemoStatus.hidden=true;
     privateDemoRetry.hidden=true;
    };
-   privateDemoFrame.srcdoc=result.html;
+   // The template is protected server-side. Only the owner's preferred UI language is passed into this isolated srcdoc.
+   const previewLang=(localStorage.getItem('tle_crm_owner_language')||localStorage.getItem('tle_crm_language'))==='es'?'es':'en';
+   privateDemoFrame.srcdoc=result.html.replace('<html lang="en">','<html lang="en" data-initial-lang="'+previewLang+'">');
    ownerDemoLoadWatch=setTimeout(()=>{
     ownerDemoLoadWatch=null;
     if(privateDemoModal.hidden||attempt!==ownerDemoAttempt||privateDemoStatus.hidden)return;
