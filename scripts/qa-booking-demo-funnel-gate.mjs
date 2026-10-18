@@ -44,7 +44,7 @@ assert.match(ownerScript,/ownerDemoQuickShortcut.*classList\.toggle/);
 assert.match(ownerScript,/ownerDemoOverviewOpen.*onclick=openOwnerBookingDemo/);
 assert.match(ownerScript,/u\.searchParams\.get\(\x27ownerDemo\x27\)/);
 assert.match(ownerScript,/workspace\?\.is_internal/);
-assert.match(ownerPage,/sandbox="allow-scripts"/);
+assert.match(ownerPage,/sandbox="allow-scripts allow-forms"/);
 assert.match(ownerScript,/action:'owner_preview'/);
 assert.match(ownerScript,/db\.auth\.getSession\(\)/);
 assert.match(ownerScript,/privateDemoFrame\.srcdoc=result\.html\.replace/);
