@@ -847,15 +847,25 @@ $('workspaceBack').onclick=navigateWorkspaceBack;
  const privateDemoModal=$('ownerDemoQuickView');
  const privateDemoFrame=$('ownerDemoQuickFrame');
  const privateDemoStatus=$('ownerDemoQuickStatus');
+ const privateDemoRetry=$('ownerDemoQuickRetry');
  let ownerDemoReturnFocus=$('ownerDemoQuickNav');
+ let ownerDemoAttempt=0;
+ let ownerDemoLoadWatch=null;
+ function resetOwnerDemoFrame(){
+  if(ownerDemoLoadWatch){clearTimeout(ownerDemoLoadWatch);ownerDemoLoadWatch=null}
+  privateDemoFrame.onload=null;
+  privateDemoFrame.removeAttribute('srcdoc');
+  privateDemoRetry.hidden=true;
+ }
  async function openOwnerBookingDemo(event){
   if(!workspace?.is_internal||$('app').classList.contains('hidden')||!document.body.classList.contains('crm-owner-view'))return;
   if(event?.currentTarget instanceof HTMLElement)ownerDemoReturnFocus=event.currentTarget;
+  const attempt=++ownerDemoAttempt;
   closePremiumSidebar();
+  resetOwnerDemoFrame();
   privateDemoModal.hidden=false;
-  privateDemoStatus.textContent='Preparing your secure preview…';
+  privateDemoStatus.textContent='Loading your Booking Automation demo…';
   privateDemoStatus.hidden=false;
-  privateDemoFrame.removeAttribute('srcdoc');
   $('ownerDemoQuickClose').focus();
   try{
    const {data:{session},error}=await db.auth.getSession();
@@ -872,20 +882,46 @@ $('workspaceBack').onclick=navigateWorkspaceBack;
     });
    }finally{clearTimeout(timeout)}
    const result=await response.json().catch(()=>({}));
-   if(!response.ok||result.ok!==true||typeof result.html!=='string'||!/^<!doctype html>/i.test(result.html))throw new Error(result.error||'Owner preview is unavailable.');
-   if(privateDemoModal.hidden)return;
+   if(!response.ok||result.ok!==true||typeof result.html!=='string'||!/^<!doctype html>/i.test(result.html)||
+      !result.html.includes('Residential Cleaning')||!result.html.includes('Commercial Cleaning')||
+      !result.html.includes('Request a Quote'))throw new Error(result.error||'We could not load the Booking Automation demo.');
+   if(privateDemoModal.hidden||attempt!==ownerDemoAttempt)return;
+   // A valid Owner session may finish after the global splash watchdog.
+   // Do not let that unrelated Command Center splash cover the private preview.
+   const cover=$('tleLoading');
+   if(cover)cover.remove();
+   window.__tleBootReady=true;
+   privateDemoFrame.loading='eager';
+   privateDemoFrame.onload=()=>{
+    if(privateDemoModal.hidden||attempt!==ownerDemoAttempt||!privateDemoFrame.hasAttribute('srcdoc'))return;
+    if(ownerDemoLoadWatch){clearTimeout(ownerDemoLoadWatch);ownerDemoLoadWatch=null}
+    privateDemoStatus.hidden=true;
+    privateDemoRetry.hidden=true;
+   };
    privateDemoFrame.srcdoc=result.html;
-   privateDemoStatus.hidden=true;
-  }catch(err){if(!privateDemoModal.hidden){privateDemoStatus.hidden=false;privateDemoStatus.textContent=err?.message||'Unable to open the demo. Please try again.'}}
+   ownerDemoLoadWatch=setTimeout(()=>{
+    ownerDemoLoadWatch=null;
+    if(privateDemoModal.hidden||attempt!==ownerDemoAttempt||privateDemoStatus.hidden)return;
+    privateDemoStatus.textContent='The preview is taking longer than expected. Try opening it again.';
+    privateDemoRetry.hidden=false;
+   },12000);
+  }catch(err){
+   if(privateDemoModal.hidden||attempt!==ownerDemoAttempt)return;
+   privateDemoStatus.hidden=false;
+   privateDemoStatus.textContent=err?.message||'Unable to open the demo. Please try again.';
+   privateDemoRetry.hidden=false;
+  }
  }
  function closeOwnerBookingDemo(){
+  ++ownerDemoAttempt;
   privateDemoModal.hidden=true;
-  privateDemoFrame.removeAttribute('srcdoc');
+  resetOwnerDemoFrame();
   privateDemoStatus.textContent='';
   if(ownerDemoReturnFocus?.isConnected)ownerDemoReturnFocus.focus({preventScroll:true});
  }
  $('ownerDemoQuickNav').onclick=openOwnerBookingDemo;
  $('ownerDemoQuickShortcut').onclick=openOwnerBookingDemo;
+ privateDemoRetry.onclick=openOwnerBookingDemo;
  $('ownerDemoOverviewOpen').onclick=openOwnerBookingDemo;
  window.addEventListener('tle-crm-ready',()=>{
   const u=new URL(location.href);
