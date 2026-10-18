@@ -11,7 +11,10 @@ const sample=readFileSync(dir+'buyer-account-preview.html','utf8');
 assert.match(main,/<meta name="viewport" content="width=device-width,initial-scale=1">/);
 assert.match(main,/id="ownerPreviewClose" class="secondary hidden"/);
 assert.match(main,/id="ownerEmbeddedPreviewFrame"/);
-assert.match(main,/command-center\.css\?v=20261018-booking-preview-link-v1/);
+assert.match(main,/id="ownerFocusHub"/,'Owner home shortcuts remain visible');
+assert.match(main,/id="ownerExtraTools"/,'Advanced owner controls remain accessible');
+assert.match(css,/\.crm-owner-view \.owner-focus-grid/,'Owner iPhone layout stays responsive');
+assert.match(main,/command-center\.css\?v=20261018-owner-simple-v1/);
 assert.match(main,/command-center-app\.js\?v=20\d{6}-[a-z0-9-]+/);
 
 const source=app.slice(app.indexOf('/* Owner previews: real shared markup'));
