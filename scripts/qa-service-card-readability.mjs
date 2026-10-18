@@ -52,7 +52,8 @@ try{
     assert(c.backScroll<=c.backHeight+5,'Back card clips content '+lang+' '+width+': '+JSON.stringify(c));
     assert(c.tagBottom<=c.faceBottom+2,'Bottom tag hidden '+c.title);
     assert(c.frontTextBottom<=c.faceBottom+2,'Description hidden '+c.title);
-    assert(c.ctaHeight<=44,'CTA too tall '+c.title);
+    // The approved iPhone Brand C repair uses a 48px minimum touch target.
+    assert(c.ctaHeight>=48 && c.ctaHeight<=58,'Service CTA should remain a compact, accessible touch target '+c.title+': '+c.ctaHeight);
     assert(c.ctaWidth<c.cardWidth*.86,'CTA should be a small pill '+c.title);
    }
    assert.deepEqual(writes,[],'Card browsing must never submit');
