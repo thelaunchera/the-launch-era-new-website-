@@ -82,6 +82,24 @@ try {
     assert(info.heroPhoto && info.starfield, path+' at '+width+': imagery or starfield missing');
     assert(info.noOverflow, path+' at '+width+': horizontal overflow');
     assert(info.href?.startsWith('/booking-demo/?lang='), 'Booking CTA URL changed');
+    // Regression reported by owner on iPhone: the old flip-card stylesheet had
+    // color:white!important over the soft-blue CTA. Check computed colors.
+    const cardInk = await page.locator('.sales-home .solutions-section .tle-service-flip__back a.tle-service-flip__cta').first().evaluate(el => {
+      const s=getComputedStyle(el);return {color:s.color,bg:s.backgroundColor,height:parseFloat(s.minHeight)};
+    });
+    assert.equal(cardInk.color, 'rgb(25, 25, 25)', path+' at '+width+': card CTA invisible ink');
+    assert.equal(cardInk.bg, 'rgb(215, 239, 255)', path+' at '+width+': card CTA not soft blue');
+    assert(cardInk.height >= 48, path+' at '+width+': card CTA touch target below 48px');
+    const marqueeInk = await page.locator('.sales-home .tle-logo-marquee .tle-wordmark').first().evaluate(el => {
+      const s=getComputedStyle(el);return {color:s.color,opacity:s.opacity};
+    });
+    assert.equal(marqueeInk.color, 'rgb(52, 82, 103)', path+' at '+width+': marquee has pale text');
+    assert.equal(marqueeInk.opacity, '1', path+' at '+width+': marquee wordmarks faded');
+    if(width <= 600) {
+      const geometry=await page.locator('.sales-home .tle-logo-marquee .tle-logo-marquee-intro').evaluate(el=>({right:el.getBoundingClientRect().right, viewport:innerWidth}));
+      assert(geometry.right <= geometry.viewport - 75, path+' at '+width+': Jessie avatar overlaps marquee intro');
+    }
+
     assert.deepEqual(errors, [], path+' at '+width+': JS page errors');
     await page.close();
     console.log('PASS Brand Home C browser '+path+' '+width+'px');
