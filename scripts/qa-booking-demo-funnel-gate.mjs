@@ -44,10 +44,10 @@ assert.match(ownerScript,/ownerDemoQuickShortcut.*classList\.toggle/);
 assert.match(ownerScript,/ownerDemoOverviewOpen.*onclick=openOwnerBookingDemo/);
 assert.match(ownerScript,/u\.searchParams\.get\(\x27ownerDemo\x27\)/);
 assert.match(ownerScript,/workspace\?\.is_internal/);
-assert.match(ownerPage,/sandbox="allow-scripts"/);
+assert.match(ownerPage,/sandbox="allow-scripts allow-forms"/);
 assert.match(ownerScript,/action:'owner_preview'/);
 assert.match(ownerScript,/db\.auth\.getSession\(\)/);
-assert.match(ownerScript,/privateDemoFrame\.srcdoc=result\.html/);
+assert.match(ownerScript,/privateDemoFrame\.srcdoc=result\.html\.replace/);
 assert.match(ownerPage,/id="ownerDemoQuickModalCard"/);
 assert.equal((ownerPage.match(/id="ownerDemoQuickCard"/g)||[]).length,1,'Owner dashboard IDs must be unique');
 assert.match(ownerPage,/id="ownerDemoQuickRetry"/);
@@ -58,9 +58,10 @@ assert.match(ownerScript,/window\.__tleBootReady=true/);
 assert.match(ownerScript,/if\(cover\)cover\.remove\(\)/);
 assert.match(ownerScript,/privateDemoFrame\.onload=/);
 assert.match(ownerScript,/privateDemoRetry\.onclick=openOwnerBookingDemo/);
-assert.match(ownerScript,/!result\.html\.includes\('Residential Cleaning'\)/);
+assert.match(ownerScript,/!result\.html\.includes\('Standard Cleaning'\)/);
 assert.match(ownerScript,/!result\.html\.includes\('Commercial Cleaning'\)/);
-assert.match(ownerScript,/!result\.html\.includes\('Request a Quote'\)/);
+assert.match(ownerScript,/!result\.html\.includes\('id="demoLanguage"'\)/);
+assert.match(ownerScript,/!result\.html\.includes\('Complete sample request'\)/);
 assert.match(ownerScript,/privateDemoStatus\.hidden=true/);
 
 assert.match(publicRequest,/acceptance_url/);
@@ -139,11 +140,11 @@ async function mockOwnerView({owner=true,authorized=true}={}){
    assert.match(url,/tle-booking-demo-gate/);
    assert.equal(JSON.parse(init.body).action,'owner_preview');
    return {ok:authorized,status:authorized?200:403,json:async()=>authorized
-    ?{ok:true,html:'<!DOCTYPE html><html><body>Residential Cleaning • Commercial Cleaning • Request a Quote</body></html>'}
+    ?{ok:true,html:'<!doctype html><html lang="en"><body>Standard Cleaning • Commercial Cleaning • Complete sample request <select id="demoLanguage"></select></body></html>'}
     :{ok:false,error:'Only the workspace owner can open this preview.'}};
   },
   URL,location:{href:'https://thelaunchera.com/command-center/',search:''},
-  history:{replaceState:()=>{}},setTimeout,clearTimeout,AbortController,
+  history:{replaceState:()=>{}},localStorage:{getItem:()=> 'en'},setTimeout,clearTimeout,AbortController,
   HTMLElement:MockElement
  };
  vm.runInNewContext(ownerDialogSource,context,{timeout:1000,filename:'OwnerDemoModal.js'});
@@ -156,7 +157,7 @@ assert.equal(ownerSuccess.backendCalls,1,'One request per preview click');
 assert.equal(ownerSuccess.nodes.tleLoading.removed,true,'Stale workspace loader is cleared only after a verified preview');
 assert.equal(ownerSuccess.nodes.ownerDemoQuickStatus.hidden,true,'Owner dialog finishes only after iframe load');
 assert.equal(ownerSuccess.nodes.ownerDemoQuickRetry.hidden,true,'Do not show retry on success');
-assert.match(ownerSuccess.nodes.ownerDemoQuickFrame.srcdoc,/Residential Cleaning/,'Owner sees actual demo content');
+assert.match(ownerSuccess.nodes.ownerDemoQuickFrame.srcdoc,/Standard Cleaning/,'Owner sees new official demo content');
 const ownerDenied=await mockOwnerView({authorized:false});
 assert.equal(ownerDenied.nodes.ownerDemoQuickFrame.srcdoc,null,'Access denial must never render protected demo');
 assert.equal(ownerDenied.nodes.ownerDemoQuickRetry.hidden,false,'Errors expose a retry action');
