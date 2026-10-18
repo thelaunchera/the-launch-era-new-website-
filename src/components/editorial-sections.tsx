@@ -1,3 +1,4 @@
+import { StarfieldAccent } from '@/components/starfield-accent';
 import { ConnectedBookingFlow, HeroConnectionBackdrop } from './connected-booking-flow';
 import { ServiceFlipCard } from './service-flip-card';
 import { SuccessConfirmation } from './success-confirmation';
@@ -40,7 +41,7 @@ export function HomeHero() {
  const {heroRef,revealed}=useHeroWipe();
  useEffect(()=>{if(heroImageRef.current?.complete)setHeroLoaded(true)},[]);
  return <><section className="hero-scroll" aria-label="An example of The Launch Era booking experience"><div className="hero-scroll-stage"><HeroConnectionBackdrop lang="en"/><div className="hero-scroll-reveal"><span>YOUR BOOKING FLOW</span><HeroSplitWordLink lang="en"/></div><div ref={heroRef} data-wipe-visible={revealed && heroLoaded} className={`hero-photo hero-scroll-frame hero-split ${heroLoaded?'hero-media-ready':'hero-media-loading'}`}>
- <div className="tle-hero-soft-mesh" aria-hidden="true"><span/><span/><span/><span/></div>
+ <StarfieldAccent/><div className="tle-hero-soft-mesh" aria-hidden="true"><span/><span/><span/><span/></div>
  <div className="hero-intro">
    <div className="eyebrow">FOR CLEANING BUSINESS OWNERS</div>
    <h1 className="tle-hero-heading-shine">Less time chasing messages. More time for your business.</h1>
@@ -107,7 +108,7 @@ export function ProcessSection() {
   </div>
  </div></section>;
 }
-export function FinalCTA() { const {price}=useBookingPrice(); return <section className="final-section"><Wave/><div className="eyebrow">GIVE YOUR NEXT INQUIRY A PLACE TO GO.</div><h2 className="editorial">Your next client should be<br/><em>easy to keep track of.</em></h2><p>Get your personalized Booking Page and private Command Center.</p><div className="final-actions"><MarketingCTA className="cta-button" href="/booking-bundle/?lang=en">Get my booking system — {price} <ArrowRight/></MarketingCTA></div></section> }
+export function FinalCTA() { const {price}=useBookingPrice(); return <section className="final-section"><StarfieldAccent/><Wave/><div className="eyebrow">GIVE YOUR NEXT INQUIRY A PLACE TO GO.</div><h2 className="editorial">Your next client should be<br/><em>easy to keep track of.</em></h2><p>Get your personalized Booking Page and private Command Center.</p><div className="final-actions"><MarketingCTA className="cta-button" href="/booking-bundle/?lang=en">Get my booking system — {price} <ArrowRight/></MarketingCTA></div></section> }
 export function PageIntro({label,title,description}:{label:string,title:string,description:string}) { return <section className="page-intro"><div className="eyebrow">{label}</div><h1 className="editorial">{title}</h1><p>{description}</p></section> }
 export function ContactForm() {
  const [status,setStatus]=useState<'idle'|'sending'|'done'|'sent'|'error'>('idle');
