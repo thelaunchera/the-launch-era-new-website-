@@ -8,6 +8,16 @@ const ownerScript=read('public/command-center/assets/command-center-app.js');
 const publicRequest=read('public/booking-demo/index.html');
 assert.match(ownerPage,/id="ownerDemoQuickNav"/);
 assert.match(ownerPage,/id="ownerDemoQuickShortcut"/);
+assert.match(ownerPage,/id="ownerMasterBookingPreview" class="owner-preview-private-cta"/);
+assert.match(ownerPage,/id="ownerShowLandingPreview" class="secondary">Open Booking Demo</);
+assert.doesNotMatch(ownerPage,/href="\/booking-demo\/" id="ownerMasterBookingPreview"/);
+assert.match(ownerScript,/document\.getElementById\('ownerShowLandingPreview'\)\.onclick=openPrivateBookingDemo/);
+assert.match(ownerScript,/document\.getElementById\('ownerMasterBookingPreview'\)\.onclick=openPrivateBookingDemo/);
+assert.match(ownerScript,/if\(!workspace\?\.is_internal\|\|!document\.body\.classList\.contains\('crm-owner-view'\)\)return/);
+assert.match(ownerScript,/openButton\.click\(\)/);
+assert.doesNotMatch(ownerScript,/frame\.src='\/booking-demo\/\?/);
+assert.match(ownerScript,/frame\.srcdoc=realLayout\(\)/);
+
 assert.match(ownerPage,/id="ownerDemoOverviewOpen"/);
 assert.match(ownerScript,/ownerDemoQuickShortcut.*classList\.toggle/);
 assert.match(ownerScript,/ownerDemoOverviewOpen.*onclick=openOwnerBookingDemo/);

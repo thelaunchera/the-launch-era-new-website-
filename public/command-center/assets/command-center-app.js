@@ -4630,23 +4630,38 @@ bootAfterPrivateEmailConfirmation();
  }
  const closeButton=document.getElementById('ownerPreviewClose');
  const expandButton=document.getElementById('ownerPreviewExpand');
+ function openPrivateBookingDemo(){
+  // Never use the public /booking-demo/ request form as an Owner preview.
+  // Reuse the existing Owner-only action, which verifies Supabase Auth server-side.
+  if(!workspace?.is_internal||!document.body.classList.contains('crm-owner-view'))return;
+  if(current)close();
+  const openButton=document.getElementById('ownerDemoQuickShortcut');
+  if(!openButton||openButton.classList.contains('hidden')){
+   status.textContent=es()?'Abre tu Command Center como Owner para ver la demo.':'Sign in as Owner to open your private Booking Demo.';
+   return;
+  }
+  status.textContent=es()?'Abriendo la demo de Booking Automation…':'Opening your private Booking Automation demo…';
+  openButton.click();
+ }
  function open(kind){
   if(!workspace?.is_internal)return;
+  if(kind==='landing'){openPrivateBookingDemo();return;}
   current=kind;
   shell.classList.remove('hidden');
   closeButton.classList.remove('hidden');
   closeButton.textContent=es()?'← Salir de la vista previa':'← Exit preview';
   closeButton.setAttribute('aria-label',es()?'Salir de la vista previa y regresar a Clientes y compras':'Exit preview and return to Clients & Purchases');
-  if(kind==='landing'){frame.removeAttribute('srcdoc');frame.src='/booking-demo/?lang='+(es()?'es':'en');}
-  else{frame.removeAttribute('src');frame.srcdoc=realLayout();}
+  frame.removeAttribute('src');
+  frame.srcdoc=realLayout();
   status.textContent=es()?(kind==='landing'?'Landing demo · Vista interactiva':'Diseño real del Command Center · Datos de muestra'):(kind==='landing'?'Landing demo · Interactive preview':'Real Command Center layout · Sample data');
   document.getElementById('ownerShowLandingPreview').setAttribute('aria-pressed',String(kind==='landing'));
   document.getElementById('ownerShowCommandPreview').setAttribute('aria-pressed',String(kind==='command'));
  }
- document.getElementById('ownerShowLandingPreview').onclick=()=>open('landing');
+ document.getElementById('ownerShowLandingPreview').onclick=openPrivateBookingDemo;
+ document.getElementById('ownerMasterBookingPreview').onclick=openPrivateBookingDemo;
  document.getElementById('ownerShowCommandPreview').onclick=()=>open('command');
- document.getElementById('ownerPreviewPhone').onclick=()=>{if(!current)open('landing');shell.classList.add('is-phone');};
- document.getElementById('ownerPreviewDesktop').onclick=()=>{if(!current)open('landing');shell.classList.remove('is-phone');};
+ document.getElementById('ownerPreviewPhone').onclick=()=>{if(!current)open('command');shell.classList.add('is-phone');};
+ document.getElementById('ownerPreviewDesktop').onclick=()=>{if(!current)open('command');shell.classList.remove('is-phone');};
  function close(){
   const wasOpen=Boolean(current)||card.classList.contains('is-expanded');
   card.classList.remove('is-expanded');
@@ -4663,7 +4678,7 @@ bootAfterPrivateEmailConfirmation();
   if(wasOpen){card.scrollIntoView({block:'start',behavior:'instant'});document.getElementById('ownerShowLandingPreview').focus({preventScroll:true});}
  }
  expandButton.onclick=()=>{
-  if(!current)open('landing');
+  if(!current)open('command');
   card.classList.add('is-expanded');
   document.body.classList.add('owner-embedded-preview-expanded');
   closeButton.classList.remove('hidden');
