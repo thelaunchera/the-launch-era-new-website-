@@ -46,7 +46,13 @@ async function inspect(page,lang,width,expectEnabled){
     assert(radius>35&&radius<55,lang+' '+width+': 45px blue mask failed: '+clip);
     assert.equal(await colored.evaluate(el=>getComputedStyle(el).display),'block');
     await page.mouse.move(1,1);
-    await page.waitForTimeout(750);
+    // The spring may take longer under shared CI load; wait for the real
+    // settled end-state rather than sampling at an arbitrary 750ms frame.
+    await page.waitForFunction(() => {
+      const clip=document.querySelector('.problem-section .tle-mask-headline__mask')?.style.clipPath||'';
+      const radius=Number((clip.match(/circle\(([\d.]+)px/)||[])[1]);
+      return Number.isFinite(radius) && radius<2;
+    },null,{timeout:4500});
     const gone=await colored.evaluate(el=>el.style.clipPath);
     assert(Number((gone.match(/circle\(([\d.]+)px/)||[])[1])<2,lang+' '+width+': mask did not retreat');
   }else{
