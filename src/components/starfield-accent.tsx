@@ -51,7 +51,7 @@ export function StarfieldAccent() {
       schedule();
     };
     const observer = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting;
+      visible = entry?.isIntersecting ?? false;
       if (visible && !motion.matches) setMounted(true);
       schedule();
     });
