@@ -10,7 +10,6 @@ const observer = read('src/components/use-hero-wipe.ts');
 const root = read('src/routes/__root.tsx');
 const scrollCSS = read('public/assets/tle-hero-scroll.css');
 const styles = read('src/styles.css');
-const splitWord = read('src/components/hero-split-word-link.tsx');
 const heroPhoto = read('src/lib/home-hero-photo.ts');
 const homeRoute = read('src/routes/index.tsx');
 const photoBytes = readFileSync(new URL('../public/assets/hero-cleaner-lights-20261017.jpg', import.meta.url));
@@ -26,7 +25,8 @@ for (const [lang, hero, expected] of [
 ]) {
   assert(hero.includes('className="hero-scroll"'), lang + ': scroll stage missing');
   assert(hero.includes('hero-scroll-stage') && hero.includes('hero-scroll-frame'), lang + ': scroll frame missing');
-  assert(hero.includes('hero-scroll-reveal') && hero.includes('<HeroSplitWordLink lang="' + lang.toLowerCase() + '"/>'), lang + ': split-word scroll link missing');
+  assert(hero.includes('hero-scroll-stage--starfield') && hero.includes('<StarfieldAccent/>'), lang + ': full-hero starfield missing');
+  assert(!hero.includes('hero-scroll-reveal') && !hero.includes('HeroSplitWordLink'), lang + ': removed scroll hint returned');
   assert(hero.includes('id="hero-next"'), lang + ': next-section target missing');
   assert(hero.includes('className="hero-split-visual"'), lang + ': separate image panel missing');
   assert(hero.includes('className="tle-hero-soft-mesh" aria-hidden="true"'), lang + ': decorative mesh absent or exposed to assistive technology');
@@ -41,7 +41,6 @@ for (const [lang, hero, expected] of [
   assert(hero.indexOf('hero-cta-row') < hero.indexOf('hero-split-visual'), lang + ': copy must lead on desktop');
   assert(hero.indexOf('hero-split-visual') < hero.indexOf('hero-notice-flow'), lang + ': notifications must sit inside image');
 }
-assert(splitWord.includes('href="#hero-next"') && splitWord.includes('aria-label=') && splitWord.includes('tle-hero-split-upper') && splitWord.includes('tle-hero-split-lower') && splitWord.includes('tle-hero-split-reveal'), 'accessible native scroll anchor or two word halves missing');
 assert(observer.includes('IntersectionObserver') && observer.includes('observer.disconnect()'));
 assert(scrollCSS.includes('height: 180svh') && scrollCSS.includes('position: sticky'));
 assert(scrollCSS.includes('scale(calc(1 - .3 * var(--hero-scroll-progress, 0)))'));
@@ -62,7 +61,8 @@ assert(root.indexOf('tle-hero-scroll.css') > root.indexOf('tle-saas-ui-v1.css'),
 assert(scrollCSS.includes('tle-mobile-hero-photo-balance-20261017'),'Mobile hero composition must keep the compact-photo override');
 assert(scrollCSS.includes('tle-home-heading-horizontal-flow-20261017'),'Long-form heading mobile typography missing');
 for(const marker of ['tle-home-hero-text-shine-20261017','background-size:260% 100%','background-position:130% 0','70%,100% {background-position:-30% 0}','animation:tle-home-hero-ink-shine 3.8s linear infinite','background-position:50% 0 !important']) assert(scrollCSS.includes(marker),'Heading shine CSS missing '+marker);
-assert(root.includes('tle-hero-scroll.css?v=20261017-horizontal-headline1'),'Mobile hero CSS must bypass previous iPhone cache');
+assert(root.includes('tle-hero-scroll.css?v=20261018-fullscreen-starfield1'),'New hero CSS must bypass previous iPhone cache');
+assert(scrollCSS.includes('2026-10-18: One continuous starfield') && scrollCSS.includes('height: clamp(390px, 72svh, 620px)'), 'new first-fold styling absent');
 // Localized marketing activity floats (illustrative only, never real customer records).
 assert.equal((en.match(/app:'(?:BOOKING PAGE|COMMAND CENTER|QUOTES)'/g)||[]).length,4,'EN four marketing notices missing');
 assert(es.includes("'Cotización lista'") && es.includes("'Reserva confirmada'"),'ES localized activity notices missing');
@@ -112,9 +112,8 @@ try {
      phoneGeometry: {
        visual: { width:a.width,height:a.height,left:a.left,right:a.right,top:a.top },
        screenWidth:innerWidth,
-       revealBottom:hero.querySelector('.hero-scroll-reveal').getBoundingClientRect().bottom,
+       photoGap:a.top-stage.getBoundingClientRect().top,
        cards:Array.from(panel.querySelectorAll('.hero-notice-flow .notification')).filter(el=>getComputedStyle(el).display!=='none').map(el=>{const r=el.getBoundingClientRect();return {width:r.width,top:r.top,bottom:r.bottom,left:r.left,right:r.right}}),
-       splitLinkHeight:hero.querySelector('.tle-hero-split-link').getBoundingClientRect().height
      },
      introOpacity: Number(getComputedStyle(intro).opacity),
      heading:(()=>{const h=intro.querySelector('h1'),c=getComputedStyle(h),r=h.getBoundingClientRect();return {text:h.innerText,width:r.width,left:r.left,right:r.right,height:r.height,font:parseFloat(c.fontSize),weight:c.fontWeight,lineHeight:parseFloat(c.lineHeight),lines:Math.round(r.height/parseFloat(c.lineHeight)),forcedBreaks:h.querySelectorAll('br').length,animation:c.animationName,clip:c.backgroundClip,fill:c.webkitTextFillColor}})(),
@@ -192,8 +191,8 @@ try {
     assert(state.phoneGeometry.visual.height >= 339, lang + ' ' + viewport.width + ': photo still too short');
     assert(state.phoneGeometry.visual.width >= viewport.width - 26, lang + ' ' + viewport.width + ': photo not wide enough');
     assert(state.phoneGeometry.visual.left >= -1 && state.phoneGeometry.visual.right <= viewport.width + 1, lang + ': picture escapes viewport');
-    assert(state.phoneGeometry.splitLinkHeight >= 90 && state.phoneGeometry.splitLinkHeight <= 95, lang + ': animated split CTA lost its full touch area');
-    assert(state.phoneGeometry.visual.top - state.phoneGeometry.revealBottom < 28, lang + ': excess white space above photo');
+    assert(state.phoneGeometry.photoGap >= -3 && state.phoneGeometry.photoGap < 32, lang + ': photo starts too far below stage: ' + state.phoneGeometry.photoGap);
+    assert(state.phoneGeometry.visual.height >= Math.min(390,viewport.height*.60), lang + ': first-fold photo too short');
     assert(state.phoneGeometry.cards.length === 2, lang + ': mobile shows wrong number of notification chips');
     assert(state.phoneGeometry.cards.every(c=>c.width <= 211), lang + ': mobile chips still oversized');
     assert(state.phoneGeometry.cards[0].bottom + 4 < state.phoneGeometry.cards[1].top, lang + ': mobile notification chips overlap');
@@ -214,38 +213,15 @@ try {
     const end = await hero.evaluate(el => ({
      scale:new DOMMatrixReadOnly(getComputedStyle(el.querySelector('.hero-scroll-frame')).transform).a,
      opacity:Number(getComputedStyle(el.querySelector('.hero-intro')).opacity),
-     hint:getComputedStyle(el.querySelector('.hero-scroll-reveal')).visibility,
      inert:el.querySelector('.hero-intro').hasAttribute('inert')
     }));
     assert(Math.abs(end.scale - .7) < .045, lang + ' ' + viewport.width + ': expected scroll shrink to .7: ' + JSON.stringify(end));
     assert(end.opacity > .95 && !end.inert, lang + ': visible demo CTA became inaccessible');
-    assert(end.hint === 'visible', lang + ': scroll continue hint missing');
    }
    if ([390,820,1440].includes(viewport.width)) await page.screenshot({ path:`qa-screenshots/home-scroll-${lang}-${viewport.width}-final.png`, fullPage:false });
    await page.close();
   }
-  // Regress the exact touch-only effect: on iPads its one-time animation must
-  // start when the scroll link becomes visible, not before first scroll.
-  const ipadTouch = await browser.newPage({
-    viewport: { width: 834, height: 1194 },
-    hasTouch: true,
-    isMobile: true,
-    reducedMotion: 'no-preference'
-  });
-  await ipadTouch.goto(base + route, { waitUntil:'domcontentloaded', timeout:45000 });
-  await ipadTouch.waitForFunction(() => document.querySelector('.hero-split')?.getAttribute('data-wipe-visible') === 'true');
-  const beforePeek = await ipadTouch.locator('.hero-scroll-reveal .tle-hero-split-upper').evaluate(el=>getComputedStyle(el).animationName);
-  assert.equal(beforePeek, 'none', lang + ': iPad touch peek must wait until the link is visible');
-  await ipadTouch.evaluate(() => {
-    document.documentElement.style.scrollBehavior='auto';
-    const hero=document.querySelector('.hero-scroll');
-    window.scrollTo(0, scrollY + hero.getBoundingClientRect().top + hero.offsetHeight - innerHeight);
-  });
-  await ipadTouch.waitForFunction(() => document.querySelector('.hero-scroll')?.classList.contains('hero-scroll-revealed'), null, { timeout: 10000 });
-  const afterPeek = await ipadTouch.locator('.hero-scroll-reveal .tle-hero-split-upper').evaluate(el=>getComputedStyle(el).animationName);
-  assert(afterPeek.includes('tle-word-peek-upper'), lang + ': iPad touch effect did not restart on reveal');
-  await ipadTouch.close();
-
+  // Portrait tablet composition has been verified in the viewport matrix above.
   const reduced = await browser.newPage({ viewport: { width:390, height:844 }, reducedMotion:'reduce' });
   await reduced.goto(base + route, { waitUntil:'domcontentloaded', timeout:45000 });
   await reduced.locator('.hero-split').waitFor({ state:'visible' });
