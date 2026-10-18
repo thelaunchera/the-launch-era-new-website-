@@ -62,6 +62,14 @@ assert.match(ownerScript,/!result\.html\.includes\('Standard Cleaning'\)/);
 assert.match(ownerScript,/!result\.html\.includes\('Commercial Cleaning'\)/);
 assert.match(ownerScript,/!result\.html\.includes\('id="demoLanguage"'\)/);
 assert.match(ownerScript,/!result\.html\.includes\('Complete sample request'\)/);
+
+assert.match(ownerScript,/TLE_SONNY_DEMO_REQUEST/,'Owner Sonny secure relay');
+assert.match(ownerScript,/TLE_SONNY_DEMO_RESPONSE/,'Owner Sonny response');
+assert.match(ownerScript,/event\.origin!=='null'/,'Sandbox opaque origin required');
+assert.match(ownerScript,/event\.source!==privateDemoFrame\.contentWindow/,'Only this frame');
+assert.match(ownerScript,/privateDemoModal\.hidden/,'Only when modal visible');
+assert.match(ownerScript,/sonnyDemoEndpoint/,'AI-only endpoint');
+assert.match(ownerScript,/booking_draft:\{\}/,'No booking form data');
 assert.match(ownerScript,/privateDemoStatus\.hidden=true/);
 
 assert.match(publicRequest,/acceptance_url/);
@@ -133,10 +141,19 @@ async function mockOwnerView({owner=true,authorized=true}={}){
  const context={
   $:id=>nodes[id],
   document:{body:{classList:{contains:name=>name==='crm-owner-view'&&owner}},addEventListener:()=>{}},
-  workspace:{is_internal:owner},window:{__tleBootReady:false,addEventListener:()=>{}},
+  workspace:{is_internal:owner},window:{__tleBootReady:false,listeners:{},addEventListener:function(name,fn){this.listeners[name]=fn}},
   closePremiumSidebar:()=>{},db:{auth:{getSession:async()=>({data:{session:{access_token:'mock-authorized-session'}}})}},
   fetch:async(url,init)=>{
    backendCalls++;
+   if(url.includes('tle-ai-booking-demo')){
+    assert.equal(init.credentials,'omit');
+    assert.equal(init.headers['Content-Type'],'application/json');
+    const payload=JSON.parse(init.body);
+    assert.deepEqual(Object.keys(payload.booking_draft),[]);
+    assert.equal(payload.business_name,'Sample Cleaning Co.');
+    assert.equal(payload.customer_message,'Could you help me choose a service?');
+    return {ok:true,status:200,json:async()=>({reply:'Sure! Is this for a home or a commercial space?'})};
+   }
    assert.match(url,/tle-booking-demo-gate/);
    assert.equal(JSON.parse(init.body).action,'owner_preview');
    return {ok:authorized,status:authorized?200:403,json:async()=>authorized
@@ -158,6 +175,22 @@ assert.equal(ownerSuccess.nodes.tleLoading.removed,true,'Stale workspace loader 
 assert.equal(ownerSuccess.nodes.ownerDemoQuickStatus.hidden,true,'Owner dialog finishes only after iframe load');
 assert.equal(ownerSuccess.nodes.ownerDemoQuickRetry.hidden,true,'Do not show retry on success');
 assert.match(ownerSuccess.nodes.ownerDemoQuickFrame.srcdoc,/Standard Cleaning/,'Owner sees new official demo content');
+
+const bridge=ownerSuccess.context.window.listeners.message;
+assert.equal(typeof bridge,'function','Sonny relay registered');
+const sonnyReply=[];
+const sonnyFrame={postMessage:value=>sonnyReply.push(value)};
+ownerSuccess.nodes.ownerDemoQuickFrame.contentWindow=sonnyFrame;
+const sonnyEvent={type:'TLE_SONNY_DEMO_REQUEST',id:'11111111-1111-4111-8111-111111111111',payload:{customer_message:'Could you help me choose a service?',language:'en',thread_id:'11111111-1111-4111-8111-111111111111'}};
+await bridge({origin:'https://attacker.example',source:sonnyFrame,data:sonnyEvent});
+assert.equal(sonnyReply.length,0,'Reject foreign origin');
+await bridge({origin:'null',source:{},data:sonnyEvent});
+assert.equal(sonnyReply.length,0,'Reject different frame');
+await bridge({origin:'null',source:sonnyFrame,data:sonnyEvent});
+assert.equal(sonnyReply.length,1,'Valid Sonny reply');
+assert.equal(sonnyReply[0].ok,true);
+assert.match(sonnyReply[0].reply,/Sure!/);
+
 const ownerDenied=await mockOwnerView({authorized:false});
 assert.equal(ownerDenied.nodes.ownerDemoQuickFrame.srcdoc,null,'Access denial must never render protected demo');
 assert.equal(ownerDenied.nodes.ownerDemoQuickRetry.hidden,false,'Errors expose a retry action');
