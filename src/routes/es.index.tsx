@@ -126,7 +126,7 @@ function SpanishHome(){const [active,setActive]=useState(0);const [heroLoaded,se
   <div className="homepage-contact-panel"><SpanishContact/></div>
  </div>
  </div></section>
-<section className="final-section"><StarfieldAccent/><div className="eyebrow">DALE UN LUGAR A TU PRÓXIMA CONSULTA.</div><h2 className="editorial">Que tu próximo cliente<br/><em>sea fácil de encontrar.</em></h2><p>Tu Booking Page personalizada y tu Command Center privado.</p><div className="final-actions"><MarketingCTA className="cta-button" href="/booking-bundle/?lang=es">Quiero mi sistema — {bookingSale?"$15":"$49.99"} <ArrowRight/></MarketingCTA></div></section>
+<section className="final-section"><div className="eyebrow">DALE UN LUGAR A TU PRÓXIMA CONSULTA.</div><h2 className="editorial">Que tu próximo cliente<br/><em>sea fácil de encontrar.</em></h2><p>Tu Booking Page personalizada y tu Command Center privado.</p><div className="final-actions"><MarketingCTA className="cta-button" href="/booking-bundle/?lang=es">Quiero mi sistema — {bookingSale?"$15":"$49.99"} <ArrowRight/></MarketingCTA></div></section>
 <WorkflowLogoMarquee lang="es"/>
 <ServiceFAQ topic="general" lang="es"/>
 </main>}
