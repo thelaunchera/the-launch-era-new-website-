@@ -51,6 +51,7 @@ const PAGE="booking";
 const ENDPOINT="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-demo-gate";
 const p=new URLSearchParams(location.search);
 const rid=String(p.get("rid")||"").trim();
+const directToken=String(p.get("access")||"").trim();
 const isEs=p.get("lang")==="es"||(!p.get("lang")&&navigator.language?.toLowerCase().startsWith("es"));
 const phrases=isEs?{
  tag:"DEMO PRIVADA",title:"Tu demo de Booking Automation",
@@ -101,6 +102,22 @@ async function openContent(session){
 }
 async function start(){
  if(!/^[0-9a-f-]{36}$/i.test(rid)){show("authStep");message(phrases.notAllowed,"error");return}
+ if(directToken){
+  // Consent already happened in AppDeploy. Exchange the short-lived signed link
+  // for a private session; never expose the demo template or persist the URL token.
+  show("startStep");setBusy(true);message(isEs?"Abriendo tu demo privada…":"Opening your private demo…");
+  const clearLink=()=>history.replaceState(null,"",location.pathname+"?rid="+encodeURIComponent(rid)+(isEs?"&lang=es":""));
+  try{
+   const response=await call({action:"direct",token:directToken});
+   if(!response.session)throw new Error("Missing private session");
+   try{sessionStorage.setItem(storageKey,response.session)}catch{}
+   clearLink();await openContent(response.session);return;
+  }catch(error){
+   clearLink();show("authStep");
+   message(isEs?"Este enlace privado venció o no está disponible. Responde al correo de The Launch Era para recibir ayuda.":"This private link is unavailable or expired. Reply to your The Launch Era email for help.","error");
+   return;
+  }finally{setBusy(false)}
+ }
  let current="";try{current=sessionStorage.getItem(storageKey)||""}catch{}
  if(current){
   try{await openContent(current);return}
