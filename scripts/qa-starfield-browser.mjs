@@ -35,15 +35,15 @@ try {
   await page.waitForTimeout(350);
   const after=await frame.locator('canvas').screenshot();
   assert(!before.equals(after),'Stars must animate');
-  assert.equal(await page.locator('.tle-starfield-accent').count(),2);
+  assert.equal(await page.locator('.tle-starfield-accent').count(),1,'Only the homepage hero may mount a Starfield scene');
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'Horizontal overflow');
   const link=page.locator('.hero-cta-row a');
   assert.equal(await link.getAttribute('href'),'/booking-demo/?lang='+ (path==='/'?'en':'es'));
   assert(await link.isVisible(),'Hero demo CTA must remain readable');
   await page.screenshot({path:`qa-screenshots/starfield-${path==='/'?'en':'es'}-${width}.png`});
   await page.locator('.final-section').scrollIntoViewIfNeeded();
-  const finalFrame=await page.locator('.final-section iframe').contentFrame();
-  await finalFrame.locator('html[data-rendered="true"]').waitFor({timeout:45000});
+  assert.equal(await page.locator('.final-section .tle-starfield-accent').count(),0,'Final CTA must never mount Starfield');
+  assert.equal(await page.locator('.final-section iframe').count(),0,'Final CTA must not contain the WebGL iframe');
   // Hidden hero must actually stop rendering, not merely become transparent.
   await page.waitForTimeout(250);
   const paused=await frame.locator('html').evaluate(()=>window.__qaFrames);
@@ -54,6 +54,14 @@ try {
   assert(await page.locator('body').innerText(),'CTA destination must render');
   assert.deepEqual(errors,[],'No shader or page errors');
   await page.close();console.log(`PASS ${path} ${width}: shader, animation, scroll, pause, CTA, overflow`);
+ }
+ for (const path of ['/solutions/','/how-it-works/']) {
+  const page=await browser.newPage({viewport:{width:390,height:844}});
+  await page.goto(base+path,{waitUntil:'domcontentloaded'});
+  await page.locator('.final-section').scrollIntoViewIfNeeded();
+  assert.equal(await page.locator('.tle-starfield-accent').count(),0,path+': decorative WebGL only belongs in Home hero');
+  await page.close();
+  console.log('PASS '+path+': no duplicate starfield');
  }
  const reduced=await browser.newPage({reducedMotion:'reduce'});
  await reduced.goto(base,{waitUntil:'networkidle'});
