@@ -3,7 +3,9 @@ import {readFileSync} from "node:fs";
 
 const form=readFileSync("public/booking-demo/index.html","utf8");
 const api=readFileSync("supabase/functions/tle-personalized-demo/index.ts","utf8");
-assert(form.includes("email_accepted!==true"),"Success requires Resend acceptance");
+assert(form.includes("data.acceptance_url")&&form.includes("location.assign(accept)"),"Request must go through AppDeploy consent before sending the email");
+assert(api.includes('action==="accept"'),"Server must require explicit acceptance before sending a demo");
+assert(api.includes("email_accepted:true"),"Only provider-accepted demo emails report success after consent");
 assert(form.includes("new AbortController()"),"Browser request can time out");
 assert(form.includes("controller.abort(),18000"),"Sending cannot spin forever");
 assert(form.includes("clearTimeout(timeout)"),"Timer is cleared on completion");

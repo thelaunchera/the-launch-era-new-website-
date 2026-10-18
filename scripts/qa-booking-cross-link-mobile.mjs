@@ -91,7 +91,7 @@ try{
   await page.waitForFunction((language)=>document.documentElement.lang===language,lang);
   const submit=page.locator('#submit');
   assert(await submit.isVisible(),lang+' personalized demo request form submit missing');
-  assert.match(await submit.textContent()||'',lang==='es'?/enlace de verificación/i:/verification link/i,lang+' form language mismatched');
+  assert.match(await submit.textContent()||'',lang==='es'?/continuar para confirmar/i:/continue to confirmation/i,lang+' form language mismatched');
   assert.equal(await page.locator('#serviceBack').getAttribute('href'),lang==='es'?'/es/booking-lead-automation/':'/booking-lead-automation',lang+' demo return path mismatched');
   const designDisclosure=await page.locator('#disclaimer').textContent();
   assert(lang==='es'?designDisclosure.includes('vista previa')&&designDisclosure.includes('fotos, colores y marca'):designDisclosure.includes('Preview only')&&designDisclosure.includes('photos, colors, and branding'),lang+' request form missing personalized final design disclosure');
