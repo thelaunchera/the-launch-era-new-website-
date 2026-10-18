@@ -8,6 +8,27 @@ const ownerScript=read('public/command-center/assets/command-center-app.js');
 const publicRequest=read('public/booking-demo/index.html');
 assert.match(ownerPage,/id="ownerDemoQuickNav"/);
 assert.match(ownerPage,/id="ownerDemoQuickShortcut"/);
+
+assert.match(ownerPage,/id="ownerFocusHub"/,'Owner has a simplified Home section');
+assert.match(ownerPage,/id="ownerFocusLeads" data-owner-focus="leads"/);
+assert.match(ownerPage,/id="ownerFocusFollowups" data-owner-focus="calendar"/);
+assert.match(ownerPage,/id="ownerFocusOrders" data-owner-focus="orders"/);
+assert.match(ownerPage,/id="ownerDemoQuickCard"/);
+assert.match(ownerPage,/id="ownerExtraTools" class="owner-extra-tools"/);
+assert.match(ownerPage,/<summary>More tools, AI orders &amp; previews/);
+assert.match(ownerPage,/id="ownerProspectingGroup">\s*<summary>More tools/);
+assert.equal((ownerPage.match(/id="ownerDemoQuickCard"/g)||[]).length,1,'Only one owner demo tile');
+assert.match(ownerPage,/id="ownerPurchaseStats"/,'Owner purchase data remains intact');
+assert.match(ownerPage,/id="ownerPagesList"/);
+for(const id of ['ownerPrivateSection','ownerSalesNav','ownerFollowupsNav','ownerWebsiteInboxNav',
+  'ownerCalendarNav','ownerOutreachEmailsNav','ownerInsightsNav','ownerSupportNav','buyerBusinessSection']){
+ assert.equal((ownerPage.match(new RegExp('id="'+id+'"','g'))||[]).length,1,'Preserve routing '+id);
+}
+assert.match(ownerScript,/document\.querySelectorAll\('\[data-owner-focus\]'\)/);
+assert.match(ownerScript,/premiumNavigate\(action\)/);
+assert.match(ownerScript,/ownerOrdersSectionTitle/);
+assert.match(ownerScript,/\['THE LAUNCH ERA \x2F OWNER','My Command Center'\]/);
+
 assert.match(ownerPage,/id="ownerMasterBookingPreview" class="owner-preview-private-cta"/);
 assert.match(ownerPage,/id="ownerShowLandingPreview" class="secondary">Open Booking Demo</);
 assert.doesNotMatch(ownerPage,/href="\/booking-demo\/" id="ownerMasterBookingPreview"/);
