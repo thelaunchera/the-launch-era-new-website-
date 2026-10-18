@@ -1040,3 +1040,57 @@
     line-height:1.24;
   }
 }
+
+/* 2026-10-18: One continuous starfield across the whole first screen.
+   This overlay sits on the public hero stage (not inside the photo) so it
+   keeps covering the photograph as the card shrinks on desktop scroll.
+   Screen blend removes the scene's black canvas backdrop without changing
+   the original bright photo, copy, native scroll, or working booking CTA. */
+.sales-home .hero-scroll .hero-scroll-stage--starfield > .tle-starfield-accent {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  opacity: .60;
+  border-radius: 0;
+  background: none;
+  mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,.35), #000 64%);
+  mask-image: linear-gradient(90deg, rgba(0,0,0,.35), #000 64%);
+  pointer-events: none;
+}
+/* On phones, remove the extra link above the photo and give the image the
+   first fold. Keep the image aspect/crop, swipe/scroll and cards intact. */
+@media (max-width: 767px) {
+  .sales-home .hero-scroll .hero-scroll-stage--starfield {
+    position: relative;
+    overflow: hidden;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split {
+    margin-top: 0;
+    padding: 0 12px 30px !important;
+    gap: 18px;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
+    width: 100%;
+    max-width: none;
+    height: clamp(390px, 72svh, 620px);
+    min-height: 0;
+    margin-inline: 0;
+    border-radius: 22px;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual > img.hero-main-image {
+    object-position: 52% 28%;
+  }
+  .sales-home .hero-scroll .hero-scroll-stage--starfield > .tle-starfield-accent {
+    opacity: .70;
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 72%, transparent 96%);
+    mask-image: linear-gradient(180deg, #000 0%, #000 72%, transparent 96%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sales-home .hero-scroll .hero-scroll-stage--starfield > .tle-starfield-accent {
+    display: none;
+  }
+}
