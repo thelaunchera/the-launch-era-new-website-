@@ -89,10 +89,12 @@ for(const language of ['en','es']) {
  for(const accepted of [true,false]){
   await check('demo mock email '+language+' '+(accepted?'accepted':'failed'),sizes[1],async page=>{
    let requests=0;
+   await page.route('https://the-launch-era-interest-confirmation-odqbiw.v2.appdeploy.ai/**',route=>
+    route.fulfill({status:200,contentType:'text/html',body:'<!doctype html><html><body><h1>AppDeploy safe consent preview</h1></body></html>'}));
    await page.route('**/functions/v1/tle-personalized-demo',route=>{
     requests++;
-    return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(
-     accepted?{ok:true,email_accepted:true,duplicate:true}:{ok:true,email_accepted:false,code:'email_failed'})});
+    return route.fulfill({status:accepted?200:503,contentType:'application/json',body:JSON.stringify(
+     accepted?{ok:true,accepted:false,acceptance_url:'https://the-launch-era-interest-confirmation-odqbiw.v2.appdeploy.ai/interest.html?request=1&rid=00000000-0000-4000-8000-000000000001&token=1792325000.'+'a'.repeat(64)}:{ok:false,email_accepted:false,code:'email_failed'})});
    });
    await page.goto(base+'/booking-demo/?lang='+language,{waitUntil:'domcontentloaded'});
    await page.locator('#demoForm [name=name]').fill('QA Example');
@@ -100,14 +102,15 @@ for(const language of ['en','es']) {
    await page.locator('#demoForm [name=business]').fill('Sample Cleaning');
    await page.locator('#demoForm [name=serviceArea]').fill('Charlotte NC');
    await page.locator('#submit').click();
-   await page.waitForFunction(yes=>{
-    const success=document.querySelector('#success');
-    const error=document.querySelector('#error');
-    return yes?success&&!success.hidden:error&&!error.hidden;
-   },accepted,{timeout:8000});
+   if(accepted){
+    await page.waitForURL(url=>url.hostname==='the-launch-era-interest-confirmation-odqbiw.v2.appdeploy.ai',{timeout:8000});
+    assert(await page.locator('h1').isVisible(),'Request opens safe AppDeploy acceptance page');
+   }else{
+    await page.locator('#error').waitFor({state:'visible',timeout:8000});
+    assert.equal(await page.locator('#success').isVisible(),false,'Failed request does not claim delivery');
+    assert.equal(await page.locator('#submit').isDisabled(),false,'Sending button recovers');
+   }
    assert.equal(requests,1,'No duplicate email request');
-   assert.equal(await page.locator('#success').isVisible(),accepted,'Only provider-accepted email can show success');
-   assert.equal(await page.locator('#submit').isDisabled(),false,'Sending button recovers');
   });
  }
 }
