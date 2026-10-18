@@ -3,7 +3,8 @@
    Read-only browser QA: no bookings, emails, logins, or payments. */
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
-const base=(process.env.QA_URL||'http://127.0.0.1:4173').replace(/\\/$/,'');
+const rawBase=process.env.QA_URL||'http://127.0.0.1:4173';
+const base=rawBase.endsWith('/')?rawBase.slice(0,-1):rawBase;
 const browser=await chromium.launch({headless:true});
 try {
  for(const [lang,path] of [['en','/'],['es','/es/']]){
