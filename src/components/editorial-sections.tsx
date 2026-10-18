@@ -107,7 +107,7 @@ export function ProcessSection() {
   </div>
  </div></section>;
 }
-export function FinalCTA() { const {price}=useBookingPrice(); return <section className="final-section"><StarfieldAccent/><Wave/><div className="eyebrow">GIVE YOUR NEXT INQUIRY A PLACE TO GO.</div><h2 className="editorial">Your next client should be<br/><em>easy to keep track of.</em></h2><p>Get your personalized Booking Page and private Command Center.</p><div className="final-actions"><MarketingCTA className="cta-button" href="/booking-bundle/?lang=en">Get my booking system — {price} <ArrowRight/></MarketingCTA></div></section> }
+export function FinalCTA() { const {price}=useBookingPrice(); return <section className="final-section"><Wave/><div className="eyebrow">GIVE YOUR NEXT INQUIRY A PLACE TO GO.</div><h2 className="editorial">Your next client should be<br/><em>easy to keep track of.</em></h2><p>Get your personalized Booking Page and private Command Center.</p><div className="final-actions"><MarketingCTA className="cta-button" href="/booking-bundle/?lang=en">Get my booking system — {price} <ArrowRight/></MarketingCTA></div></section> }
 export function PageIntro({label,title,description}:{label:string,title:string,description:string}) { return <section className="page-intro"><div className="eyebrow">{label}</div><h1 className="editorial">{title}</h1><p>{description}</p></section> }
 export function ContactForm() {
  const [status,setStatus]=useState<'idle'|'sending'|'done'|'sent'|'error'>('idle');

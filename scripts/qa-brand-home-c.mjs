@@ -28,6 +28,14 @@ assert(layer.includes('.sales-home .solutions-section .tle-service-flip__back'),
 assert(layer.includes('.sales-home .tle-bundle-inline'), 'Bundle CTA missing');
 assert(homeEN.includes('src={HOME_HERO_PHOTO}') && homeES.includes('src={HOME_HERO_PHOTO}'), 'Must keep approved hero photos');
 assert(homeEN.includes('<StarfieldAccent/>') && homeES.includes('<StarfieldAccent/>'), 'Starfield must remain');
+// Starfield is a hero-only decoration. Its iframe has an opaque black
+// WebGL backdrop, so a duplicate in FinalCTA creates a black rectangle.
+for (const [lang,source] of [['EN',homeEN],['ES',homeES]]) {
+  assert.equal((source.match(/<StarfieldAccent\s*\/>/g)||[]).length,1,lang+': exactly one starfield in hero');
+  assert(source.includes('hero-scroll-stage--starfield"><StarfieldAccent/>'),lang+': hero scene removed');
+  assert(!/<section className="final-section"><StarfieldAccent\s*\/>/.test(source),lang+': closing CTA must not mount WebGL');
+}
+
 assert(app.includes('/assets/tle-editorial-refresh.css'), 'Brand layer not included in site');
 assert(app.includes('/assets/tle-hero-scroll.css'), 'Hero scroll stylesheet missing');
 assert(homeEN.includes('/booking-demo/?lang=en') && homeES.includes('/booking-demo/?lang=es'), 'Demo CTA destinations changed');
@@ -80,6 +88,7 @@ try {
     assert.equal(info.bg, 'rgb(215, 239, 255)', path+' at '+width+': CTA background mismatch');
     assert.equal(info.color, 'rgb(25, 25, 25)', path+' at '+width+': CTA text contrast mismatch');
     assert(info.heroPhoto && info.starfield, path+' at '+width+': imagery or starfield missing');
+    assert.equal(await page.locator('.final-section .tle-starfield-accent').count(),0,path+' at '+width+': final CTA must not host starfield');
     assert(info.noOverflow, path+' at '+width+': horizontal overflow');
     assert(info.href?.startsWith('/booking-demo/?lang='), 'Booking CTA URL changed');
     // Regression reported by owner on iPhone: the old flip-card stylesheet had
@@ -103,5 +112,17 @@ try {
     assert.deepEqual(errors, [], path+' at '+width+': JS page errors');
     await page.close();
     console.log('PASS Brand Home C browser '+path+' '+width+'px');
+  }
+
+  // Shared English closing CTA must not mount Starfield on standalone pages.
+  for (const path of ['/solutions/','/how-it-works/']) {
+    const page=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'no-preference'});
+    await page.goto(base+path,{waitUntil:'domcontentloaded'});
+    await page.locator('.final-section').waitFor({state:'attached'});
+    await page.locator('.final-section').scrollIntoViewIfNeeded();
+    assert.equal(await page.locator('.final-section .tle-starfield-accent').count(),0,path+': stray closing WebGL effect');
+    assert.equal(await page.locator('.tle-starfield-accent').count(),0,path+': starfield should appear only in home hero');
+    await page.close();
+    console.log('PASS Brand hero-only Starfield '+path);
   }
 } finally {await browser.close();}
