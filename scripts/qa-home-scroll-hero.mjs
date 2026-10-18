@@ -92,7 +92,14 @@ try {
    const hero = page.locator('.hero-scroll');
    await hero.waitFor({ state: 'visible', timeout: 20000 });
    await page.waitForFunction(() => document.querySelector('.hero-split')?.getAttribute('data-wipe-visible') === 'true', null, { timeout: 25000 });
-   await page.waitForTimeout(1050); // 900ms clip-path + copy's 120ms entrance delay
+   // WebGL starfield adds GPU work; wait for the *actual* readable state,
+   // not an assumed 1050ms wall-clock duration under a shared CI runner.
+   await page.waitForFunction(() => {
+     const intro=document.querySelector('.hero-scroll .hero-intro');
+     const panel=document.querySelector('.hero-scroll .hero-split-visual');
+     return intro && panel && Number(getComputedStyle(intro).opacity)>.96 &&
+       !getComputedStyle(panel).clipPath.includes('100%');
+   },null,{timeout:20000});
    const state = await page.evaluate(() => {
     const hero = document.querySelector('.hero-scroll');
     const frame = hero.querySelector('.hero-scroll-frame');
