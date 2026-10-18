@@ -1,3 +1,4 @@
+import { StarfieldAccent } from '@/components/starfield-accent';
 import { HeroConnectionBackdrop } from '@/components/connected-booking-flow';
 import { ServiceFlipCard } from '@/components/service-flip-card';
 import { SuccessConfirmation } from '@/components/success-confirmation';
@@ -99,7 +100,7 @@ function SpanishContact(){
 }
 function SpanishHome(){const [active,setActive]=useState(0);const [heroLoaded,setHeroLoaded]=useState(false);const heroImageRef=useRef<HTMLImageElement>(null);const {heroRef,revealed}=useHeroWipe();useEffect(()=>{if(heroImageRef.current?.complete)setHeroLoaded(true)},[]);const bookingSale=true;return <main className="sales-home"><HomeMotion/>
 <section className="hero-scroll" aria-label="Ejemplo de la experiencia de reservas de The Launch Era"><div className="hero-scroll-stage"><HeroConnectionBackdrop lang="es"/><div className="hero-scroll-reveal"><span>TU FLUJO DE RESERVAS</span><HeroSplitWordLink lang="es"/></div><div ref={heroRef} data-wipe-visible={revealed && heroLoaded} className={`hero-photo hero-scroll-frame hero-split ${heroLoaded?'hero-media-ready':'hero-media-loading'}`}>
- <div className="tle-hero-soft-mesh" aria-hidden="true"><span/><span/><span/><span/></div>
+ <StarfieldAccent/><div className="tle-hero-soft-mesh" aria-hidden="true"><span/><span/><span/><span/></div>
  <div className="hero-intro">
    <div className="eyebrow">PARA DUEÑAS DE NEGOCIOS DE LIMPIEZA</div>
    <h1 className="tle-hero-heading-shine">Menos tiempo buscando mensajes. Más tiempo para tu negocio.</h1>
@@ -126,7 +127,7 @@ function SpanishHome(){const [active,setActive]=useState(0);const [heroLoaded,se
   <div className="homepage-contact-panel"><SpanishContact/></div>
  </div>
  </div></section>
-<section className="final-section"><div className="eyebrow">DALE UN LUGAR A TU PRÓXIMA CONSULTA.</div><h2 className="editorial">Que tu próximo cliente<br/><em>sea fácil de encontrar.</em></h2><p>Tu Booking Page personalizada y tu Command Center privado.</p><div className="final-actions"><MarketingCTA className="cta-button" href="/booking-bundle/?lang=es">Quiero mi sistema — {bookingSale?"$15":"$49.99"} <ArrowRight/></MarketingCTA></div></section>
+<section className="final-section"><StarfieldAccent/><div className="eyebrow">DALE UN LUGAR A TU PRÓXIMA CONSULTA.</div><h2 className="editorial">Que tu próximo cliente<br/><em>sea fácil de encontrar.</em></h2><p>Tu Booking Page personalizada y tu Command Center privado.</p><div className="final-actions"><MarketingCTA className="cta-button" href="/booking-bundle/?lang=es">Quiero mi sistema — {bookingSale?"$15":"$49.99"} <ArrowRight/></MarketingCTA></div></section>
 <WorkflowLogoMarquee lang="es"/>
 <ServiceFAQ topic="general" lang="es"/>
 </main>}
