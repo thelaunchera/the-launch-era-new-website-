@@ -15,7 +15,18 @@ try {
    return url.origin===new URL(base).origin||url.hostname==='unpkg.com'?route.continue():route.abort();
   });
   await page.goto(base+path,{waitUntil:'networkidle'});
-  const hero=page.locator('.hero-scroll-frame .tle-starfield-accent iframe');
+  assert.equal(await page.locator('.hero-scroll-reveal').count(),0,'Removed See how it works banner returned');
+  const host=page.locator('.hero-scroll-stage--starfield > .tle-starfield-accent');
+  assert.equal(await host.count(),1,'One stage-wide starfield required');
+  const sceneDimensions=await host.evaluate(el=>({overlay:el.getBoundingClientRect(),stage:el.parentElement.getBoundingClientRect(),pointer:getComputedStyle(el).pointerEvents,blend:getComputedStyle(el).mixBlendMode}));
+  assert(Math.abs(sceneDimensions.overlay.width-sceneDimensions.stage.width)<2&&Math.abs(sceneDimensions.overlay.height-sceneDimensions.stage.height)<2,'Stars must fill full hero stage');
+  assert.equal(sceneDimensions.pointer,'none','Starfield must not block booking CTA');
+  assert.equal(sceneDimensions.blend,'screen','Starfield must blend transparently above real photo');
+  if(width<768){
+    const top=await page.locator('.hero-split-visual').evaluate(el=>el.getBoundingClientRect().top-el.closest('.hero-scroll-stage').getBoundingClientRect().top);
+    assert(top>=-3&&top<32,'Mobile photo must start at top of hero, not under removed link');
+  }
+  const hero=page.locator('.hero-scroll-stage--starfield > .tle-starfield-accent iframe');
   await hero.waitFor();
   const frame=await hero.contentFrame();
   await frame.locator('html[data-rendered="true"]').waitFor({timeout:45000});
