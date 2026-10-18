@@ -170,3 +170,108 @@ html:has(.tle-freebie-page),body:has(.tle-freebie-page){max-width:100%;overflow-
  .sales-home .solutions-section{padding-top:60px}
  .sales-home .solutions-section>.soft-wave{height:30px;top:0}
 }
+
+
+/* ───────────────────────────────────────────────────────────────────────────
+   THE LAUNCH ERA — BRAND SYSTEM C · HOME PHASE 1 (EN + ES)
+   Marketing presentation only. This layer deliberately DOES NOT alter
+   hero photography, media positioning, 3D transforms, animation/scroll,
+   flip-card geometry, form state, navigation links, or private/tenant UI.
+   ─────────────────────────────────────────────────────────────────────────── */
+.sales-home {
+  --tle-home-brand-ivory: #FAF8F3;
+  --tle-home-brand-blue: #D7EFFF;
+  --tle-home-brand-blue-hover: #C8E5F6;
+  --tle-home-brand-ink: #191919;
+  --tle-home-brand-slate: #52616B;
+  --tle-home-brand-border: #D9E3E8;
+}
+
+/* One calm editorial hierarchy across the public home chapter headings.
+   Leave the animated hero and mask-cursor headlines exactly as implemented. */
+.sales-home :is(.solutions-section,.process-section) .section-heading .eyebrow {
+  font-family: Futura, 'DM Sans', 'Avenir Next', Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .075em;
+  color: #345E76;
+}
+.sales-home :is(.solutions-section,.process-section) .section-heading h2,
+.sales-home .booking-section .booking-copy h2,
+.sales-home .final-section h2 {
+  font-family: 'Prompt', 'DM Sans', sans-serif;
+  font-weight: 500;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+.sales-home :is(.solutions-section,.process-section) .section-heading p,
+.sales-home .booking-section .booking-copy > .description,
+.sales-home .final-section > p {
+  font-family: Futura, 'DM Sans', 'Avenir Next', Arial, sans-serif;
+  color: #52616B;
+  font-size: clamp(14px, 1.15vw, 16px);
+  line-height: 1.6;
+}
+.sales-home .final-section > p { color: #345267; }
+.sales-home .solutions-section .tle-service-flip__face {
+  border-color: #D9E3E8;
+  box-shadow: 0 10px 28px rgba(25,25,25,.05);
+}
+.sales-home .solutions-section .tle-service-flip__front h3,
+.sales-home .solutions-section .tle-service-flip__back h3 {
+  font-weight: 600;
+  letter-spacing: -.025em;
+}
+
+/* Home marketing links only. Preserve the existing pulse rings and keyboard
+   treatment; change the COLOR of the clickable anchor, not its geometry. */
+.sales-home :is(.hero-cta-row,.booking-copy,.freebie-home-copy,.final-actions) a.cta-button,
+.sales-home .tle-cta-pulse-shell > a.tle-cta-pulse-button,
+.sales-home .solutions-section .tle-service-flip__back a.tle-service-flip__cta {
+  background: #D7EFFF;
+  border-color: #D7EFFF;
+  color: #191919;
+}
+.sales-home :is(.hero-cta-row,.booking-copy,.freebie-home-copy,.final-actions) a.cta-button:hover,
+.sales-home .tle-cta-pulse-shell > a.tle-cta-pulse-button:hover,
+.sales-home .solutions-section .tle-service-flip__back a.tle-service-flip__cta:hover {
+  background: #C8E5F6;
+  border-color: #C8E5F6;
+  color: #191919;
+}
+.sales-home :is(.hero-cta-row,.booking-copy,.freebie-home-copy,.final-actions) a.cta-button:focus-visible,
+.sales-home .tle-cta-pulse-shell > a.tle-cta-pulse-button:focus-visible,
+.sales-home .solutions-section .tle-service-flip__back a.tle-service-flip__cta:focus-visible {
+  outline: 3px solid #356E8C;
+  outline-offset: 3px;
+}
+
+/* Bundle CTAs are already a separate component with its own color:important;
+   keep its offer and flyer untouched, but align the clickable button with TLE. */
+.sales-home .tle-bundle-inline a.tle-bundle-inline-cta,
+.sales-home .tle-bundle-welcome-dialog a.tle-bundle-welcome-cta {
+  background: #D7EFFF;
+  color: #191919 !important;
+}
+.sales-home .tle-bundle-inline a.tle-bundle-inline-cta:hover,
+.sales-home .tle-bundle-welcome-dialog a.tle-bundle-welcome-cta:hover {
+  background: #C8E5F6;
+  color: #191919 !important;
+}
+.sales-home .tle-bundle-inline a.tle-bundle-inline-cta:focus-visible,
+.sales-home .tle-bundle-welcome-dialog a.tle-bundle-welcome-cta:focus-visible {
+  outline: 3px solid #356E8C;
+  outline-offset: 3px;
+}
+
+/* Support small screens without changing the approved hero image, effect,
+   scroll dimensions, flip interaction, or existing mobile card sizing. */
+@media (max-width: 767px) {
+  .sales-home :is(.solutions-section,.process-section) .section-heading .eyebrow {
+    font-size: 11px;
+    line-height: 1.5;
+  }
+  .sales-home :is(.solutions-section,.process-section) .section-heading p {
+    font-size: 15px;
+  }
+}
