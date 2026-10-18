@@ -16,7 +16,7 @@ assert.match(ownerPage,/id="ownerFocusOrders" data-owner-focus="orders"/);
 assert.match(ownerPage,/id="ownerDemoQuickCard"/);
 assert.match(ownerPage,/id="ownerExtraTools" class="owner-extra-tools"/);
 assert.match(ownerPage,/<summary>More tools, AI orders &amp; previews/);
-assert.match(ownerPage,/id="ownerProspectingGroup"><summary>More tools/);
+assert.match(ownerPage,/id="ownerProspectingGroup">\s*<summary>More tools/);
 assert.equal((ownerPage.match(/id="ownerDemoQuickCard"/g)||[]).length,1,'Only one owner demo tile');
 assert.match(ownerPage,/id="ownerPurchaseStats"/,'Owner purchase data remains intact');
 assert.match(ownerPage,/id="ownerPagesList"/);
