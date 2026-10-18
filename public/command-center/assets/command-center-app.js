@@ -636,7 +636,7 @@ function applyCRMRoleInterface(){
  $('ownerPagesNav').classList.toggle('hidden',!owner);
  $('ownerCalendarNav').classList.toggle('hidden',!owner);$('ownerHelpNav').classList.toggle('hidden',!owner);if(!owner)$('ownerHelpHub').classList.add('hidden');
  $('ownerOrdersCaption').classList.toggle('hidden',!owner);
- $('ownerProspectsCaption').classList.add('hidden');$('ownerPrivateSection').classList.toggle('hidden',!owner);$('buyerBusinessSection').classList.toggle('hidden',!buyer);$('sidebarWorkspaceLabel').textContent=owner?'OWNER COMMAND':buyer?(workspace.name||'BUSINESS WORKSPACE'):'WORKSPACE';$('ownerInsightsNav').classList.toggle('hidden',!owner);$('ownerContactDecision').classList.toggle('hidden',!owner);$('buyerFollowupsNav').classList.toggle('hidden',!(buyer&&buyerDeliveryReady));
+ $('ownerProspectsCaption').classList.add('hidden');$('ownerPrivateSection').classList.toggle('hidden',!owner);$('ownerDemoQuickShortcut').classList.toggle('hidden',!owner);$('buyerBusinessSection').classList.toggle('hidden',!buyer);$('sidebarWorkspaceLabel').textContent=owner?'OWNER COMMAND':buyer?(workspace.name||'BUSINESS WORKSPACE'):'WORKSPACE';$('ownerInsightsNav').classList.toggle('hidden',!owner);$('ownerContactDecision').classList.toggle('hidden',!owner);$('buyerFollowupsNav').classList.toggle('hidden',!(buyer&&buyerDeliveryReady));
  $('buyerPricingNav').classList.toggle('hidden',!(buyer&&buyerDeliveryReady));
  $('buyerAvailabilityNav').classList.toggle('hidden',!(buyer&&buyerDeliveryReady));
  $('buyerEmailsNav').classList.toggle('hidden',!(buyer&&buyerDeliveryReady));
@@ -847,8 +847,10 @@ $('workspaceBack').onclick=navigateWorkspaceBack;
  const privateDemoModal=$('ownerDemoQuickView');
  const privateDemoFrame=$('ownerDemoQuickFrame');
  const privateDemoStatus=$('ownerDemoQuickStatus');
- async function openOwnerBookingDemo(){
+ let ownerDemoReturnFocus=$('ownerDemoQuickNav');
+ async function openOwnerBookingDemo(event){
   if(!workspace?.is_internal||$('app').classList.contains('hidden')||!document.body.classList.contains('crm-owner-view'))return;
+  if(event?.currentTarget instanceof HTMLElement)ownerDemoReturnFocus=event.currentTarget;
   closePremiumSidebar();
   privateDemoModal.hidden=false;
   privateDemoStatus.textContent='Preparing your secure preview…';
@@ -880,9 +882,18 @@ $('workspaceBack').onclick=navigateWorkspaceBack;
   privateDemoModal.hidden=true;
   privateDemoFrame.removeAttribute('srcdoc');
   privateDemoStatus.textContent='';
-  $('ownerDemoQuickNav').focus();
+  if(ownerDemoReturnFocus?.isConnected)ownerDemoReturnFocus.focus({preventScroll:true});
  }
  $('ownerDemoQuickNav').onclick=openOwnerBookingDemo;
+ $('ownerDemoQuickShortcut').onclick=openOwnerBookingDemo;
+ $('ownerDemoOverviewOpen').onclick=openOwnerBookingDemo;
+ window.addEventListener('tle-crm-ready',()=>{
+  const u=new URL(location.href);
+  if(u.searchParams.get('ownerDemo')!=='1'||!workspace?.is_internal||$('app').classList.contains('hidden'))return;
+  u.searchParams.delete('ownerDemo');
+  history.replaceState(history.state,'',u.pathname+u.search+u.hash);
+  void openOwnerBookingDemo();
+ });
  $('ownerDemoQuickClose').onclick=closeOwnerBookingDemo;
  privateDemoModal.addEventListener('click',e=>{if(e.target===privateDemoModal)closeOwnerBookingDemo()});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!privateDemoModal.hidden)closeOwnerBookingDemo()});
