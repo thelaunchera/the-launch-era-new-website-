@@ -932,6 +932,55 @@ $('workspaceBack').onclick=navigateWorkspaceBack;
   history.replaceState(history.state,'',u.pathname+u.search+u.hash);
   void openOwnerBookingDemo();
  });
+
+ // Sonny sends demo-only prompts from the *opaque-origin*, sandboxed Owner iframe.
+ // The host is a narrow fetch relay. It never receives booking form data,
+ // sends emails, writes records or grants same-origin access to the iframe.
+ const sonnyDemoEndpoint='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-ai-booking-demo';
+ let sonnyOwnerRequests=0;
+ window.addEventListener('message',async event=>{
+  if(event.origin!=='null'||event.source!==privateDemoFrame.contentWindow||
+     event.data?.type!=='TLE_SONNY_DEMO_REQUEST'||typeof event.data.id!=='string'||
+     !/^[a-f0-9-]{36}$/i.test(event.data.id)||
+     privateDemoModal.hidden||!privateDemoFrame.hasAttribute('srcdoc')||
+     !workspace?.is_internal||!document.body.classList.contains('crm-owner-view')||
+     $('app').classList.contains('hidden'))return;
+  const frame=privateDemoFrame.contentWindow,attempt=ownerDemoAttempt,id=event.data.id;
+  const data=event.data.payload;
+  const msg=typeof data?.customer_message==='string'?data.customer_message.trim():'';
+  const thread=typeof data?.thread_id==='string'?data.thread_id:'';
+  const history=typeof data?.conversation_history==='string'?data.conversation_history.slice(0,1200):'';
+  const language=data?.language==='es'?'es':'en';
+  const respond=(payload)=>{
+   if(privateDemoModal.hidden||attempt!==ownerDemoAttempt||frame!==privateDemoFrame.contentWindow)return;
+   frame.postMessage({type:'TLE_SONNY_DEMO_RESPONSE',id,...payload},'*');
+  };
+  if(!msg||msg.length>300||!/^[a-f0-9]{8}-[a-f0-9-]{27,36}$/i.test(thread)||++sonnyOwnerRequests>28){
+   respond({ok:false,rateLimited:sonnyOwnerRequests>28});return;
+  }
+  const controller=new AbortController();
+  const timeout=setTimeout(()=>controller.abort(),27000);
+  try{
+   const result=await fetch(sonnyDemoEndpoint,{
+    method:'POST',credentials:'omit',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+     customer_message:msg,language,thread_id:thread,
+     conversation_history:history,
+     business_name:'Sample Cleaning Co.',
+     service_area:'Example service area',
+     services_offered:'Standard Cleaning, Deep Cleaning, Move In/Out Cleaning, Commercial Cleaning',
+     booking_draft:{}
+    }),
+    signal:controller.signal,cache:'no-store'
+   });
+   const json=await result.json().catch(()=>({}));
+   if(!result.ok||typeof json.reply!=='string')respond({ok:false,rateLimited:result.status===429});
+   else respond({ok:true,reply:json.reply.slice(0,240)});
+  }catch{respond({ok:false})}
+  finally{clearTimeout(timeout)}
+ });
+
  $('ownerDemoQuickClose').onclick=closeOwnerBookingDemo;
  privateDemoModal.addEventListener('click',e=>{if(e.target===privateDemoModal)closeOwnerBookingDemo()});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!privateDemoModal.hidden)closeOwnerBookingDemo()});
