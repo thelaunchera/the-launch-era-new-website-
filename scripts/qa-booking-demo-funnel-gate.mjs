@@ -60,7 +60,7 @@ assert.match(ownerScript,/privateDemoFrame\.onload=/);
 assert.match(ownerScript,/privateDemoRetry\.onclick=openOwnerBookingDemo/);
 assert.match(ownerScript,/!result\.html\.includes\('Standard Cleaning'\)/);
 assert.match(ownerScript,/!result\.html\.includes\('Commercial Cleaning'\)/);
-assert.match(ownerScript,/!result\.html\.includes\('id=\\"demoLanguage\\"'\)/);
+assert.match(ownerScript,/!result\.html\.includes\('id="demoLanguage"'\)/);
 assert.match(ownerScript,/!result\.html\.includes\('Complete sample request'\)/);
 assert.match(ownerScript,/privateDemoStatus\.hidden=true/);
 
