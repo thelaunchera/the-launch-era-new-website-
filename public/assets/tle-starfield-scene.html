@@ -45,7 +45,12 @@ void main(){
   vec3 bg = uBg * (1.0 - 0.4 * length(uv));
   vec3 halo = texture2D(haloTexture, vUv).xyz;
   gl_FragColor = vec4(bg + flame*uFlameAmt + texture2D(bloomTexture, vUv).xyz + texture2D(torusTexture, vUv).xyz + texture2D(tDiffuse, vUv).xyz + halo, 1.);
-}`});finalComposer.addPass(finalPass);
+}`});
+// ShaderPass clones uniforms: restore actual render targets after construction.
+finalPass.uniforms.torusTexture.value=torusComposer.renderTarget1.texture;
+finalPass.uniforms.bloomTexture.value=bloomComposer.renderTarget1.texture;
+finalPass.uniforms.haloTexture.value=halo;
+finalComposer.addPass(finalPass);
 const count=4200,depth=30,positions=new Float32Array(count*3),palette=new Float32Array(count),bright=new Float32Array(count),scales=new Float32Array(count),phases=new Float32Array(count);
 for(let i=0;i<count;i++){let i3=i*3;positions[i3]=(Math.random()-.5)*24;positions[i3+1]=(Math.random()-.5)*16;positions[i3+2]=(Math.random()-.5)*30;palette[i]=Math.floor(Math.random()*3);bright[i]=.7+Math.random()*.6;scales[i]=.5+Math.pow(Math.random(),1.4)*2.5;phases[i]=Math.random()}
 const geometry=new THREE.BufferGeometry();for(const [name,data,size] of [['position',positions,3],['aScale',scales,1],['aPhase',phases,1],['aPalette',palette,1],['aBright',bright,1]])geometry.setAttribute(name,new THREE.Float32BufferAttribute(data,size));
