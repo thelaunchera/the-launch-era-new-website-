@@ -28,6 +28,8 @@
  if(es){
    const publicDemo=document.querySelector('a[href="/booking-demo/"]');
    if(publicDemo)publicDemo.href='/booking-demo/?lang=es';
+   const fullSample=document.querySelector('a[href="/try-booking/?source=bundle"]');
+   if(fullSample)fullSample.href='/try-booking/?lang=es&source=bundle';
    const aiInfo=document.querySelector('a[href="/ai-booking-assistant/#demo"]');
    if(aiInfo)aiInfo.href='/es/ai-booking-assistant/#demo';
  }
