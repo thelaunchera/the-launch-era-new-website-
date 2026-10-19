@@ -23,6 +23,28 @@ a:focus-visible,button:focus-visible{outline:3px solid #4E96D3;outline-offset:4p
 .art{position:relative;isolation:isolate;overflow:hidden}.art-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;filter:saturate(.7) brightness(.88)}.art-inner{position:relative;z-index:1}.offer-panel{border:1px solid #cbdfea;background:#fffdfa;border-radius:20px;margin:25px 0 21px;padding:18px 20px;max-width:530px}.offer-top{display:flex;gap:13px;align-items:center;flex-wrap:wrap}.offer-top b{font:700 36px Prompt,Arial,sans-serif;letter-spacing:-.055em}.offer-top del{color:#738798;font-size:18px}.offer-panel small{display:block;color:#506b7d;font-size:11px;line-height:1.6;margin-top:5px}.offer-panel .ready{margin-top:12px;border-top:1px solid #e4ecf2;padding-top:10px;color:#4f7590;font-weight:700}.onboard{padding:65px 0;border-bottom:1px solid var(--line)}.onboard>p{font-size:14px;color:#587080;max-width:780px;line-height:1.7}.onboard ul,.onboard ol{padding-left:22px;color:#4b6273;font-size:14px;line-height:1.8;max-width:950px}.onboard li{margin:9px 0}.onboard h3{margin-top:28px}.onboard-note{margin-top:22px;font-size:12px;color:#496780;background:#eaf4fc;border-radius:15px;padding:16px;line-height:1.6}@media(max-width:550px){.offer-top b{font-size:31px}.art-photo{object-position:center}.onboard{padding:44px 0}} 
 /* Launch-gated WhatsApp offer: prices remain in the source, never appear to visitors. */
 #setup[hidden],.offer-panel[hidden]{display:none!important}.coming-soon-note{background:#fff;border:1px solid #cbdfea;border-radius:16px;display:flex;flex-wrap:wrap;align-items:center;gap:11px;padding:15px 18px;margin:20px 0 17px;color:#345268;font-size:13px;line-height:1.55}.coming-soon-note strong{background:#191919;color:#fff;border-radius:100px;padding:7px 13px;font:700 12px Prompt,Arial,sans-serif;letter-spacing:.04em}.coming-soon-note span{flex:1 1 220px}.featuregrid{grid-template-columns:repeat(3,minmax(0,1fr))}@media(max-width:750px){.featuregrid{grid-template-columns:1fr}}
+/* Mobile-first: jump from Coming Soon to the actual chat example, not a
+   duplicate photographic mockup. Show the 3 central controls without six
+   stacked feature explanations; the other details remain in the FAQ. */
+@media(max-width:550px){
+ .hero{padding:26px 0 19px!important;gap:12px!important}
+ .hero h1{font-size:clamp(30px,8.4vw,38px)!important;line-height:1.13!important;margin:12px 0}
+ .hero .art{display:none!important}
+ .hero .chips{gap:5px;margin:12px 0}
+ .hero .chips span{padding:7px 10px}
+ .coming-soon-note{margin:14px 0!important;padding:12px!important}
+ .demo{padding:27px 0 33px!important}
+ .demo-top{margin-bottom:17px!important}
+ .demo h2{font-size:clamp(25px,7vw,32px)}
+ .conversation{min-height:225px!important;max-height:310px!important;padding:12px!important}
+ .features{padding:34px 0!important}
+ .features h2{font-size:clamp(25px,7vw,32px)}
+ .features .feature:nth-child(n+4){display:none!important}
+ .featuregrid{gap:10px!important}
+ .feature{padding:14px!important}
+ .feature p{font-size:13px!important;line-height:1.5!important}
+ .faq{padding-block:30px!important}
+}
 </style></head><body>
 <header class="wrap topbar"><a class="logo" href="/es/">THE LAUNCH ERA</a><nav class="toplinks" aria-label="Navigation"><a href="/es/ai-booking-assistant/">Asistentes de IA</a><a href="/whatsapp-ai-agent/" lang="en">English</a></nav></header>
 <main><section class="wrap hero"><div><div class="ey">WHATSAPP AI AGENT · COMING SOON</div><h1>Tu próximo cliente podría escribirte antes de reservar.</h1><p class="lede">Ayuda con consultas de WhatsApp y organiza el siguiente paso.</p><div class="chips"><span>Responde preguntas frecuentes</span><span>Recoge los datos una sola vez</span><span>Pasa la conversación a una persona</span></div><div class="offer-panel" hidden aria-hidden="true"><div class="ey">OFERTA DE INSTALACIÓN · <span id="wa-sale-end">HASTA NOV. 30</span></div><div class="offer-top"><del id="wa-regular-price">$78</del><b id="wa-setup-price">$48</b><span style="font-size:12px;color:#49637a;font-weight:700">instalación única</span></div><small>Después $14.99/mes, tras los primeros 30 días desde la entrega.</small><small>Los cargos por mensajes de la API de WhatsApp de Meta son aparte y los paga el negocio.</small><small class="ready">Demo disponible · La conexión real y el checkout todavía no están listos.</small></div><div class="coming-soon-note" role="status"><strong>COMING SOON</strong><span>Próximamente. Explora la demo, sin enviar mensajes ni crear reservas.</span></div><a class="btn" href="#try">Mira la demo ↘</a></div><div class="art" aria-hidden="true"><img class="art-photo" src="https://images.unsplash.com/photo-1758611974917-f7f7a58b74b0?auto=format&fit=crop&w=1400&q=85" alt="" loading="eager" width="1400" height="960"><div class="art-inner"><div class="art-head">Cleaning Concierge <span></span></div><div class="art-msg">¡Hola! ¿En qué te podemos ayudar?</div><div class="art-msg right">Necesito una cotización.</div><div class="art-msg">Perfecto. ¿Qué tipo de limpieza necesitas?</div><div class="art-foot">MENOS MENSAJES PERDIDOS · MÁS CLARIDAD</div></div></div></section>

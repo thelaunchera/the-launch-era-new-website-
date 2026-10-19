@@ -58,15 +58,21 @@ try{
    assert.equal(await cards.count(),3,lang+' '+width+' expected three cards');
    assert.equal(await cards.nth(1).getAttribute('data-plan'),'business',lang+' middle should be combined');
    assert.match(await cards.nth(1).innerText(),/\$39[\s\S]*\$19/);
-   await section.locator('.cards').scrollIntoViewIfNeeded();
-   await page.waitForFunction(()=>document.querySelector('#plans .cards')?.classList.contains('is-visible'),null,{timeout:8000});
-   const cardProperties=await cards.nth(1).evaluate(el=>({
-     image:getComputedStyle(el).backgroundImage,
-     border:getComputedStyle(el).borderTopWidth,
-     animation:getComputedStyle(el.querySelector('.tle-featured-badge')).animationName
-   }));
-   assert(cardProperties.image.includes('linear-gradient')&&Number.parseFloat(cardProperties.border)>=1,lang+' '+width+' featured style absent '+JSON.stringify(cardProperties));
-   assert.equal(await section.locator('.tle-featured-badge').innerText(),lang==='es'?'Mejor valor':'Best value');
+   const compact=width<=700;
+   if(compact){
+    assert.equal(await cards.first().isVisible(),false,lang+' phone hides duplicate three cards');
+    assert.equal(await section.locator('.tle-plan-picker').isVisible(),true,lang+' phone keeps all plan choices');
+   }else{
+    await section.locator('.cards').scrollIntoViewIfNeeded();
+    await page.waitForFunction(()=>document.querySelector('#plans .cards')?.classList.contains('is-visible'),null,{timeout:8000});
+    const cardProperties=await cards.nth(1).evaluate(el=>({
+      image:getComputedStyle(el).backgroundImage,
+      border:getComputedStyle(el).borderTopWidth,
+      animation:getComputedStyle(el.querySelector('.tle-featured-badge')).animationName
+    }));
+    assert(cardProperties.image.includes('linear-gradient')&&Number.parseFloat(cardProperties.border)>=1,lang+' '+width+' featured style absent '+JSON.stringify(cardProperties));
+   }
+      assert.equal(await section.locator('.tle-featured-badge').innerText(),lang==='es'?'Mejor valor':'Best value');
    const radios=section.locator('.tle-plan-toggle [role="radio"]');
    assert.equal(await radios.count(),3);
    assert.equal(await radios.nth(1).getAttribute('aria-checked'),'true');
@@ -100,7 +106,7 @@ try{
   }
   const reduce=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});
   await reduce.goto(site+route,{waitUntil:'domcontentloaded'});
-  await reduce.locator('#plans .cards').scrollIntoViewIfNeeded();
+  await reduce.locator('#plans .tle-plan-picker').scrollIntoViewIfNeeded();
   const anim=await reduce.locator('#plans .tle-featured-badge').evaluate(el=>getComputedStyle(el).animationName);
   assert(anim==='none',lang+' reduced-motion badge should never animate');
   await reduce.locator('#plans [role="radio"][data-plan="followup"]').click();

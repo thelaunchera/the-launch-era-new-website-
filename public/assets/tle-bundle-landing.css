@@ -81,3 +81,25 @@ img{display:block;max-width:100%}
 @media(max-width:720px){.tle-header{width:calc(100% - 26px);gap:12px;padding:15px 0}.tle-brand img{max-width:133px}.tle-header-links a:not(.tle-header-cta){display:none}.tle-header-links{gap:0}.tle-header-links .tle-header-cta{font-size:10px;padding:9px 12px}.tle-locale{padding-left:9px}.tle-hero{width:calc(100% - 15px);grid-template-columns:1fr;min-height:0;border-radius:24px}.tle-hero-copy{padding:30px 22px 25px}.tle-hero h1{font-size:clamp(35px,8.7vw,52px);margin:12px 0 16px}.tle-hero-copy>p{font-size:15px;line-height:1.6}.tle-hero-actions{gap:8px}.tle-btn{font-size:12px;padding:14px 17px;min-height:47px}.tle-hero-facts{margin-top:22px;gap:8px}.tle-hero-photo{min-height:260px;max-height:390px}.tle-hero-photo img{height:320px;object-position:center 42%}.tle-photo-note{bottom:14px;left:12px;right:12px;font-size:11px;padding:10px 12px}.tle-intro{padding:67px 20px 68px}.tle-intro h2{font-size:clamp(29px,7vw,41px)}.tle-experience{width:calc(100% - 28px)}.tle-section-head{margin-bottom:27px}.tle-section-head h2{font-size:34px}.tle-feature{display:flex;flex-direction:column;gap:17px;padding:15px 0 65px}.tle-feature.reverse .tle-feature-image,.tle-feature.reverse .tle-feature-copy{order:initial}.tle-feature-image{width:100%;border-radius:21px}.tle-feature-image img{height:clamp(235px,67vw,430px)}.tle-feature-copy{width:100%;padding:10px 4px}.tle-feature h3{font-size:clamp(29px,7.5vw,40px);margin:11px 0 13px}.tle-feature-copy>p{font-size:14px;line-height:1.65}.tle-micro-demo{padding:15px}.tle-bridge{width:calc(100% - 20px);padding:38px 18px;border-radius:22px}.tle-bridge h2{font-size:33px;margin-bottom:24px}.tle-bridge-grid{grid-template-columns:1fr;gap:11px}.tle-bridge-grid>div{padding:15px 19px}.tle-bridge-number{width:29px;height:29px}.tle-bridge h3{margin:8px 0 5px;font-size:17px}.tle-final{padding:70px 14px 45px}.tle-final-heading{flex-direction:column;align-items:flex-start;gap:22px}.tle-final h2{font-size:33px}.tle-offer-badge{flex:auto;transform:none;padding:12px 22px}.tle-offer-badge strong{font-size:33px}.tle-footer{flex-direction:column;text-align:center;padding-bottom:35px}.tle-footer span{max-width:260px}}
 @media(max-width:380px){.tle-header-links .tle-header-cta{font-size:9px;padding:8px 9px}.tle-hero h1{font-size:34px}.tle-kicker{font-size:10px}.tle-hero-actions .tle-btn{font-size:11px;padding:12px 14px}.tle-demo-tabs{gap:4px}.tle-demo-tabs button{font-size:10px;padding:8px}.tle-feature{padding-bottom:52px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+
+/* Mobile-first bundle reading path:
+   hero -> three live examples -> clear bundle builder. The intro repeats the
+   hero's lost-message pain and the 3-item bridge repeats those exact demos.
+   AI opt-in pricing disclosure remains visible in the bridge footer. */
+@media(max-width:720px){
+ .tle-intro{display:none!important}
+ .tle-bridge{padding:21px 16px 25px!important;margin-block:18px!important}
+ .tle-bridge h2{font-size:clamp(23px,6.5vw,28px)!important;margin:6px 0 13px!important}
+ .tle-bridge-grid{display:none!important}
+ .tle-bridge-foot{font-size:13px!important;line-height:1.5}
+ .tle-feature{padding-block:14px 30px!important;gap:10px!important}
+ .tle-feature-image img{height:clamp(170px,48vw,280px)!important}
+ .tle-feature h3{font-size:clamp(24px,6.7vw,30px)!important}
+ .tle-section-head{margin-bottom:20px!important}
+ .tle-section-head h2{font-size:clamp(27px,7vw,32px)!important}
+ .tle-support-promise{padding:28px 18px!important}
+ .tle-hero-copy{padding-block:27px 22px!important}
+ .tle-hero-photo{min-height:190px!important;max-height:240px!important}
+ .tle-hero-photo img{height:230px!important}
+}
