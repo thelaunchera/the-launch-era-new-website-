@@ -15,7 +15,8 @@ for (const [language, route, dest] of [
   assert(route.includes('booking-headline-stage'), `${language}: heading stage missing`);
   assert(route.includes(`<BookingFloatingChips lang="${language}" />`), `${language}: chips missing`);
   assert(route.includes(`href="${dest}"`), `${language}: purchase destination changed`);
-  assert(route.includes(`href="/booking-demo/?lang=${language}&source=booking-landing"`), `${language}: personalized demo destination changed`);
+  assert(route.includes(`href="/try-booking/?lang=${language}&source=booking-landing"`), `${language}: public sample destination changed`);
+  assert(route.includes(`href="/booking-demo/?lang=${language}&source=booking-landing-private"`), `${language}: secure personalized demo option missing`);
 }
 assert(chips.includes('aria-hidden="true"'), 'Chips must be decorative to assistive tech');
 assert(chips.includes('Illustrative example') && chips.includes('Ejemplo ilustrativo'), 'Missing sample data disclosures');
@@ -26,4 +27,4 @@ for (const id of ['signup', 'metric', 'payment', 'messages']) {
 for (const guard of ['@keyframes booking-chip-bob', '@keyframes booking-chip-enter', 'max-width: 640px', 'prefers-reduced-motion: reduce', '.booking-float-item--metric', '.booking-float-item--payment', 'pointer-events: none']) {
   assert(css.includes(guard), `Missing CSS guard: ${guard}`);
 }
-console.log('PASS: Booking EN/ES floating example chips, responsive/reduced motion and original CTA destinations.');
+console.log('PASS: Booking EN/ES floating example chips, responsive/reduced motion and no-signup sample + protected personalized CTA destinations.');
