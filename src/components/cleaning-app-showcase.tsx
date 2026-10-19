@@ -7,6 +7,10 @@ export function CleaningAppShowcase({lang='en'}:Props){
  const demo=(tab:number)=>`/cleaning-app-demo/?lang=${lang}&embedded=1&tab=${tab}`;
 
  return <div className="tle-cleaning-case">
+  <div className="tle-case-mobile-quick">
+   <div><strong>{es?'Mira la App por dentro':'See the App in action'}</strong><p>{es?'Abre un día de ejemplo con clientes, trabajos y facturas.':'Explore a sample day with jobs, clients and invoices.'}</p></div>
+   <a href={`/cleaning-app-demo/?lang=${lang}`}>{es?'Probar demo interactiva':'Try interactive demo'} <ArrowUpRight size={17}/></a>
+  </div>
   <section className="tle-case-cover" aria-label={es?'Presentación de Cleaning App':'Cleaning App visual overview'}>
    <div className="tle-case-header"><span>THE LAUNCH ERA / PRODUCT STORY</span><span>{es?'UN ESPACIO PARA TU NEGOCIO':'BUILT FOR CLEANING BUSINESSES'}</span></div>
    <div className="tle-case-title"><span>CLEANING</span><span>APP<span className="tle-case-dot">.</span></span></div>
