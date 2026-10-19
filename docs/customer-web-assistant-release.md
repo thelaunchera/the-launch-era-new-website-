@@ -1,4 +1,4 @@
-> Update: the operator has now provisioned two synthetic Testing businesses and verified their real API configuration. Testing Edge Function v2 reports `provider_not_configured`; see [the latest testing status](customer-assistant-testing-status.md). The live AI/request/email round trip is still pending.
+> Latest operator-run evidence and exact remaining gates: [Testing status](customer-assistant-testing-status.md). AI, request persistence/retries, Auth/API isolation and reminder queue eligibility have passed in Testing. Email delivery and production activation remain pending.
 
 # Customer web assistant: reviewed request handoff
 
@@ -6,7 +6,7 @@
 
 An optional assistant on released, keyed Booking Pages helps a visitor prepare a service request using the business's published service catalog and approved EN/ES information. The visitor can edit the complete address, contact and preferred date/time, then explicitly submit. The existing `tle-booking-flow-inquiry` workflow records the request and handles its receipt/owner emails. The request remains pending human review; the assistant never reserves a slot, chooses a price or charges a payment.
 
-The reviewed recent conversation (up to 12 messages, 500 characters each) is saved with the submission and can be opened from the buyer's existing request detail panel. Chatting alone never saves customer contacts or submits a lead. Model input is sent to Groq after the visitor's deliberate message; a visible notice explains processing and the later handoff.
+The reviewed recent conversation (up to 12 messages, 500 characters each) is saved with the submission and can be opened from the buyer's existing request detail panel. Chatting alone never saves customer contacts or submits a lead. Appointment reminders and optional follow-up/care emails each require their own unchecked review choice; neither the AI draft nor mandatory submission consent opts the visitor in. Model input is sent to Groq after the visitor's deliberate message; a visible notice explains processing and the later handoff.
 
 ## Boundaries and source
 
@@ -28,7 +28,7 @@ The reviewed recent conversation (up to 12 messages, 500 characters each) is sav
 
 ## Still required before activation
 
-The Testing project currently lacks production-equivalent booking, pricing and mail fixtures. The candidate Edge Function v1 is deployed only in Testing. Non-mutating preflight (204), invalid-message (400) and unauthenticated-conversation (401) checks passed with CORS on all responses. No production database, function or frontend deployment is claimed. Provision an isolated complete test tenant and provider configuration, verify a real AI response, then run an authorized test-mailbox request and buyer-authenticated browser round trip. Check true provider acceptance separately from inbox delivery, the saved recent conversation, duplicate submission, a second buyer's denied access and mobile Safari. Confirm the dedicated Command Center's served source and align its reviewed overlay. Keep configs disabled until these checks pass.
+Testing now has isolated pricing/request storage fixtures and candidate Edge Function v8, with Testing-only fenced intake. It still lacks verified mail dispatch and full production-equivalent routing/UI fixtures. Non-mutating preflight (204), invalid-message (400) and unauthenticated-conversation (401) checks passed with CORS on all responses. No production database, function or frontend deployment is claimed. Live AI, synthetic request and Auth/API access checks passed; next finish an authorized test-mailbox request and the full buyer-authenticated browser UI round trip. Check true provider acceptance separately from inbox delivery, the saved recent conversation, duplicate submission, a second buyer's denied access and mobile Safari. Confirm the dedicated Command Center's served source and align its reviewed overlay. Keep configs disabled until these checks pass.
 
 Release the migration and function together before enabling the widget for an approved business. Public visitor actions require `verify_jwt=false`; the private conversation action verifies its own JWT. No owner/admin operations are exposed. Preserve the existing intake endpoint; no server secrets belong in the Git repository.
 

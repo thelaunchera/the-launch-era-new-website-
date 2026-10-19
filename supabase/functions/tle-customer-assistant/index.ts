@@ -13,7 +13,9 @@ function json(origin, status, body) { return new Response(JSON.stringify(body), 
 async function rest(table, query, options = {}) {
   const response = await fetch(base+'/rest/v1/'+table+'?'+query, {...options, headers:{apikey:secret, Authorization:'Bearer '+secret, 'Content-Type':'application/json', ...(options.headers || {})}, signal:AbortSignal.timeout(10000)});
   if (!response.ok) throw Error('Business configuration unavailable');
-  return response.status===204 ? null : await response.json();
+  // PostgREST also returns an empty 201 for return=minimal inserts.
+  const body=await response.text();
+  return body ? JSON.parse(body) : null;
 }
 async function hash(value) {
   const bytes = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value));

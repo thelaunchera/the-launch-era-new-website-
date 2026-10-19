@@ -46,11 +46,15 @@ try{
   }
   await page.locator('.tca-submit').click();assert.equal(writes,0,'Consent cannot be implied');
   if(width===390)await page.screenshot({path:'/tmp/customer-assistant-review-'+lang+'.png'});
+  assert.equal(await page.locator('[name="appointment_reminders_opt_in"]').isChecked(),false);
+  assert.equal(await page.locator('[name="optional_care_opt_in"]').isChecked(),false);
+  if(lang==='es')await page.locator('[name="appointment_reminders_opt_in"]').check();
+  else await page.locator('[name="optional_care_opt_in"]').check();
   await page.locator('[name="confirmed"]').check();await page.locator('.tca-submit').click();
   await page.waitForFunction(()=>document.querySelector('.tca-status').textContent.includes('Retry without')||document.querySelector('.tca-status').textContent.includes('Reintenta sin'));
   assert.equal(await page.locator('[name="customer_email"]').inputValue(),'qa@example.invalid');
   await page.locator('.tca-submit').click();await page.locator('.tca-log').getByText(request,{exact:false}).waitFor();
-  assert.equal(submissions.length,2);assert.equal(submissions[0].external_ref,submissions[1].external_ref,'Retry reference changed');
+  assert.equal(submissions.length,2);assert.equal(submissions[0].appointment_reminders_opt_in,lang==='es');assert.equal(submissions[0].optional_care_opt_in,lang==='en');assert.equal(submissions[0].external_ref,submissions[1].external_ref,'Retry reference changed');
   assert.match(await page.locator('.tca-log').textContent(),lang==='es'?/todavía no está confirmada/:/not confirmed yet/);
   assert.match(await page.locator('.tca-status').textContent(),lang==='es'?/no pudimos verificar el correo/:/could not verify the receipt email/);
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+2),false,'Page overflow at '+width);

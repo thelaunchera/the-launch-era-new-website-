@@ -45,7 +45,7 @@ const fakeFetch=async(url,options={})=>{
   if(options.method==='POST'){
    const row=JSON.parse(options.body),key=row.account_id+':'+row.external_ref;
    if(!records.has(key))records.set(key,row);
-   return new Response(null,{status:204});
+   return new Response(null,{status:201});
   }
   const match=[...records.values()].filter(x=>(!eq('account_id')||x.account_id===eq('account_id'))&&(!eq('external_ref')||x.external_ref===eq('external_ref'))&&(!eq('request_id')||x.request_id===eq('request_id')));
   if(options.method==='PATCH'){
@@ -99,3 +99,11 @@ passwordRequired=true;
 assert.equal((await call({action:'conversation',workspace_id:WA,request_id:REQUEST},{token:'valid-user'})).status,403);
 assert.equal((await call({action:'conversation',workspace_id:WA,request_id:REQUEST},{token:passwordToken})).status,200);
 console.log('PASS: real handler; server-owned business context; optional activation; EN/ES payloads; explicit review; no autonomous actions; safe retries; saved chat; cross-business and expired-session denials. All providers isolated.');
+
+for(const flags of [{},{optional_care_opt_in:true},{appointment_reminders_opt_in:true},{optional_care_opt_in:'true',appointment_reminders_opt_in:1}]){
+ const body=protocol.submissionBody({...submit,...flags},protocol.catalog(services),'2026-10-19').body;
+ assert.equal(body.optional_care_opt_in,flags.optional_care_opt_in===true);
+ assert.equal(body.appointment_reminders_opt_in,flags.appointment_reminders_opt_in===true);
+}
+assert.equal((await call({...submit,optional_care_opt_in:true})).status,409,'Changing consent cannot reuse a reserved submission');
+console.log('PASS independent optional permissions, strict booleans and retry consent immutability');

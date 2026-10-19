@@ -1,12 +1,12 @@
 -- TESTING ONLY (afyiltvdfqnuyzcqsnoh). Run once; this creates two synthetic QA identities.
 -- Never run in production. No real buyer, booking, payment, email or invitation is created.
--- Synthetic identities have no password and cannot be used to sign in.
+-- Synthetic identities have no password. Operator QA may generate and consume a no-send magic link internally.
 with fixture_users as (
- insert into auth.users(id,instance_id,aud,role,email,email_confirmed_at,raw_app_meta_data,raw_user_meta_data,created_at,updated_at)
+ insert into auth.users(id,instance_id,aud,role,email,email_confirmed_at,raw_app_meta_data,raw_user_meta_data,created_at,updated_at,encrypted_password,confirmation_token,recovery_token,email_change_token_new,email_change)
  select id,'00000000-0000-0000-0000-000000000000'::uuid,'authenticated','authenticated',
  'tle-assistant-qa+'||id::text||'@example.invalid',now(),
  '{"provider":"email","providers":["email"]}'::jsonb,
- jsonb_build_object('qa_fixture',true,'purpose','customer_assistant_testing','label',label),now(),now()
+ jsonb_build_object('qa_fixture',true,'purpose','customer_assistant_testing','label',label),now(),now(),'','','','',''
  from (select gen_random_uuid() as id,label from (values ('A'),('B')) labels(label)) fixtures
  returning id,raw_user_meta_data->>'label' as label
 ), new_workspaces as (

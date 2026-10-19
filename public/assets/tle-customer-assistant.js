@@ -44,6 +44,11 @@ async function start(){
  field('city',t('City','Ciudad'));field('state',t('State','Estado'));field('zip',t('ZIP code','Código postal')).pattern='[0-9]{5}(-[0-9]{4})?';
  field('date',t('Preferred date','Fecha preferida'),'date');field('time',t('Preferred time','Horario preferido'),'time');
  field('notes',t('Anything else? (optional)','¿Algo más? (opcional)'),'text',false);
+ const permissions=new Map();
+ for(const [name,en,spanish]of [
+  ['appointment_reminders_opt_in','Email me reminders after the business confirms my appointment (optional).','Quiero recordatorios por email cuando el negocio confirme mi cita (opcional).'],
+  ['optional_care_opt_in','Email me quote follow-ups and optional service-care updates. I can unsubscribe (optional).','Quiero seguimientos de mi cotización y novedades de cuidado del servicio por email. Puedo cancelar la suscripción (opcional).']
+ ]){const label=make('label','tca-consent'),box=make('input');box.type='checkbox';box.name=name;box.checked=false;label.append(box,document.createTextNode(t(en,spanish)));review.append(label);permissions.set(name,box)}
  const confirmLabel=make('label','tca-consent');const confirmed=make('input');confirmed.type='checkbox';confirmed.required=true;confirmed.name='confirmed';
  confirmLabel.append(confirmed,document.createTextNode(t('I reviewed these details and want to send this request and my recent conversation to this business.','Revisé los datos y quiero enviar esta solicitud y mi conversación reciente al negocio.')));review.append(confirmLabel);
  const submit=make('button','tca-submit',t('Send my request','Enviar mi solicitud'));submit.type='submit';const back=make('button','tca-back',t('Back to chat','Volver al chat'));back.type='button';review.append(submit,back);
@@ -71,17 +76,18 @@ async function start(){
  review.onsubmit=async e=>{
   e.preventDefault();if(busy||submitted||!review.reportValidity())return;
   for(const [name,control]of fields)current[name]=control.value.trim();
-  const next=JSON.stringify({draft:current,history});
+  const choices=Object.fromEntries([...permissions].map(([name,box])=>[name,box.checked]));
+  const next=JSON.stringify({draft:current,history,...choices});
   // The reference survives ambiguous network failures. Edits create a new, deliberate request.
   if(next!==fingerprint){reference='req_'+crypto.randomUUID();fingerprint=next}
-  lock(true);for(const control of fields.values())control.disabled=true;confirmed.disabled=true;status.textContent=t('Sending your request…','Enviando tu solicitud…');
+  lock(true);for(const control of fields.values())control.disabled=true;confirmed.disabled=true;for(const box of permissions.values())box.disabled=true;status.textContent=t('Sending your request…','Enviando tu solicitud…');
   try{
-   const result=await api('submit',{draft:current,history,confirmed:confirmed.checked,external_ref:reference});
+   const result=await api('submit',{draft:current,history,confirmed:confirmed.checked,external_ref:reference,...choices});
    submitted=true;review.hidden=true;footer.hidden=true;log.hidden=false;log.replaceChildren();
    add('assistant',t('Your request was received. Your appointment is not confirmed yet.','Recibimos tu solicitud. Tu cita todavía no está confirmada.'));
    status.textContent=result.customer_email_accepted?t('The receipt email was accepted for sending. The business will review your request.','El comprobante se aceptó para envío. El negocio revisará tu solicitud.'):t('Your request was saved, but we could not verify the receipt email. Please contact the business for an update.','Se guardó tu solicitud, pero no pudimos verificar el correo. Contacta al negocio para recibir novedades.');
    const referenceText=make('p','tca-notice',t('Request reference: ','Referencia: ')+result.request_id);log.append(referenceText);
-  }catch(error){status.textContent=error.message+' '+t('Your details are still here. Retry without changing them to avoid another request.','Tus datos siguen aquí. Reintenta sin cambiarlos para evitar otra solicitud.');for(const control of fields.values())control.disabled=false;confirmed.disabled=false}
+  }catch(error){status.textContent=error.message+' '+t('Your details are still here. Retry without changing them to avoid another request.','Tus datos siguen aquí. Reintenta sin cambiarlos para evitar otra solicitud.');for(const control of fields.values())control.disabled=false;confirmed.disabled=false;for(const box of permissions.values())box.disabled=false}
   finally{lock(false);if(submitted)close.focus()}
  };
 }
