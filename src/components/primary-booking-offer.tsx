@@ -4,7 +4,7 @@ import './primary-booking-offer.css';
 export function PrimaryBookingOffer({ lang = 'en' }: { lang?: 'en' | 'es' }) {
   const es = lang === 'es';
   const checkout = es ? '/booking-bundle/?lang=es#choose-plan' : '/booking-bundle/?lang=en#choose-plan';
-  const demo = es ? '/booking-demo/?lang=es' : '/booking-demo/?lang=en';
+  const demo = es ? '/booking-demo/?lang=es&source=featured-offer-clara' : '/booking-demo/?lang=en&source=featured-offer-clara';
   const steps = es
     ? ['Tu cliente envía su solicitud desde una página con tu marca.', 'Revisas servicios, fechas y cotizaciones en tu Command Center.', 'Los seguimientos elegibles no quedan olvidados.']
     : ['Your client sends a request from your branded Booking Page.', 'Review services, dates and quotes in your private Command Center.', 'Eligible unanswered quotes get up to two automatic follow-ups.'];
@@ -24,7 +24,7 @@ export function PrimaryBookingOffer({ lang = 'en' }: { lang?: 'en' | 'es' }) {
         <p className="tle-primary-booking-offer__price-note">{es ? 'Sin mensualidad para Booking Page + Command Center.' : 'No monthly fee for Booking Page + Command Center.'}</p>
         <div className="tle-primary-booking-offer__actions">
           <a className="tle-primary-booking-offer__cta" href={checkout}>{es ? 'Quiero mi sistema — $15' : 'Get my booking system — $15'} <ArrowRight size={18} aria-hidden="true"/></a>
-          <a className="tle-primary-booking-offer__secondary" href={demo}>{es ? 'Solicitar demo privada' : 'Request a private demo'} <ArrowRight size={16} aria-hidden="true"/></a>
+          <a className="tle-primary-booking-offer__secondary" href={demo}>{es ? 'Solicitar demo más personalizada' : 'Request a More Personalized Demo'} <ArrowRight size={16} aria-hidden="true"/></a>
         </div>
         <p className="tle-primary-booking-offer__fine-print">{es
           ? 'La IA es opcional y se vende aparte. Entrega estimada en 48 horas después de revisar y aprobar tu información completa.'
