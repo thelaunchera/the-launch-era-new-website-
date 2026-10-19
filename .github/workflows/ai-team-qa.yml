@@ -17,6 +17,8 @@ on:
       - 'public/command-center/assets/jessy-owner*'
       - 'scripts/qa-ai-team.mjs'
       - 'scripts/qa-ai-team-commands.mjs'
+      - 'scripts/qa-ai-team-collaboration.mjs'
+      - 'supabase/functions/tle-ai-team/index.ts'
       - 'scripts/qa-ai-team-gateway.mjs'
       - 'scripts/qa-ai-team-ai-provider.mjs'
       - 'scripts/qa-jessy-owner.mjs'
@@ -42,6 +44,7 @@ jobs:
         run: |
           node scripts/qa-ai-team.mjs
           node scripts/qa-ai-team-commands.mjs
+          node scripts/qa-ai-team-collaboration.mjs
           node scripts/qa-ai-team-gateway.mjs
           node scripts/qa-ai-team-auto-briefs.mjs
           node scripts/qa-ai-team-public-references.mjs
