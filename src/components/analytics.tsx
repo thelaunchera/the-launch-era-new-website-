@@ -22,7 +22,7 @@ function detectedTrafficSource(){
 
 function currentProduct(pathname=location.pathname){
   if(pathname.includes('free-cleaning-lead-guide')) return 'free_lead_tracker';
-  if(pathname.includes('booking-lead-automation')) return 'booking_lead_automation';
+  if(pathname.includes('booking-lead-automation')||pathname.includes('try-booking')) return 'booking_lead_automation';
   if(pathname.includes('cleaning-web-app')) return 'cleaning_web_app';
   if(pathname.includes('website-automation')) return 'website_automation';
   if(pathname.includes('virtual-assistant')) return 'virtual_assistant';
@@ -104,13 +104,14 @@ export function Analytics(){
           offer:u.searchParams.get('offer')||undefined,
           destination:u.pathname
         });
-      }else if(u.pathname.includes('/booking-demo')||u.pathname.includes('/cleaning-app-demo')){
+      }else if(u.pathname.includes('/booking-demo')||u.pathname.includes('/cleaning-app-demo')||u.pathname.includes('/try-booking')){
         const cleaning=u.pathname.includes('/cleaning-app-demo');
+        const sample=u.pathname.includes('/try-booking');
         if(activeSource&&activeSource!=='direct') u.searchParams.set('source',activeSource);
         if(campaign) u.searchParams.set('utm_campaign',campaign);
         if(medium) u.searchParams.set('utm_medium',medium);
         a.href=u.toString();
-        window.tleTrackEvent?.(cleaning?'cleaning_app_demo_click':'booking_demo_click',{
+        window.tleTrackEvent?.(cleaning?'cleaning_app_demo_click':sample?'public_booking_sample_click':'booking_demo_click',{
           product:cleaning?'cleaning_web_app':'booking_lead_automation',
           language:u.searchParams.get('lang')||'en',
           destination:u.pathname

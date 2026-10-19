@@ -20,8 +20,8 @@ const englishHero = en.split('export function HomeHero()')[1]?.split('const serv
 const spanishHero = es.split('function SpanishHome()')[1]?.split('<SmartWelcomeBundle lang="es"/>')[0] || '';
 
 for (const [lang, hero, expected] of [
-  ['EN', englishHero, '/booking-demo/?lang=en'],
-  ['ES', spanishHero, '/booking-demo/?lang=es'],
+  ['EN', englishHero, '/try-booking/?lang=en&source=homepage'],
+  ['ES', spanishHero, '/try-booking/?lang=es&source=homepage'],
 ]) {
   assert(hero.includes('className="hero-scroll"'), lang + ': scroll stage missing');
   assert(hero.includes('hero-scroll-stage') && hero.includes('hero-scroll-frame'), lang + ': scroll frame missing');
@@ -37,7 +37,7 @@ for (const [lang, hero, expected] of [
 
   assert(hero.includes('width={1122} height={1402}'), lang + ': portrait hero dimensions changed');
   assert(hero.includes('ref={heroRef}'), lang + ': IntersectionObserver hero ref missing');
-  assert.equal(hero.split('href="' + expected + '"').length - 1, 1, lang + ': duplicate or absent personalized demo CTA');
+  assert.equal(hero.split('href="' + expected + '"').length - 1, 1, lang + ': duplicate or absent no-signup sample CTA');
   assert(hero.indexOf('hero-cta-row') < hero.indexOf('hero-split-visual'), lang + ': copy must lead on desktop');
   assert(hero.indexOf('hero-split-visual') < hero.indexOf('hero-notice-flow'), lang + ': notifications must sit inside image');
 }

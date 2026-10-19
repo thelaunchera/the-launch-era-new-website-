@@ -29,19 +29,19 @@ try{
    const errors=[];page.on('pageerror',e=>errors.push(e.message));
    const res=await page.goto(base+path,{waitUntil:'domcontentloaded',timeout:45000});
    assert.equal(res?.status(),200,'Landing must exist: '+path);
-   // Landing priority: visitors request the personalized demo. Checkout stays
+   // Landing priority: visitors first try the no-signup public booking sample. Checkout stays
    // available to ready buyers and never submits a purchase during QA.
    const actions=page.locator('.booking-motion-hero .service-hero-actions a');
    assert.equal(await actions.count(),2,lang+' should have a demo action and a purchase option');
    const primary=await actions.nth(0).getAttribute('href');
    const secondary=await actions.nth(1).getAttribute('href');
-   assert.equal(primary,'/booking-demo/?lang='+lang+'&source=booking-landing',lang+' primary action must request a personalized demo');
+   assert.equal(primary,'/try-booking/?lang='+lang+'&source=booking-landing',lang+' primary action must open the no-signup sample');
    assert.equal(secondary,'/booking-bundle/?lang='+lang,lang+' purchase option must remain available');
    const close=page.locator('.service-sales-close .service-hero-actions a');
    assert.equal(await close.count(),2,lang+' bottom sales actions must include demo and checkout');
    assert.match((await close.nth(0).getAttribute('href'))||'',new RegExp('/booking-demo/\\?lang='+lang),lang+' bottom primary must request a demo');
    assert.equal(await close.nth(1).getAttribute('href'),secondary,lang+' bottom purchase route changed');
-   assert((await actions.nth(0).textContent()||'').toLowerCase().includes(lang==='es'?'demo personalizada':'personalized demo'),lang+' should make the requested demo obvious');
+   assert((await actions.nth(0).textContent()||'').toLowerCase().includes(lang==='es'?'probar una reserva':'try a booking'),lang+' should make the sample invitation obvious');
    const disclosure=await page.locator('.booking-motion-hero p').allTextContents();
    assert(disclosure.some(v=>lang==='es'?v.includes('no tu diseño final')&&v.includes('fotos')&&v.includes('colores'):v.includes('not your final design')&&v.includes('photos')&&v.includes('colors')),lang+' landing should explain personalized final brand design');
    const fitDemo=page.locator('.service-sales .service-fit a.service-fit-request-link');
@@ -110,5 +110,39 @@ try{
   assert(link?.startsWith('/booking-demo/'),lang+' invite request link must be available');
   await page.close();
  }
+
+ // Public no-signup example must truly move across the three client steps,
+ // reveal an illustrative owner request, preserve language and never POST a record.
+ for(const lang of ['en','es'])for(const width of [390,820,1440]){
+  const page=await browser.newPage({viewport:{width,height:844},reducedMotion:'reduce'});
+  const unsafe=[];
+  page.on('request',req=>{if(req.method()!=='GET' && /supabase\.co|resend|service-checkout/i.test(req.url()))unsafe.push(req.method()+' '+req.url());});
+  const res=await page.goto(base+'/try-booking/?lang='+lang+'&source=browser-qa',{waitUntil:'domcontentloaded',timeout:45000});
+  assert.equal(res?.status(),200,'Public sample must render: '+lang);
+  assert.equal(await page.locator('html').getAttribute('lang'),lang,'Example language must match');
+  assert.equal(await page.locator('#page1').isVisible(),true);
+  await page.locator('[data-service="deep"]').click();
+  assert.equal(await page.locator('[data-service="deep"]').getAttribute('aria-pressed'),'true');
+  await page.locator('#nextBtn').click();
+  assert.equal(await page.locator('#page2').isVisible(),true);
+  await page.locator('#beds').selectOption('3');
+  await page.locator('#nextBtn').click();
+  assert.equal(await page.locator('#page3').isVisible(),true);
+  await page.locator('#nextBtn').click();
+  assert.equal(await page.locator('#dashboardResult').isVisible(),true);
+  assert.equal(await page.locator('#count').innerText(),'1');
+  assert.match(await page.locator('#outService').innerText(),lang==='es'?/profunda/i:/deep/i);
+  assert.equal(await page.locator('#buyLink').getAttribute('href'),'/booking-bundle/?lang='+lang+'&source=public-sample');
+  await page.locator('#reviewBtn').click();
+  assert.equal(await page.locator('#actionCount').innerText(),'0');
+  await page.locator('#nextBtn').click();
+  assert.equal(await page.locator('#dashboardResult').isVisible(),false);
+  assert.deepEqual(unsafe,[],'The browser-only sample must never send a booking/email/payment');
+  await page.locator('#langSwitch').click();
+  assert.equal(await page.locator('html').getAttribute('lang'),lang==='es'?'en':'es');
+  await page.close();
+  console.log('PASS public sample',lang,width,'3 steps, owner result, review, reset, switch and no writes');
+ }
+
  console.log('PASS booking cross-link EN/ES across four sizes');
 }finally{await browser.close();}
