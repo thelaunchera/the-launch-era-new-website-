@@ -1,0 +1,20 @@
+name: Owner AI Projects Readiness QA
+on:
+  pull_request:
+    paths:
+      - 'lib/owner-ai-project-readiness.mjs'
+      - 'scripts/qa-owner-ai-project-readiness.mjs'
+      - '.github/workflows/owner-ai-project-readiness-qa.yml'
+  workflow_dispatch:
+jobs:
+  readiness:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Synthetic owner-only readiness and tenant isolation tests
+        run: node scripts/qa-owner-ai-project-readiness.mjs
