@@ -20,6 +20,7 @@ try{
     assert.equal(await page.locator('#demoSuccessSummary').count(),1);
     assert(await page.locator('.demo-hero-cta').isVisible(),'Service CTA must remain visible');
     assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+5),'No horizontal overflow at '+lang+' '+width);
+    await page.screenshot({path:'qa-screenshots/sample-cleaning-hero-'+lang+'-'+width+'.png',fullPage:false});
     await page.locator('#bookingStarter').scrollIntoViewIfNeeded();
     assert(await page.locator('#bookingStarter').isVisible());
     await page.screenshot({path:'qa-screenshots/sample-cleaning-'+lang+'-'+width+'.png',fullPage:false});
