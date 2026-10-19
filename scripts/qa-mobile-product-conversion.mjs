@@ -108,6 +108,19 @@ try{
   assert.equal(await page.locator('.hero .art').isVisible(),true);
   assert.equal(await page.locator('.features .feature:nth-child(4)').isVisible(),true);
  });
+
+ await check('/es/ai-booking-assistant/',phone,async page=>{
+  assert.equal(await page.locator('#plans .cards').isVisible(),false);
+  assert.equal(await page.locator('#plans .tle-plan-picker').isVisible(),true);
+  const picker=page.locator('#plans [data-selected-checkout]');
+  await page.locator('#plans .tle-plan-toggle [data-plan="followup"]').click();
+  assert.match(await picker.getAttribute('href'),/offer=ai-followup/);
+ });
+ await check('/es/whatsapp-ai-agent/',phone,async page=>{
+  assert.equal(await page.locator('.hero .art').isVisible(),false);
+  assert.equal(await page.locator('#conversation').isVisible(),true);
+  assert.equal(await page.locator('.features .feature:nth-child(4)').isVisible(),false);
+ });
  for(const path of ['/website-automation/','/virtual-assistant/']){
   await check(path,phone,async page=>{
    assert(await page.locator('a[href^="/service-checkout/"]').count()>0,'Checkout CTA missing '+path);
