@@ -1,0 +1,30 @@
+name: Guard owner cold-call consent log
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/qa-owner-cold-call-log.mjs'
+      - 'public/command-center/index.html'
+      - 'public/command-center/assets/command-center-app.js'
+      - '.github/workflows/qa-owner-cold-call-log.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/qa-owner-cold-call-log.mjs'
+      - 'public/command-center/index.html'
+      - 'public/command-center/assets/command-center-app.js'
+      - '.github/workflows/qa-owner-cold-call-log.yml'
+permissions:
+  contents: read
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check Command Center app syntax
+        run: node --check public/command-center/assets/command-center-app.js
+      - name: Verify internal cold-call template and consent guardrails
+        run: node scripts/qa-owner-cold-call-log.mjs
