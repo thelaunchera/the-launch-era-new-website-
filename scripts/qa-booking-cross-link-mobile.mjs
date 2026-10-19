@@ -41,7 +41,7 @@ try{
    assert.equal(await close.count(),2,lang+' bottom sales actions must include demo and checkout');
    assert.match((await close.nth(0).getAttribute('href'))||'',new RegExp('/booking-demo/\\?lang='+lang),lang+' bottom primary must request a demo');
    assert.equal(await close.nth(1).getAttribute('href'),secondary,lang+' bottom purchase route changed');
-   assert((await actions.nth(0).textContent()||'').toLowerCase().includes(lang==='es'?'probar una reserva':'try a booking'),lang+' should make the sample invitation obvious');
+   assert((await actions.nth(0).textContent()||'').toLowerCase().includes(lang==='es'?'ver demos':'see demos'),lang+' should make the sample invitation obvious');
    const disclosure=await page.locator('.booking-motion-hero p').allTextContents();
    assert(disclosure.some(v=>lang==='es'?v.includes('no tu diseño final')&&v.includes('fotos')&&v.includes('colores'):v.includes('not your final design')&&v.includes('photos')&&v.includes('colors')),lang+' landing should explain personalized final brand design');
    const fitDemo=page.locator('.service-sales .service-fit a.service-fit-request-link');
