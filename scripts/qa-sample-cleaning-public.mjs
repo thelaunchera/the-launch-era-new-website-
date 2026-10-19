@@ -22,7 +22,7 @@ assert.doesNotMatch(html,/sessionStorage\.setItem|localStorage\.setItem/);
 assert.match(html, /for\(const k of \['key','owner_preview','rid','lead','business','area','access','session'\]\)/);
 assert.match(html, /\/booking-demo\/\?lang=en&source=sample-cleaning/);
 for(const block of [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)])new vm.Script(block[1]);
-assert.match(en, /href="\/sample-cleaning\/\?lang=en&source=homepage">See Demos/);
+assert.match(en, /href="\/sample-cleaning\/\?lang=en&source=homepage">Try the Booking Demo/);
 assert.match(es, /href="\/sample-cleaning\/\?lang=es&source=homepage">Ver demos/);
 assert.match(en,/Request a More Personalized Demo/);
 assert.match(en,/href="\/booking-demo\/\?lang=en&source=homepage-clara"/);
