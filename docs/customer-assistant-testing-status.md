@@ -2,6 +2,16 @@
 
 Testing project: `afyiltvdfqnuyzcqsnoh`. Source: draft PR #297. Production is unchanged.
 
+## Authorized real-mail QA proof — October 19, 2026 (19:23–19:24 UTC)
+
+- **Resend provider verification:** exactly three QA-tagged transactional messages to the sole authorized real mailbox `hello@thelaunchera.com` have status **delivered**: customer request receipt (19:23:03 UTC), owner quote alert (19:23:11 UTC), and next-day appointment reminder (19:24:19 UTC). Delivered is provider-level delivery, not human read/open.
+- **Testing database verification:** fixed references 4 and 5 each appear once in the request table, and the corresponding assistant submissions are unique. The dedicated reminder outbox contains one `reminder_24h` item with status `sent` and no second reminder row. Repeating the script returned the original request identifier and did not produce another email.
+- The actual Testing reminder was dispatched on-demand during the QA run; this is **not** proof that a production cron/worker is installed or that real bookings trigger the full automation. Read-only schema check confirmed that `cron.job` is absent in Testing.
+- The latest operator session reports QA auto-sending and CRM validations disabled after verification. This read-only connector audit cannot inspect Edge Function environment-variable values, so it **cannot independently prove** `TLE_ASSISTANT_QA_MAIL_ENABLED` is currently off. The source has a feature gate and is fenced to two synthetic businesses, five fixed references, quote-only requests, and the authorized test mailbox. **No additional sends were initiated in this audit.**
+- Production read-only cross-check: the new assistant Edge Function and its config/submission tables are absent from the production Supabase project, and GitHub PR #297 remains a **draft, not merged**. No customer-facing activation was performed.
+
+**Remaining release gates:** full private buyer Command Center browser login/conversation retrieval and isolation, real Safari/iPhone UX, dedicated served-source alignment, and an owner-reviewed production rollout. Real appointment/cancellation/reschedule dispatch and optional care follow-ups are **not end-to-end verified** in production. Do not enable production customer configs or automatic sends as a side effect of this QA.
+
 ## Verified
 
 - Live Groq EN/ES replies passed after a dedicated seven-day Testing key and `GROQ_MODEL=openai/gpt-oss-20b` were configured. The former Llama model returned upstream `model_not_found`. Key expires October 26, 2026; no key value is in source.
@@ -17,9 +27,9 @@ Testing project: `afyiltvdfqnuyzcqsnoh`. Source: draft PR #297. Production is un
 ## Mail connection and remaining release gates
 
 - Resend domain is verified and sending-enabled. The separate domain-restricted sending-only key is now saved as Testing `TLE_CRM_RESEND_API_KEY` after the owner continued the explicitly described setup. No secret value is in source or a persistent artifact.
-- Automatic approval review separately blocked executing the test-mail script: it required an explicit statement authorizing the external sends; “Continua” was not accepted. Read-only checks found no request rows for fixed mail references 4/5 and no matching test messages in Resend. No retry or alternate send path was attempted.
-- Prepared receipt and owner-notification scenarios target only `hello@thelaunchera.com`, label subjects/body QA TEST and remove actionable links from test templates. Existing no-send `.invalid` fixtures remain supported. New send-capable references require `TLE_ASSISTANT_QA_MAIL_ENABLED=true`, which has NOT been set, so the prepared route is disabled pending explicit authorization.
-- Email acceptance/delivery and reminder-worker dispatch remain NOT verified. Optional-follow-up scheduling still requires accepted receipt mail and dispatch verification. A sending-only key cannot read the provider reply monitor required by the real managed follow-up worker; do not weaken that fail-closed protection or silently broaden permissions.
+- Earlier automated approval review blocked sending before explicit authorization; the owner subsequently authorized sending test messages **only** to `hello@thelaunchera.com`. The authorized fixed-reference test was then run and all three QA messages were confirmed delivered by Resend (see latest proof above).
+- The authorized receipt and owner-notification scenarios targeted only `hello@thelaunchera.com` with QA subject/body markers. Existing `.invalid` no-send fixtures remain supported. The route for fixed mail references requires `TLE_ASSISTANT_QA_MAIL_ENABLED=true`; after the authorized run the operator reports this was switched back off. Verify its live value in the operator environment before any further test.
+- **Testing receipt, owner notification, and on-demand reminder delivery are now verified at the Resend provider level**. Production-triggered reminders, booking status transitions, cancellation/reschedule propagation, and opt-in follow-up scheduling/delivery are not verified end to end. A sending-only key cannot read the provider reply monitor required by the real managed follow-up worker; do not weaken that fail-closed protection or silently broaden permissions.
 - Dedicated Command Center served-source alignment, full authenticated buyer browser UI, real Safari and reviewed production release remain pending. Testing-only fixtures/QA scripts must never be deployed as customer infrastructure.
 
 ## Testing source and fences
