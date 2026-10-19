@@ -15,7 +15,7 @@ for (const [language, route, dest] of [
   assert(route.includes('booking-headline-stage'), `${language}: heading stage missing`);
   assert(route.includes(`<BookingFloatingChips lang="${language}" />`), `${language}: chips missing`);
   assert(route.includes(`href="${dest}"`), `${language}: purchase destination changed`);
-  assert(route.includes(`href="/try-booking/?lang=${language}&source=booking-landing"`), `${language}: public sample destination changed`);
+  assert(route.includes(`href="/sample-cleaning/?lang=${language}&source=booking-landing"`), `${language}: public sample destination changed`);
   assert(route.includes(`href="/booking-demo/?lang=${language}&source=booking-landing-private"`), `${language}: secure personalized demo option missing`);
 }
 assert(chips.includes('aria-hidden="true"'), 'Chips must be decorative to assistive tech');
