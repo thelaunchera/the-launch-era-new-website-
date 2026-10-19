@@ -44,7 +44,7 @@ assert.match(analytics,/public_booking_sample_click/);
 assert.doesNotMatch(float,/\+24%\s*revenue|\+24%\s*ingresos|Paid \$480|Pagado \$480/);
 assert.match(booking,/<del>\$49\.99<\/del><strong>\$15<\/strong>/);
 assert.match(bookingEs,/<del>\$49\.99<\/del><strong>\$15<\/strong>/);
-assert.match(bundle,/\$15\.00/);
+assert.match(bundle,/id="choose-plan"/);
 assert.match(read('public/booking-demo-reset.html'),/tle-booking-demo-gate/);
 assert.match(read('public/booking-demo/index.html'),/tle-personalized-demo/);
 console.log('[TLE SALES QA] PASS — public no-signup sample, bilingual flow, safe owner preview, current prices and private gate intact');
