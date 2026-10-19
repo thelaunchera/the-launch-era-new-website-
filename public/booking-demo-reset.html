@@ -9,18 +9,11 @@
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#FAF8F3">
 <title>Private Booking Automation Demo · The Launch Era</title>
-<script>
-try {
-  const q=new URLSearchParams(location.search), rid=q.get("rid")||"";
-  if(/^[0-9a-f-]{36}$/i.test(rid) && (q.get("access") || sessionStorage.getItem("tle_booking_demo_session:"+rid))) {
-    document.documentElement.classList.add("tle-direct-demo");
-  }
-} catch {}
-</script>
+
 <style>
 :root{color-scheme:light;--ink:#191919;--blue:#dceef9;--edge:#c8dde9}
 *{box-sizing:border-box}body{margin:0;min-height:100dvh;display:grid;place-items:center;padding:22px;background:linear-gradient(155deg,#e5f2fb,#faf8f3 58%);font:15px/1.6 "Avenir Next",Inter,Arial,sans-serif;color:var(--ink)}
-html.tle-direct-demo body{background:#FAF8F3}html.tle-direct-demo main{display:none!important}main{width:min(100%,465px);padding:clamp(23px,5vw,36px);border:1px solid var(--edge);border-radius:28px;background:white;box-shadow:0 18px 60px #25547416}
+main[hidden]{display:none!important}main{width:min(100%,465px);padding:clamp(23px,5vw,36px);border:1px solid var(--edge);border-radius:28px;background:white;box-shadow:0 18px 60px #25547416}
 .ey{font-size:11px;letter-spacing:.15em;font-weight:800;color:#3a7294}h1{font-size:clamp(27px,4vw,35px);font-weight:650;letter-spacing:-.03em;line-height:1.15;margin:18px 0 12px}p{margin:9px 0 15px;color:#536676}.hint{font-size:13px;margin-top:14px}
 label{display:block;font-weight:700;font-size:13px;margin:18px 0 6px}input{width:100%;border-radius:14px;border:1px solid #abcde0;background:#f9fcfe;color:var(--ink);font:700 22px/1.3 ui-monospace,monospace;letter-spacing:.18em;text-align:center;padding:13px 12px}button,.link{display:flex;justify-content:center;align-items:center;min-height:49px;border-radius:999px;padding:12px 21px;font-size:15px;font-weight:750;cursor:pointer;text-decoration:none}button{width:100%;background:#246fa4;color:white;border:1px solid #246fa4;margin-top:13px}button:disabled{opacity:.6;cursor:wait}.link{background:#eef6fb;border:1px solid #c7deea;color:#235777;margin-top:13px}a{color:#236b9a}a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid #347db4;outline-offset:3px}.error{color:#9f2435!important}.ok{color:#19674c!important}.status{font-size:13px;min-height:20px;overflow-wrap:anywhere}#codeStep[hidden],#startStep[hidden],#authStep[hidden]{display:none!important}.row{display:flex;gap:8px;align-items:center;justify-content:space-between}.tag{font-size:11px;border:1px solid #c7deea;background:#e7f2fa;border-radius:99px;padding:5px 11px;font-weight:700;color:#306b8e}
 @media(max-width:380px){main{padding:20px}body{padding:13px}}
@@ -28,7 +21,7 @@ label{display:block;font-weight:700;font-size:13px;margin:18px 0 6px}input{width
 </style>
 </head>
 <body>
-<main>
+<main hidden>
  <div class="row"><span class="ey">THE LAUNCH ERA</span><span class="tag" id="privateTag">PRIVATE DEMO</span></div>
  <h1 id="title">Your Booking Automation preview</h1>
  <p id="summary">Explore a smoother booking experience, designed around your cleaning business.</p>
@@ -85,7 +78,7 @@ const phrases=isEs?{
  error:"Could not connect. Please try again.",expired:"Your session expired. Request a new code."
 };
 const el=k=>document.getElementById(k);
-const show=k=>{document.documentElement.classList.remove("tle-direct-demo");["authStep","startStep","codeStep"].forEach(x=>{el(x).hidden=x!==k})};
+const show=k=>{document.querySelector("main").hidden=false;["authStep","startStep","codeStep"].forEach(x=>{el(x).hidden=x!==k})};
 const message=(s,kind="")=>{el("status").textContent=s;el("status").className="status "+kind};
 const setBusy=v=>{el("sendBtn").disabled=v;el("verifyBtn").disabled=v;el("retryBtn").disabled=v};
 const storageKey="tle_booking_demo_session:"+rid;
@@ -113,7 +106,7 @@ async function start(){
  if(directToken){
   // Consent already happened in AppDeploy. Exchange the short-lived signed link
   // for a private session; never expose the demo template or persist the URL token.
-  if(!document.documentElement.classList.contains("tle-direct-demo"))show("startStep");setBusy(true);message(isEs?"Abriendo tu demo privada…":"Opening your private demo…");
+  setBusy(true);message(isEs?"Abriendo tu demo privada…":"Opening your private demo…");
   const clearLink=()=>history.replaceState(null,"",location.pathname+"?rid="+encodeURIComponent(rid)+(isEs?"&lang=es":""));
   try{
    const response=await call({action:"direct",token:directToken});
