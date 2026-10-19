@@ -19,6 +19,7 @@ export async function decorateBusinessEmail(accountId:string,business:string,con
  textSuffix:"\n\n"+business+"\n"+(es?"Privacidad: ":"Privacy Policy: ")+privacy+"\n"+(es?"Términos: ":"Service Terms: ")+terms+"\nPowered by The Launch Era"};
 }
 export async function sendBusinessEmail(payload:any,es=false){
+ if(Deno.env.get("SUPABASE_URL")!=="https://afyiltvdfqnuyzcqsnoh.supabase.co"||String(payload.customer_email||"").toLowerCase()!=="hello@thelaunchera.com")return false;
  const api=Deno.env.get("TLE_CRM_RESEND_API_KEY");if(!api||!payload.business_id||!payload.outbox_id)return false;
  try{
   let content=String(payload.email_html||""),unsubscribe="";
@@ -33,12 +34,13 @@ export async function sendBusinessEmail(payload:any,es=false){
   }
   const decorated=await decorateBusinessEmail(String(payload.business_id),String(payload.business_name||"Your business"),content,es);
   const recipient=String(payload.customer_email||"").trim().toLowerCase();
+  decorated.html='<p><strong>QA TEST ONLY — no real appointment. Prueba: no hay una cita real.</strong></p>'+decorated.html.replace(/<a\b[^>]*>([\s\S]*?)<\/a>/gi,'<span>$1</span>');
   const event=String(payload.event_key||payload.email_role||"")+":"+String(payload.outbox_id)+":"+recipient+":"+String(payload.email_subject||"");
   const digest=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(event));
   const id=Array.from(new Uint8Array(digest),x=>x.toString(16).padStart(2,"0")).join("");
   const response=await fetch("https://api.resend.com/emails",{method:"POST",headers:{"Authorization":"Bearer "+api,"Content-Type":"application/json","Idempotency-Key":payload.email_role?"tle-inquiry-"+String(payload.outbox_id)+"-"+String(payload.email_role):"tle-business-"+id},
    body:JSON.stringify({from:String(payload.business_name||"Your business").replace(/[\r\n<>"]/g,"").slice(0,85)+" <hello@thelaunchera.com>",
-    to:[recipient],reply_to:payload.reply_to,subject:payload.email_subject,html:decorated.html,...(unsubscribe?{headers:{"List-Unsubscribe":"<"+unsubscribe+">","List-Unsubscribe-Post":"List-Unsubscribe=One-Click"}}:{})}),signal:AbortSignal.timeout(12500)});
+    to:[recipient],reply_to:payload.reply_to,subject:"[QA TEST] "+payload.email_subject,html:decorated.html,...(unsubscribe?{headers:{"List-Unsubscribe":"<"+unsubscribe+">","List-Unsubscribe-Post":"List-Unsubscribe=One-Click"}}:{})}),signal:AbortSignal.timeout(12500)});
   const result=await response.json().catch(()=>({}));return response.ok&&typeof result.id==="string";
  }catch{return false}
 }

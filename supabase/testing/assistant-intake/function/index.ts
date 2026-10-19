@@ -19,7 +19,7 @@ function html(v:any){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&l
 async function sha256(value:string){const h=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(value));return [...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,"0")).join("")}
 function newToken(){const a=new Uint8Array(32);crypto.getRandomValues(a);return [...a].map(b=>b.toString(16).padStart(2,"0")).join("")}
 async function send(payload:any){
- if(String(payload?.customer_email||"").endsWith(".invalid"))return false;
+ if(String(payload?.customer_email||"").toLowerCase()!=="hello@thelaunchera.com")return false;
  if(payload?.type==="booking_flow_message")return sendBusinessEmail(payload,payload.email_language==="es");
  try{const resp=await fetch(MAKE_HOOK,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});return resp.ok}catch{return false}
 }
@@ -66,9 +66,11 @@ Deno.serve(async(req)=>{
   // Testing-only fence: synthetic quote requests and fixed references, never real bookings.
   if(Deno.env.get("SUPABASE_URL")!=="https://afyiltvdfqnuyzcqsnoh.supabase.co" ||
     !["a040b6d1-c073-47cd-b923-f51576dd1111","cdc38a40-968d-4b54-beb0-1b22a6d043b5"].includes(b.booking_key) ||
-    !["req_11111111-2222-4333-8444-555555555551","req_11111111-2222-4333-8444-555555555552","req_11111111-2222-4333-8444-555555555553"].includes(b.external_ref) ||
-    b.customer_email!=="qa@example.invalid" || b.request_type!=="quote")
+    !["req_11111111-2222-4333-8444-555555555551","req_11111111-2222-4333-8444-555555555552","req_11111111-2222-4333-8444-555555555553","req_11111111-2222-4333-8444-555555555554","req_11111111-2222-4333-8444-555555555555"].includes(b.external_ref) ||
+    !["qa@example.invalid","hello@thelaunchera.com"].includes(b.customer_email) || b.request_type!=="quote")
     return new Response(JSON.stringify({error:"Testing fixture only"}),{status:403,headers:cors(origin)});
+  if(["req_11111111-2222-4333-8444-555555555554","req_11111111-2222-4333-8444-555555555555"].includes(b.external_ref)&&Deno.env.get("TLE_ASSISTANT_QA_MAIL_ENABLED")!=="true")
+    return new Response(JSON.stringify({error:"Explicit test-mail authorization pending"}),{status:403,headers:cors(origin)});
   if(clean(b.website,120)) return new Response(JSON.stringify({ok:true}),{status:200,headers:cors(origin)});
 
   const bookingKey=clean(b.booking_key,80);

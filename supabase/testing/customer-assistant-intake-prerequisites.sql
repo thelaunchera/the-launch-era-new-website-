@@ -25,3 +25,4 @@ alter table public.tle_booking_flow_pricing add column if not exists addons json
 alter table public.tle_booking_flow_pricing add column if not exists currency text default 'USD';
 alter table public.tle_booking_flow_pricing add column if not exists quote_policy text default 'always_review';
 alter table public.tle_booking_flow_pricing add column if not exists auto_confirm_flat boolean default false;
+alter table public.tle_booking_flow_accounts add column if not exists owner_email text;

@@ -859,3 +859,8 @@ Provisioned Testing-only fenced quote intake derived from deployed v48, no produ
 Copied exact live 24h reminder queue functions to Testing without cron; rolled-back SQL checks passed consent/confirmed eligibility, deduplication, reschedule, unsubscribe and completion cancellation. This is queue evidence, not email dispatch. Current production worker v14 supports reminder_24h; local older source differs and was not substituted into production.
 
 Resend domain verified; a separate domain-restricted send-only Testing key was created, but automated review rejected its transfer/storage in Testing because earlier permission specified Groq. It is not in Supabase and no alternate transfer was attempted. Email acceptance/delivery, optional-follow-up dispatch, dedicated Command Center UI/source alignment and real Safari remain release gates. See docs/customer-assistant-testing-status.md. Production unchanged.
+
+
+## 2026-10-19 — Testing mail connection saved; send approval still pending
+
+The owner continued the explicitly described Resend setup. The restricted send-only key was saved as Testing TLE_CRM_RESEND_API_KEY; no value is in source. Automatic approval review then rejected execution of the fixed-reference real test-email script because “Continua” did not explicitly authorize the external sends. No alternate send path was attempted. Read-only DB checks found no mail-test references 4/5 and provider listing showed no matching QA messages. Prepared Testing receipt/owner alerts target only hello@thelaunchera.com, label QA TEST and disable actionable template links. New mail-capable references are disabled by default behind TLE_ASSISTANT_QA_MAIL_ENABLED (unset). No acceptance/delivery or mail-dispatch claim. Production unchanged.
