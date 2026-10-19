@@ -38,7 +38,7 @@ try {
   assert.equal(await page.locator('.tle-starfield-accent').count(),1,'Only the homepage hero may mount a Starfield scene');
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'Horizontal overflow');
   const link=page.locator('.hero-cta-row a');
-  assert.equal(await link.getAttribute('href'),'/try-booking/?lang='+ (path==='/'?'en':'es')+'&source=homepage');
+  assert.equal(await link.getAttribute('href'),'/sample-cleaning/?lang='+ (path==='/'?'en':'es')+'&source=homepage');
   assert(await link.isVisible(),'Hero demo CTA must remain readable');
   await page.screenshot({path:`qa-screenshots/starfield-${path==='/'?'en':'es'}-${width}.png`});
   await page.locator('.final-section').scrollIntoViewIfNeeded();

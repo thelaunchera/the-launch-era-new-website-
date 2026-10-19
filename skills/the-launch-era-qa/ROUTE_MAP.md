@@ -839,3 +839,11 @@ On `/lead-private-preview.html` sample only, `tle-demo-enhancements-v12.js` owns
 - Public homepage hero `/` and `/es/`, Booking landing `/booking-lead-automation/` and `/es/booking-lead-automation/`, and bundle `/booking-bundle/` now lead to `/try-booking/` for immediate product evaluation. Its CTA leads to the existing `/booking-bundle/?lang=...&source=public-sample` checkout, with unchanged approved $15 price and optional separately billed AI.
 - The **protected** `/booking-demo/?lang=en|es` request process and `/booking-demo-reset.html` remain the private/personalized route; only deliberate private-demo links use it, and no key/auth bypass was added. Marketing CTAs preserve URL language and source tracking; float labels are now clearly illustrative workflow details, not fake revenue or paid orders.
 - Release: `scripts/qa-public-booking-conversion.mjs` and PR `Public Booking Sales Funnel QA` workflow; must verify static+browser and deployment before declaring production fixed. No email recipients, lead consent, or existing client data modified.
+
+
+## 2026-10-19 — Owner-selected public Sample Cleaning / private Clara
+- Public homepage main CTA EN See Demos / ES Ver demos points to /sample-cleaning/?lang=en|es&source=homepage. Below it, Request a More Personalized Demo points to /booking-demo/?lang=en|es&source=homepage-clara.
+- Public Sample Cleaning is fictional no-send copy of existing lead preview, without backend submissions, buyer keys, client leads, AI chat or storage writes; strict CSP blocks requests and form posts.
+- Private Clara remains through /booking-demo/ request, confirmation and signed /booking-demo-reset.html invitation served by tle-booking-demo-gate. Original /lead-private-preview.html and keyed client routes unchanged.
+- /try-booking/ remains available as optional independent mini-demo, not homepage primary.
+- Static guard scripts/qa-sample-cleaning-public.mjs, all marketing QA and browser QA. Pending final CI and live verification.

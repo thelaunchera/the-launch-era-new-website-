@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - 'public/try-booking/**'
+      - 'public/sample-cleaning/**'
       - 'public/booking-bundle/index.html'
       - 'src/components/editorial-sections.tsx'
       - 'src/routes/es.index.tsx'
@@ -12,6 +13,8 @@ on:
       - 'src/components/booking-floating-chips.tsx'
       - 'src/components/analytics.tsx'
       - 'scripts/qa-public-booking-conversion.mjs'
+      - 'scripts/qa-sample-cleaning-public.mjs'
+      - 'scripts/qa-sample-cleaning-browser.mjs'
       - '.github/workflows/public-booking-sales-funnel-qa.yml'
   workflow_dispatch:
 jobs:
@@ -23,4 +26,41 @@ jobs:
         run: |
           node --check scripts/qa-public-booking-conversion.mjs
           node scripts/qa-public-booking-conversion.mjs
+          node scripts/qa-sample-cleaning-public.mjs
           node scripts/qa-route-integrity.mjs --static
+
+  sample-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Chromium and build full public preview
+        run: |
+          mkdir -p /tmp/tle-sample-qa
+          cd /tmp/tle-sample-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          cd "$GITHUB_WORKSPACE"
+          bun install
+          bun run build
+          mkdir -p node_modules
+          ln -sfn /tmp/tle-sample-qa/node_modules/playwright node_modules/playwright
+          ln -sfn /tmp/tle-sample-qa/node_modules/playwright-core node_modules/playwright-core
+      - name: Check public Sample Cleaning interaction in English and Spanish
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-sample-qa-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for i in $(seq 1 30); do if curl -fsS http://127.0.0.1:4173/sample-cleaning/ >/dev/null; then break; fi; sleep 1; done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-sample-cleaning-browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sample-cleaning-en-es-visual-proof
+          path: qa-screenshots/sample-cleaning-*.png
+          if-no-files-found: ignore

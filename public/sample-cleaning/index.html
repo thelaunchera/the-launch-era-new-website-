@@ -1,0 +1,609 @@
+<!doctype html><html><head><meta name="robots" content="noindex,follow"><meta name="referrer" content="strict-origin-when-cross-origin"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; form-action 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' https: data:; object-src 'none'; base-uri 'self'"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sample Cleaning · Interactive Booking Demo | The Launch Era</title>
+<script>
+(function(){const u=new URL(location.href);for(const k of ['key','owner_preview','rid','lead','business','area','access','session'])u.searchParams.delete(k);history.replaceState(null,'',u.pathname+u.search+u.hash);document.documentElement.classList.add('demo-editorial');})();
+</script>
+<style>.buyer-live-loading main.wrap{visibility:hidden}.buyer-live-page .verify,.buyer-live-page .consent{display:none!important}.buyer-live-page #trackerLink{display:none!important}.category-tabs{margin-bottom:8px}.tle-return-home-wrap{display:none;justify-content:center;padding:24px 16px 34px}html.demo-editorial .tle-return-home-wrap{display:flex}.tle-return-home-link{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:50px;padding:12px 26px;border:1px solid #9fcbe2;border-radius:999px;background:#c7e8f7;color:#153b52!important;font-weight:750;font-size:16px;text-decoration:none;box-shadow:0 5px 18px #071b2b22}.tle-return-home-link:hover,.tle-return-home-link:focus-visible{background:#e3f5ff;outline:2px solid #77bce0;outline-offset:3px}@media(max-width:600px){.tle-return-home-link{width:min(100%,330px)}}
+
+/* Clear visual transition between demo hero and interactive service selection */
+html.demo-editorial #bookingStarter{position:relative;isolation:isolate;border-top:4px solid #9dd5f2!important;box-shadow:0 -15px 36px rgba(108,189,230,.10)}
+html.demo-editorial .demo-booking-eyebrow{position:relative;border-top:1px solid rgba(130,196,231,.65);background:linear-gradient(180deg,#d9f0fc 0%,#eaf6fc 100%)!important;color:#143247!important;padding-top:clamp(38px,7vw,76px)!important;padding-bottom:clamp(30px,5vw,55px)!important}
+html.demo-editorial .demo-booking-eyebrow h2,html.demo-editorial .demo-booking-eyebrow p{color:#17384e!important}
+html.demo-editorial .demo-booking-eyebrow:before{content:"✦  CHOOSE YOUR CLEAN  ✦";display:block;width:max-content;max-width:90%;margin:0 auto 20px;padding:9px 18px;border-radius:100px;background:#fff;color:#276181;font:700 11px/1.4 Arial,sans-serif;letter-spacing:.17em;text-align:center;box-shadow:0 4px 18px #3168871c}
+html.demo-editorial .demo-service-showcase{border-top:6px solid #b9e5fa!important}
+@media(max-width:600px){html.demo-editorial .demo-booking-eyebrow{padding-left:22px!important;padding-right:22px!important}html.demo-editorial #bookingStarter{scroll-margin-top:85px}}
+
+/* Connected editorial transition: one graphic language from hero to booking */
+.demo-service-showcase{position:relative!important;isolation:isolate}
+
+.demo-booking-eyebrow{position:relative!important;isolation:isolate;overflow:hidden!important;background:linear-gradient(135deg,#d8effc 0%,#eaf7fc 68%,#f9faf7 100%)!important;border-top:0!important}
+.demo-booking-eyebrow:after{content:"";position:absolute;right:-60px;top:-88px;width:220px;height:220px;border:35px solid rgba(85,165,210,.22);border-radius:50%;z-index:-1;pointer-events:none}
+.demo-booking-eyebrow h2{position:relative;z-index:1;letter-spacing:-.045em}
+.demo-booking-eyebrow h2 em{color:#286d95!important}
+.demo-booking-eyebrow .demo-booking-kicker{display:inline-flex;align-items:center;gap:9px;color:#246388!important}
+
+#bookingStarter{position:relative!important;border-top:5px solid #a7d9f0!important}
+
+@media(max-width:600px){.demo-booking-eyebrow:after{width:150px;height:150px;right:-70px;top:-45px;border-width:22px}}
+@media(prefers-reduced-motion:no-preference){.demo-booking-eyebrow:after{animation:tleConnectorFloat 7s ease-in-out infinite alternate}@keyframes tleConnectorFloat{to{transform:translate(-10px,14px)}}}
+</style>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f6f7;color:#191919;font-family:Arial,sans-serif}button,input,select,textarea{font:inherit}.top{background:#191919;color:#fff;text-align:center;padding:10px;font-size:10px;letter-spacing:.14em}.wrap{max-width:560px;margin:auto;padding:0 14px 50px}.hero{height:220px;margin:14px 0;border-radius:26px;overflow:hidden;position:relative;background:#dfe6ec url("https://images.pexels.com/photos/37184168/pexels-photo-37184168.jpeg?auto=compress&cs=tinysrgb&w=1800&q=85") center 54%/cover}.quote-photo{height:146px;margin:11px 0 16px;border-radius:18px;overflow:hidden;background:#e6edf0 url("https://images.pexels.com/photos/37184184/pexels-photo-37184184.jpeg?auto=compress&cs=tinysrgb&w=1150&q=82") center 56%/cover;border:1px solid #d9e4ea}
+@media(min-width:768px){.quote-photo{height:182px}}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent,rgba(0,0,0,.55))}.heroText{position:absolute;z-index:2;left:20px;right:20px;bottom:20px;color:#fff}.heroText small{display:block;max-width:100%;font-size:11px;line-height:1.25;letter-spacing:.11em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.heroArea{margin-top:6px;font-size:11px;line-height:1.25;opacity:.92}.heroText h1{font-size:30px;line-height:1.02;margin:7px 0}.panel{background:#faf8f3;border-radius:24px;padding:20px 18px;box-shadow:0 14px 36px #13201a12}.ey{font-size:11px;letter-spacing:.12em;color:#65747a;font-weight:700}.head{display:flex;justify-content:space-between;gap:12px}.head h2{font-size:25px;margin:5px 0}.count{background:#eef3f5;border-radius:999px;padding:8px;font-size:11px;height:max-content}.screen{display:none}.screen.on{display:block}.service{width:100%;display:grid;grid-template-columns:48px 1fr auto;gap:11px;align-items:center;background:#fff;border:1px solid #dfdcd4;border-radius:18px;padding:13px;margin:10px 0;text-align:left}.ico{width:46px;height:46px;border-radius:14px;background:#eef5f8;display:grid;place-items:center}.service b{display:block}.muted{font-size:11px;color:#718087}.price{font-size:11px;font-weight:700}.label{font-size:11px;font-weight:700;color:#65747a;margin:15px 0 5px}.choices{display:grid;grid-template-columns:1fr 1fr;gap:9px}.choice{background:#fff;border:1px solid #dfdcd4;border-radius:15px;padding:13px;text-align:left}.choice.sel{border:2px solid #191919}.field{width:100%;border:1px solid #ddd9d0;border-radius:13px;background:#fff;padding:14px;margin:5px 0}.next,.back{width:100%;border:0;border-radius:999px;padding:15px;margin-top:16px;font-weight:700}.next{background:#191919;color:#fff}.back{background:transparent;color:#65747a;margin-top:4px}.summary{background:#fff;border:1px solid #e3e0d8;border-radius:18px;padding:15px}.row{display:flex;justify-content:space-between;gap:15px;padding:8px 0;border-bottom:1px solid #efede7;font-size:13px}.row:last-child{border:0}.note{background:#eef5f8;border-radius:16px;padding:14px;margin-top:13px;font-size:12px;line-height:1.5}.success{text-align:center;padding:20px 5px}.check{font-size:42px}.trust{display:flex;gap:7px;overflow:auto;margin:0 0 13px}.pill{white-space:nowrap;background:#fff;border:1px solid #e5e2db;border-radius:999px;padding:8px 10px;font-size:11px}.verify{background:#eef5f8;border-radius:16px;padding:13px;margin:8px 0}.verify p{font-size:11px;color:#65747a;line-height:1.45;margin:4px 0 9px}.verifyrow{display:flex;gap:8px}.verifyrow .field{margin:0}.smallbtn{border:0;background:#191919;color:#fff;border-radius:12px;padding:11px 13px;font-weight:700;white-space:nowrap}.consent{display:flex;gap:9px;align-items:flex-start;font-size:11px;line-height:1.4;color:#53636a;margin-top:10px}.verified{color:#185c36;font-weight:700;font-size:12px;margin-top:8px}
+.category-tabs button.sel,.request-type-pills button.sel{background:#e5f2fb;border-color:#76acd1;color:#1b5778;box-shadow:inset 0 0 0 1px #76acd1}
+.choice input[type=checkbox]{accent-color:#307da8;margin:0 7px 0 0}
+.service:hover,.choice:hover{border-color:#93c4df}
+.service:focus-visible,.choice:focus-visible,.next:focus-visible{outline:3px solid #74b6df;outline-offset:2px}
+#commercialAddons{margin-top:8px}.field[hidden]{display:none!important}#cOtherType:not([hidden]){margin-top:10px;border-color:#90BED6;background:#F5FBFF}
+@media(max-width:520px){.choices{gap:7px}.choice{padding:11px;font-size:12px}}
+</style><style>
+/* Booking Page layout: wide hero, readable controls and no horizontal rails. */
+html{scroll-padding-top:24px}
+body{background:#f4f6f7}
+.wrap{width:100%;max-width:1160px;padding:0 24px 64px}
+.top{font-size:11px;line-height:1.5;padding:12px 16px;overflow-wrap:anywhere}
+.hero{height:480px;margin:24px 0 18px;border-radius:30px;background-position:center}
+.hero:after{background:linear-gradient(180deg,rgba(0,0,0,.04) 15%,rgba(0,0,0,.22) 48%,rgba(0,0,0,.78) 100%)}
+.heroText{left:40px;right:40px;bottom:38px;min-width:0}
+.heroText small{font-size:13px;line-height:1.5;white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}
+.heroText h1{font-size:clamp(38px,5vw,64px);line-height:1.06;letter-spacing:-.035em;max-width:780px;margin:12px 0;text-wrap:balance;overflow-wrap:anywhere}
+.heroArea{font-size:16px;line-height:1.5;overflow-wrap:anywhere}
+.trust{display:flex;flex-wrap:wrap;overflow:visible;gap:10px;margin:0 0 22px}
+.pill{white-space:normal;max-width:100%;padding:11px 15px;font-size:13px;line-height:1.45}
+.panel{padding:32px;border-radius:28px}
+.head{align-items:flex-start;margin-bottom:22px}
+.head>div:first-child{min-width:0}
+.head h2{font-size:32px;line-height:1.15;overflow-wrap:anywhere}
+.count{flex-shrink:0;padding:10px 12px}
+.ey,.label{font-size:12px;line-height:1.5}
+.label{margin-top:22px}
+#residentialServiceList:not([hidden]),#commercialServiceList:not([hidden]){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.service{grid-template-columns:48px minmax(0,1fr) auto;gap:12px;min-width:0;margin:0;padding:18px;min-height:104px;border-radius:20px}
+.service>span{min-width:0}
+.service b{font-size:16px;line-height:1.35;overflow-wrap:anywhere}
+.service .muted{display:block;margin-top:5px}
+.muted{font-size:14px;line-height:1.55}
+.price{font-size:12px;line-height:1.4;max-width:92px;overflow-wrap:anywhere}
+.choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.choice{min-width:0;padding:16px;font-size:15px;line-height:1.45;overflow-wrap:anywhere}
+.choice.sel{box-shadow:inset 0 0 0 1px #191919;border-width:1px}
+.field{display:block;min-width:0;min-inline-size:0;max-width:100%;font-size:16px;line-height:1.5;padding:15px;min-height:54px}
+input[type=date],input[type=time]{width:100%;min-width:0;min-inline-size:0}
+textarea.field{min-height:112px;resize:vertical}
+.next,.back{display:block;font-size:16px;line-height:1.45;min-height:52px;padding:15px 20px;white-space:normal;overflow-wrap:anywhere}
+.screen:not(#main){max-width:760px;margin-inline:auto}
+.summary{padding:20px}
+.row{font-size:15px;line-height:1.5}
+.row>span,.row>b{min-width:0;overflow-wrap:anywhere}
+.row>b{text-align:right}
+.note{font-size:14px;line-height:1.6;padding:18px}
+.success{padding:28px 0}
+.success h2{font-size:30px;line-height:1.2}
+.success .muted{max-width:580px;margin:16px auto}
+@media(min-width:768px){.category-tabs{max-width:680px}}
+@media(max-width:767px){
+ .wrap{padding:0 12px 36px}
+ .hero{height:clamp(360px,58svh,500px);margin:12px 0 14px;border-radius:24px}
+ .heroText{left:24px;right:24px;bottom:28px}
+ .heroText h1{font-size:clamp(36px,8.8vw,48px);max-width:100%}
+ .heroText small{font-size:12px}
+ .heroArea{font-size:14px}
+ .trust{gap:7px;margin-bottom:16px}
+ .pill{padding:9px 11px;font-size:12px;flex:1 1 140px;text-align:center}
+ .panel{padding:22px 18px;border-radius:24px}
+ .head{gap:8px;margin-bottom:16px}
+ .head h2{font-size:28px}
+ #residentialServiceList:not([hidden]),#commercialServiceList:not([hidden]){grid-template-columns:minmax(0,1fr);gap:12px}
+ .service{padding:16px;min-height:100px}
+ .choice{padding:13px;font-size:14px}
+}
+@media(max-width:420px){
+ .wrap{padding-inline:10px}
+ .panel{padding:20px 14px}
+ .heroText{left:22px;right:22px}
+ .service{grid-template-columns:42px minmax(0,1fr);gap:4px 12px}
+ .ico{width:42px;height:42px;grid-row:1 / 3}
+ .service>.price{grid-column:2;max-width:none;margin-top:4px;font-size:13px}
+ .service b{font-size:16px}
+ .category-tabs .choice{font-size:13px;padding:13px 10px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+<style>
+/* Acknowledgment after a completed request: branded for each cleaning business. */
+#done .success{max-width:650px;margin:10px auto;padding:clamp(24px,5vw,42px);border:1px solid #DDE9EF;background:linear-gradient(155deg,#FFF 0%,#F8FCFE 100%);box-shadow:0 24px 60px rgba(27,66,84,.09);border-radius:26px;text-align:center}
+#done .tle-success-brand{display:flex;align-items:center;justify-content:center;gap:13px;min-width:0;text-align:left;margin:0 0 25px}
+#done .tle-success-avatar{height:50px;width:50px;flex:0 0 50px;display:grid;place-items:center;border:1px solid #C7E4F4;background:#EAF6FD;color:#28516A;border-radius:16px;font-size:20px;font-weight:800}
+#done .tle-success-brand-text{min-width:0}
+#done .tle-success-label{font-size:10px;letter-spacing:.18em;color:#6A7781;font-weight:800;display:block}
+#done .tle-success-name{font-size:clamp(16px,3vw,21px);font-weight:800;color:#191919;line-height:1.3;overflow-wrap:anywhere;display:block}
+#done .check{width:64px;height:64px;display:grid;place-items:center;margin:0 auto 22px;border-radius:50%;background:#E7F6ED;border:1px solid #C9EAD5;color:#237A4B;font-weight:800;font-size:32px}
+#done .success h2{font-size:clamp(27px,4.5vw,37px);letter-spacing:-.03em;line-height:1.16;color:#191919;margin:0 0 15px}
+#done .success .muted{color:#50606B;max-width:460px;margin:0 auto 18px;line-height:1.65;font-size:15px}
+#done .tle-success-preview{margin:0 auto 20px;padding:11px 15px;max-width:460px;color:#536B7B;background:#EAF6FD;border:1px solid #D1E6F2;border-radius:13px;font-size:12px;line-height:1.5}
+#done .tle-success-request-for{font-size:13px;color:#344F62;margin:0 auto 13px}
+#done .success .next{margin-top:22px;border-radius:999px}
+#done .success .back{margin-top:12px}
+@media(max-width:520px){#done .success{padding:26px 19px;border-radius:21px}#done .tle-success-brand{margin-bottom:21px}#done .tle-success-avatar{height:44px;width:44px;flex-basis:44px}#done .success .muted{font-size:14px}}
+</style><style>.tle-commercial-details .tle-detail-label{min-width:0;font-size:13px;font-weight:700;color:#50616D;line-height:1.5}.tle-commercial-details .field{margin-top:8px;min-width:0;width:100%;font-weight:400}.tle-commercial-details input{max-width:100%}@media(max-width:480px){.tle-commercial-details{grid-template-columns:repeat(2,minmax(0,1fr))!important}.tle-commercial-details .field{padding:11px!important;min-height:49px!important}}</style>
+<style id="tle-editorial-demo-v1">
+/* Only demo mode receives this editorial concept. Do not restyle any live buyer booking page. */
+html:not(.demo-editorial) .demo-editorial-nav,
+html:not(.demo-editorial) .demo-feature-bar,
+html:not(.demo-editorial) .demo-service-showcase,
+html:not(.demo-editorial) .demo-booking-eyebrow,
+html:not(.demo-editorial) .demo-bottom,
+html:not(.demo-editorial) .demo-footer,
+html:not(.demo-editorial) .demo-hero-art,
+html:not(.demo-editorial) .demo-vertical-note,
+html:not(.demo-editorial) .demo-hero-tagline,
+html:not(.demo-editorial) .demo-hero-description,
+html:not(.demo-editorial) .demo-hero-cta,
+html:not(.demo-editorial) .demo-hero-footnote{display:none!important}
+html:not(.demo-editorial) #leadHero .heroText h1.demo-headline{display:none}html.demo-editorial #leadHero .live-preview-title{display:none}html:not(.demo-editorial) #leadHero .heroText h1.live-preview-title{font-size:clamp(38px,5vw,64px);max-width:780px}
+html.demo-editorial{scroll-behavior:smooth;scroll-padding-top:24px}
+html.demo-editorial body{background:#060708;color:#16191b;overflow-x:clip;font-family:Inter,"Arial",sans-serif}
+html:not(.demo-editorial) .demo-top-label,html.demo-editorial .live-top-label{display:none!important}html.demo-editorial .top{background:#050607;color:#ecedf0;font-size:11px;font-weight:750;letter-spacing:.16em;padding:11px 14px}
+html.demo-editorial .top span{color:#fa76ac;padding:0 10px}
+html.demo-editorial .wrap{max-width:1340px;padding:0 22px 45px;background:#060708;min-width:0}
+.demo-editorial-nav{height:82px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 clamp(18px,4vw,53px)}
+.demo-editorial-nav a{text-decoration:none}
+.demo-logo{display:flex;align-items:center;gap:2px;min-width:0;color:#fff;font-size:clamp(15px,1.9vw,23px);font-weight:950;letter-spacing:-.07em;line-height:1.1}
+.demo-logo .demo-brand-pink{color:#ff78b5;display:block;max-width:min(36vw,320px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.demo-logo .demo-logo-spark{font-size:11px;color:#a4dcff;margin-left:6px;align-self:start;letter-spacing:0}
+.demo-navlinks{display:flex;gap:clamp(12px,2.2vw,36px);align-items:center}
+.demo-navlinks a{color:#ededee;font-size:12px;font-weight:650;transition:color .2s}
+.demo-navlinks a:hover{color:#ffa3cd}
+.demo-pill-action{background:#ff79b5;color:#151016;border-radius:99px;padding:13px 19px;font-size:13px;font-weight:850;white-space:nowrap;display:flex;align-items:center;gap:13px}
+.demo-pill-action span{width:24px;height:24px;display:grid;place-items:center;color:#fff;background:#101113;border-radius:50%}
+html.demo-editorial .hero{height:min(690px,65vw);min-height:560px;margin:0;border-radius:28px 28px 0 0;background-color:#090b10;
+ background-image:linear-gradient(90deg,rgba(6,7,9,.98) 0%,rgba(6,7,9,.86) 34%,rgba(7,10,15,.18) 72%,rgba(7,10,15,.07) 100%),
+ radial-gradient(circle at 76% 30%,rgba(255,122,178,.6),transparent 33%),url("https://images.pexels.com/photos/9462206/pexels-photo-9462206.jpeg?auto=compress&cs=tinysrgb&w=1600&q=83");
+ background-position:center,center,79% 38%;background-size:cover,cover,cover;border:1px solid #30323a}
+html.demo-editorial .hero:after{pointer-events:none;background:linear-gradient(0deg,rgba(7,9,15,.68),transparent 26%),radial-gradient(circle at 84% 76%,rgba(106,191,255,.35),transparent 38%)}
+html.demo-editorial .heroText{left:clamp(22px,5.3vw,76px);right:auto;width:min(57%,720px);bottom:clamp(32px,5vw,68px);display:flex;flex-direction:column;align-items:flex-start;z-index:5}
+html.demo-editorial #leadName{font-size:clamp(11px,1.2vw,14px);color:#bfe7ff;font-weight:900;letter-spacing:.145em;white-space:normal;line-height:1.4;overflow-wrap:anywhere;text-transform:uppercase;margin-bottom:19px}
+html.demo-editorial .heroText h1{display:flex;flex-direction:column;max-width:100%;font-family:Impact,"Arial Narrow",Inter,Arial,sans-serif;font-weight:950;font-stretch:condensed;letter-spacing:-.048em;line-height:.82;font-size:clamp(90px,13.7vw,194px);margin:0 0 34px;overflow:visible;color:white;filter:drop-shadow(0 8px 18px rgba(0,0,0,.15))}
+html.demo-editorial .heroText h1 span{display:block}
+html.demo-editorial .heroText h1 .hero-highlight{color:#ff78b5}
+html.demo-editorial .heroText h1 .headline-dot{display:inline!important;color:#a8dfff;letter-spacing:-.12em}
+html.demo-editorial .demo-hero-tagline{font-size:clamp(22px,2.5vw,34px);font-weight:850;line-height:1.04;letter-spacing:-.035em;color:white;margin:0 0 10px}
+html.demo-editorial .demo-hero-tagline em{font-style:normal;color:#9cddff}
+html.demo-editorial .demo-hero-description{max-width:355px;font-size:clamp(13px,1.2vw,15px);line-height:1.6;color:#eeeef2;margin:0 0 17px}
+.demo-hero-cta{background:#ff76b4;color:#0a0b0e;text-decoration:none;font-size:14px;font-weight:850;border-radius:99px;padding:11px 12px 11px 23px;display:inline-flex;gap:18px;align-items:center;min-height:52px;box-shadow:0 12px 25px #f77ab22c}
+.demo-hero-cta span{width:30px;height:30px;border-radius:99px;background:#06090c;color:white;display:grid;place-items:center;font-size:19px}
+.demo-hero-footnote{color:#e6f5ff;font-size:12px;font-weight:650;margin:12px 0 0}
+.demo-vertical-note{position:absolute;right:16px;top:26px;z-index:4;color:#a3dcff;font-size:11px;font-weight:850;letter-spacing:.13em;writing-mode:vertical-rl}
+.demo-hero-art{position:absolute;inset:0;pointer-events:none;z-index:3}
+.demo-orb{position:absolute;display:block;border-radius:50%;border:2px solid rgba(220,239,255,.7);box-shadow:inset -8px -8px 18px #78ccff60,inset 8px 4px 20px #ffb0d260,0 0 17px #b1efff33}
+.demo-orb:after{content:"";display:block;width:24%;height:18%;border-radius:99px;background:#fff;filter:blur(1px);position:absolute;top:17%;left:20%;transform:rotate(-25deg)}
+.orb-one{width:51px;height:51px;right:29%;top:18%}.orb-two{width:80px;height:80px;right:8%;top:48%}.orb-three{width:28px;height:28px;right:41%;top:65%}.orb-four{width:18px;height:18px;right:9%;top:12%}
+.demo-hero-shine{position:absolute;top:27%;right:42%;color:#ff93c7;font-size:70px;text-shadow:0 0 25px #ff79bc}
+.demo-feature-bar{background:#111418;color:#fff;border:1px solid #303a43;border-top:0;border-radius:0 0 24px 24px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding:23px 21px;margin-bottom:21px;gap:12px}
+.demo-feature-bar>div{display:grid;grid-template-columns:40px auto;grid-template-rows:auto auto;gap:2px 13px;align-items:center;justify-content:center;border-right:1px solid #44505b;min-width:0}
+.demo-feature-bar>div:last-child{border:0}
+.demo-feature-icon{grid-row:1/3;width:39px;height:39px;border:1px solid #fa70ad;color:#ff84be;border-radius:50%;font-size:24px;display:grid;place-items:center}
+.demo-feature-bar strong{font-size:22px;color:#a0d7ff;font-weight:900;line-height:1}
+.demo-feature-bar div>span:last-child{font-size:12px;color:#e2eaf1}
+.demo-service-showcase{background:#f8f9fb;border-radius:28px;padding:clamp(21px,3.2vw,42px);display:grid;grid-template-columns:.85fr 1.55fr;gap:clamp(15px,3vw,44px);align-items:center;min-width:0}
+.demo-showcase-intro{min-width:0}
+.demo-pink-kicker,.demo-booking-kicker{display:block;color:#e34f96;font-size:10px;letter-spacing:.19em;font-weight:950;margin-bottom:12px}
+.demo-showcase-intro h2,.demo-booking-eyebrow h2{font-size:clamp(31px,3.5vw,49px);line-height:1.04;letter-spacing:-.06em;margin:0 0 15px;font-weight:950}
+.demo-showcase-intro h2 em,.demo-booking-eyebrow h2 em{font-style:normal;color:#74c7fa}
+.demo-showcase-intro p{color:#5b6874;font-size:14px;line-height:1.65;max-width:400px}
+.demo-showcase-intro>a{display:inline-flex;background:#ff82ba;color:#12161a;padding:13px 17px;border-radius:100px;text-decoration:none;font-weight:850;font-size:13px;gap:15px;align-items:center;margin-top:10px}
+.demo-showcase-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;min-width:0}
+.demo-showcase-card{min-width:0;border-radius:18px;border:1px solid #e7e8ef;background:#fff;box-shadow:0 15px 35px #18273512;text-decoration:none;overflow:hidden;color:#14191c}
+.demo-showcase-image{height:165px;display:block;background-size:cover;background-position:center}
+.demo-photo-home{background-image:url("https://images.pexels.com/photos/37184168/pexels-photo-37184168.jpeg?auto=compress&cs=tinysrgb&w=600&q=80")}
+.demo-photo-deep{background-image:url("https://images.pexels.com/photos/37184184/pexels-photo-37184184.jpeg?auto=compress&cs=tinysrgb&w=600&q=80")}
+.demo-photo-office{background-image:url("https://images.pexels.com/photos/9462206/pexels-photo-9462206.jpeg?auto=compress&cs=tinysrgb&w=600&q=80")}
+.demo-showcase-label{padding:13px;display:grid;grid-template-columns:minmax(0,1fr) 20px;gap:5px;align-items:center}
+.demo-showcase-label strong{font-size:12px;font-weight:850}
+.demo-showcase-label small{color:#65717d;grid-column:1;font-size:11px}
+.demo-showcase-label b{background:#ffeff6;color:#a83970;border-radius:50%;height:23px;width:23px;display:grid;place-items:center;grid-row:1/3;grid-column:2}
+.demo-booking-eyebrow{text-align:center;padding:47px 12px 13px;color:white}
+.demo-booking-eyebrow h2{font-size:clamp(32px,4.8vw,60px)}
+.demo-booking-eyebrow h2 em{color:#ffa7ce}
+.demo-booking-eyebrow p{color:#cbd4de;font-size:14px;line-height:1.6;margin:0 auto;max-width:550px}
+html.demo-editorial .trust{justify-content:center;margin:17px 0 20px}
+html.demo-editorial .pill{background:#1b222a;color:#eaf3fa;border:1px solid #455260;border-radius:999px;font-size:12px;font-weight:650}
+html.demo-editorial .panel{background:#f9fafb;border-radius:26px;padding:clamp(20px,4vw,38px);box-shadow:0 30px 55px #00000038;color:#191919}
+html.demo-editorial .head .ey{color:#ed5d9b}
+html.demo-editorial .head h2{font-weight:950;letter-spacing:-.04em}
+html.demo-editorial .count{background:#ffe4f2;color:#892d61;font-weight:800}
+html.demo-editorial .service{border-color:#e0e6eb;box-shadow:0 8px 18px #18242e08;transition:transform .2s,border-color .2s,box-shadow .2s}
+html.demo-editorial .service:hover{transform:translateY(-2px);border-color:#fa83b6;box-shadow:0 16px 25px #f27dad15}
+html.demo-editorial .ico{background:#ffe7f2}
+html.demo-editorial .service.sel,html.demo-editorial .choice.sel{border:1px solid #ed619e;box-shadow:inset 0 0 0 1px #ed619e;background:#fff5fa}
+html.demo-editorial .next,html.demo-editorial .smallbtn{background:#18191d;color:white}
+html.demo-editorial .choice{border-color:#dce4eb}
+html.demo-editorial .choice:focus-visible,html.demo-editorial .next:focus-visible,html.demo-editorial a:focus-visible{outline:3px solid #80cffb;outline-offset:3px}
+html.demo-editorial .quote-photo{border-radius:18px}
+.demo-bottom{margin-top:23px;min-height:285px;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;border-radius:26px;background:#ff8abf}
+.demo-bottom-photo{min-height:285px;background:url("https://images.pexels.com/photos/37184168/pexels-photo-37184168.jpeg?auto=compress&cs=tinysrgb&w=1050&q=82") center/cover}
+.demo-bottom-text{padding:clamp(20px,3.7vw,45px);display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.demo-bottom-text>span{font-size:10px;font-weight:900;letter-spacing:.18em;color:#29202b}
+.demo-bottom-text h2{font-size:clamp(28px,3.7vw,51px);line-height:1.07;letter-spacing:-.055em;margin:12px 0;color:#191419}
+.demo-bottom-text h2 strong{color:#fff}
+.demo-bottom-text p{color:#312730;font-size:13px;line-height:1.6;max-width:435px}
+.demo-bottom-text a{color:white;background:#111318;border-radius:100px;padding:13px 19px;display:inline-flex;align-items:center;gap:20px;margin-top:9px;font-weight:850;font-size:13px;text-decoration:none}
+.demo-footer{padding:28px 10px;color:#a4b2c2;font-size:11px;display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between}
+.demo-footer a{color:#ffa2cc;text-decoration:none}
+html.demo-editorial .heroArea{font-size:13px;line-height:1.45;margin:0 0 12px;background:#ffffff1c;border:1px solid #ffffff4d;border-radius:25px;padding:5px 12px}
+@media(max-width:1000px){.demo-service-showcase{grid-template-columns:1fr}.demo-showcase-image{height:150px}.demo-navlinks{gap:13px}}
+@media(max-width:767px){
+ html.demo-editorial .wrap{padding:0 10px 32px}
+ .demo-editorial-nav{height:70px;padding:0 13px}
+ .demo-navlinks{display:none}
+ .demo-pill-action{padding:8px 9px 8px 13px;font-size:12px;gap:8px}
+ .demo-pill-action span{height:25px;width:25px}
+ html.demo-editorial .hero{height:630px;min-height:0;border-radius:21px 21px 0 0;
+ background-image:linear-gradient(180deg,rgba(6,7,9,.05) 0%,rgba(6,7,9,.21) 38%,rgba(6,7,9,.96) 65%,#070809 98%),
+ radial-gradient(circle at 76% 25%,rgba(255,111,168,.5),transparent 34%),url("https://images.pexels.com/photos/9462206/pexels-photo-9462206.jpeg?auto=compress&cs=tinysrgb&w=1050&q=82");
+ background-position:center,center,center 27%;background-size:cover,cover,cover}
+ html.demo-editorial .hero:after{background:linear-gradient(0deg,#090a0e,transparent 29%)}
+ html.demo-editorial .heroText{left:clamp(18px,5vw,28px);right:18px;bottom:29px;width:auto}
+ html.demo-editorial .heroText h1{font-size:clamp(73px,18vw,119px);margin-bottom:20px;line-height:.8;letter-spacing:-.085em}
+ html.demo-editorial #leadName{font-size:11px;margin-bottom:10px}
+ html.demo-editorial .demo-hero-tagline{font-size:26px}
+ html.demo-editorial .demo-hero-description{font-size:13px;max-width:380px}
+ .demo-vertical-note{top:16px;right:11px;font-size:9px}
+ .orb-one{top:12%;right:27%;width:39px;height:39px}.orb-two{top:25%;right:9%;width:58px;height:58px}
+ .demo-hero-shine{top:16%;right:48%;font-size:45px}
+ .demo-feature-bar{padding:18px 12px;gap:5px}
+ .demo-feature-bar>div{grid-template-columns:1fr;justify-items:center;text-align:center;border:0;border-right:1px solid #36414a;gap:5px}
+ .demo-feature-icon{grid-row:auto;width:31px;height:31px;font-size:18px}
+ .demo-feature-bar strong{font-size:17px}
+ .demo-feature-bar div>span:last-child{font-size:10px;line-height:1.35}
+ .demo-service-showcase{padding:24px 16px}
+ .demo-showcase-cards{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+ .demo-showcase-image{height:100px}
+ .demo-showcase-label{padding:8px;grid-template-columns:1fr}
+ .demo-showcase-label strong{font-size:11px}
+ .demo-showcase-label small{font-size:10px}
+ .demo-showcase-label b{display:none}
+ .demo-booking-eyebrow{padding:35px 8px 9px}
+ html.demo-editorial .trust{gap:7px}
+ html.demo-editorial .pill{font-size:11px;flex:1 1 120px}
+ .demo-bottom{grid-template-columns:1fr}
+ .demo-bottom-photo{height:180px;min-height:180px}
+ .demo-bottom-text{padding:26px 21px}
+}
+@media(max-width:390px){
+ html.demo-editorial .hero{height:590px}
+ html.demo-editorial .heroText h1{font-size:clamp(69px,18vw,87px)}
+ .demo-showcase-cards{grid-template-columns:1fr}
+ .demo-showcase-card{display:grid;grid-template-columns:110px 1fr;min-height:94px}
+ .demo-showcase-image{height:100%;min-height:95px}
+ .demo-showcase-label{align-content:center}
+ .demo-feature-bar div>span:last-child{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){html.demo-editorial{scroll-behavior:auto}.demo-showcase-card,html.demo-editorial .service{transition:none}}
+</style>
+<style>html:not(.demo-editorial) .demo-why,html:not(.demo-editorial) .demo-results{display:none!important}</style><link rel="stylesheet" href="/assets/tle-demo-clean-elevated-v2.css?v=20261013-cinematic-v1"><link rel="stylesheet" href="/assets/tle-demo-cinematic-v1.css?v=20261013-v1"><link rel="stylesheet" href="/assets/tle-demo-editorial-refine-v4.css?v=20261013-v4"><link rel="stylesheet" href="/assets/tle-demo-blue-v5.css?v=20261013-blue-1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/assets/tle-demo-editorial-v6.css?v=20261013-design-1"><link rel="stylesheet" href="/assets/tle-demo-booking-v7.css?v=20261013-v7-1"><link rel="stylesheet" href="/assets/tle-demo-cb-hero-v8.css?v=20261013-cb-1"><link rel="stylesheet" href="/assets/tle-demo-cta-v9.css?v=20261013-cta-1"><link rel="stylesheet" href="/assets/tle-demo-photo-card-v10.css?v=20261013-photo-3-hq"><link rel="stylesheet" href="/assets/tle-demo-midnight-v11.css?v=20261013-midnight-6-confirmation"><link rel="stylesheet" href="/assets/tle-demo-enhancements-v12.css?v=20261015-sonny-quick-v6">
+<link rel="stylesheet" href="/assets/tle-demo-editorial-v13.css?v=20261015-services2">
+<link rel="stylesheet" href="/assets/tle-demo-client-experience-v14.css?v=20261015-mobile2">
+<link rel="stylesheet" href="/assets/tle-demo-story-rhythm-v15.css?v=20261015-rhythm1">
+<link rel="stylesheet" href="/assets/tle-demo-organic-flow-v16.css?v=20261015-organic1">
+<link rel="stylesheet" href="/assets/tle-demo-luna-bloom-v17.css?v=20261015-bloom1">
+<link rel="stylesheet" href="/assets/tle-demo-compact-footer-v18.css?v=20261015-compact1">
+<link rel="stylesheet" href="/assets/tle-demo-motion-v19.css?v=20261015-motion1">
+<link rel="stylesheet" href="/assets/tle-demo-purpose-v20.css?v=20261015-purpose1">
+<link rel="stylesheet" href="/assets/tle-demo-photo-services-v21.css?v=20261015-selfhosted2">
+<link rel="stylesheet" href="/assets/tle-demo-booking-focus-v22.css?v=20261015-appflow1">
+<link rel="stylesheet" href="/assets/tle-demo-editorial-pop-v23.css?v=20261015-editorialpop1">
+<link rel="stylesheet" href="/assets/tle-demo-chapter-contrast-v24.css?v=20261015-chapter1">
+<link rel="stylesheet" href="/assets/tle-demo-floating-bubbles-v25.css?v=20261015-bubbles1">
+<link rel="stylesheet" href="/assets/tle-demo-finish-v26.css?v=20261015-finish1">
+<link rel="stylesheet" href="/assets/tle-demo-magical-clean-v27.css?v=20261015-magic1">
+<link rel="stylesheet" href="/assets/tle-demo-identity-v28.css?v=20261015-identity1">
+<link rel="stylesheet" href="/assets/tle-demo-shadow-wordmark-v29.css?v=20261015-shadow1"><link rel="stylesheet" href="/assets/tle-demo-compact-v30.css?v=20261015-editorial32b">
+<link rel="stylesheet" href="/assets/tle-demo-service-glow-v33.css?v=20261015-service-glow33">
+<link rel="stylesheet" href="/assets/tle-demo-editorial-stack-v34.css?v=20261015-quote-bubbles35">
+<link rel="stylesheet" href="/assets/tle-demo-editorial-finish-v36.css?v=20261015-finish-36a">
+<link rel="stylesheet" href="/assets/tle-demo-logo-readable-v37.css?v=20261015-logo37"><link rel="stylesheet" href="/assets/tle-demo-stack-nav-v38.css?v=20261016-v42c"><link rel="stylesheet" href="/assets/tle-demo-booking-ink-v43.css?v=20261016-v43c"><link rel="stylesheet" href="/assets/tle-demo-natural-v45.css?v=20261016-v45a"><link rel="stylesheet" href="/assets/tle-demo-drive-flip-v46.css?v=20261016-v46a"><link rel="stylesheet" href="/assets/tle-demo-hero-copy-v47.css?v=20261016-v47f"><link rel="stylesheet" href="/assets/tle-demo-drive-homes-v47.css?v=20261016-v47a"><link rel="stylesheet" href="/assets/tle-demo-editorial-v48.css?v=20261016-optin-hotel"><link rel="stylesheet" href="/assets/tle-demo-expanding-v49.css?v=20261016-optin-squares"><style>html.demo-editorial #categoryTabs .choice b{color:#f4fbff!important}html.demo-editorial #categoryTabs .choice .demo-tab-icon,html.demo-editorial #categoryTabs .choice .demo-tab-icon svg{color:#d7f2ff!important;stroke:#d7f2ff!important}.public-private-link{color:#a9dff6;font-weight:700;text-underline-offset:4px}@media(max-width:700px){.public-private-link{display:inline-block;margin-top:12px}}</style></head><body><div class="top"><span class="live-top-label">TRY IT OUT · NOTHING IS SENT OR BOOKED</span><span class="demo-top-label">INTERACTIVE PREVIEW <span aria-hidden="true">✦</span> TEST REQUESTS ONLY — NOTHING IS BOOKED OR SENT</span></div>
+<main class="wrap">
+<nav class="demo-editorial-nav" id="demoEditorialNav" aria-label="Demo navigation">
+ <a class="demo-logo" href="#leadHero" id="demoBrandName" aria-label="Back to the top"><span class="demo-brand-pink">THE LAUNCH</span><span>ERA</span><span aria-hidden="true" class="demo-logo-spark">✦</span></a>
+ <div class="demo-navlinks"><a href="#bookingStarter">Services</a><a href="#bookingStarter">Sample request</a></div>
+</nav>
+<section class="hero" id="leadHero" aria-label="Personalized cleaning booking demo">
+ <div class="demo-cb-hero-media" aria-hidden="true"><img src="/assets/cleaning-demo/hero-cleaner-original.jpg" width="1536" height="864" fetchpriority="high" decoding="async" alt=""></div>
+ 
+ <div class="heroText">
+  <small id="leadName">PERSONALIZED FOR SAMPLE CLEANING</small>
+  <h1 class="demo-headline"><span>Beautifully cleaned.</span><span class="hero-highlight">Simply booked.</span></h1><h1 class="live-preview-title">A smoother way to book your cleaning.</h1>
+  <p class="demo-hero-tagline">Beautifully cleaned.<br><em>Simply booked.</em></p>
+  <p class="demo-hero-description">A warm first impression, clear services, and an easy way for your customers to request cleaning.</p><div class="heroArea" id="demoHeroArea">Serving Miami</div>
+  <a href="#bookingStarter" class="demo-hero-cta" data-demo-scroll="bookingStarter">Choose your service <span class="demo-inline-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></span></a>
+ </div>
+</section>
+<div class="demo-feature-bar" id="demoExperience" aria-label="Three steps in this preview">
+ <div><span class="demo-feature-icon">01</span><strong>Explore</strong><span>Pick a cleaning service</span></div>
+ <div><span class="demo-feature-icon">02</span><strong>Customize</strong><span>Add the details</span></div>
+ <div><span class="demo-feature-icon">03</span><strong>Review</strong><span>See the sample request</span></div>
+</div>
+<section class="demo-service-showcase" id="demoServices" aria-label="Explore cleaning services">
+ <div class="demo-showcase-intro"><span class="demo-pink-kicker">THE CLEANING EXPERIENCE</span><h2>Clear details.<br><em>Calm decisions.</em></h2><p>Choose a service and see how clearly the booking details come together.</p><div class="demo-showcase-benefits" aria-label="What this demo shows"><div><span class="demo-benefit-symbol" aria-hidden="true">⌂</span><span><strong>Clear services</strong><small>Know exactly what’s included.</small></span></div><div><span class="demo-benefit-symbol" aria-hidden="true">▦</span><span><strong>Easy requests</strong><small>A few straightforward steps.</small></span></div><div><span class="demo-benefit-symbol" aria-hidden="true">✧</span><span><strong>Details in one place</strong><small>See what happens next.</small></span></div></div></div>
+ <div class="demo-showcase-visual"><div class="demo-showcase-photo" role="img" aria-label="A sunlit, beautifully prepared home"><span class="demo-showcase-photo-badge"><span aria-hidden="true">✧</span> CLEAR DETAILS / EASY BOOKING</span></div><div class="demo-showcase-cards">
+  <a href="#bookingStarter" class="demo-showcase-card" data-demo-category="residential"><span class="demo-showcase-image demo-photo-home" aria-hidden="true"></span><span class="demo-showcase-label"><strong>Home cleaning</strong><small>Keep every visit simple</small></span></a>
+  <a href="#bookingStarter" class="demo-showcase-card" data-demo-category="residential" data-demo-service="deep"><span class="demo-showcase-image demo-photo-deep" aria-hidden="true"></span><span class="demo-showcase-label"><strong>Deep cleaning</strong><small>Details made easy</small></span></a>
+  <a href="#bookingStarter" class="demo-showcase-card" data-demo-category="commercial"><span class="demo-showcase-image demo-photo-office" aria-hidden="true"></span><span class="demo-showcase-label"><strong>Business spaces</strong><small>Request a custom quote</small></span></a>
+ </div></div>
+</section>
+
+<div class="demo-booking-eyebrow"><span class="demo-booking-kicker">INTERACTIVE BOOKING</span><h2>A request that <em>feels simple.</em></h2><p>Choose the details and explore the process. This is only a sample; nothing is booked or sent.</p></div>
+<div class="trust"><span class="pill">✦ No signup needed</span><span class="pill">✓ Clear service choices</span><span class="pill">↗ Safe test requests</span></div><section class="panel" id="bookingStarter" tabindex="-1" aria-label="Choose a cleaning service"><div class="head"><div class="demo-panel-head-copy"><div class="ey" id="ey">BOOKING PREVIEW</div><h2 id="title">Choose a service</h2><p class="demo-panel-desc">Choose the details to explore services and sample pricing. Nothing is booked or sent.</p></div><a class="demo-panel-start" href="#categoryTabs">Begin <span class="demo-panel-start-circle" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a><div class="count" id="count">START</div></div>
+<div class="screen on" id="main">
+<div class="label">WHAT KIND OF SPACE?</div>
+<div class="choices category-tabs" id="categoryTabs">
+ <button type="button" class="choice sel" data-category="residential" onclick="setCategory('residential')"><span class="demo-tab-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10Z"/><path d="M9 21v-8h6v8"/></svg></span><b>Home / Residential</b></button>
+ <button type="button" class="choice" data-category="commercial" onclick="setCategory('commercial')"><span class="demo-tab-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h2m3 0h2m-7 4h2m3 0h2m-7 4h2m3 0h2M3 21h18"/></svg></span><b>Business / Commercial</b></button>
+</div>
+<p class="muted demo-services-note">Sample services and estimated pricing. Choose a service to explore the booking flow.</p>
+<div id="residentialServiceList" class="demo-services-grid">
+<button type="button" class="service" onclick="startResidential('Standard Cleaning',120)"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.6 5.4L19 10l-5.4 1.6L12 17l-1.6-5.4L5 10l5.4-1.6L12 3z"/><path d="M19 17l.7 2.3L22 20l-2.3.7L19 23l-.7-2.3L16 20l2.3-.7L19 17z"/><path d="M3.5 17.5h4"/></svg></span><span class="demo-service-body"><b>Standard Cleaning</b><span class="muted">Routine home cleaning</span></span><span class="price">Est. from $120</span><span class="demo-service-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></button>
+<button type="button" class="service" onclick="startResidential('Deep Cleaning',190)"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2s6.5 8.2 6.5 12a6.5 6.5 0 0 1-13 0C5.5 10.2 12 2 12 2z"/><path d="M9 16.2a3.6 3.6 0 0 0 2.5 2.3"/><path d="M19.5 4v4m-2-2h4"/></svg></span><span class="demo-service-body"><b>Deep Cleaning</b><span class="muted">A detailed top-to-bottom clean</span></span><span class="price">Est. from $190</span><span class="demo-service-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></button>
+<button type="button" class="service" onclick="startResidential('Move In / Move Out',240)"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5V21H3V10.5z"/><path d="M10 21v-7h5"/><path d="M16 14l3 3-3 3m3-3h-7"/></svg></span><span class="demo-service-body"><b>Move In / Move Out</b><span class="muted">A clean start for an empty home</span></span><span class="price">Est. from $240</span><span class="demo-service-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></button>
+<button type="button" class="service" onclick="startQuote('estimate')"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="18" rx="2"/><path d="M9 3h6v3H9z"/><path d="m8.5 14 2.3 2.3 4.7-4.7"/></svg></span><span class="demo-service-body"><b>Request a Home Estimate</b><span class="muted">A tailored estimate for your property</span></span><span class="price">Get an estimate</span><span class="demo-service-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></button>
+<button type="button" class="service demo-service-wide" onclick="startQuote('quote')"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-5 3v-3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M7 10h10M7 14h7"/></svg></span><span class="demo-service-body"><b>Request a Custom Quote</b><span class="muted">Special residential services or larger homes</span></span><span class="price">Request a quote</span><span class="demo-service-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></button>
+</div>
+<div class="tle-return-home-wrap"><a class="tle-return-home-link" href="#leadHero" aria-label="Return to home">← <span>Return home</span></a></div>
+<div id="commercialServiceList" class="demo-services-grid" hidden>
+<button type="button" class="service" onclick="startCommercial('estimate','Office Cleaning')"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h2m3 0h1M9 11h2m3 0h1M9 15h2m3 0h1M3 21h18"/></svg></span><span class="demo-service-body"><b>Office Cleaning</b><span class="muted">Offices and shared workspaces</span></span><span class="price">Get an estimate</span><span class="demo-service-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></button>
+<button type="button" class="service" onclick="startCommercial('estimate','Retail & Showroom Cleaning')"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18l-2-7H5l-2 7zM4 10v11h16V10"/><path d="M3 10a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0M9 21v-7h6v7"/></svg></span><span class="demo-service-body"><b>Retail & Showrooms</b><span class="muted">Sales floors and displays</span></span><span class="price">Get an estimate</span><span class="demo-service-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></button>
+<button type="button" class="service" onclick="startCommercial('quote','Medical / Professional Cleaning')"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="17" rx="2"/><path d="M12 8v8m-4-4h8M8 21v-2h8v2"/></svg></span><span class="demo-service-body"><b>Medical & Professional</b><span class="muted">Spaces with specialized needs</span></span><span class="price">Request a quote</span><span class="demo-service-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></button>
+<button type="button" class="service" onclick="startCommercial('quote','Post-Construction Cleaning')"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18M5 17v4m14-4v4"/><path d="M5 16a7 7 0 0 1 14 0M12 5v7M9 5h6"/></svg></span><span class="demo-service-body"><b>Post-Construction</b><span class="muted">Detailed project cleanups</span></span><span class="price">Request a quote</span><span class="demo-service-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></button>
+<button type="button" class="service" onclick="startCommercial('estimate','Commercial Cleaning')"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="19" rx="2"/><path d="M9 8h6M9 12h3m-3 5 2 2 4-4"/></svg></span><span class="demo-service-body"><b>Commercial Estimate</b><span class="muted">A tailored estimate for your space</span></span><span class="price">Get an estimate</span><span class="demo-service-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></button>
+<button type="button" class="service" onclick="startCommercial('quote','Custom Commercial Cleaning')"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-5 3v-3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="m8 12 2.5 2.5L16 9"/></svg></span><span class="demo-service-body"><b>Custom Commercial Quote</b><span class="muted">Special requirements or larger projects</span></span><span class="price">Request a quote</span><span class="demo-service-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></button>
+</div></div>
+<div class="screen" id="res"><div class="label">WHAT TYPE OF HOME?</div><div class="choices" id="homes"><button class="choice" onclick="choose(this,'home','House')">🏠 <b>House</b></button><button class="choice" onclick="choose(this,'home','Apartment')">🏢 <b>Apartment</b></button><button class="choice" onclick="choose(this,'home','Condo')">🏙️ <b>Condo</b></button><button class="choice" onclick="choose(this,'home','Townhouse')">🏘️ <b>Townhouse</b></button></div><div class="label">HOME DETAILS</div><div class="choices"><select class="field" id="beds"><option>2 bedrooms</option><option>3 bedrooms</option><option>4 bedrooms</option><option>5+ bedrooms</option></select><select class="field" id="baths"><option>1 bathroom</option><option>2 bathrooms</option><option>3 bathrooms</option><option>4+ bathrooms</option></select></div><div class="label">HOW OFTEN?</div><select class="field" id="freq"><option>One time</option><option>Weekly — save 15%</option><option>Biweekly — save 10%</option><option>Monthly — save 5%</option></select><div class="label">OPTIONAL EXTRAS</div><div class="choices"><label class="choice"><input type="checkbox" id="fridge"> Inside fridge <b>+$25</b></label><label class="choice"><input type="checkbox" id="oven"> Inside oven <b>+$30</b></label></div><div class="label">PREFERRED DATE & TIME</div><input class="field" type="date" id="date"><select class="field" id="time"><option>9:00 AM</option><option>11:30 AM</option><option>2:00 PM</option></select><div class="label">YOUR DETAILS</div><input class="field" id="name" placeholder="Full name"><input class="field" id="email" type="email" placeholder="Email address"><input class="field" id="phone" placeholder="Phone number"><input class="field" id="zip" inputmode="numeric" maxlength="5" placeholder="Service ZIP code"><input class="field" id="serviceAddress" placeholder="Service address · Street, city, state"><button class="next" onclick="reviewResidential()">Review request</button><button class="back" onclick="showMain()">← Choose another service</button></div>
+<div class="screen" id="resReview"><div class="summary" id="resSummary"></div><div class="note"><b>Check your request.</b> Add any missing home, timing or contact details before completing the example. This estimate is illustrative and the business would confirm the final price.</div><button class="next" onclick="submitResidential()">Confirm demo request</button><button class="back" onclick="show('res','Tell us about your home','RESIDENTIAL')">← Edit</button></div>
+<div class="screen" id="quote"><div class="demo-quote-header"><span>RESIDENTIAL CLEANING</span><h3>Tell us about your home.</h3><p>Just a few details to prepare your estimate or quote. Nothing is charged or booked in this demo.</p><div class="demo-quote-area" id="demoQuoteArea">Local service area</div></div><div class="ey" id="quoteEyebrow">RESIDENTIAL ESTIMATE / QUOTE</div><div class="quote-photo" role="img" aria-label="Professional cleaners working in a bright modern home, seen at a distance"></div>
+<div class="label">I WOULD LIKE TO…</div><div class="choices request-type-pills">
+ <button type="button" class="choice" data-intent="estimate" onclick="setRequestIntent('estimate')">📋 <b>Get an estimate</b></button>
+ <button type="button" class="choice" data-intent="quote" onclick="setRequestIntent('quote')">💬 <b>Request a quote</b></button>
+</div><div class="label">WHAT TYPE OF REQUEST?</div><select class="field" id="qtype"><option>Large home</option><option>Special cleaning request</option><option>Post-renovation cleaning</option><option>Detailed one-time cleaning</option><option>Other residential request</option></select><div class="label">APPROXIMATE HOME SIZE</div><select class="field" id="qsize"><option>4 bedrooms</option><option>5 bedrooms</option><option>6+ bedrooms</option><option>Not sure / Other</option></select><div class="label">OPTIONAL RESIDENTIAL ADD-ONS</div><div class="choices">
+ <label class="choice"><input type="checkbox" data-quote-addon="Interior windows"> Interior windows</label>
+ <label class="choice"><input type="checkbox" data-quote-addon="Inside oven"> Inside oven</label>
+ <label class="choice"><input type="checkbox" data-quote-addon="Inside refrigerator"> Inside refrigerator</label>
+ <label class="choice"><input type="checkbox" data-quote-addon="Baseboards"> Baseboards</label>
+</div>
+<div class="label">PREFERRED DATE</div><input type="date" class="field" id="qdate">
+<div class="label">PREFERRED TIME</div><input type="time" class="field" id="qtime" step="1800">
+<div class="label">TELL US ABOUT THE JOB</div><textarea class="field" id="qdetails" placeholder="What needs extra attention?"></textarea><div class="label">CONTACT DETAILS</div><input class="field" id="qname" placeholder="Full name"><input class="field" id="qemail" type="email" placeholder="Email address"><input class="field" id="qphone" placeholder="Phone number (optional)"><input class="field" id="qaddress" placeholder="Service address · Street, city, state"><button class="next" id="quoteSubmit" onclick="submitQuote()">Send Demo Request</button><button class="back" onclick="showMain()">← Choose another service</button></div>
+<div class="screen" id="commercial"><div class="ey" id="commercialEyebrow">COMMERCIAL ESTIMATE / QUOTE</div>
+<div class="label">I WOULD LIKE TO…</div><div class="choices request-type-pills">
+ <button type="button" class="choice" data-intent="estimate" onclick="setRequestIntent('estimate')">📋 <b>Get an estimate</b></button>
+ <button type="button" class="choice" data-intent="quote" onclick="setRequestIntent('quote')">💬 <b>Request a quote</b></button>
+</div><div class="label">TYPE OF PROPERTY</div><select class="field" id="ctype" onchange="toggleCommercialOther()"><option value="">Select a business space</option><option>Office</option><option>Retail store</option><option>Salon / Studio</option><option>Medical / Professional office</option><option value="Other">Other</option></select><input class="field" id="cOtherType" type="text" maxlength="100" autocomplete="off" placeholder="What kind of business? (e.g., restaurant)" aria-label="Other business space type" hidden><div class="label">APPROXIMATE SIZE</div><select class="field" id="csize"><option value="">Choose approximate size</option><option>Under 1,500 sq ft</option><option>1,500–3,000 sq ft</option><option>3,000–5,000 sq ft</option><option>5,000+ sq ft</option></select><div class="label">FREQUENCY</div><select class="field" id="cfreq"><option value="">Choose frequency</option><option>One time</option><option>Weekly</option><option>2–3 times per week</option><option>5 days per week</option><option>Custom schedule</option></select>
+<div class="label">ADDITIONAL SPACE DETAILS (OPTIONAL)</div><div class="choices tle-commercial-details"><label class="tle-detail-label" for="cFloors">Number of floors<input class="field" id="cFloors" type="number" min="1" max="100" inputmode="numeric" placeholder="e.g., 2"></label><label class="tle-detail-label" for="cRestrooms">Number of restrooms<input class="field" id="cRestrooms" type="number" min="0" max="200" inputmode="numeric" placeholder="e.g., 3"></label></div><div class="label">WHEN CAN CLEANING HAPPEN?</div><select class="field" id="cCleaningWindow"><option value="">Choose a preferred cleaning window</option><option>During business hours</option><option>Before opening</option><option>After closing</option><option>Flexible</option></select><div class="label">SPECIAL AREAS OR REQUIREMENTS (OPTIONAL)</div><textarea class="field" id="cSpecialAreas" maxlength="400" placeholder="High-traffic areas, commercial kitchens, sensitive equipment, access instructions…"></textarea><div class="label">COMMERCIAL ADD-ONS</div><div class="choices" id="commercialAddons">
+ <label class="choice"><input type="checkbox" data-commercial-addon="Interior glass & partitions"> Interior glass & partitions</label>
+ <label class="choice"><input type="checkbox" data-commercial-addon="Restroom deep cleaning"> Restroom deep cleaning</label>
+ <label class="choice"><input type="checkbox" data-commercial-addon="Floor scrubbing / detailing"> Floor scrubbing / detailing</label>
+ <label class="choice"><input type="checkbox" data-commercial-addon="Breakroom / kitchenette"> Breakroom / kitchenette</label>
+ <label class="choice"><input type="checkbox" data-commercial-addon="High-touch disinfection"> High-touch disinfection</label>
+ <label class="choice"><input type="checkbox" data-commercial-addon="After-hours cleaning"> After-hours cleaning</label>
+</div>
+<div class="label">PREFERRED DATE</div><input type="date" class="field" id="cdate">
+<div class="label">PREFERRED TIME</div><input type="time" class="field" id="ctime" step="1800"><div class="label">BUSINESS DETAILS</div><textarea class="field" id="cdetails" placeholder="Tell us what the space needs..."></textarea><input class="field" id="cbusiness" placeholder="Business name (demo example)"><input class="field" id="cname" placeholder="First and last name (use a demo name)"><input class="field" id="cemail" type="email" placeholder="Email address"><input class="field" id="cphone" placeholder="Business phone (optional)"><input class="field" id="caddress" placeholder="Business service address"><button class="next" id="commercialSubmit" onclick="submitCommercial()">Send Demo Request</button><button class="back" onclick="showMain()">← Choose another service</button></div>
+<div class="screen" id="done"><div class="success"><div class="tle-success-brand"><span class="tle-success-avatar" id="tleSuccessAvatar" aria-hidden="true">✓</span><span class="tle-success-brand-text"><span class="tle-success-label">A MESSAGE FROM</span><strong class="tle-success-name" id="tleSuccessBusiness">Your cleaning business</strong></span></div><div class="check" aria-hidden="true">✓</div><h2>We have your booking request!</h2><p class="muted">Thank you for reaching out. We’ll review your request and get back to you shortly.</p><p class="tle-success-request-for" id="tleSuccessRequestFor" hidden></p><p class="tle-success-preview" id="tleSuccessPreview">DEMO PREVIEW · This is a sample confirmation. No booking or email was sent.</p><div class="demo-success-summary" id="demoSuccessSummary" hidden><div class="demo-success-summary-head"><div><small>YOUR REQUEST</small><h3 id="demoSuccessService">Cleaning service</h3></div><span class="demo-summary-illustration" aria-hidden="true"></span></div><div class="demo-success-info"><span>Preferred date <strong id="demoSuccessDate">To be arranged</strong></span><span>Preferred time <strong id="demoSuccessTime">Flexible</strong></span><span>Service area <strong id="demoSuccessArea">Provided at booking</strong></span></div></div><a class="next" style="display:block;text-decoration:none" id="trackerLink" href="/try-booking/?lang=en&source=sample-cleaning">Explore another sample Command Center</a><button class="back" onclick="showMain()">Try another service</button></div></div>
+</section>
+<section class="demo-cinematic-story" id="demoCinematicStory" aria-label="The cleaning experience, reimagined">
+  <div class="demo-cinematic-photo" role="img" aria-label="Spacious sunlit living room"></div>
+  <div class="demo-cinematic-copy">
+    <span class="demo-cinematic-overline">A BETTER EXPERIENCE</span>
+    <h2>Thoughtful details.<br><em>Easier booking.</em></h2>
+    <p>From the first look at the services to the sample request, every step feels clear and considered.</p>
+    <div class="demo-cinematic-highlights" aria-label="Why the experience feels easier">
+      <div class="demo-cinematic-highlight"><span class="demo-cinematic-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="m12 3 1.7 6.3L20 11l-6.3 1.7L12 19l-1.7-6.3L4 11l6.3-1.7L12 3Z"/><path d="M19 17v5m-2.5-2.5h5"/></svg></span><span><strong>Beautiful spaces</strong><small>That just-cleaned feeling.</small></span></div>
+      <div class="demo-cinematic-highlight"><span class="demo-cinematic-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18m-13 4h3m3 0h2m-8 4h3"/></svg></span><span><strong>Simple steps</strong><small>Request cleaning without the back-and-forth.</small></span></div>
+      <div class="demo-cinematic-highlight"><span class="demo-cinematic-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M20.8 5.6a5.2 5.2 0 0 0-7.4 0L12 7l-1.4-1.4a5.2 5.2 0 0 0-7.4 7.4L12 21l8.8-8a5.2 5.2 0 0 0 0-7.4Z"/></svg></span><span><strong>A more thoughtful experience</strong><small>Every important detail, in one place.</small></span></div>
+    </div>
+  </div>
+</section>
+ <section class="demo-bottom" id="demoHow" aria-label="How this cleaning booking demo works">
+ <div class="demo-bottom-photo" role="img" aria-label="Bright, beautifully cleaned modern living room"></div>
+ <div class="demo-bottom-text"><span>DESIGNED FOR CLARITY</span><h2>Every detail.<br><strong>Thoughtfully placed.</strong></h2><p>A premium first impression, with a straightforward request process behind the design.</p></div>
+</section>
+<footer class="demo-footer">INTERACTIVE CONCEPT PREVIEW · <a href="https://thelaunchera.com/">Powered by The Launch Era</a> <span>Not a live business booking page</span> <a href="/booking-demo/?lang=en&source=sample-cleaning" class="public-private-link">Request a More Personalized Demo ↗</a></footer>
+</main><script>
+const state={route:'',service:'',base:0,home:'',estimate:'',category:'residential',intent:'estimate',mode:'estimate',serviceId:null};
+const $=x=>document.getElementById(x);
+function showBrandedRequestSuccess(business,opts={}){
+ const name=String(business||"Your cleaning business").replace(/[<>\u0000-\u001f]/g," ").trim().slice(0,100)||"Your cleaning business";
+ const mark=name.match(/[A-Za-z0-9]/)?.[0]||"✓";
+ if($("tleSuccessBusiness"))$("tleSuccessBusiness").textContent=name;
+ if($("tleSuccessAvatar"))$("tleSuccessAvatar").textContent=mark.toUpperCase();
+ const forBusiness=$("tleSuccessRequestFor");if(forBusiness){
+  const subject=String(opts.forBusiness||"").trim().slice(0,100);
+  forBusiness.hidden=!subject;forBusiness.textContent=subject?"For "+subject:"";
+ }
+ const note=$("tleSuccessPreview");if(note)note.hidden=!!opts.live;
+ if(opts.live){
+  const label=document.querySelector("#done .tle-success-label");if(label)label.textContent="YOUR CLEANING PROVIDER";
+ }
+}
+
+function toggleCommercialOther(){const select=$("ctype"),field=$("cOtherType");if(!select||!field)return;const other=select.value==="Other";field.hidden=!other;field.required=other;if(!other)field.value="";}
+function show(id,title,count){if(typeof window.tleStackShow==='function'&&window.tleStackShow(id,title,count))return;document.querySelectorAll('.screen').forEach(x=>x.classList.remove('on'));$(id).classList.add('on');$('title').textContent=title;$('count').textContent=count;document.querySelector('.panel').scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})}
+function reset(){state.route='';state.service='';state.base=0;state.home='';state.estimate='';state.serviceId=null;document.querySelectorAll('.choice:not(.category-tabs .choice)').forEach(x=>x.classList.remove('sel'))}
+function setCategory(category){if(!['residential','commercial'].includes(category))return;state.category=category; $('residentialServiceList').hidden=category!=='residential';$('commercialServiceList').hidden=category!=='commercial';document.querySelectorAll('[data-category]').forEach(b=>b.classList.toggle('sel',b.dataset.category===category))}
+function setRequestIntent(intent){if(!['quote','estimate'].includes(intent))return;state.intent=intent;document.querySelectorAll('.screen.on [data-intent]').forEach(b=>b.classList.toggle('sel',b.dataset.intent===intent));const title=intent==='estimate'?'Request an Estimate':'Request a Quote';if(state.route==='quote'){$('quoteEyebrow').textContent='RESIDENTIAL · '+title.toUpperCase();$('quoteSubmit').textContent='Send Demo '+title;}if(state.route==='commercial'){$('commercialEyebrow').textContent='COMMERCIAL · '+title.toUpperCase();$('commercialSubmit').textContent='Send Demo '+title;}}
+function showMain(){const current=state.category;reset();setCategory(current);show('main','Choose a service','START')}
+function startResidential(s,b){reset();state.category='residential';state.route='residential';state.service=s;state.base=b;state.mode='estimate';show('res','Tell us about your home','RESIDENTIAL')}
+function startQuote(intent='quote'){reset();state.category='residential';state.route='quote';state.mode='quote';show('quote','Residential Quote / Estimate','RESIDENTIAL');setRequestIntent(intent)}
+function startCommercial(intent='quote',service='Commercial Cleaning'){reset();state.category='commercial';state.route='commercial';state.service=service;state.mode='quote';show('commercial','Commercial Quote / Estimate','COMMERCIAL');setRequestIntent(intent);toggleCommercialOther()}
+function choose(el,k,v){el.parentElement.querySelectorAll('.choice').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');state[k]=v}function num(id){return parseInt($(id).value)||0}function estimate(){let x=state.base+Math.max(0,num('beds')-2)*20+Math.max(0,num('baths')-1)*15+($('fridge').checked?25:0)+($('oven').checked?30:0);const f=$('freq').value;if(f.startsWith('Weekly'))x*=.85;if(f.startsWith('Biweekly'))x*=.9;if(f.startsWith('Monthly'))x*=.95;return Math.round(x)}function reviewResidential(){if(!state.home){alert('Choose a home type first.');return}state.estimate='Est. $'+estimate();$('resSummary').innerHTML='<div class="row"><span>Service</span><b>'+state.service+'</b></div><div class="row"><span>Home type</span><b>'+state.home+'</b></div><div class="row"><span>Home</span><b>'+$('beds').value+' · '+$('baths').value+'</b></div><div class="row"><span>Frequency</span><b>'+$('freq').value+'</b></div><div class="row"><span>Preferred time</span><b>'+($('date').value||'Preferred date')+' · '+$('time').value+'</b></div><div class="row"><span>Estimated price</span><b>'+state.estimate+'</b></div>';show('resReview','Review your request','REVIEW')}// Demo requests stay in this browser tab; buyer requests use the live adapter.
+const isSampleDemo=true;
+function cleanPublicDemoArea(v){const first=String(v||'').split(/[;|\r\n]/,1)[0].split(/\.(?=\s)/,1)[0].trim();if(!first||first.length>80||/\b(verify|owner|contact|outreach|research|manual|internal|consent|notes|launch year)\b/i.test(first))return '';return first.replace(/[<>]/g,'').trim().slice(0,80);}
+const demoScope=new URLSearchParams('business=Sample%20Cleaning&area=Miami&lang='+(new URLSearchParams(location.search).get('lang')==='es'?'es':'en'));
+if(isSampleDemo&&demoScope.has('rid')&&demoScope.has('area')){
+ const raw=demoScope.get('area'),safe=cleanPublicDemoArea(raw);
+ if(raw!==safe){
+  if(safe)demoScope.set('area',safe);else demoScope.delete('area');
+  try{history.replaceState(null,'',location.pathname+'?'+demoScope.toString()+location.hash)}catch{}
+ }
+}
+const demoStorageKey='tleSampleBooking:'+JSON.stringify([demoScope.get('business')||'',demoScope.get('lead')||'',demoScope.get('rid')||'']);
+function showDemoRequestSummary(d){const box=$('demoSuccessSummary');if(!box||!isSampleDemo)return;box.hidden=false;const clean=(v,max=70)=>String(v||'').replace(/[<>\u0000-\u001f]/g,' ').trim().slice(0,max);$('demoSuccessService').textContent=clean(d.service)||'Cleaning service';$('demoSuccessDate').textContent=clean(d.date)||'To be arranged';$('demoSuccessTime').textContent=clean(d.time)||'Flexible';$('demoSuccessArea').textContent=clean(demoScope.get('area'))||'Your service area';}
+function save(d){if(!isSampleDemo)return;showBrandedRequestSuccess('Sample Cleaning',{forBusiness:d.businessName||''});showDemoRequestSummary(d);show('done','Practice request completed','✓')}function submitResidential(){if(!isSampleDemo)return;save({name:$('name').value||'Your demo request',email:$('email').value,service:state.service,homeType:state.home,freq:$('freq').value,estimate:state.estimate,estimateValue:estimate(),zip:$('zip').value,date:$('date').value,time:$('time').value,square_feet:$('tleAiSquareFeet')?.value||'',notes:$('tleAiJobNotes')?.value||'',extras:([$('fridge').checked?'Inside fridge':'',$('oven').checked?'Inside oven':''].filter(Boolean).join(' · ')||'None')})}function submitQuote(){if(!isSampleDemo)return;save({
+ name:$('qname').value||'Your demo request',email:$('qemail').value,
+ service:state.intent==='estimate'?'Residential Estimate':'Residential Quote',
+ homeType:$('qtype').value,freq:$('qsize').value,estimate:state.intent==='estimate'?'Custom estimate':'Custom quote',
+ requestIntent:state.intent,notes:$('qdetails').value,date:$('qdate').value,time:$('qtime').value,
+ extras:[...document.querySelectorAll('[data-quote-addon]:checked')].map(x=>x.dataset.quoteAddon).join(' · ')||'None'
+})}function submitCommercial(){if(!isSampleDemo)return;save({
+ name:$('cname').value||'Your demo request',email:$('cemail').value,businessName:$('cbusiness').value,
+ service:state.service||'Commercial Cleaning',homeType:$('ctype').value==='Other'?'Other: '+($('cOtherType').value.trim()||'Not specified'):$('ctype').value,freq:$('cfreq').value,
+ estimate:state.intent==='estimate'?'Commercial estimate':'Commercial quote',
+ requestIntent:state.intent,notes:[
+    ($('ctype').value==='Other'?'Space type: '+$('cOtherType').value.trim():''),
+    ($('cFloors').value?'Floors: '+$('cFloors').value:''),
+    ($('cRestrooms').value?'Restrooms: '+$('cRestrooms').value:''),
+    ($('cCleaningWindow').value?'Cleaning window: '+$('cCleaningWindow').value:''),
+    ($('cSpecialAreas').value.trim()?'Special areas: '+$('cSpecialAreas').value.trim():''),
+    $('cdetails').value
+  ].filter(Boolean).join(' · '),date:$('cdate').value,time:$('ctime').value,
+ extras:[...document.querySelectorAll('[data-commercial-addon]:checked')].map(x=>x.dataset.commercialAddon).join(' · ')||'None'
+})}
+
+const leadConfigs={};
+const demoParams=demoScope;
+const customBusiness=(demoParams.get('business')||'').trim().slice(0,140);
+const customArea=cleanPublicDemoArea(demoParams.get('area'));
+const customRid=(demoParams.get('rid')||'').trim().slice(0,60);
+if(customBusiness){
+ document.getElementById('leadName').textContent='PERSONALIZED FOR '+customBusiness.toUpperCase();
+ document.title=customBusiness+' — Private Booking Demo';
+ const tracker=document.getElementById('trackerLink');
+ if(tracker){
+  const q=new URLSearchParams();
+  q.set('business',customBusiness);
+  q.set('lang',demoParams.get('lang')==='es'?'es':'en');
+  if(customArea)q.set('area',customArea);
+  if(customRid)q.set('rid',customRid);
+  tracker.href='/try-booking/?lang='+(demoParams.get('lang')==='es'?'es':'en')+'&source=sample-cleaning';
+ }
+ if(customArea){
+  const h=document.querySelector('.heroText h1');
+  if(h){const area=document.getElementById('demoHeroArea');if(area)area.textContent='Serving '+customArea;}
+ }
+ const quoteArea=$('demoQuoteArea');if(quoteArea)quoteArea.textContent=customArea?'Serving '+customArea:'Local service area';
+  /* Public practice sample never tracks an individual lead or sends backend events. */
+}
+
+const leadKey=new URLSearchParams(location.search).get('lead')||'';
+const leadCfg=leadConfigs[leadKey];
+if(leadCfg){
+ document.getElementById('leadName').textContent='PERSONALIZED FOR '+leadCfg.label;
+ if(!isSampleDemo)document.getElementById('leadHero').style.backgroundImage='url("'+leadCfg.hero+'")';
+ document.title=leadCfg.label+' — Private Booking Demo';
+ const tracker=document.getElementById('trackerLink'); if(tracker)tracker.href='/try-booking/?lang='+(demoParams.get('lang')==='es'?'es':'en')+'&source=sample-cleaning';
+}
+if(isSampleDemo){const link=$('trackerLink'),q=new URLSearchParams(link.search);q.set('lang',demoParams.get('lang')==='es'?'es':'en');link.search=q.toString();}
+
+if(isSampleDemo){
+ // Direct links are local interactions only; never create or send a real booking.
+ document.querySelectorAll('[data-demo-category]').forEach(link=>link.addEventListener('click',(event)=>{event.preventDefault();
+  const category=link.dataset.demoCategory;
+  if(category!=='residential'&&category!=='commercial')return;
+  setCategory(category);
+  if(link.dataset.demoService==='deep'){
+   startResidential('Deep Cleaning',190);
+  }else showMain();
+ }));
+
+ if(demoParams.get('lang')==='es'){
+  // Editorial text only; existing booking-form translation is handled by booking-template-language.js.
+  const text=(selector,value)=>{const el=document.querySelector(selector);if(el)el.textContent=value};
+  const html=(selector,value)=>{const el=document.querySelector(selector);if(el)el.innerHTML=value};
+  const firstText=(selector,value)=>{const el=document.querySelector(selector);if(el){const child=[...el.childNodes].find(n=>n.nodeType===3);if(child)child.nodeValue=value;else el.prepend(document.createTextNode(value));}};
+  text('.demo-top-label','VISTA INTERACTIVA · SOLO PRUEBAS — NO SE ENVÍAN NI CONFIRMAN RESERVAS');
+  document.querySelectorAll('.demo-navlinks a').forEach((el,i)=>{el.textContent=['Servicios','Solicitud de prueba'][i]||el.textContent});
+  text('.demo-nav-jump','Servicios');
+  
+  html('.demo-headline','<span>Limpieza bien hecha.</span><span class="hero-highlight">Reservar es fácil.</span>');
+  html('.demo-hero-tagline','Limpieza bien hecha.<br><em>Reservar es fácil.</em>');
+  text('.demo-hero-description','Una buena primera impresión, servicios claros y una manera sencilla de solicitar una limpieza.');
+  firstText('.demo-hero-cta','Elegir un servicio ');
+  
+  text('.demo-vertical-note','ESPACIOS LIMPIOS / DÍAS FELICES ✦');
+  document.querySelectorAll('.demo-feature-bar>div>span:last-child').forEach((el,i)=>{el.textContent=['Elige un servicio','Completa detalles','Revisa la solicitud'][i]||el.textContent});
+  text('.demo-service-showcase .demo-pink-kicker','LA EXPERIENCIA DE LIMPIEZA');
+  html('.demo-showcase-intro h2','Detalles claros.<br><em>Todo más sencillo.</em>');
+  text('.demo-showcase-intro p','Elige un servicio y descubre cómo se organizan los detalles de la solicitud.');
+  document.querySelectorAll('.demo-showcase-benefits strong').forEach((e,i)=>{e.textContent=['Servicios claros','Solicitudes sencillas','Todo en un lugar'][i]});
+  document.querySelectorAll('.demo-showcase-benefits small').forEach((e,i)=>{e.textContent=['Conoce qué incluye cada servicio.','Solo unos pasos.','Descubre qué sucede después.'][i]});
+  text('.demo-quote-header h3','Cuéntanos sobre tu hogar.');text('.demo-quote-header p','Solo algunos datos para preparar tu estimado o cotización. Esta prueba no cobra ni reserva nada.');
+  text('.demo-quote-header>span','LIMPIEZA RESIDENCIAL');
+  if(!customArea){text('#demoHeroArea','Servicios de limpieza en tu área');text('#demoQuoteArea','Zona de servicio local');}
+  text('#tleSuccessPreview','VISTA DEMO · Ejemplo de confirmación. No se envió ninguna reserva ni correo.');
+  text('.demo-success-summary-head small','TU SOLICITUD');
+  const summaryLabels=document.querySelectorAll('#demoSuccessSummary .demo-success-info>span');
+  ['Fecha preferida','Hora preferida','Área de servicio'].forEach((label,i)=>{if(summaryLabels[i]){const node=[...summaryLabels[i].childNodes].find(n=>n.nodeType===3);if(node)node.nodeValue=label+' ';}});
+  text('#trackerLink','Abrir Demo Command Center');
+  text('#done .success .back','Probar otro servicio');
+  text('.demo-showcase-photo-badge','✧ DETALLES CLAROS / RESERVAS FÁCILES');
+  text('.demo-quote-header>span','LIMPIEZA RESIDENCIAL');
+  text('.demo-success-summary-head small','TU SOLICITUD');
+  text('#tleSuccessPreview','VISTA DEMO · Este es un ejemplo de confirmación. No se envió ninguna reserva ni correo.');
+  document.querySelectorAll('.demo-success-info>span').forEach((el,i)=>{const part=[ 'Fecha preferida ', 'Hora preferida ', 'Zona de servicio '][i];const n=[...el.childNodes].find(x=>x.nodeType===3);if(n)n.nodeValue=part;});
+  
+  document.querySelectorAll('.demo-showcase-card .demo-showcase-label strong').forEach((el,i)=>{el.textContent=['Limpieza residencial','Limpieza profunda','Espacios comerciales'][i]||el.textContent});
+  document.querySelectorAll('.demo-showcase-card .demo-showcase-label small').forEach((el,i)=>{el.textContent=['Cada visita, más sencilla','Todos los detalles importan','Solicitar una cotización'][i]||el.textContent});
+  
+  text('.demo-panel-desc','Elige los detalles para explorar los servicios y precios de ejemplo. No se envía ni confirma ninguna reserva.');
+  const begin=document.querySelector('.demo-panel-start');if(begin){const node=[...begin.childNodes].find(n=>n.nodeType===3);if(node)node.nodeValue='Empezar ';}
+  text('.panel #main .demo-services-note','Servicios y precios estimados de ejemplo. Elige una opción para conocer el proceso.');
+  text('.demo-cinematic-overline','UNA MEJOR EXPERIENCIA');
+  html('.demo-cinematic-copy h2','Detalles pensados.<br><em>Reservar sin complicaciones.</em>');
+  text('.demo-cinematic-copy>p','Desde la primera visita hasta la solicitud de prueba, cada paso se entiende con claridad.');
+  document.querySelectorAll('.demo-cinematic-highlight strong').forEach((el,i)=>{el.textContent=['Espacios cuidados','Pasos sencillos','Una experiencia más clara'][i]||el.textContent;});
+  document.querySelectorAll('.demo-cinematic-highlight small').forEach((el,i)=>{el.textContent=['Esa sensación de recién limpio.','Solicita una limpieza sin tantos mensajes.','La información importante, en un solo lugar.'][i]||el.textContent;});
+  document.querySelectorAll('#residentialServiceList .demo-service-body .muted').forEach((el,i)=>{el.textContent=['Limpieza habitual del hogar','Una limpieza profunda de principio a fin','Un comienzo limpio para una casa vacía','Un estimado según las características de tu hogar','Servicios especiales o casas grandes'][i]||el.textContent;});
+  document.querySelectorAll('#residentialServiceList .price').forEach((el,i)=>{el.textContent=['Est. desde $120','Est. desde $190','Est. desde $240','Obtener estimado','Solicitar cotización'][i]||el.textContent;});
+  document.querySelectorAll('#commercialServiceList .demo-service-body b').forEach((el,i)=>{el.textContent=['Limpieza de oficinas','Tiendas y salas de exposición','Consultorios y espacios profesionales','Limpieza posconstrucción','Estimado comercial','Cotización comercial personalizada'][i]||el.textContent;});
+  document.querySelectorAll('#commercialServiceList .demo-service-body .muted').forEach((el,i)=>{el.textContent=['Oficinas y espacios compartidos','Pisos de venta y exhibición','Espacios con requisitos especiales','Limpiezas detalladas por proyecto','Un estimado adaptado a tu espacio','Necesidades especiales o proyectos grandes'][i]||el.textContent;});
+  document.querySelectorAll('#commercialServiceList .price').forEach((el,i)=>{el.textContent=['Solicitar estimado','Solicitar estimado','Solicitar cotización','Solicitar cotización','Solicitar estimado','Solicitar cotización'][i]||el.textContent;});
+  text('.demo-booking-kicker','RESERVAS INTERACTIVAS');
+  html('.demo-booking-eyebrow h2','Una solicitud <em>más sencilla.</em>');
+  text('.demo-booking-eyebrow p','Completa los detalles para conocer el proceso. Es una prueba: no se envía ni confirma ninguna reserva.');
+  text('.demo-bottom-text>span','DISEÑADO CON INTENCIÓN');
+  html('.demo-bottom-text h2','Cada detalle.<br><strong>En su lugar.</strong>');
+  text('.demo-bottom-text p','Una presentación premium y un proceso de solicitudes claro, sin complicaciones.');
+  
+  text('.demo-footer>span','Esta no es una página de reservas real');
+ }
+ const brand=document.getElementById('demoBrandName');
+ const business=customBusiness||(leadCfg&&leadCfg.label)||'';
+ if(brand&&business){
+  const span=brand.querySelector('.demo-brand-pink');
+  if(span){span.textContent=business.length>27?business.slice(0,26)+'…':business;span.style.letterSpacing='-.045em';}
+  const other=brand.querySelector('span:not(.demo-brand-pink):not(.demo-logo-spark)');
+  if(other)other.textContent='DEMO';
+ }
+}
+</script>
+<script>
+/* Public sample navigation: scroll to the real, visible service panel.
+   A native href remains as progressive enhancement/fallback. */
+(function(){
+  if(!document.documentElement.classList.contains('demo-editorial')) return;
+  function goToServices(event){
+    if(event.defaultPrevented || event.button>0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const panel=document.getElementById('bookingStarter');
+    if(!panel || panel.getClientRects().length===0) return;
+    event.preventDefault();
+    const reduce=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    panel.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+    try{history.replaceState(history.state,'','#bookingStarter')}catch(e){}
+    panel.focus({preventScroll:true});
+  }
+  document.querySelectorAll('a[href="#bookingStarter"]').forEach(link=>link.addEventListener('click',goToServices));
+})();
+</script><script src="/assets/tle-demo-cinematic-v1.js?v=20261013-v1" defer></script><script src="/assets/booking-template-language.js?v=20261012-handoff-v6"></script><script src="/assets/tle-demo-enhancements-v12.js?v=20261015-sonny-inline-v8" defer></script><script src="/assets/tle-demo-client-experience-v14.js?v=20261015-organic2" defer></script><script src="/assets/tle-demo-luna-bloom-v17.js?v=20261015-logo37" defer></script><script src="/assets/tle-demo-compact-footer-v18.js?v=20261015-compact1" defer></script><script src="/assets/tle-demo-motion-v19.js?v=20261015-autoreviews32" defer></script><script src="/assets/tle-demo-purpose-v20.js?v=20261015-purpose1" defer></script><script src="/assets/tle-demo-photo-services-v21.js?v=20261015-accurate32" defer></script><script src="/assets/tle-demo-booking-focus-v22.js?v=20261015-appflow1" defer></script><script src="/assets/tle-demo-editorial-pop-v23.js?v=20261015-editorialpop1" defer></script><script src="/assets/tle-demo-chapter-contrast-v24.js?v=20261015-chapter1" defer></script><script src="/assets/tle-demo-floating-bubbles-v25.js?v=20261015-bubbles1" defer></script><script src="/assets/tle-demo-finish-v26.js?v=20261015-finish1" defer></script><script src="/assets/tle-demo-magical-clean-v27.js?v=20261016-v42d" defer></script><script src="/assets/tle-demo-identity-v28.js?v=20261015-identity1" defer></script><script src="/assets/tle-demo-compact-v30.js?v=20261015-editorial32" defer></script>
+<script src="/assets/tle-demo-service-glow-v33.js?v=20261015-service-glow33" defer></script>
+<script src="/assets/tle-demo-editorial-stack-v34.js?v=20261016-no-post-construction1" defer></script>
+<script src="/assets/tle-demo-editorial-finish-v36.js?v=20261015-finish-36b" defer></script><script src="/assets/tle-demo-stack-nav-v38.js?v=20261016-v38a" defer></script><script src="/assets/tle-demo-booking-ink-v43.js?v=20261016-v43d" defer></script><script src="/assets/tle-demo-editorial-v44.js?v=20261016-v44a" defer></script><script src="/assets/tle-demo-natural-v45.js?v=20261016-v45a" defer></script><script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/Flip.min.js" defer></script><script src="/assets/tle-demo-drive-flip-v46.js?v=20261016-v46a" defer></script><script src="/assets/tle-demo-hero-copy-v47.js?v=20261016-v47f" defer></script><script src="/assets/tle-demo-drive-homes-v47.js?v=20261016-v47a" defer></script><script src="/assets/tle-demo-editorial-v48-optin.js?v=20261016-optin-hotel" defer></script><script src="/assets/tle-demo-expanding-v49-optin.js?v=20261016-optin-squares" defer></script><script>(function(){const es=new URLSearchParams(location.search).get('lang')==='es';const link=document.querySelector('.public-private-link');if(link){link.href='/booking-demo/?lang='+(es?'es':'en')+'&source=sample-cleaning';link.textContent=es?'Solicitar una demo más personalizada ↗':'Request a More Personalized Demo ↗';}})();</script></body></html>
