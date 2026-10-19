@@ -484,7 +484,7 @@ if(customBusiness){
   q.set('lang',demoParams.get('lang')==='es'?'es':'en');
   if(customArea)q.set('area',customArea);
   if(customRid)q.set('rid',customRid);
-  tracker.href='lead-demo-tracker.html?'+q.toString();
+  tracker.href='/try-booking/?lang='+(demoParams.get('lang')==='es'?'es':'en')+'&source=sample-cleaning';
  }
  if(customArea){
   const h=document.querySelector('.heroText h1');
@@ -500,7 +500,7 @@ if(leadCfg){
  document.getElementById('leadName').textContent='PERSONALIZED FOR '+leadCfg.label;
  if(!isSampleDemo)document.getElementById('leadHero').style.backgroundImage='url("'+leadCfg.hero+'")';
  document.title=leadCfg.label+' — Private Booking Demo';
- const tracker=document.getElementById('trackerLink'); if(tracker)tracker.href='lead-demo-tracker.html?lead='+encodeURIComponent(leadKey)+'&lang='+(demoParams.get('lang')==='es'?'es':'en');
+ const tracker=document.getElementById('trackerLink'); if(tracker)tracker.href='/try-booking/?lang='+(demoParams.get('lang')==='es'?'es':'en')+'&source=sample-cleaning';
 }
 if(isSampleDemo){const link=$('trackerLink'),q=new URLSearchParams(link.search);q.set('lang',demoParams.get('lang')==='es'?'es':'en');link.search=q.toString();}
 
