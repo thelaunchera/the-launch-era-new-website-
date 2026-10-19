@@ -104,8 +104,8 @@ function SpanishHome(){const [active,setActive]=useState(0);const [heroLoaded,se
    <div className="eyebrow">PARA DUEÑAS DE NEGOCIOS DE LIMPIEZA</div>
    <h1 className="tle-hero-heading-shine">Menos tiempo buscando mensajes. Más tiempo para tu negocio.</h1>
    <p>Solicitudes, cotizaciones y seguimientos. Todo organizado.</p>
-   <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/booking-demo/?lang=es">Quiero mi demo personalizada <ArrowRight/></a></Button></div>
-   <p className="demo-delivery-note">Tu demo privada llega por correo.</p>
+   <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/try-booking/?lang=es&source=homepage">Prueba una reserva gratis <ArrowRight/></a></Button></div>
+   <p className="demo-delivery-note">Sin email ni pago · Solo ejemplo. <a href="/booking-demo/?lang=es&source=homepage">Solicita tu demo privada personalizada</a></p>
  </div>
  <div className="hero-split-visual">
  <img ref={heroImageRef} className="hero-main-image" src={HOME_HERO_PHOTO} alt="Profesional de limpieza limpiando una encimera en una sala moderna y luminosa, con lámparas de techo" width={1122} height={1402} loading="eager" fetchPriority="high" decoding="sync" onLoad={()=>setHeroLoaded(true)} onError={()=>setHeroLoaded(true)}/>
