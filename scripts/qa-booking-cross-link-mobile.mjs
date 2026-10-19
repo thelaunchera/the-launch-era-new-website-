@@ -35,7 +35,7 @@ try{
    assert.equal(await actions.count(),2,lang+' should have a demo action and a purchase option');
    const primary=await actions.nth(0).getAttribute('href');
    const secondary=await actions.nth(1).getAttribute('href');
-   assert.equal(primary,'/try-booking/?lang='+lang+'&source=booking-landing',lang+' primary action must open the no-signup sample');
+   assert.equal(primary,'/sample-cleaning/?lang='+lang+'&source=booking-landing',lang+' primary action must open the no-signup sample');
    assert.equal(secondary,'/booking-bundle/?lang='+lang,lang+' purchase option must remain available');
    const close=page.locator('.service-sales-close .service-hero-actions a');
    assert.equal(await close.count(),2,lang+' bottom sales actions must include demo and checkout');
