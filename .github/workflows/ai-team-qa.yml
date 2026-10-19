@@ -6,6 +6,8 @@ on:
       - 'public/command-center/assets/ai-team*'
       - 'public/command-center/ai-team.html'
       - 'scripts/qa-ai-team*.mjs'
+      - 'supabase/functions/tle-ai-team/index.ts'
+      - 'supabase/migrations/*tle_ai_team_collaboration_claims.sql'
       - 'supabase/migrations/20261015124000_tle_ai_team_auto_prepared_briefs.sql'
       - '.github/workflows/ai-team-qa.yml'
   pull_request:

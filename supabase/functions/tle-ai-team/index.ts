@@ -22,6 +22,7 @@ const EXTERNAL_CONNECTORS=Object.freeze({
  payments:{state:"not_enabled",tier:"restricted",requires:"explicit per-transaction human authorization"}
 });
 const AI_EXTERNAL_ACTIONS_ENABLED=false;
+const COLLAB_CLAIMS="tle_ai_team_collaboration_claims";
 /* Owner-only collaboration: a bounded, documented two-specialist draft handoff.
    No client mutation, outbound connector, or execution authority is granted. */
 const COLLABORATION_PAIRS=Object.freeze({
@@ -450,14 +451,37 @@ Deno.serve(async req=>{
    const lang=b.language==="en"?"en":"es";
    const limitOutput=1300;
    const scoped="task_id=eq."+task.id+"&workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner;
+   // Durable per-task claim, not a process-local or browser-local lock. Unique task_id
+   // guards competing Edge isolates/tabs BEFORE either one calls the AI provider.
+   const claimToken=crypto.randomUUID();
+   const claimFilter=scoped+"&token=eq."+claimToken;
+   const now=new Date().toISOString();
+   await rest(COLLAB_CLAIMS,scoped+"&expires_at=lt."+encodeURIComponent(now),"DELETE");
+   try{
+     await rest(COLLAB_CLAIMS,"","POST",{
+       task_id:task.id,workspace_id:ctx.workspace,owner_id:ctx.owner,
+       token:claimToken,expires_at:new Date(Date.now()+90000).toISOString()
+     },{Prefer:"return=representation"});
+   }catch(err){
+     if(String(err).includes("(409)"))return res({
+       ok:false,error:"Collaboration already running for this task. Please retry shortly."
+     },409,origin);
+     throw err;
+   }
+   try{
    const previousAll=await rest("tle_ai_team_outputs",scoped+
      "&select=id,agent_key,content,status,created_at&order=created_at.desc&limit=10");
    // Read no other tasks, no other owner, and no direct customer records.
    const previous=previousAll.filter(x=>x.status==="draft"||x.status==="approved");
    let handoff=previous.slice(0,2).reverse().map(x=>safeCollaboratorText(x.agent_key+": "+x.content,700)).join("\n");
    const created=[],stages=[];
-   for(const role of roles){
-     const recent=previous.find(x=>x.agent_key===role&&Date.now()-Date.parse(x.created_at)<90000);
+   let firstReused=false;
+   for(const [step,role] of roles.entries()){
+     // Previously approved outputs are context only, never new reviewable drafts.
+     // A newly regenerated first review invalidates any old second-stage review.
+     const recent=previous.find(x=>x.agent_key===role&&x.status==="draft"&&
+       Date.now()-Date.parse(x.created_at)<90000 && (step===0||firstReused));
+     if(step===0)firstReused=Boolean(recent);
      if(recent){
        created.push({id:recent.id,agent_key:role,reused:true});
        stages.push({agent:role,status:"reused_draft"});
@@ -514,6 +538,10 @@ Deno.serve(async req=>{
    return res({ok:true,collaboration:true,task_id:task.id,stages,outputs:created,
       shared_context:"same owner task only; drafts are unverified",
       requires_owner_review:true,executed:false,external_actions:0},200,origin);
+   }finally{
+     // A crash leaves a short-lived claim; the next request can clear it after TTL.
+     await rest(COLLAB_CLAIMS,claimFilter,"DELETE").catch(()=>{});
+   }
  }
  if(action==="compose_output"){
    const task=await one(ctx,b.id);

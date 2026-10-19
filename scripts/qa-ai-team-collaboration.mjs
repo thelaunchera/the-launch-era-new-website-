@@ -2,12 +2,16 @@
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import vm from "node:vm";
+import {webcrypto} from "node:crypto";
 const backend=readFileSync("supabase/functions/tle-ai-team/index.ts","utf8").replace('import "jsr:@supabase/functions-js/edge-runtime.d.ts";', "");
 const ui=readFileSync("public/command-center/assets/ai-team.js","utf8");
 new vm.Script(backend,{filename:"tle-ai-team.ts"});
 new vm.Script(ui,{filename:"ai-team.js"});
 assert(ui.includes('action:"collaborate",id:task.id,language'));
-assert(ui.includes('const canRegenerate=!primaryTask||primaryTask.agent_key===output.agent_key'));
+assert(ui.includes('const canRegenerate=Boolean(primaryTask&&primaryTask.agent_key===output.agent_key)'));
+assert(ui.includes('body.action==="collaborate"?52000:19000'));
+assert(backend.includes('const COLLAB_CLAIMS="tle_ai_team_collaboration_claims"'));
+assert(readFileSync('supabase/migrations/20261019085000_tle_ai_team_collaboration_claims.sql','utf8').includes('task_id uuid primary key'));
 assert(!ui.includes('action:"send_email"')&&!ui.includes('action:"publish"'));
 const BASE="https://fixture.supabase.invalid",OWNER="11111111-1111-4111-8111-111111111111",OTHER="22222222-2222-4222-8222-222222222222";
 const WS="aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",WS2="bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb",TASK="cccccccc-cccc-4ccc-8ccc-cccccccccccc";
@@ -17,12 +21,13 @@ const rows={
  platform_admins:[{user_id:OWNER},{user_id:OTHER}],
  tle_crm_workspaces:[{id:WS,created_by:OWNER,is_internal:true},{id:WS2,created_by:OTHER,is_internal:true}],
  tle_ai_team_tasks:[{id:TASK,workspace_id:WS,owner_id:OWNER,agent_key:"developer",title:"Improve the demo review handoff",description:"Use test fixtures. Do not publish.",status:"planned",approval_required:true}],
- tle_ai_team_outputs:[],tle_ai_team_events:[]
+ tle_ai_team_outputs:[],tle_ai_team_events:[],tle_ai_team_collaboration_claims:[]
 };
 const filter=(data,params)=>{for(const [key,value] of params){
  if(["select","order","limit"].includes(key))continue;
- if(!value.startsWith("eq."))throw Error("Unexpected filter "+key+" "+value);
- data=data.filter(x=>String(x[key])===value.slice(3));
+ if(value.startsWith("eq."))data=data.filter(x=>String(x[key])===value.slice(3));
+ else if(value.startsWith("lt."))data=data.filter(x=>String(x[key])<value.slice(3));
+ else throw Error("Unexpected filter "+key+" "+value);
 }return data};
 const fakeFetch=async(input,opts={})=>{
  const url=new URL(String(input)),method=opts.method||"GET";
@@ -34,6 +39,18 @@ const fakeFetch=async(input,opts={})=>{
   const table=url.pathname.split("/").pop();
   if(!Object.hasOwn(rows,table))throw Error("Unknown table "+table);
   if(method==="GET")return new Response(JSON.stringify(filter(rows[table],url.searchParams).slice(0,Number(url.searchParams.get("limit")||100))),{status:200});
+  if(table==="tle_ai_team_collaboration_claims"){
+    if(method==="DELETE"){
+      const scoped=filter(rows[table],url.searchParams);
+      rows[table]=rows[table].filter(x=>!scoped.includes(x));
+      return new Response(null,{status:204});
+    }
+    if(method==="POST"){
+      const claim=JSON.parse(opts.body);
+      if(rows[table].some(x=>x.task_id===claim.task_id))return new Response(JSON.stringify({code:"23505",message:"Duplicate claim"}),{status:409});
+      rows[table].push({...claim});return new Response(JSON.stringify([claim]),{status:201});
+    }
+  }
   if(method!=="POST"||!["tle_ai_team_outputs","tle_ai_team_events"].includes(table)){remoteActions++;throw Error("Forbidden mutation "+table)}
   const body=JSON.parse(opts.body), saved={...body,id:table==="tle_ai_team_outputs"?"dddddddd-dddd-4ddd-8ddd-"+String(rows[table].length+1).padStart(12,"0"):rows[table].length+1,created_at:new Date().toISOString()};
   rows[table].push(saved);return new Response(JSON.stringify([saved]),{status:201});
@@ -51,7 +68,7 @@ const fakeFetch=async(input,opts={})=>{
 };
 const env={SUPABASE_URL:BASE,SUPABASE_SERVICE_ROLE_KEY:"fixture-only",SUPABASE_ANON_KEY:"fixture-only",GROQ_API_KEY:"gsk_fixture_key_123"};
 const Deno={env:{get:k=>env[k]},serve:handler=>{endpoint=handler}};
-vm.runInNewContext(backend,{Deno,fetch:fakeFetch,Response,Request,Headers,URL,AbortSignal,Intl,Date,console,setTimeout,clearTimeout},{timeout:5000});
+vm.runInNewContext(backend,{Deno,fetch:fakeFetch,Response,Request,Headers,URL,AbortSignal,Intl,Date,crypto:webcrypto,console,setTimeout,clearTimeout},{timeout:5000});
 async function call(token,action,fields={},origin="https://thelaunchera.com"){
  const headers={"Content-Type":"application/json","Origin":origin};
  if(token)headers.Authorization="Bearer "+token;
@@ -78,6 +95,21 @@ assert.equal(again.status,200);
 assert.equal(again.body.outputs.length,2);
 assert.equal(rows.tle_ai_team_outputs.length,2,"Repeat must reuse recent drafts");
 assert.equal(providerCalls,2,"Repeat should not re-bill the model");
+assert.equal(rows.tle_ai_team_collaboration_claims.length,0,"No leaked lock after completion");
+// Two simultaneous browser tabs targeting the same new task: exactly one claim wins.
+// This is a real overlap across async mock requests, not a per-page UI flag.
+const task2="eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee";
+rows.tle_ai_team_tasks.push({...rows.tle_ai_team_tasks[0],id:task2});
+const both=await Promise.all([call("owner","collaborate",{id:task2,language:"es"}),call("owner","collaborate",{id:task2,language:"es"})]);
+assert.deepEqual(both.map(x=>x.status).sort(),[200,409],"Overlapping owner requests must never both start");
+assert.equal(rows.tle_ai_team_outputs.filter(x=>x.task_id===task2).length,2);
+assert.equal(rows.tle_ai_team_collaboration_claims.length,0);
+// If an owner approves a specialist's output, it must not appear as a new draft.
+rows.tle_ai_team_outputs.find(x=>x.task_id===TASK&&x.agent_key==="projects").status="approved";
+const approved=await call("owner","collaborate",{id:TASK,language:"es"});
+assert.equal(approved.status,200);
+assert.equal(approved.body.outputs[0].reused,false,"Approved draft cannot masquerade as pending");
+assert.equal(approved.body.outputs[1].reused,false,"QA must review the NEW first-stage content");
 assert.equal(remoteActions,0);
 console.log("PASS — authenticated owner, cross-tenant denial, origin guard, sequential shared context, owner-only drafts, 90s reuse, no external actions");
 console.log("FIXTURE ONLY — live owner browser, independent CI and production approval are not covered.");
