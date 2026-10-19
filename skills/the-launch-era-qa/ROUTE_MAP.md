@@ -1,3 +1,14 @@
+## 2026-10-19 — Operator-run customer assistant Testing businesses
+- Existing Testing project only: added missing business/catalog prerequisites and two distinct `[QA ONLY]` businesses with separate workspace IDs. Production is unchanged. Fixture identities are passwordless `example.invalid` records, not actual signed-in human buyers.
+- Deployed candidate customer assistant v2 in Testing. Both live configuration requests returned 200 with the correct distinct catalog. Actual EN/ES AI attempts returned 503; v2 confirms `provider_not_configured` (Testing has no GROQ_API_KEY). No secret value was read or exported.
+- Backend source and diagnostic regression passed. Remaining work: provider credential configuration through an approved account interface, full Testing intake/email dependencies and an authenticated buyer round trip. No real email or customer booking was made. See `docs/customer-assistant-testing-status.md` and Testing-only SQL fixture files.
+
+## 2026-10-19 — Customer web assistant candidate (not released)
+- Keyed real `/base-booking.html` and `/lead-private-preview.html` can load an optional server-enabled `tle-customer-assistant` widget. Unkeyed demos, protected prospect content, iframe owner previews and the public sales assistant remain separate.
+- Visitor chat → editable review → explicit submit → existing `tle-booking-flow-inquiry` → pending buyer request. No automatic booking, price, payment or marketing opt-in. Recent submitted conversation is attached through a server-only submission record.
+- Buyer request detail → `View submitted chat` → JWT/confirmed-email/password-gated, exact workspace-and-account checked read action. New endpoint candidate has no owner bypass. Dedicated `command.thelaunchera.com` has pinned source; its release must be aligned separately.
+- New schema and candidate Edge Function v1 applied only to existing Testing project; live non-mutating 204/400/401 CORS checks passed. All clients disabled by default; production frontend/function/database are unchanged. See `docs/customer-web-assistant-release.md` and `Customer web assistant review` CI. Provider/test-tenant/mailbox/mobile-Safari validation remains pending.
+
 ## 2026-10-19 — Signed Booking Demo opens without intermediate code card
 - Route `/booking-demo-reset.html?rid=...&access=...` retains the protected Supabase `tle-booking-demo-gate` handshake, exchanges signed access for a private session and fetches only authorized booking HTML. The existing one-time-code gate is still shown for legacy invitation requests without a direct signed token/session.
 - While verifying a signed link or existing 4-hour session, the static card is hidden to avoid flashing “Email my access code” before the demo loads. Failed access restores the previous neutral invitation/error card. The shared page has exactly one script bootstrap; no client-only gate bypass or exposed HTML.
@@ -832,3 +843,24 @@ On `/lead-private-preview.html` sample only, `tle-demo-enhancements-v12.js` owns
 - Prospects: `/booking-demo/?lang=en|es` remains the request form, followed by AppDeploy confirmation and a signed, expiring `/booking-demo-reset.html?rid=...&access=...&lang=en|es` invitation; the private HTML is returned only by the verified Supabase gate. Do not expose the underlying demo HTML under public web routes. Existing OTP fallback, owner checks, and customer isolation remain unchanged.
 - Private source of canonical sample markup: private `thelaunchera/the-launch-era-crm/private-demos/official-cleaning-booking/index.html`. Its backend copy is `tle-booking-demo-gate` `booking-template.ts` (v26). Bilingual selector, Blue/Ivory branding, step-by-step sample residential/commercial booking, address validation and no actual sends/bookings/payment. Demonstration reviews and statistics are explicitly illustrative; photos use established main website assets; Before/After visual is placeholder until a verified paired image is available.
 - Existing production flow must remain protected. Command Center HTML/nav edit and app JS are released together. Do not use `/booking-demo-reset.html` as an unauthenticated demo. Release checks: JS parse, live 401/403 negative access, owner signed-in modal + English/Spanish, client signed link, responsive 360/390/768/1024/1440, no outbound booking, Pages workflow. Positive signed-in/lead email tests need authorized credentials and are separate from static checks.
+
+
+## 2026-10-19 — Testing AI connection verified
+
+Owner-authorized Groq/Supabase browser setup created a separate seven-day Testing credential (expires October 26). Testing-only GROQ_MODEL=openai/gpt-oss-20b resolves upstream model_not_found for the old Llama model. Live assistant EN/ES calls returned HTTP 200/ok:true/submitted:false. Temporary provider diagnostics removed; Testing handler v5 restored to reviewed source. No production change, booking, payment or email. Intake, authenticated conversation and delivery checks remain pending. No secret values in source or logs.
+
+
+## 2026-10-19 — Live Testing request/auth/reminder verification
+
+Fixed empty PostgREST HTTP 201 parsing in customer assistant REST helper; real request reservations had succeeded but JSON parsing prevented intake. Regression now reproduces empty 201; Testing handler v8 and actual 390px Spanish widget → live AI → review → saved request passed. Fixed-reference retries preserve request ID; changed consent rejects 409. Two separate unchecked reminder/care choices now forward strict booleans outside the AI draft and participate in retry fingerprint/hash. Ten bilingual browser scenarios passed with independent choices and retry preservation.
+
+Provisioned Testing-only fenced quote intake derived from deployed v48, no production Make webhook, only two synthetic businesses/three references, no sends to .invalid. Three unique synthetic requests remain new; no real bookings. Real Auth sessions generated/consumed internally for synthetic identities passed own-chat and cross-workspace/invalid-session denials, then signed out; temporary QA endpoint disabled (JWT true/410). SQL-generated fixture users needed empty token-string defaults for GoTrue lookup; only those synthetic rows were corrected.
+
+Copied exact live 24h reminder queue functions to Testing without cron; rolled-back SQL checks passed consent/confirmed eligibility, deduplication, reschedule, unsubscribe and completion cancellation. This is queue evidence, not email dispatch. Current production worker v14 supports reminder_24h; local older source differs and was not substituted into production.
+
+Resend domain verified; a separate domain-restricted send-only Testing key was created, but automated review rejected its transfer/storage in Testing because earlier permission specified Groq. It is not in Supabase and no alternate transfer was attempted. Email acceptance/delivery, optional-follow-up dispatch, dedicated Command Center UI/source alignment and real Safari remain release gates. See docs/customer-assistant-testing-status.md. Production unchanged.
+
+
+## 2026-10-19 — Testing mail connection saved; send approval still pending
+
+The owner continued the explicitly described Resend setup. The restricted send-only key was saved as Testing TLE_CRM_RESEND_API_KEY; no value is in source. Automatic approval review then rejected execution of the fixed-reference real test-email script because “Continua” did not explicitly authorize the external sends. No alternate send path was attempted. Read-only DB checks found no mail-test references 4/5 and provider listing showed no matching QA messages. Prepared Testing receipt/owner alerts target only hello@thelaunchera.com, label QA TEST and disable actionable template links. New mail-capable references are disabled by default behind TLE_ASSISTANT_QA_MAIL_ENABLED (unset). No acceptance/delivery or mail-dispatch claim. Production unchanged.

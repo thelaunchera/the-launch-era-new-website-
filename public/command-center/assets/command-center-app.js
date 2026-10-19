@@ -3626,6 +3626,7 @@ function buyerOpenRequest(x){
   [buyerText("Preferred new time","Nueva hora preferida"),payload.customer_change_request?.preferred_time]
  ];
  for(const [label,value] of fields)body.append(buyerDetails(label,value));
+ buyerShowAssistantConversation(x,body);
  buyerShowChangeDecision(x,body);
  $("buyerRequestNextAction").classList.remove("hidden");$("buyerRequestNextAction").textContent=buyerRequestNext(x);
  $("buyerRequestReplyArea").classList.remove("hidden");
@@ -3655,6 +3656,33 @@ function buyerOpenRequest(x){
    );
  }
  buyerRenderRequestCards();
+}
+function buyerShowAssistantConversation(x,body){
+ if(x.source!=='website_assistant'||!workspace||workspace.is_internal)return;
+ const section=buyerCreate('section');section.style.cssText='padding:14px;border:1px solid #bfd7e8;border-radius:14px;background:#f4faff;min-width:0';
+ const button=buyerCreate('button',buyerText('View submitted chat','Ver conversación enviada'),'secondary');button.type='button';
+ const feedback=buyerCreate('p');feedback.setAttribute('role','status');
+ const messages=buyerCreate('div');messages.style.cssText='display:grid;gap:9px;overflow-wrap:anywhere';
+ section.append(button,feedback,messages);body.append(section);
+ button.onclick=async()=>{
+  const workspaceId=workspace.id;button.disabled=true;feedback.textContent=buyerText('Loading conversation…','Cargando conversación…');
+  try{
+   const {data:{session}}=await db.auth.getSession();
+   if(!session)throw Error(buyerText('Sign in again.','Vuelve a entrar.'));
+   const response=await fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-customer-assistant',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+session.access_token},body:JSON.stringify({action:'conversation',workspace_id:workspaceId,request_id:x.id}),signal:AbortSignal.timeout(15000)});
+   const result=await response.json();
+   if(workspace?.id!==workspaceId||buyerSelectedRequest?.id!==x.id||!section.isConnected)return;
+   if(!response.ok||result.ok!==true||result.request_id!==x.id)throw Error(result.error||buyerText('Conversation unavailable.','Conversación no disponible.'));
+   messages.replaceChildren();
+   for(const entry of Array.isArray(result.messages)?result.messages:[]){
+    if(!['user','assistant'].includes(entry?.role)||typeof entry.content!=='string')continue;
+    const item=buyerCreate('div');item.style.cssText='background:white;border:1px solid #d6e5ef;border-radius:10px;padding:10px;white-space:pre-wrap';
+    item.append(buyerCreate('strong',entry.role==='user'?buyerText('Customer','Cliente'):buyerText('Assistant','Asistente')),buyerCreate('p',entry.content.slice(0,500)));messages.append(item);
+   }
+   feedback.textContent=messages.children.length?buyerText('Recent conversation submitted with this request.','Conversación reciente enviada con esta solicitud.'):buyerText('This request was submitted without chat messages.','Esta solicitud se envió sin mensajes de chat.');
+   button.hidden=true;
+  }catch(error){if(section.isConnected){feedback.textContent=error.message;button.disabled=false}}
+ };
 }
 function buyerSetDefaultMessage(){
  const x=buyerSelectedRequest;if(!x)return;
