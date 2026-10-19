@@ -2,7 +2,7 @@
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import vm from "node:vm";
-const backend=readFileSync("supabase/functions/tle-ai-team/index.ts","utf8").replace(/^import\\s+["']jsr:[^\\n]+\\n/m,"");
+const backend=readFileSync("supabase/functions/tle-ai-team/index.ts","utf8").replace('import "jsr:@supabase/functions-js/edge-runtime.d.ts";', "");
 const ui=readFileSync("public/command-center/assets/ai-team.js","utf8");
 new vm.Script(backend,{filename:"tle-ai-team.ts"});
 new vm.Script(ui,{filename:"ai-team.js"});
