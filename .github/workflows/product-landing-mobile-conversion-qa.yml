@@ -1,0 +1,54 @@
+name: Product Landing Mobile Conversion QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/routes/booking-lead-automation.tsx'
+      - 'src/routes/es.booking-lead-automation.tsx'
+      - 'src/components/service-sales.tsx'
+      - 'src/components/service-sales-mobile-cta.css'
+      - 'src/components/cleaning-app-showcase.tsx'
+      - 'public/assets/tle-app-landing.css'
+      - 'public/assets/tle-bundle-landing.css'
+      - 'public/booking-bundle/index.html'
+      - 'public/ai-booking-assistant/index.html'
+      - 'public/whatsapp-ai-agent/index.html'
+      - 'scripts/qa-mobile-product-conversion.mjs'
+      - '.github/workflows/product-landing-mobile-conversion-qa.yml'
+  workflow_dispatch:
+jobs:
+  mobile-sales-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare Chromium and production build
+        run: |
+          mkdir -p /tmp/tle-mobile-products-qa
+          cd /tmp/tle-mobile-products-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          cd "$GITHUB_WORKSPACE"
+          bun install
+          bun run build
+          mkdir -p node_modules
+          ln -sfn /tmp/tle-mobile-products-qa/node_modules/playwright node_modules/playwright
+          ln -sfn /tmp/tle-mobile-products-qa/node_modules/playwright-core node_modules/playwright-core
+      - name: Test all product pages at phone and desktop widths
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-mobile-products-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for i in $(seq 1 35); do if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi; sleep 1; done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-mobile-product-conversion.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mobile-product-conversion-screenshots
+          path: qa-screenshots/mobile-product-*.png
+          if-no-files-found: ignore
