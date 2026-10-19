@@ -45,7 +45,7 @@ export function HomeHero() {
    <div className="eyebrow">FOR CLEANING BUSINESS OWNERS</div>
    <h1 className="tle-hero-heading-shine">Stop losing track of cleaning requests.</h1>
    <p>A personalized Booking Page and private Command Center to manage requests, quotes and follow-ups—without complicated software.</p>
-   <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/sample-cleaning/?lang=en&source=homepage">See Demos <ArrowRight/></a></Button></div>
+   <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/sample-cleaning/?lang=en&source=homepage">Try the Booking Demo <ArrowRight/></a></Button></div>
    <p className="demo-delivery-note"><a href="/booking-demo/?lang=en&source=homepage-clara">Request a More Personalized Demo ↗</a> · Private link sent by email.</p>
  </div>
  <div className="hero-split-visual">
