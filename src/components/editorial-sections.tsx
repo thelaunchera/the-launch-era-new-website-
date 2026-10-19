@@ -45,8 +45,8 @@ export function HomeHero() {
    <div className="eyebrow">FOR CLEANING BUSINESS OWNERS</div>
    <h1 className="tle-hero-heading-shine">Less time chasing messages. More time for your business.</h1>
    <p>Booking requests, quotes and follow-ups. All in one place.</p>
-   <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/booking-demo/?lang=en">Get my personalized demo <ArrowRight/></a></Button></div>
-   <p className="demo-delivery-note">Your private demo arrives by email.</p>
+   <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/try-booking/?lang=en&source=homepage">Try a booking — free <ArrowRight/></a></Button></div>
+   <p className="demo-delivery-note">No email or payment · Sample only. <a href="/booking-demo/?lang=en&source=homepage">Request a personalized private demo</a></p>
  </div>
  <div className="hero-split-visual">
  <img ref={heroImageRef} className="hero-main-image" src={HOME_HERO_PHOTO} alt="Cleaning professional wiping a countertop in a bright modern living room with pendant lights" width={1122} height={1402} loading="eager" fetchPriority="high" decoding="sync" onLoad={()=>setHeroLoaded(true)} onError={()=>setHeroLoaded(true)}/>
