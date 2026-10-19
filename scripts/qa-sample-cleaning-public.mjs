@@ -14,6 +14,7 @@ for(const required of ['INTERACTIVE PREVIEW','TEST REQUESTS ONLY','Beautifully c
 }
 assert.match(html,/<meta http-equiv="Content-Security-Policy"/);
 assert.match(html,/form-action 'none'/);
+assert(html.includes("document.querySelectorAll('.demo-feature-bar>div>strong').forEach((el,i)=>{el.textContent=['Explora','Personaliza','Revisa'][i]||el.textContent})"),'Spanish progress headings must all be translated');
 assert.match(html,/src="\/assets\/cleaning-demo\/hero-cleaner-original\.jpg"/);
 assert.doesNotMatch(html,/src="\/assets\/booking-template-live\.js|src="\/assets\/tle-ai-booking-chat\.js/);
 assert.doesNotMatch(html,/PAULA DIAS CLEANING|HAVENS TOUCH HOUSEKEEPING|AKO CLEANING SERVICES/);
