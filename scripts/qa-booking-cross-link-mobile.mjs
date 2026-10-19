@@ -29,19 +29,19 @@ try{
    const errors=[];page.on('pageerror',e=>errors.push(e.message));
    const res=await page.goto(base+path,{waitUntil:'domcontentloaded',timeout:45000});
    assert.equal(res?.status(),200,'Landing must exist: '+path);
-   // Landing priority: visitors request the personalized demo. Checkout stays
+   // Landing priority: visitors first try the no-signup public booking sample. Checkout stays
    // available to ready buyers and never submits a purchase during QA.
    const actions=page.locator('.booking-motion-hero .service-hero-actions a');
    assert.equal(await actions.count(),2,lang+' should have a demo action and a purchase option');
    const primary=await actions.nth(0).getAttribute('href');
    const secondary=await actions.nth(1).getAttribute('href');
-   assert.equal(primary,'/booking-demo/?lang='+lang+'&source=booking-landing',lang+' primary action must request a personalized demo');
+   assert.equal(primary,'/try-booking/?lang='+lang+'&source=booking-landing',lang+' primary action must open the no-signup sample');
    assert.equal(secondary,'/booking-bundle/?lang='+lang,lang+' purchase option must remain available');
    const close=page.locator('.service-sales-close .service-hero-actions a');
    assert.equal(await close.count(),2,lang+' bottom sales actions must include demo and checkout');
    assert.match((await close.nth(0).getAttribute('href'))||'',new RegExp('/booking-demo/\\?lang='+lang),lang+' bottom primary must request a demo');
    assert.equal(await close.nth(1).getAttribute('href'),secondary,lang+' bottom purchase route changed');
-   assert((await actions.nth(0).textContent()||'').toLowerCase().includes(lang==='es'?'demo personalizada':'personalized demo'),lang+' should make the requested demo obvious');
+   assert((await actions.nth(0).textContent()||'').toLowerCase().includes(lang==='es'?'probar una reserva':'try a booking'),lang+' should make the sample invitation obvious');
    const disclosure=await page.locator('.booking-motion-hero p').allTextContents();
    assert(disclosure.some(v=>lang==='es'?v.includes('no tu diseño final')&&v.includes('fotos')&&v.includes('colores'):v.includes('not your final design')&&v.includes('photos')&&v.includes('colors')),lang+' landing should explain personalized final brand design');
    const fitDemo=page.locator('.service-sales .service-fit a.service-fit-request-link');
