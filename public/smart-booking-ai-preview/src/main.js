@@ -23,6 +23,9 @@ const staticLocale = (lang) => {
   document.querySelectorAll('[data-en-alt][data-es-alt]').forEach((element) => {
     element.alt = element.getAttribute(`data-${lang}-alt`) || '';
   });
+  document.querySelectorAll('[data-en-aria-label][data-es-aria-label]').forEach((element) => {
+    element.setAttribute('aria-label', element.getAttribute(`data-${lang}-aria-label`) || '');
+  });
   document.title = lang === 'es' ? 'Reservas inteligentes + IA — The Launch Era' : 'Smart Booking + AI Bundle — The Launch Era';
   const toggle = document.querySelector('#languageToggle');
   if (toggle) {
@@ -88,33 +91,6 @@ function initializeReveals() {
   elements.forEach((element) => observer.observe(element));
 }
 
-function initializeParallax() {
-  const photo = document.querySelector('.hero-photo');
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  if (!photo || reduceMotion.matches) return;
-  let pending = false;
-  const update = () => {
-    if (pending) return;
-    pending = true;
-    window.requestAnimationFrame(() => {
-      const bounds = photo.getBoundingClientRect();
-      const progress = Math.max(-1, Math.min(1, (window.innerHeight - bounds.top) / (window.innerHeight + bounds.height) - 0.45));
-      photo.style.setProperty('--photo-shift', `${Math.round(progress * 10)}px`);
-      pending = false;
-    });
-  };
-  window.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update, { passive: true });
-  update();
-  reduceMotion.addEventListener?.('change', (event) => {
-    if (event.matches) {
-      window.removeEventListener('scroll', update);
-      window.removeEventListener('resize', update);
-      photo.style.removeProperty('--photo-shift');
-    }
-  });
-}
-
 function initializeNavigation() {
   document.querySelector('#languageToggle')?.addEventListener('click', () => setLanguage(language === 'en' ? 'es' : 'en'));
   document.querySelectorAll('a[href^="#"]').forEach((link) => link.addEventListener('click', (event) => {
@@ -140,7 +116,6 @@ assistantDemo = createAssistantDemo({ getLanguage: () => language, getIndustry: 
 initializeProblemCards();
 initializeNavigation();
 initializeReveals();
-initializeParallax();
 
 function updateOfferUI() {
   const offerPercent = document.querySelector('.offer-sticker b');
