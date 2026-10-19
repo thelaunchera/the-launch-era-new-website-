@@ -450,9 +450,10 @@ Deno.serve(async req=>{
    const lang=b.language==="en"?"en":"es";
    const limitOutput=1300;
    const scoped="task_id=eq."+task.id+"&workspace_id=eq."+ctx.workspace+"&owner_id=eq."+ctx.owner;
-   const previous=await rest("tle_ai_team_outputs",scoped+
+   const previousAll=await rest("tle_ai_team_outputs",scoped+
      "&select=id,agent_key,content,status,created_at&order=created_at.desc&limit=10");
    // Read no other tasks, no other owner, and no direct customer records.
+   const previous=previousAll.filter(x=>x.status==="draft"||x.status==="approved");
    let handoff=previous.slice(0,2).reverse().map(x=>safeCollaboratorText(x.agent_key+": "+x.content,700)).join("\n");
    const created=[],stages=[];
    for(const role of roles){
