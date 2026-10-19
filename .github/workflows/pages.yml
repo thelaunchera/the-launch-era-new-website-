@@ -44,6 +44,8 @@ jobs:
           node scripts/qa-public-demo-integrity.mjs
           node scripts/qa-services-color-shift.mjs
           node scripts/qa-booking-hero-floating-chips.mjs
+          node scripts/qa-public-booking-conversion.mjs
+          node scripts/qa-sample-cleaning-public.mjs
           node scripts/qa-footer-theme-sweep.mjs
           node scripts/qa-booking-scrollytelling.mjs
           node scripts/qa-home-booking-tones.mjs
