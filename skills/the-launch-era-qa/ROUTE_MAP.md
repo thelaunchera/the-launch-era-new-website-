@@ -1,3 +1,9 @@
+## 2026-10-19 — Customer web assistant candidate (not released)
+- Keyed real `/base-booking.html` and `/lead-private-preview.html` can load an optional server-enabled `tle-customer-assistant` widget. Unkeyed demos, protected prospect content, iframe owner previews and the public sales assistant remain separate.
+- Visitor chat → editable review → explicit submit → existing `tle-booking-flow-inquiry` → pending buyer request. No automatic booking, price, payment or marketing opt-in. Recent submitted conversation is attached through a server-only submission record.
+- Buyer request detail → `View submitted chat` → JWT/confirmed-email/password-gated, exact workspace-and-account checked read action. New endpoint candidate has no owner bypass. Dedicated `command.thelaunchera.com` has pinned source; its release must be aligned separately.
+- New schema and candidate Edge Function v1 applied only to existing Testing project; live non-mutating 204/400/401 CORS checks passed. All clients disabled by default; production frontend/function/database are unchanged. See `docs/customer-web-assistant-release.md` and `Customer web assistant review` CI. Provider/test-tenant/mailbox/mobile-Safari validation remains pending.
+
 ## 2026-10-19 — Signed Booking Demo opens without intermediate code card
 - Route `/booking-demo-reset.html?rid=...&access=...` retains the protected Supabase `tle-booking-demo-gate` handshake, exchanges signed access for a private session and fetches only authorized booking HTML. The existing one-time-code gate is still shown for legacy invitation requests without a direct signed token/session.
 - While verifying a signed link or existing 4-hour session, the static card is hidden to avoid flashing “Email my access code” before the demo loads. Failed access restores the previous neutral invitation/error card. The shared page has exactly one script bootstrap; no client-only gate bypass or exposed HTML.
