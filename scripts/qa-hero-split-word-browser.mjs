@@ -16,7 +16,7 @@ try {
    assert.equal(await page.locator('.hero-scroll-stage--starfield > .tle-starfield-accent').count(),1,lang+': missing stage-wide overlay');
    assert.equal(await page.locator('.hero-scroll .hero-split-visual img.hero-main-image').count(),1,lang+': hero image missing');
    assert.equal(await page.locator('#hero-next').count(),1,lang+': next content section lost');
-   assert.equal(await page.locator('.hero-scroll .hero-cta-row a').getAttribute('href'),'/booking-demo/?lang='+lang,lang+': booking CTA destination changed');
+   assert.equal(await page.locator('.hero-scroll .hero-cta-row a').getAttribute('href'),'/try-booking/?lang='+lang+'&source=homepage',lang+': public sample CTA destination changed');
    const pos=await page.evaluate(()=>{
     const stage=document.querySelector('.hero-scroll-stage--starfield');
     const visual=stage.querySelector('.hero-split-visual');
