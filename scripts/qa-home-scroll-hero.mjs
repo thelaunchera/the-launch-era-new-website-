@@ -166,7 +166,7 @@ try {
    assert(!state.clipPath.includes('100%'), lang + ' ' + viewport.width + ': wipe never opened: ' + state.clipPath);
    assert(Math.abs(state.imageScale - 1) < .04, lang + ' ' + viewport.width + ': photo still zoomed');
    assert(state.introOpacity > .96, lang + ' ' + viewport.width + ': copy did not appear');
-   assert(state.heading.text.includes(lang==='en'?'Less time chasing messages.':'Menos tiempo buscando mensajes.'),lang+': headline text changed');
+   assert(state.heading.text.includes(lang==='en'?'Stop losing track of cleaning requests.':'Que ninguna solicitud de limpieza se pierda entre mensajes.'),lang+': approved booking-focused headline changed');
    assert(state.heading.animation.includes('tle-home-hero-ink-shine'),lang+' '+viewport.width+': headline shine not running');
    assert(state.heading.clip==='text',lang+' '+viewport.width+': headline text clip missing');
    if(viewport.width<768){

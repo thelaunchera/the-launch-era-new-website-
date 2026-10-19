@@ -43,10 +43,10 @@ export function HomeHero() {
  <div className="tle-hero-soft-mesh" aria-hidden="true"><span/><span/><span/><span/></div>
  <div className="hero-intro">
    <div className="eyebrow">FOR CLEANING BUSINESS OWNERS</div>
-   <h1 className="tle-hero-heading-shine">Less time chasing messages. More time for your business.</h1>
-   <p>Booking requests, quotes and follow-ups. All in one place.</p>
-   <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/booking-demo/?lang=en">Get my personalized demo <ArrowRight/></a></Button></div>
-   <p className="demo-delivery-note">Your private demo arrives by email.</p>
+   <h1 className="tle-hero-heading-shine">Stop losing track of cleaning requests.</h1>
+   <p>A personalized Booking Page and private Command Center to manage requests, quotes and follow-ups—without complicated software.</p>
+   <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/booking-demo/?lang=en">Request my private demo <ArrowRight/></a></Button></div>
+   <p className="demo-delivery-note">Booking Page + Command Center · $15 one-time · AI Assistants sold separately.</p>
  </div>
  <div className="hero-split-visual">
  <img ref={heroImageRef} className="hero-main-image" src={HOME_HERO_PHOTO} alt="Cleaning professional wiping a countertop in a bright modern living room with pendant lights" width={1122} height={1402} loading="eager" fetchPriority="high" decoding="sync" onLoad={()=>setHeroLoaded(true)} onError={()=>setHeroLoaded(true)}/>
