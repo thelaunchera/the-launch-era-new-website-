@@ -1,3 +1,9 @@
+## 2026-10-19 — Owner cold-call log and consent note helper
+- **Location:** authenticated internal-owner `Leads` → open a prospect → `Notes`. This is not a new route and is hidden for buyer workspaces.
+- **Button:** `Add a dated call-log template to Notes` appends a bilingual call record to the existing Notes field; the owner reviews and saves the lead using the existing form. It records call outcome, follow-up, whether a specific demo-link text was authorized, the exact scope, and consent context. It does not make calls, send SMS, change email/SMS consent fields, or create database records outside the existing lead save.
+- **Privacy/compliance copy:** a public phone listing alone is not permission to send commercial SMS in Canada; ask for clear opt-in during the call and record its exact scope. The helper is informational and does not itself guarantee compliance.
+- **Assets:** `public/command-center/index.html` and `public/command-center/assets/command-center-app.js?v=20261019-cold-call-consent-v1`; static guard `scripts/qa-owner-cold-call-log.mjs` runs in `.github/workflows/qa-owner-cold-call-log.yml`. Live deployment and authenticated visual QA remain pending until separately authorized.
+
 ## 2026-10-18 — Official Booking Demo counters + Sonny AI in private EN/ES preview
 - Existing private routes unchanged: /booking-demo/?lang=en|es (request), verified /booking-demo-reset.html (prospect invitation), /command-center/?ownerDemo=1 (authenticated Owner). Protected source: PRIVATE CRM repo private-demos/official-cleaning-booking/index.html; Supabase tle-booking-demo-gate v28. No public copy of the HTML.
 - Truthful sample counters 3/4/0/1 animate upward over 2.05s when visible; reduced motion sees their final value. Sonny has one discreet floating avatar, bilingual “Chat with AI Assistant” and a live opt-in chat; no real booking, payment, or customer email is created. Chat messages themselves are processed by existing tle-ai-booking-demo.
