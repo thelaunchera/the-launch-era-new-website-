@@ -1,3 +1,9 @@
+## 2026-10-19 — Signed Booking Demo opens without intermediate code card
+- Route `/booking-demo-reset.html?rid=...&access=...` retains the protected Supabase `tle-booking-demo-gate` handshake, exchanges signed access for a private session and fetches only authorized booking HTML. The existing one-time-code gate is still shown for legacy invitation requests without a direct signed token/session.
+- While verifying a signed link or existing 4-hour session, the static card is hidden to avoid flashing “Email my access code” before the demo loads. Failed access restores the previous neutral invitation/error card. The shared page has exactly one script bootstrap; no client-only gate bypass or exposed HTML.
+- Production backend `tle-booking-demo-gate` v31 fixes duplicate `const $` preventing Clara services/gallery/booking JS from rendering, and repairs 11 missing image URL references using existing production website assets. HTML remains server-private; no real booking or email was sent by this change.
+- GitHub Pages build/deploy and Private Booking Demo Access QA passed on commit `41cb3da2`; positive iPhone signed-link rendering still needs device confirmation.
+
 ## 2026-10-19 — Owner cold-call log and consent note helper
 - **Location:** authenticated internal-owner `Leads` → open a prospect → `Notes`. This is not a new route and is hidden for buyer workspaces.
 - **Button:** `Add a dated call-log template to Notes` appends a bilingual call record to the existing Notes field; the owner reviews and saves the lead using the existing form. It records call outcome, follow-up, whether a specific demo-link text was authorized, the exact scope, and consent context. It does not make calls, send SMS, change email/SMS consent fields, or create database records outside the existing lead save.
