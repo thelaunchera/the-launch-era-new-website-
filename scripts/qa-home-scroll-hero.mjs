@@ -20,8 +20,8 @@ const englishHero = en.split('export function HomeHero()')[1]?.split('const serv
 const spanishHero = es.split('function SpanishHome()')[1]?.split('<SmartWelcomeBundle lang="es"/>')[0] || '';
 
 for (const [lang, hero, expected] of [
-  ['EN', englishHero, '/try-booking/?lang=en&source=homepage'],
-  ['ES', spanishHero, '/try-booking/?lang=es&source=homepage'],
+  ['EN', englishHero, '/sample-cleaning/?lang=en&source=homepage'],
+  ['ES', spanishHero, '/sample-cleaning/?lang=es&source=homepage'],
 ]) {
   assert(hero.includes('className="hero-scroll"'), lang + ': scroll stage missing');
   assert(hero.includes('hero-scroll-stage') && hero.includes('hero-scroll-frame'), lang + ': scroll frame missing');
