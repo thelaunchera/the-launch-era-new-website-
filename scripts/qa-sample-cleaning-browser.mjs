@@ -27,7 +27,7 @@ try{
       await page.evaluate(()=>{document.querySelector('#name').value='Practice Customer';document.querySelector('#email').value='sample@example.com';window.startResidential('Standard Cleaning',120);});
       await page.evaluate(()=>window.submitResidential());
       assert(await page.locator('#demoSuccessSummary').isVisible(),'Sample request should lead to local confirmation');
-      assert.match(await page.locator('#trackerLink').getAttribute('href'),/^\/try-booking\//,'No protected Command Center access via public sample');
+      assert.equal(new URL(await page.locator('#trackerLink').getAttribute('href'),page.url()).pathname,'/try-booking/','No protected Command Center access via public sample');
     }
     assert.deepEqual(writes,[],'Public demo may not access real Supabase or POST data');
     assert.deepEqual(errors,[],'Browser errors in '+lang+' '+width);
