@@ -530,6 +530,7 @@ if(isSampleDemo){
   firstText('.demo-hero-cta','Elegir un servicio ');
   
   text('.demo-vertical-note','ESPACIOS LIMPIOS / DÍAS FELICES ✦');
+  document.querySelectorAll('.demo-feature-bar>div>strong').forEach((el,i)=>{el.textContent=['Explora','Personaliza','Revisa'][i]||el.textContent});
   document.querySelectorAll('.demo-feature-bar>div>span:last-child').forEach((el,i)=>{el.textContent=['Elige un servicio','Completa detalles','Revisa la solicitud'][i]||el.textContent});
   text('.demo-service-showcase .demo-pink-kicker','LA EXPERIENCIA DE LIMPIEZA');
   html('.demo-showcase-intro h2','Detalles claros.<br><em>Todo más sencillo.</em>');
