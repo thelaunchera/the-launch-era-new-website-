@@ -105,7 +105,7 @@ function SpanishHome(){const [active,setActive]=useState(0);const [heroLoaded,se
    <div className="eyebrow">PARA DUEÑAS DE NEGOCIOS DE LIMPIEZA</div>
    <h1 className="tle-hero-heading-shine">Que ninguna solicitud de limpieza se pierda entre mensajes.</h1>
    <p>Una Booking Page personalizada y un Command Center privado para organizar solicitudes, cotizaciones y seguimientos sin software complicado.</p>
-   <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/sample-cleaning/?lang=es&source=homepage">Ver demos <ArrowRight/></a></Button></div>
+   <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/sample-cleaning/?lang=es&source=homepage">Prueba el demo de reservas <ArrowRight/></a></Button></div>
    <p className="demo-delivery-note"><a href="/booking-demo/?lang=es&source=homepage-clara">Solicitar una demo más personalizada ↗</a> · Enlace privado enviado por correo.</p>
  </div>
  <div className="hero-split-visual">
