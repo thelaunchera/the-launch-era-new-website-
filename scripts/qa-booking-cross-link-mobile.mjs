@@ -9,8 +9,8 @@ const esLanding=readFileSync('src/routes/es.booking-lead-automation.tsx','utf8')
 const requestForm=readFileSync('public/booking-demo/index.html','utf8');
 const sampleDemo=readFileSync('public/booking-demo-reset.html','utf8');
 for(const [lang,landing,copy] of [
- ['en',enLanding,['Preview only','not your final design','photos','colors']],
- ['es',esLanding,['La demo es un ejemplo','no tu diseño final','fotos','colores']]
+ ['en',enLanding,['Sample only','not your final design','photos','colors']],
+ ['es',esLanding,['Solo una demo','no tu diseño final','fotos','colores']]
 ]){
  for(const term of copy)assert(landing.includes(term),lang+' landing must clearly explain the personalized final design: '+term);
 }
@@ -39,9 +39,9 @@ try{
    assert.equal(secondary,'/booking-bundle/?lang='+lang,lang+' purchase option must remain available');
    const close=page.locator('.service-sales-close .service-hero-actions a');
    assert.equal(await close.count(),2,lang+' bottom sales actions must include demo and checkout');
-   assert.match((await close.nth(0).getAttribute('href'))||'',new RegExp('/booking-demo/\\?lang='+lang),lang+' bottom primary must request a demo');
-   assert.equal(await close.nth(1).getAttribute('href'),secondary,lang+' bottom purchase route changed');
-   assert((await actions.nth(0).textContent()||'').toLowerCase().includes(lang==='es'?'ver demos':'see demos'),lang+' should make the sample invitation obvious');
+   assert.equal(await close.nth(0).getAttribute('href'),secondary,lang+' bottom primary should lead to checkout');
+   assert.match((await close.nth(1).getAttribute('href'))||'',new RegExp('/booking-demo/\\?lang='+lang),lang+' bottom alternative must request a private demo');
+   assert((await actions.nth(0).textContent()||'').toLowerCase().includes(lang==='es'?'probar el demo':'try the booking demo'),lang+' should make the sample invitation obvious');
    const disclosure=await page.locator('.booking-motion-hero p').allTextContents();
    assert(disclosure.some(v=>lang==='es'?v.includes('no tu diseño final')&&v.includes('fotos')&&v.includes('colores'):v.includes('not your final design')&&v.includes('photos')&&v.includes('colors')),lang+' landing should explain personalized final brand design');
    const fitDemo=page.locator('.service-sales .service-fit a.service-fit-request-link');
