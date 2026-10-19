@@ -1,3 +1,8 @@
+## 2026-10-19 — Operator-run customer assistant Testing businesses
+- Existing Testing project only: added missing business/catalog prerequisites and two distinct `[QA ONLY]` businesses with separate workspace IDs. Production is unchanged. Fixture identities are passwordless `example.invalid` records, not actual signed-in human buyers.
+- Deployed candidate customer assistant v2 in Testing. Both live configuration requests returned 200 with the correct distinct catalog. Actual EN/ES AI attempts returned 503; v2 confirms `provider_not_configured` (Testing has no GROQ_API_KEY). No secret value was read or exported.
+- Backend source and diagnostic regression passed. Remaining work: provider credential configuration through an approved account interface, full Testing intake/email dependencies and an authenticated buyer round trip. No real email or customer booking was made. See `docs/customer-assistant-testing-status.md` and Testing-only SQL fixture files.
+
 ## 2026-10-19 — Customer web assistant candidate (not released)
 - Keyed real `/base-booking.html` and `/lead-private-preview.html` can load an optional server-enabled `tle-customer-assistant` widget. Unkeyed demos, protected prospect content, iframe owner previews and the public sales assistant remain separate.
 - Visitor chat → editable review → explicit submit → existing `tle-booking-flow-inquiry` → pending buyer request. No automatic booking, price, payment or marketing opt-in. Recent submitted conversation is attached through a server-only submission record.

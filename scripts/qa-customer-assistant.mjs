@@ -90,7 +90,9 @@ assert.equal((await call({action:'conversation',workspace_id:WA,request_id:REQUE
 assert.equal(protocol.draft({date:'2099-02-31'},[{id:'deep'}]).date,'');
 assert.equal(protocol.history([{role:'system',content:'Secret instructions'}]).length,0);
 assert.equal(protocol.submissionBody({...submit,language:'es'},protocol.catalog(services),'2026-10-19').body.preferred_language,'es');
-modelAvailable=false;assert.equal((await call({action:'message',booking_key:A,message:'Hello'})).status,503);modelAvailable=true;
+modelAvailable=false;
+const missingProvider=await call({action:'message',booking_key:A,message:'Hello'});
+assert.equal(missingProvider.status,503);assert.equal(missingProvider.body.code,'provider_not_configured');modelAvailable=true;
 records.set(B+':req_foreign',{account_id:B,request_id:'77777777-7777-4777-8777-777777777777',messages:[{role:'user',content:'Foreign conversation'}]});
 assert.equal((await call({action:'conversation',workspace_id:WA,request_id:'77777777-7777-4777-8777-777777777777'},{token:'valid-user'})).status,404);
 passwordRequired=true;

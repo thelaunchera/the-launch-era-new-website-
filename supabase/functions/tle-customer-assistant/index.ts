@@ -113,7 +113,7 @@ Deno.serve(async req => {
     const message=clean(input.message,500);
     if (!message) return json(origin,400,{error:'Enter a message'});
     const apiKey=Deno.env.get('GROQ_API_KEY') || '';
-    if (!apiKey) return json(origin,503,{error:lang==='es'?'El chat no está disponible. Usa el formulario de reservas.':'Chat is unavailable. Please use the booking form.'});
+    if (!apiKey) return json(origin,503,{code:'provider_not_configured',error:lang==='es'?'El chat no está disponible. Usa el formulario de reservas.':'Chat is unavailable. Please use the booking form.'});
     const current=draft(input.draft,ctx.services);
     const knowledge=clean(lang==='es'?ctx.config.knowledge_es:ctx.config.knowledge_en,5000);
     const instruction=[
@@ -127,7 +127,7 @@ Deno.serve(async req => {
       'Current visitor draft: '+JSON.stringify(current)
     ].join('\n');
     const response=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{Authorization:'Bearer '+apiKey,'Content-Type':'application/json'},body:JSON.stringify({model:Deno.env.get('GROQ_MODEL')||'llama-3.3-70b-versatile',temperature:0.2,max_tokens:650,response_format:{type:'json_object'},messages:[{role:'system',content:instruction},...history(input.history),{role:'user',content:message}]}),signal:AbortSignal.timeout(18000)});
-    if (!response.ok) return json(origin,503,{error:lang==='es'?'El chat no está disponible. Usa el formulario de reservas.':'Chat is unavailable. Please use the booking form.'});
+    if (!response.ok) return json(origin,503,{code:'provider_unavailable',error:lang==='es'?'El chat no está disponible. Usa el formulario de reservas.':'Chat is unavailable. Please use the booking form.'});
     const data=await response.json();
     let output;
     try { output=JSON.parse(data.choices?.[0]?.message?.content || ''); } catch { return json(origin,502,{error:'Could not read the assistant response. Please use the booking form.'}); }

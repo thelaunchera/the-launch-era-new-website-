@@ -1,3 +1,8 @@
+## 2026-10-19 — Live customer assistant Testing blocked by absent provider configuration
+- Verified: previous UI/handler fixtures did not establish a real AI response. Operator added Testing account/catalog prerequisites and isolated two fictitious businesses; live API returned each correct name and service.
+- Candidate v2 returns distinct diagnostic codes without exposing secrets. Real message attempts confirmed HTTP 503 / `provider_not_configured`, rather than a customer input error. Existing handler regression passed.
+- Production and existing real customers were untouched; no live emails or bookings. The available Supabase connector does not provide secrets configuration. Actual provider/complete-intake/mailbox/authenticated-buyer validation is pending; do not mark the feature ready from synthetic checks.
+
 ## 2026-10-19 — Customer assistant handoff gap (review candidate)
 - Verified: public Sonny chat is a no-send sample; the delivered buyer panel already has a separate real request/email workflow. The standalone commercial CRM README's disconnected Inbox/Calendar is not proof that the active buyer panel lacks those capabilities.
 - Prepared: optional account-approved customer assistant with server-owned business facts, editable EN/ES review, explicit submission into the existing idempotent intake, saved recent chat and buyer-only reading. New module cannot mount in demo/owner previews. No existing tenant was enabled.

@@ -1,3 +1,5 @@
+> Update: the operator has now provisioned two synthetic Testing businesses and verified their real API configuration. Testing Edge Function v2 reports `provider_not_configured`; see [the latest testing status](customer-assistant-testing-status.md). The live AI/request/email round trip is still pending.
+
 # Customer web assistant: reviewed request handoff
 
 ## Result
