@@ -44,6 +44,15 @@ Rollback: pause/unschedule that single job and remove the Sales tools entry scri
 - Testing database: passed grants/RLS, atomic date + audit, stale/cross-workspace/replied request denial and exclusive monitor claims. All synthetic rows rolled back. Testing has a reduced CRM schema; a test-only event table is also rolled back.
 - Local synthetic PDF extraction, Scrapling saved HTML and native editable PowerPoint export passed.
 - PaddleOCR dependencies installed; model hosts are blocked by this environment, so image inference was not certified. Windows GUI/hardware testing remains pending.
-- Browser/CI and production verification must be recorded separately. Local Playwright browser downloads were blocked; the GitHub workflow runs Chromium and WebKit responsive EN/ES tests without real customer/provider calls.
+- Chromium/WebKit CI and production release checks completed; see the dated release evidence below. Real owner-device acceptance and OCR/Windows testing remain distinct.
 
 No marketing emails, client bookings, charges, lead imports or automatic AI external actions are authorized by this feature.
+
+## Production release verification — 2026-10-20, 16:15 UTC
+
+- Website PR #305 merged as `d99564d10e44c8b362b629feb3c76a5da1b91866`; dedicated Command Center PR #20 merged as `f6db095d7a92156d1005fafa2f3777305c9a3daa`. Both Pages build/deploy jobs completed successfully (website run 39455202901; portal run 39455215866).
+- Source `b6d1284d578fba3e1b78eb9136a3d7f0de95fb02` passed 20 responsive EN/ES Chromium/WebKit cases at 360/390/820/1024/1440: next action, public-source check, full concept/reset, tabs/overflow, real editable Office archive download, sign-out clearing and unauthorized lock. The isolated portal overlay also passed Chromium/WebKit CI (run 39454534329).
+- Live `https://command.thelaunchera.com/sales-tools.html` and all seven companion assets match their reviewed source bytes by SHA-256. Deployment metadata confirms the sales-tools pin and preserves the original portal/AI Team pins. Exactly one header loader is served.
+- Production `tle-owner-growth` v2 ACTIVE; both new tables have RLS with no anon/authenticated SELECT. Required lead/event fields and one internal workspace verified. Live OPTIONS returns 204 with Command Center CORS; unauthenticated list returns 401, foreign origin 403. Browser displays the owner sign-in requirement without exposing records.
+- Prior synthetic public-page checks stored a baseline followed by unchanged evidence. The example.com synthetic watch is now paused; its audit remains labeled as QA. Native cron job `tle-owner-growth-page-watch` is active every 30 minutes, with daily per-page leases; dispatch with no due active target correctly returns null. No real page is monitored until the owner adds it. Private worker credential remains in Vault.
+- Remaining acceptance: signed-in owner interaction on the owner's real account/device, a future natural cron due run, real PaddleOCR inference and Windows GUI/hardware. Browser fixture screenshots are synthetic QA, not evidence of an authenticated production-owner session. No real customer email, booking or payment was generated.
