@@ -114,7 +114,8 @@ async function openClaraDemo(event){
    if(!verified||gen!==generation||attempt!==claraAttempt||$('demoActions').hidden)return;
    clearTimeout(claraTimer);claraTimer=null;status.hidden=true;
   };
-  $('demoFrame').srcdoc=result.html.replace(/<html\b([^>]*)>/i,(_tag,attrs)=>'<html'+attrs.replace(/\sdata-initial-lang=(["']).*?\1/gi,'')+' data-initial-lang="'+previewLanguage+'">');
+  const localeScript='<script>if(document.documentElement.lang!=="'+previewLanguage+'")document.getElementById("languageToggle")?.click();<\/script>';
+  $('demoFrame').srcdoc=result.html.replace(/<html\b([^>]*)>/i,(_tag,attrs)=>'<html'+attrs.replace(/\sdata-initial-lang=(["']).*?\1/gi,'')+' data-initial-lang="'+previewLanguage+'">').replace(/<\/body>/i,localeScript+'</body>');
   claraTimer=setTimeout(()=>{
    if(attempt!==claraAttempt||$('demoActions').hidden||status.hidden)return;
    status.textContent=tx('The preview is taking longer than expected. Try again.','El demo está tardando más de lo esperado. Inténtalo de nuevo.');$('claraRetry').hidden=false;
