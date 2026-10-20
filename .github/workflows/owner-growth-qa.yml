@@ -1,0 +1,34 @@
+name: Owner sales tools QA
+on:
+  pull_request:
+    paths: ['public/command-center/**','supabase/functions/tle-owner-growth/**','supabase/migrations/*owner_growth*','tools/tle-growth/**','scripts/qa-owner-growth*','.github/workflows/owner-growth-qa.yml']
+  push:
+    branches: [main]
+    paths: ['public/command-center/**','supabase/functions/tle-owner-growth/**','tools/tle-growth/**','scripts/qa-owner-growth*','.github/workflows/owner-growth-qa.yml']
+permissions:
+  contents: read
+jobs:
+  isolated-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: |
+          node scripts/qa-owner-growth.mjs
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-auth-recovery.mjs
+          node scripts/qa-client-release.mjs
+          python -m py_compile tools/tle-growth/local_tools.py
+      - run: npm install --prefix /tmp/tle-owner-growth-qa --no-audit --no-fund playwright@1.58.2
+      - run: node /tmp/tle-owner-growth-qa/node_modules/playwright/cli.js install --with-deps chromium webkit
+      - run: node scripts/qa-owner-growth-browser.mjs
+        env:
+          TLE_PLAYWRIGHT_MODULE: /tmp/tle-owner-growth-qa/node_modules/playwright/index.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: owner-growth-responsive-fixtures
+          path: artifacts/owner-growth/
+          if-no-files-found: ignore
