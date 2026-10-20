@@ -66,5 +66,7 @@ assert.equal((await call({action:'scheduled_watch'},null)).status,401);
 assert.equal((await call({action:'scheduled_watch'},null,'',{'x-tle-worker-token':'x'.repeat(64)})).status,200);
 assert.equal((await call({action:'report'})).status,200);
 assert.equal((await call({action:'send_email'})).status,400);
+assert.equal((await call({action:'set_followup',lead_id:L,date:'2099-01-01',expected_date:null})).status,400,'Stale browser date must not overwrite a current date');
+assert.equal((await call({action:'set_followup',lead_id:L,date:'2099-01-01',expected_date:'2026-01-01'})).status,200);
 leads[0].replied_at=new Date().toISOString();assert.equal((await call({action:'set_followup',lead_id:L,date:'2099-01-01'})).status,400);
 console.log('Owner growth QA passed: origin/auth/workspace isolation, source caching, SSRF validation, robots, date boundaries, no send action, and concept scripts.');

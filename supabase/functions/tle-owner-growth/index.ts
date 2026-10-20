@@ -104,8 +104,9 @@ Deno.serve(async req=>{
       const l=await lead(ctx,input.lead_id),date=String(input.date||'');
       if(blockedLead(l))throw Error('This prospect is replied, archived, won or opted out. Review it in the CRM.');
       if(!validDate(date)||date<easternDate())throw Error('Choose today or a future date (Eastern time).');
+      if(!Object.hasOwn(input,'expected_date')||(input.expected_date||null)!==(l.followup||null))throw Error('Prospect changed. Refresh before saving.');
       const audit=await rest('rpc/tle_owner_growth_set_followup','','POST',{p_workspace_id:ctx.workspace,p_owner_id:ctx.owner,
-        p_lead_id:l.id,p_expected_date:l.followup||null,p_date:date,p_note:clean(input.note,500)});
+        p_lead_id:l.id,p_expected_date:input.expected_date||null,p_date:date,p_note:clean(input.note,500)});
       return response({ok:true,record:audit},200,origin);
     }
     if(action==='demo_brief'){
