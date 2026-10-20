@@ -1,15 +1,14 @@
-import {buildConcept} from './demo-concept.mjs';
 const $=id=>document.getElementById(id),BASE='https://bowacxhmjvrqixtwaikv.supabase.co',KEY='sb_publishable_0TueitFYiRF3rAEMLMT8-w_FvbvY0rB';
 const db=window.supabase?.createClient?.(BASE,KEY,{auth:{storageKey:'tle-crm-auth',persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
-let state=null,verified=false,conceptHTML='',conceptName='',busy=false,generation=0;
+let state=null,verified=false,busy=false,generation=0;
 let language=localStorage.getItem('tle_crm_owner_language')==='es'?'es':'en';
-const es={private:'COMMAND CENTER PRIVADO',back:'← Command Center',eyebrow:'TU ESPACIO DE VENTAS',headline:'Un próximo paso claro.\nPara cada prospecto.',intro:'Revisa lo pendiente, consulta las fuentes y prepara una demo útil.',due:'Seguimientos pendientes',today:'Próximas acciones',research:'Investigación y SEO',demos:'Conceptos de demo',watch:'Monitoreo de páginas',documents:'Documentos',reports:'Informes',prospect:'Trabajando con',choose:'Elige un prospecto',refresh:'Actualizar',eastern:'Hora del Este',schedule:'Programa la próxima acción',date:'Fecha',note:'¿Qué debe pasar?',save:'Guardar próxima acción',scheduleNote:'Se actualiza la fecha de seguimiento. La autorización y el envío de correos siguen en el flujo existente del CRM.',researchTitle:'Empieza por el website real.',researchNote:'Revisa una página pública: título, descripción, encabezado y enlaces de reserva visibles. No incluye rankings ni volumen de búsquedas.',website:'Website público',scan:'Revisar y guardar fuentes',demoTitle:'Muestra la posibilidad.',demoNote:'Prepara un concepto privado e interactivo con el nombre del negocio seleccionado. No acepta reservas reales ni envía mensajes.',area:'Área de servicio',services:'Servicios · uno por línea',prepareDemo:'Preparar concepto',downloadDemo:'Descargar concepto privado',demoReview:'Confirma servicios, identidad, fotos y disponibilidad con el negocio antes de una publicación real. Las imágenes son ilustrativas.',watchTitle:'Entérate cuando una página cambie.',watchNote:'Hasta 10 páginas públicas, revisadas a diario. Los cambios aparecen aquí y en tu campana. Un cambio de texto no demuestra un cambio de precio.',label:'Nombre',addWatch:'Añadir página',documentTitle:'Menos datos para transcribir.',documentNote:'Las herramientas locales extraen texto de PDFs e imágenes con PaddleOCR. Los documentos se quedan en tu computadora; revisa el texto antes de usarlo.',windows:'Herramientas locales para Windows',windowsNote:'Descarga el kit, extráelo y abre Start-TLE-Tools.cmd. Necesita Python 3.10–3.12. OCR se instala solo al seleccionarlo.',downloadKit:'Descargar herramientas locales',reportTitle:'Un informe que puedes verificar.',reportNote:'Exporta las cifras actuales y sus fuentes como JSON o PowerPoint editable. No se inventan conversiones, ingresos ni resultados.',makeReport:'Generar y descargar informe',footer:'Las fuentes y los resultados se mantienen separados de mensajes, reservas y pagos.'};
+const es={private:'COMMAND CENTER PRIVADO',back:'← Command Center',eyebrow:'TU ESPACIO DE VENTAS',headline:'Un próximo paso claro.\nPara cada prospecto.',intro:'Revisa lo pendiente, consulta las fuentes y prepara una demo útil.',due:'Seguimientos pendientes',today:'Próximas acciones',research:'Investigación y SEO',demos:'Demo de Clara',watch:'Monitoreo de páginas',documents:'Documentos',reports:'Informes',prospect:'Trabajando con',choose:'Elige un prospecto',refresh:'Actualizar',eastern:'Hora del Este',schedule:'Programa la próxima acción',date:'Fecha',note:'¿Qué debe pasar?',save:'Guardar próxima acción',scheduleNote:'Se actualiza la fecha de seguimiento. La autorización y el envío de correos siguen en el flujo existente del CRM.',researchTitle:'Empieza por el website real.',researchNote:'Revisa una página pública: título, descripción, encabezado y enlaces de reserva visibles. No incluye rankings ni volumen de búsquedas.',website:'Website público',scan:'Revisar y guardar fuentes',demoTitle:'El demo de reservas de Clara.',demoNote:'Abre el demo privado completo con sus servicios, fotos, formulario de reservas y Sonny.',area:'Área de servicio',services:'Servicios · uno por línea',prepareDemo:'Abrir demo de Clara',claraClose:'Cerrar demo',claraRetry:'Volver a intentar',claraTitle:'Demo privado de Clara',downloadDemo:'Descargar concepto privado',demoReview:'Confirma servicios, identidad, fotos y disponibilidad con el negocio antes de una publicación real. Las imágenes son ilustrativas.',watchTitle:'Entérate cuando una página cambie.',watchNote:'Hasta 10 páginas públicas, revisadas a diario. Los cambios aparecen aquí y en tu campana. Un cambio de texto no demuestra un cambio de precio.',label:'Nombre',addWatch:'Añadir página',documentTitle:'Menos datos para transcribir.',documentNote:'Las herramientas locales extraen texto de PDFs e imágenes con PaddleOCR. Los documentos se quedan en tu computadora; revisa el texto antes de usarlo.',windows:'Herramientas locales para Windows',windowsNote:'Descarga el kit, extráelo y abre Start-TLE-Tools.cmd. Necesita Python 3.10–3.12. OCR se instala solo al seleccionarlo.',downloadKit:'Descargar herramientas locales',reportTitle:'Un informe que puedes verificar.',reportNote:'Exporta las cifras actuales y sus fuentes como JSON o PowerPoint editable. No se inventan conversiones, ingresos ni resultados.',makeReport:'Generar y descargar informe',footer:'Las fuentes y los resultados se mantienen separados de mensajes, reservas y pagos.'};
 const original=new Map([...document.querySelectorAll('[data-i18n]')].map(n=>[n,n.innerHTML]));
 const tx=(en,sp)=>language==='es'?sp:en;
 function translate(){document.documentElement.lang=language;for(const [n,html]of original){if(language==='es'&&es[n.dataset.i18n]){n.textContent=es[n.dataset.i18n];if(n.id==='headline')n.style.whiteSpace='pre-line'}else n.innerHTML=html}$('language').textContent=language==='es'?'EN':'ES';}
 function element(tag,text,cls){const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n}
 function message(text,error=false){$('notice').textContent=text;$('notice').classList.toggle('error',error)}
-function lock(){generation++;verified=false;state=null;conceptHTML='';conceptName='';$('app').hidden=true;$('loading').hidden=true;$('locked').hidden=false;$('demoFrame').srcdoc='';for(const id of ['leadList','researchResult','watchList','watchHistory','reportList'])$(id).replaceChildren();$('leadSelect').replaceChildren();document.querySelectorAll('input,textarea').forEach(n=>n.value='');}
+function lock(){generation++;verified=false;state=null;closeClaraDemo(false);$('app').hidden=true;$('loading').hidden=true;$('locked').hidden=false;$('demoFrame').srcdoc='';for(const id of ['leadList','researchResult','watchList','watchHistory','reportList'])$(id).replaceChildren();$('leadSelect').replaceChildren();document.querySelectorAll('input,textarea').forEach(n=>n.value='');}
 async function api(input){
  const gen=generation;if(!db)throw Error(tx('Authentication unavailable. Open Command Center.','Acceso no disponible. Abre Command Center.'));
  const {data:{session},error}=await db.auth.getSession();if(error||!session?.access_token){lock();throw Error(tx('Sign in to continue.','Inicia sesión para continuar.'))}
@@ -74,10 +73,91 @@ $('language').onclick=()=>{language=language==='es'?'en':'es';localStorage.setIt
 $('refresh').onclick=()=>run(async()=>{await refresh();message(tx('Workspace refreshed.','Espacio actualizado.'))});
 $('followupForm').onsubmit=e=>{e.preventDefault();run(async()=>{const l=selected();await api({action:'set_followup',lead_id:l.id,expected_date:l.followup||null,date:$('nextDate').value,note:$('nextNote').value});await refresh();message(tx('Next action saved. No email was sent.','Próxima acción guardada. No se envió ningún correo.'))})};
 $('researchForm').onsubmit=e=>{e.preventDefault();run(async()=>{const r=await api({action:'research',lead_id:$('leadSelect').value||null,url:$('researchUrl').value.trim()});await refresh();renderResearch(r.record);message(tx('Source check saved. Public emails remain unverified.','Revisión guardada. Los correos públicos siguen sin verificar.'))})};
-$('demoForm').onsubmit=e=>{e.preventDefault();run(async()=>{const l=selected(),r=await api({action:'demo_brief',lead_id:l.id,area:$('demoArea').value,services:$('demoServices').value.split('\n')});conceptHTML=buildConcept(r.record.data);conceptName=l.business.replace(/[^a-z0-9]+/gi,'-').slice(0,70)||'business';$('demoFrame').srcdoc=conceptHTML;$('demoActions').hidden=false;await refresh();message(tx('Private concept ready. Nothing was sent or published.','Concepto privado listo. No se envió ni publicó nada.'))})};
-$('downloadDemo').onclick=()=>{if(verified&&conceptHTML)download(conceptHTML,conceptName+'-private-concept.html','text/html')};
+$('demoForm').onsubmit=e=>{e.preventDefault();void openClaraDemo(e)};
+
 $('watchForm').onsubmit=e=>{e.preventDefault();run(async()=>{await api({action:'add_watch',url:$('watchUrl').value.trim(),label:$('watchLabel').value});await refresh();e.target.reset();message(tx('Page added for daily checks.','Página añadida para revisión diaria.'))})};
 $('makeReport').onclick=()=>run(async()=>{const r=await api({action:'report'});download(JSON.stringify(r.record.data,null,2),'TLE-sales-report.json','application/json');await refresh();message(tx('Report exported with its coverage and sources.','Informe exportado con su cobertura y fuentes.'))});
 $('makePptx').onclick=()=>run(async()=>{const r=await api({action:'report'});await powerpoint(r.record.data);await refresh();message(tx('Editable PowerPoint exported.','PowerPoint editable exportado.'))});
+
+/* Reuse Clara's existing server-protected Owner preview. No raw template is bundled. */
+let claraAttempt=0,claraController=null,claraTimer=null,claraReturnFocus=null,sonnyOwnerRequests=0;
+function closeClaraDemo(restoreFocus=true){
+ ++claraAttempt;claraController?.abort();claraController=null;clearTimeout(claraTimer);claraTimer=null;
+ $('demoFrame').onload=null;$('demoFrame').srcdoc='';$('demoActions').hidden=true;
+ $('claraStatus').textContent='';$('claraRetry').hidden=true;document.body.classList.remove('clara-open');
+ if(restoreFocus&&claraReturnFocus?.isConnected)claraReturnFocus.focus({preventScroll:true});
+}
+async function openClaraDemo(event){
+ if(!verified||!db)return;
+ if($('demoActions').hidden)claraReturnFocus=event?.submitter||document.activeElement;
+ closeClaraDemo(false);
+ const attempt=claraAttempt,gen=generation,previewLanguage=language;
+ $('demoActions').hidden=false;document.body.classList.add('clara-open');$('claraClose').focus();
+ const status=$('claraStatus');status.hidden=false;status.textContent=tx('Loading Clara’s private demo…','Cargando el demo privado de Clara…');
+ claraController=new AbortController();
+ claraTimer=setTimeout(()=>claraController?.abort(),20000);
+ try{
+  const {data:{session},error}=await db.auth.getSession();
+  if(error||!session?.access_token){lock();throw Error(tx('Sign in to continue.','Inicia sesión para continuar.'))}
+  if(!verified||gen!==generation||attempt!==claraAttempt)return;
+  const r=await fetch(BASE+'/functions/v1/tle-booking-demo-gate',{
+   method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+session.access_token},
+   body:JSON.stringify({action:'owner_preview'}),cache:'no-store',signal:claraController.signal
+  });
+  const result=await r.json().catch(()=>({}));
+  if(!verified||gen!==generation||attempt!==claraAttempt||$('demoActions').hidden)return;
+  if(r.status===401){lock();return}
+  if(!r.ok||result.ok!==true||typeof result.html!=='string'||!/^<!doctype html>/i.test(result.html))
+   throw Error(result.error||tx('Could not open Clara’s demo. Try again.','No se pudo abrir el demo de Clara. Inténtalo de nuevo.'));
+  clearTimeout(claraTimer);claraTimer=null;
+  $('demoFrame').onload=()=>{
+   if(!verified||gen!==generation||attempt!==claraAttempt||$('demoActions').hidden)return;
+   clearTimeout(claraTimer);claraTimer=null;status.hidden=true;
+  };
+  $('demoFrame').srcdoc=result.html.replace(/<html\b([^>]*)>/i,(_tag,attrs)=>'<html'+attrs.replace(/\sdata-initial-lang=(["']).*?\1/gi,'')+' data-initial-lang="'+previewLanguage+'">');
+  claraTimer=setTimeout(()=>{
+   if(attempt!==claraAttempt||$('demoActions').hidden||status.hidden)return;
+   status.textContent=tx('The preview is taking longer than expected. Try again.','El demo está tardando más de lo esperado. Inténtalo de nuevo.');$('claraRetry').hidden=false;
+  },12000);
+ }catch(e){
+  if(!verified||gen!==generation||attempt!==claraAttempt||$('demoActions').hidden)return;
+  clearTimeout(claraTimer);claraTimer=null;
+  status.hidden=false;status.textContent=e.name==='AbortError'?tx('The preview timed out. Try again.','Se agotó el tiempo de espera. Inténtalo de nuevo.'):(e.message||tx('Could not open the demo.','No se pudo abrir el demo.'));
+  $('claraRetry').hidden=false;
+ }finally{if(attempt===claraAttempt)claraController=null}
+}
+$('claraClose').onclick=()=>closeClaraDemo();
+$('claraRetry').onclick=()=>void openClaraDemo();
+document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!$('demoActions').hidden){event.preventDefault();closeClaraDemo()}});
+window.addEventListener('pagehide',()=>closeClaraDemo(false));
+/* Sonny relay accepts this opaque sandbox only; it forwards no owner token or form data. */
+window.addEventListener('message',async event=>{
+ const iframe=$('demoFrame');
+ if(!verified||$('demoActions').hidden||!iframe.srcdoc||event.origin!=='null'||event.source!==iframe.contentWindow||
+  event.data?.type!=='TLE_SONNY_DEMO_REQUEST'||typeof event.data.id!=='string'||!/^[a-f0-9-]{36}$/i.test(event.data.id))return;
+ const frame=iframe.contentWindow,attempt=claraAttempt,gen=generation,id=event.data.id,data=event.data.payload;
+ const msg=typeof data?.customer_message==='string'?data.customer_message.trim():'';
+ const thread=typeof data?.thread_id==='string'?data.thread_id:'';
+ const history=typeof data?.conversation_history==='string'?data.conversation_history.slice(0,1200):'';
+ const respond=payload=>{
+  if(!verified||gen!==generation||attempt!==claraAttempt||$('demoActions').hidden||frame!==iframe.contentWindow)return;
+  frame.postMessage({type:'TLE_SONNY_DEMO_RESPONSE',id,...payload},'*');
+ };
+ if(!msg||msg.length>300||!/^[a-f0-9]{8}-[a-f0-9-]{27,36}$/i.test(thread)||++sonnyOwnerRequests>28){
+  respond({ok:false,rateLimited:sonnyOwnerRequests>28});return;
+ }
+ try{
+  const r=await fetch(BASE+'/functions/v1/tle-ai-booking-demo',{
+   method:'POST',credentials:'omit',headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({customer_message:msg,language:data?.language==='es'?'es':'en',thread_id:thread,conversation_history:history,
+    business_name:'Sample Cleaning Co.',service_area:'Example service area',
+    services_offered:'Standard Cleaning, Deep Cleaning, Move In/Out Cleaning, Commercial Cleaning',booking_draft:{}}),
+   signal:AbortSignal.timeout(27000),cache:'no-store'
+  });
+  const result=await r.json().catch(()=>({}));
+  respond(r.ok&&typeof result.reply==='string'?{ok:true,reply:result.reply.slice(0,240)}:{ok:false,rateLimited:r.status===429});
+ }catch{respond({ok:false})}
+});
+
 db?.auth.onAuthStateChange(event=>{if(['SIGNED_OUT','USER_DELETED'].includes(event))lock()});
 translate();refresh().catch(e=>{lock();$('locked').querySelector('p:not(.eyebrow)').textContent=e.message});
