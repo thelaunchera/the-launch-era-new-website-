@@ -28,7 +28,7 @@ try{
       if(b.action==='report')data={ok:true,record:{data:{generated_at:snapshot.checked_at,due:1,active_leads:1,coverage:snapshot.coverage,evidence:[],scope:'Synthetic QA only'}}};
       await r.fulfill({contentType:'application/json',body:JSON.stringify(data)});
     });
-    await page.addInitScript(l=>localStorage.setItem('tle_crm_owner_language',l),lang);
+    await page.addInitScript(l=>{if(window.top===window)localStorage.setItem('tle_crm_owner_language',l)},lang);
     await page.goto(origin+'/command-center/sales-tools.html');await page.locator('#app').waitFor({state:'visible'});
     assert.equal(await page.evaluate(()=>window.injected===true),false);
     await page.selectOption('#leadSelect',L);

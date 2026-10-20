@@ -2,8 +2,14 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 import {webcrypto} from 'node:crypto';
+import {decodeResponse} from '../supabase/functions/tle-owner-growth/public-page.mjs';
 import * as core from '../supabase/functions/tle-owner-growth/core.mjs';
 import {buildConcept} from '../public/command-center/assets/demo-concept.mjs';
+
+const wire=(headers,body)=>Buffer.from('HTTP/1.1 200 OK\r\n'+headers+'\r\n\r\n'+body);
+assert.equal(decodeResponse(wire('Content-Length: 5','hello')).body,'hello');
+assert.equal(decodeResponse(wire('Transfer-Encoding: chunked','2\r\nhe\r\n3\r\nllo\r\n0\r\n\r\n')).body,'hello');
+for(const raw of [wire('Content-Length: 9','hello'),wire('Content-Length: 5\r\nContent-Length: 5','hello'),wire('Content-Encoding: gzip','bad'),wire('Transfer-Encoding: chunked','3\r\nhi'),wire('Transfer-Encoding: chunked','zz\r\nhi'),wire('Content-Length: 5','hello')])assert.throws(()=>decodeResponse(raw,4));
 
 for(const value of ['http://business.com','https://127.0.0.1','https://[::1]','https://localhost','https://metadata.google.internal','https://business.com/?token=secret','https://business.com:8443','https://user:pass@business.com','https://a.supabase.co'])assert.throws(()=>core.publicURL(value),undefined,value);
 for(const value of ['127.0.0.1','10.1.1.1','169.254.169.254','172.16.0.1','192.168.1.1','100.64.0.1','0.0.0.0','224.1.1.1','198.18.0.1','192.0.0.1'])assert.equal(core.publicIPv4(value),false,value);

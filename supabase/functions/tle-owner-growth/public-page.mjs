@@ -1,8 +1,6 @@
-import { request } from 'node:https';
 import { Buffer } from 'node:buffer';
 import { publicURL, publicIPv4, robotsAllowed, analyzeHTML } from './core.mjs';
 
-// Pin the actual connection to the checked public IPv4 address. Redirects are not followed.
 async function resolve(hostname) {
   const r=await fetch('https://dns.google/resolve?name='+encodeURIComponent(hostname)+'&type=A',{signal:AbortSignal.timeout(4000)});
   if(!r.ok)throw Error('Public DNS check unavailable.');
@@ -10,23 +8,48 @@ async function resolve(hostname) {
   if(data.Status!==0||!ips.length||ips.some(ip=>!publicIPv4(ip)))throw Error('Public address could not be verified.');
   return ips[0];
 }
-function get(url,ip,max=180000) {
-  return new Promise((accept,reject)=>{
-    const req=request(url,{method:'GET',servername:url.hostname,lookup:(_h,_o,cb)=>cb(null,ip,4),
-      headers:{'User-Agent':'TLEPublicResearch/1.0','Accept':'text/html,text/plain;q=0.8','Accept-Encoding':'identity'}},res=>{
-      let size=0,parts=[];
-      res.on('data',chunk=>{
-        size+=chunk.length;
-        if(size>max){req.destroy();reject(Error('Page exceeds the safe scan size.'));return}
-        parts.push(chunk);
-      });
-      res.on('end',()=>accept({status:res.statusCode,headers:res.headers,body:Buffer.concat(parts).toString('utf8')}));
-      res.on('error',reject);
-    });
-    req.setTimeout(7000,()=>req.destroy(Error('Public page request timed out.')));
-    const timer=setTimeout(()=>req.destroy(Error('Public page deadline exceeded.')),9000);
-    req.on('close',()=>clearTimeout(timer));req.on('error',reject);req.end();
-  });
+export function decodeResponse(raw,max=180000) {
+  const end=raw.indexOf('\r\n\r\n');
+  if(end<0||end>16000)throw Error('Invalid or oversized public response headers.');
+  const lines=raw.subarray(0,end).toString('ascii').split('\r\n'),match=lines.shift().match(/^HTTP\/1\.[01] (\d{3})\b/);
+  if(!match)throw Error('Unsupported public response.');
+  const headers={};for(const line of lines){const i=line.indexOf(':');if(i<1)throw Error('Invalid public response header.');const key=line.slice(0,i).trim().toLowerCase();if(headers[key]&&['content-length','transfer-encoding'].includes(key))throw Error('Ambiguous public response framing.');headers[key]=line.slice(i+1).trim()}
+  if(headers['content-encoding']&&!/^identity$/i.test(headers['content-encoding']))throw Error('Compressed public responses are not scanned.');
+  let body=raw.subarray(end+4);
+  if(headers['transfer-encoding']){
+    if(headers['transfer-encoding'].toLowerCase()!=='chunked')throw Error('Unsupported public response encoding.');
+    const chunks=[];let pos=0,total=0,complete=false;
+    while(pos<body.length){
+      const e=body.indexOf('\r\n',pos);if(e<0||e-pos>128)throw Error('Invalid public chunk framing.');
+      const token=body.subarray(pos,e).toString('ascii').split(';')[0];if(!/^[0-9a-f]+$/i.test(token))throw Error('Invalid public chunk size.');
+      const n=parseInt(token,16);pos=e+2;if(n===0){complete=true;break}
+      if(pos+n+2>body.length||body.subarray(pos+n,pos+n+2).toString()!=='\r\n')throw Error('Incomplete public response.');
+      total+=n;if(total>max)throw Error('Page exceeds the safe scan size.');chunks.push(body.subarray(pos,pos+n));pos+=n+2;
+    }
+    if(!complete)throw Error('Incomplete public response.');body=Buffer.concat(chunks);
+  }else if(headers['content-length']){
+    if(!/^\d+$/.test(headers['content-length']))throw Error('Invalid public response size.');
+    const n=Number(headers['content-length']);if(n>max||body.length<n)throw Error('Incomplete or oversized public response.');body=body.subarray(0,n);
+  }
+  if(body.length>max)throw Error('Page exceeds the safe scan size.');
+  return {status:Number(match[1]),headers,body:body.toString('utf8')};
+}
+async function get(url,ip,max=180000) {
+  // Supabase's Node compatibility layer does not implement ClientRequest.lookup.
+  // Connect to the validated IP directly, then verify TLS against the ORIGINAL
+  // hostname. No second DNS lookup, disabled certificate validation or redirects.
+  let connection=null,expired=false,timer;
+  const task=(async()=>{
+    connection=await Deno.connect({hostname:ip,port:443});if(expired){connection.close();throw Error('Public page deadline exceeded.')}
+    connection=await Deno.startTls(connection,{hostname:url.hostname,alpnProtocols:['http/1.1']});if(expired){connection.close();throw Error('Public page deadline exceeded.')}
+    const wire=new TextEncoder().encode('GET '+url.pathname+' HTTP/1.1\r\nHost: '+url.hostname+'\r\nUser-Agent: TLEPublicResearch/1.0\r\nAccept: text/html,text/plain;q=0.8\r\nAccept-Encoding: identity\r\nConnection: close\r\n\r\n');
+    for(let offset=0;offset<wire.length;){const n=await connection.write(wire.subarray(offset));if(!n)throw Error('Public request interrupted.');offset+=n}
+    const parts=[];let total=0;const chunk=new Uint8Array(16384);
+    while(true){const n=await connection.read(chunk);if(n===null)break;total+=n;if(total>max+24000)throw Error('Page exceeds the safe scan size.');parts.push(Buffer.from(chunk.subarray(0,n)))}
+    return decodeResponse(Buffer.concat(parts),max);
+  })();
+  try{return await Promise.race([task,new Promise((_,reject)=>{timer=setTimeout(()=>{expired=true;try{connection?.close()}catch{}reject(Error('Public page deadline exceeded.'))},9000)})])}
+  finally{clearTimeout(timer);try{connection?.close()}catch{}}
 }
 export async function inspectPage(value) {
   const url=publicURL(value),ip=await resolve(url.hostname);
