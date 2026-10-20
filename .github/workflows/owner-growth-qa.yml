@@ -26,3 +26,9 @@ jobs:
       - run: node scripts/qa-owner-growth-browser.mjs
         env:
           TLE_PLAYWRIGHT_MODULE: /tmp/tle-owner-growth-qa/node_modules/playwright/index.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: owner-growth-responsive-fixtures
+          path: artifacts/owner-growth/
+          if-no-files-found: ignore

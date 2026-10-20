@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {createServer} from 'node:http';
-import {readFile} from 'node:fs/promises';
+import {readFile,mkdir} from 'node:fs/promises';
 import {resolve,extname} from 'node:path';
 const pw=await import(process.env.TLE_PLAYWRIGHT_MODULE||'playwright');
 const root=resolve(process.env.TLE_GROWTH_PUBLIC_ROOT||'public');
@@ -38,7 +38,8 @@ try{
     const frame=page.frameLocator('#demoFrame');await frame.locator('[data-service="0"]').click();await frame.locator('#next').click();await frame.locator('#next').click();await frame.locator('#next').click();await frame.locator('#done').waitFor({state:'visible'});
     await frame.locator('#reset').click();assert.equal(await frame.locator('#date').inputValue()!=='',true);await frame.locator('#back').isHidden();
     for(const tab of ['today','research','demos','watch','documents','reports']){await page.locator(`[data-tab="${tab}"]`).click();assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true,`${engineName} ${width} ${lang} ${tab} overflow`)}
-    const downloaded=page.waitForEvent('download');await page.locator('#makePptx').click();const file=await downloaded;assert.ok(file.suggestedFilename().endsWith('.pptx'));assert.equal(await file.failure(),null);
+    const downloaded=page.waitForEvent('download',{timeout:15000}).catch(async e=>{throw Error(e.message+'; UI status: '+await page.locator('#notice').textContent())});await page.locator('#makePptx').click();const file=await downloaded;assert.ok(file.suggestedFilename().endsWith('.pptx'));assert.equal(await file.failure(),null);const bytes=await readFile(await file.path());assert.equal(bytes.subarray(0,2).toString(),'PK','PPTX must be a real Office ZIP archive');
+    if(engineName==='chromium'&&lang==='en'&&[390,1440].includes(width)){await mkdir('artifacts/owner-growth',{recursive:true});await page.locator('[data-tab="today"]').click();await page.screenshot({path:`artifacts/owner-growth/workspace-${width}.png`,fullPage:true});await page.locator('[data-tab="demos"]').click();await page.screenshot({path:`artifacts/owner-growth/concept-${width}.png`,fullPage:true})}
     await page.evaluate(()=>window.__fixtureAuthChange('SIGNED_OUT'));await page.locator('#locked').waitFor({state:'visible'});assert.equal(await page.locator('#leadList').textContent(),'');assert.equal(await page.locator('#demoFrame').getAttribute('srcdoc'),'');
     assert.equal(errors.length,0,errors.join('\n'));assert.ok(calls.every(c=>['list','set_followup','research','demo_brief','report'].includes(c.action)));cases++;await page.close();
    }
