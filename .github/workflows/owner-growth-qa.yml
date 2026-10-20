@@ -21,6 +21,8 @@ jobs:
           node scripts/qa-auth-recovery.mjs
           node scripts/qa-client-release.mjs
           python -m py_compile tools/tle-growth/local_tools.py
-      - run: npm install --no-save --package-lock=false --ignore-scripts playwright@1.58.2
-      - run: npx playwright install --with-deps chromium webkit
+      - run: npm install --prefix /tmp/tle-owner-growth-qa --no-audit --no-fund playwright@1.58.2
+      - run: node /tmp/tle-owner-growth-qa/node_modules/playwright/cli.js install --with-deps chromium webkit
       - run: node scripts/qa-owner-growth-browser.mjs
+        env:
+          TLE_PLAYWRIGHT_MODULE: /tmp/tle-owner-growth-qa/node_modules/playwright/index.mjs
