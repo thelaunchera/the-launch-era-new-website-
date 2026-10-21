@@ -578,3 +578,6 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 
 
 | 2026-10-21 | Owner could not find Sales tools or Clara in the Command Center sidebar because the release exposed only a header shortcut | Verified in `sales-tools-entry.js`: it created one button under `.premium-header-actions` and no sidebar item | Added an owner-gated top-level sidebar link to `sales-tools.html#demos`; the route selects the Clara section after owner verification, while the protected preview still requires the explicit Open Clara demo button. Buyer menus, private template, bookings, messages and payments are untouched | 🟡 Source prepared; browser CI, dedicated portal deployment and signed-in owner-device acceptance pending |
+
+
+| 2026-10-21 | Sales tools / Clara missing from Owner sidebar | Header-only shortcut verified; no sidebar link existed | Released owner-gated sidebar entry to `sales-tools.html#demos`; preview remains behind explicit button and existing owner auth | ✅ PR #307, Owner sales QA 39582988605, dedicated overlay QA 39583392290, Pages 39583670560 and live source pin/script/route verified. Signed-in owner-device visual acceptance remains pending; no customer action performed. |

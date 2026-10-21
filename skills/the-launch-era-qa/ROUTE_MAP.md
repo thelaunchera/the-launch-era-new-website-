@@ -889,3 +889,10 @@ On `/lead-private-preview.html` sample only, `tle-demo-enhancements-v12.js` owns
 - Destination: `./sales-tools.html#demos`. The hash selects the **Clara demo** tab after the normal owner API verification succeeds. The protected `owner_preview` still opens only from the explicit **Open Clara demo** button; the private Clara HTML remains server-only and the iframe sandbox is unchanged.
 - The existing header shortcut remains. EN/ES labels follow `tle_crm_owner_language`; regression QA covers owner-only visibility, sidebar placement, direct Clara routing, both browser engines and existing protected-demo lifecycle checks.
 - Release status: source prepared; CI, dedicated overlay pin and live owner-device verification must complete before this is marked published.
+
+
+### Owner sidebar release completed — 2026-10-21
+- Website PR #307 merged at `6c18612d4e35714eb6f7971599c9984be0bbb685`; reviewed source `7f5584ae5187b294c448a4bfff368bd735765492` passed Owner sales tools QA run 39582988605 plus the related build/copy checks.
+- Dedicated portal PR #22 merged at `0c96541bde4f325b4570071308992c3441dc5f2b`; isolated overlay QA run 39583392290 and Pages deployment run 39583670560 completed successfully.
+- Live `deployment-source.json` reports the new Sales tools source pin while preserving the original portal and AI Team pins. The live root loads `sales-tools-entry.js?v=20261021-sidebar1`; `/sales-tools.html#demos` resolves with the correct Sales Tools title and owner sign-in gate.
+- Signed-in owner-device visual acceptance remains separate because the verification browser had no owner session. No customer data, emails, bookings or payments were created.

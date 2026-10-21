@@ -78,3 +78,10 @@ No marketing emails, client bookings, charges, lead imports or automatic AI exte
 
 ### Sidebar entry — 2026-10-21
 The verified TLE owner now gets a visible **Sales tools** item in the main sidebar, immediately before **More tools**. It routes to `sales-tools.html#demos` and opens the **Clara demo** section after authentication; the protected preview itself still opens only from its explicit button. Buyer navigation and the protected template boundary are unchanged. Release remains pending until CI, the dedicated source pin and production deployment finish.
+
+
+### Owner sidebar release completed — 2026-10-21
+- Website PR #307 merged at `6c18612d4e35714eb6f7971599c9984be0bbb685`; reviewed source `7f5584ae5187b294c448a4bfff368bd735765492` passed Owner sales tools QA run 39582988605 plus the related build/copy checks.
+- Dedicated portal PR #22 merged at `0c96541bde4f325b4570071308992c3441dc5f2b`; isolated overlay QA run 39583392290 and Pages deployment run 39583670560 completed successfully.
+- Live `deployment-source.json` reports the new Sales tools source pin while preserving the original portal and AI Team pins. The live root loads `sales-tools-entry.js?v=20261021-sidebar1`; `/sales-tools.html#demos` resolves with the correct Sales Tools title and owner sign-in gate.
+- Signed-in owner-device visual acceptance remains separate because the verification browser had no owner session. No customer data, emails, bookings or payments were created.
