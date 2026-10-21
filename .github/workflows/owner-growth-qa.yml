@@ -17,6 +17,7 @@ jobs:
         with: {node-version: '22'}
       - run: |
           node scripts/qa-owner-growth.mjs
+          node scripts/qa-owner-growth-clara-origin.mjs
           node scripts/qa-route-integrity.mjs --static
           node scripts/qa-auth-recovery.mjs
           node scripts/qa-client-release.mjs
