@@ -886,6 +886,6 @@ On `/lead-private-preview.html` sample only, `tle-demo-enhancements-v12.js` owns
 
 ## 2026-10-21 — Owner sidebar access to Sales tools and Clara
 - The authenticated TLE owner sidebar now shows a top-level **Sales tools** link immediately before **More tools**. It is injected only when the existing owner gateway is verified; buyer navigation is unchanged and the link is removed on owner/session loss.
-- Destination: `./sales-tools.html#demos`. The hash selects the **Clara demo** tab and, after the normal owner API verification succeeds, opens the existing protected `owner_preview` once. The private Clara HTML remains server-only and the iframe sandbox is unchanged.
+- Destination: `./sales-tools.html#demos`. The hash selects the **Clara demo** tab after the normal owner API verification succeeds. The protected `owner_preview` still opens only from the explicit **Open Clara demo** button; the private Clara HTML remains server-only and the iframe sandbox is unchanged.
 - The existing header shortcut remains. EN/ES labels follow `tle_crm_owner_language`; regression QA covers owner-only visibility, sidebar placement, direct Clara routing, both browser engines and existing protected-demo lifecycle checks.
 - Release status: source prepared; CI, dedicated overlay pin and live owner-device verification must complete before this is marked published.

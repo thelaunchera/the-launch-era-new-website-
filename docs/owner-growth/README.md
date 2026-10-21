@@ -77,4 +77,4 @@ No marketing emails, client bookings, charges, lead imports or automatic AI exte
 
 
 ### Sidebar entry — 2026-10-21
-The verified TLE owner now gets a visible **Sales tools** item in the main sidebar, immediately before **More tools**. It routes to `sales-tools.html#demos`, selects Clara and opens the existing protected owner preview after authentication. Buyer navigation and the protected template boundary are unchanged. Release remains pending until CI, the dedicated source pin and production deployment finish.
+The verified TLE owner now gets a visible **Sales tools** item in the main sidebar, immediately before **More tools**. It routes to `sales-tools.html#demos` and opens the **Clara demo** section after authentication; the protected preview itself still opens only from its explicit button. Buyer navigation and the protected template boundary are unchanged. Release remains pending until CI, the dedicated source pin and production deployment finish.

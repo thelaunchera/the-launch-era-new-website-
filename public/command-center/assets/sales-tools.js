@@ -54,7 +54,7 @@ function renderResearch(record){const root=$('researchResult');root.replaceChild
  for(const o of data.observations||[]){const row=element('div',undefined,'observation');row.append(element('span',names[o.key]||o.key),element('span',o.observed?tx('Observed','Observado'):tx('Not established','Sin confirmar')));root.append(row)}
  root.append(element('p',tx('One HTML page checked; forms, rankings and email delivery were not tested.','Se revisó una página HTML; formularios, rankings y entrega de correos no se probaron.'),'muted'),evidenceCard(record));
 }
-async function refresh(){const gen=generation;const data=await api({action:'list'});if(gen!==generation)return;state=data;verified=true;$('loading').hidden=true;$('locked').hidden=true;$('app').hidden=false;render();if(openClaraFromRoute){openClaraFromRoute=false;queueMicrotask(()=>{if(verified&&!$('demos').hidden&&location.hash==='#demos')void openClaraDemo()})}}
+async function refresh(){const gen=generation;const data=await api({action:'list'});if(gen!==generation)return;state=data;verified=true;$('loading').hidden=true;$('locked').hidden=true;$('app').hidden=false;render()}
 async function run(fn){if(busy||!verified)return;busy=true;const gen=generation;const buttons=[...document.querySelectorAll('form button,#refresh,#makeReport,#makePptx')];buttons.forEach(b=>b.disabled=true);message(tx('Working…','Trabajando…'));try{await fn()}catch(e){if(gen===generation)message(e.message,true)}finally{busy=false;buttons.forEach(b=>b.disabled=false)}}
 async function powerpoint(data){
  if(!window.PptxGenJS&&!window.pptxgen)await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='./vendor/pptxgenjs-4.0.1.bundle.js';s.onload=resolve;s.onerror=()=>reject(Error('PowerPoint export could not load.'));document.head.append(s)});
@@ -68,7 +68,6 @@ async function powerpoint(data){
  await p.writeFile({fileName:'TLE-sales-report.pptx'});
 }
 const tabNames=new Set(['today','research','demos','watch','documents','reports']);
-let openClaraFromRoute=location.hash==='#demos';
 function activateTab(name,updateURL=false){const selected=tabNames.has(name)?name:'today';for(const x of document.querySelectorAll('[data-tab]')){const active=x.dataset.tab===selected;x.setAttribute('aria-selected',String(active));$(x.dataset.tab).hidden=!active}if(updateURL)history.replaceState(null,'','#'+selected);message('')}
 document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>activateTab(b.dataset.tab,true));
 function applyRequestedTab(){activateTab(location.hash.slice(1),false)}
