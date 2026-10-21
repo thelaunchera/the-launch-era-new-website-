@@ -74,3 +74,7 @@ No marketing emails, client bookings, charges, lead imports or automatic AI exte
 - Live dedicated portal metadata now pins source `e803ceccad23bd501c557d46e630187e829f4a46`. Published `sales-tools.html`, `assets/sales-tools.js` and `assets/sales-tools.css` match that approved source by SHA-256. The Demos tab now reads Clara demo and opens the protected original preview full-screen.
 - Exact-source responsive CI passed in website run 39458064326 and isolated portal run 39458079983. Live gate/Sonny OPTIONS both return 204 with the dedicated Command Center origin; no-session gate POST returns 401 and invalid Sonny POST returns 400 with correct CORS. These checks send no emails or bookings and expose no protected HTML.
 - Positive owner-session acceptance remains distinct from CI's synthetic protected document. No signed-in production-owner browser interaction was claimed during this release.
+
+
+### Sidebar entry — 2026-10-21
+The verified TLE owner now gets a visible **Sales tools** item in the main sidebar, immediately before **More tools**. It routes to `sales-tools.html#demos` and opens the **Clara demo** section after authentication; the protected preview itself still opens only from its explicit button. Buyer navigation and the protected template boundary are unchanged. Release remains pending until CI, the dedicated source pin and production deployment finish.

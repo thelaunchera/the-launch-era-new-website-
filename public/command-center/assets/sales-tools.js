@@ -67,7 +67,11 @@ async function powerpoint(data){
  const d=slide(tx('Keep the coverage visible.','La cobertura, siempre visible.'),'LIMITS & NEXT STEPS');d.addText(tx('Loaded leads: ','Prospectos cargados: ')+data.active_leads+' / '+data.coverage.lead_limit+'\n'+tx('Recent-event limit: ','Límite de eventos recientes: ')+data.coverage.event_limit+'\n\n'+tx('Email delivery, booking functionality, conversions and revenue are not inferred from page observations.','La entrega de correos, las reservas, las conversiones y los ingresos no se deducen de observaciones de una página.'),{x:.6,y:2.5,w:11,h:3.5,fontSize:20,color:'54636B'});
  await p.writeFile({fileName:'TLE-sales-report.pptx'});
 }
-document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{for(const x of document.querySelectorAll('[data-tab]')){const active=x===b;x.setAttribute('aria-selected',String(active));$(x.dataset.tab).hidden=!active}message('')});
+const tabNames=new Set(['today','research','demos','watch','documents','reports']);
+function activateTab(name,updateURL=false){const selected=tabNames.has(name)?name:'today';for(const x of document.querySelectorAll('[data-tab]')){const active=x.dataset.tab===selected;x.setAttribute('aria-selected',String(active));$(x.dataset.tab).hidden=!active}if(updateURL)history.replaceState(null,'','#'+selected);message('')}
+document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>activateTab(b.dataset.tab,true));
+function applyRequestedTab(){activateTab(location.hash.slice(1),false)}
+window.addEventListener('hashchange',applyRequestedTab);applyRequestedTab();
 $('leadSelect').onchange=()=>{pickLead($('leadSelect').value);$('researchResult').replaceChildren();render()};
 $('language').onclick=()=>{language=language==='es'?'en':'es';localStorage.setItem('tle_crm_owner_language',language);translate();render()};
 $('refresh').onclick=()=>run(async()=>{await refresh();message(tx('Workspace refreshed.','Espacio actualizado.'))});

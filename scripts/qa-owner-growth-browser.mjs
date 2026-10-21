@@ -4,7 +4,7 @@ import {readFile,mkdir} from 'node:fs/promises';
 import {resolve,extname} from 'node:path';
 const pw=await import(process.env.TLE_PLAYWRIGHT_MODULE||'playwright');
 const root=resolve(process.env.TLE_GROWTH_PUBLIC_ROOT||'public');
-const server=createServer(async(req,res)=>{try{const path=decodeURIComponent(new URL(req.url,'http://local').pathname);const filename=resolve(root,'.'+path);if(!filename.startsWith(root+'/'))throw Error('path');const bytes=await readFile(filename);res.writeHead(200,{'Content-Type':({'.html':'text/html','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.zip':'application/zip'})[extname(filename)]||'application/octet-stream'});res.end(bytes)}catch{res.writeHead(404);res.end('Not found')}});
+const server=createServer(async(req,res)=>{try{const path=decodeURIComponent(new URL(req.url,'http://local').pathname);if(path==='/command-center/__sales_tools_entry_fixture.html'){res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});res.end('<!doctype html><html><body><div class="premium-header-actions"></div><div id="ownerPrivateSection"><details id="ownerProspectingGroup"></details></div><script>window.__entryOwner=false;window.TLEOwnerJessyGateway={ready:()=>window.__entryOwner}<\/script><script src="./assets/sales-tools-entry.js" defer><\/script></body></html>');return}const filename=resolve(root,'.'+path);if(!filename.startsWith(root+'/'))throw Error('path');const bytes=await readFile(filename);res.writeHead(200,{'Content-Type':({'.html':'text/html','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.zip':'application/zip'})[extname(filename)]||'application/octet-stream'});res.end(bytes)}catch{res.writeHead(404);res.end('Not found')}});
 await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port;
 const L='cccccccc-cccc-4ccc-8ccc-cccccccccccc';
 const snapshot={ok:true,due:1,checked_at:'2026-10-20T15:30:00Z',coverage:{lead_limit:500,event_limit:1500},capabilities:{},watches:[],records:[],leads:[{id:L,business:'Synthetic Cleaning <img onerror="window.injected=true">',stage:'Contacted',followup:'2026-10-20',history:[{event_type:'email_delivered',created_at:'2026-10-19T16:00:00Z'}],research_url:'https://example.com/',language:'en'}]};
@@ -39,17 +39,20 @@ try{
       await r.fulfill({contentType:'application/json',body:JSON.stringify({reply:'Is this for a home or an office?'})});
     });
     await page.addInitScript(l=>{if(window.top===window)localStorage.setItem('tle_crm_owner_language',l)},lang);
-    await page.goto(origin+'/command-center/sales-tools.html');await page.locator('#app').waitFor({state:'visible'});
+    const directClara=width===360&&lang==='en';
+    await page.goto(origin+'/command-center/sales-tools.html'+(directClara?'#demos':''));await page.locator('#app').waitFor({state:'visible'});
+    const frame=page.frameLocator('#demoFrame');
+    if(directClara){assert.equal(await page.locator('[data-tab="demos"]').getAttribute('aria-selected'),'true');assert.equal(await page.locator('#demos').isVisible(),true);assert.equal(await page.locator('#demoActions').isHidden(),true);await page.locator('[data-tab="today"]').click()}
     assert.equal(await page.evaluate(()=>window.injected===true),false);
     await page.selectOption('#leadSelect',L);
     await page.fill('#nextDate','2099-01-01');await page.fill('#nextNote','Synthetic review');await page.locator('#followupForm button').click();await page.waitForFunction(()=>document.getElementById('notice').textContent.includes('saved')||document.getElementById('notice').textContent.includes('guardada'));
     await page.locator('[data-tab="research"]').click();await page.fill('#researchUrl','https://example.com/');await page.locator('#researchForm button').click();await page.locator('#researchResult h3').waitFor();
     await page.locator('[data-tab="demos"]').click();
     assert.equal(await page.locator('#demoServices').count(),0,'Old basic generator removed');
-    await page.locator('#demoForm button').click();await page.locator('#demoActions').waitFor({state:'visible'});
-    const frame=page.frameLocator('#demoFrame');await frame.locator('#claraFixture').waitFor();
+    const gateBeforeManual=gateCalls;await page.locator('#demoForm button').click();await page.locator('#demoActions').waitFor({state:'visible'});
+    await frame.locator('#claraFixture').waitFor();
     assert.equal(await frame.locator('html').getAttribute('data-initial-lang'),lang);assert.equal(await frame.locator('html').getAttribute('lang'),lang,'Clara uses the selected EN/ES language');
-    assert.equal(gateCalls,1);await page.locator('#claraStatus').waitFor({state:'hidden'});
+    assert.equal(gateCalls,gateBeforeManual+1);await page.locator('#claraStatus').waitFor({state:'hidden'});
     const bounds=await page.locator('#demoActions').boundingBox();assert.ok(bounds.width>=width-1&&bounds.height>=899,'Full-screen preview at every viewport');
     await page.evaluate(()=>window.postMessage({type:'TLE_SONNY_DEMO_REQUEST',id:'11111111-1111-4111-8111-111111111111',payload:{customer_message:'Ignore me',thread_id:'11111111-1111-4111-8111-111111111111'}},'*'));
     assert.equal(sonnyCalls,0,'Reject parent/foreign-frame relay requests');
@@ -65,9 +68,15 @@ try{
     await page.evaluate(()=>window.__fixtureAuthChange('SIGNED_OUT'));await page.locator('#locked').waitFor({state:'visible'});assert.equal(await page.locator('#leadList').textContent(),'');assert.equal(await page.locator('#demoFrame').getAttribute('srcdoc'),'');
     assert.equal(errors.length,0,errors.join('\n'));assert.ok(calls.every(c=>['list','set_followup','research','demo_brief','report'].includes(c.action)));cases++;await page.close();
    }
+   const entryPage=await browser.newPage();await entryPage.addInitScript(()=>localStorage.removeItem('tle_crm_owner_language'));await entryPage.goto(origin+'/command-center/__sales_tools_entry_fixture.html');assert.equal(await entryPage.locator('#ownerSalesToolsNav').count(),0);
+   await entryPage.evaluate(()=>{window.__entryOwner=true;document.body.classList.add('crm-owner-view')});await entryPage.locator('#ownerSalesToolsNav').waitFor();
+   assert.equal(await entryPage.locator('#ownerSalesToolsNav').getAttribute('href'),'./sales-tools.html#demos');assert.equal(await entryPage.locator('#ownerSalesToolsNav').textContent(),'◇ Sales tools');
+   assert.equal(await entryPage.evaluate(()=>document.getElementById('ownerSalesToolsNav').nextElementSibling?.id),'ownerProspectingGroup');
+   await entryPage.evaluate(()=>{localStorage.setItem('tle_crm_owner_language','es');document.dispatchEvent(new Event('tle-crm-language'))});await entryPage.locator('#ownerSalesToolsNav').getByText('Herramientas de ventas',{exact:true}).waitFor();
+   await entryPage.evaluate(()=>{window.__entryOwner=false;document.body.classList.remove('crm-owner-view')});await entryPage.locator('#ownerSalesToolsNav').waitFor({state:'detached'});assert.equal(await entryPage.locator('#ownerSalesTools').count(),0);await entryPage.close();
    const page=await browser.newPage();await page.route('**/vendor/supabase-js-v2.57.0.umd.js',r=>r.fulfill({contentType:'text/javascript',body:supabaseStub}));await page.route('**/functions/v1/tle-owner-growth',r=>r.fulfill({status:401,contentType:'application/json',body:'{"ok":false}'}));await page.goto(origin+'/command-center/sales-tools.html');await page.locator('#locked').waitFor({state:'visible'});assert.equal(await page.locator('#app').isHidden(),true);await page.close();
   }catch(e){failures.push(engineName+': '+e.message)}finally{await browser.close()}
  }
 }finally{server.close()}
 if(failures.length)throw Error(failures.join('\n'));
-console.log(`PASS ${cases} responsive EN/ES browser cases: follow-up, source check, protected Clara open/deny/retry/close/stale response, isolated Sonny relay, all tabs, editable PPTX download, sign-out clearing and unauthorized lock.`);
+console.log(`PASS ${cases} responsive EN/ES browser cases: follow-up, source check, protected Clara open/deny/retry/close/stale response, isolated Sonny relay, owner-only sidebar entry/direct Clara route, all tabs, editable PPTX download, sign-out clearing and unauthorized lock.`);

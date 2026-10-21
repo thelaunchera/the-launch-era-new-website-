@@ -18,7 +18,7 @@ permissions:
 jobs:
   build-only:
     name: Verify GitHub Pages output without publishing
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - name: Check out PR source

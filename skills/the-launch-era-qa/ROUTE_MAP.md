@@ -882,3 +882,10 @@ On `/lead-private-preview.html` sample only, `tle-demo-enhancements-v12.js` owns
 - Live dedicated portal metadata now pins source `e803ceccad23bd501c557d46e630187e829f4a46`. Published `sales-tools.html`, `assets/sales-tools.js` and `assets/sales-tools.css` match that approved source by SHA-256. The Demos tab now reads Clara demo and opens the protected original preview full-screen.
 - Exact-source responsive CI passed in website run 39458064326 and isolated portal run 39458079983. Live gate/Sonny OPTIONS both return 204 with the dedicated Command Center origin; no-session gate POST returns 401 and invalid Sonny POST returns 400 with correct CORS. These checks send no emails or bookings and expose no protected HTML.
 - Positive owner-session acceptance remains distinct from CI's synthetic protected document. No signed-in production-owner browser interaction was claimed during this release.
+
+
+## 2026-10-21 — Owner sidebar access to Sales tools and Clara
+- The authenticated TLE owner sidebar now shows a top-level **Sales tools** link immediately before **More tools**. It is injected only when the existing owner gateway is verified; buyer navigation is unchanged and the link is removed on owner/session loss.
+- Destination: `./sales-tools.html#demos`. The hash selects the **Clara demo** tab after the normal owner API verification succeeds. The protected `owner_preview` still opens only from the explicit **Open Clara demo** button; the private Clara HTML remains server-only and the iframe sandbox is unchanged.
+- The existing header shortcut remains. EN/ES labels follow `tle_crm_owner_language`; regression QA covers owner-only visibility, sidebar placement, direct Clara routing, both browser engines and existing protected-demo lifecycle checks.
+- Release status: source prepared; CI, dedicated overlay pin and live owner-device verification must complete before this is marked published.
