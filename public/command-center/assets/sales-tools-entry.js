@@ -18,6 +18,6 @@
   }
   if(sidebarLink?.isConnected){sidebarLink.querySelector('span:last-child').textContent=es?'Herramientas de ventas':'Sales tools';sidebarLink.setAttribute('aria-label',es?'Herramientas de ventas · Demo de Clara':'Sales tools · Clara demo')}
  }
- new MutationObserver(sync).observe(document.body,{attributes:true,childList:true,subtree:true,attributeFilter:['class']});
+ new MutationObserver(sync).observe(document.body,{attributes:true,subtree:true,attributeFilter:['class']});
  document.addEventListener('tle-crm-language',()=>{remove();sync()});window.addEventListener('tle-crm-ready',sync);sync();
 })();
