@@ -68,7 +68,7 @@ try{
     await page.evaluate(()=>window.__fixtureAuthChange('SIGNED_OUT'));await page.locator('#locked').waitFor({state:'visible'});assert.equal(await page.locator('#leadList').textContent(),'');assert.equal(await page.locator('#demoFrame').getAttribute('srcdoc'),'');
     assert.equal(errors.length,0,errors.join('\n'));assert.ok(calls.every(c=>['list','set_followup','research','demo_brief','report'].includes(c.action)));cases++;await page.close();
    }
-   const entryPage=await browser.newPage();await entryPage.goto(origin+'/command-center/__sales_tools_entry_fixture.html');assert.equal(await entryPage.locator('#ownerSalesToolsNav').count(),0);
+   const entryPage=await browser.newPage();await entryPage.addInitScript(()=>localStorage.removeItem('tle_crm_owner_language'));await entryPage.goto(origin+'/command-center/__sales_tools_entry_fixture.html');assert.equal(await entryPage.locator('#ownerSalesToolsNav').count(),0);
    await entryPage.evaluate(()=>{window.__entryOwner=true;document.body.classList.add('crm-owner-view')});await entryPage.locator('#ownerSalesToolsNav').waitFor();
    assert.equal(await entryPage.locator('#ownerSalesToolsNav').getAttribute('href'),'./sales-tools.html#demos');assert.equal(await entryPage.locator('#ownerSalesToolsNav').textContent(),'◇ Sales tools');
    assert.equal(await entryPage.evaluate(()=>document.getElementById('ownerSalesToolsNav').nextElementSibling?.id),'ownerProspectingGroup');
