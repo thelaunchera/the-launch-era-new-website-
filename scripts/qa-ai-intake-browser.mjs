@@ -45,6 +45,7 @@ try{
    throw Error('Unexpected request: '+JSON.stringify(input));
   });
   await page.goto(base+'/ai-booking-assistant/onboarding/?session_id=cs_live_MOCKNOCHARGE123&lang='+s.lang,{waitUntil:'domcontentloaded'});
+  await page.locator(".privacy-notice [data-reject]").click({timeout:10000});
   await page.locator('#intake').waitFor({state:'visible',timeout:6000}).catch(async ()=>{
    const status=await page.locator('#status').innerText().catch(()=>'(none)');
    const text=await page.locator('#paymentText').innerText().catch(()=>'(none)');
@@ -101,6 +102,7 @@ try{
   await page.route('**/functions/v1/**',r=>{externalOps++;return r.abort();});
   await page.route('**/api.stripe.com/**',r=>{externalOps++;return r.abort();});
   await page.goto(base+'/ai-booking-assistant/intake-test/?plan=ai-business&lang='+lang,{waitUntil:'domcontentloaded'});
+  await page.locator(".privacy-notice [data-reject]").click({timeout:10000});
   await page.locator('#intake').waitFor({state:'visible',timeout:8000});
   assert.match(await page.locator('#testBanner').innerText(),/NO PAYMENT/);
   assert.match(await page.locator('#paymentText').innerText(),/\$39/);
@@ -134,6 +136,7 @@ try{
   await page.route("**/functions/v1/**",r=>{requests++;return r.abort();});
   const prefix=lang==="es"?"/es":"";
   await page.goto(base+prefix+"/booking-flow-intake/?demo=1",{waitUntil:"domcontentloaded"});
+  await page.locator(".privacy-notice [data-reject]").click({timeout:10000});
   await page.locator('input[name="owner_name"]').fill("Example Owner");
   await page.locator('input[name="business_name"]').fill("QA Cleaning");
   await page.locator('#businessEmail').fill("demo@example.com");
@@ -177,6 +180,7 @@ try{
   let live=0;page.on("pageerror",e=>errors.push(String(e)));
   await page.route("**/functions/v1/**",route=>{live++;return route.abort();});
   await page.goto(base+(lang==="es"?"/es":"")+"/booking-flow-intake/?demo=1&bundle=ai-business",{waitUntil:"domcontentloaded"});
+  await page.locator(".privacy-notice [data-reject]").click({timeout:10000});
   assert.equal(await page.locator("#tleBundleAiIntake").isVisible(),true);
   assert.equal(await page.locator("#tleBundleAiBooking").isVisible(),false,"Legacy booking question must be hidden");
   assert.equal(await page.locator("#tleBundleAiFollowup").isVisible(),false,"Legacy follow-up question must be hidden");
