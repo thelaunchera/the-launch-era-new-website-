@@ -21,6 +21,8 @@ try{
    const pageErrors=[];
    page.on('pageerror',err=>pageErrors.push(err.message));
    await page.goto(base+route,{waitUntil:'domcontentloaded',timeout:45000});
+   await page.locator('.privacy-notice [data-reject]').click({timeout:20000});
+   assert.equal(await page.locator('.privacy-notice').isVisible(),false,'Reject optional statistics without blocking the site');
    const footer=page.locator('.site-footer.tle-footer-theme');
    const toggle=footer.locator('.tle-footer-toggle[role="switch"]');
    await toggle.waitFor({state:'attached',timeout:18000});
@@ -54,6 +56,7 @@ try{
  }
  const reduced=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce',colorScheme:'light'});
  await reduced.goto(base+'/help/',{waitUntil:'domcontentloaded'});
+ await reduced.locator('.privacy-notice [data-reject]').click({timeout:20000});
  await reduced.locator('.tle-footer-toggle').click();
  await reduced.waitForFunction(()=>document.querySelector('.tle-footer-toggle')?.getAttribute('aria-checked')==='true');
  const none=await reduced.locator('.tle-footer-toggle-thumb').evaluate(el=>getComputedStyle(el).transitionDuration);
