@@ -146,25 +146,7 @@ function RootShell({ children }: { children: ReactNode }) {
 })();
 ` }}
         />
-        {/* Initialize the production GA4 queue before the app hydrates, so landing
-            and checkout events are never discarded while the tag is loading. */}
-        <script
-          dangerouslySetInnerHTML={{ __html: `
-(function () {
-  var host = location.hostname.toLowerCase();
-  if (host !== 'thelaunchera.com' && host !== 'www.thelaunchera.com' && host !== 'thelaunchera.github.io') return;
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
-  var script = document.createElement('script');
-  script.async = true;
-  script.src = 'https://www.googletagmanager.com/gtag/js?id=G-N5BHMC432Q';
-  script.setAttribute('data-tle-ga', '1');
-  document.head.appendChild(script);
-  window.gtag('js', new Date());
-  window.gtag('config', 'G-N5BHMC432Q');
-})();
-` }}
-        />
+        <script src="/assets/privacy-controls.js?v=20261026-1" data-site="tle" data-ga-id="G-N5BHMC432Q" data-manual-mount="true" />
       </head>
       <body>
         {children}
@@ -180,6 +162,9 @@ function RootComponent() {
   // Give nested SSR boundaries time to hydrate before marketing DOM enhancement.
   // No changes to the existing assistant, verified purchase or newsletter logic.
   useEffect(() => {
+    window.dispatchEvent(new Event('tle:privacy-mount'));
+    const privacy = (window as Window & {TLEPrivacy?: {mount:()=>void}}).TLEPrivacy;
+    privacy?.mount();
     const sources = [
       '/assets/jessy-site.js?v=20261016-slow-blue-bubbles-v10',
       '/assets/tle-purchase-proof.js?v=20261016-mini3',

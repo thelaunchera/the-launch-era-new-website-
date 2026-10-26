@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-<head>
+<head><script src="/assets/privacy-controls.js?v=20261026-1" data-site="tle" data-ga-id="G-N5BHMC432Q"></script>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#FAF8F3">
 <title>Cleaning App | Interactive Preview · The Launch Era</title>
@@ -96,12 +96,12 @@ section.container.end>.btn{flex:0 1 auto;max-width:100%;min-height:54px;text-ali
 }
 </style>
 <link rel="stylesheet" href="/assets/cleaning-demo-populated.css?v=20261013-01">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-N5BHMC432Q"></script>
+
 <script>
-window.dataLayer=window.dataLayer||[];
-function gtag(){dataLayer.push(arguments)}
-gtag('js',new Date());
-gtag('config','G-N5BHMC432Q');
+
+
+
+
 const trackingParams=new URLSearchParams(location.search);
 function demoSource(){
  let source=(trackingParams.get('utm_source')||trackingParams.get('source')||'').trim().toLowerCase();
@@ -111,7 +111,7 @@ function demoSource(){
 }
 function demoTrack(event,fields={}){
  if(navigator.webdriver)return;
- try{gtag('event',event,{product:'cleaning_web_app',site_surface:'cleaning_app_demo',traffic_source:demoSource(),traffic_campaign:trackingParams.get('utm_campaign')||sessionStorage.getItem('tleTrafficCampaign')||undefined,traffic_medium:trackingParams.get('utm_medium')||sessionStorage.getItem('tleTrafficMedium')||undefined,...fields})}catch{}
+ try{window.gtag?.('event',event,{product:'cleaning_web_app',site_surface:'cleaning_app_demo',traffic_source:demoSource(),traffic_campaign:trackingParams.get('utm_campaign')||sessionStorage.getItem('tleTrafficCampaign')||undefined,traffic_medium:trackingParams.get('utm_medium')||sessionStorage.getItem('tleTrafficMedium')||undefined,...fields})}catch{}
 }
 demoTrack('cleaning_app_demo_view',{language:trackingParams.get('lang')==='es'?'es':'en'});
 </script>
@@ -160,4 +160,4 @@ trialLink.addEventListener('click',()=>{
 });
 </script>
 <script src="/assets/cleaning-demo-populated.js?v=20261013-miami-1"></script>
-</body></html>
+<footer id="public-policy-links" style="position:relative;padding:20px;background:#faf8f3;color:#191919;text-align:center;font:14px/1.5 system-ui,sans-serif"><nav aria-label="Policies"><a href="/privacy.html" style="display:inline-block;min-height:44px;padding:10px">Privacy</a> <a href="/terms.html" style="display:inline-block;min-height:44px;padding:10px">Terms</a> <a href="/refunds.html" style="display:inline-block;min-height:44px;padding:10px">Refunds</a> <a href="/cookies.html" style="display:inline-block;min-height:44px;padding:10px">Cookies</a> <a href="/privacy-choices.html" style="display:inline-block;min-height:44px;padding:10px">Your data</a></nav></footer></body></html>

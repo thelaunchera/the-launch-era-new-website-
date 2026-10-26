@@ -91,6 +91,9 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Verify optional statistics consent and withdrawal
+        run: node scripts/qa-privacy-choice.mjs
+
       - name: Test Jessy's private FAQ, reasoning, contextual prices and anti-repetition
         run: bun scripts/qa-jessy-reasoning.ts
 

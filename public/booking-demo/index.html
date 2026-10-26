@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-<head>
+<head><script src="/assets/privacy-controls.js?v=20261026-1" data-site="tle" data-ga-id="G-N5BHMC432Q"></script>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#FAF8F3">
 <title>Booking Automation + Command Center Demo · The Launch Era</title>
@@ -61,12 +61,12 @@ footer{text-align:center;border-top:1px solid var(--line);background:#fff;paddin
 <section class="card" aria-label="Personalized demo request"><div id="formArea"><h2 id="formTitle">Request your personalized demo</h2><p id="formIntro">Just a few details to get started.</p><form id="demoForm"><div class="two"><label><span id="nameLabel">Your name</span><input name="name" autocomplete="name" placeholder="First & last name" required></label><label><span id="emailLabel">Email address</span><input name="email" type="email" autocomplete="email" placeholder="Your email for secure access" required></label></div><label><span id="businessLabel">Business name</span><input name="business" autocomplete="organization" placeholder="Your cleaning business" required></label><label><span id="areaLabel">Service area</span><input name="serviceArea" placeholder="City or area you serve" required></label><label><span id="goalLabel">What would you most like help with?</span><textarea name="goal" placeholder="Bookings, follow-ups, organization..."></textarea></label><div id="error" class="error" role="alert" hidden></div><button id="submit" class="action" type="submit">Send my verification link →</button><p id="privacy" class="helper">Your details are used to generate and email your demo automatically. No call or payment required.</p></form></div><div id="success" class="success" role="status" hidden><h2 id="thanksTitle">Check your email to verify access</h2><p id="thanksCopy">We’ve emailed your private verification link. Request and enter the six-digit code there. Once verified, we’ll email your personalized demo.</p><a class="tryagain" id="another" href="/booking-lead-automation">Explore Booking Automation</a></div></section>
 </div></main>
 <footer id="footer">The Launch Era · Booking Automation + Command Center</footer>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-N5BHMC432Q"></script>
+
 <script>
-window.dataLayer=window.dataLayer||[];
-function gtag(){dataLayer.push(arguments)}
-gtag('js',new Date());
-gtag('config','G-N5BHMC432Q');
+
+
+
+
 </script>
 <script>
 const translations={
@@ -81,7 +81,7 @@ langSelect.value=qs.get('lang')==='es'?'es':'en';
 const textIDs=['serviceBack','kicker','intro','stepsEyebrow','stepsTitle','stepsIntro','stepA','stepB','stepC','disclaimer','formTitle','formIntro','nameLabel','emailLabel','businessLabel','areaLabel','goalLabel','submit','privacy','thanksTitle','thanksCopy','another','footer'];
 function track(event,fields={}){
  if(navigator.webdriver)return;
- try{gtag('event',event,{product:'booking_lead_automation',site_surface:'personalized_demo_request',language:langSelect.value,traffic_source:qs.get('source')||qs.get('utm_source')||'direct',...fields})}catch{}
+ try{window.gtag?.('event',event,{product:'booking_lead_automation',site_surface:'personalized_demo_request',language:langSelect.value,traffic_source:qs.get('source')||qs.get('utm_source')||'direct',...fields})}catch{}
 }
 function render(){
  const lang=langSelect.value,d=translations[lang];
@@ -143,4 +143,4 @@ langSelect.addEventListener('change',render);
 track('booking_demo_view',{preview_type:'personalized'});
 render();
 </script>
-<script src="/assets/jessy-site.js?v=20261016-slow-blue-bubbles-v10" defer></script><script src="/assets/tle-demo-enhancements-v12.js?v=20261015-sonny-inline-v8" defer></script></body></html>
+<script src="/assets/jessy-site.js?v=20261016-slow-blue-bubbles-v10" defer></script><script src="/assets/tle-demo-enhancements-v12.js?v=20261015-sonny-inline-v8" defer></script><footer id="public-policy-links" style="position:relative;padding:20px;background:#faf8f3;color:#191919;text-align:center;font:14px/1.5 system-ui,sans-serif"><nav aria-label="Policies"><a href="/privacy.html" style="display:inline-block;min-height:44px;padding:10px">Privacy</a> <a href="/terms.html" style="display:inline-block;min-height:44px;padding:10px">Terms</a> <a href="/refunds.html" style="display:inline-block;min-height:44px;padding:10px">Refunds</a> <a href="/cookies.html" style="display:inline-block;min-height:44px;padding:10px">Cookies</a> <a href="/privacy-choices.html" style="display:inline-block;min-height:44px;padding:10px">Your data</a></nav></footer></body></html>

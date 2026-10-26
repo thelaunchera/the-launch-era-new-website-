@@ -123,6 +123,7 @@ function pageText(kind){
 function node(tag,cls,text){const x=document.createElement(tag);if(cls)x.className=cls;if(text!==undefined)x.textContent=text;return x}
 function button(cls,label,title){const b=node("button",cls,label);b.type="button";if(title)b.setAttribute("aria-label",title);return b}
 function track(action){
+ if(!window.TLEPrivacy?.allowed())return;
  try{window.tleTrackEvent?.("jessy_interaction",{action,language:lang,service:allowedService.has(offer)?offer:"general",intent:lastIntent})}catch{}
  if(!categoryEvents.has(action)||!/^(thelaunchera\.com|www\.thelaunchera\.com)$/.test(location.hostname))return;
  const body={event:action,language:lang,service:allowedService.has(offer)?offer:"general",intent:lastIntent};

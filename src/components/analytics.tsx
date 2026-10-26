@@ -3,6 +3,7 @@ import { useRouterState } from '@tanstack/react-router';
 
 declare global {
   interface Window {
+    TLEPrivacy?: {allowed:()=>boolean};
     dataLayer?: unknown[];
     gtag?: (...args:any[])=>void;
     tleTrackEvent?: (name:string,params?:Record<string,unknown>)=>void;
@@ -39,7 +40,7 @@ export function Analytics(){
     const qs=new URLSearchParams(location.search);
     let campaign=(qs.get('utm_campaign')||'').trim();
     let medium=(qs.get('utm_medium')||'').trim().toLowerCase();
-    try{
+    if(window.TLEPrivacy?.allowed()) try{
       if(!campaign) campaign=sessionStorage.getItem('tleTrafficCampaign')||'';
       if(!medium) medium=sessionStorage.getItem('tleTrafficMedium')||'';
       sessionStorage.setItem('tleTrafficSource',source);
@@ -49,7 +50,7 @@ export function Analytics(){
     }catch{}
 
     window.tleTrackEvent=(name,params={})=>{
-      if(enabled&&window.gtag) window.gtag('event',name,{
+      if(enabled&&window.TLEPrivacy?.allowed()&&window.gtag) window.gtag('event',name,{
         site_surface:'main_website',
         page_path:location.pathname,
         traffic_source:source,
@@ -71,7 +72,7 @@ export function Analytics(){
 
     const click=(e:MouseEvent)=>{
       const a=(e.target as HTMLElement)?.closest?.('a[href]') as HTMLAnchorElement|null;
-      if(!a) return;
+      if(!a || !window.TLEPrivacy?.allowed()) return;
       const u=new URL(a.href,location.href);
       const activeSource=detectedTrafficSource();
       const service=a.closest('.service-card')?.querySelector('h3')?.textContent?.trim();

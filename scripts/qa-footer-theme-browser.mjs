@@ -27,7 +27,7 @@ try{
    await page.waitForFunction(()=>document.querySelector('.site-footer')?.classList.contains('tle-footer-ready'));
    const nav=footer.locator('.footer-links a');
    const urls=await nav.evaluateAll(links=>links.map(a=>a.getAttribute('href')));
-   assert.equal(urls.length,5,'Five real footer links: '+route);
+   assert.equal(urls.length,8,'Eight real footer links: '+route);
    assert.equal(await footer.locator('form[data-tle-newsletter]').count(),1,'One newsletter: '+route);
    assert.equal(await toggle.getAttribute('aria-checked'),'false','Light initial preference: '+route);
    assert(await page.locator('link[href*="tle-footer-theme-sweep.css"]').count()>0,'Missing published stylesheet '+route);
@@ -47,7 +47,7 @@ try{
    await page.locator('.site-footer .tle-footer-toggle').click();
    await page.waitForFunction(()=>document.querySelector('.site-footer .tle-footer-toggle')?.getAttribute('aria-checked')==='false');
    assert.equal(await page.evaluate(()=>localStorage.getItem('tle_footer_theme_v1')),'light');
-   assert.equal(await page.locator('.site-footer .footer-links a').count(),5);
+   assert.equal(await page.locator('.site-footer .footer-links a').count(),8);
    assert.deepEqual(pageErrors.filter(x=>x.includes('footer')),[],'Footer runtime errors: '+route);
    await page.close();
   }
