@@ -118,6 +118,6 @@ export function ContactSteps({ language, status, panels, finish, onSubmit, error
       {step > 0 && <button className="tle-contact-back" type="button" onClick={() => setStep(current => current - 1)} disabled={busy || !ready}>{es ? 'Atrás' : 'Back'}</button>}
       {step < STEP_COUNT - 1 ? <button className="tle-contact-next" type="button" onClick={advance} disabled={busy || !ready}>{es ? 'Siguiente' : 'Next'} <span aria-hidden="true">→</span></button> : finish}
     </div>
-    <p className="form-disclaimer">{disclaimer}</p>
+    <p className="form-disclaimer">{disclaimer} <a href={es ? "/es/privacy.html" : "/privacy.html"}>{es ? "Privacidad" : "Privacy Policy"}</a>.</p>
   </form>;
 }

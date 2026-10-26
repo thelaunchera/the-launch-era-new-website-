@@ -21,13 +21,15 @@ try{
    const pageErrors=[];
    page.on('pageerror',err=>pageErrors.push(err.message));
    await page.goto(base+route,{waitUntil:'domcontentloaded',timeout:45000});
+   await page.locator('.privacy-notice [data-reject]').click({timeout:20000});
+   assert.equal(await page.locator('.privacy-notice').isVisible(),false,'Reject optional statistics without blocking the site');
    const footer=page.locator('.site-footer.tle-footer-theme');
    const toggle=footer.locator('.tle-footer-toggle[role="switch"]');
    await toggle.waitFor({state:'attached',timeout:18000});
    await page.waitForFunction(()=>document.querySelector('.site-footer')?.classList.contains('tle-footer-ready'));
    const nav=footer.locator('.footer-links a');
    const urls=await nav.evaluateAll(links=>links.map(a=>a.getAttribute('href')));
-   assert.equal(urls.length,5,'Five real footer links: '+route);
+   assert.equal(urls.length,8,'Eight real footer links: '+route);
    assert.equal(await footer.locator('form[data-tle-newsletter]').count(),1,'One newsletter: '+route);
    assert.equal(await toggle.getAttribute('aria-checked'),'false','Light initial preference: '+route);
    assert(await page.locator('link[href*="tle-footer-theme-sweep.css"]').count()>0,'Missing published stylesheet '+route);
@@ -47,13 +49,14 @@ try{
    await page.locator('.site-footer .tle-footer-toggle').click();
    await page.waitForFunction(()=>document.querySelector('.site-footer .tle-footer-toggle')?.getAttribute('aria-checked')==='false');
    assert.equal(await page.evaluate(()=>localStorage.getItem('tle_footer_theme_v1')),'light');
-   assert.equal(await page.locator('.site-footer .footer-links a').count(),5);
+   assert.equal(await page.locator('.site-footer .footer-links a').count(),8);
    assert.deepEqual(pageErrors.filter(x=>x.includes('footer')),[],'Footer runtime errors: '+route);
    await page.close();
   }
  }
  const reduced=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce',colorScheme:'light'});
  await reduced.goto(base+'/help/',{waitUntil:'domcontentloaded'});
+ await reduced.locator('.privacy-notice [data-reject]').click({timeout:20000});
  await reduced.locator('.tle-footer-toggle').click();
  await reduced.waitForFunction(()=>document.querySelector('.tle-footer-toggle')?.getAttribute('aria-checked')==='true');
  const none=await reduced.locator('.tle-footer-toggle-thumb').evaluate(el=>getComputedStyle(el).transitionDuration);

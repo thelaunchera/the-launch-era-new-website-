@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-<head>
+<head><script src="/assets/privacy-controls.js?v=20261026-1" data-site="tle" data-ga-id="G-N5BHMC432Q"></script>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#FAF8F3">
 <title>Cleaning App | Interactive Preview · The Launch Era</title>
@@ -96,12 +96,12 @@ section.container.end>.btn{flex:0 1 auto;max-width:100%;min-height:54px;text-ali
 }
 </style>
 <link rel="stylesheet" href="/assets/cleaning-demo-populated.css?v=20261013-01">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-N5BHMC432Q"></script>
+
 <script>
-window.dataLayer=window.dataLayer||[];
-function gtag(){dataLayer.push(arguments)}
-gtag('js',new Date());
-gtag('config','G-N5BHMC432Q');
+
+
+
+
 const trackingParams=new URLSearchParams(location.search);
 function demoSource(){
  let source=(trackingParams.get('utm_source')||trackingParams.get('source')||'').trim().toLowerCase();
@@ -111,7 +111,7 @@ function demoSource(){
 }
 function demoTrack(event,fields={}){
  if(navigator.webdriver)return;
- try{gtag('event',event,{product:'cleaning_web_app',site_surface:'cleaning_app_demo',traffic_source:demoSource(),traffic_campaign:trackingParams.get('utm_campaign')||sessionStorage.getItem('tleTrafficCampaign')||undefined,traffic_medium:trackingParams.get('utm_medium')||sessionStorage.getItem('tleTrafficMedium')||undefined,...fields})}catch{}
+ try{window.gtag?.('event',event,{product:'cleaning_web_app',site_surface:'cleaning_app_demo',traffic_source:demoSource(),traffic_campaign:trackingParams.get('utm_campaign')||sessionStorage.getItem('tleTrafficCampaign')||undefined,traffic_medium:trackingParams.get('utm_medium')||sessionStorage.getItem('tleTrafficMedium')||undefined,...fields})}catch{}
 }
 demoTrack('cleaning_app_demo_view',{language:trackingParams.get('lang')==='es'?'es':'en'});
 </script>
@@ -122,7 +122,7 @@ demoTrack('cleaning_app_demo_view',{language:trackingParams.get('lang')==='es'?'
 <section class="intro container"><div class="eyebrow" data-i18n="kicker">THE LAUNCH ERA CLEANING APP</div><h1 data-i18n-html="headline">See how your cleaning business <em>stays organized.</em></h1><p data-i18n="intro">Explore a sample workday: check your calendar, open a job, view a client, prepare a quote, and manage an invoice. Nothing you click here sends emails, collects information, or changes a real account.</p><div class="guide"><span data-i18n-html="g1"><b>1</b> Pick a section</span><span data-i18n-html="g2"><b>2</b> Try a sample action</span><span data-i18n-html="g3"><b>3</b> Start your own account when you're ready</span></div></section>
 <section class="container" aria-label="Sample app interactive workspace"><div class="scene"><div class="app-bar"><div class="app-logo">THE LAUNCH ERA <small>CLEANING APP</small></div><div class="app-right" data-i18n="sampleBar">SAMPLE WORKSPACE · NO LOGIN REQUIRED</div></div><div class="preview-layout"><nav class="sidebar" aria-label="App sections"><div class="nav-label" data-i18n="navTitle">YOUR WORKSPACE</div><div class="nav-list" id="nav"></div></nav><div class="content" id="app" aria-live="polite"></div></div></div></section>
 <section class="container end"><div><h2 data-i18n="endTitle">Your business. Your actual workspace.</h2><p data-i18n="endText">This interactive preview uses fictional clients and sample actions. Your Cleaning App account is separate from Booking Automation + Command Center.</p></div><a class="btn" id="trial" href="https://app.thelaunchera.com/?entry=signup" data-i18n="trial">Start my 30-day free trial →</a></section>
-</main><footer class="foot" data-i18n="footer">The Launch Era · Illustrative preview only. No real client records or payments.</footer>
+</main><footer class="foot" data-i18n="footer">The Launch Era · Illustrative preview only. No real client records or payments.<nav aria-label="Policies"><a href="/privacy.html" style="display:inline-block;min-height:44px;padding:10px">Privacy</a> <a href="/terms.html" style="display:inline-block;min-height:44px;padding:10px">Terms</a> <a href="/refunds.html" style="display:inline-block;min-height:44px;padding:10px">Refunds</a> <a href="/cookies.html" style="display:inline-block;min-height:44px;padding:10px">Cookies</a> <a href="/privacy-choices.html" style="display:inline-block;min-height:44px;padding:10px">Your data</a></nav></footer>
 <script>
 const copy={
 en:{badge:"INTERACTIVE PREVIEW · SAMPLE DATA",kicker:"THE LAUNCH ERA CLEANING APP",headline:"See how your cleaning business <em>stays organized.</em>",intro:"Explore a sample workday: check your calendar, open a job, view a client, prepare a quote, and manage an invoice. Nothing you click here sends emails, collects information, or changes a real account.",g1:"<b>1</b> Pick a section",g2:"<b>2</b> Try a sample action",g3:"<b>3</b> Start your own account when you're ready",sampleBar:"SAMPLE WORKSPACE · NO LOGIN REQUIRED",navTitle:"YOUR WORKSPACE",endTitle:"Your business. Your actual workspace.",endText:"This interactive preview uses fictional clients and sample actions. Your Cleaning App account is separate from Booking Automation + Command Center.",trial:"Start my 30-day free trial →",footer:"The Launch Era · Illustrative preview only. No real client records or payments.",nav:["Overview","Calendar","Jobs","Clients","Quotes","Invoices"],head:["Good morning 👋","Your week at a glance","Today's jobs","Your clients","Quotes","Invoices"],subtitle:["Here's what needs your attention today.","A clear view of what's booked and what's next.","The right details for each cleaning.","Contact details and history in one place.","Prepare the next step after an estimate.","See what has been billed and recorded."],sample:"SAMPLE DATA",jobs:"Jobs this week",clients:"Clients",quotes:"Quotes to review",upnext:"Coming up",review:"Needs your attention",seeJobs:"Open jobs →",seeCalendar:"View calendar →",seeClients:"Open clients →",seeQuotes:"Open quotes →",seeInvoices:"Open invoices →",upcoming:"Upcoming cleaning",today:"Today",details:"View job →",jobTitle:"Recurring home cleaning",jobSub:"3 bedrooms · 2 bathrooms · Biweekly",jobTime:"10:30 AM",clientName:"Sarah Mitchell",clientSub:"Recurring client · North Carolina",quoteTitle:"Deep cleaning estimate",quoteSub:"Prepared for Amanda Brooks",invoiceTitle:"Invoice #INV-1042",invoiceSub:"Sarah Mitchell · Recurring cleaning",waiting:"To review",scheduled:"Scheduled",complete:"Completed",draft:"Draft",ready:"Ready to send",unpaid:"Unpaid",paid:"Paid",newJob:"Next scheduled job",jobStatus:"Job status",jobService:"Service",property:"Property",schedule:"Schedule",client:"Client",showClient:"View client record",markDone:"Complete sample job",doneMessage:"Sample job marked completed. No real calendar or client data changed.",reset:"Reset preview",clientHeading:"Client details",contact:"Contact",serviceFrequency:"Frequency",lastService:"Last service",lastServiceVal:"Previous visit · sample",history:"Activity",history1:"Recurring cleaning scheduled",history2:"Invoice prepared",quoteHeading:"Example quote",lineService:"Deep Cleaning",lineArea:"2,000 sq ft · sample property",subTotal:"Illustrative estimate",quoteAction:"Prepare sample quote",quoteMessage:"Quote moved to 'Ready to send' in this preview. No email was sent.",invoiceHeading:"Example invoice",paymentMethod:"Payment method",paymentMethodVal:"Not recorded",amount:"Amount",markPaid:"Mark sample paid",paidMessage:"Invoice marked paid in this preview. No money was received or recorded.",notice:"A safe preview: all clients, dates, prices, and actions here are examples, not your real business data.",tip:"Explore the sections on the left (or above on mobile).",days:["Mon","Tue","Wed","Thu","Fri"],calendarSub:"A sample week with recurring and one-time work.",calendarEntries:["Recurring cleaning · Sarah","Deep cleaning · Amanda","Move-out cleaning · Jessica"],frequencyValue:"Every two weeks",formPreview:"Sample business",location:"Location",oneMore:"See details",quoteReady:"Ready to send",invoiceHint:"In the real app, payment is recorded only after confirmation.",typeOf:"Sample record"},
