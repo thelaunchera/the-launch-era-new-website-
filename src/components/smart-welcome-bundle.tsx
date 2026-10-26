@@ -40,9 +40,9 @@ export function SmartWelcomeBundle({ lang = 'en' }: Props) {
           previouslySeen = window.sessionStorage.getItem(SEEN_KEY) === 'seen';
         } catch { /* private browsing can disable storage */ }
         // Don't interrupt visitors arriving through direct section links.
-        if (!previouslySeen && !window.location.hash) {
+        if (!previouslySeen && !window.location.hash && !document.documentElement.hasAttribute('data-privacy-pending')) {
           popupTimer = window.setTimeout(() => {
-            if (document.visibilityState !== 'visible' || controller.signal.aborted) return;
+            if (document.visibilityState !== 'visible' || controller.signal.aborted || document.documentElement.hasAttribute('data-privacy-pending')) return;
             setOpen(true);
             try { window.sessionStorage.setItem(SEEN_KEY, 'seen'); } catch { /* optional */ }
           }, 1100);
