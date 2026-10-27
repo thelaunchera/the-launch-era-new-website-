@@ -84,7 +84,7 @@ check('Reusable launch checklist exists', () => {
 check('WhatsApp AI launch stays Coming Soon without public prices or checkout', () => {
   const offer = read('src/components/whatsapp-offer.tsx');
   assert.match(offer, /WHATSAPP_COMING_SOON=true/, 'The launch gate must remain enabled');
-  assert.match(offer, /COMING SOON/, 'Homepage WhatsApp asset must show Coming Soon');
+  assert.match(offer, /COMING SOON/, 'Unreleased WhatsApp preview must remain gated as Coming Soon');
   for (const path of ['public/whatsapp-ai-agent/index.html', 'public/es/whatsapp-ai-agent/index.html']) {
     const content = read(path);
     assert.match(content, /class="offer-panel" hidden aria-hidden="true"/, 'Price panel must stay hidden: '+path);
@@ -124,7 +124,7 @@ check('Client review labels are translated in the reusable command center', () =
  assert.match(app,/Aprobar diseño/);
  assert.match(app,/Solicitar cambios/);
 });
-check('WhatsApp Coming Soon English and Spanish feature parity', () => {
+check('WhatsApp standalone preview parity, with no homepage product', () => {
  const en=read('public/whatsapp-ai-agent/index.html');
  const es=read('public/es/whatsapp-ai-agent/index.html');
  const occurrences=(source,re)=>[...source.matchAll(re)].length;
@@ -136,8 +136,8 @@ check('WhatsApp Coming Soon English and Spanish feature parity', () => {
   ['launch banner',/class="coming-soon-note"/g]
  ])assert.equal(occurrences(en,re),occurrences(es,re),'EN/ES mismatch: '+name);
  assert.equal(occurrences(en,/<article class="feature">/g),6,'Six planned features must remain visible');
- assert.match(read('src/components/editorial-sections.tsx'),/Coming Soon/);
- assert.match(read('src/routes/es.index.tsx'),/Próximamente/);
+ assert.doesNotMatch(read('src/components/editorial-sections.tsx'),/WhatsApp AI Agent|WhatsAppOfferPrice/,'WhatsApp product must not appear on EN homepage');
+ assert.doesNotMatch(read('src/routes/es.index.tsx'),/WhatsApp AI Agent|WhatsAppOfferPrice/,'WhatsApp product must not appear on ES homepage');
  assert.doesNotMatch(read('src/components/editorial-sections.tsx'),/while we finish the connection/);
  assert.doesNotMatch(read('src/routes/es.index.tsx'),/mientras preparamos la conexión/);
 });
