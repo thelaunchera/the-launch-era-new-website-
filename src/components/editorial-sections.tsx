@@ -21,7 +21,6 @@ import assistant from '@/assets/assistant-workspace.jpg';
 const aiAgentsPhoto = 'https://images.unsplash.com/photo-1758626099012-2904337e9c60?auto=format&fit=crop&w=1000&q=85';
 import { BookingWalkthrough, PainCards, ProductExplorer } from './home-sales';
 import { MaskCursorHeadline } from './mask-cursor-headline';
-import { WhatsAppOfferPrice } from './whatsapp-offer';
 
 export function Wave({foam=false}:{foam?:boolean}) { return foam ? <div className="foam-wave" aria-hidden="true"><svg viewBox="0 0 1440 110" preserveAspectRatio="none"><path d="M0 48C50 48 52 10 112 17C151 20 166 48 207 46C255 45 261 22 301 25C348 29 346 64 399 63C448 63 459 42 505 44C548 46 555 73 605 70C675 66 686 18 750 23C805 27 807 63 858 60C911 58 918 35 969 38C1020 41 1024 70 1071 68C1116 66 1132 28 1185 33C1232 37 1237 63 1288 61C1344 59 1370 32 1440 40V110H0Z"/></svg></div> : <svg className="soft-wave" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 41C220 2 290 72 510 43C730 13 790 2 980 28C1170 56 1270 7 1440 35V70H0Z"/></svg> }
 const BOOKING_SALE_END=new Date('2026-11-01T04:00:00Z').getTime();
@@ -61,7 +60,6 @@ export function HomeHero() {
 const services = [
  {title:'Booking Automation + Command Center',landing:'/booking-lead-automation',description:'Your Booking Page and private workspace, connected.',image:cleaner,alt:'Cleaner working in a bright residential home',tag:'YOUR BOOKING FLOW, CONNECTED',points:['Booking Page with available times','Edit prices in your Command Center','Up to two automatic follow-ups'],checkout:'/booking-lead-automation'},
  {title:'AI Assistants',landing:'/ai-booking-assistant/',description:'Help with booking questions and follow-ups.',image:aiAgentsPhoto,alt:'Modern AI technology workspace with a laptop and a blue-toned digital assistant screen',tag:'BOOKING AI + FOLLOW-UP AI',points:['AI Booking','AI Follow-Up','Both together'],checkout:'/ai-booking-assistant/'},
- {title:'WhatsApp AI Agent',landing:'/whatsapp-ai-agent/',description:'Organize WhatsApp inquiries with AI. Coming Soon.',image:'https://images.unsplash.com/photo-1758611974917-f7f7a58b74b0?auto=format&fit=crop&w=1200&q=85',alt:'Small business owner using her phone beside a laptop in a bright workspace',tag:'WHATSAPP CONVERSATIONS, ORGANIZED',points:['Answers questions on WhatsApp','Custom quotes remain under your control','Human follow-up when it matters'],checkout:'/whatsapp-ai-agent/'},
  {title:'Cleaning Web App',landing:'/cleaning-web-app',description:'Your calendar, clients, and jobs in one App.',image:webapp,alt:'A phone showing a softly blurred cleaning business management app on a bright desk',tag:'ONE PLACE FOR THE DAY TO DAY',points:['Calendar and jobs at a glance','Clients, quotes, and invoices together','Team and workflow, organized','Time and mileage, kept simple'],checkout:'/cleaning-web-app'},
  {title:'Website Automation',landing:'/website-automation',description:'Keep your website. Organize inquiries and follow-ups.',image:website,alt:'A laptop showing a cleaning business website',tag:'YOUR WEBSITE, CONNECTED TO WHAT’S NEXT',points:['Your existing website connected to the next step','Inquiry details routed into one clear flow','Follow-up that keeps the conversation moving'],checkout:'/website-automation'},
  {title:'Virtual Assistant',landing:'/virtual-assistant',description:'Help with everyday admin and client follow-ups.',image:assistant,alt:'A virtual assistant working at a laptop in her home office',tag:'A LITTLE HELP GOES A LONG WAY',points:['Help with your everyday admin','A more organized inbox and client information','Support shaped around your business'],checkout:'/virtual-assistant'}
@@ -73,7 +71,6 @@ function ServiceCard({service:s,index:i}:{service:typeof services[number],index:
  const {sale}=useBookingPrice();
  const isBooking=s.title==='Booking Automation + Command Center';
  const isAi=s.title==='AI Assistants';
- const isWhats=s.title==='WhatsApp AI Agent';
  const isApp=s.title==='Cleaning Web App';
  const isWebsite=s.title==='Website Automation';
  const isVa=s.title==='Virtual Assistant';
@@ -83,7 +80,6 @@ function ServiceCard({service:s,index:i}:{service:typeof services[number],index:
    ? <div className="booking-offer-line">{sale&&<span className="booking-offer-tag">Current offer</span>}<span className="booking-offer-price service-price-pill">{sale&&<del>$49.99</del>}<strong>{sale?"$15":"$49.99"}</strong></span></div>
    : isAi
      ? <div className="service-card-price-line"><span className="service-price-pill service-ai-price"><strong>From $19 setup</strong></span></div>
-     : isWhats ? <WhatsAppOfferPrice lang="en"/>
      : isWebsite||isVa
        ? <div className="booking-offer-line service-discount-offer"><span className="booking-offer-tag">SPECIAL OFFER</span><span className="booking-offer-price service-price-pill"><del>{isWebsite?"$59.99":"$49.99/mo"}</del><strong>{isWebsite?"$35":"$25/mo"}</strong></span></div>
        : isApp
