@@ -41,6 +41,29 @@ function isPlannedDemoImage(pathname){
 function staticChecks(){
  if(!existsSync(pub))throw Error('Run this script from the website repository root');
  const pages=walk(pub).filter(f=>extname(f)==='.html');
+ // SEO intent: public sales pages can be discovered, private workspaces cannot.
+ const sitemap=readFileSync(join(pub,'sitemap.xml'),'utf8');
+ for(const [url,local] of [
+  ['https://thelaunchera.com/booking-bundle/','booking-bundle/index.html'],
+  ['https://thelaunchera.com/try-booking/','try-booking/index.html']
+ ]){
+  const html=readFileSync(join(pub,local),'utf8');
+  if(!sitemap.includes('<loc>'+url+'</loc>'))errors.push('Indexable sales URL missing in sitemap: '+url);
+  if(!html.includes('rel="canonical" href="'+url+'"'))errors.push('Public sales page missing self-canonical: '+local);
+  if(/<meta[^>]+name=["']robots["'][^>]+noindex/i.test(html))errors.push('Sales page accidentally marked noindex: '+local);
+ }
+ for(const local of [
+  'command-center/index.html',
+  'command-center/access.html',
+  'command-center/lead-insights.html'
+ ]){
+  const html=readFileSync(join(pub,local),'utf8');
+  if(!/<meta[^>]+name=["']robots["'][^>]+content=["'][^"']*noindex/i.test(html))
+   errors.push('Private workspace must be noindex: '+local);
+  if(sitemap.includes('thelaunchera.com/'+(local.endsWith('/index.html')?local.slice(0,-10):local)))
+   errors.push('Private workspace leaked into sitemap: '+local);
+ }
+
  let valid=0,checked=0;
  for(const file of pages){
   const data=readFileSync(file,'utf8'),relative=file.slice(pub.length).replaceAll('\\','/');
