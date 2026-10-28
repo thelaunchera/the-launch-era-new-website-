@@ -3,6 +3,13 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '35 12 * * *'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'public/**'
+      - 'scripts/qa-route-integrity.mjs'
+      - 'skills/the-launch-era-qa/**'
+      - '.github/workflows/tle-route-integrity.yml'
   push:
     branches: [main]
     paths:
