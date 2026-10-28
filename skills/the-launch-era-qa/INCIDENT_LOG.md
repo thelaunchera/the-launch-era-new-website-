@@ -1,3 +1,10 @@
+## 2026-10-28 — Search Console indexing exclusions and missing SEO boundaries
+- Observed: the GSC export through 2026-10-22 shows 27 indexed, 174 nonindexed; 64 are classified as 404 and 12 as robots.txt blocked. Counts are not URL-level proof; some noindex, redirects and canonicals are expected.
+- Verified in source: the private Command Center main page, private access page and internal Lead Insights lacked meta robots noindex. The public, self-canonical sales pages /booking-bundle/ and /try-booking/ were missing from public/sitemap.xml.
+- Minimal repair: add noindex,nofollow,noarchive to those three private HTML pages; add two public URLs to the sitemap; add route integrity guard. Do not block these private paths in robots.txt because that can conceal their noindex tags. The booking-bundle ?lang=es page retains the correct single canonical URL.
+- No new redirects or 404 fixes: the Sheet contains no per-URL 404 list, so guessing would risk real customers, links and prior demos. No customer data, tenants, emails, payments or authentication changes.
+- State at preparation: source changes proposed on review branch. Automated build, GitHub Pages propagation, live HTML and Google recrawl verification are separate steps; do not call them complete before evidence exists.
+
 ## 2026-10-26 — Video privacy checklist / consent before optional statistics
 - Public TLE routes `/cookies.html`, `/refunds.html`, `/privacy-choices.html` plus `/es/` equivalents; footer and standalone checkout/demo links. Data requests use deliberate email to the existing hello@thelaunchera.com support address and require review; no account/client deletion or email sent by QA.
 - Public root and public static pages use `public/assets/privacy-controls.js`. The root mounts UI after hydration. GA, categorical Jessie metrics, App visit stats and podcast song metrics require explicit optional consent; rejection/withdrawal and GPC/DNT block future statistics. Essential auth, booking, delivery and business data are preserved.
