@@ -60,7 +60,7 @@ function staticChecks(){
   const html=readFileSync(join(pub,local),'utf8');
   if(!/<meta[^>]+name=["']robots["'][^>]+content=["'][^"']*noindex/i.test(html))
    errors.push('Private workspace must be noindex: '+local);
-  if(sitemap.includes('thelaunchera.com/'+local.replace(/index\\.html$/,'')))
+  if(sitemap.includes('thelaunchera.com/'+(local.endsWith('/index.html')?local.slice(0,-10):local)))
    errors.push('Private workspace leaked into sitemap: '+local);
  }
 
