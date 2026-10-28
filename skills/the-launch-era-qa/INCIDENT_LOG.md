@@ -587,3 +587,9 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 
 
 | 2026-10-21 | Sales tools / Clara missing from Owner sidebar | Header-only shortcut verified; no sidebar link existed | Released owner-gated sidebar entry to `sales-tools.html#demos`; preview remains behind explicit button and existing owner auth | ✅ PR #307, Owner sales QA 39582988605, dedicated overlay QA 39583392290, Pages 39583670560 and live source pin/script/route verified. Signed-in owner-device visual acceptance remains pending; no customer action performed. |
+
+## 2026-10-28 — CB Depot reminder logo contrast
+- Owner's Gmail/iPhone screenshot shows the approved white transparent panda almost invisible on a pale header. Production `tle-service-care-worker` v14 uses the original white SVG at 48px on a solid navy header; Gmail dark-mode color inversion is the suspected cause of the pale header.
+- Bounded fix in `makeShell`: CB Depot only gets a navy tile with solid fallback plus same-color gradient and a larger 64×50px original mark. Other tenants keep the exact prior image markup. No logo redesign, branding-row changes, customer record changes, bookings or test emails.
+- Preserve production v14's existing 24-hour reminder, 24-day follow-up and scheduling/idempotency guards when syncing source; repository source had lagged behind that deployed version. Shared legal/email helper is unchanged.
+- `qa-cb-depot-email-logo.mjs`, existing business-email fixture/syntax QA, route integrity (586 links), auth recovery and 21 client-release checks passed. Visual fixtures include 360/390/820/1024/1440 light and simulated inverted colors; they are not real Gmail tests. Cloud browser could not reach the local fixture and its URL policy rejected data URLs, so no visual/browser/iPhone verification is claimed. Production readback is recorded separately after deploy.

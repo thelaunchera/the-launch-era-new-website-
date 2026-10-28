@@ -902,3 +902,7 @@ On `/lead-private-preview.html` sample only, `tle-demo-enhancements-v12.js` owns
 - Dedicated portal PR #22 merged at `0c96541bde4f325b4570071308992c3441dc5f2b`; isolated overlay QA run 39583392290 and Pages deployment run 39583670560 completed successfully.
 - Live `deployment-source.json` reports the new Sales tools source pin while preserving the original portal and AI Team pins. The live root loads `sales-tools-entry.js?v=20261021-sidebar1`; `/sales-tools.html#demos` resolves with the correct Sales Tools title and owner sign-in gate.
 - Signed-in owner-device visual acceptance remains separate because the verification browser had no owner session. No customer data, emails, bookings or payments were created.
+
+## 2026-10-28 — CB Depot reminder email identity
+- Production Supabase `bowacxhmjvrqixtwaikv` → `tle-service-care-worker` → `makeShell` owns service reminder/aftercare email headers. CB Depot keeps its approved `panda-original-mark.svg`, now displayed larger on its own dark navy tile to protect contrast if Gmail lightens the surrounding header.
+- The original client branding row, sender, recipients, legal links, schedule, tokens and idempotency remain unchanged. No website route or booking destination changed. Gmail/iPhone visual verification remains pending; no live test email was authorized or sent.

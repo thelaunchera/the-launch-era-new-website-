@@ -12,7 +12,12 @@ const color=(v:any,fallback:string)=>/^#[0-9a-fA-F]{6}$/.test(String(v||""))?Str
 const label=(en:string,es:string,spanish:boolean)=>spanish?es:en;
 const HOME="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-service-feedback";
 function makeShell(business:string,logo:string,primary:string,accent:string,body:string,plain:string,smallFooter:string){
- const header=logo?'<img src="'+esc(logo)+'" alt="" width="48" height="48" style="object-fit:contain;height:48px;max-width:65px;margin-right:12px"/>':"";
+ // Gmail can invert the header's solid navy to pale blue. Keep the approved
+ // white CB Depot mark on its own dark tile; gradients retain their color.
+ const cbDepot=/^cb\s*depot$/i.test(business.trim());
+ const header=logo?(cbDepot?
+  '<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin-right:14px"><tr><td bgcolor="#07111C" style="padding:8px;background-color:#07111C;background-image:linear-gradient(#07111C,#07111C);border:1px solid #354657;border-radius:12px"><img src="'+esc(logo)+'" alt="CB Depot logo" width="64" height="50" border="0" style="display:block;width:64px;height:50px;object-fit:contain;border:0"/></td></tr></table>':
+  '<img src="'+esc(logo)+'" alt="" width="48" height="48" style="object-fit:contain;height:48px;max-width:65px;margin-right:12px"/>'):"";
  const contrast=/^#(?:f[0-9a-f]{5}|e[0-9a-f]{5})$/i.test(primary)?"#191919":"#ffffff";
  const html='<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><meta charset="utf-8"></head><body style="margin:0;background:#FAF8F3;padding:26px 12px;font-family:Arial,Helvetica,sans-serif;color:#191919">'+
  '<table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;max-width:565px;margin:auto;background:white;border:1px solid #e4e8ed;border-radius:18px">'+
@@ -82,7 +87,7 @@ Deno.serve(async req=>{
   job.completion_id?db.from("tle_service_completions").select("id,completed_at,recurring,space_type,outreach_opted_in").eq("id",job.completion_id).maybeSingle():Promise.resolve({data:null,error:null})
  ]);
  if(le||be||ce||!lead||!acct||acct.status!=="active"||acct.payment_status!=="paid"||!acct.delivery_sent_at||!validMail(lead.customer_email))return await close("cancelled","Business or customer email no longer eligible");
- const kind=job.kind,operational=kind==="reminder_48h"||kind==="reminder_day_5am"||kind==="service_thanks",reminder=kind.startsWith("reminder_");
+ const kind=job.kind,operational=kind==="reminder_24h"||kind==="reminder_48h"||kind==="reminder_day_5am"||kind==="service_thanks",reminder=kind.startsWith("reminder_");
  if(reminder&&(lead.status!=="booked"||!lead.requested_start_at||Date.parse(lead.requested_start_at)!==Date.parse(job.booking_at)||Date.parse(lead.requested_start_at)<=Date.now()||lead.raw_payload?.appointment_reminders_opt_in!==true||lead.raw_payload?.reminders_opt_out===true))
   return await close("cancelled","Booking changed or was not confirmed");
  if(reminder){
@@ -94,12 +99,12 @@ Deno.serve(async req=>{
   if(!completion?.outreach_opted_in)return await close("cancelled","Optional emails not permitted");
   const {data:optout}=await db.from("tle_service_optouts").select("opted_out_at").eq("account_id",acct.id).eq("customer_email",String(lead.customer_email).toLowerCase()).maybeSingle();
   if(optout)return await close("cancelled","Customer unsubscribed");
-  if(kind==="new_service_21d"&&completion.recurring)return await close("cancelled","Customer is recurring");
+  if((kind==="new_service_21d"||kind==="new_service_24d")&&completion.recurring)return await close("cancelled","Customer is recurring");
   if(kind.startsWith("recurring_tip_")&&!completion.recurring)return await close("cancelled","Customer is not recurring");
   const {data:later,error:laterError}=await db.from("tle_booking_flow_leads").select("id,requested_start_at").eq("account_id",acct.id).eq("customer_email",lead.customer_email)
    .eq("status","booked").gt("requested_start_at",completion.completed_at).order("requested_start_at",{ascending:true}).limit(20);
   if(laterError)return await close("failed","Could not verify upcoming appointment");
-  if(later?.some((b:any)=>kind==="new_service_21d"||Date.parse(b.requested_start_at)<=Date.parse(job.due_at)+24*3600000))
+  if(later?.some((b:any)=>(kind==="new_service_21d"||kind==="new_service_24d")||Date.parse(b.requested_start_at)<=Date.parse(job.due_at)+24*3600000))
    return await close("cancelled","Next appointment already scheduled");
  }
  const {data:branding,error:br}=await db.from("tle_booking_page_branding").select("business_name,logo_image,primary_color,accent_color,design_reviewed_at").eq("account_id",acct.id).maybeSingle();
@@ -114,7 +119,11 @@ Deno.serve(async req=>{
  const start=lead.requested_start_at?new Date(lead.requested_start_at):new Date();
  const when=new Intl.DateTimeFormat(es?"es-US":"en-US",{timeZone:acct.timezone||"America/New_York",weekday:"long",month:"long",day:"numeric",hour:"numeric",minute:"2-digit"}).format(start);
  let subject="",paragraph="",extra="",reviewPlain="",footer="",link="";
- if(kind==="reminder_48h"){
+ if(kind==="reminder_24h"){
+  subject=label("A reminder for your appointment tomorrow","Recordatorio para tu cita de mañana",es);
+  paragraph=label("Just a friendly reminder that your appointment is tomorrow. We look forward to seeing you!","Solo un recordatorio de que tu cita es mañana. ¡Nos encantará verte!",es);
+  extra=label("Appointment: "+serviceName+" · "+when,"Cita: "+serviceName+" · "+when,es);
+ }else if(kind==="reminder_48h"){
   subject=label("A little reminder about your upcoming appointment","Un recordatorio de tu próxima cita",es);
   paragraph=es?"Solo queríamos recordarte que tu cita está en dos días. Nos alegra verte pronto.":"Just a friendly reminder that your appointment is coming up in two days. We're looking forward to seeing you.";
   extra=label("Appointment: "+serviceName+" · "+when,"Cita: "+serviceName+" · "+when,es);
@@ -136,6 +145,9 @@ Deno.serve(async req=>{
   if(tokenError)return await close("failed","Private feedback link could not be created");
   link=HOME+"?token="+raw;
   reviewPlain=label("If you'd like to share a quick note with our team (optional): ","Si quieres dejarnos una nota breve (opcional): ",es)+link;
+ }else if(kind==="new_service_24d"){
+  subject=label("Here when you need another refresh","Aquí estamos cuando lo necesites",es);
+  paragraph=isDetail?label("Just checking in one last time after your car detailing. If you would like to book another visit, simply reply to this email. No pressure.","Solo te escribimos una vez más después del detailing de tu auto. Si quieres reservar otra visita, responde a este correo. Sin compromiso.",es):label("A final little check-in after our last visit. If another service would help, reply whenever it suits you.","Un último saludo después de nuestra visita. Si te viene bien otro servicio, responde cuando quieras.",es);
  }else if(kind==="new_service_21d"){
   subject=label("Hope your space is doing well","Esperamos que tu espacio siga muy bien",es);
   paragraph=isDetail?
@@ -170,6 +182,15 @@ Deno.serve(async req=>{
  catch{return await close("failed","Email provider connection unavailable; check delivery before retrying")}
  const sent=await sendResult.json().catch(()=>({}));
  if(!sendResult.ok||!sent?.id)return await close("failed","Email provider did not accept delivery ("+sendResult.status+")");
+ if(kind==="new_service_21d"){
+   // Only schedule step two after the provider accepts step one.
+   const {error:nextError}=await db.from("tle_service_outbox").upsert({
+     outbox_key:"new24:"+completion.id,account_id:acct.id,lead_id:lead.id,
+     completion_id:completion.id,kind:"new_service_24d",
+     booking_at:lead.requested_start_at,due_at:new Date(Date.now()+3*86400000).toISOString()
+   },{onConflict:"outbox_key",ignoreDuplicates:true});
+   if(nextError)console.error("Second care follow-up could not be queued",nextError.code);
+ }
  return await close("sent","",String(sent.id));
 });
 
