@@ -1,3 +1,10 @@
+## 2026-10-28 — Search Console: public vs private SEO routes
+- Indexable public pages /booking-bundle/ and /try-booking/ are included in the sitemap with the same self-canonical URLs used in their HTML. Language query ?lang=es on booking-bundle is an alternate rendering of the canonical URL, not a second search page.
+- Private /command-center/, /command-center/access.html and /command-center/lead-insights.html declare noindex,nofollow,noarchive. These SEO tags do NOT replace any authentication.
+- Existing booking demo, checkout, client and intake noindex policies and routes remain unchanged; no tenant data, payment or client flow is changed.
+- Source: GSC Coverage export created 2026-10-28, data through 2026-10-22. Export offers category counts only (27 indexed, 174 excluded, 64 reported 404), without URL examples; no 404 repair or Search Console validation can be proven from those totals.
+- Test: node scripts/qa-route-integrity.mjs --static. Source changes are not live proof; verify Pages and Google inspection separately.
+
 ## 2026-10-26 — Video privacy checklist / consent before optional statistics
 - Public TLE routes `/cookies.html`, `/refunds.html`, `/privacy-choices.html` plus `/es/` equivalents; footer and standalone checkout/demo links. Data requests use deliberate email to the existing hello@thelaunchera.com support address and require review; no account/client deletion or email sent by QA.
 - Public root and public static pages use `public/assets/privacy-controls.js`. The root mounts UI after hydration. GA, categorical Jessie metrics, App visit stats and podcast song metrics require explicit optional consent; rejection/withdrawal and GPC/DNT block future statistics. Essential auth, booking, delivery and business data are preserved.
