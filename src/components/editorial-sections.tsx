@@ -42,8 +42,8 @@ export function HomeHero() {
  <div className="tle-hero-soft-mesh" aria-hidden="true"><span/><span/><span/><span/></div>
  <div className="hero-intro">
    <div className="eyebrow">FOR CLEANING BUSINESS OWNERS</div>
-   <h1 className="tle-hero-heading-shine">You’re cleaning one home. Someone wants to book the next.</h1>
-   <p>After the job, you check your phone: a price question, a date request, a message you meant to answer. Give customers a booking link they can use while you work.</p>
+   <h1 className="tle-hero-heading-shine">You’re cleaning. Someone wants to book.</h1>
+   <p>After the job, you see messages about prices and dates. Your booking link collects the details while you work.</p>
    <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/sample-cleaning/?lang=en&source=homepage">Try the Booking Demo <ArrowRight/></a></Button></div>
    <p className="demo-delivery-note"><a href="/booking-demo/?lang=en&source=homepage-clara">Request a More Personalized Demo ↗</a> · Private link sent by email.</p>
  </div>
