@@ -229,95 +229,53 @@
 
 /* Casa Brownie gift ribbon: a slow warm editorial interlude between gift scenes.
    No JS, scrolling effects, extra images or changes to the video hero. */
+
+/* Inspired by The Launch Era's two-line moving brand strip, in Casa Brownie colors. */
 .cb-gift-ribbon {
   position:relative;
-  display:flex;
-  align-items:center;
   grid-column:1 / -1;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
   overflow:hidden;
   isolation:isolate;
   width:100%;
-  min-height:32px;
-  height:32px;
-  margin:12px 0 14px;
-  color:#f9ece1;
-  background:#57382e;
-  border-block:1px solid rgba(237,207,188,.45);
+  min-height:104px;
+  padding:13px 0 15px;
+  margin:14px 0 15px;
+  background:#f5ede5;
+  border-block:1px solid #e8d9cb;
+  color:#4f392f;
 }
-.cb-gift-ribbon::before,
-.cb-gift-ribbon::after {
-  position:absolute;
-  z-index:2;
-  pointer-events:none;
-  left:0;
-  right:0;
-  height:1px;
-  content:"";
-  display:none;
-}
-.cb-gift-ribbon::before { top:7px; }
-.cb-gift-ribbon::after { bottom:7px; }
-.cb-gift-ribbon-track {
-  display:flex;
-  flex:0 0 auto;
-  width:max-content;
-  align-items:center;
-  animation:cb-gift-ribbon-flow 38s linear infinite;
-}
-.cb-gift-ribbon-track span {
-  display:block;
-  flex:0 0 auto;
-  padding-inline:18px;
-  white-space:nowrap;
-  font:700 10px/1.2 'DM Sans',sans-serif;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-}
-.cb-gift-ribbon-track i {
-  display:inline-block;
-  color:#e8baaa;
-  font:normal 700 11px/1 'DM Sans',sans-serif;
-  padding-inline:17px;
-  vertical-align:middle;
-}
-@keyframes cb-gift-ribbon-flow {
-  from { transform:translateX(0); }
-  to { transform:translateX(-50%); }
-}
+.cb-ticker-symbols {position:absolute;width:0;height:0;overflow:hidden;}
+.cb-ticker-intro {text-align:center;font:700 9px/1.3 'DM Sans',sans-serif;letter-spacing:.16em;color:#8a6151;margin-bottom:11px;padding-inline:12px;}
+.cb-gift-ribbon-row {width:100%;min-width:0;overflow:hidden;mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent);}
+.cb-gift-ribbon-row + .cb-gift-ribbon-row {margin-top:6px;}
+.cb-gift-ribbon-track {display:flex;width:max-content;align-items:center;animation:cb-gift-ribbon-flow 33s linear infinite;will-change:transform;}
+.cb-gift-ribbon-row-reverse .cb-gift-ribbon-track {animation-duration:39s;animation-direction:reverse;}
+.cb-gift-ribbon-group {display:flex;flex:0 0 auto;width:max-content;align-items:center;}
+.cb-gift-ribbon-item {display:inline-flex;flex:0 0 auto;align-items:center;gap:11px;white-space:nowrap;padding:0 24px;font:600 13px/1.35 'DM Sans',sans-serif;letter-spacing:.01em;}
+.cb-gift-ribbon-item svg {display:block;flex:0 0 auto;width:19px;height:19px;fill:none;stroke:#795a4c;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.cb-gift-ribbon-item span {white-space:nowrap;}
+@keyframes cb-gift-ribbon-flow {from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media (min-width:1200px) {
-  .moments-strip {
-    grid-template-rows:minmax(0,460px) 58px;
-  }
-  .moments-strip > .moment-illustration { grid-column:1;grid-row:1; }
-  .moments-strip > .moments-copy { grid-column:2;grid-row:1; }
-  .moments-strip > .moment-note { grid-column:3;grid-row:1; }
-  .moments-strip > .cb-gift-ribbon { grid-column:1 / -1;grid-row:2; }
+  .moments-strip {grid-template-rows:minmax(0,460px) 135px;}
+  .moments-strip > .moment-illustration {grid-column:1;grid-row:1;}
+  .moments-strip > .moments-copy {grid-column:2;grid-row:1;}
+  .moments-strip > .moment-note {grid-column:3;grid-row:1;}
+  .moments-strip > .cb-gift-ribbon {grid-column:1 / -1;grid-row:2;}
 }
 @media (min-width:791px) and (max-width:1199px) {
-  .moments-strip > .cb-gift-ribbon {
-    grid-column:1 / -1;
-    grid-row:3;
-    min-height:32px;
-  }
+  .moments-strip > .cb-gift-ribbon {grid-column:1 / -1;grid-row:3;}
 }
 @media (max-width:790px) {
-  .moments-strip > .cb-gift-ribbon {
-    order:2;
-    flex:0 0 auto;
-    width:100%;
-    min-height:32px;
-    height:32px;
-    margin:12px 0 14px;
-  }
-  .moments-strip > .moment-note {
-    order:3;
-  }
-  .cb-gift-ribbon-track span {
-    font-size:10px;
-    padding-inline:16px;
-  }
-  .cb-gift-ribbon-track i { padding-inline:15px; }
+  .moments-strip > .cb-gift-ribbon {order:2;flex:0 0 auto;width:100%;margin:14px 0 15px;padding-block:12px 14px;}
+  .moments-strip > .moment-note {order:3;}
+  .cb-gift-ribbon-item {gap:8px;padding:0 16px;font-size:12px;}
+  .cb-gift-ribbon-item svg {width:17px;height:17px;}
+  .cb-ticker-intro {font-size:9px;margin-bottom:10px;}
 }
 @media (prefers-reduced-motion: reduce) {
-  .cb-gift-ribbon-track { animation:none; }
+  .cb-gift-ribbon-track {animation:none;transform:none;will-change:auto;}
+  .cb-gift-ribbon-group:nth-child(2) {display:none;}
 }
