@@ -36,7 +36,7 @@ for(const lang of ['en','es']){
  w.eval(js);
  const $=x=>w.document.getElementById(x);
  assert.equal(w.document.documentElement.lang,lang);
- assert.match(w.document.querySelector('#hero-title').textContent,lang==='es'?/Estás limpiando/:/You're cleaning/);
+ assert.match(w.document.querySelector('#hero-title').textContent,lang==='es'?/Tu casa impecable/:/A beautiful clean/);
  assert($('stage-1')&&!$('stage-1').hidden);
  assert($('owner').hidden);
  assert.match($('r-price').textContent,/\$120/);
@@ -81,6 +81,21 @@ for(const lang of ['en','es']){
  assert($('owner').hidden&&$('handoff').hidden&&$('stage-1')&&!$('stage-1').hidden);
  assert.equal($('r-price').textContent,'$120');
  assert.equal($('date').value, $('date').value);
+ // Commercial category is a separate estimate-only route in the same preview.
+ w.document.querySelector('.booking-category-tab[data-category="commercial"]').click();
+ assert(!$('commercial-service-grid').hidden&&$('service-grid').hidden);
+ assert.equal($('r-price').textContent,other==='es'?'Solicitar estimado':'Request estimate');
+ w.document.querySelector('[data-commercial-service="customCommercial"]').click();
+ $('next').click();
+ assert(!$('commercial-details').hidden&&w.document.querySelector('.extras').hidden);
+ $('commercial-area').value='over5000';$('commercial-area').dispatchEvent(new w.Event('change',{bubbles:true}));
+ $('next').click();$('next').click();
+ assert(!$('owner').hidden);
+ assert.equal($('metric-value').textContent,w.document.documentElement.lang==='es'?'Solicitar estimado':'Request estimate');
+ assert.match($('owner-service').textContent,w.document.documentElement.lang==='es'?/Locales comerciales/:/Business spaces/);
+ $('restart').click();
+ assert($('owner').hidden);
+
  dom.window.close();
 }
 console.log('PASS: approved assets, local-only safe flow, one request -> same owner ticket, responsive CSS, EN/ES, pricing preview, restart and $15 conversion CTA');
