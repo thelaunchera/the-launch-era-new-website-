@@ -58,7 +58,7 @@ for(const viewport of sizes){
     return {over,offenders,badCards,cardCount:cards.length,small,stepCount:steps.length,unstyledSteps};
    });
    assert(state.over<=3,'Horizontal overflow '+JSON.stringify(state));
-   assert.equal(state.cardCount,6,'All service choices rendered');
+   assert.equal(state.cardCount,5,'All five current service choices rendered');
    assert.equal(state.badCards,0,'Service card faces must be bounded in every route');
    if(viewport.width<768)assert.deepEqual(state.small,[],'Readable mobile service descriptions');
    if(path==='/how-it-works/') {

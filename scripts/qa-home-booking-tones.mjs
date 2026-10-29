@@ -7,6 +7,7 @@ const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
 const en=read('src/routes/index.tsx');
 const es=read('src/routes/es.index.tsx');
 const editorial=read('src/components/editorial-sections.tsx');
+const primary=read('src/components/primary-booking-offer.tsx');
 const productEN=read('src/routes/booking-lead-automation.tsx');
 const productES=read('src/routes/es.booking-lead-automation.tsx');
 for(const [label,homepage,product,lang] of [
@@ -25,4 +26,16 @@ assert(!es.includes('<section className="booking-section">'),'Spanish homepage d
 assert(en.includes('<FinalCTA/>')&&editorial.includes('export function FinalCTA'),'English final CTA removed');
 assert(es.includes('className="final-section"'),'Spanish final CTA removed');
 assert(editorial.includes('<HeroConnectionBackdrop lang="en"/>')&&es.includes('<HeroConnectionBackdrop lang="es"/>'),'Do not remove approved hero effects');
+
+// Storytelling guard: one real-life situation, product proof, then distinct buying decision.
+assert(editorial.includes('You’re cleaning. Someone wants to book.'),'EN hero must begin with the real on-the-job moment');
+assert(es.includes('Estás limpiando. Y te escriben para reservar.'),'ES hero must have a natural, concrete moment');
+assert(primary.includes("YOU'VE SEEN THE FLOW")&&primary.includes('Now picture that page'),'Offer should move forward from demo to a personalized purchase');
+assert(primary.includes('Ahora imagina esa página'),'Spanish offer should move forward from demo to customization');
+assert(!primary.includes('Your cleaning requests. <em>One place to manage them.')&&!primary.includes('Una Booking Page personalizada y un Command Center privado para organizar'),'Duplicated hero message returned in buying section');
+assert(!primary.includes('<del>$49.99</del>'),'Buying block must show $15 plainly without an invented discount comparison');
+assert(primary.includes("Get my Booking Page — $15")&&primary.includes("Quiero mi página de reservas — $15"),'Approved $15 CTA missing');
+assert(editorial.includes('Start with booking.')&&es.includes('Empieza por las reservas.'),'Solutions should explain optional expansion, not repeat hero pain');
+assert(editorial.includes('WHAT HAPPENS AFTER YOU BUY')&&es.includes('DESPUÉS DE COMPRAR'),'Three-step section should describe fulfillment rather than repeat booking demonstration');
+
 console.log('✅ Retired home booking tone panel absent EN/ES; independent product pages, pricing, and final checkout preserved');
