@@ -32,7 +32,14 @@ try{
   assert.equal(await page.locator('#our-work .clean-work-group:first-child img').count(),6);
   assert.equal(await page.locator('#meet-cleaner img').count(),1);
   assert.equal(await page.locator('#sample-reviews .clean-review').count(),3);
-  assert.match(await page.locator('.clean-work-banner').innerText(),lang==='es'?/NUESTROS TRABAJOS/:/OUR WORK/);
+  assert.equal(await page.locator('.clean-work-banner').count(),0,'Portfolio photography must not be hidden by a banner');
+  const portfolioPaths=await page.locator('.clean-work-group:first-child img').evaluateAll(imgs=>imgs.map(i=>new URL(i.src).pathname));
+  assert.equal(new Set(portfolioPaths).size,6,'Six unique pictures in gallery');
+  assert.equal(portfolioPaths.filter(p=>p.includes('clean_roll_')).length,1,'Only the CLEAN bathroom roll belongs here');
+  assert.equal(await page.locator('.review-stars').count(),3,'Three compact five-star sample cards');
+  assert.deepEqual(await page.locator('.review-stars').allTextContents(),['★★★★★','★★★★★','★★★★★']);
+  assert.match(await page.locator('.clean-review .review-sample-label').first().innerText(),lang==='es'?/RESEÑA DE EJEMPLO/:/SAMPLE REVIEW/);
+  assert.match(await page.locator('.offer-photo img').getAttribute('src'),/final_living_room_overhead\.jpg/,'Approved overhead living room closes the website');
   assert.match(await page.locator('#meet-cleaner h2').innerText(),lang==='es'?/Una persona de confianza/:/A familiar face/);
   assert.match(await page.locator('#sample-reviews h2').innerText(),lang==='es'?/Que lo cuenten tus clientes/:/Their words will say it best/);
   assert.match(await page.locator('.clean-reviews-note').innerText(),lang==='es'?/no testimonios/:/not published testimonials/);
@@ -45,6 +52,13 @@ try{
   });
   assert.equal(galleryLoaded,true,'First portfolio photo must load from our own repository');
   await page.screenshot({path:'qa-screenshots/experience-cleaning-our-work-'+lang+'-'+width+'.png',fullPage:false});
+  await page.locator('.offer-photo').scrollIntoViewIfNeeded();
+  const offerLoaded=await page.locator('.offer-photo img').evaluate(async img=>{
+    if(!img.complete)await new Promise(resolve=>{img.addEventListener('load',resolve,{once:true});img.addEventListener('error',resolve,{once:true});});
+    return img.naturalWidth>0;
+  });
+  assert(offerLoaded,'Approved overhead living-room photo must load from repository');
+  await page.screenshot({path:'qa-screenshots/experience-cleaning-final-living-'+lang+'-'+width+'.png',fullPage:false});
   await page.locator('#meet-cleaner').scrollIntoViewIfNeeded();
   assert.equal(await page.locator('#meet-cleaner img').evaluate(img=>img.complete&&img.naturalWidth>0),true,'Approved cleaner portrait must load locally');
   await page.screenshot({path:'qa-screenshots/experience-cleaning-team-'+lang+'-'+width+'.png',fullPage:false});
