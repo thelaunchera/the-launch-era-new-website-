@@ -99,6 +99,20 @@ try{
   assert.match(await page.locator('#workflow-desc').innerText(),lang==='es'?/hasta dos recordatorios automáticos/:/up to two automatic reminders/);
   assert.match(await page.locator('#purchase-link').getAttribute('href'),new RegExp('lang='+lang));
   assert.match(await page.locator('.offer-price').innerText(),/\$15/);
+  const assertTextValueFits=async(label)=>{
+    const parts=await page.evaluate(()=>{
+      return [['metric-value','.dash-metrics > div:nth-child(2)'],['owner-price','.request-value']].map(([id,cardSelector])=>{
+        const el=document.getElementById(id),card=document.querySelector(cardSelector);
+        const er=el.getBoundingClientRect(),cr=card.getBoundingClientRect();
+        return {id,text:el.textContent,whiteSpace:getComputedStyle(el).whiteSpace,
+          fits:er.left>=cr.left-1&&er.right<=cr.right+1,overflow:el.scrollWidth>el.clientWidth+2,
+          textual:el.classList.contains('is-text-value')};
+      });
+    });
+    assert(parts.every(p=>p.textual),'Both '+label+' values must use textual layout');
+    assert(parts.every(p=>p.whiteSpace==='normal'),'Both '+label+' values must be allowed to wrap');
+    assert(parts.every(p=>p.fits&&!p.overflow),label+' must fit entirely inside their cards: '+JSON.stringify(parts));
+  };
   // Commercial must always be estimate-only, never show a fixed total.
   await page.locator('.booking-category-tab[data-category="commercial"]').click();
   assert(await page.locator('#commercial-service-grid').isVisible());
@@ -113,6 +127,18 @@ try{
   await page.locator('#next').click();
   assert.match(await page.locator('#metric-value').innerText(),lang==='es'?/Solicitar estimado/:/Request estimate/);
   assert.match(await page.locator('#owner-service').innerText(),lang==='es'?/Locales comerciales/:/Business spaces/);
+  await assertTextValueFits('Commercial estimate');
+  await page.locator('#restart').click();
+  assert.equal(await page.locator('#owner').isVisible(),false);
+  // Screenshot regression: the exact Custom quote text must fit the second dashboard metric.
+  await page.locator('[data-service="custom"]').click();
+  await page.locator('#next').click();
+  await page.locator('#next').click();
+  await page.locator('#next').click();
+  assert.match(await page.locator('#metric-value').innerText(),lang==='es'?/Cotización personalizada/:/Custom quote/);
+  await assertTextValueFits('Custom quote');
+  await page.locator('.dash-metrics').scrollIntoViewIfNeeded();
+  await page.screenshot({path:'qa-screenshots/experience-cleaning-quote-fit-'+lang+'-'+width+'.png',fullPage:false});
   await page.locator('#restart').click();
   assert.equal(await page.locator('#owner').isVisible(),false);
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3),true,'No overflow after interaction');
