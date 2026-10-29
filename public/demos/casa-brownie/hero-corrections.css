@@ -52,13 +52,7 @@
   .hero-copy > p { font-size: 12px; line-height: 1.45; margin: 17px 0 18px; }
   .hero-qualities { padding-top: 23px; }
   .hero-gift { padding-top: 25px; }
-  .flavor-section { padding: 12px 3.4% 18px; }
   .section-heading { margin-bottom: 18px; }
-  .flavor-grid { gap: 18px; }
-  .flavor-picture { height: clamp(132px,9.4vw,157px); }
-  .flavor-title { margin-top: 34px; }
-  .flavor-hint { margin-top: 7px; }
-  .photo-note { margin-top: 12px; }
 }
 @media (min-width: 791px) and (max-width: 1159px) {
   .hero { grid-template-columns: 34% 45% 21%; }
