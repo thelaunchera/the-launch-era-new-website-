@@ -25,8 +25,8 @@ assert.equal((html.match(/class="step-symbol"/g)||[]).length,3,'three refined st
 assert.equal((html.match(/class="flavor-mark"/g)||[]).length,6,'six illustrated flavor marks');
 assert.match(html,/<span class="pin-circle" aria-hidden="true"><svg/,'Miami location marker uses a real vector pin');
 assert.ok(!html.includes('>⌖</span>')&&!html.includes('>▤</span>'),'no font glyph placeholders');
-assert.match(html,/href="\.\/motion\.css"/);
-assert.match(html,/src="\.\/motion\.js"/);
+assert.match(html,/href="\.\/motion\.css\?v=cb-center-20261028b"/);
+assert.match(html,/src="\.\/motion\.js\?v=cb-center-20261028b"/);
 assert.match(motion,/IntersectionObserver/);
 assert.match(motion,/cb-in-view/);
 assert.match(motion,/requestAnimationFrame/);
