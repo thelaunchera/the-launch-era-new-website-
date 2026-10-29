@@ -28,8 +28,8 @@ assert(es.includes('className="final-section"'),'Spanish final CTA removed');
 assert(editorial.includes('<HeroConnectionBackdrop lang="en"/>')&&es.includes('<HeroConnectionBackdrop lang="es"/>'),'Do not remove approved hero effects');
 
 // Storytelling guard: one real-life situation, product proof, then distinct buying decision.
-assert(editorial.includes('You’re cleaning one home. Someone wants to book the next.'),'EN hero must begin with the real on-the-job moment');
-assert(es.includes('Te escriben para reservar. Tú estás limpiando otra casa.'),'ES hero must have a natural, concrete moment');
+assert(editorial.includes('You’re cleaning. Someone wants to book.'),'EN hero must begin with the real on-the-job moment');
+assert(es.includes('Estás limpiando. Y te escriben para reservar.'),'ES hero must have a natural, concrete moment');
 assert(primary.includes("YOU'VE SEEN THE FLOW")&&primary.includes('Now picture that page'),'Offer should move forward from demo to a personalized purchase');
 assert(primary.includes('Ahora imagina esa página'),'Spanish offer should move forward from demo to customization');
 assert(!primary.includes('Your cleaning requests. <em>One place to manage them.')&&!primary.includes('Una Booking Page personalizada y un Command Center privado para organizar'),'Duplicated hero message returned in buying section');
