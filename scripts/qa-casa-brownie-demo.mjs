@@ -123,7 +123,7 @@ assert.doesNotMatch(js,/localStorage|sessionStorage|fetch\(/,'no stored data or 
 // Both official and teaching demos share one document; the teaching switch only removes the video.
 assert.match(html,/get\('etapa'\) === 'sin-video'/);
 assert.match(html,/src="\.\/assets\/hero-brownies\.mp4\?v=20261029-local"/,'original hero video untouched');
-assert.match(html,/casabrownie-editorial\.css\?v=20261029-photos/,'editorial stylesheet loaded after existing styles');
+assert.match(html,/casabrownie-editorial\.css\?v=20261029-fullsize/,'editorial stylesheet loaded after existing styles');
 const editorial=load('casabrownie-editorial.css');
 assert.match(editorial,/@media \(min-width:791px\) and \(max-width:1199px\)/,'tablet-specific editorial grid');
 assert.match(editorial,/\.hero \.hero-copy\s*\{\s*display:grid/,'tablet hero story becomes two columns');
@@ -145,6 +145,14 @@ assert.match(html,/srcset="\.\/assets\/casabrownie-hands-gift\.svg"/);
 assert.match(html,/srcset="\.\/assets\/casabrownie-gift-packaging\.svg"/);
 assert.match(editorial,/\.delivery-miami \.cb-delivery-photo/,'Miami delivery photography and responsive support');
 assert.doesNotMatch(editorial,/hero-video|hero-motion|hero-brownies\.mp4/,'editorial CSS never changes the hero video');
+
+assert.match(editorial,/\.moments-copy \.cb-moment-accent\s*\{\s*width:min\(100%,510px\);\s*height:auto;/,'phone gift photo is a large editorial image');
+assert.match(editorial,/\.closing \.cb-closing-photo\s*\{\s*display:block;\s*width:100%;\s*max-width:560px;\s*height:auto;/,'phone closing photo fills available space');
+assert.match(editorial,/\.closing\s*\{\s*display:grid;\s*grid-template-columns:minmax\(0,1fr\) minmax\(210px,.58fr\);/,'tablet closing has balanced text and a full-sized photo');
+assert.match(editorial,/\.cb-moment-accent\s*\{\s*width:min\(100%,385px\);/,'desktop story accent is not a thumbnail');
+assert.doesNotMatch(editorial,/\.cb-moment-accent\s*\{\s*width:98px/,'old 98 pixel story thumbnail removed');
+assert.doesNotMatch(editorial,/\.cb-closing-photo\s*\{\s*width:142px/,'old 142 pixel closing thumbnail removed');
+
 
 console.log('Casa Brownie static demo QA OK');
 
