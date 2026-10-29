@@ -1,3 +1,9 @@
+## 2026-10-28 — Casa Brownie educational demo mobile hero and decorative arrows
+- **Reported:** iPhone first view showed overly tall text heading, video was below the introductory copy, rejected words «amor real» were still visible, and flavor/CTA links included disliked arrow glyphs.
+- **Cause confirmed in source:** flex hero rendered `.hero-copy` before `.hero-photo` on <=790px; title string and 11 arrow spans remained in `index.html`. This was present only in the isolated AppDeploy educational demo, not a customer booking page.
+- **Repair:** corrected heading «Brownies hechos en casa», removed 11 decorative CTA arrows, CSS orders `.hero-photo` first on mobile while maintaining photo poster, silent loop and reduced-motion fallbacks. Copied corrected static frontend to `public/demos/casa-brownie/` for discoverable long-term source ownership.
+- **Verification:** AppDeploy reported deploy ready with no frontend/network errors; scoped source regression test added. Live new route and iPhone visual/manual QA not confirmed until after site publish. No payments, emails, clients or tenant data changed.
+
 ## 2026-10-28 — Search Console indexing exclusions and missing SEO boundaries
 - Observed: the GSC export through 2026-10-22 shows 27 indexed, 174 nonindexed; 64 are classified as 404 and 12 as robots.txt blocked. Counts are not URL-level proof; some noindex, redirects and canonicals are expected.
 - Verified in source: the private Command Center main page, private access page and internal Lead Insights lacked meta robots noindex. The public, self-canonical sales pages /booking-bundle/ and /try-booking/ were missing from public/sitemap.xml.

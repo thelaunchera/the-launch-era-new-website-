@@ -1,3 +1,11 @@
+## 2026-10-28 — Standalone Casa Brownie demo (masterclass sample)
+- **Public route:** `/demos/casa-brownie/`, owner active website repo `public/demos/casa-brownie/`, served as self-contained static HTML/CSS/JS. Source copy from independent AppDeploy `https://casa-brownie-demo-miami-ltg7rb.v2.appdeploy.ai/`.
+- **Purpose:** Fictional Spanish-language brownie website for «Tu primera web con IA», local Miami territory illustrative. No real orders, delivery, payment, account, email, lead collection, or access to tenant data.
+- **Buttons:** Intro CTA → `#brownies`; six flavor cards → local informational dialogs; bag/closing CTA → *simulated*, no-send sample; delivery CTA → local Miami explanation; footer legal → educational dialog; mobile menu → on-page anchors. No decorative arrow glyphs.
+- **Mobile:** hero image/video of stacked brownies precedes heading «Brownies hechos en casa», muted looping video with original photo poster and reduced-motion fallback. Descriptive keyboard close/escape support.
+- **Media:** external illustrative photos and generated hero MP4 remain externally hosted pending asset ownership/long-term availability review, not connected to any real payment or delivery.
+- **QA:** `node --check public/demos/casa-brownie/main.js`, `node --test scripts/qa-casa-brownie-demo.mjs`, `node scripts/qa-route-integrity.mjs --static`; browser iPhone/desktop and live Pages route remain separate release gates. Does not change CRM booking demos, CB Depot, auth, or public service marketing routes.
+
 ## 2026-10-28 — Search Console: public vs private SEO routes
 - Indexable public pages /booking-bundle/ and /try-booking/ are included in the sitemap with the same self-canonical URLs used in their HTML. Language query ?lang=es on booking-bundle is an alternate rendering of the canonical URL, not a second search page.
 - Private /command-center/, /command-center/access.html and /command-center/lead-insights.html declare noindex,nofollow,noarchive. These SEO tags do NOT replace any authentication.
