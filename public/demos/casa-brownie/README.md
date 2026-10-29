@@ -25,3 +25,8 @@ El enlace original de edición de AppDeploy sigue siendo una versión anterior; 
 - En móvil, el regalo, la nota, la historia, los pasos de entrega y la invitación final quedan centrados, con alturas reales y sin recortes ni espacios falsos.
 - Banner horizontal marrón continuo entre video y sabores, dos bloques idénticos, animación lenta; con `prefers-reduced-motion` se queda estático.
 - Abrir en iPhone Safari para verificar apariencia antes de marcar la tarea del Studio como terminada.
+
+## Fotografías nuevas de regalo · 29 oct 2026
+- En «Una forma bonita de decir pensé en ti» se sustituyeron ambas ilustraciones CSS por fotografías aportadas por la creadora: caja de regalo con lazo rosa (`assets/regalo-lazo-rosa.webp`) y bolsa/cajas con brownies (`assets/regalos-bolsa-y-cajas.webp`).
+- No se crearon secciones nuevas, pedidos ni capturas de datos; las fotos tienen descripciones alternativas y encuadres adaptables en `gift-photos.css`.
+- **Pendiente antes de producción comercial:** estos recursos fueron incorporados desde miniaturas de transferencia y escalados; sustituirlos por exportaciones de los archivos originales de alta resolución para máxima nitidez en pantallas grandes, conservando los mismos nombres y rutas.
