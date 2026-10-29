@@ -54,6 +54,11 @@ assert.match(refinement,/\.step\.is-current b/);
 assert.match(refinement,/@media\(prefers-reduced-motion:reduce\)/);
 assert.match(html,/id="metric-value"/);
 assert.match(html,/id="visual-detail"/);
+const commandFit=readFileSync('public/experience-cleaning/command-center-fit.css','utf8');
+assert.match(html,/command-center-fit\.css\?v=/,'Final quote alignment rules must be loaded');
+assert.match(commandFit,/#metric-value\.is-text-value/,'Custom quote metric must wrap naturally');
+assert.match(commandFit,/\.request-value\s*\{/,'Large request summary must align quote labels');
+assert.match(js,/\.classList\.toggle\('is-text-value',textualValue\)/,'Apply fitting only to textual estimates, not fixed numeric prices');
 const galleryCss=readFileSync('public/experience-cleaning/owner-gallery.css','utf8');
 assert.match(html,/owner-gallery\.css\?v=/,'Gallery, team and review design stylesheet must load');
 assert.match(galleryCss,/@keyframes tle-clean-portfolio-scroll/,'Gallery must auto-scroll across the viewport');
@@ -142,6 +147,8 @@ for(const lang of ['en','es']){
  assert.match($('owner-extras').textContent,lang==='es'?/horno/:/oven/);
  assert.equal($('owner-price').textContent,'$240');
  assert.equal($('metric-value').textContent,'$240');
+ assert.equal($('metric-value').classList.contains('is-text-value'),false,'Normal dollar amounts keep fixed-price styling');
+ assert.equal($('owner-price').classList.contains('is-text-value'),false);
  assert.equal($('metric-action').textContent,lang==='es'?'Revisar':'Review');
  assert.equal(w.document.querySelector('.owner-dashboard').dataset.phase,'0');
  assert.equal($('owner-status').textContent,lang==='es'?'Por revisar':'Needs review');
@@ -178,7 +185,19 @@ for(const lang of ['en','es']){
  $('next').click();$('next').click();
  assert(!$('owner').hidden);
  assert.equal($('metric-value').textContent,w.document.documentElement.lang==='es'?'Solicitar estimado':'Request estimate');
+ assert($('metric-value').classList.contains('is-text-value'),'Commercial estimates should use safe wrapping');
+ assert($('owner-price').classList.contains('is-text-value'));
  assert.match($('owner-service').textContent,w.document.documentElement.lang==='es'?/Locales comerciales/:/Business spaces/);
+ $('restart').click();
+ assert($('owner').hidden);
+ // A special residential cleaning request displays a textual custom quote, not a dollar amount.
+ w.document.querySelector('[data-service="custom"]').click();
+ $('next').click();$('next').click();$('next').click();
+ assert(!$('owner').hidden);
+ assert.equal($('metric-value').textContent,other==='es'?'Cotización personalizada':'Custom quote');
+ assert.equal($('owner-price').textContent,$('metric-value').textContent);
+ assert($('metric-value').classList.contains('is-text-value'));
+ assert($('owner-price').classList.contains('is-text-value'));
  $('restart').click();
  assert($('owner').hidden);
 
