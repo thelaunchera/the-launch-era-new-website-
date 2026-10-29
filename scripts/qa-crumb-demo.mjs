@@ -74,9 +74,12 @@ assert.ok(heroMobileSource);
 assert.match(heroMobileSource.getAttribute('srcset'), /hero-mobile\.webp\?v=/);
 const photoGrid = d.querySelectorAll('.brand-glimpse-gallery figure');
 assert.equal(photoGrid.length, 3);
+assert.equal(d.querySelectorAll('.brand-glimpse-gallery img[src*="brand-packaging.webp"]').length,1);
+assert.equal(d.querySelectorAll('.brand-glimpse-gallery img[src*="brand-tasting.webp"]').length,0);
+assert.equal(new Set([...d.querySelectorAll('.brand-glimpse-gallery img')].map(i=>i.getAttribute('src'))).size,3);
 assert.equal(d.querySelector('.gift-photo img').getAttribute('src').includes('brand-gifts.webp'), true);
 assert.equal(d.querySelector('.moment-photo img').getAttribute('src').includes('brand-lifestyle.webp'), true);
-for(const name of ['hero-mobile','brand-gifts','brand-lifestyle','brand-storefront','brand-maker','brand-tasting']) {
+for(const name of ['hero-mobile','brand-gifts','brand-lifestyle','brand-storefront','brand-maker','brand-packaging']) {
  const p = path.join(root,'assets',name+'.webp');
  assert.ok(fs.existsSync(p) && fs.statSync(p).size > 20000, 'Missing brand image '+name);
 }
