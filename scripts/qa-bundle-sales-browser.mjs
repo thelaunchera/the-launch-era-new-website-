@@ -16,9 +16,9 @@ const server=createServer((req,res)=>{
 await new Promise(resolveReady=>server.listen(0,'127.0.0.1',resolveReady));
 const base='http://127.0.0.1:'+server.address().port;
 const prices={percent_off:0,booking_setup_cents:1500,plans:{
- 'ai-booking':{original_setup_cents:2500,setup_due_cents:2500,monthly_cents:1400},
- 'ai-followup':{original_setup_cents:1900,setup_due_cents:1900,monthly_cents:700},
- 'ai-business':{original_setup_cents:3900,setup_due_cents:3900,monthly_cents:1900}
+ 'ai-booking':{original_setup_cents:1000,setup_due_cents:1000,monthly_cents:1200},
+ 'ai-followup':{original_setup_cents:500,setup_due_cents:500,monthly_cents:800},
+ 'ai-business':{original_setup_cents:1400,setup_due_cents:1400,monthly_cents:1600}
 }};
 const browser=await chromium.launch({headless:true});
 mkdirSync('qa-screenshots',{recursive:true});
@@ -47,14 +47,14 @@ try {
    const radios=page.locator('input[name="tle-ai-bundle"]');
    assert.equal(await radios.count(),4,'Original optional AI choices must remain');
    assert.equal(await page.locator('input[name="tle-ai-bundle"]:checked').inputValue(),'ai-booking');
-   await page.waitForFunction(()=>document.querySelector('#tleTotal')?.textContent==='$40.00');
-   assert.match(await page.locator('#tleMonthly').innerText(),/\$14\/month/);
+   await page.waitForFunction(()=>document.querySelector('#tleTotal')?.textContent==='$25.00');
+   assert.match(await page.locator('#tleMonthly').innerText(),/\$12\/month/);
    await page.locator('input[name="tle-ai-bundle"][value="ai-followup"]').check();
-   assert.equal(await page.locator('#tleTotal').innerText(),'$34.00');
-   assert.match(await page.locator('#tleMonthly').innerText(),/\$7\/month/);
+   assert.equal(await page.locator('#tleTotal').innerText(),'$20.00');
+   assert.match(await page.locator('#tleMonthly').innerText(),/\$8\/month/);
    await page.locator('input[name="tle-ai-bundle"][value="ai-business"]').check();
-   assert.equal(await page.locator('#tleTotal').innerText(),'$54.00');
-   assert.match(await page.locator('#tleMonthly').innerText(),/\$19\/month/);
+   assert.equal(await page.locator('#tleTotal').innerText(),'$29.00');
+   assert.match(await page.locator('#tleMonthly').innerText(),/\$16\/month/);
    assert(await page.locator('#tleCheckoutBtn').isVisible());
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),true,'Horizontal overflow '+width);
    await page.screenshot({path:'qa-screenshots/bundle-landing-'+width+'.png',fullPage:true});
