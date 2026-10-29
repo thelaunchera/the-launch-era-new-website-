@@ -40,3 +40,9 @@ The hero image at `assets/hero.webp` is replaced in-place with the owner's appro
 - The builder now renders a responsive live visual tray with precisely 3, 6 or 12 positions, the selected cookies in real time, and a wrapper color/ribbon treatment. The existing quantities, packaging selection, safe gift note and preview remain.
 - Retain the existing double-direction marquees and animated illustrative Miami location section, streamline its concept disclosure, and add a compact final call to build a box before the footer.
 - No product ratings, fictitious testimonials, prices, real delivery service, geolocation permission, checkout, or customer data collection are introduced.
+
+## Photo-first visual identity update — 29 October 2026
+- Six newly generated and compressed WebP assets are self-hosted under `assets/`: `hero-mobile.webp`, `brand-gifts.webp`, `brand-lifestyle.webp`, `brand-storefront.webp`, `brand-maker.webp`, `brand-tasting.webp`. All images are concept imagery for the CRUMB demo, not evidence of a real physical store/team or actual delivery.
+- The portrait interior cookie-counter photo is used only by a `picture/source` media query in the mobile hero. Desktop keeps the previously approved wide `hero.webp`.
+- The branded gift-box photo replaces the older gifting image and the CRUMB lifestyle photo replaces the older portrait; the remaining photos appear in a compact three-image editorial strip with swipe on phones, avoiding a long stacked gallery.
+- Text headings, marketing copy and principal actions are centered, especially on mobile. Flavor selectors and live gift-box logic are unchanged; no checkout/payments/real GPS are introduced. The existing six flavor product photos remain intact.
