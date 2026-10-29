@@ -72,3 +72,6 @@ No hero, main gift image, layout, active payment, local delivery claims or unrel
 | Brownie Chip | $5.00 |
 
 Three, six and twelve cookie boxes can be mixed freely. The total is calculated from the actual selected flavors, in integer cents; lowest possible totals are $10.50, $21.00 and $42.00. Packaging is included without surcharge. Prices are **fictional sample prices** for a classroom demonstration, not a real offer; this demo still has no checkout or payment flow. Preserve the above latest flavor set and its approved high-quality photographs.
+
+## CRUMB mobile title polish (29 Oct 2026)
+Instead of long oversized blocks on phones, the section titles are shortened and centered: `A little gift. Big joy.`, `Inside CRUMB.`, `Made to share.`, and `Make their day.`. On phones only, headings have compact editorial sizing and shorter vertical spacing. The original sharing message is retained as supporting paragraph. Existing image sections and responsive settings are preserved.
