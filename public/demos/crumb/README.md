@@ -32,3 +32,11 @@ The six flavors now use a signature lead photograph and a varied-width editorial
 ## Approved CRUMB hero and final mobile merchandising
 
 The hero image at `assets/hero.webp` is replaced in-place with the owner's approved 1536×864 boutique photograph (compressed WebP). The mobile hero uses full 16:9 framing so the wall sign, cookies and gift packaging remain visible; no motion or overlaid heading was added. Six cookie images display in consistent square cards on phone and desktop; the photo add control is a compact "Add +" pill with its original `data-add` events and accessible flavor labels. An existing two-direction marquee concept is implemented as two subtle rows immediately before the lifestyle photo, with reduced-motion support. CRUMB stays a fictional demo with no real checkout, orders, or GPS data.
+
+## Premium UX polish (29 October 2026)
+
+- Preserve the approved CRUMB storefront photograph, but give it a taller left-focused mobile crop for a stronger first impression; keep the header photo-first with no overlay text or video.
+- Six evenly sized product cards and refined accessible 44px `Add +` actions; clicking a cookie confirms the flavor and capacity with a dismissible in-session toast. No payment or network capture.
+- The builder now renders a responsive live visual tray with precisely 3, 6 or 12 positions, the selected cookies in real time, and a wrapper color/ribbon treatment. The existing quantities, packaging selection, safe gift note and preview remain.
+- Retain the existing double-direction marquees and animated illustrative Miami location section, streamline its concept disclosure, and add a compact final call to build a box before the footer.
+- No product ratings, fictitious testimonials, prices, real delivery service, geolocation permission, checkout, or customer data collection are introduced.
