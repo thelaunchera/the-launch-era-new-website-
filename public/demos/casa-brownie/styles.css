@@ -416,7 +416,7 @@ img {
 }
 .flavor-section {
   background: #fffaf4;
-  padding: 23px clamp(18px, 4vw, 62px) 22px;
+  padding: clamp(38px, 5vw, 64px) clamp(18px, 4vw, 62px) clamp(35px, 4vw, 56px);
 }
 .center-label {
   display: flex;
@@ -469,10 +469,15 @@ img {
 }
 .flavor-grid {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: clamp(10px, 1.5vw, 22px);
+  width: min(100%, 1120px);
+  margin-inline: auto;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(26px, 3.2vw, 44px) clamp(14px, 2.5vw, 30px);
+  align-items: start;
 }
 .flavor {
+  width: 100%;
+  min-width: 0;
   padding: 0;
   border: 0;
   display: flex;
@@ -481,61 +486,60 @@ img {
   text-align: center;
   background: transparent;
   color: #4c291c;
-  min-width: 0;
+  cursor: pointer;
+}
+.flavor:focus-visible {
+  outline: 2px solid #6a3f2b;
+  outline-offset: 6px;
+  border-radius: 14px;
 }
 .flavor-picture {
   display: block;
   width: 100%;
-  height: clamp(145px, 13vw, 225px);
+  height: auto;
+  aspect-ratio: 4 / 5;
   position: relative;
-  border-radius: 11px 11px 8px 8px;
+  overflow: hidden;
+  border-radius: 14px;
   background: #e9cdb9;
+  box-shadow: 0 9px 28px rgba(89, 52, 38, .10);
 }
 .flavor-picture > img {
+  display: block;
   height: 100%;
   width: 100%;
   object-fit: cover;
+  object-position: center;
   border-radius: inherit;
-  transition:
-    transform 0.3s,
-    filter 0.3s;
+  transition: transform 0.35s ease, filter 0.35s ease;
 }
-.flavor:hover .flavor-picture > img {
-  filter: saturate(1.1) brightness(0.95);
-  transform: translateY(-4px);
+.flavor:hover .flavor-picture > img,
+.flavor:focus-visible .flavor-picture > img {
+  filter: saturate(1.04);
+  transform: scale(1.035);
 }
 .flavor-mark {
-  position: absolute;
-  bottom: -24px;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 5px solid #fffaf4;
-  border-radius: 50%;
-  height: 56px;
-  width: 56px;
-  display: grid;
-  place-items: center;
-  background: var(--mark);
-  color: #f8ebe0;
-  font:
-    400 33px/1 Georgia,
-    serif;
-  box-shadow: 0 3px 10px #512c2020;
+  display: none;
 }
 .flavor-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.32em;
   font:
-    400 clamp(18px, 1.5vw, 24px)/1.05 'DM Serif Display',
+    400 clamp(21px, 2.1vw, 27px)/1.16 'DM Serif Display',
     Georgia,
     serif;
-  margin-top: 36px;
+  text-wrap: balance;
+  margin-top: 14px;
 }
 .flavor-desc {
   font:
-    400 11px/1.35 'DM Sans',
+    400 clamp(12px, 1.1vw, 14px)/1.45 'DM Sans',
     sans-serif;
   color: #86695b;
-  margin-top: 7px;
-  max-width: 165px;
+  margin-top: 2px;
+  max-width: 28ch;
 }
 .flavor-hint {
   font-size: 10px;
@@ -1012,10 +1016,10 @@ img {
     font-size: 35px;
   }
   .flavor-grid {
-    gap: 10px;
+    gap: 28px clamp(14px, 2vw, 24px);
   }
   .flavor-title {
-    font-size: 17px;
+    font-size: clamp(20px, 2.2vw, 24px);
   }
   .delivery-section {
     grid-template-columns: 48% 32% 20%;
@@ -1082,9 +1086,6 @@ img {
   .flavor-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 20px;
-  }
-  .flavor-picture {
-    height: 185px;
   }
   .section-heading > div {
     margin-left: 0;
@@ -1199,10 +1200,7 @@ img {
   }
   .flavor-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 23px 12px;
-  }
-  .flavor-picture {
-    height: 160px;
+    gap: 25px 12px;
   }
   .flavor-title {
     font-size: 19px;
