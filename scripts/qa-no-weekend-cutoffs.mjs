@@ -44,7 +44,7 @@ for(const [en,es,enLink,esLink] of pairs){
  if(esLink)assert(esText.includes(esLink),es+' checkout link changed');
 }
 assert(/Estimated 48(?:-hour| hours).{0,100}(?:review|kickoff).{0,80}(?:confirmation|email)/i.test(read('src/components/editorial-sections.tsx')),'Production estimate and kickoff review must remain visible');
-assert(read('src/components/home-sales.tsx').includes('The estimated 48-hour production period starts then.'),'Booking FAQ estimate missing');
+assert(read('src/components/home-sales.tsx').includes('estimated 48-hour delivery window'),'Booking FAQ estimate missing');
 const preview=read('public/command-center/buyer-account-preview.html');
 assert(preview.includes('Availability · Editable anytime'),'Availability mockup must not imply fixed operating days');
 const operational=read('public/command-center/assets/command-center-app.js');
