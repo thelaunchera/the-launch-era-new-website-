@@ -23,42 +23,6 @@
 @media (prefers-reduced-motion: reduce) {
   .hero-motion { display: none !important; }
 }
-@media (min-width: 1160px) {
-  .site-header {
-    position: absolute;
-    top: 27px;
-    left: 0;
-    width: 73%;
-    height: 77px;
-    background: linear-gradient(90deg,rgba(251,245,237,.97),rgba(251,245,237,.9) 52%,rgba(251,245,237,.72) 82%,rgba(251,245,237,.10));
-    border-bottom: 0;
-    padding: 10px 3.3% 10px 5%;
-    z-index: 20;
-  }
-  .brand-words > span { font-size: 28px; }
-  .main-nav { gap: clamp(18px,2.0vw,33px); }
-  .hero {
-    grid-template-columns: 29% 44% 27%;
-    min-height: 505px;
-  }
-  .hero-copy {
-    padding: 111px 24px 24px clamp(52px,5.2vw,81px);
-  }
-  .hero h1 {
-    font-size: clamp(54px,4.68vw,73px);
-    margin: 14px 0 13px;
-  }
-  .hero h1 .love { font-size: clamp(73px,5.95vw,94px); margin-top: 6px; }
-  .hero-copy > p { font-size: 12px; line-height: 1.45; margin: 17px 0 18px; }
-  .hero-qualities { padding-top: 23px; }
-  .hero-gift { padding-top: 25px; }
-  .section-heading { margin-bottom: 18px; }
-}
-@media (min-width: 791px) and (max-width: 1159px) {
-  .hero { grid-template-columns: 34% 45% 21%; }
-  .hero-gift { padding-left: 4px; padding-right: 4px; }
-  .hero-photo { min-height: 520px; }
-}
 @media (max-width: 560px) {
   .hero-photo { min-height: 340px; }
   .hero-motion { object-position: center; }
@@ -181,4 +145,81 @@
   .moments-copy h2 em {white-space:normal;}
   .moments-copy p {font-size:14px;}
   .closing .primary-button {margin-left:0;}
+}
+
+
+/* VIDEO FIRST — Casa Brownie hero editorial desktop sin panel de regalo. */
+@media (min-width: 1200px) {
+  .site-header {
+    position: relative; top: auto; left: auto; width: 100%; height: 83px;
+    padding: 10px clamp(18px,4vw,66px);
+    background: #f9f3ed; border-bottom: 1px solid #ead9c9;
+  }
+  .hero { grid-template-columns: minmax(360px,39%) minmax(0,61%); min-height: clamp(610px,49vw,790px); }
+  .hero-copy { padding: 58px clamp(28px,4vw,78px); }
+  .hero h1 { white-space: normal; font-size: clamp(57px,5vw,83px); line-height: .98; margin: 16px 0; }
+  .hero h1 .love { font-size: 1.18em; margin-top: 8px; }
+  .hero-copy > p { max-width: 34ch; font-size: clamp(14px,1.1vw,16px); line-height: 1.68; }
+  .hero-qualities { margin-top: 36px; padding-top: 24px; border-top: 1px solid rgba(117,75,53,.17); }
+  .hero-photo { min-height: 610px; }
+}
+
+/* Tablet: video a todo el ancho, texto abajo, secciones amplias, sin cajas de regalo de CSS. */
+@media (min-width: 791px) and (max-width: 1199px) {
+  .hero { display: flex; flex-direction: column; min-height: 0; }
+  .hero-photo {
+    order: -1; flex: none; width: 100%; height: clamp(490px,65vw,710px); min-height: 0;
+  }
+  .hero-photo .hero-photo-poster, .hero-motion { object-position: center 52%; }
+  .hand-note { left: 6%; bottom: 32px; font-size: clamp(35px,4.5vw,52px); }
+  .hero-copy {
+    order: 0; min-height: 0; padding: 52px 7% 45px;
+    align-items: center; text-align: center; background: #f7ebe1;
+  }
+  .hero-copy .eyebrow { text-align: center; }
+  .hero h1 {
+    white-space: normal; font-size: clamp(60px,7.2vw,84px);
+    line-height: 1.02; margin: 18px 0 13px; text-align: center;
+  }
+  .hero h1 .love { display: block; font-size: 1.2em; transform: none; margin: 7px auto 0; }
+  .hero-copy > p {
+    max-width: 560px; margin: 18px auto 23px; font-size: 15px; line-height: 1.72; text-align: center;
+  }
+  .hero-copy .primary-button { margin-inline: auto; }
+  .hero-qualities {
+    width: min(100%,570px); margin: 38px auto 0; padding-top: 23px;
+    border-top: 1px solid rgba(117,75,53,.18);
+  }
+  .hero-qualities small { font-size: 9px; }
+  .flavor-section { padding-top: 59px; padding-bottom: 65px; }
+  .flavor-grid { row-gap: 42px; column-gap: clamp(18px,3vw,28px); }
+  .moments-strip {
+    display: grid; grid-template-columns: repeat(2,minmax(0,1fr));
+    grid-template-rows: auto auto; min-height: 0;
+  }
+  .moments-strip > .moment-illustration { grid-column: 1; grid-row: 1; min-height: 0; }
+  .moments-strip > .moment-note { grid-column: 2; grid-row: 1; min-height: 0; }
+  .moments-strip > .moments-copy {
+    grid-column: 1 / -1; grid-row: 2; min-height: 340px; padding: 52px 9% 58px;
+    align-items: center; text-align: center;
+  }
+  .moments-strip .moments-copy h2 {
+    max-width: 760px; font-size: clamp(38px,4.4vw,52px); line-height: 1.13;
+  }
+  .moments-strip .moments-copy p { max-width: 580px; font-size: 15px; line-height: 1.75; }
+  .delivery-section { display: grid; grid-template-columns: minmax(0,1fr); min-height: 0; }
+  .delivery-steps { padding: 60px 8% 65px; }
+  .delivery-steps h2 { font-size: clamp(37px,4.8vw,53px); }
+  .delivery-steps > p { font-size: 15px; }
+  .step-row { margin-top: 36px; gap: 18px; }
+  .step, .step:first-child {
+    padding: 22px 22px 20px; border: 1px solid rgba(103,60,40,.15);
+    border-radius: 14px; background: rgba(255,249,242,.48); min-width: 0;
+  }
+  .step h3 { font-size: clamp(21px,2.2vw,25px); }
+  .step p { font-size: 13px; line-height: 1.58; }
+  .delivery-miami { align-items: center; text-align: center; min-height: 360px; padding: 50px 8% 55px; }
+  .delivery-miami p { max-width: 560px; font-size: 15px; text-align: center; }
+  .delivery-miami .light-button { margin: 16px auto 0; }
+  .closing { padding: 54px 8%; }
 }

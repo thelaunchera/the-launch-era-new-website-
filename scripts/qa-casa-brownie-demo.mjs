@@ -35,9 +35,18 @@ assert.ok(!/stripe\.com|checkout\.stripe\.com/i.test(html),'no payment destinati
 assert.match(html,/DEMO EDUCATIVA · SIN PEDIDOS NI PAGOS REALES/);
 assert.match(html,/Entrega local/);
 assert.match(html,/href="#brownies"/);
-for (const asset of ['./styles.css','./hero-corrections.css']) assert.match(html,new RegExp('(?:href|src)="'+asset.replaceAll('.','\\.')+'\\?v=cb-flavors-responsive-20261029"'),'updated-gallery cache '+asset);
+for (const asset of ['./styles.css','./hero-corrections.css']) assert.match(html,new RegExp('(?:href|src)="'+asset.replaceAll('.','\\.')+'\\?v=cb-tablet-video-first-20261029"'),'updated-gallery cache '+asset);
 for (const asset of ['./motion.css','./motion.js']) assert.match(html,new RegExp('(?:href|src)="'+asset.replaceAll('.','\\.')+'\\?v=cb-center-20261028b"'),'motion cache '+asset);
 assert.match(html,/href="\.\/editorial-center-v2\.css"/,'new stylesheet must load');
+
+assert.match(html,/gift-photos\.css\?v=cb-tablet-video-first-20261029/,'new tablet gift photos version');
+assert.doesNotMatch(html,/class="hero-gift"/,'gift illustration is removed from hero');
+assert.doesNotMatch(html,/class="delivery-gift"/,'CSS gift is removed from delivery');
+assert.match(html,/EL DETALLE PERFECTO PARA CADA MOMENTO/,'gift copy moved beside approved photos');
+assert.match(css,/@media \(min-width: 791px\) and \(max-width: 1199px\)/,'tablet layout exists');
+assert.match(css,/\.hero-photo\s*\{\s*order:\s*-1/,'tablet shows video before copy');
+assert.match(css,/\.moments-strip\s*\{\s*display:\s*grid;\s*grid-template-columns:\s*repeat\(2,\s*minmax\(0,1fr\)\)/,'two tall photos on tablet');
+assert.match(css,/\.delivery-section\s*\{\s*display:\s*grid;\s*grid-template-columns:\s*minmax\(0,1fr\)/,'delivery stacks on tablet');
 
 assert.equal((html.match(/class="step-symbol"/g)||[]).length,3,'three refined step icons');
 assert.equal((html.match(/class="flavor-mark"/g)||[]).length,6,'six illustrated flavor marks');

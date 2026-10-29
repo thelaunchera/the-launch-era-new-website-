@@ -606,7 +606,7 @@ img {
 }
 .delivery-section {
   display: grid;
-  grid-template-columns: 46% 31% 23%;
+  grid-template-columns: minmax(0,58%) minmax(0,42%);
   background: #f2e2d6;
   min-height: 365px;
 }
