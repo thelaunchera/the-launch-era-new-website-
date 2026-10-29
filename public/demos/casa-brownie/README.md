@@ -44,3 +44,10 @@ La sección «Una forma bonita de decir pensé en ti» usa **las dos fotografía
 
 ## Banner compacto entre fotografías (29 oct 2026)
 La cinta entre fotos de regalos ya no utiliza tipografía serif cursiva gigante: altura de **32 px** con DM Sans 10 px, mayúsculas y espaciado editorial, separada de las fotografías por 12 px arriba y 14 px abajo. El texto y el movimiento continuo siguen en español; respetamos movimiento reducido. Se cambia la versión de CSS para evitar caché en Safari. No modificar el hero ni las fotografías.
+
+## Banner tipo The Launch Era + footer legal (29 oct 2026)
+- En la sección de regalos se reemplaza la franja marrón por un ticker cálido sobre fondo ivory con **dos filas**, cuatro frases con iconos SVG por fila y movimiento horizontal en direcciones opuestas, como la experiencia conectada del website oficial.
+- Bordes desvanecidos, texto DM Sans discreto, separación arriba y abajo de las fotografías y respeto por la preferencia de movimiento reducido. No añadimos otro hero ni repetimos galerías.
+- Footer realista de demo con crédito **Powered by The Launch Era** enlazado a la web oficial, **© 2026 The Launch Era. Todos los derechos reservados**, y tres controles **Privacidad, Términos de uso y Aviso legal** que abren modales educativos.
+- No existen pedidos, cobros, perfiles sociales ni un local real. Los modales explican la simulación y no implican que el sitio ya cumpla requisitos legales de una tienda comercial.
+- La misma página sirve la versión de video y `?etapa=sin-video`. El video aprobado, productos, fotografías y carrito de prueba no se alteran.
