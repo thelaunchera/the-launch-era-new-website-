@@ -6,7 +6,7 @@ Este directorio es la copia estática independiente del demo de la masterclass �
 - La interfaz está en español: fotos de brownies, seis sabores, simulación sin pedidos ni pagos, territorio ilustrativo de delivery local Miami.
 - En móvil el video de brownies apilados aparece **antes** del texto principal; el título es **Brownies hechos en casa** y los CTA no muestran flechas decorativas.
 - Prohibido conectar compradores, Stripe, guardar direcciones o iniciar entregas desde este demo sin flujo autorizado y pruebas de privacidad.
-- El MP4 está referenciado externamente desde el video generado de Casa Brownie. El póster permanece visible si el video falla o la persona prefiere reducir movimiento. Antes de usarlo como producción comercial, guardar un activo propio estable y revisar licencias de todas las fotografías ilustrativas (actualmente externas).
+- El video de brownies utilizado por esta versión ahora está guardado localmente como `assets/hero-brownies.mp4` (≈1,3 MB), junto a su póster `assets/hero-brownies.webp`. La imagen permanece visible si el video falla o la persona prefiere reducir movimiento. **El material proviene de un clip generado tomando como referencia una imagen de terceros**; revisar los derechos de la imagen fuente antes de uso comercial. Las seis fotos de sabores siguen enlazadas externamente y requieren permiso o sustitución autorizada.
 - La ruta está autocontenida y no comparte estado, secretos, clientes, branding ni datos de CB Depot ni del demo privado de Booking.
 
 ## Mejoras de iconos y movimiento
@@ -17,8 +17,8 @@ Este directorio es la copia estática independiente del demo de la masterclass �
 ## Dirección editorial de la clase
 Enlace oficial: https://thelaunchera.com/demos/casa-brownie/
 La clase organiza el ejemplo en un recorrido simple: **ocasión humana → producto y fotos → detalle para regalar → cobertura de Miami (ejemplo) → simulación sin compras**. Se conserva el nombre Casa Brownie y el titular «Brownies hechos en casa», pero se evitan títulos repetitivos y CTA que no hacen nada.
-La sección «Una forma bonita de decir pensé en ti» utiliza una ilustración de empaque y una nota hechas con CSS, para no repetir fotografías del catálogo. No representa un testimonio ni un producto realmente vendido.
-El enlace original de edición de AppDeploy sigue siendo una versión anterior; el código oficial actualizado es esta carpeta del repositorio.
+La sección «Una forma bonita de decir pensé en ti» usa **las dos fotografías de regalo aprobadas** en archivos locales (caja con lazo rosa y bolsa/cajas de regalo). No representa un testimonio ni un producto realmente vendido.
+**El demo aprobado es únicamente el que vive en esta carpeta del repositorio.** La versión editable de AppDeploy es anterior y no debe reemplazar ni sobrescribir esta página; AppDeploy solo se usa para enseñar a los alumnos a construir su propia versión.
 
 ## Ajuste Safari móvil y banner
 - Se carga `editorial-center-v2.css` con nombre único y se versionan todas las referencias CSS/JS para impedir que una actualización HTML reutilice un CSS de una versión anterior.
@@ -30,3 +30,7 @@ El enlace original de edición de AppDeploy sigue siendo una versión anterior; 
 - En «Una forma bonita de decir pensé en ti» se sustituyeron ambas ilustraciones CSS por fotografías aportadas por la creadora: caja de regalo con lazo rosa (`assets/regalo-lazo-rosa.webp`) y bolsa/cajas con brownies (`assets/regalos-bolsa-y-cajas.webp`).
 - No se crearon secciones nuevas, pedidos ni capturas de datos; las fotos tienen descripciones alternativas y encuadres adaptables en `gift-photos.css`.
 - **Corrección de nitidez (29 oct 2026):** reemplazadas las miniaturas escaladas por copias optimizadas de los originales adjuntos: bolsa y cajas de **1448 × 1086 px** y caja con lazo de **1240 × 1269 px**. Se conserva el tamaño original con compresión WebP de calidad alta y se renuevan las URL de ambas imágenes para evitar caché antiguo en móvil.
+
+## Preparación y pruebas de la masterclass
+- Guía de las nueve grabaciones, revisión móvil y seguridad: [`GUIA-PARA-LA-CLASE.md`](./GUIA-PARA-LA-CLASE.md).
+- Las pruebas automatizadas actuales verifican también los archivos locales de las dos fotografías y su estilo responsivo. Aún hace falta revisión manual en dispositivos reales y autorización de uso para las fotos de terceros.
