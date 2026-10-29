@@ -1,3 +1,10 @@
+## 2026-10-29 — CRUMB ownership and editing moved into the demos repository
+- **Reported:** owner rejected the satin ribbon and requested the premium cookie storefront redesign be moved to the existing demos repository for continued editing.
+- **Confirmed:** redone source compiled and DOM logic checks passed, but AppDeploy daily deployment credits blocked publication. The public AppDeploy prototype still contained the old ribbon and photos.
+- **Migration:** isolated static `/demos/crumb/` in the active website repo. All nine photos are self-hosted WebP assets (about 3.3 MB total); resource paths and preview-generated images are scoped relatively to CRUMB. No additional application, backend, customers or payment integration.
+- **Preserved:** static approved store hero, sticky Bag counter, six flavors, 3/6/12 builder, packaging, gift message, preview; requested Miami and lifestyle copy. Rejected ribbon absent from HTML/CSS/JS.
+- **QA scope:** build/DOM checks from preparation are source evidence, not visual acceptance. New repo regression exercises real document/button logic with simulated dialog APIs. Shared route/auth/client release guards run before source push; live route/provider status and responsive visual inspection remain separately recorded after publication.
+
 ## 2026-10-28 — Casa Brownie: regalo sin estilos centrados en Safari
 - **Reportado:** capturas del iPhone muestran `UN DETALLE PARA TI Casa Brownie ♡` totalmente a la izquierda y sin caja, nota de regalo sin tarjeta y panel enorme vacío; bloque «¿Ya tienes un favorito?» desbalanceado.
 - **Diagnóstico:** HTML nuevo y CSS complementario tenían dependencias en archivos no versionados. Una carga de HTML reciente con CSS previo puede dejar la sección con estilos antiguos; los contenedores carecían de tamaño/centrado garantizados sin CSS reciente. No se confirmó la caché directamente en Safari.

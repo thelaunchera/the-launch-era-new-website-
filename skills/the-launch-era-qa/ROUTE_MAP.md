@@ -1,3 +1,10 @@
+## 2026-10-29 — CRUMB cookie-shop demo migrated from AppDeploy
+- **Source:** `public/demos/crumb/{index.html,styles.css,main.js,assets/*}` in the active website repository. Route `/demos/crumb/`; AppDeploy `crumb-cookies-animated-demo-w1fcop` retained only as the original prototype.
+- **Actions:** Shop Cookies/footer Cookies → `#cookies`; Gifts → `#gifting`; Miami/Local Delivery → `#delivery`; Build a Gift Box/Build Your Gift Box/Bag → local `#box-dialog`; Explore Local Delivery → local `#delivery-dialog`; Explore a Gift Box closes delivery info and opens the same builder.
+- **State:** one in-memory bag, 3/6/12 capacities, six flavor quantities, packaging, gift message and photo/text preview. No network writes, auth, customer records, orders, payments or emails. Conceptual Miami and surrounding areas only; no physical address, delivery fees or map.
+- **Media/layout:** nine local optimized WebP photographs; static boutique hero immediately under sticky logo/Bag navigation. Six flavor photos use abundant matching plates. Ribbon removed at owner request. Responsive 3/2-column catalog and compact editorial gift/delivery/lifestyle sections. Versioned local assets and noindex.
+- **Verification:** source/DOM and route checks recorded with the change. Live deployment and responsive browser acceptance are separate; do not treat the old AppDeploy URL as the new route.
+
 ## 2026-10-28 — Casa Brownie: reparación de Safari móvil y banner continuo
 - **Observación real del iPhone:** la sección de regalo y nota se veía sin composición: texto pegado al borde izquierdo y largos espacios vacíos, seguidos de bloque de cierre desalineado. No considerar el diseño aprobado sin visual QA.
 - **Causa probable con soporte en fuente:** nuevo HTML usa `.cb-gift-box`, `.cb-paper-note`, `.moments-strip`, pero el navegador seguía mostrando reglas antiguas de CSS/JS; los assets referían URLs sin versión (`hero-corrections.css`, `main.js`), por lo que podían permanecer en caché después de actualizar HTML. Además, contenedores flex/grid tenían alturas dependientes de estilos no cargados.

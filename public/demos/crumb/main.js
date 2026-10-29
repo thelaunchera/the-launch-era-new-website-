@@ -1,0 +1,128 @@
+const products = [
+  { id: 'classic', name: 'Chocolate Chunk' },
+  { id: 'double', name: 'Double Chocolate' },
+  { id: 'caramel', name: 'Salted Caramel' },
+  { id: 'macadamia', name: 'White Chocolate Macadamia' },
+  { id: 'cream', name: 'Cookies & Cream' },
+  { id: 'cinnamon', name: 'Cinnamon Sugar' }
+];
+const labels = Object.fromEntries(products.map(p => [p.id, p.name]));
+const ids = products.map(p => p.id);
+const qty = Object.fromEntries(ids.map(id => [id, 0]));
+const $ = id => document.getElementById(id);
+const dialog = $('box-dialog');
+const deliveryDialog = $('delivery-dialog');
+let size = 3;
+let wrapping = 'Ivory Signature';
+const total = () => Object.values(qty).reduce((a, b) => a + b, 0);
+
+function paint() {
+  const count = total();
+  $('bag-count').textContent = String(count);
+  $('open-builder').setAttribute('aria-label', 'Open bag, ' + count + (count === 1 ? ' cookie' : ' cookies'));
+  for (const id of ids) $('qty-' + id).textContent = String(qty[id]);
+  $('status-count').textContent = count + ' / ' + size;
+  $('status-text').textContent = count === size
+    ? 'Your box is ready to preview'
+    : count === 0 ? 'Choose ' + size + ' cookies'
+    : 'Add ' + (size - count) + ' more cookie' + (size - count === 1 ? '' : 's');
+  $('progress-fill').style.width = (100 * count / size) + '%';
+  document.querySelectorAll('[data-pack]').forEach(button => {
+    const active = Number(button.dataset.pack) === size;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
+  document.querySelectorAll('[data-wrap]').forEach(button => {
+    const active = button.dataset.wrap === wrapping;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
+  $('preview').hidden = true;
+}
+
+function openDialog() {
+  $('preview').hidden = true;
+  if (!dialog.open) dialog.showModal();
+}
+function add(id) {
+  if (total() >= size) {
+    openDialog();
+    $('status-text').textContent = 'Box is full. Remove a cookie or choose a larger box.';
+    return;
+  }
+  qty[id]++;
+  paint();
+}
+function remove(id) {
+  qty[id] = Math.max(0, qty[id] - 1);
+  paint();
+}
+function changeSize(next) {
+  if (![3, 6, 12].includes(next)) return;
+  size = next;
+  let extra = total() - size;
+  for (const id of [...ids].reverse()) {
+    if (extra <= 0) break;
+    const take = Math.min(extra, qty[id]);
+    qty[id] -= take;
+    extra -= take;
+  }
+  paint();
+}
+
+document.querySelectorAll('[data-add]').forEach(button => button.addEventListener('click', () => add(button.dataset.add)));
+document.querySelectorAll('[data-minus]').forEach(button => button.addEventListener('click', () => remove(button.dataset.minus)));
+document.querySelectorAll('[data-pack]').forEach(button => button.addEventListener('click', () => changeSize(Number(button.dataset.pack))));
+document.querySelectorAll('[data-wrap]').forEach(button => button.addEventListener('click', () => {
+  wrapping = button.dataset.wrap;
+  paint();
+}));
+$('open-builder').addEventListener('click', openDialog);
+document.querySelectorAll('[data-open-builder]').forEach(button => button.addEventListener('click', openDialog));
+$('close-builder').addEventListener('click', () => dialog.close());
+dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+$('gift-note').addEventListener('input', () => { $('preview').hidden = true; });
+$('preview-button').addEventListener('click', () => {
+  if (total() !== size) {
+    $('status-text').textContent = 'Add ' + (size - total()) + ' more cookie' + (size - total() === 1 ? '' : 's') + ' to preview your box.';
+    return;
+  }
+  const target = $('preview');
+  target.replaceChildren();
+  const title = document.createElement('h3');
+  title.textContent = 'Your gift box';
+  target.appendChild(title);
+  const photos = document.createElement('div');
+  photos.className = 'preview-photos';
+  const list = document.createElement('ul');
+  for (const id of ids.filter(id => qty[id] > 0)) {
+    const image = document.createElement('img');
+    image.src = './assets/' + id + '.webp?v=20261029-crumb-v1';
+    image.alt = labels[id];
+    photos.appendChild(image);
+    const item = document.createElement('li');
+    item.textContent = qty[id] + ' × ' + labels[id];
+    list.appendChild(item);
+  }
+  target.append(photos, list);
+  const packaging = document.createElement('p');
+  packaging.textContent = 'Packaging: ' + wrapping;
+  target.appendChild(packaging);
+  const note = $('gift-note').value.trim();
+  if (note) {
+    const message = document.createElement('p');
+    message.className = 'preview-note';
+    message.textContent = 'Message: ' + note;
+    target.appendChild(message);
+  }
+  target.hidden = false;
+  target.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+});
+$('open-delivery').addEventListener('click', () => deliveryDialog.showModal());
+$('close-delivery').addEventListener('click', () => deliveryDialog.close());
+deliveryDialog.addEventListener('click', event => { if (event.target === deliveryDialog) deliveryDialog.close(); });
+$('delivery-build').addEventListener('click', () => {
+  deliveryDialog.close();
+  openDialog();
+});
+paint();
