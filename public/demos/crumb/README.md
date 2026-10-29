@@ -6,7 +6,7 @@ Original AppDeploy prototype: `https://crumb-cookies-animated-demo-w1fcop.v2.app
 
 ## Edit here
 
-- `index.html`: store sections, six flavors, local delivery and gift builder dialogs.
+- `index.html`: store sections, six flavors, editorial photo-first flavor grid, animated Miami location route and gift builder dialogs.
 - `styles.css`: editorial typography, warm palette and responsive layouts.
 - `main.js`: shared bag state, capacities 3/6/12, packaging, gift note, preview and local delivery information.
 - `assets/`: nine self-hosted WebP photos; six new flavor photographs plus the existing approved hero, gift box and lifestyle photos. Original generated PNGs are preserved in the saved redesign package.
@@ -24,3 +24,7 @@ CRUMB is a fictional Miami store for education. No orders, prices, delivery comm
 DOM checks cover sizes 3/6/12, excess additions, reducing size, zero minimum, preview guard, selected photos, packaging, gift-message safety, bag state and delivery-dialog flow. DOM dialog methods are simulated, so these checks are not visual/browser QA.
 
 Responsive visual acceptance at 360/390/820/1024/1440 and live publication must be verified separately. No mobile/desktop screenshot is claimed from the earlier AppDeploy preparation.
+
+## 29 Oct editorial / location refinement
+
+The six flavors now use a signature lead photograph and a varied-width editorial grid, closer food crops, and overlay add-to-bag controls (all six keep the original bag behavior and accessible labels). The existing delivery section has a CSS/SVG map-route draw and soft location-marker pulse adapted from the Motion Library route/pin concept. It illustrates **Miami only**: never uses GPS, browser location permissions, visitor address, or live coverage promises. Follow `prefers-reduced-motion`. All marketing copy stays English; CRUMB is a fictional educational demo.
