@@ -35,11 +35,19 @@ assert.ok(!/stripe\.com|checkout\.stripe\.com/i.test(html),'no payment destinati
 assert.match(html,/DEMO EDUCATIVA · SIN PEDIDOS NI PAGOS REALES/);
 assert.match(html,/Entrega local/);
 assert.match(html,/href="#brownies"/);
-for (const asset of ['./styles.css','./hero-corrections.css','./motion.css','./motion.js']) assert.match(html,new RegExp('(?:href|src)="'+asset.replaceAll('.','\\.')+'\\?v=cb-center-20261028b"'),'cache-busted ref '+asset);
+for (const asset of ['./styles.css','./hero-corrections.css']) assert.match(html,new RegExp('(?:href|src)="'+asset.replaceAll('.','\\.')+'\\?v=cb-flavors-responsive-20261029"'),'updated-gallery cache '+asset);
+for (const asset of ['./motion.css','./motion.js']) assert.match(html,new RegExp('(?:href|src)="'+asset.replaceAll('.','\\.')+'\\?v=cb-center-20261028b"'),'motion cache '+asset);
 assert.match(html,/href="\.\/editorial-center-v2\.css"/,'new stylesheet must load');
 
 assert.equal((html.match(/class="step-symbol"/g)||[]).length,3,'three refined step icons');
 assert.equal((html.match(/class="flavor-mark"/g)||[]).length,6,'six illustrated flavor marks');
+const flavorCss=load('styles.css');
+assert.match(flavorCss,/grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\)/,'desktop and tablet gallery must have three columns');
+assert.match(flavorCss,/@media \(max-width: 560px\)[\s\S]*?grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/,'phone gallery must have two columns');
+assert.doesNotMatch(flavorCss,/repeat\(6,\s*minmax\(0,\s*1fr\)\)/,'never squeeze all six flavors in one row');
+assert.match(flavorCss,/aspect-ratio:\s*4\s*\/\s*5/,'all six photos have the same vertical aspect ratio');
+assert.match(flavorCss,/\.flavor-mark\s*\{\s*display:\s*none/,'badge circles must not cover brownies');
+assert.doesNotMatch(css,/\.flavor-picture\s*\{\s*height:\s*clamp\(/,'no legacy desktop picture height override');
 assert.match(html,/<span class="pin-circle" aria-hidden="true"><svg/,'Miami location marker uses a real vector pin');
 assert.ok(!html.includes('>⌖</span>')&&!html.includes('>▤</span>'),'no font glyph placeholders');
 assert.match(html,/href="\.\/motion\.css\?v=cb-center-20261028b"/);
