@@ -945,3 +945,27 @@ textarea { width: 100%; padding: 12px; border: 1px solid #cbb8a5; background: #f
     letter-spacing: .045em;
   }
 }
+
+/* Quiet CRUMB studio credit, below the demo disclaimer in the footer. */
+.site-footer .footer-credit {
+  margin: 14px 0 0;
+  padding: 0;
+  text-align: center;
+  color: #d9c5b4;
+  font: 500 10px/1.7 'DM Sans', Arial, sans-serif;
+  letter-spacing: .035em;
+}
+.site-footer .footer-credit a {
+  color: #fff2e3;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 242, 227, .38);
+  padding-bottom: 2px;
+  transition: border-color .2s ease;
+}
+.site-footer .footer-credit a:hover,
+.site-footer .footer-credit a:focus-visible {
+  border-bottom-color: #fff2e3;
+}
+@media (max-width: 600px) {
+  .site-footer .footer-credit { margin-top: 16px; font-size: 10px; }
+}

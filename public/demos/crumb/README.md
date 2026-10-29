@@ -91,3 +91,7 @@ Desktop uses an intrinsic 16:9 hero, mobile uses 4:5, both with `object-fit: con
 ## Tablet source correction and flavor flags
 
 Tablet (601–1366px, including portrait and landscape iPads) now displays the approved hero at its **natural image height** rather than a fixed height or forced aspect-ratio crop. The headline and CTA row receive a substantially larger vertical gap and more legible tablet sizing. This responsive override appears last in CSS to win over older CRUMB rules. The cache-keyed CSS URL is updated. Three product cards have subtle editorial tags: Salted Caramel = Special; White Chocolate Raspberry = New Flavor; Nutty Dream = Special. The six products, sample prices, demo cart and images are unchanged. Note: any cookie cut off inside the approved source photograph itself cannot be restored with CSS alone.
+
+## Footer studio credit
+
+Below the educational-demo disclosure, CRUMB shows a single small `Powered by The Launch Era` link to `https://thelaunchera.com/`. It is visibly styled for desktop, iPad and phones; not duplicated in the header, photos or product cards.

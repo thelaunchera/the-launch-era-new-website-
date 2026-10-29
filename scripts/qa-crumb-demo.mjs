@@ -104,7 +104,7 @@ const compactTitles = {
 };
 for(const [id,expected] of Object.entries(compactTitles)) assert.equal(d.getElementById(id).textContent,expected);
 assert.match(css,/Compact headings for small screens/);
-assert.match(html,/styles\.css\?v=20261029-crumb-tablet-complete-v2/);
+assert.match(html,/styles\.css\?v=20261029-crumb-powered-footer-v3/);
 results.push('Compact iPhone section titles retain correct English copy and styling');
 
 const expectedFlavors = [
@@ -203,6 +203,11 @@ assert.match(d.querySelector('.footer-location address').textContent,/128 Cookie
 assert.match(d.querySelector('.footer-location').textContent,/Fictional address · Not a real storefront/);
 assert.equal(d.querySelectorAll('.footer-social [data-social]').length,2);
 assert.match(d.querySelector('.footer-note').textContent,/No orders, payments or contact messages are accepted/);
+const credits = d.querySelectorAll('.site-footer .footer-credit');
+assert.equal(credits.length,1,'Studio credit should appear exactly once in footer');
+assert.equal(credits[0].textContent.trim(),'Powered by The Launch Era');
+assert.equal(credits[0].querySelector('a').getAttribute('href'),'https://thelaunchera.com/');
+assert.ok(css.includes('.site-footer .footer-credit'),'Footer credit has responsive styling');
 const contactDialog=d.querySelector('#contact-dialog');
 const contactForm=d.querySelector('#contact-form');
 const contactFeedback=d.querySelector('#contact-feedback');
