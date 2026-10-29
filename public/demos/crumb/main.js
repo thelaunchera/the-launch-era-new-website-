@@ -1,16 +1,16 @@
 const products = [
-  { id: 'classic', name: 'Chocolate Chunk' },
+  { id: 'classic', name: 'Classic Chocolate Chip' },
   { id: 'double', name: 'Double Chocolate' },
   { id: 'caramel', name: 'Salted Caramel' },
-  { id: 'macadamia', name: 'White Chocolate Macadamia' },
-  { id: 'cream', name: 'Cookies & Cream' },
-  { id: 'cinnamon', name: 'Cinnamon Sugar' }
+  { id: 'raspberry', name: 'White Chocolate Raspberry' },
+  { id: 'nutty', name: 'Nutty Dream' },
+  { id: 'brownie', name: 'Brownie Chip' }
 ];
 const labels = Object.fromEntries(products.map(p => [p.id, p.name]));
 const ids = products.map(p => p.id);
 const qty = Object.fromEntries(ids.map(id => [id, 0]));
 let toastTimer;
-const photoFor = id => './assets/' + id + '.webp?v=20261029-crumb-v4';
+const photoFor = id => './assets/' + id + '.webp?v=20261029-crumb-v7';
 const $ = id => document.getElementById(id);
 const dialog = $('box-dialog');
 const deliveryDialog = $('delivery-dialog');
