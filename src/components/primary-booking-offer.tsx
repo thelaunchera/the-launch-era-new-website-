@@ -28,7 +28,7 @@ export function PrimaryBookingOffer({ lang = 'en' }: { lang?: 'en' | 'es' }) {
         </div>
         <p className="tle-primary-booking-offer__fine-print">{es
           ? 'La IA es opcional. Verás el pago inicial y cualquier mensualidad antes de comprar.'
-          : 'AI is optional. You'll see the one-time setup and any monthly plan before paying.'}</p>
+          : 'AI is optional. One-time setup and monthly fees appear before you pay.'}</p>
       </div>
       <div className="tle-primary-booking-offer__preview" aria-label={es ? 'Ejemplo ilustrativo del flujo de reservas' : 'Illustrative booking workflow'}>
         <div className="tle-primary-booking-offer__preview-head"><span>{es ? 'ASÍ FUNCIONA' : 'HOW IT WORKS'}</span><span>{es ? 'EJEMPLO' : 'SAMPLE FLOW'}</span></div>
