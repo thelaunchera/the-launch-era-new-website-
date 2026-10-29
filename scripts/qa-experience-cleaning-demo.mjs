@@ -34,7 +34,7 @@ assert.match(js,/function scrollToCurrentBookingStep/,'Booking navigation must s
 assert.doesNotMatch(js,/\$\('experience'\)\.scrollIntoView\(\{behavior:'smooth'\}\)/,'Retired large section jump must not return');
 assert.match(photoLogic,/IntersectionObserver/,'Existing Casa Brownie observer pattern must be applied');
 assert.match(photoLogic,/data-fallback/,'Service photos need a self-hosted image fallback');
-assert.equal((html.match(/data-fallback=/g)||[]).length,4,'Four exact-service licensed photographs must be safely replaceable');
+assert.equal((html.match(/data-fallback=/g)||[]).length,5,'Five exact-service licensed photographs must be safely replaceable');
 assert.match(html,/photos\/8055186/,'Regular cleaning should show an actual vacuuming scene');
 assert.match(html,/photos\/9462635/,'Deep cleaning should show detailed bathroom work');
 assert.match(html,/photos\/9462298/,'Special cleaning should show detailed oven work');
