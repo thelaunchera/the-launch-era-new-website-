@@ -31,7 +31,7 @@
 - La grabación original de creación **no existe**: se hará una reconstrucción auténtica desde un proyecto de práctica nuevo y vacío. Decirlo así, sin simular material de archivo.
 - Los recursos de producción, las fotografías aprobadas y los prompts específicos por sección están en **Studio → Clases · grabación → Casa Brownie · de cero al demo final**. Allí también están los pasos para reconstruir la web, copiar cada prompt y comprobar las etapas.
 - **Orden de rodaje:** primero mostrar la **versión sin video**, reconstruir identidad, fotos, textos, hero estático, seis sabores, regalos, entrega, simulación, footer y móvil; **solo en el bono** abrir por primera vez la versión oficial animada como revelación del resultado final. El video no forma parte de las nueve grabaciones principales. No convertir el truco del video en parte de las nueve grabaciones principales.
-- **Fotos actuales de sabores:** el catálogo aprobado todavía enlaza fotografías de terceros; no entregarlas como recursos propios para descargar. Crear seis imágenes originales individuales aprobadas antes de distribuir el paquete.
+- **Fotos actuales de sabores:** seis fotografías originales generadas y aprobadas por Dailin, archivos individuales assets/sabor-*.webp; sus prompts y fotos están en el Studio.
 
 ## Cómo verificarlo antes de grabar
 
@@ -41,7 +41,7 @@
 - Tocar los seis sabores, abrir/cerrar fichas, seleccionar un sabor, completar la simulación y confirmar que **no pide nombre, dirección, correo ni tarjeta**.
 - Abrir navegación móvil, probar links de secciones, icono de búsqueda, botón de bolsa, info de Miami y avisos de la demo; probar Escape y tabulación en desktop.
 - Revisar nitidez de las dos fotos de regalo (1448×1086 y 1240×1269 originales) y el encuadre de cada una.
-- Confirmar que no hay errores de red en fotografías externas. Registrar cuál falla si hay alguno; no sustituir una foto aprobada por otra sin revisión editorial.
+- Confirmar que cargan las seis fotografías locales aprobadas. Registrar cuál falla si hay alguno; no sustituir una foto aprobada por otra sin revisión editorial.
 - Revisar que video no tiene audio, que el bucle es discreto y que existe un póster cuando falla.
 - Prueba de 360 px de ancho y de pantalla grande: ninguna parte importante queda cortada.
 - Grabar un clip de recorrido **sin barras del navegador ni datos privados**.
@@ -52,11 +52,11 @@
 | --- | --- | --- |
 | Fotografías aprobadas de las dos cajas de regalo | `assets/regalo-lazo-rosa.webp` y `assets/regalos-bolsa-y-cajas.webp` | Locales, nitidez corregida |
 | Video de brownies apilados y póster | `assets/hero-brownies.mp4` y `assets/hero-brownies.webp` si su importación y QA terminan correctamente | Clip original de la demo **ahora local y optimizado**; pendiente revisar visualmente el bucle y derechos de imagen fuente |
-| Seis fotos de sabores | URLs de terceros en `index.html` y `main.js` | **No aprobadas para redistribución:** comprobar permisos/licencias o producir seis fotografías propias antes de distribuir materiales |
+| Seis fotos de sabores | `assets/sabor-*.webp` en `index.html` y `main.js` | Originales generados y aprobados por Dailin; seis archivos separados, encuadre cerrado, sin flores |
 | Identidad del sitio | SVG en `index.html` y CSS local | Aprobado |
 | Código de interacción | `main.js` | Sin backend ni almacenaje de datos |
 
-**Importante sobre derechos:** que una imagen sea visible en una web pública no autoriza a copiarla ni distribuirla. La demo actualmente enlaza fotografías de sitios externos. El video del hero se creó usando como referencia una foto externa, por lo que también debe revisarse el derecho sobre la imagen fuente antes de incluirlo en un producto comercial. No atribuir autores ni inventar permisos.
+**Importante sobre derechos:** que una imagen sea visible en una web pública no autoriza a copiarla ni distribuirla. Las fotografías del catálogo ya se sustituyeron por originales aprobados. El video del hero se creó usando como referencia una foto externa, por lo que también debe revisarse el derecho sobre la imagen fuente antes de incluirlo en un producto comercial. No atribuir autores ni inventar permisos.
 
 ## Qué grabar en cada una de las nueve lecciones
 

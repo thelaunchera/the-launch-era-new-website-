@@ -6,7 +6,7 @@ Este directorio es la copia estática independiente del demo de la masterclass �
 - La interfaz está en español: fotos de brownies, seis sabores, simulación sin pedidos ni pagos, territorio ilustrativo de delivery local Miami.
 - En móvil el video de brownies apilados aparece **antes** del texto principal; el título es **Brownies hechos en casa** y los CTA no muestran flechas decorativas.
 - Prohibido conectar compradores, Stripe, guardar direcciones o iniciar entregas desde este demo sin flujo autorizado y pruebas de privacidad.
-- El video de brownies utilizado por esta versión ahora está guardado localmente como `assets/hero-brownies.mp4` (≈1,3 MB), junto a su póster `assets/hero-brownies.webp`. La imagen permanece visible si el video falla o la persona prefiere reducir movimiento. **El material proviene de un clip generado tomando como referencia una imagen de terceros**; revisar los derechos de la imagen fuente antes de uso comercial. Las seis fotos de sabores siguen enlazadas externamente y requieren permiso o sustitución autorizada.
+- El video de brownies utilizado por esta versión ahora está guardado localmente como `assets/hero-brownies.mp4` (≈1,3 MB), junto a su póster `assets/hero-brownies.webp`. La imagen permanece visible si el video falla o la persona prefiere reducir movimiento. **El material proviene de un clip generado tomando como referencia una imagen de terceros**; revisar los derechos de la imagen fuente antes de uso comercial. Las seis fotos de sabores fueron sustituidas por imágenes originales generadas y aprobadas por Dailin el 29 de octubre; archivos locales assets/sabor-*.webp, compartidos por catálogo y fichas.
 - La ruta está autocontenida y no comparte estado, secretos, clientes, branding ni datos de CB Depot ni del demo privado de Booking.
 
 ## Mejoras de iconos y movimiento
@@ -33,4 +33,4 @@ La sección «Una forma bonita de decir pensé en ti» usa **las dos fotografía
 
 ## Preparación y pruebas de la masterclass
 - Guía de las nueve grabaciones, revisión móvil y seguridad: [`GUIA-PARA-LA-CLASE.md`](./GUIA-PARA-LA-CLASE.md).
-- Las pruebas automatizadas actuales verifican también los archivos locales de las dos fotografías y su estilo responsivo. Aún hace falta revisión manual en dispositivos reales y autorización de uso para las fotos de terceros.
+- Las pruebas automatizadas actuales verifican también los archivos locales de las dos fotografías y su estilo responsivo. Las fotos del catálogo son originales aprobados; revisar los encuadres en dispositivos reales.
