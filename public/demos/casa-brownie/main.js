@@ -153,7 +153,7 @@ document.addEventListener('keydown', event => {
   }
   if (event.key === 'Tab' && !modalRoot.hidden) {
     const nodes = [
-      ...modalRoot.querySelectorAll('button,[href],select,input'),
+      ...modalRoot.querySelectorAll('button,[href],select,input,textarea'),
     ].filter(n => !n.disabled);
     if (!nodes.length) return;
     const first = nodes[0];
@@ -375,20 +375,88 @@ function viewDelivery() {
 }
 function viewStory() {
   const wrapper = document.createElement('div');
-  addText(
-    wrapper,
-    'p',
-    'Esta marca es el ejemplo ficticio de la clase «Tu primera web con IA». Su sitio muestra cómo presentar un producto con fotos claras, explicar su entrega y ofrecer una experiencia sencilla, sin activar ventas.'
-  );
-  addText(
-    wrapper,
-    'p',
-    'No es una panadería abierta y no ofrece producción, entregas, reseñas, precios ni venta de alimentos.',
-    'status-box'
-  );
+  addText(wrapper, 'p', 'La idea nació de un momento sencillo: imaginar una caja de brownies hecha para decir «pensé en ti» cuando no encontramos las palabras.');
+  addText(wrapper, 'p', 'Imaginamos una tienda de barrio con olor a chocolate, cajas listas para regalar y pequeñas excusas para reunirse sin prisa.');
+  addText(wrapper, 'p', 'Casa Brownie y su dirección en Miami forman parte de un proyecto ficticio. No existe una tienda abierta.', 'status-box');
   addButton(wrapper, 'Seguir explorando', closeModal);
-  openModal('Una idea que conecta', wrapper, 'SOBRE CASA BROWNIE');
+  openModal('La historia de Casa Brownie', wrapper, 'NUESTRA HISTORIA · DEMO');
 }
+
+function viewSocialDemo(platform) {
+  const previews = {
+    instagram: ['Fotos del obrador', 'Ideas para regalar', 'Detrás de una caja'],
+    tiktok: ['Brownies recién cortados', 'Así armamos una caja', 'Momentos para compartir'],
+    pinterest: ['Mesas dulces', 'Empaques con encanto', 'Ideas para celebrar']
+  };
+  const titles = { instagram:'Instagram', tiktok:'TikTok', pinterest:'Pinterest' };
+  if (!Object.hasOwn(previews, platform)) return;
+  const wrapper = document.createElement('div');
+  addText(wrapper, 'p', 'Así podría presentarse la cuenta de Casa Brownie en '+titles[platform]+'. Son ideas de contenido, no un perfil real.', 'status-box');
+  const grid = document.createElement('div');
+  grid.className = 'cb-social-preview';
+  for (const [index, idea] of previews[platform].entries()) {
+    const tile = document.createElement('div');
+    tile.className = 'cb-social-preview-tile';
+    const number = document.createElement('span');
+    number.textContent = String(index+1).padStart(2,'0');
+    const title = document.createElement('strong');
+    title.textContent = idea;
+    tile.append(number,title);
+    grid.append(tile);
+  }
+  wrapper.append(grid);
+  addText(wrapper, 'p', 'Vista previa educativa. No se abre ninguna cuenta ni plataforma externa.');
+  addButton(wrapper, 'Cerrar', closeModal);
+  openModal(titles[platform]+' · inspiración', wrapper, 'REDES SOCIALES · EJEMPLO');
+}
+
+function viewContactDemo() {
+  const wrapper = document.createElement('div');
+  addText(wrapper, 'p', 'Prueba cómo funcionaría el contacto de una tienda. Usa solo datos inventados: nada de lo que escribas se envía ni se guarda.', 'status-box');
+  const form = document.createElement('form');
+  form.className = 'cb-demo-contact-form';
+  form.id = 'cb-demo-contact-form';
+  form.setAttribute('autocomplete', 'off');
+
+  function addField(tag, labelText, key, hint, type = 'text') {
+    const label = document.createElement('label');
+    label.textContent = labelText;
+    label.htmlFor = 'cb-contact-' + key;
+    const field = document.createElement(tag);
+    field.id = 'cb-contact-' + key;
+    field.name = key;
+    field.placeholder = hint;
+    field.required = true;
+    field.autocomplete = 'off';
+    if (tag === 'input') field.type = type;
+    field.maxLength = key === 'mensaje' ? 320 : key === 'email' ? 100 : 60;
+    if (tag === 'textarea') field.rows = 4;
+    label.append(field);
+    form.append(label);
+  }
+  addField('input','Nombre de ejemplo','nombre','Ana de prueba');
+  addField('input','Correo de ejemplo','email','ana@ejemplo.test','email');
+  addField('textarea','¿Qué quisieras preguntar?','mensaje','Quisiera conocer los sabores de muestra...');
+
+  const submit = document.createElement('button');
+  submit.type = 'submit';
+  submit.className = 'modal-primary cb-demo-submit';
+  submit.textContent = 'Simular mensaje';
+  form.append(submit);
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    if (!form.reportValidity()) return;
+    form.reset();
+    wrapper.replaceChildren();
+    addText(wrapper,'p','Tu simulación se completó. El mensaje no se envió ni quedó guardado.', 'status-box');
+    addText(wrapper,'p','En una tienda real, este paso necesitaría un correo o servicio de contacto verificado.');
+    addButton(wrapper,'Volver a la tienda', closeModal);
+  });
+  wrapper.append(form);
+  openModal('Contáctanos', wrapper, 'CONTACTO · SOLO DEMOSTRACIÓN');
+  form.querySelector('input')?.focus();
+}
+
 function viewLegal() {
   const wrapper = document.createElement('div');
   addText(
@@ -399,7 +467,7 @@ function viewLegal() {
   addText(
     wrapper,
     'p',
-    'No hay registro de usuarios, formularios, carrito real, analítica personalizada ni cobros. Antes de convertir esta demo en un negocio real habría que añadir datos de contacto verificables, privacidad, información de alimentos y alérgenos, términos de venta y políticas de entrega y devolución adecuadas a la actividad y la ley aplicable.'
+    'El formulario de contacto es una simulación local: no envía ni guarda lo escrito. No hay cuentas sociales reales, carrito de compra real, analítica personalizada ni cobros. Antes de convertirla en negocio harían falta datos verificables, privacidad, información de alimentos y alérgenos, términos de venta y políticas de entrega adecuadas.'
   );
   addText(
     wrapper,
@@ -429,5 +497,7 @@ document
   .getElementById('experience-btn')
   .addEventListener('click', () => viewExperience());
 document.getElementById('legal-btn').addEventListener('click', viewLegal);
+document.getElementById('contact-us-button').addEventListener('click', viewContactDemo);
+document.querySelectorAll('[data-social-demo]').forEach(button => button.addEventListener('click', () => viewSocialDemo(button.dataset.socialDemo)));
 
 updateCartBadge();
