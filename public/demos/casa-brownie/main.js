@@ -36,7 +36,7 @@ const catalog = [
     mark: '▦',
     color: '#6a3f2b',
     image:
-      'https://www.amummytoo.co.uk/wp-content/uploads/2025/04/big-batch-brownies-SQUARE.jpg',
+      './assets/sabor-clasico.webp?v=aprobado-20261029',
     detail:
       'Chocolate protagonista, centro suave y una capa ligeramente crujiente. Una idea de sabor para la demostración.',
   },
@@ -47,7 +47,7 @@ const catalog = [
     mark: '♧',
     color: '#815e43',
     image:
-      'https://proteinbrownies.co/recipe_images/zucchini-protein-brownies.jpg',
+      './assets/sabor-nuez.webp?v=aprobado-20261029',
     detail:
       'La intensidad del chocolate con el contraste de trozos de nuez. Concepto de receta, no una lista de ingredientes confirmada.',
   },
@@ -58,7 +58,7 @@ const catalog = [
     mark: '◉',
     color: '#ba784e',
     image:
-      'https://images.getrecipekit.com/20260629191045-brownie-20ddl.png?aspect_ratio=16%3A9&quality=90',
+      './assets/sabor-dulce-de-leche.webp?v=aprobado-20261029',
     detail:
       'Un remolino dulce que crea un contraste con el cacao. Variedad ilustrativa para el ejercicio.',
   },
@@ -69,7 +69,7 @@ const catalog = [
     mark: '✿',
     color: '#a95566',
     image:
-      'https://anasrecipes.com/wp-content/uploads/2025/06/0-2-640-N-161.jpg',
+      './assets/sabor-frambuesa.webp?v=aprobado-20261029',
     detail:
       'Chocolate intenso acompañado de una nota frutal. Combinación propuesta para mostrar un catálogo.',
   },
@@ -80,7 +80,7 @@ const catalog = [
     mark: '◎',
     color: '#493228',
     image:
-      'https://www.dailydoughco.com.au/cdn/shop/files/Oreo_Brownie_1.png?v=1774829381&width=1080',
+      './assets/sabor-oreo.webp?v=aprobado-20261029',
     detail:
       'Un acabado cremoso con galleta de chocolate. Esta demostración no representa una receta ni un producto a la venta.',
   },
@@ -91,7 +91,7 @@ const catalog = [
     mark: '✧',
     color: '#bc916e',
     image:
-      'https://images.ctfassets.net/brcxfsm84vq2/3XfvKaeEjct7Rjgweuzp5r/174011d220376e0cf240558c79796251/Fudge_Brownies_Salted_Caramel.jpg?w=600',
+      './assets/sabor-especial.webp?v=aprobado-20261029',
     detail:
       'Un sabor de temporada imaginario para demostrar que el catálogo puede crecer sin rehacer la web.',
   },

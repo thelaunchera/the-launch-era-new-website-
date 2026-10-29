@@ -35,7 +35,7 @@ assert.ok(!/stripe\.com|checkout\.stripe\.com/i.test(html),'no payment destinati
 assert.match(html,/DEMO EDUCATIVA · SIN PEDIDOS NI PAGOS REALES/);
 assert.match(html,/Entrega local/);
 assert.match(html,/href="#brownies"/);
-for (const asset of ['./styles.css','./hero-corrections.css','./motion.css','./main.js','./motion.js']) assert.match(html,new RegExp('(?:href|src)="'+asset.replaceAll('.','\\.')+'\\?v=cb-center-20261028b"'),'cache-busted ref '+asset);
+for (const asset of ['./styles.css','./hero-corrections.css','./motion.css','./motion.js']) assert.match(html,new RegExp('(?:href|src)="'+asset.replaceAll('.','\\.')+'\\?v=cb-center-20261028b"'),'cache-busted ref '+asset);
 assert.match(html,/href="\.\/editorial-center-v2\.css"/,'new stylesheet must load');
 
 assert.equal((html.match(/class="step-symbol"/g)||[]).length,3,'three refined step icons');
@@ -91,3 +91,7 @@ assert.match(layout,/overflow-x:hidden/,'prevent sideways scrolling');
 assert.match(html,/DEMO EDUCATIVA · SIN PEDIDOS NI PAGOS REALES/);
 console.log('Casa Brownie static demo QA OK');
 
+
+assert.match(html,/main\.js\?v=sabores-aprobados-20261029/);
+assert.equal((js.match(/assets\/sabor-/g)||[]).length,6,'all catalog photos are hosted originals');
+assert.doesNotMatch(js,/amummytoo|proteinbrownies|getrecipekit|anasrecipes|dailydoughco|ctfassets/,'no third-party flavor photos');
