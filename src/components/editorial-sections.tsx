@@ -44,7 +44,7 @@ export function HomeHero() {
    <div className="eyebrow">FOR CLEANING BUSINESS OWNERS</div>
    <h1 className="tle-hero-heading-shine">You’re cleaning. Someone wants to book.</h1>
    <p>After the job, you see messages about prices and dates. Your booking link collects the details while you work.</p>
-   <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/sample-cleaning/?lang=en&source=homepage">Try the Booking Demo <ArrowRight/></a></Button></div>
+   <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/experience-cleaning/?lang=en&source=homepage">Try the Booking Demo <ArrowRight/></a></Button></div>
    <p className="demo-delivery-note"><a href="/booking-demo/?lang=en&source=homepage-clara">Request a More Personalized Demo ↗</a> · Private link sent by email.</p>
  </div>
  <div className="hero-split-visual">
