@@ -768,6 +768,7 @@ textarea { width: 100%; padding: 12px; border: 1px solid #cbb8a5; background: #f
   margin:0 0 18px;
 }
 #contact-form { display:flex;flex-direction:column;gap:7px; }
+#contact-form[hidden],.contact-feedback[hidden] { display:none!important; }
 #contact-form label {
   font:600 12px/1.35 'DM Sans',sans-serif;
   margin-top:9px;
@@ -824,6 +825,7 @@ textarea { width: 100%; padding: 12px; border: 1px solid #cbb8a5; background: #f
 }
 @media (max-width:600px) {
   .site-header nav { gap:11px;font-size:10px; }
+  .site-header nav a[href="#story"] { display:none; }
   #story { scroll-margin-top:82px; }
   .moment-copy .story-contact { align-self:center; }
   .moment-copy>p:first-of-type { font-size:13px; }
