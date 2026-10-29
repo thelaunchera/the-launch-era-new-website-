@@ -54,6 +54,32 @@ assert.match(refinement,/\.step\.is-current b/);
 assert.match(refinement,/@media\(prefers-reduced-motion:reduce\)/);
 assert.match(html,/id="metric-value"/);
 assert.match(html,/id="visual-detail"/);
+const galleryCss=readFileSync('public/experience-cleaning/owner-gallery.css','utf8');
+assert.match(html,/owner-gallery\.css\?v=/,'Gallery, team and review design stylesheet must load');
+assert.match(galleryCss,/@keyframes tle-clean-portfolio-scroll/,'Gallery must auto-scroll across the viewport');
+assert.match(galleryCss,/prefers-reduced-motion:reduce/,'Portfolio respects reduced motion');
+assert.match(galleryCss,/\.clean-work-runner\.is-paused/,'Gallery offers a pause option');
+for(const asset of [
+ '/experience-cleaning/photos/clean_roll_01_kitchen.webp',
+ '/experience-cleaning/photos/clean_roll_02_bathroom.webp',
+ '/experience-cleaning/photos/clean_roll_03_bedroom.webp',
+ '/experience-cleaning/photos/clean_roll_04_living_entry.webp',
+ '/experience-cleaning/photos/clean_roll_05_cleaning_details.webp',
+ '/experience-cleaning/photos/clean_roll_06_pets_lifestyle.webp',
+ '/experience-cleaning/photos/cleaner-owner-portrait.webp'
+]) assert(existsSync('public'+asset),'Selected Drive photo missing from repository: '+asset);
+assert.match(html,/id="our-work"/);
+assert.match(html,/id="meet-cleaner"/);
+assert.match(html,/id="sample-reviews"/);
+assert.match(html,/id="work-pause"/);
+assert.equal((html.match(/class="clean-work-group"/g)||[]).length,2,'Marquee must have a seamless duplicate group');
+assert.equal((html.match(/class="clean-work-card"/g)||[]).length,12,'Exactly six selected work images and six decorative duplicates');
+assert.match(html,/clean-work-group" aria-hidden="true"/,'Duplicate work gallery must be hidden from assistive tech');
+assert.match(html,/not actual completed customer projects/,'Demo portfolio must never claim fictitious customer jobs');
+assert.match(html,/SAMPLE CONTENT · NOT A CUSTOMER REVIEW/,'Each illustrative review must be visibly labelled as sample content');
+assert.match(html,/not published testimonials/,'Testimonials must not be represented as authentic reviews');
+assert.doesNotMatch(html,/offer-photo"><img src="\/assets\/lead-demo\/hero-luxury-home\.png"/,'Replace the empty old offer photograph');
+
 assert(!/\b(fetch\s*\(|XMLHttpRequest|localStorage|sessionStorage|sendBeacon|navigator\.send|FormData|WebSocket)\b/.test(js),'Public sample code must never send or store customer data');
 for(const asset of ['/assets/brand/tle-wordmark.svg','/assets/cleaning-demo/hero-cleaner-original.jpg','/assets/cleaning-demo/living-room-original.jpg','/assets/cleaning-demo/hero-woman-cleaning.jpg','/assets/cleaning-demo/whole-home.png','/assets/cleaning-demo/living-suite.png']){
  assert(existsSync('public'+asset),'Missing approved image '+asset);
@@ -73,7 +99,13 @@ for(const lang of ['en','es']){
  assert.equal(strip.length,2,'Two identical strips for seamless looping');
  assert.equal(strip[0].textContent.trim(),strip[1].textContent.trim(),'Animated loop must not jump between two different messages');
  assert.match(strip[0].textContent,lang==='es'?/Reservas residenciales/:/Residential bookings/);
- assert($('stage-1')&&!$('stage-1').hidden);
+ assert.match(w.document.querySelector('#clean-work-title').textContent,lang==='es'?/La limpieza se siente/:/A clean you can feel/);
+ assert.match(w.document.querySelector('#team-title').textContent,lang==='es'?/Una persona de confianza/:/A familiar face/);
+ assert.match(w.document.querySelector('#reviews-title').textContent,lang==='es'?/Que lo cuenten tus clientes/:/Their words will say it best/);
+ assert.match(w.document.querySelector('.clean-work-banner').textContent,lang==='es'?/NUESTROS TRABAJOS/:/OUR WORK/);
+ assert.equal(w.document.querySelectorAll('.clean-work-group:first-child img').length,6);
+ assert.equal($('work-pause').disabled,true,'Reduced-motion users must not need to pause the gallery');
+  assert($('stage-1')&&!$('stage-1').hidden);
  assert($('owner').hidden);
  assert.match($('r-price').textContent,/\$120/);
  w.document.querySelector('[data-service="deep"]').click();
