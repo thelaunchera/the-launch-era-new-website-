@@ -213,9 +213,17 @@ $('service-grid').addEventListener('keydown',e=>{
 document.querySelectorAll('.extras input').forEach(x=>x.addEventListener('change',()=>{state.extras=[...document.querySelectorAll('.extras input:checked')].map(el=>el.value);syncReceipt();}));
 $('date').addEventListener('change',()=>{state.date=$('date').value;syncReceipt();});
 document.querySelectorAll('input[name="preferred-time"]').forEach(x=>x.addEventListener('change',()=>{state.time=x.value;syncReceipt();}));
-$('back').addEventListener('click',()=>setStage(state.step-1));
+// Keep the visitor within the booking panel instead of jumping back to the large heading.
+function scrollToCurrentBookingStep(){
+ if(window.innerWidth>760)return;
+ const target=document.querySelector('.steps');
+ if(!target)return;
+ const reduce=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+ target.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+}
+$('back').addEventListener('click',()=>{setStage(state.step-1);scrollToCurrentBookingStep();});
 $('next').addEventListener('click',()=>{
- if(state.step<3){setStage(state.step+1);if(innerWidth<760)$('experience').scrollIntoView({behavior:'smooth'});return;}
+ if(state.step<3){setStage(state.step+1);scrollToCurrentBookingStep();return;}
  if(!$('date').value||$('date').value<$('date').min||$('date').value>$('date').max){$('date').focus();$('date').reportValidity();return;}
  state.date=$('date').value;state.sent=true;state.phase=0;
  $('handoff').hidden=false;$('owner').hidden=false;

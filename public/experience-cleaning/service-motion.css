@@ -1,0 +1,144 @@
+/* The Launch Era cleaning demo: adapted from Casa Brownie's photo-pop, reveal, and gentle progress treatment.
+   Isolated to this safe sample. No visual arrows, bright green ticks, or intrusive motion. */
+:root{--tle-ease:cubic-bezier(.2,.8,.2,1)}
+.hero.hero-cleaning-site{overflow:hidden}
+.hero.hero-cleaning-site .hero-full-photo{
+  transform-origin:57% 55%;
+  animation:tle-clean-hero-depth 15s ease-in-out infinite alternate;
+  backface-visibility:hidden;
+}
+@keyframes tle-clean-hero-depth{
+  from{transform:scale(1.012) translate3d(0,0,0)}
+  to{transform:scale(1.055) translate3d(-.4%,.2%,0)}
+}
+.hero.hero-cleaning-site .hero-copy{
+  animation:tle-clean-hero-copy .85s var(--tle-ease) both;
+}
+@keyframes tle-clean-hero-copy{
+  from{opacity:.15;transform:translate3d(0,16px,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+}
+.hero-main-action,.hero-nav-cta{
+  transition:transform .3s var(--tle-ease),box-shadow .3s ease,background .3s ease;
+}
+.hero-main-action:hover,.hero-main-action:focus-visible{transform:translateY(-3px);box-shadow:0 12px 30px #16394D38}
+.hero-main-action:active{transform:scale(.98)}
+/* Match the service images to what each service ACTUALLY does; keep one consistent gallery treatment. */
+.service-card{position:relative;isolation:isolate;transform:translateZ(0);transition:transform .42s var(--tle-ease),box-shadow .35s,border-color .35s}
+.service-card img{
+  display:block;width:100%;height:125px;object-fit:cover;object-position:center;
+  filter:saturate(.92) contrast(1.035);transform:scale(1);
+  transition:filter .5s ease,transform .58s var(--tle-ease);
+}
+.service-card:hover,.service-card:focus-visible{
+  transform:translateY(-3px);
+  border-color:#7FA8BE;
+  box-shadow:0 15px 30px rgba(38,85,108,.13);
+}
+.service-card:hover img,.service-card:focus-visible img{
+  transform:scale(1.06);filter:saturate(1.02);
+}
+.service-card.is-selected{
+  border-color:#447A98;
+  background:#F9FCFD;
+  box-shadow:0 0 0 2px rgba(73,135,169,.22),0 9px 24px rgba(32,96,126,.12);
+}
+.service-card.is-selected:active{transform:scale(.985)}
+.service-card .service-card-copy{position:relative;z-index:2;background:#fffefb}
+.service-card.is-selected .service-card-copy{background:#F6FAFC}
+.select-indicator{
+  display:grid;place-items:center;
+  width:24px;height:24px;border-radius:8px;
+  background:#FFFFFFEB;border:1px solid #AAC4D1;
+  box-shadow:0 3px 10px #173F571E;
+  transition:transform .3s var(--tle-ease),background .3s,border-color .3s;
+}
+.is-selected .select-indicator{
+  background:#3D7492;border:1px solid #3D7492;box-shadow:0 0 0 3px #E4F3FB;
+  transform:scale(1.04);
+}
+.is-selected .select-indicator:after{
+  content:"";display:block;width:9px;height:5px;border-left:2px solid white;border-bottom:2px solid white;
+  transform:translateY(-1px) rotate(-45deg);
+}
+/* Pricing must never break inside a number: screenshot displayed "$22 / 0". */
+.mini-receipt-head{
+  display:grid;grid-template-columns:minmax(0,1fr) max-content;gap:13px;align-items:start;
+}
+.mini-receipt-head>div{min-width:0}
+.mini-receipt-head h3{
+  max-width:100%;overflow-wrap:normal;word-break:normal;text-wrap:balance;
+}
+.mini-receipt-head .mini-price{
+  display:inline-block;flex:none;min-width:max-content;max-width:none!important;
+  white-space:nowrap!important;overflow-wrap:normal!important;word-break:keep-all!important;
+  font-variant-numeric:tabular-nums;
+  text-align:right;
+  line-height:1.2;
+  padding:3px 0 0;
+}
+.mini-receipt-head .mini-price.is-estimate{
+  min-width:0;max-width:135px!important;
+  white-space:normal!important;overflow-wrap:normal!important;word-break:normal!important;
+  font-size:12px;line-height:1.4;
+}
+.request-value strong,.dash-metrics strong,.receipt-total strong{
+  white-space:nowrap;overflow-wrap:normal;word-break:keep-all;font-variant-numeric:tabular-nums;
+}
+.mini-receipt-grid dd{overflow-wrap:break-word;word-break:normal}
+/* Smooth, contained progression: no huge scroll-back to the section's headline. */
+.stage:not([hidden]){
+  animation:tle-clean-step-in .44s var(--tle-ease) both;
+}
+@keyframes tle-clean-step-in{
+  from{opacity:0;transform:translate3d(9px,0,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+}
+.steps{scroll-margin-top:83px}
+.step,.step b,.step:before{transition:background-color .38s var(--tle-ease),color .38s,border-color .38s,transform .38s var(--tle-ease)}
+.step.is-current b{transform:scale(1.055)}
+.step.is-done b{background:#E2EFF6;border-color:#9EC3D5}
+.form-actions{gap:12px}
+.form-actions .button-dark{
+  background:#305F7A;color:#fff;
+  transition:transform .26s var(--tle-ease),background .26s,box-shadow .26s;
+}
+.form-actions .button-dark:hover{background:#234E67;transform:translateY(-2px);box-shadow:0 8px 19px #2D627D22}
+.form-actions .button-dark:active{transform:scale(.985)}
+.booking-category-tab:active{transform:scale(.985)}
+.time-options label{
+  transition:background-color .3s ease,border-color .3s ease,box-shadow .3s ease;
+}
+.time-options label:has(input:checked){box-shadow:0 0 0 2px #DCEBF3}
+.owner-dashboard{scroll-margin-top:76px}
+.handoff{scroll-margin-top:76px}
+/* Editorial reveal borrowed from Casa Brownie's intersection observer design. */
+html.tle-clean-motion-ready [data-tle-reveal]:not(.tle-clean-in-view){
+  opacity:0;transform:translate3d(0,17px,0);
+}
+html.tle-clean-motion-ready [data-tle-reveal]{
+  transition:opacity .75s ease,transform .75s var(--tle-ease);
+  transition-delay:var(--tle-reveal-delay,0ms);
+}
+html.tle-clean-motion-ready [data-tle-reveal].tle-clean-in-view{
+  opacity:1;transform:translate3d(0,0,0);
+}
+@media(max-width:760px){
+ .service-card img{height:106px}
+ .mini-receipt-head{gap:11px}
+ .mini-receipt-head .mini-price{font-size:clamp(16px,4.4vw,19px);letter-spacing:-.02em}
+ .mini-receipt-head .mini-price.is-estimate{font-size:11px}
+ .steps{scroll-margin-top:74px}
+}
+@media(max-width:370px){
+ .mini-receipt-head{gap:7px}
+ .mini-receipt-head .mini-price{font-size:16px}
+ .mini-receipt-head h3{font-size:20px}
+}
+@media(prefers-reduced-motion:reduce){
+ .hero.hero-cleaning-site .hero-full-photo,
+ .hero.hero-cleaning-site .hero-copy,
+ .stage:not([hidden]){animation:none!important}
+ .service-card,.service-card img,.select-indicator,.step,.step b,.step:before,.form-actions button,
+ [data-tle-reveal]{animation:none!important;transition:none!important;transform:none!important;opacity:1!important}
+}

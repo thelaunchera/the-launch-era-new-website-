@@ -13,6 +13,8 @@ try{
   const response=await page.goto(base+'/experience-cleaning/?lang='+lang,{waitUntil:'domcontentloaded',timeout:35000});
   assert.equal(response?.status(),200,'The isolated new demo route must load');
   assert.equal(await page.locator('#owner').isVisible(),false);
+  const motionCss=await page.locator('.hero-full-photo').evaluate(el=>getComputedStyle(el).animationName);
+  assert.equal(motionCss,'none','Reduced-motion setting must disable animated hero depth');
   assert.match(await page.locator('#hero-title').innerText(),lang==='es'?/Tu casa impecable/:/A beautiful clean/);
   assert.match(await page.locator('#experience-title').innerText(),lang==='es'?/Reserva tu limpieza residencial/:/Book residential cleaning/);
   assert.match(await page.locator('#experience-title').innerText(),lang==='es'?/estimado comercial/:/commercial estimate/);
@@ -29,10 +31,28 @@ try{
   await page.screenshot({path:'qa-screenshots/experience-cleaning-booking-'+lang+'-'+width+'.png',fullPage:false});
   await page.locator('[data-service="deep"]').click();
   assert.equal(await page.locator('#r-price').innerText(),'$190');
+  const cards=page.locator('#service-grid .service-card img');
+  assert.equal(await cards.count(),4);
+  assert.match(await cards.nth(0).getAttribute('src'),/photos\/8055186/);
+  assert.match(await cards.nth(1).getAttribute('src'),/photos\/9462635/);
+  assert.match(await cards.nth(3).getAttribute('src'),/photos\/9462298/);
+
   await page.locator('#next').click();
+  if(width<760){
+    const panelNav=await page.locator('.steps').boundingBox();
+    assert(panelNav && panelNav.y>=0&&panelNav.y<300,'Booking steps should scroll near top, not jump to the section heading');
+  }
   await page.locator('#beds').selectOption('3');
   await page.locator('.extras input[value="oven"]').check();
   assert.equal(await page.locator('#r-price').innerText(),'$240');
+  const priceLayout=await page.locator('#r-price').evaluate(el=>{
+    const range=document.createRange();
+    range.selectNodeContents(el);
+    const fragments=[...range.getClientRects()].filter(rect=>rect.width>1&&rect.height>1);
+    return {price:el.textContent,fragmentCount:fragments.length,whiteSpace:getComputedStyle(el).whiteSpace,width:el.getBoundingClientRect().width};
+  });
+  assert.equal(priceLayout.fragmentCount,1,'The illustrative $240 total must remain a single line on '+lang+' at '+width);
+  assert.equal(priceLayout.whiteSpace,'nowrap','The total must not break even on small phones');
   await page.locator('#next').click();
   await page.locator('#next').click();
   await page.locator('#owner').waitFor({state:'visible'});
