@@ -123,7 +123,7 @@ assert.doesNotMatch(js,/localStorage|sessionStorage|fetch\(/,'no stored data or 
 // Both official and teaching demos share one document; the teaching switch only removes the video.
 assert.match(html,/get\('etapa'\) === 'sin-video'/);
 assert.match(html,/src="\.\/assets\/hero-brownies\.mp4\?v=20261029-local"/,'original hero video untouched');
-assert.match(html,/casabrownie-editorial\.css\?v=20261029-fullsize/,'editorial stylesheet loaded after existing styles');
+assert.match(html,/casabrownie-editorial\.css\?v=20261029-ribbon-1/,'editorial stylesheet loaded after existing styles');
 const editorial=load('casabrownie-editorial.css');
 assert.match(editorial,/@media \(min-width:791px\) and \(max-width:1199px\)/,'tablet-specific editorial grid');
 assert.match(editorial,/\.hero \.hero-copy\s*\{\s*display:grid/,'tablet hero story becomes two columns');
@@ -152,6 +152,18 @@ assert.match(editorial,/\.closing\s*\{\s*display:grid;\s*grid-template-columns:m
 assert.match(editorial,/\.cb-moment-accent\s*\{\s*width:min\(100%,385px\);/,'desktop story accent is not a thumbnail');
 assert.doesNotMatch(editorial,/\.cb-moment-accent\s*\{\s*width:98px/,'old 98 pixel story thumbnail removed');
 assert.doesNotMatch(editorial,/\.cb-closing-photo\s*\{\s*width:142px/,'old 142 pixel closing thumbnail removed');
+
+assert.match(html,/<div class="cb-gift-ribbon" role="img" aria-label="Un detalle para ti/,'gift ribbon is accessible');
+const storyIndex=html.indexOf('class="cb-moment-accent"');
+const ribbonIndex=html.indexOf('class="cb-gift-ribbon"');
+const secondGiftIndex=html.indexOf('class="moment-image moment-note cb-real-gift-photo"');
+assert.ok(storyIndex < ribbonIndex && ribbonIndex < secondGiftIndex,'banner separates the two adjacent gift photos in mobile DOM order');
+assert.match(editorial,/@keyframes cb-gift-ribbon-flow/,'gift ribbon has a continuous subtle scroll');
+assert.match(editorial,/@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.cb-gift-ribbon-track \{ animation:none; \}/,'banner respects reduced motion');
+assert.match(editorial,/\.moments-strip > \.cb-gift-ribbon\s*\{\s*order:2;/,'gift ribbon appears between gift photographs on mobile');
+assert.match(editorial,/\.moments-strip > \.moment-note\s*\{\s*order:3;/,'second gift photo follows the ribbon on mobile');
+assert.match(html,/src="\.\/assets\/hero-brownies\.mp4\?v=20261029-local"/,'hero video is unchanged');
+
 
 
 console.log('Casa Brownie static demo QA OK');
