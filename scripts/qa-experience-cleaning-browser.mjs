@@ -27,7 +27,29 @@ try{
   assert.match(bg,/247, 244, 239/,'Main background should be warm ivory');
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3),true,'No mobile horizontal overflow '+lang+' '+width);
   await page.screenshot({path:'qa-screenshots/experience-cleaning-hero-'+lang+'-'+width+'.png',fullPage:false});
-  await page.locator('#experience').scrollIntoViewIfNeeded();
+  // The owner, portfolio and review sections must be honest and rendered in both languages.
+  assert.equal(await page.locator('#our-work .clean-work-group').count(),2);
+  assert.equal(await page.locator('#our-work .clean-work-group:first-child img').count(),6);
+  assert.equal(await page.locator('#meet-cleaner img').count(),1);
+  assert.equal(await page.locator('#sample-reviews .clean-review').count(),3);
+  assert.match(await page.locator('.clean-work-banner').innerText(),lang==='es'?/NUESTROS TRABAJOS/:/OUR WORK/);
+  assert.match(await page.locator('#meet-cleaner h2').innerText(),lang==='es'?/Una persona de confianza/:/A familiar face/);
+  assert.match(await page.locator('#sample-reviews h2').innerText(),lang==='es'?/Que lo cuenten tus clientes/:/Their words will say it best/);
+  assert.match(await page.locator('.clean-reviews-note').innerText(),lang==='es'?/no testimonios/:/not published testimonials/);
+  assert.equal(await page.locator('#work-pause').isDisabled(),true,'Reduced-motion setting must disable moving gallery');
+  assert.equal(await page.locator('#work-runner').evaluate(el=>getComputedStyle(el).animationName),'none','Portfolio must not autoplay if reduced motion is requested');
+  await page.locator('#our-work').scrollIntoViewIfNeeded();
+  const galleryLoaded=await page.locator('.clean-work-group:first-child img').first().evaluate(async img=>{
+    if(!img.complete)await new Promise(resolve=>{img.addEventListener('load',resolve,{once:true});img.addEventListener('error',resolve,{once:true});});
+    return img.naturalWidth>0;
+  });
+  assert.equal(galleryLoaded,true,'First portfolio photo must load from our own repository');
+  await page.screenshot({path:'qa-screenshots/experience-cleaning-our-work-'+lang+'-'+width+'.png',fullPage:false});
+  await page.locator('#meet-cleaner').scrollIntoViewIfNeeded();
+  assert.equal(await page.locator('#meet-cleaner img').evaluate(img=>img.complete&&img.naturalWidth>0),true,'Approved cleaner portrait must load locally');
+  await page.screenshot({path:'qa-screenshots/experience-cleaning-team-'+lang+'-'+width+'.png',fullPage:false});
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3),true,'New sections must not overflow '+lang+' '+width);
+    await page.locator('#experience').scrollIntoViewIfNeeded();
   await page.screenshot({path:'qa-screenshots/experience-cleaning-booking-'+lang+'-'+width+'.png',fullPage:false});
   await page.locator('[data-service="deep"]').click();
   assert.equal(await page.locator('#r-price').innerText(),'$190');
