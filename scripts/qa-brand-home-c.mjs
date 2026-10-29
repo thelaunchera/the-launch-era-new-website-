@@ -38,7 +38,14 @@ for (const [lang,source] of [['EN',homeEN],['ES',homeES]]) {
 
 assert(app.includes('/assets/tle-editorial-refresh.css'), 'Brand layer not included in site');
 assert(app.includes('/assets/tle-hero-scroll.css'), 'Hero scroll stylesheet missing');
-assert(homeEN.includes('/booking-demo/?lang=en') && homeES.includes('/booking-demo/?lang=es'), 'Demo CTA destinations changed');
+// The public hero demo opens the finished bilingual Cleaning experience.
+assert(homeEN.includes('href="/experience-cleaning/?lang=en&source=homepage"'), 'English homepage must use finished public demo');
+assert(homeES.includes('href="/experience-cleaning/?lang=es&source=homepage"'), 'Spanish homepage must use finished public demo');
+assert(!homeEN.includes('href="/sample-cleaning/?lang=en&source=homepage"'), 'English homepage still points at superseded sample');
+assert(!homeES.includes('href="/sample-cleaning/?lang=es&source=homepage"'), 'Spanish homepage still points at superseded sample');
+// Personalized lead demos must still use the email-verified private flow.
+assert(homeEN.includes('/booking-demo/?lang=en&source=homepage-clara'), 'English personalized demo entry must remain');
+assert(homeES.includes('/booking-demo/?lang=es&source=homepage-clara'), 'Spanish personalized demo entry must remain');
 let brace = 0;
 let comment = false;
 for (let i = 0; i < layer.length; i++) {
@@ -90,7 +97,7 @@ try {
     assert(info.heroPhoto && info.starfield, path+' at '+width+': imagery or starfield missing');
     assert.equal(await page.locator('.final-section .tle-starfield-accent').count(),0,path+' at '+width+': final CTA must not host starfield');
     assert(info.noOverflow, path+' at '+width+': horizontal overflow');
-    assert(info.href?.startsWith('/booking-demo/?lang='), 'Booking CTA URL changed');
+    assert.equal(info.href, '/experience-cleaning/?lang='+(path==='/es/'?'es':'en')+'&source=homepage', 'Hero must open the finished public demo in the matching language');
     // Regression reported by owner on iPhone: the old flip-card stylesheet had
     // color:white!important over the soft-blue CTA. Check computed colors.
     const cardInk = await page.locator('.sales-home .solutions-section .tle-service-flip__back a.tle-service-flip__cta').first().evaluate(el => {
