@@ -83,3 +83,7 @@ Instead of long oversized blocks on phones, the section titles are shortened and
 - Instagram and TikTok are **working demo-preview buttons**, not links to real CRUMB accounts. They open an accessible modal with an explicit demo notice; no real brand handle is registered or claimed.
 - **Contact Us** and **Say hello to CRUMB** trigger the same closed-by-default modal with Name, Email, Reason, Message and required fields. Valid demo input only produces a local simulated result and is immediately cleared. No POST/fetch, state storage, email, payment, tracking or network submission; encourage sample details.
 - Existing cookie selector, illustrative prices, builder, hero imagery, store photos and Miami delivery graphics remain intact. Keep the entire site in English with the visible educational-demo disclosure.
+
+## Hero photo framing and CTA spacing (October 29)
+
+Desktop uses an intrinsic 16:9 hero, mobile uses 4:5, both with `object-fit: contain`, so the approved self-hosted CRUMB image is fully visible instead of being cropped by fixed-height layouts. The hero caption and both CTA buttons stay below the image, with extra top padding (desktop 44px; mobile 30px). This only changes presentation; product selection, pricing, fictitious location and modal interactions stay untouched.

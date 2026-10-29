@@ -104,7 +104,7 @@ const compactTitles = {
 };
 for(const [id,expected] of Object.entries(compactTitles)) assert.equal(d.getElementById(id).textContent,expected);
 assert.match(css,/Compact headings for small screens/);
-assert.match(html,/styles\.css\?v=20261029-crumb-experience/);
+assert.match(html,/styles\.css\?v=20261029-crumb-hero-frame/);
 results.push('Compact iPhone section titles retain correct English copy and styling');
 
 const expectedFlavors = [
@@ -150,7 +150,13 @@ for(const name of ['hero-mobile','brand-gifts','brand-lifestyle','brand-storefro
  assert.ok(fs.existsSync(p) && fs.statSync(p).size > 20000, 'Missing brand image '+name);
 }
 assert.match(css,/\.brand-glimpse-gallery/);
-assert.match(css,/height:clamp\(490px,70svh,660px\)/);
+assert.ok(css.includes('.hero { height:auto; min-height:0; aspect-ratio:16 / 9; background:#d9c0a6; }'));
+assert.ok(css.includes('.hero { height:auto; min-height:0; aspect-ratio:4 / 5; }'));
+assert.ok(css.includes('.hero picture img { display:block; width:100%; height:100%; object-fit:contain; object-position:center center; }'));
+assert.ok(css.includes('.hero picture img { object-fit:contain; object-position:50% 50%; }'));
+assert.ok(css.includes('.hero-strip { padding:44px 5% 34px;'));
+assert.ok(css.includes('gap:14px; padding:30px 18px 28px;'));
+results.push('Full hero photo visible without crop; text and CTAs lower on all screen sizes');
 assert.match(css,/\.gift-copy \{ align-items:center/);
 assert.equal(d.querySelectorAll('#box-tray .box-cookie-slot').length, 3);
 assert.equal(d.querySelectorAll('.final-cta [data-open-builder]').length,1);
