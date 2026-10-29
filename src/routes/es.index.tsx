@@ -103,7 +103,7 @@ function SpanishHome(){const [active,setActive]=useState(0);const [heroLoaded,se
    <div className="eyebrow">PARA DUEÑAS DE NEGOCIOS DE LIMPIEZA</div>
    <h1 className="tle-hero-heading-shine">Estás limpiando. Y te escriben para reservar.</h1>
    <p>Terminas y ves mensajes sobre precios y horarios. Con tu enlace de reservas, te dejan los datos mientras trabajas.</p>
-   <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/sample-cleaning/?lang=es&source=homepage">Prueba el demo de reservas <ArrowRight/></a></Button></div>
+   <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/experience-cleaning/?lang=es&source=homepage">Prueba el demo de reservas <ArrowRight/></a></Button></div>
    <p className="demo-delivery-note"><a href="/booking-demo/?lang=es&source=homepage-clara">Solicitar una demo más personalizada ↗</a> · Enlace privado enviado por correo.</p>
  </div>
  <div className="hero-split-visual">

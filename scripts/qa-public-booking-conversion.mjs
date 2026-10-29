@@ -4,6 +4,9 @@ import {readFileSync, existsSync} from 'node:fs';
 import vm from 'node:vm';
 const read=p=>readFileSync(p,'utf8');
 const demo=read('public/try-booking/index.html');
+const official=read('public/experience-cleaning/index.html');
+const officialJs=read('public/experience-cleaning/app.js');
+const bundleLang=read('public/assets/tle-bundle-landing.js');
 const home=read('src/components/editorial-sections.tsx');
 const es=read('src/routes/es.index.tsx');
 const booking=read('src/routes/booking-lead-automation.tsx');
@@ -12,6 +15,14 @@ const bundle=read('public/booking-bundle/index.html');
 const float=read('src/components/booking-floating-chips.tsx');
 const analytics=read('src/components/analytics.tsx');
 assert(existsSync('public/try-booking/index.html'));
+assert(existsSync('public/sample-cleaning/index.html'),'Legacy sample demo must remain available as backup');
+for(const key of ['id="experience"','id="owner"','id="our-work"','id="meet-cleaner"','id="sample-reviews"']) {
+  assert(official.includes(key),'New official demo must include customer, owner, work and reviews: '+key);
+}
+assert.match(officialJs,/No fetch, storage, form submission or real customer actions|No network calls/,'New public sample must stay local-only');
+assert.match(bundleLang,/experience-cleaning\/\?lang=es&source=bundle/,'Spanish bundle must preserve language when opening new official demo');
+assert.doesNotMatch(bundleLang,/sample-cleaning\/\?lang=es&source=bundle/,'Spanish bundle must not route to legacy sample');
+
 assert.match(demo,/<html lang="en">/);
 assert.match(demo,/data-i18n="headline"/);
 assert.match(demo,/var lang=url\.searchParams\.get\('lang'\)==='es'/);
@@ -34,13 +45,13 @@ const scripts=[...demo.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].fi
 assert.match(demo,/src="\/assets\/privacy-controls\.js/);
 assert.equal(scripts.length,1);
 new vm.Script(scripts[0][1],{filename:'try-booking.js'});
-assert.match(home,/href="\/sample-cleaning\/\?lang=en&source=homepage"/);
-assert.match(es,/href="\/sample-cleaning\/\?lang=es&source=homepage"/);
+assert.match(home,/href="\/experience-cleaning\/\?lang=en&source=homepage"/);
+assert.match(es,/href="\/experience-cleaning\/\?lang=es&source=homepage"/);
 assert.match(home,/href="\/booking-demo\/\?lang=en&source=homepage-clara"/);
 assert.match(es,/href="\/booking-demo\/\?lang=es&source=homepage-clara"/);
-assert.match(booking,/href="\/sample-cleaning\/\?lang=en&source=booking-landing"/);
-assert.match(bookingEs,/href="\/sample-cleaning\/\?lang=es&source=booking-landing"/);
-assert.match(bundle,/href="\/sample-cleaning\/\?source=bundle"/);
+assert.match(booking,/href="\/experience-cleaning\/\?lang=en&source=booking-landing"/);
+assert.match(bookingEs,/href="\/experience-cleaning\/\?lang=es&source=booking-landing"/);
+assert.match(bundle,/href="\/experience-cleaning\/\?lang=en&source=bundle"/);
 assert.match(analytics,/public_booking_sample_click/);
 assert.doesNotMatch(float,/\+24%\s*revenue|\+24%\s*ingresos|Paid \$480|Pagado \$480/);
 assert.match(booking,/<del>\$49\.99<\/del><strong>\$15<\/strong>/);
