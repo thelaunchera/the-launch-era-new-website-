@@ -119,6 +119,33 @@ assert.match(js,/\.addEventListener\('click', viewCart\)/,'header cart opens act
 assert.match(js,/Añadir al carrito de muestra/,'flavor modal lets the visitor add a sample brownie');
 assert.doesNotMatch(js,/localStorage|sessionStorage|fetch\(/,'no stored data or live purchase calls');
 
+
+// Both official and teaching demos share one document; the teaching switch only removes the video.
+assert.match(html,/get\('etapa'\) === 'sin-video'/);
+assert.match(html,/src="\.\/assets\/hero-brownies\.mp4\?v=20261029-local"/,'original hero video untouched');
+assert.match(html,/casabrownie-editorial\.css\?v=20261029-photos/,'editorial stylesheet loaded after existing styles');
+const editorial=load('casabrownie-editorial.css');
+assert.match(editorial,/@media \(min-width:791px\) and \(max-width:1199px\)/,'tablet-specific editorial grid');
+assert.match(editorial,/\.hero \.hero-copy\s*\{\s*display:grid/,'tablet hero story becomes two columns');
+assert.match(editorial,/\.step-number\s*\{\s*margin-right:\s*12px/,'number and icon separated');
+const editorialNames=[
+ 'hero-lifestyle','hands-gift','gift-packaging',
+ 'box-closeup','local-pickup','fudgy-plate'
+];
+for(const name of editorialNames){
+  const asset='assets/casabrownie-'+name+'.svg';
+  assert.match(html,new RegExp('casabrownie-'+name+'\\.svg'),'editorial photo referenced: '+name);
+  assert.ok(existsSync(new URL(asset,dir)),'missing optimized editorial photo '+name);
+  const svg=load(asset);
+  assert.match(svg,/<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/,'valid SVG wrapper for photo '+name);
+  assert.match(svg,/href="data:image\/jpeg;base64,\/9j\//,'embedded self-hosted JPEG '+name);
+  assert.ok(svg.length>30000,'asset photo must not be a tiny low-resolution placeholder '+name);
+}
+assert.match(html,/srcset="\.\/assets\/casabrownie-hands-gift\.svg"/);
+assert.match(html,/srcset="\.\/assets\/casabrownie-gift-packaging\.svg"/);
+assert.match(editorial,/\.delivery-miami \.cb-delivery-photo/,'Miami delivery photography and responsive support');
+assert.doesNotMatch(editorial,/hero-video|hero-motion|hero-brownies\.mp4/,'editorial CSS never changes the hero video');
+
 console.log('Casa Brownie static demo QA OK');
 
 
