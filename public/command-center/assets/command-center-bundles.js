@@ -38,23 +38,13 @@ async function refresh(){
  if(busy)return;busy=true;$("tleBundleOwnerRefresh").disabled=true;
  try{
   const cfg=await query("tle_owner_bundle_promotion",{});
-  panel.classList.remove("hidden");$("tleBundleDiscountToggle").checked=cfg.enabled===true;
-  $("tleBundleDiscountToggle").disabled=false;$("tleBundleDiscountSave").disabled=false;
-  status(cfg.enabled?say("40% activation promotion is ON. Normal AI monthly prices are unchanged.","Descuento del 40% en activación ACTIVO. Las mensualidades normales no cambian."):say("Promotion is OFF. Combined purchases use standard setup prices.","Promoción DESACTIVADA. La compra conjunta usa precios normales."));
+  panel.classList.remove("hidden");
+  status(cfg.enabled?say("Old 40% promotion is still active in production. Disable it before release.","La antigua promoción del 40% sigue activa. Desactívala antes de publicar."):say("Clear one-time setup prices active. Existing customer orders are unchanged.","Precios de activación claros y sin descuento. Las compras existentes no cambian."));
   const orders=await query("tle_owner_bundle_queue",{});renderOrders(orders);
  }catch(e){status(say("Could not load owner settings. Refresh your Command Center.","No se pudo cargar la configuración. Actualiza tu Command Center."));}
  finally{busy=false;$("tleBundleOwnerRefresh").disabled=false}
 }
 $("tleBundleOwnerRefresh").onclick=refresh;
-$("tleBundleDiscountSave").onclick=async()=>{
- if(busy)return;busy=true;$("tleBundleDiscountSave").disabled=true;
- try{
-  const desired=$("tleBundleDiscountToggle").checked;
-  const result=await query("tle_owner_bundle_promotion",{p_enabled:desired});
-  status(result.enabled?say("✓ 40% discount saved for combined activations only.","✓ Descuento del 40% guardado solo para activaciones conjuntas."):say("✓ Promotion turned off. Existing purchases are unchanged.","✓ Promoción desactivada. Las compras anteriores no cambian."));
- }catch(e){status(say("Unable to save. Your previous offer setting remains unchanged.","No se pudo guardar. La configuración anterior no ha cambiado."))}
- finally{busy=false;$("tleBundleDiscountSave").disabled=false}
-};
 function sync(){
  const owner=document.body.classList.contains("crm-owner-view");
  panel.classList.toggle("hidden",!owner);

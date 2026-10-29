@@ -171,6 +171,11 @@
    </form>
   </details>
  </div>
+ <article class="panel" style="padding:15px 18px;margin-top:14px;background:#eaf4fc;border:1px solid #c6deed;border-radius:18px">
+  <strong>Want help getting started?</strong>
+  <p class="muted" style="margin:6px 0 12px">As a customer, you can request an optional 20-minute setup walkthrough here. We'll arrange a time by email.</p>
+  <button type="button" class="secondary" id="buyerGuidanceStart">Request a 1:1 walkthrough</button>
+ </article>
  <article class="panel" style="padding:15px 18px;margin-top:14px"><strong>Your messages</strong><div id="buyerSupportHistory" style="display:grid;gap:8px;margin-top:10px"></div></article>
 </section>
 
@@ -591,9 +596,9 @@
  <button type="button" class="secondary" id="tleBundleOwnerRefresh">↻ Refresh</button>
 </div>
 <div style="border:1px solid #dce3e6;background:white;border-radius:16px;padding:15px;margin:15px 0;display:grid;gap:10px">
- <strong>40% discount · one-time activation only</strong>
- <label style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><input id="tleBundleDiscountToggle" type="checkbox" style="width:20px;height:20px;accent-color:#191919"> Offer 40% off when Booking Automation and an AI Assistant are purchased together</label>
- <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button id="tleBundleDiscountSave" type="button" class="secondary">Save offer settings</button><a href="/booking-bundle/?lang=en" target="_blank" rel="noopener noreferrer">Preview checkout ↗</a></div>
+ <strong>Clear setup pricing · no combined discount</strong>
+ <p class="muted" style="margin:0">Booking alone: $15 once. Booking + Follow-Up: $20 once, then $8/month. Booking + Booking AI: $25 once, then $12/month. Booking + Business AI: $29 once, then $16/month. Monthly billing begins after 30 days from delivery. Standalone AI offers and existing orders are unchanged.</p>
+ <a href="/booking-bundle/?lang=en" target="_blank" rel="noopener noreferrer">Preview current checkout</a>
  <p id="tleBundleOfferStatus" class="muted" role="status" aria-live="polite" style="margin:0;font-size:12px">Waiting for owner access…</p>
 </div>
 <div><strong>Purchased bundles</strong><p class="muted" style="font-size:12px;margin:4px 0 10px">Paid orders remain visible here through setup and delivery. Booking and AI each have their own QA.</p>
@@ -957,4 +962,16 @@
   observer.observe(document.body,{attributes:true,attributeFilter:["class"]});
   window.addEventListener("pageshow",sync);
 })();
-</script><script src="./assets/command-center-refresh.js?v=20261012-refresh-v1"></script><script src="./assets/command-center-bundles.js?v=20261012-bundle-discount-v1" defer></script><script src="./assets/jessy-owner.js?v=20261016-chat-motion-v1" defer></script><script src="./assets/ai-team-entry.js?v=20261013-1" defer></script><script src="./assets/command-center-notification-settings.js?v=20261012-per-workspace-v1" defer></script><script src="./assets/booking-smart-welcome-editor.js?v=20261014-sw-v1" defer></script><script src="./assets/cb-depot-theme.js?v=20261014-v1" defer></script><script src="./assets/cb-depot-clarity.js?v=20261014-clarity-v1" defer></script><script src="./assets/sales-tools-entry.js?v=20261021-sidebar1" defer></script></body></html>
+</script><script src="./assets/command-center-refresh.js?v=20261012-refresh-v1"></script><script src="./assets/command-center-bundles.js?v=20261012-bundle-discount-v1" defer></script><script src="./assets/jessy-owner.js?v=20261016-chat-motion-v1" defer></script><script src="./assets/ai-team-entry.js?v=20261013-1" defer></script><script src="./assets/command-center-notification-settings.js?v=20261012-per-workspace-v1" defer></script><script src="./assets/booking-smart-welcome-editor.js?v=20261014-sw-v1" defer></script><script src="./assets/cb-depot-theme.js?v=20261014-v1" defer></script><script src="./assets/cb-depot-clarity.js?v=20261014-clarity-v1" defer></script><script src="./assets/sales-tools-entry.js?v=20261021-sidebar1" defer></script><script>
+document.addEventListener('click',function(event){
+ if(!event.target.closest?.('#buyerGuidanceStart'))return;
+ const details=document.getElementById('buyerSupportFeedbackDetails');
+ const message=details?.querySelector('textarea[name="message"]');
+ if(!details||!message)return;
+ details.open=true;
+ message.value="1:1 setup guidance request (20 minutes). I'd like help getting comfortable with my purchased Booking Page and Command Center. Preferred day/time: ";
+ details.scrollIntoView({behavior:'smooth',block:'center'});
+ message.focus({preventScroll:true});
+});
+</script>
+</body></html>

@@ -15,10 +15,10 @@ const server=createServer((req,res)=>{
 });
 await new Promise(resolveReady=>server.listen(0,'127.0.0.1',resolveReady));
 const base='http://127.0.0.1:'+server.address().port;
-const prices={percent_off:40,booking_setup_cents:900,plans:{
- 'ai-booking':{original_setup_cents:2500,setup_due_cents:1500,monthly_cents:1400},
- 'ai-followup':{original_setup_cents:1900,setup_due_cents:1140,monthly_cents:700},
- 'ai-business':{original_setup_cents:3900,setup_due_cents:2340,monthly_cents:1900}
+const prices={bundle_price_version:'bundle-20261029',percent_off:0,booking_setup_cents:1500,plans:{
+ 'ai-booking':{original_setup_cents:1000,setup_due_cents:1000,monthly_cents:1200},
+ 'ai-followup':{original_setup_cents:500,setup_due_cents:500,monthly_cents:800},
+ 'ai-business':{original_setup_cents:1400,setup_due_cents:1400,monthly_cents:1600}
 }};
 const browser=await chromium.launch({headless:true});
 mkdirSync('qa-screenshots',{recursive:true});
@@ -33,7 +33,7 @@ try {
    });
    await page.goto(base+'/booking-bundle/?lang=en&bundle=ai-booking&source=smart-welcome',{waitUntil:'domcontentloaded'});
    await page.locator('#heroTitle').waitFor({state:'visible'});
-   assert.match(await page.locator('#heroTitle').innerText(),/You handle the cleaning/);
+   assert.match(await page.locator('#heroTitle').innerText(),/You can’t answer every message/);
    assert.equal(await page.locator('.tle-feature').count(),3);
    for(const img of await page.locator('.tle-feature-image img,.tle-hero-photo img').all())
       assert(await img.evaluate(el=>el.complete&&el.naturalWidth>500),'Generated photograph failed to load at '+width);
@@ -43,19 +43,18 @@ try {
    assert.match(await page.locator('#dashboardPreview').innerText(),/Quote sent/);
    await page.locator('button[data-question="booking"]').click();
    assert.match(await page.locator('#sampleAssistantReply').innerText(),/review your preferred time/);
-   const badge=page.locator('#bundleOffer');
-   await badge.waitFor({state:'visible',timeout:6000});
+   assert.equal(await page.locator('#bundleOffer').count(),0,'Retired discount cannot appear');
    const radios=page.locator('input[name="tle-ai-bundle"]');
    assert.equal(await radios.count(),4,'Original optional AI choices must remain');
    assert.equal(await page.locator('input[name="tle-ai-bundle"]:checked').inputValue(),'ai-booking');
-   await page.waitForFunction(()=>document.querySelector('#tleTotal')?.textContent==='$24.00');
-   assert.match(await page.locator('#tleMonthly').innerText(),/\$14\/month/);
+   await page.waitForFunction(()=>document.querySelector('#tleTotal')?.textContent==='$25.00');
+   assert.match(await page.locator('#tleMonthly').innerText(),/\$12\/month/);
    await page.locator('input[name="tle-ai-bundle"][value="ai-followup"]').check();
-   assert.equal(await page.locator('#tleTotal').innerText(),'$20.40');
-   assert.match(await page.locator('#tleMonthly').innerText(),/\$7\/month/);
+   assert.equal(await page.locator('#tleTotal').innerText(),'$20.00');
+   assert.match(await page.locator('#tleMonthly').innerText(),/\$8\/month/);
    await page.locator('input[name="tle-ai-bundle"][value="ai-business"]').check();
-   assert.equal(await page.locator('#tleTotal').innerText(),'$32.40');
-   assert.match(await page.locator('#tleMonthly').innerText(),/\$19\/month/);
+   assert.equal(await page.locator('#tleTotal').innerText(),'$29.00');
+   assert.match(await page.locator('#tleMonthly').innerText(),/\$16\/month/);
    assert(await page.locator('#tleCheckoutBtn').isVisible());
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),true,'Horizontal overflow '+width);
    await page.screenshot({path:'qa-screenshots/bundle-landing-'+width+'.png',fullPage:true});
@@ -67,7 +66,7 @@ try {
  const esPage=await esCtx.newPage();
  await esPage.route('**/functions/v1/tle-booking-bundle-checkout',r=>r.fulfill({json:prices}));
  await esPage.goto(base+'/booking-bundle/?lang=es&bundle=ai-booking',{waitUntil:'domcontentloaded'});
- assert.match(await esPage.locator('#heroTitle').innerText(),/Tú te encargas/);
+ assert.match(await esPage.locator('#heroTitle').innerText(),/No puedes responder cada mensaje/);
  await esPage.locator('#previewRequest').click();
  assert.match(await esPage.locator('#bookingSampleResult').innerText(),/No se envió/);
  await esPage.locator('button[data-question="booking"]').click();
@@ -77,10 +76,10 @@ try {
  await esCtx.close();
  const offCtx=await browser.newContext({viewport:{width:390,height:844}});
  const off=await offCtx.newPage();
- await off.route('**/functions/v1/tle-booking-bundle-checkout',r=>r.fulfill({json:{percent_off:0,booking_setup_cents:1500,plans:Object.fromEntries(Object.entries(prices.plans).map(([key,plan])=>[key,{...plan,setup_due_cents:plan.original_setup_cents}]))}}));
+ await off.route('**/functions/v1/tle-booking-bundle-checkout',r=>r.fulfill({json:{bundle_price_version:'bundle-20261029',percent_off:0,booking_setup_cents:1500,plans:Object.fromEntries(Object.entries(prices.plans).map(([key,plan])=>[key,{...plan,setup_due_cents:plan.original_setup_cents}]))}}));
  await off.goto(base+'/booking-bundle/?lang=en',{waitUntil:'domcontentloaded'});
  await off.waitForTimeout(300);
- assert.equal(await off.locator('#bundleOffer').isVisible(),false,'Inactive sale should not appear');
+ assert.equal(await off.locator('#bundleOffer').count(),0,'Retired badge must stay removed');
  assert.equal(await off.locator('input[name="tle-ai-bundle"]').count(),4,'Regular plans disappeared');
  await offCtx.close();
  console.log('PASS Spanish, no-discount and original checkout fallbacks');
