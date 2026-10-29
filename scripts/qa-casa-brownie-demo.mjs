@@ -39,7 +39,7 @@ for (const asset of ['./styles.css','./hero-corrections.css']) assert.match(html
 for (const asset of ['./motion.css','./motion.js']) assert.match(html,new RegExp('(?:href|src)="'+asset.replaceAll('.','\\.')+'\\?v=cb-center-20261028b"'),'motion cache '+asset);
 assert.match(html,/href="\.\/editorial-center-v2\.css"/,'new stylesheet must load');
 
-assert.match(html,/gift-photos\.css\?v=cb-sticky-cart-20261029/,'new tablet gift photos version');
+assert.match(html,/gift-photos\.css\?v=cb-tablet-video-first-20261029/,'new tablet gift photos version');
 assert.doesNotMatch(html,/class="hero-gift"/,'gift illustration is removed from hero');
 assert.doesNotMatch(html,/class="delivery-gift"/,'CSS gift is removed from delivery');
 assert.match(html,/EL DETALLE PERFECTO PARA CADA MOMENTO/,'gift copy moved beside approved photos');
