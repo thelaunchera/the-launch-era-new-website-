@@ -266,7 +266,25 @@ Object.assign(es,{
  commercialAreaLabel:'Área aproximada',areaUnder:'Menos de 2,000 pies²',areaMid:'2,000–5,000 pies²',areaOver:'Más de 5,000 pies²',
  commercialDetailsNote:'El negocio revisa los detalles antes de preparar el estimado.',
  livePreviewTitle:'Tu solicitud, en un solo lugar.',
- sampleFootnote:'Solo una prueba · No se hizo ninguna reserva ni se confirmó un precio'
+ sampleFootnote:'Solo una prueba · No se hizo ninguna reserva ni se confirmó un precio',
+ workEyebrow:'LOS DETALLES HACEN LA DIFERENCIA',workTitle:'La limpieza se siente.',workIntro:'Desde un baño impecable hasta una casa donde también viven mascotas, los pequeños detalles hacen que todo se sienta distinto.',
+ workKitchen:'Cocinas impecables',workBathroom:'Baños cuidados',workBedroom:'Habitaciones frescas',
+ workLiving:'Salas y entradas',workDetails:'Detalles que importan',workPets:'Hogares con mascotas',
+ workBanner:'NUESTROS TRABAJOS',workDisclaimer:'Fotografías ilustrativas para mostrar el diseño del portafolio; no son trabajos reales realizados para clientes.',
+ workPause:'Pausar carrusel',workPlay:'Reanudar carrusel',
+ teamImageTag:'EL LADO HUMANO DE LA LIMPIEZA',teamEyebrow:'CONOCE A QUIEN CUIDA TU HOGAR',
+ teamTitle:'Una persona de confianza. Tu casa bien cuidada.',
+ teamLead:'Abres tu puerta a alguien en quien puedas confiar. Atención a cada espacio, respeto por tu familia y cuidado también cuando hay mascotas.',
+ teamValue1:'Cuidado en cada habitación',teamValue2:'Respeto por tu espacio',teamValue3:'Comodidad con mascotas',
+ teamDisclaimer:'Presentación ilustrativa para esta demostración. Cada negocio añade la foto y la historia reales de su dueña o equipo.',
+ reviewsEyebrow:'DETRÁS DE CADA HOGAR HAY UNA HISTORIA',reviewsTitle:'Que lo cuenten tus clientes.',
+ reviewsIntro:'Aquí van las reseñas reales de tus clientes, para que otras personas conozcan la calidad y confianza de tu trabajo.',
+ reviewSampleLabel:'CONTENIDO DE EJEMPLO · NO ES UNA RESEÑA REAL',
+ reviewQuote1:'“Los pequeños detalles hacen que una casa se sienta cuidada.”',
+ reviewQuote2:'“Esa sensación de frescura cuando vuelves a casa.”',
+ reviewQuote3:'“Cuidado de cada espacio, también cuando hay mascotas.”',
+ reviewTheme1:'Atención al detalle',reviewTheme2:'Frescura en casa',reviewTheme3:'Cuidado con mascotas',
+ reviewsDisclaimer:'Son ejemplos de cómo se verían las reseñas, no testimonios publicados. Se reemplazan por opiniones verificadas de clientes reales.'
 });
 const legacyPrice=appliedPrice;
 appliedPrice=function(){return state.category==='commercial'?(state.lang==='es'?'Solicitar estimado':'Request estimate'):legacyPrice();};
@@ -349,5 +367,22 @@ document.querySelectorAll('[data-commercial-service]').forEach(btn=>btn.addEvent
 $('commercial-area').addEventListener('change',()=>{state.commercialArea=$('commercial-area').value;syncReceipt();});
 $('restart').addEventListener('click',()=>{state.category='residential';state.commercialService='office';state.commercialArea='under2000';$('commercial-area').value='under2000';syncCategory();});
 
+// User-controlled pause for the continuously moving portfolio gallery.
+const workPause=$('work-pause');
+const workRunner=$('work-runner');
+let workIsPaused=false;
+function syncWorkPause(){
+ const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+ if(workPause){
+  workPause.setAttribute('aria-pressed',String(workIsPaused));
+  workPause.textContent=workIsPaused?(state.lang==='es'?'Reanudar carrusel':'Resume gallery'):(state.lang==='es'?'Pausar carrusel':'Pause gallery');
+  workPause.disabled=Boolean(reduced);
+  if(reduced)workPause.textContent=state.lang==='es'?'Carrusel sin movimiento':'Gallery motion disabled';
+ }
+ if(workRunner)workRunner.classList.toggle('is-paused',workIsPaused);
+}
+workPause?.addEventListener('click',()=>{workIsPaused=!workIsPaused;syncWorkPause();});
+const originalApplyLanguage=applyLanguage;
+applyLanguage=function(){originalApplyLanguage();syncWorkPause();};
 syncServices();applyLanguage();
 })();
