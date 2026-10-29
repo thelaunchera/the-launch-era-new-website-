@@ -1,0 +1,49 @@
+name: Casa Brownie - importar fotos de regalo
+on:
+  push:
+    branches: [fix/casa-brownie-gift-photos-20261029]
+    paths:
+      - .github/workflows/casa-brownie-photo-import.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Descargar archivos autorizados de Casa Brownie
+        env:
+          GIFT_BAG_URL: 'https://media.canva.com/v2/image-resize/format:JPG/height:150/quality:75/uri:ifs%3A%2F%2FM%2Fa5c145c1-985e-459d-ab64-039bf69183a4/watermark:F/width:200?csig=AAAAAAAAAAAAAAAAAAAAADQgTOE1QyWXpAWQIpYT2gefjEYlmNxu0mcMXsr9VK5K&exp=1793281086&osig=AAAAAAAAAAAAAAAAAAAAAOS28l7rZMjsHJWIgVK_lUfWKfJLbsif7Me5o5XMv2Di&signer=media-rpc&token=AAIAAU0AJGE1YzE0NWMxLTk4NWUtNDU5ZC1hYjY0LTAzOWJmNjkxODNhNAAAAAABoYfh0jAEaB0asldjmw2abuVar1N4QtdKFESnuCibOswhIztuPg&x-canva-quality=thumbnail'
+          GIFT_RIBBON_URL: 'https://media.canva.com/v2/image-resize/format:JPG/height:200/quality:75/uri:ifs%3A%2F%2FM%2Fcc341ce5-e80d-42cc-a070-1b1d6fbcdb12/watermark:F/width:195?csig=AAAAAAAAAAAAAAAAAAAAABRCzl8XbTw3TB9U-mGj1_ns3KGVFCA4eCWUeGUHVzW-&exp=1793280002&osig=AAAAAAAAAAAAAAAAAAAAACid3RoipDYrSLGuBAuDHsGjPDKkU8hLF6w9ahBWzHyD&signer=media-rpc&token=AAIAAU0AJGNjMzQxY2U1LWU4MGQtNDJjYy1hMDcwLTFiMWQ2ZmJjZGIxMgAAAAABoYfRR9BQZ-OaYW8-Fk2FwfyGHKqVgUiTu6VuzzAgE_5-RBGxDg&x-canva-quality=thumbnail'
+        run: |
+          mkdir -p public/demos/casa-brownie/assets
+          curl --fail --location --silent --show-error --retry 2 --max-time 35 "$GIFT_BAG_URL" -o /tmp/gift-bag.jpg
+          curl --fail --location --silent --show-error --retry 2 --max-time 35 "$GIFT_RIBBON_URL" -o /tmp/gift-ribbon.jpg
+          test "$(wc -c </tmp/gift-bag.jpg)" -gt 2000
+          test "$(wc -c </tmp/gift-ribbon.jpg)" -gt 2000
+      - name: Preparar las imágenes para la web
+        run: |
+          python -m pip install --quiet Pillow
+          python - <<'PY'
+          from PIL import Image, ImageFilter
+          for source,dest,width in [
+            ('/tmp/gift-bag.jpg','public/demos/casa-brownie/assets/regalos-bolsa-y-cajas.webp',1000),
+            ('/tmp/gift-ribbon.jpg','public/demos/casa-brownie/assets/regalo-lazo-rosa.webp',1000),
+          ]:
+            img=Image.open(source).convert('RGB')
+            height=round(img.height*width/img.width)
+            img=img.resize((width,height),Image.Resampling.LANCZOS)
+            img=img.filter(ImageFilter.UnsharpMask(radius=1.1,percent=115,threshold=2))
+            img.save(dest,'WEBP',quality=85,method=6)
+            print(dest,Image.open(dest).size)
+          PY
+      - name: Guardar fotos en el repositorio
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/demos/casa-brownie/assets/regalos-bolsa-y-cajas.webp public/demos/casa-brownie/assets/regalo-lazo-rosa.webp
+          git diff --cached --quiet || git commit -m "Assets: agregar fotografías de regalos Casa Brownie"
+          git push
