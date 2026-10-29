@@ -225,3 +225,96 @@
   .closing .cb-closing-photo { width:100%; height:auto; margin:9px auto 4px; }
   .delivery-miami .cb-delivery-photo { height:185px; }
 }
+
+
+/* Casa Brownie gift ribbon: a slow warm editorial interlude between gift scenes.
+   No JS, scrolling effects, extra images or changes to the video hero. */
+.cb-gift-ribbon {
+  position:relative;
+  display:flex;
+  align-items:center;
+  grid-column:1 / -1;
+  overflow:hidden;
+  isolation:isolate;
+  width:100%;
+  min-height:68px;
+  color:#f9ece1;
+  background:linear-gradient(108deg,#492d26 0%,#674038 46%,#4d2f27 100%);
+  border-top:1px solid #b88e7c;
+  border-bottom:1px solid #b88e7c;
+}
+.cb-gift-ribbon::before,
+.cb-gift-ribbon::after {
+  position:absolute;
+  z-index:2;
+  pointer-events:none;
+  left:0;
+  right:0;
+  height:1px;
+  content:"";
+  background:rgba(241,203,182,.28);
+}
+.cb-gift-ribbon::before { top:7px; }
+.cb-gift-ribbon::after { bottom:7px; }
+.cb-gift-ribbon-track {
+  display:flex;
+  flex:0 0 auto;
+  width:max-content;
+  align-items:center;
+  animation:cb-gift-ribbon-flow 38s linear infinite;
+}
+.cb-gift-ribbon-track span {
+  display:block;
+  flex:0 0 auto;
+  padding-inline:26px;
+  white-space:nowrap;
+  font:italic 500 clamp(21px,2.45vw,28px)/1.2 'DM Serif Display',Georgia,serif;
+  letter-spacing:.014em;
+}
+.cb-gift-ribbon-track i {
+  display:inline-block;
+  color:#e8baaa;
+  font:normal 600 .9em/1 'DM Sans',sans-serif;
+  padding-inline:25px;
+  vertical-align:middle;
+}
+@keyframes cb-gift-ribbon-flow {
+  from { transform:translateX(0); }
+  to { transform:translateX(-50%); }
+}
+@media (min-width:1200px) {
+  .moments-strip {
+    grid-template-rows:minmax(0,460px) 68px;
+  }
+  .moments-strip > .moment-illustration { grid-column:1;grid-row:1; }
+  .moments-strip > .moments-copy { grid-column:2;grid-row:1; }
+  .moments-strip > .moment-note { grid-column:3;grid-row:1; }
+  .moments-strip > .cb-gift-ribbon { grid-column:1 / -1;grid-row:2; }
+}
+@media (min-width:791px) and (max-width:1199px) {
+  .moments-strip > .cb-gift-ribbon {
+    grid-column:1 / -1;
+    grid-row:3;
+    min-height:64px;
+  }
+}
+@media (max-width:790px) {
+  .moments-strip > .cb-gift-ribbon {
+    order:2;
+    flex:0 0 auto;
+    width:100%;
+    min-height:76px;
+    margin:0;
+  }
+  .moments-strip > .moment-note {
+    order:3;
+  }
+  .cb-gift-ribbon-track span {
+    font-size:clamp(20px,5.6vw,25px);
+    padding-inline:20px;
+  }
+  .cb-gift-ribbon-track i { padding-inline:19px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cb-gift-ribbon-track { animation:none; }
+}
