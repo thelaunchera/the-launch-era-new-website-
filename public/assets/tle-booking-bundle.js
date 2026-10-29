@@ -42,8 +42,8 @@ ${plans.map(([key,name,desc])=>`<label class="tle-opt"><input type="radio" name=
 </div>
 <div class="tle-summary" aria-live="polite"><div class="tle-sumrow"><span id="tleSelectedPackage">Booking Automation + Command Center</span><b id="tleBookingPrice">${bookingDisplayPrice}</b></div><div class="tle-sumrow total"><span>${es?"Total a pagar hoy":"Total due today"}</span><strong id="tleTotal">${bookingDisplayPrice}</strong></div><div class="tle-monthly" id="tleMonthly">${es?"Sin mensualidad de AI Assistant.":"No AI Assistant monthly fee."}</div></div>
 <button type="button" class="tle-buy" id="tleCheckoutBtn">${es?"Continuar al checkout seguro →":"Continue to secure checkout →"}</button>
-<p class="tle-hint">${es?"El AI Assistant se compra por separado del Booking Automation. En esta opción puedes pagar las dos instalaciones juntas. Los primeros 30 días del asistente comienzan con la entrega; después aplica su mensualidad.":"AI Assistant is sold separately from Booking Automation. You can pay both setup fees together here. The assistant's first 30 days begin at delivery; the selected monthly plan follows."}</p>
-<p class="tle-hint" id="tleProductionPromise" aria-live="polite"></p><p class="tle-hint" id="tleCarePromise"></p><a class="tle-hint" href="/help/?topic=setup-call" style="display:inline-block;text-decoration:underline;color:#1D577C">${es?"Solicitar una llamada 1:1 de orientación ↗":"Request a 1:1 guidance call ↗"}</a>
+<p class="tle-hint">${es?"El precio incluye Booking y la activación del asistente elegido. La mensualidad de IA comienza 30 días después de la entrega.":"Each package price includes Booking and AI setup. AI monthly billing starts 30 days after delivery."}</p>
+<p class="tle-hint" id="tleProductionPromise" aria-live="polite"></p>
 <div id="tleBundleError" class="tle-error" role="alert" hidden></div>`;
 const money=n=>"$"+n.toFixed(2);
 const selected=()=>root.querySelector('input[name="tle-ai-bundle"]:checked')?.value||"";
@@ -61,8 +61,7 @@ function render(){
   const target=input.closest(".tle-opt")?.querySelector(".tle-opt-price");
   if(target){target.replaceChildren(document.createTextNode(price));const monthly=document.createElement("small");monthly.textContent=key?(es?"después $":"then $")+prices[key].monthly+(es?"/mes":"/mo"):(es?"sin mensualidad":"no monthly fee");target.append(monthly);}
  });
-  root.querySelector("#tleProductionPromise").textContent=key?(es?"Bundle con AI: producción conjunta estimada de 4 días hábiles tras revisar y aprobar el formulario completo.":"Bundle with AI: estimated 4 business days of combined production after the completed intake is reviewed and approved."):(es?"Solo Booking: producción estimada de 48 horas después de aprobar el intake.":"Booking-only: estimated 48-hour production after your completed intake is approved.");
- root.querySelector("#tleCarePromise").textContent=key?(es?"El plan mensual de AI activo incluye soporte, pequeños cambios de colores, ayuda para actualizar servicios y ajustes de flyers flotantes. No incluye rediseños completos ni funciones nuevas.":"With an active monthly AI plan, support includes small color changes, service updates and minor promotional pop-up adjustments. Full redesigns and new features are not included."):(es?"Sin mensualidad de AI no se incluye el soporte recurrente del plan AI.":"Without a monthly AI plan, recurring AI support is not included.");
+  root.querySelector("#tleProductionPromise").textContent=key?(es?"Entrega estimada: 4 días hábiles después de confirmar los detalles.":"Estimated delivery: 4 business days after we confirm your details."):(es?"Entrega estimada de Booking: 48 horas después de confirmar tus datos.":"Estimated Booking delivery: 48 hours after we confirm your details.");
  root.querySelector("#tleMonthly").textContent=key?(es?"Tras los primeros 30 días desde la entrega: $"+plan.monthly+"/mes (precio normal).":"After the first 30 days from delivery: $"+plan.monthly+"/month (regular price)."):(es?"Sin mensualidad de AI Assistant.":"No AI Assistant monthly fee.");
  const btn=root.querySelector("#tleCheckoutBtn");
  btn.disabled=!!key&&!livePricing;
