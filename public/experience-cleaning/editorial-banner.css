@@ -99,7 +99,7 @@ h1,h2,h3,h4,
 .experience:before {
   content:"";
   position:absolute;
-  z-index:-1;
+  z-index:0;
   top:0;bottom:0;left:50%;
   width:100vw;
   transform:translateX(-50%);
@@ -109,6 +109,7 @@ h1,h2,h3,h4,
     radial-gradient(ellipse at 9% 71%, rgba(222,206,188,.27) 0%, transparent 45%),
     linear-gradient(180deg,#F7F4EF 0%,#F4F1EB 72%,#F5F1EA 100%);
 }
+.experience > .section-heading, .experience > .experience-frame {position:relative;z-index:1}
 .experience .section-heading {
   max-width: 930px;
   margin-bottom: 28px;
