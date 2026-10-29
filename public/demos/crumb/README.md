@@ -28,3 +28,7 @@ Responsive visual acceptance at 360/390/820/1024/1440 and live publication must 
 ## 29 Oct editorial / location refinement
 
 The six flavors now use a signature lead photograph and a varied-width editorial grid, closer food crops, and overlay add-to-bag controls (all six keep the original bag behavior and accessible labels). The existing delivery section has a CSS/SVG map-route draw and soft location-marker pulse adapted from the Motion Library route/pin concept. It illustrates **Miami only**: never uses GPS, browser location permissions, visitor address, or live coverage promises. Follow `prefers-reduced-motion`. All marketing copy stays English; CRUMB is a fictional educational demo.
+
+## Approved CRUMB hero and final mobile merchandising
+
+The hero image at `assets/hero.webp` is replaced in-place with the owner's approved 1536×864 boutique photograph (compressed WebP). The mobile hero uses full 16:9 framing so the wall sign, cookies and gift packaging remain visible; no motion or overlaid heading was added. Six cookie images display in consistent square cards on phone and desktop; the photo add control is a compact "Add +" pill with its original `data-add` events and accessible flavor labels. An existing two-direction marquee concept is implemented as two subtle rows immediately before the lifestyle photo, with reduced-motion support. CRUMB stays a fictional demo with no real checkout, orders, or GPS data.
