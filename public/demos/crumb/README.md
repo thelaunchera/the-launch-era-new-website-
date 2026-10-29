@@ -52,3 +52,10 @@ The hero image at `assets/hero.webp` is replaced in-place with the owner's appro
 - La quinta foto nueva es la bolsa CRUMB (`brand-packaging.webp`), que **reemplaza** la foto de plato de cookies en la galería de identidad. Así la galería compacta muestra fachada, equipo y packaging, no otro producto servido.
 - La sexta imagen recibida (plato con tres cookies) se omitió expresamente por redundancia; no se añadió una sección extra.
 - Las seis fotos individuales del catálogo de sabores y el hero móvil aprobado permanecen sin cambios. Imágenes conceptuales, no prueba de tienda real.
+
+## High-quality cookie product photos and matching flavors (29 Oct 2026)
+All six product photos in `assets/` are individual **1024×1024 WebP images encoded at quality 96**, not mosaics. The supplied reference photos were exported at 1024px; these are the source resolution (not claimed 4K), with white top-divider artifacts removed from the final three. The first three existing file paths were updated in place, while the other three flavors now use accurately named files.
+
+**Live catalog:** Classic Chocolate Chip (`classic`), Double Chocolate (`double`), Salted Caramel (`caramel`), White Chocolate Raspberry (`raspberry`), Nutty Dream (`nutty`), Brownie Chip (`brownie`). Product names, descriptions, visible photos, builder options, accessible labels, toast notifications, box preview and tray all correspond; do not revert labels to the previous macadamia/cream/cinnamon set unless restoring matching photography.
+
+No hero, main gift image, layout, active payment, local delivery claims or unrelated demos changed.
