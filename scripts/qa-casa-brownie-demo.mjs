@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 const dir = new URL('../public/demos/casa-brownie/',import.meta.url);
 const load = file => readFileSync(new URL(file,dir),'utf8');
-for(const name of ['index.html','styles.css','hero-corrections.css','motion.css','editorial-center-v2.css','main.js','motion.js']) assert.ok(existsSync(new URL(name,dir)),name+' missing');
+for(const name of ['index.html','styles.css','hero-corrections.css','motion.css','editorial-center-v2.css','gift-photos.css','main.js','motion.js','README.md','GUIA-PARA-LA-CLASE.md']) assert.ok(existsSync(new URL(name,dir)),name+' missing');
 const html=load('index.html'),css=load('hero-corrections.css'),js=load('main.js');
 const motion=load('motion.js'),motionStyles=load('motion.css');
 assert.match(html,/Brownies<br\s*\/>\s*hechos\s*<span class="love">en casa<\/span>/i);
@@ -38,7 +38,13 @@ assert.match(html,/Un sabor para cada ocasión/,'gallery has an editorial headli
 assert.match(html,/Elegir mi favorito/,'single purposeful gallery CTA');
 assert.match(html,/Toca un sabor para conocerlo mejor/,'cards have one shared instruction');
 assert.doesNotMatch(html,/Conocer sabor|Nuestros Brownies|Más que brownies/,'avoid repetitive generic copy');
-assert.doesNotMatch(html,/\.moment-image[^>]*>\s*<img/,'story uses original packaging illustration instead of duplicated photos');
+assert.match(html,/src="\.\/assets\/regalo-lazo-rosa\.webp\?v=20261029-original"/,'approved pink-ribbon photo is used');
+assert.match(html,/src="\.\/assets\/regalos-bolsa-y-cajas\.webp\?v=20261029-original"/,'approved bag and boxes photo is used');
+for(const img of ['assets/regalo-lazo-rosa.webp','assets/regalos-bolsa-y-cajas.webp']) {
+  assert.ok(existsSync(new URL(img,dir)),'local approved image missing: '+img);
+  const file=readFileSync(new URL(img,dir));
+  assert.ok(file.length>100000,'photo must be full resolution, not a tiny enlarged preview');
+}
 const imageSrcs=[...html.matchAll(/<img\\b[^>]*?src="([^"]+)"/g)].map(m=>m[1]);
 assert.equal(imageSrcs.length,new Set(imageSrcs).size,'no repeated image URL across hero and gallery');
 assert.ok(html.indexOf('class="flavor-section"')<html.indexOf('class="moments-strip"'));
@@ -56,8 +62,11 @@ assert.match(layout,/@keyframes cb-text-scroll/,'ribbon moves continuously');
 assert.match(layout,/@media\(prefers-reduced-motion:reduce\)/,'ribbon respects accessibility');
 assert.match(layout,/\.moments-strip>\.moment-illustration/,'illustration needs full-width mobile area');
 assert.match(layout,/\.moments-strip>\.moment-note/,'handwritten note needs explicit mobile height');
-assert.match(layout,/\.moments-strip \.cb-gift-box/,'illustrated gift has bounded size and center');
-assert.match(layout,/\.moments-strip \.cb-paper-note/,'note is styled and centered');
+const giftCss=load('gift-photos.css');
+assert.match(html,/gift-photos\.css/,'approved photo styling is included');
+assert.match(giftCss,/\.cb-real-gift-photo/,'approved photos have mobile composition rules');
+assert.match(giftCss,/object-fit:\s*cover/,'approved photos retain correct crop');
+assert.match(giftCss,/@media \(max-width: 790px\)/,'gift photos have mobile styling');
 assert.match(layout,/\.hero-copy\{text-align:center;align-items:center\}/,'hero content centered');
 assert.match(layout,/\.delivery-miami\{text-align:center;align-items:center\}/,'delivery centered');
 assert.match(layout,/\.closing\{display:flex;flex-direction:column;align-items:center/,'closing centered');
