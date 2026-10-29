@@ -4,6 +4,9 @@ import {readFileSync, existsSync} from 'node:fs';
 import vm from 'node:vm';
 const read=p=>readFileSync(p,'utf8');
 const demo=read('public/try-booking/index.html');
+const official=read('public/experience-cleaning/index.html');
+const officialJs=read('public/experience-cleaning/app.js');
+const bundleLang=read('public/assets/tle-bundle-landing.js');
 const home=read('src/components/editorial-sections.tsx');
 const es=read('src/routes/es.index.tsx');
 const booking=read('src/routes/booking-lead-automation.tsx');
@@ -12,6 +15,14 @@ const bundle=read('public/booking-bundle/index.html');
 const float=read('src/components/booking-floating-chips.tsx');
 const analytics=read('src/components/analytics.tsx');
 assert(existsSync('public/try-booking/index.html'));
+assert(existsSync('public/sample-cleaning/index.html'),'Legacy sample demo must remain available as backup');
+for(const key of ['id="experience"','id="owner"','id="our-work"','id="meet-cleaner"','id="sample-reviews"']) {
+  assert(official.includes(key),'New official demo must include customer, owner, work and reviews: '+key);
+}
+assert.match(officialJs,/No fetch, storage, form submission or real customer actions|No network calls/,'New public sample must stay local-only');
+assert.match(bundleLang,/experience-cleaning\/\?lang=es&source=bundle/,'Spanish bundle must preserve language when opening new official demo');
+assert.doesNotMatch(bundleLang,/sample-cleaning\/\?lang=es&source=bundle/,'Spanish bundle must not route to legacy sample');
+
 assert.match(demo,/<html lang="en">/);
 assert.match(demo,/data-i18n="headline"/);
 assert.match(demo,/var lang=url\.searchParams\.get\('lang'\)==='es'/);
