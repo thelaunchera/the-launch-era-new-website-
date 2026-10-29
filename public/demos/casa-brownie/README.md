@@ -6,7 +6,7 @@ Este directorio es la copia estática independiente del demo de la masterclass �
 - La interfaz está en español: fotos de brownies, seis sabores, simulación sin pedidos ni pagos, territorio ilustrativo de delivery local Miami.
 - En móvil el video de brownies apilados aparece **antes** del texto principal; el título es **Brownies hechos en casa** y los CTA no muestran flechas decorativas.
 - Prohibido conectar compradores, Stripe, guardar direcciones o iniciar entregas desde este demo sin flujo autorizado y pruebas de privacidad.
-- El MP4 está referenciado externamente desde el video generado de Casa Brownie. El póster permanece visible si el video falla o la persona prefiere reducir movimiento. Antes de usarlo como producción comercial, guardar un activo propio estable y revisar licencias de todas las fotografías ilustrativas (actualmente externas).
+- El video de brownies utilizado por esta versión ahora está guardado localmente como `assets/hero-brownies.mp4` (≈1,3 MB), junto a su póster `assets/hero-brownies.webp`. La imagen permanece visible si el video falla o la persona prefiere reducir movimiento. **El material proviene de un clip generado tomando como referencia una imagen de terceros**; revisar los derechos de la imagen fuente antes de uso comercial. Las seis fotos de sabores siguen enlazadas externamente y requieren permiso o sustitución autorizada.
 - La ruta está autocontenida y no comparte estado, secretos, clientes, branding ni datos de CB Depot ni del demo privado de Booking.
 
 ## Mejoras de iconos y movimiento
