@@ -14,6 +14,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: true
+      - name: Instalar codificador de video
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
       - name: Descargar el clip que ya se usa en el hero
         env:
           HERO_URL: https://resource2.heygen.ai/videos/7db88dd63a0f4f099df9ab7d89049247/7db88dd63a0f4f099df9ab7d89049247/01a18522-825d-77e4-a4ee-86a7a76e3dbd.mp4
@@ -21,10 +25,6 @@ jobs:
           curl -fLsS --retry 2 --retry-delay 2 --max-time 100 "$HERO_URL" -o /tmp/casa-brownie-hero-source.mp4
           test "$(wc -c </tmp/casa-brownie-hero-source.mp4)" -gt 100000
           ffprobe -v error -select_streams v:0 -show_entries stream=width,height,duration -of default=noprint_wrappers=1 /tmp/casa-brownie-hero-source.mp4
-      - name: Instalar codificador de video
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq ffmpeg
       - name: Optimizar el mismo video y crear imagen de respaldo
         run: |
           mkdir -p public/demos/casa-brownie/assets
