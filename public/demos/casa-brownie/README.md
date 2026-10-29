@@ -41,3 +41,6 @@ La sección «Una forma bonita de decir pensé en ti» usa **las dos fotografía
 - Tres botones de redes sociales al final: Instagram, TikTok y Pinterest. Abren pequeñas vistas previas internas con ideas de contenido; no enlazan a perfiles que no existen.
 - «Contáctanos» en el footer abre un formulario modal **solo cuando se pulsa**. Campos de ejemplo y un botón «Simular mensaje». No se envía, ni se guarda, ni usa APIs; limpia los campos y muestra confirmación de demostración.
 - Mismo HTML para la vista con video y la variante `?etapa=sin-video`; no se ha alterado el hero, sabores, carrito ficticio ni el flujo de compra inexistente.
+
+## Banner compacto entre fotografías (29 oct 2026)
+La cinta entre fotos de regalos ya no utiliza tipografía serif cursiva gigante: altura de **32 px** con DM Sans 10 px, mayúsculas y espaciado editorial, separada de las fotografías por 12 px arriba y 14 px abajo. El texto y el movimiento continuo siguen en español; respetamos movimiento reducido. Se cambia la versión de CSS para evitar caché en Safari. No modificar el hero ni las fotografías.

@@ -142,7 +142,7 @@ assert.doesNotMatch(js,/localStorage|sessionStorage|fetch\(/,'no stored data or 
 // Both official and teaching demos share one document; the teaching switch only removes the video.
 assert.match(html,/get\('etapa'\) === 'sin-video'/);
 assert.match(html,/src="\.\/assets\/hero-brownies\.mp4\?v=20261029-local"/,'original hero video untouched');
-assert.match(html,/casabrownie-editorial\.css\?v=20261029-ribbon-1/,'editorial stylesheet loaded after existing styles');
+assert.match(html,/casabrownie-editorial\.css\?v=20261029-slim-ribbon-v2/,'editorial stylesheet loaded after existing styles');
 const editorial=load('casabrownie-editorial.css');
 assert.match(editorial,/@media \(min-width:791px\) and \(max-width:1199px\)/,'tablet-specific editorial grid');
 assert.match(editorial,/\.hero \.hero-copy\s*\{\s*display:grid/,'tablet hero story becomes two columns');
@@ -178,6 +178,10 @@ const ribbonIndex=html.indexOf('class="cb-gift-ribbon"');
 const secondGiftIndex=html.indexOf('class="moment-image moment-note cb-real-gift-photo"');
 assert.ok(storyIndex < ribbonIndex && ribbonIndex < secondGiftIndex,'banner separates the two adjacent gift photos in mobile DOM order');
 assert.match(editorial,/@keyframes cb-gift-ribbon-flow/,'gift ribbon has a continuous subtle scroll');
+assert.ok(editorial.includes('min-height:32px;\n  height:32px;\n  margin:12px 0 14px;'),'gift ribbon is slim and separated from photos');
+assert.ok(editorial.includes("font:700 10px/1.2 'DM Sans'"),'ribbon uses compact brand-style typography');
+assert.ok(!editorial.includes('font:italic 500 clamp(21px,2.45vw,28px)'),'oversized italic ribbon is removed');
+
 assert.match(editorial,/@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.cb-gift-ribbon-track \{ animation:none; \}/,'banner respects reduced motion');
 assert.match(editorial,/\.moments-strip > \.cb-gift-ribbon\s*\{\s*order:2;/,'gift ribbon appears between gift photographs on mobile');
 assert.match(editorial,/\.moments-strip > \.moment-note\s*\{\s*order:3;/,'second gift photo follows the ribbon on mobile');
