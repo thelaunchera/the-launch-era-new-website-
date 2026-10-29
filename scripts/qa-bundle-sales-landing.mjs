@@ -27,7 +27,7 @@ for(const p of ['public/assets/tle-bundle-landing.js','public/assets/tle-booking
 assert(page.includes('id="experience"')&&page.includes('id="choose-plan"'),'Demo before checkout required');
 assert(page.indexOf('id="experience"')<page.indexOf('id="choose-plan"'),'Checkout displayed before product education');
 assert(page.includes('data-tle-bundle'),'Existing checkout mount point removed');
-assert(page.includes('tle-booking-bundle.js?v=20261014-smart-welcome-v1'),'Existing checkout code missing');
+assert(page.includes('tle-booking-bundle.js?v=20261029-bundle-rates-v2'),'Existing checkout code missing');
 assert(!js.includes('method:"POST"')&&!js.includes("method:'POST'"),'Sample demo must never post data');
 assert(!js.includes('location.assign')&&!js.includes('checkout.stripe.com'),'Preview must not open payment itself');
 assert(js.includes("data?.percent_off!==40"),'Promotion badge must be server-gated');

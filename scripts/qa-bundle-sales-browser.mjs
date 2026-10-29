@@ -15,10 +15,10 @@ const server=createServer((req,res)=>{
 });
 await new Promise(resolveReady=>server.listen(0,'127.0.0.1',resolveReady));
 const base='http://127.0.0.1:'+server.address().port;
-const prices={percent_off:40,booking_setup_cents:900,plans:{
- 'ai-booking':{original_setup_cents:2500,setup_due_cents:1500,monthly_cents:1400},
- 'ai-followup':{original_setup_cents:1900,setup_due_cents:1140,monthly_cents:700},
- 'ai-business':{original_setup_cents:3900,setup_due_cents:2340,monthly_cents:1900}
+const prices={bundle_price_version:'bundle-20261029',percent_off:0,booking_setup_cents:1500,plans:{
+ 'ai-booking':{original_setup_cents:1000,setup_due_cents:1000,monthly_cents:1200},
+ 'ai-followup':{original_setup_cents:500,setup_due_cents:500,monthly_cents:800},
+ 'ai-business':{original_setup_cents:1400,setup_due_cents:1400,monthly_cents:1600}
 }};
 const browser=await chromium.launch({headless:true});
 mkdirSync('qa-screenshots',{recursive:true});
@@ -27,7 +27,7 @@ try {
    const ctx=await browser.newContext({viewport:{width,height:width<500?820:960}});
    const page=await ctx.newPage(),errors=[];
    page.on('pageerror',e=>errors.push(String(e)));
-   await page.route('**/functions/v1/tle-booking-bundle-checkout',route=>{
+   await page.route('**/functions/v1/tle-booking-bundle-checkout**',route=>{
      assert.equal(route.request().method(),'GET','QA must never charge or create checkout');
      return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(prices)});
    });
@@ -44,18 +44,18 @@ try {
    await page.locator('button[data-question="booking"]').click();
    assert.match(await page.locator('#sampleAssistantReply').innerText(),/review your preferred time/);
    const badge=page.locator('#bundleOffer');
-   await badge.waitFor({state:'visible',timeout:6000});
+   assert.equal(await badge.isVisible(),false,'Retired discount must not appear');
    const radios=page.locator('input[name="tle-ai-bundle"]');
    assert.equal(await radios.count(),4,'Original optional AI choices must remain');
    assert.equal(await page.locator('input[name="tle-ai-bundle"]:checked').inputValue(),'ai-booking');
-   await page.waitForFunction(()=>document.querySelector('#tleTotal')?.textContent==='$24.00');
-   assert.match(await page.locator('#tleMonthly').innerText(),/\$14\/month/);
+   await page.waitForFunction(()=>document.querySelector('#tleTotal')?.textContent==='$25.00');
+   assert.match(await page.locator('#tleMonthly').innerText(),/\$12\/month/);
    await page.locator('input[name="tle-ai-bundle"][value="ai-followup"]').check();
-   assert.equal(await page.locator('#tleTotal').innerText(),'$20.40');
-   assert.match(await page.locator('#tleMonthly').innerText(),/\$7\/month/);
+   assert.equal(await page.locator('#tleTotal').innerText(),'$20.00');
+   assert.match(await page.locator('#tleMonthly').innerText(),/\$8\/month/);
    await page.locator('input[name="tle-ai-bundle"][value="ai-business"]').check();
-   assert.equal(await page.locator('#tleTotal').innerText(),'$32.40');
-   assert.match(await page.locator('#tleMonthly').innerText(),/\$19\/month/);
+   assert.equal(await page.locator('#tleTotal').innerText(),'$29.00');
+   assert.match(await page.locator('#tleMonthly').innerText(),/\$16\/month/);
    assert(await page.locator('#tleCheckoutBtn').isVisible());
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),true,'Horizontal overflow '+width);
    await page.screenshot({path:'qa-screenshots/bundle-landing-'+width+'.png',fullPage:true});
@@ -65,7 +65,7 @@ try {
  }
  const esCtx=await browser.newContext({viewport:{width:390,height:844}});
  const esPage=await esCtx.newPage();
- await esPage.route('**/functions/v1/tle-booking-bundle-checkout',r=>r.fulfill({json:prices}));
+ await esPage.route('**/functions/v1/tle-booking-bundle-checkout**',r=>r.fulfill({json:prices}));
  await esPage.goto(base+'/booking-bundle/?lang=es&bundle=ai-booking',{waitUntil:'domcontentloaded'});
  assert.match(await esPage.locator('#heroTitle').innerText(),/Tú te encargas/);
  await esPage.locator('#previewRequest').click();
@@ -77,7 +77,7 @@ try {
  await esCtx.close();
  const offCtx=await browser.newContext({viewport:{width:390,height:844}});
  const off=await offCtx.newPage();
- await off.route('**/functions/v1/tle-booking-bundle-checkout',r=>r.fulfill({json:{percent_off:0,booking_setup_cents:1500,plans:Object.fromEntries(Object.entries(prices.plans).map(([key,plan])=>[key,{...plan,setup_due_cents:plan.original_setup_cents}]))}}));
+ await off.route('**/functions/v1/tle-booking-bundle-checkout**',r=>r.fulfill({json:{bundle_price_version:'bundle-20261029',percent_off:0,booking_setup_cents:1500,plans:Object.fromEntries(Object.entries(prices.plans).map(([key,plan])=>[key,{...plan,setup_due_cents:plan.original_setup_cents}]))}}));
  await off.goto(base+'/booking-bundle/?lang=en',{waitUntil:'domcontentloaded'});
  await off.waitForTimeout(300);
  assert.equal(await off.locator('#bundleOffer').isVisible(),false,'Inactive sale should not appear');

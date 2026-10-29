@@ -9,9 +9,10 @@ const url=new URLSearchParams({offer:"booking-flow",lang:es?"es":"en"});
 const autoSelectAI=qs.get("bundle")==="ai-booking"?"ai-booking":"";
 const bookingBaseCents=()=>1500;
 const bookingDisplayPrice="$"+(bookingBaseCents()/100).toFixed(2);
-const prices={"":{setup:0,monthly:0}, "ai-booking":{setup:25,monthly:14},"ai-followup":{setup:19,monthly:7},"ai-business":{setup:39,monthly:19}};
+const prices={"":{setup:0,monthly:0}, "ai-booking":{setup:10,monthly:12},"ai-followup":{setup:5,monthly:8},"ai-business":{setup:14,monthly:16}};
 let livePricing=null;
-const pricesEndpoint="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-bundle-checkout";
+const bundlePriceVersion="bundle-20261029";
+const pricesEndpoint="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-bundle-checkout?price_version="+encodeURIComponent(bundlePriceVersion);
 const plans=[
  ["",es?"No, solo quiero Booking Automation":"No thanks, just Booking Automation",es?"Sin extras ni mensualidad del AI Assistant.":"No AI Assistant add-on or monthly fee."],
  ["ai-booking","AI Booking Assistant",es?"Responde preguntas y prepara solicitudes de reserva.":"Answers questions and helps prepare booking requests."],
@@ -34,7 +35,7 @@ root.innerHTML=`<div class="tle-ey">${es?"TU SISTEMA, A TU MANERA":"BUILD YOUR B
 <h2>${es?"¿Lista para automatizar tus reservas?":"Ready to automate your bookings?"}</h2>
 <p>${es?"Comienza con tu Booking Page y Command Center. Si quieres, añade un asistente de IA independiente en esta misma compra.":"Start with your Booking Page and Command Center. Add a separate AI Assistant if it fits your business — all in one checkout."}</p>
 <div class="tle-included"><div><b>Booking Automation + Command Center</b><br><span>${es?"Página personalizada + panel privado":"Personalized Booking Page + private workspace"}</span></div><b>${bookingDisplayPrice}</b></div>
-<div class="tle-ey">${es?"TAMBIÉN TE PUEDE INTERESAR · OPCIONAL":"YOU MAY ALSO LIKE · OPTIONAL"}</div>
+<div class="tle-ey">${es?"IA OPCIONAL · PRECIO DE PAQUETE":"OPTIONAL AI · BUNDLE PRICING"}</div>
 <div class="tle-options" role="radiogroup" aria-label="${es?"Añadir AI Assistant":"Add an AI Assistant"}">
 ${plans.map(([key,name,desc])=>`<label class="tle-opt"><input type="radio" name="tle-ai-bundle" value="${safe(key)}" ${key===autoSelectAI?"checked":""}><span class="tle-opt-main"><strong>${safe(name)}</strong><small>${safe(desc)}</small></span><span class="tle-opt-price">${key?"+$"+prices[key].setup:"$0"}<small>${key?(es?"luego $":"then $")+prices[key].monthly+(es?"/mes":"/mo"):(es?"Sin cargo":"No charge")}</small></span></label>`).join("")}
 </div>
@@ -78,10 +79,10 @@ const btn=root.querySelector("#tleCheckoutBtn"),error=root.querySelector("#tleBu
   const response=await fetch(pricesEndpoint,{method:"GET",headers:{"Accept":"application/json"},cache:"no-store"});
   if(!response.ok)throw Error("pricing");
   const data=await response.json();
-  if(!data?.plans||![0,40].includes(data.percent_off)||!Object.entries(prices).every(([key,plan])=>!key||data.plans[key]?.original_setup_cents===plan.setup*100&&data.plans[key]?.monthly_cents===plan.monthly*100&&data.plans[key]?.setup_due_cents===Math.round(plan.setup*100*(100-data.percent_off)/100)))throw Error("pricing");
+  if(!data?.plans||data.bundle_price_version!==bundlePriceVersion||data.percent_off!==0||!Object.entries(prices).every(([key,plan])=>!key||data.plans[key]?.original_setup_cents===plan.setup*100&&data.plans[key]?.monthly_cents===plan.monthly*100&&data.plans[key]?.setup_due_cents===Math.round(plan.setup*100*(100-data.percent_off)/100)))throw Error("pricing");
   livePricing=data;render();
  }catch{
-  error.textContent=es?"No se pudo cargar el descuento. Intenta actualizar la página.":"Could not load current pricing. Please refresh the page.";
+  error.textContent=es?"No pudimos verificar los precios. Actualiza la página.":"We couldn’t verify current pricing. Please refresh.";;
   error.hidden=false;
  }
 })();
@@ -91,7 +92,7 @@ btn.addEventListener("click",async()=>{
  if(!addon){location.href="/service-checkout/?"+url.toString();return;}
  btn.disabled=true;error.hidden=true;btn.textContent=es?"Preparando tu checkout…":"Preparing your checkout…";
  try{
-  const res=await fetch("https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-bundle-checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({language,ai_addon:addon})});
+  const res=await fetch("https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-bundle-checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({language,ai_addon:addon,price_version:bundlePriceVersion})});
   const data=await res.json().catch(()=>({}));
   if(!res.ok||!data?.url||!/^https:\/\/checkout\.stripe\.com\//.test(data.url)||Number(data.amount_total)!==(expected(addon).bookCents+expected(addon).aiCents))throw Error("checkout");
   try{sessionStorage.setItem("tleCheckoutLanguage",language);sessionStorage.setItem("tleSelectedAiAddon",addon);}catch{}
