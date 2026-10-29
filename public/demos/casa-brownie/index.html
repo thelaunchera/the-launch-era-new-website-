@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Casa Brownie · Pequeños placeres, grandes momentos · Demo</title>
+    <meta name="theme-color" content="#f7f0e8" />
+    <meta
+      name="description"
+      content="Casa Brownie, demostración educativa de una web editorial de brownies con entrega local ficticia en Miami. Sin pedidos ni pagos reales."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./hero-corrections.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div class="demo-ribbon">
+        <span>CASA BROWNIE · PROYECTO DE EJEMPLO</span
+        ><strong>DEMO EDUCATIVA · SIN PEDIDOS NI PAGOS REALES</strong>
+      </div>
+      <header class="site-header" id="inicio">
+        <a class="brand" href="#inicio" aria-label="Casa Brownie, inicio"
+          ><span class="roof-logo" aria-hidden="true"
+            ><svg viewBox="0 0 68 43" fill="none">
+              <path
+                d="M5 22 34 3l29 19"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M50 4v10"
+                stroke="currentColor"
+                stroke-width="2.4"
+                stroke-linecap="round"
+              />
+              <path
+                d="M34 34c-3-2-10-7-10-13 0-6 7-9 10-3 3-6 10-3 10 3 0 6-7 11-10 13Z"
+                stroke="currentColor"
+                stroke-width="2.4"
+                stroke-linejoin="round"
+              /></svg></span
+          ><span class="brand-words"
+            ><span>Casa <em>Brownie</em></span
+            ><small>PEQUEÑOS PLACERES · GRANDES MOMENTOS</small></span
+          ></a
+        >
+        <nav class="main-nav" aria-label="Navegación principal">
+          <a href="#inicio">Inicio</a><a href="#brownies">Nuestros brownies</a
+          ><a href="#momentos">Sobre nosotros</a
+          ><a href="#entrega">Entrega en Miami</a>
+        </nav>
+        <div class="header-actions">
+          <button
+            class="header-search"
+            id="search-btn"
+            aria-label="Buscar sabor"
+            title="Buscar sabor"
+          >
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="11" cy="11" r="6.5" />
+              <path d="m16 16 5 5" />
+            </svg></button
+          ><button
+            class="bag-button"
+            id="demo-order"
+            aria-label="Simular pedido"
+            title="Simular pedido"
+          >
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M4 8h16l-1 13H5L4 8Z" />
+              <path d="M9 9V6a3 3 0 0 1 6 0v3" /></svg
+            ><i></i></button
+          ><button
+            class="mobile-toggle"
+            id="menu-button"
+            aria-label="Abrir menú"
+            aria-expanded="false"
+          >
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </header>
+      <main>
+        <section class="hero" aria-label="Casa Brownie">
+          <div class="hero-copy">
+            <div class="eyebrow">
+              <span class="eyebrow-line"></span> DESDE UNA IDEA, CON CARIÑO
+            </div>
+            <h1>
+              Brownies<br />
+              hechos <span class="love">en casa</span>
+            </h1>
+            <p>
+              Pequeños placeres, grandes momentos. Una idea de brownies para
+              disfrutar, regalar o compartir.
+            </p>
+            <a class="primary-button" href="#brownies"
+              >Ver nuestros brownies</a
+            >
+            <div class="hero-qualities">
+              <span
+                ><svg viewBox="0 0 24 24">
+                  <path
+                    d="M19 3C9 4 4 11 5 20c8 1 15-6 14-17ZM5 20c3-6 7-9 12-12"
+                  /></svg
+                ><small>DETALLES<br />CON CARIÑO</small></span
+              ><span
+                ><svg viewBox="0 0 24 24">
+                  <path d="M12 21 4 13C-1 7 6-1 12 6c6-7 13 1 8 7l-8 8Z" /></svg
+                ><small>PARA<br />COMPARTIR</small></span
+              ><span
+                ><svg viewBox="0 0 24 24">
+                  <rect x="3" y="8" width="18" height="13" rx="1" />
+                  <path
+                    d="M12 8v13M3 12h18M12 8C6 8 6 3 9 3c2 0 3 3 3 5Zm0 0c6 0 6-5 3-5-2 0-3 3-3 5Z"
+                  /></svg
+                ><small>IDEALES<br />PARA REGALAR</small></span
+              ><span
+                ><svg viewBox="0 0 24 24">
+                  <path d="M3 7h11v11H3zM14 11h4l3 4v3h-7z" />
+                  <circle cx="7" cy="19" r="2" />
+                  <circle cx="18" cy="19" r="2" /></svg
+                ><small>MIAMI<br />LOCAL</small></span
+              >
+            </div>
+          </div>
+          <div class="hero-photo">
+            <img
+              class="hero-photo-poster"
+              src="https://www.recettes-de-maria.fr/wp-content/uploads/2024/07/brownies-sans-gluten-3a-decouvrez-une-version-gourmande-et-saine.jpg"
+              alt="Varios brownies de chocolate apilados, con textura cremosa; fotografía ilustrativa"
+              fetchpriority="high"
+            />
+            <video id="hero-video" class="hero-motion" autoplay muted loop playsinline
+              preload="metadata" poster="https://www.recettes-de-maria.fr/wp-content/uploads/2024/07/brownies-sans-gluten-3a-decouvrez-une-version-gourmande-et-saine.jpg" aria-hidden="true">
+              <source src="https://resource2.heygen.ai/videos/7db88dd63a0f4f099df9ab7d89049247/7db88dd63a0f4f099df9ab7d89049247/01a18522-825d-77e4-a4ee-86a7a76e3dbd.mp4" type="video/mp4" />
+            </video>
+            <div class="hero-photo-shade"></div>
+            <p class="hand-note">
+              Más que brownies,<br />
+              momentos para ti. <span aria-hidden="true">♡</span>
+            </p>
+          </div>
+          <div class="hero-gift">
+            <div class="gift-top">
+              EL DETALLE<br /><em>perfecto</em><br />PARA CADA MOMENTO.
+            </div>
+            <div class="kraft-gift" aria-hidden="true">
+              <div class="gift-box-lid">
+                <span class="ribbon-v"></span><span class="ribbon-h"></span
+                ><span class="gift-tag"
+                  ><span class="roof-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 68 43" fill="none">
+                      <path
+                        d="M5 22 34 3l29 19"
+                        stroke="currentColor"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M50 4v10"
+                        stroke="currentColor"
+                        stroke-width="2.4"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M34 34c-3-2-10-7-10-13 0-6 7-9 10-3 3-6 10-3 10 3 0 6-7 11-10 13Z"
+                        stroke="currentColor"
+                        stroke-width="2.4"
+                        stroke-linejoin="round"
+                      /></svg></span
+                  ><strong>CASA<br />BROWNIE</strong
+                  ><small>un momento para ti ♡</small></span
+                >
+              </div>
+              <div class="gift-box-front"></div>
+            </div>
+            <p>Hecho para compartir.<br />Imaginado para regalar.</p>
+          </div>
+        </section>
+        <section class="flavor-section" id="brownies">
+          <div class="center-label"><span></span><i>♡</i><span></span></div>
+          <div class="section-heading">
+            <div>
+              <h2>Nuestros Brownies</h2>
+              <p>SABORES QUE SE QUEDAN EN LA MEMORIA</p>
+            </div>
+            <button class="outline-button" id="all-flavors" type="button">
+              Ver todos los sabores
+            </button>
+          </div>
+          <div class="flavor-grid">
+            <button
+              class="flavor"
+              type="button"
+              data-flavor="clasico"
+              aria-label="Conocer brownie Clásico"
+            >
+              <span class="flavor-picture"
+                ><img
+                  loading="lazy"
+                  src="https://www.amummytoo.co.uk/wp-content/uploads/2025/04/big-batch-brownies-SQUARE.jpg"
+                  alt="Fotografía ilustrativa de brownie Clásico"
+                /><span class="flavor-mark" style="--mark: #6a3f2b"
+                  >▦</span
+                ></span
+              ><span class="flavor-title">Clásico</span
+              ><span class="flavor-desc">El original que nunca falla.</span
+              ><span class="flavor-hint"
+                >Conocer sabor</span
+              >
+            </button>
+            <button
+              class="flavor"
+              type="button"
+              data-flavor="nuez"
+              aria-label="Conocer brownie Chocolate con nuez"
+            >
+              <span class="flavor-picture"
+                ><img
+                  loading="lazy"
+                  src="https://proteinbrownies.co/recipe_images/zucchini-protein-brownies.jpg"
+                  alt="Fotografía ilustrativa de brownie Chocolate con nuez"
+                /><span class="flavor-mark" style="--mark: #815e43"
+                  >♧</span
+                ></span
+              ><span class="flavor-title">Chocolate con nuez</span
+              ><span class="flavor-desc">Crujiente y delicioso.</span
+              ><span class="flavor-hint"
+                >Conocer sabor</span
+              >
+            </button>
+            <button
+              class="flavor"
+              type="button"
+              data-flavor="dulce"
+              aria-label="Conocer brownie Dulce de leche"
+            >
+              <span class="flavor-picture"
+                ><img
+                  loading="lazy"
+                  src="https://images.getrecipekit.com/20260629191045-brownie-20ddl.png?aspect_ratio=16%3A9&quality=90"
+                  alt="Fotografía ilustrativa de brownie Dulce de leche"
+                /><span class="flavor-mark" style="--mark: #ba784e"
+                  >◉</span
+                ></span
+              ><span class="flavor-title">Dulce de leche</span
+              ><span class="flavor-desc">Suave, cremoso e irresistible.</span
+              ><span class="flavor-hint"
+                >Conocer sabor</span
+              >
+            </button>
+            <button
+              class="flavor"
+              type="button"
+              data-flavor="frambuesa"
+              aria-label="Conocer brownie Frambuesa"
+            >
+              <span class="flavor-picture"
+                ><img
+                  loading="lazy"
+                  src="https://anasrecipes.com/wp-content/uploads/2025/06/0-2-640-N-161.jpg"
+                  alt="Fotografía ilustrativa de brownie Frambuesa"
+                /><span class="flavor-mark" style="--mark: #a95566"
+                  >✿</span
+                ></span
+              ><span class="flavor-title">Frambuesa</span
+              ><span class="flavor-desc">Un toque frutal que enamora.</span
+              ><span class="flavor-hint"
+                >Conocer sabor</span
+              >
+            </button>
+            <button
+              class="flavor"
+              type="button"
+              data-flavor="oreo"
+              aria-label="Conocer brownie Oreo"
+            >
+              <span class="flavor-picture"
+                ><img
+                  loading="lazy"
+                  src="https://www.dailydoughco.com.au/cdn/shop/files/Oreo_Brownie_1.png?v=1774829381&width=1080"
+                  alt="Fotografía ilustrativa de brownie Oreo"
+                /><span class="flavor-mark" style="--mark: #493228"
+                  >◎</span
+                ></span
+              ><span class="flavor-title">Oreo</span
+              ><span class="flavor-desc">Para amantes de las galletas.</span
+              ><span class="flavor-hint"
+                >Conocer sabor</span
+              >
+            </button>
+            <button
+              class="flavor"
+              type="button"
+              data-flavor="especial"
+              aria-label="Conocer brownie Edición especial"
+            >
+              <span class="flavor-picture"
+                ><img
+                  loading="lazy"
+                  src="https://images.ctfassets.net/brcxfsm84vq2/3XfvKaeEjct7Rjgweuzp5r/174011d220376e0cf240558c79796251/Fudge_Brownies_Salted_Caramel.jpg?w=600"
+                  alt="Fotografía ilustrativa de brownie Edición especial"
+                /><span class="flavor-mark" style="--mark: #bc916e"
+                  >✧</span
+                ></span
+              ><span class="flavor-title">Edición especial</span
+              ><span class="flavor-desc">Una sorpresa para cada ocasión.</span
+              ><span class="flavor-hint"
+                >Conocer sabor</span
+              >
+            </button>
+          </div>
+          <p class="photo-note">
+            Fotografías ilustrativas y sabores de muestra. No representan
+            productos disponibles para comprar.
+          </p>
+        </section>
+        <section class="moments-strip" id="momentos">
+          <div class="moment-image">
+            <img
+              loading="lazy"
+              src="https://www.amummytoo.co.uk/wp-content/uploads/2025/04/big-batch-brownies-SQUARE.jpg"
+              alt="Brownies de chocolate listos para disfrutar"
+            />
+          </div>
+          <div class="moments-copy">
+            <span class="eyebrow">UN PEQUEÑO PLACER, UNA GRAN HISTORIA</span>
+            <h2>Hay detalles que se <em>recuerdan.</em></h2>
+            <p>
+              Casa Brownie nace como una idea de clase: una marca cálida,
+              sencilla y con una forma muy personal de presentar sus productos.
+              Así puede sentirse una web hecha para conectar.
+            </p>
+            <button type="button" class="text-link" id="see-story">
+              Conoce nuestra historia
+            </button>
+          </div>
+          <div class="moment-image second">
+            <img
+              loading="lazy"
+              src="https://anasrecipes.com/wp-content/uploads/2025/06/0-2-640-N-161.jpg"
+              alt="Brownies de chocolate con frambuesas"
+            />
+          </div>
+        </section>
+        <section class="delivery-section" id="entrega">
+          <div class="delivery-steps">
+            <span class="eyebrow">SENCILLO, LOCAL, CON CARIÑO</span>
+            <h2>¿Cómo funciona la <em>entrega?</em></h2>
+            <p>Un ejemplo de delivery local pensado para la ciudad de Miami.</p>
+            <div class="step-row">
+              <div class="step">
+                <span class="step-number">01</span
+                ><span class="step-symbol" aria-hidden="true">▤</span>
+                <h3>Explora</h3>
+                <p>Descubre los sabores de la demostración.</p>
+              </div>
+              <div class="step">
+                <span class="step-number">02</span
+                ><span class="step-symbol" aria-hidden="true">⌖</span>
+                <h3>Entrega local</h3>
+                <p>Territorio ilustrativo: Miami, Florida.</p>
+              </div>
+              <div class="step">
+                <span class="step-number">03</span
+                ><span class="step-symbol" aria-hidden="true">♡</span>
+                <h3>Comparte</h3>
+                <p>Un momento especial, sin compra real.</p>
+              </div>
+            </div>
+          </div>
+          <div class="delivery-miami">
+            <span class="pin-circle" aria-hidden="true">⌖</span>
+            <h2>
+              Entrega local<br />
+              en Miami.
+            </h2>
+            <p>
+              Para esta demostración, la cobertura se limita a Miami. Horarios,
+              zonas exactas y tarifas quedan por definir.
+            </p>
+            <button type="button" class="light-button" id="coverage-btn">
+              Ver información de entrega
+            </button>
+          </div>
+          <div class="delivery-gift">
+            <div class="delivery-gift-inner">
+              <div class="bag-illustration" aria-hidden="true">
+                <div class="paper-handles"></div>
+                <div class="paper-bag">
+                  <span class="roof-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 68 43" fill="none">
+                      <path
+                        d="M5 22 34 3l29 19"
+                        stroke="currentColor"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M50 4v10"
+                        stroke="currentColor"
+                        stroke-width="2.4"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M34 34c-3-2-10-7-10-13 0-6 7-9 10-3 3-6 10-3 10 3 0 6-7 11-10 13Z"
+                        stroke="currentColor"
+                        stroke-width="2.4"
+                        stroke-linejoin="round"
+                      /></svg></span
+                  ><b>CASA<br />BROWNIE</b><small>pequeños placeres</small>
+                </div>
+                <div class="gift-small"></div>
+              </div>
+              <p class="gift-message">
+                Gracias por ser parte<br />
+                de esta historia. ♡
+              </p>
+            </div>
+          </div>
+        </section>
+        <section class="closing">
+          <div>
+            <span class="eyebrow">CASA BROWNIE · MIAMI</span>
+            <h2>Un poquito de chocolate.<br /><em>Un gran momento.</em></h2>
+          </div>
+          <button type="button" class="primary-button" id="experience-btn">
+            Probar la experiencia
+          </button>
+        </section>
+      </main>
+      <footer class="site-footer">
+        <div class="footer-brand">
+          <span class="roof-logo" aria-hidden="true"
+            ><svg viewBox="0 0 68 43" fill="none">
+              <path
+                d="M5 22 34 3l29 19"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M50 4v10"
+                stroke="currentColor"
+                stroke-width="2.4"
+                stroke-linecap="round"
+              />
+              <path
+                d="M34 34c-3-2-10-7-10-13 0-6 7-9 10-3 3-6 10-3 10 3 0 6-7 11-10 13Z"
+                stroke="currentColor"
+                stroke-width="2.4"
+                stroke-linejoin="round"
+              /></svg></span
+          ><span>Casa Brownie</span><small>DEMO EDUCATIVA · MIAMI</small>
+        </div>
+        <div class="footer-links">
+          <a href="#inicio">Inicio</a><a href="#brownies">Brownies</a
+          ><a href="#entrega">Delivery Miami</a
+          ><button type="button" id="legal-btn">Avisos de la demo</button>
+        </div>
+        <p>
+          Marca y productos ficticios creados para aprender a diseñar una web.
+          No existen pedidos, pagos, entregas ni datos de clientes en este
+          sitio.
+        </p>
+        <small
+          >© 2026 Casa Brownie · Ejercicio educativo de «Tu primera web con
+          IA»</small
+        >
+      </footer>
+      <div class="modal-root" id="modal-root" hidden>
+        <div class="modal-backdrop" data-close></div>
+        <section
+          class="modal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-title"
+        >
+          <button
+            type="button"
+            class="modal-close"
+            id="modal-close"
+            aria-label="Cerrar ventana"
+          >
+            ×</button
+          ><span class="eyebrow" id="modal-eyebrow">CASA BROWNIE</span>
+          <div id="modal-body"></div>
+        </section>
+      </div>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </div>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
