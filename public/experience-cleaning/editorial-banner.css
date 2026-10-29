@@ -1,0 +1,258 @@
+/* Cleaning demo · warm editorial rhythm and motion strip. Loaded after unified.css. */
+:root {
+  --serif: "Fraunces", Georgia, serif;
+  --ivory: #F7F4EF;
+  --demo-bg: #F7F4EF;
+  --demo-ink: #213947;
+  --demo-blue: #426E87;
+  --demo-line: #DADFD9;
+}
+body {
+  background: #F7F4EF;
+  color: var(--demo-ink);
+  font-family: "Manrope", "Avenir Next", Arial, sans-serif;
+}
+h1,h2,h3,h4,
+.section-heading h2,.handoff h2,.offer-copy h2,
+.stage-heading h3,.request-preview h3,.dash-head h3,.workflow-content h4 {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 510;
+  letter-spacing: -.032em;
+}
+.hero.hero-cleaning-site h1 {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(51px, 6.3vw, 85px);
+  font-weight: 510;
+  line-height: 1.035;
+  letter-spacing: -.038em;
+}
+.hero.hero-cleaning-site h1 em {font-weight: 480; font-style: italic}
+.intro-band {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  padding: 0;
+  min-height: 57px;
+  isolation: isolate;
+  background: linear-gradient(105deg, #D9EBF3 0%, #EAF4F5 44%, #DEDDE1 100%);
+  border-top: 1px solid #FFFFFF80;
+  border-bottom: 1px solid #C9DCE6;
+  color: #2D5B71;
+}
+.intro-band:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, #E0EFF3 0%, transparent 12%, transparent 88%, #E6EBF0 100%);
+}
+.intro-band-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  min-height: 57px;
+  animation: tle-benefit-drift 29s linear infinite;
+  will-change: transform;
+}
+.intro-band-group {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-around;
+  gap: clamp(20px, 4vw, 54px);
+  padding: 0 clamp(20px, 4vw, 54px);
+  min-width: max-content;
+}
+.intro-band .band-phrase {
+  display: inline-block;
+  white-space: nowrap;
+  font: 800 11px/1.5 "Manrope", Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: #2C5B71;
+}
+.intro-band .band-dot {
+  display: block;
+  flex: none;
+  width: 5px;
+  height: 5px;
+  border: 1.5px solid #7294A8;
+  border-radius: 50%;
+  background: transparent;
+}
+.intro-band:hover .intro-band-track { animation-play-state: paused; }
+@keyframes tle-benefit-drift {
+  from {transform: translate3d(0,0,0)}
+  to {transform: translate3d(-50%,0,0)}
+}
+
+/* Warm light behind the booking area, not another disconnected white block. */
+.experience {
+  position: relative;
+  isolation: isolate;
+  background: none;
+  padding-top: clamp(49px, 6vw, 75px);
+  padding-bottom: clamp(67px, 7vw, 92px);
+}
+.experience:before {
+  content:"";
+  position:absolute;
+  z-index:0;
+  top:0;bottom:0;left:50%;
+  width:100vw;
+  transform:translateX(-50%);
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse at 83% 11%, rgba(210,229,237,.65) 0%, transparent 43%),
+    radial-gradient(ellipse at 9% 71%, rgba(222,206,188,.27) 0%, transparent 45%),
+    linear-gradient(180deg,#F7F4EF 0%,#F4F1EB 72%,#F5F1EA 100%);
+}
+.experience > .section-heading, .experience > .experience-frame {position:relative;z-index:1}
+.experience .section-heading {
+  max-width: 930px;
+  margin-bottom: 28px;
+  position:relative;
+  padding-left: clamp(0px, 2vw, 22px);
+}
+.experience .section-heading .eyebrow{
+  color:#52758A;
+  font-size:11px;
+  letter-spacing:.16em;
+  margin-bottom:14px;
+}
+.experience .section-heading h2 {
+  font-family:"Fraunces",Georgia,serif;
+  font-weight:540;
+  font-size:clamp(35px,4.25vw,58px);
+  letter-spacing:-.037em;
+  line-height:1.12;
+  max-width:860px;
+  color:#213947;
+  margin:0 0 18px;
+  text-wrap:balance;
+}
+.experience .section-heading h2 span,
+.experience .section-heading h2 em {
+  display:block;
+}
+.experience .section-heading h2 em {
+  font-style:italic;
+  font-weight:450;
+  color:#456F84;
+  margin-top:4px;
+}
+.experience .section-heading>p:last-child {
+  color:#526D7A;
+  font-size:clamp(13px,1.45vw,15px);
+  line-height:1.65;
+  max-width:625px;
+}
+.experience-frame{
+  max-width:1020px;
+  background: #FEFDFC;
+  border:1px solid #D4E0E4;
+  box-shadow:0 17px 45px rgba(54,76,85,.09),0 2px 0 rgba(255,255,255,.8) inset;
+  border-radius:15px;
+}
+.experience-frame .form-panel{background:#FEFDFC}
+.window-head{
+  background:linear-gradient(110deg,#F8FCFD,#F7F6F2);
+  border-bottom:1px solid #E4E8E7;
+}
+.booking-category {
+  margin-top:16px;
+  border-bottom-color:#E0E6E3;
+}
+.booking-category-tab{
+  position:relative;
+  overflow:hidden;
+  border-radius:11px;
+  background:linear-gradient(145deg,#F2F4F2,#EDF1F2);
+  border:1px solid #D3DFE2;
+  transition:background .2s ease,transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+}
+.booking-category-tab:hover{
+  transform:translateY(-2px);
+  border-color:#96B7C8;
+}
+.booking-category-tab.is-active{
+  background:linear-gradient(135deg,#E5F2F8,#F0F6F5);
+  box-shadow:0 0 0 1px rgba(91,149,178,.15) inset;
+  border-color:#7BA9C1;
+  color:#274F64;
+}
+.booking-category-tab.is-active:after{
+  content:"";
+  position:absolute;left:12px;right:12px;bottom:0;
+  height:3px;
+  border-radius:3px 3px 0 0;
+  background:#5487A2;
+  animation:tle-tab-underline .25s ease both;
+}
+@keyframes tle-tab-underline{from{transform:scaleX(.55);opacity:.2}to{transform:scaleX(1);opacity:1}}
+.step b{background:#F4F4F1;border-color:#CEDFE7;color:#5C7D90}
+.step.is-current b{
+  background:#3F708B;
+  border-color:#3F708B;
+  box-shadow:0 0 0 4px #DCECF4;
+}
+.step.is-done b{background:#E3EDF0;border-color:#A9C8D7}
+.step:before{background:#D4E2E9}
+.step.is-current:before,.step.is-done:before{background:#8DB6CB}
+.stage-heading h3{
+  font-family:"Fraunces",Georgia,serif;
+  font-size:clamp(27px,3.1vw,34px);
+  font-weight:510;
+  line-height:1.13;
+  letter-spacing:-.025em;
+}
+.service-card,.request-column,.action-column{
+  background:#FFFEFD;
+  border-color:#DBE5E6;
+}
+.request-preview {background:linear-gradient(112deg,#EEF4F6,#E8F1F4)}
+.mini-receipt-head h3{font-family:"Fraunces",Georgia,serif;font-weight:510}
+.handoff{background:linear-gradient(180deg,#E9F0F0,#F7F4EF)}
+.owner .section-heading h2,.offer-copy h2,.handoff h2{
+  font-family:"Fraunces",Georgia,serif;
+  font-weight:500;
+  letter-spacing:-.037em;
+  line-height:1.1;
+}
+.offer{background:#E7F0F3}
+.offer-copy{background:linear-gradient(115deg,#E7F0F3,#E7EDEB)}
+@media (max-width:760px){
+  .intro-band,.intro-band-track{min-height:49px}
+  .intro-band-group{gap:24px;padding:0 24px}
+  .intro-band .band-phrase{font-size:10px;letter-spacing:.105em}
+  .intro-band-track{animation-duration:31s}
+  .experience{padding-top:49px}
+  .experience .section-heading{padding-left:0;margin-bottom:22px}
+  .experience .section-heading h2{
+    font-size:clamp(35px,8.6vw,46px);
+    line-height:1.12;
+    letter-spacing:-.031em;
+    margin-bottom:13px;
+    text-wrap:pretty;
+  }
+  .experience .section-heading h2 em{margin-top:5px}
+  .experience .section-heading>p:last-child{font-size:13px}
+  .hero.hero-cleaning-site h1{
+    font-size:clamp(52px,12vw,71px);
+    line-height:1.01;
+  }
+  .booking-category-tab{padding:10px 12px}
+}
+@media (max-width:380px){
+  .experience .section-heading h2{font-size:34px}
+  .experience .section-heading{margin-bottom:19px}
+  .hero.hero-cleaning-site h1{font-size:49px}
+}
+@media (prefers-reduced-motion:reduce){
+  .intro-band-track{animation:none}
+  .booking-category-tab,.step b{transition:none}
+  .booking-category-tab.is-active:after{animation:none}
+  .intro-band:after{opacity:.5}
+}
