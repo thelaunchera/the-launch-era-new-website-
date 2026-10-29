@@ -518,3 +518,84 @@ textarea { width: 100%; padding: 12px; border: 1px solid #cbb8a5; background: #f
 /* Photo update: unique gift packaging completes the compact three-image identity story. */
 .brand-glimpse-gallery figure:nth-child(3) img { object-position: center 55%; }
 @media (max-width:600px) {.brand-glimpse-gallery figure:nth-child(3) img { object-position:center 55%; }}
+
+
+/* CRUMB educational pricing — per-flavor totals, no payment flow. */
+.cookie-price {
+  display:block;
+  margin-top:8px;
+  color:#5a382c;
+  font:700 14px/1.25 'DM Sans',Arial,sans-serif;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:.005em;
+}
+.cookie-detail p { margin-top:6px; }
+.flavor-unit-price {
+  flex:0 0 auto;
+  color:#654535;
+  white-space:nowrap;
+  font-size:11px;
+  font-weight:700;
+  font-variant-numeric:tabular-nums;
+}
+.choice-group [data-pack] small {
+  display:block;
+  font-size:10px;
+  margin-top:5px;
+  font-weight:500;
+  opacity:.83;
+  white-space:nowrap;
+  font-variant-numeric:tabular-nums;
+}
+.box-sizes { gap:12px 17px; align-items:center; }
+.box-sizes span { font-variant-numeric:tabular-nums; white-space:nowrap; }
+.price-summary {
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:12px;
+  padding:15px 0 12px;
+  border-top:1px solid #d4bdab;
+  border-bottom:1px solid #d4bdab;
+  margin:10px 0 0;
+  font-size:13px;
+}
+.price-summary strong {
+  font-size:21px;
+  font-weight:700;
+  color:#4b3026;
+  white-space:nowrap;
+  font-variant-numeric:tabular-nums;
+}
+.price-disclosure {
+  margin:9px 0 12px;
+  font-size:10px;
+  line-height:1.55;
+  color:#79665b;
+}
+.preview-total {
+  padding:12px 0 6px;
+  border-top:1px solid #cbb39b;
+  font-size:16px;
+  font-weight:700;
+  font-variant-numeric:tabular-nums;
+}
+@media(max-width:600px) {
+  .cookie-price { font-size:12px; margin-top:7px; }
+  .box-sizes { gap:10px 11px; font-size:10px; }
+  .box-sizes span+span { padding-left:10px; }
+  .builder-flavor-layout .flavor-row {
+    display:grid;
+    grid-template-columns:45px minmax(0,1fr) auto;
+    grid-template-rows:auto auto;
+    column-gap:9px;
+    row-gap:2px;
+    align-items:center;
+  }
+  .builder-flavor-layout .flavor-row>img { grid-column:1; grid-row:1 / 3; }
+  .builder-flavor-layout .flavor-row>strong { grid-column:2; grid-row:1; min-width:0; }
+  .builder-flavor-layout .flavor-unit-price { grid-column:2; grid-row:2; font-size:11px; }
+  .builder-flavor-layout .stepper { grid-column:3; grid-row:1 / 3; }
+  .choice-group [data-pack] { font-size:10px; }
+  .choice-group [data-pack] small { font-size:9px; }
+}
