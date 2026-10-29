@@ -35,11 +35,11 @@ assert.ok(!/stripe\.com|checkout\.stripe\.com/i.test(html),'no payment destinati
 assert.match(html,/DEMO EDUCATIVA · SIN PEDIDOS NI PAGOS REALES/);
 assert.match(html,/Entrega local/);
 assert.match(html,/href="#brownies"/);
-for (const asset of ['./styles.css','./hero-corrections.css']) assert.match(html,new RegExp('(?:href|src)="'+asset.replaceAll('.','\\.')+'\\?v=cb-tablet-video-first-20261029"'),'updated-gallery cache '+asset);
+for (const asset of ['./styles.css','./hero-corrections.css']) assert.match(html,new RegExp('(?:href|src)="'+asset.replaceAll('.','\\.')+'\\?v=cb-sticky-cart-20261029"'),'updated-gallery cache '+asset);
 for (const asset of ['./motion.css','./motion.js']) assert.match(html,new RegExp('(?:href|src)="'+asset.replaceAll('.','\\.')+'\\?v=cb-center-20261028b"'),'motion cache '+asset);
 assert.match(html,/href="\.\/editorial-center-v2\.css"/,'new stylesheet must load');
 
-assert.match(html,/gift-photos\.css\?v=cb-tablet-video-first-20261029/,'new tablet gift photos version');
+assert.match(html,/gift-photos\.css\?v=cb-sticky-cart-20261029/,'new tablet gift photos version');
 assert.doesNotMatch(html,/class="hero-gift"/,'gift illustration is removed from hero');
 assert.doesNotMatch(html,/class="delivery-gift"/,'CSS gift is removed from delivery');
 assert.match(html,/EL DETALLE PERFECTO PARA CADA MOMENTO/,'gift copy moved beside approved photos');
@@ -106,9 +106,22 @@ assert.match(layout,/\.delivery-miami\{text-align:center;align-items:center\}/,'
 assert.match(layout,/\.closing\{display:flex;flex-direction:column;align-items:center/,'closing centered');
 assert.match(layout,/overflow-x:hidden/,'prevent sideways scrolling');
 assert.match(html,/DEMO EDUCATIVA · SIN PEDIDOS NI PAGOS REALES/);
+
+const stickyStyles=load('styles.css');
+assert.match(stickyStyles,/\.site-header\s*\{[^}]*position:\s*sticky;\s*top:\s*0;/s,'logo and cart header stay visible on scroll');
+assert.match(css,/@media \(min-width: 1200px\)[\s\S]*?\.site-header\s*\{[^}]*position:\s*sticky;\s*top:\s*0;/,'desktop does not override sticky header');
+assert.match(stickyStyles,/scroll-padding-top:\s*92px/,'anchor links do not hide behind header');
+assert.match(html,/id="cart-count" aria-live="polite"/,'visible and accessible demo cart count');
+assert.match(js,/const demoCart = new Map\(\)/,'demo cart lives only in memory');
+assert.match(js,/function updateCartBadge\(\)/,'cart badge count is updated dynamically');
+assert.match(js,/function changeCartQuantity\(flavorId, change\)/,'cart quantities can be edited');
+assert.match(js,/\.addEventListener\('click', viewCart\)/,'header cart opens actual demo contents');
+assert.match(js,/Añadir al carrito de muestra/,'flavor modal lets the visitor add a sample brownie');
+assert.doesNotMatch(js,/localStorage|sessionStorage|fetch\(/,'no stored data or live purchase calls');
+
 console.log('Casa Brownie static demo QA OK');
 
 
-assert.match(html,/main\.js\?v=sabores-aprobados-20261029/);
+assert.match(html,/main\.js\?v=cb-sticky-cart-20261029/);
 assert.equal((js.match(/assets\/sabor-/g)||[]).length,6,'all catalog photos are hosted originals');
 assert.doesNotMatch(js,/amummytoo|proteinbrownies|getrecipekit|anasrecipes|dailydoughco|ctfassets/,'no third-party flavor photos');
