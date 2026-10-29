@@ -13,7 +13,7 @@ Original AppDeploy prototype: `https://crumb-cookies-animated-demo-w1fcop.v2.app
 
 Use relative asset paths. Keep the version query on CSS/JS/photos current after updates to avoid stale mobile styles. No separate build or AppDeploy credit is required for this standalone page: the site's existing publication copies public files.
 
-CRUMB is a fictional Miami store for education. No orders, prices, delivery commitments, payments, customer records, analytics or emails. The removed ribbon must stay removed. All public copy is US English.
+CRUMB is a fictional Miami store for education. No real orders, payments, delivery commitments, customer records, analytics or emails. Displayed prices are sample amounts for demonstration only. The removed ribbon must stay removed. All public copy is US English.
 
 ## QA
 
@@ -39,7 +39,7 @@ The hero image at `assets/hero.webp` is replaced in-place with the owner's appro
 - Six evenly sized product cards and refined accessible 44px `Add +` actions; clicking a cookie confirms the flavor and capacity with a dismissible in-session toast. No payment or network capture.
 - The builder now renders a responsive live visual tray with precisely 3, 6 or 12 positions, the selected cookies in real time, and a wrapper color/ribbon treatment. The existing quantities, packaging selection, safe gift note and preview remain.
 - Retain the existing double-direction marquees and animated illustrative Miami location section, streamline its concept disclosure, and add a compact final call to build a box before the footer.
-- No product ratings, fictitious testimonials, prices, real delivery service, geolocation permission, checkout, or customer data collection are introduced.
+- No product ratings, fictitious testimonials, real delivery service, geolocation permission, checkout, or customer data collection are introduced. Prices are illustrative only.
 
 ## Photo-first visual identity update — 29 October 2026
 - Six newly generated and compressed WebP assets are self-hosted under `assets/`: `hero-mobile.webp`, `brand-gifts.webp`, `brand-lifestyle.webp`, `brand-storefront.webp`, `brand-maker.webp`, `brand-tasting.webp`. All images are concept imagery for the CRUMB demo, not evidence of a real physical store/team or actual delivery.
@@ -59,3 +59,16 @@ All six product photos in `assets/` are individual **1024×1024 WebP images enco
 **Live catalog:** Classic Chocolate Chip (`classic`), Double Chocolate (`double`), Salted Caramel (`caramel`), White Chocolate Raspberry (`raspberry`), Nutty Dream (`nutty`), Brownie Chip (`brownie`). Product names, descriptions, visible photos, builder options, accessible labels, toast notifications, box preview and tray all correspond; do not revert labels to the previous macadamia/cream/cinnamon set unless restoring matching photography.
 
 No hero, main gift image, layout, active payment, local delivery claims or unrelated demos changed.
+
+## Sample prices for the current six flavors · October 29, 2026
+
+| Current flavor | Unit price |
+|---|---:|
+| Classic Chocolate Chip | $3.50 |
+| Double Chocolate | $4.50 |
+| Salted Caramel | $5.50 |
+| White Chocolate Raspberry | $6.00 |
+| Nutty Dream | $7.00 |
+| Brownie Chip | $5.00 |
+
+Three, six and twelve cookie boxes can be mixed freely. The total is calculated from the actual selected flavors, in integer cents; lowest possible totals are $10.50, $21.00 and $42.00. Packaging is included without surcharge. Prices are **fictional sample prices** for a classroom demonstration, not a real offer; this demo still has no checkout or payment flow. Preserve the above latest flavor set and its approved high-quality photographs.
