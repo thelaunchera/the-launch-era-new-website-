@@ -95,7 +95,7 @@ for(const [id,flavor] of expectedFlavors) {
 assert.equal(d.querySelectorAll('.cookie img[src*="20261029-crumb-v7"]').length,6);
 assert.equal(d.querySelectorAll('.flavor-row img[src*="20261029-crumb-v7"]').length,6);
 assert.doesNotMatch(d.querySelector('#cookies').textContent,/White Chocolate Macadamia|Cookies & Cream|Cinnamon Sugar/);
-assert.match(code,/webp\\?v=20261029-crumb-v7/);
+assert.ok(code.includes('webp?v=20261029-crumb-v7'), 'Gift builder must load the same new photos');
 results.push('All six new 1024px flavors, titles and builder photos match and load from local assets');
 const heroMobileSource = d.querySelector('.hero picture source[media="(max-width: 600px)"]');
 assert.ok(heroMobileSource);
