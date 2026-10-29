@@ -268,8 +268,8 @@ Object.assign(es,{
  livePreviewTitle:'Tu solicitud, en un solo lugar.',
  sampleFootnote:'Solo una prueba · No se hizo ninguna reserva ni se confirmó un precio',
  workEyebrow:'LOS DETALLES HACEN LA DIFERENCIA',workTitle:'La limpieza se siente.',workIntro:'Desde un baño impecable hasta una casa donde también viven mascotas, los pequeños detalles hacen que todo se sienta distinto.',
- workKitchen:'Cocinas impecables',workBathroom:'Baños cuidados',workBedroom:'Habitaciones frescas',
- workLiving:'Salas y entradas',workDetails:'Detalles que importan',workPets:'Hogares con mascotas',
+ workKitchen:'Cocina impecable',workBathroom:'Baños cuidados',workBedroom:'Habitaciones frescas',
+ workLiving:'Salas y entradas',workDetails:'Limpieza en acción',workPets:'Espacios para mascotas',
  workBanner:'NUESTROS TRABAJOS',workDisclaimer:'Fotografías ilustrativas para mostrar el diseño del portafolio; no son trabajos reales realizados para clientes.',
  workPause:'Pausar carrusel',workPlay:'Reanudar carrusel',
  teamImageTag:'EL LADO HUMANO DE LA LIMPIEZA',teamEyebrow:'CONOCE A QUIEN CUIDA TU HOGAR',
@@ -279,12 +279,12 @@ Object.assign(es,{
  teamDisclaimer:'Presentación ilustrativa para esta demostración. Cada negocio añade la foto y la historia reales de su dueña o equipo.',
  reviewsEyebrow:'DETRÁS DE CADA HOGAR HAY UNA HISTORIA',reviewsTitle:'Que lo cuenten tus clientes.',
  reviewsIntro:'Aquí van las reseñas reales de tus clientes, para que otras personas conozcan la calidad y confianza de tu trabajo.',
- reviewSampleLabel:'CONTENIDO DE EJEMPLO · NO ES UNA RESEÑA REAL',
- reviewQuote1:'“Los pequeños detalles hacen que una casa se sienta cuidada.”',
- reviewQuote2:'“Esa sensación de frescura cuando vuelves a casa.”',
- reviewQuote3:'“Cuidado de cada espacio, también cuando hay mascotas.”',
+ reviewSampleLabel:'RESEÑA DE EJEMPLO · NO ES UNA VALORACIÓN REAL',
+ reviewQuote1:'“Cada habitación quedó fresca y muy bien cuidada.”',
+ reviewQuote2:'“La cocina y los baños quedaron preciosos.”',
+ reviewQuote3:'“Una casa acogedora, con cuidado también para las mascotas.”',
  reviewTheme1:'Atención al detalle',reviewTheme2:'Frescura en casa',reviewTheme3:'Cuidado con mascotas',
- reviewsDisclaimer:'Son ejemplos de cómo se verían las reseñas, no testimonios publicados. Se reemplazan por opiniones verificadas de clientes reales.'
+ reviewsDisclaimer:'Los textos y las cinco estrellas son solamente ejemplos de diseño, no opiniones ni calificaciones reales. Se sustituyen por reseñas verificadas.'
 });
 const legacyPrice=appliedPrice;
 appliedPrice=function(){return state.category==='commercial'?(state.lang==='es'?'Solicitar estimado':'Request estimate'):legacyPrice();};
@@ -383,6 +383,11 @@ function syncWorkPause(){
 }
 workPause?.addEventListener('click',()=>{workIsPaused=!workIsPaused;syncWorkPause();});
 const originalApplyLanguage=applyLanguage;
-applyLanguage=function(){originalApplyLanguage();syncWorkPause();};
+applyLanguage=function(){
+ originalApplyLanguage();syncWorkPause();
+ document.querySelectorAll('.review-stars').forEach(el=>{
+  el.setAttribute('aria-label',state.lang==='es'?'Cinco estrellas ilustrativas, no es una calificación real':'Illustrative five stars, not a real customer rating');
+ });
+};
 syncServices();applyLanguage();
 })();
