@@ -41,7 +41,7 @@
 | Recurso | Dónde se encuentra | Estado |
 | --- | --- | --- |
 | Fotografías aprobadas de las dos cajas de regalo | `assets/regalo-lazo-rosa.webp` y `assets/regalos-bolsa-y-cajas.webp` | Locales, nitidez corregida |
-| Video de brownies apilados y póster | `assets/hero-brownies.mp4` y `assets/hero-brownies.webp` si su importación y QA terminan correctamente | Clip generado, comprobar continuidad y derechos de imagen original |
+| Video de brownies apilados y póster | `assets/hero-brownies.mp4` y `assets/hero-brownies.webp` si su importación y QA terminan correctamente | Clip original de la demo **ahora local y optimizado**; pendiente revisar visualmente el bucle y derechos de imagen fuente |
 | Seis fotos de sabores | URLs de terceros en `index.html` y `main.js` | **No aprobadas para redistribución:** comprobar permisos/licencias o producir seis fotografías propias antes de distribuir materiales |
 | Identidad del sitio | SVG en `index.html` y CSS local | Aprobado |
 | Código de interacción | `main.js` | Sin backend ni almacenaje de datos |
