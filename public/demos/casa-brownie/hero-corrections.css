@@ -91,3 +91,100 @@
   .hero-qualities { margin-top: 29px; }
   .flavor-hint { text-decoration: none; border-bottom: 1px solid #bd9b83; padding-bottom: 4px; }
 }
+
+/* Casa Brownie · orden narrativo editorial: ocasión > sabores > regalo > entrega > decisión.
+   Inspirado en claridad de lectura y prueba visual; sin duplicar fotografías de catálogo. */
+.flavor-guidance {
+  margin: -7px 0 22px;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+  color: #8a6554;
+}
+.flavor { padding-bottom: 12px; }
+.flavor-hint { display: none; }
+.moments-strip {
+  min-height: 356px;
+  grid-template-columns: 28% 44% 28%;
+  border-top: 1px solid rgba(128,82,56,.1);
+  border-bottom: 1px solid rgba(128,82,56,.1);
+}
+.moment-illustration,
+.moment-note {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.moment-illustration {
+  background: radial-gradient(ellipse at 45% 16%,#ecd9c7 5%,#d9b89d 74%,#b99175 100%);
+}
+.moment-illustration::after {
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background: repeating-linear-gradient(112deg,transparent 0 21px,rgba(255,255,255,.035) 21px 22px);
+}
+.cb-gift-box {
+  position:relative; isolation:isolate;
+  width:min(64%,245px); aspect-ratio:1.19;
+  background:linear-gradient(135deg,#b48d6e 0%,#cca98b 49%,#9b7358 100%);
+  border:7px solid #9d7258; box-shadow:15px 20px 22px rgba(68,35,19,.21),inset 0 0 0 2px rgba(255,247,235,.33);
+  transform:rotate(-9deg);
+}
+.cb-gift-band {
+  position:absolute; left:43%; top:-10%; width:15%; height:120%;
+  background:linear-gradient(90deg,#ae786d,#e1aaa1 45%,#be8379);
+  box-shadow:0 1px 4px rgba(70,38,25,.23);
+}
+.cb-gift-band::after {
+  content:"";position:absolute;left:-260%;top:41%;width:620%;height:19%;
+  background:linear-gradient(0deg,#ae796e,#edb8ae 55%,#b27b72);
+  box-shadow:0 1px 3px rgba(70,38,25,.18);
+}
+.cb-gift-label {
+  position:absolute;z-index:2;left:22%;top:22%;
+  width:61%;height:63%;background:#f9ede0;border:1px solid rgba(77,47,30,.14);
+  box-shadow:0 4px 9px rgba(66,40,25,.16);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;
+  transform:rotate(7deg);text-align:center;color:#684638;
+}
+.cb-gift-label small {font-size:7px;letter-spacing:.13em;}
+.cb-gift-label strong {font:400 clamp(18px,2.2vw,31px)/.92 'DM Serif Display',Georgia,serif;letter-spacing:-.045em;margin:6px 0;}
+.cb-gift-label i {font-style:normal;font-size:23px;line-height:1;}
+.moments-copy {padding:38px clamp(22px,3.5vw,62px);background:#f4e8dc;}
+.moments-copy h2 {max-width:570px;line-height:1.04;}
+.moments-copy h2 em {font-style:normal;font-weight:500;white-space:nowrap;}
+.moments-copy p {font-size:13px;line-height:1.72;}
+.moment-note {
+  background: radial-gradient(ellipse at 60% 30%,#d7b59d,#b68b73 78%);
+}
+.cb-paper-note {
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  width:73%;min-height:76%;padding:21px 10px;
+  background:#f7eadd;border:1px solid rgba(110,68,46,.24);
+  box-shadow:12px 14px 22px rgba(66,37,24,.19);transform:rotate(7deg);
+  color:#76513e;text-align:center;
+}
+.cb-paper-note>span {font:500 clamp(32px,3.2vw,54px)/.82 'Caveat',cursive;}
+.cb-paper-note>i {font:400 45px/1 'Caveat',cursive;font-style:normal;margin:7px 0 14px;}
+.cb-paper-note>small {font-size:8px;font-weight:700;line-height:1.6;letter-spacing:.1em;}
+.delivery-section {border-top:0;}
+.closing .primary-button {margin-left:auto;}
+@media (max-width:790px){
+  .moments-strip {grid-template-columns:36% 64%;min-height:280px;}
+  .moment-illustration {min-height:285px;height:auto;}
+  .moment-note {display:none;}
+  .moments-copy {padding:29px 7%;}
+  .cb-gift-label strong {font-size:24px;}
+}
+@media (max-width:560px){
+  .flavor-guidance {margin:0 0 18px;font-size:12px;}
+  .moments-strip {grid-template-columns:1fr;}
+  .moment-illustration {min-height:215px;height:215px;}
+  .cb-gift-box {width:165px;}
+  .cb-gift-label strong {font-size:22px;}
+  .moments-copy {padding:37px 7% 39px;}
+  .moments-copy h2 {font-size:clamp(30px,8vw,43px);}
+  .moments-copy h2 em {white-space:normal;}
+  .moments-copy p {font-size:14px;}
+  .closing .primary-button {margin-left:0;}
+}

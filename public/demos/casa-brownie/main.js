@@ -23,10 +23,8 @@ if (heroVideo) {
     observer.observe(heroVideo);
   }
 }
-// La referencia coloca primero la cobertura de Miami y luego la historia.
-const deliveryBlock = document.querySelector('.delivery-section');
-const momentsBlock = document.querySelector('.moments-strip');
-if (deliveryBlock && momentsBlock) deliveryBlock.after(momentsBlock);
+// El orden editorial es el orden del HTML: producto, ocasión, entrega, decisión.
+// No reordenar secciones después de renderizar: evita saltos visuales en móvil.
 
 
 const catalog = [
@@ -310,7 +308,7 @@ function viewStory() {
   addText(
     wrapper,
     'p',
-    'Casa Brownie es el negocio ficticio que acompaña la clase «Tu primera web con IA». Sirve para aprender a presentar una idea con una identidad editorial cálida, fotografías de producto, una navegación clara y un footer completo.'
+    'Esta marca es el ejemplo ficticio de la clase «Tu primera web con IA». Su sitio muestra cómo presentar un producto con fotos claras, explicar su entrega y ofrecer una experiencia sencilla, sin activar ventas.'
   );
   addText(
     wrapper,
@@ -347,11 +345,7 @@ document
   .forEach(button =>
     button.addEventListener('click', () => viewFlavor(button.dataset.flavor))
   );
-document
-  .getElementById('all-flavors')
-  .addEventListener('click', () =>
-    notify('Ya estás viendo los 6 sabores del catálogo de ejemplo.')
-  );
+document.getElementById('all-flavors').addEventListener('click', () => viewExperience());
 document.getElementById('search-btn').addEventListener('click', () => {
   document.getElementById('brownies').scrollIntoView({ behavior: 'smooth' });
   notify('Elige un sabor para abrir su ficha de demostración.');

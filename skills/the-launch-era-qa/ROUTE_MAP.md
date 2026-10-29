@@ -1,3 +1,11 @@
+## 2026-10-28 — Casa Brownie: storytelling Cata y enlace oficial en el Studio
+- **Enlace del aula/Studio:** `https://thelaunchera.com/demos/casa-brownie/` guardado como `demo_url` en la tarea de Clase 01; el enlace original de AppDeploy se conserva como `demo_source_url`, sin ser la fuente de producción.
+- **Ruta:** mismo `/demos/casa-brownie/`. Mantiene el hero con video y foto original de respaldo, seis sabores, simulación educativa sin datos/pagos y entrega ficticia solo Miami.
+- **Orden sin saltos:** portada con ocasión real → catálogo → regalo y nota ilustrados → explicación de Miami → CTA de simulación. Se elimina el cambio de orden posterior a la carga que movía la sección de Miami antes del relato.
+- **Copy:** conservar nombre Casa Brownie y titular «Brownies hechos en casa»; reemplazar nombres repetitivos de secciones/links por «Sabores», «Un sabor para cada ocasión», «Descubrir sabores», «Elegir mi favorito»; sustituir repetidos «Conocer sabor» por una única instrucción encima de seis tarjetas. El botón de selección abre la simulación real, no un aviso sin acción.
+- **Fotografías:** las dos imágenes duplicadas en relato se sustituyen por ilustración de empaque y tarjeta ilustradas con CSS; fotos del catálogo y poster/video de hero no se alteran. No se inventan reseñas ni reseñas verificadas.
+- **QA:** prueba de lenguaje, no repetir src de foto, orden DOM, CTA y no pedidos reales; móvil/escritorio visual todavía requieren prueba humana; publicaciones de Pages sujeto a workflow.
+
 ## 2026-10-28 — Casa Brownie custom iconography and editorial motion
 - **Route unchanged:** `/demos/casa-brownie/`; owns only standalone `public/demos/casa-brownie/` HTML, CSS and JS. The screenshot identified ambiguous font glyphs `▤` and `⌖` in delivery steps and a crosshair-like symbol on the dark Miami panel.
 - **Icons:** replace the three delivery symbols and the large Miami marker with consistent, stroked inline SVG (brownie, actual map pin, heart). Six flavor stamps also use independent SVG illustrations. They are aria-hidden decorative graphics paired with visible titles.
