@@ -7,7 +7,7 @@
   <meta name="description" content="CRUMB is a conceptual Miami cookie boutique. Explore six delicious flavors and build a personal gift box. Interactive demo only.">
   <meta name="robots" content="noindex,nofollow">
   <link rel="canonical" href="https://thelaunchera.com/demos/crumb/">
-  <link rel="stylesheet" href="./styles.css?v=20261029-crumb-heading-v9">
+  <link rel="stylesheet" href="./styles.css?v=20261029-crumb-experience">
   <title>CRUMB — Cookies & Gift Boxes · Miami</title>
 </head>
 <body>
@@ -16,7 +16,7 @@
   <div class="announcement">A little Miami magic, beautifully boxed.</div>
   <header class="site-header">
     <a class="logo" href="#top" aria-label="CRUMB home">crumb<span>.</span></a>
-    <nav aria-label="Main navigation"><a href="#cookies">Cookies</a><a href="#gifting">Gifts</a><a class="delivery-nav" href="#delivery">Miami</a></nav>
+    <nav aria-label="Main navigation"><a href="#cookies">Cookies</a><a href="#gifting">Gifts</a><a href="#story">Our Story</a><a class="delivery-nav" href="#delivery">Miami</a></nav>
     <button class="header-bag" id="open-builder" type="button" aria-haspopup="dialog" aria-controls="box-dialog" aria-label="Open bag, 0 cookies">Bag <span id="bag-count" aria-live="polite" aria-atomic="true">0</span></button>
   </header>
   <main id="top">
@@ -127,9 +127,13 @@
         <div class="crumb-marquee-track"><span>GIFT BOXES <i>✦</i> SWEET MOMENTS <i>✦</i> COOKIE LOVERS <i>✦</i> CRUMB. <i>✦</i></span><span>GIFT BOXES <i>✦</i> SWEET MOMENTS <i>✦</i> COOKIE LOVERS <i>✦</i> CRUMB. <i>✦</i></span></div>
       </div>
     </div>
-    <section class="moment" aria-labelledby="moment-title">
-      <div class="moment-photo"><img src="./assets/brand-lifestyle.webp?v=20261029-crumb-v6" alt="Woman enjoying a large chocolate chip cookie outside CRUMB bakery with a branded gift box on the café table" loading="lazy" decoding="async" width="940" height="1175"></div>
-      <div class="moment-copy"><span class="eyebrow">THE GOOD MOMENTS</span><h2 id="moment-title">Made to share.</h2><p>Happiness tastes better shared, especially with a cookie.</p></div>
+    <section class="moment" id="story" aria-labelledby="moment-title">
+      <div class="moment-photo"><img src="./assets/brand-lifestyle.webp?v=20261029-crumb-v6" alt="Fictional CRUMB bakery lifestyle scene: sharing a cookie beside a branded gift box" loading="lazy" decoding="async" width="940" height="1175"></div>
+      <div class="moment-copy"><span class="eyebrow">A LITTLE ABOUT CRUMB.</span><h2 id="moment-title">It started with one really good cookie.</h2>
+        <p>Picture a tiny Miami kitchen, warm trays fresh from the oven, and friends always asking for one more. That's the feeling behind CRUMB: generous cookies, familiar flavors with a twist, and little boxes worth sharing.</p>
+        <p class="story-footnote">A fictional bakery story created for this interactive demo.</p>
+        <button type="button" class="text-button story-contact" data-open-contact aria-haspopup="dialog" aria-controls="contact-dialog">Say hello to CRUMB</button>
+      </div>
     </section>
     <section class="final-cta" aria-labelledby="final-title">
       <div><span class="eyebrow">ONE LITTLE BOX. A LOT OF JOY.</span><h2 id="final-title">Make their day.</h2></div>
@@ -137,8 +141,20 @@
     </section>
   </main>
   <footer class="site-footer">
-    <div class="footer-top"><div><a class="logo" href="#top" aria-label="CRUMB home">crumb<span>.</span></a><p>Cookies for a sweeter world.</p></div><nav aria-label="Footer navigation"><a href="#cookies">Our Cookies</a><a href="#gifting">Gift Boxes</a><a href="#delivery">Local Delivery</a></nav><div class="footer-location"><span>Miami, Florida</span><p>Miami &amp; surrounding areas</p></div></div>
-    <p class="footer-note">CRUMB is a conceptual cookie shop. Interactive demo only. No orders or payments are accepted.</p>
+    <div class="footer-top">
+      <div class="footer-brand"><a class="logo" href="#top" aria-label="CRUMB home">crumb<span>.</span></a><p>Big cookies. Little moments.</p><button type="button" class="footer-contact-button" data-open-contact aria-haspopup="dialog" aria-controls="contact-dialog">Contact Us <span aria-hidden="true">+</span></button></div>
+      <nav aria-label="Footer navigation"><a href="#cookies">Our Cookies</a><a href="#gifting">Gift Boxes</a><a href="#story">Our Story</a><a href="#delivery">Local Delivery</a></nav>
+      <div class="footer-location"><strong>Our Miami corner</strong><address>128 Cookie Lane<br>Miami, FL 33131</address><small>Fictional address · Not a real storefront</small><span>Sample hours: Tue–Sun · 10 AM–6 PM</span></div>
+    </div>
+    <div class="footer-social">
+      <span class="footer-social-label">A LITTLE MORE CRUMB.</span>
+      <div class="social-buttons" aria-label="Social previews">
+        <button type="button" class="social-button" data-social="Instagram" aria-haspopup="dialog" aria-controls="social-dialog"><span class="social-mark" aria-hidden="true">ig</span> Instagram</button>
+        <button type="button" class="social-button" data-social="TikTok" aria-haspopup="dialog" aria-controls="social-dialog"><span class="social-mark" aria-hidden="true">tt</span> TikTok</button>
+      </div>
+      <span class="social-disclaimer">Social profiles are previews, not live accounts.</span>
+    </div>
+    <p class="footer-note">CRUMB is a fictional shop for this interactive demonstration. The address, hours and social profiles are examples only. No orders, payments or contact messages are accepted.</p>
   </footer>
   <div class="bag-feedback" id="bag-feedback" role="status" aria-live="polite" aria-atomic="true" hidden>
     <span id="feedback-text">Added to your box</span>
@@ -185,6 +201,36 @@
   <div class="modal-heading"><span class="eyebrow">MIAMI, FLORIDA</span><button class="modal-close" type="button" id="close-delivery" aria-label="Close local delivery information">×</button></div>
   <div class="modal-body"><h2 id="delivery-dialog-title">A little closer to cookie time.</h2><p>Your favorite cookies, delivered locally in Miami and surrounding areas.</p><p class="delivery-disclosure">CRUMB is a concept store. This demo does not accept delivery orders or confirm delivery availability.</p><button type="button" class="button dark" id="delivery-build">Explore a Gift Box</button></div>
 </dialog>
-<script type="module" src="./main.js?v=20261029-crumb-prices"></script>
+<dialog id="contact-dialog" class="contact-dialog" aria-labelledby="contact-title">
+  <div class="modal-heading"><div><span class="eyebrow">WE'D LOVE TO HEAR FROM YOU</span><h2 id="contact-title">Say hello.</h2></div><button class="modal-close" type="button" id="close-contact" aria-label="Close contact form">×</button></div>
+  <div class="modal-body">
+    <p class="contact-intro">Questions about a cookie box, a gift, or just saying hi? Here's what reaching out to CRUMB could look like.</p>
+    <p class="contact-notice">Demo form only. Please use sample details. Your message will not be sent or saved.</p>
+    <form id="contact-form" autocomplete="off">
+      <label for="contact-name">Name</label><input id="contact-name" name="demo-name" type="text" placeholder="Sample Customer" minlength="2" maxlength="70" autocomplete="off" required>
+      <label for="contact-email">Email</label><input id="contact-email" name="demo-email" type="email" placeholder="sample@example.com" maxlength="100" autocomplete="off" required>
+      <label for="contact-topic">What can we help with?</label>
+      <select id="contact-topic" name="demo-topic" required>
+        <option value="cookies">Our cookies</option><option value="gift">Gift boxes</option><option value="delivery">Local delivery</option><option value="other">Something else</option>
+      </select>
+      <label for="contact-message">Your message</label><textarea id="contact-message" name="demo-message" rows="4" placeholder="I'd love to know more about..." minlength="5" maxlength="450" required></textarea>
+      <button type="submit" class="button dark full">Preview message</button>
+    </form>
+    <div class="contact-feedback" id="contact-feedback" role="status" aria-live="polite" hidden>
+      <strong>Message preview complete.</strong><p>This was just a demonstration. Nothing was sent, stored or delivered.</p>
+      <button type="button" class="text-button" id="contact-again">Try another message</button>
+    </div>
+  </div>
+</dialog>
+<dialog id="social-dialog" class="social-dialog" aria-labelledby="social-title">
+  <div class="modal-heading"><div><span class="eyebrow">COME BEHIND THE COOKIE COUNTER</span><h2 id="social-title">CRUMB on social</h2></div><button class="modal-close" type="button" id="close-social" aria-label="Close social preview">×</button></div>
+  <div class="modal-body">
+    <div class="social-preview-head"><span class="social-preview-avatar" aria-hidden="true">c.</span><div><strong>crumb.</strong><small id="social-platform">Social preview</small></div></div>
+    <p class="social-preview-copy">Fresh cookie drops, bakery moments, and behind-the-scenes goodness.</p>
+    <p class="contact-notice">Social media demo only. No real CRUMB account is linked.</p>
+    <button type="button" class="button outline full" id="social-back">Back to CRUMB</button>
+  </div>
+</dialog>
+<script type="module" src="./main.js?v=20261029-crumb-experience"></script>
 </body>
 </html>
