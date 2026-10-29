@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 const dir = new URL('../public/demos/casa-brownie/',import.meta.url);
 const load = file => readFileSync(new URL(file,dir),'utf8');
-for(const name of ['index.html','styles.css','hero-corrections.css','motion.css','main.js','motion.js']) assert.ok(existsSync(new URL(name,dir)),name+' missing');
+for(const name of ['index.html','styles.css','hero-corrections.css','motion.css','editorial-center-v2.css','main.js','motion.js']) assert.ok(existsSync(new URL(name,dir)),name+' missing');
 const html=load('index.html'),css=load('hero-corrections.css'),js=load('main.js');
 const motion=load('motion.js'),motionStyles=load('motion.css');
 assert.match(html,/Brownies<br\s*\/>\s*hechos\s*<span class="love">en casa<\/span>/i);
@@ -18,14 +18,15 @@ assert.ok(!/stripe\.com|checkout\.stripe\.com/i.test(html),'no payment destinati
 assert.match(html,/DEMO EDUCATIVA · SIN PEDIDOS NI PAGOS REALES/);
 assert.match(html,/Entrega local/);
 assert.match(html,/href="#brownies"/);
-for (const asset of ['./styles.css','./hero-corrections.css','./motion.css','./main.js','./motion.js']) assert.ok(html.includes('="'+asset+'"'),'asset ref '+asset);
+for (const asset of ['./styles.css','./hero-corrections.css','./motion.css','./main.js','./motion.js']) assert.match(html,new RegExp('(?:href|src)="'+asset.replaceAll('.','\\.')+'\\?v=cb-center-20261028b"'),'cache-busted ref '+asset);
+assert.match(html,/href="\.\/editorial-center-v2\.css"/,'new stylesheet must load');
 
 assert.equal((html.match(/class="step-symbol"/g)||[]).length,3,'three refined step icons');
 assert.equal((html.match(/class="flavor-mark"/g)||[]).length,6,'six illustrated flavor marks');
 assert.match(html,/<span class="pin-circle" aria-hidden="true"><svg/,'Miami location marker uses a real vector pin');
 assert.ok(!html.includes('>⌖</span>')&&!html.includes('>▤</span>'),'no font glyph placeholders');
-assert.match(html,/href="\.\/motion\.css"/);
-assert.match(html,/src="\.\/motion\.js"/);
+assert.match(html,/href="\.\/motion\.css\?v=cb-center-20261028b"/);
+assert.match(html,/src="\.\/motion\.js\?v=cb-center-20261028b"/);
 assert.match(motion,/IntersectionObserver/);
 assert.match(motion,/cb-in-view/);
 assert.match(motion,/requestAnimationFrame/);
@@ -47,5 +48,20 @@ assert.match(js,/getElementById\('all-flavors'\)\.addEventListener\('click', \(\
 assert.doesNotMatch(js,/deliveryBlock\.after\(/,'no post-load section jumping');
 assert.match(css,/\.moments-strip/,'story layout styling');
 assert.match(html,/DEMO EDUCATIVA · SIN PEDIDOS NI PAGOS REALES/,'fictitious store disclosure remains');
+
+const layout=load('editorial-center-v2.css');
+assert.match(html,/class="cb-marquee"/,'moving ribbon must appear');
+assert.equal((html.match(/class="cb-marquee-group"/g)||[]).length,2,'two identical tracks ensure seamless loop');
+assert.match(layout,/@keyframes cb-text-scroll/,'ribbon moves continuously');
+assert.match(layout,/@media\(prefers-reduced-motion:reduce\)/,'ribbon respects accessibility');
+assert.match(layout,/\.moments-strip>\.moment-illustration/,'illustration needs full-width mobile area');
+assert.match(layout,/\.moments-strip>\.moment-note/,'handwritten note needs explicit mobile height');
+assert.match(layout,/\.moments-strip \.cb-gift-box/,'illustrated gift has bounded size and center');
+assert.match(layout,/\.moments-strip \.cb-paper-note/,'note is styled and centered');
+assert.match(layout,/\.hero-copy\{text-align:center;align-items:center\}/,'hero content centered');
+assert.match(layout,/\.delivery-miami\{text-align:center;align-items:center\}/,'delivery centered');
+assert.match(layout,/\.closing\{display:flex;flex-direction:column;align-items:center/,'closing centered');
+assert.match(layout,/overflow-x:hidden/,'prevent sideways scrolling');
+assert.match(html,/DEMO EDUCATIVA · SIN PEDIDOS NI PAGOS REALES/);
 console.log('Casa Brownie static demo QA OK');
 
