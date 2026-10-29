@@ -9,7 +9,8 @@ const url=new URLSearchParams({offer:"booking-flow",lang:es?"es":"en"});
 const autoSelectAI=qs.get("bundle")==="ai-booking"?"ai-booking":"";
 const bookingBaseCents=()=>1500;
 const bookingDisplayPrice="$"+(bookingBaseCents()/100).toFixed(2);
-const prices={"":{setup:0,monthly:0}, "ai-booking":{setup:25,monthly:14},"ai-followup":{setup:19,monthly:7},"ai-business":{setup:39,monthly:19}};
+// Bundle-only AI setup amounts. Booking is $15 once; standalone AI offers keep separate prices.
+const prices={"":{setup:0,monthly:0}, "ai-booking":{setup:10,monthly:12},"ai-followup":{setup:5,monthly:8},"ai-business":{setup:14,monthly:16}};
 let livePricing=null;
 const pricesEndpoint="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-bundle-checkout";
 const plans=[
@@ -35,7 +36,7 @@ root.innerHTML=`<div class="tle-ey">${es?"BOOKING SIN COMPLICACIONES":"SIMPLE BO
 <h2>${es?"Que las solicitudes no se pierdan.":"Give every request a place to go."}</h2>
 <p>${es?"Tus clientes solicitan su limpieza. Tú la organizas desde tu Command Center.":"Customers send cleaning requests. You keep them organized in your Command Center."}</p>
 <div class="tle-included"><div><b>Booking Automation + Command Center</b><br><span>${es?"Pago único · sin mensualidad":"One-time payment · no monthly fee"}</span></div><b>${bookingDisplayPrice}</b></div>
-<div class="tle-ey">${es?"¿QUIERES AYUDA EXTRA? · OPCIONAL":"NEED EXTRA HELP? · OPTIONAL"}</div>
+<div class="tle-ey">${es?"AÑADE IA A TU BOOKING · PRECIO DE PAQUETE":"ADD AI TO BOOKING · BUNDLE PRICING"}</div>
 <div class="tle-options" role="radiogroup" aria-label="${es?"Elegir asistente IA opcional":"Choose optional AI Assistant"}">
 ${plans.map(([key,name,desc])=>`<label class="tle-opt"><input type="radio" name="tle-ai-bundle" value="${safe(key)}" ${key===autoSelectAI?"checked":""}><span class="tle-opt-main"><strong>${safe(name)}</strong><small>${safe(desc)}</small></span><span class="tle-opt-price">${key?"+"+money(prices[key].setup)+" "+(es?"activación":"setup"):(es?"Sin extra":"Included")}<small>${key?(es?"después $":"then $")+prices[key].monthly+(es?"/mes":"/mo"):""}</small></span></label>`).join("")}
 </div>
