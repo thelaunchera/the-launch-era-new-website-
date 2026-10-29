@@ -101,8 +101,8 @@ function SpanishHome(){const [active,setActive]=useState(0);const [heroLoaded,se
  <div className="tle-hero-soft-mesh" aria-hidden="true"><span/><span/><span/><span/></div>
  <div className="hero-intro">
    <div className="eyebrow">PARA DUEÑAS DE NEGOCIOS DE LIMPIEZA</div>
-   <h1 className="tle-hero-heading-shine">Te escriben para reservar. Tú estás limpiando otra casa.</h1>
-   <p>Terminas el trabajo, miras el teléfono: alguien pidió precio, otra persona quiere una fecha y hay un mensaje pendiente. Dales un enlace para dejarte los datos mientras trabajas.</p>
+   <h1 className="tle-hero-heading-shine">Estás limpiando. Y te escriben para reservar.</h1>
+   <p>Terminas y ves mensajes sobre precios y horarios. Con tu enlace de reservas, te dejan los datos mientras trabajas.</p>
    <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/sample-cleaning/?lang=es&source=homepage">Prueba el demo de reservas <ArrowRight/></a></Button></div>
    <p className="demo-delivery-note"><a href="/booking-demo/?lang=es&source=homepage-clara">Solicitar una demo más personalizada ↗</a> · Enlace privado enviado por correo.</p>
  </div>
