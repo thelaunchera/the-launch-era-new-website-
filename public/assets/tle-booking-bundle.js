@@ -30,6 +30,7 @@ const style=document.createElement("style");style.textContent=`
 root.className="tle-bundle";
 root.setAttribute("aria-label",es?"Personalizar mi compra":"Customize my purchase");
 const safe=t=>String(t).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+const money=n=>"$"+n.toFixed(2);
 root.innerHTML=`<div class="tle-ey">${es?"BOOKING SIN COMPLICACIONES":"SIMPLE BOOKING, CLEAR PRICING"}</div>
 <h2>${es?"Que las solicitudes no se pierdan.":"Give every request a place to go."}</h2>
 <p>${es?"Tus clientes solicitan su limpieza. Tú la organizas desde tu Command Center.":"Customers send cleaning requests. You keep them organized in your Command Center."}</p>
@@ -42,7 +43,7 @@ ${plans.map(([key,name,desc])=>`<label class="tle-opt"><input type="radio" name=
 <button type="button" class="tle-buy" id="tleCheckoutBtn">${es?"Continuar al pago seguro":"Continue to secure checkout"}</button>
 <p class="tle-hint">${es?"Si añades IA, su mensualidad comienza 30 días después de la entrega. Verás todos los cargos antes de pagar.":"If you add AI, its monthly plan begins 30 days after delivery. Review all charges before paying."}</p>
 <div id="tleBundleError" class="tle-error" role="alert" hidden></div>`;
-const money=n=>"$"+n.toFixed(2);
+
 const selected=()=>root.querySelector('input[name="tle-ai-bundle"]:checked')?.value||"";
 function expected(key){
  const base=bookingBaseCents();
