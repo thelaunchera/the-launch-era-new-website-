@@ -14,6 +14,15 @@
     <link rel="stylesheet" href="./motion.css?v=cb-center-20261028b" />
     <link rel="stylesheet" href="./editorial-center-v2.css" />
     <link rel="stylesheet" href="./gift-photos.css?v=20261029" />
+    <!-- Vista educativa: la referencia oficial conserva el video por defecto. -->
+    <script>
+      if (new URLSearchParams(window.location.search).get('etapa') === 'sin-video') {
+        document.documentElement.dataset.claseEtapa = 'sin-video';
+      }
+    </script>
+    <style>
+      html[data-clase-etapa="sin-video"] .hero-motion { display:none !important; }
+    </style>
   </head>
   <body>
     <div id="app">
