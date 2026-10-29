@@ -13,3 +13,9 @@ Este directorio es la copia estática independiente del demo de la masterclass �
 - Tres etapas de entrega y el panel de Miami usan SVG propios, no caracteres del sistema.
 - Los sellos de seis sabores comparten el mismo grosor de trazo y proporciones.
 - `motion.css` + `motion.js`: apariciones discretas, tarjetas táctiles, barra de lectura y accesibilidad para movimiento reducido. No se mezclan con los efectos de clientes ni conectan datos.
+
+## Dirección editorial de la clase
+Enlace oficial: https://thelaunchera.com/demos/casa-brownie/
+La clase organiza el ejemplo en un recorrido simple: **ocasión humana → producto y fotos → detalle para regalar → cobertura de Miami (ejemplo) → simulación sin compras**. Se conserva el nombre Casa Brownie y el titular «Brownies hechos en casa», pero se evitan títulos repetitivos y CTA que no hacen nada.
+La sección «Una forma bonita de decir pensé en ti» utiliza una ilustración de empaque y una nota hechas con CSS, para no repetir fotografías del catálogo. No representa un testimonio ni un producto realmente vendido.
+El enlace original de edición de AppDeploy sigue siendo una versión anterior; el código oficial actualizado es esta carpeta del repositorio.

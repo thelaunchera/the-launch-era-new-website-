@@ -1,3 +1,10 @@
+## 2026-10-28 — Casa Brownie: repetición de marca e imágenes en la experiencia móvil
+- **Reportado:** la usuaria percibe demasiadas repeticiones de «brownie» y del mismo producto en secciones distintas; pide conservar el link y ordenar como mecanismo editorial usado por Cata.
+- **Causa confirmada:** 13 menciones visibles al extraer texto del HTML, encabezados y enlaces redundantes; fotos del brownie Clásico y Frambuesa repetidas en la sección de historia; botón «Ver todos los sabores» solo mostraba aviso y JS movía la entrega de posición luego del render.
+- **Reparación:** nombre/titular principal permanecen; copy en torno a ocasiones, nueva sección del regalo con ilustración CSS propia, CTA de catálogo abre simulación, HTML mantiene orden constante y el enlace oficial se registra en Studio.
+- **Restricciones:** entrega ficticia Miami, nada de Stripe, datos privados, formularios ni emails; CTA de simulación claramente marcada. Fotos externas preexistentes sin asumir licencias comerciales.
+- **Verificación:** tests unitarios/QA de fuente y Pages; comparar Safari móvil antes de considerar acabado.
+
 ## 2026-10-28 — Casa Brownie iPhone: poor delivery glyphs and static transitions
 - **Report:** User screenshot of `/demos/casa-brownie/` showed the map-location icon as a crosshair, the three step symbols as inconsistent system font glyphs, and tight text in the three-column delivery step layout; requested smooth effects from the repository.
 - **Confirmed in source:** `public/demos/casa-brownie/index.html` used literal `▤`, `⌖` and `♡` for steps and `⌖` for the large panel. `styles.css` kept all three mobile columns at 390px. No localized transition layer was installed.

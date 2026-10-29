@@ -32,5 +32,20 @@ assert.match(motion,/requestAnimationFrame/);
 assert.match(motionStyles,/prefers-reduced-motion/);
 assert.match(motionStyles,/grid-template-columns:\s*28px 48px minmax\(0,1fr\)/,'readable vertical delivery steps on phones');
 assert.doesNotMatch(motion,/fetch\(|localStorage|sessionStorage|analytics|sendBeacon/,'visual effects are isolated');
+
+assert.match(html,/Un sabor para cada ocasión/,'gallery has an editorial headline');
+assert.match(html,/Elegir mi favorito/,'single purposeful gallery CTA');
+assert.match(html,/Toca un sabor para conocerlo mejor/,'cards have one shared instruction');
+assert.doesNotMatch(html,/Conocer sabor|Nuestros Brownies|Más que brownies/,'avoid repetitive generic copy');
+assert.doesNotMatch(html,/\.moment-image[^>]*>\s*<img/,'story uses original packaging illustration instead of duplicated photos');
+const imageSrcs=[...html.matchAll(/<img\\b[^>]*?src="([^"]+)"/g)].map(m=>m[1]);
+assert.equal(imageSrcs.length,new Set(imageSrcs).size,'no repeated image URL across hero and gallery');
+assert.ok(html.indexOf('class="flavor-section"')<html.indexOf('class="moments-strip"'));
+assert.ok(html.indexOf('class="moments-strip"')<html.indexOf('class="delivery-section"'));
+assert.ok(html.indexOf('class="delivery-section"')<html.indexOf('class="closing"'));
+assert.match(js,/getElementById\('all-flavors'\)\.addEventListener\('click', \(\) => viewExperience\(\)\)/,'gallery CTA enters real simulation');
+assert.doesNotMatch(js,/deliveryBlock\.after\(/,'no post-load section jumping');
+assert.match(css,/\.moments-strip/,'story layout styling');
+assert.match(html,/DEMO EDUCATIVA · SIN PEDIDOS NI PAGOS REALES/,'fictitious store disclosure remains');
 console.log('Casa Brownie static demo QA OK');
 
