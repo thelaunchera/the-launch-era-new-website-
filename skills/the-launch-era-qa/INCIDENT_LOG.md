@@ -1,3 +1,9 @@
+## 2026-10-28 — Casa Brownie iPhone: poor delivery glyphs and static transitions
+- **Report:** User screenshot of `/demos/casa-brownie/` showed the map-location icon as a crosshair, the three step symbols as inconsistent system font glyphs, and tight text in the three-column delivery step layout; requested smooth effects from the repository.
+- **Confirmed in source:** `public/demos/casa-brownie/index.html` used literal `▤`, `⌖` and `♡` for steps and `⌖` for the large panel. `styles.css` kept all three mobile columns at 390px. No localized transition layer was installed.
+- **Repair:** inline SVGs replace those glyphs and six flavor stamps; mobile step cards stack in readable rows; separate `motion.css/js` reuse small reveal/photo/hover patterns with IntersectionObserver, reduced-motion/data-saver fallbacks, no data collection. Preserve demo-only Miami coverage and no-order flow.
+- **Status:** source and automated QA require green PR checks and Pages deployment; true iPhone screenshot confirmation separate. No customer changes.
+
 ## 2026-10-28 — Casa Brownie educational demo mobile hero and decorative arrows
 - **Reported:** iPhone first view showed overly tall text heading, video was below the introductory copy, rejected words «amor real» were still visible, and flavor/CTA links included disliked arrow glyphs.
 - **Cause confirmed in source:** flex hero rendered `.hero-copy` before `.hero-photo` on <=790px; title string and 11 arrow spans remained in `index.html`. This was present only in the isolated AppDeploy educational demo, not a customer booking page.
