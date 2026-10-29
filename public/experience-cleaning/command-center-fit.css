@@ -1,0 +1,81 @@
+/* Command Center responsive value alignment.
+   Monetary amounts keep their existing one-line numeric style; labels for
+   custom quotes and commercial estimates are allowed to wrap naturally. */
+.dash-metrics > div {
+  min-width: 0;
+}
+.dash-metrics > div > strong {
+  max-width: 100%;
+}
+.dash-metrics #metric-value.is-text-value {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  font-size: clamp(13px, 1.6vw, 17px);
+  line-height: 1.23;
+  letter-spacing: -.025em;
+}
+.request-value {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, max-content);
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.request-value > span {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+.request-value > strong {
+  max-width: 100%;
+  min-width: 0;
+  text-align: right;
+}
+.request-value > strong.is-text-value {
+  max-width: 185px;
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
+  font-size: clamp(13px, 1.4vw, 16px);
+  line-height: 1.26;
+}
+@media (max-width: 650px) {
+  .dash-metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .dash-metrics > div {
+    min-width: 0;
+    padding: 10px 8px;
+  }
+  .dash-metrics #metric-value.is-text-value {
+    font-size: clamp(12px, 3.15vw, 14px);
+    line-height: 1.24;
+    letter-spacing: -.02em;
+  }
+  .request-value > strong.is-text-value {
+    max-width: 50%;
+    font-size: 13px;
+  }
+}
+@media (max-width: 370px) {
+  .dash-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .dash-metrics > div:last-child {
+    grid-column: 1 / -1;
+  }
+  .request-value {
+    gap: 8px;
+  }
+}
+/* Browser zoom and translated text may create extremely narrow metric cards. */
+@supports (font-size: clamp(12px, 3vw, 16px)) {
+  .dash-metrics #metric-value.is-text-value {
+    text-wrap: pretty;
+  }
+}
