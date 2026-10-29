@@ -1,3 +1,10 @@
+## 2026-10-28 — Casa Brownie custom iconography and editorial motion
+- **Route unchanged:** `/demos/casa-brownie/`; owns only standalone `public/demos/casa-brownie/` HTML, CSS and JS. The screenshot identified ambiguous font glyphs `▤` and `⌖` in delivery steps and a crosshair-like symbol on the dark Miami panel.
+- **Icons:** replace the three delivery symbols and the large Miami marker with consistent, stroked inline SVG (brownie, actual map pin, heart). Six flavor stamps also use independent SVG illustrations. They are aria-hidden decorative graphics paired with visible titles.
+- **Effects:** adapt the existing public TLE cinematic scroll-reveal/photography-pop pattern in local `motion.css` and `motion.js`; one-shot IntersectionObserver, short stagger, chocolate scroll progress, subtle hover/tactile changes, small dialog entrance. No shared scripts, service branding or backend.
+- **Mobile:** delivery steps become compact readable stacked cards under 560px, preserving semantic order, original text, footer, video, navigation and all click handlers. Reduced-motion and data-saver skip animation; CSS hidden states require observer setup, so a JS failure cannot hide content.
+- **Verification:** `node --check public/demos/casa-brownie/{main,motion}.js`, `node --test scripts/qa-casa-brownie-demo.mjs`, `node scripts/qa-route-integrity.mjs --static`. Live route and iOS/desktop visual review should be confirmed after Pages deployment. No customer data/payments/emails or real orders.
+
 ## 2026-10-28 — Standalone Casa Brownie demo (masterclass sample)
 - **Public route:** `/demos/casa-brownie/`, owner active website repo `public/demos/casa-brownie/`, served as self-contained static HTML/CSS/JS. Source copy from independent AppDeploy `https://casa-brownie-demo-miami-ltg7rb.v2.appdeploy.ai/`.
 - **Purpose:** Fictional Spanish-language brownie website for «Tu primera web con IA», local Miami territory illustrative. No real orders, delivery, payment, account, email, lead collection, or access to tenant data.

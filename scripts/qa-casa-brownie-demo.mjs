@@ -2,8 +2,9 @@ import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 const dir = new URL('../public/demos/casa-brownie/',import.meta.url);
 const load = file => readFileSync(new URL(file,dir),'utf8');
-for(const name of ['index.html','styles.css','hero-corrections.css','main.js']) assert.ok(existsSync(new URL(name,dir)),name+' missing');
+for(const name of ['index.html','styles.css','hero-corrections.css','motion.css','main.js','motion.js']) assert.ok(existsSync(new URL(name,dir)),name+' missing');
 const html=load('index.html'),css=load('hero-corrections.css'),js=load('main.js');
+const motion=load('motion.js'),motionStyles=load('motion.css');
 assert.match(html,/Brownies<br\s*\/>\s*hechos\s*<span class="love">en casa<\/span>/i);
 assert.ok(!html.includes('amor real'),'rejected copy removed');
 assert.ok(!/[↗➜➝→➔➡➤]/.test(html),'no decorative arrows');
@@ -17,5 +18,19 @@ assert.ok(!/stripe\.com|checkout\.stripe\.com/i.test(html),'no payment destinati
 assert.match(html,/DEMO EDUCATIVA · SIN PEDIDOS NI PAGOS REALES/);
 assert.match(html,/Entrega local/);
 assert.match(html,/href="#brownies"/);
-for (const asset of ['./styles.css','./hero-corrections.css','./main.js']) assert.ok(html.includes('="'+asset+'"'),'asset ref '+asset);
+for (const asset of ['./styles.css','./hero-corrections.css','./motion.css','./main.js','./motion.js']) assert.ok(html.includes('="'+asset+'"'),'asset ref '+asset);
+
+assert.equal((html.match(/class="step-symbol"/g)||[]).length,3,'three refined step icons');
+assert.equal((html.match(/class="flavor-mark"/g)||[]).length,6,'six illustrated flavor marks');
+assert.match(html,/<span class="pin-circle" aria-hidden="true"><svg/,'Miami location marker uses a real vector pin');
+assert.ok(!html.includes('>⌖</span>')&&!html.includes('>▤</span>'),'no font glyph placeholders');
+assert.match(html,/href="\.\/motion\.css"/);
+assert.match(html,/src="\.\/motion\.js"/);
+assert.match(motion,/IntersectionObserver/);
+assert.match(motion,/cb-in-view/);
+assert.match(motion,/requestAnimationFrame/);
+assert.match(motionStyles,/prefers-reduced-motion/);
+assert.match(motionStyles,/grid-template-columns:\s*28px 48px minmax\(0,1fr\)/,'readable vertical delivery steps on phones');
+assert.doesNotMatch(motion,/fetch\(|localStorage|sessionStorage|analytics|sendBeacon/,'visual effects are isolated');
 console.log('Casa Brownie static demo QA OK');
+
