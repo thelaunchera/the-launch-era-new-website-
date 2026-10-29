@@ -518,3 +518,34 @@ textarea { width: 100%; padding: 12px; border: 1px solid #cbb8a5; background: #f
 /* Photo update: unique gift packaging completes the compact three-image identity story. */
 .brand-glimpse-gallery figure:nth-child(3) img { object-position: center 55%; }
 @media (max-width:600px) {.brand-glimpse-gallery figure:nth-child(3) img { object-position:center 55%; }}
+
+
+/* Mobile editorial rhythm — short, natural single-line section titles.
+   Scoped to phone to retain the desktop typography and brand design. */
+@media (max-width:600px) {
+  .cookies-section .section-head { margin-bottom:21px; gap:5px; }
+  #cookies-title { font-size:clamp(30px,8.1vw,36px); line-height:1.11; letter-spacing:-.028em; }
+  .gift-copy { padding-top:27px; padding-bottom:29px; }
+  #gifting-title { font-size:clamp(25px,6.3vw,30px); line-height:1.14; letter-spacing:-.025em; white-space:nowrap; max-width:100%; margin:9px 0 12px; }
+  .brand-glimpse { padding-top:27px; padding-bottom:32px; }
+  .brand-glimpse-heading { gap:4px; margin-bottom:16px; }
+  #brand-glimpse-title { font-size:clamp(28px,7.8vw,33px); line-height:1.12; letter-spacing:-.027em; white-space:nowrap; max-width:100%; }
+  .brand-glimpse-gallery figcaption { padding-top:8px; }
+  #delivery-title { font-size:clamp(27px,7.25vw,32px); line-height:1.14; letter-spacing:-.027em; margin:7px auto 12px; }
+  .moment-copy { padding:23px 20px 27px; gap:5px; }
+  #moment-title { font-size:clamp(30px,8vw,35px); line-height:1.12; letter-spacing:-.027em; margin:3px auto 4px; max-width:100%; white-space:nowrap; }
+  .moment-copy p { font-size:12px; line-height:1.55; max-width:330px; }
+  .final-cta { padding:24px 20px 28px; gap:16px; }
+  #final-title { font-size:clamp(30px,8vw,36px); line-height:1.12; letter-spacing:-.025em; margin:5px auto 0; max-width:100%; white-space:nowrap; }
+  .final-cta .button { min-height:48px; }
+}
+@media (max-width:360px) {
+  #gifting-title { font-size:24px; }
+  #brand-glimpse-title,#moment-title,#final-title { font-size:29px; }
+  #delivery-title { font-size:26px; }
+}
+/* Never force one-line display on tablets or desktops, or on user-zoomed
+   text: allow natural wrapping when the viewport is very narrow. */
+@media (max-width:320px) {
+  #gifting-title,#brand-glimpse-title,#moment-title,#final-title { white-space:normal; }
+}
