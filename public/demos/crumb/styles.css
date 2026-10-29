@@ -627,3 +627,232 @@ textarea { width: 100%; padding: 12px; border: 1px solid #cbb8a5; background: #f
 @media (max-width: 320px) {
   #gifting-title,#brand-glimpse-title,#moment-title,#final-title { white-space:normal; }
 }
+
+
+/* CRUMB boutique details: the story replaces an existing editorial section,
+   not an extra long page. All contact/social behavior stays demo-only. */
+#story { scroll-margin-top:92px; }
+.moment-copy .story-footnote {
+  margin-top:12px;
+  font:400 10px/1.6 'DM Sans',sans-serif;
+  color:#857061;
+  max-width:38ch;
+}
+.moment-copy .story-contact { margin-top:18px; align-self:flex-start; }
+.moment-copy>p:first-of-type {
+  max-width:45ch;
+  font-size:clamp(13px,1.1vw,15px);
+  line-height:1.76;
+}
+.site-footer .footer-top {
+  display:grid;
+  grid-template-columns:1.05fr .8fr 1fr;
+  align-items:start;
+  gap:clamp(22px,4.5vw,76px);
+}
+.site-footer .footer-top>nav {
+  flex-direction:column;
+  align-items:flex-start;
+  gap:10px;
+  margin:8px 0 0;
+}
+.footer-brand p { margin:10px 0 22px; }
+.footer-contact-button {
+  display:inline-flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:22px;
+  min-height:44px;
+  min-width:174px;
+  border:1px solid #e6ceb7;
+  border-radius:999px;
+  background:#f9efe4;
+  color:#4c3026;
+  padding:10px 15px 10px 19px;
+  font:700 12px/1.1 'DM Sans',sans-serif;
+}
+.footer-contact-button:hover { background:#e9d7c6; }
+.footer-contact-button span { font-size:22px;line-height:1;font-weight:400; }
+.site-footer .footer-location {
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:8px;
+  max-width:230px;
+}
+.footer-location>strong { font-size:12px;letter-spacing:.03em;color:#fff3e6; }
+.footer-location>address {
+  font-style:normal;
+  font-size:14px;
+  line-height:1.45;
+  color:#f5e8dd;
+}
+.footer-location>small {
+  font-size:10px;
+  line-height:1.5;
+  color:#e0bca6;
+}
+.footer-location>span {
+  font-size:11px;
+  color:#ead1bf;
+}
+.footer-social {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:14px 25px;
+  padding:24px 0 18px;
+  margin-top:26px;
+  border-top:1px solid #f9efe42b;
+}
+.footer-social-label {
+  font-size:10px;
+  letter-spacing:.16em;
+  font-weight:700;
+  color:#f0d5bf;
+}
+.social-buttons { display:flex;gap:12px;flex-wrap:wrap; }
+.social-button {
+  min-height:44px;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  border:1px solid #ad8d79;
+  border-radius:999px;
+  padding:5px 15px 5px 5px;
+  background:transparent;
+  color:#f9efe4;
+  font:600 12px/1.1 'DM Sans',sans-serif;
+}
+.social-button:hover { background:#684b3c; }
+.social-mark {
+  width:31px;height:31px;
+  display:inline-grid;place-items:center;
+  background:#f3e1d1;
+  color:#492e25;
+  border-radius:50%;
+  font:700 13px/1 'DM Sans',sans-serif;
+  letter-spacing:-.03em;
+}
+.social-disclaimer { font-size:10px;color:#d8c5b4;line-height:1.5; }
+.site-footer .footer-note {
+  padding-top:16px;
+  margin-top:0;
+  font-size:10px;
+  line-height:1.65;
+}
+.contact-dialog,.social-dialog {
+  width:min(520px,calc(100vw - 22px));
+  max-height:90dvh;
+  padding:0;
+  border:0;
+  background:#faf7f0;
+  color:#3d2921;
+  box-shadow:0 25px 90px rgba(36,18,12,.38);
+  overscroll-behavior:contain;
+}
+.contact-dialog .modal-heading,.social-dialog .modal-heading { align-items:center; }
+.contact-dialog .modal-heading h2,.social-dialog .modal-heading h2 {
+  font-size:clamp(35px,5vw,47px);
+}
+.contact-dialog .modal-body,.social-dialog .modal-body { padding:19px 26px 27px; }
+.contact-intro,.social-preview-copy { font-size:14px;line-height:1.6;color:#665144;margin:0 0 12px; }
+.contact-notice {
+  padding:13px 15px;
+  border-left:3px solid #a67a57;
+  background:#f0e5d7;
+  color:#594435;
+  line-height:1.55;
+  font-size:11px;
+  margin:0 0 18px;
+}
+#contact-form { display:flex;flex-direction:column;gap:7px; }
+#contact-form[hidden],.contact-feedback[hidden] { display:none!important; }
+#contact-form label {
+  font:600 12px/1.35 'DM Sans',sans-serif;
+  margin-top:9px;
+}
+#contact-form input,#contact-form select,#contact-form textarea {
+  display:block;
+  width:100%;
+  min-height:44px;
+  border:1px solid #cbb8a5;
+  border-radius:3px;
+  background:#fffaf4;
+  color:#3d2921;
+  padding:10px 12px;
+  font:400 13px/1.5 'DM Sans',sans-serif;
+}
+#contact-form textarea { min-height:105px;resize:vertical; }
+#contact-form .button { margin-top:17px; }
+.contact-feedback {
+  padding:25px;
+  margin-top:5px;
+  text-align:center;
+  border:1px solid #e4cfbd;
+  background:#f2e7db;
+}
+.contact-feedback strong { font:500 28px/1.1 'Cormorant Garamond',Georgia,serif; }
+.contact-feedback p { font-size:13px;line-height:1.65; }
+.contact-feedback .text-button { margin-top:4px; }
+.social-preview-head { display:flex;gap:13px;align-items:center;margin:12px 0 20px; }
+.social-preview-avatar {
+  width:58px;height:58px;border-radius:50%;
+  display:grid;place-items:center;
+  background:#4b2f26;color:#fff5e6;
+  font:600 38px/.9 'Cormorant Garamond',Georgia,serif;
+}
+.social-preview-head strong {
+  display:block;
+  font:600 33px/.95 'Cormorant Garamond',Georgia,serif;
+}
+.social-preview-head small {
+  display:block;font-size:11px;margin-top:6px;color:#79665b;
+}
+.social-dialog .button { margin-top:15px; }
+@media (max-width:950px) {
+  .site-footer .footer-top { grid-template-columns:1fr 1fr;gap:25px; }
+  .site-footer .footer-location { grid-column:2;grid-row:1; }
+  .site-footer .footer-top>nav {
+    grid-column:1 / -1;
+    flex-direction:row;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:14px 22px;
+    margin:0;
+  }
+}
+@media (max-width:600px) {
+  .site-header nav { gap:11px;font-size:10px; }
+  .site-header nav a[href="#story"] { display:none; }
+  #story { scroll-margin-top:82px; }
+  .moment-copy .story-contact { align-self:center; }
+  .moment-copy>p:first-of-type { font-size:13px; }
+  .site-footer .footer-top {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap:24px;
+  }
+  .site-footer .footer-brand { text-align:center; }
+  .site-footer .footer-top>nav {
+    justify-content:center;
+    flex-direction:row;
+    gap:14px 20px;
+    margin:0 auto;
+  }
+  .site-footer .footer-location { align-items:center;max-width:100%;text-align:center; }
+  .footer-social {
+    flex-direction:column;
+    justify-content:center;
+    text-align:center;
+    gap:14px;
+  }
+  .social-buttons { justify-content:center; }
+  .contact-dialog .modal-body,.social-dialog .modal-body { padding:16px 18px 23px; }
+}
+@media (max-width:380px) {
+  .site-header nav a[href="#story"] { display:none; }
+}

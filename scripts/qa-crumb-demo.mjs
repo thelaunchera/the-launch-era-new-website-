@@ -99,12 +99,12 @@ assert.equal(d.querySelectorAll('.cookie').length, 6);
 const compactTitles = {
   'gifting-title':'A little gift. Big joy.',
   'brand-glimpse-title':'Inside CRUMB.',
-  'moment-title':'Made to share.',
+  'moment-title':'It started with a cookie.',
   'final-title':'Make their day.'
 };
 for(const [id,expected] of Object.entries(compactTitles)) assert.equal(d.getElementById(id).textContent,expected);
 assert.match(css,/Compact headings for small screens/);
-assert.match(html,/styles\.css\?v=20261029-crumb-heading-v9/);
+assert.match(html,/styles\.css\?v=20261029-crumb-experience/);
 results.push('Compact iPhone section titles retain correct English copy and styling');
 
 const expectedFlavors = [
@@ -184,6 +184,63 @@ assert.match(html,/noindex,nofollow/);
 assert.equal(new Set([...d.querySelectorAll('.cookie-visual img')].map(image=>image.src)).size,6);
 assert.doesNotMatch(code,/fetch\(|sendBeacon|stripe|supabase/i);
 assert.match(d.querySelector('#delivery').textContent, /Miami and surrounding areas/);
-assert.equal(d.querySelectorAll('form,input[type="email"],input[type="tel"]').length,0);
+assert.equal(d.querySelectorAll('form').length,1,'only the demo contact form exists');
+assert.equal(d.querySelectorAll('input[type="email"]').length,1,'email exists only inside the contact modal');
+assert.equal(d.querySelectorAll('input[type="tel"]').length,0);
 results.push('Six unique flavor image paths, section anchors, Miami copy and no old ribbon/payment form verified');
+
+// Store experience remains a fictional demo: no real address, social profiles or sending.
+assert.equal(d.querySelector('#story h2').textContent,'It started with a cookie.');
+assert.match(d.querySelector('#story').textContent,/fictional bakery story/i);
+assert.ok(d.querySelector('a[href="#story"]'));
+assert.match(d.querySelector('.footer-location address').textContent,/128 Cookie Lane\s*Miami, FL 33131/);
+assert.match(d.querySelector('.footer-location').textContent,/Fictional address · Not a real storefront/);
+assert.equal(d.querySelectorAll('.footer-social [data-social]').length,2);
+assert.match(d.querySelector('.footer-note').textContent,/No orders, payments or contact messages are accepted/);
+const contactDialog=d.querySelector('#contact-dialog');
+const contactForm=d.querySelector('#contact-form');
+const contactFeedback=d.querySelector('#contact-feedback');
+assert.equal(contactDialog.open,false,'contact modal closed before any click');
+click('.footer-contact-button');
+assert.equal(contactDialog.open,true,'Contact Us opens a form');
+assert.equal(contactForm.hidden,false);
+assert.equal(contactFeedback.hidden,true);
+assert.equal(contactForm.closest('dialog').id,'contact-dialog');
+assert.match(contactDialog.textContent,/Your message will not be sent or saved/);
+contactForm.dispatchEvent(new w.Event('submit',{bubbles:true,cancelable:true}));
+assert.equal(contactFeedback.hidden,true,'empty form must not show a success');
+d.querySelector('#contact-name').value='Sample Customer';
+d.querySelector('#contact-email').value='sample@example.com';
+d.querySelector('#contact-message').value='A question about gift boxes';
+contactForm.dispatchEvent(new w.Event('submit',{bubbles:true,cancelable:true}));
+assert.equal(contactForm.hidden,true,'a valid demo submission hides the form');
+assert.equal(contactFeedback.hidden,false);
+assert.match(contactFeedback.textContent,/Nothing was sent, stored or delivered/);
+assert.equal(d.querySelector('#contact-email').value,'','demo form data cleared immediately');
+click('#contact-again');
+assert.equal(contactForm.hidden,false);
+assert.equal(contactFeedback.hidden,true);
+click('#close-contact');
+assert.equal(contactDialog.open,false);
+click('[data-open-contact]');
+assert.equal(contactDialog.open,true,'story contact opens same reusable dialog');
+click('#close-contact');
+const socialDialog=d.querySelector('#social-dialog');
+assert.equal(socialDialog.open,false);
+click('[data-social="Instagram"]');
+assert.equal(socialDialog.open,true);
+assert.match(d.querySelector('#social-platform').textContent,/Instagram · fictional account preview/);
+assert.match(socialDialog.textContent,/No real CRUMB account is linked/);
+click('#close-social');
+assert.equal(socialDialog.open,false);
+click('[data-social="TikTok"]');
+assert.match(d.querySelector('#social-platform').textContent,/TikTok · fictional account preview/);
+click('#social-back');
+assert.equal(socialDialog.open,false);
+assert.equal(d.querySelectorAll('a[href*="instagram.com"],a[href*="tiktok.com"],a[href*="maps.google.com"]').length,0);
+assert.doesNotMatch(code,/fetch\(|sendBeacon|localStorage|sessionStorage|XMLHttpRequest/i,'no contact transmission or storage');
+assert.ok(css.includes('#contact-form[hidden],.contact-feedback[hidden] { display:none!important; }'));
+assert.ok(html.includes('hero.webp?v=20261029-crumb-v5'),'approved hero remains unchanged');
+results.push('Contact only opens on click, never transmits/stores data; fictional address/socials and brand story verified');
+
 console.log(JSON.stringify({method: 'DOM integration; dialog APIs simulated; not visual browser QA', passed: results}, null, 2));

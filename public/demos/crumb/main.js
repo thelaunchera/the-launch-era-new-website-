@@ -170,4 +170,57 @@ $('delivery-build').addEventListener('click', () => {
   deliveryDialog.close();
   openDialog();
 });
+
+// These interactive previews are deliberately local-only: never send, track, or
+// persist contact details. No checkout, customer list, or live social account.
+const contactDialog = $('contact-dialog');
+const contactForm = $('contact-form');
+const contactFeedback = $('contact-feedback');
+function openContact() {
+  contactForm.reset();
+  contactForm.hidden = false;
+  contactFeedback.hidden = true;
+  if (!contactDialog.open) contactDialog.showModal();
+}
+function closeContact() {
+  contactDialog.close();
+  contactForm.reset();
+  contactForm.hidden = false;
+  contactFeedback.hidden = true;
+}
+document.querySelectorAll('[data-open-contact]').forEach(button => button.addEventListener('click', openContact));
+$('close-contact').addEventListener('click', closeContact);
+contactDialog.addEventListener('click', event => { if (event.target === contactDialog) closeContact(); });
+contactDialog.addEventListener('close', () => {
+  contactForm.reset();
+  contactForm.hidden = false;
+  contactFeedback.hidden = true;
+});
+contactForm.addEventListener('submit', event => {
+  event.preventDefault();
+  if (!contactForm.checkValidity()) {
+    contactForm.reportValidity();
+    return;
+  }
+  // Clear everything before showing a simulated confirmation. No values are read.
+  contactForm.reset();
+  contactForm.hidden = true;
+  contactFeedback.hidden = false;
+});
+$('contact-again').addEventListener('click', () => {
+  contactForm.hidden = false;
+  contactFeedback.hidden = true;
+  $('contact-name').focus();
+});
+
+const socialDialog = $('social-dialog');
+document.querySelectorAll('[data-social]').forEach(button => {
+  button.addEventListener('click', () => {
+    $('social-platform').textContent = button.dataset.social + ' · fictional account preview';
+    if (!socialDialog.open) socialDialog.showModal();
+  });
+});
+$('close-social').addEventListener('click', () => socialDialog.close());
+$('social-back').addEventListener('click', () => socialDialog.close());
+socialDialog.addEventListener('click', event => { if (event.target === socialDialog) socialDialog.close(); });
 paint();
