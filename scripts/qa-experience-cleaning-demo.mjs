@@ -60,14 +60,30 @@ assert.match(galleryCss,/@keyframes tle-clean-portfolio-scroll/,'Gallery must au
 assert.match(galleryCss,/prefers-reduced-motion:reduce/,'Portfolio respects reduced motion');
 assert.match(galleryCss,/\.clean-work-runner\.is-paused/,'Gallery offers a pause option');
 for(const asset of [
- '/experience-cleaning/photos/clean_roll_01_kitchen.webp',
  '/experience-cleaning/photos/clean_roll_02_bathroom.webp',
- '/experience-cleaning/photos/clean_roll_03_bedroom.webp',
- '/experience-cleaning/photos/clean_roll_04_living_entry.webp',
- '/experience-cleaning/photos/clean_roll_05_cleaning_details.webp',
- '/experience-cleaning/photos/clean_roll_06_pets_lifestyle.webp',
+ '/experience-cleaning/photos/portfolio_kitchen_finished.webp',
+ '/experience-cleaning/photos/portfolio_cleaning_action.webp',
+ '/experience-cleaning/photos/portfolio_living_finished.webp',
+ '/experience-cleaning/photos/portfolio_bedroom_finished.webp',
+ '/experience-cleaning/photos/portfolio_pet_friendly.webp',
+ '/experience-cleaning/photos/final_living_room_overhead.jpg',
  '/experience-cleaning/photos/cleaner-owner-portrait.webp'
-]) assert(existsSync('public'+asset),'Selected Drive photo missing from repository: '+asset);
+]) assert(existsSync('public'+asset),'Required curated/approved local photo missing: '+asset);
+const groups=[...html.matchAll(/<div class="clean-work-group"(?: aria-hidden="true")?>([\s\S]*?)<\/div>/g)];
+assert.equal(groups.length,2);
+const first=[...groups[0][1].matchAll(/<img src="([^"]+)"/g)].map(m=>m[1]);
+const second=[...groups[1][1].matchAll(/<img src="([^"]+)"/g)].map(m=>m[1]);
+assert.equal(first.length,6,'Gallery must have exactly six selected photos');
+assert.equal(new Set(first).size,6,'Gallery photos must never repeat');
+assert.deepEqual(first,second,'Decorative duplicate mirrors each photo for a seamless loop');
+assert.equal(first.filter(src=>src.includes('clean_roll_')).length,1,'Only bathroom photo may come from the CLEAN Roll');
+assert.equal(first.filter(src=>src.includes('clean_roll_02_bathroom.webp')).length,1,'Retain exactly one bathroom roll in the primary gallery');
+assert(!first.includes('/experience-cleaning/photos/final_living_room_overhead.jpg'),'The CTA photograph must not duplicate the portfolio gallery');
+assert.match(html,/final_living_room_overhead\.jpg/,'The approved aerial living room must replace the old bathroom in the closing offer');
+assert.doesNotMatch(html,/class="clean-work-banner"/,'Remove the banner covering portfolio photography');
+assert.doesNotMatch(galleryCss,/\.clean-work-banner/,'Remove unused gallery banner styling');
+assert.equal((html.match(/class="review-stars"/g)||[]).length,3,'Three compact reviews must display five sample stars');
+assert.equal((html.match(/★★★★★/g)||[]).length,3,'Each sample review must display exactly five star symbols');
 assert.match(html,/id="our-work"/);
 assert.match(html,/id="meet-cleaner"/);
 assert.match(html,/id="sample-reviews"/);
@@ -75,8 +91,8 @@ assert.match(html,/id="work-pause"/);
 assert.equal((html.match(/class="clean-work-group"/g)||[]).length,2,'Marquee must have a seamless duplicate group');
 assert.equal((html.match(/class="clean-work-card"/g)||[]).length,12,'Exactly six selected work images and six decorative duplicates');
 assert.match(html,/clean-work-group" aria-hidden="true"/,'Duplicate work gallery must be hidden from assistive tech');
-assert.match(html,/not actual completed customer projects/,'Demo portfolio must never claim fictitious customer jobs');
-assert.match(html,/SAMPLE CONTENT · NOT A CUSTOMER REVIEW/,'Each illustrative review must be visibly labelled as sample content');
+assert.match(html,/Not documented customer projects/,'Demo portfolio must clearly disclaim customer project claims');
+assert.match(html,/SAMPLE REVIEW · NOT REAL/,'Each illustrative review must be visibly labelled as a sample, not a real testimonial');
 assert.match(html,/not published testimonials/,'Testimonials must not be represented as authentic reviews');
 assert.doesNotMatch(html,/offer-photo"><img src="\/assets\/lead-demo\/hero-luxury-home\.png"/,'Replace the empty old offer photograph');
 
@@ -102,7 +118,9 @@ for(const lang of ['en','es']){
  assert.match(w.document.querySelector('#clean-work-title').textContent,lang==='es'?/La limpieza se siente/:/A clean you can feel/);
  assert.match(w.document.querySelector('#team-title').textContent,lang==='es'?/Una persona de confianza/:/A familiar face/);
  assert.match(w.document.querySelector('#reviews-title').textContent,lang==='es'?/Que lo cuenten tus clientes/:/Their words will say it best/);
- assert.match(w.document.querySelector('.clean-work-banner').textContent,lang==='es'?/NUESTROS TRABAJOS/:/OUR WORK/);
+ assert.equal(w.document.querySelector('.clean-work-banner'),null,'Never obscure real cleaning portfolio photos with an oversized banner');
+ assert.match(w.document.querySelector('.clean-work-group:first-child figcaption').textContent,lang==='es'?/Baño impecable/:/Bathroom refresh/);
+ assert.match(w.document.querySelectorAll('.review-sample-label')[0].textContent,lang==='es'?/RESEÑA DE EJEMPLO/:/SAMPLE REVIEW/);
  assert.equal(w.document.querySelectorAll('.clean-work-group:first-child img').length,6);
  assert.equal($('work-pause').disabled,true,'Reduced-motion users must not need to pause the gallery');
   assert($('stage-1')&&!$('stage-1').hidden);

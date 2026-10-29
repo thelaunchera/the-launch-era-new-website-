@@ -17,8 +17,6 @@
 .clean-work-card img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;filter:saturate(.9);transition:transform .75s cubic-bezier(.2,.8,.2,1),filter .55s}
 .clean-work-card:hover img,.clean-work-card:focus-within img{transform:scale(1.055);filter:saturate(1.04)}
 .clean-work-card figcaption{position:absolute;bottom:0;left:0;right:0;padding:27px 18px 14px;background:linear-gradient(180deg,transparent,#172D39B5);font:750 12px/1.3 Manrope,Arial,sans-serif;color:#FFF;letter-spacing:.015em}
-.clean-work-banner{position:absolute;z-index:4;left:0;right:0;top:50%;transform:translateY(-50%);pointer-events:none;display:flex;justify-content:center;align-items:center;min-height:98px;padding:11px 20px;background:linear-gradient(90deg,#17374400 1%,#173744AA 25%,#173744BB 75%,#17374400 99%);backdrop-filter:blur(2px)}
-.clean-work-banner span{font-family:Fraunces,Georgia,serif;font-size:clamp(48px,10vw,130px);letter-spacing:-.06em;line-height:1;font-weight:500;font-style:italic;color:#FFFEFA;text-align:center;text-shadow:0 3px 18px #12293555;white-space:nowrap}
 .clean-work-bottom{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-top:19px}
 .clean-work-bottom p{font-size:11px;color:#627886;line-height:1.5;margin:0}
 .clean-work-pause{flex:none;appearance:none;min-height:40px;padding:9px 15px;background:#E1ECF0;color:#365F74;border:1px solid #BDD4DF;border-radius:10px;font:750 11px Manrope,Arial,sans-serif;cursor:pointer}
@@ -67,8 +65,6 @@
  .clean-work-heading h2{font-size:49px}
  .clean-work-card{width:230px;height:305px}
  .clean-work-group{gap:10px;padding-right:10px}
- .clean-work-banner{min-height:79px}
- .clean-work-banner span{font-size:64px;letter-spacing:-.06em}
  .clean-work-bottom{display:flex;align-items:flex-start;flex-direction:column;gap:9px;margin-top:14px}
  .clean-team{padding-top:65px;padding-bottom:75px}
  .clean-team-photo img{max-height:435px}
@@ -82,4 +78,38 @@
  .clean-work-runner{animation:none!important}
  .clean-work-marquee{overflow-x:auto;scrollbar-width:thin;touch-action:pan-x}
  .clean-work-card img{transition:none!important;transform:none!important}
+}
+
+/* Polished final portfolio: let the varied photographs speak for themselves. */
+.clean-work-heading h2{font-size:clamp(40px,5vw,64px)}
+.clean-work-heading>p{max-width:465px}
+.clean-work-marquee{background:#E5EDEB}
+.clean-work-card{box-shadow:0 8px 24px #203D4A14}
+.clean-work-card img{filter:saturate(.95) contrast(1.018)}
+.clean-work-card figcaption{font-size:11px;padding:23px 15px 13px}
+/* Compact, honest illustration of a future five-star customer review area. */
+.clean-reviews{padding:clamp(54px,6.5vw,84px) 0}
+.clean-reviews-heading{margin-bottom:24px}
+.clean-reviews-heading h2{font-size:clamp(38px,4.8vw,60px)}
+.clean-reviews-grid{gap:12px}
+.clean-review{min-height:187px;padding:19px 18px;gap:10px;border-radius:11px;box-shadow:0 7px 20px #244A5D08}
+.clean-review .review-stars{display:block;color:#4A7994;font:700 17px/1 Manrope,Arial,sans-serif;letter-spacing:2px;white-space:nowrap}
+.clean-review .review-sample-label{font-size:9px;line-height:1.45;letter-spacing:.05em;color:#6B8391}
+.clean-review blockquote{font:500 clamp(17px,1.65vw,20px)/1.42 Fraunces,Georgia,serif;letter-spacing:-.013em}
+.clean-review .review-theme{padding-top:9px;font-size:10px}
+.clean-reviews-note{margin-top:14px}
+.offer-photo img{object-position:center 55%;filter:saturate(.96)}
+@media(max-width:780px){
+ .clean-reviews-grid{display:grid;grid-auto-flow:column;grid-auto-columns:min(79vw,310px);grid-template-columns:none;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x mandatory;scrollbar-width:thin;padding-bottom:13px}
+ .clean-reviews-grid .clean-review{scroll-snap-align:start;min-height:175px}
+ .clean-review blockquote{font-size:19px}
+ .clean-reviews-heading{margin-bottom:19px}
+}
+@media(max-width:500px){
+ .clean-work-heading h2{font-size:43px}
+ .clean-work-card{width:220px;height:293px}
+ .clean-reviews-heading h2{font-size:41px}
+ .clean-reviews-grid{grid-auto-columns:min(82vw,290px)}
+ .clean-review{padding:17px 16px;min-height:169px}
+ .clean-review blockquote{font-size:18px}
 }
