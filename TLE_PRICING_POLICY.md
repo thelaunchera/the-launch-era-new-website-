@@ -1,7 +1,7 @@
 # The Launch Era — Approved Price Policy
 
-**Approved:** October 17, 2026  
-**Status:** FINAL / LOCKED for routine operations. Do not revise prices or promotions without the owner's explicit new authorization.
+**Approved:** October 29, 2026  
+**Status:** Revised by the owner October 29, 2026. Price changes require the owner's explicit authorization.
 
 ## Approved public offers (USD)
 
@@ -16,14 +16,15 @@
 
 AI Assistant setup includes the first 30 days, **starting on delivery**; recurring billing begins after that interval. The AI Business monthly plan saves $2.00/month compared with the two separate plans ($14 + $7 = $21); $24 across 12 regular monthly payments.
 
-## Promotions and contracts — do not remove or change automatically
+## Simple prices, contracts, and disclosure (approved October 29)
 
-- Preserve the existing **40% discount on the combined setup/activation** when purchasing Booking + an eligible AI Assistant together, **only while the Supabase `tle_bundle_promotion` record `booking_ai_activation` is enabled**. This discount applies to the relevant one-time combined setup charges, **not** recurring monthly fees.
-- Promotion discount math is `round(original_setup_cents * 0.60)` for **each eligible setup line**. At current prices and an active 40% promotion: Booking + AI Booking costs $24.00 setup total ($9 + $15); Booking + AI Follow-Up $20.40 ($9 + $11.40); Booking + AI Business $32.40 ($9 + $23.40). The following monthly price is the selected AI plan’s un-discounted recurring rate.
-- Preserve current regular-price strikethroughs and promotional presentation. Never label a special rate `30% off` unless the stated regular price and sale price actually support that percentage.
-- Do not alter existing purchasers' Stripe subscriptions, accepted payment terms, historical order records, and legacy checkout-verification support. Existing clients keep their contracted rates.
-- The Launch Era **does use Stripe** for website services and AI agents. The Cleaning App's *internal* customer payments (cash, Zelle, check) are separate and must not be changed by this pricing policy.
-- Keep public-facing site offers in English, mirrored in natural Spanish; the intake, checkout, email, demo, agent knowledge, bundled pricing and backend validation must agree. Remove inaccurate weekend restrictions from public payment messaging.
+- The previous 40% combined-activation promotion is retired. `tle_bundle_promotion.booking_ai_activation` must remain disabled. Never show a 40% badge, strike through AI setup charges, or reenable the discount without new owner authorization.
+- Booking + Command Center is **$15 once, no monthly Booking fee**. Optional AI setup is paid once in addition to Booking: **$25 / $19 / $39**. Together the upfront totals are **$40 / $34 / $54**. AI subscriptions remain **$14 / $7 / $19 monthly** after the first 30 days from delivery.
+- Checkout, public price cards, payment metadata, owner billing tools, and receipts must always match exactly. If the pricing endpoint reports a promotion or another price, fail closed rather than show a different charge.
+- No public 1:1 setup-call offer. Buyer-only guidance requests are available from authenticated Command Center support after purchase; never solicit those calls from the sales page or public contact form.
+- Public copy should present the customer's pain, one clear benefit, demo, clear one-time price, optional AI monthly plan and CTA. Detailed internal intake approvals, production workflow, support scope, exception lists and revision/QA protocols belong in private onboarding, terms or the owner workspace.
+- Do not change historic payments, current subscriptions, contract terms, or existing customer accounts. The Launch Era uses **Stripe** for website products and AI agents; the Cleaning App's internal customer payment methods are separate (Cash, Zelle, Check).
+- Public pages are English with natural Spanish equivalents. Avoid misleading "no monthly fee" statements for AI plans, and show the delivery-triggered recurring date clearly.
 
 ## Change control
 
