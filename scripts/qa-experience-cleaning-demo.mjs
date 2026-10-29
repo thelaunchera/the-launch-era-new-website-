@@ -26,7 +26,7 @@ assert.match(editorial,/prefers-reduced-motion:reduce/,'Respect reduced-motion p
 assert.match(editorial,/--demo-bg:\s*#F7F4EF/,'The booking background must be warm ivory');
 assert.match(editorial,/\.experience:before/,'The section needs a continuous warm backdrop');
 assert.match(html,/intro-band-group" aria-hidden="true"/,'The duplicate marquee must be hidden from screen readers');
-assert.equal((html.match(/class="intro-band-group"/g)||[]).length,1,'Must have one accessible strip and one decorative duplicate');
+assert.equal((html.match(/class="intro-band-group"/g)||[]).length,2,'Must have one accessible strip and one decorative duplicate');
 assert.match(html,/experienceHeadingTop/);
 assert.match(html,/experienceHeadingBottom/);
 assert(!html.includes('Book residential. Request a commercial estimate.'),'The oversized generic heading should be retired');
