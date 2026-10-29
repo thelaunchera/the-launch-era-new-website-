@@ -17,8 +17,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Install project dependencies for jsdom
-        run: npm ci --ignore-scripts --no-audit --no-fund
+      - uses: oven-sh/setup-bun@v2
+      - name: Install dependencies from existing Bun lockfile
+        run: bun install --frozen-lockfile --ignore-scripts
       - name: Check demo JavaScript
         run: node --check public/demos/crumb/main.js
       - name: Test CRUMB builder, accessibility and content guards
