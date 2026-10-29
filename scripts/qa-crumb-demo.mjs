@@ -69,6 +69,21 @@ assert.equal(d.querySelector('#delivery-dialog').open, false);
 assert.equal(d.querySelector('#box-dialog').open, true);
 results.push('Local delivery information opens and returns to gift builder');
 assert.equal(d.querySelectorAll('.cookie').length, 6);
+
+const conciseMobileTitles={
+  'gifting-title':'A little gift. Big joy.',
+  'brand-glimpse-title':'Inside CRUMB.',
+  'moment-title':'Made to share.',
+  'final-title':'Make their day.'
+};
+for(const [id,expected] of Object.entries(conciseMobileTitles)) assert.equal(d.getElementById(id).textContent,expected);
+assert.match(css, /Mobile editorial rhythm/);
+assert.match(css, /#brand-glimpse-title \{[^}]*white-space:nowrap/);
+assert.match(css, /#moment-title \{[^}]*white-space:nowrap/);
+assert.match(css, /#final-title \{[^}]*white-space:nowrap/);
+assert.match(html, /styles\.css\?v=20261029-crumb-type-v8/);
+results.push('Mobile section headings use compact editorial copy without tall stacked title blocks');
+
 const expectedFlavors = [
   ['classic','Classic Chocolate Chip'],
   ['double','Double Chocolate'],
