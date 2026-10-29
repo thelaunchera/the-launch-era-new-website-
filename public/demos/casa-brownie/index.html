@@ -9,8 +9,8 @@
       name="description"
       content="Casa Brownie, demostración educativa de una web editorial de brownies con entrega local ficticia en Miami. Sin pedidos ni pagos reales."
     />
-    <link rel="stylesheet" href="./styles.css?v=cb-tablet-video-first-20261029" />
-    <link rel="stylesheet" href="./hero-corrections.css?v=cb-tablet-video-first-20261029" />
+    <link rel="stylesheet" href="./styles.css?v=cb-sticky-cart-20261029" />
+    <link rel="stylesheet" href="./hero-corrections.css?v=cb-sticky-cart-20261029" />
     <link rel="stylesheet" href="./motion.css?v=cb-center-20261028b" />
     <link rel="stylesheet" href="./editorial-center-v2.css" />
     <link rel="stylesheet" href="./gift-photos.css?v=cb-tablet-video-first-20261029" />
@@ -77,13 +77,13 @@
           ><button
             class="bag-button"
             id="demo-order"
-            aria-label="Simular pedido"
-            title="Simular pedido"
+            aria-label="Carrito de muestra: 0 brownies"
+            title="Ver carrito de muestra"
           >
             <svg viewBox="0 0 24 24" fill="none">
               <path d="M4 8h16l-1 13H5L4 8Z" />
               <path d="M9 9V6a3 3 0 0 1 6 0v3" /></svg
-            ><i></i></button
+            ><span class="cart-count" id="cart-count" aria-live="polite" aria-atomic="true">0</span></button
           ><button
             class="mobile-toggle"
             id="menu-button"
@@ -409,7 +409,7 @@
       </div>
       <div class="toast" id="toast" role="status" aria-live="polite"></div>
     </div>
-    <script type="module" src="./main.js?v=sabores-aprobados-20261029"></script>
+    <script type="module" src="./main.js?v=cb-sticky-cart-20261029"></script>
     <script src="./motion.js?v=cb-center-20261028b" defer></script>
   </body>
 </html>

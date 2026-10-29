@@ -151,7 +151,7 @@
 /* VIDEO FIRST — Casa Brownie hero editorial desktop sin panel de regalo. */
 @media (min-width: 1200px) {
   .site-header {
-    position: relative; top: auto; left: auto; width: 100%; height: 83px;
+    position: sticky; top: 0; left: auto; width: 100%; height: 83px;
     padding: 10px clamp(18px,4vw,66px);
     background: #f9f3ed; border-bottom: 1px solid #ead9c9;
   }

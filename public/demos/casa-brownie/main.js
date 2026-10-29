@@ -103,6 +103,9 @@ const closeButton = document.getElementById('modal-close');
 const menu = document.querySelector('.main-nav');
 const menuButton = document.getElementById('menu-button');
 const toast = document.getElementById('toast');
+const cartButton = document.getElementById('demo-order');
+const cartCount = document.getElementById('cart-count');
+const demoCart = new Map(); // Solo memoria de la pestaña: sin órdenes ni pagos reales.
 let lastFocus = null;
 let selectedFlavor = 'clasico';
 let toastTimer = null;
@@ -190,6 +193,73 @@ function addButton(parent, title, callback, className = 'modal-primary') {
   parent.append(button);
   return button;
 }
+
+function totalCartItems() {
+  return [...demoCart.values()].reduce((sum, quantity) => sum + quantity, 0);
+}
+function updateCartBadge() {
+  const total = totalCartItems();
+  cartCount.textContent = total > 99 ? '99+' : String(total);
+  cartButton.setAttribute('aria-label', 'Carrito de muestra: ' + total + ' brownies');
+  cartButton.title = 'Ver carrito de muestra (' + total + ')';
+}
+function addToCart(flavorId) {
+  const item = catalog.find(flavor => flavor.id === flavorId);
+  if (!item) return;
+  demoCart.set(flavorId, (demoCart.get(flavorId) || 0) + 1);
+  updateCartBadge();
+  notify(item.name + ' añadido al carrito de muestra.');
+  viewCart();
+}
+function changeCartQuantity(flavorId, change) {
+  const next = (demoCart.get(flavorId) || 0) + change;
+  if (next <= 0) demoCart.delete(flavorId);
+  else demoCart.set(flavorId, next);
+  updateCartBadge();
+  viewCart();
+}
+function viewCart() {
+  const wrapper = document.createElement('div');
+  const total = totalCartItems();
+  addText(wrapper, 'p',
+    'Este carrito es una demostración de la clase. No hay precios, pedidos ni pagos reales.',
+    'status-box');
+  if (total === 0) {
+    addText(wrapper, 'p', 'Tu carrito de muestra está vacío. Explora los sabores y añade tu favorito.');
+    addButton(wrapper, 'Explorar sabores', () => {
+      closeModal();
+      document.getElementById('brownies').scrollIntoView({ behavior: 'smooth' });
+    });
+  } else {
+    const lines = document.createElement('div');
+    lines.className = 'cart-lines';
+    for (const item of catalog) {
+      const quantity = demoCart.get(item.id);
+      if (!quantity) continue;
+      const line = document.createElement('div');
+      line.className = 'cart-line';
+      const description = document.createElement('div');
+      description.className = 'cart-line-details';
+      addText(description, 'strong', item.name);
+      addText(description, 'small', 'Sabor ilustrativo · sin precio');
+      const controls = document.createElement('div');
+      controls.className = 'cart-quantity';
+      const minus = addButton(controls, '−', () => changeCartQuantity(item.id, -1), 'cart-less');
+      minus.setAttribute('aria-label', 'Quitar un brownie ' + item.name);
+      const count = addText(controls, 'output', String(quantity));
+      count.setAttribute('aria-label', quantity + ' unidades');
+      const plus = addButton(controls, '+', () => changeCartQuantity(item.id, 1), 'cart-more');
+      plus.setAttribute('aria-label', 'Añadir otro brownie ' + item.name);
+      line.append(description, controls);
+      lines.append(line);
+    }
+    wrapper.append(lines);
+    addText(wrapper, 'p', total + ' brownie' + (total === 1 ? '' : 's') + ' en el carrito de muestra.');
+    addButton(wrapper, 'Continuar la demostración', () => viewExperience(selectedFlavor));
+  }
+  openModal('Tu carrito de muestra', wrapper, 'CASA BROWNIE · SIN COMPRAS REALES');
+}
+
 function viewFlavor(id) {
   const item = catalog.find(f => f.id === id);
   if (!item) return;
@@ -208,9 +278,8 @@ function viewFlavor(id) {
     'Este brownie pertenece a una demostración educativa; no está disponible para comprar.',
     'status-box'
   );
-  addButton(wrapper, 'Simular que elijo este sabor', () =>
-    viewExperience(item.id)
-  );
+  addButton(wrapper, 'Añadir al carrito de muestra', () => addToCart(item.id));
+  addButton(wrapper, 'Ver experiencia de pedido', () => viewExperience(item.id), 'text-link');
   openModal(item.name, wrapper, 'NUESTROS BROWNIES · SABOR DE EJEMPLO');
 }
 function viewExperience(startId) {
@@ -355,8 +424,10 @@ document.getElementById('coverage-btn').addEventListener('click', viewDelivery);
 document.getElementById('see-story').addEventListener('click', viewStory);
 document
   .getElementById('demo-order')
-  .addEventListener('click', () => viewExperience());
+  .addEventListener('click', viewCart);
 document
   .getElementById('experience-btn')
   .addEventListener('click', () => viewExperience());
 document.getElementById('legal-btn').addEventListener('click', viewLegal);
+
+updateCartBadge();

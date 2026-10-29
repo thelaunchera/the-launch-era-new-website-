@@ -9,6 +9,7 @@
   background: #f7f0e8;
   font-synthesis: none;
   scroll-behavior: smooth;
+  scroll-padding-top: 92px;
 }
 * {
   box-sizing: border-box;
@@ -60,8 +61,11 @@ img {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  z-index: 10;
-  position: relative;
+  z-index: 40;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  box-shadow: 0 4px 17px rgba(67,38,25,.07);
   border-bottom: 1px solid #ead9c9;
 }
 .brand {
@@ -129,14 +133,39 @@ img {
   stroke-width: 1.5;
   stroke-linecap: round;
 }
-.bag-button i {
-  position: absolute;
-  right: 5px;
-  top: 6px;
-  width: 6px;
-  height: 6px;
-  border-radius: 100%;
-  background: #bc7658;
+.cart-count {
+  position: absolute; top: 0; right: -2px; min-width: 19px;
+  height: 19px; padding: 0 4px; display: grid; place-items: center;
+  border-radius: 999px; background: #693c2e; border: 2px solid #f9f3ed;
+  color: #fff9f0; font: 700 10px/1 'DM Sans',sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+.header-actions .bag-button {
+  min-width: 43px; min-height: 44px; display: inline-grid; place-items: center;
+}
+.cart-lines { display: flex; flex-direction: column; gap: 12px; margin: 18px 0; }
+.cart-line {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 12px; border: 1px solid #e3cdb9;
+  background: #fffaf4; border-radius: 12px;
+}
+.cart-line-details { display: flex; flex-direction: column; gap: 4px; }
+.cart-line-details strong { font: 400 19px/1.25 'DM Serif Display',Georgia,serif; }
+.cart-line-details small { color: #806251; font-size: 11px; }
+.cart-quantity { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.cart-quantity button {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid #d8bca7; background: #f4e7dc;
+  color: #593426; font-size: 18px;
+}
+.cart-quantity output {
+  min-width: 2ch; text-align: center; font-variant-numeric: tabular-nums; font-weight: 700;
+}
+@media (max-width: 560px) {
+  :root { scroll-padding-top: 76px; }
+  .header-actions { gap: 4px; }
+  .cart-line { gap: 8px; }
+  .cart-quantity { gap: 5px; }
 }
 .mobile-toggle {
   display: none;
