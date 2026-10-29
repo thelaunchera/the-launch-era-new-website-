@@ -457,6 +457,39 @@ function viewContactDemo() {
   form.querySelector('input')?.focus();
 }
 
+function viewLegalTopic(topic) {
+  const notices = {
+    privacidad: {
+      title: 'Privacidad · demo',
+      body: [
+        'El formulario de contacto es una simulación: lo escrito no se envía ni se guarda desde esta web. Utiliza únicamente datos ficticios.',
+        'Casa Brownie no tiene registro de usuarios, pagos ni cuentas de cliente. El proveedor que aloja una página web puede procesar información técnica de acceso conforme a sus propias políticas.'
+      ]
+    },
+    terminos: {
+      title: 'Términos de uso · demo',
+      body: [
+        'Puedes explorar los sabores, abrir una caja de muestra y simular un mensaje. Ninguna de estas acciones constituye una compra, reserva o contrato.',
+        'Los precios, productos, entregas y perfiles sociales que aparecen son elementos ilustrativos de una clase. No hay pedidos ni servicios reales.'
+      ]
+    },
+    aviso: {
+      title: 'Aviso legal · demo',
+      body: [
+        'Casa Brownie es una marca ficticia y su ubicación en Miami es inventada. No existe una tienda física que visitar ni una empresa de alimentos atendiendo pedidos.',
+        'Concepto digital educativo creado por The Launch Era. Este ejemplo no reemplaza los avisos legales, de privacidad, alérgenos o comercio que requeriría una tienda real.'
+      ]
+    }
+  };
+  const info = notices[topic];
+  if (!info) return;
+  const wrapper = document.createElement('div');
+  for (const paragraph of info.body) addText(wrapper, 'p', paragraph);
+  addText(wrapper, 'p', 'No envíes datos reales ni intentes realizar pagos en esta demostración.', 'status-box');
+  addButton(wrapper, 'Cerrar', closeModal);
+  openModal(info.title, wrapper, 'INFORMACIÓN EDUCATIVA');
+}
+
 function viewLegal() {
   const wrapper = document.createElement('div');
   addText(
@@ -497,6 +530,7 @@ document
   .getElementById('experience-btn')
   .addEventListener('click', () => viewExperience());
 document.getElementById('legal-btn').addEventListener('click', viewLegal);
+document.querySelectorAll('[data-demo-legal]').forEach(button => button.addEventListener('click', () => viewLegalTopic(button.dataset.demoLegal)));
 document.getElementById('contact-us-button').addEventListener('click', viewContactDemo);
 document.querySelectorAll('[data-social-demo]').forEach(button => button.addEventListener('click', () => viewSocialDemo(button.dataset.socialDemo)));
 
