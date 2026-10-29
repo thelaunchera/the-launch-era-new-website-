@@ -99,12 +99,12 @@ assert.equal(d.querySelectorAll('.cookie').length, 6);
 const compactTitles = {
   'gifting-title':'A little gift. Big joy.',
   'brand-glimpse-title':'Inside CRUMB.',
-  'moment-title':'Made to share.',
+  'moment-title':'It started with a cookie.',
   'final-title':'Make their day.'
 };
 for(const [id,expected] of Object.entries(compactTitles)) assert.equal(d.getElementById(id).textContent,expected);
 assert.match(css,/Compact headings for small screens/);
-assert.match(html,/styles\.css\?v=20261029-crumb-heading-v9/);
+assert.match(html,/styles\.css\?v=20261029-crumb-experience/);
 results.push('Compact iPhone section titles retain correct English copy and styling');
 
 const expectedFlavors = [
@@ -190,7 +190,7 @@ assert.equal(d.querySelectorAll('input[type="tel"]').length,0);
 results.push('Six unique flavor image paths, section anchors, Miami copy and no old ribbon/payment form verified');
 
 // Store experience remains a fictional demo: no real address, social profiles or sending.
-assert.equal(d.querySelector('#story h2').textContent,'It started with one really good cookie.');
+assert.equal(d.querySelector('#story h2').textContent,'It started with a cookie.');
 assert.match(d.querySelector('#story').textContent,/fictional bakery story/i);
 assert.ok(d.querySelector('a[href="#story"]'));
 assert.match(d.querySelector('.footer-location address').textContent,/128 Cookie Lane\s*Miami, FL 33131/);
