@@ -56,7 +56,8 @@
        <div class="window-brand"><span class="window-mark">S</span><span><strong>Sample Cleaning</strong><small data-t="sampleSubtitle">DEMO BOOKING PAGE</small></span></div>
        <span class="window-status"><span class="tiny-dot"></span><span data-t="sampleMode">Sample mode</span></span>
       </div>
-      <div class="steps" aria-label="Sample booking progress">
+      <div class="booking-category" role="group" aria-label="Cleaning category"><button class="booking-category-tab is-active" type="button" data-category="residential" aria-pressed="true"><span data-t="categoryHome">Residential</span><small data-t="categoryHomeHint">Sample booking</small></button><button class="booking-category-tab" type="button" data-category="commercial" aria-pressed="false"><span data-t="categoryCommercial">Commercial</span><small data-t="categoryCommercialHint">Estimates only</small></button></div>
+       <div class="steps" aria-label="Sample booking progress">
        <span class="step is-current" data-step-label="1" aria-current="step"><b>1</b><span data-t="step1">Service</span></span>
        <span class="step" data-step-label="2"><b>2</b><span data-t="step2">Details</span></span>
        <span class="step" data-step-label="3"><b>3</b><span data-t="step3">Time</span></span>
@@ -66,33 +67,37 @@
        <div class="stage-heading"><p class="mini-tag" data-t="s1Tag">CHOOSE A SERVICE</p><h3 data-t="s1Title">What needs cleaning?</h3><p data-t="s1Sub">Choose what your customer needs.</p></div>
        <div id="service-grid" class="service-grid" role="radiogroup" aria-label="Cleaning services">
         <button type="button" class="service-card is-selected" data-service="standard" role="radio" aria-checked="true">
-         <img src="/assets/drive-house-gallery/pristine-kitchen.png" alt="" loading="lazy">
+         <img src="/assets/drive-booking-journey/choose-time-living-room.png" alt="" loading="lazy">
          <span class="service-card-copy"><strong data-t="serviceStandard">Standard cleaning</strong><small data-t="serviceStandardHint">For regular home care</small></span><span class="select-indicator" aria-hidden="true"></span>
         </button>
         <button type="button" class="service-card" data-service="deep" role="radio" aria-checked="false">
-         <img src="/assets/lead-demo/drive-cleaner-kitchen.webp" alt="" loading="lazy">
+         <img src="/assets/cleaning-demo/cleaner-action.png" alt="" loading="lazy">
          <span class="service-card-copy"><strong data-t="serviceDeep">Deep cleaning</strong><small data-t="serviceDeepHint">For extra attention</small></span><span class="select-indicator" aria-hidden="true"></span>
         </button>
         <button type="button" class="service-card" data-service="move" role="radio" aria-checked="false">
-         <img src="/assets/lead-demo/hero-luxury-home.png" alt="" loading="lazy">
+         <img src="/assets/drive-house-gallery/whole-home.png" alt="" loading="lazy">
          <span class="service-card-copy"><strong data-t="serviceMove">Move-in / move-out</strong><small data-t="serviceMoveHint">For a fresh start</small></span><span class="select-indicator" aria-hidden="true"></span>
         </button>
         <button type="button" class="service-card" data-service="custom" role="radio" aria-checked="false">
-         <img src="/assets/clara-private-demo/gallery/02-kitchen.webp" alt="" loading="lazy">
+         <img src="/assets/drive-booking-journey/share-details-bathroom.png" alt="" loading="lazy">
          <span class="service-card-copy"><strong data-t="serviceCustom">Special cleaning</strong><small data-t="serviceCustomHint">A quote for unique jobs</small></span><span class="select-indicator" aria-hidden="true"></span>
         </button>
        </div>
-      </div>
+      <div id="commercial-service-grid" class="service-grid" role="radiogroup" aria-label="Commercial estimate services" hidden>
+<button type="button" class="service-card is-selected" data-commercial-service="office" role="radio" aria-checked="true"><img src="/assets/lead-demo/spotless-office.png" alt="" loading="lazy"><span class="service-card-copy"><strong data-t="officeService">Office cleaning</strong><small data-t="officeServiceHint">Offices and shared spaces</small></span><span class="select-indicator" aria-hidden="true"></span></button>
+<button type="button" class="service-card" data-commercial-service="customCommercial" role="radio" aria-checked="false"><img src="/assets/clara-private-demo/commercial-home-office.webp" alt="" loading="lazy"><span class="service-card-copy"><strong data-t="customCommercialService">Business spaces</strong><small data-t="customCommercialHint">Custom commercial estimate</small></span><span class="select-indicator" aria-hidden="true"></span></button></div>
+<p id="commercial-estimate-note" class="commercial-estimate-note" data-t="commercialOnlyNote" hidden>Commercial cleaning is estimate-only. No fixed price or confirmed booking.</p>
+</div>
 
       <div class="stage" id="stage-2" hidden>
        <div class="stage-heading"><p class="mini-tag" data-t="s2Tag">JUST A FEW DETAILS</p><h3 data-t="s2Title">Tell us about the space.</h3><p data-t="s2Sub">Just enough to prepare a request.</p></div>
        <div class="two-fields">
         <label><span data-t="propertyLabel">Property</span><select id="property"><option value="house" data-t="propertyHouse">House</option><option value="apartment" data-t="propertyApartment">Apartment</option><option value="office" data-t="propertyOffice">Office / workspace</option></select></label>
         <label><span data-t="frequencyLabel">How often?</span><select id="frequency"><option value="once" data-t="frequencyOnce">One time</option><option value="weekly" data-t="frequencyWeekly">Weekly</option><option value="biweekly" data-t="frequencyBiweekly">Every two weeks</option><option value="monthly" data-t="frequencyMonthly">Monthly</option></select></label>
-        <label><span data-t="bedroomLabel">Bedrooms</span><select id="beds"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4+</option></select></label>
-        <label><span data-t="bathroomLabel">Bathrooms</span><select id="baths"><option value="1">1</option><option value="2" selected>2</option><option value="3">3+</option></select></label>
+        <label class="residential-only"><span data-t="bedroomLabel">Bedrooms</span><select id="beds"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4+</option></select></label>
+        <label class="residential-only"><span data-t="bathroomLabel">Bathrooms</span><select id="baths"><option value="1">1</option><option value="2" selected>2</option><option value="3">3+</option></select></label>
        </div>
-       <fieldset class="extras"><legend data-t="extrasLabel">Optional extras</legend>
+       <div id="commercial-details" class="commercial-details" hidden><label><span data-t="commercialAreaLabel">Approximate area</span><select id="commercial-area"><option value="under2000" data-t="areaUnder">Under 2,000 sq ft</option><option value="2000to5000" data-t="areaMid">2,000–5,000 sq ft</option><option value="over5000" data-t="areaOver">Over 5,000 sq ft</option></select></label><p data-t="commercialDetailsNote">The owner reviews the work before preparing an estimate.</p></div><fieldset class="extras residential-only"><legend data-t="extrasLabel">Optional extras</legend>
         <label><input type="checkbox" value="oven"><span data-t="extraOven">Inside oven</span><small>+$30</small></label>
         <label><input type="checkbox" value="fridge"><span data-t="extraFridge">Inside fridge</span><small>+$25</small></label>
        </fieldset>
