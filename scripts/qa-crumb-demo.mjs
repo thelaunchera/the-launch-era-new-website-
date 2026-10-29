@@ -69,6 +69,34 @@ assert.equal(d.querySelector('#delivery-dialog').open, false);
 assert.equal(d.querySelector('#box-dialog').open, true);
 results.push('Local delivery information opens and returns to gift builder');
 assert.equal(d.querySelectorAll('.cookie').length, 6);
+const expectedFlavors = [
+  ['classic','Classic Chocolate Chip'],
+  ['double','Double Chocolate'],
+  ['caramel','Salted Caramel'],
+  ['raspberry','White Chocolate Raspberry'],
+  ['nutty','Nutty Dream'],
+  ['brownie','Brownie Chip']
+];
+for(const [id,flavor] of expectedFlavors) {
+  const card=d.querySelector('.cookie[data-card="'+id+'"]');
+  assert.ok(card,'Flavor card missing: '+flavor);
+  assert.equal(card.querySelector('h3').textContent,flavor);
+  const image=card.querySelector('img');
+  assert.match(image.getAttribute('src'),new RegExp('/'+id+'\\.webp\\?v=20261029-crumb-v7'));
+  assert.equal(image.getAttribute('width'),'1024');
+  assert.equal(image.getAttribute('height'),'1024');
+  const file=path.join(root,'assets',id+'.webp');
+  assert.ok(fs.existsSync(file) && fs.statSync(file).size>150000,'Missing high-quality photo '+id);
+  const builder=d.querySelector('.flavor-row [data-add="'+id+'"]');
+  assert.ok(builder,'Missing builder flavor '+id);
+  assert.equal(builder.getAttribute('aria-label'),'Add '+flavor);
+  assert.equal(builder.closest('.flavor-row').querySelector('strong').textContent,flavor);
+}
+assert.equal(d.querySelectorAll('.cookie img[src*="20261029-crumb-v7"]').length,6);
+assert.equal(d.querySelectorAll('.flavor-row img[src*="20261029-crumb-v7"]').length,6);
+assert.doesNotMatch(d.querySelector('#cookies').textContent,/White Chocolate Macadamia|Cookies & Cream|Cinnamon Sugar/);
+assert.match(code,/webp\\?v=20261029-crumb-v7/);
+results.push('All six new 1024px flavors, titles and builder photos match and load from local assets');
 const heroMobileSource = d.querySelector('.hero picture source[media="(max-width: 600px)"]');
 assert.ok(heroMobileSource);
 assert.match(heroMobileSource.getAttribute('srcset'), /hero-mobile\.webp\?v=/);
