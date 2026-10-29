@@ -15,7 +15,7 @@ const server=createServer((req,res)=>{
 });
 await new Promise(resolveReady=>server.listen(0,'127.0.0.1',resolveReady));
 const base='http://127.0.0.1:'+server.address().port;
-const prices={percent_off:0,booking_setup_cents:1500,plans:{
+const prices={bundle_price_version:'bundle-20261029',percent_off:0,booking_setup_cents:1500,plans:{
  'ai-booking':{original_setup_cents:1000,setup_due_cents:1000,monthly_cents:1200},
  'ai-followup':{original_setup_cents:500,setup_due_cents:500,monthly_cents:800},
  'ai-business':{original_setup_cents:1400,setup_due_cents:1400,monthly_cents:1600}
@@ -76,7 +76,7 @@ try {
  await esCtx.close();
  const offCtx=await browser.newContext({viewport:{width:390,height:844}});
  const off=await offCtx.newPage();
- await off.route('**/functions/v1/tle-booking-bundle-checkout',r=>r.fulfill({json:{percent_off:0,booking_setup_cents:1500,plans:Object.fromEntries(Object.entries(prices.plans).map(([key,plan])=>[key,{...plan,setup_due_cents:plan.original_setup_cents}]))}}));
+ await off.route('**/functions/v1/tle-booking-bundle-checkout',r=>r.fulfill({json:{bundle_price_version:'bundle-20261029',percent_off:0,booking_setup_cents:1500,plans:Object.fromEntries(Object.entries(prices.plans).map(([key,plan])=>[key,{...plan,setup_due_cents:plan.original_setup_cents}]))}}));
  await off.goto(base+'/booking-bundle/?lang=en',{waitUntil:'domcontentloaded'});
  await off.waitForTimeout(300);
  assert.equal(await off.locator('#bundleOffer').count(),0,'Retired badge must stay removed');
