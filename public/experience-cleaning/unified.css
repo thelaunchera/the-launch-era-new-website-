@@ -1,0 +1,143 @@
+/* Sample Cleaning · unified editorial identity. All corners restrained and consistent. */
+:root{--demo-ink:#172F3D;--demo-blue:#416F88;--demo-line:#D7E2E8;--demo-bg:#F8FAFA;--demo-radius:15px}
+body{background:var(--demo-bg);color:var(--demo-ink)}
+body :is(.service-card,.form-panel,.request-preview,.owner-dashboard,.workflow,.workflow-visual,.request-column,.action-column,.dashboard-snapshot,.dash-metrics>div,.offer,.offer-photo,.offer-copy,.important,.time-options label,.two-fields select,.date-selector input){border-radius:var(--demo-radius)}
+.site-header{max-width:none;min-height:66px;background:#fff;border-bottom:1px solid #E4EBEF;padding:12px clamp(18px,4vw,55px)}
+.site-header .brand img{width:122px}
+.lang-btn{border-radius:10px;min-height:39px;padding:7px 13px}
+.hero.hero-cleaning-site{position:relative;isolation:isolate;display:flex;align-items:center;max-width:none;margin:0;min-height:min(680px,78vh);padding:0 clamp(24px,8vw,125px) 62px;overflow:hidden;background:#244455;color:#fff}
+.hero-full-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 44%;z-index:-2;filter:saturate(.85)}
+.hero.hero-cleaning-site:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,35,45,.81) 0%,rgba(17,44,57,.6) 45%,rgba(17,44,57,.08) 100%);z-index:-1}
+.hero-site-nav{position:absolute;left:clamp(24px,8vw,125px);right:clamp(24px,8vw,125px);top:0;display:flex;align-items:center;justify-content:space-between;gap:22px;height:90px;border-bottom:1px solid #FFFFFF5C}
+.sample-brand{display:flex;gap:12px;align-items:center;min-width:0}
+.sample-mark{font:400 32px "Instrument Serif",Georgia,serif;display:grid;place-items:center;width:39px;height:39px;border:1px solid #FFFFFF9E;border-radius:50%;color:#fff}
+.sample-brand strong{font:750 17px "Manrope",Arial,sans-serif;letter-spacing:-.04em;color:#fff}
+.sample-nav-label{font:750 10px "Manrope",Arial,sans-serif;letter-spacing:.15em;color:#F3F8FB}
+.hero-nav-cta{text-decoration:none;font-weight:800;font-size:12px;padding:11px 16px;border:1px solid #FFFFFF9E;border-radius:9px;white-space:nowrap;background:#ffffff18;color:#fff;min-height:42px;display:grid;place-items:center}
+.hero-nav-cta:hover{background:#fff;color:#23495D}
+.hero.hero-cleaning-site .hero-copy{max-width:720px;width:100%;padding:140px 0 25px}
+.hero.hero-cleaning-site h1{font:400 clamp(62px,7.4vw,110px)/.96 "Instrument Serif",Georgia,serif;letter-spacing:-.045em;color:#fff;margin:12px 0 25px}
+.hero.hero-cleaning-site h1 em{font-style:italic;font-weight:400;color:#fff}
+.hero.hero-cleaning-site .eyebrow{color:#DAEBF5;font-size:11px;letter-spacing:.16em}
+.hero.hero-cleaning-site .hero-intro{font:500 clamp(15px,1.4vw,18px)/1.7 "Manrope",Arial,sans-serif;color:#F4F6F8;max-width:500px}
+.hero.hero-cleaning-site .hero-actions{margin-top:22px;gap:15px}
+.hero.hero-cleaning-site .hero-main-action{background:#F5F9FB;color:#203D4D;border-radius:10px;padding:16px 24px;box-shadow:none;font-size:13px}
+.hero.hero-cleaning-site .hero-main-action:hover{background:#E0F0F8}
+.hero.hero-cleaning-site .hero-helper{color:#E6F1F6;font-size:11px}
+.hero-photo-caption{position:absolute;bottom:27px;right:clamp(24px,8vw,125px);font:800 10px "Manrope",Arial,sans-serif;color:#F0F6FA;letter-spacing:.15em}
+.intro-band{background:#E9F2F6;color:#426D83;padding:14px 20px}
+.intro-band .band-dot{width:4px;height:4px;background:#8DADC0}
+.experience{padding-top:62px;padding-bottom:72px}
+.experience .section-heading h2{max-width:940px}
+.experience-frame{display:flex;flex-direction:column;max-width:980px;margin:auto;gap:0;border-radius:var(--demo-radius);overflow:hidden;border:1px solid var(--demo-line);background:#fff;box-shadow:0 20px 45px #283B4D12}
+.form-panel{border:0;box-shadow:none;border-radius:0}
+.window-head{padding:15px 24px}
+.window-brand .window-mark{background:#E4F0F6;border-radius:8px;color:#285A73}
+.booking-category{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 24px 9px;border-bottom:1px solid #DCE7EC;padding-bottom:13px}
+.booking-category-tab{background:#F4F7F9;border:1px solid #DCE6EA;color:#405F71;text-align:left;padding:12px 16px;border-radius:10px;min-width:0}
+.booking-category-tab span{display:block;font:800 14px "Manrope",Arial,sans-serif}
+.booking-category-tab small{display:block;font-size:11px;line-height:1.5;color:#658090}
+.booking-category-tab.is-active{background:#E5F2F8;border-color:#7AA6BD;box-shadow:inset 0 0 0 1px #7AA6BD;color:#1D516B}
+.booking-category-tab:focus-visible{outline:3px solid #307AA1}
+.steps{margin:0 24px;padding:10px 0 0}
+.step{justify-content:flex-start;gap:8px}
+.step b{border-radius:9px}
+.step.is-current b{box-shadow:0 0 0 4px #E7F2F8}
+.stage{padding:14px 24px 4px;min-height:0}
+.stage-heading{margin-bottom:13px}
+.stage-heading h3{font:400 37px/1.07 "Instrument Serif",Georgia,serif;color:#203B4A}
+.service-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+#commercial-service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.service-card{overflow:hidden;background:#fff;border:1px solid #D8E3E8;border-radius:11px;box-shadow:none}
+.service-card img{height:115px;object-fit:cover;object-position:center}
+.service-card-copy{padding:10px 10px 12px;min-height:76px}
+.service-card strong{font-size:11px;line-height:1.35}
+.service-card small{font-size:10px;line-height:1.35}
+.service-card.is-selected{border-color:#457C99;box-shadow:0 0 0 2px #D1E8F3}
+.select-indicator{border-radius:6px;width:17px;height:17px}
+.is-selected .select-indicator{border-radius:6px;background:#416F88}
+.commercial-estimate-note{margin:12px 2px 0;padding:11px 12px;border-left:3px solid #7FB0CA;background:#F0F7FB;color:#3F687E;font-size:12px;line-height:1.55}
+.commercial-details{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px;margin:11px 0}
+.commercial-details label{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:750;color:#446278}
+.commercial-details select{border:1px solid #CCDDE5;border-radius:9px;padding:10px;min-height:43px;color:#1A394A}
+.commercial-details p{font-size:11px;color:#5D7D8E;max-width:390px}
+.two-fields select,.date-selector input{border-radius:9px}
+.extras label{border-radius:9px}
+.time-options label{border-radius:10px}
+.important{border-radius:10px}
+.form-actions{border:0;padding:14px 24px 20px}
+.button{border-radius:10px}
+.request-preview{position:static;border:0;border-top:1px solid #DFE9EE;border-radius:0;background:#F3F8FB;box-shadow:none;padding:15px 24px 11px}
+.mini-receipt-head{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.mini-receipt-head h3{font:400 25px "Instrument Serif",Georgia,serif;letter-spacing:-.02em;color:#25495C;margin:3px 0 0}
+.mini-price{font:700 20px "Manrope",Arial,sans-serif;color:#264E65;text-align:right;max-width:180px;overflow-wrap:anywhere}
+.mini-price.is-estimate{font-size:12px}
+.mini-receipt-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:11px 0 2px;padding:0}
+.mini-receipt-grid div{min-width:0;padding-top:6px;border-top:1px solid #D8E6ED}
+.mini-receipt-grid dt{font:700 9px "Manrope",Arial,sans-serif;letter-spacing:.02em;color:#6B8291}
+.mini-receipt-grid dd{font:750 11px/1.35 "Manrope",Arial,sans-serif;margin:4px 0 0;color:#274B5E;overflow-wrap:anywhere}
+.request-preview .receipt-disclaimer{padding:8px 0 0;font-size:10px;color:#687F8E}
+.owner-dashboard{background:#fff;border:1px solid #D7E4EC}
+.owner-dashboard .dashboard-sidebar{background:#23465A}
+.owner-dashboard .workflow-visual-symbol,.owner-dashboard .snapshot-icon{background:#DCECF5;color:#346D89;font:800 9px "Manrope",Arial,sans-serif;border-radius:8px}
+.owner-dashboard .workflow-visual,.owner-dashboard .request-column,.owner-dashboard .action-column{border-radius:12px}
+.owner-dashboard .status-pill,.owner-dashboard .dash-view-tag{border-radius:8px}
+.owner-dashboard .metric-action{font-weight:750}
+.offer{background:#E9F3F8}
+.offer-photo img{object-fit:cover}
+.offer-copy h2{color:#1E4356}
+.offer .purchase{border-radius:10px}
+footer{background:#F8FAFA}
+@media(max-width:760px){
+ .site-header{min-height:62px}
+ .hero.hero-cleaning-site{min-height:635px;padding:0 21px 30px;align-items:flex-end}
+ .hero-full-photo{object-position:61% center}
+ .hero.hero-cleaning-site:after{background:linear-gradient(0deg,rgba(12,36,47,.93) 0%,rgba(19,52,67,.66) 54%,rgba(28,58,65,.14) 100%)}
+ .hero-site-nav{left:21px;right:21px;height:70px}
+ .sample-brand strong{font-size:14px}
+ .sample-nav-label{display:none}
+ .hero-nav-cta{font-size:11px;padding:7px 11px}
+ .hero.hero-cleaning-site .hero-copy{padding:150px 0 37px}
+ .hero.hero-cleaning-site h1{font-size:clamp(60px,14vw,80px);line-height:.92;margin:12px 0 18px}
+ .hero.hero-cleaning-site .hero-intro{font-size:14px;line-height:1.6}
+ .hero.hero-cleaning-site .hero-actions{align-items:flex-start;gap:8px}
+ .hero-photo-caption{right:20px;bottom:11px;font-size:8px}
+ .intro-band{padding:12px 14px;gap:8px;font-size:8px}
+ .experience{padding-top:47px}
+ .experience-frame{max-width:none}
+ .window-head{padding:13px 15px}
+ .booking-category{margin:13px 15px 4px;gap:6px;padding-bottom:10px}
+ .booking-category-tab{padding:9px 10px}
+ .booking-category-tab span{font-size:12px}
+ .booking-category-tab small{font-size:10px}
+ .steps{margin:0 15px;padding:9px 0 0}
+ .step{font-size:10px;justify-content:center;gap:4px}
+ .step b{height:26px;width:26px;font-size:11px}
+ .stage{padding:12px 15px 5px}
+ .stage-heading h3{font-size:31px}
+ .service-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ #commercial-service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .service-card img{height:95px}
+ .service-card .service-card-copy{min-height:62px}
+ .commercial-details{display:block}
+ .commercial-details p{margin-top:10px}
+ .form-actions{padding:12px 15px 17px}
+ .request-preview{padding:12px 15px 10px}
+ .mini-receipt-head h3{font-size:22px}
+ .mini-receipt-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+ .mini-receipt-grid>div:nth-child(4),.mini-receipt-grid>div:nth-child(5){display:none}
+ .owner-dashboard{border-radius:12px}
+}
+@media(max-width:390px){
+ .hero.hero-cleaning-site{min-height:610px}
+ .hero.hero-cleaning-site h1{font-size:58px}
+ .mini-price{font-size:16px}
+ .mini-receipt-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .mini-receipt-grid>div:nth-child(3){display:none}
+ .sample-brand{gap:7px}
+ .sample-mark{height:31px;width:31px;font-size:25px}
+}
+@media(prefers-reduced-motion:reduce){
+ .hero-full-photo{animation:none}
+ .step,.service-card,.booking-category-tab{transition:none!important}
+}
