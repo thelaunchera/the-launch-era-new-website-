@@ -30,25 +30,25 @@ for (const [name,minSize,maxSize] of [
 }
 assert.match(css,/@media \(max-width: 790px\)[\s\S]*?\.hero-photo\s*\{\s*order:\s*-1/);
 assert.match(js,/prefers-reduced-motion/);
-assert.ok(!/<form\\b/i.test(html),'contact form must not appear directly in page HTML');
-assert.match(html,/id="contact-us-button"/,'footer contact trigger is visible');
+assert.ok(!html.includes('<form'),'contact form only created on click');
+assert.ok(html.includes('id="contact-us-button"'),'footer contact trigger is visible');
 assert.equal((html.match(/data-social-demo="/g)||[]).length,3,'three simulated social previews');
-assert.match(html,/123 Calle del Cacao/,'fictional address is visibly labeled');
-assert.match(html,/Dirección inventada/,'fictional location is clearly disclosed');
-assert.match(html,/id="nuestra-historia"/,'compact story is part of the page');
+assert.ok(html.includes('123 Calle del Cacao'),'fictional address visible');
+assert.ok(html.includes('Dirección inventada'),'fictional location disclosed');
+assert.ok(html.includes('id="nuestra-historia"'),'compact story is part of page');
 assert.ok(html.indexOf('id="nuestra-historia"') < html.indexOf('id="entrega"'),'story precedes delivery');
-assert.match(html,/store-experience\\.css\\?v=cb-store-experience-20261029/,'new responsive CSS loaded');
-assert.match(js,/function viewContactDemo\\(/);
-assert.match(js,/function viewSocialDemo\\(/);
-assert.match(js,/form\\.addEventListener\\('submit'/);
-assert.match(js,/event\\.preventDefault\\(\\)/,'demo submission never navigates');
-assert.match(js,/form\\.reset\\(\\)/,'fake fields reset on submit');
-assert.doesNotMatch(js,/fetch\\(|sendBeacon|localStorage|sessionStorage/,'contact is client-only with no network/storage APIs');
-assert.match(js,/modalRoot\\.querySelectorAll\\('button,\\[href\\],select,input,textarea'/,'keyboard focus cycling includes textarea');
+assert.ok(html.includes('store-experience.css?v=cb-store-experience-20261029'),'new responsive CSS loaded');
+for (const snippet of [
+ 'function viewContactDemo()',
+ 'function viewSocialDemo(platform)',
+ "form.addEventListener('submit'",
+ 'event.preventDefault()',
+ 'form.reset()',
+ "modalRoot.querySelectorAll('button,[href],select,input,textarea'"
+]) assert.ok(js.includes(snippet),'missing safe demo behavior '+snippet);
+for(const term of ['fetch(', 'sendBeacon', 'localStorage', 'sessionStorage'])assert.ok(!js.includes(term),'no network/storage operation '+term);
 const experienceCss=load('store-experience.css');
-assert.match(experienceCss,/\\.cb-store-story/);
-assert.match(experienceCss,/\\.cb-demo-contact-form/);
-assert.match(experienceCss,/@media\\s*\\(max-width:\s*640px\\)/);
+for(const selector of ['.cb-store-story','.cb-demo-contact-form','@media (max-width:640px)'])assert.ok(experienceCss.includes(selector),'missing demo style '+selector);
 
 assert.ok(!/stripe\.com|checkout\.stripe\.com/i.test(html),'no payment destination');
 assert.match(html,/DEMO EDUCATIVA · SIN PEDIDOS NI PAGOS REALES/);
