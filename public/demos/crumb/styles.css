@@ -274,3 +274,58 @@ textarea { width: 100%; padding: 12px; border: 1px solid #cbb8a5; background: #f
   .gps-ring { animation:none; opacity:.35; transform:scale(2.2); }
   .cookie-visual img { transform:none!important; transition:none!important; }
 }
+
+
+/* 29 Oct final CRUMB: consistent food merchandising + approved new storefront image. */
+@media (min-width: 601px) {
+  .cookie-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:34px 22px; }
+  .cookie, .cookie:first-child, .cookie:nth-child(2), .cookie:last-child { grid-column:span 1; }
+  .cookie-visual, .cookie:first-child .cookie-visual, .cookie:nth-child(2) .cookie-visual,
+  .cookie:last-child .cookie-visual { aspect-ratio:1 / 1; }
+}
+.cookie:first-child .cookie-visual::after { content:none; }
+.cookie-visual { position:relative; overflow:hidden; border-radius:2px; }
+.cookie-visual img, .cookie:first-child .cookie-visual img,
+.cookie:nth-child(2) .cookie-visual img { width:100%; height:100%; object-fit:cover; object-position:center; transform:none; transition:transform .45s ease; }
+.cookie:hover .cookie-visual img { transform:scale(1.035); }
+.cookie-detail h3 { margin:0; font-size:clamp(23px,2.3vw,32px); line-height:1.1; }
+.cookie-detail p { margin-top:8px; font-size:12px; line-height:1.5; }
+.cookie-visual .add-cookie { position:absolute; bottom:12px; right:12px; top:auto; left:auto; width:auto; min-width:75px; height:39px; min-height:39px;
+  border-radius:999px; border:1px solid #ddcab8; padding:0 12px; display:inline-flex; justify-content:center; align-items:center; gap:7px;
+  background:#fffaf3f5; color:#432b21; box-shadow:0 4px 12px #311d171c; font-size:11px; line-height:1; letter-spacing:.01em; font-weight:700;
+  transition:background .25s,transform .25s; }
+.cookie-visual .add-cookie span { font-size:18px; font-weight:400; line-height:1; }
+.cookie-visual .add-cookie:hover { background:#fffaf3; transform:translateY(-2px); }
+.cookie-visual .add-cookie:focus-visible { outline:3px solid #a67a57; outline-offset:3px; }
+/* Two independent, opposite-direction marquees above the lifestyle photo. */
+.crumb-marquee { overflow:hidden; width:100%; background:#e4d4c1; border-top:1px solid #dac7b2; border-bottom:1px solid #dac7b2; }
+.crumb-marquee-row { overflow:hidden; display:flex; align-items:center; height:34px; white-space:nowrap; }
+.crumb-marquee-row + .crumb-marquee-row { border-top:1px solid #d5bda6; background:#4b3026; color:#fff5e7; }
+.crumb-marquee-track { width:max-content; display:flex; align-items:center; will-change:transform; }
+.crumb-marquee-track span { display:block; flex:0 0 auto; white-space:nowrap; padding-right:34px; font:700 10px/1.1 'DM Sans',sans-serif; letter-spacing:.12em; }
+.crumb-marquee-track i { font-style:normal; padding:0 13px; font-size:9px; opacity:.52; }
+.crumb-marquee-row--left .crumb-marquee-track { animation:crumbBannerLeft 25s linear infinite; }
+.crumb-marquee-row--right .crumb-marquee-track { transform:translateX(-50%); animation:crumbBannerRight 28s linear infinite; }
+@keyframes crumbBannerLeft { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+@keyframes crumbBannerRight { from { transform:translateX(-50%); } to { transform:translateX(0); } }
+@media (max-width: 600px) {
+  .hero { height:auto; min-height:0; aspect-ratio:16 / 9; }
+  .hero img { width:100%; height:100%; object-fit:contain; object-position:center center; }
+  .cookie-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px 13px; }
+  .cookie, .cookie:first-child, .cookie:nth-child(2), .cookie:last-child { grid-column:span 1; }
+  .cookie-visual, .cookie:first-child .cookie-visual, .cookie:nth-child(2) .cookie-visual,
+  .cookie:last-child .cookie-visual { aspect-ratio:1 / 1; }
+  .cookie-visual img { object-fit:cover; }
+  .cookie-detail h3 { min-height:0; font-size:clamp(19px,5.35vw,24px); line-height:1.13; }
+  .cookie-detail p, .cookie:first-child .cookie-detail p, .cookie:last-child .cookie-detail p { display:none; }
+  .cookie-visual .add-cookie { right:8px; bottom:8px; min-width:63px; height:34px; min-height:34px; padding:0 9px; gap:5px; font-size:10px; }
+  .cookie-visual .add-cookie span { font-size:16px; }
+  .crumb-marquee-row { height:30px; }
+  .crumb-marquee-track span { font-size:9px; letter-spacing:.1em; padding-right:25px; }
+  .crumb-marquee-track i { padding:0 10px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .crumb-marquee-track, .crumb-marquee-row--left .crumb-marquee-track,
+  .crumb-marquee-row--right .crumb-marquee-track { animation:none; transform:none; will-change:auto; }
+  .cookie:hover .cookie-visual img { transform:none; }
+}
