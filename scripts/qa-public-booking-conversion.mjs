@@ -34,13 +34,13 @@ const scripts=[...demo.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].fi
 assert.match(demo,/src="\/assets\/privacy-controls\.js/);
 assert.equal(scripts.length,1);
 new vm.Script(scripts[0][1],{filename:'try-booking.js'});
-assert.match(home,/href="\/sample-cleaning\/\?lang=en&source=homepage"/);
-assert.match(es,/href="\/sample-cleaning\/\?lang=es&source=homepage"/);
+assert.match(home,/href="\/experience-cleaning\/\?lang=en&source=homepage"/);
+assert.match(es,/href="\/experience-cleaning\/\?lang=es&source=homepage"/);
 assert.match(home,/href="\/booking-demo\/\?lang=en&source=homepage-clara"/);
 assert.match(es,/href="\/booking-demo\/\?lang=es&source=homepage-clara"/);
-assert.match(booking,/href="\/sample-cleaning\/\?lang=en&source=booking-landing"/);
-assert.match(bookingEs,/href="\/sample-cleaning\/\?lang=es&source=booking-landing"/);
-assert.match(bundle,/href="\/sample-cleaning\/\?source=bundle"/);
+assert.match(booking,/href="\/experience-cleaning\/\?lang=en&source=booking-landing"/);
+assert.match(bookingEs,/href="\/experience-cleaning\/\?lang=es&source=booking-landing"/);
+assert.match(bundle,/href="\/experience-cleaning\/\?source=bundle"/);
 assert.match(analytics,/public_booking_sample_click/);
 assert.doesNotMatch(float,/\+24%\s*revenue|\+24%\s*ingresos|Paid \$480|Pagado \$480/);
 assert.match(booking,/<del>\$49\.99<\/del><strong>\$15<\/strong>/);
