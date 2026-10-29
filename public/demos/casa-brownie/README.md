@@ -34,3 +34,10 @@ La sección «Una forma bonita de decir pensé en ti» usa **las dos fotografía
 ## Preparación y pruebas de la masterclass
 - Guía de las nueve grabaciones, revisión móvil y seguridad: [`GUIA-PARA-LA-CLASE.md`](./GUIA-PARA-LA-CLASE.md).
 - Las pruebas automatizadas actuales verifican también los archivos locales de las dos fotografías y su estilo responsivo. Las fotos del catálogo son originales aprobados; revisar los encuadres en dispositivos reales.
+
+## Historia, local ficticio, redes y contacto (29 oct 2026)
+- Nueva historia compacta y humana en «Nuestra historia», antes de la entrega. El enlace superior lleva a esta sección y «Conoce la idea» abre la versión ampliada.
+- Dirección de ficción: **123 Calle del Cacao · Miami, Florida**. Está expresamente marcada como inventada y no visitable; no hay mapa, GPS, horarios, local abierto ni entregas.
+- Tres botones de redes sociales al final: Instagram, TikTok y Pinterest. Abren pequeñas vistas previas internas con ideas de contenido; no enlazan a perfiles que no existen.
+- «Contáctanos» en el footer abre un formulario modal **solo cuando se pulsa**. Campos de ejemplo y un botón «Simular mensaje». No se envía, ni se guarda, ni usa APIs; limpia los campos y muestra confirmación de demostración.
+- Mismo HTML para la vista con video y la variante `?etapa=sin-video`; no se ha alterado el hero, sabores, carrito ficticio ni el flujo de compra inexistente.
