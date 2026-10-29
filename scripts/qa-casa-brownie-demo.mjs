@@ -9,6 +9,11 @@ assert.match(html,/Brownies<br\s*\/>\s*hechos\s*<span class="love">en casa<\/spa
 assert.ok(!html.includes('amor real'),'rejected copy removed');
 assert.ok(!/[↗➜➝→➔➡➤]/.test(html),'no decorative arrows');
 assert.match(html,/<video id="hero-video"/);
+assert.match(html,/get\('etapa'\) === 'sin-video'/,'static teaching URL is supported');
+assert.match(html,/data-clase-etapa="sin-video"/,'teaching URL hides video without editing official assets');
+assert.match(js,/classWithoutVideo/,'static teaching URL must not play video');
+assert.match(js,/heroVideo\.querySelector\('source'\)\?\.remove\(\)/,'video source is removed for static teaching mode');
+
 assert.match(html,/muted loop playsinline/);
 assert.match(html,/class="hero-photo-poster"/);
 assert.match(html,/\.\/assets\/hero-brownies\.mp4\?v=20261029-local/,'self-hosted approved video');
