@@ -1,12 +1,14 @@
 const products = [
-  { id: 'classic', name: 'Classic Chocolate Chip' },
-  { id: 'double', name: 'Double Chocolate' },
-  { id: 'caramel', name: 'Salted Caramel' },
-  { id: 'raspberry', name: 'White Chocolate Raspberry' },
-  { id: 'nutty', name: 'Nutty Dream' },
-  { id: 'brownie', name: 'Brownie Chip' }
+  { id: 'classic', name: 'Classic Chocolate Chip', priceCents: 350 },
+  { id: 'double', name: 'Double Chocolate', priceCents: 450 },
+  { id: 'caramel', name: 'Salted Caramel', priceCents: 550 },
+  { id: 'raspberry', name: 'White Chocolate Raspberry', priceCents: 600 },
+  { id: 'nutty', name: 'Nutty Dream', priceCents: 700 },
+  { id: 'brownie', name: 'Brownie Chip', priceCents: 500 }
 ];
 const labels = Object.fromEntries(products.map(p => [p.id, p.name]));
+const unitPriceCents = Object.fromEntries(products.map(p => [p.id, p.priceCents]));
+const formatPrice = cents => '$' + (cents / 100).toFixed(2);
 const ids = products.map(p => p.id);
 const qty = Object.fromEntries(ids.map(id => [id, 0]));
 let toastTimer;
@@ -17,6 +19,7 @@ const deliveryDialog = $('delivery-dialog');
 let size = 3;
 let wrapping = 'Ivory Signature';
 const total = () => Object.values(qty).reduce((a, b) => a + b, 0);
+const selectionPriceCents = () => ids.reduce((sum, id) => sum + qty[id] * unitPriceCents[id], 0);
 
 
 function renderLiveBox() {
@@ -55,6 +58,8 @@ function paint() {
   $('open-builder').setAttribute('aria-label', 'Open bag, ' + count + (count === 1 ? ' cookie' : ' cookies'));
   for (const id of ids) $('qty-' + id).textContent = String(qty[id]);
   $('status-count').textContent = count + ' / ' + size;
+  $('price-label').textContent = count === size ? 'Your box total' : 'Your selection so far';
+  $('price-total').textContent = formatPrice(selectionPriceCents());
   $('status-text').textContent = count === size
     ? 'Your box is ready to preview'
     : count === 0 ? 'Choose ' + size + ' cookies'
@@ -137,12 +142,16 @@ $('preview-button').addEventListener('click', () => {
     image.alt = labels[id];
     photos.appendChild(image);
     const item = document.createElement('li');
-    item.textContent = qty[id] + ' × ' + labels[id];
+    item.textContent = qty[id] + ' × ' + labels[id] + ' · ' + formatPrice(unitPriceCents[id]) + ' each · ' + formatPrice(qty[id] * unitPriceCents[id]);
     list.appendChild(item);
   }
   target.append(photos, list);
+  const subtotal = document.createElement('p');
+  subtotal.className = 'preview-total';
+  subtotal.textContent = 'Sample box total: ' + formatPrice(selectionPriceCents());
+  target.appendChild(subtotal);
   const packaging = document.createElement('p');
-  packaging.textContent = 'Packaging: ' + wrapping;
+  packaging.textContent = 'Packaging: ' + wrapping + ' · included';
   target.appendChild(packaging);
   const note = $('gift-note').value.trim();
   if (note) {
