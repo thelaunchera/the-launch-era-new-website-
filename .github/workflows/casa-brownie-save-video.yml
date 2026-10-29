@@ -1,0 +1,38 @@
+name: Casa Brownie - conservar video aprobado en el repo
+on:
+  push:
+    branches: [chore/casa-brownie-class-ready-20261029]
+    paths:
+      - '.github/workflows/casa-brownie-save-video.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  save-video:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Descargar el clip que ya se usa en el hero
+        env:
+          HERO_URL: https://resource2.heygen.ai/videos/7db88dd63a0f4f099df9ab7d89049247/7db88dd63a0f4f099df9ab7d89049247/01a18522-825d-77e4-a4ee-86a7a76e3dbd.mp4
+        run: |
+          curl -fLsS --retry 2 --retry-delay 2 --max-time 100 "$HERO_URL" -o /tmp/casa-brownie-hero-source.mp4
+          test "$(wc -c </tmp/casa-brownie-hero-source.mp4)" -gt 100000
+          ffprobe -v error -select_streams v:0 -show_entries stream=width,height,duration -of default=noprint_wrappers=1 /tmp/casa-brownie-hero-source.mp4
+      - name: Optimizar el mismo video y crear imagen de respaldo
+        run: |
+          mkdir -p public/demos/casa-brownie/assets
+          ffmpeg -nostdin -hide_banner -loglevel error -y -i /tmp/casa-brownie-hero-source.mp4 -map 0:v:0 -an -vf "scale='min(1280,iw)':-2,fps=24" -c:v libx264 -preset medium -crf 27 -pix_fmt yuv420p -movflags +faststart public/demos/casa-brownie/assets/hero-brownies.mp4
+          ffmpeg -nostdin -hide_banner -loglevel error -y -ss 0.35 -i /tmp/casa-brownie-hero-source.mp4 -frames:v 1 -vf "scale='min(1600,iw)':-2" -q:v 82 public/demos/casa-brownie/assets/hero-brownies.webp
+          test "$(wc -c <public/demos/casa-brownie/assets/hero-brownies.mp4)" -gt 100000
+          test "$(wc -c <public/demos/casa-brownie/assets/hero-brownies.webp)" -gt 10000
+          du -h public/demos/casa-brownie/assets/hero-brownies.*
+      - name: Guardar los assets propios del video en Git
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/demos/casa-brownie/assets/hero-brownies.mp4 public/demos/casa-brownie/assets/hero-brownies.webp
+          git diff --cached --quiet || git commit -m "Casa Brownie: conservar el video aprobado y su imagen de respaldo"
+          git push
