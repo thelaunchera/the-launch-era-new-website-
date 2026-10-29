@@ -37,7 +37,7 @@ assert.ok(html.includes('123 Calle del Cacao'),'fictional address visible');
 assert.ok(html.includes('Dirección inventada'),'fictional location disclosed');
 assert.ok(html.includes('id="nuestra-historia"'),'compact story is part of page');
 assert.ok(html.indexOf('id="nuestra-historia"') < html.indexOf('id="entrega"'),'story precedes delivery');
-assert.ok(html.includes('store-experience.css?v=cb-store-experience-20261029'),'new responsive CSS loaded');
+assert.ok(html.includes('store-experience.css?v=cb-legal-footer-v2'),'new responsive CSS loaded');
 for (const snippet of [
  'function viewContactDemo()',
  'function viewSocialDemo(platform)',
@@ -142,7 +142,7 @@ assert.doesNotMatch(js,/localStorage|sessionStorage|fetch\(/,'no stored data or 
 // Both official and teaching demos share one document; the teaching switch only removes the video.
 assert.match(html,/get\('etapa'\) === 'sin-video'/);
 assert.match(html,/src="\.\/assets\/hero-brownies\.mp4\?v=20261029-local"/,'original hero video untouched');
-assert.match(html,/casabrownie-editorial\.css\?v=20261029-slim-ribbon-v2/,'editorial stylesheet loaded after existing styles');
+assert.match(html,/casabrownie-editorial\.css\?v=20261029-ticker-v3/,'editorial stylesheet loaded after existing styles');
 const editorial=load('casabrownie-editorial.css');
 assert.match(editorial,/@media \(min-width:791px\) and \(max-width:1199px\)/,'tablet-specific editorial grid');
 assert.match(editorial,/\.hero \.hero-copy\s*\{\s*display:grid/,'tablet hero story becomes two columns');
@@ -172,19 +172,30 @@ assert.match(editorial,/\.cb-moment-accent\s*\{\s*width:min\(100%,385px\);/,'des
 assert.doesNotMatch(editorial,/\.cb-moment-accent\s*\{\s*width:98px/,'old 98 pixel story thumbnail removed');
 assert.doesNotMatch(editorial,/\.cb-closing-photo\s*\{\s*width:142px/,'old 142 pixel closing thumbnail removed');
 
-assert.match(html,/<div class="cb-gift-ribbon" role="img" aria-label="Un detalle para ti/,'gift ribbon is accessible');
+assert.match(html,/class="cb-gift-ribbon" role="img"/,'ticker accessible');
+assert.equal((html.match(/class="cb-gift-ribbon-row(?: |\x22)/g)||[]).length,2,'two ticker rows');
+assert.equal((html.match(/class="cb-gift-ribbon-group"/g)||[]).length,4,'duplicated tracks for seamless loop');
+assert.equal((html.match(/class="cb-gift-ribbon-item"/g)||[]).length,16,'two rows each with four repeated icon phrases');
+assert.match(html,/cb-ticker-heart/,'heart icon appears');
+assert.match(html,/cb-ticker-gift/,'gift icon appears');
 const storyIndex=html.indexOf('class="cb-moment-accent"');
 const ribbonIndex=html.indexOf('class="cb-gift-ribbon"');
 const secondGiftIndex=html.indexOf('class="moment-image moment-note cb-real-gift-photo"');
-assert.ok(storyIndex < ribbonIndex && ribbonIndex < secondGiftIndex,'banner separates the two adjacent gift photos in mobile DOM order');
-assert.match(editorial,/@keyframes cb-gift-ribbon-flow/,'gift ribbon has a continuous subtle scroll');
-assert.ok(editorial.includes('min-height:32px;\n  height:32px;\n  margin:12px 0 14px;'),'gift ribbon is slim and separated from photos');
-assert.ok(editorial.includes("font:700 10px/1.2 'DM Sans'"),'ribbon uses compact brand-style typography');
-assert.ok(!editorial.includes('font:italic 500 clamp(21px,2.45vw,28px)'),'oversized italic ribbon is removed');
+assert.ok(storyIndex < ribbonIndex && ribbonIndex < secondGiftIndex,'ticker remains between gift photos');
+assert.match(editorial,/@keyframes cb-gift-ribbon-flow/,'continuous motion');
+assert.match(editorial,/\.cb-gift-ribbon-row-reverse .*animation-direction:reverse/,'second row moves opposite');
+assert.match(editorial,/background:#f5ede5/,'light editorial background');
+assert.match(editorial,/mask-image:linear-gradient/,'running text fades at edges');
+assert.match(editorial,/@media \(prefers-reduced-motion: reduce\)/,'accessible static option');
+assert.match(editorial,/\.moments-strip > \.cb-gift-ribbon \{order:2;/,'ticker ordered between mobile photos');
+assert.match(editorial,/\.moments-strip > \.moment-note \{order:3;/,'second gift photo follows the ticker');
+assert.ok(html.includes('© 2026 The Launch Era. Todos los derechos reservados.'),'real credit');
+assert.ok(html.includes('Powered by <a href="https://thelaunchera.com/"'),'thelaunchera.com credit link');
+assert.equal((html.match(/data-demo-legal="/g)||[]).length,3,'legal footer links');
+assert.match(js,/function viewLegalTopic\(topic\)/,'legal modal implementation');
+assert.ok(js.includes("querySelectorAll('[data-demo-legal]')"),'legal handlers connected');
+assert.match(experienceCss,/\.cb-footer-legal/,'legal footer CSS');
 
-assert.match(editorial,/@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.cb-gift-ribbon-track \{ animation:none; \}/,'banner respects reduced motion');
-assert.match(editorial,/\.moments-strip > \.cb-gift-ribbon\s*\{\s*order:2;/,'gift ribbon appears between gift photographs on mobile');
-assert.match(editorial,/\.moments-strip > \.moment-note\s*\{\s*order:3;/,'second gift photo follows the ribbon on mobile');
 assert.match(html,/src="\.\/assets\/hero-brownies\.mp4\?v=20261029-local"/,'hero video is unchanged');
 
 
@@ -192,6 +203,6 @@ assert.match(html,/src="\.\/assets\/hero-brownies\.mp4\?v=20261029-local"/,'hero
 console.log('Casa Brownie static demo QA OK');
 
 
-assert.match(html,/main\.js\?v=cb-store-experience-20261029/);
+assert.match(html,/main\.js\?v=cb-legal-footer-v2/);
 assert.equal((js.match(/assets\/sabor-/g)||[]).length,6,'all catalog photos are hosted originals');
 assert.doesNotMatch(js,/amummytoo|proteinbrownies|getrecipekit|anasrecipes|dailydoughco|ctfassets/,'no third-party flavor photos');
