@@ -2,7 +2,7 @@
 
 ## Fuente oficial (IMPORTANTE)
 
-**La web aprobada es la de este repositorio**, no una versión antigua del editor:
+**La web aprobada es la de este repositorio**, no una versión antigua del editor. El resultado principal se enseña **sin video**; el video queda como bono:
 
 - Demo que debe verse en los videos: https://thelaunchera.com/demos/casa-brownie/
 - Código fuente oficial: `public/demos/casa-brownie/`
@@ -22,6 +22,16 @@
 7. Simulación interactiva de pedido que no envía información, con aviso explícito de demostración.
 8. Footer con la identificación educativa y aviso de que no hay ventas.
 9. Sin flechas decorativas; no repetir «amor real».
+
+## Dos etapas para enseñar sin repetir la web
+
+- **Paso principal, sin video:** https://thelaunchera.com/demos/casa-brownie/?etapa=sin-video — misma página oficial, mismo hero con fotografía fija; el script no reproduce el MP4.
+- **Resultado final aprobado, con video:** https://thelaunchera.com/demos/casa-brownie/ — mantiene la animación original. Es la **revelación del bono**, no una lección que el estudiante deba completar para aprobar.
+- No son dos proyectos publicados distintos. Son **dos vistas del mismo código oficial**, evitando diferencias de diseño, fotos o textos.
+- La grabación original de creación **no existe**: se hará una reconstrucción auténtica desde un proyecto de práctica nuevo y vacío. Decirlo así, sin simular material de archivo.
+- Los recursos de producción, las fotografías aprobadas y los prompts específicos por sección están en **Studio → Clases · grabación → Casa Brownie · de cero al demo final**. Allí también están los pasos para reconstruir la web, copiar cada prompt y comprobar las etapas.
+- **Orden de rodaje:** primero mostrar la **versión sin video**, reconstruir identidad, fotos, textos, hero estático, seis sabores, regalos, entrega, simulación, footer y móvil; **solo en el bono** abrir por primera vez la versión oficial animada como revelación del resultado final. El video no forma parte de las nueve grabaciones principales. No convertir el truco del video en parte de las nueve grabaciones principales.
+- **Fotos actuales de sabores:** el catálogo aprobado todavía enlaza fotografías de terceros; no entregarlas como recursos propios para descargar. Crear seis imágenes originales individuales aprobadas antes de distribuir el paquete.
 
 ## Cómo verificarlo antes de grabar
 

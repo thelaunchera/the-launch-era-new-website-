@@ -3,8 +3,9 @@
 const heroVideo = document.getElementById('hero-video');
 if (heroVideo) {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const classWithoutVideo = document.documentElement.dataset.claseEtapa === 'sin-video';
   const dataSaving = navigator.connection?.saveData;
-  if (reduceMotion || dataSaving) {
+  if (classWithoutVideo || reduceMotion || dataSaving) {
     heroVideo.pause();
     heroVideo.removeAttribute('autoplay');
     heroVideo.querySelector('source')?.remove();
