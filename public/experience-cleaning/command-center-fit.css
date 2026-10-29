@@ -57,8 +57,11 @@
     line-height: 1.24;
     letter-spacing: -.02em;
   }
+  .request-value {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 44%);
+  }
   .request-value > strong.is-text-value {
-    max-width: 50%;
+    max-width: 100%;
     font-size: 13px;
   }
 }
