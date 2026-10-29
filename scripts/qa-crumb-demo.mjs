@@ -95,6 +95,18 @@ assert.match(html,/12 cookies · from \$42\.00/);
 assert.match(html,/No real checkout/);
 results.push('Six prices $3.50–$7.00, minimum box prices, live $16.00 mixed box, zero checkout');
 assert.equal(d.querySelectorAll('.cookie').length, 6);
+
+const compactTitles = {
+  'gifting-title':'A little gift. Big joy.',
+  'brand-glimpse-title':'Inside CRUMB.',
+  'moment-title':'Made to share.',
+  'final-title':'Make their day.'
+};
+for(const [id,expected] of Object.entries(compactTitles)) assert.equal(d.getElementById(id).textContent,expected);
+assert.match(css,/Compact headings for small screens/);
+assert.match(html,/styles\.css\?v=20261029-crumb-heading-v9/);
+results.push('Compact iPhone section titles retain correct English copy and styling');
+
 const expectedFlavors = [
   ['classic','Classic Chocolate Chip'],
   ['double','Double Chocolate'],
