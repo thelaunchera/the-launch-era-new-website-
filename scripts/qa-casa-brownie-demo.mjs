@@ -188,6 +188,6 @@ assert.match(html,/src="\.\/assets\/hero-brownies\.mp4\?v=20261029-local"/,'hero
 console.log('Casa Brownie static demo QA OK');
 
 
-assert.match(html,/main\.js\?v=cb-sticky-cart-20261029/);
+assert.match(html,/main\.js\?v=cb-store-experience-20261029/);
 assert.equal((js.match(/assets\/sabor-/g)||[]).length,6,'all catalog photos are hosted originals');
 assert.doesNotMatch(js,/amummytoo|proteinbrownies|getrecipekit|anasrecipes|dailydoughco|ctfassets/,'no third-party flavor photos');
