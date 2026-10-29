@@ -13,7 +13,7 @@ Original AppDeploy prototype: `https://crumb-cookies-animated-demo-w1fcop.v2.app
 
 Use relative asset paths. Keep the version query on CSS/JS/photos current after updates to avoid stale mobile styles. No separate build or AppDeploy credit is required for this standalone page: the site's existing publication copies public files.
 
-CRUMB is a fictional Miami store for education. No orders, prices, delivery commitments, payments, customer records, analytics or emails. The removed ribbon must stay removed. All public copy is US English.
+CRUMB is a fictional Miami store for education. Its $3.50–$7.00 cookie prices and gift-box totals are illustrations only, not a real sale offer. No real orders, delivery commitments, payments, customer records, analytics or emails. The removed ribbon must stay removed. All public copy is US English.
 
 ## QA
 
@@ -39,7 +39,7 @@ The hero image at `assets/hero.webp` is replaced in-place with the owner's appro
 - Six evenly sized product cards and refined accessible 44px `Add +` actions; clicking a cookie confirms the flavor and capacity with a dismissible in-session toast. No payment or network capture.
 - The builder now renders a responsive live visual tray with precisely 3, 6 or 12 positions, the selected cookies in real time, and a wrapper color/ribbon treatment. The existing quantities, packaging selection, safe gift note and preview remain.
 - Retain the existing double-direction marquees and animated illustrative Miami location section, streamline its concept disclosure, and add a compact final call to build a box before the footer.
-- No product ratings, fictitious testimonials, prices, real delivery service, geolocation permission, checkout, or customer data collection are introduced.
+- No product ratings, fictitious testimonials, real delivery service, geolocation permission, checkout, or customer data collection are introduced. The six new price labels are sample-only.
 
 ## Photo-first visual identity update — 29 October 2026
 - Six newly generated and compressed WebP assets are self-hosted under `assets/`: `hero-mobile.webp`, `brand-gifts.webp`, `brand-lifestyle.webp`, `brand-storefront.webp`, `brand-maker.webp`, `brand-tasting.webp`. All images are concept imagery for the CRUMB demo, not evidence of a real physical store/team or actual delivery.
@@ -52,3 +52,18 @@ The hero image at `assets/hero.webp` is replaced in-place with the owner's appro
 - La quinta foto nueva es la bolsa CRUMB (`brand-packaging.webp`), que **reemplaza** la foto de plato de cookies en la galería de identidad. Así la galería compacta muestra fachada, equipo y packaging, no otro producto servido.
 - La sexta imagen recibida (plato con tres cookies) se omitió expresamente por redundancia; no se añadió una sección extra.
 - Las seis fotos individuales del catálogo de sabores y el hero móvil aprobado permanecen sin cambios. Imágenes conceptuales, no prueba de tienda real.
+
+## Sample prices (29 October 2026)
+
+These are **illustrative USD prices** for the CRUMB classroom demo; no checkout or fulfillment is enabled.
+
+| Flavor | Unit |
+|---|---:|
+| Chocolate Chunk | $3.50 |
+| Cinnamon Sugar | $3.50 |
+| Double Chocolate | $4.50 |
+| Cookies & Cream | $5.00 |
+| Salted Caramel | $5.50 |
+| White Chocolate Macadamia | $7.00 |
+
+Boxes of 3, 6, or 12 are mixed freely. The **exact displayed total** is the sum of the selected unit prices; packaging is included at no additional cost. Cheapest all-$3.50 boxes: **$10.50, $21.00, $42.00** respectively. Price math is kept in integer cents in `main.js` to avoid floating-point rounding issues. The preview displays a detailed breakdown and a clearly identified sample total. No financial information is collected.
