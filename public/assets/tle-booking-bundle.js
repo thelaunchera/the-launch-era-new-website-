@@ -9,6 +9,7 @@ const url=new URLSearchParams({offer:"booking-flow",lang:es?"es":"en"});
 const autoSelectAI=qs.get("bundle")==="ai-booking"?"ai-booking":"";
 const bookingBaseCents=()=>1500;
 const bookingDisplayPrice="$"+(bookingBaseCents()/100).toFixed(2);
+const totalPackagePrice=key=>"$"+((bookingBaseCents()/100)+(key?prices[key].setup:0)).toFixed(2);
 const prices={"":{setup:0,monthly:0}, "ai-booking":{setup:10,monthly:12},"ai-followup":{setup:5,monthly:8},"ai-business":{setup:14,monthly:16}};
 let livePricing=null;
 const bundlePriceVersion="bundle-20261029";
@@ -23,10 +24,10 @@ const style=document.createElement("style");style.textContent=`
 .tle-bundle{margin:28px auto 12px;padding:clamp(18px,3vw,30px);background:#FAF8F3;color:#191919;border:1px solid #D8E2E9;border-radius:26px;box-shadow:0 12px 30px #1919190d;font:15px/1.5 Futura,"Avenir Next",Arial,sans-serif;max-width:760px}
 .tle-bundle *{box-sizing:border-box}.tle-bundle h2{margin:3px 0 10px;font:700 clamp(24px,3.2vw,33px)/1.15 Prompt,Arial,sans-serif;letter-spacing:-.03em}.tle-bundle p{line-height:1.55}.tle-bundle .tle-ey{color:#416c88;font-size:11px;font-weight:800;letter-spacing:.12em}.tle-bundle .tle-included{background:#fff;border:1px solid #e2e0d8;border-radius:18px;padding:15px 17px;display:flex;justify-content:space-between;gap:12px;align-items:center;margin:18px 0 21px}
 .tle-bundle .tle-included b{font-size:15px}.tle-bundle .tle-included span{color:#475967;font-size:13px}.tle-bundle .tle-options{display:grid;gap:10px;margin:14px 0 19px}.tle-bundle .tle-opt{display:flex;gap:12px;align-items:flex-start;padding:14px 15px;background:#fff;border:1.5px solid #deded9;border-radius:16px;cursor:pointer;transition:border-color .15s,background .15s;min-width:0}
-.tle-bundle .tle-opt:has(input:checked){background:#FFF9DA;border-color:#191919}.tle-bundle input[type=radio]{accent-color:#191919;width:20px;height:20px;flex:0 0 20px;margin:2px 0 0}.tle-bundle .tle-opt-main{min-width:0;flex:1}.tle-bundle .tle-opt-main strong{display:block;color:#191919;font-size:14px}.tle-bundle .tle-opt-main small{display:block;color:#54616d;margin-top:3px;font-size:12px;line-height:1.45}.tle-bundle .tle-opt-price{white-space:nowrap;text-align:right;flex-shrink:0;font-size:13px;font-weight:800}.tle-bundle .tle-opt-price small{display:block;font-size:11px;color:#586776;font-weight:400}
+.tle-bundle .tle-opt:has(input:checked){background:#FFF9DA;border-color:#191919}.tle-bundle input[type=radio]{accent-color:#191919;width:20px;height:20px;flex:0 0 20px;margin:2px 0 0}.tle-bundle .tle-opt-main{min-width:0;flex:1}.tle-bundle .tle-opt-main strong{display:block;color:#191919;font-size:14px}.tle-bundle .tle-opt-main small{display:block;color:#54616d;margin-top:3px;font-size:12px;line-height:1.45}.tle-bundle .tle-opt-price{white-space:nowrap;text-align:right;flex-shrink:0;font-size:18px;font-weight:800;line-height:1.25}.tle-bundle .tle-opt-price small{display:block;font-size:11px;color:#586776;font-weight:400}
 .tle-bundle .tle-summary{background:#EAF4FC;border:1px solid #D3E5F1;border-radius:18px;padding:17px;margin:10px 0}.tle-bundle .tle-sumrow{display:flex;justify-content:space-between;gap:12px;margin:5px 0;font-size:13px}.tle-bundle .tle-sumrow.total{padding-top:10px;margin-top:11px;border-top:1px solid #bcd4e4;font-size:18px;font-weight:800}.tle-bundle .tle-monthly{font-size:12px;color:#364f61;margin-top:12px}
 .tle-bundle .tle-buy{border:0;border-radius:999px;padding:16px 18px;width:100%;background:#191919;color:white;font-weight:800;font-size:15px;cursor:pointer;min-height:52px}.tle-bundle .tle-buy:disabled{opacity:.6;cursor:wait}.tle-bundle .tle-hint{font-size:12px;color:#5a6570;margin:12px 0 0}.tle-bundle .tle-error{color:#9c2f2f;font-size:13px;margin-top:10px}.tle-bundle button:focus-visible,.tle-bundle input:focus-visible{outline:3px solid #528FC3;outline-offset:3px}
-@media(max-width:420px){.tle-bundle{padding:17px 13px;border-radius:20px}.tle-bundle .tle-opt{padding:12px 10px;gap:9px}.tle-bundle .tle-opt-price{font-size:12px}.tle-bundle .tle-included{padding:12px 13px}.tle-bundle .tle-opt-main strong{font-size:13px}}
+@media(max-width:420px){.tle-bundle{padding:17px 13px;border-radius:20px}.tle-bundle .tle-opt{padding:12px 10px;gap:9px}.tle-bundle .tle-opt-price{font-size:16px}.tle-bundle .tle-included{padding:12px 13px}.tle-bundle .tle-opt-main strong{font-size:13px}}
 `;document.head.appendChild(style);
 root.className="tle-bundle";
 root.setAttribute("aria-label",es?"Personalizar mi compra":"Customize my purchase");
@@ -37,9 +38,9 @@ root.innerHTML=`<div class="tle-ey">${es?"TU SISTEMA, A TU MANERA":"BUILD YOUR B
 <div class="tle-included"><div><b>Booking Automation + Command Center</b><br><span>${es?"Página personalizada + panel privado":"Personalized Booking Page + private workspace"}</span></div><b>${bookingDisplayPrice}</b></div>
 <div class="tle-ey">${es?"IA OPCIONAL · PRECIO DE PAQUETE":"OPTIONAL AI · BUNDLE PRICING"}</div>
 <div class="tle-options" role="radiogroup" aria-label="${es?"Añadir AI Assistant":"Add an AI Assistant"}">
-${plans.map(([key,name,desc])=>`<label class="tle-opt"><input type="radio" name="tle-ai-bundle" value="${safe(key)}" ${key===autoSelectAI?"checked":""}><span class="tle-opt-main"><strong>${safe(name)}</strong><small>${safe(desc)}</small></span><span class="tle-opt-price">${key?"+$"+prices[key].setup:"$0"}<small>${key?(es?"luego $":"then $")+prices[key].monthly+(es?"/mes":"/mo"):(es?"Sin cargo":"No charge")}</small></span></label>`).join("")}
+${plans.map(([key,name,desc])=>`<label class="tle-opt"><input type="radio" name="tle-ai-bundle" value="${safe(key)}" ${key===autoSelectAI?"checked":""}><span class="tle-opt-main"><strong>${safe(name)}</strong><small>${safe(desc)}</small></span><span class="tle-opt-price">${totalPackagePrice(key)}<small>${key?(es?"después $":"then $")+prices[key].monthly+(es?"/mes":"/mo"):(es?"sin mensualidad":"no monthly fee")}</small></span></label>`).join("")}
 </div>
-<div class="tle-summary" aria-live="polite"><div class="tle-sumrow"><span>Booking Automation + Command Center</span><b id="tleBookingPrice">${bookingDisplayPrice}</b></div><div class="tle-sumrow" id="tleAddonRow" hidden><span id="tleAddonName"></span><b id="tleAddonPrice"></b></div><div class="tle-sumrow" id="tleDiscountRow" hidden><span>${es?"Ahorro de activación (40%)":"Activation discount (40%)"}</span><b id="tleDiscountAmount"></b></div><div class="tle-sumrow total"><span>${es?"Total a pagar hoy":"Total due today"}</span><strong id="tleTotal">${bookingDisplayPrice}</strong></div><div class="tle-monthly" id="tleMonthly">${es?"Sin mensualidad de AI Assistant.":"No AI Assistant monthly fee."}</div></div>
+<div class="tle-summary" aria-live="polite"><div class="tle-sumrow"><span id="tleSelectedPackage">Booking Automation + Command Center</span><b id="tleBookingPrice">${bookingDisplayPrice}</b></div><div class="tle-sumrow total"><span>${es?"Total a pagar hoy":"Total due today"}</span><strong id="tleTotal">${bookingDisplayPrice}</strong></div><div class="tle-monthly" id="tleMonthly">${es?"Sin mensualidad de AI Assistant.":"No AI Assistant monthly fee."}</div></div>
 <button type="button" class="tle-buy" id="tleCheckoutBtn">${es?"Continuar al checkout seguro →":"Continue to secure checkout →"}</button>
 <p class="tle-hint">${es?"El AI Assistant se compra por separado del Booking Automation. En esta opción puedes pagar las dos instalaciones juntas. Los primeros 30 días del asistente comienzan con la entrega; después aplica su mensualidad.":"AI Assistant is sold separately from Booking Automation. You can pay both setup fees together here. The assistant's first 30 days begin at delivery; the selected monthly plan follows."}</p>
 <p class="tle-hint" id="tleProductionPromise" aria-live="polite"></p><p class="tle-hint" id="tleCarePromise"></p><a class="tle-hint" href="/help/?topic=setup-call" style="display:inline-block;text-decoration:underline;color:#1D577C">${es?"Solicitar una llamada 1:1 de orientación ↗":"Request a 1:1 guidance call ↗"}</a>
@@ -52,21 +53,15 @@ function expected(key){
 }
 function render(){
  const key=selected(),plan=prices[key],v=expected(key),total=v.bookCents+v.aiCents;
- root.querySelector("#tleAddonRow").hidden=!key;
- root.querySelector("#tleAddonName").textContent=plans.find(p=>p[0]===key)?.[1]||"";
- root.querySelector("#tleBookingPrice").textContent=money(bookingBaseCents()/100);
- root.querySelector("#tleAddonPrice").textContent=money(plan.setup);
+ root.querySelector("#tleSelectedPackage").textContent=key?"Booking + "+(plans.find(p=>p[0]===key)?.[1]||"AI Assistant"):"Booking Automation + Command Center";
+ root.querySelector("#tleBookingPrice").textContent=money(total/100);
  root.querySelector("#tleTotal").textContent=money(total/100);
- const discount=v.original-total;
- root.querySelector("#tleDiscountRow").hidden=!key||!discount;
- root.querySelector("#tleDiscountAmount").textContent=discount?"−"+money(discount/100):"";
  root.querySelectorAll('input[name="tle-ai-bundle"]').forEach(input=>{
-  if(!input.value)return;
-  const details=livePricing?.plans?.[input.value],price=details?.setup_due_cents??prices[input.value].setup*100;
-  const parent=input.closest(".tle-opt");const target=parent?.querySelector(".tle-opt-price");
-  if(target){target.innerHTML=(price<prices[input.value].setup*100?'<del style="color:#788793;font-weight:400">'+money(prices[input.value].setup)+'</del> ':'')+'+'+money(price/100)+'<small>'+(es?'luego $':'then $')+prices[input.value].monthly+(es?'/mes':'/mo')+'</small>';}
+  const key=input.value,price=money((bookingBaseCents()+(key?(livePricing?.plans?.[key]?.setup_due_cents??prices[key].setup*100):0))/100);
+  const target=input.closest(".tle-opt")?.querySelector(".tle-opt-price");
+  if(target){target.replaceChildren(document.createTextNode(price));const monthly=document.createElement("small");monthly.textContent=key?(es?"después $":"then $")+prices[key].monthly+(es?"/mes":"/mo"):(es?"sin mensualidad":"no monthly fee");target.append(monthly);}
  });
- root.querySelector("#tleProductionPromise").textContent=key?(es?"Bundle con AI: producción conjunta estimada de 4 días hábiles tras revisar y aprobar el formulario completo.":"Bundle with AI: estimated 4 business days of combined production after the completed intake is reviewed and approved."):(es?"Solo Booking: producción estimada de 48 horas después de aprobar el intake.":"Booking-only: estimated 48-hour production after your completed intake is approved.");
+  root.querySelector("#tleProductionPromise").textContent=key?(es?"Bundle con AI: producción conjunta estimada de 4 días hábiles tras revisar y aprobar el formulario completo.":"Bundle with AI: estimated 4 business days of combined production after the completed intake is reviewed and approved."):(es?"Solo Booking: producción estimada de 48 horas después de aprobar el intake.":"Booking-only: estimated 48-hour production after your completed intake is approved.");
  root.querySelector("#tleCarePromise").textContent=key?(es?"El plan mensual de AI activo incluye soporte, pequeños cambios de colores, ayuda para actualizar servicios y ajustes de flyers flotantes. No incluye rediseños completos ni funciones nuevas.":"With an active monthly AI plan, support includes small color changes, service updates and minor promotional pop-up adjustments. Full redesigns and new features are not included."):(es?"Sin mensualidad de AI no se incluye el soporte recurrente del plan AI.":"Without a monthly AI plan, recurring AI support is not included.");
  root.querySelector("#tleMonthly").textContent=key?(es?"Tras los primeros 30 días desde la entrega: $"+plan.monthly+"/mes (precio normal).":"After the first 30 days from delivery: $"+plan.monthly+"/month (regular price)."):(es?"Sin mensualidad de AI Assistant.":"No AI Assistant monthly fee.");
  const btn=root.querySelector("#tleCheckoutBtn");
