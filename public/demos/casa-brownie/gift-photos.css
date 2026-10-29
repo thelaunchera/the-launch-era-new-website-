@@ -35,8 +35,14 @@
 .moments-strip > .moment-note.cb-real-gift-photo img {
   object-position: 51% 49%;
 }
-@media (min-width: 791px) {
-  .moments-strip > .cb-real-gift-photo { height: 310px; }
+@media (min-width: 1200px) {
+  .moments-strip > .cb-real-gift-photo { height: 356px; }
+}
+@media (min-width: 791px) and (max-width: 1199px) {
+  .moments-strip > .cb-real-gift-photo {
+    height: clamp(340px,41vw,470px);
+    min-height: 340px;
+  }
 }
 @media (max-width: 790px) {
   .moments-strip > .moment-illustration.cb-real-gift-photo {
