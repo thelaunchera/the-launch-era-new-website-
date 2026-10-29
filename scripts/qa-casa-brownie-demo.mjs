@@ -11,6 +11,18 @@ assert.ok(!/[↗➜➝→➔➡➤]/.test(html),'no decorative arrows');
 assert.match(html,/<video id="hero-video"/);
 assert.match(html,/muted loop playsinline/);
 assert.match(html,/class="hero-photo-poster"/);
+assert.match(html,/\.\/assets\/hero-brownies\.mp4\?v=20261029-local/,'self-hosted approved video');
+assert.match(html,/\.\/assets\/hero-brownies\.webp\?v=20261029-local/,'self-hosted video poster');
+assert.doesNotMatch(html,/resource2\.heygen\.ai/,'hero playback no longer depends on third-party video hosting');
+for (const [name,minSize,maxSize] of [
+ ['hero-brownies.mp4',100000,8_000_000],
+ ['hero-brownies.webp',10000,500000]
+]) {
+ const local=new URL('assets/'+name,dir);
+ assert.ok(existsSync(local),'missing hero asset '+name);
+ const bytes=readFileSync(local).length;
+ assert.ok(bytes>=minSize&&bytes<=maxSize,'hero file must be locally optimized: '+name+' '+bytes);
+}
 assert.match(css,/@media \(max-width: 790px\)[\s\S]*?\.hero-photo\s*\{\s*order:\s*-1/);
 assert.match(js,/prefers-reduced-motion/);
 assert.ok(!/<form\b/i.test(html),'no data-collecting form');
