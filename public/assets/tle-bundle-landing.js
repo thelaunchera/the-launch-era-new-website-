@@ -85,16 +85,4 @@
  };
  document.querySelectorAll('.tle-demo-chips button').forEach(b=>b.addEventListener('click',()=>updateChat(b.dataset.question)));
  updateChat('price');
- // Only claim an active promotion after reading the authoritative bundle-pricing API.
- const signal=new AbortController();
- const timeout=setTimeout(()=>signal.abort(),6000);
- fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-booking-bundle-checkout',{method:'GET',headers:{Accept:'application/json'},cache:'no-store',signal:signal.signal})
-  .then(r=>{if(!r.ok)throw Error('pricing unavailable');return r.json()})
-  .then(data=>{
-    if(data?.percent_off!==40||!data?.plans?.['ai-booking'])return;
-    const badge=document.getElementById('bundleOffer');
-    if(badge)badge.hidden=false;
-  })
-  .catch(()=>{/* marketing fails closed; checkout independently validates prices */})
-  .finally(()=>clearTimeout(timeout));
 })();
