@@ -87,3 +87,7 @@ Instead of long oversized blocks on phones, the section titles are shortened and
 ## Hero photo framing and CTA spacing (October 29)
 
 Desktop uses an intrinsic 16:9 hero, mobile uses 4:5, both with `object-fit: contain`, so the approved self-hosted CRUMB image is fully visible instead of being cropped by fixed-height layouts. The hero caption and both CTA buttons stay below the image, with extra top padding (desktop 44px; mobile 30px). This only changes presentation; product selection, pricing, fictitious location and modal interactions stay untouched.
+
+## Tablet source correction and flavor flags
+
+Tablet (601–1366px, including portrait and landscape iPads) now displays the approved hero at its **natural image height** rather than a fixed height or forced aspect-ratio crop. The headline and CTA row receive a substantially larger vertical gap and more legible tablet sizing. This responsive override appears last in CSS to win over older CRUMB rules. The cache-keyed CSS URL is updated. Three product cards have subtle editorial tags: Salted Caramel = Special; White Chocolate Raspberry = New Flavor; Nutty Dream = Special. The six products, sample prices, demo cart and images are unchanged. Note: any cookie cut off inside the approved source photograph itself cannot be restored with CSS alone.

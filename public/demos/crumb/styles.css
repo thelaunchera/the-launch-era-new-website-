@@ -856,3 +856,92 @@ textarea { width: 100%; padding: 12px; border: 1px solid #cbb8a5; background: #f
 @media (max-width:380px) {
   .site-header nav a[href="#story"] { display:none; }
 }
+
+
+/* CRUMB iPad/tablet final: reveal the entire approved photograph at its native
+   ratio; old fixed-height hero rules above must not crop it. */
+@media (min-width: 601px) and (max-width: 1366px) {
+  .hero {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: auto;
+    overflow: visible;
+  }
+  .hero picture {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .hero picture img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+    object-position: center;
+  }
+  .hero-strip {
+    padding: clamp(50px, 6vw, 78px) 6% clamp(38px, 4vw, 56px);
+    gap: clamp(20px, 2.8vw, 30px);
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .hero-strip p {
+    max-width: 850px;
+    margin: 0 auto;
+    font-size: clamp(36px, 4.1vw, 54px);
+    line-height: 1.08;
+    text-align: center;
+  }
+  .hero-strip > div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .hero-strip .button {
+    min-width: 186px;
+    min-height: 52px;
+    padding: 15px 24px;
+    font-size: 13px;
+  }
+}
+
+/* Small editorial flavor ribbons: limited to 3 of the 6 real demo flavors. */
+.cookie-visual .cookie-flag {
+  position: absolute;
+  z-index: 3;
+  top: 14px;
+  left: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  padding: 7px 13px;
+  border: 1px solid rgba(73,46,37,.14);
+  border-radius: 999px;
+  background: #faf7f0f2;
+  color: #492e25;
+  box-shadow: 0 3px 12px rgba(45,28,20,.12);
+  font: 700 10px/1.2 'DM Sans',Arial,sans-serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+.cookie-visual .cookie-flag--new {
+  background: #492e25;
+  color: #fff9f0;
+  border-color: #492e25;
+}
+@media (max-width: 600px) {
+  .cookie-visual .cookie-flag {
+    top: 9px;
+    left: 9px;
+    min-height: 25px;
+    padding: 5px 9px;
+    font-size: 9px;
+    letter-spacing: .045em;
+  }
+}

@@ -104,7 +104,7 @@ const compactTitles = {
 };
 for(const [id,expected] of Object.entries(compactTitles)) assert.equal(d.getElementById(id).textContent,expected);
 assert.match(css,/Compact headings for small screens/);
-assert.match(html,/styles\.css\?v=20261029-crumb-hero-frame/);
+assert.match(html,/styles\.css\?v=20261029-crumb-tablet-complete-v2/);
 results.push('Compact iPhone section titles retain correct English copy and styling');
 
 const expectedFlavors = [
@@ -248,5 +248,31 @@ assert.doesNotMatch(code,/fetch\(|sendBeacon|localStorage|sessionStorage|XMLHttp
 assert.ok(css.includes('#contact-form[hidden],.contact-feedback[hidden] { display:none!important; }'));
 assert.ok(html.includes('hero.webp?v=20261029-crumb-v6'),'approved hero remains unchanged');
 results.push('Contact only opens on click, never transmits/stores data; fictional address/socials and brand story verified');
+
+
+
+// Tablet framing and restrained flavor labeling acceptance guards.
+const tabletRules = css.slice(css.lastIndexOf('/* CRUMB iPad/tablet final:'));
+assert.match(tabletRules, /@media \(min-width: 601px\) and \(max-width: 1366px\)/);
+assert.match(tabletRules, /\.hero picture img\s*\{[^}]*height:\s*auto;[^}]*object-fit:\s*contain;/);
+assert.match(tabletRules, /\.hero-strip\s*\{[^}]*padding:\s*clamp\(50px, 6vw, 78px\)/);
+assert.match(tabletRules, /\.hero-strip p\s*\{[^}]*font-size:\s*clamp\(36px, 4\.1vw, 54px\)/);
+assert.match(tabletRules, /\.hero-strip \.button\s*\{[^}]*min-height:\s*52px;/);
+const expectedFlags = {caramel:'Special',raspberry:'New Flavor',nutty:'Special'};
+const flaggedCards = [...d.querySelectorAll('.cookie .cookie-flag')];
+assert.equal(flaggedCards.length, 3);
+for(const card of d.querySelectorAll('.cookie')) {
+  const slug = card.getAttribute('data-card');
+  const flag = card.querySelector('.cookie-flag');
+  if (Object.hasOwn(expectedFlags,slug)) {
+    assert.ok(flag, 'Missing flag: '+slug);
+    assert.equal(flag.textContent.trim(),expectedFlags[slug]);
+    assert.ok(flag.closest('.cookie-visual'), 'Flag must overlay picture');
+  } else {
+    assert.equal(flag,null,'Unexpected flag on '+slug);
+  }
+}
+assert.match(css,/\.cookie-visual \.cookie-flag--new/);
+results.push('Tablet hero natural image ratio, lower CTAs, exactly three product flavor flags');
 
 console.log(JSON.stringify({method: 'DOM integration; dialog APIs simulated; not visual browser QA', passed: results}, null, 2));
