@@ -30,7 +30,7 @@
 - No son dos proyectos publicados distintos. Son **dos vistas del mismo código oficial**, evitando diferencias de diseño, fotos o textos.
 - La grabación original de creación **no existe**: se hará una reconstrucción auténtica desde un proyecto de práctica nuevo y vacío. Decirlo así, sin simular material de archivo.
 - Los recursos de producción, las fotografías aprobadas y los prompts específicos por sección están en **Studio → Clases · grabación → Casa Brownie · de cero al demo final**. Allí también están los pasos para reconstruir la web, copiar cada prompt y comprobar las etapas.
-- **Orden de rodaje:** mostrar brevemente resultado final en introducción; reconstruir identidad, fotos, textos, hero estático, seis sabores, regalos, entrega, simulación, footer y móvil; al final revelar video como **bono independiente**. No convertir el truco del video en parte de las nueve grabaciones principales.
+- **Orden de rodaje:** primero mostrar la **versión sin video**, reconstruir identidad, fotos, textos, hero estático, seis sabores, regalos, entrega, simulación, footer y móvil; **solo en el bono** abrir por primera vez la versión oficial animada como revelación del resultado final. El video no forma parte de las nueve grabaciones principales. No convertir el truco del video en parte de las nueve grabaciones principales.
 - **Fotos actuales de sabores:** el catálogo aprobado todavía enlaza fotografías de terceros; no entregarlas como recursos propios para descargar. Crear seis imágenes originales individuales aprobadas antes de distribuir el paquete.
 
 ## Cómo verificarlo antes de grabar
