@@ -59,6 +59,10 @@ assert.equal(d.querySelector('#box-dialog').open, true);
 results.push('Local delivery information opens and returns to gift builder');
 assert.equal(d.querySelectorAll('.cookie').length, 6);
 assert.equal(d.querySelectorAll('.ribbon-banner,.ribbon-track,video,iframe').length, 0);
+assert.equal(d.querySelectorAll('.cookie-visual > .add-cookie').length, 6);
+assert.equal(d.querySelectorAll('.gps-visual .gps-route').length, 1);
+assert.match(d.querySelector('#delivery-title').textContent, /We're in your area/);
+assert.doesNotMatch(code, /navigator\.geolocation|watchPosition|getCurrentPosition/);
 for(const link of d.querySelectorAll('a[href^="#"]'))assert.ok(d.getElementById(link.hash.slice(1)), 'Broken anchor: '+link.hash);
 for(const image of d.querySelectorAll('img')) {
   const relative = image.getAttribute('src').split('?')[0];
