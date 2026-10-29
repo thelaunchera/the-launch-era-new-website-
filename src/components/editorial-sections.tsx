@@ -77,7 +77,7 @@ function ServiceCard({service:s,index:i}:{service:typeof services[number],index:
  return <>
   <div className="service-image"><img src={s.image} alt={s.alt} loading="lazy" width={1024} height={1024} onError={isAi?(e)=>{e.currentTarget.onerror=null;e.currentTarget.src=assistant;}:undefined}/><span className="service-number">0{i+1}</span><span className="service-arrow"><ArrowUpRight size={18}/></span></div>
   {isBooking
-   ? <div className="booking-offer-line">{sale&&<span className="booking-offer-tag">Current offer</span>}<span className="booking-offer-price service-price-pill">{sale&&<del>$49.99</del>}<strong>{sale?"$15":"$49.99"}</strong></span></div>
+   ? <div className="booking-offer-line"><span className="booking-offer-price service-price-pill"><strong>$15 · one-time</strong></span></div>
    : isAi
      ? <div className="service-card-price-line"><span className="service-price-pill service-ai-price"><strong>From $19 setup</strong></span></div>
      : isWebsite||isVa
