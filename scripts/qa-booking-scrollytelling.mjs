@@ -21,6 +21,11 @@ for(const key of [
 ]) if(key)assert(story.includes(key), 'Missing story item '+key);
 assert(story.includes("reduce?'auto':'smooth'"), 'Reduced motion must avoid smooth scroll');
 assert(story.includes('bookingStoryPhotos.map'), 'Each step must render its own real image');
+assert(story.includes('El sistema da seguimiento por ti.') && story.includes('Your system follows up for you.'),'EN/ES follow-up step must lead with the benefit');
+assert(story.includes('Envía recordatorios automáticamente y se detiene cuando el cliente responde.') && story.includes('Automatic reminders go out when there’s no reply—and stop when the customer responds.'),'Automatic reminders must stop on reply in the EN/ES story');
+assert(!story.includes('Dos seguimientos automáticos.') && !story.includes('Two automatic follow-ups.'),'Hero storytelling should not lead with an internal limit');
+assert(component.includes('hasta dos seguimientos automáticos') && component.includes('up to two automatic follow-ups'),'Detailed FAQ must truthfully disclose the maximum');
+
 for (const photo of [
   'bundle-booking.png', 'bundle-command.png', 'bundle-hero.png'
 ]) {
