@@ -17,7 +17,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: npm
       - name: Install project dependencies for jsdom
         run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Check demo JavaScript
