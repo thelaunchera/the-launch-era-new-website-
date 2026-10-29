@@ -49,6 +49,12 @@ try {
    assert.equal(await radios.count(),4,'Original optional AI choices must remain');
    assert.equal(await page.locator('input[name="tle-ai-bundle"]:checked').inputValue(),'ai-booking');
    await page.waitForFunction(()=>document.querySelector('#tleTotal')?.textContent==='$25.00');
+   assert.match(await page.locator('label.tle-opt:has(input[value="ai-booking"]) .tle-opt-price').innerText(),/^\$25\.00/,'AI Booking card must show the full package');
+   assert.match(await page.locator('label.tle-opt:has(input[value="ai-followup"]) .tle-opt-price').innerText(),/^\$20\.00/,'Follow-Up card must show the full package');
+   assert.match(await page.locator('label.tle-opt:has(input[value="ai-business"]) .tle-opt-price').innerText(),/^\$29\.00/,'Business card must show the full package');
+   assert.match(await page.locator('label.tle-opt:has(input[value=""]) .tle-opt-price').innerText(),/^\$15\.00/,'Booking-only choice must show its actual total');
+   assert.equal(await page.locator('#tleAddonPrice').count(),0,'No confusing partial add-on price in summary');
+   assert.equal(await page.evaluate(()=>{const e=document.querySelector('.privacy-settings');return !!e&&!!e.closest('footer')&&getComputedStyle(e).position!=='fixed'}),true,'Cookie settings must be in footer, not over checkout');
    assert.match(await page.locator('#tleMonthly').innerText(),/\$12\/month/);
    await page.locator('input[name="tle-ai-bundle"][value="ai-followup"]').check();
    assert.equal(await page.locator('#tleTotal').innerText(),'$20.00');

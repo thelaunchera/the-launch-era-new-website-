@@ -44,7 +44,8 @@ assert(en.includes("Up to two automatic follow-ups"),"Follow-up cap missing");
 assert(es.includes("Hasta dos seguimientos automáticos"),"Follow-up cap in Spanish missing");
 assert(en.includes("48-hour production") && es.includes("48 horas"),"Production estimate missing");
 assert(bundle.includes("4 business days") && bundle.includes("4 días hábiles"),"Bundle production terms must be retained");
-assert(bundle.includes("20-minute") && bundle.includes("20 minutos"),"Optional guidance terms must be retained");
+assert(!bundle.includes("20-minute") && !bundle.includes("20 minutos") && !bundle.includes("setup-call"),"Public bundle must not advertise buyer-only setup calls");
+assert(!read("public/assets/tle-booking-bundle.js").includes("/help/?topic=setup-call"),"Public checkout cannot request pre-purchase 1:1 guidance");
 for(const price of ["$59.99","$35","$49.99","$25","$3.99","$15","$14","$19"])assert([en,es,siteEn,vaEn,app,assistantEn,assistantEs,homeEn,bundle].some(s=>s.includes(price)),"Missing pricing indicator "+price);
 for(const field of ['name="name"','name="email"','name="business"','name="serviceArea"'])
  assert(demo.includes(field),"Booking request form field missing: "+field);
