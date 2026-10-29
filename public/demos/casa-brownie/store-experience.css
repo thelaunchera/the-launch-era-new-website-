@@ -1,0 +1,124 @@
+/* Casa Brownie — historia y contacto de demostración, sin checkout ni backend. */
+.cb-store-story {
+  background: #fbf5ee;
+  color: #482b21;
+  border-top: 1px solid #e7d7c9;
+  border-bottom: 1px solid #e6d2c4;
+  padding: clamp(32px,4.5vw,55px) clamp(22px,7vw,110px);
+  display: grid;
+  grid-template-columns: minmax(0,1.35fr) minmax(245px,.72fr);
+  align-items: center;
+  gap: clamp(20px,5vw,65px);
+}
+.cb-store-story-copy { min-width:0; }
+.cb-store-story .eyebrow { font-size:10px; letter-spacing:.13em; color:#a07359; font-weight:700; }
+.cb-store-story h2 {
+  font: 400 clamp(28px,3vw,41px)/1.13 'DM Serif Display',Georgia,serif;
+  margin: 10px 0 15px;
+  letter-spacing: -.025em;
+  color:#45291f;
+}
+.cb-store-story-copy p {
+  max-width:610px;
+  color:#715447;
+  font-size:13px;
+  line-height:1.75;
+  margin: 0 0 11px;
+}
+.cb-store-story-copy p:last-child { margin-bottom:0; }
+.cb-store-visit {
+  display:flex; flex-direction:column; gap:8px;
+  border:1px solid #e4cfc0;
+  border-radius:12px;
+  background:#f4e6d9;
+  padding:24px;
+  text-align:center;
+  align-items:center;
+}
+.cb-store-visit strong { font:400 25px/1.1 'DM Serif Display',Georgia,serif;color:#492a20; }
+.cb-store-visit>span:not(.eyebrow) { font-size:13px; }
+.cb-store-visit small { display:block; max-width:280px; margin-top:8px;color:#7b6558;font-size:10px;line-height:1.6; }
+.cb-footer-experience {
+  display:flex;
+  justify-content:space-between;
+  align-items:start;
+  gap:25px;
+  border-top:1px solid #765347;
+  padding:23px 0 16px;
+  margin-top:17px;
+}
+.cb-footer-experience>div { min-width:0; }
+.cb-footer-label {
+  display:block;
+  font-size:10px;
+  letter-spacing:.13em;
+  font-weight:700;
+  color:#e3c2ad;
+  margin-bottom:11px;
+}
+.cb-social-actions { display:flex; flex-wrap:wrap; gap:8px; }
+.site-footer .cb-social-actions button {
+  border:1px solid #9d7863; background:transparent; color:#f9e8da;
+  padding:10px 14px; border-radius:999px; min-height:44px;
+  font-size:12px; font-weight:600; transition:background .2s,border-color .2s;
+}
+.site-footer .cb-social-actions button:hover,
+.site-footer .cb-social-actions button:focus-visible {
+  background:#684638; border-color:#e9c6ac;
+}
+.cb-footer-contact {display:flex;flex-direction:column;align-items:flex-end;gap:8px;text-align:right;}
+.site-footer .cb-footer-contact-button {
+  min-height:44px;
+  padding:10px 19px;
+  color:#42271d;
+  font-size:12px;
+  font-weight:700;
+  background:#f3dcc8;
+  border:1px solid #f3dcc8;
+  border-radius:999px;
+}
+.site-footer .cb-footer-contact-button:hover {background:#fff2e6;}
+.cb-footer-contact small {font-size:10px;line-height:1.5;color:#d3b9a8;}
+.site-footer .cb-footer-demo-note { max-width:860px; font-size:11px;line-height:1.7;color:#d6c1b2; }
+.cb-demo-contact-form {display:flex;flex-direction:column;gap:13px;margin:18px 0 0;}
+.cb-demo-contact-form label {display:flex;flex-direction:column;gap:7px;font-size:12px;font-weight:700;color:#5d3d2d;}
+.cb-demo-contact-form input,.cb-demo-contact-form textarea {
+  width:100%; border:1px solid #d9bdab; border-radius:9px;
+  padding:12px 13px; font:400 14px/1.5 'DM Sans',sans-serif;
+  color:#472d23;background:#fffdfa;resize:vertical;
+}
+.cb-demo-contact-form :is(input,textarea):focus-visible {outline:3px solid #ad7653;outline-offset:1px;}
+.cb-demo-contact-form .cb-demo-submit {margin-top:5px;min-height:46px;}
+.cb-social-preview {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:15px 0;}
+.cb-social-preview-tile {
+  display:flex;flex-direction:column;justify-content:space-between;gap:23px;
+  min-width:0;min-height:128px;padding:13px;border:1px solid #e5d3c5;
+  background:linear-gradient(145deg,#f9e7d8,#e5c7b5);border-radius:9px;
+}
+.cb-social-preview-tile:nth-child(2) {background:linear-gradient(145deg,#e8d1bd,#f9f1e9);}
+.cb-social-preview-tile:nth-child(3) {background:linear-gradient(145deg,#b58d78,#ead2be);}
+.cb-social-preview-tile span {font-size:10px;color:#8f614c;}
+.cb-social-preview-tile strong {font:400 clamp(14px,1.6vw,17px)/1.25 'DM Serif Display',Georgia,serif;color:#4e2e22;}
+@media (max-width:800px) {
+  .cb-store-story {grid-template-columns:1fr;padding:33px 24px;gap:20px;text-align:center;}
+  .cb-store-story-copy p {margin-left:auto;margin-right:auto;max-width:580px;}
+  .cb-store-visit {padding:18px;max-width:490px;width:100%;margin:0 auto;}
+}
+@media (max-width:640px) {
+  .cb-store-story {padding:28px 19px;gap:18px;}
+  .cb-store-story h2 {font-size:clamp(27px,7.25vw,33px);line-height:1.14;margin:8px auto 12px;}
+  .cb-store-story-copy p {font-size:12px;line-height:1.65;max-width:360px;}
+  .cb-store-visit strong {font-size:23px;}
+  .cb-footer-experience {flex-direction:column;align-items:center;gap:23px;text-align:center;}
+  .cb-footer-social,.cb-footer-contact {width:100%;display:flex;flex-direction:column;align-items:center;text-align:center;}
+  .cb-social-actions {justify-content:center;}
+  .site-footer .cb-footer-contact-button {min-width:158px;}
+  .site-footer .cb-footer-demo-note {text-align:center;}
+  .cb-social-preview {grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;}
+  .cb-social-preview-tile {min-height:112px;padding:10px;gap:12px;}
+  .cb-social-preview-tile strong {font-size:13px;}
+  .modal .cb-demo-contact-form {text-align:left;}
+}
+@media (prefers-reduced-motion:reduce) {
+  .site-footer .cb-social-actions button {transition:none;}
+}
