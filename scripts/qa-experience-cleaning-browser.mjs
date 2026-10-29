@@ -13,7 +13,7 @@ try{
   const response=await page.goto(base+'/experience-cleaning/?lang='+lang,{waitUntil:'domcontentloaded',timeout:35000});
   assert.equal(response?.status(),200,'The isolated new demo route must load');
   assert.equal(await page.locator('#owner').isVisible(),false);
-  assert.match(await page.locator('#hero-title').innerText(),lang==='es'?/Estás limpiando/:/You're cleaning/);
+  assert.match(await page.locator('#hero-title').innerText(),lang==='es'?/Tu casa impecable/:/A beautiful clean/);
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3),true,'No mobile horizontal overflow '+lang+' '+width);
   await page.screenshot({path:'qa-screenshots/experience-cleaning-hero-'+lang+'-'+width+'.png',fullPage:false});
   await page.locator('[data-service="deep"]').click();
@@ -32,6 +32,20 @@ try{
   assert.match(await page.locator('#workflow-desc').innerText(),lang==='es'?/hasta dos recordatorios automáticos/:/up to two automatic reminders/);
   assert.match(await page.locator('#purchase-link').getAttribute('href'),new RegExp('lang='+lang));
   assert.match(await page.locator('.offer-price').innerText(),/\$15/);
+  // Commercial must always be estimate-only, never show a fixed total.
+  await page.locator('.booking-category-tab[data-category="commercial"]').click();
+  assert(await page.locator('#commercial-service-grid').isVisible());
+  assert.equal(await page.locator('#service-grid').isVisible(),false);
+  assert.match(await page.locator('#r-price').innerText(),lang==='es'?/Solicitar estimado/:/Request estimate/);
+  await page.locator('[data-commercial-service="customCommercial"]').click();
+  await page.locator('#next').click();
+  assert.equal(await page.locator('#commercial-details').isVisible(),true);
+  assert.equal(await page.locator('.extras').isVisible(),false);
+  await page.locator('#commercial-area').selectOption('over5000');
+  await page.locator('#next').click();
+  await page.locator('#next').click();
+  assert.match(await page.locator('#metric-value').innerText(),lang==='es'?/Solicitar estimado/:/Request estimate/);
+  assert.match(await page.locator('#owner-service').innerText(),lang==='es'?/Locales comerciales/:/Business spaces/);
   await page.locator('#restart').click();
   assert.equal(await page.locator('#owner').isVisible(),false);
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3),true,'No overflow after interaction');

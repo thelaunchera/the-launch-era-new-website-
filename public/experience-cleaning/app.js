@@ -241,5 +241,105 @@ $('restart').addEventListener('click',()=>{
  syncServices();setStage(1);
  $('experience').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
 });
+// Demo mode switch: local-only residential bookings and commercial estimates.
+// No network calls, customer records, payments or messages.
+state.category='residential';state.commercialService='office';state.commercialArea='under2000';
+Object.assign(es,{
+ navNote:'CUIDAMOS TU HOGAR',navCta:'Ver servicios',heroPhotoNote:'LIMPIEZA CON DETALLE',
+ heroEyebrow:'UNA CASA LIMPIA SE SIENTE DISTINTO',heroTitle1:'Tu casa impecable.',heroTitle2:'Reservar, sin complicaciones.',
+ heroBody:'Descubre nuestros servicios, elige lo que necesitas y solicita tu fecha preferida. Así de sencillo.',
+ heroAction:'Ver servicios de limpieza',heroNote:'Vista interactiva · No se hacen reservas reales',
+ experienceHeading:'Reserva residencial. Estimado comercial.',experienceSub:'Elige el tipo de limpieza y prueba cómo funciona. Sin correo ni pago.',
+ band1:'UNA WEB DE LIMPIEZA REALISTA',band2:'UNA SOLICITUD, UN SOLO ESPACIO',band3:'DEMO INTERACTIVO Y SEGURO',
+ categoryHome:'Residencial',categoryHomeHint:'Reserva de ejemplo',categoryCommercial:'Comercial',categoryCommercialHint:'Solo estimados',
+ officeService:'Limpieza de oficinas',officeServiceHint:'Oficinas y espacios compartidos',
+ customCommercialService:'Locales comerciales',customCommercialHint:'Estimado personalizado',
+ commercialOnlyNote:'Para limpieza comercial se prepara un estimado. No hay precio automático ni reserva confirmada.',
+ commercialAreaLabel:'Área aproximada',areaUnder:'Menos de 2,000 pies²',areaMid:'2,000–5,000 pies²',areaOver:'Más de 5,000 pies²',
+ commercialDetailsNote:'El negocio revisa los detalles antes de preparar el estimado.',
+ livePreviewTitle:'Tu solicitud, en un solo lugar.',
+ sampleFootnote:'Solo una prueba · No se hizo ninguna reserva ni se confirmó un precio'
+});
+const legacyPrice=appliedPrice;
+appliedPrice=function(){return state.category==='commercial'?(state.lang==='es'?'Solicitar estimado':'Request estimate'):legacyPrice();};
+const legacySyncServices=syncServices;
+syncServices=function(){
+ legacySyncServices();
+ document.querySelectorAll('[data-commercial-service]').forEach(button=>{
+  const active=button.dataset.commercialService===state.commercialService;
+  button.classList.toggle('is-selected',active);button.setAttribute('aria-checked',String(active));
+ });
+};
+const originalSyncReceipt=syncReceipt;
+function commercialLabel(){return state.lang==='es'?(state.commercialService==='office'?'Limpieza de oficinas':'Locales comerciales'):(state.commercialService==='office'?'Office cleaning':'Business spaces');}
+syncReceipt=function(){
+ originalSyncReceipt();
+ if(state.category==='commercial'){
+  $('r-service').textContent=commercialLabel();
+  $('r-property').textContent=$('commercial-area').selectedOptions[0].textContent;
+  $('r-extras').textContent=state.lang==='es'?'No aplica':'Not applicable';
+ }
+};
+const originalSyncOwner=syncOwner;
+syncOwner=function(){
+ originalSyncOwner();
+ if(state.category==='commercial'){
+  $('owner-service').textContent=commercialLabel();
+  $('owner-meta').textContent=(state.lang==='es'?'Estimado comercial · ':'Commercial estimate · ')+names[state.lang].time[state.time];
+  $('owner-extras').textContent=state.lang==='es'?'No aplica':'Not applicable';
+ }
+};
+const originalRenderPhase=renderPhase;
+renderPhase=function(){
+ originalRenderPhase();
+ if(state.category!=='commercial')return;
+ const phases=state.lang==='es'?[
+ ['SOLICITUD DE ESTIMADO','Un negocio solicita limpieza','Revisa el área y los horarios antes de preparar cualquier precio.','Estimado por revisar','Solicitud recibida','La información comercial se guarda junta en la solicitud de muestra.','Revisión comercial'],
+ ['PREPARAR ESTIMADO','Aquí no se cobra automáticamente','El dueño revisa el tipo de local, tamaño y frecuencia antes de preparar su estimado.','Estimado por preparar','Estimado personalizado','No se genera una tarifa fija para espacios comerciales.','Estimar'],
+ ['SEGUIMIENTO','Tu estimado no queda olvidado','Si después existe una cotización elegible sin respuesta, pueden enviarse hasta dos recordatorios automáticos, que se detienen al responder el cliente.','Esperando respuesta','Seguimiento de ejemplo','No se envía ningún mensaje durante esta demostración.','Seguimiento']
+ ]:[
+ ['ESTIMATE REQUEST','Commercial request received','Review the space and schedule before preparing any price.','Estimate needs review','Request received','Commercial information stays together in this local demo.','Review'],
+ ['PREPARE ESTIMATE','No automatic commercial charge','The owner reviews the premises, size and frequency before preparing an estimate.','Estimate to prepare','Custom estimate','Commercial projects do not receive a fixed price automatically.','Estimate'],
+ ['FOLLOW-UP','Keep track of the estimate','If an eligible quote later goes unanswered, up to two automatic reminders can go out and stop when the customer responds.','Awaiting reply','Follow-up preview','No reminder is sent during this demo.','Follow-up']
+ ];
+ const p=phases[state.phase];
+ $('workflow-tag').textContent=p[0];$('workflow-title').textContent=p[1];$('workflow-desc').textContent=p[2];
+ $('owner-status').textContent=p[3];$('visual-title').textContent=p[4];$('visual-detail').textContent=p[5];$('metric-action').textContent=p[6];
+ $('visual-status').textContent=state.lang==='es'?'Vista ilustrativa · sin mensajes':'Illustrative preview · no messages';
+};
+function syncCategory(){
+ const commercial=state.category==='commercial';
+ $('service-grid').hidden=commercial;$('commercial-service-grid').hidden=!commercial;
+ $('commercial-estimate-note').hidden=!commercial;$('commercial-details').hidden=!commercial;
+ document.querySelectorAll('.residential-only').forEach(el=>{el.hidden=commercial;});
+ $('property').disabled=commercial;
+ $('property').value=commercial?'office':state.property;
+ document.querySelectorAll('.booking-category-tab').forEach(button=>{
+  const active=button.dataset.category===state.category;
+  button.classList.toggle('is-active',active);button.setAttribute('aria-pressed',String(active));
+ });
+ $('r-price').classList.toggle('is-estimate',commercial);
+ $('metric-value').classList.toggle('is-estimate',commercial);
+ syncServices();syncReceipt();
+ if(state.sent)syncOwner();
+}
+const oldApplyLanguage=applyLanguage;
+applyLanguage=function(){
+ oldApplyLanguage();
+ $('commercial-service-grid').setAttribute('aria-label',state.lang==='es'?'Servicios comerciales para estimado':'Commercial estimate services');
+ syncCategory();
+};
+document.querySelectorAll('.booking-category-tab').forEach(btn=>btn.addEventListener('click',()=>{
+ if(state.category===btn.dataset.category)return;
+ state.category=btn.dataset.category;state.step=1;state.sent=false;state.phase=0;
+ $('owner').hidden=true;$('handoff').hidden=true;
+ syncCategory();setStage(1);
+}));
+document.querySelectorAll('[data-commercial-service]').forEach(btn=>btn.addEventListener('click',()=>{
+ state.commercialService=btn.dataset.commercialService;syncServices();syncReceipt();
+}));
+$('commercial-area').addEventListener('change',()=>{state.commercialArea=$('commercial-area').value;syncReceipt();});
+$('restart').addEventListener('click',()=>{state.category='residential';state.commercialService='office';state.commercialArea='under2000';$('commercial-area').value='under2000';syncCategory();});
+
 syncServices();applyLanguage();
 })();
