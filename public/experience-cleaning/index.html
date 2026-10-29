@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="robots" content="noindex,follow">
+ <meta name="theme-color" content="#FAF8F3">
+ <meta name="description" content="Experience a sample cleaning booking and see how the same request appears in a private workspace. An interactive demo by The Launch Era.">
+ <title>See the full booking journey · The Launch Era</title>
+ <link rel="icon" href="/assets/brand/tle-mark.svg" type="image/svg+xml">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="/experience-cleaning/styles.css?v=20261029-v1">
+ <script defer src="/experience-cleaning/app.js?v=20261029-v1"></script>
+</head>
+<body>
+ <a class="skip" href="#experience" data-t="skip">Skip to the demo</a>
+ <header class="site-header">
+  <a href="/" class="brand" aria-label="The Launch Era home"><img src="/assets/brand/tle-wordmark.svg" width="156" height="34" alt="The Launch Era"></a>
+  <div class="header-actions">
+   <span class="small-note" data-t="safeTop">Interactive sample · No real booking</span>
+   <button id="language" class="lang-btn" type="button" aria-label="Cambiar a español">ES</button>
+  </div>
+ </header>
+ <main>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <p class="eyebrow" data-t="heroEyebrow">A BETTER WAY TO HANDLE NEW REQUESTS</p>
+      <h1 id="hero-title"><span data-t="heroTitle1">You're cleaning.</span><em data-t="heroTitle2">A new request comes in.</em></h1>
+      <p class="hero-intro" data-t="heroBody">Your customer needs a quick way to ask. You need to know what happens next. Try both sides of the same booking.</p>
+      <div class="hero-actions">
+       <a class="button button-dark" href="#experience" data-t="heroAction">Try a sample booking</a>
+       <span class="hero-helper" data-t="heroNote">Takes a few taps. No signup.</span>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <img src="/assets/cleaning-demo/hero-cleaner-original.jpg" alt="A cleaning professional working in a bright home" width="1536" height="864" fetchpriority="high">
+      <div class="hero-floating hero-floating-a"><span class="signal"></span><small data-t="floating1a">NEW REQUEST</small><strong data-t="floating1b">Deep cleaning</strong></div>
+      <div class="hero-floating hero-floating-b"><small data-t="floating2a">YOUR WORKSPACE</small><strong data-t="floating2b">Ready to review</strong><span class="floating-tick" aria-hidden="true">✓</span></div>
+      <div class="hero-stamp" data-t="heroStamp">BOOKING + COMMAND CENTER</div>
+    </div>
+  </section>
+
+  <section class="intro-band" aria-label="How the sample works">
+    <span data-t="band1">ONE CUSTOMER REQUEST</span><span class="band-dot"></span>
+    <span data-t="band2">ONE CONNECTED WORKSPACE</span><span class="band-dot"></span>
+    <span data-t="band3">ALL IN ONE INTERACTIVE EXAMPLE</span>
+  </section>
+
+  <section class="experience shell" id="experience" aria-labelledby="experience-title">
+   <div class="section-heading">
+    <p class="eyebrow" data-t="experienceEyebrow">01 / CUSTOMER VIEW</p>
+    <h2 id="experience-title" data-t="experienceHeading">See how easy it is to request a cleaning.</h2>
+    <p data-t="experienceSub">Make a sample request as if you were your own customer. Nothing gets sent or saved.</p>
+   </div>
+   <div class="experience-frame">
+    <div class="form-panel">
+      <div class="window-head">
+       <div class="window-brand"><span class="window-mark">S</span><span><strong>Sample Cleaning</strong><small data-t="sampleSubtitle">DEMO BOOKING PAGE</small></span></div>
+       <span class="window-status"><span class="tiny-dot"></span><span data-t="sampleMode">Sample mode</span></span>
+      </div>
+      <div class="steps" aria-label="Sample booking progress">
+       <span class="step is-current" data-step-label="1"><b>01</b><span data-t="step1">Service</span></span>
+       <span class="step" data-step-label="2"><b>02</b><span data-t="step2">Details</span></span>
+       <span class="step" data-step-label="3"><b>03</b><span data-t="step3">Preferred time</span></span>
+      </div>
+
+      <div class="stage" id="stage-1">
+       <div class="stage-heading"><p class="mini-tag" data-t="s1Tag">CHOOSE A SERVICE</p><h3 data-t="s1Title">What needs cleaning?</h3><p data-t="s1Sub">Tap one option to continue.</p></div>
+       <div id="service-grid" class="service-grid" role="radiogroup" aria-label="Cleaning services">
+        <button type="button" class="service-card is-selected" data-service="standard" role="radio" aria-checked="true">
+         <img src="/assets/cleaning-demo/living-room-original.jpg" alt="" loading="lazy">
+         <span class="service-card-copy"><strong data-t="serviceStandard">Standard cleaning</strong><small data-t="serviceStandardHint">For regular home care</small></span><span class="select-indicator" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="service-card" data-service="deep" role="radio" aria-checked="false">
+         <img src="/assets/cleaning-demo/hero-woman-cleaning.jpg" alt="" loading="lazy">
+         <span class="service-card-copy"><strong data-t="serviceDeep">Deep cleaning</strong><small data-t="serviceDeepHint">For extra attention</small></span><span class="select-indicator" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="service-card" data-service="move" role="radio" aria-checked="false">
+         <img src="/assets/cleaning-demo/whole-home.png" alt="" loading="lazy">
+         <span class="service-card-copy"><strong data-t="serviceMove">Move-in / move-out</strong><small data-t="serviceMoveHint">For a fresh start</small></span><span class="select-indicator" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="service-card" data-service="custom" role="radio" aria-checked="false">
+         <img src="/assets/cleaning-demo/living-suite.png" alt="" loading="lazy">
+         <span class="service-card-copy"><strong data-t="serviceCustom">Special cleaning</strong><small data-t="serviceCustomHint">A quote for unique jobs</small></span><span class="select-indicator" aria-hidden="true"></span>
+        </button>
+       </div>
+      </div>
+
+      <div class="stage" id="stage-2" hidden>
+       <div class="stage-heading"><p class="mini-tag" data-t="s2Tag">JUST A FEW DETAILS</p><h3 data-t="s2Title">Tell us about the space.</h3><p data-t="s2Sub">Only sample choices. No address or contact information.</p></div>
+       <div class="two-fields">
+        <label><span data-t="propertyLabel">Property</span><select id="property"><option value="house" data-t="propertyHouse">House</option><option value="apartment" data-t="propertyApartment">Apartment</option><option value="office" data-t="propertyOffice">Office / workspace</option></select></label>
+        <label><span data-t="frequencyLabel">How often?</span><select id="frequency"><option value="once" data-t="frequencyOnce">One time</option><option value="weekly" data-t="frequencyWeekly">Weekly</option><option value="biweekly" data-t="frequencyBiweekly">Every two weeks</option><option value="monthly" data-t="frequencyMonthly">Monthly</option></select></label>
+        <label><span data-t="bedroomLabel">Bedrooms</span><select id="beds"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4+</option></select></label>
+        <label><span data-t="bathroomLabel">Bathrooms</span><select id="baths"><option value="1">1</option><option value="2" selected>2</option><option value="3">3+</option></select></label>
+       </div>
+       <fieldset class="extras"><legend data-t="extrasLabel">Optional extras</legend>
+        <label><input type="checkbox" value="oven"><span data-t="extraOven">Inside oven</span><small>+$30</small></label>
+        <label><input type="checkbox" value="fridge"><span data-t="extraFridge">Inside fridge</span><small>+$25</small></label>
+       </fieldset>
+       <p class="help-text" data-t="samplePrices">Sample values only. Your real prices and services are personalized.</p>
+      </div>
+
+      <div class="stage" id="stage-3" hidden>
+       <div class="stage-heading"><p class="mini-tag" data-t="s3Tag">ONE LAST STEP</p><h3 data-t="s3Title">Choose a preferred time.</h3><p data-t="s3Sub">Your business decides which appointments to confirm.</p></div>
+       <div class="date-selector">
+         <label for="date" data-t="dateLabel">Preferred date</label>
+         <input type="date" id="date">
+       </div>
+       <fieldset class="time-options" aria-label="Preferred arrival time"><legend data-t="timeLabel">Preferred arrival time</legend>
+         <label><input type="radio" name="preferred-time" value="morning" checked><span data-t="timeMorning">Morning · 9–12</span></label>
+         <label><input type="radio" name="preferred-time" value="afternoon"><span data-t="timeAfternoon">Afternoon · 12–4</span></label>
+         <label><input type="radio" name="preferred-time" value="flexible"><span data-t="timeFlexible">I'm flexible</span></label>
+       </fieldset>
+       <div class="important"><span aria-hidden="true">i</span><p data-t="noSend">This is an interactive sample, not a real booking. Nothing will be sent, charged or emailed.</p></div>
+      </div>
+      <div class="form-actions"><button type="button" class="button button-ghost" id="back" hidden data-t="back">Back</button><button type="button" class="button button-dark next" id="next" data-t="continue">Continue</button></div>
+    </div>
+    <aside class="request-preview" aria-live="polite">
+      <span class="eyebrow" data-t="livePreviewEyebrow">LIVE SAMPLE PREVIEW</span>
+      <h3 data-t="livePreviewTitle">Your request, as it comes together.</h3>
+      <div class="receipt"><div class="receipt-top"><span class="receipt-icon" aria-hidden="true">✳</span><div><strong>Sample Cleaning</strong><small data-t="receiptType">REQUEST DETAILS</small></div></div>
+        <dl><div><dt data-t="rService">Service</dt><dd id="r-service"></dd></div><div><dt data-t="rProperty">Property</dt><dd id="r-property"></dd></div><div><dt data-t="rFrequency">Frequency</dt><dd id="r-frequency"></dd></div><div><dt data-t="rExtras">Extras</dt><dd id="r-extras"></dd></div><div><dt data-t="rDate">Preferred date</dt><dd id="r-date"></dd></div></dl>
+        <div class="receipt-total"><span data-t="rEstimate">Illustrative price</span><strong id="r-price"></strong></div>
+        <p class="receipt-disclaimer" data-t="sampleFootnote">Not a quote or confirmed appointment.</p>
+      </div>
+      <div class="preview-note"><span class="note-dot" aria-hidden="true"></span><p data-t="previewNote">Every detail stays together instead of getting lost in a message thread.</p></div>
+    </aside>
+   </div>
+  </section>
+
+  <section class="handoff" id="handoff" hidden aria-live="polite">
+    <div class="shell">
+      <div class="handoff-heading"><div class="check-graphic" aria-hidden="true">✓</div><span class="eyebrow" data-t="handoffEyebrow">SAMPLE REQUEST COMPLETE</span><h2 data-t="handoffTitle">Now see what the business owner sees.</h2><p data-t="handoffBody">That same request appears below. No second demo and no starting over.</p></div>
+      <div class="handoff-connector" aria-hidden="true"><span></span><span></span><span></span></div>
+    </div>
+  </section>
+
+  <section class="owner shell" id="owner" hidden aria-labelledby="owner-title">
+    <div class="section-heading">
+     <p class="eyebrow" data-t="ownerEyebrow">02 / OWNER VIEW · ILLUSTRATIVE</p>
+     <h2 id="owner-title" data-t="ownerTitle">One request. All the details, right here.</h2>
+     <p data-t="ownerSub">See how a request can move from a new inquiry to a quote and a follow-up. These are local previews, not real messages.</p>
+    </div>
+    <div class="owner-dashboard">
+     <aside class="dashboard-sidebar">
+      <div class="dash-logo"><span class="dash-logo-mark">S</span><strong>Sample Cleaning</strong></div>
+      <div class="dash-nav"><span class="active"><span class="nav-ico">▦</span><span data-t="dashRequests">Requests</span><b>1</b></span><span><span class="nav-ico">▤</span><span data-t="dashQuotes">Quotes</span></span><span><span class="nav-ico">◷</span><span data-t="dashFollowups">Follow-ups</span></span></div>
+      <div class="dash-side-bottom" data-t="dashMockNote">Illustrative workspace</div>
+     </aside>
+     <div class="dashboard-main">
+      <div class="dash-head"><div><span class="dash-overline" data-t="dashToday">YOUR COMMAND CENTER</span><h3 data-t="dashHeading">A request just came in.</h3></div><span class="dash-view-tag" data-t="dashSample">SAMPLE DATA</span></div>
+      <div class="dashboard-snapshot"><span class="snapshot-icon" aria-hidden="true">✳</span><div><small data-t="snapshotLabel">NEW CLEANING REQUEST</small><strong id="owner-service"></strong><span id="owner-meta"></span></div><span id="owner-status" class="status-pill" data-t="statusNew">Needs review</span></div>
+      <div class="dashboard-details">
+        <div><span data-t="dashDate">Preferred date</span><strong id="owner-date"></strong></div>
+        <div><span data-t="dashFrequency">Frequency</span><strong id="owner-frequency"></strong></div>
+        <div><span data-t="dashExtras">Extras</span><strong id="owner-extras"></strong></div>
+      </div>
+      <div class="workflow">
+        <div class="workflow-header"><span data-t="workflowLabel">SEE WHAT HAPPENS NEXT</span><span class="workflow-counter" id="workflow-counter">01 / 03</span></div>
+        <div class="workflow-progress" aria-hidden="true"><span class="is-done"></span><span></span><span></span></div>
+        <div class="workflow-content"><span class="eyebrow" id="workflow-tag"></span><h4 id="workflow-title"></h4><p id="workflow-desc"></p></div>
+        <div class="workflow-actions"><button type="button" id="workflow-next" class="button button-dark"></button><button type="button" id="workflow-prev" class="text-button" data-t="workflowBack" hidden>Previous step</button></div>
+      </div>
+      <p class="dash-legal" data-t="ownerFootnote">Interactive illustration only: no record, email, quote, follow-up or payment is created.</p>
+     </div>
+    </div>
+  </section>
+
+  <section class="offer" id="get-yours" aria-labelledby="offer-title">
+    <div class="offer-photo"><img src="/assets/cleaning-demo/living-room-original.jpg" alt="A bright, freshly cleaned living room" loading="lazy"></div>
+    <div class="offer-copy"><p class="eyebrow" data-t="offerEyebrow">NOW, MAKE IT YOURS</p><h2 id="offer-title" data-t="offerTitle">That was the sample. Imagine it with your business name.</h2><p data-t="offerBody">Your services. Your prices. Your private Command Center. We set it up for your cleaning business.</p>
+      <div class="offer-price"><strong>$15</strong><span data-t="offerPrice">ONE TIME · NO MONTHLY BOOKING FEE</span></div>
+      <a id="purchase-link" class="button button-dark purchase" href="/booking-bundle/?lang=en&source=experience-cleaning#choose-plan" data-t="purchase">Get my Booking Page + Command Center</a>
+      <p class="offer-note" data-t="offerNote">Optional AI plans are priced separately. You'll see all charges before paying.</p>
+      <button id="restart" type="button" class="text-button restart" data-t="tryAgain">Try another sample request</button>
+    </div>
+  </section>
+ </main>
+ <footer><span>© The Launch Era · <span data-t="footerSafety">Interactive sample. No real booking or messages.</span></span><div><a href="/" data-t="backSite">Back to The Launch Era</a><a href="/privacy.html" data-t="privacy">Privacy</a><a href="/terms.html" data-t="terms">Terms</a></div></footer>
+</body>
+</html>
