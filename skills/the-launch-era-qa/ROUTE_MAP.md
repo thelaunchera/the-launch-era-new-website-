@@ -1,3 +1,11 @@
+## 2026-10-28 — Casa Brownie: reparación de Safari móvil y banner continuo
+- **Observación real del iPhone:** la sección de regalo y nota se veía sin composición: texto pegado al borde izquierdo y largos espacios vacíos, seguidos de bloque de cierre desalineado. No considerar el diseño aprobado sin visual QA.
+- **Causa probable con soporte en fuente:** nuevo HTML usa `.cb-gift-box`, `.cb-paper-note`, `.moments-strip`, pero el navegador seguía mostrando reglas antiguas de CSS/JS; los assets referían URLs sin versión (`hero-corrections.css`, `main.js`), por lo que podían permanecer en caché después de actualizar HTML. Además, contenedores flex/grid tenían alturas dependientes de estilos no cargados.
+- **Corrección:** añadir archivo nuevo `editorial-center-v2.css` y versionar referencias de todos los CSS/JS del demo; móvil establece orden, altura acotada, anchura 100%, centrado real de empaque y nota, título/texto/CTA, entrega y cierre, sin desbordamiento lateral.
+- **Nuevo elemento:** banner horizontal `.cb-marquee` entre hero y catálogo, con dos grupos repetidos, movimiento continuo discreto sin flechas ni emojis, `prefers-reduced-motion` lo convierte en tira estática. No es una segunda promo de ventas, solo dirección editorial.
+- **Aislamiento:** `public/demos/casa-brownie/` únicamente; no modifica otros demos, Landing de la clase, backend, usuarios, pagos o envíos.
+- **QA:** prueba de existencia/referencias versionadas, alturas/centrado de tarjetas, banner y accesibilidad, además de prueba de ruta y pipeline. La revisión visual de iPhone/desktop sigue siendo una puerta separada antes de aprobación definitiva.
+
 ## 2026-10-28 — Casa Brownie: storytelling Cata y enlace oficial en el Studio
 - **Enlace del aula/Studio:** `https://thelaunchera.com/demos/casa-brownie/` guardado como `demo_url` en la tarea de Clase 01; el enlace original de AppDeploy se conserva como `demo_source_url`, sin ser la fuente de producción.
 - **Ruta:** mismo `/demos/casa-brownie/`. Mantiene el hero con video y foto original de respaldo, seis sabores, simulación educativa sin datos/pagos y entrega ficticia solo Miami.

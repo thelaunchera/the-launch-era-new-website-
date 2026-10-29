@@ -1,3 +1,9 @@
+## 2026-10-28 — Casa Brownie: regalo sin estilos centrados en Safari
+- **Reportado:** capturas del iPhone muestran `UN DETALLE PARA TI Casa Brownie ♡` totalmente a la izquierda y sin caja, nota de regalo sin tarjeta y panel enorme vacío; bloque «¿Ya tienes un favorito?» desbalanceado.
+- **Diagnóstico:** HTML nuevo y CSS complementario tenían dependencias en archivos no versionados. Una carga de HTML reciente con CSS previo puede dejar la sección con estilos antiguos; los contenedores carecían de tamaño/centrado garantizados sin CSS reciente. No se confirmó la caché directamente en Safari.
+- **Corrección implementada:** CSS de nombre nuevo para móvil, caché invalidada por `?v=cb-center-20261028b` en hojas y JS, ilustración y nota con anchura/altura limitadas y centrado, entrega/cierre centrados, prevención de scroll horizontal. Banner continuo suave con accesibilidad de movimiento reducido.
+- **Pendiente:** abrir URL pública desde iPhone Safari, confirmar estilos, CTA y movimiento sin overflow antes de declarar validación visual definitiva. No hay pagos ni contactos enviados.
+
 ## 2026-10-28 — Casa Brownie: repetición de marca e imágenes en la experiencia móvil
 - **Reportado:** la usuaria percibe demasiadas repeticiones de «brownie» y del mismo producto en secciones distintas; pide conservar el link y ordenar como mecanismo editorial usado por Cata.
 - **Causa confirmada:** 13 menciones visibles al extraer texto del HTML, encabezados y enlaces redundantes; fotos del brownie Clásico y Frambuesa repetidas en la sección de historia; botón «Ver todos los sabores» solo mostraba aviso y JS movía la entrega de posición luego del render.
