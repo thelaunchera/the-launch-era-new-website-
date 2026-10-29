@@ -13,13 +13,13 @@ export function PrimaryBookingOffer({ lang = 'en' }: { lang?: 'en' | 'es' }) {
     <div className="container tle-primary-booking-offer__grid">
       <div className="tle-primary-booking-offer__copy">
         <div className="eyebrow">{es ? 'EMPIEZA CON UN SISTEMA SIMPLE' : 'START WITH ONE SIMPLE SYSTEM'}</div>
-        <h2 className="editorial">{es ? <>Tus solicitudes de limpieza. <em>En un solo lugar.</em></> : <>Your cleaning requests. <em>One place to manage them.</em></>}</h2>
+        <h2 className="editorial">{es ? <>Mientras limpias, los mensajes se acumulan. <em>Que no se pierdan las reservas.</em></> : <>Messages pile up while you’re cleaning. <em>Your bookings shouldn’t get lost.</em></>}</h2>
         <p className="tle-primary-booking-offer__intro">{es
-          ? 'Una Booking Page personalizada y un Command Center privado para organizar solicitudes, cotizaciones y seguimientos sin software complicado.'
-          : 'A personalized Booking Page and private Command Center to organize inquiries, quotes and follow-ups without complicated software.'}</p>
+          ? 'Un enlace para recibir solicitudes. Un Command Center para saber qué sigue.'
+          : 'One booking link for your clients. One place to see what needs your attention.'}</p>
         <div className="tle-primary-booking-offer__price">
-          <span>{es ? 'PAGO ÚNICO · OFERTA ACTUAL' : 'ONE-TIME PRICE · CURRENT OFFER'}</span>
-          <del>$49.99</del><strong>$15</strong>
+          <span>{es ? 'PAGO ÚNICO · SIN MENSUALIDAD' : 'ONE-TIME PRICE · NO MONTHLY FEE'}</span>
+          <strong>$15</strong>
         </div>
         <p className="tle-primary-booking-offer__price-note">{es ? 'Sin mensualidad para Booking Page + Command Center.' : 'No monthly fee for Booking Page + Command Center.'}</p>
         <div className="tle-primary-booking-offer__actions">
@@ -27,8 +27,8 @@ export function PrimaryBookingOffer({ lang = 'en' }: { lang?: 'en' | 'es' }) {
           <a className="tle-primary-booking-offer__secondary" href={demo}>{es ? 'Solicitar demo más personalizada' : 'Request a More Personalized Demo'} <ArrowRight size={16} aria-hidden="true"/></a>
         </div>
         <p className="tle-primary-booking-offer__fine-print">{es
-          ? 'La IA es opcional y se vende aparte. Entrega estimada en 48 horas después de revisar y aprobar tu información completa.'
-          : 'AI Assistants are optional and sold separately. Estimated delivery: 48 hours after your complete setup details are reviewed and kickoff is confirmed.'}</p>
+          ? 'La IA es opcional. Verás el pago inicial y cualquier mensualidad antes de comprar.'
+          : 'AI is optional. You'll see the one-time setup and any monthly plan before paying.'}</p>
       </div>
       <div className="tle-primary-booking-offer__preview" aria-label={es ? 'Ejemplo ilustrativo del flujo de reservas' : 'Illustrative booking workflow'}>
         <div className="tle-primary-booking-offer__preview-head"><span>{es ? 'ASÍ FUNCIONA' : 'HOW IT WORKS'}</span><span>{es ? 'EJEMPLO' : 'SAMPLE FLOW'}</span></div>
