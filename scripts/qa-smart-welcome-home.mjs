@@ -27,7 +27,7 @@ assert(component.includes("/booking-bundle/?lang="),'Marketing CTA must lead to 
 assert(component.includes("'&bundle=ai-booking&source=smart-welcome'"),'Joint activation must preselect an AI addon');
 assert(bundle.includes('key===autoSelectAI?"checked":""'),'Bundle selector must preselect only when linked from welcome');
 assert(bundle.includes('if(!addon){location.href='),'Ordinary booking-only option must remain available');
-assert(shell.includes('tle-booking-bundle.js?v=20261014-smart-welcome-v1'),'Buyer bundle page should bypass stale scripts');
+assert(shell.includes('tle-booking-bundle.js?v=20261029-bundle-rates-v2'),'Buyer bundle page should bypass stale scripts');
 assert(!component.includes('tle-bundle-inline-art'),'Homepage inline section must not duplicate the large flyer');
 assert(component.includes('tle-bundle-inline-discount'),'Compact promotion badge must remain');
 assert(component.includes('tle-bundle-inline-cta'),'Compact promotion CTA must remain');
