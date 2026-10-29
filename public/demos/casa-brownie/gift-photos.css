@@ -1,0 +1,62 @@
+/* Dos fotografías reales de empaque autorizadas por la usuaria.
+ * Reemplazan las cajas y tarjetas dibujadas con CSS en la sección "pensé en ti".
+ * Se carga después de editorial-center-v2.css para respetar la estructura del demo.
+ */
+.moments-strip > .cb-real-gift-photo,
+.moments-strip > .moment-illustration.cb-real-gift-photo,
+.moments-strip > .moment-note.cb-real-gift-photo {
+  display: block;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+  min-width: 0;
+  background: #c49c80;
+}
+.moments-strip .cb-real-gift-photo::before,
+.moments-strip .cb-real-gift-photo::after {
+  content: none !important;
+  display: none !important;
+}
+.moments-strip > .cb-real-gift-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+  border: 0;
+  border-radius: 0;
+}
+.moments-strip > .moment-illustration.cb-real-gift-photo img {
+  object-position: 50% 52%;
+}
+.moments-strip > .moment-note.cb-real-gift-photo img {
+  object-position: 51% 49%;
+}
+@media (min-width: 791px) {
+  .moments-strip > .cb-real-gift-photo { height: 310px; }
+}
+@media (max-width: 790px) {
+  .moments-strip > .moment-illustration.cb-real-gift-photo {
+    display: block !important;
+    width: 100% !important;
+    height: clamp(260px, 77vw, 390px) !important;
+    min-height: 260px !important;
+    max-height: 390px !important;
+  }
+  .moments-strip > .moment-note.cb-real-gift-photo {
+    display: block !important;
+    width: 100% !important;
+    height: clamp(245px, 69vw, 370px) !important;
+    min-height: 245px !important;
+    max-height: 370px !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .moments-strip > .cb-real-gift-photo img {
+    animation: none !important;
+    transform: none !important;
+  }
+}
