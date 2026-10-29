@@ -75,3 +75,11 @@ Three, six and twelve cookie boxes can be mixed freely. The total is calculated 
 
 ## CRUMB mobile title polish (29 Oct 2026)
 Instead of long oversized blocks on phones, the section titles are shortened and centered: `A little gift. Big joy.`, `Inside CRUMB.`, `Made to share.`, and `Make their day.`. On phones only, headings have compact editorial sizing and shorter vertical spacing. The original sharing message is retained as supporting paragraph. Existing image sections and responsive settings are preserved.
+
+## Boutique-story and contact experience · October 29, 2026
+
+- The existing lifestyle section becomes a short human-feeling fictional origin story, with the same approved photo and a jump link labelled "Our Story." No extra lengthy section or new stock photography.
+- Footer sample address: **128 Cookie Lane, Miami, FL 33131**. This address is invented for education, explicitly labelled "Fictional address · Not a real storefront"; sample opening hours are likewise fictional. Do not add a Maps link or imply the physical shop operates there.
+- Instagram and TikTok are **working demo-preview buttons**, not links to real CRUMB accounts. They open an accessible modal with an explicit demo notice; no real brand handle is registered or claimed.
+- **Contact Us** and **Say hello to CRUMB** trigger the same closed-by-default modal with Name, Email, Reason, Message and required fields. Valid demo input only produces a local simulated result and is immediately cleared. No POST/fetch, state storage, email, payment, tracking or network submission; encourage sample details.
+- Existing cookie selector, illustrative prices, builder, hero imagery, store photos and Miami delivery graphics remain intact. Keep the entire site in English with the visible educational-demo disclosure.
