@@ -514,3 +514,7 @@ textarea { width: 100%; padding: 12px; border: 1px solid #cbb8a5; background: #f
 @media (prefers-reduced-motion:reduce) {
   .brand-glimpse-gallery { scroll-behavior:auto; }
 }
+
+/* Photo update: unique gift packaging completes the compact three-image identity story. */
+.brand-glimpse-gallery figure:nth-child(3) img { object-position: center 55%; }
+@media (max-width:600px) {.brand-glimpse-gallery figure:nth-child(3) img { object-position:center 55%; }}

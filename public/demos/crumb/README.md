@@ -46,3 +46,9 @@ The hero image at `assets/hero.webp` is replaced in-place with the owner's appro
 - The portrait interior cookie-counter photo is used only by a `picture/source` media query in the mobile hero. Desktop keeps the previously approved wide `hero.webp`.
 - The branded gift-box photo replaces the older gifting image and the CRUMB lifestyle photo replaces the older portrait; the remaining photos appear in a compact three-image editorial strip with swipe on phones, avoiding a long stacked gallery.
 - Text headings, marketing copy and principal actions are centered, especially on mobile. Flavor selectors and live gift-box logic are unchanged; no checkout/payments/real GPS are introduced. The existing six flavor product photos remain intact.
+
+## Selección de fotografías sin repetición (29 oct)
+- Se sustituyeron las imágenes anteriores de fachada, regalo, persona y equipo por las cuatro fotos nuevas aprobadas; ninguna escena de esas categorías aparece dos veces en la página.
+- La quinta foto nueva es la bolsa CRUMB (`brand-packaging.webp`), que **reemplaza** la foto de plato de cookies en la galería de identidad. Así la galería compacta muestra fachada, equipo y packaging, no otro producto servido.
+- La sexta imagen recibida (plato con tres cookies) se omitió expresamente por redundancia; no se añadió una sección extra.
+- Las seis fotos individuales del catálogo de sabores y el hero móvil aprobado permanecen sin cambios. Imágenes conceptuales, no prueba de tienda real.
