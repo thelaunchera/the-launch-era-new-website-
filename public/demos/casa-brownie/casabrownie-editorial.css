@@ -1,0 +1,181 @@
+/* Casa Brownie · editorial photo layer.
+   Shared by the official video demo and the ?etapa=sin-video training variant.
+   Does not touch video media, autoplay, poster, script or source URLs. */
+
+.cb-hero-lifestyle,
+.cb-delivery-photo { display:none; }
+.cb-hero-lifestyle,
+.cb-moment-accent,
+.cb-delivery-photo,
+.cb-closing-photo { margin:0; overflow:hidden; min-width:0; }
+.cb-hero-lifestyle img,
+.cb-moment-accent img,
+.cb-delivery-photo img,
+.cb-closing-photo img { display:block; width:100%; height:100%; object-fit:cover; }
+.cb-moment-accent {
+  width:98px; height:98px;
+  margin:15px auto 0;
+  border-radius:13px;
+  box-shadow:0 10px 28px rgba(62,36,23,.12);
+}
+.cb-moment-accent img { object-position:center 50%; }
+.cb-closing-photo {
+  width:142px; height:116px;
+  flex-shrink:0; border-radius:14px;
+  box-shadow:0 8px 25px rgba(64,35,23,.13);
+}
+.cb-closing-photo img { object-position:50% 48%; }
+.step-number { margin-right:12px; }
+.step-symbol { margin-left:0; }
+.delivery-miami .cb-delivery-photo { display:none; }
+@media (min-width:1200px) {
+  .moments-copy .cb-moment-accent { width:84px; height:84px; margin-top:11px; }
+  .closing { gap:clamp(18px,3vw,45px); }
+  .closing .cb-closing-photo { margin-left:auto; }
+  .closing .primary-button { margin-left:0; }
+}
+@media (min-width:791px) and (max-width:1199px) {
+  /* Replace empty tablet hero copy panel with a short editorial two-column story. */
+  .hero .hero-copy {
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,.96fr);
+    grid-template-rows:repeat(5,auto);
+    column-gap:clamp(20px,3.6vw,42px);
+    row-gap:0;
+    align-content:center;
+    align-items:center;
+    text-align:left;
+    padding:clamp(32px,4.2vw,49px) clamp(27px,5vw,62px);
+    min-height:0;
+    background:linear-gradient(110deg,#f7ebe1 0%,#f8eee6 60%,#ead5c7 100%);
+  }
+  .hero .hero-copy > .eyebrow {
+    grid-column:1;grid-row:1;
+    text-align:left;
+    font-size:9px;
+    letter-spacing:.14em;
+  }
+  .hero .hero-copy > h1 {
+    grid-column:1;grid-row:2;
+    text-align:left;
+    font-size:clamp(45px,5.6vw,66px);
+    line-height:1.03;
+    margin:15px 0 12px;
+    white-space:normal;
+  }
+  .hero .hero-copy > h1 .love {
+    margin:3px 0 0;
+    display:block;
+    font-size:1.16em;
+    line-height:.9;
+    transform:none;
+  }
+  .hero .hero-copy > p {
+    grid-column:1;grid-row:3;
+    text-align:left;
+    margin:10px 0 20px;
+    font-size:clamp(13px,1.4vw,15px);
+    line-height:1.67;
+    max-width:37ch;
+  }
+  .hero .hero-copy > .primary-button {
+    grid-column:1;grid-row:4;
+    margin:0;
+    justify-self:start;
+  }
+  .hero .hero-qualities {
+    grid-column:1;grid-row:5;
+    width:100%;
+    min-width:0;
+    margin:28px 0 0;
+    padding-top:17px;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
+  .hero .hero-qualities > span { padding:0 3px; }
+  .hero .hero-qualities svg { width:22px; height:22px; }
+  .hero .hero-qualities small { font-size:7px; letter-spacing:0; }
+  .hero .cb-hero-lifestyle {
+    display:block;
+    grid-column:2;grid-row:1 / 6;
+    width:100%;
+    height:clamp(410px,47vw,565px);
+    border-radius:16px;
+    box-shadow:0 18px 40px rgba(73,42,27,.12);
+    align-self:stretch;
+  }
+  .hero .cb-hero-lifestyle img { object-position:50% 44%; }
+  .moments-strip > .moments-copy {
+    min-height:0;
+    padding:36px 7% 40px;
+  }
+  .moments-strip .moments-copy h2 { margin:8px auto 14px; }
+  .moments-strip .moments-copy p { margin:5px auto 12px; }
+  .moments-copy .cb-moment-accent { width:90px; height:90px; margin-top:12px; }
+  .delivery-steps { padding-top:44px; padding-bottom:48px; }
+  .delivery-steps .step-row { margin-top:24px; }
+  .delivery-steps .step,
+  .delivery-steps .step:first-child { padding:24px; }
+  .delivery-steps .step-number { margin-right:16px; }
+  .delivery-steps .step-symbol { margin-left:2px; }
+  .delivery-miami {
+    display:grid;
+    grid-template-columns:minmax(0,40%) minmax(0,60%);
+    grid-template-rows:repeat(4,auto);
+    align-content:center;
+    align-items:center;
+    text-align:left;
+    column-gap:clamp(22px,4vw,48px);
+    padding:0 clamp(27px,5vw,55px) 0 0;
+    min-height:390px;
+    overflow:hidden;
+  }
+  .delivery-miami .cb-delivery-photo {
+    display:block;
+    grid-column:1;
+    grid-row:1 / 5;
+    width:100%;
+    height:100%;
+    min-height:390px;
+    align-self:stretch;
+  }
+  .delivery-miami .cb-delivery-photo img { object-position:45% 45%; }
+  .delivery-miami > .pin-circle,
+  .delivery-miami > h2,
+  .delivery-miami > p,
+  .delivery-miami > .light-button {
+    grid-column:2;
+    margin-left:0;
+    margin-right:0;
+    text-align:left;
+    justify-self:start;
+  }
+  .delivery-miami > .pin-circle { grid-row:1; align-self:end; margin-top:42px; }
+  .delivery-miami > h2 { grid-row:2; margin-top:12px; margin-bottom:8px; font-size:clamp(34px,4vw,45px); }
+  .delivery-miami > p { grid-row:3; font-size:14px; line-height:1.65; }
+  .delivery-miami > .light-button { grid-row:4; margin-top:10px; margin-bottom:43px; }
+  .closing { gap:20px; padding:37px 7%; }
+  .closing .cb-closing-photo { width:120px; height:108px; margin-left:auto; }
+  .closing .primary-button { margin-left:0; }
+}
+@media (max-width:790px) {
+  /* Phone keeps its existing mobile-first hero, no extra tall lifestyle block. */
+  .cb-hero-lifestyle { display:none !important; }
+  .cb-moment-accent { width:88px; height:88px; }
+  .delivery-miami .cb-delivery-photo {
+    display:block;
+    width:100%;
+    height:210px;
+    max-height:210px;
+    margin:0 0 22px;
+    align-self:stretch;
+    border-radius:12px;
+  }
+  .delivery-miami .cb-delivery-photo img { object-position:center 50%; }
+  .closing .cb-closing-photo { width:108px; height:90px; }
+  .closing .primary-button { margin-inline:auto; }
+  .step-number { margin-right:13px; }
+}
+@media (max-width:560px) {
+  .closing .cb-closing-photo { margin:8px auto; }
+  .delivery-miami .cb-delivery-photo { height:185px; }
+}
