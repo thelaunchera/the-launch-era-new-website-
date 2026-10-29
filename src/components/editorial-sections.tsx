@@ -109,8 +109,6 @@ export function ContactForm() {
  const [status,setStatus]=useState<'idle'|'sending'|'done'|'sent'|'error'>('idle');
  const [name,setName]=useState('');
  const [serviceChoice,setServiceChoice]=useState('Booking Automation + Command Center');
- useEffect(()=>{try{if(new URLSearchParams(window.location.search).get('topic')==='setup-call')setServiceChoice('1:1 Setup Guidance Call')}catch{}},[]);
- const isCall=serviceChoice==='1:1 Setup Guidance Call';
  const [error,setError]=useState('');
  const sendingRef=useRef(false);
  const [receipt,setReceipt]=useState({ name:'', email:'', business:'', service:'' });
@@ -130,9 +128,9 @@ export function ContactForm() {
      email:String(fd.get('email')||''),
      business_name:String(fd.get('business')||''),
      help_needed:[String(fd.get('service')||'')].filter(Boolean),
-     message:isCall?String(fd.get('message')||'')+'\nPreferred time windows: '+String(fd.get('call_availability')||'Not specified')+'\nCall type: setup guidance request; not booked yet':String(fd.get('message')||''),
+     message:String(fd.get('message')||''),
      language:'en',
-     source:isCall?'setup_guidance_call':'main_website',
+     source:'main_website',
      started_at:Date.now()-3000,
      website:''
     })
@@ -165,8 +163,8 @@ export function ContactForm() {
   onSubmit={submitInquiry}
   panels={[
    <><div className="form-grid"><label className="field">Your name<input name="name" autoComplete="name" required value={name} onChange={e=>setName(e.target.value)} placeholder="First & last name"/></label><label className="field">Email address<input name="email" type="email" autoComplete="email" required placeholder="Where we can reach you"/></label></div></>,
-   <><label className="field">Business name<input name="business" autoComplete="organization" required placeholder="Your cleaning business"/></label><label className="field">What can we help with?<select name="service" value={serviceChoice} onChange={e=>setServiceChoice(e.target.value)}>{services.map(s=><option key={s.title}>{s.title}</option>)}<option value="1:1 Setup Guidance Call">1:1 Setup Guidance Call (20 minutes)</option><option>I’m not sure yet</option></select></label></>,
-   <><label className="field">{isCall?"What would you like help learning?":"What’s taking up too much of your time?"}<textarea name="message" required placeholder={isCall?"e.g. How to change my services and prices":"Tell us a little about your day-to-day…"}/></label>{isCall&&<><p className="form-disclaimer">Tell us what you need help with and when you're generally available. We'll email you to arrange a time; submitting this form does not book an appointment.</p><label className="field">Preferred time windows (optional)<input name="call_availability" maxLength={180} placeholder="e.g. Tuesday or Thursday afternoons (Eastern Time)"/></label></>}</>
+   <><label className="field">Business name<input name="business" autoComplete="organization" required placeholder="Your cleaning business"/></label><label className="field">What can we help with?<select name="service" value={serviceChoice} onChange={e=>setServiceChoice(e.target.value)}>{services.map(s=><option key={s.title}>{s.title}</option>)}<option>I’m not sure yet</option></select></label></>,
+   <><label className="field">What’s taking up too much of your time?<textarea name="message" required placeholder="Tell us a little about your day-to-day…"/></label></>
   ]}
   error={status==='error'?<p className="text-sm" role="alert">{error}</p>:null}
   finish={<MorphSubmit status={status} language="en">Finish &amp; send <ArrowRight size={17}/></MorphSubmit>}
