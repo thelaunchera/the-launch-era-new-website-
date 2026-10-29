@@ -59,3 +59,6 @@ All six product photos in `assets/` are individual **1024×1024 WebP images enco
 **Live catalog:** Classic Chocolate Chip (`classic`), Double Chocolate (`double`), Salted Caramel (`caramel`), White Chocolate Raspberry (`raspberry`), Nutty Dream (`nutty`), Brownie Chip (`brownie`). Product names, descriptions, visible photos, builder options, accessible labels, toast notifications, box preview and tray all correspond; do not revert labels to the previous macadamia/cream/cinnamon set unless restoring matching photography.
 
 No hero, main gift image, layout, active payment, local delivery claims or unrelated demos changed.
+
+## Compact editorial headings on mobile (29 Oct)
+Shorten oversized section headers instead of stacking long phrases: gift `A little gift. Big joy.`, brand `Inside CRUMB.`, lifestyle `Made to share.`, closing CTA `Make their day.`. On mobile only, reduce font size and vertical spacing while preserving the centered Cormorant typography and product imagery. The previous lifestyle message remains in the supporting paragraph. Cache-bust CSS to show the changes reliably on iOS.
