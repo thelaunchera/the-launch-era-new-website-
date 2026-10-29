@@ -143,8 +143,14 @@ function syncOwner(){
  $('owner-date').textContent=dateDisplay();
  $('owner-frequency').textContent=n.frequency[state.frequency];
  $('owner-extras').textContent=formatExtras();
- $('owner-price').textContent=appliedPrice();
- $('metric-value').textContent=appliedPrice();
+ // A custom quote or commercial estimate is text, not a monetary amount.
+ // Use a compact two-line layout in the dashboard, without altering the estimate itself.
+ const displayValue=appliedPrice();
+ const textualValue=!/^\$[\d,.]+$/.test(displayValue);
+ for(const id of ['owner-price','metric-value']){
+  $(id).textContent=displayValue;
+  $(id).classList.toggle('is-text-value',textualValue);
+ }
  renderPhase();
 }
 function setStage(step){
