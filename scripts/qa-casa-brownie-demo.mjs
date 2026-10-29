@@ -30,7 +30,26 @@ for (const [name,minSize,maxSize] of [
 }
 assert.match(css,/@media \(max-width: 790px\)[\s\S]*?\.hero-photo\s*\{\s*order:\s*-1/);
 assert.match(js,/prefers-reduced-motion/);
-assert.ok(!/<form\b/i.test(html),'no data-collecting form');
+assert.ok(!html.includes('<form'),'contact form only created on click');
+assert.ok(html.includes('id="contact-us-button"'),'footer contact trigger is visible');
+assert.equal((html.match(/data-social-demo="/g)||[]).length,3,'three simulated social previews');
+assert.ok(html.includes('123 Calle del Cacao'),'fictional address visible');
+assert.ok(html.includes('Dirección inventada'),'fictional location disclosed');
+assert.ok(html.includes('id="nuestra-historia"'),'compact story is part of page');
+assert.ok(html.indexOf('id="nuestra-historia"') < html.indexOf('id="entrega"'),'story precedes delivery');
+assert.ok(html.includes('store-experience.css?v=cb-store-experience-20261029'),'new responsive CSS loaded');
+for (const snippet of [
+ 'function viewContactDemo()',
+ 'function viewSocialDemo(platform)',
+ "form.addEventListener('submit'",
+ 'event.preventDefault()',
+ 'form.reset()',
+ "modalRoot.querySelectorAll('button,[href],select,input,textarea'"
+]) assert.ok(js.includes(snippet),'missing safe demo behavior '+snippet);
+for(const term of ['fetch(', 'sendBeacon', 'localStorage', 'sessionStorage'])assert.ok(!js.includes(term),'no network/storage operation '+term);
+const experienceCss=load('store-experience.css');
+for(const selector of ['.cb-store-story','.cb-demo-contact-form','@media (max-width:640px)'])assert.ok(experienceCss.includes(selector),'missing demo style '+selector);
+
 assert.ok(!/stripe\.com|checkout\.stripe\.com/i.test(html),'no payment destination');
 assert.match(html,/DEMO EDUCATIVA · SIN PEDIDOS NI PAGOS REALES/);
 assert.match(html,/Entrega local/);
@@ -169,6 +188,6 @@ assert.match(html,/src="\.\/assets\/hero-brownies\.mp4\?v=20261029-local"/,'hero
 console.log('Casa Brownie static demo QA OK');
 
 
-assert.match(html,/main\.js\?v=cb-sticky-cart-20261029/);
+assert.match(html,/main\.js\?v=cb-store-experience-20261029/);
 assert.equal((js.match(/assets\/sabor-/g)||[]).length,6,'all catalog photos are hosted originals');
 assert.doesNotMatch(js,/amummytoo|proteinbrownies|getrecipekit|anasrecipes|dailydoughco|ctfassets/,'no third-party flavor photos');
