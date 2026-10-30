@@ -305,7 +305,7 @@ assert.match(tabletHeroPalette, /\.hero\.hero-editorial\s*\{\s*background:\s*#FA
 assert.match(tabletHeroPalette, /\.hero\.hero-editorial::after\s*\{\s*background:\s*linear-gradient/);
 assert.match(tabletHeroPalette, /\.hero\.hero-editorial \.hero-editorial-content h2\s*\{\s*color:\s*#3E291F;/);
 assert.match(tabletHeroPalette, /\.hero\.hero-editorial \.hero-editorial-cta\s*\{\s*background:\s*#805239;/);
-assert.ok(html.includes('styles.css?v=20261030-crumb-tablet-ivory-hero-v1'), 'new tablet CSS version loads without cached blue');
+assert.ok(html.includes('styles.css?v=20261030-crumb-tablet-product-grid-v2'), 'new tablet CSS version loads without cached blue');
 assert.match(html, /CRUMB_Storefront_Approved_20261030\.webp/, 'approved storefront preserved');
 results.push('Warm tablet-only CRUMB hero, approved photography, and CSS cache refresh validated');
 
@@ -321,9 +321,9 @@ assert.match(tabletGridCSS, /-webkit-mask-image: none/);
 assert.match(tabletGridCSS, /display: none/);
 assert.match(tabletGridCSS, /position: static !important/);
 assert.match(tabletGridCSS, /border-radius: 50%/);
-assert.match(tabletGridCSS, /\\.cookie-detail \\.cookie-price/);
-assert.match(tabletGridCSS, /\\.cookie-detail p/);
-assert.match(html, /styles\\.css\\?v=20261030-crumb-tablet-product-grid-v2/);
+assert.match(tabletGridCSS, /\.cookie-detail \.cookie-price/);
+assert.match(tabletGridCSS, /\.cookie-detail p/);
+assert.match(html, /styles\.css\?v=20261030-crumb-tablet-product-grid-v2/);
 assert.equal(d.querySelectorAll('.cookie-grid .cookie').length, 6, 'all six flavors preserved');
 assert.equal(d.querySelectorAll('.cookie-grid .cookie [data-add]').length, 6, 'all six Add controls preserved');
 assert.equal(d.querySelectorAll('.cookie-grid .cookie .cookie-price').length, 6, 'all six prices preserved');
