@@ -141,7 +141,8 @@ assert.match(heroMobileSource.getAttribute('srcset'), /CRUMB_Storefront_Hero_Blu
 const photoGrid = d.querySelectorAll('.brand-glimpse-gallery figure');
 assert.equal(photoGrid.length, 3);
 assert.equal(d.querySelectorAll('.brand-glimpse-gallery img[src*="CRUMB_02_Bolsa_Azul.png"]').length,1);
-assert.equal(d.querySelectorAll('.brand-glimpse-gallery img[src*="brand-tasting.webp"]').length,1);
+assert.equal(d.querySelectorAll('.brand-glimpse-gallery img[src*="CRUMB_Inside_Cookie_Moment_Blue.svg"]').length,1);
+assert.equal(d.querySelectorAll('.brand-glimpse-gallery img[src*="CRUMB_Inside_Made_With_Care_Blue.svg"]').length,1);
 assert.equal(d.querySelectorAll('.brand-glimpse-gallery img[src*="CRUMB_Storefront_Hero_Blue.png"]').length,0,'Do not repeat storefront in gallery');
 assert.equal(new Set([...d.querySelectorAll('.brand-glimpse-gallery img')].map(i=>i.getAttribute('src'))).size,3);
 assert.equal(d.querySelector('.gift-photo img').getAttribute('src').includes('CRUMB_03_Gift_Box_Azul.png'), true);
