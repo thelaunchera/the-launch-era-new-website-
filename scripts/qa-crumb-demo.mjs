@@ -183,7 +183,7 @@ assert.match(css, /\.builder-flavor-layout/);
 assert.match(css, /object-position:18% 49%/);
 assert.equal(d.querySelectorAll('.ribbon-banner,.ribbon-track,video,iframe').length, 0);
 assert.equal(d.querySelectorAll('.hero-editorial-content h2').length,1,'Storefront hero gets headline text in HTML rather than in the photograph');
-assert.match(d.querySelector('.hero-editorial-content h2').textContent,/MoreThan JustCookies/);
+assert.match(d.querySelector('.hero-editorial-content h2').textContent,/What shouldI bring\?Cookies\./);
 assert.equal(d.querySelector('.hero-editorial-cta').getAttribute('href'),'#cookies');
 assert.equal(d.querySelectorAll('.hero-perks > span').length,4);
 assert.equal(d.querySelectorAll('.cookie-brand-stamp svg').length,6,'Six original cookie-logo doodles, never a dog mascot');
