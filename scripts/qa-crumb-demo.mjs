@@ -104,7 +104,7 @@ const compactTitles = {
 };
 for(const [id,expected] of Object.entries(compactTitles)) assert.equal(d.getElementById(id).textContent,expected);
 assert.match(css,/Compact headings for small screens/);
-assert.match(html,/styles\.css\?v=20261030-crumb-responsive-blue-v2/);
+assert.match(html,/styles\.css\?v=20261030-crumb-editorial-flavors-v3/);
 results.push('Compact iPhone section titles retain correct English copy and styling');
 
 const expectedFlavors = [
@@ -137,7 +137,7 @@ assert.ok(code.includes('webp?v=20261029-crumb-v7'), 'Gift builder must load the
 results.push('All six new 1024px flavors, titles and builder photos match and load from local assets');
 const heroMobileSource = d.querySelector('.hero picture source[media="(max-width: 600px)"]');
 assert.ok(heroMobileSource);
-assert.match(heroMobileSource.getAttribute('srcset'), /CRUMB_Storefront_Hero_Blue\.png\?v=/);
+assert.match(heroMobileSource.getAttribute('srcset'), /CRUMB_Storefront_Approved_20261030\.webp\?v=/);
 const photoGrid = d.querySelectorAll('.brand-glimpse-gallery figure');
 assert.equal(photoGrid.length, 3);
 assert.equal(d.querySelectorAll('.brand-glimpse-gallery img[src*="CRUMB_02_Bolsa_Azul.png"]').length,1);
@@ -158,7 +158,7 @@ assert.ok(css.includes('.hero picture img { display:block; width:100%; height:10
 assert.ok(css.includes('.hero picture img { object-fit:contain; object-position:50% 50%; }'));
 assert.ok(css.includes('.hero-strip { padding:44px 5% 34px;'));
 assert.ok(css.includes('gap:14px; padding:30px 18px 28px;'));
-results.push('Full hero photo visible without crop; text and CTAs lower on all screen sizes');
+results.push('Editorial storefront hero preserves CTA and readable copy at desktop and mobile breakpoints');
 assert.match(css,/\.gift-copy \{ align-items:center/);
 assert.equal(d.querySelectorAll('#box-tray .box-cookie-slot').length, 3);
 assert.equal(d.querySelectorAll('.final-cta [data-open-builder]').length,1);
@@ -166,10 +166,19 @@ assert.equal(d.querySelectorAll('.bag-feedback').length,1);
 assert.match(css, /\.builder-flavor-layout/);
 assert.match(css, /object-position:18% 49%/);
 assert.equal(d.querySelectorAll('.ribbon-banner,.ribbon-track,video,iframe').length, 0);
+assert.equal(d.querySelectorAll('.hero-editorial-content h2').length,1,'Storefront hero gets headline text in HTML rather than in the photograph');
+assert.match(d.querySelector('.hero-editorial-content h2').textContent,/MoreThan JustCookies/);
+assert.equal(d.querySelector('.hero-editorial-cta').getAttribute('href'),'#cookies');
+assert.equal(d.querySelectorAll('.hero-perks > span').length,4);
+assert.equal(d.querySelectorAll('.cookie-brand-stamp svg').length,6,'Six original cookie-logo doodles, never a dog mascot');
+assert.equal(d.querySelectorAll('.cookie-note-left').length,6);
+assert.equal(d.querySelectorAll('.cookie-note-bottom').length,6);
+assert.ok(css.includes('grid-template-columns:repeat(4,minmax(0,1fr))'),'Four editorial flavor cards per large desktop row');
+assert.ok(css.includes('background:repeating-linear-gradient(90deg,#C9E2F4 0 19px,#FFF5CE 19px 38px)'),'Approved blue/cream stripes');
 assert.equal(d.querySelectorAll('.cookie-visual > .add-cookie').length, 6);
 assert.equal(d.querySelectorAll('.cookie-visual > .add-cookie').length, d.querySelectorAll('.cookie').length);
-assert.ok(html.includes('CRUMB_Storefront_Hero_Blue.png?v=20261030-blue'));
-assert.match(html, /CRUMB_Storefront_Hero_Blue\.png\?v=20261030-blue/);
+assert.ok(html.includes('CRUMB_Storefront_Approved_20261030.webp?v=1'));
+assert.match(html, /CRUMB_Storefront_Approved_20261030\.webp\?v=20261030-blue/);
 assert.ok(css.includes('background:#DCEFFA') && css.includes('background:#477BB3'),'The CRUMB moving banners use approved blues');
 assert.ok(css.includes('html, body { width:100%; max-width:100%; overflow-x:clip; }'),'Prevent cross-device horizontal overflow');
 assert.equal(d.querySelectorAll('.crumb-marquee-row').length, 2);
@@ -255,7 +264,7 @@ assert.equal(socialDialog.open,false);
 assert.equal(d.querySelectorAll('a[href*="instagram.com"],a[href*="tiktok.com"],a[href*="maps.google.com"]').length,0);
 assert.doesNotMatch(code,/fetch\(|sendBeacon|localStorage|sessionStorage|XMLHttpRequest/i,'no contact transmission or storage');
 assert.ok(css.includes('#contact-form[hidden],.contact-feedback[hidden] { display:none!important; }'));
-assert.ok(html.includes('CRUMB_Storefront_Hero_Blue.png?v=20261030-blue'),'approved storefront is the hero');
+assert.ok(html.includes('CRUMB_Storefront_Approved_20261030.webp?v=1'),'approved storefront is the hero');
 results.push('Contact only opens on click, never transmits/stores data; fictional address/socials and brand story verified');
 
 
@@ -282,6 +291,6 @@ for(const card of d.querySelectorAll('.cookie')) {
   }
 }
 assert.match(css,/\.cookie-visual \.cookie-flag--new/);
-results.push('Tablet hero natural image ratio, lower CTAs, exactly three product flavor flags');
+results.push('Editorial hero, six striped cards, working add buttons and exactly three flavor flags validated');
 
 console.log(JSON.stringify({method: 'DOM integration; dialog APIs simulated; not visual browser QA', passed: results}, null, 2));
