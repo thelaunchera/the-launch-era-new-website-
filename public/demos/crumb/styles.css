@@ -2485,3 +2485,70 @@ img, picture, svg { max-width:100%; }
     line-height: .98;
   }
 }
+
+
+/* CRUMB Inside gallery — remove picture-in-a-box matte, preserve 3 slides */
+/* The source photographs already carry CRUMB's blue identity.
+   Use the real images edge-to-edge rather than object-fit:contain on a pale-blue panel. */
+.brand-glimpse .brand-glimpse-gallery > figure,
+.brand-glimpse .brand-glimpse-gallery > figure:nth-child(3) {
+  background: transparent;
+  box-shadow: none;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+}
+.brand-glimpse .brand-glimpse-gallery figure img,
+.brand-glimpse .brand-glimpse-gallery figure:nth-child(3) img {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  max-width: 100%;
+  max-height: none;
+  object-fit: cover;
+  object-position: center center;
+  background: transparent;
+  border: 0;
+  border-radius: 5px;
+  padding: 0;
+  box-shadow: none;
+}
+.brand-glimpse .brand-glimpse-gallery figure:nth-child(3) img {
+  object-position: center 61%;
+}
+.brand-glimpse .brand-glimpse-gallery figcaption {
+  padding: 10px 4px 0;
+  background: transparent;
+  border: 0;
+  text-align: center;
+}
+@media (max-width: 600px) {
+  .brand-glimpse .brand-glimpse-gallery {
+    align-items: flex-start;
+    background: transparent;
+    padding-bottom: 6px;
+  }
+  .brand-glimpse .brand-glimpse-gallery > figure,
+  .brand-glimpse .brand-glimpse-gallery > figure:nth-child(3) {
+    align-self: flex-start;
+    height: auto;
+  }
+  .brand-glimpse .brand-glimpse-gallery figure img,
+  .brand-glimpse .brand-glimpse-gallery figure:nth-child(3) img {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    background: transparent;
+    border-radius: 4px;
+  }
+}
+@media (min-width: 601px) and (max-width: 1366px) {
+  .brand-glimpse .brand-glimpse-gallery figure img,
+  .brand-glimpse .brand-glimpse-gallery figure:nth-child(3) img {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    background: transparent;
+    border-radius: 5px;
+  }
+}
