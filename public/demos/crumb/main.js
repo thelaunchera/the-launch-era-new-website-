@@ -224,3 +224,54 @@ $('close-social').addEventListener('click', () => socialDialog.close());
 $('social-back').addEventListener('click', () => socialDialog.close());
 socialDialog.addEventListener('click', event => { if (event.target === socialDialog) socialDialog.close(); });
 paint();
+
+
+// CRUMB editorial gallery: only the phone layout scrolls. The three images
+// stay separate, with swipe snapping and accessible dot navigation.
+{
+  const gallery = document.getElementById('crumb-gallery-track');
+  const slides = gallery ? [...gallery.querySelectorAll('figure')] : [];
+  const dots = [...document.querySelectorAll('.crumb-gallery-dot')];
+  const count = document.querySelector('.crumb-gallery-counter');
+  if (gallery && slides.length === 3 && dots.length === 3 && count) {
+    let current = 0;
+    const reducedMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const highlight = (index) => {
+      current = Math.max(0, Math.min(slides.length - 1, index));
+      dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === current)));
+      count.textContent = `${current + 1} / ${slides.length}`;
+    };
+    dots.forEach((dot, index) => dot.addEventListener('click', () => {
+      highlight(index);
+      const targetLeft = slides[index].offsetLeft - slides[0].offsetLeft;
+      if (typeof gallery.scrollTo === 'function') {
+        gallery.scrollTo({left: targetLeft, behavior: reducedMotion() ? 'auto' : 'smooth'});
+      } else {
+        gallery.scrollLeft = targetLeft;
+      }
+    }));
+    let scheduled = false;
+    gallery.addEventListener('scroll', () => {
+      if (scheduled) return;
+      scheduled = true;
+      window.requestAnimationFrame(() => {
+        scheduled = false;
+        const snapX = gallery.getBoundingClientRect().left + 18;
+        let nearest = 0;
+        let distance = Infinity;
+        slides.forEach((slide, i) => {
+          const d = Math.abs(slide.getBoundingClientRect().left - snapX);
+          if (d < distance) { distance = d; nearest = i; }
+        });
+        highlight(nearest);
+      });
+    }, {passive:true});
+    gallery.addEventListener('keydown', event => {
+      if (!window.matchMedia || !window.matchMedia('(max-width:600px)').matches) return;
+      const next = event.key === 'ArrowRight' ? current + 1 : event.key === 'ArrowLeft' ? current - 1 : null;
+      if (next === null || next < 0 || next >= slides.length) return;
+      event.preventDefault();
+      dots[next].click();
+    });
+  }
+}

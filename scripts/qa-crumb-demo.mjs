@@ -104,7 +104,7 @@ const compactTitles = {
 };
 for(const [id,expected] of Object.entries(compactTitles)) assert.equal(d.getElementById(id).textContent,expected);
 assert.match(css,/Compact headings for small screens/);
-assert.match(html,/styles\.css\?v=20261030-crumb-editorial-flavors-v3/);
+assert.match(html,/styles\.css\?v=20261030-crumb-gallery-carousel-v6/);
 results.push('Compact iPhone section titles retain correct English copy and styling');
 
 const expectedFlavors = [
@@ -138,9 +138,18 @@ results.push('All six new 1024px flavors, titles and builder photos match and lo
 const heroMobileSource = d.querySelector('.hero picture source[media="(max-width: 600px)"]');
 assert.ok(heroMobileSource);
 assert.match(heroMobileSource.getAttribute('srcset'), /CRUMB_Storefront_Approved_20261030\.webp\?v=/);
-assert.match(css,/grid-auto-flow:row/,'Inside CRUMB phone gallery no longer scrolls sideways');
-assert.match(css,/grid-auto-columns:auto/,'Inside CRUMB phone grid must discard old 68vw auto-columns');
-assert.match(css,/scroll-snap-type:none/,'Inside CRUMB phone gallery must not remain a carousel');
+assert.match(css,/scroll-snap-type:x mandatory/,'Mobile gallery enables snap carousel');
+assert.match(css,/flex:0 0 min\(84vw,360px\)/,'Mobile photos use consistent full-card width with a small preview of the next photo');
+assert.match(css,/scroll-snap-stop:always/,'Mobile cards snap one at a time');
+assert.match(css,/object-fit:contain/,'All mobile gallery photographs fit without clipping');
+assert.ok(html.includes('styles.css?v=20261030-crumb-gallery-carousel-v6'), 'Updated CSS must bypass stale iOS browser cache');
+assert.ok(html.includes('main.js?v=20261030-crumb-gallery-v2'), 'Updated carousel controller must bypass stale iOS browser cache');
+assert.equal(d.querySelectorAll('.crumb-gallery-dot').length,3,'Three accessible slide selectors');
+click('[data-crumb-slide="2"]');
+assert.equal(d.querySelector('.crumb-gallery-counter').textContent,'3 / 3','Third packaging photo is reachable via a dot');
+assert.equal(d.querySelector('[data-crumb-slide="2"]').getAttribute('aria-current'),'true');
+click('[data-crumb-slide="0"]');
+assert.equal(d.querySelector('.crumb-gallery-counter').textContent,'1 / 3');
 const photoGrid = d.querySelectorAll('.brand-glimpse-gallery figure');
 assert.equal(photoGrid.length, 3);
 assert.equal(d.querySelectorAll('.brand-glimpse-gallery img[src*="CRUMB_02_Bolsa_Azul.png"]').length,1);
@@ -305,7 +314,7 @@ assert.match(tabletHeroPalette, /\.hero\.hero-editorial\s*\{\s*background:\s*#FA
 assert.match(tabletHeroPalette, /\.hero\.hero-editorial::after\s*\{\s*background:\s*linear-gradient/);
 assert.match(tabletHeroPalette, /\.hero\.hero-editorial \.hero-editorial-content h2\s*\{\s*color:\s*#3E291F;/);
 assert.match(tabletHeroPalette, /\.hero\.hero-editorial \.hero-editorial-cta\s*\{\s*background:\s*#805239;/);
-assert.ok(html.includes('styles.css?v=20261030-crumb-tablet-product-grid-v2'), 'new tablet CSS version loads without cached blue');
+assert.ok(html.includes('styles.css?v=20261030-crumb-gallery-carousel-v6'), 'new tablet CSS version loads without cached blue');
 assert.match(html, /CRUMB_Storefront_Approved_20261030\.webp/, 'approved storefront preserved');
 results.push('Warm tablet-only CRUMB hero, approved photography, and CSS cache refresh validated');
 
@@ -323,7 +332,7 @@ assert.match(tabletGridCSS, /position: static !important/);
 assert.match(tabletGridCSS, /border-radius: 50%/);
 assert.match(tabletGridCSS, /\.cookie-detail \.cookie-price/);
 assert.match(tabletGridCSS, /\.cookie-detail p/);
-assert.match(html, /styles\.css\?v=20261030-crumb-tablet-product-grid-v2/);
+assert.match(html, /styles\.css\?v=20261030-crumb-gallery-carousel-v6/);
 assert.equal(d.querySelectorAll('.cookie-grid .cookie').length, 6, 'all six flavors preserved');
 assert.equal(d.querySelectorAll('.cookie-grid .cookie [data-add]').length, 6, 'all six Add controls preserved');
 assert.equal(d.querySelectorAll('.cookie-grid .cookie .cookie-price').length, 6, 'all six prices preserved');
