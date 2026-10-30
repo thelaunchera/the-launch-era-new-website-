@@ -104,7 +104,7 @@ const compactTitles = {
 };
 for(const [id,expected] of Object.entries(compactTitles)) assert.equal(d.getElementById(id).textContent,expected);
 assert.match(css,/Compact headings for small screens/);
-assert.match(html,/styles\.css\?v=20261030-crumb-swipe-butter-cards-v8/);
+assert.match(html,/styles\.css\?v=20261030-crumb-mobile-centered-hero-v9/);
 results.push('Compact iPhone section titles retain correct English copy and styling');
 
 const expectedFlavors = [
@@ -142,7 +142,7 @@ assert.match(css,/scroll-snap-type:x mandatory/,'Mobile gallery enables snap car
 assert.match(css,/flex:0 0 min\(84vw,360px\)/,'Mobile photos use consistent full-card width with a small preview of the next photo');
 assert.match(css,/scroll-snap-stop:always/,'Mobile cards snap one at a time');
 assert.match(css,/object-fit:contain/,'All mobile gallery photographs fit without clipping');
-assert.ok(html.includes('styles.css?v=20261030-crumb-swipe-butter-cards-v8'), 'Updated CSS must bypass stale iOS browser cache');
+assert.ok(html.includes('styles.css?v=20261030-crumb-mobile-centered-hero-v9'), 'Updated CSS must bypass stale iOS browser cache');
 assert.ok(html.includes('main.js?v=20261030-crumb-gallery-tablet-v3'), 'Updated carousel controller must bypass stale iOS browser cache');
 assert.equal(d.querySelectorAll('.crumb-gallery-dot').length,3,'Three accessible slide selectors');
 click('[data-crumb-slide="2"]');
@@ -314,7 +314,7 @@ assert.match(tabletHeroPhoto, /\.hero\.hero-editorial::after\s*\{[^}]*content:\s
 assert.match(tabletHeroPhoto, /\.hero\.hero-editorial \.hero-editorial-content\s*\{\s*display:\s*none;/);
 assert.match(tabletHeroPhoto, /\.hero\.hero-editorial picture\s*\{[^}]*position:\s*relative;[^}]*width:\s*100%;[^}]*height:\s*auto;/s);
 assert.match(tabletHeroPhoto, /\.hero\.hero-editorial picture img\s*\{[^}]*width:\s*100%;[^}]*height:\s*auto;[^}]*object-fit:\s*contain;/s);
-assert.match(html, /styles\.css\?v=20261030-crumb-swipe-butter-cards-v8/);
+assert.match(html, /styles\.css\?v=20261030-crumb-mobile-centered-hero-v9/);
 assert.match(html, /CRUMB_Storefront_Approved_20261030\.webp/);
 assert.ok(d.querySelector('.hero-editorial-content'), 'original hero copy kept for phone/desktop');
 results.push('Tablet shows approved storefront photo alone; no blue panel, text, CTA or cropping');
@@ -333,7 +333,7 @@ assert.match(tabletGridCSS, /position: static !important/);
 assert.match(tabletGridCSS, /border-radius: 50%/);
 assert.match(tabletGridCSS, /\.cookie-detail \.cookie-price/);
 assert.match(tabletGridCSS, /\.cookie-detail p/);
-assert.match(html, /styles\.css\?v=20261030-crumb-swipe-butter-cards-v8/);
+assert.match(html, /styles\.css\?v=20261030-crumb-mobile-centered-hero-v9/);
 assert.equal(d.querySelectorAll('.cookie-grid .cookie').length, 6, 'all six flavors preserved');
 assert.equal(d.querySelectorAll('.cookie-grid .cookie [data-add]').length, 6, 'all six Add controls preserved');
 assert.equal(d.querySelectorAll('.cookie-grid .cookie .cookie-price').length, 6, 'all six prices preserved');
@@ -361,12 +361,32 @@ assert.ok(responsiveCrumb.includes('.cookie-grid .cookie-note { display: none; }
 assert.ok(responsiveCrumb.includes('@media (max-width: 759px)'));
 assert.ok(responsiveCrumb.includes('grid-template-columns: repeat(2, minmax(0, 1fr))'));
 assert.ok(code.includes("window.matchMedia('(max-width:1366px)').matches"), 'Tablet gallery must support keyboard arrows');
-assert.match(html, /styles\.css\?v=20261030-crumb-swipe-butter-cards-v8/);
+assert.match(html, /styles\.css\?v=20261030-crumb-mobile-centered-hero-v9/);
 assert.match(html, /main\.js\?v=20261030-crumb-gallery-tablet-v3/);
 assert.equal(d.querySelectorAll('.brand-glimpse-gallery figure').length,3);
 assert.equal(d.querySelectorAll('.cookie-grid > .cookie').length,6);
 assert.equal(d.querySelectorAll('.cookie-grid [data-add]').length,6);
 assert.equal(d.querySelectorAll('.cookie-grid .cookie-price').length,6);
 results.push('Tablet Inside CRUMB carousel and six legible blue/butter cards for phone/tablet verified');
+
+
+
+// Mobile-only hero regression: brand photo appears uncut, with centered editorial copy beneath it.
+const mobileHeroRules = css.slice(css.lastIndexOf('/* CRUMB 2026-10-30 · refined small-phone hero'));
+assert.match(mobileHeroRules, /@media \(max-width: 600px\)/);
+assert.match(mobileHeroRules, /\.hero\.hero-editorial\s*\{[^}]*flex-direction:\s*column;/s);
+assert.match(mobileHeroRules, /\.hero\.hero-editorial::after\s*\{[^}]*content:\s*none;/s);
+assert.match(mobileHeroRules, /\.hero\.hero-editorial picture\s*\{[^}]*position:\s*relative;/s);
+assert.match(mobileHeroRules, /\.hero\.hero-editorial picture img\s*\{[^}]*height:\s*auto;[^}]*object-fit:\s*contain;/s);
+assert.match(mobileHeroRules, /\.hero\.hero-editorial \.hero-editorial-content\s*\{[^}]*align-items:\s*center;[^}]*text-align:\s*center;/s);
+assert.match(mobileHeroRules, /\.hero\.hero-editorial \.hero-editorial-content h2\s*\{[^}]*text-align:\s*center;/s);
+assert.match(mobileHeroRules, /\.hero\.hero-editorial \.hero-editorial-cta\s*\{[^}]*margin:\s*0 auto;/s);
+assert.match(mobileHeroRules, /\.hero\.hero-editorial \+ \.hero-perks\s*\{[^}]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/s);
+assert.match(mobileHeroRules, /\.hero\.hero-editorial \+ \.hero-perks > span\s*\{[^}]*align-items:\s*center;/s);
+assert.equal(d.querySelector('.hero-eyebrow'), null, 'Remove duplicated FRESH COOKIES · GOOD MOOD headline');
+assert.match(html, /More<br>Than Just<br>Cookies\./, 'Keep approved hero title');
+assert.equal(d.querySelectorAll('.hero-perks > span').length, 4, 'Keep four benefit items');
+assert.match(html, /styles\.css\?v=20261030-crumb-mobile-centered-hero-v9/, 'New hero CSS loaded');
+results.push('Mobile CRUMB hero shows full bakery photo, centered CTA/copy/perks; tablet photo-only layout preserved');
 
 console.log(JSON.stringify({method: 'DOM integration; dialog APIs simulated; not visual browser QA', passed: results}, null, 2));
