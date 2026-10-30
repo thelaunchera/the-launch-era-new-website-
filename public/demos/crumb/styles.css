@@ -1536,87 +1536,145 @@ img, picture, svg { max-width:100%; }
 }
 
 
-/* 2026-10-30 — CRUMB phone gallery hard reset.
-   Earlier horizontal scroll grid and auto-columns conflicted with responsive
-   grid-template-columns, leaving partial images and truncated captions on iOS. */
+/* CRUMB — responsive 3-photo carousel on phones. Final mobile rules override
+   legacy grid/carousel declarations above; all three photographs remain unique. */
 @media (max-width:600px) {
   .brand-glimpse {
     display:block;
     width:100%;
-    min-width:0;
     max-width:100%;
-    margin:0;
-    padding:33px 18px 39px;
-    overflow:visible;
+    min-width:0;
+    margin:0 auto;
+    padding:35px 0 40px;
+    overflow:hidden;
   }
   .brand-glimpse-heading {
+    padding:0 18px;
     margin:0 0 19px;
-    padding:0;
     text-align:center;
   }
   .brand-glimpse-gallery {
-    display:grid;
-    position:static;
-    grid-auto-flow:row;
-    grid-auto-columns:auto;
-    grid-template-columns:minmax(0,1fr);
+    display:flex;
+    flex-direction:row;
+    flex-wrap:nowrap;
+    grid-auto-flow:unset;
+    grid-auto-columns:unset;
+    grid-template-columns:none;
     grid-template-rows:none;
-    gap:24px;
+    position:relative;
     width:100%;
-    min-width:0;
     max-width:100%;
+    min-width:0;
+    gap:13px;
     margin:0;
-    padding:0;
-    overflow:visible;
-    overflow-x:visible;
-    overscroll-behavior-x:auto;
-    scroll-snap-type:none;
-    scroll-padding:0;
-    scrollbar-width:auto;
+    padding:0 18px 8px;
+    box-sizing:border-box;
+    overflow-x:auto;
+    overflow-y:hidden;
+    overscroll-behavior-x:contain;
+    -webkit-overflow-scrolling:touch;
+    scroll-snap-type:x mandatory;
+    scroll-padding-inline:18px;
+    scroll-behavior:smooth;
+    scrollbar-width:none;
     transform:none;
   }
+  .brand-glimpse-gallery::-webkit-scrollbar {display:none}
   .brand-glimpse-gallery > figure,
   .brand-glimpse-gallery > figure:nth-child(3) {
     display:block;
-    grid-column:1 / -1;
+    flex:0 0 min(84vw,360px);
+    width:min(84vw,360px);
+    min-width:min(84vw,360px);
+    max-width:none;
+    grid-column:auto;
     grid-row:auto;
-    width:100%;
-    min-width:0;
-    max-width:100%;
+    justify-self:auto;
     margin:0;
     padding:0;
     overflow:visible;
-    scroll-snap-align:none;
+    scroll-snap-align:start;
+    scroll-snap-stop:always;
     transform:none;
   }
   .brand-glimpse-gallery figure img,
   .brand-glimpse-gallery figure:nth-child(3) img {
     display:block;
     width:100%;
-    min-width:0;
-    max-width:100%;
     height:auto;
+    aspect-ratio:1 / 1;
     max-height:none;
-    aspect-ratio:4 / 3;
-    object-fit:cover;
+    min-width:0;
+    object-fit:contain;
     object-position:center;
-    border-radius:8px;
-  }
-  .brand-glimpse-gallery figure:nth-child(2) img {
-    object-position:50% 34%;
+    background:#E7F2FA;
+    border-radius:10px;
   }
   .brand-glimpse-gallery figcaption {
     display:block;
     width:100%;
     max-width:100%;
-    padding:11px 0 0;
+    padding:11px 6px 0;
     margin:0;
-    text-align:center;
-    font-size:12px;
+    font-size:13px;
+    font-weight:600;
     line-height:1.4;
+    color:#315F93;
+    text-align:center;
     white-space:normal;
     overflow-wrap:break-word;
   }
+  .crumb-gallery-controls {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:16px;
+    padding:15px 18px 0;
+    min-height:42px;
+    color:#315F93;
+  }
+  .crumb-gallery-dots {
+    display:flex;
+    gap:6px;
+    align-items:center;
+  }
+  .crumb-gallery-dot {
+    display:grid;
+    place-items:center;
+    width:32px;
+    height:32px;
+    padding:0;
+    border:0;
+    border-radius:50%;
+    background:transparent;
+    cursor:pointer;
+  }
+  .crumb-gallery-dot::before {
+    content:"";
+    display:block;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#B9D4EA;
+    transition:background .18s ease, transform .18s ease;
+  }
+  .crumb-gallery-dot[aria-current="true"]::before {
+    background:#315F93;
+    transform:scale(1.3);
+  }
+  .crumb-gallery-dot:focus-visible {
+    outline:2px solid #315F93;
+    outline-offset:1px;
+  }
+  .crumb-gallery-counter {
+    min-width:33px;
+    font:600 11px/1.3 'DM Sans',Arial,sans-serif;
+    letter-spacing:.08em;
+    color:#426E99;
+  }
+}
+@media (min-width:601px) {
+  .crumb-gallery-controls {display:none}
 }
 @media (min-width:601px) and (max-width:950px) {
   .brand-glimpse-gallery {
@@ -1639,4 +1697,8 @@ img, picture, svg { max-width:100%; }
     aspect-ratio:4 / 3;
     object-fit:cover;
   }
+}
+@media (prefers-reduced-motion:reduce) {
+  .brand-glimpse-gallery {scroll-behavior:auto}
+  .crumb-gallery-dot::before {transition:none}
 }
