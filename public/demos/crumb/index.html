@@ -7,7 +7,7 @@
   <meta name="description" content="CRUMB is a conceptual Miami cookie boutique. Explore six delicious flavors and build a personal gift box. Interactive demo only.">
   <meta name="robots" content="noindex,nofollow">
   <link rel="canonical" href="https://thelaunchera.com/demos/crumb/">
-  <link rel="stylesheet" href="./styles.css?v=20261030-crumb-responsive-blue-v2">
+  <link rel="stylesheet" href="./styles.css?v=20261030-crumb-editorial-flavors-v3">
   <title>CRUMB — Cookies & Gift Boxes · Miami</title>
 </head>
 <body>
@@ -21,35 +21,44 @@
   </header>
   <main id="top">
     <!-- Photo swap after binary upload: both picture sources use CRUMB_Storefront_Hero_Blue.webp; avoid duplicating storefront in gallery. -->
-    <section class="hero" aria-label="The CRUMB bakery">
+    <section class="hero hero-editorial" aria-label="The CRUMB bakery">
       <picture>
-        <source media="(max-width: 600px)" srcset="./assets/CRUMB_Storefront_Hero_Blue.png?v=20261030-blue" type="image/png">
-        <img src="./assets/CRUMB_Storefront_Hero_Blue.png?v=20261030-blue" alt="The fictional CRUMB bakery storefront in soft blue, with big windows and a branded awning" fetchpriority="high" decoding="async" width="2000" height="1124">
+        <source media="(max-width: 600px)" srcset="./assets/CRUMB_Storefront_Approved_20261030.webp?v=1" type="image/webp">
+        <img src="./assets/CRUMB_Storefront_Approved_20261030.webp?v=1" alt="The conceptual CRUMB blue cookie boutique storefront, with the cookie emblem, outdoor café table and large windows" fetchpriority="high" decoding="async" width="1092" height="1440">
       </picture>
+      <div class="hero-editorial-content">
+        <span class="hero-eyebrow">FRESH COOKIES · GOOD MOOD</span>
+        <h2>More<br>Than Just<br>Cookies.</h2>
+        <p>Big cookies, brighter days, and a little everyday magic.</p>
+        <a class="hero-editorial-cta" href="#cookies">Explore Our Cookies <span aria-hidden="true">→</span></a>
+        <span class="hero-microcopy">BAKED WITH CARE · MADE TO SHARE</span>
+      </div>
     </section>
-    <div class="hero-strip">
-      <p>Big cookies. Beautiful boxes. Made to share.</p>
-      <div><a href="#cookies" class="button dark">Shop Cookies</a><button type="button" class="button outline" data-open-builder>Build Your Box</button></div>
+    <div class="hero-strip hero-perks" aria-label="What makes CRUMB special">
+      <span><span class="hero-perk-icon"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M17.2 3.5A14.5 14.5 0 1 0 32.4 18c-3.2-.5-4.9-2.4-5.5-5.6-3.5.2-6-2.4-5.9-6.3-1.5-.2-2.7-1.1-3.8-2.6Z" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/><circle cx="12" cy="14" r="2.2" fill="currentColor"/><circle cx="22" cy="23" r="2.4" fill="currentColor"/><circle cx="10" cy="24" r="1.8" fill="currentColor"/><circle cx="19" cy="13" r="1.5" fill="currentColor"/></svg></span> Freshly Baked<br>Every Day</span>
+      <span><span class="hero-perk-icon">✦</span> Quality<br>Ingredients</span>
+      <span><span class="hero-perk-icon">♡</span> Cookies for<br>Brighter Days</span>
+      <span><span class="hero-perk-icon">♢</span> Perfect for<br>Gifting</span>
     </div>
     <section class="cookies-section content-width" id="cookies" aria-labelledby="cookies-title">
       <div class="section-head"><div><span class="eyebrow">THE COOKIE EDIT</span><h1 id="cookies-title">Worth every bite.</h1></div><p>Six flavors, one very good reason to treat yourself.</p></div>
       <div class="cookie-grid">
       <article class="cookie" data-card="classic">
-        <div class="cookie-visual"><img src="./assets/classic.webp?v=20261029-crumb-v7" alt="Classic Chocolate Chip cookie with bakery-style crumbs and ingredients" loading="lazy" decoding="async" width="1024" height="1024">
+        <div class="cookie-visual"><img src="./assets/classic.webp?v=20261029-crumb-v7" alt="Classic Chocolate Chip cookie with bakery-style crumbs and ingredients" loading="lazy" decoding="async" width="1024" height="1024"><span class="cookie-brand-stamp" aria-hidden="true"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M17.2 3.5A14.5 14.5 0 1 0 32.4 18c-3.2-.5-4.9-2.4-5.5-5.6-3.5.2-6-2.4-5.9-6.3-1.5-.2-2.7-1.1-3.8-2.6Z" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/><circle cx="12" cy="14" r="2.2" fill="currentColor"/><circle cx="22" cy="23" r="2.4" fill="currentColor"/><circle cx="10" cy="24" r="1.8" fill="currentColor"/><circle cx="19" cy="13" r="1.5" fill="currentColor"/></svg></span><span class="cookie-note cookie-note-left" aria-hidden="true">real chocolate chunks</span><span class="cookie-note cookie-note-bottom" aria-hidden="true">soft-baked favorite</span>
         <button class="add-cookie" data-add="classic" type="button" aria-label="Add Classic Chocolate Chip">Add <span aria-hidden="true">+</span></button></div>
         <div class="cookie-detail"><h3>Classic Chocolate Chip</h3><span class="cookie-price" data-price-for="classic">$3.50 each</span><p>Golden edges, a soft center, and generous dark chocolate chunks.</p>
           
         </div>
       </article>
       <article class="cookie" data-card="double">
-        <div class="cookie-visual"><img src="./assets/double.webp?v=20261029-crumb-v7" alt="Double Chocolate cookie with bakery-style crumbs and ingredients" loading="lazy" decoding="async" width="1024" height="1024">
+        <div class="cookie-visual"><img src="./assets/double.webp?v=20261029-crumb-v7" alt="Double Chocolate cookie with bakery-style crumbs and ingredients" loading="lazy" decoding="async" width="1024" height="1024"><span class="cookie-brand-stamp" aria-hidden="true"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M17.2 3.5A14.5 14.5 0 1 0 32.4 18c-3.2-.5-4.9-2.4-5.5-5.6-3.5.2-6-2.4-5.9-6.3-1.5-.2-2.7-1.1-3.8-2.6Z" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/><circle cx="12" cy="14" r="2.2" fill="currentColor"/><circle cx="22" cy="23" r="2.4" fill="currentColor"/><circle cx="10" cy="24" r="1.8" fill="currentColor"/><circle cx="19" cy="13" r="1.5" fill="currentColor"/></svg></span><span class="cookie-note cookie-note-left" aria-hidden="true">rich & fudgy</span><span class="cookie-note cookie-note-bottom" aria-hidden="true">chocolate in every bite</span>
         <button class="add-cookie" data-add="double" type="button" aria-label="Add Double Chocolate">Add <span aria-hidden="true">+</span></button></div>
         <div class="cookie-detail"><h3>Double Chocolate</h3><span class="cookie-price" data-price-for="double">$4.50 each</span><p>Deep cocoa, a fudgy center, and glossy chocolate chunks.</p>
           
         </div>
       </article>
       <article class="cookie" data-card="caramel">
-        <div class="cookie-visual"><img src="./assets/caramel.webp?v=20261029-crumb-v7" alt="Salted Caramel cookie with bakery-style crumbs and ingredients" loading="lazy" decoding="async" width="1024" height="1024">
+        <div class="cookie-visual"><img src="./assets/caramel.webp?v=20261029-crumb-v7" alt="Salted Caramel cookie with bakery-style crumbs and ingredients" loading="lazy" decoding="async" width="1024" height="1024"><span class="cookie-brand-stamp" aria-hidden="true"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M17.2 3.5A14.5 14.5 0 1 0 32.4 18c-3.2-.5-4.9-2.4-5.5-5.6-3.5.2-6-2.4-5.9-6.3-1.5-.2-2.7-1.1-3.8-2.6Z" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/><circle cx="12" cy="14" r="2.2" fill="currentColor"/><circle cx="22" cy="23" r="2.4" fill="currentColor"/><circle cx="10" cy="24" r="1.8" fill="currentColor"/><circle cx="19" cy="13" r="1.5" fill="currentColor"/></svg></span><span class="cookie-note cookie-note-left" aria-hidden="true">caramel goodness</span><span class="cookie-note cookie-note-bottom" aria-hidden="true">sweet & salty</span>
         <span class="cookie-flag cookie-flag--special">Special</span>
         <button class="add-cookie" data-add="caramel" type="button" aria-label="Add Salted Caramel">Add <span aria-hidden="true">+</span></button></div>
         <div class="cookie-detail"><h3>Salted Caramel</h3><span class="cookie-price" data-price-for="caramel">$5.50 each</span><p>Golden caramel, creamy white chocolate, and a little flaky sea salt.</p>
@@ -57,7 +66,7 @@
         </div>
       </article>
       <article class="cookie" data-card="raspberry">
-        <div class="cookie-visual"><img src="./assets/raspberry.webp?v=20261029-crumb-v7" alt="White Chocolate Raspberry cookie with bakery-style crumbs and ingredients" loading="lazy" decoding="async" width="1024" height="1024">
+        <div class="cookie-visual"><img src="./assets/raspberry.webp?v=20261029-crumb-v7" alt="White Chocolate Raspberry cookie with bakery-style crumbs and ingredients" loading="lazy" decoding="async" width="1024" height="1024"><span class="cookie-brand-stamp" aria-hidden="true"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M17.2 3.5A14.5 14.5 0 1 0 32.4 18c-3.2-.5-4.9-2.4-5.5-5.6-3.5.2-6-2.4-5.9-6.3-1.5-.2-2.7-1.1-3.8-2.6Z" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/><circle cx="12" cy="14" r="2.2" fill="currentColor"/><circle cx="22" cy="23" r="2.4" fill="currentColor"/><circle cx="10" cy="24" r="1.8" fill="currentColor"/><circle cx="19" cy="13" r="1.5" fill="currentColor"/></svg></span><span class="cookie-note cookie-note-left" aria-hidden="true">real raspberry pieces</span><span class="cookie-note cookie-note-bottom" aria-hidden="true">bright & creamy</span>
         <span class="cookie-flag cookie-flag--new">New Flavor</span>
         <button class="add-cookie" data-add="raspberry" type="button" aria-label="Add White Chocolate Raspberry">Add <span aria-hidden="true">+</span></button></div>
         <div class="cookie-detail"><h3>White Chocolate Raspberry</h3><span class="cookie-price" data-price-for="raspberry">$6.00 each</span><p>Ruby-red raspberry pieces and creamy white chocolate in a soft-baked cookie.</p>
@@ -65,7 +74,7 @@
         </div>
       </article>
       <article class="cookie" data-card="nutty">
-        <div class="cookie-visual"><img src="./assets/nutty.webp?v=20261029-crumb-v7" alt="Nutty Dream cookie with bakery-style crumbs and ingredients" loading="lazy" decoding="async" width="1024" height="1024">
+        <div class="cookie-visual"><img src="./assets/nutty.webp?v=20261029-crumb-v7" alt="Nutty Dream cookie with bakery-style crumbs and ingredients" loading="lazy" decoding="async" width="1024" height="1024"><span class="cookie-brand-stamp" aria-hidden="true"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M17.2 3.5A14.5 14.5 0 1 0 32.4 18c-3.2-.5-4.9-2.4-5.5-5.6-3.5.2-6-2.4-5.9-6.3-1.5-.2-2.7-1.1-3.8-2.6Z" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/><circle cx="12" cy="14" r="2.2" fill="currentColor"/><circle cx="22" cy="23" r="2.4" fill="currentColor"/><circle cx="10" cy="24" r="1.8" fill="currentColor"/><circle cx="19" cy="13" r="1.5" fill="currentColor"/></svg></span><span class="cookie-note cookie-note-left" aria-hidden="true">toasted nut crunch</span><span class="cookie-note cookie-note-bottom" aria-hidden="true">creamy & golden</span>
         <span class="cookie-flag cookie-flag--special">Special</span>
         <button class="add-cookie" data-add="nutty" type="button" aria-label="Add Nutty Dream">Add <span aria-hidden="true">+</span></button></div>
         <div class="cookie-detail"><h3>Nutty Dream</h3><span class="cookie-price" data-price-for="nutty">$7.00 each</span><p>A rich mix of toasted nuts, chocolate chunks, and a hint of caramel.</p>
@@ -73,7 +82,7 @@
         </div>
       </article>
       <article class="cookie" data-card="brownie">
-        <div class="cookie-visual"><img src="./assets/brownie.webp?v=20261029-crumb-v7" alt="Brownie Chip cookie with bakery-style crumbs and ingredients" loading="lazy" decoding="async" width="1024" height="1024">
+        <div class="cookie-visual"><img src="./assets/brownie.webp?v=20261029-crumb-v7" alt="Brownie Chip cookie with bakery-style crumbs and ingredients" loading="lazy" decoding="async" width="1024" height="1024"><span class="cookie-brand-stamp" aria-hidden="true"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M17.2 3.5A14.5 14.5 0 1 0 32.4 18c-3.2-.5-4.9-2.4-5.5-5.6-3.5.2-6-2.4-5.9-6.3-1.5-.2-2.7-1.1-3.8-2.6Z" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/><circle cx="12" cy="14" r="2.2" fill="currentColor"/><circle cx="22" cy="23" r="2.4" fill="currentColor"/><circle cx="10" cy="24" r="1.8" fill="currentColor"/><circle cx="19" cy="13" r="1.5" fill="currentColor"/></svg></span><span class="cookie-note cookie-note-left" aria-hidden="true">deep cocoa bites</span><span class="cookie-note cookie-note-bottom" aria-hidden="true">brownie-soft center</span>
         <button class="add-cookie" data-add="brownie" type="button" aria-label="Add Brownie Chip">Add <span aria-hidden="true">+</span></button></div>
         <div class="cookie-detail"><h3>Brownie Chip</h3><span class="cookie-price" data-price-for="brownie">$5.00 each</span><p>Fudgy cocoa dough with dark chocolate chunks and a brownie-like center.</p>
           
