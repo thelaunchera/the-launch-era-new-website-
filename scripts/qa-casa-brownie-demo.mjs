@@ -5,7 +5,7 @@ const load = file => readFileSync(new URL(file,dir),'utf8');
 for(const name of ['index.html','styles.css','hero-corrections.css','motion.css','editorial-center-v2.css','gift-photos.css','main.js','motion.js','README.md','GUIA-PARA-LA-CLASE.md']) assert.ok(existsSync(new URL(name,dir)),name+' missing');
 const html=load('index.html'),css=load('hero-corrections.css'),js=load('main.js');
 const motion=load('motion.js'),motionStyles=load('motion.css');
-assert.match(html,/Brownies<br\s*\/>\s*hechos\s*<span class="love">en casa<\/span>/i);
+assert.match(html,/¿Qué llevo<br\s*\/>\s*<span class="love">de regalo\?<\/span>/i,'gift dilemma is the opening hook');
 assert.ok(!html.includes('amor real'),'rejected copy removed');
 assert.ok(!/[↗➜➝→➔➡➤]/.test(html),'no decorative arrows');
 assert.match(html,/<video id="hero-video"/);
@@ -37,7 +37,7 @@ assert.ok(html.includes('123 Calle del Cacao'),'fictional address visible');
 assert.ok(html.includes('Dirección inventada'),'fictional location disclosed');
 assert.ok(html.includes('id="nuestra-historia"'),'compact story is part of page');
 assert.ok(html.indexOf('id="nuestra-historia"') < html.indexOf('id="entrega"'),'story precedes delivery');
-assert.ok(html.includes('store-experience.css?v=cb-editorial-experience-20261030'),'new responsive CSS loaded');
+assert.ok(html.includes('store-experience.css?v=cb-delivery-editorial-20261030b'),'refined responsive CSS loaded');
 for (const snippet of [
  'function viewContactDemo()',
  'function viewSocialDemo(platform)',
@@ -63,6 +63,9 @@ assert.match(html,/gift-photos\.css\?v=cb-tablet-video-first-20261029/,'new tabl
 assert.doesNotMatch(html,/class="hero-gift"/,'gift illustration is removed from hero');
 assert.doesNotMatch(html,/class="delivery-gift"/,'CSS gift is removed from delivery');
 assert.match(html,/EL DETALLE PERFECTO PARA CADA MOMENTO/,'gift copy moved beside approved photos');
+assert.match(html,/no con lo primero\s+que encontraste/i,'gift pain is human and specific');
+assert.match(html,/No quieres llegar con las manos vacías/i,'gift bridge uses real customer tension');
+assert.match(html,/no hay zonas, tarifas ni fechas confirmadas/i,'delivery limitations remain clear');
 assert.match(css,/@media \(min-width: 791px\) and \(max-width: 1199px\)/,'tablet layout exists');
 assert.match(css,/\.hero-photo\s*\{\s*order:\s*-1/,'tablet shows video before copy');
 assert.match(css,/\.moments-strip\s*\{\s*display:\s*grid;\s*grid-template-columns:\s*repeat\(2,\s*minmax\(0,1fr\)\)/,'two tall photos on tablet');
