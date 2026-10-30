@@ -34,7 +34,7 @@ assert.ok(!html.includes('<form'),'contact form only created on click');
 assert.ok(html.includes('id="contact-us-button"'),'footer contact trigger is visible');
 assert.equal((html.match(/data-social-demo="/g)||[]).length,3,'three simulated social previews');
 assert.ok(html.includes('123 Calle del Cacao'),'fictional address visible');
-assert.ok(html.includes('Dirección ficticia'),'fictional location disclosed');
+assert.ok(html.includes('Dirección inventada'),'fictional location disclosed');
 assert.ok(html.includes('id="nuestra-historia"'),'compact story is part of page');
 assert.ok(html.indexOf('id="nuestra-historia"') < html.indexOf('id="entrega"'),'story precedes delivery');
 assert.ok(html.includes('store-experience.css?v=cb-editorial-experience-20261030'),'new responsive CSS loaded');
