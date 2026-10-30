@@ -1,5 +1,11 @@
 # CRUMB — cookie shop demo
 
+> **REGISTRO OFICIAL DE FOTOS Y PROMPTS · 30 OCT 2026**  
+> Para la identidad azul vigente, las **12 fotografías activas**, seis sabores actuales y lista de archivos históricos, consultar [REDESIGN-BLUE-20261030.md](./REDESIGN-BLUE-20261030.md). Para los prompts reutilizables actualizados de cada escena y sabor, consultar [PHOTO-DIRECTION.md](./PHOTO-DIRECTION.md). Las notas fechadas más abajo documentan iteraciones anteriores y **no sustituyen** este inventario ni la lista de `src` de `index.html`.
+>
+> Hero activo: `CRUMB_Storefront_Approved_20261030.webp` · Our Story activo: `CRUMB_Our_Story_Approved_20261030.webp` · Gifts: `CRUMB_03_Gift_Box_Azul.png` · Inside CRUMB: `CRUMB_Inside_Cookie_Moment_Blue.svg`, `CRUMB_Inside_Made_With_Care_Blue.svg`, `CRUMB_02_Bolsa_Azul.png` · sabores: `classic.webp`, `double.webp`, `caramel.webp`, `raspberry.webp`, `nutty.webp`, `brownie.webp`.  
+> Los assets legacy se mantienen como archivo, **no** como fuente para nuevos reemplazos.
+
 Official editable source: `public/demos/crumb/` in this repository, alongside Casa Brownie.
 Public route: `https://thelaunchera.com/demos/crumb/`.
 Original AppDeploy prototype: `https://crumb-cookies-animated-demo-w1fcop.v2.appdeploy.ai/` (historical source only; future edits belong here).
