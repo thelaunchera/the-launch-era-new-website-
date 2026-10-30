@@ -969,3 +969,102 @@ textarea { width: 100%; padding: 12px; border: 1px solid #cbb8a5; background: #f
 @media (max-width: 600px) {
   .site-footer .footer-credit { margin-top: 16px; font-size: 10px; }
 }
+
+
+/* ATELIER — CRUMB cool-blue art direction / 30 Oct 2026 */
+/* Staged visual system only. Publish alongside verified blue photography.
+   Existing cookie flavors, prices and interactive logic remain untouched. */
+:root {
+  --cream:#FAF8F3;
+  --ink:#191919;
+  --brown:#477BB3;
+  --caramel:#7CA9D2;
+  --muted:#475A6B;
+  --line:#D2E3F2;
+  --crumb-blue-light:#C9E2F4;
+  --crumb-blue-deep:#477BB3;
+  --crumb-ivory:#FAF8F3;
+}
+body { background:var(--crumb-ivory); color:var(--ink); }
+button:focus-visible,a:focus-visible,textarea:focus-visible,input:focus-visible {
+  outline:3px solid #27578A; outline-offset:3px;
+}
+.announcement { background:#315F93; color:#FFF; letter-spacing:.09em; }
+.site-header { background:#FAF8F3; border-bottom:1px solid #C9E2F4; }
+.site-header .logo { color:#366A9E; font-weight:600; }
+.logo span { color:#477BB3; }
+.site-header nav a:hover { color:#315F93; }
+.header-bag { border-color:#477BB3; }
+.header-bag span { background:#477BB3; color:#FFF; }
+.hero { background:#C9E2F4; }
+.hero-strip { background:#C9E2F4; border-bottom:1px solid #B1D0E9; }
+.hero-strip p { color:#191919; }
+.button { border-color:#477BB3; color:#315F93; border-radius:4px; }
+.button.dark { background:#477BB3; border-color:#477BB3; color:#FFF; }
+.button.dark:hover { background:#315F93; border-color:#315F93; }
+.button.outline { background:rgba(255,255,255,.55); }
+.button.outline:hover { background:#F7FCFF; }
+.cookies-section { background:#FAF8F3; }
+.section-head>p,.cookie-detail p { color:#475A6B; }
+.cookie-visual { background:#EAF2F9; }
+.cookie-visual .cookie-flag { background:#F7FCFF; color:#315F93; border-color:#B8D7F0; }
+.cookie-visual .cookie-flag--new { background:#315F93; color:#FFF; border-color:#315F93; }
+.add-cookie { color:#315F93; }
+.add-cookie:hover { color:#17476F; }
+.eyebrow { color:#426E99; }
+.gift-section { background:#E7F2FA; }
+.gift-copy>p,.moment p { color:#475A6B; }
+.box-sizes span+span { border-color:#AAC9DF; }
+.brand-glimpse { background:#FAF8F3; }
+.brand-glimpse-gallery img { background:#E7F2FA; }
+.brand-glimpse-gallery figure { border-radius:5px; }
+.brand-glimpse-gallery figcaption { color:#315F93; }
+.delivery-section { background:#FAF8F3; }
+.delivery-copy p,.delivery-copy small { color:#475A6B; }
+.gps-visual { background:#E7F2FA; }
+.gps-grid { opacity:.25; }
+.moment { background:#DCEFFA; }
+.moment-photo { background:#C9E2F4; }
+.crumb-marquee { background:#477BB3; color:#FFF; }
+.crumb-marquee-row { color:inherit; }
+.final-cta { background:#C9E2F4; }
+.site-footer { background:#315F93; color:#FFF; }
+.site-footer p,.site-footer .footer-credit { color:#DFECF8; }
+.site-footer .footer-credit a { color:#FFF; border-bottom-color:#DBE9F8; }
+.site-footer .footer-credit a:hover,.site-footer .footer-credit a:focus-visible { border-bottom-color:#FFF; }
+.box-dialog,.delivery-dialog,.contact-dialog,.social-dialog { background:#FAF8F3; color:#191919; }
+.modal-heading { background:#DCEFFA; }
+.choice-group button { border-color:#B5CDDF; }
+.choice-group button.active { background:#477BB3; border-color:#477BB3; color:#FFF; }
+.stepper button { border-color:#B5CDDF; }
+textarea { background:#FFF; border-color:#A7C8E1; }
+.progress { background:#D7E8F5; }
+.progress span { background:#477BB3; }
+.preview { background:#E7F2FA; }
+.cookie-visual .add-cookie:focus-visible { outline-offset:-3px; }
+@media (max-width:600px) {
+  .hero-strip { background:#C9E2F4; }
+  .site-header { background:#FAF8F3; }
+  .moment { background:#DCEFFA; }
+}
+
+
+/* CRUMB storefront photography: no blank bars and no overlay.
+   The same storefront is used at the hero breakpoints only. */
+.hero { aspect-ratio: 2000 / 1124; height:auto; overflow:hidden; }
+.hero picture { display:block; width:100%; height:100%; }
+.hero picture img { width:100%; height:100%; object-fit:cover; object-position:center 50%; }
+.gift-photo img { object-fit:cover; object-position:center 44%; }
+.moment-photo img { object-fit:cover; object-position:50% 45%; }
+@media (min-width:601px) and (max-width:1366px) {
+  .hero { aspect-ratio:auto; height:auto; overflow:hidden; }
+  .hero picture { height:auto; }
+  .hero picture img { height:auto; object-fit:contain; object-position:center; }
+}
+@media (max-width:600px) {
+  .hero { aspect-ratio: 4 / 5; height:auto; min-height:0; overflow:hidden; }
+  .hero picture, .hero picture img { height:100%; }
+  .hero picture img { object-fit:cover; object-position: 50% 50%; }
+  .gift-photo img { object-position:50% 40%; }
+  .moment-photo img { object-position:50% 30%; }
+}
