@@ -283,74 +283,117 @@ function viewFlavor(id) {
   openModal(item.name, wrapper, 'NUESTROS BROWNIES · SABOR DE EJEMPLO');
 }
 function viewExperience(startId) {
-  selectedFlavor = startId || selectedFlavor;
+  if (catalog.some(item => item.id === startId)) selectedFlavor = startId;
+  let step = 1;
+  let quantity = 1;
+  let packaging = 'Caja sencilla';
+  let occasion = 'Para compartir';
   const wrapper = document.createElement('div');
-  addText(
-    wrapper,
-    'p',
-    'Así sería el primer paso de una experiencia de pedido. Elige un sabor y comprueba cómo se presenta la entrega. No se pedirán dirección, tarjeta ni correo.'
-  );
-  const choices = document.createElement('div');
-  choices.className = 'modal-choice';
-  catalog.forEach(item => {
-    const button = addButton(
-      choices,
-      item.name,
-      () => {
-        selectedFlavor = item.id;
-        choices
-          .querySelectorAll('button')
-          .forEach(b => b.classList.remove('active'));
-        button.classList.add('active');
-        selected.textContent =
-          'Elegiste: ' +
-          item.name +
-          ' · territorio de entrega ilustrativo: Miami.';
-      },
-      ''
-    );
-    if (item.id === selectedFlavor) button.classList.add('active');
-  });
-  wrapper.append(choices);
-  const selected = addText(
-    wrapper,
-    'p',
-    'Elegiste: ' +
-      (catalog.find(f => f.id === selectedFlavor)?.name || 'Clásico') +
-      ' · territorio de entrega ilustrativo: Miami.',
-    'status-box'
-  );
-  addButton(wrapper, 'Continuar con la simulación', () => {
-    const end = document.createElement('div');
-    addText(
-      end,
-      'p',
-      'Tu experiencia de muestra ha terminado. Esto es lo que una web real tendría que confirmar antes de recibir un pedido: cobertura por código postal, disponibilidad, fecha, tarifa, precio y pago seguro.'
-    );
-    addText(
-      end,
-      'p',
-      'DEMO EDUCATIVA · No se generó ni envió ningún pedido. No se cobró ni guardó ningún dato.',
-      'status-box'
-    );
-    addButton(end, 'Volver a explorar', () => {
+  wrapper.className = 'cb-order-flow';
+
+  function renderStep() {
+    const item = catalog.find(flavor => flavor.id === selectedFlavor) || catalog[0];
+    const progress = step < 4
+      ? '<div class="cb-order-progress" aria-label="Paso ' + step + ' de 3">' +
+          [1, 2, 3].map(n => '<span class="' + (n <= step ? 'is-active' : '') + '"></span>').join('') +
+        '</div><p class="cb-order-step-label">PASO ' + step + ' DE 3 · SOLO UNA PRUEBA</p>'
+      : '';
+    wrapper.replaceChildren();
+    const layout = document.createElement('div');
+    layout.innerHTML = progress;
+
+    if (step === 1) {
+      layout.innerHTML +=
+        '<p class="cb-order-intro">¿Cuál se te antoja? Toca una fotografía para elegir tu brownie.</p>' +
+        '<div class="cb-order-flavors" role="group" aria-label="Elegir un sabor">' +
+          catalog.map(flavor =>
+            '<button type="button" data-action="flavor" data-value="' + flavor.id +
+              '" class="cb-order-flavor ' + (flavor.id === selectedFlavor ? 'is-selected' : '') +
+              '" aria-pressed="' + (flavor.id === selectedFlavor) + '">' +
+              '<img src="' + flavor.image + '" alt="" loading="lazy" />' +
+              '<strong>' + flavor.name + '</strong><small>' + flavor.subtitle + '</small>' +
+            '</button>'
+          ).join('') +
+        '</div>' +
+        '<div class="cb-order-footer"><span>Elegiste: <strong>' + item.name + '</strong></span>' +
+        '<button type="button" class="cb-order-next" data-action="next">Continuar · Personalizar</button></div>';
+    } else if (step === 2) {
+      layout.innerHTML +=
+        '<div class="cb-order-selected"><img src="' + item.image + '" alt="Brownie ' + item.name +
+        ' de demostración" /><div><small>TU ELECCIÓN</small><strong>' + item.name + '</strong>' +
+        '<span>' + item.subtitle + '</span></div></div>' +
+        '<div class="cb-order-setting"><span class="cb-order-label">¿Cuántos brownies?</span>' +
+        '<div class="cb-order-counter"><button type="button" data-action="minus" aria-label="Reducir cantidad" ' +
+        (quantity === 1 ? 'disabled' : '') + '>−</button><output aria-live="polite">' +
+        quantity + '</output><button type="button" data-action="plus" aria-label="Aumentar cantidad" ' +
+        (quantity === 12 ? 'disabled' : '') + '>+</button></div></div>' +
+        '<fieldset class="cb-order-setting"><legend>¿Cómo lo presentarías?</legend><div class="cb-order-toggle">' +
+        ['Caja sencilla', 'Para regalo'].map(value =>
+          '<button type="button" data-action="packaging" data-value="' + value +
+          '" aria-pressed="' + (value === packaging) + '" class="' + (value === packaging ? 'is-selected' : '') +
+          '">' + value + '</button>'
+        ).join('') + '</div></fieldset>' +
+        '<fieldset class="cb-order-setting"><legend>¿Para qué ocasión?</legend><div class="cb-order-toggle">' +
+        ['Para compartir', 'Para mí', 'Para sorprender'].map(value =>
+          '<button type="button" data-action="occasion" data-value="' + value +
+          '" aria-pressed="' + (value === occasion) + '" class="' + (value === occasion ? 'is-selected' : '') +
+          '">' + value + '</button>'
+        ).join('') + '</div></fieldset>' +
+        '<div class="cb-order-footer"><button type="button" class="cb-order-back" data-action="back">Volver</button>' +
+        '<button type="button" class="cb-order-next" data-action="next">Ver mi resumen</button></div>';
+    } else if (step === 3) {
+      layout.innerHTML +=
+        '<p class="cb-order-intro">Así se vería el resumen antes de confirmar un pedido en una tienda real.</p>' +
+        '<div class="cb-order-summary"><img src="' + item.image +
+        '" alt="Brownie ' + item.name + '" /><div><small>TU CAJA DE PRUEBA</small>' +
+        '<h3>' + item.name + '</h3><p>' + quantity + ' brownie' + (quantity === 1 ? '' : 's') +
+        ' · ' + packaging + '</p><p>' + occasion + '</p></div></div>' +
+        '<div class="cb-order-delivery"><span>ENTREGA DE EJEMPLO</span><strong>Miami, Florida</strong>' +
+        '<p>Zona, disponibilidad, fecha y tarifa sin definir. No solicitamos dirección ni datos de pago.</p></div>' +
+        '<p class="cb-order-safety">Esto es una simulación visual. No existe un precio ni se procesa un pedido.</p>' +
+        '<div class="cb-order-footer"><button type="button" class="cb-order-back" data-action="back">Editar selección</button>' +
+        '<button type="button" class="cb-order-next" data-action="next">Finalizar la prueba</button></div>';
+    } else {
+      layout.innerHTML +=
+        '<div class="cb-order-done"><div class="cb-order-done-icon" aria-hidden="true">♡</div>' +
+        '<h3>¡Así podría verse tu pedido!</h3>' +
+        '<p>Tu combinación: ' + quantity + ' × ' + item.name + ' · ' + packaging + ' · ' + occasion + '.</p>' +
+        '<p class="cb-order-safety">Demo completada. No se creó ningún pedido, no se enviaron datos y no se realizó ningún cobro.</p>' +
+        '<div class="cb-order-finish"><button type="button" class="cb-order-back" data-action="restart">Probar otra combinación</button>' +
+        '<button type="button" class="cb-order-next" data-action="close">Seguir viendo sabores</button></div></div>';
+    }
+    wrapper.append(layout);
+    const dialog = wrapper.closest('.modal');
+    if (dialog) dialog.scrollTop = 0;
+  }
+
+  wrapper.addEventListener('click', event => {
+    const button = event.target.closest('button[data-action]');
+    if (!button || !wrapper.contains(button)) return;
+    const action = button.dataset.action;
+    if (action === 'flavor' && catalog.some(item => item.id === button.dataset.value)) {
+      selectedFlavor = button.dataset.value;
+    } else if (action === 'minus') quantity = Math.max(1, quantity - 1);
+    else if (action === 'plus') quantity = Math.min(12, quantity + 1);
+    else if (action === 'packaging' && ['Caja sencilla', 'Para regalo'].includes(button.dataset.value)) packaging = button.dataset.value;
+    else if (action === 'occasion' && ['Para compartir', 'Para mí', 'Para sorprender'].includes(button.dataset.value)) occasion = button.dataset.value;
+    else if (action === 'next') step = Math.min(4, step + 1);
+    else if (action === 'back') step = Math.max(1, step - 1);
+    else if (action === 'restart') { step = 1; quantity = 1; packaging = 'Caja sencilla'; occasion = 'Para compartir'; }
+    else if (action === 'close') {
       closeModal();
-      document
-        .getElementById('brownies')
-        .scrollIntoView({ behavior: 'smooth' });
-    });
-    openModal(
-      'Una experiencia sin compras reales',
-      end,
-      'SIMULACIÓN COMPLETADA'
-    );
+      document.getElementById('brownies').scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    renderStep();
+    const focusTarget = wrapper.querySelector('button.is-selected, .cb-order-next, button[data-action="restart"]');
+    if (focusTarget) focusTarget.focus({ preventScroll: true });
   });
-  openModal(
-    'Elige tu brownie',
-    wrapper,
-    'EXPERIENCIA DE PEDIDO · SOLO SIMULACIÓN'
-  );
+
+  renderStep();
+  openModal('Prepara tu caja de brownies', wrapper, 'EXPERIENCIA INTERACTIVA · SIN COMPRAS');
 }
+
 function viewDelivery() {
   const wrapper = document.createElement('div');
   addText(
@@ -523,6 +566,8 @@ document.getElementById('search-btn').addEventListener('click', () => {
 });
 document.getElementById('coverage-btn').addEventListener('click', viewDelivery);
 document.getElementById('see-story').addEventListener('click', viewStory);
+document.getElementById('story-more-btn')?.addEventListener('click', viewStory);
+document.getElementById('delivery-try-btn')?.addEventListener('click', () => viewExperience());
 document
   .getElementById('demo-order')
   .addEventListener('click', viewCart);
