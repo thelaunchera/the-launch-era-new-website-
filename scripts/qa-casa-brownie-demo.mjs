@@ -37,7 +37,7 @@ assert.ok(html.includes('123 Calle del Cacao'),'fictional address visible');
 assert.ok(html.includes('Dirección inventada'),'fictional location disclosed');
 assert.ok(html.includes('id="nuestra-historia"'),'compact story is part of page');
 assert.ok(html.indexOf('id="nuestra-historia"') < html.indexOf('id="entrega"'),'story precedes delivery');
-assert.ok(html.includes('store-experience.css?v=cb-legal-footer-v2'),'new responsive CSS loaded');
+assert.ok(html.includes('store-experience.css?v=cb-editorial-experience-20261030'),'new responsive CSS loaded');
 for (const snippet of [
  'function viewContactDemo()',
  'function viewSocialDemo(platform)',
@@ -52,9 +52,10 @@ for(const selector of ['.cb-store-story','.cb-demo-contact-form','@media (max-wi
 
 assert.ok(!/stripe\.com|checkout\.stripe\.com/i.test(html),'no payment destination');
 assert.match(html,/DEMO EDUCATIVA · SIN PEDIDOS NI PAGOS REALES/);
-assert.match(html,/Entrega local/);
+assert.match(html,/entrega local/i);
 assert.match(html,/href="#brownies"/);
-for (const asset of ['./styles.css','./hero-corrections.css']) assert.match(html,new RegExp('(?:href|src)="'+asset.replaceAll('.','\\.')+'\\?v=cb-sticky-cart-20261029"'),'updated-gallery cache '+asset);
+assert.match(html,/styles\\.css\\?v=cb-editorial-experience-20261030/,'new serif stylesheet loads');
+assert.match(html,/hero-corrections\\.css\\?v=cb-sticky-cart-20261029/,'approved hero geometry kept');
 for (const asset of ['./motion.css','./motion.js']) assert.match(html,new RegExp('(?:href|src)="'+asset.replaceAll('.','\\.')+'\\?v=cb-center-20261028b"'),'motion cache '+asset);
 assert.match(html,/href="\.\/editorial-center-v2\.css"/,'new stylesheet must load');
 
@@ -200,9 +201,23 @@ assert.match(html,/src="\.\/assets\/hero-brownies\.mp4\?v=20261029-local"/,'hero
 
 
 
-console.log('Casa Brownie static demo QA OK');
+// One document powers the approved video and static class demos.
+for (const action of ['flavor', 'packaging', 'occasion', 'next', 'back', 'restart', 'close']) {
+  assert.match(js, new RegExp('data-action=.?'+action), 'interactive demo action ' + action);
+}
+assert.match(js,/Math\.min\(12, quantity \+ 1\)/,'quantities are capped');
+assert.match(html,/id="story-more-btn"/,'story detail is interactive');
+assert.match(html,/id="delivery-try-btn"/,'delivery starts the interactive demo');
+assert.match(js,/story-more-btn/,'story detail handler attached');
+assert.match(js,/delivery-try-btn/,'delivery button handler attached');
+assert.match(html,/casabrownie-hands-gift\.svg/,'story uses existing photo');
+assert.match(load('styles.css'),/Bodoni Moda/,'hero serif font applied in repo');
+assert.match(experienceCss,/\.cb-order-flavors/,'flavor cards receive responsive styling');
+assert.match(experienceCss,/\.cb-story-visual/,'story redesign styled');
+
+console.log('Casa Brownie video + static educational demo QA OK');
 
 
-assert.match(html,/main\.js\?v=cb-legal-footer-v2/);
+assert.match(html,/main\.js\?v=cb-editorial-experience-20261030/);
 assert.equal((js.match(/assets\/sabor-/g)||[]).length,6,'all catalog photos are hosted originals');
 assert.doesNotMatch(js,/amummytoo|proteinbrownies|getrecipekit|anasrecipes|dailydoughco|ctfassets/,'no third-party flavor photos');
