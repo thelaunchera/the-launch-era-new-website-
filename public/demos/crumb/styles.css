@@ -1047,3 +1047,24 @@ textarea { background:#FFF; border-color:#A7C8E1; }
   .site-header { background:#FAF8F3; }
   .moment { background:#DCEFFA; }
 }
+
+
+/* CRUMB storefront photography: no blank bars and no overlay.
+   The same storefront is used at the hero breakpoints only. */
+.hero { aspect-ratio: 2000 / 1124; height:auto; overflow:hidden; }
+.hero picture { display:block; width:100%; height:100%; }
+.hero picture img { width:100%; height:100%; object-fit:cover; object-position:center 50%; }
+.gift-photo img { object-fit:cover; object-position:center 44%; }
+.moment-photo img { object-fit:cover; object-position:50% 45%; }
+@media (min-width:601px) and (max-width:1366px) {
+  .hero { aspect-ratio:auto; height:auto; overflow:hidden; }
+  .hero picture { height:auto; }
+  .hero picture img { height:auto; object-fit:contain; object-position:center; }
+}
+@media (max-width:600px) {
+  .hero { aspect-ratio: 4 / 5; height:auto; min-height:0; overflow:hidden; }
+  .hero picture, .hero picture img { height:100%; }
+  .hero picture img { object-fit:cover; object-position: 50% 50%; }
+  .gift-photo img { object-position:50% 40%; }
+  .moment-photo img { object-position:50% 30%; }
+}
