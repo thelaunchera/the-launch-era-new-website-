@@ -1947,3 +1947,38 @@ img, picture, svg { max-width:100%; }
     font-size: 23px;
   }
 }
+
+
+/* CRUMB Our Story image — user-approved photograph, 2026-10-30 */
+.moment-photo {
+  background:#DCEFFA;
+}
+.moment-photo img {
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:50% 44%;
+}
+@media (max-width:600px) {
+  .moment {
+    grid-template-columns:minmax(0,1fr);
+  }
+  .moment-photo {
+    display:block;
+    width:100%;
+    height:auto;
+    min-height:0;
+    aspect-ratio:1092 / 1440;
+    overflow:hidden;
+  }
+  .moment-photo img {
+    display:block;
+    width:100%;
+    height:auto;
+    max-height:none;
+    aspect-ratio:1092 / 1440;
+    object-fit:contain;
+    object-position:center;
+  }
+}
