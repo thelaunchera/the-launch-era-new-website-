@@ -104,7 +104,7 @@ const compactTitles = {
 };
 for(const [id,expected] of Object.entries(compactTitles)) assert.equal(d.getElementById(id).textContent,expected);
 assert.match(css,/Compact headings for small screens/);
-assert.match(html,/styles\.css\?v=20261030-crumb-gallery-carousel-v6/);
+assert.match(html,/styles\.css\?v=20261030-crumb-tablet-storefront-v7/);
 results.push('Compact iPhone section titles retain correct English copy and styling');
 
 const expectedFlavors = [
@@ -142,7 +142,7 @@ assert.match(css,/scroll-snap-type:x mandatory/,'Mobile gallery enables snap car
 assert.match(css,/flex:0 0 min\(84vw,360px\)/,'Mobile photos use consistent full-card width with a small preview of the next photo');
 assert.match(css,/scroll-snap-stop:always/,'Mobile cards snap one at a time');
 assert.match(css,/object-fit:contain/,'All mobile gallery photographs fit without clipping');
-assert.ok(html.includes('styles.css?v=20261030-crumb-gallery-carousel-v6'), 'Updated CSS must bypass stale iOS browser cache');
+assert.ok(html.includes('styles.css?v=20261030-crumb-tablet-storefront-v7'), 'Updated CSS must bypass stale iOS browser cache');
 assert.ok(html.includes('main.js?v=20261030-crumb-gallery-v2'), 'Updated carousel controller must bypass stale iOS browser cache');
 assert.equal(d.querySelectorAll('.crumb-gallery-dot').length,3,'Three accessible slide selectors');
 click('[data-crumb-slide="2"]');
@@ -306,17 +306,18 @@ assert.match(css,/\.cookie-visual \.cookie-flag--new/);
 results.push('Editorial hero, six striped cards, working add buttons and exactly three flavor flags validated');
 
 
-// Tablet-only palette: warm editorial hero; unchanged desktop and mobile CSS.
-const tabletHeroPalette = css.slice(css.lastIndexOf('/* CRUMB · warm editorial hero for iPads/tablets only'));
-assert.match(tabletHeroPalette, /^\/\* CRUMB · warm editorial hero for iPads\/tablets only/);
-assert.match(tabletHeroPalette, /@media \(min-width: 601px\) and \(max-width: 1366px\)/);
-assert.match(tabletHeroPalette, /\.hero\.hero-editorial\s*\{\s*background:\s*#FAF8F3;/);
-assert.match(tabletHeroPalette, /\.hero\.hero-editorial::after\s*\{\s*background:\s*linear-gradient/);
-assert.match(tabletHeroPalette, /\.hero\.hero-editorial \.hero-editorial-content h2\s*\{\s*color:\s*#3E291F;/);
-assert.match(tabletHeroPalette, /\.hero\.hero-editorial \.hero-editorial-cta\s*\{\s*background:\s*#805239;/);
-assert.ok(html.includes('styles.css?v=20261030-crumb-gallery-carousel-v6'), 'new tablet CSS version loads without cached blue');
-assert.match(html, /CRUMB_Storefront_Approved_20261030\.webp/, 'approved storefront preserved');
-results.push('Warm tablet-only CRUMB hero, approved photography, and CSS cache refresh validated');
+// Tablet-only storefront hero: no text panel, overlay or crop. Mobile/desktop unchanged.
+const tabletHeroPhoto = css.slice(css.lastIndexOf('/* CRUMB · photo-only storefront hero on tablets'));
+assert.match(tabletHeroPhoto, /@media \(min-width: 601px\) and \(max-width: 1366px\)/);
+assert.match(tabletHeroPhoto, /\.hero\.hero-editorial\s*\{[^}]*height:\s*auto;[^}]*min-height:\s*0;/s);
+assert.match(tabletHeroPhoto, /\.hero\.hero-editorial::after\s*\{[^}]*content:\s*none;[^}]*display:\s*none;/s);
+assert.match(tabletHeroPhoto, /\.hero\.hero-editorial \.hero-editorial-content\s*\{\s*display:\s*none;/);
+assert.match(tabletHeroPhoto, /\.hero\.hero-editorial picture\s*\{[^}]*position:\s*relative;[^}]*width:\s*100%;[^}]*height:\s*auto;/s);
+assert.match(tabletHeroPhoto, /\.hero\.hero-editorial picture img\s*\{[^}]*width:\s*100%;[^}]*height:\s*auto;[^}]*object-fit:\s*contain;/s);
+assert.match(html, /styles\.css\?v=20261030-crumb-tablet-storefront-v7/);
+assert.match(html, /CRUMB_Storefront_Approved_20261030\.webp/);
+assert.ok(d.querySelector('.hero-editorial-content'), 'original hero copy kept for phone/desktop');
+results.push('Tablet shows approved storefront photo alone; no blue panel, text, CTA or cropping');
 
 
 // Tablet flavor gallery regression: photographs, copy, pricing and bag actions are preserved.
@@ -332,7 +333,7 @@ assert.match(tabletGridCSS, /position: static !important/);
 assert.match(tabletGridCSS, /border-radius: 50%/);
 assert.match(tabletGridCSS, /\.cookie-detail \.cookie-price/);
 assert.match(tabletGridCSS, /\.cookie-detail p/);
-assert.match(html, /styles\.css\?v=20261030-crumb-gallery-carousel-v6/);
+assert.match(html, /styles\.css\?v=20261030-crumb-tablet-storefront-v7/);
 assert.equal(d.querySelectorAll('.cookie-grid .cookie').length, 6, 'all six flavors preserved');
 assert.equal(d.querySelectorAll('.cookie-grid .cookie [data-add]').length, 6, 'all six Add controls preserved');
 assert.equal(d.querySelectorAll('.cookie-grid .cookie .cookie-price').length, 6, 'all six prices preserved');
