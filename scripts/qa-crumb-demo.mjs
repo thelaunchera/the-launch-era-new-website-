@@ -138,6 +138,9 @@ results.push('All six new 1024px flavors, titles and builder photos match and lo
 const heroMobileSource = d.querySelector('.hero picture source[media="(max-width: 600px)"]');
 assert.ok(heroMobileSource);
 assert.match(heroMobileSource.getAttribute('srcset'), /CRUMB_Storefront_Approved_20261030\.webp\?v=/);
+assert.match(css,/grid-auto-flow:row/,'Inside CRUMB phone gallery no longer scrolls sideways');
+assert.match(css,/grid-auto-columns:auto/,'Inside CRUMB phone grid must discard old 68vw auto-columns');
+assert.match(css,/scroll-snap-type:none/,'Inside CRUMB phone gallery must not remain a carousel');
 const photoGrid = d.querySelectorAll('.brand-glimpse-gallery figure');
 assert.equal(photoGrid.length, 3);
 assert.equal(d.querySelectorAll('.brand-glimpse-gallery img[src*="CRUMB_02_Bolsa_Azul.png"]').length,1);

@@ -1534,3 +1534,109 @@ img, picture, svg { max-width:100%; }
 @media (prefers-reduced-motion:reduce){
   .cookie-grid .cookie-visual img{transition:none}
 }
+
+
+/* 2026-10-30 — CRUMB phone gallery hard reset.
+   Earlier horizontal scroll grid and auto-columns conflicted with responsive
+   grid-template-columns, leaving partial images and truncated captions on iOS. */
+@media (max-width:600px) {
+  .brand-glimpse {
+    display:block;
+    width:100%;
+    min-width:0;
+    max-width:100%;
+    margin:0;
+    padding:33px 18px 39px;
+    overflow:visible;
+  }
+  .brand-glimpse-heading {
+    margin:0 0 19px;
+    padding:0;
+    text-align:center;
+  }
+  .brand-glimpse-gallery {
+    display:grid;
+    position:static;
+    grid-auto-flow:row;
+    grid-auto-columns:auto;
+    grid-template-columns:minmax(0,1fr);
+    grid-template-rows:none;
+    gap:24px;
+    width:100%;
+    min-width:0;
+    max-width:100%;
+    margin:0;
+    padding:0;
+    overflow:visible;
+    overflow-x:visible;
+    overscroll-behavior-x:auto;
+    scroll-snap-type:none;
+    scroll-padding:0;
+    scrollbar-width:auto;
+    transform:none;
+  }
+  .brand-glimpse-gallery > figure,
+  .brand-glimpse-gallery > figure:nth-child(3) {
+    display:block;
+    grid-column:1 / -1;
+    grid-row:auto;
+    width:100%;
+    min-width:0;
+    max-width:100%;
+    margin:0;
+    padding:0;
+    overflow:visible;
+    scroll-snap-align:none;
+    transform:none;
+  }
+  .brand-glimpse-gallery figure img,
+  .brand-glimpse-gallery figure:nth-child(3) img {
+    display:block;
+    width:100%;
+    min-width:0;
+    max-width:100%;
+    height:auto;
+    max-height:none;
+    aspect-ratio:4 / 3;
+    object-fit:cover;
+    object-position:center;
+    border-radius:8px;
+  }
+  .brand-glimpse-gallery figure:nth-child(2) img {
+    object-position:50% 34%;
+  }
+  .brand-glimpse-gallery figcaption {
+    display:block;
+    width:100%;
+    max-width:100%;
+    padding:11px 0 0;
+    margin:0;
+    text-align:center;
+    font-size:12px;
+    line-height:1.4;
+    white-space:normal;
+    overflow-wrap:break-word;
+  }
+}
+@media (min-width:601px) and (max-width:950px) {
+  .brand-glimpse-gallery {
+    display:grid;
+    grid-auto-flow:row;
+    grid-auto-columns:auto;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:18px;
+    overflow:visible;
+    scroll-snap-type:none;
+  }
+  .brand-glimpse-gallery figure:nth-child(3) {
+    grid-column:1 / -1;
+    max-width:calc(50% - 9px);
+    justify-self:center;
+  }
+  .brand-glimpse-gallery img {
+    width:100%;
+    height:auto;
+    aspect-ratio:4 / 3;
+    object-fit:cover;
+  }
+}
