@@ -104,7 +104,7 @@ const compactTitles = {
 };
 for(const [id,expected] of Object.entries(compactTitles)) assert.equal(d.getElementById(id).textContent,expected);
 assert.match(css,/Compact headings for small screens/);
-assert.match(html,/styles\.css\?v=20261030-crumb-editorial-flavors-v3/);
+assert.match(html,/styles\.css\?v=20261030-crumb-gallery-carousel-v4/);
 results.push('Compact iPhone section titles retain correct English copy and styling');
 
 const expectedFlavors = [
