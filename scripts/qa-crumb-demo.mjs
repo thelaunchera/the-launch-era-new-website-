@@ -309,4 +309,24 @@ assert.ok(html.includes('styles.css?v=20261030-crumb-tablet-ivory-hero-v1'), 'ne
 assert.match(html, /CRUMB_Storefront_Approved_20261030\.webp/, 'approved storefront preserved');
 results.push('Warm tablet-only CRUMB hero, approved photography, and CSS cache refresh validated');
 
+
+// Tablet flavor gallery regression: photographs, copy, pricing and bag actions are preserved.
+const tabletGridCSS = css.slice(css.lastIndexOf('/* CRUMB tablet-only cookie gallery repair'));
+assert.match(tabletGridCSS, /@media \(min-width: 601px\) and \(max-width: 1366px\)/);
+assert.match(tabletGridCSS, /grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
+assert.match(tabletGridCSS, /@media \(min-width: 601px\) and \(max-width: 759px\)/);
+assert.match(tabletGridCSS, /grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
+assert.match(tabletGridCSS, /background: #FFFCF7/);
+assert.match(tabletGridCSS, /-webkit-mask-image: none/);
+assert.match(tabletGridCSS, /display: none/);
+assert.match(tabletGridCSS, /position: static !important/);
+assert.match(tabletGridCSS, /border-radius: 50%/);
+assert.match(tabletGridCSS, /\\.cookie-detail \\.cookie-price/);
+assert.match(tabletGridCSS, /\\.cookie-detail p/);
+assert.match(html, /styles\\.css\\?v=20261030-crumb-tablet-product-grid-v2/);
+assert.equal(d.querySelectorAll('.cookie-grid .cookie').length, 6, 'all six flavors preserved');
+assert.equal(d.querySelectorAll('.cookie-grid .cookie [data-add]').length, 6, 'all six Add controls preserved');
+assert.equal(d.querySelectorAll('.cookie-grid .cookie .cookie-price').length, 6, 'all six prices preserved');
+results.push('Clean tablet photo-first gallery and six interactive flavor cards validated');
+
 console.log(JSON.stringify({method: 'DOM integration; dialog APIs simulated; not visual browser QA', passed: results}, null, 2));
