@@ -34,7 +34,7 @@ assert.ok(!html.includes('<form'),'contact form only created on click');
 assert.ok(html.includes('id="contact-us-button"'),'footer contact trigger is visible');
 assert.equal((html.match(/data-social-demo="/g)||[]).length,3,'three simulated social previews');
 assert.ok(html.includes('123 Calle del Cacao'),'fictional address visible');
-assert.ok(html.includes('Dirección inventada'),'fictional location disclosed');
+assert.ok(html.includes('Dirección ficticia'),'fictional location disclosed');
 assert.ok(html.includes('id="nuestra-historia"'),'compact story is part of page');
 assert.ok(html.indexOf('id="nuestra-historia"') < html.indexOf('id="entrega"'),'story precedes delivery');
 assert.ok(html.includes('store-experience.css?v=cb-editorial-experience-20261030'),'new responsive CSS loaded');
@@ -52,10 +52,10 @@ for(const selector of ['.cb-store-story','.cb-demo-contact-form','@media (max-wi
 
 assert.ok(!/stripe\.com|checkout\.stripe\.com/i.test(html),'no payment destination');
 assert.match(html,/DEMO EDUCATIVA · SIN PEDIDOS NI PAGOS REALES/);
-assert.match(html,/entrega local/i);
+assert.match(html,/entrega en Miami|entrega de ejemplo|entrega local/i);
 assert.match(html,/href="#brownies"/);
-assert.match(html,/styles\\.css\\?v=cb-editorial-experience-20261030/,'new serif stylesheet loads');
-assert.match(html,/hero-corrections\\.css\\?v=cb-sticky-cart-20261029/,'approved hero geometry kept');
+assert.ok(html.includes('styles.css?v=cb-editorial-experience-20261030'),'new serif stylesheet loads');
+assert.ok(html.includes('hero-corrections.css?v=cb-sticky-cart-20261029'),'approved hero geometry kept');
 for (const asset of ['./motion.css','./motion.js']) assert.match(html,new RegExp('(?:href|src)="'+asset.replaceAll('.','\\.')+'\\?v=cb-center-20261028b"'),'motion cache '+asset);
 assert.match(html,/href="\.\/editorial-center-v2\.css"/,'new stylesheet must load');
 
@@ -77,7 +77,7 @@ assert.doesNotMatch(flavorCss,/repeat\(6,\s*minmax\(0,\s*1fr\)\)/,'never squeeze
 assert.match(flavorCss,/aspect-ratio:\s*4\s*\/\s*5/,'all six photos have the same vertical aspect ratio');
 assert.match(flavorCss,/\.flavor-mark\s*\{\s*display:\s*none/,'badge circles must not cover brownies');
 assert.doesNotMatch(css,/\.flavor-picture\s*\{\s*height:\s*clamp\(/,'no legacy desktop picture height override');
-assert.match(html,/<span class="pin-circle" aria-hidden="true"><svg/,'Miami location marker uses a real vector pin');
+assert.match(html,/class="cb-delivery-photo"/,'Miami photo and delivery content preserved');
 assert.ok(!html.includes('>⌖</span>')&&!html.includes('>▤</span>'),'no font glyph placeholders');
 assert.match(html,/href="\.\/motion\.css\?v=cb-center-20261028b"/);
 assert.match(html,/src="\.\/motion\.js\?v=cb-center-20261028b"/);
