@@ -1704,51 +1704,48 @@ img, picture, svg { max-width:100%; }
 }
 
 
-/* CRUMB · warm editorial hero for iPads/tablets only (601–1366px).
-   Preserve the approved storefront photograph, mobile hero and desktop palette. */
+/* CRUMB · photo-only storefront hero on tablets, 601–1366px.
+   Full approved image, no split panel, text, button, gradient, or forced crop.
+   Phone and desktop keep their existing independent layouts. */
 @media (min-width: 601px) and (max-width: 1366px) {
   .hero.hero-editorial {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: auto;
+    overflow: hidden;
     background: #FAF8F3;
   }
-
   .hero.hero-editorial::after {
-    background: linear-gradient(90deg,
-      #FAF8F3 0%,
-      #FAF8F3 30%,
-      rgba(250,248,243,.98) 39%,
-      rgba(250,248,243,.86) 52%,
-      rgba(250,248,243,.18) 75%,
-      rgba(250,248,243,0) 88%);
+    content: none;
+    display: none;
+    background: none;
   }
-
   .hero.hero-editorial .hero-editorial-content {
-    color: #3E291F;
+    display: none;
   }
-  .hero.hero-editorial .hero-editorial-content h2 {
-    color: #3E291F;
+  .hero.hero-editorial picture {
+    position: relative;
+    inset: auto;
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    overflow: visible;
   }
-  .hero.hero-editorial .hero-editorial-content .hero-eyebrow,
-  .hero.hero-editorial .hero-editorial-content .hero-microcopy {
-    color: #785644;
-  }
-  .hero.hero-editorial .hero-editorial-content p {
-    color: #584236;
-  }
-
-  .hero.hero-editorial .hero-editorial-cta {
-    background: #805239;
-    border-color: #805239;
-    color: #FFFAF4;
-    box-shadow: 0 7px 22px rgba(83,49,31,.16);
-  }
-  .hero.hero-editorial .hero-editorial-cta:hover,
-  .hero.hero-editorial .hero-editorial-cta:focus-visible {
-    background: #633B2B;
-    border-color: #633B2B;
-    color: #FFFAF4;
+  .hero.hero-editorial picture img {
+    position: static;
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    object-fit: contain;
+    object-position: center center;
   }
 }
-
 
 /* CRUMB tablet-only cookie gallery repair — 2026-10-30.
    No desktop/phone changes. Product imagery, prices and Add actions are original. */
