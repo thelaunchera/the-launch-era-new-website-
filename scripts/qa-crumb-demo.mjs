@@ -104,7 +104,7 @@ const compactTitles = {
 };
 for(const [id,expected] of Object.entries(compactTitles)) assert.equal(d.getElementById(id).textContent,expected);
 assert.match(css,/Compact headings for small screens/);
-assert.match(html,/styles\.css\?v=20261030-crumb-tablet-storefront-v7/);
+assert.match(html,/styles\.css\?v=20261030-crumb-story-photo-v1/);
 results.push('Compact iPhone section titles retain correct English copy and styling');
 
 const expectedFlavors = [
@@ -142,7 +142,7 @@ assert.match(css,/scroll-snap-type:x mandatory/,'Mobile gallery enables snap car
 assert.match(css,/flex:0 0 min\(84vw,360px\)/,'Mobile photos use consistent full-card width with a small preview of the next photo');
 assert.match(css,/scroll-snap-stop:always/,'Mobile cards snap one at a time');
 assert.match(css,/object-fit:contain/,'All mobile gallery photographs fit without clipping');
-assert.ok(html.includes('styles.css?v=20261030-crumb-tablet-storefront-v7'), 'Updated CSS must bypass stale iOS browser cache');
+assert.ok(html.includes('styles.css?v=20261030-crumb-story-photo-v1'), 'Updated CSS must bypass stale iOS browser cache');
 assert.ok(html.includes('main.js?v=20261030-crumb-gallery-v2'), 'Updated carousel controller must bypass stale iOS browser cache');
 assert.equal(d.querySelectorAll('.crumb-gallery-dot').length,3,'Three accessible slide selectors');
 click('[data-crumb-slide="2"]');
@@ -158,7 +158,12 @@ assert.equal(d.querySelectorAll('.brand-glimpse-gallery img[src*="CRUMB_Inside_M
 assert.equal(d.querySelectorAll('.brand-glimpse-gallery img[src*="CRUMB_Storefront_Hero_Blue.png"]').length,0,'Do not repeat storefront in gallery');
 assert.equal(new Set([...d.querySelectorAll('.brand-glimpse-gallery img')].map(i=>i.getAttribute('src'))).size,3);
 assert.equal(d.querySelector('.gift-photo img').getAttribute('src').includes('CRUMB_03_Gift_Box_Azul.png'), true);
-assert.equal(d.querySelector('.moment-photo img').getAttribute('src').includes('CRUMB_Lifestyle_Cookie_Blue.png'), true);
+assert.equal(d.querySelector('.moment-photo img').getAttribute('src').includes('CRUMB_Our_Story_Approved_20261030.webp'), true);
+assert.equal(d.querySelector('.moment-photo img').getAttribute('width'), '1092');
+assert.equal(d.querySelector('.moment-photo img').getAttribute('height'), '1440');
+assert.ok(css.includes('/* CRUMB Our Story image — user-approved photograph, 2026-10-30 */'), 'Preserve approved story photo responsive layout');
+assert.ok(css.includes('aspect-ratio:1092 / 1440'), 'Show the complete portrait on phones');
+assert.ok(fs.statSync(path.join(root,'assets','CRUMB_Our_Story_Approved_20261030.webp')).size>100000,'Story photograph must be saved locally in repository');
 for(const name of ['hero-mobile','brand-gifts','brand-lifestyle','brand-storefront','brand-maker','brand-packaging']) {
  const p = path.join(root,'assets',name+'.webp');
  assert.ok(fs.existsSync(p) && fs.statSync(p).size > 20000, 'Missing brand image '+name);
@@ -314,7 +319,7 @@ assert.match(tabletHeroPhoto, /\.hero\.hero-editorial::after\s*\{[^}]*content:\s
 assert.match(tabletHeroPhoto, /\.hero\.hero-editorial \.hero-editorial-content\s*\{\s*display:\s*none;/);
 assert.match(tabletHeroPhoto, /\.hero\.hero-editorial picture\s*\{[^}]*position:\s*relative;[^}]*width:\s*100%;[^}]*height:\s*auto;/s);
 assert.match(tabletHeroPhoto, /\.hero\.hero-editorial picture img\s*\{[^}]*width:\s*100%;[^}]*height:\s*auto;[^}]*object-fit:\s*contain;/s);
-assert.match(html, /styles\.css\?v=20261030-crumb-tablet-storefront-v7/);
+assert.match(html, /styles\.css\?v=20261030-crumb-story-photo-v1/);
 assert.match(html, /CRUMB_Storefront_Approved_20261030\.webp/);
 assert.ok(d.querySelector('.hero-editorial-content'), 'original hero copy kept for phone/desktop');
 results.push('Tablet shows approved storefront photo alone; no blue panel, text, CTA or cropping');
@@ -333,7 +338,7 @@ assert.match(tabletGridCSS, /position: static !important/);
 assert.match(tabletGridCSS, /border-radius: 50%/);
 assert.match(tabletGridCSS, /\.cookie-detail \.cookie-price/);
 assert.match(tabletGridCSS, /\.cookie-detail p/);
-assert.match(html, /styles\.css\?v=20261030-crumb-tablet-storefront-v7/);
+assert.match(html, /styles\.css\?v=20261030-crumb-story-photo-v1/);
 assert.equal(d.querySelectorAll('.cookie-grid .cookie').length, 6, 'all six flavors preserved');
 assert.equal(d.querySelectorAll('.cookie-grid .cookie [data-add]').length, 6, 'all six Add controls preserved');
 assert.equal(d.querySelectorAll('.cookie-grid .cookie .cookie-price').length, 6, 'all six prices preserved');
