@@ -2325,3 +2325,163 @@ img, picture, svg { max-width:100%; }
   .moment-photo{display:block;width:100%;height:auto;min-height:0;aspect-ratio:1092 / 1440;overflow:hidden;}
   .moment-photo img{display:block;width:100%;height:auto;max-height:none;aspect-ratio:1092 / 1440;object-fit:contain;object-position:center;}
 }
+
+
+/* CRUMB 2026-10-30 · refined small-phone hero.
+   Storefront shown uncut above a centered ivory editorial introduction.
+   The tablet photo-only hero (601–1366px) and desktop design remain untouched. */
+@media (max-width: 600px) {
+  .hero.hero-editorial {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: auto;
+    overflow: visible;
+    background: #FAF8F3;
+    isolation: isolate;
+  }
+  .hero.hero-editorial::after {
+    content: none;
+    display: none;
+    background: none;
+  }
+  .hero.hero-editorial picture {
+    display: block;
+    position: relative;
+    inset: auto;
+    flex: none;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    overflow: hidden;
+    background: #DDE8EE;
+  }
+  .hero.hero-editorial picture img {
+    position: static;
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    object-fit: contain;
+    object-position: center;
+  }
+  .hero.hero-editorial .hero-editorial-content {
+    position: relative;
+    inset: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    max-width: 100%;
+    margin: 0;
+    padding: 30px 22px 32px;
+    text-align: center;
+    background: #FAF8F3;
+    color: #243F5C;
+  }
+  .hero.hero-editorial .hero-editorial-content h2 {
+    width: 100%;
+    max-width: 340px;
+    margin: 0 auto 12px;
+    font: 500 clamp(43px, 11vw, 55px)/.97 'Cormorant Garamond', Georgia, serif;
+    letter-spacing: -.04em;
+    color: #244767;
+    text-align: center;
+    text-wrap: balance;
+  }
+  .hero.hero-editorial .hero-editorial-content p {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto 19px;
+    color: #516778;
+    font: 400 14px/1.55 'DM Sans', Arial, sans-serif;
+    text-align: center;
+    text-wrap: pretty;
+  }
+  .hero.hero-editorial .hero-editorial-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    min-width: 0;
+    min-height: 48px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 13px 24px;
+    border: 1px solid #477BB3;
+    border-radius: 999px;
+    background: #477BB3;
+    color: #FFFFFF;
+    box-shadow: 0 4px 16px rgba(42, 89, 135, .16);
+    font: 700 12px/1.3 'DM Sans', Arial, sans-serif;
+    letter-spacing: .04em;
+    text-align: center;
+    text-decoration: none;
+  }
+  .hero.hero-editorial .hero-editorial-cta:hover,
+  .hero.hero-editorial .hero-editorial-cta:focus-visible {
+    background: #315F93;
+    border-color: #315F93;
+    color: #FFFFFF;
+  }
+  .hero.hero-editorial .hero-editorial-content .hero-microcopy {
+    display: block;
+    margin: 19px auto 0;
+    color: #59748D;
+    font: 700 9px/1.5 'DM Sans', Arial, sans-serif;
+    letter-spacing: .12em;
+    text-align: center;
+  }
+  .hero.hero-editorial + .hero-perks {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 0;
+    padding: 13px 13px 16px;
+    background: #E7F2FA;
+    border-top: 1px solid #D2E3F2;
+    border-bottom: 1px solid #D2E3F2;
+  }
+  .hero.hero-editorial + .hero-perks > span {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    gap: 6px;
+    padding: 12px 9px;
+    border: 0;
+    color: #315F93;
+    font: 600 11px/1.35 'DM Sans', Arial, sans-serif;
+    text-align: center;
+  }
+  .hero.hero-editorial + .hero-perks .hero-perk-icon {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    margin: 0 auto;
+    color: #477BB3;
+  }
+  .hero.hero-editorial + .hero-perks .hero-perk-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+@media (max-width: 360px) {
+  .hero.hero-editorial .hero-editorial-content {
+    padding: 25px 18px 29px;
+  }
+  .hero.hero-editorial .hero-editorial-content h2 {
+    font-size: 41px;
+    line-height: .98;
+  }
+}
