@@ -2684,3 +2684,29 @@ img, picture, svg { max-width:100%; }
 @media (prefers-reduced-motion:reduce){
   .cookies-section .cookie-grid .cookie-visual > .add-cookie::before {transition:none}
 }
+
+
+/* CRUMB pain-first editorial gift messaging: avoid clipping longer meaningful copy on phones. */
+@media (max-width: 600px) {
+  .gift-copy #gifting-title,
+  .final-cta #final-title {
+    white-space: normal;
+    overflow-wrap: normal;
+    text-wrap: balance;
+    max-width: min(100%, 390px);
+  }
+  .gift-copy #gifting-title {
+    font-size: clamp(27px, 7vw, 34px);
+    line-height: 1.08;
+  }
+  .final-cta #final-title {
+    font-size: clamp(29px, 7.7vw, 37px);
+    line-height: 1.1;
+  }
+  .gift-copy > .eyebrow,
+  .final-cta .eyebrow {
+    max-width: 100%;
+    white-space: normal;
+    text-wrap: balance;
+  }
+}
