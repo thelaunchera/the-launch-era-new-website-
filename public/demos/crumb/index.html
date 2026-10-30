@@ -7,7 +7,7 @@
   <meta name="description" content="CRUMB is a conceptual Miami cookie boutique. Explore six delicious flavors and build a personal gift box. Interactive demo only.">
   <meta name="robots" content="noindex,nofollow">
   <link rel="canonical" href="https://thelaunchera.com/demos/crumb/">
-  <link rel="stylesheet" href="./styles.css?v=20261030-crumb-tablet-ivory-hero-v1">
+  <link rel="stylesheet" href="./styles.css?v=20261030-crumb-gallery-carousel-v5">
   <title>CRUMB — Cookies & Gift Boxes · Miami</title>
 </head>
 <body>
@@ -103,10 +103,18 @@
         <span class="eyebrow">THE CRUMB EXPERIENCE</span>
         <h2 id="brand-glimpse-title">Inside CRUMB.</h2>
       </div>
-      <div class="brand-glimpse-gallery" aria-label="CRUMB cookie moments, bakery team and gift packaging">
+      <div class="brand-glimpse-gallery" id="crumb-gallery-track" role="region" aria-roledescription="carousel" aria-label="Inside CRUMB: three photos, swipe or choose a dot" tabindex="0">
         <figure><img src="./assets/CRUMB_Inside_Cookie_Moment_Blue.svg?v=20261030-inside-blue" alt="Three chunky CRUMB cookies on an ivory branded plate, blue tissue paper and ribbon" loading="lazy" decoding="async" width="760" height="760"><figcaption>The cookie moment</figcaption></figure>
         <figure><img src="./assets/CRUMB_Inside_Made_With_Care_Blue.svg?v=20261030-inside-blue" alt="Smiling CRUMB bakery team member in a blue-logo apron presenting freshly baked cookies in the blue boutique" loading="lazy" decoding="async" width="760" height="760"><figcaption>Made with care</figcaption></figure>
         <figure><img src="./assets/CRUMB_02_Bolsa_Azul.png?v=20261030-blue" alt="CRUMB blue-branded takeaway bag with kraft packaging and fresh cookies" loading="lazy" decoding="async" width="1122" height="1402"><figcaption>Beautifully boxed</figcaption></figure>
+      </div>
+      <div class="crumb-gallery-controls" aria-label="Gallery navigation">
+        <div class="crumb-gallery-dots" role="group" aria-label="Choose an Inside CRUMB photograph">
+          <button class="crumb-gallery-dot" type="button" data-crumb-slide="0" aria-label="Photo 1 of 3: The cookie moment" aria-current="true"></button>
+          <button class="crumb-gallery-dot" type="button" data-crumb-slide="1" aria-label="Photo 2 of 3: Made with care" aria-current="false"></button>
+          <button class="crumb-gallery-dot" type="button" data-crumb-slide="2" aria-label="Photo 3 of 3: Beautifully boxed" aria-current="false"></button>
+        </div>
+        <span class="crumb-gallery-counter" aria-live="polite">1 / 3</span>
       </div>
     </section>
     <section class="delivery-section content-width" id="delivery" aria-labelledby="delivery-title">
@@ -246,6 +254,6 @@
     <button type="button" class="button outline full" id="social-back">Back to CRUMB</button>
   </div>
 </dialog>
-<script type="module" src="./main.js?v=20261029-crumb-experience"></script>
+<script type="module" src="./main.js?v=20261030-crumb-gallery-v2"></script>
 </body>
 </html>
