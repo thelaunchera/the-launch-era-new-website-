@@ -296,4 +296,17 @@ for(const card of d.querySelectorAll('.cookie')) {
 assert.match(css,/\.cookie-visual \.cookie-flag--new/);
 results.push('Editorial hero, six striped cards, working add buttons and exactly three flavor flags validated');
 
+
+// Tablet-only palette: warm editorial hero; unchanged desktop and mobile CSS.
+const tabletHeroPalette = css.slice(css.lastIndexOf('/* CRUMB · warm editorial hero for iPads/tablets only'));
+assert.match(tabletHeroPalette, /^\/\* CRUMB · warm editorial hero for iPads\/tablets only/);
+assert.match(tabletHeroPalette, /@media \(min-width: 601px\) and \(max-width: 1366px\)/);
+assert.match(tabletHeroPalette, /\.hero\.hero-editorial\s*\{\s*background:\s*#FAF8F3;/);
+assert.match(tabletHeroPalette, /\.hero\.hero-editorial::after\s*\{\s*background:\s*linear-gradient/);
+assert.match(tabletHeroPalette, /\.hero\.hero-editorial \.hero-editorial-content h2\s*\{\s*color:\s*#3E291F;/);
+assert.match(tabletHeroPalette, /\.hero\.hero-editorial \.hero-editorial-cta\s*\{\s*background:\s*#805239;/);
+assert.ok(html.includes('styles.css?v=20261030-crumb-tablet-ivory-hero-v1'), 'new tablet CSS version loads without cached blue');
+assert.match(html, /CRUMB_Storefront_Approved_20261030\.webp/, 'approved storefront preserved');
+results.push('Warm tablet-only CRUMB hero, approved photography, and CSS cache refresh validated');
+
 console.log(JSON.stringify({method: 'DOM integration; dialog APIs simulated; not visual browser QA', passed: results}, null, 2));

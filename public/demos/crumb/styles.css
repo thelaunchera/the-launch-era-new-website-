@@ -1640,3 +1640,49 @@ img, picture, svg { max-width:100%; }
     object-fit:cover;
   }
 }
+
+
+/* CRUMB · warm editorial hero for iPads/tablets only (601–1366px).
+   Preserve the approved storefront photograph, mobile hero and desktop palette. */
+@media (min-width: 601px) and (max-width: 1366px) {
+  .hero.hero-editorial {
+    background: #FAF8F3;
+  }
+
+  .hero.hero-editorial::after {
+    background: linear-gradient(90deg,
+      #FAF8F3 0%,
+      #FAF8F3 30%,
+      rgba(250,248,243,.98) 39%,
+      rgba(250,248,243,.86) 52%,
+      rgba(250,248,243,.18) 75%,
+      rgba(250,248,243,0) 88%);
+  }
+
+  .hero.hero-editorial .hero-editorial-content {
+    color: #3E291F;
+  }
+  .hero.hero-editorial .hero-editorial-content h2 {
+    color: #3E291F;
+  }
+  .hero.hero-editorial .hero-editorial-content .hero-eyebrow,
+  .hero.hero-editorial .hero-editorial-content .hero-microcopy {
+    color: #785644;
+  }
+  .hero.hero-editorial .hero-editorial-content p {
+    color: #584236;
+  }
+
+  .hero.hero-editorial .hero-editorial-cta {
+    background: #805239;
+    border-color: #805239;
+    color: #FFFAF4;
+    box-shadow: 0 7px 22px rgba(83,49,31,.16);
+  }
+  .hero.hero-editorial .hero-editorial-cta:hover,
+  .hero.hero-editorial .hero-editorial-cta:focus-visible {
+    background: #633B2B;
+    border-color: #633B2B;
+    color: #FFFAF4;
+  }
+}
