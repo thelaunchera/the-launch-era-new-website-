@@ -2552,3 +2552,135 @@ img, picture, svg { max-width:100%; }
     border-radius: 5px;
   }
 }
+
+
+/* CRUMB v12: petite plus visual / consistent full-bleed Inside slides */
+/* Smaller visible plus, 44px tap target for all six real add buttons. */
+.cookies-section .cookie-grid .cookie-visual > .add-cookie {
+  display:grid;
+  place-items:center;
+  position:absolute;
+  isolation:isolate;
+  z-index:6;
+  top:auto;
+  left:auto;
+  right:5px;
+  bottom:5px;
+  width:44px;
+  height:44px;
+  min-width:44px;
+  min-height:44px;
+  padding:0;
+  border:0;
+  border-radius:50%;
+  background:transparent;
+  color:#fff;
+  box-shadow:none;
+  font-size:0;
+  line-height:1;
+  transition:none;
+}
+.cookies-section .cookie-grid .cookie-visual > .add-cookie::before {
+  content:"";
+  position:absolute;
+  inset:auto;
+  z-index:0;
+  width:32px;
+  height:32px;
+  box-sizing:border-box;
+  border-radius:50%;
+  border:1.5px solid #FAF8F3;
+  background:#477BB3;
+  box-shadow:0 3px 9px rgba(27,70,110,.16);
+  transition:transform .18s ease, background-color .18s ease;
+}
+.cookies-section .cookie-grid .cookie-visual > .add-cookie > span {
+  position:relative;
+  z-index:1;
+  display:block;
+  color:#fff;
+  font:400 20px/1 'DM Sans',Arial,sans-serif;
+  transform:translateY(-1px);
+}
+.cookies-section .cookie-grid .cookie-visual > .add-cookie:hover,
+.cookies-section .cookie-grid .cookie-visual > .add-cookie:active {
+  background:transparent;
+  color:#fff;
+  box-shadow:none;
+  transform:none;
+}
+.cookies-section .cookie-grid .cookie-visual > .add-cookie:hover::before {
+  transform:scale(1.07);
+  background:#315F93;
+}
+.cookies-section .cookie-grid .cookie-visual > .add-cookie:focus-visible {
+  outline:2px solid #315F93;
+  outline-offset:0;
+}
+@media (max-width:759px) {
+  .cookies-section .cookie-grid .cookie-visual > .add-cookie {
+    width:44px;
+    height:44px;
+    min-width:44px;
+    min-height:44px;
+    right:4px;
+    bottom:3px;
+  }
+  .cookies-section .cookie-grid .cookie-visual > .add-cookie::before {
+    width:30px;
+    height:30px;
+  }
+  .cookies-section .cookie-grid .cookie-visual > .add-cookie > span {
+    font-size:19px;
+  }
+}
+/* Photos 1, 2 and 3 share one true square photo viewport.
+   The last image is portrait: cover intentionally removes its sidebars. */
+.brand-glimpse .brand-glimpse-gallery > figure,
+.brand-glimpse .brand-glimpse-gallery > figure:nth-child(3) {
+  padding:0;
+  background:transparent;
+  border:0;
+  box-shadow:none;
+}
+.brand-glimpse .brand-glimpse-gallery figure img,
+.brand-glimpse .brand-glimpse-gallery figure:nth-child(3) img {
+  width:100%;
+  height:auto;
+  aspect-ratio:1 / 1;
+  display:block;
+  object-fit:cover;
+  object-position:center;
+  background:transparent;
+  border:0;
+  padding:0;
+  border-radius:8px;
+}
+@media (max-width:600px) {
+  .brand-glimpse .brand-glimpse-gallery figure img,
+  .brand-glimpse .brand-glimpse-gallery figure:nth-child(3) img {
+    width:100%;
+    height:min(84vw,360px);
+    aspect-ratio:1 / 1;
+    object-fit:cover;
+    object-position:50% 50%;
+  }
+  .brand-glimpse .brand-glimpse-gallery figure:nth-child(3) img {
+    object-position:50% 56%;
+  }
+}
+@media (min-width:601px) and (max-width:1366px) {
+  .brand-glimpse .brand-glimpse-gallery figure img,
+  .brand-glimpse .brand-glimpse-gallery figure:nth-child(3) img {
+    width:100%;
+    height:min(78vw,840px);
+    aspect-ratio:1 / 1;
+    object-fit:cover;
+  }
+  .brand-glimpse .brand-glimpse-gallery figure:nth-child(3) img {
+    object-position:50% 56%;
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  .cookies-section .cookie-grid .cookie-visual > .add-cookie::before {transition:none}
+}
