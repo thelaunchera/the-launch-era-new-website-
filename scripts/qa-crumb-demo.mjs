@@ -104,7 +104,7 @@ const compactTitles = {
 };
 for(const [id,expected] of Object.entries(compactTitles)) assert.equal(d.getElementById(id).textContent,expected);
 assert.match(css,/Compact headings for small screens/);
-assert.match(html,/styles\.css\?v=20261029-crumb-powered-footer-v3/);
+assert.match(html,/styles\.css\?v=20261030-atelier-blue-stage/);
 results.push('Compact iPhone section titles retain correct English copy and styling');
 
 const expectedFlavors = [
@@ -137,14 +137,15 @@ assert.ok(code.includes('webp?v=20261029-crumb-v7'), 'Gift builder must load the
 results.push('All six new 1024px flavors, titles and builder photos match and load from local assets');
 const heroMobileSource = d.querySelector('.hero picture source[media="(max-width: 600px)"]');
 assert.ok(heroMobileSource);
-assert.match(heroMobileSource.getAttribute('srcset'), /hero-mobile\.webp\?v=/);
+assert.match(heroMobileSource.getAttribute('srcset'), /CRUMB_Storefront_Hero_Blue\.png\?v=/);
 const photoGrid = d.querySelectorAll('.brand-glimpse-gallery figure');
 assert.equal(photoGrid.length, 3);
-assert.equal(d.querySelectorAll('.brand-glimpse-gallery img[src*="brand-packaging.webp"]').length,1);
-assert.equal(d.querySelectorAll('.brand-glimpse-gallery img[src*="brand-tasting.webp"]').length,0);
+assert.equal(d.querySelectorAll('.brand-glimpse-gallery img[src*="CRUMB_02_Bolsa_Azul.png"]').length,1);
+assert.equal(d.querySelectorAll('.brand-glimpse-gallery img[src*="brand-tasting.webp"]').length,1);
+assert.equal(d.querySelectorAll('.brand-glimpse-gallery img[src*="CRUMB_Storefront_Hero_Blue.png"]').length,0,'Do not repeat storefront in gallery');
 assert.equal(new Set([...d.querySelectorAll('.brand-glimpse-gallery img')].map(i=>i.getAttribute('src'))).size,3);
-assert.equal(d.querySelector('.gift-photo img').getAttribute('src').includes('brand-gifts.webp'), true);
-assert.equal(d.querySelector('.moment-photo img').getAttribute('src').includes('brand-lifestyle.webp'), true);
+assert.equal(d.querySelector('.gift-photo img').getAttribute('src').includes('CRUMB_03_Gift_Box_Azul.png'), true);
+assert.equal(d.querySelector('.moment-photo img').getAttribute('src').includes('CRUMB_Lifestyle_Cookie_Blue.png'), true);
 for(const name of ['hero-mobile','brand-gifts','brand-lifestyle','brand-storefront','brand-maker','brand-packaging']) {
  const p = path.join(root,'assets',name+'.webp');
  assert.ok(fs.existsSync(p) && fs.statSync(p).size > 20000, 'Missing brand image '+name);
@@ -166,8 +167,8 @@ assert.match(css, /object-position:18% 49%/);
 assert.equal(d.querySelectorAll('.ribbon-banner,.ribbon-track,video,iframe').length, 0);
 assert.equal(d.querySelectorAll('.cookie-visual > .add-cookie').length, 6);
 assert.equal(d.querySelectorAll('.cookie-visual > .add-cookie').length, d.querySelectorAll('.cookie').length);
-assert.ok(html.includes('hero.webp?v=20261029-crumb-v6'));
-assert.match(html, /hero-mobile.webp\?v=20261029-crumb-v6/);
+assert.ok(html.includes('CRUMB_Storefront_Hero_Blue.png?v=20261030-blue'));
+assert.match(html, /CRUMB_Storefront_Hero_Blue\.png\?v=20261030-blue/);
 assert.equal(d.querySelectorAll('.crumb-marquee-row').length, 2);
 assert.equal(d.querySelectorAll('.crumb-marquee-track span').length, 4);
 assert.match(css, /@keyframes crumbBannerLeft/);
@@ -251,7 +252,7 @@ assert.equal(socialDialog.open,false);
 assert.equal(d.querySelectorAll('a[href*="instagram.com"],a[href*="tiktok.com"],a[href*="maps.google.com"]').length,0);
 assert.doesNotMatch(code,/fetch\(|sendBeacon|localStorage|sessionStorage|XMLHttpRequest/i,'no contact transmission or storage');
 assert.ok(css.includes('#contact-form[hidden],.contact-feedback[hidden] { display:none!important; }'));
-assert.ok(html.includes('hero.webp?v=20261029-crumb-v6'),'approved hero remains unchanged');
+assert.ok(html.includes('CRUMB_Storefront_Hero_Blue.png?v=20261030-blue'),'approved storefront is the hero');
 results.push('Contact only opens on click, never transmits/stores data; fictional address/socials and brand story verified');
 
 
