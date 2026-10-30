@@ -226,8 +226,8 @@ socialDialog.addEventListener('click', event => { if (event.target === socialDia
 paint();
 
 
-// CRUMB editorial gallery: only the phone layout scrolls. The three images
-// stay separate, with swipe snapping and accessible dot navigation.
+// CRUMB editorial gallery: phone and tablet use one swipeable three-photo carousel.
+// Preserve unique photographs, snapping, keyboard arrows and accessible dot navigation.
 {
   const gallery = document.getElementById('crumb-gallery-track');
   const slides = gallery ? [...gallery.querySelectorAll('figure')] : [];
@@ -267,7 +267,7 @@ paint();
       });
     }, {passive:true});
     gallery.addEventListener('keydown', event => {
-      if (!window.matchMedia || !window.matchMedia('(max-width:600px)').matches) return;
+      if (!window.matchMedia || !window.matchMedia('(max-width:1366px)').matches) return;
       const next = event.key === 'ArrowRight' ? current + 1 : event.key === 'ArrowLeft' ? current - 1 : null;
       if (next === null || next < 0 || next >= slides.length) return;
       event.preventDefault();
