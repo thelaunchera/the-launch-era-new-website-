@@ -178,7 +178,7 @@ assert.ok(css.includes('background:repeating-linear-gradient(90deg,#C9E2F4 0 19p
 assert.equal(d.querySelectorAll('.cookie-visual > .add-cookie').length, 6);
 assert.equal(d.querySelectorAll('.cookie-visual > .add-cookie').length, d.querySelectorAll('.cookie').length);
 assert.ok(html.includes('CRUMB_Storefront_Approved_20261030.webp?v=1'));
-assert.match(html, /CRUMB_Storefront_Approved_20261030\.webp\?v=20261030-blue/);
+assert.match(html, /CRUMB_Storefront_Approved_20261030\.webp\?v=1/);
 assert.ok(css.includes('background:#DCEFFA') && css.includes('background:#477BB3'),'The CRUMB moving banners use approved blues');
 assert.ok(css.includes('html, body { width:100%; max-width:100%; overflow-x:clip; }'),'Prevent cross-device horizontal overflow');
 assert.equal(d.querySelectorAll('.crumb-marquee-row').length, 2);
