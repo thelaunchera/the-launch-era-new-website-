@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Caveat:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Caveat:wght@400;500;600&family=Bodoni+Moda:ital,wght@0,400;0,500;1,400;1,500&display=swap');
 
 
 
@@ -211,7 +211,7 @@ img {
 }
 .hero h1 {
   font:
-    400 clamp(44px, 5.3vw, 83px)/0.94 'DM Serif Display',
+    400 clamp(44px, 5.3vw, 83px)/0.94 'Bodoni Moda',
     Georgia,
     serif;
   letter-spacing: -0.06em;
@@ -221,8 +221,9 @@ img {
 .hero h1 .love {
   display: block;
   font:
-    500 clamp(55px, 6.3vw, 100px)/0.8 'Caveat',
-    cursive;
+    italic 400 clamp(55px, 6.3vw, 100px)/0.8 'Bodoni Moda',
+    Georgia,
+    serif;
   letter-spacing: -0.045em;
   margin-top: 10px;
   transform: rotate(-3deg);
