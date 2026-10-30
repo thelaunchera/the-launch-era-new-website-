@@ -193,8 +193,8 @@ assert.ok(css.includes('grid-template-columns:repeat(4,minmax(0,1fr))'),'Four ed
 assert.ok(css.includes('background:repeating-linear-gradient(90deg,#C9E2F4 0 19px,#FFF5CE 19px 38px)'),'Approved blue/cream stripes');
 assert.ok(css.includes('CRUMB v12: petite plus visual / consistent full-bleed Inside slides'), 'Newest petite-plus/gallery CSS is applied');
 assert.match(css,/min-width:44px/,'Every add button keeps an accessible 44px tap target');
-assert.match(css,/\.add-cookie::before[\\s\\S]*?width:32px/,'The plus has a petite visible blue circle');
-assert.match(css,/\.add-cookie::before[\\s\\S]*?width:30px/,'Mobile plus has a 30px visible circle');
+assert.match(css,/\.add-cookie::before[\s\S]*?width:32px/,'The plus has a petite visible blue circle');
+assert.match(css,/\.add-cookie::before[\s\S]*?width:30px/,'Mobile plus has a 30px visible circle');
 assert.match(css,/\.brand-glimpse \.brand-glimpse-gallery figure img,[\s\S]*?height:min\(84vw,360px\)/,'All three mobile gallery photos share square height');
 assert.match(css,/\.brand-glimpse \.brand-glimpse-gallery figure:nth-child\(3\) img \{[\s\S]*?object-position:50% 56%/,'Third portrait packaging photo is intentionally cropped with no sidebars');
 assert.equal(d.querySelectorAll('.cookie-visual > .add-cookie').length, 6);
