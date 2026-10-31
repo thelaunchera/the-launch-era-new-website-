@@ -2,7 +2,7 @@
 - Same `/demos/crumb/` and in-memory builder: six flavors, existing USD prices, 3/6/12 capacities, packaging and gift note preserved. No customer data, orders, payments or messages.
 - Existing flavor rows become a blue glass display case; cancellable decorative tongs transfer the selected photo into the live tray. State updates immediately. Full box closes with a branded lid; Open your box reopens it without clearing selections. Removing/changing size or packaging resets motion. Closing the dialog cancels pending closure. Reduced-motion skips transfer.
 - Files: `public/demos/crumb/{index.html,main.js,vitrine.css}`, versioned new CSS and JS. Other demos and shared site untouched.
-- Verification: existing CRUMB integration and added motion lifecycle/cancellation checks passed; static 673/673 links, auth recovery and 21 client-release checks passed. Browser preview/deployment verification pending at preparation time.
+- Verification: existing CRUMB integration and added motion lifecycle/cancellation checks passed; static 673/673 links, auth recovery and 21 client-release checks passed. PR #387 merged as a111f5a6; Pages deployment 41189549525 succeeded. Live versioned HTML/CSS verified. Cloud browser at 1349px confirmed all six photos, decorative tongs transfer, mixed 3-cookie $13.50 total, branded lid closure and reopen preserving selections. Other viewport/device visual checks remain unverified.
 
 ## 2026-10-29 — CRUMB cookie-shop demo migrated from AppDeploy
 - **Source:** `public/demos/crumb/{index.html,styles.css,main.js,assets/*}` in the active website repository. Route `/demos/crumb/`; AppDeploy `crumb-cookies-animated-demo-w1fcop` retained only as the original prototype.
