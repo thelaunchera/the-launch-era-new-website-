@@ -220,3 +220,20 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   .ticker-bottle{flex-basis:46px;width:46px;height:57px;max-height:57px}
 }
 @media(prefers-reduced-motion:reduce){.ticker-track{animation:none!important}}
+
+/* AFTR. marquee v5: actual image assets, not inline SVG or sprite; reliable on iOS */
+.ticker{position:relative;height:64px;display:flex;align-items:center;overflow:hidden;background:#9a6aff;color:#130d1c}
+.ticker .ticker-track{display:flex;align-items:center;height:100%;gap:0;width:max-content;min-width:max-content;animation:marquee 34s linear infinite}
+.ticker .ticker-loop{display:flex;flex:0 0 auto;align-items:center;gap:20px;padding-right:20px;height:100%;white-space:nowrap}
+.ticker .ticker-word{font:800 19px/1 var(--display);letter-spacing:.075em;white-space:nowrap}
+.ticker img.ticker-art{display:block!important;position:static!important;flex:0 0 49px!important;width:49px!important;height:54px!important;max-width:49px!important;max-height:54px!important;object-fit:contain!important;object-position:center!important;filter:none!important;transform:none!important}
+.ticker img.ticker-champagne{flex-basis:37px!important;width:37px!important;max-width:37px!important}
+@media(max-width:740px){
+ .ticker{height:66px}
+ .ticker .ticker-track{animation-duration:32s}
+ .ticker .ticker-loop{gap:15px;padding-right:15px}
+ .ticker .ticker-word{font-size:17px;letter-spacing:.062em}
+ .ticker img.ticker-art{flex-basis:52px!important;width:52px!important;max-width:52px!important;height:56px!important;max-height:56px!important}
+ .ticker img.ticker-champagne{flex-basis:40px!important;width:40px!important;max-width:40px!important}
+}
+@media(prefers-reduced-motion:reduce){.ticker .ticker-track{animation:none!important}}
