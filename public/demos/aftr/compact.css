@@ -159,3 +159,30 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .ticket-done{display:block;border:0;background:none;color:#c7b7ed;text-align:center;margin:14px auto 0;font-size:11px;letter-spacing:.14em;padding:12px}
 @media(max-width:740px){.modal-panel.ticket-modal-panel{width:min(96vw,580px);padding:22px 18px;max-height:91svh}.modal-panel .tickets-title{font-size:clamp(54px,13vw,74px);margin:15px 0 5px}.tickets-label{margin:14px 0 8px}.ticket-tier{min-height:60px;padding:9px 10px}.ticket-summary{margin-top:12px;padding-top:12px}.ticket-preview{margin-top:13px}.tickets-intro{margin-bottom:15px}.ticket-disclaimer{margin-bottom:4px!important}}
 @media(prefers-reduced-motion:reduce){.ticket-tier{transition:none}}
+
+
+/* Approved AFTR. photography · 2026-10-31 · retain original files as backups */
+.hero-image{
+  background-image:url("assets/hero-20261031.webp");
+  background-size:cover;
+  background-position:center 52%;
+}
+.event-feature-photo{
+  background-color:#130b1b;
+  background-image:
+    linear-gradient(90deg,rgba(7,5,13,.95) 0%,rgba(7,5,13,.7) 43%,rgba(7,5,13,.04) 90%),
+    url("assets/dj-20261031.webp");
+  background-repeat:no-repeat;
+  background-size:cover,auto 118%;
+  background-position:center,right center;
+}
+@media(max-width:740px){
+  .hero-image{background-position:50% 50%}
+  .event-feature-photo{
+    background-image:
+      linear-gradient(90deg,rgba(7,5,13,.85) 0%,rgba(7,5,13,.36) 53%,rgba(7,5,13,.02) 100%),
+      url("assets/dj-20261031.webp");
+    background-size:cover,auto 113%;
+    background-position:center,right center;
+  }
+}
