@@ -130,3 +130,10 @@
  :is(.box-dialog,.builder-surface) .live-box-heading .eyebrow { display:none; }
  #note-preview-slot .gift-card { margin:22px auto; width:90%; }
 }
+/* Keep the modal exit reachable at the end of a long gift preview. */
+.builder-section { width:min(1200px,calc(100% - 48px)); margin-inline:auto; }
+.box-dialog .builder-surface .modal-heading { position:sticky; top:0; z-index:10; }
+@media(max-width:700px) {
+ .builder-section { width:calc(100% - 24px); }
+ .box-dialog .builder-flavor-layout .live-box-panel { top:140px; }
+}
