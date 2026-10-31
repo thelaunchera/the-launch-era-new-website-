@@ -1,3 +1,9 @@
+## 2026-10-31 — CRUMB interactive cookie counter
+- Same `/demos/crumb/` and in-memory builder: six flavors, existing USD prices, 3/6/12 capacities, packaging and gift note preserved. No customer data, orders, payments or messages.
+- Existing flavor rows become a blue glass display case; cancellable decorative tongs transfer the selected photo into the live tray. State updates immediately. Full box closes with a branded lid; Open your box reopens it without clearing selections. Removing/changing size or packaging resets motion. Closing the dialog cancels pending closure. Reduced-motion skips transfer.
+- Files: `public/demos/crumb/{index.html,main.js,vitrine.css}`, versioned new CSS and JS. Other demos and shared site untouched.
+- Verification: existing CRUMB integration and added motion lifecycle/cancellation checks passed; static 673/673 links, auth recovery and 21 client-release checks passed. Browser preview/deployment verification pending at preparation time.
+
 ## 2026-10-29 — CRUMB ownership and editing moved into the demos repository
 - **Reported:** owner rejected the satin ribbon and requested the premium cookie storefront redesign be moved to the existing demos repository for continued editing.
 - **Confirmed:** redone source compiled and DOM logic checks passed, but AppDeploy daily deployment credits blocked publication. The public AppDeploy prototype still contained the old ribbon and photos.
