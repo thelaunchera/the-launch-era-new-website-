@@ -1,0 +1,133 @@
+/* AFTR. / Chrome Afterglow — shorter editorial scroll, all experiences retained. */
+:root { --lime:var(--violet); }
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible {outline-color:var(--violet);}
+.btn {min-height:44px;padding:12px 19px;gap:12px;}
+.btn-solid:hover {background:#bca2ff;color:#0b0911;}
+.live-dot {background:var(--violet);box-shadow:0 0 12px rgba(154,106,255,.75);}
+.site-header {height:76px;}
+.mobile-nav {top:76px;}
+.hero {height:clamp(560px,77svh,745px);min-height:560px;}
+.hero-topline {top:104px;}
+.hero-content {top:52%;max-width:770px;}
+.hero h1 {font-size:clamp(82px,9.8vw,155px);margin:15px 0 18px;}
+.hero-content>p {margin-bottom:23px;}
+.hero-bottom {bottom:20px;}
+.ticker {height:35px;}
+.ticker-track {font-size:17px;gap:31px;}
+.ticker-star {font-size:22px;line-height:1;}
+.section {padding:72px clamp(20px,5vw,82px);}
+.section-heading {gap:35px;margin-bottom:28px;}
+.section h2 {font-size:clamp(62px,7.7vw,115px);margin-top:12px;}
+.section-heading p {line-height:1.6;margin-bottom:2px;}
+.event-feature {height:455px;}
+.event-feature-content {padding:31px clamp(24px,3.5vw,52px);}
+.event-feature h3 {font-size:clamp(79px,10vw,140px);margin:12px 0;}
+.event-feature p {margin-bottom:18px;}
+.event-feature-index {right:34px;bottom:27px;}
+.lineup-heading {margin:54px 0 12px;}
+.lineup-heading h2 {font-size:clamp(67px,7.8vw,110px);}
+.lineup-item {padding:17px 0;}
+.lineup-item:hover {padding-left:9px;}
+.lineup-date strong {font-size:37px;}
+.lineup-title {font-size:clamp(30px,3.5vw,49px);}
+.lineup-icon {font-family:var(--body);font-size:10px;letter-spacing:.14em;font-weight:700;color:var(--silver);}
+.experience-section {height:475px;}
+.experience-copy {padding-left:clamp(24px,8vw,130px);}
+.experience-section h2 {font-size:clamp(80px,9vw,127px);margin:21px 0;}
+.experience-copy p {line-height:1.6;margin-bottom:20px;}
+.vip-section {padding-top:76px;padding-bottom:76px;}
+.vip-grid {gap:clamp(32px,5vw,82px);}
+.vip-image {height:470px;}
+.vip-info h2 {font-size:clamp(78px,7.5vw,118px);margin:18px 0 22px;}
+.vip-info>p {line-height:1.65;}
+.vip-benefits {margin:22px 0;}
+.vip-benefits span {padding:11px 0;}
+.offer-grid {gap:12px;}
+.offer-card {height:420px;}
+.offer-content {bottom:23px;left:24px;right:19px;}
+.offer-content h3 {font-size:clamp(47px,4.8vw,70px);margin:15px 0 19px;}
+.text-link {padding:9px 0;}
+.text-link span {margin-left:0;}
+.big-statement {height:440px;}
+.big-statement h2 {font-size:clamp(79px,11vw,153px);margin:16px 0 26px;}
+.footer {padding:49px clamp(20px,5vw,82px) 24px;}
+.footer-top {padding-bottom:44px;gap:44px;}
+.footer-logo {font-size:clamp(100px,13vw,175px);}
+.footer-links {gap:clamp(25px,4vw,75px);}
+.footer-links>div {gap:12px;}
+.footer-links div>span {margin-bottom:8px;}
+.option-list .select-mark {font:700 10px var(--body);letter-spacing:.15em;color:var(--violet);}
+@media(max-width:1100px){
+  .section {padding:62px 30px;}
+  .vip-grid {gap:36px;}
+  .vip-image {height:430px;}
+  .vip-info h2 {font-size:clamp(70px,8vw,105px);}
+  .offer-card {height:375px;}
+  .offer-content h3 {font-size:clamp(42px,5vw,64px);}
+  .footer-top {gap:25px;padding-bottom:38px;}
+}
+@media(max-width:740px){
+  .site-header {height:69px;}
+  .mobile-nav {top:69px;}
+  .hero {height:min(680px,82svh);min-height:540px;max-height:680px;}
+  .hero-topline {top:92px;}
+  .hero-content {left:20px;right:18px;top:51%;transform:translateY(-29%);}
+  .hero h1 {font-size:clamp(70px,17.2vw,111px);margin:13px 0 15px;}
+  .hero-content>p {margin-bottom:17px;}
+  .hero-cta {gap:9px;}
+  .hero-cta .btn {min-height:43px;padding:12px 14px;}
+  .hero-bottom {bottom:17px;}
+  .ticker {height:31px;}
+  .ticker-track {font-size:15px;gap:24px;}
+  .section {padding:50px 18px;}
+  .section-heading {margin-bottom:22px;}
+  .section h2 {font-size:clamp(59px,13vw,89px);margin-top:10px;}
+  .section-heading p {font-size:12px;line-height:1.55;margin-top:12px;max-width:345px;}
+  .event-feature {height:380px;}
+  .event-feature-content {padding:21px 19px;}
+  .event-feature h3 {font-size:clamp(78px,15.5vw,110px);margin:12px 0;}
+  .event-feature p {margin-bottom:14px;}
+  .event-feature .btn {min-height:43px;}
+  .event-feature-index {bottom:17px;right:16px;}
+  .lineup-heading {margin:43px 0 10px;}
+  .lineup-heading h2 {font-size:clamp(62px,13.5vw,88px);}
+  .lineup-item {padding:16px 0;grid-template-columns:20% 66% 14%;}
+  .lineup-date strong {font-size:30px;}
+  .lineup-title {font-size:clamp(26px,6.7vw,37px);}
+  .lineup-icon {font-size:9px;text-align:right;}
+  .experience-section {height:435px;}
+  .experience-copy {padding:0 20px;}
+  .experience-section h2 {font-size:clamp(78px,16vw,115px);margin:17px 0;}
+  .experience-copy p {margin-bottom:16px;line-height:1.55;font-size:12px;}
+  .vip-section {padding-top:50px;padding-bottom:50px;}
+  .vip-grid {gap:26px;}
+  .vip-image {height:345px;}
+  .vip-info h2 {font-size:clamp(76px,15.5vw,111px);margin:16px 0;}
+  .vip-info>p {line-height:1.55;font-size:13px;}
+  .vip-benefits {margin:16px 0;}
+  .vip-benefits span {padding:9px 0;}
+  .offers-section {overflow:hidden;}
+  .offer-grid {display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;margin-right:-18px;padding:0 18px 7px 0;}
+  .offer-grid::-webkit-scrollbar {display:none;}
+  .offer-card {flex:0 0 min(79vw,340px);height:365px;scroll-snap-align:start;}
+  .offer-content {left:20px;bottom:21px;}
+  .offer-content h3 {font-size:clamp(57px,13vw,76px);margin:13px 0 16px;}
+  .big-statement {height:335px;}
+  .big-statement h2 {font-size:clamp(68px,14vw,105px);margin:12px 0 21px;}
+  .big-statement-copy>div {gap:8px;}
+  .big-statement .btn {min-height:42px;font-size:9px;padding:10px 13px;}
+  .footer {padding:45px 20px 23px;}
+  .footer-top {gap:16px;padding-bottom:30px;}
+  .footer-logo {font-size:115px;}
+  .footer-links {gap:24px 13px;}
+  .footer-links>div {gap:9px;}
+  .footer-links div>span {margin-bottom:5px;}
+  .footer-bottom {gap:8px;}
+  .modal-panel,.age-panel {padding:28px 22px;}
+}
+@media(max-width:390px){
+  .hero h1 {font-size:68px;}
+  .event-feature h3 {font-size:77px;}
+  .offer-card {flex-basis:83vw;}
+  .footer-logo {font-size:100px;}
+}
