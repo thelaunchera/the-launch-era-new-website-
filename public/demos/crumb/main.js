@@ -12,10 +12,34 @@ const formatPrice = cents => '$' + (cents / 100).toFixed(2);
 const ids = products.map(p => p.id);
 const qty = Object.fromEntries(ids.map(id => [id, 0]));
 let toastTimer;
-const photoFor = id => './assets/' + id + '.webp?v=20261029-crumb-v7';
+const photoFor = id => './assets/' + id + '-cutout-v1.webp?v=20261031-real-v1';
 const $ = id => document.getElementById(id);
 const dialog = $('box-dialog');
 const deliveryDialog = $('delivery-dialog');
+const builderContent = $('builder-content');
+const builderHome = $('builder-home');
+function returnBuilderHome() {
+  resetBoxMotion();
+  builderHome.appendChild(builderContent);
+  builderHome.style.minHeight = '';
+}
+function closeBuilder() {
+  dialog.close();
+  returnBuilderHome();
+}
+const noteViewport = window.matchMedia ? window.matchMedia('(max-width:700px)') : null;
+function positionGiftCard() {
+  const card = $('gift-card');
+  if (noteViewport && noteViewport.matches) $('note-preview-slot').appendChild(card);
+  else $('reopen-box').before(card);
+}
+if (noteViewport && noteViewport.addEventListener) noteViewport.addEventListener('change', positionGiftCard);
+function renderGiftCard() {
+  const note = $('gift-note').value.trim();
+  $('gift-card-message').textContent = note || 'A little something to brighten your day.';
+  $('gift-card').classList.toggle('has-note', Boolean(note));
+}
+
 let size = 3;
 let wrapping = 'Ivory Signature';
 const total = () => Object.values(qty).reduce((a, b) => a + b, 0);
@@ -57,12 +81,11 @@ function resetBoxMotion() {
   $('reopen-box').hidden = true;
 }
 function closeFullBox() {
-  if (total() !== size || !dialog.open) return;
+  if (total() !== size) return;
   $('live-box-shell').classList.add('is-closed');
   $('reopen-box').hidden = false;
 }
 function transferCookie(id, source) {
-  if (!dialog.open) return;
   const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const slots = [...document.querySelectorAll('#box-tray [data-flavor="' + id + '"]')];
   const target = slots[slots.length - 1];
@@ -73,6 +96,8 @@ function transferCookie(id, source) {
   if (!origin || !target || reduced || !target.animate) { finish(); return; }
   const a = origin.querySelector('img').getBoundingClientRect();
   const b = target.getBoundingClientRect();
+  // Never fly a cookie out of sight on a scrolled phone or into a hidden surface.
+  if (a.width === 0 || b.width === 0 || b.bottom < 0 || b.top > window.innerHeight || a.bottom < 0 || a.top > window.innerHeight) { finish(); return; }
   const stage = document.createElement('div');
   stage.className = 'cookie-transfer';
   stage.setAttribute('aria-hidden', 'true');
@@ -85,7 +110,7 @@ function transferCookie(id, source) {
   tongs.innerHTML = '<path d="M35 123L25 24Q25 5 42 5Q59 5 59 24L69 123" fill="none" stroke="#626c73" stroke-width="9" stroke-linecap="round"/><path d="M35 116l-9 18m43-18 9 18" stroke="#b3bec5" stroke-width="13" stroke-linecap="round"/>';
   stage.appendChild(tongs);
   Object.assign(stage.style,{left:a.left+'px',top:a.top+'px',width:a.width+'px',height:a.height+'px'});
-  dialog.appendChild(stage);
+  (dialog.open ? dialog : document.body).appendChild(stage);
   target.classList.add('arriving');
   const dx = b.left + b.width/2 - a.left - a.width/2;
   const dy = b.top + b.height/2 - a.top - a.height/2;
@@ -101,7 +126,8 @@ function transferCookie(id, source) {
   }).catch(() => { stage.remove(); target.classList.remove('arriving'); });
 }
 $('reopen-box').addEventListener('click', resetBoxMotion);
-dialog.addEventListener('close', resetBoxMotion);
+dialog.addEventListener('close', () => { if (!dialog.open) returnBuilderHome(); });
+window.addEventListener('scroll', () => { if (transferAnimation) resetBoxMotion(); }, {passive:true});
 
 function showAddedFeedback(id) {
   const toast = $('bag-feedback');
@@ -140,7 +166,12 @@ function paint() {
 
 function openDialog() {
   $('preview').hidden = true;
-  if (!dialog.open) dialog.showModal();
+  if (!dialog.open) {
+    resetBoxMotion();
+    builderHome.style.minHeight = builderHome.getBoundingClientRect().height + 'px';
+    dialog.appendChild(builderContent);
+    dialog.showModal();
+  }
 }
 function add(id, source) {
   if (total() >= size) {
@@ -184,9 +215,9 @@ document.querySelectorAll('[data-wrap]').forEach(button => button.addEventListen
 }));
 $('open-builder').addEventListener('click', openDialog);
 document.querySelectorAll('[data-open-builder]').forEach(button => button.addEventListener('click', openDialog));
-$('close-builder').addEventListener('click', () => dialog.close());
-dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
-$('gift-note').addEventListener('input', () => { $('preview').hidden = true; });
+$('close-builder').addEventListener('click', closeBuilder);
+dialog.addEventListener('click', event => { if (event.target === dialog) closeBuilder(); });
+$('gift-note').addEventListener('input', () => { $('preview').hidden = true; renderGiftCard(); });
 $('preview-button').addEventListener('click', () => {
   if (total() !== size) {
     $('status-text').textContent = 'Add ' + (size - total()) + ' more cookie' + (size - total() === 1 ? '' : 's') + ' to preview your box.';
@@ -196,8 +227,17 @@ $('preview-button').addEventListener('click', () => {
   closeFullBox();
   const target = $('preview');
   target.replaceChildren();
+  const reveal = document.createElement('div');
+  reveal.className = 'gift-reveal';
+  reveal.dataset.wrap = wrapping;
+  const brand = document.createElement('span');
+  brand.textContent = 'crumb.';
+  const ready = document.createElement('small');
+  ready.textContent = 'YOUR BOX IS READY';
+  reveal.append(brand, ready);
+  target.appendChild(reveal);
   const title = document.createElement('h3');
-  title.textContent = 'Your gift box';
+  title.textContent = 'Good things, beautifully boxed.';
   target.appendChild(title);
   const photos = document.createElement('div');
   photos.className = 'preview-photos';
@@ -227,7 +267,7 @@ $('preview-button').addEventListener('click', () => {
     target.appendChild(message);
   }
   target.hidden = false;
-  target.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  target.scrollIntoView({ block: 'nearest', behavior: window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
 });
 $('open-delivery').addEventListener('click', () => deliveryDialog.showModal());
 $('close-delivery').addEventListener('click', () => deliveryDialog.close());
@@ -290,6 +330,8 @@ $('close-social').addEventListener('click', () => socialDialog.close());
 $('social-back').addEventListener('click', () => socialDialog.close());
 socialDialog.addEventListener('click', event => { if (event.target === socialDialog) socialDialog.close(); });
 paint();
+renderGiftCard();
+positionGiftCard();
 
 
 // CRUMB editorial gallery: phone and tablet use one swipeable three-photo carousel.
