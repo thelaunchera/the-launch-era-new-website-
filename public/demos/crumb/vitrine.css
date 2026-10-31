@@ -39,10 +39,10 @@
 .cookie-transfer>img { width:100%; height:100%; object-fit:cover; border-radius:50%; box-shadow:0 8px 14px #263f4e30; }
 .cookie-transfer>svg { position:absolute; width:85%; height:145%; left:9%; top:-104%; filter:drop-shadow(1px 2px 1px #0003); }
 @media(max-width:700px) {
- :is(.box-dialog,.builder-surface) { width:calc(100vw - 12px); max-height:95dvh; border-radius:15px; }
+ .box-dialog { width:calc(100vw - 12px); max-height:95dvh; border-radius:15px; }
  :is(.box-dialog,.builder-surface) .modal-body { padding:18px 14px 24px; }
  :is(.box-dialog,.builder-surface) .builder-flavor-layout { display:flex; flex-direction:column; gap:20px; }
- :is(.box-dialog,.builder-surface) .builder-flavor-layout .live-box-panel { order:0; align-self:stretch; position:sticky; bottom:0; top:auto; z-index:3; padding:12px; box-shadow:0 -5px 20px #25485b13; }
+ :is(.box-dialog,.builder-surface) .builder-flavor-layout .live-box-panel { order:0; align-self:stretch; position:relative; bottom:auto; top:auto; z-index:auto; padding:12px; box-shadow:0 -5px 20px #25485b13; }
  :is(.box-dialog,.builder-surface) .live-box-heading { margin-bottom:10px; gap:3px; }
  :is(.box-dialog,.builder-surface) .live-box-heading .eyebrow { display:none; }
  :is(.box-dialog,.builder-surface) .live-box-shell { max-width:210px; padding:7px; }
@@ -60,9 +60,10 @@
  .cookie-transfer { display:none; }
 }
 
-/* One live builder: on the page, or moved into the Bag dialog. */
+/* One live builder: on the page, or moved into the Bag dialog.
+   Only the dialog has a viewport height cap. Inline content must grow in normal flow. */
 .builder-section { scroll-margin-top:100px; padding-top:28px; padding-bottom:88px; }
-.builder-surface { width:100%; color:#191919; background:#faf8f3; border:1px solid #c2d5e1; border-radius:20px; }
+.builder-surface { display:flow-root; position:relative; height:auto; min-height:0; max-height:none; width:100%; color:#191919; background:#faf8f3; border:1px solid #c2d5e1; border-radius:20px; }
 .builder-section .builder-surface { box-shadow:0 18px 56px #294e6810; }
 .builder-surface .modal-heading { border-radius:20px 20px 0 0; position:relative; }
 .builder-section #close-builder { display:none; }
@@ -123,8 +124,8 @@
 .builder-section .live-box-panel { top:100px; }
 #note-preview-slot:empty { display:none; }
 @media(max-width:700px) {
- :is(.box-dialog,.builder-surface) .builder-flavor-layout .live-box-panel { order:-1; position:sticky; top:78px; bottom:auto; z-index:4; padding:12px; box-shadow:0 5px 15px #294e6812; }
- .box-dialog .builder-flavor-layout .live-box-panel { top:0; }
+ :is(.box-dialog,.builder-surface) .builder-flavor-layout .live-box-panel { order:0; position:relative; top:auto; bottom:auto; z-index:auto; padding:12px; box-shadow:none; }
+
  :is(.box-dialog,.builder-surface) .live-box-shell { max-width:210px; padding:8px; }
  :is(.box-dialog,.builder-surface) .live-box-heading { margin-bottom:12px; }
  :is(.box-dialog,.builder-surface) .live-box-heading .eyebrow { display:none; }
@@ -135,5 +136,5 @@
 .box-dialog .builder-surface .modal-heading { position:sticky; top:0; z-index:10; }
 @media(max-width:700px) {
  .builder-section { width:calc(100% - 24px); }
- .box-dialog .builder-flavor-layout .live-box-panel { top:140px; }
+
 }
