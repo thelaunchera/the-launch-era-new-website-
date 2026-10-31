@@ -1,7 +1,7 @@
 /* Owner-only Sales tools shortcuts in the existing header and sidebar. */
-(()=>{'use strict';let headerButton,sidebarLink;
+(()=>{'use strict';let headerButton,sidebarLink,productsLink;
  function spanish(){try{return localStorage.getItem('tle_crm_owner_language')==='es'}catch{return false}}
- function remove(){headerButton?.remove();sidebarLink?.remove();headerButton=null;sidebarLink=null}
+ function remove(){headerButton?.remove();sidebarLink?.remove();productsLink?.remove();headerButton=null;sidebarLink=null;productsLink=null}
  function sync(){const owner=window.TLEOwnerJessyGateway?.ready?.()===true;
   if(!owner){remove();return}
   const es=spanish();
@@ -17,6 +17,13 @@
     sidebarLink.innerHTML='<span aria-hidden="true">◇</span> <span></span>';sidebar.insertBefore(sidebarLink,before?.parentElement===sidebar?before:null)}
   }
   if(sidebarLink?.isConnected){sidebarLink.querySelector('span:last-child').textContent=es?'Herramientas de ventas':'Sales tools';sidebarLink.setAttribute('aria-label',es?'Herramientas de ventas · Demo de Clara':'Sales tools · Clara demo')}
+  if(!productsLink?.isConnected&&sidebarLink?.parentElement){
+    productsLink=document.createElement('a');productsLink.id='ownerSalesProductsNav';productsLink.className='nav-link';
+    productsLink.href='./sales-tools.html#products';productsLink.style.textDecoration='none';
+    productsLink.innerHTML='<span aria-hidden="true">▦</span> <span></span>';
+    sidebarLink.after(productsLink);
+  }
+  if(productsLink?.isConnected){productsLink.querySelector('span:last-child').textContent=es?'Productos y pagos':'Products & checkouts';productsLink.setAttribute('aria-label',es?'Abrir el inventario de productos y checkouts':'Open product and checkout inventory');}
  }
  new MutationObserver(sync).observe(document.body,{attributes:true,subtree:true,attributeFilter:['class']});
  document.addEventListener('tle-crm-language',()=>{remove();sync()});window.addEventListener('tle-crm-ready',sync);sync();
