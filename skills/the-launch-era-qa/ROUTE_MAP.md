@@ -957,3 +957,9 @@ On `/lead-private-preview.html` sample only, `tle-demo-enhancements-v12.js` owns
 ## 2026-10-28 — CB Depot reminder email identity
 - Production Supabase `bowacxhmjvrqixtwaikv` → `tle-service-care-worker` → `makeShell` owns service reminder/aftercare email headers. CB Depot keeps its approved `panda-original-mark.svg`, now displayed larger on its own dark navy tile to protect contrast if Gmail lightens the surrounding header.
 - The original client branding row, sender, recipients, legal links, schedule, tokens and idempotency remain unchanged. No website route or booking destination changed. Gmail/iPhone visual verification remains pending; no live test email was authorized or sent.
+
+## 2026-10-31 — CRUMB realistic inline gift builder
+- Existing `/demos/crumb/` adds `#build-box` directly after the cookie catalog. One `#builder-content` is physically moved between `#builder-home` and `#box-dialog`; Bag and all old builder CTAs retain the same in-memory selection. Closing restores the page builder. No duplicate IDs/state, customer records, network writes, payments or orders.
+- Six separate imagegen background extractions preserve the original flavor reference photos; new `assets/*-cutout-v1.webp` retain alpha, 480px, 66–84 KB each. Catalog photos remain original. Tongs, tray and preview consume the cutouts.
+- Box uses textured tissue, depth/shadows and wrapper-specific lid. Gift note renders via textContent on a live card; phone positions card next to the note field. Completion shows wrapper-specific packaging, flavors and sample total. Reduced motion remains supported.
+- Validation: existing CRUMB/route/recovery/client guards and added inline/modal state, literal note, asset and mobile-note checks pass. Live publication/browser acceptance pending at preparation time.

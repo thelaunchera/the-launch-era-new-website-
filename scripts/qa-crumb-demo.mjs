@@ -46,7 +46,7 @@ assert.match(preview.textContent, /3 × Classic Chocolate Chip · \$3\.50 each �
 assert.match(preview.textContent, /Happy birthday <script>unsafe<\/script>/);
 assert.equal(preview.querySelector('script'), null);
 assert.equal(preview.querySelectorAll('img').length, 1);
-assert.match(preview.querySelector('img').getAttribute('src'), /classic\.webp\?v=/);
+assert.match(preview.querySelector('img').getAttribute('src'), /classic-cutout-v1\.webp\?v=/);
 results.push('Preview shows quantities, selected photos, packaging and safely rendered gift message');
 for(let i=0;i<5;i++)click('[data-minus="classic"]');
 assert.equal(count(), 0);
@@ -131,9 +131,9 @@ for(const [id,flavor] of expectedFlavors) {
   assert.equal(builder.closest('.flavor-row').querySelector('strong').textContent,flavor);
 }
 assert.equal(d.querySelectorAll('.cookie img[src*="20261029-crumb-v7"]').length,6);
-assert.equal(d.querySelectorAll('.flavor-row img[src*="20261029-crumb-v7"]').length,6);
+assert.equal(d.querySelectorAll('.flavor-row img[src*="cutout-v1.webp"]').length,6);
 assert.doesNotMatch(d.querySelector('#cookies').textContent,/White Chocolate Macadamia|Cookies & Cream|Cinnamon Sugar/);
-assert.ok(code.includes('webp?v=20261029-crumb-v7'), 'Gift builder must load the same new photos');
+assert.ok(code.includes('-cutout-v1.webp?v=20261031-real-v1'), 'Gift builder must load the same new photos');
 results.push('All six new 1024px flavors, titles and builder photos match and load from local assets');
 const heroMobileSource = d.querySelector('.hero picture source[media="(max-width: 600px)"]');
 assert.ok(heroMobileSource);
@@ -143,7 +143,7 @@ assert.match(css,/flex:0 0 min\(84vw,360px\)/,'Mobile photos use consistent full
 assert.match(css,/scroll-snap-stop:always/,'Mobile cards snap one at a time');
 assert.match(css,/object-fit:contain/,'All mobile gallery photographs fit without clipping');
 assert.ok(html.includes('styles.css?v=20261030-crumb-pain-first-gifts-v13'), 'Updated CSS must bypass stale iOS browser cache');
-assert.ok(html.includes('main.js?v=20261031-vitrine-v1'), 'Updated carousel controller must bypass stale iOS browser cache');
+assert.ok(html.includes('main.js?v=20261031-real-v2'), 'Updated carousel controller must bypass stale iOS browser cache');
 assert.equal(d.querySelectorAll('.crumb-gallery-dot').length,3,'Three accessible slide selectors');
 click('[data-crumb-slide="2"]');
 assert.equal(d.querySelector('.crumb-gallery-counter').textContent,'3 / 3','Third packaging photo is reachable via a dot');
@@ -372,7 +372,7 @@ assert.ok(responsiveCrumb.includes('@media (max-width: 759px)'));
 assert.ok(responsiveCrumb.includes('grid-template-columns: repeat(2, minmax(0, 1fr))'));
 assert.ok(code.includes("window.matchMedia('(max-width:1366px)').matches"), 'Tablet gallery must support keyboard arrows');
 assert.match(html, /styles\.css\?v=20261030-crumb-pain-first-gifts-v13/);
-assert.match(html, /main\.js\?v=20261031-vitrine-v1/);
+assert.match(html, /main\.js\?v=20261031-real-v2/);
 assert.ok(css.includes('/* CRUMB Inside gallery — remove picture-in-a-box matte, preserve 3 slides */'), 'CRUMB gallery removes the blue photo-frame background');
 assert.match(css,/\.brand-glimpse \.brand-glimpse-gallery figure img,[\s\S]*?object-fit: cover/,'Photos fill their slide without pale blue side-bars');
 assert.match(css,/\.brand-glimpse \.brand-glimpse-gallery figure:nth-child\(3\) img \{[\s\S]*?object-position: center 61%/,'Packaging crop keeps the branded bag and cookies in view');
@@ -437,6 +437,7 @@ assert.equal(count(),2);
 assert.equal(d.querySelector('#preview').hidden,true);
 w.matchMedia = () => ({matches:false});
 let animated = 0;
+w.HTMLElement.prototype.getBoundingClientRect = () => ({left:100,top:200,width:64,height:64,right:164,bottom:264});
 w.HTMLElement.prototype.animate = function() {
  animated++;
  let resolve, reject;
@@ -455,4 +456,40 @@ click('#close-builder');
 await new Promise(resolve => w.setTimeout(resolve,730));
 assert.equal(d.querySelector('#live-box-shell').classList.contains('is-closed'),false);
 console.log('PASS vitrine: full-box close/reopen, reduced motion, rapid transfer cancellation and close cleanup');
+// The page and Bag share one builder, quantities and note, without duplicate controls.
+assert.equal(d.querySelectorAll('#builder-content').length,1);
+assert.equal(d.querySelector('#builder-content').parentElement.id,'builder-home');
+click('#open-builder');
+assert.equal(d.querySelector('#builder-content').parentElement.id,'box-dialog');
+assert.equal(count(),3);
+d.querySelector('#gift-note').value = 'For you <script>never execute</script>\nWith love';
+d.querySelector('#gift-note').dispatchEvent(new w.Event('input',{bubbles:true}));
+assert.equal(d.querySelector('#gift-card-message').textContent,d.querySelector('#gift-note').value);
+assert.equal(d.querySelector('#gift-card').querySelector('script'),null);
+click('#close-builder');
+assert.equal(d.querySelector('#builder-content').parentElement.id,'builder-home');
+assert.equal(count(),3);
+assert.match(d.querySelector('#gift-note').value,/For you/);
+click('#preview-button');
+assert.equal(d.querySelector('.gift-reveal').dataset.wrap,'Ribbon Edition');
+assert.equal(d.querySelectorAll('.gift-reveal').length,1);
+assert.match(d.querySelector('#preview').textContent,/YOUR BOX IS READY/);
+assert.equal(d.querySelectorAll('[id]').length,new Set([...d.querySelectorAll('[id]')].map(e=>e.id)).size);
+console.log('PASS one inline/modal builder, note preserves literal text, packaging reveal and unique IDs');
 w.close();
+const mobile = new JSDOM(html, {url:'https://crumb.example/',runScripts:'outside-only'});
+mobile.window.matchMedia = () => ({matches:true,addEventListener(){}});
+mobile.window.HTMLDialogElement.prototype.showModal = function(){this.open=true;};
+mobile.window.HTMLDialogElement.prototype.close = function(){this.open=false;};
+mobile.window.HTMLElement.prototype.scrollIntoView = function(){};
+mobile.window.eval(code);
+assert.equal(mobile.window.document.querySelector('#gift-card').parentElement.id,'note-preview-slot');
+assert.equal(mobile.window.document.querySelectorAll('#builder-content').length,1);
+for(const id of Object.keys(expectedPrices)) {
+ const file=path.join(root,'assets',id+'-cutout-v1.webp');
+ const bytes=fs.readFileSync(file);
+ assert.equal(bytes.subarray(8,12).toString(),'WEBP');
+ assert.ok(bytes.length>10000 && bytes.length<100000);
+}
+mobile.window.close();
+console.log('PASS mobile note placement and six optimized local cutout assets');
