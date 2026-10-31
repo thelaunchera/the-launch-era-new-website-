@@ -203,3 +203,20 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
  .ticker-bottle{width:32px;height:41px}
 }
 @media(prefers-reduced-motion:reduce){.ticker-track{animation:none!important}}
+
+/* Mobile Safari: independent viewBox silhouettes, no clipped or enlarged sprites. */
+.ticker{height:68px;display:flex;align-items:center;overflow:hidden;background:#9a6aff;color:#110c19}
+.ticker-track{height:100%;width:max-content;min-width:max-content;display:flex;align-items:center;gap:0;animation:marquee 38s linear infinite}
+.ticker-loop{height:100%;display:flex;align-items:center;gap:22px;flex:none;padding-right:22px;white-space:nowrap}
+.ticker-figure{display:block;flex:0 0 55px;width:55px;height:58px;max-height:calc(100% - 6px);overflow:hidden;color:#110c19;vertical-align:middle}
+.ticker-bottle{flex-basis:44px;width:44px;height:55px}
+.ticker-word{font:800 20px/1 var(--display);white-space:nowrap;letter-spacing:.07em}
+@media(max-width:740px){
+  .ticker{height:70px}
+  .ticker-track{animation-duration:34s}
+  .ticker-loop{gap:18px;padding-right:18px}
+  .ticker-word{font-size:17px;letter-spacing:.065em}
+  .ticker-figure{flex-basis:59px;width:59px;height:61px;max-height:61px}
+  .ticker-bottle{flex-basis:46px;width:46px;height:57px;max-height:57px}
+}
+@media(prefers-reduced-motion:reduce){.ticker-track{animation:none!important}}
