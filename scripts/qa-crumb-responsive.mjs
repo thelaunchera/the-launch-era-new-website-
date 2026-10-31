@@ -49,7 +49,7 @@ try{
       const previous=Number(await page.locator('#bag-count').textContent());
       for(let i=previous;i<capacity;i++)await page.locator('.flavor-row [data-add="classic"]').click();
       await page.locator('#gift-note').fill('A little gift, just for you. '.repeat(5));
-      assert.equal(await page.locator('#gift-card-message').textContent(),await page.locator('#gift-note').inputValue());
+      assert.equal(await page.locator('#gift-card-message').textContent(),(await page.locator('#gift-note').inputValue()).trim());
       await page.locator('#preview-button').click();
       await assertFlow(page,name+' '+width+' '+capacity+' cookies and preview');
       assert.equal(Number(await page.locator('#bag-count').textContent()),capacity);
@@ -86,3 +86,4 @@ try{
  }
  writeFileSync('qa-screenshots/crumb/report.json',JSON.stringify(reports,null,2));
 }finally{server.close();}
+
