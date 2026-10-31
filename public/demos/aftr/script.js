@@ -23,12 +23,12 @@
   const templates = {
     guest: `<span class="eyebrow"><span class="square"></span> YOUR NIGHT, YOUR ACCESS</span><h2 id="modalTitle">GET ON<br><em>THE LIST.</em></h2><p>Tell us who's coming. This interactive demo shows how guest list registration would work.</p><form data-demo-form="guest"><div class="form-grid">${field('FULL NAME','name','text','Your full name')}${field('EMAIL ADDRESS','email','email','you@example.com')}<label>YOUR NIGHT<select name="event" required>${eventSelect}</select></label><label>GUESTS<select name="guests"><option value="1">1 person</option><option value="2">2 people</option><option value="3">3 people</option><option value="4">4 people</option></select></label></div><button type="submit" class="btn btn-solid">JOIN GUEST LIST</button>${note}</form>`,
     vip: `<span class="eyebrow"><span class="square"></span> ELEVATE THE EXPERIENCE</span><h2 id="modalTitle">VIP<br><em>REQUEST.</em></h2><p>Your own space. Your own night. Tell us about your group to preview the VIP inquiry process.</p><form data-demo-form="vip"><div class="form-grid">${field('FULL NAME','name','text','Your full name')}${field('EMAIL ADDRESS','email','email','you@example.com')}<label>PHONE<input name="phone" type="tel" placeholder="(702) 555-0100" /></label><label>GROUP SIZE<select name="group"><option>2–4 guests</option><option>5–8 guests</option><option>9–12 guests</option><option>13+ guests</option></select></label><label class="full">PREFERRED NIGHT<select name="event">${eventSelect}</select></label><label class="full">ANYTHING WE SHOULD KNOW?<textarea name="notes" placeholder="Special occasion, bottle preferences, requests…"></textarea></label></div><button type="submit" class="btn btn-solid">PREVIEW VIP REQUEST</button>${note}</form>`,
-    tickets: \`<div class="tickets-widget">
+    tickets: `<div class="tickets-widget">
       <div class="tickets-top"><span class="tickets-brand">AFTR. LAS VEGAS / ADMISSION</span><span class="tickets-demo">CONCEPT DEMO</span></div>
       <h2 id="modalTitle" class="tickets-title">YOUR <em>NIGHT.</em></h2>
       <p class="tickets-intro">Your music. Your people. Choose your entry.</p>
       <label class="tickets-label" for="ticketEvent">01 / CHOOSE YOUR NIGHT</label>
-      <select id="ticketEvent" class="tickets-event-select" aria-label="Choose an event">\${eventSelect}</select>
+      <select id="ticketEvent" class="tickets-event-select" aria-label="Choose an event">${eventSelect}</select>
       <div id="ticketEventDetails" class="tickets-event-details" aria-live="polite"></div>
       <span class="tickets-label">02 / SELECT YOUR EXPERIENCE</span>
       <div class="ticket-tier-list" aria-label="Entry type">
@@ -39,7 +39,7 @@
       <div class="ticket-summary"><div class="ticket-count"><span class="tickets-label">03 / GUESTS</span><div class="ticket-stepper"><button type="button" data-ticket-qty="minus" aria-label="Remove one guest">−</button><output id="ticketQty" aria-live="polite">2</output><button type="button" data-ticket-qty="plus" aria-label="Add one guest">+</button></div></div><div class="ticket-total"><span>ESTIMATED TOTAL</span><strong id="ticketTotal" aria-live="polite">$70</strong><small>USD · Sample pricing</small></div></div>
       <button type="button" class="btn btn-solid ticket-preview" data-preview-tickets>PREVIEW MY TICKETS</button>
       <p class="ticket-disclaimer">Illustrative prices and experiences only. This is a fictional venue; no live inventory, charges or ticket orders.</p>
-    </div>\`,
+    </div>`,
     offers: `<span class="eyebrow"><span class="square"></span> MORE WAYS TO AFTR</span><h2 id="modalTitle">SPECIAL<br><em>ACCESS.</em></h2><p>Example perks available to discover in our fictional club concept.</p><div class="option-list"><button data-offer="Guest List"><span><strong>GUEST LIST ACCESS</strong><small>Get your name on the list for your preferred night.</small></span><span class="select-mark">VIEW</span></button><button data-offer="VIP Tables"><span><strong>VIP TABLE EXPERIENCE</strong><small>Ask about premium seating and bottle service.</small></span><span class="select-mark">VIEW</span></button><button data-offer="Tickets"><span><strong>EVENT EXPERIENCES</strong><small>Discover the weekly parties and entry options.</small></span><span class="select-mark">VIEW</span></button></div>${note}`
   };
   const ticketDetails = {
