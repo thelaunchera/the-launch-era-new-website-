@@ -1,0 +1,61 @@
+/* CRUMB cookie counter — scoped to the existing gift builder. */
+.box-dialog { width:min(1060px,calc(100vw - 24px)); border-radius:20px; }
+.box-dialog .modal-heading { background:#dcecf6; border-bottom:1px solid #afc8d7; }
+.box-dialog .modal-body { padding:24px 30px 30px; }
+.box-dialog .builder-flavor-layout { grid-template-columns:minmax(0,1.4fr) minmax(0,1fr); gap:24px; align-items:start; }
+.box-dialog .flavor-list { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:0; width:100%; border:5px solid #a4bdcc; border-radius:48px 48px 8px 8px; padding:0 12px 14px; background:linear-gradient(115deg,#ffffffa8,transparent 40%,#ffffff68 50%,transparent 60%),linear-gradient(#e5f2f9,#fcfaf4); box-shadow:inset 0 0 0 2px #fff,0 12px 0 #9bb7c8,0 17px 22px #1d3b4e16; }
+.vitrine-sign { grid-column:1/-1; text-align:center; padding:14px 0 12px; color:#294e68; }
+.vitrine-sign span { display:block; font-family:Georgia,serif; font-size:34px; letter-spacing:-2px; line-height:1; }
+.vitrine-sign small { font-size:8px; letter-spacing:2px; }
+.box-dialog .flavor-list .flavor-row { display:flex; flex-direction:column; gap:5px; padding:12px 5px 18px; min-width:0; text-align:center; border-bottom:7px solid #afc7d5; position:relative; }
+.box-dialog .flavor-list .flavor-row:nth-last-child(-n+3) { border-bottom:0; padding-bottom:0; }
+.box-dialog .flavor-list .flavor-row>img { width:84px; height:84px; max-width:100%; border-radius:50%; object-fit:cover; box-shadow:0 6px 0 -2px #fff,0 8px 0 -2px #a7bac6,0 12px 15px #233c4e22; transition:transform .2s; }
+.box-dialog .flavor-list .flavor-row:hover>img { transform:translateY(-3px); }
+.box-dialog .flavor-list .flavor-row>strong { flex:none; font-size:11px; line-height:1.35; min-height:30px; margin-top:8px; display:flex; align-items:center; justify-content:center; }
+.box-dialog .flavor-list .flavor-unit-price { font-size:11px; color:#3e5665; }
+.box-dialog .flavor-list .stepper { display:flex; align-items:center; gap:0; background:#fffdf7; border:1px solid #b5cbd8; border-radius:30px; overflow:hidden; margin-top:5px; }
+.box-dialog .flavor-list .stepper button { width:34px; min-width:34px; min-height:40px; background:transparent; border:0; color:#254b65; }
+.box-dialog .flavor-list .stepper output { min-width:19px; font-size:12px; }
+.box-dialog .live-box-panel { top:16px; background:#edf3f5; border:0; border-radius:12px; padding:20px 16px; text-align:center; }
+.box-dialog .live-box-heading { margin-bottom:22px; }
+.box-dialog .live-box-heading .eyebrow { color:#38586d; font-size:9px; }
+.box-dialog .live-box-heading strong { font-size:14px; }
+.box-dialog .live-box-shell { position:relative; max-width:340px; margin:auto; padding:12px; border-width:9px; border-color:#95b9d0; background:#f5eee1; transform:none; isolation:isolate; }
+.box-dialog .live-box-shell[data-wrap="Ivory Signature"] { border-color:#c1d8e6; background:#fffaf0; }
+.box-dialog .live-box-shell[data-wrap="Ribbon Edition"] { border-color:#729db9; background:#f6eee0; }
+.box-lid { position:absolute; z-index:2; inset:-9px; background:#c9e2f4; border:2px solid #8dacc0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; box-shadow:0 7px 14px #29475e2b; opacity:0; transform:perspective(600px) rotateX(-100deg); transform-origin:center top; transition:transform .65s cubic-bezier(.2,.7,.3,1),opacity .25s; pointer-events:none; }
+.box-lid span { font:clamp(38px,5vw,60px)/1 Georgia,serif; letter-spacing:-3px; color:#294e68; }
+.box-lid small { font-size:8px; letter-spacing:1.5px; color:#294e68; }
+.live-box-shell[data-wrap="Espresso Sleeve"] .box-lid { background:#50392f; border-color:#39281f; }
+.live-box-shell[data-wrap="Espresso Sleeve"] .box-lid span,.live-box-shell[data-wrap="Espresso Sleeve"] .box-lid small { color:#fff6e7; }
+.live-box-shell[data-wrap="Ribbon Edition"] .box-lid { background:linear-gradient(90deg,transparent 46%,#7b9db5 46%,#7b9db5 54%,transparent 54%),#dcecf6; }
+.live-box-shell[data-wrap="Ribbon Edition"] .box-lid span,.live-box-shell[data-wrap="Ribbon Edition"] .box-lid small { background:#dcecf6; padding:4px; }
+.live-box-shell.is-closed .box-lid { opacity:1; transform:perspective(600px) rotateX(0deg); }
+.box-dialog #reopen-box { font-size:12px; margin:18px auto 0; min-height:40px; }
+.box-dialog #reopen-box[hidden] { display:none; }
+.box-dialog .box-tray { min-height:105px; }
+.box-cookie-slot.arriving img { visibility:hidden; }
+.cookie-transfer { position:fixed; z-index:100; pointer-events:none; }
+.cookie-transfer>img { width:100%; height:100%; object-fit:cover; border-radius:50%; box-shadow:0 8px 14px #263f4e30; }
+.cookie-transfer>svg { position:absolute; width:85%; height:145%; left:9%; top:-104%; filter:drop-shadow(1px 2px 1px #0003); }
+@media(max-width:700px) {
+ .box-dialog { width:calc(100vw - 12px); max-height:95dvh; border-radius:15px; }
+ .box-dialog .modal-body { padding:18px 14px 24px; }
+ .box-dialog .builder-flavor-layout { display:flex; flex-direction:column; gap:20px; }
+ .box-dialog .builder-flavor-layout .live-box-panel { order:0; align-self:stretch; position:sticky; bottom:0; top:auto; z-index:3; padding:12px; box-shadow:0 -5px 20px #25485b13; }
+ .box-dialog .live-box-heading { margin-bottom:10px; gap:3px; }
+ .box-dialog .live-box-heading .eyebrow { display:none; }
+ .box-dialog .live-box-shell { max-width:210px; padding:7px; }
+ .box-dialog .box-tray { min-height:50px; gap:4px; }
+ .box-dialog .live-box-foot { margin-top:9px; font-size:9px; }
+ .box-dialog .flavor-list .flavor-row>img { width:68px; height:68px; }
+ .box-dialog .flavor-list .flavor-row>strong { font-size:10px; min-height:28px; }
+ .box-dialog .flavor-list .stepper button { min-width:32px; width:32px; min-height:42px; }
+ .box-dialog .flavor-list { padding-inline:7px; }
+ .box-dialog .flavor-list .flavor-row { padding-inline:2px; }
+ .box-dialog #reopen-box { margin-top:8px; }
+}
+@media(prefers-reduced-motion:reduce) {
+ .box-lid,.box-dialog .flavor-list .flavor-row>img { transition:none; }
+ .cookie-transfer { display:none; }
+}

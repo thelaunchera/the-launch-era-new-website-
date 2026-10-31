@@ -29,6 +29,7 @@ function renderLiveBox() {
   const chosen = ids.flatMap(id => Array(qty[id]).fill(id));
   for(let index=0;index<size;index++) {
     const slot = document.createElement('div');
+    slot.dataset.flavor = chosen[index] || '';
     slot.className = 'box-cookie-slot ' + (chosen[index] ? 'filled' : 'empty');
     if(chosen[index]) {
       const image = document.createElement('img');
@@ -44,6 +45,64 @@ function renderLiveBox() {
   $('live-box-count').textContent = total() + ' of ' + size + ' cookies';
   tray.setAttribute('aria-label', total() + ' of ' + size + ' cookies selected, ' + wrapping + ' packaging');
 }
+// The selection stays synchronous; motion is a cancellable decorative layer.
+let transferAnimation;
+let closeBoxTimer;
+function resetBoxMotion() {
+  clearTimeout(closeBoxTimer);
+  if (transferAnimation) { transferAnimation.cancel(); transferAnimation = null; }
+  document.querySelectorAll('.cookie-transfer').forEach(el => el.remove());
+  document.querySelectorAll('.box-cookie-slot.arriving').forEach(el => el.classList.remove('arriving'));
+  $('live-box-shell').classList.remove('is-closed');
+  $('reopen-box').hidden = true;
+}
+function closeFullBox() {
+  if (total() !== size || !dialog.open) return;
+  $('live-box-shell').classList.add('is-closed');
+  $('reopen-box').hidden = false;
+}
+function transferCookie(id, source) {
+  if (!dialog.open) return;
+  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const slots = [...document.querySelectorAll('#box-tray [data-flavor="' + id + '"]')];
+  const target = slots[slots.length - 1];
+  const origin = source && source.closest('.flavor-row');
+  const finish = () => {
+    if (total() === size) closeBoxTimer = setTimeout(closeFullBox, reduced ? 0 : 700);
+  };
+  if (!origin || !target || reduced || !target.animate) { finish(); return; }
+  const a = origin.querySelector('img').getBoundingClientRect();
+  const b = target.getBoundingClientRect();
+  const stage = document.createElement('div');
+  stage.className = 'cookie-transfer';
+  stage.setAttribute('aria-hidden', 'true');
+  const cookie = document.createElement('img');
+  cookie.src = photoFor(id);
+  cookie.alt = '';
+  stage.appendChild(cookie);
+  const tongs = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  tongs.setAttribute('viewBox','0 0 100 150');
+  tongs.innerHTML = '<path d="M35 123L25 24Q25 5 42 5Q59 5 59 24L69 123" fill="none" stroke="#626c73" stroke-width="9" stroke-linecap="round"/><path d="M35 116l-9 18m43-18 9 18" stroke="#b3bec5" stroke-width="13" stroke-linecap="round"/>';
+  stage.appendChild(tongs);
+  Object.assign(stage.style,{left:a.left+'px',top:a.top+'px',width:a.width+'px',height:a.height+'px'});
+  dialog.appendChild(stage);
+  target.classList.add('arriving');
+  const dx = b.left + b.width/2 - a.left - a.width/2;
+  const dy = b.top + b.height/2 - a.top - a.height/2;
+  const animation = stage.animate([
+    {transform:'translate(0,0) scale(1) rotate(-8deg)',opacity:1},
+    {transform:`translate(${dx*.45}px,${dy*.45-55}px) scale(1.12) rotate(8deg)`,offset:.48,opacity:1},
+    {transform:`translate(${dx}px,${dy}px) scale(${b.width/a.width}) rotate(0deg)`,opacity:1}
+  ],{duration:720,easing:'cubic-bezier(.3,.05,.25,1)',fill:'forwards'});
+  transferAnimation = animation;
+  animation.finished.then(() => {
+    stage.remove(); target.classList.remove('arriving');
+    if (transferAnimation === animation) { transferAnimation = null; finish(); }
+  }).catch(() => { stage.remove(); target.classList.remove('arriving'); });
+}
+$('reopen-box').addEventListener('click', resetBoxMotion);
+dialog.addEventListener('close', resetBoxMotion);
+
 function showAddedFeedback(id) {
   const toast = $('bag-feedback');
   $('feedback-text').textContent = labels[id] + ' added · ' + total() + '/' + size;
@@ -89,16 +148,20 @@ function add(id, source) {
     $('status-text').textContent = 'Box is full. Remove a cookie or choose a larger box.';
     return;
   }
+  resetBoxMotion();
   qty[id]++;
   paint();
+  transferCookie(id, source);
   if (source && source.closest('.cookie-visual')) showAddedFeedback(id);
 }
 function remove(id) {
+  resetBoxMotion();
   qty[id] = Math.max(0, qty[id] - 1);
   paint();
 }
 function changeSize(next) {
   if (![3, 6, 12].includes(next)) return;
+  resetBoxMotion();
   size = next;
   let extra = total() - size;
   for (const id of [...ids].reverse()) {
@@ -115,6 +178,7 @@ $('feedback-open').addEventListener('click', () => { $('bag-feedback').hidden = 
 document.querySelectorAll('[data-minus]').forEach(button => button.addEventListener('click', () => remove(button.dataset.minus)));
 document.querySelectorAll('[data-pack]').forEach(button => button.addEventListener('click', () => changeSize(Number(button.dataset.pack))));
 document.querySelectorAll('[data-wrap]').forEach(button => button.addEventListener('click', () => {
+  resetBoxMotion();
   wrapping = button.dataset.wrap;
   paint();
 }));
@@ -128,6 +192,8 @@ $('preview-button').addEventListener('click', () => {
     $('status-text').textContent = 'Add ' + (size - total()) + ' more cookie' + (size - total() === 1 ? '' : 's') + ' to preview your box.';
     return;
   }
+  resetBoxMotion();
+  closeFullBox();
   const target = $('preview');
   target.replaceChildren();
   const title = document.createElement('h3');

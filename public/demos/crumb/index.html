@@ -9,6 +9,7 @@
   <link rel="canonical" href="https://thelaunchera.com/demos/crumb/">
   <link rel="stylesheet" href="./styles.css?v=20261030-crumb-pain-first-gifts-v13">
   <title>CRUMB — Cookies & Gift Boxes · Miami</title>
+  <link rel="stylesheet" href="./vitrine.css?v=20261031-v1">
 </head>
 <body>
 <a class="skip-link" href="#cookies">Skip to cookies</a>
@@ -190,7 +191,8 @@
     <div class="choice-group" role="group" aria-label="Box size"><button type="button" data-pack="3" class="active">3 cookies<small>from $10.50</small></button><button type="button" data-pack="6">6 cookies<small>from $21.00</small></button><button type="button" data-pack="12">12 cookies<small>from $42.00</small></button></div>
     <p class="step-label">2 · Mix your favorite cookies</p>
     <div class="builder-flavor-layout">
-    <div class="flavor-list">
+    <div class="flavor-list" role="group" aria-label="Cookie display case">
+      <div class="vitrine-sign" aria-hidden="true"><span>crumb.</span><small>THE COOKIE COUNTER</small></div>
       <div class="flavor-row"><img src="./assets/classic.webp?v=20261029-crumb-v7" alt="" width="56" height="56" loading="lazy"><strong>Classic Chocolate Chip</strong><span class="flavor-unit-price" data-builder-price="classic">$3.50</span><div class="stepper"><button type="button" data-minus="classic" aria-label="Remove Classic Chocolate Chip">−</button><output id="qty-classic">0</output><button type="button" data-add="classic" aria-label="Add Classic Chocolate Chip">+</button></div></div>
       <div class="flavor-row"><img src="./assets/double.webp?v=20261029-crumb-v7" alt="" width="56" height="56" loading="lazy"><strong>Double Chocolate</strong><span class="flavor-unit-price" data-builder-price="double">$4.50</span><div class="stepper"><button type="button" data-minus="double" aria-label="Remove Double Chocolate">−</button><output id="qty-double">0</output><button type="button" data-add="double" aria-label="Add Double Chocolate">+</button></div></div>
       <div class="flavor-row"><img src="./assets/caramel.webp?v=20261029-crumb-v7" alt="" width="56" height="56" loading="lazy"><strong>Salted Caramel</strong><span class="flavor-unit-price" data-builder-price="caramel">$5.50</span><div class="stepper"><button type="button" data-minus="caramel" aria-label="Remove Salted Caramel">−</button><output id="qty-caramel">0</output><button type="button" data-add="caramel" aria-label="Add Salted Caramel">+</button></div></div>
@@ -201,8 +203,10 @@
     <aside class="live-box-panel" aria-label="Visual preview of your gift box">
       <div class="live-box-heading"><span class="eyebrow">YOUR BOX, COMING TOGETHER</span><strong id="live-box-count">0 of 3 cookies</strong></div>
       <div class="live-box-shell" id="live-box-shell" data-wrap="Ivory Signature">
+        <div class="box-lid" aria-hidden="true"><span>crumb.</span><small>A LITTLE BOX OF GOOD THINGS</small></div>
         <div class="box-tray" id="box-tray" role="img" aria-label="Three empty cookie spaces"></div>
       </div>
+      <button type="button" id="reopen-box" class="text-button" hidden>Open your box</button>
       <p class="live-box-foot">A visual preview of your selections. Actual orders are not placed.</p>
     </aside>
     </div>
@@ -253,6 +257,6 @@
     <button type="button" class="button outline full" id="social-back">Back to CRUMB</button>
   </div>
 </dialog>
-<script type="module" src="./main.js?v=20261030-crumb-gallery-tablet-v3"></script>
+<script type="module" src="./main.js?v=20261031-vitrine-v1"></script>
 </body>
 </html>

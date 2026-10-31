@@ -143,7 +143,7 @@ assert.match(css,/flex:0 0 min\(84vw,360px\)/,'Mobile photos use consistent full
 assert.match(css,/scroll-snap-stop:always/,'Mobile cards snap one at a time');
 assert.match(css,/object-fit:contain/,'All mobile gallery photographs fit without clipping');
 assert.ok(html.includes('styles.css?v=20261030-crumb-pain-first-gifts-v13'), 'Updated CSS must bypass stale iOS browser cache');
-assert.ok(html.includes('main.js?v=20261030-crumb-gallery-tablet-v3'), 'Updated carousel controller must bypass stale iOS browser cache');
+assert.ok(html.includes('main.js?v=20261031-vitrine-v1'), 'Updated carousel controller must bypass stale iOS browser cache');
 assert.equal(d.querySelectorAll('.crumb-gallery-dot').length,3,'Three accessible slide selectors');
 click('[data-crumb-slide="2"]');
 assert.equal(d.querySelector('.crumb-gallery-counter').textContent,'3 / 3','Third packaging photo is reachable via a dot');
@@ -372,7 +372,7 @@ assert.ok(responsiveCrumb.includes('@media (max-width: 759px)'));
 assert.ok(responsiveCrumb.includes('grid-template-columns: repeat(2, minmax(0, 1fr))'));
 assert.ok(code.includes("window.matchMedia('(max-width:1366px)').matches"), 'Tablet gallery must support keyboard arrows');
 assert.match(html, /styles\.css\?v=20261030-crumb-pain-first-gifts-v13/);
-assert.match(html, /main\.js\?v=20261030-crumb-gallery-tablet-v3/);
+assert.match(html, /main\.js\?v=20261031-vitrine-v1/);
 assert.ok(css.includes('/* CRUMB Inside gallery — remove picture-in-a-box matte, preserve 3 slides */'), 'CRUMB gallery removes the blue photo-frame background');
 assert.match(css,/\.brand-glimpse \.brand-glimpse-gallery figure img,[\s\S]*?object-fit: cover/,'Photos fill their slide without pale blue side-bars');
 assert.match(css,/\.brand-glimpse \.brand-glimpse-gallery figure:nth-child\(3\) img \{[\s\S]*?object-position: center 61%/,'Packaging crop keeps the branded bag and cookies in view');
@@ -416,3 +416,43 @@ assert.ok(html.includes('No orders, payments or contact messages are accepted.')
 results.push('Gift-doubt hero, six-flavor proof and gift-box CTAs verified; demonstration disclaimers preserved');
 
 console.log(JSON.stringify({method: 'DOM integration; dialog APIs simulated; not visual browser QA', passed: results}, null, 2));
+
+// Motion must never own the bag: cancellation, reduced motion and reopening preserve quantities.
+w.matchMedia = () => ({matches:true});
+click('#open-builder');
+for (const id of Object.keys(expectedPrices)) for(let i=0;i<12;i++) click('[data-minus="'+id+'"]');
+click('[data-pack="3"]');
+for(let i=0;i<3;i++) click('.flavor-row [data-add="classic"]');
+await new Promise(resolve => w.setTimeout(resolve,10));
+assert.equal(d.querySelector('#live-box-shell').classList.contains('is-closed'),true);
+assert.equal(d.querySelector('#reopen-box').hidden,false);
+click('#reopen-box');
+assert.equal(d.querySelector('#live-box-shell').classList.contains('is-closed'),false);
+assert.equal(count(),3);
+click('#preview-button');
+assert.equal(d.querySelector('#live-box-shell').classList.contains('is-closed'),true);
+click('[data-minus="classic"]');
+assert.equal(d.querySelector('#live-box-shell').classList.contains('is-closed'),false);
+assert.equal(count(),2);
+assert.equal(d.querySelector('#preview').hidden,true);
+w.matchMedia = () => ({matches:false});
+let animated = 0;
+w.HTMLElement.prototype.animate = function() {
+ animated++;
+ let resolve, reject;
+ const finished = new Promise((a,b)=>{resolve=a;reject=b});
+ const timer = w.setTimeout(resolve,1);
+ return {finished,cancel(){w.clearTimeout(timer);reject(new Error('cancelled'));}};
+};
+click('.flavor-row [data-add="double"]');
+click('[data-minus="double"]');
+click('.flavor-row [data-add="nutty"]');
+assert.equal(count(),3);
+await new Promise(resolve => w.setTimeout(resolve,20));
+assert.equal(animated,2);
+assert.equal(d.querySelectorAll('.cookie-transfer,.box-cookie-slot.arriving').length,0);
+click('#close-builder');
+await new Promise(resolve => w.setTimeout(resolve,730));
+assert.equal(d.querySelector('#live-box-shell').classList.contains('is-closed'),false);
+console.log('PASS vitrine: full-box close/reopen, reduced motion, rapid transfer cancellation and close cleanup');
+w.close();
