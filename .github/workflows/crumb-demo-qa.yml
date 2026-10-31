@@ -10,7 +10,7 @@ permissions:
   contents: read
 jobs:
   verify-crumb:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
@@ -39,3 +39,4 @@ jobs:
         with:
           name: crumb-responsive-sections
           path: qa-screenshots/crumb
+
