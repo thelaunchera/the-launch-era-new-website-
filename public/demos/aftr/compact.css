@@ -186,3 +186,20 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
     background-position:center,right center;
   }
 }
+
+/* AFTR dancing silhouettes marquee — decorative vector art, no green accents or arrows */
+.ticker-symbols{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}
+.ticker{height:57px;overflow:hidden;background:#9a6aff;color:#0b0911}
+.ticker-track{height:100%;gap:0;display:flex;width:max-content;min-width:max-content;align-items:center;animation:marquee 38s linear infinite}
+.ticker-loop{height:100%;display:flex;align-items:center;gap:25px;white-space:nowrap;flex:none;padding-right:25px}
+.ticker-word{font:800 21px/1 var(--display);letter-spacing:.075em;white-space:nowrap}
+.ticker-figure{display:block;flex:none;width:44px;height:49px;color:#0b0911}
+.ticker-bottle{width:38px;height:47px}
+@media(max-width:740px){
+ .ticker{height:51px}
+ .ticker-loop{gap:16px;padding-right:16px}
+ .ticker-word{font-size:18px;letter-spacing:.07em}
+ .ticker-figure{width:39px;height:43px}
+ .ticker-bottle{width:32px;height:41px}
+}
+@media(prefers-reduced-motion:reduce){.ticker-track{animation:none!important}}
