@@ -10,3 +10,34 @@ body.clara-open{overflow:hidden}
 #claraStatus{margin:0;padding:14px 20px;color:var(--muted)}
 #demoActions #claraRetry{margin:8px 20px;align-self:flex-start}
 #demoActions #demoFrame{flex:1;min-height:0;width:100%;height:100%;margin:0;border:0;border-radius:0;background:var(--ivory)}
+
+/* Owner checkout inventory, composed from the existing TLE offer JSON. */
+#products.tle-product-inventory{padding:clamp(18px,3vw,32px);background:#fffdfa}
+.tle-product-inventory .section-head{align-items:flex-start}
+.tle-product-inventory .section-head h2{margin:5px 0}
+.tle-offer-inventory{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,225px),1fr));gap:15px;margin:21px 0 27px}
+.tle-offer-item{display:flex;flex-direction:column;min-width:0;padding:14px 14px 18px;background:#fcfbf7;border:1px solid #e2e6e7;border-radius:16px}
+.tle-offer-item h4{margin:13px 0 7px;font-size:15px;line-height:1.3;color:#172e40}
+.tle-offer-item>p{font-size:12px;line-height:1.55;color:#596d7a;margin:0 0 12px}
+.tle-offer-item>.tle-offer-price{font-weight:700;font-size:12px;color:#244e68}
+.tle-offer-state{align-self:flex-start;font-size:9px;font-weight:850;letter-spacing:.1em;color:#667a86;margin:1px 0 10px}
+.tle-offer-state.tle-on-sale{color:#356884}
+.tle-offer-art{height:155px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;padding:18px;border-radius:11px;color:#fff;background:radial-gradient(circle at 80% 15%,#94bed76b,transparent 45%),linear-gradient(135deg,#17344e,#35617e);overflow:hidden}
+.tle-offer-art span{font-size:9px;font-weight:800;letter-spacing:.14em}
+.tle-offer-art strong{font:600 clamp(16px,1.7vw,23px)/1.13 system-ui,sans-serif;letter-spacing:-.025em;overflow-wrap:anywhere}
+.tle-art-lab{background:radial-gradient(circle at 60% 18%,#769fc66a,transparent 53%),linear-gradient(140deg,#172f49,#405b85)}
+.tle-art-course{background:radial-gradient(circle at 85% 16%,#b0c9cc88,transparent 55%),linear-gradient(140deg,#1c495a,#7999aa)}
+.tle-art-podcast{background:linear-gradient(155deg,#1a2d46,#647e9a)}
+.tle-art-podcast2{background:linear-gradient(155deg,#1d2f49,#8b8b9c)}
+.tle-offer-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:auto;padding-top:5px}
+.tle-offer-open,.tle-offer-details{display:inline-flex;min-height:41px;align-items:center;justify-content:center;border-radius:9px;text-decoration:none;padding:10px 13px;font-size:11px;font-weight:800}
+.tle-offer-open{background:#214a66;color:white}
+.tle-offer-details{color:#224b66;border:1px solid #cedde4;background:white}
+.tle-offer-disabled{display:block;margin-top:auto;padding:11px 0;color:#82919b;font-size:11px;font-weight:700}
+.tle-offer-locked{background:#f7f7f5}
+.tle-product-divider{margin:28px 0 0;padding-top:22px;border-top:1px solid #dce5e8}
+.tle-product-divider h3{font-size:18px;margin:0 0 6px}
+.tle-product-divider p{font-size:12px}
+.tle-product-disclaimer{border-top:1px solid #dde5e7;padding:17px 0 0;color:#708490;font-size:12px;line-height:1.65}
+@media(max-width:580px){.tle-offer-inventory{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.tle-offer-item{padding:10px}.tle-offer-art{height:140px;padding:12px}.tle-offer-art strong{font-size:15px}.tle-offer-open,.tle-offer-details{width:100%}}
+@media(max-width:380px){.tle-offer-inventory{grid-template-columns:1fr}}
