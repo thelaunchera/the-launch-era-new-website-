@@ -16,16 +16,9 @@ const photoFor = id => './assets/' + id + '-cutout-v1.webp?v=20261031-real-v1';
 const $ = id => document.getElementById(id);
 const dialog = $('box-dialog');
 const deliveryDialog = $('delivery-dialog');
-const builderContent = $('builder-content');
-const builderHome = $('builder-home');
-function returnBuilderHome() {
-  resetBoxMotion();
-  builderHome.appendChild(builderContent);
-  builderHome.style.minHeight = '';
-}
 function closeBuilder() {
+  resetBoxMotion();
   dialog.close();
-  returnBuilderHome();
 }
 const noteViewport = window.matchMedia ? window.matchMedia('(max-width:700px)') : null;
 function positionGiftCard() {
@@ -81,11 +74,12 @@ function resetBoxMotion() {
   $('reopen-box').hidden = true;
 }
 function closeFullBox() {
-  if (total() !== size) return;
+  if (total() !== size || !dialog.open) return;
   $('live-box-shell').classList.add('is-closed');
   $('reopen-box').hidden = false;
 }
 function transferCookie(id, source) {
+  if (!dialog.open) return;
   const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const slots = [...document.querySelectorAll('#box-tray [data-flavor="' + id + '"]')];
   const target = slots[slots.length - 1];
@@ -126,7 +120,7 @@ function transferCookie(id, source) {
   }).catch(() => { stage.remove(); target.classList.remove('arriving'); });
 }
 $('reopen-box').addEventListener('click', resetBoxMotion);
-dialog.addEventListener('close', () => { if (!dialog.open) returnBuilderHome(); });
+dialog.addEventListener('close', resetBoxMotion);
 window.addEventListener('scroll', () => { if (transferAnimation) resetBoxMotion(); }, {passive:true});
 
 function showAddedFeedback(id) {
@@ -168,8 +162,6 @@ function openDialog() {
   $('preview').hidden = true;
   if (!dialog.open) {
     resetBoxMotion();
-    builderHome.style.minHeight = builderHome.getBoundingClientRect().height + 'px';
-    dialog.appendChild(builderContent);
     dialog.showModal();
   }
 }

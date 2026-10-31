@@ -17,20 +17,17 @@ await new Promise(r=>server.listen(0,'127.0.0.1',r));
 const base='http://127.0.0.1:'+server.address().port;
 mkdirSync('qa-screenshots/crumb',{recursive:true});
 const reports=[];
-async function assertFlow(page,label){
+async function assertMarketing(page,label){
+ assert.equal(await page.locator('main #builder-content').count(),0,label+': builder must not be an inline section');
+ assert.equal(await page.locator('.builder-section,#builder-home').count(),0);
+ assert.equal(await page.locator('#builder-content').isVisible(),false,label+': builder only appears on click');
  const result=await page.evaluate(()=>{
-  const rect=s=>{const r=document.querySelector(s).getBoundingClientRect();return {top:r.top,bottom:r.bottom,height:r.height,left:r.left,right:r.right};};
-  return {section:rect('#build-box'),surface:rect('#builder-content'),body:rect('#builder-content .modal-body'),gift:rect('#gifting'),gallery:rect('.brand-glimpse'),
-   trayPosition:getComputedStyle(document.querySelector('.live-box-panel')).position,
-   viewport:innerWidth,scrollWidth:document.documentElement.scrollWidth};
+  const rect=s=>{const r=document.querySelector(s).getBoundingClientRect();return {top:r.top,bottom:r.bottom};};
+  return {cookies:rect('#cookies'),gift:rect('#gifting'),gallery:rect('.brand-glimpse'),viewport:innerWidth,scrollWidth:document.documentElement.scrollWidth};
  });
- assert.ok(result.body.bottom<=result.surface.bottom+2,label+': builder content escapes its surface '+JSON.stringify(result));
- assert.ok(result.surface.bottom<=result.section.bottom+2,label+': surface escapes builder section');
- assert.ok(result.gift.top>=result.section.bottom-2,label+': builder overlaps Gifts');
+ assert.ok(result.gift.top>=result.cookies.bottom-2,label+': catalog overlaps Gifts');
  assert.ok(result.gallery.top>=result.gift.bottom-2,label+': Gifts overlap gallery');
  assert.ok(result.scrollWidth<=result.viewport+2,label+': horizontal overflow');
- if(result.viewport<=700)assert.ok(['static','relative'].includes(result.trayPosition),label+': phone tray must scroll normally');
- return result;
 }
 try{
  for(const [name,type] of [['chromium',chromium],['webkit',webkit]]){
@@ -41,9 +38,12 @@ try{
     const page=await ctx.newPage();const errors=[];
     page.on('pageerror',e=>errors.push(String(e)));
     try{
-     await page.goto(base+'/demos/crumb/#build-box',{waitUntil:'networkidle'});
-     await page.locator('#builder-content .flavor-list img').first().waitFor();
-     await assertFlow(page,name+' '+width+' empty');
+     await page.goto(base+'/demos/crumb/#gifting',{waitUntil:'networkidle'});
+     await assertMarketing(page,name+' '+width+' landing');
+     await page.locator('#gifting [data-open-builder]').click();
+     assert.equal(await page.locator('#box-dialog').evaluate(el=>el.open),true);
+     assert.equal(await page.locator('#box-dialog #builder-content').count(),1);
+     if(width===390)await page.locator('#box-dialog').screenshot({path:`qa-screenshots/crumb/${name}-${width}-dialog.png`});
      for(const capacity of [3,6,12]){
       await page.locator('[data-pack="'+capacity+'"]').click();
       const previous=Number(await page.locator('#bag-count').textContent());
@@ -51,34 +51,33 @@ try{
       await page.locator('#gift-note').fill('A little gift, just for you. '.repeat(5));
       assert.equal(await page.locator('#gift-card-message').textContent(),(await page.locator('#gift-note').inputValue()).trim());
       await page.locator('#preview-button').click();
-      await assertFlow(page,name+' '+width+' '+capacity+' cookies and preview');
       assert.equal(Number(await page.locator('#bag-count').textContent()),capacity);
+      const close=await page.locator('#close-builder').boundingBox();
+      const modal=await page.locator('#box-dialog').boundingBox();
+      assert.ok(close.y>=modal.y&&close.y+close.height<=modal.y+modal.height,'Modal exit must stay visible');
+      assert.ok(modal.height<=844,'Dialog fits the viewport');
      }
-     await page.locator('#build-box').screenshot({path:`qa-screenshots/crumb/${name}-${width}-builder.png`});
-     // Scroll exactly where the owner's screenshots showed the tray and note over Gifts/gallery.
+     if(width===390)await page.locator('#box-dialog').screenshot({path:`qa-screenshots/crumb/${name}-${width}-preview.png`});
+     await page.keyboard.press('Escape');
+     await assertMarketing(page,name+' '+width+' Escape');
+     await page.locator('#open-builder').click();
+     assert.equal(Number(await page.locator('#bag-count').textContent()),12);
+     assert.match(await page.locator('#gift-note').inputValue(),/A little gift/);
+     await page.locator('#close-builder').click();
+     await assertMarketing(page,name+' '+width+' close');
      for(const selector of ['#gifting','.brand-glimpse']){
       await page.locator(selector).evaluate(el=>el.scrollIntoView({block:'start'}));
-      await assertFlow(page,name+' '+width+' scroll '+selector);
       const hit=await page.locator(selector).evaluate(el=>{
        const r=el.getBoundingClientRect(),h=document.querySelector('.site-header').getBoundingClientRect().bottom;
        const y=Math.min(innerHeight-25,Math.max(h+25,r.top+Math.min(r.height*.4,250)));
        return el.contains(document.elementFromPoint(innerWidth/2,y));
       });
-      assert.ok(hit,name+' '+width+': '+selector+' is covered by another section');
+      assert.ok(hit,name+' '+width+': '+selector+' is covered');
       if(width===390)await page.locator(selector).screenshot({path:`qa-screenshots/crumb/${name}-${width}-${selector==='#gifting'?'gifts':'gallery'}.png`});
      }
-     await page.locator('#open-builder').click();
-     await page.locator('#preview-button').click();
-     const close=await page.locator('#close-builder').boundingBox();
-     const modal=await page.locator('#box-dialog').boundingBox();
-     assert.ok(close.y>=modal.y&&close.y+close.height<=modal.y+modal.height,'Modal exit must stay visible');
-     await page.locator('#close-builder').click();
-     assert.equal(await page.locator('#builder-home #builder-content').count(),1);
-     assert.equal(Number(await page.locator('#bag-count').textContent()),12);
-     await assertFlow(page,name+' '+width+' after Bag round trip');
      assert.deepEqual(errors,[]);
      reports.push({engine:name,width,passed:true});
-     console.log('PASS CRUMB normal section flow, 3/6/12 preview, Gifts, gallery and Bag at '+name+' '+width);
+     console.log('PASS CRUMB click-only Gift CTA/Bag, 3/6/12 preview, note, Escape and clean sections at '+name+' '+width);
     }catch(e){await page.screenshot({path:`qa-screenshots/crumb/${name}-${width}-failure.png`,fullPage:true});throw e;}
     finally{await ctx.close();}
    }
@@ -86,4 +85,3 @@ try{
  }
  writeFileSync('qa-screenshots/crumb/report.json',JSON.stringify(reports,null,2));
 }finally{server.close();}
-
