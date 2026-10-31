@@ -237,3 +237,14 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
  .ticker img.ticker-champagne{flex-basis:40px!important;width:40px!important;max-width:40px!important}
 }
 @media(prefers-reduced-motion:reduce){.ticker .ticker-track{animation:none!important}}
+
+/* AFTR approved photographic after-hours banner — replaces illustrative ticker */
+.ticker.ticker-poster-banner{position:relative;height:112px;padding:0;display:flex;align-items:center;overflow:hidden;background:#a268f2}
+.ticker-poster-banner .ticker-poster-track{height:100%;display:flex;align-items:center;gap:0;flex:0 0 auto;width:max-content;min-width:max-content;animation:aftr-poster-slide 30s linear infinite;will-change:transform}
+.ticker-poster-banner img.ticker-poster{display:block!important;position:static!important;flex:0 0 auto!important;width:auto!important;height:100%!important;max-width:none!important;max-height:none!important;object-fit:contain!important;object-position:center!important;transform:none!important;filter:none!important}
+@keyframes aftr-poster-slide{to{transform:translateX(-50%)}}
+@media(max-width:740px){
+ .ticker.ticker-poster-banner{height:102px}
+ .ticker-poster-banner .ticker-poster-track{animation-duration:26s}
+}
+@media(prefers-reduced-motion:reduce){.ticker-poster-banner .ticker-poster-track{animation:none!important}}
