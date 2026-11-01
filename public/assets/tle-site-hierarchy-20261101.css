@@ -1,0 +1,119 @@
+/* Public TLE marketing hierarchy · 2026-11-01.
+   Scope: bilingual public landing routes only. Never reaches demos, checkout,
+   owner tools, contact fields or client-specific booking screens. */
+:where(.sales-home,.service-sales) {
+  --hierarchy-reading: 62ch;
+  --hierarchy-gap: clamp(16px, 2.2vw, 27px);
+}
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro h1 {
+  max-width: 13.5ch;
+  margin: 0 0 clamp(13px,1.7vw,21px);
+  font-size: clamp(39px, 4.5vw, 68px);
+  line-height: 1.095;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro > p:not(.demo-delivery-note) {
+  max-width: 43ch;
+  font-size: clamp(15px,1.35vw,17px);
+  line-height: 1.62;
+  color: #354B59;
+}
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro .eyebrow {
+  margin-bottom: clamp(12px,1.5vw,19px);
+  font-size: 12px;
+  letter-spacing: .075em;
+}
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro .hero-cta-row {
+  margin-top: clamp(21px,2.8vw,33px);
+}
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro .cta-button {
+  min-height: 52px;
+  padding: 14px 25px;
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.35;
+  max-width: 100%;
+  white-space: normal;
+  text-align: center;
+  box-shadow: 0 7px 18px rgba(25,25,25,.12);
+}
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro .demo-delivery-note {
+  font-size: 13px;
+  line-height: 1.55;
+  margin-top: 13px;
+}
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro .demo-delivery-note a {
+  text-decoration: underline;
+  text-decoration-color: #86A9BD;
+  text-underline-offset: 3px;
+}
+.sales-home :is(.solutions-section,.process-section) .section-heading {
+  max-width: 880px;
+  margin-bottom: clamp(26px,3.4vw,43px);
+}
+.sales-home :is(.solutions-section,.process-section) .section-heading h2,
+.sales-home .booking-copy h2,
+.sales-home .final-section h2 {
+  line-height: 1.15;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+.sales-home :is(.solutions-section,.process-section) .section-heading > p,
+.sales-home .booking-copy > p {
+  max-width: var(--hierarchy-reading);
+  font-size: clamp(14px,1.15vw,16px);
+  line-height: 1.66;
+}
+.sales-home .service-grid {align-items:stretch;}
+.sales-home .service-grid .service-card {height:100%;}
+.sales-home .final-section .final-actions {margin-top: clamp(22px,3vw,34px);}
+.sales-home .final-section :is(.cta-button,.tle-cta-pulse-button) {
+  min-height: 52px;
+  padding: 13px 23px;
+  font-size: 15px;
+  text-align: center;
+  white-space: normal;
+}
+.service-hero h1 {max-width: 18ch;line-height:1.12;text-wrap:balance;}
+.service-hero > p {max-width: 62ch;font-size: clamp(15px,1.3vw,17px);line-height:1.64;}
+.service-sales :is(.service-cta,.cta-button) {
+  min-height: 50px;
+  padding: 12px 23px;
+  font-size: clamp(14px,1.15vw,16px);
+  font-weight: 650;
+  text-align:center;
+  white-space:normal;
+}
+.service-sales :is(.service-cta,.cta-button,.service-demo-link):focus-visible,
+.sales-home :is(.cta-button,.tle-cta-pulse-button):focus-visible {outline: 3px solid #4B8CB4;outline-offset: 3px;}
+@media (max-width:767px) {
+ .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro h1 {
+   font-size: clamp(29px,8vw,42px);
+   line-height:1.12;
+   margin-bottom: 12px;
+   max-width: 15ch;
+ }
+ .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro > p:not(.demo-delivery-note) {
+   font-size: clamp(14px,3.85vw,16px);line-height:1.52;max-width:36ch;
+ }
+ .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro .hero-cta-row {margin-top:17px;}
+ .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro .cta-button {
+   font-size:14px;min-height:48px;padding:11px 18px;box-shadow:none;
+ }
+ .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro .demo-delivery-note {
+   font-size:11px;line-height:1.4;margin-top:9px;
+ }
+ .sales-home :is(.solutions-section,.process-section) .section-heading {margin-bottom:25px;}
+ .sales-home :is(.solutions-section,.process-section) .section-heading h2,
+ .sales-home .booking-copy h2,
+ .sales-home .final-section h2 {font-size:clamp(28px,7vw,37px);line-height:1.16;}
+ .sales-home .final-section :is(.cta-button,.tle-cta-pulse-button) {min-height:49px;padding:12px 18px;font-size:14px;}
+ .service-hero {padding-inline:clamp(17px,5vw,26px);}
+ .service-hero h1 {font-size:clamp(33px,8vw,49px)!important;max-width:100%;line-height:1.13!important;}
+ .service-hero > p {font-size:15px;line-height:1.6;}
+ .service-sales :is(.service-cta,.cta-button) {min-height:48px;max-width:100%;}
+}
+@media(prefers-reduced-motion:reduce) {
+ .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro .cta-button {transition:none;}
+}
