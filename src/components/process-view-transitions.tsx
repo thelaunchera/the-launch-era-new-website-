@@ -211,7 +211,7 @@ export function ProcessSteps({ lang = 'en' }: { lang?: Language }) {
             className="tle-process-thumbnail"
             style={{ viewTransitionName: isSource ? motionName(index) : 'none' }}
             aria-hidden="true"
-          ><img className="tle-process-thumbnail-photo" src={photo.src} alt="" loading="lazy" decoding="async"/></span>
+          ><img className="tle-process-thumbnail-photo" src={photo.src} alt="" loading="eager" decoding="async"/></span>
           <span className="tle-process-card-copy"><span className="tle-process-card-title">{item.title}</span><span className="tle-process-card-summary">{item.summary}</span></span>
           <span className="tle-process-card-arrow" aria-hidden="true"><ArrowUpRight size={18}/></span>
         </button>;
