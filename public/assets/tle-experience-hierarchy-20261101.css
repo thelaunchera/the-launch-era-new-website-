@@ -1,0 +1,76 @@
+/* Nov 2026 · Marketing/demo entrances only. Scoped, multilingual and visual.
+   Do not change form controls, prices, customer data, checkout or booking state. */
+body[data-tle-experience] :is(h1,.demo-headline) {
+ text-wrap:balance;overflow-wrap:break-word;
+}
+body[data-tle-experience] :is(.hero,.tle-hero) :is(a,button):focus-visible {
+ outline:3px solid #5c9abf;outline-offset:4px;
+}
+body[data-tle-experience="bundle"] .tle-hero h1 {
+ max-width:15ch;font-size:clamp(35px,4.4vw,67px);line-height:1.13;
+ margin-bottom:clamp(14px,2vw,24px);
+}
+body[data-tle-experience="bundle"] .tle-hero-copy>p {
+ max-width:50ch;font-size:clamp(15px,1.35vw,17px);line-height:1.62;
+}
+body[data-tle-experience="bundle"] .tle-hero-actions {
+ margin-top:clamp(20px,2.5vw,30px);gap:clamp(11px,1.5vw,18px);
+}
+body[data-tle-experience="bundle"] .tle-hero-actions .tle-btn.dark {
+ min-height:52px;padding:13px 24px;font-size:15px;
+}
+body[data-tle-experience="bundle"] .tle-hero-actions .tle-btn.outline {
+ background:transparent;border:0;min-height:46px;padding:10px 5px;
+ font-size:13px;text-decoration:underline;text-underline-offset:4px;
+}
+body[data-tle-experience="cleaning"] .hero-cleaning-site h1 {
+ max-width:16ch;line-height:1.1;text-wrap:balance;
+}
+body[data-tle-experience="cleaning"] .hero-cleaning-site .hero-intro {
+ max-width:47ch;font-size:clamp(15px,1.3vw,17px);line-height:1.65;
+}
+body[data-tle-experience="cleaning"] .hero-cleaning-site .hero-main-action {
+ min-height:52px;padding:14px 25px;font-size:15px;
+ font-weight:750;box-shadow:0 8px 26px #1027352a;
+}
+body[data-tle-experience="sample"] .heroText .demo-hero-description {
+ max-width:47ch;font-size:clamp(15px,1.35vw,17px);line-height:1.6;
+}
+body[data-tle-experience="sample"] .heroText .demo-hero-cta {
+ min-height:52px;max-width:100%;white-space:normal;text-align:center;
+}
+body[data-tle-experience="trial"] .hero h1 {
+ max-width:18ch;line-height:1.13;
+}
+body[data-tle-experience="trial"] .hero p {
+ max-width:53ch;font-size:clamp(15px,1.3vw,17px);line-height:1.62;
+}
+body[data-tle-experience="trial"] .stage h2 {
+ line-height:1.18;text-wrap:balance;
+}
+body[data-tle-experience="trial"] .btn-primary {
+ min-height:50px;font-size:14px;white-space:normal;text-align:center;
+}
+body[data-tle-experience="app-demo"] h1 {
+ max-width:18ch;line-height:1.12;
+}
+body[data-tle-experience="app-demo"] #trial {
+ min-height:50px;font-size:14px;white-space:normal;text-align:center;
+}
+body[data-tle-experience="request-demo"] #headline {
+ max-width:20ch;line-height:1.15;
+}
+@media(max-width:760px) {
+ body[data-tle-experience="bundle"] .tle-hero h1 {font-size:clamp(31px,7.7vw,45px);line-height:1.15;max-width:100%;}
+ body[data-tle-experience="bundle"] .tle-hero-copy>p {font-size:15px;line-height:1.55;}
+ body[data-tle-experience="bundle"] .tle-hero-actions .tle-btn.dark {min-height:49px;padding:12px 18px;font-size:14px;}
+ body[data-tle-experience="bundle"] .tle-hero-actions .tle-btn.outline {font-size:13px;}
+ body[data-tle-experience="cleaning"] .hero-cleaning-site h1 {font-size:clamp(33px,8.3vw,49px);max-width:100%;}
+ body[data-tle-experience="cleaning"] .hero-cleaning-site .hero-intro {font-size:14px;line-height:1.55;}
+ body[data-tle-experience="cleaning"] .hero-cleaning-site .hero-main-action {min-height:48px;font-size:14px;padding:12px 18px;}
+ body[data-tle-experience="sample"] .heroText .demo-hero-description {font-size:14px;line-height:1.53;}
+ body[data-tle-experience="trial"] .hero h1 {font-size:clamp(29px,7.5vw,43px);max-width:100%;}
+ body[data-tle-experience="trial"] .hero p {font-size:14px;line-height:1.55;}
+ body[data-tle-experience="app-demo"] h1 {font-size:clamp(29px,7.5vw,43px);max-width:100%;}
+ body[data-tle-experience="request-demo"] #headline {font-size:clamp(28px,7.4vw,42px);max-width:100%;}
+}
