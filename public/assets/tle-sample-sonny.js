@@ -2,13 +2,14 @@
    This adjusts the launcher visually; it never sends booking-form data. */
 (() => {
   "use strict";
-  if (!/^\/sample-cleaning\/(?:index\.html)?$/.test(window.location.pathname)) return;
+  if (!/^\/(?:sample-cleaning|experience-cleaning)\/(?:index\.html)?$/.test(window.location.pathname)) return;
   const es = new URLSearchParams(window.location.search).get("lang") === "es";
   function init() {
     const launch = document.querySelector(".tle-ai-launch");
     const panel = document.querySelector(".tle-ai-panel");
     if (!launch || !panel || launch.dataset.tleSampleSonny === "true") return;
     launch.dataset.tleSampleSonny = "true";
+    document.body.classList.add("tle-sonny-public");
     const makeAvatar = (className) => {
       const img = document.createElement("img");
       img.src = "/assets/lead-demo/ai-demo-robot.webp";
@@ -43,7 +44,7 @@
       const style = document.createElement("style");
       style.id = "tleSampleSonnyStyle";
       style.textContent = `
-        body[data-tle-experience="sample"] .tle-ai-launch.tle-sample-sonny-launch {
+        body.tle-sonny-public .tle-ai-launch.tle-sample-sonny-launch {
           width:58px!important;height:58px!important;min-width:58px!important;max-width:58px!important;
           min-height:58px!important;padding:4px!important;display:grid!important;place-items:center!important;
           right:calc(18px + env(safe-area-inset-right,0px))!important;
@@ -51,22 +52,22 @@
           background:#e3f3fc!important;border:1px solid #a3cfe7!important;border-radius:50%!important;
           box-shadow:0 9px 26px #18466235!important;overflow:hidden!important;
         }
-        body[data-tle-experience="sample"] .tle-sample-sonny-avatar {width:49px;height:49px;display:block;object-fit:contain;border-radius:50%}
-        body[data-tle-experience="sample"] .tle-sample-sonny-header-avatar {width:39px;height:39px;object-fit:contain;flex:none;border-radius:50%;background:#dceef9;margin-right:7px}
-        body[data-tle-experience="sample"] .tle-ai-head>div {display:flex;align-items:center;gap:5px}
-        body[data-tle-experience="sample"] .tle-ai-head>div>b,
-        body[data-tle-experience="sample"] .tle-ai-head>div>small {display:block}
-        body[data-tle-experience="sample"] .tle-ai-panel:not([hidden]) {bottom:calc(94px + env(safe-area-inset-bottom,0px))!important}
-        body[data-tle-experience="sample"] .tle-ai-launch:focus-visible {outline:3px solid #327eaf!important;outline-offset:3px}
+        body.tle-sonny-public .tle-sample-sonny-avatar {width:49px;height:49px;display:block;object-fit:contain;border-radius:50%}
+        body.tle-sonny-public .tle-sample-sonny-header-avatar {width:39px;height:39px;object-fit:contain;flex:none;border-radius:50%;background:#dceef9;margin-right:7px}
+        body.tle-sonny-public .tle-ai-head>div {display:flex;align-items:center;gap:5px}
+        body.tle-sonny-public .tle-ai-head>div>b,
+        body.tle-sonny-public .tle-ai-head>div>small {display:block}
+        body.tle-sonny-public .tle-ai-panel:not([hidden]) {bottom:calc(94px + env(safe-area-inset-bottom,0px))!important}
+        body.tle-sonny-public .tle-ai-launch:focus-visible {outline:3px solid #327eaf!important;outline-offset:3px}
         @media(max-width:700px){
-          body[data-tle-experience="sample"] .tle-ai-launch.tle-sample-sonny-launch {
+          body.tle-sonny-public .tle-ai-launch.tle-sample-sonny-launch {
             right:calc(12px + env(safe-area-inset-right,0px))!important;
             bottom:calc(16px + env(safe-area-inset-bottom,0px))!important;
           }
-          body[data-tle-experience="sample"] .tle-ai-panel:not([hidden]) {
+          body.tle-sonny-public .tle-ai-panel:not([hidden]) {
             top:var(--tle-ai-vv-top,0px)!important;bottom:auto!important;
           }
-          body[data-tle-experience="sample"].tle-ai-chat-open .tle-ai-launch {visibility:hidden!important}
+          body.tle-sonny-public.tle-ai-chat-open .tle-ai-launch {visibility:hidden!important}
         }
       `;
       document.head.appendChild(style);
