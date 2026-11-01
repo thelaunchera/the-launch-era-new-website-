@@ -57,7 +57,7 @@ const es={
  purchase:'Quiero mi Booking Page + Command Center',
  offerNote:'La IA es opcional y tiene un precio aparte. Verás todos los cargos antes de pagar.',
  tryAgain:'Probar otra solicitud de ejemplo',
- footerSafety:'Ejemplo interactivo. No se reservó ni se envió nada.',
+ footerSafety:'Ejemplo interactivo. No se envían reservas; solo se procesan los mensajes opcionales del chat de Sonny.',
  backSite:'Volver a The Launch Era',privacy:'Privacidad',terms:'Términos'
 };
 const names={
