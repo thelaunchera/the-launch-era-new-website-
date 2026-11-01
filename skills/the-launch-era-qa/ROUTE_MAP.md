@@ -1,3 +1,8 @@
+## 2026-11-01 — Public landing copy trim (no route or checkout changes)
+- Active marketing routes remain unchanged: `/website-automation`, `/virtual-assistant`, `/booking-lead-automation`, `/booking-bundle/`, `/ai-booking-assistant/`, and `/whatsapp-ai-agent/` in both languages where applicable.
+- Existing CTAs, checkout destinations, service prices, availability gates, and demo interactions are preserved. Text-only cleanup reduces repeated sample warnings and marketing explanations; the WhatsApp preview remains **COMING SOON** with no pending offer/prices/timelines shown, including in source HTML.
+- Owner: The Launch Era website. No customer booking records, payment information, messages, AI workflows, or client demo workspaces touched. Live browser checks pending deployment.
+
 ## 2026-10-31 — CRUMB interactive cookie counter
 - Same `/demos/crumb/` and in-memory builder: six flavors, existing USD prices, 3/6/12 capacities, packaging and gift note preserved. No customer data, orders, payments or messages.
 - Existing flavor rows become a blue glass display case; cancellable decorative tongs transfer the selected photo into the live tray. State updates immediately. Full box closes with a branded lid; Open your box reopens it without clearing selections. Removing/changing size or packaging resets motion. Closing the dialog cancels pending closure. Reduced-motion skips transfer.
