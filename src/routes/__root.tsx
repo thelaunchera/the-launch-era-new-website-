@@ -167,7 +167,7 @@ function RootComponent() {
     const privacy = (window as Window & {TLEPrivacy?: {mount:()=>void}}).TLEPrivacy;
     privacy?.mount();
     const sources = [
-      '/assets/jessy-site.js?v=20261016-slow-blue-bubbles-v10',
+      '/assets/jessy-site.js?v=20261101-compact-home-v11',
       '/assets/tle-purchase-proof.js?v=20261016-mini3',
       '/assets/tle-footer-newsletter.js?v=20261016-ios3',
     ];
@@ -194,7 +194,7 @@ function RootComponent() {
     let element: HTMLScriptElement | null = null;
     const timer = window.setTimeout(() => {
       element = document.createElement('script');
-      element.src = '/assets/tle-services-color-shift.js?v=20261016-v4';
+      element.src = '/assets/tle-services-color-shift.js?v=20261101-card-visible-v5';
       element.async = true;
       element.setAttribute('data-tle-service-motion', '1');
       document.body.appendChild(element);
