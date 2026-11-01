@@ -122,10 +122,7 @@ function Page(){
         {active>=0&&<button type="button" onClick={reset}><RotateCcw/> Probar otra vez</button>}
       </div>
 
-      <div className="service-endcap">
-        <span>TU WEBSITE</span><ArrowRight/><span>CONSULTA</span><ArrowRight/><span>AUTOMATIZACIÓN</span><ArrowRight/><strong>PRÓXIMO PASO ✓</strong>
-        <small>Tu formulario actual · Configuración única $35 · Consultas organizadas.</small>
-      </div>
+      
     </section>
   <ServiceFAQ topic="website" lang="es"/></main>
 }
