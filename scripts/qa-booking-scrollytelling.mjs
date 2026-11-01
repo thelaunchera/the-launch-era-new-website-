@@ -27,12 +27,20 @@ assert(!story.includes('Dos seguimientos automáticos.') && !story.includes('Two
 assert(component.includes('hasta dos seguimientos automáticos') && component.includes('up to two automatic follow-ups'),'Detailed FAQ must truthfully disclose the maximum');
 
 for (const photo of [
-  'bundle-booking.png', 'bundle-command.png', 'bundle-hero.png'
+  'booking.webp', 'command.webp', 'hero.webp'
 ]) {
-  assert(component.includes('/assets/bundle-landing/' + photo), 'Missing image source: '+photo);
-  assert(statSync(new URL('../public/assets/bundle-landing/' + photo, import.meta.url)).size > 5000, 'Empty image: '+photo);
+  const asset = 'optimized/'+photo;
+  assert(component.includes('/assets/bundle-landing/' + asset), 'Missing optimized image source: '+asset);
+  const bytes=statSync(new URL('../public/assets/bundle-landing/' + asset, import.meta.url)).size;
+  assert(bytes > 5000 && bytes < 320000, 'Oversized or missing WebP: '+asset+' bytes '+bytes);
 }
-assert.equal(new Set(['bundle-booking.png','bundle-command.png','bundle-hero.png']).size, 3);
+assert.equal(new Set(['booking.webp','command.webp','hero.webp']).size, 3);
+const steps=read('src/components/process-view-transitions.tsx');
+for (const photo of ['booking-thumb.webp','command-thumb.webp','hero-thumb.webp']) {
+  assert(steps.includes('/assets/bundle-landing/optimized/'+photo),'Process thumbnail missing '+photo);
+  const bytes=statSync(new URL('../public/assets/bundle-landing/optimized/'+photo,import.meta.url)).size;
+  assert(bytes>2000&&bytes<90000,'Thumbnail oversized or missing '+photo);
+}
 for(const [name, source] of [['EN',en],['ES',es]]) {
   assert(source.includes('id="hero-next" className="hero-copy"><BookingWalkthrough'), name+' missing homepage story entry');
 }
