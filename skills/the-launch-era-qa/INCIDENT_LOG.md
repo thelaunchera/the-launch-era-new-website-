@@ -1,3 +1,9 @@
+## 2026-11-01 — Public landing editorial clutter and unpublished copy
+- User requested removing redundant and internal explanations from public landings, while keeping copy direct, professional, customer-facing and all actual buying terms intact.
+- Found an unreleased WhatsApp preview containing hidden promotional pricing and onboarding steps, plus duplicated example disclaimers and redundant pricing math across service pages.
+- Updated the active English/Spanish WhatsApp preview to coming-soon only; simplified wording on booking, automation, VA, bundle and AI service pages. Kept active prices and links unchanged. Updated `scripts/qa-no-weekend-cutoffs.mjs` to test 48-hour service claims only for purchasable services, and to reject unreleased WhatsApp prices.
+- Source checks and GitHub Actions pending. iPhone/desktop live visual verification is a separate step; no claim of device-by-device QA. No real customer data touched.
+
 ## 2026-10-31 — CRUMB interactive cookie counter
 - Same `/demos/crumb/` and in-memory builder: six flavors, existing USD prices, 3/6/12 capacities, packaging and gift note preserved. No customer data, orders, payments or messages.
 - Existing flavor rows become a blue glass display case; cancellable decorative tongs transfer the selected photo into the live tray. State updates immediately. Full box closes with a branded lid; Open your box reopens it without clearing selections. Removing/changing size or packaging resets motion. Closing the dialog cancels pending closure. Reduced-motion skips transfer.
