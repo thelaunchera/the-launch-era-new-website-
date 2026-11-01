@@ -978,3 +978,11 @@ On `/lead-private-preview.html` sample only, `tle-demo-enhancements-v12.js` owns
 - Owner requests the builder belong to the Gifts call to action, rather than an always-open section. Remove the standalone inline builder; keep the photograph, gift copy and Build Your Gift Box button. One permanent dialog contains the selector and opens from that button, Bag, existing final CTA and delivery shortcut.
 - Simplify lifecycle: no moving content or placeholder heights; close/Escape cancels decorative motion but preserves quantities, packaging and gift note. All six cutouts and tongs, box/packaging and preview remain. Legacy #build-box points to gift copy rather than a missing page section.
 - Update responsive regression to verify initial closed state, CTA opening, 3/6/12 capacities, note/summary, Escape/close/reopen and clean Gifts/gallery in Chromium/WebKit at all five widths. PR #395 merged as 9201d857; Pages 41193102634 succeeded. CI 41192923796 passed all 10 Chromium/WebKit cases across 360/390/820/1024/1440. Inspected WebKit 390px dialog screenshot. Live v5 verifies zero inline builder nodes, initial closed dialog, Gifts CTA opening and Bag reopening with 1 Classic cookie and gift note preserved. No real orders/payments/messages.
+
+## 2026-11-01 — Public Contact links use the real form
+- **English TLE visitor contact:** `https://thelaunchera.com/help`, renders `HelpContent/ContactForm`; actual inquiry submission remains owned by the existing TLE handler.
+- **Spanish TLE visitor contact:** `https://thelaunchera.com/es#contacto`, renders `SpanishContact` on the Spanish homepage.
+- **Shared site footer:** the contact CTA now goes to those localized forms rather than launching the mail client.
+- **Stand-alone bundle/support pages:** existing `/help` and `/help?topic=setup-call` routes remain unchanged. No changes to booking, payment, inquiries or customer accounts.
+- **Related properties:** the podcast and Content Lab use their existing on-page help form at `https://podcast.thelaunchera.com/#ayuda` (managed in a separate repo); its linked form opens automatically on anchor navigation.
+- **Check:** static source and CI still need to verify all public href destinations, the live deploy and phone browser behavior. Do not infer a successful submission solely from a link change.
