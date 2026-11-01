@@ -42,7 +42,7 @@ export function HomeHero() {
  <div className="tle-hero-soft-mesh" aria-hidden="true"><span/><span/><span/><span/></div>
  <div className="hero-intro">
    <div className="eyebrow">BOOKING PAGE + COMMAND CENTER · FOR CLEANING BUSINESSES</div>
-   <h1 className="tle-hero-heading-shine">Keep cleaning. Your booking requests stay organized.</h1>
+   <h1 className="tle-hero-heading-shine">You’re cleaning. Someone wants to book.</h1>
    <p>Your Booking Page collects customer details. Your private Command Center keeps requests and follow-ups together while you work.</p>
    <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/experience-cleaning/?lang=en&source=homepage">Try the Booking Demo</a></Button></div>
    <p className="demo-delivery-note"><a href="/booking-demo/?lang=en&source=homepage-clara">Request a More Personalized Demo</a> · Private link sent by email.</p>
