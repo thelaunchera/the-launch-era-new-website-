@@ -49,8 +49,7 @@ jobs:
           mkdir -p "$GITHUB_WORKSPACE/node_modules"
           ln -sfn /tmp/tle-responsive-qa/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
           ln -sfn /tmp/tle-responsive-qa/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
-      - name: Build public preview for PR smoke tests
-        if: github.event_name == 'pull_request'
+      - name: Build exact source preview for mobile checks
         run: |
           bun install
           bun run build
@@ -69,20 +68,14 @@ jobs:
           exit 1
       - name: Test exactly 375px across public marketing and demos
         run: |
-          if [ "$EVENT_NAME" = "pull_request" ]; then
-            python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-mobile-375-http.log 2>&1 &
-            server=$!
-            trap 'kill "$server" 2>/dev/null || true' EXIT
-            for i in $(seq 1 35); do
-              if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
-              sleep 1
-            done
-            QA_URL=http://127.0.0.1:4173 node scripts/qa-mobile-first-375.mjs
-          else
-            QA_URL=https://thelaunchera.com node scripts/qa-mobile-first-375.mjs
-          fi
-        env:
-          EVENT_NAME: ${{ github.event_name }}
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-mobile-375-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for i in $(seq 1 35); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-mobile-first-375.mjs
       - name: Test current pages, interactions, and safe mocked email at four widths
         run: |
           if [ "$EVENT_NAME" = "pull_request" ]; then
