@@ -79,6 +79,7 @@ function attachTleChatMotion(chatLog){
 }
 
   const qs = new URLSearchParams(window.location.search);
+  const guideOnly = document.body?.dataset.tleExperience === "cleaning";
   if (qs.has("key") || qs.get("owner_preview") === "1") return;
   const lang = qs.get("lang") === "es" ? "es" : qs.get("lang") === "en" ? "en" : (document.documentElement.lang || "").toLowerCase().startsWith("es") || window.location.pathname.startsWith("/es/") ? "es" : "en";
   const es = lang === "es";
@@ -114,6 +115,15 @@ function attachTleChatMotion(chatLog){
     limit:"Chat isn't available right now. Please try again later.",
     opening:"Open Sonny, the booking agent", review:"Review my request →",nextStep:"Next: review what I filled in, complete any missing fields, then finish the demo request."
   };
+  if(guideOnly){
+    copy.intro=es
+      ?"¡Hola! Soy Sonny, el robosito de reservas. 👋 Puedo explicarte los servicios y guiarte por esta demo. ¿Qué te gustaría probar?"
+      :"Hi! I'm Sonny, your booking robot. 👋 I can explain the cleaning services and guide you through this demo. What would you like to try?";
+    copy.subtitle=es?"Guía interactiva · Servicio opcional":"Interactive guide · Optional add-on";
+    copy.note=es
+      ?"Solo demostración. Los mensajes que escribas aquí se procesan para responderte. No se envía ninguna reserva, correo ni pago."
+      :"Demo only. Messages you type here are processed to answer you. No booking, email or payment is sent.";
+  }
   const css = document.createElement("style");
   css.textContent = `
     .tle-ai-launch{position:fixed!important;right:calc(23px + env(safe-area-inset-right));bottom:calc(76px + env(safe-area-inset-bottom));z-index:2147483000!important;border:1px solid rgba(25,25,25,.12);background:#F2D85B;color:#191919;font:700 13px Futura,"Avenir Next",Arial,sans-serif;padding:13px 18px;border-radius:999px;box-shadow:0 7px 27px #19191929;min-height:46px;display:flex;align-items:center;gap:8px;cursor:pointer}
@@ -309,12 +319,15 @@ function attachTleChatMotion(chatLog){
       if(!res.ok&&res.status!==429&&!field.value.trim())field.value=message;
       wait.textContent=reply;
       if(res.ok&&typeof data.reply==="string"){
-        if(data.ready_for_review===true&&handoffShown){
+        if(guideOnly&&data.ready_for_review===true){
+          wait.textContent=es?"Perfecto. Puedes completar la prueba en el formulario de tres pasos de esta página; nada se reserva ni se cobra.":"Great! You can try the three-step sample form on this page. Nothing is booked or charged.";
+        }
+        if(!guideOnly&&data.ready_for_review===true&&handoffShown){
           wait.textContent=es?"Tu solicitud sigue lista para revisar. Toca «Revisar mi solicitud» para completar lo que falte.":"Your request is ready for review. Tap “Review my request” to complete anything missing.";
         }
         dialogue.push({role:"Visitor",message:message.slice(0,230)},{role:"Assistant",message:data.reply.slice(0,230)});
         if(dialogue.length>16)dialogue.splice(0,dialogue.length-16);
-        if(data.booking&&typeof data.booking==="object"&&!Array.isArray(data.booking)){
+        if(!guideOnly&&data.booking&&typeof data.booking==="object"&&!Array.isArray(data.booking)){
           for(const [key,val] of Object.entries(data.booking)){
             if((typeof val==="string"&&val.trim())||(typeof val==="number"&&Number.isFinite(val)))
               bookingDraft[key]=val;
