@@ -177,7 +177,7 @@ try{
    await page.waitForFunction(()=>document.querySelector('.site-footer')?.classList.contains('tle-footer-ready'));
    assert.equal(await page.locator('.site-footer form[data-tle-newsletter]').count(),1,'Never duplicate newsletter');
    const firstLinks=await page.locator('.site-footer .footer-links a').evaluateAll(links=>links.map(a=>a.getAttribute('href')));
-   assert.equal(firstLinks.length,5,'Footer must keep all navigation links');
+   assert.equal(firstLinks.length,8,'Footer must preserve service navigation, required policies and data preferences');
    await toggle.click();
    await page.waitForFunction(()=>document.querySelector('.site-footer .tle-footer-toggle')?.getAttribute('aria-checked')==='true');
    assert.equal(await page.locator('.site-footer.tle-footer-dark').count(),1,'Dark footer switch did not work');
