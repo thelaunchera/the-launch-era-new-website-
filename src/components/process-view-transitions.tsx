@@ -69,13 +69,13 @@ const copy = {
 // First-party photos are already used on our Booking + Command Center landing.
 // One meaningful photograph per step, shared by the small card and detail.
 const stepPhotos = [
-  { src: '/assets/bundle-landing/bundle-booking.png', alt: {
+  { src: '/assets/bundle-landing/optimized/booking.webp', thumb: '/assets/bundle-landing/optimized/booking-thumb.webp', alt: {
       en: 'Cleaning business owners working together at a laptop booking page',
       es: 'Dueñas de un negocio de limpieza trabajando juntas con una página de reservas en una laptop' } },
-  { src: '/assets/bundle-landing/bundle-hero.png', alt: {
+  { src: '/assets/bundle-landing/optimized/hero.webp', thumb: '/assets/bundle-landing/optimized/hero-thumb.webp', alt: {
       en: 'Cleaning business owners planning their daily workflow together',
       es: 'Dueñas de un negocio de limpieza planificando juntas su trabajo diario' } },
-  { src: '/assets/bundle-landing/bundle-command.png', alt: {
+  { src: '/assets/bundle-landing/optimized/command.webp', thumb: '/assets/bundle-landing/optimized/command-thumb.webp', alt: {
       en: 'Cleaning business owners reviewing their workspace dashboard',
       es: 'Dueñas de un negocio de limpieza revisando su panel de trabajo' } }
 ] as const;
@@ -211,7 +211,7 @@ export function ProcessSteps({ lang = 'en' }: { lang?: Language }) {
             className="tle-process-thumbnail"
             style={{ viewTransitionName: isSource ? motionName(index) : 'none' }}
             aria-hidden="true"
-          ><img className="tle-process-thumbnail-photo" src={photo.src} alt="" loading="eager" decoding="async"/></span>
+          ><img className="tle-process-thumbnail-photo" src={photo.thumb} alt="" loading="lazy" decoding="async" width={320} height={420}/></span>
           <span className="tle-process-card-copy"><span className="tle-process-card-title">{item.title}</span><span className="tle-process-card-summary">{item.summary}</span></span>
           <span className="tle-process-card-arrow" aria-hidden="true"><ArrowUpRight size={18}/></span>
         </button>;
