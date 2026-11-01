@@ -93,7 +93,7 @@ export function FreebiePage({language}:{language:Language}){
 
   return <main className="tle-freebie-page bg-[#FAF8F3] text-[#191919]">
     <section className="overflow-hidden border-b border-black/10">
-      <div className="mx-auto grid w-[min(1180px,calc(100%-32px))] gap-10 py-14 md:grid-cols-[1.05fr_.95fr] md:items-center md:py-20">
+      <div className="mx-auto grid w-[min(1180px,calc(100%-32px))] gap-7 py-9 md:grid-cols-[1.05fr_.95fr] md:items-center md:py-14">
         <div>
           <div className="mb-5 inline-flex rounded-full border border-black/10 bg-[#F2D85B] px-4 py-2 text-[11px] font-bold uppercase tracking-[.12em]">
             {es?'Free Cleaning Lead Tracker':'Free Cleaning Lead Tracker'}
@@ -101,61 +101,55 @@ export function FreebiePage({language}:{language:Language}){
           <h1 className="max-w-3xl font-serif text-[clamp(3rem,7vw,6.7rem)] leading-[.92] tracking-[-.055em]">
             {es?'Organiza tus consultas sin perder detalles.':'Keep every inquiry organized.'}
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-black/65">
+          <p className="mt-4 max-w-2xl text-base leading-7 text-black/65">
             {es
               ?'Tracker + Starter Kit gratis para organizar consultas y seguimientos.'
               :'Free tracker and starter kit for inquiries, quotes, and follow-ups.'}
           </p>
-          <div className="mt-7 flex flex-wrap gap-2">
+          <div className="mt-5 flex flex-wrap gap-2">
             {(es
               ?['Lead Tracker editable','Starter Kit de 12 páginas','Guiones para consultas + cotizaciones','Reset de leads en 10 minutos']
               :['Editable Lead Tracker','12-page Starter Kit','Inquiry + quote scripts','10-minute lead reset']
             ).map(item=><span key={item} className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-3 py-2 text-sm font-medium"><Check size={15}/>{item}</span>)}
           </div>
-          <MarketingCTA href="#freebie-form" className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#191919] px-6 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5">
+          <MarketingCTA href="#freebie-form" className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#191919] px-6 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5">
             {es?'Quiero el Lead Tracker gratis':'Get the Free Lead Tracker'} <ArrowRight size={17}/>
           </MarketingCTA>
         </div>
 
-        <div className="relative min-h-[460px] md:min-h-[560px]">
-          <div className="absolute inset-y-0 right-0 w-[78%] overflow-hidden rounded-[34px] border border-black/10 bg-[#DCEBFA] shadow-[18px_18px_0_#F2D85B]">
+        <div className="relative min-h-[290px] md:min-h-[400px]">
+          <div className="absolute inset-y-0 right-0 w-full overflow-hidden rounded-[22px] border border-black/10 bg-[#DCEBFA]">
             <img src="https://images.pexels.com/photos/19905182/pexels-photo-19905182/free-photo-of-woman-writing-in-notebook-on-desk.jpeg?auto=compress&dpr=1&h=1200&w=900" alt={es?'Dueña de negocio organizando sus leads':'Cleaning business owner organizing leads'} className="h-full w-full object-cover"/>
           </div>
-          <div className="absolute bottom-6 left-0 w-[68%] rotate-[-3deg] rounded-3xl border border-black/10 bg-white p-6 shadow-2xl">
-            <span className="text-[10px] font-bold uppercase tracking-[.14em] text-[#87546F]">THE LAUNCH ERA</span>
-            <h2 className="mt-3 font-serif text-4xl leading-none">Free Cleaning Lead Tracker</h2>
-            <p className="mt-3 text-sm leading-6 text-black/60">
-              {es?'Cada consulta con un próximo paso.':'Every inquiry has a next step.'}
-            </p>
-          </div>
+
         </div>
       </div>
     </section>
 
-    <section className="py-16 md:py-24" id="freebie-form">
+    <section className="py-9 md:py-14" id="freebie-form">
       <div className="mx-auto grid w-[min(1080px,calc(100%-32px))] gap-7 md:grid-cols-[.9fr_1.1fr]">
-        <aside className="rounded-[30px] bg-[#191919] p-7 text-white md:p-10">
+        <aside className="rounded-[22px] bg-[#191919] p-6 text-white md:p-7">
           <span className="text-[11px] font-bold uppercase tracking-[.14em] text-[#F2D85B]">{es?'Qué recibes':'What you get'}</span>
-          <h2 className="mt-4 font-serif text-5xl leading-[.98]">{es?'Un recurso. Cuatro herramientas útiles.':'One resource. Four useful tools.'}</h2>
-          <p className="mt-5 leading-7 text-white/65">
+          <h2 className="mt-3 font-serif text-[clamp(2rem,4vw,3rem)] leading-[1.05]">{es?'Un recurso. Cuatro herramientas útiles.':'One resource. Four useful tools.'}</h2>
+          <p className="mt-3 leading-6 text-white/65">
             {es?'Ve quién necesita respuesta y qué sigue.':'See who needs a reply and what comes next.'}
           </p>
-          <div className="mt-7 grid gap-3 text-sm">
+          <div className="mt-4 grid gap-2 text-sm">
             {(es
               ?['01 · Lead Tracker editable','02 · Starter Kit de 12 páginas','03 · Guiones para consultas + quotes','04 · Rescate de leads en 10 minutos']
               :['01 · Editable Lead Tracker','02 · 12-page Starter Kit','03 · Inquiry + quote scripts','04 · 10-minute lead rescue']
-            ).map(item=><div key={item} className="rounded-2xl bg-white px-4 py-3 font-semibold text-[#191919]">{item}</div>)}
+            ).map(item=><div key={item} className="rounded-xl bg-white px-3 py-2.5 font-semibold text-[#191919]">{item}</div>)}
           </div>
         </aside>
 
-        <div className="rounded-[30px] border border-black/10 bg-white p-7 shadow-[0_20px_60px_rgba(25,25,25,.06)] md:p-10">
+        <div className="rounded-[22px] border border-black/10 bg-white p-6 md:p-7">
           {status==='sent' ? <SuccessConfirmation language={language} kind="freebie" email={email} emailSent={emailAccepted} /> : <>
-            <div className="mb-7 flex h-12 w-12 items-center justify-center rounded-full bg-[#DCEBFA]"><Mail size={21}/></div>
-            <h2 className="font-serif text-5xl leading-none">{es?'Envíamelo a mi correo.':'Send it to my inbox.'}</h2>
-            <p className="mt-4 leading-7 text-black/60">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#DCEBFA]"><Mail size={21}/></div>
+            <h2 className="font-serif text-[clamp(2rem,4vw,3rem)] leading-[1.05]">{es?'Envíamelo a mi correo.':'Send it to my inbox.'}</h2>
+            <p className="mt-3 leading-6 text-black/60">
               {es?'Te enviaremos el Lead Tracker + Starter Kit directamente a tu correo.':'We’ll send the Lead Tracker + Starter Kit directly to your inbox.'}
             </p>
-            <form onSubmit={submit} className="mt-8">
+            <form onSubmit={submit} className="mt-5">
               <label className="text-sm font-semibold" htmlFor="freebie-email">{es?'Correo electrónico':'Email address'}</label>
               <input id="freebie-email" type="email" required value={email} onFocus={markFormStart} onChange={e=>setEmail(e.target.value)} placeholder="you@business.com" className="mt-2 h-14 w-full rounded-2xl border border-black/20 bg-[#FAF8F3] px-4 outline-none transition focus:border-black"/>
               <input name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
