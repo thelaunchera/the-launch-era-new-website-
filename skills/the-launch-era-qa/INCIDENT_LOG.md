@@ -1,3 +1,8 @@
+## 2026-11-01 — Public Contact link opens mail client instead of inquiry form
+- Reported: public TLE landings must send visitors to a contact form rather than open an email app.
+- Source repair: shared site footer EN `Contact` routes to `/help`; ES `Contacto` routes to `/es#contacto`. Both were confirmed in source to contain real form components; no endpoint, account data, customer records or outgoing emails changed.
+- QA: EN/ES form routes checked in source. Deployment/live iPhone navigation subject to separate verification.
+
 ## 2026-11-01 — Public landing editorial clutter and unpublished copy
 - User requested removing redundant and internal explanations from public landings, while keeping copy direct, professional, customer-facing and all actual buying terms intact.
 - Found an unreleased WhatsApp preview containing hidden promotional pricing and onboarding steps, plus duplicated example disclaimers and redundant pricing math across service pages.
