@@ -117,3 +117,13 @@
 @media(prefers-reduced-motion:reduce) {
  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro .cta-button {transition:none;}
 }
+
+/* First paint: the value statement cannot wait for a photo, animation or scroll observer. */
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro{
+ opacity:1!important;
+ transform:none!important;
+ visibility:visible!important;
+}
+@media(max-width:767px){
+ .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro{transition:none!important;}
+}
