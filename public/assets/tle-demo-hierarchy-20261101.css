@@ -1,0 +1,59 @@
+/* Editorial demo hierarchy — scoped by data-tle-demo.
+   Each client brand keeps its own photography, fonts, color and interactions. */
+body[data-tle-demo] .hero :is(h1,h2) {text-wrap:balance;overflow-wrap:break-word;}
+body[data-tle-demo] .hero p {overflow-wrap:break-word;}
+body[data-tle-demo] :is(.hero a,.hero button):focus-visible {
+ outline:3px solid currentColor;outline-offset:4px;
+}
+/* AFTR: shorter reading path to the Tonight action; keep the nightclub personality. */
+body[data-tle-demo="aftr"] .hero h1 {font-size:clamp(78px,9.4vw,165px);line-height:.9;}
+body[data-tle-demo="aftr"] .hero-content>p {max-width:34ch;font-size:clamp(15px,1.4vw,19px);line-height:1.5;}
+body[data-tle-demo="aftr"] .hero-cta {display:flex;align-items:center;gap:clamp(12px,2vw,21px);flex-wrap:wrap;}
+body[data-tle-demo="aftr"] .hero-cta .btn-solid {min-height:52px;padding:14px 24px;font-size:13px;}
+body[data-tle-demo="aftr"] .hero-cta .btn-ghost {min-height:48px;font-size:12px;}
+body[data-tle-demo="aftr"] .section-heading {gap:clamp(18px,3vw,36px);}
+body[data-tle-demo="aftr"] .section-heading>p {font-size:clamp(14px,1.2vw,16px);line-height:1.58;}
+/* Casa Brownie: occasion -> benefit -> explore the six flavours. */
+body[data-tle-demo="casa-brownie"] .hero-copy h1 {max-width:13ch;line-height:1.08;letter-spacing:-.04em;}
+body[data-tle-demo="casa-brownie"] .hero-copy>p {max-width:48ch;font-size:clamp(15px,1.18vw,17px);line-height:1.63;}
+body[data-tle-demo="casa-brownie"] .hero-copy>.primary-button {
+ min-height:52px;padding:14px 25px;display:inline-flex;align-items:center;
+ justify-content:center;font-size:14px;font-weight:700;text-align:center;
+}
+body[data-tle-demo="casa-brownie"] .hero-qualities {gap:clamp(10px,1.7vw,22px);}
+/* CRUMB: preserve blue editorial style; make the first useful action legible. */
+body[data-tle-demo="crumb"] .hero-editorial-content {max-width:min(630px,100%);}
+body[data-tle-demo="crumb"] .hero-editorial-content h2 {max-width:11ch;line-height:1.05;text-wrap:balance;}
+body[data-tle-demo="crumb"] .hero-editorial-content p {max-width:41ch;line-height:1.58;font-size:clamp(15px,1.3vw,17px);}
+body[data-tle-demo="crumb"] .hero-editorial-cta {min-height:52px;padding:13px 23px;font-size:13px;letter-spacing:.025em;text-align:center;}
+body[data-tle-demo="crumb"] .cookies-section .section-head {gap:clamp(18px,3vw,37px);}
+body[data-tle-demo="crumb"] .cookies-section .section-head p {font-size:clamp(14px,1.2vw,16px);line-height:1.57;}
+/* Cleaning booking demos: large legible actions without implying a live booking. */
+body[data-tle-demo="angela"] .hero h1 {max-width:19ch;line-height:1.12;}
+body[data-tle-demo="angela"] .hero p {font-size:clamp(15px,1.25vw,17px);line-height:1.6;max-width:50ch;}
+body[data-tle-demo="angela"] .nextActions .primaryLink {min-height:50px;padding:13px 22px;font-size:14px;text-align:center;}
+body[data-tle-demo="angela"] .card h2 {line-height:1.19;text-wrap:balance;}
+body[data-tle-demo="claudia"] .hero h1 {max-width:20ch;line-height:1.12;}
+body[data-tle-demo="claudia"] .hero p {font-size:clamp(15px,1.35vw,17px);line-height:1.6;max-width:48ch;}
+body[data-tle-demo="claudia"] .buttons .primary {min-height:48px;padding:11px 20px;font-size:14px;text-align:center;}
+body[data-tle-demo="claudia"] .panel h2 {line-height:1.22;text-wrap:balance;}
+@media(max-width:760px){
+ body[data-tle-demo] :is(.hero,.hero-editorial) {overflow:hidden;}
+ body[data-tle-demo="aftr"] .hero h1 {font-size:clamp(58px,13vw,96px);line-height:.91;}
+ body[data-tle-demo="aftr"] .hero-cta .btn-solid {min-height:48px;font-size:12px;}
+ body[data-tle-demo="casa-brownie"] .hero-copy h1 {font-size:clamp(39px,9.6vw,61px);line-height:1.08;max-width:100%;}
+ body[data-tle-demo="casa-brownie"] .hero-copy>p {font-size:14px;line-height:1.55;}
+ body[data-tle-demo="casa-brownie"] .hero-copy>.primary-button {min-height:48px;padding:11px 19px;}
+ body[data-tle-demo="crumb"] .hero-editorial-content h2 {line-height:1.07;max-width:100%;}
+ body[data-tle-demo="crumb"] .hero-editorial-content p {font-size:14px;line-height:1.52;}
+ body[data-tle-demo="crumb"] .hero-editorial-cta {min-height:48px;padding:11px 18px;font-size:12px;}
+ body[data-tle-demo="angela"] .hero h1,
+ body[data-tle-demo="claudia"] .hero h1 {font-size:clamp(29px,7.6vw,43px);line-height:1.12;}
+ body[data-tle-demo="angela"] .hero p,
+ body[data-tle-demo="claudia"] .hero p {font-size:14px;line-height:1.57;}
+ body[data-tle-demo="angela"] .nextActions .primaryLink,
+ body[data-tle-demo="claudia"] .buttons .primary {font-size:14px;min-height:48px;}
+}
+@media(prefers-reduced-motion:reduce){
+ body[data-tle-demo] .hero :is(a,button) {transition:none;}
+}
