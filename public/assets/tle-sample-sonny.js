@@ -26,7 +26,15 @@
     launch.title = es ? "Hablar con Sonny" : "Chat with Sonny";
     panel.id = "tleSampleSonnyPanel";
     const identity = panel.querySelector(".tle-ai-head > div");
-    if (identity) identity.prepend(makeAvatar("tle-sample-sonny-header-avatar"));
+    if (identity) {
+      const copy = document.createElement("span");
+      copy.className = "tle-sample-sonny-heading";
+      const name = identity.querySelector("b");
+      const detail = identity.querySelector("small");
+      if (name) copy.appendChild(name);
+      if (detail) copy.appendChild(detail);
+      identity.replaceChildren(makeAvatar("tle-sample-sonny-header-avatar"), copy);
+    }
     const note = panel.querySelector(".tle-ai-foot > p");
     if (note) note.textContent = es
       ? "Prueba con datos ficticios. Solo lo que escribas en este chat se envía al asistente; la solicitud de limpieza no se reserva ni se cobra."
