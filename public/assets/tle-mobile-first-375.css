@@ -307,3 +307,49 @@
   }
 }
 .page-intro .page-intro-cta:focus-visible{outline:3px solid #4B8CB4;outline-offset:4px;}
+
+/* Consent stays fully opt-in and equally actionable, but the small-phone
+   drawer no longer masks the hero. All explanatory copy remains visible. */
+@media(max-width:767px){
+  body .privacy-notice {
+    left:8px!important;
+    right:8px!important;
+    bottom:max(8px,env(safe-area-inset-bottom))!important;
+    width:calc(100vw - 16px)!important;
+    max-width:410px;
+    max-height:32svh;
+    box-sizing:border-box;
+    overflow-y:auto;
+    padding:10px 12px!important;
+    border-radius:14px!important;
+    box-shadow:0 6px 22px rgba(25,25,25,.13)!important;
+  }
+  body .privacy-notice h2 {
+    font:700 14px/1.2 system-ui,sans-serif!important;
+    margin:0 0 4px!important;
+  }
+  body .privacy-notice p {
+    font:400 12px/1.34 system-ui,sans-serif!important;
+    margin:0 0 7px!important;
+  }
+  body .privacy-notice .privacy-actions {
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px!important;
+    flex-wrap:nowrap!important;
+  }
+  body .privacy-notice .privacy-actions button {
+    width:100%;
+    min-width:0!important;
+    min-height:44px!important;
+    padding:7px 6px!important;
+    font:650 12px/1.2 system-ui,sans-serif!important;
+    border-radius:10px!important;
+  }
+  body .privacy-notice > a {
+    display:inline-block;
+    margin-top:5px!important;
+    font:500 11px/1.2 system-ui,sans-serif!important;
+    text-underline-offset:2px;
+  }
+}
