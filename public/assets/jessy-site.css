@@ -411,3 +411,44 @@ body.tle-jessy-demo-open{overflow:hidden!important}
  .tle-jessy-root .tle-jessy-demo-card .tle-jessy-demo-resting{transition:none!important;opacity:0}
  .tle-jessy-root .tle-jessy-demo-bubble{animation:none!important;will-change:auto}
 }
+
+/* 2026-11-01 · Home mobile: unobtrusive assistant above Safari bottom chrome.
+   Keep the full chat available with a 46px touch target, without covering
+   service descriptions or the booking-process text. */
+@media(max-width:600px){
+ body:has(.sales-home) .tle-jessy-root .tle-jessy-fab,
+ body:has(.sales-home) .tle-jessy-root.tle-jessy-compact .tle-jessy-fab {
+   position:fixed;
+   right:calc(12px + env(safe-area-inset-right))!important;
+   bottom:calc(18px + env(safe-area-inset-bottom))!important;
+   min-width:46px!important;
+   min-height:46px!important;
+   width:46px!important;
+   height:46px!important;
+   padding:2px!important;
+   gap:0!important;
+   border-radius:50%!important;
+   justify-content:center!important;
+   box-shadow:0 5px 18px rgba(20,53,70,.14)!important;
+ }
+ body:has(.sales-home) .tle-jessy-root .tle-jessy-fab-label {display:none!important;}
+ body:has(.sales-home) .tle-jessy-root .tle-jessy-fab .tle-jessy-avatar {
+   width:38px!important;
+   height:38px!important;
+   flex:0 0 38px!important;
+   max-width:38px!important;
+   border-radius:50%;
+ }
+ body:has(.sales-home) .tle-jessy-root .tle-jessy-status {
+   left:auto!important;
+   right:1px!important;
+   bottom:1px!important;
+   width:10px!important;
+   height:10px!important;
+ }
+ body:has(.sales-home) .tle-jessy-nudge {
+   right:calc(13px + env(safe-area-inset-right))!important;
+   bottom:calc(77px + env(safe-area-inset-bottom))!important;
+   max-width:210px;
+ }
+}
