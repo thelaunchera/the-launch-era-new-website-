@@ -662,3 +662,9 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - Owner requests the builder belong to the Gifts call to action, rather than an always-open section. Remove the standalone inline builder; keep the photograph, gift copy and Build Your Gift Box button. One permanent dialog contains the selector and opens from that button, Bag, existing final CTA and delivery shortcut.
 - Simplify lifecycle: no moving content or placeholder heights; close/Escape cancels decorative motion but preserves quantities, packaging and gift note. All six cutouts and tongs, box/packaging and preview remain. Legacy #build-box points to gift copy rather than a missing page section.
 - Update responsive regression to verify initial closed state, CTA opening, 3/6/12 capacities, note/summary, Escape/close/reopen and clean Gifts/gallery in Chromium/WebKit at all five widths. PR #395 merged as 9201d857; Pages 41193102634 succeeded. CI 41192923796 passed all 10 Chromium/WebKit cases across 360/390/820/1024/1440. Inspected WebKit 390px dialog screenshot. Live v5 verifies zero inline builder nodes, initial closed dialog, Gifts CTA opening and Bag reopening with 1 Classic cookie and gift note preserved. No real orders/payments/messages.
+
+## 2026-11-01 — Contact CTA routed to email application
+- **Report:** public landing contact actions should lead to an on-site form, never directly open a personal email application.
+- **Finding:** shared TLE footer still had a `mailto:` link; other site nav links already used `/help` or `/es#contacto`.
+- **Change:** common footer CTA now opens the correct EN/ES contact form; static public legal support links were updated to use those routes. Product and pricing text and form delivery handlers remain unchanged.
+- **Verification:** GitHub source reviewed; published route, responsive behavior and actual form delivery await independent live QA. Existing support/legal routes preserved.
