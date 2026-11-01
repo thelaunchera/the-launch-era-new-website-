@@ -115,10 +115,7 @@ function Page(){
         {active>=0&&<button type="button" onClick={reset}><RotateCcw/> Try another request</button>}
       </div>
 
-      <div className="service-endcap">
-        <span>YOUR WEBSITE</span><ArrowRight/><span>INQUIRY</span><ArrowRight/><span>AUTOMATION</span><ArrowRight/><strong>NEXT STEP ✓</strong>
-        <small>Your existing form · One-time setup $35 · Organized inquiries.</small>
-      </div>
+      
     </section>
   <ServiceFAQ topic="website" lang="en"/></main>
 }
