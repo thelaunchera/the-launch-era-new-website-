@@ -101,7 +101,7 @@ function SpanishHome(){const [active,setActive]=useState(0);const [heroLoaded,se
  <div className="tle-hero-soft-mesh" aria-hidden="true"><span/><span/><span/><span/></div>
  <div className="hero-intro">
    <div className="eyebrow">BOOKING PAGE + COMMAND CENTER · PARA NEGOCIOS DE LIMPIEZA</div>
-   <h1 className="tle-hero-heading-shine">Sigue limpiando. Tus reservas quedan organizadas.</h1>
+   <h1 className="tle-hero-heading-shine">Estás limpiando. Y te escriben para reservar.</h1>
    <p>Tu Booking Page recibe los datos del cliente. Tu Command Center organiza solicitudes y seguimientos mientras trabajas.</p>
    <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/experience-cleaning/?lang=es&source=homepage">Prueba el demo de reservas</a></Button></div>
    <p className="demo-delivery-note"><a href="/booking-demo/?lang=es&source=homepage-clara">Solicitar una demo personalizada</a> · Enlace privado enviado por correo.</p>
