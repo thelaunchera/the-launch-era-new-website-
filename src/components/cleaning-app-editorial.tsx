@@ -43,9 +43,9 @@ export function CleaningAppEditorial({ lang = 'en' }: Props) {
         <div className="tle-app-topline"><span>THE LAUNCH ERA</span><span>{es?'CLEANING APP / PARA NEGOCIOS DE LIMPIEZA':'CLEANING APP / FOR CLEANING BUSINESSES'}</span></div>
         <div className="tle-app-hero-grid">
           <div className="tle-app-intro">
-            <p className="tle-app-eyebrow">{es?'MENOS CAOS. MÁS CONTROL.':'LESS CHAOS. MORE CONTROL.'}</p>
-            <h1>{es?'Tu negocio.':'Your business.'}<span>{es?' Todo en un lugar.':' All in one place.'}</span></h1>
-            <p className="tle-app-lead">{es?'Clientes, trabajos y facturas organizados desde cualquier dispositivo.':'Bookings, clients, jobs, and invoices in one App.'}</p>
+            <p className="tle-app-eyebrow">{es?'CLEANING APP · PARA DUEÑOS DE NEGOCIOS DE LIMPIEZA':'CLEANING APP · FOR CLEANING BUSINESS OWNERS'}</p>
+            <h1>{es?'Organiza tu negocio':'Keep your cleaning business'}<span>{es?' de limpieza en una App.':' organized in one App.'}</span></h1>
+            <p className="tle-app-lead">{es?'Reservas, clientes, trabajos y facturas en un solo lugar, desde tu celular o computadora.':'Keep bookings, clients, jobs and invoices together, from your phone or computer.'}</p>
             <div className="tle-app-actions">
               <MarketingCTA className="tle-app-btn primary" href={signup}>{es?'Comenzar prueba gratis':'Start free trial'} <ArrowRight size={18} aria-hidden="true"/></MarketingCTA>
               <a className="tle-app-btn secondary" href={demo}>{es?'Ver demo':'Explore demo'} <ArrowRight size={18} aria-hidden="true"/></a>
