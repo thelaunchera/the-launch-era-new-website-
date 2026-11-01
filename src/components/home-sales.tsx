@@ -9,9 +9,9 @@ const track = (part: string, value: string) => window.tleTrackEvent?.('homepage_
 // Existing first-party booking/operations photography. The scroll story is a
 // visual explanation only: no sample records, external images or form changes.
 const bookingStoryPhotos = [
- '/assets/bundle-landing/bundle-booking.png',
- '/assets/bundle-landing/bundle-command.png',
- '/assets/bundle-landing/bundle-hero.png'
+ '/assets/bundle-landing/optimized/booking.webp',
+ '/assets/bundle-landing/optimized/command.webp',
+ '/assets/bundle-landing/optimized/hero.webp'
 ] as const;
 
 export function BookingWalkthrough({lang='en'}:{lang?:Language}) {
