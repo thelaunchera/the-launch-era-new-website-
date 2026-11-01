@@ -75,7 +75,7 @@ function ServiceCard({service:s,index:i}:{service:typeof services[number],index:
  const isWebsite=s.title==='Website Automation';
  const isVa=s.title==='Virtual Assistant';
  return <>
-  <div className="service-image"><img src={s.image} alt={s.alt} loading="lazy" width={1024} height={1024} onError={isAi?(e)=>{e.currentTarget.onerror=null;e.currentTarget.src=assistant;}:undefined}/><span className="service-number">0{i+1}</span><span className="service-arrow"><ArrowUpRight size={18}/></span></div>
+  <div className="service-image"><img src={s.image} alt={s.alt} loading={i<2?'eager':'lazy'} decoding="async" width={1024} height={1024} onError={(e)=>{const img=e.currentTarget;img.onerror=null;img.src=isAi?assistant:'/assets/hero-cleaner-lights-20261017.jpg';}}/><span className="service-number">0{i+1}</span><span className="service-arrow"><ArrowUpRight size={18}/></span></div>
   {isBooking
    ? <div className="booking-offer-line"><span className="booking-offer-price service-price-pill"><strong>$15 · one-time</strong></span></div>
    : isAi
