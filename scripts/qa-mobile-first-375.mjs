@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import {mkdirSync} from 'node:fs';
 import {chromium} from 'playwright';
 
-const base=(process.env.QA_URL||'https://thelaunchera.com').replace(/\\/+$/,'');
+const base=(process.env.QA_URL||'https://thelaunchera.com').replace(/[/]+$/,'');
 const routes=[
  ['home-en','/'],['home-es','/es/'],['solutions','/solutions/'],
  ['how-it-works','/how-it-works/'],['booking-en','/booking-lead-automation/'],
