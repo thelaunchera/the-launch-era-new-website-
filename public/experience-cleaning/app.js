@@ -6,8 +6,8 @@ const original={};
 document.querySelectorAll('[data-t]').forEach(el=>{const key=el.dataset.t;original[key]=el.textContent.trim();});
 const es={
  skip:'Ir a la demostración',safeTop:'Demo interactivo · Sin reservas reales',
- heroEyebrow:'MIENTRAS ESTÁS TRABAJANDO',heroTitle1:'Estás limpiando.',heroTitle2:'Y te escriben para reservar.',
- heroBody:'No puedes contestar cada mensaje mientras limpias. Prueba una reserva y mira dónde llega la solicitud.',
+ heroEyebrow:'DEMO DE RESERVAS · PARA NEGOCIOS DE LIMPIEZA',heroTitle1:'Mira cómo reservan tus clientes.',heroTitle2:'Mira dónde llega la solicitud.',
+ heroBody:'Una Booking Page de ejemplo conectada a un Command Center de muestra. Prueba una solicitud para ver cómo funciona.',
  heroAction:'Probar una reserva',heroNote:'Una sola solicitud. Sin registro.',
  floating1a:'NUEVA SOLICITUD',floating1b:'Limpieza profunda',floating2a:'TU ESPACIO',floating2b:'Lista para revisar',
  heroStamp:'RESERVAS + COMMAND CENTER',band1:'UNA SOLICITUD',band2:'UN ESPACIO CONECTADO',band3:'TODO EN UNA SOLA DEMOSTRACIÓN',
