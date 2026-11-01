@@ -353,3 +353,15 @@
     text-underline-offset:2px;
   }
 }
+
+/* Override older deeply nested sales copy rules at every 320–767px width.
+   Body copy in a service choice must never collapse to the legacy 12px. */
+@media(max-width:767px){
+ html body :is(#solutions,#soluciones,.solutions-section)
+ .service-grid article.tle-service-static a.tle-service-static__link > p {
+   font-size:16px!important;
+   line-height:1.43!important;
+   letter-spacing:normal!important;
+   overflow-wrap:break-word;
+ }
+}
