@@ -45,8 +45,8 @@ function Page(){
     <section className="container service-hero">
       <div className="eyebrow">WEBSITE AUTOMATION</div>
       <p className="booking-offer-line service-discount-offer"><span className="booking-offer-tag">SPECIAL OFFER</span><span className="booking-offer-price"><del>$59.99</del><strong>$35</strong></span></p><h1 className="editorial">Keep your website. Upgrade what happens next.</h1>
-      <p>Keep your website. Organize form inquiries and follow-ups in one place.</p>
-      <MarketingCTA className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=en">Get Started — $35 <ArrowRight/></MarketingCTA><p className="muted" style={{fontSize:13,margin:"13px 0 10px",lineHeight:1.6}}>Estimated 48-hour setup after we review your details and confirm kickoff.</p><div className="service-proof-strip" aria-label="Service details"><span>YOUR EXISTING WEBSITE</span><span>INQUIRY ROUTING</span><span>ONE-TIME SETUP</span></div>
+      <p>Bring website inquiries and follow-ups into one clear workflow.</p>
+      <MarketingCTA className="cta-button service-cta" href="/service-checkout/?offer=website-automation&lang=en">Get Started — $35 <ArrowRight/></MarketingCTA><p className="muted" style={{fontSize:13,margin:"13px 0 10px",lineHeight:1.6}}>Estimated setup: 48 hours after your details are approved.</p><div className="service-proof-strip" aria-label="Service details"><span>YOUR EXISTING WEBSITE</span><span>INQUIRY ROUTING</span><span>ONE-TIME SETUP</span></div>
     </section>
 
     <section className="container service-story">
