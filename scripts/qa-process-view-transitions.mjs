@@ -40,15 +40,16 @@ for (const text of [
 // The three steps must tell a real, distinct visual story using existing
 // first-party Booking + Command Center photos, not generic enlarged icons.
 const expectedPhotos = [
-  '/assets/bundle-landing/bundle-booking.png',
-  '/assets/bundle-landing/bundle-hero.png',
-  '/assets/bundle-landing/bundle-command.png'
+  '/assets/bundle-landing/optimized/booking.webp',
+  '/assets/bundle-landing/optimized/hero.webp',
+  '/assets/bundle-landing/optimized/command.webp'
 ];
 assert.equal(new Set(expectedPhotos).size, 3, 'Each step needs a different photo');
 for (const photo of expectedPhotos) {
-  assert(component.includes(photo), 'Missing context photo: ' + photo);
-  assert(read('public' + photo).length > 1000, 'Photo file absent or empty: ' + photo);
+  assert(component.includes(photo), 'Missing optimized context photo: ' + photo);
+  assert(component.includes(photo.replace('.webp','-thumb.webp')), 'Missing small mobile preview: ' + photo);
 }
+assert(read('scripts/build_mobile_flow_assets.py').includes('FLOW IMAGE QA'), 'The optimized photos must be generated during deployment');
 assert(component.includes('className="tle-process-detail-photo"'), 'Dialog must render a real photo');
 assert(component.includes('alt={stepPhotos[active].alt[lang]}'), 'Photo alt text must be bilingual');
 assert(styles.includes('object-fit: cover'), 'Photos should crop without distortion');
