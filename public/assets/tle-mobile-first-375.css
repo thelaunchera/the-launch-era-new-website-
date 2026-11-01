@@ -167,3 +167,24 @@
   :is(.sales-home,.service-sales) .section-heading h2 {font-size:clamp(29px,8.5vw,34px)!important;}
   body[data-tle-experience="bundle"] .tle-hero-copy h1 {font-size:clamp(30px,8.8vw,36px)!important;}
 }
+
+/* Compact mobile service tiles keep real reading size even at 375px. */
+@media(max-width:767px){
+ .sales-home .solutions-section .tle-service-static p,
+ .solutions-section .tle-service-static p {
+   font-size:16px!important;
+   line-height:1.4!important;
+ }
+ .sales-home .solutions-section .tle-service-static h3,
+ .solutions-section .tle-service-static h3 {
+   font-size:17px!important;
+   line-height:1.26!important;
+ }
+ .sales-home .solutions-section .tle-service-static__cta,
+ .solutions-section .tle-service-static__cta {
+   display:inline-flex;
+   align-items:center;
+   min-height:44px;
+   font-size:14px;
+ }
+}
