@@ -57,3 +57,21 @@ body[data-tle-demo="claudia"] .panel h2 {line-height:1.22;text-wrap:balance;}
 @media(prefers-reduced-motion:reduce){
  body[data-tle-demo] .hero :is(a,button) {transition:none;}
 }
+
+/* First-five-second clarity: product label stays above the first headline. */
+body[data-tle-demo="crumb"] .hero-kicker-intro{
+  display:block;
+  max-width:43ch;
+  color:#f0f8ff;
+  font:700 clamp(10px,1vw,12px)/1.5 'DM Sans',Arial,sans-serif;
+  letter-spacing:.105em;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+body[data-tle-demo="crumb"] .hero-editorial-content h2{margin-top:9px;}
+body[data-tle-demo="aftr"] .hero-content>p{max-width:40ch;}
+@media(max-width:760px){
+ body[data-tle-demo="crumb"] .hero-kicker-intro{font-size:10px;line-height:1.4;letter-spacing:.07em;margin-bottom:5px;}
+ body[data-tle-demo="crumb"] .hero-editorial-content h2{margin-top:5px;}
+ body[data-tle-demo="aftr"] .hero-content>p{font-size:14px;line-height:1.45;}
+}
