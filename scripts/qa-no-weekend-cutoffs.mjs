@@ -32,7 +32,7 @@ const pairs=[
   '/service-checkout/?offer=va&lang=en','/service-checkout/?offer=va&lang=es'],
  ['src/routes/website-automation.tsx','src/routes/es.website-automation.tsx',
   '/service-checkout/?offer=website-automation&lang=en','/service-checkout/?offer=website-automation&lang=es'],
- ['public/whatsapp-ai-agent/index.html','public/es/whatsapp-ai-agent/index.html',null,null]
+ // WhatsApp is not for sale yet; its preview intentionally has no delivery estimate.
 ];
 for(const [en,es,enLink,esLink] of pairs){
  const enText=read(en),esText=read(es);
@@ -42,6 +42,11 @@ for(const [en,es,enLink,esLink] of pairs){
  assert(!/producci[oó]n.{0,180}(horario laborable|horario laboral)/i.test(esText),es+' production should not be limited to office hours');
  if(enLink)assert(enText.includes(enLink),en+' checkout link changed');
  if(esLink)assert(esText.includes(esLink),es+' checkout link changed');
+}
+for(const path of ['public/whatsapp-ai-agent/index.html','public/es/whatsapp-ai-agent/index.html']){
+ const source=read(path);
+ assert(/COMING SOON/.test(source),'WhatsApp preview must clearly say coming soon: '+path);
+ assert(!/\$48|\$78|\$14\.99/.test(source),'WhatsApp preview must not advertise unreleased prices: '+path);
 }
 assert(/Estimated 48(?:-hour| hours).{0,100}(?:review|kickoff).{0,80}(?:confirmation|email)/i.test(read('src/components/editorial-sections.tsx')),'Production estimate and kickoff review must remain visible');
 assert(read('src/components/home-sales.tsx').includes('The estimated 48-hour production period starts then.'),'Booking FAQ estimate missing');
