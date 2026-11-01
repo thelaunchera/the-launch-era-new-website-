@@ -401,9 +401,9 @@
     background-position:center;
     border-radius:11px;
   }
-  .sales-home .booking-scrolly-step:nth-child(1) .booking-scrolly-card::before {background-image:url('/assets/bundle-landing/bundle-booking.png');}
-  .sales-home .booking-scrolly-step:nth-child(2) .booking-scrolly-card::before {background-image:url('/assets/bundle-landing/bundle-command.png');}
-  .sales-home .booking-scrolly-step:nth-child(3) .booking-scrolly-card::before {background-image:url('/assets/bundle-landing/bundle-hero.png');}
+  .sales-home .booking-scrolly-step:nth-child(1) .booking-scrolly-card::before {background-image:url('/assets/bundle-landing/optimized/booking-thumb.webp');}
+  .sales-home .booking-scrolly-step:nth-child(2) .booking-scrolly-card::before {background-image:url('/assets/bundle-landing/optimized/command-thumb.webp');}
+  .sales-home .booking-scrolly-step:nth-child(3) .booking-scrolly-card::before {background-image:url('/assets/bundle-landing/optimized/hero-thumb.webp');}
   .sales-home .booking-scrolly-card .booking-scrolly-number {
     grid-column:2;grid-row:1;
     font-size:10px;
