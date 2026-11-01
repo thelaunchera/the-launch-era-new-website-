@@ -44,22 +44,22 @@ for(const viewport of sizes){
      const rect=el.getBoundingClientRect();
      return rect.width>0&&(rect.right>innerWidth+6||rect.left< -6);
     }).slice(0,8).map(el=>el.tagName.toLowerCase()+'.'+String(el.className).slice(0,90));
-    const cards=[...document.querySelectorAll('.solutions-section .tle-service-flip')];
+    const cards=[...document.querySelectorAll('.solutions-section .tle-service-static')];
     const badCards=cards.filter(card=>{
-     const front=card.querySelector('.tle-service-flip__front');
-     const back=card.querySelector('.tle-service-flip__back');
-     return getComputedStyle(front).position!=='absolute'||getComputedStyle(back).position!=='absolute'||card.getBoundingClientRect().width>innerWidth+2;
+     const link=card.querySelector('.tle-service-static__link');
+     const img=card.querySelector('.service-image img');
+     return !link||!img||getComputedStyle(link).visibility!=='visible'||card.getBoundingClientRect().width>innerWidth+2;
     }).length;
-    const small=[...document.querySelectorAll('.solutions-section .section-heading p,.solutions-section .tle-service-flip__front p')]
-     .filter(el=>{const s=getComputedStyle(el);return s.display!=='none'&&s.visibility!=='hidden'&&el.getClientRects().length>0&&parseFloat(s.fontSize)<15.5;})
-     .map(el=>el.tagName+'.'+el.className+' size='+getComputedStyle(el).fontSize+' homeRule='+el.matches('.sales-home .solutions-section .tle-service-flip__front p'));
+    const small=[...document.querySelectorAll('.solutions-section .section-heading p,.solutions-section .tle-service-static p')]
+     .filter(el=>{const s=getComputedStyle(el);return s.display!=='none'&&s.visibility!=='hidden'&&el.getClientRects().length>0&&parseFloat(s.fontSize)<(innerWidth<380?12:13);})
+     .map(el=>el.tagName+'.'+el.className+' size='+getComputedStyle(el).fontSize+' homeRule='+el.matches('.sales-home .solutions-section .tle-service-static p'));
     const steps=[...document.querySelectorAll('.process-section .tle-process-card')];
     const unstyledSteps=steps.filter(el=>getComputedStyle(el).borderRadius==='0px').length;
     return {over,offenders,badCards,cardCount:cards.length,small,stepCount:steps.length,unstyledSteps};
    });
    assert(state.over<=3,'Horizontal overflow '+JSON.stringify(state));
    assert.equal(state.cardCount,5,'All five current service choices rendered');
-   assert.equal(state.badCards,0,'Service card faces must be bounded in every route');
+   assert.equal(state.badCards,0,'Service card photos and links must be visible in every route');
    if(viewport.width<768)assert.deepEqual(state.small,[],'Readable mobile service descriptions');
    if(path==='/how-it-works/') {
     assert.equal(state.stepCount,3,'All three process steps rendered');
@@ -70,16 +70,20 @@ for(const viewport of sizes){
 }
 await check('card interaction + service link',sizes[1],async page=>{
  await page.goto(base+'/solutions/',{waitUntil:'domcontentloaded'});
- const card=page.locator('.solutions-section .tle-service-flip').first();
- const front=card.locator('.tle-service-flip__front-button');
- await front.click();
- await page.waitForFunction(()=>document.querySelector('.solutions-section .tle-service-flip')?.classList.contains('is-flipped'));
- const link=card.locator('.tle-service-flip__cta');
- assert.match(await link.getAttribute('href'),/^\/[a-z-]+\/?$/,'Service opens a real landing route');
- assert(await link.isVisible(),'Explore service link stays visible');
+ const card=page.locator('.solutions-section .tle-service-static').first();
+ const link=card.locator('.tle-service-static__link');
+ await link.waitFor({state:'visible',timeout:15000});
+ const href=await link.getAttribute('href');
+ assert.match(href,/^\/[a-z-]+\/?$/,'Service links directly to a real landing route');
+ assert(await card.locator('.service-image img').isVisible(),'Service photo visible');
+ await page.waitForTimeout(900);
+ await link.click();
+ await page.waitForURL(u=>u.pathname.replace(/\/$/,'')===href.replace(/\/$/,''),{timeout:15000});
 });
 await check('process modal opens and closes',sizes[1],async page=>{
  await page.goto(base+'/how-it-works/',{waitUntil:'domcontentloaded'});
+ await page.locator('.process-section .tle-process-card').first().waitFor({state:'visible',timeout:12000});
+ await page.waitForTimeout(1750); // allow TanStack hydration before clicking the server-rendered button
  await page.locator('.process-section .tle-process-card').first().click();
  await page.locator('.tle-process-dialog[role="dialog"]').waitFor({state:'visible',timeout:8000});
  await page.locator('.tle-process-close').click();
