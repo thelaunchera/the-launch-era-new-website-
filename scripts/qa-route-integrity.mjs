@@ -31,8 +31,15 @@ const BUILT_DEMO_IMAGES = new Set([
   ...['grout-before','grout-after','vanity-before','vanity-after','track-before','track-after']
     .map(x=>'/assets/demo-transformations/'+x+'.webp'),
 ]);
+const BUILT_FLOW_IMAGES = new Set([
+  ...['booking','command','hero','ai'].map(x=>'/assets/bundle-landing/optimized/'+x+'.webp'),
+  ...['booking','command','hero'].map(x=>'/assets/bundle-landing/optimized/'+x+'-thumb.webp')
+]);
 const demoBuilder=readFileSync(join(root,'scripts/build_demo_photo_assets.py'),'utf8');
+const flowBuilder=readFileSync(join(root,'scripts/build_mobile_flow_assets.py'),'utf8');
 function isPlannedDemoImage(pathname){
+ if(BUILT_FLOW_IMAGES.has(pathname))
+   return flowBuilder.includes('bundle-landing') && flowBuilder.includes('FLOW IMAGE QA');
  return BUILT_DEMO_IMAGES.has(pathname)&&
     demoBuilder.includes('DEMO_CLEANING_PHOTOS')&&
     demoBuilder.includes('WORK_GALLERY_PHOTOS')&&
