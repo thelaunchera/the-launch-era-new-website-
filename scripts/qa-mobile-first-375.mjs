@@ -97,6 +97,24 @@ try {
    assert(r.brokenCardImages===0,'Service photos failed to load');
    assert(r.layout.every(g=>!g.overlap),'Cards are not stacked in one reading column');
    assert(pageErrors.length===0,'Uncaught browser errors: '+pageErrors.slice(0,2).join(' | '));
+   if(name==='home-en'||name==='home-es'){
+     const serviceCards=page.locator('.solutions-section .tle-service-static');
+     assert.equal(await serviceCards.count(),5,'All five services must be visible');
+     for(let i=0;i<5;i++){
+       const card=serviceCards.nth(i);
+       await card.scrollIntoViewIfNeeded();
+       const img=card.locator('.service-image img');
+       await page.waitForFunction(index=>{
+         const im=document.querySelectorAll('.solutions-section .tle-service-static .service-image img')[index];
+         return !!im && im.complete && im.naturalWidth>0;
+       },i,{timeout:10000});
+       const height=await card.evaluate(el=>el.getBoundingClientRect().height);
+       assert(height<=430,'Service card '+i+' contains empty height: '+height);
+     }
+     await serviceCards.first().scrollIntoViewIfNeeded();
+     await page.screenshot({path:'qa-screenshots/tle-375-services-'+name+'.png',fullPage:false,timeout:10000});
+     await page.evaluate(()=>window.scrollTo(0,0));
+   }
    await page.screenshot({path:'qa-screenshots/tle-375-'+name+'.png',fullPage:false,timeout:10000});
    console.log('PASS '+name+' 375px: '+JSON.stringify(r));
   }catch(e){
