@@ -87,11 +87,10 @@ check('WhatsApp AI launch stays Coming Soon without public prices or checkout', 
   assert.match(offer, /COMING SOON/, 'Unreleased WhatsApp preview must remain gated as Coming Soon');
   for (const path of ['public/whatsapp-ai-agent/index.html', 'public/es/whatsapp-ai-agent/index.html']) {
     const content = read(path);
-    assert.match(content, /class="offer-panel" hidden aria-hidden="true"/, 'Price panel must stay hidden: '+path);
-    assert.match(content, /#setup\[hidden\],\.offer-panel\[hidden\]\{display:none!important\}/, 'Hide launch setup and prices: '+path);
+    assert.doesNotMatch(content, /<div class="offer-panel"|id="wa-setup-price"|<section class="wrap onboard"/, 'Public landing must not show unreleased setup or pricing: '+path);
     assert.match(content, /coming-soon-note/, 'Coming Soon state must be prominent');
     assert.match(content, /COMING SOON/, 'Coming Soon label missing');
-    assert.match(content, /<p hidden aria-hidden="true">[^<]*\$48/, 'Retain existing prices in hidden markup for later: '+path);
+    assert.doesNotMatch(content, /\$48|\$78|\$14\.99/, 'Do not expose unreleased WhatsApp prices: '+path);
     assert.doesNotMatch(content, /href="[^"]*service-checkout/, 'WhatsApp purchase must not open a checkout');
   }
 });
