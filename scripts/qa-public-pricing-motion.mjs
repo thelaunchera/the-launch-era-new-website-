@@ -73,6 +73,10 @@ try{
     assert(cardProperties.image.includes('linear-gradient')&&Number.parseFloat(cardProperties.border)>=1,lang+' '+width+' featured style absent '+JSON.stringify(cardProperties));
    }
       assert.equal(await section.locator('.tle-featured-badge').innerText(),lang==='es'?'Mejor valor':'Best value');
+   // The expanded comparison is immediately available on phones and collapsible on larger screens.
+   // Open it explicitly before testing its interactive controls on desktop.
+   const comparison=section.locator('.tle-plan-picker');
+   if(!(await comparison.isVisible())) await section.locator('.tle-plan-picker-disclosure > summary').click();
    const radios=section.locator('.tle-plan-toggle [role="radio"]');
    assert.equal(await radios.count(),3);
    assert.equal(await radios.nth(1).getAttribute('aria-checked'),'true');
