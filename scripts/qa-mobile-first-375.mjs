@@ -41,6 +41,9 @@ try {
      const heading=[...document.querySelectorAll('main h1,main h2,.hero h1,.hero h2,.hero-editorial h2,body h1')]
        .find(visible);
      const ctaSelectors=[
+       '.tle-app-landing .tle-app-btn.primary',
+       '.tle-freebie-page a[href="#freebie-form"]',
+       '.page-intro .page-intro-cta',
        '.sales-home .hero-intro .cta-button',
        '.service-hero a.cta-button','.service-hero .service-cta',
        '.tle-hero-actions a:first-child','.hero-main-action','.intro-cta',
@@ -63,7 +66,7 @@ try {
          children:children.length,
          overlap:children.slice(1).some((c,i)=>{
            let a=children[i].getBoundingClientRect(),b=c.getBoundingClientRect();
-           return b.top < a.top-2 && b.left>a.left+30;
+           return Math.abs(b.top-a.top)<8 && b.left>a.left+25;
          })};
      });
      const cards=[...document.querySelectorAll('.solutions-section .tle-service-static')];
@@ -86,6 +89,10 @@ try {
    assert(r.headings,'Primary heading missing or hidden');
    assert(r.cta,'Visible hero or primary CTA missing');
    assert(r.ctaHeight>=44,'Primary CTA smaller than 44px: '+r.ctaHeight);
+   if(['home-en','home-es','solutions','how-it-works','crumb'].includes(name)){
+     assert(r.ctaTop>=0 && r.ctaTop<790,'Primary hero CTA below first 375px screen: '+r.ctaTop);
+   }
+
    assert(r.ctaFont>=13.5,'Primary CTA font too small: '+r.ctaFont);
    assert(r.brokenCardImages===0,'Service photos failed to load');
    assert(r.layout.every(g=>!g.overlap),'Cards are not stacked in one reading column');
