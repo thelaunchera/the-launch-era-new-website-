@@ -20,6 +20,13 @@ No raw API responses, errors, tokens, URLs for infrastructure, webhooks, environ
 
 Keep honest, plain-language notices where needed: demo data is an example; a demo doesn't create a real booking; approval isn't delivery; price estimates aren't final prices; payment isn't verified until confirmed; a purchase's timeline starts when required details and approvals are complete. Do not hide material limits, prices, terms, or safety instructions just to make copy sound friendlier.
 
+## Public landing restraint
+- Every public landing must answer: what this is, who it helps, the concrete benefit, the current price or availability, and one obvious next step.
+- Cut repeated CTA explanations, lengthy access-flow commentary, private-library mechanics, developer/platform details, placeholder caveats, and duplicated disclaimers.
+- A demo needs one clear honest sample label, not the same warning after every feature. Preserve legally material payment, consent, timelines, refund links and claims.
+- Never leave hidden draft offers, unreleased prices, unpublished production promises, or internal setup checklists in the HTML of a coming-soon landing. Only approved public facts belong in the shipped page.
+- Keep CTA destinations and meaningful EN/ES copy equivalent; simplify phrasing without changing prices or enabled features.
+
 ## Digital-first contact and setup language
 - The Launch Era's public footers and intake introductions do not advertise a weekly office-hours timetable. People can send inquiries and submit setup forms at any time; human replies are not promised 24/7.
 - Keep the distinction between always-available submission and the **48-hour estimated production window**, which begins only with completed payment, forms and required approvals during the next available production period. Preserve material Saturday cutoff conditions on offer pages, checkout and legal terms.
