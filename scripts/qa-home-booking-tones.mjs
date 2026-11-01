@@ -15,7 +15,8 @@ for(const [label,homepage,product,lang] of [
 ]){
  assert(!homepage.includes('<BookingSection'),label+': old homepage booking section reintroduced');
  assert(!homepage.includes('<ConnectedBookingFlow'),label+': retired workflow hub reintroduced');
- assert(homepage.includes('<HomeMotionInterlude lang="'+lang+'"/>'),label+': homepage successor removed');
+ assert(homepage.includes('<PrimaryBookingOffer lang="'+lang+'"/>'),label+': primary booking offer removed');
+ assert(!homepage.includes('<HomeMotionInterlude lang="'+lang+'"/>'),label+': retired decorative section returned');
  assert.match(product,/\$49\.99/,label+': regular booking price missing from product landing');
  assert.match(product,/\$15/,label+': approved $15 booking offer missing');
  assert(product.includes('/booking-bundle/?lang='+lang),label+': product checkout missing');
