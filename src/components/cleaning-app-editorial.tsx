@@ -98,7 +98,7 @@ export function CleaningAppEditorial({ lang = 'en' }: Props) {
     <section className="tle-app-finish">
       <div className="tle-app-wrap tle-app-finish-inner">
         <div><p className="tle-app-eyebrow">{es?'COMIENZA CUANDO QUIERAS':'READY WHEN YOU ARE'}</p><h2>{es?'Empieza con una agenda más organizada.':'Make your next workday easier.'}</h2><p>{es?'Explora la demo o abre tu cuenta. Sin App Store.':'Explore the demo or create your account. No App Store needed.'}</p></div>
-        <div className="tle-app-finish-action"><div className="tle-app-price"><span>{es?'PRUEBA GRATIS':'FREE TRIAL'}</span><strong>{es?'30 días':'30 days'}</strong><small>{es?'Después $3.99/mes · Sin tarjeta':'Then $3.99/month · No card required'}</small></div><MarketingCTA className="tle-app-btn primary" href={signup}>{es?'Crear mi cuenta':'Create my account'} <ArrowRight size={18} aria-hidden="true"/></MarketingCTA></div>
+        <div className="tle-app-finish-action"><MarketingCTA className="tle-app-btn primary" href={signup}>{es?'Crear mi cuenta':'Create my account'} <ArrowRight size={18} aria-hidden="true"/></MarketingCTA></div>
       </div>
     </section>
   </main>;
