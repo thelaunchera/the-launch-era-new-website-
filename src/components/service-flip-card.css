@@ -202,3 +202,17 @@
 @media(prefers-reduced-motion:reduce) {
   .solutions-section .tle-service-static {transition:none;}
 }
+
+/* Source-level cascade fix: this lives in the same stylesheet as the legacy
+   clamp(12px,...) !important rule and comes AFTER it. */
+@media(max-width:767px) {
+ .solutions-section .tle-service-static p,
+ .sales-home .solutions-section .tle-service-static p {
+   font-size:16px!important;
+   line-height:1.43!important;
+ }
+ .solutions-section .tle-service-static__cta {
+   font-size:14px!important;
+   min-height:44px;
+ }
+}
