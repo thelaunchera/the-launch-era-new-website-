@@ -306,9 +306,9 @@ html.tle-process-transitioning::view-transition-new(root) {
   background-size:cover;
   background-position:center;
 }
-.process-section .tle-process-grid .tle-process-card:nth-child(1) .tle-process-thumbnail {background-image:url('/assets/bundle-landing/bundle-booking.png')}
-.process-section .tle-process-grid .tle-process-card:nth-child(2) .tle-process-thumbnail {background-image:url('/assets/bundle-landing/bundle-hero.png')}
-.process-section .tle-process-grid .tle-process-card:nth-child(3) .tle-process-thumbnail {background-image:url('/assets/bundle-landing/bundle-command.png')}
+
+
+
 .process-section .tle-process-thumbnail-photo{opacity:1!important;visibility:visible!important;object-fit:cover}
 @media(max-width:767px) {
   .sales-home .process-section {padding-block:clamp(32px,7vw,45px)!important;}
@@ -355,5 +355,36 @@ html.tle-process-transitioning::view-transition-new(root) {
   .sales-home .process-section .tle-process-card-summary {
     font-size:clamp(12px,3.2vw,14px);
     line-height:1.46;
+  }
+}
+
+/* Fast, complete process thumbnails on narrow mobile browser views.
+   Use only the 320px WebP <img>; no duplicate 2MB CSS background fetch.
+   Absolute inset avoids the CSS-grid fractional height issue in iOS Safari. */
+@media(max-width:767px) {
+  .sales-home .process-section .tle-process-grid .tle-process-thumbnail {
+    position:relative;
+    display:block;
+    contain:none;
+    overflow:hidden;
+    background-color:#e5eef3;
+    border-color:#d2e4ee;
+    aspect-ratio:4/5;
+    align-self:stretch;
+    height:auto;
+    min-height:114px;
+    max-height:158px;
+    width:100%;
+  }
+  .sales-home .process-section .tle-process-grid .tle-process-thumbnail-photo {
+    display:block;
+    position:absolute;
+    inset:0;
+    width:100%!important;
+    height:100%!important;
+    min-height:100%;
+    object-fit:cover!important;
+    object-position:center 38%;
+    border:0;
   }
 }
