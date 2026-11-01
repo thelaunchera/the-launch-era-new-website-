@@ -158,12 +158,9 @@
         ctx = gsap.context(function () {
           var mm = gsap.matchMedia();
           mm.add('(prefers-reduced-motion: no-preference) and (min-width: 768px)', function () {
-            cards.forEach(function (card) {
-              gsap.from(Array.from(card.children), {
-                y: 24, opacity: 0, stagger: .08, duration: .7, ease: 'power3.out',
-                scrollTrigger: { trigger: card, start: 'top 72%', toggleActions: 'play none none reverse' }
-              });
-            });
+            // Keep every service image, title and CTA visible immediately.
+            // Scroll-based opacity animation could strand cards at opacity:0
+            // when the user scrolls quickly or WebKit suspends an animation.
           });
           ScrollTrigger.create({
             trigger: section, start: 'top 55%', end: 'bottom 55%',
