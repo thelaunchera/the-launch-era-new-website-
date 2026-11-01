@@ -7,6 +7,7 @@ import {chromium} from 'playwright';
 const base=(process.env.QA_URL||'https://thelaunchera.com').replace(/\/+$/,'');
 const sizes=[
  {name:'small-phone',width:320,height:720},
+ {name:'iphone-375',width:375,height:812},
  {name:'phone',width:390,height:844},
  {name:'tablet',width:820,height:1180},
  {name:'desktop',width:1440,height:900}
@@ -51,7 +52,7 @@ for(const viewport of sizes){
      return !link||!img||getComputedStyle(link).visibility!=='visible'||card.getBoundingClientRect().width>innerWidth+2;
     }).length;
     const small=[...document.querySelectorAll('.solutions-section .section-heading p,.solutions-section .tle-service-static p')]
-     .filter(el=>{const s=getComputedStyle(el);return s.display!=='none'&&s.visibility!=='hidden'&&el.getClientRects().length>0&&parseFloat(s.fontSize)<(innerWidth<380?12:13);})
+     .filter(el=>{const s=getComputedStyle(el);return s.display!=='none'&&s.visibility!=='hidden'&&el.getClientRects().length>0&&parseFloat(s.fontSize)<15.5;})
      .map(el=>el.tagName+'.'+el.className+' size='+getComputedStyle(el).fontSize+' homeRule='+el.matches('.sales-home .solutions-section .tle-service-static p'));
     const steps=[...document.querySelectorAll('.process-section .tle-process-card')];
     const unstyledSteps=steps.filter(el=>getComputedStyle(el).borderRadius==='0px').length;
