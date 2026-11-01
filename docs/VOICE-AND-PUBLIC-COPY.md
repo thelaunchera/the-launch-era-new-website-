@@ -43,3 +43,10 @@ Keep honest, plain-language notices where needed: demo data is an example; a dem
 - Avoid generic promises such as “transform your business,” “supercharge growth,” or “revolutionize your workflow.”
 - Before publishing: check desktop, tablet, and mobile; review every language; test the CTA and honest failure/success messages; confirm no developer text leaks into visible UI.
 - Tests should protect **meaning and behavior**, rather than depend on an arbitrary phrase when an equivalent plain-language message is correct.
+
+## Contact CTAs on every public landing
+- A public **Contact / Contacto / Get help / Pedir ayuda** action must open a working **contact form**, not `mailto:` or the visitor's email application.
+- English TLE pages → `/help` (the existing inquiry form); Spanish TLE pages → `/es#contacto` (the existing Spanish form).
+- Shared footers and standalone product landings follow the same rule; maintain legitimate email contact information as plain text in legal notices if needed, not as the main CTA.
+- Do not send customers to a static explanation page requiring another click when the contact form is available.
+- Verify the linked form renders, is usable on mobile, and displays server-acknowledged success or a clear retry message.
