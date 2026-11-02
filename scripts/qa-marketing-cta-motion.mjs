@@ -178,6 +178,9 @@ try{
    assert.equal(await page.locator('.site-footer form[data-tle-newsletter]').count(),1,'Never duplicate newsletter');
    const firstLinks=await page.locator('.site-footer .footer-links a').evaluateAll(links=>links.map(a=>a.getAttribute('href')));
    assert.equal(firstLinks.length,8,'Footer must preserve service navigation, required policies and data preferences');
+   // The privacy choice is a real fixed overlay. Decline optional analytics before testing an unrelated footer control.
+   const privacyChoice=page.locator('#privacy-notice:not([hidden]) [data-reject]');
+   if(await privacyChoice.count() && await privacyChoice.isVisible()) await privacyChoice.click();
    await toggle.click();
    await page.waitForFunction(()=>document.querySelector('.site-footer .tle-footer-toggle')?.getAttribute('aria-checked')==='true');
    assert.equal(await page.locator('.site-footer.tle-footer-dark').count(),1,'Dark footer switch did not work');
