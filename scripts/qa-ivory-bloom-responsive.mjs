@@ -32,6 +32,7 @@ try {
     assert.equal(data.detailLoaded, true, `Inset photo missing at ${width}px`);
     assert.equal(data.ctaTarget, '#cake-gallery');
     assert(data.cta.width > 60 && data.cta.height > 15, `CTA not visible at ${width}px`);
+    if (data.pageWidth > width + 2) console.error('OVERFLOW DETAIL', width, data.pageWidth, JSON.stringify(data.overflowNodes));
     assert(data.pageWidth <= width + 2, `Horizontal overflow at ${width}px: ${data.pageWidth}`);
     if (width >= 761) {
       assert(data.photo.height >= 520, `Desktop/tablet hero too short at ${width}px: ${data.photo.height}`);
