@@ -4,6 +4,8 @@
 .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
   background:#dcecf5;
 }
+/* The photo remains at its natural scale after the original wipe (including portrait iPads). */
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual > img.hero-main-image {transform:none!important;will-change:auto!important}
 .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual > .tle-cinema {
   position:absolute;inset:0;isolation:isolate;z-index:5;
   display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;
