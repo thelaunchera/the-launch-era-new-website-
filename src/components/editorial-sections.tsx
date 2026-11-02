@@ -17,6 +17,7 @@ import cleaner from '@/assets/cleaner-home.jpg';
 import { HOME_HERO_PHOTO } from '@/lib/home-hero-photo';
 import website from '@/assets/website-workspace.jpg';
 import assistant from '@/assets/assistant-workspace.jpg';
+import webappPhone from '@/assets/webapp-phone.jpg';
 const aiAgentsPhoto = 'https://images.unsplash.com/photo-1758626099012-2904337e9c60?auto=format&fit=crop&w=1000&q=85';
 import { BookingWalkthrough, PainCards, ProductExplorer } from './home-sales';
 import { MaskCursorHeadline } from './mask-cursor-headline';
@@ -61,9 +62,11 @@ const services = [
  {title:'Booking Automation + Command Center',landing:'/booking-lead-automation',description:'Your Booking Page and private workspace, connected.',image:cleaner,alt:'Cleaner working in a bright residential home',tag:'YOUR BOOKING FLOW, CONNECTED',points:['Booking Page with available times','Edit prices in your Command Center','Up to two automatic follow-ups'],checkout:'/booking-lead-automation'},
  {title:'AI Assistants',landing:'/ai-booking-assistant/',description:'Help with booking questions and follow-ups.',image:aiAgentsPhoto,alt:'Modern AI technology workspace with a laptop and a blue-toned digital assistant screen',tag:'BOOKING AI + FOLLOW-UP AI',points:['AI Booking','AI Follow-Up','Both together'],checkout:'/ai-booking-assistant/'},
  {title:'Website Automation',landing:'/website-automation',description:'Keep your website. Organize inquiries and follow-ups.',image:website,alt:'A laptop showing a cleaning business website',tag:'YOUR WEBSITE, CONNECTED TO WHAT’S NEXT',points:['Your existing website connected to the next step','Inquiry details routed into one clear flow','Follow-up that keeps the conversation moving'],checkout:'/website-automation'},
+ {title:'Cleaning App',landing:'/cleaning-web-app/',description:'Keep jobs, clients, quotes, and invoices organized. Separate from the personalized Booking Page.',image:webappPhone,alt:'Cleaning App shown on a smartphone',tag:'JOBS, CLIENTS AND INVOICES',points:['Daily schedule and customer records','Quotes, jobs and invoices','30-day trial; separate App subscription'],checkout:'/cleaning-web-app/'},
+ {title:'Virtual Assistant',landing:'/virtual-assistant/',description:'Administrative support when you need help keeping work moving.',image:assistant,alt:'Workspace with computer for administrative assistance',tag:'HELP WITH DAILY ADMIN',points:['Support with day-to-day tasks','Clear approvals and handoffs','See the available service before buying'],checkout:'/virtual-assistant/'},
 ];
 export function SolutionsSection() {
- return <section id="solutions" className="solutions-section"><Wave/><div className="container"><div className="section-heading"><div className="eyebrow">HELP THAT FITS YOUR BUSINESS</div><h2 className="editorial">Start with booking.<br/>Add help only where you need it.</h2><p>Explore optional AI booking help and website tools, without another complicated system.</p></div><p className="service-rail-hint">Explore our solutions</p><div className="service-grid" aria-label="Cleaning business services">{services.map((s,i)=><ServiceFlipCard key={s.title} title={s.title} href={s.landing} description={s.description} points={s.points}><ServiceCard service={s} index={i}/></ServiceFlipCard>)}</div></div></section>;
+ return <section id="solutions" className="solutions-section"><Wave/><div className="container"><div className="section-heading"><div className="eyebrow">HELP THAT FITS YOUR BUSINESS</div><h2 className="editorial">Start with booking.<br/>Add help only where you need it.</h2><p>Compare personalized booking, the Cleaning App, AI help and website services. Choose only what fits your business.</p></div><p className="service-rail-hint">Explore our solutions</p><div className="service-grid" aria-label="Cleaning business services">{services.map((s,i)=><ServiceFlipCard key={s.title} title={s.title} href={s.landing} description={s.description} points={s.points}><ServiceCard service={s} index={i}/></ServiceFlipCard>)}</div></div></section>;
 }
 function ServiceCard({service:s,index:i}:{service:typeof services[number],index:number}) {
  const {sale}=useBookingPrice();
