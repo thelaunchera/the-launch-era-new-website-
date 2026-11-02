@@ -2,7 +2,8 @@
 - **Observed:** owner photo of tablet gallery showed `Inquire about this design` as underlined inline text squeezed next to the cake title on the two-column display.
 - **Source cause:** `.cake-meta` was `display:flex; justify-content:space-between` on wider screens and the anchor had `max-width:125px`; its text was forced into narrow lines. On mobile the link reverted to small underlined inline text.
 - **Repair:** nine gallery links get the same restrained blush/taupe outlined fill and dedicated row; small-screen layout has full card-width 51px touch targets. Keep original per-cake `data-cake` and `#inquiry` preselection. Add browser regression for each gallery CTA, bounds and form preselection.
-- **Verification:** source inspected; PR CI/browsers and deployment/live iPad Safari review tracked separately; no changes to checkout, payment, customer data or other demos.
+- **Regression discovered by real browser test:** choosing Blush Garden left `select[name="style"]` empty. The existing inline `<script defer>` was in `<head>`; `defer` does not delay inline scripts, so it executed before the DOM existed and failed on `menu.addEventListener`. This also prevented other menu/form/gallery handlers from registering. Moved the existing script intact to immediately before `</body>`; no network submissions added.
+- **Verification:** scoped CI now tests all nine selections at 390px/1024px, absence of page JS exceptions, mobile menu, six widths and CTA bounds. Deployment and live iPad Safari remain a separate step; no changes to checkout, payment, customer data or other demos.
 
 ## 2026-11-02 — IVORY & BLOOM hero photograph too small on large tablet/desktop
 - **Reported:** owner supplied a landscape tablet screenshot; the introductory cake-artist photo looked small and secondary to large white areas/text.
