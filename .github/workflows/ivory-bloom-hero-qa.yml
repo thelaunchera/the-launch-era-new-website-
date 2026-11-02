@@ -1,0 +1,29 @@
+name: Ivory and Bloom responsive hero QA
+on:
+  pull_request:
+    paths:
+      - 'public/demos/ivory-and-bloom/**'
+      - 'scripts/qa-ivory-bloom-responsive.mjs'
+      - '.github/workflows/ivory-bloom-hero-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  hero-responsive:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check public route integrity
+        run: node scripts/qa-route-integrity.mjs --static
+      - name: Install Chromium for hero visual geometry regression
+        run: |
+          mkdir -p /tmp/tle-ivory-browser node_modules
+          npm install --prefix /tmp/tle-ivory-browser --no-package-lock --no-audit --no-fund playwright@1.57.0
+          ln -s /tmp/tle-ivory-browser/node_modules/playwright node_modules/playwright
+          /tmp/tle-ivory-browser/node_modules/.bin/playwright install --with-deps chromium
+      - name: Verify photographs, content, CTA and overlap at six widths
+        run: node scripts/qa-ivory-bloom-responsive.mjs
