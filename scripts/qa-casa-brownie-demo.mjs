@@ -218,9 +218,16 @@ assert.match(load('styles.css'),/Bodoni Moda/,'hero serif font applied in repo')
 assert.match(experienceCss,/\.cb-order-flavors/,'flavor cards receive responsive styling');
 assert.match(experienceCss,/\.cb-story-visual/,'story redesign styled');
 
+const compactCss=load('flavors-compact-back-to-top.css');
+assert.match(html,/href="\.\/flavors-compact-back-to-top\.css\?v=20261102-1"/,'phone-only CSS is loaded after shared mobile stylesheet');
+assert.match(compactCss,/grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)\s*!important/,'mobile gallery counters the shared single-column override');
+assert.equal((html.match(/class="flavor"\s/g)||[]).length,6,'all six flavor cards preserved');
+assert.match(html,/id="cb-back-to-top"[^>]*href|href="#inicio"[^>]*id="cb-back-to-top"/,'back-to-top has an anchor target');
+assert.match(js,/backToTop\.hidden = window\.scrollY < 420/,'back-to-top appears after scrolling');
+
 console.log('Casa Brownie video + static educational demo QA OK');
 
 
-assert.match(html,/main\.js\?v=cb-editorial-experience-20261030/);
+assert.match(html,/main\.js\?v=cb-flavors-top-20261102/);
 assert.equal((js.match(/assets\/sabor-/g)||[]).length,6,'all catalog photos are hosted originals');
 assert.doesNotMatch(js,/amummytoo|proteinbrownies|getrecipekit|anasrecipes|dailydoughco|ctfassets/,'no third-party flavor photos');
