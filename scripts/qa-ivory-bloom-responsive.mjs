@@ -7,7 +7,10 @@ const browser = await chromium.launch({headless: true});
 try {
   for (const width of [360, 390, 768, 820, 1024, 1440]) {
     const page = await browser.newPage({viewport:{width,height:900}, deviceScaleFactor:1});
+    const pageErrors=[];
+    page.on('pageerror',error => pageErrors.push(error.message));
     await page.goto(url, {waitUntil:'domcontentloaded'});
+    assert.deepEqual(pageErrors,[],`Demo JavaScript failed to initialize at ${width}px`);
     await page.waitForFunction(() => {
       const img = document.querySelector('.hero-photo img');
       return img?.complete && img.naturalWidth > 0;
@@ -68,6 +71,14 @@ try {
         const selected=await page.locator('select[name="style"]').inputValue();
         assert.equal(selected,chosen,`Inquiry form did not preselect ${chosen} at ${width}px`);
       }
+    }
+    if (width === 390) {
+      const menuButton=page.locator('#menuBtn');
+      await menuButton.click();
+      assert.equal(await menuButton.getAttribute('aria-expanded'),'true','Mobile menu does not open');
+      assert.equal(await page.locator('#mobileNav').isVisible(),true);
+      await menuButton.click();
+      assert.equal(await menuButton.getAttribute('aria-expanded'),'false','Mobile menu does not close');
     }
     console.log(`IVORY & BLOOM ${width}px: main photo ${Math.round(data.photo.width)} × ${Math.round(data.photo.height)}, no overflow`);
     await page.close();
