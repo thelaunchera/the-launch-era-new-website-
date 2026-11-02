@@ -8,6 +8,7 @@ import { ContactSteps } from '@/components/contact-stepper';
 import { WorkflowLogoMarquee } from '@/components/workflow-logo-marquee';
 import { MarketingCTA } from '@/components/marketing-cta';
 import { HomeMotion } from '@/components/home-motion';
+import { HomeCinemaVisual } from '@/components/home-cinema-visual';
 import { useHeroWipe } from '@/components/use-hero-wipe';
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
@@ -34,12 +35,6 @@ const services=[
  {title:'Cleaning App',landing:'/es/cleaning-web-app/',description:'Organiza trabajos, clientes, cotizaciones y facturas. Producto separado de Booking Page.',image:webappPhone,tag:'TRABAJOS, CLIENTES Y FACTURAS',points:['Calendario y datos de clientes','Cotizaciones, trabajos y facturas','Prueba de 30 días; suscripción separada']},
  {title:'Virtual Assistant',landing:'/es/virtual-assistant/',description:'Apoyo administrativo para el trabajo diario y el seguimiento.',image:assistant,tag:'AYUDA CON TU ADMINISTRACIÓN',points:['Apoyo para tareas administrativas','Aprobaciones y entregas claras','Consulta el servicio antes de comprar']},
 ];
-const notices=[
- ['PÁGINA DE RESERVAS','ahora','Nueva solicitud','Una persona quiere una cotización de limpieza.',CalendarCheck2],
- ['COMMAND CENTER','hace 12 min','Seguimiento enviado','Seguimiento enviado.',Send],
- ['COTIZACIONES','ejemplo','Cotización lista','Revisa los detalles antes de enviarla.',ClipboardList],
- ['PÁGINA DE RESERVAS','ejemplo','Reserva confirmada','Otro trabajo en el calendario.',CircleCheck]
-] as const;
 const flow=[['NUEVO LEAD','Llega una solicitud de reserva.','Los detalles entran en un solo lugar.',CalendarCheck2],['ORGANIZADO','Se guarda en tu Command Center.','Todos los datos en un lugar.',ClipboardList],['SEGUIMIENTO','El próximo paso sigue avanzando.','Un seguimiento claro mantiene la conversación viva.',Send]] as const;
 function SpanishContact(){
  const [status,setStatus]=useState<'idle'|'sending'|'done'|'sent'|'error'>('idle'); const [name,setName]=useState('');
@@ -110,12 +105,8 @@ function SpanishHome(){const [active,setActive]=useState(0);const [heroLoaded,se
  </div>
  <div className="hero-split-visual">
  <img ref={heroImageRef} className="hero-main-image" src={HOME_HERO_PHOTO} alt="Profesional de limpieza limpiando una encimera en una sala moderna y luminosa, con lámparas de techo" width={1122} height={1402} loading="eager" fetchPriority="high" decoding="sync" onLoad={()=>setHeroLoaded(true)} onError={()=>setHeroLoaded(true)}/>
- <div className="hero-notice-flow" aria-hidden="true">
-   {notices.map(([app,when,title,text,Icon],i)=><div className={`notification notice-${i+1}`} key={title}>
-     <span className="notice-icon" aria-hidden="true"><Icon size={17}/></span>
-     <div className="notice-body"><div className="notice-meta"><span>{app}</span><time>{when}</time></div><strong>{title}</strong><p>{text}</p></div>
-   </div>)}
- </div></div>
+ <HomeCinemaVisual lang="es" />
+</div>
 </div></div></section>
 <section id="hero-next" className="hero-copy"><BookingWalkthrough lang="es"/></section>
 <SmartWelcomeBundle lang="es"/>
