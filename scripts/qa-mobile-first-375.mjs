@@ -95,7 +95,32 @@ try {
 
    assert(r.ctaFont>=13.5,'Primary CTA font too small: '+r.ctaFont);
    assert(r.brokenCardImages===0,'Service photos failed to load');
-   assert(r.layout.every(g=>!g.overlap),'Cards are not stacked in one reading column');
+   if(name === 'casa-brownie'){
+     // The six small flavors intentionally form a two-column gallery on phones.
+     const geometry=await page.locator('.flavor-grid').evaluate(grid=>{
+       const cards=[...grid.querySelectorAll(':scope > .flavor')];
+       const boxes=cards.map(c=>c.getBoundingClientRect());
+       const photos=[...grid.querySelectorAll('.flavor-picture')].map(x=>x.getBoundingClientRect());
+       return {columns:getComputedStyle(grid).gridTemplateColumns.split(' ').length,
+         count:cards.length,
+         photoMax:Math.max(...photos.map(x=>x.height)),
+         firstRow:boxes[0]&&boxes[1]?Math.abs(boxes[0].top-boxes[1].top)<10&&boxes[1].left>boxes[0].left:false,
+         noOverlap:boxes.every((a,i)=>boxes.every((b,j)=>i===j||a.right<=b.left+2||b.right<=a.left+2||a.bottom<=b.top+2||b.bottom<=a.top+2))};
+     });
+     assert.equal(geometry.columns,2,'Casa Brownie flavor gallery must be two small columns at 375px');
+     assert.equal(geometry.count,6,'Casa Brownie keeps six flavors');
+     assert(geometry.firstRow&&geometry.noOverlap,'Casa Brownie flavor cards should not collide');
+     assert(geometry.photoMax<300,'Casa Brownie pictures should stay smaller than the hero');
+     await page.locator('.flavor-grid').scrollIntoViewIfNeeded();
+     await page.screenshot({path:'qa-screenshots/casa-brownie-two-columns-375.png',fullPage:false,timeout:10000});
+     const topControl=page.locator('#cb-back-to-top');
+     await topControl.waitFor({state:'visible',timeout:9000});
+     assert.equal(await topControl.getAttribute('href'),'#inicio','Return-to-top goes to the demo start');
+     await topControl.click();
+     await page.waitForFunction(()=>window.scrollY<40,null,{timeout:9000});
+   } else {
+     assert(r.layout.every(g=>!g.overlap),'Cards are not stacked in one reading column');
+   }
    assert(pageErrors.length===0,'Uncaught browser errors: '+pageErrors.slice(0,2).join(' | '));
    if(name==='home-en'||name==='home-es'){
      const serviceCards=page.locator('.solutions-section .tle-service-static');
