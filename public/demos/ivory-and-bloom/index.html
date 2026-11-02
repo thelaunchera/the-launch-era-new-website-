@@ -153,6 +153,10 @@ h1,h2,h3,.logo,.footer-wordmark,.gallery-quote{
   .gallery-quote{font-size:clamp(50px,10.7vw,70px)}
   .footer-wordmark{font-size:clamp(54px,11.5vw,80px);line-height:1.45}
 }
+@media(max-width:760px){
+  /* Keep the horizontal gallery filters inside their own scroll container. */
+  .gallery-filters{width:100%;max-width:100%;margin-right:0;overflow-x:auto;overscroll-behavior-x:contain}
+}
 @media(max-width:390px){
   .logo{font-size:18px}
   .hero h1{font-size:11.2vw}
