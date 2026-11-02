@@ -51,6 +51,7 @@ export function CleaningAppEditorial({ lang = 'en' }: Props) {
               <a className="tle-app-btn secondary" href={demo}>{es?'Ver demo':'Explore demo'} <ArrowRight size={18} aria-hidden="true"/></a>
             </div>
             <p className="tle-app-trial-note">{es?'30 días gratis · Sin tarjeta · Después $3.99/mes':'30 days free · No card required · Then $3.99/month'}</p>
+            <p className="tle-app-trial-note">{es?'¿Quieres una página de reservas con tu marca? Se ofrece por separado.':'Need a branded Booking Page for customer requests? That setup is sold separately.'} <a href={es?'/es/booking-lead-automation/':'/booking-lead-automation/'}>{es?'Ver Booking Page + Command Center':'Explore Booking Page + Command Center'}</a></p>
           </div>
           <div className="tle-app-preview-holder">
             <div className="tle-app-product" aria-label={es?'Vista ilustrativa de una cuenta con datos inventados':'Illustrative workspace with fictional records'}>
