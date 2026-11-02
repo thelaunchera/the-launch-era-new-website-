@@ -43,6 +43,32 @@ try {
       assert(data.photo.height >= 280, `Mobile photo collapsed at ${width}px`);
       assert(data.aside.top > data.photo.top, `Mobile story order changed at ${width}px`);
     }
+    const galleryButtons=page.locator('.cake-item .design-inquiry');
+    assert.equal(await galleryButtons.count(),9,`Expected 9 polished gallery buttons at ${width}px`);
+    const galleryGeometry=await page.evaluate(() => [...document.querySelectorAll('.cake-item .design-inquiry')].map(link => {
+      const r=link.getBoundingClientRect();
+      const card=link.closest('.cake-item').getBoundingClientRect();
+      const style=getComputedStyle(link);
+      return {height:r.height,left:r.left,right:r.right,cardLeft:card.left,cardRight:card.right,
+        decoration:style.textDecorationLine,background:style.backgroundColor,href:link.getAttribute('href'),
+        value:link.getAttribute('data-cake'),ariaLabel:link.getAttribute('aria-label')};
+    }));
+    for (const button of galleryGeometry) {
+      assert(button.height >= 44,`Cake inquiry target too short at ${width}px`);
+      assert(button.left >= button.cardLeft-1 && button.right <= button.cardRight+1,`Cake inquiry button escapes card at ${width}px`);
+      assert(button.decoration === 'none',`Old underlined CTA remains at ${width}px`);
+      assert(button.background !== 'rgba(0, 0, 0, 0)',`Missing editorial button fill at ${width}px`);
+      assert.equal(button.href,'#inquiry');
+      assert(button.value && button.ariaLabel.includes(button.value));
+    }
+    if (width === 390 || width === 1024) {
+      for (const button of await galleryButtons.all()) {
+        const chosen=await button.getAttribute('data-cake');
+        await button.click();
+        const selected=await page.locator('select[name="style"]').inputValue();
+        assert.equal(selected,chosen,`Inquiry form did not preselect ${chosen} at ${width}px`);
+      }
+    }
     console.log(`IVORY & BLOOM ${width}px: main photo ${Math.round(data.photo.width)} × ${Math.round(data.photo.height)}, no overflow`);
     await page.close();
   }
