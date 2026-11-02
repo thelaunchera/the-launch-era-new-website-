@@ -21,21 +21,29 @@ try {
     const stage=document.querySelector('.hero-scroll-stage--starfield');
     const visual=stage.querySelector('.hero-split-visual');
     const a=stage.getBoundingClientRect(),b=visual.getBoundingClientRect();
-    const photo=visual.querySelector('img');
+    const photo=visual.querySelector('img.hero-main-image');
+    const intro=stage.querySelector('.hero-intro');
+    const cta=intro.querySelector('.hero-cta-row');
+    const tabs=visual.querySelectorAll('.tle-cinema-tabs button');
     return {gap:b.top-a.top,width:b.width,height:b.height,overflow:document.documentElement.scrollWidth-innerWidth,
       photoReady:photo.complete&&photo.naturalWidth>0,
-      position:getComputedStyle(stage).position};
+      position:getComputedStyle(stage).position,
+      copyBeforeVisual:intro.getBoundingClientRect().top<b.top,
+      afterCTA:b.top-cta.getBoundingClientRect().bottom,
+      tabsCount:tabs.length};
    });
    assert(pos.photoReady,lang+' '+width+': photo not loaded');
    assert(pos.overflow<3,lang+' '+width+': horizontal overflow');
    if(width<768){
-    assert(pos.gap>=-3&&pos.gap<32,lang+' '+width+': old blank space remains before photo: '+pos.gap);
-    assert(pos.height>=390,lang+' '+width+': image too small after lifting');
+    assert(pos.copyBeforeVisual,lang+' '+width+': hero message and CTA must precede film on phone');
+    assert(pos.afterCTA>=0&&pos.afterCTA<130,lang+' '+width+': excessive gap between CTA and visual: '+pos.afterCTA);
+    assert(pos.tabsCount===3,lang+' '+width+': interactive story controls missing');
+    assert(pos.height>=300,lang+' '+width+': cinematic visual too small');
     assert(pos.width>=width-28,lang+' '+width+': photo too narrow');
     assert.equal(pos.position,'relative',lang+': phone scroll must remain native');
    }
    await page.close();
   }
  }
- console.log('[HERO FIRST-FOLD QA PASS] No duplicate/obsolete scroll CTA; photo lifted EN/ES mobile and native page preserved.');
+ console.log('[HERO FIRST-FOLD QA PASS] No obsolete scroll CTA; copy-first EN/ES cinematic hero and native page preserved.');
 } finally {await browser.close();}
