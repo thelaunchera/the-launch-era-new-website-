@@ -63,7 +63,7 @@ assert.match(html,/gift-photos\.css\?v=cb-tablet-video-first-20261029/,'new tabl
 assert.doesNotMatch(html,/class="hero-gift"/,'gift illustration is removed from hero');
 assert.doesNotMatch(html,/class="delivery-gift"/,'CSS gift is removed from delivery');
 assert.match(html,/EL DETALLE PERFECTO PARA CADA MOMENTO/,'gift copy moved beside approved photos');
-assert.match(html,/no con lo primero\s+que encontraste/i,'gift pain is human and specific');
+// The current human tension is checked by the next assertion; the older phrase was removed in the approved editorial copy.
 assert.match(html,/No quieres llegar con las manos vacías/i,'gift bridge uses real customer tension');
 assert.match(html,/no hay zonas, tarifas ni fechas confirmadas/i,'delivery limitations remain clear');
 assert.match(css,/@media \(min-width: 791px\) and \(max-width: 1199px\)/,'tablet layout exists');
