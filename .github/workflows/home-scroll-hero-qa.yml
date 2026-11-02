@@ -31,6 +31,7 @@ on:
       - 'src/components/hero-split-word-link.tsx'
       - 'scripts/qa-hero-split-word-browser.mjs'
       - 'scripts/qa-home-scroll-hero.mjs'
+      - '.github/workflows/home-scroll-hero-qa.yml'
   workflow_dispatch:
 permissions:
   contents: read
