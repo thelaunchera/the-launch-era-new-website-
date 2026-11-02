@@ -20,17 +20,12 @@ import assistant from '@/assets/assistant-workspace.jpg';
 import webappPhone from '@/assets/webapp-phone.jpg';
 const aiAgentsPhoto = 'https://images.unsplash.com/photo-1758626099012-2904337e9c60?auto=format&fit=crop&w=1000&q=85';
 import { BookingWalkthrough, PainCards, ProductExplorer } from './home-sales';
+import { HomeCinemaVisual } from './home-cinema-visual';
 import { MaskCursorHeadline } from './mask-cursor-headline';
 
 export function Wave({foam=false}:{foam?:boolean}) { return foam ? <div className="foam-wave" aria-hidden="true"><svg viewBox="0 0 1440 110" preserveAspectRatio="none"><path d="M0 48C50 48 52 10 112 17C151 20 166 48 207 46C255 45 261 22 301 25C348 29 346 64 399 63C448 63 459 42 505 44C548 46 555 73 605 70C675 66 686 18 750 23C805 27 807 63 858 60C911 58 918 35 969 38C1020 41 1024 70 1071 68C1116 66 1132 28 1185 33C1232 37 1237 63 1288 61C1344 59 1370 32 1440 40V110H0Z"/></svg></div> : <svg className="soft-wave" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 41C220 2 290 72 510 43C730 13 790 2 980 28C1170 56 1270 7 1440 35V70H0Z"/></svg> }
 const BOOKING_SALE_END=new Date('2026-11-01T04:00:00Z').getTime();
 function useBookingPrice(){const [sale,setSale]=useState(()=>Date.now()<BOOKING_SALE_END);useEffect(()=>{const sync=()=>setSale(Date.now()<BOOKING_SALE_END);sync();const id=window.setInterval(sync,30000);return()=>window.clearInterval(id)},[]);return {price:'$15',sale:true};}
-const notifications = [
- {app:'BOOKING PAGE',when:'now',title:'New booking request',text:'A customer would like a cleaning quote.',icon:CalendarCheck2},
- {app:'COMMAND CENTER',when:'12m ago',title:'Follow-up sent',text:'Your customer got a friendly reminder.',icon:Send},
- {app:'QUOTES',when:'preview',title:'Quote ready to review',text:'Keep the next step organized.',icon:ClipboardList},
- {app:'BOOKING PAGE',when:'preview',title:'Booking confirmed',text:'One more job on the calendar.',icon:CircleCheck}
-];
 const flow = [{title:'NEW LEAD',text:'Booking request comes in.',detail:'Your Booking Page collects service and appointment details.',icon:CalendarCheck2},{title:'TRACKED',text:'Added to your Command Center automatically.',detail:'Every request is easy to find.',icon:ClipboardList},{title:'FOLLOWED UP',text:'The next step keeps moving.',detail:'Follow-ups help you stay in touch.',icon:Send}];
 export function HomeHero() {
  const [active,setActive]=useState(0);
@@ -50,12 +45,8 @@ export function HomeHero() {
  </div>
  <div className="hero-split-visual">
  <img ref={heroImageRef} className="hero-main-image" src={HOME_HERO_PHOTO} alt="Cleaning professional wiping a countertop in a bright modern living room with pendant lights" width={1122} height={1402} loading="eager" fetchPriority="high" decoding="sync" onLoad={()=>setHeroLoaded(true)} onError={()=>setHeroLoaded(true)}/>
- <div className="hero-notice-flow" aria-hidden="true">
-   {notifications.map((n,i)=>{const Icon=n.icon;return <div className={`notification notice-${i+1}`} key={n.title}>
-     <span className="notice-icon" aria-hidden="true"><Icon size={17}/></span>
-     <div className="notice-body"><div className="notice-meta"><span>{n.app}</span><time>{n.when}</time></div><strong>{n.title}</strong><p>{n.text}</p></div>
-   </div>})}
- </div></div>
+ <HomeCinemaVisual lang="en" />
+</div>
  </div></div></section><section id="hero-next" className="hero-copy"><BookingWalkthrough/></section></>;
 }
 const services = [
