@@ -1,0 +1,103 @@
+/* Casa Brownie · Ajuste específico del demo (2026-11-02).
+   La hoja compartida de TLE cambia todas las galerías a una columna en móvil.
+   Para estos seis sabores usamos dos mini-tarjetas; otros demos conservan su layout. */
+@media (max-width: 767px) {
+  body[data-tle-demo="casa-brownie"] .flavor-section {
+    padding-inline: clamp(14px, 4vw, 25px);
+  }
+  body[data-tle-demo="casa-brownie"] .flavor-grid {
+    width: 100%;
+    max-width: 580px;
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    column-gap: clamp(10px, 3.5vw, 20px) !important;
+    row-gap: 24px !important;
+    align-items: start;
+  }
+  body[data-tle-demo="casa-brownie"] .flavor-grid > .flavor {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: 0 0 6px;
+  }
+  body[data-tle-demo="casa-brownie"] .flavor-picture {
+    display: block;
+    width: 100%;
+    max-width: 200px;
+    aspect-ratio: 4 / 5;
+    height: auto;
+    margin-inline: auto;
+    overflow: hidden;
+    border-radius: 13px;
+  }
+  body[data-tle-demo="casa-brownie"] .flavor-picture > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: inherit;
+  }
+  body[data-tle-demo="casa-brownie"] .flavor-title {
+    font-size: clamp(16px, 4.3vw, 20px);
+    line-height: 1.18;
+    min-height: 0;
+    margin-top: 10px;
+    text-wrap: balance;
+  }
+  body[data-tle-demo="casa-brownie"] .flavor-desc {
+    font-size: 13px;
+    line-height: 1.4;
+    max-width: 23ch;
+    margin-top: 3px;
+    text-wrap: pretty;
+  }
+}
+@media (max-width: 350px) {
+  body[data-tle-demo="casa-brownie"] .flavor-grid {
+    column-gap: 10px !important;
+    row-gap: 19px !important;
+  }
+  body[data-tle-demo="casa-brownie"] .flavor-title { font-size: 16px; }
+}
+/* Botón de regreso: circular, visible tras desplazarse, sin tapar el carrito ni el contenido. */
+body[data-tle-demo="casa-brownie"] .cb-back-to-top {
+  position: fixed;
+  z-index: 65;
+  right: max(17px, env(safe-area-inset-right));
+  bottom: max(22px, env(safe-area-inset-bottom));
+  display: inline-grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  border: 1px solid rgba(255, 246, 231, .85);
+  border-radius: 999px;
+  background: #503327;
+  color: #fff9f1;
+  box-shadow: 0 7px 19px rgba(43, 24, 16, .24);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+body[data-tle-demo="casa-brownie"] .cb-back-to-top[hidden] { display: none !important; }
+body[data-tle-demo="casa-brownie"] .cb-back-to-top svg {
+  width: 23px;
+  height: 23px;
+  display: block;
+}
+body[data-tle-demo="casa-brownie"] .cb-back-to-top:focus-visible {
+  outline: 3px solid #ba7755;
+  outline-offset: 4px;
+}
+body[data-tle-demo="casa-brownie"] .cb-back-to-top:hover { background: #684634; }
+body[data-tle-demo="casa-brownie"]:has(.modal-root:not([hidden])) .cb-back-to-top { display: none !important; }
+@media (max-width: 767px) {
+  body[data-tle-demo="casa-brownie"] .cb-back-to-top {
+    right: max(14px, env(safe-area-inset-right));
+    bottom: calc(79px + env(safe-area-inset-bottom));
+    width: 48px;
+    height: 48px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body[data-tle-demo="casa-brownie"] .cb-back-to-top { scroll-behavior: auto; }
+}
