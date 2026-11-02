@@ -58,10 +58,13 @@
   body[data-tle-demo="crumb"] .hero-editorial-cta,
   body[data-tle-demo="angela"] .hero-action-start,
   body[data-tle-demo="claudia"] .hero-start-link {
-    width:100%;
-    min-height:52px!important;
+    /* Consistent, compact hero actions: never a full-width banner on phones. */
+    width:fit-content!important;
+    max-width:min(100%,310px)!important;
+    min-height:48px!important;
+    padding:12px clamp(18px,5vw,24px)!important;
     font-weight:700;
-    border-radius:14px;
+    border-radius:999px!important;
   }
   .sales-home .hero-intro .demo-delivery-note a,
   body[data-tle-demo="aftr"] .hero-cta .btn-ghost,
