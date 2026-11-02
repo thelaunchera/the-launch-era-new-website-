@@ -76,7 +76,7 @@ function ServiceCard({service:s,index:i}:{service:typeof services[number],index:
    : isAi
      ? <div className="service-card-price-line"><span className="service-price-pill service-ai-price"><strong>From $19 setup</strong></span></div>
      : isWebsite
-       ? <div className="booking-offer-line service-discount-offer"><span className="booking-offer-tag">SPECIAL OFFER</span><span className="booking-offer-price service-price-pill"><del>"$59.99"</del><strong>"$35"</strong></span></div>
+       ? <div className="booking-offer-line service-discount-offer"><span className="booking-offer-tag">SPECIAL OFFER</span><span className="booking-offer-price service-price-pill"><del>$59.99</del><strong>$35</strong></span></div>
        : null}
   <h3>{s.title}</h3><p>{s.description}</p><div className="card-tag">{s.tag}</div>
  </>;
