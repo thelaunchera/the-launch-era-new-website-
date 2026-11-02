@@ -22,6 +22,7 @@ try {
         aside:rect('.hero-aside'), title:rect('#hero-title'),
         hero:rect('.hero'), cta:rect('.hero-aside a'),
         pageWidth:document.documentElement.scrollWidth,
+        overflowNodes:[...document.querySelectorAll('body *')].map(e=>({node:e.tagName.toLowerCase(),cls:typeof e.className==='string'?e.className.slice(0,70):'',right:Math.round(e.getBoundingClientRect().right),left:Math.round(e.getBoundingClientRect().left)})).filter(r=>r.right>innerWidth+1).slice(0,12),
         imageLoaded:document.querySelector('.hero-photo img').naturalWidth > 0,
         detailLoaded:document.querySelector('.hero-inset img').naturalWidth > 0,
         ctaTarget:document.querySelector('.hero-aside a').getAttribute('href')
