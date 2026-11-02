@@ -1,3 +1,9 @@
+## 2026-11-02 — IVORY & BLOOM hero photograph too small on large tablet/desktop
+- **Reported:** owner supplied a landscape tablet screenshot; the introductory cake-artist photo looked small and secondary to large white areas/text.
+- **Verified root in source:** desktop `.hero-composition` used `grid-template-columns:47% 17% 1fr` and a `420px` center photo row; at <=1000px the row reduced to `330px`. Primary photo therefore stayed narrow and short on wider viewports. This is a source-level verification; the exact live browser version was not independently inspected.
+- **Scoped repair:** responsive >=761px editorial two-column stage enlarges the principal image to a 520–760px high panel, keeps the detail as an inset, and centers the story/CTA beside the photo. Mobile photo arrangement <=760px unchanged; additionally reduced the long inquiry headline size at <=390px after browser QA revealed horizontal overflow. Only the fictitious `/demos/ivory-and-bloom/` HTML is modified; no customers, payments, sending, backend or other demos touched.
+- **Verification status:** source checks plus Chromium viewport geometry regression passed on PR #400. Pages publishing and live Safari/desktop acceptance still require separate verification before calling it complete.
+
 ## 2026-11-01 — Public Contact link opens mail client instead of inquiry form
 - Reported: public TLE landings must send visitors to a contact form rather than open an email app.
 - Source repair: shared site footer EN `Contact` routes to `/help`; ES `Contacto` routes to `/es#contacto`. Both were confirmed in source to contain real form components; no endpoint, account data, customer records or outgoing emails changed.
