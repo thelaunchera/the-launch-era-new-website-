@@ -1,3 +1,9 @@
+## 2026-11-02 — IVORY & BLOOM gallery links appear as tiny, awkwardly wrapped text
+- **Observed:** owner photo of tablet gallery showed `Inquire about this design` as underlined inline text squeezed next to the cake title on the two-column display.
+- **Source cause:** `.cake-meta` was `display:flex; justify-content:space-between` on wider screens and the anchor had `max-width:125px`; its text was forced into narrow lines. On mobile the link reverted to small underlined inline text.
+- **Repair:** nine gallery links get the same restrained blush/taupe outlined fill and dedicated row; small-screen layout has full card-width 51px touch targets. Keep original per-cake `data-cake` and `#inquiry` preselection. Add browser regression for each gallery CTA, bounds and form preselection.
+- **Verification:** source inspected; PR CI/browsers and deployment/live iPad Safari review tracked separately; no changes to checkout, payment, customer data or other demos.
+
 ## 2026-11-02 — IVORY & BLOOM hero photograph too small on large tablet/desktop
 - **Reported:** owner supplied a landscape tablet screenshot; the introductory cake-artist photo looked small and secondary to large white areas/text.
 - **Verified root in source:** desktop `.hero-composition` used `grid-template-columns:47% 17% 1fr` and a `420px` center photo row; at <=1000px the row reduced to `330px`. Primary photo therefore stayed narrow and short on wider viewports. This is a source-level verification; the exact live browser version was not independently inspected.
