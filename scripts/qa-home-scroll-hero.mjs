@@ -9,6 +9,8 @@ const motion = read('src/components/home-motion.tsx');
 const observer = read('src/components/use-hero-wipe.ts');
 const root = read('src/routes/__root.tsx');
 const scrollCSS = read('public/assets/tle-hero-scroll.css');
+const cinemaCSS = read('public/assets/tle-home-cinema-20261102.css');
+const cinemaComponent = read('src/components/home-cinema-visual.tsx');
 const styles = read('src/styles.css');
 const heroPhoto = read('src/lib/home-hero-photo.ts');
 const homeRoute = read('src/routes/index.tsx');
@@ -39,7 +41,8 @@ for (const [lang, hero, expected] of [
   assert(hero.includes('ref={heroRef}'), lang + ': IntersectionObserver hero ref missing');
   assert.equal(hero.split('href="' + expected + '"').length - 1, 1, lang + ': duplicate or absent no-signup sample CTA');
   assert(hero.indexOf('hero-cta-row') < hero.indexOf('hero-split-visual'), lang + ': copy must lead on desktop');
-  assert(hero.indexOf('hero-split-visual') < hero.indexOf('hero-notice-flow'), lang + ': notifications must sit inside image');
+  assert(hero.indexOf('hero-split-visual') < hero.indexOf('<HomeCinemaVisual lang='), lang+': cinematic journey must be within image');
+  assert(hero.includes('<HomeCinemaVisual lang="'+lang.toLowerCase()+'" />'),lang+': localized film missing');
 }
 assert(observer.includes('IntersectionObserver') && observer.includes('observer.disconnect()'));
 assert(scrollCSS.includes('height: 180svh') && scrollCSS.includes('position: sticky'));
@@ -63,11 +66,12 @@ assert(scrollCSS.includes('tle-home-heading-horizontal-flow-20261017'),'Long-for
 for(const marker of ['tle-home-hero-text-shine-20261017','background-size:260% 100%','background-position:130% 0','70%,100% {background-position:-30% 0}','animation:tle-home-hero-ink-shine 3.8s linear infinite','background-position:50% 0 !important']) assert(scrollCSS.includes(marker),'Heading shine CSS missing '+marker);
 assert(root.includes('tle-hero-scroll.css?v=20261018-fullscreen-starfield1'),'New hero CSS must bypass previous iPhone cache');
 assert(scrollCSS.includes('2026-10-18: One continuous starfield') && scrollCSS.includes('height: clamp(390px, 72svh, 620px)'), 'new first-fold styling absent');
-// Localized marketing activity floats (illustrative only, never real customer records).
-assert.equal((en.match(/app:'(?:BOOKING PAGE|COMMAND CENTER|QUOTES)'/g)||[]).length,4,'EN four marketing notices missing');
-assert(es.includes("'Cotización lista'") && es.includes("'Reserva confirmada'"),'ES localized activity notices missing');
-assert(englishHero.includes('className="hero-notice-flow" aria-hidden="true"') && spanishHero.includes('className="hero-notice-flow" aria-hidden="true"'),'Decorative hero notices must be hidden from screen readers');
-for(const marker of ['tle-home-notification-bob-v1','@keyframes tle-home-notification-bob','@keyframes tle-home-notification-enter','max-width:767px','prefers-reduced-motion:reduce']) assert(scrollCSS.includes(marker),'Hero chip CSS missing '+marker);
+// Approved first-party visual sequence, not fabricated customer notifications.
+assert(!englishHero.includes('hero-notice-flow') && !spanishHero.includes('hero-notice-flow'),'Old notifications returned');
+assert(cinemaComponent.includes('IntersectionObserver') && cinemaComponent.includes('chosenByVisitor.current=true'),'Manual scene controls or lazy motion missing');
+assert(cinemaComponent.includes('prefers-reduced-motion: reduce'),'Reduced-motion support missing');
+for(const marker of ['.tle-cinema-ui','data-step="1"','data-step="2"','@media(max-width:767px)']) assert(cinemaCSS.includes(marker),'Missing cinematic CSS '+marker);
+assert(root.includes('tle-home-cinema-20261102.css'),'Public cinematic stylesheet is not linked');
 
 console.log('[HERO STATIC QA PASSED] EN/ES split wipe, mobile stack, scroll shrink, intact demo CTA.');
 
@@ -120,7 +124,7 @@ try {
        visual: { width:a.width,height:a.height,left:a.left,right:a.right,top:a.top },
        screenWidth:innerWidth,
        photoGap:a.top-stage.getBoundingClientRect().top,
-       cards:Array.from(panel.querySelectorAll('.hero-notice-flow .notification')).filter(el=>getComputedStyle(el).display!=='none').map(el=>{const r=el.getBoundingClientRect();return {width:r.width,top:r.top,bottom:r.bottom,left:r.left,right:r.right}}),
+       tabs:Array.from(panel.querySelectorAll('.tle-cinema-tabs button')).map(el=>{const r=el.getBoundingClientRect();return {width:r.width,top:r.top,bottom:r.bottom,left:r.left,right:r.right,height:r.height}}),
      },
      introOpacity: Number(getComputedStyle(intro).opacity),
      heading:(()=>{const h=intro.querySelector('h1'),c=getComputedStyle(h),r=h.getBoundingClientRect();return {text:h.innerText,width:r.width,left:r.left,right:r.right,height:r.height,font:parseFloat(c.fontSize),weight:c.fontWeight,lineHeight:parseFloat(c.lineHeight),lines:Math.round(r.height/parseFloat(c.lineHeight)),forcedBreaks:h.querySelectorAll('br').length,animation:c.animationName,clip:c.backgroundClip,fill:c.webkitTextFillColor}})(),
@@ -137,11 +141,10 @@ try {
        photoZIndex:Number(getComputedStyle(panel).zIndex),
        animations:blobs.map(blob=>getComputedStyle(blob).animationName)
      },
-     notices: {
-       count:panel.querySelectorAll('.hero-notice-flow .notification').length,
-       visible:Array.from(panel.querySelectorAll('.hero-notice-flow .notification')).filter(el=>getComputedStyle(el).display!=='none').length,
-       animated:Array.from(panel.querySelectorAll('.hero-notice-flow .notification')).filter(el=>getComputedStyle(el).display!=='none' && getComputedStyle(el).animationName.includes('tle-home-notification-bob')).length,
-       hitTest:getComputedStyle(panel.querySelector('.hero-notice-flow')).pointerEvents
+     cinema: {
+       present:!!panel.querySelector('.tle-cinema'),
+       controls:panel.querySelectorAll('.tle-cinema-tabs button').length,
+       imageCount:panel.querySelectorAll('.tle-cinema-ui').length,
      },
      panel: { top:a.top, left:a.left, width:a.width, height:a.height, bottom:a.bottom },
      copy: { top:b.top, left:b.left, width:b.width },
@@ -156,10 +159,7 @@ try {
    assert(!state.clipped, lang + ' ' + viewport.width + ': hero horizontal clipping');
    assert(state.panel.width > 160, lang + ' ' + viewport.width + ': image panel compressed');
    assert(state.image.loaded && state.image.src.includes('hero-cleaner-lights-20261017.jpg'),lang+' '+viewport.width+': approved photo not loaded');
-   assert.equal(state.notices.count,4,lang+': four illustrative notices expected');
-   assert.equal(state.notices.visible,viewport.width<768?2:4,lang+' '+viewport.width+': wrong responsive notice count');
-   assert.equal(state.notices.hitTest,'none',lang+': chips must not block hero taps');
-   assert.equal(state.notices.animated,state.notices.visible,lang+' '+viewport.width+': visible chips must bob independently');
+   assert(state.cinema.present && state.cinema.controls===3 && state.cinema.imageCount===2,lang+': three-step cinematic story not rendered');
    if (viewport.width === 1440 && viewport.height === 768) {
      assert(state.panel.bottom < viewport.height - 12, lang + ': hero photo is cut off by short desktop screen: ' + state.panel.bottom);
    }
@@ -194,15 +194,12 @@ try {
    }
    if (viewport.width === 1440) await page.screenshot({ path:`qa-screenshots/home-scroll-${lang}-1440x${viewport.height}-mesh-initial.png`, fullPage:false });
    if (viewport.width < 768) {
-    assert(state.panel.top < state.copy.top, lang + ': image must stack above text on phone');
-    assert(state.phoneGeometry.visual.height >= 339, lang + ' ' + viewport.width + ': photo still too short');
-    assert(state.phoneGeometry.visual.width >= viewport.width - 26, lang + ' ' + viewport.width + ': photo not wide enough');
-    assert(state.phoneGeometry.visual.left >= -1 && state.phoneGeometry.visual.right <= viewport.width + 1, lang + ': picture escapes viewport');
-    assert(state.phoneGeometry.photoGap >= -3 && state.phoneGeometry.photoGap < 32, lang + ': photo starts too far below stage: ' + state.phoneGeometry.photoGap);
-    assert(state.phoneGeometry.visual.height >= Math.min(390,viewport.height*.60), lang + ': first-fold photo too short');
-    assert(state.phoneGeometry.cards.length === 2, lang + ': mobile shows wrong number of notification chips');
-    assert(state.phoneGeometry.cards.every(c=>c.width <= 211), lang + ': mobile chips still oversized');
-    assert(state.phoneGeometry.cards[0].bottom + 4 < state.phoneGeometry.cards[1].top, lang + ': mobile notification chips overlap');
+    assert(state.panel.top > state.copy.top,lang+': text and CTA must appear before cinematic visual on mobile');
+    assert(state.phoneGeometry.visual.height >= 300,lang+': visual too short on phone');
+    assert(state.phoneGeometry.visual.width >= viewport.width-28,lang+': visual too narrow');
+    assert(state.phoneGeometry.visual.left>=-1 && state.phoneGeometry.visual.right<=viewport.width+1,lang+': visual clipped');
+    assert(state.phoneGeometry.tabs.length===3,lang+': three controls required');
+    assert(state.phoneGeometry.tabs.every(c=>c.height>=40 && c.left>=-1 && c.right<=viewport.width+1),lang+': control clipped or too small');
     assert(state.stagePosition !== 'sticky' && state.framePosition !== 'absolute', lang + ': mobile must use natural height');
     assert(Math.abs(state.frameScale - 1) < .04, lang + ': mobile hero cannot shrink');
    } else {
@@ -241,12 +238,13 @@ try {
     stage:getComputedStyle(hero.querySelector('.hero-scroll-stage')).position,
     transform:getComputedStyle(hero.querySelector('.hero-scroll-frame')).transform,
     opacity:Number(getComputedStyle(intro).opacity),
-    imageAbove:panel.getBoundingClientRect().top<intro.getBoundingClientRect().top,
+    copyAbove:panel.getBoundingClientRect().top>intro.getBoundingClientRect().top,
+     cinematicStep:panel.querySelector(".tle-cinema")?.getAttribute("data-step"),
     heading:(()=>{const c=getComputedStyle(intro.querySelector('h1'));return {animation:c.animationName,fill:c.webkitTextFillColor,position:c.backgroundPosition}})()
    };
   });
   assert(stable.heading.animation==='none' && stable.heading.fill==='rgb(25, 25, 25)' && stable.heading.position.startsWith('50% 0'),lang+': reduced-motion shine not legible and frozen '+JSON.stringify(stable.heading));
-  assert(!stable.clip.includes('100%') && stable.stage !== 'sticky' && stable.transform === 'none' && stable.opacity === 1 && stable.imageAbove,
+  assert(!stable.clip.includes('100%') && stable.stage !== 'sticky' && stable.transform === 'none' && stable.opacity === 1 && stable.copyAbove && stable.cinematicStep==="0",
    lang + ': reduced motion must show finished mobile split: ' + JSON.stringify(stable));
   await reduced.close();
 
