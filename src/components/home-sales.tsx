@@ -98,13 +98,13 @@ export function PainCards({lang='en'}:{lang?:Language}) {
  const pains=es?[
  ['“Envié la cotización. Después, silencio.”','Entre trabajos, se quedó pendiente volver a escribirle.','Si la cotización sigue sin respuesta, el sistema envía recordatorios automáticamente.'],
  ['“Sé que me pidieron una cotización… ¿dónde quedó el mensaje?”','Buscar entre mensajes, DMs y capturas te quita tiempo para responder.','Tu Booking Page reúne las nuevas solicitudes en tu Command Center.'],
- ['“Terminé las limpiezas. Me falta lo administrativo.”','Todavía hay horarios, datos de clientes y pendientes por revisar.','La Cleaning App reúne trabajos, clientes, cotizaciones e invoices.']
+ ['“Terminé las limpiezas. Me falta lo administrativo.”','Todavía hay horarios, datos de clientes y pendientes por revisar.','Tu Command Center te ayuda a revisar solicitudes, cotizaciones y seguimientos desde un mismo lugar.']
  ]:[
  ['“I sent the quote. Then the conversation went quiet.”','Between cleaning jobs, checking back with that client slipped through.','If the quote goes unanswered, the system sends reminders automatically.'],
  ['“I know someone asked for a quote. Where did that message go?”','Checking texts, DMs, and screenshots takes time you could spend answering the customer.','Your Booking Page brings new requests into your Command Center.'],
- ['“The cleaning is done. My admin isn’t.”','There are still schedules, client details, and loose ends to check.','The Cleaning App keeps jobs, clients, quotes, and invoices together.']
+ ['“The cleaning is done. My admin isn’t.”','There are still schedules, client details, and loose ends to check.','Your Command Center helps you review requests, quotes and follow-ups in one place.']
  ];
- return <div className="sales-pains">{pains.map(([title,pain,solution],i)=><details key={title} onToggle={e=>{if(e.currentTarget.open)track('pain',String(i))}}><summary><span>{title}</span><Plus size={19}/></summary><div className="pain-answer"><p>{pain}</p><strong>{es?'Así te ayuda TLE':'How TLE helps'}</strong><p>{solution}</p><a href={i===2?(es?'/es/cleaning-web-app/':'/cleaning-web-app/'):(es?'/es/booking-lead-automation/':'/booking-lead-automation/')}>{i===2?(es?'Ver la Cleaning App':'See the Cleaning App'):(es?'Conoce el sistema de reservas':'Explore the booking system')} <ArrowRight size={17}/></a></div></details>)}<p className="problem-bottom">{es?'Elige la situación que se parece a tu día.':'Choose the situation that sounds like your day.'}</p></div>;
+ return <div className="sales-pains">{pains.map(([title,pain,solution],i)=><details key={title} onToggle={e=>{if(e.currentTarget.open)track('pain',String(i))}}><summary><span>{title}</span><Plus size={19}/></summary><div className="pain-answer"><p>{pain}</p><strong>{es?'Así te ayuda TLE':'How TLE helps'}</strong><p>{solution}</p><a href={es?'/es/booking-lead-automation/':'/booking-lead-automation/'}>{es?'Conoce el sistema de reservas':'Explore the booking system'} <ArrowRight size={17}/></a></div></details>)}<p className="problem-bottom">{es?'Elige la situación que se parece a tu día.':'Choose the situation that sounds like your day.'}</p></div>;
 }
 
 export function ProductExplorer({lang='en',children}:{lang?:Language;children:ReactNode}) {

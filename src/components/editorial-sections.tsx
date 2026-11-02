@@ -15,7 +15,6 @@ import { ArrowRight, ArrowUpRight, Bell, CalendarCheck2, Check, CircleCheck, Cli
 import { Button } from '@/components/ui/button';
 import cleaner from '@/assets/cleaner-home.jpg';
 import { HOME_HERO_PHOTO } from '@/lib/home-hero-photo';
-import webapp from '@/assets/webapp-phone.jpg';
 import website from '@/assets/website-workspace.jpg';
 import assistant from '@/assets/assistant-workspace.jpg';
 const aiAgentsPhoto = 'https://images.unsplash.com/photo-1758626099012-2904337e9c60?auto=format&fit=crop&w=1000&q=85';
@@ -60,30 +59,25 @@ export function HomeHero() {
 const services = [
  {title:'Booking Automation + Command Center',landing:'/booking-lead-automation',description:'Your Booking Page and private workspace, connected.',image:cleaner,alt:'Cleaner working in a bright residential home',tag:'YOUR BOOKING FLOW, CONNECTED',points:['Booking Page with available times','Edit prices in your Command Center','Up to two automatic follow-ups'],checkout:'/booking-lead-automation'},
  {title:'AI Assistants',landing:'/ai-booking-assistant/',description:'Help with booking questions and follow-ups.',image:aiAgentsPhoto,alt:'Modern AI technology workspace with a laptop and a blue-toned digital assistant screen',tag:'BOOKING AI + FOLLOW-UP AI',points:['AI Booking','AI Follow-Up','Both together'],checkout:'/ai-booking-assistant/'},
- {title:'Cleaning Web App',landing:'/cleaning-web-app',description:'Your calendar, clients, and jobs in one App.',image:webapp,alt:'A phone showing a softly blurred cleaning business management app on a bright desk',tag:'ONE PLACE FOR THE DAY TO DAY',points:['Calendar and jobs at a glance','Clients, quotes, and invoices together','Team and workflow, organized','Time and mileage, kept simple'],checkout:'/cleaning-web-app'},
  {title:'Website Automation',landing:'/website-automation',description:'Keep your website. Organize inquiries and follow-ups.',image:website,alt:'A laptop showing a cleaning business website',tag:'YOUR WEBSITE, CONNECTED TO WHAT’S NEXT',points:['Your existing website connected to the next step','Inquiry details routed into one clear flow','Follow-up that keeps the conversation moving'],checkout:'/website-automation'},
- {title:'Virtual Assistant',landing:'/virtual-assistant',description:'Help with everyday admin and client follow-ups.',image:assistant,alt:'A virtual assistant working at a laptop in her home office',tag:'A LITTLE HELP GOES A LONG WAY',points:['Help with your everyday admin','A more organized inbox and client information','Support shaped around your business'],checkout:'/virtual-assistant'}
 ];
 export function SolutionsSection() {
- return <section id="solutions" className="solutions-section"><Wave/><div className="container"><div className="section-heading"><div className="eyebrow">HELP THAT FITS YOUR BUSINESS</div><h2 className="editorial">Start with booking.<br/>Add help only where you need it.</h2><p>Explore optional AI, website tools and day-to-day organization.</p></div><p className="service-rail-hint">Explore our solutions</p><div className="service-grid" aria-label="Cleaning business services">{services.map((s,i)=><ServiceFlipCard key={s.title} title={s.title} href={s.landing} description={s.description} points={s.points}><ServiceCard service={s} index={i}/></ServiceFlipCard>)}</div></div></section>;
+ return <section id="solutions" className="solutions-section"><Wave/><div className="container"><div className="section-heading"><div className="eyebrow">HELP THAT FITS YOUR BUSINESS</div><h2 className="editorial">Start with booking.<br/>Add help only where you need it.</h2><p>Explore optional AI booking help and website tools, without another complicated system.</p></div><p className="service-rail-hint">Explore our solutions</p><div className="service-grid" aria-label="Cleaning business services">{services.map((s,i)=><ServiceFlipCard key={s.title} title={s.title} href={s.landing} description={s.description} points={s.points}><ServiceCard service={s} index={i}/></ServiceFlipCard>)}</div></div></section>;
 }
 function ServiceCard({service:s,index:i}:{service:typeof services[number],index:number}) {
  const {sale}=useBookingPrice();
  const isBooking=s.title==='Booking Automation + Command Center';
  const isAi=s.title==='AI Assistants';
- const isApp=s.title==='Cleaning Web App';
  const isWebsite=s.title==='Website Automation';
- const isVa=s.title==='Virtual Assistant';
  return <>
   <div className="service-image"><img src={s.image} alt={s.alt} loading={i<2?'eager':'lazy'} decoding="async" width={1024} height={1024} onError={(e)=>{const img=e.currentTarget;img.onerror=null;img.src=isAi?assistant:'/assets/hero-cleaner-lights-20261017.jpg';}}/><span className="service-number">0{i+1}</span><span className="service-arrow"><ArrowUpRight size={18}/></span></div>
   {isBooking
    ? <div className="booking-offer-line"><span className="booking-offer-price service-price-pill"><strong>$15 · one-time</strong></span></div>
    : isAi
      ? <div className="service-card-price-line"><span className="service-price-pill service-ai-price"><strong>From $19 setup</strong></span></div>
-     : isWebsite||isVa
-       ? <div className="booking-offer-line service-discount-offer"><span className="booking-offer-tag">SPECIAL OFFER</span><span className="booking-offer-price service-price-pill"><del>{isWebsite?"$59.99":"$49.99/mo"}</del><strong>{isWebsite?"$35":"$25/mo"}</strong></span></div>
-       : isApp
-         ? <div className="service-card-price-line"><span className="service-price-pill"><strong>$3.99/mo</strong></span></div> : null}
+     : isWebsite
+       ? <div className="booking-offer-line service-discount-offer"><span className="booking-offer-tag">SPECIAL OFFER</span><span className="booking-offer-price service-price-pill"><del>$59.99</del><strong>$35</strong></span></div>
+       : null}
   <h3>{s.title}</h3><p>{s.description}</p><div className="card-tag">{s.tag}</div>
  </>;
 }
