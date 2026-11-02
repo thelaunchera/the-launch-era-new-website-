@@ -29,6 +29,7 @@ export function PrimaryBookingOffer({ lang = 'en' }: { lang?: 'en' | 'es' }) {
           <strong>$15</strong>
         </div>
         <p className="tle-primary-booking-offer__price-note">{es ? 'Booking Page + Command Center. Sin mensualidad de Booking.' : 'Booking Page + Command Center. No monthly Booking fee.'}</p>
+        <p className="tle-primary-booking-offer__fine-print">{es ? '¿Necesitas organizar trabajos, clientes y facturas? La Cleaning App es un producto separado.' : 'Need to organize jobs, clients and invoices? The Cleaning App is a separate product.'} <a href={es?'/es/cleaning-web-app/':'/cleaning-web-app/'}>{es?'Conoce la App':'Explore the App'}</a></p>
         <div className="tle-primary-booking-offer__actions">
           <a className="tle-primary-booking-offer__cta" href={checkout}>{es ? 'Quiero mi página de reservas — $15' : 'Get my Booking Page — $15'} <ArrowRight size={18} aria-hidden="true"/></a>
         </div>
