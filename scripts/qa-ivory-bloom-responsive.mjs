@@ -46,6 +46,29 @@ try {
       assert(data.photo.height >= 280, `Mobile photo collapsed at ${width}px`);
       assert(data.aside.top > data.photo.top, `Mobile story order changed at ${width}px`);
     }
+    // The entire atelier uses one refined serif for headings and one legible sans for UI.
+    const type=await page.evaluate(() => {
+      const fontOf=selector=>getComputedStyle(document.querySelector(selector)).fontFamily;
+      const tracked=['#hero-title','#collection-title','#cake-gallery-title',
+        '#story-title','#process-title','#flavor-title','#inquiry-title',
+        '#faq-title','.gallery-quote','.cake-meta h3','.logo','.footer-wordmark'];
+      return {
+        display:tracked.map(selector=>({selector,font:fontOf(selector)})),
+        ui:['body','.hero-aside p','.desktop-nav','.filter','.design-inquiry','form input','form select','.logo small'].map(selector=>({selector,font:fontOf(selector)})),
+        headline:[...document.querySelectorAll('h1,h2,h3')].map(h=>({text:h.textContent.trim().slice(0,32),
+          right:Math.round(h.getBoundingClientRect().right),
+          parentRight:Math.round(h.parentElement.getBoundingClientRect().right)}))
+      };
+    });
+    for (const {selector,font} of type.display) {
+      assert(font.includes('Cormorant Garamond'),`Wrong display font on ${selector} at ${width}px: ${font}`);
+    }
+    for (const {selector,font} of type.ui) {
+      assert(font.includes('DM Sans'),`Wrong readable UI font on ${selector} at ${width}px: ${font}`);
+    }
+    for (const heading of type.headline) {
+      assert(heading.right <= width+2,`Headline exceeds viewport at ${width}px: ${heading.text} (${heading.right}px)`);
+    }
     const galleryButtons=page.locator('.cake-item .design-inquiry');
     assert.equal(await galleryButtons.count(),9,`Expected 9 polished gallery buttons at ${width}px`);
     const galleryGeometry=await page.evaluate(() => [...document.querySelectorAll('.cake-item .design-inquiry')].map(link => {
