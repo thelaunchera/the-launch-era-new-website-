@@ -71,6 +71,7 @@
  .tle-cinema-tabs button {font-size:10px;gap:4px}
 }
 @media(max-width:767px) {
+ .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual > img.hero-main-image {transform:none!important;will-change:auto!important}
  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
    height:clamp(302px,82vw,385px)!important;
    border-radius:16px!important;
