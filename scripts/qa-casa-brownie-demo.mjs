@@ -223,7 +223,7 @@ assert.match(html,/href="\.\/flavors-compact-back-to-top\.css\?v=20261102-cta-2"
 assert.match(compactCss,/grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)\s*!important/,'mobile gallery counters the shared single-column override');
 assert.match(compactCss,/\.hero-copy\s*>\s*\.primary-button/,'hero CTA has a scoped compact rule');
 assert.match(compactCss,/max-width:\s*min\(100%,\s*285px\)\s*!important/,'Casa Brownie phone CTA cannot become full width');
-const mobileCss=readFileSync(new URL('../assets/tle-mobile-first-375.css',dir),'utf8');
+const mobileCss=readFileSync(new URL('../../assets/tle-mobile-first-375.css',dir),'utf8');
 assert.match(mobileCss,/width:fit-content!important/,'shared mobile landing CTA should respect its label');
 assert.equal((html.match(/class="flavor"\s/g)||[]).length,6,'all six flavor cards preserved');
 assert.match(html,/id="cb-back-to-top"[^>]*href|href="#inicio"[^>]*id="cb-back-to-top"/,'back-to-top has an anchor target');
