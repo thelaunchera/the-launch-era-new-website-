@@ -1,3 +1,13 @@
+## 2026-11-02 — IVORY & BLOOM two-font editorial typography (route unchanged)
+- **Source/route:** `public/demos/ivory-and-bloom/index.html` at `/demos/ivory-and-bloom/`. No image filenames, CTA destinations, cake selection data, form behavior, or pages/routes altered.
+- **Brand typography:** Cormorant Garamond for wordmark, all headings, card titles and editorial quote; DM Sans for descriptive text, eyebrow labels, navigation, filters, buttons, inputs, and disclaimer. Replace former Manrope and Georgia styling; both fonts requested together from Google Fonts. Headline casing softened from all-caps to sentence case, without changing content meaning.
+- **Responsive:** mobile 360/390, tablet 768/820 and desktop 1024/1440 font sizes and headings guarded by existing Playwright QA. Existing screenshot/text legibility on iPad Safari remains a separate acceptance gate; fallback fonts available if CDN is offline.
+
+## 2026-11-02 — IVORY & BLOOM gallery inquiry buttons (same route)
+- **Source/route:** `public/demos/ivory-and-bloom/index.html` at `/demos/ivory-and-bloom/`; all nine cake gallery `a[data-cake]` CTA links still target `#inquiry` and preselect the exact cake's option in `select[name="style"]`.
+- **Visual only:** replace underlined inline inquiry links in `.cake-meta` with accessible `.design-inquiry` buttons using taupe/blush fill, fine border, focus indicator and 44+px tappable size; stacked below each cake title. Two-column small-screen cards get full-width buttons and natural text wrapping.
+- **No functional change:** pictures, prices (none), CTA destination, simulated inquiry form and no-send disclaimer unchanged. Scoped responsive automated test covers geometry and all nine preselection links at 390px and 1024px.
+
 ## 2026-11-02 — IVORY & BLOOM large-screen editorial hero (route unchanged)
 - **Owner/route:** active website `public/demos/ivory-and-bloom/index.html` → `https://thelaunchera.com/demos/ivory-and-bloom/`; standalone fictional wedding-cake portfolio. Studio still links to this route. No route, CTA destination, media asset, inquiry simulation, or data behavior changed.
 - **Layout change:** only widths >=761px: primary cake-artist photo occupies the large left hero stage (clamped 520–760px height depending on tablet/desktop), with smaller decorative detail photo layered on its lower right. Story/CTA stay in a right column; title follows photos. Small mobile <=760px retains its original photo arrangement; at <=390px the inquiry headline is made slightly smaller to prevent an existing one-word overflow. Reduce overlarge gap to the next section.

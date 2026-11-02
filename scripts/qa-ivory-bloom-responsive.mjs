@@ -7,7 +7,10 @@ const browser = await chromium.launch({headless: true});
 try {
   for (const width of [360, 390, 768, 820, 1024, 1440]) {
     const page = await browser.newPage({viewport:{width,height:900}, deviceScaleFactor:1});
+    const pageErrors=[];
+    page.on('pageerror',error => pageErrors.push(error.message));
     await page.goto(url, {waitUntil:'domcontentloaded'});
+    assert.deepEqual(pageErrors,[],`Demo JavaScript failed to initialize at ${width}px`);
     await page.waitForFunction(() => {
       const img = document.querySelector('.hero-photo img');
       return img?.complete && img.naturalWidth > 0;
@@ -33,6 +36,13 @@ try {
     assert.equal(data.ctaTarget, '#cake-gallery');
     assert(data.cta.width > 60 && data.cta.height > 15, `CTA not visible at ${width}px`);
     if (data.pageWidth > width + 2) console.error('OVERFLOW DETAIL', width, data.pageWidth, JSON.stringify(data.overflowNodes));
+    if(data.pageWidth > width+2) {
+      const widths=await page.evaluate(() => {
+        const get=(sel)=>{const el=document.querySelector(sel);if(!el)return null;const r=el.getBoundingClientRect();const c=getComputedStyle(el);return {sel,x:r.left,right:r.right,width:r.width,scrollWidth:el.scrollWidth,clientWidth:el.clientWidth,display:c.display,overflowX:c.overflowX,marginRight:c.marginRight}};
+        return {html:get('html'),body:get('body'),wrap:get('.cake-gallery.wrap'),filters:get('.gallery-filters'),hero:get('.hero.wrap'),header:get('.header-inner'),logo:get('.logo'),main:get('main'),footer:get('footer'),gallery:get('.gallery'),filter:get('.filter'),h1:get('#hero-title')};
+      });
+      console.error('WIDTH DIAG',JSON.stringify(widths));
+    }
     assert(data.pageWidth <= width + 2, `Horizontal overflow at ${width}px: ${data.pageWidth}`);
     if (width >= 761) {
       assert(data.photo.height >= 520, `Desktop/tablet hero too short at ${width}px: ${data.photo.height}`);
@@ -42,6 +52,67 @@ try {
     } else {
       assert(data.photo.height >= 280, `Mobile photo collapsed at ${width}px`);
       assert(data.aside.top > data.photo.top, `Mobile story order changed at ${width}px`);
+    }
+    // The entire atelier uses one refined serif for headings and one legible sans for UI.
+    const type=await page.evaluate(() => {
+      const fontOf=selector=>getComputedStyle(document.querySelector(selector)).fontFamily;
+      const tracked=['#hero-title','#collection-title','#cake-gallery-title',
+        '#story-title','#process-title','#flavor-title','#inquiry-title',
+        '#faq-title','.gallery-quote','.cake-meta h3','.logo','.footer-wordmark'];
+      return {
+        display:tracked.map(selector=>({selector,font:fontOf(selector)})),
+        ui:['body','.hero-aside p','.desktop-nav','.filter','.design-inquiry','form input','form select','.logo small'].map(selector=>({selector,font:fontOf(selector)})),
+        headline:[...document.querySelectorAll('h1,h2,h3')].map(h=>({text:h.textContent.trim().slice(0,32),
+          right:Math.round(h.getBoundingClientRect().right),
+          parentRight:Math.round(h.parentElement.getBoundingClientRect().right)}))
+      };
+    });
+    for (const {selector,font} of type.display) {
+      assert(font.includes('Cormorant Garamond'),`Wrong display font on ${selector} at ${width}px: ${font}`);
+    }
+    for (const {selector,font} of type.ui) {
+      assert(font.includes('DM Sans'),`Wrong readable UI font on ${selector} at ${width}px: ${font}`);
+    }
+    for (const heading of type.headline) {
+      assert(heading.right <= width+2,`Headline exceeds viewport at ${width}px: ${heading.text} (${heading.right}px)`);
+    }
+    const galleryButtons=page.locator('.cake-item .design-inquiry');
+    assert.equal(await galleryButtons.count(),9,`Expected 9 polished gallery buttons at ${width}px`);
+    const galleryGeometry=await page.evaluate(() => [...document.querySelectorAll('.cake-item .design-inquiry')].map(link => {
+      const r=link.getBoundingClientRect();
+      const card=link.closest('.cake-item').getBoundingClientRect();
+      const style=getComputedStyle(link);
+      return {height:r.height,left:r.left,right:r.right,cardLeft:card.left,cardRight:card.right,
+        decoration:style.textDecorationLine,background:style.backgroundColor,href:link.getAttribute('href'),
+        value:link.getAttribute('data-cake'),ariaLabel:link.getAttribute('aria-label')};
+    }));
+    for (const button of galleryGeometry) {
+      assert(button.height >= 44,`Cake inquiry target too short at ${width}px`);
+      assert(button.left >= button.cardLeft-1 && button.right <= button.cardRight+1,`Cake inquiry button escapes card at ${width}px`);
+      assert(button.decoration === 'none',`Old underlined CTA remains at ${width}px`);
+      assert(button.background !== 'rgba(0, 0, 0, 0)',`Missing editorial button fill at ${width}px`);
+      assert.equal(button.href,'#inquiry');
+      assert(button.value && button.ariaLabel.includes(button.value));
+    }
+    if (width === 390 || width === 1024) {
+      const selectedCakes=await page.evaluate(() => {
+        const field=document.querySelector('select[name="style"]');
+        return [...document.querySelectorAll('.cake-item .design-inquiry')].map(link => {
+          link.click();
+          return {chosen:link.dataset.cake,selected:field.value};
+        });
+      });
+      for (const {chosen,selected} of selectedCakes) {
+        assert.equal(selected,chosen,`Inquiry form did not preselect ${chosen} at ${width}px`);
+      }
+    }
+    if (width === 390) {
+      const menuButton=page.locator('#menuBtn');
+      await menuButton.click();
+      assert.equal(await menuButton.getAttribute('aria-expanded'),'true','Mobile menu does not open');
+      assert.equal(await page.locator('#mobileNav').isVisible(),true);
+      await menuButton.click();
+      assert.equal(await menuButton.getAttribute('aria-expanded'),'false','Mobile menu does not close');
     }
     console.log(`IVORY & BLOOM ${width}px: main photo ${Math.round(data.photo.width)} × ${Math.round(data.photo.height)}, no overflow`);
     await page.close();

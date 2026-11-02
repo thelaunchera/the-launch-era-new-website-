@@ -1,3 +1,16 @@
+## 2026-11-02 — IVORY & BLOOM wedding demo typography looks rigid/rough
+- **Owner screenshot:** editorial quote `A LITTLE ART. A LOT OF HEART.` and surrounding form/gallery look too hard and geometric. Asked for a coherent pair of complementary fonts across the entire demo.
+- **Verified source cause:** large headings/quote/wordmark used `Manrope` with tight negative letter-spacing; `Georgia` also appeared in a secondary headline/ornament. Uppercase large titles amplified the heavy look.
+- **Repair in PR:** pair Cormorant Garamond (refined display serif for all titles, logo, cake names and quote) with DM Sans (legible humanist sans for UI, description, labels and forms). Tune letter spacing/weight/line-height across six responsive sizes. Change major all-caps editorial headings to sentence case. No other demo, protected workflow, data or payment touched.
+- **Verification gate:** check source + Chromium viewport tests and existing route integrity, then publish only when relevant QA is green; visually confirm fonts in iPad Safari after deployment.
+
+## 2026-11-02 — IVORY & BLOOM gallery links appear as tiny, awkwardly wrapped text
+- **Observed:** owner photo of tablet gallery showed `Inquire about this design` as underlined inline text squeezed next to the cake title on the two-column display.
+- **Source cause:** `.cake-meta` was `display:flex; justify-content:space-between` on wider screens and the anchor had `max-width:125px`; its text was forced into narrow lines. On mobile the link reverted to small underlined inline text.
+- **Repair:** nine gallery links get the same restrained blush/taupe outlined fill and dedicated row; small-screen layout has full card-width 51px touch targets. Keep original per-cake `data-cake` and `#inquiry` preselection. Add browser regression for each gallery CTA, bounds and form preselection.
+- **Regression discovered by real browser test:** choosing Blush Garden left `select[name="style"]` empty. The existing inline `<script defer>` was in `<head>`; `defer` does not delay inline scripts, so it executed before the DOM existed and failed on `menu.addEventListener`. This also prevented other menu/form/gallery handlers from registering. Moved the existing script intact to immediately before `</body>`; no network submissions added.
+- **Verification:** scoped CI now tests all nine selections at 390px/1024px, absence of page JS exceptions, mobile menu, six widths and CTA bounds. Deployment and live iPad Safari remain a separate step; no changes to checkout, payment, customer data or other demos.
+
 ## 2026-11-02 — IVORY & BLOOM hero photograph too small on large tablet/desktop
 - **Reported:** owner supplied a landscape tablet screenshot; the introductory cake-artist photo looked small and secondary to large white areas/text.
 - **Verified root in source:** desktop `.hero-composition` used `grid-template-columns:47% 17% 1fr` and a `420px` center photo row; at <=1000px the row reduced to `330px`. Primary photo therefore stayed narrow and short on wider viewports. This is a source-level verification; the exact live browser version was not independently inspected.
