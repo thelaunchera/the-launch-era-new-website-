@@ -578,5 +578,15 @@ document.getElementById('legal-btn').addEventListener('click', viewLegal);
 document.querySelectorAll('[data-demo-legal]').forEach(button => button.addEventListener('click', () => viewLegalTopic(button.dataset.demoLegal)));
 document.getElementById('contact-us-button').addEventListener('click', viewContactDemo);
 document.querySelectorAll('[data-social-demo]').forEach(button => button.addEventListener('click', () => viewSocialDemo(button.dataset.socialDemo)));
-
 updateCartBadge();
+
+// La flecha aparece solamente al bajar; el enlace nativo vuelve a #inicio.
+const backToTop = document.getElementById('cb-back-to-top');
+if (backToTop) {
+  const syncBackToTop = () => {
+    backToTop.hidden = window.scrollY < 420;
+  };
+  window.addEventListener('scroll', syncBackToTop, { passive: true });
+  window.addEventListener('resize', syncBackToTop, { passive: true });
+  syncBackToTop();
+}
