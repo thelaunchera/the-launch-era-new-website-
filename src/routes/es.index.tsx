@@ -25,6 +25,7 @@ import { BookingWalkthrough, PainCards, ProductExplorer } from '@/components/hom
 import { MaskCursorHeadline } from '@/components/mask-cursor-headline';
 import { HomeMotionInterlude } from '@/components/home-motion-interlude';
 import { PrimaryBookingOffer } from '@/components/primary-booking-offer';
+import { ContentLabReferral } from '@/components/content-lab-referral';
 import { ServiceFAQ } from '@/components/service-faq';
 import { SmartWelcomeBundle } from '@/components/smart-welcome-bundle';
 export const Route=createFileRoute('/es/')({head:()=>({meta:[{title:'THE LAUNCH ERA — Tu cliente está listo para reservar.'},{name:'description',content:'Organiza solicitudes, cotizaciones y seguimientos con una Booking Page personalizada y un Command Center privado para tu negocio de limpieza.'},{property:'og:title',content:'The Launch Era — Solicitudes de limpieza organizadas.'},{property:'og:description',content:'Booking Page y Command Center personalizados para organizar cotizaciones, reservas y seguimientos.'},{property:'og:type',content:'website'},{name:'twitter:card',content:'summary_large_image'}],links:[{rel:'preload',as:'image',href:cleaner},{rel:'canonical',href:'https://thelaunchera.com/es'},{rel:'alternate',hrefLang:'en-US',href:'https://thelaunchera.com/'},{rel:'alternate',hrefLang:'es-US',href:'https://thelaunchera.com/es'},{rel:'alternate',hrefLang:'x-default',href:'https://thelaunchera.com/'}]}),component:SpanishHome});
@@ -122,4 +123,5 @@ function SpanishHome(){const [active,setActive]=useState(0);const [heroLoaded,se
 <section className="final-section"><div className="eyebrow">¿LISTA PARA HACERLO TUYO?</div><h2 className="editorial">Tu negocio. Tus servicios.<br/><em>Tu enlace de reservas.</em></h2><p>Empieza con Booking por $15 una sola vez. Añade IA solo si la necesitas.</p><div className="final-actions"><MarketingCTA className="cta-button" href="/booking-bundle/?lang=es">Quiero mi sistema — {bookingSale?"$15":"$49.99"} <ArrowRight/></MarketingCTA></div></section>
 
 <ServiceFAQ topic="general" lang="es"/>
+<ContentLabReferral lang="es"/>
 </main>}
