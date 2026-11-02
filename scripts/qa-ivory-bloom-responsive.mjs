@@ -65,10 +65,14 @@ try {
       assert(button.value && button.ariaLabel.includes(button.value));
     }
     if (width === 390 || width === 1024) {
-      for (const button of await galleryButtons.all()) {
-        const chosen=await button.getAttribute('data-cake');
-        await button.click();
-        const selected=await page.locator('select[name="style"]').inputValue();
+      const selectedCakes=await page.evaluate(() => {
+        const field=document.querySelector('select[name="style"]');
+        return [...document.querySelectorAll('.cake-item .design-inquiry')].map(link => {
+          link.click();
+          return {chosen:link.dataset.cake,selected:field.value};
+        });
+      });
+      for (const {chosen,selected} of selectedCakes) {
         assert.equal(selected,chosen,`Inquiry form did not preselect ${chosen} at ${width}px`);
       }
     }
