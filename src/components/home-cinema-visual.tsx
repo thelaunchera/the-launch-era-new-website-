@@ -55,7 +55,7 @@ export function HomeCinemaVisual({lang = 'en'}: {lang?: Lang}) {
   return <div ref={stageRef} className="tle-cinema" data-step={step} aria-label={lang==='es'?'Recorrido visual de la Booking Page al Command Center':'Visual journey from Booking Page to Command Center'}>
     <div className="tle-cinema-media" aria-hidden="true">
       <img src="/assets/tle-booking-interface.jpg" className="tle-cinema-ui tle-cinema-ui--booking" alt="" loading="lazy" decoding="async" width="960" height="640"/>
-      <img src="/assets/bundle-landing/bundle-command.png" className="tle-cinema-ui tle-cinema-ui--command" alt="" loading="lazy" decoding="async" width="960" height="640"/>
+      <img src={step > 0 ? "/assets/bundle-landing/bundle-command.png" : undefined} className="tle-cinema-ui tle-cinema-ui--command" alt="" loading="lazy" decoding="async" width="960" height="640"/>
     </div>
     <div className="tle-cinema-content">
       <span className="tle-cinema-overline">THE LAUNCH ERA <span aria-hidden="true">/</span> {copy.label}</span>
