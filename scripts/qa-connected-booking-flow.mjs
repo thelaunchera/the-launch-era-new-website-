@@ -10,9 +10,9 @@ for(const [lang,source] of [['en',home],['es',es]]){
  assert(!source.includes('<BookingSection'),lang+': removed booking section reappeared');
  assert(!source.includes('<ConnectedBookingFlow'),lang+': removed hub reappeared');
  assert(!source.includes('home-booking-explorer'),lang+': duplicate explorer remains');
- assert(source.includes('<HomeMotionInterlude lang="'+lang+'"/>'),lang+': following section missing');
+ assert(source.includes('<PrimaryBookingOffer lang="'+lang+'"/>'),lang+': focused Booking offer missing');
 }
-assert(home.includes('<ProblemSection/><HomeMotionInterlude'),'EN: section order changed');
+assert(home.includes('<PrimaryBookingOffer lang="en"/><SolutionsSection/><ProblemSection/><ProcessSection/>'),'EN: booking, solutions and problem flow changed');
 assert(!es.includes('<section className="booking-section">'),'ES: booking section remains');
 assert(home.includes('<FinalCTA/>')&&editorial.includes('export function FinalCTA'),'EN: final purchase CTA missing');
 assert(es.includes('className="final-section"'),'ES: final purchase CTA missing');
