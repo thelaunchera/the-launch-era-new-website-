@@ -36,6 +36,13 @@ try {
     assert.equal(data.ctaTarget, '#cake-gallery');
     assert(data.cta.width > 60 && data.cta.height > 15, `CTA not visible at ${width}px`);
     if (data.pageWidth > width + 2) console.error('OVERFLOW DETAIL', width, data.pageWidth, JSON.stringify(data.overflowNodes));
+    if(data.pageWidth > width+2) {
+      const widths=await page.evaluate(() => {
+        const get=(sel)=>{const el=document.querySelector(sel);if(!el)return null;const r=el.getBoundingClientRect();const c=getComputedStyle(el);return {sel,x:r.left,right:r.right,width:r.width,scrollWidth:el.scrollWidth,clientWidth:el.clientWidth,display:c.display,overflowX:c.overflowX,marginRight:c.marginRight}};
+        return {html:get('html'),body:get('body'),wrap:get('.cake-gallery.wrap'),filters:get('.gallery-filters'),hero:get('.hero.wrap'),header:get('.header-inner'),logo:get('.logo'),main:get('main'),footer:get('footer'),gallery:get('.gallery'),filter:get('.filter'),h1:get('#hero-title')};
+      });
+      console.error('WIDTH DIAG',JSON.stringify(widths));
+    }
     assert(data.pageWidth <= width + 2, `Horizontal overflow at ${width}px: ${data.pageWidth}`);
     if (width >= 761) {
       assert(data.photo.height >= 520, `Desktop/tablet hero too short at ${width}px: ${data.photo.height}`);
