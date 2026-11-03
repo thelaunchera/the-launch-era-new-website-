@@ -296,7 +296,7 @@
     // Without the trailing space, "says <em>everything</em>" becomes
     // "sayseverything" after changing language.
     const next = locale === 'en'
-      ? (spanish.match(/^\\s*/) || [''])[0] + translate(spanish) + (spanish.match(/\\s*$/) || [''])[0]
+      ? (spanish.match(/^\s*/) || [''])[0] + translate(spanish) + (spanish.match(/\s*$/) || [''])[0]
       : spanish;
     if (next !== current) node.nodeValue = next;
   }
