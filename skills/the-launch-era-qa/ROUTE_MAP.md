@@ -1,3 +1,9 @@
+## 2026-11-03 — Five Signs audience expanded to residential and commercial (copy only)
+- **URLs unchanged:** `/5-signs-cleaning-business` and `/es/5-signs-cleaning-business`; headline label, introduction, and EN/ES search descriptions now include both residential and commercial cleaning businesses. Ad guidance matches.
+- **Photo:** the hero remains the original labeled editorial illustration; a real hero photograph is planned later and has NOT been generated or added now.
+- **Scope:** no product features, links, demos, prices, checkout, shared components, customer data, or backend changed. Existing QA guard asserts both audiences in copy and metadata.
+- **Verification:** source edit on feature branch; automated tests and production publication are separate gates.
+
 ## 2026-11-03 — Universal public 404 corrected for marketing visitors
 - **Route ownership:** existing `public/404.html` is the GitHub Pages fallback for unknown URLs, not a customer portal. It keeps its existing editorial ivory card design and `noindex,follow`.
 - **Actions:** EN home `/`, contact form `/help`; ES visitor paths `/es/` select localized copy, home `/es`, contact `/es#contacto`. No Command Center CTA, private access claims or sales checkout links.
