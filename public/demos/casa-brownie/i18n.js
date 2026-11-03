@@ -251,20 +251,20 @@
     if (Object.hasOwn(english, original)) return english[original];
     let value = original;
     // Dynamic quantities and flavor names are translated without changing values/IDs.
-    value = value.replace(/^Carrito de muestra: (\\d+) brownies$/, 'Sample cart: $1 brownies')
-      .replace(/^Ver carrito de muestra \\((\\d+)\\)$/, 'View sample cart ($1)')
-      .replace(/^(.+) añadido al carrito de muestra\\.$/, '$1 added to the sample cart.')
-      .replace(/^(\\d+) brownies? en el carrito de muestra\\.$/, '$1 brownies in your sample cart.')
-      .replace(/^(\\d+) unidades$/, '$1 items')
+    value = value.replace(/^Carrito de muestra: (\d+) brownies$/, 'Sample cart: $1 brownies')
+      .replace(/^Ver carrito de muestra \((\d+)\)$/, 'View sample cart ($1)')
+      .replace(/^(.+) añadido al carrito de muestra\.$/, '$1 added to the sample cart.')
+      .replace(/^(\d+) brownies? en el carrito de muestra\.$/, '$1 brownies in your sample cart.')
+      .replace(/^(\d+) unidades$/, '$1 items')
       .replace(/^Quitar un brownie (.+)$/, 'Remove one $1 brownie')
       .replace(/^Añadir otro brownie (.+)$/, 'Add another $1 brownie')
       .replace(/^Fotografía ilustrativa del brownie (.+)$/, 'Illustrative photo of $1 brownie')
-      .replace(/^Paso (\\d+) de 3$/, 'Step $1 of 3')
-      .replace(/^PASO (\\d+) DE 3 · SOLO UNA PRUEBA$/, 'STEP $1 OF 3 · DEMO ONLY')
-      .replace(/^(\\d+) brownies? en el carrito de muestra\\.$/, '$1 brownies in your sample cart.')
-      .replace(/^Tu combinación: (.*)\\.$/, 'Your combination: $1.')
-      .replace(/^(\\d+) brownies? · (.+)$/, (_, n, pkg) => n+' brownies · '+(english[pkg]||pkg))
-      .replace(/^Así podría presentarse la cuenta de Casa Brownie en (.+)\\. Son ideas de contenido, no un perfil real\\.$/, 'Here is how Casa Brownie could look on $1. These are content ideas, not a real account.')
+      .replace(/^Paso (\d+) de 3$/, 'Step $1 of 3')
+      .replace(/^PASO (\d+) DE 3 · SOLO UNA PRUEBA$/, 'STEP $1 OF 3 · DEMO ONLY')
+      .replace(/^(\d+) brownies? en el carrito de muestra\.$/, '$1 brownies in your sample cart.')
+      .replace(/^Tu combinación: (.*)\.$/, 'Your combination: $1.')
+      .replace(/^(\d+) brownies? · (.+)$/, (_, n, pkg) => n+' brownies · '+(english[pkg]||pkg))
+      .replace(/^Así podría presentarse la cuenta de Casa Brownie en (.+)\. Son ideas de contenido, no un perfil real\.$/, 'Here is how Casa Brownie could look on $1. These are content ideas, not a real account.')
       .replace(/^(.+) · inspiración$/, '$1 · inspiration');
     // Dynamic copy may embed Spanish option labels; translate just those phrases.
     for (const key of ['Caja sencilla','Para regalo','Para compartir','Para mí','Para sorprender']) {
