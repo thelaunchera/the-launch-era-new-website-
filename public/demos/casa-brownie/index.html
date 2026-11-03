@@ -34,7 +34,18 @@
     .cb-language-selector button { appearance:none; border:0; background:transparent; color:inherit; font:inherit; padding:5px 4px; border-radius:14px; cursor:pointer; opacity:.48; min-width:24px; }
     .cb-language-selector button[aria-pressed="true"] { opacity:1; background:#513426; color:#fff; }
     .cb-language-selector button:focus-visible { outline:2px solid #513426; outline-offset:2px; }
-    @media (max-width:480px) { .cb-language-selector { gap:2px; padding:2px 3px; font-size:10px; } .cb-language-selector button { padding:5px 3px; min-width:22px; } }
+    @media (max-width:560px) {
+      .site-header { padding:8px; gap:3px; }
+      .site-header .brand { min-width:0; gap:4px; }
+      .site-header .roof-logo { width:26px; flex-shrink:0; }
+      .site-header .brand-words > span { font-size:20px; }
+      .site-header .brand-words small { display:none; }
+      .site-header .header-actions { gap:1px; flex-shrink:0; }
+      .site-header .header-actions .bag-button { min-width:32px; min-height:36px; padding:4px; }
+      .site-header .header-actions .mobile-toggle { padding:4px; }
+      .site-header .cb-language-selector { gap:0; padding:1px 2px; font-size:9px; }
+      .site-header .cb-language-selector button { padding:5px 2px; min-width:20px; }
+    }
   </style>
 </head>
   <body data-tle-demo="casa-brownie">
