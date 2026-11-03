@@ -66,7 +66,7 @@ try{
   assert.equal(await bilingual.locator('.flavor-title').count(),6);
   const expectedFlavors=['Classic','Chocolate & Walnut','Caramel Swirl','Raspberry','Oreo','Special Edition'];
   assert.deepEqual((await bilingual.locator('.flavor-title').allTextContents()).map(s=>s.trim()),expectedFlavors);
-  const condensed=s=>s.replace(/\\s+/g,' ').trim();
+  const condensed=s=>s.replace(/\s+/g,' ').trim();
   assert.equal(condensed(await bilingual.locator('.cb-store-story h2').textContent()),'Sometimes, a brownie says everything.');
   assert.equal(condensed(await bilingual.locator('.delivery-steps h2').textContent()),'From our idea to your doorstep.');
   assert.equal(condensed(await bilingual.locator('.delivery-miami h2').textContent()),'A thoughtful gift that arrives beautifully.');
