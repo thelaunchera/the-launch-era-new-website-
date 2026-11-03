@@ -5,7 +5,7 @@ export const Route = createFileRoute('/5-signs-cleaning-business')({
   head: () => ({
     meta: [
       { title: '5 Signs Your Cleaning Business Needs a Better System | The Launch Era' },
-      { name: 'description', content: 'Missed requests, scattered client details, manual quotes and forgotten follow-ups? See five signs and explore the Cleaning App for residential cleaning business owners.' },
+      { name: 'description', content: 'Missed requests, scattered client details, manual quotes and forgotten follow-ups? See five signs and explore the Cleaning App for residential and commercial cleaning business owners.' },
       { property: 'og:title', content: '5 Signs Your Cleaning Business Has Outgrown DMs and Spreadsheets' },
       { property: 'og:description', content: 'Five signs your cleaning business needs a simpler way to organize bookings, clients, quotes and jobs.' },
       { property: 'og:type', content: 'article' },

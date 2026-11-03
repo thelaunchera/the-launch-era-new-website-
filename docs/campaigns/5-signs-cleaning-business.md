@@ -26,12 +26,15 @@ One ad angle → one sales landing → the existing Cleaning App product page. T
 - Destination: /5-signs-cleaning-business?utm_source=instagram&utm_medium=paid_social&utm_campaign=five_signs&utm_content=admin_friction
 
 ## Message-match checks
-1. Ad speaks to residential cleaning business owners in the U.S.
+1. Ad speaks to residential and commercial cleaning business owners in the U.S.
 2. First-screen hero promises exactly the same "5 signs" that the ad offers.
 3. Body lists five specific, credible pains and shows where the Cleaning App helps.
 4. The personalized Booking Page is labeled a separately purchased optional service.
 5. Main CTA goes to the existing product page, not a demo or checkout.
 6. No unverified stats, testimonials, fictional before/after results or sale claims.
+
+## Future hero image
+- Owner intends to commission a hero photograph later. Keep the current editorial illustration untouched until that image is expressly requested and approved. Do not imply the current art is a product screenshot.
 
 ## Prepublish gate (do not skip)
 - Run build + TypeScript + static route integrity check and applicable browser QA; verify 360, 390, 768, 1024, 1440px.
