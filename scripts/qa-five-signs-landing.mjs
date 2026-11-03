@@ -6,6 +6,7 @@ const component = read('src/components/five-signs-cleaning.tsx');
 const english = read('src/routes/5-signs-cleaning-business.tsx');
 const spanish = read('src/routes/es.5-signs-cleaning-business.tsx');
 const css = read('public/assets/tle-five-signs.css');
+const universal404 = read('public/404.html');
 const deploy = read('.github/workflows/pages.yml');
 
 assert.match(english, /createFileRoute\('\/5-signs-cleaning-business'\)/);
@@ -32,4 +33,8 @@ assert.match(css, /@media\(max-width:560px\)/);
 assert.match(css, /@media\(prefers-reduced-motion:reduce\)/);
 assert.match(deploy, /free-cleaning-lead-guide 5-signs-cleaning-business es/);
 assert.match(deploy, /es\/free-cleaning-lead-guide es\/5-signs-cleaning-business/);
-console.log('5 Signs marketing route: bilingual copy, isolated CSS, safe product links and Pages fallback OK');
+assert.match(universal404, /id="home-link" href="\/"/);
+assert.match(universal404, /id="help-link".*href="\/help"/);
+assert.match(universal404, /document\.getElementById\('home-link'\)\.href='\/es'/);
+assert.doesNotMatch(universal404, /command-center|Open Command Center|Private access|client information/i);
+console.log('5 Signs marketing route: bilingual copy, isolated CSS, safe product links and Pages fallback and universal 404 OK');
