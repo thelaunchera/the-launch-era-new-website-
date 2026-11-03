@@ -3,7 +3,7 @@ Este directorio es la copia estática independiente del demo de la masterclass �
 
 - Ruta pública prevista: `/demos/casa-brownie/`.
 - Editor original: AppDeploy `casa-brownie-demo-miami-ltg7rb`.
-- La interfaz está en español: fotos de brownies, seis sabores, simulación sin pedidos ni pagos, territorio ilustrativo de delivery local Miami.
+- La interfaz está disponible en **español e inglés** mediante el selector ES / EN del encabezado (`?lang=en` para entrar directamente en inglés). El nombre Casa Brownie y los seis nombres originales de los brownies se conservan en ambos idiomas. El contenido y las ventanas interactivas se traducen sin habilitar pedidos, pagos ni entregas reales.
 - En móvil el video de brownies apilados aparece **antes** del texto principal; el título es **Brownies hechos en casa** y los CTA no muestran flechas decorativas.
 - Prohibido conectar compradores, Stripe, guardar direcciones o iniciar entregas desde este demo sin flujo autorizado y pruebas de privacidad.
 - El video de brownies utilizado por esta versión ahora está guardado localmente como `assets/hero-brownies.mp4` (≈1,3 MB), junto a su póster `assets/hero-brownies.webp`. La imagen permanece visible si el video falla o la persona prefiere reducir movimiento. **El material proviene de un clip generado tomando como referencia una imagen de terceros**; revisar los derechos de la imagen fuente antes de uso comercial. Las seis fotos de sabores fueron sustituidas por imágenes originales generadas y aprobadas por Dailin el 29 de octubre; archivos locales assets/sabor-*.webp, compartidos por catálogo y fichas.
