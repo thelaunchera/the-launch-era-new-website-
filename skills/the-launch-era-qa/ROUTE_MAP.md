@@ -1,3 +1,15 @@
+## 2026-11-03 — Universal public 404 corrected for marketing visitors
+- **Route ownership:** existing `public/404.html` is the GitHub Pages fallback for unknown URLs, not a customer portal. It keeps its existing editorial ivory card design and `noindex,follow`.
+- **Actions:** EN home `/`, contact form `/help`; ES visitor paths `/es/` select localized copy, home `/es`, contact `/es#contacto`. No Command Center CTA, private access claims or sales checkout links.
+- **Reason:** new unmerged campaign route displayed the universal fallback, whose old misleading Command Center CTA appeared in an unfamiliar visitor's flow. New five-signs routes will publish only after PR merge and a successful Pages deployment. No demos or authenticated pages changed.
+- **Verification:** code and regression tests on feature branch; production must be validated after deployment.
+
+## 2026-11-03 — 5 Signs bilingual cold-traffic sales landing (feature branch, not live)
+- **Owner/paths:** active marketing website only. New TanStack leaf routes `src/routes/5-signs-cleaning-business.tsx` at `/5-signs-cleaning-business` and `src/routes/es.5-signs-cleaning-business.tsx` at `/es/5-signs-cleaning-business`; shared presentation `src/components/five-signs-cleaning.tsx`; scoped CSS `public/assets/tle-five-signs.css`.
+- **Intent:** cold-traffic ad continues the same five signs in the first screen; one primary CTA `/cleaning-web-app` (ES `/es/cleaning-web-app/`). Optional separate Booking Page explainer link `/booking-lead-automation/` (ES `/es/booking-lead-automation/`). Neither page implies Booking Page is included with the Cleaning App.
+- **Safety:** no demos, client data, prices, checkout, auth, backend, emails, pricing policy or shared header/footer altered. No real screenshots claimed: the hero visual is labeled an editorial illustration. Existing product/demo routes untouched.
+- **QA/release:** branch `feat/five-signs-marketing-20261103` for review. Build, static route integrity, Playwright responsive browser checks and live URL verification are pending; not production-approved merely from commits.
+
 ## 2026-11-02 — IVORY & BLOOM two-font editorial typography (route unchanged)
 - **Source/route:** `public/demos/ivory-and-bloom/index.html` at `/demos/ivory-and-bloom/`. No image filenames, CTA destinations, cake selection data, form behavior, or pages/routes altered.
 - **Brand typography:** Cormorant Garamond for wordmark, all headings, card titles and editorial quote; DM Sans for descriptive text, eyebrow labels, navigation, filters, buttons, inputs, and disclaimer. Replace former Manrope and Georgia styling; both fonts requested together from Google Fonts. Headline casing softened from all-caps to sentence case, without changing content meaning.

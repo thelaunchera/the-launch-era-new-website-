@@ -1,3 +1,13 @@
+## 2026-11-03 — Public 404 incorrectly offers Command Center to marketing visitors
+- **Observed:** user screenshot of unpublished `/5-signs-cleaning-business` showed the current public 404 with English and Spanish mixed and an `Open Command Center` button.
+- **Verified source causes:** PR #402 was unmerged (marketing URL not yet published); `public/404.html` explicitly included `href="/command-center/"`, private-account copy and mixed languages. It was a link, not a forced redirect.
+- **Fix scoped:** revised the existing public 404 to show home and contact only, with pathname-based Spanish localization and existing look. Added a regression that disallows the Command Center CTA. Publishing and actual browser checks remain separate gates. Private access control, demos and client workspaces unaffected.
+
+## 2026-11-03 — Preventive change log: isolated marketing campaign route (no incident)
+- **Change:** added English/Spanish `5-signs-cleaning-business` cold-traffic landing on review branch; public copy only with existing commercial product links. No demo, tenant, customer, pricing or transaction data changed.
+- **Risk prevented:** the Booking Page and Cleaning App are distinct products; copy explains this explicitly, and sample hero is labeled illustration rather than real screenshot. Shared navigation and existing demo files unchanged.
+- **Verification status:** source files exist in GitHub branch. Mandatory build, static route integrity, responsive/browser and deployed URL checks pending; do not report as published.
+
 ## 2026-11-02 — IVORY & BLOOM wedding demo typography looks rigid/rough
 - **Owner screenshot:** editorial quote `A LITTLE ART. A LOT OF HEART.` and surrounding form/gallery look too hard and geometric. Asked for a coherent pair of complementary fonts across the entire demo.
 - **Verified source cause:** large headings/quote/wordmark used `Manrope` with tight negative letter-spacing; `Georgia` also appeared in a secondary headline/ornament. Uppercase large titles amplified the heavy look.
