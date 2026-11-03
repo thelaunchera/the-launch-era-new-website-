@@ -2,10 +2,10 @@ type Language = 'en' | 'es';
 
 const copy = {
   en: {
-    eyebrow: 'FOR RESIDENTIAL CLEANING BUSINESS OWNERS',
+    eyebrow: 'FOR RESIDENTIAL & COMMERCIAL CLEANING BUSINESSES',
     badge: 'THE LAUNCH ERA · A SIMPLER WORKDAY',
     title: '5 signs your cleaning business has outgrown DMs and spreadsheets.',
-    intro: 'If every booking request, client note and quote lives somewhere different, the admin starts taking over your day. Here is what to look for — and a simpler way forward.',
+    intro: 'Whether you clean homes or commercial spaces, booking requests, client notes and quotes should not live in five different places. Here are five signs it is time for a clearer system.',
     jump: 'Recognize these signs?',
     cta: 'Explore the Cleaning App',
     note: 'See what the Cleaning App does before choosing what your business needs.',
@@ -34,10 +34,10 @@ const copy = {
     languageHref: '/es/5-signs-cleaning-business',
   },
   es: {
-    eyebrow: 'PARA DUEÑOS DE NEGOCIOS DE LIMPIEZA RESIDENCIAL',
+    eyebrow: 'PARA NEGOCIOS DE LIMPIEZA RESIDENCIAL Y COMERCIAL',
     badge: 'THE LAUNCH ERA · UN DÍA MÁS ORGANIZADO',
     title: '5 señales de que tu negocio de limpieza ya necesita algo más que mensajes y hojas de cálculo.',
-    intro: 'Si cada reserva, nota de cliente y cotización está en un lugar diferente, la administración empieza a ocupar todo tu día. Estas señales te ayudarán a reconocerlo.',
+    intro: 'Tanto si limpias hogares como espacios comerciales, las reservas, notas de clientes y cotizaciones no deberían estar repartidas en cinco lugares. Estas son cinco señales de que necesitas un sistema más claro.',
     jump: '¿Te pasa esto?',
     cta: 'Conocer la Cleaning App',
     note: 'Mira lo que ofrece la Cleaning App antes de elegir lo que necesita tu negocio.',
