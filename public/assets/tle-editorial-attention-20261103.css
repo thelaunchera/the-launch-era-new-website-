@@ -137,3 +137,58 @@ body[data-tle-demo="ivory-and-bloom"] :is(.collection-card,.cake-item) :is(h3,p)
     min-height: 48px;
   }
 }
+
+/* CLEANING LEAD TRACKER FREEBIE — both public languages.
+   Photo, content and email submission remain unchanged. */
+.tle-freebie-page > section:first-child h1 {
+  max-width: 15ch;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+.tle-freebie-page > section:first-child p {
+  max-width: 50ch;
+  line-height: 1.65;
+}
+.tle-freebie-page > section:first-child a[href="#freebie-form"] {
+  min-height: 50px;
+  text-align: center;
+  white-space: normal;
+}
+.tle-freebie-page #freebie-form {
+  scroll-margin-top: 100px;
+}
+.tle-freebie-page #freebie-form aside > p,
+.tle-freebie-page #freebie-form > div > div > p {
+  max-width: 48ch;
+  line-height: 1.65;
+}
+.tle-freebie-page #freebie-form label[for="freebie-email"] {
+  display: inline-block;
+  font-size: 15px;
+  line-height: 1.45;
+}
+.tle-freebie-page #freebie-email {
+  font-size: 16px;
+}
+.tle-freebie-page #freebie-form form > p {
+  font-size: 13px;
+  line-height: 1.55;
+}
+@media(max-width: 767px) {
+  .tle-freebie-page > section:first-child h1 {
+    max-width: 15ch;
+    line-height: 1.1;
+  }
+  .tle-freebie-page > section:first-child p {
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  .tle-freebie-page > section:first-child a[href="#freebie-form"] {
+    font-size: 15px;
+    min-height: 50px;
+    max-width: 100%;
+  }
+  .tle-freebie-page #freebie-form > div {
+    row-gap: 22px;
+  }
+}
