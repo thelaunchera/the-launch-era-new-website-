@@ -26,7 +26,7 @@ assert.match(component, /This is a separate service/);
 assert.match(component, /Es un servicio independiente/);
 assert.match(component, /Editorial illustration, not an App screenshot/);
 assert.doesNotMatch(component, /\/demos\/|\/booking-demo\/|\/cleaning-app-demo\/|\/service-checkout\/|stripe|payment_link/i);
-assert.equal((component.match(/title: '/g) || []).length, 10, 'five signs in each language');
+assert.equal((component.match(/title: '/g) || []).length, 12, 'five signs plus main headline in each language');
 assert.match(css, /^\.tle-five-signs\{/);
 assert.match(css, /@media\(max-width:560px\)/);
 assert.match(css, /@media\(prefers-reduced-motion:reduce\)/);
