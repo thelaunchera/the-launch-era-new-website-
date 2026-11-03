@@ -1,0 +1,139 @@
+/* Editorial attention pass — 2026-11-03
+   Scoped to public TLE marketing and its six illustrative demos.
+   Intentionally does NOT touch hero images, hero layout, motion, video,
+   product photos, galleries, booking logic, colors or brand typefaces. */
+
+/* Give the reader one clear idea at a time below the hero. */
+.sales-home .solutions-section .section-heading > p,
+.sales-home .process-section .section-heading > p,
+.sales-home .problem-section .problem-intro,
+.service-sales .section-heading > p {
+  max-width: 56ch;
+  line-height: 1.65;
+}
+.sales-home .tle-primary-booking-offer__intro {
+  max-width: 50ch;
+  line-height: 1.7;
+}
+.sales-home .tle-primary-booking-offer__included-list {
+  row-gap: 12px;
+}
+.sales-home .tle-primary-booking-offer__included-list li {
+  gap: 14px;
+}
+.sales-home .tle-primary-booking-offer__actions {
+  margin-top: clamp(24px, 3vw, 34px);
+}
+.sales-home .final-section > p {
+  max-width: 54ch;
+  margin-inline: auto;
+  line-height: 1.65;
+}
+
+/* Predictable in-page navigation beneath fixed headers.
+   This does not alter the media or positioning of any hero. */
+body[data-tle-demo] section[id],
+body[data-tle-demo="aftr"] #lineup {
+  scroll-margin-top: 96px;
+}
+
+/* Casa Brownie: six flavors, story and delivery should scan easily.
+   Keep BOTH the hero film and the static class version untouched. */
+body[data-tle-demo="casa-brownie"] .flavor-guidance {
+  max-width: 54ch;
+  line-height: 1.65;
+}
+body[data-tle-demo="casa-brownie"] .flavor-section .section-heading {
+  column-gap: clamp(18px, 3vw, 36px);
+  row-gap: 16px;
+}
+body[data-tle-demo="casa-brownie"] .flavor-desc {
+  line-height: 1.5;
+}
+body[data-tle-demo="casa-brownie"] .delivery-section p,
+body[data-tle-demo="casa-brownie"] .cb-store-story p {
+  line-height: 1.7;
+}
+
+/* CRUMB: leave the blue storefront and all approved cookie imagery as-is. */
+body[data-tle-demo="crumb"] .cookies-section .section-head {
+  column-gap: clamp(20px, 3vw, 40px);
+  row-gap: 15px;
+}
+body[data-tle-demo="crumb"] .cookies-section .section-head > p {
+  max-width: 38ch;
+  line-height: 1.6;
+}
+body[data-tle-demo="crumb"] .cookie-detail p {
+  line-height: 1.62;
+}
+body[data-tle-demo="crumb"] :is(.gift-section,.delivery-section,.brand-glimpse) p {
+  line-height: 1.65;
+}
+
+/* AFTR: concise event details and comfortable actions below the photo. */
+body[data-tle-demo="aftr"] :is(.events-section,.vip-section,.offers-section) .section-heading > p {
+  max-width: 46ch;
+  line-height: 1.6;
+}
+body[data-tle-demo="aftr"] .lineup-item {
+  min-height: 48px;
+}
+
+/* Booking demos: form first, directions legible, controls easy to tap. */
+body[data-tle-demo="angela"] .card .lede,
+body[data-tle-demo="claudia"] .panel .muted {
+  font-size: clamp(14px, 1.15vw, 16px);
+  line-height: 1.6;
+}
+body[data-tle-demo="angela"] .field,
+body[data-tle-demo="claudia"] .field {
+  line-height: 1.45;
+}
+body[data-tle-demo="angela"] :is(.serviceChoice,.extra),
+body[data-tle-demo="claudia"] .option {
+  min-height: 48px;
+}
+body[data-tle-demo="claudia"] .steps .step {
+  line-height: 1.55;
+}
+
+/* Ivory & Bloom already has a strong photographic hero; only refine reading
+   and controls in later sections, keeping its original warm palette. */
+body[data-tle-demo="ivory-and-bloom"] .split-heading p,
+body[data-tle-demo="ivory-and-bloom"] .story-text p {
+  max-width: 50ch;
+  line-height: 1.7;
+}
+body[data-tle-demo="ivory-and-bloom"] :is(.gallery-filters .filter,.header-cta,.text-button) {
+  min-height: 44px;
+}
+body[data-tle-demo="ivory-and-bloom"] :is(.collection-card,.cake-item) :is(h3,p) {
+  overflow-wrap: break-word;
+}
+@media (max-width: 767px) {
+  .sales-home .tle-primary-booking-offer__included-list small {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .sales-home .tle-primary-booking-offer__fine-print {
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  body[data-tle-demo="casa-brownie"] .flavor-section .section-heading,
+  body[data-tle-demo="crumb"] .cookies-section .section-head {
+    row-gap: 16px;
+  }
+  body[data-tle-demo="angela"] .field,
+  body[data-tle-demo="claudia"] .field {
+    font-size: 14px;
+  }
+  body[data-tle-demo="claudia"] .option small,
+  body[data-tle-demo="angela"] .card .lede {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  body[data-tle-demo="ivory-and-bloom"] :is(.gallery-filters .filter,.header-cta,.text-button) {
+    min-height: 48px;
+  }
+}
