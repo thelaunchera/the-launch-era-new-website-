@@ -7,7 +7,7 @@ export const Route = createFileRoute('/es/5-signs-cleaning-business')({
       { title: '5 Señales de que Tu Negocio de Limpieza Necesita Organizarse | The Launch Era' },
       { name: 'description', content: 'Solicitudes perdidas, clientes desorganizados, cotizaciones manuales y seguimientos pendientes. Reconoce cinco señales y conoce la Cleaning App.' },
       { property: 'og:title', content: '5 señales de que tu negocio de limpieza necesita un sistema más claro' },
-      { property: 'og:description', content: 'Organiza reservas, clientes, cotizaciones y trabajos con herramientas creadas para negocios de limpieza residencial.' },
+      { property: 'og:description', content: 'Organiza reservas, clientes, cotizaciones y trabajos con herramientas para negocios de limpieza residencial y comercial.' },
       { property: 'og:type', content: 'article' },
       { name: 'twitter:card', content: 'summary_large_image' },
     ],
