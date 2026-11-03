@@ -246,10 +246,20 @@
   const watchedAttrs = ['aria-label','title','alt','placeholder','content'];
   const clean = s => String(s || '').replace(/\s+/g,' ').trim();
 
+  // Translate the customer-facing flavor names while preserving internal IDs,
+  // the original Spanish catalog data, photos, and all simulated order behavior.
+  const flavorNames = [
+    ['Chocolate con nuez', 'Chocolate & Walnut'],
+    ['Dulce de leche', 'Caramel Swirl'],
+    ['Edición especial', 'Special Edition'],
+    ['Clásico', 'Classic'],
+    ['Frambuesa', 'Raspberry']
+  ];
+
   function translate(input) {
     const original = clean(input);
-    if (Object.hasOwn(english, original)) return english[original];
-    let value = original;
+    // Even dictionary translations may contain flavor names in aria labels.
+    let value = Object.hasOwn(english, original) ? english[original] : original;
     // Dynamic quantities and flavor names are translated without changing values/IDs.
     value = value.replace(/^Carrito de muestra: (\d+) brownies$/, 'Sample cart: $1 brownies')
       .replace(/^Ver carrito de muestra \((\d+)\)$/, 'View sample cart ($1)')
@@ -270,6 +280,9 @@
     for (const key of ['Caja sencilla','Para regalo','Para compartir','Para mí','Para sorprender']) {
       value = value.replaceAll(key, english[key]);
     }
+    for (const [spanish, translated] of flavorNames) {
+      value = value.replaceAll(spanish, translated);
+    }
     return value;
   }
   let locale = new URLSearchParams(location.search).get('lang') === 'en' ? 'en' : 'es';
@@ -279,8 +292,13 @@
     if (!clean(current)) return;
     if (!savedTexts.has(node)) savedTexts.set(node, current);
     const spanish = savedTexts.get(node);
-    const next = locale === 'en' ? translate(spanish) : spanish;
-    if (clean(next) !== clean(current)) node.nodeValue = next;
+    // Preserve whitespace at the boundaries of inline <em>/<span> fragments.
+    // Without the trailing space, "says <em>everything</em>" becomes
+    // "sayseverything" after changing language.
+    const next = locale === 'en'
+      ? (spanish.match(/^\\s*/) || [''])[0] + translate(spanish) + (spanish.match(/\\s*$/) || [''])[0]
+      : spanish;
+    if (next !== current) node.nodeValue = next;
   }
   function applyAttributes(element) {
     if (!(element instanceof Element) || element.matches('[data-lang-option]')) return;
