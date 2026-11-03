@@ -56,4 +56,22 @@ try{
    console.log('PASS Casa Brownie '+width+'px '+JSON.stringify(metrics));
   }finally{await page.close();}
  }
+ // Verify both languages, the interactive demo, and the preserved six flavor names.
+ const bilingual=await browser.newPage({viewport:{width:375,height:844},isMobile:true,hasTouch:true,reducedMotion:'reduce'});
+ try{
+  const response=await bilingual.goto(base+'/demos/casa-brownie/?lang=en',{waitUntil:'domcontentloaded'});
+  assert.equal(response?.status(),200);
+  await bilingual.waitForFunction(()=>document.documentElement.lang==='en' && document.querySelector('.hero h1')?.textContent.includes('What should I bring'));
+  assert.equal(await bilingual.locator('.main-nav a').first().textContent(),'Home');
+  assert.equal(await bilingual.locator('.flavor-title').count(),6);
+  assert.equal(await bilingual.locator('[data-flavor="nuez"] .flavor-title').textContent(),'Chocolate con nuez');
+  await bilingual.locator('#experience-btn').click();
+  await bilingual.waitForFunction(()=>document.querySelector('#modal-title')?.textContent==='Build your brownie box');
+  await bilingual.locator('#modal-close').click();
+  await bilingual.locator('[data-lang-option="es"]').click();
+  await bilingual.waitForFunction(()=>document.documentElement.lang==='es' && document.querySelector('.main-nav a')?.textContent==='Inicio');
+  await bilingual.locator('[data-lang-option="en"]').click();
+  await bilingual.waitForFunction(()=>document.documentElement.lang==='en' && document.querySelector('.main-nav a')?.textContent==='Home');
+  console.log('PASS Casa Brownie EN/ES switch and translated order modal');
+ }finally{await bilingual.close();}
 }finally{await browser.close();}
