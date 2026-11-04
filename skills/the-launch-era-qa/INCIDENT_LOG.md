@@ -702,3 +702,11 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - **Finding:** shared TLE footer still had a `mailto:` link; other site nav links already used `/help` or `/es#contacto`.
 - **Change:** common footer CTA now opens the correct EN/ES contact form; static public legal support links were updated to use those routes. Product and pricing text and form delivery handlers remain unchanged.
 - **Verification:** GitHub source reviewed; published route, responsive behavior and actual form delivery await independent live QA. Existing support/legal routes preserved.
+
+
+## 2026-11-04 — SOVA, Golden Grid and La Vie in Pink published demo routes
+- Source: `demo-source/{sova,golden-grid,la-vie-in-pink}`; static output and exact original PNGs: `public/demos/<slug>/`. URLs: `https://thelaunchera.com/demos/sova/`, `https://thelaunchera.com/demos/golden-grid/`, `https://thelaunchera.com/demos/la-vie-in-pink/`.
+- SOVA had source but no deployed website. Owner explicitly authorized publishing her photo on November 4, 2026. Ten original PNGs are preserved byte for byte; no live checkout or customer data. Initial AppDeploy publication is ready; canonical GitHub publication and live verification are tracked separately.
+- Golden Grid (9 original PNGs) and La Vie in Pink (10) migrate from existing AppDeploy demos, preserving their existing bilingual interfaces and simulated interactions. Each uses relative assets for its subdirectory.
+- Brand Board Studio in `demo-booking-landing-` branch `brand-board-studio` receives twelve unique brands, a scrollable desktop sidebar and phone drawer, with existing local edits retained. Studio finished-demo cards link to canonical URLs, with photos/prompts/steps/Drive together; SOVA supersedes the old pending kit without deleting it.
+- Validation: all three demo builds, Brand Board build and catalog hydration tests. Static route/recovery/client guards and deployed browser checks must pass before completion.
