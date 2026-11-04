@@ -1,25 +1,28 @@
 # UMBRAL — Cocina Cubana (Boston) · The Launch Era
 
-Direct-to-GitHub editorial restaurant concept demo. No AppDeploy.
+Direct-to-GitHub premium Cuban restaurant concept demo. No AppDeploy.
 
-- Deployment route: /demos/umbral/
-- Layout: premium bilingual EN/ES; mobile-first; Cuban cuisine, warm walnut, marble, burgundy and amber light.
-- Responsive navigation, menu, gallery and reservation UI.
-- **Reservation UX is a front-end preview only, with no server, email delivery, availability, or actual booking.** Must connect a real reservation provider before accepting requests.
-- **Original photographs** are in private Google Drive folder "The Launch Era — Demo Photos / UMBRAL — Cocina Cubana · Boston · Demo & Brand Kit" (ID: 1Qer6jt7_vn-om5Sm_r2bfgRlwS1L4Jw4), including 10 new photos and 2 earlier restaurant images. These have not yet been uploaded as binary files into GitHub, so online images fall back to Unsplash previews. This is a staging gap, not a completed photo migration.
+- Public route: `/demos/umbral/` on the site's GitHub Pages deployment.
+- Bilingual EN/ES, mobile-first, Cuban cuisine, dark wood, burgundy, marble and amber lighting.
+- 12 original project image files are now in `photos/` in GitHub (binary files, preserved without lossy conversion); the original owner-supplied exterior and booth are also in `images/` and shown on the page.
+- Photo kit saved in Google Drive: https://drive.google.com/drive/folders/1Qer6jt7_vn-om5Sm_r2bfgRlwS1L4Jw4
+- Gallery, dishes, staff, bar and interior use these same local project images, with remote fallback only if a photo is unavailable.
+- The 16-photo visual direction can be extended with four additional originals. All 12 currently available files have been migrated and all relative `photos/` references have matching files.
+- **Reservation UX is a front-end preview**; there is no availability lookup, email dispatch, database persistence or real booking. It must be connected to a provider before accepting real reservations.
+- This is a fictional portfolio concept; no actual street address, hours, prices or reviews are asserted.
 
-Expected GitHub filenames in the relative "photos/" directory:
-UMBRAL_01_Arroz_con_pollo.jpeg
-UMBRAL_02_Camarones_Enchilados.jpeg
-UMBRAL_03_Ropa_Vieja.jpeg
-UMBRAL_04_Flan.jpeg
-UMBRAL_05_Croquetas.jpeg
-UMBRAL_06_Lechon.jpeg
-UMBRAL_07_Service.jpeg
-UMBRAL_08_Host.jpeg
-UMBRAL_09_Bar.jpeg
-UMBRAL_10_Interior.jpeg
-UMBRAL_01_Exterior_Original.jpeg
-UMBRAL_02_Booth_Original.jpeg
+## Photo files
+- `photos/UMBRAL_01_Arroz_con_pollo.jpeg`
+- `photos/UMBRAL_02_Camarones_Enchilados.jpeg`
+- `photos/UMBRAL_03_Ropa_Vieja.jpeg`
+- `photos/UMBRAL_04_Flan.jpeg`
+- `photos/UMBRAL_05_Croquetas.jpeg`
+- `photos/UMBRAL_06_Lechon.jpeg`
+- `photos/UMBRAL_07_Service.jpeg`
+- `photos/UMBRAL_08_Host.jpeg`
+- `photos/UMBRAL_09_Bar.jpeg`
+- `photos/UMBRAL_10_Interior.jpeg`
+- `photos/UMBRAL_01_Exterior_Original.jpeg`
+- `photos/UMBRAL_02_Booth_Original.jpeg`
 
-Do not advertise UMBRAL as a real operating restaurant. No invented pricing, hours, reviews or address.
+Powered by The Launch Era.
