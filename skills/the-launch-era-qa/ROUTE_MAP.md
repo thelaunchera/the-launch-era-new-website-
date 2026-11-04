@@ -1019,3 +1019,11 @@ On `/lead-private-preview.html` sample only, `tle-demo-enhancements-v12.js` owns
 - **Stand-alone bundle/support pages:** existing `/help` and `/help?topic=setup-call` routes remain unchanged. No changes to booking, payment, inquiries or customer accounts.
 - **Related properties:** the podcast and Content Lab use their existing on-page help form at `https://podcast.thelaunchera.com/#ayuda` (managed in a separate repo); its linked form opens automatically on anchor navigation.
 - **Check:** static source and CI still need to verify all public href destinations, the live deploy and phone browser behavior. Do not infer a successful submission solely from a link change.
+
+
+## 2026-11-04 — SOVA, Golden Grid and La Vie in Pink published demo routes
+- Source: `demo-source/{sova,golden-grid,la-vie-in-pink}`; static output and exact original PNGs: `public/demos/<slug>/`. URLs: `https://thelaunchera.com/demos/sova/`, `https://thelaunchera.com/demos/golden-grid/`, `https://thelaunchera.com/demos/la-vie-in-pink/`.
+- SOVA had source but no deployed website. Owner explicitly authorized publishing her photo on November 4, 2026. Ten original PNGs are preserved byte for byte; no live checkout or customer data. Initial AppDeploy publication is ready; canonical GitHub publication and live verification are tracked separately.
+- Golden Grid (9 original PNGs) and La Vie in Pink (10) migrate from existing AppDeploy demos, preserving their existing bilingual interfaces and simulated interactions. Each uses relative assets for its subdirectory.
+- Brand Board Studio in `demo-booking-landing-` branch `brand-board-studio` receives twelve unique brands, a scrollable desktop sidebar and phone drawer, with existing local edits retained. Studio finished-demo cards link to canonical URLs, with photos/prompts/steps/Drive together; SOVA supersedes the old pending kit without deleting it.
+- Validation: all three demo builds, Brand Board build and catalog hydration tests. Static route/recovery/client guards and deployed browser checks must pass before completion.
