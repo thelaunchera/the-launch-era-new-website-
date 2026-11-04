@@ -57,7 +57,7 @@ try{
  }
  await check('/booking-lead-automation/',desktop,async page=>{
   assert.equal(await page.locator('.service-sales-pain').isVisible(),true);
-  assert.equal(await page.locator('.service-endcap').isVisible(),true);
+  assert.equal(await page.locator('.service-endcap').count(),0, 'Retired duplicate endcap stays removed');
  });
  for(const [lang,path] of [['en','/cleaning-web-app/'],['es','/es/cleaning-web-app/']]){
   await check(path,phone,async page=>{
