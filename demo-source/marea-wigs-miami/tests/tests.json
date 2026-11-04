@@ -1,0 +1,108 @@
+[
+  {
+    "name": "Explore, save, retain and remove a look",
+    "sanity": true,
+    "viewport": "desktop",
+    "covers": [
+      "catalog browsing",
+      "category filtering",
+      "product detail",
+      "saved look create and delete",
+      "persistence after reload",
+      "empty selection"
+    ],
+    "description": "A visitor filters the collection and manages a saved look across reloads.",
+    "steps": [
+      "Select ES in the header. Navigate to La colección and click Bob.",
+      "Confirm only The Miami Bob remains in the collection and click its Ver look button.",
+      "In the dialog click Guardar look, then Cerrar, then Mis looks.",
+      "Confirm The Miami Bob is in Tu selección. Close and reload the page.",
+      "Open Mis looks and verify The Miami Bob is retained. Click its Quitar button.",
+      "Confirm the empty-selection message, close and reload, then reopen Mis looks."
+    ],
+    "expected": "The Bob filter shows one matching look, its details open, saving survives reload and removal survives another reload. The empty state provides a working collection link."
+  },
+  {
+    "name": "Use mobile navigation and retain the chosen language",
+    "viewport": "mobile",
+    "covers": [
+      "375px responsive navigation",
+      "Spanish and English localization",
+      "language persistence",
+      "collection filters",
+      "mobile layout"
+    ],
+    "description": "A mobile visitor changes language, uses the compact menu and filters the catalog.",
+    "steps": [
+      "Select EN in the header and refresh.",
+      "Confirm English navigation and Find your look remain visible.",
+      "Open Menu and choose The collection.",
+      "Click Waves. Confirm exactly Espresso Waves and Caramel Hours appear.",
+      "Switch to ES. Confirm Ondas remains selected and the same two products are visible.",
+      "Check no page-wide horizontal overflow and the header and catalog controls remain accessible."
+    ],
+    "expected": "The language persists on reload. The mobile menu reaches the collection and closes; filtering and switching language preserve the chosen category without horizontal page overflow."
+  },
+  {
+    "name": "Find a recommended look and revise preferences",
+    "viewport": "desktop",
+    "covers": [
+      "three-step look finder",
+      "deterministic recommendations",
+      "quiz back and restart",
+      "recommendation to product detail"
+    ],
+    "description": "A visitor gets a caramel-wave match, then revises the quiz to a bob.",
+    "steps": [
+      "Select EN and click Find your look in the hero.",
+      "Choose Long waves, Warm highlights and A special occasion.",
+      "Confirm Caramel Hours is recommended and the preference summary reflects all three choices.",
+      "Click Start again. Choose A sleek bob, then click Back.",
+      "Choose A sleek bob again, then Deep and dark and Every day.",
+      "Confirm The Miami Bob is recommended. Click View look, verify the matching product detail and close it using Escape."
+    ],
+    "expected": "The three-step quiz recommends Caramel Hours for warm waves and The Miami Bob for a bob. Back and restart work, the result opens the matching detail and Escape closes the dialog."
+  },
+  {
+    "name": "Validate and retain a safe demo consultation",
+    "viewport": "mobile",
+    "covers": [
+      "consultation required-field validation",
+      "product selection",
+      "local consultation persistence",
+      "safe user input rendering",
+      "copy summary",
+      "demo boundary"
+    ],
+    "description": "A mobile visitor prepares a consultation preview while the site clearly distinguishes it from a real booking.",
+    "steps": [
+      "Select ES, open Prepara tu consulta and submit without a question.",
+      "Confirm a visible validation message and no summary.",
+      "Enter Dailin in Tu nombre, select Caramel Hours, and enter Quiero conocer este look y sus opciones. in the question field.",
+      "Create the sample consultation and verify the name, style and question appear in the summary with the notice that nothing was sent or booked.",
+      "Use Copiar resumen and verify either the copied confirmation or the visible manual-copy fallback.",
+      "Close, reload and reopen Prepara tu consulta."
+    ],
+    "expected": "Blank questions are blocked. A valid preview safely displays the supplied details, never claims a sent message or booking, and the consultation fields persist after reload."
+  },
+  {
+    "name": "Browse the campaign images and read the demo information",
+    "viewport": "desktop",
+    "covers": [
+      "eight-image campaign gallery",
+      "gallery next previous and wraparound",
+      "dialog close",
+      "FAQ expansion",
+      "all fourteen supplied image resources"
+    ],
+    "description": "A visitor explores the original campaign and sees transparent information about the concept website.",
+    "steps": [
+      "Select EN and navigate to Moodboard.",
+      "Open the first campaign image and use Next to inspect another image, then Previous to return.",
+      "Use Previous from image 1 and confirm image 8 is shown. Close with Close.",
+      "Expand Can I purchase or book through this demo? in the FAQ.",
+      "Inspect the page images, scrolling the campaign strip as needed to load its images."
+    ],
+    "expected": "The gallery shows legible individual images, next/previous wrap correctly and close works. The FAQ explains that no real purchases or appointments are processed; every displayed image loads from the fourteen bound campaign resources."
+  }
+]
