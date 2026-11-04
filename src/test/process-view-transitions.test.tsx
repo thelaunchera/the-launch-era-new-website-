@@ -33,6 +33,7 @@ describe('The Launch Era shared-element process cards', () => {
     for (const [index, name] of expected.entries()) {
       const view = render(<ProcessSteps lang="en"/>);
       const button = screen.getAllByRole('button', { name: /Explore step/ })[index];
+      if (!button) throw new Error('Missing process button ' + index);
       expect(button.querySelector('img')?.getAttribute('src')).toBe('/assets/bundle-landing/optimized/'+name+'-thumb.webp');
       fireEvent.click(button);
       const photo = screen.getByRole('dialog').querySelector('.tle-process-detail-photo') as HTMLImageElement;
@@ -51,7 +52,9 @@ describe('The Launch Era shared-element process cards', () => {
     render(<ProcessSteps lang="en"/>);
     const steps = screen.getAllByRole('button', { name: /Explore step/ });
     expect(steps).toHaveLength(3);
-    fireEvent.click(steps[0]);
+    const firstStep = steps[0];
+    if (!firstStep) throw new Error('Missing first process button');
+    fireEvent.click(firstStep);
     const dialog = screen.getByRole('dialog');
     expect(dialog.getAttribute('aria-modal')).toBe('true');
     expect(screen.getByText('WHAT TO EXPECT')).toBeTruthy();

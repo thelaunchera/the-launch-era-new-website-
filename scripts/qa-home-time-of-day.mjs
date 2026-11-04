@@ -7,12 +7,11 @@ const es=read('src/routes/es.index.tsx');
 const jsx=read('src/components/home-motion-interlude.tsx');
 const css=read('src/components/home-motion-interlude.css');
 const js=read('public/assets/tle-home-time-of-day.js');
-for (const [file,s] of [['EN home',en],['ES home',es]]) {
- assert(s.includes("HomeMotionInterlude"),file+' must include the new chapter');
- assert(s.indexOf('HomeMotionInterlude lang=')<s.indexOf('process-section')||file==='EN home',file+' must place the chapter before the process section');
+// The owner retired this decorative homepage chapter on October 16.
+// Validate its retained source without requiring its resurrection.
+for (const [label, home] of [['EN', en], ['ES', es]]) {
+ assert(!/<HomeMotionInterlude\s+lang=/.test(home), label+' must keep the retired chapter off the homepage');
 }
-assert(en.includes('<HomeMotionInterlude lang="en"/><ProcessSection/>'),'EN ordering must preserve the day/night chapter before process, using the current home layout');
-assert(es.includes('<HomeMotionInterlude lang="es"/>'),'ES home must remain translated');
 assert(jsx.includes('data-tle-canvas')&&jsx.includes('data-tle-chapter'),'React scene anchors missing');
 assert(jsx.includes("dispose?.()"),'Unmount must dispose the scene');
 assert(jsx.includes('Booking Page')&&jsx.includes('Command Center'),'Booking marketing language must remain accurate');

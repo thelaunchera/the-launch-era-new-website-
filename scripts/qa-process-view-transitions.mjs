@@ -51,7 +51,7 @@ for (const photo of expectedPhotos) {
 }
 assert(read('scripts/build_mobile_flow_assets.py').includes('FLOW IMAGE QA'), 'The optimized photos must be generated during deployment');
 assert(component.includes('className="tle-process-detail-photo"'), 'Dialog must render a real photo');
-assert(component.includes('alt={stepPhotos[active].alt[lang]}'), 'Photo alt text must be bilingual');
+assert(component.includes('alt={(stepPhotos[active] ?? stepPhotos[0]).alt[lang]}'), 'Photo alt text must be bilingual with a safe first-photo fallback');
 assert(styles.includes('object-fit: cover'), 'Photos should crop without distortion');
 assert(!component.includes('tle-process-detail-art'), 'Old oversized icon should not return');
 console.log('[PROCESS TRANSITIONS QA PASSED] EN/ES cards open an accessible, responsive, reduced-motion-safe shared-element detail; contact forms are preserved.');

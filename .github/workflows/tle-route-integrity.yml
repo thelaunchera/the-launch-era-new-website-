@@ -8,6 +8,7 @@ on:
     paths:
       - 'public/**'
       - 'scripts/qa-route-integrity.mjs'
+      - 'scripts/public-404-contract*.mjs'
       - 'skills/the-launch-era-qa/**'
       - '.github/workflows/tle-route-integrity.yml'
   push:
@@ -18,6 +19,7 @@ on:
       - 'src/components/site-shell.tsx'
       - 'src/components/service-sales.tsx'
       - 'scripts/qa-route-integrity.mjs'
+      - 'scripts/public-404-contract*.mjs'
       - 'skills/the-launch-era-qa/**'
       - '.github/workflows/tle-route-integrity.yml'
 permissions:
@@ -33,6 +35,7 @@ jobs:
         with:
           node-version: '22'
       - run: node --check scripts/qa-route-integrity.mjs
+      - run: node --test scripts/public-404-contract.test.mjs
       - run: node scripts/qa-route-integrity.mjs --static
       - run: node scripts/qa-five-signs-landing.mjs
       - run: node scripts/qa-chat-motion.mjs

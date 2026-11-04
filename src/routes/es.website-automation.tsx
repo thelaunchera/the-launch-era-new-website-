@@ -4,7 +4,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useState, type FormEvent } from 'react';
 import { ArrowRight, Globe2, MessageSquareText, Workflow, BellRing, Check, RotateCcw, Sparkles } from 'lucide-react';
 
-export const Route=createFileRoute('/es/website-automation/')({head:()=>({meta:[
+export const Route=createFileRoute('/es/website-automation')({head:()=>({meta:[
   {title:'Automatización de Website para Negocios de Limpieza | The Launch Era'},
   {name:'description',content:'Conecta tu website actual a un flujo más claro de consultas, organización y seguimiento para tu negocio de limpieza.'},
   {property:'og:title',content:'Website Automation | The Launch Era'},

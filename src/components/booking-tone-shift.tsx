@@ -20,7 +20,7 @@ export function BookingToneShift() {
       const intro = copy.getBoundingClientRect();
       const detail = preview.getBoundingClientRect();
       const visible = outer.bottom > window.innerHeight * .12 && outer.top < window.innerHeight * .88;
-      section.dataset.bookingVisible = String(visible);
+      section.dataset['bookingVisible'] = String(visible);
       if (!visible) return;
 
       // Stacked on phones: the section passing the viewport midpoint wins.
@@ -32,10 +32,10 @@ export function BookingToneShift() {
       const second = stacked
         ? detail.top <= middle
         : detail.top + Math.min(detail.height * .18, 112) <= middle;
-      section.dataset.tone = second ? '2' : '1';
+      section.dataset['tone'] = second ? '2' : '1';
     };
     const schedule = () => { if (!frame) frame = window.requestAnimationFrame(paint); };
-    section.dataset.tone = '1';
+    section.dataset['tone'] = '1';
     const observer = typeof IntersectionObserver === 'undefined' ? null :
       new IntersectionObserver(schedule, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
     observer?.observe(copy);
@@ -48,8 +48,8 @@ export function BookingToneShift() {
       observer?.disconnect();
       window.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', schedule);
-      delete section.dataset.tone;
-      delete section.dataset.bookingVisible;
+      delete section.dataset['tone'];
+      delete section.dataset['bookingVisible'];
     };
   }, []);
 

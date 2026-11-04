@@ -7,11 +7,12 @@ describe('homepage first-party logo marquee', () => {
     const { container } = render(<WorkflowLogoMarquee lang="en" />);
     const rows = container.querySelectorAll('.tle-logo-row');
     expect(rows).toHaveLength(2);
-    expect(rows[1].classList.contains('tle-logo-row--reverse')).toBe(true);
+    expect(rows[1]?.classList.contains('tle-logo-row--reverse')).toBe(true);
     rows.forEach(row => {
       expect(row.querySelectorAll('.tle-wordmark-group')).toHaveLength(2);
       expect(row.querySelectorAll('.tle-wordmark-group[aria-hidden="true"]')).toHaveLength(1);
       const [original, duplicate] = Array.from(row.querySelectorAll('.tle-wordmark-group'));
+      if (!original || !duplicate) throw new Error('Missing paired wordmark groups');
       expect(original.textContent).toBe(duplicate.textContent);
       expect(row.getAttribute('role')).toBe('img');
       const words = Array.from(original.querySelectorAll('.tle-wordmark')).map(node => node.textContent);

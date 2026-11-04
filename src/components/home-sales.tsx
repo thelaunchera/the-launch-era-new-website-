@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import './booking-scrollytelling.css';
-import { FAQTopicTabs } from './faq-topic-tabs';
+import { FAQTopicTabs, type FAQItem } from './faq-topic-tabs';
 import { ArrowRight, CalendarCheck2, ClipboardList, Send, Plus } from 'lucide-react';
 
 type Language = 'en' | 'es';
@@ -37,7 +37,8 @@ export function BookingWalkthrough({lang='en'}:{lang?:Language}) {
        const bc=(b.boundingClientRect.top+b.boundingClientRect.bottom)/2;
        return Math.abs(ac-mid)-Math.abs(bc-mid);
      })[0];
-     const index=Number((nearest.target as HTMLElement).dataset.storyStep);
+     if(!nearest)return;
+     const index=Number((nearest.target as HTMLElement).dataset['storyStep']);
      if(Number.isInteger(index)&&index>=0&&index<3)setStep(index);
    },{root:null,rootMargin:'-45% 0px -45% 0px',threshold:0});
    stepNodes.current.forEach(node=>{if(node)observer.observe(node)});
@@ -57,7 +58,7 @@ export function BookingWalkthrough({lang='en'}:{lang?:Language}) {
   <div className="booking-scrolly-sticky">
    <span className="booking-scrolly-kicker">{es?'TU FLUJO DE RESERVAS':'YOUR BOOKING FLOW'}</span>
    <div className="walkthrough-controls" role="group" aria-label={es?'Explora el recorrido de una solicitud':'Explore a booking request'}>
-    {labels.map((label,i)=>{const Icon=icons[i];return <button type="button" key={label} aria-pressed={step===i} aria-controls={`booking-story-${lang}-${i}`} onClick={()=>goTo(i)}><Icon size={19} aria-hidden="true"/><span>{label}</span></button>})}
+    {labels.map((label,i)=>{const Icon=icons[i] ?? CalendarCheck2;return <button type="button" key={label} aria-pressed={step===i} aria-controls={`booking-story-${lang}-${i}`} onClick={()=>goTo(i)}><Icon size={19} aria-hidden="true"/><span>{label}</span></button>})}
    </div>
    <div className="booking-scrolly-scene" aria-hidden="true">
     <div className="booking-scrolly-ambient"/>
@@ -117,7 +118,7 @@ export function ProductExplorer({lang='en',children}:{lang?:Language;children:Re
 
 export function PurchaseClarity({lang='en'}:{lang?:Language}) {
  const es=lang==='es';
- const questions=es?[
+ const questions: FAQItem[]=es?[
  ['¿Qué incluye Booking Automation + Command Center?','Una Booking Page personalizada, tu Command Center privado y automatizaciones para gestionar solicitudes, cotizaciones y seguimientos.'],
  ['¿Cuándo recibo mi sistema?','Después de verificar el pago y revisar tus datos completos, aprobaremos el inicio por correo. Desde ese momento empieza el plazo estimado de 48 horas de producción, durante nuestros períodos de trabajo disponibles. Los accesos se entregan después de las pruebas y aprobación.'],
  ['¿Cuándo se confirma una reserva automáticamente?','Solo para servicios con precio fijo, cuando activas esa opción y el horario está disponible. Si la desactivas, la solicitud queda pendiente de tu aprobación y no bloquea el horario.'],
@@ -136,6 +137,6 @@ export function PurchaseClarity({lang='en'}:{lang?:Language}) {
  ['Can I change prices and availability?','Yes. Edit flat rates, estimated starting prices, and extras in your pricing settings, and your schedule in your calendar settings. Preview and adjust a customer quote before sending.'],
  ['Who handles the follow-up emails?','We handle up to two automatic follow-ups for eligible unanswered quotes. You can preview the emails, and they stop when the customer responds. A third personal email is always your choice: send it or stop contacting.']
  ];
- return <div className="purchase-clarity"><p>{es?'Tu Booking Page + tu Command Center privado, personalizados para tu negocio.':'Your Booking Page + your private Command Center, personalized for your business.'}</p><FAQTopicTabs lang={lang} billing={[questions[1]]} account={questions.filter((_,index)=>index!==1)} /></div>;
+ return <div className="purchase-clarity"><p>{es?'Tu Booking Page + tu Command Center privado, personalizados para tu negocio.':'Your Booking Page + your private Command Center, personalized for your business.'}</p><FAQTopicTabs lang={lang} billing={questions.slice(1,2)} account={questions.filter((_,index)=>index!==1)} /></div>;
 
 }

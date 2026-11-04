@@ -29,13 +29,13 @@ function script(src: string, id: string): Promise<void> {
   return new Promise((resolve, reject) => {
     const current = document.querySelector<HTMLScriptElement>(`script[data-tle-motion="${id}"]`);
     const el = current || document.createElement('script');
-    if (el.dataset.loaded === 'true') { resolve(); return; }
-    el.addEventListener('load', () => { el.dataset.loaded = 'true'; resolve(); }, { once: true });
+    if (el.dataset['loaded'] === 'true') { resolve(); return; }
+    el.addEventListener('load', () => { el.dataset['loaded'] = 'true'; resolve(); }, { once: true });
     el.addEventListener('error', () => reject(new Error(`Unable to load ${id}`)), { once: true });
     if (!current) {
       el.src = src;
       el.async = true;
-      el.dataset.tleMotion = id;
+      el.dataset['tleMotion'] = id;
       document.head.appendChild(el);
     }
   });
@@ -81,9 +81,9 @@ export function ServicesColorMotion() {
         const next = Math.max(0, Math.min(themes.length - 1, index));
         if (next === current) return;
         current = next;
-        const theme = themes[next];
+        const theme = themes[next] ?? themes[0];
         if (counter) counter.textContent = `${String(next + 1).padStart(2, '0')} / 05`;
-        bars.forEach((bar, i) => { bar.dataset.active = String(i <= Math.floor(next * 3 / themes.length)); });
+        bars.forEach((bar, i) => { bar.dataset['active'] = String(i <= Math.floor(next * 3 / themes.length)); });
         const vars = {
           backgroundColor: theme.bg,
           color: theme.ink,
