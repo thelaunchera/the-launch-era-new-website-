@@ -19,6 +19,7 @@ try {
       if(route.request().method()!=='GET')throw Error('QA never invokes checkout POST');
       return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(fixture)});
    });
+   await page.addInitScript(() => localStorage.setItem('tle_privacy_choice_v1', JSON.stringify({version:1,analytics:false,expires:Date.now()+86400000})));
    await page.goto(base+'/',{waitUntil:'domcontentloaded'});
    const modal=page.getByRole('dialog',{name:'The Launch Era bundle offer'});
    await modal.waitFor({state:'visible',timeout:15000});
@@ -61,6 +62,7 @@ try {
  const esCtx=await browser.newContext({viewport:{width:390,height:844}});
  const esPage=await esCtx.newPage();
  await esPage.route('**/functions/v1/tle-booking-bundle-checkout',route=>route.fulfill({json:fixture}));
+ await esPage.addInitScript(() => localStorage.setItem('tle_privacy_choice_v1', JSON.stringify({version:1,analytics:false,expires:Date.now()+86400000})));
  await esPage.goto(base+'/es/',{waitUntil:'domcontentloaded'});
  const esModal=esPage.getByRole('dialog',{name:'Oferta de The Launch Era'});
  await esModal.waitFor({state:'visible',timeout:15000});

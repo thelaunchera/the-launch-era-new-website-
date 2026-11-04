@@ -10,6 +10,7 @@ try{
    const page=await browser.newPage({viewport:{width:390,height:844}});
    await page.route('**/functions/v1/tle-booking-bundle-checkout',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify(offer)}));
    if(broken) await page.route('**/assets/promo/tle-smart-welcome-bundle-flyer*',r=>r.abort());
+   await page.addInitScript(() => localStorage.setItem('tle_privacy_choice_v1', JSON.stringify({version:1,analytics:false,expires:Date.now()+86400000})));
    await page.goto(base+path,{waitUntil:'domcontentloaded',timeout:45000});
    const dialog=page.getByRole('dialog',{name:lang==='es'?'Oferta de The Launch Era':'The Launch Era bundle offer'});
    await dialog.waitFor({state:'visible',timeout:20000});
