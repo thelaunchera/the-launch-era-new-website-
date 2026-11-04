@@ -86,7 +86,7 @@ try {
        assert.equal(navPosition,'relative',lang+' mobile progress pill must scroll above cards instead of covering text');
      }
 
-     assert.equal(safe.cardCount,6);
+     assert.equal(safe.cardCount,5);
      if (safe.documentOverflow) console.log('[PRE-EXISTING PAGE OVERFLOW — separate from service color effect]',lang,width);
      if (width === 390 || width === 1440) await page.screenshot({path:'qa-screenshots/services-colors-'+lang+'-'+width+'.png'});
      await page.close();
