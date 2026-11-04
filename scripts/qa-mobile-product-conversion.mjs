@@ -106,7 +106,7 @@ try{
  });
  await check('/whatsapp-ai-agent/',desktop,async page=>{
   assert.equal(await page.locator('.hero .art').isVisible(),true);
-  assert.equal(await page.locator('.features .feature:nth-child(4)').isVisible(),true);
+  assert.equal(await page.locator('.features .feature:nth-child(4)').isVisible(),false, 'Unreleased feature stays explicitly hidden at every width');
  });
 
  await check('/es/ai-booking-assistant/',phone,async page=>{
