@@ -13,6 +13,7 @@ const galleryItems=[
 {label:"Made to share",url:"https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=950&q=80"},
 {label:"The fine details",url:"https://images.unsplash.com/photo-1520201163981-8cc95007dd2a?auto=format&fit=crop&w=950&q=80"},
 {label:"A special occasion",url:"https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=950&q=80"},
+{label:"Cocktail hour",url:"https://images.unsplash.com/photo-1513558161293-cdaf765edfd4?auto=format&fit=crop&w=950&q=80"},
 {label:"Sweet endings",url:"https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=950&q=80"}
 ];
 const dict={
