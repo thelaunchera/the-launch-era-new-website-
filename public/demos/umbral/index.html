@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1b100e">
+<title>UMBRAL — Cocina Cubana · Boston</title>
+<meta name="description" content="UMBRAL — an intimate Cuban dining concept in Boston. A new ritual, rooted in Cuba.">
+<meta property="og:title" content="UMBRAL — Cocina Cubana · Boston"><meta property="og:description" content="Cuban soul, after dark. A cinematic restaurant concept."><meta property="og:image" content="./images/facade.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css"><script src="./app.js" defer></script></head>
+<body>
+<a href="#main" class="skip">Skip to content</a>
+<div class="announcement"><span>THE ART OF CUBAN DINING</span><span>BOSTON · MASSACHUSETTS</span></div>
+<header class="header">
+  <a href="#top" class="brand" aria-label="UMBRAL home">UMBRAL<span>✧</span></a>
+  <nav class="desktop-nav" aria-label="Main navigation"><a href="#story" data-i18n="navStory">Our story</a><a href="#menu" data-i18n="navMenu">Cuisine</a><a href="#atmosphere" data-i18n="navAtmosphere">Atmosphere</a></nav>
+  <div class="header-actions"><button id="language" class="language" type="button" aria-label="Change language">ES</button><a class="btn btn-small" href="#reservations" data-i18n="navReserve">Reserve a table</a><button class="hamburger" id="hamburger" type="button" aria-label="Open navigation" aria-expanded="false">☰</button></div>
+</header>
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation" hidden><a href="#story" data-i18n="navStory">Our story</a><a href="#menu" data-i18n="navMenu">Cuisine</a><a href="#atmosphere" data-i18n="navAtmosphere">Atmosphere</a><a href="#reservations" data-i18n="navReserve">Reserve a table</a></nav>
+<main id="main">
+  <section class="hero" id="top" aria-labelledby="heroTitle">
+    <img src="./images/facade.jpg" class="hero-img" alt="UMBRAL concept exterior, dark stone facade with warm lanterns and wooden doors" fetchpriority="high">
+    <div class="hero-overlay"></div>
+    <div class="hero-kicker" data-i18n="heroKicker">AN INTIMATE CUBAN DINING CONCEPT</div>
+    <div class="hero-content"><span class="eyebrow" data-i18n="eyebrow">A DIFFERENT SIDE OF HAVANA</span>
+      <h1 id="heroTitle" data-i18n="heroTitle">Cuban soul.<br><em>After dark.</em></h1>
+      <p data-i18n="heroDesc">A whisper of Havana, reimagined for Boston. Exceptional flavors, warm light, and an evening worth staying for.</p>
+      <div class="hero-cta"><a href="#reservations" class="btn" data-i18n="discoverTable">Discover your table</a><a class="under-link" href="#story" data-i18n="enterUmbral">Enter UMBRAL <span>↗</span></a></div>
+    </div>
+    <div class="hero-footer"><span>UMBRAL / COCINA CUBANA</span><span data-i18n="scrollText">SCROLL TO DISCOVER ↓</span></div>
+  </section>
+  <section class="story section" id="story">
+    <div class="section-side"><span class="little-rule"></span><span data-i18n="chapterOne">01 / THE STORY</span></div>
+    <div class="story-inner"><span class="eyebrow copper" data-i18n="storyKicker">ROOTED IN MEMORY</span><h2 data-i18n="storyTitle">An old soul.<br><em>A new ritual.</em></h2><p data-i18n="storyBody">Some recipes live beyond a place. They stay in our conversations, our celebrations, our memories. UMBRAL honors the Cuban table with reverence for tradition and a taste for the unexpected.</p><a href="#menu" class="under-link dark-link" data-i18n="discoverCuisine">Discover the cuisine <span>↗</span></a></div>
+  </section>
+  <section class="duo" aria-label="UMBRAL interiors"><div class="duo-photo"><img src="./images/booth.jpg" alt="UMBRAL's intimate burgundy banquette with candlelit marble table" loading="lazy"></div><div class="duo-message"><span class="ornament">✦</span><h2 data-i18n="duoTitle">Stay a<br>little longer.</h2><span class="gold-line"></span><p data-i18n="duoDesc">A table for two. A reason to celebrate. The familiar feeling of being exactly where you should be.</p><span class="duo-index">UMBRAL — BOSTON</span></div></section>
+  <section class="cuisine section" id="menu">
+    <div class="section-titlebar"><span class="eyebrow copper" data-i18n="menuLabel">THE FLAVORS WE REMEMBER</span><span class="chapter">02 / THE KITCHEN</span></div>
+    <div class="section-header"><h2 data-i18n="menuTitle">Tradition,<br><em>with a twist.</em></h2><p data-i18n="menuDesc">Cuban classics provide the inspiration. Thoughtful presentation sets the scene. Explore a taste of our concept kitchen.</p></div>
+    <div class="dish-grid">
+      <article class="dish-card"><div class="dish-image"><img loading="lazy" src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1000&q=85" alt="Editorial plated entrée, placeholder photograph"></div><div class="dish-meta"><small>01 / SIGNATURE INSPIRATION</small><h3>Vaca Frita</h3><p data-i18n="dishOne">Citrus, slow-cooked tenderness, crisp edges. A classic with presence.</p></div></article>
+      <article class="dish-card offset"><div class="dish-image"><img loading="lazy" src="https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&w=1000&q=85" alt="Chef's elegant plated dish, placeholder photograph"></div><div class="dish-meta"><small>02 / TO SHARE</small><h3>Croquetas de Jamón</h3><p data-i18n="dishTwo">A beloved bite, designed to be shared around the table.</p></div></article>
+      <article class="dish-card"><div class="dish-image"><img loading="lazy" src="https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=1000&q=85" alt="Refined dessert, placeholder photograph"></div><div class="dish-meta"><small>03 / SOMETHING SWEET</small><h3>Tres Leches</h3><p data-i18n="dishThree">Soft, nostalgic, and impossible to rush.</p></div></article>
+    </div><p class="menu-disclaimer" data-i18n="conceptMenu">Illustrative concept dishes, not a published restaurant menu or prices.</p>
+  </section>
+  <section class="atmosphere" id="atmosphere"><div class="atmosphere-photo"><img src="./images/booth.jpg" alt="Candlelit burgundy velvet seating in the UMBRAL concept restaurant" loading="lazy"></div><div class="atmosphere-shade"></div><div class="atmosphere-copy"><span class="eyebrow" data-i18n="atmoLabel">THE AFTER-DARK EXPERIENCE</span><h2 data-i18n="atmoTitle">Come for dinner.<br><em>Stay for the feeling.</em></h2><a href="#gallery" class="under-link" data-i18n="exploreGallery">Explore the gallery <span>↗</span></a></div></section>
+  <section class="gallery section" id="gallery"><div class="section-titlebar"><span class="eyebrow copper" data-i18n="galleryLabel">A VISUAL JOURNAL</span><span class="chapter">03 / THE WORLD OF UMBRAL</span></div><div class="section-header"><h2 data-i18n="galleryTitle">Every detail<br><em>has a story.</em></h2><p data-i18n="galleryDesc">From the entrance to the table, a collection of moments that shape the experience.</p></div>
+    <div class="gallery-grid" id="galleryGrid"></div>
+    <p class="gallery-note" data-i18n="galleryNotice">The first two images are original UMBRAL concept assets. Remaining visuals are editorial placeholders until the rest of the original photo collection is supplied.</p>
+  </section>
+  <section class="reservation" id="reservations">
+    <div class="reservation-text"><span class="eyebrow" data-i18n="reservationKicker">AN EVENING TO REMEMBER</span><h2 data-i18n="reservationTitle">Your table<br><em>awaits.</em></h2><p data-i18n="reservationBody">Select a date, time, and party size to experience the reservation flow.</p><div class="fine-rule"></div><p class="reservation-warning" data-i18n="demoDisclosure">This is a website concept preview, not a real restaurant booking system. Submitting this form will NOT secure a reservation or send your details.</p></div>
+    <div class="reservation-panel"><div id="reservationFormPane"><span class="eyebrow copper" data-i18n="reservationPanel">RESERVATION PREVIEW</span><form id="reservationForm">
+      <div class="form-two"><label><span data-i18n="partyLabel">Party size</span><select name="party" required><option value="2">2 people</option><option value="1">1 person</option><option value="3">3 people</option><option value="4">4 people</option><option value="5">5 people</option><option value="6">6 people</option><option value="7">7 people</option><option value="8">8 people</option></select></label><label><span data-i18n="dateLabel">Date</span><input id="bookingDate" name="date" type="date" required></label></div>
+      <label><span data-i18n="timeLabel">Preferred time</span><select name="time" required><option value="" data-i18n="chooseTime">Choose a time</option><option>5:00 PM</option><option>5:30 PM</option><option>6:00 PM</option><option>6:30 PM</option><option>7:00 PM</option><option>7:30 PM</option><option>8:00 PM</option><option>8:30 PM</option><option>9:00 PM</option></select></label>
+      <div class="form-two"><label><span data-i18n="nameLabel">Your name</span><input name="name" type="text" autocomplete="name" maxlength="100" placeholder="Full name" required></label><label><span data-i18n="emailLabel">Email</span><input name="email" type="email" autocomplete="email" maxlength="150" placeholder="you@example.com" required></label></div>
+      <label><span data-i18n="notesLabel">Special notes (optional)</span><textarea name="notes" rows="3" maxlength="350" placeholder="A celebration, accessibility needs, or a note"></textarea></label>
+      <button type="submit" class="btn btn-dark btn-block" data-i18n="previewButton">Preview reservation details</button><p class="form-foot" data-i18n="formFoot">No booking, payment, email, or database submission occurs.</p>
+    </form></div><div class="confirmation" id="confirmation" hidden role="status" aria-live="polite"><span class="ornament">✦</span><h3 data-i18n="previewHeading">Your reservation preview</h3><p id="confirmationDetails"></p><p class="reservation-warning" data-i18n="notConfirmed">This is only a visual preview. No reservation was made.</p><button id="editBooking" type="button" class="under-link dark-link" data-i18n="editDetails">Edit details ↗</button></div></div>
+  </section>
+</main>
+<footer class="footer"><div><div class="footer-brand">UMBRAL<span>✧</span></div><p data-i18n="footerLine">The soul of Cuba. The spirit of the night.</p></div><div class="footer-right"><span>BOSTON / CONCEPT DEMO</span><a href="#top">BACK TO TOP ↑</a></div><div class="footer-bottom">POWERED BY THE LAUNCH ERA <span data-i18n="footerNote">Creative portfolio concept · Not an operating restaurant</span></div></footer>
+</body></html>
