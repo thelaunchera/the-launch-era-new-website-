@@ -38,12 +38,12 @@ try {
         return img instanceof HTMLImageElement && img.complete && img.naturalWidth > 0;
       }, null, { timeout: 15000 });
       assert((await expandedPhoto.getAttribute('alt'))?.length > 20, 'The photo needs descriptive alt text');
-      assert.equal(await expandedPhoto.getAttribute('src'), '/assets/bundle-landing/bundle-booking.png');
+      assert.equal(await expandedPhoto.getAttribute('src'), '/assets/bundle-landing/optimized/booking.webp');
       if (width === 390) {
         const expected = [
-          '/assets/bundle-landing/bundle-booking.png',
-          '/assets/bundle-landing/bundle-hero.png',
-          '/assets/bundle-landing/bundle-command.png'
+          '/assets/bundle-landing/optimized/booking.webp',
+          '/assets/bundle-landing/optimized/hero.webp',
+          '/assets/bundle-landing/optimized/command.webp'
         ];
         for (let i = 1; i < 3; i++) {
           await page.keyboard.press('Escape');

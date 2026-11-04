@@ -43,7 +43,9 @@ assert(es.includes("solo si lo activas"),"Booking confirmation Spanish condition
 assert(en.includes("Up to two automatic follow-ups"),"Follow-up cap missing");
 assert(es.includes("Hasta dos seguimientos automáticos"),"Follow-up cap in Spanish missing");
 assert(en.includes("48-hour production") && es.includes("48 horas"),"Production estimate missing");
-assert(bundle.includes("4 business days") && bundle.includes("4 días hábiles"),"Bundle production terms must be retained");
+const bundleCheckout=read("public/assets/tle-booking-bundle.js");
+assert(bundleCheckout.includes("48 hours") && bundleCheckout.includes("48 horas"),"Bundle checkout must retain the current 48-hour production estimate");
+assert(bundleCheckout.includes("4 business days") && bundleCheckout.includes("4 días hábiles"),"Combined AI bundle must retain its distinct four-business-day estimate");
 assert(!bundle.includes("20-minute") && !bundle.includes("20 minutos") && !bundle.includes("setup-call"),"Public bundle must not advertise buyer-only setup calls");
 assert(!read("public/assets/tle-booking-bundle.js").includes("/help/?topic=setup-call"),"Public checkout cannot request pre-purchase 1:1 guidance");
 for(const price of ["$59.99","$35","$49.99","$25","$3.99","$15","$14","$19"])assert([en,es,siteEn,vaEn,app,assistantEn,assistantEs,homeEn,bundle].some(s=>s.includes(price)),"Missing pricing indicator "+price);
