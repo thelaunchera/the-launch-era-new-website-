@@ -79,7 +79,7 @@ try{
   assert.equal(await page.locator('a[href^="/experience-cleaning/"]').count(),1);
  });
  await check('/booking-bundle/',desktop,async page=>{
-  assert.equal(await page.locator('.tle-intro').isVisible(),true);
+  assert.equal(await page.locator('.tle-intro').isVisible(),false, 'Repeated introduction is explicitly hidden at every width');
   assert.equal(await page.locator('.tle-bridge-grid').isVisible(),true);
  });
  await check('/ai-booking-assistant/',phone,async page=>{

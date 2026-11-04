@@ -51,7 +51,8 @@ try {
        navText:el.querySelector('.sol-color-counter')?.textContent
      }));
      assert(first.nav && first.navText, lang + ' ' + width + ': missing navigation');
-     if (width >= 768) {
+     const horizontalRail = await section.locator('.service-grid').evaluate(el => el.scrollWidth > el.clientWidth + 5);
+     if (width >= 768 || !horizontalRail) {
        await page.evaluate(y => scrollTo(0,y), position.y + position.height*.52 - 900*.55);
        await page.waitForTimeout(550);
        const second = await section.evaluate(el => ({bg:getComputedStyle(el).backgroundColor, phase:el.dataset.colorPhase}));
