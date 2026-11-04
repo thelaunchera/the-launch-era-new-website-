@@ -3,33 +3,100 @@
     "name": "Choose a color and retain a demo bag",
     "sanity": true,
     "viewport": "desktop",
-    "covers": ["collection navigation", "product details", "color selection", "add to demo bag", "local bag persistence", "remove bag item"],
+    "covers": [
+      "collection navigation",
+      "product details",
+      "color selection",
+      "add to demo bag",
+      "local bag persistence",
+      "remove bag item"
+    ],
     "description": "Verifies that a selected color is added, survives reload and can be removed.",
-    "steps": ["Select EN in the header", "Use Explore headphones to reach the collection", "Open the Ivory product", "Select Cobalt in the product dialog", "Add to demo bag", "Close the product dialog", "Refresh the page", "Open Demo bag", "Verify SOVA ONE Cobalt is present", "Remove Cobalt", "Refresh and reopen Demo bag"],
+    "steps": [
+      "Select EN in the header",
+      "Use Explore headphones to reach the collection",
+      "Open the Ivory product",
+      "Select Cobalt in the product dialog",
+      "Add to demo bag",
+      "Close the product dialog",
+      "Refresh the page",
+      "Open Demo bag",
+      "Verify SOVA ONE Cobalt is present",
+      "Remove Cobalt",
+      "Refresh and reopen Demo bag"
+    ],
     "expected": "The chosen Cobalt color survives reload. After removal it stays absent, the count is zero and the empty bag offers Continue exploring."
   },
   {
     "name": "View all ten original images and download one PNG",
     "viewport": "desktop",
-    "covers": ["ten-image campaign gallery", "full original image viewer", "gallery previous and next", "individual PNG download", "dialog dismissal"],
+    "covers": [
+      "ten-image campaign gallery",
+      "full original image viewer",
+      "gallery previous and next",
+      "individual PNG download",
+      "dialog dismissal",
+      "complete detail photograph on desktop"
+    ],
     "description": "Verifies the campaign contains ten individual files and supports full image viewing and original download.",
-    "steps": ["Select EN", "Navigate to The campaign", "Verify ten View photo buttons are available", "Open View photo 01", "Use Next to view photo 02", "Use Previous to return to photo 01", "Activate Download original PNG", "Close the photo dialog"],
-    "expected": "The counter advances and returns correctly, a valid original PNG downloads, and closing returns to the campaign gallery."
+    "steps": [
+      "Select EN",
+      "Scroll to A closer look and verify the full detail photograph, including the SOVA name and CLOSER TO THE MUSIC. text, is visible without cropping",
+      "Navigate to The campaign",
+      "Verify ten View photo buttons are available",
+      "Open View photo 01",
+      "Use Next to view photo 02",
+      "Use Previous to return to photo 01",
+      "Activate Download original PNG",
+      "Close the photo dialog"
+    ],
+    "expected": "The counter advances and returns correctly, a valid original PNG downloads, and closing returns to the campaign gallery. The detail photograph retains its original portrait proportions and its full text is readable."
   },
   {
     "name": "Use mobile navigation and retain Spanish preference",
     "viewport": "mobile",
-    "covers": ["responsive mobile navigation", "language switching", "language persistence", "translated product flow", "FAQ expansion", "design inquiry link"],
+    "covers": [
+      "responsive mobile navigation",
+      "language switching",
+      "language persistence",
+      "translated product flow",
+      "FAQ expansion",
+      "design inquiry link",
+      "uncropped mobile detail photograph"
+    ],
     "description": "Verifies mobile controls work and Spanish text remains after refresh.",
-    "steps": ["Select ES", "Open Menú", "Select La colección", "Open the Marfil product and close it", "Refresh the page", "Open Menú and select La campaña", "Scroll to Bueno saberlo", "Expand ¿Puedo comprar los audífonos?", "Inspect the Consultar sobre este diseño link"],
-    "expected": "Navigation closes after selection, Spanish is retained after refresh, the product dialog fits the phone, FAQ explains the demo, and the inquiry link points to https://thelaunchera.com/. There is no horizontal page overflow."
+    "steps": [
+      "Select ES",
+      "Open Men\u00fa",
+      "Select La colecci\u00f3n",
+      "Open the Marfil product and close it",
+      "Refresh the page",
+      "Scroll to the detail photograph and verify the complete original, including SOVA and CLOSER TO THE MUSIC., is visible without cut-off letters",
+      "Open Men\u00fa and select La campa\u00f1a",
+      "Scroll to Bueno saberlo",
+      "Expand \u00bfPuedo comprar los aud\u00edfonos?",
+      "Inspect the Consultar sobre este dise\u00f1o link"
+    ],
+    "expected": "Navigation closes after selection, Spanish is retained after refresh, the product dialog fits the phone, FAQ explains the demo, and the inquiry link points to https://thelaunchera.com/. There is no horizontal page overflow. The detail photograph fits the phone width at its natural portrait proportions, with no clipping of its printed headline."
   },
   {
     "name": "Keep the empty bag and concept boundary clear",
     "viewport": "mobile",
-    "covers": ["empty bag guardrail", "no live checkout", "fictional brand disclosure", "bag close and continue"],
+    "covers": [
+      "empty bag guardrail",
+      "no live checkout",
+      "fictional brand disclosure",
+      "bag close and continue"
+    ],
     "description": "Verifies the demo never presents an empty selection as an order or payment.",
-    "steps": ["Select EN", "Open Demo bag", "If the bag contains items, remove each listed item", "Inspect the empty state", "Use Continue exploring", "Read the footer demo note"],
+    "steps": [
+      "Select EN",
+      "Open Demo bag",
+      "If the bag contains items, remove each listed item",
+      "Inspect the empty state",
+      "Use Continue exploring",
+      "Read the footer demo note"
+    ],
     "expected": "The empty bag shows a clear empty message and no payment or order action. Continue exploring returns to the collection. The footer identifies a fictional brand demo with no orders or payments."
   }
 ]

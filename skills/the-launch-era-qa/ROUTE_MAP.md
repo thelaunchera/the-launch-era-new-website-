@@ -1027,3 +1027,10 @@ On `/lead-private-preview.html` sample only, `tle-demo-enhancements-v12.js` owns
 - Golden Grid (9 original PNGs) and La Vie in Pink (10) migrate from existing AppDeploy demos, preserving their existing bilingual interfaces and simulated interactions. Each uses relative assets for its subdirectory.
 - Brand Board Studio in `demo-booking-landing-` branch `brand-board-studio` receives twelve unique brands, a scrollable desktop sidebar and phone drawer, with existing local edits retained. Studio finished-demo cards link to canonical URLs, with photos/prompts/steps/Drive together; SOVA supersedes the old pending kit without deleting it.
 - Validation: all three demo builds, Brand Board build and catalog hydration tests. Static route/recovery/client guards and deployed browser checks must pass before completion.
+
+
+## 2026-11-04 — SOVA detail campaign photo framing (routes unchanged)
+- Owner/source: SOVA demo only, `demo-source/sova/src/styles.css`; rebuilt `public/demos/sova/`. Canonical URL remains `https://thelaunchera.com/demos/sova/`; existing AppDeploy URL `https://sova-headphones-9lsmj0.v2.appdeploy.ai/` receives the same fix.
+- Detail photo `resources/06-campaign.png` now uses 100% width and its natural portrait height. Remove forced landscape frames, 175% scaling and translated positioning; the complete SOVA / CLOSER TO THE MUSIC. artwork stays visible on mobile and desktop.
+- All ten original PNGs, navigation, dialogs, downloads, demo bag and language behavior remain unchanged. Existing photo-viewer and mobile workflow checks now cover the complete detail image.
+- Verification: SOVA production build, 757/757 static links, auth recovery and all 21 client-release checks pass. AppDeploy reports ready without frontend/network errors; live browser confirms the full image at its intrinsic 1122:1402 ratio, contain sizing and no overflow. Canonical publication verification follows the GitHub Pages deployment.
