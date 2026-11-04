@@ -710,3 +710,10 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - Golden Grid (9 original PNGs) and La Vie in Pink (10) migrate from existing AppDeploy demos, preserving their existing bilingual interfaces and simulated interactions. Each uses relative assets for its subdirectory.
 - Brand Board Studio in `demo-booking-landing-` branch `brand-board-studio` receives twelve unique brands, a scrollable desktop sidebar and phone drawer, with existing local edits retained. Studio finished-demo cards link to canonical URLs, with photos/prompts/steps/Drive together; SOVA supersedes the old pending kit without deleting it.
 - Validation: all three demo builds, Brand Board build and catalog hydration tests. Static route/recovery/client guards and deployed browser checks must pass before completion.
+
+
+## 2026-11-04 — SOVA detail photo cuts off printed headline on iPhone
+- **Observed:** owner screenshot on the SOVA AppDeploy URL showed a zoomed headphone detail and only fragments of blue lettering.
+- **Verified cause:** `.detail-image img` used width 175%, height 150%, `object-fit: cover`, and `translate(-38%, -12%)` inside a landscape frame; the mobile frame forced ratio 1.15. The original portrait PNG is intact.
+- **Resolution:** remove the forced frame ratios, use intrinsic image height at 100% width, contain positioning and no transform in both AppDeploy and canonical GitHub source/static output. No image replacement, compression or resource re-upload.
+- **Evidence:** production build and required static/auth/client checks pass; AppDeploy ready with clean runtime/network logs. Live browser loads 1122x1402 original and shows the complete SOVA / CLOSER TO THE MUSIC. composition. Extended existing desktop photo and mobile navigation tests to verify no cut-off letters or horizontal overflow. Canonical live verification is pending Pages deployment.
