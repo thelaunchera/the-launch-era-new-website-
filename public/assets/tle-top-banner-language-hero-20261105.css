@@ -1,0 +1,156 @@
+/* TLE public-site header and hero polish | 2026-11-05
+   Deliberately scoped to the existing public website.
+   Does not modify demo forms, checkout or the private Command Center. */
+
+/* Active bilingual announcement; the old October promotion has ended. */
+.announcement.tle-top-banner{
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  flex-wrap:wrap!important;gap:7px 15px!important;
+  min-height:42px!important;height:auto!important;
+  padding:9px 16px!important;box-sizing:border-box;
+  background:#191919!important;color:#FAF8F3!important;
+  box-shadow:none!important;text-align:center;
+}
+.announcement.tle-top-banner > .tle-top-banner__copy {
+  display:inline!important;opacity:1!important;color:#FAF8F3!important;
+  font:600 12px/1.35 'DM Sans',Arial,sans-serif!important;
+  letter-spacing:0!important;text-transform:none;
+}
+.announcement.tle-top-banner > .tle-top-banner__link {
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:29px;padding:5px 12px;border:1px solid #F2D85B;
+  border-radius:999px;color:#191919;background:#F2D85B;
+  font:700 11px/1.2 'Prompt','DM Sans',sans-serif;
+  text-decoration:none;white-space:nowrap;letter-spacing:0;
+}
+.announcement.tle-top-banner > .tle-top-banner__link:focus-visible,
+.site-header .site-language-switch:focus-visible {outline:3px solid #4B8CB4;outline-offset:3px}
+
+/* Keep language access in the header at every viewport size, not hidden in menu. */
+.site-header .site-language-switch {
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  flex:none;min-height:42px;min-width:0;padding:7px 11px;
+  border:1px solid #A9C8D7;border-radius:999px;
+  color:#191919;background:#EDF6FC;
+  font:700 12px/1.2 'Prompt','DM Sans',Arial,sans-serif;
+  text-decoration:none;white-space:nowrap;
+  box-sizing:border-box;
+}
+.site-header .site-language-switch svg {flex:none}
+@media(min-width:1051px) {
+  .site-header .nav-inner {grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto;column-gap:12px}
+  .site-header .nav-right {gap:clamp(9px,1.1vw,18px)}
+  .site-header .nav-right a {white-space:normal;line-height:1.3}
+}
+@media(max-width:1050px) {
+  .site-header .nav-inner {
+    display:flex!important;align-items:center!important;
+    gap:10px!important;justify-content:space-between!important;
+    height:75px!important;min-height:0!important;
+    padding:0 clamp(14px,3.5vw,28px)!important;
+  }
+  .site-header .nav-inner > .desktop-nav {display:none!important}
+  .site-header .nav-inner > .wordmark {
+    display:flex!important;align-items:center;min-width:0;
+    flex:1 1 auto;margin-right:auto;text-align:left!important;
+    grid-column:auto!important;grid-row:auto!important;
+  }
+  .site-header .nav-inner > .wordmark .tle-brand-logo {
+    display:block;object-fit:contain;object-position:left center;
+    width:min(100%,180px)!important;height:auto;max-height:40px;
+  }
+  .site-header .nav-inner > .site-language-switch {flex:0 0 auto;order:2}
+  .site-header .nav-inner > .mobile-menu-trigger {
+    display:inline-flex!important;justify-content:center;align-items:center;
+    flex:0 0 43px;order:3;grid-column:auto!important;grid-row:auto!important;
+    width:43px!important;min-width:43px!important;height:43px!important;
+    padding:0!important;border-radius:12px;
+  }
+}
+@media(max-width:767px) {
+  .announcement.tle-top-banner{
+    padding:8px 12px!important;gap:6px 9px!important;
+    min-height:49px!important;
+  }
+  .announcement.tle-top-banner > .tle-top-banner__copy{
+    display:inline!important;font-size:11px!important;line-height:1.35!important;
+    max-width:235px;
+  }
+  .announcement.tle-top-banner > .tle-top-banner__link {
+    min-height:30px;padding:6px 9px;font-size:10px;
+  }
+  .site-header .nav-inner {height:67px!important;gap:7px!important;padding:0 13px!important}
+  .site-header .nav-inner > .wordmark .tle-brand-logo {width:min(100%,167px)!important;max-height:34px}
+  .site-header .site-language-switch {min-height:40px;padding:7px 9px;gap:5px;font-size:11px}
+  .site-header .site-language-switch svg {width:14px;height:14px}
+  .site-header .nav-inner > .mobile-menu-trigger {flex-basis:39px;min-width:39px!important;width:39px!important;height:42px!important}
+}
+@media(max-width:359px){
+  .site-header .nav-inner > .wordmark .tle-brand-logo {width:min(100%,138px)!important}
+  .site-header .site-language-switch {font-size:10px;padding-inline:7px}
+  .announcement.tle-top-banner > .tle-top-banner__copy{max-width:200px}
+}
+
+/* Homepage: visible small workflow adds structure without burying the product visual. */
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .tle-hero-flow{
+  display:flex;align-items:center;justify-content:flex-start;
+  flex-wrap:wrap;gap:6px;margin-top:17px;
+}
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .tle-hero-flow > span {
+  display:inline-flex;align-items:center;min-height:28px;
+  border:1px solid #BBD4E2;border-radius:999px;
+  padding:5px 11px;background:#EAF5FC;color:#284C61;
+  font:700 11px/1.25 'DM Sans',Arial,sans-serif;
+}
+.sales-home .hero-scroll .hero-scroll-frame.hero-split .tle-hero-flow > span:first-child {
+  background:#F2D85B;border-color:#E4C650;color:#191919;
+}
+@media(max-width:767px){
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split {
+    padding:13px 16px 26px!important;
+    gap:13px!important;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro{
+    padding:0!important;margin:0!important;width:100%!important;
+    max-width:100%!important;text-align:left!important;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro .eyebrow {
+    font-size:10px!important;line-height:1.4!important;letter-spacing:.04em!important;
+    max-width:100%!important;margin:0 0 10px!important;
+    text-align:left!important;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro h1 {
+    font-size:clamp(30px,8.25vw,36px)!important;line-height:1.08!important;
+    max-width:15ch!important;margin:0 0 11px!important;
+    letter-spacing:-.045em!important;text-align:left!important;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro > p:not(.demo-delivery-note) {
+    font-size:15px!important;line-height:1.48!important;
+    max-width:39ch!important;margin:0!important;
+    text-align:left!important;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .tle-hero-flow {
+    margin-top:12px!important;gap:5px!important;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .tle-hero-flow > span {
+    font-size:10px!important;min-height:27px;padding:5px 9px;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro .hero-cta-row {
+    margin:14px 0 0!important;justify-content:flex-start!important;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro .cta-button {
+    min-height:48px!important;font-size:14px!important;padding:12px 18px!important;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-intro .demo-delivery-note {
+    font-size:11px!important;line-height:1.4!important;
+    margin:7px 0 0!important;max-width:40ch!important;
+    text-align:left!important;
+  }
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .hero-split-visual {
+    margin-top:7px!important;min-height:0!important;
+    height:clamp(270px,78vw,335px)!important;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  .sales-home .hero-scroll .hero-scroll-frame.hero-split .tle-hero-flow > span {transition:none}
+}
