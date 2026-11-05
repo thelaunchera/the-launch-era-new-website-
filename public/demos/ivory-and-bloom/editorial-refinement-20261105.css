@@ -1,0 +1,16 @@
+/* Ivory & Bloom — refined editorial gallery, visible cake details and readable captions */
+.hero h1,.split-heading h2,.story h2,.inquiry h2{line-height:1.02;text-wrap:balance}
+.hero-aside p,.intro p{color:#514239}
+.hero-photo img,.hero-inset img{object-fit:cover}
+.gallery img,.cake-gallery img{object-position:center}
+@media(max-width:760px){
+ .hero{padding-top:19px;padding-bottom:56px}
+ .hero-topline,.hero-foot{font-size:9px;letter-spacing:.09em}
+ .hero-composition{margin-top:0}
+ .hero h1{font-size:clamp(47px,12vw,66px);line-height:1.02;margin-top:25px;letter-spacing:-.04em}
+ .hero-aside p{font-size:14px;line-height:1.65}
+ .intro,.cake-gallery,.wedding-moment,.story,.flavors,.inquiry,.faq{scroll-margin-top:83px}
+ .split-heading h2,.story h2{font-size:clamp(44px,11vw,62px)}
+ .cake-gallery img,.gallery img{object-fit:contain;background:var(--cream)}
+ .hero-inset{border-width:5px}
+}
