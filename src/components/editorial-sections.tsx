@@ -21,6 +21,7 @@ import webappPhone from '@/assets/webapp-phone.jpg';
 const aiAgentsPhoto = 'https://images.unsplash.com/photo-1758626099012-2904337e9c60?auto=format&fit=crop&w=1000&q=85';
 import { BookingWalkthrough, PainCards, ProductExplorer } from './home-sales';
 import { HomeCinemaVisual } from './home-cinema-visual';
+import { MatchaFreebieEntry } from './matcha-freebie-entry';
 import { MaskCursorHeadline } from './mask-cursor-headline';
 
 export function Wave({foam=false}:{foam?:boolean}) { return foam ? <div className="foam-wave" aria-hidden="true"><svg viewBox="0 0 1440 110" preserveAspectRatio="none"><path d="M0 48C50 48 52 10 112 17C151 20 166 48 207 46C255 45 261 22 301 25C348 29 346 64 399 63C448 63 459 42 505 44C548 46 555 73 605 70C675 66 686 18 750 23C805 27 807 63 858 60C911 58 918 35 969 38C1020 41 1024 70 1071 68C1116 66 1132 28 1185 33C1232 37 1237 63 1288 61C1344 59 1370 32 1440 40V110H0Z"/></svg></div> : <svg className="soft-wave" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 41C220 2 290 72 510 43C730 13 790 2 980 28C1170 56 1270 7 1440 35V70H0Z"/></svg> }
@@ -41,6 +42,7 @@ export function HomeHero() {
    <p>Your Booking Page collects customer details. Your private Command Center keeps requests and follow-ups together while you work.</p>
    <div className="tle-hero-flow" aria-label="Three simple steps"><span>Requests</span><span>Booking details</span><span>Follow-ups</span></div>
    <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/experience-cleaning/?lang=en&source=homepage">Try the Booking Demo</a></Button></div>
+   <MatchaFreebieEntry lang="en"/>
    <p className="demo-delivery-note"><a href="/booking-demo/?lang=en&source=homepage-clara">Request a More Personalized Demo</a> · Private link sent by email.</p>
    <p className="demo-delivery-note">Need to manage jobs, clients and invoices too? <a href="/cleaning-web-app/">Explore the Cleaning App</a> — a separate product.</p>
  </div>
