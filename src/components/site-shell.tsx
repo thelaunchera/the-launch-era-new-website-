@@ -5,51 +5,39 @@ import { Menu, X, Moon, Sun, Globe2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export function SiteHeader() {
- const [open,setOpen] = useState(false);
+ const [open,setOpen]=useState(false);
  const path=useRouterState({select:(state)=>state.location.pathname});
- useEffect(()=>{document.documentElement.lang=(path==='/es'||path.startsWith('/es/'))?'es':'en';setOpen(false);},[path]);
  const es=path==='/es'||path.startsWith('/es/');
- const map=(en:string,sp:string)=>es?sp:en;
- const home=es?'/es':'/';
- const solutions=es?'/es#soluciones':'/solutions';
- const how=es?'/es#como-funciona':'/how-it-works';
- const booking=es?'/es/booking-lead-automation/':'/booking-lead-automation';
- const freebie=es?'/es/free-cleaning-lead-guide?utm_content=site_nav_es':'/free-cleaning-lead-guide?utm_content=site_nav';
- const help=es?'/es#contacto':'/help';
- const enToEs:Record<string,string>={
-  '/':'/es',
-  '/booking-lead-automation':'/es/booking-lead-automation/',
-  '/ai-booking-assistant':'/es/ai-booking-assistant/',
-  '/cleaning-web-app':'/es/cleaning-web-app/',
-  '/website-automation':'/es/website-automation/',
-  '/virtual-assistant':'/es/virtual-assistant/',
-  '/free-cleaning-lead-guide':'/es/free-cleaning-lead-guide',
-  '/solutions':'/es#soluciones',
-  '/how-it-works':'/es#como-funciona',
-  '/help':'/es#contacto'
- };
- const esToEn:Record<string,string>={
-  '/es':'/',
-  '/es/booking-lead-automation':'/booking-lead-automation',
-  '/es/ai-booking-assistant':'/ai-booking-assistant/',
-  '/es/ai-booking-assistant/':'/ai-booking-assistant/',
-  '/es/booking-lead-automation/':'/booking-lead-automation',
-  '/es/cleaning-web-app':'/cleaning-web-app',
-  '/es/cleaning-web-app/':'/cleaning-web-app',
-  '/es/website-automation':'/website-automation',
-  '/es/website-automation/':'/website-automation',
-  '/es/virtual-assistant':'/virtual-assistant',
-  '/es/virtual-assistant/':'/virtual-assistant',
-  '/es/free-cleaning-lead-guide':'/free-cleaning-lead-guide',
-  '/es/free-cleaning-lead-guide/':'/free-cleaning-lead-guide'
- };
- const switchHref=es?(esToEn[path]||'/'):(enToEs[path]||'/es');
- const offerPage=path==='/'||path==='/es'||path==='/es/'||path==='/booking-lead-automation'||path==='/booking-lead-automation/'||path==='/es/booking-lead-automation'||path==='/es/booking-lead-automation/';
- return <><div className={offerPage?'announcement announcement-offer tle-top-banner':'announcement announcement-info tle-top-banner'}><span className="tle-top-banner__copy">{es?'Reservas y seguimientos organizados, incluso mientras trabajas.':'Your bookings and follow-ups, organized while you work.'}</span><a className="tle-top-banner__link" href={es?'/experience-cleaning/?lang=es&source=top-banner':'/experience-cleaning/?lang=en&source=top-banner'}>{es?'Ver el demo':'See the demo'}</a></div><header className="site-header"><div className="nav-inner"><nav className="desktop-nav" aria-label={map('Main navigation','Navegación principal')}><a href={solutions}>{map('Solutions','Soluciones')}</a><a href={how}>{map('How It Works','Cómo funciona')}</a></nav><a href={home} className="wordmark" onClick={()=>setOpen(false)} aria-label="The Launch Era"><img className="tle-brand-logo" src="/assets/brand/tle-wordmark.svg" alt="The Launch Era" width="178" height="36" /></a><nav className="desktop-nav nav-right" aria-label={map('More navigation','Más navegación')}><a href={freebie}>{map('Free Lead Tracker','Lead Tracker Gratis')}</a><a href={booking}>Booking Automation + Command Center</a><a href={es?"/es/ai-booking-assistant/":"/ai-booking-assistant/"}>{map("AI Assistants","Asistentes IA")}</a><a href={help}>{map('Support','Ayuda')}</a></nav><a href={switchHref} className="site-language-switch" lang={es?'en':'es'} hrefLang={es?'en':'es'} aria-label={es?'Switch website to English':'Cambiar el sitio a español'}><Globe2 size={17} aria-hidden="true"/><span>{es?'English':'Español'}</span></a><Button variant="ghost" size="icon" className="mobile-menu-trigger" aria-label={open?map('Close navigation','Cerrar navegación'):map('Open navigation','Abrir navegación')} aria-expanded={open} onClick={()=>setOpen(!open)}>{open?<X/>:<Menu/>}</Button></div>{open&&<nav className="mobile-nav" aria-label={map('Mobile navigation','Navegación móvil')}><a href={solutions} onClick={()=>setOpen(false)}>{map('Solutions','Soluciones')}</a><a href={how} onClick={()=>setOpen(false)}>{map('How It Works','Cómo funciona')}</a><a href={freebie} onClick={()=>setOpen(false)}>{map('Free Lead Tracker','Lead Tracker Gratis')}</a><a href={booking} onClick={()=>setOpen(false)}>Booking Automation + Command Center</a><a href={es?"/es/ai-booking-assistant/":"/ai-booking-assistant/"} onClick={()=>setOpen(false)}>{map("AI Assistants","Asistentes IA")}</a><a href={help} onClick={()=>setOpen(false)}>{map('Support','Ayuda')}</a><a href={switchHref} onClick={()=>setOpen(false)}>{es?'English':'Español'}</a></nav>}</header></>;
+ const canonical=es?'/es/website-for-your-business/':'/website-for-your-business';
+ const packages=canonical+'#paquetes';
+ const how=canonical+'#proceso';
+ const faq=canonical+'#preguntas';
+ const alternate=es?'/website-for-your-business':'/es/website-for-your-business/';
+ const isWebsite=path==='/'||path==='/es'||path==='/es/'||path.startsWith('/website-for-your-business')||path.startsWith('/es/website-for-your-business')||path==='/solutions';
+ useEffect(()=>{document.documentElement.lang=es?'es':'en';setOpen(false);},[path,es]);
+ if(isWebsite)return <header className="tle-website-top">
+   <a href={es?'/es':'/'} className="tle-website-logo" aria-label="The Launch Era"><img src="/assets/brand/tle-wordmark.svg" alt="The Launch Era" width="166" height="35"/></a>
+   <nav className="tle-website-nav" aria-label={es?'Navegación principal':'Main navigation'}>
+    <a href={es?'/es':'/'}>{es?'Inicio':'Home'}</a>
+    <a href={packages}>{es?'Paquetes':'Packages'}</a>
+    <a href={how}>{es?'Cómo funciona':'How it works'}</a>
+    <a href={faq}>FAQs</a>
+   </nav>
+   <a href={alternate} className="tle-website-language" lang={es?'en':'es'} hrefLang={es?'en':'es'}>{es?'English':'Español'} <Globe2 size={15}/></a>
+ </header>;
+ const link=es?'/es/website-for-your-business/':'/website-for-your-business';
+ return <><header className="site-header"><div className="nav-inner">
+  <nav className="desktop-nav" aria-label={es?'Navegación':'Navigation'}><a href={link}>{es?'Website para tu negocio':'Website for your business'}</a><a href="/help">{es?'Contacto':'Contact'}</a></nav>
+  <a href={es?'/es':'/'} className="wordmark" aria-label="The Launch Era"><img className="tle-brand-logo" src="/assets/brand/tle-wordmark.svg" alt="The Launch Era" width="178" height="36"/></a>
+  <nav className="desktop-nav nav-right"><a href={link+'#paquetes'}>{es?'Paquetes':'Packages'}</a></nav>
+  <a href={alternate} className="site-language-switch" aria-label={es?'Switch to English':'Cambiar a español'}><Globe2 size={17}/><span>{es?'English':'Español'}</span></a>
+  <Button variant="ghost" size="icon" className="mobile-menu-trigger" aria-label={open?'Close':'Menu'} aria-expanded={open} onClick={()=>setOpen(!open)}>{open?<X/>:<Menu/>}</Button>
+ </div>{open&&<nav className="mobile-nav"><a href={link} onClick={()=>setOpen(false)}>{es?'Website para tu negocio':'Website for your business'}</a><a href="/help" onClick={()=>setOpen(false)}>{es?'Contacto':'Contact'}</a><a href={alternate} onClick={()=>setOpen(false)}>{es?'English':'Español'}</a></nav>}</header></>;
 }
 export function SiteFooter() {
  const path=useRouterState({select:(state)=>state.location.pathname});
  const es=path==='/es'||path.startsWith('/es/');
+ const isWebsite=path==='/'||path==='/es'||path==='/es/'||path.startsWith('/website-for-your-business')||path.startsWith('/es/website-for-your-business')||path==='/solutions';
  const footerRef=useRef<HTMLElement|null>(null);
  const [dark,setDark]=useState(false);
  const [ready,setReady]=useState(false);
@@ -88,9 +76,10 @@ export function SiteFooter() {
   }else setDark(next);
  }
 
- return <footer ref={footerRef} className={'site-footer tle-footer-theme'+(dark?' tle-footer-dark':'')+(ready?' tle-footer-ready':'')}><span className="tle-footer-dark-layer" aria-hidden="true"/><div className="container"><div className="footer-top"><div className="footer-brand"><a className="wordmark" href={es?'/es':'/'} aria-label="The Launch Era"><img className="tle-brand-logo" src="/assets/brand/tle-wordmark.svg" alt="The Launch Era" width="184" height="37" loading="lazy" /></a><p>{es?'Menos trabajo administrativo. Más espacio para crecer.':'A little less admin. A lot more possibility.'}</p><div className="footer-contact" aria-label={es?'Contacto':'Contact'}><span className="footer-contact-label">{es?'¿TIENES UNA PREGUNTA?':'QUESTIONS? WE’RE HERE TO HELP.'}</span><a href={es?'/es#contacto':'/help'}>{es?'Abrir formulario de contacto':'Open contact form'}</a><p>{es?'Cuéntanos qué necesitas. Te responderemos por correo.':'Tell us what you need. We’ll reply by email.'}</p></div></div><nav className="footer-links" aria-label={es?'Navegación del pie de página':'Footer navigation'}><a href={es?'/es#soluciones':'/solutions'}>{es?'Soluciones':'Solutions'}</a><a href={es?'/es#como-funciona':'/how-it-works'}>{es?'Cómo funciona':'How It Works'}</a><a href={es?'/es#contacto':'/help'}>{es?'Contacto':'Contact'}</a><a href={es?'/es/privacy.html':'/privacy.html'}>{es?'Privacidad':'Privacy'}</a><a href={es?'/es/terms.html':'/terms.html'}>{es?'Términos':'Terms'}</a><a href={es?'/es/refunds.html':'/refunds.html'}>{es?'Reembolsos':'Refunds'}</a><a href={es?'/es/cookies.html':'/cookies.html'}>Cookies</a><a href={es?'/es/privacy-choices.html':'/privacy-choices.html'}>{es?'Tus datos':'Your data'}</a><button type="button" className="privacy-settings" data-privacy-settings>{es?'Ajustes de cookies':'Cookie settings'}</button></nav><section className="tle-newsletter" aria-label={es?'Boletín por correo':'Email newsletter'}>
+ if(isWebsite)return null;
+ return <footer ref={footerRef} className={'site-footer tle-footer-theme'+(dark?' tle-footer-dark':'')+(ready?' tle-footer-ready':'')}><span className="tle-footer-dark-layer" aria-hidden="true"/><div className="container"><div className="footer-top"><div className="footer-brand"><a className="wordmark" href={es?'/es':'/'} aria-label="The Launch Era"><img className="tle-brand-logo" src="/assets/brand/tle-wordmark.svg" alt="The Launch Era" width="184" height="37" loading="lazy" /></a><p>{es?'Websites y automatizaciones a tu medida.':'Websites that work for your business.'}</p><div className="footer-contact" aria-label={es?'Contacto':'Contact'}><span className="footer-contact-label">{es?'¿TIENES UNA PREGUNTA?':'QUESTIONS? WE’RE HERE TO HELP.'}</span><a href={'/help'}>{es?'Abrir formulario de contacto':'Open contact form'}</a><p>{es?'Cuéntanos qué necesitas. Te responderemos por correo.':'Tell us what you need. We’ll reply by email.'}</p></div></div><nav className="footer-links" aria-label={es?'Navegación del pie de página':'Footer navigation'}><a href={es?'/es/website-for-your-business/':'/website-for-your-business'}>{es?'Soluciones':'Solutions'}</a><a href={es?'/es/website-for-your-business/#how-it-works':'/website-for-your-business/#how-it-works'}>{es?'Cómo funciona':'How It Works'}</a><a href={'/help'}>{es?'Contacto':'Contact'}</a><a href={es?'/es/privacy.html':'/privacy.html'}>{es?'Privacidad':'Privacy'}</a><a href={es?'/es/terms.html':'/terms.html'}>{es?'Términos':'Terms'}</a><a href={es?'/es/refunds.html':'/refunds.html'}>{es?'Reembolsos':'Refunds'}</a><a href={es?'/es/cookies.html':'/cookies.html'}>Cookies</a><a href={es?'/es/privacy-choices.html':'/privacy-choices.html'}>{es?'Tus datos':'Your data'}</a><button type="button" className="privacy-settings" data-privacy-settings>{es?'Ajustes de cookies':'Cookie settings'}</button></nav><section className="tle-newsletter" aria-label={es?'Boletín por correo':'Email newsletter'}>
   <h2 className="tle-newsletter-title">{es?'Ideas útiles para tu negocio.':'Good ideas for a smoother workday.'}</h2>
-  <p className="tle-newsletter-copy">{es?'Consejos breves de reservas y seguimiento para negocios de limpieza.':'Short tips on bookings and follow-ups for cleaning business owners.'}</p>
+  <p className="tle-newsletter-copy">{es?'Consejos breves sobre websites, clientes y automatizaciones.':'Short tips about websites, customer inquiries and automations.'}</p>
   <form className="tle-newsletter-form" data-tle-newsletter data-language={es?'es':'en'} noValidate>
     <div className="tle-newsletter-row">
       <label className="sr-only" htmlFor="tle-newsletter-email">{es?'Correo electrónico':'Email address'}</label>
@@ -105,5 +94,5 @@ export function SiteFooter() {
     <p className="tle-newsletter-error" id="tle-newsletter-error" data-newsletter-error aria-live="polite"></p>
   </form>
   <p className="tle-newsletter-consent">{es?<>Al suscribirte aceptas recibir correos ocasionales. Puedes darte de baja cuando quieras. <a href="/es/privacy.html">Privacidad</a>.</>:<>By subscribing, you agree to occasional emails. Unsubscribe anytime. <a href="/privacy.html">Privacy</a>.</>}</p>
-</section></div><div className="footer-bottom"><span>© 2026 THE LAUNCH ERA. {es?'Todos los derechos reservados.':'All rights reserved.'}</span><span>{es?'Creado para negocios de limpieza en EE. UU.':'Thoughtfully built for U.S. cleaning businesses.'}<small style={{display:"block",marginTop:6}}>Powered by <a href="https://thelaunchera.com/" style={{color:"inherit",textDecoration:"underline",textUnderlineOffset:3}}>The Launch Era</a></small></span><div className="tle-footer-theme-control"><span className="tle-footer-theme-label">{es?'Apariencia':'Appearance'}</span><button className="tle-footer-toggle" type="button" role="switch" aria-checked={dark} aria-label={es?'Alternar el modo claro u oscuro del pie de página':'Toggle light or dark footer theme'} onClick={toggleFooterTheme}><span className="tle-footer-toggle-track"><span className="tle-footer-toggle-thumb"><Sun className="tle-footer-icon-sun" size={13} aria-hidden="true"/><Moon className="tle-footer-icon-moon" size={13} aria-hidden="true"/></span></span></button></div></div></div></footer>
+</section></div><div className="footer-bottom"><span>© 2026 THE LAUNCH ERA. {es?'Todos los derechos reservados.':'All rights reserved.'}</span><span>{es?'Websites y automatizaciones para cualquier negocio.':'Websites and automations for businesses across industries.'}<small style={{display:"block",marginTop:6}}>Powered by <a href="https://thelaunchera.com/" style={{color:"inherit",textDecoration:"underline",textUnderlineOffset:3}}>The Launch Era</a></small></span><div className="tle-footer-theme-control"><span className="tle-footer-theme-label">{es?'Apariencia':'Appearance'}</span><button className="tle-footer-toggle" type="button" role="switch" aria-checked={dark} aria-label={es?'Alternar el modo claro u oscuro del pie de página':'Toggle light or dark footer theme'} onClick={toggleFooterTheme}><span className="tle-footer-toggle-track"><span className="tle-footer-toggle-thumb"><Sun className="tle-footer-icon-sun" size={13} aria-hidden="true"/><Moon className="tle-footer-icon-moon" size={13} aria-hidden="true"/></span></span></button></div></div></div></footer>
 }

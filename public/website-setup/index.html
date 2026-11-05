@@ -1,0 +1,10 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Website Setup | The Launch Era</title><style>body{font:16px/1.7 system-ui,sans-serif;color:#191919;background:#FAF8F3;min-height:100vh;margin:0;display:grid;place-items:center;padding:24px}.card{max-width:590px;background:#fff;padding:36px;border:1px solid #ded8cb}a{color:#191919;font-weight:700}h1{font-size:32px}p{color:#555}</style></head><body><main class="card"><span>THE LAUNCH ERA</span><h1>Continue your website setup</h1><p>We are opening the official intake for your website package. Your payment is verified separately.</p><a id="continue" href="/intake/website/">Open the form</a></main><script>
+const q=new URLSearchParams(location.search);
+const advanced=q.get("offer")==="website-ai-crm"||q.get("package")==="website-ai-crm";
+const target=new URL(advanced?"/intake/website-ai-crm/":"/intake/website/",location.origin);
+target.searchParams.set("lang",q.get("lang")==="es"?"es":"en");
+target.searchParams.set("stage","onboarding");
+if(/^cs_(?:live|test)_[a-zA-Z0-9]+$/.test(q.get("session_id")||""))target.searchParams.set("session_id",q.get("session_id"));
+document.querySelector("#continue").href=target.pathname+target.search;
+location.replace(target.pathname+target.search);
+</script></body></html>
