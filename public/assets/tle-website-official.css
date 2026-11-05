@@ -19,3 +19,11 @@
 }
 
 html,body{margin:0;background:#FAF8F3}a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #477793;outline-offset:3px}.tle-universal .hero{isolation:isolate}.tle-universal .plan[id]{scroll-margin-top:90px}
+
+/* Recurring $8/month care price remains legible in mobile-first package 2. */
+.tle-universal .monthly-price{margin:8px 0 17px;padding:13px 15px;background:#fff2bc;color:#191919;border:1px solid #ead275;border-radius:12px;font:500 13px/1.55 'DM Sans',sans-serif}
+.tle-universal .monthly-price strong{display:block;font-size:18px;line-height:1.35;font-weight:800;letter-spacing:-.025em}
+.tle-universal .monthly-price span{display:block;margin-top:3px;font-size:12px;color:#484136}
+.tle-universal .plan-photo{object-fit:cover;image-rendering:auto}
+.tle-universal .hero>img{object-fit:cover;image-rendering:auto}
+@media(max-width:630px){.tle-universal .monthly-price{padding:13px 12px;font-size:12px}.tle-universal .monthly-price strong{font-size:17px}}
