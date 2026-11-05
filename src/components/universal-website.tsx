@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { ArrowUpRight, Check, ChevronDown, Globe2, Mail, MessageCircle, Sparkles, UsersRound, Workflow } from 'lucide-react';
+import { ArrowUpRight, Check, ChevronDown, Globe2, Mail, Sparkles, UsersRound, Workflow } from 'lucide-react';
 import './universal-website.css';
 
 type Lang='en'|'es';
@@ -87,13 +86,13 @@ export function UniversalWebsite({lang='en'}:{lang?:Lang}){
   <div className="container">
    <div className="universal-section-heading"><p className="universal-eyebrow">{t.packs}</p><h2>{t.packageHead}</h2><p>{t.packageSub}</p></div>
    <div className="universal-price-grid">
-    <article className="universal-plan">
+    <article className="universal-plan" id="website-basic">
      <div className="universal-plan-top"><span>01 / WEBSITE</span><Globe2 size={25}/></div>
      <h3>{t.basic}</h3><p>{t.basicSub}</p><div className="universal-price"><strong>$15</strong><span>USD · {t.once}</span></div>
      <ul>{[t.b1,t.b2,t.b3,t.b4].map(x=><li key={x}><Check size={16}/>{x}</li>)}</ul>
      <a className="universal-btn universal-btn-outline" href={checkout('website-basic')}>{t.buy1}<ArrowUpRight size={18}/></a>
     </article>
-    <article className="universal-plan universal-plan-feature">
+    <article className="universal-plan universal-plan-feature" id="website-ai-crm">
      <div className="universal-plan-top"><span>02 / WEBSITE + AI + CRM</span><UsersRound size={25}/></div>
      <h3>{t.advanced}</h3><p>{t.advancedSub}</p><div className="universal-price"><strong>$25</strong><span>USD · {t.once}</span></div>
      <ul>{[t.a1,t.a2,t.a3,t.a4].map(x=><li key={x}><Check size={16}/>{x}</li>)}</ul>
