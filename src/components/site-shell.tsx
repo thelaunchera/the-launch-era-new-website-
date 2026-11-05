@@ -5,27 +5,39 @@ import { Menu, X, Moon, Sun, Globe2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export function SiteHeader() {
- const [open,setOpen] = useState(false);
+ const [open,setOpen]=useState(false);
  const path=useRouterState({select:(state)=>state.location.pathname});
- useEffect(()=>{document.documentElement.lang=(path==='/es'||path.startsWith('/es/'))?'es':'en';setOpen(false);},[path]);
  const es=path==='/es'||path.startsWith('/es/');
- const home=es?'/es':'/';
- const landing=es?'/es/website-for-your-business/':'/website-for-your-business';
- const packages=landing+'#packages';
- const how=landing+'#how-it-works';
- const contact='/help';
- const switchHref=es?(path.startsWith('/es/website-for-your-business')?'/website-for-your-business':'/'):(path.startsWith('/website-for-your-business')?'/es/website-for-your-business/':'/es');
- return <><div className="announcement announcement-info tle-top-banner"><span className="tle-top-banner__copy">{es?'Websites y automatizaciones para cualquier negocio.':'Websites and automations for every kind of business.'}</span><a className="tle-top-banner__link" href={packages}>{es?'Ver dos paquetes':'See two packages'}</a></div><header className="site-header"><div className="nav-inner">
-  <nav className="desktop-nav" aria-label={es?'Navegación principal':'Main navigation'}><a href={packages}>{es?'Paquetes':'Packages'}</a><a href={how}>{es?'Cómo funciona':'How it works'}</a></nav>
-  <a href={home} className="wordmark" onClick={()=>setOpen(false)} aria-label="The Launch Era"><img className="tle-brand-logo" src="/assets/brand/tle-wordmark.svg" alt="The Launch Era" width="178" height="36"/></a>
-  <nav className="desktop-nav nav-right" aria-label={es?'Más navegación':'More navigation'}><a href={contact}>{es?'Contacto':'Contact'}</a><a href={landing}>{es?'Website para tu negocio':'Website for your business'}</a></nav>
-  <a href={switchHref} className="site-language-switch" lang={es?'en':'es'} hrefLang={es?'en':'es'} aria-label={es?'Switch website to English':'Cambiar el sitio a español'}><Globe2 size={17} aria-hidden="true"/><span>{es?'English':'Español'}</span></a>
-  <Button variant="ghost" size="icon" className="mobile-menu-trigger" aria-label={open?(es?'Cerrar menú':'Close menu'):(es?'Abrir menú':'Open menu')} aria-expanded={open} onClick={()=>setOpen(!open)}>{open?<X/>:<Menu/>}</Button>
- </div>{open&&<nav className="mobile-nav" aria-label={es?'Menú móvil':'Mobile navigation'}><a href={packages} onClick={()=>setOpen(false)}>{es?'Paquetes':'Packages'}</a><a href={how} onClick={()=>setOpen(false)}>{es?'Cómo funciona':'How it works'}</a><a href={contact} onClick={()=>setOpen(false)}>{es?'Contacto':'Contact'}</a><a href={switchHref} onClick={()=>setOpen(false)}>{es?'English':'Español'}</a></nav>}</header></>;
+ const canonical=es?'/es/website-for-your-business/':'/website-for-your-business';
+ const packages=canonical+'#paquetes';
+ const how=canonical+'#proceso';
+ const faq=canonical+'#preguntas';
+ const alternate=es?'/website-for-your-business':'/es/website-for-your-business/';
+ const isWebsite=path==='/'||path==='/es'||path==='/es/'||path.startsWith('/website-for-your-business')||path.startsWith('/es/website-for-your-business')||path==='/solutions';
+ useEffect(()=>{document.documentElement.lang=es?'es':'en';setOpen(false);},[path,es]);
+ if(isWebsite)return <header className="tle-website-top">
+   <a href={es?'/es':'/'} className="tle-website-logo" aria-label="The Launch Era"><img src="/assets/brand/tle-wordmark.svg" alt="The Launch Era" width="166" height="35"/></a>
+   <nav className="tle-website-nav" aria-label={es?'Navegación principal':'Main navigation'}>
+    <a href={es?'/es':'/'}>{es?'Inicio':'Home'}</a>
+    <a href={packages}>{es?'Paquetes':'Packages'}</a>
+    <a href={how}>{es?'Cómo funciona':'How it works'}</a>
+    <a href={faq}>FAQs</a>
+   </nav>
+   <a href={alternate} className="tle-website-language" lang={es?'en':'es'} hrefLang={es?'en':'es'}>{es?'English':'Español'} <Globe2 size={15}/></a>
+ </header>;
+ const link=es?'/es/website-for-your-business/':'/website-for-your-business';
+ return <><header className="site-header"><div className="nav-inner">
+  <nav className="desktop-nav" aria-label={es?'Navegación':'Navigation'}><a href={link}>{es?'Website para tu negocio':'Website for your business'}</a><a href="/help">{es?'Contacto':'Contact'}</a></nav>
+  <a href={es?'/es':'/'} className="wordmark" aria-label="The Launch Era"><img className="tle-brand-logo" src="/assets/brand/tle-wordmark.svg" alt="The Launch Era" width="178" height="36"/></a>
+  <nav className="desktop-nav nav-right"><a href={link+'#paquetes'}>{es?'Paquetes':'Packages'}</a></nav>
+  <a href={alternate} className="site-language-switch" aria-label={es?'Switch to English':'Cambiar a español'}><Globe2 size={17}/><span>{es?'English':'Español'}</span></a>
+  <Button variant="ghost" size="icon" className="mobile-menu-trigger" aria-label={open?'Close':'Menu'} aria-expanded={open} onClick={()=>setOpen(!open)}>{open?<X/>:<Menu/>}</Button>
+ </div>{open&&<nav className="mobile-nav"><a href={link} onClick={()=>setOpen(false)}>{es?'Website para tu negocio':'Website for your business'}</a><a href="/help" onClick={()=>setOpen(false)}>{es?'Contacto':'Contact'}</a><a href={alternate} onClick={()=>setOpen(false)}>{es?'English':'Español'}</a></nav>}</header></>;
 }
 export function SiteFooter() {
  const path=useRouterState({select:(state)=>state.location.pathname});
  const es=path==='/es'||path.startsWith('/es/');
+ const isWebsite=path==='/'||path==='/es'||path==='/es/'||path.startsWith('/website-for-your-business')||path.startsWith('/es/website-for-your-business')||path==='/solutions';
  const footerRef=useRef<HTMLElement|null>(null);
  const [dark,setDark]=useState(false);
  const [ready,setReady]=useState(false);
@@ -64,6 +76,7 @@ export function SiteFooter() {
   }else setDark(next);
  }
 
+ if(isWebsite)return null;
  return <footer ref={footerRef} className={'site-footer tle-footer-theme'+(dark?' tle-footer-dark':'')+(ready?' tle-footer-ready':'')}><span className="tle-footer-dark-layer" aria-hidden="true"/><div className="container"><div className="footer-top"><div className="footer-brand"><a className="wordmark" href={es?'/es':'/'} aria-label="The Launch Era"><img className="tle-brand-logo" src="/assets/brand/tle-wordmark.svg" alt="The Launch Era" width="184" height="37" loading="lazy" /></a><p>{es?'Websites y automatizaciones a tu medida.':'Websites that work for your business.'}</p><div className="footer-contact" aria-label={es?'Contacto':'Contact'}><span className="footer-contact-label">{es?'¿TIENES UNA PREGUNTA?':'QUESTIONS? WE’RE HERE TO HELP.'}</span><a href={'/help'}>{es?'Abrir formulario de contacto':'Open contact form'}</a><p>{es?'Cuéntanos qué necesitas. Te responderemos por correo.':'Tell us what you need. We’ll reply by email.'}</p></div></div><nav className="footer-links" aria-label={es?'Navegación del pie de página':'Footer navigation'}><a href={es?'/es/website-for-your-business/':'/website-for-your-business'}>{es?'Soluciones':'Solutions'}</a><a href={es?'/es/website-for-your-business/#how-it-works':'/website-for-your-business/#how-it-works'}>{es?'Cómo funciona':'How It Works'}</a><a href={'/help'}>{es?'Contacto':'Contact'}</a><a href={es?'/es/privacy.html':'/privacy.html'}>{es?'Privacidad':'Privacy'}</a><a href={es?'/es/terms.html':'/terms.html'}>{es?'Términos':'Terms'}</a><a href={es?'/es/refunds.html':'/refunds.html'}>{es?'Reembolsos':'Refunds'}</a><a href={es?'/es/cookies.html':'/cookies.html'}>Cookies</a><a href={es?'/es/privacy-choices.html':'/privacy-choices.html'}>{es?'Tus datos':'Your data'}</a><button type="button" className="privacy-settings" data-privacy-settings>{es?'Ajustes de cookies':'Cookie settings'}</button></nav><section className="tle-newsletter" aria-label={es?'Boletín por correo':'Email newsletter'}>
   <h2 className="tle-newsletter-title">{es?'Ideas útiles para tu negocio.':'Good ideas for a smoother workday.'}</h2>
   <p className="tle-newsletter-copy">{es?'Consejos breves sobre websites, clientes y automatizaciones.':'Short tips about websites, customer inquiries and automations.'}</p>
