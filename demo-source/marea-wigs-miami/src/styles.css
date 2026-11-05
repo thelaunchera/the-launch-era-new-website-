@@ -223,3 +223,22 @@ textarea { resize: vertical; }
 }
 @media (max-width: 360px) { .header { padding: 0 14px; }.header-actions { gap: 9px; }.wordmark { width: 88px; font-size: 34px; }.filters button { padding: 9px 15px; }.hero h1 { font-size: 62px; }.product-meta h3 { font-size: 13px; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* Marea | visual-first mobile entry / accessible type | 2026-11-05 */
+.hero h1,.section-heading h2,.state-copy h2{text-wrap:balance}
+.hero-lead,.section-lead{color:#524d47}
+.product-photo img,.editorial-card img{object-position:center center}
+@media(max-width:760px){
+ .hero-copy{padding:24px 24px 17px}
+ .hero h1{font-size:clamp(56px,14.3vw,72px);line-height:.98;margin:14px 0 16px}
+ .hero-lead{font-size:14px;line-height:1.56;max-width:330px;margin-bottom:18px}
+ .hero-link{margin-top:12px}
+ .hero-visual{aspect-ratio:1/.99}
+ .hero-visual>img{object-position:center 21%}
+ .hero-stamp{height:70px;width:70px;top:13px;right:13px;font-size:10px}
+ .section{padding:55px 20px}
+ .section-heading{margin-bottom:23px}
+ .section-lead{font-size:13px;line-height:1.68;margin-top:13px}
+ .product-meta h3{line-height:1.25}
+ .editorial-card img{object-fit:contain}
+}
