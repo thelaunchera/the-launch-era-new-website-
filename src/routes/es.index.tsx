@@ -100,6 +100,7 @@ function SpanishHome(){const [active,setActive]=useState(0);const [heroLoaded,se
    <div className="eyebrow">BOOKING PAGE + COMMAND CENTER · PARA NEGOCIOS DE LIMPIEZA</div>
    <h1 className="tle-hero-heading-shine">Estás limpiando. Y te escriben para reservar.</h1>
    <p>Tu Booking Page recibe los datos del cliente. Tu Command Center organiza solicitudes y seguimientos mientras trabajas.</p>
+   <div className="tle-hero-flow" aria-label="Tres pasos sencillos"><span>Solicitudes</span><span>Datos de reserva</span><span>Seguimientos</span></div>
    <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/experience-cleaning/?lang=es&source=homepage">Prueba el demo de reservas</a></Button></div>
    <p className="demo-delivery-note"><a href="/booking-demo/?lang=es&source=homepage-clara">Solicitar una demo personalizada</a> · Enlace privado enviado por correo.</p>
    <p className="demo-delivery-note">¿También necesitas organizar trabajos, clientes y facturas? <a href="/es/cleaning-web-app/">Conoce la Cleaning App</a> — se ofrece por separado.</p>
