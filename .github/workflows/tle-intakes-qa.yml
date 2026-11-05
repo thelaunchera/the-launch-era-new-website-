@@ -1,0 +1,23 @@
+name: TLE Website Intakes — Studio-only QA
+on:
+  push:
+    paths:
+      - 'public/intake/**'
+      - 'public/assets/tle-website-intake.*'
+      - 'scripts/qa-private-website-intake.mjs'
+      - '.github/workflows/tle-intakes-qa.yml'
+  pull_request:
+    paths:
+      - 'public/intake/**'
+      - 'public/assets/tle-website-intake.*'
+      - 'scripts/qa-private-website-intake.mjs'
+      - '.github/workflows/tle-intakes-qa.yml'
+jobs:
+  intake-private-routing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/qa-private-website-intake.mjs
