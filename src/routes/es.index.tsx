@@ -26,6 +26,7 @@ import { MaskCursorHeadline } from '@/components/mask-cursor-headline';
 import { HomeMotionInterlude } from '@/components/home-motion-interlude';
 import { PrimaryBookingOffer } from '@/components/primary-booking-offer';
 import { ContentLabReferral } from '@/components/content-lab-referral';
+import { MatchaFreebieEntry } from '@/components/matcha-freebie-entry';
 import { ServiceFAQ } from '@/components/service-faq';
 import { SmartWelcomeBundle } from '@/components/smart-welcome-bundle';
 export const Route=createFileRoute('/es/')({head:()=>({meta:[{title:'THE LAUNCH ERA — Tu cliente está listo para reservar.'},{name:'description',content:'Organiza solicitudes, cotizaciones y seguimientos con una Booking Page personalizada y un Command Center privado para tu negocio de limpieza.'},{property:'og:title',content:'The Launch Era — Solicitudes de limpieza organizadas.'},{property:'og:description',content:'Booking Page y Command Center personalizados para organizar cotizaciones, reservas y seguimientos.'},{property:'og:type',content:'website'},{name:'twitter:card',content:'summary_large_image'}],links:[{rel:'preload',as:'image',href:cleaner},{rel:'canonical',href:'https://thelaunchera.com/es'},{rel:'alternate',hrefLang:'en-US',href:'https://thelaunchera.com/'},{rel:'alternate',hrefLang:'es-US',href:'https://thelaunchera.com/es'},{rel:'alternate',hrefLang:'x-default',href:'https://thelaunchera.com/'}]}),component:SpanishHome});
@@ -102,6 +103,7 @@ function SpanishHome(){const [active,setActive]=useState(0);const [heroLoaded,se
    <p>Tu Booking Page recibe los datos del cliente. Tu Command Center organiza solicitudes y seguimientos mientras trabajas.</p>
    <div className="tle-hero-flow" aria-label="Tres pasos sencillos"><span>Solicitudes</span><span>Datos de reserva</span><span>Seguimientos</span></div>
    <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/experience-cleaning/?lang=es&source=homepage">Prueba el demo de reservas</a></Button></div>
+   <MatchaFreebieEntry lang="es"/>
    <p className="demo-delivery-note"><a href="/booking-demo/?lang=es&source=homepage-clara">Solicitar una demo personalizada</a> · Enlace privado enviado por correo.</p>
    <p className="demo-delivery-note">¿También necesitas organizar trabajos, clientes y facturas? <a href="/es/cleaning-web-app/">Conoce la Cleaning App</a> — se ofrece por separado.</p>
  </div>
