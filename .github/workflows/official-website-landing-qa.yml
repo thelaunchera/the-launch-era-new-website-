@@ -1,0 +1,25 @@
+name: Official Website Landing QA
+on:
+  push:
+    paths:
+      - 'public/website-for-your-business/**'
+      - 'public/es/website-for-your-business/**'
+      - 'public/assets/tle-website-official.css'
+      - 'public/assets/website-packages-20261105/**'
+      - 'scripts/qa-official-website-landing.mjs'
+  pull_request:
+    paths:
+      - 'public/website-for-your-business/**'
+      - 'public/es/website-for-your-business/**'
+      - 'public/assets/tle-website-official.css'
+      - 'public/assets/website-packages-20261105/**'
+      - 'scripts/qa-official-website-landing.mjs'
+jobs:
+  static-official-website:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/qa-official-website-landing.mjs
