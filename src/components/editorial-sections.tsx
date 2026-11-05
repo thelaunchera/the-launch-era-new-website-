@@ -39,6 +39,7 @@ export function HomeHero() {
    <div className="eyebrow">BOOKING PAGE + COMMAND CENTER · FOR CLEANING BUSINESSES</div>
    <h1 className="tle-hero-heading-shine">You’re cleaning. Someone wants to book.</h1>
    <p>Your Booking Page collects customer details. Your private Command Center keeps requests and follow-ups together while you work.</p>
+   <div className="tle-hero-flow" aria-label="Three simple steps"><span>Requests</span><span>Booking details</span><span>Follow-ups</span></div>
    <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/experience-cleaning/?lang=en&source=homepage">Try the Booking Demo</a></Button></div>
    <p className="demo-delivery-note"><a href="/booking-demo/?lang=en&source=homepage-clara">Request a More Personalized Demo</a> · Private link sent by email.</p>
    <p className="demo-delivery-note">Need to manage jobs, clients and invoices too? <a href="/cleaning-web-app/">Explore the Cleaning App</a> — a separate product.</p>
