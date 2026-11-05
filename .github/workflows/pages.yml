@@ -107,6 +107,16 @@ jobs:
       - name: Build website
         run: bun run build
 
+      - name: Build Brand Board Studio on The Launch Era domain
+        run: |
+          set -euo pipefail
+          test -s brand-board-studio/src/main.ts
+          cd brand-board-studio
+          bun install
+          APPDEPLOY_VITE_OUT_DIR=../.output/public/brand-board bun run build
+          test -s ../.output/public/brand-board/index.html
+          test -d ../.output/public/brand-board/assets
+
       - name: Build branded freebie PDFs
         run: |
           python -m pip install --quiet pymupdf reportlab
