@@ -2,7 +2,8 @@
  const root=document.documentElement,body=document.body,plan=body.dataset.package,advanced=plan==='website-ai-crm';
  const params=new URLSearchParams(location.search);
  let lang=params.get('lang')==='es'?'es':'en';
- const paid=params.get('stage')==='onboarding' || params.get('stage')==='paid';
+ const paid=params.get('stage')==='onboarding' && /^cs_live_[A-Za-z0-9]+$/.test(params.get('session_id')||'');
+ if(!paid){const q=new URLSearchParams({offer:plan||'website-basic',lang});location.replace('/service-checkout/?'+q.toString());return;}
  const appTopic=params.get('topic')==='app';
  const text={
  en:{
@@ -11,15 +12,15 @@
   packageScope:'A website, customer inquiry path and notifications delivered to your preferred inbox.',
   packageScopeAdvanced:'A website, on-page AI assistant, lead management and an agreed follow-up workflow.',
   init:'Initial setup price · USD',reminder:'Any required domain, hosting or AI provider fees are explained before work begins.',
-  boxLabel:'YOUR BUSINESS · YOUR WEBSITE',formTitle:'Your project details',formLead:'This is an inquiry, not a purchase confirmation. We’ll review your request and contact you by email.',
-  formLeadPaid:'Please provide your setup details. Payment status is verified separately; submitting this form does not establish a paid order.',
+  boxLabel:'YOUR BUSINESS · YOUR WEBSITE',formTitle:'Your project details',formLead:'Complete your purchase intake so we can prepare your website project. Use the email address from your Stripe payment.',
+  formLeadPaid:'Your checkout reference is attached securely. Share your business details to prepare your purchased website package.',
   group1:'01 / About your business',group2:'02 / Your new website',group3:'03 / Automations and preferences',
   name:'Your name *',email:'Contact email *',phone:'Phone (optional)',business:'Business name *',industry:'Industry *',website:'Existing website (optional)',action:'What should customers do? *',
   inbox:'Email to receive new inquiries *',goals:'What do you need your website to do? *',brand:'Brand style, colors or references (optional)',
-  automation:'What would you like automated?',ai:'What questions should the AI assistant answer?',consent:'I agree to be contacted about this inquiry and have read the',
-  privacy:'Privacy Policy',send:'Send my website inquiry',sending:'Sending securely…',
-  security:'Please do not include passwords, payment card details or verification codes. Sending this form does not create a paid order.',
-  doneTitle:'Your inquiry is in!',doneBody:'Thank you — your details have been received in our private Studio. We’ll review your request and respond to your contact email; this is not a payment confirmation.',
+  automation:'What would you like automated?',ai:'What questions should the AI assistant answer?',consent:'I agree to be contacted about my purchased website project and have read the',
+  privacy:'Privacy Policy',send:'Submit my website setup',sending:'Sending securely…',
+  security:'Use the email from your purchase. Do not enter passwords, payment card information or verification codes here.',
+  doneTitle:'Your website setup is received!',doneBody:'Your purchase details have been saved in our private Studio and connected to your production project in Command Center. We’ll review your requirements before starting work.',
   again:'See the packages',failed:'We could not receive your request right now. Your details have not been confirmed as sent; please try again.',
   other:'Something else',contact:'Contact request',quote:'Request a quote',appointment:'Appointment request',purchase:'Purchase / order',industryPlace:'e.g., beauty salon, food business, consulting…',
   goalsPlace:'Your services, who your customers are, and the next step you want people to take…',autoPlace:'e.g., email notifications, lead reminders, follow-up after an inquiry…',aiPlace:'Frequently asked questions, opening hours, services, policies, and when to refer to you…',
@@ -32,15 +33,15 @@
   packageScope:'Website, formulario de solicitudes y avisos al correo que tú elijas.',
   packageScopeAdvanced:'Website, asistente IA en la página, organización de leads y un flujo acordado de seguimiento.',
   init:'Precio de configuración inicial · USD',reminder:'Te informamos antes de comenzar si necesitas dominio, hosting o herramientas de IA de pago.',
-  boxLabel:'TU NEGOCIO · TU WEBSITE',formTitle:'Detalles de tu proyecto',formLead:'Esto es una consulta, no confirma una compra. Revisaremos tus datos y te responderemos por correo.',
-  formLeadPaid:'Comparte los datos para preparar tu website. El pago se verifica por separado; este formulario no confirma una compra pagada.',
+  boxLabel:'TU NEGOCIO · TU WEBSITE',formTitle:'Detalles de tu proyecto',formLead:'Completa el intake de tu compra para preparar tu website. Usa el mismo correo de tu pago en Stripe.',
+  formLeadPaid:'Tu referencia de compra va adjunta de forma segura. Comparte los detalles del negocio para preparar tu website.',
   group1:'01 / Sobre tu negocio',group2:'02 / Tu nuevo website',group3:'03 / Automatizaciones y preferencias',
   name:'Tu nombre *',email:'Correo de contacto *',phone:'Teléfono (opcional)',business:'Nombre del negocio *',industry:'Industria *',website:'Website actual (opcional)',action:'¿Qué deben hacer tus clientes? *',
   inbox:'Correo que recibirá las solicitudes *',goals:'¿Qué necesitas que haga tu website? *',brand:'Colores, estilo y referencias (opcional)',
-  automation:'¿Qué te gustaría automatizar?',ai:'¿Qué preguntas debe responder el asistente IA?',consent:'Acepto que me contacten para responder esta consulta y he leído la',
-  privacy:'Política de privacidad',send:'Enviar solicitud de website',sending:'Enviando de forma segura…',
-  security:'No incluyas contraseñas, tarjetas ni códigos de verificación. Este formulario no crea una compra pagada.',
-  doneTitle:'¡Recibimos tu consulta!',doneBody:'Gracias. Tus datos llegaron a nuestro Studio privado. Revisaremos tu solicitud y responderemos al correo de contacto; esto no confirma ningún pago.',
+  automation:'¿Qué te gustaría automatizar?',ai:'¿Qué preguntas debe responder el asistente IA?',consent:'Acepto que me contacten sobre mi proyecto de website y he leído la',
+  privacy:'Política de privacidad',send:'Enviar datos de mi website',sending:'Enviando de forma segura…',
+  security:'Usa el correo de tu compra. No incluyas contraseñas, tarjetas ni códigos de verificación aquí.',
+  doneTitle:'¡Recibimos los datos de tu website!',doneBody:'Guardamos tu intake de compra en el Studio privado y lo conectamos con el proyecto en Command Center. Revisaremos los detalles antes de comenzar el trabajo.',
   again:'Ver los paquetes',failed:'No pudimos confirmar el envío. Inténtalo de nuevo; no damos tu solicitud por recibida.',
   other:'Otra cosa',contact:'Solicitud de contacto',quote:'Pedir cotización',appointment:'Solicitar cita',purchase:'Compra o pedido',industryPlace:'Ej. salón de belleza, restaurante, consultoría…',
   goalsPlace:'Qué ofreces, a quién ayudas y qué quieres que haga el visitante…',autoPlace:'Ej. avisos por correo, recordatorios, seguimiento después de una consulta…',aiPlace:'Preguntas frecuentes, servicios, horarios y cuándo pasarte la conversación…',
@@ -75,12 +76,12 @@
  form.addEventListener('submit',async e=>{
   e.preventDefault();if(submit.disabled||!form.reportValidity())return;
   const fd=new FormData(form);submit.disabled=true;submit.textContent=text[lang].sending;feedback.hidden=true;
-  const payload={submission_id:submissionId,elapsed_ms:Date.now()-begin,website_check:String(fd.get('website_check')||''),package_slug:plan,kind:paid?'intake':'inquiry',
+  const payload={submission_id:submissionId,elapsed_ms:Date.now()-begin,website_check:String(fd.get('website_check')||''),package_slug:plan,kind:'intake',
    name:String(fd.get('name')||''),email:String(fd.get('email')||''),phone:String(fd.get('phone')||''),business_name:String(fd.get('business_name')||''),
    industry:String(fd.get('industry')||''),existing_website:String(fd.get('existing_website')||''),preferred_email:String(fd.get('preferred_email')||''),
    customer_action:String(fd.get('customer_action')||''),goals:String(fd.get('goals')||''),brand_notes:String(fd.get('brand_notes')||''),
    automation_goals:String(fd.get('automation_goals')||''),ai_brief:advanced?String(fd.get('ai_brief')||''):'',language:lang,contact_consent:fd.get('consent')==='yes',
-   checkout_reference:paid?String(params.get('session_id')||''):'',source:paid?'checkout':'landing'};
+   checkout_reference:paid?String(params.get('session_id')||''):'',source:'checkout'};
   if(appTopic)payload.goals=text[lang].appInterest+'\n'+payload.goals;
   try{
    const r=await fetch('https://fhrvuhikrybobidxpvnh.supabase.co/functions/v1/tle-studio-website-intake',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
