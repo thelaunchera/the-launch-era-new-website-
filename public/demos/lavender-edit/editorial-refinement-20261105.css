@@ -1,0 +1,29 @@
+/* Lavender Edit — high-end serif masthead, stronger copy, visual-first iPhone */
+.hero{background:linear-gradient(135deg,#faf7f6 0%,#f0e5ef 100%)}
+.hero h1{font-family:var(--serif);font-size:clamp(75px,7.65vw,126px);font-weight:400;line-height:.99;letter-spacing:-.065em;text-wrap:balance}
+.hero h1 em{font-style:normal;color:#815d87}
+.hero p{color:#534558;font-size:15px;line-height:1.72}
+.hero-art img{object-position:center 46%;filter:saturate(.98) contrast(1.04)}
+.intro p,.story-copy p,.gift-copy p,.edit-intro{color:#5e5262}
+.intro h2,.story-copy h2,.gift-copy h2,.edit h2{line-height:1.04;text-wrap:balance}
+.visual-pair img,.story-photo img,.gift-photo img,.look-grid img{object-position:center}
+@media(max-width:720px){
+ .hero{min-height:unset}
+ .hero-copy{padding:36px 24px 28px!important}
+ .hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(65px,15vw,81px);line-height:1.02;margin:20px 0 14px;letter-spacing:-.062em}
+ .hero h1 em{font-style:normal;color:#80568a}
+ .hero p{font-size:14px;line-height:1.58;margin-bottom:20px}
+ .hero-art{aspect-ratio:1/1.11}
+ .hero-art img{object-fit:cover;object-position:center 42%}
+ .hero-number{padding:8px 10px;font-size:8px}
+ .intro{padding:55px 22px 51px}
+ .intro h2{font-size:clamp(45px,11vw,66px)}
+ .story{padding:61px 22px;gap:30px}
+ .gift{padding:58px 22px;gap:28px}
+ .edit{padding:60px 17px 65px}
+ .look-grid figure:nth-child(2){margin-top:27px}
+ .closer{padding:66px 24px}
+ .story-copy h2,.gift-copy h2{font-size:clamp(51px,11vw,70px)}
+ .btn{font-size:10px;min-height:46px;padding:14px 19px}
+}
+@media(max-width:365px){.hero h1{font-size:61px}}
