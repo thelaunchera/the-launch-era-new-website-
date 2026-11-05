@@ -1,0 +1,24 @@
+/* Golden Grid | editorial rhythm + original-photo framing | 2026-11-05 */
+html{scroll-padding-top:82px}
+.hero-copy{max-width:840px}
+.hero h1{letter-spacing:-.037em;text-wrap:balance}
+.section-heading h2,.closing h2{line-height:1.04;text-wrap:balance}
+.image-wrap img,.gallery img,.story-art img{object-position:center center}
+.image-wrap img{object-fit:contain;background:var(--blue)}
+.section-note{color:#50342b}
+@media(max-width:760px){
+ .hero{min-height:unset}
+ .hero-copy{padding:25px 6% 18px}
+ .hero h1{font-size:clamp(48px,12vw,62px);margin:10px 0 13px;line-height:1.02}
+ .hero .lead{font-size:14px;line-height:1.65;margin:4px 0 17px}
+ .hero-art{aspect-ratio:1/1.03;min-height:0}
+ .hero-art img{object-fit:cover;object-position:center 52%}
+ .section{padding:53px 5%}
+ .section-heading{margin-bottom:23px}
+ .section h2{font-size:clamp(39px,10.6vw,49px)}
+ .products{gap:25px}
+ .story-copy{padding:35px 6% 43px}
+ .gallery{gap:9px}
+ .closing{padding:50px 20px}
+}
+@media(max-width:375px){.hero h1{font-size:47px}}
