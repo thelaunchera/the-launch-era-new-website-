@@ -1,0 +1,24 @@
+/* Havana 19 — typography, contrast and photographic staging, November 2026 */
+.hero h1{letter-spacing:-.035em;text-wrap:balance;text-shadow:0 2px 28px #160909a6}
+.hero h1 em{color:#f0ceac;text-shadow:0 2px 22px #160909ad}
+.hero p.sub{color:#fff0df;font-size:clamp(14px,1.1vw,16px);line-height:1.75;text-shadow:0 1px 14px #160909aa}
+.hero .eyebrow{color:#fff0df;text-shadow:0 1px 10px #160909b3}
+.story-copy p:not(.chapter){color:#4c3c33}
+.section-head,.chapter{color:#795237}
+.section h2,.banner h2,.reserve h2{line-height:1.04;text-wrap:balance}
+.story-photo img,.gallery-grid img,.dish-grid img{object-position:center}
+@media(max-width:700px){
+ .hero{min-height:590px;height:calc(100svh - 99px);max-height:820px}
+ .hero:before{background:linear-gradient(90deg,#0b0606bf,#0b060688 60%,#0b06063b),linear-gradient(0deg,#110b0b55,transparent 55%)}
+ .hero-content{left:6%;right:6%;top:51%;transform:translateY(-47%)}
+ .hero h1{font-size:clamp(54px,12.6vw,73px);line-height:.97;margin:23px 0 18px}
+ .hero p.sub{font-size:14px;line-height:1.72}
+ .hero-cta{margin-top:25px;gap:13px}
+ .hero-index{font-size:8px;letter-spacing:.06em;bottom:18px}
+ .section{padding:60px 6%}
+ .story h2,.kitchen h2,.gallery h2,.reserve h2{font-size:clamp(52px,12vw,70px);margin:18px 0}
+ .story-copy p:not(.chapter){font-size:14px;line-height:1.78}
+ .dish-grid article img{object-fit:contain;background:#e8d5c1}
+ .gallery-grid{grid-auto-rows:180px}
+ .form-card{padding:21px 18px}
+}
