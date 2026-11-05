@@ -1,67 +1,31 @@
-<!doctype html>
-<html lang="en">
-<head><script src="/assets/privacy-controls.js?v=20261026-1" data-site="tle"></script>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow">
-<title>Opening secure checkout — The Launch Era</title>
-<style>
-:root{--ivory:#FBFAF6;--ink:#242424;--yellow:#F6E9A8;--blue:#CFE5F7;--purple:#6E5AA8;--muted:#6f6a63;--line:#d8d6d0}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:var(--ivory);color:var(--ink);font-family:Arial,sans-serif}.card{width:min(520px,100%);background:#fff;border:1px solid var(--line);padding:34px;border-radius:24px;box-shadow:0 20px 55px rgba(0,0,0,.07)}.brand{font-size:12px;font-weight:800;letter-spacing:.08em}.kicker{display:inline-flex;margin:24px 0 10px;padding:7px 10px;border-radius:999px;background:var(--yellow);font-size:11px;font-weight:800}h1{font-size:34px;line-height:1.05;margin:0 0 12px}p{color:var(--muted);line-height:1.6}.dots{display:flex;gap:6px;margin:22px 0}.dots span{width:8px;height:8px;border-radius:50%;background:var(--purple);animation:pulse 1s infinite ease-in-out}.dots span:nth-child(2){animation-delay:.15s}.dots span:nth-child(3){animation-delay:.3s}@keyframes pulse{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}button{width:100%;border:0;border-radius:999px;background:var(--ink);color:#fff;padding:14px 18px;font-weight:800;font-size:15px;cursor:pointer}[hidden]{display:none!important}button[hidden]{display:none}.small{font-size:12px;color:var(--muted);margin-top:14px}
-
-/* TLE visual system — 2026-10-05 */
-body{background:linear-gradient(180deg,#FFFFFF 0%,#F5FAFC 100%)}
-</style>
-<link rel="stylesheet" href="/assets/tle-mobile.css?v=20261009"></head>
-<body data-tle-page="checkout"><main class="card"><div class="brand">THE LAUNCH ERA</div><div class="kicker" id="kicker">SECURE CHECKOUT</div><h1 id="title">Taking you to secure checkout…</h1><p id="copy">Your payment page is opening.</p><div class="dots" id="dots"><span></span><span></span><span></span></div><button id="retry" hidden>Try again</button><div class="small" id="status">After payment, complete your setup form. We review your details first and email you when your estimated 48-hour production period starts. Check your Inbox, Promotions and Spam.</div></main>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#FAF8F3"><meta name="referrer" content="no-referrer"><title>Secure Website Checkout | The Launch Era</title><script src="/assets/privacy-controls.js?v=20261026-1" data-site="tle"></script>
+<style>:root{--ink:#191919;--ivory:#FAF8F3;--yellow:#F2D85B}*{box-sizing:border-box}body{margin:0;background:var(--ivory);color:var(--ink);font:15px/1.6 system-ui,sans-serif;min-height:100dvh;display:grid;place-items:center;padding:20px}.card{background:#fff;border:1px solid #dcd7cf;border-radius:14px;padding:clamp(23px,6vw,42px);width:min(520px,100%)}.brand{font:800 13px system-ui;letter-spacing:.13em}.tag{background:var(--yellow);border-radius:999px;display:inline-block;padding:7px 14px;margin:24px 0 15px;font-size:11px;font-weight:800}h1{font:500 clamp(31px,6vw,44px)/1.1 Georgia,serif;letter-spacing:-.04em;margin:0 0 14px}p{color:#555;font-size:14px}.price{font:500 42px Georgia,serif;margin:22px 0}.price small{font:600 12px system-ui;color:#555}button,a.back{background:var(--ink);border:0;color:white;border-radius:28px;padding:13px 21px;min-height:49px;font:700 13px system-ui;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.back{margin-top:15px;background:transparent!important;color:var(--ink)!important;border:1px solid #ccc!important}.links{display:grid;margin-top:16px}.message{color:#4c4c4c;font-size:13px}.error{color:#a13325}.fine{font-size:12px;color:#666;line-height:1.65}[hidden]{display:none!important}:focus-visible{outline:3px solid #376a91;outline-offset:4px}</style></head><body><main class="card">
+<div class="brand">THE LAUNCH ERA</div><span class="tag" id="tag">WEBSITE PACKAGES</span><h1 id="title">Opening secure checkout…</h1><p id="text">You are being connected to Stripe to pay securely.</p><div class="price" id="price"></div><p id="message" role="status" class="message" aria-live="polite"></p>
+<div class="links"><button type="button" id="retry" hidden>Try again</button><a id="back" class="back" href="/website-for-your-business/">Back to packages</a></div><p class="fine" id="fine">The package covers the agreed initial configuration. Any external platform costs are explained before setup. Your intake opens after successful payment.</p></main>
 <script>
-const endpoint="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/create-tle-service-checkout";
-const params=new URLSearchParams(location.search);
-const rawOffer=(params.get("offer")||"").toLowerCase();
-const offer=rawOffer;
-let es=params.get("lang")==="es";
-let trafficSource=(params.get("source")||"").trim().toLowerCase();try{trafficSource=trafficSource||sessionStorage.getItem("tleTrafficSource")||"direct";sessionStorage.setItem("tleTrafficSource",trafficSource)}catch{trafficSource=trafficSource||"direct"}
-
-const bookingSaleEnd=new Date("2026-11-01T04:00:00Z").getTime();
-const bookingPrice="$15";
-const allowed={"booking-flow":"Current offer · "+"Booking Automation + Command Center · "+bookingPrice,"website-automation":"Website Automation · $35",va:"Virtual Assistant · $25/month","ai-booking":"AI Booking Assistant · $25 setup, then $14/month after the first 30 days from delivery","ai-followup":"AI Follow-Up Assistant · $19 setup, then $7/month after the first 30 days from delivery","ai-business":"AI Business Assistant (both) · $39 setup, then $19/month after the first 30 days from delivery"};
-const allowedEs={"booking-flow":"Oferta actual · "+"Booking Automation + Command Center · "+bookingPrice,"website-automation":"Website Automation · $35",va:"Virtual Assistant · $25/mes","ai-booking":"AI Booking Assistant · $25 de instalación y luego $14/mes después de los primeros 30 días desde la entrega","ai-followup":"AI Follow-Up Assistant · $19 de instalación y luego $7/mes después de los primeros 30 días desde la entrega","ai-business":"AI Business Assistant (ambos) · $39 de instalación y luego $19/mes después de los primeros 30 días desde la entrega"};
-const kicker=document.getElementById("kicker"),title=document.getElementById("title"),copy=document.getElementById("copy"),dots=document.getElementById("dots"),retry=document.getElementById("retry"),status=document.getElementById("status");
-document.documentElement.lang=es?"es":"en";document.title=es?"Abriendo pago seguro — The Launch Era":"Opening secure checkout — The Launch Era";
-if(!allowed[offer]){
- dots.hidden=true;
- title.textContent=es?"Este enlace de pago no es válido.":"This checkout link is invalid.";
- copy.textContent=es?"Vuelve a The Launch Era y elige tu servicio otra vez.":"Go back to The Launch Era and choose your service again.";
- status.textContent="";
-
-}else{
- kicker.textContent=(es?allowedEs[offer]:allowed[offer]);
- title.textContent=es?"Abriendo tu pago seguro…":"Taking you to secure checkout…";
- copy.textContent=es?"Te llevamos a la página de pago seguro.":"We’re opening your payment page now.";
- status.textContent=es?"Después del pago, completa el formulario. Primero revisaremos tus datos y te enviaremos otro correo cuando comience la producción estimada de 48 horas. Revisa tu bandeja, Promociones y Spam.":"Once we review and approve your completed setup, we will email you when the estimated 48-hour production period begins. Check Promotions or Spam if our email is missing.";
+const q=new URLSearchParams(location.search),offer=(q.get('offer')||'').toLowerCase(),es=q.get('lang')==='es';
+const packages={'website-basic':{cents:1500,en:'Website for Your Business',es:'Website para tu negocio'},'website-ai-crm':{cents:3300,en:'Website + AI Assistant + Automated CRM',es:'Website + Asistente IA + CRM automatizado'}};
+const $=id=>document.getElementById(id),plan=packages[offer];document.documentElement.lang=es?'es':'en';
+$('terms-link').href=es?'/es/terms.html':'/terms.html';
+$('back').textContent=es?'Volver a los paquetes':'Back to packages';$('back').href=es?'/es/website-for-your-business/':'/website-for-your-business';
+$('retry').textContent=es?'Volver a intentar':'Try again';
+$('fine').textContent=es?'El paquete incluye la configuración inicial acordada. Cualquier costo externo se explica antes de empezar. El primer cobro del paquete IA + CRM es $33 y después $8 mensuales. El intake se abre después del pago confirmado.':'The package includes the agreed initial setup. Any external costs are explained before starting. The AI + CRM package charges $33 first, then $8 monthly. Your intake opens after confirmed payment.';
+function fail(message){$('message').textContent=message;$('message').className='message error';$('retry').hidden=!plan;$('title').textContent=es?'No pudimos abrir el pago':'Checkout is unavailable';}
+if(!plan){fail(es?'Este paquete ya no está disponible. Consulta nuestras dos opciones actuales.':'This package is no longer for sale. Please choose one of the two current packages.');$('retry').hidden=true;}
+else{
+ $('tag').textContent=es?'PAGO SEGURO · WEBSITE':'SECURE PAYMENT · WEBSITE';
+ $('price').innerHTML=offer==='website-ai-crm' ? (es ? '$25 <small>iniciales + $8/mes · primer cobro $33 USD</small>' : '$25 <small>setup + $8/month · first charge $33 USD</small>') : '$15 <small>USD · configuración inicial / setup</small>';
+ $('title').textContent=plan[es?'es':'en'];
+ $('text').textContent=es?'Abriendo el pago seguro con Stripe…':'Opening secure Stripe checkout…';
+ const run=async()=>{
+   $('retry').hidden=true;$('message').textContent=es?'Conectando con Stripe…':'Connecting to Stripe…';$('message').className='message';
+   try{
+    const result=await fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/create-tle-service-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({offer,language:es?'es':'en'})});
+    const v=await result.json().catch(()=>({}));
+    if(!result.ok||!v.url||!/^https:\/\/checkout\.stripe\.com\//.test(v.url)||v.amount_total!==plan.cents||!/^cs_live_[a-zA-Z0-9]+$/.test(v.session_id||''))throw Error('Checkout validation failed');
+    location.replace(v.url);
+   }catch{fail(es?'No se ha realizado ningún cobro. Inténtalo otra vez o contáctanos.':'No charge was made here. Please try again or contact us.');}
+ };
+ $('retry').onclick=run;void run();
 }
-async function openCheckout(){
- if(!allowed[offer])return;
- try{sessionStorage.setItem("tleCheckoutLanguage",es?"es":"en")}catch{}
- document.documentElement.lang=es?"es":"en";
- retry.hidden=true;dots.hidden=false;
- title.textContent=es?"Abriendo tu pago seguro…":"Taking you to secure checkout…";
- copy.textContent=es?"Te llevamos a la página de pago seguro.":"We’re taking you to the secure payment page.";
- status.textContent=es?"Revisaremos tus datos y el formulario después de confirmar el pago. Recibirás un correo cuando aprobemos el inicio de la producción estimada de 48 horas. Revisa tu correo después de pagar.":"After payment and our review of your completed setup, we will email you when your estimated 48-hour production period begins. Check your inbox after paying.";
- try{
-  const res=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({offer,language:es?"es":"en",source:trafficSource})});
-  const data=await res.json().catch(()=>({}));
-  if(!res.ok||!data.url||!/^https:\/\/(checkout\.stripe\.com|buy\.stripe\.com)\//.test(data.url))throw new Error("checkout");
-  location.replace(data.url);
- }catch(e){
-  dots.hidden=true;
-  title.textContent=es?"No pudimos abrir el pago.":"We couldn't open checkout.";
-  copy.textContent=es?"No se hizo ningún cobro. Puedes intentarlo de nuevo.":"No charge was made. You can try again.";
-  status.textContent=es?"Puedes intentarlo de nuevo.":"You can try again.";
-  retry.textContent=es?"Intentar de nuevo":"Try again";
-  retry.hidden=false;
- }
-}
-retry.onclick=openCheckout;
-openCheckout();
-
-</script><footer id="public-policy-links" style="position:relative;padding:20px;background:#faf8f3;color:#191919;text-align:center;font:14px/1.5 system-ui,sans-serif"><nav aria-label="Policies"><a href="/privacy.html" style="display:inline-block;min-height:44px;padding:10px">Privacy</a> <a href="/terms.html" style="display:inline-block;min-height:44px;padding:10px">Terms</a> <a href="/refunds.html" style="display:inline-block;min-height:44px;padding:10px">Refunds</a> <a href="/cookies.html" style="display:inline-block;min-height:44px;padding:10px">Cookies</a> <a href="/privacy-choices.html" style="display:inline-block;min-height:44px;padding:10px">Your data</a></nav></footer></body></html>
+</script></body></html>
