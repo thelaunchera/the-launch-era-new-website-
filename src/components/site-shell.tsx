@@ -1,38 +1,8 @@
 import { Link, useRouterState } from '@tanstack/react-router';
 import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
-import { Menu, X, Timer, Moon, Sun, Globe2 } from 'lucide-react';
+import { Menu, X, Moon, Sun, Globe2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-
-function SaleCountdown({es=false}:{es?:boolean}) {
- const offerEnd = Date.parse('2026-11-01T04:00:00Z');
- const getRemaining = () => Math.max(0, offerEnd - Date.now());
- const [remaining,setRemaining] = useState<number|null>(null);
- useEffect(() => {
-  const update = () => setRemaining(getRemaining());
-  update();
-  const timer = window.setInterval(update, 1000);
-  return () => window.clearInterval(timer);
- }, []);
- if (remaining === null) return <span className="sale-countdown sale-loading" aria-label={es?'Oferta Fall Refresh':'Fall Refresh Offer'}><span className="sale-clock-label"><Timer size={17} aria-hidden="true"/><span className="sale-offer-copy"><b>THE FALL REFRESH OFFER</b><small>{es?'HASTA EL 31 OCT':'ENDS OCT 31'}</small></span></span></span>;
- const days = Math.floor(remaining / 86400000);
- const hours = Math.floor((remaining % 86400000) / 3600000);
- const minutes = Math.floor((remaining % 3600000) / 60000);
- const seconds = Math.floor((remaining % 60000) / 1000);
- if (remaining <= 0) return null;
- return <span className="sale-countdown" role="timer" aria-label={es?`The Fall Refresh Offer termina el 31 de octubre. Quedan ${days} días, ${hours} horas, ${minutes} minutos y ${seconds} segundos`:`The Fall Refresh Offer ends October 31. ${days} days, ${hours} hours, ${minutes} minutes and ${seconds} seconds remain`}>
-  <span className="sale-clock-label"><Timer size={17} aria-hidden="true"/><span className="sale-offer-copy"><b>THE FALL REFRESH OFFER</b><small>{es?'HASTA EL 31 OCT':'ENDS OCT 31'}</small></span></span>
-  <span className="sale-clock-units">
-   <span className="sale-clock-unit"><strong>{String(days).padStart(2,'0')}</strong><small>{es?'DÍAS':'DAYS'}</small></span>
-   <span className="sale-clock-colon">:</span>
-   <span className="sale-clock-unit"><strong>{String(hours).padStart(2,'0')}</strong><small>HRS</small></span>
-   <span className="sale-clock-colon">:</span>
-   <span className="sale-clock-unit"><strong>{String(minutes).padStart(2,'0')}</strong><small>MIN</small></span>
-   <span className="sale-clock-colon">:</span>
-   <span className="sale-clock-unit"><strong>{String(seconds).padStart(2,'0')}</strong><small>SEC</small></span>
-  </span>
- </span>;
-}
 
 export function SiteHeader() {
  const [open,setOpen] = useState(false);
