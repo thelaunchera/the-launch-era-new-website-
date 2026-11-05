@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="index,follow"><meta name="description" content="Tell The Launch Era about your business website and automation needs. Private inquiry form for one of our two website packages.">
+<meta name="theme-color" content="#FAF8F3"><title>Website for Your Business · Intake | The Launch Era</title>
+<link rel="icon" type="image/svg+xml" href="/assets/brand/tle-mark.svg"><link rel="stylesheet" href="/assets/tle-website-intake.css">
+<link rel="canonical" href="https://thelaunchera.com/intake/website/">
+<script src="/assets/privacy-controls.js?v=20261026-1" data-site="tle"></script><script src="/assets/tle-website-intake.js" defer></script></head>
+<body data-package="website-basic"><header><a class="wordmark" href="/"><small>THE</small>LAUNCH ERA</a><nav aria-label="Page navigation"><a id="return" href="/website-for-your-business/" data-i18n="back">Back to packages</a><button id="locale" type="button" aria-label="Change language">Español</button></nav></header>
+<main class="container layout">
+ <div class="intro"><div class="eyebrow" data-i18n="start">START YOUR PROJECT</div>
+ <h1 id="intro-title">Tell us about your website.</h1>
+ <p data-i18n="lead">A few details help us understand your business and prepare the right website experience.</p>
+ <div class="price"><span id="price">$15</span> <span data-i18n="init">Initial setup price · USD</span></div>
+ <div class="mini"><strong id="package-name">Website for Your Business</strong><p id="intro-scope"></p></div>
+ <div class="mini"><p data-i18n="reminder">Any required domain, hosting or AI provider fees are explained before work begins.</p></div>
+ <img class="intro-photo" src="/assets/website-packages-20261105/website-la-vie-in-pink.svg" alt="Professional boutique website on a laptop" width="780" height="470" loading="lazy">
+ </div>
+ <div class="panel" id="form-panel"><span class="panel-label" data-i18n="boxLabel">YOUR BUSINESS · YOUR WEBSITE</span><h2 data-i18n="formTitle">Your project details</h2>
+ <p class="panel-lead" id="form-lead">This is an inquiry, not a purchase confirmation. We will review your request.</p>
+ <form id="intake-form" novalidate="false">
+  <label class="hidden-trap" aria-hidden="true">Website verification <input name="website_check" autocomplete="off" tabindex="-1"></label>
+  <fieldset class="group"><legend data-i18n="group1">01 / About your business</legend><div class="fields">
+    <label class="field"><span data-i18n="name">Your name *</span><input name="name" type="text" required minlength="2" maxlength="120" autocomplete="name"></label>
+    <label class="field"><span data-i18n="email">Contact email *</span><input name="email" type="email" required maxlength="254" autocomplete="email"></label>
+    <label class="field"><span data-i18n="business">Business name *</span><input name="business_name" required minlength="2" maxlength="150" autocomplete="organization"></label>
+    <label class="field"><span data-i18n="industry">Industry *</span><input name="industry" required minlength="2" maxlength="120" data-placeholder="industryPlace" placeholder="e.g., beauty, food, retail, services"></label>
+    <label class="field"><span data-i18n="phone">Phone (optional)</span><input name="phone" type="tel" maxlength="45" autocomplete="tel"></label>
+    <label class="field"><span data-i18n="website">Existing website (optional)</span><input name="existing_website" type="url" maxlength="300" placeholder="https://"></label>
+  </div></fieldset><div class="divider"></div>
+  <fieldset class="group"><legend data-i18n="group2">02 / Your new website</legend><div class="fields">
+    <label class="field full"><span data-i18n="action">What should customers do? *</span><select name="customer_action" required>
+      <option value="contact">Contact request</option><option value="quote">Request a quote</option><option value="appointment">Appointment request</option><option value="purchase">Purchase / order</option><option value="other">Something else</option>
+    </select></label>
+    <label class="field full"><span data-i18n="inbox">Email to receive new inquiries *</span><input name="preferred_email" type="email" required maxlength="254" autocomplete="off"></label>
+    <label class="field full"><span data-i18n="goals">What do you need your website to do? *</span><textarea id="goals" name="goals" required minlength="12" maxlength="3500" data-placeholder="goalsPlace"></textarea></label>
+    <label class="field full"><span data-i18n="brand">Brand style, colors or references (optional)</span><textarea name="brand_notes" maxlength="2000" rows="3"></textarea></label>
+  </div></fieldset><div class="divider"></div>
+  <fieldset class="group"><legend data-i18n="group3">03 / Automations and preferences</legend><div class="fields">
+    <label class="field full"><span data-i18n="automation">What would you like automated?</span><textarea name="automation_goals" maxlength="2500" data-placeholder="autoPlace" rows="3"></textarea></label>
+    <div id="advanced-fields" class="full" hidden><label class="field"><span data-i18n="ai">What questions should the AI assistant answer?</span><textarea name="ai_brief" maxlength="2500" data-placeholder="aiPlace" rows="3"></textarea></label></div>
+  </div></fieldset><div class="divider"></div>
+  <label class="consent"><input type="checkbox" name="consent" value="yes" required><span><span data-i18n="consent">I agree to be contacted about this inquiry and have read the</span> <a href="/privacy.html" id="privacy" target="_blank" rel="noopener noreferrer" data-i18n="privacy">Privacy Policy</a>.</span></label>
+  <button class="cta" type="submit" id="send" data-i18n="send">Send my website inquiry</button>
+  <p id="feedback" role="alert" hidden></p>
+  <p class="secondary-note" data-i18n="security">Please do not include passwords or payment details. Sending this form does not create a paid order.</p>
+ </form>
+ <div class="success" id="complete" hidden role="status"><h2 id="complete-title">We received your inquiry!</h2><p id="complete-message"></p><a href="/website-for-your-business/" data-i18n="again">See the packages</a></div>
+ </div>
+</main><footer>Powered by The Launch Era</footer>
+</body></html>
