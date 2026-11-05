@@ -104,6 +104,6 @@ export function UniversalWebsite({lang='en'}:{lang?:Lang}){
  </section>
  <section className="universal-process" id="how-it-works"><div className="container"><p className="universal-eyebrow">{t.how}</p><h2>{t.stepsTitle}</h2><div className="universal-steps">{[[t.s1,t.s1d],[t.s2,t.s2d],[t.s3,t.s3d]].map(([title,body],i)=><article key={title}><span>0{i+1}</span><h3>{title}</h3><p>{body}</p></article>)}</div></div></section>
  <section className="universal-faq"><div className="container"><p className="universal-eyebrow">FAQ</p><h2>{t.questions}</h2><div>{faq.map(([q,a])=><details key={q}><summary>{q}<ChevronDown size={19}/></summary><p>{a}</p></details>)}</div></div></section>
- <section className="universal-bottom"><div className="container"><h2>{t.footer}</h2><a className="universal-btn universal-btn-dark" href="#packages">{t.view}<ArrowUpRight size={18}/></a><a className="universal-bottom-terms" href="/website-for-your-business/terms/">{t.legal}</a></div></section>
+ <section className="universal-bottom"><div className="container"><h2>{t.footer}</h2><a className="universal-btn universal-btn-dark" href="#packages">{t.view}<ArrowUpRight size={18}/></a><a className="universal-bottom-terms" href={es?"/es/terms.html":"/terms.html"}>{t.legal}</a></div></section>
  </main>
 }
