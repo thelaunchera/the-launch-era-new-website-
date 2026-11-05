@@ -81,15 +81,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Cleaning Business Automation & Booking | The Launch Era" },
-      { name: "description", content: "Booking automation, cleaning business management tools, AI assistants and follow-up systems for cleaning business owners across the U.S." },
+      { title: "Business Websites & Automations | The Launch Era" },
+      { name: "description", content: "Professional websites and business automations for any industry. Website setup $15, or website with AI assistant, CRM and lead follow-up $25." },
       { name: "robots", content: "index, follow, max-image-preview:large" },
       { property: "og:site_name", content: "The Launch Era" },
       { property: "og:title", content: "THE LAUNCH ERA" },
-      { property: "og:description", content: "Booking automation, AI assistants and cleaning business management tools for owners in the U.S." },
+      { property: "og:description", content: "Websites and customizable automations for businesses in any industry." },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "https://raw.githubusercontent.com/thelaunchera/the-launch-era-new-website-/main/src/assets/cleaner-home.jpg" },
-      { property: "og:image:alt", content: "The Launch Era systems for cleaning business owners" },
+      { property: "og:image", content: "https://thelaunchera.com/assets/website-packages-20261105/hero-jaramillo.svg" },
+      { property: "og:image:alt", content: "A professional website and automated lead management with The Launch Era" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:image", content: "https://raw.githubusercontent.com/thelaunchera/the-launch-era-new-website-/main/src/assets/cleaner-home.jpg" },
     ],
@@ -170,11 +170,15 @@ function RootComponent() {
     window.dispatchEvent(new Event('tle:privacy-mount'));
     const privacy = (window as Window & {TLEPrivacy?: {mount:()=>void}}).TLEPrivacy;
     privacy?.mount();
-    const sources = [
-      '/assets/jessy-site.js?v=20261101-compact-home-v11',
-      '/assets/tle-purchase-proof.js?v=20261016-mini3',
-      '/assets/tle-footer-newsletter.js?v=20261016-ios3',
-    ];
+    const current=window.location.pathname.replace(/\/$/,'')||'/';
+    const universal=current==='/'||current==='/es'||current==='/solutions'||current==='/website-for-your-business'||current==='/es/website-for-your-business';
+    const sources=universal
+      ? ['/assets/jessie-universal.js?v=20261105-current-packages']
+      : [
+        '/assets/jessy-site.js?v=20261101-compact-home-v11',
+        '/assets/tle-purchase-proof.js?v=20261016-mini3',
+        '/assets/tle-footer-newsletter.js?v=20261016-ios3',
+      ];
     const added: HTMLScriptElement[] = [];
     const timer = window.setTimeout(() => {
       for (const src of sources) {
@@ -195,6 +199,7 @@ function RootComponent() {
   // Load DOM-enhancing services motion only after React has hydrated the SSR
   // homepage. Injecting a script before hydration caused React error #418.
   useEffect(() => {
+    if (['/','/es','/es/','/solutions','/website-for-your-business','/es/website-for-your-business/'].includes(window.location.pathname))return;
     let element: HTMLScriptElement | null = null;
     const timer = window.setTimeout(() => {
       element = document.createElement('script');
@@ -209,7 +214,7 @@ function RootComponent() {
   // Public pricing enhancements mount only after React hydration; this must
   // never run inside the checkout, demo or private Command Center.
   useEffect(() => {
-    const blockedPricingPaths=['/booking-demo/','/cleaning-app-demo/','/lead-private-preview','/command-center/','/service-checkout/'];
+    const blockedPricingPaths=['/','/es','/es/','/solutions','/website-for-your-business','/es/website-for-your-business/','/booking-demo/','/cleaning-app-demo/','/lead-private-preview','/command-center/','/service-checkout/'];
     if (blockedPricingPaths.some(path=>window.location.pathname.startsWith(path))) return;
     let script: HTMLScriptElement | null = null;
     const timer = window.setTimeout(() => {
