@@ -278,3 +278,21 @@ dialog::backdrop { background: #0c1b36b8; backdrop-filter: blur(6px); }
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
+
+/* SOVA | refined editorial hierarchy / mobile legibility | 2026-11-05 */
+.hero h1,.section h2,.design-cta h2{text-wrap:balance}
+.section-lead{color:#495365;line-height:1.75}
+.product-image img,.gallery-item img{object-position:center center}
+@media(max-width:760px){
+ .hero-copy{padding:26px 23px 8px}
+ .hero h1{font-size:clamp(50px,13vw,66px);line-height:1.02;margin-top:13px}
+ .hero-intro{font-size:13px;line-height:1.6;margin:15px 0 18px}
+ .hero-media{aspect-ratio:1.48}
+ .hero-media img{object-fit:contain;object-position:center}
+ .section{margin:49px auto}
+ .section-heading{margin-bottom:25px}
+ .section-lead{font-size:13px;margin-top:14px}
+ .product-image img{object-fit:contain}
+ .gallery-item>span{font-size:10px}
+ .feeling-copy h2{font-size:clamp(45px,12vw,55px)}
+}
