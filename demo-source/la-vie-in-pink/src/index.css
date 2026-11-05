@@ -1329,3 +1329,32 @@ h3 {
   }
 }
 
+
+/* La Vie in Pink | expressive type / photo-first iPhone | 2026-11-05 */
+.hero h1,.section-heading h2,.story-copy h2,.gallery-top h2{text-wrap:balance}
+.hero-description{color:#594941}
+.gallery-photo img,.product-image-button img{object-position:center}
+@media(max-width:790px){
+ .hero-content{min-height:unset;padding-top:36px;padding-bottom:21px}
+ .hero-bottom{margin-top:23px;padding-top:0}
+ .hero-image-wrap{min-height:340px;height:clamp(365px,90vw,500px)}
+ .hero-image{object-position:center 49%}
+ .intro{min-height:0;padding:65px 0 56px}
+ .story-copy{padding-top:38px;padding-bottom:42px}
+ .section-container{width:88%}
+}
+@media(max-width:570px){
+ .hero-content{min-height:unset;padding:34px 7% 24px}
+ .hero h1{font-size:clamp(42px,11.3vw,52px);line-height:1.12;letter-spacing:-.045em;margin:18px 0 17px}
+ .hero-description{font-size:14px;line-height:1.63;margin-bottom:18px}
+ .hero-bottom{margin-top:22px;font-size:10px}
+ .hero-image-wrap{min-height:350px;height:clamp(350px,95vw,430px)}
+ .intro{padding:55px 0 48px}
+ .section-heading h2,.gallery-top h2{font-size:clamp(36px,10vw,43px)}
+ .product-grid{gap:28px}
+ .product-meta h3{font-size:26px}
+ .gallery-photo{height:clamp(180px,51vw,225px)}
+ .gallery-tall{height:calc(clamp(180px,51vw,225px)*2 + 12px)}
+ .membership-section{padding:58px 6%}
+ .footer{padding:50px 7% 29px}
+}
