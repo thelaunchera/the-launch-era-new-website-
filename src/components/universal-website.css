@@ -11,3 +11,9 @@
 .tle-website-top a:focus-visible{outline:3px solid #5386b3;outline-offset:4px}
 @media(max-width:740px){.tle-website-top{height:66px;padding:0 16px;gap:10px}.tle-website-top .tle-website-logo{min-width:105px;width:125px}.tle-website-top .tle-website-nav{gap:10px}.tle-website-top .tle-website-nav a{font-size:11px}.tle-website-top .tle-website-nav a:first-child,.tle-website-top .tle-website-nav a:nth-child(3){display:none}.tle-website-top .tle-website-language{min-height:33px;font-size:11px;padding:7px 9px}}
 @media(max-width:370px){.tle-website-top .tle-website-nav a:nth-child(4){display:none}}
+
+/* Accessible primary CTAs for 375px phones — verified against the mobile QA gate. */
+@media(max-width:780px){
+ .tle-universal .hero .btn{font-size:16px;min-height:53px;padding:14px 25px;}
+ .tle-universal .plan .btn{font-size:15px;min-height:50px;}
+}
