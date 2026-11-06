@@ -81,3 +81,6 @@ html,body{margin:0;background:#FAF8F3}a:focus-visible,button:focus-visible,summa
     margin:0;
   }
 }
+
+/* Short inline billing disclosure inside the AI package card; no paragraph after CTA. */
+.tle-universal .billing-compact{margin:3px 0 12px;color:#4c4844;font-size:12px;line-height:1.45;font-weight:600}
