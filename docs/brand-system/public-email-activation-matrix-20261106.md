@@ -26,7 +26,7 @@ Updated 2026-11-06. Source: live Make scenario inspection and Resend template me
 ## Marketing templates not automatically sent
 The earlier editorial invitation templates for Website, Content Lab, class, podcast, freebies and portfolio are **drafts** until their specific opt-in audiences, unsubscribe link, dynamic links, and enrollment triggers are verified. Buyers must not be subscribed to unrelated offers by purchasing a product. A promo email preview is not a transactional email.
 
-Website sales email copy corrected on 2026-11-06: **$15 website one-time; advanced website $25 today plus $8/month AI service after 30 days**. This is not a newsletter subscription and should not start an unwanted campaign.
+Website sales email copy corrected on 2026-11-06: **$15 website one-time; advanced website $25 initial setup; its first month of AI + CRM service starts on verified completed-project delivery, with $8/month billing beginning after that first month**. This is not a newsletter subscription and should not start an unwanted campaign.
 
 ## Verified test sends
 - Twelve initial branded previews sent to the owner's existing test inbox; Resend showed all **delivered**, 2026-11-06.
@@ -51,3 +51,13 @@ Website sales email copy corrected on 2026-11-06: **$15 website one-time; advanc
 - Do not modify price, subscription status, Stripe metadata, unverified recipients or customer access.
 - No bulk newsletters or unsolicited campaigns.
 - Distinct creative demo brands stay distinct visually under the same parent-company quality standards.
+
+## Website delivery billing migration — 2026-11-06
+- **New Stripe Checkout via Make (scenario 6423594):** new advanced orders use `mode=payment`, $25 one-time setup, `customer_creation=always`, and `payment_intent_data[setup_future_usage]=off_session`. Stripe metadata `payment_model=setup_now_bill_after_delivery_month`; no subscription created at purchase.
+- **Monthly catalog:** new dedicated $8 USD/month product `prod_VZyFPaeR4fEfiX` and price `price_1UYoJ2CnlGzKRSIMEL4AfPB1` created via Make; no cleaning-only product reuse.
+- **Checkout success:** primary and Studio Supabase functions verify Stripe paid LIVE sessions and store customer ID and payment intent; buyer email sent after both project and Studio payment records are saved. The template CTA receives a dynamic direct intake URL with the verified checkout session, not the sales landing.
+- **Owner confirmation:** `https://thelaunchera.com/website-delivery-admin/` authenticates using the original company's Supabase admin role. Private Studio website inquiries link to it; only owner can mark an eligible paid, intake-complete website delivered with live HTTPS URL.
+- **Deferred recurring activation:** Supabase function `tle-website-delivery-activate` stores an immutable delivery timestamp and first service-month end (next calendar month); private Make scenario **6930362** verifies LIVE Stripe Checkout, paid setup, customer and saved off-session payment method, creates a subscription to the dedicated price with trial ending at the first month end. Idempotency key derives from Stripe session; recorded subscription prevents future repeats.
+- **Validation:** Make created a valid LIVE unpaid $25 checkout in payment mode with correct metadata; activation webhook test against this unpaid Checkout did **not** reach the subscription-creation module (two operations only). No real payment occurred and the website-project table had zero orders at the time of testing. A genuine purchase/delivery/first-payment round trip must still be observed before declaring it tested end to end.
+- **Legacy:** older website subscriptions retain their existing Stripe contracts; no rewrite/cancellation of already-active plans.
+- **GitHub QA:** `scripts/qa-website-checkout-flow.mjs` now enforces the delivery-based copy in both public landings and both intakes.
