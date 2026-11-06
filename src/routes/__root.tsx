@@ -119,6 +119,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: "/assets/tle-home-cinema-20261102.css?v=1" },
       { rel: "stylesheet", href: "/assets/tle-editorial-attention-20261103.css?v=1" },
       { rel: "stylesheet", href: "/assets/tle-top-banner-language-hero-20261105.css?v=1" },
+      { rel: "stylesheet", href: "/assets/tle-company-system-20261106.css?v=1" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Prompt:wght@400;500;600;700&display=swap" },
@@ -153,7 +154,7 @@ function RootShell({ children }: { children: ReactNode }) {
         />
         <script src="/assets/privacy-controls.js?v=20261026-1" data-site="tle" data-ga-id="G-N5BHMC432Q" data-manual-mount="true" />
       </head>
-      <body>
+      <body data-tle-company="public">
         {children}
         {/* DOM-enhancing scripts load after React hydration (RootComponent effect). */}
         <Scripts />
