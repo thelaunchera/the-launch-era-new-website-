@@ -1,266 +1,32 @@
-/* Homepage split-and-scroll hero regression checks. No booking submission or email. */
+/* 2026 official Jaramillo hero release gate.
+   The previous cleaning-business scroll cinema is archived and intentionally not on / or /es. */
 import assert from 'node:assert/strict';
-import { readFileSync, mkdirSync } from 'node:fs';
-import { createHash } from 'node:crypto';
-const read = path => readFileSync(new URL('../' + path, import.meta.url), 'utf8');
-const en = read('src/components/editorial-sections.tsx');
-const es = read('src/routes/es.index.tsx');
-const motion = read('src/components/home-motion.tsx');
-const observer = read('src/components/use-hero-wipe.ts');
-const root = read('src/routes/__root.tsx');
-const scrollCSS = read('public/assets/tle-hero-scroll.css');
-const cinemaCSS = read('public/assets/tle-home-cinema-20261102.css');
-const cinemaComponent = read('src/components/home-cinema-visual.tsx');
-const styles = read('src/styles.css');
-const heroPhoto = read('src/lib/home-hero-photo.ts');
-const homeRoute = read('src/routes/index.tsx');
-const photoBytes = readFileSync(new URL('../public/assets/hero-cleaner-lights-20261017.jpg', import.meta.url));
-assert.equal(createHash('sha256').update(photoBytes).digest('hex'),'d8f17885281acb7893bfa21270c45e946d22c8b1222b6438afd546fbaf743e6f','Original approved hero photo must stay byte-for-byte intact');
-assert(heroPhoto.includes("HOME_HERO_PHOTO = '/assets/hero-cleaner-lights-20261017.jpg'"),'Shared approved hero image missing');
-assert(homeRoute.includes('href:HOME_HERO_PHOTO'),'English homepage must preload selected image');
-const englishHero = en.split('export function HomeHero()')[1]?.split('const services =')[0] || '';
-const spanishHero = es.split('function SpanishHome()')[1]?.split('<SmartWelcomeBundle lang="es"/>')[0] || '';
-
-for (const [lang, hero, expected] of [
-  ['EN', englishHero, '/experience-cleaning/?lang=en&source=homepage'],
-  ['ES', spanishHero, '/experience-cleaning/?lang=es&source=homepage'],
-]) {
-  assert(hero.includes('className="hero-scroll"'), lang + ': scroll stage missing');
-  assert(hero.includes('hero-scroll-stage') && hero.includes('hero-scroll-frame'), lang + ': scroll frame missing');
-  assert(hero.includes('hero-scroll-stage--starfield') && hero.includes('<StarfieldAccent/>'), lang + ': full-hero starfield missing');
-  assert(!hero.includes('hero-scroll-reveal') && !hero.includes('HeroSplitWordLink'), lang + ': removed scroll hint returned');
-  assert(hero.includes('id="hero-next"'), lang + ': next-section target missing');
-  assert(hero.includes('className="hero-split-visual"'), lang + ': separate image panel missing');
-  assert(hero.includes('className="tle-hero-soft-mesh" aria-hidden="true"'), lang + ': decorative mesh absent or exposed to assistive technology');
-  assert(hero.includes('data-wipe-visible={revealed && heroLoaded}'), lang + ': image-ready reveal gate missing');
-  assert(hero.includes('src={HOME_HERO_PHOTO}'), lang + ': selected photo not installed on real hero');
-  assert(hero.includes('<h1 className="tle-hero-heading-shine">'),lang+': shine must decorate the original H1');
-  assert(!hero.match(/<h1 className="tle-hero-heading-shine">[^<]*<br\s*\/?\s*>/),lang+': do not forcibly break the heading into stacked blocks');
-
-  assert(hero.includes('width={1122} height={1402}'), lang + ': portrait hero dimensions changed');
-  assert(hero.includes('ref={heroRef}'), lang + ': IntersectionObserver hero ref missing');
-  assert.equal(hero.split('href="' + expected + '"').length - 1, 1, lang + ': duplicate or absent no-signup sample CTA');
-  assert(hero.indexOf('hero-cta-row') < hero.indexOf('hero-split-visual'), lang + ': copy must lead on desktop');
-  assert(hero.indexOf('hero-split-visual') < hero.indexOf('<HomeCinemaVisual lang='), lang+': cinematic journey must be within image');
-  assert(hero.includes('<HomeCinemaVisual lang="'+lang.toLowerCase()+'" />'),lang+': localized film missing');
+import {readFileSync,existsSync,statSync} from 'node:fs';
+const read=p=>readFileSync(p,'utf8');
+const routes=[['src/routes/index.tsx','en'],['src/routes/es.index.tsx','es']];
+const pages=[['public/website-for-your-business/index.html','en'],['public/es/website-for-your-business/index.html','es']];
+const image='public/assets/website-packages-20261105/hero-jaramillo.jpg';
+assert(existsSync(image),'User-approved original Jaramillo hero photo must exist');
+const file=readFileSync(image);
+assert(file[0]===0xff&&file[1]===0xd8&&file[2]===0xff,'Hero must be a genuine JPEG file');
+assert(statSync(image).size>150000,'Do not reduce the hero to a tiny blurry thumbnail');
+for(const [path,lang] of routes){
+ const s=read(path);
+ assert(s.includes('<OfficialHome lang="'+lang+'" />'),lang+' should render new official website');
+ assert(s.includes('hero-jaramillo.jpg'),lang+' must preload Jaramillo photo');
+ assert(!s.includes('HOME_HERO_PHOTO'),'Retired cleaning hero should not be used');
 }
-assert(observer.includes('IntersectionObserver') && observer.includes('observer.disconnect()'));
-assert(scrollCSS.includes('height: 180svh') && scrollCSS.includes('position: sticky'));
-assert(scrollCSS.includes('scale(calc(1 - .3 * var(--hero-scroll-progress, 0)))'));
-assert(scrollCSS.includes('2026 split-hero extension') && scrollCSS.includes('hero-split-visual'));
-assert(scrollCSS.includes('2026-10-16 iPad/tablet parity'), 'portrait iPad responsive override missing');
-assert(scrollCSS.includes('@keyframes tle-hero-mesh-a') && scrollCSS.includes('@keyframes tle-hero-mesh-d'), 'four independent mesh animations missing');
-assert(scrollCSS.includes('pointer-events:none') && scrollCSS.includes('prefers-reduced-motion:reduce'), 'mesh must be non-interactive and respect reduced motion');
-assert(scrollCSS.includes('radial-gradient(circle') && !scrollCSS.includes('filter:blur('), 'soft mesh must not use blur filters');
-assert(!scrollCSS.includes('.hero-scroll-stage > .tle-hero-soft-mesh'), 'gradient must not be placed behind the exterior scroll background');
-assert(styles.includes('clip-path:inset(0 0 0 100% round 20px)'));
-assert(styles.includes('clip-path:inset(0 0 0 0 round 20px)'));
-assert(styles.includes('transition:clip-path 900ms cubic-bezier(.32,.72,0,1)'));
-assert(styles.includes('@media (prefers-reduced-motion:reduce)'));
-assert(motion.includes("addEventListener('scroll', schedule, { passive: true })"));
-assert(motion.includes('requestAnimationFrame(update)'));
-assert(motion.includes('!splitHero && progress >= 0.5'), 'CTA must stay keyboard-accessible during scroll');
-assert(root.indexOf('tle-hero-scroll.css') > root.indexOf('tle-saas-ui-v1.css'), 'Scroll overrides must load after the theme');
-assert(scrollCSS.includes('tle-mobile-hero-photo-balance-20261017'),'Mobile hero composition must keep the compact-photo override');
-assert(scrollCSS.includes('tle-home-heading-horizontal-flow-20261017'),'Long-form heading mobile typography missing');
-for(const marker of ['tle-home-hero-text-shine-20261017','background-size:260% 100%','background-position:130% 0','70%,100% {background-position:-30% 0}','animation:tle-home-hero-ink-shine 3.8s linear infinite','background-position:50% 0 !important']) assert(scrollCSS.includes(marker),'Heading shine CSS missing '+marker);
-assert(root.includes('tle-hero-scroll.css?v=20261018-fullscreen-starfield1'),'New hero CSS must bypass previous iPhone cache');
-assert(scrollCSS.includes('2026-10-18: One continuous starfield') && scrollCSS.includes('height: clamp(390px, 72svh, 620px)'), 'new first-fold styling absent');
-// Approved first-party visual sequence, not fabricated customer notifications.
-assert(!englishHero.includes('hero-notice-flow') && !spanishHero.includes('hero-notice-flow'),'Old notifications returned');
-assert(cinemaComponent.includes('IntersectionObserver') && cinemaComponent.includes('chosenByVisitor.current=true'),'Manual scene controls or lazy motion missing');
-assert(cinemaComponent.includes('prefers-reduced-motion: reduce'),'Reduced-motion support missing');
-for(const marker of ['.tle-cinema-ui','data-step="1"','data-step="2"','@media(max-width:767px)']) assert(cinemaCSS.includes(marker),'Missing cinematic CSS '+marker);
-assert(root.includes('tle-home-cinema-20261102.css'),'Public cinematic stylesheet is not linked');
-
-console.log('[HERO STATIC QA PASSED] EN/ES split wipe, mobile stack, scroll shrink, intact demo CTA.');
-
-if (!process.argv.includes('--browser')) process.exit(0);
-const { chromium } = await import('playwright');
-const base = (process.env.QA_URL || 'http://127.0.0.1:4173').replace(/\/$/, '');
-const browser = await chromium.launch({ headless: true });
-const viewports = [
-  { width: 360, height: 780 }, { width: 390, height: 844 },
-  { width: 820, height: 1000 }, { width: 834, height: 1194 },
-  { width: 1024, height: 1366 }, { width: 1024, height: 768 },
-  { width: 1440, height: 768 }, { width: 1440, height: 900 },
-];
-const errors = [];
-mkdirSync('qa-screenshots', { recursive: true });
-try {
- for (const [lang, route] of [['en', '/'], ['es', '/es/']]) {
-  for (const viewport of viewports) {
-   const page = await browser.newPage({ viewport, reducedMotion: 'no-preference' });
-   page.on('pageerror', err => errors.push(lang + ' ' + viewport.width + ': ' + err.message));
-   await page.goto(base + route, { waitUntil: 'domcontentloaded', timeout: 45000 });
-   const hero = page.locator('.hero-scroll');
-   await hero.waitFor({ state: 'visible', timeout: 20000 });
-   await page.waitForFunction(() => document.querySelector('.hero-split')?.getAttribute('data-wipe-visible') === 'true', null, { timeout: 25000 });
-   // WebGL starfield adds GPU work; wait for the *actual* readable state,
-   // not an assumed 1050ms wall-clock duration under a shared CI runner.
-   await page.waitForFunction(() => {
-     const intro=document.querySelector('.hero-scroll .hero-intro');
-     const panel=document.querySelector('.hero-scroll .hero-split-visual');
-     return intro && panel && Number(getComputedStyle(intro).opacity)>.96 &&
-       !getComputedStyle(panel).clipPath.includes('100%');
-   },null,{timeout:20000});
-   const state = await page.evaluate(() => {
-    const hero = document.querySelector('.hero-scroll');
-    const frame = hero.querySelector('.hero-scroll-frame');
-    const stage = hero.querySelector('.hero-scroll-stage');
-    const panel = hero.querySelector('.hero-split-visual');
-    const photo = panel.querySelector('img');
-    const intro = hero.querySelector('.hero-intro');
-    const mesh = hero.querySelector('.tle-hero-soft-mesh');
-    const blobs = Array.from(mesh.querySelectorAll('span'));
-    const a = panel.getBoundingClientRect();
-    const b = intro.getBoundingClientRect();
-    return {
-     clipped: hero.scrollWidth > hero.clientWidth + 3,
-     clipPath: getComputedStyle(panel).clipPath,
-     imageScale: new DOMMatrixReadOnly(getComputedStyle(photo).transform).a,
-     image: {src:photo.currentSrc,loaded:photo.complete && photo.naturalWidth===1122 && photo.naturalHeight===1402,position:getComputedStyle(photo).objectPosition},
-     phoneGeometry: {
-       visual: { width:a.width,height:a.height,left:a.left,right:a.right,top:a.top },
-       screenWidth:innerWidth,
-       photoGap:a.top-stage.getBoundingClientRect().top,
-       tabs:Array.from(panel.querySelectorAll('.tle-cinema-tabs button')).map(el=>{const r=el.getBoundingClientRect();return {width:r.width,top:r.top,bottom:r.bottom,left:r.left,right:r.right,height:r.height}}),
-     },
-     introOpacity: Number(getComputedStyle(intro).opacity),
-     heading:(()=>{const h=intro.querySelector('h1'),c=getComputedStyle(h),r=h.getBoundingClientRect();return {text:h.innerText,width:r.width,left:r.left,right:r.right,height:r.height,font:parseFloat(c.fontSize),weight:c.fontWeight,lineHeight:parseFloat(c.lineHeight),lines:Math.round(r.height/parseFloat(c.lineHeight)),forcedBreaks:h.querySelectorAll('br').length,animation:c.animationName,clip:c.backgroundClip,fill:c.webkitTextFillColor}})(),
-     mesh: {
-       count:blobs.length,
-       insideHeroFrame:mesh.parentElement === frame,
-       dotsDisplay:getComputedStyle(hero.querySelector('.tle-hero-connection-backdrop')).display,
-       frameBackground:getComputedStyle(frame).backgroundImage,
-       copyShift:getComputedStyle(intro).top,
-       photoShift:getComputedStyle(panel).top,
-       display:getComputedStyle(mesh).display,
-       pointerEvents:getComputedStyle(mesh).pointerEvents,
-       zIndex:Number(getComputedStyle(mesh).zIndex),
-       photoZIndex:Number(getComputedStyle(panel).zIndex),
-       animations:blobs.map(blob=>getComputedStyle(blob).animationName)
-     },
-     cinema: {
-       present:!!panel.querySelector('.tle-cinema'),
-       controls:panel.querySelectorAll('.tle-cinema-tabs button').length,
-       imageCount:panel.querySelectorAll('.tle-cinema-ui').length,
-     },
-     panel: { top:a.top, left:a.left, width:a.width, height:a.height, bottom:a.bottom },
-     copy: { top:b.top, left:b.left, width:b.width },
-     stagePosition: getComputedStyle(stage).position,
-     framePosition: getComputedStyle(frame).position,
-     frameScale: new DOMMatrixReadOnly(getComputedStyle(frame).transform).a,
-     travel: hero.offsetHeight - innerHeight,
-     top:scrollY + hero.getBoundingClientRect().top,
-    };
-   });
-   assert.equal(await hero.locator('.hero-intro .cta-button').count(), 1, lang + ': CTA missing');
-   assert(!state.clipped, lang + ' ' + viewport.width + ': hero horizontal clipping');
-   assert(state.panel.width > 160, lang + ' ' + viewport.width + ': image panel compressed');
-   assert(state.image.loaded && state.image.src.includes('hero-cleaner-lights-20261017.jpg'),lang+' '+viewport.width+': approved photo not loaded');
-   assert(state.cinema.present && state.cinema.controls===3 && state.cinema.imageCount===2,lang+': three-step cinematic story not rendered');
-   if (viewport.width === 1440 && viewport.height === 768) {
-     assert(state.panel.bottom < viewport.height - 12, lang + ': hero photo is cut off by short desktop screen: ' + state.panel.bottom);
-   }
-   assert(!state.clipPath.includes('100%'), lang + ' ' + viewport.width + ': wipe never opened: ' + state.clipPath);
-   assert(Math.abs(state.imageScale - 1) < .04, lang + ' ' + viewport.width + ': photo still zoomed');
-   assert(state.introOpacity > .96, lang + ' ' + viewport.width + ': copy did not appear');
-   assert(state.heading.text.includes(lang==='en'?'You’re cleaning. Someone wants to book.':'Estás limpiando. Y te escriben para reservar.'),lang+': approved booking-focused headline changed');
-   assert(state.heading.animation.includes('tle-home-hero-ink-shine'),lang+' '+viewport.width+': headline shine not running');
-   assert(state.heading.clip==='text',lang+' '+viewport.width+': headline text clip missing');
-   if(viewport.width<768){
-     assert(state.heading.width>=viewport.width-38,lang+' '+viewport.width+': headline still too narrow '+JSON.stringify(state.heading));
-     assert(state.heading.forcedBreaks===0,lang+': heading should wrap naturally');
-     assert(state.heading.lines<=3,lang+' '+viewport.width+': heading still appears in stacked blocks '+JSON.stringify(state.heading));
-     assert(state.heading.font>=23 && state.heading.weight<=550,lang+': headline type remains overly heavy '+JSON.stringify(state.heading));
-     assert(state.heading.left>=-2 && state.heading.right<=viewport.width+2,lang+': headline spills off phone '+JSON.stringify(state.heading));
-   }
-   assert.equal(state.mesh.count, 4, lang + ': exactly four decorative gradients expected');
-   if (viewport.width >= 1024) {
-     assert(state.mesh.display !== 'none', lang + ': desktop mesh missing');
-     assert(state.mesh.insideHeroFrame, lang + ': gradient must stay INSIDE the hero card, not the outer scroll background');
-     assert.notEqual(state.mesh.dotsDisplay, 'none', lang + ': outer dotted/Request/Follow-up background must remain untouched');
-     assert(state.mesh.frameBackground.includes('linear-gradient') && /(227, 242, 254|233, 245, 254)/.test(state.mesh.frameBackground), lang + ': blue gradient should be visible inside hero on entry');
-     if(viewport.width > 1180){
-       assert(state.mesh.copyShift==='-72px' && state.mesh.photoShift==='-72px',lang+': desktop hero content must rise slightly together without moving the outer backdrop');
-     }
-     assert.equal(state.mesh.pointerEvents, 'none', lang + ': mesh intercepts CTA clicks');
-     assert(state.mesh.photoZIndex > state.mesh.zIndex, lang + ': photo must paint above moving gradients');
-     assert(state.mesh.animations.every(name=>name.startsWith('tle-hero-mesh-')), lang + ': desktop ambient animations not running');
-   } else {
-     assert(state.mesh.insideHeroFrame, lang + ': gradient placement must remain inside hero at all sizes');
-     assert.equal(state.mesh.display, 'none', lang + ': do not change phone/tablet composition');
-   }
-   if (viewport.width === 1440) await page.screenshot({ path:`qa-screenshots/home-scroll-${lang}-1440x${viewport.height}-mesh-initial.png`, fullPage:false });
-   if (viewport.width < 768) {
-    assert(state.panel.top > state.copy.top,lang+': text and CTA must appear before cinematic visual on mobile');
-    assert(state.phoneGeometry.visual.height >= 300,lang+': visual too short on phone');
-    assert(state.phoneGeometry.visual.width >= viewport.width-28,lang+': visual too narrow');
-    assert(state.phoneGeometry.visual.left>=-1 && state.phoneGeometry.visual.right<=viewport.width+1,lang+': visual clipped');
-    assert(state.phoneGeometry.tabs.length===3,lang+': three controls required');
-    assert(state.phoneGeometry.tabs.every(c=>c.height>=40 && c.left>=-1 && c.right<=viewport.width+1),lang+': control clipped or too small');
-    assert(state.stagePosition !== 'sticky' && state.framePosition !== 'absolute', lang + ': mobile must use natural height');
-    assert(Math.abs(state.frameScale - 1) < .04, lang + ': mobile hero cannot shrink');
-   } else {
-    if (viewport.width <= 1100 && viewport.height > viewport.width) {
-     assert(state.panel.top < state.copy.top, lang + ' ' + viewport.width + ': portrait tablet photo must be ABOVE copy');
-     assert(state.panel.width > viewport.width * .78, lang + ' ' + viewport.width + ': portrait tablet image too narrow: ' + state.panel.width);
-     assert(state.panel.height > viewport.height * .35, lang + ' ' + viewport.width + ': portrait tablet image too short: ' + state.panel.height);
-    } else {
-     assert(state.panel.left > state.copy.left, lang + ' ' + viewport.width + ': landscape/desktop photo must be on the right');
-    }
-    assert(state.stagePosition === 'sticky', lang + ': desktop sticky scroll effect removed');
-    assert(state.travel > 0.65 * viewport.height, lang + ': scroll stage too short');
-    await page.evaluate(y => { document.documentElement.style.scrollBehavior='auto'; window.scrollTo(0,y); }, state.top + state.travel);
-    await page.waitForTimeout(180);
-    const end = await hero.evaluate(el => ({
-     scale:new DOMMatrixReadOnly(getComputedStyle(el.querySelector('.hero-scroll-frame')).transform).a,
-     opacity:Number(getComputedStyle(el.querySelector('.hero-intro')).opacity),
-     inert:el.querySelector('.hero-intro').hasAttribute('inert')
-    }));
-    assert(Math.abs(end.scale - .7) < .045, lang + ' ' + viewport.width + ': expected scroll shrink to .7: ' + JSON.stringify(end));
-    assert(end.opacity > .95 && !end.inert, lang + ': visible demo CTA became inaccessible');
-   }
-   if ([390,820,1440].includes(viewport.width)) await page.screenshot({ path:`qa-screenshots/home-scroll-${lang}-${viewport.width}-final.png`, fullPage:false });
-   await page.close();
-  }
-  // Portrait tablet composition has been verified in the viewport matrix above.
-  const reduced = await browser.newPage({ viewport: { width:390, height:844 }, reducedMotion:'reduce' });
-  await reduced.goto(base + route, { waitUntil:'domcontentloaded', timeout:45000 });
-  await reduced.locator('.hero-split').waitFor({ state:'visible' });
-  const stable = await reduced.evaluate(() => {
-   const hero=document.querySelector('.hero-scroll');
-   const panel=hero.querySelector('.hero-split-visual');
-   const intro=hero.querySelector('.hero-intro');
-   return {
-    clip:getComputedStyle(panel).clipPath,
-    stage:getComputedStyle(hero.querySelector('.hero-scroll-stage')).position,
-    transform:getComputedStyle(hero.querySelector('.hero-scroll-frame')).transform,
-    opacity:Number(getComputedStyle(intro).opacity),
-    copyAbove:panel.getBoundingClientRect().top>intro.getBoundingClientRect().top,
-     cinematicStep:panel.querySelector(".tle-cinema")?.getAttribute("data-step"),
-    heading:(()=>{const c=getComputedStyle(intro.querySelector('h1'));return {animation:c.animationName,fill:c.webkitTextFillColor,position:c.backgroundPosition}})()
-   };
-  });
-  assert(stable.heading.animation==='none' && stable.heading.fill==='rgb(25, 25, 25)' && stable.heading.position.startsWith('50% 0'),lang+': reduced-motion shine not legible and frozen '+JSON.stringify(stable.heading));
-  assert(!stable.clip.includes('100%') && stable.stage !== 'sticky' && stable.transform === 'none' && stable.opacity === 1 && stable.copyAbove && stable.cinematicStep==="0",
-   lang + ': reduced motion must show finished mobile split: ' + JSON.stringify(stable));
-  await reduced.close();
-
-  // Static gradient is visible on desktop for reduced-motion preferences.
-  const reducedDesktop=await browser.newPage({ viewport:{width:1440,height:900}, reducedMotion:'reduce' });
-  await reducedDesktop.goto(base + route,{waitUntil:'domcontentloaded',timeout:45000});
-  const meshReduced=await reducedDesktop.locator('.tle-hero-soft-mesh').evaluate(node=>({
-    display:getComputedStyle(node).display,
-    pointerEvents:getComputedStyle(node).pointerEvents,
-    animations:Array.from(node.querySelectorAll('span')).map(el=>getComputedStyle(el).animationName)
-  }));
-  assert(meshReduced.display!=='none'&&meshReduced.pointerEvents==='none'&&meshReduced.animations.every(name=>name==='none'),lang+': static reduced-motion mesh must not animate or capture taps');
-  await reducedDesktop.close();
- }
- assert.deepEqual(errors, [], 'Browser console errors');
- console.log('[HERO BROWSER QA PASSED] EN/ES seven widths incl. large portrait iPad, scroll wipe, sticky tablet/desktop and static reduced-motion mobile.');
-} finally {
- await browser.close();
+for(const [path,lang] of pages){
+ const html=read(path);
+ assert(html.includes('src="/assets/website-packages-20261105/hero-jaramillo.jpg"'),lang+' first fold uses exact photo');
+ assert(html.includes('fetchpriority="high"'),'Original hero must load early');
+ assert(html.includes('class="hero-copy"'),'Hero copy must be on the actual photograph');
+ assert(html.includes('href="#paquetes"'),'Hero CTA must reach pricing');
+ assert(html.includes('id="website-basic"')&&html.includes('id="website-ai-crm"'),'Two packages must be visible');
+ assert(!html.includes('src="/assets/hero-cleaner-lights-20261017.jpg"'),'Old cleaning hero cannot return');
 }
+const css=read('public/assets/tle-website-official.css');
+assert(css.includes('.hero>img'),'Hero composition should be photo-led');
+assert(css.includes('max-width:780px'),'Mobile typography and composition styles must exist');
+assert(css.includes('prefers-reduced-motion'),'Reduced-motion behavior required');
+console.log('[TLE HERO RELEASE] Original seated Jaramillo JPEG, premium first fold and two bilingual packages verified');
