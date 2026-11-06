@@ -61,3 +61,14 @@ Website sales email copy corrected on 2026-11-06: **$15 website one-time; advanc
 - **Validation:** Make created a valid LIVE unpaid $25 checkout in payment mode with correct metadata; activation webhook test against this unpaid Checkout did **not** reach the subscription-creation module (two operations only). No real payment occurred and the website-project table had zero orders at the time of testing. A genuine purchase/delivery/first-payment round trip must still be observed before declaring it tested end to end.
 - **Legacy:** older website subscriptions retain their existing Stripe contracts; no rewrite/cancellation of already-active plans.
 - **GitHub QA:** `scripts/qa-website-checkout-flow.mjs` now enforces the delivery-based copy in both public landings and both intakes.
+
+
+## Email frequency and creative calendar (confirmed 2026-11-06)
+- **1st of each month**: reserve for the **monthly freebie**. One announcement maximum (a single digest if multiple resources launch that month), only after the resource is actually public, accessible, complete, and the relevant freebie audience has explicitly opted in for updates.
+- **15th of each month**: single **The Launch Era editorial newsletter**, ideally 10:00 a.m. America/New_York. Not the 1st. Send only when the issue is approved and subscribers have consented to corporate updates.
+- **On signup**: one-time welcome only. Keep consent/unsubscribe and duplicate-send protection.
+- **On request**: deliver a specifically requested freebie once confirmed, regardless of the general promotional calendar. This transactional delivery is separate from monthly announcements.
+- **Avoid overlap** with podcast, class and paid-product email sequences. Different email permissions and different lists: a freebie download alone is not consent to a corporate newsletter.
+- As of the check, Supabase `tle_editorial_freebie_campaigns` has **two planned records on December 1, 2026** (`december_lavender_2026` and `november_web_one_prompt_2026`), **both `public_enabled=false`**, and the related archived Make workflows are **inactive**. This is not an active monthly announcement. Do not flip them on or send two announcements by mistake; resolve what is actually launching and combine into one digest if both are approved.
+- At check, Make corporate newsletter scenario `6930009` handles **welcome** only. **No scheduled corporate newsletter campaign was active**; the new 15th-of-month cadence is an editorial plan, not proof of activation.
+- **Before first production campaign**: configure approved-issue gating, active subscription and unsubscribe filtering, one-per-edition idempotency, EN/ES segmentation, and test emails. Never schedule unapproved messages blindly.
