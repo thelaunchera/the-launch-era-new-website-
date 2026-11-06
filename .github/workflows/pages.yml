@@ -43,6 +43,8 @@ jobs:
         run: |
           node scripts/qa-website-photo-placement.mjs
           node scripts/qa-website-checkout-flow.mjs
+          node --check public/assets/tle-website-intake.js
+          node --check public/assets/tle-custom-app-request.js
 
       - name: Block release if routes, buttons or static assets are broken
         run: |
@@ -150,6 +152,8 @@ jobs:
             .output/public/intake/website-ai-crm/index.html \
             .output/public/website-checkout/index.html \
             .output/public/website-payment-success/index.html \
+            .output/public/custom-app/index.html \
+            .output/public/assets/tle-custom-app-request.js \
             .output/public/assets/tle-website-official.css \
             .output/public/assets/tle-website-intake.js \
             .output/public/assets/website-packages-20261105/hero-jaramillo.svg; do
