@@ -53,7 +53,7 @@
  const originalName=document.title;
  function translate(){
   root.lang=lang;const t=text[lang];document.title=(advanced?t.packageAdvanced:t.packageBasic)+' · The Launch Era';
-  $('complete').querySelector('a').href=lang==='es'?'/es/':'/';
+  $('complete').querySelector('a').href=lang==='es'?'/es/website-for-your-business/':'/website-for-your-business/';
   for(const node of document.querySelectorAll('[data-i18n]')){const key=node.getAttribute('data-i18n');if(t[key])node.textContent=t[key];}
   for(const node of document.querySelectorAll('[data-placeholder]')){const key=node.getAttribute('data-placeholder');if(t[key])node.placeholder=t[key];}
   $('package-name').textContent=advanced?t.packageAdvanced:t.packageBasic;
@@ -62,7 +62,7 @@
   $('form-lead').textContent=paid?t.formLeadPaid:t.formLead;
   $('price').textContent=advanced?'$25':'$15';
   $('locale').textContent=lang==='es'?'English':'Español';
-  $('return').href=(lang==='es'?'/es/':'/');
+  $('return').href=(lang==='es'?'/es/website-for-your-business/':'/website-for-your-business/');
   const select=form.elements.namedItem('customer_action');
   const labels=['contact','quote','appointment','purchase','other'];for(let i=0;i<select.options.length;i++)select.options[i].textContent=t[labels[i]];
   $('privacy').href=lang==='es'?'/es/privacy.html':'/privacy.html';
