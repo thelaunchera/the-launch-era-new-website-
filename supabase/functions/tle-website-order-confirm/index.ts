@@ -77,7 +77,7 @@ Deno.serve(async(req:Request)=>{
     "Prefer":"resolution=ignore-duplicates,return=minimal"},body:JSON.stringify(record)});
   if(!r.ok){console.error("project create failed",r.status);return send(origin,503,{ok:false,error:"Project registration unavailable"})}
   // Email dispatch is optional: never block a verified paid customer or project intake when Resend is unavailable.
-  await sendVerifiedPurchaseEmail(email,offer,session_id,String(b.lang)==="es"?"es":"en",legacyAdvanced);
+  if(b.defer_email!==true)await sendVerifiedPurchaseEmail(email,offer,session_id,String(b.lang)==="es"?"es":"en",legacyAdvanced);
   return send(origin,200,{ok:true,paid:true,offer,amount_cents:Number(paid.amount_total)});
  }catch(e){console.error("website order confirm",String(e).slice(0,90));return send(origin,503,{ok:false,error:"Checkout verification unavailable"})}
 });
