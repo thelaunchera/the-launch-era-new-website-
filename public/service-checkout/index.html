@@ -22,7 +22,7 @@ else{
    try{
     const result=await fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/create-tle-service-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({offer,language:es?'es':'en'})});
     const v=await result.json().catch(()=>({}));
-    if(!result.ok||!v.url||!/^https:\/\/checkout\.stripe\.com\//.test(v.url)||v.amount_total!==plan.cents||!/^cs_live_[a-zA-Z0-9]+$/.test(v.session_id||''))throw Error('Checkout validation failed');
+    if(!result.ok||!v.url||!/^https:\/\/checkout\.stripe\.com\//.test(v.url)||Number(v.amount_total)!==plan.cents||!/^cs_live_[a-zA-Z0-9]+$/.test(v.session_id||''))throw Error('Checkout validation failed');
     location.replace(v.url);
    }catch{fail(es?'No se ha realizado ningún cobro. Inténtalo otra vez o contáctanos.':'No charge was made here. Please try again or contact us.');}
  };
