@@ -1,7 +1,7 @@
 /** Ensure legacy personalized preview remains private; never bypass auth to inspect client photographs. */
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
-import {chromium} from 'playwright';
+const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'playwright');
 const source=readFileSync('public/lead-private-preview.html','utf8');
 assert(source.includes('auth')||source.includes('key')||source.includes('token'),'Private preview access gate must remain');
 const base=(process.env.QA_URL||'http://127.0.0.1:4173').replace(/\/$/,'');
