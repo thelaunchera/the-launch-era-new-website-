@@ -34,7 +34,7 @@ async function sendVerifiedPurchaseEmail(email:string,offer:string,session:strin
   const intake_url=base+"?"+new URLSearchParams({stage:"onboarding",lang:isEs?"es":"en",session_id:session}).toString();
   let sent=false;
   try{
-   const request=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({event_type:"website_paid",email,language:isEs?"es":"en",offer,session_id:session,event_key:"website-"+session,plan_name,billing_note,intake_url,is_test:false}),signal:AbortSignal.timeout(9500)});
+   const request=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({event_type:"website_paid",email,language:isEs?"es":"en",template_id:isEs?"64c552e7-4f20-4cf9-b1c2-cc2c740497eb":"2bfbe412-7477-4266-94a4-958228dac38e",offer,session_id:session,event_key:"website-"+session,plan_name,billing_note,intake_url,is_test:false}),signal:AbortSignal.timeout(9500)});
    const body=await request.json().catch(()=>({}));
    sent=request.ok&&body.ok===true&&typeof body.resend_id==="string"&&!!body.resend_id;
   }catch(e){console.error("website email send failed",String(e).slice(0,90))}
