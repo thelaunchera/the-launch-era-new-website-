@@ -34,6 +34,39 @@ function urlValid(raw:string){
  }catch{return false}
 }
 const FIELDS="id,stripe_session_id,package_slug,stripe_customer_email,stripe_customer_name,stripe_customer_id,stripe_payment_intent_id,business_name,project_stage,payment_status,intake_received_at,studio_intake_submission_id,created_at,delivered_at,delivered_url,first_month_ends_at,stripe_subscription_id,subscription_billing_status,billing_activation_claimed_at,billing_activation_error";
+
+const HANDOFF_RESEND_KEY=Deno.env.get("TLE_CRM_RESEND_API_KEY")||"";
+function mailEscape(v:string){return String(v||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;")}
+function mailDate(v:string,es:boolean){
+ if(!v||Number.isNaN(new Date(v).getTime()))return es?"Sin mensualidad":"No monthly charge";
+ return new Intl.DateTimeFormat(es?"es-US":"en-US",{month:"long",day:"numeric",year:"numeric",timeZone:"America/New_York"}).format(new Date(v));
+}
+async function sendWebsiteDeliveryReceipt(p:any,language:string){
+ const es=language==="es",isMonthly=p.package_slug==="website-ai-crm",recipient=String(p.stripe_customer_email||"").trim().toLowerCase();
+ const website=String(p.delivered_url||"").trim();
+ if(!HANDOFF_RESEND_KEY||!(/^[^\s@]{1,64}@[^\s@]{1,190}\.[^\s@]{2,}$/.test(recipient))||!urlValid(website))return {email_dispatched:false,email_warning:"Delivery email requires manual review"};
+ const title=es?"Tu website está listo.":"Your website is ready.";
+ const button=es?"Abrir mi website terminado":"Open my completed website";
+ const pack=es?(isMonthly?"Website + IA + CRM":"Website para tu negocio"):(isMonthly?"Website + AI + CRM":"Website for Your Business");
+ const delivered=mailDate(String(p.delivered_at||""),es),first=mailDate(String(p.first_month_ends_at||""),es);
+ const billing=isMonthly?(es?"Los $8 mensuales comienzan cuando termina el primer mes de servicio, contado desde la fecha de entrega.":"$8 monthly billing begins after the first service month, counted from the completed project's delivery date."):(es?"El paquete básico tiene un pago único de $15, sin mensualidad.":"The basic $15 website is a one-time purchase, with no monthly fee.");
+ const firstLabel=isMonthly?(es?"Primer cargo mensual previsto: ":"Expected first monthly charge: ")+first:"";
+ const url=mailEscape(website);
+ const html='<!doctype html><html lang="'+(es?"es":"en")+'"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="IE=edge"></head><body style="margin:0;background-color:#FAF8F3;font-family:Arial,Helvetica,sans-serif"><table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FAF8F3"><tr><td align="center" style="padding:28px 14px"><table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFEFA" style="max-width:560px;border:1px solid #DAE3E7;border-radius:17px"><tr><td height="6" bgcolor="#F2D85B" style="background-color:#F2D85B;font-size:1px;line-height:1px">&nbsp;</td></tr><tr><td style="padding:29px 26px 12px"><p style="font:700 11px/18px Arial,Helvetica,sans-serif;letter-spacing:2px;color:#486f85;margin:0 0 19px">THE LAUNCH ERA · DELIVERY</p><h1 style="font:400 36px/43px Georgia,serif;color:#191919;margin:0 0 17px">'+title+'</h1><p style="font:400 15px/25px Arial,Helvetica,sans-serif;color:#52606a;margin:0 0 15px">'+(es?"Tu proyecto terminado ya está entregado. Aquí tienes tu enlace final.":"Your completed website has been delivered. Here is your final link.")+'</p></td></tr><tr><td style="padding:0 26px 18px"><table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#EAF3F8"><tr><td bgcolor="#EAF3F8" style="padding:18px;background-color:#EAF3F8"><p style="font:700 14px/22px Arial,Helvetica,sans-serif;color:#324e60;margin:0 0 7px">'+mailEscape(pack)+'</p><p style="font:400 13px/22px Arial,Helvetica,sans-serif;color:#425765;margin:0 0 10px">'+(es?"Entregado: ":"Delivered: ")+mailEscape(delivered)+'</p><p style="font:400 13px/22px Arial,Helvetica,sans-serif;color:#425765;margin:0 0 8px">'+mailEscape(firstLabel)+'</p><p style="font:400 13px/22px Arial,Helvetica,sans-serif;overflow-wrap:anywhere;color:#456a83;margin:0"><a href="'+url+'" style="color:#456a83;text-decoration:underline">'+url+'</a></p></td></tr></table></td></tr><tr><td style="padding:0 26px 23px"><table width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td bgcolor="#191919" align="center" style="background-color:#191919;border-radius:10px;padding:16px"><a href="'+url+'" style="display:block;color:#FFFEFA;text-decoration:none;font:700 15px/22px Arial,Helvetica,sans-serif">'+button+'</a></td></tr></table><p style="font:400 12px/21px Arial,Helvetica,sans-serif;color:#667783;margin:17px 0 0">'+billing+'</p></td></tr><tr><td style="padding:17px 26px 24px;border-top:1px solid #DCE5E8"><p style="font:400 12px/20px Arial,Helvetica,sans-serif;color:#647481;margin:0 0 10px">'+(es?"¿Necesitas ayuda? Responde a este correo.":"Need help? Reply to this email.")+'</p><p style="font:400 11px/19px Arial,Helvetica,sans-serif;color:#7A898F;margin:0">Powered by <a href="https://thelaunchera.com/" style="color:#40647c">The Launch Era</a></p></td></tr></table></td></tr></table></body></html>';
+ const plain=[title,pack,website,(es?"Entregado: ":"Delivered: ")+delivered,firstLabel,billing,es?"Responde a este correo si necesitas ayuda.":"Reply to this email if you need help.","Powered by The Launch Era"].filter(Boolean).join("\n\n");
+ try{
+  const out=await fetch("https://api.resend.com/emails",{method:"POST",headers:{"Authorization":"Bearer "+HANDOFF_RESEND_KEY,"Content-Type":"application/json","Idempotency-Key":"tle-web-delivery-"+String(p.id).slice(0,60)},body:JSON.stringify({from:"The Launch Era <hello@thelaunchera.com>",reply_to:"hello@thelaunchera.com",to:[recipient],subject:es?"Tu website está listo · The Launch Era":"Your website is ready · The Launch Era",text:plain,html}),signal:AbortSignal.timeout(8000)});
+  const data=await out.json().catch(()=>null);
+  if(!out.ok||!data?.id)throw Error("Resend provider rejected receipt "+out.status);
+  return {email_dispatched:true};
+ }catch(e){console.error("Handoff receipt needs review",String(e).slice(0,95));return {email_dispatched:false,email_warning:"Delivery email could not be confirmed. Contact buyer manually."}}
+}
+async function websiteOpsAlert(id:string,issue:string){
+ if(!HANDOFF_RESEND_KEY)return;
+ try{await fetch("https://api.resend.com/emails",{method:"POST",headers:{"Authorization":"Bearer "+HANDOFF_RESEND_KEY,"Content-Type":"application/json","Idempotency-Key":"tle-web-ops-"+String(id).slice(0,60)+"-"+issue},body:JSON.stringify({from:"The Launch Era <hello@thelaunchera.com>",to:["hello@thelaunchera.com"],subject:"Website operations alert — "+issue,text:"A website requires attention.\nProject reference: "+String(id).slice(0,60)+"\nIssue: "+issue+"\nReview privately: https://thelaunchera.com/website-delivery-admin/\nVerify project status before retrying."}),signal:AbortSignal.timeout(6000)});}
+ catch(e){console.error("Operations alert unavailable",String(e).slice(0,75))}
+}
+
 Deno.serve(async(req:Request)=>{
  const origin=req.headers.get("origin")||"";
  if(req.method==="OPTIONS")return new Response(null,{status:ALLOWED.has(origin)?204:403,headers:CORS(origin)});
@@ -61,7 +94,9 @@ Deno.serve(async(req:Request)=>{
     if(row.delivered_at)return resp(origin,200,{ok:true,already_delivered:true,delivered_at:row.delivered_at});
     const changed=await parse(await db("tle_website_projects?id=eq."+encodeURIComponent(id)+"&delivered_at=is.null",{method:"PATCH",headers:{"Prefer":"return=representation"},body:JSON.stringify({project_stage:"delivered",delivered_at:new Date().toISOString(),delivered_url:live,subscription_billing_status:"not_applicable",updated_at:new Date().toISOString()})}),"Basic project delivery");
     if(!Array.isArray(changed)||changed.length!==1)return resp(origin,409,{ok:false,error:"Concurrent delivery update"});
-    return resp(origin,200,{ok:true,delivered_at:changed[0].delivered_at,subscription:"not_applicable"});
+    const receipt=await sendWebsiteDeliveryReceipt(changed[0],b.lang==="es"?"es":"en");
+    if(!receipt.email_dispatched)await websiteOpsAlert(id,"delivery_email");
+    return resp(origin,200,{ok:true,delivered_at:changed[0].delivered_at,subscription:"not_applicable",...receipt});
   }
   if(row.stripe_subscription_id)return resp(origin,200,{ok:true,already_activated:true,subscription_id:row.stripe_subscription_id,delivered_at:row.delivered_at,first_month_ends_at:row.first_month_ends_at});
   if(!/^cus_[A-Za-z0-9]+$/.test(String(row.stripe_customer_id||""))||!/^pi_[A-Za-z0-9]+$/.test(String(row.stripe_payment_intent_id||"")))return resp(origin,409,{ok:false,error:"Saved customer/payment authorization is missing"});
@@ -88,11 +123,14 @@ Deno.serve(async(req:Request)=>{
     const store=await parse(await db("tle_website_projects?id=eq."+encodeURIComponent(id)+"&stripe_subscription_id=is.null",{method:"PATCH",headers:{"Prefer":"return=representation"},body:JSON.stringify({stripe_subscription_id:output.subscription_id,project_stage:"delivered",subscription_started_at:new Date().toISOString(),subscription_billing_status:String(output.status||"trialing"),billing_activation_claimed_at:null,billing_activation_error:null,updated_at:new Date().toISOString()})}),"Save Stripe subscription");
     if(!Array.isArray(store)||store.length!==1)throw Error("Subscription created but project update failed");
     subscribed=true;
-    return resp(origin,200,{ok:true,subscription_id:output.subscription_id,delivered_at:state.delivered_at,first_month_ends_at:state.first_month_ends_at});
+    const receipt=await sendWebsiteDeliveryReceipt(store[0],b.lang==="es"?"es":"en");
+    if(!receipt.email_dispatched)await websiteOpsAlert(id,"delivery_email");
+    return resp(origin,200,{ok:true,subscription_id:output.subscription_id,delivered_at:state.delivered_at,first_month_ends_at:state.first_month_ends_at,...receipt});
   }catch(e){
     const problem=String(e).slice(0,150);
     await db("tle_website_projects?id=eq."+encodeURIComponent(id)+"&stripe_subscription_id=is.null",{method:"PATCH",headers:{"Prefer":"return=minimal"},body:JSON.stringify({billing_activation_claimed_at:null,billing_activation_error:"Delivery activation needs review; retry idempotently",updated_at:new Date().toISOString()})}).catch(()=>{});
     console.error("website delivery activation",problem);
+    await websiteOpsAlert(id,"billing_activation");
     return resp(origin,503,{ok:false,error:"Billing activation is awaiting verification. No duplicate should be created; retry or contact support."});
   }
  }catch(e){console.error("website admin delivery",String(e).slice(0,120));return resp(origin,503,{ok:false,error:"Unable to complete this request"})}
