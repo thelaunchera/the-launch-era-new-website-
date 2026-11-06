@@ -11,7 +11,6 @@ const expected={
  processBrand:'process-brand-original.jpg',
  processBuild:'process-build-original.jpg',
  processLaunch:'process-launch-original.jpg',
- optionalApp:'optional-app-original.jpg',
 };
 function assert(test, message){if(!test)throw new Error(message);}
 for(const [language,html] of [['en',en],['es',es]]){
@@ -21,11 +20,10 @@ for(const [language,html] of [['en',en],['es',es]]){
  assert(!hero.includes('automated-crm')&&!hero.includes('process-'),language+': interior photo intrudes into hero');
  const basic=html.match(/<article class="plan" id="website-basic">([\s\S]*?)<\/article>/)?.[1];
  const advanced=html.match(/<article class="plan" id="website-ai-crm">([\s\S]*?)<\/article>/)?.[1];
- const app=html.match(/<section class="app-section">([\s\S]*?)<\/section>/)?.[1];
  const process=html.match(/<section class="process" id="proceso">([\s\S]*?)<\/section>/)?.[1];
  assert(basic?.includes(photoRoot+expected.planBasic),language+': basic package photo wrong');
  assert(advanced?.includes(photoRoot+expected.planAdvanced),language+': CRM package photo wrong');
- assert(app?.includes(photoRoot+expected.optionalApp),language+': optional app photo wrong');
+ assert(!html.includes('class="app-section"')&&!html.includes('/custom-app/?lang='),language+': duplicate app offer must not appear on landing');
  for(const key of ['processChoose','processBrand','processBuild','processLaunch']){
   assert(process?.includes(photoRoot+expected[key]),language+': '+key+' photo missing');
  }
@@ -40,4 +38,4 @@ for(const [language,html] of [['en',en],['es',es]]){
 const photoStyles=css.split('/* 2026-11-05 image placement: keep original hero untouched. */')[1];
 assert(photoStyles&&!photoStyles.includes('.hero'), 'Photo styling inadvertently edits hero');
 assert(photoStyles.includes('object-fit:contain'), 'Uncropped interior photo styling missing');
-console.log('PASS: hero untouched; 7 correct individual images in English and Spanish; pricing and delivery aligned.');
+console.log('PASS: hero untouched; 6 correct individual photos in English and Spanish; pricing and delivery aligned.');
