@@ -45,6 +45,8 @@ for(const viewport of sizes){
      const rect=el.getBoundingClientRect();
      return rect.width>0&&(rect.right>innerWidth+6||rect.left< -6);
     }).slice(0,8).map(el=>el.tagName.toLowerCase()+'.'+String(el.className).slice(0,90));
+    const packages=[...document.querySelectorAll('.tle-universal .plans .plan')];
+    const packageCtas=packages.filter(card=>card.querySelector('a[href^="/website-checkout/?offer="]')).length;
     const cards=[...document.querySelectorAll('.solutions-section .tle-service-static')];
     const badCards=cards.filter(card=>{
      const link=card.querySelector('.tle-service-static__link');
@@ -56,12 +58,17 @@ for(const viewport of sizes){
      .map(el=>el.tagName+'.'+el.className+' size='+getComputedStyle(el).fontSize+' homeRule='+el.matches('.sales-home .solutions-section .tle-service-static p'));
     const steps=[...document.querySelectorAll('.process-section .tle-process-card')];
     const unstyledSteps=steps.filter(el=>getComputedStyle(el).borderRadius==='0px').length;
-    return {over,offenders,badCards,cardCount:cards.length,small,stepCount:steps.length,unstyledSteps};
+    return {over,offenders,packageCount:packages.length,packageCtas,badCards,cardCount:cards.length,small,stepCount:steps.length,unstyledSteps};
    });
    assert(state.over<=3,'Horizontal overflow '+JSON.stringify(state));
-   assert.equal(state.cardCount,5,'All five current service choices rendered');
-   assert.equal(state.badCards,0,'Service card photos and links must be visible in every route');
-   if(viewport.width<768)assert.deepEqual(state.small,[],'Readable mobile service descriptions');
+   if(path==='/'||path==='/es/') {
+    assert.equal(state.packageCount,2,'Homepage must show the two current website packages');
+    assert.equal(state.packageCtas,2,'Both homepage package CTAs must start secure checkout');
+   }else{
+    assert.equal(state.cardCount,5,'Five service cards still render on legacy reference routes');
+    assert.equal(state.badCards,0,'Service card photos and links must be visible in those routes');
+    if(viewport.width<768)assert.deepEqual(state.small,[],'Readable mobile service descriptions');
+   }
    if(path==='/how-it-works/') {
     assert.equal(state.stepCount,3,'All three process steps rendered');
     assert.equal(state.unstyledSteps,0,'Process steps use the responsive component style');
