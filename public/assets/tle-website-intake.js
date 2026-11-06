@@ -144,7 +144,7 @@
      $('upload-status').textContent=copy[lang].uploadProgress+' '+(i+1)+'/'+files.length+'…';
      const body=new FormData();body.append('session_id',session);body.append('offer',plan);
      body.append('email',email);body.append('category',category);
-     const type=file.type||(/\\.heic$/i.test(file.name)?'image/heic':/\\.heif$/i.test(file.name)?'image/heif':'');
+     const type=file.type||(/\.heic$/i.test(file.name)?'image/heic':/\.heif$/i.test(file.name)?'image/heif':'');
      const actual=type===file.type?file:new File([file],file.name,{type,lastModified:file.lastModified});
      body.append('file',actual);
      const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),30000);
