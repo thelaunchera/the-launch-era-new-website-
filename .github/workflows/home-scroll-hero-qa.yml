@@ -74,8 +74,8 @@ jobs:
             if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
             sleep 1
           done
-          QA_URL=http://127.0.0.1:4173 node scripts/qa-hero-split-word-browser.mjs
-          QA_URL=http://127.0.0.1:4173 node scripts/qa-home-scroll-hero.mjs --browser
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-home-booking-tones-browser.mjs
+          node scripts/qa-home-scroll-hero.mjs
       - name: Archive EN/ES responsive screenshots
         if: always()
         uses: actions/upload-artifact@v4

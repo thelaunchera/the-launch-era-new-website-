@@ -40,7 +40,7 @@ jobs:
           npx playwright install --with-deps chromium
           ln -sfn /tmp/tle-flip-qa/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
           ln -sfn /tmp/tle-flip-qa/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
-      - name: Verify EN ES home and all six demo service flips
+      - name: Verify current EN ES packages and preserved archived card structure
         run: |
           python3 -m http.server 4173 --bind 127.0.0.1 --directory .output/public >/tmp/tle-flip-http.log 2>&1 &
           server=$!
