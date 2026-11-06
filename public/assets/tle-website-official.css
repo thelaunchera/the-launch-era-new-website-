@@ -19,3 +19,65 @@
 }
 
 html,body{margin:0;background:#FAF8F3}a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #477793;outline-offset:3px}.tle-universal .hero{isolation:isolate}.tle-universal .plan[id]{scroll-margin-top:90px}
+
+
+/* 2026-11-05 image placement: keep original hero untouched. */
+.tle-universal .plan-photo{
+  display:block;
+  width:100%;
+  object-fit:contain;
+  object-position:center;
+  background:#f5e9df;
+}
+.tle-universal .step-photo{
+  object-fit:contain;
+  object-position:center;
+  background:#f7f0e8;
+}
+.tle-universal .app-card>img{
+  display:block;
+  object-fit:contain;
+  object-position:center;
+  background:#f7f1e9;
+}
+.tle-universal .plan .ai-service-fee{font-weight:700;color:#191919}
+.tle-universal .plan .delivery-benefit{color:#48413a}
+.tle-universal .pricing .fine{max-width:1050px;line-height:1.7}
+@media (max-width:620px){
+  .tle-universal .plan-photo{
+    height:clamp(255px,78vw,370px);
+    max-height:370px;
+    min-height:0;
+    aspect-ratio:auto;
+    object-fit:contain;
+    object-position:center;
+  }
+  .tle-universal .step-photo{
+    aspect-ratio:657 / 381;
+    object-fit:contain;
+    max-width:100%;
+    height:auto;
+  }
+  .tle-universal .app-card{
+    grid-template-columns:minmax(0,1fr);
+    gap:14px;
+    padding:16px;
+  }
+  .tle-universal .app-card>img{
+    grid-column:1;
+    grid-row:auto;
+    width:100%;
+    height:auto;
+    max-height:240px;
+    aspect-ratio:634 / 220;
+    object-fit:contain;
+    border-radius:12px;
+  }
+  .tle-universal .app-copy{grid-column:1;align-self:auto}
+  .tle-universal .app-card .btn{
+    grid-column:1;
+    width:100%;
+    justify-self:stretch;
+    margin:0;
+  }
+}
