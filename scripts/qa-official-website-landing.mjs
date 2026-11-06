@@ -1,14 +1,22 @@
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
 const routes=['public/website-for-your-business/index.html','public/es/website-for-your-business/index.html'];
-const photos=['hero-jaramillo','website-la-vie-in-pink','automated-crm','process-choose','process-brand','process-build','process-launch'];
+const photos={
+ en:['hero-jaramillo.svg','website-la-vie-in-pink-en.jpg','automated-crm-en.jpg','process-choose-en.png','process-brand-en.png','process-build-en.png','process-launch-en.png'],
+ es:['hero-jaramillo.svg','website-la-vie-in-pink-original.jpg','automated-crm-original.jpg','process-choose-original.jpg','process-brand-original.jpg','process-build-original.jpg','process-launch-original.jpg']
+};
 const css=readFileSync('public/assets/tle-website-official.css','utf8');
 assert.ok(css.includes('max-width:780px'),'phone CTA rules');
 assert.ok(css.includes('hero>img'),'hero photo');
-for(const p of photos)assert.ok(existsSync('public/assets/website-packages-20261105/'+p+(p==='hero-jaramillo'?'.svg':'-original.jpg')),'missing approved photo '+p);
+for(const [language,paths] of Object.entries(photos))
+ for(const filename of paths)
+  assert.ok(existsSync('public/assets/website-packages-20261105/'+filename),language+': missing photo '+filename);
 for(const r of routes){
  const html=readFileSync(r,'utf8');
- for(const p of photos)assert.ok(html.includes(p+(p==='hero-jaramillo'?'.svg':'-original.jpg')),'missing photo '+p+' at '+r);
+ const language=r.includes('/es/')?'es':'en';
+ for(const filename of photos[language])assert.ok(html.includes(filename),language+': missing photo '+filename+' at '+r);
+ for(const filename of photos[language==='es'?'en':'es'].slice(1))
+  assert.ok(!html.includes(filename),language+': photo from other language leaked '+filename);
  assert.match(html,/id="website-basic"/);
  assert.match(html,/id="website-ai-crm"/);
  assert.doesNotMatch(html,/class="app-section"|\/custom-app\/\?lang=|optional-app-original/,'the redundant app offer must be hidden');
@@ -23,4 +31,4 @@ for(const r of routes){
  assert.ok(html.includes('href="#proceso"'),'process anchor');
  assert.ok(html.includes('href="#preguntas"'),'FAQ anchor');
 }
-console.log('[TLE OFFICIAL LANDING] Hero plus six original interior images, two prices, bilingual content, Stripe checkout before verified project onboarding and responsive CSS validated');
+console.log('[TLE OFFICIAL LANDING] Hero unchanged, six English images and original six Spanish images, two prices, bilingual content, Stripe checkout before verified project onboarding and responsive CSS validated');
