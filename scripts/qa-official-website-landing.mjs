@@ -13,12 +13,13 @@ for(const r of routes){
  assert.match(html,/id="website-ai-crm"/);
  assert.match(html,/\$15/);
  assert.match(html,/\$25/);
- assert.match(html,/\/intake\/website\/\?lang=/);
- assert.match(html,/\/intake\/website-ai-crm\/\?lang=/);
+ assert.match(html,/\/website-checkout\/\?offer=website-basic&lang=/);
+ assert.match(html,/\/website-checkout\/\?offer=website-ai-crm&lang=/);
+ assert.doesNotMatch(html,/<p class="fine" data-key="termsNote">/,'no long pricing disclaimer');
  assert.match(html,/\/terms\.html/);
  assert.doesNotMatch(html,/\/service-checkout\//,'do not route to incomplete legacy checkout');
  assert.ok(html.includes('href="#paquetes"'),'package anchor');
  assert.ok(html.includes('href="#proceso"'),'process anchor');
  assert.ok(html.includes('href="#preguntas"'),'FAQ anchor');
 }
-console.log('[TLE OFFICIAL LANDING] Eight approved images, two prices, bilingual content, safe intake links and responsive CSS validated');
+console.log('[TLE OFFICIAL LANDING] Eight approved images, two prices, bilingual content, Stripe checkout before verified project onboarding and responsive CSS validated');
