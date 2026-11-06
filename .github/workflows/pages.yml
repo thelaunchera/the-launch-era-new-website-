@@ -39,6 +39,9 @@ jobs:
           test -s public/assets/demo-services/medical.webp
           test -s public/assets/demo-services/floor.webp
 
+      - name: Protect approved hero and independent bilingual website photos
+        run: node scripts/qa-website-photo-placement.mjs
+
       - name: Block release if routes, buttons or static assets are broken
         run: |
           node --check scripts/qa-route-integrity.mjs
