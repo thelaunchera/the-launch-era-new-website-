@@ -8,7 +8,7 @@ const isSession=(s:string)=>/^cs_live_[A-Za-z0-9]+$/.test(s);
 function headers(origin:string){return {"Content-Type":"application/json; charset=utf-8","Cache-Control":"no-store","Vary":"Origin","Access-Control-Allow-Origin":ORIGINS.has(origin)?origin:"https://thelaunchera.com","Access-Control-Allow-Methods":"POST,OPTIONS","Access-Control-Allow-Headers":"content-type"}}
 function send(origin:string,status:number,data:object){return new Response(JSON.stringify(data),{status,headers:headers(origin)})}
 
-async function sendVerifiedPurchaseEmail(email:string,offer:string,session:string,lang:string){
+async function sendVerifiedPurchaseEmail(email:string,offer:string,session:string,lang:string,legacyAdvanced=false){
  if(!/^[^\s@]{1,64}@[^\s@]{1,190}\.[^\s@]{2,}$/.test(email)||!/^cs_live_[A-Za-z0-9]+$/.test(session))return;
  const url=URL+"/rest/v1/";
  const common={"apikey":KEY,"Authorization":"Bearer "+KEY,"Content-Type":"application/json"};
@@ -29,7 +29,7 @@ async function sendVerifiedPurchaseEmail(email:string,offer:string,session:strin
   if(!endpoint)throw Error("website email route unavailable");
   const isEs=lang==="es",isBasic=offer==="website-basic";
   const plan_name=isEs?(isBasic?"Website para tu negocio · $15":"Website + asistente IA + CRM · $25 iniciales"):(isBasic?"Website for Your Business · $15":"Website + AI Assistant + CRM · $25 setup");
-  const billing_note=isEs?(isBasic?"Pago único de $15. Este paquete no incluye una suscripción mensual.":"Pagaste $25 por la configuración inicial. El servicio continuo de IA cuesta $8 al mes y comienza después de los primeros 30 días."):(isBasic?"$15 one-time payment. This package does not include a monthly subscription.":"You paid $25 for initial setup. Ongoing AI service costs $8 per month after the first 30 days.");
+  const billing_note=isEs?(isBasic?"Pago único de $15. Este paquete no incluye una suscripción mensual.":(legacyAdvanced?"Pagaste $25 inicialmente. Tu plan anterior de $8/mes conserva su fecha de facturación de Stripe.":"Pagaste $25 por la configuración inicial. Tu primer mes de servicio empieza cuando recibes el proyecto terminado; los $8 mensuales se facturan al terminar ese primer mes, desde la fecha de entrega.")):(isBasic?"$15 one-time payment. This package does not include a monthly subscription.":(legacyAdvanced?"Your existing $8/month plan follows the billing date shown in your original Stripe checkout.":"You paid $25 for initial setup. Your first month of service starts when your completed project is delivered; $8/month billing begins when that first month ends, measured from delivery."));
   const base=isBasic?"https://thelaunchera.com/intake/website/":"https://thelaunchera.com/intake/website-ai-crm/";
   const intake_url=base+"?"+new URLSearchParams({stage:"onboarding",lang:isEs?"es":"en",session_id:session}).toString();
   let sent=false;
@@ -59,22 +59,25 @@ Deno.serve(async(req:Request)=>{
   const response=await fetch(MAKE_HOOK,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({offer:"website-order-verify",session_id})});
   if(!response.ok)return send(origin,503,{ok:false,error:"Checkout verification unavailable"});
   const paid=await response.json().catch(()=>null);
+  const legacyAdvanced=offer==="website-ai-crm"&&String(paid.mode)==="subscription"&&/^sub_[A-Za-z0-9]+$/.test(String(paid.subscription||""));
+  const deferredAdvanced=offer==="website-ai-crm"&&String(paid.mode)==="payment"&&String(paid.payment_model)==="setup_now_bill_after_delivery_month"&&String(paid.recurring_billing_starts)==="one_month_after_confirmed_delivery"&&/^cus_[A-Za-z0-9]+$/.test(String(paid.customer||""))&&/^pi_[A-Za-z0-9]+$/.test(String(paid.payment_intent||""));
   if(!paid||String(paid.session_id)!==session_id||String(paid.offer)!==offer||
     String(paid.tle_flow)!=="website_packages_20261105"||
-    String(paid.payment_status)!=="paid"||String(paid.status)!=="complete"||(offer==="website-basic"?String(paid.mode)!=="payment":String(paid.mode)!=="subscription")||
+    String(paid.payment_status)!=="paid"||String(paid.status)!=="complete"||
+    (offer==="website-basic"?String(paid.mode)!=="payment":!(legacyAdvanced||deferredAdvanced))||
     String(paid.livemode)!=="true"||String(paid.currency).toLowerCase()!=="usd"||
-    !(Number(paid.amount_total)===AMOUNTS[offer]||(offer==="website-ai-crm"&&Number(paid.amount_total)===3300&&Number(paid.created)>0&&Number(paid.created)<1793929781))||(offer==="website-ai-crm"&&!/^sub_[A-Za-z0-9]+$/.test(String(paid.subscription||""))))return send(origin,403,{ok:false,error:"Payment not confirmed"});
+    !(Number(paid.amount_total)===AMOUNTS[offer]||(legacyAdvanced&&Number(paid.amount_total)===3300&&Number(paid.created)>0&&Number(paid.created)<1793929781)))return send(origin,403,{ok:false,error:"Payment not confirmed"});
   const email=String(paid.email||"").trim().toLowerCase().slice(0,254);
   const name=String(paid.name||"").trim().slice(0,150);
   const record={stripe_session_id:session_id,package_slug:offer,amount_cents:Number(paid.amount_total),
     currency:"usd",stripe_customer_email:email||null,stripe_customer_name:name||null,
-    payment_status:"paid",project_stage:"paid_awaiting_intake",one_time_setup_cents:offer==="website-basic"?1500:2500,monthly_subscription_cents:offer==="website-ai-crm"?800:0,stripe_subscription_id:offer==="website-ai-crm"?String(paid.subscription):null};
+    payment_status:"paid",project_stage:"paid_awaiting_intake",one_time_setup_cents:offer==="website-basic"?1500:2500,monthly_subscription_cents:offer==="website-ai-crm"?800:0,stripe_subscription_id:legacyAdvanced?String(paid.subscription):null,stripe_customer_id:/^cus_[A-Za-z0-9]+$/.test(String(paid.customer||""))?String(paid.customer):null,stripe_payment_intent_id:/^pi_[A-Za-z0-9]+$/.test(String(paid.payment_intent||""))?String(paid.payment_intent):null,subscription_billing_status:deferredAdvanced?"awaiting_delivery":legacyAdvanced?"trialing":null};
   const r=await fetch(URL+"/rest/v1/tle_website_projects?on_conflict=stripe_session_id",{
     method:"POST",headers:{"apikey":KEY,"Authorization":"Bearer "+KEY,"Content-Type":"application/json",
     "Prefer":"resolution=ignore-duplicates,return=minimal"},body:JSON.stringify(record)});
   if(!r.ok){console.error("project create failed",r.status);return send(origin,503,{ok:false,error:"Project registration unavailable"})}
   // Email dispatch is optional: never block a verified paid customer or project intake when Resend is unavailable.
-  await sendVerifiedPurchaseEmail(email,offer,session_id,String(b.lang)==="es"?"es":"en");
+  await sendVerifiedPurchaseEmail(email,offer,session_id,String(b.lang)==="es"?"es":"en",legacyAdvanced);
   return send(origin,200,{ok:true,paid:true,offer,amount_cents:Number(paid.amount_total)});
  }catch(e){console.error("website order confirm",String(e).slice(0,90));return send(origin,503,{ok:false,error:"Checkout verification unavailable"})}
 });
