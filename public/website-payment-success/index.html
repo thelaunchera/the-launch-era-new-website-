@@ -21,7 +21,7 @@
   busy=true;retry.hidden=true;spinner.hidden=false;status.textContent=t.checking;
   try{
    const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),20000);
-   let r;try{r=await fetch('https://fhrvuhikrybobidxpvnh.supabase.co/functions/v1/tle-studio-website-confirm-payment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:session,offer}),signal:ctrl.signal})}finally{clearTimeout(timer)}
+   let r;try{r=await fetch('https://fhrvuhikrybobidxpvnh.supabase.co/functions/v1/tle-studio-website-confirm-payment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:session,offer,lang}),signal:ctrl.signal})}finally{clearTimeout(timer)}
    const data=await r.json().catch(()=>({}));
    if(!r.ok||data.ok!==true||data.paid!==true||data.offer!==offer)throw Error('No paid receipt');
    const dest=offer==='website-basic'?'/intake/website/':'/intake/website-ai-crm/';
