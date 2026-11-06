@@ -97,82 +97,78 @@ export function ProcessSection() {
 }
 export function FinalCTA() { const {price}=useBookingPrice(); return <section className="final-section"><Wave/><div className="eyebrow">READY TO MAKE IT YOURS?</div><h2 className="editorial">Your business. Your services.<br/><em>Your booking link.</em></h2><p>Start with Booking for $15 once. Add AI only if it makes sense for you.</p><div className="final-actions"><MarketingCTA className="cta-button" href="/booking-bundle/?lang=en">Get my booking system — {price} <ArrowRight/></MarketingCTA></div></section> }
 export function PageIntro({label,title,description,ctaHref,ctaLabel}:{label:string,title:string,description:string,ctaHref?:string,ctaLabel?:string}) { return <section className="page-intro"><div className="eyebrow">{label}</div><h1 className="editorial">{title}</h1><p>{description}</p>{ctaHref&&ctaLabel?<a className="page-intro-cta" href={ctaHref}>{ctaLabel}</a>:null}</section> }
-export function ContactForm() {
+export function ContactForm({lang='en'}:{lang?:'en'|'es'}) {
+ const es=lang==='es';
  const [status,setStatus]=useState<'idle'|'sending'|'done'|'sent'|'error'>('idle');
  const [name,setName]=useState('');
- const [serviceChoice,setServiceChoice]=useState('Booking Automation + Command Center');
- useEffect(()=>{try{if(new URLSearchParams(window.location.search).get('topic')==='setup-call')setServiceChoice('1:1 Setup Guidance Call')}catch{}},[]);
- const isCall=serviceChoice==='1:1 Setup Guidance Call';
+ const [serviceChoice,setServiceChoice]=useState('website-basic');
  const [error,setError]=useState('');
  const sendingRef=useRef(false);
- const [receipt,setReceipt]=useState({ name:'', email:'', business:'', service:'' });
+ const [receipt,setReceipt]=useState({name:'',email:'',business:'',service:''});
+ const choices=[
+  {value:'website-basic',en:'Website for Your Business · $15 setup',es:'Website para tu negocio · $15 de configuración'},
+  {value:'website-ai-crm',en:'Website + AI Assistant + CRM · $25 setup + $8/month',es:'Website + Asistente IA + CRM · $25 iniciales + $8/mes'},
+  {value:'custom-app',en:'Custom app inquiry (optional)',es:'Consulta sobre una app personalizada (opcional)'},
+  {value:'general',en:'General question',es:'Otra pregunta'}
+ ];
+ useEffect(()=>{
+  try{if(new URLSearchParams(window.location.search).get('topic')==='custom-app')setServiceChoice('custom-app')}catch{}
+ },[]);
  async function submitInquiry(e:FormEvent<HTMLFormElement>){
   e.preventDefault();
-  if(sendingRef.current || status==='sending' || status==='sent') return;
+  if(sendingRef.current||status==='sending'||status==='sent')return;
   sendingRef.current=true;
-  setStatus('sending'); setError('');
-  const form=e.currentTarget;
-  const fd=new FormData(form);
+  setStatus('sending');setError('');
+  const fd=new FormData(e.currentTarget);
   try{
    const response=await fetch('https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-contact',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
+    method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({
      name:String(fd.get('name')||''),
      email:String(fd.get('email')||''),
      business_name:String(fd.get('business')||''),
      help_needed:[String(fd.get('service')||'')].filter(Boolean),
-     message:isCall?String(fd.get('message')||'')+'\nPreferred time windows: '+String(fd.get('call_availability')||'Not specified')+'\nCall type: setup guidance request; not booked yet':String(fd.get('message')||''),
-     language:'en',
-     source:isCall?'setup_guidance_call':'main_website',
-     started_at:Date.now()-3000,
-     website:''
+     message:String(fd.get('message')||''),
+     language:lang,source:'main_website',started_at:Date.now()-3000,website:''
     })
    });
    const data=await response.json().catch(()=>({}));
-   if(!response.ok||!data?.ok) throw new Error(data?.error||'We couldn’t send your inquiry. Please try again.');
-   // Only the backend's acknowledged insert/duplicate can open the confirmation.
-   setReceipt({
-    name:String(fd.get('name')||''),
-    email:String(fd.get('email')||''),
-    business:String(fd.get('business')||''),
-    service:String(fd.get('service')||'')
-   });
+   if(!response.ok||!data?.ok)throw new Error(data?.error||(es?'No pudimos enviar tu consulta. Inténtalo nuevamente.':'We could not send your inquiry. Please try again.'));
+   const selection=choices.find(x=>x.value===String(fd.get('service')||''))||choices[3];
+   setReceipt({name:String(fd.get('name')||''),email:String(fd.get('email')||''),
+    business:String(fd.get('business')||''),service:selection[lang]});
    setStatus('done');
-   await new Promise<void>(resolve => window.setTimeout(resolve, 780));
+   await new Promise<void>(resolve=>window.setTimeout(resolve,780));
    setStatus('sent');
   }catch(err){
-   setError(err instanceof Error?err.message:'We couldn’t send your inquiry. Please try again.');
-   setStatus('error');
-   sendingRef.current=false;
+   setError(err instanceof Error?err.message:(es?'No pudimos enviar tu consulta.':'We could not send your inquiry.'));
+   setStatus('error');sendingRef.current=false;
   }
  }
  return <div className="contact-form">{status==='sent'?<SuccessConfirmation
-  language="en" kind="contact" compact
+  language={lang} kind="contact" compact
   name={receipt.name} email={receipt.email} business={receipt.business} service={receipt.service}
   onAgain={()=>{sendingRef.current=false;setError('');setStatus('idle');}}
- />:<><h2 className="editorial">Tell us about your business.</h2><p>What would you like help with?</p><ContactSteps
-  language="en"
-  status={status}
-  onSubmit={submitInquiry}
-  panels={[
-   <><div className="form-grid"><label className="field">Your name<input name="name" autoComplete="name" required value={name} onChange={e=>setName(e.target.value)} placeholder="First & last name"/></label><label className="field">Email address<input name="email" type="email" autoComplete="email" required placeholder="Where we can reach you"/></label></div></>,
-   <><label className="field">Business name<input name="business" autoComplete="organization" required placeholder="Your cleaning business"/></label><label className="field">What can we help with?<select name="service" value={serviceChoice} onChange={e=>setServiceChoice(e.target.value)}>{services.map(s=><option key={s.title}>{s.title}</option>)}<option value="1:1 Setup Guidance Call">1:1 Setup Guidance Call (20 minutes)</option><option>I’m not sure yet</option></select></label></>,
-   <><label className="field">{isCall?"What would you like help learning?":"What’s taking up too much of your time?"}<textarea name="message" required placeholder={isCall?"e.g. How to change my services and prices":"Tell us a little about your day-to-day…"}/></label>{isCall&&<><p className="form-disclaimer">Tell us what you need help with and when you're generally available. We'll email you to arrange a time; submitting this form does not book an appointment.</p><label className="field">Preferred time windows (optional)<input name="call_availability" maxLength={180} placeholder="e.g. Tuesday or Thursday afternoons (Eastern Time)"/></label></>}</>
-  ]}
-  error={status==='error'?<p className="text-sm" role="alert">{error}</p>:null}
-  finish={<MorphSubmit status={status} language="en">Finish &amp; send <ArrowRight size={17}/></MorphSubmit>}
-  disclaimer="Your inquiry goes directly to The Launch Era. We’ll use these details only to respond to your request."
+ />:<><h2 className="editorial">{es?'Cuéntanos sobre tu negocio.':'Tell us about your business.'}</h2>
+ <p>{es?'¿En qué podemos ayudarte?':'How can we help?'}</p>
+ <ContactSteps language={lang} status={status} onSubmit={submitInquiry} panels={[
+  <><div className="form-grid"><label className="field">{es?'Tu nombre':'Your name'}<input name="name" autoComplete="name" required value={name} onChange={e=>setName(e.target.value)} placeholder={es?'Nombre y apellido':'First & last name'}/></label><label className="field">{es?'Correo electrónico':'Email address'}<input name="email" type="email" autoComplete="email" required placeholder={es?'Donde podemos responderte':'Where we can reach you'}/></label></div></>,
+  <><label className="field">{es?'Nombre del negocio':'Business name'}<input name="business" autoComplete="organization" required placeholder={es?'Nombre de tu negocio':'Your business name'}/></label><label className="field">{es?'¿Qué necesitas?':'How can we help?'}<select name="service" value={serviceChoice} onChange={e=>setServiceChoice(e.target.value)}>{choices.map(c=><option key={c.value} value={c.value}>{c[lang]}</option>)}</select></label></>,
+  <><label className="field">{es?'Cuéntanos sobre tu proyecto o pregunta':'Tell us about your project or question'}<textarea name="message" required placeholder={es?'Describe brevemente lo que necesitas…':'Briefly describe what you need…'}/></label></>
+ ]} error={status==='error'?<p className="text-sm" role="alert">{error}</p>:null}
+  finish={<MorphSubmit status={status} language={lang}>{es?'Enviar consulta':'Finish & send'} <ArrowRight size={17}/></MorphSubmit>}
+  disclaimer={es?'Usaremos tus datos solamente para responder tu consulta; este formulario no confirma una compra.':'We use your details only to reply to your inquiry; this form does not confirm a purchase.'}
  /></>}</div>
 }
-export function HelpContent() {
+export function HelpContent({lang='en'}:{lang?:'en'|'es'}) {
+ const es=lang==='es';
  return <div className="container help-layout">
   <div className="help-contact-intro">
-   <div className="eyebrow">QUESTIONS OR A SPECIAL REQUEST?</div>
-   <h2 className="editorial">Tell us what you need help with.</h2>
-   <p>Send your question. Service pages have pricing and details.</p>
-   <a className="service-demo-link" href="/#faq">See general questions <ArrowRight size={17}/></a>
+   <div className="eyebrow">{es?'¿PREGUNTAS O UN PROYECTO ESPECIAL?':'QUESTIONS OR A SPECIAL REQUEST?'}</div>
+   <h2 className="editorial">{es?'Cuéntanos qué necesitas.':'Tell us what you need help with.'}</h2>
+   <p>{es?'Estamos aquí para ayudarte con tu website y automatizaciones.':'Ask us about websites and business automations.'}</p>
+   <a className="service-demo-link" href={es?'/es/#preguntas':'/#preguntas'}>{es?'Ver preguntas frecuentes':'See general questions'} <ArrowRight size={17}/></a>
   </div>
-  <ContactForm/>
+  <ContactForm lang={lang}/>
  </div>
 }
