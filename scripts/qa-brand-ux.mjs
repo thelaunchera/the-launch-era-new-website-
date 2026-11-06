@@ -21,7 +21,7 @@ for(const item of cases){
   const page=await browser.newPage({viewport:{width:w,height:900},reducedMotion:'reduce'});
   try{
    await page.goto(base+item.url,{waitUntil:'domcontentloaded',timeout:30000});
-   const selector=item.type==='demo'?'#authStep':item.type==='app'?'.tle-app-landing':item.type==='booking'?'.service-hero':'.sales-home';
+   const selector=item.type==='demo'?'#authStep':item.type==='app'?'.tle-app-landing':item.type==='booking'?'.service-hero':'.tle-universal';
    await page.locator(selector).waitFor({state:'attached',timeout:15000});
    if(item.type==='demo') assert.equal(new URL(page.url()).pathname,'/booking-demo-reset.html','Unkeyed lead link must redirect to the private Booking access screen');
    await page.waitForTimeout(300);
@@ -39,6 +39,12 @@ for(const item of cases){
     return {width:screenshotWidth,viewport,bg,linkCount,brandStyles,iconWidth:icon?parseFloat(icon.width):null,sampleMode:window.location.pathname==='/booking-demo-reset.html' && !new URLSearchParams(location.search).has('key'),formPresent:!!document.querySelector('#resServices .service') || !!document.querySelector('#detailsPanel'),privateEntry:!!document.querySelector('#authStep') && !!document.querySelector('#requestLink')};
    },item.type);
    assert(out.width<=out.viewport+3,'horizontal overflow '+JSON.stringify(out));
+   if(item.type==='home'){
+    const image=page.locator('.tle-universal .hero > img');
+    assert.equal(await image.getAttribute('src'),'/assets/website-packages-20261105/hero-jaramillo.jpg');
+    assert.equal(await page.locator('.tle-universal #website-basic').count(),1,'Website package missing');
+    assert.equal(await page.locator('.tle-universal #website-ai-crm').count(),1,'AI+CRM package missing');
+   }
    if(item.type==='demo'){
     assert(out.sampleMode,'Uninvited direct link must use the Booking private entry');
     assert(out.privateEntry,'Private Booking demo must show an invitation request');
