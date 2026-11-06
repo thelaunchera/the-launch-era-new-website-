@@ -20,8 +20,9 @@ for (const [lang,page] of [['en',en],['es',es]]) {
  ensure(page.includes('src="/assets/website-packages-20261105/hero-jaramillo.svg"'),lang+' hero must remain untouched');
  ensure(!page.includes('data-key="heroOverline"')&&!page.includes('<span class="dash"></span>'),lang+' hero heading or yellow line still visible');
  ensure(!page.includes('href="/custom-app/?lang='+lang+'"')&&!page.includes('class="app-section"'),lang+' should not advertise a separate app');
- ensure(page.includes(lang==='en'?'Due today: $25':'Pagas hoy $25'),lang+' $25 due today missing');
- ensure(page.includes(lang==='en'?'after 30 days':'después de 30 días'),lang+' 30-day recurring billing copy missing');
+ ensure(page.includes(lang==='en'?'Due today: $25':'Hoy pagas $25'),lang+' $25 due today missing');
+ ensure(page.includes(lang==='en'?'first month of AI + CRM service starts when the finished project is delivered':'primer mes de servicio IA + CRM comienza cuando entreguemos el proyecto terminado'),lang+' recurring billing must start after project delivery');
+ ensure(!page.includes(lang==='en'?'after 30 days':'después de 30 días'),lang+' checkout-relative billing copy must not remain');
 }
 ensure(gateway.includes('tle-studio-website-start-checkout'), 'Missing secure checkout creation');
 ensure(gateway.includes("dest.hostname!=='checkout.stripe.com'"),'Checkout must validate Stripe hostname');
@@ -45,7 +46,9 @@ ensure(intakeJS.includes("kind:'intake',source:'checkout'"),'Paid intake payload
 ensure(intakeJS.includes("checkout_reference:session"),'Stripe session not linked to onboarding');
 ensure(intakeJS.includes("receipt")===false,'No local receipt bypass should exist');
 ensure(intakeJS.includes('tle-studio-website-upload-photo'),'Paid photo uploads must use private upload endpoint');
-ensure(intakeJS.includes('after 30 days'),'Onboarding must show deferred AI fee');
+ensure(intakeJS.includes('first AI + CRM service month starts when the completed website is delivered'),'EN paid intake must start the service month upon delivery');
+ensure(intakeJS.includes('primer mes de IA + CRM empieza con la entrega del website terminado'),'ES paid intake must start the service month upon delivery');
+ensure(!intakeJS.includes('after 30 days')&&!intakeJS.includes('después de 30 días'),'Do not promise checkout-relative monthly billing');
 ensure(customApp.includes('id="custom-app-form"'),'Custom app form missing');
 ensure(customApp.includes('name="preferred_call"'),'Custom app 1:1 option missing');
 ensure(customJS.includes('tle-studio-custom-app-request'),'Custom app form has no saving endpoint');
@@ -58,4 +61,4 @@ ensure((customApp.match(/class="choice-option"/g)||[]).length>=20,'App brief nee
 ensure(customApp.includes('name="app_goals"')&&customApp.includes('name="preferred_features"')&&customApp.includes('name="reference_urls"'),'Each group needs an open-text field');
 ensure(customJS.includes('goalRequired'),'One goal or free-text must be required');
 ensure(customApp.includes('optional-app-original.jpg'),'Custom app uses old blurry image');
-console.log('PASS: $15/$25 website CTAs start Stripe Checkout, paid confirmation gates project setup, old inquiry removed.');
+console.log('PASS: $15/$25 website CTAs start Stripe Checkout, paid confirmation gates project setup, recurring service month anchored to delivered website, old inquiry removed.');
