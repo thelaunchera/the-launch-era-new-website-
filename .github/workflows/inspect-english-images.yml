@@ -1,0 +1,17 @@
+name: Inspect English Image Transfer
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/inspect-english-images.yml'
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/inspect-canva-image-source.mjs
