@@ -17,8 +17,6 @@ const publicPages = [
   "booking-demo/index.html",
   "privacy.html",
   "es/privacy.html",
-  "terms.html",
-  "es/terms.html",
   "automation-terms/index.html",
   "es/automation-terms/index.html",
   "va-terms/index.html",
@@ -27,6 +25,12 @@ const publicPages = [
 for (const page of publicPages) {
   const html = text("public/" + page);
   assert.match(html, /src="\/assets\/jessy-site\.js\?v=[^"]+"/, page + " missing Jessie");
+}
+// Legal documents must remain readable and free of sales-chat interruptions.
+for(const page of ['terms.html','es/terms.html']){
+ const html=text('public/'+page);
+ assert.doesNotMatch(html, /src="\/assets\/jessy-site\.js/,page+' must stay a plain legal document');
+ assert.match(html,/\$8/,page+' must state the current monthly subscription');
 }
 // The Cleaning App sample workspace is embedded multiple times. No Jessie in its iframes.
 const appSample = text("public/cleaning-app-demo/index.html");
