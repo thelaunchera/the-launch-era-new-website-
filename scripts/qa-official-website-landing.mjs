@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
 const routes=['public/website-for-your-business/index.html','public/es/website-for-your-business/index.html'];
-const photos=['hero-jaramillo','website-la-vie-in-pink','automated-crm','process-choose','process-brand','process-build','process-launch','optional-app'];
+const photos=['hero-jaramillo','website-la-vie-in-pink','automated-crm','process-choose','process-brand','process-build','process-launch'];
 const css=readFileSync('public/assets/tle-website-official.css','utf8');
 assert.ok(css.includes('max-width:780px'),'phone CTA rules');
 assert.ok(css.includes('hero>img'),'hero photo');
@@ -11,6 +11,7 @@ for(const r of routes){
  for(const p of photos)assert.ok(html.includes(p+(p==='hero-jaramillo'?'.svg':'-original.jpg')),'missing photo '+p+' at '+r);
  assert.match(html,/id="website-basic"/);
  assert.match(html,/id="website-ai-crm"/);
+ assert.doesNotMatch(html,/class="app-section"|\/custom-app\/\?lang=|optional-app-original/,'the redundant app offer must be hidden');
  assert.match(html,/\$15/);
  assert.match(html,/\$25/);
  assert.match(html,/\/website-checkout\/\?offer=website-basic&lang=/);
@@ -22,4 +23,4 @@ for(const r of routes){
  assert.ok(html.includes('href="#proceso"'),'process anchor');
  assert.ok(html.includes('href="#preguntas"'),'FAQ anchor');
 }
-console.log('[TLE OFFICIAL LANDING] Eight approved images, two prices, bilingual content, Stripe checkout before verified project onboarding and responsive CSS validated');
+console.log('[TLE OFFICIAL LANDING] Hero plus six original interior images, two prices, bilingual content, Stripe checkout before verified project onboarding and responsive CSS validated');
