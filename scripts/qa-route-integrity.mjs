@@ -55,9 +55,11 @@ function staticChecks(){
   ['https://thelaunchera.com/try-booking/','try-booking/index.html']
  ]){
   const html=readFileSync(join(pub,local),'utf8');
-  if(!sitemap.includes('<loc>'+url+'</loc>'))errors.push('Indexable sales URL missing in sitemap: '+url);
-  if(!html.includes('rel="canonical" href="'+url+'"'))errors.push('Public sales page missing self-canonical: '+local);
-  if(/<meta[^>]+name=["']robots["'][^>]+noindex/i.test(html))errors.push('Sales page accidentally marked noindex: '+local);
+  // Legacy booking sales routes remain deep-link accessible to existing customers only.
+  // They must not be indexed or advertised as current offers after the universal rebrand.
+  if(sitemap.includes('<loc>'+url+'</loc>'))errors.push('Archived sales URL leaked into sitemap: '+url);
+  if(!/<meta[^>]+name=["']robots["'][^>]+content=["'][^"']*noindex/i.test(html))
+    errors.push('Archived sales route must be noindex: '+local);
  }
  for(const local of [
   'command-center/index.html',
