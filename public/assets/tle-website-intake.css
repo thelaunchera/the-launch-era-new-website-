@@ -13,3 +13,18 @@ header{height:74px;background:white;display:flex;justify-content:space-between;a
 .call-option .field{gap:7px}
 .field select{max-width:100%;white-space:normal}
 @media(max-width:550px){.upload-field input[type="file"]{font-size:12px}.upload-field input[type="file"]::file-selector-button{max-width:100%;margin-right:8px}}
+
+/* Universal optional-app brief: easy one-tap selections, not giant inquiry textareas. */
+.choice-group{border:0;min-width:0;margin:0;padding:0 0 23px}
+.choice-group legend{font-weight:700;font-size:15px;margin:0 0 14px;line-height:1.45}
+.choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 14px}
+.choice-option{display:flex;align-items:center;gap:10px;min-height:49px;border:1px solid #d7d0c6;border-radius:12px;padding:10px 13px;background:#fff;color:#26221f;font-size:13px;font-weight:600;line-height:1.4;cursor:pointer;touch-action:manipulation}
+.choice-option input{width:18px;height:18px;flex:0 0 18px;margin:0;accent-color:#191919;cursor:pointer}
+.choice-option:has(input:checked){border-color:#bba446;background:#fbf2ce}
+.choice-option:focus-within{outline:2px solid #477793;outline-offset:2px}
+.choice-grid-three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.choice-group .extra-field{display:grid;gap:7px}
+.choice-group .extra-field textarea{min-height:86px;resize:vertical}
+.choice-error{margin:10px 0 0;color:#9c3228;font-size:12px;font-weight:650}
+@media(max-width:740px){.choice-grid-three{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:450px){.choice-grid{grid-template-columns:1fr;gap:8px}.choice-option{min-height:46px;padding:9px 12px;font-size:13px}}
