@@ -74,7 +74,7 @@ Deno.serve(async(req:Request)=>{
   const unsubscribe_url=API+"/functions/v1/tle-newsletter-subscribe?unsubscribe="+encodeURIComponent(token);
   let accepted=false;
   try{
-   const delivery=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({event_type:"newsletter_welcome",email,language:lang,event_key:"newsletter-"+row.id,unsubscribe_url,is_test:false}),signal:AbortSignal.timeout(10000)});
+   const delivery=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({event_type:"newsletter_welcome",email,language:lang,template_id:lang==="es"?"3070853d-8093-49b0-a629-2ae993558853":"5f885033-54c8-493e-bf58-73c7ae99a32b",event_key:"newsletter-"+row.id,unsubscribe_url,is_test:false}),signal:AbortSignal.timeout(10000)});
    const output=await delivery.json().catch(()=>({}));
    accepted=delivery.ok&&output.ok===true&&typeof output.resend_id==="string"&&!!output.resend_id;
   }catch(e){console.error("newsletter delivery unavailable",String(e).slice(0,90))}
