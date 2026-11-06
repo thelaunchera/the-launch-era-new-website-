@@ -29,12 +29,53 @@
 </div></fieldset><div class="divider"></div>
 <fieldset class="group"><legend data-i18n="groupApp">02 / What should your app do?</legend>
 <div class="fields">
-<label class="field full"><span data-i18n="goals">What problem should the app solve? *</span>
-<textarea name="app_goals" minlength="12" maxlength="3000" rows="4" required data-placeholder="goalsHint"></textarea></label>
-<label class="field full"><span data-i18n="features">Features you want (optional)</span>
-<textarea name="preferred_features" maxlength="2000" rows="3" data-placeholder="featuresHint"></textarea></label>
-<label class="field full"><span data-i18n="references">Reference app, website or image links (optional)</span>
-<textarea name="reference_urls" maxlength="1000" rows="2" data-placeholder="referencesHint"></textarea></label>
+<fieldset class="choice-group full" data-group="goal" data-required="true">
+<legend data-i18n="goals">What problem should the app solve? *</legend>
+<div class="choice-grid ">
+<label class="choice-option"><input type="checkbox" name="goal_choices" value="clients"><span data-i18n="goalClients">Organize customers</span></label>
+<label class="choice-option"><input type="checkbox" name="goal_choices" value="requests"><span data-i18n="goalRequests">Receive leads or bookings</span></label>
+<label class="choice-option"><input type="checkbox" name="goal_choices" value="followups"><span data-i18n="goalFollowups">Automate follow-ups</span></label>
+<label class="choice-option"><input type="checkbox" name="goal_choices" value="sales"><span data-i18n="goalSales">Sell or collect payments</span></label>
+<label class="choice-option"><input type="checkbox" name="goal_choices" value="work"><span data-i18n="goalWork">Coordinate jobs or services</span></label>
+<label class="choice-option"><input type="checkbox" name="goal_choices" value="centralize"><span data-i18n="goalCentralize">Keep everything in one place</span></label>
+</div>
+<label class="field extra-field"><span data-i18n="extraLabel">Anything else? (optional)</span>
+<textarea name="app_goals" maxlength="2300" rows="2" data-placeholder="goalsHint" placeholder="Add other details..."></textarea></label>
+<p class="choice-error" id="goal-validation" aria-live="polite" hidden>Select at least one option or write a detail.</p>
+</fieldset>
+<fieldset class="choice-group full" data-group="feature">
+<legend data-i18n="features">Features you want (optional)</legend>
+<div class="choice-grid choice-grid-three">
+<label class="choice-option"><input type="checkbox" name="feature_choices" value="customers"><span data-i18n="featureCustomers">Customer profiles</span></label>
+<label class="choice-option"><input type="checkbox" name="feature_choices" value="appointments"><span data-i18n="featureAppointments">Appointments / bookings</span></label>
+<label class="choice-option"><input type="checkbox" name="feature_choices" value="quotes"><span data-i18n="featureQuotes">Quotes / estimates</span></label>
+<label class="choice-option"><input type="checkbox" name="feature_choices" value="jobs"><span data-i18n="featureJobs">Tasks / jobs</span></label>
+<label class="choice-option"><input type="checkbox" name="feature_choices" value="invoices"><span data-i18n="featureInvoices">Invoices</span></label>
+<label class="choice-option"><input type="checkbox" name="feature_choices" value="payments"><span data-i18n="featurePayments">Payments</span></label>
+<label class="choice-option"><input type="checkbox" name="feature_choices" value="reminders"><span data-i18n="featureReminders">Notifications / reminders</span></label>
+<label class="choice-option"><input type="checkbox" name="feature_choices" value="reports"><span data-i18n="featureReports">Reports</span></label>
+<label class="choice-option"><input type="checkbox" name="feature_choices" value="mobile"><span data-i18n="featureMobile">Mobile app</span></label>
+<label class="choice-option"><input type="checkbox" name="feature_choices" value="admin"><span data-i18n="featureAdmin">Admin dashboard</span></label>
+<label class="choice-option"><input type="checkbox" name="feature_choices" value="automation"><span data-i18n="featureAutomation">Automations</span></label>
+<label class="choice-option"><input type="checkbox" name="feature_choices" value="assistant"><span data-i18n="featureAssistant">AI assistant</span></label>
+</div>
+<label class="field extra-field"><span data-i18n="extraLabel">Anything else? (optional)</span>
+<textarea name="preferred_features" maxlength="1400" rows="2" data-placeholder="featuresHint" placeholder="Add other details..."></textarea></label>
+
+</fieldset>
+<fieldset class="choice-group full" data-group="reference">
+<legend data-i18n="references">Reference apps, websites or images (optional)</legend>
+<div class="choice-grid ">
+<label class="choice-option"><input type="checkbox" name="reference_choices" value="app"><span data-i18n="referenceApp">I have an app to show</span></label>
+<label class="choice-option"><input type="checkbox" name="reference_choices" value="website"><span data-i18n="referenceWebsite">I have a website example</span></label>
+<label class="choice-option"><input type="checkbox" name="reference_choices" value="photos"><span data-i18n="referencePhotos">I have reference images</span></label>
+<label class="choice-option"><input type="checkbox" name="reference_choices" value="minimal"><span data-i18n="referenceMinimal">I prefer a clean, simple style</span></label>
+<label class="choice-option"><input type="checkbox" name="reference_choices" value="none"><span data-i18n="referenceNone">I don't have references yet</span></label>
+</div>
+<label class="field extra-field"><span data-i18n="extraLabel">Links or extra details (optional)</span>
+<textarea name="reference_urls" maxlength="650" rows="2" data-placeholder="referencesHint" placeholder="Add other details..."></textarea></label>
+
+</fieldset>
 </div></fieldset><div class="divider"></div>
 <fieldset class="group"><legend data-i18n="groupCall">03 / Let's talk (optional)</legend>
 <div class="fields">
