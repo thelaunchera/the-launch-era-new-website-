@@ -1,5 +1,4 @@
-/* Read-only responsive regression after retirement of duplicate homepage Booking panel.
- * Confirm adjacent sections and independent final purchase CTA survive. */
+/* Official universal bilingual homepage: responsive purchase and layout regression. */
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
 const base=(process.env.QA_URL||'http://127.0.0.1:4173').replace(/\/$/,'');
@@ -7,30 +6,32 @@ const browser=await chromium.launch({headless:true});
 try{
  for(const [lang,route] of [['en','/'],['es','/es/']]){
   for(const width of [360,390,820,1440]){
-   const page=await browser.newPage({viewport:{width,height:844},reducedMotion:'no-preference'});
-   const errors=[];
-   page.on('pageerror',error=>errors.push(error.message));
+   const page=await browser.newPage({viewport:{width,height:844}});
+   const errors=[];page.on('pageerror',e=>errors.push(e.message));
    await page.goto(base+route,{waitUntil:'domcontentloaded',timeout:45000});
+   await page.locator('.tle-universal .hero').waitFor();
    const state=await page.evaluate(()=>{
-    const problem=document.querySelector('.sales-home .problem-section');
-    const process=document.querySelector('.sales-home .process-section');
-    const final=document.querySelector('.sales-home .final-section');
+    const root=document.querySelector('.tle-universal');
+    const hero=root?.querySelector('.hero img');
+    const plans=root?.querySelectorAll('.plan');
+    const steps=root?.querySelectorAll('.step');
+    const faq=root?.querySelector('#preguntas');
     return {
-     duplicate:document.querySelectorAll('.sales-home .booking-section').length,
-     removedHub:document.querySelectorAll('.sales-home .tle-connected-flow').length,
-     hasProblem:!!problem,hasProcess:!!process,hasFinal:!!final,
-     order:!!(problem&&process&&final&&problem.compareDocumentPosition(process)&Node.DOCUMENT_POSITION_FOLLOWING&&process.compareDocumentPosition(final)&Node.DOCUMENT_POSITION_FOLLOWING),
-     overflow:document.documentElement.scrollWidth-innerWidth
+      hero:hero?.getAttribute('src'),plans:plans?.length||0,steps:steps?.length||0,
+      faq:!!faq,hasOldBooking:!!document.querySelector('.sales-home .booking-section'),
+      overflow:document.documentElement.scrollWidth-innerWidth,
     };
    });
-   assert.equal(state.duplicate,0,lang+' '+width+': old booking section returned');
-   assert.equal(state.removedHub,0,lang+' '+width+': old booking hub returned');
-   assert(state.hasProblem&&state.hasProcess&&state.hasFinal&&state.order,lang+' '+width+': adjacent home sections reordered');
+   assert.equal(state.hero,'/assets/website-packages-20261105/hero-jaramillo.jpg',lang+' '+width+': original hero missing');
+   assert.equal(state.plans,2,lang+' '+width+': exactly two packages required');
+   assert(state.steps>=4,lang+' '+width+': four process steps missing');
+   assert(state.faq,lang+' '+width+': FAQ missing');
+   assert(!state.hasOldBooking,lang+' '+width+': retired cleaning homepage returned');
    assert(state.overflow<=3,lang+' '+width+': horizontal overflow '+state.overflow);
-   const checkout=page.locator('section.final-section a[href="/booking-bundle/?lang='+lang+'"]');
-   assert.equal(await checkout.count(),1,lang+' '+width+': final checkout lost');
-   assert.deepEqual(errors,[],lang+' '+width+': script errors');
-   console.log('PASS home panel retirement '+lang+' '+width);
+   assert.equal(await page.locator('a[href="/service-checkout/?offer=website-basic&lang='+lang+'"]').count(),1,'Basic checkout link missing');
+   assert.equal(await page.locator('a[href="/service-checkout/?offer=website-ai-crm&lang='+lang+'"]').count(),1,'AI CRM checkout link missing');
+   assert.deepEqual(errors,[],lang+' '+width+': browser errors');
+   console.log('PASS official home '+lang+' '+width);
    await page.close();
   }
  }

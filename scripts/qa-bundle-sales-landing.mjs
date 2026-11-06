@@ -16,6 +16,6 @@ for(const f of ['public/assets/tle-bundle-landing.js','public/assets/tle-booking
  execFileSync(process.execPath,['--check',f],{stdio:'pipe'});
 }
 for(const name of ['hero','booking','command','ai']){
- assert(html.includes('/assets/bundle-landing/bundle-'+name+'.png'),'Archived photo reference missing: '+name);
+ assert(html.includes('/assets/bundle-landing/optimized/'+name+'.webp'),'Archived photo reference missing: '+name);
 }
 console.log('[ARCHIVED BUNDLE] Existing buyer route preserved, excluded from public SEO and original asset builder retained');
