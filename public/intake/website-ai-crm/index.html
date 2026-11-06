@@ -63,7 +63,14 @@
      <label class="field full"><span data-i18n="inbox">Email to receive customer requests *</span>
       <input name="preferred_email" type="email" required maxlength="254"></label>
      <label class="field"><span data-i18n="website">Existing website (optional)</span><input name="existing_website" type="url" maxlength="300" placeholder="https://"></label>
-     <label class="field"><span data-i18n="domain">Domain name or preference (optional)</span><input name="domain_preference" type="text" maxlength="200" placeholder="mybusiness.com"></label>
+     <label class="field full"><span data-i18n="domainOption">Do you already have a domain? *</span>
+      <select name="domain_option" required>
+       <option value="need_link">I need a website link — I don't own a domain yet</option>
+       <option value="have_domain">I already have a domain</option>
+       <option value="want_custom">Help me choose a custom domain (extra cost)</option>
+      </select><small data-i18n="domainHelp">No domain? We can publish your website using an available hosted link. Buying a domain is optional.</small>
+     </label>
+     <label class="field full"><span data-i18n="domain">Domain name or desired name (optional)</span><input name="domain_preference" type="text" maxlength="200" placeholder="mybusiness.com"></label>
      <label class="field"><span data-i18n="hours">Business hours (optional)</span><input name="business_hours" type="text" maxlength="180"></label>
      <label class="field"><span data-i18n="social">Social links (optional)</span><input name="social_links" type="text" maxlength="280"></label>
     </div>
@@ -84,6 +91,19 @@
      <label class="field full"><span data-i18n="automation">What follow-ups or tasks should we automate?</span>
       <textarea name="automation_goals" maxlength="2500" rows="3" data-placeholder="autoPlace"></textarea>
      </label>
+     <label class="field full upload-field"><span data-i18n="websitePhotos">Upload photos you want on your website (optional)</span>
+      <input name="website_photos" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" multiple>
+      <small data-i18n="photoHelp">Up to 10 images per category · JPG, PNG, WebP or HEIC · 8 MB each.</small>
+     </label>
+     <label class="field full upload-field"><span data-i18n="referencePhotos">Upload reference photos and visual inspiration (optional)</span>
+      <input name="reference_photos" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" multiple>
+     </label>
+     <p id="upload-status" class="upload-status full" role="status" aria-live="polite"></p>
+     <div class="full call-option">
+      <label class="consent"><input type="checkbox" name="request_call" value="yes"><span data-i18n="requestCall">I'd like to request a 1:1 call to review my website project.</span></label>
+      <label class="field"><span data-i18n="callTime">Preferred day, time and time zone (optional)</span><input name="call_time" maxlength="250" type="text" data-placeholder="callTimeHint"></label>
+      <small data-i18n="callNote">Calls are coordinated by email. Any cost is confirmed before scheduling.</small>
+     </div>
      <div id="advanced-fields" class="full" hidden>
       <label class="field"><span data-i18n="ai">What should the AI assistant know and answer?</span>
        <textarea name="ai_brief" maxlength="2500" rows="3" data-placeholder="aiPlace"></textarea>
