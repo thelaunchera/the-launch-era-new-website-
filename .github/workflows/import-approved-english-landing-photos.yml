@@ -1,0 +1,32 @@
+name: Import Approved English Landing Photos
+on:
+  push:
+    paths:
+      - '.github/workflows/import-approved-english-landing-photos.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import-photos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --quiet pillow requests
+      - name: Retrieve and verify six English photos
+        run: python scripts/import-approved-english-landing-photos.py
+      - name: Commit six English-only files without touching the hero or Spanish page
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/assets/website-packages-20261105/*-en.png public/assets/website-packages-20261105/*-en.jpg
+          if git diff --cached --quiet; then echo "Six English files already committed"; else
+            git commit -m "Import English package and process photos; retain Spanish photos and hero"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
