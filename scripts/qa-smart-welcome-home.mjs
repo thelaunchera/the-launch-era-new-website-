@@ -1,41 +1,17 @@
+/* Retired cleaning promotional pop-up: preserve its assets for historical
+   access, but do not display it on the new universal homepage. */
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-const read=(p)=>readFileSync(p,'utf8');
-const main=read('src/routes/index.tsx'),spanish=read('src/routes/es.index.tsx');
-const component=read('src/components/smart-welcome-bundle.tsx');
-const css=read('src/components/smart-welcome-bundle.css');
-const bundle=read('public/assets/tle-booking-bundle.js');
-const shell=read('public/booking-bundle/index.html');
-const jpg='public/assets/promo/tle-smart-welcome-bundle-flyer.jpg';
-assert(existsSync(jpg),'The exact user-approved flyer must be present in the repository');
-const image=readFileSync(jpg);
-assert.equal(image.byteLength,438992,'The flyer byte length was changed');
-assert.equal(createHash('sha256').update(image).digest('hex'),'4b81811c533c735b755bfcb960c71d470f060265289b5bce19ad186873a97ce3','The approved flyer was altered');
-assert(image[0]===255&&image[1]===216&&image[2]===255,'Flyer should be a valid JPEG');
-const spanishFlyer='public/assets/promo/tle-smart-welcome-bundle-flyer-es.svg';
-assert(existsSync(spanishFlyer),'Spanish version of approved pop-up flyer must exist');
-const esImage=read(spanishFlyer);
-for(const literal of ['viewBox="0 0 1122 1402"','data:image/jpeg;base64,','40% MENOS','PARA TU NEGOCIO DE LIMPIEZA','RESERVAS','ASISTENTE DE IA','Ver el paquete']) {
- assert(esImage.includes(literal),'Spanish flyer missing '+literal);
-}
-assert(component.includes('es ? ART_ES : ART'),'Spanish website must use localized photo while English remains original');
-assert(main.includes('<SmartWelcomeBundle lang="en"/>'),'English home must display the welcome');
-assert(spanish.includes('<SmartWelcomeBundle lang="es"/>'),'Spanish home must display the welcome');
-assert(component.includes("pricing?.percent_off !== 40"),'Do not show 40% marketing after server disables it');
-assert(component.includes("/booking-bundle/?lang="),'Marketing CTA must lead to the real combined bundle');
-assert(component.includes("'&bundle=ai-booking&source=smart-welcome'"),'Joint activation must preselect an AI addon');
-assert(bundle.includes('key===autoSelectAI?"checked":""'),'Bundle selector must preselect only when linked from welcome');
-assert(bundle.includes('if(!addon){location.href='),'Ordinary booking-only option must remain available');
-assert(shell.includes('tle-booking-bundle.js?v=20261029-total-package-v3'),'Buyer bundle page should bypass stale scripts');
-assert(!component.includes('tle-bundle-inline-art'),'Homepage inline section must not duplicate the large flyer');
-assert(component.includes('tle-bundle-inline-discount'),'Compact promotion badge must remain');
-assert(component.includes('tle-bundle-inline-cta'),'Compact promotion CTA must remain');
-assert(css.includes('min-height:107px')&&css.includes('flex-direction:column'),'Compact desktop/mobile design constraints missing');
-assert(component.includes("window.sessionStorage.setItem(SEEN_KEY"),'Welcome must not interrupt every navigation');
-assert(component.includes("event.key === 'Escape'"),'Welcome needs Escape close');
-assert(css.includes('env(safe-area-inset-bottom'),'Mobile notch/safe area handling absent');
-assert(!component.includes('create-tle-service-checkout'),'No new checkout side effect in marketing');
-assert(!component.includes('tle-booking-flow-inquiry'),'Never submit customer bookings from marketing');
-assert(!component.includes('booking_public_key'),'No customer booking page changes');
-console.log('PASS The Launch Era Smart Welcome: exact image, bilingual routes, gated discount, safe bundle CTA and tenant isolation.');
+const read=p=>readFileSync(p,'utf8');
+const en=read('src/routes/index.tsx'),es=read('src/routes/es.index.tsx');
+const hero=read('src/components/official-home.tsx');
+const file='public/assets/promo/tle-smart-welcome-bundle-flyer.jpg';
+assert(existsSync(file),'Preserve legacy marketing artifact for existing records');
+const data=readFileSync(file);
+assert.equal(createHash('sha256').update(data).digest('hex'),'4b81811c533c735b755bfcb960c71d470f060265289b5bce19ad186873a97ce3');
+assert(!en.includes('<SmartWelcomeBundle')&&!es.includes('<SmartWelcomeBundle'),'Retired cleaning promotion must not be in homepage');
+assert(en.includes('<OfficialHome lang="en" />')&&es.includes('<OfficialHome lang="es" />'),'Both locales must use the same official landing experience');
+assert(hero.includes('Website for')&&hero.includes('Website para'),'Bilingual website must sell services for any business');
+assert(hero.includes('service-checkout/?offer=website-basic'),'New package must lead to Stripe first');
+console.log('[TLE HOME QA] Historical flyer preserved, no retired popup, current bilingual website packages visible');
