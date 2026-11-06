@@ -52,7 +52,7 @@ ensure(intakeJS.includes('first AI + CRM service month starts when the completed
 ensure(intakeJS.includes('primer mes de IA + CRM empieza con la entrega del website terminado'),'ES paid intake must start the service month upon delivery');
 ensure(!intakeJS.includes('after 30 days')&&!intakeJS.includes('después de 30 días'),'Do not promise checkout-relative monthly billing');
 ensure(ownerDelivery.includes('tle-website-delivery-activate'),'Owner delivery console must contact secured server function');
-ensure(ownerDelivery.includes('Entregas y mensualidades'),'Owner console must explain delivery-based billing');
+ensure(ownerDelivery.includes('Entregas &amp; mensualidades'),'Owner console must explain delivery-based billing');
 ensure(secureDeliveryFunction.includes('platform_admins?user_id=eq.'),'Only authorized company admins can activate delivery billing');
 ensure(secureDeliveryFunction.includes('confirmed_delivered!==true'),'Manual verified delivery confirmation required');
 ensure(secureDeliveryFunction.includes('first_month_ends_at'),'First month must be stored from actual delivery');
