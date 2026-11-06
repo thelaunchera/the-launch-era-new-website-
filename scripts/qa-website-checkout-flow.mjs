@@ -49,4 +49,13 @@ ensure(intakeJS.includes('after 30 days'),'Onboarding must show deferred AI fee'
 ensure(customApp.includes('id="custom-app-form"'),'Custom app form missing');
 ensure(customApp.includes('name="preferred_call"'),'Custom app 1:1 option missing');
 ensure(customJS.includes('tle-studio-custom-app-request'),'Custom app form has no saving endpoint');
+for(const kind of ['goal','feature','reference']){
+ ensure(customApp.includes('data-group="'+kind+'"'),kind+' checkbox group missing');
+ ensure(customApp.includes('name="'+kind+'_choices"'),kind+' options missing');
+ ensure(customJS.includes('choiceGroup("'+kind+'")'),kind+' selected options are not saved');
+}
+ensure((customApp.match(/class="choice-option"/g)||[]).length>=20,'App brief needs specific selectable options');
+ensure(customApp.includes('name="app_goals"')&&customApp.includes('name="preferred_features"')&&customApp.includes('name="reference_urls"'),'Each group needs an open-text field');
+ensure(customJS.includes('goalRequired'),'One goal or free-text must be required');
+ensure(customApp.includes('optional-app-original.jpg'),'Custom app uses old blurry image');
 console.log('PASS: $15/$25 website CTAs start Stripe Checkout, paid confirmation gates project setup, old inquiry removed.');
