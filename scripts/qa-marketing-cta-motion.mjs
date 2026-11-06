@@ -115,7 +115,7 @@ try{
  // Real submit tests intercept all requests — no customer message is sent.
  for(const [route,form,endpoint,lang] of [
   ['/help/','.contact-form form','tle-contact','en'],
-  ['/es/','.contact-form form','tle-contact','es'],
+  ['/es/help/','.contact-form form','tle-contact','es'],
   ['/free-cleaning-lead-guide/','.tle-freebie-page form','tle-freebie','en']
  ]){
   const page=await browser.newPage({viewport:{width:390,height:844}});
@@ -167,7 +167,7 @@ try{
   await page.close();
  }
  // Shared footer theme: test real switch, persistent preference, safe links and a single newsletter.
- for (const route of ['/help/','/es/']) {
+ for (const route of ['/help/','/es/help/']) {
   for (const width of [390,1440]) {
    const page=await browser.newPage({viewport:{width,height:844},colorScheme:'light'});
    page.on('pageerror',error=>errors.push(route+' footer '+width+': '+error.message));
@@ -189,7 +189,7 @@ try{
    const secondLinks=await page.locator('.site-footer .footer-links a').evaluateAll(links=>links.map(a=>a.getAttribute('href')));
    assert.deepEqual(secondLinks,firstLinks,'Theme must preserve all destinations');
    assert.equal(await page.locator('.site-footer form[data-tle-newsletter]').count(),1,'Newsletter must remain unique');
-   if (width===390) await page.screenshot({path:'qa-screenshots/footer-theme-'+(route==='/es/'?'es':'en')+'.png'});
+   if (width===390) await page.screenshot({path:'qa-screenshots/footer-theme-'+(route==='/es/help/'?'es':'en')+'.png'});
    await page.reload({waitUntil:'domcontentloaded'});
    await page.waitForFunction(()=>document.querySelector('.site-footer .tle-footer-toggle')?.getAttribute('aria-checked')==='true');
    await page.locator('.site-footer .tle-footer-toggle').click();
@@ -200,7 +200,7 @@ try{
  }
  // Reduced-motion must remove the decorative animations.
  const reduced=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});
- await reduced.goto(site+'/',{waitUntil:'domcontentloaded',timeout:45000});
+ await reduced.goto(site+'/booking-lead-automation/',{waitUntil:'domcontentloaded',timeout:45000});
  const anim=await reduced.locator('.tle-cta-pulse-ring').first().evaluate(el=>getComputedStyle(el).animationName);
  assert(anim==='none','reduced-motion ring should be disabled');
  const rotor=await reduced.locator('.tle-cta-pulse-button').last().evaluate(el=>getComputedStyle(el,'::before').animationName);
