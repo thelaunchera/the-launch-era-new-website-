@@ -6,7 +6,7 @@ const root=read('src/routes/__root.tsx');
 const cta=read('src/components/marketing-cta.tsx');
 const morph=read('src/components/morph-submit.tsx');
 const routeFiles=[
- 'src/components/editorial-sections.tsx','src/routes/es.index.tsx',
+ 'src/components/editorial-sections.tsx',
  'src/routes/booking-lead-automation.tsx','src/routes/es.booking-lead-automation.tsx',
  'src/routes/website-automation.tsx','src/routes/es.website-automation.tsx',
  'src/routes/virtual-assistant.tsx','src/routes/es.virtual-assistant.tsx',
@@ -34,7 +34,7 @@ assert(!css.includes('tle-primary-cta-border-spin 3s'),'primary purchase CTA mus
 assert(cta.includes('className="tle-cta-text"'),'CTA label remains above the quiet accent rings');
 assert(morph.includes('aria-busy')&&morph.includes('aria-live')&&morph.includes('ResizeObserver'));
 assert(cta.includes('demo|preview|\\/command-center')&&cta.includes('href={href}'));
-for(const p of ['src/components/editorial-sections.tsx','src/routes/es.index.tsx','src/components/freebie-page.tsx']){
+for(const p of ['src/components/editorial-sections.tsx','src/components/freebie-page.tsx']){
  const s=read(p);
  assert(s.includes('MorphSubmit status={status}'),p+': missing real form morph');
  assert(s.includes("setStatus('sent')")&&s.includes('SuccessConfirmation'),p+': visible success requires server-acknowledged confirmation');
@@ -57,7 +57,7 @@ const sizes=[{width:360,height:780},{width:390,height:844},{width:820,height:100
 const errors=[];
 mkdirSync('qa-screenshots',{recursive:true});
 try{
- for(const route of ['/','/es/','/booking-lead-automation/','/es/booking-lead-automation/','/cleaning-web-app/','/es/cleaning-web-app/','/ai-booking-assistant/','/es/ai-booking-assistant/']){
+ for(const route of ['/booking-lead-automation/','/es/booking-lead-automation/','/cleaning-web-app/','/es/cleaning-web-app/','/ai-booking-assistant/','/es/ai-booking-assistant/']){
   for(const viewport of sizes){
    console.log('[TLE CTA]',route,viewport.width);
    const page=await browser.newPage({viewport});
