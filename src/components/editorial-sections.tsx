@@ -129,7 +129,7 @@ export function ContactForm({lang='en'}:{lang?:'en'|'es'}) {
      business_name:String(fd.get('business')||''),
      help_needed:[String(fd.get('service')||'')].filter(Boolean),
      message:String(fd.get('message')||''),
-     language:lang,source:'main_website',started_at:Date.now()-3000,website:''
+     language:lang,source:es?'main_website_es':'main_website',started_at:Date.now()-3000,website:''
     })
    });
    const data=await response.json().catch(()=>({}));
