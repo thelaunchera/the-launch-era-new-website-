@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#FAF8F3"><meta name="robots" content="noindex,follow">
+<meta name="description" content="Request a custom business app from The Launch Era. Tell us what your business needs.">
+<title>Custom Business App · The Launch Era</title><link rel="icon" href="/assets/brand/tle-mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/tle-website-intake.css"><script src="/assets/tle-custom-app-request.js" defer></script>
+</head><body>
+<header><a class="wordmark" href="/website-for-your-business/" aria-label="The Launch Era"><small>THE</small>LAUNCH ERA</a>
+<nav><a id="return" href="/website-for-your-business/" data-i18n="back">Back to website packages</a><button id="locale" type="button">Español</button></nav></header>
+<main class="container layout">
+<aside class="intro">
+<div class="eyebrow" data-i18n="tag">OPTIONAL SERVICE · CUSTOM APP</div>
+<h1 data-i18n="headline">An app that fits your business.</h1>
+<p data-i18n="intro">Tell us what you want to organize or automate. We'll review your idea and contact you about the next steps.</p>
+<img class="intro-photo" src="/assets/website-packages-20261105/optional-app.svg" alt="Business app example on a smartphone" loading="lazy">
+<div class="mini"><strong data-i18n="pricing">Personalized project</strong><p data-i18n="pricingNote">Pricing and project scope are quoted separately. Sending a request does not charge you.</p></div>
+</aside>
+<section class="panel" aria-label="Custom app request">
+<span class="panel-label" data-i18n="panelTag">TELL US ABOUT YOUR APP</span><h2 data-i18n="panelTitle">Request your custom app</h2>
+<p class="panel-lead" data-i18n="panelLead">A few details help us recommend the right setup.</p>
+<form id="custom-app-form">
+<label class="hidden-trap" aria-hidden="true">Website <input name="website_check" tabindex="-1" autocomplete="off"></label>
+<fieldset class="group"><legend data-i18n="groupBusiness">01 / About your business</legend>
+<div class="fields">
+<label class="field"><span data-i18n="name">Your name *</span><input required minlength="2" maxlength="120" name="name" autocomplete="name"></label>
+<label class="field"><span data-i18n="email">Email *</span><input required type="email" maxlength="254" name="email" autocomplete="email"></label>
+<label class="field"><span data-i18n="business">Business name *</span><input required minlength="2" maxlength="160" name="business_name" autocomplete="organization"></label>
+<label class="field"><span data-i18n="industry">Industry (optional)</span><input maxlength="120" name="industry"></label>
+</div></fieldset><div class="divider"></div>
+<fieldset class="group"><legend data-i18n="groupApp">02 / What should your app do?</legend>
+<div class="fields">
+<label class="field full"><span data-i18n="goals">What problem should the app solve? *</span>
+<textarea name="app_goals" minlength="12" maxlength="3000" rows="4" required data-placeholder="goalsHint"></textarea></label>
+<label class="field full"><span data-i18n="features">Features you want (optional)</span>
+<textarea name="preferred_features" maxlength="2000" rows="3" data-placeholder="featuresHint"></textarea></label>
+<label class="field full"><span data-i18n="references">Reference app, website or image links (optional)</span>
+<textarea name="reference_urls" maxlength="1000" rows="2" data-placeholder="referencesHint"></textarea></label>
+</div></fieldset><div class="divider"></div>
+<fieldset class="group"><legend data-i18n="groupCall">03 / Let's talk (optional)</legend>
+<div class="fields">
+<label class="consent full"><input type="checkbox" name="preferred_call" value="yes"><span data-i18n="call">I'd like to request a 1:1 call to discuss my app.</span></label>
+<label class="field full"><span data-i18n="availability">Preferred day, time and time zone (optional)</span>
+<input name="call_availability" maxlength="350" data-placeholder="availabilityHint"></label>
+</div></fieldset>
+<label class="consent"><input name="consent" type="checkbox" value="yes" required>
+<span><span data-i18n="consent">I agree to be contacted about my request and have read the</span>
+<a id="privacy" href="/privacy.html" target="_blank" rel="noopener noreferrer" data-i18n="privacy">Privacy Policy</a>.</span></label>
+<button class="cta" id="send" type="submit" data-i18n="submit">Send custom app request</button>
+<p id="feedback" role="alert" hidden></p>
+<p class="secondary-note" data-i18n="safety">Don't include passwords, card details or verification codes. A call will be coordinated separately.</p>
+</form>
+<div class="success" id="complete" hidden role="status"><h2 data-i18n="completeTitle">Your request was received</h2>
+<p data-i18n="completeBody">We'll contact you by email to discuss your app and any requested 1:1 call.</p>
+<a id="back" href="/website-for-your-business/" data-i18n="back">Back to packages</a></div>
+</section></main><footer>Powered by The Launch Era</footer>
+</body></html>
