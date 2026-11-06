@@ -33,11 +33,10 @@ assert.doesNotMatch(html,/sessionStorage\.setItem|localStorage\.setItem/);
 assert.match(html, /for\(const k of \['key','owner_preview','rid','lead','business','area','access','session'\]\)/);
 assert.match(html, /\/booking-demo\/\?lang=en&source=sample-cleaning/);
 for(const block of [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)])new vm.Script(block[1]);
-assert.match(en, /href="\/experience-cleaning\/\?lang=en&source=homepage">Try the Booking Demo/);
-assert.match(es, /href="\/experience-cleaning\/\?lang=es&source=homepage">Prueba el demo de reservas/);
-assert.match(en,/Request a More Personalized Demo/);
-assert.match(en,/href="\/booking-demo\/\?lang=en&source=homepage-clara"/);
-assert.match(es,/href="\/booking-demo\/\?lang=es&source=homepage-clara"/);
+// Sample-cleaning remains an isolated, safe demo; homepage now promotes universal websites.
+assert.match(es,/<OfficialHome lang="es" \/>/);
+assert(readFileSync('public/website-for-your-business/index.html','utf8').includes('Website for'));
+assert(readFileSync('public/es/website-for-your-business/index.html','utf8').includes('Website para'));
 assert.match(privateGate,/tle-booking-demo-gate/);
 assert.match(request,/tle-personalized-demo/);
 console.log('PASS public cleaning sample, opt-in Sonny-only network, no booking/email/payment, protected private request and bilingual CTA');
