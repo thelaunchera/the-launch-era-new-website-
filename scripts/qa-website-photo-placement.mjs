@@ -6,8 +6,8 @@ const css=readFileSync('public/assets/tle-website-official.css','utf8');
 const photoRoot='/assets/website-packages-20261105/';
 const expectedByLanguage={
  en:{
-  planBasic:'website-la-vie-in-pink-en.jpg',
-  planAdvanced:'automated-crm-en.jpg',
+  planBasic:'website-la-vie-in-pink-en-sharp.png',
+  planAdvanced:'automated-crm-en-sharp.png',
   processChoose:'process-choose-en.png',
   processBrand:'process-brand-en.png',
   processBuild:'process-build-en.png',
