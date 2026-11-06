@@ -18,13 +18,13 @@ try{
    await page.waitForFunction(target=>document.documentElement.lang===target && document.querySelector('#language')?.value===target,lang,{timeout:12000});
    const heading=await page.locator('#headline').innerText();
    if(lang==='es'){
-    assert.match(heading,/Una forma más sencilla de recibir reservas/i);
+    assert.match(heading,/Mira cómo se verían.*las reservas de tu negocio de limpieza/i);
     assert.match(await page.locator('#formTitle').innerText(),/Pide tu demo personalizada/i);
     assert.match(await page.locator('#submit').innerText(),/Continuar para confirmar/i);
     assert.match(await page.locator('#serviceBack').getAttribute('href'),/\/es\/booking-lead-automation/);
     assert.match(await page.locator('#demoForm input[name="name"]').getAttribute('placeholder'),/Nombre y apellido/i);
    }else{
-    assert.match(heading,/A smoother way to book/i);
+    assert.match(heading,/See your cleaning business.*with a better booking flow/i);
     assert.match(await page.locator('#formTitle').innerText(),/Request your personalized demo/i);
     assert.match(await page.locator('#submit').innerText(),/Continue to confirmation/i);
    }

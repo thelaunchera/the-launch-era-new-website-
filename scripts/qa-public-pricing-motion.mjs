@@ -36,7 +36,12 @@ assert(js.includes('offsetWidth')&&js.includes("aria-checked")&&js.includes('Arr
 assert(js.includes("const saves=key==='business'")&&js.includes("badge.hidden=!saves"),'no invented discount on individual plans');
 assert(js.includes("if(el.hidden||el.closest('[hidden]'))return"),'server-gated offers must remain hidden');
 assert(root.includes('tle-pricing-motion.css?v=20261016-2')&&root.includes('tle-pricing-motion.js?v=20261016-1'),'root sales price asset missing');
-assert(sales.includes('SPECIAL OFFER')&&sales.includes('"$35"')&&sales.includes('"$25/mo"'),'existing sales prices must remain untouched');
+// The archived assistant landing still maintains its original internal plan tests above.
+// Public homepage pricing must instead reflect the current two website packages.
+const official=read('public/website-for-your-business/index.html');
+assert(official.includes('id="website-basic"')&&official.includes('id="website-ai-crm"'),'Current public package IDs missing');
+for(const price of ['$15','$25','$8','$33'])assert(official.includes(price),'Current website price missing '+price);
+assert(!read('src/routes/index.tsx').includes('<PrimaryBookingOffer'),'Retired booking promo must not return');
 console.log('[TLE PUBLIC PRICING STATIC PASSED] EN/ES 3 actual plans, truthful savings, checkout isolation, SSR safety');
 if(!process.argv.includes('--browser'))process.exit(0);
 const {chromium}=await import('playwright');

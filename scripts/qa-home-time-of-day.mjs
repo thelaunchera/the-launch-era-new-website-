@@ -1,36 +1,19 @@
-import { readFileSync } from 'node:fs';
-import { strict as assert } from 'node:assert';
-import { execFileSync } from 'node:child_process';
+/* The old cleaning day/night 3D story was retired from The Launch Era
+   homepage. Preserve its source for historical pages, and validate the
+   new static editorial Jaramillo hero in both languages. */
+import assert from 'node:assert/strict';
+import {readFileSync,existsSync} from 'node:fs';
 const read=p=>readFileSync(p,'utf8');
-const en=read('src/routes/index.tsx');
-const es=read('src/routes/es.index.tsx');
-const jsx=read('src/components/home-motion-interlude.tsx');
-const css=read('src/components/home-motion-interlude.css');
-const js=read('public/assets/tle-home-time-of-day.js');
-for (const [file,s] of [['EN home',en],['ES home',es]]) {
- assert(s.includes("HomeMotionInterlude"),file+' must include the new chapter');
- assert(s.indexOf('HomeMotionInterlude lang=')<s.indexOf('process-section')||file==='EN home',file+' must place the chapter before the process section');
+for(const [lang,route] of [['en','src/routes/index.tsx'],['es','src/routes/es.index.tsx']]){
+ const s=read(route);
+ assert(s.includes('<OfficialHome lang="'+lang+'" />'),lang+' universal home missing');
+ assert(s.includes('hero-jaramillo.jpg'),lang+' Jaramillo hero missing');
+ assert(!s.includes('HomeMotionInterlude'),lang+' retired cleaning-only 3D story should not be mounted');
 }
-assert(en.includes('<HomeMotionInterlude lang="en"/><ProcessSection/>'),'EN ordering must preserve the day/night chapter before process, using the current home layout');
-assert(es.includes('<HomeMotionInterlude lang="es"/>'),'ES home must remain translated');
-assert(jsx.includes('data-tle-canvas')&&jsx.includes('data-tle-chapter'),'React scene anchors missing');
-assert(jsx.includes("dispose?.()"),'Unmount must dispose the scene');
-assert(jsx.includes('Booking Page')&&jsx.includes('Command Center'),'Booking marketing language must remain accurate');
-assert(css.includes('prefers-reduced-motion:reduce'),'Reduced motion CSS is mandatory');
-assert(css.includes('translate3d(-50%,0,0)')&&css.includes('tle-marquee-right'),'Both seamless marquee directions required');
-assert(!css.includes('body{')&&!css.includes('html{'),'Global CSS changes disallowed');
-assert(js.includes('RoundedBoxGeometry')&&js.includes('RoomEnvironment'),'Three.js diorama requirements');
-assert(js.includes('renderer.toneMappingExposure=1.18'),'Daylight exposure must retain house details instead of blowing out white walls');
-assert(js.includes('const windowTrim=standard(0x8caec5)'),'3D windows require visible outlines');
-assert(js.includes('const compact=holder.clientWidth<600'),'The 3D house must be more legible on phone viewports');
-assert(jsx.includes('20261017-house-rotation-restored'),'Home must load the restored, idle-safe 3D scene');
-assert(!jsx.includes('if(reduced||lowPower)return'),'Mobile device-core count must not disable 3D house');
-assert(jsx.includes("--tle-house-turn"),'SVG fallback must turn on scroll when WebGL is unavailable');
-assert(js.includes('rootGroup.rotation.y=.08+.85*ease(p)'),'3D house must visibly turn throughout the scroll chapter');
-assert(js.includes('if(!settled)raf=requestAnimationFrame(tick)'),'3D rendering must pause between scroll movements');
-assert(js.includes("window.removeEventListener('scroll',requestFrame)"),'Three.js scroll listener must be cleaned up');
-assert(css.includes('.tle-time-art{inset:12% -15% 24% -15%}'),'Lift house scene out of phone card overlap');
-assert(js.includes('160*3')&&js.includes('scene.environmentIntensity')&&js.includes('glass.emissiveIntensity'),'Night transition requirements');
-assert(js.includes('observer.disconnect()')&&js.includes('renderer.dispose()')&&js.includes('forceContextLoss()'),'Unmount cleanup required');
-execFileSync(process.execPath,['--check','public/assets/tle-home-time-of-day.js'],{stdio:'pipe'});
-console.log('PASS: EN/ES scene placement, 3D design, reduced motion, self-cleaning and marquee');
+for(const path of ['public/website-for-your-business/index.html','public/es/website-for-your-business/index.html']){
+ const s=read(path);
+ assert(s.includes('class="hero-copy"')&&s.includes('hero-jaramillo.jpg'),'Original human-led hero required');
+ assert(s.includes('class="process-grid"'),'Simple four-step production journey required');
+}
+assert(existsSync('public/assets/tle-home-time-of-day.js'),'Keep historical animation assets for old clients');
+console.log('[TLE TIME-OF-DAY QA] Retired cleaning motion safely archived and both new photo-led homepages checked');

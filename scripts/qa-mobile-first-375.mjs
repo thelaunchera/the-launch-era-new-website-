@@ -44,7 +44,7 @@ try {
        '.tle-app-landing .tle-app-btn.primary',
        '.tle-freebie-page a[href="#freebie-form"]',
        '.page-intro .page-intro-cta',
-       '.sales-home .hero-intro .cta-button',
+       '.sales-home .hero-intro .cta-button','.tle-universal .hero-copy a.btn',
        '.service-hero a.cta-button','.service-hero .service-cta',
        '.tle-hero-actions a:first-child','.hero-main-action','.intro-cta',
        '.hero-start','.hero-copy .primary-button','.hero-editorial-cta',
@@ -123,20 +123,14 @@ try {
    }
    assert(pageErrors.length===0,'Uncaught browser errors: '+pageErrors.slice(0,2).join(' | '));
    if(name==='home-en'||name==='home-es'){
-     const serviceCards=page.locator('.solutions-section .tle-service-static');
-     assert.equal(await serviceCards.count(),5,'All five services must be visible');
-     for(let i=0;i<5;i++){
-       const card=serviceCards.nth(i);
-       await card.scrollIntoViewIfNeeded();
-       const img=card.locator('.service-image img');
-       await page.waitForFunction(index=>{
-         const im=document.querySelectorAll('.solutions-section .tle-service-static .service-image img')[index];
-         return !!im && im.complete && im.naturalWidth>0;
-       },i,{timeout:10000});
-       const height=await card.evaluate(el=>el.getBoundingClientRect().height);
-       assert(height<=430,'Service card '+i+' contains empty height: '+height);
-     }
-     await serviceCards.first().scrollIntoViewIfNeeded();
+     const root=page.locator('.tle-universal');
+     assert.equal(await root.locator('#website-basic').count(),1,'The current website package must be visible');
+     assert.equal(await root.locator('#website-ai-crm').count(),1,'The AI + CRM package must be visible');
+     assert.equal(await root.locator('.process-grid .step').count(),4,'Four separate process steps must be visible');
+     const photo=root.locator('.hero > img');
+     assert.equal(await photo.getAttribute('src'),'/assets/website-packages-20261105/hero-jaramillo.jpg');
+     await page.waitForFunction(()=>{const img=document.querySelector('.tle-universal .hero > img');return !!img&&img.complete&&img.naturalWidth>=1200;},null,{timeout:10000});
+     await root.locator('#website-basic').scrollIntoViewIfNeeded();
      await page.screenshot({path:'qa-screenshots/tle-375-services-'+name+'.png',fullPage:false,timeout:10000});
      await page.evaluate(()=>window.scrollTo(0,0));
    }

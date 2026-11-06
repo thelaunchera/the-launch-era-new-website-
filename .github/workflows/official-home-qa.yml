@@ -1,0 +1,41 @@
+name: Official Website · bilingual sales and SEO QA
+on:
+  pull_request:
+    paths:
+      - 'src/components/official-home.tsx'
+      - 'src/routes/index.tsx'
+      - 'src/routes/es.index.tsx'
+      - 'src/routes/__root.tsx'
+      - 'public/website-for-your-business/**'
+      - 'public/es/website-for-your-business/**'
+      - 'public/service-checkout/**'
+      - 'public/terms.html'
+      - 'public/es/terms.html'
+      - 'public/sitemap.xml'
+      - 'public/assets/website-packages-20261105/hero-jaramillo.jpg'
+      - 'scripts/qa-official-home.mjs'
+      - '.github/workflows/official-home-qa.yml'
+  push:
+    paths:
+      - 'src/components/official-home.tsx'
+      - 'src/routes/index.tsx'
+      - 'src/routes/es.index.tsx'
+      - 'src/routes/__root.tsx'
+      - 'public/website-for-your-business/**'
+      - 'public/es/website-for-your-business/**'
+      - 'public/service-checkout/**'
+      - 'public/terms.html'
+      - 'public/es/terms.html'
+      - 'public/sitemap.xml'
+      - 'public/assets/website-packages-20261105/hero-jaramillo.jpg'
+      - 'scripts/qa-official-home.mjs'
+      - '.github/workflows/official-home-qa.yml'
+jobs:
+  official-site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/qa-official-home.mjs

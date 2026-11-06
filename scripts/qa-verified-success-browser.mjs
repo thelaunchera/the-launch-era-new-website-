@@ -21,7 +21,7 @@ async function contactFields(page) {
 }
 try {
  for(const [route,endpoint] of [
-   ['/help/','tle-contact'],['/es/','tle-contact'],
+   ['/help/','tle-contact'],['/es/help/','tle-contact'],
    ['/free-cleaning-lead-guide/','tle-freebie']
  ]) {
   for(const width of [360,390,820,1024,1440]) {
@@ -58,7 +58,7 @@ try {
    await page.close();
   }
  }
- for(const route of ['/help/','/es/']){
+ for(const route of ['/help/','/es/help/']){
   const page=await browser.newPage({viewport:{width:390,height:844}});
   let submits=0;
   await page.route('**/functions/v1/tle-contact',async request=>{

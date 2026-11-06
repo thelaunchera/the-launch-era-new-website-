@@ -6,7 +6,7 @@ const root=read('src/routes/__root.tsx');
 const cta=read('src/components/marketing-cta.tsx');
 const morph=read('src/components/morph-submit.tsx');
 const routeFiles=[
- 'src/components/editorial-sections.tsx','src/routes/es.index.tsx',
+ 'src/components/editorial-sections.tsx',
  'src/routes/booking-lead-automation.tsx','src/routes/es.booking-lead-automation.tsx',
  'src/routes/website-automation.tsx','src/routes/es.website-automation.tsx',
  'src/routes/virtual-assistant.tsx','src/routes/es.virtual-assistant.tsx',
@@ -34,7 +34,7 @@ assert(!css.includes('tle-primary-cta-border-spin 3s'),'primary purchase CTA mus
 assert(cta.includes('className="tle-cta-text"'),'CTA label remains above the quiet accent rings');
 assert(morph.includes('aria-busy')&&morph.includes('aria-live')&&morph.includes('ResizeObserver'));
 assert(cta.includes('demo|preview|\\/command-center')&&cta.includes('href={href}'));
-for(const p of ['src/components/editorial-sections.tsx','src/routes/es.index.tsx','src/components/freebie-page.tsx']){
+for(const p of ['src/components/editorial-sections.tsx','src/components/freebie-page.tsx']){
  const s=read(p);
  assert(s.includes('MorphSubmit status={status}'),p+': missing real form morph');
  assert(s.includes("setStatus('sent')")&&s.includes('SuccessConfirmation'),p+': visible success requires server-acknowledged confirmation');
@@ -57,7 +57,7 @@ const sizes=[{width:360,height:780},{width:390,height:844},{width:820,height:100
 const errors=[];
 mkdirSync('qa-screenshots',{recursive:true});
 try{
- for(const route of ['/','/es/','/booking-lead-automation/','/es/booking-lead-automation/','/cleaning-web-app/','/es/cleaning-web-app/','/ai-booking-assistant/','/es/ai-booking-assistant/']){
+ for(const route of ['/booking-lead-automation/','/es/booking-lead-automation/','/cleaning-web-app/','/es/cleaning-web-app/','/ai-booking-assistant/','/es/ai-booking-assistant/']){
   for(const viewport of sizes){
    console.log('[TLE CTA]',route,viewport.width);
    const page=await browser.newPage({viewport});
@@ -115,7 +115,7 @@ try{
  // Real submit tests intercept all requests — no customer message is sent.
  for(const [route,form,endpoint,lang] of [
   ['/help/','.contact-form form','tle-contact','en'],
-  ['/es/','.contact-form form','tle-contact','es'],
+  ['/es/help/','.contact-form form','tle-contact','es'],
   ['/free-cleaning-lead-guide/','.tle-freebie-page form','tle-freebie','en']
  ]){
   const page=await browser.newPage({viewport:{width:390,height:844}});
@@ -167,7 +167,7 @@ try{
   await page.close();
  }
  // Shared footer theme: test real switch, persistent preference, safe links and a single newsletter.
- for (const route of ['/help/','/es/']) {
+ for (const route of ['/help/','/es/help/']) {
   for (const width of [390,1440]) {
    const page=await browser.newPage({viewport:{width,height:844},colorScheme:'light'});
    page.on('pageerror',error=>errors.push(route+' footer '+width+': '+error.message));
@@ -189,7 +189,7 @@ try{
    const secondLinks=await page.locator('.site-footer .footer-links a').evaluateAll(links=>links.map(a=>a.getAttribute('href')));
    assert.deepEqual(secondLinks,firstLinks,'Theme must preserve all destinations');
    assert.equal(await page.locator('.site-footer form[data-tle-newsletter]').count(),1,'Newsletter must remain unique');
-   if (width===390) await page.screenshot({path:'qa-screenshots/footer-theme-'+(route==='/es/'?'es':'en')+'.png'});
+   if (width===390) await page.screenshot({path:'qa-screenshots/footer-theme-'+(route==='/es/help/'?'es':'en')+'.png'});
    await page.reload({waitUntil:'domcontentloaded'});
    await page.waitForFunction(()=>document.querySelector('.site-footer .tle-footer-toggle')?.getAttribute('aria-checked')==='true');
    await page.locator('.site-footer .tle-footer-toggle').click();
@@ -200,7 +200,7 @@ try{
  }
  // Reduced-motion must remove the decorative animations.
  const reduced=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});
- await reduced.goto(site+'/',{waitUntil:'domcontentloaded',timeout:45000});
+ await reduced.goto(site+'/booking-lead-automation/',{waitUntil:'domcontentloaded',timeout:45000});
  const anim=await reduced.locator('.tle-cta-pulse-ring').first().evaluate(el=>getComputedStyle(el).animationName);
  assert(anim==='none','reduced-motion ring should be disabled');
  const rotor=await reduced.locator('.tle-cta-pulse-button').last().evaluate(el=>getComputedStyle(el,'::before').animationName);

@@ -19,7 +19,7 @@ on:
   workflow_dispatch:
 jobs:
   static-qa:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - name: Verify sales demo copy, links, safe local booking and existing protected gates
@@ -30,7 +30,7 @@ jobs:
           node scripts/qa-route-integrity.mjs --static
 
   sample-browser:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 18
     steps:
       - uses: actions/checkout@v4

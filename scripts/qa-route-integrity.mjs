@@ -7,7 +7,7 @@ import {join,extname,posix} from 'node:path';
 const root=process.cwd(),pub=join(root,'public');
 const site=(process.env.TLE_QA_URL||'https://thelaunchera.com').replace(/\/$/,'');
 const domain=new URL(site).hostname,errors=[],warnings=[];
-const routes=['/','/es/','/solutions/','/how-it-works/','/help/','/booking-lead-automation/','/cleaning-web-app/','/virtual-assistant/','/website-automation/','/free-cleaning-lead-guide/','/es/booking-lead-automation/','/es/cleaning-web-app/','/es/virtual-assistant/','/es/website-automation/','/es/free-cleaning-lead-guide/'];
+const routes=['/','/es/','/solutions/','/how-it-works/','/help/','/es/help/','/booking-lead-automation/','/cleaning-web-app/','/virtual-assistant/','/website-automation/','/free-cleaning-lead-guide/','/es/booking-lead-automation/','/es/cleaning-web-app/','/es/virtual-assistant/','/es/website-automation/','/es/free-cleaning-lead-guide/'];
 const known=new Set(routes.map(x=>x==='/'?'/':x.replace(/\/$/,'')));
 function walk(folder){if(!existsSync(folder))return [];return readdirSync(folder,{withFileTypes:true}).flatMap(x=>{const f=join(folder,x.name);return x.isDirectory()?walk(f):x.isFile()?[f]:[]})}
 function existsRoute(pathname){
@@ -55,9 +55,11 @@ function staticChecks(){
   ['https://thelaunchera.com/try-booking/','try-booking/index.html']
  ]){
   const html=readFileSync(join(pub,local),'utf8');
-  if(!sitemap.includes('<loc>'+url+'</loc>'))errors.push('Indexable sales URL missing in sitemap: '+url);
-  if(!html.includes('rel="canonical" href="'+url+'"'))errors.push('Public sales page missing self-canonical: '+local);
-  if(/<meta[^>]+name=["']robots["'][^>]+noindex/i.test(html))errors.push('Sales page accidentally marked noindex: '+local);
+  // Legacy booking sales routes remain deep-link accessible to existing customers only.
+  // They must not be indexed or advertised as current offers after the universal rebrand.
+  if(sitemap.includes('<loc>'+url+'</loc>'))errors.push('Archived sales URL leaked into sitemap: '+url);
+  if(!/<meta[^>]+name=["']robots["'][^>]+content=["'][^"']*noindex/i.test(html))
+    errors.push('Archived sales route must be noindex: '+local);
  }
  for(const local of [
   'command-center/index.html',

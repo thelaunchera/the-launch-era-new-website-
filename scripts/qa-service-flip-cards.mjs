@@ -1,20 +1,18 @@
-/** Photo-first service cards: read-only browser QA for EN/ES at phone and desktop widths. */
+/** Bilingual universal website package cards, with legacy service-card implementation preserved for existing clients. */
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {chromium} from 'playwright';
 const read=p=>readFileSync(p,'utf8');
-const en=read('src/components/editorial-sections.tsx');
-const es=read('src/routes/es.index.tsx');
-const component=read('src/components/service-flip-card.tsx');
+const legacy=read('src/components/service-flip-card.tsx');
 const css=read('src/components/service-flip-card.css');
-const privateGate=read('public/booking-demo-reset.html');
-assert(en.includes('ServiceFlipCard')&&es.includes('ServiceFlipCard'),'Both locales use the service card component');
-assert(component.includes('tle-service-static__link')&&component.includes('href={href}'),'Cards must contain directly navigable links');
-assert(!component.includes('rotateY')&&!component.includes('is-flipped'),'Unreliable touch-dependent 3D faces must stay removed');
-assert(css.includes('height:auto!important')&&css.includes('grid-template-columns:minmax(0,1fr)!important'),'Cards must shrink to content and stay visible on phones');
-assert(privateGate.includes('tle-booking-demo-gate')&&privateGate.includes('id="authStep"'),'Keep private booking protected');
+const gate=read('public/booking-demo-reset.html');
+const home=read('src/components/official-home.tsx');
+assert(legacy.includes('tle-service-static__link') && legacy.includes('href={href}'),'Historical service links must remain accessible');
+assert(!legacy.includes('rotateY')&&!legacy.includes('is-flipped'),'Archived cards must not require 3D touch actions');
+assert(css.includes('height:auto!important'),'Historical cards should retain mobile usability');
+assert(gate.includes('id="authStep"'),'Legacy customer booking demo must remain gated');
+assert(home.includes('website-basic')&&home.includes('website-ai-crm'),'Official home must offer exactly the two current packages');
 const base=(process.env.QA_URL||'http://127.0.0.1:4173').replace(/\/$/,'');
-const destinations={en:['/booking-lead-automation','/ai-booking-assistant','/cleaning-web-app','/website-automation','/virtual-assistant'],es:['/es/booking-lead-automation','/es/ai-booking-assistant','/es/cleaning-web-app','/es/website-automation','/es/virtual-assistant']};
 const browser=await chromium.launch({headless:true});
 try {
  for(const [lang,route] of [['en','/'],['es','/es/']]){
@@ -22,32 +20,31 @@ try {
    const page=await browser.newPage({viewport:{width,height:844},isMobile:width<768,hasTouch:width<768});
    const errors=[];page.on('pageerror',e=>errors.push(e.message));
    await page.goto(base+route,{waitUntil:'domcontentloaded',timeout:45000});
-   const cards=page.locator('.sales-home .solutions-section .tle-service-static');
-   await cards.first().waitFor({state:'visible',timeout:20000});
-   assert.equal(await cards.count(),5,lang+' '+width+' must have five offered services');
-   for(let i=0;i<5;i++){
-    const card=cards.nth(i),link=card.locator('a.tle-service-static__link');
-    const href=await link.getAttribute('href');
-    assert.equal(new URL(href,base).pathname.replace(/\/$/,''),destinations[lang][i],lang+' service '+i+' link');
-    assert(await card.locator('img').count()===1,'Service '+i+' must have one photograph');
-    assert(await card.locator('h3').isVisible(),'Name must be visible without touching card');
-    assert(await card.locator('p').isVisible(),'Description must be visible without touching card');
-    assert(await card.locator('.tle-service-static__cta').isVisible(),'Next action must be visible');
-    const rect=await card.boundingBox();
-    assert(rect&&rect.height>100&&rect.height<(width<768?325:620),'Unusable card height '+JSON.stringify({width,i,rect}));
+   const plans=page.locator('.tle-universal .plan');
+   await plans.first().waitFor({state:'visible',timeout:20000});
+   assert.equal(await plans.count(),2,lang+' '+width+': the official site must show only two packages');
+   const offers=['website-basic','website-ai-crm'];
+   for(let i=0;i<2;i++){
+     const plan=plans.nth(i);
+     assert.equal(await plan.locator('img').count(),1,'A package photo is missing');
+     assert(await plan.locator('h3').isVisible(),'A package headline is not visible');
+     const link=plan.locator('a[href^="/service-checkout/"]');
+     assert.equal(await link.count(),1,'A package checkout link is missing');
+     const href=await link.getAttribute('href');
+     assert(href?.includes('offer='+offers[i]+'&lang='+lang),'Package CTA points to the wrong plan or locale');
+     const box=await plan.boundingBox();
+     assert(box && box.width>180,'Package card is squeezed below usable width');
    }
+   assert.equal(await page.locator('.sales-home .solutions-section .tle-service-static').count(),0,'Retired five-service marketing cards must not appear');
+   assert.equal(await page.locator('.tle-universal .monthly-price').count(),1,'AI monthly fee must be visible exactly once');
+   assert(await page.locator('.tle-universal .monthly-price').isVisible(),'Monthly fee is hidden');
+   assert((await page.locator('.tle-universal .monthly-price').innerText()).includes('$8'), 'AI package must show $8 per month');
+   assert((await page.locator('.tle-universal .monthly-price').innerText()).includes('$33'), 'First AI payment must disclose $33');
    const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
-   assert(overflow<=4,lang+' '+width+' page horizontal overflow '+overflow);
-   assert.deepEqual(errors,[],lang+' '+width+' JS errors');
+   assert(overflow<=4,lang+' '+width+': horizontal overflow '+overflow);
+   assert.deepEqual(errors,[],lang+' '+width+': browser errors');
+   console.log('PASS two website packages '+lang+' '+width);
    await page.close();
   }
  }
- for(const [lang,route] of [['en','/'],['es','/es/']]){
-  const page=await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
-  await page.goto(base+route,{waitUntil:'domcontentloaded'});
-  await page.locator('.tle-service-static__link').first().click();
-  await page.waitForURL(u=>u.pathname.includes('booking-lead-automation'),{timeout:15000});
-  await page.close();
- }
- console.log('PASS five static service cards in EN/ES at four widths, visible photography and CTA, functional touch links');
-} finally {await browser.close();}
+}finally{await browser.close();}
