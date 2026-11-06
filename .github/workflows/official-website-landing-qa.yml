@@ -13,6 +13,9 @@ on:
       - 'public/intake/website/**'
       - 'public/intake/website-ai-crm/**'
       - 'public/assets/tle-website-intake.js'
+      - 'public/assets/tle-website-intake.css'
+      - 'public/custom-app/**'
+      - 'public/assets/tle-custom-app-request.js'
   pull_request:
     paths:
       - 'public/website-for-your-business/**'
@@ -26,6 +29,9 @@ on:
       - 'public/intake/website/**'
       - 'public/intake/website-ai-crm/**'
       - 'public/assets/tle-website-intake.js'
+      - 'public/assets/tle-website-intake.css'
+      - 'public/custom-app/**'
+      - 'public/assets/tle-custom-app-request.js'
 jobs:
   static-official-website:
     runs-on: ubuntu-latest
@@ -37,3 +43,5 @@ jobs:
       - run: |
           node scripts/qa-official-website-landing.mjs
           node scripts/qa-website-checkout-flow.mjs
+          node --check public/assets/tle-website-intake.js
+          node --check public/assets/tle-custom-app-request.js
