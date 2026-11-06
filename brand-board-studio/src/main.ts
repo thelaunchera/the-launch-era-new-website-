@@ -397,16 +397,34 @@ const DEMOS=[
     imageY: 50,
     imageX: 50,
     imageScale: 1
-  }
+  },
+  {
+    id: 'wok-social',
+    name: 'WOK SOCIAL',
+    category: 'Restaurante · Demo',
+    description: 'Chinese Street Kitchen — concepto editorial con noodles, hibachi y escenas originales.',
+    tagline: 'Good Food. Loud Flavor.',
+    monogram: 'WS',
+    symbol: 'WS',
+    titleFont: 'Caprasimo',
+    bodyFont: 'DM Sans',
+    tone: 'Energética · editorial · gastronómica',
+    style: 'restaurant',
+    colors: ['#E32620','#171615','#FFE400','#F6F1E7','#AB1B16','#F9EACF'],
+    heroPhoto: 'https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/hero-storefront.webp',
+    detailPhoto: 'https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/01-noodle-signature.webp',
+    site: 'https://thelaunchera.github.io/demo-booking-landing-/wok-social/',
+    logoImage: '', patternImage: '', imageY: 50, imageX: 50, imageScale: 1
+  },
 ];
 const TYPES=['Bakery · Demo','Cookie Shop · Demo','Nightclub · Demo','Boutique · Demo','Beauty · Demo','Wellness · Demo','Restaurante · Demo','Audio · Demo','Food · Demo','Cleaning · Demo','Cliente real','Otra categoría'];
-const FONTS=['Italiana','Bodoni Moda','DM Serif Display','Cormorant Garamond','Bebas Neue','Georgia','Manrope','DM Sans','Arial'];
+const FONTS=['Italiana','Bodoni Moda','DM Serif Display','Cormorant Garamond','Bebas Neue','Caprasimo','Georgia','Manrope','DM Sans','Arial'];
 const clone=x=>JSON.parse(JSON.stringify(x));
 const $=id=>document.getElementById(id);
 const html=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','&#39;':'&#39;'}[c]||'&#39;'));
 const cssUrl=x=>'url('+JSON.stringify(x||'')+')';
 const hex=(v,f='#FFFFFF')=>/^#[0-9a-fA-F]{6}$/.test(v||'')?v:f;
-const FONT_MAP={'Italiana':"'Italiana',Georgia,serif",'Bodoni Moda':"'Bodoni Moda',Georgia,serif",'DM Serif Display':"'DM Serif Display',Georgia,serif",'Cormorant Garamond':"'Cormorant Garamond',Georgia,serif",'Bebas Neue':"'Bebas Neue',Arial,sans-serif",Georgia:'Georgia,serif',Manrope:"Manrope,sans-serif",'DM Sans':"'DM Sans',sans-serif",Arial:'Arial,sans-serif'};
+const FONT_MAP={'Caprasimo':"'Caprasimo',Georgia,serif",'Italiana':"'Italiana',Georgia,serif",'Bodoni Moda':"'Bodoni Moda',Georgia,serif",'DM Serif Display':"'DM Serif Display',Georgia,serif",'Cormorant Garamond':"'Cormorant Garamond',Georgia,serif",'Bebas Neue':"'Bebas Neue',Arial,sans-serif",Georgia:'Georgia,serif',Manrope:"Manrope,sans-serif",'DM Sans':"'DM Sans',sans-serif",Arial:'Arial,sans-serif'};
 const font=v=>FONT_MAP[v]||FONT_MAP['DM Sans'];
 function hydrate(){
   let previous=[];
