@@ -1,95 +1,179 @@
 (() => {
- const root=document.documentElement,body=document.body,plan=body.dataset.package,advanced=plan==='website-ai-crm';
- const params=new URLSearchParams(location.search);
- let lang=params.get('lang')==='es'?'es':'en';
- const paid=params.get('stage')==='onboarding' || params.get('stage')==='paid';
- const appTopic=params.get('topic')==='app';
- const text={
+ 'use strict';
+ const body=document.body,root=document.documentElement,plan=body.dataset.package;
+ const advanced=plan==='website-ai-crm',params=new URLSearchParams(location.search);
+ const session=String(params.get('session_id')||'');
+ let lang=params.get('lang')==='es'?'es':'en',paid=false,verifying=false;
+ const $=id=>document.getElementById(id);
+ const form=$('intake-form'),submit=$('send'),feedback=$('feedback'),status=$('payment-status'),retry=$('verify-retry');
+ const start=Date.now(),submissionId=crypto.randomUUID();
+ const endpoint='https://fhrvuhikrybobidxpvnh.supabase.co/functions/v1/';
+ const copy={
  en:{
-  back:'Back to packages',start:'START YOUR PROJECT',packageBasic:'Website for Your Business',packageAdvanced:'Website + AI Assistant + Automated CRM',
-  headBasic:'Tell us about your website.',headAdvanced:'Let’s connect your website, AI and leads.',lead:'A few details help us understand your business and prepare the right website experience.',
-  packageScope:'A website, customer inquiry path and notifications delivered to your preferred inbox.',
-  packageScopeAdvanced:'A website, on-page AI assistant, lead management and an agreed follow-up workflow.',
-  init:'Initial setup price · USD',reminder:'Any required domain, hosting or AI provider fees are explained before work begins.',
-  boxLabel:'YOUR BUSINESS · YOUR WEBSITE',formTitle:'Your project details',formLead:'This is an inquiry, not a purchase confirmation. We’ll review your request and contact you by email.',
-  formLeadPaid:'Please provide your setup details. Payment status is verified separately; submitting this form does not establish a paid order.',
-  group1:'01 / About your business',group2:'02 / Your new website',group3:'03 / Automations and preferences',
-  name:'Your name *',email:'Contact email *',phone:'Phone (optional)',business:'Business name *',industry:'Industry *',website:'Existing website (optional)',action:'What should customers do? *',
-  inbox:'Email to receive new inquiries *',goals:'What do you need your website to do? *',brand:'Brand style, colors or references (optional)',
-  automation:'What would you like automated?',ai:'What questions should the AI assistant answer?',consent:'I agree to be contacted about this inquiry and have read the',
-  privacy:'Privacy Policy',send:'Send my website inquiry',sending:'Sending securely…',
-  security:'Please do not include passwords, payment card details or verification codes. Sending this form does not create a paid order.',
-  doneTitle:'Your inquiry is in!',doneBody:'Thank you — your details have been received in our private Studio. We’ll review your request and respond to your contact email; this is not a payment confirmation.',
-  again:'See the packages',failed:'We could not receive your request right now. Your details have not been confirmed as sent; please try again.',
-  other:'Something else',contact:'Contact request',quote:'Request a quote',appointment:'Appointment request',purchase:'Purchase / order',industryPlace:'e.g., beauty salon, food business, consulting…',
-  goalsPlace:'Your services, who your customers are, and the next step you want people to take…',autoPlace:'e.g., email notifications, lead reminders, follow-up after an inquiry…',aiPlace:'Frequently asked questions, opening hours, services, policies, and when to refer to you…',
-  mockNote:'Illustrative example from our website portfolio',additional:'We review the final workflow before setup; additional integrations may need a separate scope.',
-  appInterest:'I’m interested in a custom app and would like to discuss the options.'
+  back:'View packages',start:'STEP 2 OF 2 · YOUR WEBSITE SETUP',
+  headBasic:'Tell us about your business.',headAdvanced:'Let’s set up your website and CRM.',
+  lead:'We have your package. These are the details we need to build and configure your system.',
+  packageBasic:'Website for Your Business',packageAdvanced:'Website + AI Assistant + Automated CRM',
+  init:'Setup package · USD',reminderBasic:'Estimated 48-hour production after approved kickoff, with one review round.',
+  reminderAdvanced:'$25 setup + $8/month for ongoing AI service. Estimated 48-hour production after approved kickoff, with one review round.',
+  scopeBasic:'Website, customer action and email notifications.',
+  scopeAdvanced:'Website, on-page AI assistant, CRM and approved follow-up automations.',
+  boxLabel:'PROJECT SETUP',formTitle:'Your business details',
+  formLead:'Complete this once using the same email address used at checkout.',
+  waiting:'Verifying your Stripe payment…',required:'Complete secure checkout first to access setup.',
+  failedVerify:'Payment could not be confirmed. If you paid, check again or contact us.',
+  retry:'Check payment again',verified:'Payment confirmed. You can complete your setup.',
+  group1:'01 / Business details',group2:'02 / Website content',group3:'03 / Brand and automation',
+  name:'Your name *',email:'Email used at checkout *',business:'Business name *',industry:'Type of business *',
+  phone:'Business phone (optional)',location:'City or service area (optional)',website:'Existing website (optional)',
+  action:'What should visitors do? *',inbox:'Email to receive customer requests *',
+  services:'Your services or products *',goals:'What should your website communicate or do? *',
+  domain:'Domain name or domain preference (optional)',hours:'Business hours (optional)',social:'Social links (optional)',
+  brand:'Brand colors, fonts or style (optional)',assets:'Link to your logo and photos (optional)',
+  references:'Websites you like (optional)',automation:'What follow-ups or tasks should we automate?',
+  ai:'What should the AI assistant know and answer?',
+  consent:'I confirm that I am authorized to use the business information provided and have read the',
+  privacy:'Privacy Policy',send:'Submit setup details',sending:'Sending setup…',
+  security:'Do not include passwords, card numbers or verification codes. Share assets using a link.',
+  doneTitle:'Your setup details are in!',doneBody:'Your paid project information has been received. We will review your materials and confirm the production kickoff by email.',
+  again:'Back to packages',failed:'We could not save your setup details. Please try again or contact us.',
+  already:'We already received the setup for this payment. Contact us if you need to change something.',
+  other:'Other',contact:'Contact request',quote:'Request a quote',appointment:'Appointment request',purchase:'Purchase or order',
+  servicesPlace:'List your main services or products and any important details.',
+  goalsPlace:'Describe your business, your audience and the result you want from your website.',
+  assetsPlace:'https://drive.google.com/... or another shared link',
+  autoPlace:'Examples: email notices, lead reminders, follow-up after an inquiry.',
+  aiPlace:'FAQ, services, prices, policies and when the AI should hand off to you.'
  },
  es:{
-  back:'Volver a los paquetes',start:'COMIENZA TU PROYECTO',packageBasic:'Website para tu negocio',packageAdvanced:'Website + Asistente IA + CRM automatizado',
-  headBasic:'Cuéntanos cómo será tu website.',headAdvanced:'Conectemos tu website, la IA y tus leads.',lead:'Unos detalles nos ayudan a entender tu negocio y preparar la experiencia adecuada.',
-  packageScope:'Website, formulario de solicitudes y avisos al correo que tú elijas.',
-  packageScopeAdvanced:'Website, asistente IA en la página, organización de leads y un flujo acordado de seguimiento.',
-  init:'Precio de configuración inicial · USD',reminder:'Te informamos antes de comenzar si necesitas dominio, hosting o herramientas de IA de pago.',
-  boxLabel:'TU NEGOCIO · TU WEBSITE',formTitle:'Detalles de tu proyecto',formLead:'Esto es una consulta, no confirma una compra. Revisaremos tus datos y te responderemos por correo.',
-  formLeadPaid:'Comparte los datos para preparar tu website. El pago se verifica por separado; este formulario no confirma una compra pagada.',
-  group1:'01 / Sobre tu negocio',group2:'02 / Tu nuevo website',group3:'03 / Automatizaciones y preferencias',
-  name:'Tu nombre *',email:'Correo de contacto *',phone:'Teléfono (opcional)',business:'Nombre del negocio *',industry:'Industria *',website:'Website actual (opcional)',action:'¿Qué deben hacer tus clientes? *',
-  inbox:'Correo que recibirá las solicitudes *',goals:'¿Qué necesitas que haga tu website? *',brand:'Colores, estilo y referencias (opcional)',
-  automation:'¿Qué te gustaría automatizar?',ai:'¿Qué preguntas debe responder el asistente IA?',consent:'Acepto que me contacten para responder esta consulta y he leído la',
-  privacy:'Política de privacidad',send:'Enviar solicitud de website',sending:'Enviando de forma segura…',
-  security:'No incluyas contraseñas, tarjetas ni códigos de verificación. Este formulario no crea una compra pagada.',
-  doneTitle:'¡Recibimos tu consulta!',doneBody:'Gracias. Tus datos llegaron a nuestro Studio privado. Revisaremos tu solicitud y responderemos al correo de contacto; esto no confirma ningún pago.',
-  again:'Ver los paquetes',failed:'No pudimos confirmar el envío. Inténtalo de nuevo; no damos tu solicitud por recibida.',
-  other:'Otra cosa',contact:'Solicitud de contacto',quote:'Pedir cotización',appointment:'Solicitar cita',purchase:'Compra o pedido',industryPlace:'Ej. salón de belleza, restaurante, consultoría…',
-  goalsPlace:'Qué ofreces, a quién ayudas y qué quieres que haga el visitante…',autoPlace:'Ej. avisos por correo, recordatorios, seguimiento después de una consulta…',aiPlace:'Preguntas frecuentes, servicios, horarios y cuándo pasarte la conversación…',
-  mockNote:'Ejemplo ilustrativo de nuestro portafolio web',additional:'Confirmamos el flujo antes de comenzar; integraciones adicionales pueden requerir un acuerdo aparte.',
-  appInterest:'Me interesa una app personalizada y quisiera conocer las opciones.'
+  back:'Ver paquetes',start:'PASO 2 DE 2 · CONFIGURACIÓN DE TU WEBSITE',
+  headBasic:'Cuéntanos sobre tu negocio.',headAdvanced:'Configuremos tu website y CRM.',
+  lead:'Ya tenemos tu paquete. Necesitamos estos detalles para construir tu website y configurar tu sistema.',
+  packageBasic:'Website para tu Negocio',packageAdvanced:'Website + Asistente IA + CRM Automatizado',
+  init:'Paquete de configuración · USD',reminderBasic:'Producción estimada en 48 horas desde el inicio aprobado, con una ronda de revisión.',
+  reminderAdvanced:'$25 de configuración + $8/mes por servicio de IA. Producción estimada en 48 horas desde el inicio aprobado, con una ronda de revisión.',
+  scopeBasic:'Website, acción de clientes y avisos por correo.',
+  scopeAdvanced:'Website, asistente IA en la página, CRM y seguimientos acordados.',
+  boxLabel:'CONFIGURACIÓN DEL PROYECTO',formTitle:'Datos de tu negocio',
+  formLead:'Completa esto una vez con el mismo correo que usaste para pagar.',
+  waiting:'Verificando tu pago con Stripe…',required:'Completa primero el pago seguro para configurar tu proyecto.',
+  failedVerify:'No pudimos confirmar tu pago. Si ya pagaste, intenta nuevamente o escríbenos.',
+  retry:'Volver a verificar el pago',verified:'Pago confirmado. Ya puedes completar tu configuración.',
+  group1:'01 / Datos del negocio',group2:'02 / Contenido del website',group3:'03 / Marca y automatizaciones',
+  name:'Tu nombre *',email:'Correo usado para pagar *',business:'Nombre del negocio *',industry:'Tipo de negocio *',
+  phone:'Teléfono del negocio (opcional)',location:'Ciudad o área de servicio (opcional)',website:'Website actual (opcional)',
+  action:'¿Qué deben hacer los visitantes? *',inbox:'Correo que recibirá solicitudes de clientes *',
+  services:'Servicios o productos que ofreces *',goals:'¿Qué quieres comunicar o lograr con tu website? *',
+  domain:'Dominio o nombre deseado (opcional)',hours:'Horario de atención (opcional)',social:'Redes sociales (opcional)',
+  brand:'Colores, tipografías o estilo de marca (opcional)',assets:'Enlace a tu logo y fotos (opcional)',
+  references:'Websites que te inspiran (opcional)',automation:'¿Qué seguimientos o tareas quieres automatizar?',
+  ai:'¿Qué necesita saber y responder el asistente IA?',
+  consent:'Confirmo que tengo permiso para usar la información del negocio y he leído la',
+  privacy:'Política de Privacidad',send:'Enviar datos de configuración',sending:'Enviando configuración…',
+  security:'No incluyas contraseñas, números de tarjeta ni códigos de verificación. Comparte tus fotos mediante un enlace.',
+  doneTitle:'¡Recibimos tu configuración!',doneBody:'Recibimos los datos de tu proyecto pagado. Revisaremos tus materiales y confirmaremos por correo el inicio de producción.',
+  again:'Volver a paquetes',failed:'No pudimos guardar tu configuración. Inténtalo de nuevo o contáctanos.',
+  already:'Ya recibimos la configuración de este pago. Contáctanos si necesitas cambiar algo.',
+  other:'Otro',contact:'Contacto',quote:'Solicitar cotización',appointment:'Solicitar cita',purchase:'Comprar o hacer pedido',
+  servicesPlace:'Enumera tus principales servicios o productos y sus detalles importantes.',
+  goalsPlace:'Describe tu negocio, a quién ayudas y qué quieres lograr con el website.',
+  assetsPlace:'https://drive.google.com/... u otro enlace compartido',
+  autoPlace:'Ejemplos: avisos por correo, recordatorios, seguimiento de solicitudes.',
+  aiPlace:'Preguntas frecuentes, servicios, precios, políticas y cuándo pasarte la conversación.'
  }};
- const $=id=>document.getElementById(id);
- const form=$('intake-form'),submit=$('send'),feedback=$('feedback');
- const begin=Date.now(),submissionId=(crypto.randomUUID?crypto.randomUUID():'00000000-0000-4000-8000-'+Array.from(crypto.getRandomValues(new Uint8Array(6))).map(n=>n.toString(16).padStart(2,'0')).join(''));
- const originalName=document.title;
  function translate(){
-  root.lang=lang;const t=text[lang];document.title=(advanced?t.packageAdvanced:t.packageBasic)+' · The Launch Era';
-  $('complete').querySelector('a').href=lang==='es'?'/es/website-for-your-business/':'/website-for-your-business/';
-  for(const node of document.querySelectorAll('[data-i18n]')){const key=node.getAttribute('data-i18n');if(t[key])node.textContent=t[key];}
-  for(const node of document.querySelectorAll('[data-placeholder]')){const key=node.getAttribute('data-placeholder');if(t[key])node.placeholder=t[key];}
+  const t=copy[lang];root.lang=lang;
+  document.title=(advanced?t.packageAdvanced:t.packageBasic)+' · '+(lang==='es'?'Configuración':'Setup')+' | The Launch Era';
+  for(const node of document.querySelectorAll('[data-i18n]')){const label=t[node.dataset.i18n];if(label!==undefined)node.textContent=label}
+  for(const node of document.querySelectorAll('[data-placeholder]')){const label=t[node.dataset.placeholder];if(label!==undefined)node.placeholder=label}
   $('package-name').textContent=advanced?t.packageAdvanced:t.packageBasic;
   $('intro-title').textContent=advanced?t.headAdvanced:t.headBasic;
-  $('intro-scope').textContent=advanced?t.packageScopeAdvanced:t.packageScope;
-  $('form-lead').textContent=paid?t.formLeadPaid:t.formLead;
+  $('intro-scope').textContent=advanced?t.scopeAdvanced:t.scopeBasic;
   $('price').textContent=advanced?'$25':'$15';
+  $('ongoing').textContent=advanced?t.reminderAdvanced:t.reminderBasic;
   $('locale').textContent=lang==='es'?'English':'Español';
-  $('return').href=(lang==='es'?'/es/website-for-your-business/':'/website-for-your-business/');
-  const select=form.elements.namedItem('customer_action');
-  const labels=['contact','quote','appointment','purchase','other'];for(let i=0;i<select.options.length;i++)select.options[i].textContent=t[labels[i]];
+  $('return').href=lang==='es'?'/es/website-for-your-business/':'/website-for-your-business/';
+  $('complete').querySelector('a').href=$('return').href;
   $('privacy').href=lang==='es'?'/es/privacy.html':'/privacy.html';
-  if(appTopic) $('goals').placeholder=t.appInterest;
+  const select=form.elements.namedItem('customer_action');
+  const names=['contact','quote','appointment','purchase','other'];
+  Array.from(select.options).forEach((o,i)=>o.textContent=t[names[i]]);
+  retry.textContent=t.retry;
+  if(paid){status.textContent=t.verified}
+  else if(!/^cs_live_[A-Za-z0-9]+$/.test(session)){status.textContent=t.required}
+  else status.textContent=t.waiting;
  }
- $('locale').addEventListener('click',()=>{lang=lang==='es'?'en':'es';const url=new URL(location.href);url.searchParams.set('lang',lang);history.replaceState(null,'',url);translate()});
- translate();
+ $('locale').addEventListener('click',()=>{
+  lang=lang==='en'?'es':'en';
+  const u=new URL(location.href);u.searchParams.set('lang',lang);history.replaceState(null,'',u);
+  translate();
+ });
  if(advanced)$('advanced-fields').hidden=false;
- if(appTopic)$('goals').value=text[lang].appInterest;
- form.addEventListener('submit',async e=>{
-  e.preventDefault();if(submit.disabled||!form.reportValidity())return;
-  const fd=new FormData(form);submit.disabled=true;submit.textContent=text[lang].sending;feedback.hidden=true;
-  const payload={submission_id:submissionId,elapsed_ms:Date.now()-begin,website_check:String(fd.get('website_check')||''),package_slug:plan,kind:paid?'intake':'inquiry',
-   name:String(fd.get('name')||''),email:String(fd.get('email')||''),phone:String(fd.get('phone')||''),business_name:String(fd.get('business_name')||''),
-   industry:String(fd.get('industry')||''),existing_website:String(fd.get('existing_website')||''),preferred_email:String(fd.get('preferred_email')||''),
-   customer_action:String(fd.get('customer_action')||''),goals:String(fd.get('goals')||''),brand_notes:String(fd.get('brand_notes')||''),
-   automation_goals:String(fd.get('automation_goals')||''),ai_brief:advanced?String(fd.get('ai_brief')||''):'',language:lang,contact_consent:fd.get('consent')==='yes',
-   checkout_reference:paid?String(params.get('session_id')||''):'',source:paid?'checkout':'landing'};
-  if(appTopic)payload.goals=text[lang].appInterest+'\n'+payload.goals;
+ form.hidden=true;translate();
+ async function verify(){
+  if(verifying)return;
+  if(!/^cs_live_[A-Za-z0-9]+$/.test(session)){$('verify-retry').hidden=true;return}
+  verifying=true;retry.hidden=true;status.textContent=copy[lang].waiting;
   try{
-   const r=await fetch('https://fhrvuhikrybobidxpvnh.supabase.co/functions/v1/tle-studio-website-intake',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-   const data=await r.json().catch(()=>({}));
-   if(!r.ok||!data.ok)throw Error(data.error||'Not received');
-   form.hidden=true;$('complete').hidden=false;$('complete-title').textContent=text[lang].doneTitle;$('complete-message').textContent=text[lang].doneBody;
-   window.scrollTo({top:0,behavior:'smooth'});
+   const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),20000);
+   let r;try{
+    r=await fetch(endpoint+'tle-studio-website-confirm-payment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:session,offer:plan}),signal:ctrl.signal});
+   }finally{clearTimeout(timer)}
+   const d=await r.json().catch(()=>({}));
+   if(!r.ok||d.ok!==true||d.paid!==true||d.offer!==plan)throw Error('Unconfirmed');
+   paid=true;$('payment-status').textContent=copy[lang].verified;
+   $('form-lead').textContent=copy[lang].formLead;
+   form.hidden=false;retry.hidden=true;
   }catch{
-   feedback.textContent=text[lang].failed;feedback.className='feedback error';feedback.hidden=false;submit.disabled=false;submit.textContent=text[lang].send;
+   paid=false;form.hidden=true;status.textContent=copy[lang].failedVerify;retry.hidden=false;
+  }finally{verifying=false}
+ }
+ retry.addEventListener('click',verify);
+ verify();
+ function get(formData,name){return String(formData.get(name)||'').trim()}
+ function note(label,value){return value?label+': '+value:''}
+ form.addEventListener('submit',async event=>{
+  event.preventDefault();
+  if(!paid||submit.disabled||!form.reportValidity())return;
+  const f=new FormData(form),t=copy[lang];
+  const goals=[
+   get(f,'goals'),note('Services/products',get(f,'services')),
+   note('Business location/service area',get(f,'business_location')),
+   note('Business hours',get(f,'business_hours')),
+   note('Preferred domain',get(f,'domain_preference')),
+   note('Social profiles',get(f,'social_links'))
+  ].filter(Boolean).join('\n').slice(0,3500);
+  const brand=[
+   get(f,'brand_notes'),note('Brand photo/logo folder',get(f,'brand_assets_url')),
+   note('Website inspirations',get(f,'reference_sites'))
+  ].filter(Boolean).join('\n').slice(0,2000);
+  const payload={
+   submission_id:submissionId,elapsed_ms:Date.now()-start,
+   website_check:get(f,'website_check'),package_slug:plan,kind:'intake',source:'checkout',
+   name:get(f,'name'),email:get(f,'email'),phone:get(f,'phone'),
+   business_name:get(f,'business_name'),industry:get(f,'industry'),
+   existing_website:get(f,'existing_website'),preferred_email:get(f,'preferred_email'),
+   customer_action:get(f,'customer_action'),goals,brand_notes:brand,
+   automation_goals:get(f,'automation_goals'),ai_brief:advanced?get(f,'ai_brief'):'',
+   language:lang,contact_consent:f.get('consent')==='yes',
+   checkout_reference:session
+  };
+  submit.disabled=true;submit.textContent=t.sending;feedback.hidden=true;
+  try{
+   const r=await fetch(endpoint+'tle-studio-website-intake',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+   const result=await r.json().catch(()=>({}));
+   if(!r.ok||result.ok!==true){
+    if(r.status===409)throw Error('already');
+    throw Error('failed');
+   }
+   form.hidden=true;$('complete').hidden=false;
+   $('complete-title').textContent=t.doneTitle;
+   $('complete-message').textContent=t.doneBody;
+   window.scrollTo({top:0,behavior:'smooth'});
+  }catch(e){
+   feedback.textContent=String(e.message)==='already'?t.already:t.failed;
+   feedback.hidden=false;feedback.className='feedback error';
+   submit.disabled=false;submit.textContent=t.send;
   }
  });
 })();
