@@ -19,7 +19,7 @@ for (const [lang,page] of [['en',en],['es',es]]) {
  ensure(!/<p class="fine" data-key="termsNote">/.test(page),lang+' has the old lengthy pricing disclaimer');
  ensure(page.includes('src="/assets/website-packages-20261105/hero-jaramillo.svg"'),lang+' hero must remain untouched');
  ensure(!page.includes('data-key="heroOverline"')&&!page.includes('<span class="dash"></span>'),lang+' hero heading or yellow line still visible');
- ensure(page.includes('href="/custom-app/?lang='+lang+'"'),lang+' custom app request is not linked');
+ ensure(!page.includes('href="/custom-app/?lang='+lang+'"')&&!page.includes('class="app-section"'),lang+' should not advertise a separate app');
  ensure(page.includes(lang==='en'?'Due today: $25':'Pagas hoy $25'),lang+' $25 due today missing');
  ensure(page.includes(lang==='en'?'after 30 days':'después de 30 días'),lang+' 30-day recurring billing copy missing');
 }
