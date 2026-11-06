@@ -1,0 +1,47 @@
+name: Website English and Spanish iPhone Image QA
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/qa-website-photo-iphone.mjs'
+      - '.github/workflows/website-photo-iphone-qa.yml'
+      - 'public/website-for-your-business/index.html'
+      - 'public/es/website-for-your-business/index.html'
+      - 'public/assets/website-packages-20261105/*-en.png'
+      - 'public/assets/website-packages-20261105/*-en.jpg'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  iPhone-browser-preview:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Install isolated browser
+        run: |
+          mkdir -p /tmp/tle-english-photo-qa
+          cd /tmp/tle-english-photo-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          cd "$GITHUB_WORKSPACE"
+          mkdir -p node_modules
+          ln -sfn /tmp/tle-english-photo-qa/node_modules/playwright node_modules/playwright
+          ln -sfn /tmp/tle-english-photo-qa/node_modules/playwright-core node_modules/playwright-core
+      - name: Test both languages on 390px iPhone viewport
+        run: |
+          python3 -m http.server 4187 --bind 127.0.0.1 --directory public >/tmp/tle-photo-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for n in $(seq 1 15); do curl -fsS http://127.0.0.1:4187/website-for-your-business/ >/dev/null && break; sleep 1; done
+          node scripts/qa-website-photo-iphone.mjs
+      - name: Save both iPhone photo previews
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: website-photos-iphone-qa
+          path: qa-screenshots/website-process-*-iphone.png
+          if-no-files-found: ignore
