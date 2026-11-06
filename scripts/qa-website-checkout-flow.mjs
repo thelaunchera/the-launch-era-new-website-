@@ -9,6 +9,8 @@ const receipt=read('public/website-payment-success/index.html');
 const basic=read('public/intake/website/index.html');
 const advanced=read('public/intake/website-ai-crm/index.html');
 const intakeJS=read('public/assets/tle-website-intake.js');
+const ownerDelivery=read('public/website-delivery-admin/index.html');
+const secureDeliveryFunction=read('supabase/functions/tle-website-delivery-activate/index.ts');
 const customApp=read('public/custom-app/index.html');
 const customJS=read('public/assets/tle-custom-app-request.js');
 
@@ -49,6 +51,13 @@ ensure(intakeJS.includes('tle-studio-website-upload-photo'),'Paid photo uploads 
 ensure(intakeJS.includes('first AI + CRM service month starts when the completed website is delivered'),'EN paid intake must start the service month upon delivery');
 ensure(intakeJS.includes('primer mes de IA + CRM empieza con la entrega del website terminado'),'ES paid intake must start the service month upon delivery');
 ensure(!intakeJS.includes('after 30 days')&&!intakeJS.includes('después de 30 días'),'Do not promise checkout-relative monthly billing');
+ensure(ownerDelivery.includes('tle-website-delivery-activate'),'Owner delivery console must contact secured server function');
+ensure(ownerDelivery.includes('Entregas y mensualidades'),'Owner console must explain delivery-based billing');
+ensure(secureDeliveryFunction.includes('platform_admins?user_id=eq.'),'Only authorized company admins can activate delivery billing');
+ensure(secureDeliveryFunction.includes('confirmed_delivered!==true'),'Manual verified delivery confirmation required');
+ensure(secureDeliveryFunction.includes('first_month_ends_at'),'First month must be stored from actual delivery');
+ensure(secureDeliveryFunction.includes('tle_private_payment_hooks'),'Private Make activation webhook required');
+ensure(secureDeliveryFunction.includes('stripe_subscription_id'),'Repeated delivery must not create another subscription');
 ensure(customApp.includes('id="custom-app-form"'),'Custom app form missing');
 ensure(customApp.includes('name="preferred_call"'),'Custom app 1:1 option missing');
 ensure(customJS.includes('tle-studio-custom-app-request'),'Custom app form has no saving endpoint');
