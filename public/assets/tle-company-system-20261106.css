@@ -1,0 +1,14 @@
+/* The Launch Era — common production attribution and accessibility layer.
+   This file deliberately DOES NOT overwrite demo colors, typography, spacing,
+   photography or product-specific hero layouts. Source of truth:
+   docs/brand-system/the-launch-era-public-design-system-20261106.md */
+:root{--tle-company-ivory:#FAF8F3;--tle-company-black:#191919;--tle-company-yellow:#F2D85B;--tle-company-blue:#BED8E9}
+.tle-studio-footer{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 13px;padding:15px 20px;background:var(--tle-company-ivory);color:var(--tle-company-black);border-top:1px solid rgba(25,25,25,.14);font:500 11px/1.65 Arial,Helvetica,sans-serif;letter-spacing:.025em;text-align:center;clear:both}
+.tle-studio-footer a{font:700 11px/1.65 Arial,Helvetica,sans-serif;color:inherit;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;white-space:nowrap}
+.tle-studio-footer .tle-demo-disclosure{color:#57606a;font-size:11px}
+.tle-studio-footer a:focus-visible,[data-tle-company] a:focus-visible,[data-tle-company] button:focus-visible,[data-tle-company] summary:focus-visible{outline:3px solid #447da2;outline-offset:3px}
+[data-tle-company="public"] :is(a.btn,a.button,a.class-primary-button,a[class*="primary-cta"],button[class*="primary-cta"]){min-height:44px}
+[data-tle-company="public"] footer{line-height:1.55}
+[data-tle-company="public"] footer a[href="https://thelaunchera.com/"],[data-tle-company="demo"] footer a[href="https://thelaunchera.com/"]{text-decoration-thickness:1px;text-underline-offset:3px}
+@media(max-width:390px){.tle-studio-footer{padding:13px 11px;gap:4px 8px}}
+@media(prefers-reduced-motion:reduce){.tle-studio-footer a{scroll-behavior:auto}}
