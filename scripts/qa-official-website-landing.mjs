@@ -5,10 +5,10 @@ const photos=['hero-jaramillo','website-la-vie-in-pink','automated-crm','process
 const css=readFileSync('public/assets/tle-website-official.css','utf8');
 assert.ok(css.includes('max-width:780px'),'phone CTA rules');
 assert.ok(css.includes('hero>img'),'hero photo');
-for(const p of photos)assert.ok(existsSync('public/assets/website-packages-20261105/'+p+'.svg'),'missing approved photo '+p);
+for(const p of photos)assert.ok(existsSync('public/assets/website-packages-20261105/'+p+(p==='hero-jaramillo'?'.svg':'-original.jpg')),'missing approved photo '+p);
 for(const r of routes){
  const html=readFileSync(r,'utf8');
- for(const p of photos)assert.ok(html.includes(p+'.svg'),'missing photo '+p+' at '+r);
+ for(const p of photos)assert.ok(html.includes(p+(p==='hero-jaramillo'?'.svg':'-original.jpg')),'missing photo '+p+' at '+r);
  assert.match(html,/id="website-basic"/);
  assert.match(html,/id="website-ai-crm"/);
  assert.match(html,/\$15/);
