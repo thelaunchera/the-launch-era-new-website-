@@ -5,13 +5,13 @@ const es=readFileSync('public/es/website-for-your-business/index.html','utf8');
 const css=readFileSync('public/assets/tle-website-official.css','utf8');
 const photoRoot='/assets/website-packages-20261105/';
 const expected={
- planBasic:'website-la-vie-in-pink.svg',
- planAdvanced:'automated-crm.svg',
- processChoose:'process-choose.svg',
- processBrand:'process-brand.svg',
- processBuild:'process-build.svg',
- processLaunch:'process-launch.svg',
- optionalApp:'optional-app.svg',
+ planBasic:'website-la-vie-in-pink-original.jpg',
+ planAdvanced:'automated-crm-original.jpg',
+ processChoose:'process-choose-original.jpg',
+ processBrand:'process-brand-original.jpg',
+ processBuild:'process-build-original.jpg',
+ processLaunch:'process-launch-original.jpg',
+ optionalApp:'optional-app-original.jpg',
 };
 function assert(test, message){if(!test)throw new Error(message);}
 for(const [language,html] of [['en',en],['es',es]]){
