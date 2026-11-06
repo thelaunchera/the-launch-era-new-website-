@@ -4,16 +4,27 @@ const en=readFileSync('public/website-for-your-business/index.html','utf8');
 const es=readFileSync('public/es/website-for-your-business/index.html','utf8');
 const css=readFileSync('public/assets/tle-website-official.css','utf8');
 const photoRoot='/assets/website-packages-20261105/';
-const expected={
- planBasic:'website-la-vie-in-pink-original.jpg',
- planAdvanced:'automated-crm-original.jpg',
- processChoose:'process-choose-original.jpg',
- processBrand:'process-brand-original.jpg',
- processBuild:'process-build-original.jpg',
- processLaunch:'process-launch-original.jpg',
+const expectedByLanguage={
+ en:{
+  planBasic:'website-la-vie-in-pink-en.jpg',
+  planAdvanced:'automated-crm-en.jpg',
+  processChoose:'process-choose-en.png',
+  processBrand:'process-brand-en.png',
+  processBuild:'process-build-en.png',
+  processLaunch:'process-launch-en.png'
+ },
+ es:{
+  planBasic:'website-la-vie-in-pink-original.jpg',
+  planAdvanced:'automated-crm-original.jpg',
+  processChoose:'process-choose-original.jpg',
+  processBrand:'process-brand-original.jpg',
+  processBuild:'process-build-original.jpg',
+  processLaunch:'process-launch-original.jpg'
+ }
 };
 function assert(test, message){if(!test)throw new Error(message);}
 for(const [language,html] of [['en',en],['es',es]]){
+ const expected=expectedByLanguage[language];
  const hero=html.match(/<section class="hero" id="inicio">([\s\S]*?)<\/section>/)?.[1];
  assert(hero,language+': hero missing');
  assert(hero.includes('src="'+photoRoot+'hero-jaramillo.svg"'),language+': approved original hero was replaced');
@@ -38,4 +49,4 @@ for(const [language,html] of [['en',en],['es',es]]){
 const photoStyles=css.split('/* 2026-11-05 image placement: keep original hero untouched. */')[1];
 assert(photoStyles&&!photoStyles.includes('.hero'), 'Photo styling inadvertently edits hero');
 assert(photoStyles.includes('object-fit:contain'), 'Uncropped interior photo styling missing');
-console.log('PASS: hero untouched; 6 correct individual photos in English and Spanish; pricing and delivery aligned.');
+console.log('PASS: hero untouched, six unique English images, six preserved Spanish images, pricing and delivery aligned.');
