@@ -7,6 +7,12 @@ on:
       - 'public/assets/tle-website-official.css'
       - 'public/assets/website-packages-20261105/**'
       - 'scripts/qa-official-website-landing.mjs'
+      - 'scripts/qa-website-checkout-flow.mjs'
+      - 'public/website-checkout/**'
+      - 'public/website-payment-success/**'
+      - 'public/intake/website/**'
+      - 'public/intake/website-ai-crm/**'
+      - 'public/assets/tle-website-intake.js'
   pull_request:
     paths:
       - 'public/website-for-your-business/**'
@@ -14,6 +20,12 @@ on:
       - 'public/assets/tle-website-official.css'
       - 'public/assets/website-packages-20261105/**'
       - 'scripts/qa-official-website-landing.mjs'
+      - 'scripts/qa-website-checkout-flow.mjs'
+      - 'public/website-checkout/**'
+      - 'public/website-payment-success/**'
+      - 'public/intake/website/**'
+      - 'public/intake/website-ai-crm/**'
+      - 'public/assets/tle-website-intake.js'
 jobs:
   static-official-website:
     runs-on: ubuntu-latest
@@ -22,4 +34,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: node scripts/qa-official-website-landing.mjs
+      - run: |
+          node scripts/qa-official-website-landing.mjs
+          node scripts/qa-website-checkout-flow.mjs
