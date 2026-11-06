@@ -45,10 +45,14 @@ const scripts=[...demo.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].fi
 assert.match(demo,/src="\/assets\/privacy-controls\.js/);
 assert.equal(scripts.length,1);
 new vm.Script(scripts[0][1],{filename:'try-booking.js'});
-assert.match(home,/href="\/experience-cleaning\/\?lang=en&source=homepage"/);
-assert.match(es,/href="\/experience-cleaning\/\?lang=es&source=homepage"/);
-assert.match(home,/href="\/booking-demo\/\?lang=en&source=homepage-clara"/);
-assert.match(es,/href="\/booking-demo\/\?lang=es&source=homepage-clara"/);
+// Current homepage sells only the two universal website packages.
+assert.match(es,/<OfficialHome lang="es" \/>/);
+const officialEN=read('public/website-for-your-business/index.html');
+const officialES=read('public/es/website-for-your-business/index.html');
+assert(officialEN.includes('/service-checkout/?offer=website-basic&lang=en'));
+assert(officialES.includes('/service-checkout/?offer=website-basic&lang=es'));
+assert(officialEN.includes('/service-checkout/?offer=website-ai-crm&lang=en'));
+assert(officialES.includes('/service-checkout/?offer=website-ai-crm&lang=es'));
 assert.match(booking,/href="\/experience-cleaning\/\?lang=en&source=booking-landing"/);
 assert.match(bookingEs,/href="\/experience-cleaning\/\?lang=es&source=booking-landing"/);
 assert.match(bundle,/href="\/experience-cleaning\/\?lang=en&source=bundle"/);
