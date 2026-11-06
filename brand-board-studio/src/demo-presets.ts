@@ -120,6 +120,22 @@ export const EDITORIAL_PHOTO_SETS = {
     "https://thelaunchera.com/assets/clients/cb-depot/photos/interior.webp",
     "https://thelaunchera.com/assets/clients/cb-depot/photos/paint.webp"
   ],
+  "wok-social": [
+    "https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/hero-storefront.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/01-noodle-signature.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/02-noodle-braised-beef.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/03-diners-noodle-date.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/04-chef-preparing-bowl.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/05-chili-oil-macro.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/06-woman-eating-noodles.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/07-noodle-table-spread.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/08-wok-toss-in-action.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/09-friends-noodle-toast.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/10-beef-noodle-hero-bowl.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/11-hibachi-shrimp.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/12-hibachi-steak.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/13-hibachi-vegetables.webp"
+  ],
   "experience-cleaning": [
     "https://thelaunchera.com/assets/cleaning-demo/hero-cleaner-original.jpg",
     "https://thelaunchera.com/assets/drive-house-gallery/whole-home.png"
