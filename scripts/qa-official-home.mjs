@@ -39,7 +39,12 @@ for(const [path,lang] of pages){
 assert.match(home,/hero-jaramillo\.jpg/);
 assert.match(home,/\$8/);
 assert.match(home,/service-checkout/);
-assert.match(checkout,/'website-basic':\{cents:1500/);
+// Regression: every checkout DOM node accessed by startup JS must exist in markup.
+const checkoutNodes=[...checkout.matchAll(/\$\('([^']+)'\)/g)].map(m=>m[1]);
+for(const id of new Set(checkoutNodes)){
+ assert.match(checkout,new RegExp('id="'+id+'"'),'Checkout startup would crash: missing DOM node #'+id);
+}
+assert.match(checkout,/'website-basic':\\{cents:1500/);
 assert.match(checkout,/'website-ai-crm':\{cents:3300/,'AI Checkout must expect $25 setup + first $8 month');
 assert.match(checkout,/website-payment-success|create-tle-service-checkout/);
 assert.match(termsEN,/\$33/);assert.match(termsES,/\$33/);
