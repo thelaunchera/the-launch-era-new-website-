@@ -15,7 +15,7 @@
   lead:'We have your package. These are the details we need to build and configure your system.',
   packageBasic:'Website for Your Business',packageAdvanced:'Website + AI Assistant + Automated CRM',
   init:'Setup package · USD',reminderBasic:'Estimated 48-hour production after approved kickoff, with one review round.',
-  reminderAdvanced:'$25 setup + $8/month for ongoing AI service. Estimated 48-hour production after approved kickoff, with one review round.',
+  reminderAdvanced:'$25 due today. AI subscription is $8/month starting after 30 days. Estimated 48-hour production after approved kickoff; one review round.',
   scopeBasic:'Website, customer action and email notifications.',
   scopeAdvanced:'Website, on-page AI assistant, CRM and approved follow-up automations.',
   boxLabel:'PROJECT SETUP',formTitle:'Your business details',
@@ -28,7 +28,7 @@
   phone:'Business phone (optional)',location:'City or service area (optional)',website:'Existing website (optional)',
   action:'What should visitors do? *',inbox:'Email to receive customer requests *',
   services:'Your services or products *',goals:'What should your website communicate or do? *',
-  domain:'Domain name or domain preference (optional)',hours:'Business hours (optional)',social:'Social links (optional)',
+  domain:'Domain or preferred business link (optional)',domainOption:'Do you already have a domain? *',domainHelp:'No domain? We can publish your website at an available hosted link. A custom domain is optional.',haveDomain:'I already have a domain',needLink:'I need a website link — no domain yet',wantCustom:'Help me choose a custom domain (extra cost)',hours:'Business hours (optional)',social:'Social links (optional)',
   brand:'Brand colors, fonts or style (optional)',assets:'Link to your logo and photos (optional)',
   references:'Websites you like (optional)',automation:'What follow-ups or tasks should we automate?',
   ai:'What should the AI assistant know and answer?',
@@ -43,7 +43,7 @@
   goalsPlace:'Describe your business, your audience and the result you want from your website.',
   assetsPlace:'https://drive.google.com/... or another shared link',
   autoPlace:'Examples: email notices, lead reminders, follow-up after an inquiry.',
-  aiPlace:'FAQ, services, prices, policies and when the AI should hand off to you.'
+  aiPlace:'FAQ, services, prices, policies and when the AI should hand off to you.',websitePhotos:'Upload photos you want on your website (optional)',referencePhotos:'Upload reference photos and visual inspiration (optional)',photoHelp:'Up to 10 images per category · JPG, PNG, WebP or HEIC · 8 MB each.',requestCall:"I'd like to request a 1:1 call to review my website project.",callTime:'Preferred day, time and time zone (optional)',callTimeHint:'e.g. Thursday 3 PM, Eastern Time',callNote:'Calls are coordinated by email. Any cost is confirmed before scheduling.',uploadProgress:'Uploading image',uploadDone:'Photos uploaded securely.',uploadFailed:'Could not upload your photos. Please use the email from checkout and try again.',uploadTooMany:'Up to 10 images are allowed for each category.',uploadTooLarge:'Each photo must be 8 MB or less.'
  },
  es:{
   back:'Ver paquetes',start:'PASO 2 DE 2 · CONFIGURACIÓN DE TU WEBSITE',
@@ -51,7 +51,7 @@
   lead:'Ya tenemos tu paquete. Necesitamos estos detalles para construir tu website y configurar tu sistema.',
   packageBasic:'Website para tu Negocio',packageAdvanced:'Website + Asistente IA + CRM Automatizado',
   init:'Paquete de configuración · USD',reminderBasic:'Producción estimada en 48 horas desde el inicio aprobado, con una ronda de revisión.',
-  reminderAdvanced:'$25 de configuración + $8/mes por servicio de IA. Producción estimada en 48 horas desde el inicio aprobado, con una ronda de revisión.',
+  reminderAdvanced:'Pagas $25 hoy. La suscripción de IA es de $8 al mes después de 30 días. Producción estimada en 48 horas desde el inicio aprobado, con una ronda de revisión.',
   scopeBasic:'Website, acción de clientes y avisos por correo.',
   scopeAdvanced:'Website, asistente IA en la página, CRM y seguimientos acordados.',
   boxLabel:'CONFIGURACIÓN DEL PROYECTO',formTitle:'Datos de tu negocio',
@@ -64,7 +64,7 @@
   phone:'Teléfono del negocio (opcional)',location:'Ciudad o área de servicio (opcional)',website:'Website actual (opcional)',
   action:'¿Qué deben hacer los visitantes? *',inbox:'Correo que recibirá solicitudes de clientes *',
   services:'Servicios o productos que ofreces *',goals:'¿Qué quieres comunicar o lograr con tu website? *',
-  domain:'Dominio o nombre deseado (opcional)',hours:'Horario de atención (opcional)',social:'Redes sociales (opcional)',
+  domain:'Dominio o nombre deseado para tu enlace (opcional)',domainOption:'¿Ya tienes dominio? *',domainHelp:'Si no tienes dominio, podemos publicar tu website con un enlace disponible. El dominio propio es opcional.',haveDomain:'Ya tengo un dominio',needLink:'Necesito un enlace para mi website; todavía no tengo dominio',wantCustom:'Ayúdame a elegir un dominio propio (costo adicional)',hours:'Horario de atención (opcional)',social:'Redes sociales (opcional)',
   brand:'Colores, tipografías o estilo de marca (opcional)',assets:'Enlace a tu logo y fotos (opcional)',
   references:'Websites que te inspiran (opcional)',automation:'¿Qué seguimientos o tareas quieres automatizar?',
   ai:'¿Qué necesita saber y responder el asistente IA?',
@@ -79,7 +79,7 @@
   goalsPlace:'Describe tu negocio, a quién ayudas y qué quieres lograr con el website.',
   assetsPlace:'https://drive.google.com/... u otro enlace compartido',
   autoPlace:'Ejemplos: avisos por correo, recordatorios, seguimiento de solicitudes.',
-  aiPlace:'Preguntas frecuentes, servicios, precios, políticas y cuándo pasarte la conversación.'
+  aiPlace:'Preguntas frecuentes, servicios, precios, políticas y cuándo pasarte la conversación.',websitePhotos:'Sube las fotos que quieres poner en tu website (opcional)',referencePhotos:'Sube fotos de referencia e inspiración visual (opcional)',photoHelp:'Hasta 10 imágenes por categoría · JPG, PNG, WebP o HEIC · máximo 8 MB cada una.',requestCall:'Quiero solicitar una llamada 1:1 para revisar mi proyecto de website.',callTime:'Día, hora y zona horaria preferidos (opcional)',callTimeHint:'Ej. jueves a las 3 PM, hora del Este',callNote:'Coordinamos las llamadas por correo. Cualquier costo se confirma antes de agendar.',uploadProgress:'Subiendo imagen',uploadDone:'Fotos subidas de forma segura.',uploadFailed:'No pudimos subir tus fotos. Usa el correo del checkout e inténtalo de nuevo.',uploadTooMany:'Puedes subir hasta 10 imágenes por categoría.',uploadTooLarge:'Cada foto debe ser de 8 MB o menos.'
  }};
  function translate(){
   const t=copy[lang];root.lang=lang;
@@ -98,6 +98,8 @@
   const select=form.elements.namedItem('customer_action');
   const names=['contact','quote','appointment','purchase','other'];
   Array.from(select.options).forEach((o,i)=>o.textContent=t[names[i]]);
+  const domain=form.elements.namedItem('domain_option');
+  Array.from(domain.options).forEach((option,i)=>option.textContent=t[['needLink','haveDomain','wantCustom'][i]]);
   retry.textContent=t.retry;
   if(paid){status.textContent=t.verified}
   else if(!/^cs_live_[A-Za-z0-9]+$/.test(session)){status.textContent=t.required}
@@ -130,6 +132,30 @@
  }
  retry.addEventListener('click',verify);
  verify();
+ const uploaded=new Set();
+ async function uploadPhotos(inputName,category,email){
+   const input=form.elements.namedItem(inputName);
+   const files=Array.from(input.files||[]);
+   if(files.length>10)throw Error('uploadTooMany');
+   for(let i=0;i<files.length;i++){
+     const file=files[i],fingerprint=category+'|'+file.name+'|'+file.size+'|'+file.lastModified;
+     if(uploaded.has(fingerprint))continue;
+     if(file.size>8000000)throw Error('uploadTooLarge');
+     $('upload-status').textContent=copy[lang].uploadProgress+' '+(i+1)+'/'+files.length+'…';
+     const body=new FormData();body.append('session_id',session);body.append('offer',plan);
+     body.append('email',email);body.append('category',category);
+     const type=file.type||(/\\.heic$/i.test(file.name)?'image/heic':/\\.heif$/i.test(file.name)?'image/heif':'');
+     const actual=type===file.type?file:new File([file],file.name,{type,lastModified:file.lastModified});
+     body.append('file',actual);
+     const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),30000);
+     let r;
+     try{r=await fetch(endpoint+'tle-studio-website-upload-photo',{method:'POST',body,signal:controller.signal})}
+     finally{clearTimeout(timer)}
+     const result=await r.json().catch(()=>({}));
+     if(!r.ok||result.ok!==true)throw Error('uploadFailed');
+     uploaded.add(fingerprint);
+   }
+ }
  function get(formData,name){return String(formData.get(name)||'').trim()}
  function note(label,value){return value?label+': '+value:''}
  form.addEventListener('submit',async event=>{
@@ -140,8 +166,10 @@
    get(f,'goals'),note('Services/products',get(f,'services')),
    note('Business location/service area',get(f,'business_location')),
    note('Business hours',get(f,'business_hours')),
+   note('Domain arrangement',get(f,'domain_option')),
    note('Preferred domain',get(f,'domain_preference')),
-   note('Social profiles',get(f,'social_links'))
+   note('Social profiles',get(f,'social_links')),
+   note('Request 1:1 call',f.get('request_call')==='yes'?'yes — '+get(f,'call_time'):'no')
   ].filter(Boolean).join('\n').slice(0,3500);
   const brand=[
    get(f,'brand_notes'),note('Brand photo/logo folder',get(f,'brand_assets_url')),
@@ -160,6 +188,9 @@
   };
   submit.disabled=true;submit.textContent=t.sending;feedback.hidden=true;
   try{
+   await uploadPhotos('website_photos','website_photos',get(f,'email').toLowerCase());
+   await uploadPhotos('reference_photos','reference_photos',get(f,'email').toLowerCase());
+   $('upload-status').textContent=uploaded.size?copy[lang].uploadDone:'';
    const r=await fetch(endpoint+'tle-studio-website-intake',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
    const result=await r.json().catch(()=>({}));
    if(!r.ok||result.ok!==true){
@@ -171,7 +202,7 @@
    $('complete-message').textContent=t.doneBody;
    window.scrollTo({top:0,behavior:'smooth'});
   }catch(e){
-   feedback.textContent=String(e.message)==='already'?t.already:t.failed;
+   feedback.textContent=String(e.message)==='already'?t.already:(['uploadFailed','uploadTooMany','uploadTooLarge'].includes(String(e.message))?t[String(e.message)]:t.failed);
    feedback.hidden=false;feedback.className='feedback error';
    submit.disabled=false;submit.textContent=t.send;
   }
