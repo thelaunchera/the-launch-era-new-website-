@@ -1,57 +1,23 @@
-/* Non-destructive static guard for the EN/ES homepage process transition. */
+/* Current official site uses a simple accessible four-step visual process.
+   Old cleaning-specific shared-element transitions remain archived. */
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
-
-const read = (name) => readFileSync(new URL('../' + name, import.meta.url), 'utf8');
-const component = read('src/components/process-view-transitions.tsx');
-const styles = read('src/components/process-view-transitions.css');
-const en = read('src/components/editorial-sections.tsx');
-const es = read('src/routes/es.index.tsx');
-
-for (const [label, source, needle] of [
-  ['EN', en, '<ProcessSteps lang="en"/>'],
-  ['ES', es, '<ProcessSteps lang="es"/>']
-]) {
-  assert(source.includes(needle), label + ' must mount the same accessible process component');
-  assert(source.includes('id="contacto"'), label + ' contact anchor must remain');
-  assert(source.includes('homepage-contact-panel'), label + ' contact panel must remain');
+import {readFileSync,existsSync} from 'node:fs';
+const read=p=>readFileSync(p,'utf8');
+const pages=[['EN','public/website-for-your-business/index.html'],['ES','public/es/website-for-your-business/index.html']];
+const photos=['process-choose.svg','process-brand.svg','process-build.svg','process-launch.svg'];
+for(const [lang,path] of pages){
+ const html=read(path);
+ assert.match(html,/class="process-grid"/,lang+' process grid missing');
+ assert.equal((html.match(/class="step-photo"/g)||[]).length,4,lang+' process must have four separate photos');
+ assert.equal((html.match(/class="step-no"/g)||[]).length,4,lang+' process numbers must be explicit');
+ for(const photo of photos){
+  assert(html.includes(photo),lang+' photo missing: '+photo);
+  assert(existsSync('public/assets/website-packages-20261105/'+photo),lang+' photo file missing: '+photo);
+ }
+ assert(html.includes('href="#proceso"'),lang+' process navigation missing');
+ assert(lang==='ES'?html.includes('Construimos tu sistema'):html.includes('We build your system'),lang+' process title not localized');
 }
-assert(en.includes('<ContactForm/>'), 'EN form removed');
-assert(es.includes('<SpanishContact/>'), 'ES form removed');
-assert(component.includes("import './process-view-transitions.css'"), 'Scoped CSS must be imported');
-for (const text of [
-  'startViewTransition', 'flushSync', 'viewTransitionName',
-  'getBoundingClientRect()', 'detailHero.current.animate',
-  'prefers-reduced-motion: reduce', 'aria-haspopup="dialog"',
-  'role="dialog"', 'aria-modal="true"', 'onDialogKeyDown',
-  "event.key === 'Escape'", "event.key === 'Tab'", 'createPortal',
-  'returnFocus.current?.focus', 'document.body.style.overflow',
-  'We personalize your system.', 'Personalizamos tu sistema.'
-]) assert(component.includes(text), 'Missing interaction or accessibility requirement: ' + text);
-
-for (const text of [
-  '::view-transition-group(tle-process-0)',
-  'cubic-bezier(.32,.72,0,1)',
-  'animation-duration: 500ms',
-  '.tle-process-thumbnail', '.tle-process-overlay',
-  '.tle-process-detail-hero', '.tle-process-card:focus-visible',
-  'prefers-reduced-motion: reduce', '@media (max-width: 767px)'
-]) assert(styles.includes(text), 'Missing visual, responsive or reduced motion rule: ' + text);
-// The three steps must tell a real, distinct visual story using existing
-// first-party Booking + Command Center photos, not generic enlarged icons.
-const expectedPhotos = [
-  '/assets/bundle-landing/optimized/booking.webp',
-  '/assets/bundle-landing/optimized/hero.webp',
-  '/assets/bundle-landing/optimized/command.webp'
-];
-assert.equal(new Set(expectedPhotos).size, 3, 'Each step needs a different photo');
-for (const photo of expectedPhotos) {
-  assert(component.includes(photo), 'Missing optimized context photo: ' + photo);
-  assert(component.includes(photo.replace('.webp','-thumb.webp')), 'Missing small mobile preview: ' + photo);
-}
-assert(read('scripts/build_mobile_flow_assets.py').includes('FLOW IMAGE QA'), 'The optimized photos must be generated during deployment');
-assert(component.includes('className="tle-process-detail-photo"'), 'Dialog must render a real photo');
-assert(component.includes('alt={stepPhotos[active].alt[lang]}'), 'Photo alt text must be bilingual');
-assert(styles.includes('object-fit: cover'), 'Photos should crop without distortion');
-assert(!component.includes('tle-process-detail-art'), 'Old oversized icon should not return');
-console.log('[PROCESS TRANSITIONS QA PASSED] EN/ES cards open an accessible, responsive, reduced-motion-safe shared-element detail; contact forms are preserved.');
+const css=read('public/assets/tle-website-official.css');
+assert.match(css,/prefers-reduced-motion/,'Reduced-motion support is required');
+assert.match(css,/object-fit:\s*cover/,'Photos must crop without distortion');
+console.log('[TLE PROCESS QA] Four real photos, distinct steps and bilingual process UX passed');
