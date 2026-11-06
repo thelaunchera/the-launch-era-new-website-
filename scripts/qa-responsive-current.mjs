@@ -59,7 +59,14 @@ for(const viewport of sizes){
     return {over,offenders,badCards,cardCount:cards.length,small,stepCount:steps.length,unstyledSteps};
    });
    assert(state.over<=3,'Horizontal overflow '+JSON.stringify(state));
-   assert.equal(state.cardCount,5,'All five current service choices rendered');
+   if(path==='/'||path==='/es/'){
+    assert.equal(state.cardCount,0,'Legacy cleaning service cards should not appear on the new homepage');
+    assert.equal(await page.locator('.tle-universal #website-basic').count(),1,'Website package must be visible');
+    assert.equal(await page.locator('.tle-universal #website-ai-crm').count(),1,'AI + CRM package must be visible');
+    assert.equal(await page.locator('.tle-universal .process-grid .step').count(),4,'Current production steps must be visible');
+   }else{
+    assert.equal(state.cardCount,5,'Five service cards must remain on the archived service directory');
+   }
    assert.equal(state.badCards,0,'Service card photos and links must be visible in every route');
    if(viewport.width<768)assert.deepEqual(state.small,[],'Readable mobile service descriptions');
    if(path==='/how-it-works/') {
