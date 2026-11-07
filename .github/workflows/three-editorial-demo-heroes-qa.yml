@@ -8,6 +8,7 @@ on:
       - 'public/demos/havana-19/**'
       - 'scripts/qa-three-editorial-demo-heroes.mjs'
       - 'scripts/qa-demo-inquiry-mobile.mjs'
+      - 'scripts/qa-ivory-bloom-calendar-webkit.mjs'
       - '.github/workflows/three-editorial-demo-heroes-qa.yml'
   push:
     branches: [main]
@@ -37,7 +38,7 @@ jobs:
           cd /tmp/tle-hero-qa
           npm init -y >/dev/null
           npm install --no-audit --no-fund playwright@1.57.0
-          npx playwright install --with-deps chromium
+          npx playwright install --with-deps chromium webkit
           cd "$GITHUB_WORKSPACE"
           ln -sfn /tmp/tle-hero-qa/node_modules node_modules
       - name: Check three demos on mobile, tablet and desktop
@@ -52,6 +53,8 @@ jobs:
           node scripts/qa-three-editorial-demo-heroes.mjs
           node --check scripts/qa-demo-inquiry-mobile.mjs
           node scripts/qa-demo-inquiry-mobile.mjs
+          node --check scripts/qa-ivory-bloom-calendar-webkit.mjs
+          node scripts/qa-ivory-bloom-calendar-webkit.mjs
       - name: Upload review screenshots
         if: always()
         uses: actions/upload-artifact@v4
