@@ -1,3 +1,9 @@
+## 2026-11-07 — Demo Library entrance: curved photography and native scroll animation
+- Existing public route: `https://thelaunchera.com/demos/`; source `public/demos/index.html` in the active website repository. All 16 gallery concepts, original photographs, brand titles, categories, search, preview modal and existing external demo destinations preserved.
+- Mobile <=740px presents eyebrow, headline, overlapping rounded SOVA/Golden Grid photography, then description/count, then the 16-card collection. Image corners, filter pills and touch targets become softer without replacing image assets or introducing decorative arrows.
+- Scroll: IntersectionObserver one-time reveals for page introduction and original cards, gentle rAF-driven image parallax, no scroll interception; disabled under reduced-motion or when browser support is missing. Close demo and deep links must keep returning to the exact library item.
+- Validate `node scripts/qa-route-integrity.mjs --static`, `scripts/qa-demo-gallery-mobile.mjs` in its existing GitHub Actions workflow, URL `/demos/`, 360/390/768/1024/1440 responsive/no overflow and published Pages status. Source-only check is not device acceptance.
+
 ## 2026-11-07 — Experience Cleaning public demo: mobile booking ergonomics
 - Route unchanged: `/experience-cleaning/` is a simulated public sample; no bookings/emails/client state were sent or changed.
 - Styling limited to `body[data-tle-experience="cleaning"]` in the already-loaded `public/assets/tle-mobile-first-375.css`. Narrow-phone hero typography, 2-up service choices, readable labels, focus/touch targets, form fields and reduced-motion fallback; approved hero/photo, service labels, booking transitions and Command Center preview remain intact.
