@@ -22,6 +22,14 @@ try{
   assert.equal(await gallery.count(),1,'Gallery hero missing: '+language);
   const heroPhotos=gallery.locator('.hero-gallery-card img');
   assert.equal(await heroPhotos.count(),7,'Expected seven authentic demo cards: '+language);
+  for(let i=0;i<7;i++){
+   const demo=heroPhotos.nth(i);
+   await demo.scrollIntoViewIfNeeded();
+   await demo.evaluate(async img=>{ if(!img.complete)await new Promise((ok,fail)=>{img.addEventListener('load',ok,{once:true});img.addEventListener('error',fail,{once:true});}); });
+   const valid=await demo.evaluate(img=>img.naturalWidth>100&&img.naturalHeight>100);
+   assert(valid,'Gallery card '+(i+1)+' image did not load in '+language);
+  }
+
   assert.equal(await gallery.locator('a[href="#paquetes"]').count(),1,'Primary package CTA missing: '+language);
   const ctaVisible=await gallery.locator('a[href="#paquetes"]').evaluate(el=>{
     const r=el.getBoundingClientRect(); return {top:r.top,bottom:r.bottom,width:r.width,screen:innerHeight};
