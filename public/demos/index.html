@@ -123,7 +123,7 @@ main,.intro,.intro-copy,.hero-gallery,.demo-grid,.demo-card,.section-heading{min
 .section-heading h2{max-width:100%;overflow-wrap:break-word}
 @media(max-width:600px){.section-heading h2{font-size:clamp(37px,10.8vw,56px)}.hero-gallery:before{inset:12% 8% 11% 8%}.hero-image-stamp{left:8px;top:0}.intro{max-width:calc(100vw - (2 * var(--gutter)))}}
 
-/* CRUMB: match the live website hero exactly. Never show the older storefront concept photo. */
+/* CRUMB hero follows the approved project photo inventory. */
 .demo-card[data-brand="crumb"] .demo-art{background:#dcecf4}
 .demo-card[data-brand="crumb"] .demo-art img{object-fit:contain;object-position:center}
 /* 2026-11-07 · Rounded editorial gallery + mobile-first scrollytelling.
@@ -242,15 +242,43 @@ main,.intro,.intro-copy,.hero-gallery,.demo-grid,.demo-card,.section-heading{min
 .hero-photo{top:17%;right:3%;width:85%;height:auto;aspect-ratio:3/2;background:#1b51b9}
 .hero-photo img{object-fit:cover;object-position:50% 50%}
 .demo-card[data-brand="sova"] .demo-art{aspect-ratio:3/2}
-.demo-card[data-brand="crumb"] .demo-art{aspect-ratio:2000/1124}
+.demo-card[data-brand="crumb"] .demo-art{aspect-ratio:1092/1440}
 @media(max-width:740px){
  .hero-photo{top:17%;right:3%;width:83%;height:auto;aspect-ratio:3/2}
 }
 @media(max-width:600px){
  .hero-photo{top:19%;right:3%;width:83%;height:auto;aspect-ratio:3/2}
  .demo-card[data-brand="sova"] .demo-art{aspect-ratio:3/2}
- .demo-card[data-brand="crumb"] .demo-art{aspect-ratio:2000/1124}
+ .demo-card[data-brand="crumb"] .demo-art{aspect-ratio:1092/1440}
 }
+
+
+/* Official CRUMB portrait hero: full artwork on both phone and desktop. */
+.demo-card[data-brand="crumb"] .demo-art{aspect-ratio:1092/1440}
+.demo-card[data-brand="crumb"] .demo-art img{object-fit:contain;object-position:center}
+@media(min-width:741px){
+.demo-card[data-brand="crumb"]{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);align-items:stretch;border-radius:26px;background:#dceaf6;overflow:hidden}
+.demo-card[data-brand="crumb"] .demo-art{height:100%;width:100%;aspect-ratio:1092/1440;border-radius:26px 0 0 26px;box-shadow:none}
+.demo-card[data-brand="crumb"] .demo-content{align-self:center;display:flex;align-items:flex-start;flex-direction:column;gap:22px;padding:clamp(25px,4vw,70px)}
+.demo-card[data-brand="crumb"] .demo-content>div:first-child{max-width:100%}
+.demo-card[data-brand="crumb"] .demo-content h2{font-size:clamp(49px,6vw,96px)}
+.demo-card[data-brand="crumb"] .demo-links{width:auto}
+}
+@media(max-width:740px){
+.demo-card[data-brand="crumb"] .demo-art{aspect-ratio:1092/1440!important}
+}
+.library-footer{display:block;padding:clamp(34px,5vw,60px) var(--gutter) max(28px,env(safe-area-inset-bottom));border-top:1px solid #c9c7c0;background:#f1eee7}
+.library-footer-main{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(260px,.9fr);gap:clamp(28px,7vw,90px);align-items:start}
+.library-footer-kicker{display:block;font-size:10px;font-weight:700;letter-spacing:.15em;line-height:1.5;color:#363432}
+.library-footer-about p{max-width:55ch;margin:13px 0 0;font-size:12px;line-height:1.85;color:#494740}
+.library-footer-legal{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px 15px;align-content:start}
+.library-footer-legal a{min-height:44px;display:flex;align-items:center;font-size:12px;font-weight:500;text-decoration:none;border-bottom:1px solid #d7d2c8}
+.library-footer-legal a:hover{text-decoration:underline;text-underline-offset:4px}
+.library-footer-bottom{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;margin-top:clamp(25px,4vw,52px);padding-top:18px;border-top:1px solid #d2cdc2}
+.library-footer-bottom span,.library-footer-bottom a{font-size:11px;line-height:1.6;color:#393733}
+.library-footer-bottom a{font-weight:600;text-underline-offset:4px}
+@media(max-width:740px){.library-footer-main{grid-template-columns:1fr}}
+@media(max-width:420px){.library-footer-legal{column-gap:12px}.library-footer-legal a{font-size:11px}.library-footer-bottom{flex-direction:column;align-items:flex-start}}
 
 </style>
 </head>
@@ -291,7 +319,7 @@ main,.intro,.intro-copy,.hero-gallery,.demo-grid,.demo-card,.section-heading{min
 <div class="demo-content"><div><h2>AFTR. Las Vegas</h2><p>Nightlife and VIP concept</p></div>
 <div class="demo-links"><a href="https://thelaunchera.com/demos/aftr/" target="_blank" rel="noopener noreferrer" class="view">Explore demo</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/aftr/" aria-label="Preview AFTR. Las Vegas; close to return to the gallery"></a></article>
 <article class="demo-card" data-brand="crumb" data-demo-url="https://thelaunchera.com/demos/crumb/" data-kind="Food &amp; Drink" data-search="crumb cookies, gifting and original imagery food &amp; drink" style="--brand:#426EA5">
-<div class="demo-art"><img src="/demos/crumb/assets/CRUMB_Storefront_Hero_Blue.png" alt="CRUMB — official blue bakery storefront hero photograph" loading="lazy" decoding="async"><span class="demo-index">08 / 16</span><span class="demo-type">Food &amp; Drink</span></div>
+<div class="demo-art"><img src="/demos/crumb/assets/CRUMB_Storefront_Approved_20261030.webp?v=20261107-approved" alt="CRUMB approved powder-blue bakery storefront and warm inviting interior" loading="lazy" decoding="async"><span class="demo-index">08 / 16</span><span class="demo-type">Food &amp; Drink</span></div>
 <div class="demo-content"><div><h2>CRUMB</h2><p>Cookies, gifting and original imagery</p></div>
 <div class="demo-links"><a href="https://thelaunchera.com/demos/crumb/" target="_blank" rel="noopener noreferrer" class="view">Explore demo</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/crumb/" aria-label="Preview CRUMB; close to return to the gallery"></a></article>
 <article class="demo-card" data-brand="casa-brownie" data-demo-url="https://thelaunchera.com/demos/casa-brownie/" data-kind="Food &amp; Drink" data-search="casa brownie brownie shop · with photo/video hero variants food &amp; drink" style="--brand:#7D4E37">
@@ -331,7 +359,19 @@ main,.intro,.intro-copy,.hero-gallery,.demo-grid,.demo-card,.section-heading{min
 <div class="viewer-actions"><a class="viewer-external" id="viewer-external" href="/" target="_blank" rel="noopener noreferrer">Open full site</a><button class="viewer-close" id="viewer-close" type="button"><span aria-hidden="true">×</span> Close demo</button></div></div>
 <div class="viewer-stage" id="viewer-stage" aria-busy="true"><div class="viewer-loading" id="viewer-loading" role="status" aria-live="polite"><span class="viewer-loading-kicker">OPENING THE PROJECT</span><strong id="viewer-loading-name">Website preview</strong><span class="viewer-loading-bar" aria-hidden="true"></span><a id="viewer-loading-direct" class="viewer-loading-direct" href="/" target="_blank" rel="noopener noreferrer">Open full website</a></div><iframe id="viewer-frame" class="viewer-frame" title="Interactive website preview" loading="eager" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
 </dialog>
-<footer><p>Original design concepts and educational demonstrations. Features such as checkout, appointments and forms may be simulated. This gallery does not publish private Studio material or customer data.</p><p>© 2026 The Launch Era</p></footer><script>
+<footer class="library-footer" aria-label="Legal and project information">
+<div class="library-footer-main">
+  <div class="library-footer-about"><strong class="library-footer-kicker">THE LAUNCH ERA · ORIGINAL CONCEPTS</strong><p>Independent design concepts and educational demonstrations. Brands, addresses, offers, bookings and checkouts may be fictional or simulated. No private Studio materials or customer data are published here.</p></div>
+  <nav class="library-footer-legal" aria-label="Legal policies">
+    <a href="/privacy.html">Privacy Policy</a>
+    <a href="/terms.html">Terms of Use</a>
+    <a href="/cookies.html">Cookie Policy</a>
+    <a href="/refunds.html">Refund Policy</a>
+    <a href="/privacy-choices.html">Privacy Choices</a>
+  </nav>
+</div>
+<div class="library-footer-bottom"><span>© 2026 The Launch Era. All rights reserved.</span><a href="/" aria-label="Visit The Launch Era">Powered by The Launch Era</a></div>
+</footer><script>
 (()=>{
 const cards=[...document.querySelectorAll('.demo-card')];
 const buttons=[...document.querySelectorAll('.filter')];
