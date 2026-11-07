@@ -194,4 +194,5 @@ Preserves all original imagery, copy, forms, CTA and business functions. */
 @media(prefers-reduced-motion:reduce){
  .campaign .gallery.sova-carousel-active{scroll-behavior:auto}
  .campaign .sova-carousel-actions button{transition:none}
+ .campaign .sova-carousel-actions .sova-carousel-pause{display:none}
 }
