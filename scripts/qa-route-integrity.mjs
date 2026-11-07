@@ -47,6 +47,18 @@ function isPlannedDemoImage(pathname){
 }
 function staticChecks(){
  if(!existsSync(pub))throw Error('Run this script from the website repository root');
+ // Owner-approved CRUMB art direction: never re-publish the retired alternate hero.
+ const retiredCrumb='CRUMB_Storefront_Hero_Blue.png';
+ if(existsSync(join(pub,'demos/crumb/assets',retiredCrumb)))errors.push('Retired CRUMB hero asset was restored to the published repository');
+ const gallerySource=readFileSync(join(pub,'demos/index.html'),'utf8');
+ const crumbSource=readFileSync(join(pub,'demos/crumb/index.html'),'utf8');
+ if(gallerySource.includes(retiredCrumb)||crumbSource.includes(retiredCrumb))errors.push('A public CRUMB page references the forbidden archived hero');
+ const approvedCrumb='CRUMB_Storefront_Approved_20261030.webp';
+ if(!gallerySource.includes(approvedCrumb)||!crumbSource.includes(approvedCrumb))errors.push('CRUMB catalog and website must share the approved hero image');
+ for(const policy of ['/privacy.html','/terms.html','/cookies.html','/refunds.html','/privacy-choices.html']){
+   if(!gallerySource.includes('href="'+policy+'"')||!existsRoute(policy))errors.push('Gallery missing working legal link '+policy);
+ }
+
  const pages=walk(pub).filter(f=>extname(f)==='.html');
  // SEO intent: public sales pages can be discovered, private workspaces cannot.
  const sitemap=readFileSync(join(pub,'sitemap.xml'),'utf8');
