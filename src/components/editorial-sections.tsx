@@ -49,6 +49,7 @@ export function HomeHero() {
  <div className="hero-split-visual">
  <img ref={heroImageRef} className="hero-main-image" src={HOME_HERO_PHOTO} alt="Cleaning professional wiping a countertop in a bright modern living room with pendant lights" width={1122} height={1402} loading="eager" fetchPriority="high" decoding="sync" onLoad={()=>setHeroLoaded(true)} onError={()=>setHeroLoaded(true)}/>
  <HomeCinemaVisual lang="en" />
+ <a href="/experience-cleaning/?lang=en&source=homepage-hero-preview" aria-label="Open the interactive cleaning booking demo" style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:'12px',padding:'12px 16px',margin:'12px 0 0',borderRadius:'16px',background:'#FAF8F3',color:'#191919',textDecoration:'none',boxShadow:'0 12px 30px rgba(25,25,25,.12)',fontSize:'14px',fontWeight:600}}><span><span style={{display:'block',fontSize:'10px',letterSpacing:'0.13em',fontWeight:700,marginBottom:'3px'}}>LIVE DEMO · CLEANING</span>See the booking experience</span><span aria-hidden="true" style={{fontSize:'20px'}}>↗</span></a>
 </div>
  </div></div></section><section id="hero-next" className="hero-copy"><BookingWalkthrough/></section></>;
 }
