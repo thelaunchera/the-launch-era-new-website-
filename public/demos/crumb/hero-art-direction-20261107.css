@@ -24,3 +24,28 @@ Preserves all original imagery, copy, forms, CTA and business functions. */
 .hero .hero-qualities,.hero .hero-foot,.hero .hero-aside,.hero .hero-stamp,
 .hero h1 span,.hero h1 em,.hero-editorial picture img{animation:none!important}
 }
+
+/* CRUMB | compact two-up cookie tasting cards on phones, without changing the gift builder. */
+@media (max-width:759px){
+ .cookies-section .cookie-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:13px 11px!important;align-items:stretch}
+ .cookies-section .cookie-grid>.cookie,
+ .cookies-section .cookie-grid>.cookie:first-child,
+ .cookies-section .cookie-grid>.cookie:nth-child(2),
+ .cookies-section .cookie-grid>.cookie:nth-child(5),
+ .cookies-section .cookie-grid>.cookie:nth-child(6),
+ .cookies-section .cookie-grid>.cookie:last-child{grid-column:auto!important;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(51px,auto) minmax(0,1fr) auto!important;min-width:0;border-radius:12px}
+ .cookies-section .cookie-grid .cookie-visual,
+ .cookies-section .cookie-grid .cookie:first-child .cookie-visual,
+ .cookies-section .cookie-grid .cookie:nth-child(2) .cookie-visual,
+ .cookies-section .cookie-grid .cookie:last-child .cookie-visual{height:clamp(112px,32vw,155px)!important;min-height:0;max-height:155px}
+ .cookies-section .cookie-grid .cookie-visual::before{inset:6% 8% 1%;width:84%;height:90%}
+ .cookies-section .cookie-grid .cookie-visual img{left:9%;top:7%;width:82%;height:86%;max-width:none;object-fit:cover;object-position:center;border-width:2px}
+ .cookies-section .cookie-grid .cookie-detail h3{min-height:0!important;margin:0;padding:11px 7px 5px;font:600 clamp(18px,4.75vw,22px)/1.12 'Cormorant Garamond',Georgia,serif;letter-spacing:-.015em;overflow-wrap:normal;text-wrap:balance}
+ .cookies-section .cookie-grid .cookie-detail .cookie-price{font-size:11px;min-height:30px;margin:0 0 10px 8px;padding:6px 9px}
+ .cookies-section .cookie-grid .cookie-brand-stamp{width:23px;height:23px;right:6px;top:5px}
+ .cookies-section .cookie-grid .cookie-brand-stamp svg{width:18px;height:18px}
+ .cookies-section .cookie-grid .cookie-visual>.add-cookie{right:3px;bottom:1px;min-width:44px;min-height:44px;width:44px;height:44px}
+ .cookies-section .section-head h1{font:600 clamp(35px,8.8vw,45px)/1.06 'Cormorant Garamond',Georgia,serif}
+ .cookies-section .section-head>p{font:500 14px/1.6 'DM Sans',Arial,sans-serif;color:#355879}
+}
+@media(max-width:360px){.cookies-section .cookie-grid .cookie-visual,.cookies-section .cookie-grid .cookie:first-child .cookie-visual{height:106px!important}.cookies-section .cookie-grid .cookie-detail h3{font-size:18px}}
