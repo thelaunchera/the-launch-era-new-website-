@@ -1,3 +1,11 @@
+## 2026-11-07 — Paid post-checkout intake parity audit
+
+- **Reference customer CB Depot:** existing Booking-only purchase has Stripe-confirmed payment, accepted intake, private CRM workspace, activation and recorded delivery notification; its car detailing data/branding are not templates for residential cleaners.
+- **Booking-only and combined Booking + AI:** `/booking-flow-payment-success/` calls `tle-booking-flow-stripe-complete`, which uses Make scenario `6423594` `booking-flow-verify` to reject unpaid sessions and prepare the verified private intake. `/booking-flow-intake/` calls Supabase `tle-booking-flow-intake` (v43). The special current AI tiers `bundle-20261029` are $25/$20/$29 upfront, with $12/$8/$16 per month after the included first month from completed delivery. The intake writes `tle_ai_agent_orders` only after live paid proof and matching session metadata; source now reads this proof through Make's live Stripe connection.
+- **Standalone AI:** `/ai-booking-assistant/onboarding/` uses Supabase `tle-ai-booking-onboarding` v28 for a paid-only `verify`/intake flow; production no longer requires an additional Stripe secret before processing a request. The existing Make read-only Stripe verification route validates payment proof. Standalone AI prices remain $25/$19/$39 upfront and $14/$7/$19 recurring.
+- **On delivery:** owner-authorized `tle-ai-activation-on-delivery` creates deferred recurring Stripe subscriptions from verified paid orders and sends delivery emails. Code/config exists; its success for new combined and standalone contracts has not been exercised with a paid fixture. The monthly fee does not get created at initial setup-only checkout.
+- **Preservation:** no automatic client copying between CB Depot (car detailing) and new cleaners; Website and Content Lab keep their own separate payment/onboarding routes. No real payment, customer email or activation was initiated during the audit.
+
 ## 2026-11-07 — Checkout gateway reactivation and current cleaning bundle pricing
 
 - **Public cleaning bundle:** `/booking-bundle/` (also reached from `/experience-cleaning/`); `public/assets/tle-booking-bundle.js` sends GET/POST to production Supabase `tle-booking-bundle-checkout` with `price_version=bundle-20261029`.
