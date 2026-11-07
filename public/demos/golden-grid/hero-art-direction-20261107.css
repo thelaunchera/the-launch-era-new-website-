@@ -24,3 +24,16 @@ Preserves all original imagery, copy, forms, CTA and business functions. */
 .hero .hero-qualities,.hero .hero-foot,.hero .hero-aside,.hero .hero-stamp,
 .hero h1 span,.hero h1 em,.hero-editorial picture img{animation:none!important}
 }
+
+/* GOLDEN GRID / seamless moving breakfast ribbon. Reduced-motion friendly. */
+.ticker{display:block;position:relative;overflow:hidden;padding:0;white-space:nowrap}
+.ticker-track{display:flex;width:max-content;animation:goldenGridMarquee 22s linear infinite;will-change:transform}
+.ticker-group{display:flex;flex:0 0 auto;align-items:center;justify-content:flex-start;gap:clamp(28px,5vw,66px);padding:17px clamp(28px,5vw,66px) 17px 0}
+.ticker-group span{font-weight:800}
+@keyframes goldenGridMarquee{to{transform:translateX(-50%)}}
+@media(max-width:760px){.ticker-group{gap:32px;padding:15px 32px 15px 0}.ticker-group span{font-size:17px}.ticker-group i{font-size:22px}}
+@media(prefers-reduced-motion:reduce){.ticker-track{animation:none;will-change:auto}}
+/* Distinct, legible editorial type: serif headlines and sturdy sans-serif supporting copy. */
+.hero .eyebrow,.section .eyebrow{font-weight:800;letter-spacing:.14em}
+.hero .lead,.section-note,.product>p{font-weight:500;line-height:1.6}
+@media(max-width:760px){.hero .lead,.section-note,.product>p{font-size:clamp(14px,3.7vw,16px)}.section-heading h2{line-height:1.09}}
