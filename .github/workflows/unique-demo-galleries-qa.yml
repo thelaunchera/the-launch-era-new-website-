@@ -1,0 +1,53 @@
+name: Unique Demo Galleries Visual QA
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'public/assets/tle-unique-galleries-20261107.*'
+      - 'public/demos/havana-19/**'
+      - 'public/demos/ivory-and-bloom/**'
+      - 'public/demos/lavender-edit/**'
+      - 'public/demos/la-vie-in-pink/**'
+      - 'public/demos/marea-wigs-miami/**'
+      - 'public/demos/crumb/**'
+      - 'scripts/qa-unique-demo-galleries.mjs'
+      - '.github/workflows/unique-demo-galleries-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  gallery-motion:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Install browser
+        run: |
+          mkdir -p /tmp/tle-gallery-qa
+          cd /tmp/tle-gallery-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          cd "$GITHUB_WORKSPACE"
+          ln -sfn /tmp/tle-gallery-qa/node_modules node_modules
+      - name: Validate six galleries on desktop and iPhone
+        run: |
+          node --check public/assets/tle-unique-galleries-20261107.js
+          node --check scripts/qa-unique-demo-galleries.mjs
+          python3 -m http.server 4195 --bind 127.0.0.1 --directory public >/tmp/tle-gallery-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for n in $(seq 1 20); do
+            if curl -fsS http://127.0.0.1:4195/demos/crumb/ >/dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/qa-unique-demo-galleries.mjs
+      - name: Upload visual proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unique-demo-galleries
+          path: qa-screenshots/unique-gallery-*.png
+          if-no-files-found: ignore
