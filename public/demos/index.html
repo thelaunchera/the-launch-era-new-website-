@@ -189,6 +189,54 @@ main,.intro,.intro-copy,.hero-gallery,.demo-grid,.demo-card,.section-heading{min
  .gallery-reveal{opacity:1!important;translate:none!important;transition:none!important}
 }
 
+
+/* Hero-first gallery polish · mobile touch, original photos, accessible navigation. */
+.demo-art{background:var(--brand);box-shadow:0 16px 42px #19191917;transition:box-shadow .3s ease}
+.demo-art img{display:block;width:100%;height:100%;object-position:50% 46%}
+.demo-card:hover .demo-art,.demo-card:focus-within .demo-art{box-shadow:0 24px 54px #19191925}
+.demo-card[data-brand="sova"] .demo-art{background:#1b51b9}
+.demo-card[data-brand="sova"] .demo-art img{object-fit:contain}
+.demo-card[data-brand="havana-19"] .demo-art img{object-position:50% 49%}
+.demo-card[data-brand="crumb"] .demo-art{background:#dbeaf6}
+.demo-card[data-brand="crumb"] .demo-art img{object-fit:contain;object-position:center}
+.demo-card[data-brand="la-vie-in-pink"] .demo-art img,.demo-card[data-brand="jaramillo-boutique"] .demo-art img{object-position:center}
+.demo-content h2{font-size:clamp(36px,3.6vw,57px);line-height:1.02}
+.demo-content p{font-size:12px;line-height:1.65}
+.demo-content{padding-top:20px}
+.view{display:inline-flex;align-items:center;min-height:44px;border-bottom:0;text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1px}
+.view:hover{text-decoration-thickness:2px;border-bottom:0}
+.card-preview-link:focus-visible{outline:3px solid #2b6e95;outline-offset:-5px;border-radius:inherit}
+@media(max-width:740px){
+  .demo-content{padding-top:17px;gap:8px}
+  .demo-content h2{font-size:clamp(34px,8vw,47px)}
+  .demo-content p{font-size:12px}
+  .demo-links{margin-top:0}
+}
+@media(max-width:600px){
+  .intro{padding-bottom:52px}
+  .demo-grid{row-gap:31px}
+  .demo-art,.demo-card:nth-child(1) .demo-art,.demo-card:nth-child(8) .demo-art{aspect-ratio:1.13}
+  .demo-card{padding-bottom:14px;border-bottom:1px solid #dfded8}
+  .demo-content{gap:3px;padding-top:15px}
+  .demo-content h2{font-size:clamp(36px,9vw,44px);margin-bottom:5px}
+  .demo-content p{font-size:12px}
+  .demo-type{top:13px;right:13px}
+  .demo-index{top:17px;left:15px}
+  .viewer-topbar{min-height:64px}
+  .viewer-title strong{font-size:clamp(18px,5.1vw,21px)}
+  .viewer-eyebrow{display:none}
+  .viewer-external{display:inline-flex;align-items:center;min-height:44px;font-size:10px;white-space:nowrap}
+  .viewer-actions{gap:10px}
+  .viewer-close{font-size:10px;padding:10px}
+}
+@media(max-width:375px){
+  .viewer-topbar{padding:8px 10px}
+  .viewer-actions{gap:7px}
+  .viewer-external{font-size:9px}
+  .viewer-close{padding:9px;font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){.demo-art{transition:none}}
+
 </style>
 </head>
 <body>
@@ -198,71 +246,71 @@ main,.intro,.intro-copy,.hero-gallery,.demo-grid,.demo-card,.section-heading{min
 <div class="intro-copy"><p class="eyebrow">The Launch Era / Selected work</p>
 <h1 id="page-title" class="hero-title">A world<br>of <em>ideas.</em></h1>
 <div class="intro-bottom"><p class="lede">A curated collection of websites and concepts. Each brand has its own voice, visual language and story to tell.</p><span class="count">16 projects <span aria-hidden="true">·</span> Made to explore</span></div></div>
-<div class="hero-gallery" aria-label="Featured original demo photography"><span class="hero-image-stamp">The collection</span><div class="hero-photo"><img src="/demos/sova/resources/03-campaign.png" alt="Blue SOVA headphones campaign photograph" fetchpriority="high"></div><div class="hero-small"><img src="/demos/golden-grid/resources/golden-1.png" alt="Golden Grid waffle brand photography"></div><span class="hero-label">EDITORIAL WEBSITES / 2026</span></div></section>
+<div class="hero-gallery" aria-label="Featured original demo photography"><span class="hero-image-stamp">The collection</span><div class="hero-photo"><img src="/demos/sova/resources/01-hero.png" alt="SOVA Headphones original homepage hero photograph" width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high"></div><div class="hero-small"><img src="/demos/golden-grid/resources/golden-1.png" alt="Golden Grid waffle brand photography"></div><span class="hero-label">EDITORIAL WEBSITES / 2026</span></div></section>
 <section id="collection" aria-label="Browse demos"><div class="section-heading"><h2>Explore the projects.</h2><p>Original ideas, distinct identities, and details worth looking at.</p></div><div class="controls"><div class="filters" role="group" aria-label="Filter demo category"><button type="button" class="filter" data-filter="All" aria-pressed="true">All projects</button><button type="button" class="filter" data-filter="Food & Drink" aria-pressed="false">Food & Drink</button><button type="button" class="filter" data-filter="Beauty & Wellness" aria-pressed="false">Beauty & Wellness</button><button type="button" class="filter" data-filter="Lifestyle" aria-pressed="false">Lifestyle</button><button type="button" class="filter" data-filter="Experiences" aria-pressed="false">Experiences</button></div><input id="demo-search" class="search" type="search" placeholder="Find a project..." aria-label="Search projects" autocomplete="off"></div><div class="demo-grid" id="demo-grid"><article class="demo-card" data-brand="sova" data-demo-url="https://thelaunchera.com/demos/sova/" data-kind="Lifestyle" data-search="sova headphones sound, color and product photography lifestyle" style="--brand:#1F54C4">
-<div class="demo-art"><img src="/demos/sova/resources/03-campaign.png" alt="SOVA Headphones — original website photography" loading="lazy" decoding="async"><span class="demo-index">01 / 16</span><span class="demo-type">Lifestyle</span></div>
+<div class="demo-art"><img src="/demos/sova/resources/01-hero.png" alt="SOVA Headphones — official hero image from the SOVA website" loading="lazy" decoding="async"><span class="demo-index">01 / 16</span><span class="demo-type">Lifestyle</span></div>
 <div class="demo-content"><div><h2>SOVA Headphones</h2><p>Sound, color and product photography</p></div>
-<div class="demo-links"><a href="https://thelaunchera.com/demos/sova/" target="_blank" rel="noopener noreferrer" class="view">Visit website</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/sova/" aria-label="Preview SOVA Headphones; close to return to the gallery"></a></article>
+<div class="demo-links"><a href="https://thelaunchera.com/demos/sova/" target="_blank" rel="noopener noreferrer" class="view">Explore demo</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/sova/" aria-label="Preview SOVA Headphones; close to return to the gallery"></a></article>
 <article class="demo-card" data-brand="golden-grid" data-demo-url="https://thelaunchera.com/demos/golden-grid/" data-kind="Food &amp; Drink" data-search="golden grid waffle co. · breakfast made editorial food &amp; drink" style="--brand:#DDA92B">
 <div class="demo-art"><img src="/demos/golden-grid/resources/golden-1.png" alt="Golden Grid — original website photography" loading="lazy" decoding="async"><span class="demo-index">02 / 16</span><span class="demo-type">Food &amp; Drink</span></div>
 <div class="demo-content"><div><h2>Golden Grid</h2><p>Waffle Co. · breakfast made editorial</p></div>
-<div class="demo-links"><a href="https://thelaunchera.com/demos/golden-grid/" target="_blank" rel="noopener noreferrer" class="view">Visit website</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/golden-grid/" aria-label="Preview Golden Grid; close to return to the gallery"></a></article>
+<div class="demo-links"><a href="https://thelaunchera.com/demos/golden-grid/" target="_blank" rel="noopener noreferrer" class="view">Explore demo</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/golden-grid/" aria-label="Preview Golden Grid; close to return to the gallery"></a></article>
 <article class="demo-card" data-brand="la-vie-in-pink" data-demo-url="https://thelaunchera.com/demos/la-vie-in-pink/" data-kind="Food &amp; Drink" data-search="la vie in pink european-inspired pâtisserie food &amp; drink" style="--brand:#8E343F">
 <div class="demo-art"><img src="/demos/la-vie-in-pink/resources/36a1bfe5-3660-4b7e-964d-8031fe824941.png" alt="La Vie in Pink — original website photography" loading="lazy" decoding="async"><span class="demo-index">03 / 16</span><span class="demo-type">Food &amp; Drink</span></div>
 <div class="demo-content"><div><h2>La Vie in Pink</h2><p>European-inspired pâtisserie</p></div>
-<div class="demo-links"><a href="https://thelaunchera.com/demos/la-vie-in-pink/" target="_blank" rel="noopener noreferrer" class="view">Visit website</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/la-vie-in-pink/" aria-label="Preview La Vie in Pink; close to return to the gallery"></a></article>
+<div class="demo-links"><a href="https://thelaunchera.com/demos/la-vie-in-pink/" target="_blank" rel="noopener noreferrer" class="view">Explore demo</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/la-vie-in-pink/" aria-label="Preview La Vie in Pink; close to return to the gallery"></a></article>
 <article class="demo-card" data-brand="marea-wigs-miami" data-demo-url="https://thelaunchera.com/demos/marea-wigs-miami/" data-kind="Beauty &amp; Wellness" data-search="marea wigs miami hair, beauty and personal style beauty &amp; wellness" style="--brand:#357C73">
 <div class="demo-art"><img src="/demos/marea-wigs-miami/resources/01-hero.png" alt="Marea Wigs Miami — original website photography" loading="lazy" decoding="async"><span class="demo-index">04 / 16</span><span class="demo-type">Beauty &amp; Wellness</span></div>
 <div class="demo-content"><div><h2>Marea Wigs Miami</h2><p>Hair, beauty and personal style</p></div>
-<div class="demo-links"><a href="https://thelaunchera.com/demos/marea-wigs-miami/" target="_blank" rel="noopener noreferrer" class="view">Visit website</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/marea-wigs-miami/" aria-label="Preview Marea Wigs Miami; close to return to the gallery"></a></article>
+<div class="demo-links"><a href="https://thelaunchera.com/demos/marea-wigs-miami/" target="_blank" rel="noopener noreferrer" class="view">Explore demo</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/marea-wigs-miami/" aria-label="Preview Marea Wigs Miami; close to return to the gallery"></a></article>
 <article class="demo-card" data-brand="havana-19" data-demo-url="https://thelaunchera.com/demos/havana-19/" data-kind="Food &amp; Drink" data-search="havana 19 umbral cuban cuisine, story and atmosphere food &amp; drink" style="--brand:#925431">
 <div class="demo-art"><img src="/demos/havana-19/photos/HAVANA19_Hero_Fachada_Borgona.jpeg" alt="Havana 19 — original website photography" loading="lazy" decoding="async"><span class="demo-index">05 / 16</span><span class="demo-type">Food &amp; Drink</span></div>
 <div class="demo-content"><div><h2>Havana 19</h2><p>Cuban cuisine, story and atmosphere</p></div>
-<div class="demo-links"><a href="https://thelaunchera.com/demos/havana-19/" target="_blank" rel="noopener noreferrer" class="view">Visit website</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/havana-19/" aria-label="Preview Havana 19; close to return to the gallery"></a></article>
+<div class="demo-links"><a href="https://thelaunchera.com/demos/havana-19/" target="_blank" rel="noopener noreferrer" class="view">Explore demo</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/havana-19/" aria-label="Preview Havana 19; close to return to the gallery"></a></article>
 <article class="demo-card" data-brand="ivory-and-bloom" data-demo-url="https://thelaunchera.com/demos/ivory-and-bloom/" data-kind="Food &amp; Drink" data-search="ivory &amp; bloom wedding cake atelier food &amp; drink" style="--brand:#B48799">
 <div class="demo-art"><img src="/demos/ivory-and-bloom/images/hero-cake-artist.webp" alt="Ivory & Bloom — original website photography" loading="lazy" decoding="async"><span class="demo-index">06 / 16</span><span class="demo-type">Food &amp; Drink</span></div>
 <div class="demo-content"><div><h2>Ivory &amp; Bloom</h2><p>Wedding cake atelier</p></div>
-<div class="demo-links"><a href="https://thelaunchera.com/demos/ivory-and-bloom/" target="_blank" rel="noopener noreferrer" class="view">Visit website</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/ivory-and-bloom/" aria-label="Preview Ivory & Bloom; close to return to the gallery"></a></article>
+<div class="demo-links"><a href="https://thelaunchera.com/demos/ivory-and-bloom/" target="_blank" rel="noopener noreferrer" class="view">Explore demo</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/ivory-and-bloom/" aria-label="Preview Ivory & Bloom; close to return to the gallery"></a></article>
 <article class="demo-card" data-brand="aftr" data-demo-url="https://thelaunchera.com/demos/aftr/" data-kind="Experiences" data-search="aftr. las vegas nightlife and vip concept experiences" style="--brand:#9856D5">
 <div class="demo-art"><img src="/demos/aftr/assets/hero-real-20261031.webp" alt="AFTR. Las Vegas — original website photography" loading="lazy" decoding="async"><span class="demo-index">07 / 16</span><span class="demo-type">Experiences</span></div>
 <div class="demo-content"><div><h2>AFTR. Las Vegas</h2><p>Nightlife and VIP concept</p></div>
-<div class="demo-links"><a href="https://thelaunchera.com/demos/aftr/" target="_blank" rel="noopener noreferrer" class="view">Visit website</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/aftr/" aria-label="Preview AFTR. Las Vegas; close to return to the gallery"></a></article>
+<div class="demo-links"><a href="https://thelaunchera.com/demos/aftr/" target="_blank" rel="noopener noreferrer" class="view">Explore demo</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/aftr/" aria-label="Preview AFTR. Las Vegas; close to return to the gallery"></a></article>
 <article class="demo-card" data-brand="crumb" data-demo-url="https://thelaunchera.com/demos/crumb/" data-kind="Food &amp; Drink" data-search="crumb cookies, gifting and original imagery food &amp; drink" style="--brand:#426EA5">
-<div class="demo-art"><img src="/demos/crumb/assets/CRUMB_Storefront_Approved_20261030.webp" alt="CRUMB — approved blue bakery storefront used in the website hero" loading="lazy" decoding="async"><span class="demo-index">08 / 16</span><span class="demo-type">Food &amp; Drink</span></div>
+<div class="demo-art"><img src="/demos/crumb/assets/CRUMB_Storefront_Hero_Blue.png" alt="CRUMB — official blue bakery storefront hero photograph" loading="lazy" decoding="async"><span class="demo-index">08 / 16</span><span class="demo-type">Food &amp; Drink</span></div>
 <div class="demo-content"><div><h2>CRUMB</h2><p>Cookies, gifting and original imagery</p></div>
-<div class="demo-links"><a href="https://thelaunchera.com/demos/crumb/" target="_blank" rel="noopener noreferrer" class="view">Visit website</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/crumb/" aria-label="Preview CRUMB; close to return to the gallery"></a></article>
+<div class="demo-links"><a href="https://thelaunchera.com/demos/crumb/" target="_blank" rel="noopener noreferrer" class="view">Explore demo</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/crumb/" aria-label="Preview CRUMB; close to return to the gallery"></a></article>
 <article class="demo-card" data-brand="casa-brownie" data-demo-url="https://thelaunchera.com/demos/casa-brownie/" data-kind="Food &amp; Drink" data-search="casa brownie brownie shop · with photo/video hero variants food &amp; drink" style="--brand:#7D4E37">
 <div class="demo-art"><img src="/demos/casa-brownie/assets/hero-brownies.webp" alt="Casa Brownie — original website photography" loading="lazy" decoding="async"><span class="demo-index">09 / 16</span><span class="demo-type">Food &amp; Drink</span></div>
 <div class="demo-content"><div><h2>Casa Brownie</h2><p>Brownie shop · with photo/video hero variants</p></div>
-<div class="demo-links"><a href="https://thelaunchera.com/demos/casa-brownie/" target="_blank" rel="noopener noreferrer" class="view">Visit website</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/casa-brownie/" aria-label="Preview Casa Brownie; close to return to the gallery"></a></article>
+<div class="demo-links"><a href="https://thelaunchera.com/demos/casa-brownie/" target="_blank" rel="noopener noreferrer" class="view">Explore demo</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/casa-brownie/" aria-label="Preview Casa Brownie; close to return to the gallery"></a></article>
 <article class="demo-card" data-brand="lavender-edit" data-demo-url="https://thelaunchera.com/demos/lavender-edit/" data-kind="Beauty &amp; Wellness" data-search="the lavender edit soft beauty editorial campaign beauty &amp; wellness" style="--brand:#8B74B2">
 <div class="demo-art"><img src="/demos/lavender-edit/photos/01_Soft_Lavender_Hero.png" alt="The Lavender Edit — original website photography" loading="lazy" decoding="async"><span class="demo-index">10 / 16</span><span class="demo-type">Beauty &amp; Wellness</span></div>
 <div class="demo-content"><div><h2>The Lavender Edit</h2><p>Soft beauty editorial campaign</p></div>
-<div class="demo-links"><a href="https://thelaunchera.com/demos/lavender-edit/" target="_blank" rel="noopener noreferrer" class="view">Visit website</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/lavender-edit/" aria-label="Preview The Lavender Edit; close to return to the gallery"></a></article>
+<div class="demo-links"><a href="https://thelaunchera.com/demos/lavender-edit/" target="_blank" rel="noopener noreferrer" class="view">Explore demo</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/lavender-edit/" aria-label="Preview The Lavender Edit; close to return to the gallery"></a></article>
 <article class="demo-card" data-brand="wok-social" data-demo-url="https://thelaunchera.github.io/demo-booking-landing-/wok-social/" data-kind="Food &amp; Drink" data-search="wok social chinese street kitchen, noodles and hibachi food &amp; drink" style="--brand:#D7352F">
 <div class="demo-art"><img src="https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/hero-storefront.webp" alt="WOK SOCIAL — original website photography" loading="lazy" decoding="async"><span class="demo-index">11 / 16</span><span class="demo-type">Food &amp; Drink</span></div>
 <div class="demo-content"><div><h2>WOK SOCIAL</h2><p>Chinese street kitchen, noodles and hibachi</p></div>
-<div class="demo-links"><a href="https://thelaunchera.github.io/demo-booking-landing-/wok-social/" target="_blank" rel="noopener noreferrer" class="view">Visit website</a></div></div><a class="card-preview-link" href="https://thelaunchera.github.io/demo-booking-landing-/wok-social/" aria-label="Preview WOK SOCIAL; close to return to the gallery"></a></article>
+<div class="demo-links"><a href="https://thelaunchera.github.io/demo-booking-landing-/wok-social/" target="_blank" rel="noopener noreferrer" class="view">Explore demo</a></div></div><a class="card-preview-link" href="https://thelaunchera.github.io/demo-booking-landing-/wok-social/" aria-label="Preview WOK SOCIAL; close to return to the gallery"></a></article>
 <article class="demo-card" data-brand="seasonal-brew" data-demo-url="https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/" data-kind="Food &amp; Drink" data-search="seasonal brew seasonal coffee and cozy café identity food &amp; drink" style="--brand:#A76532">
 <div class="demo-art"><img src="https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/assets/storefront-wide.webp" alt="Seasonal Brew — original website photography" loading="lazy" decoding="async"><span class="demo-index">12 / 16</span><span class="demo-type">Food &amp; Drink</span></div>
 <div class="demo-content"><div><h2>Seasonal Brew</h2><p>Seasonal coffee and cozy café identity</p></div>
-<div class="demo-links"><a href="https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/" target="_blank" rel="noopener noreferrer" class="view">Visit website</a></div></div><a class="card-preview-link" href="https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/" aria-label="Preview Seasonal Brew; close to return to the gallery"></a></article>
+<div class="demo-links"><a href="https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/" target="_blank" rel="noopener noreferrer" class="view">Explore demo</a></div></div><a class="card-preview-link" href="https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/" aria-label="Preview Seasonal Brew; close to return to the gallery"></a></article>
 <article class="demo-card" data-brand="soluna-yoga" data-demo-url="https://thelaunchera.github.io/demo-booking-landing-/soluna-yoga/" data-kind="Beauty &amp; Wellness" data-search="soluna yoga yoga studio with membership concepts beauty &amp; wellness" style="--brand:#C58F63">
 <div class="demo-art"><img src="https://thelaunchera.github.io/demo-booking-landing-/soluna-yoga/images/soluna-hero-editorial.webp" alt="SOLUNA Yoga — original website photography" loading="lazy" decoding="async"><span class="demo-index">13 / 16</span><span class="demo-type">Beauty &amp; Wellness</span></div>
 <div class="demo-content"><div><h2>SOLUNA Yoga</h2><p>Yoga studio with membership concepts</p></div>
-<div class="demo-links"><a href="https://thelaunchera.github.io/demo-booking-landing-/soluna-yoga/" target="_blank" rel="noopener noreferrer" class="view">Visit website</a></div></div><a class="card-preview-link" href="https://thelaunchera.github.io/demo-booking-landing-/soluna-yoga/" aria-label="Preview SOLUNA Yoga; close to return to the gallery"></a></article>
+<div class="demo-links"><a href="https://thelaunchera.github.io/demo-booking-landing-/soluna-yoga/" target="_blank" rel="noopener noreferrer" class="view">Explore demo</a></div></div><a class="card-preview-link" href="https://thelaunchera.github.io/demo-booking-landing-/soluna-yoga/" aria-label="Preview SOLUNA Yoga; close to return to the gallery"></a></article>
 <article class="demo-card" data-brand="yummm" data-demo-url="https://thelaunchera.github.io/demo-booking-landing-/yummm/" data-kind="Food &amp; Drink" data-search="yummm coffee, bakery and sweet treats food &amp; drink" style="--brand:#E6AB3F">
 <div class="demo-art"><img src="https://thelaunchera.github.io/demo-booking-landing-/yummm/images/10.webp" alt="YUMMM — original website photography" loading="lazy" decoding="async"><span class="demo-index">14 / 16</span><span class="demo-type">Food &amp; Drink</span></div>
 <div class="demo-content"><div><h2>YUMMM</h2><p>Coffee, bakery and sweet treats</p></div>
-<div class="demo-links"><a href="https://thelaunchera.github.io/demo-booking-landing-/yummm/" target="_blank" rel="noopener noreferrer" class="view">Visit website</a></div></div><a class="card-preview-link" href="https://thelaunchera.github.io/demo-booking-landing-/yummm/" aria-label="Preview YUMMM; close to return to the gallery"></a></article>
+<div class="demo-links"><a href="https://thelaunchera.github.io/demo-booking-landing-/yummm/" target="_blank" rel="noopener noreferrer" class="view">Explore demo</a></div></div><a class="card-preview-link" href="https://thelaunchera.github.io/demo-booking-landing-/yummm/" aria-label="Preview YUMMM; close to return to the gallery"></a></article>
 <article class="demo-card" data-brand="jaramillo-boutique" data-demo-url="https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/" data-kind="Lifestyle" data-search="jaramillo boutique fashion editorial and curated looks lifestyle" style="--brand:#887263">
 <div class="demo-art"><img src="https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/assets/hero-editorial-user.jpg" alt="Jaramillo Boutique — original website photography" loading="lazy" decoding="async"><span class="demo-index">15 / 16</span><span class="demo-type">Lifestyle</span></div>
 <div class="demo-content"><div><h2>Jaramillo Boutique</h2><p>Fashion editorial and curated looks</p></div>
-<div class="demo-links"><a href="https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/" target="_blank" rel="noopener noreferrer" class="view">Visit website</a></div></div><a class="card-preview-link" href="https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/" aria-label="Preview Jaramillo Boutique; close to return to the gallery"></a></article>
+<div class="demo-links"><a href="https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/" target="_blank" rel="noopener noreferrer" class="view">Explore demo</a></div></div><a class="card-preview-link" href="https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/" aria-label="Preview Jaramillo Boutique; close to return to the gallery"></a></article>
 <article class="demo-card" data-brand="experience-cleaning" data-demo-url="https://thelaunchera.com/experience-cleaning/" data-kind="Experiences" data-search="experience cleaning residential booking journey simulation experiences" style="--brand:#6D99B2">
 <div class="demo-art"><img src="/assets/cleaning-demo/hero-cleaner-original.jpg" alt="Experience Cleaning — original website photography" loading="lazy" decoding="async"><span class="demo-index">16 / 16</span><span class="demo-type">Experiences</span></div>
 <div class="demo-content"><div><h2>Experience Cleaning</h2><p>Residential booking journey simulation</p></div>
-<div class="demo-links"><a href="https://thelaunchera.com/experience-cleaning/" target="_blank" rel="noopener noreferrer" class="view">Visit website</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/experience-cleaning/" aria-label="Preview Experience Cleaning; close to return to the gallery"></a></article></div><p class="empty" id="empty-message" role="status">No demos match this search. Try another category or keyword.</p></section><section class="closing" aria-label="The Launch Era"><h2>More than<br>just a website.</h2><a href="/">Discover The Launch Era</a></section></main>
+<div class="demo-links"><a href="https://thelaunchera.com/experience-cleaning/" target="_blank" rel="noopener noreferrer" class="view">Explore demo</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/experience-cleaning/" aria-label="Preview Experience Cleaning; close to return to the gallery"></a></article></div><p class="empty" id="empty-message" role="status">No demos match this search. Try another category or keyword.</p></section><section class="closing" aria-label="The Launch Era"><h2>More than<br>just a website.</h2><a href="/">Discover The Launch Era</a></section></main>
 <dialog id="demo-viewer" class="demo-viewer" aria-labelledby="viewer-name">
 <div class="viewer-topbar"><div class="viewer-title"><span class="viewer-eyebrow">THE LAUNCH ERA / PROJECT PREVIEW</span><strong id="viewer-name">Website demo</strong></div>
 <div class="viewer-actions"><a class="viewer-external" id="viewer-external" href="/" target="_blank" rel="noopener noreferrer">Open full site</a><button class="viewer-close" id="viewer-close" type="button"><span aria-hidden="true">×</span> Close demo</button></div></div>
