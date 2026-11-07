@@ -53,6 +53,17 @@ try{
  assert.equal(await page.locator('.demo-links .view').count(),16,'Every card needs a public demo website link');
  assert.equal(await page.locator('.demo-links .source, a[href*="github.com"]').count(),0,'Never expose code/source repository links in the public library');
  assert.equal(await page.locator('#viewer-close').count(),1);
+ const legalPaths=['/privacy.html','/terms.html','/cookies.html','/refunds.html','/privacy-choices.html'];
+ assert.equal(await page.locator('.library-footer-legal a').count(),legalPaths.length,'Library must show five legal policy links');
+ for(const path of legalPaths){
+   assert.equal(await page.locator('.library-footer-legal a[href="'+path+'"]').count(),1,'Legal link missing: '+path);
+   const legalResponse=await page.request.get(new URL(path,url));
+   assert.equal(legalResponse.status(),200,'Legal policy URL must exist: '+path);
+ }
+ assert.equal(await page.locator('.library-footer-bottom').getByText('Powered by The Launch Era').count(),1,'TLE attribution must be visible');
+ const retiredHero=await page.request.get(new URL('/demos/crumb/assets/CRUMB_Storefront_Hero_Blue.png',url));
+ assert.equal(retiredHero.status(),404,'The banned historical CRUMB photo must not be present in the published file set');
+
  const heroOrder=await page.evaluate(()=>{
    const photo=document.querySelector('.hero-gallery');
    const copy=document.querySelector('.intro-bottom');
