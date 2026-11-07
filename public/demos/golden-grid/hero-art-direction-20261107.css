@@ -77,3 +77,203 @@ Preserves all original imagery, copy, forms, CTA and business functions. */
   .hero .hero-art{min-height:100%}
   .hero .hero-art img{height:100%;width:100%;object-fit:cover}
 }
+
+
+/* Golden Grid — approved illustrated hero, uncut. The photo has its own type:
+   show the WHOLE existing image first, place the website's copy underneath.
+   Keep reveal, bilingual CTA, forms and product dialogs intact. */
+.hero{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  min-height:0;
+  height:auto;
+  grid-template-columns:none;
+  overflow:visible;
+  background:#fbf6e9;
+}
+.hero .hero-art{
+  order:-1;
+  display:block;
+  position:relative;
+  width:100%;
+  height:auto;
+  min-height:0;
+  aspect-ratio:auto;
+  background:#e4edf2;
+  overflow:hidden;
+}
+.hero .hero-art img{
+  display:block;
+  width:100%;
+  height:auto;
+  max-width:100%;
+  max-height:none;
+  object-fit:contain;
+  object-position:center center;
+}
+.hero .hero-art .edition{display:none}
+.hero .hero-copy{
+  order:1;
+  min-width:0;
+  padding:clamp(27px,4.6vw,74px) clamp(23px,6.6vw,112px);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
+  background:#fbf6e9;
+}
+.hero .hero-copy h1{max-width:16ch;font-size:clamp(40px,5vw,78px);line-height:1.03;margin:14px 0 16px}
+.hero .hero-copy .lead{max-width:52ch;font-size:clamp(15px,1.18vw,18px);line-height:1.6}
+.hero .hero-copy .button{min-height:46px}
+.hero .hero-note{display:none}
+@media(min-width:1100px){
+  .hero{display:flex;flex-direction:column;min-height:0;grid-template-columns:none}
+  .hero .hero-art{order:-1;aspect-ratio:auto;min-height:0;height:auto}
+  .hero .hero-art img{width:100%;height:auto;max-height:none;object-fit:contain}
+  .hero .hero-copy{
+    order:1;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    grid-template-rows:repeat(3,auto);
+    align-items:center;
+    column-gap:clamp(28px,5vw,90px);
+    padding:clamp(36px,4.1vw,66px) clamp(40px,7vw,125px);
+  }
+  .hero .hero-copy .eyebrow{grid-column:1;grid-row:1}
+  .hero .hero-copy h1{grid-column:1;grid-row:2;max-width:17ch;font-size:clamp(56px,5.1vw,85px);margin:12px 0 14px}
+  .hero .hero-copy .lead{grid-column:1;grid-row:3;max-width:50ch;font-size:clamp(15px,1.15vw,18px)}
+  .hero .hero-copy .button{grid-column:2;grid-row:2 / 4;justify-self:end;align-self:center;white-space:nowrap}
+}
+@media(max-width:760px){
+ .hero{display:flex;flex-direction:column;min-height:0;grid-template-columns:none}
+ .hero .hero-art{order:-1;aspect-ratio:auto;min-height:0;height:auto}
+ .hero .hero-art img{width:100%;height:auto;max-height:none;object-fit:contain;object-position:center}
+ .hero .hero-copy{order:1;padding:clamp(29px,6.5vw,40px) 6% 35px}
+ .hero .hero-copy h1{font-size:clamp(39px,9.7vw,57px);max-width:16ch}
+ .hero .hero-copy .lead{font-size:15px}
+}
+/* Slimmer moving brand ribbon — no pause button; reduced motion stays respected. */
+.ticker{display:block;min-height:0;padding:0;overflow:hidden;border-block:1px solid #b75b37;background:#f2d85b}
+.ticker-track{animation:goldenGridMarquee 30s linear infinite}
+.ticker-group{gap:clamp(26px,4vw,54px);padding:9px clamp(26px,4vw,54px) 9px 0}
+.ticker-group span{font-size:clamp(14px,1.23vw,18px);font-weight:800;letter-spacing:-.02em}
+.ticker-group i{font-size:clamp(15px,1.36vw,20px);line-height:1.25}
+.ticker-toggle{display:none!important}
+.ticker[data-paused="true"] .ticker-track{animation-play-state:running!important}
+@media(max-width:760px){
+ .ticker-group{gap:23px;padding:8px 23px 8px 0}
+ .ticker-group span{font-size:14px}
+ .ticker-group i{font-size:16px}
+}
+@media(prefers-reduced-motion:reduce){
+ .ticker-track,.ticker[data-paused="true"] .ticker-track{animation:none!important}
+}
+/* Product labels were sitting directly on top of designed lettering in the photos. */
+.collection .products .product .image-wrap>span{display:none!important}
+
+/* Golden Edit: one featured photograph + lateral peeks, different from SOVA's
+   horizontal running rail. All 9 existing lightbox buttons remain intact. */
+#campaign .gallery.golden-featured-carousel{
+ display:block;
+ position:relative;
+ isolation:isolate;
+ width:100%;
+ height:clamp(405px,56vw,720px);
+ overflow:hidden;
+ background:#f5f0e7;
+ border-radius:clamp(16px,2.6vw,35px);
+ perspective:1000px;
+}
+#campaign .gallery.golden-featured-carousel button{
+ display:block;
+ position:absolute;
+ left:50%;
+ top:50%;
+ width:min(49%,470px);
+ height:calc(100% - clamp(26px,5vw,70px));
+ aspect-ratio:auto;
+ padding:0;
+ margin:0;
+ max-width:none;
+ min-width:0;
+ border:0;
+ border-radius:clamp(13px,1.4vw,22px);
+ background:#dcecf6;
+ overflow:hidden;
+ box-shadow:0 17px 45px rgba(46,44,34,.13);
+ transform:translate(-50%,-50%) scale(.78);
+ opacity:0;
+ visibility:hidden;
+ pointer-events:none;
+ transition:transform .8s cubic-bezier(.21,.74,.21,1),opacity .6s ease,filter .7s ease,visibility 0s linear .8s;
+}
+#campaign .gallery.golden-featured-carousel button img{
+ width:100%;height:100%;
+ object-fit:contain;
+ object-position:center;
+ display:block;
+ transform:none;
+ background:#e3ecf0;
+}
+#campaign .gallery.golden-featured-carousel button:hover img{transform:none}
+#campaign .gallery.golden-featured-carousel button.is-golden-current{
+ z-index:3;opacity:1;visibility:visible;pointer-events:auto;
+ transform:translate(-50%,-50%) scale(1);
+ filter:none;transition-delay:0s;
+}
+#campaign .gallery.golden-featured-carousel button.is-golden-prev{
+ z-index:2;opacity:.78;visibility:visible;pointer-events:auto;
+ transform:translate(-121%,-50%) scale(.82) rotate(-3deg);
+ filter:saturate(.86);transition-delay:0s;
+}
+#campaign .gallery.golden-featured-carousel button.is-golden-next{
+ z-index:2;opacity:.78;visibility:visible;pointer-events:auto;
+ transform:translate(21%,-50%) scale(.82) rotate(3deg);
+ filter:saturate(.86);transition-delay:0s;
+}
+#campaign .gallery.golden-featured-carousel button:focus-visible{
+ outline:4px solid #a22b1d;outline-offset:3px;
+}
+#campaign .golden-gallery-toolbar{
+ display:flex;justify-content:space-between;align-items:center;
+ gap:15px;margin:0 0 20px;min-width:0;
+}
+#campaign .golden-gallery-toolbar .golden-gallery-label{
+ font:800 10px/1.4 'DM Sans',Arial,sans-serif;
+ text-transform:uppercase;letter-spacing:.16em;color:#8b3423;
+}
+#campaign .golden-gallery-actions{display:flex;align-items:center;gap:12px}
+#campaign .golden-gallery-count{font:800 12px/1 'DM Sans',Arial,sans-serif;color:#733323;min-width:55px;text-align:center;font-variant-numeric:tabular-nums}
+#campaign .golden-gallery-actions button{
+ border:1px solid #a5442f;background:#fff9eb;color:#892a1a;
+ display:grid;place-items:center;border-radius:100%;
+ width:44px;height:44px;min-width:44px;
+ font:600 25px/1 'DM Sans',Arial,sans-serif;
+ cursor:pointer;transition:background .2s,color .2s;
+}
+#campaign .golden-gallery-actions button:hover{background:#a22b1d;color:#fff}
+#campaign .golden-gallery-actions button:focus-visible{outline:3px solid #a22b1d;outline-offset:3px}
+@media(max-width:760px){
+ #campaign .gallery.golden-featured-carousel{
+   height:clamp(355px,105vw,540px);
+   border-radius:17px;
+ }
+ #campaign .gallery.golden-featured-carousel button{
+   width:min(77%,330px);
+   height:calc(100% - 34px);
+   border-radius:14px;
+ }
+ #campaign .gallery.golden-featured-carousel button.is-golden-prev{transform:translate(-111%,-50%) scale(.83) rotate(-2deg)}
+ #campaign .gallery.golden-featured-carousel button.is-golden-next{transform:translate(11%,-50%) scale(.83) rotate(2deg)}
+ #campaign .golden-gallery-toolbar{margin-bottom:13px}
+ #campaign .golden-gallery-actions{gap:7px}
+ #campaign .golden-gallery-actions button{width:40px;height:40px;min-width:40px}
+ #campaign .golden-gallery-label{font-size:9px;letter-spacing:.1em}
+}
+@media(prefers-reduced-motion:reduce){
+ #campaign .gallery.golden-featured-carousel button{
+   transition:none!important;
+ }
+ #campaign .golden-gallery-actions button{transition:none}
+}
