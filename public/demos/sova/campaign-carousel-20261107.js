@@ -110,7 +110,7 @@
     updateCount();
     const timer=window.setInterval(()=>{
       if(paused||motion.matches||!visible||hovering||focused||document.hidden||
-         document.body.classList.contains('modal-open')||Date.now()<userHoldUntil) return;
+         document.body.classList.contains('modal-open')||toolbar.contains(document.activeElement)||Date.now()<userHoldUntil) return;
       const max=maxScroll();
       if(max<2)return;
       if(gallery.scrollLeft>=max-3)direction=-1;
