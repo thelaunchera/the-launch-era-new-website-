@@ -76,7 +76,7 @@ try {
       const start=Number(await progress.getAttribute('aria-valuenow'));
       if (!isWedding) await form.locator('input[name="date"]').fill('2026-12-17');
       const next=Number(await progress.getAttribute('aria-valuenow'));
-      assert.ok(next>start,path+' should advance the inquiry progress');
+      assert.ok(isWedding ? next>0 : next>start,path+' should count the selected date in inquiry progress');
       if (!isWedding) {
         const dateNote=form.locator('.tle-date-chosen');
         assert.ok(await dateNote.isVisible(),path+' should show selected date');
