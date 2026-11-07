@@ -65,3 +65,15 @@ Preserves all original imagery, copy, forms, CTA and business functions. */
  .hero .hero-art img{width:100%;height:100%;object-position:center}
  .hero .hero-copy{order:1;padding:30px 6% 34px}
 }
+
+
+/* Golden Grid desktop: let the original waffle campaign image lead.
+   Animation, marquee, product interactions and mobile remain untouched. */
+@media(min-width:1100px){
+  .hero{grid-template-columns:minmax(0,42fr) minmax(0,58fr);min-height:clamp(650px,49vw,780px)}
+  .hero .hero-copy{padding:clamp(55px,6vw,105px) 8% clamp(45px,5vw,82px) clamp(50px,7vw,110px);min-width:0}
+  .hero .hero-copy h1{font-size:clamp(65px,5.8vw,103px);line-height:.99;max-width:10ch}
+  .hero .hero-copy .lead{max-width:37ch;font-size:clamp(15px,1.18vw,18px);line-height:1.65}
+  .hero .hero-art{min-height:100%}
+  .hero .hero-art img{height:100%;width:100%;object-fit:cover}
+}
