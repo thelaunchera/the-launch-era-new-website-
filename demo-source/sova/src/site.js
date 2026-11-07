@@ -1,4 +1,5 @@
 import './styles.css';
+import './campaign-carousel.js';
 
 const asset = name => new URL(`./resources/${name}`, document.baseURI).href;
 const imageFiles = [
