@@ -55,12 +55,26 @@ try{
  await checkOpenAndClose('la-vie-in-pink','La vie in pink');
  await checkImage('jaramillo-boutique');
  await checkOpenAndClose('jaramillo-boutique','Jaramillo');
+
+ // CRUMB must use the image actually approved for its live hero, never an old gallery-only storefront.
+ const crumbThumb=await checkImage('crumb');
+ assert.ok(crumbThumb.src.endsWith('/CRUMB_Storefront_Approved_20261030.webp'),'CRUMB gallery must show its approved original hero');
+ const crumbHero=await page.evaluate(async()=>{
+  const r=await fetch('/demos/crumb/');
+  const markup=await r.text();
+  const doc=new DOMParser().parseFromString(markup,'text/html');
+  const img=doc.querySelector('.hero picture img');
+  return img?new URL(img.getAttribute('src'),r.url).pathname:null;
+ });
+ assert.equal(new URL(crumbThumb.src).pathname,crumbHero,'CRUMB card photo must match the current live hero image');
+ await checkOpenAndClose('crumb','CRUMB');
+
  const food=page.locator('.filter[data-filter="Food & Drink"]');
  await food.click();
  assert.equal(await page.locator('.demo-card:visible').count(),9,'Category filter must show 9 Food & Drink demos');
  await page.locator('.filter[data-filter="All"]').click();
  assert.equal(await page.locator('.demo-card:visible').count(),16,'Reset filter must show all');
- console.log('[PASS] 16 cards, two exact hero images, modal open/close, filters and iPhone scroll.');
+ console.log('[PASS] 16 cards, three exact hero images, modal open/close, filters and iPhone scroll.');
 } finally{
  await browser.close();
 }
