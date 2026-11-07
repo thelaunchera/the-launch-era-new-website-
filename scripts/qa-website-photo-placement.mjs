@@ -6,7 +6,7 @@ const css=readFileSync('public/assets/tle-website-official.css','utf8');
 const photoRoot='/assets/website-packages-20261105/';
 const expectedByLanguage={
  en:{
-  planBasic:'website-la-vie-in-pink-en-sharp.png',
+  planBasic:'hero-jaramillo.svg',
   planAdvanced:'automated-crm-en-sharp.png',
   processChoose:'process-choose-en.png',
   processBrand:'process-brand-en.png',
@@ -35,13 +35,14 @@ for(const [language,html] of [['en',en],['es',es]]){
  const advanced=html.match(/<article class="plan" id="website-ai-crm">([\s\S]*?)<\/article>/)?.[1];
  const process=html.match(/<section class="process" id="proceso">([\s\S]*?)<\/section>/)?.[1];
  assert(basic?.includes(photoRoot+expected.planBasic),language+': basic package photo wrong');
+ assert(language!=='en'||basic?.includes('alt="Woman working at a laptop displaying the Jaramillo Boutique website"'), 'English Package 1 Jaramillo image alt missing');
  assert(advanced?.includes(photoRoot+expected.planAdvanced),language+': CRM package photo wrong');
  assert(!html.includes('class="app-section"')&&!html.includes('/custom-app/?lang='),language+': duplicate app offer must not appear on landing');
  for(const key of ['processChoose','processBrand','processBuild','processLaunch']){
   assert(process?.includes(photoRoot+expected[key]),language+': '+key+' photo missing');
  }
  for(const name of Object.values(expected)){
-  assert(html.split('src="'+photoRoot+name+'"').length===2,language+': '+name+' is missing or duplicated');
+  assert(html.split('src="'+photoRoot+name+'"').length===(language==='en'&&name==='hero-jaramillo.svg'?3:2),language+': '+name+' is missing or duplicated');
   assert(existsSync('public'+photoRoot+name),language+': asset missing: '+name);
  }
  assert(html.includes('$15')&&html.includes('$25')&&html.includes('$8 USD'),language+': prices not aligned');
