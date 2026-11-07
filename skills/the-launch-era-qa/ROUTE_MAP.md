@@ -1,3 +1,8 @@
+## 2026-11-07 — Public Demo Library shows demos only, no code/source links
+- Route remains `/demos/`. Public collection now shows only the original 16 `Visit website` actions and tap-to-preview overlays; 16 individual `View code` repository links and the GitHub footer destination were removed.
+- The underlying GitHub repositories and preview/Close/deep-link logic are unchanged. Removing website hyperlinks does not alter repository visibility or GitHub access permissions.
+- Browser regression `scripts/qa-demo-gallery-mobile.mjs` asserts exactly 16 public website links, 16 preview overlays and zero `github.com` or source-code links. Publication still needs passed CI and a live Pages check.
+
 ## 2026-11-07 — Demo Library entrance: curved photography and native scroll animation
 - Existing public route: `https://thelaunchera.com/demos/`; source `public/demos/index.html` in the active website repository. All 16 gallery concepts, original photographs, brand titles, categories, search, preview modal and existing external demo destinations preserved.
 - Mobile <=740px presents eyebrow, headline, overlapping rounded SOVA/Golden Grid photography, then description/count, then the 16-card collection. Image corners, filter pills and touch targets become softer without replacing image assets or introducing decorative arrows.
