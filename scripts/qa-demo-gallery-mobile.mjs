@@ -74,6 +74,45 @@ try{
  assert.equal(await page.locator('.demo-card:visible').count(),9,'Category filter must show 9 Food & Drink demos');
  await page.locator('.filter[data-filter="All"]').click();
  assert.equal(await page.locator('.demo-card:visible').count(),16,'Reset filter must show all');
+
+ // Every English and Spanish hero card must lead to exactly its own library demo.
+ // Umbral was renamed Havana 19 and must never be displayed as a second card.
+ const heroSlugs=['ivory-and-bloom','casa-brownie','crumb','la-vie-in-pink','jaramillo-boutique','havana-19','sova'];
+ for(const [locale,chosen] of [
+  ['/website-for-your-business/','la-vie-in-pink'],
+  ['/es/website-for-your-business/','jaramillo-boutique']
+ ]){
+  const route=new URL(locale,url);
+  const r=await page.goto(route.href,{waitUntil:'domcontentloaded',timeout:35000});
+  assert.equal(r?.status(),200,'Bilingual website route must serve a page');
+  const items=page.locator('.hero-gallery-card');
+  assert.equal(await items.count(),7,'Show seven unique website concepts');
+  const found=await items.evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-demo')));
+  assert.deepEqual(found,heroSlugs,'Gallery brands must be unique and never include Umbral');
+  for(const slug of heroSlugs){
+   const hit=page.locator('.hero-gallery-card[data-demo="'+slug+'"] .hero-gallery-hit');
+   assert.equal(await hit.getAttribute('href'),'/demos/?demo='+slug,'Photo must link to exact library demo');
+  }
+  const hit=page.locator('.hero-gallery-card[data-demo="'+chosen+'"] .hero-gallery-hit');
+  await hit.click();
+  await page.waitForURL(new RegExp('/demos/\\?demo='+chosen),{timeout:20000});
+  await page.waitForFunction(()=>document.querySelector('#demo-viewer')?.open===true,null,{timeout:20000});
+  assert.equal(await page.locator('#viewer-frame').getAttribute('src'),chosen==='jaramillo-boutique'?'https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/':'https://thelaunchera.com/demos/la-vie-in-pink/');
+  assert.equal(await page.locator('#viewer-close').isVisible(),true);
+  await page.screenshot({path:folder+'/website-'+(locale.startsWith('/es/')?'es':'en')+'-direct-demo.png'});
+  await page.locator('#viewer-close').click();
+  assert.equal(await page.locator('#demo-viewer').evaluate(el=>el.open),false);
+  assert.equal(new URL(page.url()).searchParams.has('demo'),false,'Closing returns to the library, without the selected-demo query');
+  await page.locator('.demo-card[data-brand="'+chosen+'"]').waitFor({state:'visible'});
+  console.log('[LINK+RETURN]',locale,chosen,'OK');
+ }
+ // Old links using Umbral must still resolve to the single canonical Havana 19 demo.
+ await page.goto(new URL('/demos/?demo=umbral',url).href,{waitUntil:'domcontentloaded'});
+ await page.waitForFunction(()=>document.querySelector('#demo-viewer')?.open===true,null,{timeout:20000});
+ assert.equal(await page.locator('#viewer-frame').getAttribute('src'),'https://thelaunchera.com/demos/havana-19/');
+ await page.locator('#viewer-close').click();
+ console.log('[ALIAS] Umbral -> Havana 19 OK');
+
  console.log('[PASS] 16 cards, three exact hero images, modal open/close, filters and iPhone scroll.');
 } finally{
  await browser.close();
