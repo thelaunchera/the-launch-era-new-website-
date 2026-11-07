@@ -1,3 +1,11 @@
+## 2026-11-07 — Demo editorial heroes phase 1 (review, not production)
+- **Routes unchanged:** /demos/golden-grid/, /demos/ivory-and-bloom/, /demos/havana-19/. No new CTA, payment, navigation, data, tenant or asset file.
+- **Golden Grid:** desktop Full-Bleed composition using existing `resources/golden-1.png`, oversized two-line headline, original bilingual copy and CTA `#collection`. Mobile retains its original responsive stack. Entry animation only.
+- **Ivory & Bloom:** preserve original artisan cake photos, composition, headline and `#cake-gallery` CTA. Delicate staggered entrance of real photo/heading elements, with no perpetual movement.
+- **Havana 19:** preserve the real concept storefront hero and `#reservations` CTA; add one-time cinematic photo and headline entrance while preserving mobile layout.
+- **Security/accessibility:** all three motion sequences disabled under prefers-reduced-motion. Original images and locale data untouched.
+- **QA:** `scripts/qa-three-editorial-demo-heroes.mjs`, dedicated Playwright PR workflow checks 390/768/1440 images, actions, JS errors, horizontal overflow, and screenshots. Must pass before release.
+
 ## 2026-11-07 — Website for Your Business: bilingual Gallery Hero (review branch, not yet live)
 - **Source:** `public/website-for-your-business/index.html` (English) and `public/es/website-for-your-business/index.html` (Spanish), with isolated stylesheet `public/assets/tle-gallery-hero-20261107.css`. Pages build copies the exact files to the English and Spanish home routes. No new routes.
 - **Hero change requested by owner:** replace the single photo-led hero composition with seven editorial portfolio cards using existing original demo brand assets (Ivory & Bloom, Casa Brownie, CRUMB, La Vie in Pink, Jaramillo, Havana 19, Umbral). The approved Jaramillo asset remains available as one gallery panel. No invented client case studies. Cards are visual only; no extra pretend CTAs.
