@@ -102,6 +102,7 @@ try{
   await page.screenshot({path:folder+'/website-'+(locale.startsWith('/es/')?'es':'en')+'-direct-demo.png'});
   await page.locator('#viewer-close').click();
   assert.equal(await page.locator('#demo-viewer').evaluate(el=>el.open),false);
+  await page.waitForFunction(()=>!new URL(location.href).searchParams.has('demo'),null,{timeout:5000});
   assert.equal(new URL(page.url()).searchParams.has('demo'),false,'Closing returns to the library, without the selected-demo query');
   await page.locator('.demo-card[data-brand="'+chosen+'"]').waitFor({state:'visible'});
   console.log('[LINK+RETURN]',locale,chosen,'OK');
