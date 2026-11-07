@@ -1753,3 +1753,48 @@ img { display:block; width:100%; object-fit:cover; }
  .sales-home :is(a,button,input,textarea,select):focus-visible,
  .service-sales :is(a,button,input,textarea,select):focus-visible{outline:3px solid #477bb3;outline-offset:3px}
 }
+
+/* TLE editorial desktop hero standard — 2026-11-07
+   Reference direction: large brand photography paired with spacious, expressive
+   editorial type. Desktop ONLY. Preserve the existing wipe reveal, CTAs, media
+   sources, bilingual behavior and the verified phone/tablet compositions. */
+@media (min-width:1024px) {
+  .sales-home .hero-photo.hero-split {
+    grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);
+    column-gap:clamp(36px,4.3vw,76px);
+    min-height:clamp(650px,58vw,800px);
+    padding:clamp(36px,4.4vw,74px) clamp(38px,5.2vw,96px);
+  }
+  .sales-home .hero-photo.hero-split .hero-intro {
+    width:100%;
+    max-width:590px;
+  }
+  .sales-home .hero-photo.hero-split .hero-intro .eyebrow {
+    max-width:48ch;
+    letter-spacing:.11em;
+    line-height:1.6;
+  }
+  .sales-home .hero-photo.hero-split .hero-intro h1 {
+    max-width:12ch;
+    margin:20px 0 23px;
+    font-size:clamp(49px,4.65vw,77px);
+    font-weight:600;
+    line-height:1.045;
+    letter-spacing:-.047em;
+    text-wrap:balance;
+  }
+  .sales-home .hero-photo.hero-split .hero-intro > p {
+    max-width:46ch;
+    line-height:1.65;
+  }
+  .sales-home .hero-photo.hero-split .hero-cta-row {
+    margin-top:29px;
+  }
+  .sales-home .hero-photo.hero-split .hero-split-visual {
+    height:clamp(590px,52vw,730px);
+    border-radius:24px;
+  }
+  .sales-home .hero-photo.hero-split .hero-split-visual > img.hero-main-image {
+    object-position:58% center;
+  }
+}
