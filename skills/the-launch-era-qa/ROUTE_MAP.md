@@ -1,3 +1,11 @@
+## 2026-11-07 — Website Automation and VA protected paid intake routing
+
+- `/service-checkout/?offer=website-automation` ($35 one time) and `/service-checkout/?offer=va` ($25 subscription per month) continue to create real Stripe LIVE Checkout sessions via `create-tle-service-checkout` and Make `6423594`.
+- Stripe's `success_url` carries `session_id` to `/intake/automation/` or `/intake/va/` (EN/ES). The four pages **hide the form** until `tle-verified-service-intake` responds with a verified paid session of the same selected product.
+- `tle-verified-service-intake`: `POST {action:"verify"|"submit",offer,session_id,language,form?}`. Server calls Make read-only `service-intake-verify` using its existing checkout webhook, validates Stripe LIVE session, completed/paid status, amount, product code, Stripe currency/mode, and matches submitted email to Stripe customer email. Required form data is recorded in `tle_verified_service_intakes` with RLS and de-duplication, then forwarded only from the server to the historical intake Make webhook. For a relay failure, the private record remains pending for safe retry; do not send customers to a second checkout.
+- This preserves the existing **paid-setup → human intake → production → delivery** model without copying CB Depot's car-detailing workspace into a cleaner's business.
+- Limitations: a real paid relay/receipt delivery is not yet observed; the monthly AI-delivery activation function still requires its own secure Stripe credential and owner-approved production delivery. The Make checkout and verification routes have been preserved; no new billing-write routes remain.
+
 ## 2026-11-07 — Legacy VA and Website Automation intake gap
 
 - `/service-checkout/?offer=website-automation` creates a Stripe LIVE $35 payment session, then its historical success URL is `/intake/automation/?type=website&paid=1&session_id=...`; `/service-checkout/?offer=va` creates a Stripe LIVE $25/month subscription session and redirects to `/intake/va/?paid=1&session_id=...`.
