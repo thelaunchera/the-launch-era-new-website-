@@ -49,6 +49,8 @@ try{
  assert.equal(response?.status(),200,'Gallery must return 200, not a 404');
  assert.equal(await page.locator('.demo-card').count(),16,'Gallery must contain exactly 16 original concepts');
  assert.equal(await page.locator('.card-preview-link').count(),16,'Every photo card needs a preview link');
+ assert.equal(await page.locator('.demo-links .view').count(),16,'Every card needs a public demo website link');
+ assert.equal(await page.locator('.demo-links .source, a[href*="github.com"]').count(),0,'Never expose code/source repository links in the public library');
  assert.equal(await page.locator('#viewer-close').count(),1);
  const heroOrder=await page.evaluate(()=>{
    const photo=document.querySelector('.hero-gallery');
