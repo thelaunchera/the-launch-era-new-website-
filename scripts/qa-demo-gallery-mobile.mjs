@@ -57,11 +57,11 @@ try{
  assert.equal(await page.locator('.library-footer-legal a').count(),legalPaths.length,'Library must show five legal policy links');
  for(const path of legalPaths){
    assert.equal(await page.locator('.library-footer-legal a[href="'+path+'"]').count(),1,'Legal link missing: '+path);
-   const legalResponse=await page.request.get(new URL(path,url));
+   const legalResponse=await page.request.get(new URL(path,url).href);
    assert.equal(legalResponse.status(),200,'Legal policy URL must exist: '+path);
  }
  assert.equal(await page.locator('.library-footer-bottom').getByText('Powered by The Launch Era').count(),1,'TLE attribution must be visible');
- const retiredHero=await page.request.get(new URL('/demos/crumb/assets/CRUMB_Storefront_Hero_Blue.png',url));
+ const retiredHero=await page.request.get(new URL('/demos/crumb/assets/CRUMB_Storefront_Hero_Blue.png',url).href);
  assert.equal(retiredHero.status(),404,'The banned historical CRUMB photo must not be present in the published file set');
 
  const heroOrder=await page.evaluate(()=>{
