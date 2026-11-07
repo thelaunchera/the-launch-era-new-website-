@@ -1,3 +1,9 @@
+## 2026-11-07 — Demo inquiry mobile controls (no navigation or delivery-route changes)
+
+- Route URLs remain unchanged: `/demos/havana-19/`, `/demos/ivory-and-bloom/`, `/demos/angela-so-fresh-clean-queen/`, `/demos/claudia/`, `/demos/crumb/`, `/demos/golden-grid/`, and `/experience-cleaning/`.
+- These pages reference `/assets/tle-demo-inquiry-mobile-20261107.css`; the Havana, Ivory, CRUMB and Golden Grid forms also reference `/assets/tle-demo-inquiry-mobile-20261107.js` for progress and validation only. No backend endpoint, checkout, CTA destination, business identity, demo exit, data storage or live booking flow is changed.
+- Source checks: `scripts/qa-demo-inquiry-mobile.mjs`; automated workflow: `.github/workflows/three-editorial-demo-heroes-qa.yml`. Pending iPhone/Safari published-page check before final acceptance.
+
 ## 2026-11-07 — Website Automation and VA protected paid intake routing
 
 - `/service-checkout/?offer=website-automation` ($35 one time) and `/service-checkout/?offer=va` ($25 subscription per month) continue to create real Stripe LIVE Checkout sessions via `create-tle-service-checkout` and Make `6423594`.
