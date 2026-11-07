@@ -1,5 +1,6 @@
 /* Ivory & Bloom — calendar completely independent of iOS native date-picker UI.
    Inline, touch-friendly, no overlay or viewport overflow. */
+#ib-date-value{display:none!important;position:absolute!important;width:0!important;height:0!important;min-height:0!important;overflow:hidden!important}
 .ib-date-field{min-width:0;max-width:100%;margin:0 0 20px;position:relative}
 .ib-date-label{display:block;font:700 12px/1.45 'DM Sans',Arial,sans-serif;letter-spacing:.025em;margin-bottom:8px;color:#332924}
 .ib-date-label em{font-style:normal;color:#a77f6c}
