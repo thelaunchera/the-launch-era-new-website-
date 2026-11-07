@@ -14,7 +14,7 @@ m = json.loads(report.read_text(encoding="utf-8"))
 assert m["image_count"] >= 35, "Too few optimized photos"
 assert m["saved_percent"] > 38, "Too little data saved"
 gallery = (root / "demos/index.html").read_text(encoding="utf-8")
-for name in ("sova/resources/03-campaign.webp",
+for name in ("sova/resources/01-hero.webp",
              "golden-grid/resources/golden-1.webp",
              "la-vie-in-pink/resources/36a1bfe5-3660-4b7e-964d-8031fe824941.webp",
              "marea-wigs-miami/resources/01-hero.webp"):
