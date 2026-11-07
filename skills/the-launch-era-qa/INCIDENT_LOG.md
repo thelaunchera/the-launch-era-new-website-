@@ -791,3 +791,8 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - iPhone screenshot showed green emoji starburst in La Vie in Pink. A prior release had swapped it for a dot instead of removing the invalid brand symbol. Owner explicitly rejects such substitute marks and generic/blue arrows in all current and future demos.
 - Correction: remove decorative replacement dots from live La Vie React bundle and authored source, replace duplicate arrow-only product action with localized text; remove remaining mail/sparkle emoji in private booking concept pages; remove Marea substitute separator; add global workflow and CI prohibitions.
 - Future workflow: approved moodboard -> original section photos -> approved logo -> coded demo. QA/source/Pages/live phone verification are distinct. No customer data, bookings or payments touched.
+
+## 2026-11-07 — La Vie image fallback persists after WebP compression
+- **Live read-only browser observation:** La Vie's rendered hero resolved to the generic Unsplash fallback, while its approved local WebP exists and is served with image/webp MIME. Other optimized demos displayed local WebP.
+- **Corrective action:** use canonical absolute `/demos/la-vie-in-pink/resources/` photo URLs in authored + deployed bundles, refresh JS URL version to avoid stale cache, and retry the original approved local PNG if a WebP fails before any remote fallback. This preserves all brand photographs and independent customer data.
+- **QA:** Pages optimizer must transform absolute PNG URLs to WebP in build, keep the local PNG backup, verify deployed JS and live DOM hero image after successful Pages deploy. Do not claim fully repaired until live shows a local image URL.

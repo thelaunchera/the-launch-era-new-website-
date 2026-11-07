@@ -34,7 +34,8 @@ for demo in ("la-vie-in-pink", "golden-grid", "marea-wigs-miami", "sova", "laven
         assert (root / "demos" / demo / a["output"]).is_file()
         assert a["optimized_bytes"] <= a["original_bytes"] * 0.92
 js = (root / "demos/la-vie-in-pink/assets/index-BnbJ7qEi.js").read_text(encoding="utf-8")
-assert "36a1bfe5-3660-4b7e-964d-8031fe824941.webp" in js, "Hero photo not converted in La Vie"
+assert '/demos/la-vie-in-pink/resources/36a1bfe5-3660-4b7e-964d-8031fe824941.webp' in js, 'La Vie hero not using branded absolute WebP URL'
+assert 'localwebp1' in (root / 'demos/la-vie-in-pink/index.html').read_text(encoding='utf-8'), 'La Vie local-image cache version not published'
 assert any(".webp" in f.read_text(encoding="utf-8")
            for f in (root / "demos/golden-grid/assets").glob("*.js")), "Golden Grid JS not updated"
 print("PASS: Optimized", m["image_count"], "images; transferred bytes down", m["saved_percent"], "%")

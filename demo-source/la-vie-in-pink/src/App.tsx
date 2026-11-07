@@ -19,16 +19,16 @@ type Product = {
 };
 
 const photos = {
-  hero: './resources/36a1bfe5-3660-4b7e-964d-8031fe824941.png',
-  croissant: './resources/8572492e-4032-4e82-a5d3-7e087ec38613.png',
-  breakfast: './resources/28efa0a2-eefe-40b3-9398-b25bb8e0532a.png',
-  pastry: './resources/3ab35897-f8f3-4dcb-bc98-3ed74cc6aa16.png',
-  chef: './resources/4d3f2997-94a4-4af4-826d-bd40f493cb62.png',
-  interior: './resources/0a8472e4-57b2-4259-81cb-0b3e156e09c6.png',
-  customers: './resources/07f9bcb7-9784-42d5-b155-cd42ec3d207c.png',
-  gifting: './resources/d27af730-b413-4fa8-8502-84431ef687eb.png',
-  forTwo: './resources/bdea766e-ea26-4756-9a9f-659d473627ef.png',
-  breakfastHero: './resources/3674f67a-abe7-4116-b01c-19afb41ae3d5.png',
+  hero: '/demos/la-vie-in-pink/resources/36a1bfe5-3660-4b7e-964d-8031fe824941.png',
+  croissant: '/demos/la-vie-in-pink/resources/8572492e-4032-4e82-a5d3-7e087ec38613.png',
+  breakfast: '/demos/la-vie-in-pink/resources/28efa0a2-eefe-40b3-9398-b25bb8e0532a.png',
+  pastry: '/demos/la-vie-in-pink/resources/3ab35897-f8f3-4dcb-bc98-3ed74cc6aa16.png',
+  chef: '/demos/la-vie-in-pink/resources/4d3f2997-94a4-4af4-826d-bd40f493cb62.png',
+  interior: '/demos/la-vie-in-pink/resources/0a8472e4-57b2-4259-81cb-0b3e156e09c6.png',
+  customers: '/demos/la-vie-in-pink/resources/07f9bcb7-9784-42d5-b155-cd42ec3d207c.png',
+  gifting: '/demos/la-vie-in-pink/resources/d27af730-b413-4fa8-8502-84431ef687eb.png',
+  forTwo: '/demos/la-vie-in-pink/resources/bdea766e-ea26-4756-9a9f-659d473627ef.png',
+  breakfastHero: '/demos/la-vie-in-pink/resources/3674f67a-abe7-4116-b01c-19afb41ae3d5.png',
 };
 
 const fallbacks = {
@@ -72,8 +72,13 @@ function EditorialPhoto({
       fetchPriority={fetchPriority}
       style={style}
       onError={event => {
-        if (event.currentTarget.src !== fallback) {
-          event.currentTarget.src = fallback;
+        const image = event.currentTarget;
+        // The approved original PNG is a local backup if a generated WebP fails.
+        const originalPng = src.endsWith('.webp') ? src.slice(0, -5) + '.png' : null;
+        if (originalPng && !image.src.endsWith('.png')) {
+          image.src = originalPng;
+        } else if (image.src !== fallback) {
+          image.src = fallback;
         }
       }}
     />
