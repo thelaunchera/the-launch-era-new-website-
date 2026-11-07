@@ -16,6 +16,21 @@
 
 AI Assistant setup includes the first 30 days, **starting on delivery**; recurring billing begins after that interval. The AI Business monthly plan saves $2.00/month compared with the two separate plans ($14 + $7 = $21); $24 across 12 regular monthly payments.
 
+## Current cleaning Booking + AI bundle — Nov 7, 2026
+
+This is the **current public Booking Bundle offer** displayed in `/booking-bundle/` and `/experience-cleaning/`. Keep the website, checkout gateway, Stripe amount/metadata, receipt and fulfillment aligned.
+
+| Cleaning booking package | Booking base | AI add-on setup | Total due now | AI recurring price | Timing |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Booking Automation + Command Center only | $15 | — | **$15** | **None** | One-time |
+| Booking + AI Booking Assistant | $15 | $10 | **$25** | **$12/month** | After the first 30 days from delivery |
+| Booking + AI Follow-Up Assistant | $15 | $5 | **$20** | **$8/month** | After the first 30 days from delivery |
+| Booking + AI Business Assistant | $15 | $14 | **$29** | **$16/month** | After the first 30 days from delivery |
+
+**Important:** these are special combined-package prices, not standalone AI Assistant prices. A customer buying an AI Assistant separately still sees the standalone prices in the approved public-offers table above. Do not advertise a standalone price as if it were a bundle discount or vice versa. The 40% legacy `booking_ai_activation` toggle remains controlled separately; do not compound or activate the promotion on the newer special bundle tier without a reconciled, owner-approved price contract.
+
+Current technical contract: website `public/assets/tle-booking-bundle.js` sends `bundle-20261029` to Supabase `tle-booking-bundle-checkout`, which validates current published prices and routes a Stripe LIVE Checkout Session through Make. Standalone Booking/AI/Website Automation/VA purchases use `create-tle-service-checkout` and distinct offer IDs. Website-for-Your-Business $15/$25 purchases are separate and must not be recalculated using cleaning bundle pricing. The Content Lab $10 price is also independent.
+
 ## Promotions and contracts — do not remove or change automatically
 
 - Preserve the existing **40% discount on the combined setup/activation** when purchasing Booking + an eligible AI Assistant together, **only while the Supabase `tle_bundle_promotion` record `booking_ai_activation` is enabled**. This discount applies to the relevant one-time combined setup charges, **not** recurring monthly fees.
