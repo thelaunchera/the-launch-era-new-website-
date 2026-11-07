@@ -53,3 +53,13 @@ Preserves all original imagery, copy, forms, CTA and business functions. */
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero :is(a,button){transition:none!important}}
 
 @media(max-width:767px){.hero h1{font-size:clamp(40px,10.5vw,58px);line-height:1.07;font-weight:500}.hero .hero-lead{font-size:16px;line-height:1.6}.section-heading h2{font-size:clamp(37px,9.6vw,52px);line-height:1.12}.type-strip .strip-star{font-size:16px;color:#191919}.section :is(.eyebrow,.kicker){font-size:11px;font-weight:700}.hero .hero-link{min-height:46px}}
+
+
+/* Mobile hero photo-first — retain the Miami photo, brand stamp and entrance effects. */
+@media(max-width:600px){
+ .hero{display:flex;flex-direction:column;min-height:0}
+ .hero .hero-visual{order:0;min-height:0;width:100%;height:auto;aspect-ratio:4/5;flex:0 0 auto}
+ .hero .hero-visual>img{width:100%;height:100%;object-fit:cover;object-position:center 21%}
+ .hero .hero-copy{order:1;width:100%;padding:31px 24px 30px}
+ .hero .hero-link{min-height:44px;display:inline-flex;align-items:center}
+}
