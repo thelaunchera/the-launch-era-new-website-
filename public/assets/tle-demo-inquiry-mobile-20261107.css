@@ -1,0 +1,69 @@
+/* 2026-11-07 — Shared date-control repair and gentle demo inquiry feedback.
+   Designed for compact iPhone Safari fields; each demo retains its own palette. */
+:where(body) :is(input[type="date"],input[type="time"],input[type="datetime-local"]){
+  box-sizing:border-box!important;
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  height:50px!important;
+  min-height:50px!important;
+  max-height:50px!important;
+  padding:0 12px!important;
+  font-size:16px!important;
+  line-height:normal!important;
+  -webkit-appearance:none;
+  appearance:none;
+}
+:where(body) input[type="date"]::-webkit-date-and-time-value,
+:where(body) input[type="time"]::-webkit-date-and-time-value {
+  text-align:left;
+  min-height:1em;
+  line-height:normal;
+}
+:where(body) input[type="date"]::-webkit-datetime-edit,
+:where(body) input[type="time"]::-webkit-datetime-edit {padding:0;line-height:normal;}
+:where(.form-card,.form-panel,.fields,.form-row,.pair,.field,.screen,form) {min-width:0;max-width:100%;}
+:where(.form-card,.form-panel,.fields,.form-row,.pair,.field,.screen) > label {min-width:0;max-width:100%;}
+@media(max-width:760px){
+  .tle-demo-form-ui :is(input,select,textarea){font-size:16px!important;max-width:100%;min-width:0}
+}
+.tle-demo-form-ui .tle-form-progress{
+  margin:0 0 22px;
+  padding:0 0 14px;
+  border-bottom:1px solid currentColor;
+  border-color:color-mix(in srgb,currentColor 17%,transparent);
+}
+.tle-demo-form-ui .tle-form-progress__labels{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;margin:0 0 9px;font-size:11px;line-height:1.5;letter-spacing:.04em;
+  color:inherit;opacity:.86;
+}
+.tle-demo-form-ui .tle-form-progress__labels strong{font:inherit;font-weight:700;white-space:nowrap}
+.tle-demo-form-ui .tle-form-progress__track{
+  display:block;width:100%;height:3px;overflow:hidden;
+  background:color-mix(in srgb,currentColor 12%,transparent);
+}
+.tle-demo-form-ui .tle-form-progress__fill{
+  display:block;height:100%;width:0;
+  background:currentColor;transform-origin:left center;
+  transition:width .24s ease;
+}
+.tle-demo-form-ui .tle-field-ready :is(input,select,textarea){
+  border-color:color-mix(in srgb,currentColor 58%,transparent)!important;
+}
+.tle-demo-form-ui [aria-invalid="true"]{
+  border-color:#ac5143!important;
+  outline-color:#ac5143!important;
+}
+.tle-demo-form-ui .tle-field-feedback{
+  display:block;margin-top:6px;font-size:11px;line-height:1.45;
+  font-weight:400;letter-spacing:0;color:#a2493c;
+}
+.tle-demo-form-ui .tle-date-chosen{
+  display:block;margin-top:7px;font-size:11px;font-weight:500;
+  letter-spacing:0;line-height:1.5;opacity:.76;
+}
+@media(prefers-reduced-motion:reduce){
+ .tle-demo-form-ui .tle-form-progress__fill{transition:none}
+}
