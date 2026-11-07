@@ -1,3 +1,9 @@
+## 2026-11-07 — Additional Safari-engine acceptance for cake calendar
+
+- GitHub Actions `Editorial Demo Heroes Visual QA` run **42390371187** passed both Chromium mobile and WebKit (Safari engine) on 360px and 390px simulated iPhone layouts. WebKit measurements: 360px viewport/panel width 292px, 390px viewport/panel width 322px; the calendar remained inside its parent, document scroll width equaled viewport width, and the hidden ISO value occupied no visible layout. Selecting a future date and submitting the inquiry opened the non-sending preview with the exact selected date.
+- The demo library's three Ivory & Bloom links (preview target, open-site destination, preview link) now use `?v=iphone-calendar-20261107` to bypass stale Instagram in-app-browser page cache. Route and public demo identity remain unchanged; no real booking or email sent.
+- Remaining limitation: isolated WebKit on Linux is a Safari-engine regression, not an actual physical iPhone inside Instagram. Device owner confirmation remains necessary for that environment.
+
 ## 2026-11-07 — Ivory & Bloom calendar remains oversized in actual iPhone Instagram browser
 
 - **Customer report after previous release:** Ivory & Bloom (Wedding Cake Atelier) still showed an oversized/blank date control on iPhone, despite the shared CSS size constraint. The previous release only resized an iOS native `input[type=date]`; a successful Chromium geometry test did **not** establish Safari/Instagram acceptance.
