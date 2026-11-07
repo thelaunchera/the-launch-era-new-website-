@@ -1,3 +1,9 @@
+## 2026-11-07 — Legacy VA and Website Automation intake gap
+
+- `/service-checkout/?offer=website-automation` creates a Stripe LIVE $35 payment session, then its historical success URL is `/intake/automation/?type=website&paid=1&session_id=...`; `/service-checkout/?offer=va` creates a Stripe LIVE $25/month subscription session and redirects to `/intake/va/?paid=1&session_id=...`.
+- Both destination intake pages exist in GitHub, but their current client code only posts the entered form to a Make intake webhook and does not verify Stripe payment using the returned `session_id` or a private expiring token. They are **not** the verified Booking / CB Depot flow. Fix must verify server-side before accepting new paid order intake; do not infer paid status from `?paid=1` or email string alone.
+- Separate website-for-your-business packages `website-basic` and `website-ai-crm` use their dedicated Stripe verification and `tle_studio_website_confirm_payment` project path; do not merge them with the legacy `website-automation` offer.
+
 ## 2026-11-07 — Paid post-checkout intake parity audit
 
 - **Reference customer CB Depot:** existing Booking-only purchase has Stripe-confirmed payment, accepted intake, private CRM workspace, activation and recorded delivery notification; its car detailing data/branding are not templates for residential cleaners.
