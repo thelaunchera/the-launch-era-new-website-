@@ -19,7 +19,9 @@ for(const [name,size,sha] of approved){
  const img=readFileSync(path);
  assert.equal(img.length,size,'Original photograph size changed '+name);
  assert.equal(createHash('sha256').update(img).digest('hex'),sha,'Original photograph bytes changed '+name);
- assert(page.includes('/assets/bundle-landing/bundle-'+name+'.png'),'Landing missing approved photo '+name);
+ const webp='public/assets/bundle-landing/optimized/'+name+'.webp';
+ assert(existsSync(webp),'Missing approved optimized visual '+webp);
+ assert(page.includes('/assets/bundle-landing/optimized/'+name+'.webp'),'Landing missing the actual optimized approved photo '+name);
 }
 for(const p of ['public/assets/tle-bundle-landing.js','public/assets/tle-booking-bundle.js']){
  execFileSync(process.execPath,['--check',p],{stdio:'inherit'});
@@ -38,4 +40,4 @@ assert(page.includes('href="#choose-plan"'),'Final checkout anchor missing');
 assert(page.includes('data-es='),'Missing Spanish localizations');
 assert(!page.includes('command-center/buyer-account-preview'),'Private owner-only Command Center preview must not be linked publicly');
 assert(css.includes('max-width:720px')&&css.includes('max-width:380px'),'Responsive design fallbacks absent');
-console.log('PASS: 4 approved images, safe sample demos, responsive bilingual landing and original secure pricing/checkout');
+console.log('PASS: 4 original image hashes intact, optimized photos linked, safe demos, responsive bilingual copy and existing checkout preserved');
