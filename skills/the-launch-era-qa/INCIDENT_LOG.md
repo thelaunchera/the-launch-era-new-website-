@@ -1,3 +1,12 @@
+## 2026-11-07 — Oversized date fields in demo inquiry forms on iPhone (reported with screenshots)
+
+- **Observed:** in Instagram's iOS in-app browser, Havana 19 and Ivory & Bloom displayed oversized empty native date inputs; Havana's date extended beyond the form card. The report requested more interactive inquiry forms across the demo collection.
+- **Suspected technical cause:** competing per-demo native `input[type=date]` styles, including `appearance:auto` in the wedding demo, and missing consistently constrained `height/width/min-width` for iOS native controls. This is a source-level hypothesis; an actual Safari rendering trace is pending.
+- **Source repair:** shared `public/assets/tle-demo-inquiry-mobile-20261107.css` enforces 50px maximum date/time input height, border-box width, zero min-width and left-aligned iOS date text. Imported into Havana 19, Ivory & Bloom, Angela's So Fresh Clean Queen, Claudia, and the Experience Cleaning booking wizard. CRUMB and Golden Grid also import the shared styles.
+- **Interactive refinement:** shared `public/assets/tle-demo-inquiry-mobile-20261107.js` adds a compact progress meter, live validity feedback and selected-date microcopy to Havana 19, Ivory & Bloom, CRUMB and Golden Grid, without changing their existing demo-only preview/submit handlers. Angela's and Claudia's existing wizard/progress UIs are deliberately preserved.
+- **Regression:** `scripts/qa-demo-inquiry-mobile.mjs` checks mobile date geometry, field validation, completion and non-sending form previews. Wired to `three-editorial-demo-heroes-qa.yml`. Existing `qa-route-integrity.mjs --static` and deployment workflow still guard releases.
+- **Evidence/status:** source updates committed to `main`; CI/browser result and published Safari/iPhone acceptance must be confirmed before describing this as a fully verified live fix. No actual customer request, email or booking was submitted.
+
 ## 2026-11-07 — Hardened Website Automation and VA paid intakes
 
 - The old publicly accessible intake pages for Website Automation and VA Support (EN/ES) allowed posting directly to a legacy Make intake hook using only a user-entered email and URL query `?paid=1`. This was **not** equivalent to CB Depot's paid-first Booking flow.
