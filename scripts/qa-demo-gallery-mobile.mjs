@@ -158,6 +158,47 @@ try{
    assert.ok(noOverflow,'Scroll effects must not create horizontal overflow');
    await motionPage.screenshot({path:folder+'/iPhone-gallery-scroll.png'});
    console.log('[SCROLL MOTION] reveal + no horizontal overflow OK');
+
+   // Mobile demo hero art: photo comes before the copy; the original CSS animation remains active.
+   const photoFirstDemos=[
+     {slug:'sova',visual:'.hero .hero-media',copy:'.hero .hero-copy',image:'.hero .hero-media img',motion:'.hero h1'},
+     {slug:'golden-grid',visual:'.hero .hero-art',copy:'.hero .hero-copy',image:'.hero .hero-art img',motion:'.hero .hero-art img'},
+     {slug:'la-vie-in-pink',visual:'.hero .hero-image-wrap',copy:'.hero .hero-content',image:'.hero .hero-image',motion:'.hero .hero-image'},
+     {slug:'marea-wigs-miami',visual:'.hero .hero-visual',copy:'.hero .hero-copy',image:'.hero .hero-visual>img',motion:'.hero .hero-visual>img'},
+     {slug:'lavender-edit',visual:'.hero .hero-art',copy:'.hero .hero-copy',image:'.hero .hero-art img',motion:'.hero .hero-art img'}
+   ];
+   for(const demo of photoFirstDemos){
+     const address=new URL('/demos/'+demo.slug+'/',url).href;
+     const response=await motionPage.goto(address,{waitUntil:'domcontentloaded',timeout:35000});
+     assert.equal(response?.status(),200,'Hero page must return 200: '+demo.slug);
+     await motionPage.locator(demo.visual).waitFor({state:'visible',timeout:25000});
+     await motionPage.locator(demo.image).waitFor({state:'visible',timeout:25000});
+     await motionPage.waitForFunction(sel=>{
+       const img=document.querySelector(sel);
+       return img&&img.complete&&img.naturalWidth>0;
+     },demo.image,{timeout:25000});
+     const result=await motionPage.evaluate(d=>{
+       const visual=document.querySelector(d.visual),copy=document.querySelector(d.copy);
+       const img=document.querySelector(d.image),moving=document.querySelector(d.motion);
+       const v=visual.getBoundingClientRect(),c=copy.getBoundingClientRect();
+       return {
+         photoTop:v.top,photoBottom:v.bottom,copyTop:c.top,
+         photoHeight:v.height,photoWidth:v.width,
+         motion:getComputedStyle(moving).animationName,
+         naturalWidth:img.naturalWidth,
+         scrollWidth:document.documentElement.scrollWidth,
+         viewport:innerWidth, viewportHeight:innerHeight
+       };
+     },demo);
+     assert.ok(result.photoTop+8<result.copyTop,'Mobile hero photo must precede copy: '+demo.slug+' '+JSON.stringify(result));
+     assert.ok(result.photoHeight>220,'Mobile hero photo must be prominent: '+demo.slug+' '+JSON.stringify(result));
+     assert.ok(result.photoTop<result.viewportHeight,'Hero photo must appear upon entry: '+demo.slug);
+     assert.ok(result.scrollWidth<=result.viewport+2,'No horizontal overflow: '+demo.slug+' '+JSON.stringify(result));
+     assert.ok(result.motion!=='none'&&result.motion.length>0,'Original hero reveal animation must remain: '+demo.slug+' '+JSON.stringify(result));
+     await motionPage.screenshot({path:folder+'/hero-first-'+demo.slug+'-iPhone.png'});
+     console.log('[PHOTO FIRST + MOTION]',demo.slug,JSON.stringify(result));
+   }
+
  }finally{await motionContext.close()}
 
 
