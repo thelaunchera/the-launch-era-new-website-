@@ -27,7 +27,23 @@ for(const [language,html] of [['en',en],['es',es]]){
  const expected=expectedByLanguage[language];
  const hero=html.match(/<section class="hero hero-gallery" id="inicio">([\s\S]*?)<\/section>/)?.[1];
  assert(hero,language+': hero missing');
- assert(hero.includes('src="'+photoRoot+'hero-jaramillo.svg"'),language+': approved Jaramillo image missing from gallery');
+ const galleryPhotoMap={
+  'ivory-and-bloom':'/demos/ivory-and-bloom/images/hero-cake-artist.webp',
+  'casa-brownie':'/demos/casa-brownie/assets/hero-brownies.webp',
+  'crumb':'/demos/crumb/assets/CRUMB_Storefront_Approved_20261030.webp',
+  'la-vie-in-pink':'/demos/la-vie-in-pink/resources/36a1bfe5-3660-4b7e-964d-8031fe824941.png',
+  'jaramillo-boutique':'https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/assets/hero-editorial-user.jpg',
+  'havana-19':'/demos/havana-19/photos/HAVANA19_Hero_Fachada_Borgona.jpeg',
+  'sova':'/demos/sova/resources/01-hero.png'
+ };
+ for(const [slug,image] of Object.entries(galleryPhotoMap)){
+  assert(hero.includes('data-demo="'+slug+'"'),language+': missing distinct demo '+slug);
+  assert(hero.includes('href="/demos/?demo='+slug+'"'),language+': photo does not deep-link to '+slug);
+  assert(hero.includes('src="'+image+'"'),language+': incorrect original hero photo for '+slug);
+  if(image.startsWith('/'))assert(existsSync('public'+image),language+': hero image asset missing for '+slug);
+ }
+ assert(!hero.includes('data-demo="umbral"')&&!hero.includes('<figcaption>Umbral</figcaption>'),language+': Umbral must not be duplicated because it is Havana 19');
+ assert(!hero.includes(photoRoot+'hero-jaramillo.svg')&&!hero.includes(photoRoot+'website-la-vie-in-pink-en.jpg'),language+': old mockup must not replace original demo hero photography');
  assert(hero.includes('hero-gallery-stage'),language+': gallery composition missing');
  assert((hero.match(/class="hero-gallery-card"/g)||[]).length===7,language+': expected seven distinct demo cards');
  assert(!hero.includes('automated-crm')&&!hero.includes('process-'),language+': checkout/process photo intrudes into gallery');
@@ -42,7 +58,7 @@ for(const [language,html] of [['en',en],['es',es]]){
   assert(process?.includes(photoRoot+expected[key]),language+': '+key+' photo missing');
  }
  for(const name of Object.values(expected)){
-  assert(html.split('src="'+photoRoot+name+'"').length===(language==='en'&&name==='hero-jaramillo.svg'?3:2),language+': '+name+' is missing or duplicated');
+  assert(html.split('src="'+photoRoot+name+'"').length===2,language+': '+name+' is missing or duplicated outside its approved package or process section');
   assert(existsSync('public'+photoRoot+name),language+': asset missing: '+name);
  }
  assert(html.includes('$15')&&html.includes('$25')&&html.includes('$8 USD'),language+': prices not aligned');
@@ -52,4 +68,4 @@ for(const [language,html] of [['en',en],['es',es]]){
 const photoStyles=css.split('/* 2026-11-05 image placement: keep original hero untouched. */')[1];
 assert(photoStyles&&!photoStyles.includes('.hero'), 'Photo styling inadvertently edits hero');
 assert(photoStyles.includes('object-fit:contain'), 'Uncropped interior photo styling missing');
-console.log('PASS: seven-card gallery includes approved Jaramillo asset, package photos remain language-correct, prices and delivery unchanged.');
+console.log('PASS: seven distinct approved demo hero photographs deep-link to their live gallery previews in both languages; original package photos, prices and delivery remain unchanged.');
