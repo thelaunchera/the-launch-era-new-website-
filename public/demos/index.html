@@ -328,6 +328,13 @@ function resetDemo(){
  frame.src='about:blank';
  // A link from a website gallery should return to the selected card in this library.
  const current=new URL(location.href);
+ const returnTo=current.searchParams.get('returnTo');
+ // The public package gallery asks to return to its English/Spanish landing after Close.
+ // Use a strict same-site allowlist: query parameters must never become open redirects.
+ if(returnTo && /^\/(?:es\/)?website-for-your-business\/?$/.test(returnTo)){
+   window.location.assign(returnTo);
+   return;
+ }
  if(current.searchParams.has('demo')){
    current.searchParams.delete('demo');
    history.replaceState(history.state,'',current.pathname+current.search+current.hash);
