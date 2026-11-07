@@ -1,3 +1,9 @@
+## 2026-11-07 — Unpaid-session regression and legacy service intake differences
+
+- **Regression proof after deployed payment verification changes:** a real new Stripe LIVE checkout session with `payment_status=unpaid` and `status=open` was passed (read-only) to the Booking success backend and AI Assistant onboarding; Booking returned HTTP 402, AI returned HTTP 403, and no account was activated. Make live read-only proof returned correct setup and monthly metadata for `bundle-20261029` (without charging a customer). Private smoke-QA scenario `6941892` was restored to its original endpoint after the tests.
+- **Separate legacy product weakness:** `public/intake/automation/index.html` and `public/intake/va/index.html` are publicly accessible forms that submit directly to a Make intake webhook. Their source does **not** verify paid Stripe session or require a signed one-use intake token before enabling submission. The Make processing after form submission may have its own controls but was not verified in this audit. These two offers therefore **do not match CB Depot's paid-first private-intake gate**. Do not call every product end-to-end ready until this flow is secured and regression-tested.
+- **Pending:** run no-charge negative tests for hardened legacy forms when fixed, browser/iPhone QA, controlled paid-session onboarding and actual delivery/monthly activation verification. No legacy flows or customer records were modified during this finding.
+
 ## 2026-11-07 — CB Depot reference flow vs. new AI post-payment contracts
 
 - **User goal:** confirm every paid checkout follows the historical CB Depot process: Stripe payment proof, personalized email/intake, independent workspace, activation and delivery; preserve CB Depot's original car-detailing tenant.
