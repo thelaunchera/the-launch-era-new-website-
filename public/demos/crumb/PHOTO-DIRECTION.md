@@ -14,7 +14,7 @@
 ## Fotos en uso y prompts para variantes coherentes
 
 ### 01 · Hero de fachada azul
-**Activo:** `assets/CRUMB_Storefront_Approved_20261030.webp` (hero desktop, tablet y móvil, una sola vez).
+**Activo:** `assets/CRUMB_Storefront_Hero_Blue.png` (hero desktop, tablet y móvil, una sola vez; misma foto en la tarjeta de la biblioteca, no repetir dentro de la galería de CRUMB).
 
 > Photorealistic editorial architectural photograph of CRUMB, a fictional boutique cookie bakery in Miami. Beautiful powder blue storefront with elegant cream CRUMB lettering, subtle bitten-cookie emblem, floor-to-ceiling windows, warm interior bakery lights, tasteful bistro table and chair, potted greenery, realistic soft daylight and natural shadows. Premium American cookie-shop branding, blue #C9E2F4 and #477BB3 with warm ivory accents, polished architectural photography, no people posing, no other brands, no decorative mockup borders. Portrait source suitable for carefully cropped wide desktop hero and mobile cover. This is conceptual brand imagery.
 
