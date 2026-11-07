@@ -1,0 +1,288 @@
+/* The Launch Era • 2026-11-07
+   Distinct editorial gallery choreography. Enhances original elements only.
+   No photo replacements, no cloned cards, no changes to underlying dialogs. */
+.tle-gallery-controls{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:14px;margin:0 0 clamp(12px,1.8vw,23px);
+  color:var(--ink,currentColor);max-width:100%;
+}
+.tle-gallery-wordmark{
+  font:700 10px/1.3 system-ui,-apple-system,sans-serif;
+  letter-spacing:.15em;text-transform:uppercase;opacity:.72;
+}
+.tle-gallery-actions{display:flex;align-items:center;gap:12px}
+.tle-gallery-actions button{
+  display:grid;place-items:center;width:43px;height:43px;min-width:43px;
+  border-radius:50%;border:1px solid currentColor;color:inherit;
+  background:transparent;font:400 29px/1 system-ui,-apple-system,sans-serif;
+  cursor:pointer;transition:background .2s ease,color .2s ease;
+}
+.tle-gallery-actions button:hover{background:currentColor}
+.tle-gallery-actions button:hover::first-letter{color:inherit}
+.tle-gallery-actions button:focus-visible,.tle-motion-gallery:focus-visible{
+  outline:3px solid currentColor;outline-offset:3px;
+}
+.tle-gallery-count{
+  font:700 11px/1 system-ui,sans-serif;letter-spacing:.08em;
+  font-variant-numeric:tabular-nums;min-width:53px;text-align:center;
+}
+.tle-motion-gallery{min-width:0;max-width:100%}
+.tle-motion-filmstrip{
+  display:flex!important;flex-wrap:nowrap!important;align-items:stretch!important;
+  gap:clamp(12px,1.4vw,23px)!important;grid-template-columns:none!important;
+  overflow-x:auto!important;overflow-y:hidden!important;
+  -webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;
+  scroll-snap-type:x mandatory;scroll-padding-inline:5px;
+  scrollbar-width:none;padding:6px 5px 25px!important;
+}
+.tle-motion-filmstrip::-webkit-scrollbar{display:none}
+.tle-motion-filmstrip>figure,.tle-motion-filmstrip>article{
+  flex:0 0 min(38vw,440px)!important;
+  width:min(38vw,440px)!important;min-width:0;
+  scroll-snap-align:start;
+}
+#cake-gallery .cake-grid.tle-motion-filmstrip .cake-item{
+  flex-basis:clamp(245px,29vw,380px)!important;
+  width:clamp(245px,29vw,380px)!important;
+  background:#f9f4ef;
+  border-radius:17px;overflow:hidden;
+  padding:0 0 20px;box-shadow:0 10px 30px rgba(60,40,34,.06);
+}
+#cake-gallery .cake-grid.tle-motion-filmstrip .cake-item .cake-photo{
+  border-radius:15px 15px 0 0;overflow:hidden;
+}
+#cake-gallery .cake-grid.tle-motion-filmstrip .cake-item .cake-meta{padding:0 15px}
+#cake-gallery .cake-grid.tle-motion-filmstrip .cake-item[hidden]{display:none!important}
+#cake-gallery .tle-gallery-controls{color:#735749}
+#cake-gallery .tle-gallery-actions button:hover{background:#735749;color:#fff}
+.studio-gallery-grid.tle-motion-filmstrip>figure{
+  flex-basis:clamp(270px,56vw,730px)!important;
+  width:clamp(270px,56vw,730px)!important;
+  min-height:clamp(350px,42vw,590px)!important;
+  border-radius:clamp(19px,2vw,30px);overflow:hidden;
+}
+.studio-gallery-grid.tle-motion-filmstrip{gap:clamp(12px,2vw,25px)!important}
+.studio-gallery-grid.tle-motion-filmstrip figure{background-size:cover!important;background-position:center!important}
+.studio-gallery-grid.tle-motion-filmstrip figure figcaption{z-index:2}
+.studio-gallery:has(.tle-motion-filmstrip) .tle-gallery-controls{color:#5a705d}
+
+/* Havana: two cinematic windows trade emphasis, both photos stay visible. */
+.gallery-grid.gallery-unique.tle-motion-duet{
+  display:flex!important;gap:clamp(12px,1.5vw,25px)!important;
+  height:clamp(370px,49vw,670px)!important;
+  grid-template-columns:none!important;grid-auto-rows:auto!important;
+  overflow:hidden!important;
+}
+.gallery-grid.gallery-unique.tle-motion-duet>figure{
+  display:block!important;flex:1!important;min-width:0;margin:0!important;
+  height:100%!important;grid-column:auto!important;grid-row:auto!important;
+  border-radius:14px;transition:flex .9s ease,filter .75s ease;
+  filter:brightness(.75);
+}
+.gallery-grid.gallery-unique.tle-motion-duet>figure.tle-spot-active{
+  flex:2.15!important;filter:brightness(1);
+}
+.gallery-grid.gallery-unique.tle-motion-duet>figure img{
+  width:100%!important;height:100%!important;object-fit:cover!important;
+}
+.gallery#gallery .tle-gallery-controls{color:#7a5446}
+.gallery#gallery .tle-gallery-actions button:hover{background:#7a5446;color:#fff}
+
+/* Seasonal Brew: alternating magazine diptych, original caption card below. */
+.moments-gallery.tle-motion-duet{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  grid-template-rows:auto auto!important;gap:clamp(14px,1.6vw,24px)!important;
+  align-items:stretch!important;
+}
+.moments-gallery.tle-motion-duet>figure{
+  grid-column:auto!important;grid-row:1!important;
+  height:clamp(340px,42vw,580px)!important;min-height:0!important;
+  width:100%!important;margin:0!important;border-radius:24px;overflow:hidden;
+  transition:transform .75s ease,filter .75s ease;filter:brightness(.83);
+}
+.moments-gallery.tle-motion-duet>figure.tle-spot-active{
+  transform:translateY(-7px);filter:brightness(1);
+}
+.moments-gallery.tle-motion-duet>figure img{height:100%;width:100%;object-fit:cover}
+.moments-gallery.tle-motion-duet>.moment-text{
+  grid-column:1 / -1!important;grid-row:2!important;
+  width:100%;min-height:0!important;
+  padding:22px clamp(20px,4vw,65px)!important;
+}
+.moments-section .tle-gallery-controls{color:#704d33}
+.moments-section .tle-gallery-actions button:hover{background:#704d33;color:#fff}
+
+/* Lavender: paper-print stack, soft crossfade to the front card. */
+#gallery .look-grid.tle-motion-stack{
+  display:block!important;position:relative!important;
+  height:clamp(425px,58vw,760px)!important;
+  min-height:0!important;overflow:visible!important;
+}
+#gallery .look-grid.tle-motion-stack>figure{
+  position:absolute!important;
+  top:50%!important;left:50%!important;
+  width:min(70%,590px)!important;
+  height:calc(100% - 45px)!important;
+  margin:0!important;grid-column:auto!important;grid-row:auto!important;
+  aspect-ratio:auto!important;z-index:1;overflow:hidden;
+  opacity:.64;filter:saturate(.8);
+  transform:translate(-50%,-50%) scale(.88) rotate(-7deg);
+  transition:transform .95s cubic-bezier(.25,.75,.22,1),opacity .7s ease,filter .7s ease;
+}
+#gallery .look-grid.tle-motion-stack>figure img{
+  width:100%!important;height:100%!important;object-fit:cover;
+}
+#gallery .look-grid.tle-motion-stack>figure.tle-spot-before{
+  z-index:1;transform:translate(-62%,-51%) scale(.92) rotate(-8deg);
+}
+#gallery .look-grid.tle-motion-stack>figure.tle-spot-after{
+  z-index:2;transform:translate(-38%,-49%) scale(.92) rotate(8deg);
+}
+#gallery .look-grid.tle-motion-stack>figure.tle-spot-active{
+  z-index:3;opacity:1;filter:none;
+  transform:translate(-50%,-50%) scale(1) rotate(0);
+}
+.edit .tle-gallery-controls{color:#71577c}
+.edit .tle-gallery-actions button:hover{background:#71577c;color:#fff}
+
+/* La Vie in Pink: continental editorial accordion with four original photos. */
+.gallery-section .gallery-grid.tle-motion-accordion{
+  display:flex!important;flex-wrap:nowrap!important;
+  align-items:stretch!important;gap:clamp(8px,1.2vw,17px)!important;
+  height:clamp(400px,48vw,625px)!important;
+  grid-template-columns:none!important;grid-template-rows:none!important;
+  overflow:hidden!important;
+}
+.gallery-section .gallery-grid.tle-motion-accordion>.gallery-photo{
+  position:relative!important;display:block!important;
+  flex:1!important;width:auto!important;min-width:0!important;
+  height:100%!important;margin:0!important;
+  border-radius:20px;overflow:hidden;
+  transition:flex .95s cubic-bezier(.25,.74,.25,1),filter .75s ease;
+  filter:saturate(.75);
+}
+.gallery-section .gallery-grid.tle-motion-accordion>.gallery-photo.tle-spot-active{
+  flex:3.2!important;filter:none;
+}
+.gallery-section .gallery-grid.tle-motion-accordion>.gallery-photo img{
+  width:100%!important;height:100%!important;
+  object-fit:cover!important;object-position:center!important;
+}
+.gallery-section .tle-gallery-controls{color:#70343e}
+.gallery-section .tle-gallery-actions button:hover{background:#70343e;color:#fff}
+
+/* YUMMM: tactile bakery magazine. One photo leads, two accompany. */
+.moments-grid.tle-motion-triptych{
+  display:flex!important;flex-wrap:nowrap!important;
+  align-items:stretch!important;
+  gap:clamp(12px,1.7vw,26px)!important;
+  grid-template-columns:none!important;grid-auto-rows:auto!important;
+  height:clamp(340px,45vw,560px)!important;
+  overflow:hidden!important;
+}
+.moments-grid.tle-motion-triptych>figure{
+  position:relative!important;order:2;
+  flex:1!important;min-width:0;width:auto!important;height:100%!important;
+  margin:0!important;grid-column:auto!important;grid-row:auto!important;
+  border-radius:20px;overflow:hidden;
+  opacity:.75;filter:saturate(.82);
+  transition:flex .85s ease,opacity .7s ease,filter .7s ease;
+}
+.moments-grid.tle-motion-triptych>figure.tle-spot-active{
+  order:1;flex:2.35!important;opacity:1;filter:none;
+}
+.moments-grid.tle-motion-triptych>figure img{
+  width:100%!important;height:100%!important;
+  object-fit:cover!important;
+}
+.moments .tle-gallery-controls{color:#932c2b}
+.moments .tle-gallery-actions button:hover{background:#932c2b;color:#fff}
+
+/* WOK SOCIAL: dynamic food panel with active photo enlarged, in chilli red. */
+.moments .moments-grid.tle-motion-accordion{
+  display:flex!important;grid-template-columns:none!important;
+  flex-wrap:nowrap!important;gap:clamp(10px,1.4vw,18px)!important;
+  height:clamp(390px,44vw,640px)!important;
+  overflow:hidden!important;
+}
+.moments .moments-grid.tle-motion-accordion>figure{
+  flex:1!important;min-width:0!important;width:auto!important;
+  height:100%!important;margin:0!important;grid-column:auto!important;
+  overflow:hidden;border-radius:clamp(15px,1.5vw,25px);
+  filter:saturate(.75);transition:flex .8s ease,filter .7s ease;
+}
+.moments .moments-grid.tle-motion-accordion>figure.tle-spot-active{
+  flex:2.6!important;filter:none;
+}
+.moments .moments-grid.tle-motion-accordion>figure>div{
+  height:calc(100% - 72px)!important;overflow:hidden;
+}
+.moments .moments-grid.tle-motion-accordion>figure img{
+  height:100%!important;width:100%!important;object-fit:cover!important;
+}
+.moments .moments-grid.tle-motion-accordion>figure figcaption{
+  min-height:72px;
+}
+.moments:has(.tle-motion-accordion) .tle-gallery-controls{color:#df2a24}
+.moments:has(.tle-motion-accordion) .tle-gallery-actions button:hover{background:#df2a24;color:#fff}
+
+/* Marea and CRUMB retain their existing native controls and lightboxes.
+   Auto-advance is added, not a duplicate toolbar or rewritten gallery. */
+.moodboard #editorial-track.tle-motion-native-rail{
+  scroll-snap-type:x mandatory;scrollbar-width:none;
+  overscroll-behavior-x:contain;
+}
+.moodboard #editorial-track.tle-motion-native-rail>.editorial-card{scroll-snap-align:start}
+#crumb-gallery-track.tle-motion-original-dots{scroll-snap-type:x mandatory}
+
+/* Phone layouts remain finger-friendly, with partially visible next frames. */
+@media(max-width:760px){
+  .tle-gallery-controls{gap:8px;margin-bottom:11px}
+  .tle-gallery-wordmark{font-size:9px;letter-spacing:.08em}
+  .tle-gallery-actions{gap:7px}
+  .tle-gallery-actions button{width:40px;height:40px;min-width:40px;font-size:25px}
+  .tle-motion-filmstrip>figure,.tle-motion-filmstrip>article{
+    flex-basis:min(75vw,360px)!important;width:min(75vw,360px)!important;
+  }
+  #cake-gallery .cake-grid.tle-motion-filmstrip .cake-item{
+    flex-basis:min(78vw,335px)!important;width:min(78vw,335px)!important;
+  }
+  .studio-gallery-grid.tle-motion-filmstrip>figure{
+    flex-basis:min(83vw,425px)!important;width:min(83vw,425px)!important;
+    min-height:350px!important;
+  }
+  #gallery .look-grid.tle-motion-stack{height:clamp(390px,117vw,590px)!important}
+  #gallery .look-grid.tle-motion-stack>figure{
+    width:78%!important;height:calc(100% - 30px)!important;
+  }
+  .gallery-grid.gallery-unique.tle-motion-duet{
+    height:clamp(320px,102vw,500px)!important;
+  }
+  .moments-gallery.tle-motion-duet>figure{
+    height:clamp(250px,62vw,400px)!important;
+    border-radius:16px;
+  }
+  .moments-gallery.tle-motion-duet>.moment-text{padding:20px!important}
+  .gallery-section .gallery-grid.tle-motion-accordion{
+    height:clamp(340px,115vw,505px)!important;gap:6px!important;
+  }
+  .gallery-section .gallery-grid.tle-motion-accordion>.gallery-photo{
+    border-radius:12px;
+  }
+  .gallery-section .gallery-grid.tle-motion-accordion>.gallery-photo.tle-spot-active{
+    flex:4!important;
+  }
+  .moments-grid.tle-motion-triptych{
+    height:clamp(320px,108vw,480px)!important;gap:7px!important;
+  }
+  .moments-grid.tle-motion-triptych>figure{border-radius:12px}
+  .moments-grid.tle-motion-triptych>figure.tle-spot-active{flex:3.2!important}
+  .moments .moments-grid.tle-motion-accordion{
+    height:clamp(370px,112vw,510px)!important;gap:7px!important;
+  }
+  .moments .moments-grid.tle-motion-accordion>figure.tle-spot-active{flex:3.7!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .tle-motion-gallery :is(figure,article,.gallery-photo),
+  .tle-gallery-actions button{transition:none!important;animation:none!important}
+}
