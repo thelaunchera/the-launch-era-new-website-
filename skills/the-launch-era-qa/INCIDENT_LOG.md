@@ -742,3 +742,9 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - Source: owner's request to improve every accessible GitHub demo using five animation patterns.
 - Scope: one additive stylesheet per hero, original media and brand intact; no data, payments, reservations, email, account or client-specific behavior changed.
 - State: source link-only changes validated. CI, browser visual inspection and deployment are pending and must not be asserted from source changes alone.
+
+## 2026-11-07 — Owner requested Jaramillo photo in English Package 1
+- **Observed:** iPhone screenshot of the Package 1 card on the English website sales landing showed a La Vie in Pink laptop scene; owner asked to use the prior woman-at-laptop Jaramillo hero image in this position.
+- **Source cause:** the English basic package image pointed to `website-la-vie-in-pink-en-sharp.png`, while `hero-jaramillo.svg` was already an approved local asset in the hero gallery.
+- **Resolution:** English Package 1 points to the existing approved Jaramillo asset; descriptive alt text, corresponding guard scripts updated. No image generation, price, Spanish, checkout or customer-data edits.
+- **Verification:** code tests and deployment/live phone visual confirmation must be logged separately; do not claim them from a source-only change.

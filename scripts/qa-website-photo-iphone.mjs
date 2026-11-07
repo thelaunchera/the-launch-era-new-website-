@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {mkdirSync} from 'node:fs';
 const root='http://127.0.0.1:4187';
 const expected={
- en:['website-la-vie-in-pink-en-sharp.png','automated-crm-en-sharp.png','process-choose-en.png','process-brand-en.png','process-build-en.png','process-launch-en.png'],
+ en:['hero-jaramillo.svg','automated-crm-en-sharp.png','process-choose-en.png','process-brand-en.png','process-build-en.png','process-launch-en.png'],
  es:['website-la-vie-in-pink-original.jpg','automated-crm-original.jpg','process-choose-original.jpg','process-brand-original.jpg','process-build-original.jpg','process-launch-original.jpg']
 };
 const browser=await chromium.launch({headless:true});

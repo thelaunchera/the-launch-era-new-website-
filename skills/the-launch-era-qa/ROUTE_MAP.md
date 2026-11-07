@@ -1068,3 +1068,8 @@ On `/lead-private-preview.html` sample only, `tle-demo-enhancements-v12.js` owns
 - Twelve existing demos gain one scoped `hero-art-direction-20261107.css` stylesheet each; no URLs, link destinations or button logic change.
 - Directions: Wordmark AFTR/SOVA, Orbit Marea, Split Golden Grid/Lavender/Claudia, Full-Bleed others. Umbral keeps redirect to Havana 19.
 - Production pending PR review, automated checks and live browser verification. See `docs/demo-hero-art-direction-20261107.md`.
+
+## 2026-11-07 — English website package 1 displays original Jaramillo hero photograph
+- **Source/route:** `public/website-for-your-business/index.html` → `/website-for-your-business/` and the published English home presentation if used by Pages. Same approved local `hero-jaramillo.svg` (1536x1024 JPEG-backed SVG) that already appears in the hero gallery is now displayed as the Package 1 image instead of the La Vie in Pink laptop mockup.
+- **Unchanged:** Spanish `/es/website-for-your-business/`, package 2, four process photos, hero gallery, $15/$25/$8 pricing, terms, customer actions and secure checkout routes. Existing contain-based CSS prevents photo crop.
+- **QA:** update photo-placement and phone/official landing assertions for the owner's explicit English-only image change. PR source checks, Pages release and public phone rendering must be separately verified.
