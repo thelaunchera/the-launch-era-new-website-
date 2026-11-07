@@ -22,3 +22,16 @@
  .gallery-grid{grid-auto-rows:180px}
  .form-card{padding:21px 18px}
 }
+
+/* 2026-11-07 | Full-Bleed cinematic entrance based on the genuine
+   Havana 19 storefront. One-time reveal; leave nav and reservation intact. */
+@media(prefers-reduced-motion:no-preference){
+  .hero>img{animation:h19-photo-arrive 1s ease-out both;transform-origin:center}
+  .hero .eyebrow{animation:h19-text-arrive .45s .13s both}
+  .hero h1{animation:h19-text-arrive .64s .22s both}
+  .hero p.sub{animation:h19-text-arrive .53s .34s both}
+  .hero .hero-cta{animation:h19-text-arrive .5s .43s both}
+}
+@keyframes h19-photo-arrive{from{opacity:.78;scale:1.04}to{opacity:1;scale:1}}
+@keyframes h19-text-arrive{from{opacity:0;translate:0 14px}to{opacity:1;translate:0 0}}
+@media(prefers-reduced-motion:reduce){.hero :is(img,.eyebrow,h1,p.sub,.hero-cta){animation:none!important}}

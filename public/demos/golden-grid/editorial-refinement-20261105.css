@@ -22,3 +22,25 @@ html{scroll-padding-top:82px}
  .closing{padding:50px 20px}
 }
 @media(max-width:375px){.hero h1{font-size:47px}}
+
+/* 2026-11-07 | Full-Bleed hero: original Golden Grid photo, magazine-scale
+   headline, one existing CTA; no changes to products or bilingual data. */
+@media(min-width:900px){
+  .hero{grid-template-columns:minmax(0,1fr);min-height:0;background:#f8f3e8}
+  .hero-copy{max-width:100%;display:block;padding:clamp(40px,5vw,78px) clamp(28px,6.5vw,110px) 28px}
+  .hero-copy h1{font-size:clamp(68px,7.25vw,118px);line-height:.95;letter-spacing:-.058em;margin:14px 0 16px}
+  .hero-copy .lead{max-width:560px;font-size:clamp(14px,1.1vw,17px);line-height:1.58;margin-bottom:20px}
+  .hero-copy .hero-note{display:none}
+  .hero-art{width:calc(100% - 48px);height:clamp(360px,37vw,570px);margin:0 24px 24px;border-radius:15px;overflow:hidden}
+  .hero-art img{width:100%;height:100%;object-fit:cover}
+}
+@media(prefers-reduced-motion:no-preference){
+  .hero .eyebrow{animation:gg-hero-reveal .45s .05s both}
+  .hero h1{animation:gg-hero-reveal .6s .14s both}
+  .hero .lead{animation:gg-hero-reveal .55s .22s both}
+  .hero .button{animation:gg-hero-reveal .45s .29s both}
+  .hero-art img{animation:gg-hero-photo .8s .28s both}
+}
+@keyframes gg-hero-reveal{from{opacity:0;translate:0 16px}to{opacity:1;translate:0 0}}
+@keyframes gg-hero-photo{from{opacity:.65;scale:1.035}to{opacity:1;scale:1}}
+@media(prefers-reduced-motion:reduce){.hero :is(.eyebrow,h1,.lead,.button,.hero-art img){animation:none!important}}
