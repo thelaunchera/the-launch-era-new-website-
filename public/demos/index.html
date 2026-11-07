@@ -281,6 +281,21 @@ main,.intro,.intro-copy,.hero-gallery,.demo-grid,.demo-card,.section-heading{min
 @media(max-width:420px){.library-footer-legal{column-gap:12px}.library-footer-legal a{font-size:11px}.library-footer-bottom{flex-direction:column;align-items:flex-start}}
 
 </style>
+
+<style>
+/* Desktop-only gallery hero: larger existing SOVA hero photo,
+   Gold Grid inset and original scroll-parallax kept unchanged. */
+@media(min-width:1100px){
+ .intro{grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);min-height:clamp(690px,61vw,850px);column-gap:clamp(28px,4.2vw,75px)}
+ .intro .intro-copy{min-width:0;max-width:590px}
+ .intro .hero-title{font-size:clamp(77px,7.35vw,144px);line-height:.87;letter-spacing:-.065em;max-width:9ch}
+ .intro .lede{font-size:clamp(16px,1.18vw,19px);max-width:41ch;line-height:1.75}
+ .intro .hero-gallery{min-height:clamp(580px,46vw,720px);height:100%}
+ .intro .hero-photo{top:5%;right:2%;width:88%;height:87%;border-radius:clamp(26px,2.8vw,45px)}
+ .intro .hero-small{left:0;bottom:0;width:41%;height:38%;border-radius:clamp(20px,2vw,30px)}
+ .intro .hero-label{right:0;bottom:4%}
+}
+</style>
 </head>
 <body>
 <header><a class="wordmark" href="/" aria-label="The Launch Era home">THE LAUNCH ERA<span>CREATIVE STUDIO · DIGITAL EXPERIENCES</span></a><div class="header-right"><span class="header-note">A collection of independent worlds / 2026</span><a class="header-link" href="#collection">Explore projects</a></div></header>
