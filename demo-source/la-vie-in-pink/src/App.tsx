@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react';
 import {
-  ArrowDown,
-  ArrowLeft,
-  ArrowRight,
-  ArrowUpRight,
   Check,
   ChevronDown,
   Instagram,
@@ -415,7 +411,7 @@ function App() {
         <div className="footer-brand">
           <Logo light />
           <p>{t.footerTag}</p>
-          <span className="footer-ornament">✳ &nbsp; BONJOUR &nbsp; ✳</span>
+          <span className="footer-ornament">BONJOUR</span>
         </div>
         <div className="footer-column">
           <span className="footer-column-title">{t.footerExplore}</span>
@@ -450,7 +446,7 @@ function App() {
   return (
     <div className="site-shell">
       <div className="announcement">
-        {t.strip} <span>✳</span>
+        {t.strip}
       </div>
       <header className="site-header">
         <div className="header-inner">
@@ -500,7 +496,7 @@ function App() {
               </button>
             </div>
             <button className="header-contact" onClick={openContact}>
-              {t.nav[4]} <ArrowUpRight size={15} />
+              {t.nav[4]} 
             </button>
           </div>
         </div>
@@ -524,12 +520,12 @@ function App() {
                   className="button-primary"
                   onClick={() => navigate('home', 'collection')}
                 >
-                  {t.discover} <ArrowUpRight size={18} />
+                  {t.discover} 
                 </button>
                 <div className="hero-bottom">
-                  <span className="decor-star">✳</span>
+                  
                   <span>{t.heroNote}</span>
-                  <ArrowDown size={15} />
+                  
                 </div>
               </div>
               <div className="hero-image-wrap">
@@ -555,11 +551,11 @@ function App() {
 
             <section className="ticker" aria-label={t.index}>
               <span>UN PEU DE DOUCEUR</span>
-              <span>✳</span>
+
               <span>THE ART OF SLOW MORNINGS</span>
-              <span>✳</span>
+
               <span>MADE WITH AMOUR</span>
-              <span>✳</span>
+
               <span>UN PEU DE DOUCEUR</span>
             </section>
 
@@ -595,9 +591,7 @@ function App() {
                         loading="lazy"
                         style={{ objectPosition: product.position || 'center' }}
                       />
-                      <span className="product-overlay-arrow">
-                        <ArrowUpRight size={21} />
-                      </span>
+                      
                     </button>
                     <div className="product-meta">
                       <div>
@@ -607,16 +601,17 @@ function App() {
                         <h3>{product.name[lang]}</h3>
                       </div>
                       <button
+                        className="product-view-button"
                         aria-label={t.explore + ' ' + product.name[lang]}
                         onClick={() => navigate('product/' + product.id)}
                       >
-                        <ArrowUpRight size={21} />
+                        {lang === 'es' ? 'Ver' : 'View'}
                       </button>
                     </div>
                   </article>
                 ))}
               </div>
-              <p className="collection-notice">✳ &nbsp; {t.limited}</p>
+              <p className="collection-notice">{t.limited}</p>
             </section>
 
             <section className="story-block" id="story">
@@ -635,7 +630,7 @@ function App() {
                 <blockquote>“{t.storyQuote}”</blockquote>
                 <button className="text-link" onClick={openContact}>
                   {t.storyLink}
-                  <ArrowUpRight size={17} />
+                  
                 </button>
               </div>
             </section>
@@ -669,7 +664,7 @@ function App() {
             </section>
 
             <section className="membership-section" id="membership">
-              <div className="membership-decor">✳</div>
+              
               <div className="membership-inner">
                 <div className="eyebrow light">{t.membersEyebrow}</div>
                 <h2>{t.membersTitle}</h2>
@@ -684,7 +679,7 @@ function App() {
                 </div>
                 <button className="button-cream" onClick={openContact}>
                   {t.memberButton}
-                  <ArrowUpRight size={18} />
+                  
                 </button>
                 <span className="membership-status">{t.memberStatus}</span>
               </div>
@@ -720,7 +715,7 @@ function App() {
                 className="back-link"
                 onClick={() => navigate('home', 'collection')}
               >
-                <ArrowLeft size={16} />
+                
                 {t.back}
               </button>
               <div className="eyebrow">{t.detailTag}</div>
@@ -732,7 +727,7 @@ function App() {
               <div className="detail-notice">{t.availability}</div>
               <button className="button-primary" onClick={openContact}>
                 {t.ask}
-                <ArrowUpRight size={18} />
+                
               </button>
               <p className="detail-other">{t.other}</p>
               <div className="detail-links">
@@ -743,7 +738,7 @@ function App() {
                       key={p.id}
                       onClick={() => navigate('product/' + p.id)}
                     >
-                      {p.name[lang]} <ArrowRight size={15} />
+                      {p.name[lang]} 
                     </button>
                   ))}
               </div>
@@ -763,7 +758,7 @@ function App() {
             </div>
             <div className="contact-form-panel">
               <button className="back-link" onClick={() => navigate('home')}>
-                <ArrowLeft size={16} />
+                
                 {t.back}
               </button>
               <div className="form-notice">{t.contactNotice}</div>
@@ -801,7 +796,7 @@ function App() {
                 />
                 <button className="button-primary" type="submit">
                   {t.send}
-                  <ArrowUpRight size={18} />
+                  
                 </button>
                 {formResult && (
                   <div className="form-result" role="status">
@@ -816,7 +811,7 @@ function App() {
         {(location.page === 'privacy' || location.page === 'terms') && (
           <section className="legal-page section-container">
             <button className="back-link" onClick={() => navigate('home')}>
-              <ArrowLeft size={16} />
+              
               {t.back}
             </button>
             <span className="eyebrow">{t.legalEyebrow}</span>
@@ -827,7 +822,7 @@ function App() {
               <p>{location.page === 'privacy' ? t.privacyBody : t.termsBody}</p>
               <button className="text-link" onClick={openContact}>
                 {t.footContact}
-                <ArrowUpRight size={16} />
+                
               </button>
             </div>
           </section>

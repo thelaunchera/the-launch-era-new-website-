@@ -24,3 +24,11 @@ Preserves all original imagery, copy, forms, CTA and business functions. */
 .hero .hero-qualities,.hero .hero-foot,.hero .hero-aside,.hero .hero-stamp,
 .hero h1 span,.hero h1 em,.hero-editorial picture img{animation:none!important}
 }
+
+/* 2026-11-07 owner request: remove emoji stars and decorative arrow icons. */
+.announcement span:empty,.hero-bottom .decor-star,.ticker span:empty,
+.collection-notice span:empty,.membership-decor:empty{display:none!important}
+.hero-bottom svg,.header-contact svg,.button-primary svg,.button-cream svg,
+.text-link svg,.back-link svg,.detail-links svg,.product-overlay-arrow{display:none!important}
+.product-meta .product-view-button{width:auto;min-width:44px;height:44px;padding:0 10px;flex:0 0 auto;
+ font-size:11px;font-weight:700;letter-spacing:.01em;background:#f8f4eb}
