@@ -3,8 +3,7 @@ on:
   pull_request:
     paths:
       - 'public/demos/**'
-      - 'demo-source/la-vie-in-pink/**'
-      - 'demo-source/marea-wigs-miami/**'
+      - 'demo-source/**'
       - 'scripts/qa-demo-decorative-icons.mjs'
       - '.github/workflows/demo-decorative-icons-qa.yml'
   workflow_dispatch:

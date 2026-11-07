@@ -764,3 +764,8 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - **Fix:** remove emoji glyphs from public bundles and sources, suppress La Vie's ornamental down/up-right icons without disabling interactive navigation, replace overlarge Marea dot styling, remove decorative text arrows in other demos.
 - **Safeguard:** regression script checks unwanted glyphs; source changes do not touch any network, payment, account, booking or customer behavior.
 - **Verification state:** source change prepared; CI, Pages deployment and live iPhone appearance require independent confirmation.
+
+## 2026-11-07 · Owner rejected default demo ornaments
+- iPhone screenshot showed green emoji starburst in La Vie in Pink. A prior release had swapped it for a dot instead of removing the invalid brand symbol. Owner explicitly rejects such substitute marks and generic/blue arrows in all current and future demos.
+- Correction: remove decorative replacement dots from live La Vie React bundle and authored source, replace duplicate arrow-only product action with localized text; remove remaining mail/sparkle emoji in private booking concept pages; remove Marea substitute separator; add global workflow and CI prohibitions.
+- Future workflow: approved moodboard -> original section photos -> approved logo -> coded demo. QA/source/Pages/live phone verification are distinct. No customer data, bookings or payments touched.

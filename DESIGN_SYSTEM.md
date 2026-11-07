@@ -56,3 +56,6 @@ The central visual override is `public/assets/tle-editorial-refresh.css`; `src/r
 - Use Prompt for headings and Futura with loaded DM Sans fallback for body/UI. Keep minimum readable service labels, keyboard focus, rounded primary `Begin` anchor and no false CTA-looking static status badge.
 - Preserve all `startResidential`, `startQuote`, `startCommercial`, `showMain`, `setCategory`, booking state and service prices. Only public sample cosmetic layout and translations may be edited.
 - Sample flow hero CTA and Services menu go to `#bookingStarter`. `#demoCinematicStory` must be immediately after the `.panel`, before any optional footer or extra marketing section; do not introduce redundant sections above booking.
+
+## Override for demo visuals (2026-11-07)
+The earlier 'diagonal arrow' marketing suggestion is **not approved for demo brands**. Current and future demo sites should use clean text CTAs without decorative arrows, bright green emoji or generic substitute starbursts. Do not change actual navigation behavior or business form logic. Mandatory creative production: **approved moodboard → original photos per section → approved original logo → website demo last**. Use each brand's palette; the central corporate TLE palette does not overwrite a demo's unique colors. See `docs/DEMO-PRODUCTION-PIPELINE.md`.
