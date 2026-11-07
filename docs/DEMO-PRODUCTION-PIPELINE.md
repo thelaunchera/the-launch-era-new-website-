@@ -11,6 +11,17 @@ Actualizado: 7 de noviembre de 2026. Esta política sustituye la indicación ant
 - Sitios reales de clientes, como CB Depot, mantienen su propio repositorio y alojamiento autorizado. No cambiar su destino sin revisar formularios, datos y dominio.
 - Mantener **una sola web canónica** por demo. Casa Brownie con foto y con video son dos variantes del mismo demo, no dos proyectos.
 
+## Fases creativas obligatorias — no construir el demo antes de completar las tres primeras
+
+1. **Moodboard aprobado:** concepto, personalidad de la marca, contraste, paleta, combinación tipográfica legible, idea de logo, estructura visual por secciones y concepto de hero para iPhone. Guardar moodboard y prompts en carpeta exclusiva.
+2. **Fotografías originales aprobadas:** generar/seleccionar las fotos individuales de hero, secciones, humanos, producto, exterior/interior, que requiera la marca. Revisar realismo, aspecto, recortes móviles, licencias, nombres de archivos y prompts. No mezclar imágenes de demos.
+3. **Logo original aprobado:** crear y revisar logo/wordmark de esa marca, con versión transparente adecuada, escala para móvil, y sin adornos genéricos. No usar símbolos emoji, estrellas verdes, flechas decorativas ni una marca inventada por el sistema.
+4. **Demo funcional:** solo después de esas aprobaciones construir el sitio mobile-first en GitHub, probarlo y publicarlo por GitHub Pages. Si faltan las tres primeras fases, conservar el proyecto como pendiente, sin publicar un demo supuesto terminado.
+
+**Regla para el kit:** carpeta de marca con `moodboard`, `photos`, `logo` y, después, `site`/`prompts`. Antes de publicar, confirmar en QA y Studio que los recursos proceden de la marca correcta. No desbloquear bonos o contenido del Aula sin instrucción explícita.
+
+**Prohibiciones visuales permanentes:** retirar símbolos `✳`, `✱`, `❇`, emojis verdes/decorativos, elementos genéricos tipo sello y flechas azules o decorativas. No sustituir por puntos o estrellas nuevos. Preferir texto editorial legible y CTA táctil de al menos 44 px. El verificador de símbolos recorre demos actuales y futuros.
+
 ## Flujo obligatorio
 
 1. **Auditar antes de crear.** Revisar Studio → Demos terminados, GitHub y Drive: identificar carpeta, nombre, URL, assets aprobados, código original y rama. No duplicar.

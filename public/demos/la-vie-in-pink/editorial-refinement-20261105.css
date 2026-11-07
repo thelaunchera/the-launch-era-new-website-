@@ -38,3 +38,14 @@
 .site-shell .text-link>svg{display:none!important}
 .site-shell .ticker span:nth-child(even){font-family:inherit;font-size:12px;color:#f8ead2;line-height:1}
 .site-shell .hero-bottom{gap:0}
+
+/* Nov 7 · final brand rule: no substitute dot/star icons or arrow-only actions. */
+.site-shell .ticker{gap:clamp(22px,5vw,48px)}
+.site-shell .ticker span:nth-child(even){font:inherit;color:inherit}
+.site-shell .footer-ornament{letter-spacing:.18em}
+.site-shell .product-meta .product-view-button{
+ min-width:44px;width:auto;min-height:44px;height:44px;
+ padding:0 12px;flex:0 0 auto;border:1px solid #dbd0c3;
+ background:#f8f4eb;color:#794b3b;font-size:11px;font-weight:700;
+}
+.site-shell .product-view-button:focus-visible{outline:2px solid #794b3b;outline-offset:3px}
