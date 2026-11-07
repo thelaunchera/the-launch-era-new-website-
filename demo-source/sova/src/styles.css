@@ -424,4 +424,5 @@ dialog::backdrop { background: #0c1b36b8; backdrop-filter: blur(6px); }
 @media(prefers-reduced-motion:reduce){
  .campaign .gallery.sova-carousel-active{scroll-behavior:auto}
  .campaign .sova-carousel-actions button{transition:none}
+ .campaign .sova-carousel-actions .sova-carousel-pause{display:none}
 }
