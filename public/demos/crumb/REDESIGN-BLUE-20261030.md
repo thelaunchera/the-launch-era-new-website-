@@ -37,7 +37,7 @@ Estas **12 rutas son las activas** comprobadas en el HTML del demo. El builder t
 7. **Footer / legal:** mantener descargo educativo, contacto simulado y el crédito discreto de The Launch Era.
 
 ## Activos archivados — no usar automáticamente para reemplazar
-- `CRUMB_Storefront_Hero_Blue.png` y `CRUMB_Lifestyle_Cookie_Blue.png`: versiones **antiguas** del hero y Our Story, preservadas como histórico. No son los `src` activos.
+- El hero de fachada antiguo que reapareció por error el 7 noviembre de 2026 fue eliminado de la rama principal y no debe restaurarse desde el historial.\n- `CRUMB_Lifestyle_Cookie_Blue.png`: versión histórica de Our Story; no es un `src` activo.
 - `CRUMB_01_Packaging_Azul.png`, `CRUMB_04_Flat_Lay_Azul.png`, `CRUMB_05_Detalle_Azul.png`: originales/editorial de showcase respaldados en Drive; no están asignados a una sección del demo actual.
 - `brand-*.webp`, `hero.webp` y otras fotos de prototipo: históricos. No revertir el código a esos nombres sin autorización.
 
