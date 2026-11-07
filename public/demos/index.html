@@ -262,7 +262,15 @@ function resetDemo(){
  stage.classList.remove('is-ready');
  stage.setAttribute('aria-busy','true');
  frame.src='about:blank';
- // A link from a website gallery should return to the selected card in this library.
+ // Showcase visitors go back to the exact website route they came from.
+ // Only permit the known public landing paths; never redirect to arbitrary URLs.
+ const returnTo=new URLSearchParams(location.search).get('returnTo');
+ const allowed=['/','/es/','/website-for-your-business/','/es/website-for-your-business/'];
+ if(returnTo&&allowed.includes(returnTo)){
+   location.replace(returnTo+'#inicio');
+   return;
+ }
+ // Direct library visitors stay in the collection after closing a demo.
  const current=new URL(location.href);
  if(current.searchParams.has('demo')){
    current.searchParams.delete('demo');
