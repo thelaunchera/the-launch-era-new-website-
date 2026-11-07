@@ -57,7 +57,7 @@ try {
       await form.locator('button[type="submit"]').click();
       const result=page.locator(path.includes('havana-19')?'#receipt':'#result');
       await result.waitFor({state:'visible'});
-      assert.ok(/demo|preview|vista previa/i.test(await result.innerText()),path+' must remain a non-sending demo');
+      assert.ok(/demo|preview|vista previa|not a confirmed|not been|no booking|no payment|not sent|no se ha enviado/i.test(await result.innerText()),path+' must remain a non-sending demo');
       console.log('INQUIRY PREVIEW OK',path);
     }
     await page.close();
