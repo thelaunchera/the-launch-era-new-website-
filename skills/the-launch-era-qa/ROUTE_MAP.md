@@ -1,3 +1,10 @@
+## 2026-11-07 — Website for Your Business: bilingual Gallery Hero (review branch, not yet live)
+- **Source:** `public/website-for-your-business/index.html` (English) and `public/es/website-for-your-business/index.html` (Spanish), with isolated stylesheet `public/assets/tle-gallery-hero-20261107.css`. Pages build copies the exact files to the English and Spanish home routes. No new routes.
+- **Hero change requested by owner:** replace the single photo-led hero composition with seven editorial portfolio cards using existing original demo brand assets (Ivory & Bloom, Casa Brownie, CRUMB, La Vie in Pink, Jaramillo, Havana 19, Umbral). The approved Jaramillo asset remains available as one gallery panel. No invented client case studies. Cards are visual only; no extra pretend CTAs.
+- **Actions unchanged:** English hero CTA `#paquetes` / "Choose Your Package"; Spanish `#paquetes` / "Elige tu Paquete"; package checkouts `/website-checkout/?offer=website-basic&lang=en|es` and `/website-checkout/?offer=website-ai-crm&lang=en|es`; bilingual nav, FAQ, price/disclosure and legal links unchanged.
+- **Motion/accessibility:** one entrance stagger with transform/opacity, CSS perspective only on desktop; iPhone switches to native horizontal scroll-snap without 3D, reduced-motion removes entrance animation. Seven real image asset paths checked in source.
+- **QA:** original photo-placement and official website tests updated to guard the new approved hero while protecting independent interior EN/ES images. Workflow now runs the photo guard and static route check on review PRs. Pending actual CI, browser screenshots at 360/390/768/1024/1440 and live deployment verification; do not mark released from commits alone.
+
 ## 2026-11-03 — Five Signs audience expanded to residential and commercial (copy only)
 - **URLs unchanged:** `/5-signs-cleaning-business` and `/es/5-signs-cleaning-business`; headline label, introduction, and EN/ES search descriptions now include both residential and commercial cleaning businesses. Ad guidance matches.
 - **Photo:** the hero remains the original labeled editorial illustration; a real hero photograph is planned later and has NOT been generated or added now.
@@ -1048,3 +1055,8 @@ On `/lead-private-preview.html` sample only, `tle-demo-enhancements-v12.js` owns
 - All fourteen live PNG responses match the approved originals by SHA-256. Five finished-demo kit tests, fifteen class regressions, TypeScript/demo production build, Studio production build, 759/759 static links, recovery guard and 21 client-release checks passed.
 - Browser verified canonical Bob filtering and complete English interface. Prototype browser verified three-step warm-wave recommendation to Caramel Hours, matching detail, save/reload persistence, required-question rejection and a preview summary explicitly stating no send or appointment. Mobile/desktop hero screenshots reviewed from AppDeploy QA; physical iPhone/Safari remains distinct.
 - No customer data, real bookings, emails, purchases or classroom publication were created. The private Studio kit is a separate source commit `d267e79b38c31c0563c29b4680a2abf69d4fa67e`; its own Pages release is verified separately.
+
+## 2026-11-07 — Individual branded demo hero motion (review branch)
+- Twelve existing demos gain one scoped `hero-art-direction-20261107.css` stylesheet each; no URLs, link destinations or button logic change.
+- Directions: Wordmark AFTR/SOVA, Orbit Marea, Split Golden Grid/Lavender/Claudia, Full-Bleed others. Umbral keeps redirect to Havana 19.
+- Production pending PR review, automated checks and live browser verification. See `docs/demo-hero-art-direction-20261107.md`.

@@ -1,3 +1,9 @@
+## 2026-11-07 — Booking Bundle CI check stale after approved WebP optimization
+- **Observed:** `Bundle Sales Landing QA` on Gallery Hero PR #411 failed "Landing missing approved photo hero". The failed page is `public/booking-bundle/index.html`, unchanged by the gallery feature.
+- **Verified source cause:** the existing page references `/assets/bundle-landing/optimized/{hero,booking,command,ai}.webp`, while `scripts/qa-bundle-sales-landing.mjs` still asserted old `/assets/bundle-landing/bundle-{name}.png` references in markup. The original PNG hash/size guard remains necessary and unchanged.
+- **Safe repair:** update only the test to require existing optimized WebP assets and correct page references, while preserving original PNG hash/size checks and checkout/business logic. No booking UI, prices, traffic, customer data or assets modified.
+- **Verification status:** source-level cause confirmed; PR workflow rerun pending. Do not infer this fixes any other incident.
+
 ## 2026-11-03 — Public 404 incorrectly offers Command Center to marketing visitors
 - **Observed:** user screenshot of unpublished `/5-signs-cleaning-business` showed the current public 404 with English and Spanish mixed and an `Open Command Center` button.
 - **Verified source causes:** PR #402 was unmerged (marketing URL not yet published); `public/404.html` explicitly included `href="/command-center/"`, private-account copy and mixed languages. It was a link, not a forced redirect.
@@ -731,3 +737,8 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - All fourteen live PNG responses match the approved originals by SHA-256. Five finished-demo kit tests, fifteen class regressions, TypeScript/demo production build, Studio production build, 759/759 static links, recovery guard and 21 client-release checks passed.
 - Browser verified canonical Bob filtering and complete English interface. Prototype browser verified three-step warm-wave recommendation to Caramel Hours, matching detail, save/reload persistence, required-question rejection and a preview summary explicitly stating no send or appointment. Mobile/desktop hero screenshots reviewed from AppDeploy QA; physical iPhone/Safari remains distinct.
 - No customer data, real bookings, emails, purchases or classroom publication were created. The private Studio kit is a separate source commit `d267e79b38c31c0563c29b4680a2abf69d4fa67e`; its own Pages release is verified separately.
+
+## 2026-11-07 — Preventive demo hero design work (no existing incident)
+- Source: owner's request to improve every accessible GitHub demo using five animation patterns.
+- Scope: one additive stylesheet per hero, original media and brand intact; no data, payments, reservations, email, account or client-specific behavior changed.
+- State: source link-only changes validated. CI, browser visual inspection and deployment are pending and must not be asserted from source changes alone.
