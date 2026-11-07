@@ -23,7 +23,7 @@
     form.dataset.tleFormUx = 'ready';
     form.classList.add('tle-demo-form-ui');
     const fields = [...form.querySelectorAll('input[required],select[required],textarea[required]')]
-      .filter(el => !['hidden','checkbox','radio'].includes(el.type) && !el.disabled);
+      .filter(el => (el.matches('input[data-custom-date]') || !['hidden','checkbox','radio'].includes(el.type)) && !el.disabled);
     if (!fields.length) return;
     const box = document.createElement('div');
     box.className = 'tle-form-progress';
