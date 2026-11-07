@@ -203,6 +203,7 @@ const title=document.getElementById('viewer-name');
 const full=document.getElementById('viewer-external');
 const close=document.getElementById('viewer-close');
 let filter='All',previousFocus=null,previousOverflow='';
+let lastSelectedCard=null;
 function refresh(){
  const q=input.value.trim().toLowerCase();let count=0;
  for(const card of cards){
@@ -220,6 +221,7 @@ input.addEventListener('input',refresh);
 function openDemo(card,opener){
  const url=card.dataset.demoUrl;
  if(!url)return;
+ lastSelectedCard=card;
  if(typeof modal.showModal!=='function'){window.location.href=url;return}
  previousFocus=opener;previousOverflow=document.body.style.overflow;
  title.textContent=card.querySelector('h2')?.textContent||'Website demo';
@@ -232,6 +234,15 @@ function openDemo(card,opener){
 function resetDemo(){
  document.body.style.overflow=previousOverflow;
  frame.src='about:blank';
+ // A link from a website gallery should return to the selected card in this library.
+ const current=new URL(location.href);
+ if(current.searchParams.has('demo')){
+   current.searchParams.delete('demo');
+   history.replaceState(history.state,'',current.pathname+current.search+current.hash);
+ }
+ if(lastSelectedCard){
+   lastSelectedCard.scrollIntoView({block:'center',behavior:'instant'});
+ }
  previousFocus?.focus?.({preventScroll:true});
  previousFocus=null;
 }
@@ -246,5 +257,19 @@ for(const card of cards){
   link.addEventListener('click',e=>{e.preventDefault();openDemo(card,link)});
  }
 }
+// Deep links from Website for Your Business: show the exact selected demo immediately.
+// UMBRAL was renamed Havana 19, so its old links resolve to that single canonical demo.
+function openInitialDemo(){
+ const requested=new URLSearchParams(location.search).get('demo')?.trim().toLowerCase();
+ if(!requested)return;
+ const slug=requested==='umbral'?'havana-19':requested;
+ const card=cards.find(item=>item.dataset.brand===slug);
+ if(!card)return;
+ requestAnimationFrame(()=>{
+  card.scrollIntoView({block:'center',behavior:'instant'});
+  openDemo(card,card.querySelector('.card-preview-link'));
+ });
+}
+openInitialDemo();
 })();
 </script></body></html>
