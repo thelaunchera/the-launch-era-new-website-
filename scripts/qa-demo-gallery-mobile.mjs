@@ -94,7 +94,7 @@ try{
   assert.deepEqual(found,heroSlugs,'Gallery brands must be unique and never include Umbral');
   for(const slug of heroSlugs){
    const hit=page.locator('.hero-gallery-card[data-demo="'+slug+'"] .hero-gallery-hit');
-   assert.equal(await hit.getAttribute('href'),'/demos/?demo='+slug,'Photo must link to exact library demo');
+   assert.equal(await hit.getAttribute('href'),'/demos/?demo='+slug+'&returnTo='+encodeURIComponent(locale),'Photo must link to exact library demo and original website');
   }
   const hit=page.locator('.hero-gallery-card[data-demo="'+chosen+'"] .hero-gallery-hit');
   await hit.click();
@@ -104,11 +104,9 @@ try{
   assert.equal(await page.locator('#viewer-close').isVisible(),true);
   await page.screenshot({path:folder+'/website-'+(locale.startsWith('/es/')?'es':'en')+'-direct-demo.png'});
   await page.locator('#viewer-close').click();
-  assert.equal(await page.locator('#demo-viewer').evaluate(el=>el.open),false);
-  await page.waitForFunction(()=>!new URL(location.href).searchParams.has('demo'),null,{timeout:5000});
-  assert.equal(new URL(page.url()).searchParams.has('demo'),false,'Closing returns to the library, without the selected-demo query');
-  await page.locator('.demo-card[data-brand="'+chosen+'"]').waitFor({state:'visible'});
-  console.log('[LINK+RETURN]',locale,chosen,'OK');
+  await page.waitForURL(u=>u.pathname===locale&&u.hash==='#inicio',{timeout:20000});
+  assert.equal(await page.locator('.hero-gallery-card[data-demo="'+chosen+'"]').count(),1,'Closing must return to the original website gallery');
+  console.log('[WEBSITE RETURN]',locale,chosen,'OK');
  }
  // Old links using Umbral must still resolve to the single canonical Havana 19 demo.
  await page.goto(new URL('/demos/?demo=umbral',url).href,{waitUntil:'domcontentloaded'});
@@ -116,8 +114,12 @@ try{
  assert.equal(await page.locator('#viewer-frame').getAttribute('src'),'https://thelaunchera.com/demos/havana-19/');
  await page.locator('#viewer-close').click();
  console.log('[ALIAS] Umbral -> Havana 19 OK');
+ // Entering directly from the public gallery must keep users in the gallery.
+ await page.waitForFunction(()=>!new URL(location.href).searchParams.has('demo'),null,{timeout:5000});
+ assert.equal(new URL(page.url()).pathname,'/demos/','Standalone demo preview must close within the demo library');
+ console.log('[LIBRARY RETURN] standalone visitors remain in library');
 
- console.log('[PASS] 16 cards, three exact hero images, modal open/close, filters and iPhone scroll.');
+ console.log('[PASS] Bilingual demo-to-website return and standalone library-close, plus 16 cards, hero images and mobile scroll.');
 } finally{
  await browser.close();
 }
