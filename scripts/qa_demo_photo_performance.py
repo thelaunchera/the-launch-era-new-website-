@@ -19,7 +19,10 @@ for name in ("sova/resources/03-campaign.webp",
              "la-vie-in-pink/resources/36a1bfe5-3660-4b7e-964d-8031fe824941.webp",
              "marea-wigs-miami/resources/01-hero.webp"):
     assert "/demos/" + name in gallery, "Gallery image not optimized: " + name
-assert 'loading="eager"' not in gallery, "Gallery card still eagerly loaded"
+# The interactive website preview iframe must load immediately when opened.
+# Only image thumbnails need deferred loading in the catalog.
+import re
+assert not re.search(r'<img\\b[^>]*\\bloading="eager"', gallery, re.I), "Gallery image thumbnail still eagerly loaded"
 for demo in ("la-vie-in-pink", "golden-grid", "marea-wigs-miami", "sova", "lavender-edit"):
     items = [a for a in m["assets"] if a["demo"] == demo]
     assert len(items) >= (7 if demo == "lavender-edit" else 8), (demo, len(items))
