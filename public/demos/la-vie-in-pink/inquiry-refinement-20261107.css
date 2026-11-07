@@ -1,0 +1,32 @@
+/* La vie in pink — contact form responsiveness, safe for the React-managed form. */
+.contact-form-panel,.contact-form-panel form{min-width:0;max-width:100%}
+.contact-form-panel form :is(input,textarea,select){
+  box-sizing:border-box;display:block;min-width:0;max-width:100%;
+  width:100%;font-size:max(16px,1rem);
+  transition:border-color .16s ease,box-shadow .16s ease,background-color .16s ease;
+}
+.contact-form-panel form :is(input,textarea):focus-visible {
+  outline:2px solid #855846;outline-offset:2px;
+  box-shadow:0 0 0 4px #8558461a;
+}
+.contact-form-panel form :is(input,textarea):not(:placeholder-shown):valid {
+  border-color:#8a7760;
+  background-color:#fffcf8;
+}
+.contact-form-panel form input[type=email]:not(:placeholder-shown):invalid:not(:focus){
+  border-color:#ab665d;
+}
+.contact-form-panel form label:has(+ input:focus-visible),
+.contact-form-panel form label:has(+ textarea:focus-visible){color:#855846}
+.contact-form-panel form button[type=submit]{
+  transition:transform .15s ease,filter .15s ease;
+  min-height:48px;
+}
+.contact-form-panel form button[type=submit]:active{transform:scale(.99)}
+.contact-form-panel form .form-result{border-left:3px solid #855846;padding-left:14px}
+@media(max-width:760px){
+ .contact-form-panel form :is(input,textarea,select){font-size:16px}
+}
+@media(prefers-reduced-motion:reduce){
+ .contact-form-panel form :is(input,textarea,select,button){transition:none}
+}
