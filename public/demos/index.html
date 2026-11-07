@@ -127,6 +127,70 @@ main,.intro,.intro-copy,.hero-gallery,.demo-grid,.demo-card,.section-heading{min
 /* CRUMB: match the live website hero exactly. Never show the older storefront concept photo. */
 .demo-card[data-brand="crumb"] .demo-art{background:#dcecf4}
 .demo-card[data-brand="crumb"] .demo-art img{object-fit:contain;object-position:center}
+
+/* 2026-11-07 · Rounded editorial gallery + mobile-first scrollytelling.
+   Scope: library presentation only. No photos, brands, destinations or preview logic changed. */
+#collection{scroll-margin-top:26px}
+.header-link{display:inline-flex;align-items:center;min-height:44px}
+.hero-gallery:before{inset:9% 9% 12% 7%;border-color:#aab0b0;border-radius:clamp(23px,3vw,40px);transform:rotate(4deg)}
+.hero-photo{top:8%;right:5%;width:78%;height:78%;border-radius:clamp(24px,3.2vw,40px);box-shadow:0 22px 66px #19191923;transform:translate3d(0,var(--gallery-shift,0px),0)}
+.hero-photo img{object-position:center center}
+.hero-small{left:1%;bottom:1%;width:48%;height:43%;border:6px solid var(--ivory);border-radius:clamp(20px,2.6vw,32px);box-shadow:0 20px 55px #19191924;z-index:2;transform:translate3d(0,var(--gallery-small-shift,0px),0) rotate(-4deg)}
+.hero-label{z-index:3;right:2%;bottom:5%;border:1px solid #e8e5de;border-radius:999px;white-space:nowrap;box-shadow:0 6px 22px #19191912}
+.hero-image-stamp{pointer-events:none;text-shadow:0 2px 12px #faf8f38a}
+.demo-art{border-radius:clamp(18px,2.4vw,29px);box-shadow:0 11px 32px #19191912}
+.demo-type{border-radius:999px;padding:9px 13px}
+.demo-card:hover .demo-art img{transform:scale(1.045)}
+.filter{min-height:44px;border-radius:999px;padding:10px 16px}
+.search{min-height:44px}
+.closing a{border-radius:999px;min-height:50px}
+@media(max-width:740px){
+ .intro{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;gap:0;min-height:0;padding:40px 0 68px}
+ .intro-copy{display:contents}
+ .intro .eyebrow{order:0;letter-spacing:.12em;font-size:10px;margin:0 0 25px}
+ .intro .hero-title{order:1;font-size:clamp(65px,13vw,98px);line-height:.9;margin:0 0 25px}
+ .intro .hero-gallery{order:2;min-height:0;height:clamp(310px,83vw,490px);margin-bottom:26px;width:100%}
+ .intro .intro-bottom{order:3;gap:18px}
+ .intro .lede{max-width:39ch;font-size:clamp(13px,3.5vw,16px);line-height:1.72}
+ .intro .count{font-size:10px;gap:14px;padding-bottom:11px}
+ .hero-gallery:before{inset:11% 11% 11% 8%}
+ .hero-photo{top:10%;right:4%;width:80%;height:78%}
+ .hero-small{left:1%;bottom:1%;width:46%;height:43%}
+ .hero-image-stamp{left:5%;top:0;font-size:clamp(34px,7.1vw,50px)}
+ .hero-label{bottom:4%;right:1%;font-size:9px;padding:9px 12px}
+ .section-heading{padding-bottom:18px}
+ .demo-art{border-radius:23px}
+ .demo-content{padding-top:16px}
+ .demo-content h2{line-height:1.04}
+}
+@media(max-width:600px){
+ .intro .hero-title{font-size:clamp(62px,14vw,82px)}
+ .intro .hero-gallery{height:clamp(290px,84vw,440px)}
+ .hero-photo{right:3%;width:81%;height:80%}
+ .hero-small{width:47%;height:43%;border-width:5px}
+ .hero-label{font-size:8px;letter-spacing:.035em}
+ .demo-art{border-radius:22px}
+ .demo-card:nth-child(1) .demo-art,.demo-card:nth-child(8) .demo-art{aspect-ratio:1.13}
+}
+@media(max-width:400px){
+ .intro{padding-top:33px}
+ .intro .hero-title{font-size:clamp(58px,15.7vw,64px);letter-spacing:-.068em;margin-bottom:23px}
+ .intro .hero-gallery{height:clamp(288px,84vw,336px)}
+ .hero-image-stamp{font-size:33px}
+ .intro .eyebrow{letter-spacing:.095em;font-size:9px}
+ .hero-label{padding:8px 10px}
+}
+/* One-time entrance reveals; never hide content without JavaScript support. */
+@media(prefers-reduced-motion:no-preference){
+ html.gallery-motion-ready .gallery-reveal{opacity:0;translate:0 25px;transition:opacity .8s ease,translate .85s cubic-bezier(.2,.72,.22,1);transition-delay:var(--reveal-delay,0ms)}
+ html.gallery-motion-ready .gallery-reveal.is-inview{opacity:1;translate:0 0}
+}
+@media(prefers-reduced-motion:reduce){
+ .hero-photo{transform:none!important}
+ .hero-small{transform:rotate(-4deg)!important}
+ .gallery-reveal{opacity:1!important;translate:none!important;transition:none!important}
+}
+
 </style>
 </head>
 <body>
@@ -298,6 +362,43 @@ function openInitialDemo(){
   openDemo(card,card.querySelector('.card-preview-link'));
  });
 }
+
+/* Gentle scroll reveals and photo depth. Passive scroll + rAF; no scroll hijacking. */
+function initGalleryMotion(){
+ const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+ if(reduced||!('IntersectionObserver' in window))return;
+ const revealNodes=[...document.querySelectorAll('.intro .eyebrow,.intro .hero-title,.intro .hero-gallery,.intro .intro-bottom,.section-heading,.controls,.demo-card,.closing')];
+ const io=new IntersectionObserver((entries,observer)=>{
+   for(const entry of entries){
+     if(entry.isIntersecting){entry.target.classList.add('is-inview');observer.unobserve(entry.target)}
+   }
+ },{threshold:.07,rootMargin:'0px 0px -7% 0px'});
+ revealNodes.forEach((el,i)=>{
+   el.classList.add('gallery-reveal');
+   if(el.matches('.demo-card'))el.style.setProperty('--reveal-delay',(i%2)*70+'ms');
+   else if(el.matches('.hero-gallery'))el.style.setProperty('--reveal-delay','85ms');
+   io.observe(el);
+ });
+ document.documentElement.classList.add('gallery-motion-ready');
+ const gallery=document.querySelector('.hero-gallery');
+ if(!gallery)return;
+ let frameId=0;
+ const update=()=>{
+   frameId=0;
+   const bounds=gallery.getBoundingClientRect();
+   if(bounds.bottom<0||bounds.top>innerHeight)return;
+   const center=bounds.top+bounds.height/2;
+   const progress=Math.max(-1,Math.min(1,(innerHeight*.5-center)/(innerHeight*.75)));
+   gallery.style.setProperty('--gallery-shift',(progress*-13).toFixed(1)+'px');
+   gallery.style.setProperty('--gallery-small-shift',(progress*11).toFixed(1)+'px');
+ };
+ const schedule=()=>{if(!frameId)frameId=requestAnimationFrame(update)};
+ addEventListener('scroll',schedule,{passive:true});
+ addEventListener('resize',schedule,{passive:true});
+ schedule();
+}
+initGalleryMotion();
+
 openInitialDemo();
 })();
 </script></body></html>
