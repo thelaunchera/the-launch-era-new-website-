@@ -104,7 +104,10 @@ try{
   assert.deepEqual(found,heroSlugs,'Gallery brands must be unique and never include Umbral');
   for(const slug of heroSlugs){
    const hit=page.locator('.hero-gallery-card[data-demo="'+slug+'"] .hero-gallery-hit');
-   assert.equal(await hit.getAttribute('href'),'/demos/?demo='+slug,'Photo must link to exact library demo');
+   const destination=new URL(await hit.getAttribute('href'),url);
+   assert.equal(destination.pathname,'/demos/','Photo must open the existing demo library');
+   assert.equal(destination.searchParams.get('demo'),slug,'Photo must select the exact demo');
+   assert.equal(destination.searchParams.get('returnTo'),locale,'Photo must preserve the bilingual origin for Close');
   }
   const hit=page.locator('.hero-gallery-card[data-demo="'+chosen+'"] .hero-gallery-hit');
   await hit.click();
@@ -114,10 +117,8 @@ try{
   assert.equal(await page.locator('#viewer-close').isVisible(),true);
   await page.screenshot({path:folder+'/website-'+(locale.startsWith('/es/')?'es':'en')+'-direct-demo.png'});
   await page.locator('#viewer-close').click();
-  assert.equal(await page.locator('#demo-viewer').evaluate(el=>el.open),false);
-  await page.waitForFunction(()=>!new URL(location.href).searchParams.has('demo'),null,{timeout:5000});
-  assert.equal(new URL(page.url()).searchParams.has('demo'),false,'Closing returns to the library, without the selected-demo query');
-  await page.locator('.demo-card[data-brand="'+chosen+'"]').waitFor({state:'visible'});
+  await page.waitForURL(new URL(locale,url).href,{timeout:20000});
+  assert.equal(await page.locator('.hero-gallery-card').count(),7,'Close should return to the original bilingual website');
   console.log('[LINK+RETURN]',locale,chosen,'OK');
  }
  // Old links using Umbral must still resolve to the single canonical Havana 19 demo.
