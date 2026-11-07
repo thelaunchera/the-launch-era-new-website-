@@ -237,6 +237,21 @@ main,.intro,.intro-copy,.hero-gallery,.demo-grid,.demo-card,.section-heading{min
 }
 @media(prefers-reduced-motion:reduce){.demo-art{transition:none}}
 
+
+/* Match image frames to the real photograph proportions, rather than slicing off the hero. */
+.hero-photo{top:17%;right:3%;width:85%;height:auto;aspect-ratio:3/2;background:#1b51b9}
+.hero-photo img{object-fit:cover;object-position:50% 50%}
+.demo-card[data-brand="sova"] .demo-art{aspect-ratio:3/2}
+.demo-card[data-brand="crumb"] .demo-art{aspect-ratio:2000/1124}
+@media(max-width:740px){
+ .hero-photo{top:17%;right:3%;width:83%;height:auto;aspect-ratio:3/2}
+}
+@media(max-width:600px){
+ .hero-photo{top:19%;right:3%;width:83%;height:auto;aspect-ratio:3/2}
+ .demo-card[data-brand="sova"] .demo-art{aspect-ratio:3/2}
+ .demo-card[data-brand="crumb"] .demo-art{aspect-ratio:2000/1124}
+}
+
 </style>
 </head>
 <body>
