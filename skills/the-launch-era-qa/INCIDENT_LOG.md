@@ -748,3 +748,10 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - **Source cause:** the English basic package image pointed to `website-la-vie-in-pink-en-sharp.png`, while `hero-jaramillo.svg` was already an approved local asset in the hero gallery.
 - **Resolution:** English Package 1 points to the existing approved Jaramillo asset; descriptive alt text, corresponding guard scripts updated. No image generation, price, Spanish, checkout or customer-data edits.
 - **Verification:** code tests and deployment/live phone visual confirmation must be logged separately; do not claim them from a source-only change.
+
+## 2026-11-07 — Bright-green emoji + decorative arrows visible in demos
+- **Owner evidence:** iPhone screenshot of La Vie in Pink includes bright-green `✳` around the hero note and repeating ribbon. Other published demo markup still included decorative asterisks/arrows.
+- **Root cause:** literal `✳` in authored React and compiled JavaScript, and in Lavender markup; Marea already used a neutral text dot but inherited giant colored emoji styles.
+- **Fix:** remove emoji glyphs from public bundles and sources, suppress La Vie's ornamental down/up-right icons without disabling interactive navigation, replace overlarge Marea dot styling, remove decorative text arrows in other demos.
+- **Safeguard:** regression script checks unwanted glyphs; source changes do not touch any network, payment, account, booking or customer behavior.
+- **Verification state:** source change prepared; CI, Pages deployment and live iPhone appearance require independent confirmation.

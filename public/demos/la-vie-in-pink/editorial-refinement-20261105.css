@@ -26,3 +26,15 @@
  .membership-section{padding:58px 6%}
  .footer{padding:50px 7% 29px}
 }
+
+/* Nov 7: neutral typography; suppress decorative emoji/arrow flourishes (keep functional back/product controls). */
+.site-shell .announcement>span,
+.site-shell .hero-bottom .decor-star,
+.site-shell .hero-bottom>svg,
+.site-shell .membership-decor{display:none!important}
+.site-shell .hero .button-primary>svg,
+.site-shell .header-contact>svg,
+.site-shell .button-cream>svg,
+.site-shell .text-link>svg{display:none!important}
+.site-shell .ticker span:nth-child(even){font-family:inherit;font-size:12px;color:#f8ead2;line-height:1}
+.site-shell .hero-bottom{gap:0}

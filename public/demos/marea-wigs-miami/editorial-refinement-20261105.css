@@ -16,3 +16,6 @@
  .product-meta h3{line-height:1.25}
  .editorial-card img{object-fit:contain}
 }
+
+/* Nov 7: discreet neutral separator, no colored emoji. */
+.type-strip .strip-star{font-size:16px;line-height:1;color:#191919;font-style:normal}

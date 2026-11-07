@@ -1,0 +1,19 @@
+name: Demo decorative icon regression
+on:
+  pull_request:
+    paths:
+      - 'public/demos/**'
+      - 'demo-source/la-vie-in-pink/**'
+      - 'demo-source/marea-wigs-miami/**'
+      - 'scripts/qa-demo-decorative-icons.mjs'
+      - '.github/workflows/demo-decorative-icons-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  decorative-icons:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check green emoji and decorative arrow cleanup
+        run: node scripts/qa-demo-decorative-icons.mjs
