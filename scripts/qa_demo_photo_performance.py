@@ -22,7 +22,10 @@ for name in ("sova/resources/03-campaign.webp",
 # The interactive website preview iframe must load immediately when opened.
 # Only image thumbnails need deferred loading in the catalog.
 import re
-assert not re.search(r'<img\b[^>]*\bloading="eager"', gallery, re.I), "Gallery image thumbnail still eagerly loaded"
+card_images = re.findall(r'<div class="demo-art">\s*(<img\b[^>]*>)', gallery)
+assert len(card_images) >= 10, "Expected demo catalog card photos"
+assert all('loading="lazy"' in img for img in card_images), "A catalog card is still eagerly loaded"
+# The visible hero can use eager to improve first-screen display.
 for demo in ("la-vie-in-pink", "golden-grid", "marea-wigs-miami", "sova", "lavender-edit"):
     items = [a for a in m["assets"] if a["demo"] == demo]
     assert len(items) >= (7 if demo == "lavender-edit" else 8), (demo, len(items))

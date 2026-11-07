@@ -108,6 +108,10 @@ def main():
                     # Lightbox builds numbered filenames dynamically.
                     text = re.sub(r"(\+\s*)(['\"])\.png\2",
                                   lambda m: m.group(1) + m.group(2) + ".webp" + m.group(2), text)
+        if rel_file == "demos/index.html":
+            # Catalog cards are below the hero and must stay lazy.
+            text = re.sub(r'(<div class="demo-art">\s*<img\b[^>]*?)loading="eager"',
+                          lambda m: m.group(1) + 'loading="lazy"', text)
         if text != original:
             path.write_text(text, encoding="utf-8")
             edited_files.append(rel_file)
