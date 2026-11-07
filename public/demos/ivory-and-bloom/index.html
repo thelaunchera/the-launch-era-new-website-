@@ -168,6 +168,7 @@ h1,h2,h3,.logo,.footer-wordmark,.gallery-quote{
   <link rel="stylesheet" href="/assets/tle-editorial-attention-20261103.css?v=1">
 <link rel="stylesheet" href="./editorial-refinement-20261105.css?v=1">
 <link rel="stylesheet" href="/assets/tle-company-system-20261106.css?v=1"><link rel="stylesheet" href="./hero-art-direction-20261107.css?v=1">
+<link rel="stylesheet" href="/assets/tle-demo-inquiry-mobile-20261107.css?v=1">
 </head>
 <body data-tle-demo="ivory-and-bloom" data-tle-company="demo">
 <a class="skip" href="#main">Skip to content</a>
@@ -295,4 +296,5 @@ h1,h2,h3,.logo,.footer-wordmark,.gallery-quote{
 (() => {const buttons=document.querySelectorAll('.gallery-filters .filter');const cards=document.querySelectorAll('.cake-item');buttons.forEach(b=>b.addEventListener('click',()=>{const v=b.dataset.filter;buttons.forEach(x=>{const active=x===b;x.classList.toggle('active',active);x.setAttribute('aria-pressed',String(active))});cards.forEach(c=>c.hidden=v!=='all'&&!c.dataset.category.split(' ').includes(v))}));document.querySelectorAll('[data-cake]').forEach(a=>a.addEventListener('click',()=>{const sel=document.querySelector('select[name="style"]');if(sel){sel.value=a.dataset.cake;sel.dispatchEvent(new Event('change',{bubbles:true}))}}))})();
 
 </script>
+<script defer src="/assets/tle-demo-inquiry-mobile-20261107.js?v=1"></script>
 </body></html>
