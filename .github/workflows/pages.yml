@@ -129,6 +129,11 @@ jobs:
           python -m pip install --quiet pymupdf reportlab
           python scripts/build_freebies.py
 
+      - name: Optimize published demo photographs for iPhone
+        run: |
+          python scripts/optimize_demo_photos.py --root .output/public
+          python scripts/qa_demo_photo_performance.py --root .output/public
+
       - name: Verify email demo landing pages and secure recovery routes
         run: |
           test -s .output/public/lead-private-preview.html

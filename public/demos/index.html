@@ -127,7 +127,6 @@ main,.intro,.intro-copy,.hero-gallery,.demo-grid,.demo-card,.section-heading{min
 /* CRUMB: match the live website hero exactly. Never show the older storefront concept photo. */
 .demo-card[data-brand="crumb"] .demo-art{background:#dcecf4}
 .demo-card[data-brand="crumb"] .demo-art img{object-fit:contain;object-position:center}
-
 /* 2026-11-07 · Rounded editorial gallery + mobile-first scrollytelling.
    Scope: library presentation only. No photos, brands, destinations or preview logic changed. */
 #collection{scroll-margin-top:26px}
@@ -202,11 +201,11 @@ main,.intro,.intro-copy,.hero-gallery,.demo-grid,.demo-card,.section-heading{min
 <div class="intro-bottom"><p class="lede">A curated collection of websites and concepts. Each brand has its own voice, visual language and story to tell.</p><span class="count">16 projects <span aria-hidden="true">·</span> Made to explore</span></div></div>
 <div class="hero-gallery" aria-label="Featured original demo photography"><span class="hero-image-stamp">The collection</span><div class="hero-photo"><img src="/demos/sova/resources/03-campaign.png" alt="Blue SOVA headphones campaign photograph" fetchpriority="high"></div><div class="hero-small"><img src="/demos/golden-grid/resources/golden-1.png" alt="Golden Grid waffle brand photography"></div><span class="hero-label">EDITORIAL WEBSITES / 2026</span></div></section>
 <section id="collection" aria-label="Browse demos"><div class="section-heading"><h2>Explore the projects.</h2><p>Original ideas, distinct identities, and details worth looking at.</p></div><div class="controls"><div class="filters" role="group" aria-label="Filter demo category"><button type="button" class="filter" data-filter="All" aria-pressed="true">All projects</button><button type="button" class="filter" data-filter="Food & Drink" aria-pressed="false">Food & Drink</button><button type="button" class="filter" data-filter="Beauty & Wellness" aria-pressed="false">Beauty & Wellness</button><button type="button" class="filter" data-filter="Lifestyle" aria-pressed="false">Lifestyle</button><button type="button" class="filter" data-filter="Experiences" aria-pressed="false">Experiences</button></div><input id="demo-search" class="search" type="search" placeholder="Find a project..." aria-label="Search projects" autocomplete="off"></div><div class="demo-grid" id="demo-grid"><article class="demo-card" data-brand="sova" data-demo-url="https://thelaunchera.com/demos/sova/" data-kind="Lifestyle" data-search="sova headphones sound, color and product photography lifestyle" style="--brand:#1F54C4">
-<div class="demo-art"><img src="/demos/sova/resources/03-campaign.png" alt="SOVA Headphones — original website photography" loading="eager" decoding="async"><span class="demo-index">01 / 16</span><span class="demo-type">Lifestyle</span></div>
+<div class="demo-art"><img src="/demos/sova/resources/03-campaign.png" alt="SOVA Headphones — original website photography" loading="lazy" decoding="async"><span class="demo-index">01 / 16</span><span class="demo-type">Lifestyle</span></div>
 <div class="demo-content"><div><h2>SOVA Headphones</h2><p>Sound, color and product photography</p></div>
 <div class="demo-links"><a href="https://thelaunchera.com/demos/sova/" target="_blank" rel="noopener noreferrer" class="view">Visit website</a><a href="https://github.com/thelaunchera/the-launch-era-new-website-/tree/main/public/demos/sova" target="_blank" rel="noopener noreferrer" class="source">View code</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/sova/" aria-label="Preview SOVA Headphones; close to return to the gallery"></a></article>
 <article class="demo-card" data-brand="golden-grid" data-demo-url="https://thelaunchera.com/demos/golden-grid/" data-kind="Food &amp; Drink" data-search="golden grid waffle co. · breakfast made editorial food &amp; drink" style="--brand:#DDA92B">
-<div class="demo-art"><img src="/demos/golden-grid/resources/golden-1.png" alt="Golden Grid — original website photography" loading="eager" decoding="async"><span class="demo-index">02 / 16</span><span class="demo-type">Food &amp; Drink</span></div>
+<div class="demo-art"><img src="/demos/golden-grid/resources/golden-1.png" alt="Golden Grid — original website photography" loading="lazy" decoding="async"><span class="demo-index">02 / 16</span><span class="demo-type">Food &amp; Drink</span></div>
 <div class="demo-content"><div><h2>Golden Grid</h2><p>Waffle Co. · breakfast made editorial</p></div>
 <div class="demo-links"><a href="https://thelaunchera.com/demos/golden-grid/" target="_blank" rel="noopener noreferrer" class="view">Visit website</a><a href="https://github.com/thelaunchera/the-launch-era-new-website-/tree/main/public/demos/golden-grid" target="_blank" rel="noopener noreferrer" class="source">View code</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/golden-grid/" aria-label="Preview Golden Grid; close to return to the gallery"></a></article>
 <article class="demo-card" data-brand="la-vie-in-pink" data-demo-url="https://thelaunchera.com/demos/la-vie-in-pink/" data-kind="Food &amp; Drink" data-search="la vie in pink european-inspired pâtisserie food &amp; drink" style="--brand:#8E343F">
@@ -326,15 +325,16 @@ function resetDemo(){
  stage.classList.remove('is-ready');
  stage.setAttribute('aria-busy','true');
  frame.src='about:blank';
- // A link from a website gallery should return to the selected card in this library.
- const current=new URL(location.href);
- const returnTo=current.searchParams.get('returnTo');
- // The public package gallery asks to return to its English/Spanish landing after Close.
- // Use a strict same-site allowlist: query parameters must never become open redirects.
- if(returnTo && /^\/(?:es\/)?website-for-your-business\/?$/.test(returnTo)){
-   window.location.assign(returnTo);
+ // Showcase visitors go back to the exact website route they came from.
+ // Only permit the known public landing paths; never redirect to arbitrary URLs.
+ const returnTo=new URLSearchParams(location.search).get('returnTo');
+ const allowed=['/','/es/','/website-for-your-business/','/es/website-for-your-business/'];
+ if(returnTo&&allowed.includes(returnTo)){
+   location.replace(returnTo+'#inicio');
    return;
  }
+ // Direct library visitors stay in the collection after closing a demo.
+ const current=new URL(location.href);
  if(current.searchParams.has('demo')){
    current.searchParams.delete('demo');
    history.replaceState(history.state,'',current.pathname+current.search+current.hash);
@@ -369,7 +369,6 @@ function openInitialDemo(){
   openDemo(card,card.querySelector('.card-preview-link'));
  });
 }
-
 /* Gentle scroll reveals and photo depth. Passive scroll + rAF; no scroll hijacking. */
 function initGalleryMotion(){
  const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
