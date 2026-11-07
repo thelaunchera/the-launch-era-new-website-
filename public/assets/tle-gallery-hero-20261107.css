@@ -129,3 +129,60 @@
 .tle-universal .hero-gallery-card[data-demo="crumb"] .hero-gallery-hit img{
   object-fit:contain;object-position:center
 }
+
+
+/* Desktop editorial direction (2026-11-07).
+   Real project hero photos form one large portrait + six interactive previews.
+   Preserve image links, 3-D entrance animation, hover scaling, mobile rail, prices. */
+@media(min-width:1100px){
+ .tle-universal .hero.hero-gallery{
+   display:grid;grid-template-columns:minmax(0,.83fr) minmax(0,1.17fr);
+   grid-template-rows:minmax(0,1fr) auto;
+   align-items:center;column-gap:clamp(26px,4vw,68px);
+   padding:clamp(50px,5.7vw,92px) clamp(32px,5.3vw,104px) clamp(36px,4.6vw,74px);
+   min-height:clamp(650px,53vw,790px);
+   max-width:1800px;margin:0 auto;
+ }
+ .tle-universal .hero.hero-gallery .hero-gallery-copy{
+   grid-column:1;grid-row:1/3;align-self:center;
+   width:100%;max-width:540px;margin:0;text-align:left;padding:0;
+ }
+ .tle-universal .hero.hero-gallery .hero-gallery-kicker{text-align:left}
+ .tle-universal .hero.hero-gallery h1{
+   font-size:clamp(57px,5vw,94px);line-height:1.015;
+   max-width:9ch;margin:18px 0 24px;text-align:left;text-wrap:balance;
+ }
+ .tle-universal .hero.hero-gallery .hero-gallery-copy>p[data-key=heroText]{
+   margin:0 0 27px;max-width:38ch;font-size:clamp(16px,1.18vw,19px);
+   line-height:1.65;text-align:left
+ }
+ .tle-universal .hero-gallery-stage{
+   grid-column:2;grid-row:1;width:100%;max-width:920px;
+   min-height:560px;height:clamp(545px,42vw,680px);
+   margin:0;overflow:visible;
+ }
+ .tle-universal .hero-gallery-rail{
+   display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,.62fr) minmax(0,.62fr);
+   grid-template-rows:repeat(3,minmax(0,1fr));
+   width:100%;height:100%;
+   gap:clamp(8px,1vw,16px);padding:12px;
+   align-items:stretch;justify-content:stretch;
+ }
+ .tle-universal .hero-gallery-card{
+   height:100%;min-height:0;width:100%;min-width:0;flex:none;
+   border-radius:clamp(15px,1.5vw,25px);
+ }
+ .tle-universal .hero-gallery-card:first-child{
+   grid-column:1;grid-row:1/4;--gallery-turn:0deg;--gallery-y:0px;--gallery-scale:1;
+ }
+ .tle-universal .hero-gallery-card:not(:first-child) figcaption{
+   left:8px;bottom:8px;right:6px;font-size:clamp(9px,.75vw,11px)
+ }
+ .tle-universal .hero-gallery-card:first-child figcaption{
+   left:22px;bottom:22px;font-size:15px
+ }
+ .tle-universal .hero-gallery-note{
+   grid-column:2;grid-row:2;margin:8px 0 0;
+   text-align:left;padding:0 12px;color:#606d73;
+ }
+}
