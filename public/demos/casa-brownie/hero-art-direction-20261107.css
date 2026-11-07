@@ -1,0 +1,25 @@
+/* casa-brownie | Hero art direction | 2026-11-07.
+Preserves all original imagery, copy, forms, CTA and business functions. */
+
+/* Preserve approved video, poster, mobile image-first hero and original CTA. */
+.hero-copy .eyebrow{animation:tleHeroRise .43s ease-out .03s both}
+.hero-copy h1{animation:tleHeroRise .67s ease-out .13s both;text-wrap:balance}
+.hero-copy>p{animation:tleHeroRise .52s ease-out .28s both}
+.hero-copy>.primary-button{animation:tleHeroRise .48s ease-out .38s both;min-height:48px}
+.hero-copy .hero-qualities{animation:tleHeroRise .48s ease-out .47s both}
+
+
+@keyframes tleHeroRise{from{opacity:0;transform:translateY(17px)}to{opacity:1;transform:translateY(0)}}
+@keyframes tleHeroReveal{from{opacity:.65;scale:1.045}to{opacity:1;scale:1}}
+@keyframes tleHeroCard{from{opacity:0;translate:0 18px;rotate:-5deg}to{opacity:1;translate:0 0;rotate:-5deg}}
+@media(prefers-reduced-motion:reduce){
+.hero h1,.hero h2,.hero .ey,.hero .eyebrow,.hero .hero-kicker,.hero .kicker,
+.hero .hero-intro,.hero .hero-lead,.hero .hero-description,.hero .lead,.hero .sub,
+.hero .hero-cta,.hero .hero-action-start,.hero .hero-start-link,.hero .hero-art img,
+.hero .hero-media img,.hero .hero-photo img,.hero .hero-inset,.hero .hero-visual>img,
+.hero .hero-image,.hero .hero-editorial-cta,.hero .hero-copy>p,.hero .hero-content>p,
+.hero .primary-button,.hero .btn,.hero .button,.hero .button-primary,.hero .hero-link,
+.hero .hero-visual::after,.hero .hero-content::before,.hero .hero-media::after,
+.hero .hero-qualities,.hero .hero-foot,.hero .hero-aside,.hero .hero-stamp,
+.hero h1 span,.hero h1 em,.hero-editorial picture img{animation:none!important}
+}
