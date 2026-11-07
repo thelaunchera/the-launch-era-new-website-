@@ -33,7 +33,7 @@ try {
    });
    await page.goto(base+'/booking-bundle/?lang=en&bundle=ai-booking&source=smart-welcome',{waitUntil:'domcontentloaded'});
    await page.locator('#heroTitle').waitFor({state:'visible'});
-   assert.match(await page.locator('#heroTitle').innerText(),/You handle the cleaning/);
+   assert.match(await page.locator('#heroTitle').innerText(),/One booking link/);
    assert.equal(await page.locator('.tle-feature').count(),3);
    for(const img of await page.locator('.tle-feature-image img,.tle-hero-photo img').all())
       assert(await img.evaluate(el=>el.complete&&el.naturalWidth>500),'Generated photograph failed to load at '+width);
@@ -73,7 +73,7 @@ try {
  const esPage=await esCtx.newPage();
  await esPage.route('**/functions/v1/tle-booking-bundle-checkout**',r=>r.fulfill({json:prices}));
  await esPage.goto(base+'/booking-bundle/?lang=es&bundle=ai-booking',{waitUntil:'domcontentloaded'});
- assert.match(await esPage.locator('#heroTitle').innerText(),/Tú te encargas/);
+ assert.match(await esPage.locator('#heroTitle').innerText(),/Un enlace de reservas/);
  await esPage.locator('#previewRequest').click();
  assert.match(await esPage.locator('#bookingSampleResult').innerText(),/No se envió/);
  await esPage.locator('button[data-question="booking"]').click();
