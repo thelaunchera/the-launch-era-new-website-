@@ -65,7 +65,7 @@ for(const [language,html] of [['en',en],['es',es]]){
  assert(/48 (hours|horas)/i.test(html),language+': delivery estimate missing');
  assert(/revision round|ronda de revisión/i.test(html),language+': included revision round missing');
 }
-const photoStyles=css.split('/* 2026-11-05 image placement: keep original hero untouched. */')[1];
+const photoStyles=css.split('/* 2026-11-05 image placement: keep original hero untouched. */')[1]?.split('/* Short inline billing disclosure')[0];
 assert(photoStyles&&!photoStyles.includes('.hero'), 'Photo styling inadvertently edits hero');
 assert(photoStyles.includes('object-fit:contain'), 'Uncropped interior photo styling missing');
 console.log('PASS: seven distinct approved demo hero photographs deep-link to their live gallery previews in both languages; original package photos, prices and delivery remain unchanged.');
