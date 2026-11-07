@@ -22,7 +22,7 @@ for name in ("sova/resources/03-campaign.webp",
 # The interactive website preview iframe must load immediately when opened.
 # Only image thumbnails need deferred loading in the catalog.
 import re
-assert not re.search(r'<img\\b[^>]*\\bloading="eager"', gallery, re.I), "Gallery image thumbnail still eagerly loaded"
+assert not re.search(r'<img\b[^>]*\bloading="eager"', gallery, re.I), "Gallery image thumbnail still eagerly loaded"
 for demo in ("la-vie-in-pink", "golden-grid", "marea-wigs-miami", "sova", "lavender-edit"):
     items = [a for a in m["assets"] if a["demo"] == demo]
     assert len(items) >= (7 if demo == "lavender-edit" else 8), (demo, len(items))
