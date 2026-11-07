@@ -25,3 +25,14 @@ Preserves all original imagery, copy, forms, CTA and business functions. */
 .hero .hero-qualities,.hero .hero-foot,.hero .hero-aside,.hero .hero-stamp,
 .hero h1 span,.hero h1 em,.hero-editorial picture img{animation:none!important}
 }
+
+
+/* Angela desktop: use the existing cleaning photograph as an oversized
+   right-side panel, leaving the interactive booking form unchanged. */
+@media(min-width:1100px){
+  .hero{min-height:clamp(430px,37vw,560px);background-color:#141018;background-size:100% 100%,59% 100%;background-position:left center,right center;background-repeat:no-repeat;padding:clamp(48px,5vw,82px) 6%}
+  .hero>div:first-child{position:relative;z-index:2;max-width:43%}
+  .hero h1{font-size:clamp(46px,4.4vw,75px);line-height:1.03;max-width:13ch;text-wrap:balance}
+  .hero p{font-size:clamp(14px,1.2vw,17px);line-height:1.65;max-width:39ch}
+  .hero:after{opacity:.55}
+}
