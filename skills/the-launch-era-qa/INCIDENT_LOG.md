@@ -1,3 +1,9 @@
+## 2026-11-07 — Public code links were exposed in demo gallery (owner-requested presentation fix)
+- **Observed source:** Each of the 16 demo cards contained a visible `View code` link; gallery footer also linked to the GitHub profile.
+- **Change:** remove all 17 source-profile/code links from `public/demos/index.html`, keep all 16 `Visit website` links and interactive demo previews. Update meta description to focus on demos, not GitHub publication. Code ownership and existing repository access remain unchanged.
+- **Regression:** add Playwright assertions for all 16 demo links, 16 previews and zero exposed GitHub links. This changes only public navigation, not repository privacy.
+- **Verification:** browser CI and live Pages required before calling deployed.
+
 ## 2026-11-07 — Demo Library entrance felt square and text-heavy on iPhone (visual UX issue)
 - **Owner evidence:** 390px-class iPhone screenshot of `/demos/` shows oversized title and full paragraph before the SOVA/Golden Grid photo collage; hero photography and gallery artwork have harsh square corners and no scroll-led pacing.
 - **Source cause confirmed:** `public/demos/index.html` placed `.intro-bottom` inside the first text column before `.hero-gallery` on mobile; `.hero-photo`, `.hero-small` and `.demo-art` had no border radius, and there were no entry/reveal scroll effects.
