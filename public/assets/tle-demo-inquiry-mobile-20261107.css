@@ -67,3 +67,7 @@
 @media(prefers-reduced-motion:reduce){
  .tle-demo-form-ui .tle-form-progress__fill{transition:none}
 }
+
+/* Author display rules must never reveal initially hidden guidance. */
+.tle-demo-form-ui .tle-field-feedback[hidden],
+.tle-demo-form-ui .tle-date-chosen[hidden]{display:none!important}
