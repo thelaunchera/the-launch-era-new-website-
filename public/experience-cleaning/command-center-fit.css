@@ -82,3 +82,15 @@
     text-wrap: pretty;
   }
 }
+
+
+/* Sample Cleaning desktop editorial hero 2026-11-07.
+   Preserve animated booking journey, controls, source photo and mobile. */
+@media(min-width:1100px){
+ .hero.hero-cleaning-site{min-height:clamp(690px,56vw,850px);background:#244455;align-items:center}
+ .hero.hero-cleaning-site .hero-full-photo{inset:0 0 0 auto;width:61%;height:100%;object-fit:cover;object-position:center 44%}
+ .hero.hero-cleaning-site:after{background:linear-gradient(90deg,#244455 0%,#244455 32%,rgba(36,68,85,.9) 44%,rgba(36,68,85,.06) 74%)}
+ .hero.hero-cleaning-site .hero-copy{max-width:40%;padding:clamp(170px,16vw,210px) 0 70px}
+ .hero.hero-cleaning-site .hero-copy h1{font-size:clamp(68px,5.6vw,103px);max-width:11ch;line-height:.97;text-wrap:balance}
+ .hero.hero-cleaning-site .hero-intro{font-size:clamp(15px,1.15vw,18px);line-height:1.7;max-width:39ch}
+}
