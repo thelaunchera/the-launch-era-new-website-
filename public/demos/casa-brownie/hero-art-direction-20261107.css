@@ -42,3 +42,17 @@ Preserves all original imagery, copy, forms, CTA and business functions. */
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero :is(a,button){transition:none!important}}
 
 @media(max-width:767px){.hero-copy h1{font-size:clamp(40px,10.3vw,58px);line-height:1.1}.hero-copy>p{font-size:16px;line-height:1.62}.hero-copy>.primary-button{min-height:48px}.section h2,.section-heading h2{line-height:1.13}.flavor-grid,.delivery-steps{min-width:0}.hero-qualities{flex-wrap:wrap}}
+
+
+/* Desktop editorial hero / 2026-11-07: enlarge the existing photo/video.
+   Desktop only; leave the live motion, reveal, CTA and phone layout untouched. */
+@media (min-width:1100px){
+  body[data-tle-demo="casa-brownie"] .hero{grid-template-columns:minmax(0,42fr) minmax(0,58fr);min-height:clamp(630px,50vw,770px)}
+  body[data-tle-demo="casa-brownie"] .hero>.hero-copy{min-width:0;padding:clamp(58px,5.8vw,94px) 7% clamp(36px,4vw,65px) clamp(44px,6vw,104px);justify-content:center}
+  body[data-tle-demo="casa-brownie"] .hero .hero-copy h1{font-size:clamp(56px,5.1vw,89px);line-height:.98;white-space:normal;max-width:10ch}
+  body[data-tle-demo="casa-brownie"] .hero .hero-copy h1 .love{font-size:clamp(62px,5.8vw,99px);line-height:.92}
+  body[data-tle-demo="casa-brownie"] .hero .hero-copy>p{font-size:clamp(15px,1.2vw,18px);max-width:39ch;line-height:1.65}
+  body[data-tle-demo="casa-brownie"] .hero>.hero-photo{grid-column:2;grid-row:1;min-width:0;min-height:100%}
+  body[data-tle-demo="casa-brownie"] .hero .hero-qualities{margin-top:clamp(24px,4.3vw,60px);gap:3px}
+  body[data-tle-demo="casa-brownie"] .hero .hero-qualities small{font-size:clamp(7px,.65vw,10px)}
+}
