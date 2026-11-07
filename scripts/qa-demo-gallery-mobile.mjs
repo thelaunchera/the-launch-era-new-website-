@@ -49,7 +49,19 @@ try{
  assert.equal(response?.status(),200,'Gallery must return 200, not a 404');
  assert.equal(await page.locator('.demo-card').count(),16,'Gallery must contain exactly 16 original concepts');
  assert.equal(await page.locator('.card-preview-link').count(),16,'Every photo card needs a preview link');
+ assert.equal(await page.locator('.demo-links .view').count(),16,'Every card needs a public demo website link');
+ assert.equal(await page.locator('.demo-links .source, a[href*="github.com"]').count(),0,'Never expose code/source repository links in the public library');
  assert.equal(await page.locator('#viewer-close').count(),1);
+ const heroOrder=await page.evaluate(()=>{
+   const photo=document.querySelector('.hero-gallery');
+   const copy=document.querySelector('.intro-bottom');
+   const corners=[photo.querySelector('.hero-photo'),photo.querySelector('.hero-small'),document.querySelector('.demo-card .demo-art')]
+      .map(el=>parseFloat(getComputedStyle(el).borderTopLeftRadius));
+   return {photoBottom:photo.getBoundingClientRect().bottom,copyTop:copy.getBoundingClientRect().top,corners};
+ });
+ assert.ok(heroOrder.photoBottom < heroOrder.copyTop+3,'Mobile hero photography should appear before body description: '+JSON.stringify(heroOrder));
+ assert.ok(heroOrder.corners.every(radius=>radius>=16),'Hero and demo images must have soft rounded corners: '+JSON.stringify(heroOrder));
+ console.log('[EDITORIAL HERO]',JSON.stringify(heroOrder));
  const horizontal=await page.evaluate(()=>({scrollWidth:document.documentElement.scrollWidth,innerWidth:window.innerWidth}));
  assert.ok(horizontal.scrollWidth<=horizontal.innerWidth+2,'Mobile page overflow: '+JSON.stringify(horizontal));
  console.log('[MOBILE WIDTH]',JSON.stringify(horizontal));
@@ -118,6 +130,22 @@ try{
  await page.waitForFunction(()=>!new URL(location.href).searchParams.has('demo'),null,{timeout:5000});
  assert.equal(new URL(page.url()).pathname,'/demos/','Standalone demo preview must close within the demo library');
  console.log('[LIBRARY RETURN] standalone visitors remain in library');
+
+ // Motion-enabled mobile context verifies progressive enhancement; reduced-motion gallery above remains fully readable.
+ const motionContext=await browser.newContext({...devices['iPhone 13'],locale:'en-US',reducedMotion:'no-preference'});
+ try{
+   const motionPage=await motionContext.newPage();
+   await motionPage.goto(url,{waitUntil:'domcontentloaded',timeout:35000});
+   assert.equal(await motionPage.locator('html.gallery-motion-ready').count(),1,'Scroll effects should initialize for motion-enabled users');
+   const motionCard=motionPage.locator('.demo-card[data-brand="sova"]');
+   await motionCard.scrollIntoViewIfNeeded();
+   await motionPage.waitForFunction(()=>document.querySelector('.demo-card[data-brand="sova"]')?.classList.contains('is-inview'),null,{timeout:8000});
+   const noOverflow=await motionPage.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+2);
+   assert.ok(noOverflow,'Scroll effects must not create horizontal overflow');
+   await motionPage.screenshot({path:folder+'/iPhone-gallery-scroll.png'});
+   console.log('[SCROLL MOTION] reveal + no horizontal overflow OK');
+ }finally{await motionContext.close()}
+
 
  console.log('[PASS] Bilingual demo-to-website return and standalone library-close, plus 16 cards, hero images and mobile scroll.');
 } finally{

@@ -1,3 +1,15 @@
+## 2026-11-07 — Public code links were exposed in demo gallery (owner-requested presentation fix)
+- **Observed source:** Each of the 16 demo cards contained a visible `View code` link; gallery footer also linked to the GitHub profile.
+- **Change:** remove all 17 source-profile/code links from `public/demos/index.html`, keep all 16 `Visit website` links and interactive demo previews. Update meta description to focus on demos, not GitHub publication. Code ownership and existing repository access remain unchanged.
+- **Regression:** add Playwright assertions for all 16 demo links, 16 previews and zero exposed GitHub links. This changes only public navigation, not repository privacy.
+- **Verification:** browser CI and live Pages required before calling deployed.
+
+## 2026-11-07 — Demo Library entrance felt square and text-heavy on iPhone (visual UX issue)
+- **Owner evidence:** 390px-class iPhone screenshot of `/demos/` shows oversized title and full paragraph before the SOVA/Golden Grid photo collage; hero photography and gallery artwork have harsh square corners and no scroll-led pacing.
+- **Source cause confirmed:** `public/demos/index.html` placed `.intro-bottom` inside the first text column before `.hero-gallery` on mobile; `.hero-photo`, `.hero-small` and `.demo-art` had no border radius, and there were no entry/reveal scroll effects.
+- **Scoped repair:** mobile grid ordering puts the original branded collage directly after the headline; round only image containers, soften filter pills, tune photo crop and type spacing; add progressive-enhancement reveal and restrained scroll depth, with reduced-motion and no-IntersectionObserver fallbacks. Preserve all 16 photo sources, URLs, filters and exact inbound `?demo=` links. Fix the pre-existing `returnTo` Close behavior for `/website-for-your-business/` and `/es/website-for-your-business/` with a same-site allowlist; direct gallery previews still close within the library.
+- **Verification:** deterministic source asserts of 16 cards/unchanged links and scoped responsive Playwright regression added. GitHub Actions, live Pages release and owner iPhone Safari acceptance remain distinct gates until confirmed. No auth, customer data, purchase, forms or external brand assets changed.
+
 ## 2026-11-07 — Blank mobile preview while external demo iframe loads
 - **Evidence:** iPhone-emulated Gallery QA screenshots taken after iframe `main` was visible showed white content for CRUMB and Jaramillo while La Vie in Pink loaded visibly. A visible iframe DOM does not guarantee an actual painted frame.
 - **Repair:** `public/demos/index.html` now shows a minimal editorial loading state, the selected project name and a real `Open full website` link, then reveals the iframe after its `load` event; hides loading for reduced motion and resets state after closing. No demo contents, URLs, contact details, data or original photographs changed.
@@ -779,9 +791,3 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - iPhone screenshot showed green emoji starburst in La Vie in Pink. A prior release had swapped it for a dot instead of removing the invalid brand symbol. Owner explicitly rejects such substitute marks and generic/blue arrows in all current and future demos.
 - Correction: remove decorative replacement dots from live La Vie React bundle and authored source, replace duplicate arrow-only product action with localized text; remove remaining mail/sparkle emoji in private booking concept pages; remove Marea substitute separator; add global workflow and CI prohibitions.
 - Future workflow: approved moodboard -> original section photos -> approved logo -> coded demo. QA/source/Pages/live phone verification are distinct. No customer data, bookings or payments touched.
-
-## 2026-11-07 — Slow public demo photos on iPhone
-- **Observed:** Public repo contains ~140 MiB photo assets. La Vie, Marea, Golden Grid, SOVA and Lavender include multi-megabyte PNG files; two extra catalog cards were eager-loaded.
-- **Likely cause:** excessive per-photo transfer cost. Real iPhone network timing not yet measured.
-- **Correction:** convert large PNG/JPG to smaller WebP within the generated GitHub Pages build; rewrite only published links, preserve original photo files and hero prioritization. Add photo/link regression QA and read-only size report.
-- **Gate:** Source/CI verification first; live Pages + Safari visual and timing confirmation separate. No booking, email, checkout or customer edits.
