@@ -54,3 +54,15 @@ Preserves all original imagery, copy, forms, CTA and business functions. */
  .hero .hero-copy{order:1;width:100%;padding:34px 24px 38px!important}
  .hero .hero-number{bottom:15px;right:15px}
 }
+
+
+/* Lavender Edit desktop: immersive existing bottle portrait beside editorial
+   type; keep hero zoom, product imagery, marquee and phone design. */
+@media(min-width:1100px){
+ .hero{grid-template-columns:minmax(0,41fr) minmax(0,59fr);min-height:clamp(670px,50vw,820px)}
+ .hero .hero-copy{min-width:0;padding:clamp(65px,6vw,112px) 7% 65px clamp(54px,6vw,110px)}
+ .hero .hero-copy h1{font-size:clamp(65px,6.3vw,112px);max-width:10ch;line-height:.97}
+ .hero .hero-copy p{font-size:clamp(15px,1.16vw,18px);max-width:39ch;line-height:1.73}
+ .hero .hero-art{min-height:100%}
+ .hero .hero-art img{width:100%;height:100%;object-fit:cover}
+}
