@@ -4,6 +4,7 @@
  */
 import {existsSync,readdirSync,readFileSync,statSync} from 'node:fs';
 import {join,extname,posix} from 'node:path';
+import {public404Problems} from './public-404-contract.mjs';
 const root=process.cwd(),pub=join(root,'public');
 const site=(process.env.TLE_QA_URL||'https://thelaunchera.com').replace(/\/$/,'');
 const domain=new URL(site).hostname,errors=[],warnings=[];
@@ -144,7 +145,7 @@ async function liveChecks(){
  try{
   const missing=await safeFetch(site+'/__tle_route_qa_missing_page_20261012');
   const fallback=await missing.text();
-  if(missing.status!==404 || !fallback.includes('We couldn’t find that page.') || !fallback.includes('/command-center/'))errors.push('Missing-route fallback is blank, misrouted or lacks recovery links');
+  errors.push(...public404Problems(missing.status, fallback));
  }catch(e){errors.push('Missing-route fallback '+String(e.message||e))}
  // Safe invalid-UUID consent call: no actual lead is changed or authorized.
  const endpoint='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-crm-interest?lead=invalid';

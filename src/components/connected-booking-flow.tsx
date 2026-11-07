@@ -76,8 +76,8 @@ export function ConnectedBookingFlow({lang='en'}:{lang?:Language}){
     <small>{es?'Tu espacio privado':'Your private workspace'}</small>
    </div>
    {nodes.map((node,i)=>{
-    const pos=locations[i];
-    const Icon=icons[i];
+    const pos=locations[i] ?? locations[0];
+    const Icon=icons[i] ?? ClipboardList;
     return <button key={node.heading} className="tle-connection-hub__tile" type="button"
      style={{'--hub-x':pos.x+'%','--hub-y':pos.y+'%','--hub-index':i} as CSSProperties}
      onClick={()=>setActive(i)} aria-pressed={i===active} aria-controls={'tle-flow-detail-'+lang}>
@@ -89,7 +89,7 @@ export function ConnectedBookingFlow({lang='en'}:{lang?:Language}){
   </div>
   <div className="tle-connected-flow__detail" id={'tle-flow-detail-'+lang} role="status" aria-live="polite">
    <span>0{active+1} / 06</span>
-   <div><strong>{nodes[active].heading}</strong><p>{nodes[active].detail}</p></div>
+   <div><strong>{(nodes[active] ?? nodes[0])?.heading}</strong><p>{(nodes[active] ?? nodes[0])?.detail}</p></div>
   </div>
   <p className="tle-connection-hub__disclaimer">{es?'Ilustración del funcionamiento · Tú confirmas los precios y las reservas.':'Illustrative workflow · You approve final prices and bookings.'}</p>
  </div>;

@@ -1,3 +1,7 @@
+## 2026-11-04 — Repository audit: unchanged public recovery destinations
+- `public/404.html` remains the public marketing fallback. EN recovery destinations are `/` and `/help`; ES remains `/es` and `/es#contacto`. The route monitor now validates that approved contract and rejects private portal CTAs, rather than requiring the retired Command Center link.
+- Podcast-owned `/baja-en.html` and `/content-lab/prompts/en/` retain their existing endpoints and explicit submission/consent flow; their inline JavaScript quoting is repaired in `todavia-estoy-a-tiempo`. The old website's Maria audit repair affects that legacy audit only. No canonical host, tenant, authentication or delivery destination changes.
+
 ## 2026-11-03 — Five Signs audience expanded to residential and commercial (copy only)
 - **URLs unchanged:** `/5-signs-cleaning-business` and `/es/5-signs-cleaning-business`; headline label, introduction, and EN/ES search descriptions now include both residential and commercial cleaning businesses. Ad guidance matches.
 - **Photo:** the hero remains the original labeled editorial illustration; a real hero photograph is planned later and has NOT been generated or added now.
@@ -708,7 +712,7 @@ Repeat after ANY route/button/domain change: 360px phone, 390px phone, 820px tab
 
 ## Missing-route fallback (2026-10-12)
 - Source: `public/404.html`; the Pages build `.github/workflows/pages.yml` now preserves it rather than replacing with `index.html`.
-- Unknown URLs must return HTTP 404 with a branded, readable message and safe links to `/`, `/command-center/`, `/help/`.
+- Unknown URLs must return HTTP 404 with a branded, readable message and public recovery links to `/` and `/help` (ES paths localize to `/es` and `/es#contacto`). The November 3 public-recovery decision removes the former Command Center CTA.
 - The CI live check uses a nonexistent path to catch an unexpectedly empty, redirected or unhelpful 404.
 
 

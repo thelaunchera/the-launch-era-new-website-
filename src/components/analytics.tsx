@@ -3,7 +3,7 @@ import { useRouterState } from '@tanstack/react-router';
 
 declare global {
   interface Window {
-    TLEPrivacy?: {allowed:()=>boolean};
+    TLEPrivacy?: {allowed:()=>boolean; mount?:()=>void};
     dataLayer?: unknown[];
     gtag?: (...args:any[])=>void;
     tleTrackEvent?: (name:string,params?:Record<string,unknown>)=>void;

@@ -169,8 +169,8 @@ function RootComponent() {
   // No changes to the existing assistant, verified purchase or newsletter logic.
   useEffect(() => {
     window.dispatchEvent(new Event('tle:privacy-mount'));
-    const privacy = (window as Window & {TLEPrivacy?: {mount:()=>void}}).TLEPrivacy;
-    privacy?.mount();
+    const privacy = window.TLEPrivacy;
+    privacy?.mount?.();
     const sources = [
       '/assets/jessy-site.js?v=20261101-compact-home-v11',
       '/assets/tle-purchase-proof.js?v=20261016-mini3',
@@ -183,7 +183,7 @@ function RootComponent() {
         const script = document.createElement('script');
         script.src = src;
         script.async = false;
-        script.dataset.tleAfterHydration = 'true';
+        script.dataset['tleAfterHydration'] = 'true';
         document.body.appendChild(script);
         added.push(script);
       }

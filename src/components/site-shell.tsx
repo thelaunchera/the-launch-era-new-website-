@@ -77,12 +77,12 @@ export function SiteFooter() {
   const doc=document as Document & {startViewTransition?:(update:()=>void)=>{finished:Promise<void>}};
   const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
   if(!reduced&&doc.startViewTransition){
-   document.documentElement.dataset.tleFooterDirection=next?'open':'close';
+   document.documentElement.dataset['tleFooterDirection']=next?'open':'close';
    try{
     const transition=doc.startViewTransition(()=>flushSync(()=>setDark(next)));
-    void transition.finished.finally(()=>delete document.documentElement.dataset.tleFooterDirection).catch(()=>{});
+    void transition.finished.finally(()=>delete document.documentElement.dataset['tleFooterDirection']).catch(()=>{});
    }catch{
-    delete document.documentElement.dataset.tleFooterDirection;
+    delete document.documentElement.dataset['tleFooterDirection'];
     setDark(next);
    }
   }else setDark(next);

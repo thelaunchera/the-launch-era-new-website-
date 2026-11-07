@@ -51,7 +51,7 @@ export function HomeCinemaVisual({lang = 'en'}: {lang?: Lang}) {
   }, []);
 
   const scenes = SCENES[lang];
-  const copy = scenes[step];
+  const copy = scenes[step] ?? scenes[0];
   return <div ref={stageRef} className="tle-cinema" data-step={step} aria-label={lang==='es'?'Recorrido visual de la Booking Page al Command Center':'Visual journey from Booking Page to Command Center'}>
     <div className="tle-cinema-media" aria-hidden="true">
       <img src="/assets/tle-booking-interface.jpg" className="tle-cinema-ui tle-cinema-ui--booking" alt="" loading="lazy" decoding="async" width="960" height="640"/>

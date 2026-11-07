@@ -15,8 +15,8 @@ for (const expected of ['height: 2.5px', 'translateX(calc(var(--faq-active)', '5
   assert.ok(styles.includes(expected), 'Missing FAQ motion/accessibility CSS: ' + expected);
 }
 assert.match(serviceFAQ, /FAQTopicTabs lang=\{lang\} billing=\{billing\} account=\{account\}/);
-assert.match(bookingFAQ, /FAQTopicTabs lang=\{lang\} billing=\{\[questions\[1\]\]\}/);
-assert.match(serviceSales, /FAQTopicTabs lang=\{lang\} billing=\{\[questions\[3\]\]\}/);
-assert.match(cleaningEditorial, /FAQTopicTabs lang=\{lang\} billing=\{\[faqs\[3\]\]\}/);
+assert.match(bookingFAQ, /FAQTopicTabs lang=\{lang\} billing=\{questions\.slice\(1,\s*2\)\}/);
+assert.match(serviceSales, /FAQTopicTabs lang=\{lang\} billing=\{questions\.slice\(3,\s*4\)\}/);
+assert.match(cleaningEditorial, /FAQTopicTabs lang=\{lang\} billing=\{faqs\.slice\(3,\s*4\)\}/);
 assert.ok(component.includes('/es/privacy.html') && component.includes('/privacy.html'), 'Privacy policy destinations missing');
 console.log('PASS — bilingual FAQ topic tabs: native accordions, keyboard behavior, inert panels, animated indicator, reduced-motion support.');

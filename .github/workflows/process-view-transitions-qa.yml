@@ -35,6 +35,10 @@ jobs:
           node scripts/qa-process-view-transitions.mjs
           node scripts/qa-route-integrity.mjs --static
           node scripts/qa-client-release.mjs
+      - name: Prepare generated process photos
+        run: |
+          python3 -m pip install Pillow
+          python3 scripts/build_mobile_flow_assets.py
       - name: Build and test actual React integration
         run: |
           bun install

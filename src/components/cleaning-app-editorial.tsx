@@ -91,7 +91,7 @@ export function CleaningAppEditorial({ lang = 'en' }: Props) {
           <p>{es ? 'Todo lo que necesitas saber antes de empezar.' : 'A few clear answers before you get started.'}</p>
         </div>
         <div className="service-faq-list">
-          <FAQTopicTabs lang={lang} billing={[faqs[3]]} account={faqs.slice(0, 3)} />
+          <FAQTopicTabs lang={lang} billing={faqs.slice(3, 4)} account={faqs.slice(0, 3)} />
         </div>
       </div>
     </section>

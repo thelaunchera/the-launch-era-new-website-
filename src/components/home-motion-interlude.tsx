@@ -50,9 +50,9 @@ export function HomeMotionInterlude({lang='en'}:{lang?:Lang}) {
    const linear=[Number(top[1]),Number(top[2]),Number(top[3])].map(v=>{
     const c=v/255;return c<=.04045?c/12.92:((c+.055)/1.055)**2.4;
    });
-   const luminance=linear[0]*.2126+linear[1]*.7152+linear[2]*.0722;
+   const luminance=(linear[0] ?? 0)*.2126+(linear[1] ?? 0)*.7152+(linear[2] ?? 0)*.0722;
    const ink=luminance<.18?'night':'day';
-   if(heading.dataset.ink!==ink)heading.dataset.ink=ink;
+   if(heading.dataset['ink']!==ink)heading.dataset['ink']=ink;
   };
   const inkWatcher=new MutationObserver(syncHeadingContrast);
   inkWatcher.observe(el,{attributes:true,attributeFilter:['style']});
@@ -63,10 +63,10 @@ export function HomeMotionInterlude({lang='en'}:{lang?:Lang}) {
   // Native scroll scene remains functional even when the 3D engine or network is unavailable.
   const clamp=(v:number)=>Math.min(1,Math.max(0,v));
   const mix=(a:number,b:number,t:number)=>a+(b-a)*t;
-  const rgb=(a:number[],b:number[],t:number)=>'rgb('+a.map((v,i)=>Math.round(mix(v,b[i],t))).join(',')+')';
+  const rgb=(a:number[],b:number[],t:number)=>'rgb('+a.map((v,i)=>Math.round(mix(v,b[i] ?? v,t))).join(',')+')';
   const paintFallback=()=>{
    if(!fallbackActive||!el.isConnected)return;
-   if(reduced){el.dataset.evening='true';el.dataset.activeStep='3';return;}
+   if(reduced){el.dataset['evening']='true';el.dataset['activeStep']='3';return;}
    const rect=el.getBoundingClientRect();
    const p=clamp(-rect.top/Math.max(1,rect.height-window.innerHeight));
    const dusk=clamp((p-.30)/.38);
@@ -75,8 +75,8 @@ export function HomeMotionInterlude({lang='en'}:{lang?:Lang}) {
    const top=evening?rgb([167,198,226],[29,50,84],evening):rgb([247,251,255],[167,198,226],light);
    const bottom=evening?rgb([111,152,197],[18,32,63],evening):rgb([205,233,248],[111,152,197],light);
    el.style.background='linear-gradient(160deg,'+top+','+bottom+')';
-   el.dataset.evening=String(n>.3);
-   el.dataset.activeStep=String(Math.min(3,Math.floor(p*4+.02)));
+   el.dataset['evening']=String(n>.3);
+   el.dataset['activeStep']=String(Math.min(3,Math.floor(p*4+.02)));
    // Scroll-responsive depth cue while WebGL loads or is unavailable.
    el.style.setProperty('--tle-house-turn',((p-.5)*24).toFixed(2)+'deg');
    const count=el.querySelector('[data-tle-count]');
@@ -95,24 +95,25 @@ export function HomeMotionInterlude({lang='en'}:{lang?:Lang}) {
   window.addEventListener('scroll',onScroll,{passive:true});
   window.addEventListener('resize',onScroll,{passive:true});
   paintFallback();
+  const timeOfDayModule='/assets/tle-home-time-of-day.js?v=20261017-house-rotation-restored';
   const load=()=>{
    watcher.disconnect();
    if(reduced)return;
-   import(/* @vite-ignore */ '/assets/tle-home-time-of-day.js?v=20261017-house-rotation-restored')
+   import(/* @vite-ignore */ timeOfDayModule)
     .then(mod=>{
      if(cancelled||typeof mod.mountTimeOfDay!=='function')return;
      dispose=mod.mountTimeOfDay(el);
-     if(el.dataset.render==='webgl')stopFallback();
+     if(el.dataset['render']==='webgl')stopFallback();
     })
     .catch(()=>{/* Native CSS/SVG scroll animation continues without WebGL or external modules. */});
   };
-  const watcher=new IntersectionObserver(([entry])=>{if(entry.isIntersecting)load()},{rootMargin:'700px'});
+  const watcher=new IntersectionObserver(([entry])=>{if(entry?.isIntersecting)load()},{rootMargin:'700px'});
   watcher.observe(el);
   return()=>{
    cancelled=true;watcher.disconnect();stopFallback();inkWatcher.disconnect();dispose?.();
    el.style.removeProperty('background');
    el.style.removeProperty('--tle-house-turn');
-   delete el.dataset.evening;delete el.dataset.activeStep;
+   delete el.dataset['evening'];delete el.dataset['activeStep'];
   };
  },[]);
  return <>

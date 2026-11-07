@@ -19,7 +19,7 @@ for (const shade of ['#FAF8F3', '#D7EFFF', '#316C95', '#173F59', '#EAF4FC']) ass
 assert(css.includes('[data-services-color-shift]') && css.includes('prefers-reduced-motion'), 'Scoped style or motion preference missing');
 assert(css.includes('position: relative;') && css.includes('top: auto;'),'Mobile progress nav must not overlay card text');
 
-console.log('[SERVICES COLOR STATIC QA PASSED] Script mounted in root, six real service cards preserved, native fallback, GSAP, EN/ES and reduced motion.');
+console.log('[SERVICES COLOR STATIC QA PASSED] Script mounted in root, five current service cards preserved, native fallback, GSAP, EN/ES and reduced motion.');
 if (!process.argv.includes('--browser')) process.exit(0);
 
 const { chromium } = await import('playwright');
@@ -38,8 +38,8 @@ try {
      const section = page.locator(lang === 'en' ? '#solutions' : '#soluciones');
      await section.waitFor({ state:'attached', timeout:20000 });
      await page.waitForFunction(() => document.querySelector('#solutions[data-services-color-shift], #soluciones[data-services-color-shift]')?.querySelector('.sol-color-nav'), null, { timeout:12000 });
-     const cardLinks = await section.locator('.service-grid .tle-service-flip__cta').evaluateAll(nodes => nodes.map(node => node.getAttribute('href')));
-     assert.equal(cardLinks.length, 6, lang + ' ' + width + ': wrong service-card count');
+     const cardLinks = await section.locator('.service-grid .tle-service-static__link').evaluateAll(nodes => nodes.map(node => node.getAttribute('href')));
+     assert.equal(cardLinks.length, 5, lang + ' ' + width + ': wrong service-card count');
      assert(cardLinks.every(Boolean), 'Blank service link');
      const position = await section.evaluate(el => ({y:el.getBoundingClientRect().top + scrollY, height:el.offsetHeight}));
      await page.evaluate(y => { document.documentElement.style.scrollBehavior = 'auto'; scrollTo(0,y); }, position.y + position.height * .1 - (width < 600 ? 844 : 900)*.55);
@@ -51,7 +51,8 @@ try {
        navText:el.querySelector('.sol-color-counter')?.textContent
      }));
      assert(first.nav && first.navText, lang + ' ' + width + ': missing navigation');
-     if (width >= 768) {
+     const horizontalRail = await section.locator('.service-grid').evaluate(el => el.scrollWidth > el.clientWidth + 5);
+     if (width >= 768 || !horizontalRail) {
        await page.evaluate(y => scrollTo(0,y), position.y + position.height*.52 - 900*.55);
        await page.waitForTimeout(550);
        const second = await section.evaluate(el => ({bg:getComputedStyle(el).backgroundColor, phase:el.dataset.colorPhase}));
@@ -74,7 +75,7 @@ try {
        const nav=section.querySelector('.sol-color-nav');
        const rect=nav.getBoundingClientRect();
        return {
-         cardCount: section.querySelectorAll('.service-grid .tle-service-flip__cta[href]').length,
+         cardCount: section.querySelectorAll('.service-grid .tle-service-static__link[href]').length,
          navClipped: rect.right > innerWidth + 3 || rect.left < -3,
          sectionW: section.clientWidth, sectionScroll: section.scrollWidth,
          documentOverflow: document.documentElement.scrollWidth > innerWidth + 4,
@@ -86,7 +87,7 @@ try {
        assert.equal(navPosition,'relative',lang+' mobile progress pill must scroll above cards instead of covering text');
      }
 
-     assert.equal(safe.cardCount,6);
+     assert.equal(safe.cardCount,5);
      if (safe.documentOverflow) console.log('[PRE-EXISTING PAGE OVERFLOW — separate from service color effect]',lang,width);
      if (width === 390 || width === 1440) await page.screenshot({path:'qa-screenshots/services-colors-'+lang+'-'+width+'.png'});
      await page.close();

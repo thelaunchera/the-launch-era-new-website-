@@ -52,12 +52,12 @@ try{
    assert.equal(await btns.count(),2);
    assert.match(await btns.nth(0).getAttribute('href'),/booking-bundle/);
    assert.match(await btns.nth(1).getAttribute('href'),/booking-demo/);
-   assert.match(await page.locator('.booking-motion-hero .service-hero-actions a').first().getAttribute('href'),/sample-cleaning/);
+   assert.match(await page.locator('.booking-motion-hero .service-hero-actions a').first().getAttribute('href'),/experience-cleaning/);
   });
  }
  await check('/booking-lead-automation/',desktop,async page=>{
   assert.equal(await page.locator('.service-sales-pain').isVisible(),true);
-  assert.equal(await page.locator('.service-endcap').isVisible(),true);
+  assert.equal(await page.locator('.service-endcap').count(),0, 'Retired duplicate endcap stays removed');
  });
  for(const [lang,path] of [['en','/cleaning-web-app/'],['es','/es/cleaning-web-app/']]){
   await check(path,phone,async page=>{
@@ -76,10 +76,10 @@ try{
   assert.equal(await page.locator('.tle-bridge-grid').isVisible(),false);
   assert.equal(await page.locator('.tle-bridge-foot').isVisible(),true);
   assert.equal(await page.locator('#choose-plan').count(),1);
-  assert.equal(await page.locator('a[href^="/sample-cleaning/"]').count(),1);
+  assert.equal(await page.locator('a[href^="/experience-cleaning/"]').count(),1);
  });
  await check('/booking-bundle/',desktop,async page=>{
-  assert.equal(await page.locator('.tle-intro').isVisible(),true);
+  assert.equal(await page.locator('.tle-intro').isVisible(),false, 'Repeated introduction is explicitly hidden at every width');
   assert.equal(await page.locator('.tle-bridge-grid').isVisible(),true);
  });
  await check('/ai-booking-assistant/',phone,async page=>{
@@ -106,7 +106,7 @@ try{
  });
  await check('/whatsapp-ai-agent/',desktop,async page=>{
   assert.equal(await page.locator('.hero .art').isVisible(),true);
-  assert.equal(await page.locator('.features .feature:nth-child(4)').isVisible(),true);
+  assert.equal(await page.locator('.features .feature:nth-child(4)').isVisible(),false, 'Unreleased feature stays explicitly hidden at every width');
  });
 
  await check('/es/ai-booking-assistant/',phone,async page=>{

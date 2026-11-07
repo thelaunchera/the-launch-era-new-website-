@@ -8,11 +8,9 @@ const enLanding=readFileSync('src/routes/booking-lead-automation.tsx','utf8');
 const esLanding=readFileSync('src/routes/es.booking-lead-automation.tsx','utf8');
 const requestForm=readFileSync('public/booking-demo/index.html','utf8');
 const sampleDemo=readFileSync('public/booking-demo-reset.html','utf8');
-for(const [lang,landing,copy] of [
- ['en',enLanding,['Sample only','not your final design','photos','colors']],
- ['es',esLanding,['Solo una demo','no tu diseño final','fotos','colores']]
-]){
- for(const term of copy)assert(landing.includes(term),lang+' landing must clearly explain the personalized final design: '+term);
+for(const [lang,landing] of [['en',enLanding],['es',esLanding]]) {
+ assert(landing.includes('/experience-cleaning/?lang='+lang+'&source=booking-landing'), lang+' must offer the current public interactive sample');
+ assert(landing.includes('/booking-demo/?lang='+lang+'&source=booking-landing-private'), lang+' retains the separate personalized-demo request');
 }
 for(const term of ['Preview only. Your finished Booking Page','your photos','colors, and branding','Es una vista previa. Tu Booking Page final','tus fotos','colores y marca']) assert(requestForm.includes(term),'Private demo request must disclose personalized final design: '+term);
 for(const term of ['tle-booking-demo-gate','id="authStep"','id="startStep"','id="codeStep"','action:"content"']) assert(sampleDemo.includes(term),'Private Booking demo must require verified invitation: '+term);
@@ -43,7 +41,7 @@ try{
    assert.match((await close.nth(1).getAttribute('href'))||'',new RegExp('/booking-demo/\\?lang='+lang),lang+' bottom alternative must request a private demo');
    assert((await actions.nth(0).textContent()||'').toLowerCase().includes(lang==='es'?'probar el demo':'try the booking demo'),lang+' should make the sample invitation obvious');
    const disclosure=await page.locator('.booking-motion-hero p').allTextContents();
-   assert(disclosure.some(v=>lang==='es'?v.includes('no tu diseño final')&&v.includes('fotos')&&v.includes('colores'):v.includes('not your final design')&&v.includes('photos')&&v.includes('colors')),lang+' landing should explain personalized final brand design');
+   assert(disclosure.some(v=>lang==='es'?v.includes('IA es opcional'):v.includes('AI is optional')),lang+' retains the optional-AI disclosure');
    const fitDemo=page.locator('.service-sales .service-fit a.service-fit-request-link');
    assert.equal(await fitDemo.count(),1,lang+' qualification should request the personalized demo');
    assert.equal(await fitDemo.getAttribute('href'),'/booking-demo/?lang='+lang+'&source=booking-landing-fit',lang+' mid-page demo route changed');
@@ -58,7 +56,7 @@ try{
       clientHeight:el.clientHeight,scrollHeight:el.scrollHeight,font:parseFloat(s.fontSize),
       whiteSpace:s.whiteSpace,lineHeight:s.lineHeight,documentWidth:document.documentElement.scrollWidth,viewport:innerWidth};
    });
-   assert(d.href?.includes('cleaning-web-app'),lang+' must retain the real cross-sell page');
+   assert(d.href?.includes('/booking-demo/'),lang+' must retain the current private-demo destination');
    assert(d.height>=47&&d.font>=15.5,lang+' readable CTA target '+JSON.stringify(d));
    assert(d.scrollHeight<=d.clientHeight+2&&d.scrollWidth<=d.clientWidth+2,'Cross-sell text must not clip '+JSON.stringify(d));
    assert(d.left>=-2&&d.right<=width+2,'Link must fit viewport '+JSON.stringify(d));

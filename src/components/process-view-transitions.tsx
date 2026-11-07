@@ -110,7 +110,7 @@ export function ProcessSteps({ lang = 'en' }: { lang?: Language }) {
     }
     transitioning.current = true;
     const opening = next !== null;
-    if (opening) returnFocus.current = sourceButtons.current[index];
+    if (opening) returnFocus.current = sourceButtons.current[index] ?? null;
     const from = opening ? sourceThumbs.current[index]?.getBoundingClientRect() : detailHero.current?.getBoundingClientRect();
 
     // Exactly one source gets the transition name before the browser takes its first snapshot.
@@ -192,7 +192,7 @@ export function ProcessSteps({ lang = 'en' }: { lang?: Language }) {
     <p className="tle-process-hint">{strings.hint}</p>
     <div className="process-grid tle-process-grid">
       {strings.steps.map((item, index) => {
-        const photo = stepPhotos[index];
+        const photo = stepPhotos[index] ?? stepPhotos[0];
         const number = String(index + 1).padStart(2, '0');
         const isSource = active === null && shared === index;
         return <button
@@ -231,7 +231,7 @@ export function ProcessSteps({ lang = 'en' }: { lang?: Language }) {
         >
           <button ref={closeButton} type="button" className="tle-process-close" onClick={() => changeStep(null, active)} aria-label={strings.close}><X size={22}/></button>
           <div ref={detailHero} className="tle-process-detail-hero" style={{ viewTransitionName: shared === active ? motionName(active) : 'none' }}>
-            <img className="tle-process-detail-photo" src={stepPhotos[active].src} alt={stepPhotos[active].alt[lang]} decoding="async"/>
+            <img className="tle-process-detail-photo" src={(stepPhotos[active] ?? stepPhotos[0]).src} alt={(stepPhotos[active] ?? stepPhotos[0]).alt[lang]} decoding="async"/>
             <div className="tle-process-detail-index">{strings.step} {String(active + 1).padStart(2, '0')}</div>
           </div>
           <div className="tle-process-detail-body">

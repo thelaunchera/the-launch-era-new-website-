@@ -25,7 +25,7 @@ export function SmartWelcomeBundle({ lang = 'en' }: Props) {
 
   useEffect(() => {
     const controller = new AbortController();
-    let popupTimer: ReturnType<typeof setTimeout> | undefined;
+    let popupTimer: number | undefined;
     // The website never advertises an inactive promotion or invents a price.
     fetch(PRICING, { method: 'GET', headers: { Accept: 'application/json' }, cache: 'no-store', signal: controller.signal })
       .then((response) => {
@@ -68,6 +68,7 @@ export function SmartWelcomeBundle({ lang = 'en' }: Props) {
       const controls = Array.from(dialog.querySelectorAll<HTMLElement>('a[href],button:not([disabled])'));
       if (!controls.length) return;
       const first = controls[0], last = controls[controls.length - 1];
+      if (!first || !last) return;
       if (event.shiftKey && (document.activeElement === first || !dialog.contains(document.activeElement))) {
         event.preventDefault(); last.focus();
       } else if (!event.shiftKey && (document.activeElement === last || !dialog.contains(document.activeElement))) {

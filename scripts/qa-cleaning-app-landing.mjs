@@ -32,7 +32,7 @@ for(const [lang,slug] of [['en','/cleaning-web-app/'],['es','/es/cleaning-web-ap
     viewportWidth:window.innerWidth,
     featureFont:parseFloat(getComputedStyle(document.querySelector('.tle-app-feature p')).fontSize),
     leadFont:parseFloat(getComputedStyle(document.querySelector('.tle-app-lead')).fontSize),
-    priceFont:parseFloat(getComputedStyle(document.querySelector('.tle-app-price small')).fontSize),
+    priceFont:parseFloat(getComputedStyle(document.querySelector('.tle-app-trial-note')).fontSize),
     cssReady:getComputedStyle(document.querySelector('.tle-app-hero')).backgroundImage!=='none',
     blankPrice:document.querySelector('.tle-app-landing').innerText.includes('$—')
    }));
