@@ -1,3 +1,8 @@
+## 2026-11-07 — Experience Cleaning public demo: mobile booking ergonomics
+- Route unchanged: `/experience-cleaning/` is a simulated public sample; no bookings/emails/client state were sent or changed.
+- Styling limited to `body[data-tle-experience="cleaning"]` in the already-loaded `public/assets/tle-mobile-first-375.css`. Narrow-phone hero typography, 2-up service choices, readable labels, focus/touch targets, form fields and reduced-motion fallback; approved hero/photo, service labels, booking transitions and Command Center preview remain intact.
+- QA: run existing static route+demo checks, published page and iPhone-size form interaction without sending a live request; source commit alone does not establish device QA.
+
 ## 2026-11-07 — Existing CI guards stale after approved public UI refinements
 - **Evidence:** Official Website Landing QA expected a fixed `?v=1` stylesheet URL, while the live bilingual Gallery Hero page was version-bumped to `?v=2` during a separate concurrent update; the linked stylesheet itself still exists. The Five Signs guard expected 404 IDs `home-link/help-link`, while the current safe noindex 404 uses `home/demos` with a localized `/es/` link. Neither failure originated from a request submission or private tenant change.
 - **Safe repair:** update these source assertions to validate versioned gallery CSS and the existing home/demo fallback links instead of obsolete IDs. Preserve actual 404 visual design, gallery links, prices, checkout and user data. Verify CI again after a new push.

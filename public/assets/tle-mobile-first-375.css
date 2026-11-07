@@ -368,3 +368,32 @@
    overflow-wrap:break-word;
  }
 }
+
+
+/* Experience Cleaning — 2026-11-07 mobile booking usability */
+@media(max-width:767px){
+ body[data-tle-experience="cleaning"]{max-width:100%;overflow-x:clip}
+ body[data-tle-experience="cleaning"] .hero.hero-cleaning-site h1{font-size:clamp(38px,9.4vw,53px)!important;line-height:1.11!important;text-wrap:balance}
+ body[data-tle-experience="cleaning"] .hero-intro{font-size:16px!important;line-height:1.6!important}
+ body[data-tle-experience="cleaning"] :is(.experience-frame,.form-panel,.owner-dashboard,.request-preview,.stage,.stage-heading,.service-grid){min-width:0;max-width:100%}
+ body[data-tle-experience="cleaning"] :is(.service-grid,#commercial-service-grid){grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ body[data-tle-experience="cleaning"] .service-card{min-width:0}
+ body[data-tle-experience="cleaning"] .service-card strong{font-size:clamp(13px,3.6vw,16px)!important;line-height:1.35}
+ body[data-tle-experience="cleaning"] .service-card small{font-size:12px!important;line-height:1.4}
+ body[data-tle-experience="cleaning"] :is(.booking-category-tab,.service-card,.time-options label,.extras label){min-height:44px;touch-action:manipulation}
+ body[data-tle-experience="cleaning"] .booking-category-tab{min-height:51px}
+ body[data-tle-experience="cleaning"] .steps{overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-width:thin}
+ body[data-tle-experience="cleaning"] .steps .step{flex-shrink:0;min-width:0}
+ body[data-tle-experience="cleaning"] :is(.two-fields,.date-selector,.time-options){min-width:0;max-width:100%}
+ body[data-tle-experience="cleaning"] :is(input,select,textarea){font-size:16px!important;min-width:0;max-width:100%;box-sizing:border-box}
+ body[data-tle-experience="cleaning"] .form-actions :is(.button,button){min-height:48px;max-width:100%;white-space:normal}
+ body[data-tle-experience="cleaning"] :is(.service-card,.booking-category-tab,button,a,input,select,textarea):focus-visible{outline:3px solid #477bb3;outline-offset:3px}
+}
+@media(max-width:350px){
+ body[data-tle-experience="cleaning"] .hero.hero-cleaning-site h1{font-size:37px!important}
+ body[data-tle-experience="cleaning"] .service-grid{gap:8px}
+ body[data-tle-experience="cleaning"] .form-panel{padding-inline:0}
+}
+@media(prefers-reduced-motion:reduce){
+ body[data-tle-experience="cleaning"] :is(.hero-full-photo,.intro-band-track,.service-card,.booking-category-tab){animation:none!important;transition:none!important}
+}

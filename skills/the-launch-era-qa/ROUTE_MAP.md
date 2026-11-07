@@ -1,3 +1,8 @@
+## 2026-11-07 — Experience Cleaning public demo: mobile booking ergonomics
+- Route unchanged: `/experience-cleaning/` is a simulated public sample; no bookings/emails/client state were sent or changed.
+- Styling limited to `body[data-tle-experience="cleaning"]` in the already-loaded `public/assets/tle-mobile-first-375.css`. Narrow-phone hero typography, 2-up service choices, readable labels, focus/touch targets, form fields and reduced-motion fallback; approved hero/photo, service labels, booking transitions and Command Center preview remain intact.
+- QA: run existing static route+demo checks, published page and iPhone-size form interaction without sending a live request; source commit alone does not establish device QA.
+
 ## 2026-11-07 — Mobile-first editorial UX refinement (existing routes)
 - Source `thelaunchera/the-launch-era-new-website-`: existing 10 public demos under `/demos/{sova,golden-grid,la-vie-in-pink,marea-wigs-miami,havana-19,ivory-and-bloom,aftr,crumb,casa-brownie,lavender-edit}/`, bilingual `/website-for-your-business/` + `/es/website-for-your-business/` and React public sales surfaces `.sales-home/.service-sales`.
 - No routes, URLs, approved photos, product data, language translations, checkout contracts, auth or tenant state modified. Mobile type/tap targets/overflow and motion reduction updated through scoped existing CSS. Golden Grid yellow ticker gains explicit Pause/Resume control; all other interactions preserved.
