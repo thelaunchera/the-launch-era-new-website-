@@ -43,3 +43,15 @@ Preserves all original imagery, copy, forms, CTA and business functions. */
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero :is(a,button){transition:none!important}}
 
 @media(max-width:767px){.hero h1{font-size:clamp(43px,11vw,63px);line-height:1.05}.hero p.sub{font-size:16px;line-height:1.65;max-width:46ch}.hero :is(a,button){min-height:46px}.section h2{line-height:1.12}.hero>img{object-position:center}}
+
+
+/* Havana 19 desktop: immersive existing photography occupies the right side.
+   Keep zoom/reveal and bilingual links intact, changing composition only. */
+@media(min-width:1100px){
+  .hero{min-height:clamp(650px,64vw,860px);background:#251511}
+  .hero>img{inset:0 0 0 auto;width:61%;height:100%;object-fit:cover;object-position:52% center}
+  .hero:before{background:linear-gradient(90deg,#251511 0%,#251511 38%,rgba(37,21,17,.86) 46%,rgba(37,21,17,.08) 70%),linear-gradient(0deg,rgba(19,8,8,.42),transparent 30%)}
+  .hero .hero-content{left:6.2%;top:50%;max-width:min(41%,650px);transform:translateY(-46%)}
+  .hero .hero-content h1{font-size:clamp(67px,6.1vw,108px);max-width:11ch;line-height:1.01}
+  .hero .hero-content .sub{max-width:39ch;font-size:clamp(15px,1.15vw,18px);line-height:1.7}
+}
