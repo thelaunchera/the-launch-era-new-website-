@@ -6,6 +6,9 @@ const photos={
  es:['hero-jaramillo.svg','website-la-vie-in-pink-original.jpg','automated-crm-original.jpg','process-choose-original.jpg','process-brand-original.jpg','process-build-original.jpg','process-launch-original.jpg']
 };
 const css=readFileSync('public/assets/tle-website-official.css','utf8');
+const galleryCss=readFileSync('public/assets/tle-gallery-hero-20261107.css','utf8');
+assert.ok(galleryCss.includes('prefers-reduced-motion'),'reduced-motion gallery fallback');
+assert.ok(galleryCss.includes('scroll-snap-type:x mandatory'),'touch gallery on phone');
 assert.ok(css.includes('max-width:780px'),'phone CTA rules');
 assert.ok(css.includes('hero>img'),'hero photo');
 for(const [language,paths] of Object.entries(photos))
@@ -15,6 +18,9 @@ for(const r of routes){
  const html=readFileSync(r,'utf8');
  const language=r.includes('/es/')?'es':'en';
  for(const filename of photos[language])assert.ok(html.includes(filename),language+': missing photo '+filename+' at '+r);
+ assert.ok(html.includes('class="hero hero-gallery"'),'gallery hero not on '+language);
+ assert.ok(html.includes('/assets/tle-gallery-hero-20261107.css?v=1'),'gallery styles not linked on '+language);
+ assert.ok((html.match(/class="hero-gallery-card"/g)||[]).length===7,'seven gallery panels not present on '+language);
  for(const filename of photos[language==='es'?'en':'es'].slice(1))
   assert.ok(!html.includes(filename),language+': photo from other language leaked '+filename);
  assert.match(html,/id="website-basic"/);
@@ -31,4 +37,4 @@ for(const r of routes){
  assert.ok(html.includes('href="#proceso"'),'process anchor');
  assert.ok(html.includes('href="#preguntas"'),'FAQ anchor');
 }
-console.log('[TLE OFFICIAL LANDING] Hero unchanged, six English images and original six Spanish images, two prices, bilingual content, Stripe checkout before verified project onboarding and responsive CSS validated');
+console.log('[TLE OFFICIAL LANDING] Seven-card gallery, original approved photo and independent ES/EN package photos, pricing/checkout preserved, responsive CSS checked');
