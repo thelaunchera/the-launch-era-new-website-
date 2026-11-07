@@ -242,3 +242,10 @@ textarea { resize: vertical; }
  .product-meta h3{line-height:1.25}
  .editorial-card img{object-fit:contain}
 }
+
+/* MAREA | clean punctuation and readable editorial type, no emoji ornament. */
+.type-strip .strip-star{font-family:'DM Sans',Arial,sans-serif!important;color:#25211d!important;font-style:normal;font-weight:700;font-size:20px;line-height:1}
+.section .eyebrow,.hero .eyebrow{font-size:clamp(11px,1.1vw,13px);font-weight:700;letter-spacing:.13em}
+.section-lead,.hero-lead,.editorial-copy p{color:#48413b;font-weight:500;line-height:1.7}
+.section-heading h2,.hero h1{font-family:'DM Serif Display',Georgia,serif;letter-spacing:-.035em;line-height:1.08}
+@media(max-width:760px){.type-strip{gap:18px;font-size:clamp(12px,3.5vw,15px);padding:14px 10px}.type-strip .strip-star{font-size:16px}.section-heading h2{font-size:clamp(39px,10vw,52px)}.section-lead,.hero-lead{font-size:14px}}
