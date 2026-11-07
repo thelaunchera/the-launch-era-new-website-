@@ -1,3 +1,8 @@
+## 2026-11-07 — Ivory & Bloom fresh-view preview link
+
+- Public library `/demos/` Ivory & Bloom card now uses `https://thelaunchera.com/demos/ivory-and-bloom/?v=iphone-calendar-20261107` for all three of its preview/explore references; URL path and demo identity do not change. Query parameter is a cache-buster, not a new route or external destination.
+- 360px/390px WebKit calendar and non-sending preview verified in GitHub Actions run 42390371187; exact Instagram in-app-browser device confirmation still pending.
+
 ## 2026-11-07 — Ivory & Bloom native calendar replaced (iPhone Instagram regression)
 
 - Route still `https://thelaunchera.com/demos/ivory-and-bloom/`; unchanged gallery exit/preview and no network/form delivery endpoint. In the wedding inquiry only, the native `input[type=date]` was removed in favor of `#ib-date-trigger` and inline `#ib-date-calendar`; ISO date is held in `#ib-date-value[name=date]` for the existing preview summary.
