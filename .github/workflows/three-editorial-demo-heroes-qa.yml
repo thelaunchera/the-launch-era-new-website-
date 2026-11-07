@@ -16,6 +16,8 @@ on:
       - 'public/demos/ivory-and-bloom/**'
       - 'public/demos/havana-19/**'
       - 'scripts/qa-three-editorial-demo-heroes.mjs'
+      - 'scripts/qa-demo-inquiry-mobile.mjs'
+      - '.github/workflows/three-editorial-demo-heroes-qa.yml'
   workflow_dispatch:
 permissions:
   contents: read
