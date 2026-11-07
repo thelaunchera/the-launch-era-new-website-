@@ -1,3 +1,7 @@
+## 2026-11-07 — Existing CI guards stale after approved public UI refinements
+- **Evidence:** Official Website Landing QA expected a fixed `?v=1` stylesheet URL, while the live bilingual Gallery Hero page was version-bumped to `?v=2` during a separate concurrent update; the linked stylesheet itself still exists. The Five Signs guard expected 404 IDs `home-link/help-link`, while the current safe noindex 404 uses `home/demos` with a localized `/es/` link. Neither failure originated from a request submission or private tenant change.
+- **Safe repair:** update these source assertions to validate versioned gallery CSS and the existing home/demo fallback links instead of obsolete IDs. Preserve actual 404 visual design, gallery links, prices, checkout and user data. Verify CI again after a new push.
+
 ## 2026-11-07 — Reported mobile readability, oversized product art, excessive decorative UI
 - Owner-provided iPhone captures show: Golden Grid banner previously static, Crumb cookie cards dominated the screen, and Marea displayed unwanted green ornament. Existing demo CSS has multiple responsive overrides; consolidating those overrides is a follow-up technical-debt task.
 - Scoped corrective pass: the ten existing public demo hero-art-direction styles receive mobile text, tap-target, overflow, focus and motion fallbacks; Golden Grid receives a Pause/Resume control. Public site EN/ES page and main sales-home/service-sales receive isolated readability fixes. All original hero photos, business/checkout logic and routes are retained.

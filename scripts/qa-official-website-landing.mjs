@@ -19,7 +19,7 @@ for(const r of routes){
  const language=r.includes('/es/')?'es':'en';
  for(const filename of photos[language])assert.ok(html.includes(filename),language+': missing photo '+filename+' at '+r);
  assert.ok(html.includes('class="hero hero-gallery"'),'gallery hero not on '+language);
- assert.ok(html.includes('/assets/tle-gallery-hero-20261107.css?v=1'),'gallery styles not linked on '+language);
+ assert.match(html, /\/assets\/tle-gallery-hero-20261107\.css\?v=\d+/, 'gallery styles not linked on '+language);
  assert.ok((html.match(/class="hero-gallery-card"/g)||[]).length===7,'seven gallery panels not present on '+language);
  for(const filename of photos[language==='es'?'en':'es'].slice(1))
   assert.ok(!html.includes(filename),language+': photo from other language leaked '+filename);
