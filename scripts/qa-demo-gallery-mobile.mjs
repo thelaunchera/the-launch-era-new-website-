@@ -50,6 +50,16 @@ try{
  assert.equal(await page.locator('.demo-card').count(),16,'Gallery must contain exactly 16 original concepts');
  assert.equal(await page.locator('.card-preview-link').count(),16,'Every photo card needs a preview link');
  assert.equal(await page.locator('#viewer-close').count(),1);
+ const heroOrder=await page.evaluate(()=>{
+   const photo=document.querySelector('.hero-gallery');
+   const copy=document.querySelector('.intro-bottom');
+   const corners=[photo.querySelector('.hero-photo'),photo.querySelector('.hero-small'),document.querySelector('.demo-card .demo-art')]
+      .map(el=>parseFloat(getComputedStyle(el).borderTopLeftRadius));
+   return {photoBottom:photo.getBoundingClientRect().bottom,copyTop:copy.getBoundingClientRect().top,corners};
+ });
+ assert.ok(heroOrder.photoBottom < heroOrder.copyTop+3,'Mobile hero photography should appear before body description: '+JSON.stringify(heroOrder));
+ assert.ok(heroOrder.corners.every(radius=>radius>=16),'Hero and demo images must have soft rounded corners: '+JSON.stringify(heroOrder));
+ console.log('[EDITORIAL HERO]',JSON.stringify(heroOrder));
  const horizontal=await page.evaluate(()=>({scrollWidth:document.documentElement.scrollWidth,innerWidth:window.innerWidth}));
  assert.ok(horizontal.scrollWidth<=horizontal.innerWidth+2,'Mobile page overflow: '+JSON.stringify(horizontal));
  console.log('[MOBILE WIDTH]',JSON.stringify(horizontal));
@@ -116,6 +126,22 @@ try{
  assert.equal(await page.locator('#viewer-frame').getAttribute('src'),'https://thelaunchera.com/demos/havana-19/');
  await page.locator('#viewer-close').click();
  console.log('[ALIAS] Umbral -> Havana 19 OK');
+
+
+ // Motion-enabled mobile context verifies progressive enhancement; reduced-motion gallery above remains fully readable.
+ const motionContext=await browser.newContext({...devices['iPhone 13'],locale:'en-US',reducedMotion:'no-preference'});
+ try{
+   const motionPage=await motionContext.newPage();
+   await motionPage.goto(url,{waitUntil:'domcontentloaded',timeout:35000});
+   assert.equal(await motionPage.locator('html.gallery-motion-ready').count(),1,'Scroll effects should initialize for motion-enabled users');
+   const motionCard=motionPage.locator('.demo-card[data-brand="sova"]');
+   await motionCard.scrollIntoViewIfNeeded();
+   await motionPage.waitForFunction(()=>document.querySelector('.demo-card[data-brand="sova"]')?.classList.contains('is-inview'),null,{timeout:8000});
+   const noOverflow=await motionPage.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+2);
+   assert.ok(noOverflow,'Scroll effects must not create horizontal overflow');
+   await motionPage.screenshot({path:folder+'/iPhone-gallery-scroll.png'});
+   console.log('[SCROLL MOTION] reveal + no horizontal overflow OK');
+ }finally{await motionContext.close()}
 
  console.log('[PASS] 16 cards, three exact hero images, modal open/close, filters and iPhone scroll.');
 } finally{
