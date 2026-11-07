@@ -1,7 +1,7 @@
 // Regression: compact native dates and non-submitting inquiry feedback in iPhone-size layouts.
 import assert from 'node:assert/strict';
 import {chromium,devices} from 'playwright';
-const root=(process.env.QA_URL||'http://127.0.0.1:4191').replace(/\\/$/,'');
+const root=(process.env.QA_URL||'http://127.0.0.1:4191').replace(/[/]$/,'');
 const browser=await chromium.launch({headless:true});
 const context=await browser.newContext({...devices['iPhone 13'],reducedMotion:'reduce'});
 const paths=[
