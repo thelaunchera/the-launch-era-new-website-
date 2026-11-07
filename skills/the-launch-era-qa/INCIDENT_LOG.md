@@ -1,3 +1,8 @@
+## 2026-11-07 — Blank mobile preview while external demo iframe loads
+- **Evidence:** iPhone-emulated Gallery QA screenshots taken after iframe `main` was visible showed white content for CRUMB and Jaramillo while La Vie in Pink loaded visibly. A visible iframe DOM does not guarantee an actual painted frame.
+- **Repair:** `public/demos/index.html` now shows a minimal editorial loading state, the selected project name and a real `Open full website` link, then reveals the iframe after its `load` event; hides loading for reduced motion and resets state after closing. No demo contents, URLs, contact details, data or original photographs changed.
+- **Validation:** the first successful mobile rerun showed CRUMB's real hero, and the Jaramillo loading fallback instead of blank. A stronger regression now waits for actual iframe load and checks loading-state completion; published Safari-device acceptance is a separate gate.
+
 ## 2026-11-07 — Experience Cleaning public demo: mobile booking ergonomics
 - Route unchanged: `/experience-cleaning/` is a simulated public sample; no bookings/emails/client state were sent or changed.
 - Styling limited to `body[data-tle-experience="cleaning"]` in the already-loaded `public/assets/tle-mobile-first-375.css`. Narrow-phone hero typography, 2-up service choices, readable labels, focus/touch targets, form fields and reduced-motion fallback; approved hero/photo, service labels, booking transitions and Command Center preview remain intact.

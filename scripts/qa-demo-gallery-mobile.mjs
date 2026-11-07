@@ -33,6 +33,9 @@ async function checkOpenAndClose(slug,expected){
  await frame.locator('main').first().waitFor({state:'visible',timeout:25000});
  const bodyText=await frame.locator('body').innerText({timeout:15000});
  assert.ok(bodyText.toLowerCase().includes(expected.toLowerCase()),'Preview should contain its correct brand: '+slug);
+ assert.equal(await page.locator('#viewer-loading-direct').getAttribute('href'),url,'Loading fallback must open the exact original demo URL');
+ await page.locator('#viewer-stage.is-ready').waitFor({state:'attached',timeout:30000});
+ assert.equal(await page.locator('#viewer-stage').getAttribute('aria-busy'),'false','Preview should finish its loading state');
  await page.screenshot({path:folder+'/'+slug+'-open.png'});
  await page.locator('#viewer-close').click();
  assert.equal(await modal.evaluate(el=>el.open),false,'Close demo must return to gallery');
