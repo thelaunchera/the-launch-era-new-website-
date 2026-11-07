@@ -18,3 +18,8 @@ console.log('PASS: no green decorative emoji in published demos or relevant sour
 const liveBundle=readFileSync('public/demos/la-vie-in-pink/assets/index-BnbJ7qEi.js','utf8');
 assert(!liveBundle.includes('children:"·"')&&!liveBundle.includes('·   BONJOUR'),'Substitute decorative dots remain');
 assert(liveBundle.includes('O==="es"?"Ver":"View"'),'Compiled bilingual view control missing');
+
+import {execFileSync} from 'node:child_process';
+for(const path of ['public/demos/la-vie-in-pink/assets/index-BnbJ7qEi.js','public/demos/marea-wigs-miami/assets/index-CxF6j5zA.js'])execFileSync(process.execPath,['--check',path],{stdio:'pipe'});
+for(const [path,asset] of [['public/demos/la-vie-in-pink/index.html','index-BnbJ7qEi.js?v=20261107clean'],['public/demos/marea-wigs-miami/index.html','index-CxF6j5zA.js?v=20261107clean']])assert(readFileSync(path,'utf8').includes(asset),'Updated bundle must bypass old phone cache: '+path);
+console.log('PASS: published compiled JS syntax and cache-busting links');
