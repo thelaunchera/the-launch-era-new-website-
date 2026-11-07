@@ -1,4 +1,4 @@
-// Guard the approved hero and all seven independent interior photos on the bilingual website landing.
+// Guard the approved hero asset inside the new user-requested gallery and preserve independent interior photos.
 import {readFileSync,existsSync} from 'node:fs';
 const en=readFileSync('public/website-for-your-business/index.html','utf8');
 const es=readFileSync('public/es/website-for-your-business/index.html','utf8');
@@ -25,10 +25,12 @@ const expectedByLanguage={
 function assert(test, message){if(!test)throw new Error(message);}
 for(const [language,html] of [['en',en],['es',es]]){
  const expected=expectedByLanguage[language];
- const hero=html.match(/<section class="hero" id="inicio">([\s\S]*?)<\/section>/)?.[1];
+ const hero=html.match(/<section class="hero hero-gallery" id="inicio">([\s\S]*?)<\/section>/)?.[1];
  assert(hero,language+': hero missing');
- assert(hero.includes('src="'+photoRoot+'hero-jaramillo.svg"'),language+': approved original hero was replaced');
- assert(!hero.includes('automated-crm')&&!hero.includes('process-'),language+': interior photo intrudes into hero');
+ assert(hero.includes('src="'+photoRoot+'hero-jaramillo.svg"'),language+': approved Jaramillo image missing from gallery');
+ assert(hero.includes('hero-gallery-stage'),language+': gallery composition missing');
+ assert((hero.match(/class="hero-gallery-card"/g)||[]).length===7,language+': expected seven distinct demo cards');
+ assert(!hero.includes('automated-crm')&&!hero.includes('process-'),language+': checkout/process photo intrudes into gallery');
  const basic=html.match(/<article class="plan" id="website-basic">([\s\S]*?)<\/article>/)?.[1];
  const advanced=html.match(/<article class="plan" id="website-ai-crm">([\s\S]*?)<\/article>/)?.[1];
  const process=html.match(/<section class="process" id="proceso">([\s\S]*?)<\/section>/)?.[1];
@@ -49,4 +51,4 @@ for(const [language,html] of [['en',en],['es',es]]){
 const photoStyles=css.split('/* 2026-11-05 image placement: keep original hero untouched. */')[1];
 assert(photoStyles&&!photoStyles.includes('.hero'), 'Photo styling inadvertently edits hero');
 assert(photoStyles.includes('object-fit:contain'), 'Uncropped interior photo styling missing');
-console.log('PASS: hero untouched, six unique English images, six preserved Spanish images, pricing and delivery aligned.');
+console.log('PASS: seven-card gallery includes approved Jaramillo asset, package photos remain language-correct, prices and delivery unchanged.');

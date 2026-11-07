@@ -5,6 +5,8 @@ on:
       - 'public/website-for-your-business/**'
       - 'public/es/website-for-your-business/**'
       - 'public/assets/tle-website-official.css'
+      - 'public/assets/tle-gallery-hero-20261107.css'
+      - 'scripts/qa-website-photo-placement.mjs'
       - 'public/assets/website-packages-20261105/**'
       - 'scripts/qa-official-website-landing.mjs'
       - 'scripts/qa-website-checkout-flow.mjs'
@@ -21,6 +23,8 @@ on:
       - 'public/website-for-your-business/**'
       - 'public/es/website-for-your-business/**'
       - 'public/assets/tle-website-official.css'
+      - 'public/assets/tle-gallery-hero-20261107.css'
+      - 'scripts/qa-website-photo-placement.mjs'
       - 'public/assets/website-packages-20261105/**'
       - 'scripts/qa-official-website-landing.mjs'
       - 'scripts/qa-website-checkout-flow.mjs'
@@ -42,6 +46,8 @@ jobs:
           node-version: '22'
       - run: |
           node scripts/qa-official-website-landing.mjs
+          node scripts/qa-website-photo-placement.mjs
+          node scripts/qa-route-integrity.mjs --static
           node scripts/qa-website-checkout-flow.mjs
           node --check public/assets/tle-website-intake.js
           node --check public/assets/tle-custom-app-request.js

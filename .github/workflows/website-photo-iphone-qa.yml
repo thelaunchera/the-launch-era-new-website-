@@ -7,8 +7,16 @@ on:
       - '.github/workflows/website-photo-iphone-qa.yml'
       - 'public/website-for-your-business/index.html'
       - 'public/es/website-for-your-business/index.html'
+      - 'public/assets/tle-gallery-hero-20261107.css'
       - 'public/assets/website-packages-20261105/*-en.png'
       - 'public/assets/website-packages-20261105/*-en.jpg'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'public/website-for-your-business/**'
+      - 'public/es/website-for-your-business/**'
+      - 'public/assets/tle-gallery-hero-20261107.css'
+      - 'scripts/qa-website-photo-iphone.mjs'
   workflow_dispatch:
 permissions:
   contents: read
@@ -43,5 +51,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: website-photos-iphone-qa
-          path: qa-screenshots/website-process-*-iphone.png
+          path: |
+            qa-screenshots/website-process-*-iphone.png
+            qa-screenshots/website-gallery-*-iphone.png
           if-no-files-found: ignore

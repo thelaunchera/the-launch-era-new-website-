@@ -46,6 +46,10 @@ jobs:
           npx playwright install --with-deps chromium
           cd "$GITHUB_WORKSPACE"
           ln -s /tmp/tle-bundle-qa/node_modules node_modules
+      - name: Build first-party optimized bundle photos for offline browser tests
+        run: |
+          python3 -m pip install --quiet Pillow
+          python3 scripts/build_mobile_flow_assets.py
       - name: Test fixture demos and original purchase options at six sizes/languages
         run: |
           node scripts/qa-bundle-sales-browser.mjs

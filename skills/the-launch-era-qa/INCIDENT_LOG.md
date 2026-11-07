@@ -1,3 +1,9 @@
+## 2026-11-07 — Booking Bundle CI check stale after approved WebP optimization
+- **Observed:** `Bundle Sales Landing QA` on Gallery Hero PR #411 failed "Landing missing approved photo hero". The failed page is `public/booking-bundle/index.html`, unchanged by the gallery feature.
+- **Verified source cause:** the existing page references `/assets/bundle-landing/optimized/{hero,booking,command,ai}.webp`, while `scripts/qa-bundle-sales-landing.mjs` still asserted old `/assets/bundle-landing/bundle-{name}.png` references in markup. The original PNG hash/size guard remains necessary and unchanged.
+- **Safe repair:** update only the test to require existing optimized WebP assets and correct page references, while preserving original PNG hash/size checks and checkout/business logic. No booking UI, prices, traffic, customer data or assets modified.
+- **Verification status:** source-level cause confirmed; PR workflow rerun pending. Do not infer this fixes any other incident.
+
 ## 2026-11-03 — Public 404 incorrectly offers Command Center to marketing visitors
 - **Observed:** user screenshot of unpublished `/5-signs-cleaning-business` showed the current public 404 with English and Spanish mixed and an `Open Command Center` button.
 - **Verified source causes:** PR #402 was unmerged (marketing URL not yet published); `public/404.html` explicitly included `href="/command-center/"`, private-account copy and mixed languages. It was a link, not a forced redirect.
