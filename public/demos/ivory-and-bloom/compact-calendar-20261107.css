@@ -1,0 +1,37 @@
+/* Ivory & Bloom — calendar completely independent of iOS native date-picker UI.
+   Inline, touch-friendly, no overlay or viewport overflow. */
+.ib-date-field{min-width:0;max-width:100%;margin:0 0 20px;position:relative}
+.ib-date-label{display:block;font:700 12px/1.45 'DM Sans',Arial,sans-serif;letter-spacing:.025em;margin-bottom:8px;color:#332924}
+.ib-date-label em{font-style:normal;color:#a77f6c}
+#ib-date-trigger{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-width:0;max-width:100%;height:50px;min-height:50px;box-sizing:border-box;border:1px solid #cdbeb0;border-radius:5px;background:#fffcf8;padding:0 14px;font:500 16px/1.25 'DM Sans',Arial,sans-serif;color:#7c6d62;text-align:left;white-space:normal;cursor:pointer;-webkit-appearance:none;appearance:none}
+#ib-date-trigger[data-selected="true"]{color:#332924;border-color:#907569}
+#ib-date-trigger:focus-visible{outline:2px solid #967362;outline-offset:3px}
+#ib-date-trigger[aria-invalid="true"]{border-color:#ac5143}
+.ib-date-icon{flex:none;position:relative;width:18px;height:17px;border:1.7px solid #8d7668;border-radius:3px}
+.ib-date-icon:before{content:"";position:absolute;left:0;right:0;top:4px;border-top:1.6px solid #8d7668}
+.ib-date-icon:after{content:"";position:absolute;top:-4px;left:4px;width:7px;height:5px;border-left:2px solid #8d7668;border-right:2px solid #8d7668}
+#ib-date-error{margin:7px 0 0;font:500 12px/1.4 'DM Sans',Arial,sans-serif;color:#a2493c}
+#ib-date-error[hidden],#ib-date-calendar[hidden]{display:none!important}
+#ib-date-calendar{position:relative;z-index:1;width:100%;max-width:100%;min-width:0;box-sizing:border-box;margin:10px 0 0;padding:12px 10px 14px;background:#fffdf9;border:1px solid #d6c6ba;border-radius:8px;box-shadow:0 10px 20px #3b28230e;color:#332924}
+.ib-calendar-controls{display:grid;grid-template-columns:42px minmax(0,1fr) 42px;gap:4px;align-items:center;margin-bottom:14px}
+.ib-calendar-nav{display:grid;place-items:center;width:42px;height:42px;padding:0;background:#f6ece5;border:1px solid #dfd1c6;border-radius:5px;color:#533a32;font:600 22px/1 'DM Sans',Arial,sans-serif}
+.ib-calendar-nav[disabled]{opacity:.3;cursor:not-allowed}
+.ib-calendar-selects{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.85fr);gap:4px;min-width:0}
+#ib-calendar-month,#ib-calendar-year{appearance:auto;-webkit-appearance:menulist;box-sizing:border-box;min-width:0;max-width:100%;width:100%;height:42px;margin:0;padding:0 3px;border:1px solid #dfd1c6;border-radius:5px;background:#fffdfa;color:#47372f;font:500 13px/1 'DM Sans',Arial,sans-serif;text-align:center}
+.ib-calendar-weekdays,.ib-calendar-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;min-width:0}
+.ib-calendar-weekdays{margin-bottom:7px}
+.ib-calendar-weekdays span{display:grid;place-items:center;min-width:0;font:600 10px/1.4 'DM Sans',Arial,sans-serif;color:#8a7566}
+.ib-calendar-days button,.ib-calendar-days .ib-calendar-empty{box-sizing:border-box;min-width:0;min-height:39px;width:100%;display:grid;place-items:center;padding:0;border:1px solid transparent;background:transparent;border-radius:5px;font:500 13px/1.2 'DM Sans',Arial,sans-serif;color:#42322c}
+.ib-calendar-days button:focus-visible{outline:2px solid #75584a;outline-offset:-2px}
+.ib-calendar-days button:not(:disabled):active{background:#e9d5c8}
+.ib-calendar-days button[disabled]{opacity:.25;cursor:not-allowed}
+.ib-calendar-days button[aria-pressed="true"]{background:#75584a!important;color:#fff!important;font-weight:700}
+.ib-calendar-days button[data-today="true"]:not([aria-pressed="true"]){border-color:#b89a88}
+.ib-calendar-caption{margin:12px 0 0;font:400 11px/1.5 'DM Sans',Arial,sans-serif;color:#8b7669;text-align:center}
+@media(max-width:390px){
+ #ib-date-calendar{padding:11px 7px}
+ .ib-calendar-controls{grid-template-columns:40px minmax(0,1fr) 40px;gap:3px}
+ .ib-calendar-nav{width:40px;height:40px}
+ .ib-calendar-days button{min-height:39px}
+}
+@media(prefers-reduced-motion:reduce){#ib-date-calendar *,#ib-date-trigger{animation:none!important;transition:none!important}}
