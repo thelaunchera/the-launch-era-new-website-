@@ -24,3 +24,22 @@ Preserves all original imagery, copy, forms, CTA and business functions. */
 .hero .hero-qualities,.hero .hero-foot,.hero .hero-aside,.hero .hero-stamp,
 .hero h1 span,.hero h1 em,.hero-editorial picture img{animation:none!important}
 }
+
+
+/* TLE mobile-first release 2026-11-07 | one brand, one source, no new photos or routes */
+@media(max-width:767px){
+ html{scroll-padding-top:76px;-webkit-text-size-adjust:100%}
+ body{max-width:100%;overflow-x:clip}
+ main,section,.hero,.hero-copy,.hero-content,.hero-art,.hero-media,.hero-visual,.section-heading{min-width:0}
+ img,video,picture{max-width:100%}
+ h1,h2,h3{text-wrap:balance;overflow-wrap:break-word}
+ p,li{overflow-wrap:break-word}
+ :is(input,select,textarea){font-size:16px!important;min-width:0;max-width:100%;box-sizing:border-box}
+ :is(a,button,[role="button"]){touch-action:manipulation}
+ :is(a,button,input,select,textarea,[role="button"]):focus-visible{outline:3px solid currentColor;outline-offset:3px}
+ .hero :is(.button,.btn,.button-primary,.primary-button,.hero-link,.hero-start-link,.hero-editorial-cta){min-height:46px;display:inline-flex;align-items:center;justify-content:center;max-width:100%;text-align:center}
+ .hero :is(.lead,.hero-lead,.hero-description,.hero-body,.hero-summary){font-size:clamp(15px,3.9vw,17px);line-height:1.58}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero :is(a,button){transition:none!important}}
+
+@media(max-width:767px){.hero h1{font-size:clamp(38px,9.8vw,55px);line-height:1.1;letter-spacing:-.04em}.hero .hero-description{font-size:16px;line-height:1.65}.section h2,.section-heading h2{line-height:1.13;max-width:100%}.hero :is(.button-primary,.button){font-size:14px;font-weight:700}}

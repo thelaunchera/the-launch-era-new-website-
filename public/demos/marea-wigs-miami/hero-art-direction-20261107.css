@@ -34,3 +34,22 @@ Preserves all original imagery, copy, forms, CTA and business functions. */
 .section-lead,.hero-lead,.editorial-copy p{color:#48413b;font-weight:500;line-height:1.7}
 .section-heading h2,.hero h1{font-family:'DM Serif Display',Georgia,serif;letter-spacing:-.035em;line-height:1.08}
 @media(max-width:760px){.type-strip{gap:18px;font-size:clamp(12px,3.5vw,15px);padding:14px 10px}.type-strip .strip-star{font-size:16px}.section-heading h2{font-size:clamp(39px,10vw,52px)}.section-lead,.hero-lead{font-size:14px}}
+
+
+/* TLE mobile-first release 2026-11-07 | one brand, one source, no new photos or routes */
+@media(max-width:767px){
+ html{scroll-padding-top:76px;-webkit-text-size-adjust:100%}
+ body{max-width:100%;overflow-x:clip}
+ main,section,.hero,.hero-copy,.hero-content,.hero-art,.hero-media,.hero-visual,.section-heading{min-width:0}
+ img,video,picture{max-width:100%}
+ h1,h2,h3{text-wrap:balance;overflow-wrap:break-word}
+ p,li{overflow-wrap:break-word}
+ :is(input,select,textarea){font-size:16px!important;min-width:0;max-width:100%;box-sizing:border-box}
+ :is(a,button,[role="button"]){touch-action:manipulation}
+ :is(a,button,input,select,textarea,[role="button"]):focus-visible{outline:3px solid currentColor;outline-offset:3px}
+ .hero :is(.button,.btn,.button-primary,.primary-button,.hero-link,.hero-start-link,.hero-editorial-cta){min-height:46px;display:inline-flex;align-items:center;justify-content:center;max-width:100%;text-align:center}
+ .hero :is(.lead,.hero-lead,.hero-description,.hero-body,.hero-summary){font-size:clamp(15px,3.9vw,17px);line-height:1.58}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero :is(a,button){transition:none!important}}
+
+@media(max-width:767px){.hero h1{font-size:clamp(40px,10.5vw,58px);line-height:1.07;font-weight:500}.hero .hero-lead{font-size:16px;line-height:1.6}.section-heading h2{font-size:clamp(37px,9.6vw,52px);line-height:1.12}.type-strip .strip-star{font-size:16px;color:#191919}.section :is(.eyebrow,.kicker){font-size:11px;font-weight:700}.hero .hero-link{min-height:46px}}

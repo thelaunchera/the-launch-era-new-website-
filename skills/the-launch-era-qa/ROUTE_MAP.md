@@ -1,3 +1,8 @@
+## 2026-11-07 — Mobile-first editorial UX refinement (existing routes)
+- Source `thelaunchera/the-launch-era-new-website-`: existing 10 public demos under `/demos/{sova,golden-grid,la-vie-in-pink,marea-wigs-miami,havana-19,ivory-and-bloom,aftr,crumb,casa-brownie,lavender-edit}/`, bilingual `/website-for-your-business/` + `/es/website-for-your-business/` and React public sales surfaces `.sales-home/.service-sales`.
+- No routes, URLs, approved photos, product data, language translations, checkout contracts, auth or tenant state modified. Mobile type/tap targets/overflow and motion reduction updated through scoped existing CSS. Golden Grid yellow ticker gains explicit Pause/Resume control; all other interactions preserved.
+- QA: check 320/360/390/430/768/1024/1440, banner play/pause & ES/EN, demo links, safe-area/touch targets, language switch, live Pages deployment and published CSS. Source update is not device acceptance.
+
 ## 2026-11-07 — Demo editorial heroes phase 1 (review, not production)
 - **Routes unchanged:** /demos/golden-grid/, /demos/ivory-and-bloom/, /demos/havana-19/. No new CTA, payment, navigation, data, tenant or asset file.
 - **Golden Grid:** desktop Full-Bleed composition using existing `resources/golden-1.png`, oversized two-line headline, original bilingual copy and CTA `#collection`. Mobile retains its original responsive stack. Entry animation only.

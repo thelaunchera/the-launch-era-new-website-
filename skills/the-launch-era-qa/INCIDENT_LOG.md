@@ -1,3 +1,8 @@
+## 2026-11-07 — Reported mobile readability, oversized product art, excessive decorative UI
+- Owner-provided iPhone captures show: Golden Grid banner previously static, Crumb cookie cards dominated the screen, and Marea displayed unwanted green ornament. Existing demo CSS has multiple responsive overrides; consolidating those overrides is a follow-up technical-debt task.
+- Scoped corrective pass: the ten existing public demo hero-art-direction styles receive mobile text, tap-target, overflow, focus and motion fallbacks; Golden Grid receives a Pause/Resume control. Public site EN/ES page and main sales-home/service-sales receive isolated readability fixes. All original hero photos, business/checkout logic and routes are retained.
+- **Status:** source-level implementation only until Pages CI and responsive browser checks complete. Do not claim actual iPhone screenshots or interaction smoke tests were performed without evidence.
+
 ## 2026-11-07 — Booking Bundle CI check stale after approved WebP optimization
 - **Observed:** `Bundle Sales Landing QA` on Gallery Hero PR #411 failed "Landing missing approved photo hero". The failed page is `public/booking-bundle/index.html`, unchanged by the gallery feature.
 - **Verified source cause:** the existing page references `/assets/bundle-landing/optimized/{hero,booking,command,ai}.webp`, while `scripts/qa-bundle-sales-landing.mjs` still asserted old `/assets/bundle-landing/bundle-{name}.png` references in markup. The original PNG hash/size guard remains necessary and unchanged.

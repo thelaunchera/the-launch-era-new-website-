@@ -37,3 +37,22 @@ Preserves all original imagery, copy, forms, CTA and business functions. */
 .hero .eyebrow,.section .eyebrow{font-weight:800;letter-spacing:.14em}
 .hero .lead,.section-note,.product>p{font-weight:500;line-height:1.6}
 @media(max-width:760px){.hero .lead,.section-note,.product>p{font-size:clamp(14px,3.7vw,16px)}.section-heading h2{line-height:1.09}}
+
+
+/* TLE mobile-first release 2026-11-07 | one brand, one source, no new photos or routes */
+@media(max-width:767px){
+ html{scroll-padding-top:76px;-webkit-text-size-adjust:100%}
+ body{max-width:100%;overflow-x:clip}
+ main,section,.hero,.hero-copy,.hero-content,.hero-art,.hero-media,.hero-visual,.section-heading{min-width:0}
+ img,video,picture{max-width:100%}
+ h1,h2,h3{text-wrap:balance;overflow-wrap:break-word}
+ p,li{overflow-wrap:break-word}
+ :is(input,select,textarea){font-size:16px!important;min-width:0;max-width:100%;box-sizing:border-box}
+ :is(a,button,[role="button"]){touch-action:manipulation}
+ :is(a,button,input,select,textarea,[role="button"]):focus-visible{outline:3px solid currentColor;outline-offset:3px}
+ .hero :is(.button,.btn,.button-primary,.primary-button,.hero-link,.hero-start-link,.hero-editorial-cta){min-height:46px;display:inline-flex;align-items:center;justify-content:center;max-width:100%;text-align:center}
+ .hero :is(.lead,.hero-lead,.hero-description,.hero-body,.hero-summary){font-size:clamp(15px,3.9vw,17px);line-height:1.58}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero :is(a,button){transition:none!important}}
+
+@media(max-width:767px){.hero h1{font-size:clamp(43px,11.4vw,61px);line-height:1.05}.section-heading h2{font-size:clamp(40px,10.2vw,53px);line-height:1.11}.section-note{font-size:15px;line-height:1.6}.product h3,.product-title h3{line-height:1.18}.ticker{position:relative}.ticker-group{gap:clamp(23px,6vw,36px)}}.ticker-toggle{position:absolute;z-index:5;right:10px;top:50%;transform:translateY(-50%);border:1px solid #bd412a;background:#fff9e8;color:#a22b1d;border-radius:999px;padding:9px 12px;min-width:44px;min-height:44px;font:800 11px/1.2 'DM Sans',Arial,sans-serif;cursor:pointer}.ticker-toggle:focus-visible{outline:3px solid #243f63;outline-offset:3px}.ticker[data-paused="true"] .ticker-track{animation-play-state:paused!important}@media(prefers-reduced-motion:reduce){.ticker-track{animation:none!important}.ticker-toggle{display:none}}

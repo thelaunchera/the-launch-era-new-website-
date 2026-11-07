@@ -1736,3 +1736,20 @@ img { display:block; width:100%; object-fit:cover; }
  .sales-home .homepage-demo-contact,
  .sales-home .homepage-contact-panel { min-width:0; max-width:100%; }
 }
+
+
+/* 2026-11-07 public marketing mobile usability — excludes app, members, demos and booking */
+@media(max-width:767px){
+ .sales-home,.service-sales{max-width:100%;overflow-x:clip}
+ .sales-home :is(.hero-intro,.hero-copy,.section-heading,.container),
+ .service-sales :is(.service-hero,.section-heading,.container){min-width:0;max-width:100%}
+ .sales-home :is(h1,h2,h3),.service-sales :is(h1,h2,h3){text-wrap:balance;overflow-wrap:break-word}
+ .sales-home :is(.hero-intro>p,.section-heading>p,.hero-copy>p),
+ .service-sales :is(.service-hero>p,.section-heading>p){font-size:clamp(15px,3.9vw,17px);line-height:1.62}
+ .sales-home :is(.cta-button,.service-demo-link),
+ .service-sales :is(.cta-button,.service-cta){min-height:48px;max-width:100%;white-space:normal;text-align:center}
+ .sales-home :is(input,textarea,select),
+ .service-sales :is(input,textarea,select){font-size:16px;max-width:100%;min-width:0}
+ .sales-home :is(a,button,input,textarea,select):focus-visible,
+ .service-sales :is(a,button,input,textarea,select):focus-visible{outline:3px solid #477bb3;outline-offset:3px}
+}

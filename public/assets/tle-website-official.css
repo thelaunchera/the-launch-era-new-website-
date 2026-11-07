@@ -84,3 +84,31 @@ html,body{margin:0;background:#FAF8F3}a:focus-visible,button:focus-visible,summa
 
 /* Short inline billing disclosure inside the AI package card; no paragraph after CTA. */
 .tle-universal .billing-compact{margin:3px 0 12px;color:#4c4844;font-size:12px;line-height:1.45;font-weight:600}
+
+
+/* 2026-11-07 official website mobile UX | EN and ES; checkout/hero media preserved */
+@media(max-width:767px){
+ .tle-universal{max-width:100%;overflow-x:clip;-webkit-text-size-adjust:100%}
+ .tle-universal :is(.container,.hero-gallery-copy,.section-title,.plan-content,.app-copy){min-width:0;max-width:100%}
+ .tle-universal :is(h1,h2,h3){text-wrap:balance;overflow-wrap:break-word}
+ .tle-universal :is(p,li){overflow-wrap:break-word}
+ .tle-universal .container{width:calc(100% - 36px)}
+ .tle-website-top .tle-website-language{min-height:44px}
+ .tle-website-top .tle-website-nav a{min-height:44px;display:inline-flex;align-items:center}
+ .tle-universal .section-title>p{font-size:16px;line-height:1.6}
+ .tle-universal .feature p{font-size:14px;line-height:1.53}
+ .tle-universal .plan li{font-size:14px;line-height:1.58}
+ .tle-universal .process .step p{font-size:14px;line-height:1.58}
+ .tle-universal .billing-compact,.tle-universal .fine{font-size:13px;line-height:1.58}
+ .tle-universal :is(.plan .btn,.hero .btn,.app-card .btn){min-height:48px;font-size:15px}
+ .tle-universal :is(input,select,textarea){font-size:16px;max-width:100%}
+ .tle-universal #paquetes,.tle-universal #proceso,.tle-universal #preguntas{scroll-margin-top:84px}
+}
+@media(max-width:390px){
+ .tle-website-top{padding-inline:12px;gap:7px}
+ .tle-website-top .tle-website-nav{gap:7px}
+ .tle-website-top .tle-website-logo{width:112px;min-width:104px}
+ .tle-universal .plan-content{padding:19px 17px}
+ .tle-universal .process-grid{gap:26px 14px}
+}
+@media(prefers-reduced-motion:reduce){.tle-universal :is(.btn,.hero-gallery-card){transition:none!important;animation:none!important}}
