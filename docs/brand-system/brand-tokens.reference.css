@@ -1,0 +1,81 @@
+/**
+ * THE LAUNCH ERA — Brand tokens (REFERENCE ONLY)
+ * Creative meets Premium · 2026-10-18
+ *
+ * Documentation artifact. Not imported by the site.
+ * Do not attach this file to __root.tsx, live stylesheets, booking demos,
+ * client spaces, authenticated Command Centers, or Cleaning App runtime.
+ * These tokens inform a separate owner-approved visual PR.
+ */
+:root {
+  --tle-brand-ivory: #FAF8F3;
+  --tle-brand-blue: #D7EFFF;
+  --tle-brand-blue-hover: #C8E5F6;
+  --tle-brand-ice: #EAF4FC;
+  --tle-brand-black: #191919;
+  --tle-brand-slate: #52616B;
+  --tle-brand-blue-ink: #345E76;
+  --tle-brand-border: #D9E3E8;
+  --tle-brand-focus: #356E8C;
+  --tle-brand-yellow-accent-only: #F2D85B;
+  --tle-brand-font-heading: 'Prompt', 'DM Sans', sans-serif;
+  --tle-brand-font-body: Futura, 'DM Sans', 'Avenir Next', Arial, sans-serif;
+  --tle-brand-radius-card: 20px;
+  --tle-brand-radius-cta: 999px;
+  --tle-brand-shadow-card: 0 12px 30px rgba(25,25,25,.05);
+  --tle-brand-content-width: 1170px;
+}
+
+/* Scoped demonstration styles for a future standalone prototype only.
+ * Never apply generically to .cta-button, .hero-photo or client UI. */
+.tle-brand-demo {
+  font-family: var(--tle-brand-font-body);
+  color: var(--tle-brand-black);
+  background: var(--tle-brand-ivory);
+}
+.tle-brand-demo :is(h1,h2,h3) {
+  font-family: var(--tle-brand-font-heading);
+  font-weight: 500;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+.tle-brand-demo h1 {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 1.1;
+}
+.tle-brand-demo h2 {
+  font-size: clamp(1.9rem, 3.3vw, 3rem);
+  line-height: 1.16;
+}
+.tle-brand-demo p {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.tle-brand-demo .tle-brand-demo-cta {
+  box-sizing: border-box;
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: var(--tle-brand-blue);
+  border: 1px solid var(--tle-brand-blue);
+  border-radius: var(--tle-brand-radius-cta);
+  color: var(--tle-brand-black);
+  font: 600 1rem/1.35 var(--tle-brand-font-body);
+  text-decoration: none;
+}
+.tle-brand-demo .tle-brand-demo-cta:hover {
+  background: var(--tle-brand-blue-hover);
+}
+.tle-brand-demo .tle-brand-demo-cta:focus-visible {
+  outline: 3px solid var(--tle-brand-focus);
+  outline-offset: 3px;
+}
+.tle-brand-demo .tle-brand-demo-card {
+  background: #fff;
+  border: 1px solid var(--tle-brand-border);
+  border-radius: var(--tle-brand-radius-card);
+  box-shadow: var(--tle-brand-shadow-card);
+}
