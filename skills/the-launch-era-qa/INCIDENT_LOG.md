@@ -779,3 +779,9 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - iPhone screenshot showed green emoji starburst in La Vie in Pink. A prior release had swapped it for a dot instead of removing the invalid brand symbol. Owner explicitly rejects such substitute marks and generic/blue arrows in all current and future demos.
 - Correction: remove decorative replacement dots from live La Vie React bundle and authored source, replace duplicate arrow-only product action with localized text; remove remaining mail/sparkle emoji in private booking concept pages; remove Marea substitute separator; add global workflow and CI prohibitions.
 - Future workflow: approved moodboard -> original section photos -> approved logo -> coded demo. QA/source/Pages/live phone verification are distinct. No customer data, bookings or payments touched.
+
+## 2026-11-07 — Slow public demo photos on iPhone
+- **Observed:** Public repo contains ~140 MiB photo assets. La Vie, Marea, Golden Grid, SOVA and Lavender include multi-megabyte PNG files; two extra catalog cards were eager-loaded.
+- **Likely cause:** excessive per-photo transfer cost. Real iPhone network timing not yet measured.
+- **Correction:** convert large PNG/JPG to smaller WebP within the generated GitHub Pages build; rewrite only published links, preserve original photo files and hero prioritization. Add photo/link regression QA and read-only size report.
+- **Gate:** Source/CI verification first; live Pages + Safari visual and timing confirmation separate. No booking, email, checkout or customer edits.

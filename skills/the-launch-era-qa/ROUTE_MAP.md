@@ -1092,3 +1092,7 @@ On `/lead-private-preview.html` sample only, `tle-demo-enhancements-v12.js` owns
 ## 2026-11-07 · Future demo creative gate + visual prohibition
 - Before any new public demo build, moodboard, individual photos and a real brand logo must be approved in that order, then the functioning GitHub demo can be built. Do not publish unapproved assets or mix brands. See `docs/DEMO-PRODUCTION-PIPELINE.md` and `AGENTS.md`.
 - All existing/future public demos and source scanned by `scripts/qa-demo-decorative-icons.mjs` to block green emoji-like starbursts, decorative emojis and typographic arrows. La Vie in Pink removes even the substitute middot marks and arrow-only product UI; product navigation becomes bilingual labeled Ver/View with 44px min target. No route/checkout/customer changes.
+
+## 2026-11-07 — Photo optimization for GitHub Pages demos
+- Affected: public /demos catalog and photo-heavy brands, not client/tenant apps or checkout. Built-only WebP variants replace large PNG paths in HTML/CSS/JS, originals untouched. Hero remains prioritized; gallery cards lazy. /demos/image-performance.json is a non-sensitive verification artifact.
+- No brand imagery changed or mixed. QA: scripts/qa_demo_photo_performance.py. See docs/DEMO-IMAGE-PERFORMANCE-20261107.md.
