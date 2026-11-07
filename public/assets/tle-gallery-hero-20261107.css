@@ -103,3 +103,29 @@
  .tle-universal .hero-gallery-card:nth-child(n){animation:none!important}
  .tle-universal .hero-gallery-stage{scroll-behavior:auto}
 }
+
+
+/* The photo itself is a large accessible tap target for its exact demo. */
+.tle-universal .hero-gallery-card .hero-gallery-hit{
+  display:block;position:absolute;inset:0;z-index:1;border-radius:inherit;
+  overflow:hidden;text-decoration:none;color:inherit;cursor:pointer
+}
+.tle-universal .hero-gallery-card .hero-gallery-hit img{
+  display:block;width:100%;height:100%;object-fit:cover;
+  object-position:var(--gallery-pos,center)
+}
+.tle-universal .hero-gallery-card figcaption{z-index:2;pointer-events:none}
+.tle-universal .hero-gallery-card:focus-within{outline:3px solid #191919;outline-offset:4px}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+ .tle-universal .hero-gallery-card .hero-gallery-hit img{transition:transform .35s ease}
+ .tle-universal .hero-gallery-card:hover .hero-gallery-hit img{transform:scale(1.035)}
+}
+/* Editorial portrait hero photos: show the original image instead of cutting off the subject. */
+.tle-universal .hero-gallery-card[data-demo="la-vie-in-pink"]{background:#7c303c}
+.tle-universal .hero-gallery-card[data-demo="jaramillo-boutique"]{background:#eee9e4}
+.tle-universal .hero-gallery-card[data-demo="crumb"]{background:#cfe6f4}
+.tle-universal .hero-gallery-card[data-demo="la-vie-in-pink"] .hero-gallery-hit img,
+.tle-universal .hero-gallery-card[data-demo="jaramillo-boutique"] .hero-gallery-hit img,
+.tle-universal .hero-gallery-card[data-demo="crumb"] .hero-gallery-hit img{
+  object-fit:contain;object-position:center
+}
