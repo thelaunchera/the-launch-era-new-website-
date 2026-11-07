@@ -76,7 +76,7 @@ try{
 
  // CRUMB must use the image actually approved for its live hero, never an old gallery-only storefront.
  const crumbThumb=await checkImage('crumb');
- assert.ok(new URL(crumbThumb.src).pathname.endsWith('/CRUMB_Storefront_Hero_Blue.png'),'CRUMB library must use the current blue hero, not the previous storefront');
+ assert.ok(new URL(crumbThumb.src).pathname.endsWith('/CRUMB_Storefront_Approved_20261030.webp'),'CRUMB library must use the documented approved original hero');
  const crumbHero=await page.evaluate(async()=>{
   const r=await fetch('/demos/crumb/');
   const markup=await r.text();
