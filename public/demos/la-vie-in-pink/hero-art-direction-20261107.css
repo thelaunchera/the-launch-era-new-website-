@@ -43,3 +43,13 @@ Preserves all original imagery, copy, forms, CTA and business functions. */
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero :is(a,button){transition:none!important}}
 
 @media(max-width:767px){.hero h1{font-size:clamp(38px,9.8vw,55px);line-height:1.1;letter-spacing:-.04em}.hero .hero-description{font-size:16px;line-height:1.65}.section h2,.section-heading h2{line-height:1.13;max-width:100%}.hero :is(.button-primary,.button){font-size:14px;font-weight:700}}
+
+
+/* Mobile hero photo-first — leave storefront photo, art stamp and keyframed reveals untouched. */
+@media(max-width:600px){
+ .hero{display:flex;flex-direction:column;min-height:0}
+ .hero .hero-image-wrap{order:0;width:100%;height:clamp(360px,116vw,515px);min-height:0;flex:0 0 auto}
+ .hero .hero-image{width:100%;height:100%;object-position:center 43%}
+ .hero .hero-content{order:1;min-height:0;padding:30px 7% 33px}
+ .hero .hero-bottom{padding-top:22px}
+}
