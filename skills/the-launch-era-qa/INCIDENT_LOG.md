@@ -1,3 +1,9 @@
+## 2026-11-07 — Demo Library entrance felt square and text-heavy on iPhone (visual UX issue)
+- **Owner evidence:** 390px-class iPhone screenshot of `/demos/` shows oversized title and full paragraph before the SOVA/Golden Grid photo collage; hero photography and gallery artwork have harsh square corners and no scroll-led pacing.
+- **Source cause confirmed:** `public/demos/index.html` placed `.intro-bottom` inside the first text column before `.hero-gallery` on mobile; `.hero-photo`, `.hero-small` and `.demo-art` had no border radius, and there were no entry/reveal scroll effects.
+- **Scoped repair:** mobile grid ordering puts the original branded collage directly after the headline; round only image containers, soften filter pills, tune photo crop and type spacing; add progressive-enhancement reveal and restrained scroll depth, with reduced-motion and no-IntersectionObserver fallbacks. Preserve all 16 photo sources, URLs, modal Close, filter and exact inbound `?demo=` links.
+- **Verification:** deterministic source asserts of 16 cards/unchanged links and scoped responsive Playwright regression added. GitHub Actions, live Pages release and owner iPhone Safari acceptance remain distinct gates until confirmed. No auth, customer data, purchase, forms or external brand assets changed.
+
 ## 2026-11-07 — Blank mobile preview while external demo iframe loads
 - **Evidence:** iPhone-emulated Gallery QA screenshots taken after iframe `main` was visible showed white content for CRUMB and Jaramillo while La Vie in Pink loaded visibly. A visible iframe DOM does not guarantee an actual painted frame.
 - **Repair:** `public/demos/index.html` now shows a minimal editorial loading state, the selected project name and a real `Open full website` link, then reveals the iframe after its `load` event; hides loading for reduced motion and resets state after closing. No demo contents, URLs, contact details, data or original photographs changed.
