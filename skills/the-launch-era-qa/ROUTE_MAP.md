@@ -1,3 +1,9 @@
+## 2026-11-07 — Ivory & Bloom native calendar replaced (iPhone Instagram regression)
+
+- Route still `https://thelaunchera.com/demos/ivory-and-bloom/`; unchanged gallery exit/preview and no network/form delivery endpoint. In the wedding inquiry only, the native `input[type=date]` was removed in favor of `#ib-date-trigger` and inline `#ib-date-calendar`; ISO date is held in `#ib-date-value[name=date]` for the existing preview summary.
+- Implemented in `public/demos/ivory-and-bloom/index.html`, `compact-calendar-20261107.{js,css}` and shared progress handler `public/assets/tle-demo-inquiry-mobile-20261107.js`. Automated scenario `scripts/qa-demo-inquiry-mobile.mjs` via `three-editorial-demo-heroes-qa.yml` checks 390px calendar fit, day choice, progress and non-sending summary.
+- GitHub Actions browser QA 42390143562 passed (iPhone-size emulation in Chromium), live Pages publication and real iPhone Instagram/Safari verification tracked separately.
+
 ## 2026-11-07 — Demo inquiry mobile controls (no navigation or delivery-route changes)
 
 - Route URLs remain unchanged: `/demos/havana-19/`, `/demos/ivory-and-bloom/`, `/demos/angela-so-fresh-clean-queen/`, `/demos/claudia/`, `/demos/crumb/`, `/demos/golden-grid/`, and `/experience-cleaning/`.
