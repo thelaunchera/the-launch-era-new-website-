@@ -44,3 +44,15 @@ Preserves all original imagery, copy, forms, CTA and business functions. */
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero :is(a,button){transition:none!important}}
 
 @media(max-width:767px){.hero h1{font-size:clamp(56px,14vw,77px)!important;line-height:.96!important;letter-spacing:-.035em}.hero-content::before{display:none}.hero-content>p{font-size:16px!important;line-height:1.58!important}.hero-cta{gap:10px}.hero-cta :is(a,button){min-height:46px}.section-heading h2{line-height:1.1}.vip-grid,.offer-grid{min-width:0}}
+
+
+/* AFTR desktop: preserve original photo zoom and dramatic nightclub layers;
+   move atmospheric image to the larger right-hand stage. */
+@media(min-width:1100px){
+  .hero{background:#080811;min-height:clamp(710px,66vw,925px)}
+  .hero .hero-image{inset:0 0 0 39%;width:61%;height:100%;background-position:center center}
+  .hero .hero-shade{background:linear-gradient(90deg,#080811 0%,#080811 33%,rgba(8,8,17,.86) 45%,rgba(8,8,17,.08) 73%),linear-gradient(0deg,rgba(8,8,17,.55),transparent 36%)}
+  .hero .hero-content{left:6.4%;max-width:44%;top:50%;transform:translateY(-42%)}
+  .hero .hero-content h1{font-size:clamp(65px,6.8vw,117px);line-height:.91;max-width:9ch}
+  .hero .hero-content>p{max-width:37ch;font-size:clamp(15px,1.2vw,18px)}
+}
