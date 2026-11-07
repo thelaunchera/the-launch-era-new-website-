@@ -35,7 +35,7 @@
     el.classList.add('tle-motion-gallery','tle-motion-'+cfg.mode);
     el.setAttribute('role','region');
     el.setAttribute('aria-roledescription',t().name);
-    let index=0,dir=1,visible=typeof IntersectionObserver==='undefined',holdUntil=0,drag=null,toolbar=null,readout=null;
+    let index=0,dir=1,visible=typeof IntersectionObserver==='undefined',holdUntil=0,drag=null,toolbar=null,readout=null,autoDot=false;
     const io=typeof IntersectionObserver==='undefined' ? null :
       new IntersectionObserver(entries=>{visible=!!entries[0]?.isIntersecting;},{threshold:0.15});
     io?.observe(el);
@@ -59,7 +59,7 @@
       if(manual)holdUntil=Date.now()+6000;
       if(cfg.mode==='original-dots'){
         const dots=[...document.querySelectorAll('[data-crumb-slide]')];
-        if(dots.length) {index=(index+delta+dots.length)%dots.length; dots[index].click();}
+        if(dots.length) {index=(index+delta+dots.length)%dots.length; autoDot=!manual; dots[index].click(); autoDot=false;}
         return;
       }
       if(cfg.mode==='native-rail'){
@@ -127,7 +127,7 @@
     }
     if(cfg.mode==='original-dots'){
       document.querySelectorAll('[data-crumb-slide]').forEach(btn=>btn.addEventListener('click',()=>{
-        index=Number(btn.dataset.crumbSlide)||0;holdUntil=Date.now()+6500;
+        index=Number(btn.dataset.crumbSlide)||0;if(!autoDot)holdUntil=Date.now()+6500;
       }));
     }
     if(cfg.mode==='native-rail'){
