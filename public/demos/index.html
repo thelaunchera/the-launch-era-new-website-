@@ -101,6 +101,13 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink
 .viewer-close span{font-size:18px;font-weight:300;line-height:1}
 .viewer-frame{height:100%;width:100%;min-height:0;min-width:0;flex:1 1 auto;border:0;display:block;background:#fff}
 @media(max-width:600px){.viewer-topbar{min-height:65px;padding:9px 13px;gap:9px}.viewer-title strong{font-size:22px}.viewer-eyebrow{font-size:8px}.viewer-close{padding:10px 12px;min-height:43px}.viewer-external{display:none}}
+
+/* iPhone viewport guard: editorial collage must never push the page beyond its width. */
+html,body{max-width:100%;overflow-x:clip}
+main,.intro,.intro-copy,.hero-gallery,.demo-grid,.demo-card,.section-heading{min-width:0;max-width:100%}
+.hero-gallery{overflow:clip}
+.section-heading h2{max-width:100%;overflow-wrap:break-word}
+@media(max-width:600px){.section-heading h2{font-size:clamp(37px,10.8vw,56px)}.hero-gallery:before{inset:12% 8% 11% 8%}.hero-image-stamp{left:8px;top:0}.intro{max-width:calc(100vw - (2 * var(--gutter)))}}
 </style>
 </head>
 <body>
