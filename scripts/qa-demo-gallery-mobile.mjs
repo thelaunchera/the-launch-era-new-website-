@@ -29,6 +29,7 @@ async function checkOpenAndClose(slug,expected){
  await page.waitForFunction(()=>document.querySelector('#demo-viewer')?.open===true,null,{timeout:5000});
  assert.equal(await page.locator('#viewer-frame').getAttribute('src'),url,'Iframe should display chosen project');
  assert.equal(await page.locator('#viewer-close').isVisible(),true,'Close demo must stay visible');
+ assert.equal(await page.locator('#viewer-external').isVisible(),true,'Open full site must remain available on mobile');
  const frame=page.frameLocator('#viewer-frame');
  await frame.locator('main').first().waitFor({state:'visible',timeout:25000});
  const bodyText=await frame.locator('body').innerText({timeout:15000});
@@ -66,6 +67,8 @@ try{
  assert.ok(horizontal.scrollWidth<=horizontal.innerWidth+2,'Mobile page overflow: '+JSON.stringify(horizontal));
  console.log('[MOBILE WIDTH]',JSON.stringify(horizontal));
  await page.screenshot({path:folder+'/iPhone-hero.png'});
+ const sovaPhoto=await checkImage('sova');
+ assert.ok(new URL(sovaPhoto.src).pathname.endsWith('/01-hero.png'),'SOVA library must show the official homepage hero, not a campaign photo');
  await checkImage('la-vie-in-pink');
  await checkOpenAndClose('la-vie-in-pink','La vie in pink');
  await checkImage('jaramillo-boutique');
@@ -73,7 +76,7 @@ try{
 
  // CRUMB must use the image actually approved for its live hero, never an old gallery-only storefront.
  const crumbThumb=await checkImage('crumb');
- assert.ok(crumbThumb.src.endsWith('/CRUMB_Storefront_Approved_20261030.webp'),'CRUMB gallery must show its approved original hero');
+ assert.ok(new URL(crumbThumb.src).pathname.endsWith('/CRUMB_Storefront_Hero_Blue.png'),'CRUMB library must use the current blue hero, not the previous storefront');
  const crumbHero=await page.evaluate(async()=>{
   const r=await fetch('/demos/crumb/');
   const markup=await r.text();
