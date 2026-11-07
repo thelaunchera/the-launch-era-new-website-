@@ -23,3 +23,14 @@ Preserves all original imagery, copy, forms, CTA and business functions. */
 .hero .hero-qualities,.hero .hero-foot,.hero .hero-aside,.hero .hero-stamp,
 .hero h1 span,.hero h1 em,.hero-editorial picture img{animation:none!important}
 }
+
+
+/* Claudia desktop: original cleaning-service hero photo is emphasized on the
+   right; preserve reservation steps, offer copy and mobile layout. */
+@media(min-width:1100px){
+ .hero{min-height:clamp(440px,38vw,590px);align-items:center;background-color:#172830;background-size:58% 100%;background-position:right center;background-repeat:no-repeat}
+ .hero::before{background:linear-gradient(90deg,#172830 0%,#172830 35%,rgba(23,40,48,.91) 45%,rgba(23,40,48,.05) 70%)}
+ .hero .hero-copy{max-width:43%;padding:45px 0 47px}
+ .hero .hero-copy h1{font-size:clamp(51px,5.1vw,82px);line-height:1.05;max-width:13ch;text-wrap:balance}
+ .hero .hero-copy>p{font-size:clamp(15px,1.2vw,18px);max-width:40ch;line-height:1.6}
+}
