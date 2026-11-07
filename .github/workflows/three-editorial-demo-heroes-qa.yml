@@ -7,6 +7,7 @@ on:
       - 'public/demos/ivory-and-bloom/**'
       - 'public/demos/havana-19/**'
       - 'scripts/qa-three-editorial-demo-heroes.mjs'
+      - 'scripts/qa-demo-inquiry-mobile.mjs'
       - '.github/workflows/three-editorial-demo-heroes-qa.yml'
   push:
     branches: [main]
@@ -47,6 +48,8 @@ jobs:
             sleep 1
           done
           node scripts/qa-three-editorial-demo-heroes.mjs
+          node --check scripts/qa-demo-inquiry-mobile.mjs
+          node scripts/qa-demo-inquiry-mobile.mjs
       - name: Upload review screenshots
         if: always()
         uses: actions/upload-artifact@v4
