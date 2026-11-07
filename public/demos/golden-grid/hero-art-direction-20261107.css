@@ -277,3 +277,6 @@ Preserves all original imagery, copy, forms, CTA and business functions. */
  }
  #campaign .golden-gallery-actions button{transition:none}
 }
+
+/* Desktop QA: contain lateral perspective shadows and animated ribbon inside the viewport. */
+@media(min-width:761px){html,body{max-width:100%;overflow-x:clip}}
