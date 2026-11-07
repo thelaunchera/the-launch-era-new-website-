@@ -1,3 +1,13 @@
+## 2026-11-07 — Checkout gateway reactivation and current cleaning bundle pricing
+
+- **Public cleaning bundle:** `/booking-bundle/` (also reached from `/experience-cleaning/`); `public/assets/tle-booking-bundle.js` sends GET/POST to production Supabase `tle-booking-bundle-checkout` with `price_version=bundle-20261029`.
+- **Backend:** `tle-booking-bundle-checkout` version 21 retains GET price verification / promotion gate, but for currently enabled pricing routes POST to active Make scenario `6423594` via the existing checkout webhook, using `booking-ai-bundle-ai-booking`, `booking-ai-bundle-ai-followup`, or `booking-ai-bundle-ai-business`. It validates Stripe LIVE session, checkout hostname, locale and expected amount before returning.
+- **Current cleaning bundle checkout totals:** Booking only $15 (no monthly); Booking + AI Booking $25 + $12/mo after first 30 days from delivery; Booking + AI Follow-Up $20 + $8/mo; Booking + AI Business $29 + $16/mo. Make routes 37–42 are active and were checked by no-charge real checkout-session creation.
+- **Standalone products:** `/service-checkout/?offer=...` uses Supabase `create-tle-service-checkout` version 38 → existing Make webhook. Enabled offers and due-now: `booking-flow` $15, `website-automation` $35, `va` $25/mo, `ai-booking` $25 then $14/mo, `ai-followup` $19 then $7/mo, `ai-business` $39 then $19/mo. These are *different* from combined-package pricing.
+- **Website packages:** `website-basic` $15, `website-ai-crm` $25 (later $8/mo). Make routes 31–34 remain enabled, with locale explicitly en/es; the direct `/website-checkout/` page also calls `fhrvuhikrybobidxpvnh` project `tle-studio-website-start-checkout` → same Make webhook. Do not relabel the $25 Website package as a cleaning bundle.
+- **Content Lab:** separate Stripe $10 link/access path, unaffected by these changes.
+- **Live tests:** Make private on-demand smoke-QA scenarios `6941875` and `6941892` created Stripe LIVE unpaid sessions: all 3 bundles and all 8 service/Website offer IDs returned HTTP 200 and the expected Stripe total. No payments submitted. Browser/iPhone click-through, post-payment confirmation, automated future billing and email delivery are *not* established by these session tests.
+
 ## 2026-11-07 — Public Demo Library shows demos only, no code/source links
 - Route remains `/demos/`. Public collection now shows only the original 16 `Visit website` actions and tap-to-preview overlays; 16 individual `View code` repository links and the GitHub footer destination were removed.
 - The underlying GitHub repositories and preview/Close/deep-link logic are unchanged. Removing website hyperlinks does not alter repository visibility or GitHub access permissions.
