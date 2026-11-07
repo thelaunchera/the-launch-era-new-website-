@@ -35,8 +35,11 @@ try {
    await page.locator('#heroTitle').waitFor({state:'visible'});
    assert.match(await page.locator('#heroTitle').innerText(),/One booking link/);
    assert.equal(await page.locator('.tle-feature').count(),3);
-   for(const img of await page.locator('.tle-feature-image img,.tle-hero-photo img').all())
-      assert(await img.evaluate(el=>el.complete&&el.naturalWidth>500),'Generated photograph failed to load at '+width);
+   for(const img of await page.locator('.tle-feature-image img,.tle-hero-photo img').all()){
+      await img.scrollIntoViewIfNeeded();
+      await img.evaluate(async el=>{if(!el.complete)await new Promise((ok,fail)=>{el.addEventListener('load',ok,{once:true});el.addEventListener('error',fail,{once:true});});});
+      assert(await img.evaluate(el=>el.complete&&el.naturalWidth>500),'Optimized approved photograph failed to load at '+width);
+   }
    await page.locator('#previewRequest').click();
    assert.match(await page.locator('#bookingSampleResult').innerText(),/No real request was sent/);
    await page.locator('button[data-view="quote"]').click();
