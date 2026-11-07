@@ -249,3 +249,6 @@ textarea { resize: vertical; }
 .section-lead,.hero-lead,.editorial-copy p{color:#48413b;font-weight:500;line-height:1.7}
 .section-heading h2,.hero h1{font-family:'DM Serif Display',Georgia,serif;letter-spacing:-.035em;line-height:1.08}
 @media(max-width:760px){.type-strip{gap:18px;font-size:clamp(12px,3.5vw,15px);padding:14px 10px}.type-strip .strip-star{font-size:16px}.section-heading h2{font-size:clamp(39px,10vw,52px)}.section-lead,.hero-lead{font-size:14px}}
+
+/* Nov 7: replace giant emoji with discreet typographic separator. */
+.type-strip .strip-star{font-family:inherit;font-size:16px;line-height:1;font-style:normal;color:#191919}

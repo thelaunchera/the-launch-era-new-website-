@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import {
-  ArrowDown,
   ArrowLeft,
   ArrowRight,
   ArrowUpRight,
@@ -415,7 +414,7 @@ function App() {
         <div className="footer-brand">
           <Logo light />
           <p>{t.footerTag}</p>
-          <span className="footer-ornament">✳ &nbsp; BONJOUR &nbsp; ✳</span>
+          <span className="footer-ornament">· &nbsp; BONJOUR &nbsp; ·</span>
         </div>
         <div className="footer-column">
           <span className="footer-column-title">{t.footerExplore}</span>
@@ -450,7 +449,7 @@ function App() {
   return (
     <div className="site-shell">
       <div className="announcement">
-        {t.strip} <span>✳</span>
+        {t.strip}
       </div>
       <header className="site-header">
         <div className="header-inner">
@@ -524,12 +523,10 @@ function App() {
                   className="button-primary"
                   onClick={() => navigate('home', 'collection')}
                 >
-                  {t.discover} <ArrowUpRight size={18} />
+                  {t.discover}
                 </button>
                 <div className="hero-bottom">
-                  <span className="decor-star">✳</span>
                   <span>{t.heroNote}</span>
-                  <ArrowDown size={15} />
                 </div>
               </div>
               <div className="hero-image-wrap">
@@ -555,11 +552,11 @@ function App() {
 
             <section className="ticker" aria-label={t.index}>
               <span>UN PEU DE DOUCEUR</span>
-              <span>✳</span>
+              <span>·</span>
               <span>THE ART OF SLOW MORNINGS</span>
-              <span>✳</span>
+              <span>·</span>
               <span>MADE WITH AMOUR</span>
-              <span>✳</span>
+              <span>·</span>
               <span>UN PEU DE DOUCEUR</span>
             </section>
 
@@ -616,7 +613,7 @@ function App() {
                   </article>
                 ))}
               </div>
-              <p className="collection-notice">✳ &nbsp; {t.limited}</p>
+              <p className="collection-notice">· &nbsp; {t.limited}</p>
             </section>
 
             <section className="story-block" id="story">
@@ -669,7 +666,6 @@ function App() {
             </section>
 
             <section className="membership-section" id="membership">
-              <div className="membership-decor">✳</div>
               <div className="membership-inner">
                 <div className="eyebrow light">{t.membersEyebrow}</div>
                 <h2>{t.membersTitle}</h2>
