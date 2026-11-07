@@ -38,7 +38,7 @@ for(const [language,html] of [['en',en],['es',es]]){
  };
  for(const [slug,image] of Object.entries(galleryPhotoMap)){
   assert(hero.includes('data-demo="'+slug+'"'),language+': missing distinct demo '+slug);
-  assert(hero.includes('href="/demos/?demo='+slug+'"'),language+': photo does not deep-link to '+slug);
+  assert(hero.includes('href="/demos/?demo='+slug+'&amp;returnTo='+encodeURIComponent(language==='es'?'/es/website-for-your-business/':'/website-for-your-business/')+'"'),language+': photo must link to its demo and remember originating website');
   assert(hero.includes('src="'+image+'"'),language+': incorrect original hero photo for '+slug);
   if(image.startsWith('/'))assert(existsSync('public'+image),language+': hero image asset missing for '+slug);
  }
