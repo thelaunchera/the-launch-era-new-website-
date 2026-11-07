@@ -195,6 +195,15 @@ try{
      assert.ok(result.photoTop<result.viewportHeight,'Hero photo must appear upon entry: '+demo.slug);
      assert.ok(result.scrollWidth<=result.viewport+2,'No horizontal overflow: '+demo.slug+' '+JSON.stringify(result));
      assert.ok(result.motion!=='none'&&result.motion.length>0,'Original hero reveal animation must remain: '+demo.slug+' '+JSON.stringify(result));
+     // Capture the settled design, not a half-transparent reveal frame.
+     await motionPage.waitForTimeout(1200);
+     const readableHeading=await motionPage.locator('.hero h1, .hero h2').first().evaluate(el=>({
+       opacity:Number(getComputedStyle(el).opacity),
+       visibility:getComputedStyle(el).visibility,
+       height:el.getBoundingClientRect().height
+     }));
+     assert.ok(readableHeading.opacity>.97&&readableHeading.visibility==='visible'&&readableHeading.height>20,
+       'Hero headline must be readable after its existing animation: '+demo.slug+' '+JSON.stringify(readableHeading));
      await motionPage.screenshot({path:folder+'/hero-first-'+demo.slug+'-iPhone.png'});
      console.log('[PHOTO FIRST + MOTION]',demo.slug,JSON.stringify(result));
    }
