@@ -46,7 +46,7 @@ hero_html = (root / "demos/golden-grid/index.html").read_text(encoding="utf-8")
 hero_tag = re.search(r'<div class="hero-art">\s*(<img\b[^>]*>)', hero_html)
 assert hero_tag, "Golden Grid hero is missing"
 assert 'src="./resources/golden-1.png?v=20261108-master-hq"' in hero_tag.group(1), (
-    "Golden Grid Pages output hero src is wrong: " + hero_tag.group(1)
+    "Golden Grid output hero src was altered by optimizer: " + hero_tag.group(1)
 )
 assert 'poster="./resources/golden-1.png?v=20261108-master-hq"' in hero_html, (
     "The video first-frame poster must match the high-resolution hero"
@@ -59,11 +59,20 @@ assert (root / "demos/golden-grid/resources/golden-1.webp").is_file(), (
     "Golden Grid catalog thumbnail still needs optimized WebP"
 )
 golden_css = (root / "demos/golden-grid/golden-approved-hero-video-20261108.css").read_text(encoding="utf-8")
-assert "scale:none!important;" in golden_css and ".gg-hero-motion" in golden_css, (
-    "The approved Golden Grid photo must remain unscaled, with only optional SVG motion"
+# Owner-approved tablet/portrait/landscape uses ONLY the sharp photo.
+# Prior assertions about a low-resolution syrup movie mask are obsolete.
+assert "iPad/tablet: only the untouched still photograph" in golden_css, (
+    "Golden Grid lost the iPad static-photo-only safety style"
 )
-assert "@media (min-width:521px)" in golden_css, (
-    "iPad/tablet must keep low-resolution video hidden"
+assert "(max-width:1399px)" in golden_css and "gg-hero-motion" in golden_css, (
+    "Tablet must suppress both the low-resolution video and decorative shimmer"
+)
+golden_loader = (root / "demos/golden-grid/golden-approved-hero-video-20261108.js").read_text(encoding="utf-8")
+assert "const allowed=phoneAllowed" in golden_loader and "desktopGlow.matches" in golden_loader, (
+    "Golden Grid must never attach the 512px video to a tablet-sized hero"
+)
+assert "golden-approved-hero-video-20261108.css?v=5" in hero_html, (
+    "Refresh the iPad's cached CSS so the static-photo rule takes effect"
 )
 print("PASS: Golden Grid deployed main hero uses original PNG; catalog still uses WebP")
 
