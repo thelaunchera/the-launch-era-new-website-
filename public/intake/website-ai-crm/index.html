@@ -5,9 +5,9 @@
 <meta name="description" content="Private project setup for customers who completed The Launch Era website checkout.">
 <meta name="theme-color" content="#FAF8F3"><title>Website + AI Assistant + Automated CRM · Project Setup | The Launch Era</title>
 <link rel="icon" type="image/svg+xml" href="/assets/brand/tle-mark.svg">
-<link rel="stylesheet" href="/assets/tle-website-intake.css">
+<link rel="stylesheet" href="/assets/tle-website-intake.css?v=20261108-short">
 <script src="/assets/privacy-controls.js?v=20261026-1" data-site="tle"></script>
-<script src="/assets/tle-website-intake.js" defer></script>
+<script src="/assets/tle-website-intake.js?v=20261108-short" defer></script>
 </head>
 <body data-package="website-ai-crm">
 <header>
@@ -34,81 +34,108 @@
   <button type="button" id="verify-retry" class="cta" hidden>Check payment again</button>
   <form id="intake-form" hidden>
    <label class="hidden-trap" aria-hidden="true">Website verification <input name="website_check" autocomplete="off" tabindex="-1"></label>
+   <div class="intake-step-caption" data-i18n="fewQuestions">Only the essentials. The rest comes from your business details.</div>
    <fieldset class="group">
-    <legend data-i18n="group1">01 / Business details</legend>
+    <legend data-i18n="group1">01 / Your business</legend>
     <div class="fields">
      <label class="field"><span data-i18n="name">Your name *</span><input name="name" type="text" required minlength="2" maxlength="120" autocomplete="name"></label>
      <label class="field"><span data-i18n="email">Email used at checkout *</span><input name="email" type="email" required maxlength="254" autocomplete="email"></label>
-     <label class="field"><span data-i18n="business">Business name *</span><input name="business_name" type="text" required minlength="2" maxlength="150" autocomplete="organization"></label>
-     <label class="field"><span data-i18n="industry">Type of business *</span><input name="industry" type="text" required minlength="2" maxlength="120" placeholder="Beauty, retail, consulting, food…"></label>
-     <label class="field"><span data-i18n="phone">Business phone (optional)</span><input name="phone" type="tel" maxlength="45" autocomplete="tel"></label>
-     <label class="field"><span data-i18n="location">City or service area (optional)</span><input name="business_location" type="text" maxlength="150" autocomplete="address-level2"></label>
-    </div>
-   </fieldset>
-   <div class="divider"></div>
-   <fieldset class="group">
-    <legend data-i18n="group2">02 / Website content</legend>
-    <div class="fields">
-     <label class="field full"><span data-i18n="services">Your services or products *</span>
-      <textarea name="services" required minlength="5" maxlength="1800" rows="3" data-placeholder="servicesPlace"></textarea>
-     </label>
-     <label class="field full"><span data-i18n="goals">What should your website communicate or do? *</span>
-      <textarea id="goals" name="goals" required minlength="12" maxlength="1800" rows="3" data-placeholder="goalsPlace"></textarea>
-     </label>
-     <label class="field full"><span data-i18n="action">What should visitors do? *</span>
-      <select name="customer_action" required><option value="contact">Contact request</option><option value="quote">Request a quote</option>
-       <option value="appointment">Appointment request</option><option value="purchase">Purchase or order</option><option value="other">Other</option>
+     <label class="field full"><span data-i18n="business">Business name *</span><input name="business_name" type="text" required minlength="2" maxlength="150" autocomplete="organization"></label>
+     <label class="field full"><span data-i18n="industry">What kind of business is it? *</span>
+      <select name="industry" id="business-industry" required>
+       <option value="" selected disabled data-i18n="chooseIndustry">Choose your business</option>
+       <option value="restaurant" data-i18n="industryRestaurant">Restaurant</option>
+       <option value="cafe" data-i18n="industryCafe">Café or bakery</option>
+       <option value="retail" data-i18n="industryRetail">Store / products</option>
+       <option value="cleaning" data-i18n="industryCleaning">Home cleaning</option>
+       <option value="beauty" data-i18n="industryBeauty">Beauty / salon</option>
+       <option value="wellness" data-i18n="industryWellness">Wellness / fitness</option>
+       <option value="professional" data-i18n="industryProfessional">Other services</option>
+       <option value="other" data-i18n="industryOther">Something else</option>
       </select>
      </label>
-     <label class="field full"><span data-i18n="inbox">Email to receive customer requests *</span>
-      <input name="preferred_email" type="email" required maxlength="254"></label>
-     <label class="field"><span data-i18n="website">Existing website (optional)</span><input name="existing_website" type="url" maxlength="300" placeholder="https://"></label>
-     <label class="field full"><span data-i18n="domainOption">Do you already have a domain? *</span>
-      <select name="domain_option" required>
-       <option value="need_link">I need a website link — I don't own a domain yet</option>
-       <option value="have_domain">I already have a domain</option>
-       <option value="want_custom">Help me choose a custom domain (extra cost)</option>
-      </select><small data-i18n="domainHelp">No domain? We can publish your website using an available hosted link. Buying a domain is optional.</small>
+     <label class="field full" id="industry-other-field" hidden><span data-i18n="industryOtherLabel">Describe your business *</span><input name="industry_other" maxlength="110" minlength="3" autocomplete="off" data-placeholder="industryOtherPlace"></label>
+     <label class="field full" id="other-format-field" hidden><span data-i18n="otherFormatLabel">What should your website display? *</span>
+      <select name="other_format" id="other-format"><option value="services_requests" data-i18n="websiteFormatServices">Services + Booking Requests</option><option value="digital_menu" data-i18n="websiteFormatMenu">Digital Menu</option><option value="product_catalog" data-i18n="websiteFormatCatalog">Product Catalog</option></select>
      </label>
-     <label class="field full"><span data-i18n="domain">Domain name or desired name (optional)</span><input name="domain_preference" type="text" maxlength="200" placeholder="mybusiness.com"></label>
-     <label class="field"><span data-i18n="hours">Business hours (optional)</span><input name="business_hours" type="text" maxlength="180"></label>
-     <label class="field"><span data-i18n="social">Social links (optional)</span><input name="social_links" type="text" maxlength="280"></label>
+     <input type="hidden" name="website_format" id="website-format" value="">
+     <label class="field full"><span data-i18n="area">City, address or service area *</span><input name="business_location" required minlength="2" maxlength="150" autocomplete="address-level2" data-placeholder="areaPlace"><small data-i18n="areaHint">For online-only businesses, enter “Online”.</small></label>
     </div>
    </fieldset>
    <div class="divider"></div>
    <fieldset class="group">
-    <legend data-i18n="group3">03 / Brand and automation</legend>
+    <legend data-i18n="group2">02 / What you offer</legend>
+    <p class="group-explain" data-i18n="offerIntro">List what customers can buy or book. Include prices or say “Request a quote”.</p>
     <div class="fields">
-     <label class="field full"><span data-i18n="brand">Brand colors, fonts or style (optional)</span>
-      <textarea name="brand_notes" maxlength="1000" rows="2"></textarea>
+     <label class="field full"><span id="offers-label" data-i18n="services">Products or services *</span>
+      <textarea name="services" id="services" required minlength="5" maxlength="1800" rows="3" data-placeholder="servicesPlace"></textarea>
+      <small id="offers-hint" data-i18n="offersHint">Example: Deep Clean — from $180; Standard Clean — from $100.</small>
      </label>
-     <label class="field full"><span data-i18n="assets">Link to your logo and photos (optional)</span>
-      <input name="brand_assets_url" type="url" maxlength="450" data-placeholder="assetsPlace" placeholder="https://drive.google.com/...">
+     <label class="field full" id="menu-pdf-field" hidden><span data-i18n="menuPdfShort">Already have a menu or product list? Share its link.</span>
+      <input name="menu_pdf_url" type="url" maxlength="400" placeholder="https://drive.google.com/...">
+      <small data-i18n="menuPdfShortcut">If the link contains your complete list and prices, you can skip typing them above. We review it before publishing.</small>
      </label>
-     <label class="field full"><span data-i18n="references">Websites you like (optional)</span>
-      <textarea name="reference_sites" maxlength="400" rows="2"></textarea>
+     <label class="field full"><span data-i18n="actionShort">What should visitors do? *</span>
+      <select name="customer_action" id="customer-action" required><option value="contact">Send an inquiry</option></select>
+      <small id="action-hint" data-i18n="actionHint">Requests arrive by email; they are not automatic confirmed bookings or payments.</small>
      </label>
-     <label class="field full"><span data-i18n="automation">What follow-ups or tasks should we automate?</span>
-      <textarea name="automation_goals" maxlength="2500" rows="3" data-placeholder="autoPlace"></textarea>
+     <label class="field full"><span data-i18n="inbox">Email that receives customer requests *</span>
+      <input name="preferred_email" type="email" required maxlength="254" autocomplete="email">
+      <small data-i18n="emailOnlyNote">Notifications are by email only. No SMS.</small>
      </label>
-     <label class="field full upload-field"><span data-i18n="websitePhotos">Upload photos you want on your website (optional)</span>
+     <label class="field full"><span data-i18n="hoursShort">Business hours (optional)</span><input name="business_hours" maxlength="180" type="text" data-placeholder="hoursPlace"></label>
+     <label class="field full"><span data-i18n="domainOptionShort">Your website link *</span>
+      <select name="domain_option" id="domain-option" required>
+       <option value="need_link" data-i18n="needLink">I need a website link (included hosted link)</option>
+       <option value="have_domain" data-i18n="haveDomain">I have a domain</option>
+       <option value="want_custom" data-i18n="wantCustom">I'd like a custom domain (extra cost)</option>
+      </select>
+     </label>
+     <label class="field full" id="domain-field" hidden><span data-i18n="domain">Domain or desired name</span><input name="domain_preference" type="text" maxlength="200" placeholder="mybusiness.com"></label>
+    </div>
+   </fieldset>
+   <div class="divider"></div>
+   <fieldset class="group">
+    <legend data-i18n="group3">03 / Your look &amp; photos</legend>
+    <p class="group-explain" data-i18n="photosIntro">Share your logo or photos if you have them. Don't worry about designing the page yourself.</p>
+    <div class="fields">
+     <label class="field full upload-field"><span data-i18n="websitePhotosShort">Add your logo or website photos (optional)</span>
       <input name="website_photos" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" multiple>
-      <small data-i18n="photoHelp">Up to 10 images per category · JPG, PNG, WebP or HEIC · 8 MB each.</small>
+      <small data-i18n="photoHelp">Up to 10 JPG, PNG, WebP or HEIC images · 8 MB each.</small>
      </label>
-     <label class="field full upload-field"><span data-i18n="referencePhotos">Upload reference photos and visual inspiration (optional)</span>
-      <input name="reference_photos" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" multiple>
-     </label>
-     <p id="upload-status" class="upload-status full" role="status" aria-live="polite"></p>
-     <div class="full call-option">
-      <label class="consent"><input type="checkbox" name="request_call" value="yes"><span data-i18n="requestCall">I'd like to request a 1:1 call to review my website project.</span></label>
-      <label class="field"><span data-i18n="callTime">Preferred day, time and time zone (optional)</span><input name="call_time" maxlength="250" type="text" data-placeholder="callTimeHint"></label>
-      <small data-i18n="callNote">Calls are coordinated by email. Any cost is confirmed before scheduling.</small>
-     </div>
-     <div id="advanced-fields" class="full" hidden>
-      <label class="field"><span data-i18n="ai">What should the AI assistant know and answer?</span>
-       <textarea name="ai_brief" maxlength="2500" rows="3" data-placeholder="aiPlace"></textarea>
+     <label class="field full"><span data-i18n="assetsShort">Or share a Drive link to your photos/logo (optional)</span><input name="brand_assets_url" type="url" maxlength="450" data-placeholder="assetsPlace"></label>
+     <div id="advanced-fields" class="full advanced-intake" hidden>
+      <span class="intake-extra-heading" data-i18n="advancedTitle">AI &amp; email, tailored to your business</span>
+      <label class="field"><span data-i18n="automationChoice">What email workflow matters most?</span>
+       <select name="automation_workflow" id="automation-workflow">
+        <option value="inquiry_alerts" data-i18n="autoAlerts">New inquiry alerts</option>
+        <option value="approved_confirmation" data-i18n="autoConfirm">Confirmation after approval</option>
+        <option value="appointment_reminder" data-i18n="autoReminder">Appointment / reservation reminder</option>
+        <option value="quote_followup" data-i18n="autoFollowup">Quote follow-up</option>
+       </select>
+       <small data-i18n="automationReview">We'll review the workflow before activation. Email only; no SMS.</small>
+      </label>
+      <label class="field"><span data-i18n="aiShort">What questions should your AI assistant answer? (optional)</span>
+       <textarea name="ai_brief" maxlength="900" rows="2" data-placeholder="aiPlace"></textarea>
       </label>
      </div>
+     <details class="intake-optional full">
+      <summary data-i18n="optionalDetails">Optional details · style, social links and extra references</summary>
+      <div class="fields">
+       <label class="field full"><span data-i18n="goalsShort">What makes your business special? (optional)</span><textarea id="goals" name="goals" maxlength="500" rows="2" data-placeholder="goalsPlace"></textarea></label>
+       <label class="field full"><span data-i18n="brand">Brand colors or style (optional)</span><textarea name="brand_notes" maxlength="450" rows="2"></textarea></label>
+       <label class="field full"><span data-i18n="social">Social links (optional)</span><input name="social_links" type="text" maxlength="280"></label>
+       <label class="field full"><span data-i18n="website">Existing website (optional)</span><input name="existing_website" type="url" maxlength="300" placeholder="https://"></label>
+       <label class="field full"><span data-i18n="references">Websites you like (optional)</span><textarea name="reference_sites" maxlength="400" rows="2"></textarea></label>
+       <label class="field full upload-field"><span data-i18n="referencePhotos">Extra inspiration images (optional)</span><input name="reference_photos" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" multiple></label>
+       <div class="full call-option">
+        <label class="consent"><input type="checkbox" name="request_call" value="yes"><span data-i18n="requestCall">I would like to request a 1:1 review call (optional).</span></label>
+        <label class="field"><span data-i18n="callTime">Preferred day/time and time zone (optional)</span><input name="call_time" maxlength="250" type="text" data-placeholder="callTimeHint"></label>
+        <small data-i18n="callNote">Calls are coordinated by email. Any fee is confirmed before scheduling.</small>
+       </div>
+      </div>
+     </details>
+     <p id="upload-status" class="upload-status full" role="status" aria-live="polite"></p>
     </div>
    </fieldset>
    <div class="divider"></div>
@@ -118,7 +145,7 @@
    </label>
    <button class="cta" type="submit" id="send" data-i18n="send">Submit setup details</button>
    <p id="feedback" role="alert" hidden></p>
-   <p class="secondary-note" data-i18n="security">Do not include passwords or payment details. Share photo and logo assets through a link.</p>
+   <p class="secondary-note" data-i18n="security">No passwords, card details or verification codes.</p>
   </form>
   <div class="success" id="complete" hidden role="status">
    <h2 id="complete-title">Your setup details are in!</h2>
