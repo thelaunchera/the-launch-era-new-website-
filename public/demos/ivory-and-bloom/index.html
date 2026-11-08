@@ -175,6 +175,15 @@ h1,h2,h3,.logo,.footer-wordmark,.gallery-quote{
 <link rel="stylesheet" href="/assets/tle-demo-tactile-20261108.css?v=2">
   <link rel="stylesheet" href="/assets/tle-demo-scroll-art-20261108.css?v=3">
   <link rel="stylesheet" href="/assets/tle-demo-footer-finale-20261108.css?v=1">
+<link rel="preload" as="image" href="./media/hero-motion-poster-hq.webp">
+<style id="tle-hero-same-frame-20261108">
+@media(prefers-reduced-motion:no-preference){
+html[data-tle-one-motion="ivory-and-bloom"] .hero .hero-photo{position:relative;background-image:url("./media/hero-motion-poster-hq.webp")!important;background-repeat:no-repeat!important;background-size:cover!important;background-position:center center!important;overflow:hidden;}
+html[data-tle-one-motion="ivory-and-bloom"] .hero .hero-photo>img,html[data-tle-one-motion="ivory-and-bloom"] .hero .hero-photo>picture,html[data-tle-one-motion="ivory-and-bloom"] .hero .hero-photo>picture img{opacity:0!important;}
+html[data-tle-one-motion="ivory-and-bloom"] .hero .hero-photo video[data-tle-cinematic-hero]{object-fit:cover;object-position:center;}
+
+}
+</style>
 </head>
 <body data-tle-demo="ivory-and-bloom" data-tle-company="demo">
 <a class="skip" href="#main">Skip to content</a>
@@ -309,5 +318,6 @@ h1,h2,h3,.logo,.footer-wordmark,.gallery-quote{
 <script defer src="/assets/tle-demo-tactile-20261108.js?v=2"></script>
   <script defer src="/assets/tle-demo-scroll-art-20261108.js?v=3"></script>
   <script defer src="/assets/tle-demo-footer-finale-20261108.js?v=1"></script>
-  <script defer src="/assets/tle-hero-cinematic-20261108.js?v=1"></script>
+  
+<script defer src="/assets/tle-hero-cinematic-20261108.js?v=7"></script>
 </body></html>
