@@ -232,6 +232,8 @@ assert.match(js,/backToTop\.hidden = window\.scrollY < 420/,'back-to-top appears
 console.log('Casa Brownie video + static educational demo QA OK');
 
 
-assert.match(html,/main\.js\?v=cb-flavors-top-20261102/);
+assert.match(html,/main\.js\?v=20261108-price-parity/,'Casa Brownie demo cart loads updated illustrative prices');
+assert.match(js,/clasico:600,nuez:630,dulce:750/,'Original cart prices equal Owner Center prices after discount');
+assert.match(html,/data-tle-demo-price-slug="casa-brownie"/,'Owner Center catalog price badges are included in the original demo');
 assert.equal((js.match(/assets\/sabor-/g)||[]).length,6,'all catalog photos are hosted originals');
 assert.doesNotMatch(js,/amummytoo|proteinbrownies|getrecipekit|anasrecipes|dailydoughco|ctfassets/,'no third-party flavor photos');
