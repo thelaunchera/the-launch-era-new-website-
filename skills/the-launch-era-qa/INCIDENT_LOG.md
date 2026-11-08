@@ -1,3 +1,10 @@
+## 2026-11-08 — Website offer gallery and service cards disproportionately small on iPad
+
+- **Owner evidence:** iPad Safari/Instagram browser screenshots at approximately 1024 CSS-pixel width show four approved demo portraits occupying only the middle of the hero, four benefits in tiny type, and the $15/$25 package copy compressed into narrow half-width slices.
+- **Confirmed source cause:** `public/assets/tle-gallery-hero-20261107.css` sets each figure to `flex:0 1 13.2%`, sized for seven simultaneous visible demos; `public/assets/tle-website-demo-visibility-20261108.js` hides unselected demos, so the remaining four keep seven-up proportions. `public/assets/tle-website-official.css` keeps benefits in four columns and pricing in two simultaneous 49/51-split cards at tablet widths.
+- **Scoped source fix:** gallery cards fill available space on 601–1099px screens, with horizontal swipe overflow when the visible set is large. Hero type/captions increase moderately. At 781–1099px, benefit cards switch to readable 2×2; at 741–1099px, $15/$25 packages stack as full-width image-plus-copy rows. Same shared styles serve EN and ES. No changes to Studio selection, visibility API, legal copy, checkout links, pricing, demos or desktop and phone layouts.
+- **Regression gate:** validate widths 390, 768, 820, 1024, 1099 and 1440 in Chromium and Safari/WebKit; check varying visible demo counts (1, 4, 7), scroll and click targets, language switch and $15/$25 checkout links. Run static route integrity and current website QA. **Production iPad visual result is not yet confirmed** until Pages deploy and real device review.
+
 ## 2026-11-08 — Golden Grid Pages release blocked by post-build photo optimization / stale visual QA
 
 - **Observed:** after owner reported persistent low image quality on the iPad, the public Pages build for Golden Grid's updated hero failed in `scripts/qa_demo_photo_performance.py`. The production audit could not find the required exact lossless `golden-1.png?v=20261108-master-hq` source after optimization, and an older QA assertion still expected the retired 512px masked-video geometry.
