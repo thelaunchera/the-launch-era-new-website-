@@ -98,3 +98,7 @@ html[data-tle-one-motion] button.tle-ux-purchase-action:focus-visible{
 @media(prefers-reduced-motion:reduce){
  html[data-tle-one-motion] button.tle-ux-purchase-action{transition:none!important;transform:none!important}
 }
+
+/* Full-screen lightboxes keep their original complete viewport backdrop.
+   Only the inner dialog is constrained on narrow phones. */
+html[data-tle-one-motion] .modal-root.tle-ux-dialog{max-width:none!important}
