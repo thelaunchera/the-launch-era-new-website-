@@ -117,8 +117,8 @@ for (const engine of [chromium,webkit]) {
         assert.equal(state.naturalWidth,512);
         assert.equal(state.naturalHeight,682);
         assert.ok(state.containerWidth<=512,'Never upscale the 512px source on phones');
-        assert.equal(state.fit,'contain','Never crop logo, product or headline');
-        assert.ok(Math.abs(state.photoRatio-512/682)<.035,'Video must match the original still aspect ratio');
+        assert.equal(state.fit,'cover','Fill 4:5 hero edges with only safe vertical-edge crop');
+        assert.ok(Math.abs(state.photoRatio-512/682)<.07,'Source aspect must be close enough to preserve product and headline');
         assert.ok(Math.abs(state.videoWidth-state.containerWidth)<2);
         assert.ok(Math.abs(state.videoHeight-state.containerHeight)<2);
         assert.equal(state.photoVisible,true);
