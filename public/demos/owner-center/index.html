@@ -51,6 +51,12 @@
 (function(){
 "use strict";
 const BASE="/demos/";
+/* Safe entry-page return: only our four public home routes are accepted.
+   Never use arbitrary redirects or external destinations. */
+const ownerEntryReturnTo=new URLSearchParams(location.search).get("returnTo");
+const allowedOwnerReturnTo=new Set(["/","/es/","/website-for-your-business/","/es/website-for-your-business/"]);
+const safeOwnerEntryReturnTo=allowedOwnerReturnTo.has(ownerEntryReturnTo)?ownerEntryReturnTo:"";
+const ownerBackUrl=brand=>BASE+"?demo="+encodeURIComponent(brand)+(safeOwnerEntryReturnTo?"&returnTo="+encodeURIComponent(safeOwnerEntryReturnTo):"");
 const themes={
  "golden-grid":{name:"Golden Grid",kind:"menu",accent:"#b88625",soft:"#f8edcf",hero:"/demos/golden-grid/resources/golden-1.png",site:"/demos/golden-grid/",items:[["The Golden Classic",13,0,"Waffles","Crisp edges, slow mornings","/demos/golden-grid/resources/golden-2.png"],["The At-Home Ritual",18,10,"Waffles","A breakfast moment worth keeping","/demos/golden-grid/resources/golden-3.png"],["Morning To Go",9,0,"Grab & Go","Little ritual, big flavor","/demos/golden-grid/resources/golden-6.png"]]},
  "la-vie-in-pink":{name:"La Vie in Pink",kind:"menu",accent:"#813942",soft:"#f6e8e5",hero:"/demos/la-vie-in-pink/resources/36a1bfe5-3660-4b7e-964d-8031fe824941.png",site:"/demos/la-vie-in-pink/",items:[["Butter Croissant",6,0,"Pâtisserie","A buttery morning classic",""],["Café Crème",5,10,"Coffee","Made for slow conversations",""],["Weekend Brunch",22,0,"Breakfast","A beautiful start to the day",""]]},
@@ -128,7 +134,7 @@ const renderRequests=()=>{
 const render=()=>{
  const cfg=themes[current];document.documentElement.style.setProperty("--accent",cfg.accent);document.documentElement.style.setProperty("--soft",cfg.soft);
  $("#subheading").textContent=(cfg.kind==="menu"?"DIGITAL MENU":"SERVICES + BOOKING")+" / OWNER VIEW";
- $("#breadcrumbs").textContent="← BACK TO DEMO";$("#breadcrumbs").href=BASE+"?demo="+encodeURIComponent(current);$("#back-preview").href=BASE+"?demo="+encodeURIComponent(current);
+ $("#breadcrumbs").textContent="← BACK TO DEMO";$("#breadcrumbs").href=ownerBackUrl(current);$("#back-preview").href=ownerBackUrl(current);const sideBack=document.querySelector(".side-bottom a");if(sideBack)sideBack.href=ownerBackUrl(current);
  $("#heading").innerHTML=cfg.kind==="menu"?"Your menu.<br>Your way.":"Your services.<br>Your way.";
  $("#intro").textContent=cfg.kind==="menu"?"Edit dishes, prices, promotions and availability. See the customer's menu respond instantly.":"Explore service packages, prices, offers and the booking experience — all with example data.";
  $("#live-site").href=cfg.site;
@@ -137,7 +143,7 @@ const render=()=>{
  renderStats();renderQuick();renderPreviews();renderCatalog();renderRequests();setNav();
 };
 $("#project").innerHTML=Object.entries(themes).map(([slug,c])=>'<option value="'+esc(slug)+'">'+esc(c.name)+'</option>').join("");
-$("#project").addEventListener("change",e=>{current=e.target.value;items=load();history.replaceState({}, "",location.pathname+"?demo="+encodeURIComponent(current));search="";$("#catalog-search").value="";closeEdit();render();setView("dashboard")});
+$("#project").addEventListener("change",e=>{current=e.target.value;items=load();history.replaceState({}, "",location.pathname+"?demo="+encodeURIComponent(current)+(safeOwnerEntryReturnTo?"&returnTo="+encodeURIComponent(safeOwnerEntryReturnTo):""));search="";$("#catalog-search").value="";closeEdit();render();setView("dashboard")});
 $("#item-form").addEventListener("submit",e=>{
  e.preventDefault();
  const name=$("#item-name").value.trim();const price=Number($("#item-price").value);const discount=Number($("#item-discount").value);const category=$("#item-category").value.trim();
