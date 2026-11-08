@@ -11,12 +11,10 @@
  const observer=('IntersectionObserver' in window)
    ?new IntersectionObserver(entries=>{
      for(const entry of entries){
-       if(entry.isIntersecting){
-         const el=entry.target;
-         if(el.classList.contains('cards'))el.classList.add('is-visible');
-         else el.classList.add('is-price-visible');
-         visible.add(el);active.delete(el);observer.unobserve(el);
-       }
+       const el=entry.target;
+       const className=el.classList.contains('cards')?'is-visible':'is-price-visible';
+       if(isReduced()||entry.isIntersecting)el.classList.add(className);
+       else if(!el.matches(':focus-within'))el.classList.remove(className);
      }
    },{threshold:0.16,rootMargin:'0px 0px -8% 0px'})
    :null;
@@ -27,7 +25,11 @@
      el.classList.add(el.classList.contains('cards')?'is-visible':'is-price-visible');
      visible.add(el);return;
    }
-   active.add(el);observer.observe(el);
+   active.add(el);
+   const rect=el.getBoundingClientRect();
+   if(rect.top<innerHeight*.84&&rect.bottom>0)
+     el.classList.add(el.classList.contains('cards')?'is-visible':'is-price-visible');
+   observer.observe(el);
  };
  const discountsSelector=[
   '.sales-home .booking-offer-tag',
@@ -58,12 +60,12 @@
    if(records.some(r=>r.addedNodes.length||r.type==='attributes'))schedule();
  }).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden']});
  if(reduce.addEventListener)reduce.addEventListener('change',()=>{
-   if(!isReduced())return;
    for(const el of active){
-     el.classList.add(el.classList.contains('cards')?'is-visible':'is-price-visible');
-     observer?.unobserve(el);
+     const rect=el.getBoundingClientRect();
+     const className=el.classList.contains('cards')?'is-visible':'is-price-visible';
+     el.classList.toggle(className,
+       isReduced()||(rect.bottom>0&&rect.top<innerHeight*.93));
    }
-   active.clear();
  });
  const group=document.querySelector('#plans .tle-plan-toggle[role="radiogroup"]');
  if(!group)return;
