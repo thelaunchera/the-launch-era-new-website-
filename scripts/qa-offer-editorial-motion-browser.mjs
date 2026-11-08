@@ -16,7 +16,7 @@ try{
    const response=await page.goto(base+route,{waitUntil:'domcontentloaded',timeout:35000});
    assert.equal(response?.status(),200,'Homepage must resolve '+lang);
    await page.waitForFunction(()=>document.documentElement.classList.contains('tle-offer-motion'));
-   assert.equal(await page.locator('.hero-gallery-card').count(),7,'Keep the demo gallery');
+   assert.equal(await page.locator('.hero-gallery-card').count(),11,'Keep eleven actual demo hero cards');
    assert.equal(await page.locator('.pricing .plan').count(),2,'Keep only two packages');
    assert.equal(await page.locator('.process .step').count(),4,'Keep four steps');
    const doc=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,viewport:innerWidth}));
@@ -77,7 +77,7 @@ try{
   console.log('PASS: iPhone reduced-motion accessibility');
  }finally{await reduced.close()}
  // Owner-reported 2026-11-08 iPad layout: mock visible selection to ensure
- // hidden projects never keep their original seven-card flex allocation.
+ // hidden projects never keep their old fixed seven-card flex allocation.
  for(const lang of ['en','es']){
   const route=lang==='es'?'/es/website-for-your-business/':'/website-for-your-business/';
   for(const width of [768,820,1024]){
@@ -87,9 +87,13 @@ try{
     await page.route('**/tle_website_demo_visibility?**',r=>r.fulfill({
      status:200,contentType:'application/json',
      body:JSON.stringify([
+      {demo_id:'ivory-and-bloom',visible:false},
       {demo_id:'casa-brownie',visible:false},
+      {demo_id:'crumb',visible:false},
       {demo_id:'la-vie-in-pink',visible:false},
-      {demo_id:'havana-19',visible:false}
+      {demo_id:'jaramillo-boutique',visible:false},
+      {demo_id:'havana-19',visible:false},
+      {demo_id:'sova',visible:false}
      ])
     }));
     const response=await page.goto(base+route,{waitUntil:'domcontentloaded',timeout:35000});
