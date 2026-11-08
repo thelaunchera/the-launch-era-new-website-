@@ -34,6 +34,22 @@ for(const [slug,pkg] of cases){
  assert.match(html,/name="reference_photos"/,'uploads inspiration images');
  assert.match(html,/name="domain_option"/,'supports clients without a domain');
  assert.match(html,/name="request_call"/,'optional 1:1 request');
+ assert.match(html,/name="ai_photo_request"/,'photo enhancement request visible in both offers');
+ assert.match(html,/demos\/photo-gallery/,'buyers can browse actual examples');
  assert.doesNotMatch(html,/api\/crm|command\.thelaunchera|tle-contact/,'no Command Center routing');
+}
+
+// AI PHOTO SHOWCASE QA — opt-in remains optional in both paid packages, but is retained in Studio.
+const photoBrief=readFileSync('public/assets/tle-website-intake-brief.js','utf8');
+execFileSync(process.execPath,['--check','public/assets/tle-website-intake-brief.js'],{stdio:'pipe'});
+assert.match(photoBrief,/aiPhotoQuestion:/,'AI photo opt-in must be bilingual');
+assert.match(photoBrief,/updatePhotoChoice/,'AI photo details should only appear when requested');
+assert.match(script,/note\('AI-enhanced photo request'/,'AI photo request must be preserved in project goals');
+assert.match(script,/note\('Preferred photo look'/,'selected look must reach private Studio notes');
+const curated=readFileSync('public/demos/photo-gallery/index.html','utf8');
+const found=[...curated.matchAll(/\["(?:FD|BK|PR|BT|CL|SV)-\d{2}"/g)];
+assert.equal(found.length,24,'publish exactly 24 real individually listed photo references');
+for(const image of [...curated.matchAll(/"(\/(?:demos|experience-cleaning)\/[^"]+\.(?:png|webp|jpg|jpeg))"/g)]){
+ assert.ok(existsSync('public'+image[1]),'curated image source missing '+image[1]);
 }
 console.log('[TLE WEBSITE INTAKES] Both payment-gated project setups, private photo uploads, optional call and Studio-only routing passed.');
