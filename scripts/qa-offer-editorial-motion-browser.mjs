@@ -139,6 +139,29 @@ try{
  try{
   await dp.goto(base+'/website-for-your-business/',{waitUntil:'domcontentloaded'});
   await dp.waitForFunction(()=>document.documentElement.classList.contains('tle-offer-motion'));
+  await dp.route('**/tle_website_demo_visibility?**',r=>r.fulfill({
+   status:200,contentType:'application/json',body:'[]'
+  }));
+  await dp.evaluate(()=>window.TLEWebsiteDemoVisibility?.reload());
+  await dp.waitForFunction(()=>document.querySelector('.hero-gallery-rail')?.dataset.galleryLayout==='extended',null,{timeout:12000});
+  const portfolio=await dp.evaluate(()=>{
+   const stage=document.querySelector('.hero-gallery-stage');
+   const visible=[...document.querySelectorAll('.hero-gallery-card')].filter(e=>getComputedStyle(e).display!=='none');
+   return {count:visible.length,overflow:stage.scrollWidth-stage.clientWidth,
+    narrowest:Math.min(...visible.map(e=>e.getBoundingClientRect().width)),
+    labels:visible.map(e=>e.dataset.demo)};
+  });
+  assert.equal(portfolio.count,11,'All eleven projects appear with no Studio hides '+JSON.stringify(portfolio));
+  assert.ok(portfolio.overflow>400&&portfolio.narrowest>=200,'Extended desktop gallery must be scrollable with readable real photos '+JSON.stringify(portfolio));
+  for(const slug of ['soluna-yoga','experience-cleaning','yummm','wok-social']){
+   assert.ok(portfolio.labels.includes(slug),'Required project missing: '+slug);
+  }
+  const yummm=dp.locator('.hero-gallery-card[data-demo="yummm"]');
+  assert.equal(await yummm.locator('video[data-motion-src*="/yummm/media/hero-motion-20261108.mp4"]').count(),1,
+   'YUMMM must use its original matching video with still fallback');
+  await dp.locator('.hero-gallery-card[data-demo="wok-social"]').scrollIntoViewIfNeeded();
+  const lastCardVisible=await dp.locator('.hero-gallery-card[data-demo="wok-social"]').isVisible();
+  assert.ok(lastCardVisible,'WOK must be reachable from extended desktop gallery');
   const d=await dp.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:innerWidth}));
   assert.ok(d.scroll<=d.width+2,'Desktop no horizontal overflow');
 
