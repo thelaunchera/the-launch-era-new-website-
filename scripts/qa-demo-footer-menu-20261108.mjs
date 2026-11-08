@@ -19,6 +19,13 @@ try{
    page.on('pageerror',err=>problems.push(String(err)));
    const r=await page.goto(origin+path(slug),{waitUntil:'domcontentloaded'});
    assert.equal(r?.status(),200,slug+' route loads');
+   // The 21+ age gate is intentional; pass it with an adult QA fixture before testing footer navigation.
+   if(slug==='aftr'){
+    const gate=page.locator('#ageGate');
+    await gate.waitFor({state:'visible'});
+    await page.locator('#ageYes').click();
+    assert.equal(await gate.isVisible(),false,'Age gate must close after adult confirmation');
+   }
    const finale=page.locator('.tle-footer-finale[data-tle-owned="true"]');
    await finale.waitFor({state:'visible',timeout:12000});
    assert.equal(await finale.count(),1,slug+' must have one interactive footer stage');
@@ -58,6 +65,10 @@ try{
  for(const slug of ['sova','havana-19','ivory-and-bloom','aftr','experience-cleaning']){
   const page=await context.newPage();
   await page.goto(origin+path(slug),{waitUntil:'domcontentloaded'});
+  if(slug==='aftr'){
+   await page.locator('#ageGate').waitFor({state:'visible'});
+   await page.locator('#ageYes').click();
+  }
   const stage=page.locator('.tle-footer-finale');
   await stage.waitFor({state:'visible',timeout:12000});
   assert.equal(await stage.locator('button.tle-footer-finale__return').count(),1);
