@@ -114,6 +114,21 @@ jobs:
       - name: Build website
         run: bun run build
 
+      - name: Create sharp SOVA widescreen hero motion from approved source
+        shell: bash
+        run: |
+          set -euo pipefail
+          image=".output/public/demos/sova/resources/01-hero.png"
+          video=".output/public/demos/sova/media/hero-motion-hq-20261108.mp4"
+          test -s "$image"
+          mkdir -p "$(dirname "$video")"
+          if ! command -v ffmpeg >/dev/null 2>&1; then
+            sudo apt-get update -qq && sudo apt-get install -y ffmpeg
+          fi
+          ffmpeg -hide_banner -loglevel error -y -loop 1 -framerate 30 -i "$image" -vf "zoompan=z='min(zoom+0.00005,1.0075)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1536x1024:fps=30,format=yuv420p" -frames:v 150 -an -c:v libx264 -crf 20 -preset veryfast -pix_fmt yuv420p -movflags +faststart "$video"
+          test -s "$video"
+          test "$(ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 "$video")" = "1536x1024"
+
       - name: Build Brand Board Studio on The Launch Era domain
         run: |
           set -euo pipefail

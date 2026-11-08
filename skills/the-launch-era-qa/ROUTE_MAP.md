@@ -1,10 +1,3 @@
-## 2026-11-08 — Golden Grid customer-provided hero video (no route change)
-- `/demos/golden-grid/` retains original bilingual navigation, prices, owner preview and local order walkthrough. The existing `.hero-art` now displays `media/hero-syrup-poster-20261108.webp` and lazily plays `media/hero-syrup-20261108.mp4` through Golden-only `golden-hero-syrup-20261108.js`. Both static assets are committed and served by the GitHub Pages website.
-- `/demos/?demo=golden-grid` continues to use the library iframe with a visible Close action and unloads on close. Mobile gallery limits concurrent source PNGs while keeping original photo dialogs.
-- No URLs, email/booking/payment destinations, tenant data or other brands' hero integrations changed. Browser CI and live iPhone proof pending.
-
-
-
 ## 2026-11-08 — SOVA 1536×1024 HD hero recovery (no route changes)
 
 - **Canonical URL stays** `/demos/sova/`. Only SOVA's hero video loader and its scoped visual CSS change. Original `resources/01-hero.png` is always visible as the matching first frame; `/assets/tle-hero-cinematic-20261108.js` continues serving all other eligible brands.

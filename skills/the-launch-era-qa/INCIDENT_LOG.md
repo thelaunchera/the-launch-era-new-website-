@@ -1,13 +1,3 @@
-## 2026-11-08 — Golden Grid: customer video hero and mobile preview freeze prevention
-- **Request:** use the owner-provided 5.0s portrait waffle/syrup animation as the Golden Grid hero background, without losing the return/close action in Studio.
-- **Source evidence:** the 512×682 original MP4 was ~2.29 MB with audio. Prepared a visually matching 512×682 frame-zero WebP poster and a 479,652-byte H.264 video without audio. Both binaries are committed under `public/demos/golden-grid/media/`; the original file is archived in the existing Golden Grid Drive folder. No external streaming dependency at runtime.
-- **Implementation:** Golden's dedicated lazy-loaded video script is paused when out of view and respects reduced motion/data-saving; fallback poster is visible immediately. Hero fits the full portrait on mobile and contains it on desktop with a soft backdrop, avoiding crop. Shared generic hero script no longer runs on Golden, but other brand animations are unaffected.
-- **Mobile mitigation:** Golden gallery decodes only current/adjacent original images and does not autoplay inside iframe/mobile. Existing close, lightbox, menus, shop previews and price scripts remain untouched.
-- **QA:** `scripts/qa-golden-grid-syrup-20261108.mjs` runs Chromium/WebKit portrait, reduced motion, video source, lightbox and library iframe exit checks in Editorial Demo Heroes QA. **Pending** GitHub Actions, GitHub Pages publish and physical iPhone/Studio QA before claiming fixed.
-- **Routes:** canonical `/demos/golden-grid/` and `/demos/?demo=golden-grid` unchanged.
-
-
-
 ## 2026-11-08 — SOVA close-up blurred hero / missing matching poster
 
 - **Reported:** iPad screenshot shows a blurred, overly cropped face in the SOVA opening hero.

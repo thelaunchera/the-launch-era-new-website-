@@ -21,23 +21,14 @@
   <link rel="stylesheet" href="/assets/tle-demo-scroll-art-20261108.css?v=4">
   <link rel="stylesheet" href="/assets/tle-demo-footer-finale-20261108.css?v=1">
 
-<!-- Approved hero photography remains visible until a matching, verified motion poster is available. -->
-<link rel="preload" as="image" href="./media/hero-motion-poster-hq.webp">
-<style id="tle-motion-first-frame-sova">
-@media(prefers-reduced-motion:no-preference){
-html[data-tle-one-motion="sova"] .hero-media{position:relative;background-image:url("./media/hero-motion-poster-hq.webp")!important;background-repeat:no-repeat!important;background-size:cover!important;background-position:center!important;overflow:hidden;}
-html[data-tle-one-motion="sova"] .hero-media>img{opacity:0!important;}
-html[data-tle-one-motion="sova"] .hero-media video[data-tle-cinematic-hero]{object-position:center;}
-@media(max-width:760px){html[data-tle-one-motion="sova"] .hero-media video[data-tle-cinematic-hero]{object-fit:contain!important;}}
-html[data-tle-one-motion="sova"] .hero-media video[data-tle-cinematic-hero]{object-fit:contain!important;background:#1454b7;}
-}
-</style>
+<!-- Original SOVA photography stays visible until the HD cinematic frame is decoded. -->
+<link rel="stylesheet" href="./sova-hero-hq-20261108.css?v=1">
 </head>
   <body data-tle-company="demo">
     <div id="app"></div>
   <script defer src="/assets/tle-demo-tactile-20261108.js?v=2"></script>
   <script defer src="/assets/tle-demo-scroll-art-20261108.js?v=4"></script>
   <script defer src="/assets/tle-demo-footer-finale-20261108.js?v=3"></script>
-<script defer src="/assets/tle-hero-cinematic-20261108.js?v=7"></script>
+<script defer src="./sova-hero-hq-20261108.js?v=1"></script>
 </body>
 </html>
