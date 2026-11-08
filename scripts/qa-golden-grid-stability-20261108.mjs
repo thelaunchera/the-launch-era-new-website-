@@ -1,9 +1,10 @@
 /** Golden Grid: iPhone iframe + original hero regression after motion fallback. */
-import { chromium } from 'playwright';
+import { chromium, webkit } from 'playwright';
 import assert from 'node:assert/strict';
 
 const base=(process.env.QA_URL||'http://127.0.0.1:4191').replace(/\/$/,'');
-const browser=await chromium.launch({headless:true});
+for(const engine of [chromium,webkit]) {
+const browser=await engine.launch({headless:true});
 try {
   for(const reducedMotion of ['no-preference','reduce']){
     const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,reducedMotion});
@@ -28,7 +29,7 @@ try {
     assert.equal(await page.locator('#lightbox').evaluate(d=>d.open),false,'Photo close must work');
     assert.deepEqual(errors,[],'No Golden JS errors');
     await context.close();
-    console.log('PASS Golden Grid direct',reducedMotion);
+    console.log('PASS Golden Grid direct',engine.name(),reducedMotion);
   }
   const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,reducedMotion:'reduce'});
   const page=await context.newPage();
@@ -40,5 +41,6 @@ try {
   assert.equal(await page.locator('#demo-viewer').evaluate(d=>d.open),false);
   assert.equal(await page.locator('#viewer-frame').getAttribute('src'),'about:blank');
   await context.close();
-  console.log('PASS Golden Grid demo library return');
+  console.log('PASS Golden Grid demo library return',engine.name());
 } finally {await browser.close();}
+}
