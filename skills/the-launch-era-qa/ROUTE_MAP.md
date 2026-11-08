@@ -1,3 +1,9 @@
+## 2026-11-08 — Bidirectional scroll animation maintenance (no route changes)
+
+- **Routes unchanged:** primary and secondary concept demos, `/demos/`, `/website-for-your-business/`, `/es/website-for-your-business/`, React marketing pages, and podcast/class landings retain the same canonical destinations and functionality.
+- **Presentation-only assets:** `/assets/tle-demo-scroll-art-20261108.{js,css}` is replayable after each viewport re-entry (and mirrored in `thelaunchera/demo-booking-landing-`), while `/assets/tle-offer-editorial-motion-20261108.js`, `/assets/tle-pricing-motion.js`, and brand/page-local existing observers replay without scroll interception. Cached `?v=` values were refreshed; paths and hosting remain GitHub Pages.
+- **Safety:** media, original hero designs, hover and scroll-responsive hero depth, forms, owner/client tenant data, auth, checkout, booking, and email integrations were not changed as part of this scroll-only fix.
+
 ## 2026-11-08 — Public copy cleanup across landings and concept demos (no route changes)
 
 - **Canonical public landings kept unchanged:** /website-for-your-business/, /es/website-for-your-business/, /booking-bundle/, /whatsapp-ai-agent/, /booking-demo/, /try-booking/, /cleaning-app-demo/ and /experience-cleaning/ retain their existing links, payment destinations, auth behavior and forms. This update edits customer-facing marketing language only.
