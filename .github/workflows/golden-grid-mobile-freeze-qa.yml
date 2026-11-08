@@ -6,6 +6,7 @@ on:
       - 'public/demos/golden-grid/**'
       - 'demo-source/golden-grid/**'
       - 'scripts/qa-golden-grid-stability-20261108.mjs'
+      - 'scripts/qa-golden-grid-approved-video-20261108.mjs'
       - '.github/workflows/golden-grid-mobile-freeze-qa.yml'
   push:
     branches: [main]
@@ -29,6 +30,11 @@ jobs:
           node --check public/demos/golden-grid/assets/index-BVJfIY3X.js
           node --check public/demos/golden-grid/golden-gallery-20261107.js
           node --check scripts/qa-golden-grid-stability-20261108.mjs
+          node --check scripts/qa-golden-grid-approved-video-20261108.mjs
+          node --check public/demos/golden-grid/golden-approved-hero-video-20261108.js
+          test -s public/demos/golden-grid/media/hero-approved-canva-20261108.mp4
+          test -s public/demos/golden-grid/media/hero-approved-canva-20261108-firstframe.webp
+          echo 'a0ba53f3d5c26a7be4424c5ab730930358ca3a9fd37273505d93b4d48a843a70  public/demos/golden-grid/media/hero-approved-canva-20261108.mp4' | sha256sum --check
           test -s public/demos/golden-grid/resources/golden-1.png
       - name: Install Chromium and WebKit
         run: |
@@ -46,3 +52,4 @@ jobs:
             sleep 1
           done
           node scripts/qa-golden-grid-stability-20261108.mjs
+          node scripts/qa-golden-grid-approved-video-20261108.mjs
