@@ -36,6 +36,10 @@ for(const [slug,pkg] of cases){
  assert.match(html,/name="request_call"/,'optional 1:1 request');
  assert.match(html,/name="ai_photo_request"/,'photo enhancement request visible in both offers');
  assert.match(html,/demos\/photo-gallery/,'buyers can browse actual examples');
+ assert.match(html,/id="photo-picker-dialog"/,'photo catalog must open in an intake overlay');
+ assert.match(html,/id="photo-picker-close"/,'buyer must be able to close gallery back to their own form');
+ assert.match(html,/id="photo-picker-frame"/,'gallery must remain in the paid intake page');
+
  assert.doesNotMatch(html,/api\/crm|command\.thelaunchera|tle-contact/,'no Command Center routing');
 }
 
@@ -52,4 +56,16 @@ assert.equal(found.length,24,'publish exactly 24 real individually listed photo 
 for(const image of [...curated.matchAll(/"(\/(?:demos|experience-cleaning)\/[^"]+\.(?:png|webp|jpg|jpeg))"/g)]){
  assert.ok(existsSync('public'+image[1]),'curated image source missing '+image[1]);
 }
+
+assert.match(photoBrief,/pickerDialog\.showModal\(\)/,'opening photos must preserve paid intake state in modal');
+assert.match(photoBrief,/event\.preventDefault\(\)/,'gallery link must not navigate away from form');
+assert.match(photoBrief,/event\.origin!==location\.origin/,'photo selection must enforce same-origin messaging');
+assert.match(photoBrief,/event\.source!==pickerFrame\.contentWindow/,'photo selection must come from the open gallery');
+assert.match(photoBrief,/ref\.value=code/,'selected photo reference must fill existing intake field');
+assert.match(photoBrief,/pickerDialog\.addEventListener\('close'/,'closing gallery must restore intake focus');
+assert.match(photoBrief,/pickerFrame\.src='about:blank'/,'closing gallery must stop iframe');
+assert.match(curated,/type:'tle:photo-gallery:select'/,'picker gallery must send selected style to paid intake');
+assert.match(curated,/embeddedPicker/,'standalone public library must stay separate from checkout context');
+assert.doesNotMatch(curated,/Return to intake|Regresar al intake|Volver al intake/i,'public gallery must not expose intake return controls');
+
 console.log('[TLE WEBSITE INTAKES] Both payment-gated project setups, private photo uploads, optional call and Studio-only routing passed.');
