@@ -1,62 +1,74 @@
-/* Golden Grid approved video — full-bleed, not a 512px portrait card.
-   The vertical 512x682 source fills the hero at its exact original aspect
-   ratio, showing the whole headline and waffles with no letterboxing,
-   yellow sidebars, photo behind, crop, filters or forced zoom. iPhone
-   retains the still hero for Studio WebView stability. */
+/* Golden Grid: keep the approved high-resolution campaign image in the hero.
+   The 512x682 Canva video is too small to replace the entire image on iPad or
+   desktop. Confine its moving syrup/waffle details to feathered areas only,
+   leaving the lettering, packaging and most of the food razor sharp.
+   Phones and reduced-motion visitors always receive the original photograph. */
 html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video{
   display:none;
 }
-@media(min-width:761px){
-  html[data-tle-one-motion="golden-grid"] .hero .hero-art{
-    display:block;
-    position:relative;
-    box-sizing:border-box;
-    width:100%;
-    min-width:0;
-    height:auto;
-    min-height:0;
-    padding:0!important;
-    margin:0;
-    border:0;
-    border-radius:0;
-    overflow:hidden;
-    background:transparent!important;
-  }
-  html[data-tle-one-motion="golden-grid"] .hero .hero-art>img{
-    width:100%;
-    height:auto;
-    object-fit:contain;
-    object-position:center;
-    max-width:none;
-    max-height:none;
-    transform:none!important;
-    filter:none!important;
-    animation:none!important;
-  }
+html[data-tle-one-motion="golden-grid"] .hero .hero-art{
+  display:block;
+  position:relative;
+  box-sizing:border-box;
+  width:100%;
+  min-width:0;
+  height:auto;
+  min-height:0;
+  padding:0!important;
+  margin:0;
+  border:0;
+  border-radius:0;
+  overflow:hidden;
+  background:transparent!important;
+}
+html[data-tle-one-motion="golden-grid"] .hero .hero-art>img{
+  display:block!important;
+  position:relative;
+  z-index:1;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  object-position:center;
+  max-width:none;
+  max-height:none;
+  transform:none!important;
+  filter:none!important;
+  animation:none!important;
 }
 @media(min-width:761px) and (prefers-reduced-motion:no-preference){
-  html[data-tle-one-motion="golden-grid"] .hero .hero-art>img{
-    display:none!important;
-  }
   html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video{
     display:block;
-    position:relative;
-    inset:auto;
+    position:absolute;
+    z-index:2;
+    inset:0;
     width:100%;
+    height:100%;
     max-width:none;
-    height:auto;
     max-height:none;
-    aspect-ratio:512 / 682;
-    transform:none!important;
+    aspect-ratio:auto;
     object-fit:cover;
     object-position:center;
-    animation:none!important;
-    filter:none!important;
-    border:0;
     margin:0;
     padding:0;
-    pointer-events:none;
+    border:0;
     background:transparent;
+    pointer-events:none;
+    transform:none!important;
+    filter:none!important;
+    animation:none!important;
+    opacity:0;
+    transition:opacity .25s ease-out;
+    /* A soft syrup-stream region plus a very light waffle-gloss movement.
+       Keep headline and product pack entirely on the sharp base still. */
+    -webkit-mask-image:
+      radial-gradient(ellipse 15% 25% at 70% 56%, #000 23%, rgba(0,0,0,.86) 51%, transparent 100%),
+      radial-gradient(ellipse 24% 12% at 47% 70%, rgba(0,0,0,.22) 20%, transparent 100%);
+    mask-image:
+      radial-gradient(ellipse 15% 25% at 70% 56%, #000 23%, rgba(0,0,0,.86) 51%, transparent 100%),
+      radial-gradient(ellipse 24% 12% at 47% 70%, rgba(0,0,0,.22) 20%, transparent 100%);
+  }
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-video-playing] .gg-approved-hero-video{
+    opacity:1;
   }
 }
 @media(max-width:760px),(prefers-reduced-motion:reduce){
@@ -67,11 +79,4 @@ html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video{
 html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video[hidden],
 html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-video-error] .gg-approved-hero-video{
   display:none!important;
-}
-/* Only when video decoding fails: restore the approved photograph as a
-   fail-safe, rather than leaving an empty full-bleed hero. */
-@media(min-width:761px){
-  html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-video-error]>img{
-    display:block!important;
-  }
 }
