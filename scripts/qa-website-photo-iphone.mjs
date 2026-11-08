@@ -16,7 +16,7 @@ try{
   });
   const page=await context.newPage();
   // Selection is an external read-only service. QA must explicitly expose
-  // all seven approved photo fixtures rather than accidentally failing when
+  // all eleven original demo photo fixtures rather than accidentally failing when
   // the service is unavailable and the public page correctly hides the rail.
   await page.route('**/tle_website_demo_visibility?**',route=>route.fulfill({
    status:200,contentType:'application/json',body:'[]'
@@ -28,8 +28,8 @@ try{
   const gallery=page.locator('section.hero.hero-gallery');
   assert.equal(await gallery.count(),1,'Gallery hero missing: '+language);
   const heroPhotos=gallery.locator('.hero-gallery-card img');
-  assert.equal(await heroPhotos.count(),7,'Expected seven authentic demo cards: '+language);
-  for(let i=0;i<7;i++){
+  assert.equal(await heroPhotos.count(),11,'Expected eleven authentic demo cards: '+language);
+  for(let i=0;i<11;i++){
    const demo=heroPhotos.nth(i);
    await demo.scrollIntoViewIfNeeded();
    await demo.evaluate(async img=>{ if(!img.complete)await new Promise((ok,fail)=>{img.addEventListener('load',ok,{once:true});img.addEventListener('error',fail,{once:true});}); });
