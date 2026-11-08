@@ -120,7 +120,7 @@ try{
   assert.deepEqual(found,heroSlugs,'Gallery brands must be unique and never include Umbral');
   for(const slug of heroSlugs){
    const hit=page.locator('.hero-gallery-card[data-demo="'+slug+'"] .hero-gallery-hit');
-   assert.equal(await hit.getAttribute('href'),'/demos/?demo='+slug+'&returnTo='+encodeURIComponent(locale),'Photo must link to exact library demo and original website');
+   assert.equal(await hit.getAttribute('href'),'/demos/?demo='+slug+'&returnTo='+encodeURIComponent(locale)+(locale.startsWith('/es/')?'&lang=es':''),'Photo must link to exact library demo, retain Spanish locale and original website');
   }
   const hit=page.locator('.hero-gallery-card[data-demo="'+chosen+'"] .hero-gallery-hit');
   await hit.click();
