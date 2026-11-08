@@ -143,7 +143,7 @@ function open(next){
  if(!dialog.open)dialog.showModal();
  var btn=dialog.querySelector('.tle-order-head button');if(btn)btn.focus();
 }
-function startWithItems(items){if(dineInAvailable&&!serviceMode)serviceMode='takeout';
+function startWithItems(items){if(dineInAvailable)serviceMode='takeout';
  if(Array.isArray(items)){cart.clear();var variants=[];items.forEach(function(x){var item=find(x.name||x.id),qty=Math.max(0,Math.min(24,Number(x.qty)||0));if(item&&qty){var i=catalog.indexOf(item);cart.set(i,Math.min(24,(cart.get(i)||0)+qty));if(x.size)variants.push(item.name+' · '+String(x.size))}});if(variants.length)details={notes:variants.join('; ').slice(0,250)}}
  paintFloat();open(count()?'cart':'menu');
 }
