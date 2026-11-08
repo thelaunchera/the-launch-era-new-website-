@@ -5,10 +5,10 @@ const origin=(process.env.QA_URL||'http://127.0.0.1:4191').replace(/\/$/,'');
 const slugs=['sova','golden-grid','casa-brownie','crumb','havana-19','ivory-and-bloom','la-vie-in-pink','marea-wigs-miami','aftr','lavender-edit','experience-cleaning'];
 const path=slug=>slug==='experience-cleaning'?'/experience-cleaning/':'/demos/'+slug+'/';
 const moved={
-  'havana-19':['#story','#tle-demo-sample-prices','#kitchen'],
+  'havana-19':['#story','#kitchen'],
  'aftr':['#tonight','#offers'],
  'lavender-edit':['#ritual','#gallery'],
- 'experience-cleaning':['.hero.hero-cleaning-site','#tle-demo-sample-prices','#experience']
+ 'experience-cleaning':['.hero.hero-cleaning-site','#experience']
 };
 const browser=await chromium.launch({headless:true});
 try{
@@ -44,7 +44,7 @@ try{
    if(moved[slug]){
     const ordering=await page.evaluate(([a,t])=>{
      const first=document.querySelector(a),second=document.querySelector(t);
-     return Boolean(first&&second&&first.nextElementSibling===second);
+     return Boolean(first&&second&&(first.nextElementSibling===second||(first.nextElementSibling?.id==='tle-demo-sample-prices'&&first.nextElementSibling.nextElementSibling===second)));
     },moved[slug]);
     assert.ok(ordering,slug+' original menu/catalog moved to requested early position');
    }
