@@ -1,0 +1,82 @@
+/* The Launch Era · Tactile demo forms, previews and carts — 2026-11-08
+   Presentation only: no prices, totals, routing, form data or delivery changes.
+   Typography, photos and original brand palettes remain each demo's own. */
+html[data-tle-one-motion="sova"]{--tle-touch:#174db1;--tle-touch-rgb:23,77,177}
+html[data-tle-one-motion="golden-grid"]{--tle-touch:#a8791d;--tle-touch-rgb:168,121,29}
+html[data-tle-one-motion="casa-brownie"]{--tle-touch:#935a3d;--tle-touch-rgb:147,90,61}
+html[data-tle-one-motion="crumb"]{--tle-touch:#376c8c;--tle-touch-rgb:55,108,140}
+html[data-tle-one-motion="havana-19"]{--tle-touch:#996b51;--tle-touch-rgb:153,107,81}
+html[data-tle-one-motion="ivory-and-bloom"]{--tle-touch:#94705f;--tle-touch-rgb:148,112,95}
+html[data-tle-one-motion="la-vie-in-pink"]{--tle-touch:#825d47;--tle-touch-rgb:130,93,71}
+html[data-tle-one-motion="marea-wigs-miami"]{--tle-touch:#507b75;--tle-touch-rgb:80,123,117}
+html[data-tle-one-motion="aftr"]{--tle-touch:#9d70d7;--tle-touch-rgb:157,112,215}
+html[data-tle-one-motion="lavender-edit"]{--tle-touch:#9d80ad;--tle-touch-rgb:157,128,173}
+html[data-tle-one-motion="experience-cleaning"]{--tle-touch:#667c91;--tle-touch-rgb:102,124,145}
+html[data-tle-one-motion="seasonal-brew"]{--tle-touch:#ab7853;--tle-touch-rgb:171,120,83}
+html[data-tle-one-motion="soluna-yoga"]{--tle-touch:#9a8270;--tle-touch-rgb:154,130,112}
+html[data-tle-one-motion="wok-social"]{--tle-touch:#c23826;--tle-touch-rgb:194,56,38}
+html[data-tle-one-motion="yummm"]{--tle-touch:#bc453e;--tle-touch-rgb:188,69,62}
+html[data-tle-one-motion="jaramillo-boutique"]{--tle-touch:#7f3145;--tle-touch-rgb:127,49,69}
+html[data-tle-one-motion] :is(form.tle-ux-form,.tle-ux-dialog){min-width:0}
+html[data-tle-one-motion] :is(form.tle-ux-form,.tle-ux-dialog) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),select,textarea){
+  box-sizing:border-box;max-width:100%;min-width:0;
+  transition:border-color .23s ease,box-shadow .23s ease,background-color .23s ease;
+}
+html[data-tle-one-motion] form.tle-ux-form .tle-ux-field{min-width:0;position:relative;transition:color .18s ease}
+html[data-tle-one-motion] form.tle-ux-form .tle-ux-field:focus-within{color:inherit}
+html[data-tle-one-motion] form.tle-ux-form .tle-ux-field:focus-within :is(input:not([type="hidden"]),select,textarea),
+html[data-tle-one-motion] form.tle-ux-form :is(input:not([type="hidden"]),select,textarea):focus{
+  border-color:var(--tle-touch,#856555)!important;
+  box-shadow:0 0 0 3px rgba(var(--tle-touch-rgb,132,96,80),.11)!important;
+  outline-offset:2px;
+}
+html[data-tle-one-motion] form.tle-ux-form :is(input:not([type="hidden"]),select,textarea)[data-tle-filled="true"]:not([aria-invalid="true"]){
+  border-color:rgba(var(--tle-touch-rgb,132,96,80),.46);
+}
+html[data-tle-one-motion] form.tle-ux-form :is(input:not([type="hidden"]),select,textarea):is([aria-invalid="true"],:user-invalid){
+  border-color:#b74842!important;box-shadow:0 0 0 2px rgba(183,72,66,.11)!important
+}
+/* Input active state: soft editorial depth, no bouncing or perpetually running animation. */
+html[data-tle-one-motion] :is(form.tle-ux-form,.tle-ux-dialog) :is(button:not(:disabled),[type="submit"]:not(:disabled),[role="button"],a[class*="btn"]){
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+  transition:transform .18s cubic-bezier(.2,.75,.22,1),box-shadow .22s ease,filter .22s ease,background-color .22s ease;
+}
+html[data-tle-one-motion] :is(form.tle-ux-form,.tle-ux-dialog) :is(button:not(:disabled),[type="submit"]:not(:disabled),[role="button"]):active{
+  transform:scale(.985);
+}
+html[data-tle-one-motion] :is(form.tle-ux-form,.tle-ux-dialog) :is(button,[type="submit"],input,select,textarea,a):focus-visible{
+  outline:2px solid var(--tle-touch,#856555);outline-offset:3px;
+}
+html[data-tle-one-motion] form.tle-ux-form :is(button[type="submit"],input[type="submit"]){
+  min-height:46px;max-width:100%;box-shadow:0 8px 19px rgba(var(--tle-touch-rgb,132,96,80),.08);
+}
+html[data-tle-one-motion] form.tle-ux-form :is(button[type="submit"],input[type="submit"]):hover:not(:disabled){
+  box-shadow:0 11px 25px rgba(var(--tle-touch-rgb,132,96,80),.18);
+}
+html[data-tle-one-motion] form.tle-ux-form .tle-ux-field.tle-ux-active > :is(span,label,p):first-child{
+  color:var(--tle-touch,#856555);
+}
+html[data-tle-one-motion] .tle-ux-dialog:is([open],:not([hidden])){
+  transition:box-shadow .25s ease;
+}
+html[data-tle-one-motion] dialog.tle-ux-dialog::backdrop{background:rgba(22,16,16,.57);backdrop-filter:blur(5px)}
+html[data-tle-one-motion] .tle-ux-dialog :is(.bag-items,.cart-items,.order-list,.summary,.preview-total,.bag-total,.bag-subtotal-row,.cart-total){
+  transition:box-shadow .22s ease,background-color .22s ease;
+}
+html[data-tle-one-motion] .tle-ux-dialog :is(.bag-items,.cart-items,.order-list,.summary,.preview-total,.bag-total,.bag-subtotal-row,.cart-total):focus-within{
+  box-shadow:inset 0 0 0 1px rgba(var(--tle-touch-rgb,132,96,80),.18);
+}
+/* Success is a preview, not a fabricated payment, booking or email confirmation. */
+html[data-tle-one-motion] :is(.receipt,.success,.preview,.request-preview)[role="status"],
+html[data-tle-one-motion] :is(.receipt,.success,.preview,.request-preview)[aria-live]{
+  box-shadow:0 8px 32px rgba(20,15,12,.08);
+}
+@media(max-width:600px){
+ html[data-tle-one-motion] form.tle-ux-form :is(input:not([type="hidden"]),textarea,select){font-size:16px;min-width:0;max-width:100%}
+ html[data-tle-one-motion] :is(form.tle-ux-form,.tle-ux-dialog) :is(button[type="submit"],button[data-action],button[aria-controls]){min-height:44px}
+ html[data-tle-one-motion] .tle-ux-dialog{max-width:calc(100vw - 24px)}
+}
+@media(prefers-reduced-motion:reduce){
+ html[data-tle-one-motion] :is(form.tle-ux-form,.tle-ux-dialog),
+ html[data-tle-one-motion] :is(form.tle-ux-form,.tle-ux-dialog) *{transition:none!important}
+}
