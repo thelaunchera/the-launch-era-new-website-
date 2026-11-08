@@ -47,6 +47,7 @@
 </main></div>
 <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile Owner Center navigation"></nav>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="/assets/tle-demo-locale-20261108.js"></script>
 <script>
 (function(){
 "use strict";
@@ -56,7 +57,7 @@ const BASE="/demos/";
 const ownerEntryReturnTo=new URLSearchParams(location.search).get("returnTo");
 const allowedOwnerReturnTo=new Set(["/","/es/","/website-for-your-business/","/es/website-for-your-business/"]);
 const safeOwnerEntryReturnTo=allowedOwnerReturnTo.has(ownerEntryReturnTo)?ownerEntryReturnTo:"";
-const ownerBackUrl=()=>BASE+"?demo="+encodeURIComponent(current)+(safeOwnerEntryReturnTo?"&returnTo="+encodeURIComponent(safeOwnerEntryReturnTo):"");
+const ownerBackUrl=()=>BASE+"?demo="+encodeURIComponent(current)+(window.TLELocale?.isEs?"&lang=es":"")+(safeOwnerEntryReturnTo?"&returnTo="+encodeURIComponent(safeOwnerEntryReturnTo):"");
 const themes={
  "golden-grid":{name:"Golden Grid",kind:"menu",accent:"#b88625",soft:"#f8edcf",hero:"/demos/golden-grid/resources/golden-1.png",site:"/demos/golden-grid/",items:[["The Golden Classic",13,0,"Waffles","Crisp edges, slow mornings","/demos/golden-grid/resources/golden-2.png"],["The At-Home Ritual",18,10,"Waffles","A breakfast moment worth keeping","/demos/golden-grid/resources/golden-3.png"],["Morning To Go",9,0,"Grab & Go","Little ritual, big flavor","/demos/golden-grid/resources/golden-6.png"]]},
  "la-vie-in-pink":{name:"La Vie in Pink",kind:"menu",accent:"#813942",soft:"#f6e8e5",hero:"/demos/la-vie-in-pink/resources/36a1bfe5-3660-4b7e-964d-8031fe824941.png",site:"/demos/la-vie-in-pink/",items:[["Butter Croissant",6,0,"Pâtisserie","A buttery morning classic",""],["Café Crème",5,10,"Coffee","Made for slow conversations",""],["Weekend Brunch",22,0,"Breakfast","A beautiful start to the day",""]]},
@@ -75,7 +76,7 @@ const themes={
 const navItems=[["dashboard","Dashboard","<rect x='3' y='3' width='7' height='7'/><rect x='14' y='3' width='7' height='7'/><rect x='3' y='14' width='7' height='7'/><rect x='14' y='14' width='7' height='7'/>"],["catalog","Catalog","<path d='M4 7h16M4 12h16M4 17h16'/>"],["requests","Requests","<rect x='4' y='4' width='16' height='16' rx='2'/><path d='M8 10h8M8 14h5'/>"],["preview","Preview","<rect x='2' y='3' width='20' height='17' rx='3'/><path d='M8 21h8'/>"]];
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const currency=n=>new Intl.NumberFormat("en-US",{style:"currency",currency:"USD"}).format(Math.max(0,Number(n)||0));
+const currency=n=>new Intl.NumberFormat(window.TLELocale?.isEs?"es-US":"en-US",{style:"currency",currency:"USD"}).format(Math.max(0,Number(n)||0));
 const safeImage=s=>{const v=String(s||"").trim();return (/^https:\/\/(?:thelaunchera\.com|thelaunchera\.github\.io)\//i.test(v)||/^\/(?!\/)[\w./?=&%-]+$/.test(v))?v:"";};
 const imgTag=(s,alt)=>{const src=safeImage(s);return src?'<img src="'+esc(src)+'" alt="'+esc(alt)+'" loading="lazy" onerror="this.style.display=\'none\'">':'<span style="height:100%;min-height:65px;display:grid;place-items:center;background:var(--soft);color:var(--accent);font-family:Georgia,serif;font-size:27px">TLE</span>';};
 const baseItems=config=>config.items.map((v,i)=>({id:"p"+(i+1),name:v[0],price:v[1],discount:v[2],category:v[3],description:v[4],image:v[5]||"",available:true}));
@@ -85,12 +86,12 @@ let currentView="dashboard",editedId=null,items=[],search="",timer;
 const key=()=>"tle-owner-demo-v1-"+current;
 const load=()=>{try{const saved=JSON.parse(localStorage.getItem(key())||"null");if(Array.isArray(saved)&&saved.every(v=>v&&typeof v.id==="string"&&typeof v.name==="string"))return saved.slice(0,75)}catch(e){}return baseItems(themes[current]);};
 const persist=()=>{try{localStorage.setItem(key(),JSON.stringify(items))}catch(e){toast("Browser storage is off. Changes last until you leave.");}};
-const toast=m=>{const n=$("#toast");n.textContent=m;n.classList.add("show");clearTimeout(timer);timer=setTimeout(()=>n.classList.remove("show"),3000)};
+const toast=m=>{const n=$("#toast");n.textContent=window.TLELocale?.tr(m)||m;n.classList.add("show");clearTimeout(timer);timer=setTimeout(()=>n.classList.remove("show"),3000)};
 const priceOf=p=>Math.max(0,Number(p.price)||0)*(1-Math.max(0,Math.min(90,Number(p.discount)||0))/100);
 const iconSvg=path=>'<svg viewBox="0 0 24 24" aria-hidden="true">'+path+'</svg>';
 const setNav=()=>{
  const buttons=navItems.map(([v,label,path])=>'<button type="button" class="nav-button" data-view="'+v+'" '+(v===currentView?'aria-current="page"':'')+'>'+iconSvg(path)+'<span>'+esc(v==="catalog"?(themes[current].kind==="menu"?"Menu":"Services"):v==="requests"?(themes[current].kind==="menu"?"Orders":"Bookings"):label)+'</span></button>').join("");
- $("#sidebar-nav").innerHTML=buttons;$("#mobile-nav").innerHTML=buttons;
+ $("#sidebar-nav").innerHTML=buttons;$("#mobile-nav").innerHTML=buttons;window.TLELocale?.apply($("#sidebar-nav"));window.TLELocale?.apply($("#mobile-nav"));
  document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",()=>setView(b.dataset.view)));
 };
 const setView=v=>{
@@ -105,17 +106,18 @@ const renderStats=()=>{
  $("#kpi-items").textContent=items.length;$("#kpi-offers").textContent=items.filter(p=>p.available&&Number(p.discount)>0).length;$("#kpi-available").textContent=items.filter(p=>p.available).length;
 };
 const itemLine=p=>'<div class="item-row">'+imgTag(p.image||themes[current].hero,p.name)+'<div class="item-details"><strong>'+esc(p.name)+'</strong><span>'+esc(p.category)+' · '+(p.available?"Available":"Unavailable")+'</span></div><span class="item-price">'+currency(priceOf(p))+'</span><button type="button" class="text-button" data-edit="'+esc(p.id)+'">Edit</button></div>';
-const renderQuick=()=>{$("#quick-list").innerHTML=items.length?items.slice(0,5).map(itemLine).join(""):'<p class="empty">No items. Add your first sample item.</p>';};
+const renderQuick=()=>{$("#quick-list").innerHTML=items.length?items.slice(0,5).map(itemLine).join(""):'<p class="empty">No items. Add your first sample item.</p>';window.TLELocale?.apply($("#quick-list"));};
 const phoneHtml=()=>{
  const cfg=themes[current];const visible=items.filter(p=>p.available);
  return '<div class="phone"><div class="phone-hero">'+imgTag(cfg.hero,cfg.name)+'<div class="phone-brand">'+esc(cfg.name)+'</div></div><div class="phone-inner"><p class="phone-caption">'+(cfg.kind==="menu"?"YOUR MENU · MADE TO EXPLORE":"SERVICES · MADE FOR YOU")+'</p><div class="preview-items">'+(visible.length?visible.map(p=>'<div class="preview-card">'+imgTag(p.image||cfg.hero,p.name)+'<div><strong>'+esc(p.name)+'</strong><small>'+esc(p.category)+'</small><b>'+currency(priceOf(p))+'</b>'+(Number(p.discount)>0?'<del>'+currency(p.price)+'</del>':'')+'</div></div>').join(""):'<p class="subtle" style="grid-column:1/-1">No items currently available.</p>')+'</div></div><div class="phone-foot">SIMULATED CUSTOMER VIEW · NO TRANSACTIONS</div></div>';
 };
-const renderPreviews=()=>{$("#small-preview").innerHTML=phoneHtml();$("#large-preview").innerHTML=phoneHtml();};
+const renderPreviews=()=>{$("#small-preview").innerHTML=phoneHtml();$("#large-preview").innerHTML=phoneHtml();window.TLELocale?.apply($("#small-preview"));window.TLELocale?.apply($("#large-preview"));};
 const renderCatalog=()=>{
- const filtered=items.filter(p=>(p.name+" "+p.category).toLowerCase().includes(search));
+ const filtered=items.filter(p=>(p.name+" "+p.category+" "+(window.TLELocale?.tr(p.name)||"")+" "+(window.TLELocale?.tr(p.category)||"")).toLowerCase().includes(search));
  $("#catalog-list").innerHTML=filtered.length?filtered.map(p=>'<article class="product-card">'+imgTag(p.image||themes[current].hero,p.name).replace("<img ","<img class=\"product-image\" ")+'<div class="product-data"><h3>'+esc(p.name)+'</h3><p>'+esc(p.description||p.category)+'</p><strong>'+currency(priceOf(p))+'</strong>'+(Number(p.discount)>0?'<span class="strike">'+currency(p.price)+'</span>':'')+' <span class="tag '+(!p.available?"off":Number(p.discount)>0?"sale":"")+'">'+(!p.available?"Unavailable":Number(p.discount)>0?Number(p.discount)+"% OFF":"Available")+'</span><div class="product-actions"><button class="text-button" data-edit="'+esc(p.id)+'" type="button">Edit item</button><button class="text-button" data-toggle="'+esc(p.id)+'" type="button">'+(p.available?"Mark unavailable":"Make available")+'</button></div></div></article>').join(""):'<div class="empty">No matching items. Add one or clear your search.</div>';
+ window.TLELocale?.apply($("#catalog-list"));
 };
-const fillForm=p=>{$("#item-name").value=p.name;$("#item-price").value=p.price;$("#item-discount").value=p.discount;$("#item-category").value=p.category;$("#item-desc").value=p.description;$("#item-image").value=p.image;$("#item-available").checked=p.available};
+const fillForm=p=>{$("#item-name").value=window.TLELocale?.localizeInput(p.name)||p.name;$("#item-price").value=p.price;$("#item-discount").value=p.discount;$("#item-category").value=window.TLELocale?.localizeInput(p.category)||p.category;$("#item-desc").value=window.TLELocale?.localizeInput(p.description)||p.description;$("#item-image").value=p.image;$("#item-available").checked=p.available};
 const edit=id=>{
  const p=items.find(x=>x.id===id);
  if(!p)return;
@@ -124,12 +126,12 @@ const edit=id=>{
 const add=()=>{
  setView("catalog");editedId=null;$("#editor-title").textContent="Add "+(themes[current].kind==="menu"?"menu item":"service");fillForm({name:"",price:"0",discount:0,category:themes[current].kind==="menu"?"Specials":"Services",description:"",image:"",available:true});$("#delete-item").hidden=true;$("#editor-panel").classList.add("is-open");$("#editor-panel").scrollIntoView({behavior:"smooth",block:"start"});};
 const closeEdit=()=>{$("#editor-panel").classList.remove("is-open");editedId=null;};
-const reset=()=>{if(!confirm("Reset this brand's demo? Your browser-only edits for this project will be cleared."))return;try{localStorage.removeItem(key())}catch(e){}items=baseItems(themes[current]);closeEdit();render();toast("Original demo restored");};
+const reset=()=>{if(!confirm(window.TLELocale?.tr("Reset this brand's demo? Your browser-only edits for this project will be cleared.")||"Reset this brand's demo? Your browser-only edits for this project will be cleared."))return;try{localStorage.removeItem(key())}catch(e){}items=baseItems(themes[current]);closeEdit();render();toast("Original demo restored");};
 const renderRequests=()=>{
  const restaurant=themes[current].kind==="menu";
  $("#request-descriptor").textContent=restaurant?"Sample order cards for a fictional day.":"Sample bookings and quote requests for a fictional day.";
  const sample=restaurant?[["Order example #001","Two menu items · Takeaway","Example only"],["Order example #002","One menu item · Dine-in","Example only"],["Order example #003","Three menu items · Pickup","Example only"]]:[["Request example #001","New inquiry · Residential","Example only"],["Booking example #002","Consultation requested","Example only"],["Quote example #003","Service package inquiry","Example only"]];
- $("#requests-list").innerHTML=sample.map(p=>'<article class="request"><span class="tag">SIMULATED</span><h3 style="margin-top:12px">'+p[0]+'</h3><div class="request-meta">'+p[1]+'<br>'+p[2]+'</div></article>').join("");
+ $("#requests-list").innerHTML=sample.map(p=>'<article class="request"><span class="tag">SIMULATED</span><h3 style="margin-top:12px">'+p[0]+'</h3><div class="request-meta">'+p[1]+'<br>'+p[2]+'</div></article>').join("");window.TLELocale?.apply($("#requests-list"));
 };
 const render=()=>{
  const cfg=themes[current];document.documentElement.style.setProperty("--accent",cfg.accent);document.documentElement.style.setProperty("--soft",cfg.soft);
@@ -138,9 +140,9 @@ const render=()=>{
  $("#heading").innerHTML=cfg.kind==="menu"?"Your menu.<br>Your way.":"Your services.<br>Your way.";
  $("#intro").textContent=cfg.kind==="menu"?"Edit dishes, prices, promotions and availability. See the customer's menu respond instantly.":"Explore service packages, prices, offers and the booking experience — all with example data.";
  $("#live-site").href=cfg.site;
- document.title=cfg.name+" · Owner Center · The Launch Era";
+ document.title=cfg.name+" · "+(window.TLELocale?.isEs?"Panel del propietario":"Owner Center")+" · The Launch Era";
  $("#project").value=current;
- renderStats();renderQuick();renderPreviews();renderCatalog();renderRequests();setNav();
+ renderStats();renderQuick();renderPreviews();renderCatalog();renderRequests();setNav();window.TLELocale?.apply(document.querySelector(".shell"));
 };
 $("#project").innerHTML=Object.entries(themes).map(([slug,c])=>'<option value="'+esc(slug)+'">'+esc(c.name)+'</option>').join("");
 $("#project").addEventListener("change",e=>{current=e.target.value;items=load();history.replaceState({}, "",location.pathname+"?demo="+encodeURIComponent(current)+(safeOwnerEntryReturnTo?"&returnTo="+encodeURIComponent(safeOwnerEntryReturnTo):""));search="";$("#catalog-search").value="";closeEdit();render();setView("dashboard")});
@@ -153,7 +155,7 @@ $("#item-form").addEventListener("submit",e=>{
  const entity={id:editedId||"p"+Date.now(),name,price:Math.round(price*100)/100,discount:Math.round(discount),category,description:$("#item-desc").value.trim(),image:rawImage,available:$("#item-available").checked};
  if(editedId){const i=items.findIndex(x=>x.id===editedId);if(i<0)return;items[i]=entity}else items.unshift(entity);
  persist();closeEdit();render();toast("Changes saved in this browser");});
-$("#delete-item").addEventListener("click",()=>{if(!editedId||!confirm("Delete this sample item?"))return;items=items.filter(p=>p.id!==editedId);persist();closeEdit();render();toast("Sample item deleted");});
+$("#delete-item").addEventListener("click",()=>{if(!editedId||!confirm(window.TLELocale?.tr("Delete this sample item?")||"Delete this sample item?"))return;items=items.filter(p=>p.id!==editedId);persist();closeEdit();render();toast("Sample item deleted");});
 $("#catalog-search").addEventListener("input",e=>{search=e.target.value.toLowerCase().trim();renderCatalog()});
 $("#cancel-edit").addEventListener("click",closeEdit);$("#cancel-edit2").addEventListener("click",closeEdit);
 $("#reset-top").addEventListener("click",reset);$("#reset-preview").addEventListener("click",reset);
@@ -163,6 +165,7 @@ document.addEventListener("click",e=>{
  const toggle=e.target.closest("[data-toggle]");if(toggle){const p=items.find(x=>x.id===toggle.dataset.toggle);if(!p)return;p.available=!p.available;persist();render();toast(p.available?"Available again":"Marked unavailable");return;}
  const view=e.target.closest("[data-view]");if(view){setView(view.dataset.view);return;}
 });
+window.TLELocale?.init("owner");
 items=load();render();setView("dashboard");
 })();
 </script>
