@@ -65,7 +65,10 @@
   fixedVisible.id="tleFixedPriceVisibility";
   const estimateVisible=select(base,es,"Show approximate estimates to customers?","¿Mostrar estimados aproximados a clientes?",[["no","No — owner review first","No — revisión primero"],["yes","Yes — clearly marked not final","Sí — indicando que no son finales"]]);
   estimateVisible.id="tleEstimatePriceVisibility";
-  const factorPane=makePanel(base,es,"What changes your estimate?","¿Qué cambia tus estimados?","Tap all that apply; no final prices will be invented.","Marca los factores; no se inventarán precios finales.");
+  const factorDisclosure=node("details",undefined,"tle-guided-estimate-optional");
+  factorDisclosure.append(node("summary",pick(es,"Estimate factors (optional)","Factores del estimado (opcional)")));
+  base.append(factorDisclosure);
+  const factorPane=makePanel(factorDisclosure,es,"What changes your estimate?","¿Qué cambia tus estimados?","Tap all that apply; no final prices will be invented.","Marca los factores; no se inventarán precios finales.");
   const getFactors=check(factorPane,es,factors,"estimate_factors");
   let read=()=>[],rows=new Map(),active=[];
   function render(){
