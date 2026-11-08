@@ -1,3 +1,10 @@
+## 2026-11-08 — SOVA original portrait video enlarged and missing hero playback
+
+- **Reported:** iPad SOVA hero looked blurry and heavily cropped. Owner supplied original Canva portrait video and requested it play behind the hero like the former photo, while keeping the subject visible.
+- **Verified cause:** Previous scoped SOVA loader requested missing `media/hero-motion-hq-20261108.mp4` and required a landscape 1536×1024 clip. The present canonical original video is `media/hero-motion-20261108.mp4` (1024×1364, 2,473,761 bytes), with its matching poster `media/hero-motion-poster-hq.webp`. Full-bleed `cover` of portrait media on a landscape hero cropped the model; same-level video and text stacking hid copy.
+- **Repair:** SOVA-only loader uses existing original HD portrait file and first-frame poster, contains and right-aligns the complete portrait within cobalt-blue editorial background, puts copy and CTAs above video, removes the 3.5% reactive zoom, and preserves the original 1536×1024 still for error/reduced-motion/Data Saver. Mobile 760px and below gets full portrait-first 4:5 photo slot; all other demos untouched. No binaries duplicated or replaced.
+- **QA gate:** Verify original MP4 and poster paths are present; verify screenshot 390px phone, 820px tablet and 1440px desktop with full face/headphones visible and no overlapping text or layout overflow; verify reduced-motion original still; run `node scripts/qa-route-integrity.mjs --static`, relevant browser QA and Pages workflow before claiming production/physical iPhone success.
+
 ## 2026-11-08 — SOVA close-up blurred hero / missing matching poster
 
 - **Reported:** iPad screenshot shows a blurred, overly cropped face in the SOVA opening hero.

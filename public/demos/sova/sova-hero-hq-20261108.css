@@ -1,52 +1,50 @@
-/* SOVA 2026-11-08: high-definition editorial hero, identical first-frame photo.
-   Scope to SOVA only: do not change menus, CTAs, galleries, other demos. */
+/* SOVA only — editorial portrait video framed in the original hero, without cropping.
+   1024x1364 Canva footage, high-resolution source. Keep original SOVA still as fallback. */
+html[data-tle-one-motion="sova"] .hero {background:var(--deep-blue,#07347f)}
 html[data-tle-one-motion="sova"] .hero .hero-media {
-  background: #154fb3 !important;
-  background-image: none !important;
-  overflow: hidden;
-  isolation: isolate;
+  isolation:isolate;overflow:hidden;background-color:#093b9d;
+  background-image:url("./media/hero-motion-poster-hq.webp");
+  background-repeat:no-repeat;background-size:auto 100%;background-position:86% center;
 }
 html[data-tle-one-motion="sova"] .hero .hero-media > img {
-  display: block;
-  opacity: 1 !important;
-  width: 100%;
-  height: 100%;
-  object-fit: contain !important;
-  object-position: center center !important;
+  display:block;width:100%;height:100%;object-fit:cover;object-position:center;
+  opacity:1;transition:opacity .15s ease;
+}
+html[data-tle-one-motion="sova"] .hero .hero-media.sova-motion-ready > img {
+  opacity:0!important;
 }
 html[data-tle-one-motion="sova"] .hero .hero-media > video[data-sova-hq-motion] {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  object-fit: contain !important;
-  object-position: center center !important;
-  background: #154fb3;
-  opacity: 0;
-  z-index: 1;
-  pointer-events: none;
-  border: 0;
-  transition: opacity 350ms ease;
+  position:absolute;inset:0;display:block;width:100%;height:100%;max-width:none;
+  object-fit:contain!important;object-position:86% center!important;
+  background:#093b9d;z-index:1;opacity:0;border:0;
+  pointer-events:none;transition:opacity .2s ease;transform:none!important;
 }
-html[data-tle-one-motion="sova"] .hero .hero-media > video[data-sova-hq-motion].sova-motion-playing {
-  opacity: 1;
+html[data-tle-one-motion="sova"] .hero .hero-media > video[data-sova-hq-motion].sova-motion-playing {opacity:1}
+html[data-tle-one-motion="sova"] .hero .hero-copy,
+html[data-tle-one-motion="sova"] .hero .hero-bottom {
+  z-index:3;position:relative;
 }
-@media (prefers-reduced-motion: no-preference) {
-  html[data-tle-one-motion="sova"] .hero .hero-media > :is(img, video[data-sova-hq-motion]) {
-    /* The original 3.5% universal reactive zoom felt too close on SOVA. */
-    scale: 1.004 !important;
-    rotate: none !important;
+html[data-tle-one-motion="sova"] .hero .hero-copy {isolation:isolate}
+@media (prefers-reduced-motion:no-preference) {
+  html[data-tle-one-motion="sova"] .hero .hero-media > :is(img,video[data-sova-hq-motion]) {
+    scale:1!important;rotate:none!important;filter:none!important;
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  html[data-tle-one-motion="sova"] .hero .hero-media > video[data-sova-hq-motion] {
-    display: none !important;
-    transition: none !important;
+@media (max-width:760px) {
+  html[data-tle-one-motion="sova"] .hero {display:flex;flex-direction:column;aspect-ratio:auto}
+  html[data-tle-one-motion="sova"] .hero .hero-media {
+    order:0;position:relative;inset:auto;width:100%;height:auto;
+    aspect-ratio:4/5;flex:0 0 auto;background-position:center center;
   }
-  html[data-tle-one-motion="sova"] .hero .hero-media > img {
-    scale: 1 !important;
-    translate: none !important;
+  html[data-tle-one-motion="sova"] .hero .hero-media > :is(img,video[data-sova-hq-motion]) {
+    object-position:center center!important;
   }
+  html[data-tle-one-motion="sova"] .hero .hero-copy {
+    order:1;width:100%;padding:25px 24px 20px;
+  }
+  html[data-tle-one-motion="sova"] .hero .hero-bottom {order:2}
+}
+@media (prefers-reduced-motion:reduce) {
+  html[data-tle-one-motion="sova"] .hero .hero-media > video[data-sova-hq-motion] {display:none!important}
+  html[data-tle-one-motion="sova"] .hero .hero-media > img {opacity:1!important;scale:1!important;translate:none!important}
 }

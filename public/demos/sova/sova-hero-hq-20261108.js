@@ -1,28 +1,23 @@
-/* SOVA's original photo is the verified poster. A generated 1536x1024
-   brand-matched loop replaces the old 1024x1364 portrait export.
-   Other demo cinematic loaders are intentionally untouched. */
+/* SOVA original Canva portrait video: HD 1024x1364, no crop, no stretch.
+   Place behind hero copy, preserving the approved original photo on failure or reduced motion.
+   No other demo's animation, checkout or catalog is changed. */
 (() => {
   'use strict';
   if (document.documentElement.dataset.tleOneMotion !== 'sova') return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const saveData = navigator.connection?.saveData === true;
-  const source = new URL('./media/hero-motion-hq-20261108.mp4', document.baseURI).href;
-  const photo = new URL('./resources/01-hero.png', document.baseURI).href;
-  let host = null;
-  let video = null;
-  let queued = false;
-  const inView = () => {
+  const source = new URL('./media/hero-motion-20261108.mp4', document.baseURI).href;
+  const poster = new URL('./media/hero-motion-poster-hq.webp', document.baseURI).href;
+  let host = null, video = null, queued = false;
+  function inView() {
     if (!host || !host.isConnected || document.hidden) return false;
     const r = host.getBoundingClientRect();
     return r.width > 0 && r.height > 0 && r.bottom >= -60 && r.top <= innerHeight + 60;
-  };
+  }
   function clear() {
-    if (video) {
-      video.pause();
-      video.remove();
-    }
-    video = null;
-    host = null;
+    if (video) { video.pause(); video.remove(); }
+    if (host) host.classList.remove('sova-motion-ready');
+    video = null; host = null;
   }
   function showOnFrame(v) {
     if (v !== video || !v.isConnected || !inView() || reduced.matches) return;
@@ -53,35 +48,24 @@
     if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
     const v = document.createElement('video');
     v.dataset.sovaHqMotion = '';
-    v.setAttribute('data-tle-reactive-photo', '');
+    v.setAttribute('data-tle-cinematic-hero', 'sova');
     v.setAttribute('aria-hidden', 'true');
-    v.muted = true;
-    v.defaultMuted = true;
-    v.playsInline = true;
-    v.loop = true;
-    v.autoplay = true;
-    v.controls = false;
-    v.disablePictureInPicture = true;
-    v.disableRemotePlayback = true;
-    v.tabIndex = -1;
-    v.preload = 'metadata';
-    v.poster = photo;
+    v.muted = true; v.defaultMuted = true; v.playsInline = true;
+    v.loop = true; v.autoplay = true; v.controls = false;
+    v.disablePictureInPicture = true; v.disableRemotePlayback = true;
+    v.tabIndex = -1; v.preload = 'auto'; v.poster = poster;
     v.addEventListener('loadedmetadata', () => {
-      /* Never display the old, enlarged vertical export or a low-resolution clip. */
-      if (v.videoWidth < 1400 || v.videoHeight < 900 ||
-          Math.abs(v.videoWidth / v.videoHeight - 1.5) > 0.12) {
-        if (v === video) clear();
-        return;
-      }
+      // The 512x682 export and any accidental landscape substitute are not suitable.
+      const ratio = v.videoWidth / Math.max(v.videoHeight, 1);
+      if (v.videoWidth < 960 || v.videoHeight < 1280 ||
+          ratio < 0.69 || ratio > 0.81) { if (v === video) clear(); return; }
       update();
     });
     v.addEventListener('loadeddata', () => showOnFrame(v));
     v.addEventListener('playing', () => showOnFrame(v));
     v.addEventListener('error', () => { if (v === video) clear(); });
-    host.append(v);
-    video = v;
-    v.src = source;
-    update();
+    host.classList.add('sova-motion-ready');
+    host.append(v); video = v; v.src = source; update();
   }
   function schedule() {
     if (queued) return;
@@ -90,17 +74,17 @@
   }
   function boot() {
     mount();
-    window.addEventListener('scroll', update, {passive: true});
-    window.addEventListener('resize', schedule, {passive: true});
+    window.addEventListener('scroll', update, {passive:true});
+    window.addEventListener('resize', schedule, {passive:true});
     document.addEventListener('visibilitychange', update);
     reduced.addEventListener?.('change', schedule);
     const root = document.querySelector('#app') || document.body;
     new MutationObserver(changes => {
       if (changes.some(c => [...c.addedNodes, ...c.removedNodes].some(n =>
-        n.nodeType === 1 && (n.matches?.('.hero, .hero-media') ||
+        n.nodeType === 1 && (n.matches?.('.hero,.hero-media') ||
           n.querySelector?.('.hero .hero-media'))))) schedule();
-    }).observe(root, {childList: true, subtree: true});
+    }).observe(root, {childList:true, subtree:true});
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, {once: true});
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, {once:true});
   else boot();
 })();
