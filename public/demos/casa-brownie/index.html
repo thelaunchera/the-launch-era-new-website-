@@ -52,6 +52,15 @@
 <link rel="stylesheet" href="/assets/tle-demo-tactile-20261108.css?v=3">
   <link rel="stylesheet" href="/assets/tle-demo-scroll-art-20261108.css?v=3">
   <link rel="stylesheet" href="/assets/tle-demo-footer-finale-20261108.css?v=1">
+<link rel="preload" as="image" href="./media/hero-motion-poster-hq.webp">
+<style id="tle-hero-same-frame-20261108">
+@media(prefers-reduced-motion:no-preference){
+html[data-tle-one-motion="casa-brownie"] .hero-photo{position:relative;background-image:url("./media/hero-motion-poster-hq.webp")!important;background-repeat:no-repeat!important;background-size:cover!important;background-position:center center!important;overflow:hidden;}
+html[data-tle-one-motion="casa-brownie"] .hero-photo>img,html[data-tle-one-motion="casa-brownie"] .hero-photo>picture,html[data-tle-one-motion="casa-brownie"] .hero-photo>picture img{opacity:0!important;}
+html[data-tle-one-motion="casa-brownie"] .hero-photo video[data-tle-cinematic-hero]{object-fit:cover;object-position:center;}
+html[data-tle-one-motion="casa-brownie"] .hero-photo #hero-video{display:none!important;}
+}
+</style>
 </head>
   <body data-tle-demo="casa-brownie" data-tle-company="demo">
     <span id="inicio" class="cb-top-anchor" aria-hidden="true"></span>
@@ -182,10 +191,7 @@
               alt="Varios brownies de chocolate apilados, con textura cremosa; fotografía ilustrativa"
               fetchpriority="high"
             />
-            <video id="hero-video" class="hero-motion" autoplay muted loop playsinline
-              preload="metadata" poster="./assets/hero-brownies.webp?v=20261029-local" aria-hidden="true">
-              <source src="./assets/hero-brownies.mp4?v=20261029-local" type="video/mp4" />
-            </video>
+            
             <div class="hero-photo-shade"></div>
             <p class="hand-note">
               Un momento<br />
@@ -514,6 +520,7 @@
   <script defer src="/assets/tle-demo-scroll-art-20261108.js?v=3"></script>
   <script defer src="/assets/tle-demo-footer-finale-20261108.js?v=1"></script>
 <script defer src="/assets/tle-demo-order-journey-20261108.js?v=2" data-tle-order-slug="casa-brownie"></script>
-  <script defer src="/assets/tle-hero-cinematic-20261108.js?v=1"></script>
+  
+<script defer src="/assets/tle-hero-cinematic-20261108.js?v=7"></script>
 </body>
 </html>
