@@ -43,12 +43,16 @@ for (const engine of [chromium,webkit]) {
           x:b.x,parentX:container.x,background:artStyle.backgroundImage,
           padding:artStyle.padding,position:css.position,
           mask:css.maskImage||css.webkitMaskImage,
-          photoWidth:photo?.naturalWidth,photoHeight:photo?.naturalHeight
+          photoWidth:photo?.naturalWidth,photoHeight:photo?.naturalHeight,
+          photoSrc:photo?.currentSrc
         };
       });
       console.log('Golden Grid hero geometry',engine.name(),name,JSON.stringify(state));
       assert.ok(state.src.endsWith('/demos/golden-grid/media/hero-approved-canva-20261108.mp4'));
-      assert.ok(state.poster.endsWith('/demos/golden-grid/media/hero-approved-canva-20261108-firstframe.webp'));
+      assert.ok(state.poster.includes('/demos/golden-grid/resources/golden-1.png?v=20261108-master-hq'),
+        'The motion video must not flash a separate compressed first frame');
+      assert.ok(state.photoSrc.includes('/demos/golden-grid/resources/golden-1.png?v=20261108-master-hq'),
+        'The full hero must load original lossless PNG, never lossy WebP');
       assert.equal(state.videoWidth,512);
       assert.equal(state.videoHeight,682);
       assert.ok(state.width>512,'The video must now fill the entire tablet/desktop hero');
@@ -60,7 +64,8 @@ for (const engine of [chromium,webkit]) {
       assert.ok(Math.abs(state.height-state.parentHeight)<=3,'No empty space behind the video');
       assert.equal(state.visiblePhoto,true,'Keep the high-resolution original hero visible under the localized motion');
       assert.ok(state.photoWidth>512,'The crisp campaign image must be higher resolution than the overlay video');
-      assert.ok(state.mask.includes('radial-gradient'),'Motion must be feather-masked to syrup and waffles, never cover the sharp headline');
+      assert.ok(state.mask.includes('ellipse 6% 23%') && state.mask.includes('ellipse 11% 7%'),
+        'Syrup mask must stay narrow and protect sharp GOLDEN GRID package lettering');
       assert.equal(state.background,'none','No yellow stripe or gradient behind the video');
       assert.equal(state.padding,'0px','No video framing/padding');
       assert.equal(state.position,'absolute');
@@ -82,6 +87,8 @@ for (const engine of [chromium,webkit]) {
       assert.equal(response?.status(),200);
       await page.waitForFunction(()=>Array.from(document.styleSheets).some(s=>s.href?.includes('golden-approved-hero-video-20261108.css')));
       await page.locator('.hero-art img').waitFor({state:'visible'});
+      assert.ok((await page.locator('.hero-art img').getAttribute('src')).includes('golden-1.png?v=20261108-master-hq'),
+        'Phones need the same lossless master, not a compressed image');
       assert.equal(await page.locator('[data-gg-approved-hero-video]').evaluate(v=>getComputedStyle(v).display),'none');
       assert.equal(await page.locator('[data-gg-approved-hero-video]').getAttribute('src'),null,
         'Phone must never request the video');
