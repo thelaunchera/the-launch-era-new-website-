@@ -1,3 +1,10 @@
+## 2026-11-08 — Golden Grid iPad static-only owner override (portrait and landscape)
+
+- URL unchanged: `/demos/golden-grid/`. At tablet sizes (521–1399 CSS px) and touch-pointer screens above phone width, the hero contains only the original `resources/golden-1.png` without motion, overlays, zoom, crop or video requests.
+- Existing phone-only preview/video behavior is preserved. Only genuine fine-pointer desktop widths >=1400 may use a decorative syrup glint. Tablet rotation must not enable motion.
+- Scope limited to Golden Grid hero CSS/JS and regression QA; cart, gallery, prices, scripts for other demos, and client data are untouched. Physical iPad signoff remains separate.
+
+
 ## 2026-11-08 — Golden Grid lossless published hero (no route changes)
 
 - `/demos/golden-grid/` loads approved lossless `resources/golden-1.png?v=20261108-master-hq` for the main hero and video poster. Pages optimizer must not rewrite these to WebP, but must continue compressing gallery and demo library thumbnails.

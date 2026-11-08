@@ -1,13 +1,8 @@
-/* Golden Grid: keep the approved high-resolution campaign image in the hero.
-   The 512x682 Canva video is too small to replace the entire image on iPad or
-   desktop. Confine its moving syrup/waffle details to feathered areas only,
-   leaving the lettering, packaging and most of the food razor sharp.
-   Phones <=520 CSS px also play the same approved 512x682 source at native-or-smaller size,
-   with a tiny safe-edge portrait crop matching the 4:5 still; Studio/reduced motion stay photo-only. */
-html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video{
-  display:none;
-}
-html[data-tle-one-motion="golden-grid"] .hero .hero-art{
+/* Golden Grid HD hero recovery, 2026-11-08.
+   Preserve the approved 1122×1402 original pixels and never layer the old
+   low-resolution 512×682 Canva video over the typography or product.
+   The optional lightweight syrup glint is SVG/CSS—not an enlarged movie. */
+html[data-tle-one-motion="golden-grid"] .hero .hero-art {
   display:block;
   position:relative;
   box-sizing:border-box;
@@ -20,59 +15,82 @@ html[data-tle-one-motion="golden-grid"] .hero .hero-art{
   border:0;
   border-radius:0;
   overflow:hidden;
-  background:transparent!important;
+  background:#d7edf4;
 }
-html[data-tle-one-motion="golden-grid"] .hero .hero-art>img{
+html[data-tle-one-motion="golden-grid"] .hero .hero-art > img {
   display:block!important;
   position:relative;
   z-index:1;
   width:100%;
   height:auto;
+  max-width:100%;
+  max-height:none;
+  aspect-ratio:1122 / 1402;
   object-fit:contain;
   object-position:center;
-  max-width:none;
-  max-height:none;
+  opacity:1!important;
   transform:none!important;
+  scale:none!important;
   filter:none!important;
   animation:none!important;
+  transition:none!important;
+  will-change:auto!important;
 }
-@media(min-width:761px) and (prefers-reduced-motion:no-preference){
-  html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video{
-    display:block;
-    position:absolute;
-    z-index:2;
-    inset:0;
-    width:100%;
-    height:100%;
-    max-width:none;
-    max-height:none;
-    aspect-ratio:auto;
-    object-fit:cover;
-    object-position:center;
-    margin:0;
-    padding:0;
-    border:0;
-    background:transparent;
-    pointer-events:none;
-    transform:none!important;
-    filter:none!important;
+/* Do not allow older video classes or obsolete presentation overlays to return
+   through cached styles. The MP4 remains in the DOM only for eligible standalone phones; iPad never loads it. */
+html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video {
+  display:none;
+}
+html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-hero-motion {
+  position:absolute;
+  z-index:2;
+  inset:0;
+  display:block;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  pointer-events:none;
+  user-select:none;
+  opacity:.75;
+  transform:none!important;
+  filter:none!important;
+}
+/* Fine light running along the syrup stream; the original photograph, its
+   printed headline and its product packaging never change resolution. */
+html[data-tle-one-motion="golden-grid"] .gg-syrup-glint {
+  opacity:0;
+  stroke-dasharray:95 720;
+  stroke-dashoffset:720;
+  transition:opacity .4s ease-out;
+  animation:none;
+}
+@media(min-width:1400px) and (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-sheen-active] svg.gg-hero-motion path.gg-syrup-glint {
+    opacity:.58;
+    animation:ggSyrupLight 5.8s ease-in-out infinite!important;
+  }
+}
+@keyframes ggSyrupLight {
+  0%,13% {stroke-dashoffset:720;opacity:0}
+  28% {opacity:.38}
+  55% {stroke-dashoffset:0;opacity:.48}
+  73%,100% {stroke-dashoffset:-720;opacity:0}
+}
+@media(max-width:760px),(prefers-reduced-motion:reduce) {
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-hero-motion {
+    display:none!important;
+  }
+  html[data-tle-one-motion="golden-grid"] .gg-syrup-glint {
     animation:none!important;
-    opacity:0;
-    transition:opacity .25s ease-out;
-    /* Keep the lower-resolution video off all campaign and packaging letters.
-       Restrict it to the narrow syrup stream and a faint waffle highlight. */
-    -webkit-mask-image:
-      radial-gradient(ellipse 6% 23% at 68.5% 48%, #000 15%, rgba(0,0,0,.85) 43%, transparent 100%),
-      radial-gradient(ellipse 11% 7% at 52% 70%, rgba(0,0,0,.14) 8%, transparent 100%);
-    mask-image:
-      radial-gradient(ellipse 6% 23% at 68.5% 48%, #000 15%, rgba(0,0,0,.85) 43%, transparent 100%),
-      radial-gradient(ellipse 11% 7% at 52% 70%, rgba(0,0,0,.14) 8%, transparent 100%);
-  }
-  html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-video-playing] .gg-approved-hero-video{
-    opacity:1;
   }
 }
-@media (min-width:521px) and (max-width:760px), (prefers-reduced-motion:reduce){
+
+/* Keep the other agent's approved standalone-phone motion at native scale;
+   tablet/desktop must NEVER display or decode the low-resolution file. */
+html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video{
+  display:none;
+}
+@media(min-width:521px),(prefers-reduced-motion:reduce){
   html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video{
     display:none!important;
   }
@@ -87,7 +105,7 @@ html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-video-error] .gg
    crop the waffle, bag or text and never significantly upscale the 512px layer. */
 @media (max-width:520px) and (prefers-reduced-motion:no-preference){
   html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-mobile-video-eligible] .gg-approved-hero-video{
-    display:block;
+    display:block!important;
     position:absolute;
     z-index:2;
     inset:0;
@@ -112,5 +130,23 @@ html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-video-error] .gg
   }
   html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-mobile-video-eligible][data-gg-video-playing] .gg-approved-hero-video{
     opacity:1;
+  }
+}
+
+/* iPad/tablet: only the untouched still photograph in portrait AND landscape.
+   Exclude all syrup effects, low-res overlays and any image transforms. */
+@media (min-width:521px) and (max-width:1399px), (min-width:521px) and (pointer:coarse) {
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video,
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-hero-motion {
+    display:none!important;
+    animation:none!important;
+  }
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art > img {
+    display:block!important;
+    animation:none!important;
+    transition:none!important;
+    transform:none!important;
+    filter:none!important;
+    scale:none!important;
   }
 }
