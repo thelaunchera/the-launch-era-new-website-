@@ -33,7 +33,13 @@ try {
      y:hero.style.getPropertyValue('--tle-rh-py')};
   });
   if(after.scroll>1)assert.ok(after.progress>0,slug+' scroll should update hero depth '+JSON.stringify(after));
-  assert.equal(await page.locator('section.hero a,section.hero button').count()>0,true,slug+' should retain original CTA');
+  if(slug==='golden-grid'){
+   // The approved artwork-first Golden Grid hero intentionally has no overlaid CTA.
+   assert.equal(await page.locator('nav a[href="#collection"]').count(),1,
+     'golden-grid must preserve the collection navigation');
+  } else {
+   assert.equal(await page.locator('section.hero a,section.hero button').count()>0,true,slug+' should retain original CTA');
+  }
   console.log('REACTIVE HERO IPHONE',slug,JSON.stringify({photos:initial.photos,scrollProgress:after.progress,scale:initial.scale}));
   await page.close();
  }

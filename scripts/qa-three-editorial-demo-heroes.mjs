@@ -42,9 +42,17 @@ try {
         ]);
       });
       assert(await photo.evaluate(el=>el.naturalWidth>=300&&el.naturalHeight>=150),item.name+' original hero image missing');
-      assert.equal(await page.locator(item.cta).count(),1,item.name+' original hero CTA changed');
-      const action=await page.locator(item.cta).first().getAttribute('href');
-      assert(action?.startsWith('#'),item.name+' CTA destination changed');
+      if(item.name==='golden-grid') {
+        // Golden's later owner-approved artwork-first hero has no overlay CTA.
+        // Keep the product navigation and collection anchor instead.
+        assert.equal(await page.locator('nav a[href="#collection"]').count(),1,
+          'Golden collection navigation must remain accessible');
+        assert.equal(await page.locator('#collection').count(),1);
+      } else {
+        assert.equal(await page.locator(item.cta).count(),1,item.name+' original hero CTA changed');
+        const action=await page.locator(item.cta).first().getAttribute('href');
+        assert(action?.startsWith('#'),item.name+' CTA destination changed');
+      }
       const geometry=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,view:document.documentElement.clientWidth}));
       assert(geometry.scroll<=geometry.view+3,item.name+' horizontal overflow at '+width+': '+JSON.stringify(geometry));
       assert.deepEqual(errors,[],item.name+' JS errors at '+width);

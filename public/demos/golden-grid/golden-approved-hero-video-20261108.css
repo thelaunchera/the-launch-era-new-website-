@@ -1,0 +1,51 @@
+/* Golden Grid: the exact user-approved portrait clip on tablet and desktop.
+   Original iPhone hero remains static to prevent WebView memory regressions.
+   Native 512x682 playback: no crop, blur, zoom or artificial upscaling. */
+html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video{display:none}
+@media (min-width:761px){
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art{
+    position:relative;
+    display:grid;
+    place-items:center;
+    isolation:isolate;
+    box-sizing:border-box;
+    width:100%;
+    height:auto;
+    min-height:0;
+    padding:clamp(14px,2.1vw,30px);
+    overflow:hidden;
+    background:linear-gradient(90deg,#f2d85b 0 18%,#a5dce9 18% 82%,#f2d85b 82% 100%);
+  }
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art>img{
+    display:block;
+    width:min(512px,calc(100% - 24px));
+    height:auto;
+    max-height:min(682px,calc(100svh - 96px));
+    object-fit:contain;
+    object-position:center;
+    animation:none!important;
+    transform:none!important;
+    filter:none!important;
+  }
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video{
+    display:block;
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:min(512px,calc(100% - 24px));
+    height:auto;
+    max-height:min(682px,calc(100svh - 96px));
+    aspect-ratio:512 / 682;
+    transform:translate(-50%,-50%);
+    object-fit:contain;
+    object-position:center;
+    animation:none!important;
+    filter:none!important;
+    pointer-events:none;
+    background:#9fdaea;
+  }
+}
+@media(max-width:760px),(prefers-reduced-motion:reduce){
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video{display:none!important}
+}
+html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video[hidden]{display:none!important}
