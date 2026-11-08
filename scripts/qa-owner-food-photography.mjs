@@ -40,7 +40,7 @@ assert.match(owner,/const restoreDefaultProductPhotos=saved=>/);
 const restoreStart=owner.indexOf("const restoreDefaultProductPhotos=saved=>");
 const restoreEnd=owner.indexOf("const load=()=>",restoreStart);
 const repairSource=owner.slice(restoreStart,restoreEnd);
-const migration=new Script('const current="la-vie-in-pink";'+themeScript+";"+repairSource+";restoreDefaultProductPhotos;").runInContext(ctx);
+const migration=new Script('const current="la-vie-in-pink";'+themeScript+";"+repairSource+";restoreDefaultProductPhotos;").runInNewContext({});
 const old=[
  {id:"p1",name:"Butter Croissant",price:7.5,discount:10,category:"Pâtisserie",image:"",available:true},
  {id:"p2",name:"Café Crème",price:5,discount:10,category:"Coffee",image:la.hero,available:false},
