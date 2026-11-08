@@ -16,7 +16,7 @@ try {
       const context=await browser.newContext({viewport:{width,height:width<=768?844:900},reducedMotion:'reduce'});
       const page=await context.newPage(),errors=[];
       page.on('pageerror',e=>errors.push(String(e)));
-      const res=await page.goto(BASE+item.path,{waitUntil:'load',timeout:30000});
+      const res=await page.goto(BASE+item.path,{waitUntil:'domcontentloaded',timeout:30000});
       assert.equal(res?.status(),200,item.name+' route returned non-200');
       const hero=page.locator(item.hero).first();
       await hero.waitFor({state:'visible'});
