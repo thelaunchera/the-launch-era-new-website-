@@ -133,3 +133,85 @@ html,body{margin:0;background:#FAF8F3}a:focus-visible,button:focus-visible,summa
 .tle-universal .restaurant-booking-body p{font:400 12px/1.8 'DM Sans',Arial,sans-serif;color:#35424b;margin:12px 0 0}
 .tle-universal .restaurant-booking-body strong{font-weight:700}
 @media(max-width:620px){.tle-universal .website-format-choice{padding:18px 15px;margin:18px 0}.tle-universal .website-format-tags{gap:7px}.tle-universal .website-format-tags span{font-size:10px;min-height:35px;padding:8px 10px}.tle-universal .restaurant-booking-info summary{padding:17px 15px}.tle-universal .restaurant-booking-body{padding:0 15px 18px}.tle-universal .restaurant-booking-steps span{flex:1 1 42%;min-width:0}}
+
+
+/* 2026-11-08 tablet readable-service layout for the bilingual Website offer.
+   Make benefits legible and place each package on its own full-width row;
+   neither prices nor checkout destinations are changed. Phone and large
+   desktop layouts retain their existing breakpoints. */
+@media (min-width:781px) and (max-width:1099px){
+  .tle-universal .features{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    max-width:970px;
+    padding:32px 26px;
+    gap:26px 22px;
+  }
+  .tle-universal .features .feature{
+    min-height:105px;
+    gap:17px;
+    padding:10px 21px;
+    border-right:0;
+  }
+  .tle-universal .features .feature:nth-child(odd){
+    border-right:1px solid var(--edge);
+  }
+  .tle-universal .features .feature-icon{
+    flex:0 0 38px;
+    font-size:35px;
+  }
+  .tle-universal .features .feature strong{
+    font-size:16px;
+    line-height:1.35;
+    margin-bottom:8px;
+  }
+  .tle-universal .features .feature p{
+    font-size:14px;
+    line-height:1.55;
+  }
+}
+@media (min-width:741px) and (max-width:1099px){
+  .tle-universal .pricing .plans{
+    grid-template-columns:minmax(0,1fr);
+    max-width:960px;
+    margin-inline:auto;
+    gap:23px;
+  }
+  .tle-universal .pricing .plan{
+    grid-template-columns:minmax(0,34%) minmax(0,66%);
+    min-height:0;
+  }
+  .tle-universal .pricing .plan-photo{
+    height:100%;
+    min-height:370px;
+    object-fit:contain;
+  }
+  .tle-universal .pricing .plan-content{
+    padding:clamp(25px,3.2vw,38px);
+  }
+  .tle-universal .pricing .plan h3{
+    font-size:clamp(33px,4vw,47px);
+    line-height:1.07;
+  }
+  .tle-universal .pricing .price strong{
+    font-size:clamp(48px,5.5vw,64px);
+  }
+  .tle-universal .pricing .plan li{
+    font-size:14px;
+    line-height:1.53;
+    gap:11px;
+  }
+  .tle-universal .pricing .plan ul{
+    gap:13px;
+    margin-block:20px 25px;
+  }
+  .tle-universal .pricing .billing-compact{
+    font-size:14px;
+    line-height:1.55;
+    max-width:58ch;
+  }
+  .tle-universal .pricing .plan .btn{
+    font-size:15px;
+    min-height:54px;
+    max-width:390px;
+  }
+}
