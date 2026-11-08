@@ -6,6 +6,14 @@ const url=(process.env.QA_URL||'http://127.0.0.1:4173').replace(/\/$/,'')+'/demo
 const folder='qa-screenshots/demo-gallery';
 const browser=await chromium.launch({headless:true});
 const context=await browser.newContext({...devices['iPhone 13'],locale:'en-US',reducedMotion:'reduce'});
+// Keep the existing layout QA deterministic. A separate test verifies hidden demos.
+const portfolioRoute=/\/rest\/v1\/tle_website_demo_visibility(?:\?|$)/;
+async function allowAllPortfolioDemos(route){
+ const headers={'access-control-allow-origin':'*','access-control-allow-headers':'apikey,accept','access-control-allow-methods':'GET,OPTIONS'};
+ if(route.request().method()==='OPTIONS')return route.fulfill({status:204,headers});
+ return route.fulfill({status:200,contentType:'application/json',headers,body:'[]'});
+}
+await context.route(portfolioRoute,allowAllPortfolioDemos);
 const page=await context.newPage();
 
 async function checkImage(slug){
@@ -48,6 +56,7 @@ try{
  await mkdir(folder,{recursive:true});
  const response=await page.goto(url,{waitUntil:'domcontentloaded',timeout:35000});
  assert.equal(response?.status(),200,'Gallery must return 200, not a 404');
+ await page.locator('html[data-tle-demo-status="ready"]').waitFor({state:'attached',timeout:15000});
  assert.equal(await page.locator('.demo-card').count(),16,'Gallery must contain exactly 16 original concepts');
 
  // Visual-depth regression — inspect computed presentation, not only source.
@@ -182,6 +191,7 @@ try{
 
  // Motion-enabled mobile context verifies progressive enhancement; reduced-motion gallery above remains fully readable.
  const motionContext=await browser.newContext({...devices['iPhone 13'],locale:'en-US',reducedMotion:'no-preference'});
+ await motionContext.route(portfolioRoute,allowAllPortfolioDemos);
  try{
    const motionPage=await motionContext.newPage();
    await motionPage.goto(url,{waitUntil:'domcontentloaded',timeout:35000});

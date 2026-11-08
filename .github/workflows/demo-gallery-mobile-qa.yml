@@ -6,6 +6,7 @@ on:
     paths:
       - 'public/demos/index.html'
       - 'scripts/qa-demo-gallery-mobile.mjs'
+      - 'scripts/qa-demo-visibility-browser.mjs'
       - 'scripts/qa-owner-bilingual-browser.mjs'
       - '.github/workflows/demo-gallery-mobile-qa.yml'
   pull_request:
@@ -31,6 +32,7 @@ jobs:
       - name: Check QA script syntax
         run: |
           node --check scripts/qa-demo-gallery-mobile.mjs
+          node --check scripts/qa-demo-visibility-browser.mjs
           node --check scripts/qa-owner-bilingual-browser.mjs
       - name: Install isolated browser test tooling
         run: |
@@ -49,6 +51,7 @@ jobs:
             if curl -fsS http://127.0.0.1:4173/demos/ >/dev/null; then break; fi
             sleep 1
           done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-demo-visibility-browser.mjs
           QA_URL=http://127.0.0.1:4173 node scripts/qa-demo-gallery-mobile.mjs
           QA_URL=http://127.0.0.1:4173 node scripts/qa-owner-bilingual-browser.mjs
       - name: Keep screenshots for design QA

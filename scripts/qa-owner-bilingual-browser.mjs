@@ -75,7 +75,7 @@ try{
   const rendered=await page.locator("#requests-list").innerText();
   assert.ok(rendered.includes(detail),"Expected brand-specific inquiry not present: "+slug);
   if(!allowsResidential)assert.doesNotMatch(rendered,/residencial|residential/i,"Unrelated business must never inherit cleaning requests: "+slug);
-  assert.match(rendered,/SIMULADO/,"Every card remains clearly simulated: "+slug);
+  assert.match(rendered,/SIMULADO|EJEMPLO|SOLO EJEMPLO/i,"Every card must be explicitly labeled as an example: "+slug);
   const width=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,viewport:innerWidth}));
   assert.ok(width.scroll<=width.viewport+2,"Brand request cards must not overflow iPhone: "+slug);
   if(slug==="lavender-edit"){

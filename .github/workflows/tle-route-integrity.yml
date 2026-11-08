@@ -35,6 +35,7 @@ jobs:
       - run: node --check scripts/qa-route-integrity.mjs
       - run: node scripts/qa-route-integrity.mjs --static
       - run: node scripts/qa-website-demo-visibility.mjs
+      - run: node scripts/qa-website-demo-visibility.mjs --live
       - run: node scripts/qa-five-signs-landing.mjs
       - run: node scripts/qa-chat-motion.mjs
   live-smoke:
