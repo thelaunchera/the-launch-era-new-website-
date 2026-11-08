@@ -1,0 +1,98 @@
+/* The Launch Era — one intentional motion signature per ORIGINAL public demo.
+   2026-11-08 | Inspired by the BrewedOps Motion Library and editorial design references.
+   Only decorative CSS keyframe animations are retired. Keep navigation, booking,
+   pricing, galleries, manual carousel controls, video, hover feedback and forms.
+   Existing photography, logos, copy and layout remain the source of truth. */
+html[data-tle-one-motion] body *,
+html[data-tle-one-motion] body *::before,
+html[data-tle-one-motion] body *::after {
+  animation: none !important;
+}
+/* SOVA — diagonal photographic wipe, one opening gesture. */
+html[data-tle-one-motion="sova"] .hero-media img {
+  animation: tleOneSova 1050ms cubic-bezier(.22,.78,.2,1) both !important;
+}
+@keyframes tleOneSova {
+  from { clip-path: polygon(0 0,60% 0,0 100%,0 100%); opacity:.7 }
+  to   { clip-path: polygon(0 0,100% 0,100% 100%,0 100%); opacity:1 }
+}
+/* Golden Grid — breakfast photograph rises into view; no competing ticker motion. */
+html[data-tle-one-motion="golden-grid"] .hero-art img {
+  animation: tleOneGolden 920ms cubic-bezier(.2,.75,.16,1) both !important;
+}
+@keyframes tleOneGolden {
+  from { clip-path: inset(100% 0 0 0 round 8px) }
+  to   { clip-path: inset(0 0 0 0 round 0) }
+}
+/* Casa Brownie — one soft headline focus, never interfere with approved hero video. */
+html[data-tle-one-motion="casa-brownie"] .hero-copy h1 {
+  animation: tleOneBrownie 750ms ease-out both !important;
+}
+@keyframes tleOneBrownie {
+  from { opacity:.25; filter:blur(8px) }
+  to   { opacity:1; filter:blur(0) }
+}
+/* CRUMB — editorial headline enters as one horizontal title reveal. */
+html[data-tle-one-motion="crumb"] .hero-editorial-content h2 {
+  animation: tleOneCrumb 860ms cubic-bezier(.3,.72,.17,1) both !important;
+}
+@keyframes tleOneCrumb {
+  from { clip-path:inset(0 100% 0 0); opacity:.75 }
+  to   { clip-path:inset(0 0 0 0); opacity:1 }
+}
+/* Havana 19 — cinematic warm-to-natural photograph, no extra text choreography. */
+html[data-tle-one-motion="havana-19"] .hero > img {
+  animation: tleOneHavana 1250ms ease-in-out both !important;
+}
+@keyframes tleOneHavana {
+  from { filter:brightness(.72) saturate(.7); opacity:.8 }
+  to   { filter:brightness(1) saturate(1); opacity:1 }
+}
+/* Ivory & Bloom — subtle photo inset uncover; never touch calendar/inquiry. */
+html[data-tle-one-motion="ivory-and-bloom"] .hero-inset {
+  animation: tleOneIvory 950ms cubic-bezier(.16,.74,.22,1) both !important;
+}
+@keyframes tleOneIvory {
+  from { clip-path:inset(0 0 100% 0); opacity:.8 }
+  to   { clip-path:inset(0 0 0 0); opacity:1 }
+}
+/* La Vie in Pink — circular reveal suited to pâtisserie photography. */
+html[data-tle-one-motion="la-vie-in-pink"] .hero-image {
+  animation: tleOneLaVie 1080ms cubic-bezier(.24,.75,.17,1) both !important;
+}
+@keyframes tleOneLaVie {
+  from { clip-path:ellipse(16% 19% at 55% 45%); opacity:.85 }
+  to   { clip-path:ellipse(110% 120% at 55% 45%); opacity:1 }
+}
+/* Marea Wigs Miami — natural color returns to the editorial photo. */
+html[data-tle-one-motion="marea-wigs-miami"] .hero-visual > img {
+  animation: tleOneMarea 1040ms ease-out both !important;
+}
+@keyframes tleOneMarea {
+  from { filter:grayscale(.95) contrast(.94); opacity:.82 }
+  to   { filter:grayscale(0) contrast(1); opacity:1 }
+}
+/* AFTR — kinetic nightclub title, isolated to one heading. */
+html[data-tle-one-motion="aftr"] .hero-content h1 {
+  animation: tleOneAftr 780ms cubic-bezier(.22,.88,.24,1) both !important;
+}
+@keyframes tleOneAftr {
+  from { opacity:0; transform:translate3d(0,26px,0) skewY(-2deg) }
+  to   { opacity:1; transform:none }
+}
+/* Lavender Edit — refined photo curtain opening from left. */
+html[data-tle-one-motion="lavender-edit"] .hero-art img {
+  animation: tleOneLavender 930ms cubic-bezier(.2,.78,.25,1) both !important;
+}
+@keyframes tleOneLavender {
+  from { clip-path:polygon(0 0,0 0,0 100%,0 100%) }
+  to   { clip-path:polygon(0 0,100% 0,100% 100%,0 100%) }
+}
+/* Motion is decorative; full content is visible and functional with reduced-motion. */
+@media (prefers-reduced-motion:reduce) {
+  html[data-tle-one-motion] body *,
+  html[data-tle-one-motion] body *::before,
+  html[data-tle-one-motion] body *::after {
+    animation:none !important; 
+  }
+}
