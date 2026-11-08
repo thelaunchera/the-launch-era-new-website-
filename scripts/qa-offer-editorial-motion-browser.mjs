@@ -26,6 +26,18 @@ try{
    await page.waitForTimeout(1300);
    const legible=await page.locator('.hero-gallery h1').evaluate(el=>({opacity:Number(getComputedStyle(el).opacity),height:el.getBoundingClientRect().height}));
    assert.ok(legible.opacity>.99&&legible.height>45,'Hero text settled and readable '+lang);
+
+   const headlineBounds=await page.locator('.hero-gallery h1').evaluate(el=>{
+    const r=el.getBoundingClientRect(),copy=el.closest('.hero-gallery-copy')?.getBoundingClientRect();
+    return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,scrollWidth:el.scrollWidth,clientWidth:el.clientWidth,scrollHeight:el.scrollHeight,clientHeight:el.clientHeight,copyBottom:copy?.bottom};
+   });
+   assert.ok(headlineBounds.left>=-2&&headlineBounds.right<=390+2,
+    'Headline must stay inside iPhone viewport '+lang+' '+JSON.stringify(headlineBounds));
+   assert.ok(headlineBounds.scrollWidth<=headlineBounds.clientWidth+3&&headlineBounds.scrollHeight<=headlineBounds.clientHeight+4,
+    'Bilingual headline may wrap but must never clip '+lang+' '+JSON.stringify(headlineBounds));
+   const heroBtn=page.locator('.hero-gallery .hero-gallery-copy a[href="#paquetes"]');
+   assert.equal(await heroBtn.isVisible(),true,'Hero must keep its single package CTA '+lang);
+
    await page.screenshot({path:folder+'/'+lang+'-hero-iphone.png'});
    const owner=page.locator('#owner-experience');
    await owner.scrollIntoViewIfNeeded();
@@ -71,6 +83,16 @@ try{
   await dp.waitForFunction(()=>document.documentElement.classList.contains('tle-offer-motion'));
   const d=await dp.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:innerWidth}));
   assert.ok(d.scroll<=d.width+2,'Desktop no horizontal overflow');
+
+  const desktopCopy=await dp.locator('.hero-gallery-copy').evaluate(el=>{
+   const r=el.getBoundingClientRect(),hero=el.closest('.hero-gallery')?.getBoundingClientRect(),h1=el.querySelector('h1')?.getBoundingClientRect();
+   return {copyBottom:r.bottom,heroBottom:hero?.bottom,h1Right:h1?.right,copyRight:r.right,h1Height:h1?.height};
+  });
+  assert.ok(desktopCopy.copyBottom<=desktopCopy.heroBottom+4,
+   'Stronger headline must not collide with the desktop hero boundary '+JSON.stringify(desktopCopy));
+  assert.ok(desktopCopy.h1Right<=desktopCopy.copyRight+3,
+   'Headline must stay inside desktop copy column '+JSON.stringify(desktopCopy));
+
   await dp.locator('.pricing').scrollIntoViewIfNeeded();
   await dp.waitForTimeout(900);
   await dp.screenshot({path:folder+'/en-pricing-desktop.png'});
