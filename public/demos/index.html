@@ -409,6 +409,17 @@ frame.addEventListener('load',()=>{if(!activePreviewUrl||frame.getAttribute('src
 const title=document.getElementById('viewer-name');
 const full=document.getElementById('viewer-external');
 const ownerView=document.getElementById('viewer-owner');
+/* Preserve the approved homepage return route while switching Customer ↔ Owner.
+   Keep each library card's canonical ?demo=slug anchor unchanged for the QA contract. */
+const ownerReturnRouteForDemo=new URLSearchParams(location.search).get('returnTo');
+const approvedOwnerReturnRoutes=new Set(['/','/es/','/website-for-your-business/','/es/website-for-your-business/']);
+if(ownerReturnRouteForDemo&&approvedOwnerReturnRoutes.has(ownerReturnRouteForDemo)){
+ for(const link of document.querySelectorAll('.owner-view')){
+  const destination=new URL(link.getAttribute('href'),location.origin);
+  destination.searchParams.set('returnTo',ownerReturnRouteForDemo);
+  link.href=destination.pathname+destination.search;
+ }
+}
 const close=document.getElementById('viewer-close');
 let filter='All',previousFocus=null,previousOverflow='';
 let lastSelectedCard=null;
