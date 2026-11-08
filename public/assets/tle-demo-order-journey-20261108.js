@@ -5,12 +5,12 @@
 'use strict';
 var current=document.currentScript;
 var slug=(current&&current.getAttribute('data-tle-order-slug'))||'';
-var allowed=['golden-grid','havana-19','la-vie-in-pink','casa-brownie','crumb','yummm','wok-social','seasonal-brew'];
+var allowed=['golden-grid','havana-19','la-vie-in-pink','casa-brownie','crumb','yummm','wok-social','seasonal-brew','jaramillo-boutique'];
 if(allowed.indexOf(slug)<0||!document.body||document.getElementById('tle-demo-order-dialog'))return;
 var base=(window.TLE_DEMO_PRICE_CATALOGS||{})[slug];
-var themes={'golden-grid':'#b88625','havana-19':'#813a32','la-vie-in-pink':'#813942','casa-brownie':'#83513e','crumb':'#25546a','yummm':'#b7303b','wok-social':'#bd312d','seasonal-brew':'#95663b'};
+var themes={'golden-grid':'#b88625','havana-19':'#813a32','la-vie-in-pink':'#813942','casa-brownie':'#83513e','crumb':'#25546a','yummm':'#b7303b','wok-social':'#bd312d','seasonal-brew':'#95663b','jaramillo-boutique':'#744047'};
 var tone=(base&&base.tone)||themes[slug]||'#191919';
-var brand={'golden-grid':'GOLDEN GRID','havana-19':'HAVANA 19','la-vie-in-pink':'LA VIE IN PINK','casa-brownie':'CASA BROWNIE','crumb':'CRUMB','yummm':'YUMMM','wok-social':'WOK SOCIAL','seasonal-brew':'SEASONAL BREW'}[slug];
+var brand={'golden-grid':'GOLDEN GRID','havana-19':'HAVANA 19','la-vie-in-pink':'LA VIE IN PINK','casa-brownie':'CASA BROWNIE','crumb':'CRUMB','yummm':'YUMMM','wok-social':'WOK SOCIAL','seasonal-brew':'SEASONAL BREW','jaramillo-boutique':'JARAMILLO BOUTIQUE'}[slug];
 var isSpanish=function(){return document.documentElement.lang.toLowerCase().indexOf('es')===0||document.documentElement.getAttribute('data-language')==='es'};
 var tr=function(en,es){return isSpanish()?es:en};
 var safe=function(value){return String(value===undefined?'':value).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
@@ -25,6 +25,11 @@ if(slug==='crumb'){
   var label=node.querySelector('strong'),price=node.querySelector('[data-builder-price]'),img=node.querySelector('img');
   return label&&price?{name:label.textContent.trim(),priceCents:Math.round(Number((price.textContent.match(/\d+(?:\.\d+)?/)||[])[0])*100),image:img?img.getAttribute('src'):''}:null;
  }).filter(Boolean);
+}
+if(slug==='jaramillo-boutique'){
+ var unitText=document.getElementById('productUnitPrice')?.textContent||'';
+ var unitMatch=unitText.match(/\d+(?:\.\d+)?/),unitCents=unitMatch?Math.round(Number(unitMatch[0])*100):0;
+ catalog=Array.from(document.querySelectorAll('.collection-card')).map(function(card){return {name:card.dataset.labelEn||'',priceCents:unitCents,image:card.querySelector('img')?.getAttribute('src')||''}});
 }
 catalog=catalog.filter(function(x){return x.name&&Number.isInteger(x.priceCents)&&x.priceCents>0&&x.image!==undefined});
 if(!catalog.length)return;
@@ -120,7 +125,7 @@ function open(next){
  var btn=dialog.querySelector('.tle-order-head button');if(btn)btn.focus();
 }
 function startWithItems(items){
- if(Array.isArray(items)){cart.clear();items.forEach(function(x){var item=find(x.name||x.id),qty=Math.max(0,Math.min(24,Number(x.qty)||0));if(item&&qty)cart.set(catalog.indexOf(item),qty)})}
+ if(Array.isArray(items)){cart.clear();var variants=[];items.forEach(function(x){var item=find(x.name||x.id),qty=Math.max(0,Math.min(24,Number(x.qty)||0));if(item&&qty){var i=catalog.indexOf(item);cart.set(i,Math.min(24,(cart.get(i)||0)+qty));if(x.size)variants.push(item.name+' · '+String(x.size))}});if(variants.length)details={notes:variants.join('; ').slice(0,250)}}
  paintFloat();open(count()?'cart':'menu');
 }
 window.TLE_ORDER={open:open,add:function(name,qty){return change(name,Math.max(1,Number(qty)||1))},startWithItems:startWithItems,items:catalog.map(function(x){return {name:x.name,priceCents:x.priceCents}})};
@@ -188,6 +193,14 @@ function augmentNative(){
    b.addEventListener('click',function(){var items=Array.from(modal.querySelectorAll('.cart-line')).map(function(line){return {name:line.querySelector('strong')?.textContent||'',qty:Number(line.querySelector('output')?.textContent||0)}});document.getElementById('modal-close')?.click();startWithItems(items)});
    modal.appendChild(b);
   };new MutationObserver(decorateCart).observe(modal,{childList:true,subtree:true});decorateCart()}
+ }
+ if(slug==='jaramillo-boutique'){
+  var bag=document.getElementById('bagDialog'),foot=bag&&bag.querySelector('.bag-dialog-foot');
+  if(bag&&foot&&!bag.querySelector('[data-tle-boutique-checkout]')){
+   var b=document.createElement('button');b.type='button';b.className='tle-order-inline-add';b.dataset.tleBoutiqueCheckout='1';b.textContent=tr('Continue to demo checkout','Continuar al checkout DEMO');b.style.setProperty('--toc-accent',tone);
+   b.addEventListener('click',function(){var entries=Array.from(bag.querySelectorAll('.bag-item')).map(function(row){var name=row.querySelector('.bag-item-info strong')?.textContent||'',qty=Number(row.querySelector('.bag-item-quantity')?.textContent||0),size=Array.from(row.querySelectorAll('.bag-item-info small')).filter(function(el){return !el.classList.contains('bag-line-price')}).map(function(el){return el.textContent}).join(' · ');return {name:name,qty:qty,size:size}}).filter(function(x){return x.qty>0});bag.close();startWithItems(entries)});
+   foot.insertBefore(b,document.getElementById('bagContinue'));
+  }
  }
  if(slug==='golden-grid'){
   var pd=document.getElementById('product-dialog'),title=document.getElementById('product-name');
