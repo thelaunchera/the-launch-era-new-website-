@@ -174,6 +174,10 @@
   const f=new FormData(form),t=copy[lang];
   const goals=[
    get(f,'goals'),note('Chosen website format',get(f,'website_format')),note('Existing menu PDF/product list',get(f,'menu_pdf_url')),note('Customer notifications','email only; no SMS'),note('Command Center access','activate private buyer workspace after verified delivery'),note('Services/products',get(f,'services')),
+   note('AI-enhanced photo request',f.get('ai_photo_request')==='yes'?'Yes · '+(get(f,'ai_photo_goal')||'enhance_existing'):'Not requested'),
+   note('Preferred AI photo example',f.get('ai_photo_request')==='yes'?get(f,'ai_photo_reference'):''),
+   note('AI photo handling',f.get('ai_photo_request')==='yes'?'Review requested; no automatic image generation or automatic extra charge':''),
+   
    note('Business location/service area',get(f,'business_location')),
    note('Business hours',get(f,'business_hours')),
    note('Domain arrangement',get(f,'domain_option')),
@@ -183,7 +187,8 @@
   ].filter(Boolean).join('\n').slice(0,3500);
   const brand=[
    get(f,'brand_notes'),note('Brand photo/logo folder',get(f,'brand_assets_url')),
-   note('Website inspirations',get(f,'reference_sites'))
+   note('Website inspirations',get(f,'reference_sites')),
+   note('Preferred photo look',f.get('ai_photo_request')==='yes'?get(f,'ai_photo_reference'):'')
   ].filter(Boolean).join('\n').slice(0,2000);
   const payload={
    submission_id:submissionId,elapsed_ms:Date.now()-start,
