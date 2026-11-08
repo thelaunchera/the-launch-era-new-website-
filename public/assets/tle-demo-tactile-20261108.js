@@ -30,6 +30,21 @@
   const selector='dialog,[role="dialog"],.bag-dialog,.cart-drawer,.cart-panel,.preview-dialog,.modal-panel,.modal-root';
   if(scope.matches?.(selector))scope.classList.add('tle-ux-dialog');
   scope.querySelectorAll?.(selector).forEach(el=>el.classList.add('tle-ux-dialog'));
+  // Existing add-to-cart / selection handlers remain responsible for all real state.
+  const actions='button.add-cookie,button.add-to-cart,button.add-to-bag,button.add-to-box,button.bag-trigger,button.cart-trigger,button[data-product],button[data-dish],button[class*="add-"],button[class*="cart-"],button[class*="bag-"],button[id*="cart" i],button[id*="bag" i]';
+  const touch=el=>{
+   if(el.dataset.tleUxAction)return;
+   el.dataset.tleUxAction='yes';el.classList.add('tle-ux-purchase-action');
+   const press=()=>{el.dataset.tlePressed='true'};
+   const release=()=>{el.dataset.tlePressed='false'};
+   el.addEventListener('pointerdown',press,{passive:true});
+   el.addEventListener('pointerup',release,{passive:true});
+   el.addEventListener('pointercancel',release,{passive:true});
+   el.addEventListener('pointerleave',release,{passive:true});
+   el.addEventListener('blur',release);
+  };
+  if(scope.matches?.(actions))touch(scope);
+  scope.querySelectorAll?.(actions).forEach(touch);
  }
  const boot=()=>{
   scan();
