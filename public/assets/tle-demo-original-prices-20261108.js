@@ -87,9 +87,40 @@ function apply(){
      return '<article class="tle-price-card">'+picture+'<div class="tle-price-card-body"><h3>'+safe+'</h3><div>'+moneyMarkup(price,discount)+'</div></div></article>';
    }).join("");
    section.innerHTML='<span class="tle-price-kicker">'+(cfg.kind==="service"?"Services · Demo prices":"Selected favorites · Demo prices")+'</span><h2>'+title+'</h2><div class="tle-price-grid">'+cards+'</div><p class="tle-price-note">Illustrative prices for this interactive concept. No payment or booking is processed here.</p>';
-   const end=document.querySelector("footer");
-   if(end?.parentElement)end.insertAdjacentElement("beforebegin",section);
-   else document.body.append(section);
+   // Position the ORIGINAL price section where visitors make decisions,
+   // not by the legal footer. Never duplicate cards or rewrite amounts.
+   const catalogAnchors={
+     "golden-grid":"#collection",
+     "la-vie-in-pink":"#collection",
+     "havana-19":"#kitchen",
+     "ivory-and-bloom":"#cake-gallery",
+     "casa-brownie":"#brownies",
+     "wok-social":"#menu",
+     "seasonal-brew":"#flavors"
+   };
+   const place=()=>{
+     const hero=document.querySelector("main section.hero, #app section.hero, #root section.hero, section.hero");
+     const catalog=document.querySelector(catalogAnchors[slug]||"#collection");
+     const anchor=cfg.kind==="service"?hero:(catalog||hero);
+     if(!anchor?.parentElement)return false;
+     const method=cfg.kind==="service"?"afterend":(catalog?"beforebegin":"afterend");
+     const correct=method==="afterend"?anchor.nextElementSibling===section:anchor.previousElementSibling===section;
+     if(!correct)anchor.insertAdjacentElement(method,section);
+     section.dataset.tlePricePlacement=cfg.kind==="service"?"below-hero":"beside-menu";
+     return true;
+   };
+   if(!place()){
+     // Keep prices accessible while a client-rendered hero loads, then move
+     // the same node to its correct position as soon as the hero exists.
+     const end=document.querySelector("footer");
+     if(end?.parentElement)end.insertAdjacentElement("beforebegin",section);
+     else document.body.append(section);
+     const watch=new MutationObserver(()=>{
+       if(place())watch.disconnect();
+     });
+     watch.observe(document.body,{childList:true,subtree:true});
+     setTimeout(()=>watch.disconnect(),12000);
+   }
  }
  published=true;
 }
