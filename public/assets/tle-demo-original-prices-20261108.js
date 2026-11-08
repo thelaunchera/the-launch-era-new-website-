@@ -19,6 +19,12 @@ const catalogs={
  "soluna-yoga":{tone:"#a77750",kind:"service",items:[["Morning Flow",24,0,""],["Private Yoga Session",80,10,""],["Gentle Stretch",20,0,""]]}
 };
 const cfg=catalogs[slug];
+// Reuse the exact same published sample prices in the demo order journey.
+// No live checkout, payment or customer data is implied by this catalog.
+if(cfg){
+ window.TLE_DEMO_PRICE_CATALOGS=window.TLE_DEMO_PRICE_CATALOGS||{};
+ window.TLE_DEMO_PRICE_CATALOGS[slug]={kind:cfg.kind,tone:cfg.tone,items:cfg.items.map(([name,price,discount,image])=>({name,priceCents:Math.round(Number(price)*100*(1-Number(discount||0)/100)),image}))};
+}
 if(!cfg||!document.body)return;
 const fmt=v=>"$"+Number(v).toFixed(2);
 const after=(p,d)=>Math.round(p*100*(1-d/100))/100;
