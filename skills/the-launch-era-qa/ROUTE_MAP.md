@@ -1,3 +1,9 @@
+## 2026-11-08 — Form, reservation and visual-cart presentation (all 16 demos)
+
+- **Routes unchanged.** Canonical 11 main-site demo experiences (including `/experience-cleaning/`) load `/assets/tle-demo-tactile-20261108.css` and `.js`. Four standalone brand demos plus Jaramillo on the secondary repository load `../assets/tle-demo-tactile-20261108.css` and `.js`; the secondary Pages deploy copies these files to `_site/assets/` and Jaramillo retains its own `demo/jaramillo-boutique` source branch.
+- Havana 19 `/demos/havana-19/`: `/assets/tle-havana-calendar-20261108.{css,js}` replaces iPhone native date UI at runtime, keeping `input#date[name=date]`, existing preview/receipt/return, EN/ES switch and non-confirmation language. Date is selected locally; **no real reservation is made** and no delivery endpoint has been introduced.
+- Microinteractions: local input focus and filled state, preview/cart dialog transitions, purchase button press. No new payment endpoints, checkout URLs, recipients, booking availability claims or customer records.
+
 ## 2026-11-08 — Editorial motion on public website offer (EN/ES)
 
 - Routes remain **unchanged**: `/website-for-your-business/`, `/es/website-for-your-business/`; `/demos/` still receives the exact project-specific `demo`, `lang` and originating `returnTo` values.
