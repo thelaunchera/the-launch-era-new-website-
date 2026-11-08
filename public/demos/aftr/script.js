@@ -118,5 +118,5 @@
   // Show generated shots locally; use photo fallbacks on source-only hosted copies.
   document.querySelectorAll('img[data-fallback]').forEach(img=>img.addEventListener('error',()=>{if(!img.dataset.tried){img.dataset.tried='1';img.src=img.dataset.fallback;}}));
   // Screenshot fidelity and motion, with reduced-motion support.
-  if('IntersectionObserver'in window && !matchMedia('(prefers-reduced-motion: reduce)').matches){const observer=new IntersectionObserver(items=>items.forEach(i=>{if(i.isIntersecting){i.target.classList.add('visible');observer.unobserve(i.target);}}),{threshold:.08});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));}else document.querySelectorAll('.reveal').forEach(el=>el.classList.add('visible'));
+  if('IntersectionObserver'in window && !matchMedia('(prefers-reduced-motion: reduce)').matches){const observer=new IntersectionObserver(items=>items.forEach(i=>{if(i.isIntersecting)i.target.classList.add('visible');else if(!i.target.matches(':focus-within'))i.target.classList.remove('visible');}),{threshold:.08});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));}else document.querySelectorAll('.reveal').forEach(el=>el.classList.add('visible'));
 })();
