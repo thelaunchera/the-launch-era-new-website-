@@ -55,7 +55,8 @@ for (const engine of [chromium,webkit]) {
       assert.ok(Math.abs(state.width-state.parentWidth)<=2,
         'No bars/empty sides allowed between video and hero frame: '+JSON.stringify(state));
       assert.ok(Math.abs(state.x-state.parentX)<=2,'The video must start at the left edge of the hero');
-      assert.ok(Math.abs(state.height-state.width*682/512)<3,'Video must retain its full original aspect ratio');
+      assert.ok(Math.abs(state.height-state.width*state.photoHeight/state.photoWidth)<3,
+        'The motion overlay must match the sharp approved image, not force the old 512x682 portrait ratio');
       assert.ok(Math.abs(state.height-state.parentHeight)<=3,'No empty space behind the video');
       assert.equal(state.visiblePhoto,true,'Keep the high-resolution original hero visible under the localized motion');
       assert.ok(state.photoWidth>512,'The crisp campaign image must be higher resolution than the overlay video');
