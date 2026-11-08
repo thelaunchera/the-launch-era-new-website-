@@ -89,6 +89,75 @@ html[data-tle-one-motion="casa-brownie"] .hero-photo #hero-video{display:none!im
    height:clamp(350px,88vw,580px)!important;
  }
 }
+
+/* Casa Brownie tablet native-ratio fix / 2026-11-08 */
+/* Tablet source is portrait: use the original two-column editorial composition.
+   The media only needs ~1x enlargement instead of up to ~2x on a full-width stage. */
+@media (min-width:700px) and (max-width:1199px){
+  html[data-tle-one-motion="casa-brownie"] .hero{
+    display:grid!important;
+    grid-template-columns:minmax(0,42%) minmax(0,58%)!important;
+    min-height:clamp(600px,68vw,780px)!important;
+    align-items:stretch!important;
+  }
+  html[data-tle-one-motion="casa-brownie"] .hero>.hero-copy{
+    grid-column:1!important;
+    grid-row:1!important;
+    order:0!important;
+    padding:clamp(25px,3.4vw,48px) clamp(21px,3.6vw,45px)!important;
+    align-items:flex-start!important;
+    text-align:left!important;
+    justify-content:center!important;
+  }
+  html[data-tle-one-motion="casa-brownie"] .hero .hero-copy h1{
+    font-size:clamp(38px,4.4vw,56px)!important;
+    line-height:1.03!important;
+    text-align:left!important;
+    white-space:normal!important;
+  }
+  html[data-tle-one-motion="casa-brownie"] .hero .hero-copy h1 .love{
+    display:block!important;
+    font-size:1.15em!important;
+    transform:rotate(-3deg)!important;
+    margin:8px 0 0!important;
+  }
+  html[data-tle-one-motion="casa-brownie"] .hero .hero-copy .eyebrow,
+  html[data-tle-one-motion="casa-brownie"] .hero .hero-copy>p{
+    text-align:left!important;
+    margin-left:0!important;
+    margin-right:0!important;
+  }
+  html[data-tle-one-motion="casa-brownie"] .hero .hero-copy>.primary-button{
+    margin-left:0!important;margin-right:0!important;
+  }
+  html[data-tle-one-motion="casa-brownie"] .hero .hero-copy .hero-qualities{
+    margin:clamp(16px,3vw,32px) 0 0!important;
+    width:100%!important;
+    gap:0!important;
+  }
+  html[data-tle-one-motion="casa-brownie"] .hero>.hero-photo{
+    grid-column:2!important;
+    grid-row:1!important;
+    order:0!important;
+    width:100%!important;
+    height:auto!important;
+    min-height:600px!important;
+    flex:none!important;
+    background-size:contain!important;
+    background-position:center!important;
+    background-color:#704a36!important;
+  }
+}
+@media (min-width:700px) and (max-width:1199px) and (prefers-reduced-motion:no-preference){
+  html[data-tle-one-motion="casa-brownie"] .hero-photo>video[data-tle-cinematic-hero]{
+    object-fit:contain!important;
+    object-position:center center!important;
+    scale:1!important;
+    translate:none!important;
+    rotate:none!important;
+    filter:none!important;
+  }
+}
 </style>
 </head>
   <body data-tle-demo="casa-brownie" data-tle-company="demo">
