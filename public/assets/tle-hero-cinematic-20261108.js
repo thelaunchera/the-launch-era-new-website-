@@ -13,7 +13,7 @@ const profiles={
  'seasonal-brew':{selector:'.hero-media'},
  'wok-social':{selector:'.hero-photo-frame'},
  'soluna-yoga':{selector:'.hero-visual.has-photo'},
- 'yummm':{selector:'.hero-slide[data-slide="0"]'}
+ 'yummm':{selector:'.hero-slide[data-slide="1"]'}
 };
 const profile=profiles[brand];
 if(!profile)return;
