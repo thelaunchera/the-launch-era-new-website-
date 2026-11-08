@@ -220,6 +220,7 @@ try{
          photoTop:v.top,photoBottom:v.bottom,copyTop:c.top,
          photoHeight:v.height,photoWidth:v.width,
          motion:getComputedStyle(moving).animationName,
+         hasSovaLoop:!!document.querySelector('[data-sova-animated-loop]'),
          naturalWidth:img.naturalWidth,
          scrollWidth:document.documentElement.scrollWidth,
          viewport:innerWidth, viewportHeight:innerHeight
@@ -229,7 +230,7 @@ try{
      assert.ok(result.photoHeight>220,'Mobile hero photo must be prominent: '+demo.slug+' '+JSON.stringify(result));
      assert.ok(result.photoTop<result.viewportHeight,'Hero photo must appear upon entry: '+demo.slug);
      assert.ok(result.scrollWidth<=result.viewport+2,'No horizontal overflow: '+demo.slug+' '+JSON.stringify(result));
-     assert.ok(result.motion!=='none'&&result.motion.length>0,'Original hero reveal animation must remain: '+demo.slug+' '+JSON.stringify(result));
+     assert.ok((demo.slug==='sova'&&result.hasSovaLoop)||(result.motion!=='none'&&result.motion.length>0),'Original hero animation or approved SOVA motion loop must remain: '+demo.slug+' '+JSON.stringify(result));
      // Capture the settled design, not a half-transparent reveal frame.
      await motionPage.waitForTimeout(1200);
      const readableHeading=await motionPage.locator('.hero h1, .hero h2').first().evaluate(el=>({
