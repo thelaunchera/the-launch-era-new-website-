@@ -38,7 +38,7 @@ assert.match(demo,/aria-live="assertive"/);
 assert.match(demo,/data-i18n="dashboardDisclaimer"/);
 assert.match(demo,/\/booking-bundle\/\?lang=en&source=public-sample/);
 assert.match(demo,/\/booking-demo\/\?lang=en&source=public-sample/);
-assert.match(demo,/No real customer record is created/);
+assert.match(demo,/This example does not save customer information/,'Sample booking must say that no customer information is stored');
 assert.match(demo,/No email\. No payment\./);
 assert.doesNotMatch(demo,/fetch\s*\(|XMLHttpRequest|navigator\.sendBeacon|supabase\.co\/functions|\/service-checkout\/|localStorage\.setItem|sessionStorage\.setItem/,'Public demo must not transmit form details');
 const scripts=[...demo.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].filter(match=>!/^<script[^>]*\bsrc=/.test(match[0]));
