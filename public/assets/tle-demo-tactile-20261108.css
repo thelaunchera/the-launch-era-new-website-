@@ -80,3 +80,21 @@ html[data-tle-one-motion] :is(.receipt,.success,.preview,.request-preview)[aria-
  html[data-tle-one-motion] :is(form.tle-ux-form,.tle-ux-dialog),
  html[data-tle-one-motion] :is(form.tle-ux-form,.tle-ux-dialog) *{transition:none!important}
 }
+
+
+/* Distinct tactile response on product choices, add-to-bag and cart controls.
+   Activated by a pointer/keyboard press, never a fake checkout success. */
+html[data-tle-one-motion] button.tle-ux-purchase-action{
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+  transition:transform .19s cubic-bezier(.2,.75,.23,1),filter .18s ease,box-shadow .22s ease;
+}
+html[data-tle-one-motion] button.tle-ux-purchase-action:is(:active,[data-tle-pressed="true"]):not(:disabled){
+  transform:scale(.962)!important;filter:brightness(1.045);
+  box-shadow:0 3px 12px rgba(var(--tle-touch-rgb,132,96,80),.16);
+}
+html[data-tle-one-motion] button.tle-ux-purchase-action:focus-visible{
+  outline:2px solid var(--tle-touch,#856555);outline-offset:3px;
+}
+@media(prefers-reduced-motion:reduce){
+ html[data-tle-one-motion] button.tle-ux-purchase-action{transition:none!important;transform:none!important}
+}
