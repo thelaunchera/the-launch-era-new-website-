@@ -64,7 +64,9 @@ for (const engine of [chromium,webkit]) {
       viewport:{width:1024,height:768},reducedMotion:'reduce'
     });
     const page=await context.newPage();
-    await page.goto(base+route,{waitUntil:'domcontentloaded'});
+    await page.goto(base+route,{waitUntil:'load'});
+    await page.waitForFunction(()=>Array.from(document.styleSheets).some(s=>s.href?.includes('golden-approved-hero-video-20261108.css')));
+    assert.equal(await page.evaluate(()=>matchMedia('(prefers-reduced-motion:reduce)').matches),true);
     assert.equal(await page.locator('[data-gg-approved-hero-video]').evaluate(v=>getComputedStyle(v).display),'none');
     assert.equal(await page.locator('[data-gg-approved-hero-video]').getAttribute('src'),null);
     await context.close();
