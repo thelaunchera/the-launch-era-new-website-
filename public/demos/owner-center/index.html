@@ -128,7 +128,7 @@ body{background:var(--paper)}
 <main class="content" id="main">
 <div class="topbar"><a class="breadcrumbs" id="breadcrumbs" href="/demos/" style="text-decoration:none;font-weight:700">← BACK TO DEMO</a><div class="top-actions"><span class="badge">INTERACTIVE DEMO</span><button type="button" class="round-btn" id="reset-top" title="Reset demo" aria-label="Reset all demo changes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 12a9 9 0 1 0 2.5-6.2M3 4v5h5"/></svg></button></div></div>
 <div class="page-header"><div><p class="eyebrow" id="subheading">DIGITAL MENU / OWNER VIEW</p><h1 id="heading">Your business.<br>Your way.</h1><p class="lede" id="intro">Explore how it feels to manage products and prices, without touching a real business.</p></div><div class="select-wrap"><label for="project" class="subtle">Project</label><select class="project-select" id="project" aria-label="Choose demo brand"></select></div></div>
-<div class="notice"><span class="notice-icon" aria-hidden="true">i</span><div><strong>Explore freely — this is a demo.</strong><p>Prices, offers, products, and requests are examples. Your edits are kept locally on this browser only. Nothing changes on the public websites.</p></div></div>
+<div class="notice"><span class="notice-icon" aria-hidden="true">i</span><div><strong>Interactive demo — give it a try.</strong><p>Changes stay in this browser. No real orders, bookings or payments are created.</p></div></div>
 <section id="dashboard-view" class="view">
 <div class="kpis"><div class="kpi"><span class="kpi-label" id="kpi-items-title">Menu items</span><strong id="kpi-items">0</strong></div><div class="kpi"><span class="kpi-label">Active offers</span><strong id="kpi-offers">0</strong></div><div class="kpi"><span class="kpi-label">Available</span><strong id="kpi-available">0</strong></div></div>
 <div class="section-head"><div><h2>Everything in its place.</h2><p>Quick access to your products, services and customer-facing preview.</p></div><button type="button" class="btn" data-owner-command="add">+ Add item</button></div>
@@ -231,7 +231,7 @@ const renderRequests=()=>{
 const render=()=>{
  const cfg=themes[current];document.documentElement.style.setProperty("--accent",cfg.accent);document.documentElement.style.setProperty("--soft",cfg.soft);
  $("#subheading").textContent=(cfg.kind==="menu"?"DIGITAL MENU":"SERVICES + BOOKING")+" / OWNER VIEW";
- $("#breadcrumbs").textContent="← BACK TO DEMO";$("#breadcrumbs").href=ownerBackUrl();$("#back-preview").href=ownerBackUrl();const sideBack=document.querySelector(".side-bottom a");if(sideBack)sideBack.href=ownerBackUrl();
+ $("#breadcrumbs").textContent="← "+(window.TLELocale?.tr("BACK TO DEMO")||"BACK TO DEMO");$("#breadcrumbs").href=ownerBackUrl();$("#back-preview").href=ownerBackUrl();const sideBack=document.querySelector(".side-bottom a");if(sideBack)sideBack.href=ownerBackUrl();
  $("#heading").innerHTML=cfg.kind==="menu"?'Your menu.<br><span class="heading-accent">Your way.</span>':'Your services.<br><span class="heading-accent">Your way.</span>';
  $("#intro").textContent=cfg.kind==="menu"?"Edit dishes, prices, promotions and availability. See the customer's menu respond instantly.":"Explore service packages, prices, offers and the booking experience — all with example data.";
  $("#live-site").href=cfg.site;
