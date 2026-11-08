@@ -28,10 +28,10 @@
 <a class="logo" href="/demos/">THE LAUNCH ERA <small>OWNER CENTER / INTERACTIVE DEMO</small></a>
 <div class="demo-stamp">A BETTER WAY TO RUN YOUR DAY</div>
 <nav class="side-nav" id="sidebar-nav"></nav>
-<div class="side-bottom"><a href="/demos/">← Back to demo library</a><div class="side-note">All information is simulated. Edits stay in this browser only. No payments, messages, or bookings are sent.</div></div>
+<div class="side-bottom"><a href="/demos/" id="back-preview">← Back to website preview</a><div class="side-note">All information is simulated. Edits stay in this browser only. No payments, messages, or bookings are sent.</div></div>
 </aside>
 <main class="content" id="main">
-<div class="topbar"><span class="breadcrumbs" id="breadcrumbs">THE LAUNCH ERA / OWNER VIEW</span><div class="top-actions"><span class="badge">INTERACTIVE DEMO</span><button type="button" class="round-btn" id="reset-top" title="Reset demo" aria-label="Reset all demo changes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 12a9 9 0 1 0 2.5-6.2M3 4v5h5"/></svg></button></div></div>
+<div class="topbar"><a class="breadcrumbs" id="breadcrumbs" href="/demos/" style="text-decoration:none;font-weight:700">← BACK TO DEMO</a><div class="top-actions"><span class="badge">INTERACTIVE DEMO</span><button type="button" class="round-btn" id="reset-top" title="Reset demo" aria-label="Reset all demo changes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 12a9 9 0 1 0 2.5-6.2M3 4v5h5"/></svg></button></div></div>
 <div class="page-header"><div><p class="eyebrow" id="subheading">DIGITAL MENU / OWNER VIEW</p><h1 id="heading">Your business.<br>Your way.</h1><p class="lede" id="intro">Explore how it feels to manage products and prices, without touching a real business.</p></div><div class="select-wrap"><label for="project" class="subtle">Project</label><select class="project-select" id="project" aria-label="Choose demo brand"></select></div></div>
 <div class="notice"><span class="notice-icon" aria-hidden="true">✳</span><div><strong>Explore freely — this is a demo.</strong><p>Prices, offers, products, and requests are examples. Your edits are kept locally on this browser only. Nothing changes on the public websites.</p></div></div>
 <section id="dashboard-view" class="view">
@@ -128,7 +128,7 @@ const renderRequests=()=>{
 const render=()=>{
  const cfg=themes[current];document.documentElement.style.setProperty("--accent",cfg.accent);document.documentElement.style.setProperty("--soft",cfg.soft);
  $("#subheading").textContent=(cfg.kind==="menu"?"DIGITAL MENU":"SERVICES + BOOKING")+" / OWNER VIEW";
- $("#breadcrumbs").textContent="THE LAUNCH ERA / "+cfg.name.toUpperCase();
+ $("#breadcrumbs").textContent="← BACK TO DEMO";$("#breadcrumbs").href=BASE+"?demo="+encodeURIComponent(current);$("#back-preview").href=BASE+"?demo="+encodeURIComponent(current);
  $("#heading").innerHTML=cfg.kind==="menu"?"Your menu.<br>Your way.":"Your services.<br>Your way.";
  $("#intro").textContent=cfg.kind==="menu"?"Edit dishes, prices, promotions and availability. See the customer's menu respond instantly.":"Explore service packages, prices, offers and the booking experience — all with example data.";
  $("#live-site").href=cfg.site;
