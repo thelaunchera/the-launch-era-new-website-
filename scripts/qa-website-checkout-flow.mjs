@@ -20,7 +20,10 @@ for (const [lang,page] of [['en',en],['es',es]]) {
  }
  ensure(!/<p class="fine" data-key="termsNote">/.test(page),lang+' has the old lengthy pricing disclaimer');
  ensure(page.includes('<section class="hero hero-gallery" id="inicio">')&&page.includes('hero-gallery-stage'),lang+' official website hero structure missing');
- ensure(page.includes('href="/demos/?demo=havana-19&amp;returnTo=')&&!page.includes('data-demo="umbral"'),lang+' demo hero must link to canonical Havana 19 without duplicating Umbral');
+ const gallery=page.match(/<div class="hero-gallery-rail">([\\s\\S]*?)<\\/div><\\/div><p class="hero-gallery-note">/)?.[1]||'';
+ const motionBrands=['casa-brownie','golden-grid','yummm','aftr','ivory-and-bloom','marea-wigs-miami','sova'];
+ ensure(motionBrands.every(slug=>gallery.includes('data-demo="'+slug+'"')&&gallery.includes('href="/demos/?demo='+slug+'&amp;returnTo=')),lang+' official gallery must link to the seven selected demos');
+ ensure(!gallery.includes('data-demo="umbral"')&&!gallery.includes('data-demo="crumb"'),lang+' Umbral and CRUMB must stay outside the seven animated cards');
  ensure(!page.includes('data-key="heroOverline"')&&!page.includes('<span class="dash"></span>'),lang+' hero heading or yellow line still visible');
  ensure(!page.includes('href="/custom-app/?lang='+lang+'"')&&!page.includes('class="app-section"'),lang+' should not advertise a separate app');
  ensure(page.includes(lang==='en'?'Due today: $25':'Hoy pagas $25'),lang+' $25 due today missing');
