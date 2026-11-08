@@ -104,7 +104,7 @@ html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-video-error] .gg
    crop the waffle, bag or text and never significantly upscale the 512px layer. */
 @media (max-width:520px) and (prefers-reduced-motion:no-preference){
   html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-mobile-video-eligible] .gg-approved-hero-video{
-    display:block;
+    display:block!important;
     position:absolute;
     z-index:2;
     inset:0;
