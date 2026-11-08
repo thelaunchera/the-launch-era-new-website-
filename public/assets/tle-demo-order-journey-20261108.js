@@ -226,7 +226,9 @@ function augmentNative(){
  }
  if(slug==='golden-grid'){
   var pd=document.getElementById('product-dialog'),title=document.getElementById('product-name');
-  if(pd&&title){var attach=function(){var item=find(title.textContent);var b=pd.querySelector('[data-tle-product-bridge]');
+  // Prevent an observer storm: the body watcher calls augmentNative on DOM updates.
+  // Bind a single observer per product title, even as gallery cards change.
+  if(pd&&title&&!title.dataset.tleOrderBridgeObserver){title.dataset.tleOrderBridgeObserver='1';var attach=function(){var item=find(title.textContent);var b=pd.querySelector('[data-tle-product-bridge]');
    if(!item){if(b)b.hidden=true;return}if(!b){b=document.createElement('button');b.type='button';b.className='tle-order-inline-add';b.dataset.tleProductBridge='1';b.style.setProperty('--toc-accent',tone);pd.querySelector('.dialog-copy')?.appendChild(b);
     b.addEventListener('click',function(){var i=find(title.textContent);if(i){change(i.name,1);pd.close();open('cart')}})}
    b.hidden=false;b.textContent=tr('Add to cart · ','Añadir al carrito · ')+fmt(item.priceCents);

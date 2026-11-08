@@ -3,6 +3,7 @@
 - `/demos/?demo=golden-grid` continues to use the library iframe with a visible Close action and unloads on close. Mobile gallery limits concurrent source PNGs while keeping original photo dialogs.
 - No URLs, email/booking/payment destinations, tenant data or other brands' hero integrations changed. Browser CI and live iPhone proof pending.
 
+
 ## 2026-11-08 — Bidirectional scroll animation maintenance (no route changes)
 
 - **Routes unchanged:** primary and secondary concept demos, `/demos/`, `/website-for-your-business/`, `/es/website-for-your-business/`, React marketing pages, and podcast/class landings retain the same canonical destinations and functionality.
