@@ -356,7 +356,7 @@ function init(kind){
   document.head.append(css);
  }
  apply(document.body);
- if(isEs&&typeof MutationObserver!=="undefined"){
+ if(typeof MutationObserver!=="undefined"){
   // Dynamic catalog/navigation is recreated by menu edits and brand switches.
   let queued=false;
   const observer=new MutationObserver(()=>{
