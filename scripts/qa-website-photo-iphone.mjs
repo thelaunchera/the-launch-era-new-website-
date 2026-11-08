@@ -39,7 +39,7 @@ try{
    });
    assert.equal(presentation.fit,'cover','Gallery card '+(i+1)+' must fill the photo frame: '+language);
    assert(presentation.name?.length>1,'Gallery card '+(i+1)+' has no visible project name: '+language);
-   assert(!/rgba?\\(0, 0, 0, 0\\)|transparent/.test(presentation.labelBackground),
+   assert(presentation.labelBackground !== 'transparent' && presentation.labelBackground !== 'rgba(0, 0, 0, 0)' && presentation.labelBackground !== '',
      'Gallery card '+(i+1)+' name must have a contrast background: '+language);
   }
 
