@@ -59,6 +59,7 @@ en:{
  aiPhotoCampaign:'Editorial product campaign concept',
  aiPhotoReference:'Example code from the gallery (optional)',
  aiPhotoReview:'Request only — no automatic generation. We will confirm the scope before creating images. Add an original product photo above or share a Drive link.',
+ photoPickerTitle:'Choose your photo style',photoPickerHelp:'Your website setup stays on this page. Choose a photo or close to continue editing.',photoPickerClose:'Close',
   security:'Do not send passwords, credit card details or security codes.'
 },
 es:{
@@ -112,6 +113,7 @@ es:{
  aiPhotoCampaign:'Crear un concepto editorial de campaña',
  aiPhotoReference:'Código de ejemplo de la galería (opcional)',
  aiPhotoReview:'Es una solicitud de revisión, no una generación automática. Confirmaremos el alcance antes de crear imágenes. Sube una foto original arriba o comparte un enlace de Drive.',
+ photoPickerTitle:'Elige el estilo de tus fotos',photoPickerHelp:'Tu formulario permanece aquí. Elige una foto o cierra la galería para seguir editando.',photoPickerClose:'Cerrar',
   security:'No compartas contraseñas, tarjetas ni códigos de seguridad.'
 }};
 const formatFor={restaurant:'digital_menu',cafe:'digital_menu',retail:'product_catalog',cleaning:'services_requests',beauty:'services_requests',wellness:'services_requests',professional:'services_requests'};
@@ -191,6 +193,58 @@ function updatePhotoChoice(){
  const gallery=$('ai-photo-gallery-link');
  if(gallery)gallery.href='/demos/photo-gallery/?category='+encodeURIComponent(category)+'&lang='+encodeURIComponent(lang());
 }
+
+/* Photo gallery appears *over* the paid intake; users never leave its URL.
+ * Image selection is posted only between same-origin gallery and intake iframe.
+ */
+const pickerDialog=$('photo-picker-dialog');
+const pickerFrame=$('photo-picker-frame');
+const pickerLink=$('ai-photo-gallery-link');
+const pickerClose=$('photo-picker-close');
+let previousPickerFocus=null,previousScrollLock=null;
+function closePhotoPicker(){
+ if(!pickerDialog?.open)return;
+ pickerDialog.close();
+}
+if(pickerDialog&&pickerFrame&&pickerLink&&pickerClose){
+ pickerLink.addEventListener('click',event=>{
+  // The ordinary link remains a usable new-tab fallback if <dialog> isn't supported.
+  if(typeof pickerDialog.showModal!=='function')return;
+  event.preventDefault();
+  previousPickerFocus=document.activeElement;
+  const url=new URL(pickerLink.href,location.origin);
+  if(url.origin!==location.origin||url.pathname!=='/demos/photo-gallery/')return;
+  url.searchParams.set('picker','1');
+  url.searchParams.set('lang',lang());
+  pickerFrame.src=url.pathname+url.search;
+  previousScrollLock=document.documentElement.style.overflow;
+  document.documentElement.style.overflow='hidden';
+  pickerDialog.showModal();
+  pickerClose.focus({preventScroll:true});
+ });
+ pickerClose.addEventListener('click',closePhotoPicker);
+ pickerDialog.addEventListener('click',event=>{if(event.target===pickerDialog)closePhotoPicker()});
+ pickerDialog.addEventListener('close',()=>{
+  document.documentElement.style.overflow=previousScrollLock??'';
+  pickerFrame.src='about:blank';
+  if(previousPickerFocus&&previousPickerFocus.isConnected)previousPickerFocus.focus({preventScroll:true});
+  previousPickerFocus=null;previousScrollLock=null;
+ });
+ window.addEventListener('message',event=>{
+  if(event.origin!==location.origin||event.source!==pickerFrame.contentWindow)return;
+  const data=event.data;
+  if(!data||data.type!=='tle:photo-gallery:select'||!(/^(?:FD|BK|PR|BT|CL|SV)-\d{2}$/.test(String(data.code||''))))return;
+  if(!pickerDialog.open)return;
+  const code=String(data.code);
+  const ref=field('ai_photo_reference');
+  if(ref)ref.value=code;
+  const checkbox=$('ai-photo-optin');
+  if(checkbox&&!checkbox.checked)checkbox.checked=true;
+  updatePhotoChoice();
+  closePhotoPicker();
+ });
+}
+
 $('ai-photo-optin')?.addEventListener('change',updatePhotoChoice);
 $('business-industry')?.addEventListener('change',updatePhotoChoice);
 $('locale').addEventListener('click',()=>queueMicrotask(translateBrief));
