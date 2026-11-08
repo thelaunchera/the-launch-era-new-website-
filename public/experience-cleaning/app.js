@@ -5,9 +5,9 @@ const $=id=>document.getElementById(id);
 const original={};
 document.querySelectorAll('[data-t]').forEach(el=>{const key=el.dataset.t;original[key]=el.textContent.trim();});
 const es={
- skip:'Ir a la demostración',safeTop:'Demo interactivo · Sin reservas reales',
+ skip:'Ir a la demostración',safeTop:'Explora una solicitud · No se envían reservas',
  heroEyebrow:'DEMO DE RESERVAS · PARA NEGOCIOS DE LIMPIEZA',heroTitle1:'Mira cómo reservan tus clientes.',heroTitle2:'Mira dónde llega la solicitud.',
- heroBody:'Una Booking Page de ejemplo conectada a un Command Center de muestra. Prueba una solicitud para ver cómo funciona.',
+ heroBody:'Prueba cómo un cliente podría solicitar una limpieza y descubre dónde verías la solicitud para responder.',
  heroAction:'Probar una reserva',heroNote:'Una sola solicitud. Sin registro.',
  floating1a:'NUEVA SOLICITUD',floating1b:'Limpieza profunda',floating2a:'TU ESPACIO',floating2b:'Lista para revisar',
  heroStamp:'RESERVAS + COMMAND CENTER',band1:'UNA SOLICITUD',band2:'UN ESPACIO CONECTADO',band3:'TODO EN UNA SOLA DEMOSTRACIÓN',
@@ -41,7 +41,7 @@ const es={
  ownerTitle:'Lo que tu clienta no ve, pero tú sí.',
  ownerSub:'La misma solicitud llega lista para revisar, cotizar y dar seguimiento, sin buscar entre mensajes.',
  dashRequests:'Solicitudes',dashQuotes:'Cotizaciones',dashFollowups:'Seguimientos',dashMockNote:'Espacio de ejemplo',
- dashToday:'TU COMMAND CENTER',dashHeading:'Acaba de llegar una solicitud.',dashSample:'EJEMPLO INTERACTIVO · SIN DATOS REALES',
+ dashToday:'TU COMMAND CENTER',dashHeading:'Acaba de llegar una solicitud.',dashSample:'TU DÍA DE TRABAJO · EJEMPLO',
  dashBrandSmall:'COMMAND CENTER',dashSideLabel:'MI ESPACIO',dashWelcome:'Sin buscar entre mensajes. Aquí ves lo que sigue.',
  metricOne:'Nueva solicitud',metricOneNote:'Desde tu página de reservas',metricTwo:'Valor ilustrativo',metricTwoNote:'Según la selección de ejemplo',metricThree:'Próxima acción',metricThreeNote:'Mira cómo avanza',
  inboxTitle:'SOLICITUDES',inboxNew:'Nueva desde tu página de reservas',inboxSample:'EJEMPLO #001',requestPriceLabel:'Valor ilustrativo',
@@ -57,7 +57,7 @@ const es={
  purchase:'Quiero mi Booking Page + Command Center',
  offerNote:'La IA es opcional y tiene un precio aparte. Verás todos los cargos antes de pagar.',
  tryAgain:'Probar otra solicitud de ejemplo',
- footerSafety:'Ejemplo interactivo. No se envían reservas; solo se procesan los mensajes opcionales del chat de Sonny.',
+ footerSafety:'Este recorrido es de muestra; no se programa una limpieza. Si decides enviar un mensaje por chat, puede ser procesado.',
  backSite:'Volver a The Launch Era',privacy:'Privacidad',terms:'Términos'
 };
 const names={
@@ -282,7 +282,7 @@ Object.assign(es,{
  teamTitle:'Una persona de confianza. Tu casa bien cuidada.',
  teamLead:'Abres tu puerta a alguien en quien puedas confiar. Atención a cada espacio, respeto por tu familia y cuidado también cuando hay mascotas.',
  teamValue1:'Cuidado en cada habitación',teamValue2:'Respeto por tu espacio',teamValue3:'Comodidad con mascotas',
- teamDisclaimer:'Presentación ilustrativa para esta demostración. Cada negocio añade la foto y la historia reales de su dueña o equipo.',
+ teamDisclaimer:'Un ejemplo de cómo presentar a tu equipo. Tus propias fotos e historia harán que esta experiencia sea tuya.',
  reviewsEyebrow:'DETRÁS DE CADA HOGAR HAY UNA HISTORIA',reviewsTitle:'Que lo cuenten tus clientes.',
  reviewsIntro:'Aquí van las reseñas reales de tus clientes, para que otras personas conozcan la calidad y confianza de tu trabajo.',
  reviewSampleLabel:'RESEÑA DE EJEMPLO · NO REAL',
@@ -290,7 +290,7 @@ Object.assign(es,{
  reviewQuote2:'“Qué gusto volver a una casa limpia y acogedora.”',
  reviewQuote3:'“Una casa limpia donde nuestras mascotas también se sienten bien.”',
  reviewTheme1:'Atención al detalle',reviewTheme2:'Esa sensación de hogar',reviewTheme3:'Cuidado con mascotas',
- reviewsDisclaimer:'Son ejemplos de cómo se verían las reseñas, no testimonios publicados. Se reemplazan por opiniones verificadas de clientes reales.'
+ reviewsDisclaimer:'Mira cómo las opiniones ayudan a generar confianza. Añade reseñas verificadas de tus clientes cuando tu página esté lista.'
 });
 const legacyPrice=appliedPrice;
 appliedPrice=function(){return state.category==='commercial'?(state.lang==='es'?'Solicitar estimado':'Request estimate'):legacyPrice();};
