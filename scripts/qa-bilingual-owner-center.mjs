@@ -36,7 +36,7 @@ assert.match(locale,/window\.TLELocale=/);
 assert.match(locale,/MutationObserver/);
 assert.match(locale,/Editar producto/);
 assert.match(locale,/Volver a la vista del sitio web/);
-assert.match(locale,/Demostración interactiva/);
+assert.match(locale,/DEMOSTRACIÓN INTERACTIVA/);
 assert.match(owner,/localStorage\.setItem/);
 assert.match(owner,/localStorage\.removeItem/);
 assert.match(owner,/Number\(p\.discount\)/);
