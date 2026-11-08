@@ -2,7 +2,8 @@
    The 512x682 Canva video is too small to replace the entire image on iPad or
    desktop. Confine its moving syrup/waffle details to feathered areas only,
    leaving the lettering, packaging and most of the food razor sharp.
-   Phones and reduced-motion visitors always receive the original photograph. */
+   Phones <=520 CSS px also play the same approved 512x682 source at native-or-smaller size,
+   with a tiny safe-edge portrait crop matching the 4:5 still; Studio/reduced motion stay photo-only. */
 html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video{
   display:none;
 }
@@ -71,7 +72,7 @@ html[data-tle-one-motion="golden-grid"] .hero .hero-art>img{
     opacity:1;
   }
 }
-@media(max-width:760px),(prefers-reduced-motion:reduce){
+@media (min-width:521px) and (max-width:760px), (prefers-reduced-motion:reduce){
   html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video{
     display:none!important;
   }
@@ -79,4 +80,37 @@ html[data-tle-one-motion="golden-grid"] .hero .hero-art>img{
 html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video[hidden],
 html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-video-error] .gg-approved-hero-video{
   display:none!important;
+}
+
+/* Golden Grid: keep sharp base photo and hero dimensions on standalone phones.
+   A 3:4 source fills a 4:5 frame with minimal top/bottom safe-area crop; never
+   crop the waffle, bag or text and never significantly upscale the 512px layer. */
+@media (max-width:520px) and (prefers-reduced-motion:no-preference){
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-mobile-video-eligible] .gg-approved-hero-video{
+    display:block;
+    position:absolute;
+    z-index:2;
+    inset:0;
+    width:100%;
+    height:100%;
+    max-width:none;
+    max-height:none;
+    object-fit:cover;
+    object-position:center;
+    padding:0;
+    margin:0;
+    border:0;
+    pointer-events:none;
+    background:transparent;
+    opacity:0;
+    transition:opacity .2s ease-out;
+    -webkit-mask-image:none;
+    mask-image:none;
+    transform:none!important;
+    filter:none!important;
+    animation:none!important;
+  }
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-mobile-video-eligible][data-gg-video-playing] .gg-approved-hero-video{
+    opacity:1;
+  }
 }

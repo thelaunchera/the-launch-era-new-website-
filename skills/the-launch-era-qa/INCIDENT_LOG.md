@@ -1,3 +1,11 @@
+## 2026-11-08 — Golden Grid approved hero video on standalone phones (conditional quality gate)
+
+- **Owner request:** activate the existing approved hero video on phone only if it appears sharp and does not crop the original brand composition.
+- **Source assessment:** the approved `hero-approved-canva-20261108.mp4` is 512×682, suitable for ~390px phone width at native-or-smaller presentation, but cannot cover a 1440px hero sharply. The original high-resolution `golden-1.png` stays rendered as the full, matching image under the video. Previously mobile had an explicit display-none and the loader only ran above 760px.
+- **Mobile implementation:** standalone viewport <=520px, muted inline autoplay + loop of the already approved video, with `object-fit:cover` and minimal safe-edge vertical crop (3:4 video vs 4:5 photo) without losing the lettering or waffles; reveal only while playing. If source width is too small for the rendered hero or video/photo aspect differs by >0.07, do not replace the photograph. Respect reduced-motion, data saver, stalled playback and errors. Intermediate widths 521–760px remain sharp stills; tablet/desktop retain masked localized motion, never a blurry full-video replacement.
+- **Safety:** in-app/Studio iframe preview intentionally remains photo-only, because earlier Golden Grid image+video+carousel load could freeze mobile previews. No new video file, route, header, customer message, backend, cart, or price change.
+- **Verification gate:** `scripts/qa-golden-grid-approved-video-20261108.mjs` checks Chromium/WebKit 390px full-frame, native video dimensions and photo aspect proximity, photo fallback for reduced motion, iframe video suppression, static 640px, and unchanged 820/1440px. Run Golden Grid iPhone Freeze Guard + static route integrity + GitHub Pages deployment; real iPhone visual confirmation remains pending until independently checked.
+
 ## 2026-11-08 — SOVA iPad animation without Play button
 
 - **Owner request:** the hero remains static on the physical iPad and the owner explicitly requests removal of the Play video button.
