@@ -1,0 +1,56 @@
+name: Motion Heroes Video + Cursor QA
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/hero-cinematic-motion-qa.yml'
+      - 'public/assets/tle-hero-cinematic-20261108.js'
+      - 'scripts/qa-hero-cinematic-20261108.mjs'
+      - 'public/demos/**/media/hero-motion-20261108.mp4'
+      - 'public/experience-cleaning/media/hero-motion-20261108.mp4'
+  workflow_run:
+    workflows: ['Deploy website to GitHub Pages']
+    types: [completed]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-video-and-cursor:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - name: Check eleven asset masters and six approved integrations
+        run: |
+          for s in crumb casa-brownie havana-19 ivory-and-bloom marea-wigs-miami la-vie-in-pink aftr lavender-edit sova golden-grid; do
+            test -s "public/demos/$s/media/hero-motion-20261108.mp4"
+          done
+          test -s public/experience-cleaning/media/hero-motion-20261108.mp4
+          for s in crumb casa-brownie havana-19 ivory-and-bloom aftr lavender-edit; do
+            grep -q 'tle-hero-cinematic-20261108.js' "public/demos/$s/index.html"
+          done
+          node --check public/assets/tle-hero-cinematic-20261108.js
+          node --check scripts/qa-hero-cinematic-20261108.mjs
+      - name: Install isolated browser dependencies
+        run: |
+          mkdir -p /tmp/tle-motion-qa
+          cd /tmp/tle-motion-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          cd "$GITHUB_WORKSPACE"
+          mkdir -p "$GITHUB_WORKSPACE/node_modules"
+          ln -sfn /tmp/tle-motion-qa/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-motion-qa/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: Verify published video playback, cursor movement and reduced motion
+        run: node scripts/qa-hero-cinematic-20261108.mjs
+      - name: Save visual results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: motion-heroes-six-visual-proof
+          path: qa-screenshots/motion-20261108/
+          if-no-files-found: ignore
