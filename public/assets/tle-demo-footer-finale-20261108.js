@@ -34,12 +34,12 @@
   booking:{en:'EXPLORE BOOKING',es:'VER LAS RESERVAS'}
  };
  const order={
-  'havana-19':{anchor:'#story',targets:['#kitchen']},
+  'havana-19':{anchor:'#story',targets:['#tle-demo-sample-prices','#kitchen']},
   'aftr':{anchor:'#tonight',targets:['#offers']},
   'lavender-edit':{anchor:'#ritual',targets:['#gallery']},
   'experience-cleaning':{anchor:'.hero.hero-cleaning-site',targets:['#tle-demo-sample-prices','#experience']},
   'soluna-yoga':{anchor:'#about',targets:['#memberships','#classes']},
-  'wok-social':{anchor:'.hero + .ticker',targets:['#menu']},
+  'wok-social':{anchor:'.hero + .ticker',targets:['#tle-demo-sample-prices','#menu']},
   'yummm':{anchor:'.feature-links',targets:['#counter']},
   'jaramillo-boutique':{anchor:'.hero',targets:['#collections']}
  };
