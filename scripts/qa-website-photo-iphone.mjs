@@ -28,6 +28,19 @@ try{
    await demo.evaluate(async img=>{ if(!img.complete)await new Promise((ok,fail)=>{img.addEventListener('load',ok,{once:true});img.addEventListener('error',fail,{once:true});}); });
    const valid=await demo.evaluate(img=>img.naturalWidth>100&&img.naturalHeight>100);
    assert(valid,'Gallery card '+(i+1)+' image did not load in '+language);
+   const presentation=await demo.evaluate(img=>{
+     const card=img.closest('.hero-gallery-card');
+     const caption=card?.querySelector('figcaption');
+     return {
+       fit:getComputedStyle(img).objectFit,
+       name:caption?.textContent?.trim(),
+       labelBackground:caption?getComputedStyle(caption).backgroundColor:''
+     };
+   });
+   assert.equal(presentation.fit,'cover','Gallery card '+(i+1)+' must fill the photo frame: '+language);
+   assert(presentation.name?.length>1,'Gallery card '+(i+1)+' has no visible project name: '+language);
+   assert(!/rgba?\\(0, 0, 0, 0\\)|transparent/.test(presentation.labelBackground),
+     'Gallery card '+(i+1)+' name must have a contrast background: '+language);
   }
 
   assert.equal(await gallery.locator('a[href="#paquetes"]').count(),1,'Primary package CTA missing: '+language);
