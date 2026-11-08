@@ -1,3 +1,11 @@
+## 2026-11-08 — Golden Grid iPad hero looks soft because low-resolution video replaces HQ still
+
+- **Owner report:** in the iPad demo the Golden Grid campaign lettering, waffle photography and package look blurry even though the original hero photograph is crisp. Owner approved a photo-first presentation with only syrup/food movement.
+- **Verified source cause:** `public/demos/golden-grid/golden-approved-hero-video-20261108.css` hid `resources/golden-1.png` on tablet/desktop and enlarged the approved 512×682 Canva MP4 across the whole hero, including its baked-in headline and packaging. No CSS scaling can restore missing pixels from that source. Existing iPhone WebView stability guard must be retained.
+- **Proposed source repair:** keep the original high-resolution `golden-1.png` continuously visible as the full-bleed hero on every device. Confine the existing approved MP4 to soft radial masks at the syrup and a low-opacity waffle detail area on widths >=761px only, without any forced zoom. Reveal the layer only on actual video playback; pause when hidden/out of view; preserve still for media error, reduced motion, data saver, and phone. No new binary, route, price, cart, order flow, cross-brand media, or client data changed.
+- **QA gate:** `scripts/qa-golden-grid-approved-video-20261108.mjs` now checks tablet/desktop crisp still, masked motion and video dimensions, and phone/reduced-motion no-video loading. Existing `qa-golden-grid-stability-20261108.mjs` checks mobile iframe close, hero and gallery. Must pass route-integrity static and Playwright Chromium/WebKit, then verify deployed GitHub Pages and real iPad/iPhone before saying the production visual issue is fully resolved.
+- **Status at source edit:** patch prepared on branch `fix/golden-grid-crisp-hero-20261108`; browser/production/physical-iPad verification still pending.
+
 ## 2026-11-08 — SOVA approved cobalt-blue Canva landscape hero
 
 - **Owner request:** replace portrait hero with newly supplied Canva 5-second landscape clip based on the approved blue sofa and headphones image; keep the camera further back, all cobalt backdrop and clean focus across desktop/tablet/mobile.
