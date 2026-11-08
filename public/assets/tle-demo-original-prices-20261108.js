@@ -114,7 +114,7 @@ function apply(){
      const text=document.createElement("span");text.textContent=name;const safe=text.innerHTML||text.textContent.replace(/&/g,"&amp;").replace(/</g,"&lt;");
      return '<article class="tle-price-card">'+picture+'<div class="tle-price-card-body"><h3>'+safe+'</h3><div>'+moneyMarkup(price,discount)+'</div></div></article>';
    }).join("");
-   section.innerHTML='<span class="tle-price-kicker">'+(cfg.kind==="service"?"Services · Demo prices":"Selected favorites · Demo prices")+'</span><h2>'+title+'</h2><div class="tle-price-grid">'+cards+'</div><p class="tle-price-note">Illustrative prices for this interactive concept. No payment or booking is processed here.</p>';
+   section.innerHTML='<span class="tle-price-kicker">'+(cfg.kind==="service"?"Services · Demo prices":"Selected favorites · Demo prices")+'</span><h2>'+title+'</h2><div class="tle-price-grid">'+cards+'</div><p class="tle-price-note">Explore these example prices as you browse. Purchases and reservations are not submitted here.</p>';
    // Position the ORIGINAL price section where visitors make decisions,
    // not by the legal footer. Never duplicate cards or rewrite amounts.
    const catalogAnchors={
