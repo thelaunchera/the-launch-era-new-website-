@@ -9,7 +9,7 @@ const entries=String.raw`
 OWNER CENTER / INTERACTIVE DEMO||PANEL DEL PROPIETARIO / DEMOSTRACIÓN INTERACTIVA
 A BETTER WAY TO RUN YOUR DAY||UNA FORMA MÁS SIMPLE DE ORGANIZAR TU DÍA
 Back to website preview||Volver a la vista del sitio web
-All information is simulated. Edits stay in this browser only. No payments, messages, or bookings are sent.||Toda la información es simulada. Los cambios solo se guardan en este navegador. No se envían pagos, mensajes ni reservas.
+Explore how you could organize your day. Changes are for this preview only; nothing is submitted or charged.||Explora cómo podrías organizar tu día. Los cambios son solo para esta vista; no se envían solicitudes ni se realizan cobros.
 BACK TO DEMO||VOLVER AL DEMO
 ← BACK TO DEMO||← VOLVER AL DEMO
 INTERACTIVE DEMO||DEMOSTRACIÓN INTERACTIVA
@@ -18,8 +18,8 @@ Reset all demo changes||Restablecer todos los cambios del demo
 DIGITAL MENU||MENÚ DIGITAL
 DIGITAL MENU / OWNER VIEW||MENÚ DIGITAL / VISTA DEL PROPIETARIO
 SERVICES + BOOKING / OWNER VIEW||SERVICIOS Y RESERVAS / VISTA DEL PROPIETARIO
-Interactive demo — give it a try.||Este es un demo interactivo.
-Changes stay in this browser. No real orders, bookings or payments are created.||Los cambios solo se guardan en este navegador. No se crean pedidos, reservas ni pagos reales.
+Make it your business view.||Haz tuya esta vista del negocio.
+Try different prices and options freely. This preview does not create orders, reservations or payments.||Prueba precios y opciones sin compromiso. Esta vista no genera pedidos, reservas ni pagos.
 SERVICES + BOOKING||SERVICIOS Y RESERVAS
 OWNER VIEW||VISTA DEL PROPIETARIO
 Your business.||Tu negocio.
@@ -63,14 +63,14 @@ Save changes||Guardar cambios
 Sample requests.||Solicitudes de ejemplo.
 A walkthrough of what a busy day could look like.||Así podría verse un día con solicitudes.
 Presentation examples, not actual customer activity.||Son ejemplos de presentación, no actividad de clientes reales.
-There are no live orders, service appointments or personal details here. This view is not connected to our Command Center or CRM.||No hay pedidos, citas ni datos personales reales. Esta vista no está conectada al Command Center ni al CRM.
+You are looking at a sample day. Orders and appointments shown here are examples, not customer activity.||Estás viendo un día de ejemplo. Los pedidos y las citas ilustran la experiencia, no la actividad de clientes.
 See what customers see.||Mira lo que ven tus clientes.
 Live preview of your edits within this local demo.||Vista previa de tus cambios en esta demostración local.
 View original website||Ver sitio web original
 Customer's screen · preview only||Pantalla del cliente · solo vista previa
 The experience, made simple.||Tu experiencia, más sencilla.
 Products, prices, discounts and availability update here immediately after you save. These changes do not alter the published demo website. To start fresh, use Reset Demo.||Los productos, precios, descuentos y disponibilidad se actualizan aquí al guardar. No modifican el sitio publicado. Puedes comenzar de nuevo con «Restablecer demo».
-Independent design demonstration · No real transactions||Demostración de diseño independiente · Sin transacciones reales
+Business concept preview · No orders or payments are submitted||Vista de un negocio de ejemplo · No se envían pedidos ni cobros
 Mobile Owner Center navigation||Navegación móvil del propietario
 Owner Center navigation||Navegación del propietario
 Dashboard||Inicio
@@ -90,10 +90,10 @@ No items currently available.||No hay productos disponibles por ahora.
 No matching items. Add one or clear your search.||No encontramos coincidencias. Agrega un producto o borra la búsqueda.
 YOUR MENU · MADE TO EXPLORE||TU MENÚ · LISTO PARA EXPLORAR
 SERVICES · MADE FOR YOU||SERVICIOS · A TU MEDIDA
-SIMULATED CUSTOMER VIEW · NO TRANSACTIONS||VISTA SIMULADA DEL CLIENTE · SIN TRANSACCIONES
-SIMULATED||SIMULADO
-Sample order cards for a fictional day.||Pedidos de ejemplo para un día ficticio.
-Sample bookings and quote requests for a fictional day.||Reservas y solicitudes de cotización de ejemplo para un día ficticio.
+CUSTOMER EXPERIENCE · PREVIEW ONLY||EXPERIENCIA DEL CLIENTE · VISTA DE EJEMPLO
+EXAMPLE||EJEMPLO
+See how orders could appear during your day.||Así podrían aparecer los pedidos durante tu día.
+See how bookings and quote requests could arrive.||Así podrían llegar las reservas y solicitudes de presupuesto.
 Order example #001||Pedido de ejemplo #001
 Order example #002||Pedido de ejemplo #002
 Order example #003||Pedido de ejemplo #003
@@ -132,8 +132,8 @@ A curated collection of websites and concepts. Each brand has its own voice, vis
 Made to explore||Para descubrir
 The collection||La colección
 EDITORIAL WEBSITES / 2026||SITIOS WEB EDITORIALES / 2026
-Explore the projects.||Explora los proyectos.
-Original ideas, distinct identities, and details worth looking at.||Ideas originales, identidades únicas y detalles que merecen una mirada.
+Discover what your business could feel like.||Imagina cómo podría sentirse tu negocio en internet.
+Explore websites made for the way real people browse, choose and connect. Every brand has its own story.||Explora webs pensadas para cómo las personas descubren, eligen y conectan. Cada marca cuenta su propia historia.
 All projects||Todos los proyectos
 Food & Drink||Comida y bebidas
 Beauty & Wellness||Belleza y bienestar
@@ -156,7 +156,7 @@ Website preview||Vista previa del sitio web
 Open full website||Abrir sitio web completo
 Interactive website preview||Vista previa interactiva del sitio web
 THE LAUNCH ERA · ORIGINAL CONCEPTS||THE LAUNCH ERA · CONCEPTOS ORIGINALES
-Independent design concepts and educational demonstrations. Brands, addresses, offers, bookings and checkouts may be fictional or simulated. No private Studio materials or customer data are published here.||Conceptos de diseño independientes y demostraciones educativas. Algunas marcas, direcciones, ofertas, reservas y pagos pueden ser ficticios o simulados. No se publica contenido privado del Studio ni datos de clientes.
+Explore original website concepts made to show the customer experience. Businesses and sample booking or checkout journeys are for demonstration; no purchase or reservation is completed here.||Explora conceptos originales que muestran cómo podría sentirse la experiencia de tus clientes. Los negocios, reservas y compras son ejemplos; aquí no se realiza ninguna compra ni reserva.
 Privacy Policy||Política de privacidad
 Terms of Use||Términos de uso
 Cookie Policy||Política de cookies
@@ -184,7 +184,7 @@ Seasonal coffee and cozy café identity||Café de temporada y ambiente acogedor
 Yoga studio with membership concepts||Estudio de yoga con opciones de membresía
 Coffee, bakery and sweet treats||Café, repostería y dulces
 Fashion editorial and curated looks||Moda editorial y looks seleccionados
-Residential booking journey simulation||Simulación de reservas de limpieza residencial
+A simpler way to explore and request cleaning||Una manera sencilla de elegir y solicitar una limpieza
 Waffles||Waffles
 Grab & Go||Para llevar
 Pâtisserie||Pastelería
