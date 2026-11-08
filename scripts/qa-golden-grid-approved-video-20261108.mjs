@@ -37,7 +37,7 @@ for(const engine of [chromium,webkit]){
         return photo?.complete&&photo.naturalWidth>=1122&&photo.naturalHeight>=1402;
       });
       await page.waitForFunction(()=>Array.from(document.styleSheets)
-        .some(s=>s.href?.includes('golden-approved-hero-video-20261108.css?v=5')));
+        .some(s=>s.href?.includes('golden-approved-hero-video-20261108.css?v=6')));
       await page.waitForTimeout(300);
       const details=await hero.evaluate(el=>{
         const img=el.querySelector(':scope > img');
