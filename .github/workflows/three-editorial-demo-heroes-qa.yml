@@ -14,6 +14,9 @@ on:
       - 'public/assets/tle-demo-scroll-art-20261108.css'
       - 'public/assets/tle-demo-scroll-art-20261108.js'
       - 'scripts/qa-demo-scroll-art-20261108.mjs'
+      - 'public/assets/tle-demo-footer-finale-20261108.css'
+      - 'public/assets/tle-demo-footer-finale-20261108.js'
+      - 'scripts/qa-demo-footer-menu-20261108.mjs'
       - 'scripts/qa-ivory-bloom-calendar-webkit.mjs'
       - '.github/workflows/three-editorial-demo-heroes-qa.yml'
   push:
@@ -30,6 +33,9 @@ on:
       - 'public/assets/tle-demo-scroll-art-20261108.css'
       - 'public/assets/tle-demo-scroll-art-20261108.js'
       - 'scripts/qa-demo-scroll-art-20261108.mjs'
+      - 'public/assets/tle-demo-footer-finale-20261108.css'
+      - 'public/assets/tle-demo-footer-finale-20261108.js'
+      - 'scripts/qa-demo-footer-menu-20261108.mjs'
       - '.github/workflows/three-editorial-demo-heroes-qa.yml'
   workflow_dispatch:
 permissions:
@@ -74,6 +80,9 @@ jobs:
           node --check public/assets/tle-demo-scroll-art-20261108.js
           node --check scripts/qa-demo-scroll-art-20261108.mjs
           node scripts/qa-demo-scroll-art-20261108.mjs
+          node --check public/assets/tle-demo-footer-finale-20261108.js
+          node --check scripts/qa-demo-footer-menu-20261108.mjs
+          node scripts/qa-demo-footer-menu-20261108.mjs
       - name: Upload review screenshots
         if: always()
         uses: actions/upload-artifact@v4
