@@ -1,0 +1,46 @@
+name: Repeatable Scroll Motion QA — Main Demos
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/qa-repeatable-scroll-motion.yml'
+      - 'public/assets/tle-demo-scroll-art-20261108.js'
+      - 'public/assets/tle-demo-scroll-art-20261108.css'
+      - 'scripts/qa-demo-scroll-art-20261108.mjs'
+      - 'public/demos/**/index.html'
+      - 'public/experience-cleaning/index.html'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  scroll-replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check main demo motion files and routes
+        run: |
+          node --check public/assets/tle-demo-scroll-art-20261108.js
+          node --check scripts/qa-demo-scroll-art-20261108.mjs
+          node scripts/qa-route-integrity.mjs --static
+      - name: Install isolated Chromium and WebKit
+        run: |
+          mkdir -p /tmp/tle-scroll-main
+          npm install --no-audit --no-fund --prefix /tmp/tle-scroll-main playwright@1.57.0
+          /tmp/tle-scroll-main/node_modules/.bin/playwright install --with-deps chromium webkit
+          mkdir -p "$GITHUB_WORKSPACE/node_modules"
+          ln -sfn /tmp/tle-scroll-main/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-scroll-main/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: Check iPhone scroll re-entry and reduced motion in Chromium and WebKit
+        run: |
+          python3 -m http.server 4191 --bind 127.0.0.1 --directory public >/tmp/tle-main-scroll.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for i in $(seq 1 20); do
+            if curl -fsS http://127.0.0.1:4191/demos/sova/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4191 node scripts/qa-demo-scroll-art-20261108.mjs
