@@ -100,7 +100,7 @@ try {
         await page.locator('#tlc-date-trigger').click();
         await page.locator('#tlc-calendar-days button[data-day]:not([disabled])').first().click();
         assert.equal(await page.locator('#date').getAttribute('type'),'hidden');
-        assert.ok((await page.locator('#date').inputValue()).match(/^\\d{4}-\\d{2}-\\d{2}$/));
+        assert.ok((await page.locator('#date').inputValue()).match(/^\d{4}-\d{2}-\d{2}$/));
       }
       const next=Number(await progress.getAttribute('aria-valuenow'));
       assert.ok(isWedding ? next>0 : next>start,path+' should count the selected date in inquiry progress');
