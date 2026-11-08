@@ -1,3 +1,10 @@
+## 2026-11-08 — Golden Grid observer storm blocked iPhone demo navigation
+
+- **Observed:** Main repeatable scroll regression reached SOVA successfully but timed out loading Golden Grid during DOMContentLoaded. The owner previously reported that Golden Grid could close or block the Studio preview.
+- **Verified source root cause:** In `public/assets/tle-demo-order-journey-20261108.js`, a body-wide MutationObserver repeatedly called `augmentNative()` for Golden Grid. That routine registered another MutationObserver on `#product-name` on every mutation, without checking whether one had already been installed. Unbounded observers could accumulate and starve the browser.
+- **Fix:** Added one-time guard `data-tle-order-bridge-observer` on each product title before registration, retaining the order-preview action. Changed Golden Grid's script reference to `?v=3` to prevent stale iPhone cache.
+- **Verification:** The **Repeatable Scroll Motion QA — Main Demos** run `42524159188` completed successfully in Chromium and iPhone-sized WebKit, with repeated scroll entry tests and reduced-motion assertions, after this fix. GitHub Pages deployment `42524159117` also completed successfully. A physical iPhone app test has not been recorded. No pricing, checkout backend or tenant data changed.
+
 ## 2026-11-08 — Public scroll reveals did not replay on upward/downward visits
 
 - **Reported:** Existing editorial entrances on brand demos and public landings ran only once; scrolling back upward or down did not re-animate them.
