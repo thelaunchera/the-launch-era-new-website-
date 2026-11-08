@@ -1,0 +1,28 @@
+/* Buyer-only four-action quick start. Does not affect owner Command Center. */
+#buyerSimpleDashboard{color:#191919;background:#FAF8F3;border:1px solid #e2e8e9;border-radius:19px;padding:clamp(15px,2.7vw,27px);margin:16px 0 20px;box-shadow:0 10px 30px #20374609}
+#buyerSimpleDashboard *{box-sizing:border-box}
+#buyerSimpleDashboard .buyer-simple-intro{display:flex;align-items:start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:19px}
+#buyerSimpleDashboard .buyer-simple-intro span:first-child{display:block;letter-spacing:.12em;color:#517188;font-weight:800;font-size:9px}
+#buyerSimpleDashboard .buyer-simple-intro h2{font:400 clamp(26px,3vw,37px)/1.1 Georgia,serif;letter-spacing:-.035em;color:#191919;margin:8px 0 7px}
+#buyerSimpleDashboard .buyer-simple-intro p{font-size:12px;line-height:1.6;color:#586975;margin:0;max-width:600px}
+#buyerSimpleDashboard .buyer-simple-email{border:1px solid #d7e3e9;background:#e7f1f5;color:#45667a;padding:8px 10px;border-radius:99px;font-size:9px;font-weight:800;letter-spacing:.07em;white-space:nowrap}
+#buyerSimpleDashboard .buyer-simple-actions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}
+#buyerSimpleDashboard .buyer-simple-actions>button,#buyerSimpleDashboard .buyer-simple-actions>a{display:flex;min-width:0;min-height:151px;align-items:flex-start;flex-direction:column;gap:9px;border:1px solid #dee8ed;border-radius:15px;padding:17px 15px;text-decoration:none;color:#191919;background:#fff;text-align:left;cursor:pointer;box-shadow:0 5px 12px #1c334b08}
+#buyerSimpleDashboard .buyer-simple-actions>button:hover,#buyerSimpleDashboard .buyer-simple-actions>a:hover{background:#f1f7fa;transform:translateY(-1px);border-color:#aecbd9}
+#buyerSimpleDashboard .buyer-simple-glyph{width:39px;height:39px;border-radius:11px;display:grid;place-items:center;background:#e7f1f5;color:#3e6078;font-size:21px}
+#buyerSimpleDashboard .buyer-simple-actions>button:nth-child(3) .buyer-simple-glyph,#buyerSimpleDashboard .buyer-simple-actions>a:nth-child(3) .buyer-simple-glyph{background:#f2d85b;color:#191919}
+#buyerSimpleDashboard .buyer-simple-actions strong{font-size:13px;line-height:1.3;color:#191919;font-weight:800}
+#buyerSimpleDashboard .buyer-simple-actions small{font-size:11px;line-height:1.45;color:#677882;margin-top:auto}
+#buyerSimpleDashboard .buyer-simple-more{border-top:1px solid #dde4e8;padding-top:13px;margin-top:20px}
+#buyerSimpleDashboard .buyer-simple-more summary{font-size:12px;font-weight:800;color:#355a70;list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:11px;align-items:center;min-height:43px}
+#buyerSimpleDashboard .buyer-simple-more summary::-webkit-details-marker{display:none}
+#buyerSimpleDashboard .buyer-simple-more summary span{font-size:10px;font-weight:400;color:#73818a;text-align:right}
+#buyerSimpleDashboard .buyer-simple-more summary:after{content:'+';font-size:20px;font-weight:400;color:#546e80}
+#buyerSimpleDashboard .buyer-simple-more[open] summary:after{content:'−'}
+#buyerSimpleDashboard .buyer-simple-more>div{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+#buyerSimpleDashboard .buyer-simple-more button{background:#fff;border:1px solid #cddfe7;color:#35546a;border-radius:11px;padding:10px 14px;min-height:44px;font-size:11px;font-weight:750}
+#buyerSimpleDashboard .buyer-simple-honest{border-top:1px solid #dee6ea;padding-top:14px;margin:14px 0 0;color:#657781;font-size:10px;line-height:1.75}
+#buyerSimpleDashboard a:focus-visible,#buyerSimpleDashboard button:focus-visible,#buyerSimpleDashboard summary:focus-visible{outline:3px solid #f2d85b;outline-offset:4px}
+@media(max-width:850px){#buyerSimpleDashboard .buyer-simple-actions{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:490px){#buyerSimpleDashboard{padding:15px 13px;border-radius:16px}#buyerSimpleDashboard .buyer-simple-actions{gap:9px}#buyerSimpleDashboard .buyer-simple-actions>button,#buyerSimpleDashboard .buyer-simple-actions>a{padding:13px 11px;min-height:142px;border-radius:12px}#buyerSimpleDashboard .buyer-simple-actions strong{font-size:12px}#buyerSimpleDashboard .buyer-simple-actions small{font-size:10px}#buyerSimpleDashboard .buyer-simple-email{margin-top:2px}#buyerSimpleDashboard .buyer-simple-more summary{flex-wrap:wrap}#buyerSimpleDashboard .buyer-simple-more summary span{display:none}}
+@media(prefers-reduced-motion:reduce){#buyerSimpleDashboard .buyer-simple-actions>button,#buyerSimpleDashboard .buyer-simple-actions>a{transition:none;transform:none!important}}
