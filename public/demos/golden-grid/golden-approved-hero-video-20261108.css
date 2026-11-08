@@ -83,3 +83,51 @@ html[data-tle-one-motion="golden-grid"] .gg-syrup-glint {
     animation:none!important;
   }
 }
+
+/* Keep the other agent's approved standalone-phone motion at native scale;
+   tablet/desktop must NEVER display or decode the low-resolution file. */
+html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video{
+  display:none;
+}
+@media(min-width:521px),(prefers-reduced-motion:reduce){
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video{
+    display:none!important;
+  }
+}
+html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video[hidden],
+html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-video-error] .gg-approved-hero-video{
+  display:none!important;
+}
+
+/* Golden Grid: keep sharp base photo and hero dimensions on standalone phones.
+   A 3:4 source fills a 4:5 frame with minimal top/bottom safe-area crop; never
+   crop the waffle, bag or text and never significantly upscale the 512px layer. */
+@media (max-width:520px) and (prefers-reduced-motion:no-preference){
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-mobile-video-eligible] .gg-approved-hero-video{
+    display:block;
+    position:absolute;
+    z-index:2;
+    inset:0;
+    width:100%;
+    height:100%;
+    max-width:none;
+    max-height:none;
+    object-fit:cover;
+    object-position:center;
+    padding:0;
+    margin:0;
+    border:0;
+    pointer-events:none;
+    background:transparent;
+    opacity:0;
+    transition:opacity .2s ease-out;
+    -webkit-mask-image:none;
+    mask-image:none;
+    transform:none!important;
+    filter:none!important;
+    animation:none!important;
+  }
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-mobile-video-eligible][data-gg-video-playing] .gg-approved-hero-video{
+    opacity:1;
+  }
+}
