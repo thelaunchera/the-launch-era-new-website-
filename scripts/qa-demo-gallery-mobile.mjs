@@ -103,8 +103,9 @@ try{
  assert.equal(await page.locator('#demo-viewer').evaluate(el=>el.open),false,'Golden Grid must not lock the gallery in a dialog');
  assert.equal(await page.evaluate(()=>document.body.style.overflow),'','Golden Grid must not lock page scrolling');
  await page.goto(new URL('/demos/?demo=golden-grid',url).href,{waitUntil:'domcontentloaded'});
- await page.waitForFunction(()=>document.querySelector('.demo-card[data-brand="golden-grid"]')?.classList.contains('golden-direct-target'),null,{timeout:10000});
- assert.equal(await page.locator('#demo-viewer').evaluate(el=>el.open),false,'Deep-link entry must not automatically lock Golden Grid in an iframe');
+ await page.waitForURL(u=>u.pathname==='/demos/golden-grid/',{timeout:15000});
+ assert.equal(await page.locator('body').isVisible(),true,'Deep link must open Golden Grid itself, not a blocking iframe');
+ assert.equal(await page.locator('#demo-viewer').count(),0,'Standalone Golden Grid must not include a gallery viewer');
  await page.goto(url,{waitUntil:'domcontentloaded'});
  console.log('[GOLDEN GRID SAFE OPEN] dedicated tab, no gallery scroll lock, no automatic mobile embed');
  assert.equal(await page.locator('.demo-links .view').count(),16,'Every card needs a public demo website link');
