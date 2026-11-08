@@ -164,7 +164,12 @@ function translateBrief(){
   const content=words[node.dataset.i18n];
   if(content!==undefined)node.textContent=content;
  });
- form.querySelectorAll('[data-placeholder]').forEach(node=>{
+ const pickerCopy=$('photo-picker-dialog');
+ if(pickerCopy)pickerCopy.querySelectorAll('[data-i18n]').forEach(node=>{
+  const content=words[node.dataset.i18n];
+  if(content!==undefined)node.textContent=content;
+ });
+  form.querySelectorAll('[data-placeholder]').forEach(node=>{
   const content=words[node.dataset.placeholder];
   if(content!==undefined)node.placeholder=content;
  });
