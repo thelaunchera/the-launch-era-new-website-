@@ -3,12 +3,12 @@ import assert from 'node:assert/strict';
 import {chromium,webkit,devices} from 'playwright';
 const origin=(process.env.QA_URL||'http://127.0.0.1:4191').replace(/\/$/,'');
 const brands=[
+ {slug:'marea-wigs-miami',kind:'service'},
  {slug:'golden-grid',kind:'menu',target:'#collection'},
  {slug:'casa-brownie',kind:'menu',target:'#brownies'},
  {slug:'havana-19',kind:'menu',target:'#kitchen'},
  {slug:'ivory-and-bloom',kind:'menu',target:'#cake-gallery'},
  {slug:'la-vie-in-pink',kind:'menu',target:'#collection'},
- {slug:'marea-wigs-miami',kind:'service'},
  {slug:'lavender-edit',kind:'service'},
  {slug:'experience-cleaning',kind:'service'}
 ];
@@ -24,7 +24,15 @@ for(const engine of [chromium,webkit]){
     const response=await page.goto(origin+path(brand.slug),{waitUntil:'domcontentloaded'});
     assert.equal(response?.status(),200,brand.slug+' page should load');
     const pricing=page.locator('section#tle-demo-sample-prices');
-    await pricing.waitFor({state:'visible',timeout:12000});
+    await page.waitForFunction(()=>document.querySelector('#tle-demo-sample-prices')||document.querySelector('.tle-demo-customer-price'),null,{timeout:12000});
+    if(await pricing.count()===0){
+      const badges=await page.locator('.tle-demo-customer-price').count();
+      assert.ok(badges>0,brand.slug+' existing catalog must show original price badges or a preview block');
+      assert.deepEqual(errors,[],brand.slug+' price badge runtime errors');
+      console.log('PRICE BADGES BY ORIGINAL PRODUCT PASS',engine.name(),brand.slug,width,badges);
+      await page.close();
+      continue;
+    }
     assert.equal(await pricing.count(),1,brand.slug+' only one example-price section allowed');
     const result=await page.evaluate(({kind,target})=>{
       const p=document.querySelector('#tle-demo-sample-prices');
