@@ -155,9 +155,13 @@
   }
   function schedule(){if(!frame)frame=requestAnimationFrame(draw)}
   function pointerMove(event){
-    if(!precise.matches||event.pointerType==='touch'||reduced.matches)return;
+    if(!hero||!precise.matches||event.pointerType==='touch'||reduced.matches)return;
     const rect=hero.getBoundingClientRect();
     if(rect.width<1||rect.height<1)return;
+    if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom){
+      if(dx!==0||dy!==0){dx=dy=0;schedule();}
+      return;
+    }
     dx=clamp(((event.clientX-rect.left)/rect.width-.5)*2,-1,1);
     dy=clamp(((event.clientY-rect.top)/rect.height-.5)*2,-1,1);
     schedule();
@@ -190,6 +194,10 @@
   }
   function boot(){
     mount();
+    // A pointer event over layered hero artwork may not reach the section in
+    // desktop WebKit/Chromium. Window-level capture keeps the approved cursor
+    // effect reactive; pointerMove ignores coordinates outside the hero.
+    window.addEventListener('pointermove',pointerMove,{passive:true});
     window.addEventListener('scroll',schedule,{passive:true});
     window.addEventListener('resize',schedule,{passive:true});
     reduced.addEventListener?.('change',schedule);
