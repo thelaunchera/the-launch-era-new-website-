@@ -64,7 +64,7 @@ for (const engine of [chromium,webkit]) {
       assert.ok(Math.abs(state.height-state.parentHeight)<=3,'No empty space behind the video');
       assert.equal(state.visiblePhoto,true,'Keep the high-resolution original hero visible under the localized motion');
       assert.ok(state.photoWidth>512,'The crisp campaign image must be higher resolution than the overlay video');
-      assert.ok(state.mask.includes('ellipse 6% 23%') && state.mask.includes('ellipse 11% 7%'),
+      assert.ok(state.mask.includes('6% 23% at 68.5%') && state.mask.includes('11% 7% at 52%'),
         'The narrow syrup mask must not soften package lettering');
       assert.equal(state.background,'none','No yellow stripe or gradient behind the video');
       assert.equal(state.padding,'0px','No video framing/padding');
