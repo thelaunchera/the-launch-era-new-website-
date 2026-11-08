@@ -1,0 +1,54 @@
+name: AFTR photographic banner seamless QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'public/demos/aftr/index.html'
+      - 'public/demos/aftr/compact.css'
+      - 'scripts/qa-aftr-poster-banner.mjs'
+      - '.github/workflows/aftr-poster-banner-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'public/demos/aftr/index.html'
+      - 'public/demos/aftr/compact.css'
+      - 'scripts/qa-aftr-poster-banner.mjs'
+      - '.github/workflows/aftr-poster-banner-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  aftr-banner:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify route safety
+        run: node scripts/qa-route-integrity.mjs --static
+      - name: Install test browsers
+        run: |
+          mkdir -p /tmp/aftr-banner
+          npm install --no-audit --no-fund --prefix /tmp/aftr-banner playwright@1.57.0
+          /tmp/aftr-banner/node_modules/.bin/playwright install --with-deps chromium webkit
+          ln -sfn /tmp/aftr-banner/node_modules node_modules
+      - name: Check continuous AFTR banner on phone, tablet and desktop
+        run: |
+          node --check scripts/qa-aftr-poster-banner.mjs
+          python3 -m http.server 4191 --bind 127.0.0.1 --directory public >/tmp/aftr-banner.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for n in $(seq 1 20); do
+            if curl -fsS http://127.0.0.1:4191/demos/aftr/ >/dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/qa-aftr-poster-banner.mjs
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aftr-banner-seamless
+          path: qa-screenshots/aftr-banner/
+          if-no-files-found: ignore
