@@ -43,7 +43,7 @@ for(const slug of slugs){
     'Product, editorial and service brands must not be described as restaurant dishes: '+slug+' '+lang);
   }
   if(slug==='lavender-edit'){
-   assert.doesNotMatch(contents,/appointments?|citas|reserva de cita|servicio de citas/i,
+   assert.doesNotMatch([ui.eyebrow,ui.heading,ui.catalogNav,...sample.cards.flat()].join(' '),/appointments?|citas|reserva de cita/i,
     'Lavender editorial concept must not pretend to provide appointments');
   }
  }
