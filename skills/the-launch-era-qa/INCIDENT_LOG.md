@@ -1,3 +1,12 @@
+## 2026-11-08 — Public scroll reveals did not replay on upward/downward visits
+
+- **Reported:** Existing editorial entrances on brand demos and public landings ran only once; scrolling back upward or down did not re-animate them.
+- **Verified source cause:** The shared `tle-demo-scroll-art-20261108.js`, gallery, offer, pricing and select podcast/class landing scripts used `IntersectionObserver.unobserve` or `disconnect` after the initial entry. Three demo heroes additionally referenced non-existent `media/hero-motion-poster-hq.webp` files, which made the static photography transparent and blocked route QA/deployment.
+- **Source remediation:** Persistent observers now toggle the existing reveal-visible states on viewport re-entry and exit, preserving original per-brand styling, interactive controls and `prefers-reduced-motion`. Cache-busted shared JS/CSS references were updated. Golden Grid, Marea and SOVA retain their approved original photographs until matching media assets are present; missing poster preload and CSS masking were removed. Secondary GitHub Pages workflow guards no longer pin a stale query-string version of scroll JS. Existing demo hero-video draft PRs remain separate and unmerged.
+- **Scope:** The Launch Era main public demo motion layer, catalog gallery, marketing offer, pricing and cinematic sample; secondary demo motion layer and linked concept demos; podcast and class landings ES/EN.
+- **Verification:** Main TLE Route and Demo Safety Guard passed on head `6475071c6c2e` and again on `6a0014c647`; main GitHub Pages deployment `42523018869` passed. Secondary Pages deployment `42522899466` succeeded. Podcast landing/Studio deployment `42523148352` passed. Added Playwright Chromium/WebKit regression checks for section re-entry from both scroll directions (main `scripts/qa-demo-scroll-art-20261108.mjs`, secondary counterpart), pending latest run results when logged. This is code+CI evidence, **not** physical iPhone/Safari sign-off. Unrelated hero-video and pricing QA remain independent release checks.
+- **Safety:** No tenant/customer records, checkouts, bookings, emails, prices or internal Studio content were intentionally changed for this repair.
+
 ## 2026-11-08 — Scroll reveal stopped after first pass on public landings and demos
 
 - **Reported symptom:** section and photo entrance animations ran only once, so subsequent upward and downward scrolling did not replay the same editorial effect.
