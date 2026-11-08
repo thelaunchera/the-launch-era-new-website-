@@ -215,7 +215,7 @@ function RootComponent() {
     let script: HTMLScriptElement | null = null;
     const timer = window.setTimeout(() => {
       script=document.createElement('script');
-      script.src='/assets/tle-pricing-motion.js?v=20261016-1';
+      script.src='/assets/tle-pricing-motion.js?v=20261108-replay1';
       script.async=true;
       script.setAttribute('data-tle-pricing-motion','1');
       document.body.appendChild(script);
