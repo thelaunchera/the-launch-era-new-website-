@@ -57,3 +57,11 @@ Do not render labels or replace the browser's text as raster images. On the live
 5. Verify GitHub Pages deployment and live asset link, then register original/animated image paths and status in the private Studio with no duplicate demo entries.
 
 **Current state:** motion design and QA production specifications organized; no 16 hero animations claimed finished or published.
+
+
+## Interactive cursor + scroll layer — 2026-11-08
+**Implemented in code:** Both production repositories have a shared `tle-demo-scroll-art-20261108.{js,css}` extension for 16 brand-scoped heroes. Original imagery is preserved; the added layer uses mouse-position depth on hover-capable desktop, scroll-based image/copy separation on touch and desktop, and still photos under `prefers-reduced-motion`. The effect does not change checkout, language toggles, booking, forms, galleries, page routes or the approved hero's camera framing. Both shared assets and each of the 16 hero HTML pages now reference cache revision `v=3`, with Jaramillo sourced from its approved boutique branch.
+
+**Verified:** Secondary repository browser workflow `42512071812` succeeded across Seasonal Brew, SOLUNA, WOK SOCIAL, YUMMM and Jaramillo on Chromium/iPhone, WebKit, desktop pointer and reduced-motion. Secondary Pages deploy `42512457306` succeeded. Main website Pages `42512297482` succeeded. Main editorial QA: under investigation because the preexisting 3-hero Playwright check did not find a visible Golden Grid hero after DOM load in CI; separate image/cursor QA has not been marked passed. Physical iPhone approval remains outstanding.
+
+**Not yet done:** MP4 recordings from Canva, authentic isolated object-video layers for syrup/hair/fabric, video scrubbing based on scroll, public-video replacements, Studio/Drive uploads. These depend on reviewing the actual exported MP4 files and confirming visual continuity. Never mark the 16 cinematic videos complete based on CSS depth alone.
