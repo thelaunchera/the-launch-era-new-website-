@@ -241,6 +241,8 @@
 }
 @media(max-width:600px){
  .tle-universal .hero.hero-gallery h1{
+  line-height:1.13;
+  padding-bottom:.12em;
   overflow-wrap:normal;
   text-wrap:balance;
  }
