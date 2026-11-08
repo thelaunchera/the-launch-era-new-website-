@@ -40,6 +40,7 @@ for (const browserType of [chromium, webkit]) {
       assert.equal(result.missing, undefined, "AFTR banner missing");
       assert.ok(result.naturalWidth && result.naturalHeight, "Approved poster failed to load");
       const actualTile = result.naturalWidth * result.bannerHeight / result.naturalHeight;
+      console.log("AFTR banner measurements", browserType.name(), width, JSON.stringify(result), "sourceTile", actualTile);
       assert.ok(Math.abs(result.tile - actualTile) < 1, "Poster tile must match actual source ratio");
       assert.ok(result.layerWidth + 1 >= result.bannerWidth + result.tile,
         "Banner layer too narrow: would reveal empty violet space");
