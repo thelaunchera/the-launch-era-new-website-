@@ -238,13 +238,44 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 }
 @media(prefers-reduced-motion:reduce){.ticker .ticker-track{animation:none!important}}
 
-/* AFTR approved photographic after-hours banner — replaces illustrative ticker */
-.ticker.ticker-poster-banner{position:relative;height:112px;padding:0;display:flex;align-items:center;overflow:hidden;background:#a268f2}
-.ticker-poster-banner .ticker-poster-track{height:100%;display:flex;align-items:center;gap:0;flex:0 0 auto;width:max-content;min-width:max-content;animation:aftr-poster-slide 30s linear infinite;will-change:transform}
-.ticker-poster-banner img.ticker-poster{display:block!important;position:static!important;flex:0 0 auto!important;width:auto!important;height:100%!important;max-width:none!important;max-height:none!important;object-fit:contain!important;object-position:center!important;transform:none!important;filter:none!important}
-@keyframes aftr-poster-slide{to{transform:translateX(-50%)}}
-@media(max-width:740px){
- .ticker.ticker-poster-banner{height:102px}
- .ticker-poster-banner .ticker-poster-track{animation-duration:26s}
+/* AFTR approved photographic banner. One repeating visual tile prevents blank space
+   at every viewport width; the whole oversized layer moves, not two finite images. */
+.ticker.ticker-poster-banner{
+  --aftr-poster-tile:clamp(408.410256px,51.979487vw,594.051282px); /* 2172:351 at 66px–96px */
+  position:relative;
+  display:block;
+  height:clamp(66px,8.4vw,96px);
+  padding:0;
+  overflow:hidden;
+  background:#a268f2;
+  isolation:isolate;
 }
-@media(prefers-reduced-motion:reduce){.ticker-poster-banner .ticker-poster-track{animation:none!important}}
+.ticker.ticker-poster-banner::before{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  width:calc(100% + var(--aftr-poster-tile));
+  background-image:url("assets/aftr-approved-las-vegas-banner-20261031.webp");
+  background-repeat:repeat-x;
+  background-position:left center;
+  background-size:auto 100%;
+  pointer-events:none;
+  transform:translate3d(0,0,0);
+  animation:aftr-poster-slide 36s linear infinite!important; /* AFTR's single approved motion; overrides generic animation reset */
+}
+@keyframes aftr-poster-slide{
+  from{transform:translate3d(0,0,0)}
+  to{transform:translate3d(calc(-1 * var(--aftr-poster-tile)),0,0)}
+}
+@media(max-width:740px){
+  .ticker.ticker-poster-banner{
+    height:66px;
+    --aftr-poster-tile:408.410256px; /* approved 2172:351 art at 66px */
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .ticker.ticker-poster-banner::before{animation:none!important;transform:none!important}
+}
+.ticker.ticker-poster-banner:is(:hover,:focus-within)::before{animation-play-state:paused!important}
