@@ -218,8 +218,8 @@ try{
 
    // Mobile demo hero art: photo comes before the copy; the original CSS animation remains active.
    const photoFirstDemos=[
-     {slug:'sova',visual:'.hero .hero-media',copy:'.hero .hero-copy',image:'.hero .hero-media img',motion:'.hero h1'},
-     {slug:'golden-grid',visual:'.hero .hero-art',copy:'.hero .hero-copy',image:'.hero .hero-art img',motion:'.hero .hero-art img'},
+     {slug:'sova',visual:'.hero .hero-media',copy:'.hero .hero-copy',image:'.hero .hero-media img',motion:'.hero .hero-media img'},
+     {slug:'golden-grid',visual:'.hero .hero-art',copy:'.hero .hero-copy',image:'.hero .hero-art img',motion:'.ticker-track'},
      {slug:'la-vie-in-pink',visual:'.hero .hero-image-wrap',copy:'.hero .hero-content',image:'.hero .hero-image',motion:'.hero .hero-image'},
      {slug:'marea-wigs-miami',visual:'.hero .hero-visual',copy:'.hero .hero-copy',image:'.hero .hero-visual>img',motion:'.hero .hero-visual>img'},
      {slug:'lavender-edit',visual:'.hero .hero-art',copy:'.hero .hero-copy',image:'.hero .hero-art img',motion:'.hero .hero-art img'}
@@ -251,7 +251,7 @@ try{
      assert.ok(result.photoHeight>220,'Mobile hero photo must be prominent: '+demo.slug+' '+JSON.stringify(result));
      assert.ok(result.photoTop<result.viewportHeight,'Hero photo must appear upon entry: '+demo.slug);
      assert.ok(result.scrollWidth<=result.viewport+2,'No horizontal overflow: '+demo.slug+' '+JSON.stringify(result));
-     assert.ok(result.motion!=='none'&&result.motion.length>0,'Original hero reveal animation must remain: '+demo.slug+' '+JSON.stringify(result));
+     assert.ok(result.motion!=='none'&&result.motion.length>0,'Approved brand motion signature must remain: '+demo.slug+' '+JSON.stringify(result));
      // Capture the settled design, not a half-transparent reveal frame.
      await motionPage.waitForTimeout(1200);
      const readableHeading=await motionPage.locator('.hero h1, .hero h2').first().evaluate(el=>({
