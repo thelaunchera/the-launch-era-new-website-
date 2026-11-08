@@ -1,3 +1,10 @@
+## 2026-11-08 — Public landing and demo copy exposed internal terms and fragmented benefits
+
+- **Observed source problem:** public offer pages referred to simulated Owner Views and behind-the-scenes management. The /demos/ footer named private Studio materials, and the /demos/owner-center/ UI mentioned internal CRM wiring and simulated states. Several concept sites displayed long technical disclaimers instead of concise buyer-relevant explanations. Public November freebie named a classroom creation platform.
+- **Verified source:** primary affected HTML/JS: public/website-for-your-business/index.html, public/es/website-for-your-business/index.html, public/demos/index.html, public/demos/owner-center/index.html, public/assets/tle-demo-locale-20261108.js, public/assets/tle-demo-order-journey-20261108.js, public/assets/tle-demo-original-prices-20261108.js, related brand demos and public sales previews. Secondary project and class/freebie source reviewed separately.
+- **Repair:** rewrote customer-facing text to focus on needs, outcomes and the next action, preserving original brand voices. Removed private Studio/CRM references and simulation jargon from exposed copy; replaced them with clear sample/preview boundaries that do not imply payments, bookings, order delivery or email activity. Spanish/English examples were updated together. No prices, booking logic, customer records, graphics or route destinations were intentionally modified.
+- **QA to record:** compare latest GitHub Actions Pages + route guard and any relevant mobile/browser workflows; do not mark live deployment or physical iPhone acceptance successful without evidence. No live booking, payment, email, or private record was used to test this editorial change.
+
 ## 2026-11-08 — Marea services and demo prices relegated to bottom
 
 - **Evidence:** user iPhone screenshot of the Marea demo in the The Launch Era overlay: `SERVICES · DEMO PRICES`, 3 cards ($65.00; personal styling $93.50 discounted from $110.00; $85.00), last card stranded on a second row, after the full website experience.
