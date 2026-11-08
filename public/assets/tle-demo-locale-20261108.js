@@ -5,7 +5,7 @@
 "use strict";
 const query=new URLSearchParams(location.search);
 const isEs=query.get("lang")==="es";
-const entries=String.raw\`
+const entries=String.raw`
 OWNER CENTER / INTERACTIVE DEMO||PANEL DEL PROPIETARIO / DEMOSTRACIÓN INTERACTIVA
 A BETTER WAY TO RUN YOUR DAY||UNA FORMA MÁS SIMPLE DE ORGANIZAR TU DÍA
 Back to website preview||Volver a la vista del sitio web
@@ -282,7 +282,7 @@ Move-In / Move-Out||Limpieza de mudanza
 A refresh for the whole home||Una renovación para todo el hogar
 Extra attention for every corner||Atención especial en cada rincón
 Start your new chapter fresh||Empieza esta nueva etapa con frescura
-\`.trim().split("\n").map(line=>line.split("||"));
+`.trim().split("\n").map(line=>line.split("||"));
 const es=Object.fromEntries(entries.filter(p=>p.length===2));
 const en=Object.fromEntries(entries.filter(p=>p.length===2).map(([a,b])=>[b,a]));
 const target=isEs?es:en;
