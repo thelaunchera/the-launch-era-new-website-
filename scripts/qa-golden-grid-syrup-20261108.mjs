@@ -51,8 +51,13 @@ for(const [engine,browserType] of [['Chromium',chromium],['WebKit',webkit]]){
     assert.equal(await page.locator('#demo-viewer').count(),0,'Standalone Golden should never have gallery modal');
     assert.equal(await page.evaluate(()=>document.body.style.overflow),'','Direct site must remain scrollable');
   }else{
-    // Legacy preview, retained until #441 merges. Wait until the gallery has
-    // mounted and pruned non-visible sources, not merely until its class exists.
+    // The production gallery links to the live site. Reload without the deep
+    // link and point Golden at the locally served PR build, so the test is not
+    // accidentally evaluating stale production assets.
+    await page.goto(BASE+'/demos/',{waitUntil:'domcontentloaded'});
+    const card=page.locator('.demo-card[data-brand="golden-grid"]');
+    await card.evaluate((node,url)=>{node.dataset.demoUrl=url;},BASE+'/demos/golden-grid/');
+    await card.locator('.card-preview-link').click();
     await page.locator('#demo-viewer[open]').waitFor({state:'visible',timeout:12000});
     const iframe=page.frameLocator('#viewer-frame');
     await iframe.locator('.hero-art img').waitFor({state:'visible',timeout:15000});
