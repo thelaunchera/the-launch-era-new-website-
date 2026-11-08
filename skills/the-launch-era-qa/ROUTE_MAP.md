@@ -4,12 +4,11 @@
 - Existing phone-only preview/video behavior is preserved. Only genuine fine-pointer desktop widths >=1400 may use a decorative syrup glint. Tablet rotation must not enable motion.
 - Scope limited to Golden Grid hero CSS/JS and regression QA; cart, gallery, prices, scripts for other demos, and client data are untouched. Physical iPad signoff remains separate.
 
-## 2026-11-08 — Golden Grid photo-first crisp hero / iPad quality correction (no route changes)
 
-- Canonical public route remains `/demos/golden-grid/`. Approved `resources/golden-1.png` displays continuously as the full-bleed campaign hero. The 512×682 Canva MP4 is no longer requested/displayed for tablet or desktop. Only a decorative syrup SVG glint animates there. The separate concurrent standalone-phone (<=520px) original-MP4 experience is retained at native-or-smaller video width with quality safeguards; Studio preview iframe, reduced-motion and other noneligible mobile views stay photo-only.
-- Existing `/demos/` gallery, `/demos/golden-grid/` order-preview flow, menu prices, bilingual text, in-app preview close and customer-facing forms are unchanged. No new routes, API, checkout, files in other brands, or email recipients.
-- Source: `public/demos/golden-grid/index.html`, `golden-approved-hero-video-20261108.css` and `.js` (legacy filenames retained solely to avoid linked asset churn). Test `scripts/qa-golden-grid-approved-video-20261108.mjs` guards the HD photo and *absence* of low-res MP4 requests on tablet/desktop; `qa-golden-grid-stability-20261108.mjs` covers mobile iframe/gallery. Real iPad pixel-quality signoff is separate from CI and Pages deploy.
+## 2026-11-08 — Golden Grid lossless published hero (no route changes)
 
+- `/demos/golden-grid/` loads approved lossless `resources/golden-1.png?v=20261108-master-hq` for the main hero and video poster. Pages optimizer must not rewrite these to WebP, but must continue compressing gallery and demo library thumbnails.
+- Local source and published output are different: `scripts/qa_demo_photo_performance.py` now checks the artifact after optimization, with lossless hero and WebP catalog separate. Tablet/desktop lower-resolution video remains masked over a narrow syrup stream; standalone phone playback, reduced motion, embedded preview, menus, prices, cart and route destinations remain as previously approved.
 
 ## 2026-11-08 — Brand Board photo controls and explicit save (no route changes)
 

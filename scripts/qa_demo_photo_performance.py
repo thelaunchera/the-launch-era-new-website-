@@ -38,4 +38,30 @@ assert '/demos/la-vie-in-pink/resources/36a1bfe5-3660-4b7e-964d-8031fe824941.web
 assert 'localwebp1' in (root / 'demos/la-vie-in-pink/index.html').read_text(encoding='utf-8'), 'La Vie local-image cache version not published'
 assert any(".webp" in f.read_text(encoding="utf-8")
            for f in (root / "demos/golden-grid/assets").glob("*.js")), "Golden Grid JS not updated"
+
+# Golden Grid's hero has baked-in editorial lettering. Keep the original PNG
+# on its actual hero, not the quality-80 WebP generated for library thumbnails.
+from PIL import Image
+hero_html = (root / "demos/golden-grid/index.html").read_text(encoding="utf-8")
+hero_tag = re.search(r'<div class="hero-art">\s*(<img\b[^>]*>)', hero_html)
+assert hero_tag, "Golden Grid hero is missing"
+assert 'src="./resources/golden-1.png?v=20261108-master-hq"' in hero_tag.group(1), (
+    "The production optimizer replaced Golden Grid's sharp original hero with lossy WebP"
+)
+assert 'poster="./resources/golden-1.png?v=20261108-master-hq"' in hero_html, (
+    "The video first-frame poster must match the high-resolution hero"
+)
+with Image.open(root / "demos/golden-grid/resources/golden-1.png") as img:
+    assert img.format == "PNG" and img.width >= 1100 and img.height >= 1400, (
+        "Golden Grid hero must retain approved lossless PNG at original dimensions"
+    )
+assert (root / "demos/golden-grid/resources/golden-1.webp").is_file(), (
+    "Golden Grid catalog thumbnail still needs optimized WebP"
+)
+golden_css = (root / "demos/golden-grid/golden-approved-hero-video-20261108.css").read_text(encoding="utf-8")
+assert "ellipse 6% 23%" in golden_css and "ellipse 11% 7%" in golden_css, (
+    "Low-resolution moving mask must not cover the packaging or headline"
+)
+print("PASS: Golden Grid deployed main hero uses original PNG; catalog still uses WebP")
+
 print("PASS: Optimized", m["image_count"], "images; transferred bytes down", m["saved_percent"], "%")
