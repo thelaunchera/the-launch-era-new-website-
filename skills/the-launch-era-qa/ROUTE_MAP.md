@@ -1,3 +1,9 @@
+## 2026-11-08 — Golden Grid iPad static-only owner override (portrait and landscape)
+
+- URL unchanged: `/demos/golden-grid/`. At tablet sizes (521–1399 CSS px) and touch-pointer screens above phone width, the hero contains only the original `resources/golden-1.png` without motion, overlays, zoom, crop or video requests.
+- Existing phone-only preview/video behavior is preserved. Only genuine fine-pointer desktop widths >=1400 may use a decorative syrup glint. Tablet rotation must not enable motion.
+- Scope limited to Golden Grid hero CSS/JS and regression QA; cart, gallery, prices, scripts for other demos, and client data are untouched. Physical iPad signoff remains separate.
+
 ## 2026-11-08 — Golden Grid photo-first crisp hero / iPad quality correction (no route changes)
 
 - Canonical public route remains `/demos/golden-grid/`. Approved `resources/golden-1.png` displays continuously as the full-bleed campaign hero. The 512×682 Canva MP4 is no longer requested/displayed for tablet or desktop. Only a decorative syrup SVG glint animates there. The separate concurrent standalone-phone (<=520px) original-MP4 experience is retained at native-or-smaller video width with quality safeguards; Studio preview iframe, reduced-motion and other noneligible mobile views stay photo-only.
