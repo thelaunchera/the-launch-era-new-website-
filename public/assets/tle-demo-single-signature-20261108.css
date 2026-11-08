@@ -88,6 +88,15 @@ html[data-tle-one-motion="lavender-edit"] .hero-art img {
   from { clip-path:polygon(0 0,0 0,0 100%,0 100%) }
   to   { clip-path:polygon(0 0,100% 0,100% 100%,0 100%) }
 }
+/* Experience Cleaning — architecture-like wide photograph uncovers from right.
+   Functional cleaning journey, live chatbot and booking steps are unchanged. */
+html[data-tle-one-motion="experience-cleaning"] .hero-cleaning-site .hero-full-photo {
+  animation:tleOneCleaning 1150ms cubic-bezier(.2,.8,.16,1) both !important;
+}
+@keyframes tleOneCleaning {
+  from {clip-path:inset(0 43% 0 0);opacity:.83}
+  to   {clip-path:inset(0 0 0 0);opacity:1}
+}
 /* Motion is decorative; full content is visible and functional with reduced-motion. */
 @media (prefers-reduced-motion:reduce) {
   html[data-tle-one-motion] body *,
