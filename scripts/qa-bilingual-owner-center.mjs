@@ -60,4 +60,33 @@ assert.match(en,/More than a website/);
 assert.match(es,/Más que un sitio web/);
 assert.match(es,/lang=es&amp;returnTo=/);
 assert.match(es,/VISTA DEL PROPIETARIO/);
+const requestSource=file('public/assets/tle-owner-request-examples-20261108.js');
+const requestCtx={window:{}};
+new Script(requestSource,{filename:'tle-owner-request-examples-20261108.js'}).runInNewContext(requestCtx);
+const requests=requestCtx.window.TLEOwnerRequestExamples;
+assert.match(owner,/src="\/assets\/tle-owner-request-examples-20261108\.js"/);
+assert.match(owner,/TLEOwnerRequestExamples\?\.\[current\]/);
+assert.equal(Object.keys(requests).length,13,'Every demo brand needs its own fictional requests');
+assert.deepEqual(Object.keys(requests).sort(),themes.map(x=>x[1]).sort());
+for(const [slug,group] of Object.entries(requests)){
+ for(const lang of ['en','es']){
+  assert.ok(['Orders','Pedidos','Bookings','Reservas','Appointments','Citas','Requests','Solicitudes','Inquiries','Consultas','Reservations'].includes(group[lang]?.nav),
+    'The navigation label must fit the business: '+slug+' '+lang);
+  assert.ok(group[lang]?.intro.length>=25,'Meaningful fictional descriptor required: '+slug+' '+lang);
+  assert.equal(group[lang]?.cards.length,3,'Three example inquiries per brand: '+slug+' '+lang);
+  for(const card of group[lang].cards){
+   assert.equal(card.length,3,'Title, subtitle and simulation disclaimer: '+slug+' '+lang);
+   assert.ok(card.every(x=>typeof x==='string'&&x.trim()),'No blank content: '+slug+' '+lang);
+   if(slug!=='experience-cleaning')assert.doesNotMatch(card.join(' ').toLowerCase(),/residencial|residential|home cleaning|limpieza profunda|mudanza/,
+    'No residential cleaning copy for unrelated brands: '+slug+' '+lang);
+  }
+ }
+}
+assert.match(requests['lavender-edit'].es.cards[0][1],/lavanda/);
+assert.match(requests['lavender-edit'].es.cards[1][1],/Ritual de lavanda/);
+assert.match(requests['experience-cleaning'].es.cards[0][1],/residencial/);
+assert.match(requests['ivory-and-bloom'].es.cards[0][1],/Pastel floral/);
+assert.match(requests['soluna-yoga'].es.cards[0][1],/Flujo matutino/);
+assert.doesNotMatch(owner,/New inquiry · Residential/,'The old cross-business default must be removed');
+
 console.log('PASS: bilingual raspberry experience, 16 portfolio cards, 13 simulated Owner Centers, navigation and no real transactions');
