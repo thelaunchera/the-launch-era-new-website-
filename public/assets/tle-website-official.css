@@ -139,7 +139,7 @@ html,body{margin:0;background:#FAF8F3}a:focus-visible,button:focus-visible,summa
    Make benefits legible and place each package on its own full-width row;
    neither prices nor checkout destinations are changed. Phone and large
    desktop layouts retain their existing breakpoints. */
-@media (min-width:781px) and (max-width:1099px){
+@media (min-width:741px) and (max-width:1099px){
   .tle-universal .features{
     grid-template-columns:repeat(2,minmax(0,1fr));
     max-width:970px;
