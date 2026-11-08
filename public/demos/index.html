@@ -287,6 +287,11 @@ main,.intro,.intro-copy,.hero-gallery,.demo-grid,.demo-card,.section-heading{min
 .owner-view{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-size:10px;font-weight:700;padding:10px 13px;border:1px solid #d5d1c9;border-radius:999px;min-height:44px;white-space:nowrap;background:var(--ivory)}
 .owner-view:hover{background:#f2e6c8}
 @media(max-width:600px){.demo-links{align-items:center;flex-wrap:wrap}.owner-view{font-size:10px}}
+
+/* Golden Grid: point visitors straight to the interactive site without a
+   second nested browser on low-memory devices or inside the private Studio. */
+.demo-card.golden-direct-target{outline:3px solid #DDA92B;outline-offset:4px}
+.demo-card.golden-direct-target .view{outline:2px solid #191919;outline-offset:4px}
 </style>
 
 <style>
@@ -319,7 +324,7 @@ main,.intro,.intro-copy,.hero-gallery,.demo-grid,.demo-card,.section-heading{min
 <article class="demo-card" data-brand="golden-grid" data-demo-url="https://thelaunchera.com/demos/golden-grid/" data-kind="Food &amp; Drink" data-search="golden grid waffle co. · breakfast made editorial food &amp; drink" style="--brand:#DDA92B">
 <div class="demo-art"><img src="/demos/golden-grid/resources/golden-1.png" alt="Golden Grid — original website photography" loading="lazy" decoding="async"><span class="demo-index">02 / 16</span><span class="demo-type">Food &amp; Drink</span></div>
 <div class="demo-content"><div><h2>Golden Grid</h2><p>Waffle Co. · breakfast made editorial</p></div>
-<div class="demo-links"><a href="https://thelaunchera.com/demos/golden-grid/" target="_blank" rel="noopener noreferrer" class="view">Explore demo</a><a class="owner-view" href="/demos/owner-center/?demo=golden-grid" aria-label="Explore golden grid owner dashboard">Owner View</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/golden-grid/" aria-label="Preview Golden Grid; close to return to the gallery"></a></article>
+<div class="demo-links"><a href="https://thelaunchera.com/demos/golden-grid/" target="_blank" rel="noopener noreferrer" class="view">Explore demo</a><a class="owner-view" href="/demos/owner-center/?demo=golden-grid" aria-label="Explore golden grid owner dashboard">Owner View</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/demos/golden-grid/" target="_blank" rel="noopener noreferrer" aria-label="Open Golden Grid website in a separate tab"></a></article>
 <article class="demo-card" data-brand="la-vie-in-pink" data-demo-url="https://thelaunchera.com/demos/la-vie-in-pink/" data-kind="Food &amp; Drink" data-search="la vie in pink european-inspired pâtisserie food &amp; drink" style="--brand:#8E343F">
 <div class="demo-art"><img src="/demos/la-vie-in-pink/resources/36a1bfe5-3660-4b7e-964d-8031fe824941.png" alt="La Vie in Pink — original website photography" loading="lazy" decoding="async"><span class="demo-index">03 / 16</span><span class="demo-type">Food &amp; Drink</span></div>
 <div class="demo-content"><div><h2>La Vie in Pink</h2><p>European-inspired pâtisserie</p></div>
@@ -492,6 +497,10 @@ modal.addEventListener('click',e=>{if(e.target===modal)modal.close()});
 for(const card of cards){
  const overlay=card.querySelector('.card-preview-link');
  const view=card.querySelector('.view');
+ // Golden Grid's photo-heavy demo is opened as its own website, not in an iframe
+ // inside the Studio/library. Native anchors keep Safari navigation responsive,
+ // including its native Back and tab-close controls.
+ if(card.dataset.brand==='golden-grid')continue;
  for(const link of [overlay,view]){
   if(!link)continue;
   link.addEventListener('click',e=>{e.preventDefault();openDemo(card,link)});
@@ -505,6 +514,16 @@ function openInitialDemo(){
  const slug=requested==='umbral'?'havana-19':requested;
  const card=cards.find(item=>item.dataset.brand===slug);
  if(!card)return;
+ if(slug==='golden-grid'){
+  // Never automatically embed Golden Grid after arriving from a website or Studio.
+  // The public card's Explore link opens the original website with a user gesture.
+  requestAnimationFrame(()=>{
+   card.scrollIntoView({block:'center',behavior:'instant'});
+   card.classList.add('golden-direct-target');
+   card.querySelector('.view')?.focus({preventScroll:true});
+  });
+  return;
+ }
  requestAnimationFrame(()=>{
   card.scrollIntoView({block:'center',behavior:'instant'});
   openDemo(card,card.querySelector('.card-preview-link'));
