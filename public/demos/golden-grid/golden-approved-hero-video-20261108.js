@@ -1,6 +1,6 @@
 /* Golden Grid: retain the HD photo at all sizes.
    Tablet/desktop: feathered syrup motion only; standalone phones <=520px:
-   entire matched 512px video at native-or-smaller size, no crop/zoom.
+   512px video at native-or-smaller width, only a small top/bottom safe-edge crop.
    In-app iframe previews, data saver, reduced motion and degraded media: still. */
 (()=>{
   const video=document.querySelector('[data-gg-approved-hero-video]');
@@ -29,8 +29,9 @@
     const originalRatio=photo?.naturalWidth&&photo?.naturalHeight
       ? photo.naturalWidth/photo.naturalHeight
       : ratio;
-    // A blown-up or differently composed video must not replace the original.
-    if(video.videoWidth<width*.98||Math.abs(ratio-originalRatio)>.035){
+    // Reject material upscaling or large framing differences; the small 3:4-to-4:5
+    // crop stays within the approved poster's empty top/bottom margins.
+    if(video.videoWidth<width*.98||Math.abs(ratio-originalRatio)>.07){
       mobileRejected=true;
       sync();
     }
