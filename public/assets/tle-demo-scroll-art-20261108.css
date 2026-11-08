@@ -41,7 +41,7 @@ html[data-tle-one-motion] .tle-scroll-pending:not(.tle-scroll-visible)[data-tle-
 html[data-tle-one-motion] .tle-scroll-pending:not(.tle-scroll-visible)[data-tle-scroll-part="photo"]{
   opacity:.4;transform:var(--tle-scroll-image);clip-path:var(--tle-scroll-mask);
 }
-html[data-tle-one-motion] .tle-scroll-pending.tle-scroll-visible{opacity:1;transform:none;clip-path:inset(0 0 0 0);filter:none}
+html[data-tle-one-motion] .tle-scroll-pending.tle-scroll-visible[data-tle-scroll-part="photo"]{clip-path:inset(0 0 0 0)}
 /* Keep interactive focus and accessibility: never reveal forms, cart, buttons or menus. */
 @media(prefers-reduced-motion:reduce){
  html[data-tle-one-motion] .tle-scroll-pending,
