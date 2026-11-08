@@ -1,3 +1,12 @@
+## 2026-11-08 — Public copy cleanup across landings and concept demos (no route changes)
+
+- **Canonical public landings kept unchanged:** /website-for-your-business/, /es/website-for-your-business/, /booking-bundle/, /whatsapp-ai-agent/, /booking-demo/, /try-booking/, /cleaning-app-demo/ and /experience-cleaning/ retain their existing links, payment destinations, auth behavior and forms. This update edits customer-facing marketing language only.
+- **Concept demo URLs kept unchanged:** /demos/, /demos/owner-center/, /demos/aftr/, /demos/casa-brownie/, /demos/crumb/, /demos/havana-19/, /demos/lavender-edit/, /demos/angela-so-fresh-clean-queen/. Existing /assets/tle-demo-locale-20261108.js and order/price helpers remain on their canonical routes; Spanish and English sample messages were coordinated with the visible HTML.
+- **Secondary canonical demos kept unchanged:** /wok-social/, /yummm/, /soluna-yoga/ on thelaunchera/demo-booking-landing-. No relative path, asset name or event handler altered.
+- **Class and freebie landing URLs unchanged:** /clases/primera-landing.html, /clases/primera-landing-en.html, /freebies/, /freebies/november-website/ in thelaunchera/todavia-estoy-a-tiempo. Marketing copy no longer names the classroom's build platform. The private Aula continues to retain its practical tools.
+- **Truthful demos:** sample reservations, local order previews and unavailable checkout continue to state succinctly that they do not submit bookings, orders or payments; internal architecture and private Studio references were removed from public copy. No backend change or live email/customer action in this update.
+- **Verification requirement:** CI and Pages source deployment must pass after the final commit. Actual iPhone and end-to-end real tenant flows remain separately unverified unless evidenced by a completed browser/provider test.
+
 ## 2026-11-08 — Service prices immediately below the hero (source correction)
 
 - **Original problem:** the shared customer price-parity preview `/assets/tle-demo-original-prices-20261108.js` was appending unmatched service cards just before `footer`, including Marea Wigs. This made the illustrative service list appear disconnected from the brand hero, especially in iPhone demo-browser overlays.
