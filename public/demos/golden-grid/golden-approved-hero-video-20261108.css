@@ -3,7 +3,7 @@
    desktop. Confine its moving syrup/waffle details to feathered areas only,
    leaving the lettering, packaging and most of the food razor sharp.
    Phones <=520 CSS px also play the same approved 512x682 source at native-or-smaller size,
-   with sharp still underneath; embedded Studio and reduced-motion stay photo-only. */
+   with a tiny safe-edge portrait crop matching the 4:5 still; Studio/reduced motion stay photo-only. */
 html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video{
   display:none;
 }
@@ -82,8 +82,9 @@ html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-video-error] .gg
   display:none!important;
 }
 
-/* Golden Grid: keep the existing full, sharp hero composition and dimensions
-   on standalone phones. Never upscale the 512px-wide motion layer. */
+/* Golden Grid: keep sharp base photo and hero dimensions on standalone phones.
+   A 3:4 source fills a 4:5 frame with minimal top/bottom safe-area crop; never
+   crop the waffle, bag or text and never significantly upscale the 512px layer. */
 @media (max-width:520px) and (prefers-reduced-motion:no-preference){
   html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-mobile-video-eligible] .gg-approved-hero-video{
     display:block;
@@ -94,7 +95,7 @@ html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-video-error] .gg
     height:100%;
     max-width:none;
     max-height:none;
-    object-fit:contain;
+    object-fit:cover;
     object-position:center;
     padding:0;
     margin:0;
