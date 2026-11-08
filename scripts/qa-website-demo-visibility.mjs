@@ -18,7 +18,7 @@ assert.match(lib,/hiddenPortfolioDemos\.has\(card\.dataset\.brand\)/);
 assert.match(lib,/hiddenPortfolioDemos\.has\(slug\)/);
 assert.match(lib,/selectionReady\.then/);
 assert.match(lib,/shown\.length/);
-assert.match(en,/data-demo="golden-grid"/);
+assert.match(en,/data-demo="ivory-and-bloom"/);
 assert.match(es,/data-demo="sova"/);
 assert.ok(!js.includes('service_role'),'Never send a secret key to visitors');
 
