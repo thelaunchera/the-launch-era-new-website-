@@ -589,12 +589,21 @@ function applyBuyerIndustryLabels(){
  $('buyerGeneralFAQ')?.classList.toggle('hidden',cbDepot);
  if(cbDepot)applyCbGuideLanguage();
  $('cbSettingsBanner')?.classList.toggle('hidden',!cbDepot);
- if(!detailing&&!other)return;
  const es=localStorage.getItem('tle_crm_language')==='es';
+ const navCatalog=$('buyerCatalogNav')?.querySelector('span');
+ if(navCatalog)navCatalog.textContent=es?'Menú y catálogo':'Menu & Catalog';
+ const card=$('buyerCatalogCard');
+ if(card){
+  const heading=card.querySelector('strong'),intro=card.querySelector('p'),link=card.querySelector('a');
+  if(heading)heading.textContent=es?'Menú, productos y servicios':'Menu, Products & Services';
+  if(intro)intro.textContent=es?'Administra precios, descuentos y disponibilidad de tu negocio. Publica un catálogo cuando esté listo.':'Manage prices, discounts and availability for your business. Publish a catalog when ready.';
+  if(link)link.textContent=es?'Abrir catálogo':'Open Catalog Manager';
+ }
+ if(!detailing&&!other)return;
  const set=(selector,en,spanish)=>{const el=document.querySelector(selector);if(el)el.textContent=es?spanish:en};
- set('#mainNavCaption',detailing?'CAR DETAILING BUSINESS':'SERVICE BUSINESS',detailing?'NEGOCIO DE DETAILING':'NEGOCIO DE SERVICIOS');
- set('#buyerDashboardHub > .section-title',detailing?'Car Detailing Command Center':'Service Command Center',detailing?'CENTRO DE DETAILING':'CENTRO DE SERVICIOS');
- set('#buyerDashboardHub > p.muted',detailing?'Vehicle inquiries, detailing quotes and appointments — all in one place.':'Service inquiries, quotes and appointments — all in one place.',detailing?'Consultas de vehículos, cotizaciones de detailing y citas, en un solo lugar.':'Consultas, cotizaciones y citas, en un solo lugar.');
+ set('#mainNavCaption',detailing?'CAR DETAILING BUSINESS':'YOUR BUSINESS',detailing?'NEGOCIO DE DETAILING':'TU NEGOCIO');
+ set('#buyerDashboardHub > .section-title',detailing?'Car Detailing Command Center':'Your Business Command Center',detailing?'CENTRO DE DETAILING':'CENTRO DE TU NEGOCIO');
+ set('#buyerDashboardHub > p.muted',detailing?'Vehicle inquiries, detailing quotes and appointments — all in one place.':'Customer inquiries, bookings and services — organized in one place.',detailing?'Consultas de vehículos, cotizaciones de detailing y citas, en un solo lugar.':'Consultas, reservas y servicios de tu negocio en un solo lugar.');
  set('#buyerDashboardHub .panel:last-child > p:first-of-type',detailing?'Your business receives vehicle detailing requests. Prepare quotes after reviewing each vehicle; send appointment confirmations only for confirmed available slots.':'Customer requests, quotes and confirmed appointments follow the configured business workflow.',detailing?'Tu negocio recibe solicitudes de detailing. Prepara cotizaciones después de revisar cada vehículo y confirma citas solo cuando el horario esté disponible.':'Solicitudes, cotizaciones y citas confirmadas siguen el flujo configurado.');
  set('#buyerDashboardHub .panel:last-child > p.muted',detailing?'Review vehicle details and prepare personalized detailing quotes in Inbox. A quote request is not a confirmed appointment.':'Review service details and personalized quotes in Inbox. A quote request is not a confirmed appointment.',detailing?'Revisa los detalles del vehículo y prepara cotizaciones. Una solicitud no es una cita confirmada.':'Revisa los detalles y prepara cotizaciones. Una solicitud no es una cita confirmada.');
  set('#buyerRequestsHub > p.muted',detailing?'Car detailing inquiries, vehicle quotes and confirmed appointments.':'Service inquiries, quotes and confirmed appointments.',detailing?'Consultas de detailing, cotizaciones de vehículos y citas confirmadas.':'Consultas, cotizaciones y citas confirmadas.');
