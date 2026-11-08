@@ -21,9 +21,10 @@
   document.documentElement.classList.add('tle-clean-motion-ready');
   const observer=new IntersectionObserver(entries=>{
     for(const e of entries){
-      if(e.isIntersecting){
+      if(e.isIntersecting || window.matchMedia('(prefers-reduced-motion: reduce)').matches){
         e.target.classList.add('tle-clean-in-view');
-        observer.unobserve(e.target);
+      }else if(!e.target.matches(':focus-within')){
+        e.target.classList.remove('tle-clean-in-view');
       }
     }
   },{rootMargin:'0px 0px -6% 0px',threshold:.07});
