@@ -28,20 +28,33 @@ for(const [language,html] of [['en',en],['es',es]]){
  const hero=html.match(/<section class="hero hero-gallery" id="inicio">([\s\S]*?)<\/section>/)?.[1];
  assert(hero,language+': hero missing');
  const galleryPhotoMap={
-  'ivory-and-bloom':'/demos/ivory-and-bloom/images/hero-cake-artist.webp',
   'casa-brownie':'/demos/casa-brownie/assets/hero-brownies.webp',
-  'crumb':'/demos/crumb/assets/CRUMB_Storefront_Approved_20261030.webp',
-  'la-vie-in-pink':'/demos/la-vie-in-pink/resources/36a1bfe5-3660-4b7e-964d-8031fe824941.png',
-  'jaramillo-boutique':'https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/assets/hero-editorial-user.jpg',
-  'havana-19':'/demos/havana-19/photos/HAVANA19_Hero_Fachada_Borgona.jpeg',
+  'golden-grid':'/demos/golden-grid/resources/golden-1.png',
+  'yummm':'https://thelaunchera.github.io/demo-booking-landing-/yummm/images/10.webp',
+  'aftr':'/demos/aftr/assets/hero-real-20261031.webp',
+  'ivory-and-bloom':'/demos/ivory-and-bloom/images/hero-cake-artist.webp',
+  'marea-wigs-miami':'/demos/marea-wigs-miami/resources/01-hero.png',
   'sova':'/demos/sova/resources/01-hero.png'
  };
+ const galleryVideoMap={
+  'casa-brownie':'/demos/casa-brownie/media/hero-motion-20261108.mp4',
+  'golden-grid':'/demos/golden-grid/media/hero-motion-20261108.mp4',
+  'yummm':'https://thelaunchera.github.io/demo-booking-landing-/yummm/media/hero-motion-20261108.mp4',
+  'aftr':'/demos/aftr/media/hero-motion-20261108.mp4',
+  'ivory-and-bloom':'/demos/ivory-and-bloom/media/hero-motion-20261108.mp4',
+  'marea-wigs-miami':'/demos/marea-wigs-miami/media/hero-motion-20261108.mp4',
+  'sova':'/demos/sova/media/hero-motion-20261108.mp4'
+ };
+ assert(!hero.includes('data-demo="crumb"')&&!hero.includes('data-hero-video="/demos/crumb'),language+': CRUMB must remain outside this animated seven-card portfolio');
  for(const [slug,image] of Object.entries(galleryPhotoMap)){
   assert(hero.includes('data-demo="'+slug+'"'),language+': missing distinct demo '+slug);
   const expectedHeroLink='href="/demos/?demo='+slug+'&amp;returnTo='+encodeURIComponent(language==='es'?'/es/website-for-your-business/':'/website-for-your-business/')+(language==='es'?'&amp;lang=es':'')+'"';
   assert(hero.includes(expectedHeroLink),language+': photo must link to its demo, retain locale and remember originating website');
   assert(hero.includes('src="'+image+'"'),language+': incorrect original hero photo for '+slug);
   if(image.startsWith('/'))assert(existsSync('public'+image),language+': hero image asset missing for '+slug);
+  const video=galleryVideoMap[slug];
+  assert(video&&hero.includes('data-hero-video="'+video+'"'),language+': motion must use the original approved video for '+slug);
+  if(video.startsWith('/'))assert(existsSync('public'+video),language+': original hero video missing for '+slug);
  }
  assert(!hero.includes('data-demo="umbral"')&&!hero.includes('<figcaption>Umbral</figcaption>'),language+': Umbral must not be duplicated because it is Havana 19');
  assert(!hero.includes(photoRoot+'hero-jaramillo.svg')&&!hero.includes(photoRoot+'website-la-vie-in-pink-en.jpg'),language+': old mockup must not replace original demo hero photography');
@@ -69,4 +82,4 @@ for(const [language,html] of [['en',en],['es',es]]){
 const photoStyles=css.split('/* 2026-11-05 image placement: keep original hero untouched. */')[1]?.split('/* Short inline billing disclosure')[0];
 assert(photoStyles&&!photoStyles.includes('.hero'), 'Photo styling inadvertently edits hero');
 assert(photoStyles.includes('object-fit:contain'), 'Uncropped interior photo styling missing');
-console.log('PASS: seven distinct approved demo hero photographs deep-link to their live gallery previews in both languages; original package photos, prices and delivery remain unchanged.');
+console.log('PASS: seven selected original hero videos and photos deep-link to their real galleries in EN/ES, CRUMB remains excluded, and packages/prices/delivery are preserved.');
