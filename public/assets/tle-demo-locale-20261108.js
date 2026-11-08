@@ -332,6 +332,7 @@ function languageLink(code){
 }
 function init(kind){
  document.documentElement.lang=isEs?"es":"en";
+ if(kind==="library")document.title=isEs?"Biblioteca de demos · The Launch Era":"Demo Library · The Launch Era";
  if(kind==="library"&&isEs){
   for(const link of document.querySelectorAll("a.owner-view")){
    const u=new URL(link.getAttribute("href"),location.origin);
