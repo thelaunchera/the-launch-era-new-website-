@@ -24,9 +24,12 @@ try{
  await page.locator("#viewer-owner").click();
  await page.waitForURL(u=>u.pathname==="/demos/owner-center/"&&u.searchParams.get("demo")==="golden-grid"&&u.searchParams.get("lang")==="es",{timeout:15000});
  assert.match(await page.locator("#heading").innerText(),/Tu menú/);
+ assert.match(await page.locator("#subheading").innerText(),/MENÚ DIGITAL/);
+ assert.match(await page.locator("#breadcrumbs").innerText(),/VOLVER AL DEMO/);
  assert.equal((await page.locator('#mobile-nav [data-view="catalog"]').innerText()).trim(),"Menú");
  const overflow=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:innerWidth}));
  assert.ok(overflow.scroll<=overflow.width+2,"Spanish Owner Center should not overflow on iPhone "+JSON.stringify(overflow));
+ await page.screenshot({path:"qa-screenshots/demo-gallery/owner-spanish-dashboard-iphone.png",fullPage:false});
  await page.locator('#mobile-nav [data-view="catalog"]').click();
  await page.locator('#catalog-list [data-edit="p1"]').click();
  assert.equal(await page.locator("#item-name").inputValue(),"El clásico Golden");
@@ -37,6 +40,7 @@ try{
  const first=page.locator("#large-preview .preview-card").first();
  assert.match(await first.innerText(),/El clásico Golden/);
  assert.match(await first.locator("b").innerText(),/15/,"20 with 25 percent discount should show 15");
+ await page.locator("#toast.show").waitFor({state:"detached",timeout:6000});
  await page.screenshot({path:capture});
  page.once("dialog",dialog=>{assert.match(dialog.message(),/¿Restablecer/);dialog.accept();});
  await page.locator("#reset-preview").click();
