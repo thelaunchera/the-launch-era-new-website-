@@ -1,7 +1,7 @@
 /* TLE scroll art direction | 2026-11-08
    Inspired by BrewedOps: Scroll triggered reveal, Reveal mask, Staggered entrance.
    Every brand keeps original hero, static banners, images, layout and checkout.
-   Scroll effects are one-shot and progressive, not pinned or endlessly animated. */
+   Scroll effects replay on each viewport re-entry in either direction; no pinning or scroll hijacking. */
 html[data-tle-one-motion] {
   --tle-scroll-duration:720ms;
   --tle-scroll-ease:cubic-bezier(.2,.75,.19,1);
@@ -26,15 +26,16 @@ html[data-tle-one-motion="soluna-yoga"] {--tle-scroll-duration:1020ms;--tle-scro
 html[data-tle-one-motion="wok-social"] {--tle-scroll-duration:670ms;--tle-scroll-rise:translate3d(21px,0,0);--tle-scroll-image:translate3d(-18px,0,0);--tle-scroll-mask:inset(0 0 0 12%)}
 html[data-tle-one-motion="yummm"] {--tle-scroll-duration:800ms;--tle-scroll-rise:translate3d(0,18px,0);--tle-scroll-image:translate3d(0,11px,0) scale(1.018);--tle-scroll-mask:inset(8% 0 0 0)}
 html[data-tle-one-motion="jaramillo-boutique"] {--tle-scroll-duration:800ms;--tle-scroll-rise:translate3d(-20px,0,0);--tle-scroll-image:translate3d(0,14px,0);--tle-scroll-mask:inset(0 12% 0 0)}
-/* JS opts each visible editorial element in. No pre-JS hiding, no layout shift. */
+/* JS opts each editorial element in, and replays after it leaves/re-enters. No pre-JS hiding. */
 html[data-tle-one-motion] .tle-scroll-pending{
   transition:
     opacity var(--tle-scroll-duration) var(--tle-scroll-ease) var(--tle-scroll-delay,0ms),
     transform var(--tle-scroll-duration) var(--tle-scroll-ease) var(--tle-scroll-delay,0ms),
     clip-path var(--tle-scroll-duration) var(--tle-scroll-ease) var(--tle-scroll-delay,0ms),
     filter var(--tle-scroll-duration) var(--tle-scroll-ease) var(--tle-scroll-delay,0ms) !important;
-  will-change:opacity,transform;
+  /* Avoid permanent GPU layer promotion during repeated mobile scrolling. */
 }
+html[data-tle-one-motion] .tle-scroll-pending:not(.tle-scroll-visible){transition-delay:0ms!important}
 html[data-tle-one-motion] .tle-scroll-pending:not(.tle-scroll-visible)[data-tle-scroll-part="headline"]{
   opacity:0;transform:var(--tle-scroll-rise);filter:blur(var(--tle-scroll-blur));
 }
