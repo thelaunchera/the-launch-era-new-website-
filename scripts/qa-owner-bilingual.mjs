@@ -45,11 +45,11 @@ assert.equal(en.tr("Guardar cambios"),"Save changes");
 assert.equal(en.tr("Limpieza profunda"),"Deep Cleaning");
 assert.equal(en.tr("Disponible"),"Available");
 
-assert.match(english,/INTERACTIVE BUSINESS EXPERIENCES/);
-assert.match(spanish,/EXPERIENCIAS DIGITALES INTERACTIVAS/);
+assert.match(english,/SEE HOW IT WORKS/);
+assert.match(spanish,/MIRA CÓMO FUNCIONA/);
 assert.equal((spanish.match(/<section class="owner-experience"/g)||[]).length,1);
 assert.match(spanish,/href="\/demos\/\?demo=golden-grid&amp;lang=es&amp;returnTo=/);
-assert.match(spanish,/class="owner-experience-cta"[^>]*>Explorar demos interactivos<\/a>/);
+assert.match(spanish,/class="owner-experience-cta"[^>]*>Probar un demo interactivo<\/a>/);
 assert.ok((spanish.match(/href="\/demos\/\?demo=[^"]+lang=es/g)||[]).length>=7,"Spanish homepage demo links must carry locale");
 assert.match(spanish,/\.owner-experience-layout/);
 
