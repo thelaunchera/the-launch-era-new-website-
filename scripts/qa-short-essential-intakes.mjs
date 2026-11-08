@@ -21,6 +21,8 @@ for(const [label,html] of [['basic',basic],['advanced',advanced]]){
  assert.doesNotMatch(html,/name="preferred_email"[^>]*\brequired/,'inquiry email should default to checkout email');
  assert.doesNotMatch(html,/name="domain_option"[^>]*\brequired/,'included hosted domain is the safe default');
  assert.match(html,/<option value="need_link"/,'included hosted domain retained');
+ assert.match(html,/data-i18n="domainHelpNote"/,'optional domain purchase explained in intake');
+ assert.doesNotMatch(html,/custom domain \(extra cost\)|dominio propio \(costo adicional\)/i,'do not imply agency charges for an optional domain');
  assert.match(html,/<select name="website_language"/,'language selected without a long text prompt');
  assert.match(html,/name="consent"[^>]*\brequired/,'explicit consent retained');
  assert.match(html,/id="photo-picker-dialog"/,'photo gallery stays within intake');
@@ -30,8 +32,9 @@ for(const [label,html] of [['basic',basic],['advanced',advanced]]){
 assert.match(websiteScript,/preferred_email:get\(f,'preferred_email'\)\|\|get\(f,'email'\)/,'default inquiry email to checkout email');
 assert.match(websiteScript,/note\('Preferred website languages',get\(f,'website_language'\)/,'send language preference with verified intake');
 assert.match(websiteScript,/tle-studio-website-confirm-payment/,'keep verified paid gate');
+assert.doesNotMatch(websiteScript,/custom domain \(extra cost\)|dominio propio \(costo adicional\)/i,'no obsolete domain charge in shared copy');
 assert.match(websiteScript,/Command Center access/,'never issue access before delivery');
-for(const key of ['setupExtrasSummary','inboxOptional','publicPhoneOptional','siteLangLabel','siteLangBoth']){
+for(const key of ['setupExtrasSummary','inboxOptional','publicPhoneOptional','siteLangLabel','siteLangBoth','domainHelpNote']){
  const hits=[...websiteBrief.matchAll(new RegExp(key+':','g'))].length;
  assert.equal(hits,2,key+' must have English and Spanish translations');
 }
