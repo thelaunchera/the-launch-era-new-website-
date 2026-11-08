@@ -150,3 +150,11 @@ html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-video-error] .gg
     scale:none!important;
   }
 }
+
+/* Preserve the existing phone reactive-photo hook without enlarging pixels.
+   This does not apply to tablet: portrait/landscape remain strictly still. */
+@media (max-width:520px) and (prefers-reduced-motion:no-preference) {
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art > img {
+    scale:1!important;
+  }
+}
