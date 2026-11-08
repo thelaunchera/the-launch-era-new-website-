@@ -1,3 +1,10 @@
+## 2026-11-08 — SOVA iPad animation without Play button
+
+- **Owner request:** the hero remains static on the physical iPad and the owner explicitly requests removal of the Play video button.
+- **Asset verification:** exact owner-provided Canva cobalt sofa clip (1424×1012, 5 seconds) is already committed as `hero-canva-blue-20261108.mp4`; the source is H.264 High Profile, yuv420p, 30fps. Converted the SAME frames (not a new face or stock image) to an animated 1120×796 lossless-canvas WebP loop at 15fps, 70 frames, 534,060 bytes, saved to `media/hero-canva-blue-safari-loop-20261108.webp` with Git blob SHA `3ed6b91df5fa6cacf496ce48f012749019e32445`. The original still and MP4 remain untouched.
+- **Fix:** SOVA iPad/iPhone/Safari renders the animated WebP (an image sequence, not autoplay-dependent video) without controls. Other browsers use the full MP4 and switch to animated WebP when playback is blocked or decoding stalls. The existing matching poster remains visible until motion has loaded; no zoom/crop, no duplicated model. Remove all play-button markup and styles. Reduced-motion visitors retain the static poster by default.
+- **Verification:** check Git blob, browser loaded animation URL / response MIME and first-frame aspect, Safari/iPad viewport 820 and iPhone 390, Pages completion, no play button, and route/cart/galleries unchanged. Physical iPad test still required before claiming device-specific success.
+
 ## 2026-11-08 — Golden Grid iPad hero looks soft because low-resolution video replaces HQ still
 
 - **Owner report:** in the iPad demo the Golden Grid campaign lettering, waffle photography and package look blurry even though the original hero photograph is crisp. Owner approved a photo-first presentation with only syrup/food movement.
