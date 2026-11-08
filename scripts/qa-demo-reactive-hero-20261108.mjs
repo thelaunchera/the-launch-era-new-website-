@@ -43,10 +43,13 @@ try {
  const focus='golden-grid';
  await p.goto(base+route(focus),{waitUntil:'domcontentloaded'});
  await p.waitForFunction(()=>document.querySelector('section.hero[data-tle-reactive-hero]'),null,{timeout:9000});
- const box=await p.locator('section.hero').boundingBox();
+ const hero=p.locator('section.hero[data-tle-reactive-hero]');
+ const box=await hero.boundingBox();
  assert.ok(box,'desktop hero available');
- await p.mouse.move(box.x+box.width*.78,box.y+box.height*.46);
- await p.waitForTimeout(220);
+ // Golden's approved full-bleed hero can be taller than the visible viewport.
+ // Hover a reachable point near its top, not an off-screen midpoint.
+ await hero.hover({position:{x:Math.round(box.width*.78),y:Math.min(110,Math.max(24,Math.round(box.height*.12)))},timeout:12000});
+ await p.waitForTimeout(280);
  const pointer=await p.evaluate(()=>{
   const h=document.querySelector('section.hero[data-tle-reactive-hero]');
   return {x:h.style.getPropertyValue('--tle-rh-px'),fine:matchMedia('(hover: hover) and (pointer: fine)').matches};
