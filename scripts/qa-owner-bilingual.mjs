@@ -60,7 +60,8 @@ assert.match(owner,/TLELocale\?\.init\("owner"\)/);
 assert.match(owner,/TLELocale\?\.apply\(\$\("#catalog-list"\)\)/);
 assert.match(owner,/TLELocale\?\.apply\(\$\("#small-preview"\)\)/);
 assert.match(owner,/TLELocale\?\.apply\(\$\("#requests-list"\)\)/);
-assert.match(owner,/TLELocale\?\.isEs\?"&lang=es"/);
+assert.match(owner,/\?demo="\+encodeURIComponent\(current\)/,"Return must preserve selected demo");
+assert.ok(owner.includes('"&lang=es"')&&(owner.includes('window.TLELocale?.isEs')||owner.includes('new URLSearchParams(location.search).get("lang")==="es"')),"Owner return must preserve Spanish language");
 assert.match(owner,/localStorage\.setItem\(key\(\),JSON\.stringify\(items\)\)/);
 assert.doesNotMatch(owner,/\bfetch\s*\(/);
 
