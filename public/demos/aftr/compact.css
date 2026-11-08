@@ -263,7 +263,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   background-size:auto 100%;
   pointer-events:none;
   transform:translate3d(0,0,0);
-  animation:aftr-poster-slide 30s linear infinite;
+  animation:aftr-poster-slide 36s linear infinite!important; /* AFTR's single approved motion; overrides generic animation reset */
 }
 @keyframes aftr-poster-slide{
   from{transform:translate3d(0,0,0)}
@@ -274,8 +274,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
     height:66px;
     --aftr-poster-tile:408.410256px; /* approved 2172:351 art at 66px */
   }
-  .ticker.ticker-poster-banner::before{animation-duration:26s}
 }
 @media(prefers-reduced-motion:reduce){
   .ticker.ticker-poster-banner::before{animation:none!important;transform:none!important}
 }
+.ticker.ticker-poster-banner:is(:hover,:focus-within)::before{animation-play-state:paused!important}
