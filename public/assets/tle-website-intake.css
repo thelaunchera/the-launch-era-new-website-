@@ -28,3 +28,39 @@ header{height:74px;background:white;display:flex;justify-content:space-between;a
 .choice-error{margin:10px 0 0;color:#9c3228;font-size:12px;font-weight:650}
 @media(max-width:740px){.choice-grid-three{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:450px){.choice-grid{grid-template-columns:1fr;gap:8px}.choice-option{min-height:46px;padding:9px 12px;font-size:13px}}
+
+
+/* 2026-11-08 — minimal industry-based website onboarding (both plans). */
+[hidden]{display:none!important}
+.intake-step-caption{font:600 11px/1.6 'DM Sans',sans-serif;color:#436c82;background:#e8f3f7;border:1px solid #d2e3eb;padding:12px 15px;border-radius:12px;margin:0 0 26px}
+#intake-form .group{margin-bottom:23px}
+#intake-form .group legend{font-size:15px;letter-spacing:-.01em}
+#intake-form .group-explain{font:400 12px/1.7 'DM Sans',sans-serif;color:#666159;margin:-4px 0 15px}
+#intake-form .fields{row-gap:16px}
+#intake-form .field input,#intake-form .field textarea,#intake-form .field select{font-size:16px;border-radius:10px;border-color:#d7d0c8;min-height:50px}
+#intake-form .field textarea{min-height:90px}
+#intake-form .field small{color:#62605a;line-height:1.6}
+#intake-form .field select{cursor:pointer;white-space:normal;padding-right:25px}
+#intake-form .field:has(select) small{padding-top:2px}
+#intake-form .advanced-intake{margin:10px 0 0;padding:18px;background:#eaf1f6;border:1px solid #d4e3ec;border-radius:15px;display:grid;gap:14px}
+#intake-form .intake-extra-heading{font:700 12px/1.5 'Prompt',sans-serif;color:#223d4d}
+#intake-form .intake-optional{border:1px solid #e1dad0;background:#faf8f3;border-radius:14px;padding:0;overflow:hidden}
+#intake-form .intake-optional summary{min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 15px;cursor:pointer;list-style:none;font:700 12px/1.5 'DM Sans',sans-serif;color:#3f3d38}
+#intake-form .intake-optional summary::after{content:'+';font-size:22px;font-weight:400;line-height:1;color:#6b655d}
+#intake-form .intake-optional[open] summary::after{content:'−'}
+#intake-form .intake-optional summary::-webkit-details-marker{display:none}
+#intake-form .intake-optional>.fields{border-top:1px solid #e5dfd5;padding:16px;gap:15px}
+#intake-form .call-option{padding:15px;margin:0}
+#intake-form .upload-field input[type=file]{min-height:55px}
+#intake-form #domain-field{margin-top:-8px}
+#intake-form .secondary-note{margin-top:15px}
+#intake-form .group:has(.advanced-intake:not([hidden])) legend{margin-bottom:11px}
+@media(max-width:550px){
+ #intake-form .group legend{font-size:14px}
+ #intake-form .fields{gap:13px}
+ #intake-form .intake-step-caption{font-size:10px}
+ #intake-form .advanced-intake{padding:14px}
+ #intake-form .intake-optional>.fields{padding:13px}
+ #intake-form .field textarea{min-height:98px}
+ .intro .mini{padding:12px 0}
+}
