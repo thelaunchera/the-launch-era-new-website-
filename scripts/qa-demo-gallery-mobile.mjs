@@ -207,7 +207,7 @@ try{
      const response=await motionPage.goto(address,{waitUntil:'domcontentloaded',timeout:35000});
      assert.equal(response?.status(),200,'Hero page must return 200: '+demo.slug);
      await motionPage.locator(demo.visual).waitFor({state:'visible',timeout:25000});
-     await motionPage.locator(demo.image).waitFor({state:'visible',timeout:25000});
+     await motionPage.locator(demo.image).first().waitFor({state:'visible',timeout:25000});
      await motionPage.waitForFunction(sel=>{
        const img=document.querySelector(sel);
        return img&&img.complete&&img.naturalWidth>0;
