@@ -515,13 +515,9 @@ function openInitialDemo(){
  const card=cards.find(item=>item.dataset.brand===slug);
  if(!card)return;
  if(slug==='golden-grid'){
-  // Never automatically embed Golden Grid after arriving from a website or Studio.
-  // The public card's Explore link opens the original website with a user gesture.
-  requestAnimationFrame(()=>{
-   card.scrollIntoView({block:'center',behavior:'instant'});
-   card.classList.add('golden-direct-target');
-   card.querySelector('.view')?.focus({preventScroll:true});
-  });
+  // An official website project-card tap is already a navigation gesture:
+  // open Golden Grid directly in this tab, never inside the locking iframe.
+  window.location.assign(card.dataset.demoUrl);
   return;
  }
  requestAnimationFrame(()=>{
