@@ -64,6 +64,14 @@ html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video{
     display:none!important;
   }
 }
-html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video[hidden]{
+html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video[hidden],
+html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-video-error] .gg-approved-hero-video{
   display:none!important;
+}
+/* Only when video decoding fails: restore the approved photograph as a
+   fail-safe, rather than leaving an empty full-bleed hero. */
+@media(min-width:761px){
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-video-error]>img{
+    display:block!important;
+  }
 }
