@@ -1,3 +1,10 @@
+## 2026-11-08 — Golden Grid iPad hero still soft after first video-mask patch
+
+- **Owner report:** Golden Grid remains visibly blurry on physical iPad after PR #450, despite passing prior browser QA. Do not claim physical-device quality fixed without owner confirmation.
+- **Previously missed production cause (verified in source):** GitHub Pages builds run `scripts/optimize_demo_photos.py` after compiling the site. This replaces `demos/golden-grid/index.html` hero reference `resources/golden-1.png` with its new lossy `golden-1.webp` encoded at quality 80. Because the approved image already has headline and product lettering embedded in the pixels, that conversion can visibly soften the entire hero. Prior browser QA tested raw `public/` before the Pages optimizer and therefore missed the actual deployed asset. The existing 512×682 video mask also overlapped the packaging logo, degrading local clarity.
+- **Fix prepared:** preserve the original 1122×1402 lossless `resources/golden-1.png` on the main hero during the Pages optimizer; still optimize the gallery/card references to WebP. Use a new cache key for the hero and same sharp PNG video poster. Narrow the video mask to a syrup stream/low-opacity waffle detail away from the headline and packaging. No changes to the approved photo, media source, price, cart, contacts, tenants, Studio, or unrelated brands.
+- **New regression coverage:** `scripts/qa_demo_photo_performance.py` checks the *post-optimization* Pages output references the PNG, preserves its original dimensions, and separately keeps the WebP card. Existing Golden Grid Chromium/WebKit visual tests check the poster/mask/phone behavior. Deploy/URL inspection and physical iPad confirmation remain required.
+
 ## 2026-11-08 — SOVA iPad animation without Play button
 
 - **Owner request:** the hero remains static on the physical iPad and the owner explicitly requests removal of the Play video button.
