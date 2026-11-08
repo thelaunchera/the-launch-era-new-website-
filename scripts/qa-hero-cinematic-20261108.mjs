@@ -39,7 +39,7 @@ try {
         readyState: v.readyState,
         pointerEvents: style.pointerEvents,
         hasReactive: v.hasAttribute('data-tle-reactive-photo'),
-        hasHero: !!hero, fallbackPhoto: !!hero?.querySelector('img,picture'),
+        hasHero: !!hero, fallbackPhoto: !!hero?.querySelector('img,picture,.hero-image'),
       };
     });
     assert(data.src.endsWith('/media/hero-motion-20261108.mp4'), slug + ' media path');
