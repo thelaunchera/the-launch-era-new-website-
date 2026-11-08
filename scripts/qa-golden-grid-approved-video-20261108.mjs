@@ -37,7 +37,7 @@ for(const engine of [chromium,webkit]){
         return photo?.complete&&photo.naturalWidth>=1122&&photo.naturalHeight>=1402;
       });
       await page.waitForFunction(()=>Array.from(document.styleSheets)
-        .some(s=>s.href?.includes('golden-approved-hero-video-20261108.css?v=3')));
+        .some(s=>s.href?.includes('golden-approved-hero-video-20261108.css?v=5')));
       await page.waitForTimeout(300);
       const details=await hero.evaluate(el=>{
         const img=el.querySelector(':scope > img');
@@ -49,6 +49,7 @@ for(const engine of [chromium,webkit]){
         const frameRect=el.getBoundingClientRect();
         return {
           natural:[img.naturalWidth,img.naturalHeight],
+          photoSrc:img.currentSrc,
           photoWidth:photoRect.width,frameWidth:frameRect.width,
           photoHeight:photoRect.height,frameHeight:frameRect.height,
           photoDisplay:imgStyle.display,photoTransform:imgStyle.transform,
@@ -65,6 +66,7 @@ for(const engine of [chromium,webkit]){
         };
       });
       assert.deepEqual(details.natural,[1122,1402],'Approved high-resolution original must remain');
+      assert.ok(details.photoSrc.includes('golden-1.png?v=20261108-master-hq'),'The exact HQ master PNG, not a cached optimized image, must load');
       assert.equal(details.videoCount,1,'Preserve approved standalone-phone motion');
       if(width>520||reducedMotion==='reduce'){
         assert.equal(lowRes.length,0,'Tablet/desktop/reduced motion must never request low-res MP4');
