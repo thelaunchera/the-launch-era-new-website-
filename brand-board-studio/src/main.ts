@@ -459,8 +459,9 @@ function hydrate(){
       if(b.detailPhoto==='https://thelaunchera.com/demos/crumb/assets/brand-packaging.webp')merged.detailPhoto=d.detailPhoto;
       if(b.site==='https://crumb-cookies-animated-demo-w1fcop.v2.appdeploy.ai/')merged.site=d.site;
     }
-    if(!b.heroPhoto)merged.heroPhoto=d.heroPhoto;
-    if(!b.detailPhoto)merged.detailPhoto=b.referenceImage||d.detailPhoto;
+    // An intentionally deleted photo must stay empty after reload; only migrate absent fields.
+    if(!Object.prototype.hasOwnProperty.call(b,'heroPhoto'))merged.heroPhoto=d.heroPhoto;
+    if(!Object.prototype.hasOwnProperty.call(b,'detailPhoto'))merged.detailPhoto=b.referenceImage||d.detailPhoto;
     if(!b.titleFont||b.titleFont==='Georgia')merged.titleFont=d.titleFont;
     if(!merged.style)merged.style=d.style;
     if(!Array.isArray(merged.colors)||merged.colors.length!==6)merged.colors=d.colors;
@@ -607,14 +608,17 @@ function editor(b){
   return '<aside class="editor" id="editor"><div class="editor-head"><h2>Personalizar marca</h2><p>Tu identidad, un cambio a la vez.</p></div>'+
     '<div class="editor-tabs"><button class="edit-tab '+(tab==='identity'?'active':'')+'" data-tab="identity">Identidad</button><button class="edit-tab '+(tab==='style'?'active':'')+'" data-tab="style">Estilo</button><button class="edit-tab '+(tab==='assets'?'active':'')+'" data-tab="assets">Fotos</button></div>'+
     '<div class="formbody">'+inside+'</div>'+
-    '<div class="panel-foot"><button class="btn" data-action="duplicate">⧉ Duplicar</button><button class="btn danger" data-action="delete">Eliminar marca</button></div></aside>';
+    '<div class="panel-foot"><button type="button" class="btn save-brand-button" data-action="save-brand">Guardar cambios</button><p class="save-local-note">Tus cambios se guardan en este navegador. Puedes descargar un respaldo para conservarlos.</p><div class="panel-secondary-actions"><button type="button" class="btn" data-action="duplicate">⧉ Duplicar</button><button type="button" class="btn danger" data-action="delete">Eliminar marca</button></div></div></aside>';
 }
 function assetBox(b,key,title,cta){
   const img=b[key];
+  const changeLabel=img?(key==='logoImage'?'Cambiar logo':key==='patternImage'?'Cambiar patrón':'Cambiar foto'):cta;
   return '<div class="uploadbox" data-drop="'+key+'"><div class="upload-thumb">'+(img?'<img src="'+html(img)+'" alt="'+html(title)+'">':'＋')+'</div>'+
-  '<div class="upload-info"><strong>'+title+'</strong><p>JPG, PNG o WEBP</p>'+
-  '<label class="upload-label"><input type="file" data-upload="'+key+'" accept="image/png,image/jpeg,image/webp"><button type="button" data-action="choose-file" data-target="'+key+'">'+cta+'</button></label></div>'+
-  (img?'<button type="button" data-action="remove-image" data-target="'+key+'" title="Quitar imagen">×</button>':'')+'</div>';
+    '<div class="upload-info"><strong>'+title+'</strong><p>JPG, PNG o WEBP</p>'+
+    '<input type="file" data-upload="'+key+'" accept="image/png,image/jpeg,image/webp" aria-label="'+html(changeLabel)+'">'+
+    '<div class="upload-actions"><button type="button" data-action="choose-file" data-target="'+key+'">'+html(changeLabel)+'</button>'+
+    (img?'<button type="button" class="remove-photo-button" data-action="remove-image" data-target="'+key+'">Eliminar foto</button>':'')+
+    '</div></div></div>';
 }
 function guide(b){
   const c=b.colors.map(x=>hex(x));
@@ -882,6 +886,10 @@ async function openPhotoReview(section,id){
 
 function perform(action,button){
   const b=active();
+  if(action==='save-brand'){
+    if(save())notify('Cambios de '+b.name+' guardados en este navegador.');
+    return;
+  }
   if(action==='new')openNew();
   if(action==='cancel-new')$('new-dialog')?.close();
   if(action==='duplicate'){
@@ -907,6 +915,7 @@ function perform(action,button){
   }
   if(action==='gallery-review') {void openPhotoReview(button.dataset.section,button.dataset.id);return;}
   if(action==='gallery-delete') {
+    if(!confirm('¿Eliminar esta foto de la galería de '+b.name+'?'))return;
     removePhoto(b,button.dataset.section,button.dataset.id,save).then(()=>{
       render();notify('Foto eliminada.');
     }).catch(e=>notify(e.message));
@@ -935,8 +944,11 @@ function perform(action,button){
   }
   if(action==='remove-image'){
     const key=button?.dataset.target;
-    if(!['heroPhoto','detailPhoto','logoImage','patternImage'].includes(key))return;
-    b[key]='';save();render();notify('Imagen quitada.');
+    if(!['heroPhoto','detailPhoto','logoImage','patternImage'].includes(key)||!b[key])return;
+    if(!confirm('¿Eliminar esta imagen de '+b.name+'?'))return;
+    const previous=b[key];b[key]='';
+    if(!save()){b[key]=previous;return;}
+    render();notify('Imagen eliminada de '+b.name+'.');
   }
 }
 document.addEventListener('click',event=>{
