@@ -7,40 +7,47 @@
  if(!root.dataset.tleOneMotion)return;
  const media=window.matchMedia?.('(prefers-reduced-motion: reduce)');
  const processed=new WeakSet();
- const pending=new Set();
+ const tracked=new Set();
  const exclusion='.hero,.site-header,nav,footer,.ticker,.marquee,.banner,.announcement,.modal,.drawer,.cart,.checkout,.preview,.receipt,.form-card,.form-panel,form,dialog,[role="dialog"],[hidden],[aria-hidden="true"]';
  let observer=null,scheduled=false;
- const done=el=>{
-   if(!el)return;
-   pending.delete(el);
-   el.classList.add('tle-scroll-visible');
-   if(observer)observer.unobserve(el);
-   // Remove transition layer after one arrival. Never interfere with hover or clicks later.
-   window.setTimeout(()=>{el.classList.remove('tle-scroll-pending');el.style.removeProperty('--tle-scroll-delay')},1250);
- };
  const safe=el=>Boolean(el&&el.isConnected&&!el.closest(exclusion)&&el.getBoundingClientRect().height>0);
  function ensureObserver(){
    if(observer||!('IntersectionObserver' in window))return;
+   // Keep observing in BOTH directions. An element resets only after it has
+   // fully left the viewport, so reversing scroll never flashes an on-screen card.
    observer=new IntersectionObserver(entries=>{
-     for(const entry of entries)if(entry.isIntersecting)done(entry.target);
+     for(const entry of entries){
+       const el=entry.target;
+       if(media?.matches){el.classList.add('tle-scroll-visible');continue;}
+       if(entry.isIntersecting){
+         el.classList.add('tle-scroll-visible');
+       }else if(!el.matches(':focus-within')){
+         el.classList.remove('tle-scroll-visible');
+       }
+     }
    },{root:null,rootMargin:'0px 0px -7% 0px',threshold:0.035});
  }
  const add=(el,part,delay)=>{
    if(!safe(el)||processed.has(el))return;
    processed.add(el);
    el.dataset.tleScrollPart=part;
-   // Never hide initially visible content, including anchor destinations and hero adjacency.
-   const rect=el.getBoundingClientRect();
-   if(rect.top<window.innerHeight*.90||rect.bottom<0||media?.matches||!observer){
+   if(media?.matches||!observer){
      el.classList.add('tle-scroll-visible');return;
    }
    el.style.setProperty('--tle-scroll-delay',delay+'ms');
    el.classList.add('tle-scroll-pending');
-   pending.add(el);observer.observe(el);
+   // Keep initially visible/anchor-targeted content visible with no first-frame flash.
+   const rect=el.getBoundingClientRect();
+   if(rect.top<window.innerHeight*.84 && rect.bottom>0){
+     el.classList.add('tle-scroll-visible');
+   }
+   tracked.add(el);
+   observer.observe(el);
  };
  function scan(){
-   if(media?.matches){for(const el of [...pending])done(el);return}
    ensureObserver();
+   for(const el of tracked)if(!el.isConnected){tracked.delete(el);observer?.unobserve(el);}
+   if(media?.matches){for(const el of tracked)el.classList.add('tle-scroll-visible');return;}
    const base=document.querySelector('main')||document.querySelector('#app')||document.body;
    const sections=[...base.querySelectorAll('section')].filter(section=>{
      if(!safe(section))return false;
@@ -74,9 +81,16 @@
    }).observe(base,{subtree:true,childList:true});
    document.addEventListener('focusin',e=>{
      const el=e.target.closest?.('.tle-scroll-pending');
-     if(el)done(el);
+     if(el)el.classList.add('tle-scroll-visible');
    },{passive:true});
-   media?.addEventListener?.('change',e=>{if(e.matches)for(const el of [...pending])done(el);else scan()});
+   media?.addEventListener?.('change',e=>{
+     for(const el of tracked){
+       const rect=el.getBoundingClientRect();
+       el.classList.toggle('tle-scroll-visible',
+         e.matches||(rect.bottom>0&&rect.top<innerHeight*.93));
+     }
+     if(!e.matches)scan();
+   });
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});
  else boot();
