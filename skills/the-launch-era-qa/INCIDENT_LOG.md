@@ -1,3 +1,11 @@
+## 2026-11-08 — Golden Grid preview could stall or blank the mobile Studio
+
+- **Reported:** entering Golden Grid could freeze the in-app demo browser and obstruct return to Studio. Physical iPhone reproduction not yet available.
+- **Verified source bug:** the Golden page hid its approved hero image using `opacity:0!important` under normal motion preferences, while referring to an absent `media/hero-motion-poster-hq.webp`. The hero script also autoplayed a video in the iframe. The carousel used nine source PNG images (roughly 2–2.5 MB compressed each), all simultaneously eligible for decoding.
+- **Safe patch (branch `fix/golden-grid-mobile-freeze-20261108`):** removed only Golden Grid's broken poster preload, image-hiding rule and video boot script; restored the existing original photo. Retained all other demos' hero motion. In the Golden carousel, keep only current/previous/next image sources mounted and disable autoplay in mobile/embedded contexts. Preserve carousel manual controls, language, original photo files and modal close actions.
+- **Regression gate:** `scripts/qa-golden-grid-stability-20261108.mjs` covers iPhone-size direct demo, reduced motion, three active images, lightbox opening and closing, and opening/closing the library iframe. Include in Editorial Demo Heroes CI along with static route QA. **Pending:** CI, Pages deploy and actual iPhone/Studio verification. Do not call the user-facing freeze resolved until those complete.
+- **Routes and business data:** no URLs, prices, checkout, payment, forms or customer data changed.
+
 ## 2026-11-08 — Customer-facing copy exposed preview implementation language (public demo polish)
 
 - **User request:** all marketing landings and demos should explain the customer experience and next step without references to classroom tools, private Studio implementation, developer terminology or operational internals.
