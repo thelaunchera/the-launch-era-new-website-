@@ -10,7 +10,10 @@ const profiles={
  'ivory-and-bloom':{selector:'.hero .hero-photo'},
  'aftr':{selector:'.hero-image',mobile:true},
  'lavender-edit':{selector:'.hero-art'},
- 'seasonal-brew':{selector:'.hero-media'}
+ 'seasonal-brew':{selector:'.hero-media'},
+ 'wok-social':{selector:'.hero-photo-frame'},
+ 'soluna-yoga':{selector:'.hero-visual.has-photo'},
+ 'yummm':{selector:'.hero-slide[data-slide="0"]'}
 };
 const profile=profiles[brand];
 if(!profile)return;
@@ -54,6 +57,10 @@ function mount(){
  }else{
    target.appendChild(v);
    for(const el of target.children){if(el!==v&&!el.matches('img,picture,source')){const s=getComputedStyle(el);if(s.position==='static')el.style.position='relative';if(s.zIndex==='auto')el.style.zIndex='2';}}
+ }
+ if(brand==='soluna-yoga'){
+  v.style.zIndex='4';
+  target.querySelectorAll('.hero-visual-caption,.visual-label').forEach(node=>{node.style.position='relative';node.style.zIndex='5';});
  }
  v.src=file.href;video=v;
  observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting))sync();else stop();},{rootMargin:'80px'});
