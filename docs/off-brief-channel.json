@@ -1,0 +1,13 @@
+{
+  "project": "OFF BRIEF — THE CREATIVE HOUSE",
+  "brand": "The Launch Era",
+  "youtubeHandle": "@Offbriefchannel",
+  "youtubeChannelUrl": "https://www.youtube.com/@Offbriefchannel",
+  "urlVerification": "Derived from previously supplied handle; channel page not independently verified",
+  "studioSourceRepo": "thelaunchera/the-launch-era-crm",
+  "studioSourcePath": "off-brief-video-studio",
+  "studioSourceRef": "main",
+  "appPlatform": "OFF BRIEF Video Studio",
+  "generator": "Google Flow",
+  "visibility": "public channel reference only; private editor scripts stay in the private repository"
+}
