@@ -356,6 +356,16 @@ function init(kind){
   document.head.append(css);
  }
  apply(document.body);
+ if(isEs&&typeof MutationObserver!=="undefined"){
+  // Dynamic catalog/navigation is recreated by menu edits and brand switches.
+  let queued=false;
+  const observer=new MutationObserver(()=>{
+   if(queued)return;
+   queued=true;
+   queueMicrotask(()=>{queued=false;apply(document.body)});
+  });
+  observer.observe(document.body,{childList:true,subtree:true,characterData:true});
+ }
 }
 window.TLELocale={isEs,tr,apply,init,localizeInput:tr};
 })();
