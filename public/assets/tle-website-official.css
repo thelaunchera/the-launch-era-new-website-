@@ -112,3 +112,24 @@ html,body{margin:0;background:#FAF8F3}a:focus-visible,button:focus-visible,summa
  .tle-universal .process-grid{gap:26px 14px}
 }
 @media(prefers-reduced-motion:reduce){.tle-universal :is(.btn,.hero-gallery-card){transition:none!important;animation:none!important}}
+
+
+/* One business-specific format choice and reservation disclosure; not extra offers. */
+.tle-universal .website-format-choice{margin:24px 0 25px;padding:21px 23px;border:1px solid #e4dfd5;background:#fff;border-radius:18px}
+.tle-universal .website-format-eyebrow{display:block;font:700 10px/1.5 'DM Sans',Arial,sans-serif;letter-spacing:.13em;color:#56534e;margin:0 0 13px}
+.tle-universal .website-format-tags{display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+.tle-universal .website-format-tags span{display:inline-flex;align-items:center;min-height:35px;padding:9px 14px;border:1px solid #ded9cf;border-radius:99px;background:#FAF8F3;color:#191919;font:600 11px/1.4 'DM Sans',Arial,sans-serif}
+.tle-universal .website-format-footnote{margin:12px 0 0;color:#55514a;font:400 11px/1.65 'DM Sans',Arial,sans-serif}
+.tle-universal .restaurant-booking-info{margin:24px 0 5px;background:#eaf1f5;border:1px solid #d7e2e9;border-radius:18px;overflow:hidden}
+.tle-universal .restaurant-booking-info summary{display:flex;gap:13px;justify-content:space-between;align-items:center;cursor:pointer;padding:19px 23px;list-style:none;color:#191919}
+.tle-universal .restaurant-booking-info summary::-webkit-details-marker{display:none}
+.tle-universal .restaurant-booking-info summary strong{display:block;font:700 13px/1.5 'DM Sans',Arial,sans-serif}
+.tle-universal .restaurant-booking-info summary span{display:block;font:400 11px/1.7 'DM Sans',Arial,sans-serif;color:#444f57;margin-top:3px}
+.tle-universal .restaurant-booking-info .details-indicator{flex:none;border-radius:50%;background:#fff;border:1px solid #cfdde4;width:31px;height:31px;display:grid;place-items:center;font-size:18px;font-weight:400}
+.tle-universal .restaurant-booking-info[open] .details-indicator{transform:rotate(45deg)}
+.tle-universal .restaurant-booking-body{padding:0 23px 23px}
+.tle-universal .restaurant-booking-steps{display:flex;align-items:stretch;gap:6px;flex-wrap:wrap;margin:0 0 14px}
+.tle-universal .restaurant-booking-steps span{flex:1;min-width:94px;border-radius:10px;background:#fff;border:1px solid #dbe4e8;padding:11px 8px;text-align:center;color:#191919;font:700 10px/1.5 'DM Sans',Arial,sans-serif}
+.tle-universal .restaurant-booking-body p{font:400 12px/1.8 'DM Sans',Arial,sans-serif;color:#35424b;margin:12px 0 0}
+.tle-universal .restaurant-booking-body strong{font-weight:700}
+@media(max-width:620px){.tle-universal .website-format-choice{padding:18px 15px;margin:18px 0}.tle-universal .website-format-tags{gap:7px}.tle-universal .website-format-tags span{font-size:10px;min-height:35px;padding:8px 10px}.tle-universal .restaurant-booking-info summary{padding:17px 15px}.tle-universal .restaurant-booking-body{padding:0 15px 18px}.tle-universal .restaurant-booking-steps span{flex:1 1 42%;min-width:0}}
