@@ -70,11 +70,19 @@
     card.hidden=!selected.includes(card);
     card.style.display=selected.includes(card)?'':'none';
    });
-   if(stage)stage.style.display=selected.length?'':'none';
+   const layout=selected.length>7?'extended':'classic';
+   rail.dataset.galleryLayout=layout;
+   if(stage){
+    stage.dataset.galleryLayout=layout;
+    stage.style.display=selected.length?'':'none';
+   }
    if(note)note.textContent=!valid
     ?(document.documentElement.lang==='es'?'Nuestros proyectos no están disponibles en este momento.':'Our projects are temporarily unavailable.')
-    :selected.length?normalNote
-     :(document.documentElement.lang==='es'?'Explora una web creada para tu negocio.':'Discover a website created for your business.');
+    :!selected.length
+     ?(document.documentElement.lang==='es'?'Explora una web creada para tu negocio.':'Discover a website created for your business.')
+     :selected.length>7
+      ?(document.documentElement.lang==='es'?'Desliza para descubrir más proyectos. Toca uno para explorar el demo interactivo.':'Swipe to discover more projects. Tap one to explore the interactive demo.')
+      :normalNote;
    if(ownerDemo&&originalOwnerHref){
     const url=new URL(originalOwnerHref,location.origin);
     const slug=url.searchParams.get('demo');
