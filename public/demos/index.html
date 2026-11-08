@@ -178,7 +178,7 @@ main,.intro,.intro-copy,.hero-gallery,.demo-grid,.demo-card,.section-heading{min
  .intro .eyebrow{letter-spacing:.095em;font-size:9px}
  .hero-label{padding:8px 10px}
 }
-/* One-time entrance reveals; never hide content without JavaScript support. */
+/* Repeatable viewport entrances in either scroll direction; never hide content without JavaScript. */
 @media(prefers-reduced-motion:no-preference){
  html.gallery-motion-ready .gallery-reveal{opacity:0;translate:0 25px;transition:opacity .8s ease,translate .85s cubic-bezier(.2,.72,.22,1);transition-delay:var(--reveal-delay,0ms)}
  html.gallery-motion-ready .gallery-reveal.is-inview{opacity:1;translate:0 0}
