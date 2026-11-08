@@ -5,6 +5,7 @@ on:
     paths:
       - 'public/assets/tle-offer-editorial-motion-20261108.css'
       - 'public/assets/tle-offer-editorial-motion-20261108.js'
+      - 'public/assets/tle-offer-gallery-hero-media-20261108.js'
       - 'public/website-for-your-business/index.html'
       - 'public/es/website-for-your-business/index.html'
       - 'scripts/qa-offer-editorial-motion.mjs'
@@ -15,6 +16,7 @@ on:
     paths:
       - 'public/assets/tle-offer-editorial-motion-20261108.css'
       - 'public/assets/tle-offer-editorial-motion-20261108.js'
+      - 'public/assets/tle-offer-gallery-hero-media-20261108.js'
       - 'public/website-for-your-business/index.html'
       - 'public/es/website-for-your-business/index.html'
       - 'scripts/qa-offer-editorial-motion.mjs'

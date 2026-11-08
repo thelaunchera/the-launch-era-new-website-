@@ -262,3 +262,73 @@
     letter-spacing:.105em;
   }
 }
+
+
+/* Extended portfolio rail: keep eleven real branded photos accessible and
+   readable instead of forcing cards 8–11 into nonexistent desktop grid rows.
+   The 7-card editorial grid is preserved when Studio curates <=7 visible. */
+@media(min-width:1100px){
+ .tle-universal .hero-gallery-stage[data-gallery-layout="extended"]{
+  overflow-x:auto;
+  overflow-y:hidden;
+  overscroll-behavior-x:contain;
+  scroll-snap-type:x proximity;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+  scrollbar-color:#aaa195 #faf8f3;
+ }
+ .tle-universal .hero-gallery-rail[data-gallery-layout="extended"]{
+  display:flex;
+  width:max-content;
+  min-width:100%;
+  height:100%;
+  grid-template-columns:none;
+  grid-template-rows:none;
+  align-items:stretch;
+  justify-content:flex-start;
+  gap:clamp(11px,1.2vw,17px);
+  padding:14px 17px 32px;
+ }
+ .tle-universal .hero-gallery-rail[data-gallery-layout="extended"] .hero-gallery-card,
+ .tle-universal .hero-gallery-rail[data-gallery-layout="extended"] .hero-gallery-card:first-child{
+  grid-column:auto;
+  grid-row:auto;
+  flex:0 0 clamp(208px,19.5vw,275px);
+  min-width:0;
+  width:auto;
+  height:100%;
+  --gallery-turn:0deg;
+  --gallery-y:0px;
+  --gallery-scale:1;
+  scroll-snap-align:start;
+  border-radius:clamp(15px,1.4vw,21px);
+ }
+ .tle-universal .hero-gallery-rail[data-gallery-layout="extended"] .hero-gallery-card:first-child{
+  flex-basis:clamp(250px,23vw,315px);
+ }
+ .tle-universal .hero-gallery-rail[data-gallery-layout="extended"] .hero-gallery-card figcaption{
+  font-size:clamp(11px,.9vw,14px);
+  left:13px;
+  bottom:13px;
+ }
+}
+/* Embedded original motion only replaces its matching real first-frame photo
+   after the browser has played the first frame; links stay fully clickable. */
+.tle-universal .hero-gallery-card .hero-gallery-motion{
+ position:absolute;
+ inset:0;
+ width:100%;
+ height:100%;
+ display:block;
+ object-fit:cover;
+ object-position:center;
+ opacity:0;
+ z-index:1;
+ pointer-events:none;
+ transition:opacity .28s ease;
+ background:transparent;
+}
+.tle-universal .hero-gallery-card .hero-gallery-motion.is-playing{opacity:1}
+@media(prefers-reduced-motion:reduce){
+ .tle-universal .hero-gallery-card .hero-gallery-motion{display:none!important}
+}
