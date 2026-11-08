@@ -1,3 +1,10 @@
+## 2026-11-08 — Spanish Digital Menus / Services + Booking showcase
+
+- One shared demo library `/demos/?lang=es` and Owner Center `/demos/owner-center/?demo=<existing-slug>&lang=es`; English defaults when no `lang=es` is provided. New script `public/assets/tle-demo-locale-20261108.js` translates library actions, descriptions, filters, modal, Owner Center, sample products, input labels, simulated requests and confirmation messages. Language switch keeps selected demo and approved `returnTo` route.
+- The Spanish marketing page `/es/website-for-your-business/` (published to `/es/` by the GitHub Pages workflow) gains one compact Spanish editorial section and CTA to `/demos/?demo=golden-grid&lang=es&returnTo=%2Fes%2Fwebsite-for-your-business%2F`. Approved Golden Grid photography remains unchanged. Existing Spanish gallery links gain `lang=es`, without changing their original demo destinations.
+- Existing 16 library demos and 13 Owner Center brand configurations stay unchanged; the original customer websites are **not** rebuilt or translated by this workstream. Simulated owner edits remain limited to local browser storage, not published websites or live transactions.
+- Publishing target remains GitHub Pages. Required QA: Spanish and English switches at mobile widths, edit price/discount/availability/reset, Customer→Owner→Customer→Close, original brand identity, 404 links, and actual live Github Pages verification. Source code or green tests alone are not live-device acceptance.
+
 ## 2026-11-07 — Ivory & Bloom fresh-view preview link
 
 - Public library `/demos/` Ivory & Bloom card now uses `https://thelaunchera.com/demos/ivory-and-bloom/?v=iphone-calendar-20261107` for all three of its preview/explore references; URL path and demo identity do not change. Query parameter is a cache-buster, not a new route or external destination.
