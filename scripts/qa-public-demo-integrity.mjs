@@ -24,7 +24,7 @@ for (const [i, script] of scripts.entries()) {
 assert(html.includes('id="nav"') && html.includes('id="app"'), 'Sample navigation / workspace missing');
 assert(html.includes('const screens=[overview,calendar,jobs,clients,quotes,invoices]'), 'Sample screens missing');
 assert(html.includes('render();'), 'Sample render invocation missing');
-assert(html.includes('SAMPLE WORKSPACE') && html.includes('No real client records'), 'Safe demo disclaimer missing');
+assert(html.includes('SAMPLE WORKSPACE') && html.includes('No client information or payments are submitted.'), 'Safe demo disclaimer missing');
 
 // The public demo uses invented clients in Miami and nearby cities, not owner-local Palm Beach data.
 // Guard all dynamic views (Clients, Routes, Requests) against leaking legacy sample locations.
