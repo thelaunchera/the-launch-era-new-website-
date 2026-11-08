@@ -1,0 +1,50 @@
+/* Golden Grid · owner-supplied syrup-pour video hero, 2026-11-08.
+   Matching first-frame poster is the permanent still fallback. */
+html[data-tle-one-motion="golden-grid"] .hero .hero-art{
+  position:relative!important;isolation:isolate;overflow:hidden!important;
+  width:100%!important;height:clamp(510px,55vw,790px)!important;
+  min-height:0!important;aspect-ratio:auto!important;
+  margin:0!important;border-radius:0!important;
+  background:#94c7df;
+}
+html[data-tle-one-motion="golden-grid"] .hero .hero-art::before{
+  content:"";position:absolute;inset:-45px;z-index:0;pointer-events:none;
+  background:url("./media/hero-syrup-poster-20261108.webp") center/cover no-repeat;
+  filter:blur(32px);opacity:.67;transform:scale(1.05);
+}
+html[data-tle-one-motion="golden-grid"] .hero .hero-art>img,
+html[data-tle-one-motion="golden-grid"] .hero .hero-art>video.golden-hero-video{
+  position:absolute!important;inset:0!important;display:block!important;
+  width:100%!important;height:100%!important;max-width:none!important;
+  max-height:none!important;object-fit:contain!important;
+  object-position:center!important;margin:0!important;pointer-events:none;
+  filter:none!important;
+}
+html[data-tle-one-motion="golden-grid"] .hero .hero-art>img{
+  z-index:1!important;opacity:1!important;animation:none!important;
+}
+html[data-tle-one-motion="golden-grid"] .hero .hero-art>video.golden-hero-video{
+  z-index:2!important;opacity:0;transition:opacity .2s ease;
+  background:transparent!important;
+}
+html[data-tle-one-motion="golden-grid"] .hero .hero-art>video.golden-hero-video[data-frame-ready="true"]{
+  opacity:1;
+}
+@media(max-width:760px){
+ html[data-tle-one-motion="golden-grid"] .hero .hero-art{
+   height:auto!important;aspect-ratio:512/682!important;
+ }
+ html[data-tle-one-motion="golden-grid"] .hero .hero-art::before{display:none}
+ html[data-tle-one-motion="golden-grid"] .hero .hero-art>img,
+ html[data-tle-one-motion="golden-grid"] .hero .hero-art>video.golden-hero-video{
+   object-fit:cover!important;
+ }
+ html[data-tle-one-motion="golden-grid"] .hero .hero-art [data-tle-reactive-photo]{
+   translate:none!important;rotate:none!important;scale:1!important;
+   transform:none!important;will-change:auto!important;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ html[data-tle-one-motion="golden-grid"] .hero .hero-art>video.golden-hero-video{display:none!important}
+ html[data-tle-one-motion="golden-grid"] .hero .hero-art>img{opacity:1!important}
+}

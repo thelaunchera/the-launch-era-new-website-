@@ -14,7 +14,9 @@
   <link rel="stylesheet" href="/assets/tle-demo-scroll-art-20261108.css?v=4">
   <link rel="stylesheet" href="/assets/tle-demo-footer-finale-20261108.css?v=1">
 
-<!-- Approved hero photography remains visible until a matching, verified motion poster is available. -->
+<!-- First frame of the owner-provided motion remains visible before playback and on reduced motion. -->
+<link rel="preload" as="image" href="./media/hero-syrup-poster-20261108.webp">
+<link rel="stylesheet" href="./golden-hero-syrup-20261108.css?v=1">
 </head>
 <body data-tle-company="demo">
 <div id="app">
@@ -37,7 +39,7 @@
       <a class="button" href="#collection" data-en="Explore the collection" data-es="Explora la colección">Explore the collection</a>
       <div class="hero-note"><span class="grid-icon" aria-hidden="true">▦</span><p data-en="Made for the<br>slow start." data-es="Para disfrutar<br>sin prisa.">Made for the<br>slow start.</p></div>
     </div>
-    <div class="hero-art"><img src="./resources/golden-1.png" alt="Golden Grid waffles with butter, syrup and sky-blue waffle mix packaging" fetchpriority="high"></div>
+    <div class="hero-art"><img src="./media/hero-syrup-poster-20261108.webp" alt="Golden Grid waffles with syrup, butter, berries and blue morning sky" fetchpriority="high" width="512" height="682"></div>
   </section>
   <div class="ticker" aria-label="Stay golden. Slow mornings. Golden Grid. Crisp edges."><div class="ticker-track" aria-hidden="true"><div class="ticker-group"><span>STAY GOLDEN.</span><i>Slow mornings.</i><span>GOLDEN GRID.</span><i>Crisp edges.</i><span>STAY GOLDEN.</span></div><div class="ticker-group"><span>STAY GOLDEN.</span><i>Slow mornings.</i><span>GOLDEN GRID.</span><i>Crisp edges.</i><span>STAY GOLDEN.</span></div></div></div>
   <section id="collection" class="section collection">
@@ -69,12 +71,12 @@
 <dialog id="contact-dialog" aria-labelledby="contact-title"><button class="close" data-close="contact-dialog" aria-label="Close contact">×</button><div class="dialog-copy"><p class="eyebrow">GOLDEN GRID · WAFFLE CO.</p><h2 id="contact-title" data-en="Let's <em>talk.</em>" data-es="Vamos a <em>hablar.</em>">Let's <em>talk.</em></h2><p data-en="Try the contact experience. This demo does not send messages." data-es="Prueba la experiencia de contacto. Este demo no envía mensajes.">Try the contact experience. This demo does not send messages.</p><form id="contact-form"><label for="name" data-en="Name" data-es="Nombre">Name</label><input id="name" name="name" required maxlength="80" autocomplete="name"><label for="email" data-en="Email" data-es="Correo">Email</label><input id="email" name="email" type="email" required autocomplete="email"><label for="message" data-en="Message" data-es="Mensaje">Message</label><textarea id="message" name="message" required maxlength="1500" rows="3"></textarea><button type="submit" class="button" data-en="Preview message" data-es="Vista previa del mensaje">Preview message</button></form><p id="contact-result" role="status" hidden></p></div></dialog></div>
 
 <script defer src="/assets/tle-demo-inquiry-mobile-20261107.js?v=1"></script>
-<script defer src="./golden-gallery-20261107.js?v=1"></script>
+<script defer src="./golden-gallery-20261107.js?v=2"></script>
 <script defer src="/assets/tle-demo-original-prices-20261108.js?v=2" data-tle-demo-price-slug="golden-grid"></script>
 <script defer src="/assets/tle-demo-tactile-20261108.js?v=2"></script>
   <script defer src="/assets/tle-demo-scroll-art-20261108.js?v=4"></script>
   <script defer src="/assets/tle-demo-footer-finale-20261108.js?v=3"></script>
 <script defer src="/assets/tle-demo-order-journey-20261108.js?v=3" data-tle-order-slug="golden-grid"></script>
-<script defer src="/assets/tle-hero-cinematic-20261108.js?v=7"></script>
+<script defer src="./golden-hero-syrup-20261108.js?v=1"></script>
 </body>
 </html>
