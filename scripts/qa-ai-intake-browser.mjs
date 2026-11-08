@@ -142,9 +142,9 @@ try{
   await page.locator('#businessEmail').fill("demo@example.com");
   await page.locator('#businessCategory').selectOption("cleaning");
   await page.locator('input[name="service_areas"]').fill("Miami");
-  await page.locator('select[name="pricing_style"]').selectOption("mixed");
-  await page.locator('select[name="quote_estimate_rules"]').selectOption("review_unpriced_jobs");
-  await page.locator('select[name="flat_price_auto_confirm"]').selectOption("false");
+  assert.equal(await page.locator('select[name="pricing_style"]').isHidden(),true,"Guided prices replace duplicate legacy choice");
+  assert.equal(await page.locator('select[name="quote_estimate_rules"]').inputValue(),"always_review","Requests require approval by default");
+  assert.equal(await page.locator('select[name="flat_price_auto_confirm"]').inputValue(),"false","Never auto-confirm by default");
   await page.locator('textarea[name="availability"]').fill("Monday-Friday 9-5");
   // Appointment duration is now a guided, visible radio/select control.
   // The original job_duration_minutes input is intentionally hidden.
@@ -164,6 +164,8 @@ try{
   await estimateRow.locator('input[type="number"]').nth(2).fill("350");
   await page.locator("#tleFixedPriceVisibility").selectOption("yes");
   await page.locator("#tleEstimatePriceVisibility").selectOption("yes");
+  await page.evaluate(()=>guidedBooking.apply());
+  assert.equal(await page.locator('select[name="pricing_style"]').inputValue(),"mixed","Legacy backend pricing mode derives from guided service prices");
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+2),true,"Guided booking overflow");
   await page.screenshot({path:"qa-screenshots/booking-guided-"+lang+".png",fullPage:true});
   await page.locator("#submit").click();

@@ -179,6 +179,7 @@
    note('AI photo handling',f.get('ai_photo_request')==='yes'?'Review requested; no automatic image generation or automatic extra charge':''),
    
    note('Business location/service area',get(f,'business_location')),
+   note('Preferred website languages',get(f,'website_language')||'en'),
    note('Business hours',get(f,'business_hours')),
    note('Domain arrangement',get(f,'domain_option')),
    note('Preferred domain',get(f,'domain_preference')),
@@ -195,7 +196,7 @@
    website_check:get(f,'website_check'),package_slug:plan,kind:'intake',source:'checkout',
    name:get(f,'name'),email:get(f,'email'),phone:get(f,'phone'),
    business_name:get(f,'business_name'),industry:get(f,'industry')==='other'?('Other: '+get(f,'industry_other')).slice(0,120):get(f,'industry'),
-   existing_website:get(f,'existing_website'),preferred_email:get(f,'preferred_email'),
+   existing_website:get(f,'existing_website'),preferred_email:get(f,'preferred_email')||get(f,'email'),
    customer_action:get(f,'customer_action'),goals,brand_notes:brand,
    automation_goals:get(f,'automation_goals'),ai_brief:advanced?get(f,'ai_brief'):'',
    language:lang,contact_consent:f.get('consent')==='yes',

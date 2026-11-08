@@ -7,8 +7,8 @@
 <link rel="icon" type="image/svg+xml" href="/assets/brand/tle-mark.svg">
 <link rel="stylesheet" href="/assets/tle-website-intake.css?v=20261108-picker">
 <script src="/assets/privacy-controls.js?v=20261026-1" data-site="tle"></script>
-<script src="/assets/tle-website-intake.js?v=20261108-ai-photo" defer></script>
-<script src="/assets/tle-website-intake-brief.js?v=20261108-picker" defer></script>
+<script src="/assets/tle-website-intake.js?v=20261108-essential-v2" defer></script>
+<script src="/assets/tle-website-intake-brief.js?v=20261108-essential-v2" defer></script>
 </head>
 <body data-package="website-basic">
 <header>
@@ -80,19 +80,34 @@
       <select name="customer_action" id="customer-action" required><option value="contact">Send an inquiry</option></select>
       <small id="action-hint" data-i18n="actionHint">Requests arrive by email; they are not automatic confirmed bookings or payments.</small>
      </label>
-     <label class="field full"><span data-i18n="inbox">Email that receives customer requests *</span>
-      <input name="preferred_email" type="email" required maxlength="254" autocomplete="email">
-      <small data-i18n="emailOnlyNote">Notifications are by email only. No SMS.</small>
-     </label>
-     <label class="field full"><span data-i18n="hoursShort">Business hours (optional)</span><input name="business_hours" maxlength="180" type="text" data-placeholder="hoursPlace"></label>
-     <label class="field full"><span data-i18n="domainOptionShort">Your website link *</span>
-      <select name="domain_option" id="domain-option" required>
-       <option value="need_link" data-i18n="needLink">I need a website link (included hosted link)</option>
-       <option value="have_domain" data-i18n="haveDomain">I have a domain</option>
-       <option value="want_custom" data-i18n="wantCustom">I'd like a custom domain (extra cost)</option>
+     <label class="field full"><span data-i18n="siteLangLabel">Website language</span>
+      <select name="website_language" id="website-language">
+       <option value="en" data-i18n="siteLangEnglish">English</option>
+       <option value="es" data-i18n="siteLangSpanish">Español</option>
+       <option value="both" data-i18n="siteLangBoth">English + Español</option>
       </select>
      </label>
-     <label class="field full" id="domain-field" hidden><span data-i18n="domain">Domain or desired name</span><input name="domain_preference" type="text" maxlength="200" placeholder="mybusiness.com"></label>
+     <details class="intake-optional full" id="website-extra-details">
+      <summary data-i18n="setupExtrasSummary">Different inquiry email, business hours or domain? (optional)</summary>
+      <div class="fields">
+       <label class="field full"><span data-i18n="inboxOptional">Email for customer requests (defaults to your checkout email)</span>
+        <input name="preferred_email" type="email" maxlength="254" autocomplete="email">
+        <small data-i18n="emailOnlyNote">Notifications are by email only. No SMS.</small>
+       </label>
+       <label class="field full"><span data-i18n="publicPhoneOptional">Business phone to show on your website (optional)</span>
+        <input name="phone" type="tel" autocomplete="tel" maxlength="35" placeholder="+1 (555) 123-4567">
+       </label>
+       <label class="field full"><span data-i18n="hoursShort">Business hours (optional)</span><input name="business_hours" maxlength="180" type="text" data-placeholder="hoursPlace"></label>
+       <label class="field full"><span data-i18n="domainOptionShort">Your website link</span>
+        <select name="domain_option" id="domain-option">
+         <option value="need_link" data-i18n="needLink">I need a website link (included hosted link)</option>
+         <option value="have_domain" data-i18n="haveDomain">I have a domain</option>
+         <option value="want_custom" data-i18n="wantCustom">I'd like a custom domain (extra cost)</option>
+        </select>
+       </label>
+       <label class="field full" id="domain-field" hidden><span data-i18n="domain">Domain or desired name</span><input name="domain_preference" type="text" maxlength="200" placeholder="mybusiness.com"></label>
+      </div>
+     </details>
     </div>
    </fieldset>
    <div class="divider"></div>

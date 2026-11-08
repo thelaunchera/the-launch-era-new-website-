@@ -58,6 +58,11 @@
   const flat=form.querySelector("#mainFlatServices"),estimate=form.querySelector("#mainEstimateServices"),generic=form.querySelector("[name=services]");
   if(!category||!style||!flat||!estimate||!generic)return;
   const base=makePanel(style.closest(".full"),es,"Choose services and prices","Elige servicios y precios","Pick each service, then choose fixed price, approximate estimate, or custom quote.","Marca tus servicios y elige precio fijo, estimado aproximado o cotización.");
+  // The guided service rows own the answer; hide the duplicate legacy pricing selector
+  // but keep its field for the existing backend payload after deriving an honest value.
+  style.hidden=true;style.required=false;
+  const legacyPricingLabel=style.parentElement?.querySelector("label");
+  if(legacyPricingLabel)legacyPricingLabel.hidden=true;
   const choicesBox=node("div");base.append(choicesBox);
   const other=input(base,es,"Another service (optional)","Otro servicio (opcional)");
   const entries=node("div");base.append(entries);
@@ -65,7 +70,10 @@
   fixedVisible.id="tleFixedPriceVisibility";
   const estimateVisible=select(base,es,"Show approximate estimates to customers?","¿Mostrar estimados aproximados a clientes?",[["no","No — owner review first","No — revisión primero"],["yes","Yes — clearly marked not final","Sí — indicando que no son finales"]]);
   estimateVisible.id="tleEstimatePriceVisibility";
-  const factorPane=makePanel(base,es,"What changes your estimate?","¿Qué cambia tus estimados?","Tap all that apply; no final prices will be invented.","Marca los factores; no se inventarán precios finales.");
+  const factorDisclosure=node("details",undefined,"tle-guided-estimate-optional");
+  factorDisclosure.append(node("summary",pick(es,"Estimate factors (optional)","Factores del estimado (opcional)")));
+  base.append(factorDisclosure);
+  const factorPane=makePanel(factorDisclosure,es,"What changes your estimate?","¿Qué cambia tus estimados?","Tap all that apply; no final prices will be invented.","Marca los factores; no se inventarán precios finales.");
   const getFactors=check(factorPane,es,factors,"estimate_factors");
   let read=()=>[],rows=new Map(),active=[];
   function render(){
@@ -95,7 +103,10 @@
     if(s.mode==="estimate"&&s.estimate_min!==null&&s.estimate_max!==null&&s.estimate_max<s.estimate_min){alert(pick(es,"Check the estimate range for "+s.name+".","Revisa el rango estimado de "+s.name+"."));return false}
     if(s.mode==="estimate"&&v.estimate_public_approved&&s.estimate_min===null){alert(pick(es,"To display estimates, add a starting price or choose not to display them.","Para mostrar estimados, indica un precio inicial o selecciona no mostrarlos."));return false}}
    return true}
-  function apply(){const v=values(),f=[],e=[],g=[];for(const s of v.services){const label=s.name.replace(/[\r\n]/g," ").slice(0,85);
+  function apply(){const v=values(),f=[],e=[],g=[];
+   const modes=new Set(v.services.map(service=>service.mode));
+   style.value=modes.has("fixed")?(modes.size>1?"mixed":"flat_rates"):(modes.has("estimate")?"estimates":"custom_quotes");
+   for(const s of v.services){const label=s.name.replace(/[\r\n]/g," ").slice(0,85);
    if(s.mode==="fixed"){const x=label+" — $"+s.fixed_price;f.push(x);g.push(x)}
    else{const x=label+" — "+(s.mode==="estimate"&&s.estimate_min!==null?"from $"+s.estimate_min+" (estimate only)":"custom quote");e.push(x);g.push(x)}}
    flat.value=f.join("\n");estimate.value=e.join("\n");generic.value=g.join("\n");
