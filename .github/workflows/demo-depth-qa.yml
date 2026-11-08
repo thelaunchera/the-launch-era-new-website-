@@ -1,0 +1,36 @@
+name: TLE Demo Visual Depth QA
+
+on:
+  pull_request:
+    paths:
+      - 'public/assets/tle-demo-depth-20261108.css'
+      - 'public/demos/index.html'
+      - 'public/demos/owner-center/index.html'
+      - 'public/website-for-your-business/index.html'
+      - 'public/es/website-for-your-business/index.html'
+      - 'scripts/qa-demo-depth.mjs'
+      - '.github/workflows/demo-depth-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'public/assets/tle-demo-depth-20261108.css'
+      - 'public/demos/index.html'
+      - 'public/demos/owner-center/index.html'
+      - 'public/website-for-your-business/index.html'
+      - 'public/es/website-for-your-business/index.html'
+      - 'scripts/qa-demo-depth.mjs'
+      - '.github/workflows/demo-depth-qa.yml'
+
+permissions:
+  contents: read
+jobs:
+  visual-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Confirm the editorial depth layer leaves demo behavior untouched
+        run: node scripts/qa-demo-depth.mjs
