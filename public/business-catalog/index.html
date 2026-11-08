@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#FAF8F3"><meta name="robots" content="noindex,follow">
+<title>Business Catalog · The Launch Era</title>
+<link rel="icon" type="image/svg+xml" href="/assets/brand/tle-mark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#191919;--paper:#faf8f3;--line:#e6e1d8;--yellow:#f2d85b;font-family:Prompt,'DM Sans',sans-serif;background:var(--paper);color:var(--ink)}*{box-sizing:border-box}body{margin:0;min-width:320px}a{color:inherit}header{padding:22px max(19px,calc((100vw - 1100px)/2));border-bottom:1px solid var(--line);background:#fff;display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font:700 12px/1.5 'Prompt',sans-serif;letter-spacing:.13em;text-decoration:none}.brand span{display:block;font-size:9px;font-weight:400;letter-spacing:.09em}.private-label{font-size:10px;color:#686059}main{max-width:1160px;margin:0 auto;padding:clamp(22px,4vw,53px) 18px 80px}.cover{background:#191919;border-radius:25px;color:#fff;padding:clamp(32px,6vw,75px);margin:0 0 30px;min-height:230px;display:flex;flex-direction:column;justify-content:center}.eyebrow{font-size:10px;font-weight:700;letter-spacing:.18em;color:var(--yellow)}.cover h1{font:400 clamp(39px,7vw,77px)/1 Georgia,serif;letter-spacing:-.045em;margin:15px 0}.cover p{font-size:12px;color:#dedcd6;line-height:1.75;max-width:460px}.intro{display:flex;justify-content:space-between;align-items:end;gap:16px;margin:25px 0 20px}.intro h2{font:400 clamp(30px,4vw,42px)/1.05 Georgia,serif;letter-spacing:-.03em;margin:0}.intro small{font-size:10px;color:#69645c}.category{margin-top:34px}.category h3{font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;border-bottom:1px solid var(--line);padding-bottom:12px;margin:0 0 16px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.item{border:1px solid var(--line);border-radius:19px;overflow:hidden;background:#fff;min-width:0}.item img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:#eee8df}.item-content{padding:20px}.item-content h4{font-size:15px;line-height:1.5;margin:0 0 5px}.item-content p{font-size:11px;color:#62605b;line-height:1.7;margin:0 0 13px}.price{font-size:16px;font-weight:700;display:inline-block}.strike{font-size:11px;color:#827d73;margin-left:7px;text-decoration:line-through}.discount{display:inline-flex;background:var(--yellow);font-size:10px;font-weight:700;padding:5px 8px;border-radius:99px;margin-left:8px}.status{display:grid;place-items:center;min-height:50dvh;color:#514d47;font-size:13px;text-align:center;line-height:1.8}footer{padding:27px 18px;text-align:center;color:#716d66;font-size:11px;border-top:1px solid var(--line)}footer a{text-decoration:underline;text-underline-offset:4px}[hidden]{display:none!important}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:520px){.grid{grid-template-columns:1fr;gap:14px}.cover{min-height:200px;border-radius:19px}.item{display:grid;grid-template-columns:132px 1fr;border-radius:14px}.item img{width:132px;height:100%;min-height:155px;aspect-ratio:auto}.item-content{padding:15px}.item-content h4{font-size:13px}.item-content p{font-size:10px}.intro{align-items:start;flex-direction:column}}@media(max-width:365px){.item{grid-template-columns:111px 1fr}.item img{width:111px}}
+</style>
+</head>
+<body>
+<header><span class="brand">YOUR BUSINESS <span>DIGITAL EXPERIENCE</span></span><span class="private-label">PUBLIC CATALOG</span></header>
+<main>
+ <section id="loading" class="status" role="status" aria-live="polite">Opening this catalog…</section>
+ <div id="content" hidden><div class="cover"><span class="eyebrow" id="type">DIGITAL MENU</span><h1 id="name">Your business</h1><p id="headline">Explore our current selection.</p></div><div class="intro"><div><span class="eyebrow" style="color:#6a655c">SELECTED FOR YOU</span><h2>Our collection</h2></div><small id="updated"></small></div><div id="groups"></div><p style="font-size:11px;line-height:1.8;color:#605d58;margin-top:36px">For reservations, orders or inquiries, contact the business through its official website. This page does not take payments or confirm bookings.</p></div>
+</main>
+<footer>Digital experience · <a href="https://thelaunchera.com/">Powered by The Launch Era</a></footer>
+<script type="module">
+const $=id=>document.getElementById(id);
+const escapeHtml=text=>String(text??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const key=new URLSearchParams(location.search).get("key")||"";
+const valid=/^[0-9a-f-]{36}$/i.test(key);
+const money=(v,c)=>new Intl.NumberFormat("en-US",{style:"currency",currency:c==="CAD"?"CAD":"USD"}).format(Number(v)||0);
+const modeText={menu:"DIGITAL MENU",products:"PRODUCT CATALOG",services:"SERVICES & REQUESTS"};
+(async()=>{
+ if(!valid){$("loading").textContent="This catalog link is incomplete.";return}
+ try{
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),14000);
+  let response;try{response=await fetch("https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-crm-catalog",{method:"POST",headers:{"Content-Type":"application/json","apikey":"sb_publishable_0TueitFYiRF3rAEMLMT8-w_FvbvY0rB"},body:JSON.stringify({action:"public",public_key:key}),signal:controller.signal})}finally{clearTimeout(timer)}
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok||data.ok!==true)throw Error("This catalog is not currently published.");
+  $("name").textContent=data.name||"Our Business";document.title=(data.name||"Business")+" · Digital Catalog";
+  $("type").textContent=modeText[data.mode]||"OUR COLLECTION";
+  $("headline").textContent=data.mode==="menu"?"Browse our menu and discover what is available.":data.mode==="services"?"Explore our services and ask about availability.":"Explore our available products.";
+  $("updated").textContent=data.updated_at?"Updated "+new Date(data.updated_at).toLocaleDateString("en-US"):"";
+  const items=Array.isArray(data.items)?data.items.filter(i=>i?.available):[];
+  if(!items.length)throw Error("This business has no available items right now.");
+  const categories=[...new Set(items.map(i=>i.category||"General"))];
+  $("groups").innerHTML=categories.map(category=>{
+   const cards=items.filter(i=>(i.category||"General")===category).map(i=>{
+    const image=/^https:\/\//.test(i.image_url||"")?'<img loading="lazy" src="'+escapeHtml(i.image_url)+'" alt="'+escapeHtml(i.name)+'">':'';
+    const price=Math.max(0,Number(i.price)||0),discount=Math.max(0,Math.min(90,Number(i.discount_percent)||0));
+    return '<article class="item">'+image+'<div class="item-content"><h4>'+escapeHtml(i.name)+'</h4><p>'+escapeHtml(i.description||"")+'</p><span class="price">'+money(price*(1-discount/100),data.currency)+'</span>'+(discount?'<span class="strike">'+money(price,data.currency)+'</span><span class="discount">'+discount+'% OFF</span>':'')+'</div></article>';
+   }).join("");
+   return '<section class="category"><h3>'+escapeHtml(category)+'</h3><div class="grid">'+cards+'</div></section>';
+  }).join("");
+  $("loading").hidden=true;$("content").hidden=false;
+ }catch(error){$("loading").textContent=error.message||"Catalog unavailable."}
+})();
+</script>
+</body></html>

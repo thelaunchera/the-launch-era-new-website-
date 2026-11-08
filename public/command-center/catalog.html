@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#FAF8F3">
+<title>Catalog Manager · The Launch Era Command Center</title>
+<link rel="icon" href="/assets/brand/tle-mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./assets/business-catalog.css?v=20261108-1">
+<script src="./assets/business-catalog.js?v=20261108-1" type="module"></script>
+</head>
+<body>
+<a href="#main" class="skip">Skip to catalog</a>
+<header class="site-head">
+ <a href="./" class="wordmark">THE LAUNCH ERA <span>COMMAND CENTER</span></a>
+ <div class="head-right"><span class="small-flag">PRIVATE BUSINESS WORKSPACE</span><a href="./" class="head-back">Back to Command Center</a></div>
+</header>
+<main id="main">
+ <section class="gate" id="gate" role="status" aria-live="polite"><div class="gate-inner"><span class="eyebrow">BUSINESS TOOLS</span><h1 id="gate-title">Checking your secure workspace…</h1><p id="gate-copy">Catalog changes are saved only after verified business sign-in.</p><a class="button primary" href="./" id="signin-link">Open Command Center</a></div></section>
+ <div id="workspace-ui" hidden>
+  <section class="intro">
+   <div><p class="eyebrow">PRODUCTS, MENUS &amp; SERVICES</p><h1>Make every detail <em>easy to manage.</em></h1><p>Update items, adjust prices, create offers and control availability. Publish only when you're ready.</p></div>
+   <div class="brand-picker"><label for="workspace">Your business</label><select id="workspace" aria-label="Choose your private business workspace"></select><small>Every business keeps its own private catalog.</small></div>
+  </section>
+  <section class="notice" aria-label="Catalog scope"><strong>One system, made for your business.</strong><span>Menu and product edits can appear on a linked public catalog after you publish. Customer inquiries stay in your Command Center. This does not process online orders or payments.</span></section>
+  <section class="top-controls" aria-label="Catalog controls">
+   <div class="field"><label for="mode">Catalog format</label><select id="mode"><option value="menu">Digital Menu</option><option value="products">Product Catalog</option><option value="services">Services + Requests</option></select></div>
+   <div class="field"><label for="currency">Currency</label><select id="currency"><option value="USD">USD · $</option><option value="CAD">CAD · $</option></select></div>
+   <div class="stats" aria-label="Your catalog summary"><div><span>Items</span><strong id="stat-items">0</strong></div><div><span>Offers</span><strong id="stat-offers">0</strong></div><div><span>Available</span><strong id="stat-available">0</strong></div></div>
+  </section>
+  <section class="work-area">
+   <div class="editor-col">
+    <div class="section-head"><div><p class="eyebrow">EDIT YOUR COLLECTION</p><h2 id="catalog-title">Your catalog</h2></div></div>
+    <div class="toolbar"><button type="button" class="button primary" id="add-item">+ Add item</button><label class="button outline pdf-button" for="pdf">Import menu PDF<input type="file" id="pdf" accept=".pdf,application/pdf" hidden></label></div>
+    <p class="helper">PDF import suggests items from selectable text. Review every name and price before publishing; scanned PDFs may need manual entry. The PDF stays on your device.</p>
+    <div class="filter-row"><label class="search"><span class="visually-hidden">Search your catalog</span><input type="search" id="search" placeholder="Search items…"></label><label class="category"><span class="visually-hidden">Filter category</span><select id="category-filter"><option value="">All categories</option></select></label></div>
+    <div id="items" class="item-list"></div><p id="empty" class="empty" hidden>No items yet. Add your first product or import an existing text-based menu PDF.</p>
+    <div class="publish-area">
+     <label class="publish-switch"><input id="publish" type="checkbox"><span><strong>Publish public catalog</strong><small>Only items marked available will appear to customers.</small></span></label>
+     <button type="button" class="button primary" id="save">Save catalog</button>
+     <div id="public-link-area" class="public-link" hidden><strong>Public catalog link</strong><div class="link-line"><input id="public-url" type="url" readonly aria-label="Public catalog URL"><button id="copy-link" class="button outline" type="button">Copy</button><a id="open-link" class="button outline" target="_blank" rel="noopener noreferrer" href="/business-catalog/">Open</a></div></div>
+     <p class="save-status" id="save-status" role="status" aria-live="polite">Changes are private until you publish.</p>
+    </div>
+   </div>
+   <aside class="preview-col"><div class="preview-header"><span class="eyebrow">CUSTOMER VIEW</span><strong>Live editor preview</strong></div><div class="preview-card"><div class="preview-banner"><small id="preview-type">DIGITAL MENU</small><h2 id="preview-business">Your Business</h2><p>Explore what we offer.</p></div><div id="preview-items" class="preview-grid"></div><p class="preview-foot">Sample presentation of your catalog. No orders, payments or reservations are made from this preview.</p></div>
+    <div class="insight-note"><strong>About insights</strong><p>Actual best-sellers, revenue and peak hours require connected order records. We won't show invented sales figures. Your existing Command Center continues to organize genuine customer inquiries and appointments.</p><a href="./">Open customer requests in Command Center</a></div>
+   </aside>
+  </section>
+ </div>
+</main>
+<footer>Built for your business · <a href="./">Powered by The Launch Era</a></footer>
+<dialog id="item-dialog" aria-labelledby="dialog-title">
+ <form id="item-form" novalidate>
+ <div class="dialog-head"><div><p class="eyebrow">EDIT CATALOG ITEM</p><h2 id="dialog-title">Edit item</h2></div><button type="button" id="close-dialog" class="close" aria-label="Close editor">×</button></div>
+ <div class="dialog-fields">
+  <label>Item name<input id="item-name" maxlength="90" required autocomplete="off"></label>
+  <label>Category<input id="item-category" maxlength="45" required autocomplete="off"></label>
+  <label>Short description<textarea id="item-desc" maxlength="240" rows="3"></textarea></label>
+  <div class="field-grid"><label>Price<input id="item-price" type="number" min="0" max="100000" step=".01" inputmode="decimal" required></label><label>Discount %<input id="item-discount" type="number" min="0" max="90" step="1" inputmode="numeric"></label></div>
+  <label>Image link (HTTPS)<input id="item-image" type="url" placeholder="https://your-website.com/item.jpg"></label>
+  <label class="check-label"><input type="checkbox" id="item-available" checked>Available for customers</label>
+  <div class="price-preview" id="price-preview" aria-live="polite"></div>
+ </div>
+ <div class="dialog-actions"><button type="button" class="button danger" id="delete-item">Delete</button><button type="button" class="button outline" id="cancel-item">Cancel</button><button class="button primary" type="submit">Update item</button></div>
+ </form>
+</dialog>
+<div class="toast" id="toast" aria-live="polite" role="status" hidden></div>
+</body>
+</html>
