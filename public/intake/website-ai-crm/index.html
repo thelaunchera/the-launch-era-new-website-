@@ -5,10 +5,10 @@
 <meta name="description" content="Private project setup for customers who completed The Launch Era website checkout.">
 <meta name="theme-color" content="#FAF8F3"><title>Website + AI Assistant + Automated CRM · Project Setup | The Launch Era</title>
 <link rel="icon" type="image/svg+xml" href="/assets/brand/tle-mark.svg">
-<link rel="stylesheet" href="/assets/tle-website-intake.css?v=20261108-short">
+<link rel="stylesheet" href="/assets/tle-website-intake.css?v=20261108-ai-photo">
 <script src="/assets/privacy-controls.js?v=20261026-1" data-site="tle"></script>
-<script src="/assets/tle-website-intake.js?v=20261108-short" defer></script>
-<script src="/assets/tle-website-intake-brief.js?v=20261108-bilingual" defer></script>
+<script src="/assets/tle-website-intake.js?v=20261108-ai-photo" defer></script>
+<script src="/assets/tle-website-intake-brief.js?v=20261108-ai-photo" defer></script>
 </head>
 <body data-package="website-ai-crm">
 <header>
@@ -105,6 +105,26 @@
       <small data-i18n="photoHelp">Up to 10 JPG, PNG, WebP or HEIC images · 8 MB each.</small>
      </label>
      <label class="field full"><span data-i18n="assetsShort">Or share a Drive link to your photos/logo (optional)</span><input name="brand_assets_url" type="url" maxlength="450" data-placeholder="assetsPlace"></label>
+     <div class="field full ai-photo-request" id="ai-photo-request">
+ <label class="ai-photo-choice" for="ai-photo-optin">
+  <input type="checkbox" id="ai-photo-optin" name="ai_photo_request" value="yes">
+  <span><strong data-i18n="aiPhotoQuestion">Want more polished product photos with AI?</strong><small data-i18n="aiPhotoHint">Optional: tell us if you want professional-looking product or service imagery for your new website.</small></span>
+ </label>
+ <a id="ai-photo-gallery-link" class="ai-photo-gallery-link" href="/demos/photo-gallery/?lang=en" target="_blank" rel="noopener noreferrer"><span data-i18n="aiPhotoBrowse">Browse our AI photo inspiration library</span><span aria-hidden="true">↗</span></a>
+ <div id="ai-photo-details" class="ai-photo-details" hidden>
+  <label class="field"><span data-i18n="aiPhotoGoal">What should we improve?</span>
+   <select name="ai_photo_goal" id="ai-photo-goal">
+    <option value="enhance_existing" data-i18n="aiPhotoExisting">Improve my existing product photos</option>
+    <option value="studio_background" data-i18n="aiPhotoBackdrop">Clean backgrounds and studio-style photos</option>
+    <option value="editorial_campaign" data-i18n="aiPhotoCampaign">Create editorial product campaign concepts</option>
+   </select>
+  </label>
+  <label class="field"><span data-i18n="aiPhotoReference">Example code from the gallery (optional)</span>
+   <input type="text" name="ai_photo_reference" id="ai-photo-reference" maxlength="80" placeholder="e.g., FD-01" autocomplete="off">
+  </label>
+  <p class="ai-photo-disclaimer" data-i18n="aiPhotoReview">This is a request for review, not automatic image generation. We will confirm the photo scope before creating anything. Please provide an original product photo using the upload or Drive link above.</p>
+ </div>
+</div>
      <div id="advanced-fields" class="full advanced-intake" hidden>
       <span class="intake-extra-heading" data-i18n="advancedTitle">AI &amp; email, tailored to your business</span>
       <label class="field"><span data-i18n="automationChoice">What email workflow matters most?</span>
