@@ -98,6 +98,14 @@ body{background:var(--paper)}
   .mobile-nav{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:8px 8px max(10px,env(safe-area-inset-bottom))}
   .mobile-nav .nav-button{min-height:53px;border-radius:12px}
   .mobile-nav .nav-button[aria-current=page]{box-shadow:0 3px 12px #C90B7344}
+  /* Keep edit actions above fixed iPhone tabs and make 44px targets. */
+  .catalog-list{padding-bottom:clamp(125px,29vh,205px)}
+  .product-card{scroll-margin-bottom:130px}
+  .product-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;align-items:stretch;margin-top:16px;position:relative;z-index:2}
+  .product-actions .text-button{display:flex;align-items:center;justify-content:center;min-height:46px;min-width:0;padding:10px 8px;border:1px solid #EAC6D9;border-radius:12px;background:#FFF1F8;color:#951051;font-size:11px;text-decoration:none;text-align:center;position:relative;z-index:2}
+  .product-actions .text-button:focus-visible{outline:3px solid #E88FBC;outline-offset:2px}
+  .item-row .text-button{min-height:44px;padding:10px;flex:none}
+  .editor-panel{scroll-margin-top:22px;scroll-margin-bottom:120px}
   .project-select{width:100%;min-width:0}
   .section-head{margin-top:25px}
 }
@@ -144,7 +152,7 @@ const BASE="/demos/";
 const ownerEntryReturnTo=new URLSearchParams(location.search).get("returnTo");
 const allowedOwnerReturnTo=new Set(["/","/es/","/website-for-your-business/","/es/website-for-your-business/"]);
 const safeOwnerEntryReturnTo=allowedOwnerReturnTo.has(ownerEntryReturnTo)?ownerEntryReturnTo:"";
-const ownerBackUrl=()=>BASE+"?demo="+encodeURIComponent(current)+(window.TLELocale?.isEs?"&lang=es":"")+(safeOwnerEntryReturnTo?"&returnTo="+encodeURIComponent(safeOwnerEntryReturnTo):"");
+const ownerBackUrl=()=>BASE+"?demo="+encodeURIComponent(current)+(new URLSearchParams(location.search).get("lang")==="es"?"&lang=es":"")+(safeOwnerEntryReturnTo?"&returnTo="+encodeURIComponent(safeOwnerEntryReturnTo):"");
 const themes={
  "golden-grid":{name:"Golden Grid",kind:"menu",accent:"#b88625",soft:"#f8edcf",hero:"/demos/golden-grid/resources/golden-1.png",site:"/demos/golden-grid/",items:[["The Golden Classic",13,0,"Waffles","Crisp edges, slow mornings","/demos/golden-grid/resources/golden-2.png"],["The At-Home Ritual",18,10,"Waffles","A breakfast moment worth keeping","/demos/golden-grid/resources/golden-3.png"],["Morning To Go",9,0,"Grab & Go","Little ritual, big flavor","/demos/golden-grid/resources/golden-6.png"]]},
  "la-vie-in-pink":{name:"La Vie in Pink",kind:"menu",accent:"#813942",soft:"#f6e8e5",hero:"/demos/la-vie-in-pink/resources/36a1bfe5-3660-4b7e-964d-8031fe824941.png",site:"/demos/la-vie-in-pink/",items:[["Butter Croissant",6,0,"Pâtisserie","A buttery morning classic",""],["Café Crème",5,10,"Coffee","Made for slow conversations",""],["Weekend Brunch",22,0,"Breakfast","A beautiful start to the day",""]]},
