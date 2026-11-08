@@ -19,7 +19,19 @@ try {
       const res=await page.goto(BASE+item.path,{waitUntil:'domcontentloaded',timeout:30000});
       assert.equal(res?.status(),200,item.name+' route returned non-200');
       const hero=page.locator(item.hero).first();
-      await hero.waitFor({state:'visible'});
+      try { await hero.waitFor({state:'visible',timeout:12000}); }
+      catch(error){
+        const detail=await page.evaluate(()=>({
+          heroCount:document.querySelectorAll('.hero').length,
+          appPresent:Boolean(document.querySelector('#app')),
+          appText:document.querySelector('#app')?.textContent?.slice(0,160),
+          heroRect:(()=>{const n=document.querySelector('.hero');if(!n)return null;const r=n.getBoundingClientRect();const s=getComputedStyle(n);return {width:r.width,height:r.height,display:s.display,visibility:s.visibility,opacity:s.opacity}})(),
+          bodyText:document.body?.innerText?.slice(0,200),
+          status:document.readyState
+        }));
+        console.error('HERO DIAGNOSTIC',item.name,width,JSON.stringify(detail),errors);
+        throw error;
+      }
       const photo=page.locator(item.img).first();
       await photo.scrollIntoViewIfNeeded();
       await photo.evaluate(async el=>{if(!el.complete)await new Promise((ok,fail)=>{el.addEventListener('load',ok,{once:true});el.addEventListener('error',fail,{once:true});})});
