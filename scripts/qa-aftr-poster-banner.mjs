@@ -12,6 +12,7 @@ for (const browserType of [chromium, webkit]) {
   try {
     for (const width of [360, 390, 768, 1024, 1440, 1920]) {
       const page = await browser.newPage({ viewport: { width, height: 850 }, deviceScaleFactor: 1 });
+      await page.emulateMedia({ reducedMotion: "no-preference" });
       const errors = [];
       page.on("pageerror", (e) => errors.push(e.message));
       await page.goto(base + "/demos/aftr/", { waitUntil: "load" });
