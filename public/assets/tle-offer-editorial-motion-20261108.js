@@ -21,6 +21,7 @@
  const owner=document.querySelector(".owner-experience");
  if(owner)targets.push(owner);
  const show=el=>el.classList.add("tle-offer-visible");
+ const hide=el=>{if(!el.matches(':focus-within'))el.classList.remove("tle-offer-visible")};
  if(reduce.matches||!("IntersectionObserver" in window)){
   targets.forEach(show);
   return;
