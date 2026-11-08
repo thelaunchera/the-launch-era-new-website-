@@ -9,20 +9,29 @@
     const cards = Array.from(gallery.querySelectorAll(':scope > button'));
     if(cards.length !== 9) return;
     done = true;
-    // Only decode current and two neighboring original PNGs at once.
-    // Full-size originals remain available to the existing lightbox.
-    const originalSources=cards.map(card=>card.querySelector('img')?.getAttribute('src')||'');
-    const lowMemoryView=window.matchMedia('(max-width:760px)').matches||window.self!==window.top;
-    const manageImages=(active)=>{
-      const needed=new Set([active,(active+cards.length-1)%cards.length,(active+1)%cards.length]);
-      cards.forEach((card,i)=>{
-        const img=card.querySelector('img');if(!img)return;
-        img.loading='lazy';img.decoding='async';
-        if(needed.has(i)){
-          if(img.getAttribute('src')!==originalSources[i])img.setAttribute('src',originalSources[i]);
-        }else if(img.hasAttribute('src'))img.removeAttribute('src');
+    // iPhone embeds decode large originals into the parent webview's memory.
+    // Retain full-resolution files for the lightbox, but mount only visible
+    // carousel images at any moment; keep navigation usable without autoplay.
+    const originalSources = cards.map(card => card.querySelector('img')?.dataset.originalSrc || card.querySelector('img')?.getAttribute('src') || '');
+    const lowMemoryView = window.matchMedia('(max-width: 760px)').matches || window.self !== window.top;
+    function manageImages(activeIndex) {
+      const needed = new Set([
+        activeIndex,
+        (activeIndex + cards.length - 1) % cards.length,
+        (activeIndex + 1) % cards.length
+      ]);
+      cards.forEach((card, i) => {
+        const img = card.querySelector('img');
+        if(!img) return;
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        if(needed.has(i)) {
+          if(img.getAttribute('src') !== originalSources[i]) img.setAttribute('src', originalSources[i]);
+        } else if(img.hasAttribute('src')) {
+          img.removeAttribute('src');
+        }
       });
-    };
+    }
 
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const toolbar = document.createElement('div');

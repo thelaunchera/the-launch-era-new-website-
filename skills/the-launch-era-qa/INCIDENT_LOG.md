@@ -7,6 +7,22 @@
 - **Routes:** canonical `/demos/golden-grid/` and `/demos/?demo=golden-grid` unchanged.
 
 
+
+## 2026-11-08 — SOVA close-up blurred hero / missing matching poster
+
+- **Reported:** iPad screenshot shows a blurred, overly cropped face in the SOVA opening hero.
+- **Verified source cause:** published `hero-motion-20261108.mp4` was an extremely compressed portrait clip (273 KB), stretched by a universal `object-fit:cover` hero video layer over a widescreen slot. A newer SOVA inline block referenced `hero-motion-poster-hq.webp` which was absent from the repository and forcibly hid the sharp approved hero image.
+- **Fix:** keep the original 1536×1024 approved `resources/01-hero.png` fully visible, remove missing poster masking and old SOVA video hook, and add an isolated SOVA HD loader with dimension/aspect guard, identical still poster, reduced-motion and data-saving fallback, no control interception, gentle cursor/scroll handling. GitHub Pages build now creates a short landscape cinematic loop from the exact original photo, rather than upscaling the portrait.
+- **QA contract:** `node scripts/qa-route-integrity.mjs --static`, Pages job output 1536×1024, direct public route in iPad/iPhone widths, original image always visible and no blank hero. GitHub source and generated artifact are distinct; production, browser and physical-device acceptance must be verified individually. No orders, clients, emails, menu items or other demos affected.
+
+## 2026-11-08 — Golden Grid freezes or blanks the in-app mobile demo preview
+
+- **Reported:** Golden Grid blocked the embedded preview and could make the enclosing Studio feel stuck; physical iPhone crash logs are unavailable, so the complete freeze root cause remains suspected.
+- **Verified source defects:** before the incident, the hero hid its approved image while the referenced initial motion poster was absent. The interactive carousel mounted nine original PNGs of roughly 2–2.5 MB each; the rotating layered gallery, full-resolution product interactions and hero video ran inside a mobile iframe. This combination risked excessive image decoding and GPU pressure, although physical-device memory use was not measured. A poster and new video were later uploaded concurrently in another branch.
+- **Mitigation merged:** PR #440, merge commit `62dc7823c33a0f2cd875b879b8fa21507257e16d`. Golden's original hero remains visible; pause only Golden's automatic video until actual device stability can be confirmed. Initial gallery source loads only photos 1, 2 and 9; current/adjacent slides are rotated in on demand. Stop timed carousel movement in mobile and embedded previews but preserve manual arrows/swipe, nine original photos and lightbox. The existing checkout/menu, URLs and other demo brands are unchanged.
+- **Verified test evidence:** pull-request GitHub Actions `Golden Grid iPhone Freeze Guard` #42524891909 SUCCESS in Chromium and WebKit for direct mobile-size demo, hero visibility, manual carousel, lightbox close, and close-and-return from the gallery iframe; original route, bilingual UI, icon and landing safety checks succeeded on that same PR. Follow-up main push workflows and GitHub Pages deployment remain separate. Real physical iPhone/Studio WebView acceptance **pending**; do not call it confirmed.
+- **Regression:** `scripts/qa-golden-grid-stability-20261108.mjs`, `.github/workflows/golden-grid-mobile-freeze-qa.yml`; broad editorial QA now has image-load deadline to avoid indefinite hangs.
+
 ## 2026-11-08 — Golden Grid observer storm blocked iPhone demo navigation
 
 - **Observed:** Main repeatable scroll regression reached SOVA successfully but timed out loading Golden Grid during DOMContentLoaded. The owner previously reported that Golden Grid could close or block the Studio preview.

@@ -4,6 +4,13 @@
 - No URLs, email/booking/payment destinations, tenant data or other brands' hero integrations changed. Browser CI and live iPhone proof pending.
 
 
+
+## 2026-11-08 — SOVA 1536×1024 HD hero recovery (no route changes)
+
+- **Canonical URL stays** `/demos/sova/`. Only SOVA's hero video loader and its scoped visual CSS change. Original `resources/01-hero.png` is always visible as the matching first frame; `/assets/tle-hero-cinematic-20261108.js` continues serving all other eligible brands.
+- **Pages artifact:** workflow `.github/workflows/pages.yml` creates `/demos/sova/media/hero-motion-hq-20261108.mp4` from the approved 1536×1024 horizontal photograph during the website build, replacing the public presentation of the old portrait clip without changing approved photos. Source videos remain retained for provenance.
+- **Scope:** no checkout, cart, bilingual content, pricing, forms, Studio/private pages, or backend modifications. Check route integrity, Pages build, HD dimensions and desktop/mobile video/photo frame alignment before claiming live release.
+
 ## 2026-11-08 — Bidirectional scroll animation maintenance (no route changes)
 
 - **Routes unchanged:** primary and secondary concept demos, `/demos/`, `/website-for-your-business/`, `/es/website-for-your-business/`, React marketing pages, and podcast/class landings retain the same canonical destinations and functionality.

@@ -34,7 +34,13 @@ try {
       }
       const photo=page.locator(item.img).first();
       await photo.scrollIntoViewIfNeeded();
-      await photo.evaluate(async el=>{if(!el.complete)await new Promise((ok,fail)=>{el.addEventListener('load',ok,{once:true});el.addEventListener('error',fail,{once:true});})});
+      await photo.evaluate(async el=>{
+        if(el.complete)return;
+        await Promise.race([
+          new Promise((ok,fail)=>{el.addEventListener('load',ok,{once:true});el.addEventListener('error',fail,{once:true});}),
+          new Promise((_,fail)=>setTimeout(()=>fail(new Error('Hero image never completed: '+el.currentSrc)),15000))
+        ]);
+      });
       assert(await photo.evaluate(el=>el.naturalWidth>=300&&el.naturalHeight>=150),item.name+' original hero image missing');
       assert.equal(await page.locator(item.cta).count(),1,item.name+' original hero CTA changed');
       const action=await page.locator(item.cta).first().getAttribute('href');
