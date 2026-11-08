@@ -1,0 +1,32 @@
+/* SOVA | Listening Stories — 5 individual campaign portraits. No changes to existing hero or 10-shot gallery. */
+#sova-moods{padding-top:10px;padding-bottom:8px;scroll-margin-top:88px}
+.sova-people-head{display:flex;justify-content:space-between;align-items:end;gap:32px;margin-bottom:30px}
+.sova-people-head .eyebrow{color:var(--blue,#1051c5);margin-bottom:12px}
+.sova-people-head h2{font:400 clamp(43px,5vw,80px)/1.02 var(--display,Anton,Impact,sans-serif);letter-spacing:-.025em;max-width:12ch;text-wrap:balance;color:var(--deep-blue,#07347f)}
+.sova-people-head p:last-child{font:500 14px/1.65 var(--body,'DM Sans',sans-serif);color:#606c81;max-width:31ch;padding-bottom:5px}
+.sova-people-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:18px}
+.sova-people-card{grid-column:span 2;display:block;min-width:0;text-decoration:none;color:var(--deep-blue,#07347f)}
+.sova-people-card:nth-child(n+4){grid-column:span 3}
+.sova-people-image{display:block;aspect-ratio:1/1;overflow:hidden;background:white;border-radius:15px;box-shadow:0 10px 24px #07347f0a}
+.sova-people-card:nth-child(n+4) .sova-people-image{aspect-ratio:760/498}
+.sova-people-image img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.sova-people-card:hover .sova-people-image img{transform:scale(1.035)}
+.sova-people-card:focus-visible{outline:3px solid var(--blue,#1051c5);outline-offset:5px;border-radius:15px}
+.sova-people-caption{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 3px 2px;font:700 11px/1.4 var(--body,'DM Sans',sans-serif);letter-spacing:.13em}
+.sova-people-caption em{font-style:normal;font-weight:500;letter-spacing:.02em;color:#788396;text-transform:none}
+.sova-people-swipe{display:none}
+@media(max-width:760px){
+ #sova-moods{padding-top:0;margin-top:68px;margin-bottom:62px}
+ .sova-people-head{display:block;margin-bottom:19px}
+ .sova-people-head h2{font-size:clamp(44px,11vw,63px);max-width:12ch}
+ .sova-people-head p:last-child{margin-top:11px;font-size:13px;padding:0}
+ .sova-people-swipe{display:block;margin:0 0 12px;font:700 10px/1.4 var(--body,'DM Sans',sans-serif);letter-spacing:.13em;color:#7c8aa3}
+ .sova-people-grid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax(245px,78vw);gap:12px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-inline:contain;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:1px 1px 16px}
+ .sova-people-grid::-webkit-scrollbar{display:none}
+ .sova-people-card,.sova-people-card:nth-child(n+4){grid-column:auto;scroll-snap-align:start}
+ .sova-people-image,.sova-people-card:nth-child(n+4) .sova-people-image{aspect-ratio:1/1;border-radius:13px}
+ .sova-people-card:nth-child(n+4) .sova-people-image img{object-fit:contain}
+ .sova-people-caption{font-size:10px;margin-top:9px}
+}
+@media(max-width:380px){.sova-people-caption em{display:none}}
+@media(prefers-reduced-motion:reduce){.sova-people-image img{transition:none}.sova-people-card:hover .sova-people-image img{transform:none}}
