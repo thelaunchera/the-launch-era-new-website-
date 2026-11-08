@@ -1,4 +1,4 @@
-/** Approved Golden Grid Canva video: tablet/desktop portrait clarity, iPhone stays still. */
+/** Golden Grid: sharp HD still + localized low-res syrup motion on tablet/desktop. */
 import { chromium, webkit } from 'playwright';
 import assert from 'node:assert/strict';
 
@@ -21,6 +21,9 @@ for (const engine of [chromium,webkit]) {
       assert.equal(response?.status(),200);
       const video=page.locator('[data-gg-approved-hero-video]');
       await video.waitFor({state:'visible'});
+      const original=page.locator('.hero-art > img');
+      await original.waitFor({state:'visible'});
+      await page.waitForFunction(()=>{const i=document.querySelector('.hero-art > img');return i?.complete&&i.naturalWidth>512;});
       await page.waitForFunction(()=>{
         const v=document.querySelector('[data-gg-approved-hero-video]');
         return v&&v.videoWidth===512&&v.videoHeight===682&&v.readyState>=2;
@@ -38,7 +41,9 @@ for (const engine of [chromium,webkit]) {
           fit:css.objectFit,visiblePhoto:photo&&getComputedStyle(photo).display!=='none',
           parentWidth:container.width,parentHeight:container.height,
           x:b.x,parentX:container.x,background:artStyle.backgroundImage,
-          padding:artStyle.padding,position:css.position
+          padding:artStyle.padding,position:css.position,
+          mask:css.maskImage||css.webkitMaskImage,
+          photoWidth:photo?.naturalWidth
         };
       });
       assert.ok(state.src.endsWith('/demos/golden-grid/media/hero-approved-canva-20261108.mp4'));
@@ -51,14 +56,16 @@ for (const engine of [chromium,webkit]) {
       assert.ok(Math.abs(state.x-state.parentX)<=2,'The video must start at the left edge of the hero');
       assert.ok(Math.abs(state.height-state.width*682/512)<3,'Video must retain its full original aspect ratio');
       assert.ok(Math.abs(state.height-state.parentHeight)<=3,'No empty space behind the video');
-      assert.equal(state.visiblePhoto,false,'Do not display the original photo behind the tablet/desktop video');
+      assert.equal(state.visiblePhoto,true,'Keep the high-resolution original hero visible under the localized motion');
+      assert.ok(state.photoWidth>512,'The crisp campaign image must be higher resolution than the overlay video');
+      assert.ok(state.mask.includes('radial-gradient'),'Motion must be feather-masked to syrup and waffles, never cover the sharp headline');
       assert.equal(state.background,'none','No yellow stripe or gradient behind the video');
       assert.equal(state.padding,'0px','No video framing/padding');
-      assert.equal(state.position,'relative');
+      assert.equal(state.position,'absolute');
       assert.equal(state.fit,'cover','Fill the exact hero edges without distortion');
       assert.deepEqual(errors,[]);
       await context.close();
-      console.log('PASS Golden Grid full-bleed video',engine.name(),name,Math.round(state.width),'CSS px');
+      console.log('PASS Golden Grid crisp full-width still + localized motion',engine.name(),name,Math.round(state.width),'CSS px');
     }
     for (const reducedMotion of ['no-preference','reduce']) {
       const context=await browser.newContext({
