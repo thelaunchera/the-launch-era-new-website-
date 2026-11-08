@@ -39,6 +39,8 @@ function mount(){
  if(getComputedStyle(target).position==='static')target.style.position='relative';
  const v=document.createElement('video');
  v.setAttribute('aria-hidden','true');
+ v.setAttribute('data-tle-cinematic-hero',brand);
+ v.setAttribute('data-tle-reactive-photo',''); // Shared cursor and scroll depth also moves the video layer.
  v.setAttribute('playsinline','');
  v.setAttribute('muted','');
  v.setAttribute('loop','');
@@ -53,14 +55,14 @@ function mount(){
    const original=target.querySelector(':scope > picture, :scope > img');
    if(original)original.insertAdjacentElement('afterend',v);else target.prepend(v);
    const overlay=target.querySelector('.hero-editorial-content,.hero-content,.hero-copy');
-   if(overlay){overlay.style.position='relative';overlay.style.zIndex='3';}
+   if(overlay){if(getComputedStyle(overlay).position==='static')overlay.style.position='relative';overlay.style.zIndex='3';}
  }else{
    target.appendChild(v);
    for(const el of target.children){if(el!==v&&!el.matches('img,picture,source')){const s=getComputedStyle(el);if(s.position==='static')el.style.position='relative';if(s.zIndex==='auto')el.style.zIndex='2';}}
  }
  if(brand==='soluna-yoga'){
   v.style.zIndex='4';
-  target.querySelectorAll('.hero-visual-caption,.visual-label').forEach(node=>{node.style.position='relative';node.style.zIndex='5';});
+  target.querySelectorAll('.hero-visual-caption,.visual-label').forEach(node=>{node.style.zIndex='5';});
  }
  v.src=file.href;video=v;
  observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting))sync();else stop();},{rootMargin:'80px'});
