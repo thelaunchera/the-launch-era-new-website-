@@ -1,5 +1,6 @@
 /* The Launch Era · Browser-only guided order journeys for concept demos.
-   No payment gateway, backend order, inventory, delivery availability or email is invoked.
+   No payment gateway, backend order, inventory, delivery availability or email is invoked;
+   no customer details are sent or saved.
    Product prices come from the same public price-parity catalog when available. */
 (function(){
 'use strict';
