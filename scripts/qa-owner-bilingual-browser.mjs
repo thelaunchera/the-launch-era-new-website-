@@ -110,6 +110,51 @@ try{
   const dims=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:innerWidth}));
   assert.ok(dims.scroll<=dims.width+2,"Owner business catalog overflows iPhone: "+slug);
  }
+
+ // iPhone screenshot regression: La Vie in Pink must show food, NEVER three copies
+ // of the storefront. Also protect users who edited prices in the older demo.
+ await page.goto(origin+"/demos/owner-center/?demo=la-vie-in-pink&lang=es",{waitUntil:"domcontentloaded",timeout:35000});
+ await page.evaluate(()=>{
+  const old=[
+   {id:"p1",name:"Butter Croissant",price:6,discount:0,category:"Pâtisserie",description:"A buttery morning classic",image:"",available:true},
+   {id:"p2",name:"Café Crème",price:5,discount:10,category:"Coffee",description:"Made for slow conversations",image:"",available:true},
+   {id:"p3",name:"Weekend Brunch",price:22,discount:0,category:"Breakfast",description:"A beautiful start to the day",image:"",available:true},
+  ];
+  localStorage.setItem("tle-owner-demo-v1-la-vie-in-pink",JSON.stringify(old));
+ });
+ await page.reload({waitUntil:"domcontentloaded"});
+ await page.locator('#mobile-nav [data-view="preview"]').click();
+ const expectedLaVie=[
+  "/demos/la-vie-in-pink/resources/8572492e-4032-4e82-a5d3-7e087ec38613.png",
+  "/demos/la-vie-in-pink/resources/3674f67a-abe7-4116-b01c-19afb41ae3d5.png",
+  "/demos/la-vie-in-pink/resources/28efa0a2-eefe-40b3-9398-b25bb8e0532a.png"
+ ];
+ const previewImages=page.locator("#large-preview .preview-card img");
+ assert.equal(await previewImages.count(),3,"Croissant, café crème and brunch must each have their own product image");
+ const urls=[];
+ for(let i=0;i<3;i++){
+  const image=previewImages.nth(i);
+  const src=await image.getAttribute("src");
+  urls.push(src);
+  assert.equal(src,expectedLaVie[i],"Incorrect food product photo at index "+i);
+  await image.scrollIntoViewIfNeeded();
+  await page.waitForFunction(index=>{
+   const img=document.querySelectorAll("#large-preview .preview-card img")[index];
+   return img&&img.complete&&img.naturalWidth>0;
+  },i,{timeout:25000});
+ }
+ assert.equal(new Set(urls).size,3,"No repeated storefront on food cards");
+ const productTitle=await page.locator("#large-preview .preview-card strong").allInnerTexts();
+ assert.match(productTitle[0],/Croissant de mantequilla/);
+ assert.match(productTitle[1],/Café crème/);
+ assert.match(productTitle[2],/Brunch del fin de semana/);
+ await page.screenshot({path:"qa-screenshots/demo-gallery/la-vie-three-food-photos-es-iphone.png"});
+ await page.locator('#mobile-nav [data-view="catalog"]').click();
+ const catalogImages=page.locator("#catalog-list .product-card .product-image");
+ assert.equal(await catalogImages.count(),3);
+ for(let i=0;i<3;i++)assert.equal(await catalogImages.nth(i).getAttribute("src"),expectedLaVie[i]);
+ console.log("PASS: La Vie Spanish iPhone preview/catelog: distinct croissant, coffee, brunch images load in browser even with legacy saved cards");
+
  console.log("PASS: six brand-specific Owner Center headings, tabs, previews and sample catalog categories");
 
  console.log("PASS: iPhone brand-specific request cards for Lavender, Marea, Yoga, Cakes and Cleaning in ES/EN");

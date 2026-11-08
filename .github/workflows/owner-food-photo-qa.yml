@@ -1,0 +1,30 @@
+name: Menu food photography QA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'public/demos/owner-center/index.html'
+      - 'scripts/qa-owner-food-photography.mjs'
+      - '.github/workflows/owner-food-photo-qa.yml'
+  pull_request:
+    paths:
+      - 'public/demos/owner-center/index.html'
+      - 'scripts/qa-owner-food-photography.mjs'
+      - '.github/workflows/owner-food-photo-qa.yml'
+
+permissions:
+  contents: read
+jobs:
+  product-photos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify 9 menu galleries and saved-preview photo migration
+        run: |
+          node --check scripts/qa-owner-food-photography.mjs
+          node scripts/qa-owner-food-photography.mjs

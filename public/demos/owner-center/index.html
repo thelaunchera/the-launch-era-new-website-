@@ -157,7 +157,7 @@ const safeOwnerEntryReturnTo=allowedOwnerReturnTo.has(ownerEntryReturnTo)?ownerE
 const ownerBackUrl=()=>BASE+"?demo="+encodeURIComponent(current)+(new URLSearchParams(location.search).get("lang")==="es"?"&lang=es":"")+(safeOwnerEntryReturnTo?"&returnTo="+encodeURIComponent(safeOwnerEntryReturnTo):"");
 const themes={
  "golden-grid":{name:"Golden Grid",kind:"menu",accent:"#b88625",soft:"#f8edcf",hero:"/demos/golden-grid/resources/golden-1.png",site:"/demos/golden-grid/",items:[["The Golden Classic",13,0,"Waffles","Crisp edges, slow mornings","/demos/golden-grid/resources/golden-2.png"],["The At-Home Ritual",18,10,"Waffles","A breakfast moment worth keeping","/demos/golden-grid/resources/golden-3.png"],["Morning To Go",9,0,"Grab & Go","Little ritual, big flavor","/demos/golden-grid/resources/golden-6.png"]]},
- "la-vie-in-pink":{name:"La Vie in Pink",kind:"menu",accent:"#813942",soft:"#f6e8e5",hero:"/demos/la-vie-in-pink/resources/36a1bfe5-3660-4b7e-964d-8031fe824941.png",site:"/demos/la-vie-in-pink/",items:[["Butter Croissant",6,0,"Pâtisserie","A buttery morning classic",""],["Café Crème",5,10,"Coffee","Made for slow conversations",""],["Weekend Brunch",22,0,"Breakfast","A beautiful start to the day",""]]},
+ "la-vie-in-pink":{name:"La Vie in Pink",kind:"menu",accent:"#813942",soft:"#f6e8e5",hero:"/demos/la-vie-in-pink/resources/36a1bfe5-3660-4b7e-964d-8031fe824941.png",site:"/demos/la-vie-in-pink/",items:[["Butter Croissant",6,0,"Pâtisserie","A buttery morning classic","/demos/la-vie-in-pink/resources/8572492e-4032-4e82-a5d3-7e087ec38613.png"],["Café Crème",5,10,"Coffee","Made for slow conversations","/demos/la-vie-in-pink/resources/3674f67a-abe7-4116-b01c-19afb41ae3d5.png"],["Weekend Brunch",22,0,"Breakfast","A beautiful start to the day","/demos/la-vie-in-pink/resources/28efa0a2-eefe-40b3-9398-b25bb8e0532a.png"]]},
  "havana-19":{name:"Havana 19",kind:"menu",accent:"#813a32",soft:"#efe2da",hero:"/demos/havana-19/photos/HAVANA19_Hero_Fachada_Borgona.jpeg",site:"/demos/havana-19/",items:[["Ropa Vieja",24,0,"Entrées","A comforting Cuban classic","/demos/umbral/photos/UMBRAL_03_Ropa_Vieja.jpeg"],["Camarones Enchilados",27,10,"Entrées","A little heat, a lot of character","/demos/umbral/photos/UMBRAL_02_Camarones_Enchilados.jpeg"],["Flan de la Casa",9,0,"Desserts","Sweet finish","/demos/umbral/photos/UMBRAL_04_Flan.jpeg"]]},
  "ivory-and-bloom":{name:"Ivory & Bloom",kind:"menu",accent:"#b48799",soft:"#f6edf0",hero:"/demos/ivory-and-bloom/images/hero-cake-artist.webp",site:"/demos/ivory-and-bloom/",items:[["Blush Garden",240,0,"Wedding Cakes","An elegant floral wedding cake","/demos/ivory-and-bloom/images/rose-heirloom-pink.webp"],["Midnight Ribbon",280,0,"Wedding Cakes","A statement cake for a special day","/demos/ivory-and-bloom/images/midnight-romance-black.webp"],["Sweet Table",85,10,"Dessert Tables","Little details for the celebration","/demos/ivory-and-bloom/images/raspberry-tartlets.webp"]]},
  "crumb":{name:"CRUMB",kind:"menu",accent:"#37699c",soft:"#e5eef7",hero:"/demos/crumb/assets/CRUMB_Storefront_Approved_20261030.webp",site:"/demos/crumb/",items:[["Classic Chocolate Chip",4.5,0,"Cookies","Soft center, crisp edges","/demos/crumb/assets/classic.webp"],["Double Chocolate",5,15,"Cookies","Rich and deeply chocolate","/demos/crumb/assets/double.webp"],["Salted Caramel",5,0,"Cookies","Sweet meets salty","/demos/crumb/assets/caramel.webp"],["White Chocolate Raspberry",5.5,0,"Cookies","A bright little surprise","/demos/crumb/assets/raspberry.webp"]]},
@@ -182,7 +182,21 @@ let current=new URLSearchParams(location.search).get("demo")||"seasonal-brew";
 if(!themes[current])current="seasonal-brew";
 let currentView="dashboard",editedId=null,items=[],search="",timer;
 const key=()=>"tle-owner-demo-v1-"+current;
-const load=()=>{try{const saved=JSON.parse(localStorage.getItem(key())||"null");if(Array.isArray(saved)&&saved.every(v=>v&&typeof v.id==="string"&&typeof v.name==="string"))return saved.slice(0,75)}catch(e){}return baseItems(themes[current]);};
+// Existing browsers may have saved these original La Vie demo products before the
+// product photos were linked. Fill only missing/legacy storefront images; preserve
+// all user-edited names, prices, discounts and any custom image replacements.
+const restoreDefaultProductPhotos=saved=>{
+ if(current!=="la-vie-in-pink")return saved;
+ const cfg=themes[current];
+ return saved.map(item=>{
+  const defaultItem=cfg.items[Number(String(item.id).replace(/^p/,""))-1];
+  if(!defaultItem||!defaultItem[5]||!/^p[123]$/.test(item.id))return item;
+  const oldSrc=String(item.image||"").trim();
+  if(oldSrc&&oldSrc!==cfg.hero)return item;
+  return {...item,image:defaultItem[5]};
+ });
+};
+const load=()=>{try{const saved=JSON.parse(localStorage.getItem(key())||"null");if(Array.isArray(saved)&&saved.every(v=>v&&typeof v.id==="string"&&typeof v.name==="string"))return restoreDefaultProductPhotos(saved.slice(0,75))}catch(e){}return baseItems(themes[current]);};
 const persist=()=>{try{localStorage.setItem(key(),JSON.stringify(items))}catch(e){toast("Browser storage is off. Changes last until you leave.");}};
 const toast=m=>{const n=$("#toast");n.textContent=window.TLELocale?.tr(m)||m;n.classList.add("show");clearTimeout(timer);timer=setTimeout(()=>n.classList.remove("show"),3000)};
 const priceOf=p=>Math.max(0,Number(p.price)||0)*(1-Math.max(0,Math.min(90,Number(p.discount)||0))/100);
