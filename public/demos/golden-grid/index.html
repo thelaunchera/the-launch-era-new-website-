@@ -13,8 +13,18 @@
 <link rel="stylesheet" href="/assets/tle-demo-tactile-20261108.css?v=2">
   <link rel="stylesheet" href="/assets/tle-demo-scroll-art-20261108.css?v=4">
   <link rel="stylesheet" href="/assets/tle-demo-footer-finale-20261108.css?v=1">
-
-<!-- Approved hero photography remains visible until a matching, verified motion poster is available. -->
+<!-- Golden Grid stability: keep approved original hero visible until a matching,
+     verified motion poster exists. The missing poster cannot hide the image. -->
+<style id="tle-golden-mobile-stability">
+@media(max-width:760px){
+  html[data-tle-one-motion="golden-grid"] .hero-art img{
+    transform:none!important;filter:none!important;will-change:auto!important;
+  }
+  html[data-tle-one-motion="golden-grid"] #campaign .gallery.golden-featured-carousel{
+    perspective:none;
+  }
+}
+</style>
 </head>
 <body data-tle-company="demo">
 <div id="app">
@@ -69,12 +79,12 @@
 <dialog id="contact-dialog" aria-labelledby="contact-title"><button class="close" data-close="contact-dialog" aria-label="Close contact">×</button><div class="dialog-copy"><p class="eyebrow">GOLDEN GRID · WAFFLE CO.</p><h2 id="contact-title" data-en="Let's <em>talk.</em>" data-es="Vamos a <em>hablar.</em>">Let's <em>talk.</em></h2><p data-en="Try the contact experience. This demo does not send messages." data-es="Prueba la experiencia de contacto. Este demo no envía mensajes.">Try the contact experience. This demo does not send messages.</p><form id="contact-form"><label for="name" data-en="Name" data-es="Nombre">Name</label><input id="name" name="name" required maxlength="80" autocomplete="name"><label for="email" data-en="Email" data-es="Correo">Email</label><input id="email" name="email" type="email" required autocomplete="email"><label for="message" data-en="Message" data-es="Mensaje">Message</label><textarea id="message" name="message" required maxlength="1500" rows="3"></textarea><button type="submit" class="button" data-en="Preview message" data-es="Vista previa del mensaje">Preview message</button></form><p id="contact-result" role="status" hidden></p></div></dialog></div>
 
 <script defer src="/assets/tle-demo-inquiry-mobile-20261107.js?v=1"></script>
-<script defer src="./golden-gallery-20261107.js?v=1"></script>
+<script defer src="./golden-gallery-20261107.js?v=2"></script>
 <script defer src="/assets/tle-demo-original-prices-20261108.js?v=2" data-tle-demo-price-slug="golden-grid"></script>
 <script defer src="/assets/tle-demo-tactile-20261108.js?v=2"></script>
   <script defer src="/assets/tle-demo-scroll-art-20261108.js?v=4"></script>
   <script defer src="/assets/tle-demo-footer-finale-20261108.js?v=3"></script>
 <script defer src="/assets/tle-demo-order-journey-20261108.js?v=2" data-tle-order-slug="golden-grid"></script>
-<script defer src="/assets/tle-hero-cinematic-20261108.js?v=7"></script>
+<!-- Golden Grid video paused pending mobile stability QA; other brand heroes unaffected. -->
 </body>
 </html>
