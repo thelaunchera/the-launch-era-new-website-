@@ -5,6 +5,7 @@
 - **Repair:** enforce the original approved 1122×1402 PNG as the actual Golden Grid hero (and video poster) at the very end of Pages photo optimization, allowing existing WebP compression for gallery and catalog thumbnails. Update post-build QA to require source PNG, static iPad CSS and optional SVG motion instead of an obsolete low-res video mask. Exempt Golden Grid only from the reactive-hero scale requirement; keep all other demos' depth tests unchanged.
 - **Release evidence still required:** successful post-optimization Pages build, image reference readback, Golden Grid WebKit/Chromium responsive tests, gallery/cart/preview return and actual physical iPad review. Preserve the owner's separate phone-video behavior and do not call the perceived-quality problem closed from code-only status.
 
+
 ## 2026-11-08 — Owner requests a fully static Golden Grid tablet hero
 
 - **Owner requirement:** “En el tablet deja solo la foto estática.” This supersedes earlier attempts to animate the syrup on iPad.
