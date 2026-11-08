@@ -105,3 +105,76 @@ html[data-tle-one-motion="experience-cleaning"] .hero-cleaning-site .hero-full-p
     animation:none !important; 
   }
 }
+
+
+/* The Launch Era — brand-led post-hero banner edit, 2026-11-08.
+   Each demo has ONE hero OR banner motion signature, not both.
+   Functional navigation, purchase CTAs, galleries, color pickers and forms remain.
+   Hidden elements below are repetitive decorative marquees only. */
+
+/* SOVA — keep the interactive headphone color picker, not an extra animation. */
+html[data-tle-one-motion="sova"] .mood-strip {
+  border-bottom:1px solid #1f54c42b;
+}
+html[data-tle-one-motion="sova"] .mood-strip > span {
+  color:#1448a8;letter-spacing:.11em;
+}
+/* GOLDEN GRID — this crisp gold brand ribbon IS the motion signature. */
+html[data-tle-one-motion="golden-grid"] .hero-art img {animation:none!important}
+html[data-tle-one-motion="golden-grid"] .ticker {
+  background:#f4ca51;color:#2b241b;overflow:hidden;
+}
+html[data-tle-one-motion="golden-grid"] .ticker-track {
+  animation:goldenGridMarquee 27s linear infinite!important;
+}
+html[data-tle-one-motion="golden-grid"] .ticker:hover .ticker-track,
+html[data-tle-one-motion="golden-grid"] .ticker:focus-within .ticker-track {
+  animation-play-state:paused!important;
+}
+/* CASA BROWNIE — approved hero + real product photography carry the story.
+   Remove the duplicated moving sales tapes, retain the demo disclaimer above. */
+html[data-tle-one-motion="casa-brownie"] .cb-marquee,
+html[data-tle-one-motion="casa-brownie"] .cb-gift-ribbon {display:none!important}
+/* CRUMB — keep concise bakery perks under hero as STATIC proof,
+   discard the two-row decorative repeat near the end. */
+html[data-tle-one-motion="crumb"] .hero-strip.hero-perks {
+  background:#d7eaf5;box-shadow:none;border-bottom:1px solid #aacde4;
+}
+html[data-tle-one-motion="crumb"] .crumb-marquee {display:none!important}
+/* HAVANA 19 — no new strip. Let the existing photography lead. */
+/* IVORY & BLOOM — no competing ticker below the wedding-cake editorial hero. */
+/* LA VIE IN PINK — remove generic multilingual scrolling phrases; leave
+   the croissant photography and restrained original brand typography. */
+html[data-tle-one-motion="la-vie-in-pink"] section.ticker {display:none!important}
+/* MAREA — one short, static typographic brand strip; no duplicate repeats. */
+html[data-tle-one-motion="marea-wigs-miami"] .type-strip {
+  justify-content:center;padding-inline:18px;text-align:center;
+}
+html[data-tle-one-motion="marea-wigs-miami"] .type-strip span + span {display:none!important}
+/* AFTR — keep approved photographic marquee as the only signature.
+   The title and night-club buttons remain visible, static and fully accessible. */
+html[data-tle-one-motion="aftr"] .hero-content h1 {animation:none!important}
+html[data-tle-one-motion="aftr"] .ticker.ticker-poster-banner {
+  background:#a268f2;height:clamp(66px,8.4vw,96px);
+}
+html[data-tle-one-motion="aftr"] .ticker-poster-banner .ticker-poster-track {
+  animation:aftr-poster-slide 36s linear infinite!important;
+}
+html[data-tle-one-motion="aftr"] .ticker-poster-banner:hover .ticker-poster-track,
+html[data-tle-one-motion="aftr"] .ticker-poster-banner:focus-within .ticker-poster-track {
+  animation-play-state:paused!important;
+}
+/* THE LAVENDER EDIT — hero still opens softly, without a slogan marquee. */
+html[data-tle-one-motion="lavender-edit"] .marquee {display:none!important}
+/* EXPERIENCE CLEANING — service-intro band remains static and functional. */
+@media(max-width:600px){
+  html[data-tle-one-motion="golden-grid"] .ticker-group {padding-block:11px}
+  html[data-tle-one-motion="aftr"] .ticker.ticker-poster-banner {height:66px}
+}
+/* Reduced motion always wins over the three editorial marquees. */
+@media(prefers-reduced-motion:reduce){
+  html[data-tle-one-motion="golden-grid"] .ticker-track,
+  html[data-tle-one-motion="aftr"] .ticker-poster-banner .ticker-poster-track {
+    animation:none!important;transform:none!important;
+  }
+}
