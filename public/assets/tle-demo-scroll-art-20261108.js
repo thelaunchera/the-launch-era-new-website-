@@ -8,7 +8,7 @@
  const media=window.matchMedia?.('(prefers-reduced-motion: reduce)');
  const processed=new WeakSet();
  const pending=new Set();
- const exclusion='.hero,.site-header,header,nav,footer,.ticker,.marquee,.banner,.announcement,.modal,.drawer,.cart,.checkout,.preview,.receipt,.form-card,.form-panel,form,dialog,[role="dialog"],[hidden],[aria-hidden="true"]';
+ const exclusion='.hero,.site-header,nav,footer,.ticker,.marquee,.banner,.announcement,.modal,.drawer,.cart,.checkout,.preview,.receipt,.form-card,.form-panel,form,dialog,[role="dialog"],[hidden],[aria-hidden="true"]';
  let observer=null,scheduled=false;
  const done=el=>{
    if(!el)return;
