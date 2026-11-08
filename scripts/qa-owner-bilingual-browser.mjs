@@ -55,6 +55,41 @@ try{
  await page.waitForFunction(()=>document.querySelector("#demo-viewer")?.open===true,null,{timeout:15000});
  await page.locator("#viewer-close").click();
  await page.waitForURL(u=>u.pathname==="/es/website-for-your-business/"&&u.hash==="#inicio",{timeout:15000});
+
+ // Previously all non-menu brands inherited the residential cleaning cards.
+ // Verify the actual rendered iPhone content for the lavender store and peers.
+ const cases=[
+  ["lavender-edit","Solicitudes","Set de regalo de lavanda",false],
+  ["marea-wigs-miami","Citas","Prueba privada de peluca",false],
+  ["soluna-yoga","Reservas","Disponibilidad de cupo",false],
+  ["ivory-and-bloom","Consultas","Pastel floral",false],
+  ["experience-cleaning","Solicitudes","Limpieza residencial estándar",true],
+ ];
+ for(const [slug,nav,detail,allowsResidential] of cases){
+  await page.goto(origin+"/demos/owner-center/?demo="+slug+"&lang=es",{waitUntil:"domcontentloaded",timeout:35000});
+  const requestsButton=page.locator('#mobile-nav [data-view="requests"]');
+  assert.equal((await requestsButton.innerText()).trim(),nav,"The tab label must match business type: "+slug);
+  await requestsButton.click();
+  await page.locator("#requests-list .request").first().waitFor({state:"visible"});
+  assert.equal(await page.locator("#requests-list .request").count(),3,"Each brand has three simulated cards: "+slug);
+  const rendered=await page.locator("#requests-list").innerText();
+  assert.ok(rendered.includes(detail),"Expected brand-specific inquiry not present: "+slug);
+  if(!allowsResidential)assert.doesNotMatch(rendered,/residencial|residential/i,"Unrelated business must never inherit cleaning requests: "+slug);
+  assert.match(rendered,/SIMULADO/,"Every card remains clearly simulated: "+slug);
+  const width=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,viewport:innerWidth}));
+  assert.ok(width.scroll<=width.viewport+2,"Brand request cards must not overflow iPhone: "+slug);
+  if(slug==="lavender-edit"){
+   await page.screenshot({path:"qa-screenshots/demo-gallery/owner-lavender-es-brand-specific-requests.png",fullPage:true});
+   await page.locator('.tle-demo-lang a[lang="en"]').click();
+   await page.waitForURL(u=>u.searchParams.get("demo")==="lavender-edit"&&u.searchParams.get("lang")==="en");
+   await page.locator('#mobile-nav [data-view="requests"]').click();
+   const english=await page.locator("#requests-list").innerText();
+   assert.match(english,/Lavender gift set/,"The correct gift-store inquiry must render in English");
+   assert.doesNotMatch(english,/Residential|Home Cleaning/i);
+  }
+ }
+ console.log("PASS: iPhone brand-specific request cards for Lavender, Marea, Yoga, Cakes and Cleaning in ES/EN");
+
  console.log("PASS: iPhone Spanish sales → Customer → Owner → edit discount/price → preview → reset → EN/ES switch → original Spanish sales page");
 }finally{
  await browser.close();
