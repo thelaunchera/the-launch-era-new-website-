@@ -23,10 +23,10 @@ try{
  assert.equal((await page.locator("#viewer-owner").innerText()).trim(),"Vista del propietario");
  await page.locator("#viewer-owner").click();
  await page.waitForURL(u=>u.pathname==="/demos/owner-center/"&&u.searchParams.get("demo")==="golden-grid"&&u.searchParams.get("lang")==="es",{timeout:15000});
- assert.match(await page.locator("#heading").innerText(),/Tu menú/);
- assert.match(await page.locator("#subheading").innerText(),/MENÚ DIGITAL/);
+ assert.match(await page.locator("#heading").innerText(),/Tu colección de waffles/);
+ assert.match(await page.locator("#subheading").innerText(),/COLECCIÓN DE WAFFLES/);
  assert.match(await page.locator("#breadcrumbs").innerText(),/VOLVER AL DEMO/);
- assert.equal((await page.locator('#mobile-nav [data-view="catalog"]').innerText()).trim(),"Menú");
+ assert.equal((await page.locator('#mobile-nav [data-view="catalog"]').innerText()).trim(),"Productos");
  const overflow=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:innerWidth}));
  assert.ok(overflow.scroll<=overflow.width+2,"Spanish Owner Center should not overflow on iPhone "+JSON.stringify(overflow));
  await page.screenshot({path:"qa-screenshots/demo-gallery/owner-spanish-dashboard-iphone.png",fullPage:false});
@@ -47,7 +47,7 @@ try{
  assert.match(await page.locator("#large-preview .preview-card").first().locator("b").innerText(),/13/,"Reset restores original price");
  await page.locator('.tle-demo-lang a[lang="en"]').click();
  await page.waitForURL(u=>u.pathname==="/demos/owner-center/"&&u.searchParams.get("lang")==="en",{timeout:15000});
- assert.match(await page.locator("#heading").innerText(),/Your menu/);
+ assert.match(await page.locator("#heading").innerText(),/Your waffle collection/);
  await page.locator('.tle-demo-lang a[lang="es"]').click();
  await page.waitForURL(u=>u.pathname==="/demos/owner-center/"&&u.searchParams.get("lang")==="es",{timeout:15000});
  await page.locator("#breadcrumbs").click();
@@ -88,6 +88,30 @@ try{
    assert.doesNotMatch(english,/Residential|Home Cleaning/i);
   }
  }
+
+ // Cross-brand integrity: original industries must determine UI labels and editor defaults.
+ const brandCases=[
+  ["ivory-and-bloom","Diseños","Tus diseños de pasteles.","Pasteles de boda","COLECCIÓN DE PASTELES"],
+  ["crumb","Productos","Tu colección de galletas.","Galletas","LA COLECCIÓN DE GALLETAS"],
+  ["casa-brownie","Productos","Tu colección de brownies.","Brownies","LA COLECCIÓN DE BROWNIES"],
+  ["lavender-edit","Colección","Tu colección de lavanda.","Regalos","THE LAVENDER EDIT"],
+  ["soluna-yoga","Clases","Tus clases de yoga.","Clases","CLASES DE YOGA"],
+  ["experience-cleaning","Servicios","Tus servicios de limpieza.","Residencial","SERVICIOS DE LIMPIEZA"],
+ ];
+ for(const [slug,nav,heading,category,caption] of brandCases){
+  await page.goto(origin+"/demos/owner-center/?demo="+slug+"&lang=es",{waitUntil:"domcontentloaded",timeout:35000});
+  assert.ok((await page.locator("#heading").innerText()).includes(heading),"Correct business heading: "+slug);
+  assert.equal((await page.locator('#mobile-nav [data-view="catalog"]').innerText()).trim(),nav,"Correct catalog tab for "+slug);
+  assert.ok((await page.locator("#small-preview .phone-caption").innerText()).includes(caption),"Correct customer context: "+slug);
+  await page.locator('#mobile-nav [data-view="catalog"]').click();
+  await page.locator('#catalog-view [data-owner-command="add"]').click();
+  assert.equal(await page.locator("#item-category").inputValue(),category,"Add-item category is brand-specific: "+slug);
+  assert.match(await page.locator("#editor-title").innerText(),/Agregar/,"Editor should remain in Spanish");
+  const dims=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:innerWidth}));
+  assert.ok(dims.scroll<=dims.width+2,"Owner business catalog overflows iPhone: "+slug);
+ }
+ console.log("PASS: six brand-specific Owner Center headings, tabs, previews and sample catalog categories");
+
  console.log("PASS: iPhone brand-specific request cards for Lavender, Marea, Yoga, Cakes and Cleaning in ES/EN");
 
  console.log("PASS: iPhone Spanish sales → Customer → Owner → edit discount/price → preview → reset → EN/ES switch → original Spanish sales page");
