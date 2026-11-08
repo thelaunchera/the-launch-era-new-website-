@@ -193,3 +193,78 @@
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});
   else boot();
 })();
+
+
+/* TLE hero video assets — first 10 / November 8, 2026.
+   Progressive enhancement only: if a reviewed MP4 has not been uploaded, keep the approved hero image.
+   No changes to checkouts, reservations, forms or gallery behavior. */
+(() => {
+  'use strict';
+  const brand=document.documentElement.dataset.tleOneMotion;
+  const hosts={
+    'crumb':'.hero',
+    'casa-brownie':'.hero-photo',
+    'havana-19':'.hero',
+    'ivory-and-bloom':'.hero .hero-photo',
+    'marea-wigs-miami':'.hero-visual',
+    'aftr':'.hero-image',
+    'lavender-edit':'.hero-art',
+    'experience-cleaning':'.hero',
+    'seasonal-brew':'.hero-media'
+  };
+  if(!hosts[brand])return;
+  // Identity/scene match pending: never replace an approved face, logo, or storefront by accident.
+  if(new Set(['marea-wigs-miami','la-vie-in-pink','experience-cleaning']).has(brand))return;
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+  const width=matchMedia('(max-width: 900px)');
+  const narrowOnly=new Set(['crumb','havana-19','aftr','experience-cleaning']);
+  const eligible=()=>!reduced.matches&&(!narrowOnly.has(brand)||width.matches);
+  const videoURL=new URL('media/hero-motion-20261108.mp4',location.href);
+  const posterURL=new URL('media/hero-motion-poster.webp',location.href);
+  let video=null,host=null,confirmed=false;
+  function sync(){
+    if(!video)return;
+    if(!eligible()||document.hidden){video.pause();video.hidden=true;return}
+    video.hidden=false;
+    const rect=host.getBoundingClientRect();
+    if(rect.top<innerHeight&&rect.bottom>0){video.play().catch(()=>{video.style.opacity='0'})}
+    else video.pause();
+  }
+  function mount(){
+    if(video||!eligible())return;
+    host=document.querySelector(hosts[brand]);
+    if(!host||host.getBoundingClientRect().width===0)return;
+    if(getComputedStyle(host).position==='static')host.style.position='relative';
+    const v=document.createElement('video');
+    v.setAttribute('aria-hidden','true');v.tabIndex=-1;
+    v.muted=true;v.defaultMuted=true;v.playsInline=true;v.loop=true;v.autoplay=true;
+    v.preload='metadata';v.disablePictureInPicture=true;v.setAttribute('disableRemotePlayback','');
+    v.setAttribute('data-tle-reactive-photo','');
+    v.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;pointer-events:none;opacity:0;z-index:0;transition:opacity .5s ease;';
+    v.poster=posterURL.href;
+    v.addEventListener('loadeddata',()=>{v.style.opacity='1';sync()},{once:true});
+    v.addEventListener('error',()=>{v.remove();video=null},{once:true});
+    const still=host.querySelector('picture,img');
+    if(still?.parentElement===host)still.after(v);else host.prepend(v);
+    video=v;v.src=videoURL.href;
+    const io=new IntersectionObserver(()=>sync(),{rootMargin:'100px'});
+    io.observe(host);
+  }
+  async function verify(){
+    if(confirmed)return;confirmed=true;
+    try{
+      const r=await fetch(videoURL.href,{method:'HEAD',cache:'no-store'});
+      if(!r.ok)return;
+      mount();
+      if(!video){
+        const watch=new MutationObserver(()=>{mount();if(video)watch.disconnect()});
+        watch.observe(document.body,{subtree:true,childList:true});
+        setTimeout(()=>watch.disconnect(),12000);
+      }
+    }catch(_){/* Asset unavailable: original image remains untouched. */}
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',verify,{once:true});else verify();
+  reduced.addEventListener?.('change',()=>{mount();sync()});
+  width.addEventListener?.('change',()=>{mount();sync()});
+  document.addEventListener('visibilitychange',sync);
+})();
