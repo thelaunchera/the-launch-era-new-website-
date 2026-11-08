@@ -316,7 +316,7 @@ body.tle-depth-owner .phone-foot{
 @media(max-width:740px){
   body.tle-depth-gallery .demo-grid{row-gap:30px;column-gap:16px}
   body.tle-depth-gallery .demo-card{border-radius:22px;padding:7px 7px 18px}
-  body.tle-depth-gallery .demo-art{border-radius:15px}
+  body.tle-depth-gallery .demo-art{border-radius:18px}
   body.tle-depth-gallery .demo-content{padding:15px 12px 1px;gap:10px}
   body.tle-depth-gallery .demo-content h2{margin-bottom:8px}
   body.tle-depth-owner .kpi{border-radius:16px}
