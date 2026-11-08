@@ -1,3 +1,10 @@
+## 2026-11-08 — SOVA close-up blurred hero / missing matching poster
+
+- **Reported:** iPad screenshot shows a blurred, overly cropped face in the SOVA opening hero.
+- **Verified source cause:** published `hero-motion-20261108.mp4` was an extremely compressed portrait clip (273 KB), stretched by a universal `object-fit:cover` hero video layer over a widescreen slot. A newer SOVA inline block referenced `hero-motion-poster-hq.webp` which was absent from the repository and forcibly hid the sharp approved hero image.
+- **Fix:** keep the original 1536×1024 approved `resources/01-hero.png` fully visible, remove missing poster masking and old SOVA video hook, and add an isolated SOVA HD loader with dimension/aspect guard, identical still poster, reduced-motion and data-saving fallback, no control interception, gentle cursor/scroll handling. GitHub Pages build now creates a short landscape cinematic loop from the exact original photo, rather than upscaling the portrait.
+- **QA contract:** `node scripts/qa-route-integrity.mjs --static`, Pages job output 1536×1024, direct public route in iPad/iPhone widths, original image always visible and no blank hero. GitHub source and generated artifact are distinct; production, browser and physical-device acceptance must be verified individually. No orders, clients, emails, menu items or other demos affected.
+
 ## 2026-11-08 — Golden Grid freezes or blanks the in-app mobile demo preview
 
 - **Reported:** Golden Grid blocked the embedded preview and could make the enclosing Studio feel stuck; physical iPhone crash logs are unavailable, so the complete freeze root cause remains suspected.
