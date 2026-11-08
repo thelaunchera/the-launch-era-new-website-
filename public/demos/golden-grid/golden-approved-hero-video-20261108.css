@@ -1,51 +1,69 @@
-/* Golden Grid: the exact user-approved portrait clip on tablet and desktop.
-   Original iPhone hero remains static to prevent WebView memory regressions.
-   Native 512x682 playback: no crop, blur, zoom or artificial upscaling. */
-html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video{display:none}
-@media (min-width:761px){
+/* Golden Grid approved video — full-bleed, not a 512px portrait card.
+   The vertical 512x682 source fills the hero at its exact original aspect
+   ratio, showing the whole headline and waffles with no letterboxing,
+   yellow sidebars, photo behind, crop, filters or forced zoom. iPhone
+   retains the still hero for Studio WebView stability. */
+html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video{
+  display:none;
+}
+@media(min-width:761px){
   html[data-tle-one-motion="golden-grid"] .hero .hero-art{
+    display:block;
     position:relative;
-    display:grid;
-    place-items:center;
-    isolation:isolate;
     box-sizing:border-box;
     width:100%;
+    min-width:0;
     height:auto;
     min-height:0;
-    padding:clamp(14px,2.1vw,30px);
+    padding:0!important;
+    margin:0;
+    border:0;
+    border-radius:0;
     overflow:hidden;
-    background:linear-gradient(90deg,#f2d85b 0 18%,#a5dce9 18% 82%,#f2d85b 82% 100%);
+    background:transparent!important;
   }
   html[data-tle-one-motion="golden-grid"] .hero .hero-art>img{
-    display:block;
-    width:min(512px,calc(100% - 24px));
+    width:100%;
     height:auto;
-    max-height:min(682px,calc(100svh - 96px));
     object-fit:contain;
     object-position:center;
-    animation:none!important;
+    max-width:none;
+    max-height:none;
     transform:none!important;
     filter:none!important;
+    animation:none!important;
+  }
+}
+@media(min-width:761px) and (prefers-reduced-motion:no-preference){
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art>img{
+    display:none!important;
   }
   html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video{
     display:block;
-    position:absolute;
-    top:50%;
-    left:50%;
-    width:min(512px,calc(100% - 24px));
+    position:relative;
+    inset:auto;
+    width:100%;
+    max-width:none;
     height:auto;
-    max-height:min(682px,calc(100svh - 96px));
+    max-height:none;
     aspect-ratio:512 / 682;
-    transform:translate(-50%,-50%);
-    object-fit:contain;
+    transform:none!important;
+    object-fit:cover;
     object-position:center;
     animation:none!important;
     filter:none!important;
+    border:0;
+    margin:0;
+    padding:0;
     pointer-events:none;
-    background:#9fdaea;
+    background:transparent;
   }
 }
 @media(max-width:760px),(prefers-reduced-motion:reduce){
-  html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video{display:none!important}
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video{
+    display:none!important;
+  }
 }
-html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video[hidden]{display:none!important}
+html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video[hidden]{
+  display:none!important;
+}
