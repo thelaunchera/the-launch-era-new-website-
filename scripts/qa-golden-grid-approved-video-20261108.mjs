@@ -1,4 +1,4 @@
-/** Golden Grid hero: no low-resolution video on any viewport, approved photo
+/** Golden Grid hero: 512px video only on standalone phones, approved photo
  *  stays sharp; only nonessential syrup glint animates on larger screens. */
 import { chromium, webkit } from 'playwright';
 import assert from 'node:assert/strict';
@@ -52,6 +52,9 @@ for(const engine of [chromium,webkit]){
           photoDisplay:imgStyle.display,photoTransform:imgStyle.transform,
           photoFilter:imgStyle.filter,photoOpacity:imgStyle.opacity,
           videoCount:el.querySelectorAll('video').length,
+          videoSrc:el.querySelector('video')?.getAttribute('src'),
+          videoDisplay:el.querySelector('video')?getComputedStyle(el.querySelector('video')).display:'missing',
+          videoPhoneEligible:el.hasAttribute('data-gg-mobile-video-eligible'),
           svgCount:el.querySelectorAll('svg.gg-hero-motion').length,
           svgDisplay:svgStyle?.display,
           shineAnimation:shine?getComputedStyle(shine).animationName:'',
@@ -60,8 +63,14 @@ for(const engine of [chromium,webkit]){
         };
       });
       assert.deepEqual(details.natural,[1122,1402],'Approved high-resolution original must remain');
-      assert.equal(details.videoCount,0,'Remove the old video element entirely');
-      assert.equal(lowRes.length,0,'Never request 512px MP4');
+      assert.equal(details.videoCount,1,'Preserve approved standalone-phone motion');
+      if(width>520||reducedMotion==='reduce'){
+        assert.equal(lowRes.length,0,'Tablet/desktop/reduced motion must never request low-res MP4');
+        assert.equal(details.videoSrc,null,'Forbidden media source must not attach');
+        assert.equal(details.videoDisplay,'none','Low-res movie must stay hidden');
+      }else{
+        assert.equal(details.videoPhoneEligible,true,'Standalone phone keeps native-scale video option');
+      }
       assert.equal(details.svgCount,1,'Localized syrup glint should exist');
       assert.ok(Math.abs(details.frameWidth-details.photoWidth)<2,'Photo fills hero width exactly');
       assert.ok(Math.abs(details.frameHeight-details.photoHeight)<2,'Hero does not crop photo vertically');
@@ -73,7 +82,7 @@ for(const engine of [chromium,webkit]){
       if(width>760&&reducedMotion==='no-preference'){
         assert.equal(details.svgDisplay,'block');
         assert.equal(details.active,true,'Visible desktop/tablet activates localized syrup effect');
-        assert.equal(details.shineAnimation,'ggSyrupLight');
+        assert.equal(details.shineAnimation,'ggSyrupLight','Syrup sheen must animate on tablet/desktop');
       }else{
         assert.equal(details.svgDisplay,'none','Phone and reduced-motion retain stable still');
         assert.equal(details.shineAnimation,'none');
