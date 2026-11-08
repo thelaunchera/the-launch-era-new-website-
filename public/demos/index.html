@@ -280,6 +280,9 @@ main,.intro,.intro-copy,.hero-gallery,.demo-grid,.demo-card,.section-heading{min
 @media(max-width:740px){.library-footer-main{grid-template-columns:1fr}}
 @media(max-width:420px){.library-footer-legal{column-gap:12px}.library-footer-legal a{font-size:11px}.library-footer-bottom{flex-direction:column;align-items:flex-start}}
 
+.viewer-owner{min-height:43px;display:inline-flex;align-items:center;justify-content:center;padding:9px 13px;border:1px solid #b8b3a8;border-radius:999px;background:#f2e8cf;color:#191919;text-decoration:none;font-weight:700;font-size:10px;white-space:nowrap}
+.viewer-owner[hidden]{display:none!important}
+@media(max-width:600px){.viewer-owner{padding:8px 10px;font-size:9px}.viewer-title{max-width:35vw}}
 /* Owner View is a separate, local-only interactive demonstration. */
 .owner-view{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-size:10px;font-weight:700;padding:10px 13px;border:1px solid #d5d1c9;border-radius:999px;min-height:44px;white-space:nowrap;background:var(--ivory)}
 .owner-view:hover{background:#f2e6c8}
@@ -375,7 +378,7 @@ main,.intro,.intro-copy,.hero-gallery,.demo-grid,.demo-card,.section-heading{min
 <div class="demo-links"><a href="https://thelaunchera.com/experience-cleaning/" target="_blank" rel="noopener noreferrer" class="view">Explore demo</a><a class="owner-view" href="/demos/owner-center/?demo=experience-cleaning" aria-label="Explore experience cleaning owner dashboard">Owner View</a></div></div><a class="card-preview-link" href="https://thelaunchera.com/experience-cleaning/" aria-label="Preview Experience Cleaning; close to return to the gallery"></a></article></div><p class="empty" id="empty-message" role="status">No demos match this search. Try another category or keyword.</p></section><section class="closing" aria-label="The Launch Era"><h2>More than<br>just a website.</h2><a href="/">Discover The Launch Era</a></section></main>
 <dialog id="demo-viewer" class="demo-viewer" aria-labelledby="viewer-name">
 <div class="viewer-topbar"><div class="viewer-title"><span class="viewer-eyebrow">THE LAUNCH ERA / PROJECT PREVIEW</span><strong id="viewer-name">Website demo</strong></div>
-<div class="viewer-actions"><a class="viewer-external" id="viewer-external" href="/" target="_blank" rel="noopener noreferrer">Open full site</a><button class="viewer-close" id="viewer-close" type="button"><span aria-hidden="true">×</span> Close demo</button></div></div>
+<div class="viewer-actions"><a class="viewer-external" id="viewer-external" href="/" target="_blank" rel="noopener noreferrer">Open full site</a><a class="viewer-owner" id="viewer-owner" href="/demos/" hidden>Owner View</a><button class="viewer-close" id="viewer-close" type="button"><span aria-hidden="true">×</span> Close demo</button></div></div>
 <div class="viewer-stage" id="viewer-stage" aria-busy="true"><div class="viewer-loading" id="viewer-loading" role="status" aria-live="polite"><span class="viewer-loading-kicker">OPENING THE PROJECT</span><strong id="viewer-loading-name">Website preview</strong><span class="viewer-loading-bar" aria-hidden="true"></span><a id="viewer-loading-direct" class="viewer-loading-direct" href="/" target="_blank" rel="noopener noreferrer">Open full website</a></div><iframe id="viewer-frame" class="viewer-frame" title="Interactive website preview" loading="eager" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
 </dialog>
 <footer class="library-footer" aria-label="Legal and project information">
@@ -405,6 +408,7 @@ let activePreviewUrl='';
 frame.addEventListener('load',()=>{if(!activePreviewUrl||frame.getAttribute('src')==='about:blank')return;stage.classList.add('is-ready');stage.setAttribute('aria-busy','false');});
 const title=document.getElementById('viewer-name');
 const full=document.getElementById('viewer-external');
+const ownerView=document.getElementById('viewer-owner');
 const close=document.getElementById('viewer-close');
 let filter='All',previousFocus=null,previousOverflow='';
 let lastSelectedCard=null;
@@ -430,6 +434,9 @@ function openDemo(card,opener){
  previousFocus=opener;previousOverflow=document.body.style.overflow;
  title.textContent=card.querySelector('h2')?.textContent||'Website demo';
  full.href=url;
+ const ownerLink=card.querySelector('.owner-view');
+ ownerView.hidden=!ownerLink;
+ if(ownerLink)ownerView.href=ownerLink.href;
  loadingDirect.href=url;
  loadingName.textContent=title.textContent;
  activePreviewUrl=url;
