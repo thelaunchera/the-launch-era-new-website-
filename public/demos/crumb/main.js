@@ -1,8 +1,8 @@
 const products = [
-  { id: 'classic', name: 'Classic Chocolate Chip', priceCents: 350 },
-  { id: 'double', name: 'Double Chocolate', priceCents: 450 },
-  { id: 'caramel', name: 'Salted Caramel', priceCents: 550 },
-  { id: 'raspberry', name: 'White Chocolate Raspberry', priceCents: 600 },
+  { id: 'classic', name: 'Classic Chocolate Chip', priceCents: 450 },
+  { id: 'double', name: 'Double Chocolate', priceCents: 425 },
+  { id: 'caramel', name: 'Salted Caramel', priceCents: 500 },
+  { id: 'raspberry', name: 'White Chocolate Raspberry', priceCents: 550 },
   { id: 'nutty', name: 'Nutty Dream', priceCents: 700 },
   { id: 'brownie', name: 'Brownie Chip', priceCents: 500 }
 ];
