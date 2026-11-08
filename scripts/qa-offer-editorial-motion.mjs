@@ -40,8 +40,8 @@ for(const [lang,path] of pages){
  assert.ok(!html.includes('testimonials fabricated'),'No invented content');
 }
 const en=read(pages[0][1]),es=read(pages[1][1]);
-assert.match(en,/INTERACTIVE BUSINESS EXPERIENCES/);
-assert.match(es,/EXPERIENCIAS DIGITALES INTERACTIVAS/);
+assert.match(en,/SEE HOW IT WORKS/);
+assert.match(es,/MIRA CÓMO FUNCIONA/);
 assert.match(en,/lang=en"/);
 assert.match(es,/lang=es"/);
 /* Benefit-led story contract: buyer's pain → clear system → visible proof → decision.
