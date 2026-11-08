@@ -158,6 +158,56 @@ html[data-tle-one-motion="casa-brownie"] .hero-photo #hero-video{display:none!im
     filter:none!important;
   }
 }
+
+/* Casa Brownie 2026-11-08: one hero image, natural-width editorial copy.
+   At tablet sizes the hero is a simple text + film split; no inset portrait. */
+@media (min-width:700px) and (max-width:1199px) {
+  html[data-tle-one-motion="casa-brownie"] .hero {
+    grid-template-columns:minmax(0,44%) minmax(0,56%)!important;
+    min-height:clamp(620px,68vw,800px)!important;
+  }
+  html[data-tle-one-motion="casa-brownie"] .hero>.hero-copy {
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:flex-start!important;
+    justify-content:center!important;
+    min-width:0!important;
+    padding:clamp(32px,4.4vw,56px) clamp(27px,4.4vw,60px)!important;
+    gap:0!important;
+  }
+  html[data-tle-one-motion="casa-brownie"] .hero>.hero-copy h1 {
+    max-width:100%!important;
+    font-size:clamp(40px,4.8vw,63px)!important;
+    margin:20px 0 13px!important;
+    overflow-wrap:normal!important;
+  }
+  html[data-tle-one-motion="casa-brownie"] .hero>.hero-copy p {
+    max-width:38ch!important;
+    font-size:clamp(14px,1.4vw,17px)!important;
+    line-height:1.6!important;
+    margin:10px 0 24px!important;
+  }
+  html[data-tle-one-motion="casa-brownie"] .hero>.hero-copy>.primary-button {
+    white-space:normal!important;
+    max-width:100%;
+  }
+  html[data-tle-one-motion="casa-brownie"] .hero>.hero-copy>.hero-qualities {
+    width:100%!important;
+    margin-top:clamp(24px,3vw,38px)!important;
+  }
+  html[data-tle-one-motion="casa-brownie"] .hero>.hero-photo {
+    min-height:0!important;
+    height:auto!important;
+  }
+  html[data-tle-one-motion="casa-brownie"] .hero>.hero-photo video[data-tle-cinematic-hero] {
+    object-fit:cover!important;
+    object-position:center 50%!important;
+    scale:1!important;
+    translate:none!important;
+    rotate:none!important;
+    filter:none!important;
+  }
+}
 </style>
 </head>
   <body data-tle-demo="casa-brownie" data-tle-company="demo">
@@ -278,9 +328,6 @@ html[data-tle-one-motion="casa-brownie"] .hero-photo #hero-video{display:none!im
                 ><small>MIAMI<br />LOCAL</small></span
               >
             </div>
-            <figure class="cb-hero-lifestyle">
-              <img src="./assets/casabrownie-hero-lifestyle.svg" alt="Persona de Casa Brownie presentando brownies artesanales sobre un plato" loading="lazy" decoding="async" width="820" height="1025" />
-            </figure>
           </div>
           <div class="hero-photo">
             <img
