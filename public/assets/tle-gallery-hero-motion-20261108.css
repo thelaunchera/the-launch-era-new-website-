@@ -1,0 +1,12 @@
+/* Official EN/ES website offer: approved brand-hero media only.
+   Keep static originals in DOM; video never replaces links or their images. */
+.tle-universal .hero-gallery-card .hero-gallery-hit > .tle-gallery-motion-video {
+ position:absolute;inset:0;display:block;width:100%;height:100%;
+ object-fit:cover;object-position:var(--gallery-pos,center);
+ opacity:0;transition:opacity .44s ease;pointer-events:none;
+ background:transparent;z-index:1;
+}
+.tle-universal .hero-gallery-card.tle-gallery-video-playing .hero-gallery-hit > .tle-gallery-motion-video{opacity:1}
+@media(prefers-reduced-motion:reduce){
+ .tle-universal .hero-gallery-card .hero-gallery-hit > .tle-gallery-motion-video{display:none!important}
+}
