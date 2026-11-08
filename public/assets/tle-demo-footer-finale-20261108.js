@@ -37,7 +37,7 @@
   'havana-19':{anchor:'#story',targets:['#kitchen']},
   'aftr':{anchor:'#tonight',targets:['#offers']},
   'lavender-edit':{anchor:'#ritual',targets:['#gallery']},
-  'experience-cleaning':{anchor:'.hero.hero-cleaning-site',targets:['#experience']},
+  'experience-cleaning':{anchor:'.hero.hero-cleaning-site',targets:['#tle-demo-sample-prices','#experience']},
   'soluna-yoga':{anchor:'#about',targets:['#memberships','#classes']},
   'wok-social':{anchor:'.hero + .ticker',targets:['#menu']},
   'yummm':{anchor:'.feature-links',targets:['#counter']},
