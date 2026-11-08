@@ -85,6 +85,28 @@ try{
  }finally{await depthPage.close()}
 
  assert.equal(await page.locator('.card-preview-link').count(),16,'Every photo card needs a preview link');
+
+ // Golden Grid must not open a heavy nested iframe that can lock the mobile
+ // Studio preview or leave the entire gallery under a stuck modal.
+ const goldenCard=page.locator('.demo-card[data-brand="golden-grid"]');
+ const goldenLink=goldenCard.locator('.card-preview-link');
+ assert.equal(await goldenLink.getAttribute('target'),'_blank','Golden Grid opens independently of the Studio/library preview');
+ assert.match(await goldenLink.getAttribute('rel'),/noopener/,'Golden Grid must not retain an opener window');
+ await goldenCard.scrollIntoViewIfNeeded();
+ const goldenPopupEvent=page.waitForEvent('popup',{timeout:12000});
+ await goldenLink.click();
+ const goldenPopup=await goldenPopupEvent;
+ await goldenPopup.waitForLoadState('domcontentloaded',{timeout:25000});
+ assert.match(goldenPopup.url(),/\\/demos\\/golden-grid\\//,'Golden Grid should open its actual original demo');
+ assert.equal(await goldenPopup.locator('body').isVisible(),true,'Golden Grid independent page must render');
+ await goldenPopup.close();
+ assert.equal(await page.locator('#demo-viewer').evaluate(el=>el.open),false,'Golden Grid must not lock the gallery in a dialog');
+ assert.equal(await page.evaluate(()=>document.body.style.overflow),'','Golden Grid must not lock page scrolling');
+ await page.goto(new URL('/demos/?demo=golden-grid',url).href,{waitUntil:'domcontentloaded'});
+ await page.waitForFunction(()=>document.querySelector('.demo-card[data-brand="golden-grid"]')?.classList.contains('golden-direct-target'),null,{timeout:10000});
+ assert.equal(await page.locator('#demo-viewer').evaluate(el=>el.open),false,'Deep-link entry must not automatically lock Golden Grid in an iframe');
+ await page.goto(url,{waitUntil:'domcontentloaded'});
+ console.log('[GOLDEN GRID SAFE OPEN] dedicated tab, no gallery scroll lock, no automatic mobile embed');
  assert.equal(await page.locator('.demo-links .view').count(),16,'Every card needs a public demo website link');
  assert.equal(await page.locator('.demo-links .source, a[href*="github.com"]').count(),0,'Never expose code/source repository links in the public library');
  assert.equal(await page.locator('#viewer-close').count(),1);
