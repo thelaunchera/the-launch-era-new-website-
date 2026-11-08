@@ -47,6 +47,26 @@ style.textContent=`
 .tle-demo-price-collection .tle-price-note{color:#655f59;font-size:11px;line-height:1.6;margin:18px 0 0}
 @media(max-width:650px){.tle-demo-price-collection .tle-price-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.tle-demo-price-collection img{height:125px}.tle-demo-price-collection .tle-price-card-body{padding:12px}.tle-demo-price-collection h3{font-size:18px}.tle-demo-customer-price{font-size:11px}}
 @media(max-width:375px){.tle-demo-price-collection .tle-price-grid{grid-template-columns:1fr}.tle-demo-price-collection img{height:150px}}
+
+/* Brand-aware service discovery immediately beneath the hero. */
+.tle-demo-price-collection[data-tle-price-kind="service"]{border-top:4px solid var(--tle-price-accent);background:color-mix(in srgb,var(--tle-price-accent) 5%,#faf8f3)}
+.tle-demo-price-collection[data-tle-price-kind="service"] .tle-price-card{border-color:color-mix(in srgb,var(--tle-price-accent) 23%,#e4dfd6);box-shadow:0 8px 23px #19191909}
+.tle-demo-price-collection[data-tle-price-kind="service"] .tle-price-card-body>div strong{color:var(--tle-price-accent)}
+.tle-demo-price-collection[data-tle-price-brand="marea-wigs-miami"]{background:#f4f9f6}
+.tle-demo-price-collection[data-tle-price-brand="lavender-edit"]{background:#f8f4f9}
+.tle-demo-price-collection[data-tle-price-brand="soluna-yoga"]{background:#f8f4ef}
+.tle-demo-price-collection[data-tle-price-brand="experience-cleaning"]{background:#f4f8fa}
+@media(max-width:650px){
+ .tle-demo-price-collection[data-tle-price-kind="service"]{padding-block:32px 38px}
+ .tle-demo-price-collection[data-tle-price-kind="service"] .tle-price-grid{grid-template-columns:minmax(0,1fr);gap:10px}
+ .tle-demo-price-collection[data-tle-price-kind="service"] .tle-price-card{display:flex;align-items:stretch;min-width:0;border-radius:13px}
+ .tle-demo-price-collection[data-tle-price-kind="service"] .tle-price-card img{flex:0 0 35%;width:35%;height:auto;min-height:108px;object-fit:cover}
+ .tle-demo-price-collection[data-tle-price-kind="service"] .tle-price-card-body{display:flex;min-width:0;flex:1;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:7px;padding:15px}
+ .tle-demo-price-collection[data-tle-price-kind="service"] h3{margin:0;font-size:clamp(19px,5vw,24px);line-height:1.12}
+ .tle-demo-price-collection[data-tle-price-kind="service"] .tle-price-card-body>div{margin-left:auto;gap:5px;align-items:baseline;max-width:100%}
+ .tle-demo-price-collection[data-tle-price-kind="service"] .tle-price-card-body>div strong{font-size:18px}
+}
+
 `;
 document.head.append(style);
 let published=false;
@@ -77,6 +97,8 @@ function apply(){
  if(missing.length){
    const section=document.createElement("section");
    section.className="tle-demo-price-collection";
+   section.dataset.tlePriceKind=cfg.kind;
+   section.dataset.tlePriceBrand=slug;
    section.id="tle-demo-sample-prices";
    section.style.setProperty("--tle-price-accent",cfg.tone);
    section.setAttribute("aria-label",cfg.kind==="service"?"Example service prices":"Example menu prices");
