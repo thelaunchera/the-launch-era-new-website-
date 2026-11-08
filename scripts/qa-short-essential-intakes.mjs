@@ -55,6 +55,8 @@ for(const [tag,path] of [['en','public/booking-flow-intake/index.html'],['es','p
  assert.match(html,/data\.language="(?:en|es)"/,'bilingual identity retained');
 }
 assert.match(bookingJs,/tle-guided-estimate-optional/,'optional estimate factors collapsed');
+assert.match(bookingJs,/style\.hidden=true;style\.required=false/,'duplicate pricing selector hidden');
+assert.match(bookingJs,/style\.value=modes\.has\("fixed"\)/,'legacy pricing value derived from actual guided entries');
 assert.match(bookingJs,/custom_quotes_require_review:true,auto_confirm:false/,'guided pricing never activates bookings');
 
 for(const [path,names] of [
