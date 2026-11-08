@@ -1,0 +1,42 @@
+name: Short Essential Client Intakes QA
+on:
+  pull_request:
+    paths:
+      - 'public/intake/**'
+      - 'public/es/intake/**'
+      - 'public/booking-flow-intake/index.html'
+      - 'public/es/booking-flow-intake/index.html'
+      - 'public/custom-app/index.html'
+      - 'public/assets/tle-website-intake.js'
+      - 'public/assets/tle-website-intake-brief.js'
+      - 'public/assets/tle-guided-intakes.js'
+      - 'scripts/qa-short-essential-intakes.mjs'
+      - '.github/workflows/essential-intakes-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'public/intake/**'
+      - 'public/es/intake/**'
+      - 'public/booking-flow-intake/index.html'
+      - 'public/es/booking-flow-intake/index.html'
+      - 'public/custom-app/index.html'
+      - 'public/assets/tle-website-intake.js'
+      - 'public/assets/tle-website-intake-brief.js'
+      - 'public/assets/tle-guided-intakes.js'
+      - 'scripts/qa-short-essential-intakes.mjs'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  essential-intakes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify paid gating, bilingual essentials and safe booking confirmation
+        run: |
+          node scripts/qa-short-essential-intakes.mjs
+          node scripts/qa-private-website-intake.mjs
