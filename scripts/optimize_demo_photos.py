@@ -116,6 +116,23 @@ def main():
                     # Lightbox builds numbered filenames dynamically.
                     text = re.sub(r"(\+\s*)(['\"])\.png\2",
                                   lambda m: m.group(1) + m.group(2) + ".webp" + m.group(2), text)
+        if rel_file == "demos/golden-grid/index.html":
+            # Final immutable quality gate: the 1122×1402 lossless master is
+            # the visible hero, even if an earlier pass optimizes a duplicate
+            # filename or a later catalog substitution adds a WebP URL.
+            # Keep WebP for gallery/catalog only. Never degrade baked-in type.
+            master = "./resources/golden-1.png?v=20261108-master-hq"
+            hero_match = re.search(
+                r'(<div class="hero-art">\\s*<img\\b[^>]*?\\bsrc=")([^"]+)(")', text)
+            if not hero_match:
+                raise SystemExit("Golden Grid approved hero is missing")
+            text = (text[:hero_match.start(2)] + master +
+                    text[hero_match.end(2):])
+            poster_match = re.search(
+                r'(<video\\b[^>]*?\\bposter=")([^"]+)(")', text)
+            if poster_match:
+                text = (text[:poster_match.start(2)] + master +
+                        text[poster_match.end(2):])
         if rel_file == "demos/index.html":
             # Catalog cards are below the hero and must stay lazy.
             text = re.sub(r'(<div class="demo-art">\s*<img\b[^>]*?)loading="eager"',
