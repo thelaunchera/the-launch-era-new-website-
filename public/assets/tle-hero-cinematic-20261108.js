@@ -1,86 +1,86 @@
-/* The Launch Era · Motion Heroes · Progressive cinematic playback.
- * MP4 assets supplied per brand. The approved original stays visible until a valid file loads.
- * No changes to user interaction, checkout, booking, language, or navigation. */
-(()=>{'use strict';
-const brand=document.documentElement.dataset.tleOneMotion;
-const profiles={
- 'crumb':{selector:'.hero',mobile:true},
- 'casa-brownie':{selector:'.hero-photo'},
- 'havana-19':{selector:'.hero',mobile:true},
- 'ivory-and-bloom':{selector:'.hero .hero-photo'},
- 'aftr':{selector:'.hero-image',mobile:true},
- 'lavender-edit':{selector:'.hero-art'},
- 'seasonal-brew':{selector:'.hero-media'},
- 'wok-social':{selector:'.hero-photo-frame'},
- 'soluna-yoga':{selector:'.hero-visual.has-photo'},
- 'yummm':{selector:'.hero-slide[data-slide="1"]'}
-};
-const profile=profiles[brand];
-if(!profile)return;
-const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-const mobile=matchMedia('(max-width: 900px)');
-const saveData=navigator.connection?.saveData===true;
-const file=new URL('media/hero-motion-20261108.mp4',location.href);
-let video,host,observer,checked=false;
-const eligible=()=>!saveData&&!document.hidden&&!reduced.matches&&(!profile.mobile||mobile.matches);
-const stop=()=>{if(video){video.pause();video.style.opacity='0';}};
-function sync(){
- if(!video)return;
- if(!eligible()){stop();return;}
- const rect=host.getBoundingClientRect();
- if(rect.bottom<=-50||rect.top>=innerHeight+50){stop();return;}
- video.play().then(()=>{if(video&&eligible()&&video.readyState>=2)video.style.opacity='1';}).catch(stop);
-}
-function mount(){
- if(video||!eligible())return;
- const target=document.querySelector(profile.selector);
- if(!target||target.getBoundingClientRect().width<1)return;
- host=target;
- if(getComputedStyle(target).position==='static')target.style.position='relative';
- const v=document.createElement('video');
- v.setAttribute('aria-hidden','true');
- v.setAttribute('data-tle-cinematic-hero',brand);
- v.setAttribute('data-tle-reactive-photo',''); // Shared cursor and scroll depth also moves the video layer.
- v.setAttribute('playsinline','');
- v.setAttribute('muted','');
- v.setAttribute('loop','');
- v.setAttribute('disableRemotePlayback','');
- v.muted=true;v.defaultMuted=true;v.playsInline=true;v.loop=true;
- v.autoplay=true;v.preload='metadata';v.tabIndex=-1;
- v.disablePictureInPicture=true;
- v.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:1;opacity:0;pointer-events:none;transition:opacity .45s ease;transform:translateZ(0);';
- v.addEventListener('loadeddata',sync,{once:true});
- v.addEventListener('error',()=>{v.remove();video=null;host=null;},{once:true});
- if(brand==='crumb'||brand==='havana-19'){
-   const original=target.querySelector(':scope > picture, :scope > img');
-   if(original)original.insertAdjacentElement('afterend',v);else target.prepend(v);
-   const overlay=target.querySelector('.hero-editorial-content,.hero-content,.hero-copy');
-   if(overlay){if(getComputedStyle(overlay).position==='static')overlay.style.position='relative';overlay.style.zIndex='3';}
- }else{
-   target.appendChild(v);
-   for(const el of target.children){if(el!==v&&!el.matches('img,picture,source')){const s=getComputedStyle(el);if(s.position==='static')el.style.position='relative';if(s.zIndex==='auto')el.style.zIndex='2';}}
+/* TLE Motion Heroes · seven approved brand heroes only · 2026-11-08
+   The video and initial poster share the SAME first frame to prevent scene switching.
+   Never change forms, orders, galleries, or links. No video on CRUMB. */
+(()=>{"use strict";
+ const brand=document.documentElement.dataset.tleOneMotion;
+ const heroSlots={
+  "casa-brownie":".hero-photo",
+  "golden-grid":".hero-art",
+  "yummm":'.hero-slide[data-slide="1"]',
+  "aftr":".hero-image",
+  "ivory-and-bloom":".hero .hero-photo",
+  "marea-wigs-miami":".hero-visual",
+  "sova":".hero-media"
+ };
+ const selector=heroSlots[brand];
+ if(!selector)return;
+ const reduce=matchMedia("(prefers-reduced-motion: reduce)");
+ const slow=!!navigator.connection?.saveData;
+ let host=null,video=null,queued=false;
+ const source=new URL("media/hero-motion-20261108.mp4",document.baseURI).href;
+ const poster=new URL("media/hero-motion-poster-hq.webp",document.baseURI).href;
+ function visible(){
+  if(!host||!video||!host.isConnected||document.hidden||reduce.matches)return false;
+  const r=host.getBoundingClientRect();
+  return r.width>0&&r.height>0&&r.bottom>=-100&&r.top<=innerHeight+100;
  }
- if(brand==='soluna-yoga'){
-  v.style.zIndex='4';
-  target.querySelectorAll('.hero-visual-caption,.visual-label').forEach(node=>{node.style.zIndex='5';});
+ function reveal(){
+  if(!video||!video.isConnected||!video.readyState||!visible())return;
+  const v=video;
+  const commit=()=>{if(v===video&&v.isConnected&&visible())v.style.opacity="1";};
+  if(typeof v.requestVideoFrameCallback==="function"){
+   v.requestVideoFrameCallback(commit);
+  }else requestAnimationFrame(()=>requestAnimationFrame(commit));
  }
- v.src=file.href;video=v;
- observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting))sync();else stop();},{rootMargin:'80px'});
- observer.observe(target);
-}
-async function check(){
- if(checked)return;
- checked=true;
- try{
-  const response=await fetch(file.href,{method:'HEAD',cache:'no-store'});
-  if(!response.ok||!(response.headers.get('content-type')||'').includes('video/'))return;
+ function update(){
+  if(!video)return;
+  if(!visible()){video.pause();if(reduce.matches)video.style.opacity="0";return;}
+  const result=video.play();
+  if(result&&typeof result.then==="function")result.then(reveal).catch(()=>{});
+ }
+ function unmount(){
+  if(video){video.pause();video.remove();}
+  video=null;host=null;
+ }
+ function mount(){
+  if(slow||reduce.matches){if(video)unmount();return;}
+  const target=document.querySelector(selector);
+  if(!target){if(host&&!host.isConnected)unmount();return;}
+  if(target===host&&video?.isConnected){update();return;}
+  if(video)unmount();
+  host=target;
+  if(getComputedStyle(host).position==="static")host.style.position="relative";
+  const v=document.createElement("video");
+  v.setAttribute("data-tle-cinematic-hero",brand);
+  v.setAttribute("data-tle-reactive-photo","");
+  v.setAttribute("aria-hidden","true");
+  v.playsInline=true;v.muted=true;v.defaultMuted=true;v.loop=true;v.autoplay=true;
+  v.setAttribute("playsinline","");v.setAttribute("muted","");v.setAttribute("loop","");
+  v.preload="auto";v.controls=false;v.tabIndex=-1;
+  v.disablePictureInPicture=true;v.disableRemotePlayback=true;
+  v.poster=poster;
+  v.style.cssText="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:1;opacity:0;pointer-events:none;transition:opacity .24s ease;transform:translateZ(0);";
+  v.addEventListener("loadeddata",reveal);
+  v.addEventListener("playing",reveal);
+  v.addEventListener("error",()=>{v.pause();v.remove();if(video===v){video=null;host=null;}});
+  host.append(v);video=v;
+  v.src=source;
+  update();
+ }
+ function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;mount();});}
+ function boot(){
   mount();
-  if(!video){const mo=new MutationObserver(()=>{mount();if(video)mo.disconnect();});mo.observe(document.body,{childList:true,subtree:true});setTimeout(()=>mo.disconnect(),10000);}
- }catch(_){/* Keep approved original poster */ }
-}
-function state(){if(eligible()&&!video){checked=false;check();}else sync();}
-document.addEventListener('visibilitychange',state);
-reduced.addEventListener?.('change',state);
-mobile.addEventListener?.('change',state);
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',check,{once:true});else check();
+  window.addEventListener("scroll",update,{passive:true});
+  window.addEventListener("resize",schedule,{passive:true});
+  document.addEventListener("visibilitychange",update);
+  reduce.addEventListener?.("change",schedule);
+  // React heroes may mount after page load or rerender after a language change.
+  const root=document.querySelector("#app")||document.querySelector("main")||document.body;
+  new MutationObserver(changes=>{
+    if(changes.some(c=>[...c.addedNodes,...c.removedNodes].some(n=>
+      n.nodeType===1&&(n.matches?.(".hero,.hero-media,.hero-visual,.hero-art,.hero-photo,.hero-slide")||
+      n.querySelector?.(selector)))))schedule();
+  }).observe(root,{childList:true,subtree:true});
+ }
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot,{once:true});else boot();
 })();
