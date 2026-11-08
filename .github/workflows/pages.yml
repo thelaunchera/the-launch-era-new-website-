@@ -14,7 +14,9 @@ permissions:
 
 concurrency:
   group: github-pages
-  cancel-in-progress: true
+  # Multiple agents push in parallel. Let the active Pages release finish;
+  # GitHub keeps the newest pending run instead of cancelling every build.
+  cancel-in-progress: false
 
 jobs:
   build:
