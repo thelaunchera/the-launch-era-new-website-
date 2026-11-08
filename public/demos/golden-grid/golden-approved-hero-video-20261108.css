@@ -30,15 +30,16 @@ html[data-tle-one-motion="golden-grid"] .hero .hero-art > img {
   object-position:center;
   opacity:1!important;
   transform:none!important;
+  scale:none!important;
   filter:none!important;
   animation:none!important;
   transition:none!important;
   will-change:auto!important;
 }
 /* Do not allow older video classes or obsolete presentation overlays to return
-   through cached styles. No MP4 exists in the live hero DOM after this patch. */
+   through cached styles. The MP4 remains in the DOM only for eligible standalone phones; iPad never loads it. */
 html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video {
-  display:none!important;
+  display:none;
 }
 html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-hero-motion {
   position:absolute;
