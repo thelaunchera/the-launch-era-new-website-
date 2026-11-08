@@ -36,7 +36,10 @@ for (let i = 0; i < 9; i++) {
   const button = document.createElement('button');
   button.setAttribute('aria-label', 'View photo ' + (i + 1));
   const image = document.createElement('img');
-  image.src = './resources/golden-' + (i + 1) + '.png';
+  image.dataset.originalSrc = './resources/golden-' + (i + 1) + '.png';
+  // The featured carousel initially needs only 01, 02 and 09.
+  // Keep every full-size URL available for the interactive lightbox.
+  if (i === 0 || i === 1 || i === 8) image.src = image.dataset.originalSrc;
   image.alt = photoTitles[i];
   image.loading = 'lazy';
   button.append(image);

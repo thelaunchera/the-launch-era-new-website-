@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Golden Grid — Waffle Co.</title>
-  <script type="module" crossorigin src="./assets/index-BVJfIY3X.js"></script>
+  <script type="module" crossorigin src="./assets/index-BVJfIY3X.js?v=2"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-CsneRDzQ.css">
 <link rel="stylesheet" href="./editorial-refinement-20261105.css?v=1">
 <link rel="stylesheet" href="/assets/tle-company-system-20261106.css?v=1"><link rel="stylesheet" href="./hero-art-direction-20261107.css?v=1">
@@ -14,14 +14,17 @@
   <link rel="stylesheet" href="/assets/tle-demo-scroll-art-20261108.css?v=4">
   <link rel="stylesheet" href="/assets/tle-demo-footer-finale-20261108.css?v=1">
 
-<!-- Approved hero photography remains visible until a matching, verified motion poster is available. -->
-<link rel="preload" as="image" href="./media/hero-motion-poster-hq.webp">
-<style id="tle-motion-first-frame-golden-grid">
-@media(prefers-reduced-motion:no-preference){
-html[data-tle-one-motion="golden-grid"] .hero-art{position:relative;background-image:url("./media/hero-motion-poster-hq.webp")!important;background-repeat:no-repeat!important;background-size:cover!important;background-position:center!important;overflow:hidden;}
-html[data-tle-one-motion="golden-grid"] .hero-art>img{opacity:0!important;}
-html[data-tle-one-motion="golden-grid"] .hero-art video[data-tle-cinematic-hero]{object-position:center;}
-
+<!-- Golden Grid stability: keep approved original hero visible until a matching,
+     verified motion poster exists. The missing poster cannot hide the image. -->
+<link rel="preload" as="image" href="./resources/golden-1.png">
+<style id="tle-golden-mobile-stability">
+@media(max-width:760px){
+  html[data-tle-one-motion="golden-grid"] .hero-art img{
+    transform:none!important;filter:none!important;will-change:auto!important;
+  }
+  html[data-tle-one-motion="golden-grid"] #campaign .gallery.golden-featured-carousel{
+    perspective:none;
+  }
 }
 </style>
 </head>
@@ -46,7 +49,7 @@ html[data-tle-one-motion="golden-grid"] .hero-art video[data-tle-cinematic-hero]
       <a class="button" href="#collection" data-en="Explore the collection" data-es="Explora la colección">Explore the collection</a>
       <div class="hero-note"><span class="grid-icon" aria-hidden="true">▦</span><p data-en="Made for the<br>slow start." data-es="Para disfrutar<br>sin prisa.">Made for the<br>slow start.</p></div>
     </div>
-    <div class="hero-art"><img src="./resources/golden-1.png" alt="Golden Grid waffles with butter, syrup and sky-blue waffle mix packaging" fetchpriority="high"></div>
+    <div class="hero-art"><img src="./resources/golden-1.png" alt="Golden Grid waffles with butter, syrup and sky-blue waffle mix packaging" fetchpriority="high" loading="eager" decoding="async"></div>
   </section>
   <div class="ticker" aria-label="Stay golden. Slow mornings. Golden Grid. Crisp edges."><div class="ticker-track" aria-hidden="true"><div class="ticker-group"><span>STAY GOLDEN.</span><i>Slow mornings.</i><span>GOLDEN GRID.</span><i>Crisp edges.</i><span>STAY GOLDEN.</span></div><div class="ticker-group"><span>STAY GOLDEN.</span><i>Slow mornings.</i><span>GOLDEN GRID.</span><i>Crisp edges.</i><span>STAY GOLDEN.</span></div></div></div>
   <section id="collection" class="section collection">
@@ -78,12 +81,12 @@ html[data-tle-one-motion="golden-grid"] .hero-art video[data-tle-cinematic-hero]
 <dialog id="contact-dialog" aria-labelledby="contact-title"><button class="close" data-close="contact-dialog" aria-label="Close contact">×</button><div class="dialog-copy"><p class="eyebrow">GOLDEN GRID · WAFFLE CO.</p><h2 id="contact-title" data-en="Let's <em>talk.</em>" data-es="Vamos a <em>hablar.</em>">Let's <em>talk.</em></h2><p data-en="Try the contact experience. This demo does not send messages." data-es="Prueba la experiencia de contacto. Este demo no envía mensajes.">Try the contact experience. This demo does not send messages.</p><form id="contact-form"><label for="name" data-en="Name" data-es="Nombre">Name</label><input id="name" name="name" required maxlength="80" autocomplete="name"><label for="email" data-en="Email" data-es="Correo">Email</label><input id="email" name="email" type="email" required autocomplete="email"><label for="message" data-en="Message" data-es="Mensaje">Message</label><textarea id="message" name="message" required maxlength="1500" rows="3"></textarea><button type="submit" class="button" data-en="Preview message" data-es="Vista previa del mensaje">Preview message</button></form><p id="contact-result" role="status" hidden></p></div></dialog></div>
 
 <script defer src="/assets/tle-demo-inquiry-mobile-20261107.js?v=1"></script>
-<script defer src="./golden-gallery-20261107.js?v=1"></script>
+<script defer src="./golden-gallery-20261107.js?v=3"></script>
 <script defer src="/assets/tle-demo-original-prices-20261108.js?v=2" data-tle-demo-price-slug="golden-grid"></script>
 <script defer src="/assets/tle-demo-tactile-20261108.js?v=2"></script>
   <script defer src="/assets/tle-demo-scroll-art-20261108.js?v=4"></script>
   <script defer src="/assets/tle-demo-footer-finale-20261108.js?v=3"></script>
 <script defer src="/assets/tle-demo-order-journey-20261108.js?v=3" data-tle-order-slug="golden-grid"></script>
-<script defer src="/assets/tle-hero-cinematic-20261108.js?v=7"></script>
+<!-- Golden video paused until mobile stability and poster are verified. -->
 </body>
 </html>

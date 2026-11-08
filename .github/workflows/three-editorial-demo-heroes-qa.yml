@@ -7,6 +7,7 @@ on:
       - 'public/demos/ivory-and-bloom/**'
       - 'public/demos/havana-19/**'
       - 'scripts/qa-three-editorial-demo-heroes.mjs'
+      - 'scripts/qa-golden-grid-stability-20261108.mjs'
       - 'scripts/qa-demo-inquiry-mobile.mjs'
       - 'scripts/qa-havana-calendar-webkit-20261108.mjs'
       - 'public/assets/tle-havana-calendar-20261108.js'
@@ -75,6 +76,8 @@ jobs:
             sleep 1
           done
           node scripts/qa-three-editorial-demo-heroes.mjs
+          node --check scripts/qa-golden-grid-stability-20261108.mjs
+          node scripts/qa-golden-grid-stability-20261108.mjs
           node --check scripts/qa-demo-inquiry-mobile.mjs
           node scripts/qa-demo-inquiry-mobile.mjs
           node --check scripts/qa-ivory-bloom-calendar-webkit.mjs
@@ -101,3 +104,33 @@ jobs:
           name: three-editorial-heroes
           path: qa-screenshots/hero-*.png
           if-no-files-found: ignore
+  golden-preview:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - name: Validate Golden Grid page, script and routes
+        run: |
+          node scripts/qa-route-integrity.mjs --static
+          node --check public/demos/golden-grid/assets/index-BVJfIY3X.js
+          node --check public/demos/golden-grid/golden-gallery-20261107.js
+          node --check scripts/qa-golden-grid-stability-20261108.mjs
+          test -s public/demos/golden-grid/resources/golden-1.png
+      - name: Install Chromium and WebKit
+        run: |
+          mkdir -p /tmp/golden-qa
+          npm install --no-audit --no-fund --prefix /tmp/golden-qa playwright@1.57.0
+          /tmp/golden-qa/node_modules/.bin/playwright install --with-deps chromium webkit
+          ln -sfn /tmp/golden-qa/node_modules node_modules
+      - name: Open hero, carousel, lightbox and return from in-app preview
+        run: |
+          python3 -m http.server 4191 --bind 127.0.0.1 --directory public >/tmp/golden-server.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for n in $(seq 1 20); do
+            if curl -fsS http://127.0.0.1:4191/demos/golden-grid/ >/dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/qa-golden-grid-stability-20261108.mjs

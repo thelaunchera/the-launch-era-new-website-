@@ -9,6 +9,29 @@
     const cards = Array.from(gallery.querySelectorAll(':scope > button'));
     if(cards.length !== 9) return;
     done = true;
+    // iPhone embeds decode large originals into the parent webview's memory.
+    // Retain full-resolution files for the lightbox, but mount only visible
+    // carousel images at any moment; keep navigation usable without autoplay.
+    const originalSources = cards.map(card => card.querySelector('img')?.dataset.originalSrc || card.querySelector('img')?.getAttribute('src') || '');
+    const lowMemoryView = window.matchMedia('(max-width: 760px)').matches || window.self !== window.top;
+    function manageImages(activeIndex) {
+      const needed = new Set([
+        activeIndex,
+        (activeIndex + cards.length - 1) % cards.length,
+        (activeIndex + 1) % cards.length
+      ]);
+      cards.forEach((card, i) => {
+        const img = card.querySelector('img');
+        if(!img) return;
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        if(needed.has(i)) {
+          if(img.getAttribute('src') !== originalSources[i]) img.setAttribute('src', originalSources[i]);
+        } else if(img.hasAttribute('src')) {
+          img.removeAttribute('src');
+        }
+      });
+    }
 
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const toolbar = document.createElement('div');
@@ -47,6 +70,7 @@
       gallery.setAttribute('aria-roledescription',es?'carrusel':'carousel');
     }
     function paint() {
+      manageImages(current);
       const previous=(current+cards.length-1)%cards.length;
       const following=(current+1)%cards.length;
       cards.forEach((card,i)=>{
@@ -98,14 +122,14 @@
     gallery.addEventListener('pointercancel',()=>{pointer=null;});
     const languageButton=document.querySelector('#language');
     languageButton?.addEventListener('click',()=>window.setTimeout(translate,0));
-    const timer=window.setInterval(()=>{
+    const timer=lowMemoryView?null:window.setInterval(()=>{
       if(motion.matches||!seen||document.hidden||Date.now()<holdUntil)return;
       if(gallery.matches(':hover')||toolbar.matches(':hover'))return;
       if(gallery.contains(document.activeElement)||toolbar.contains(document.activeElement))return;
       if(document.querySelector('dialog[open]'))return;
       go(current+1,false);
     },4700);
-    window.addEventListener('pagehide',()=>window.clearInterval(timer),{once:true});
+    if(timer!==null)window.addEventListener('pagehide',()=>window.clearInterval(timer),{once:true});
     paint();
   }
   function ready(){
