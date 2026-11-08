@@ -51,6 +51,11 @@
       const following=(current+1)%cards.length;
       cards.forEach((card,i)=>{
         const active=i===current, left=i===previous, right=i===following;
+        // Load only visible/adjacent original images to protect iPhone memory.
+        if(active||left||right){
+          const img=card.querySelector('img[data-src]');
+          if(img&&!img.hasAttribute('src'))img.src=img.dataset.src||'';
+        }
         card.classList.toggle('is-golden-current',active);
         card.classList.toggle('is-golden-prev',left);
         card.classList.toggle('is-golden-next',right);
