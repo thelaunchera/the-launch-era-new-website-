@@ -22,6 +22,15 @@ Actualizado: 7 de noviembre de 2026. Esta política sustituye la indicación ant
 
 **Prohibiciones visuales permanentes:** retirar símbolos `✳`, `✱`, `❇`, emojis verdes/decorativos, elementos genéricos tipo sello y flechas azules o decorativas. No sustituir por puntos o estrellas nuevos. Preferir texto editorial legible y CTA táctil de al menos 44 px. El verificador de símbolos recorre demos actuales y futuros.
 
+
+## Regla editorial de banners tras el hero (8 noviembre 2026)
+- No incluir banners móviles por defecto. Elegir una de tres opciones por marca: **una cinta con movimiento**, **una línea editorial estática** o **ningún banner**.
+- Cada demo conserva **una sola firma animada protagonista** (hero **o** cinta, nunca ambas). Carruseles con controles, videos y feedback de formularios son funciones distintas: no se deben borrar.
+- Con movimiento: **Golden Grid** (ticker dorado), **WOK SOCIAL** (ticker de cocina callejera) y **AFTR** (cinta fotográfica aprobada). Respetar movimiento reducido y velocidades discretas.
+- Estático o sin cinta: **SOVA** (selector de color), **CRUMB** (beneficios), **Marea Wigs Miami** (tipografía), **Experience Cleaning** (introducción), **Havana 19** (fotografía), **Ivory & Bloom** (composición) y **Jaramillo Boutique** (banner con pestañas y gestos manuales, sin autorrotación).
+- Retirar las cintas repetitivas de **Casa Brownie**, **La Vie in Pink**, **Lavender Edit**, **Seasonal Brew**, **SOLUNA Yoga** y **YUMMM**.
+- No tocar disclaimers, fotografías originales, logos, precios, menús, reservas ni checkouts. Verificar la publicación real en GitHub Pages y Safari/iPhone antes de declarar terminado.
+
 ## Flujo obligatorio
 
 1. **Auditar antes de crear.** Revisar Studio → Demos terminados, GitHub y Drive: identificar carpeta, nombre, URL, assets aprobados, código original y rama. No duplicar.
