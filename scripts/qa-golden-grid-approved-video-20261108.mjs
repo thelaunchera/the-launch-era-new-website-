@@ -43,9 +43,10 @@ for (const engine of [chromium,webkit]) {
           x:b.x,parentX:container.x,background:artStyle.backgroundImage,
           padding:artStyle.padding,position:css.position,
           mask:css.maskImage||css.webkitMaskImage,
-          photoWidth:photo?.naturalWidth
+          photoWidth:photo?.naturalWidth,photoHeight:photo?.naturalHeight
         };
       });
+      console.log('Golden Grid hero geometry',engine.name(),name,JSON.stringify(state));
       assert.ok(state.src.endsWith('/demos/golden-grid/media/hero-approved-canva-20261108.mp4'));
       assert.ok(state.poster.endsWith('/demos/golden-grid/media/hero-approved-canva-20261108-firstframe.webp'));
       assert.equal(state.videoWidth,512);
