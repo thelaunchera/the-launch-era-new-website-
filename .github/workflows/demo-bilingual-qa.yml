@@ -1,0 +1,41 @@
+name: Bilingual demo menus and Owner Center QA
+
+on:
+  pull_request:
+    paths:
+      - 'public/assets/tle-demo-locale-20261108.js'
+      - 'public/demos/index.html'
+      - 'public/demos/owner-center/index.html'
+      - 'public/es/website-for-your-business/index.html'
+      - 'public/website-for-your-business/index.html'
+      - 'scripts/qa-owner-bilingual.mjs'
+      - '.github/workflows/demo-bilingual-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'public/assets/tle-demo-locale-20261108.js'
+      - 'public/demos/index.html'
+      - 'public/demos/owner-center/index.html'
+      - 'public/es/website-for-your-business/index.html'
+      - 'public/website-for-your-business/index.html'
+      - 'scripts/qa-owner-bilingual.mjs'
+      - '.github/workflows/demo-bilingual-qa.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  spanish-demos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax check new locale and test code
+        run: |
+          node --check public/assets/tle-demo-locale-20261108.js
+          node --check scripts/qa-owner-bilingual.mjs
+      - name: Check bilingual contracts and unchanged demo mapping
+        run: node scripts/qa-owner-bilingual.mjs

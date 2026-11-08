@@ -1,0 +1,38 @@
+name: Bilingual Owner Center and Digital Menus QA
+
+on:
+  push:
+    branches:
+      - 'feat/bilingual-owner-digital-menus-20261108'
+    paths:
+      - 'public/demos/**'
+      - 'public/assets/tle-demo-locale-20261108.js'
+      - 'public/website-for-your-business/index.html'
+      - 'public/es/website-for-your-business/index.html'
+      - 'scripts/qa-bilingual-owner-center.mjs'
+      - '.github/workflows/bilingual-owner-center-qa.yml'
+  pull_request:
+    paths:
+      - 'public/demos/**'
+      - 'public/assets/tle-demo-locale-20261108.js'
+      - 'public/website-for-your-business/index.html'
+      - 'public/es/website-for-your-business/index.html'
+      - 'scripts/qa-bilingual-owner-center.mjs'
+      - '.github/workflows/bilingual-owner-center-qa.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  bilingual-owner:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify bilingual demo code, navigation and safe mock editor
+        run: node scripts/qa-bilingual-owner-center.mjs
+      - name: Verify no broken routes for menus or customer previews
+        run: node scripts/qa-route-integrity.mjs --static
