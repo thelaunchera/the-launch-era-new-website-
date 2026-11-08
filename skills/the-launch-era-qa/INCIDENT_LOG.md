@@ -1,3 +1,10 @@
+## 2026-11-08 — SOVA official cobalt sofa photo replaces mismatched video hero
+
+- **Request:** User approved a new wide image with woman and ivory headphones on a coherent cobalt-blue sofa/background and explicitly asked to replace the image in the SOVA demo.
+- **Scope:** `https://thelaunchera.com/demos/sova/`. Replaced the SOVA-only cinematic and animated-WebP overlay loader with a single full-frame editorial 1536×1024 PNG `media/sova-hero-seamless-cobalt-20261108.png` (Git blob `4bb7f407993023faa16f716046888dfdfd8d58ec`); original MP4, earlier poster and gallery are retained for rollback. Matching photo is in SOVA's Drive folder.
+- **Presentation:** SOVA hero photographic background and semantic foreground photo use the *same* new image, with only a transparent dark gradient on the left for readable copy. All video and play controls gone. Use no zoom, 23% vertical focus on wide desktop, full 3:2 photo and copy below at 760px and under. No split between video and background. CSS background ensures no old-photo flash while React hero mounts; JS changes only .hero .hero-media > img on re-render. Other demos, product/gallery/order simulations untouched.
+- **QA:** require successful GitHub Pages deploy, production URL shows approved asset and zero video/button in SOVA hero, test 390/820/1440 widths and no clipping. Photo source may be optimized to WebP by existing photo performance build (same composition, original PNG preserved). Physical iPad acceptance separate.
+
 ## 2026-11-08 — Golden Grid: iPad soft after first hero video repair
 
 - Owner reports that Golden Grid still looks blurry on the physical iPad. Verified release-code cause: `scripts/optimize_demo_photos.py` rewrote the full hero `resources/golden-1.png` to quality-80 WebP during Pages build; the image has embedded editorial and product lettering. The previously wide low-resolution motion mask also overlapped package text.
