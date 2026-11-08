@@ -1,0 +1,35 @@
+name: Owner demo brand consistency QA
+
+on:
+  pull_request:
+    paths:
+      - 'public/demos/owner-center/index.html'
+      - 'public/assets/tle-owner-brand-context-20261108.js'
+      - 'public/assets/tle-owner-request-examples-20261108.js'
+      - 'scripts/qa-owner-brand-consistency.mjs'
+      - '.github/workflows/owner-brand-consistency-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'public/demos/owner-center/index.html'
+      - 'public/assets/tle-owner-brand-context-20261108.js'
+      - 'public/assets/tle-owner-request-examples-20261108.js'
+      - 'scripts/qa-owner-brand-consistency.mjs'
+      - '.github/workflows/owner-brand-consistency-qa.yml'
+
+permissions:
+  contents: read
+jobs:
+  owner-demo-consistency:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check 13 industry-specific demo configurations in ES and EN
+        run: |
+          node --check public/assets/tle-owner-brand-context-20261108.js
+          node --check scripts/qa-owner-brand-consistency.mjs
+          node scripts/qa-owner-brand-consistency.mjs
