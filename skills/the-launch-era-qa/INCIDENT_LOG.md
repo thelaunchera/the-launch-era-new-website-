@@ -1,3 +1,9 @@
+## 2026-11-08 — Golden Grid: iPad soft after first hero video repair
+
+- Owner reports that Golden Grid still looks blurry on the physical iPad. Verified release-code cause: `scripts/optimize_demo_photos.py` rewrote the full hero `resources/golden-1.png` to quality-80 WebP during Pages build; the image has embedded editorial and product lettering. The previously wide low-resolution motion mask also overlapped package text.
+- Fix: exempt Golden Grid's *full hero* from lossy WebP substitution only, retaining original 1122×1402 PNG and cache-busting the exact hero URL; catalog/gallery WebP optimizations remain. The video poster uses the same master PNG and the syrup-motion mask is narrowed away from packaging text. Preserve separate standalone-phone video behavior and embedded Studio still-image guard.
+- Regression: post-optimizer Pages artifact QA in `scripts/qa_demo_photo_performance.py`, plus Golden Grid Chromium/WebKit responsive checks; require production deploy and real iPad confirmation before marking fully resolved.
+
 ## 2026-11-08 — Brand Board: explicit save, photo change/delete and reload persistence
 
 - **Owner screenshot/request:** On Golden Grid Brand Board's Identity/Fotos editor, a visible bottom **Guardar cambios** button and clearly labeled **Cambiar foto / Eliminar foto** controls were requested.
