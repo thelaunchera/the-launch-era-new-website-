@@ -29,11 +29,11 @@ if(slug==='crumb'){
 if(slug==='jaramillo-boutique'){
  var unitText=document.getElementById('productUnitPrice')?.textContent||'';
  var unitMatch=unitText.match(/\d+(?:\.\d+)?/),unitCents=unitMatch?Math.round(Number(unitMatch[0])*100):0;
- catalog=Array.from(document.querySelectorAll('.collection-card')).map(function(card){return {name:card.dataset.labelEn||'',priceCents:unitCents,image:card.querySelector('img')?.getAttribute('src')||''}});
+ catalog=Array.from(document.querySelectorAll('.collection-card')).map(function(card){return {name:card.dataset.labelEn||'',esName:card.dataset.labelEs||'',priceCents:unitCents,image:card.querySelector('img')?.getAttribute('src')||''}});
 }
 catalog=catalog.filter(function(x){return x.name&&Number.isInteger(x.priceCents)&&x.priceCents>0&&x.image!==undefined});
 if(!catalog.length)return;
-var find=function(name){var n=normalize(name);return catalog.find(function(x){return normalize(x.name)===n})||catalog.find(function(x){return normalize(x.name).indexOf(n)>=0||n.indexOf(normalize(x.name))>=0})};
+var find=function(name){var n=normalize(name);return catalog.find(function(x){return normalize(x.name)===n||(x.esName&&normalize(x.esName)===n)})||catalog.find(function(x){return normalize(x.name).indexOf(n)>=0||n.indexOf(normalize(x.name))>=0})||(slug==='casa-brownie'&&n.indexOf('nuez')>=0?catalog.find(function(x){return normalize(x.name).indexOf('nuez')>=0}):null)};
 var cart=new Map(),step='menu',details=null,receipt=null,lastFocus=null;
 var count=function(){var n=0;cart.forEach(function(q){n+=q});return n};
 var subtotal=function(){var c=0;cart.forEach(function(q,i){c+=catalog[i].priceCents*q});return c};
@@ -43,6 +43,7 @@ css.id='tle-demo-order-css';
 css.textContent=[
 '.tle-order-float{--toc-accent:'+tone+';position:fixed;right:max(14px,env(safe-area-inset-right));bottom:max(20px,env(safe-area-inset-bottom));z-index:20000;min-height:54px;display:flex;align-items:center;gap:9px;border:1px solid #ffffff75;background:var(--toc-accent);color:#fff;border-radius:40px;padding:12px 18px;font:700 13px/1.2 system-ui,sans-serif;box-shadow:0 12px 32px #16161648;cursor:pointer;max-width:calc(100vw - 28px);letter-spacing:0;text-transform:none}',
 '.tle-order-float b{background:#fff;color:#191919;border-radius:30px;padding:5px 8px;font-size:12px;min-width:22px;text-align:center}',
+'.tle-order-float[hidden]{display:none!important}',
 '.tle-order-modal{--toc-accent:'+tone+';position:fixed;inset:0;margin:auto;padding:0;width:min(600px,calc(100vw - 22px));max-width:600px;max-height:min(88dvh,840px);border:0;border-radius:22px;background:#faf8f3;color:#191919;box-shadow:0 20px 80px #19191960;font:400 14px/1.5 system-ui,-apple-system,Arial,sans-serif;overflow:auto;overscroll-behavior:contain}',
 '.tle-order-modal::backdrop{background:#141414ad;backdrop-filter:blur(3px)}',
 '.tle-order-modal *{box-sizing:border-box}.tle-order-modal button,.tle-order-modal input,.tle-order-modal select,.tle-order-modal textarea{font:inherit}',
@@ -211,6 +212,7 @@ function augmentNative(){
   };new MutationObserver(attach).observe(title,{childList:true,subtree:true});attach()}
  }
 }
+if(['yummm','crumb','casa-brownie','jaramillo-boutique'].includes(slug))float.hidden=true;
 paintFloat();decorate();augmentNative();
 var watcher=new MutationObserver(function(){decorate();if(slug==='golden-grid')augmentNative()});
 watcher.observe(document.body,{childList:true,subtree:true});
