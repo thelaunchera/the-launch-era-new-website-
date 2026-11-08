@@ -1,3 +1,12 @@
+## 2026-11-08 — Too many post-hero animated banners (owner design review)
+
+- **Feedback:** repeated, always-scrolling strips beneath several brand heroes distracted from approved original photography and made different demo brands feel templated.
+- **Source review:** the catalog contains 16 canonical demos in two GitHub Pages repositories; additional repeating decorative strips were identified in Golden Grid, Casa Brownie, CRUMB, La Vie in Pink, AFTR, Lavender Edit, Seasonal Brew, SOLUNA, WOK SOCIAL, YUMMM, and interactive brand banners in SOVA, Marea and Jaramillo.
+- **Repair:** preserve exactly one editorial animation signature per demo: Golden Grid / WOK SOCIAL / AFTR use restrained brand-specific moving marquees instead of hero entrance animations; Casa Brownie, La Vie in Pink, Lavender Edit, Seasonal Brew, SOLUNA, YUMMM remove unnecessary decorative strips; CRUMB uses static perks and drops its extra double marquee; Marea keeps one static type strip; Jaramillo editorial carousel switches only via manual tabs/swipes, no seven-second autoplay; other demos retain relevant static content without a new banner. Separate CSS layer, no photo, booking, client, price, checkout, path or identity changes.
+- **Safety:** animations stop with reduced-motion preferences; active marquee animation pauses on hover or focus. Jaramillo manual tab/swipe controls remain.
+- **Verification:** GitHub source changes checked; GitHub Pages deployment, mobile actual Safari and in-app browser acceptance must be checked separately. Do not claim actual iPhone QA merely from source and CI. No live orders or test submissions.
+- **Files:** public/assets/tle-demo-single-signature-20261108.css, assets/tle-demo-single-signature-20261108.css in secondary demo repository, demos/jaramillo-boutique/main.js in approved Jaramillo branch. Banner source decisions documented in docs/DEMO-PRODUCTION-PIPELINE.md.
+
 ## 2026-11-08 — Public offer internal-copy leak + mismatched demo photo cards (owner iPhone report)
 
 - **Observed:** The English restaurant-disclosure panel publicly exposed implementation-oriented phrasing (“generic lead follow-ups,” staff approval, inventory and SMS mechanics), and the Spanish page showed equivalent internal copy. The restaurant FAQ said every request cannot confirm a table. In the mobile hero rail, CRUMB and Jaramillo rendered with light side bars while white project labels disappeared over light photos.
