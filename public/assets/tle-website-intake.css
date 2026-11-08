@@ -64,3 +64,18 @@ header{height:74px;background:white;display:flex;justify-content:space-between;a
  #intake-form .field textarea{min-height:98px}
  .intro .mini{padding:12px 0}
 }
+
+
+/* Optional product photography request — two paid intake packages only */
+#intake-form .ai-photo-request{padding:17px 18px;margin:3px 0 7px;border:1px solid #d8e2e8;background:#f3f8fa;border-radius:15px;display:grid;gap:11px}
+#intake-form .ai-photo-choice{display:flex;align-items:flex-start;gap:12px;cursor:pointer;color:#191919;font-weight:400}
+#intake-form .ai-photo-choice>input{flex:none;width:20px;height:20px;min-height:20px;accent-color:#191919;margin:3px 0 0}
+#intake-form .ai-photo-choice>span{display:grid;gap:5px;min-width:0}
+#intake-form .ai-photo-choice strong{font:700 13px/1.5 'Prompt',sans-serif}
+#intake-form .ai-photo-choice small{font:400 11px/1.65 'DM Sans',sans-serif;color:#526670}
+#intake-form .ai-photo-gallery-link{display:inline-flex;align-items:center;gap:9px;justify-content:space-between;width:max-content;max-width:100%;min-height:43px;padding:8px 15px;border:1px solid #ced9df;border-radius:99px;background:#fff;color:#234960;font:700 11px/1.45 'DM Sans',sans-serif;text-decoration:none}
+#intake-form .ai-photo-gallery-link:hover{background:#e8f0f5}
+#intake-form .ai-photo-details{display:grid;gap:12px;padding:15px 0 0;border-top:1px solid #d5e0e6}
+#intake-form .ai-photo-disclaimer{font:400 11px/1.65 'DM Sans',sans-serif;color:#51616c;margin:0}
+#intake-form .ai-photo-details .field{font-size:11px}
+@media(max-width:550px){#intake-form .ai-photo-request{padding:15px 13px}#intake-form .ai-photo-gallery-link{width:100%;justify-content:space-between;text-align:left}}
