@@ -18,6 +18,15 @@
   <link rel="stylesheet" href="/assets/tle-demo-footer-finale-20261108.css?v=1">
 
 <!-- Approved hero photography remains visible until a matching, verified motion poster is available. -->
+<link rel="preload" as="image" href="./media/hero-motion-poster-hq.webp">
+<style id="tle-motion-first-frame-marea-wigs-miami">
+@media(prefers-reduced-motion:no-preference){
+html[data-tle-one-motion="marea-wigs-miami"] .hero-visual{position:relative;background-image:url("./media/hero-motion-poster-hq.webp")!important;background-repeat:no-repeat!important;background-size:cover!important;background-position:center!important;overflow:hidden;}
+html[data-tle-one-motion="marea-wigs-miami"] .hero-visual>img{opacity:0!important;}
+html[data-tle-one-motion="marea-wigs-miami"] .hero-visual video[data-tle-cinematic-hero]{object-position:center;}
+
+}
+</style>
 </head>
 <body data-tle-company="demo">
     <div id="app"></div>
