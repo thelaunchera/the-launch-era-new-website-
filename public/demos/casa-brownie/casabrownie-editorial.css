@@ -44,15 +44,12 @@
   .closing .primary-button { margin-left:0; flex-shrink:0; }
 }
 @media (min-width:791px) and (max-width:1199px) {
-  /* Replace empty tablet hero copy panel with a short editorial two-column story. */
+  /* Tablet hero: preserve a full-width, readable copy column beside the cinematic brownie. */
   .hero .hero-copy {
-    display:grid;
-    grid-template-columns:minmax(0,1fr) minmax(0,.96fr);
-    grid-template-rows:repeat(5,auto);
-    column-gap:clamp(20px,3.6vw,42px);
-    row-gap:0;
-    align-content:center;
-    align-items:center;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    justify-content:center;
     text-align:left;
     padding:clamp(32px,4.2vw,49px) clamp(27px,5vw,62px);
     min-height:0;
@@ -103,16 +100,6 @@
   .hero .hero-qualities > span { padding:0 3px; }
   .hero .hero-qualities svg { width:22px; height:22px; }
   .hero .hero-qualities small { font-size:7px; letter-spacing:0; }
-  .hero .cb-hero-lifestyle {
-    display:block;
-    grid-column:2;grid-row:1 / 6;
-    width:100%;
-    height:clamp(410px,47vw,565px);
-    border-radius:16px;
-    box-shadow:0 18px 40px rgba(73,42,27,.12);
-    align-self:stretch;
-  }
-  .hero .cb-hero-lifestyle img { object-position:50% 44%; }
   .moments-strip > .moments-copy {
     min-height:0;
     padding:36px 7% 40px;
