@@ -1,3 +1,10 @@
+## 2026-11-08 — Four missing brand heroes on the Website offer
+
+- **Owner request:** add the live concepts SOLUNA Yoga, Experience Cleaning, YUMMM and WOK SOCIAL to the existing offer's hero and display each brand's real demo photo or video (not generic cards or substitute media). Preserve curated Studio visibility.
+- **Verified source:** original 7-card HTML lacked all four slugs. The demo library already identifies their exact approved hero photos and local/cross-repository routes. YUMMM additionally has the real MP4 and its matching first-frame poster; the other three retain their original photographic hero. The desktop gallery uses a 7-slot static CSS grid, so appending four alone would overflow or shrink.
+- **Scoped repair:** four individual cards in EN+ES reuse original assets and preview routes, one YUMMM video lazily activated with photo fallback, and a dynamic desktop extended rail for >7 visible projects. Existing demo cards, price cards, intake, availability selection, Studio and external demo repos are unchanged.
+- **Verification to perform:** original media availability from published Pages in both locales, actual card opening/closing via `/demos/`, runtime Studio hide/unhide parity and browser video first-frame behavior, Chromium/WebKit iPad and iPhone QA. No claim that physical iPad acceptance is complete until owner verifies.
+
 ## 2026-11-08 — Website offer gallery and service cards disproportionately small on iPad
 
 - **Owner evidence:** iPad Safari/Instagram browser screenshots at approximately 1024 CSS-pixel width show four approved demo portraits occupying only the middle of the hero, four benefits in tiny type, and the $15/$25 package copy compressed into narrow half-width slices.
