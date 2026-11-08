@@ -42,7 +42,7 @@ html[data-tle-one-motion="sova"] .hero .hero-media > img {
   opacity:0!important;
   transition:opacity .2s ease;
 }
-html[data-tle-one-motion="sova"] .hero .hero-media.sova-poster-ready > img {
+html[data-tle-one-motion="sova"] .hero .hero-media.sova-poster-ready > img:not([data-sova-animated-loop]) {
   opacity:1!important;
 }
 html[data-tle-one-motion="sova"] .hero .hero-media > video[data-sova-hq-motion] {
@@ -119,36 +119,38 @@ html[data-tle-one-motion="sova"] .hero .hero-bottom {
   }
 }
 
-
-/* iPad/iPhone Safari playback recovery: unobtrusive but available manual play.
-   Keep the cinematic footage behind editorial copy and all existing CTAs. */
-html[data-tle-one-motion="sova"] .hero .hero-media > .sova-video-control {
-  position:absolute;right:clamp(12px,2.2vw,26px);bottom:clamp(58px,5vw,74px);
-  z-index:5;display:inline-flex;align-items:center;justify-content:center;
-  min-width:108px;min-height:44px;padding:11px 18px;
-  border:1px solid rgba(255,255,255,.74);border-radius:999px;
-  background:rgba(3,26,74,.82);color:#fff;
-  font:600 12px/1.25 "DM Sans",Arial,sans-serif;
-  letter-spacing:.025em;text-align:center;
-  -webkit-appearance:none;appearance:none;cursor:pointer;
-  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+/* SOVA Safari/iPad: exact Canva frame animation, no play controls or video policy.
+   The approved poster stays underneath until the animated asset has decoded. */
+html[data-tle-one-motion="sova"] .hero .hero-media > img[data-sova-animated-loop] {
+  z-index:1!important;opacity:0!important;
+  width:70%!important;height:100%!important;
+  object-fit:contain!important;object-position:center right!important;
+  transition:none!important;animation:none!important;
 }
-html[data-tle-one-motion="sova"] .hero .hero-media > .sova-video-control:focus-visible {
-  outline:3px solid white;outline-offset:3px;
+html[data-tle-one-motion="sova"] .hero .hero-media > img[data-sova-animated-loop].sova-loop-playing {
+  opacity:1!important;
 }
-html[data-tle-one-motion="sova"] .hero .hero-media > .sova-video-control[data-state="playing"] {
-  background:rgba(3,26,74,.55);
+html[data-tle-one-motion="sova"] .hero .hero-media.sova-loop-ready > img:not([data-sova-animated-loop]) {
+  opacity:0!important;
+}
+html[data-tle-one-motion="sova"] .hero .hero-media .sova-video-control,
+html[data-tle-one-motion="sova"] .hero .hero-media [data-sova-video-control] {
+  display:none!important;
+}
+@media (min-width:761px) and (max-width:1099px) {
+  html[data-tle-one-motion="sova"] .hero .hero-media > img[data-sova-animated-loop] {
+    width:72%!important;
+  }
 }
 @media (max-width:760px) {
-  html[data-tle-one-motion="sova"] .hero .hero-media > .sova-video-control {
-    right:14px;bottom:14px;min-height:44px;
+  html[data-tle-one-motion="sova"] .hero .hero-media > img[data-sova-animated-loop] {
+    left:0!important;right:0!important;
+    width:100%!important;height:100%!important;
+    object-position:center center!important;
   }
 }
 @media (prefers-reduced-motion:reduce) {
-  html[data-tle-one-motion="sova"] .hero .hero-media.sova-user-started > video[data-sova-hq-motion] {
-    display:block!important;
-  }
-  html[data-tle-one-motion="sova"] .hero .hero-media > .sova-video-control {
-    transition:none!important;
+  html[data-tle-one-motion="sova"] .hero .hero-media > img[data-sova-animated-loop] {
+    display:none!important;
   }
 }
