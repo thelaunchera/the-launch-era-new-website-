@@ -143,6 +143,7 @@ body{background:var(--paper)}
 <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile Owner Center navigation"></nav>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <script src="/assets/tle-demo-locale-20261108.js"></script>
+<script src="/assets/tle-owner-request-examples-20261108.js"></script>
 <script>
 (function(){
 "use strict";
@@ -185,7 +186,7 @@ const toast=m=>{const n=$("#toast");n.textContent=window.TLELocale?.tr(m)||m;n.c
 const priceOf=p=>Math.max(0,Number(p.price)||0)*(1-Math.max(0,Math.min(90,Number(p.discount)||0))/100);
 const iconSvg=path=>'<svg viewBox="0 0 24 24" aria-hidden="true">'+path+'</svg>';
 const setNav=()=>{
- const buttons=navItems.map(([v,label,path])=>'<button type="button" class="nav-button" data-view="'+v+'" '+(v===currentView?'aria-current="page"':'')+'>'+iconSvg(path)+'<span>'+esc(v==="catalog"?(themes[current].kind==="menu"?"Menu":"Services"):v==="requests"?(themes[current].kind==="menu"?"Orders":"Bookings"):label)+'</span></button>').join("");
+ const buttons=navItems.map(([v,label,path])=>'<button type="button" class="nav-button" data-view="'+v+'" '+(v===currentView?'aria-current="page"':'')+'>'+iconSvg(path)+'<span>'+esc(v==="catalog"?(themes[current].kind==="menu"?"Menu":"Services"):v==="requests"?(window.TLEOwnerRequestExamples?.[current]?.[window.TLELocale?.isEs?"es":"en"]?.nav||"Requests"):label)+'</span></button>').join("");
  $("#sidebar-nav").innerHTML=buttons;$("#mobile-nav").innerHTML=buttons;window.TLELocale?.apply($("#sidebar-nav"));window.TLELocale?.apply($("#mobile-nav"));
  document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",()=>setView(b.dataset.view)));
 };
@@ -223,10 +224,12 @@ const add=()=>{
 const closeEdit=()=>{$("#editor-panel").classList.remove("is-open");editedId=null;};
 const reset=()=>{if(!confirm(window.TLELocale?.tr("Reset this brand's demo? Your browser-only edits for this project will be cleared.")||"Reset this brand's demo? Your browser-only edits for this project will be cleared."))return;try{localStorage.removeItem(key())}catch(e){}items=baseItems(themes[current]);closeEdit();render();toast("Original demo restored");};
 const renderRequests=()=>{
- const restaurant=themes[current].kind==="menu";
- $("#request-descriptor").textContent=restaurant?"Sample order cards for a fictional day.":"Sample bookings and quote requests for a fictional day.";
- const sample=restaurant?[["Order example #001","Two menu items · Takeaway","Example only"],["Order example #002","One menu item · Dine-in","Example only"],["Order example #003","Three menu items · Pickup","Example only"]]:[["Request example #001","New inquiry · Residential","Example only"],["Booking example #002","Consultation requested","Example only"],["Quote example #003","Service package inquiry","Example only"]];
- $("#requests-list").innerHTML=sample.map(p=>'<article class="request"><span class="tag">SIMULATED</span><h3 style="margin-top:12px">'+p[0]+'</h3><div class="request-meta">'+p[1]+'<br>'+p[2]+'</div></article>').join("");window.TLELocale?.apply($("#requests-list"));
+ // Fictional activity must match each brand; only cleaning can show residential inquiries.
+ const examples=window.TLEOwnerRequestExamples?.[current]?.[window.TLELocale?.isEs?"es":"en"];
+ $("#request-descriptor").textContent=examples?.intro||"Sample inquiries for a fictional day.";
+ const sample=examples?.cards||[];
+ $("#requests-list").innerHTML=sample.map(p=>'<article class="request"><span class="tag">SIMULATED</span><h3 style="margin-top:12px">'+esc(p[0])+'</h3><div class="request-meta">'+esc(p[1])+'<br>'+esc(p[2])+'</div></article>').join("");
+ window.TLELocale?.apply($("#requests-list"));
 };
 const render=()=>{
  const cfg=themes[current];document.documentElement.style.setProperty("--accent",cfg.accent);document.documentElement.style.setProperty("--soft",cfg.soft);
