@@ -1,0 +1,346 @@
+/* The Launch Era — deeper, realistic demo presentation.
+   Visual-only enhancements. Existing imagery, brands, pricing logic,
+   simulated local-state and navigation remain untouched. */
+
+/* 1. Public portfolio — tactile gallery cards with dimensional photo frames. */
+body.tle-depth-gallery .demo-grid{row-gap:clamp(32px,4.4vw,62px);column-gap:clamp(18px,2.5vw,38px)}
+body.tle-depth-gallery .demo-card{
+  border:1px solid #e9e3d9;
+  border-radius:clamp(20px,2.1vw,27px);
+  padding:8px 8px 18px;
+  background:#fffefa;
+  box-shadow:0 2px 2px rgba(25,25,25,.025),
+    0 10px 24px rgba(25,25,25,.075),
+    0 30px 66px rgba(36,29,19,.055);
+  transition:box-shadow .28s ease,border-color .28s ease;
+}
+body.tle-depth-gallery .demo-card:hover,
+body.tle-depth-gallery .demo-card:focus-within{
+  border-color:#d4c9b9;
+  box-shadow:0 2px 3px rgba(25,25,25,.035),
+    0 18px 38px rgba(25,25,25,.105),
+    0 44px 80px rgba(36,29,19,.085);
+}
+body.tle-depth-gallery .demo-art{
+  border-radius:clamp(15px,1.6vw,21px);
+  isolation:isolate;
+  box-shadow:inset 0 0 0 1px rgba(25,25,25,.1);
+}
+body.tle-depth-gallery .demo-art img{transform-origin:center}
+body.tle-depth-gallery .demo-type{
+  border:1px solid rgba(25,25,25,.06);
+  box-shadow:0 3px 14px rgba(25,25,25,.12);
+}
+body.tle-depth-gallery .demo-content{
+  padding:clamp(17px,2vw,25px) clamp(9px,1.25vw,19px) 4px;
+}
+body.tle-depth-gallery .demo-content h2{
+  margin-bottom:8px;
+  text-wrap:balance;
+}
+body.tle-depth-gallery .demo-links a{
+  min-height:40px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  transition:background .2s ease,border-color .2s ease,box-shadow .2s ease;
+}
+body.tle-depth-gallery .demo-card .owner-view{
+  border-radius:999px;
+  border:1px solid #d4c3bd;
+  background:#fff;
+  box-shadow:0 3px 8px rgba(25,25,25,.06);
+}
+body.tle-depth-gallery .demo-card .owner-view:hover{
+  background:#faf6f3;
+  box-shadow:0 5px 14px rgba(25,25,25,.09);
+}
+body.tle-depth-gallery .demo-card:focus-within .demo-art{outline-offset:-3px}
+
+/* 2. Owner dashboard — visible hierarchy and practical app-like depth. */
+body.tle-depth-owner .content{background:#fefcfd}
+body.tle-depth-owner .kpis{gap:clamp(9px,1.3vw,17px)}
+body.tle-depth-owner .kpi{
+  position:relative;
+  isolation:isolate;
+  border-radius:21px;
+  border:1px solid #e8dae1;
+  background:#fff;
+  box-shadow:0 1px 0 #fff inset,0 2px 4px rgba(41,20,31,.035),
+    0 13px 30px rgba(41,20,31,.085),0 30px 70px rgba(41,20,31,.045);
+}
+body.tle-depth-owner .kpi:first-child{
+  background:#C90B73;
+  border-color:#b30a67;
+  box-shadow:0 1px 0 rgba(255,255,255,.2) inset,
+    0 11px 27px rgba(201,11,115,.21),0 27px 46px rgba(120,10,70,.14);
+}
+body.tle-depth-owner .kpi strong{font-variant-numeric:tabular-nums}
+body.tle-depth-owner .panel,
+body.tle-depth-owner .preview-shell{
+  border:1px solid #e8dce2;
+  border-radius:23px;
+  background:#fff;
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,
+    0 4px 14px rgba(45,24,34,.05),
+    0 20px 46px rgba(45,24,34,.072);
+}
+body.tle-depth-owner .preview-shell{
+  padding:0 0 13px;
+  background:#fffafc;
+}
+body.tle-depth-owner .preview-label{
+  border-bottom:1px solid #f2e5ec;
+  background:#fff;
+  padding:16px 20px;
+}
+body.tle-depth-owner .item-row{
+  background:#fff;
+  border:1px solid #ebe2e6;
+  border-radius:16px;
+  padding:10px 12px 10px 10px;
+  box-shadow:0 2px 10px rgba(45,24,34,.035);
+  transition:box-shadow .18s ease,border-color .18s ease;
+}
+body.tle-depth-owner .item-row:focus-within,
+body.tle-depth-owner .item-row:hover{
+  border-color:#d7b9c9;
+  box-shadow:0 5px 18px rgba(45,24,34,.075);
+}
+body.tle-depth-owner .item-row img{
+  border-radius:12px;
+  width:74px;height:74px;
+  box-shadow:0 2px 10px rgba(40,20,29,.09);
+}
+body.tle-depth-owner .item-row .item-details strong{font-size:12px}
+body.tle-depth-owner .item-row .item-price{
+  font-size:13px;font-variant-numeric:tabular-nums;
+}
+body.tle-depth-owner .catalog-list{gap:clamp(15px,2vw,23px);align-items:stretch}
+body.tle-depth-owner .product-card{
+  position:relative;isolation:isolate;
+  overflow:hidden;
+  border:1px solid #e8dce2;
+  border-radius:24px;
+  background:#fff;
+  box-shadow:0 1px 0 #fff inset,0 4px 8px rgba(32,25,30,.035),
+    0 18px 36px rgba(32,25,30,.095),
+    0 34px 65px rgba(32,25,30,.055);
+  transition:box-shadow .25s ease,border-color .25s ease;
+}
+body.tle-depth-owner .product-card:hover,
+body.tle-depth-owner .product-card:focus-within{
+  border-color:#dcc0cf;
+  box-shadow:0 2px 4px rgba(32,25,30,.04),
+    0 19px 46px rgba(32,25,30,.13),
+    0 42px 80px rgba(32,25,30,.065);
+}
+body.tle-depth-owner .product-image{
+  height:clamp(180px,19vw,245px);
+  width:100%;
+  object-fit:cover;
+  display:block;
+  border-bottom:1px solid #ede4e8;
+  background:#f7f1f2;
+}
+body.tle-depth-owner .product-data{padding:clamp(17px,1.9vw,23px)}
+body.tle-depth-owner .product-data h3{
+  font:700 clamp(15px,1.25vw,18px)/1.3 "DM Sans","Prompt",Arial,sans-serif;
+  letter-spacing:-.025em;
+  color:#221c20;
+}
+body.tle-depth-owner .product-data p{
+  min-height:0;margin:8px 0 15px;
+  font-size:11px;line-height:1.7;
+}
+body.tle-depth-owner .product-data>strong{
+  display:inline-flex;
+  align-items:center;
+  font:750 clamp(17px,1.65vw,22px)/1.3 "DM Sans",Arial,sans-serif;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:-.03em;
+  margin-right:5px;
+}
+body.tle-depth-owner .product-data>.tag{
+  vertical-align:middle;
+  padding:7px 10px;
+  border:1px solid rgba(150,18,83,.09);
+}
+body.tle-depth-owner .product-actions{
+  border-top:1px solid #f0e7eb;
+  margin-top:17px;
+  padding-top:14px;
+}
+body.tle-depth-owner .product-actions .text-button{
+  min-height:44px;
+  border:1px solid transparent;
+  border-radius:11px;
+  text-decoration:none;
+  background:#fbf3f7;
+  padding:10px 12px;
+}
+body.tle-depth-owner .product-actions .text-button:focus-visible{
+  border-color:#aa1c69;outline:2px solid #eab0d1;outline-offset:2px;
+}
+body.tle-depth-owner .request{
+  border-radius:21px;
+  border:1px solid #ebdfe6;
+  border-left:4px solid #d18cae;
+  background:#fff;
+  box-shadow:0 3px 10px rgba(32,25,30,.045),
+    0 18px 35px rgba(32,25,30,.075);
+}
+body.tle-depth-owner .request .tag{border:1px solid #eec5d8}
+body.tle-depth-owner .editor-panel{
+  box-shadow:0 5px 18px rgba(38,22,32,.07),
+    0 26px 65px rgba(38,22,32,.1);
+}
+body.tle-depth-owner .field input,
+body.tle-depth-owner .field textarea,
+body.tle-depth-owner .filter-input{
+  min-height:46px;
+  box-shadow:0 1px 3px rgba(38,22,32,.045) inset;
+}
+
+/* 3. Customer preview — a believable device with distinct product tiles. */
+body.tle-depth-owner .phone{
+  position:relative;
+  border:7px solid #242226;
+  border-radius:34px;
+  box-shadow:0 1px 2px #fff8 inset,0 0 0 1px #151317,
+    0 11px 25px rgba(19,14,20,.17),
+    0 32px 68px rgba(19,14,20,.17);
+  overflow:hidden;
+}
+body.tle-depth-owner .phone::before{
+  content:"";
+  position:absolute;left:50%;top:0;
+  transform:translateX(-50%);
+  width:78px;height:12px;border-radius:0 0 12px 12px;
+  background:#242226;z-index:6;
+}
+body.tle-depth-owner .phone::after{
+  content:"";
+  display:block;width:88px;height:4px;
+  border-radius:50px;background:#292529;
+  margin:8px auto 10px;
+}
+body.tle-depth-owner .phone-hero{
+  height:clamp(172px,19vw,205px);
+  border-radius:0;
+}
+body.tle-depth-owner .phone-hero img{object-fit:cover}
+body.tle-depth-owner .phone-brand{
+  text-shadow:0 2px 14px rgba(0,0,0,.4);
+  font-size:clamp(24px,2.2vw,30px);
+}
+body.tle-depth-owner .phone-inner{padding:17px 15px 18px}
+body.tle-depth-owner .phone-caption{
+  letter-spacing:.11em;font-weight:750;
+  border-bottom:1px solid #e9e3e2;
+  padding-bottom:12px;margin-bottom:15px;
+}
+body.tle-depth-owner .preview-items{gap:11px}
+body.tle-depth-owner .preview-card{
+  border-radius:15px;
+  border:1px solid #e7e1df;
+  background:#fff;
+  box-shadow:0 2px 7px rgba(30,24,23,.045),
+    0 8px 20px rgba(30,24,23,.06);
+}
+body.tle-depth-owner .preview-card img{
+  height:clamp(94px,10vw,124px);
+  object-fit:cover;
+  background:#f6f2ef;
+}
+body.tle-depth-owner .preview-card div{padding:10px 10px 12px}
+body.tle-depth-owner .preview-card strong{
+  min-height:0;margin-bottom:5px;
+  color:#292327;font-size:10px;line-height:1.5;
+}
+body.tle-depth-owner .preview-card small{font-size:9px;line-height:1.4}
+body.tle-depth-owner .preview-card b{
+  display:inline-block;font-size:12px;
+  color:#241e21;margin-top:7px;font-variant-numeric:tabular-nums;
+}
+body.tle-depth-owner .phone-foot{
+  letter-spacing:.035em;line-height:1.5;
+  border-top:1px solid #ebe5e8;
+  background:#fcf9fa;
+}
+
+/* 4. Sales pages (English + Spanish) — layered editorial demo showroom. */
+.tle-universal .owner-customer-frame{
+  position:relative;
+  border-radius:27px;
+  padding:12px;
+  background:#fff;
+  border:1px solid #e7dce0;
+  box-shadow:0 1px 0 #fff inset,
+    0 12px 24px rgba(25,25,25,.075),
+    0 34px 70px rgba(35,23,30,.12);
+}
+.tle-universal .owner-customer-visual{
+  border-radius:19px;
+  overflow:hidden;
+}
+.tle-universal .owner-admin-visual{
+  border-radius:24px;
+  box-shadow:0 2px 0 rgba(255,255,255,.13) inset,
+    0 12px 22px rgba(115,8,68,.13),
+    0 29px 58px rgba(115,8,68,.22);
+}
+.tle-universal .owner-admin-product{
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.26);
+  box-shadow:0 3px 12px rgba(45,5,25,.11);
+}
+.tle-universal .owner-admin-field{
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:13px;
+  box-shadow:0 2px 8px rgba(45,5,25,.10);
+}
+.tle-universal .owner-admin-status{
+  border-top-color:rgba(255,255,255,.25);
+}
+@media(hover:hover) and (pointer:fine){
+  .tle-universal .owner-customer-frame,
+  .tle-universal .owner-admin-visual{
+    transition:box-shadow .22s ease;
+  }
+  .tle-universal .owner-customer-frame:hover{
+    box-shadow:0 12px 27px rgba(25,25,25,.10),
+      0 40px 77px rgba(35,23,30,.16);
+  }
+}
+@media(max-width:740px){
+  body.tle-depth-gallery .demo-grid{row-gap:30px;column-gap:16px}
+  body.tle-depth-gallery .demo-card{border-radius:22px;padding:7px 7px 18px}
+  body.tle-depth-gallery .demo-art{border-radius:15px}
+  body.tle-depth-gallery .demo-content{padding:15px 12px 1px;gap:10px}
+  body.tle-depth-gallery .demo-content h2{margin-bottom:8px}
+  body.tle-depth-owner .kpi{border-radius:16px}
+  body.tle-depth-owner .product-card{border-radius:20px}
+  body.tle-depth-owner .product-image{height:190px}
+  body.tle-depth-owner .item-row img{width:60px;height:60px}
+  body.tle-depth-owner .item-row{padding:8px;gap:8px}
+  body.tle-depth-owner .item-row .item-price{font-size:11px}
+  body.tle-depth-owner .phone{max-width:100%}
+  body.tle-depth-owner .phone-hero{height:168px}
+  body.tle-depth-owner .preview-card img{height:106px}
+  .tle-universal .owner-customer-frame{padding:9px;border-radius:22px}
+  .tle-universal .owner-customer-visual{border-radius:14px}
+}
+@media(max-width:380px){
+  body.tle-depth-gallery .demo-card{padding-bottom:15px}
+  body.tle-depth-owner .kpi{padding:11px 9px}
+  body.tle-depth-owner .product-actions{gap:7px}
+  body.tle-depth-owner .product-actions .text-button{font-size:10px;padding:10px 6px}
+}
+@media(prefers-reduced-motion:reduce){
+  body.tle-depth-gallery .demo-card,
+  body.tle-depth-owner .product-card,
+  body.tle-depth-owner .item-row,
+  .tle-universal .owner-customer-frame,
+  .tle-universal .owner-admin-visual{transition:none!important}
+}
