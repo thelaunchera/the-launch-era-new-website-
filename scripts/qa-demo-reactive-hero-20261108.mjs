@@ -23,7 +23,13 @@ try {
   });
   assert.equal(initial.brand,slug,slug+' brand identity should stay scoped');
   assert.ok(initial.photos>=1,slug+' needs photo target');
-  assert.ok(initial.scale!=='none',slug+' should activate CSS image depth');
+  if(slug==='golden-grid') {
+    // The approved Golden Grid graphic contains typography and product labels;
+    // it must NEVER scale, including when scrolling or moving the cursor.
+    assert.equal(initial.scale,'none','Golden Grid retains sharp static typography instead of image zoom');
+  } else {
+    assert.ok(initial.scale!=='none',slug+' should activate CSS image depth');
+  }
   assert.ok(initial.over<=2,slug+' has horizontal overflow '+JSON.stringify(initial));
   await page.evaluate(()=>window.scrollTo({top:Math.min(280,document.querySelector('section.hero').offsetHeight*.35),behavior:'instant'}));
   await page.waitForTimeout(200);
