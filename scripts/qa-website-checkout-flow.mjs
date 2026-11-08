@@ -20,7 +20,7 @@ for (const [lang,page] of [['en',en],['es',es]]) {
  }
  ensure(!/<p class="fine" data-key="termsNote">/.test(page),lang+' has the old lengthy pricing disclaimer');
  ensure(page.includes('<section class="hero hero-gallery" id="inicio">')&&page.includes('hero-gallery-stage'),lang+' official website hero structure missing');
- const gallery=page.match(/<div class="hero-gallery-rail">([\\s\\S]*?)<\\/div><\\/div><p class="hero-gallery-note">/)?.[1]||'';
+ const gallery=page.split('<div class="hero-gallery-rail">')[1]?.split('</div></div><p class="hero-gallery-note">')[0]||'';
  const motionBrands=['casa-brownie','golden-grid','yummm','aftr','ivory-and-bloom','marea-wigs-miami','sova'];
  ensure(motionBrands.every(slug=>gallery.includes('data-demo="'+slug+'"')&&gallery.includes('href="/demos/?demo='+slug+'&amp;returnTo=')),lang+' official gallery must link to the seven selected demos');
  ensure(!gallery.includes('data-demo="umbral"')&&!gallery.includes('data-demo="crumb"'),lang+' Umbral and CRUMB must stay outside the seven animated cards');
