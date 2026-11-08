@@ -49,6 +49,41 @@ try{
  const response=await page.goto(url,{waitUntil:'domcontentloaded',timeout:35000});
  assert.equal(response?.status(),200,'Gallery must return 200, not a 404');
  assert.equal(await page.locator('.demo-card').count(),16,'Gallery must contain exactly 16 original concepts');
+
+ // Visual-depth regression — inspect computed presentation, not only source.
+ const galleryCardDepth=await page.locator('.demo-card').first().evaluate(el=>{
+  const css=getComputedStyle(el);
+  return {shadow:css.boxShadow,radius:parseFloat(css.borderTopLeftRadius),width:el.getBoundingClientRect().width};
+ });
+ assert.ok(galleryCardDepth.shadow!=='none'&&galleryCardDepth.shadow.includes('rgba'),
+   'Portfolio card must have a visibly layered shadow');
+ assert.ok(galleryCardDepth.radius>=18,'Portfolio cards need a soft physical frame');
+ const depthPage=await context.newPage();
+ try{
+  await depthPage.goto(new URL('/demos/owner-center/?demo=golden-grid&lang=es',url).href,{waitUntil:'domcontentloaded'});
+  await depthPage.locator('#mobile-nav [data-view="catalog"]').click();
+  await depthPage.locator('.product-card').first().waitFor({state:'visible'});
+  const productDepth=await depthPage.locator('.product-card').first().evaluate(el=>({
+   shadow:getComputedStyle(el).boxShadow,
+   radius:parseFloat(getComputedStyle(el).borderTopLeftRadius),
+   width:el.getBoundingClientRect().width
+  }));
+  assert.ok(productDepth.shadow!=='none'&&productDepth.radius>=20,
+   'Owner menu cards need realistic depth and rounding');
+  assert.ok(productDepth.width<=390,'Owner product cards must fit the phone viewport');
+  await depthPage.screenshot({path:folder+'/iPhone-owner-deep-product-cards.png'});
+  await depthPage.locator('#mobile-nav [data-view="preview"]').click();
+  const phoneShadow=await depthPage.locator('#large-preview .phone').evaluate(el=>getComputedStyle(el).boxShadow);
+  assert.notEqual(phoneShadow,'none','Customer phone preview needs its device frame shadow');
+  const ownerOverflow=await depthPage.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:innerWidth}));
+  assert.ok(ownerOverflow.scroll<=ownerOverflow.width+2,'Owner depth layer must not overflow iPhone '+JSON.stringify(ownerOverflow));
+  await depthPage.screenshot({path:folder+'/iPhone-owner-deep-phone-preview.png'});
+  await depthPage.goto(new URL('/es/website-for-your-business/',url).href,{waitUntil:'domcontentloaded'});
+  const marketingShadows=await depthPage.locator('.owner-admin-visual').evaluate(el=>getComputedStyle(el).boxShadow);
+  assert.notEqual(marketingShadows,'none','Spanish homepage presentation must be elevated');
+  console.log('[CARD DEPTH] gallery, owner catalog, phone preview and Spanish showcase OK');
+ }finally{await depthPage.close()}
+
  assert.equal(await page.locator('.card-preview-link').count(),16,'Every photo card needs a preview link');
  assert.equal(await page.locator('.demo-links .view').count(),16,'Every card needs a public demo website link');
  assert.equal(await page.locator('.demo-links .source, a[href*="github.com"]').count(),0,'Never expose code/source repository links in the public library');
