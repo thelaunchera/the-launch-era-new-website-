@@ -1,3 +1,10 @@
+## 2026-11-08 — Customer-facing copy exposed preview implementation language (public demo polish)
+
+- **User request:** all marketing landings and demos should explain the customer experience and next step without references to classroom tools, private Studio implementation, developer terminology or operational internals.
+- **Source findings:** `public/demos/owner-center/index.html` explained its photo field in terms of uploads/servers; `public/demos/crumb/index.html` described social examples by their connection status; `public/demos/ivory-and-bloom/index.html` used an abrupt “NOT A REAL STORE” masthead.
+- **Repair:** replaced only those visible strings with concise, brand-appropriate customer language. The Ivory & Bloom concept still clearly states that no orders are placed; the CRUMB social examples are still identified as non-active. No routes, prices, form destinations, product data, client accounts or behavior were changed. Classroom landing ES/EN copy was separately polished in the podcast site repository without changing teaching content.
+- **Verification:** exact source strings and updated blobs verified through GitHub, and the TLE Route and Demo Safety Guard passed at commit `2858a5bf47992d04ad52f77641ace420c8307e4a`. Current GitHub Pages deploy and visual/browser QA for this commit were still running at time of entry; do not claim these pages are live until those actions succeed. Physical iPhone/Safari verification remains pending.
+
 ## 2026-11-08 — Public landing and demo copy exposed internal terms and fragmented benefits
 
 - **Observed source problem:** public offer pages referred to simulated Owner Views and behind-the-scenes management. The /demos/ footer named private Studio materials, and the /demos/owner-center/ UI mentioned internal CRM wiring and simulated states. Several concept sites displayed long technical disclaimers instead of concise buyer-relevant explanations. Public November freebie named a classroom creation platform.
