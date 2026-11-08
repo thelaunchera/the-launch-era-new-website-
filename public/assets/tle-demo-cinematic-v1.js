@@ -35,10 +35,7 @@
  if(!reduced&&typeof IntersectionObserver!=='undefined'){
   const observer=new IntersectionObserver(entries=>{
     for(const entry of entries){
-      if(entry.isIntersecting){
-       entry.target.classList.add('demo-inview');
-       observer.unobserve(entry.target);
-      }
+      entry.target.classList.toggle('demo-inview',entry.isIntersecting);
     }
    },{threshold:0.09,rootMargin:'0px 0px -4% 0px'});
   // Defer adding the hidden state until the observer has attached.
