@@ -189,7 +189,7 @@
    submission_id:submissionId,elapsed_ms:Date.now()-start,
    website_check:get(f,'website_check'),package_slug:plan,kind:'intake',source:'checkout',
    name:get(f,'name'),email:get(f,'email'),phone:get(f,'phone'),
-   business_name:get(f,'business_name'),industry:get(f,'industry'),
+   business_name:get(f,'business_name'),industry:get(f,'industry')==='other'?('Other: '+get(f,'industry_other')).slice(0,120):get(f,'industry'),
    existing_website:get(f,'existing_website'),preferred_email:get(f,'preferred_email'),
    customer_action:get(f,'customer_action'),goals,brand_notes:brand,
    automation_goals:get(f,'automation_goals'),ai_brief:advanced?get(f,'ai_brief'):'',
