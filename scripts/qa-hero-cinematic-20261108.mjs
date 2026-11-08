@@ -29,6 +29,10 @@ try {
       const v = document.querySelector('video[data-tle-cinematic-hero="' + s + '"]');
       return !!v && v.readyState >= 2 && v.videoWidth > 0;
     }, slug, { timeout: 20000 });
+    await page.waitForFunction(s => {
+      const v = document.querySelector('video[data-tle-cinematic-hero="' + s + '"]');
+      return !!v && !v.paused && Number(getComputedStyle(v).opacity) > .01;
+    }, slug, { timeout: 12000 });
     const data = await page.evaluate(() => {
       const v = document.querySelector('video[data-tle-cinematic-hero]');
       const hero = document.querySelector('section.hero');
