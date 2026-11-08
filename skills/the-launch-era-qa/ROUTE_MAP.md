@@ -1,3 +1,10 @@
+## 2026-11-08 — Lavanda Boutique photography / rename (same URL)
+
+- The brand shown at `/demos/lavender-edit/` and in the demo gallery is now **Lavanda Boutique**, matching its new storefront photography; canonical slug and owner-view `?demo=lavender-edit` remain unchanged.
+- Seven distinct original PNGs (09–15) from [the Lavanda Boutique Drive folder](https://drive.google.com/drive/folders/1M9Lj3oypLLV1sH-QMk1sSclSFKeUPgG7) are added to `public/demos/lavender-edit/photos/` and mapped in `README.md`. Eight older original images remain stored; an original product trio remains visible.
+- No changes to prices, payment flows, forms, backend, authentication, routes, client records, or Demo Owner View.
+- Validate mobile/tablet/desktop images, language toggle, gallery card, source URL and GitHub Pages deployment before claiming live.
+
 ## 2026-11-08 — Golden Grid iPad static-only owner override (portrait and landscape)
 
 - URL unchanged: `/demos/golden-grid/`. At tablet sizes (521–1399 CSS px) and touch-pointer screens above phone width, the hero contains only the original `resources/golden-1.png` without motion, overlays, zoom, crop or video requests.

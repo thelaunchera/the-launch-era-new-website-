@@ -14,7 +14,7 @@
   'la-vie-in-pink':{name:'LA VIE IN PINK',en:'One more lovely little moment.',es:'Un momento bonito más.',menu:'#collection',kind:'menu'},
   'marea-wigs-miami':{name:'MAREA',en:'Find the look that feels like you.',es:'Encuentra el look que va contigo.',menu:'#collection',kind:'collection'},
   'aftr':{name:'AFTR',en:'The night is just getting started.',es:'La noche apenas comienza.',menu:'#offers',kind:'experiences'},
-  'lavender-edit':{name:'THE LAVENDER EDIT',en:'Make space for softness.',es:'Haz espacio para la calma.',menu:'#gallery',kind:'collection'},
+  'lavender-edit':{name:'LAVANDA BOUTIQUE',en:'Find your little lovely.',es:'Encuentra algo especial.',menu:'#gallery',kind:'collection'},
   'experience-cleaning':{name:'CLEANING EXPERIENCE',en:'Come home to something better.',es:'Vuelve a sentirte en casa.',menu:'#experience',kind:'booking'},
   'seasonal-brew':{name:'SEASONAL BREW',en:'A little more time for coffee.',es:'Un poquito más de café.',menu:'#flavors',kind:'menu'},
   'soluna-yoga':{name:'SOLUNA',en:'Your space to begin again.',es:'Tu espacio para comenzar de nuevo.',menu:'#memberships',kind:'plans'},

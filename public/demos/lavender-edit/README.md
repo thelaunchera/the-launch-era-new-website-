@@ -1,31 +1,23 @@
-# The Lavender Edit — visual demo
+# Lavanda Boutique — concept demo
 
-**Project:** The Lavender Edit, a fictional soft-luxury beauty editorial concept designed by The Launch Era. This is a showcase demo, **not a live store**.
+**Brand:** Lavanda Boutique (formerly The Lavender Edit). Lifestyle, gifts and beauty finds. Editorial showcase only; no live checkout.
 
-## Route
-- https://thelaunchera.com/demos/lavender-edit/ (subject to publication/hosting verification)
-- Source folder: public/demos/lavender-edit/
+## Canonical route
+https://thelaunchera.com/demos/lavender-edit/
+The `lavender-edit` URL and Studio owner-view key remain unchanged to prevent broken existing links.
 
-## Photo provenance
-Original Drive folder: https://drive.google.com/drive/folders/1qD7EmHCyKEs-aHUFlloKP9-nDuv1q7Ug
-Original visuals folder: https://drive.google.com/drive/folders/1zqzLqSkPobH0DQnGfmFAhNkJ0o2YxQNm
-Prompts file: https://drive.google.com/file/d/1YoVsthcjmxEamdB7CKah75eHzsnpWL4g/view
+## Photo provenance — November 8, 2026
+Original Drive folder: https://drive.google.com/drive/folders/1M9Lj3oypLLV1sH-QMk1sSclSFKeUPgG7
 
-Eight unique original files were copied to `photos/` for reliable image loading; the source originals remain untouched in Google Drive. Each source photo is used once (not duplicated). Generated imagery is a **concept illustration**; the items and copy are not evidence of real merchandise, ingredients, benefits or prices.
+- 09_Lavanda_Boutique_Facade.png → full-width storefront
+- 10_Lavanda_Boutique_Interior.png → brand story
+- 11_Lavanda_Shopping_Exterior.png → portrait hero
+- 12_Lavanda_Customer_Checkout.png → welcome / checkout moment
+- 13_Lavanda_Gift_Wrapping.png → gifting
+- 14_Lavanda_Inside_Shopping.png → interior/browsing
+- 15_Lavanda_Outdoor_Lifestyle.png → full-width lifestyle
 
-## Photo → section mapping
-1. 01_Soft_Lavender_Hero.png → immersive hero.
-2. 02_Lavender_Mood_Macro.png → mood / abstract material close-up.
-3. 03_Lavender_Ritual.png → brand story / ritual.
-4. 04_Cream_Texture.png → formula texture.
-5. 05_Lavender_Gifting.png → gifting feature.
-6. 06_Editorial_Type.png → gallery editorial.
-7. 07_Daily_Ritual.png → gallery ritual.
-8. 08_After_Hours.png → gallery after hours.
+Each of seven Drive originals is copied unchanged once into `photos/`. The original eight beauty/editorial photos remain intact; 06, 07 and 08 remain in the curated selection. No sources are duplicated in Drive. Previous Drive originals: https://drive.google.com/drive/folders/1zqzLqSkPobH0DQnGfmFAhNkJ0o2YxQNm
 
-## Rebuild guide
-Use one fully-bleed vertical hero photograph, generous space, oversized high-contrast serif, and a restrained lavender/ivory/plum color palette. Build alternating editorial sections with unique individual photographs, maintain the phone-first vertical rhythm, provide EN/ES controls, and avoid stock testimonials, prices, fake product claims, shopping cart or checkout without a real business. Do not bake artificial endorsements into copy.
-
-**QA checklist:** test all eight image requests; test EN/ES switch; test 375px screen, sticky navigation and accessible mobile menu; check anchor scrolling and copyright footer.
-
-Powered by The Launch Era.
+## Verification gate
+Check image requests, EN/ES toggle, responsive 360/390/820/1440 layouts, image aspect ratios, menu, existing preview and sample prices, category card and Studio owner-view route. No orders or payments are processed.
