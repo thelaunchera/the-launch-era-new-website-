@@ -12,7 +12,7 @@
     // iPhone embeds decode large originals into the parent webview's memory.
     // Retain full-resolution files for the lightbox, but mount only visible
     // carousel images at any moment; keep navigation usable without autoplay.
-    const originalSources = cards.map(card => card.querySelector('img')?.getAttribute('src') || '');
+    const originalSources = cards.map(card => card.querySelector('img')?.dataset.originalSrc || card.querySelector('img')?.getAttribute('src') || '');
     const lowMemoryView = window.matchMedia('(max-width: 760px)').matches || window.self !== window.top;
     function manageImages(activeIndex) {
       const needed = new Set([
