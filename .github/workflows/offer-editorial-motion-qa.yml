@@ -1,0 +1,67 @@
+name: Editorial website offer motion QA
+
+on:
+  pull_request:
+    paths:
+      - 'public/assets/tle-offer-editorial-motion-20261108.css'
+      - 'public/assets/tle-offer-editorial-motion-20261108.js'
+      - 'public/website-for-your-business/index.html'
+      - 'public/es/website-for-your-business/index.html'
+      - 'scripts/qa-offer-editorial-motion.mjs'
+      - 'scripts/qa-offer-editorial-motion-browser.mjs'
+      - '.github/workflows/offer-editorial-motion-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'public/assets/tle-offer-editorial-motion-20261108.css'
+      - 'public/assets/tle-offer-editorial-motion-20261108.js'
+      - 'public/website-for-your-business/index.html'
+      - 'public/es/website-for-your-business/index.html'
+      - 'scripts/qa-offer-editorial-motion.mjs'
+      - 'scripts/qa-offer-editorial-motion-browser.mjs'
+      - '.github/workflows/offer-editorial-motion-qa.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  editorial-offer-motion:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check motion code safety and offer parity
+        run: |
+          node --check public/assets/tle-offer-editorial-motion-20261108.js
+          node --check scripts/qa-offer-editorial-motion.mjs
+          node --check scripts/qa-offer-editorial-motion-browser.mjs
+          node scripts/qa-offer-editorial-motion.mjs
+          node scripts/qa-website-photo-placement.mjs
+      - name: Install isolated Playwright Chromium
+        run: |
+          mkdir -p /tmp/tle-offer-motion
+          npm install --no-audit --no-fund --prefix /tmp/tle-offer-motion playwright@1.57.0
+          /tmp/tle-offer-motion/node_modules/.bin/playwright install --with-deps chromium
+          mkdir -p "$GITHUB_WORKSPACE/node_modules"
+          ln -sfn /tmp/tle-offer-motion/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-offer-motion/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: Render English and Spanish hero, owner, pricing and FAQ on iPhone and desktop
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory public > /tmp/tle-offer-motion.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for i in $(seq 1 25); do
+            if curl -fsS http://127.0.0.1:4173/website-for-your-business/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-offer-editorial-motion-browser.mjs
+      - name: Archive visual QA screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: offer-motion-iphone-and-desktop
+          path: qa-screenshots/offer-motion/
+          if-no-files-found: ignore

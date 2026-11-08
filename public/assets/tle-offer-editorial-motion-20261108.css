@@ -1,0 +1,229 @@
+/*
+ * The Launch Era / Website Offer Motion · 2026-11-08
+ * Editorial adaptations selected from BrewedOps Motion Library:
+ * headline mask reveal, staged scroll reveals, layered photo+product settle,
+ * lift-on-focus pricing, touch press and FAQ soft open.
+ * Scoped ONLY to the public EN/ES website-offer pages.
+ * Preserve actual photo assets, existing 3D demo-gallery entrance, pricing,
+ * checkout URLs, accessibility and reduced-motion settings.
+ */
+
+/* 1 / First impression: masked line reveal with purposeful restraint. */
+@media (prefers-reduced-motion:no-preference){
+ html.tle-offer-motion .tle-universal .hero-gallery .hero-gallery-kicker{
+  animation:tle-offer-kicker .56s cubic-bezier(.22,.7,.3,1) .06s both;
+ }
+ html.tle-offer-motion .tle-universal .hero-gallery h1{
+  animation:tle-offer-headline .84s cubic-bezier(.19,1,.22,1) .18s both;
+ }
+ html.tle-offer-motion .tle-universal .hero-gallery .hero-gallery-copy>p[data-key="heroText"]{
+  animation:tle-offer-fade .7s cubic-bezier(.22,.7,.3,1) .48s both;
+ }
+ html.tle-offer-motion .tle-universal .hero-gallery .hero-gallery-copy .btn{
+  animation:tle-offer-fade .7s cubic-bezier(.22,.7,.3,1) .62s both;
+ }
+}
+@keyframes tle-offer-kicker{
+ from{opacity:0;transform:translateY(12px);letter-spacing:.27em}
+ to{opacity:1;transform:translateY(0)}
+}
+@keyframes tle-offer-headline{
+ from{opacity:0;clip-path:inset(100% 0 0 0);transform:translateY(26px)}
+ to{opacity:1;clip-path:inset(0 0 0 0);transform:translateY(0)}
+}
+@keyframes tle-offer-fade{
+ from{opacity:0;transform:translateY(16px)}
+ to{opacity:1;transform:translateY(0)}
+}
+
+/* 2 / Scroll-triggered arrivals: content stays in DOM and interactive. */
+@media (prefers-reduced-motion:no-preference){
+ html.tle-offer-motion .tle-universal :is(
+   .features .feature,
+   .pricing .section-title,
+   .pricing .website-format-choice,
+   .pricing .plan,
+   .process .section-title,
+   .process .step,
+   .faq .section-title,
+   .faq details,
+   .owner-experience-copy
+ ):not(.tle-offer-visible){
+  opacity:0;
+  translate:0 22px;
+ }
+ html.tle-offer-motion .tle-universal :is(
+   .features .feature,
+   .pricing .section-title,
+   .pricing .website-format-choice,
+   .pricing .plan,
+   .process .section-title,
+   .process .step,
+   .faq .section-title,
+   .faq details,
+   .owner-experience-copy
+ ){
+  transition:opacity .75s cubic-bezier(.22,.85,.28,1),
+    translate .75s cubic-bezier(.19,1,.22,1);
+  transition-delay:var(--tle-motion-delay,0ms);
+ }
+ html.tle-offer-motion .tle-universal :is(
+   .features .feature,
+   .pricing .section-title,
+   .pricing .website-format-choice,
+   .pricing .plan,
+   .process .section-title,
+   .process .step,
+   .faq .section-title,
+   .faq details,
+   .owner-experience-copy
+ ).tle-offer-visible{opacity:1;translate:0 0}
+ html.tle-offer-motion .tle-universal .features .feature:nth-child(2),
+ html.tle-offer-motion .tle-universal .process .step:nth-child(2){--tle-motion-delay:85ms}
+ html.tle-offer-motion .tle-universal .features .feature:nth-child(3),
+ html.tle-offer-motion .tle-universal .process .step:nth-child(3){--tle-motion-delay:150ms}
+ html.tle-offer-motion .tle-universal .features .feature:nth-child(4),
+ html.tle-offer-motion .tle-universal .process .step:nth-child(4){--tle-motion-delay:215ms}
+ html.tle-offer-motion .tle-universal .pricing .plan:nth-child(2){--tle-motion-delay:100ms}
+}
+
+/* 3 / Layered image and illustrative owner product settle. Image stays
+   full-size; never crop the approved artwork or hide its embedded text. */
+@media (prefers-reduced-motion:no-preference){
+ html.tle-offer-motion .tle-universal .owner-experience.tle-offer-visible .owner-customer-frame{
+  animation:tle-offer-photo-in .87s cubic-bezier(.19,1,.22,1) .08s both;
+ }
+ html.tle-offer-motion .tle-universal .owner-experience.tle-offer-visible .owner-admin-visual{
+  transform-origin:center 70%;
+  animation:tle-offer-panel-in 1s cubic-bezier(.18,.96,.22,1) .27s both;
+ }
+}
+@keyframes tle-offer-photo-in{
+ from{opacity:0;clip-path:inset(12% 0 0 0 round 26px);transform:translateY(23px) scale(.972)}
+ to{opacity:1;clip-path:inset(0 0 0 0 round 26px);transform:translateY(0) scale(1)}
+}
+@keyframes tle-offer-panel-in{
+ from{opacity:0;transform:perspective(1100px) rotateX(9deg) translateY(36px) scale(.965)}
+ to{opacity:1;transform:perspective(1100px) rotateX(0deg) translateY(0) scale(1)}
+}
+
+/* 4 / Layered surfaces, tangible buttons and a clearer purchase hierarchy. */
+.tle-universal .features .feature{
+ border-radius:13px;
+}
+.tle-universal .pricing .plan{
+ position:relative;
+ border-radius:23px;
+ border-color:#e4ded5;
+ background:#fffefa;
+ box-shadow:0 4px 14px rgba(25,25,25,.045),
+   0 20px 50px rgba(25,25,25,.07);
+}
+.tle-universal .pricing .plan:nth-child(2){
+ border-color:#d2c29a;
+ box-shadow:0 5px 19px rgba(25,25,25,.06),
+   0 24px 60px rgba(94,77,26,.12);
+}
+.tle-universal .pricing .plan .plan-content{min-width:0}
+.tle-universal .pricing .plan .plan-photo{
+ transition:filter .35s ease;
+}
+.tle-universal .pricing .plan :is(.btn,.price strong){
+ position:relative;
+}
+.tle-universal .pricing .plan .btn{
+ box-shadow:0 5px 0 #b49d43,0 12px 24px #19191915;
+}
+.tle-universal .pricing .plan .btn:active,
+.tle-universal .hero-gallery-copy .btn:active,
+.tle-universal a.owner-experience-cta:active{
+ transform:translateY(2px) scale(.99);
+ box-shadow:0 2px 0 #19191918;
+}
+.tle-universal .pricing .plan .btn:focus-visible,
+.tle-universal .hero-gallery-copy .btn:focus-visible{
+ outline:3px solid #477793;outline-offset:4px;
+}
+.tle-universal .process .step{
+ border:1px solid #e8e2d9;
+ border-radius:19px;
+ padding:clamp(14px,1.7vw,19px);
+ background:#fffdfa;
+ box-shadow:0 4px 12px #19191906,
+   0 16px 35px #1919190c;
+}
+.tle-universal .process .step img{
+ border-radius:12px;
+}
+.tle-universal .faq details{
+ border-color:#e5dfd6;
+ border-radius:12px;
+ padding-inline:13px;
+}
+.tle-universal .faq details[open]{
+ background:#faf7f1;
+ box-shadow:inset 3px 0 #F2D85B;
+}
+.tle-universal .faq summary:focus-visible{
+ outline:2px solid #477793;outline-offset:3px;
+ border-radius:6px;
+}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+ .tle-universal .pricing .plan{
+  transition-property:box-shadow,border-color,translate,opacity;
+  transition-duration:.4s,.4s,.75s,.75s;
+  transition-timing-function:ease,ease,cubic-bezier(.19,1,.22,1),cubic-bezier(.19,1,.22,1);
+ }
+ .tle-universal .pricing .plan:hover,
+ .tle-universal .pricing .plan:focus-within{
+  border-color:#c9b88f;
+  box-shadow:0 10px 24px #19191912,0 34px 74px #19191919;
+ }
+ .tle-universal .pricing .plan:hover .plan-photo{filter:saturate(1.045)}
+ .tle-universal .process .step{
+  transition:box-shadow .35s ease,border-color .35s ease,opacity .75s,translate .75s;
+ }
+ .tle-universal .process .step:hover{
+  border-color:#d3c7b9;
+  box-shadow:0 8px 24px #1919190b,0 22px 40px #19191912;
+ }
+ .tle-universal .owner-customer-frame:hover{
+  box-shadow:0 18px 44px #19191914,0 38px 72px #19191910;
+ }
+}
+@media (prefers-reduced-motion:no-preference){
+ .tle-universal .faq details[open]>p{
+  animation:tle-offer-faq .4s cubic-bezier(.2,.8,.2,1) both;
+ }
+}
+@keyframes tle-offer-faq{
+ from{opacity:.2;translate:0 -7px}
+ to{opacity:1;translate:0 0}
+}
+/* Mobile: no hover as core behavior; visual depth without 3D animation
+   on small screens or conflicts with the original horizontal gallery. */
+@media(max-width:620px){
+ .tle-universal .pricing .plan{border-radius:21px}
+ .tle-universal .process .step{padding:12px;border-radius:15px}
+ .tle-universal .features .feature{border-radius:8px}
+ .tle-universal .faq details{padding-inline:10px}
+}
+@media (max-width:480px){
+ @keyframes tle-offer-panel-in{
+  from{opacity:0;transform:translateY(20px) scale(.985)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+ }
+}
+@media (prefers-reduced-motion:reduce){
+ html.tle-offer-motion .tle-universal :is(
+  .features .feature,.pricing .section-title,
+  .pricing .website-format-choice,.pricing .plan,.process .section-title,
+  .process .step,.faq .section-title,.faq details,.owner-experience-copy
+ ){opacity:1!important;translate:none!important;transition:none!important;animation:none!important}
+ html.tle-offer-motion .tle-universal :is(
+  .hero-gallery .hero-gallery-kicker,.hero-gallery h1,
+  .hero-gallery .hero-gallery-copy>p[data-key="heroText"],
+  .hero-gallery .hero-gallery-copy .btn,
+  .owner-customer-frame,.owner-admin-visual,.faq details[open]>p
+ ){animation:none!important;transform:none!important;clip-path:none!important}
+}

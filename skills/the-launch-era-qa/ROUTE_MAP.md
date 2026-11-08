@@ -1,3 +1,11 @@
+## 2026-11-08 — Editorial motion on public website offer (EN/ES)
+
+- Routes remain **unchanged**: `/website-for-your-business/`, `/es/website-for-your-business/`; `/demos/` still receives the exact project-specific `demo`, `lang` and originating `returnTo` values.
+- Scoped visual assets loaded by both offer pages: `/assets/tle-offer-editorial-motion-20261108.css` and `.js`. They only add introductory headline mask, layered owner showcase entrance, feature/step reveals, pricing-card focus depth, tactile CTA and FAQ disclosure transitions, inspired by BrewedOps Motion Library. The existing hero-photo gallery 3-D entry and manual mobile rail are intentionally unchanged.
+- **No new products, routes or CTA actions.** Secure checkout stays `/website-checkout/?offer=website-basic&lang=en|es` (approved $15) or `/website-checkout/?offer=website-ai-crm&lang=en|es` (approved $25 setup; existing $8/month disclosure). No payment, catalog data, CRM, booking, demo Owner View or intake logic altered.
+- Accessible by design: native FAQ/details and focus keyboard remain; `prefers-reduced-motion:reduce` removes nonessential movement and keeps all text visible; IntersectionObserver one-shot reveals fall back to visible if unsupported.
+- New checks: `scripts/qa-offer-editorial-motion.mjs` validates markup, prices and route parity; `scripts/qa-offer-editorial-motion-browser.mjs` validates iPhone-size EN+ES, desktop, keyboard/FAQ, reduced-motion and screenshots under `qa-screenshots/offer-motion/`. GitHub Pages build + public visual confirmation required before declaring live.
+
 ## 2026-11-08 — Spanish Digital Menus / Services + Booking showcase
 
 - One shared demo library `/demos/?lang=es` and Owner Center `/demos/owner-center/?demo=<existing-slug>&lang=es`; English defaults when no `lang=es` is provided. New script `public/assets/tle-demo-locale-20261108.js` translates library actions, descriptions, filters, modal, Owner Center, sample products, input labels, simulated requests and confirmation messages. Language switch keeps selected demo and approved `returnTo` route.
