@@ -166,7 +166,14 @@
     dy=clamp(((event.clientY-rect.top)/rect.height-.5)*2,-1,1);
     schedule();
   }
-  function pointerOut(){dx=dy=0;schedule()}
+  function pointerOut(event){
+    if(hero && event && Number.isFinite(event.clientX) && Number.isFinite(event.clientY)){
+      const rect=hero.getBoundingClientRect();
+      if(event.clientX>=rect.left && event.clientX<=rect.right &&
+         event.clientY>=rect.top && event.clientY<=rect.bottom)return;
+    }
+    dx=dy=0;schedule();
+  }
   function unbind(){
     if(!hero)return;
     hero.removeEventListener('pointermove',pointerMove);
@@ -197,7 +204,7 @@
     // A pointer event over layered hero artwork may not reach the section in
     // desktop WebKit/Chromium. Window-level capture keeps the approved cursor
     // effect reactive; pointerMove ignores coordinates outside the hero.
-    window.addEventListener('pointermove',pointerMove,{passive:true});
+    window.addEventListener('pointermove',pointerMove,{passive:true,capture:true});
     window.addEventListener('scroll',schedule,{passive:true});
     window.addEventListener('resize',schedule,{passive:true});
     reduced.addEventListener?.('change',schedule);
