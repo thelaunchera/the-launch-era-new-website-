@@ -1,9 +1,3 @@
-## 2026-11-08 — Golden Grid lossless published hero (no route changes)
-
-- **Canonical:** `/demos/golden-grid/` remains unchanged, served from the main website repository. Its first hero frame uses its original `resources/golden-1.png?v=20261108-master-hq` on iPad, desktop and phone; the moving overlay is restricted to a narrow syrup area on >760px, with lossless matching poster. Low-resolution MP4 is not requested on narrow phones or reduced-motion devices.
-- **Pages build:** `scripts/optimize_demo_photos.py` excludes the main Golden hero PNG from WebP reference substitution while continuing optimized `golden-1.webp` thumbnails in `/demos/` and the product/gallery assets. `scripts/qa_demo_photo_performance.py` asserts these two independent outcomes after the optimizer; other brands keep their previous optimization.
-- **Safety:** prices, checkout, product dialogs, gallery interactions, language toggle, footer, Studio preview exit, URL destinations, and client records unchanged. Browser QA plus real iPad signoff are release gates.
-
 ## 2026-11-08 — SOVA 1536×1024 HD hero recovery (no route changes)
 
 - **Canonical URL stays** `/demos/sova/`. Only SOVA's hero video loader and its scoped visual CSS change. Original `resources/01-hero.png` is always visible as the matching first frame; `/assets/tle-hero-cinematic-20261108.js` continues serving all other eligible brands.
