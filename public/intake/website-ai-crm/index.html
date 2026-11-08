@@ -5,10 +5,10 @@
 <meta name="description" content="Private project setup for customers who completed The Launch Era website checkout.">
 <meta name="theme-color" content="#FAF8F3"><title>Website + AI Assistant + Automated CRM · Project Setup | The Launch Era</title>
 <link rel="icon" type="image/svg+xml" href="/assets/brand/tle-mark.svg">
-<link rel="stylesheet" href="/assets/tle-website-intake.css?v=20261108-ai-photo">
+<link rel="stylesheet" href="/assets/tle-website-intake.css?v=20261108-picker">
 <script src="/assets/privacy-controls.js?v=20261026-1" data-site="tle"></script>
 <script src="/assets/tle-website-intake.js?v=20261108-ai-photo" defer></script>
-<script src="/assets/tle-website-intake-brief.js?v=20261108-ai-photo" defer></script>
+<script src="/assets/tle-website-intake-brief.js?v=20261108-picker" defer></script>
 </head>
 <body data-package="website-ai-crm">
 <header>
@@ -175,4 +175,11 @@
   </div>
  </section>
 </main><footer>Powered by The Launch Era</footer>
+<dialog id="photo-picker-dialog" class="tle-photo-picker" aria-labelledby="photo-picker-heading" aria-describedby="photo-picker-description">
+ <div class="tle-photo-picker-topbar">
+  <div><span class="tle-photo-picker-eyebrow">THE LAUNCH ERA · PHOTO COLLECTION</span><h2 id="photo-picker-heading" data-i18n="photoPickerTitle">Choose a photo style</h2><p id="photo-picker-description" data-i18n="photoPickerHelp">Your website setup stays on this page. Pick a photo or close to keep editing.</p></div>
+  <button type="button" id="photo-picker-close" class="tle-photo-picker-close" aria-label="Close photo gallery">× <span data-i18n="photoPickerClose">Close</span></button>
+ </div>
+ <iframe id="photo-picker-frame" title="The Launch Era photo inspiration gallery" src="about:blank" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+</dialog>
 </body></html>
