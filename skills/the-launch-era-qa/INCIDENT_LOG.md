@@ -1,3 +1,10 @@
+## 2026-11-08 — SOVA approved cobalt-blue Canva landscape hero
+
+- **Owner request:** replace portrait hero with newly supplied Canva 5-second landscape clip based on the approved blue sofa and headphones image; keep the camera further back, all cobalt backdrop and clean focus across desktop/tablet/mobile.
+- **Media inspection:** source `Sin título Presentación.mp4` 910×512, 30fps, contained white 94px side margins and 5px top border. Derived a true 712×506 picture crop (white-only margins), high-quality Lanczos 2× output at 1424×1012, no change to face/pose/set/black wardrobe/headphones. Muted MP4 with faststart, matching first-frame poster. Assets stored under `public/demos/sova/media/hero-canva-blue-20261108.mp4` and `hero-canva-blue-poster-20261108.webp`, preserving old media for rollback. Drive original and processed source in brand-specific SOVA folder.
+- **Code repair:** SOVA scoped CSS/JS points only to these landscape resources. Removes prior strict portrait-size rejection and old duplicated-photo / masked-portrait blue-background treatment. Right-aligned video behind copy in landscape hero; full-width original ratio on phones. Video + poster share identical composition, no flash from a different still, no white margins, zoom or stretch. Reduced-motion/Data Saver keep a matching still image. Touch, gallery, cart, language, product prices, all other demos unchanged.
+- **Release QA:** confirm GitHub Pages deployment and actual 200 video/poster + browser videoWidth/videoHeight, .hero media object-fit contain, visible copy, reduced-motion poster, mobile 390/tablet 820/desktop 1440 no overflow. Real iPhone visual acceptance remains separate.
+
 ## 2026-11-08 — SOVA blue set behind original portrait clip
 
 - **Owner follow-up:** requested the cobalt blue background as well as the original uncropped video behind the hero, matching the earlier visual treatment.
