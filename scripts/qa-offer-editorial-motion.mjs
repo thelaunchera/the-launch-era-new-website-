@@ -30,7 +30,7 @@ for(const [lang,path] of pages){
  assert.match(html,/tle-offer-editorial-motion-20261108\.css\?v=1/,'CSS installed '+lang);
  assert.match(html,/tle-offer-editorial-motion-20261108\.js\?v=2/,'JS installed '+lang);
  assert.match(html,/class="hero hero-gallery" id="inicio"/,'Original hero preserved');
- assert.equal((html.match(/class="hero-gallery-card"/g)||[]).length,7,'Seven existing project photos must survive');
+ assert.equal((html.match(/class="hero-gallery-card"/g)||[]).length,11,'Eleven original demo photos must survive');
  assert.equal((html.match(/class="plan" id="website-(?:basic|ai-crm)"/g)||[]).length,2,'Only the two approved plans');
  assert.equal((html.match(/class="step"/g)||[]).length,4,'Four genuine service steps');
  assert.match(html,/id="owner-experience"/,'Interactive showcase preserved');
@@ -89,4 +89,4 @@ for(const [lang,path] of pages){
 const storyCSS=read('public/assets/tle-offer-editorial-motion-20261108.css');
 assert.match(storyCSS,/max-width:min\(13ch,100%\)/,'Desktop headline width must be responsive');
 
-console.log('PASS: EN/ES editorial motion, reduced motion, existing offers and links, original seven demos, no payment or network changes.');
+console.log('PASS: EN/ES editorial motion, reduced motion, existing offers and links, original eleven demos, no payment or network changes.');
