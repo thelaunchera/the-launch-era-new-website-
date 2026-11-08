@@ -144,6 +144,7 @@ body{background:var(--paper)}
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <script src="/assets/tle-demo-locale-20261108.js"></script>
 <script src="/assets/tle-owner-request-examples-20261108.js"></script>
+<script src="/assets/tle-owner-brand-context-20261108.js"></script>
 <script>
 (function(){
 "use strict";
@@ -165,11 +166,12 @@ const themes={
  "seasonal-brew":{name:"Seasonal Brew",kind:"menu",accent:"#95663b",soft:"#f3e7d9",hero:"https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/assets/storefront-wide.webp",site:"https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/",items:[["Sugar Cookie Latte",7,0,"Coffee","Your cozy moment","https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/assets/sugar-cookie.webp"],["Gingerbread Latte",7.5,15,"Coffee","Warm seasonal spice","https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/assets/gingerbread.webp"],["Peppermint Mocha",7.25,0,"Coffee","Chocolate and winter magic","https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/assets/peppermint-mocha.webp"]]},
  "yummm":{name:"YUMMM",kind:"menu",accent:"#bb8b32",soft:"#f6edd6",hero:"https://thelaunchera.github.io/demo-booking-landing-/yummm/images/10.webp",site:"https://thelaunchera.github.io/demo-booking-landing-/yummm/",items:[["Signature Iced Latte",6.5,0,"Coffee","A little treat for every day","https://thelaunchera.github.io/demo-booking-landing-/yummm/images/02.webp"],["Chocolate Chunk Cookie",4.5,10,"Bakery","Made for cookie lovers","https://thelaunchera.github.io/demo-booking-landing-/yummm/images/03.webp"],["Pistachio Morning Roll",7,0,"Bakery","A sweet morning ritual","https://thelaunchera.github.io/demo-booking-landing-/yummm/images/05.webp"]]},
  "marea-wigs-miami":{name:"Marea Wigs Miami",kind:"service",accent:"#397c72",soft:"#e2f0eb",hero:"/demos/marea-wigs-miami/resources/01-hero.png",site:"/demos/marea-wigs-miami/",items:[["Private Consultation",65,0,"Consultation","Find a style that feels like you",""],["Personal Styling Session",110,15,"Styling","An appointment made for you",""],["Wig Care Session",85,0,"Care","A gentle refresh",""]]},
- "lavender-edit":{name:"The Lavender Edit",kind:"service",accent:"#8d75b2",soft:"#eee8f5",hero:"/demos/lavender-edit/photos/01_Soft_Lavender_Hero.png",site:"/demos/lavender-edit/",items:[["Lavender Ritual",85,0,"Wellness","A softer way to reset","/demos/lavender-edit/photos/03_Lavender_Ritual.png"],["Signature Experience",115,10,"Wellness","A little space for yourself","/demos/lavender-edit/photos/07_Daily_Ritual.png"],["Gifting Appointment",45,0,"Consultation","Curated with care","/demos/lavender-edit/photos/05_Lavender_Gifting.png"]]},
+ "lavender-edit":{name:"The Lavender Edit",kind:"service",accent:"#8d75b2",soft:"#eee8f5",hero:"/demos/lavender-edit/photos/01_Soft_Lavender_Hero.png",site:"/demos/lavender-edit/",items:[["Lavender Ritual",85,0,"Editorial","A visual exploration of lavender and soft rituals","/demos/lavender-edit/photos/03_Lavender_Ritual.png"],["Daily Ritual",115,10,"Editorial","An editorial study of quiet everyday moments","/demos/lavender-edit/photos/07_Daily_Ritual.png"],["Lavender Gifting Edit",45,0,"Gifting","A curated visual story of thoughtful lavender gifting","/demos/lavender-edit/photos/05_Lavender_Gifting.png"]]},
  "soluna-yoga":{name:"SOLUNA Yoga",kind:"service",accent:"#a77750",soft:"#f3e8dc",hero:"https://thelaunchera.github.io/demo-booking-landing-/soluna-yoga/images/soluna-hero-editorial.webp",site:"https://thelaunchera.github.io/demo-booking-landing-/soluna-yoga/",items:[["Morning Flow",24,0,"Classes","Find your rhythm",""],["Private Yoga Session",80,10,"Private Sessions","Space to reconnect",""],["Gentle Stretch",20,0,"Classes","Move at your own pace",""]]},
  "experience-cleaning":{name:"Experience Cleaning",kind:"service",accent:"#497c99",soft:"#e0edf4",hero:"/assets/cleaning-demo/hero-cleaner-original.jpg",site:"/experience-cleaning/",items:[["Standard Home Cleaning",120,0,"Residential","A refresh for the whole home","/experience-cleaning/photos/portfolio_living_finished.webp"],["Deep Cleaning",220,15,"Residential","Extra attention for every corner","/experience-cleaning/photos/portfolio_kitchen_finished.webp"],["Move-In / Move-Out",290,0,"Specialty","Start your new chapter fresh","/experience-cleaning/photos/portfolio_cleaning_action.webp"]]}
 };
-const navItems=[["dashboard","Dashboard","<rect x='3' y='3' width='7' height='7'/><rect x='14' y='3' width='7' height='7'/><rect x='3' y='14' width='7' height='7'/><rect x='14' y='14' width='7' height='7'/>"],["catalog","Catalog","<path d='M4 7h16M4 12h16M4 17h16'/>"],["requests","Requests","<rect x='4' y='4' width='16' height='16' rx='2'/><path d='M8 10h8M8 14h5'/>"],["preview","Preview","<rect x='2' y='3' width='20' height='17' rx='3'/><path d='M8 21h8'/>"]];
+const brandUI=()=>window.TLEOwnerBrandContext?.[current]?.[window.TLELocale?.isEs?"es":"en"]||{};
+ const navItems=[["dashboard","Dashboard","<rect x='3' y='3' width='7' height='7'/><rect x='14' y='3' width='7' height='7'/><rect x='3' y='14' width='7' height='7'/><rect x='14' y='14' width='7' height='7'/>"],["catalog","Catalog","<path d='M4 7h16M4 12h16M4 17h16'/>"],["requests","Requests","<rect x='4' y='4' width='16' height='16' rx='2'/><path d='M8 10h8M8 14h5'/>"],["preview","Preview","<rect x='2' y='3' width='20' height='17' rx='3'/><path d='M8 21h8'/>"]];
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const currency=n=>new Intl.NumberFormat(window.TLELocale?.isEs?"es-US":"en-US",{style:"currency",currency:"USD"}).format(Math.max(0,Number(n)||0));
@@ -186,7 +188,7 @@ const toast=m=>{const n=$("#toast");n.textContent=window.TLELocale?.tr(m)||m;n.c
 const priceOf=p=>Math.max(0,Number(p.price)||0)*(1-Math.max(0,Math.min(90,Number(p.discount)||0))/100);
 const iconSvg=path=>'<svg viewBox="0 0 24 24" aria-hidden="true">'+path+'</svg>';
 const setNav=()=>{
- const buttons=navItems.map(([v,label,path])=>'<button type="button" class="nav-button" data-view="'+v+'" '+(v===currentView?'aria-current="page"':'')+'>'+iconSvg(path)+'<span>'+esc(v==="catalog"?(themes[current].kind==="menu"?"Menu":"Services"):v==="requests"?(window.TLEOwnerRequestExamples?.[current]?.[window.TLELocale?.isEs?"es":"en"]?.nav||"Requests"):label)+'</span></button>').join("");
+ const buttons=navItems.map(([v,label,path])=>'<button type="button" class="nav-button" data-view="'+v+'" '+(v===currentView?'aria-current="page"':'')+'>'+iconSvg(path)+'<span>'+esc(v==="catalog"?(brandUI().catalogNav||"Catalog"):v==="requests"?(window.TLEOwnerRequestExamples?.[current]?.[window.TLELocale?.isEs?"es":"en"]?.nav||"Requests"):label)+'</span></button>').join("");
  $("#sidebar-nav").innerHTML=buttons;$("#mobile-nav").innerHTML=buttons;window.TLELocale?.apply($("#sidebar-nav"));window.TLELocale?.apply($("#mobile-nav"));
  document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",()=>setView(b.dataset.view)));
 };
@@ -198,14 +200,14 @@ const setView=v=>{
  window.scrollTo({top:0,behavior:"instant"});
 };
 const renderStats=()=>{
- $("#kpi-items-title").textContent=themes[current].kind==="menu"?"Menu items":"Services";
+ $("#kpi-items-title").textContent=brandUI().stats||(themes[current].kind==="menu"?"Menu items":"Services");
  $("#kpi-items").textContent=items.length;$("#kpi-offers").textContent=items.filter(p=>p.available&&Number(p.discount)>0).length;$("#kpi-available").textContent=items.filter(p=>p.available).length;
 };
 const itemLine=p=>'<div class="item-row">'+imgTag(p.image||themes[current].hero,p.name)+'<div class="item-details"><strong>'+esc(p.name)+'</strong><span>'+esc(p.category)+' · '+(p.available?"Available":"Unavailable")+'</span></div><span class="item-price">'+currency(priceOf(p))+'</span><button type="button" class="text-button" data-edit="'+esc(p.id)+'">Edit</button></div>';
 const renderQuick=()=>{$("#quick-list").innerHTML=items.length?items.slice(0,5).map(itemLine).join(""):'<p class="empty">No items. Add your first sample item.</p>';window.TLELocale?.apply($("#quick-list"));};
 const phoneHtml=()=>{
  const cfg=themes[current];const visible=items.filter(p=>p.available);
- return '<div class="phone"><div class="phone-hero">'+imgTag(cfg.hero,cfg.name)+'<div class="phone-brand">'+esc(cfg.name)+'</div></div><div class="phone-inner"><p class="phone-caption">'+(cfg.kind==="menu"?"YOUR MENU · MADE TO EXPLORE":"SERVICES · MADE FOR YOU")+'</p><div class="preview-items">'+(visible.length?visible.map(p=>'<div class="preview-card">'+imgTag(p.image||cfg.hero,p.name)+'<div><strong>'+esc(p.name)+'</strong><small>'+esc(p.category)+'</small><b>'+currency(priceOf(p))+'</b>'+(Number(p.discount)>0?'<del>'+currency(p.price)+'</del>':'')+'</div></div>').join(""):'<p class="subtle" style="grid-column:1/-1">No items currently available.</p>')+'</div></div><div class="phone-foot">SIMULATED CUSTOMER VIEW · NO TRANSACTIONS</div></div>';
+ return '<div class="phone"><div class="phone-hero">'+imgTag(cfg.hero,cfg.name)+'<div class="phone-brand">'+esc(cfg.name)+'</div></div><div class="phone-inner"><p class="phone-caption">'+(brandUI().phoneCaption||(cfg.kind==="menu"?"YOUR MENU · MADE TO EXPLORE":"SERVICES · MADE FOR YOU"))+'</p><div class="preview-items">'+(visible.length?visible.map(p=>'<div class="preview-card">'+imgTag(p.image||cfg.hero,p.name)+'<div><strong>'+esc(p.name)+'</strong><small>'+esc(p.category)+'</small><b>'+currency(priceOf(p))+'</b>'+(Number(p.discount)>0?'<del>'+currency(p.price)+'</del>':'')+'</div></div>').join(""):'<p class="subtle" style="grid-column:1/-1">No items currently available.</p>')+'</div></div><div class="phone-foot">SIMULATED CUSTOMER VIEW · NO TRANSACTIONS</div></div>';
 };
 const renderPreviews=()=>{$("#small-preview").innerHTML=phoneHtml();$("#large-preview").innerHTML=phoneHtml();window.TLELocale?.apply($("#small-preview"));window.TLELocale?.apply($("#large-preview"));};
 const renderCatalog=()=>{
@@ -217,10 +219,10 @@ const fillForm=p=>{$("#item-name").value=window.TLELocale?.localizeInput(p.name)
 const edit=id=>{
  const p=items.find(x=>x.id===id);
  if(!p)return;
- setView("catalog");editedId=id;$("#editor-title").textContent="Edit "+p.name;fillForm(p);$("#delete-item").hidden=false;$("#editor-panel").classList.add("is-open");$("#editor-panel").scrollIntoView({behavior:"smooth",block:"start"});
+ setView("catalog");editedId=id;$("#editor-title").textContent=(window.TLELocale?.isEs?"Editar ":"Edit ")+(window.TLELocale?.tr(p.name)||p.name);fillForm(p);$("#delete-item").hidden=false;$("#editor-panel").classList.add("is-open");$("#editor-panel").scrollIntoView({behavior:"smooth",block:"start"});
 };
 const add=()=>{
- setView("catalog");editedId=null;$("#editor-title").textContent="Add "+(themes[current].kind==="menu"?"menu item":"service");fillForm({name:"",price:"0",discount:0,category:themes[current].kind==="menu"?"Specials":"Services",description:"",image:"",available:true});$("#delete-item").hidden=true;$("#editor-panel").classList.add("is-open");$("#editor-panel").scrollIntoView({behavior:"smooth",block:"start"});};
+ setView("catalog");editedId=null;const ui=brandUI();$("#editor-title").textContent=(window.TLELocale?.isEs?"Agregar ":"Add ")+(ui.itemNoun||"item");fillForm({name:"",price:"0",discount:0,category:ui.newCategory||(themes[current].kind==="menu"?"Specials":"Services"),description:"",image:"",available:true});$("#delete-item").hidden=true;$("#editor-panel").classList.add("is-open");$("#editor-panel").scrollIntoView({behavior:"smooth",block:"start"});};
 const closeEdit=()=>{$("#editor-panel").classList.remove("is-open");editedId=null;};
 const reset=()=>{if(!confirm(window.TLELocale?.tr("Reset this brand's demo? Your browser-only edits for this project will be cleared.")||"Reset this brand's demo? Your browser-only edits for this project will be cleared."))return;try{localStorage.removeItem(key())}catch(e){}items=baseItems(themes[current]);closeEdit();render();toast("Original demo restored");};
 const renderRequests=()=>{
@@ -233,14 +235,16 @@ const renderRequests=()=>{
 };
 const render=()=>{
  const cfg=themes[current];document.documentElement.style.setProperty("--accent",cfg.accent);document.documentElement.style.setProperty("--soft",cfg.soft);
- $("#subheading").textContent=(cfg.kind==="menu"?"DIGITAL MENU":"SERVICES + BOOKING")+" / OWNER VIEW";
+ const ui=brandUI();$("#subheading").textContent=ui.eyebrow||((cfg.kind==="menu"?"DIGITAL MENU":"SERVICES + BOOKING")+" / OWNER VIEW");
  $("#breadcrumbs").textContent="← "+(window.TLELocale?.tr("BACK TO DEMO")||"BACK TO DEMO");$("#breadcrumbs").href=ownerBackUrl();$("#back-preview").href=ownerBackUrl();const sideBack=document.querySelector(".side-bottom a");if(sideBack)sideBack.href=ownerBackUrl();
- $("#heading").innerHTML=cfg.kind==="menu"?'Your menu.<br><span class="heading-accent">Your way.</span>':'Your services.<br><span class="heading-accent">Your way.</span>';
- $("#intro").textContent=cfg.kind==="menu"?"Edit dishes, prices, promotions and availability. See the customer's menu respond instantly.":"Explore service packages, prices, offers and the booking experience — all with example data.";
+ $("#heading").innerHTML=ui.heading&&ui.accent?esc(ui.heading)+'<br><span class="heading-accent">'+esc(ui.accent)+"</span>":(cfg.kind==="menu"?'Your menu.<br><span class="heading-accent">Your way.</span>':'Your services.<br><span class="heading-accent">Your way.</span>');
+ $("#intro").textContent=ui.intro||(cfg.kind==="menu"?"Edit dishes, prices, promotions and availability. See the customer's menu respond instantly.":"Explore service packages, prices, offers and the booking experience — all with example data.");
  $("#live-site").href=cfg.site;
  document.title=cfg.name+" · "+(window.TLELocale?.isEs?"Panel del propietario":"Owner Center")+" · The Launch Era";
  $("#project").value=current;
- renderStats();renderQuick();renderPreviews();renderCatalog();renderRequests();setNav();window.TLELocale?.apply(document.querySelector(".shell"));
+ const requestTitle=document.querySelector("#requests-view .section-head h2");if(requestTitle)requestTitle.textContent=ui.requestsHeading||"Sample requests.";
+  document.querySelectorAll("[data-owner-command=add]").forEach(btn=>{btn.textContent="+ "+(ui.addLabel||(window.TLELocale?.isEs?"Agregar producto":"Add item")).replace(/^\+\s*/,"")});
+  renderStats();renderQuick();renderPreviews();renderCatalog();renderRequests();setNav();window.TLELocale?.apply(document.querySelector(".shell"));
 };
 $("#project").innerHTML=Object.entries(themes).map(([slug,c])=>'<option value="'+esc(slug)+'">'+esc(c.name)+'</option>').join("");
 $("#project").addEventListener("change",e=>{current=e.target.value;items=load();history.replaceState({}, "",location.pathname+"?demo="+encodeURIComponent(current)+(new URLSearchParams(location.search).get("lang")==="es"?"&lang=es":"")+(safeOwnerEntryReturnTo?"&returnTo="+encodeURIComponent(safeOwnerEntryReturnTo):""));search="";$("#catalog-search").value="";closeEdit();render();setView("dashboard")});
