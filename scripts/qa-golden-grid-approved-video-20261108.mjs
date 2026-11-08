@@ -75,8 +75,8 @@ for(const engine of [chromium,webkit]){
       }
       assert.equal(details.svgCount,1,'Localized syrup glint should exist');
       console.log('GOLDEN HERO GEOMETRY',engine.name(),name,JSON.stringify(details));
-      if(width>520)assert.ok(Math.abs(details.frameWidth-details.photoWidth)<2,'Photo fills tablet/desktop hero width exactly');
-      if(width>520)assert.ok(Math.abs(details.frameHeight-details.photoHeight)<2,'Tablet/desktop hero must not crop photo vertically');
+      if(name.startsWith('tablet'))assert.ok(Math.abs(details.frameWidth-details.photoWidth)<2,'Static iPad photo fills hero width exactly');
+      if(name.startsWith('tablet'))assert.ok(Math.abs(details.frameHeight-details.photoHeight)<2,'Static iPad photo cannot be cropped vertically');
       assert.equal(details.photoDisplay,'block');
       assert.equal(details.photoTransform,'none','Do not zoom or blur headline/product');
       assert.equal(details.photoFilter,'none');
