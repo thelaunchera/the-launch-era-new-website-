@@ -243,6 +243,13 @@
     border-radius:16px;
     scroll-snap-align:center;
   }
+  /* Original seven-card perspective shrank the third/fourth curated
+     thumbnails even after reflow. Use equal visual scale for tablet taps. */
+  .tle-universal .hero-gallery-card:nth-child(n){
+    --gallery-turn:0deg;
+    --gallery-y:0px;
+    --gallery-scale:1;
+  }
   .tle-universal .hero-gallery-card figcaption{
     left:12px;
     right:10px;
