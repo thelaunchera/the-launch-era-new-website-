@@ -15,6 +15,10 @@ INTERACTIVE DEMO||DEMOSTRACIÓN INTERACTIVA
 Reset demo||Restablecer demo
 Reset all demo changes||Restablecer todos los cambios del demo
 DIGITAL MENU||MENÚ DIGITAL
+DIGITAL MENU / OWNER VIEW||MENÚ DIGITAL / VISTA DEL PROPIETARIO
+SERVICES + BOOKING / OWNER VIEW||SERVICIOS Y RESERVAS / VISTA DEL PROPIETARIO
+Interactive demo — give it a try.||Este es un demo interactivo.
+Changes stay in this browser. No real orders, bookings or payments are created.||Los cambios solo se guardan en este navegador. No se crean pedidos, reservas ni pagos reales.
 SERVICES + BOOKING||SERVICIOS Y RESERVAS
 OWNER VIEW||VISTA DEL PROPIETARIO
 Your business.||Tu negocio.
