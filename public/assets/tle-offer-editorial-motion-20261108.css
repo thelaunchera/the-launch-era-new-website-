@@ -227,3 +227,21 @@
   .owner-customer-frame,.owner-admin-visual,.faq details[open]>p
  ){animation:none!important;transform:none!important;clip-path:none!important}
 }
+
+
+/* Clear benefit-led headlines in English and Spanish: keep the full copy
+   visible beside original desktop hero photography, without changing the
+   7 project images, their 3D rail or the mobile swipe interaction. */
+@media(min-width:1100px){
+ .tle-universal .hero.hero-gallery h1{
+  max-width:min(13ch,100%);
+  font-size:clamp(54px,4.55vw,78px);
+  line-height:1.035;
+ }
+}
+@media(max-width:600px){
+ .tle-universal .hero.hero-gallery h1{
+  overflow-wrap:normal;
+  text-wrap:balance;
+ }
+}
