@@ -6,6 +6,14 @@
 - **QA gate:** `scripts/qa-golden-grid-approved-video-20261108.mjs` now checks tablet/desktop crisp still, masked motion and video dimensions, and phone/reduced-motion no-video loading. Existing `qa-golden-grid-stability-20261108.mjs` checks mobile iframe close, hero and gallery. Must pass route-integrity static and Playwright Chromium/WebKit, then verify deployed GitHub Pages and real iPad/iPhone before saying the production visual issue is fully resolved.
 - **Status at source edit:** patch prepared on branch `fix/golden-grid-crisp-hero-20261108`; browser/production/physical-iPad verification still pending.
 
+
+## 2026-11-08 — SOVA video missing on owner's iPad despite desktop playback
+
+- **Report:** The owner confirms the blue SOVA hero remains a static photo on their iPad even though desktop browser playback previously succeeded.
+- **Source diagnosis:** The existing loader excluded video entirely under `prefers-reduced-motion` and `navigator.connection.saveData`, and silently swallowed `video.play()` rejection. iPad Safari and iOS low-power/autoplay policies can block autoplay; there was no user-gesture recovery button. A browser screenshot of the poster alone did not prove on-device playback.
+- **Repair:** Retain the exact owner-supplied blue landscape `hero-canva-blue-20261108.mp4` and matching poster; add a 44px+ native `Play video` / `Pause video` control to SOVA only. Keep muted, looping, playsinline autoplay where allowed; if blocked, explicitly tapping Play calls `video.play()` directly in the user gesture. Reduced-motion and data-saving mode remain still by default but offer opt-in playback. The video stays contained without zoom, behind copy, and no CTA/cart/gallery/routes or other demos are changed. Update SOVA-only asset query versions and preload matching poster.
+- **QA:** GitHub route guard and Pages deploy plus Safari/WebKit 390px and iPad 820px tests, reduced motion opt-in, autoplay-denied tap recovery, live asset decode, button visible and interactive; real physical iPad signoff remains pending.
+
 ## 2026-11-08 — SOVA approved cobalt-blue Canva landscape hero
 
 - **Owner request:** replace portrait hero with newly supplied Canva 5-second landscape clip based on the approved blue sofa and headphones image; keep the camera further back, all cobalt backdrop and clean focus across desktop/tablet/mobile.

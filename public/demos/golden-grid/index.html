@@ -28,6 +28,7 @@
 </style>
 <link rel="stylesheet" href="./golden-approved-hero-video-20261108.css?v=2">
 <script defer src="./golden-approved-hero-video-20261108.js?v=2"></script>
+<link rel="stylesheet" href="./golden-human-moments-20261108.css?v=1">
 </head>
 <body data-tle-company="demo">
 <div id="app">
@@ -58,6 +59,29 @@
     <div class="story-art"><img src="./resources/golden-8.png" alt="Overhead breakfast scene with Golden Grid waffles on a yellow table" loading="lazy"></div>
     <div class="story-copy"><p class="eyebrow" data-en="THE GOLDEN GRID MOOD" data-es="LA ESENCIA GOLDEN GRID">THE GOLDEN GRID MOOD</p><h2 data-en="Less rush.<br><em>More ritual.</em>" data-es="Menos prisa.<br><em>Más disfrute.</em>">Less rush.<br><em>More ritual.</em></h2><p data-en="The first pour. The butter melting. That first crisp bite. Golden Grid is a little reminder to give the good part of your morning a moment of its own." data-es="El sirope cayendo. La mantequilla derritiéndose. Ese primer bocado crujiente. Golden Grid es un pequeño recordatorio para regalarle tiempo a lo bueno de tu mañana.">The first pour. The butter melting. That first crisp bite. Golden Grid is a little reminder to give the good part of your morning a moment of its own.</p><span class="story-signature">Stay golden.</span><a href="#campaign" class="text-link" data-en="Step into our world" data-es="Entra en nuestro mundo">Step into our world</a></div>
   </section>
+
+  <section class="section gg-human-section" id="gg-human-moments" aria-labelledby="gg-human-title">
+    <div class="section-heading gg-human-heading">
+      <div><p class="eyebrow" data-en="LIFE LOOKS BETTER GOLDEN" data-es="MOMENTOS PARA COMPARTIR">LIFE LOOKS BETTER GOLDEN</p>
+        <h2 id="gg-human-title" data-en="Made for <em>real moments.</em>" data-es="Para <em>momentos reales.</em>">Made for <em>real moments.</em></h2>
+      </div>
+      <p class="section-note" data-en="More than waffles. The people, the laughs, the first bite." data-es="Más que waffles. Las personas, las risas y ese primer bocado.">More than waffles. The people, the laughs, the first bite.</p>
+    </div>
+    <div class="gg-human-photos" role="group" aria-label="Golden Grid people enjoying waffles">
+      <button class="gg-human-photo" type="button" data-gg-human="0" aria-label="View Golden Grid terrace photo">
+        <span class="gg-human-image"><img src="./media/golden-grid-human-01.webp" alt="Woman enjoying waffles and iced coffee on a sunny Golden Grid terrace" loading="lazy" decoding="async" width="1280" height="853"></span>
+        <span class="gg-human-label" data-en="01 / MORNING IN THE SUN" data-es="01 / UNA MAÑANA AL SOL">01 / MORNING IN THE SUN</span>
+      </button>
+      <button class="gg-human-photo" type="button" data-gg-human="1" aria-label="View friends sharing Golden Grid waffles">
+        <span class="gg-human-image"><img src="./media/golden-grid-human-02.webp" alt="Two friends smiling and enjoying a waffle together inside the cafe" loading="lazy" decoding="async" width="1280" height="853"></span>
+        <span class="gg-human-label" data-en="02 / BETTER TOGETHER" data-es="02 / MEJOR EN COMPAÑÍA">02 / BETTER TOGETHER</span>
+      </button>
+      <button class="gg-human-photo" type="button" data-gg-human="2" aria-label="View Golden Grid waffle moment">
+        <span class="gg-human-image"><img src="./media/golden-grid-human-03.webp" alt="Smiling woman presenting fresh Golden Grid waffles with berries" loading="lazy" decoding="async" width="1280" height="853"></span>
+        <span class="gg-human-label" data-en="03 / MADE TO SHARE" data-es="03 / PARA COMPARTIR">03 / MADE TO SHARE</span>
+      </button>
+    </div>
+  </section>
   <section class="section gallery-section" id="campaign">
     <div class="section-heading"><div><p class="eyebrow" data-en="THE GOLDEN EDIT" data-es="LA GALERÍA GOLDEN">THE GOLDEN EDIT</p><h2 data-en="A whole lot<br><em>of golden.</em>" data-es="Un mundo<br><em>de color dorado.</em>">A whole lot<br><em>of golden.</em></h2></div><p class="section-note" data-en="Nine frames. One morning mood.<br>Tap a photo to take a closer look." data-es="Nueve imágenes. Una misma esencia.<br>Toca una foto para verla de cerca.">Nine frames. One morning mood.<br>Tap a photo to take a closer look.</p></div>
     <div class="gallery" id="gallery"></div>
@@ -69,6 +93,16 @@
   <section class="closing"><p class="eyebrow">GOLDEN GRID · WAFFLE CO.</p><h2 data-en="Good mornings<br><em>start here.</em>" data-es="Las buenas mañanas<br><em>empiezan aquí.</em>">Good mornings<br><em>start here.</em></h2><button class="button contact" data-en="Say hello" data-es="Hablemos">Say hello</button></section>
 </main>
 <footer><a href="#" class="footer-logo">GOLDEN GRID</a><p data-en="A little crisp. A lot to love." data-es="Un toque crujiente. Mucho para disfrutar.">A little crisp. A lot to love.</p><span>Powered by The Launch Era</span><a href="#collection" data-en="Explore" data-es="Explorar">Explore</a></footer>
+
+<dialog id="gg-human-lightbox" class="gg-human-lightbox" aria-label="Golden Grid lifestyle photograph">
+  <button type="button" class="gg-human-close" data-gg-human-close aria-label="Close photo">×</button>
+  <img data-gg-human-large alt="">
+  <div class="gg-human-lightbox-footer">
+    <button type="button" data-gg-human-prev aria-label="Previous photo">‹</button>
+    <span data-gg-human-count aria-live="polite">01 / 03</span>
+    <button type="button" data-gg-human-next aria-label="Next photo">›</button>
+  </div>
+</dialog>
 <dialog id="lightbox" aria-label="Campaign photo"><button class="close" data-close="lightbox" aria-label="Close photo">×</button><img id="large-image" alt=""><div class="lightbox-nav"><button id="previous" aria-label="Previous photo">Previous</button><span id="photo-count"></span><button id="next" aria-label="Next photo">Next</button></div></dialog>
 <dialog id="product-dialog" aria-labelledby="product-name"><button class="close" data-close="product-dialog" aria-label="Close product">×</button><img id="product-image" alt=""><div class="dialog-copy"><p class="eyebrow">GOLDEN GRID · WAFFLE CO.</p><h2 id="product-name"></h2><p id="product-copy"></p><p class="demo-note" data-en="Concept preview · Purchasing is not active." data-es="Vista conceptual · Las compras no están activas.">Concept preview · Purchasing is not active.</p><button class="button" data-close="product-dialog" data-en="Keep exploring" data-es="Seguir explorando">Keep exploring</button></div></dialog>
 <dialog id="contact-dialog" aria-labelledby="contact-title"><button class="close" data-close="contact-dialog" aria-label="Close contact">×</button><div class="dialog-copy"><p class="eyebrow">GOLDEN GRID · WAFFLE CO.</p><h2 id="contact-title" data-en="Let's <em>talk.</em>" data-es="Vamos a <em>hablar.</em>">Let's <em>talk.</em></h2><p data-en="Try the contact experience. This demo does not send messages." data-es="Prueba la experiencia de contacto. Este demo no envía mensajes.">Try the contact experience. This demo does not send messages.</p><form id="contact-form"><label for="name" data-en="Name" data-es="Nombre">Name</label><input id="name" name="name" required maxlength="80" autocomplete="name"><label for="email" data-en="Email" data-es="Correo">Email</label><input id="email" name="email" type="email" required autocomplete="email"><label for="message" data-en="Message" data-es="Mensaje">Message</label><textarea id="message" name="message" required maxlength="1500" rows="3"></textarea><button type="submit" class="button" data-en="Preview message" data-es="Vista previa del mensaje">Preview message</button></form><p id="contact-result" role="status" hidden></p></div></dialog></div>
@@ -80,6 +114,7 @@
   <script defer src="/assets/tle-demo-scroll-art-20261108.js?v=4"></script>
   <script defer src="/assets/tle-demo-footer-finale-20261108.js?v=3"></script>
 <script defer src="/assets/tle-demo-order-journey-20261108.js?v=3" data-tle-order-slug="golden-grid"></script>
+<script defer src="./golden-human-moments-20261108.js?v=1"></script>
 <!-- Golden Grid: original HD campaign photo is always visible; feathered motion only on tablet/desktop. -->
 </body>
 </html>
