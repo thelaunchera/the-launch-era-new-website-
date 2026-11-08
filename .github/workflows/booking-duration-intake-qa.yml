@@ -1,5 +1,12 @@
 name: Booking Duration Intake QA
 on:
+  pull_request:
+    paths:
+      - 'public/assets/tle-duration-picker.js'
+      - 'public/booking-flow-intake/index.html'
+      - 'public/es/booking-flow-intake/index.html'
+      - 'scripts/qa-booking-intake-duration.mjs'
+      - '.github/workflows/booking-duration-intake-qa.yml'
   workflow_dispatch:
   push:
     branches: [main]
