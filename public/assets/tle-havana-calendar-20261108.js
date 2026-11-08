@@ -35,7 +35,7 @@
  const next=document.createElement('button');next.type='button';next.className='tlc-calendar-nav';next.textContent='›';
  head.append(prev,title,next);
  const weekdays=document.createElement('div');weekdays.className='tlc-calendar-weekdays';
- const days=document.createElement('div');days.className='tlc-calendar-days';
+ const days=document.createElement('div');days.className='tlc-calendar-days';days.id='tlc-calendar-days';
  const caption=document.createElement('p');caption.className='tlc-calendar-caption';
  panel.append(head,weekdays,days,caption);
  oldLabel.replaceWith(field);
