@@ -65,9 +65,9 @@ html[data-tle-one-motion="golden-grid"] .gg-syrup-glint {
   animation:none;
 }
 @media(min-width:761px) and (prefers-reduced-motion:no-preference) {
-  html[data-tle-one-motion="golden-grid"] [data-gg-sheen-active] .gg-syrup-glint {
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-sheen-active] svg.gg-hero-motion path.gg-syrup-glint {
     opacity:.58;
-    animation:ggSyrupLight 5.8s ease-in-out infinite;
+    animation:ggSyrupLight 5.8s ease-in-out infinite!important;
   }
 }
 @keyframes ggSyrupLight {
