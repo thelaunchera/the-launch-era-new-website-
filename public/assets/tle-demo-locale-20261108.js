@@ -11,6 +11,7 @@ A BETTER WAY TO RUN YOUR DAY||UNA FORMA MÁS SIMPLE DE ORGANIZAR TU DÍA
 Back to website preview||Volver a la vista del sitio web
 All information is simulated. Edits stay in this browser only. No payments, messages, or bookings are sent.||Toda la información es simulada. Los cambios solo se guardan en este navegador. No se envían pagos, mensajes ni reservas.
 BACK TO DEMO||VOLVER AL DEMO
+← BACK TO DEMO||← VOLVER AL DEMO
 INTERACTIVE DEMO||DEMOSTRACIÓN INTERACTIVA
 Reset demo||Restablecer demo
 Reset all demo changes||Restablecer todos los cambios del demo
