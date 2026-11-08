@@ -1,4 +1,4 @@
-// Regression: compact native dates and non-submitting inquiry feedback in iPhone-size layouts.
+// Regression: accessible inline dates and non-submitting inquiry feedback in iPhone-size layouts.
 import assert from 'node:assert/strict';
 import {chromium,devices} from 'playwright';
 const root=(process.env.QA_URL||'http://127.0.0.1:4191').replace(/[/]$/,'');
@@ -14,6 +14,7 @@ try {
     const response=await page.goto(root+path,{waitUntil:'domcontentloaded'});
     assert.equal(response?.status(),200,path+' should load');
     const isWedding = path.includes('ivory-and-bloom');
+    const isHavana = path.includes('havana-19');
     if(isWedding){
       // iPhone / Instagram must never invoke Apple's oversized native date popover.
       assert.equal(await page.locator('#inquiryForm input[type="date"]').count(),0,'Wedding inquiry should not use a native date input');
@@ -54,6 +55,27 @@ try {
       assert.equal(await picker.isVisible(),false,'Calendar closes after selection');
       assert.equal(await trigger.getAttribute('data-selected'),'true','Selected date appears on date button');
       console.log('INLINE WEDDING CALENDAR OK',JSON.stringify({geometry,bounds,date:target.iso}));
+    } else if(isHavana) {
+      // The original iPhone native date field rendered as an oversized blank box.
+      assert.equal(await page.locator('#booking input[type="date"]').count(),0,'Havana must not use iPhone native date controls');
+      const trigger=page.locator('#tlc-date-trigger');
+      await trigger.waitFor({state:'visible'});
+      const geometry=await trigger.evaluate(el=>{
+        const b=el.getBoundingClientRect(),p=el.parentElement.getBoundingClientRect();
+        return {height:b.height,width:b.width,right:b.right,parentRight:p.right};
+      });
+      assert.ok(geometry.height>=50 && geometry.height<=56,'Havana compact date button: '+JSON.stringify(geometry));
+      assert.ok(geometry.right<=geometry.parentRight+2,'Havana date trigger cannot overflow');
+      await trigger.click();
+      const panel=page.locator('#tlc-date-calendar');
+      assert.equal(await panel.isVisible(),true,'Havana date calendar opens inline');
+      const bounds=await panel.evaluate(el=>{
+        const b=el.getBoundingClientRect(),p=el.parentElement.getBoundingClientRect();
+        return {right:b.right,parentRight:p.right,scroll:document.documentElement.scrollWidth,viewport:window.innerWidth};
+      });
+      assert.ok(bounds.right<=bounds.parentRight+2,'Havana calendar fits in form card: '+JSON.stringify(bounds));
+      assert.ok(bounds.scroll<=bounds.viewport+2,'No horizontal overflow on Havana iPhone');
+      await trigger.click();
     } else {
       const date=page.locator('input[type="date"]').first();
       await date.waitFor({state:'attached'});
@@ -74,12 +96,16 @@ try {
       const progress=form.locator('.tle-form-progress [role="progressbar"]');
       await progress.waitFor({state:'visible'});
       const start=Number(await progress.getAttribute('aria-valuenow'));
-      if (!isWedding) await form.locator('input[name="date"]').fill('2026-12-17');
+      if(isHavana){
+        await page.locator('#tlc-date-trigger').click();
+        await page.locator('#tlc-calendar-days button[data-day]:not([disabled])').first().click();
+        assert.equal(await page.locator('#date').getAttribute('type'),'hidden');
+        assert.ok((await page.locator('#date').inputValue()).match(/^\\d{4}-\\d{2}-\\d{2}$/));
+      }
       const next=Number(await progress.getAttribute('aria-valuenow'));
       assert.ok(isWedding ? next>0 : next>start,path+' should count the selected date in inquiry progress');
       if (!isWedding) {
-        const dateNote=form.locator('.tle-date-chosen');
-        assert.ok(await dateNote.isVisible(),path+' should show selected date');
+        assert.equal(await page.locator('#tlc-date-trigger').getAttribute('data-selected'),'true','Havana date button shows the selection');
       }
       await form.locator('input[name="email"]').fill('invalid-email');
       await form.locator('input[name="email"]').blur();
