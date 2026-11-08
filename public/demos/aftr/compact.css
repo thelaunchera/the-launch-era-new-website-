@@ -302,7 +302,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   to { background-position:calc(-1 * var(--aftr-poster-tile)) center; }
 }
 .ticker.ticker-poster-banner:is(:hover,:focus-within){animation-play-state:paused!important}
-.hero .hero-image { overflow:hidden; animation:none!important; }
+.hero .hero-image { overflow:hidden; animation:none!important;z-index:0;isolation:isolate; }
+.hero .hero-shade{z-index:1;pointer-events:none}
+.hero :is(.hero-topline,.hero-content,.hero-bottom,.hero-side){z-index:2}
 html[data-tle-one-motion="aftr"] .hero .hero-image > video.aftr-hero-video {
   position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
   display:block;object-fit:cover!important;object-position:center center!important;
