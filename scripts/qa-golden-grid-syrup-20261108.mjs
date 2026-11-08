@@ -40,14 +40,34 @@ for(const [engine,browserType] of [['Chromium',chromium],['WebKit',webkit]]){
   const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
   const page=await context.newPage();
   await page.goto(BASE+'/demos/?demo=golden-grid',{waitUntil:'domcontentloaded'});
-  await page.locator('#demo-viewer[open]').waitFor({state:'visible',timeout:12000});
-  const iframe=page.frameLocator('#viewer-frame');
-  await iframe.locator('.hero-art img').waitFor({state:'visible',timeout:15000});
-  await iframe.locator('#gallery.golden-featured-carousel').waitFor({state:'attached',timeout:15000});
-  assert.equal(await iframe.locator('#gallery > button img[src]').count(),3);
-  await page.locator('#viewer-close').click();
-  assert(!(await page.locator('#demo-viewer').evaluate(d=>d.open)),'Closing demo must unlock parent');
-  assert.equal(await page.locator('#viewer-frame').getAttribute('src'),'about:blank','iframe released');
+  const direct=page.locator('.demo-card[data-brand="golden-grid"] .card-preview-link');
+  if(await direct.getAttribute('target')==='_blank'){
+    // #441: avoid nested high-resolution iframe on iPhone and Studio previews.
+    await page.locator('.demo-card.golden-direct-target').waitFor({state:'visible',timeout:12000});
+    assert.equal(await page.locator('#demo-viewer').evaluate(d=>d.open),false,'Golden direct link must not trap the library');
+    assert.equal(await page.evaluate(()=>document.body.style.overflow),'','Gallery scrolling must remain unlocked');
+    assert.match(await direct.getAttribute('href'),/\/demos\/golden-grid\//,'Direct link must retain actual demo route');
+  }else{
+    // Legacy preview, retained until #441 merges. Wait until the gallery has
+    // mounted and pruned non-visible sources, not merely until its class exists.
+    await page.locator('#demo-viewer[open]').waitFor({state:'visible',timeout:12000});
+    const iframe=page.frameLocator('#viewer-frame');
+    await iframe.locator('.hero-art img').waitFor({state:'visible',timeout:15000});
+    await iframe.locator('#gallery.golden-featured-carousel').waitFor({state:'attached',timeout:15000});
+    await iframe.locator('#gallery').evaluate(async gallery=>{
+      const ready=()=>gallery.querySelectorAll(':scope > button img[src]').length===3;
+      if(ready())return;
+      await new Promise((resolve,reject)=>{
+        const observer=new MutationObserver(()=>{if(ready()){observer.disconnect();resolve()}});
+        observer.observe(gallery,{subtree:true,childList:true,attributes:true,attributeFilter:['src']});
+        setTimeout(()=>{observer.disconnect();reject(new Error('Nine-image gallery was not pruned after mount'))},12000);
+      });
+    });
+    assert.equal(await iframe.locator('#gallery > button img[src]').count(),3);
+    await page.locator('#viewer-close').click();
+    assert(!(await page.locator('#demo-viewer').evaluate(d=>d.open)),'Closing demo must unlock parent');
+    assert.equal(await page.locator('#viewer-frame').getAttribute('src'),'about:blank','iframe released');
+  }
   await context.close();
   console.log('PASS',engine,'library preview return');
  }finally{await browser.close()}
