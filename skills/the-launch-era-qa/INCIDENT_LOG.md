@@ -1,3 +1,11 @@
+## 2026-11-08 — Scroll reveal stopped after first pass on public landings and demos
+
+- **Reported symptom:** section and photo entrance animations ran only once, so subsequent upward and downward scrolling did not replay the same editorial effect.
+- **Verified root cause:** the shared `public/assets/tle-demo-scroll-art-20261108.js` used a one-shot `IntersectionObserver` that unobserved elements and removed its transition class. The public demo gallery, Website for Your Business offer, pricing reveal, sample cinematic demo, footer finale, AFTR, and the podcast/class landing had independent one-time observers.
+- **Changes:** keep section observers active, toggle visibility when entering/leaving the viewport in either direction, preserve initially visible sections and accessibility for focus and reduced-motion. Keep hero pointer/scroll parallax, original media, copy, prices, URLs, booking and checkout untouched. Bump cached animation asset query versions on affected static demo/offer/class pages. Mirrored the shared scroll-art update to `thelaunchera/demo-booking-landing-`; updated the separate class/podcast repo `thelaunchera/todavia-estoy-a-tiempo`.
+- **Regression expectations:** scroll down past an editorial card, scroll up into it, and repeat; reveal must recur on each re-entry. No empty section/flash at initial page load, no blank hero, no hidden focused CTA, no visual motion under reduced-motion, no horizontal overflow at mobile widths.
+- **Evidence / release status:** repository updates verified from GitHub source; podcast/class bilingual QA and Pages deployment passed at `9375ae5e`. Main website route guard passed on `6475071c`. Main and secondary demo Pages deployments and actual browser/iPhone re-entry testing were still pending when this entry was written; do not describe all sites as live or fully visually verified until those checks succeed. No real bookings, payments or emails were sent.
+
 ## 2026-11-08 — Customer-facing copy exposed preview implementation language (public demo polish)
 
 - **User request:** all marketing landings and demos should explain the customer experience and next step without references to classroom tools, private Studio implementation, developer terminology or operational internals.
