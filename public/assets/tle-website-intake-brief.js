@@ -50,7 +50,16 @@ en:{
  aiShort:'What should your AI assistant answer? (optional)',
  optionalDetails:'Optional · style, social links & inspiration',
  goalsShort:'What makes your business special? (optional)',
- security:'Do not send passwords, credit card details or security codes.'
+ aiPhotoQuestion:'Would you like your product photos enhanced with AI?',
+ aiPhotoHint:'Optional image styling for your products or services; no long brief needed.',
+ aiPhotoBrowse:'Explore our photo inspiration catalog',
+ aiPhotoGoal:'What would you like improved?',
+ aiPhotoExisting:'Enhance my existing product photography',
+ aiPhotoBackdrop:'Clean background / premium studio look',
+ aiPhotoCampaign:'Editorial product campaign concept',
+ aiPhotoReference:'Example code from the gallery (optional)',
+ aiPhotoReview:'Request only — no automatic generation. We will confirm the scope before creating images. Add an original product photo above or share a Drive link.',
+  security:'Do not send passwords, credit card details or security codes.'
 },
 es:{
  fewQuestions:'Solo lo esencial. El resto lo preparamos al construir tu website.',
@@ -94,7 +103,16 @@ es:{
  aiShort:'¿Qué debe responder tu asistente de IA? (opcional)',
  optionalDetails:'Opcional · estilo, redes e inspiración',
  goalsShort:'¿Qué hace especial a tu negocio? (opcional)',
- security:'No compartas contraseñas, tarjetas ni códigos de seguridad.'
+ aiPhotoQuestion:'¿Quieres mejorar las fotos de tus productos con IA?',
+ aiPhotoHint:'Opcional: imágenes más profesionales de tus productos o servicios, sin escribir un brief largo.',
+ aiPhotoBrowse:'Ver nuestro catálogo de inspiración de fotos',
+ aiPhotoGoal:'¿Qué quieres mejorar?',
+ aiPhotoExisting:'Mejorar mis fotos actuales de productos',
+ aiPhotoBackdrop:'Fondo limpio / fotografía de estudio premium',
+ aiPhotoCampaign:'Crear un concepto editorial de campaña',
+ aiPhotoReference:'Código de ejemplo de la galería (opcional)',
+ aiPhotoReview:'Es una solicitud de revisión, no una generación automática. Confirmaremos el alcance antes de crear imágenes. Sube una foto original arriba o comparte un enlace de Drive.',
+  security:'No compartas contraseñas, tarjetas ni códigos de seguridad.'
 }};
 const formatFor={restaurant:'digital_menu',cafe:'digital_menu',retail:'product_catalog',cleaning:'services_requests',beauty:'services_requests',wellness:'services_requests',professional:'services_requests'};
 const actions={
@@ -148,7 +166,7 @@ function translateBrief(){
   const content=words[node.dataset.placeholder];
   if(content!==undefined)node.placeholder=content;
  });
- refreshIndustry();refreshDomain();
+ refreshIndustry();refreshDomain();updatePhotoChoice();
 }
 let inboxTouched=false,lastEmail='';
 const buyer=field('email'),inbox=field('preferred_email');
@@ -162,8 +180,23 @@ field('industry').addEventListener('change',refreshIndustry);
 field('other_format').addEventListener('change',refreshIndustry);
 field('menu_pdf_url').addEventListener('input',refreshOffers);
 field('domain_option').addEventListener('change',refreshDomain);
+function updatePhotoChoice(){
+ const checked=$('ai-photo-optin')?.checked===true;
+ const panel=$('ai-photo-details');
+ if(panel)panel.hidden=!checked;
+ const field= form.elements.namedItem('ai_photo_reference');
+ if(!checked&&field)field.value='';
+ const kind=form.elements.namedItem('industry')?.value||'';
+ const category={restaurant:'food',cafe:'bakery',retail:'retail',cleaning:'cleaning',beauty:'beauty',wellness:'beauty',professional:'services'}[kind]||'all';
+ const gallery=$('ai-photo-gallery-link');
+ if(gallery)gallery.href='/demos/photo-gallery/?category='+encodeURIComponent(category)+'&lang='+encodeURIComponent(lang());
+}
+$('ai-photo-optin')?.addEventListener('change',updatePhotoChoice);
+$('business-industry')?.addEventListener('change',updatePhotoChoice);
 $('locale').addEventListener('click',()=>queueMicrotask(translateBrief));
 form.addEventListener('submit',()=>{
+ if($('ai-photo-optin')?.checked&&$('ai-photo-details')?.hidden)updatePhotoChoice();
+
  // Capture-phase enhancement runs before the already verified intake submission handler.
  refreshIndustry();refreshDomain();refreshOffers();
  const extra=field('industry').value==='other'?' · '+field('industry_other').value.trim():'';
