@@ -60,6 +60,35 @@ html[data-tle-one-motion="casa-brownie"] .hero-photo>img,html[data-tle-one-motio
 html[data-tle-one-motion="casa-brownie"] .hero-photo video[data-tle-cinematic-hero]{object-fit:cover;object-position:center;}
 html[data-tle-one-motion="casa-brownie"] .hero-photo #hero-video{display:none!important;}
 }
+/* Casa Brownie portrait video framing / 2026-11-08.
+   The approved 512x682 portrait source cannot retain its complete frame in a
+   landscape hero with object-fit:cover. Use a taller media stage at each
+   breakpoint instead of zooming the source with transforms. */
+@media(prefers-reduced-motion:no-preference){
+ html[data-tle-one-motion="casa-brownie"] .hero-photo>video[data-tle-cinematic-hero]{
+   object-fit:cover!important;
+   object-position:center 48%!important;
+   scale:1.008!important;
+   filter:contrast(1.045) saturate(1.025);
+ }
+}
+/* A taller hero reduces crop and source enlargement while keeping the
+   video full-bleed, not placed on top of a static photo or blurred sides. */
+@media(min-width:1200px){
+ html[data-tle-one-motion="casa-brownie"] .hero{
+   min-height:clamp(700px,55vw,940px)!important;
+ }
+}
+@media(min-width:791px) and (max-width:1199px){
+ html[data-tle-one-motion="casa-brownie"] .hero-photo{
+   height:clamp(630px,80vw,830px)!important;
+ }
+}
+@media(max-width:790px){
+ html[data-tle-one-motion="casa-brownie"] .hero-photo{
+   height:clamp(350px,88vw,580px)!important;
+ }
+}
 </style>
 </head>
   <body data-tle-demo="casa-brownie" data-tle-company="demo">
