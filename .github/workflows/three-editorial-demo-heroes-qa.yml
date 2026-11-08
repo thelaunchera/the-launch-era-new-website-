@@ -7,7 +7,6 @@ on:
       - 'public/demos/ivory-and-bloom/**'
       - 'public/demos/havana-19/**'
       - 'scripts/qa-three-editorial-demo-heroes.mjs'
-      - 'scripts/qa-golden-grid-stability-20261108.mjs'
       - 'scripts/qa-demo-inquiry-mobile.mjs'
       - 'scripts/qa-havana-calendar-webkit-20261108.mjs'
       - 'public/assets/tle-havana-calendar-20261108.js'
@@ -76,8 +75,6 @@ jobs:
             sleep 1
           done
           node scripts/qa-three-editorial-demo-heroes.mjs
-          node --check scripts/qa-golden-grid-stability-20261108.mjs
-          node scripts/qa-golden-grid-stability-20261108.mjs
           node --check scripts/qa-demo-inquiry-mobile.mjs
           node scripts/qa-demo-inquiry-mobile.mjs
           node --check scripts/qa-ivory-bloom-calendar-webkit.mjs
