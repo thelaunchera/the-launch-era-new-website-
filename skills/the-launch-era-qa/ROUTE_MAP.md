@@ -1228,3 +1228,13 @@ On `/lead-private-preview.html` sample only, `tle-demo-enhancements-v12.js` owns
 ## 2026-11-07 · Future demo creative gate + visual prohibition
 - Before any new public demo build, moodboard, individual photos and a real brand logo must be approved in that order, then the functioning GitHub demo can be built. Do not publish unapproved assets or mix brands. See `docs/DEMO-PRODUCTION-PIPELINE.md` and `AGENTS.md`.
 - All existing/future public demos and source scanned by `scripts/qa-demo-decorative-icons.mjs` to block green emoji-like starbursts, decorative emojis and typographic arrows. La Vie in Pink removes even the substitute middot marks and arrow-only product UI; product navigation becomes bilingual labeled Ver/View with 44px min target. No route/checkout/customer changes.
+
+
+## 2026-11-08 — Private selection of Website of Websites demos (routes unchanged)
+
+- **Owner control:** The private Studio's Finished Demos cards independently offer `Mostrar en Websites` / `Ocultar de Websites`. Aula controls remain separate; real client sites are not selectable.
+- **Public selection source:** Supabase podcast project `fhrvuhikrybobidxpvnh`, table `public.tle_website_demo_visibility`. Public RLS permits only reading `demo_id, visible`; owner-role RLS restricts inserts/updates to signed-in `podcast_studio_admins` with `role='owner'`. An absent row means visible, retaining existing default coverage.
+- **Public routes:** `/demos/` applies selection to cards, filters, total count, index labels and deep-link preview. `/website-for-your-business/` and `/es/website-for-your-business/` hide unselected hero gallery images, retaining the other cards and the main package/pricing CTAs. The separate Golden Grid illustrative owner section is hidden if Golden Grid is unselected so it cannot remain as an inconsistent featured demo.
+- **Shared read-only source:** `/assets/tle-website-demo-visibility-20261108.js`. No admin controls or secrets in public HTML. Canonical individual demo URLs are **not disabled** by portfolio visibility: this is editorial display control, not access restriction.
+- **Canonical aliases:** Studio `casa-brownie-static` and `casa-brownie` both use the single public `casa-brownie` ID; `ivory-bloom` maps to `ivory-and-bloom`. A live client such as CB Depot remains excluded.
+- **Release gate:** Run `node scripts/qa-route-integrity.mjs --static`, `node scripts/qa-website-demo-visibility.mjs`, private Studio build and tests, verify admin-only RLS and live GitHub Pages, and test iPhone 390px / tablet 820px. No prices, checkout, public demo contents or real customer records change.
