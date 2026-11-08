@@ -29,7 +29,15 @@ jobs:
           fi
           echo "$EXPECTED_SHA256  $target" | sha256sum --check --status
           test "$(wc -c < "$target")" -eq 2508021
-          git add "$target"
+          poster="public/demos/golden-grid/media/hero-approved-canva-20261108-firstframe.webp"
+          if [ ! -s "$poster" ]; then
+            if ! command -v ffmpeg >/dev/null 2>&1; then
+              sudo apt-get update -qq && sudo apt-get install -y ffmpeg
+            fi
+            ffmpeg -hide_banner -loglevel error -y -i "$target" -frames:v 1 -c:v libwebp -quality 92 "$poster"
+          fi
+          test -s "$poster"
+          git add "$target" "$poster"
           if ! git diff --cached --quiet; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
