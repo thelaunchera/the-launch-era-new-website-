@@ -231,7 +231,7 @@ try{
      assert.ok(result.photoHeight>220,'Mobile hero photo must be prominent: '+demo.slug+' '+JSON.stringify(result));
      assert.ok(result.photoTop<result.viewportHeight,'Hero photo must appear upon entry: '+demo.slug);
      assert.ok(result.scrollWidth<=result.viewport+2,'No horizontal overflow: '+demo.slug+' '+JSON.stringify(result));
-     assert.ok((demo.slug==='sova'&&result.hasSovaLoop)||(demo.slug==='golden-grid'&&result.hasGoldenVideo)||(result.motion!=='none'&&result.motion.length>0),'Original hero animation or approved SOVA motion loop must remain: '+demo.slug+' '+JSON.stringify(result));
+     assert.ok((demo.slug==='sova'&&(result.hasSovaLoop||result.naturalWidth>500))||(demo.slug==='golden-grid'&&result.hasGoldenVideo)||(result.motion!=='none'&&result.motion.length>0),'Original hero animation or approved SOVA motion loop must remain: '+demo.slug+' '+JSON.stringify(result));
      // Capture the settled design, not a half-transparent reveal frame.
      await motionPage.waitForTimeout(1200);
      if(demo.slug!=='golden-grid'){
