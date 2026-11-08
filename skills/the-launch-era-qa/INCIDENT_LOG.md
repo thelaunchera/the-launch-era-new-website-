@@ -1,3 +1,11 @@
+## 2026-11-08 — Marea services and demo prices relegated to bottom
+
+- **Evidence:** user iPhone screenshot of the Marea demo in the The Launch Era overlay: `SERVICES · DEMO PRICES`, 3 cards ($65.00; personal styling $93.50 discounted from $110.00; $85.00), last card stranded on a second row, after the full website experience.
+- **Source cause:** shared `tle-demo-original-prices-20261108.js` used `footer.insertAdjacentElement("beforebegin", section)` for any unmatched default item regardless of content. Earlier menu-first/footer work moved existing products but not these injected service/price cards.
+- **Repair:** replace footer insertion with brand-aware hero/menu placement of the same `section`; service examples move immediately after hero, menu fallback cards beside their original catalog, and existing inline badges remain in place. Preserve all default amounts, discounts, images, owner view, inquiry/cart workflows and routes. Service cards now one column on narrow phones and colors matched to their demos. Coordinate optional price node with the existing `tle-demo-footer-finale` order for Havana, WOK and Cleaning.
+- **Verified:** main CI 42504383804 and Pages 42504383809 succeeded; secondary CI 42504400613 and Pages 42504064138 succeeded. Live `https://thelaunchera.com/demos/marea-wigs-miami/` markup showed service block directly after hero with original three prices. Browser regression covered Chromium iPhone 360/390 and WebKit 390, menu links and no duplicate price sections. No live orders or bookings tested or created.
+- **Limit:** actual personal iPhone browser review not performed.
+
 ## 2026-11-08 — Low menu/price discovery and static footers in portfolio demos
 
 - **Owner request:** original products/menus and their prices appeared too low in the scroll journey on some brands; each demo needed an interactive footer finish without adding repetitive animated strips or altering the approved hero.
