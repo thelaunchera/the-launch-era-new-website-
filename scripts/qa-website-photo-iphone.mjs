@@ -15,9 +15,16 @@ try{
    userAgent:'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1'
   });
   const page=await context.newPage();
+  // Selection is an external read-only service. QA must explicitly expose
+  // all seven approved photo fixtures rather than accidentally failing when
+  // the service is unavailable and the public page correctly hides the rail.
+  await page.route('**/tle_website_demo_visibility?**',route=>route.fulfill({
+   status:200,contentType:'application/json',body:'[]'
+  }));
   const route=language==='en'?'/website-for-your-business/':'/es/website-for-your-business/';
   const response=await page.goto(root+route,{waitUntil:'load',timeout:30000});
   assert.equal(response?.status(),200,'Website route did not load: '+language);
+  await page.waitForFunction(()=>document.documentElement.dataset.tleDemoStatus==='ready',null,{timeout:12000});
   const gallery=page.locator('section.hero.hero-gallery');
   assert.equal(await gallery.count(),1,'Gallery hero missing: '+language);
   const heroPhotos=gallery.locator('.hero-gallery-card img');
