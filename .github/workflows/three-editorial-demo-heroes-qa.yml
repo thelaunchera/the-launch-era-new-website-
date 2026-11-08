@@ -14,6 +14,7 @@ on:
       - 'public/assets/tle-demo-scroll-art-20261108.css'
       - 'public/assets/tle-demo-scroll-art-20261108.js'
       - 'scripts/qa-demo-scroll-art-20261108.mjs'
+      - 'scripts/qa-demo-reactive-hero-20261108.mjs'
       - 'public/assets/tle-demo-footer-finale-20261108.css'
       - 'public/assets/tle-demo-footer-finale-20261108.js'
       - 'scripts/qa-demo-footer-menu-20261108.mjs'
@@ -35,6 +36,7 @@ on:
       - 'public/assets/tle-demo-scroll-art-20261108.css'
       - 'public/assets/tle-demo-scroll-art-20261108.js'
       - 'scripts/qa-demo-scroll-art-20261108.mjs'
+      - 'scripts/qa-demo-reactive-hero-20261108.mjs'
       - 'public/assets/tle-demo-footer-finale-20261108.css'
       - 'public/assets/tle-demo-footer-finale-20261108.js'
       - 'scripts/qa-demo-footer-menu-20261108.mjs'
@@ -84,6 +86,8 @@ jobs:
           node --check public/assets/tle-demo-scroll-art-20261108.js
           node --check scripts/qa-demo-scroll-art-20261108.mjs
           node scripts/qa-demo-scroll-art-20261108.mjs
+          node --check scripts/qa-demo-reactive-hero-20261108.mjs
+          node scripts/qa-demo-reactive-hero-20261108.mjs
           node --check public/assets/tle-demo-footer-finale-20261108.js
           node --check scripts/qa-demo-footer-menu-20261108.mjs
           node scripts/qa-demo-footer-menu-20261108.mjs
