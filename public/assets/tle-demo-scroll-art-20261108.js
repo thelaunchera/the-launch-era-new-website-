@@ -52,7 +52,7 @@
      if(accepted>=9)break;
      let title=[...section.querySelectorAll('h2, .section-heading h3, .section-title')]
        .find(el=>el.closest('section')===section&&safe(el));
-     let photo=[...section.querySelectorAll('figure, picture, .story-photo, .photo-frame, .editorial-photo, .product-image, .visual-image')]
+     let photo=[...section.querySelectorAll('figure, picture, .story-photo, .photo-frame, .editorial-photo, .product-image, .visual-image, .feeling-photo, .detail-image, .story-art, .wedding-moment-photo, .story-images, .flavors-picture, .gallery-left, .vip-image, .editorial-media, .editorial-visual, img')]
        .find(el=>el.closest('section')===section&&safe(el)
          &&!el.closest('a,button,[role="button"],.carousel,.slider,.swiper,.filters,.tabs')
          &&!el.querySelector('input,select,textarea,[role="dialog"]'));
