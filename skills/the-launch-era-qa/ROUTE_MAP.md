@@ -1,3 +1,9 @@
+## 2026-11-08 — Golden Grid master PNG on Pages (no route change)
+
+- **Canonical route:** `/demos/golden-grid/`. The full hero loads `resources/golden-1.png?v=20261108-master-hq` and uses the identical frame for the video poster; the original 1122×1402 PNG is not replaced by lossy WebP during publication.
+- **Optimization:** gallery/library cards remain optimized WebP; `scripts/optimize_demo_photos.py` skips replacement only for the Golden Grid main hero. Video playback remains conditional on device/embed/reduced-motion state, with narrow syrup-only motion on iPad and desktop. Keep phone improvements from the concurrently published branch intact.
+- **Unchanged:** routes, bilingual menu, catalog prices, cart, lightbox, gallery and Studio navigation. Automated and physical-device tests remain mandatory.
+
 ## 2026-11-08 — SOVA 1536×1024 HD hero recovery (no route changes)
 
 - **Canonical URL stays** `/demos/sova/`. Only SOVA's hero video loader and its scoped visual CSS change. Original `resources/01-hero.png` is always visible as the matching first frame; `/assets/tle-hero-cinematic-20261108.js` continues serving all other eligible brands.
