@@ -1,3 +1,9 @@
+## 2026-11-08 — Owner requests a fully static Golden Grid tablet hero
+
+- **Owner requirement:** “En el tablet deja solo la foto estática.” This supersedes earlier attempts to animate the syrup on iPad.
+- **Source guard:** hide Golden Grid video and syrup SVG at tablet widths in portrait/landscape and on touch-pointer devices; disable shader/glint activation in JS except on large non-touch desktop. Keep approved high-resolution `golden-1.png` always visible, unfiltered and unscaled. Leave standalone-phone behavior as already requested.
+- **Regression:** test Chromium and WebKit 820×1180, 1180×820 and 1366×1024 tablet simulations; ensure no MP4 request, no image crop, animated SVG hidden; verify 390 phone and 1440 desktop unaffected. Require Pages deploy and actual iPad inspection before declaring visually complete.
+
 ## 2026-11-08 — Golden Grid blur persists on physical iPad after masked-video patch
 
 - **Owner confirmation:** the Golden Grid hero still appears blurry on the actual iPad after PR #450; a browser test that passed CSS/geometry is not proof of perceived image quality on the device.
