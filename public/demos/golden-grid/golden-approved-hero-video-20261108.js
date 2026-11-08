@@ -1,5 +1,5 @@
 /* Golden Grid: retain the HD photo at all sizes.
-   Tablet/desktop: crisp original still with lightweight SVG syrup shine; standalone phones <=520px:
+   iPad/tablet: only static original photo. Desktop with fine pointer: SVG syrup shine; standalone phones <=520px:
    512px video at native-or-smaller width, only a small top/bottom safe-edge crop.
    In-app iframe previews, data saver, reduced motion and degraded media: still. */
 (()=>{
@@ -8,7 +8,7 @@
   const art=video.closest('.hero-art');
   if(!art)return;
   const photo=art.querySelector(':scope > img');
-  const large=window.matchMedia('(min-width:761px)');
+  const desktopGlow=window.matchMedia('(min-width:1400px) and (hover:hover) and (pointer:fine)');
   const phone=window.matchMedia('(max-width:520px)');
   const reduced=window.matchMedia('(prefers-reduced-motion:reduce)');
   const standalone=window.self===window.top;
@@ -41,7 +41,7 @@
     // The original 512px movie is for eligible standalone phones only.
     // Never decode or overlay it across iPad/tablet/desktop.
     const allowed=phoneAllowed&&!reduced.matches&&!saveData&&!failed;
-    const sheen=large.matches&&!reduced.matches&&inView&&!document.hidden;
+    const sheen=desktopGlow.matches&&!reduced.matches&&!((navigator.maxTouchPoints||0)>1)&&inView&&!document.hidden;
     if(sheen)art.setAttribute('data-gg-sheen-active','');
     else art.removeAttribute('data-gg-sheen-active');
     if(phoneAllowed&&allowed)art.setAttribute('data-gg-mobile-video-eligible','');
@@ -92,7 +92,7 @@
     video.hidden=true;
     art.setAttribute('data-gg-video-error','');
   });
-  large.addEventListener('change',sync);
+  desktopGlow.addEventListener('change',sync);
   phone.addEventListener('change',sync);
   reduced.addEventListener('change',sync);
   document.addEventListener('visibilitychange',sync);
