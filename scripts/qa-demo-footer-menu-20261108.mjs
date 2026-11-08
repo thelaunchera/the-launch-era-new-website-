@@ -5,10 +5,10 @@ const origin=(process.env.QA_URL||'http://127.0.0.1:4191').replace(/\/$/,'');
 const slugs=['sova','golden-grid','casa-brownie','crumb','havana-19','ivory-and-bloom','la-vie-in-pink','marea-wigs-miami','aftr','lavender-edit','experience-cleaning'];
 const path=slug=>slug==='experience-cleaning'?'/experience-cleaning/':'/demos/'+slug+'/';
 const moved={
- 'havana-19':['#story','#kitchen'],
+  'havana-19':['#story','#tle-demo-sample-prices','#kitchen'],
  'aftr':['#tonight','#offers'],
  'lavender-edit':['#ritual','#gallery'],
- 'experience-cleaning':['.hero.hero-cleaning-site','#experience']
+ 'experience-cleaning':['.hero.hero-cleaning-site','#tle-demo-sample-prices','#experience']
 };
 const browser=await chromium.launch({headless:true});
 try{
