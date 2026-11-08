@@ -77,6 +77,7 @@ try {
    const el=await pending.elementHandle();
    await el.scrollIntoViewIfNeeded();
    await page.waitForFunction(target=>target?.classList.contains('tle-scroll-visible'),el,{timeout:3500});
+   await assertReplayInBothDirections(page,el,'WebKit '+slug);
   }
   console.log('SAFARI SCROLL OK',slug);
   await page.close();
