@@ -1,5 +1,5 @@
 /** Golden Grid hero: 512px video only on standalone phones, approved photo
- *  stays sharp; only nonessential syrup glint animates on larger screens. */
+ *  stays sharp and entirely static on iPad; desktop-only optional syrup glint. */
 import { chromium, webkit } from 'playwright';
 import assert from 'node:assert/strict';
 
@@ -10,7 +10,9 @@ for(const engine of [chromium,webkit]){
     for(const [name,width,height,isMobile,reducedMotion] of [
       ['phone',390,844,true,'no-preference'],
       ['phone-reduced',390,844,true,'reduce'],
-      ['tablet',820,1180,true,'no-preference'],
+      ['tablet-portrait',820,1180,true,'no-preference'],
+      ['tablet-landscape',1180,820,true,'no-preference'],
+      ['tablet-pro-landscape',1366,1024,true,'no-preference'],
       ['tablet-reduced',820,1180,true,'reduce'],
       ['desktop',1440,900,false,'no-preference'],
       ['desktop-reduced',1440,900,false,'reduce']
@@ -79,13 +81,14 @@ for(const engine of [chromium,webkit]){
       assert.equal(details.photoFilter,'none');
       assert.equal(details.photoOpacity,'1');
       assert.equal(details.bodyOverflow,false,'No horizontal overflow');
-      if(width>760&&reducedMotion==='no-preference'){
-        assert.equal(details.svgDisplay,'block');
-        assert.equal(details.active,true,'Visible desktop/tablet activates localized syrup effect');
-        assert.equal(details.shineAnimation,'ggSyrupLight','Syrup sheen must animate on tablet/desktop');
+      if(name==='desktop'&&reducedMotion==='no-preference'){
+        assert.equal(details.svgDisplay,'block','Fine-pointer desktop may keep syrup shine');
+        assert.equal(details.active,true,'Desktop syrup shine is opt-in visual enhancement');
+        assert.equal(details.shineAnimation,'ggSyrupLight');
       }else{
-        assert.equal(details.svgDisplay,'none','Phone and reduced-motion retain stable still');
-        assert.equal(details.shineAnimation,'none');
+        assert.equal(details.svgDisplay,'none','Tablet portrait, tablet landscape, phone and reduced-motion must be static');
+        assert.equal(details.shineAnimation,'none','No shimmer may animate on iPad/tablet');
+        assert.equal(details.active,false,'Tablet must not receive animated shimmer');
       }
       assert.deepEqual(errors,[],'No page script errors');
       console.log('PASS Golden Grid sharp photo',engine.name(),name,
