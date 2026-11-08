@@ -279,3 +279,39 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   .ticker.ticker-poster-banner::before{animation:none!important;transform:none!important}
 }
 .ticker.ticker-poster-banner:is(:hover,:focus-within)::before{animation-play-state:paused!important}
+
+
+/* AFTR 2026-11-08 · Continuous approved photographic banner.
+   The banner itself owns the repeating artwork, so no translated finite child
+   can reveal the empty purple backing at desktop or tablet widths. */
+.ticker.ticker-poster-banner {
+  background-color:#a268f2 !important;
+  background-image:url("assets/aftr-approved-las-vegas-banner-20261031.webp") !important;
+  background-repeat:repeat-x !important;
+  background-size:auto 100% !important;
+  background-position:0 center;
+  animation:aftr-poster-background-pan 36s linear infinite !important;
+}
+.ticker.ticker-poster-banner::before {
+  content:none !important;
+  display:none !important;
+  animation:none !important;
+}
+@keyframes aftr-poster-background-pan {
+  from { background-position:0 center; }
+  to { background-position:calc(-1 * var(--aftr-poster-tile)) center; }
+}
+.ticker.ticker-poster-banner:is(:hover,:focus-within){animation-play-state:paused!important}
+.hero .hero-image { overflow:hidden; animation:none!important; }
+html[data-tle-one-motion="aftr"] .hero .hero-image > video.aftr-hero-video {
+  position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+  display:block;object-fit:cover!important;object-position:center center!important;
+  z-index:1!important;opacity:1!important;pointer-events:none!important;
+  max-width:none!important;filter:none!important;animation:none!important;
+  transform:none!important;scale:1!important;translate:none!important;rotate:none!important;
+}
+html[data-tle-one-motion="aftr"] .hero .hero-image > video.aftr-hero-video.aftr-video-unavailable {display:none!important}
+@media (prefers-reduced-motion:reduce){
+  .ticker.ticker-poster-banner{animation:none!important;background-position:0 center!important}
+  html[data-tle-one-motion="aftr"] .hero .hero-image > video.aftr-hero-video{display:none!important}
+}
