@@ -33,12 +33,22 @@ try {
   const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,reducedMotion:'reduce'});
   const page=await context.newPage();
   await page.goto(base+'/demos/?demo=golden-grid',{waitUntil:'domcontentloaded'});
-  await page.locator('#demo-viewer[open]').waitFor({state:'visible'});
-  const iframe=page.frameLocator('#viewer-frame');
-  await iframe.locator('.hero-art img').waitFor({state:'visible'});
-  await page.locator('#viewer-close').click();
-  assert.equal(await page.locator('#demo-viewer').evaluate(d=>d.open),false);
-  assert.equal(await page.locator('#viewer-frame').getAttribute('src'),'about:blank');
+  const direct=page.locator('.demo-card[data-brand="golden-grid"] .card-preview-link');
+  if(await direct.getAttribute('target')==='_blank'){
+    // Compatible with PR #441's safer standalone navigation: never trap Studio in iframe.
+    await page.locator('.demo-card.golden-direct-target').waitFor({state:'visible'});
+    assert.match(await direct.getAttribute('href'),/\/demos\/golden-grid\//);
+    assert.equal(await page.locator('#demo-viewer').evaluate(d=>d.open),false);
+    assert.equal(await page.evaluate(()=>document.body.style.overflow),'');
+  } else {
+    // Existing gallery preview path until the standalone safe-open fix lands.
+    await page.locator('#demo-viewer[open]').waitFor({state:'visible'});
+    const iframe=page.frameLocator('#viewer-frame');
+    await iframe.locator('.hero-art img').waitFor({state:'visible'});
+    await page.locator('#viewer-close').click();
+    assert.equal(await page.locator('#demo-viewer').evaluate(d=>d.open),false);
+    assert.equal(await page.locator('#viewer-frame').getAttribute('src'),'about:blank');
+  }
   await context.close();
   console.log('PASS Golden Grid demo library return');
 } finally {await browser.close();}
