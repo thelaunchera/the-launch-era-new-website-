@@ -26,8 +26,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Verify route safety
-        run: node scripts/qa-route-integrity.mjs --static
       - name: Install test browsers
         run: |
           mkdir -p /tmp/aftr-banner
@@ -45,6 +43,8 @@ jobs:
             sleep 1
           done
           node scripts/qa-aftr-poster-banner.mjs
+      - name: Verify route safety
+        run: node scripts/qa-route-integrity.mjs --static
       - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v4
