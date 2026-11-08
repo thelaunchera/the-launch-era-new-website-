@@ -393,8 +393,9 @@ main,.intro,.intro-copy,.hero-gallery,.demo-grid,.demo-card,.section-heading{min
   </nav>
 </div>
 <div class="library-footer-bottom"><span>© 2026 The Launch Era. All rights reserved.</span><a href="/" aria-label="Visit The Launch Era">Powered by The Launch Era</a></div>
-</footer><script>
+</footer><script src="/assets/tle-demo-locale-20261108.js"></script><script>
 (()=>{
+window.TLELocale?.init("library");
 const cards=[...document.querySelectorAll('.demo-card')];
 const buttons=[...document.querySelectorAll('.filter')];
 const input=document.getElementById('demo-search');
@@ -426,7 +427,8 @@ let lastSelectedCard=null;
 function refresh(){
  const q=input.value.trim().toLowerCase();let count=0;
  for(const card of cards){
-  const visible=(filter==='All'||card.dataset.kind===filter)&&(!q||card.dataset.search.includes(q));
+  const localeSearch=(card.dataset.search+' '+(card.querySelector('.demo-content p')?.textContent||'')).toLowerCase();
+  const visible=(filter==='All'||card.dataset.kind===filter)&&(!q||localeSearch.includes(q));
   card.hidden=!visible;if(visible)count++;
  }
  empty.classList.toggle('is-visible',count===0);
