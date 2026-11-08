@@ -30,7 +30,8 @@ jobs:
           for slug in casa-brownie crumb golden-grid havana-19 la-vie-in-pink; do
             grep -q 'tle-demo-order-journey-20261108.js' "public/demos/$slug/index.html"
           done
-      - name: Install test dependencies
-        run: npm install --no-audit --no-fund --ignore-scripts
+      - uses: oven-sh/setup-bun@v2
+      - name: Install test dependencies from committed Bun lockfile
+        run: bun install --frozen-lockfile
       - name: Verify bag, checkout, review, delivery fields and demo receipt
-        run: npm run test -- src/test/demo-order-journey.test.ts
+        run: bunx vitest run src/test/demo-order-journey.test.ts
