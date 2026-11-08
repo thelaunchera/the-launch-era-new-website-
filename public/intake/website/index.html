@@ -49,6 +49,18 @@
    <fieldset class="group">
     <legend data-i18n="group2">02 / Website content</legend>
     <div class="fields">
+     <label class="field full"><span data-i18n="websiteFormat">Which website format do you need? *</span>
+      <select name="website_format" required>
+       <option value="" disabled selected data-i18n="websiteFormatChoose">Choose your website format</option>
+       <option value="digital_menu" data-i18n="websiteFormatMenu">Digital Menu · Restaurants &amp; Cafés</option>
+       <option value="product_catalog" data-i18n="websiteFormatCatalog">Product Catalog · Stores &amp; Products</option>
+       <option value="services_requests" data-i18n="websiteFormatServices">Services + Booking Requests</option>
+      </select><small data-i18n="websiteFormatHelp">All website packages include a private basic Command Center after secure activation at delivery.</small>
+     </label>
+     <label class="field full"><span data-i18n="menuPdf">Existing menu PDF or product list link (optional)</span>
+      <input name="menu_pdf_url" type="url" maxlength="400" placeholder="https://drive.google.com/...">
+      <small data-i18n="menuPdfHelp">Share your existing menu PDF via Drive or another link. We will review it before importing products and prices.</small>
+     </label>
      <label class="field full"><span data-i18n="services">Your services or products *</span>
       <textarea name="services" required minlength="5" maxlength="1800" rows="3" data-placeholder="servicesPlace"></textarea>
      </label>
@@ -61,7 +73,7 @@
       </select>
      </label>
      <label class="field full"><span data-i18n="inbox">Email to receive customer requests *</span>
-      <input name="preferred_email" type="email" required maxlength="254"></label>
+      <input name="preferred_email" type="email" required maxlength="254"><small data-i18n="emailOnlyNote">We use email for customer requests and confirmations. SMS is not part of these packages.</small></label>
      <label class="field"><span data-i18n="website">Existing website (optional)</span><input name="existing_website" type="url" maxlength="300" placeholder="https://"></label>
      <label class="field full"><span data-i18n="domainOption">Do you already have a domain? *</span>
       <select name="domain_option" required>
