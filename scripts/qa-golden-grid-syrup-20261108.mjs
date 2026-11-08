@@ -40,13 +40,16 @@ for(const [engine,browserType] of [['Chromium',chromium],['WebKit',webkit]]){
   const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
   const page=await context.newPage();
   await page.goto(BASE+'/demos/?demo=golden-grid',{waitUntil:'domcontentloaded'});
-  const direct=page.locator('.demo-card[data-brand="golden-grid"] .card-preview-link');
-  if(await direct.getAttribute('target')==='_blank'){
-    // #441: avoid nested high-resolution iframe on iPhone and Studio previews.
-    await page.locator('.demo-card.golden-direct-target').waitFor({state:'visible',timeout:12000});
-    assert.equal(await page.locator('#demo-viewer').evaluate(d=>d.open),false,'Golden direct link must not trap the library');
-    assert.equal(await page.evaluate(()=>document.body.style.overflow),'','Gallery scrolling must remain unlocked');
-    assert.match(await direct.getAttribute('href'),/\/demos\/golden-grid\//,'Direct link must retain actual demo route');
+  // #441 navigates directly to the canonical site. Older gallery versions
+  // still open an iframe, which we test only as a compatibility fallback.
+  await page.waitForFunction(()=>location.pathname==='/demos/golden-grid/' ||
+    document.querySelector('#demo-viewer')?.open===true,null,{timeout:15000});
+  if(new URL(page.url()).pathname==='/demos/golden-grid/'){
+    await page.locator('.hero-art img').waitFor({state:'visible',timeout:15000});
+    await page.waitForFunction(()=>
+      document.querySelectorAll('#gallery > button img[src]').length===3,null,{timeout:15000});
+    assert.equal(await page.locator('#demo-viewer').count(),0,'Standalone Golden should never have gallery modal');
+    assert.equal(await page.evaluate(()=>document.body.style.overflow),'','Direct site must remain scrollable');
   }else{
     // Legacy preview, retained until #441 merges. Wait until the gallery has
     // mounted and pruned non-visible sources, not merely until its class exists.
