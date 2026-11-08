@@ -6,6 +6,23 @@
 - **Tradeoff:** this restores sharpness without falsely suggesting an upscaled 512px MP4 is HD. The original cinematic syrup footage will require a genuine high-resolution Canva export before it can safely replace the photo again; a CSS/SVG shine is a limited replacement, not the original footage.
 - **Regression/QA:** revise `scripts/qa-golden-grid-approved-video-20261108.mjs` to assert the 1122×1402 original loaded, **no MP4 requests on >=521px**, full photo visible, animated SVG only on large screens, standalone-phone video preserved without stretching, Studio/reduced-motion photo-only and no overflow. Run Golden Grid iPhone Freeze Guard, public static route QA, GitHub Pages and physical iPad inspection before calling the perceptual quality issue fully closed. No changes to prices, cart, gallery, interactive order flows or other demo brands.
 
+
+## 2026-11-08 — Brand Board: explicit save, photo change/delete and reload persistence
+
+- **Owner screenshot/request:** On Golden Grid Brand Board's Identity/Fotos editor, a visible bottom **Guardar cambios** button and clearly labeled **Cambiar foto / Eliminar foto** controls were requested.
+- **Verified source issue:** the editor previously autosaved to localStorage but only displayed duplicate/delete-brand buttons at the foot; main photo removal was an unlabeled × and rehydration restored default hero/secondary photos when the saved field was intentionally blank. Also, the generic `[data-brand]` click handler intercepted clicks inside the Brand Board (the artboard itself has that attribute), preventing inline gallery photo controls from functioning.
+- **Repair:** brand-board-studio/src/main.ts adds a save confirmation using existing storage, explicit photo buttons and deletion confirmation, and respects intentionally empty image fields across reload. section-gallery.ts shows labeled change/delete actions for uploaded section photos; editorial.css increases touch target sizes.
+- **Scope:** https://thelaunchera.com/brand-board/ only. No route changes, backend persistence, cross-device sync, existing photo assets, brand demo URLs or private Studio/Content Lab modifications. User edits remain local to the browser; backups continue to be recommended.
+- **Verification:** source assertions and repository CI/Pages deployment required; live in-browser desktop/iPhone interactions are not yet established by a source commit alone.
+
+## 2026-11-08 — Golden Grid approved hero video on standalone phones (conditional quality gate)
+
+- **Owner request:** activate the existing approved hero video on phone only if it appears sharp and does not crop the original brand composition.
+- **Source assessment:** the approved `hero-approved-canva-20261108.mp4` is 512×682, suitable for ~390px phone width at native-or-smaller presentation, but cannot cover a 1440px hero sharply. The original high-resolution `golden-1.png` stays rendered as the full, matching image under the video. Previously mobile had an explicit display-none and the loader only ran above 760px.
+- **Mobile implementation:** standalone viewport <=520px, muted inline autoplay + loop of the already approved video, with `object-fit:cover` and minimal safe-edge vertical crop (3:4 video vs 4:5 photo) without losing the lettering or waffles; reveal only while playing. If source width is too small for the rendered hero or video/photo aspect differs by >0.07, do not replace the photograph. Respect reduced-motion, data saver, stalled playback and errors. Intermediate widths 521–760px remain sharp stills; tablet/desktop retain masked localized motion, never a blurry full-video replacement.
+- **Safety:** in-app/Studio iframe preview intentionally remains photo-only, because earlier Golden Grid image+video+carousel load could freeze mobile previews. No new video file, route, header, customer message, backend, cart, or price change.
+- **Verification gate:** `scripts/qa-golden-grid-approved-video-20261108.mjs` checks Chromium/WebKit 390px full-frame, native video dimensions and photo aspect proximity, photo fallback for reduced motion, iframe video suppression, static 640px, and unchanged 820/1440px. Run Golden Grid iPhone Freeze Guard + static route integrity + GitHub Pages deployment; real iPhone visual confirmation remains pending until independently checked.
+
 ## 2026-11-08 — SOVA iPad animation without Play button
 
 - **Owner request:** the hero remains static on the physical iPad and the owner explicitly requests removal of the Play video button.

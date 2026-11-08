@@ -4,6 +4,13 @@
 - Existing `/demos/` gallery, `/demos/golden-grid/` order-preview flow, menu prices, bilingual text, in-app preview close and customer-facing forms are unchanged. No new routes, API, checkout, files in other brands, or email recipients.
 - Source: `public/demos/golden-grid/index.html`, `golden-approved-hero-video-20261108.css` and `.js` (legacy filenames retained solely to avoid linked asset churn). Test `scripts/qa-golden-grid-approved-video-20261108.mjs` guards the HD photo and *absence* of low-res MP4 requests on tablet/desktop; `qa-golden-grid-stability-20261108.mjs` covers mobile iframe/gallery. Real iPad pixel-quality signoff is separate from CI and Pages deploy.
 
+
+## 2026-11-08 — Brand Board photo controls and explicit save (no route changes)
+
+- **Canonical route:** https://thelaunchera.com/brand-board/ remains published from brand-board-studio/ in the active GitHub Pages repository. No navigation, demo, customer or authentication destinations are changed.
+- **Editor actions:** in Identity, Style and Fotos tabs, **Guardar cambios** triggers existing per-browser localStorage persistence and confirmation. In Fotos, image cards expose **Cambiar foto / Eliminar foto**, and uploaded section-gallery images expose labeled replace/delete controls. Image removal is user-confirmed and no longer silently rehydrates the original default image.
+- **Data boundary:** this is not account/cloud storage; no Studio↔Content Lab sync. Existing per-browser backups/imports remain the path for preserving edits across domains/devices.
+
 ## 2026-11-08 — SOVA 1536×1024 HD hero recovery (no route changes)
 
 - **Canonical URL stays** `/demos/sova/`. Only SOVA's hero video loader and its scoped visual CSS change. Original `resources/01-hero.png` is always visible as the matching first frame; `/assets/tle-hero-cinematic-20261108.js` continues serving all other eligible brands.
