@@ -1002,3 +1002,11 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - **Root cause verified in source:** `public/demos/golden-grid/golden-approved-hero-video-20261108.css` capped the video at 512 CSS px, centered it absolutely, and painted the parent yellow/blue. The original image remained in the same hero container.
 - **Fix in PR:** On tablet/desktop without reduced-motion, the unchanged original MP4 is now the full-width, full-height naturally aspect-ratio-preserving hero with zero inset, padding or gradient; the photograph is hidden behind it. This displays the entire original video frame rather than cropping its text or waffles. A matching video first-frame poster remains for loading, and the original image is available only as a mobile/reduced-motion or decode-error fallback. No new video re-encoding or customer flow changes.
 - **Regression:** `scripts/qa-golden-grid-approved-video-20261108.mjs` asserts video edges equal hero edges, no background gradient, no visible photo, source ratio preserved, plus original no-download iPhone checks; run existing Safari, carousel, route, and Pages QA before declaring deployed. Source's small 512 px raster must necessarily be scaled when filling a larger screen; no AI upscaling is falsely claimed.
+
+
+## 2026-11-08 — Requested portfolio visibility control (feature, not outage)
+
+- **Request:** owner needs a per-demo control in Studio → Clase demos → Demos terminados to choose what appears on Website of Websites.
+- **Pre-change finding:** `/demos/` and the EN/ES website offer used static fixed demo lists with no shared owner selection. Existing `Agregar al Aula` is unrelated.
+- **Remediation prepared:** owner-authenticated publication selection in the podcast Supabase project, shared public read-only filter and independent Studio card toggles. Preserve Casa Brownie's two views as one demo; never publish real client records.
+- **Safety / verification:** RLS policies and empty default override table were verified in Supabase. Source and regression tests are on feature branches; GitHub Actions, live Pages and physical iPhone tests must be recorded before claiming release completed. Direct demo URLs remain accessible by design.
