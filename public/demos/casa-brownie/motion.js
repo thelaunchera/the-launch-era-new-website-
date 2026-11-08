@@ -36,9 +36,10 @@
   root.classList.add('cb-motion-ready');
   const io=new IntersectionObserver(entries=>{
     for(const entry of entries){
-      if(entry.isIntersecting){
+      if(entry.isIntersecting || window.matchMedia('(prefers-reduced-motion: reduce)').matches){
         entry.target.classList.add('cb-in-view');
-        io.unobserve(entry.target);
+      }else if(!entry.target.matches(':focus-within')){
+        entry.target.classList.remove('cb-in-view');
       }
     }
   },{rootMargin:'0px 0px -6% 0px',threshold:.07});
