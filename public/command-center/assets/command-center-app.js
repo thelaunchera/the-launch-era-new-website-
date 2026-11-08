@@ -4259,8 +4259,35 @@ $('buyerClientReview').classList.add('hidden');
 $('buyerBookingPreviewClose').onclick=()=>premiumNavigate('home');
 $('buyerBookingPreviewPhone').onclick=()=>{$('buyerBookingPreviewShell').style.width='min(100%,390px)';$('buyerBookingPreviewFrame').style.height='980px'};
 $('buyerBookingPreviewWide').onclick=()=>{$('buyerBookingPreviewShell').style.width='100%';$('buyerBookingPreviewFrame').style.height='1120px'};
+/* Accessible, buyer-only quick-start controls. Existing CRM operations remain intact. */
+function applySimpleBuyerStart(){
+ const hub=$('buyerSimpleDashboard');
+ if(!hub||!workspace||workspace.is_internal)return;
+ const es=localStorage.getItem('tle_crm_language')==='es';
+ const kind=workspace.business_category||'other';
+ const enDescription=kind==='cleaning'?'Cleaning quotes, bookings and customers — all in one place.':kind==='detailing'?'Vehicle inquiries, appointments and customers — all in one place.':'Customer requests, appointments and your catalog — all in one place.';
+ const esDescription=kind==='cleaning'?'Cotizaciones de limpieza, reservas y clientes en un mismo lugar.':kind==='detailing'?'Consultas de vehículos, citas y clientes en un solo lugar.':'Consultas, reservas y catálogo de tu negocio en un solo lugar.';
+ const setText=(id,en,spanish)=>{const el=$(id);if(el)el.textContent=es?spanish:en;};
+ setText('buyerSimpleTitle','Welcome to your business.','Bienvenido a tu negocio.');
+ setText('buyerSimpleDescription',enDescription,esDescription);
+ setText('buyerSimpleInboxTitle',kind==='cleaning'?'Quotes & requests':kind==='detailing'?'Vehicle inquiries':'Customer requests',kind==='cleaning'?'Cotizaciones y solicitudes':kind==='detailing'?'Consultas de vehículos':'Solicitudes de clientes');
+ setText('buyerSimpleInboxText','Review customer inquiries','Revisar consultas');
+ setText('buyerSimpleCalendarTitle','Calendar','Calendario');
+ setText('buyerSimpleCalendarText','See confirmed appointments','Ver citas confirmadas');
+ setText('buyerSimpleCatalogTitle','Menu & Catalog','Menú y catálogo');
+ setText('buyerSimpleCatalogText','Prices, offers, availability','Precios, ofertas y disponibilidad');
+ setText('buyerSimpleCustomersTitle','Customers','Clientes');
+ setText('buyerSimpleCustomersText','Your private customer directory','Tu lista privada de clientes');
+ const actions=[['buyerSimpleInbox','request-center'],['buyerSimpleCalendar','buyer-calendar'],['buyerSimpleCustomers','clients'],['buyerSimpleBookingPage','buyer-booking-preview'],['buyerSimpleSettings','settings'],['buyerSimpleEmailHistory','emails']];
+ for(const [id,target] of actions){
+  const button=$(id);if(button)button.onclick=()=>premiumNavigate(target);
+ }
+ const emailHistory=$('buyerSimpleEmailHistory');if(emailHistory)emailHistory.hidden=!buyerDeliveryReady;
+}
+document.addEventListener('tle-crm-language',()=>queueMicrotask(applySimpleBuyerStart));
 $("buyerDashboardOpenInbox").onclick=()=>premiumNavigate("request-center");
 $("buyerDashboardOpenSettings").onclick=()=>premiumNavigate("settings");
+queueMicrotask(applySimpleBuyerStart);
 function renderBuyerManagedEmailPreviews(){
  const a=$("buyerManagedPreviewFirst"),b=$("buyerManagedPreviewSecond");if(!a||!b)return;
  const detailing=isDetailingWorkspace(),es=localStorage.getItem("tle_crm_language")==="es";
