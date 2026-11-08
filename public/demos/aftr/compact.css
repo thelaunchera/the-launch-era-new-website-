@@ -241,7 +241,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 /* AFTR approved photographic banner. One repeating visual tile prevents blank space
    at every viewport width; the whole oversized layer moves, not two finite images. */
 .ticker.ticker-poster-banner{
-  --aftr-poster-tile:693.128205px; /* approved 2172:351 art at 112px height */
+  --aftr-poster-tile:693.059829px; /* approved 2172:351 art at 112px height */
   position:relative;
   display:block;
   height:112px;
