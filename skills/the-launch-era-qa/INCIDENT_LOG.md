@@ -1,3 +1,9 @@
+## 2026-11-08 — Golden Grid: iPad remains blurry because Pages optimizer touches the headline hero
+
+- **Physical owner report:** Golden Grid still looks blurry after the initial video-layer fix. Source-level investigation identified an additional production-only issue: `scripts/optimize_demo_photos.py` replaces the full Golden Grid hero's lossless PNG with quality-80 WebP after compilation, softening text baked into the photo. Prior browser checks ran against `public/`, before the optimizer. The previous wide video mask additionally covered part of the package lettering.
+- **Fix:** preserve original `resources/golden-1.png` exclusively on the full Golden Grid hero in the built Pages artifact, retaining lightweight `golden-1.webp` for catalog/cards. Cache-bust the full hero, use the same PNG for the video's poster, and restrict low-res motion to syrup and faint waffle detail. Preserve the separate conditional standalone-phone video (and in-app WebView still-image guard).
+- **Regression:** `scripts/qa_demo_photo_performance.py` now asserts post-optimizer output references the PNG in the hero and WebP in the library; the Golden Grid browser QA covers iPad, desktop, phone and WebKit conditions. Run post-merge Pages and physical iPad visual acceptance before marking resolved.
+
 ## 2026-11-08 — Golden Grid approved hero video on standalone phones (conditional quality gate)
 
 - **Owner request:** activate the existing approved hero video on phone only if it appears sharp and does not crop the original brand composition.
