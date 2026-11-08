@@ -150,3 +150,9 @@ html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-video-error] .gg
     scale:none!important;
   }
 }
+
+/* At phone widths, preserve the shared reactive-hero contract at neutral scale.
+   iPad static override above is unaffected, including reduced motion. */
+@media (max-width:520px) and (prefers-reduced-motion:no-preference) {
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art > img { scale:1!important; }
+}
