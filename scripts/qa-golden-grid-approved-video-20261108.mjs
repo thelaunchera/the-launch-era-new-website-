@@ -50,8 +50,9 @@ for (const engine of [chromium,webkit]) {
       page.on('request',request=>{
         if(request.url().includes('hero-approved-canva-20261108.mp4'))requests++;
       });
-      const response=await page.goto(base+route,{waitUntil:'domcontentloaded'});
+      const response=await page.goto(base+route,{waitUntil:'load'});
       assert.equal(response?.status(),200);
+      await page.waitForFunction(()=>Array.from(document.styleSheets).some(s=>s.href?.includes('golden-approved-hero-video-20261108.css')));
       await page.locator('.hero-art img').waitFor({state:'visible'});
       assert.equal(await page.locator('[data-gg-approved-hero-video]').evaluate(v=>getComputedStyle(v).display),'none');
       assert.equal(await page.locator('[data-gg-approved-hero-video]').getAttribute('src'),null,
