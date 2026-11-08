@@ -1,3 +1,8 @@
+## 2026-11-08 — Golden Grid lossless published hero (no route changes)
+
+- `/demos/golden-grid/` loads approved lossless `resources/golden-1.png?v=20261108-master-hq` for the main hero and video poster. Pages optimizer must not rewrite these to WebP, but must continue compressing gallery and demo library thumbnails.
+- Local source and published output are different: `scripts/qa_demo_photo_performance.py` now checks the artifact after optimization, with lossless hero and WebP catalog separate. Tablet/desktop lower-resolution video remains masked over a narrow syrup stream; standalone phone playback, reduced motion, embedded preview, menus, prices, cart and route destinations remain as previously approved.
+
 ## 2026-11-08 — Brand Board photo controls and explicit save (no route changes)
 
 - **Canonical route:** https://thelaunchera.com/brand-board/ remains published from brand-board-studio/ in the active GitHub Pages repository. No navigation, demo, customer or authentication destinations are changed.
