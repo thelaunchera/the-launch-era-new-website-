@@ -1,3 +1,9 @@
+## 2026-11-08 — SOVA blue set behind original portrait clip
+
+- **Owner follow-up:** requested the cobalt blue background as well as the original uncropped video behind the hero, matching the earlier visual treatment.
+- **Scope:** only `/demos/sova/`. The existing video remains `media/hero-motion-20261108.mp4` and the original approved still remains `resources/01-hero.png`. New scoped CSS extends cobalt-blue set imagery behind the portrait without exposing the original still's model twice, removes the flat-color sidebars, and keeps the video inside a right-side contained presentation with softened lateral boundaries. Mobile occupies the full media slot, with no zoom, and reduced-motion uses the original photo. No new binary or customer/checkout behavior.
+- **Release gate:** validate blue background, no duplicated model, full headphones/face, no horizontal overflow in 390px and desktop browsers; verify source media and Pages deployment. Real tablet confirmation remains separate.
+
 ## 2026-11-08 — SOVA original portrait video enlarged and missing hero playback
 
 - **Reported:** iPad SOVA hero looked blurry and heavily cropped. Owner supplied original Canva portrait video and requested it play behind the hero like the former photo, while keeping the subject visible.

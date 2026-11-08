@@ -48,3 +48,42 @@ html[data-tle-one-motion="sova"] .hero .hero-copy {isolation:isolate}
   html[data-tle-one-motion="sova"] .hero .hero-media > video[data-sova-hq-motion] {display:none!important}
   html[data-tle-one-motion="sova"] .hero .hero-media > img {opacity:1!important;scale:1!important;translate:none!important}
 }
+
+/* 2026-11-08 SOVA blue-scene continuity:
+   Show the authentic cobalt set from the original hero behind the uncropped
+   portrait film. Crop ONLY the empty blue left portion of the still, so the
+   original model cannot appear twice. The video stays on the right. */
+html[data-tle-one-motion="sova"] .hero,
+html[data-tle-one-motion="sova"] .hero .hero-media {
+  background-color:#0643a6!important;
+}
+html[data-tle-one-motion="sova"] .hero .hero-media {
+  background-image:
+    linear-gradient(100deg,rgba(5,29,97,.03) 0%,rgba(6,39,115,.08) 38%,rgba(3,31,102,.40) 100%),
+    url("./resources/01-hero.png")!important;
+  background-size:100% 100%,265% 100%!important;
+  background-position:center center,left center!important;
+  background-repeat:no-repeat!important;
+}
+html[data-tle-one-motion="sova"] .hero .hero-media > video[data-sova-hq-motion] {
+  left:auto!important;right:0!important;top:0!important;bottom:0!important;
+  width:60%!important;height:100%!important;
+  background:transparent!important;
+  object-fit:contain!important;object-position:center center!important;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 8%,#000 95%,transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0%,#000 8%,#000 95%,transparent 100%);
+}
+@media (max-width:760px) {
+  html[data-tle-one-motion="sova"] .hero .hero-media {
+    background-size:100% 100%,245% 100%!important;
+    background-position:center center,left center!important;
+  }
+  html[data-tle-one-motion="sova"] .hero .hero-media > video[data-sova-hq-motion] {
+    left:0!important;right:0!important;width:100%!important;height:100%!important;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 3%,#000 97%,transparent 100%);
+    mask-image:linear-gradient(90deg,transparent 0%,#000 3%,#000 97%,transparent 100%);
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  html[data-tle-one-motion="sova"] .hero .hero-media {background-image:none!important}
+}
