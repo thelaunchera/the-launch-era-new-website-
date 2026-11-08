@@ -8,20 +8,22 @@ const motion=load('motion.js'),motionStyles=load('motion.css');
 assert.match(html,/¿Qué llevo<br\s*\/>\s*<span class="love">de regalo\?<\/span>/i,'gift dilemma is the opening hook');
 assert.ok(!html.includes('amor real'),'rejected copy removed');
 assert.ok(!/[↗➜➝→➔➡➤]/.test(html),'no decorative arrows');
-assert.match(html,/<video id="hero-video"/);
+assert.match(html,/tle-hero-cinematic-20261108\.js/,'approved cinematic hero is loaded dynamically');
 assert.match(html,/get\('etapa'\) === 'sin-video'/,'static teaching URL is supported');
 assert.match(html,/data-clase-etapa="sin-video"/,'teaching URL hides video without editing official assets');
 assert.match(js,/classWithoutVideo/,'static teaching URL must not play video');
 assert.match(js,/heroVideo\.querySelector\('source'\)\?\.remove\(\)/,'video source is removed for static teaching mode');
 
-assert.match(html,/muted loop playsinline/);
+const cinematic=readFileSync(new URL('../../assets/tle-hero-cinematic-20261108.js',dir),'utf8');
+assert.match(cinematic,/v\.playsInline=true;v\.muted=true/,'cinematic playback is inline and muted');
+assert.match(cinematic,/v\.loop=true;v\.autoplay=true/,'cinematic playback loops');
 assert.match(html,/class="hero-photo-poster"/);
-assert.match(html,/\.\/assets\/hero-brownies\.mp4\?v=20261029-local/,'self-hosted approved video');
-assert.match(html,/\.\/assets\/hero-brownies\.webp\?v=20261029-local/,'self-hosted video poster');
+assert.match(cinematic,/media\/hero-motion-20261108\.mp4/,'current cinematic source is self-hosted');
+assert.match(html,/media\/hero-motion-poster-hq\.webp/,'current hero poster is self-hosted');
 assert.doesNotMatch(html,/resource2\.heygen\.ai/,'hero playback no longer depends on third-party video hosting');
 for (const [name,minSize,maxSize] of [
- ['hero-brownies.mp4',100000,8_000_000],
- ['hero-brownies.webp',10000,500000]
+ ['../media/hero-motion-20261108.mp4',100000,12_000_000],
+ ['../media/hero-motion-poster-hq.webp',10000,500000]
 ]) {
  const local=new URL('assets/'+name,dir);
  assert.ok(existsSync(local),'missing hero asset '+name);
@@ -145,14 +147,16 @@ assert.doesNotMatch(js,/localStorage|sessionStorage|fetch\(/,'no stored data or 
 
 // Both official and teaching demos share one document; the teaching switch only removes the video.
 assert.match(html,/get\('etapa'\) === 'sin-video'/);
-assert.match(html,/src="\.\/assets\/hero-brownies\.mp4\?v=20261029-local"/,'original hero video untouched');
+assert.match(html,/tle-hero-cinematic-20261108\.js/,'current approved cinematic hero still loads');
 assert.match(html,/casabrownie-editorial\.css\?v=20261029-ticker-v3/,'editorial stylesheet loaded after existing styles');
 const editorial=load('casabrownie-editorial.css');
 assert.match(editorial,/@media \(min-width:791px\) and \(max-width:1199px\)/,'tablet-specific editorial grid');
-assert.match(editorial,/\.hero \.hero-copy\s*\{\s*display:grid/,'tablet hero story becomes two columns');
+assert.match(editorial,/\.hero \.hero-copy\s*\{\s*display:flex/,'tablet hero story has one readable text column');
+assert.doesNotMatch(html,/<figure class="cb-hero-lifestyle">/,'extra portrait photo must not squeeze the tablet hero');
+assert.match(html,/one hero image, natural-width editorial copy/,'tablet hero video and copy are balanced');
 assert.match(editorial,/\.step-number\s*\{\s*margin-right:\s*12px/,'number and icon separated');
 const editorialNames=[
- 'hero-lifestyle','hands-gift','gift-packaging',
+ 'hands-gift','gift-packaging',
  'box-closeup','local-pickup','fudgy-plate'
 ];
 for(const name of editorialNames){
@@ -200,7 +204,7 @@ assert.match(js,/function viewLegalTopic\(topic\)/,'legal modal implementation')
 assert.ok(js.includes("querySelectorAll('[data-demo-legal]')"),'legal handlers connected');
 assert.match(experienceCss,/\.cb-footer-legal/,'legal footer CSS');
 
-assert.match(html,/src="\.\/assets\/hero-brownies\.mp4\?v=20261029-local"/,'hero video is unchanged');
+assert.match(cinematic,/hero-motion-20261108\.mp4/,'the approved animated hero is still connected');
 
 
 
