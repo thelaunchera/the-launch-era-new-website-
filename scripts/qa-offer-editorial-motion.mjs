@@ -17,7 +17,8 @@ assert.equal((css.match(/{/g)||[]).length,(css.match(/}/g)||[]).length,'Balanced
 assert.match(css,/prefers-reduced-motion:reduce/,'Reduced motion CSS fallback mandatory');
 assert.match(js,/prefers-reduced-motion: reduce/,'Motion preferences must be checked in JS');
 assert.match(js,/IntersectionObserver/,'Scroll reveals must be bounded by visibility');
-assert.match(js,/observer\.unobserve\(/,'Stop observing completed reveals');
+assert.doesNotMatch(js,/observer\.unobserve\(/,'Continue watching sections after their first reveal');
+assert.match(js,/classList\.remove\("tle-offer-visible"\)/,'Reset offscreen elements for return visits');
 assert.doesNotMatch(js,/\bfetch\(|XMLHttpRequest|localStorage|sessionStorage|window\.location\s*=|\.click\(/,'No network, storage or navigation side effects');
 assert.doesNotMatch(css,/@import|https?:\/\//,'Motion layer may not load external dependencies');
 assert.doesNotMatch(css,/display\s*:\s*none\s*!important/,'Never hide content/CTAs');
@@ -27,7 +28,7 @@ for(const selector of ['.hero-gallery h1','.owner-admin-visual','.owner-customer
 for(const [lang,path] of pages){
  const html=read(path);
  assert.match(html,/tle-offer-editorial-motion-20261108\.css\?v=1/,'CSS installed '+lang);
- assert.match(html,/tle-offer-editorial-motion-20261108\.js\?v=1/,'JS installed '+lang);
+ assert.match(html,/tle-offer-editorial-motion-20261108\.js\?v=2/,'JS installed '+lang);
  assert.match(html,/class="hero hero-gallery" id="inicio"/,'Original hero preserved');
  assert.equal((html.match(/class="hero-gallery-card"/g)||[]).length,7,'Seven existing project photos must survive');
  assert.equal((html.match(/class="plan" id="website-(?:basic|ai-crm)"/g)||[]).length,2,'Only the two approved plans');
