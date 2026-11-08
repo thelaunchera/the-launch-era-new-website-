@@ -63,7 +63,7 @@ html[data-tle-one-motion="golden-grid"] .gg-syrup-glint {
   transition:opacity .4s ease-out;
   animation:none;
 }
-@media(min-width:761px) and (prefers-reduced-motion:no-preference) {
+@media(min-width:1400px) and (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
   html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-sheen-active] svg.gg-hero-motion path.gg-syrup-glint {
     opacity:.58;
     animation:ggSyrupLight 5.8s ease-in-out infinite!important;
@@ -129,5 +129,23 @@ html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-video-error] .gg
   }
   html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-mobile-video-eligible][data-gg-video-playing] .gg-approved-hero-video{
     opacity:1;
+  }
+}
+
+/* iPad/tablet: only the untouched still photograph in portrait AND landscape.
+   Exclude all syrup effects, low-res overlays and any image transforms. */
+@media (min-width:521px) and (max-width:1399px), (min-width:521px) and (pointer:coarse) {
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-approved-hero-video,
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art .gg-hero-motion {
+    display:none!important;
+    animation:none!important;
+  }
+  html[data-tle-one-motion="golden-grid"] .hero .hero-art > img {
+    display:block!important;
+    animation:none!important;
+    transition:none!important;
+    transform:none!important;
+    filter:none!important;
+    scale:none!important;
   }
 }
