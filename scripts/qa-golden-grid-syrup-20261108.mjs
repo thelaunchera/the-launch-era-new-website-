@@ -43,6 +43,7 @@ for(const [engine,browserType] of [['Chromium',chromium],['WebKit',webkit]]){
   await page.locator('#demo-viewer[open]').waitFor({state:'visible',timeout:12000});
   const iframe=page.frameLocator('#viewer-frame');
   await iframe.locator('.hero-art img').waitFor({state:'visible',timeout:15000});
+  await iframe.locator('#gallery.golden-featured-carousel').waitFor({state:'attached',timeout:15000});
   assert.equal(await iframe.locator('#gallery > button img[src]').count(),3);
   await page.locator('#viewer-close').click();
   assert(!(await page.locator('#demo-viewer').evaluate(d=>d.open)),'Closing demo must unlock parent');
