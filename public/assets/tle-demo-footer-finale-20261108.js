@@ -89,8 +89,9 @@
    // Elements are readable from initial paint; observer only adds entrance polish.
    if(!reduced?.matches && 'IntersectionObserver' in window){
     const obs=new IntersectionObserver(entries=>{
-     if(entries.some(entry=>entry.isIntersecting)){
-      stage.classList.add('is-visible');obs.disconnect();
+     for(const entry of entries){
+      if(reduced?.matches||entry.isIntersecting)stage.classList.add('is-visible');
+      else if(!stage.matches(':focus-within'))stage.classList.remove('is-visible');
      }
     },{threshold:0.12});
     obs.observe(stage);
