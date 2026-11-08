@@ -1,3 +1,9 @@
+## 2026-11-08 — Golden Grid photo-first crisp hero / iPad quality correction (no route changes)
+
+- Canonical public route remains `/demos/golden-grid/`. Approved `resources/golden-1.png` displays continuously as the full-bleed campaign hero. The 512×682 Canva MP4 is no longer mounted/requested by that route, including the tablet breakpoint. Only a decorative syrup SVG glint animates on desktop/tablet when visible; mobile, reduced-motion and inactive views remain sharp stills.
+- Existing `/demos/` gallery, `/demos/golden-grid/` order-preview flow, menu prices, bilingual text, in-app preview close and customer-facing forms are unchanged. No new routes, API, checkout, files in other brands, or email recipients.
+- Source: `public/demos/golden-grid/index.html`, `golden-approved-hero-video-20261108.css` and `.js` (legacy filenames retained solely to avoid linked asset churn). Test `scripts/qa-golden-grid-approved-video-20261108.mjs` guards the HD photo and *absence* of old MP4 requests; `qa-golden-grid-stability-20261108.mjs` covers mobile iframe/gallery. Real iPad pixel-quality signoff is separate from CI and Pages deploy.
+
 ## 2026-11-08 — SOVA 1536×1024 HD hero recovery (no route changes)
 
 - **Canonical URL stays** `/demos/sova/`. Only SOVA's hero video loader and its scoped visual CSS change. Original `resources/01-hero.png` is always visible as the matching first frame; `/assets/tle-hero-cinematic-20261108.js` continues serving all other eligible brands.
