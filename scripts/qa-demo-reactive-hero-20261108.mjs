@@ -23,7 +23,13 @@ try {
   });
   assert.equal(initial.brand,slug,slug+' brand identity should stay scoped');
   assert.ok(initial.photos>=1,slug+' needs photo target');
-  assert.ok(initial.scale!=='none',slug+' should activate CSS image depth');
+  if(slug==='golden-grid') {
+    // The approved image has baked-in text and a package; zoom blurs the
+    // printed headline and must never be required by reactive motion QA.
+    assert.equal(initial.scale,'none','Golden Grid hero must remain unscaled to keep its product type sharp');
+  } else {
+    assert.ok(initial.scale!=='none',slug+' should activate CSS image depth');
+  }
   assert.ok(initial.over<=2,slug+' has horizontal overflow '+JSON.stringify(initial));
   await page.evaluate(()=>window.scrollTo({top:Math.min(280,document.querySelector('section.hero').offsetHeight*.35),behavior:'instant'}));
   await page.waitForTimeout(200);

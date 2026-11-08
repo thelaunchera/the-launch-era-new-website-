@@ -1,3 +1,11 @@
+## 2026-11-08 — Golden Grid Pages release blocked by post-build photo optimization / stale visual QA
+
+- **Observed:** after owner reported persistent low image quality on the iPad, the public Pages build for Golden Grid's updated hero failed in `scripts/qa_demo_photo_performance.py`. The production audit could not find the required exact lossless `golden-1.png?v=20261108-master-hq` source after optimization, and an older QA assertion still expected the retired 512px masked-video geometry.
+- **Source scope:** `scripts/optimize_demo_photos.py` rewrites public demo photo references after Vite; `scripts/qa_demo_photo_performance.py` checks resulting output. `scripts/qa-demo-reactive-hero-20261108.mjs` mistakenly required a zoom effect for Golden Grid, despite its baked-in campaign lettering and brand package.
+- **Repair:** enforce the original approved 1122×1402 PNG as the actual Golden Grid hero (and video poster) at the very end of Pages photo optimization, allowing existing WebP compression for gallery and catalog thumbnails. Update post-build QA to require source PNG, static iPad CSS and optional SVG motion instead of an obsolete low-res video mask. Exempt Golden Grid only from the reactive-hero scale requirement; keep all other demos' depth tests unchanged.
+- **Release evidence still required:** successful post-optimization Pages build, image reference readback, Golden Grid WebKit/Chromium responsive tests, gallery/cart/preview return and actual physical iPad review. Preserve the owner's separate phone-video behavior and do not call the perceived-quality problem closed from code-only status.
+
+
 ## 2026-11-08 — Owner requests a fully static Golden Grid tablet hero
 
 - **Owner requirement:** “En el tablet deja solo la foto estática.” This supersedes earlier attempts to animate the syrup on iPad.

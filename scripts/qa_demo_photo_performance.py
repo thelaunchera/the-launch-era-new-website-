@@ -46,7 +46,7 @@ hero_html = (root / "demos/golden-grid/index.html").read_text(encoding="utf-8")
 hero_tag = re.search(r'<div class="hero-art">\s*(<img\b[^>]*>)', hero_html)
 assert hero_tag, "Golden Grid hero is missing"
 assert 'src="./resources/golden-1.png?v=20261108-master-hq"' in hero_tag.group(1), (
-    "The production optimizer replaced Golden Grid's sharp original hero with lossy WebP"
+    "Golden Grid output hero src was altered by optimizer: " + hero_tag.group(1)
 )
 assert 'poster="./resources/golden-1.png?v=20261108-master-hq"' in hero_html, (
     "The video first-frame poster must match the high-resolution hero"
