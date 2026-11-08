@@ -1,3 +1,11 @@
+## 2026-11-08 — Website offer tablet layout only (no route changes)
+
+- Both existing public URLs remain `/website-for-your-business/` and `/es/website-for-your-business/`; both continue using the same shared stylesheets with refreshed version queries. Navigation, `#paquetes`, and approved demo preview links remain unchanged.
+- `/assets/tle-gallery-hero-20261107.css?v=4`: 601–1099px tablets enlarge curated, dynamically visible hero cards and provide horizontal scrolling if more projects are visible. On tablets cards keep equal visual scale; desktop editorial perspective and phone swipe are retained.
+- `/assets/tle-website-official.css?v=20261108-tablet`: 741–1099px tablets display the four benefits two per row and stack the two purchase packages with wider copy, retaining prices $15/$25 and existing checkout destinations `/website-checkout/?offer=website-basic|website-ai-crm&lang=en|es`.
+- No changes to owner Studio visibility controls, public selection API, client data, pricing terms, email automations, physical image assets, or published demo routes. Owner's device visual signoff remains separate from CI browser QA.
+
+
 ## 2026-11-08 — Golden Grid iPad static-only owner override (portrait and landscape)
 
 - URL unchanged: `/demos/golden-grid/`. At tablet sizes (521–1399 CSS px) and touch-pointer screens above phone width, the hero contains only the original `resources/golden-1.png` without motion, overlays, zoom, crop or video requests.
