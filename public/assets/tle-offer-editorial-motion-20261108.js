@@ -28,25 +28,30 @@
  }
  const observer=new IntersectionObserver(entries=>{
   for(const entry of entries){
-   if(entry.isIntersecting){
-    show(entry.target);
-    observer.unobserve(entry.target);
-   }
+   if(reduce.matches||entry.isIntersecting)show(entry.target);
+   else hide(entry.target);
   }
  },{threshold:.08,rootMargin:"0px 0px -9% 0px"});
  targets.forEach(el=>{
-  if(el.getBoundingClientRect().top<window.innerHeight*.9)show(el);
-  else observer.observe(el);
+  const rect=el.getBoundingClientRect();
+  if(rect.top<window.innerHeight*.84&&rect.bottom>0)show(el);
+  observer.observe(el);
  });
  // Activate only after targets are registered, to keep the page usable if JS
  // fails, is disabled or a slow connection delays this script.
  document.documentElement.classList.add("tle-offer-motion");
  const onReduce=event=>{
   if(event.matches){
-   observer.disconnect();
    targets.forEach(show);
    document.documentElement.classList.remove("tle-offer-motion");
+  }else{
+   document.documentElement.classList.add("tle-offer-motion");
+   targets.forEach(el=>{
+    const rect=el.getBoundingClientRect();
+    if(rect.bottom<=0||rect.top>=innerHeight*.93)hide(el);
+    else show(el);
+   });
   }
  };
- if(typeof reduce.addEventListener==="function")reduce.addEventListener("change",onReduce,{once:true});
+ if(typeof reduce.addEventListener==="function")reduce.addEventListener("change",onReduce);
 })();
