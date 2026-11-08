@@ -196,3 +196,62 @@
   max-width:calc(100% - 22px);padding:8px 11px;font-size:11px;
  }
 }
+
+
+/* 2026-11-08 iPad/tablet: visible demo count is curated at runtime.
+   The original 13.2% flex basis assumed seven cards; after hiding three
+   approved demos it left four tiny thumbnails occupying half the rail.
+   Let only visible cards fill the available width, with swipe overflow
+   if the owner chooses more projects. Desktop editorial grid and
+   phone swipe gallery remain untouched. */
+@media (min-width:601px) and (max-width:1099px){
+  .tle-universal .hero.hero-gallery{
+    padding-top:clamp(39px,5vw,65px);
+  }
+  .tle-universal .hero-gallery h1{
+    font-size:clamp(47px,6.2vw,72px);
+    line-height:1.055;
+  }
+  .tle-universal .hero-gallery .hero-gallery-copy>p[data-key=heroText]{
+    max-width:760px;
+    font-size:clamp(16px,1.7vw,19px);
+    line-height:1.6;
+  }
+  .tle-universal .hero-gallery-stage{
+    width:100%;
+    min-height:0;
+    margin-top:clamp(30px,4vw,52px);
+    overflow-x:auto;
+    overflow-y:hidden;
+    overscroll-behavior-x:contain;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+    scroll-snap-type:x proximity;
+  }
+  .tle-universal .hero-gallery-rail{
+    justify-content:center;
+    align-items:stretch;
+    gap:clamp(10px,1.4vw,17px);
+    padding:clamp(22px,2.8vw,30px) clamp(20px,3vw,40px) 42px;
+    min-height:0;
+  }
+  .tle-universal .hero-gallery-card{
+    flex:1 0 164px;
+    max-width:400px;
+    min-width:0;
+    height:clamp(250px,33vw,385px);
+    border-radius:16px;
+    scroll-snap-align:center;
+  }
+  .tle-universal .hero-gallery-card figcaption{
+    left:12px;
+    right:10px;
+    bottom:13px;
+    font-size:clamp(11px,1.2vw,13px);
+  }
+  .tle-universal .hero-gallery-note{
+    padding-bottom:27px;
+    font-size:11px;
+    letter-spacing:.105em;
+  }
+}
