@@ -122,12 +122,12 @@ export function galleryHTML(brand, section) {
       '" aria-label="Mover foto a la derecha" title="Mover a la derecha">→</button>' +
       '<button type="button" data-action="gallery-fit" data-section="' + section + '" data-id="' + escapeHtml(photo.id) +
       '" aria-label="Cambiar ajuste de foto" title="Alternar llenar o ajustar">⊡</button>' +
-      '<button type="button" data-action="gallery-replace" data-section="' + section + '" data-id="' + escapeHtml(photo.id) +
-      '" aria-label="Reemplazar foto" title="Reemplazar imagen">↻</button>' +
+      '<button type="button" class="gallery-replace-label" data-action="gallery-replace" data-section="' + section + '" data-id="' + escapeHtml(photo.id) +
+      '" aria-label="Cambiar foto" title="Cambiar fotografía">Cambiar foto</button>' +
       '<button type="button" data-action="gallery-review" data-section="' + section + '" data-id="' + escapeHtml(photo.id) +
       '" aria-label="Revisar fotografía en grande" title="Revisar detalles">◎</button>' +
       '<button type="button" class="gallery-remove" data-action="gallery-delete" data-section="' + section + '" data-id="' +
-      escapeHtml(photo.id) + '" aria-label="Eliminar foto" title="Eliminar">×</button></div></div></div>';
+      escapeHtml(photo.id) + '" aria-label="Eliminar foto" title="Eliminar fotografía">Eliminar foto</button></div></div></div>';
   }).join('');
   return '<div class="gallery-dropzone" data-section-drop="' + section + '">' +
     '<div class="section-photo-grid gallery-count-' + Math.min(3,photos.length) + '">' + tiles + '</div></div>';
