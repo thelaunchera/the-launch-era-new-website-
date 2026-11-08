@@ -59,14 +59,14 @@ html[data-tle-one-motion="golden-grid"] .hero .hero-art>img{
     animation:none!important;
     opacity:0;
     transition:opacity .25s ease-out;
-    /* A soft syrup-stream region plus a very light waffle-gloss movement.
-       Keep headline and product pack entirely on the sharp base still. */
+    /* Keep the lower-resolution video off all campaign and packaging letters.
+       Restrict it to the narrow syrup stream and a faint waffle highlight. */
     -webkit-mask-image:
-      radial-gradient(ellipse 15% 25% at 70% 56%, #000 23%, rgba(0,0,0,.86) 51%, transparent 100%),
-      radial-gradient(ellipse 24% 12% at 47% 70%, rgba(0,0,0,.22) 20%, transparent 100%);
+      radial-gradient(ellipse 6% 23% at 68.5% 48%, #000 15%, rgba(0,0,0,.85) 43%, transparent 100%),
+      radial-gradient(ellipse 11% 7% at 52% 70%, rgba(0,0,0,.14) 8%, transparent 100%);
     mask-image:
-      radial-gradient(ellipse 15% 25% at 70% 56%, #000 23%, rgba(0,0,0,.86) 51%, transparent 100%),
-      radial-gradient(ellipse 24% 12% at 47% 70%, rgba(0,0,0,.22) 20%, transparent 100%);
+      radial-gradient(ellipse 6% 23% at 68.5% 48%, #000 15%, rgba(0,0,0,.85) 43%, transparent 100%),
+      radial-gradient(ellipse 11% 7% at 52% 70%, rgba(0,0,0,.14) 8%, transparent 100%);
   }
   html[data-tle-one-motion="golden-grid"] .hero .hero-art[data-gg-video-playing] .gg-approved-hero-video{
     opacity:1;

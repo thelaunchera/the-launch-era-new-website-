@@ -90,12 +90,20 @@ def main():
         rel_file = path.relative_to(root).as_posix()
         for slug, pairs in mappings.items():
             for old, new in pairs:
+                # Golden Grid's campaign headline and product lettering are baked
+                # into the approved master image. Preserve lossless PNG on the
+                # FULL hero (tablet/desktop/phone) instead of WebP quality 80.
+                # Catalog cards and galleries still use the optimized WebP.
+                if rel_file == "demos/golden-grid/index.html" and old == "resources/golden-1.png":
+                    continue
                 absolute_old, absolute_new = "/demos/" + slug + "/" + old, "/demos/" + slug + "/" + new
                 if absolute_old in text:
                     replacement_counts[slug] += text.count(absolute_old)
                     text = text.replace(absolute_old, absolute_new)
             if rel_file.startswith("demos/" + slug + "/"):
                 for old, new in pairs:
+                    if rel_file == "demos/golden-grid/index.html" and old == "resources/golden-1.png":
+                        continue
                     if old in text:
                         replacement_counts[slug] += text.count(old)
                         text = text.replace(old, new)
