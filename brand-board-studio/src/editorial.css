@@ -199,3 +199,37 @@
  .sidebar .newbrand{margin:0 0 3px;min-width:0;width:100%;min-height:43px}
 }
 @media print{.brand-drawer-toggle{display:none!important}}
+
+
+/* Clear, touch-friendly editing and explicit local-save confirmation. */
+.panel-foot{display:grid;gap:11px;padding:15px 17px 17px}
+.panel-foot .save-brand-button{
+  display:block;width:100%;min-height:48px;border:1px solid #191919;
+  background:#191919;color:#faf8f3;font:800 13px 'DM Sans',sans-serif;
+  border-radius:9px;cursor:pointer
+}
+.panel-foot .save-brand-button:hover{background:#393632}
+.panel-foot .save-brand-button:focus-visible,
+.uploadbox .upload-actions button:focus-visible,
+.gallery-photo-actions button:focus-visible{outline:3px solid #a47d3e;outline-offset:3px}
+.save-local-note{margin:0;color:#746d64;font:400 11px/1.5 'DM Sans',sans-serif}
+.panel-secondary-actions{display:flex;gap:8px;flex-wrap:wrap}
+.panel-secondary-actions .btn{min-height:42px}
+.upload-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:9px}
+.uploadbox .upload-actions button{
+  min-height:42px;padding:8px 12px;font:700 11px 'DM Sans',sans-serif;
+  border:1px solid #d6cfc5;border-radius:8px;background:#fff;cursor:pointer
+}
+.uploadbox .upload-actions .remove-photo-button{color:#933c3c;border-color:#d8b9b9;background:#fffafa}
+.gallery-photo-actions button.gallery-replace-label,
+.gallery-photo-actions button.gallery-remove{
+  width:auto;min-width:82px;min-height:38px;height:auto;padding:6px 9px;
+  font:700 10px/1.2 'DM Sans',sans-serif;white-space:normal;text-align:center
+}
+.gallery-photo-actions button.gallery-remove{color:#933c3c;background:#fff4f1}
+@media(max-width:740px){
+  .panel-foot{padding:16px}
+  .uploadbox .upload-actions button{min-height:44px}
+  .gallery-photo-actions button.gallery-replace-label,
+  .gallery-photo-actions button.gallery-remove{min-height:44px;min-width:84px}
+}
