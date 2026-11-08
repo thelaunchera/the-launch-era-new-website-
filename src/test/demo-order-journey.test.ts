@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { readFileSync } from "node:fs";
 
-const code = readFileSync(new URL("../../public/assets/tle-demo-order-journey-20261108.js", import.meta.url), "utf8");
+const code = readFileSync("public/assets/tle-demo-order-journey-20261108.js", "utf8");
 const click = (selector: string) => {
   const node = document.querySelector<HTMLButtonElement>(selector);
   expect(node, "missing interactive control: " + selector).toBeTruthy();
