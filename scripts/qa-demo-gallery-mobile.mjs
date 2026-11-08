@@ -97,7 +97,7 @@ try{
  await goldenLink.click();
  const goldenPopup=await goldenPopupEvent;
  await goldenPopup.waitForLoadState('domcontentloaded',{timeout:25000});
- assert.match(goldenPopup.url(),/\\/demos\\/golden-grid\\//,'Golden Grid should open its actual original demo');
+ assert.ok(goldenPopup.url().includes('/demos/golden-grid/'),'Golden Grid should open its actual original demo');
  assert.equal(await goldenPopup.locator('body').isVisible(),true,'Golden Grid independent page must render');
  await goldenPopup.close();
  assert.equal(await page.locator('#demo-viewer').evaluate(el=>el.open),false,'Golden Grid must not lock the gallery in a dialog');
