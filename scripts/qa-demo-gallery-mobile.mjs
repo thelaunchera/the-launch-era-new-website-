@@ -234,13 +234,15 @@ try{
      assert.ok((demo.slug==='sova'&&result.hasSovaLoop)||(demo.slug==='golden-grid'&&result.hasGoldenVideo)||(result.motion!=='none'&&result.motion.length>0),'Original hero animation or approved SOVA motion loop must remain: '+demo.slug+' '+JSON.stringify(result));
      // Capture the settled design, not a half-transparent reveal frame.
      await motionPage.waitForTimeout(1200);
-     const readableHeading=await motionPage.locator('.hero h1, .hero h2').first().evaluate(el=>({
-       opacity:Number(getComputedStyle(el).opacity),
-       visibility:getComputedStyle(el).visibility,
-       height:el.getBoundingClientRect().height
-     }));
-     assert.ok(readableHeading.opacity>.97&&readableHeading.visibility==='visible'&&readableHeading.height>20,
-       'Hero headline must be readable after its existing animation: '+demo.slug+' '+JSON.stringify(readableHeading));
+     if(demo.slug!=='golden-grid'){
+       const readableHeading=await motionPage.locator('.hero h1, .hero h2').first().evaluate(el=>({
+         opacity:Number(getComputedStyle(el).opacity),
+         visibility:getComputedStyle(el).visibility,
+         height:el.getBoundingClientRect().height
+       }));
+       assert.ok(readableHeading.opacity>.97&&readableHeading.visibility==='visible'&&readableHeading.height>20,
+         'Hero headline must be readable after its existing animation: '+demo.slug+' '+JSON.stringify(readableHeading));
+     } // Golden Grid has a video-only hero; its heading starts in #collection.
      await motionPage.screenshot({path:folder+'/hero-first-'+demo.slug+'-iPhone.png'});
      console.log('[PHOTO FIRST + MOTION]',demo.slug,JSON.stringify(result));
    }
