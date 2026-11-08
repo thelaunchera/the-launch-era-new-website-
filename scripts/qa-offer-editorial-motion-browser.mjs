@@ -76,6 +76,60 @@ try{
   assert.equal(visibility,1,'Reduced-motion pricing visible immediately');
   console.log('PASS: iPhone reduced-motion accessibility');
  }finally{await reduced.close()}
+ // Owner-reported 2026-11-08 iPad layout: mock visible selection to ensure
+ // hidden projects never keep their original seven-card flex allocation.
+ for(const lang of ['en','es']){
+  const route=lang==='es'?'/es/website-for-your-business/':'/website-for-your-business/';
+  for(const width of [768,820,1024]){
+   const context=await browser.newContext({viewport:{width,height:1100},locale:lang==='es'?'es-US':'en-US',reducedMotion:'reduce'});
+   const page=await context.newPage();
+   try{
+    await page.route('**/tle_website_demo_visibility?**',r=>r.fulfill({
+     status:200,contentType:'application/json',
+     body:JSON.stringify([
+      {demo_id:'casa-brownie',visible:false},
+      {demo_id:'la-vie-in-pink',visible:false},
+      {demo_id:'havana-19',visible:false}
+     ])
+    }));
+    const response=await page.goto(base+route,{waitUntil:'domcontentloaded',timeout:35000});
+    assert.equal(response?.status(),200,'Tablet route must load '+lang);
+    await page.waitForFunction(()=>document.documentElement.dataset.tleDemoStatus==='ready',null,{timeout:15000});
+    const layout=await page.evaluate(()=>{
+     const rect=e=>e.getBoundingClientRect();
+     const visible=[...document.querySelectorAll('.hero-gallery-card')]
+      .filter(e=>getComputedStyle(e).display!=='none');
+     const gallery=document.querySelector('.hero-gallery-stage');
+     const benefits=[...document.querySelectorAll('.features .feature')];
+     const plans=[...document.querySelectorAll('.pricing .plan')];
+     return {
+      visibleCount:visible.length,
+      cardWidths:visible.map(e=>Math.round(rect(e).width)),
+      filledFraction:visible.length?(Math.max(...visible.map(e=>rect(e).right))-Math.min(...visible.map(e=>rect(e).left)))/rect(gallery).width:0,
+      benefitFont:parseFloat(getComputedStyle(benefits[0].querySelector('p')).fontSize),
+      benefitFirstX:rect(benefits[0]).x,benefitThirdX:rect(benefits[2]).x,
+      planFirstX:rect(plans[0]).x,planSecondX:rect(plans[1]).x,
+      planFirstWidth:rect(plans[0]).width,planSecondWidth:rect(plans[1]).width,
+      pageScroll:document.documentElement.scrollWidth,viewport:innerWidth
+     };
+    });
+    assert.equal(layout.visibleCount,4,'Gallery visibility preserves four curated demos '+lang+' '+width);
+    assert.ok(Math.min(...layout.cardWidths)>=170,'Visible demo thumbnails must be large on iPad '+JSON.stringify(layout));
+    assert.ok(layout.filledFraction>.78,'Visible demos must occupy tablet rail instead of half-width '+JSON.stringify(layout));
+    assert.ok(layout.benefitFont>=13,'Benefit explanations must remain readable '+JSON.stringify(layout));
+    assert.ok(Math.abs(layout.benefitFirstX-layout.benefitThirdX)<3,'Benefits use 2-by-2 tablet layout '+JSON.stringify(layout));
+    assert.ok(Math.abs(layout.planFirstX-layout.planSecondX)<3,'Packages stack as full-width tablet rows '+JSON.stringify(layout));
+    assert.ok(layout.planFirstWidth>=width*.8&&layout.planSecondWidth>=width*.8,'Packages are not cramped half-width cards '+JSON.stringify(layout));
+    assert.ok(layout.pageScroll<=layout.viewport+2,'No page horizontal overflow on tablet '+JSON.stringify(layout));
+    await page.screenshot({path:folder+'/'+lang+'-hero-tablet-'+width+'.png'});
+    await page.locator('.pricing').scrollIntoViewIfNeeded();
+    await page.screenshot({path:folder+'/'+lang+'-pricing-tablet-'+width+'.png'});
+    assert.equal(await page.locator('#website-basic a').last().getAttribute('href'),'/website-checkout/?offer=website-basic&lang='+lang);
+    assert.equal(await page.locator('#website-ai-crm a').last().getAttribute('href'),'/website-checkout/?offer=website-ai-crm&lang='+lang);
+    console.log('PASS: '+lang+' iPad '+width+'px, 4 large projects, 2x2 benefits, readable full-width packages');
+   }finally{await context.close()}
+  }
+ }
  const desktop=await browser.newContext({viewport:{width:1440,height:900},reducedMotion:'no-preference'});
  const dp=await desktop.newPage();
  try{
