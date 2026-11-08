@@ -1,0 +1,51 @@
+/* TLE scroll art direction | 2026-11-08
+   Inspired by BrewedOps: Scroll triggered reveal, Reveal mask, Staggered entrance.
+   Every brand keeps original hero, static banners, images, layout and checkout.
+   Scroll effects are one-shot and progressive, not pinned or endlessly animated. */
+html[data-tle-one-motion] {
+  --tle-scroll-duration:720ms;
+  --tle-scroll-ease:cubic-bezier(.2,.75,.19,1);
+  --tle-scroll-rise:translate3d(0,15px,0);
+  --tle-scroll-image:translate3d(0,13px,0) scale(.99);
+  --tle-scroll-mask:inset(7% 0 0 0);
+  --tle-scroll-blur:0px;
+}
+html[data-tle-one-motion="sova"] {--tle-scroll-duration:690ms;--tle-scroll-rise:translate3d(-19px,0,0);--tle-scroll-image:translate3d(17px,0,0);--tle-scroll-mask:inset(0 9% 0 0)}
+html[data-tle-one-motion="golden-grid"] {--tle-scroll-duration:760ms;--tle-scroll-rise:translate3d(0,24px,0);--tle-scroll-image:translate3d(0,17px,0);--tle-scroll-mask:inset(14% 0 0 0)}
+html[data-tle-one-motion="casa-brownie"] {--tle-scroll-duration:850ms;--tle-scroll-rise:translate3d(0,13px,0);--tle-scroll-image:translate3d(0,10px,0) scale(.985);--tle-scroll-mask:inset(5% 0 0 0 round 10px)}
+html[data-tle-one-motion="crumb"] {--tle-scroll-duration:760ms;--tle-scroll-rise:translate3d(18px,0,0);--tle-scroll-image:translate3d(-14px,0,0);--tle-scroll-mask:inset(0 0 0 13%)}
+html[data-tle-one-motion="havana-19"] {--tle-scroll-duration:920ms;--tle-scroll-rise:translate3d(0,23px,0);--tle-scroll-image:translate3d(0,14px,0);--tle-scroll-mask:inset(12% 0 0 0)}
+html[data-tle-one-motion="ivory-and-bloom"] {--tle-scroll-duration:940ms;--tle-scroll-rise:translate3d(0,16px,0);--tle-scroll-image:translate3d(0,0,0) scale(1.024);--tle-scroll-mask:inset(13% 0 0 0)}
+html[data-tle-one-motion="la-vie-in-pink"] {--tle-scroll-duration:920ms;--tle-scroll-rise:translate3d(0,17px,0);--tle-scroll-image:translate3d(0,11px,0);--tle-scroll-mask:inset(0 11% 0 0)}
+html[data-tle-one-motion="marea-wigs-miami"] {--tle-scroll-duration:730ms;--tle-scroll-rise:translate3d(-23px,0,0);--tle-scroll-image:translate3d(19px,0,0);--tle-scroll-mask:inset(0 15% 0 0)}
+html[data-tle-one-motion="aftr"] {--tle-scroll-duration:680ms;--tle-scroll-rise:translate3d(0,24px,0);--tle-scroll-image:translate3d(0,17px,0) scale(.98);--tle-scroll-mask:inset(12% 0 0 0)}
+html[data-tle-one-motion="lavender-edit"] {--tle-scroll-duration:980ms;--tle-scroll-rise:translate3d(0,10px,0);--tle-scroll-image:translate3d(0,7px,0);--tle-scroll-mask:inset(5% 0 0 0);--tle-scroll-blur:3px}
+html[data-tle-one-motion="experience-cleaning"] {--tle-scroll-duration:740ms;--tle-scroll-rise:translate3d(0,13px,0);--tle-scroll-image:translate3d(0,10px,0);--tle-scroll-mask:inset(7% 0 0 0)}
+html[data-tle-one-motion="seasonal-brew"] {--tle-scroll-duration:880ms;--tle-scroll-rise:translate3d(0,13px,0);--tle-scroll-image:translate3d(0,13px,0);--tle-scroll-mask:inset(0 7% 0 0)}
+html[data-tle-one-motion="soluna-yoga"] {--tle-scroll-duration:1020ms;--tle-scroll-rise:translate3d(0,9px,0);--tle-scroll-image:translate3d(0,7px,0);--tle-scroll-mask:inset(5% 0 0 0)}
+html[data-tle-one-motion="wok-social"] {--tle-scroll-duration:670ms;--tle-scroll-rise:translate3d(21px,0,0);--tle-scroll-image:translate3d(-18px,0,0);--tle-scroll-mask:inset(0 0 0 12%)}
+html[data-tle-one-motion="yummm"] {--tle-scroll-duration:800ms;--tle-scroll-rise:translate3d(0,18px,0);--tle-scroll-image:translate3d(0,11px,0) scale(1.018);--tle-scroll-mask:inset(8% 0 0 0)}
+html[data-tle-one-motion="jaramillo-boutique"] {--tle-scroll-duration:800ms;--tle-scroll-rise:translate3d(-20px,0,0);--tle-scroll-image:translate3d(0,14px,0);--tle-scroll-mask:inset(0 12% 0 0)}
+/* JS opts each visible editorial element in. No pre-JS hiding, no layout shift. */
+html[data-tle-one-motion] .tle-scroll-pending{
+  transition:
+    opacity var(--tle-scroll-duration) var(--tle-scroll-ease) var(--tle-scroll-delay,0ms),
+    transform var(--tle-scroll-duration) var(--tle-scroll-ease) var(--tle-scroll-delay,0ms),
+    clip-path var(--tle-scroll-duration) var(--tle-scroll-ease) var(--tle-scroll-delay,0ms),
+    filter var(--tle-scroll-duration) var(--tle-scroll-ease) var(--tle-scroll-delay,0ms) !important;
+  will-change:opacity,transform;
+}
+html[data-tle-one-motion] .tle-scroll-pending:not(.tle-scroll-visible)[data-tle-scroll-part="headline"]{
+  opacity:0;transform:var(--tle-scroll-rise);filter:blur(var(--tle-scroll-blur));
+}
+html[data-tle-one-motion] .tle-scroll-pending:not(.tle-scroll-visible)[data-tle-scroll-part="photo"]{
+  opacity:.4;transform:var(--tle-scroll-image);clip-path:var(--tle-scroll-mask);
+}
+html[data-tle-one-motion] .tle-scroll-pending.tle-scroll-visible{opacity:1;transform:none;clip-path:inset(0 0 0 0);filter:none}
+/* Keep interactive focus and accessibility: never reveal forms, cart, buttons or menus. */
+@media(prefers-reduced-motion:reduce){
+ html[data-tle-one-motion] .tle-scroll-pending,
+ html[data-tle-one-motion] .tle-scroll-pending:not(.tle-scroll-visible){
+   opacity:1!important;transform:none!important;clip-path:none!important;filter:none!important;transition:none!important;
+ }
+}
