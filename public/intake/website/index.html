@@ -100,10 +100,11 @@
        <label class="field full"><span data-i18n="hoursShort">Business hours (optional)</span><input name="business_hours" maxlength="180" type="text" data-placeholder="hoursPlace"></label>
        <label class="field full"><span data-i18n="domainOptionShort">Your website link</span>
         <select name="domain_option" id="domain-option">
-         <option value="need_link" data-i18n="needLink">I need a website link (included hosted link)</option>
+         <option value="need_link" data-i18n="needLink">Use the included website link</option>
          <option value="have_domain" data-i18n="haveDomain">I have a domain</option>
-         <option value="want_custom" data-i18n="wantCustom">I'd like a custom domain (extra cost)</option>
+         <option value="want_custom" data-i18n="wantCustom">I want to buy my own domain</option>
         </select>
+        <small data-i18n="domainHelpNote">Your website includes a ready-to-share hosted link. A custom domain is optional: you buy it directly from a provider such as Namecheap, pay that provider for registration and renewals, and we can help connect it.</small>
        </label>
        <label class="field full" id="domain-field" hidden><span data-i18n="domain">Domain or desired name</span><input name="domain_preference" type="text" maxlength="200" placeholder="mybusiness.com"></label>
       </div>
