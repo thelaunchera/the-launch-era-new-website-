@@ -20,7 +20,7 @@ for(const r of routes){
  for(const filename of photos[language])assert.ok(html.includes(filename),language+': missing photo '+filename+' at '+r);
  assert.ok(html.includes('class="hero hero-gallery"'),'gallery hero not on '+language);
  assert.match(html, /\/assets\/tle-gallery-hero-20261107\.css\?v=\d+/, 'gallery styles not linked on '+language);
- assert.ok((html.match(/class="hero-gallery-card"/g)||[]).length===7,'seven gallery panels not present on '+language);
+ assert.ok((html.match(/class="hero-gallery-card"/g)||[]).length===11,'eleven real demo gallery panels not present on '+language);
  for(const filename of photos[language==='es'?'en':'es'].slice(1))
   assert.ok(!html.includes(filename),language+': photo from other language leaked '+filename);
  assert.match(html,/id="website-basic"/);
@@ -38,4 +38,4 @@ for(const r of routes){
  assert.ok(html.includes('href="#proceso"'),'process anchor');
  assert.ok(html.includes('href="#preguntas"'),'FAQ anchor');
 }
-console.log('[TLE OFFICIAL LANDING] Seven-card gallery, original approved photo and independent ES/EN package photos, pricing/checkout preserved, responsive CSS checked');
+console.log('[TLE OFFICIAL LANDING] Eleven-card gallery, original approved photo and independent ES/EN package photos, pricing/checkout preserved, responsive CSS checked');
