@@ -34,7 +34,20 @@ try {
       }
       const photo=page.locator(item.img).first();
       await photo.scrollIntoViewIfNeeded();
-      await photo.evaluate(async el=>{if(!el.complete)await new Promise((ok,fail)=>{el.addEventListener('load',ok,{once:true});el.addEventListener('error',fail,{once:true});})});
+      // Unbounded load-event waits can stall the entire QA job if a lazy image
+      // never completes or the event fires between checks. Fail with context.
+      await photo.evaluate(async el=>{
+        el.loading='eager';
+        if(el.complete)return;
+        await Promise.race([
+          new Promise((resolve,reject)=>{
+            el.addEventListener('load',resolve,{once:true});
+            el.addEventListener('error',()=>reject(new Error('Hero photo failed to load: '+el.currentSrc)),{once:true});
+            if(el.complete)resolve();
+          }),
+          new Promise((_,reject)=>setTimeout(()=>reject(new Error('Hero image timed out: '+el.currentSrc)),12000))
+        ]);
+      });
       assert(await photo.evaluate(el=>el.naturalWidth>=300&&el.naturalHeight>=150),item.name+' original hero image missing');
       assert.equal(await page.locator(item.cta).count(),1,item.name+' original hero CTA changed');
       const action=await page.locator(item.cta).first().getAttribute('href');
