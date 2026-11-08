@@ -120,14 +120,9 @@
  .tle-universal .hero-gallery-card .hero-gallery-hit img{transition:transform .35s ease}
  .tle-universal .hero-gallery-card:hover .hero-gallery-hit img{transform:scale(1.035)}
 }
-/* Editorial portrait hero photos: show the original image instead of cutting off the subject. */
-.tle-universal .hero-gallery-card[data-demo="la-vie-in-pink"]{background:#7c303c}
-.tle-universal .hero-gallery-card[data-demo="jaramillo-boutique"]{background:#eee9e4}
-.tle-universal .hero-gallery-card[data-demo="crumb"]{background:#cfe6f4}
-.tle-universal .hero-gallery-card[data-demo="la-vie-in-pink"] .hero-gallery-hit img,
-.tle-universal .hero-gallery-card[data-demo="jaramillo-boutique"] .hero-gallery-hit img,
-.tle-universal .hero-gallery-card[data-demo="crumb"] .hero-gallery-hit img{
-  object-fit:contain;object-position:center
+/* Consistent edge-to-edge photography: all projects receive the same crop rule. */
+.tle-universal .hero-gallery-card .hero-gallery-hit img{
+  object-fit:cover;object-position:var(--gallery-pos,center);
 }
 
 
@@ -184,5 +179,20 @@
  .tle-universal .hero-gallery-note{
    grid-column:2;grid-row:2;margin:8px 0 0;
    text-align:left;padding:0 12px;color:#606d73;
+ }
+}
+
+
+/* 2026-11-08: readable project names over light and dark photos, mobile included. */
+.tle-universal .hero-gallery-card figcaption{
+  display:block;width:max-content;max-width:calc(100% - 16px);
+  padding:7px 10px;border-radius:8px;
+  color:#fff!important;-webkit-text-fill-color:#fff!important;
+  background:rgba(25,25,25,.92);box-shadow:0 2px 9px rgba(0,0,0,.22);
+  text-shadow:none;line-height:1.3;overflow-wrap:anywhere;
+}
+@media(max-width:600px){
+ .tle-universal .hero-gallery-card figcaption{
+  max-width:calc(100% - 22px);padding:8px 11px;font-size:11px;
  }
 }
