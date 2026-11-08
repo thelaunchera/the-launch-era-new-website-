@@ -123,13 +123,13 @@ def main():
             # Keep WebP for gallery/catalog only. Never degrade baked-in type.
             master = "./resources/golden-1.png?v=20261108-master-hq"
             hero_match = re.search(
-                r'(<div class="hero-art">\\s*<img\\b[^>]*?\\bsrc=")([^"]+)(")', text)
+                r'(<div class="hero-art">\s*<img\b[^>]*?\bsrc=")([^"]+)(")', text)
             if not hero_match:
                 raise SystemExit("Golden Grid approved hero is missing")
             text = (text[:hero_match.start(2)] + master +
                     text[hero_match.end(2):])
             poster_match = re.search(
-                r'(<video\\b[^>]*?\\bposter=")([^"]+)(")', text)
+                r'(<video\b[^>]*?\bposter=")([^"]+)(")', text)
             if poster_match:
                 text = (text[:poster_match.start(2)] + master +
                         text[poster_match.end(2):])
