@@ -59,8 +59,21 @@ assert (root / "demos/golden-grid/resources/golden-1.webp").is_file(), (
     "Golden Grid catalog thumbnail still needs optimized WebP"
 )
 golden_css = (root / "demos/golden-grid/golden-approved-hero-video-20261108.css").read_text(encoding="utf-8")
-assert "ellipse 6% 23%" in golden_css and "ellipse 11% 7%" in golden_css, (
-    "Low-resolution moving mask must not cover the packaging or headline"
+# Owner's revised approval: tablet portrait and landscape must show only the
+# original static PNG. The old tiny video feather-mask is no longer part of
+# Golden Grid's iPad hero, so checking for it would block a valid release.
+assert "iPad/tablet: only the untouched still photograph" in golden_css, (
+    "Missing tablet-only static hero override"
+)
+assert "(min-width:521px) and (max-width:1399px)" in golden_css, (
+    "iPad portrait and landscape static breakpoint missing"
+)
+assert "gg-approved-hero-video" in golden_css and "gg-hero-motion" in golden_css, (
+    "Static tablet hero must suppress both the low-resolution video and shimmer"
+)
+golden_js = (root / "demos/golden-grid/golden-approved-hero-video-20261108.js").read_text(encoding="utf-8")
+assert "const allowed=phoneAllowed" in golden_js and "desktopGlow.matches" in golden_js, (
+    "iPad must never request low-resolution video or activate decorative shimmer"
 )
 print("PASS: Golden Grid deployed main hero uses original PNG; catalog still uses WebP")
 
