@@ -952,7 +952,8 @@ function perform(action,button){
   }
 }
 document.addEventListener('click',event=>{
-  const nav=event.target.closest('[data-brand]');
+  // Only sidebar brand buttons navigate: the artboard also has data-brand for metadata.
+  const nav=event.target.closest('.brandnav[data-brand]');
   if(nav){activeId=nav.dataset.brand;save();view='board';tab='identity';focused=false;render();return;}
   const viewBtn=event.target.closest('[data-view]');
   if(viewBtn){view=viewBtn.dataset.view;render();return;}
