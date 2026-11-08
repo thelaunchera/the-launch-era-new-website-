@@ -30,7 +30,7 @@ for(const [label,html] of [['basic',basic],['advanced',advanced]]){
 assert.match(websiteScript,/preferred_email:get\(f,'preferred_email'\)\|\|get\(f,'email'\)/,'default inquiry email to checkout email');
 assert.match(websiteScript,/note\('Preferred website languages',get\(f,'website_language'\)/,'send language preference with verified intake');
 assert.match(websiteScript,/tle-studio-website-confirm-payment/,'keep verified paid gate');
-assert.match(websiteScript,/Command Center access','never issue access before delivery');
+assert.match(websiteScript,/Command Center access/,'never issue access before delivery');
 for(const key of ['setupExtrasSummary','inboxOptional','publicPhoneOptional','siteLangLabel','siteLangBoth']){
  const hits=[...websiteBrief.matchAll(new RegExp(key+':','g'))].length;
  assert.equal(hits,2,key+' must have English and Spanish translations');
