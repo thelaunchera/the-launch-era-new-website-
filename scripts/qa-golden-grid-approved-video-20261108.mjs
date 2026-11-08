@@ -27,19 +27,38 @@ for (const engine of [chromium,webkit]) {
       },null,{timeout:20000});
       const state=await video.evaluate(v=>{
         const b=v.getBoundingClientRect();
-        return {src:v.currentSrc,poster:v.poster,width:b.width,height:b.height,
+        const p=v.closest('.hero-art');
+        const container=p.getBoundingClientRect();
+        const css=getComputedStyle(v);
+        const artStyle=getComputedStyle(p);
+        const photo=p.querySelector(':scope > img');
+        return {
+          src:v.currentSrc,poster:v.poster,width:b.width,height:b.height,
           videoWidth:v.videoWidth,videoHeight:v.videoHeight,paused:v.paused,
-          fit:getComputedStyle(v).objectFit};
+          fit:css.objectFit,visiblePhoto:photo&&getComputedStyle(photo).display!=='none',
+          parentWidth:container.width,parentHeight:container.height,
+          x:b.x,parentX:container.x,background:artStyle.backgroundImage,
+          padding:artStyle.padding,position:css.position
+        };
       });
       assert.ok(state.src.endsWith('/demos/golden-grid/media/hero-approved-canva-20261108.mp4'));
       assert.ok(state.poster.endsWith('/demos/golden-grid/media/hero-approved-canva-20261108-firstframe.webp'));
-      assert.ok(state.width<=512.5&&state.width>300,'Video must not upscale beyond native width');
       assert.equal(state.videoWidth,512);
       assert.equal(state.videoHeight,682);
-      assert.equal(state.fit,'contain','Never crop the portrait footage');
+      assert.ok(state.width>512,'The video must now fill the entire tablet/desktop hero');
+      assert.ok(Math.abs(state.width-state.parentWidth)<=2,
+        'No bars/empty sides allowed between video and hero frame: '+JSON.stringify(state));
+      assert.ok(Math.abs(state.x-state.parentX)<=2,'The video must start at the left edge of the hero');
+      assert.ok(Math.abs(state.height-state.width*682/512)<3,'Video must retain its full original aspect ratio');
+      assert.ok(Math.abs(state.height-state.parentHeight)<=3,'No empty space behind the video');
+      assert.equal(state.visiblePhoto,false,'Do not display the original photo behind the tablet/desktop video');
+      assert.equal(state.background,'none','No yellow stripe or gradient behind the video');
+      assert.equal(state.padding,'0px','No video framing/padding');
+      assert.equal(state.position,'relative');
+      assert.equal(state.fit,'cover','Fill the exact hero edges without distortion');
       assert.deepEqual(errors,[]);
       await context.close();
-      console.log('PASS Golden Grid approved video',engine.name(),name,state.width,'CSS px');
+      console.log('PASS Golden Grid full-bleed video',engine.name(),name,Math.round(state.width),'CSS px');
     }
     for (const reducedMotion of ['no-preference','reduce']) {
       const context=await browser.newContext({

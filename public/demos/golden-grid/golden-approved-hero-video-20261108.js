@@ -30,7 +30,11 @@
     const play=video.play();
     if(play&&typeof play.catch==='function')play.catch(()=>{ /* first frame stays visible */ });
   }
-  video.addEventListener('error',()=>{video.pause();video.hidden=true;});
+  video.addEventListener('error',()=>{
+    video.pause();
+    video.hidden=true;
+    video.closest('.hero-art')?.setAttribute('data-gg-video-error','');
+  });
   desktop.addEventListener('change',sync);
   reduce.addEventListener('change',sync);
   document.addEventListener('visibilitychange',sync);
