@@ -1,4 +1,4 @@
-name: Motion Heroes Video + Cursor QA
+name: Motion Heroes Video + Accessibility QA
 on:
   push:
     branches: [main]
@@ -28,14 +28,14 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: '22' }
-      - name: Check active cinematic videos and approved integrations
+      - name: Check actual cinematic controller integrations
         run: |
-          for s in casa-brownie havana-19 ivory-and-bloom lavender-edit; do
+          for s in casa-brownie ivory-and-bloom marea-wigs-miami; do
             test -s "public/demos/$s/media/hero-motion-20261108.mp4"
           done
           # Cleaning and AFTR use independent media flows, covered by their own tests.
           # CRUMB intentionally has a still image, not a cinematic autoplay hero.
-          for s in casa-brownie havana-19 ivory-and-bloom lavender-edit; do
+          for s in casa-brownie ivory-and-bloom marea-wigs-miami; do
             grep -q 'tle-hero-cinematic-20261108.js' "public/demos/$s/index.html"
           done
           node --check public/assets/tle-hero-cinematic-20261108.js
@@ -51,7 +51,7 @@ jobs:
           mkdir -p "$GITHUB_WORKSPACE/node_modules"
           ln -sfn /tmp/tle-motion-qa/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
           ln -sfn /tmp/tle-motion-qa/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
-      - name: Verify published video playback, cursor movement and reduced motion
+      - name: Verify checked-out video playback, original fallbacks and reduced motion
         run: |
           # Check the exact checked-out source, not a previous GitHub Pages release.
           python3 -m http.server 4189 --bind 127.0.0.1 --directory public >/tmp/tle-motion-local.log 2>&1 &
@@ -63,6 +63,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: motion-heroes-six-visual-proof
+          name: motion-heroes-active-visual-proof
           path: qa-screenshots/motion-20261108/
           if-no-files-found: ignore
