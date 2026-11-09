@@ -15,16 +15,16 @@ try{
   assert.equal(await page.locator('#owner').isVisible(),false);
   const motionCss=await page.locator('.hero-full-photo').evaluate(el=>getComputedStyle(el).animationName);
   assert.equal(motionCss,'none','Reduced-motion setting must disable animated hero depth');
-  assert.match(await page.locator('#hero-title').innerText(),lang==='es'?/Tu casa impecable/:/A beautiful clean/);
+  assert.match(await page.locator('#hero-title').innerText(),lang==='es'?/Tu casa impecable/:/See how clients book/);
   assert.match(await page.locator('#experience-title').innerText(),lang==='es'?/Reserva tu limpieza residencial/:/Book residential cleaning/);
   assert.match(await page.locator('#experience-title').innerText(),lang==='es'?/estimado comercial/:/commercial estimate/);
   assert.equal(await page.locator('.intro-band-group').count(),2);
   const marquee=await page.locator('.intro-band-track').evaluate(el=>getComputedStyle(el).animationName);
   assert.equal(marquee,'none','Reduced-motion setting should not animate the banner');
   const font=await page.locator('#experience-title').evaluate(el=>getComputedStyle(el).fontFamily);
-  assert.match(font,/Fraunces/i,'Section should use more readable Fraunces font');
+  assert.match(font,/DM Serif Display/i,'Section should use approved editorial display font');
   const bg=await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundColor);
-  assert.match(bg,/247, 244, 239/,'Main background should be warm ivory');
+  assert.match(bg,/250, 248, 243/,'Main background should be warm ivory');
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3),true,'No mobile horizontal overflow '+lang+' '+width);
   await page.screenshot({path:'qa-screenshots/experience-cleaning-hero-'+lang+'-'+width+'.png',fullPage:false});
   // The owner, portfolio and review sections must be honest and rendered in both languages.
@@ -69,9 +69,9 @@ try{
   assert.equal(await page.locator('#r-price').innerText(),'$190');
   const cards=page.locator('#service-grid .service-card img');
   assert.equal(await cards.count(),4);
-  assert.match(await cards.nth(0).getAttribute('src'),/photos\/8055186/);
-  assert.match(await cards.nth(1).getAttribute('src'),/photos\/9462635/);
-  assert.match(await cards.nth(3).getAttribute('src'),/photos\/9462298/);
+  assert.match(await cards.nth(0).getAttribute('src'),/portfolio_living_finished\.webp/);
+  assert.match(await cards.nth(1).getAttribute('src'),/portfolio_cleaning_action\.webp/);
+  assert.match(await cards.nth(3).getAttribute('src'),/clean_roll_02_bathroom\.webp/);
 
   await page.locator('#next').click();
   if(width<760){
