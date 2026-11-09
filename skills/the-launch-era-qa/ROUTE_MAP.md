@@ -1,3 +1,10 @@
+## 2026-11-09 — Lavanda Boutique interactive demo bag (no new route)
+- **Public route:** `/demos/lavender-edit/` remains unchanged, with the 15 approved photographs, original boutique editorial sections and `#film` muted lower-page video.
+- **Shop navigation:** the existing header now links to `#tle-demo-sample-prices`. The existing shared three-item sample-price catalog remains the *single* source for product names and totals. The header **Bag / Bolsa** opens `#lb-cart-drawer` in the same page.
+- **Demo actions:** Add to bag -> adjust quantity/remove -> review -> complete DEMO purchase -> educational confirmation. English/Spanish labels, keyboard close/return focus, and responsive panel are confined to `boutique-shop-20261109.js/.css` in the Lavanda demo. No card, address, contact data, delivery, receipt, backend, network order call, actual inventory or checkout processing. Cart exists in page memory only.
+- **Boundary:** shared price script for other demos, customer/owner Command Centers, real Stripe/Make payments, site routing, legal links and other demos are unchanged. Demo footer explicitly discloses that this is not a real order.
+- **QA:** source JS parse and route guard confirmed; Pages build and live button/image/video/iPhone QA tracked independently. Do not claim provider-backed purchase or payment.
+
 ## 2026-11-09 — Cleaning hero media reused in all three demo cover locations (no route changes)
 
 - **Canonical demo:** `/experience-cleaning/` retains its own approved animated hero (`/experience-cleaning/media/cleaning-hero-20261108.mp4` and matching `cleaning-hero-poster-20261108.jpg`).

@@ -29,3 +29,11 @@ Use one fully-bleed vertical hero photograph, generous space, oversized high-con
 **QA checklist:** test all eight image requests; test EN/ES switch; test 375px screen, sticky navigation and accessible mobile menu; check anchor scrolling and copyright footer.
 
 Powered by The Launch Era.
+
+## Interactive storefront (2026-11-09)
+- **Shopping demonstration, never real commerce.** The existing three original illustrative price examples are reused as the only demo product catalog. Pricing is not duplicated or invented inside the cart.
+- Customers can select **Add to bag**, change quantities, remove selections, review a demo subtotal and complete a clearly simulated purchase without card, address or personal information.
+- The confirmation does not send an order, charge a card, write customer information or issue a receipt. Cart state is held in memory only and resets on page refresh.
+- The navigation now includes an anchored Shop / Comprar link and a Bag / Bolsa control, both localized EN/ES.
+- The approved lavender purple `#7952B3` and golden sunlight `#F4B85D` palette, fifteen original/new photos, and lower-page film stay unchanged.
+- Source: `boutique-shop-20261109.js`, `boutique-shop-20261109.css`, `index.html`.
