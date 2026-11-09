@@ -170,9 +170,10 @@ try{
     const card=document.querySelector('.hero-gallery-card[data-demo="jaramillo-boutique"]');
     const sova=document.querySelector('.hero-gallery-card[data-demo="sova"]');
     const v=card.querySelector('video.hero-gallery-motion'),img=card.querySelector('img'),sovaImg=sova.querySelector('img');
-    const b=card.getBoundingClientRect();
+    // offsetWidth/Height validate layout before entrance transforms settle.
+    // getBoundingClientRect may briefly report 90% scale during initial reveal.
     return {
-      cardWidth:b.width,cardHeight:b.height,
+      cardWidth:card.offsetWidth,cardHeight:card.offsetHeight,
       videoFit:getComputedStyle(v).objectFit,
       photoFit:getComputedStyle(img).objectFit,
       sovaFit:getComputedStyle(sovaImg).objectFit,
