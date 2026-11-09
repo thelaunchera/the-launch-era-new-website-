@@ -45,6 +45,28 @@ async function checkOpenAndClose(slug,expected){
  assert.equal(await page.locator('#viewer-loading-direct').getAttribute('href'),url,'Loading fallback must open the exact original demo URL');
  await page.locator('#viewer-stage.is-ready').waitFor({state:'attached',timeout:30000});
  assert.equal(await page.locator('#viewer-stage').getAttribute('aria-busy'),'false','Preview should finish its loading state');
+ if(slug==='sneekiefs'){
+  // Regression from owner iPhone recording: viewport panned horizontally
+  // and clipped the Sneekiefs logo and blue hero headline.
+  for(const language of ['en','es']){
+    const layout=await frame.locator('html').evaluate(root=>{
+      const win=root.ownerDocument.defaultView;
+      const width=win.innerWidth;
+      const rootOverflow=getComputedStyle(root).overflowX;
+      win.scrollTo({left:160,top:win.scrollY,behavior:'instant'});
+      return {width,scrollWidth:root.scrollWidth,scrollX:win.scrollX,
+        rootOverflow,lang:root.lang};
+    });
+    assert.equal(layout.lang,language,'Sneekiefs translation should be '+language);
+    assert.ok(layout.scrollWidth<=layout.width+2,
+      'Sneekiefs must fit within the iPhone preview viewport: '+JSON.stringify(layout));
+    assert.equal(layout.scrollX,0,'iPhone preview must not pan horizontally: '+JSON.stringify(layout));
+    assert.equal(layout.rootOverflow,'clip','Sneekiefs document viewport must clip horizontal overflow');
+    console.log('[SNEEKIEFS IPHONE PAN]',JSON.stringify(layout));
+    if(language==='en')await frame.locator('#langToggle').click();
+  }
+  await frame.locator('#langToggle').click(); // Restore English
+ }
  await page.screenshot({path:folder+'/'+slug+'-open.png'});
  await page.locator('#viewer-close').click();
  assert.equal(await modal.evaluate(el=>el.open),false,'Close demo must return to gallery');
