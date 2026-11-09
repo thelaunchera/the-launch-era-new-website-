@@ -67,6 +67,9 @@ try{
   await page.screenshot({path:'qa-screenshots/experience-cleaning-booking-'+lang+'-'+width+'.png',fullPage:false});
   await page.locator('[data-service="deep"]').click();
   assert.equal(await page.locator('#r-price').innerText(),'$190');
+  assert.match(await page.locator('#booking-inline-value').innerText(),/\$190/,'Mobile live summary should follow the selected service');
+  assert.match(await page.locator('#booking-inclusions-title').innerText(),lang==='es'?/Limpieza profunda/:/Deep cleaning/);
+  assert.equal(await page.locator('#service-grid .booking-card-price').count(),4);
   const cards=page.locator('#service-grid .service-card img');
   assert.equal(await cards.count(),4);
   assert.match(await cards.nth(0).getAttribute('src'),/portfolio_living_finished\.webp/);
@@ -81,6 +84,7 @@ try{
   await page.locator('#beds').selectOption('3');
   await page.locator('.extras input[value="oven"]').check();
   assert.equal(await page.locator('#r-price').innerText(),'$240');
+  assert.equal(await page.locator('#booking-inline-value').innerText(),'$240','Live sample price should update with extras');
   const priceLayout=await page.locator('#r-price').evaluate(el=>{
     const range=document.createRange();
     range.selectNodeContents(el);
@@ -90,6 +94,14 @@ try{
   assert.equal(priceLayout.fragmentCount,1,'The illustrative $240 total must remain a single line on '+lang+' at '+width);
   assert.equal(priceLayout.whiteSpace,'nowrap','The total must not break even on small phones');
   await page.locator('#next').click();
+  assert.equal(await page.locator('#stage-3').isVisible(),true);
+  assert.equal(await page.locator('#booking-review-total').innerText(),'$240','Review must match sample price');
+  assert.match(await page.locator('#booking-review-service').innerText(),lang==='es'?/profunda/:/Deep cleaning/);
+  await page.locator('#booking-review-edit-details').click();
+  assert.equal(await page.locator('#stage-2').isVisible(),true,'Review edits must return to existing selections');
+  assert.equal(await page.locator('#beds').inputValue(),'3');
+  await page.locator('#next').click();
+  assert.equal(await page.locator('#stage-3').isVisible(),true);
   await page.locator('#next').click();
   await page.locator('#owner').waitFor({state:'visible'});
   assert.match(await page.locator('#owner-service').innerText(),lang==='es'?/profunda/:/Deep cleaning/);
