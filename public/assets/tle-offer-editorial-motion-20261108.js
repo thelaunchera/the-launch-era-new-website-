@@ -31,10 +31,10 @@
    if(reduce.matches||entry.isIntersecting)show(entry.target);
    else hide(entry.target);
   }
- },{threshold:.08,rootMargin:"0px 0px -9% 0px"});
+ },{threshold:.01,rootMargin:"0px 0px 8% 0px"});
  targets.forEach(el=>{
   const rect=el.getBoundingClientRect();
-  if(rect.top<window.innerHeight*.84&&rect.bottom>0)show(el);
+  if(rect.top<window.innerHeight*.94&&rect.bottom>0)show(el);
   observer.observe(el);
  });
  // Activate only after targets are registered, to keep the page usable if JS
