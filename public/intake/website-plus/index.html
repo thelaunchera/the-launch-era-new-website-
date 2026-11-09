@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Private project setup for customers who completed The Launch Era website checkout.">
+<meta name="theme-color" content="#FAF8F3"><title>Website Plus · Project Setup | The Launch Era</title>
+<link rel="icon" type="image/svg+xml" href="/assets/brand/tle-mark.svg">
+<link rel="stylesheet" href="/assets/tle-website-intake.css?v=20261108-picker">
+<script src="/assets/privacy-controls.js?v=20261026-1" data-site="tle"></script>
+<script src="/assets/tle-website-intake.js?v=20261109-outcomes-v3" defer></script>
+<script src="/assets/tle-website-intake-brief.js?v=20261109-outcomes-v3" defer></script>
+</head>
+<body data-package="website-plus">
+<header>
+ <a class="wordmark" href="/website-for-your-business/" aria-label="The Launch Era"><small>THE</small>LAUNCH ERA</a>
+ <nav aria-label="Page navigation">
+ <a id="return" href="/website-for-your-business/" data-i18n="back">View packages</a>
+ <button id="locale" type="button" aria-label="Change language">Español</button>
+ </nav>
+</header>
+<main class="container layout">
+ <aside class="intro">
+  <div class="eyebrow" data-i18n="start">STEP 2 OF 2 · YOUR WEBSITE SETUP</div>
+  <h1 id="intro-title">Let’s make your business easier to manage.</h1>
+  <p data-i18n="lead">These are the details we need to configure your new system.</p>
+  <div class="price"><span id="price">$25</span> <span data-i18n="init">Setup package · USD</span></div>
+  <div class="mini"><strong id="package-name">Website Plus + Advanced Command Center</strong><p id="intro-scope"></p></div>
+  <div class="mini"><p id="ongoing"></p></div>
+ </aside>
+ <section class="panel" id="form-panel" aria-label="Project setup">
+  <span class="panel-label" data-i18n="boxLabel">PROJECT SETUP</span>
+  <h2 data-i18n="formTitle">Your business details</h2>
+  <p class="panel-lead" id="form-lead" data-i18n="formLead">Use the same email used at checkout.</p>
+  <p id="payment-status" class="feedback" role="status" aria-live="polite">Verifying your Stripe payment…</p>
+  <button type="button" id="verify-retry" class="cta" hidden>Check payment again</button>
+  <form id="intake-form" hidden>
+   <label class="hidden-trap" aria-hidden="true">Website verification <input name="website_check" autocomplete="off" tabindex="-1"></label>
+   <div class="intake-step-caption" data-i18n="fewQuestions">Only the essentials. The rest comes from your business details.</div>
+   <fieldset class="group">
+    <legend data-i18n="group1">01 / Your business</legend>
+    <div class="fields">
+     <label class="field"><span data-i18n="name">Your name *</span><input name="name" type="text" required minlength="2" maxlength="120" autocomplete="name"></label>
+     <label class="field"><span data-i18n="email">Email used at checkout *</span><input name="email" type="email" required maxlength="254" autocomplete="email"></label>
+     <label class="field full"><span data-i18n="business">Business name *</span><input name="business_name" type="text" required minlength="2" maxlength="150" autocomplete="organization"></label>
+     <label class="field full"><span data-i18n="industry">What kind of business is it? *</span>
+      <select name="industry" id="business-industry" required>
+       <option value="" selected disabled data-i18n="chooseIndustry">Choose your business</option>
+       <option value="restaurant" data-i18n="industryRestaurant">Restaurant</option>
+       <option value="cafe" data-i18n="industryCafe">Café or bakery</option>
+       <option value="retail" data-i18n="industryRetail">Store / products</option>
+       <option value="cleaning" data-i18n="industryCleaning">Home cleaning</option>
+       <option value="beauty" data-i18n="industryBeauty">Beauty / salon</option>
+       <option value="wellness" data-i18n="industryWellness">Wellness / fitness</option>
+       <option value="professional" data-i18n="industryProfessional">Other services</option>
+       <option value="other" data-i18n="industryOther">Something else</option>
+      </select>
+     </label>
+     <label class="field full" id="industry-other-field" hidden><span data-i18n="industryOtherLabel">Describe your business *</span><input name="industry_other" maxlength="110" minlength="3" autocomplete="off" data-placeholder="industryOtherPlace"></label>
+     <label class="field full" id="other-format-field" hidden><span data-i18n="otherFormatLabel">What should your website display? *</span>
+      <select name="other_format" id="other-format"><option value="services_requests" data-i18n="websiteFormatServices">Services + Booking Requests</option><option value="digital_menu" data-i18n="websiteFormatMenu">Digital Menu</option><option value="product_catalog" data-i18n="websiteFormatCatalog">Product Catalog</option></select>
+     </label>
+     <input type="hidden" name="website_format" id="website-format" value="">
+     <label class="field full"><span data-i18n="area">City, address or service area *</span><input name="business_location" required minlength="2" maxlength="150" autocomplete="address-level2" data-placeholder="areaPlace"><small data-i18n="areaHint">For online-only businesses, enter “Online”.</small></label>
+    </div>
+   </fieldset>
+
+      <label class="field full"><span data-i18n="projectTypeLabel">Are we creating or improving your website? *</span>
+       <select name="website_project_type" id="website-project-type" required><option value="new" data-i18n="projectTypeNew">Build a new website</option><option value="improve" data-i18n="projectTypeImprove">Improve a website I already own</option></select>
+      </label>
+      <div id="existing-project-fields" class="fields full" hidden>
+       <label class="field full"><span data-i18n="existingWebsiteRequired">Link to your current website *</span><input name="existing_website" type="url" maxlength="300" placeholder="https://"></label>
+       <label class="field full"><span data-i18n="platformLabel">Which platform is your website on?</span>
+        <select name="website_platform"><option value="unsure" data-i18n="platformUnsure">Not sure</option><option value="wordpress">WordPress</option><option value="shopify">Shopify</option><option value="wix">Wix</option><option value="squarespace">Squarespace</option><option value="webflow">Webflow</option><option value="godaddy">GoDaddy</option><option value="hostinger">Hostinger</option><option value="github_static">GitHub / static website</option><option value="other" data-i18n="platformOther">Other</option></select>
+       </label>
+       <label class="field full"><span data-i18n="requestedChangesLabel">What would you like improved? *</span><textarea name="requested_changes" rows="3" maxlength="700" data-placeholder="requestedChangesExample"></textarea><small data-i18n="scopeReview">We review compatibility and scope before starting. Never share passwords or access codes here.</small></label>
+      </div>
+   <div class="divider"></div>
+   <fieldset class="group">
+    <legend data-i18n="group2">02 / What you offer</legend>
+    <p class="group-explain" data-i18n="offerIntro">List what customers can buy or book. Include prices or say “Request a quote”.</p>
+    <div class="fields">
+     <label class="field full"><span id="offers-label" data-i18n="services">Products or services *</span>
+      <textarea name="services" required id="services" minlength="5" maxlength="1800" rows="3" data-placeholder="servicesPlace"></textarea>
+      <small id="offers-hint" data-i18n="offersHint">Example: Deep Clean — from $180; Standard Clean — from $100.</small>
+     </label>
+     <label class="field full" id="menu-pdf-field" hidden><span data-i18n="menuPdfShort">Already have a menu or product list? Share its link.</span>
+      <input name="menu_pdf_url" type="url" maxlength="400" placeholder="https://drive.google.com/...">
+      <small data-i18n="menuPdfShortcut">If the link contains your complete list and prices, you can skip typing them above. We review it before publishing.</small>
+     </label>
+     <label class="field full"><span data-i18n="actionShort">What should visitors do? *</span>
+      <select name="customer_action" id="customer-action" required><option value="contact">Send an inquiry</option></select>
+      <small id="action-hint" data-i18n="actionHint">Requests arrive by email; they are not automatic confirmed bookings or payments.</small>
+     </label>
+     <label class="field full"><span data-i18n="siteLangLabel">Website language</span>
+      <select name="website_language" id="website-language">
+       <option value="en" data-i18n="siteLangEnglish">English</option>
+       <option value="es" data-i18n="siteLangSpanish">Español</option>
+       <option value="both" data-i18n="siteLangBoth">English + Español</option>
+      </select>
+     </label>
+     <details class="intake-optional full" id="website-extra-details">
+      <summary data-i18n="setupExtrasSummary">Different inquiry email, business hours or domain? (optional)</summary>
+      <div class="fields">
+       <label class="field full"><span data-i18n="inboxOptional">Email for customer requests (defaults to your checkout email)</span>
+        <input name="preferred_email" type="email" maxlength="254" autocomplete="email">
+        <small data-i18n="emailOnlyNote">Notifications are by email only. No SMS.</small>
+       </label>
+       <label class="field full"><span data-i18n="publicPhoneOptional">Business phone to show on your website (optional)</span>
+        <input name="phone" type="tel" autocomplete="tel" maxlength="35" placeholder="+1 (555) 123-4567">
+       </label>
+       <label class="field full"><span data-i18n="hoursShort">Business hours (optional)</span><input name="business_hours" maxlength="180" type="text" data-placeholder="hoursPlace"></label>
+       <label class="field full"><span data-i18n="domainOptionShort">Your website link</span>
+        <select name="domain_option" id="domain-option">
+         <option value="need_link" data-i18n="needLink">Use the included website link</option>
+         <option value="have_domain" data-i18n="haveDomain">I have a domain</option>
+         <option value="want_custom" data-i18n="wantCustom">I want to buy my own domain</option>
+        </select>
+        <small data-i18n="domainHelpNote">Your website includes a ready-to-share hosted link. A custom domain is optional: you buy it directly from a provider such as Namecheap, pay that provider for registration and renewals, and we can help connect it.</small>
+       </label>
+       <label class="field full" id="domain-field" hidden><span data-i18n="domain">Domain or desired name</span><input name="domain_preference" type="text" maxlength="200" placeholder="mybusiness.com"></label>
+      </div>
+     </details>
+    </div>
+   </fieldset>
+   <div class="divider"></div>
+   <fieldset class="group">
+    <legend data-i18n="group3">03 / Your look &amp; photos</legend>
+    <p class="group-explain" data-i18n="photosIntro">Share your logo or photos if you have them. Don't worry about designing the page yourself.</p>
+    <div class="fields">
+     <label class="field full upload-field"><span data-i18n="websitePhotosShort">Add your logo or website photos (optional)</span>
+      <input name="website_photos" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" multiple>
+      <small data-i18n="photoHelp">Up to 10 JPG, PNG, WebP or HEIC images · 8 MB each.</small>
+     </label>
+     <label class="field full"><span data-i18n="assetsShort">Or share a Drive link to your photos/logo (optional)</span><input name="brand_assets_url" type="url" maxlength="450" data-placeholder="assetsPlace"></label>
+     <div class="field full ai-photo-request" id="ai-photo-request">
+ <label class="ai-photo-choice" for="ai-photo-optin">
+  <input type="checkbox" id="ai-photo-optin" name="ai_photo_request" value="yes">
+  <span><strong data-i18n="aiPhotoQuestion">Want more polished product photos with AI?</strong><small data-i18n="aiPhotoHint">Optional: tell us if you want professional-looking product or service imagery for your new website.</small></span>
+ </label>
+ <a id="ai-photo-gallery-link" class="ai-photo-gallery-link" href="/demos/photo-gallery/?lang=en" target="_blank" rel="noopener noreferrer"><span data-i18n="aiPhotoBrowse">Browse our AI photo inspiration library</span><span aria-hidden="true">↗</span></a>
+ <div id="ai-photo-details" class="ai-photo-details" hidden>
+  <label class="field"><span data-i18n="aiPhotoGoal">What should we improve?</span>
+   <select name="ai_photo_goal" id="ai-photo-goal">
+    <option value="enhance_existing" data-i18n="aiPhotoExisting">Improve my existing product photos</option>
+    <option value="studio_background" data-i18n="aiPhotoBackdrop">Clean backgrounds and studio-style photos</option>
+    <option value="editorial_campaign" data-i18n="aiPhotoCampaign">Create editorial product campaign concepts</option>
+   </select>
+  </label>
+  <label class="field"><span data-i18n="aiPhotoReference">Example code from the gallery (optional)</span>
+   <input type="text" name="ai_photo_reference" id="ai-photo-reference" maxlength="80" placeholder="e.g., FD-01" autocomplete="off">
+  </label>
+  <p class="ai-photo-disclaimer" data-i18n="aiPhotoReview">This is a request for review, not automatic image generation. We will confirm the photo scope before creating anything. Please provide an original product photo using the upload or Drive link above.</p>
+ </div>
+</div>
+      <label class="consent field full"><input type="checkbox" name="ai_agent_interest" value="yes"><span data-i18n="agentInterest">Optional: I'd like a separate quote for an AI agent. Not included in this purchase.</span></label>
+     <div id="advanced-fields" class="full advanced-intake" hidden>
+      <span class="intake-extra-heading" data-i18n="advancedTitle">Email workflows for your business</span>
+      <label class="field"><span data-i18n="automationChoice">What email workflow matters most?</span>
+       <select name="automation_workflow" id="automation-workflow">
+        <option value="inquiry_alerts" data-i18n="autoAlerts">New inquiry alerts</option>
+        <option value="approved_confirmation" data-i18n="autoConfirm">Confirmation after approval</option>
+        <option value="appointment_reminder" data-i18n="autoReminder">Appointment / reservation reminder</option>
+        <option value="quote_followup" data-i18n="autoFollowup">Quote follow-up</option>
+       </select>
+       <small data-i18n="automationReview">We'll review the workflow before activation. Email only; no SMS.</small>
+      </label>
+      
+     </div>
+     <details class="intake-optional full">
+      <summary data-i18n="optionalDetails">Optional details · style, social links and extra references</summary>
+      <div class="fields">
+       <label class="field full"><span data-i18n="goalsShort">What makes your business special? (optional)</span><textarea id="goals" name="goals" maxlength="500" rows="2" data-placeholder="goalsPlace"></textarea></label>
+       <label class="field full"><span data-i18n="brand">Brand colors or style (optional)</span><textarea name="brand_notes" maxlength="450" rows="2"></textarea></label>
+       <label class="field full"><span data-i18n="social">Social links (optional)</span><input name="social_links" type="text" maxlength="280"></label>
+       
+       <label class="field full"><span data-i18n="references">Websites you like (optional)</span><textarea name="reference_sites" maxlength="400" rows="2"></textarea></label>
+       <label class="field full upload-field"><span data-i18n="referencePhotos">Extra inspiration images (optional)</span><input name="reference_photos" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" multiple></label>
+       <div class="full call-option">
+        <label class="consent"><input type="checkbox" name="request_call" value="yes"><span data-i18n="requestCall">I would like to request a 1:1 review call (optional).</span></label>
+        <label class="field"><span data-i18n="callTime">Preferred day/time and time zone (optional)</span><input name="call_time" maxlength="250" type="text" data-placeholder="callTimeHint"></label>
+        <small data-i18n="callNote">Calls are coordinated by email. Any fee is confirmed before scheduling.</small>
+       </div>
+      </div>
+     </details>
+     <p id="upload-status" class="upload-status full" role="status" aria-live="polite"></p>
+    </div>
+   </fieldset>
+   <div class="divider"></div>
+   <label class="consent"><input type="checkbox" name="consent" value="yes" required>
+    <span><span data-i18n="consent">I confirm I have permission to use the business information and have read the</span>
+     <a href="/privacy.html" id="privacy" target="_blank" rel="noopener noreferrer" data-i18n="privacy">Privacy Policy</a>.</span>
+   </label>
+   <button class="cta" type="submit" id="send" data-i18n="send">Submit setup details</button>
+   <p id="feedback" role="alert" hidden></p>
+   <p class="secondary-note" data-i18n="security">No passwords, card details or verification codes.</p>
+  </form>
+  <div class="success" id="complete" hidden role="status">
+   <h2 id="complete-title">Your setup details are in!</h2>
+   <p id="complete-message"></p>
+   <a href="/website-for-your-business/" data-i18n="again">Back to packages</a>
+  </div>
+ </section>
+</main><footer>Powered by The Launch Era</footer>
+<dialog id="photo-picker-dialog" class="tle-photo-picker" aria-labelledby="photo-picker-heading" aria-describedby="photo-picker-description">
+ <div class="tle-photo-picker-topbar">
+  <div><span class="tle-photo-picker-eyebrow">THE LAUNCH ERA · PHOTO COLLECTION</span><h2 id="photo-picker-heading" data-i18n="photoPickerTitle">Choose a photo style</h2><p id="photo-picker-description" data-i18n="photoPickerHelp">Your website setup stays on this page. Pick a photo or close to keep editing.</p></div>
+  <button type="button" id="photo-picker-close" class="tle-photo-picker-close" aria-label="Close photo gallery">× <span data-i18n="photoPickerClose">Close</span></button>
+ </div>
+ <iframe id="photo-picker-frame" title="The Launch Era photo inspiration gallery" src="about:blank" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+</dialog>
+</body></html>
