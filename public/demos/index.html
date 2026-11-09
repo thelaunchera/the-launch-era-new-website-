@@ -311,6 +311,15 @@ html[data-tle-demo-status="pending"] #empty-message,
 html[data-tle-demo-status="pending"] .photo-inspiration-images {
  visibility:hidden!important;pointer-events:none!important;
 }
+</style><style>
+/* Live hero previews reuse the approved brand clips and their real first-frame posters. */
+.demo-art{isolation:isolate}
+.demo-art>video.tle-demo-hero-preview{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:center;opacity:0;pointer-events:none;z-index:0;transition:opacity .24s ease}
+.demo-art>video.tle-demo-hero-preview.is-playing{opacity:1}
+.demo-card[data-brand="golden-grid"] .demo-art>video.tle-demo-hero-preview,
+.demo-card[data-brand="golden-grid"] .demo-art>img{object-fit:contain}
+@media(min-width:521px) and (max-width:1399px){.demo-card[data-brand="golden-grid"] .demo-art>video.tle-demo-hero-preview{display:none!important}}
+@media(prefers-reduced-motion:reduce){.demo-art>video.tle-demo-hero-preview{display:none!important;transition:none}}
 </style></head>
 <body class="tle-depth-gallery">
 <header><a class="wordmark" href="/" aria-label="The Launch Era home">THE LAUNCH ERA<span>WEBSITES · DIGITAL EXPERIENCES</span></a><div class="header-right"><span class="header-note">A collection of independent worlds / 2026</span><a class="header-link" href="#collection">Explore projects</a></div></header>
@@ -556,6 +565,74 @@ function initGalleryMotion(){
  schedule();
 }
 initGalleryMotion();
+
+/* Brand-specific motion cover only when the matching card is visible.
+   No uploads, carousel rewrites, iframe autoplay, or changes to visibility controls. */
+function initHeroCardMotion(){
+ const assets={
+  'golden-grid':{video:'/demos/golden-grid/media/hero-approved-canva-20261108.mp4',poster:'/demos/golden-grid/media/hero-approved-canva-20261108-firstframe.webp',tabletStatic:true},
+  'marea-wigs-miami':{video:'/demos/marea-wigs-miami/media/hero-motion-20261108.mp4',poster:'/demos/marea-wigs-miami/media/hero-motion-poster-hq.webp'},
+  'havana-19':{video:'/demos/havana-19/media/hero-motion-20261108.mp4',poster:'/demos/havana-19/media/hero-motion-poster-hq.webp'},
+  'ivory-and-bloom':{video:'/demos/ivory-and-bloom/media/hero-motion-20261108.mp4',poster:'/demos/ivory-and-bloom/media/hero-motion-poster-hq.webp'},
+  'aftr':{video:'/demos/aftr/media/hero-motion-20261108.mp4',poster:'/demos/aftr/media/hero-motion-poster-hq.webp'},
+  'casa-brownie':{video:'/demos/casa-brownie/media/hero-motion-20261108.mp4',poster:'/demos/casa-brownie/media/hero-motion-poster-hq.webp'},
+  'lavender-edit':{video:'/demos/lavender-edit/media/hero-motion-20261108.mp4',poster:'/demos/lavender-edit/media/hero-motion-poster-hq.webp'},
+  'wok-social':{video:'https://thelaunchera.github.io/demo-booking-landing-/wok-social/media/hero-motion-20261108.mp4',poster:'https://thelaunchera.github.io/demo-booking-landing-/wok-social/media/hero-motion-poster-hq.webp'},
+  'seasonal-brew':{video:'https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/media/hero-motion-20261108.mp4',poster:'https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/media/hero-motion-poster-hq.webp'},
+  'soluna-yoga':{video:'https://thelaunchera.github.io/demo-booking-landing-/soluna-yoga/media/hero-motion-20261108.mp4',poster:'https://thelaunchera.github.io/demo-booking-landing-/soluna-yoga/media/hero-motion-poster-hq.webp'},
+  'yummm':{video:'https://thelaunchera.github.io/demo-booking-landing-/yummm/media/hero-motion-20261108.mp4',poster:'https://thelaunchera.github.io/demo-booking-landing-/yummm/media/hero-motion-poster-hq.webp'}
+ };
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+ const tablet=matchMedia('(min-width: 521px) and (max-width: 1399px)');
+ const saveData=!!navigator.connection?.saveData;
+ const items=[];
+ const io=typeof IntersectionObserver==='function'?new IntersectionObserver(entries=>{
+  for(const e of entries){const item=items.find(x=>x.card===e.target);if(item){item.visible=e.isIntersecting;item.update();}}
+ },{rootMargin:'100px',threshold:.08}):null;
+ for(const card of document.querySelectorAll('.demo-card[data-brand]')){
+  const source=assets[card.dataset.brand];
+  if(!source)continue; // CRUMB, SOVA's approved still, and brands without an approved motion stay static.
+  const art=card.querySelector('.demo-art'),photo=art?.querySelector('img');
+  if(!art||!photo||art.querySelector('video.tle-demo-hero-preview'))continue;
+  const oldPhoto=photo.getAttribute('src');
+  if(source.poster&&oldPhoto){
+   photo.addEventListener('error',()=>{if(photo.getAttribute('src')!==oldPhoto)photo.src=oldPhoto;},{once:true});
+   photo.src=source.poster;
+  }
+  const movie=document.createElement('video');
+  movie.className='tle-demo-hero-preview';
+  movie.setAttribute('aria-hidden','true');
+  movie.tabIndex=-1;
+  movie.muted=true;movie.defaultMuted=true;movie.loop=true;movie.playsInline=true;
+  movie.setAttribute('muted','');movie.setAttribute('playsinline','');movie.setAttribute('loop','');
+  movie.controls=false;movie.preload='none';movie.disablePictureInPicture=true;
+  movie.poster=source.poster||oldPhoto||'';
+  art.insertBefore(movie,art.querySelector('.demo-index'));
+  const item={card,source,movie,visible:false,failed:false,update:null};
+  const permitted=()=>!reduced.matches&&!saveData&&(!source.tabletStatic||!tablet.matches);
+  item.update=()=>{
+   if(!item.visible||document.hidden||!permitted()||item.failed){
+    movie.pause();movie.classList.remove('is-playing');return;
+   }
+   if(!movie.getAttribute('src')){movie.src=source.video;movie.load();}
+   const play=movie.play();
+   if(play&&typeof play.catch==='function')play.catch(()=>movie.classList.remove('is-playing'));
+  };
+  movie.addEventListener('playing',()=>{
+   const show=()=>{if(item.visible&&!document.hidden&&permitted())movie.classList.add('is-playing');};
+   if(typeof movie.requestVideoFrameCallback==='function')movie.requestVideoFrameCallback(show);
+   else requestAnimationFrame(()=>requestAnimationFrame(show));
+  });
+  movie.addEventListener('error',()=>{item.failed=true;movie.pause();movie.removeAttribute('src');movie.classList.remove('is-playing');});
+  items.push(item);
+  if(io)io.observe(card);else{item.visible=true;item.update();}
+ }
+ const updateAll=()=>items.forEach(item=>item.update());
+ document.addEventListener('visibilitychange',updateAll);
+ reduced.addEventListener?.('change',updateAll);
+ tablet.addEventListener?.('change',updateAll);
+}
+initHeroCardMotion();
 window.TLELocale?.init("library");
 const portfolio=window.TLEWebsiteDemoVisibility;
 const hero=document.querySelector('.hero-photo img');
