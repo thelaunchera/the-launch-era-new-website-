@@ -7,6 +7,17 @@ const photos={
 };
 const css=readFileSync('public/assets/tle-website-official.css','utf8');
 const galleryCss=readFileSync('public/assets/tle-gallery-hero-20261107.css','utf8');
+
+const heroMedia=readFileSync('public/assets/tle-offer-gallery-hero-media-20261108.js','utf8');
+const demoLibrary=readFileSync('public/demos/index.html','utf8');
+const cleaningVideo='/experience-cleaning/media/cleaning-hero-20261108.mp4';
+const cleaningPoster='/experience-cleaning/media/cleaning-hero-poster-20261108.jpg';
+assert.ok(existsSync('public'+cleaningVideo)&&existsSync('public'+cleaningPoster),'Approved cleaning video and matching poster must exist');
+assert.ok(heroMedia.includes("'experience-cleaning':['"+cleaningVideo+"','"+cleaningPoster+"']"),'Website offers must reuse the Cleaning demo hero, not a static substitute');
+assert.ok(demoLibrary.includes("'experience-cleaning':{video:'"+cleaningVideo+"',poster:'"+cleaningPoster+"'}"),'Public demos must show the same cleaning hero');
+assert.match(demoLibrary,/data-brand="experience-cleaning"/,'Cleaning demo card must remain available');
+assert.ok(galleryCss.includes('data-demo="experience-cleaning"')&&galleryCss.includes('object-fit:contain!important'),'Cleaning portrait cover must not crop in offers');
+
 assert.ok(galleryCss.includes('prefers-reduced-motion'),'reduced-motion gallery fallback');
 assert.ok(galleryCss.includes('scroll-snap-type:x proximity'),'touch gallery must not trap vertical page scrolling');
 assert.match(galleryCss,/width:max-content;\s*min-width:100%;\s*justify-content:flex-start/,'tablet rail must start with the first real project rather than center clipped overflow');
