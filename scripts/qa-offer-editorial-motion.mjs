@@ -35,7 +35,7 @@ for(const [lang,path] of pages){
  assert.equal((html.match(/class="step"/g)||[]).length,4,'Four genuine service steps');
  assert.match(html,/id="owner-experience"/,'Interactive showcase preserved');
  assert.ok(html.includes('$15')&&html.includes('$25')&&html.includes('$10'),'Current $15/$25 one-time website offers and separately priced $10 agent stay visible');
- assert.ok(html.includes(lang==='en'?'OPTIONAL AI AGENT':'AGENTE IA OPCIONAL'),'Optional AI agent must be identified as a separate service');
+ assert.ok(html.includes('class="website-agent-addon"')&&html.includes('+$10'),'Optional AI agent must appear in its own priced add-on');
  assert.doesNotMatch(html,/offer=website-ai-crm/,'Retired bundled AI subscription must not return to public checkout');
  assert.match(html,/href="\/website-checkout\/\?offer=website-basic&lang=/);
  assert.match(html,/href="\/website-checkout\/\?offer=website-plus&lang=/);
@@ -56,9 +56,9 @@ const messageContract={
   pain:'BUILD NEW. IMPROVE WHAT YOU HAVE.',
   system:'private Command Center',
   cta:'See My Options',
-  owner:'A clearer view for you.',
+  owner:'Easier for you.',
   demo:'Try an Interactive Demo',
-  choice:'Start with what you need.',
+  choice:'New or refreshed.',
   launch:'We build your system.'
  },
  es:{
@@ -67,9 +67,9 @@ const messageContract={
   pain:'CREA UNO NUEVO O MEJORA EL QUE YA TIENES.',
   system:'Command Center privado',
   cta:'Ver mis opciones',
-  owner:'Más claridad para ti.',
+  owner:'Fácil para ti.',
   demo:'Probar un demo interactivo',
-  choice:'Empieza con lo que necesitas.',
+  choice:'¿Nuevo o renovado?',
   launch:'Nosotros creamos el sistema.'
  }
 };
