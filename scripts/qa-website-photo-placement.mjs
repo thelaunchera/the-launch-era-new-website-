@@ -40,7 +40,8 @@ for(const [language,html] of [['en',en],['es',es]]){
   'experience-cleaning':'/assets/cleaning-demo/hero-cleaner-original.jpg',
   'yummm':'https://thelaunchera.github.io/demo-booking-landing-/yummm/media/hero-motion-poster-hq.webp',
   'wok-social':'https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/hero-storefront.webp',
-  'freska':'/demos/freska/media/hero-pink-pop.webp'
+  'freska':'/demos/freska/media/hero-pink-pop.webp',
+  'nail-room':'https://thelaunchera.github.io/demo-booking-landing-/nail-room/media/pink-ombre-hero.png'
  };
  for(const [slug,image] of Object.entries(galleryPhotoMap)){
   assert(hero.includes('data-demo="'+slug+'"'),language+': missing distinct demo '+slug);
