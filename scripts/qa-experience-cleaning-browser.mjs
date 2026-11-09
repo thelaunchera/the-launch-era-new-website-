@@ -64,6 +64,13 @@ try{
   await page.screenshot({path:'qa-screenshots/experience-cleaning-team-'+lang+'-'+width+'.png',fullPage:false});
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3),true,'New sections must not overflow '+lang+' '+width);
     await page.locator('#experience').scrollIntoViewIfNeeded();
+  const bookingPhotosReady=await page.locator('#service-grid .service-card img').evaluateAll(imgs=>Promise.all(imgs.map(img=>new Promise(resolve=>{
+    if(img.complete){resolve(img.naturalWidth>0);return;}
+    const timer=setTimeout(()=>resolve(false),7000);
+    img.addEventListener('load',()=>{clearTimeout(timer);resolve(img.naturalWidth>0);},{once:true});
+    img.addEventListener('error',()=>{clearTimeout(timer);resolve(false);},{once:true});
+  }))));
+  assert(bookingPhotosReady.every(Boolean),'All four local service photos must load, not leave a blank card');
   await page.screenshot({path:'qa-screenshots/experience-cleaning-booking-'+lang+'-'+width+'.png',fullPage:false});
   await page.locator('[data-service="deep"]').click();
   assert.equal(await page.locator('#r-price').innerText(),'$187');
