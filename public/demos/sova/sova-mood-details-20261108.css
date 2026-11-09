@@ -1,0 +1,58 @@
+/* SOVA / The Listening Edit: responsive editorial story dialog. */
+dialog.sova-mood-dialog {
+  position:fixed; inset:0; margin:auto; padding:0; border:0;
+  width:min(94vw,1020px); max-width:1020px; max-height:min(88vh,860px);
+  max-height:min(88dvh,860px); overflow:auto; overscroll-behavior:contain;
+  border-radius:20px; background:#fcfdff; color:#15396e;
+  box-shadow:0 24px 90px rgba(7,31,73,.27);
+  font-family:'DM Sans',Arial,sans-serif;
+}
+dialog.sova-mood-dialog::backdrop {background:rgba(4,18,42,.72);backdrop-filter:blur(7px)}
+.sova-mood-dialog .sova-mood-layout {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:570px}
+.sova-mood-dialog .sova-mood-visual {position:relative;min-width:0;overflow:hidden;background:#ecf3fd}
+.sova-mood-dialog .sova-mood-photo {position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;object-position:center}
+.sova-mood-dialog .sova-mood-word {position:absolute;top:8%;left:5%;right:5%;font:400 clamp(62px,8.3vw,125px)/.95 Anton,Impact,sans-serif;color:rgba(26,53,93,.18);letter-spacing:-.045em;text-align:center;pointer-events:none}
+.sova-mood-dialog .sova-mood-x {position:absolute;top:16px;left:16px;display:flex;align-items:center;justify-content:center;width:43px;height:43px;padding:0;border:1px solid rgba(15,42,84,.15);border-radius:50%;background:rgba(255,255,255,.93);color:#143c7d;font:400 32px/1 Arial,sans-serif;cursor:pointer;z-index:2}
+.sova-mood-dialog .sova-mood-x:hover {background:#fff}
+.sova-mood-dialog .sova-mood-body {display:flex;flex-direction:column;align-items:flex-start;min-width:0;padding:clamp(28px,4.1vw,56px) clamp(25px,4.5vw,56px) 26px}
+.sova-mood-dialog .sova-mood-top {display:flex;flex-direction:column;gap:11px;margin-bottom:26px}
+.sova-mood-dialog .sova-mood-kicker,.sova-mood-dialog .sova-mood-index {margin:0;font:700 10px/1.5 'DM Sans',sans-serif;letter-spacing:.14em}
+.sova-mood-dialog .sova-mood-kicker {color:#1754b4}
+.sova-mood-dialog .sova-mood-index {color:#818da3}
+.sova-mood-dialog #sova-mood-heading {margin:0 0 22px;color:#0b367e;font:400 clamp(38px,4vw,60px)/1.04 Anton,Impact,sans-serif;letter-spacing:-.025em;text-wrap:balance}
+.sova-mood-dialog #sova-mood-description {margin:0;color:#4b5e7a;font:400 clamp(14px,1.35vw,16px)/1.8 'DM Sans',sans-serif}
+.sova-mood-dialog .sova-mood-occasion {width:100%;margin:29px 0 18px;padding:18px 0 0;border-top:1px solid #dce5f3}
+.sova-mood-dialog .sova-mood-occasion strong {display:block;margin-bottom:8px;color:#0b4cad;font:700 10px/1.4 'DM Sans',sans-serif;letter-spacing:.17em}
+.sova-mood-dialog .sova-mood-occasion p {margin:0;color:#52647e;font:500 13px/1.7 'DM Sans',sans-serif}
+.sova-mood-dialog .sova-mood-tags {display:flex;gap:7px;flex-wrap:wrap;margin-bottom:28px}
+.sova-mood-dialog .sova-mood-tags span {display:inline-block;padding:7px 10px;border:1px solid #d6e2f5;border-radius:50px;background:#f2f7ff;color:#2155a3;font:700 9px/1.2 'DM Sans',sans-serif;letter-spacing:.08em}
+.sova-mood-dialog .sova-mood-buttons {display:flex;flex-wrap:wrap;gap:10px;width:100%;margin-top:auto;padding-top:13px}
+.sova-mood-dialog .sova-mood-buttons button {appearance:none;min-height:44px;padding:11px 17px;border-radius:999px;font:700 12px/1.3 'DM Sans',sans-serif;cursor:pointer;transition:background-color .2s,color .2s}
+.sova-mood-dialog .sova-mood-back {background:transparent;color:#0d418f;border:1px solid #b9cbea}
+.sova-mood-dialog .sova-mood-next {background:#1051c5;color:#fff;border:1px solid #1051c5}
+.sova-mood-dialog .sova-mood-back:hover {background:#eaf2ff}
+.sova-mood-dialog .sova-mood-next:hover {background:#083c99}
+.sova-mood-dialog .sova-mood-credit {display:block;margin-top:23px;color:#8794a8;font:600 10px/1.4 'DM Sans',sans-serif;letter-spacing:.04em}
+.sova-mood-dialog button:focus-visible {outline:3px solid #f2d85b;outline-offset:3px}
+@media (max-width:760px) {
+  dialog.sova-mood-dialog {width:calc(100vw - 20px);max-height:calc(100dvh - 24px);border-radius:16px}
+  .sova-mood-dialog .sova-mood-layout {display:block;min-height:0}
+  .sova-mood-dialog .sova-mood-visual {height:clamp(220px,34dvh,330px)}
+  .sova-mood-dialog .sova-mood-photo {object-position:center 28%}
+  .sova-mood-dialog .sova-mood-word {font-size:clamp(66px,20vw,108px)}
+  .sova-mood-dialog .sova-mood-x {top:12px;left:auto;right:12px;width:42px;height:42px}
+  .sova-mood-dialog .sova-mood-body {padding:24px 22px 22px}
+  .sova-mood-dialog .sova-mood-top {gap:7px;margin-bottom:15px}
+  .sova-mood-dialog #sova-mood-heading {font-size:clamp(37px,10vw,51px);margin-bottom:13px}
+  .sova-mood-dialog #sova-mood-description {font-size:14px;line-height:1.7}
+  .sova-mood-dialog .sova-mood-occasion {margin:20px 0 13px;padding-top:14px}
+  .sova-mood-dialog .sova-mood-tags {margin-bottom:13px}
+  .sova-mood-dialog .sova-mood-credit {margin-top:20px}
+}
+@media (max-width:380px) {
+  .sova-mood-dialog .sova-mood-body {padding:20px 17px}
+  .sova-mood-dialog .sova-mood-buttons button {flex:1;white-space:nowrap;padding-inline:9px}
+}
+@media (prefers-reduced-motion:reduce) {
+  .sova-mood-dialog .sova-mood-buttons button {transition:none}
+}
