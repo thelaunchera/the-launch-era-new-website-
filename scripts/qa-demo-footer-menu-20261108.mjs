@@ -26,6 +26,27 @@ try{
     await page.locator('#ageYes').click();
     assert.equal(await gate.isVisible(),false,'Age gate must close after adult confirmation');
    }
+   // La Vie's restored boutique café intentionally uses its own single branded footer,
+   // not the legacy extra finale stage. Check the actual current contract.
+   if(slug==='la-vie-in-pink'){
+    const brandFooter=page.locator('footer.footer');
+    await brandFooter.waitFor({state:'visible',timeout:12000});
+    assert.equal(await brandFooter.count(),1,'La Vie must retain one branded footer');
+    assert.equal(await page.locator('.tle-footer-finale[data-tle-owned="true"]').count(),0,
+      'La Vie must not get the extra legacy footer stage');
+    await brandFooter.locator('#tle-global-legal-nav').waitFor({state:'visible',timeout:12000});
+    assert.equal(await page.locator('#tle-global-legal-nav').count(),1,
+      'La Vie must display legal links once, inside the branded footer');
+    for(const section of ['#menu','#pink-gallery','#moments','#experience']){
+     assert.equal(await page.locator(section).count(),1,'La Vie missing restored '+section);
+    }
+    await brandFooter.locator('a[href="#menu"]').first().click();
+    assert.equal(new URL(page.url()).hash,'#menu','La Vie footer menu link works');
+    assert.deepEqual(problems,[],'La Vie JS errors: '+problems.join(' | '));
+    console.log('BRANDED FOOTER + RESTORED SECTIONS PASS',slug,width);
+    await page.close();
+    continue;
+   }
    const finale=page.locator('.tle-footer-finale[data-tle-owned="true"]');
    await finale.waitFor({state:'visible',timeout:12000});
    assert.equal(await finale.count(),1,slug+' must have one interactive footer stage');
