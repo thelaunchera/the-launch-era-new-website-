@@ -10,6 +10,11 @@ const lang=()=>document.documentElement.lang==='es'?'es':'en';
 const copy={
 en:{
  fewQuestions:'Just the essentials. We will handle the rest during your website build.',
+ projectTypeLabel:'What do you need? *',projectTypeNew:'A new website',projectTypeImprove:'Improve my existing website',
+ existingWebsiteRequired:'Current website link *',platformLabel:'What platform do you use?',platformUnsure:"I'm not sure",platformOther:'Other platform',
+ requestedChangesLabel:'What would you like to change? *',requestedChangesExample:'Update photos, redesign sections, improve mobile layout or make contact requests easier.',
+ scopeReview:'We will confirm website compatibility and the changes included before work begins. Please never send passwords or verification codes.',
+ agentInterest:'Optional: Send me a separate AI agent quote. Not included in this purchase.',
  group1:'01 / Your business',group2:'02 / What you sell',group3:'03 / Your photos & style',
  industry:'What kind of business is it? *',chooseIndustry:'Choose your type of business',
  industryRestaurant:'Restaurant',industryCafe:'Café / bakery',industryRetail:'Store / products',
@@ -69,6 +74,11 @@ en:{
 },
 es:{
  fewQuestions:'Solo lo esencial. El resto lo preparamos al construir tu website.',
+ projectTypeLabel:'¿Qué necesitas? *',projectTypeNew:'Un website nuevo',projectTypeImprove:'Mejorar mi website actual',
+ existingWebsiteRequired:'Enlace de tu website actual *',platformLabel:'¿En qué plataforma está tu website?',platformUnsure:'No estoy segura/o',platformOther:'Otra plataforma',
+ requestedChangesLabel:'¿Qué te gustaría cambiar? *',requestedChangesExample:'Cambiar fotos, rediseñar secciones, mejorar la versión móvil o facilitar las consultas.',
+ scopeReview:'Confirmaremos la compatibilidad del website y los cambios incluidos antes de empezar. Nunca envíes contraseñas ni códigos de verificación.',
+ agentInterest:'Opcional: Quiero una cotización separada para un agente IA. No está incluido en esta compra.',
  group1:'01 / Tu negocio',group2:'02 / Qué vendes',group3:'03 / Tus fotos y estilo',
  industry:'¿Qué tipo de negocio tienes? *',chooseIndustry:'Selecciona tu negocio',
  industryRestaurant:'Restaurante',industryCafe:'Cafetería / panadería',industryRetail:'Tienda / productos',
@@ -149,6 +159,16 @@ function refreshDomain(){
  field('domain_preference').required=domain==='have_domain';
  if(!show)field('domain_preference').value='';
 }
+function refreshProjectType(){
+ const selector=field('website_project_type'),panel=$('existing-project-fields');
+ if(!selector||!panel)return;
+ const improve=selector.value==='improve';
+ panel.hidden=!improve;
+ const url=field('existing_website'),changes=field('requested_changes');
+ if(url)url.required=improve;
+ if(changes)changes.required=improve;
+ if(!improve){if(url)url.value='';if(changes)changes.value='';}
+}
 function refreshIndustry(){
  const kind=field('industry').value;
  const other=kind==='other';
@@ -171,19 +191,21 @@ function refreshIndustry(){
 function translateBrief(){
  const words=copy[lang()];
  form.querySelectorAll('[data-i18n]').forEach(node=>{
-  const content=words[node.dataset.i18n];
+  let content=words[node.dataset.i18n];
+  if(document.body.dataset.package==='website-plus'&&node.dataset.i18n==='advancedTitle')content=lang()==='es'?'Opciones de correo para tu negocio':'Email workflows for your business';
   if(content!==undefined)node.textContent=content;
  });
  const pickerCopy=$('photo-picker-dialog');
  if(pickerCopy)pickerCopy.querySelectorAll('[data-i18n]').forEach(node=>{
-  const content=words[node.dataset.i18n];
+  let content=words[node.dataset.i18n];
+  if(document.body.dataset.package==='website-plus'&&node.dataset.i18n==='advancedTitle')content=lang()==='es'?'Opciones de correo para tu negocio':'Email workflows for your business';
   if(content!==undefined)node.textContent=content;
  });
   form.querySelectorAll('[data-placeholder]').forEach(node=>{
   const content=words[node.dataset.placeholder];
   if(content!==undefined)node.placeholder=content;
  });
- refreshIndustry();refreshDomain();updatePhotoChoice();
+ refreshProjectType();refreshIndustry();refreshDomain();updatePhotoChoice();
 }
 let inboxTouched=false,lastEmail='';
 const buyer=field('email'),inbox=field('preferred_email');
@@ -193,6 +215,7 @@ buyer.addEventListener('input',()=>{
  lastEmail=next;
 });
 inbox.addEventListener('input',()=>{inboxTouched=true});
+field('website_project_type')?.addEventListener('change',refreshProjectType);
 field('industry').addEventListener('change',refreshIndustry);
 field('other_format').addEventListener('change',refreshIndustry);
 field('menu_pdf_url').addEventListener('input',refreshOffers);
@@ -272,7 +295,7 @@ form.addEventListener('submit',()=>{
  const list=field('services').value.trim(),menu=field('menu_pdf_url').value.trim();
  const goal=field('goals');
  if(!goal.value.trim()){
-  goal.value=('Create a '+$('website-format').value+' website for '+field('business_name').value.trim()+
+  goal.value=((field('website_project_type')?.value==='improve'?'Improve the existing ':'Create a new ')+$('website-format').value+' website for '+field('business_name').value.trim()+
    '. Business type: '+field('industry').value+extra+
    '. Main visitor action: '+field('customer_action').value+
    '. '+(list?'Items and prices supplied.':'Items and prices supplied by linked menu or product list.')+
@@ -281,7 +304,7 @@ form.addEventListener('submit',()=>{
  if(!form.elements.namedItem('automation_goals')){
   const newInput=document.createElement('input');newInput.type='hidden';newInput.name='automation_goals';form.appendChild(newInput);
  }
- field('automation_goals').value=document.body.dataset.package==='website-ai-crm'?'Preferred email workflow (not active until approved): '+field('automation_workflow').value:'';
+ field('automation_goals').value=['website-ai-crm','website-plus'].includes(document.body.dataset.package)?'Preferred email workflow (not active until approved): '+field('automation_workflow').value:'';
 },true);
 translateBrief();
 })();
