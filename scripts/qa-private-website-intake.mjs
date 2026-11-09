@@ -3,6 +3,7 @@ import {readFileSync,existsSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 const cases=[
  ['website','website-basic'],
+ ['website-plus','website-plus'],
  ['website-ai-crm','website-ai-crm']
 ];
 const script=readFileSync('public/assets/tle-website-intake.js','utf8');
@@ -34,7 +35,12 @@ for(const [slug,pkg] of cases){
  assert.match(html,/name="reference_photos"/,'uploads inspiration images');
  assert.match(html,/name="domain_option"/,'supports clients without a domain');
  assert.match(html,/name="request_call"/,'optional 1:1 request');
- assert.match(html,/name="ai_photo_request"/,'photo enhancement request visible in both offers');
+ assert.match(html,/name="ai_photo_request"/,'photo enhancement request visible in all offers');
+ if(pkg!=='website-ai-crm'){
+  assert.match(html,/name="website_project_type"/,'current packages must ask new or improve');
+  assert.match(html,/name="existing_website"/,'existing site URL must be supported');
+  assert.match(html,/name="ai_agent_interest"/,'AI agent must be optional and quoted separately');
+ }
  assert.match(html,/demos\/photo-gallery/,'buyers can browse actual examples');
  assert.match(html,/id="photo-picker-dialog"/,'photo catalog must open in an intake overlay');
  assert.match(html,/id="photo-picker-close"/,'buyer must be able to close gallery back to their own form');
