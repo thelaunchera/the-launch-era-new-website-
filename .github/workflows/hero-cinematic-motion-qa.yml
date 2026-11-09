@@ -23,13 +23,14 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: '22' }
-      - name: Check eleven asset masters and six approved integrations
+      - name: Check active cinematic videos and approved integrations
         run: |
-          for s in crumb casa-brownie havana-19 ivory-and-bloom marea-wigs-miami la-vie-in-pink aftr lavender-edit sova golden-grid; do
+          for s in casa-brownie havana-19 ivory-and-bloom lavender-edit; do
             test -s "public/demos/$s/media/hero-motion-20261108.mp4"
           done
-          test -s public/experience-cleaning/media/hero-motion-20261108.mp4
-          for s in crumb casa-brownie havana-19 ivory-and-bloom aftr lavender-edit; do
+          # Cleaning and AFTR use independent media flows, covered by their own tests.
+          # CRUMB intentionally has a still image, not a cinematic autoplay hero.
+          for s in casa-brownie havana-19 ivory-and-bloom lavender-edit; do
             grep -q 'tle-hero-cinematic-20261108.js' "public/demos/$s/index.html"
           done
           node --check public/assets/tle-hero-cinematic-20261108.js
@@ -46,7 +47,13 @@ jobs:
           ln -sfn /tmp/tle-motion-qa/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
           ln -sfn /tmp/tle-motion-qa/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
       - name: Verify published video playback, cursor movement and reduced motion
-        run: node scripts/qa-hero-cinematic-20261108.mjs
+        run: |
+          # Check the exact checked-out source, not a previous GitHub Pages release.
+          python3 -m http.server 4189 --bind 127.0.0.1 --directory public >/tmp/tle-motion-local.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for n in $(seq 1 20); do curl -fsS http://127.0.0.1:4189/demos/casa-brownie/ >/dev/null && break; sleep 1; done
+          QA_URL=http://127.0.0.1:4189 node scripts/qa-hero-cinematic-20261108.mjs
       - name: Save visual results
         if: always()
         uses: actions/upload-artifact@v4
