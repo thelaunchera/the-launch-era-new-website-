@@ -227,6 +227,7 @@ body[data-tle-experience="cleaning"] .offer .button{border-radius:999px}
  body[data-tle-experience="cleaning"] .mini-receipt-head h3{font-size:29px}
 }
 @media(prefers-reduced-motion:reduce){
+ body[data-tle-experience="cleaning"] .hero.hero-cleaning-site .hero-full-photo{animation:none!important;transform:none!important}
  body[data-tle-experience="cleaning"] :is(.service-card,.service-card img,.booking-progress-line span,.booking-visual img,.hero-main-action,.hero-nav-cta){transition:none!important;animation:none!important}
  body[data-tle-experience="cleaning"] :is(.service-card:hover,.service-card:hover img,.booking-visual:hover img){transform:none!important}
 }
