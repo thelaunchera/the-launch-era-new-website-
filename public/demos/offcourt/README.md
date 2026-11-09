@@ -1,5 +1,5 @@
 # OFFCOURT. — Sneaker Boutique Concept
-Status: **DRAFT · VISUAL APPROVAL PENDING · NOT PUBLISHED TO MAIN**
+Status: **PUBLIC CONCEPT PREVIEW CANDIDATE · VISUAL APPROVAL PENDING**
 Created 2026-11-09 in the official The Launch Era GitHub repository.
 
 ## Why this draft exists
@@ -24,13 +24,13 @@ Photos in `index.html` and `script.js` are external **Unsplash editorial referen
 - Need original hero shoe, six distinct sneaker product images, human editorial shot, product detail alternate views, mobile crops.
 - Do not mix photos from SOVA, AFTR, Golden Grid, Lavender Edit or other demos.
 
-## Required approval and release tasks
+## Required final-brand approval and QA tasks
 1. Owner reviews / approves moodboard, palette, brand name.
 2. Produce original, realistic and individually approved photos; organize photos, prompts and provenance in brand-specific Drive folder.
 3. Approve original transparent logo / wordmark and verify readable small size.
-4. Replace temporary sources with optimized local photos in `assets/` and updated alt text; add favicon, OG card and brand kit.
-5. Run mandated QA and check external media, cart + size selections, no real orders, EN/ES, 320/360/390/768/820/1024/1440 widths; test real iPhone Safari.
-6. Merge, confirm GitHub Pages deployment and live `/demos/offcourt/` route; register only one canonical demo in Studio with verified URLs and asset provenance. Owner decides whether to display it on public gallery or in classroom.
+4. Replace temporary sources with optimized local photos in `assets/` and updated alt text; add favicon, OG card and brand kit. Until then the storefront must be clearly presented as a concept, not a real footwear shop.
+5. Run mandated QA and check external media, cart + size selections, no real orders, EN/ES, 320/360/390/768/820/1024/1440 widths; test real iPhone Safari. Record any incomplete step explicitly.
+6. Publish the isolated preview route `/demos/offcourt/` on main, verify GitHub Pages, and register only one canonical demo in Studio with verified URLs and asset provenance when the final brand assets are approved. Owner decides whether to display it on public gallery or in classroom.
 
 ## Open locally
 Serve `public/` as the site root, for example:
