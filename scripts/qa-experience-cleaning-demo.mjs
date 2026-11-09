@@ -130,7 +130,7 @@ for(const lang of ['en','es']){
  w.eval(js);
  const $=x=>w.document.getElementById(x);
  assert.equal(w.document.documentElement.lang,lang);
- assert.match(w.document.querySelector('#hero-title').textContent,lang==='es'?/Tu casa impecable/:/See how clients book/);
+ assert.match(w.document.querySelector('#hero-title').textContent,lang==='es'?/Tu casa impecable/:/A fresh home starts here/);
  assert.match(w.document.querySelector('#experience-title').textContent,lang==='es'?/Reserva tu limpieza residencial/:/Book residential cleaning/);
  assert.match(w.document.querySelector('#experience-title').textContent,lang==='es'?/estimado comercial/:/commercial estimate/);
  const strip=w.document.querySelectorAll('.intro-band-group');
