@@ -16,7 +16,7 @@ try{
   });
   const page=await context.newPage();
   // Selection is an external read-only service. QA must explicitly expose
-  // all twelve original demo photo fixtures rather than accidentally failing when
+  // all thirteen approved demo photo fixtures rather than accidentally failing when
   // the service is unavailable and the public page correctly hides the rail.
   await page.route('**/tle_website_demo_visibility?**',route=>route.fulfill({
    status:200,contentType:'application/json',body:'[]'
@@ -28,8 +28,8 @@ try{
   const gallery=page.locator('section.hero.hero-gallery');
   assert.equal(await gallery.count(),1,'Gallery hero missing: '+language);
   const heroPhotos=gallery.locator('.hero-gallery-card img');
-  assert.equal(await heroPhotos.count(),12,'Expected twelve authentic demo cards: '+language);
-  for(let i=0;i<12;i++){
+  assert.equal(await heroPhotos.count(),13,'Expected thirteen authentic demo cards: '+language);
+  for(let i=0;i<13;i++){
    const demo=heroPhotos.nth(i);
    await demo.scrollIntoViewIfNeeded();
    await demo.evaluate(async img=>{ if(!img.complete)await new Promise((ok,fail)=>{img.addEventListener('load',ok,{once:true});img.addEventListener('error',fail,{once:true});}); });
@@ -45,7 +45,7 @@ try{
        labelBackground:caption?getComputedStyle(caption).backgroundColor:''
      };
    });
-   const uncropped=['jaramillo-boutique','sova','la-vie-in-pink','experience-cleaning'].includes(presentation.brand);
+   const uncropped=['jaramillo-boutique','sova','la-vie-in-pink','experience-cleaning','sneekiefs','freska'].includes(presentation.brand);
    assert.equal(presentation.fit,uncropped?'contain':'cover','Gallery card '+(i+1)+' must retain approved noncropping where required: '+language);
    assert(presentation.name?.length>1,'Gallery card '+(i+1)+' has no visible project name: '+language);
    assert(presentation.labelBackground !== 'transparent' && presentation.labelBackground !== 'rgba(0, 0, 0, 0)' && presentation.labelBackground !== '',
@@ -101,7 +101,7 @@ try{
     await page.waitForFunction(()=>document.documentElement.dataset.tleDemoStatus==='ready',null,{timeout:12000});
     const stage=page.locator('.hero-gallery-stage');
     const count=await page.locator('.hero-gallery-card:visible').count();
-    assert.equal(count,curated?5:12,'Correct curated gallery count on '+language);
+    assert.equal(count,curated?6:13,'Correct curated gallery count on '+language);
     const left=await stage.evaluate(el=>{
      el.style.scrollBehavior='auto';el.scrollLeft=0;
      const first=el.querySelector('.hero-gallery-card:not([hidden])');
@@ -127,7 +127,7 @@ try{
     const y1=await page.evaluate(()=>window.scrollY);
     assert(y1>y0+50,'Vertical page scroll was trapped over portfolio rail: '+language);
     await page.screenshot({path:'qa-screenshots/website-gallery-'+language+'-tablet-'+(curated?'curated':'full')+'.png',fullPage:false});
-    console.log('PASS',language,curated?'5 curated':'12 projects','iPad rail first/last reachability + vertical scroll');
+    console.log('PASS',language,curated?'6 curated':'13 projects','iPad rail first/last reachability + vertical scroll');
     await context.close();
    }
   }
