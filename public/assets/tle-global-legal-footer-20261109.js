@@ -24,9 +24,12 @@
    const intro=document.createElement('p');intro.className='tle-demo-disclosure';intro.textContent=es?'Concepto de demostración. Los pedidos y reservas de muestra no son transacciones reales.':'Concept demonstration. Sample orders and bookings are not real transactions.';bar.append(intro)
   }
   bar.append(nav);
-  const credit=document.createElement('p');credit.className='tle-legal-powered';
-  const year=String(new Date().getFullYear());const copy=document.createTextNode('© '+year+' The Launch Era · ');
-  const a=document.createElement('a');a.href='https://thelaunchera.com/';a.textContent='Powered by The Launch Era';credit.append(copy,a);bar.append(credit);
+  const existingCredit=footer&&/Powered\s+by\s*(?:<[^>]+>\s*)*The\s+Launch\s+Era/i.test(footer.innerHTML);
+  if(!existingCredit){
+   const credit=document.createElement('p');credit.className='tle-legal-powered';
+   const year=String(new Date().getFullYear());const copy=document.createTextNode('© '+year+' The Launch Era · ');
+   const a=document.createElement('a');a.href='https://thelaunchera.com/';a.textContent='Powered by The Launch Era';credit.append(copy,a);bar.append(credit);
+  }
   host.append(bar);
   if(!document.getElementById('tle-global-legal-footer-style')){const style=document.createElement('style');style.id='tle-global-legal-footer-style';style.textContent=css;document.head.append(style)}
  }
