@@ -1,3 +1,10 @@
+## 2026-11-09 — FRESKA review demo: browser QA not available in execution environment
+- **Request:** create a colorful beverage brand demo from the owner's pink/blue original campaign photography in the official website repo without touching existing demos.
+- **Scope:** `public/demos/freska/` only plus route/incident documentation; `feature/freska-beverage-demo-20261109` review branch. No main-route/gallery, other demos, Studio, checkouts, customer data, backend, email or payment files changed.
+- **Static evidence:** 14 new site/media assets uploaded; nine separate optimized WebP photographs totaling ~500 KiB; all local HTML references exist; six sample products and English/Spanish UI keys verified; `node --check app.js` passed; banned decorative symbols absent; no network calls/persistence; one footer and five legal links; responsive breakpoints and reduced-motion rule present.
+- **Browser blocker:** local Playwright/Chromium navigation to both `http://127.0.0.1` and `file://` failed with `ERR_BLOCKED_BY_ADMINISTRATOR` before any page load. No legitimate screenshot, DOM interaction or iPhone Safari result can be claimed. Full repository `qa-route-integrity.mjs --static` and Pages CI require runner access after PR.
+- **Next gate:** owner approval of working name/wordmark/imagery; test menu, bag, no-charge confirmation, bilingual navigation, gallery/lightbox, legal links and overflow at 320/390/768/820/1024/1440; merge/publish via GitHub Pages only after passed CI and owner sign-off. Then record deployment separately.
+
 ## 2026-11-09 — Lavanda Boutique demo had sample prices but no usable shopping journey
 - **Owner request:** allow visitors to add boutique items to a bag and complete a simulated purchase without entering card details.
 - **Verified source:** `public/demos/lavender-edit/index.html` displayed boutique images and reused three fixed illustrative prices from `public/assets/tle-demo-original-prices-20261108.js` but did not offer a bag or demo checkout. Existing live commerce infrastructure was not authorized for this concept demo.
