@@ -18,7 +18,7 @@
   reminderAdvanced:'$25 due today for setup. Your first AI + CRM service month starts when the completed website is delivered; $8/month billing starts after that first service month. Estimated 48-hour production after approved kickoff; one review round.',
   scopeBasic:'Website, private basic Command Center for inquiries, customers and catalog edits, plus email alerts. Private access is activated after delivery.',
   scopeAdvanced:'Everything in the basic Command Center plus an on-page AI assistant and approved email automations.',
-   packagePlus:'Website Plus + Advanced Command Center',headPlus:'Tell us what your business needs.',scopePlus:'A website with an advanced private Command Center and approved email workflows. AI agent not included; ask for a separate quote if interested.',reminderPlus:'$25 one-time. No required AI subscription. Production is estimated at 48 hours after approved kickoff and includes one revision round.',
+   packagePlus:'Website Plus + Advanced Command Center',headPlus:'Tell us what your business needs.',scopePlus:'A website with an advanced private Command Center and approved email workflows. AI Agent available for $10 USD/month, only if requested and approved.',reminderPlus:'$25 one-time. Optional AI Agent $10/month, not billed automatically. Production is estimated at 48 hours after approved kickoff and includes one revision round.',
   boxLabel:'PROJECT SETUP',formTitle:'Your business details',
   formLead:'Complete this once using the same email address used at checkout.',
   waiting:'Verifying your Stripe payment…',required:'Complete secure checkout first to access setup.',
@@ -60,7 +60,7 @@
   reminderAdvanced:'Pagas $25 hoy por la configuración. El primer mes de IA + CRM empieza con la entrega del website terminado; los $8 mensuales se cobran al finalizar ese primer mes. Producción estimada en 48 horas desde el inicio aprobado, con una ronda de revisión.',
   scopeBasic:'Website, Command Center privado básico para solicitudes, clientes y edición del catálogo, más avisos por correo. Se activa tras la entrega.',
   scopeAdvanced:'Todo lo del Command Center básico, con asistente IA y automatizaciones por correo aprobadas.',
-   packagePlus:'Website Plus + Command Center avanzado',headPlus:'Cuéntanos qué necesita tu negocio.',scopePlus:'Website con Command Center privado avanzado y flujos de correo acordados. El agente IA no está incluido y se cotiza aparte si lo solicitas.',reminderPlus:'$25 por única vez. No requiere suscripción IA. Producción estimada en 48 horas desde el inicio aprobado e incluye una ronda de revisión.',
+   packagePlus:'Website Plus + Command Center avanzado',headPlus:'Cuéntanos qué necesita tu negocio.',scopePlus:'Website con Command Center privado avanzado y flujos de correo acordados. Agente de IA disponible por $10 USD/mes, solo si lo solicitas y aceptas.',reminderPlus:'$25 por única vez. Agente de IA opcional $10/mes, sin cobro automático. Producción estimada en 48 horas desde el inicio aprobado e incluye una ronda de revisión.',
   boxLabel:'CONFIGURACIÓN DEL PROYECTO',formTitle:'Datos de tu negocio',
   formLead:'Completa esto una vez con el mismo correo que usaste para pagar.',
   waiting:'Verificando tu pago con Stripe…',required:'Completa primero el pago seguro para configurar tu proyecto.',
@@ -175,7 +175,7 @@
   if(!paid||submit.disabled||!form.reportValidity())return;
   const f=new FormData(form),t=copy[lang];
   const goals=[
-   note('Website project type',get(f,'website_project_type')),note('Current website platform',get(f,'website_project_type')==='improve'?get(f,'website_platform'):''),note('Requested website improvements',get(f,'website_project_type')==='improve'?get(f,'requested_changes'):''),note('Optional AI agent quote requested',f.get('ai_agent_interest')==='yes'?'Yes; quote separately, no automatic activation':'No'),
+   note('Website project type',get(f,'website_project_type')),note('Current website platform',get(f,'website_project_type')==='improve'?get(f,'website_platform'):''),note('Requested website improvements',get(f,'website_project_type')==='improve'?get(f,'requested_changes'):''),note('Optional AI Agent $10 USD/month requested',f.get('ai_agent_interest')==='yes'?'Interested in $10/month AI Agent; separate consent and activation required, no automatic billing':'No'),
    get(f,'goals'),note('Chosen website format',get(f,'website_format')),note('Existing menu PDF/product list',get(f,'menu_pdf_url')),note('Customer notifications','email only; no SMS'),note('Command Center access','activate private buyer workspace after verified delivery'),note('Services/products',get(f,'services')),
    note('AI-enhanced photo request',f.get('ai_photo_request')==='yes'?'Yes · '+(get(f,'ai_photo_goal')||'enhance_existing'):'Not requested'),
    note('Preferred AI photo example',f.get('ai_photo_request')==='yes'?get(f,'ai_photo_reference'):''),
