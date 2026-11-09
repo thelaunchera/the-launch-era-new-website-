@@ -1,4 +1,4 @@
-:root{--paper:#f4f0e9;--cream:#faf8f3;--ink:#191919;--muted:#6f6b65;--line:#d6d0c7;--accent:#f2492f;--card:#e9e3da;--font:'DM Sans',Arial,sans-serif;--display:'Archivo Black',Impact,sans-serif;--space:'Space Grotesk',Arial,sans-serif;--gutter:clamp(18px,4.8vw,84px)}
+:root{--paper:#FAF8F3;--cream:#FAF8F3;--ink:#16212D;--muted:#5A626B;--line:#D9D7CF;--accent:#D65A24;--sky:#168DD2;--sandstone:#D65A24;--card:#E8E1D6;--font:'DM Sans',Arial,sans-serif;--display:'Archivo Black',Impact,sans-serif;--space:'Space Grotesk',Arial,sans-serif;--gutter:clamp(18px,4.8vw,84px)}
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:90px}
 body{margin:0;color:var(--ink);background:var(--paper);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden}
@@ -162,3 +162,89 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{ou
 @media(max-width:640px){html{scroll-padding-top:80px}.announcement{min-height:28px;font-size:8px}.announcement-right{display:none}.header{height:66px;padding:0 18px}.desktop-nav{display:none}.menu-toggle{display:flex}.header-tools{gap:5px}.bag-btn{gap:4px}.wordmark{font-size:23px}.mobile-nav{top:94px}.hero{display:flex;flex-direction:column;min-height:0}.hero-copy{min-height:485px;padding:47px 22px 25px}.hero-overline{font-size:9px;margin-bottom:30px}.hero h1{font-size:clamp(67px,15.7vw,104px)}.hero-copy>p{margin:23px 0 24px;max-width:315px;font-size:14px}.hero-bottom{padding-top:38px}.hero-visual{min-height:0;height:clamp(390px,105vw,650px)}.hero-photo-overlay{bottom:5%;right:5%}.hero-photo-overlay>span{font-size:clamp(58px,13vw,90px)}.ticker{min-height:48px;justify-content:center;gap:0;padding:14px}.ticker span{display:none}.ticker span:nth-child(2){display:block}.section-shell{padding:65px 18px}.section-top{display:block;margin-bottom:28px}.section-top h2{font-size:clamp(54px,13vw,77px)}.section-top>p{margin:18px 0 0;max-width:400px}.toolbar{align-items:stretch;gap:10px}.filter-row{gap:3px}.filter{font-size:9px;padding:8px 10px}.sort-label{margin-left:auto}.product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 12px}.product-photo{aspect-ratio:.83}.product-quick{bottom:10px;right:10px;padding:7px 9px;min-height:39px;font-size:9px}.product-number{left:9px;top:9px;padding:6px;font-size:9px}.product-meta{flex-direction:column;gap:5px;padding-top:13px}.product-meta h3{font-size:19px;margin:2px 0 5px}.product-meta p{font-size:11px}.product-meta strong{font-size:14px}.card-sizes{gap:4px;margin-top:13px}.size{min-width:32px;min-height:37px;font-size:10px}.card-add{min-height:44px;font-size:10px}.campaign{display:flex;flex-direction:column}.campaign-photo{min-height:0;height:clamp(365px,100vw,580px)}.campaign-copy{padding:65px 22px 40px;min-height:430px}.campaign h2{font-size:clamp(60px,13.5vw,92px)}.campaign-index{padding-top:40px}.detail-strip{display:block}.detail-lead h2{font-size:clamp(47px,11vw,70px)}.detail-copy{margin-top:28px}.final-cta{min-height:390px}.final-cta h2{font-size:clamp(68px,14.5vw,115px)}.footer{padding:50px 22px 28px}.footer-main{display:block;padding-bottom:50px}.footer-logo{font-size:43px}.footer-links{gap:50px;margin-top:43px}.footer-bottom{flex-direction:column;gap:10px}.quick-panel{width:100vw;max-height:100vh;top:0;left:0;bottom:0;transform:none}.quick-contents{display:flex;flex-direction:column}.quick-image{min-height:0;height:min(46vh,400px)}.quick-info{padding:25px 22px 40px}}
 @media(max-width:370px){.hero h1{font-size:clamp(43px,13vw,53px)}.product-grid{gap:25px 10px}.filter{padding:8px;font-size:8px}.size{min-width:29px}.product-meta h3{font-size:17px}.card-add{font-size:9px}.footer-links{gap:35px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}.product-card:hover img{transform:none}}
+
+/* SNEEKIEFS · Canyon Sky Blue #168DD2 + Sandstone Orange #D65A24.
+   Brand-specific overrides, scoped within the existing sneaker demo only. */
+.brand-reg{position:relative;top:-.65em;padding-left:3px;vertical-align:baseline;font:700 .38em var(--space);color:var(--sandstone);letter-spacing:0}
+.wordmark,.footer-logo{font-family:var(--space);font-style:italic;letter-spacing:-.09em;font-weight:700}
+.announcement{background:var(--ink)}
+.header{background:var(--paper)}
+.hero{background:var(--sky)}
+.hero-copy{background:var(--sky);color:white}
+.hero-copy>p{color:#f1faff;max-width:395px}
+.hero-overline,.hero-bottom{color:#f7fcff}
+.hero-overline .mini-line{background:white}
+.hero h1 .outline{color:transparent;-webkit-text-stroke:2px white}
+.hero-visual{background:linear-gradient(180deg,var(--sky) 0 46%,var(--sandstone) 46% 100%);display:flex;align-items:center;justify-content:center;padding:clamp(22px,3.8vw,60px)}
+.hero-visual>img{position:relative;z-index:1;height:auto;width:100%;max-width:580px;max-height:100%;aspect-ratio:1;object-fit:contain;border-radius:13px;box-shadow:0 27px 58px #11263555}
+.hero-photo-overlay{z-index:2;inset:auto 7% 6% auto;background:var(--paper);color:var(--ink);padding:11px 14px;gap:0;border-radius:2px}
+.hero-photo-overlay>span{display:none}
+.hero-photo-overlay small{color:var(--ink);font-weight:700}
+.hero-side-note{z-index:2;color:#fff;text-shadow:0 1px 5px #17293833}
+.ticker{background:var(--sandstone);color:#fff;border:0}
+.section-top h2 em,.detail-lead h2 em{color:var(--sandstone)}
+.product-photo{background:#e7e1d7;border-radius:13px}
+.product-photo img{object-fit:cover}
+.product-card:first-child .product-photo{background:var(--sky)}
+.product-card:nth-child(2) .product-photo{background:#e9e3da}
+.product-card:nth-child(3) .product-photo{background:var(--sandstone)}
+.product-number{background:var(--sky);color:#fff;border-radius:2px}
+.product-card:nth-child(3) .product-number{background:var(--sandstone)}
+.product-quick{border-radius:3px}
+.product-quick:hover,.card-add:hover{background:var(--sky);border-color:var(--sky);color:white}
+.size:hover,.size.selected{background:var(--sky);border-color:var(--sky);color:#fff}
+.campaign{background:var(--sky);color:#fff}
+.campaign-photo{background:#d5c9b8}
+.campaign-photo img{object-position:50% 44%;object-fit:cover}
+.campaign h2 em{color:#fff}
+.campaign-copy p{color:#edf7ff}
+.campaign-index{opacity:.72}
+.sneekiefs-editorial{background:#f4efe6;padding-top:clamp(65px,7vw,105px);padding-bottom:clamp(65px,8vw,110px)}
+.editorial-intro{display:grid;grid-template-columns:1fr minmax(210px,.6fr);gap:24px;align-items:end;padding-bottom:30px}
+.editorial-intro .eyebrow{grid-column:1/-1}
+.editorial-intro h2{font:700 clamp(51px,7.5vw,113px)/.89 var(--space);letter-spacing:-.084em;margin:0}
+.editorial-intro h2 em{font-style:normal;color:var(--sky)}
+.editorial-intro p{margin:0 0 5px;max-width:380px;font-size:15px;line-height:1.8;color:#4f5150}
+.editorial-grid{display:grid;grid-template-columns:1.1fr .9fr 1fr;gap:clamp(12px,2.2vw,27px)}
+.editorial-shot{margin:0;min-width:0;position:relative}
+.editorial-shot img{height:clamp(270px,34vw,490px);width:100%;object-fit:cover;object-position:center;border-radius:11px}
+.editorial-shot:nth-child(2){padding-top:37px}
+.editorial-shot:nth-child(3){padding-top:14px}
+.editorial-shot figcaption{font:700 10px/1.5 var(--space);letter-spacing:.105em;display:block;margin-top:12px}
+.detail-strip{background:#fff}
+.final-cta{background:var(--sandstone)}
+.final-cta h2 em{color:var(--ink)}
+.footer{background:var(--ink)}
+@media(max-width:820px){
+ .hero-visual{padding:20px}
+ .hero-visual>img{max-width:100%}
+ .editorial-intro h2{font-size:clamp(47px,7.7vw,74px)}
+ .editorial-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+ .editorial-shot img{height:290px}
+}
+@media(max-width:640px){
+ .hero-copy{min-height:450px;padding:44px 22px 25px}
+ .hero h1{font-size:clamp(64px,16.5vw,98px);line-height:.91}
+ .hero-visual{height:auto;min-height:clamp(360px,105vw,560px);padding:25px 19px}
+ .hero-visual>img{width:min(93%,430px);height:auto;max-height:480px;aspect-ratio:1;object-fit:contain}
+ .hero-photo-overlay{right:5%;bottom:5%;padding:8px 10px}
+ .hero-photo-overlay small{font-size:8px}
+ .ticker{min-height:46px;padding:12px 18px}
+ .ticker span:nth-child(2){display:block}
+ .editorial-intro{display:block;padding-bottom:24px}
+ .editorial-intro .eyebrow{display:block;margin-bottom:18px}
+ .editorial-intro h2{font-size:clamp(39px,9.5vw,62px)}
+ .editorial-intro p{margin:19px 0 0;font-size:14px}
+ .editorial-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+ .editorial-shot:nth-child(1){grid-column:1/-1}
+ .editorial-shot:nth-child(2),.editorial-shot:nth-child(3){padding-top:0}
+ .editorial-shot:nth-child(1) img{height:auto;aspect-ratio:1.32;object-fit:cover}
+ .editorial-shot:nth-child(2) img,.editorial-shot:nth-child(3) img{height:auto;aspect-ratio:.85;object-fit:cover}
+ .editorial-shot figcaption{font-size:9px;letter-spacing:.04em}
+}
+@media(max-width:370px){
+ .hero h1{font-size:clamp(44px,13.7vw,53px)}
+ .hero-copy{min-height:405px}
+ .hero-visual{min-height:320px}
+ .editorial-intro h2{font-size:36px}
+}
