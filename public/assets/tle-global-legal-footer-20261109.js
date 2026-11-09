@@ -11,7 +11,7 @@
  function install(){
   if(!document.body||document.querySelector('#tle-global-legal-nav'))return;
   const es=local(),p=policies(es),path=location.pathname,links=p.map(([href,label])=>({href,label}));
-  const existing=[...document.querySelectorAll('footer')].find(f=>f.id==='public-policy-links'||f.querySelector('.library-footer-legal'));
+  const existing=[...document.querySelectorAll('footer')].find(f=>{const hrefs=[...f.querySelectorAll('a[href]')].map(a=>a.getAttribute('href'));return p.every(([href])=>hrefs.includes(href))});
   if(existing){const hrefs=[...existing.querySelectorAll('a[href]')].map(a=>a.getAttribute('href'));if(p.every(([href])=>hrefs.includes(href)))return;}
   let footer=[...document.querySelectorAll('footer')].filter(f=>!f.closest('dialog,[hidden],template')).pop();
   if(footer&&footer.closest('#app,#root,#studio-root,[role="application"]'))footer=null;
