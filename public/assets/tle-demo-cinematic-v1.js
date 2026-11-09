@@ -17,7 +17,7 @@
    t('.demo-cinematic-copy p','Desde la primera visita hasta la solicitud de prueba, cada paso se entiende con claridad.');
    const a=document.querySelector('.demo-cinematic-link');
    if(a&&a.firstChild)a.firstChild.nodeValue='Descubre la experiencia ';
-   t('.demo-cinematic-index','MEJOR DISEÑO, MENOS COMPLICACIONES — ✳');
+   t('.demo-cinematic-index','MEJOR DISEÑO, MENOS COMPLICACIONES');
    h('.demo-cinematic-overlay','UN NUEVO<br><em>AMBIENTE</em>');
  }
  const revealNodes=[
