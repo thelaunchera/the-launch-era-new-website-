@@ -70,6 +70,9 @@
     card.hidden=!selected.includes(card);
     card.style.display=selected.includes(card)?'':'none';
    });
+   // Owner selection may reorder cards while Safari preserves a stale sideways offset.
+   // Bring the chosen protagonist back fully into view on each selection change.
+   if(stage&&stage.scrollLeft)stage.scrollLeft=0;
    const layout=selected.length>7?'extended':'classic';
    rail.dataset.galleryLayout=layout;
    if(stage){
