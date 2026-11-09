@@ -1,40 +1,60 @@
-/**
- * Run after dependencies install: execute public demo inline scripts in JSDOM.
- * Asserts the page actually renders content, not a blank sample workspace.
- * All data/actions are local and synthetic. No network or customer authentication.
- */
-import {readFileSync} from 'node:fs';
+/** Public cleaning route regression after the standalone Cleaning App retirement.
+ * Keep the removed route safe, and test the active Experience Cleaning booking demo instead.
+ * No network calls, account access, submissions, or customer data. */
+import assert from 'node:assert/strict';
+import {readFileSync,existsSync} from 'node:fs';
 import {JSDOM,VirtualConsole} from 'jsdom';
-const source=readFileSync('public/cleaning-app-demo/index.html','utf8');
-const errors=[];
-const vc=new VirtualConsole();
-vc.on('jsdomError',err=>errors.push('Browser script error: '+err.message));
-const dom=new JSDOM(source,{
-  url:'https://thelaunchera.com/cleaning-app-demo/?lang=en',
-  runScripts:'dangerously',
-  virtualConsole:vc
-});
-const doc=dom.window.document;
-const fail=msg=>errors.push(msg);
-const nav=doc.querySelector('#nav');
-const app=doc.querySelector('#app');
-if(!nav||!app)fail('Navigation or workspace missing');
-else {
- const buttons=nav.querySelectorAll('[data-tab]');
- if(buttons.length<6)fail('Demo tabs did not render');
- if(!app.textContent?.includes('Good morning'))fail('Overview is blank or demo script failed');
- if(app.textContent?.trim().length<150)fail('Workspace is unexpectedly empty');
- const c=nav.querySelector('[data-tab="3"]');
- if(c){c.click();if(!app.textContent?.includes('Sarah Mitchell'))fail('Clients tab failed to render synthetic client');}
- const es=doc.getElementById('es');
- if(es){es.click();if(!app.textContent?.includes('Tus clientes'))fail('Spanish client tab did not render');}
+import vm from 'node:vm';
+
+const redirect=readFileSync('public/cleaning-app-demo/index.html','utf8');
+assert.match(redirect,/location\.replace/,'Retired app route should redirect visitors');
+assert.match(redirect,/\/website-for-your-business\//,'Retired route must lead to website services');
+assert.doesNotMatch(redirect,/Cleaning App \| Interactive Preview/,'Retired app workspace must not reappear');
+assert(!existsSync('src/components/cleaning-app-showcase.tsx'),'Retired standalone app showcase must remain removed');
+
+const html=readFileSync('public/experience-cleaning/index.html','utf8');
+const js=readFileSync('public/experience-cleaning/app.js','utf8');
+new vm.Script(js,{filename:'experience-cleaning/app.js'});
+assert.match(html,/id="experience"/);
+assert.match(html,/id="service-grid"/);
+assert.match(html,/id="commercial-service-grid"/);
+assert.match(html,/id="booking-visual-image"/);
+assert.match(html,/id="booking-visual-title"/);
+assert.match(html,/booking-progress-line/);
+assert.match(html,/alpine-gold-20261108\.css/);
+for(const asset of [
+ '/experience-cleaning/photos/portfolio_living_finished.webp',
+ '/experience-cleaning/photos/portfolio_cleaning_action.webp',
+ '/assets/lead-demo/spotless-office.png',
+ '/assets/clara-private-demo/commercial-home-office.webp'
+])assert(existsSync('public'+asset),'Local service image missing: '+asset);
+
+for(const lang of ['en','es']){
+ const errors=[];
+ const virtualConsole=new VirtualConsole();
+ virtualConsole.on('jsdomError',err=>errors.push(err.message));
+ const dom=new JSDOM(html,{url:'https://thelaunchera.com/experience-cleaning/?lang='+lang,runScripts:'outside-only',virtualConsole,pretendToBeVisual:true});
+ const window=dom.window;
+ window.matchMedia=()=>({matches:true,addListener(){},removeListener(){}});
+ window.HTMLElement.prototype.scrollIntoView=function(){};
+ window.eval(js);
+ const doc=window.document;
+ assert.equal(doc.documentElement.lang,lang);
+ assert.equal(doc.querySelector('#owner').hidden,true);
+ assert.equal(doc.querySelector('#stage-1').hidden,false);
+ const deep=doc.querySelector('[data-service="deep"]');
+ deep.click();
+ assert.equal(doc.querySelector('#r-price').textContent,'$190');
+ doc.querySelector('#next').click();
+ assert.equal(doc.querySelector('#stage-2').hidden,false);
+ doc.querySelector('#restart').click();
+ assert.equal(doc.querySelector('#stage-1').hidden,false);
+ const commercial=doc.querySelector('[data-category="commercial"]');
+ commercial.click();
+ assert.equal(doc.querySelector('#commercial-service-grid').hidden,false);
+ assert.equal(doc.querySelector('#service-grid').hidden,true);
+ assert.equal(doc.querySelector('#owner').hidden,true);
+ assert.deepEqual(errors,[],'Public demo scripts should render without runtime errors');
+ window.close();
 }
-const clone=doc.body.cloneNode(true);
-clone.querySelectorAll('script,style').forEach(n=>n.remove());
-const bodyText=clone.textContent||'';
-if(/(?:screens\.push\s*\(|function render\s*\(|document\.getElementById\s*\()/i.test(bodyText)){
- fail('Raw JavaScript appears as visible body text');
-}
-dom.window.close();
-if(errors.length){console.error('[PUBLIC DEMO BROWSER QA FAILED]\n'+errors.join('\n'));process.exitCode=1}
-else console.log('[PUBLIC DEMO BROWSER QA PASSED] EN/ES sample workspace, tabs, client data and visible content.');
+console.log('[PUBLIC CLEANING DEMO QA PASSED] Retired app redirect; active bilingual residential/commercial booking preview with approved local photos.');
