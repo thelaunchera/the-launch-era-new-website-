@@ -1,45 +1,17 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#FAF8F3">
-<title>Secure Checkout · The Launch Era</title><link rel="icon" href="/assets/brand/tle-mark.svg" type="image/svg+xml">
-<style>*{box-sizing:border-box}body{margin:0;background:#FAF8F3;color:#191919;font:15px/1.6 system-ui,sans-serif}
-header{padding:22px 25px;border-bottom:1px solid #e6ded3;font-weight:700}header a{color:inherit;text-decoration:none}
-main{max-width:530px;margin:clamp(40px,9vw,110px) auto;padding:0 24px;text-align:center}h1{font:400 clamp(34px,7vw,52px)/1.1 Georgia,serif;letter-spacing:-.04em}
-p{color:#585652}.spinner{width:40px;height:40px;border-radius:50%;border:4px solid #e6ddc9;border-top-color:#191919;animation:spin .9s linear infinite;margin:30px auto}
-@keyframes spin{to{transform:rotate(360deg)}}.button{display:inline-block;background:#F2D85B;color:#191919;border:0;border-radius:999px;padding:14px 25px;font-weight:750;text-decoration:none;cursor:pointer;min-height:48px}
-#retry[hidden],#spinner[hidden]{display:none}footer{padding:25px;text-align:center;font-size:12px;color:#777}</style>
-</head><body><header><a id="brand" href="/website-for-your-business/">THE LAUNCH ERA</a></header>
-<main><div id="spinner" class="spinner" aria-hidden="true"></div><h1 id="heading">Connecting to secure checkout</h1>
-<p id="description" role="status" aria-live="polite">Your payment is processed securely by Stripe.</p>
-<button id="retry" class="button" type="button" hidden>Try again</button>
-<p><a id="back" href="/website-for-your-business/#paquetes">Back to packages</a></p></main>
-<footer>Powered by The Launch Era</footer>
-<script>
-(()=>{'use strict';
- const params=new URLSearchParams(location.search),offer=params.get('offer'),lang=params.get('lang')==='es'?'es':'en';
- const valid=['website-basic','website-plus','website-ai-crm'].includes(offer);
- document.documentElement.lang=lang;
- const lines=lang==='es'?{title:'Conectando con el checkout seguro',loading:'El pago se procesa de forma segura con Stripe.',error:'No pudimos abrir el pago seguro. Inténtalo nuevamente.',invalid:'Selecciona un paquete antes de pagar.',retry:'Volver a intentar',back:'Volver a paquetes'}:{title:'Connecting to secure checkout',loading:'Your payment is processed securely by Stripe.',error:'We could not open secure checkout. Please try again.',invalid:'Choose a package before paying.',retry:'Try again',back:'Back to packages'};
- const back=lang==='es'?'/es/website-for-your-business/#paquetes':'/website-for-your-business/#paquetes';
- document.querySelector('#back').href=back;document.querySelector('#brand').href=back;document.querySelector('#heading').textContent=lines.title;document.querySelector('#description').textContent=lines.loading;document.querySelector('#retry').textContent=lines.retry;document.querySelector('#back').textContent=lines.back;
- let running=false;
- const retry=document.querySelector('#retry'),desc=document.querySelector('#description'),spinner=document.querySelector('#spinner');
- async function start(){
-  if(running)return;
-  if(!valid){spinner.hidden=true;desc.textContent=lines.invalid;return}
-  running=true;retry.hidden=true;spinner.hidden=false;desc.textContent=lines.loading;
-  try{
-   const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),20000);
-   let response;try{response=await fetch('https://fhrvuhikrybobidxpvnh.supabase.co/functions/v1/tle-studio-website-start-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({offer,language:lang}),signal:ctrl.signal})}finally{clearTimeout(timer)}
-   const data=await response.json().catch(()=>({}));
-   if(!response.ok||data.ok!==true||typeof data.url!=='string')throw Error('Unavailable');
-   const dest=new URL(data.url);
-   if(dest.protocol!=='https:'||dest.hostname!=='checkout.stripe.com')throw Error('Invalid checkout');
-   location.replace(dest.href);
-  }catch{spinner.hidden=true;retry.hidden=false;desc.textContent=lines.error;running=false}
- }
- retry.addEventListener('click',start);
- start();
-})();
-</script><script defer src="/assets/tle-global-legal-footer-20261109.js"></script>
-</body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#FAF8F3"><title>Secure Checkout · The Launch Era</title><link rel="icon" href="/assets/brand/tle-mark.svg" type="image/svg+xml">
+<style>*{box-sizing:border-box}body{margin:0;background:#FAF8F3;color:#191919;font:15px/1.6 Arial,Helvetica,sans-serif}header{padding:22px 25px;border-bottom:1px solid #e6ded3;font-weight:700}header a{color:inherit;text-decoration:none}main{max-width:580px;margin:clamp(24px,8vw,90px) auto;padding:0 20px;text-align:center}h1{font:400 clamp(30px,7vw,48px)/1.12 Georgia,serif;letter-spacing:-.04em;margin:10px 0 16px}p{color:#585652}.card{border:1px solid #e0d5c5;border-radius:23px;background:#fffefa;padding:clamp(20px,5vw,33px);text-align:left}.eyebrow{font-size:11px;letter-spacing:.12em;font-weight:700;color:#5e625e}.price{font-size:34px;font-weight:750;margin:18px 0 7px}.price small{font-size:13px;font-weight:500;color:#666}.addon{display:flex;align-items:flex-start;gap:11px;border:1px solid #dbd2c4;border-radius:14px;padding:13px;margin:20px 0;cursor:pointer}.addon input{flex:none;width:20px;height:20px;margin:3px 0;accent-color:#191919}.addon strong{font-size:14px;display:block}.addon small{display:block;font-size:12px;line-height:1.6;color:#595752;margin-top:4px}.button{display:block;background:#191919;color:white;border:0;border-radius:999px;padding:15px 23px;font-size:14px;min-height:49px;font-weight:750;text-decoration:none;cursor:pointer;text-align:center;width:100%}.button:disabled{opacity:.5}.link{display:inline-block;color:#191919;margin:18px 0;text-decoration:underline;text-underline-offset:4px;font-size:13px}.spinner{width:40px;height:40px;border-radius:50%;border:4px solid #e6ddc9;border-top-color:#191919;animation:spin .9s linear infinite;margin:30px auto}@keyframes spin{to{transform:rotate(360deg)}}[hidden]{display:none!important}footer{padding:25px;text-align:center;font-size:12px;color:#777}a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid #769bbb;outline-offset:3px}</style></head><body>
+<header><a id="brand" href="/website-for-your-business/">THE LAUNCH ERA</a></header>
+<main><section id="review" class="card" hidden><span id="eyebrow" class="eyebrow">WEBSITE PACKAGE</span><h1 id="review-heading">Review your website package.</h1><div class="price"><span id="amount">$15</span> <small id="price-note">USD · one-time</small></div><p id="scope">New website or agreed updates to an existing website, subject to platform access.</p><label class="addon"><input id="agent-option" type="checkbox"><span><strong id="agent-heading">Add an AI agent — $8/month (optional)</strong><small id="agent-description">If selected, you will be offered a separate Stripe subscription checkout after your website purchase. The website charge does not include the agent.</small></span></label><button type="button" class="button" id="continue">Continue to secure website payment</button><a id="agent-only" class="link" href="/ai-agent-checkout/?lang=en">Only need the AI agent?</a></section>
+<section id="processing" hidden><div id="spinner" class="spinner" aria-hidden="true"></div><h1 id="heading">Connecting to secure checkout</h1><p id="description" role="status" aria-live="polite">Your payment is processed securely by Stripe.</p><button type="button" class="button" id="retry" hidden>Try again</button></section>
+<p><a class="link" id="back" href="/website-for-your-business/#paquetes">Back to packages</a></p></main><footer>Powered by The Launch Era</footer>
+<script>(()=>{'use strict';const params=new URLSearchParams(location.search),offer=params.get('offer'),lang=params.get('lang')==='es'?'es':'en',es=lang==='es',valid=['website-basic','website-plus','website-ai-crm'].includes(offer),legacy=offer==='website-ai-crm';
+document.documentElement.lang=lang;const $=id=>document.getElementById(id);
+const t=es?{eyebrow:'PAQUETE DE WEBSITE',review:'Revisa tu paquete de website.',price:'USD · pago único',scope:'Website nuevo o mejoras acordadas en uno existente, según acceso y plataforma.',agent:'Añadir agente de IA — $8/mes (opcional)',agentDesc:'Si lo seleccionas, después de pagar el website podrás contratarlo en otro checkout de Stripe. El cobro del website no incluye al agente.',continue:'Continuar al pago seguro del website',only:'¿Solo necesitas el agente de IA?',loading:'Conectando con el pago seguro',description:'El pago se procesa de forma segura con Stripe.',error:'No pudimos abrir el pago seguro. Inténtalo nuevamente.',invalid:'Selecciona un paquete antes de pagar.',retry:'Volver a intentar',back:'Volver a paquetes'}:{eyebrow:'WEBSITE PACKAGE',review:'Review your website package.',price:'USD · one-time',scope:'A new website or agreed improvements to an existing one, depending on platform access.',agent:'Add an AI agent — $8/month (optional)',agentDesc:'If selected, a separate Stripe subscription checkout is offered after your website purchase. The website charge does not include the agent.',continue:'Continue to secure website payment',only:'Only need the AI agent?',loading:'Connecting to secure checkout',description:'Your payment is processed securely by Stripe.',error:'We could not open secure checkout. Please try again.',invalid:'Choose a package before paying.',retry:'Try again',back:'Back to packages'};
+for(const [id,key] of [['eyebrow','eyebrow'],['review-heading','review'],['price-note','price'],['scope','scope'],['agent-heading','agent'],['agent-description','agentDesc'],['continue','continue'],['agent-only','only'],['heading','loading'],['description','description'],['retry','retry'],['back','back']])$(id).textContent=t[key];
+$('amount').textContent=offer==='website-basic'?'$15':'$25';$('agent-only').href='/ai-agent-checkout/?lang='+lang;
+const back=(es?'/es/website-for-your-business/#paquetes':'/website-for-your-business/#paquetes');$('brand').href=back;$('back').href=back;
+let running=false;async function start(){if(running)return;$('review').hidden=true;$('processing').hidden=false;if(!valid){$('spinner').hidden=true;$('description').textContent=t.invalid;return}running=true;$('retry').hidden=true;$('spinner').hidden=false;$('description').textContent=t.description;const c=new AbortController(),timer=setTimeout(()=>c.abort(),20000);try{const r=await fetch('https://fhrvuhikrybobidxpvnh.supabase.co/functions/v1/tle-studio-website-start-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({offer,language:lang}),signal:c.signal});const d=await r.json().catch(()=>({}));if(!r.ok||d.ok!==true||typeof d.url!=='string')throw Error('Unavailable');const dest=new URL(d.url);if(dest.protocol!=='https:'||dest.hostname!=='checkout.stripe.com')throw Error('Invalid checkout');location.replace(dest.href)}catch{$('spinner').hidden=true;$('retry').hidden=false;$('description').textContent=t.error;running=false}finally{clearTimeout(timer)}}
+$('retry').addEventListener('click',start);
+$('continue').addEventListener('click',()=>{try{sessionStorage.setItem('tle_agent_option_at_checkout',JSON.stringify({offer,selected:$('agent-option').checked,at:Date.now()}))}catch{}start()});
+if(legacy||!valid){$('processing').hidden=false;start()}else $('review').hidden=false;
+})();</script><script defer src="/assets/tle-global-legal-footer-20261109.js"></script></body></html>
