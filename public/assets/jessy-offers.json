@@ -7,8 +7,8 @@
     {
       "id": "website-basic",
       "name": "Website + Command Center",
-      "short_en": "A new mobile-first business website or approved improvements to a compatible existing website, with customer inquiries and a private Command Center. AI agent sold separately.",
-      "short_es": "Website nuevo para móvil o mejoras acordadas a uno existente compatible, con consultas de clientes y Command Center privado. Agente IA aparte.",
+      "short_en": "A new mobile-first business website or approved improvements to a compatible existing website, with customer inquiries and a private Command Center. Optional AI Agent available for $10 USD/month, activated only after separate consent.",
+      "short_es": "Website nuevo para móvil o mejoras acordadas a uno existente compatible, con consultas de clientes y Command Center privado. Agente de IA opcional por $10 USD/mes, solo con autorización independiente.",
       "price_en": "$15 one-time. No required AI subscription. Compatibility and scope reviewed before production.",
       "price_es": "$15 pago único. Sin suscripción IA obligatoria. Revisamos compatibilidad y alcance antes de empezar.",
       "checkout": "/website-checkout/?offer=website-basic&lang=en",
@@ -17,8 +17,8 @@
     {
       "id": "website-plus",
       "name": "Website Plus + Advanced Command Center",
-      "short_en": "New website or compatible site improvements, an advanced private Command Center and agreed email workflows. AI agent optional by separate quote.",
-      "short_es": "Website nuevo o mejoras compatibles, Command Center privado avanzado y flujos de correo acordados. Agente IA opcional con cotización separada.",
+      "short_en": "New website or compatible site improvements, an advanced private Command Center and agreed email workflows. AI Agent optional for $10 USD/month, activated only after consent.",
+      "short_es": "Website nuevo o mejoras compatibles, Command Center privado avanzado y flujos de correo acordados. Agente de IA opcional por $10 USD/mes, solo con autorización.",
       "price_en": "$25 one-time. No required monthly AI subscription.",
       "price_es": "$25 pago único. Sin mensualidad IA obligatoria.",
       "checkout": "/website-checkout/?offer=website-plus&lang=en",
