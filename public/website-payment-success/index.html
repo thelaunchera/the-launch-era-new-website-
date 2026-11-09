@@ -9,7 +9,7 @@
 <script>
 (()=>{'use strict';
  const p=new URLSearchParams(location.search),session=p.get('session_id')||'',offer=p.get('offer')||'',lang=p.get('lang')==='es'?'es':'en';
- const valid=/^cs_live_[A-Za-z0-9]+$/.test(session)&&['website-basic','website-ai-crm'].includes(offer);
+ const valid=/^cs_live_[A-Za-z0-9]+$/.test(session)&&['website-basic','website-plus','website-ai-crm'].includes(offer);
  document.documentElement.lang=lang;
  const t=lang==='es'?{heading:'Verificando tu pago',checking:'Confirmamos tu pago con Stripe antes de abrir la configuración de tu proyecto.',failed:'Aún no pudimos confirmar el pago. Si acabas de pagar, intenta nuevamente o escríbenos.',invalid:'Este enlace de confirmación no es válido. Contacta con nosotros para encontrar tu compra.',retry:'Verificar nuevamente',help:'¿Necesitas ayuda? Escríbenos'}:{heading:'Confirming your payment',checking:'We verify your Stripe payment before opening your project setup.',failed:'We could not confirm your payment yet. If you just paid, try again or contact us.',invalid:'This payment confirmation link is invalid. Contact us for help finding your order.',retry:'Check again',help:'Need help? Contact us'};
  const heading=document.querySelector('#heading'),status=document.querySelector('#status'),retry=document.querySelector('#retry'),spinner=document.querySelector('#spinner');
@@ -24,7 +24,7 @@
    let r;try{r=await fetch('https://fhrvuhikrybobidxpvnh.supabase.co/functions/v1/tle-studio-website-confirm-payment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:session,offer,lang}),signal:ctrl.signal})}finally{clearTimeout(timer)}
    const data=await r.json().catch(()=>({}));
    if(!r.ok||data.ok!==true||data.paid!==true||data.offer!==offer)throw Error('No paid receipt');
-   const dest=offer==='website-basic'?'/intake/website/':'/intake/website-ai-crm/';
+   const dest=offer==='website-basic'?'/intake/website/':offer==='website-plus'?'/intake/website-plus/':'/intake/website-ai-crm/';
    location.replace(dest+'?'+new URLSearchParams({stage:'onboarding',lang,session_id:session}).toString());
   }catch{spinner.hidden=true;retry.hidden=false;status.textContent=t.failed;busy=false}
  }

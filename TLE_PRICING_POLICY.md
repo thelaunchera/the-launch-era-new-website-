@@ -1,3 +1,15 @@
+## Owner-approved Website for Your Business update — November 9, 2026
+
+- **Current public Package 1:** $15 USD one-time, Website + Command Center, for an approved new site or limited refresh of an existing website.
+- **Current public Package 2:** $25 USD one-time, Website + Advanced Command Center with agreed customer inquiry organization and email automation. **No AI agent included and no recurring fee on this new package.**
+- **Optional AI agent:** interest-only opt-in on both package intakes; scope, setup fee, any monthly charge and explicit customer agreement must be confirmed separately before activation. It does **not** change either website checkout amount or create a subscription.
+- **Existing platforms:** WordPress, Wix, Shopify, Squarespace, Webflow, Framer and accessible code-based sites may be considered after checking authorized editor/code access, provider restrictions and agreed scope. Other platforms require review first; a new-site alternative must be disclosed before work begins.
+- **Current Stripe via Make routing:** website-basic $15; website-plus $25 one-time, source metadata `payment_model=one_time_setup`. Website-plus checkout and receipts are separate from the retired public `website-ai-crm` link.
+- **Grandfathering:** Never reprice, stop, migrate or change entitlements of purchasers of the legacy `website-ai-crm` AI+CRM arrangement. Keep old paid-session intake/confirmation and original $8/month after-delivery billing for those buyers. The old Make verification and activation routes remain for this reason.
+- **Delivery:** estimated 48 hours from confirmed kickoff for an approved standard scoped website project, one review round. External platform limitations or larger redesigns must be agreed before charging; do not promise unlimited modifications.
+
+---
+
 # The Launch Era — Approved Price Policy
 
 **Approved:** October 17, 2026  

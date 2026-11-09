@@ -17,7 +17,7 @@ p{color:#585652}.spinner{width:40px;height:40px;border-radius:50%;border:4px sol
 <script>
 (()=>{'use strict';
  const params=new URLSearchParams(location.search),offer=params.get('offer'),lang=params.get('lang')==='es'?'es':'en';
- const valid=offer==='website-basic'||offer==='website-ai-crm';
+ const valid=['website-basic','website-plus','website-ai-crm'].includes(offer);
  document.documentElement.lang=lang;
  const lines=lang==='es'?{title:'Conectando con el checkout seguro',loading:'El pago se procesa de forma segura con Stripe.',error:'No pudimos abrir el pago seguro. Inténtalo nuevamente.',invalid:'Selecciona un paquete antes de pagar.',retry:'Volver a intentar',back:'Volver a paquetes'}:{title:'Connecting to secure checkout',loading:'Your payment is processed securely by Stripe.',error:'We could not open secure checkout. Please try again.',invalid:'Choose a package before paying.',retry:'Try again',back:'Back to packages'};
  const back=lang==='es'?'/es/website-for-your-business/#paquetes':'/website-for-your-business/#paquetes';

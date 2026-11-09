@@ -1,3 +1,10 @@
+## 2026-11-09 — Website package update: prevent unauthorized recurring AI billing
+
+- **Owner direction:** Continue existing $15/$25 website offers, include new website creation or scoped work on an existing provider platform, remove the AI agent from the $25 offer, and provide an independent optional AI-agent interest choice.
+- **Verified risk:** old public $25 package checkout metadata, receipt and delivery activation were coupled to $8/month AI+CRM billing. Merely hiding agent from landing would mislead customers and continue recurring charges.
+- **Scoped resolution:** introduce new `website-plus` **$25 one-time** Stripe session via Make, preserve historical `website-ai-crm` routing and subscriptions; new paid intakes show optional agent request only; Additive DB validation and Edge Functions with distinct one-time delivery receipt logic; legal language updated bilingually. Neither live purchase records nor historical subscriptions were changed.
+- **Verification evidence:** Make scenario 6423594 modules 51/52 added, existing modules unchanged; on-demand no-charge English and Spanish checkout smoke returned HTTP 200 with valid Stripe Checkout URLs; QA scenario was restored after smoke. Schema checks confirmed new allowed slug and monthly=0. Production website release and full purchase flow remain separately gated by GitHub Pages/CI/browser tests. Do not mark complete without that signoff.
+
 ## 2026-11-09 — Owner confirms website delivery already lives in private Studio Operations
 
 - **Verified source:** `thelaunchera/todavia-estoy-a-tiempo` → `estudio-control/src/OperationsCenter.tsx` already contains `Cobros y entregas`, a direct `/website-delivery-admin/` link, and `Abrir vista de compradores`. `BuyerCommandPreview.tsx` already provides four private read-only buyer industry views. This Studio is the canonical owner workflow.
