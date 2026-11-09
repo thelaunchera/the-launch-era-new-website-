@@ -462,8 +462,30 @@ const DEMOS=[
     site: 'https://thelaunchera.github.io/demo-booking-landing-/wok-social/',
     logoImage: '', patternImage: '', imageY: 50, imageX: 50, imageScale: 1
   },
+  {
+    id: 'freska',
+    name: 'FRESKA',
+    category: 'Bebidas · Demo',
+    description: 'Concepto editorial de sodas frutales y smoothies con campaña fotográfica rosa/azul, sabores interactivos y compra ilustrativa.',
+    tagline: 'Sip happy. Stay colorful.',
+    monogram: 'F',
+    symbol: 'F',
+    titleFont: 'Manrope',
+    bodyFont: 'DM Sans',
+    tone: 'Joven · divertida · fresca · atrevida',
+    style: 'beverages',
+    colors: ['#2349EF','#FB3A91','#FFF0F5','#FFF8F1','#FFD650','#171520'],
+    heroPhoto: 'https://thelaunchera.com/demos/freska/media/freska-hero-owner-approved-20261109.jpg',
+    detailPhoto: 'https://thelaunchera.com/demos/freska/media/pink-crush.webp',
+    site: 'https://thelaunchera.com/demos/freska/',
+    logoImage: '',
+    patternImage: '',
+    imageY: 28,
+    imageX: 50,
+    imageScale: 1
+  },
 ];
-const TYPES=['Bakery · Demo','Cookie Shop · Demo','Nightclub · Demo','Boutique · Demo','Beauty · Demo','Wellness · Demo','Restaurante · Demo','Audio · Demo','Food · Demo','Cleaning · Demo','Cliente real','Otra categoría'];
+const TYPES=['Bebidas · Demo','Bakery · Demo','Cookie Shop · Demo','Nightclub · Demo','Boutique · Demo','Beauty · Demo','Wellness · Demo','Restaurante · Demo','Audio · Demo','Food · Demo','Cleaning · Demo','Cliente real','Otra categoría'];
 const FONTS=['Italiana','Bodoni Moda','DM Serif Display','Cormorant Garamond','Bebas Neue','Caprasimo','Georgia','Manrope','DM Sans','Arial'];
 const clone=x=>JSON.parse(JSON.stringify(x));
 const $=id=>document.getElementById(id);
