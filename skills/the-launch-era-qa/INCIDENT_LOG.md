@@ -1,3 +1,10 @@
+## 2026-11-08 — iPad portfolio hero traps swipes; cleaning media mismatch
+
+- **Owner screenshot:** EN Website for Your Business gallery in an embedded preview at iPad size could not scroll downward; the first protagonist card was clipped horizontally. The owner also supplied an original 512×682, 5.01-second cleaning MP4 and identified a blurry last CTA image next to Booking + Command Center.
+- **Observed causes:** Portfolio stage uses nested horizontal overflow/snap and retains scroll position after visibility reordering; the demo viewer manually sets body overflow hidden in addition to its native dialog. Cleaning hero still points to a static background despite an approved uploaded clip, and final CTA stretches a 53KB JPEG across a large panel. The offer gallery pauses its video when under 45% visible even though an adjacent card is in frame.
+- **Scope of repair:** restore vertical propagation and release the redundant modal scroll lock, make the first visible image larger/uncropped on tablets, preserve exact demo routes and Studio selections; store/serve user's unmodified MP4 + exact firstframe, contained and looping, with image fallback and no audio; switch CTA to a sharper preapproved living-room photo. No booking, payments, forms, auth, CRM or customer records modified.
+- **Verification gates:** PR static route integrity and gallery/offer tests, Pages deploy, mobile Safari scroll and video startup, scroll-to-CTA success, reduced motion/data saver, physical iPad. Status not proven live until after deploy.
+
 ## 2026-11-08 — Demo covers were still photos while brand heroes had motion
 
 - **Owner screenshot:** In private Studio → Clase · demos, Casa Brownie · Con video displayed only a still photo; other finished demo cards and the public demo portfolio similarly showed static covers despite existing approved hero media.
