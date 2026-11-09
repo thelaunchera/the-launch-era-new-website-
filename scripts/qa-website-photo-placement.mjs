@@ -1,4 +1,4 @@
-// Guard the approved hero asset inside the new user-requested gallery and preserve independent interior photos.
+// Guard approved demo hero assets and approved independent bilingual package/process photographs.
 import {readFileSync,existsSync} from 'node:fs';
 const en=readFileSync('public/website-for-your-business/index.html','utf8');
 const es=readFileSync('public/es/website-for-your-business/index.html','utf8');
@@ -14,7 +14,7 @@ const expectedByLanguage={
   processLaunch:'process-launch-en.png'
  },
  es:{
-  planBasic:'website-la-vie-in-pink-original.jpg',
+  planBasic:'hero-jaramillo.svg',
   planAdvanced:'automated-crm-original.jpg',
   processChoose:'process-choose-original.jpg',
   processBrand:'process-brand-original.jpg',
@@ -58,6 +58,8 @@ for(const [language,html] of [['en',en],['es',es]]){
  const process=html.match(/<section class="process" id="proceso">([\s\S]*?)<\/section>/)?.[1];
  assert(basic?.includes(photoRoot+expected.planBasic),language+': basic package photo wrong');
  assert(language!=='en'||basic?.includes('alt="Woman working at a laptop displaying the Jaramillo Boutique website"'), 'English Package 1 Jaramillo image alt missing');
+ assert(language!=='es'||basic?.includes('alt="Mujer trabajando en computadora con el sitio de Jaramillo Boutique en pantalla"'), 'Spanish Package 1 Jaramillo image alt missing');
+ assert(!basic?.includes('website-la-vie-in-pink-original.jpg'),language+': retired La Vie in Pink package 1 image returned');
  assert(advanced?.includes(photoRoot+expected.planAdvanced),language+': CRM package photo wrong');
  assert(!html.includes('class="app-section"')&&!html.includes('/custom-app/?lang='),language+': duplicate app offer must not appear on landing');
  for(const key of ['processChoose','processBrand','processBuild','processLaunch']){
