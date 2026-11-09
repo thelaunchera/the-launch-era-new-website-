@@ -1,46 +1,63 @@
 import { MarketingCTA } from '@/components/marketing-cta';
-import { FAQTopicTabs } from './faq-topic-tabs';
 import { ArrowRight, Plus } from 'lucide-react';
 import { PurchaseClarity } from './home-sales';
 import './service-sales-mobile-cta.css';
-type Props={product:'booking'|'app';lang?:'en'|'es'};
-export function ServiceSales({product,lang='en'}:Props){
- const es=lang==='es',booking=product==='booking';
- const pains=booking?(es?[
- ['Te preguntaron por una limpieza. Ahora no encuentras los detalles.','Buscar el servicio, la dirección y la fecha en distintos chats.','La Booking Page recoge los datos y los lleva a tu Command Center.'],
- ['Una cotización que quedó sin respuesta.','Recordar a quién debes volver a escribir entre una limpieza y otra.','Nosotros nos encargamos de los dos seguimientos automáticos si no hay respuesta. Tú decides si enviar un último mensaje o detenerte.'],
- ['Un cambio de precios u horarios.','Volver a explicar tus opciones cada vez que alguien pregunta.','Actualiza servicios, precios y disponibilidad desde tu espacio privado.']
- ]:[
- ['Someone asked about cleaning. Now you can’t find the details.','Find the service, address, and date across different chats.','Your Booking Page collects the details and sends them to your Command Center.'],
- ['A quote that went quiet.','Remember who needs a follow-up between cleaning jobs.','We handle the first two automatic follow-ups if there is no reply. You decide whether to send a final message or stop.'],
- ['A change to your rates or schedule.','Explain your options again every time someone asks.','Update services, prices, and availability in your private workspace.']
- ]):(es?[
- ['El próximo trabajo, pero faltan los detalles.','Buscar direcciones y notas de clientes antes de salir.','Mantén los datos del cliente y del trabajo organizados en la App.'],
- ['Un estimado en una nota. Una factura en otra.','Volver a copiar información para preparar el próximo paso.','Organiza cotizaciones, trabajos y facturas en el mismo espacio.'],
- ['Terminaste las limpiezas. Quedan los pendientes.','Revisar varios lugares para saber qué falta mañana.','Consulta el calendario, clientes y trabajos desde tu teléfono.']
- ]:[
- ['The next job is booked. The details are scattered.','Search for addresses and client notes before heading out.','Keep client and job details organized in the App.'],
- ['An estimate in one note. An invoice in another.','Copy the same information to prepare the next step.','Manage quotes, jobs, and invoices in the same workspace.'],
- ['The cleaning is done. The loose ends are not.','Check several places to figure out what tomorrow needs.','Check your calendar, clients, and jobs from your phone.']
- ]);
- const questions=es?[
- ['¿Necesito descargarla de una tienda de apps?','No. La Cleaning App funciona en el navegador de tu teléfono, tablet o computadora. También puedes añadirla a la pantalla de inicio.'],
- ['¿Qué puedo organizar?','Clientes, reservas, cotizaciones, trabajos, facturas, tiempo del equipo, millaje y rutas. El Pricing Calculator usa la configuración de precios de tu negocio.'],
- ['¿La Booking Page personalizada viene con la App?','Son productos distintos. La App organiza tus operaciones; Booking Automation + Command Center incluye una página de reservas personalizada y tu Command Center.'],
- ['¿Cómo empiezo y cuánto cuesta?','Crea tu cuenta para comenzar la prueba de 30 días, sin tarjeta. Después, el plan cuesta $3.99 al mes. Puedes explorar la demo interactiva antes de registrarte.']
- ]:[
- ['Do I need to download it from an app store?','No. The Cleaning App works in your phone, tablet, or computer browser. You can also add it to your home screen.'],
- ['What can I organize?','Clients, bookings, quotes, jobs, invoices, team time, mileage, and routes. The Pricing Calculator uses your business pricing settings.'],
- ['Does the App include a personalized Booking Page?','These are separate products. The App organizes operations; Booking Automation + Command Center includes a personalized Booking Page and your Command Center.'],
- ['How do I start, and what does it cost?','Create your account to start a 30-day trial, with no card required. The plan is $3.99 per month afterward. Explore the interactive demo before signing up if you prefer.']
- ];
- const primary=booking?`/booking-bundle/?lang=${lang}`:'https://app.thelaunchera.com/?entry=signup';
- const demo=booking?`/booking-demo/?lang=${lang}`:`/cleaning-app-demo/?lang=${lang}`;
- return <div className="service-sales">
- <div className="service-sales-pain"><div className="eyebrow">{es?'¿TE SUENA FAMILIAR?':'DOES THIS SOUND FAMILIAR?'}</div><h2 className="editorial">{booking?(es?'Responder no debería empezar buscando mensajes.':'Replying should not start with hunting through messages.'):(es?'Tus clientes, trabajos y cotizaciones no deberían estar regados por todas partes.':'Your clients, jobs, and quotes shouldn’t live in five different places.')}</h2><p>{es?'Toca una situación para ver qué cambia.':'Tap a situation to see what changes.'}</p>
- <div className="service-pain-list">{pains.map(([title,before,after],i)=><details key={title} onToggle={e=>{if(e.currentTarget.open)window.tleTrackEvent?.('service_pain_open',{product,lang,situation:i})}}><summary>{title}<Plus size={18}/></summary><div><p><strong>{es?'Hoy: ':'Today: '}</strong>{before}</p><p><strong>{es?'Con TLE: ':'With TLE: '}</strong>{after}</p>{!booking&&<a className="service-demo-link" href={demo}>{es?'Ver cómo funciona':'See how it works'} <ArrowRight size={17}/></a>}</div></details>)}</div></div>
- <div className="service-fit"><div className="eyebrow">{es?'ELIGE LO QUE TE AYUDA':'FIND YOUR FIT'}</div><h2 className="editorial">{booking?(es?'¿Es el sistema que necesitas?':'Is this the right booking system for you?'):(es?'Para el trabajo que ya está en marcha.':'For the work already on your schedule.')}</h2>{booking?<><p><strong>{es?'Es para ti si: ':'This is for you if: '}</strong>{es?'Se te pierden consultas o seguimientos entre mensajes.':'You lose requests in messages or forget follow-ups.'}</p><p><strong>{es?'No es lo que necesitas si: ':'This is not for you if: '}</strong>{es?'No necesitas recibir solicitudes de reserva por internet.':'You do not need an online way to collect booking requests.'}</p><a className="service-fit-request-link" href={demo+(demo.includes("?")?"&":"?")+"source=booking-landing-fit"}>{es?'Pide tu demo personalizada':'Request your personalized demo'} <ArrowRight size={17}/></a></>:<p>{es?'Cleaning App organiza trabajos; Booking Automation recibe solicitudes.':'Cleaning App organizes operations; Booking Automation handles new requests.'}</p>}<a className="service-demo-link" href={booking?demo:(es?'/es/booking-lead-automation/':'/booking-lead-automation/')}>{booking?(es?'Ver demo de reservas':'Try the Booking Demo'):(es?'Conocer Booking Automation + Command Center':'Explore Booking Automation + Command Center')} <ArrowRight size={17}/></a></div>
- <section className="service-buy-clarity" aria-label={es?'Preguntas frecuentes del servicio':'Service frequently asked questions'}><div className="eyebrow">{es?'PREGUNTAS FRECUENTES':'FREQUENTLY ASKED QUESTIONS'}</div><h2 className="editorial">{booking?(es?'Sobre Booking Automation + Command Center':'About Booking Automation + Command Center'):(es?'Sobre la Cleaning App':'About the Cleaning App')}</h2>{booking?<PurchaseClarity lang={lang}/>:<div className="purchase-clarity"><FAQTopicTabs lang={lang} billing={[questions[3]]} account={questions.slice(0,3)} /></div>}</section>
- <div className="service-sales-close"><h2 className="editorial">{booking?(es?'Que tu próxima consulta no se pierda entre mensajes.':'Be ready when your next customer reaches out.'):(es?'Termina el día sabiendo qué tienes para mañana.':'Know what’s on tomorrow’s schedule before tomorrow starts.')}</h2><p>{booking?(es?'Comparte tus datos. Te enviamos los accesos cuando esté listo.':'Share your details. We’ll email your access when ready.'):(es?'Empieza la prueba gratis o explora la demo.':'Start with a free trial, or explore the demo first.')}</p><div className="service-hero-actions">{booking?<><MarketingCTA className="cta-button service-cta" href={primary}>{es?'Comprar mi sistema de reservas':'Get my booking system'} <ArrowRight/></MarketingCTA><a className="service-demo-link" href={demo+(demo.includes("?")?"&":"?")+"source=booking-landing-close"}>{es?'Pedir demo personalizada':'Request a personalized demo'} <ArrowRight/></a></>:<><MarketingCTA className="cta-button service-cta" href={primary}>{es?'Comenzar prueba de 30 días':'Start my 30-day trial'} <ArrowRight/></MarketingCTA><a className="service-demo-link" href={demo}>{es?'Explorar la demo':'Explore the demo'} <ArrowRight/></a></>}</div><small>{booking?(es?'Tu confirmación de compra y los siguientes pasos llegan por correo. Revisa Promociones o Spam.':'Your purchase confirmation and next steps arrive by email. Check Promotions or Spam.'):(es?'Sin tarjeta · Después $3.99/mes':'No card required · Then $3.99/month')}</small></div>
- </div>;
+
+type Props = { product: 'booking'; lang?: 'en' | 'es' };
+
+// Only the active Booking Page + Command Center service is sold here.
+// Standalone Cleaning App trials, pricing and sign-up links were retired.
+export function ServiceSales({ product, lang = 'en' }: Props) {
+  const es = lang === 'es';
+  const pains = es ? [
+    ['Te preguntaron por una limpieza. Ahora no encuentras los detalles.', 'Buscar el servicio, la dirección y la fecha en distintos chats.', 'La Booking Page recoge los datos y los lleva a tu Command Center.'],
+    ['Una cotización que quedó sin respuesta.', 'Recordar a quién debes volver a escribir entre una limpieza y otra.', 'Nosotros nos encargamos de los dos seguimientos automáticos si no hay respuesta. Tú decides si enviar un último mensaje o detenerte.'],
+    ['Un cambio de precios u horarios.', 'Volver a explicar tus opciones cada vez que alguien pregunta.', 'Actualiza servicios, precios y disponibilidad desde tu espacio privado.']
+  ] : [
+    ['Someone asked about cleaning. Now you can’t find the details.', 'Find the service, address, and date across different chats.', 'Your Booking Page collects the details and sends them to your Command Center.'],
+    ['A quote that went quiet.', 'Remember who needs a follow-up between cleaning jobs.', 'We handle the first two automatic follow-ups if there is no reply. You decide whether to send a final message or stop.'],
+    ['A change to your rates or schedule.', 'Explain your options again every time someone asks.', 'Update services, prices, and availability in your private workspace.']
+  ];
+  const primary = `/booking-bundle/?lang=${lang}`;
+  const demo = `/booking-demo/?lang=${lang}`;
+
+  return <div className="service-sales">
+    <div className="service-sales-pain">
+      <div className="eyebrow">{es ? '¿TE SUENA FAMILIAR?' : 'DOES THIS SOUND FAMILIAR?'}</div>
+      <h2 className="editorial">{es ? 'Responder no debería empezar buscando mensajes.' : 'Replying should not start with hunting through messages.'}</h2>
+      <p>{es ? 'Toca una situación para ver qué cambia.' : 'Tap a situation to see what changes.'}</p>
+      <div className="service-pain-list">
+        {pains.map(([title, before, after], i) =>
+          <details key={title} onToggle={e => {
+            if (e.currentTarget.open) window.tleTrackEvent?.('service_pain_open', { product, lang, situation: i });
+          }}>
+            <summary>{title}<Plus size={18}/></summary>
+            <div><p><strong>{es ? 'Hoy: ' : 'Today: '}</strong>{before}</p><p><strong>{es ? 'Con TLE: ' : 'With TLE: '}</strong>{after}</p></div>
+          </details>
+        )}
+      </div>
+    </div>
+    <div className="service-fit">
+      <div className="eyebrow">{es ? 'ELIGE LO QUE TE AYUDA' : 'FIND YOUR FIT'}</div>
+      <h2 className="editorial">{es ? '¿Es el sistema que necesitas?' : 'Is this the right booking system for you?'}</h2>
+      <p><strong>{es ? 'Es para ti si: ' : 'This is for you if: '}</strong>{es ? 'Se te pierden consultas o seguimientos entre mensajes.' : 'You lose requests in messages or forget follow-ups.'}</p>
+      <p><strong>{es ? 'No es lo que necesitas si: ' : 'This is not for you if: '}</strong>{es ? 'No necesitas recibir solicitudes de reserva por internet.' : 'You do not need an online way to collect booking requests.'}</p>
+      <a className="service-fit-request-link" href={demo + '&source=booking-landing-fit'}>{es ? 'Pide tu demo personalizada' : 'Request your personalized demo'} <ArrowRight size={17}/></a>
+      <a className="service-demo-link" href={demo}>{es ? 'Ver demo de reservas' : 'Try the Booking Demo'} <ArrowRight size={17}/></a>
+    </div>
+    <section className="service-buy-clarity" aria-label={es ? 'Preguntas frecuentes del servicio' : 'Service frequently asked questions'}>
+      <div className="eyebrow">{es ? 'PREGUNTAS FRECUENTES' : 'FREQUENTLY ASKED QUESTIONS'}</div>
+      <h2 className="editorial">{es ? 'Sobre Booking Automation + Command Center' : 'About Booking Automation + Command Center'}</h2>
+      <PurchaseClarity lang={lang}/>
+    </section>
+    <div className="service-sales-close">
+      <h2 className="editorial">{es ? 'Que tu próxima consulta no se pierda entre mensajes.' : 'Be ready when your next customer reaches out.'}</h2>
+      <p>{es ? 'Comparte tus datos. Te enviamos los accesos cuando esté listo.' : 'Share your details. We’ll email your access when ready.'}</p>
+      <div className="service-hero-actions">
+        <MarketingCTA className="cta-button service-cta" href={primary}>{es ? 'Comprar mi sistema de reservas' : 'Get my booking system'} <ArrowRight/></MarketingCTA>
+        <a className="service-demo-link" href={demo + '&source=booking-landing-close'}>{es ? 'Pedir demo personalizada' : 'Request a personalized demo'} <ArrowRight/></a>
+      </div>
+      <small>{es ? 'Tu confirmación de compra y los siguientes pasos llegan por correo. Revisa Promociones o Spam.' : 'Your purchase confirmation and next steps arrive by email. Check Promotions or Spam.'}</small>
+    </div>
+  </div>;
 }
