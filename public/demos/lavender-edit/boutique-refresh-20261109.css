@@ -1,0 +1,81 @@
+/* Lavanda Boutique — 2026-11-09. Brand colors from owner reference. Preserve 01–08 and original motion. */
+:root{--lb-purple:#7952B3;--lb-sun:#F4B85D;--lb-ink:#24182F;--lb-ivory:#FAF7F0;--ink:var(--lb-ink);--plum:#5b3a7d;--paper:var(--lb-ivory);--line:#dfd0e8}
+body{background:var(--lb-ivory);color:var(--lb-ink)}
+.topline{background:var(--lb-sun);color:var(--lb-ink);font-weight:700;font-size:10px;letter-spacing:.15em}
+header{background:rgba(250,247,240,.97);border-bottom-color:#7952b324}
+.brand{color:var(--lb-purple);font-size:clamp(29px,3vw,39px)}.brand small{color:var(--lb-ink);margin-left:20px;letter-spacing:.27em}
+.langs{border-color:#c8b3dd}.langs button[aria-pressed=true]{background:var(--lb-purple)}
+.nav a:hover,.headlink:hover{color:var(--lb-purple)}
+.hero{background:var(--lb-purple);color:#fff;grid-template-columns:45% 55%;min-height:clamp(600px,52vw,790px)}
+.hero-copy{padding-left:clamp(40px,7vw,120px);padding-right:3vw}
+.hero .kicker,.hero h1 em{color:var(--lb-sun)}
+.hero h1{font-size:clamp(62px,6.9vw,118px);letter-spacing:-.065em;line-height:.98;max-width:9ch}
+.hero .hero-copy p{color:#f5edfb;font-size:clamp(15px,1.15vw,18px);line-height:1.7;max-width:420px}
+.hero .btn{background:var(--lb-sun);border-color:var(--lb-sun);color:var(--lb-ink)}
+.hero .btn:hover{background:#fff;border-color:#fff;color:var(--lb-purple)}
+.hero-art{background:#d8c8e6}.hero-art img{object-fit:cover;object-position:center 52%;filter:none}
+.hero-number{background:var(--lb-sun);color:var(--lb-ink);font-weight:700}
+.marquee{background:var(--lb-sun);color:var(--lb-ink)}.marquee i{color:var(--lb-purple)}
+.lb-boutique{background:var(--lb-ivory)}
+.lb-lead{text-align:center;max-width:940px;margin:0 auto 56px;padding:0 15px}
+.lb-lead .kicker,.lb-story .kicker{color:var(--lb-purple)}
+.lb-lead h2,.lb-story-copy h2{font:400 clamp(49px,6vw,98px)/1.05 var(--serif);letter-spacing:-.045em;margin:20px auto}
+.lb-lead p,.lb-story-copy p{max-width:600px;margin:0 auto;color:#594968;font-size:15px;line-height:1.85}
+.lb-boutique>.lb-lead{padding-top:110px}
+.lb-duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:0 clamp(12px,3.4vw,54px)}
+.lb-duo figure,.lb-trio figure{position:relative;margin:0;overflow:hidden;background:#eee4f3}
+.lb-duo figure{aspect-ratio:4/4.5}.lb-trio figure{aspect-ratio:3/4}
+.lb-duo img,.lb-trio img,.lb-story-media img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.lb-duo figure:hover img,.lb-trio figure:hover img{transform:scale(1.025)}
+.lb-duo figcaption,.lb-trio figcaption,.lb-original figcaption{position:absolute;bottom:15px;left:15px;background:rgba(250,247,240,.94);color:var(--lb-ink);padding:12px 15px;font-size:10px;letter-spacing:.13em;font-weight:700}
+.lb-story{display:grid;grid-template-columns:1fr 1fr;gap:clamp(35px,8vw,130px);align-items:center;background:#F0E8F5;padding:110px max(5%,calc((100vw - 1440px)/2))}
+.lb-story-media{aspect-ratio:4/4.9;overflow:hidden}.lb-story-copy{padding:20px 5% 20px 0}
+.lb-story-copy h2{max-width:560px}.lb-story-copy p{margin:0 0 30px}
+.lb-story .text-link{color:var(--lb-purple);border-color:var(--lb-purple)}
+.lb-moments{padding:125px clamp(16px,6vw,100px)}
+.lb-trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.lb-trio figure:nth-child(2){transform:translateY(24px)}
+.lb-trio figcaption{font-size:9px;line-height:1.4;letter-spacing:.08em;max-width:calc(100% - 28px)}
+.intro .kicker,.edit .kicker{color:var(--lb-purple)}
+.story{background:var(--lb-purple);color:#fff}
+.story .kicker,.story-copy h2 em{color:var(--lb-sun)}
+.story-copy p{color:#f1e8f9}.story .text-link{color:var(--lb-sun);border-color:var(--lb-sun)}.story-list{border-color:#ffffff44}.story-list div{border-color:#ffffff44}
+.gift{background:#F7E4C1}.gift-copy h2 em{color:var(--lb-purple)}.gift-copy p{color:#584656}
+.gift .btn{background:var(--lb-purple);border-color:var(--lb-purple)}
+.lb-film{background:var(--lb-ink);padding:110px clamp(15px,6vw,110px) 130px;color:#fff}
+.lb-film .kicker{color:var(--lb-sun)}.lb-film .lb-lead p{color:#eadcf4}
+.lb-video{max-width:1260px;margin:auto;aspect-ratio:16/9;overflow:hidden;background:#3e2d4a}
+.lb-video video{display:block;width:100%;height:100%;object-fit:contain}
+.edit{background:var(--lb-ivory)}
+.lb-original{max-width:700px;margin:40px auto 0;aspect-ratio:4/3;position:relative;overflow:hidden}
+.lb-original img{width:100%;height:100%;object-fit:cover}
+.closer{background:var(--lb-purple)}
+.closer .btn{background:var(--lb-sun);color:var(--lb-ink);border-color:var(--lb-sun)}
+.closer .btn:hover{background:white;color:var(--lb-purple)}
+footer{background:#faf0e3}
+@media(max-width:980px){.hero{grid-template-columns:46% 54%}.hero h1{font-size:clamp(55px,7vw,82px)}.lb-story{gap:35px;padding:80px 5%}.lb-moments{padding:90px 4%}}
+@media(max-width:720px){
+ .nav.open{background:var(--lb-ivory)}
+ .hero{display:flex;flex-direction:column;min-height:0}
+ .hero .hero-art{order:0;aspect-ratio:4/4.4;min-height:0}
+ .hero .hero-copy{order:1;padding:38px 25px 52px!important}
+ .hero h1{font-size:clamp(57px,13vw,84px);margin:20px 0}
+ .hero .hero-copy p{font-size:15px;line-height:1.65}
+ .hero .hero-art img{object-position:center 50%}
+ .lb-boutique>.lb-lead{padding-top:70px}
+ .lb-lead{margin-bottom:30px}.lb-lead h2,.lb-story-copy h2{font-size:clamp(47px,11vw,70px)}
+ .lb-duo{grid-template-columns:1fr;gap:10px;padding:0 12px}
+ .lb-duo figure{aspect-ratio:4/4.3}
+ .lb-story{display:flex;flex-direction:column;gap:30px;padding:75px 22px}
+ .lb-story-media{width:100%;aspect-ratio:4/4.7}.lb-story-copy{padding:0}
+ .lb-moments{padding:80px 13px}
+ .lb-trio{grid-template-columns:1fr 1fr;gap:9px}
+ .lb-trio figure:nth-child(2){transform:none}
+ .lb-trio figure:nth-child(3){grid-column:1/-1;aspect-ratio:4/3}
+ .lb-trio figcaption,.lb-duo figcaption{bottom:10px;left:10px;padding:10px;font-size:9px}
+ .story{background:var(--lb-purple)}.gift{background:#F7E4C1}
+ .lb-film{padding:85px 12px 93px}.lb-video{aspect-ratio:4/3}
+ .lb-original{margin-top:26px;aspect-ratio:4/4.3}
+}
+@media(max-width:375px){.brand{font-size:26px}.brand small{font-size:7px}.hero h1{font-size:57px}}
+@media(prefers-reduced-motion:reduce){.lb-trio figure:nth-child(2){transform:none}.lb-duo img,.lb-trio img{transition:none}}
