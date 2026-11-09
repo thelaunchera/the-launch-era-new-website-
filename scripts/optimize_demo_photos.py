@@ -94,7 +94,7 @@ def main():
                 # into the approved master image. Preserve lossless PNG on the
                 # FULL hero (tablet/desktop/phone) instead of WebP quality 80.
                 # Catalog cards and galleries still use the optimized WebP.
-                if rel_file == "demos/golden-grid/index.html" and old == "resources/golden-1.png":
+                if (rel_file == "demos/golden-grid/index.html" and old == "resources/golden-1.png") or (rel_file == "demos/la-vie-in-pink/index.html" and old == "photos/lavie_pink_hero_editorial.png"):
                     continue
                 absolute_old, absolute_new = "/demos/" + slug + "/" + old, "/demos/" + slug + "/" + new
                 if absolute_old in text:
@@ -102,7 +102,7 @@ def main():
                     text = text.replace(absolute_old, absolute_new)
             if rel_file.startswith("demos/" + slug + "/"):
                 for old, new in pairs:
-                    if rel_file == "demos/golden-grid/index.html" and old == "resources/golden-1.png":
+                    if (rel_file == "demos/golden-grid/index.html" and old == "resources/golden-1.png") or (rel_file == "demos/la-vie-in-pink/index.html" and old == "photos/lavie_pink_hero_editorial.png"):
                         continue
                     if old in text:
                         replacement_counts[slug] += text.count(old)
