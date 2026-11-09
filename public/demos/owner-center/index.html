@@ -188,12 +188,26 @@ const key=()=>"tle-owner-demo-v1-"+current;
 const restoreDefaultProductPhotos=saved=>{
  if(current!=="la-vie-in-pink")return saved;
  const cfg=themes[current];
+ // This applies ONLY to the untouched, earlier three-item sample (not edited client data).
+ const oldNames=["Butter Croissant","Café Crème","Weekend Brunch"];
+ const oldPrices=[6,5,22];
+ const oldDefaults=saved.length===3&&saved.every((item,i)=>
+  item.id==="p"+(i+1)&&item.name===oldNames[i]&&Number(item.price)===oldPrices[i]);
+ if(oldDefaults)return baseItems(cfg);
+ // For edited lists, retain names, prices, discounts and custom photos.
+ const outdated=[
+  "/demos/la-vie-in-pink/resources/8572492e-4032-4e82-a5d3-7e087ec38613.png",
+  "/demos/la-vie-in-pink/resources/3674f67a-abe7-4116-b01c-19afb41ae3d5.png",
+  "/demos/la-vie-in-pink/resources/28efa0a2-eefe-40b3-9398-b25bb8e0532a.png"
+ ];
  return saved.map(item=>{
-  const defaultItem=cfg.items[Number(String(item.id).replace(/^p/,""))-1];
-  if(!defaultItem||!defaultItem[5]||!/^p[123]$/.test(item.id))return item;
+  const n=/^p([1-6])$/.exec(String(item.id));
+  if(!n)return item;
+  const defaultItem=cfg.items[Number(n[1])-1];
+  if(!defaultItem||!defaultItem[5])return item;
   const oldSrc=String(item.image||"").trim();
-  if(oldSrc&&oldSrc!==cfg.hero)return item;
-  return {...item,image:defaultItem[5]};
+  if(!oldSrc||oldSrc===cfg.hero||outdated.includes(oldSrc))return {...item,image:defaultItem[5]};
+  return item;
  });
 };
 const load=()=>{try{const saved=JSON.parse(localStorage.getItem(key())||"null");if(Array.isArray(saved)&&saved.every(v=>v&&typeof v.id==="string"&&typeof v.name==="string"))return restoreDefaultProductPhotos(saved.slice(0,75))}catch(e){}return baseItems(themes[current]);};
