@@ -125,35 +125,36 @@ try{
  await page.reload({waitUntil:"domcontentloaded"});
  await page.locator('#mobile-nav [data-view="preview"]').click();
  const expectedLaVie=[
-  "/demos/la-vie-in-pink/resources/8572492e-4032-4e82-a5d3-7e087ec38613.png",
-  "/demos/la-vie-in-pink/resources/3674f67a-abe7-4116-b01c-19afb41ae3d5.png",
-  "/demos/la-vie-in-pink/resources/28efa0a2-eefe-40b3-9398-b25bb8e0532a.png"
+  "/demos/la-vie-in-pink/photos/lavie_01_rose_latte_croissant.png",
+  "/demos/la-vie-in-pink/photos/lavie_04_iced_rose_cake.png",
+  "/demos/la-vie-in-pink/photos/lavie_05_coffee_moment.png",
+  "/demos/la-vie-in-pink/photos/lavie_02_brunch_patisserie.png",
+  "/demos/la-vie-in-pink/photos/lavie_03_pastry_counter.png",
+  "/demos/la-vie-in-pink/photos/lavie_07_brunch_toast.png"
  ];
  const previewImages=page.locator("#large-preview .preview-card img");
- assert.equal(await previewImages.count(),3,"Croissant, café crème and brunch must each have their own product image");
- const urls=[];
- for(let i=0;i<3;i++){
+ assert.equal(await previewImages.count(),6,"Previously saved default menu must migrate to six real cafe products");
+ for(let i=0;i<expectedLaVie.length;i++){
   const image=previewImages.nth(i);
-  const src=await image.getAttribute("src");
-  urls.push(src);
-  assert.equal(src,expectedLaVie[i],"Incorrect food product photo at index "+i);
+  assert.equal(await image.getAttribute("src"),expectedLaVie[i],"Incorrect original product photo at index "+i);
   await image.scrollIntoViewIfNeeded();
   await page.waitForFunction(index=>{
    const img=document.querySelectorAll("#large-preview .preview-card img")[index];
    return img&&img.complete&&img.naturalWidth>0;
   },i,{timeout:25000});
  }
- assert.equal(new Set(urls).size,3,"No repeated storefront on food cards");
- const productTitle=await page.locator("#large-preview .preview-card strong").allInnerTexts();
- assert.match(productTitle[0],/Croissant de mantequilla/);
- assert.match(productTitle[1],/Café crème/);
- assert.match(productTitle[2],/Brunch del fin de semana/);
- await page.screenshot({path:"qa-screenshots/demo-gallery/la-vie-three-food-photos-es-iphone.png"});
+ assert.equal(new Set(expectedLaVie).size,6,"Every menu item needs distinct food photography");
+ const titles=await page.locator("#large-preview .preview-card strong").allInnerTexts();
+ assert.equal(titles.length,6);
+ assert(titles.every(t=>t.trim().length>2),"Every product needs a readable name");
+ await page.screenshot({path:"qa-screenshots/demo-gallery/la-vie-six-food-photos-es-iphone.png"});
  await page.locator('#mobile-nav [data-view="catalog"]').click();
  const catalogImages=page.locator("#catalog-list .product-card .product-image");
- assert.equal(await catalogImages.count(),3);
- for(let i=0;i<3;i++)assert.equal(await catalogImages.nth(i).getAttribute("src"),expectedLaVie[i]);
- console.log("PASS: La Vie Spanish iPhone preview/catelog: distinct croissant, coffee, brunch images load in browser even with legacy saved cards");
+ assert.equal(await catalogImages.count(),6);
+ for(let i=0;i<expectedLaVie.length;i++){
+  assert.equal(await catalogImages.nth(i).getAttribute("src"),expectedLaVie[i]);
+ }
+ console.log("PASS: La Vie Spanish Owner Center migrates three retired items into six distinct food-product photos");
 
  console.log("PASS: six brand-specific Owner Center headings, tabs, previews and sample catalog categories");
 

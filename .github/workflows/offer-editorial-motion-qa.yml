@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'public/assets/tle-offer-editorial-motion-20261108.css'
+      - 'public/assets/tle-website-offer-compact-20261109.css'
       - 'public/assets/tle-offer-editorial-motion-20261108.js'
       - 'public/assets/tle-offer-gallery-hero-media-20261108.js'
       - 'public/website-for-your-business/index.html'
@@ -15,6 +16,7 @@ on:
     branches: [main]
     paths:
       - 'public/assets/tle-offer-editorial-motion-20261108.css'
+      - 'public/assets/tle-website-offer-compact-20261109.css'
       - 'public/assets/tle-offer-editorial-motion-20261108.js'
       - 'public/assets/tle-offer-gallery-hero-media-20261108.js'
       - 'public/website-for-your-business/index.html'

@@ -56,8 +56,8 @@ for(const [kind,s] of [['English',en],['Spanish',es]]){
  assert.match(s,/owner-admin-fields/);
  assert.match(s,/tle-raspberry-showcase/);
 }
-assert.match(en,/More than a website/);
-assert.match(es,/Más que un website/);
+assert.match(en,/Beautiful for them/);
+assert.match(es,/Bonito para ellos/);
 assert.match(es,/lang=es&amp;returnTo=/);
 assert.match(es,/VISTA DEL PROPIETARIO/);
 const requestSource=file('public/assets/tle-owner-request-examples-20261108.js');
