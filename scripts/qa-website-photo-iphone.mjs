@@ -82,4 +82,51 @@ try{
   console.log('PASS',language,'iPhone-size viewport, six images visible, gallery hero swipeable and original pricing preserved');
   await context.close();
  }
+  // Regression for the owner-reported iPad: all and curated galleries must
+  // expose the FIRST card at scrollLeft=0 and the LAST card at the far right.
+  // The page must still scroll vertically from over the horizontal rail.
+  const hiddenSeven=['ivory-and-bloom','casa-brownie','havana-19','soluna-yoga','experience-cleaning','yummm','wok-social'];
+  for(const language of ['en','es']){
+   for(const curated of [false,true]){
+    const context=await browser.newContext({viewport:{width:1024,height:768},isMobile:true,hasTouch:true,deviceScaleFactor:2});
+    const page=await context.newPage();
+    const hidden=curated?hiddenSeven.map(demo_id=>({demo_id,visible:false})):[];
+    await page.route('**/tle_website_demo_visibility?**',route=>route.fulfill({
+     status:200,contentType:'application/json',body:JSON.stringify(hidden)
+    }));
+    const url=language==='en'?'/website-for-your-business/':'/es/website-for-your-business/';
+    await page.goto(root+url,{waitUntil:'load',timeout:30000});
+    await page.waitForFunction(()=>document.documentElement.dataset.tleDemoStatus==='ready',null,{timeout:12000});
+    const stage=page.locator('.hero-gallery-stage');
+    const count=await page.locator('.hero-gallery-card:visible').count();
+    assert.equal(count,curated?4:11,'Correct curated gallery count on '+language);
+    const left=await stage.evaluate(el=>{
+     el.style.scrollBehavior='auto';el.scrollLeft=0;
+     const first=el.querySelector('.hero-gallery-card:not([hidden])');
+     return {scrollWidth:el.scrollWidth,clientWidth:el.clientWidth,firstLeft:first.getBoundingClientRect().left,stageLeft:el.getBoundingClientRect().left,
+      touchAction:getComputedStyle(el).touchAction};
+    });
+    assert(left.scrollWidth>left.clientWidth+100,'iPad gallery must have real swipe distance: '+language+' '+JSON.stringify(left));
+    assert(left.firstLeft>=left.stageLeft-4,'First project was clipped before scroll started: '+language+' '+JSON.stringify(left));
+    assert.match(left.touchAction,/pan-x/,'Tablet must support native touch panning');
+    const right=await stage.evaluate(el=>{
+     el.scrollLeft=el.scrollWidth-el.clientWidth;
+     const cards=[...el.querySelectorAll('.hero-gallery-card:not([hidden])')];
+     return {scrollLeft:el.scrollLeft,lastRight:cards.at(-1).getBoundingClientRect().right,stageRight:el.getBoundingClientRect().right};
+    });
+    assert(right.scrollLeft>100,'iPad rail cannot reach later projects: '+language);
+    assert(right.lastRight<=right.stageRight+4,'Last project is clipped off the far end: '+language+' '+JSON.stringify(right));
+    await page.evaluate(()=>window.scrollTo(0,0));
+    const y0=await page.evaluate(()=>window.scrollY);
+    const r=await stage.boundingBox();
+    await page.mouse.move(r.x+r.width/2,r.y+Math.min(r.height/2,Math.max(20,760-r.y-10)));
+    await page.mouse.wheel(0,520);
+    await page.waitForTimeout(200);
+    const y1=await page.evaluate(()=>window.scrollY);
+    assert(y1>y0+50,'Vertical page scroll was trapped over portfolio rail: '+language);
+    await page.screenshot({path:'qa-screenshots/website-gallery-'+language+'-tablet-'+(curated?'curated':'full')+'.png',fullPage:false});
+    console.log('PASS',language,curated?'4 curated':'11 projects','iPad rail first/last reachability + vertical scroll');
+    await context.close();
+   }
+  }
 }finally{await browser.close()}
