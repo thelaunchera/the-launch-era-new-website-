@@ -141,7 +141,7 @@ try{
       pageScroll:document.documentElement.scrollWidth,viewport:innerWidth
      };
     });
-    assert.equal(layout.visibleCount,6,'Gallery visibility preserves six curated demos '+lang+' '+width);
+    assert.equal(layout.visibleCount,7,'Gallery visibility preserves seven curated demos '+lang+' '+width);
     assert.ok(Math.min(...layout.cardWidths)>=170,'Visible demo thumbnails must be large on iPad '+JSON.stringify(layout));
     assert.ok(layout.filledFraction>.78,'Visible demos must occupy tablet rail instead of half-width '+JSON.stringify(layout));
     assert.ok(layout.benefitFont>=13,'Benefit explanations must remain readable '+JSON.stringify(layout));
