@@ -24,8 +24,8 @@ export const FAQ: Fact[] = [
 
  {service:"general",topic:"business",
   keywords:["what do you do","what services","what do you sell","your business","how can you help","what can you help with","what can you do","que hacen","que ofrecen","que venden","servicios tienen","en que me puedes ayudar","que puedes ayudarme","que puedes hacer","como puedes ayudarme","who are you"],
-  en:"The Launch Era helps cleaning business owners organize inquiries, bookings, follow-ups and day-to-day work. We offer Booking Automation + Command Center, the Cleaning Web App, AI Assistants, Website Automation and VA support.",
-  es:"The Launch Era ayuda a negocios de limpieza a organizar consultas, reservas, seguimientos y operaciones. Ofrecemos Booking Automation + Command Center, Cleaning Web App, asistentes IA, Website Automation y apoyo VA."},
+  en:"The Launch Era helps cleaning business owners organize inquiries, bookings, follow-ups and day-to-day work. We offer Booking Automation + Command Center, AI Assistants, Website Automation and VA support. The previous Cleaning App is retired.",
+  es:"The Launch Era ayuda a negocios de limpieza a organizar consultas, reservas, seguimientos y operaciones. Ofrecemos Booking Automation + Command Center, asistentes IA, Website Automation y apoyo VA. La antigua Cleaning App se retiró."},
  {service:"general",topic:"audience",
   keywords:["who is this for","commercial cleaning","residential cleaning","who can use","business type","para quien","limpieza comercial","limpieza residencial","que tipo de negocio"],
   en:"Our tools are designed primarily for cleaning business owners. We support residential workflows and review commercial requirements before promising a specific setup.",

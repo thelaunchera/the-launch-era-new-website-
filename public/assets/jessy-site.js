@@ -91,7 +91,7 @@ const catalogPath="/assets/jessy-offers.json";
 const avatarPath="/assets/jessie-avatar.webp?v=20261015";
 function currentPage(){
  const path=location.pathname.replace(/\/+$/,"")||"/";
- if(["/cleaning-web-app","/es/cleaning-web-app","/cleaning-app-demo"].includes(path))return "cleaning-app";
+ // Retired app URLs are redirects, not product surfaces.
  if(["/booking-lead-automation","/es/booking-lead-automation","/booking-demo"].includes(path))return "booking";
  if(["/ai-booking-assistant","/es/ai-booking-assistant"].includes(path))return "ai-booking";
  if(["/website-automation","/es/website-automation"].includes(path))return "website";
@@ -132,7 +132,7 @@ function track(action){
 }
 
 const categoryEvents=new Set(["opened","lead_start","lead_saved","demo_open","demo_close","demo_lead_saved","diagnostic","comparison","pricing","recommendation","client_help","language_switch","answered"]);
-const allowedService=new Set(["booking","cleaning-app","website","va","ai-booking","ai-followup","ai-business"]);
+const allowedService=new Set(["booking","website","va","ai-booking","ai-followup","ai-business"]);
 function visitorLanguage(m){
  const tokens=(String(m).toLowerCase().match(/[\p{L}]+/gu)||[]).slice(0,60);
  const spanish=new Set(["hola","quiero","necesito","puedes","cómo","como","funciona","cuánto","cuanto","precio","reservas","clientes","limpieza","ayuda","negocio","seguimiento","mostrar","tengo","para","qué","interesa","servicios","con","saber","hacen"]);
@@ -155,15 +155,16 @@ function visitorIntent(m){
 function direct(href){
  if(!href||typeof href!=="string"||!href.startsWith("/")||href.startsWith("//"))return null;
  const p=href.split("?")[0];
- if(!/^\/(?:booking-bundle\/|service-checkout\/|booking-lead-automation|ai-booking-assistant\/|cleaning-web-app|cleaning-app-demo\/|booking-demo\/|website-automation|virtual-assistant|whatsapp-ai-agent\/|es\/)/.test(p))return null;
+ if(/\/cleaning-web-app|\/cleaning-app-demo|\/cleaning-app(?:\/|$)/.test(p))return null;
+ if(!/^\/(?:booking-bundle\/|service-checkout\/|booking-lead-automation|ai-booking-assistant\/|booking-demo\/|website-automation|virtual-assistant|whatsapp-ai-agent\/|es\/)/.test(p))return null;
  return href;
 }
 function routeFor(href){
  if(!href)return null;
- if(href==="https://app.thelaunchera.com/?entry=signup")return href;
+ if(href==="https://app.thelaunchera.com/?entry=signup")return null; // Product retired.
  const s=direct(href);if(!s)return null;
  if(s.startsWith("/booking-bundle/"))return "/booking-bundle/?lang="+lang+"#choose-plan";
- if(s.startsWith("/cleaning-app-demo/")||s.startsWith("/booking-demo/"))return s.includes("lang=")?s.replace(/lang=(en|es)/,"lang="+lang):s+"?lang="+lang;
+ if(s.startsWith("/booking-demo/"))return s.includes("lang=")?s.replace(/lang=(en|es)/,"lang="+lang):s+"?lang="+lang;
  if(s.includes("lang="))return s.replace(/lang=(en|es)/,"lang="+lang);
  if(s.startsWith("/service-checkout/"))return s+"&lang="+lang;
  if(lang==="es"&&!s.startsWith("/es/"))return "/es"+s.replace(/\/$/,"/");
@@ -384,7 +385,7 @@ function actions(checkout,detail,trial,checkoutOnly=false){
  const row=node("div","tle-jessy-inline");
  const isEs=lang==="es";
  const options=[];
- if(trial){
+ if(trial && routeFor(trial)){
   options.push({href:trial,label:checkoutOnly?(isEs?"Iniciar prueba gratis de 30 días →":"Start 30-day free trial →"):(isEs?"Probar gratis":"Try it free"),kind:"primary"});
   if(detail&&!checkoutOnly)options.push({href:detail,label:isEs?"Ver demo":"See the demo",kind:"secondary"});
  }else if(checkout){
@@ -433,10 +434,7 @@ function showCheckoutOptions(ids,label){
  const unique=[...new Set(ids)],wrap=node("div","tle-jessy-checkout-choices");
  wrap.append(node("strong","tle-jessy-choice-heading",label||(lang==="es"?"Tus opciones":"Your options")));
  unique.forEach(id=>{
-  if(id==="cleaning-app"){
-   const a=node("a","tle-jessy-checkout-link",lang==="es"?"Iniciar prueba gratis de Cleaning App →":"Start Cleaning App free trial →");
-   a.href="https://app.thelaunchera.com/?entry=signup";a.rel="noopener";wrap.append(a);return;
-  }
+  if(id==="cleaning-app")return; // Archived product has no checkout.
   const href=id==="booking-bundle"?"/booking-bundle/?lang="+lang+"#choose-plan":checkoutFor(id);
   if(!href)return;
   const names={booking:"Booking Automation","ai-booking":"AI Booking Assistant","ai-followup":"AI Follow-Up Assistant","ai-business":"AI Business Assistant",website:"Website Automation",va:"VA Support","booking-bundle":"Booking + AI bundle"};
@@ -453,7 +451,7 @@ function showNeedsChecklist(){
  if(existing){existing.scrollIntoView({block:"nearest",behavior:"auto"});return;}
  const form=node("form","tle-jessy-needs"),fieldset=node("fieldset");
  fieldset.append(node("legend","",lang==="es"?"¿Qué quieres mejorar?":"What would you like help with?"),node("p","",lang==="es"?"Selecciona una o varias opciones.":"Select one or more."));
- const options=[["booking",lang==="es"?"Recibir y organizar reservas":"Capture and organize bookings"],["ai-booking",lang==="es"?"Responder preguntas con IA":"Answer visitor questions with AI"],["ai-followup",lang==="es"?"Dar seguimiento a interesados":"Follow up with interested leads"],["cleaning-app",lang==="es"?"Organizar clientes y trabajos":"Organize clients and jobs"]];
+ const options=[["booking",lang==="es"?"Recibir y organizar reservas":"Capture and organize bookings"],["ai-booking",lang==="es"?"Responder preguntas con IA":"Answer visitor questions with AI"],["ai-followup",lang==="es"?"Dar seguimiento a interesados":"Follow up with interested leads"],["website",lang==="es"?"Organizar consultas de mi website":"Organize website inquiries"]];
  for(const [id,title] of options){const label=node("label","tle-jessy-need"),box=node("input");box.type="checkbox";box.name="needs";box.value=id;label.append(box,node("span","",title));fieldset.append(label)}
  const submit=button("tle-jessy-needs-submit",lang==="es"?"Ver mis opciones →":"See my options →");submit.type="submit";
  const status=node("p","tle-jessy-needs-status");status.setAttribute("role","status");form.append(fieldset,submit,status);
@@ -476,11 +474,7 @@ function showDemoChoices(){
  const booking=button("tle-jessy-checkout-link",lang==="es"?"Demo de Booking Automation →":"Booking Automation demo →");
  booking.type="button";
  booking.addEventListener("click",()=>{wrap.remove();showDemoCard("booking")});
- const app=node("a","tle-jessy-checkout-link",lang==="es"?"Demo de Cleaning App →":"Cleaning App demo →");
- app.href="/cleaning-app-demo/?lang="+lang;
- app.rel="noopener";
- app.addEventListener("click",()=>track("service_demo_opened"));
- wrap.append(booking,app);
+ wrap.append(booking); // Only current booking demo; standalone Cleaning App demo is retired.
  log.append(wrap);log.scrollTop=log.scrollHeight;
 }
 function showWhatsappChoices(){
@@ -531,12 +525,7 @@ function quickChoices(){
  quick.replaceChildren();
  const p=currentPage(),es=lang==="es";
  let opts=[[es?"✓ Elegir necesidades":"✓ Choose needs","needs-form"],[t("ai"),es?"¿Qué asistentes IA ofrecen?":"Which AI Assistants do you offer?"],[es?"Ver demo":"See a demo",es?"¿Puedo ver un demo de los sistemas?":"Can I see a demo of the systems?"],[t("price"),es?"¿Qué precios tienen?":"What are your prices?"],[t("human"),"lead-form"]];
- if(p==="cleaning-app")opts=[
- [es?"Funciones de la app":"App features",es?"¿Qué puedo organizar en la Cleaning App?":"What can I manage in the Cleaning App?"],
- [es?"Prueba gratis":"Free trial",es?"¿Cómo comienzo mi prueba gratis de la app?":"How do I start my free trial in the app?"],
- [es?"Ver demo":"Try demo",es?"¿Puedo probar una demo de la app?":"Can I try the app demo?"],
- [t("human"),"lead-form"]];
- else if(p==="booking")opts=[
+ if(p==="booking")opts=[
  [es?"Cómo funciona":"How it works",es?"¿Cómo funciona Booking Automation?":"How does Booking Automation work?"],
  [es?"Ver planes":"See plans",es?"¿Qué incluye el paquete de reservas?":"What's included in the booking package?"],
  [t("price"),es?"¿Qué cuesta Booking Automation?":"What does Booking Automation cost?"],

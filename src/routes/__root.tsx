@@ -172,7 +172,7 @@ function RootComponent() {
     const privacy = (window as Window & {TLEPrivacy?: {mount:()=>void}}).TLEPrivacy;
     privacy?.mount();
     const sources = [
-      '/assets/jessy-site.js?v=20261101-compact-home-v11',
+      '/assets/jessy-site.js?v=20261108-retired-app-v1',
       '/assets/tle-purchase-proof.js?v=20261016-mini3',
       '/assets/tle-footer-newsletter.js?v=20261016-ios3',
     ];

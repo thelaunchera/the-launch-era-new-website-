@@ -56,7 +56,7 @@ function simulateActions(checkout,detail,trial,checkoutOnly=false){
     setAttribute(k,v){this.attrs[k]=v},addEventListener(name,fn){this["on"+name]=fn}};
  }
  const button=(cls,label)=>node("button",cls,label);
- const routeFor=(href)=>href&&href.startsWith("/")?href:href==="https://app.thelaunchera.com/?entry=signup"?href:null;
+ const routeFor=(href)=>href&&href.startsWith("/")&&!/cleaning-(?:app|web-app)/.test(href)?href:null;
  const track=(what)=>events.push(what);
  const ask=(what)=>events.push("ask:"+what);
  const fn=new Function("node","button","routeFor","log","lang","track","ask",actionsCode+";return actions");
@@ -75,11 +75,10 @@ assert.equal(buyerReady.links.length,1,"Buyer ready to purchase must see only se
 assert.equal(buyerReady.links[0].label,"Open secure checkout →");
 regular.links[1].click();
 assert.ok(regular.events.some(e=>e.startsWith("ask:Could you walk me through")));
-const appActions=simulateActions(null,"/cleaning-app-demo/?lang=en","https://app.thelaunchera.com/?entry=signup");
-assert.equal(appActions.links.length,2);
-assert.equal(appActions.links[0].label,"Try it free");
-assert.equal(appActions.links[1].label,"See the demo");
-assert.equal(appActions.links[1].url,"/cleaning-app-demo/?lang=en");
+const retiredActions=simulateActions(null,"/cleaning-app-demo/?lang=en","https://app.thelaunchera.com/?entry=signup");
+assert.equal(retiredActions.links.length,0,"Retired product may not render trial or demo links");
+assert.doesNotMatch(front,/a\.href="https:\/\/app\.thelaunchera\.com\/\?entry=signup"/,"Jessie must not offer former app signup");
+assert.doesNotMatch(front,/app\.href="\/cleaning-app-demo/,"Jessie must not offer former app demo");
 const chatCss=text("public/assets/jessy-site.css");
 assert.match(chatCss, /\.tle-jessy-inline \.tle-jessy-action-primary/);
 assert.match(chatCss, /\.tle-jessy-inline \.tle-jessy-action-secondary/);
@@ -90,15 +89,17 @@ console.log("PASS Jessie is excluded from sample iframes; warm CTAs route to cor
 
 assert.match(front, /page_path:location\.pathname/);
 assert.match(front, /function handleRoute\(\)/);
-assert.match(front, /"cleaning-app"/);
-assert.match(front, /cleaning-app-demo/);
-assert.match(front, /Try it free/); // Updated, clearer button label
+assert.match(front, /function showDemoChoices\(\)/);
+assert.match(front, /wrap\.append\(booking\)/,"Only active Booking demo is offered");
+assert.match(front, /routeFor\(trial\)/,"Any stale trial URL must be revalidated");
+const publishedCatalog=JSON.parse(text("public/assets/jessy-offers.json"));
+assert(publishedCatalog.offers.every(p=>p.id!=="cleaning-app"),"Retired app must not remain in Jessie offers JSON");
 const contextFunction = front.slice(front.indexOf("function currentPage()"), front.indexOf("let lang="));
 for (const [path, expected] of [
   ["/", ""],
-  ["/cleaning-web-app", "cleaning-app"],
-  ["/es/cleaning-web-app/", "cleaning-app"],
-  ["/cleaning-app-demo/", "cleaning-app"],
+  ["/cleaning-web-app", ""],
+  ["/es/cleaning-web-app/", ""],
+  ["/cleaning-app-demo/", ""],
   ["/booking-lead-automation", "booking"],
   ["/es/ai-booking-assistant", "ai-booking"],
   ["/website-automation", "website"],
@@ -164,9 +165,9 @@ console.log("PASS Jessie welcome nudge and scroll-to-face-only launcher on deskt
 
 const backend = text("supabase/functions/tle-jessy-chat/index.ts");
 assert.match(backend, /const focus=pageOffer\(b\.page_path\)/);
-assert.match(backend, /id==="cleaning-app"\?"\/cleaning-app-demo/);
-assert.match(backend, /trial:id==="cleaning-app"/);
-assert.match(backend, /function appHelp/);
+assert.match(backend, /mode:"retired_cleaning_app"/,"Public backend must handle retired App inquiries");
+assert.match(backend, /const catalog=\(await offers\(\)\)\.filter\(item=>item\[0\]!=="cleaning-app"\)/,"Retired app must be filtered from live catalogue");
+assert.doesNotMatch(backend,/const serviceIds=new Set\(\[[^\]]*"cleaning-app"/,"App must not be purchasable as active service");
 
 // AI pricing: generic questions must show ALL 3 approved plans before any checkout.
 assert.match(front, /function showAiPlanChoices\(plans\)/);
@@ -282,4 +283,4 @@ assert.match(chatCss,/prefers-reduced-motion:reduce[\s\S]*tle-jessy-demo-bubble\
 assert.match(front,/tle-jessy-demo-reveal/,"Demo needs its real caption text");
 console.log("PASS Jessie detailed service answers, bilingual helpful content, and consent-gated original demo after explanations");
 
-console.log("PASS Jessie universal public pages, English/Spanish route focus, Cleaning App answers and safe next steps");
+console.log("PASS Jessie active EN/ES service routes, no retired Cleaning App trials or demo links, safe next steps");

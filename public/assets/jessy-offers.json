@@ -1,6 +1,6 @@
 {
-  "version": "2026-10-17",
-  "updated_at": "2026-10-17",
+  "version": "2026-11-08",
+  "updated_at": "2026-11-08",
   "disclaimer_en": "Prices and availability are confirmed on the checkout page. We review setup details before production.",
   "disclaimer_es": "Los precios y la disponibilidad se confirman en el checkout. Revisamos los detalles antes de comenzar.",
   "offers": [
@@ -44,16 +44,6 @@
       "price_es": "$39 de activación, primer mes incluido; $19/mes desde el día 31 después de la entrega.",
       "checkout": "/service-checkout/?offer=ai-business",
       "details": "/ai-booking-assistant/"
-    },
-    {
-      "id": "cleaning-app",
-      "name": "Cleaning Web App",
-      "short_en": "Organize jobs, clients, quotes, invoices, schedules, recurring cleanings, team, mileage and routes.",
-      "short_es": "Organiza trabajos, clientes, cotizaciones, facturas, calendario, limpiezas recurrentes, equipo, millas y rutas.",
-      "price_en": "30 days free, then $3.99/month.",
-      "price_es": "30 días gratis, luego $3.99/mes.",
-      "checkout": null,
-      "details": "/cleaning-web-app"
     },
     {
       "id": "website",
