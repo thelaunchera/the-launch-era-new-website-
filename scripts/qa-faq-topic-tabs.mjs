@@ -16,7 +16,8 @@ for (const expected of ['height: 2.5px', 'translateX(calc(var(--faq-active)', '5
 }
 assert.match(serviceFAQ, /FAQTopicTabs lang=\{lang\} billing=\{billing\} account=\{account\}/);
 assert.match(bookingFAQ, /FAQTopicTabs lang=\{lang\} billing=\{\[questions\[1\]\]\}/);
-assert.match(serviceSales, /FAQTopicTabs lang=\{lang\} billing=\{\[questions\[3\]\]\}/);
+assert.match(serviceSales, /Booking Page \+ Command Center/,'Sales UI must describe the active booking service');
+assert.doesNotMatch(serviceSales, /cleaning-app-demo|app\.thelaunchera\.com/,'Retired app trial links must not return in service sales');
 assert.equal(existsSync('src/components/cleaning-app-editorial.tsx'),false,'Retired Cleaning App editorial must not return');
 assert.ok(component.includes('/es/privacy.html') && component.includes('/privacy.html'), 'Privacy policy destinations missing');
 console.log('PASS — bilingual FAQ topic tabs: native accordions, keyboard behavior, inert panels, animated indicator, reduced-motion support.');
