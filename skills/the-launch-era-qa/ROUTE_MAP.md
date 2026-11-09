@@ -1,3 +1,12 @@
+## 2026-11-09 — FRESKA beverage concept demo (feature branch; NOT PUBLIC)
+- **Source:** `public/demos/freska/` in `feature/freska-beverage-demo-20261109`. Intended future public path: `/demos/freska/` after approved merge + GitHub Pages deployment only. Do not link publicly before deployed.
+- **Brand:** FRESKA is a provisional fictional beverage brand, not a real business or trademark claim. The owner supplied pink/cobalt campaign inspiration; final name/wordmark and owner visual sign-off are pending.
+- **Routes:** single standalone page. Local anchors `#top`, `#flavors`, `#story`, `#moments`; EN default with ES state via `?lang=es`. No app/backend route introduced.
+- **Actions:** `[data-add]` adds illustrative items into in-memory demo bag; header bag opens the same page drawer; quantities and totals update locally; demo checkout resets the bag and confirms no payment/order/message. Gallery photo buttons open a closable, focus-managed local viewer. Mobile nav opens/closes locally. No API, forms, customer data, Stripe or Make calls.
+- **Assets:** nine original beverage campaign WebP images at `/demos/freska/media/`, brand-specific (not borrowed from any other demo); desktop and mobile use local relative asset URLs.
+- **Legal:** one branded footer with five links to the existing EN/ES site policies and `Powered by The Launch Era`; explicit fictional/demo disclosure prevents purchase confusion.
+- **Release:** source/static asset checks and JS syntax passed in local working copy; browser automation on local HTTP/file was blocked by sandbox admin and GitHub Pages/Safari QA and brand/logo approval remain pending. Do not list in the public demo gallery or private finished Studio yet.
+
 ## 2026-11-09 — Lavanda Boutique interactive demo bag (no new route)
 - **Public route:** `/demos/lavender-edit/` remains unchanged, with the 15 approved photographs, original boutique editorial sections and `#film` muted lower-page video.
 - **Shop navigation:** the existing header now links to `#tle-demo-sample-prices`. The existing shared three-item sample-price catalog remains the *single* source for product names and totals. The header **Bag / Bolsa** opens `#lb-cart-drawer` in the same page.
