@@ -34,7 +34,7 @@ for(const [language,html] of [['en',en],['es',es]]){
   'la-vie-in-pink':'/demos/la-vie-in-pink/resources/36a1bfe5-3660-4b7e-964d-8031fe824941.png',
   'jaramillo-boutique':'https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/assets/hero-editorial-user.jpg',
   'havana-19':'/demos/havana-19/photos/HAVANA19_Hero_Fachada_Borgona.jpeg',
-  'sova':'/demos/sova/resources/01-hero.png',
+  'sova':'/demos/sova/media/sova-hero-seamless-cobalt-20261108.png',
   'soluna-yoga':'https://thelaunchera.github.io/demo-booking-landing-/soluna-yoga/images/soluna-hero-editorial.webp',
   'experience-cleaning':'/assets/cleaning-demo/hero-cleaner-original.jpg',
   'yummm':'https://thelaunchera.github.io/demo-booking-landing-/yummm/media/hero-motion-poster-hq.webp',
