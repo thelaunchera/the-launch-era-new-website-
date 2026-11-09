@@ -64,16 +64,15 @@ export const EDITORIAL_PHOTO_SETS = {
     "https://thelaunchera.com/demos/marea-wigs-miami/resources/14-community.png"
   ],
   "sova": [
-    "https://thelaunchera.com/demos/sova/media/sova-hero-seamless-cobalt-20261108.png",
-    "https://thelaunchera.com/demos/sova/resources/02-product.png",
     "https://thelaunchera.com/demos/sova/media/SOVA_01_MUSIC.png",
     "https://thelaunchera.com/demos/sova/media/SOVA_02_RELAX.png",
     "https://thelaunchera.com/demos/sova/media/SOVA_03_VIBE.png",
     "https://thelaunchera.com/demos/sova/media/SOVA_04_FOCUS.png",
     "https://thelaunchera.com/demos/sova/media/SOVA_05_DREAM.png",
+    "https://thelaunchera.com/demos/sova/resources/02-product.png",
+    "https://thelaunchera.com/demos/sova/media/sova-hero-seamless-cobalt-20261108.png",
     "https://thelaunchera.com/demos/sova/resources/03-campaign.png"
-  ],
-  "golden-grid": [
+  ],  "golden-grid": [
     "https://thelaunchera.com/demos/golden-grid/resources/golden-1.png",
     "https://thelaunchera.com/demos/golden-grid/media/golden-grid-human-01.webp",
     "https://thelaunchera.com/demos/golden-grid/media/golden-grid-human-02.webp",

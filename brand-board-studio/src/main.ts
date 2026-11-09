@@ -210,8 +210,8 @@ const DEMOS=[
     tone: "Moderna · acústica · audaz",
     style: "audio",
     colors: ['#171F35','#1051C5','#C1D6F0','#F6F8FA','#91A8DA','#ECECF4'],
-    heroPhoto: "https://thelaunchera.com/demos/sova/media/sova-hero-seamless-cobalt-20261108.png",
-    detailPhoto: "https://thelaunchera.com/demos/sova/resources/02-product.png",
+    heroPhoto: "https://thelaunchera.com/demos/sova/media/SOVA_01_MUSIC.png",
+    detailPhoto: "https://thelaunchera.com/demos/sova/media/SOVA_02_RELAX.png",
     site: "https://thelaunchera.com/demos/sova/",
     logoImage: "",
     patternImage: "",
@@ -517,6 +517,11 @@ function hydrate(){
       } else if (b[field] === former) {
         merged[field] = d[field];
       }
+    }
+    // Migrate the two prior SOVA official photos; preserve individually customized images.
+    if (b.id === 'sova') {
+      if (b.heroPhoto === 'https://thelaunchera.com/demos/sova/media/sova-hero-seamless-cobalt-20261108.png') merged.heroPhoto = d.heroPhoto;
+      if (b.detailPhoto === 'https://thelaunchera.com/demos/sova/resources/02-product.png') merged.detailPhoto = d.detailPhoto;
     }
     // An intentionally deleted photo must stay empty after reload; only migrate absent fields.
     if(!Object.prototype.hasOwnProperty.call(b,'heroPhoto'))merged.heroPhoto=d.heroPhoto;
