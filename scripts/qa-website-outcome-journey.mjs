@@ -27,7 +27,11 @@ for(const [lang,path] of [['en','public/website-for-your-business/index.html'],[
  assert.match(html,/data-preview-state="idle"/,'safe initial state');
  assert.match(html,/\$15/,'basic website price');
  assert.match(html,/\$25/,'Website Plus price');
- assert.match(html,lang==='en'?/AI AGENT · \$10\/MONTH/:/AGENTE IA OPCIONAL · \$10\/MES/,'optional agent price clearly outside packages');
+ const standaloneAgent=html.match(/<(?:aside|p) class="(?:website-agent-addon|tle-agent-line)"([\s\S]*?)<\/(?:aside|p)>/)?.[0];
+ assert.ok(standaloneAgent,'optional agent must appear as a separate offer, not another website package');
+ assert.match(standaloneAgent,/\$10/,'separate AI agent price must be visible');
+ assert.match(standaloneAgent,lang==='en'?/month/i:/mes/i,'monthly unit must be explicit');
+ assert.match(standaloneAgent,lang==='en'?/optional/i:/opcional/i,'service must be optional');
  const section=html.match(/<article class="plan" id="website-plus">([\s\S]*?)<\/article>/)?.[1];
  assert.ok(section,'plus package must exist');
  assert.doesNotMatch(section,/\$10|AI agent|Agente IA|agente IA|agent subscription/i,'AI must not be bundled with $25');
