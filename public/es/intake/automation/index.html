@@ -110,4 +110,5 @@ form.addEventListener("submit",async e=>{
  try{const r=await fetch(GATEWAY,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload),cache:"no-store",credentials:"omit"});if(!r.ok)throw new Error("HTTP "+r.status);form.classList.remove("is-verified");form.hidden=true;success.hidden=false;status.textContent=""}
  catch(err){btn.disabled=false;status.textContent="No pudimos enviar el formulario. Inténtalo otra vez."}
 });
-</script></body></html>
+</script><script defer src="/assets/tle-global-legal-footer-20261109.js"></script>
+</body></html>

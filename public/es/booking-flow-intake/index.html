@@ -189,4 +189,5 @@ form.addEventListener("submit",async e=>{e.preventDefault();if(!durationPicker){
  }
  data.branding_photos=assets;status.textContent=photoTexts.send;
  const r=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token,data})});const d=await r.json();if(!r.ok)throw new Error(d.error||"No se pudo enviar.");form.innerHTML='<div class="success"><strong>✓ Recibimos tu configuración.</strong><p>'+ (validAiPlans.includes(aiPlan)?'Recibimos los datos de Booking Automation y de tu AI Assistant. Revisaremos y entregaremos cada sistema por separado.':'Estamos preparando tu Booking Page y Command Center. Te enviaremos los accesos después de las pruebas.')+'</p></div>'}catch(err){status.textContent=err.message||"Inténtalo otra vez.";btn.disabled=false}});
-</script></body></html>
+</script><script defer src="/assets/tle-global-legal-footer-20261109.js"></script>
+</body></html>

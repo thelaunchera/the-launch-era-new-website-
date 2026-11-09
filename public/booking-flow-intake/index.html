@@ -192,4 +192,5 @@ form.addEventListener("submit",async e=>{e.preventDefault();if(!durationPicker){
  }
  data.branding_photos=assets;status.textContent=photoTexts.send;
  const r=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token,data})});const d=await r.json();if(!r.ok)throw new Error(d.error||"Could not submit.");form.innerHTML='<div class="success"><strong>✓ Setup form received.</strong><p>'+(validAiPlans.includes(aiPlan)?'Your Booking Automation and AI Assistant setup is saved. Each system will be reviewed and delivered separately.':'We are building your Booking Page and Command Center. Your private access will follow after testing.')+'</p></div>'}catch(err){status.textContent=err.message||"Please try again.";btn.disabled=false}});
-</script></body></html>
+</script><script defer src="/assets/tle-global-legal-footer-20261109.js"></script>
+</body></html>
