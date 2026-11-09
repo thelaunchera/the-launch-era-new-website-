@@ -1,3 +1,11 @@
+## 2026-11-09 — Duplicate legal footer under Casa Brownie and shared demos
+
+- **Observed:** Owner iPhone screenshot of `/demos/casa-brownie/`: the original brown footer is followed by a second ivory-colored footer repeating legal notices, © and Powered by.
+- **Verified source cause:** The shared `public/assets/tle-global-legal-footer-20261109.js` ignored original footers inside `#app`, `#root` or application containers, then created another `footer` at document-body level. Late React mounts in SOVA/Marea can also expose the issue.
+- **Repair in main:** The script now uses the original brand footer even when inside the app, awaits late React footer rendering, follows language changes, and does not repeat disclosure/Powered by when the brand already includes those. The 16 original demo page references have `?v=2` cache refresh. All original heroes/videos, footer CTAs, prices, branded legal modals, product flows and customer systems are unchanged.
+- **Regression guard:** `scripts/qa-demo-legal-footer.mjs` is part of Casa Brownie browser CI; 13 demo routes at 390px check exactly one footer, a single integrated five-policy nav, localized URLs and no horizontal overflow.
+- **Verification state:** GitHub commits made; CI/Pages and real iPhone Safari publication verification tracked separately. Do not claim production visual sign-off without those results.
+
 ## 2026-11-09 — Motion Heroes CI checked intentionally retired and separate video systems
 - **Verified root cause:** Motion Heroes job 42616242368 failed in the first shell gate because it demanded `tle-hero-cinematic-20261108.js` inside CRUMB and AFTR. CRUMB deliberately keeps a still-image hero; AFTR uses its own approved video route, not this shared cinematic controller. All ten media-master paths were present; the failure came from incorrect integration requirements.
 - **Fix:** scope the cinematic controller's asset and script checks to Casa Brownie, Havana 19, Ivory & Bloom and Lavender Edit; explicitly enforce CRUMB's approved still photo with normal and reduced-motion settings. Leave AFTR and Cleaning's separate implementations intact. Run browser source QA against a local HTTP server for the exact checked-out commit instead of assuming the public site has already deployed that revision.
