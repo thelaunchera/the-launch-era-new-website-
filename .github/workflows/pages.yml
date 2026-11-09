@@ -171,6 +171,7 @@ jobs:
             .output/public/website-for-your-business/index.html \
             .output/public/es/website-for-your-business/index.html \
             .output/public/intake/website/index.html \
+             .output/public/intake/website-plus/index.html \
             .output/public/intake/website-ai-crm/index.html \
             .output/public/website-checkout/index.html \
             .output/public/website-payment-success/index.html \
@@ -182,7 +183,8 @@ jobs:
             test -s "$file"
           done
           grep -q 'href="/website-checkout/?offer=website-basic&lang=en"' .output/public/website-for-your-business/index.html
-          grep -q 'href="/website-checkout/?offer=website-ai-crm&lang=es"' .output/public/es/website-for-your-business/index.html
+          grep -q 'href="/website-checkout/?offer=website-plus&lang=es"' .output/public/es/website-for-your-business/index.html
+          grep -q 'href="/website-checkout/?offer=website-plus&lang=en"' .output/public/website-for-your-business/index.html
           grep -q 'Website' .output/public/website-for-your-business/index.html
           cp .output/public/website-for-your-business/index.html .output/public/index.html
           mkdir -p .output/public/es
