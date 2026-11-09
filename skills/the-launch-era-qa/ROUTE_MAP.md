@@ -1,3 +1,10 @@
+## 2026-11-09 — OFFCOURT sneaker-store draft (NOT published)
+- **Proposed route:** `/demos/offcourt/` in `public/demos/offcourt/`, currently ONLY in branch `draft/offcourt-sneaker-store-20261109`. Do not link in the public demo catalog or website sales offer until creative approval and live verification.
+- **Origin:** official and secondary demo directories were inspected; neither contained a sneaker storefront on `main`. This is a new proposed concept, not a replacement of AFTR, SOVA or any existing brand.
+- **Scope:** single static demo with temporary external editorial reference photos, bilingual EN/ES catalog, size selection, filters, working bag and simulated order preview. No actual sales, provider API, personal details, Stripe, Supabase, tenants, email or data persistence.
+- **Boundary:** shared landing pages, the buyer/owner Command Centers, the public demo registry, all existing demos, policies and checkouts remain unchanged.
+- **Release gate:** owner-approved moodboard, original photos, final original logo, optimized local assets and private Studio kit; then static QA, mobile Safari/browser checks, CI, Pages publication and link checks. A draft branch is NOT a verified live website.
+
 ## 2026-11-09 — Lavanda Boutique interactive demo bag (no new route)
 - **Public route:** `/demos/lavender-edit/` remains unchanged, with the 15 approved photographs, original boutique editorial sections and `#film` muted lower-page video.
 - **Shop navigation:** the existing header now links to `#tle-demo-sample-prices`. The existing shared three-item sample-price catalog remains the *single* source for product names and totals. The header **Bag / Bolsa** opens `#lb-cart-drawer` in the same page.
