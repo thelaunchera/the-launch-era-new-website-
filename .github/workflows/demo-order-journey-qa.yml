@@ -12,6 +12,13 @@ on:
       - "public/demos/la-vie-in-pink/index.html"
       - "src/test/demo-order-journey.test.ts"
       - ".github/workflows/demo-order-journey-qa.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "public/assets/tle-demo-order-journey-20261108.js"
+      - "public/demos/la-vie-in-pink/index.html"
+      - "public/demos/la-vie-in-pink/cafe-boutique-20261108.js"
+      - ".github/workflows/demo-order-journey-qa.yml"
   workflow_dispatch:
 permissions:
   contents: read
