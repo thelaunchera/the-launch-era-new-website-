@@ -70,13 +70,13 @@ try{
    const layer=await page.locator('.owner-admin-visual').evaluate(el=>({animation:getComputedStyle(el).animationName,opacity:Number(getComputedStyle(el).opacity)}));
    assert.ok(layer.animation.includes('tle-offer-panel-in')&&layer.opacity>.96,'Owner view settles correctly '+lang);
    await page.screenshot({path:folder+'/'+lang+'-owner-showcase-iphone.png'});
-   await page.locator('#website-ai-crm').scrollIntoViewIfNeeded();
-   await page.waitForFunction(()=>document.querySelector('#website-ai-crm')?.classList.contains('tle-offer-visible'),null,{timeout:10000});
-   await page.waitForFunction(()=>Number(getComputedStyle(document.querySelector('#website-ai-crm')).opacity)>.96,null,{timeout:5000});
-   const priceCard=await page.locator('#website-ai-crm').evaluate(el=>({opacity:Number(getComputedStyle(el).opacity),shadow:getComputedStyle(el).boxShadow}));
+   await page.locator('#website-plus').scrollIntoViewIfNeeded();
+   await page.waitForFunction(()=>document.querySelector('#website-plus')?.classList.contains('tle-offer-visible'),null,{timeout:10000});
+   await page.waitForFunction(()=>Number(getComputedStyle(document.querySelector('#website-plus')).opacity)>.96,null,{timeout:5000});
+   const priceCard=await page.locator('#website-plus').evaluate(el=>({opacity:Number(getComputedStyle(el).opacity),shadow:getComputedStyle(el).boxShadow}));
    assert.ok(priceCard.opacity>.96&&priceCard.shadow!=='none','Pricing becomes visible and dimensional '+lang);
    assert.equal(await page.locator('#website-basic a[href^="/website-checkout/"]').getAttribute('href'),'/website-checkout/?offer=website-basic&lang='+lang,'Checkout basic intact');
-   assert.equal(await page.locator('#website-ai-crm a[href^="/website-checkout/"]').getAttribute('href'),'/website-checkout/?offer=website-ai-crm&lang='+lang,'Checkout advanced intact');
+   assert.equal(await page.locator('#website-plus a[href^="/website-checkout/"]').getAttribute('href'),'/website-checkout/?offer=website-plus&lang='+lang,'Checkout advanced intact');
    await page.screenshot({path:folder+'/'+lang+'-pricing-iphone.png'});
    await page.locator('.faq details').first().scrollIntoViewIfNeeded();
    await page.locator('.faq details summary').first().click();
@@ -153,7 +153,7 @@ try{
     await page.locator('.pricing').scrollIntoViewIfNeeded();
     await page.screenshot({path:folder+'/'+lang+'-pricing-tablet-'+width+'.png'});
     assert.equal(await page.locator('#website-basic a').last().getAttribute('href'),'/website-checkout/?offer=website-basic&lang='+lang);
-    assert.equal(await page.locator('#website-ai-crm a').last().getAttribute('href'),'/website-checkout/?offer=website-ai-crm&lang='+lang);
+    assert.equal(await page.locator('#website-plus a').last().getAttribute('href'),'/website-checkout/?offer=website-plus&lang='+lang);
     console.log('PASS: '+lang+' iPad '+width+'px, 4 large projects, 2x2 benefits, readable full-width packages');
    }finally{await context.close()}
   }
