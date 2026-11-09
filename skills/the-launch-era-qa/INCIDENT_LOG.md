@@ -1,3 +1,11 @@
+## 2026-11-09 — Website delivery operations were disconnected from the main owner Command Center
+
+- **Owner request:** repair the existing Command Center without duplicating it; use only no-additional-cost functionality.
+- **Verified source issue:** `/command-center/` had a legacy Booking-focused `ownerOrderControl` with no direct path to the separate, already-built website delivery administration page. The delivery page used `sb-bowacxhmjvrqixtwaikv-auth-token` for browser authentication while the owner Command Center used `tle-crm-auth`, causing two independent session stores and possible repeat login. Website orders should not be silently represented as part of the Booking order table.
+- **Scoped change:** one owner-only website-delivery shortcut in the EXISTING orders panel, clearer focus-card label and precise disclosure that website purchases are not synced into the Booking list. Reuse `tle-crm-auth` on delivery page and add a return link. Do not copy purchases, customer/workspace records, menus, or sessions into a new app. No change to payment verification, tenant authorization, $15/$25 packages or delivery action semantics.
+- **Regression guard:** extend existing owner incident CI check to assert exactly one shortcut, owner-only containment, same session key and unchanged `list` / `confirm_delivery` actions.
+- **Verification:** source-level correction applied. Live owner login, cross-tab shared session, iPhone Safari layout and GitHub Pages deployment still require verification; no actual sale or delivery was triggered.
+
 ## 2026-11-09 — Spanish $15 offer package reverted to old La Vie in Pink photo
 
 - **Owner evidence:** iPhone Instagram browser screenshot of /es/website-for-your-business/ showed La Vie in Pink laptop/croissants in Package 1 ($15) despite the previously approved Jaramillo Boutique photo.
