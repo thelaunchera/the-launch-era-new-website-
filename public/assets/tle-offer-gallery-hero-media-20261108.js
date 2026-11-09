@@ -71,19 +71,21 @@
  for(const video of media){
   video.addEventListener('playing',()=>showFirstFrame(video));
   video.addEventListener('error',()=>stop(video));
-  video.addEventListener('stalled',()=>video.classList.remove('is-playing'));
+  video.addEventListener('canplay',()=>{if(active.has(video))start(video);});
+  video.addEventListener('ended',()=>{video.currentTime=0;if(active.has(video))start(video);});
+  video.addEventListener('stalled',()=>{if(active.has(video)&&!document.hidden)video.play().catch(()=>{});});
  }
  if('IntersectionObserver' in window){
   const observer=new IntersectionObserver(entries=>{
    for(const entry of entries){
     const video=entry.target;
-    if(entry.isIntersecting&&entry.intersectionRatio>=.45){
+    if(entry.isIntersecting&&entry.intersectionRatio>=.01){
      active.add(video);start(video);
     }else{
      active.delete(video);stop(video);
     }
    }
-  },{root:stage,threshold:[0,.45,.65]});
+  },{root:stage,threshold:[0,.01,.25,.65]});
   media.forEach(video=>observer.observe(video));
  }
  // If supported playback was blocked, retain the real matching poster.
