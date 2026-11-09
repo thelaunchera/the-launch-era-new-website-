@@ -413,3 +413,15 @@
 @media(hover:hover){
  .tle-universal .hero-gallery-card[data-demo="experience-cleaning"]:hover .hero-gallery-hit>img{transform:none!important}
 }
+
+/* Featured Sneekiefs and FRESKA: preserve original full campaign artwork across phones and desktops. */
+.tle-universal .hero-gallery-card[data-demo="sneekiefs"] .hero-gallery-hit{background:#168DD2}
+.tle-universal .hero-gallery-card[data-demo="freska"] .hero-gallery-hit{background:#2445E8}
+.tle-universal .hero-gallery-card[data-demo="sneekiefs"] .hero-gallery-hit>img,
+.tle-universal .hero-gallery-card[data-demo="freska"] .hero-gallery-hit>img{
+ object-fit:contain!important;object-position:center center!important;background:transparent!important;
+}
+@media(hover:hover){
+ .tle-universal .hero-gallery-card[data-demo="sneekiefs"]:hover .hero-gallery-hit>img,
+ .tle-universal .hero-gallery-card[data-demo="freska"]:hover .hero-gallery-hit>img{transform:none!important}
+}
