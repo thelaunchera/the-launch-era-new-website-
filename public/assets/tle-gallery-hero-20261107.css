@@ -1,3 +1,6 @@
+/* 2026-11-08 iPad/phone rail repair: start at the first visible project,
+   size each card independently, and let both touch axes remain native.
+   Centering an overflowing 100%-wide flex rail made the beginning unreachable. */
 @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@500;600&display=swap');
 /* Editorial Gallery Hero — isolated to bilingual Website for Your Business landing.
    Real demo assets. Keep pricing, checkout and the remaining sections untouched. */
@@ -90,10 +93,10 @@
  .tle-universal .hero-gallery h1{font-size:clamp(37px,10vw,50px);line-height:1.04;letter-spacing:-.055em;margin:0 auto 15px}
  .tle-universal .hero-gallery .hero-gallery-copy>p[data-key=heroText]{font-size:14px;line-height:1.52;margin-bottom:19px}
  .tle-universal .hero-gallery .hero-gallery-copy .btn{min-height:52px;font-size:14px;padding:14px 24px}
- .tle-universal .hero-gallery-stage{min-height:262px;max-width:100%;margin:25px auto 0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scroll-snap-type:x mandatory;perspective:none}
+ .tle-universal .hero-gallery-stage{min-height:262px;max-width:100%;margin:25px auto 0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:auto;touch-action:pan-x pan-y;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scroll-snap-type:x proximity;scroll-padding-inline:18px;perspective:none}
  .tle-universal .hero-gallery-rail{width:max-content;min-width:100%;justify-content:flex-start;padding:8px 18px 24px;gap:12px;transform-style:flat;perspective:none}
  .tle-universal .hero-gallery-card,
- .tle-universal .hero-gallery-card:nth-child(n){flex:0 0 min(64vw,260px);height:218px;transform:none;animation:tle-gallery-mobile-enter .48s ease-out backwards;box-shadow:0 7px 16px #19191922;border-radius:12px;scroll-snap-align:center}
+ .tle-universal .hero-gallery-card:nth-child(n){flex:0 0 min(72vw,292px);height:245px;transform:none;animation:tle-gallery-mobile-enter .48s ease-out backwards;box-shadow:0 7px 16px #19191922;border-radius:12px;scroll-snap-align:center}
  .tle-universal .hero-gallery-card figcaption{font-size:11px;left:12px;bottom:11px}
  .tle-universal .hero-gallery-note{font-size:9px;letter-spacing:.07em;padding:0 25px 26px}
 }
@@ -223,23 +226,27 @@
     margin-top:clamp(30px,4vw,52px);
     overflow-x:auto;
     overflow-y:hidden;
-    overscroll-behavior-x:contain;
+    overscroll-behavior-x:auto;
+    touch-action:pan-x pan-y;
+    scroll-padding-inline:clamp(20px,3vw,40px);
     -webkit-overflow-scrolling:touch;
     scrollbar-width:thin;
     scroll-snap-type:x proximity;
   }
   .tle-universal .hero-gallery-rail{
-    justify-content:center;
+    width:max-content;
+    min-width:100%;
+    justify-content:flex-start;
     align-items:stretch;
     gap:clamp(10px,1.4vw,17px);
     padding:clamp(22px,2.8vw,30px) clamp(20px,3vw,40px) 42px;
     min-height:0;
   }
   .tle-universal .hero-gallery-card{
-    flex:1 0 164px;
-    max-width:400px;
+    flex:0 0 clamp(235px,27vw,295px);
+    max-width:none;
     min-width:0;
-    height:clamp(250px,33vw,385px);
+    height:clamp(280px,37vw,408px);
     border-radius:16px;
     scroll-snap-align:center;
   }
@@ -271,7 +278,9 @@
  .tle-universal .hero-gallery-stage[data-gallery-layout="extended"]{
   overflow-x:auto;
   overflow-y:hidden;
-  overscroll-behavior-x:contain;
+  overscroll-behavior-x:auto;
+  touch-action:pan-x pan-y;
+  scroll-padding-inline:17px;
   scroll-snap-type:x proximity;
   -webkit-overflow-scrolling:touch;
   scrollbar-width:thin;
