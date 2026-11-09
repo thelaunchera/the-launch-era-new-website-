@@ -40,11 +40,15 @@ try{
      const caption=card?.querySelector('figcaption');
      return {
        fit:getComputedStyle(img).objectFit,
+       brand:card?.getAttribute('data-demo'),
        name:caption?.textContent?.trim(),
        labelBackground:caption?getComputedStyle(caption).backgroundColor:''
      };
    });
-   assert.equal(presentation.fit,'cover','Gallery card '+(i+1)+' must fill the photo frame: '+language);
+   const safePortrait=['jaramillo-boutique','sova'].includes(presentation.brand);
+   assert.equal(presentation.fit,safePortrait?'contain':'cover',safePortrait
+    ?'Portrait/video must keep its complete face or photo in '+language+': '+presentation.brand
+    :'Gallery card '+(i+1)+' must fill the photo frame: '+language);
    assert(presentation.name?.length>1,'Gallery card '+(i+1)+' has no visible project name: '+language);
    assert(presentation.labelBackground !== 'transparent' && presentation.labelBackground !== 'rgba(0, 0, 0, 0)' && presentation.labelBackground !== '',
      'Gallery card '+(i+1)+' name must have a contrast background: '+language);
