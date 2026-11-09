@@ -9,7 +9,7 @@
   en:{
    inclKicker:'EXAMPLE SERVICE CHECKLIST',inclDisclaimer:'Illustrative inclusions — each cleaning business sets its own service scope.',
    reviewTitle:'Your request, at a glance',reviewNote:'Review your preferences before seeing how the request appears to the owner.',
-   reviewDisclosure:'Demo only. This does not reserve a time, send an email, create a customer record or process a payment.',
+   reviewDisclosure:'Preview only — no appointment is booked and no payment is made.',
    total:'Sample estimate',quote:'Estimate after review',sample:'Sample total',sampleFrom:'Sample from',estimate:'Request estimate',
    service:'Service',property:'Space',frequency:'Frequency',extras:'Extras',date:'Preferred date',time:'Arrival window',
    editService:'Change service',editDetails:'Edit details',picked:'Selected service',
@@ -27,7 +27,7 @@
   es:{
    inclKicker:'EJEMPLO DE LO QUE INCLUYE',inclDisclaimer:'Servicios ilustrativos. Cada negocio define exactamente qué incluye cada limpieza.',
    reviewTitle:'Revisa tu solicitud',reviewNote:'Comprueba tus preferencias antes de ver cómo recibe la solicitud el negocio.',
-   reviewDisclosure:'Solo una demostración. No se confirma ninguna fecha, no se envía correo ni se procesa ningún pago.',
+   reviewDisclosure:'Vista de ejemplo: no se programa ninguna cita ni se realiza un pago.',
    total:'Estimado de ejemplo',quote:'Cotización por revisar',sample:'Total ilustrativo',sampleFrom:'Desde (ejemplo)',estimate:'Solicitar estimado',
    service:'Servicio',property:'Espacio',frequency:'Frecuencia',extras:'Adicionales',date:'Fecha preferida',time:'Horario preferido',
    editService:'Cambiar servicio',editDetails:'Editar detalles',picked:'Servicio seleccionado',
@@ -118,10 +118,10 @@
   // The inactive owner dashboard is never a real confirmation or email notice.
  }
  document.addEventListener('click',event=>{
-  if(event.target.closest('#service-grid .service-card,#commercial-service-grid .service-card,.booking-category-tab,#next,#back,#restart,#language'))schedule();
+  if(event.target.closest('#service-grid .service-card,#commercial-service-grid .service-card,.booking-category-tab,#next,#back,#restart,#language'))sync();
  });
  document.addEventListener('change',event=>{
-  if(event.target.closest('#stage-2,#stage-3'))schedule();
+  if(event.target.closest('#stage-2,#stage-3'))sync();
  });
  const watch=new MutationObserver(schedule);
  for(const id of ['r-price','r-service','r-property','r-frequency','r-extras','r-date']){
