@@ -1294,3 +1294,5 @@ On `/lead-private-preview.html` sample only, `tle-demo-enhancements-v12.js` owns
 - Existing `/service-checkout/?offer=...` allowlist already excludes Cleaning App. Website, AI, VA and Booking purchase flows remain unchanged. No Stripe or historic customer subscription deleted.
 - Make scenario 6391773 (standalone Cleaning App trial/subscription lifecycle) was separately deactivated and rechecked. Independent Make scenarios for website purchases, Booking and Content Lab remain active. Shared production Supabase project is NOT removed because CRM and booking depend on it.
 - Route/static QA and production deployment required before claiming public retirement complete.
+
+- Stripe LIVE via the existing Make API shell: standalone product `The Launch Era Cleaning Web App` (`prod_VFTHStIvnqyMmn`) archived; default price cleared; all three associated prices are inactive as verified by GET. Historic canceled subscription records left intact; other products untouched. Retired `/cleaning-web-app` sitemap URL pairs removed. No general website checkout keys changed.
