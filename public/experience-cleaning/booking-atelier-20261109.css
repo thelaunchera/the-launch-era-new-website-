@@ -263,3 +263,21 @@ body[data-tle-experience="cleaning"] .time-options label:active{
    already represented by the new price pill and live receipt. */
 body[data-tle-experience="cleaning"] .service-card .tle-demo-customer-price{display:none!important}
 body[data-tle-experience="cleaning"] .service-card img{background:#DDEDEB;}
+
+/* Receipt: avoid five unreadable narrow columns in the desktop sidebar. */
+body[data-tle-experience="cleaning"] .request-preview .mini-receipt-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:13px 15px;padding:13px 0 10px;
+}
+body[data-tle-experience="cleaning"] .request-preview .mini-receipt-grid>div{
+  min-width:0;margin:0;border:0;border-bottom:1px solid #D5E5E1;padding:0 0 10px;
+}
+body[data-tle-experience="cleaning"] .request-preview .mini-receipt-grid>div:last-child{
+  grid-column:1/-1;border-bottom:0;padding-bottom:1px;
+}
+body[data-tle-experience="cleaning"] .request-preview .mini-receipt-grid dt{
+  font:700 10px/1.35 var(--clean-sans);letter-spacing:.075em;text-transform:uppercase;
+}
+body[data-tle-experience="cleaning"] .request-preview .mini-receipt-grid dd{
+  margin-top:4px;font:600 12px/1.4 var(--clean-sans);overflow-wrap:anywhere;
+}
