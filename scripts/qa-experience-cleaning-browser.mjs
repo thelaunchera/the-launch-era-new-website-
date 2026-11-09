@@ -15,7 +15,7 @@ try{
   assert.equal(await page.locator('#owner').isVisible(),false);
   const motionCss=await page.locator('.hero-full-photo').evaluate(el=>getComputedStyle(el).animationName);
   assert.equal(motionCss,'none','Reduced-motion setting must disable animated hero depth');
-  assert.match(await page.locator('#hero-title').innerText(),lang==='es'?/Tu casa impecable/:/See how clients book/);
+  assert.match(await page.locator('#hero-title').innerText(),lang==='es'?/Tu casa impecable/:/A fresh home starts here/);
   assert.match(await page.locator('#experience-title').innerText(),lang==='es'?/Reserva tu limpieza residencial/:/Book residential cleaning/);
   assert.match(await page.locator('#experience-title').innerText(),lang==='es'?/estimado comercial/:/commercial estimate/);
   assert.equal(await page.locator('.intro-band-group').count(),2);
@@ -64,9 +64,19 @@ try{
   await page.screenshot({path:'qa-screenshots/experience-cleaning-team-'+lang+'-'+width+'.png',fullPage:false});
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3),true,'New sections must not overflow '+lang+' '+width);
     await page.locator('#experience').scrollIntoViewIfNeeded();
+  const bookingPhotosReady=await page.locator('#service-grid .service-card img').evaluateAll(imgs=>Promise.all(imgs.map(img=>new Promise(resolve=>{
+    if(img.complete){resolve(img.naturalWidth>0);return;}
+    const timer=setTimeout(()=>resolve(false),7000);
+    img.addEventListener('load',()=>{clearTimeout(timer);resolve(img.naturalWidth>0);},{once:true});
+    img.addEventListener('error',()=>{clearTimeout(timer);resolve(false);},{once:true});
+  }))));
+  assert(bookingPhotosReady.every(Boolean),'All four local service photos must load, not leave a blank card');
   await page.screenshot({path:'qa-screenshots/experience-cleaning-booking-'+lang+'-'+width+'.png',fullPage:false});
   await page.locator('[data-service="deep"]').click();
-  assert.equal(await page.locator('#r-price').innerText(),'$190');
+  assert.equal(await page.locator('#r-price').innerText(),'$187');
+  assert.match(await page.locator('#booking-inline-value').innerText(),/\$187/,'Mobile live summary should follow the selected service');
+  assert.match(await page.locator('#booking-inclusions-title').innerText(),lang==='es'?/Limpieza profunda/:/Deep cleaning/);
+  assert.equal(await page.locator('#service-grid .booking-card-price').count(),4);
   const cards=page.locator('#service-grid .service-card img');
   assert.equal(await cards.count(),4);
   assert.match(await cards.nth(0).getAttribute('src'),/portfolio_living_finished\.webp/);
@@ -80,16 +90,25 @@ try{
   }
   await page.locator('#beds').selectOption('3');
   await page.locator('.extras input[value="oven"]').check();
-  assert.equal(await page.locator('#r-price').innerText(),'$240');
+  assert.equal(await page.locator('#r-price').innerText(),'$237');
+  assert.equal(await page.locator('#booking-inline-value').innerText(),'$237','Live sample price should update with extras');
   const priceLayout=await page.locator('#r-price').evaluate(el=>{
     const range=document.createRange();
     range.selectNodeContents(el);
     const fragments=[...range.getClientRects()].filter(rect=>rect.width>1&&rect.height>1);
     return {price:el.textContent,fragmentCount:fragments.length,whiteSpace:getComputedStyle(el).whiteSpace,width:el.getBoundingClientRect().width};
   });
-  assert.equal(priceLayout.fragmentCount,1,'The illustrative $240 total must remain a single line on '+lang+' at '+width);
+  assert.equal(priceLayout.fragmentCount,1,'The illustrative $237 total must remain a single line on '+lang+' at '+width);
   assert.equal(priceLayout.whiteSpace,'nowrap','The total must not break even on small phones');
   await page.locator('#next').click();
+  assert.equal(await page.locator('#stage-3').isVisible(),true);
+  assert.equal(await page.locator('#booking-review-total').innerText(),'$237','Review must match sample price');
+  assert.match(await page.locator('#booking-review-service').innerText(),lang==='es'?/profunda/:/Deep cleaning/);
+  await page.locator('#booking-review-edit-details').click();
+  assert.equal(await page.locator('#stage-2').isVisible(),true,'Review edits must return to existing selections');
+  assert.equal(await page.locator('#beds').inputValue(),'3');
+  await page.locator('#next').click();
+  assert.equal(await page.locator('#stage-3').isVisible(),true);
   await page.locator('#next').click();
   await page.locator('#owner').waitFor({state:'visible'});
   assert.match(await page.locator('#owner-service').innerText(),lang==='es'?/profunda/:/Deep cleaning/);

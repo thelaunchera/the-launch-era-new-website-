@@ -31,6 +31,7 @@
   <link rel="stylesheet" href="/assets/tle-demo-footer-finale-20261108.css?v=1">
   <link rel="stylesheet" href="/experience-cleaning/hero-video-20261108.css?v=1">
   <link rel="stylesheet" href="/experience-cleaning/alpine-gold-20261108.css?v=1">
+  <link rel="stylesheet" href="/experience-cleaning/booking-atelier-20261109.css?v=1">
 </head>
 <body data-tle-experience="cleaning">
  <a class="skip" href="#experience" data-t="skip">Skip to the demo</a>
@@ -47,10 +48,10 @@
    <video class="hero-motion-video" autoplay muted loop playsinline webkit-playsinline preload="metadata" poster="/experience-cleaning/media/cleaning-hero-poster-20261108.jpg" aria-hidden="true" tabindex="-1"><source src="/experience-cleaning/media/cleaning-hero-20261108.mp4" type="video/mp4"></video>
    <div class="hero-site-nav"><div class="sample-brand"><span class="sample-mark">S</span><strong>Sample Cleaning</strong></div><span class="sample-nav-label" data-t="navNote">HOME CARE · BY APPOINTMENT</span><a href="#experience" class="hero-nav-cta" data-t="navCta">Explore services</a></div>
    <div class="hero-copy">
-    <p class="eyebrow" data-t="heroEyebrow">INTERACTIVE CLEANING BOOKING · FOR BUSINESS OWNERS</p>
-    <h1 id="hero-title"><span data-t="heroTitle1">See how clients book.</span><em data-t="heroTitle2">See where requests go.</em></h1>
-    <p class="hero-intro" data-t="heroBody">A sample Booking Page for cleaning businesses, connected to a sample Command Center. Try a request to see both sides.</p>
-    <div class="hero-actions"><a class="button hero-main-action" href="#experience" data-t="heroAction">Try a sample booking</a><span class="hero-helper" data-t="heroNote">Explore the booking journey · No reservation is submitted</span></div>
+    <p class="eyebrow" data-t="heroEyebrow">THOUGHTFUL HOME CARE · INTERACTIVE PREVIEW</p>
+    <h1 id="hero-title"><span data-t="heroTitle1">A fresh home starts here.</span><em data-t="heroTitle2">Booking should be simple.</em></h1>
+    <p class="hero-intro" data-t="heroBody">Choose a cleaning service, add a few details about your space, and select a preferred time. Beautifully simple, from start to finish.</p>
+    <div class="hero-actions"><a class="button hero-main-action" href="#experience" data-t="heroAction">Explore cleaning services</a><span class="hero-helper" data-t="heroNote">Interactive preview · No appointment is booked</span></div>
    </div>
    <div class="hero-photo-caption" data-t="heroPhotoNote">THOUGHTFUL HOME CARE</div>
   </section>
@@ -98,26 +99,31 @@
        <div class="stage-heading"><p class="mini-tag" data-t="s1Tag">CHOOSE A SERVICE</p><h3 data-t="s1Title">What needs cleaning?</h3><p data-t="s1Sub">Choose what your customer needs.</p></div>
        <div id="service-grid" class="service-grid" role="radiogroup" aria-label="Cleaning services">
         <button type="button" class="service-card is-selected" data-service="standard" role="radio" aria-checked="true">
-         <img src="/experience-cleaning/photos/portfolio_living_finished.webp" data-fallback="/assets/cleaning-demo/hero-woman-cleaning.jpg" alt="" loading="lazy" decoding="async">
+         <img src="/experience-cleaning/photos/portfolio_living_finished.webp" data-fallback="/assets/cleaning-demo/hero-woman-cleaning.jpg" alt="" loading="eager" decoding="async">
          <span class="service-card-copy"><strong data-t="serviceStandard">Standard cleaning</strong><small data-t="serviceStandardHint">For regular home care</small></span><span class="select-indicator" aria-hidden="true"></span>
         </button>
         <button type="button" class="service-card" data-service="deep" role="radio" aria-checked="false">
-         <img src="/experience-cleaning/photos/portfolio_cleaning_action.webp" data-fallback="/assets/cleaning-demo/cleaner-action.png" alt="" loading="lazy" decoding="async">
+         <img src="/experience-cleaning/photos/portfolio_cleaning_action.webp" data-fallback="/assets/cleaning-demo/cleaner-action.png" alt="" loading="eager" decoding="async">
          <span class="service-card-copy"><strong data-t="serviceDeep">Deep cleaning</strong><small data-t="serviceDeepHint">For extra attention</small></span><span class="select-indicator" aria-hidden="true"></span>
         </button>
         <button type="button" class="service-card" data-service="move" role="radio" aria-checked="false">
-         <img src="/experience-cleaning/photos/portfolio_bedroom_finished.webp" alt="" loading="lazy" decoding="async">
+         <img src="/experience-cleaning/photos/portfolio_bedroom_finished.webp" alt="" loading="eager" decoding="async">
          <span class="service-card-copy"><strong data-t="serviceMove">Move-in / move-out</strong><small data-t="serviceMoveHint">For a fresh start</small></span><span class="select-indicator" aria-hidden="true"></span>
         </button>
         <button type="button" class="service-card" data-service="custom" role="radio" aria-checked="false">
-         <img src="/experience-cleaning/photos/clean_roll_02_bathroom.webp" data-fallback="/assets/drive-booking-journey/share-details-bathroom.png" alt="" loading="lazy" decoding="async">
+         <img src="/experience-cleaning/photos/clean_roll_02_bathroom.webp" data-fallback="/assets/drive-booking-journey/share-details-bathroom.png" alt="" loading="eager" decoding="async">
          <span class="service-card-copy"><strong data-t="serviceCustom">Special cleaning</strong><small data-t="serviceCustomHint">A quote for unique jobs</small></span><span class="select-indicator" aria-hidden="true"></span>
         </button>
        </div>
       <div id="commercial-service-grid" class="service-grid" role="radiogroup" aria-label="Commercial estimate services" hidden>
-<button type="button" class="service-card is-selected" data-commercial-service="office" role="radio" aria-checked="true"><img src="/assets/lead-demo/spotless-office.png" data-fallback="/assets/lead-demo/spotless-office.png" alt="" loading="lazy" decoding="async"><span class="service-card-copy"><strong data-t="officeService">Office cleaning</strong><small data-t="officeServiceHint">Offices and shared spaces</small></span><span class="select-indicator" aria-hidden="true"></span></button>
-<button type="button" class="service-card" data-commercial-service="customCommercial" role="radio" aria-checked="false"><img src="/assets/clara-private-demo/commercial-home-office.webp" data-fallback="/assets/lead-demo/spotless-office.png" alt="" loading="lazy" decoding="async"><span class="service-card-copy"><strong data-t="customCommercialService">Business spaces</strong><small data-t="customCommercialHint">Custom commercial estimate</small></span><span class="select-indicator" aria-hidden="true"></span></button></div>
+<button type="button" class="service-card is-selected" data-commercial-service="office" role="radio" aria-checked="true"><img src="/assets/lead-demo/spotless-office.png" data-fallback="/assets/lead-demo/spotless-office.png" alt="" loading="eager" decoding="async"><span class="service-card-copy"><strong data-t="officeService">Office cleaning</strong><small data-t="officeServiceHint">Offices and shared spaces</small></span><span class="select-indicator" aria-hidden="true"></span></button>
+<button type="button" class="service-card" data-commercial-service="customCommercial" role="radio" aria-checked="false"><img src="/assets/clara-private-demo/commercial-home-office.webp" data-fallback="/assets/lead-demo/spotless-office.png" alt="" loading="eager" decoding="async"><span class="service-card-copy"><strong data-t="customCommercialService">Business spaces</strong><small data-t="customCommercialHint">Custom commercial estimate</small></span><span class="select-indicator" aria-hidden="true"></span></button></div>
 <p id="commercial-estimate-note" class="commercial-estimate-note" data-t="commercialOnlyNote" hidden>Commercial cleaning is estimate-only. No fixed price or confirmed booking.</p>
+       <section class="booking-inclusions" aria-label="Illustrative service details" aria-live="polite">
+        <div class="booking-inclusions-head"><div><p class="booking-inclusions-kicker" id="booking-inclusions-kicker">EXAMPLE SERVICE CHECKLIST</p><strong class="booking-inclusions-title" id="booking-inclusions-title">Standard cleaning</strong></div></div>
+        <ul class="booking-inclusions-list" id="booking-inclusions-list"><li>Kitchen and visible surfaces</li><li>Bathrooms and mirrors</li><li>Floors and shared spaces</li></ul>
+        <p class="booking-inclusions-disclaimer" id="booking-inclusions-disclaimer">Illustrative inclusions — each cleaning business sets its own service scope.</p>
+       </section>
 </div>
 
       <div class="stage" id="stage-2" hidden>
@@ -139,15 +145,34 @@
        <div class="stage-heading"><p class="mini-tag" data-t="s3Tag">ONE LAST STEP</p><h3 data-t="s3Title">Choose a preferred time.</h3><p data-t="s3Sub">A preferred time, not a confirmed appointment.</p></div>
        <div class="date-selector">
          <label for="date" data-t="dateLabel">Preferred date</label>
-         <input type="date" id="date">
+         <input type="date" id="date" aria-describedby="booking-time-help">
        </div>
-       <fieldset class="time-options" aria-label="Preferred arrival time"><legend data-t="timeLabel">Preferred arrival time</legend>
+       <fieldset class="time-options" aria-label="Preferred arrival time" aria-describedby="booking-time-help"><legend data-t="timeLabel">Preferred arrival time</legend>
          <label><input type="radio" name="preferred-time" value="morning" checked><span data-t="timeMorning">Morning · 9–12</span></label>
          <label><input type="radio" name="preferred-time" value="afternoon"><span data-t="timeAfternoon">Afternoon · 12–4</span></label>
          <label><input type="radio" name="preferred-time" value="flexible"><span data-t="timeFlexible">I'm flexible</span></label>
        </fieldset>
+       <p class="booking-time-help" id="booking-time-help">Preferred arrival windows only — live availability is not being checked.</p>
+       <section class="booking-review" aria-label="Review sample request">
+        <div class="booking-review-head"><strong id="booking-review-title">Your request, at a glance</strong><p id="booking-review-desc">Review your preferences before seeing how the request appears to the owner.</p></div>
+        <dl class="booking-review-grid">
+         <div><dt id="booking-review-label-service">Service</dt><dd id="booking-review-service">Standard cleaning</dd></div>
+         <div><dt id="booking-review-label-property">Space</dt><dd id="booking-review-property">House</dd></div>
+         <div><dt id="booking-review-label-frequency">Frequency</dt><dd id="booking-review-frequency">One time</dd></div>
+         <div><dt id="booking-review-label-extras">Extras</dt><dd id="booking-review-extras">None</dd></div>
+         <div><dt id="booking-review-label-date">Preferred date</dt><dd id="booking-review-date">—</dd></div>
+         <div><dt id="booking-review-label-time">Arrival window</dt><dd id="booking-review-time">Morning · 9–12</dd></div>
+        </dl>
+        <div class="booking-review-total"><span id="booking-review-total-label">Sample total</span><output id="booking-review-total">$120</output></div>
+        <div class="booking-review-edits"><button type="button" id="booking-review-edit-service">Change service</button><button type="button" id="booking-review-edit-details">Edit details</button></div>
+        <p class="booking-review-note" id="booking-review-note">Preview only — no appointment is booked and no payment is made.</p>
+       </section>
        <div class="important"><span aria-hidden="true">i</span><p data-t="noSend">This is an interactive sample, not a real booking. Nothing will be sent, charged or emailed.</p></div>
       </div>
+      <div class="booking-inline-summary" aria-live="polite" aria-atomic="true">
+        <div><span class="summary-kicker" id="booking-inline-kicker">Sample total</span><span class="summary-service" id="booking-inline-service">Standard cleaning</span></div>
+        <div><strong class="summary-value" id="booking-inline-value">$120</strong><small class="summary-caption" id="booking-inline-caption">Sample estimate</small></div>
+       </div>
       <div class="form-actions"><button type="button" class="button button-ghost" id="back" hidden data-t="back">Back</button><button type="button" class="button button-dark next" id="next" data-t="continue">Continue</button></div>
     </div>
     <aside class="request-preview" aria-live="polite">
@@ -321,5 +346,6 @@
   <script defer src="/assets/tle-demo-scroll-art-20261108.js?v=5"></script>
   <script defer src="/assets/tle-demo-footer-finale-20261108.js?v=3"></script>
   <script defer src="/experience-cleaning/alpine-gold-20261108.js?v=1"></script>
+  <script defer src="/experience-cleaning/booking-atelier-20261109.js?v=1"></script>
 </body>
 </html>

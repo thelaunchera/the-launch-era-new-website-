@@ -1,0 +1,283 @@
+/* Experience Cleaning / Booking Atelier · 2026-11-09
+   Lightweight UI layer on the approved Alpine Turquoise + Autumn Gold demo.
+   The booking remains an explicitly illustrative, local-only sample. */
+
+body[data-tle-experience="cleaning"] .experience .section-heading {
+  margin-bottom:clamp(24px,4vw,46px);
+}
+body[data-tle-experience="cleaning"] .experience-frame {
+  box-shadow:0 32px 90px rgba(4,74,87,.13),0 5px 16px rgba(4,74,87,.05);
+}
+body[data-tle-experience="cleaning"] .form-panel .window-status {
+  border:1px solid rgba(8,126,156,.22);
+  background:#E7F5F3;
+  color:#07566B;
+  font-family:var(--clean-sans);
+  border-radius:999px;
+}
+body[data-tle-experience="cleaning"] .form-panel .stage-heading .mini-tag{
+  display:inline-flex;align-items:center;gap:8px;
+}
+body[data-tle-experience="cleaning"] .form-panel .stage-heading .mini-tag:before{
+  content:"";display:block;width:15px;height:3px;background:var(--clean-gold);border-radius:999px;
+}
+body[data-tle-experience="cleaning"] .form-panel .stage-heading h3{
+  font-size:clamp(32px,3.4vw,49px);
+  letter-spacing:-.025em;
+}
+body[data-tle-experience="cleaning"] .form-panel .service-card{
+  isolation:isolate;
+}
+body[data-tle-experience="cleaning"] .form-panel .service-card img{
+  height:clamp(152px,17vw,207px);
+  filter:saturate(.93);
+}
+body[data-tle-experience="cleaning"] .form-panel .service-card .booking-card-price{
+  position:absolute;top:12px;right:12px;z-index:2;
+  padding:7px 10px;border-radius:999px;
+  background:rgba(255,253,244,.96);color:#07566B;
+  border:1px solid rgba(255,255,255,.8);
+  font:700 11px/1.1 var(--clean-sans);
+  box-shadow:0 3px 14px rgba(4,47,58,.13);
+  white-space:nowrap;
+}
+body[data-tle-experience="cleaning"] .form-panel .service-card.is-selected .booking-card-price{
+  color:#163835;background:#F6BE28;
+}
+body[data-tle-experience="cleaning"] .form-panel .service-card .service-card-copy{
+  min-height:76px;
+  padding:13px 16px 16px;
+}
+body[data-tle-experience="cleaning"] .form-panel .service-card strong{
+  display:block;font:700 15px/1.25 var(--clean-sans);
+}
+body[data-tle-experience="cleaning"] .form-panel .service-card small{
+  display:block;margin-top:5px;font:400 12px/1.4 var(--clean-sans);
+}
+body[data-tle-experience="cleaning"] .booking-inclusions{
+  margin:18px 0 3px;padding:17px 18px 15px;
+  background:linear-gradient(125deg,#E8F6F3 0%,#F7FBF5 100%);
+  border:1px solid #C5DEDA;border-radius:16px;
+}
+body[data-tle-experience="cleaning"] .booking-inclusions-head{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  gap:15px;
+}
+body[data-tle-experience="cleaning"] .booking-inclusions-kicker{
+  margin:0;font:700 10px/1.4 var(--clean-sans);
+  letter-spacing:.13em;color:#07566B;text-transform:uppercase;
+}
+body[data-tle-experience="cleaning"] .booking-inclusions-title{
+  display:block;margin:4px 0 0;
+  font:400 22px/1.16 var(--clean-serif);
+  color:#14353B;
+}
+body[data-tle-experience="cleaning"] .booking-inclusions-head:after{
+  content:"✳";flex:none;color:#087E9C;font:400 23px/1 var(--clean-serif);
+}
+body[data-tle-experience="cleaning"] .booking-inclusions-list{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px 13px;padding:0;margin:15px 0 0;list-style:none;
+}
+body[data-tle-experience="cleaning"] .booking-inclusions-list li{
+  position:relative;min-width:0;padding-left:22px;
+  color:#345F60;font:500 12px/1.4 var(--clean-sans);
+}
+body[data-tle-experience="cleaning"] .booking-inclusions-list li:before{
+  content:"✓";position:absolute;left:0;top:-1px;
+  display:grid;place-items:center;
+  width:17px;height:17px;border-radius:50%;
+  background:#087E9C;color:#fff;font:750 10px var(--clean-sans);
+}
+body[data-tle-experience="cleaning"] .booking-inclusions-disclaimer{
+  margin:13px 0 0;color:#688382;font:400 10px/1.5 var(--clean-sans);
+}
+body[data-tle-experience="cleaning"] .booking-inline-summary{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:13px;margin:15px 24px 0;padding:13px 16px;
+  border:1px solid #CEE4E1;border-radius:14px;background:#F4FAF8;
+}
+body[data-tle-experience="cleaning"] .booking-inline-summary .summary-kicker{
+  display:block;color:#4C7375;font:700 10px/1.35 var(--clean-sans);
+  letter-spacing:.12em;text-transform:uppercase;
+}
+body[data-tle-experience="cleaning"] .booking-inline-summary .summary-service{
+  display:block;margin-top:4px;color:#14353B;
+  font:600 13px/1.2 var(--clean-sans);
+}
+body[data-tle-experience="cleaning"] .booking-inline-summary .summary-value{
+  flex:none;max-width:50%;text-align:right;
+  color:#07566B;font:700 clamp(14px,2vw,18px)/1.25 var(--clean-sans);
+  overflow-wrap:break-word;
+}
+body[data-tle-experience="cleaning"] .booking-inline-summary .summary-value[data-estimate="true"]{
+  font-size:12px;max-width:44%;
+}
+body[data-tle-experience="cleaning"] .booking-inline-summary .summary-caption{
+  display:block;color:#54797B;font:400 10px/1.3 var(--clean-sans);
+}
+body[data-tle-experience="cleaning"] .form-actions{
+  padding-top:13px;display:flex;gap:12px;align-items:center;
+}
+body[data-tle-experience="cleaning"] .form-actions .button.next{
+  font-size:14px;
+  flex:1;
+  border-radius:999px;
+  background:#087E9C;
+  min-height:52px;
+  letter-spacing:.005em;
+  transition:transform .2s ease,box-shadow .2s ease,background .2s ease;
+}
+body[data-tle-experience="cleaning"] .form-actions .button.next:hover{
+  transform:translateY(-1px);background:#076982;box-shadow:0 9px 23px rgba(5,86,107,.21);
+}
+body[data-tle-experience="cleaning"] .form-actions .button.next:after {
+  content:"  →";display:inline;font:600 18px/1 var(--clean-sans);
+  margin-left:5px;
+}
+body[data-tle-experience="cleaning"] .booking-review{
+  border:1px solid #BFD9D5;border-radius:17px;
+  overflow:hidden;margin:21px 0 7px;background:#FCFFFC;
+  box-shadow:0 9px 28px rgba(2,75,85,.06);
+}
+body[data-tle-experience="cleaning"] .booking-review-head {
+  padding:17px 18px 14px;border-bottom:1px solid #DDEAE6;
+  background:linear-gradient(112deg,#E6F6F4,#F8FCF7);
+}
+body[data-tle-experience="cleaning"] .booking-review-head strong{
+  display:block;font:400 26px/1.1 var(--clean-serif);color:#14353B;
+}
+body[data-tle-experience="cleaning"] .booking-review-head p{
+  margin:7px 0 0;font:400 12px/1.5 var(--clean-sans);color:#4A696D;
+}
+body[data-tle-experience="cleaning"] .booking-review-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:13px 22px;margin:0;padding:18px 19px 14px;
+}
+body[data-tle-experience="cleaning"] .booking-review-grid>div{min-width:0}
+body[data-tle-experience="cleaning"] .booking-review dt{
+  color:#6B8584;font:700 10px/1.5 var(--clean-sans);
+  letter-spacing:.08em;text-transform:uppercase;
+}
+body[data-tle-experience="cleaning"] .booking-review dd{
+  margin:4px 0 0;color:#21474C;
+  font:600 12px/1.45 var(--clean-sans);
+  overflow-wrap:anywhere;
+}
+body[data-tle-experience="cleaning"] .booking-review-total{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;padding:14px 19px;background:#FFF8DE;border-top:1px solid #F2E3A9;
+  font:700 12px var(--clean-sans);color:#294847;
+}
+body[data-tle-experience="cleaning"] .booking-review-total output{
+  color:#07566B;font:750 18px var(--clean-sans);text-align:right;max-width:55%;
+}
+body[data-tle-experience="cleaning"] .booking-review-total output[data-estimate="true"]{
+  font-size:12px;
+}
+body[data-tle-experience="cleaning"] .booking-review-edits{
+  padding:10px 18px 14px;display:flex;gap:10px;flex-wrap:wrap;
+}
+body[data-tle-experience="cleaning"] .booking-review-edits button{
+  min-height:40px;padding:9px 14px;border-radius:999px;
+  border:1px solid #B9D5D1;color:#07566B;background:#FFF;
+  font:600 12px var(--clean-sans);cursor:pointer;
+  transition:background .18s ease,border-color .18s ease;
+}
+body[data-tle-experience="cleaning"] .booking-review-edits button:hover{
+  background:#E8F8F4;border-color:#087E9C;
+}
+body[data-tle-experience="cleaning"] .booking-review-note{
+  margin:0;padding:0 18px 16px;color:#66817D;
+  font:400 11px/1.5 var(--clean-sans);
+}
+body[data-tle-experience="cleaning"] .booking-time-help{
+  margin:12px 1px 0;color:#567A79;font:400 11px/1.5 var(--clean-sans);
+}
+/* Richer, more legible requested time windows */
+body[data-tle-experience="cleaning"] .time-options{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;
+}
+body[data-tle-experience="cleaning"] .time-options legend{
+  grid-column:1/-1;
+}
+body[data-tle-experience="cleaning"] .time-options label{
+  min-height:64px;padding:13px 11px;align-items:center;
+  background:#FFF;border:1px solid #BEDAD8;
+  transition:border-color .2s ease,background .2s ease,transform .2s ease;
+}
+body[data-tle-experience="cleaning"] .time-options label:has(input:checked){
+  background:#EAF8F3;border-color:#087E9C;
+  box-shadow:inset 0 0 0 1px #087E9C;
+}
+body[data-tle-experience="cleaning"] .time-options label span{
+  font:600 12px/1.35 var(--clean-sans);
+}
+body[data-tle-experience="cleaning"] .time-options label:active{
+  transform:scale(.985);
+}
+@media(min-width:991px){
+  body[data-tle-experience="cleaning"] .booking-inline-summary{display:none}
+}
+@media(max-width:990px){
+  body[data-tle-experience="cleaning"] .experience-frame .request-preview{
+    padding-top:20px;
+  }
+  body[data-tle-experience="cleaning"] .booking-inline-summary{
+    margin:13px 22px 0;
+  }
+}
+@media(max-width:760px){
+  body[data-tle-experience="cleaning"] .form-panel .service-card img{
+    height:clamp(128px,34vw,158px);
+  }
+  body[data-tle-experience="cleaning"] .form-panel .service-card .booking-card-price{
+    top:8px;right:8px;padding:6px 8px;font-size:10px;
+  }
+  body[data-tle-experience="cleaning"] .form-panel .service-card strong{font-size:13px}
+  body[data-tle-experience="cleaning"] .form-panel .service-card small{font-size:11px}
+  body[data-tle-experience="cleaning"] .form-panel .service-card .service-card-copy{min-height:76px;padding:11px 10px 13px}
+  body[data-tle-experience="cleaning"] .booking-inclusions{padding:15px 14px;margin-top:15px}
+  body[data-tle-experience="cleaning"] .booking-inclusions-list{grid-template-columns:1fr;gap:9px}
+  body[data-tle-experience="cleaning"] .booking-inline-summary{margin:13px 16px 0;padding:12px 13px}
+  body[data-tle-experience="cleaning"] .booking-inline-summary .summary-value{font-size:16px}
+  body[data-tle-experience="cleaning"] .booking-review-grid{gap:13px}
+  body[data-tle-experience="cleaning"] .time-options{
+    grid-template-columns:1fr;gap:9px;
+  }
+  body[data-tle-experience="cleaning"] .time-options label{min-height:53px}
+  body[data-tle-experience="cleaning"] .booking-review-head strong{font-size:23px}
+  body[data-tle-experience="cleaning"] .form-actions .button.next{min-width:0}
+}
+@media(max-width:370px){
+  body[data-tle-experience="cleaning"] .booking-review-grid{grid-template-columns:1fr}
+  body[data-tle-experience="cleaning"] .booking-inline-summary .summary-value{font-size:14px}
+}
+@media(prefers-reduced-motion:reduce){
+  body[data-tle-experience="cleaning"] :is(.service-card,.service-card img,.time-options label,.form-actions .button.next,.booking-review-edits button){
+    animation:none!important;transition:none!important;
+  }
+}
+
+/* Only one visible price per service: the owner's shared sample catalog is
+   already represented by the new price pill and live receipt. */
+body[data-tle-experience="cleaning"] .service-card .tle-demo-customer-price{display:none!important}
+body[data-tle-experience="cleaning"] .service-card img{background:#DDEDEB;}
+
+/* Receipt: avoid five unreadable narrow columns in the desktop sidebar. */
+body[data-tle-experience="cleaning"] .request-preview .mini-receipt-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:13px 15px;padding:13px 0 10px;
+}
+body[data-tle-experience="cleaning"] .request-preview .mini-receipt-grid>div{
+  min-width:0;margin:0;border:0;border-bottom:1px solid #D5E5E1;padding:0 0 10px;
+}
+body[data-tle-experience="cleaning"] .request-preview .mini-receipt-grid>div:last-child{
+  grid-column:1/-1;border-bottom:0;padding-bottom:1px;
+}
+body[data-tle-experience="cleaning"] .request-preview .mini-receipt-grid dt{
+  font:700 10px/1.35 var(--clean-sans);letter-spacing:.075em;text-transform:uppercase;
+}
+body[data-tle-experience="cleaning"] .request-preview .mini-receipt-grid dd{
+  margin-top:4px;font:600 12px/1.4 var(--clean-sans);overflow-wrap:anywhere;
+}

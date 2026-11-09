@@ -102,7 +102,8 @@ const visuals={
   {title:'El sistema da seguimiento',detail:'Para cotizaciones elegibles sin respuesta, se pueden programar hasta dos recordatorios automáticos que se detienen cuando el cliente responde.',status:'Recordatorios de ejemplo · no enviados',action:'Seguimiento'}
  ]
 };
-const servicePrices={standard:120,deep:190,move:240,custom:null};
+// Match the Owner Center's published illustrative service catalog: deep $220 less 15% = $187.
+const servicePrices={standard:120,deep:187,move:290,custom:null};
 const extraPrices={oven:30,fridge:25};
 $('date').min=localDate(1);$('date').max=localDate(120);$('date').value=state.date;
 function namesFor(){return names[state.lang];}

@@ -4,6 +4,7 @@ on:
     paths:
       - 'public/experience-cleaning/**'
       - 'scripts/qa-experience-cleaning-demo.mjs'
+      - 'scripts/qa-experience-cleaning-atelier.mjs'
       - 'scripts/qa-experience-cleaning-browser.mjs'
       - '.github/workflows/cleaning-buyer-journey-demo-qa.yml'
   workflow_dispatch:
@@ -22,6 +23,8 @@ jobs:
       - run: bun install --frozen-lockfile
       - name: Verify demo interactions EN/ES, safety and approved photography
         run: node scripts/qa-experience-cleaning-demo.mjs
+      - name: Verify upgraded booking card details, live receipt, review edits and translations
+        run: node scripts/qa-experience-cleaning-atelier.mjs
       - name: Check routes and static assets
         run: node scripts/qa-route-integrity.mjs --static
       - name: Production build

@@ -130,7 +130,7 @@ for(const lang of ['en','es']){
  w.eval(js);
  const $=x=>w.document.getElementById(x);
  assert.equal(w.document.documentElement.lang,lang);
- assert.match(w.document.querySelector('#hero-title').textContent,lang==='es'?/Tu casa impecable/:/See how clients book/);
+ assert.match(w.document.querySelector('#hero-title').textContent,lang==='es'?/Tu casa impecable/:/A fresh home starts here/);
  assert.match(w.document.querySelector('#experience-title').textContent,lang==='es'?/Reserva tu limpieza residencial/:/Book residential cleaning/);
  assert.match(w.document.querySelector('#experience-title').textContent,lang==='es'?/estimado comercial/:/commercial estimate/);
  const strip=w.document.querySelectorAll('.intro-band-group');
@@ -149,12 +149,12 @@ for(const lang of ['en','es']){
  assert($('owner').hidden);
  assert.match($('r-price').textContent,/\$120/);
  w.document.querySelector('[data-service="deep"]').click();
- assert.match($('r-price').textContent,/\$190/);
+ assert.match($('r-price').textContent,/\$187/);
  $('next').click();
  assert(!$('stage-2').hidden);
  $('beds').value='3';$('beds').dispatchEvent(new w.Event('change',{bubbles:true}));
  const oven=w.document.querySelector('input[type="checkbox"][value="oven"]');oven.checked=true;oven.dispatchEvent(new w.Event('change',{bubbles:true}));
- assert.match($('r-price').textContent,/\$240/,'Price preview updated with sample bedroom and oven');
+ assert.match($('r-price').textContent,/\$237/,'Price preview updated with sample bedroom and oven');
  $('next').click();
  assert(!$('stage-3').hidden);
  assert($('date').value);
@@ -162,8 +162,8 @@ for(const lang of ['en','es']){
  assert(!$('owner').hidden&& !$('handoff').hidden);
  assert.match($('owner-service').textContent,lang==='es'?/profunda/:/Deep cleaning/);
  assert.match($('owner-extras').textContent,lang==='es'?/horno/:/oven/);
- assert.equal($('owner-price').textContent,'$240');
- assert.equal($('metric-value').textContent,'$240');
+ assert.equal($('owner-price').textContent,'$237');
+ assert.equal($('metric-value').textContent,'$237');
  assert.equal($('metric-value').classList.contains('is-text-value'),false,'Normal dollar amounts keep fixed-price styling');
  assert.equal($('owner-price').classList.contains('is-text-value'),false);
  assert.equal($('metric-action').textContent,lang==='es'?'Revisar':'Review');
