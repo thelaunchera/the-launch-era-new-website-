@@ -87,7 +87,11 @@ export const EDITORIAL_PHOTO_SETS = {
     "https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/assets/hero-editorial-user.jpg",
     "https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/assets/colombian-jeans.webp",
     "https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/assets/noche.webp",
-    "https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/assets/fajas.webp"
+    "https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/assets/fajas.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/assets/corse.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/assets/plataformas.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/assets/blusas.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/assets/atelier.webp"
   ],
   "yummm": [
     "https://thelaunchera.github.io/demo-booking-landing-/yummm/media/hero-motion-poster-hq.webp",
