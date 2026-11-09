@@ -1,0 +1,13 @@
+/* The Launch Era: Golden Grid customer-view film (EN/ES offer).
+   Keep the approved high-resolution still as the natural-size layout and safe fallback. */
+.tle-universal .owner-customer-visual[data-gg-offer-video]{position:relative;isolation:isolate}
+.tle-universal .owner-customer-visual[data-gg-offer-video]>img{display:block;width:100%;height:auto;object-fit:contain;position:relative}
+.tle-universal .owner-customer-visual .owner-customer-motion{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:100%;max-width:512px;max-height:682px;object-fit:contain;object-position:center;opacity:0;pointer-events:none;transition:opacity .25s ease;z-index:1}
+.tle-universal .owner-customer-visual .owner-customer-motion.is-playing{opacity:1}
+.tle-universal .owner-customer-visual .owner-customer-play{position:absolute;z-index:2;right:12px;bottom:12px;min-height:44px;padding:10px 16px;border:1px solid #ffffff90;border-radius:999px;background:#191919dc;color:#fff;box-shadow:0 4px 16px #19191930;font:600 12px/1.2 'Prompt',Arial,sans-serif;cursor:pointer}
+.tle-universal .owner-customer-visual .owner-customer-play[hidden]{display:none!important}
+.tle-universal .owner-customer-visual .owner-customer-play:focus-visible{outline:3px solid #F2D85B;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){
+ .tle-universal .owner-customer-visual .owner-customer-motion{display:none!important;transition:none!important}
+ .tle-universal .owner-customer-visual .owner-customer-play{display:none!important}
+}
