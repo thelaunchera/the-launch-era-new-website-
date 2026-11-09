@@ -1,3 +1,11 @@
+## 2026-11-08 — Jaramillo motion + SOVA approved portrait in bilingual offer (no route changes)
+
+- Scope: original EN/ES `/website-for-your-business/` hero portfolio cards for **Jaramillo Boutique** and **SOVA**. Keep all other brands, owner-controlled portfolio selection, public demo links, bilingual copy, prices and checkout exactly as before.
+- Jaramillo: reuse original video already used in the dedicated boutique's story (`https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/media/hero-motion-20261108.mp4`, source branch `demo/jaramillo-boutique`) and that video's original poster `assets/noche.webp`. Add to the existing visibility-aware video loader in both locales; no new video file.
+- SOVA: replace stale `/demos/sova/resources/01-hero.png` offer-card photo with the approved demo hero `/demos/sova/media/sova-hero-seamless-cobalt-20261108.png`, without re-enabling the retired SOVA video.
+- Framing: `object-fit:contain` for Jaramillo's image and video across iPhone and iPad/desktop with a matching soft photo background; SOVA image is `contain` on the cobalt background. Prevent hover zoom for these two cards. Keep labels and tap targets usable; video has no pointer events and honors muted/inline, reduced-motion, data saver and offscreen pausing.
+- Release gate: bilingual DOM/asset assertions on 390px phone, 768/820/1024px iPad, preserved 11-card gallery and owner curation, offer browser QA, route checks, Pages build and actual Safari visual confirmation. The source video poster and final video share the original boutique asset paths.
+
 ## 2026-11-08 — Slower replayable scroll motion (no route changes)
 
 - Public routes, media, carts, checkout and tenant workflows are unchanged. The shared `/assets/tle-demo-scroll-art-20261108.css` reveal durations are now 1.25–1.8s per brand (1.4s default) instead of 0.67–1.02s; `/assets/tle-demo-scroll-art-20261108.js` triggers earlier and retains bidirectional replay. Secondary concept demos use identical mirrored assets in `thelaunchera/demo-booking-landing-`.
