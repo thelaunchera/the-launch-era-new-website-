@@ -1,3 +1,12 @@
+## 2026-11-09 — Cleaning hero media reused in all three demo cover locations (no route changes)
+
+- **Canonical demo:** `/experience-cleaning/` retains its own approved animated hero (`/experience-cleaning/media/cleaning-hero-20261108.mp4` and matching `cleaning-hero-poster-20261108.jpg`).
+- **Website demo library:** `/demos/` `data-brand="experience-cleaning"` now uses the original motion as its thumbnail; the previous `/assets/cleaning-demo/hero-cleaner-original.jpg` remains the fallback.
+- **Website offer:** `/website-for-your-business/` and `/es/website-for-your-business/` keep their existing `data-demo="experience-cleaning"` links/visibility gating, with video injected by the shared `tle-offer-gallery-hero-media-20261108.js` and portrait-safe styles.
+- **Private Studio:** `thelaunchera/todavia-estoy-a-tiempo` `estudio-control/src/FinishedDemos.tsx` reuses the same public video and poster URLs for the `experience-cleaning` cover. No media duplication or separate client site.
+- **Visiblity:** no explicit `experience-cleaning` hidden override exists in `tle_website_demo_visibility`; both public galleries remain subject to the owner-controlled Studio selector and fail-closed read access.
+- **Release gate:** QA regression + website and Studio Pages workflows + real phone/tablet checks; no booking, mail, payment or login routes changed.
+
 ## 2026-11-09 — Existing owner Command Center links website deliveries without another dashboard
 
 - **Canonical owner workspace:** `/command-center/` (authenticated owner only). The existing `Pedidos y websites` focus card scrolls to the SAME `ownerPagesHub` and `ownerOrderControl` purchase overview; no new workspace, customer table, or owner dashboard was created.
