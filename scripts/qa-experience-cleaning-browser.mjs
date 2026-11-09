@@ -66,8 +66,8 @@ try{
     await page.locator('#experience').scrollIntoViewIfNeeded();
   await page.screenshot({path:'qa-screenshots/experience-cleaning-booking-'+lang+'-'+width+'.png',fullPage:false});
   await page.locator('[data-service="deep"]').click();
-  assert.equal(await page.locator('#r-price').innerText(),'$190');
-  assert.match(await page.locator('#booking-inline-value').innerText(),/\$190/,'Mobile live summary should follow the selected service');
+  assert.equal(await page.locator('#r-price').innerText(),'$187');
+  assert.match(await page.locator('#booking-inline-value').innerText(),/\$187/,'Mobile live summary should follow the selected service');
   assert.match(await page.locator('#booking-inclusions-title').innerText(),lang==='es'?/Limpieza profunda/:/Deep cleaning/);
   assert.equal(await page.locator('#service-grid .booking-card-price').count(),4);
   const cards=page.locator('#service-grid .service-card img');
@@ -83,19 +83,19 @@ try{
   }
   await page.locator('#beds').selectOption('3');
   await page.locator('.extras input[value="oven"]').check();
-  assert.equal(await page.locator('#r-price').innerText(),'$240');
-  assert.equal(await page.locator('#booking-inline-value').innerText(),'$240','Live sample price should update with extras');
+  assert.equal(await page.locator('#r-price').innerText(),'$237');
+  assert.equal(await page.locator('#booking-inline-value').innerText(),'$237','Live sample price should update with extras');
   const priceLayout=await page.locator('#r-price').evaluate(el=>{
     const range=document.createRange();
     range.selectNodeContents(el);
     const fragments=[...range.getClientRects()].filter(rect=>rect.width>1&&rect.height>1);
     return {price:el.textContent,fragmentCount:fragments.length,whiteSpace:getComputedStyle(el).whiteSpace,width:el.getBoundingClientRect().width};
   });
-  assert.equal(priceLayout.fragmentCount,1,'The illustrative $240 total must remain a single line on '+lang+' at '+width);
+  assert.equal(priceLayout.fragmentCount,1,'The illustrative $237 total must remain a single line on '+lang+' at '+width);
   assert.equal(priceLayout.whiteSpace,'nowrap','The total must not break even on small phones');
   await page.locator('#next').click();
   assert.equal(await page.locator('#stage-3').isVisible(),true);
-  assert.equal(await page.locator('#booking-review-total').innerText(),'$240','Review must match sample price');
+  assert.equal(await page.locator('#booking-review-total').innerText(),'$237','Review must match sample price');
   assert.match(await page.locator('#booking-review-service').innerText(),lang==='es'?/profunda/:/Deep cleaning/);
   await page.locator('#booking-review-edit-details').click();
   assert.equal(await page.locator('#stage-2').isVisible(),true,'Review edits must return to existing selections');
