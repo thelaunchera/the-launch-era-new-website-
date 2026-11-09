@@ -273,11 +273,11 @@ body{background:var(--cream);}
   .lv-photo-set[aria-hidden="true"],.lv-ticker-set[aria-hidden="true"]{display:none;}
 }
 
-/* Mobile hero + bag focus, menu expands on request; desktop/tablet unchanged. */
+/* Responsive boutique café: all sections remain visible; mobile bag is an optional action. */
 @media(max-width:520px){
- .announcement,.main-nav,.lv-ticker,.lv-gallery-section,.experience,.featured,.closing{display:none!important}
  .site-header{top:0;background:rgba(255,250,252,.98)}
- .header-inner{min-height:65px;flex-wrap:nowrap;padding:12px 18px}
+ .header-inner{min-height:65px;flex-wrap:wrap;padding:12px 18px 0}
+ .main-nav{display:flex;order:3;flex:0 0 calc(100% + 36px);margin:0 -18px;padding:0 18px;gap:20px;overflow-x:auto;border-top:1px solid #E8C7D8}
  .brand>span{font-size:25px}
  .brand small{font-size:8px}
  .header-actions{margin-left:auto}
@@ -292,10 +292,35 @@ body{background:var(--cream);}
  .hero-foot{margin-top:20px}
  .hero-actions{margin-top:19px}
  .hero-actions .pill{min-height:46px}
- .menu-section{display:none!important}
- body.lv-mobile-menu-open .menu-section{display:block!important;padding-top:57px}
  .footer-inner{padding:20px 20px 14px}
- .footer-inner nav,.footer-inner p{display:none}
+ .footer-inner nav{display:flex;gap:14px}
+ .footer-inner p{display:block}
  .footer .brand>span{font-size:27px}
  .footer-bottom{padding:14px 20px 24px}
+}
+
+/* Restore the café tour and photo-led closing without changing the approved hero. */
+.discovery-section .edit-card img{background:#F7E4ED;}
+.moments-section{background:linear-gradient(145deg,#FAEDF4 0%,#F3E7EF 58%,#E7EEF8 100%);}
+.moments-grid .moment figcaption{color:#31577D;}
+.pink-lifestyle{scroll-margin-top:110px;}
+.closing{grid-template-columns:minmax(0,1.04fr) minmax(0,.96fr);justify-items:stretch;}
+.closing-photo{min-height:470px;}
+.closing-photo img{height:100%;object-fit:cover;object-position:center 58%;}
+.closing-copy{text-align:left;align-items:flex-start;max-width:none;}
+@media(max-width:790px){
+ .closing{grid-template-columns:1fr;}
+ .closing-photo{min-height:0;height:clamp(320px,65vw,470px);}
+ .closing-copy{text-align:center;align-items:center;}
+}
+@media(max-width:520px){
+ .moments-section{padding:64px 0 70px;}
+ .moments-grid{gap:12px;}
+ .moment-wide img{height:280px;}
+ .moment img{height:230px;}
+ .moments-grid .moment figcaption{font-size:14px;}
+ .closing-photo{height:340px;}
+ .main-nav a{min-height:44px;display:inline-flex;align-items:center;}
+ .footer-inner{align-items:flex-start;gap:18px;flex-wrap:wrap;}
+ .footer-inner nav{width:100%;}
 }
