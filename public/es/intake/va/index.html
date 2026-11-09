@@ -50,4 +50,5 @@ async function verifyPurchase(){
 verifyPurchase();
 
 form.addEventListener("submit",async e=>{e.preventDefault();if(!purchaseVerified){status.textContent="Este formulario solo se abre después de confirmar el pago. Usa el enlace de tu compra o escribe a hello@thelaunchera.com.";return;}if(!form.reportValidity())return;btn.disabled=true;status.textContent="Enviando…";const fd=new FormData(form),obj={language:LANG};fd.forEach((v,k)=>obj[k]=String(v).trim());if(TYPE==="tle.auto_intake"&&!obj.website_notification_email)obj.website_notification_email=obj.email||"";const payload={action:"submit",offer:OFFER,session_id:setupSession,language:languageCode,form:obj};try{const r=await fetch(GATEWAY,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload),cache:"no-store",credentials:"omit"});if(!r.ok)throw new Error("HTTP "+r.status);form.classList.remove("is-verified");form.hidden=true;success.hidden=false;status.textContent=""}catch(err){btn.disabled=false;status.textContent="No pudimos enviar el formulario. Inténtalo otra vez."}});
-</script></body></html>
+</script><script defer src="/assets/tle-global-legal-footer-20261109.js"></script>
+</body></html>
