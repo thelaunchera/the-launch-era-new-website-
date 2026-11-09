@@ -29,3 +29,6 @@ EN and ES localization; category filters NAVY / COURT / SANDSTONE; sorted concep
 ## Verification requirements
 Source checks: no Unsplash images, no OFFCOURT text on canonical route, eight local WebP assets present, JS parses, and exactly one footer.
 GitHub Pages workflow and a browser check must succeed before claiming a finished live URL. Real iPhone Safari alignment still requires owner-device visual QA. Keep out of the owner's curated public gallery unless explicitly selected; don't auto-unlock the class kit.
+
+## Expanded campaign archive
+Five additional authorized Drive originals (07, 08, 10, 11, 13) are optimized as local WebP assets 09–13. The responsive campaign archive preserves complete posters without cropping, uses lazy loading and includes English/Spanish section copy. Thirteen campaign images now appear in the demo.
