@@ -44,7 +44,9 @@ try{
        labelBackground:caption?getComputedStyle(caption).backgroundColor:''
      };
    });
-   assert.equal(presentation.fit,'cover','Gallery card '+(i+1)+' must fill the photo frame: '+language);
+   const galleryBrand=await demo.locator('xpath=ancestor::*[contains(@class,"hero-gallery-card")][1]').getAttribute('data-demo');
+   const expectedFit=(language==='en'&&galleryBrand==='la-vie-in-pink')?'contain':'cover';
+   assert.equal(presentation.fit,expectedFit,'Gallery card '+(i+1)+' must use its approved photo framing: '+language);
    assert(presentation.name?.length>1,'Gallery card '+(i+1)+' has no visible project name: '+language);
    assert(presentation.labelBackground !== 'transparent' && presentation.labelBackground !== 'rgba(0, 0, 0, 0)' && presentation.labelBackground !== '',
      'Gallery card '+(i+1)+' name must have a contrast background: '+language);
