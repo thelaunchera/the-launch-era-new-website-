@@ -30,7 +30,7 @@ for(const [lang,path] of pages){
  assert.match(html,/tle-offer-editorial-motion-20261108\.css\?v=2/,'CSS installed '+lang);
  assert.match(html,/tle-offer-editorial-motion-20261108\.js\?v=3/,'JS installed '+lang);
  assert.match(html,/class="hero hero-gallery" id="inicio"/,'Original hero preserved');
- assert.equal((html.match(/class="hero-gallery-card"/g)||[]).length,11,'Eleven original demo photos must survive');
+ assert.equal((html.match(/class="hero-gallery-card"/g)||[]).length,12,'Twelve original demo photos including FRESKA must survive');
  assert.equal((html.match(/class="plan" id="website-(?:basic|plus)"/g)||[]).length,2,'Only the two approved plans');
  assert.equal((html.match(/class="step"/g)||[]).length,4,'Four genuine service steps');
  assert.match(html,/id="owner-experience"/,'Interactive showcase preserved');
