@@ -36,3 +36,7 @@
 @media(max-width:860px){.tle-universal .tle-outcome-steps{grid-template-columns:1fr;gap:12px}.tle-universal .tle-outcome-card{padding:21px}.tle-universal .tle-outcome-card>p{min-height:0;margin-bottom:14px}.tle-universal .tle-outcome-preview{min-height:120px}.tle-universal .tle-outcome-intro{text-align:left;margin-bottom:22px}.tle-universal .tle-outcome h2{margin-inline:0}.tle-universal .tle-outcome-intro>p:last-child{margin-inline:0}.tle-universal .tle-outcome-board{padding:12px}.tle-universal .tle-outcome-footer{padding:0 5px}}
 @media(max-width:460px){.tle-universal .tle-outcome .container{width:calc(100% - 30px)}.tle-universal .tle-outcome-card{padding:17px}.tle-universal .tle-outcome-card select{font-size:16px}.tle-universal .tle-outcome h2{font-size:34px}.tle-universal .tle-outcome-board{border-radius:18px}}
 @media(prefers-reduced-motion:reduce){.tle-universal .tle-outcome-card,.tle-universal .tle-outcome-card button{transition:none}}
+
+.tle-universal .tle-agent-line{max-width:790px;margin:21px auto 0;text-align:center;font:500 12px/1.65 'Prompt',Arial,sans-serif;color:#57524d;padding:13px 20px;background:#fff9e6;border:1px solid #eee1b7;border-radius:13px}
+.tle-universal .tle-agent-line strong{color:#191919;letter-spacing:.03em;margin-right:5px}
+@media(max-width:560px){.tle-universal .tle-agent-line{padding:12px 14px;font-size:12px;text-align:left}}
