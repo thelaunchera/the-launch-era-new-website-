@@ -7,13 +7,12 @@ const KEY=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")||"";
 const API=String(Deno.env.get("OPENAI_API_KEY")||"").trim();
 const GROQ=String(Deno.env.get("GROQ_API_KEY")||"").trim();
 const ORIGINS=new Set(["https://thelaunchera.com","https://www.thelaunchera.com"]);
-const serviceIds=new Set(["booking","ai-booking","ai-followup","ai-business","cleaning-app","website","va","whatsapp"]);
+const serviceIds=new Set(["booking","ai-booking","ai-followup","ai-business","website","va","whatsapp"]);
 const fallback=[
  ["booking","Booking Automation + Command Center","Booking inquiries, owner alerts and lead follow-ups.","Reservas, avisos y seguimiento de leads.","Check checkout for the current Booking Automation price.","Consulta el precio vigente de Booking Automation en checkout.","/service-checkout/?offer=booking-flow"],
  ["ai-booking","AI Booking Assistant","Answers questions and prepares booking requests.","Responde preguntas y prepara reservas.","Check checkout for the current activation and monthly price.","Consulta en checkout la activación y mensualidad vigentes.","/service-checkout/?offer=ai-booking"],
  ["ai-followup","AI Follow-Up Assistant","Permission-based follow-ups with owner review.","Seguimientos con permiso y revisión del dueño.","Check checkout for the current activation and monthly price.","Consulta en checkout la activación y mensualidad vigentes.","/service-checkout/?offer=ai-followup"],
  ["ai-business","AI Business Assistant","Booking and follow-up assistants together.","Asistentes de reserva y seguimiento juntos.","Check checkout for the current activation and monthly price.","Consulta en checkout la activación y mensualidad vigentes.","/service-checkout/?offer=ai-business"],
- ["cleaning-app","Cleaning Web App","Clients, quotes, invoices, jobs, calendar, team and routes.","Clientes, cotizaciones, facturas, trabajos, calendario y rutas.","Check the Cleaning App page for current trial and subscription terms.","Consulta en la página de la Cleaning App las condiciones vigentes de prueba y suscripción.","/cleaning-web-app"],
  ["website","Website Automation","Website inquiries, owner alerts, tracking and follow-up.","Consultas web, alertas, tracking y seguimiento.","Check checkout for the current one-time price.","Consulta en checkout el precio actual de pago único.","/service-checkout/?offer=website-automation"],
  ["va","VA Essential Support","Up to 8 hours monthly with scope agreed first.","Hasta 8 horas mensuales; alcance acordado.","Check checkout for the current monthly price.","Consulta en checkout la mensualidad vigente.","/service-checkout/?offer=va"],
  ["whatsapp","WhatsApp AI","Coming Soon. Not for sale yet.","Próximamente; no disponible para comprar.","Coming Soon","Próximamente",null]
@@ -360,7 +359,7 @@ function guide(msg,lang,catalog,id){
  const s=norm(msg);let reply;
  if(id==="cleaning-app"){const app=appHelp(msg,lang);if(app)return app;}
  if(/what do you|what services|services|que venden|que ofrecen|servicios|opciones/.test(s)){
-  reply=es?"¡Claro! Tenemos Booking Automation, Cleaning App, asistentes IA, Website Automation y apoyo VA. ¿Qué te gustaría organizar primero?":"Of course! We have Booking Automation, the Cleaning App, AI Assistants, Website Automation and VA support. What would make your day easier?";
+  reply=es?"¡Claro! Tenemos Booking Automation, asistentes IA, Website Automation y apoyo VA. ¿Qué te gustaría organizar primero?":"Of course! We have Booking Automation, AI Assistants, Website Automation and VA support. What would make your day easier?";
  }else if(!row&&/price|precio|cuanto|cuánto|cost|cuesta|planes/.test(s)){
   reply=es?"Cada servicio tiene precios y condiciones distintos. Te ayudo a elegir primero, y después revisamos el precio vigente en checkout. ¿Cuál te interesa?":"Each service has different pricing and terms. I can help you pick the right fit first, then confirm the live price at checkout. Which one interests you?";
  }else if(!row){
@@ -394,7 +393,7 @@ async function aiResponse(msg,history,lang,cat,focus){
   "Understand their situation before recommending a service: missed or scattered booking requests -> Booking Automation; inquiries lost through an existing website -> Website Automation; repeated booking questions -> AI Booking Assistant; consent-based lead follow-ups -> AI Follow-Up Assistant; disorganized jobs, invoices and customers -> Cleaning App. These are guidance, not automatic guarantees; use only the approved feature knowledge.",
   "When a visitor is uncertain, explain the difference between no more than two relevant services; ask one practical question to identify the biggest bottleneck. Do not push checkout in every reply. You CAN offer to show an existing interactive sample when the visitor asks how Booking Automation or the Cleaning App works.",
   "Vary sentence openings and avoid repeating greetings, filler, emojis, generic sympathy, or a sales pitch. Answer short follow-up questions conversationally.",
-  "Keep Cleaning App's real 30-day free trial separate from the free interactive sample demo. NEVER call the trial a 30-day demo. When a visitor asks about a trial, answer directly, avoid another sales question, and offer the app signup action; a demo request should receive only the demo for the discussed product.",
+   "The standalone Cleaning App has been retired. Do not recommend its trials, prices, signup links or former sample. Existing account holders can contact support.",
   "Read the recent conversation carefully: resolve short follow-ups such as 'How much?', 'Why?', 'Does it?', 'And invoices?' to the previous discussed service and question.",
   "Directly address the CURRENT question, not the last one. Never repeat the previous answer unless asked to repeat. Never recycle one generic booking description for unrelated questions.",
   "Use ONLY verified facts in the catalog and internal FAQ. Prices and bundles are confirmed by the live catalog or checkout, never memory. If a capability or policy is unknown, state what is and is not confirmed, and offer human follow-up only when appropriate.",
@@ -446,7 +445,12 @@ Deno.serve(async(req)=>{
  if(message.length<2||message.length>340)return response({error:"Short question required"},400,origin);
  const history=Array.isArray(b.history)?b.history.slice(-12).filter(h=>h&&["user","assistant"].includes(h.role)).map(h=>({role:h.role,message:clean(h.message,260)})):[];
  try{if(!await limit(req))return response({error:"Please try later"},429,origin);}catch{return response({error:"Assistant unavailable"},503,origin);}
- const catalog=await offers();
+ // The former standalone Cleaning App is retired; don't sell new trials or registrations.
+ if(prior==="cleaning-app"||focus==="cleaning-app"||/\b(?:cleaning\s+(?:web\s+)?app|app\s+de\s+limpieza|aplicacion\s+de\s+limpieza)\b/.test(norm(message)))return response({
+  reply:lang==="es"?"La Cleaning App ya no está disponible para registros ni compras nuevas. Si ya tienes una cuenta, puedes iniciar sesión para consultar tus registros o escribirnos a hello@thelaunchera.com. Para nuevos proyectos seguimos ofreciendo websites, reservas y automatizaciones.":"The Cleaning App is no longer available for new registrations or purchases. If you already have an account, you can sign in to review your records or email hello@thelaunchera.com for help. Our current services include websites, booking experiences, and automation.",
+  selected_offer:"",next_action:"none",checkout:null,trial:null,details:lang==="es"?"/es/website-for-your-business/":"/website-for-your-business/",mode:"retired_cleaning_app"
+ },200,origin);
+ const catalog=(await offers()).filter(item=>item[0]!=="cleaning-app");
  if(Date.now()>=Date.parse("2026-11-01T04:00:00Z")){const booking=catalog.find(x=>x[0]==="booking");if(booking){booking[4]="See checkout for current price.";booking[5]="Consulta el precio vigente en checkout.";}}
  if(privateQuestion(norm(message)))return response({reply:knowledgeReply(message,lang,prior,catalog),selected_offer:prior,next_action:"none",mode:"privacy"},200,origin);
  const whatsappKind=whatsappQuestion(message,history);
@@ -485,7 +489,8 @@ Deno.serve(async(req)=>{
      mode:"plan_comparison"
    },200,origin);
  }
- const id=resolveConversationService(message,prior,focus,history);
+ const inferredService=resolveConversationService(message,prior,focus,history);
+ const id=inferredService==="cleaning-app"?"":inferredService;
  const row=catalog.find(x=>x[0]===id);
  if(wantsCheckoutNow(message,history,prior)){
   // Someone who compared three AI plans must select the specific checkout first.
