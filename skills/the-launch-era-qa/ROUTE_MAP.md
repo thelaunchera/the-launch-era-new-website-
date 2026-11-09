@@ -1285,3 +1285,12 @@ On `/lead-private-preview.html` sample only, `tle-demo-enhancements-v12.js` owns
 - **Shared read-only source:** `/assets/tle-website-demo-visibility-20261108.js`. No admin controls or secrets in public HTML. Canonical individual demo URLs are **not disabled** by portfolio visibility: this is editorial display control, not access restriction.
 - **Canonical aliases:** Studio `casa-brownie-static` and `casa-brownie` both use the single public `casa-brownie` ID; `ivory-bloom` maps to `ivory-and-bloom`. A live client such as CB Depot remains excluded.
 - **Release gate:** Run `node scripts/qa-route-integrity.mjs --static`, `node scripts/qa-website-demo-visibility.mjs`, private Studio build and tests, verify admin-only RLS and live GitHub Pages, and test iPhone 390px / tablet 820px. No prices, checkout, public demo contents or real customer records change.
+
+
+## 2026-11-08 — Retirement of standalone Cleaning App commercial offer (EN/ES)
+
+- Retire standalone Cleaning App from the EN/ES homepage service grid, secondary hero promotion, and locale navigation mapping. Keep the Cleaning BUSINESS service demos and the distinct Booking Page / Command Center offering unchanged.
+- Legacy `/cleaning-web-app` and `/es/cleaning-web-app` now send visitors to `/website-for-your-business/` and `/es/website-for-your-business/` with no-index metadata. Old `/cleaning-app/` and `/cleaning-app-demo/` standalone HTML pages redirect to the current website packages, with the recovery callback on `/cleaning-app/` still honored.
+- Existing `/service-checkout/?offer=...` allowlist already excludes Cleaning App. Website, AI, VA and Booking purchase flows remain unchanged. No Stripe or historic customer subscription deleted.
+- Make scenario 6391773 (standalone Cleaning App trial/subscription lifecycle) was separately deactivated and rechecked. Independent Make scenarios for website purchases, Booking and Content Lab remain active. Shared production Supabase project is NOT removed because CRM and booking depend on it.
+- Route/static QA and production deployment required before claiming public retirement complete.
