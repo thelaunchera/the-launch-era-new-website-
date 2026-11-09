@@ -3,7 +3,7 @@ const MAKE_HOOK="https://hook.us2.make.com/vmku733oldcldive8qixgqn59yuzvpmx";
 const ORIGINS=new Set(["https://thelaunchera.com","https://www.thelaunchera.com"]);
 const KEY=(()=>{let v={};try{v=JSON.parse(Deno.env.get("SUPABASE_SECRET_KEYS")||"{}")}catch{}return (v as Record<string,string>).default||Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")||""})();
 const URL=Deno.env.get("SUPABASE_URL")||"";
-const AMOUNTS:Record<string,number>={"website-basic":1500,"website-ai-crm":2500};
+const AMOUNTS:Record<string,number>={"website-basic":1500,"website-plus":2500,"website-ai-crm":2500};
 const isSession=(s:string)=>/^cs_live_[A-Za-z0-9]+$/.test(s);
 function headers(origin:string){return {"Content-Type":"application/json; charset=utf-8","Cache-Control":"no-store","Vary":"Origin","Access-Control-Allow-Origin":ORIGINS.has(origin)?origin:"https://thelaunchera.com","Access-Control-Allow-Methods":"POST,OPTIONS","Access-Control-Allow-Headers":"content-type"}}
 function send(origin:string,status:number,data:object){return new Response(JSON.stringify(data),{status,headers:headers(origin)})}
@@ -27,10 +27,10 @@ async function sendVerifiedPurchaseEmail(email:string,offer:string,session:strin
   const routes=route.ok?await route.json().catch(()=>[]):[];
   const endpoint=Array.isArray(routes)?routes[0]?.endpoint:"";
   if(!endpoint)throw Error("website email route unavailable");
-  const isEs=lang==="es",isBasic=offer==="website-basic";
-  const plan_name=isEs?(isBasic?"Website para tu negocio · $15":"Website + asistente IA + CRM · $25 iniciales"):(isBasic?"Website for Your Business · $15":"Website + AI Assistant + CRM · $25 setup");
-  const billing_note=isEs?(isBasic?"Pago único de $15. Este paquete no incluye una suscripción mensual.":(legacyAdvanced?"Pagaste $25 inicialmente. Tu plan anterior de $8/mes conserva su fecha de facturación de Stripe.":"Pagaste $25 por la configuración inicial. Tu primer mes de servicio empieza cuando recibes el proyecto terminado; los $8 mensuales se facturan al terminar ese primer mes, desde la fecha de entrega.")):(isBasic?"$15 one-time payment. This package does not include a monthly subscription.":(legacyAdvanced?"Your existing $8/month plan follows the billing date shown in your original Stripe checkout.":"You paid $25 for initial setup. Your first month of service starts when your completed project is delivered; $8/month billing begins when that first month ends, measured from delivery."));
-  const base=isBasic?"https://thelaunchera.com/intake/website/":"https://thelaunchera.com/intake/website-ai-crm/";
+  const isEs=lang==="es",isBasic=offer==="website-basic",isPlus=offer==="website-plus";
+  const plan_name=isEs?(isBasic?"Website para tu negocio · $15":isPlus?"Website + Command Center avanzado · $25":"Website + asistente IA + CRM · $25 iniciales"):(isBasic?"Website for Your Business · $15":isPlus?"Website + Advanced Command Center · $25":"Website + AI Assistant + CRM · $25 setup");
+  const billing_note=isEs?(isBasic?"Pago único de $15. Este paquete no incluye una suscripción mensual.":isPlus?"Pago único de $25 por el website y Command Center avanzado. No incluye mensualidad; un agente de IA es opcional y se cotiza por separado.":(legacyAdvanced?"Pagaste $25 inicialmente. Tu plan anterior de $8/mes conserva su fecha de facturación de Stripe.":"Pagaste $25 por la configuración inicial. Tu primer mes de servicio empieza cuando recibes el proyecto terminado; los $8 mensuales se facturan al terminar ese primer mes, desde la fecha de entrega.")):(isBasic?"$15 one-time payment. This package does not include a monthly subscription.":isPlus?"One-time $25 website and advanced Command Center payment. No monthly subscription. An AI agent is an optional separate quote.":(legacyAdvanced?"Your existing $8/month plan follows the billing date shown in your original Stripe checkout.":"You paid $25 for initial setup. Your first month of service starts when your completed project is delivered; $8/month billing begins when that first month ends, measured from delivery."));
+  const base=isBasic?"https://thelaunchera.com/intake/website/":isPlus?"https://thelaunchera.com/intake/website-plus/":"https://thelaunchera.com/intake/website-ai-crm/";
   const intake_url=base+"?"+new URLSearchParams({stage:"onboarding",lang:isEs?"es":"en",session_id:session}).toString();
   let sent=false;
   try{
@@ -59,12 +59,13 @@ Deno.serve(async(req:Request)=>{
   const response=await fetch(MAKE_HOOK,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({offer:"website-order-verify",session_id})});
   if(!response.ok)return send(origin,503,{ok:false,error:"Checkout verification unavailable"});
   const paid=await response.json().catch(()=>null);
+  const oneTimePlus=offer==="website-plus"&&String(paid.mode)==="payment"&&String(paid.payment_model)==="one_time_setup";
   const legacyAdvanced=offer==="website-ai-crm"&&String(paid.mode)==="subscription"&&/^sub_[A-Za-z0-9]+$/.test(String(paid.subscription||""));
   const deferredAdvanced=offer==="website-ai-crm"&&String(paid.mode)==="payment"&&String(paid.payment_model)==="setup_now_bill_after_delivery_month"&&String(paid.recurring_billing_starts)==="one_month_after_confirmed_delivery"&&/^cus_[A-Za-z0-9]+$/.test(String(paid.customer||""))&&/^pi_[A-Za-z0-9]+$/.test(String(paid.payment_intent||""));
   if(!paid||String(paid.session_id)!==session_id||String(paid.offer)!==offer||
     String(paid.tle_flow)!=="website_packages_20261105"||
     String(paid.payment_status)!=="paid"||String(paid.status)!=="complete"||
-    (offer==="website-basic"?String(paid.mode)!=="payment":!(legacyAdvanced||deferredAdvanced))||
+    (offer==="website-basic"?String(paid.mode)!=="payment":offer==="website-plus"?!oneTimePlus:!(legacyAdvanced||deferredAdvanced))||
     String(paid.livemode)!=="true"||String(paid.currency).toLowerCase()!=="usd"||
     !(Number(paid.amount_total)===AMOUNTS[offer]||(legacyAdvanced&&Number(paid.amount_total)===3300&&Number(paid.created)>0&&Number(paid.created)<1793929781)))return send(origin,403,{ok:false,error:"Payment not confirmed"});
   const email=String(paid.email||"").trim().toLowerCase().slice(0,254);
