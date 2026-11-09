@@ -31,12 +31,12 @@ for(const [lang,path] of pages){
  assert.match(html,/tle-offer-editorial-motion-20261108\.js\?v=3/,'JS installed '+lang);
  assert.match(html,/class="hero hero-gallery" id="inicio"/,'Original hero preserved');
  assert.equal((html.match(/class="hero-gallery-card"/g)||[]).length,11,'Eleven original demo photos must survive');
- assert.equal((html.match(/class="plan" id="website-(?:basic|ai-crm)"/g)||[]).length,2,'Only the two approved plans');
+ assert.equal((html.match(/class="plan" id="website-(?:basic|plus)"/g)||[]).length,2,'Only the two approved plans');
  assert.equal((html.match(/class="step"/g)||[]).length,4,'Four genuine service steps');
  assert.match(html,/id="owner-experience"/,'Interactive showcase preserved');
  assert.ok(html.includes('$15')&&html.includes('$25')&&html.includes('$8'),'Existing prices untouched');
  assert.match(html,/href="\/website-checkout\/\?offer=website-basic&lang=/);
- assert.match(html,/href="\/website-checkout\/\?offer=website-ai-crm&lang=/);
+ assert.match(html,/href="\/website-checkout\/\?offer=website-plus&lang=/);
  assert.equal((html.match(/<a[^>]+class="owner-experience-cta"/g)||[]).length,1,'Exactly one owner CTA');
  assert.ok(!html.includes('testimonials fabricated'),'No invented content');
 }
@@ -84,7 +84,7 @@ for(const [lang,path] of pages){
  assert.ok(hero?.includes(p.hero)&&hero?.includes(p.payoff),'Actual hero must carry new value proposition');
  const owner=html.match(/<section class="owner-experience"[\s\S]*?<\/section>/)?.[0]||'';
  assert.ok(owner.includes(p.owner)&&owner.includes(p.demo),'Evidence must precede choice');
- assert.equal((html.match(/class="plan" id="website-(?:basic|ai-crm)"/g)||[]).length,2,'No third offer '+lang);
+ assert.equal((html.match(/class="plan" id="website-(?:basic|plus)"/g)||[]).length,2,'No third offer '+lang);
 }
 const storyCSS=read('public/assets/tle-offer-editorial-motion-20261108.css');
 assert.match(storyCSS,/max-width:min\(13ch,100%\)/,'Desktop headline width must be responsive');

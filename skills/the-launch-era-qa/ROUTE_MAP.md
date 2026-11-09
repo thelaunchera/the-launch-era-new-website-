@@ -1,3 +1,13 @@
+## 2026-11-09 — One-time $25 Website Plus + optional AI agent (additive, legacy-safe)
+
+- Public EN/ES packages: `/website-for-your-business/` and `/es/website-for-your-business/`. Package 1 $15 -> `/website-checkout/?offer=website-basic&lang=...`. Package 2 $25 -> `/website-checkout/?offer=website-plus&lang=...`. No third sales package, no recurring payment, no AI agent included in Package 2.
+- New/refresh/selected-section request is collected only after verified payment in `/intake/website/` and `/intake/website-plus/`, including existing website URL when needed. Both have independent optional AI-agent interest checkbox, without automatic activation or charge. Provider compatibility and scope reviewed before editing.
+- Stripe LIVE checkout is issued **only through Make** scenario 6423594: existing modules 31/33 for website-basic, new modules 51/52 for website-plus; module 32/34 for legacy website-ai-crm remains unchanged. Make route 35/36 verifies paid sessions; new offer metadata: `payment_model=one_time_setup`, `agent_option=quote_only_no_auto_activation`.
+- `/website-payment-success/` branches to `/intake/website-plus/` for the new `website-plus` offer, preserving historical `website-ai-crm` paid intake route. The fhrv Supabase website-start, confirm-payment, intake, and upload-photo functions allow the additional offer. The bowac `tle-website-order-confirm`, `tle-website-project-intake`, `tle-website-delivery-activate` functions allow it with **$0 recurring**, one-time delivery, dedicated email wording, and grandfathered historic terms.
+- Scoped database constraints extended additively for `website-plus` ($25 = 2500 cents, monthly 0); old package slug and historical $33 records remain valid, plus current old $25 subscription sessions. Existing subscriptions and prior buyers remain untouched.
+- Public FAQ and terms state one-time new $25 vs optional AI add-on; old contracts are still described as legacy. Owner delivery admin labels the new package correctly and never starts a subscription for it.
+- Make no-charge EN and ES checkout smoke requests returned HTTP 200 with Stripe Checkout URLs, no payment collected. Full purchase and email-delivery end-to-end requires first real customer checkout or authorized isolated fixture. Run repo QA/static browser checks, confirm GitHub Pages deployment and verify public pages after merge.
+
 ## 2026-11-09 — Existing owner Command Center links website deliveries without another dashboard
 
 - **Canonical owner workspace:** `/command-center/` (authenticated owner only). The existing `Pedidos y websites` focus card scrolls to the SAME `ownerPagesHub` and `ownerOrderControl` purchase overview; no new workspace, customer table, or owner dashboard was created.
