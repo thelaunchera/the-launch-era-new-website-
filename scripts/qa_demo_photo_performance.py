@@ -16,9 +16,13 @@ assert m["saved_percent"] > 38, "Too little data saved"
 gallery = (root / "demos/index.html").read_text(encoding="utf-8")
 for name in ("sova/resources/01-hero.webp",
              "golden-grid/resources/golden-1.webp",
-             "la-vie-in-pink/resources/36a1bfe5-3660-4b7e-964d-8031fe824941.webp",
              "marea-wigs-miami/resources/01-hero.webp"):
     assert "/demos/" + name in gallery, "Gallery image not optimized: " + name
+# La Vie's new editorial PINK cover has baked-in typography: the owner-approved
+# lossless photo supersedes its old optimized cafe thumbnail in the catalog.
+la_vie_cover = "la-vie-in-pink/photos/lavie_pink_hero_editorial.png"
+assert "/demos/" + la_vie_cover in gallery, "La Vie gallery must use its approved editorial cover"
+assert (root / "demos" / la_vie_cover).is_file(), "Approved La Vie gallery photo missing"
 # The interactive website preview iframe must load immediately when opened.
 # Only image thumbnails need deferred loading in the catalog.
 import re
