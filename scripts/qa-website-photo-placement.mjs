@@ -71,7 +71,7 @@ for(const [language,html] of [['en',en],['es',es]]){
  }
  assert(html.includes('$15')&&html.includes('$25')&&!html.includes('$8 USD'),language+': current one-time prices or optional AI billing not aligned');
  assert(/48 (hours|horas)/i.test(html),language+': delivery estimate missing');
- assert(/revision round|ronda de revisión/i.test(html),language+': included revision round missing');
+ assert(/one revision|revision round|una revisión|ronda de revisión/i.test(html),language+': included single revision missing');
 }
 const photoStyles=css.split('/* 2026-11-05 image placement: keep original hero untouched. */')[1]?.split('/* Short inline billing disclosure')[0];
 assert(photoStyles&&!photoStyles.includes('.hero'), 'Photo styling inadvertently edits hero');
