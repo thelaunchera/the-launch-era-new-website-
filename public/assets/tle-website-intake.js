@@ -1,7 +1,7 @@
 (() => {
  'use strict';
  const body=document.body,root=document.documentElement,plan=body.dataset.package;
- const advanced=plan==='website-ai-crm',params=new URLSearchParams(location.search);
+ const legacy=plan==='website-ai-crm',plus=plan==='website-plus',advanced=legacy||plus,params=new URLSearchParams(location.search);
  const session=String(params.get('session_id')||'');
  let lang=params.get('lang')==='es'?'es':'en',paid=false,verifying=false;
  const $=id=>document.getElementById(id);
@@ -13,11 +13,11 @@
   back:'View packages',start:'STEP 2 OF 2 · YOUR WEBSITE SETUP',
   headBasic:'Tell us about your business.',headAdvanced:'Let’s set up your website and CRM.',
   lead:'We have your package. These are the details we need to build and configure your system.',
-  packageBasic:'Website + Command Center',packageAdvanced:'Website + Advanced Command Center',
+  packageBasic:'Website + Command Center',packageAdvanced:'Website + AI Command Center',packagePlus:'Website + Advanced Command Center',
   init:'Setup package · USD',reminderBasic:'Estimated 48-hour production after approved kickoff, with one review round.',
-  reminderAdvanced:'$25 due today for setup. Your first advanced CRM and email service month starts when the completed website is delivered; $8/month billing starts after that first service month. Estimated 48-hour production after approved kickoff; one review round.',
+  reminderAdvanced:'$25 due today for setup. Your first AI + CRM service month starts when the completed website is delivered; $8/month billing starts after that first service month. Estimated 48-hour production after approved kickoff; one review round.',reminderPlus:'One-time $25 payment. No monthly website subscription. An AI agent is a separate option that requires a quote and approval. Estimated delivery in 48 hours after approved kickoff; one revision included.',
   scopeBasic:'Website, private basic Command Center for inquiries, customers and catalog edits, plus email alerts. Private access is activated after delivery.',
-  scopeAdvanced:'Everything in the basic Command Center plus approved advanced email automations. AI agent available as a separate optional request.',
+  scopeAdvanced:'Everything in the basic Command Center plus an on-page AI assistant and approved email automations.',scopePlus:'Everything in the basic Command Center plus approved advanced email workflows. The AI agent is optional and separately quoted.',
   boxLabel:'PROJECT SETUP',formTitle:'Your business details',
   formLead:'Complete this once using the same email address used at checkout.',
   waiting:'Verifying your Stripe payment…',required:'Complete secure checkout first to access setup.',
@@ -54,11 +54,11 @@
   back:'Ver paquetes',start:'PASO 2 DE 2 · CONFIGURACIÓN DE TU WEBSITE',
   headBasic:'Cuéntanos sobre tu negocio.',headAdvanced:'Configuremos tu website y CRM.',
   lead:'Ya tenemos tu paquete. Necesitamos estos detalles para construir tu website y configurar tu sistema.',
-  packageBasic:'Website + Command Center',packageAdvanced:'Website + Command Center avanzado',
+  packageBasic:'Website + Command Center',packageAdvanced:'Website + IA Command Center',packagePlus:'Website + Command Center avanzado',
   init:'Paquete de configuración · USD',reminderBasic:'Producción estimada en 48 horas desde el inicio aprobado, con una ronda de revisión.',
-  reminderAdvanced:'Pagas $25 hoy por la configuración. El primer mes de CRM avanzado y correos empieza con la entrega del website terminado; los $8 mensuales se cobran al finalizar ese primer mes. Producción estimada en 48 horas desde el inicio aprobado, con una ronda de revisión.',
+  reminderAdvanced:'Pagas $25 hoy por la configuración. El primer mes de IA + CRM empieza con la entrega del website terminado; los $8 mensuales se cobran al finalizar ese primer mes. Producción estimada en 48 horas desde el inicio aprobado, con una ronda de revisión.',reminderPlus:'Pago único de $25. Sin mensualidad para el website. El agente de IA se solicita por separado, sujeto a cotización y aprobación. Entrega estimada en 48 horas desde el inicio confirmado; una revisión incluida.',
   scopeBasic:'Website, Command Center privado básico para solicitudes, clientes y edición del catálogo, más avisos por correo. Se activa tras la entrega.',
-  scopeAdvanced:'Todo lo del Command Center básico con automatizaciones avanzadas por correo. El agente de IA es una opción que se solicita por separado.',
+  scopeAdvanced:'Todo lo del Command Center básico, con asistente IA y automatizaciones por correo aprobadas.',scopePlus:'Todo lo del Command Center básico y automatizaciones avanzadas por correo. El agente de IA se cotiza por separado si lo solicitas.',
   boxLabel:'CONFIGURACIÓN DEL PROYECTO',formTitle:'Datos de tu negocio',
   formLead:'Completa esto una vez con el mismo correo que usaste para pagar.',
   waiting:'Verificando tu pago con Stripe…',required:'Completa primero el pago seguro para configurar tu proyecto.',
@@ -93,14 +93,14 @@
  }};
  function translate(){
   const t=copy[lang];root.lang=lang;
-  document.title=(advanced?t.packageAdvanced:t.packageBasic)+' · '+(lang==='es'?'Configuración':'Setup')+' | The Launch Era';
+  document.title=(plus?t.packagePlus:(advanced?t.packageAdvanced:t.packageBasic))+' · '+(lang==='es'?'Configuración':'Setup')+' | The Launch Era';
   for(const node of document.querySelectorAll('[data-i18n]')){const label=t[node.dataset.i18n];if(label!==undefined)node.textContent=label}
   for(const node of document.querySelectorAll('[data-placeholder]')){const label=t[node.dataset.placeholder];if(label!==undefined)node.placeholder=label}
-  $('package-name').textContent=advanced?t.packageAdvanced:t.packageBasic;
+  $('package-name').textContent=plus?t.packagePlus:(advanced?t.packageAdvanced:t.packageBasic);
   $('intro-title').textContent=advanced?t.headAdvanced:t.headBasic;
-  $('intro-scope').textContent=advanced?t.scopeAdvanced:t.scopeBasic;
+  $('intro-scope').textContent=plus?t.scopePlus:(advanced?t.scopeAdvanced:t.scopeBasic);
   $('price').textContent=advanced?'$25':'$15';
-  $('ongoing').textContent=advanced?t.reminderAdvanced:t.reminderBasic;
+  $('ongoing').textContent=plus?t.reminderPlus:(advanced?t.reminderAdvanced:t.reminderBasic);
   $('locale').textContent=lang==='es'?'English':'Español';
   $('return').href=lang==='es'?'/es/website-for-your-business/':'/website-for-your-business/';
   $('complete').querySelector('a').href=$('return').href;
@@ -173,7 +173,7 @@
   if(!paid||submit.disabled||!form.reportValidity())return;
   const f=new FormData(form),t=copy[lang];
   const goals=[
-   get(f,'goals'),note('Website work requested',get(f,'website_project_type')||'new'),note('Existing website to review',get(f,'existing_website')),note('Optional AI agent requested',f.get('ai_agent_interest')==='yes'?'Yes — quote and permission required before any activation or additional charges':'No'),note('Chosen website format',get(f,'website_format')),note('Existing menu PDF/product list',get(f,'menu_pdf_url')),note('Customer notifications','email only; no SMS'),note('Command Center access','activate private buyer workspace after verified delivery'),note('Services/products',get(f,'services')),
+   get(f,'goals'),note('Website work requested',get(f,'website_project_type')||'new'),note('Existing website to review',get(f,'existing_website')),note('Optional AI agent requested',legacy?'Included in legacy paid package':f.get('ai_agent_interest')==='yes'?'Yes — quote and permission required before any activation or additional charges':'No'),note('Chosen website format',get(f,'website_format')),note('Existing menu PDF/product list',get(f,'menu_pdf_url')),note('Customer notifications','email only; no SMS'),note('Command Center access','activate private buyer workspace after verified delivery'),note('Services/products',get(f,'services')),
    note('AI-enhanced photo request',f.get('ai_photo_request')==='yes'?'Yes · '+(get(f,'ai_photo_goal')||'enhance_existing'):'Not requested'),
    note('Preferred AI photo example',f.get('ai_photo_request')==='yes'?get(f,'ai_photo_reference'):''),
    note('AI photo handling',f.get('ai_photo_request')==='yes'?'Review requested; no automatic image generation or automatic extra charge':''),
@@ -198,7 +198,7 @@
    business_name:get(f,'business_name'),industry:get(f,'industry')==='other'?('Other: '+get(f,'industry_other')).slice(0,120):get(f,'industry'),
    existing_website:get(f,'existing_website'),preferred_email:get(f,'preferred_email')||get(f,'email'),
    customer_action:get(f,'customer_action'),goals,brand_notes:brand,
-   automation_goals:get(f,'automation_goals'),ai_brief:f.get('ai_agent_interest')==='yes'?get(f,'ai_brief'):'',
+   automation_goals:get(f,'automation_goals'),ai_brief:legacy?get(f,'ai_brief'):(f.get('ai_agent_interest')==='yes'?get(f,'ai_brief'):''),
    language:lang,contact_consent:f.get('consent')==='yes',
    checkout_reference:session
   };
