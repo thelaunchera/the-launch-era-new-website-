@@ -108,8 +108,11 @@ assert(!jessie.includes('demoUrl'),'Jessie must not send an unverified private-d
 assert(jessie.includes('Confirm your interest to receive your private demo'));
 assert.match(privatePreview,/location\.replace\('\/booking-demo-reset\.html'\+location\.search\+location\.hash\)/);
 assert.match(privatePreview,/p\.has\('key'\)\|\|p\.get\('owner_preview'\)==='1'/);
-assert.match(app,/Cleaning App \| Interactive Preview/);
-assert.match(app,/Pick a section|Choose a section|sample/);
+// The standalone Cleaning App has been retired; its former URL now redirects safely.
+assert.match(app,/The Launch Era — Website Services/);
+assert.match(app,/location\.replace\(lang===/);
+assert.match(app,/\/website-for-your-business\//);
+assert.doesNotMatch(app,/Cleaning App \| Interactive Preview/,'Retired Cleaning App must not reappear');
 assert.match(request,/tle-personalized-demo/,'Public form still requests demos');
 assert(!fs.existsSync('supabase/functions/tle-booking-demo-gate/booking-template.ts'),'Protected Booking source must not be in public repo');
 assert(!fs.existsSync('supabase/functions/tle-booking-demo-gate/tracker-template.ts'),'Protected tracker source must not be in public repo');
@@ -198,4 +201,4 @@ const buyerDenied=await mockOwnerView({owner:false});
 assert.equal(buyerDenied.backendCalls,0,'Buyer must not call the private Owner endpoint');
 console.log('PASS: mocked Owner demo loads, splash clears, failure retries, buyer blocked');
 
-console.log('PASS: Booking Automation only; no public raw HTML; private code verification; Jessie confirmation; buyer and Cleaning App retained.');
+console.log('PASS: Booking Automation only; no public raw HTML; private code verification; Jessie confirmation; buyer access protected and retired Cleaning App redirected.');
