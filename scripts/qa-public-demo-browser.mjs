@@ -1,40 +1,23 @@
-/**
- * Run after dependencies install: execute public demo inline scripts in JSDOM.
- * Asserts the page actually renders content, not a blank sample workspace.
- * All data/actions are local and synthetic. No network or customer authentication.
- */
+/** The former public Cleaning App is retired; verify its URL cannot show an obsolete workspace. */
+import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {JSDOM,VirtualConsole} from 'jsdom';
+import vm from 'node:vm';
 const source=readFileSync('public/cleaning-app-demo/index.html','utf8');
-const errors=[];
-const vc=new VirtualConsole();
-vc.on('jsdomError',err=>errors.push('Browser script error: '+err.message));
-const dom=new JSDOM(source,{
-  url:'https://thelaunchera.com/cleaning-app-demo/?lang=en',
-  runScripts:'dangerously',
-  virtualConsole:vc
-});
-const doc=dom.window.document;
-const fail=msg=>errors.push(msg);
-const nav=doc.querySelector('#nav');
-const app=doc.querySelector('#app');
-if(!nav||!app)fail('Navigation or workspace missing');
-else {
- const buttons=nav.querySelectorAll('[data-tab]');
- if(buttons.length<6)fail('Demo tabs did not render');
- if(!app.textContent?.includes('Good morning'))fail('Overview is blank or demo script failed');
- if(app.textContent?.trim().length<150)fail('Workspace is unexpectedly empty');
- const c=nav.querySelector('[data-tab="3"]');
- if(c){c.click();if(!app.textContent?.includes('Sarah Mitchell'))fail('Clients tab failed to render synthetic client');}
- const es=doc.getElementById('es');
- if(es){es.click();if(!app.textContent?.includes('Tus clientes'))fail('Spanish client tab did not render');}
+assert.match(source,/<title>The Launch Era — Website Services<\/title>/);
+assert.match(source,/<meta name="robots" content="noindex,nofollow">/);
+assert.doesNotMatch(source,/id="nav"|id="app"|sample workspace|Cleaning App \| Interactive Preview/i,
+  'No retired app controls or claims should remain');
+const js=source.match(/<script>([\s\S]*?)<\/script>/)?.[1];
+assert(js,'Retired route must include a short redirect');
+new vm.Script(js,{filename:'cleaning-app-retirement.js'});
+for(const lang of ['en','es']){
+  const navigations=[];
+  vm.runInNewContext(js,{URLSearchParams,location:{
+    search:'?lang='+lang,replace:(url)=>navigations.push(url)
+  }},{timeout:1000});
+  assert.deepEqual(navigations,[lang==='es'?'/es/website-for-your-business/':'/website-for-your-business/'],
+    'Retired URL must redirect to the active bilingual website');
 }
-const clone=doc.body.cloneNode(true);
-clone.querySelectorAll('script,style').forEach(n=>n.remove());
-const bodyText=clone.textContent||'';
-if(/(?:screens\.push\s*\(|function render\s*\(|document\.getElementById\s*\()/i.test(bodyText)){
- fail('Raw JavaScript appears as visible body text');
-}
-dom.window.close();
-if(errors.length){console.error('[PUBLIC DEMO BROWSER QA FAILED]\n'+errors.join('\n'));process.exitCode=1}
-else console.log('[PUBLIC DEMO BROWSER QA PASSED] EN/ES sample workspace, tabs, client data and visible content.');
+assert.match(source,/href="\/website-for-your-business\//,
+  'Accessible fallback link should work even without JavaScript');
+console.log('[PUBLIC DEMO RETIREMENT QA PASSED] Old Cleaning App safely redirects EN/ES with no obsolete controls.');
