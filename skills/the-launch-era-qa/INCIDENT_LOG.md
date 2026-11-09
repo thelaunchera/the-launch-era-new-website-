@@ -1,3 +1,10 @@
+## 2026-11-08 — Gallery shows CRUMB / Jaramillo / SOVA but cannot reach the rest by swipe
+
+- **Owner evidence:** iPad photograph of the official Website offer shows small-ish portfolio covers with CRUMB, Jaramillo Boutique and SOVA; swiping does not reveal other projects.
+- **Verified source root cause:** tablet CSS gave `.hero-gallery-rail` `width:100%` + `justify-content:center` while children had a minimum width and could overflow. An overfull centered flex line extends off the left clipping boundary beyond `scrollLeft=0`, making the first projects unreachable; overflow was also clipped at the stage edges. This is a source-level finding, not yet device verification.
+- **Scoped fix:** switch tablet rail to `width:max-content;min-width:100%;justify-content:flex-start`, enlarge cards proportionally, keep native X/Y panning, use softer scroll snapping on phones and cache-bust EN/ES links. No changes to media, Studio selections, customer data or checkout.
+- **QA:** add static guards and browser regression at 1024px with 4 and 11 visible cards, both languages, first/last horizontal reachability and vertical wheel/page scroll. CI + Pages + physical Safari verification pending.
+
 ## 2026-11-08 — Scroll reveals too fast to perceive (code fix; live QA pending)
 
 - **Owner symptom:** motion across public websites and demos finishes before photography/headline effects can be appreciated, especially on fast phone scrolling.
