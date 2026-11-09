@@ -3,6 +3,16 @@
  * User-uploaded gallery photos always take priority; these references are
  * editorial fallback only and never count against storage. */
 export const EDITORIAL_PHOTO_SETS = {
+  "sneekiefs": [
+    "https://thelaunchera.com/demos/sneekiefs/assets/07-editorial-poster.webp",
+    "https://thelaunchera.com/demos/sneekiefs/assets/01-studio-shoe.webp",
+    "https://thelaunchera.com/demos/sneekiefs/assets/02-product-natural.webp",
+    "https://thelaunchera.com/demos/sneekiefs/assets/08-orange-sneaker.webp",
+    "https://thelaunchera.com/demos/sneekiefs/assets/06-model-campaign.webp",
+    "https://thelaunchera.com/demos/sneekiefs/assets/03-detail-macro.webp",
+    "https://thelaunchera.com/demos/sneekiefs/assets/04-street-motion.webp",
+    "https://thelaunchera.com/demos/sneekiefs/assets/05-streetwear-flatlay.webp"
+  ],
   "freska": [
     "https://thelaunchera.com/demos/freska/media/freska-hero-owner-approved-20261109.jpg",
     "https://thelaunchera.com/demos/freska/media/hero-pink-pop.webp",
