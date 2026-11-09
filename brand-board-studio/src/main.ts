@@ -636,7 +636,36 @@ const DEMOS=[
     "imageY": 50,
     "imageX": 50,
     "imageScale": 1
-  }
+  },
+  {
+  "id": "nail-room",
+  "name": "Nail Room",
+  "category": "Beauty · Demo",
+  "description": "Editorial nail studio with an interactive look gallery, glass cards, feminine price tags, and a preview-only appointment experience.",
+  "tagline": "Your next nail crush.",
+  "monogram": "NR",
+  "symbol": "♡",
+  "titleFont": "Playfair Display",
+  "bodyFont": "DM Sans",
+  "tone": "Femenina · rosa editorial · nail artistry",
+  "style": "beauty",
+  "colors": [
+    "#332331",
+    "#EC5794",
+    "#F6C5D8",
+    "#FFF8FA",
+    "#B53E78",
+    "#FFE5F0"
+  ],
+  "heroPhoto": "https://thelaunchera.github.io/demo-booking-landing-/nail-room/media/pink-ombre-hero.png",
+  "detailPhoto": "https://thelaunchera.github.io/demo-booking-landing-/nail-room/media/pink-floral-chrome.png",
+  "site": "https://thelaunchera.github.io/demo-booking-landing-/nail-room/",
+  "logoImage": "",
+  "patternImage": "",
+  "imageY": 50,
+  "imageX": 50,
+  "imageScale": 1
+}
 ];
 const TYPES=['Bebidas · Demo','Bakery · Demo','Cookie Shop · Demo','Nightclub · Demo','Boutique · Demo','Beauty · Demo','Wellness · Demo','Restaurante · Demo','Audio · Demo','Food · Demo','Cleaning · Demo','Sneakers · Demo','Cliente real','Otra categoría'];
 const FONTS=['Barlow Condensed','Outfit','Playfair Display','Italiana','Bodoni Moda','DM Serif Display','Cormorant Garamond','Bebas Neue','Caprasimo','Georgia','Manrope','DM Sans','Archivo Black','Space Grotesk','Arial'];
