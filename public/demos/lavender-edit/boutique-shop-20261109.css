@@ -1,0 +1,52 @@
+/* Lavanda Boutique: isolated client-side demo storefront. No payment or order APIs. */
+.lb-cart-trigger{appearance:none;border:1px solid #7952B3;background:#F4B85D;color:#24182F;border-radius:50px;min-height:44px;padding:9px 13px;font:700 11px/1.2 var(--sans,Arial,sans-serif);letter-spacing:.055em;display:inline-flex;gap:8px;align-items:center;white-space:nowrap;cursor:pointer}
+.lb-cart-trigger:hover,.lb-cart-trigger:focus-visible{background:#fae0a5}
+.lb-cart-trigger [data-lb-cart-count]{display:inline-grid;place-items:center;min-width:22px;height:22px;border-radius:50%;background:#7952B3;color:white;padding:0 5px}
+.lb-price-section.tle-demo-price-collection{--tle-price-accent:#7952B3!important;background:#faf7f0!important;border:0!important;padding-block:clamp(65px,7vw,110px)!important}
+.lb-price-section .tle-price-kicker{color:#7952B3!important;letter-spacing:.2em}
+.lb-price-section h2{font-family:var(--serif,Georgia,serif)!important;font-size:clamp(47px,6vw,92px)!important;max-width:900px;line-height:1.04!important;color:#24182F!important}
+.lb-price-section .tle-price-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:15px!important}
+.lb-price-section .tle-price-card{border:1px solid #e5d9ee!important;background:#fff!important;border-radius:3px!important;box-shadow:none!important;min-width:0;display:block!important}
+.lb-price-section .tle-price-card>img{width:100%!important;height:auto!important;aspect-ratio:4/3;object-fit:cover}
+.lb-price-section .tle-price-card-body{padding:20px!important;display:flex!important;align-items:start!important;flex-direction:column;gap:12px}
+.lb-price-section .tle-price-card-body h3{font-family:var(--serif,Georgia,serif)!important;font-weight:400!important;font-size:clamp(26px,2.7vw,38px)!important;line-height:1.13!important;margin:0!important;color:#24182F!important}
+.lb-price-section .tle-price-card-body>div{display:flex!important;justify-content:start!important;align-items:baseline!important;flex-wrap:wrap!important;gap:8px!important;margin:0!important}
+.lb-price-section .tle-price-card-body strong{font-size:19px!important;color:#7952B3!important}
+.lb-add{appearance:none;display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:10px 18px;width:100%;margin-top:auto;background:#7952B3;color:white;border:1px solid #7952B3;border-radius:50px;font:700 11px/1.3 var(--sans,Arial,sans-serif);letter-spacing:.09em;text-transform:uppercase;cursor:pointer}
+.lb-add:hover,.lb-add:focus-visible{background:#5b367f}
+.lb-price-section .tle-price-note{color:#655370!important;font-size:12px!important;line-height:1.6!important;margin-top:22px!important}
+.lb-cart-backdrop{position:fixed;inset:0;z-index:1998;background:rgba(24,13,35,.58);backdrop-filter:blur(2px)}
+.lb-cart-drawer{position:fixed;inset:0 0 0 auto;z-index:1999;width:min(480px,100vw);height:100vh;height:100dvh;background:#faf7f0;color:#24182F;display:flex;flex-direction:column;box-shadow:-10px 0 55px #21132f40;overflow:hidden}
+.lb-cart-backdrop[hidden],.lb-cart-drawer[hidden]{display:none!important}
+body.lb-bag-open{overflow:hidden}
+.lb-cart-head{display:flex;gap:20px;align-items:center;justify-content:space-between;border-bottom:1px solid #d8c8e6;padding:24px 25px}
+.lb-cart-head h2{font:400 clamp(32px,6vw,42px)/1.1 var(--serif,Georgia,serif);margin:4px 0 0}
+.lb-cart-eyebrow{font:700 10px/1.4 var(--sans,Arial,sans-serif);text-transform:uppercase;letter-spacing:.2em;color:#7952B3}
+.lb-cart-close{border:1px solid #d8c8e6;background:transparent;color:#24182F;min-width:44px;height:44px;border-radius:50%;font-size:26px;cursor:pointer}
+.lb-cart-body{padding:24px;overflow-y:auto;flex:1;overscroll-behavior:contain}
+.lb-cart-row{display:grid;grid-template-columns:86px minmax(0,1fr);gap:16px;align-items:start;padding:15px 0;border-bottom:1px solid #dfd4e9}
+.lb-cart-row img{width:86px;height:105px;object-fit:cover;background:#e6d9ec}
+.lb-cart-name{font:400 24px/1.13 var(--serif,Georgia,serif);margin:1px 0 9px}
+.lb-cart-money{color:#7952B3;font-weight:700}
+.lb-cart-controls{display:flex;align-items:center;gap:12px;margin-top:15px}
+.lb-cart-controls button{appearance:none;border:1px solid #c8b5d8;background:#fff;min-width:36px;min-height:36px;border-radius:50%;font-size:17px;cursor:pointer;color:#24182F}
+.lb-cart-controls button.lb-remove{border:0;background:transparent;text-decoration:underline;min-width:unset;font-size:12px;padding:5px 0;margin-left:auto}
+.lb-cart-qty{min-width:18px;text-align:center;font-variant-numeric:tabular-nums}
+.lb-cart-bottom{padding:21px 24px 25px;border-top:1px solid #d8c8e6;background:#fff}
+.lb-cart-total{display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:15px;font-weight:600;margin:0 0 15px}
+.lb-cart-total strong{font-size:23px;color:#7952B3;font-variant-numeric:tabular-nums}
+.lb-cart-disclaimer{font-size:12px;line-height:1.55;color:#604d6e;margin:0 0 17px}
+.lb-cart-primary,.lb-cart-secondary{display:flex;width:100%;align-items:center;justify-content:center;min-height:49px;padding:13px 16px;border-radius:50px;cursor:pointer;font:700 12px/1.3 var(--sans,Arial,sans-serif);text-align:center}
+.lb-cart-primary{border:1px solid #7952B3;background:#7952B3;color:white}.lb-cart-primary:disabled{opacity:.5;cursor:not-allowed}
+.lb-cart-secondary{margin-top:10px;border:1px solid #7952B3;background:transparent;color:#7952B3}
+.lb-cart-empty{font:400 27px/1.3 var(--serif,Georgia,serif);margin:38px 0;color:#614975}
+.lb-cart-confirm{padding:32px 0;min-height:200px}
+.lb-cart-confirm h3{font:400 clamp(34px,6vw,48px)/1.08 var(--serif,Georgia,serif);margin:14px 0}
+.lb-cart-confirm p{font-size:15px;line-height:1.7}
+.lb-cart-checkmark{font-size:38px;color:#7952B3;font-family:Georgia,serif}
+.lb-cart-drawer :focus-visible,.lb-add:focus-visible{outline:3px solid #F4B85D;outline-offset:3px}
+.lb-cart-announcement{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:850px){header .actions{gap:7px}.lb-cart-trigger{padding:8px 10px;font-size:10px}.lb-cart-trigger [data-lb-cart-count]{min-width:20px;height:20px}.lb-price-section .tle-price-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:650px){.lb-price-section .tle-price-grid{grid-template-columns:1fr!important}.lb-price-section .tle-price-card{display:grid!important;grid-template-columns:39% 61%;align-items:stretch}.lb-price-section .tle-price-card>img{height:100%!important;aspect-ratio:auto!important;min-height:210px}.lb-price-section .tle-price-card-body{padding:14px!important;gap:10px}.lb-price-section .tle-price-card-body h3{font-size:27px!important}.lb-price-section .tle-price-card-body>div{margin:0!important;max-width:100%}.lb-add{font-size:10px;min-height:43px;padding:8px}.lb-cart-head{padding:18px}.lb-cart-body{padding:18px}.lb-cart-bottom{padding:18px}.lb-cart-row{grid-template-columns:76px minmax(0,1fr)}.lb-cart-row img{width:76px;height:96px}.lb-cart-name{font-size:22px}}
+@media(max-width:375px){.brand{font-size:25px}.lb-cart-trigger{gap:3px;padding:7px 8px}.lb-price-section .tle-price-card-body h3{font-size:24px!important}}
+@media(prefers-reduced-motion:reduce){.lb-cart-backdrop{backdrop-filter:none}}
