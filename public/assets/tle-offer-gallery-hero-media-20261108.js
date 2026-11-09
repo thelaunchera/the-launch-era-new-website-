@@ -14,7 +14,8 @@
   'casa-brownie':['/demos/casa-brownie/media/hero-motion-20261108.mp4','/demos/casa-brownie/media/hero-motion-poster-hq.webp'],
   'havana-19':['/demos/havana-19/media/hero-motion-20261108.mp4','/demos/havana-19/media/hero-motion-poster-hq.webp'],
   'soluna-yoga':['https://thelaunchera.github.io/demo-booking-landing-/soluna-yoga/media/hero-motion-20261108.mp4','https://thelaunchera.github.io/demo-booking-landing-/soluna-yoga/media/hero-motion-poster-hq.webp'],
-  'wok-social':['https://thelaunchera.github.io/demo-booking-landing-/wok-social/media/hero-motion-20261108.mp4','https://thelaunchera.github.io/demo-booking-landing-/wok-social/media/hero-motion-poster-hq.webp']
+  'wok-social':['https://thelaunchera.github.io/demo-booking-landing-/wok-social/media/hero-motion-20261108.mp4','https://thelaunchera.github.io/demo-booking-landing-/wok-social/media/hero-motion-poster-hq.webp'],
+  'jaramillo-boutique':['https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/media/hero-motion-20261108.mp4','https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/assets/noche.webp']
  };
  for(const card of stage.querySelectorAll('.hero-gallery-card[data-demo]')){
   const pair=heroMedia[card.dataset.demo],link=card.querySelector('.hero-gallery-hit');
