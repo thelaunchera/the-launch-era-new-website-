@@ -42,7 +42,7 @@ try{
   assert.match(await page.locator('.offer-photo img').getAttribute('src'),/final_living_room_overhead\.jpg/,'Approved overhead living room closes the website');
   assert.match(await page.locator('#meet-cleaner h2').innerText(),lang==='es'?/Una persona de confianza/:/A familiar face/);
   assert.match(await page.locator('#sample-reviews h2').innerText(),lang==='es'?/Que lo cuenten tus clientes/:/Their words will say it best/);
-  assert.match(await page.locator('.clean-reviews-note').innerText(),lang==='es'?/no testimonios/:/not published testimonials/);
+  assert.match(await page.locator('.clean-reviews-note').innerText(),lang==='es'?/reseñas verificadas/:/verified reviews/);
   assert.equal(await page.locator('#work-pause').isDisabled(),true,'Reduced-motion setting must disable moving gallery');
   assert.equal(await page.locator('#work-runner').evaluate(el=>getComputedStyle(el).animationName),'none','Portfolio must not autoplay if reduced motion is requested');
   await page.locator('#our-work').scrollIntoViewIfNeeded();
