@@ -1,3 +1,9 @@
+## 2026-11-08 — Offer portfolio touch-scrolling repair (no route changes)
+
+- Public EN `/website-for-your-business/` and ES `/es/website-for-your-business/` keep existing project links, Studio visibility filtering, media, pricing, forms and checkout destinations.
+- Shared `/assets/tle-gallery-hero-20261107.css?v=5` gives iPad/tablet (601–1099px) a left-aligned max-content rail and larger fixed-basis project cards, ensuring the first and last of 4–11 curated demos are reachable by native horizontal swipe; phone covers grow slightly with proximity snapping. Both directions of touch panning remain available for vertical page scroll. Extended desktop rail stays horizontally scrollable.
+- Validation: `qa-official-website-landing.mjs` CSS guards and `qa-website-photo-iphone.mjs` local-browser tablet tests for EN/ES, 4/11 demos, reachability and vertical scrolling. Real iPad Safari + production GitHub Pages verification still required before marking visually finished.
+
 ## 2026-11-08 — Slower replayable scroll motion (no route changes)
 
 - Public routes, media, carts, checkout and tenant workflows are unchanged. The shared `/assets/tle-demo-scroll-art-20261108.css` reveal durations are now 1.25–1.8s per brand (1.4s default) instead of 0.67–1.02s; `/assets/tle-demo-scroll-art-20261108.js` triggers earlier and retains bidirectional replay. Secondary concept demos use identical mirrored assets in `thelaunchera/demo-booking-landing-`.
