@@ -14,6 +14,16 @@ async function allowAllPortfolioDemos(route){
  return route.fulfill({status:200,contentType:'application/json',headers,body:'[]'});
 }
 await context.route(portfolioRoute,allowAllPortfolioDemos);
+// The public card intentionally points to the canonical production URL.
+// Intercept ONLY Sneekiefs in browser QA so its iframe loads this PR's local
+// HTML/CSS/JS and images rather than an older Pages deploy.
+await context.route(/^https:\/\/thelaunchera\.com\/demos\/sneekiefs(?:\/|$)/,async route=>{
+ const original=new URL(route.request().url());
+ const local=new URL(original.pathname+original.search,url).href;
+ const response=await route.fetch({url:local});
+ await route.fulfill({response});
+});
+
 const page=await context.newPage();
 
 async function checkImage(slug){
@@ -45,6 +55,29 @@ async function checkOpenAndClose(slug,expected){
  assert.equal(await page.locator('#viewer-loading-direct').getAttribute('href'),url,'Loading fallback must open the exact original demo URL');
  await page.locator('#viewer-stage.is-ready').waitFor({state:'attached',timeout:30000});
  assert.equal(await page.locator('#viewer-stage').getAttribute('aria-busy'),'false','Preview should finish its loading state');
+ if(slug==='sneekiefs'){
+  // Regression from owner iPhone recording: viewport panned horizontally
+  // and clipped the Sneekiefs logo and blue hero headline.
+  for(const language of ['en','es']){
+    const layout=await frame.locator('html').evaluate(root=>{
+      const win=root.ownerDocument.defaultView;
+      const width=win.innerWidth;
+      const rootOverflow=getComputedStyle(root).overflowX;
+      win.scrollTo({left:160,top:win.scrollY,behavior:'instant'});
+      return {width,scrollWidth:root.scrollWidth,scrollX:win.scrollX,
+        rootOverflow,lang:root.lang,cssLoaded:!!root.ownerDocument.querySelector('link[href*="styles.css"]')?.sheet,
+        heroBackground:getComputedStyle(root.ownerDocument.querySelector('.hero-copy')).backgroundColor};
+    });
+    assert.equal(layout.lang,language,'Sneekiefs translation should be '+language);
+    assert.ok(layout.scrollWidth<=layout.width+2,
+      'Sneekiefs must fit within the iPhone preview viewport: '+JSON.stringify(layout));
+    assert.equal(layout.scrollX,0,'iPhone preview must not pan horizontally: '+JSON.stringify(layout));
+    assert.equal(layout.rootOverflow,'clip','Sneekiefs document viewport must clip horizontal overflow');
+    console.log('[SNEEKIEFS IPHONE PAN]',JSON.stringify(layout));
+    if(language==='en')await frame.locator('#langToggle').click();
+  }
+  await frame.locator('#langToggle').click(); // Restore English
+ }
  await page.screenshot({path:folder+'/'+slug+'-open.png'});
  await page.locator('#viewer-close').click();
  assert.equal(await modal.evaluate(el=>el.open),false,'Close demo must return to gallery');

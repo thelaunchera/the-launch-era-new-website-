@@ -251,3 +251,44 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{ou
 
 /* Expanded campaign archive: complete posters stay uncropped on every screen. */
 .campaign-archive{padding-top:72px;padding-bottom:72px}.archive-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:32px;align-items:start}.archive-shot{margin:0;min-width:0}.archive-shot img{height:auto;aspect-ratio:1;object-fit:contain;background:#102d41}.archive-shot:last-child img{aspect-ratio:2/3}.archive-shot figcaption{padding:12px 0;font-family:var(--space);font-size:10px;letter-spacing:.12em}.archive-shot:nth-child(4){grid-column:1/3}.archive-shot:nth-child(4) img{aspect-ratio:1;max-height:680px}.archive-shot:last-child{grid-column:3;grid-row:2}@media(max-width:760px){.campaign-archive{padding-top:44px;padding-bottom:44px}.archive-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}.archive-shot:nth-child(4){grid-column:auto}.archive-shot:last-child{grid-column:1/-1;grid-row:auto;max-width:480px;width:100%;justify-self:center}.archive-shot figcaption{font-size:9px;letter-spacing:.06em}}@media(max-width:420px){.archive-grid{grid-template-columns:1fr}.archive-shot:last-child{grid-column:auto}}
+
+/* sneekiefs-ios-pan-fix: keep the complete website anchored inside its
+   iPhone/Safari preview iframe. body overflow-x:hidden alone does not stop
+   the root viewport from rubber-banding sideways on iOS. */
+html,body{
+  inline-size:100%;
+  max-inline-size:100%;
+  overflow-x:clip;
+  overscroll-behavior-x:none;
+}
+.header,.announcement,.hero,.hero-copy,.hero-visual,.ticker,
+.section-shell,.product-grid,.campaign,.detail-strip,.final-cta,.footer{
+  min-inline-size:0;
+  max-inline-size:100%;
+}
+.hero h1,.campaign h2,.final-cta h2,.section-top h2,
+.detail-lead h2,.editorial-intro h2{
+  max-inline-size:100%;
+  overflow-wrap:break-word;
+}
+@media(max-width:640px){
+  /* Scale to the actual iframe's CSS viewport, not the device's screenshot
+     pixel dimensions. This also accommodates the longer Spanish headlines. */
+  html,body{touch-action:pan-y pinch-zoom}
+  .hero,.hero-copy,.hero-visual{inline-size:100%;min-inline-size:0}
+  .hero-copy{overflow:clip}
+  .hero h1{
+    font-size:clamp(38px,12vw,72px);
+    line-height:.92;
+    white-space:normal;
+    overflow-wrap:anywhere;
+  }
+  .campaign h2{font-size:clamp(42px,11vw,68px);overflow-wrap:anywhere}
+  .final-cta h2{font-size:clamp(46px,12vw,76px);overflow-wrap:anywhere}
+  .section-top h2{font-size:clamp(38px,11vw,66px);overflow-wrap:anywhere}
+  .detail-lead h2{font-size:clamp(38px,10.8vw,66px);white-space:normal;overflow-wrap:anywhere}
+  .editorial-intro h2{font-size:clamp(36px,9.4vw,58px);overflow-wrap:anywhere}
+}
+@media(max-width:360px){
+  .hero h1{font-size:clamp(34px,11vw,42px)}
+}
