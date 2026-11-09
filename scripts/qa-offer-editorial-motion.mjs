@@ -34,7 +34,7 @@ for(const [lang,path] of pages){
  assert.equal((html.match(/class="plan" id="website-(?:basic|plus)"/g)||[]).length,2,'Only the two approved plans');
  assert.equal((html.match(/class="step"/g)||[]).length,4,'Four genuine service steps');
  assert.match(html,/id="owner-experience"/,'Interactive showcase preserved');
- assert.ok(html.includes('$15')&&html.includes('$25')&&html.includes('$8'),'Existing prices untouched');
+ assert.ok(html.includes('$15')&&html.includes('$25')&&!html.includes('$8'),'New one-time $15/$25 offers must have no monthly charge');
  assert.match(html,/href="\/website-checkout\/\?offer=website-basic&lang=/);
  assert.match(html,/href="\/website-checkout\/\?offer=website-plus&lang=/);
  assert.equal((html.match(/<a[^>]+class="owner-experience-cta"/g)||[]).length,1,'Exactly one owner CTA');
