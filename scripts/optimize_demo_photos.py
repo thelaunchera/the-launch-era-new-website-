@@ -116,6 +116,12 @@ def main():
                     # Lightbox builds numbered filenames dynamically.
                     text = re.sub(r"(\+\s*)(['\"])\.png\2",
                                   lambda m: m.group(1) + m.group(2) + ".webp" + m.group(2), text)
+        if rel_file == "demos/la-vie-in-pink/index.html":
+            # The selected PINK cover has large letterforms baked into its art.
+            # Preserve its full-resolution master instead of lossy WebP.
+            text = text.replace(
+                "photos/lavie_pink_hero_editorial.webp",
+                "photos/lavie_pink_hero_editorial.png")
         if rel_file == "demos/golden-grid/index.html":
             # Final immutable quality gate: the 1122×1402 lossless master is
             # the visible hero, even if an earlier pass optimizes a duplicate

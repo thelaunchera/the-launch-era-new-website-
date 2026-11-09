@@ -1,0 +1,30 @@
+/* La Vie in Pink — PINK typographic editorial cover and real-feeling lifestyle imagery.
+   Preserve the complete PINK word in the photograph, including on tablet and phone. */
+.hero-visual{background:#c77d88;}
+.hero-visual>img{object-fit:contain;object-position:center center;background:#c77d88}
+.hero-visual .visual-corner{display:none}
+.pink-lifestyle{padding-top:clamp(78px,9vw,130px);padding-bottom:clamp(88px,9vw,132px)}
+.pink-lifestyle-heading{display:grid;grid-template-columns:1fr;justify-items:center;text-align:center;margin:0 auto 38px;max-width:860px}
+.pink-lifestyle-heading .kicker{margin-bottom:15px}
+.pink-lifestyle-heading h2{font:400 clamp(45px,5.7vw,78px)/1.05 var(--serif,Georgia,serif);letter-spacing:-.045em;text-wrap:balance}
+.pink-lifestyle-heading h2 em{color:var(--rose,#c76584)}
+.pink-lifestyle-heading>p:last-child{color:var(--muted,#78666a);font:400 14px/1.7 var(--sans,Arial,sans-serif);max-width:490px;margin-top:18px}
+.pink-lifestyle-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,2vw,25px)}
+.pink-lifestyle-card{min-width:0}
+.pink-lifestyle-card img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:center;border-radius:18px;background:#f2d5df}
+.pink-lifestyle-card figcaption{font:italic 18px/1.35 var(--serif,Georgia,serif);color:var(--dark,#713e51);padding:16px 3px 0}
+@media(max-width:790px){
+ .hero-visual{aspect-ratio:4/5}
+ .hero-visual>img{object-fit:contain;object-position:center}
+ .pink-lifestyle{padding-top:72px;padding-bottom:83px}
+}
+@media(max-width:520px){
+ .hero-visual{aspect-ratio:4/5}
+ .hero-visual>img{object-position:center center}
+ .pink-lifestyle-heading{margin-bottom:24px}
+ .pink-lifestyle-heading h2{font-size:clamp(41px,10vw,58px)}
+ .pink-lifestyle-heading>p:last-child{font-size:13px}
+ .pink-lifestyle-grid{gap:11px}
+ .pink-lifestyle-card img{border-radius:12px}
+ .pink-lifestyle-card figcaption{font-size:14px;padding-top:10px}
+}
