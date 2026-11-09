@@ -3,7 +3,7 @@ import {readFileSync,existsSync} from 'node:fs';
 const routes=['public/website-for-your-business/index.html','public/es/website-for-your-business/index.html'];
 const photos={
  en:['hero-jaramillo.svg','automated-crm-en-sharp.png','process-choose-en.png','process-brand-en.png','process-build-en.png','process-launch-en.png'],
- es:['hero-jaramillo.svg','website-la-vie-in-pink-original.jpg','automated-crm-original.jpg','process-choose-original.jpg','process-brand-original.jpg','process-build-original.jpg','process-launch-original.jpg']
+ es:['hero-jaramillo.svg','automated-crm-original.jpg','process-choose-original.jpg','process-brand-original.jpg','process-build-original.jpg','process-launch-original.jpg']
 };
 const css=readFileSync('public/assets/tle-website-official.css','utf8');
 const galleryCss=readFileSync('public/assets/tle-gallery-hero-20261107.css','utf8');
@@ -41,12 +41,13 @@ for(const r of routes){
   assert.ok(!html.includes(filename),language+': photo from other language leaked '+filename);
  assert.match(html,/id="website-basic"/);
  if(language==='en')assert.match(html,/<article class="plan" id="website-basic"><img class="plan-photo" src="\/assets\/website-packages-20261105\/hero-jaramillo\.svg"/,'EN Package 1 should feature Jaramillo photo');
- assert.match(html,/id="website-ai-crm"/);
+ assert.match(html,/id="website-plus"/);
  assert.doesNotMatch(html,/class="app-section"|\/custom-app\/\?lang=|optional-app-original/,'the redundant app offer must be hidden');
  assert.match(html,/\$15/);
  assert.match(html,/\$25/);
  assert.match(html,/\/website-checkout\/\?offer=website-basic&lang=/);
- assert.match(html,/\/website-checkout\/\?offer=website-ai-crm&lang=/);
+ assert.match(html,/\/website-checkout\/\?offer=website-plus&lang=/);
+ assert.doesNotMatch(html,/offer=website-ai-crm/,'retired AI subscription not sold in current package');
  assert.doesNotMatch(html,/<p class="fine" data-key="termsNote">/,'no long pricing disclaimer');
  assert.match(html,/\/terms\.html/);
  assert.doesNotMatch(html,/\/service-checkout\//,'do not route to incomplete legacy checkout');
