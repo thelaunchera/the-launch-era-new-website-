@@ -1,0 +1,41 @@
+name: Lavanda Boutique simulated checkout QA
+on:
+  push:
+    branches: [main]
+    paths:
+      - "public/demos/lavender-edit/**"
+      - "public/assets/tle-demo-original-prices-20261108.js"
+      - "scripts/qa-lavanda-boutique-cart.mjs"
+      - ".github/workflows/lavanda-boutique-cart-qa.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  simulated-checkout:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: "22"}
+      - name: Install Chromium for isolated browser check
+        run: |
+          mkdir -p /tmp/lavanda-boutique-qa
+          cd /tmp/lavanda-boutique-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          cd "$GITHUB_WORKSPACE"
+          ln -sfn /tmp/lavanda-boutique-qa/node_modules node_modules
+      - name: Test add to bag, quantities, bilingual no-card checkout
+        run: |
+          node --check public/demos/lavender-edit/boutique-shop-20261109.js
+          node --check scripts/qa-lavanda-boutique-cart.mjs
+          python3 -m http.server 4196 --bind 127.0.0.1 --directory public >/tmp/lavanda-boutique-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for n in $(seq 1 25); do
+            if curl -fsS http://127.0.0.1:4196/demos/lavender-edit/ >/dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/qa-lavanda-boutique-cart.mjs
