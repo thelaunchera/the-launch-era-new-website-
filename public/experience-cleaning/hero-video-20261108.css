@@ -1,0 +1,42 @@
+/* Experience Cleaning — user's original portrait Canva hero motion.
+   Keep the video sharp and unstretched, with photo fallback and readable copy. */
+.hero.hero-cleaning-site .hero-motion-video{
+  position:absolute;inset:0 0 0 auto;display:block;width:62%;height:100%;
+  object-fit:cover;object-position:50% 30%;z-index:-1;
+  background:#244455;pointer-events:none;
+}
+.hero.hero-cleaning-site .hero-site-nav{z-index:3}
+.hero.hero-cleaning-site .hero-copy{position:relative;z-index:2}
+.hero.hero-cleaning-site .hero-photo-caption{z-index:2}
+@media(min-width:1100px){
+  .hero.hero-cleaning-site .hero-motion-video{width:58%;object-position:50% 30%}
+  .hero.hero-cleaning-site:after{
+    background:linear-gradient(90deg,#244455 0%,rgba(36,68,85,.99) 28%,rgba(36,68,85,.85) 43%,rgba(36,68,85,.20) 66%,rgba(36,68,85,.04) 100%);
+  }
+  .hero.hero-cleaning-site .hero-copy{max-width:43%}
+  .hero.hero-cleaning-site .hero-copy h1{font-size:clamp(62px,5.5vw,94px);max-width:12ch}
+}
+@media(min-width:761px) and (max-width:1099px){
+  .hero.hero-cleaning-site .hero-motion-video{width:64%;object-position:50% 30%}
+  .hero.hero-cleaning-site:after{
+    background:linear-gradient(90deg,rgba(18,43,57,.96) 0%,rgba(18,43,57,.84) 36%,rgba(18,43,57,.42) 68%,rgba(18,43,57,.14) 100%);
+  }
+  .hero.hero-cleaning-site .hero-copy{max-width:52%}
+  .hero.hero-cleaning-site .hero-copy h1{font-size:clamp(53px,6.8vw,79px)}
+}
+@media(max-width:760px){
+  .hero.hero-cleaning-site{min-height:clamp(670px,94svh,790px)}
+  .hero.hero-cleaning-site .hero-motion-video{inset:0;width:100%;height:100%;object-position:53% 28%}
+  .hero.hero-cleaning-site:after{
+    background:linear-gradient(180deg,rgba(12,36,47,.14) 0%,rgba(12,36,47,.16) 24%,rgba(12,36,47,.72) 57%,rgba(12,36,47,.96) 100%);
+  }
+  .hero.hero-cleaning-site .hero-copy{max-width:100%;padding:150px 0 26px}
+  .hero.hero-cleaning-site h1{font-size:clamp(49px,11.7vw,76px);line-height:.99}
+}
+@media(max-width:390px){
+  .hero.hero-cleaning-site{min-height:670px}
+  .hero.hero-cleaning-site h1{font-size:clamp(46px,12vw,58px)}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero.hero-cleaning-site .hero-motion-video{display:none}
+}
