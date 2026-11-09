@@ -28,18 +28,18 @@ for(const [language,html] of [['en',en],['es',es]]){
  const hero=html.match(/<section class="hero hero-gallery" id="inicio">([\s\S]*?)<\/section>/)?.[1];
  assert(hero,language+': hero missing');
  const galleryPhotoMap={
-  'ivory-and-bloom':'/demos/ivory-and-bloom/images/hero-cake-artist.webp',
-  'casa-brownie':'/demos/casa-brownie/assets/hero-brownies.webp',
+  'ivory-and-bloom':'/demos/ivory-and-bloom/media/hero-motion-poster-hq.webp',
+  'casa-brownie':'/demos/casa-brownie/media/hero-motion-poster-hq.webp',
   'crumb':'/demos/crumb/assets/CRUMB_Storefront_Approved_20261030.webp',
   'la-vie-in-pink':'/demos/la-vie-in-pink/photos/lavie_pink_hero_editorial.png',
-  'jaramillo-boutique':'https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/assets/hero-editorial-user.jpg',
-  'havana-19':'/demos/havana-19/photos/HAVANA19_Hero_Fachada_Borgona.jpeg',
+  'jaramillo-boutique':'https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/assets/noche.webp',
+  'havana-19':'/demos/havana-19/media/hero-motion-poster-hq.webp',
   'sova':'/demos/sova/media/sova-hero-seamless-cobalt-20261108.png',
-  'soluna-yoga':'https://thelaunchera.github.io/demo-booking-landing-/soluna-yoga/images/soluna-hero-editorial.webp',
+  'soluna-yoga':'https://thelaunchera.github.io/demo-booking-landing-/soluna-yoga/media/hero-motion-poster-hq.webp',
   'sneekiefs':'/demos/sneekiefs/assets/07-editorial-poster.webp',
-  'experience-cleaning':'/assets/cleaning-demo/hero-cleaner-original.jpg',
+  'experience-cleaning':'/experience-cleaning/media/cleaning-hero-poster-20261108.jpg',
   'yummm':'https://thelaunchera.github.io/demo-booking-landing-/yummm/media/hero-motion-poster-hq.webp',
-  'wok-social':'https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/hero-storefront.webp',
+  'wok-social':'https://thelaunchera.github.io/demo-booking-landing-/wok-social/media/hero-motion-poster-hq.webp',
   'freska':'/demos/freska/media/hero-pink-pop.webp',
   'nail-room':'https://thelaunchera.github.io/demo-booking-landing-/nail-room/media/pink-ombre-hero.png'
  };
@@ -47,9 +47,14 @@ for(const [language,html] of [['en',en],['es',es]]){
   assert(hero.includes('data-demo="'+slug+'"'),language+': missing distinct demo '+slug);
   const expectedHeroLink='href="/demos/?demo='+slug+'&amp;returnTo='+encodeURIComponent(language==='es'?'/es/website-for-your-business/':'/website-for-your-business/')+(language==='es'?'&amp;lang=es':'')+'"';
   assert(hero.includes(expectedHeroLink),language+': photo must link to its demo, retain locale and remember originating website');
-  assert(hero.includes('src="'+image+'"'),language+': incorrect original hero photo for '+slug);
+  assert(hero.includes('src="'+image+'"'),language+': incorrect approved still/first-frame poster for '+slug);
   if(image.startsWith('/'))assert(existsSync('public'+image),language+': hero image asset missing for '+slug);
  }
+ // A motion-enabled card must have its approved first-frame poster at first paint:
+ // do not swap a different brand hero photo after the iPhone has displayed it.
+ const galleryScript=readFileSync('public/assets/tle-offer-gallery-hero-media-20261108.js','utf8');
+ assert(!galleryScript.includes('photo.src=pair[1]'),language+': late photo replacement causes a flash before video playback');
+ assert(galleryScript.includes('video.poster=stablePoster'),language+': motion needs the same poster as its rendered image');
  assert(!hero.includes('data-demo="umbral"')&&!hero.includes('<figcaption>Umbral</figcaption>'),language+': Umbral must not be duplicated because it is Havana 19');
  assert(!hero.includes(photoRoot+'hero-jaramillo.svg')&&!hero.includes(photoRoot+'website-la-vie-in-pink-en.jpg'),language+': old mockup must not replace original demo hero photography');
  assert(hero.includes('hero-gallery-stage'),language+': gallery composition missing');
@@ -82,4 +87,4 @@ for(const [language,html] of [['en',en],['es',es]]){
 const photoStyles=css.split('/* 2026-11-05 image placement: keep original hero untouched. */')[1]?.split('/* Short inline billing disclosure')[0];
 assert(photoStyles&&!photoStyles.includes('.hero'), 'Photo styling inadvertently edits hero');
 assert(photoStyles.includes('object-fit:contain'), 'Uncropped interior photo styling missing');
-console.log('PASS: thirteen distinct approved/current demo hero images deep-link in both languages; package photographs, prices, and delivery unchanged.');
+console.log('PASS: fourteen distinct approved/current demo still images and matching motion posters deep-link in both languages; package photographs, prices, and delivery unchanged.');
