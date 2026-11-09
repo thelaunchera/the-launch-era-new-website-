@@ -1,0 +1,232 @@
+/* EXPERIENCE CLEANING | Alpine Turquoise #087E9C + Autumn Gold #F6BE28
+   Editorial redesign using existing local photography & TLE native scroll effects.
+   Scoped to this demo only; booking logic remains in app.js. */
+body[data-tle-experience="cleaning"] {
+  --clean-alpine:#087E9C;--clean-gold:#F6BE28;
+  --clean-ink:#14353B;--clean-deep:#07566B;
+  --clean-light:#E8F5F6;--clean-paper:#FAF8F3;
+  --clean-line:#BDD9DC;
+  --clean-serif:"DM Serif Display",Georgia,serif;
+  --clean-sans:"Outfit",Arial,sans-serif;
+  color:var(--clean-ink);
+  font-family:var(--clean-sans);
+  background:var(--clean-paper);
+}
+body[data-tle-experience="cleaning"] :is(p,small,button,input,select,label,a,dt,dd,legend,figcaption) {
+  font-family:var(--clean-sans);
+}
+body[data-tle-experience="cleaning"] :is(h1,h2,h3,h4,.section-heading h2,.clean-work-heading h2,.clean-team h2,.clean-reviews h2,.offer-copy h2,.handoff h2,.stage-heading h3,.mini-receipt-head h3,.workflow-content h4) {
+  font-family:var(--clean-serif);
+  font-weight:400;
+  letter-spacing:-.018em;
+}
+body[data-tle-experience="cleaning"] :is(.eyebrow,.mini-tag,.window-brand small,.sample-nav-label,.hero-photo-caption){
+  font-family:var(--clean-sans);
+  font-weight:700;
+  letter-spacing:.13em;
+}
+/* Hero: keep the approved video. The turquoise-to-dark fade protects copy. */
+body[data-tle-experience="cleaning"] .hero.hero-cleaning-site{background:#07566B}
+body[data-tle-experience="cleaning"] .hero.hero-cleaning-site:after{
+  background:linear-gradient(90deg,rgba(4,50,63,.96) 0%,rgba(4,66,82,.87) 35%,rgba(4,79,98,.34) 68%,rgba(4,72,90,.07) 100%);
+}
+body[data-tle-experience="cleaning"] .hero.hero-cleaning-site h1{
+  font-family:var(--clean-serif);
+  font-weight:400;
+  font-size:clamp(58px,6.9vw,109px);
+  line-height:.98;
+  letter-spacing:-.024em;
+}
+body[data-tle-experience="cleaning"] .hero.hero-cleaning-site h1 em{color:#FFDC72}
+body[data-tle-experience="cleaning"] .hero.hero-cleaning-site .eyebrow{color:#FCE9A9}
+body[data-tle-experience="cleaning"] .hero.hero-cleaning-site .hero-intro{font-family:var(--clean-sans);font-weight:400;line-height:1.65}
+body[data-tle-experience="cleaning"] .hero.hero-cleaning-site .hero-main-action,
+body[data-tle-experience="cleaning"] .hero.hero-cleaning-site .hero-nav-cta{
+  color:#1F2F2F;background:var(--clean-gold);border-color:var(--clean-gold);
+  font:650 14px var(--clean-sans);border-radius:999px;min-height:48px;
+  transition:transform .3s ease,background .3s ease,box-shadow .3s ease;
+}
+body[data-tle-experience="cleaning"] .hero.hero-cleaning-site :is(.hero-main-action,.hero-nav-cta):hover{transform:translateY(-2px);background:#FFE083;box-shadow:0 12px 25px #001C2444}
+body[data-tle-experience="cleaning"] .hero.hero-cleaning-site .sample-mark{background:var(--clean-gold);color:var(--clean-deep)}
+body[data-tle-experience="cleaning"] .intro-band{background:var(--clean-gold);border-color:#E4B322}
+body[data-tle-experience="cleaning"] .intro-band:after{background:linear-gradient(90deg,var(--clean-gold),transparent 12%,transparent 88%,var(--clean-gold))}
+body[data-tle-experience="cleaning"] .intro-band .band-phrase{color:#264047;font-family:var(--clean-sans);font-weight:700}
+body[data-tle-experience="cleaning"] .intro-band .band-dot{border-color:#41615C;background:#41615C}
+/* Booking journey — warm gallery-like backdrop, spacious image cards and progress. */
+body[data-tle-experience="cleaning"] .experience{
+  background:radial-gradient(circle at 96% 13%,#F6BE2829,transparent 29%),
+             linear-gradient(180deg,#FAF8F3 0%,#EDF6F5 100%);
+}
+body[data-tle-experience="cleaning"] .experience .section-heading .eyebrow{color:var(--clean-deep)}
+body[data-tle-experience="cleaning"] .experience .section-heading h2{color:var(--clean-ink);font-family:var(--clean-serif);font-size:clamp(40px,5.5vw,76px);line-height:1.04}
+body[data-tle-experience="cleaning"] .experience .section-heading h2 em{color:var(--clean-alpine)}
+body[data-tle-experience="cleaning"] .experience .section-heading>p:last-child{font:400 16px/1.65 var(--clean-sans);color:#4A686B}
+body[data-tle-experience="cleaning"] .experience-frame{
+  max-width:1120px;display:grid;grid-template-columns:minmax(0,1fr) minmax(265px,.39fr);
+  align-items:start;gap:0;overflow:visible;border-radius:25px;
+  border:1px solid #BCD8D8;background:#FFFEFB;
+  box-shadow:0 28px 75px #065B7621,0 2px 0 #FFF inset;
+}
+body[data-tle-experience="cleaning"] .experience-frame .form-panel{
+  min-width:0;background:#FFFEFB;border-radius:25px 0 0 25px;
+}
+body[data-tle-experience="cleaning"] .experience-frame .window-head{
+  background:#F5FBF9;border-bottom:1px solid #D6E9E6;
+  padding:19px 25px;
+}
+body[data-tle-experience="cleaning"] .window-brand .window-mark{
+  background:var(--clean-gold);color:var(--clean-ink);border-radius:50%;
+}
+body[data-tle-experience="cleaning"] .window-status .tiny-dot{background:var(--clean-alpine)}
+body[data-tle-experience="cleaning"] .booking-category{gap:10px;border-bottom-color:#DAE8E7}
+body[data-tle-experience="cleaning"] .booking-category-tab{
+  border:1px solid #D1E5E4;background:#F4F9F8;color:#2C555D;
+  border-radius:14px;padding:15px 17px;
+  transition:background .26s ease,border-color .26s ease,transform .26s ease;
+}
+body[data-tle-experience="cleaning"] .booking-category-tab span{font:650 15px var(--clean-sans)}
+body[data-tle-experience="cleaning"] .booking-category-tab small{font:400 11px/1.45 var(--clean-sans);color:#547178}
+body[data-tle-experience="cleaning"] .booking-category-tab.is-active{
+  background:#E3F5F6;border-color:var(--clean-alpine);box-shadow:inset 0 0 0 1px var(--clean-alpine);color:#064C60;
+}
+body[data-tle-experience="cleaning"] .booking-category-tab.is-active:after{background:var(--clean-gold);height:4px}
+body[data-tle-experience="cleaning"] .step{font-family:var(--clean-sans);font-weight:500}
+body[data-tle-experience="cleaning"] .step b{border-radius:50%;border-color:#ABD2D3;color:var(--clean-deep);background:#EFF7F6}
+body[data-tle-experience="cleaning"] .step.is-current b{border-color:var(--clean-alpine);background:var(--clean-alpine);color:white;box-shadow:0 0 0 4px #DCF3F4}
+body[data-tle-experience="cleaning"] .step.is-done b{border-color:var(--clean-gold);background:var(--clean-gold);color:var(--clean-ink)}
+body[data-tle-experience="cleaning"] .step.is-current:before,
+body[data-tle-experience="cleaning"] .step.is-done:before{background:var(--clean-gold)}
+body[data-tle-experience="cleaning"] .booking-progress-line{height:4px;margin:13px 24px 5px;border-radius:50px;background:#E3EEEE;overflow:hidden}
+body[data-tle-experience="cleaning"] .booking-progress-line span{height:100%;width:33.333%;display:block;background:linear-gradient(90deg,var(--clean-alpine),var(--clean-gold));transition:width .48s cubic-bezier(.22,.7,.24,1)}
+body[data-tle-experience="cleaning"] .booking-progress-line[data-step="2"] span{width:66.666%}
+body[data-tle-experience="cleaning"] .booking-progress-line[data-step="3"] span{width:100%}
+body[data-tle-experience="cleaning"] .stage-heading h3{font:400 clamp(32px,3.5vw,44px)/1.06 var(--clean-serif);color:var(--clean-ink)}
+body[data-tle-experience="cleaning"] .stage-heading p{color:#55747B}
+body[data-tle-experience="cleaning"] .stage-heading .mini-tag{color:var(--clean-deep);font-weight:700}
+body[data-tle-experience="cleaning"] .service-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+body[data-tle-experience="cleaning"] .service-card{
+  position:relative;border:1.5px solid #D6E9E7;border-radius:17px;
+  background:#FFF;overflow:hidden;text-align:left;box-shadow:0 6px 19px #0A535011;
+  transition:transform .32s cubic-bezier(.22,.7,.24,1),box-shadow .32s ease,border-color .32s ease;
+}
+body[data-tle-experience="cleaning"] .service-card img{
+  height:178px;width:100%;object-fit:cover;object-position:center;
+  display:block;filter:saturate(.94) contrast(1.015);
+  transition:transform .75s cubic-bezier(.22,.7,.24,1),filter .5s ease;
+}
+body[data-tle-experience="cleaning"] .service-card:hover,
+body[data-tle-experience="cleaning"] .service-card:focus-visible{
+  transform:translateY(-3px);box-shadow:0 16px 30px #07566B26;border-color:var(--clean-alpine);
+}
+body[data-tle-experience="cleaning"] .service-card:hover img{transform:scale(1.035);filter:saturate(1.05)}
+body[data-tle-experience="cleaning"] .service-card-copy{min-height:76px;padding:13px 15px 15px}
+body[data-tle-experience="cleaning"] .service-card strong{font:650 14px/1.35 var(--clean-sans);color:var(--clean-ink)}
+body[data-tle-experience="cleaning"] .service-card small{font:400 11px/1.5 var(--clean-sans);color:#587176}
+body[data-tle-experience="cleaning"] .service-card.is-selected{
+  border-color:var(--clean-alpine);box-shadow:0 0 0 2px #087E9C28,0 14px 28px #07566B1F;
+  background:#EFF9F8;
+}
+body[data-tle-experience="cleaning"] .select-indicator{width:24px;height:24px;border-radius:50%;background:#FFF;border:2px solid #94BFC0}
+body[data-tle-experience="cleaning"] .is-selected .select-indicator{border-radius:50%;border-color:var(--clean-gold);background:var(--clean-gold);color:var(--clean-ink)}
+body[data-tle-experience="cleaning"] :is(.two-fields select,.date-selector input,.commercial-details select){
+  background:#F7FBF9;border:1px solid #BBD7D4;border-radius:12px;
+  color:var(--clean-ink);font-family:var(--clean-sans);min-height:49px;
+}
+body[data-tle-experience="cleaning"] :is(.extras label,.time-options label){
+  border-color:#BEDAD8;background:#F9FDFC;border-radius:12px;
+}
+body[data-tle-experience="cleaning"] :is(.time-options input,.extras input){accent-color:var(--clean-alpine)}
+body[data-tle-experience="cleaning"] :is(.extras label:has(input:checked),.time-options label:has(input:checked)){
+  background:#E7F8F7;border-color:var(--clean-alpine);
+}
+body[data-tle-experience="cleaning"] .form-actions{padding-top:20px}
+body[data-tle-experience="cleaning"] .button-dark,
+body[data-tle-experience="cleaning"] .button.next{
+  background:var(--clean-alpine);color:#FFF;border-color:var(--clean-alpine);
+  border-radius:999px;font:650 14px var(--clean-sans);min-height:50px;
+}
+body[data-tle-experience="cleaning"] .button-dark:hover,
+body[data-tle-experience="cleaning"] .button.next:hover{background:#066882}
+body[data-tle-experience="cleaning"] .button-ghost{border-radius:999px;border-color:#A8C9CC;color:var(--clean-deep)}
+body[data-tle-experience="cleaning"] :is(button,select,input,a):focus-visible{outline:3px solid var(--clean-gold);outline-offset:3px}
+body[data-tle-experience="cleaning"] .request-preview{
+  position:sticky;top:16px;align-self:start;min-width:0;
+  border:0;border-left:1px solid #D7E8E7;border-radius:0 25px 25px 0;
+  background:linear-gradient(180deg,#E6F4F2 0%,#F2F8F5 100%);
+  padding:18px 19px 24px;box-shadow:none;
+}
+body[data-tle-experience="cleaning"] .booking-visual{
+  position:relative;margin:0 0 20px;overflow:hidden;border-radius:16px;background:#D8EBE5;
+  aspect-ratio:4/3;
+}
+body[data-tle-experience="cleaning"] .booking-visual img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:opacity .28s ease,transform 1.1s cubic-bezier(.22,.7,.24,1);
+}
+body[data-tle-experience="cleaning"] .booking-visual:hover img{transform:scale(1.045)}
+body[data-tle-experience="cleaning"] .booking-visual figcaption{
+  display:flex;flex-direction:column;position:absolute;inset:auto 0 0;
+  padding:40px 17px 16px;background:linear-gradient(180deg,transparent,#032D3AE6);color:#FFF;
+}
+body[data-tle-experience="cleaning"] .booking-visual figcaption small{
+  font:700 10px/1.4 var(--clean-sans);color:#FFE69C;letter-spacing:.1em;text-transform:uppercase;
+}
+body[data-tle-experience="cleaning"] .booking-visual figcaption strong{font:650 17px/1.3 var(--clean-sans)}
+body[data-tle-experience="cleaning"] .mini-receipt-head .eyebrow{color:var(--clean-deep)}
+body[data-tle-experience="cleaning"] .mini-receipt-head h3{font:400 30px/1.03 var(--clean-serif);color:var(--clean-ink)}
+body[data-tle-experience="cleaning"] .mini-price{color:var(--clean-deep);font:650 20px var(--clean-sans)}
+body[data-tle-experience="cleaning"] .mini-receipt-grid{border-color:#C8DFDA}
+body[data-tle-experience="cleaning"] .mini-receipt-grid dt{color:#557478}
+body[data-tle-experience="cleaning"] .mini-receipt-grid dd{color:var(--clean-ink)}
+body[data-tle-experience="cleaning"] .receipt-disclaimer{border-top-color:#C8DFDA;color:#556D6E}
+body[data-tle-experience="cleaning"] .important{border-color:#BBDAD6;background:#EBF6F3}
+body[data-tle-experience="cleaning"] .commercial-estimate-note{border-left-color:var(--clean-gold);background:#FFF7DC}
+/* Down-page identity: native repo photos and existing reversible scroll motion. */
+body[data-tle-experience="cleaning"] .clean-work{background:#E7F2EF}
+body[data-tle-experience="cleaning"] :is(.clean-work,.clean-team,.clean-reviews){color:var(--clean-ink);font-family:var(--clean-sans)}
+body[data-tle-experience="cleaning"] :is(.clean-work-heading h2,.clean-team h2,.clean-reviews h2){font-family:var(--clean-serif);color:var(--clean-ink)}
+body[data-tle-experience="cleaning"] .clean-work-marquee{background:#C5E3E2}
+body[data-tle-experience="cleaning"] .clean-work-card{border-radius:18px}
+body[data-tle-experience="cleaning"] .clean-work-pause{color:var(--clean-deep);background:#F5F9F6;border-color:#B2D2D1}
+body[data-tle-experience="cleaning"] .clean-team-photo:before{border-color:var(--clean-gold)}
+body[data-tle-experience="cleaning"] .clean-team-photo img{border-radius:20px}
+body[data-tle-experience="cleaning"] :is(.handoff,.owner){background:#EFF6F3}
+body[data-tle-experience="cleaning"] :is(.handoff h2,.owner .section-heading h2,.offer-copy h2){font-family:var(--clean-serif);color:var(--clean-ink)}
+body[data-tle-experience="cleaning"] .offer{background:var(--clean-deep)}
+body[data-tle-experience="cleaning"] .offer .button{border-radius:999px}
+@media(max-width:990px){
+ body[data-tle-experience="cleaning"] .experience-frame{display:flex;flex-direction:column;max-width:780px;overflow:hidden}
+ body[data-tle-experience="cleaning"] .experience-frame .form-panel{width:100%;border-radius:23px 23px 0 0}
+ body[data-tle-experience="cleaning"] .request-preview{position:static;width:100%;border:0;border-top:1px solid #D7E8E7;border-radius:0 0 23px 23px;padding:20px 24px;display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:12px 22px;align-items:start}
+ body[data-tle-experience="cleaning"] .booking-visual{grid-row:1/4;margin:0}
+}
+@media(max-width:760px){
+ body[data-tle-experience="cleaning"] .hero.hero-cleaning-site{background:#064E61}
+ body[data-tle-experience="cleaning"] .hero.hero-cleaning-site:after{background:linear-gradient(180deg,rgba(3,45,59,.09) 0%,rgba(3,50,62,.20) 34%,rgba(3,53,66,.86) 68%,rgba(3,53,66,.98) 100%)}
+ body[data-tle-experience="cleaning"] .hero.hero-cleaning-site h1{font-size:clamp(46px,12.5vw,71px);line-height:.98}
+ body[data-tle-experience="cleaning"] .hero.hero-cleaning-site .hero-copy{padding-bottom:39px}
+ body[data-tle-experience="cleaning"] .experience .section-heading h2{font-size:clamp(38px,9.5vw,59px)}
+ body[data-tle-experience="cleaning"] .experience-frame{border-radius:18px}
+ body[data-tle-experience="cleaning"] .experience-frame .window-head{padding:15px 17px}
+ body[data-tle-experience="cleaning"] .booking-category{margin:15px 16px 12px}
+ body[data-tle-experience="cleaning"] .booking-category-tab{padding:12px;min-height:67px}
+ body[data-tle-experience="cleaning"] .steps{margin:0 17px}
+ body[data-tle-experience="cleaning"] .booking-progress-line{margin:10px 17px 4px}
+ body[data-tle-experience="cleaning"] .stage{padding:17px 16px 7px}
+ body[data-tle-experience="cleaning"] .stage-heading h3{font-size:clamp(31px,8vw,39px)}
+ body[data-tle-experience="cleaning"] .service-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ body[data-tle-experience="cleaning"] .service-card{border-radius:13px}
+ body[data-tle-experience="cleaning"] .service-card img{height:clamp(105px,31vw,147px)}
+ body[data-tle-experience="cleaning"] .service-card-copy{min-height:84px;padding:12px 10px}
+ body[data-tle-experience="cleaning"] .service-card strong{font-size:13px}
+ body[data-tle-experience="cleaning"] .service-card small{font-size:10px}
+ body[data-tle-experience="cleaning"] .form-actions{padding:15px 16px 20px}
+ body[data-tle-experience="cleaning"] .request-preview{padding:15px 16px 18px;display:block}
+ body[data-tle-experience="cleaning"] .booking-visual{aspect-ratio:16/9;margin-bottom:17px}
+ body[data-tle-experience="cleaning"] .booking-visual figcaption{padding:25px 14px 13px}
+ body[data-tle-experience="cleaning"] .mini-receipt-head h3{font-size:29px}
+}
+@media(prefers-reduced-motion:reduce){
+ body[data-tle-experience="cleaning"] :is(.service-card,.service-card img,.booking-progress-line span,.booking-visual img,.hero-main-action,.hero-nav-cta){transition:none!important;animation:none!important}
+ body[data-tle-experience="cleaning"] :is(.service-card:hover,.service-card:hover img,.booking-visual:hover img){transform:none!important}
+}
