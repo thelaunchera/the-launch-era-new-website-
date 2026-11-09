@@ -384,3 +384,14 @@
   border-radius:inherit;
  }
 }
+
+
+/* Keep an expanded (8–11 projects) iPad rail large enough to appreciate
+   portrait faces. Four-project curated rails retain their existing fill. */
+@media (min-width:601px) and (max-width:1099px){
+ .tle-universal .hero-gallery-rail[data-gallery-layout="extended"] .hero-gallery-card{
+  flex:0 0 clamp(195px,26vw,300px);
+  min-width:195px;
+  max-width:300px;
+ }
+}
