@@ -65,7 +65,7 @@ for(const viewport of sizes){
     assert.equal(state.packageCount,2,'Homepage must show the two current website packages');
     assert.equal(state.packageCtas,2,'Both homepage package CTAs must start secure checkout');
    }else{
-    assert.equal(state.cardCount,5,'Five service cards still render on legacy reference routes');
+    assert.equal(state.cardCount,4,'Four current service cards render without the retired Cleaning App offer');
     assert.equal(state.badCards,0,'Service card photos and links must be visible in those routes');
     if(viewport.width<768)assert.deepEqual(state.small,[],'Readable mobile service descriptions');
    }
