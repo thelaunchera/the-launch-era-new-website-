@@ -10,6 +10,7 @@ const lang=()=>document.documentElement.lang==='es'?'es':'en';
 const copy={
 en:{
  fewQuestions:'Just the essentials. We will handle the rest during your website build.',
+ websiteProjectType:'What would you like us to do with your website? *',websiteNew:'Create a new website',websiteRefresh:'Refresh my existing website',websiteUpdates:'Improve selected sections',websiteProjectHint:'For existing websites, we review platform access and scope before starting.',websiteExistingRequired:'Link to your current website *',aiAgentChoice:'I would like information about an AI agent (optional).',aiAgentDisclosure:'Separate from both website packages. We confirm the scope and price first; there is no automatic activation or additional charge.',
  group1:'01 / Your business',group2:'02 / What you sell',group3:'03 / Your photos & style',
  industry:'What kind of business is it? *',chooseIndustry:'Choose your type of business',
  industryRestaurant:'Restaurant',industryCafe:'Café / bakery',industryRetail:'Store / products',
@@ -48,11 +49,11 @@ en:{
  photosIntro:'Upload your logo or photos if available. You do not need to design the page.',
  websitePhotosShort:'Upload your logo or photos (optional)',
  assetsShort:'Or share a Drive link to your logo/photos (optional)',
- advancedTitle:'Optional AI & email preferences',automationChoice:'Which email workflow matters most?',
+ advancedTitle:'Advanced email workflow preferences',automationChoice:'Which email workflow matters most?',
  autoAlerts:'New inquiry alerts',autoConfirm:'Confirmation emails after approval',
  autoReminder:'Appointment / reservation reminder emails',autoFollowup:'Quote follow-up emails',
  automationReview:'We will review the workflow before activation. Email only.',
- aiShort:'What should your AI assistant answer? (optional)',
+ aiShort:'What would you like an optional AI agent to answer?',
  optionalDetails:'Optional · style, social links & inspiration',
  goalsShort:'What makes your business special? (optional)',
  aiPhotoQuestion:'Would you like your product photos enhanced with AI?',
@@ -69,6 +70,7 @@ en:{
 },
 es:{
  fewQuestions:'Solo lo esencial. El resto lo preparamos al construir tu website.',
+ websiteProjectType:'¿Qué quieres hacer con tu website? *',websiteNew:'Crear un website nuevo',websiteRefresh:'Renovar el diseño del website que ya tengo',websiteUpdates:'Mejorar algunas secciones de mi website',websiteProjectHint:'Primero revisamos la plataforma, los accesos y los cambios necesarios.',websiteExistingRequired:'Enlace de tu website actual *',aiAgentChoice:'Quiero información sobre un agente de IA para mi negocio (opcional).',aiAgentDisclosure:'Es independiente de ambos paquetes. Confirmamos el alcance y el precio antes de activarlo; no se cobra automáticamente.',
  group1:'01 / Tu negocio',group2:'02 / Qué vendes',group3:'03 / Tus fotos y estilo',
  industry:'¿Qué tipo de negocio tienes? *',chooseIndustry:'Selecciona tu negocio',
  industryRestaurant:'Restaurante',industryCafe:'Cafetería / panadería',industryRetail:'Tienda / productos',
@@ -107,11 +109,11 @@ es:{
  photosIntro:'Sube tu logo o fotos si los tienes. No necesitas diseñar tú la web.',
  websitePhotosShort:'Sube tu logo o fotos (opcional)',
  assetsShort:'O comparte un enlace de Drive con tus fotos/logo (opcional)',
- advancedTitle:'Preferencias opcionales de IA y correo',automationChoice:'¿Qué correo te importa más?',
+ advancedTitle:'Preferencias de los correos avanzados',automationChoice:'¿Qué correo te importa más?',
  autoAlerts:'Avisos de nuevas solicitudes',autoConfirm:'Confirmaciones después de aprobar',
  autoReminder:'Recordatorios de citas o mesas por correo',autoFollowup:'Seguimiento de cotizaciones por correo',
  automationReview:'Revisaremos el flujo antes de activarlo. Solo correo.',
- aiShort:'¿Qué debe responder tu asistente de IA? (opcional)',
+ aiShort:'¿Qué quieres que responda el agente de IA opcional?',
  optionalDetails:'Opcional · estilo, redes e inspiración',
  goalsShort:'¿Qué hace especial a tu negocio? (opcional)',
  aiPhotoQuestion:'¿Quieres mejorar las fotos de tus productos con IA?',
@@ -168,6 +170,20 @@ function refreshIndustry(){
  selector.replaceChildren(...choices.map(([value,en,es])=>new Option(lang()==='es'?es:en,value)));
  if(choices.some(([value])=>value===previous))selector.value=previous;
 }
+function refreshProjectType(){
+ const type=field('website_project_type')?.value||'new';
+ const existing=type!=='new';
+ const area=$('existing-site-field'),url=field('existing_website');
+ if(area)area.hidden=!existing;
+ if(url){url.required=existing;if(!existing)url.value='';}
+}
+function refreshAgentChoice(){
+ const selected=$('ai-agent-interest')?.checked===true;
+ const details=$('ai-agent-brief-field');
+ if(details)details.hidden=!selected;
+ const info=field('ai_brief');
+ if(info&&!selected)info.value='';
+}
 function translateBrief(){
  const words=copy[lang()];
  form.querySelectorAll('[data-i18n]').forEach(node=>{
@@ -183,7 +199,7 @@ function translateBrief(){
   const content=words[node.dataset.placeholder];
   if(content!==undefined)node.placeholder=content;
  });
- refreshIndustry();refreshDomain();updatePhotoChoice();
+ refreshIndustry();refreshDomain();updatePhotoChoice();refreshProjectType();refreshAgentChoice();
 }
 let inboxTouched=false,lastEmail='';
 const buyer=field('email'),inbox=field('preferred_email');
@@ -193,6 +209,8 @@ buyer.addEventListener('input',()=>{
  lastEmail=next;
 });
 inbox.addEventListener('input',()=>{inboxTouched=true});
+field('website_project_type').addEventListener('change',refreshProjectType);
+$('ai-agent-interest')?.addEventListener('change',refreshAgentChoice);
 field('industry').addEventListener('change',refreshIndustry);
 field('other_format').addEventListener('change',refreshIndustry);
 field('menu_pdf_url').addEventListener('input',refreshOffers);
@@ -274,6 +292,7 @@ form.addEventListener('submit',()=>{
  if(!goal.value.trim()){
   goal.value=('Create a '+$('website-format').value+' website for '+field('business_name').value.trim()+
    '. Business type: '+field('industry').value+extra+
+   '. Project request: '+field('website_project_type').value+'.'+(field('website_project_type').value!=='new'?' Current website: '+field('existing_website').value.trim()+'.':'')+
    '. Main visitor action: '+field('customer_action').value+
    '. '+(list?'Items and prices supplied.':'Items and prices supplied by linked menu or product list.')+
    ' Email inquiries only.').slice(0,500);
