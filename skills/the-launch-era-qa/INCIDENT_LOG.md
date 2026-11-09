@@ -1,3 +1,8 @@
+## 2026-11-09 — OFFCOURT preview mobile headline overflow risk and release verification
+- **Source observation:** new concept website at `public/demos/offcourt/` initially used a 59px minimum hero headline on 320–370px viewports and a lengthy no-wrap story heading. CSS-based fit review showed a likely text-clipping risk at compact mobile widths. No physical Safari visual test has yet confirmed or excluded the issue.
+- **Scoped mitigation:** lower the <=370px hero font-size fluidly and use shorter English/Spanish story headings while retaining the editorial composition. Finish EN/ES translations for major headings. Existing demos and shared site components remain untouched.
+- **Verification:** JS parsing, route guards and GitHub checks should be verified separately; source-only size reasoning is not browser proof. The URL is a concept preview, not an approved final brand kit; original photography, approved logo and actual iPhone Safari review remain outstanding.
+
 ## 2026-11-09 — Lavanda Boutique demo had sample prices but no usable shopping journey
 - **Owner request:** allow visitors to add boutique items to a bag and complete a simulated purchase without entering card details.
 - **Verified source:** `public/demos/lavender-edit/index.html` displayed boutique images and reused three fixed illustrative prices from `public/assets/tle-demo-original-prices-20261108.js` but did not offer a bag or demo checkout. Existing live commerce infrastructure was not authorized for this concept demo.
