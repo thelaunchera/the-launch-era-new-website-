@@ -42,6 +42,16 @@
      <label class="field"><span data-i18n="name">Your name *</span><input name="name" type="text" required minlength="2" maxlength="120" autocomplete="name"></label>
      <label class="field"><span data-i18n="email">Email used at checkout *</span><input name="email" type="email" required maxlength="254" autocomplete="email"></label>
      <label class="field full"><span data-i18n="business">Business name *</span><input name="business_name" type="text" required minlength="2" maxlength="150" autocomplete="organization"></label>
+     <label class="field full"><span data-i18n="projectTypeLabel">Are we creating or improving your website? *</span>
+       <select name="website_project_type" id="website-project-type" required><option value="new" data-i18n="projectTypeNew">Build a new website</option><option value="improve" data-i18n="projectTypeImprove">Improve a website I already own</option></select>
+      </label>
+      <div id="existing-project-fields" class="fields full" hidden>
+       <label class="field full"><span data-i18n="existingWebsiteRequired">Link to your current website *</span><input name="existing_website" type="url" maxlength="300" placeholder="https://"></label>
+       <label class="field full"><span data-i18n="platformLabel">Which platform is your website on?</span>
+        <select name="website_platform"><option value="unsure" data-i18n="platformUnsure">Not sure</option><option value="wordpress">WordPress</option><option value="shopify">Shopify</option><option value="wix">Wix</option><option value="squarespace">Squarespace</option><option value="webflow">Webflow</option><option value="godaddy">GoDaddy</option><option value="hostinger">Hostinger</option><option value="github_static">GitHub / static website</option><option value="other" data-i18n="platformOther">Other</option></select>
+       </label>
+       <label class="field full"><span data-i18n="requestedChangesLabel">What would you like improved? *</span><textarea name="requested_changes" rows="3" maxlength="700" data-placeholder="requestedChangesExample"></textarea><small data-i18n="scopeReview">We review compatibility and scope before starting. Never share passwords or access codes here.</small></label>
+      </div>
      <label class="field full"><span data-i18n="industry">What kind of business is it? *</span>
       <select name="industry" id="business-industry" required>
        <option value="" selected disabled data-i18n="chooseIndustry">Choose your business</option>
@@ -64,16 +74,6 @@
     </div>
    </fieldset>
 
-      <label class="field full"><span data-i18n="projectTypeLabel">Are we creating or improving your website? *</span>
-       <select name="website_project_type" id="website-project-type" required><option value="new" data-i18n="projectTypeNew">Build a new website</option><option value="improve" data-i18n="projectTypeImprove">Improve a website I already own</option></select>
-      </label>
-      <div id="existing-project-fields" class="fields full" hidden>
-       <label class="field full"><span data-i18n="existingWebsiteRequired">Link to your current website *</span><input name="existing_website" type="url" maxlength="300" placeholder="https://"></label>
-       <label class="field full"><span data-i18n="platformLabel">Which platform is your website on?</span>
-        <select name="website_platform"><option value="unsure" data-i18n="platformUnsure">Not sure</option><option value="wordpress">WordPress</option><option value="shopify">Shopify</option><option value="wix">Wix</option><option value="squarespace">Squarespace</option><option value="webflow">Webflow</option><option value="godaddy">GoDaddy</option><option value="hostinger">Hostinger</option><option value="github_static">GitHub / static website</option><option value="other" data-i18n="platformOther">Other</option></select>
-       </label>
-       <label class="field full"><span data-i18n="requestedChangesLabel">What would you like improved? *</span><textarea name="requested_changes" rows="3" maxlength="700" data-placeholder="requestedChangesExample"></textarea><small data-i18n="scopeReview">We review compatibility and scope before starting. Never share passwords or access codes here.</small></label>
-      </div>
    <div class="divider"></div>
    <fieldset class="group">
     <legend data-i18n="group2">02 / What you offer</legend>
