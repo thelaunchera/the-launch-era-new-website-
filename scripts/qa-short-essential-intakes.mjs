@@ -5,6 +5,7 @@ import {execFileSync} from 'node:child_process';
 const read=p=>{assert.ok(existsSync(p),p+' missing');return readFileSync(p,'utf8')};
 const basic=read('public/intake/website/index.html');
 const advanced=read('public/intake/website-ai-crm/index.html');
+const plus=read('public/intake/website-plus/index.html');
 const websiteScript=read('public/assets/tle-website-intake.js');
 const websiteBrief=read('public/assets/tle-website-intake-brief.js');
 const bookingJs=read('public/assets/tle-guided-intakes.js');
@@ -12,7 +13,7 @@ const bookingJs=read('public/assets/tle-guided-intakes.js');
 for(const path of ['public/assets/tle-website-intake.js','public/assets/tle-website-intake-brief.js','public/assets/tle-guided-intakes.js']){
  execFileSync(process.execPath,['--check',path],{stdio:'pipe'});
 }
-for(const [label,html] of [['basic',basic],['advanced',advanced]]){
+for(const [label,html] of [['basic',basic],['plus',plus],['legacy',advanced]]){
  for(const key of ['name','email','business_name','industry','business_location','services','customer_action','website_language','preferred_email','business_hours','domain_option','domain_preference','phone','website_photos','brand_assets_url','ai_photo_request','consent']){
   assert.match(html,new RegExp('name="'+key+'"'),label+' missing '+key);
  }
@@ -34,6 +35,8 @@ assert.match(websiteScript,/note\('Preferred website languages',get\(f,'website_
 assert.match(websiteScript,/tle-studio-website-confirm-payment/,'keep verified paid gate');
 assert.doesNotMatch(websiteScript,/custom domain \(extra cost\)|dominio propio \(costo adicional\)/i,'no obsolete domain charge in shared copy');
 assert.match(websiteScript,/Command Center access/,'never issue access before delivery');
+assert.match(websiteBrief,/refreshProjectType/,'new/existing website choice must be reviewed');
+assert.match(plus,/name="website_project_type"/,'current plus intake must ask about existing website');
 for(const key of ['setupExtrasSummary','inboxOptional','publicPhoneOptional','siteLangLabel','siteLangBoth','domainHelpNote']){
  const hits=[...websiteBrief.matchAll(new RegExp(key+':','g'))].length;
  assert.equal(hits,2,key+' must have English and Spanish translations');
