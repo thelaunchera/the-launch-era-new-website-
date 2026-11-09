@@ -1,4 +1,4 @@
-name: Motion Heroes Video + Cursor QA
+name: Motion Heroes Video QA
 on:
   push:
     branches: [main]
@@ -23,15 +23,25 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: '22' }
-      - name: Check eleven asset masters and six approved integrations
+      - name: Guard approved animated heroes and CRUMB still image
         run: |
-          for s in crumb casa-brownie havana-19 ivory-and-bloom marea-wigs-miami la-vie-in-pink aftr lavender-edit sova golden-grid; do
+          set -euo pipefail
+          # Only these three canonical demos currently mount the shared video layer.
+          for s in casa-brownie ivory-and-bloom marea-wigs-miami; do
+            test -s "public/demos/$s/media/hero-motion-20261108.mp4"
+            test -s "public/demos/$s/media/hero-motion-poster-hq.webp"
+            grep -q 'tle-hero-cinematic-20261108.js' "public/demos/$s/index.html"
+          done
+          # Other approved animations have independent hero implementations.
+          for s in golden-grid aftr sova lavender-edit; do
             test -s "public/demos/$s/media/hero-motion-20261108.mp4"
           done
           test -s public/experience-cleaning/media/hero-motion-20261108.mp4
-          for s in crumb casa-brownie havana-19 ivory-and-bloom aftr lavender-edit; do
-            grep -q 'tle-hero-cinematic-20261108.js' "public/demos/$s/index.html"
-          done
+          # CRUMB is explicitly still: do not reinstate its retired motion.
+          if grep -q 'tle-hero-cinematic-20261108.js' public/demos/crumb/index.html; then
+            echo "::error::CRUMB must retain its approved still hero"
+            exit 1
+          fi
           node --check public/assets/tle-hero-cinematic-20261108.js
           node --check scripts/qa-hero-cinematic-20261108.mjs
       - name: Install isolated browser dependencies
@@ -45,8 +55,17 @@ jobs:
           mkdir -p "$GITHUB_WORKSPACE/node_modules"
           ln -sfn /tmp/tle-motion-qa/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
           ln -sfn /tmp/tle-motion-qa/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
-      - name: Verify published video playback, cursor movement and reduced motion
-        run: node scripts/qa-hero-cinematic-20261108.mjs
+      - name: Verify original hero playback, touch-safe layering and reduced motion
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4188 --bind 127.0.0.1 --directory public > /tmp/tle-motion-preview.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for i in $(seq 1 20); do
+            if curl -fsS http://127.0.0.1:4188/demos/casa-brownie/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4188 node scripts/qa-hero-cinematic-20261108.mjs
       - name: Save visual results
         if: always()
         uses: actions/upload-artifact@v4
