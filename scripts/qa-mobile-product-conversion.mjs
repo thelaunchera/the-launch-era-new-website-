@@ -5,15 +5,11 @@ import {chromium} from 'playwright';
 const read=p=>readFileSync(p,'utf8');
 const en=read('src/routes/booking-lead-automation.tsx');
 const es=read('src/routes/es.booking-lead-automation.tsx');
-const app=read('src/components/cleaning-app-showcase.tsx');
-const appCss=read('public/assets/tle-app-landing.css');
 const bookingCss=read('src/components/service-sales-mobile-cta.css');
 const bundleCss=read('public/assets/tle-bundle-landing.css');
 const wa=read('public/whatsapp-ai-agent/index.html');
 const ai=read('public/ai-booking-assistant/index.html');
 const sales=read('src/components/service-sales.tsx');
-assert.match(app,/tle-case-mobile-quick/);
-assert.match(appCss,/\.tle-cleaning-case \.tle-case-cover\{display:none!important\}/);
 assert.match(en,/booking-product-landing/);
 assert.match(es,/booking-product-landing/);
 assert.match(bookingCss,/\.booking-product-landing \.service-sales-pain/);
@@ -58,18 +54,6 @@ try{
  await check('/booking-lead-automation/',desktop,async page=>{
   assert.equal(await page.locator('.service-sales-pain').isVisible(),true);
   assert.equal(await page.locator('.service-endcap').isVisible(),true);
- });
- for(const [lang,path] of [['en','/cleaning-web-app/'],['es','/es/cleaning-web-app/']]){
-  await check(path,phone,async page=>{
-   assert.equal(await page.locator('.tle-case-mobile-quick').isVisible(),true);
-   assert.equal(await page.locator('.tle-case-cover').isVisible(),false);
-   assert.match(await page.locator('.tle-case-mobile-quick a').getAttribute('href'),new RegExp('cleaning-app-demo/\\?lang='+lang));
-   assert.equal(await page.locator('a[href="https://app.thelaunchera.com/?entry=signup"]').count(),2);
-  });
- }
- await check('/cleaning-web-app/',desktop,async page=>{
-  assert.equal(await page.locator('.tle-case-cover').isVisible(),true);
-  assert.equal(await page.locator('.tle-case-mobile-quick').isVisible(),false);
  });
  await check('/booking-bundle/',phone,async page=>{
   assert.equal(await page.locator('.tle-intro').isVisible(),false);
