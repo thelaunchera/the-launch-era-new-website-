@@ -25,7 +25,7 @@
          el.classList.remove('tle-scroll-visible');
        }
      }
-   },{root:null,rootMargin:'0px 0px -7% 0px',threshold:0.035});
+   },{root:null,rootMargin:'0px 0px 8% 0px',threshold:0.01});
  }
  const add=(el,part,delay)=>{
    if(!safe(el)||processed.has(el))return;
@@ -38,7 +38,7 @@
    el.classList.add('tle-scroll-pending');
    // Keep initially visible/anchor-targeted content visible with no first-frame flash.
    const rect=el.getBoundingClientRect();
-   if(rect.top<window.innerHeight*.84 && rect.bottom>0){
+   if(rect.top<window.innerHeight*.94 && rect.bottom>0){
      el.classList.add('tle-scroll-visible');
    }
    tracked.add(el);
@@ -66,7 +66,7 @@
      if(!title&&!photo)continue;
      accepted++;
      if(title)add(title,'headline',0);
-     if(photo&&accepted<=6)add(photo,'photo',title?95:0);
+     if(photo&&accepted<=6)add(photo,'photo',title?160:0);
    }
  }
  function boot(){
@@ -110,7 +110,7 @@
     'crumb':['.hero picture img',11,8,20,.22],
     'havana-19':['.hero > img',11,8,21,.18],
     'ivory-and-bloom':['.hero-photo img',13,9,17,.25],
-    'la-vie-in-pink':['.hero-image-wrap img.hero-image',12,9,21,.24],
+    'la-vie-in-pink':['.hero-visual > img',12,9,21,.24],
     'marea-wigs-miami':['.hero-visual > img',11,8,19,.24],
     'aftr':['.hero-image',19,12,28,.44],
     'lavender-edit':['.hero-art > img',11,9,17,.28],

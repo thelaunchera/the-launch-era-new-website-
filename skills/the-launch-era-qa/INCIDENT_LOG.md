@@ -1,3 +1,10 @@
+## 2026-11-08 — Scroll reveals too fast to perceive (code fix; live QA pending)
+
+- **Owner symptom:** motion across public websites and demos finishes before photography/headline effects can be appreciated, especially on fast phone scrolling.
+- **Verified source:** shared demo reveal CSS had 670–1020ms transitions (720ms default), offer cards 750ms, photo/panel 870–1000ms; observers triggered near/after viewport entry with -7%/-9% bottom margins. La Vie in Pink declared `data-tle-one-motion` but did not load the shared motion assets.
+- **Resolution (branch `fix/slow-scroll-reveals-20261108`):** raised demo durations to 1250–1800ms, offer section 1400ms, owner photos/panel 1500/1700ms, restored earlier viewport activation with positive 8% margin; retained bidirectional re-entry and reduced-motion. Cache-busted affected HTML; mirrored core assets to the secondary demo repo. No changes to scrolling physics, booking, checkout, photo assets or client records.
+- **Validation status:** GitHub CI confirmed scroll replay in both directions on Chromium and Safari for the main demos, offer tests, route safety and reduced-motion; full production Pages deploy and owner physical iPhone signoff pending.
+
 ## 2026-11-08 — Demo covers were still photos while brand heroes had motion
 
 - **Owner screenshot:** In private Studio → Clase · demos, Casa Brownie · Con video displayed only a still photo; other finished demo cards and the public demo portfolio similarly showed static covers despite existing approved hero media.

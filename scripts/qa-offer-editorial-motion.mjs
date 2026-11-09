@@ -27,8 +27,8 @@ for(const selector of ['.hero-gallery h1','.owner-admin-visual','.owner-customer
 }
 for(const [lang,path] of pages){
  const html=read(path);
- assert.match(html,/tle-offer-editorial-motion-20261108\.css\?v=1/,'CSS installed '+lang);
- assert.match(html,/tle-offer-editorial-motion-20261108\.js\?v=2/,'JS installed '+lang);
+ assert.match(html,/tle-offer-editorial-motion-20261108\.css\?v=2/,'CSS installed '+lang);
+ assert.match(html,/tle-offer-editorial-motion-20261108\.js\?v=3/,'JS installed '+lang);
  assert.match(html,/class="hero hero-gallery" id="inicio"/,'Original hero preserved');
  assert.equal((html.match(/class="hero-gallery-card"/g)||[]).length,11,'Eleven original demo photos must survive');
  assert.equal((html.match(/class="plan" id="website-(?:basic|ai-crm)"/g)||[]).length,2,'Only the two approved plans');

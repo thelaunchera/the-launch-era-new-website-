@@ -1,3 +1,9 @@
+## 2026-11-08 — Slower replayable scroll motion (no route changes)
+
+- Public routes, media, carts, checkout and tenant workflows are unchanged. The shared `/assets/tle-demo-scroll-art-20261108.css` reveal durations are now 1.25–1.8s per brand (1.4s default) instead of 0.67–1.02s; `/assets/tle-demo-scroll-art-20261108.js` triggers earlier and retains bidirectional replay. Secondary concept demos use identical mirrored assets in `thelaunchera/demo-booking-landing-`.
+- The EN/ES `/website-for-your-business/` offer uses 1.4s section arrivals, 1.5s photo and 1.7s layered-panel entrances, with earlier view detection; both pages refresh CSS/JS query versions. Primary and secondary demo pages refresh their scroll CSS/JS to `?v=5`, and La Vie in Pink now loads the shared scroll art assets.
+- Accessibility remains: reduced-motion disables reveal animation, normal touch scroll is never intercepted, and focused controls remain visible. Static and browser CI passed the shared motion; Pages and owner device signoff remain distinct.
+
 ## 2026-11-08 — Motion previews on existing demo covers (no route changes)
 
 - Existing routes stay unchanged: `/demos/`, `/website-for-your-business/`, `/es/website-for-your-business/` and all brand demos. The Studio cards remain under `podcast.thelaunchera.com/estudio/`, sourced in `thelaunchera/todavia-estoy-a-tiempo/estudio-control`.
