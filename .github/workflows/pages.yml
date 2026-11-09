@@ -45,6 +45,8 @@ jobs:
         run: |
           node scripts/qa-website-photo-placement.mjs
           node scripts/qa-website-checkout-flow.mjs
+          node scripts/qa-website-outcome-journey.mjs
+          node --check public/assets/tle-outcome-journey-20261109.js
           node --check public/assets/tle-website-intake.js
           node --check public/assets/tle-custom-app-request.js
 
