@@ -341,3 +341,65 @@
 @media(prefers-reduced-motion:reduce){
  .tle-universal .hero-gallery-card .hero-gallery-motion{display:none!important}
 }
+
+/* Jaramillo / SOVA: respect approved photo proportions in the mobile and
+   tablet portfolio rail. The original fashion video is vertical (512 × 682);
+   object-fit:cover used to crop faces inside landscape phone thumbnails. */
+.tle-universal .hero-gallery-card[data-demo="jaramillo-boutique"] .hero-gallery-hit{
+ background:#e9ded8;
+ isolation:isolate;
+}
+.tle-universal .hero-gallery-card[data-demo="jaramillo-boutique"] .hero-gallery-hit::before{
+ content:"";
+ position:absolute;
+ inset:-12px;
+ z-index:0;
+ pointer-events:none;
+ background:#e9ded8 url("https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/assets/noche.webp") center / cover no-repeat;
+ filter:blur(16px);
+ opacity:.28;
+}
+.tle-universal .hero-gallery-card[data-demo="jaramillo-boutique"] .hero-gallery-hit>img{
+ position:relative;
+ z-index:1;
+ object-fit:contain!important;
+ object-position:center center!important;
+ background:transparent!important;
+}
+.tle-universal .hero-gallery-card[data-demo="jaramillo-boutique"] .hero-gallery-hit>.hero-gallery-motion{
+ object-fit:contain!important;
+ object-position:center center!important;
+ background:transparent!important;
+ z-index:2;
+}
+.tle-universal .hero-gallery-card[data-demo="sova"] .hero-gallery-hit{
+ background:#071f58;
+}
+.tle-universal .hero-gallery-card[data-demo="sova"] .hero-gallery-hit>img{
+ object-fit:contain!important;
+ object-position:center center!important;
+ background:#071f58!important;
+}
+@media (hover:hover){
+ .tle-universal .hero-gallery-card[data-demo="jaramillo-boutique"]:hover .hero-gallery-hit>img,
+ .tle-universal .hero-gallery-card[data-demo="sova"]:hover .hero-gallery-hit>img{
+  transform:none!important;
+ }
+}
+@media (max-width:600px){
+ .tle-universal .hero-gallery-card[data-demo="jaramillo-boutique"] .hero-gallery-hit,
+ .tle-universal .hero-gallery-card[data-demo="sova"] .hero-gallery-hit{
+  border-radius:inherit;
+ }
+}
+
+
+/* Keep an expanded (8–11 projects) iPad rail large enough to appreciate
+   portrait faces. Four-project curated rails retain their existing fill. */
+@media (min-width:601px) and (max-width:1099px){
+ .tle-universal .hero-gallery-rail[data-gallery-layout="extended"] .hero-gallery-card{
+  flex:0 0 clamp(195px,26vw,300px);
+  min-width:195px;
+  max-width:300px;
+ }
+}

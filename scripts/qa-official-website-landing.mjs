@@ -25,7 +25,7 @@ for(const r of routes){
  assert.ok(html.includes('class="hero hero-gallery"'),'gallery hero not on '+language);
  assert.match(html, /\/assets\/tle-gallery-hero-20261107\.css\?v=\d+/, 'gallery styles not linked on '+language);
  assert.ok((html.match(/class="hero-gallery-card"/g)||[]).length===11,'eleven real demo gallery panels not present on '+language);
- assert.ok(html.includes('/assets/tle-offer-gallery-hero-media-20261108.js?v=1'),language+': gallery video fallback script missing');
+ assert.ok(/\/assets\/tle-offer-gallery-hero-media-20261108\.js\?v=\d+/.test(html),language+': gallery video fallback script missing');
  for(const [slug,asset] of Object.entries({
   'soluna-yoga':'/soluna-yoga/images/soluna-hero-editorial.webp',
   'experience-cleaning':'/assets/cleaning-demo/hero-cleaner-original.jpg',
