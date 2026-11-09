@@ -1,3 +1,11 @@
+## 2026-11-09 — Experience Cleaning animated hero missing from public portfolio and private Studio covers
+- **Owner request:** show the existing cleaning demo's actual animated hero as the Experience Cleaning cover in the public demo library, private Studio and bilingual Website for Your Business gallery.
+- **Verified source cause:** `/experience-cleaning/` already plays `/experience-cleaning/media/cleaning-hero-20261108.mp4` with its matching `cleaning-hero-poster-20261108.jpg`, but the motion maps of `public/demos/index.html`, `public/assets/tle-offer-gallery-hero-media-20261108.js` and `estudio-control/src/FinishedDemos.tsx` omitted `experience-cleaning`. Each portfolio therefore retained an old still photo.
+- **Scoped change:** reuse the exact existing 2,467,871-byte MP4 and 35,172-byte poster by URL in those three existing preview components; preserve the original static image as an error fallback. Fit portrait media inside Cleaning-only covers in `public/demos/index.html`, `public/assets/tle-gallery-hero-20261107.css` and `estudio-control/src/finished-demos.css`. Refresh only EN/ES Website offer CSS/JS versions. Do not change the demo's own hero, videos for other brands, customer data or checkout behavior.
+- **Visibility check:** Studio's `tle_website_demo_visibility` in project `fhrvuhikrybobidxpvnh` has no `experience-cleaning` override; public and owner selection logic therefore treat this demo as visible by default. No database mutation required.
+- **Regression:** `scripts/qa-official-website-landing.mjs` now asserts original Cleaning MP4/poster existence, both public media mappings and its portrait-safe offer layout; the established Gallery/Studio preview controllers still handle muted inline playback, first frame before reveal, reduced-motion, save-data and fallback.
+- **Release evidence/status:** source updates committed to the official website and independent Studio repositories; subsequent GitHub Pages CI/deployment, live playable MP4 verification and owner iPhone/iPad Safari visual QA remain required before production is marked confirmed.
+
 ## 2026-11-09 — Duplicate legal footer under Casa Brownie and shared demos
 
 - **Observed:** Owner iPhone screenshot of `/demos/casa-brownie/`: the original brown footer is followed by a second ivory-colored footer repeating legal notices, © and Powered by.
