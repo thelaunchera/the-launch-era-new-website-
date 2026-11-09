@@ -42,13 +42,13 @@ try{
    const owner=page.locator('#owner-experience');
    await owner.scrollIntoViewIfNeeded();
    await page.waitForFunction(()=>document.querySelector('#owner-experience')?.classList.contains('tle-offer-visible'),null,{timeout:10000});
-   await page.waitForTimeout(1100);
+   await page.waitForTimeout(1850);
    const layer=await page.locator('.owner-admin-visual').evaluate(el=>({animation:getComputedStyle(el).animationName,opacity:Number(getComputedStyle(el).opacity)}));
    assert.ok(layer.animation.includes('tle-offer-panel-in')&&layer.opacity>.96,'Owner view settles correctly '+lang);
    await page.screenshot({path:folder+'/'+lang+'-owner-showcase-iphone.png'});
    await page.locator('#website-ai-crm').scrollIntoViewIfNeeded();
    await page.waitForFunction(()=>document.querySelector('#website-ai-crm')?.classList.contains('tle-offer-visible'),null,{timeout:10000});
-   await page.waitForTimeout(850);
+   await page.waitForFunction(()=>Number(getComputedStyle(document.querySelector('#website-ai-crm')).opacity)>.96,null,{timeout:5000});
    const priceCard=await page.locator('#website-ai-crm').evaluate(el=>({opacity:Number(getComputedStyle(el).opacity),shadow:getComputedStyle(el).boxShadow}));
    assert.ok(priceCard.opacity>.96&&priceCard.shadow!=='none','Pricing becomes visible and dimensional '+lang);
    assert.equal(await page.locator('#website-basic a[href^="/website-checkout/"]').getAttribute('href'),'/website-checkout/?offer=website-basic&lang='+lang,'Checkout basic intact');
@@ -175,7 +175,7 @@ try{
    'Headline must stay inside desktop copy column '+JSON.stringify(desktopCopy));
 
   await dp.locator('.pricing').scrollIntoViewIfNeeded();
-  await dp.waitForTimeout(900);
+  await dp.waitForTimeout(1550);
   await dp.screenshot({path:folder+'/en-pricing-desktop.png'});
   console.log('PASS: Desktop 1440px motion and layout');
  }finally{await desktop.close()}
