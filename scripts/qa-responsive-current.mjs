@@ -101,7 +101,7 @@ for(const lang of ['en','es']) {
  await check('customer inquiry journey '+lang+' iphone',sizes[1],async page=>{
   const writes=[];
   page.on('request',request=>{
-   if(request.method()!=='GET' && /supabase\\.co\\/functions\\/v1\\/tle-studio-website|hook\\.us2\\.make\\.com|api\\.resend\\.com/.test(request.url()))writes.push(request.url());
+   const url=request.url(); if(request.method()!=='GET' && (url.includes('supabase.co/functions/v1/tle-studio-website')||url.includes('hook.us2.make.com')||url.includes('api.resend.com')))writes.push(url);
   });
   const response=await page.goto(base+(lang==='es'?'/es/':'/'),{waitUntil:'domcontentloaded',timeout:30000});
   assert.equal(response?.status(),200,'Website offer page must load');
