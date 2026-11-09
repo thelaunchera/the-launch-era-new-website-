@@ -31,8 +31,9 @@ for(const [lang,path] of pages){
  assert.match(html,/tle-offer-editorial-motion-20261108\.js\?v=3/,'JS installed '+lang);
  assert.match(html,/class="hero hero-gallery" id="inicio"/,'Original hero preserved');
  const gallerySlugs=[...html.matchAll(/class="hero-gallery-card"[^>]*data-demo="([^"]+)"/g)].map(m=>m[1]);
- assert.equal(gallerySlugs.length,13,'Thirteen approved demo photos including FRESKA and Sneekiefs must survive');
- assert.equal(new Set(gallerySlugs).size,13,'No duplicated demo card');
+ assert.equal(gallerySlugs.length,14,'Fourteen approved demo photos including Nail Room, FRESKA and Sneekiefs must survive');
+ assert.equal(new Set(gallerySlugs).size,14,'No duplicated demo card');
+ assert.ok(gallerySlugs.includes('nail-room'),'Nail Room must remain in the public hero');
  assert.equal(gallerySlugs[gallerySlugs.indexOf('soluna-yoga')+1],'sneekiefs','Sneekiefs follows SOLUNA Yoga');
  assert.equal((html.match(/class="plan" id="website-(?:basic|plus)"/g)||[]).length,2,'Only the two approved plans');
  assert.equal((html.match(/class="step"/g)||[]).length,4,'Four genuine service steps');
@@ -94,4 +95,4 @@ for(const [lang,path] of pages){
 const storyCSS=read('public/assets/tle-offer-editorial-motion-20261108.css');
 assert.match(storyCSS,/max-width:min\(13ch,100%\)/,'Desktop headline width must be responsive');
 
-console.log('PASS: EN/ES editorial motion, reduced motion, existing offers and links, all thirteen approved demos, no payment or network changes.');
+console.log('PASS: EN/ES editorial motion, reduced motion, existing offers and links, all fourteen approved demos, no payment or network changes.');
