@@ -8,6 +8,7 @@ const gateway=read('public/website-checkout/index.html');
 const receipt=read('public/website-payment-success/index.html');
 const basic=read('public/intake/website/index.html');
 const advanced=read('public/intake/website-ai-crm/index.html');
+const plus=read('public/intake/website-plus/index.html');
 const intakeJS=read('public/assets/tle-website-intake.js');
 const ownerDelivery=read('public/website-delivery-admin/index.html');
 const secureDeliveryFunction=read('supabase/functions/tle-website-delivery-activate/index.ts');
@@ -15,7 +16,7 @@ const customApp=read('public/custom-app/index.html');
 const customJS=read('public/assets/tle-custom-app-request.js');
 
 for (const [lang,page] of [['en',en],['es',es]]) {
- for(const offer of ['website-basic','website-ai-crm']){
+ for(const offer of ['website-basic','website-plus']){
   ensure(page.includes('href="/website-checkout/?offer='+offer+'&lang='+lang+'"'), lang+' '+offer+' does not go to checkout');
  }
  ensure(!/<p class="fine" data-key="termsNote">/.test(page),lang+' has the old lengthy pricing disclaimer');
@@ -23,15 +24,15 @@ for (const [lang,page] of [['en',en],['es',es]]) {
  ensure(page.includes('href="/demos/?demo=havana-19&amp;returnTo=')&&!page.includes('data-demo="umbral"'),lang+' demo hero must link to canonical Havana 19 without duplicating Umbral');
  ensure(!page.includes('data-key="heroOverline"')&&!page.includes('<span class="dash"></span>'),lang+' hero heading or yellow line still visible');
  ensure(!page.includes('href="/custom-app/?lang='+lang+'"')&&!page.includes('class="app-section"'),lang+' should not advertise a separate app');
- ensure(page.includes(lang==='en'?'Due today: $25':'Hoy pagas $25'),lang+' $25 due today missing');
- ensure(page.includes(lang==='en'?'first month of AI + CRM service starts when the finished project is delivered':'primer mes de servicio IA + CRM comienza cuando entreguemos el proyecto terminado'),lang+' recurring billing must start after project delivery');
+ ensure(page.includes(lang==='en'?'One-time $25 setup':'Configuración de $25 por única vez'),lang+' one-time pricing missing');
+ ensure(!page.includes('offer=website-ai-crm'),lang+' legacy subscription must not appear in new public sales');
  ensure(!page.includes(lang==='en'?'after 30 days':'después de 30 días'),lang+' checkout-relative billing copy must not remain');
 }
 ensure(gateway.includes('tle-studio-website-start-checkout'), 'Missing secure checkout creation');
 ensure(gateway.includes("dest.hostname!=='checkout.stripe.com'"),'Checkout must validate Stripe hostname');
 ensure(receipt.includes('tle-studio-website-confirm-payment'),'Missing paid-session verification');
 ensure(receipt.includes("data.paid!==true"),'Success page does not enforce paid status');
-for(const p of [basic,advanced]){
+for(const p of [basic,plus,advanced]){
  ensure(p.includes('id="intake-form" hidden'),'Form must be hidden before proof');
  ensure(p.includes('name="services" required'),'No services field in project setup');
  ensure(p.includes('name="preferred_email"'),'Missing delivery inbox');
@@ -53,7 +54,10 @@ ensure(intakeJS.includes('first AI + CRM service month starts when the completed
 ensure(intakeJS.includes('primer mes de IA + CRM empieza con la entrega del website terminado'),'ES paid intake must start the service month upon delivery');
 ensure(!intakeJS.includes('after 30 days')&&!intakeJS.includes('después de 30 días'),'Do not promise checkout-relative monthly billing');
 ensure(ownerDelivery.includes('tle-website-delivery-activate'),'Owner delivery console must contact secured server function');
-ensure(ownerDelivery.includes('Entregas &amp; mensualidades'),'Owner console must explain delivery-based billing');
+ensure(ownerDelivery.includes('Entregas de websites'),'Owner console must distinguish one-time and legacy delivery');
+ensure(plus.includes('data-package="website-plus"'),'New Website Plus intake must use its own paid route');
+ensure(plus.includes('name="website_project_type"'),'New Website Plus must distinguish creating and improving a site');
+ensure(receipt.includes('website-plus'),'Website Plus paid receipt must route to its own verified intake');
 ensure(secureDeliveryFunction.includes('platform_admins?user_id=eq.'),'Only authorized company admins can activate delivery billing');
 ensure(secureDeliveryFunction.includes('confirmed_delivered!==true'),'Manual verified delivery confirmation required');
 ensure(secureDeliveryFunction.includes('first_month_ends_at'),'First month must be stored from actual delivery');
@@ -71,4 +75,4 @@ ensure((customApp.match(/class="choice-option"/g)||[]).length>=20,'App brief nee
 ensure(customApp.includes('name="app_goals"')&&customApp.includes('name="preferred_features"')&&customApp.includes('name="reference_urls"'),'Each group needs an open-text field');
 ensure(customJS.includes('goalRequired'),'One goal or free-text must be required');
 ensure(customApp.includes('optional-app-original.jpg'),'Custom app uses old blurry image');
-console.log('PASS: $15/$25 website CTAs start Stripe Checkout, paid confirmation gates project setup, recurring service month anchored to delivered website, old inquiry removed.');
+console.log('PASS: current one-time $15/$25 CTAs, paid gated plus intake, and legacy subscriptions segregated.');
