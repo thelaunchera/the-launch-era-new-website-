@@ -4,11 +4,11 @@
 ## Offers
 - Website + Command Center: **$15 USD one-time**; create a new website or perform explicitly approved small improvements on an existing website.
 - Website + Advanced Command Center: **$25 USD one-time**; approved enhanced inquiry/customer organization and email workflows. **No AI agent, no monthly website subscription**.
-- Optional AI Agent: **$8 USD/month**, purchased in its own Stripe Checkout. First charge and subscription begin at the separate checkout, not when the $15/$25 website is bought. Limited business FAQs and inquiry capture as scoped; no unlimited AI usage or automatic website maintenance. Prior AI+CRM customers retain their contracts.
+- Optional AI Agent: **$10 USD/month**, purchased in its own Stripe Checkout. First charge and subscription begin at the separate checkout, not when the $15/$25 website is bought. Limited business FAQs and inquiry capture as scoped; no unlimited AI usage or automatic website maintenance. Prior AI+CRM customers retain their original contracts, which may include an older $8/month charge.
 
 ## Approved purchase journey
-1. Buyer selects $15 or $25, reviews their one-time price on /website-checkout/, and can select **Add AI agent — $8/month**. Default unchecked.
-2. The website fee is paid and validated by Stripe (through Make) first. If the agent was selected, show a **separate** optional $8/month Stripe Checkout or **Continue without agent**; do not add hidden recurring items to the website cart.
+1. Buyer selects $15 or $25, reviews their one-time price on /website-checkout/, and can select **Add AI agent — $10/month**. Default unchecked.
+2. The website fee is paid and validated by Stripe (through Make) first. If the agent was selected, show a **separate** optional $10/month Stripe Checkout or **Continue without agent**; do not add hidden recurring items to the website cart.
 3. The agent subscription is independently verified before accepting setup notes. Save private proof and brief in `tle_studio_website_agent_orders`; never mistake a checkout link or unpaid session for an active subscription.
 4. New website buyer completes their existing paid intake. Do not skip or replace it with the agent intake. Customer receives the normal verified website purchase email; agent subscription/customer notice needs its own tested email flow.
 5. The owner reviews agent brief, decides supported FAQ/contact-capture scope, tests behavior and privacy before enabling. Nothing is automatically installed on another company's site merely because payment was verified.
@@ -39,9 +39,9 @@
 
 ## Technical implementation & release guard
 - Working GitHub PR: #482 (draft). Do not say public checkout is live before CI, payment gates, confirmation, email and mobile QA pass and the branch is deployed.
-- Stripe LIVE via Make scenario 6423594; module route website-agent 53/54. Price `price_1UZrkWCnlGzKRSIMjrRiKjAX` for optional $8/month. No product duplication.
+- Stripe LIVE via Make scenario 6423594; module route website-agent 53/54. Price `price_1UZs1FCnlGzKRSIM7zMBmVjb` for optional $10/month. No product duplication.
 - Supabase fhrv public checkout creation validates origin and offers; separate agent confirm verifies Stripe and stores only paid sessions in a service-role-only table with RLS. Check API error states.
 - Stripe `mode=payment` cannot contain a recurring optional item. Keep website and agent subscription checkouts distinct; clearly disclose price and renewal.
 - Test with unpaid references; **never make a real charge just for QA**.
-- The new subscription starts at its actual Stripe purchase. Do not reuse the old after-delivery $8/month AI+CRM rule for this optional product.
+- The new subscription starts at its actual Stripe purchase. Do not reuse the old after-delivery $10/month AI+CRM rule for this optional product.
 - Update EN/ES legal and email statements coherently, preserving historical subscribers.
