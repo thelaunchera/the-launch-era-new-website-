@@ -403,3 +403,14 @@
   max-width:300px;
  }
 }
+
+/* Portrait-first tablet gallery: respect the existing verified Safari swipe fix. */
+@media (min-width:601px) and (max-width:1099px){
+ .tle-universal .hero-gallery-card:first-child{flex:0 0 clamp(290px,35vw,400px)}
+ .tle-universal .hero-gallery-card:first-child .hero-gallery-hit img{object-fit:contain;background:#ece9e3}
+ .tle-universal .hero-gallery-card:is([data-demo="jaramillo-boutique"],[data-demo="sova"],[data-demo="soluna-yoga"]) .hero-gallery-hit img{object-fit:contain}
+}
+@media(prefers-reduced-motion:no-preference){
+ .tle-universal .hero-gallery-card:not(:has(.hero-gallery-motion.is-playing)) .hero-gallery-hit img{animation:tle-gallery-photo-drift 21s ease-in-out infinite}
+ @keyframes tle-gallery-photo-drift{0%,100%{scale:1}50%{scale:1.018}}
+}
