@@ -231,3 +231,18 @@ body[data-tle-experience="cleaning"] .offer .button{border-radius:999px}
  body[data-tle-experience="cleaning"] :is(.service-card,.service-card img,.booking-progress-line span,.booking-visual img,.hero-main-action,.hero-nav-cta){transition:none!important;animation:none!important}
  body[data-tle-experience="cleaning"] :is(.service-card:hover,.service-card:hover img,.booking-visual:hover img){transform:none!important}
 }
+
+/* Make accessibility preferences override earlier hero/scroll libraries. */
+@media (prefers-reduced-motion: reduce) {
+  html body[data-tle-experience="cleaning"] .hero.hero-cleaning-site .hero-full-photo,
+  html body[data-tle-experience="cleaning"] .hero.hero-cleaning-site .hero-copy,
+  html body[data-tle-experience="cleaning"] .intro-band-track,
+  html body[data-tle-experience="cleaning"] .clean-work-runner,
+  html body[data-tle-experience="cleaning"] .stage:not([hidden]) {
+    animation: none !important;
+    transition: none !important;
+  }
+  html body[data-tle-experience="cleaning"] .hero.hero-cleaning-site .hero-motion-video {
+    display: none !important;
+  }
+}
