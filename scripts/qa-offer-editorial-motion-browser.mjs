@@ -17,6 +17,30 @@ try{
    assert.equal(response?.status(),200,'Homepage must resolve '+lang);
    await page.waitForFunction(()=>document.documentElement.classList.contains('tle-offer-motion'));
    assert.equal(await page.locator('.hero-gallery-card').count(),11,'Keep eleven actual demo hero cards');
+   // The live Jaramillo fashion film and the approved SOVA photo must never
+   // be stretched or cropped in the portfolio card.
+   const framing=await page.evaluate(()=>{
+    const j=document.querySelector('.hero-gallery-card[data-demo="jaramillo-boutique"]');
+    const s=document.querySelector('.hero-gallery-card[data-demo="sova"]');
+    const video=j?.querySelector('video.hero-gallery-motion');
+    return {
+     sovaSrc:s?.querySelector('img')?.getAttribute('src'),
+     sovaFit:s?getComputedStyle(s.querySelector('img')).objectFit:'',
+     jaramilloSrc:video?.dataset.motionSrc,
+     jaramilloPoster:video?.getAttribute('poster'),
+     jaramilloVideoFit:video?getComputedStyle(video).objectFit:'',
+     jaramilloPhotoFit:j?getComputedStyle(j.querySelector('img')).objectFit:''
+    };
+   });
+   assert.equal(framing.sovaSrc,'/demos/sova/media/sova-hero-seamless-cobalt-20261108.png','SOVA must show the latest approved hero photograph '+lang);
+   assert.equal(framing.sovaFit,'contain','SOVA must keep its full photograph in the gallery '+lang);
+   assert.ok(framing.jaramilloSrc?.endsWith('/jaramillo-boutique/media/hero-motion-20261108.mp4'),'Jaramillo uses its original motion asset '+lang);
+   assert.ok(framing.jaramilloPoster?.endsWith('/jaramillo-boutique/assets/noche.webp'),'Jaramillo uses the original video poster '+lang);
+   assert.equal(framing.jaramilloPhotoFit,'contain','Jaramillo fallback must never crop the face '+lang);
+   assert.equal(framing.jaramilloVideoFit,'contain','Jaramillo video must never crop the face '+lang);
+
+
+
    assert.equal(await page.locator('.pricing .plan').count(),2,'Keep only two packages');
    assert.equal(await page.locator('.process .step').count(),4,'Keep four steps');
    const doc=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,viewport:innerWidth}));
@@ -133,6 +157,41 @@ try{
     console.log('PASS: '+lang+' iPad '+width+'px, 4 large projects, 2x2 benefits, readable full-width packages');
    }finally{await context.close()}
   }
+ }
+ // Explicit iPad portrait/landscape viewport checks with both brand cards
+ // visible independent of the owner's saved public curation.
+ for(const width of [768,820,1024]){
+  const ctx=await browser.newContext({viewport:{width,height:1024},reducedMotion:'no-preference'});
+  await ctx.route('**/tle_website_demo_visibility?**',r=>r.fulfill({status:200,contentType:'application/json',body:'[]'}));
+  const page=await ctx.newPage();
+  try{
+   await page.goto(base+'/website-for-your-business/',{waitUntil:'domcontentloaded',timeout:35000});
+   await page.waitForFunction(()=>document.documentElement.dataset.tleDemoStatus==='ready');
+   const data=await page.evaluate(()=>{
+    const card=document.querySelector('.hero-gallery-card[data-demo="jaramillo-boutique"]');
+    const sova=document.querySelector('.hero-gallery-card[data-demo="sova"]');
+    const v=card.querySelector('video.hero-gallery-motion'),img=card.querySelector('img'),sovaImg=sova.querySelector('img');
+    // offsetWidth/Height validate layout before entrance transforms settle.
+    // getBoundingClientRect may briefly report 90% scale during initial reveal.
+    return {
+      cardWidth:card.offsetWidth,cardHeight:card.offsetHeight,
+      videoFit:getComputedStyle(v).objectFit,
+      photoFit:getComputedStyle(img).objectFit,
+      sovaFit:getComputedStyle(sovaImg).objectFit,
+      videoPointer:getComputedStyle(v).pointerEvents,
+      sovaSrc:sovaImg.getAttribute('src'),
+      pageWidth:document.documentElement.scrollWidth,viewport:innerWidth
+    };
+   });
+   assert.ok(data.cardWidth>160&&data.cardHeight>=250,'Jaramillo tablet card must be large and readable: '+JSON.stringify(data));
+   assert.equal(data.videoFit,'contain','Keep full Jaramillo face on iPad: '+width);
+   assert.equal(data.photoFit,'contain','Keep Jaramillo photo uncropped on iPad: '+width);
+   assert.equal(data.sovaFit,'contain','Keep approved SOVA portrait uncropped on iPad: '+width);
+   assert.equal(data.videoPointer,'none','Video must not block the card link');
+   assert.equal(data.sovaSrc,'/demos/sova/media/sova-hero-seamless-cobalt-20261108.png');
+   assert.ok(data.pageWidth<=data.viewport+2,'No horizontal page overflow on iPad: '+JSON.stringify(data));
+   console.log('PASS: Jaramillo video and SOVA photo framing on iPad '+width+'px');
+  }finally{await ctx.close();}
  }
  const desktop=await browser.newContext({viewport:{width:1440,height:900},reducedMotion:'no-preference'});
  const dp=await desktop.newPage();
