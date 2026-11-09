@@ -1,3 +1,12 @@
+## 2026-11-08 — iPad website swipe + approved cleaning video (no route changes)
+
+- Public routes remain `/website-for-your-business/`, `/es/website-for-your-business/`, `/demos/`, and `/experience-cleaning/`. The Website offer shares `/assets/tle-gallery-hero-20261107.css`; the 601–1099 px gallery now exposes one larger, complete protagonist card, lets vertical swipes pass to the page, and resets stale horizontal scroll after a Studio visibility selection change.
+- `/demos/` viewer retains its normal modal/Close/return flow but drops the redundant `document.body.style.overflow='hidden'` lock that could trap iPad Safari scrolling in the nested iframe. The iframe explicitly permits vertical scrolling.
+- `/experience-cleaning/` hero uses owner-supplied Canva MP4 (512×682 portrait, 5.01 sec) saved at `/experience-cleaning/media/hero-canva-owner-20261108.mp4` plus an exact first-frame WebP. Desktop displays it in a contained portrait alongside readable copy; mobile stacks it without upscaling to a blurry full-bleed landscape. It loops muted/inline while active; reduced-motion and save-data retain the matching poster.
+- Final `#get-yours` Booking + Command Center CTA replaces tiny `final_living_room_overhead.jpg` with existing approved `portfolio_living_finished.webp`, preserving the destination, offer copy, prices, demo data, forms, and client isolation.
+- Media references original unmodified owner-supplied upload, with a production-committed binary and private organized Drive copy. New CSS/JS are presentation-only. `/assets/tle-offer-gallery-hero-media-20261108.js` resumes partially visible carousel media without pause caused by the former 45% intersection threshold.
+- Before claiming production: run route-integrity, responsive gallery/browser QA, iPhone/iPad Safari touch scroll, MP4 GET + frame continuity, no horizontal overflow at 390/820/1024, and Pages deploy, with owner iPad signoff separately.
+
 ## 2026-11-08 — Motion previews on existing demo covers (no route changes)
 
 - Existing routes stay unchanged: `/demos/`, `/website-for-your-business/`, `/es/website-for-your-business/` and all brand demos. The Studio cards remain under `podcast.thelaunchera.com/estudio/`, sourced in `thelaunchera/todavia-estoy-a-tiempo/estudio-control`.
