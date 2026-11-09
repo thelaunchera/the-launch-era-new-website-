@@ -16,8 +16,17 @@ assert.match(html,/data-t="offerPrice"/);
 assert.match(css,/@media\(max-width:420px\)/);
 assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
 const refinement=readFileSync('public/experience-cleaning/refinement.css','utf8');
-assert.match(html,/Fraunces:ital,wght/,'Fraunces editorial display font must load');
-assert.match(html,/Manrope/,'Independent readable body font must load');
+assert.match(html,/family=DM\+Serif\+Display/,'New editorial display font must load');
+assert.match(html,/family=Outfit/,'New readable body font must load');
+assert.match(html,/alpine-gold-20261108\.css\?v=/,'New brand identity stylesheet must load');
+const brandCss=readFileSync('public/experience-cleaning/alpine-gold-20261108.css','utf8');
+assert.match(brandCss,/#087E9C/i,'Alpine Turquoise should be present');
+assert.match(brandCss,/#F6BE28/i,'Autumn Gold should be present');
+assert.match(html,/alpine-gold-20261108\.js\?v=/,'Photo preview and step progress must be active');
+const brandJs=readFileSync('public/experience-cleaning/alpine-gold-20261108.js','utf8');
+new vm.Script(brandJs,{filename:'public/experience-cleaning/alpine-gold-20261108.js'});
+assert.match(html,/booking-progress-line/);
+assert.match(html,/booking-visual-image/);
 assert.match(html,/refinement\.css\?v=/,'New visual refinement must load');
 const editorial=readFileSync('public/experience-cleaning/editorial-banner.css','utf8');
 assert.match(html,/editorial-banner\.css\?v=/,'Animated banner styles must load');
@@ -35,10 +44,18 @@ assert.doesNotMatch(js,/\$\('experience'\)\.scrollIntoView\(\{behavior:'smooth'\
 assert.match(photoLogic,/IntersectionObserver/,'Existing Casa Brownie observer pattern must be applied');
 assert.match(photoLogic,/data-fallback/,'Service photos need a self-hosted image fallback');
 assert.equal((html.match(/data-fallback=/g)||[]).length,5,'Five exact-service licensed photographs must be safely replaceable');
-assert.match(html,/photos\/8055186/,'Regular cleaning should show an actual vacuuming scene');
-assert.match(html,/photos\/9462635/,'Deep cleaning should show detailed bathroom work');
-assert.match(html,/photos\/9462298/,'Special cleaning should show detailed oven work');
-assert.match(html,/photos\/33357392/,'Commercial cleaning should show janitors at a workplace');
+for(const photo of [
+ '/experience-cleaning/photos/portfolio_living_finished.webp',
+ '/experience-cleaning/photos/portfolio_cleaning_action.webp',
+ '/experience-cleaning/photos/portfolio_bedroom_finished.webp',
+ '/experience-cleaning/photos/clean_roll_02_bathroom.webp',
+ '/assets/lead-demo/spotless-office.png',
+ '/assets/clara-private-demo/commercial-home-office.webp'
+]){
+ assert.match(html,new RegExp('src="'+photo.replaceAll('/','\\/')+'"'),'Service card photo must be local: '+photo);
+ assert(existsSync('public'+photo),'Service card photo must exist: '+photo);
+}
+assert.doesNotMatch(html,/images\.pexels\.com/,'Service photography must be self-hosted');
 
 assert.match(editorial,/@keyframes tle-benefit-drift/,'The benefit strip must visibly move');
 assert.match(editorial,/prefers-reduced-motion:reduce/,'Respect reduced-motion preference');
@@ -98,7 +115,7 @@ assert.equal((html.match(/class="clean-work-card"/g)||[]).length,12,'Exactly six
 assert.match(html,/clean-work-group" aria-hidden="true"/,'Duplicate work gallery must be hidden from assistive tech');
 assert.match(html,/Not documented customer projects/,'Demo portfolio must clearly disclaim customer project claims');
 assert.match(html,/SAMPLE REVIEW · NOT REAL/,'Each illustrative review must be visibly labelled as a sample, not a real testimonial');
-assert.match(html,/not published testimonials/,'Testimonials must not be represented as authentic reviews');
+assert.match(html,/SAMPLE REVIEW · NOT REAL/,'Illustrative reviews must clearly disclose that they are samples');
 assert.doesNotMatch(html,/offer-photo"><img src="\/assets\/lead-demo\/hero-luxury-home\.png"/,'Replace the empty old offer photograph');
 
 assert(!/\b(fetch\s*\(|XMLHttpRequest|localStorage|sessionStorage|sendBeacon|navigator\.send|FormData|WebSocket)\b/.test(js),'Public sample code must never send or store customer data');
@@ -113,7 +130,7 @@ for(const lang of ['en','es']){
  w.eval(js);
  const $=x=>w.document.getElementById(x);
  assert.equal(w.document.documentElement.lang,lang);
- assert.match(w.document.querySelector('#hero-title').textContent,lang==='es'?/Tu casa impecable/:/A beautiful clean/);
+ assert.match(w.document.querySelector('#hero-title').textContent,lang==='es'?/Tu casa impecable/:/See how clients book/);
  assert.match(w.document.querySelector('#experience-title').textContent,lang==='es'?/Reserva tu limpieza residencial/:/Book residential cleaning/);
  assert.match(w.document.querySelector('#experience-title').textContent,lang==='es'?/estimado comercial/:/commercial estimate/);
  const strip=w.document.querySelectorAll('.intro-band-group');
