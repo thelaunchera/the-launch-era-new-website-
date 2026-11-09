@@ -2,7 +2,15 @@
 
 - Public routes, media, carts, checkout and tenant workflows are unchanged. The shared `/assets/tle-demo-scroll-art-20261108.css` reveal durations are now 1.25–1.8s per brand (1.4s default) instead of 0.67–1.02s; `/assets/tle-demo-scroll-art-20261108.js` triggers earlier and retains bidirectional replay. Secondary concept demos use identical mirrored assets in `thelaunchera/demo-booking-landing-`.
 - The EN/ES `/website-for-your-business/` offer uses 1.4s section arrivals, 1.5s photo and 1.7s layered-panel entrances, with earlier view detection; both pages refresh CSS/JS query versions. Primary and secondary demo pages refresh their scroll CSS/JS to `?v=5`, and La Vie in Pink now loads the shared scroll art assets.
-- Accessibility remains: reduced-motion disables reveal animation, normal touch scroll is never intercepted, and focused controls remain visible. Changes require static QA, PR checks, Pages deployment and Safari/iPhone verification before a production-fix claim.
+- Accessibility remains: reduced-motion disables reveal animation, normal touch scroll is never intercepted, and focused controls remain visible. Static and browser CI passed the shared motion; Pages and owner device signoff remain distinct.
+
+## 2026-11-08 — Motion previews on existing demo covers (no route changes)
+
+- Existing routes stay unchanged: `/demos/`, `/website-for-your-business/`, `/es/website-for-your-business/` and all brand demos. The Studio cards remain under `podcast.thelaunchera.com/estudio/`, sourced in `thelaunchera/todavia-estoy-a-tiempo/estudio-control`.
+- The public demo library uses matching existing brand MP4 + first-frame WebP posters for 11 verified brand media pairs, with lazy in-viewport muted inline looping playback and an image fallback. The EN/ES offer portfolio reuses 5 brand MP4/poster pairs through its existing shared media loader; the already configured YUMMM video is unchanged.
+- CRUMB remains static; SOVA remains on its approved photographic hero; La Vie in Pink and Jaramillo retain still photos rather than adopting unapproved motion. Golden Grid's portfolio gallery and Studio cards remain static at 521–1399 CSS pixels (tablet), retaining the approved moving cover elsewhere.
+- Video never receives pointer events; the existing links, iframe close/return flow, Studio visibility selection, pricing, checkout, forms and tenants are untouched. Reduced-motion and save-data suppress downloads; absent media or autoplay rejection retains the original photo.
+- Required release gate: Studio build + finished demo kit tests, public route-integrity and gallery QA, browser checks at 390/820/1024/1440, muted poster/frame parity, hidden demos, Pages deployment and physical iPad signoff. PR stage is not production verification.
 
 ## 2026-11-08 — Website offer gains four REAL hero demo previews (no route changes)
 

@@ -21,5 +21,5 @@ assert(liveBundle.includes('O==="es"?"Ver":"View"'),'Compiled bilingual view con
 
 import {execFileSync} from 'node:child_process';
 for(const path of ['public/demos/la-vie-in-pink/assets/index-BnbJ7qEi.js','public/demos/marea-wigs-miami/assets/index-CxF6j5zA.js'])execFileSync(process.execPath,['--check',path],{stdio:'pipe'});
-for(const [path,asset] of [['public/demos/la-vie-in-pink/index.html','./cafe-boutique-20261108.js?v=localwebp1'],['public/demos/marea-wigs-miami/index.html','index-CxF6j5zA.js?v=20261107clean']])assert(readFileSync(path,'utf8').includes(asset),'Updated bundle must bypass old phone cache: '+path);
+for(const [path,asset] of [['public/demos/la-vie-in-pink/index.html','cafe-boutique-20261108.js?v=localwebp1'],['public/demos/marea-wigs-miami/index.html','index-CxF6j5zA.js?v=20261107clean']])assert(readFileSync(path,'utf8').includes(asset),'Updated bundle must bypass old phone cache: '+path);
 console.log('PASS: published compiled JS syntax and cache-busting links');

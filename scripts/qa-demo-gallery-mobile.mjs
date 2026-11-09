@@ -150,7 +150,7 @@ try{
 
  // Every English and Spanish hero card must lead to exactly its own library demo.
  // Umbral was renamed Havana 19 and must never be displayed as a second card.
- const heroSlugs=['ivory-and-bloom','casa-brownie','crumb','la-vie-in-pink','jaramillo-boutique','havana-19','sova'];
+ const heroSlugs=['ivory-and-bloom','casa-brownie','crumb','la-vie-in-pink','jaramillo-boutique','havana-19','sova','soluna-yoga','experience-cleaning','yummm','wok-social'];
  for(const [locale,chosen] of [
   ['/website-for-your-business/','la-vie-in-pink'],
   ['/es/website-for-your-business/','jaramillo-boutique']
@@ -159,7 +159,7 @@ try{
   const r=await page.goto(route.href,{waitUntil:'domcontentloaded',timeout:35000});
   assert.equal(r?.status(),200,'Bilingual website route must serve a page');
   const items=page.locator('.hero-gallery-card');
-  assert.equal(await items.count(),7,'Show seven unique website concepts');
+  assert.equal(await items.count(),11,'Show eleven approved website concepts');
   const found=await items.evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-demo')));
   assert.deepEqual(found,heroSlugs,'Gallery brands must be unique and never include Umbral');
   for(const slug of heroSlugs){
@@ -208,7 +208,7 @@ try{
    const photoFirstDemos=[
      {slug:'sova',visual:'.hero .hero-media',copy:'.hero .hero-copy',image:'.hero .hero-media img',motion:'.hero h1'},
      {slug:'golden-grid',visual:'.hero .hero-art',copy:'#collection',image:'.hero .hero-art img',motion:'.hero .hero-art img'},
-     {slug:'la-vie-in-pink',visual:'.hero .hero-image-wrap',copy:'.hero .hero-content',image:'.hero .hero-image',motion:'.hero .hero-image'},
+     {slug:'la-vie-in-pink',visual:'.hero .hero-visual',copy:'.hero .hero-copy',image:'.hero .hero-visual>img',motion:'.hero .hero-visual>img'},
      {slug:'marea-wigs-miami',visual:'.hero .hero-visual',copy:'.hero .hero-copy',image:'.hero .hero-visual>img',motion:'.hero .hero-visual>img'},
      {slug:'lavender-edit',visual:'.hero .hero-art',copy:'.hero .hero-copy',image:'.hero .hero-art img',motion:'.hero .hero-art img'}
    ];
@@ -241,7 +241,7 @@ try{
      assert.ok(result.photoHeight>220,'Mobile hero photo must be prominent: '+demo.slug+' '+JSON.stringify(result));
      assert.ok(result.photoTop<result.viewportHeight,'Hero photo must appear upon entry: '+demo.slug);
      assert.ok(result.scrollWidth<=result.viewport+2,'No horizontal overflow: '+demo.slug+' '+JSON.stringify(result));
-     assert.ok((demo.slug==='sova'&&(result.hasSovaLoop||result.naturalWidth>500))||(demo.slug==='golden-grid'&&result.hasGoldenVideo)||(result.motion!=='none'&&result.motion.length>0),'Original hero animation or approved SOVA motion loop must remain: '+demo.slug+' '+JSON.stringify(result));
+     assert.ok((demo.slug==='sova'&&(result.hasSovaLoop||result.naturalWidth>500))||(demo.slug==='golden-grid'&&result.hasGoldenVideo)||(demo.slug==='la-vie-in-pink'&&result.naturalWidth>500)||(result.motion!=='none'&&result.motion.length>0),'Approved hero appearance or animation must remain: '+demo.slug+' '+JSON.stringify(result));
      // Capture the settled design, not a half-transparent reveal frame.
      await motionPage.waitForTimeout(1200);
      if(demo.slug!=='golden-grid'){
