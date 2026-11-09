@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 import vm from "node:vm";
 
 const text = (path) => readFileSync(path, "utf8");
@@ -28,11 +28,12 @@ for (const page of publicPages) {
   const html = text("public/" + page);
   assert.match(html, /src="\/assets\/jessy-site\.js\?v=[^"]+"/, page + " missing Jessie");
 }
-// The Cleaning App sample workspace is embedded multiple times. No Jessie in its iframes.
+// The Cleaning App was retired. Its old route must redirect to website services,
+ // and the removed showcase must not be a prerequisite for the marketing QA.
 const appSample = text("public/cleaning-app-demo/index.html");
 assert.doesNotMatch(appSample, /<script\s+src="\/assets\/jessy-site\.js/);
-const showcase = text("src/components/cleaning-app-showcase.tsx");
-assert.match(showcase, /cleaning-app-demo\/\?lang=\$\{lang\}&embedded=1/);
+assert.match(appSample,/\/website-for-your-business\//);
+assert.equal(existsSync("src/components/cleaning-app-showcase.tsx"),false,"Retired cleaning showcase must not return");
 
 const front = text("public/assets/jessy-site.js");
 new Function(front); // Syntax-check without running a browser assistant.
