@@ -172,17 +172,19 @@ jobs:
             .output/public/es/website-for-your-business/index.html \
             .output/public/intake/website/index.html \
             .output/public/intake/website-ai-crm/index.html \
+            .output/public/intake/website-plus/index.html \
             .output/public/website-checkout/index.html \
             .output/public/website-payment-success/index.html \
             .output/public/custom-app/index.html \
             .output/public/assets/tle-custom-app-request.js \
             .output/public/assets/tle-website-official.css \
             .output/public/assets/tle-website-intake.js \
+            .output/public/assets/tle-global-legal-footer-20261109.js \
             .output/public/assets/website-packages-20261105/hero-jaramillo.svg; do
             test -s "$file"
           done
           grep -q 'href="/website-checkout/?offer=website-basic&lang=en"' .output/public/website-for-your-business/index.html
-          grep -q 'href="/website-checkout/?offer=website-ai-crm&lang=es"' .output/public/es/website-for-your-business/index.html
+          grep -q 'href="/website-checkout/?offer=website-plus&lang=es"' .output/public/es/website-for-your-business/index.html
           grep -q 'Website' .output/public/website-for-your-business/index.html
           cp .output/public/website-for-your-business/index.html .output/public/index.html
           mkdir -p .output/public/es
@@ -198,6 +200,9 @@ jobs:
             fi
           done
           test -s .output/public/404.html # keep the intentional, helpful 404 page
+
+      - name: Inject shared legal links into remaining public HTML routes
+        run: node scripts/apply-public-legal-footers.mjs
 
       - name: Preserve custom domain
         run: |
