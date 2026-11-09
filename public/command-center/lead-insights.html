@@ -88,4 +88,5 @@ $('save').onclick=async()=>{if(!chosen)return;const btn=$('save');btn.disabled=t
  }catch(e){$('status').textContent='Could not save: '+e.message}finally{btn.disabled=false}};
 $('copy').onclick=async()=>{const str=$('subject').value+'\n\n'+$('body').value;if(!$('subject').value.trim()||!$('body').value.trim()){$('status').textContent='Write the individual email first.';return}try{await navigator.clipboard.writeText(str);$('status').textContent='Copied. Check contact restrictions and provider rules before using it.'}catch(e){$('status').textContent='Copy unavailable: '+e.message}};
 $('reload').onclick=load;boot();
-</script></body></html>
+</script><script defer src="/assets/tle-global-legal-footer-20261109.js"></script>
+</body></html>
