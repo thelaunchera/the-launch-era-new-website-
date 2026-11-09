@@ -72,5 +72,6 @@
 
 /* Tablet: protect benefit copy from the compact desktop override. */
 @media(min-width:741px) and (max-width:1099px){
+ .tle-universal .features.feature-snapshot{grid-template-columns:repeat(2,minmax(0,1fr))}
  .tle-universal .features.feature-snapshot .feature p{font-size:14px;line-height:1.55}
 }
