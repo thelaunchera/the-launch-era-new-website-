@@ -98,9 +98,12 @@ for(const [label,page] of [['booking',booking],['tracker',tracker]]){
  assert.match(page,/personal invitation|personal email link/,"Visitors see invitation-led language");
  assert.match(page,/invitación|enlace personal/,"Spanish visitors see natural invitation-led language");
  assert.match(page,/invitation_required/,"Access denial response stays actionable and consistent");
- const scripts=[...page.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)];
- assert.equal(scripts.length,1,label+' should have a single gated bootstrap');
- new vm.Script(scripts[0][1],{filename:label+'-gate.js'});
+ const scriptTags=[...page.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)];
+ const scripts=scriptTags.filter(([,attributes])=>!/\bsrc\s*=/.test(attributes));
+ const external=scriptTags.filter(([,attributes])=>/\bsrc\s*=/.test(attributes));
+ assert.ok(external.every(([,attributes,body])=>/\bsrc=["']\/assets\/tle-global-legal-footer-20261109\.js["']/.test(attributes)&&!body.trim()),label+' must not load unapproved external scripts');
+ assert.equal(scripts.length,1,label+' should have a single gated inline bootstrap');
+ new vm.Script(scripts[0][2],{filename:label+'-gate.js'});
 }
 assert(booking.includes('const PAGE="booking"'));
 assert(tracker.includes('const PAGE="tracker"'));
