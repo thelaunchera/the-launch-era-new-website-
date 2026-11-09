@@ -332,3 +332,33 @@
 @media(prefers-reduced-motion:reduce){
  .tle-universal .hero-gallery-card .hero-gallery-motion{display:none!important}
 }
+
+
+/* 2026-11-08 · iPad Safari: both-axis finger scrolling must reach the page.
+   Do not let the horizontal demo rail consume vertical swipes. */
+.tle-universal .hero-gallery-stage{touch-action:auto;overscroll-behavior-y:auto}
+.tle-universal .hero-gallery-rail,.tle-universal .hero-gallery-card,.tle-universal .hero-gallery-hit{touch-action:auto}
+@media (min-width:601px) and (max-width:1099px){
+ .tle-universal .hero-gallery-stage{overflow-x:auto;overflow-y:hidden;overscroll-behavior:auto;scroll-snap-type:x proximity;scroll-padding-inline:clamp(20px,3vw,40px)}
+ .tle-universal .hero-gallery-rail{width:max-content;min-width:100%;justify-content:flex-start;align-items:stretch;gap:clamp(12px,1.5vw,18px)}
+ .tle-universal .hero-gallery-card{flex:0 0 clamp(190px,21vw,235px);height:clamp(290px,36vw,385px)}
+ .tle-universal .hero-gallery-card:first-child{flex-basis:clamp(286px,35vw,400px)}
+ .tle-universal .hero-gallery-card:first-child .hero-gallery-hit img{object-fit:contain;background:#ece9e3}
+ .tle-universal .hero-gallery-card[data-demo="jaramillo-boutique"] .hero-gallery-hit img,
+ .tle-universal .hero-gallery-card[data-demo="sova"] .hero-gallery-hit img,
+ .tle-universal .hero-gallery-card[data-demo="soluna-yoga"] .hero-gallery-hit img{object-fit:contain}
+}
+@media(max-width:600px){
+ .tle-universal .hero-gallery-stage{overscroll-behavior:auto;scroll-snap-type:x proximity}
+}
+/* Photos keep a restrained pulse instead of freezing while the visitor reads.
+   Video clips use their actual looping MP4; avoid transforms over moving video. */
+@media(prefers-reduced-motion:no-preference){
+ .tle-universal .hero-gallery-card:not(:has(.hero-gallery-motion.is-playing)) .hero-gallery-hit img{
+   animation:tle-gallery-cover-breathe 19s ease-in-out infinite;
+ }
+ @keyframes tle-gallery-cover-breathe{
+   0%,100%{scale:1}
+   50%{scale:1.022}
+ }
+}
