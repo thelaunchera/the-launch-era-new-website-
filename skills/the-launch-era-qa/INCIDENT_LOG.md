@@ -1099,3 +1099,12 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - **Pre-change finding:** `/demos/` and the EN/ES website offer used static fixed demo lists with no shared owner selection. Existing `Agregar al Aula` is unrelated.
 - **Remediation prepared:** owner-authenticated publication selection in the podcast Supabase project, shared public read-only filter and independent Studio card toggles. Preserve Casa Brownie's two views as one demo; never publish real client records.
 - **Safety / verification:** RLS policies and empty default override table were verified in Supabase. Source and regression tests are on feature branches; GitHub Actions, live Pages and physical iPhone tests must be recorded before claiming release completed. Direct demo URLs remain accessible by design.
+
+
+## 2026-11-08 — Retired Cleaning App still advertised after product discontinuation
+
+- **Owner request:** remove Cleaning App from systems, EN/ES public landings, checkouts and legal/sales presentation; preserve Booking Page, Command Center, Studio and retained customer information.
+- **Verified exposure:** both homepages displayed Cleaning App service cards and upsell links, EN/ES dedicated sales routes remained indexed, and standalone legacy demo and old app alias stayed accessible. Make scenario 6391773 still sent standalone app trial/subscription lifecycle notifications.
+- **Scoped repair:** remove the EN/ES promotional cards and links, point legacy product URLs to live website-services pages without signup CTA, remove obsolete internal pricing-policy line, and deactivate only the exclusive Make lifecycle scenario. Preserve recovery callbacks, existing orders and unrelated Make Stripe checkouts.
+- **Safety:** Supabase production project contains shared Booking/CRM data and was not deleted; historic cleaning-business records and active workspaces were not changed. Separate live subscriptions, if any, require reconciliation prior to a full app-service shutdown.
+- **Verification:** GitHub change staged for automated QA and live Pages review; Make scenario confirmed inactive. Do not describe live website retirement as verified until merged, deployed and checked.
