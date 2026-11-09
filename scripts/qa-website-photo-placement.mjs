@@ -31,7 +31,7 @@ for(const [language,html] of [['en',en],['es',es]]){
   'ivory-and-bloom':'/demos/ivory-and-bloom/images/hero-cake-artist.webp',
   'casa-brownie':'/demos/casa-brownie/assets/hero-brownies.webp',
   'crumb':'/demos/crumb/assets/CRUMB_Storefront_Approved_20261030.webp',
-  'la-vie-in-pink':'/demos/la-vie-in-pink/resources/36a1bfe5-3660-4b7e-964d-8031fe824941.png',
+  'la-vie-in-pink':language==='en'?'/demos/la-vie-in-pink/photos/lavie_pink_hero_editorial.png?v=pink-master-hq-20261108':'/demos/la-vie-in-pink/resources/36a1bfe5-3660-4b7e-964d-8031fe824941.png',
   'jaramillo-boutique':'https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/assets/hero-editorial-user.jpg',
   'havana-19':'/demos/havana-19/photos/HAVANA19_Hero_Fachada_Borgona.jpeg',
   'sova':'/demos/sova/resources/01-hero.png',
@@ -45,7 +45,7 @@ for(const [language,html] of [['en',en],['es',es]]){
   const expectedHeroLink='href="/demos/?demo='+slug+'&amp;returnTo='+encodeURIComponent(language==='es'?'/es/website-for-your-business/':'/website-for-your-business/')+(language==='es'?'&amp;lang=es':'')+'"';
   assert(hero.includes(expectedHeroLink),language+': photo must link to its demo, retain locale and remember originating website');
   assert(hero.includes('src="'+image+'"'),language+': incorrect original hero photo for '+slug);
-  if(image.startsWith('/'))assert(existsSync('public'+image),language+': hero image asset missing for '+slug);
+  if(image.startsWith('/'))assert(existsSync('public'+image.split('?')[0]),language+': hero image asset missing for '+slug);
  }
  assert(!hero.includes('data-demo="umbral"')&&!hero.includes('<figcaption>Umbral</figcaption>'),language+': Umbral must not be duplicated because it is Havana 19');
  assert(!hero.includes(photoRoot+'hero-jaramillo.svg')&&!hero.includes(photoRoot+'website-la-vie-in-pink-en.jpg'),language+': old mockup must not replace original demo hero photography');
