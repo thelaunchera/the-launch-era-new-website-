@@ -3,7 +3,7 @@ import {readFileSync,existsSync} from 'node:fs';
 const routes=['public/website-for-your-business/index.html','public/es/website-for-your-business/index.html'];
 const photos={
  en:['hero-jaramillo.svg','automated-crm-en-sharp.png','process-choose-en.png','process-brand-en.png','process-build-en.png','process-launch-en.png'],
- es:['hero-jaramillo.svg','website-la-vie-in-pink-original.jpg','automated-crm-original.jpg','process-choose-original.jpg','process-brand-original.jpg','process-build-original.jpg','process-launch-original.jpg']
+ es:['hero-jaramillo.svg','automated-crm-original.jpg','process-choose-original.jpg','process-brand-original.jpg','process-build-original.jpg','process-launch-original.jpg']
 };
 const css=readFileSync('public/assets/tle-website-official.css','utf8');
 const galleryCss=readFileSync('public/assets/tle-gallery-hero-20261107.css','utf8');
