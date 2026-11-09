@@ -1,0 +1,41 @@
+/* 2026-11-08 · Owner-supplied 512×682 portrait motion.
+   Show the entire approved video next to readable copy; never scale it as a
+   full-bleed landscape background. Existing still remains the fallback. */
+.hero.hero-cleaning-site{min-height:clamp(640px,60vw,790px);background:#214251;overflow:hidden}
+.hero.hero-cleaning-site .hero-full-photo{opacity:.35;filter:saturate(.72) brightness(.85);object-position:center}
+.hero.hero-cleaning-site:after{background:linear-gradient(90deg,rgba(11,35,46,.94) 0%,rgba(15,40,51,.84) 46%,rgba(15,40,51,.16) 100%);pointer-events:none}
+.hero.hero-cleaning-site .hero-copy{position:relative;z-index:2;width:55%;max-width:620px;padding-top:140px}
+.hero.hero-cleaning-site h1{font-size:clamp(50px,5.7vw,84px);max-width:640px}
+.hero.hero-cleaning-site .hero-intro{max-width:470px}
+.hero.hero-cleaning-site .hero-site-nav{z-index:5}
+.hero.hero-cleaning-site .hero-photo-caption{z-index:2}
+.cleaning-motion-portrait{position:absolute;z-index:1;right:clamp(26px,7vw,115px);top:108px;bottom:49px;width:min(36vw,410px);overflow:hidden;border-radius:clamp(15px,2vw,25px);background:#e8e5df;box-shadow:0 26px 66px rgba(0,0,0,.24);isolation:isolate;pointer-events:none}
+.cleaning-motion-poster,.cleaning-motion-video{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:contain;object-position:center;background:#ebe7e1}
+.cleaning-motion-video{opacity:0;z-index:1;transition:opacity .22s ease;pointer-events:none;transform:none!important;filter:none!important}
+.cleaning-motion-portrait.is-playing .cleaning-motion-video{opacity:1}
+.offer-photo{background:#f4f1e9;min-width:0}
+.offer-photo img{object-fit:cover!important;object-position:center 46%!important;filter:none!important;image-rendering:auto}
+@media(min-width:701px) and (max-width:1099px){
+ .hero.hero-cleaning-site{min-height:clamp(590px,74vw,770px);padding-left:clamp(26px,4vw,50px);padding-right:clamp(26px,4vw,50px)}
+ .hero.hero-cleaning-site .hero-site-nav{left:clamp(26px,4vw,50px);right:clamp(26px,4vw,50px)}
+ .hero.hero-cleaning-site .hero-copy{width:52%;max-width:52%;padding-top:132px}
+ .hero.hero-cleaning-site h1{font-size:clamp(48px,6.5vw,71px)}
+ .cleaning-motion-portrait{right:clamp(22px,4vw,56px);top:105px;bottom:55px;width:41%}
+}
+@media(max-width:700px){
+ .hero.hero-cleaning-site{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;min-height:0;padding:84px 18px 36px;gap:0}
+ .hero.hero-cleaning-site .hero-full-photo{opacity:.16}
+ .hero.hero-cleaning-site:after{background:linear-gradient(180deg,rgba(13,39,51,.84),rgba(13,39,51,.79))}
+ .hero.hero-cleaning-site .hero-site-nav{left:18px;right:18px;top:0;height:70px}
+ .hero.hero-cleaning-site .hero-copy{order:2;width:100%;max-width:100%;padding:25px 2px 10px}
+ .hero.hero-cleaning-site h1{font-size:clamp(41px,10.5vw,67px);line-height:1.04;margin:12px 0 15px}
+ .hero.hero-cleaning-site .hero-intro{max-width:100%;font-size:14px;line-height:1.55}
+ .hero.hero-cleaning-site .hero-actions{margin-top:20px}
+ .cleaning-motion-portrait{position:relative;order:1;inset:auto;right:auto;top:auto;bottom:auto;align-self:center;width:min(100%,385px);height:auto;aspect-ratio:512/682;max-height:min(88vw,490px);margin:8px auto 0;border-radius:18px}
+ .hero.hero-cleaning-site .hero-photo-caption{position:relative;order:3;bottom:auto;right:auto;margin:11px 0 0;text-align:right}
+ .offer-photo{min-height:420px}
+}
+@media(prefers-reduced-motion:reduce){
+ .cleaning-motion-video{display:none!important}
+ .cleaning-motion-portrait{transition:none}
+}
