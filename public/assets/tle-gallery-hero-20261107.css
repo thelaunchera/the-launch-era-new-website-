@@ -403,3 +403,13 @@
   max-width:300px;
  }
 }
+
+/* Experience Cleaning: display the original portrait motion without cropping the cleaner. */
+.tle-universal .hero-gallery-card[data-demo="experience-cleaning"] .hero-gallery-hit{background:#edeae3}
+.tle-universal .hero-gallery-card[data-demo="experience-cleaning"] .hero-gallery-hit>img,
+.tle-universal .hero-gallery-card[data-demo="experience-cleaning"] .hero-gallery-hit>.hero-gallery-motion{
+ object-fit:contain!important;object-position:center!important;background:transparent!important;
+}
+@media(hover:hover){
+ .tle-universal .hero-gallery-card[data-demo="experience-cleaning"]:hover .hero-gallery-hit>img{transform:none!important}
+}
