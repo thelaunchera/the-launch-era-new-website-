@@ -11,6 +11,9 @@ on:
       - 'public/assets/website-packages-20261105/**'
       - 'scripts/qa-official-website-landing.mjs'
       - 'scripts/qa-website-checkout-flow.mjs'
+      - 'scripts/qa-website-outcome-journey.mjs'
+      - 'public/assets/tle-outcome-journey-20261109.css'
+      - 'public/assets/tle-outcome-journey-20261109.js'
       - 'public/website-checkout/**'
       - 'public/website-payment-success/**'
       - 'public/intake/website/**'
@@ -30,6 +33,9 @@ on:
       - 'public/assets/website-packages-20261105/**'
       - 'scripts/qa-official-website-landing.mjs'
       - 'scripts/qa-website-checkout-flow.mjs'
+      - 'scripts/qa-website-outcome-journey.mjs'
+      - 'public/assets/tle-outcome-journey-20261109.css'
+      - 'public/assets/tle-outcome-journey-20261109.js'
       - 'public/website-checkout/**'
       - 'public/website-payment-success/**'
       - 'public/intake/website/**'
@@ -48,6 +54,7 @@ jobs:
           node-version: '22'
       - run: |
           node scripts/qa-official-website-landing.mjs
+          node scripts/qa-website-outcome-journey.mjs
           node scripts/qa-website-photo-placement.mjs
           node scripts/qa-route-integrity.mjs --static
           node scripts/qa-website-checkout-flow.mjs
