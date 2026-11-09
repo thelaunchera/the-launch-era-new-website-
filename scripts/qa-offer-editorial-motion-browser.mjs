@@ -16,7 +16,7 @@ try{
    const response=await page.goto(base+route,{waitUntil:'domcontentloaded',timeout:35000});
    assert.equal(response?.status(),200,'Homepage must resolve '+lang);
    await page.waitForFunction(()=>document.documentElement.classList.contains('tle-offer-motion'));
-   assert.equal(await page.locator('.hero-gallery-card').count(),11,'Keep eleven actual demo hero cards');
+   assert.equal(await page.locator('.hero-gallery-card').count(),12,'Keep twelve actual demo hero cards');
    // The live Jaramillo fashion film and the approved SOVA photo must never
    // be stretched or cropped in the portfolio card.
    const framing=await page.evaluate(()=>{
@@ -141,7 +141,7 @@ try{
       pageScroll:document.documentElement.scrollWidth,viewport:innerWidth
      };
     });
-    assert.equal(layout.visibleCount,4,'Gallery visibility preserves four curated demos '+lang+' '+width);
+    assert.equal(layout.visibleCount,5,'Gallery visibility preserves five curated demos '+lang+' '+width);
     assert.ok(Math.min(...layout.cardWidths)>=170,'Visible demo thumbnails must be large on iPad '+JSON.stringify(layout));
     assert.ok(layout.filledFraction>.78,'Visible demos must occupy tablet rail instead of half-width '+JSON.stringify(layout));
     assert.ok(layout.benefitFont>=13,'Benefit explanations must remain readable '+JSON.stringify(layout));
@@ -154,7 +154,7 @@ try{
     await page.screenshot({path:folder+'/'+lang+'-pricing-tablet-'+width+'.png'});
     assert.equal(await page.locator('#website-basic a').last().getAttribute('href'),'/website-checkout/?offer=website-basic&lang='+lang);
     assert.equal(await page.locator('#website-plus a').last().getAttribute('href'),'/website-checkout/?offer=website-plus&lang='+lang);
-    console.log('PASS: '+lang+' iPad '+width+'px, 4 large projects, 2x2 benefits, readable full-width packages');
+    console.log('PASS: '+lang+' iPad '+width+'px, 5 large projects, 2x2 benefits, readable full-width packages');
    }finally{await context.close()}
   }
  }
@@ -210,7 +210,7 @@ try{
     narrowest:Math.min(...visible.map(e=>e.getBoundingClientRect().width)),
     labels:visible.map(e=>e.dataset.demo)};
   });
-  assert.equal(portfolio.count,11,'All eleven projects appear with no Studio hides '+JSON.stringify(portfolio));
+  assert.equal(portfolio.count,12,'All twelve projects appear with no Studio hides '+JSON.stringify(portfolio));
   assert.ok(portfolio.overflow>400&&portfolio.narrowest>=200,'Extended desktop gallery must be scrollable with readable real photos '+JSON.stringify(portfolio));
   for(const slug of ['soluna-yoga','experience-cleaning','yummm','wok-social']){
    assert.ok(portfolio.labels.includes(slug),'Required project missing: '+slug);
@@ -218,9 +218,9 @@ try{
   const yummm=dp.locator('.hero-gallery-card[data-demo="yummm"]');
   assert.equal(await yummm.locator('video[data-motion-src*="/yummm/media/hero-motion-20261108.mp4"]').count(),1,
    'YUMMM must use its original matching video with still fallback');
-  await dp.locator('.hero-gallery-card[data-demo="wok-social"]').scrollIntoViewIfNeeded();
-  const lastCardVisible=await dp.locator('.hero-gallery-card[data-demo="wok-social"]').isVisible();
-  assert.ok(lastCardVisible,'WOK must be reachable from extended desktop gallery');
+  await dp.locator('.hero-gallery-card[data-demo="freska"]').scrollIntoViewIfNeeded();
+  const lastCardVisible=await dp.locator('.hero-gallery-card[data-demo="freska"]').isVisible();
+  assert.ok(lastCardVisible,'FRESKA must be reachable at the end of the extended desktop gallery');
   const d=await dp.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:innerWidth}));
   assert.ok(d.scroll<=d.width+2,'Desktop no horizontal overflow');
 
