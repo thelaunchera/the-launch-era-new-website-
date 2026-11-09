@@ -9,7 +9,7 @@ const css=readFileSync('public/assets/tle-website-official.css','utf8');
 const galleryCss=readFileSync('public/assets/tle-gallery-hero-20261107.css','utf8');
 assert.ok(galleryCss.includes('prefers-reduced-motion'),'reduced-motion gallery fallback');
 assert.ok(galleryCss.includes('scroll-snap-type:x proximity'),'touch gallery must not trap vertical page scrolling');
-assert.match(galleryCss,/width:max-content;\\s*min-width:100%;\\s*justify-content:flex-start/,'tablet rail must start with the first real project rather than center clipped overflow');
+assert.match(galleryCss,/width:max-content;\s*min-width:100%;\s*justify-content:flex-start/,'tablet rail must start with the first real project rather than center clipped overflow');
 assert.ok(galleryCss.includes('flex:0 0 clamp(235px,27vw,295px)'),'tablet demo covers need independent readable sizing');
 assert.ok(galleryCss.includes('touch-action:pan-x pan-y'),'gallery must allow horizontal swipe and native vertical page scroll');
 assert.ok(galleryCss.includes('flex:0 0 min(72vw,292px);height:245px'),'phone cards should be slightly larger');
