@@ -3,6 +3,14 @@
  * User-uploaded gallery photos always take priority; these references are
  * editorial fallback only and never count against storage. */
 export const EDITORIAL_PHOTO_SETS = {
+  "nail-room": [
+    "https://thelaunchera.github.io/demo-booking-landing-/nail-room/media/pink-ombre-hero.png",
+    "https://thelaunchera.github.io/demo-booking-landing-/nail-room/media/french-ivory.png",
+    "https://thelaunchera.github.io/demo-booking-landing-/nail-room/media/pink-floral-chrome.png",
+    "https://thelaunchera.github.io/demo-booking-landing-/nail-room/media/terracotta-art.png",
+    "https://thelaunchera.github.io/demo-booking-landing-/nail-room/media/studio-service.png",
+    "https://thelaunchera.github.io/demo-booking-landing-/nail-room/media/pink-editorial-model.png"
+  ],
   "sneekiefs": [
     "https://thelaunchera.com/demos/sneekiefs/assets/07-editorial-poster.webp",
     "https://thelaunchera.com/demos/sneekiefs/assets/01-studio-shoe.webp",
