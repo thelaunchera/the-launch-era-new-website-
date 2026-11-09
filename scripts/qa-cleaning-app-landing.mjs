@@ -1,50 +1,30 @@
-/** Non-destructive UI QA for public Cleaning App sales page only.
- * Run against a local Vite preview; do not authenticate or read customer records.
- */
+/** Retirement regression: prevent re-selling the discontinued standalone Cleaning App. */
 import { strict as assert } from 'node:assert';
-const modulePath = process.env.PLAYWRIGHT_MODULE || 'playwright';
-const { chromium } = await import(modulePath);
-const base = (process.env.QA_URL || 'http://127.0.0.1:4173').replace(/\/$/, '');
-const fs = await import('node:fs');
-fs.mkdirSync('qa-screenshots', { recursive:true });
-const browser = await chromium.launch({headless:true});
-let failures = [];
-for(const [lang,slug] of [['en','/cleaning-web-app/'],['es','/es/cleaning-web-app/']]){
- for(const width of [360,390,820,1440]){
-  const page=await browser.newPage({viewport:{width,height:900},deviceScaleFactor:1,reducedMotion:'reduce'});
-  const errors=[];
-  page.on('pageerror',e=>errors.push(e.message));
-  try{
-   const response=await page.goto(base+slug,{waitUntil:'domcontentloaded',timeout:20000});
-   if(!response?.ok()) console.warn('Local preview HTTP status',lang,width,response?.status());
-   await page.locator('.tle-app-landing h1').waitFor({state:'visible',timeout:15000});
-   await page.waitForTimeout(600);
-   await page.screenshot({path:'qa-screenshots/cleaning-'+lang+'-'+width+'.png',fullPage:true});
-   assert.equal(await page.locator('.tle-app-feature').count(),4,'Exactly four feature groups');
-   assert.equal(await page.locator('.tle-app-finish').count(),1,'One pricing close');
-   assert.equal(await page.locator('.service-sales').count(),0,'No old FAQ/service repeat');
-   assert.equal(await page.locator('.tle-app-landing').count(),1,'Single product page');
-   assert.equal(await page.locator('a[href="https://app.thelaunchera.com/?entry=signup"]').count(),2,'Two appropriate signup entry points');
-   assert(await page.locator('a[href="/cleaning-app-demo/?lang='+lang+'"]').count()>=2,'Demo links correct language');
-   assert.equal(await page.locator('.tle-app-landing').getAttribute('lang'),null);
-   const metrics=await page.evaluate(()=>({
-    pageWidth:document.documentElement.scrollWidth,
-    viewportWidth:window.innerWidth,
-    featureFont:parseFloat(getComputedStyle(document.querySelector('.tle-app-feature p')).fontSize),
-    leadFont:parseFloat(getComputedStyle(document.querySelector('.tle-app-lead')).fontSize),
-    priceFont:parseFloat(getComputedStyle(document.querySelector('.tle-app-price small')).fontSize),
-    cssReady:getComputedStyle(document.querySelector('.tle-app-hero')).backgroundImage!=='none',
-    blankPrice:document.querySelector('.tle-app-landing').innerText.includes('$—')
-   }));
-   assert(metrics.pageWidth <= metrics.viewportWidth+2, 'Horizontal overflow '+JSON.stringify(metrics));
-   assert(metrics.featureFont>=14 && metrics.leadFont>=16 && metrics.priceFont>=13, 'Unreadable font '+JSON.stringify(metrics));
-   assert(metrics.cssReady,'Landing CSS not loaded');
-   assert(!metrics.blankPrice,'Blank estimate price exposed');
-   assert.equal(errors.length,0,'JavaScript runtime errors '+errors.join(';'));
-   console.log('PASS',lang,width,JSON.stringify(metrics));
-  }catch(e){failures.push(lang+' '+width+': '+e.message);console.error('FAIL',lang,width,e.message)}
-  finally{await page.close()}
- }
+import { readFileSync } from 'node:fs';
+const read=(p)=>readFileSync(p,'utf8');
+const en=read('src/components/editorial-sections.tsx');
+const es=read('src/routes/es.index.tsx');
+const service=read('src/components/service-sales.tsx');
+const enRoute=read('src/routes/cleaning-web-app.tsx');
+const esRoute=read('src/routes/es.cleaning-web-app.tsx');
+const alias=read('public/cleaning-app/index.html');
+const demo=read('public/cleaning-app-demo/index.html');
+const checkout=read('public/service-checkout/index.html');
+const termsEN=read('public/terms.html');
+const termsES=read('public/es/terms.html');
+
+for(const [name,src] of [['EN home',en],['ES home',es]]){
+ assert(!src.includes("{title:'Cleaning App'"),name+' should not advertise product card');
+ assert(!/Explore the Cleaning App|Conoce la Cleaning App|\/cleaning-web-app\//.test(src),name+' should have no active app sales links');
+ assert(/Booking Automation \+ Command Center/.test(src),name+' should preserve Booking Page / Command Center');
 }
-await browser.close();
-if(failures.length){console.error('Cleaning App UI QA failures:\n'+failures.join('\n'));process.exit(1)}
+assert(!/entry=signup|\/cleaning-app-demo|\$3\.99|About the Cleaning App|Sobre la Cleaning App/.test(service),'Shared service-sales component still sells the retired app');
+assert(enRoute.includes("window.location.replace('/website-for-your-business/')"),'EN retired product route must redirect');
+assert(esRoute.includes("window.location.replace('/es/website-for-your-business/')"),'ES retired product route must redirect');
+assert(enRoute.includes('noindex,follow')&&esRoute.includes('noindex,follow'),'Retired sales routes must be noindex');
+assert(alias.includes('auth-recovery.html'),'Legacy callback must preserve password recovery');
+assert(alias.includes('website-for-your-business/'),'Old app alias must redirect to the website packages');
+assert(demo.includes('website-for-your-business/'),'Old promotional demo must redirect to the website packages');
+assert(!/["'](?:cleaning-app|cleaning-web-app|cleaning_app)["']/.test(checkout),'General service checkout must not accept old Cleaning App offer');
+assert(!termsEN.includes('Cleaning App')&&!termsES.includes('Cleaning App'),'Current public terms must not promote Cleaning App');
+console.log('PASS: retired Cleaning App offer absent; EN/ES redirects and Booking purchase paths preserved.');
