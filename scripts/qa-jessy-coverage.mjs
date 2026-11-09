@@ -28,12 +28,12 @@ for (const page of publicPages) {
   const html = text("public/" + page);
   assert.match(html, /src="\/assets\/jessy-site\.js\?v=[^"]+"/, page + " missing Jessie");
 }
-// The Cleaning App sample workspace is embedded multiple times. No Jessie in its iframes.
-const appSample = text("public/cleaning-app-demo/index.html");
-assert.doesNotMatch(appSample, /<script\s+src="\/assets\/jessy-site\.js/);
-const showcase = text("src/components/cleaning-app-showcase.tsx");
-assert.match(showcase, /cleaning-app-demo\/\?lang=\$\{lang\}&embedded=1/);
-
+// The public Cleaning App sample is intentionally retired and replaced by a safe redirect.
+const retiredApp = text("public/cleaning-app-demo/index.html");
+assert.match(retiredApp,/The Launch Era — Website Services/);
+assert.match(retiredApp,/location\.replace\(lang===/);
+assert.match(retiredApp,/\/website-for-your-business\//);
+assert.doesNotMatch(retiredApp,/id="app"|id="nav"|<iframe/,'Retired app must not show a live workspace');
 const front = text("public/assets/jessy-site.js");
 new Function(front); // Syntax-check without running a browser assistant.
 
