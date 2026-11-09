@@ -16,7 +16,7 @@ try{
    const response=await page.goto(base+route,{waitUntil:'domcontentloaded',timeout:35000});
    assert.equal(response?.status(),200,'Homepage must resolve '+lang);
    await page.waitForFunction(()=>document.documentElement.classList.contains('tle-offer-motion'));
-   assert.equal(await page.locator('.hero-gallery-card').count(),13,'Keep thirteen unique approved demo hero cards');
+   assert.equal(await page.locator('.hero-gallery-card').count(),14,'Keep fourteen unique approved demo hero cards');
    // The live Jaramillo fashion film and the approved SOVA photo must never
    // be stretched or cropped in the portfolio card.
    const framing=await page.evaluate(()=>{
@@ -210,9 +210,10 @@ try{
     narrowest:Math.min(...visible.map(e=>e.getBoundingClientRect().width)),
     labels:visible.map(e=>e.dataset.demo)};
   });
-  assert.equal(portfolio.count,13,'All thirteen projects appear with no Studio hides '+JSON.stringify(portfolio));
-  assert.equal(new Set(portfolio.labels).size,13,'Demo cards remain unique');
+  assert.equal(portfolio.count,14,'All fourteen projects appear with no Studio hides '+JSON.stringify(portfolio));
+  assert.equal(new Set(portfolio.labels).size,14,'Demo cards remain unique');
   assert.equal(portfolio.labels[portfolio.labels.indexOf('soluna-yoga')+1],'sneekiefs','Sneekiefs remains directly after Yoga');
+  assert.ok(portfolio.labels.includes('nail-room'),'Nail Room must remain visible in the approved hero');
   assert.ok(portfolio.overflow>400&&portfolio.narrowest>=200,'Extended desktop gallery must be scrollable with readable real photos '+JSON.stringify(portfolio));
   for(const slug of ['soluna-yoga','experience-cleaning','yummm','wok-social']){
    assert.ok(portfolio.labels.includes(slug),'Required project missing: '+slug);
