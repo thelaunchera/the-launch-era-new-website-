@@ -31,7 +31,7 @@ for(const [language,html] of [['en',en],['es',es]]){
   'ivory-and-bloom':'/demos/ivory-and-bloom/images/hero-cake-artist.webp',
   'casa-brownie':'/demos/casa-brownie/assets/hero-brownies.webp',
   'crumb':'/demos/crumb/assets/CRUMB_Storefront_Approved_20261030.webp',
-  'la-vie-in-pink':'/demos/la-vie-in-pink/resources/36a1bfe5-3660-4b7e-964d-8031fe824941.png',
+  'la-vie-in-pink':'/demos/la-vie-in-pink/photos/lavie_pink_hero_editorial.png',
   'jaramillo-boutique':'https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/assets/hero-editorial-user.jpg',
   'havana-19':'/demos/havana-19/photos/HAVANA19_Hero_Fachada_Borgona.jpeg',
   'sova':'/demos/sova/resources/01-hero.png',
@@ -74,4 +74,4 @@ for(const [language,html] of [['en',en],['es',es]]){
 const photoStyles=css.split('/* 2026-11-05 image placement: keep original hero untouched. */')[1]?.split('/* Short inline billing disclosure')[0];
 assert(photoStyles&&!photoStyles.includes('.hero'), 'Photo styling inadvertently edits hero');
 assert(photoStyles.includes('object-fit:contain'), 'Uncropped interior photo styling missing');
-console.log('PASS: eleven distinct original demo photos/video deep-link to their live gallery previews in both languages; original package photos, prices and delivery remain unchanged.');
+console.log('PASS: eleven distinct approved/current demo hero images deep-link in both languages; package photographs, prices, and delivery unchanged.');
