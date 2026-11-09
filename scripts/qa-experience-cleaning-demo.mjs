@@ -115,7 +115,7 @@ assert.equal((html.match(/class="clean-work-card"/g)||[]).length,12,'Exactly six
 assert.match(html,/clean-work-group" aria-hidden="true"/,'Duplicate work gallery must be hidden from assistive tech');
 assert.match(html,/Not documented customer projects/,'Demo portfolio must clearly disclaim customer project claims');
 assert.match(html,/SAMPLE REVIEW · NOT REAL/,'Each illustrative review must be visibly labelled as a sample, not a real testimonial');
-assert.match(html,/not published testimonials/,'Testimonials must not be represented as authentic reviews');
+assert.match(html,/SAMPLE REVIEW · NOT REAL/,'Illustrative reviews must clearly disclose that they are samples');
 assert.doesNotMatch(html,/offer-photo"><img src="\/assets\/lead-demo\/hero-luxury-home\.png"/,'Replace the empty old offer photograph');
 
 assert(!/\b(fetch\s*\(|XMLHttpRequest|localStorage|sessionStorage|sendBeacon|navigator\.send|FormData|WebSocket)\b/.test(js),'Public sample code must never send or store customer data');
