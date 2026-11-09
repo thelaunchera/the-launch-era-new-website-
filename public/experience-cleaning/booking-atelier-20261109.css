@@ -258,3 +258,8 @@ body[data-tle-experience="cleaning"] .time-options label:active{
     animation:none!important;transition:none!important;
   }
 }
+
+/* Only one visible price per service: the owner's shared sample catalog is
+   already represented by the new price pill and live receipt. */
+body[data-tle-experience="cleaning"] .service-card .tle-demo-customer-price{display:none!important}
+body[data-tle-experience="cleaning"] .service-card img{background:#DDEDEB;}
