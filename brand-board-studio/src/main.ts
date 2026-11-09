@@ -25,14 +25,74 @@ import {
 } from './section-gallery';
 
 const KEY='tle-brand-board-studio-v1';
+// Values replaced only when they match an earlier published default; customized values remain intact.
+const PRIOR_OFFICIAL_DEFAULTS = {
+  "casa-brownie": {
+    "site": "https://casa-brownie-demo-miami-ltg7rb.v2.appdeploy.ai/",
+    "symbol": "\u2733"
+  },
+  "aftr": {
+    "heroPhoto": "https://thelaunchera.com/demos/aftr/assets/hero-real-20261031.webp",
+    "site": "https://aftr-las-vegas-nightclub-fwv6yu.v2.appdeploy.ai/"
+  },
+  "havana-19": {
+    "detailPhoto": "https://thelaunchera.com/demos/umbral/photos/UMBRAL_03_Ropa_Vieja.jpeg"
+  },
+  "marea-wigs-miami": {
+    "heroPhoto": "https://thelaunchera.com/demos/marea-wigs-miami/resources/01-hero.png"
+  },
+  "sova": {
+    "heroPhoto": "https://thelaunchera.com/demos/sova/resources/01-hero.png",
+    "colors": [
+      "#171F35",
+      "#3772DD",
+      "#C1D6F0",
+      "#F6F8FA",
+      "#91A8DA",
+      "#ECECF4"
+    ],
+    "symbol": "\u2733"
+  },
+  "golden-grid": {
+    "detailPhoto": "https://thelaunchera.com/demos/golden-grid/resources/golden-2.png",
+    "symbol": "\u2733"
+  },
+  "yummm": {
+    "heroPhoto": "https://thelaunchera.github.io/demo-booking-landing-/yummm/images/10.webp",
+    "symbol": "\u2733"
+  },
+  "la-vie-in-pink": {
+    "category": "Bakery · Demo",
+    "description": "Croissants gourmet, desayunos europeos y boutique pâtisserie bilingüe.",
+    "tagline": "A little Europe, every day.",
+    "tone": "Europea · artesanal · romántica",
+    "colors": [
+      "#3D2E26",
+      "#7C2228",
+      "#E8C6BB",
+      "#FAF8F3",
+      "#667650",
+      "#D8C6B3"
+    ],
+    "heroPhoto": "https://thelaunchera.com/demos/la-vie-in-pink/resources/36a1bfe5-3660-4b7e-964d-8031fe824941.png",
+    "detailPhoto": "https://thelaunchera.com/demos/la-vie-in-pink/resources/8572492e-4032-4e82-a5d3-7e087ec38613.png"
+  },
+  "ivory-bloom": {
+    "detailPhoto": "https://raw.githubusercontent.com/thelaunchera/the-launch-era-new-website-/main/public/demos/ivory-and-bloom/images/hero-detail.webp"
+  },
+  "experience-cleaning": {
+    "symbol": "\u2733"
+  }
+};
+
 const DEMOS=[
   {
     id:'casa-brownie',name:'Casa Brownie',category:'Bakery · Demo',description:'Brownies horneados para hacer especial cualquier momento.',tagline:'Small moments, made sweeter.',
-    monogram:'CB',symbol:'✳',titleFont:'Bodoni Moda',bodyFont:'DM Sans',tone:'Cálida · artesanal · deliciosa',style:'bakery',
+    monogram:'CB',symbol:'◈',titleFont:'Bodoni Moda',bodyFont:'DM Sans',tone:'Cálida · artesanal · deliciosa',style:'bakery',
     colors:['#422419','#BC7658','#E5D3A9','#FCF3E9','#A5AB91','#DEAF95'],
     heroPhoto:'https://thelaunchera.com/demos/casa-brownie/assets/hero-brownies.webp',
     detailPhoto:'https://thelaunchera.com/demos/casa-brownie/assets/regalo-lazo-rosa.webp',
-    site:'https://casa-brownie-demo-miami-ltg7rb.v2.appdeploy.ai/',logoImage:'',patternImage:'',imageY:50,imageX:50,imageScale:1
+    site:'https://thelaunchera.com/demos/casa-brownie/',logoImage:'',patternImage:'',imageY:50,imageX:50,imageScale:1
   },
   {
     id:'crumb',name:'CRUMB Cookies',category:'Cookie Shop · Demo',description:'Cookies oversized, horneadas frescas y llenas de personalidad.',tagline:'The good stuff, fresh from the oven.',
@@ -46,9 +106,9 @@ const DEMOS=[
     id:'aftr',name:'AFTR Las Vegas',category:'Nightclub · Demo',description:'Nightlife de alta energía, música y experiencias después del anochecer.',tagline:'After dark. Beyond ordinary.',
     monogram:'A',symbol:'✦',titleFont:'Bebas Neue',bodyFont:'Manrope',tone:'Nocturna · eléctrica · sofisticada',style:'nightclub',
     colors:['#0B0911','#9A6AFF','#FF3F9D','#F3F0F7','#D9FF52','#C6C9D4'],
-    heroPhoto:'https://thelaunchera.com/demos/aftr/assets/hero-real-20261031.webp',
+    heroPhoto:'https://thelaunchera.com/demos/aftr/media/hero-motion-poster-hq.webp',
     detailPhoto:'https://thelaunchera.com/demos/aftr/assets/dj-real-20261031.webp',
-    site:'https://aftr-las-vegas-nightclub-fwv6yu.v2.appdeploy.ai/',logoImage:'',patternImage:'',imageY:50,imageX:50,imageScale:1
+    site:'https://thelaunchera.com/demos/aftr/',logoImage:'',patternImage:'',imageY:50,imageX:50,imageScale:1
   },
   {
     id: "lavender-edit",
@@ -100,7 +160,7 @@ const DEMOS=[
       "#DAC0AC"
     ],
     heroPhoto: "https://thelaunchera.com/demos/havana-19/photos/HAVANA19_Hero_Fachada_Borgona.jpeg",
-    detailPhoto: "https://thelaunchera.com/demos/umbral/photos/UMBRAL_03_Ropa_Vieja.jpeg",
+    detailPhoto: "https://thelaunchera.com/demos/umbral/photos/UMBRAL_10_Interior.jpeg",
     site: "https://thelaunchera.com/demos/havana-19/",
     logoImage: "",
     patternImage: "",
@@ -128,7 +188,7 @@ const DEMOS=[
       "#E8A5A0",
       "#D4BAA1"
     ],
-    heroPhoto: "https://thelaunchera.com/demos/marea-wigs-miami/resources/01-hero.png",
+    heroPhoto: "https://thelaunchera.com/demos/marea-wigs-miami/media/hero-motion-poster-hq.webp",
     detailPhoto: "https://thelaunchera.com/demos/marea-wigs-miami/resources/02-long.png",
     site: "https://thelaunchera.com/demos/marea-wigs-miami/",
     logoImage: "",
@@ -144,20 +204,13 @@ const DEMOS=[
     description: "Marca conceptual de audífonos con campaña editorial y colección de colores.",
     tagline: "Tune into your world.",
     monogram: "S",
-    symbol: "✳",
+    symbol: "◉",
     titleFont: "DM Serif Display",
     bodyFont: "DM Sans",
     tone: "Moderna · acústica · audaz",
     style: "audio",
-    colors: [
-      "#171F35",
-      "#3772DD",
-      "#C1D6F0",
-      "#F6F8FA",
-      "#91A8DA",
-      "#ECECF4"
-    ],
-    heroPhoto: "https://thelaunchera.com/demos/sova/resources/01-hero.png",
+    colors: ['#171F35','#1051C5','#C1D6F0','#F6F8FA','#91A8DA','#ECECF4'],
+    heroPhoto: "https://thelaunchera.com/demos/sova/media/sova-hero-seamless-cobalt-20261108.png",
     detailPhoto: "https://thelaunchera.com/demos/sova/resources/02-product.png",
     site: "https://thelaunchera.com/demos/sova/",
     logoImage: "",
@@ -173,7 +226,7 @@ const DEMOS=[
     description: "Waffles, desayunos y empaques en un universo visual colorido.",
     tagline: "Morning, but golden.",
     monogram: "GG",
-    symbol: "✳",
+    symbol: "▦",
     titleFont: "Bebas Neue",
     bodyFont: "DM Sans",
     tone: "Divertida · colorida · deliciosa",
@@ -187,7 +240,7 @@ const DEMOS=[
       "#F6E7B1"
     ],
     heroPhoto: "https://thelaunchera.com/demos/golden-grid/resources/golden-1.png",
-    detailPhoto: "https://thelaunchera.com/demos/golden-grid/resources/golden-2.png",
+    detailPhoto: "https://thelaunchera.com/demos/golden-grid/media/golden-grid-human-01.webp",
     site: "https://thelaunchera.com/demos/golden-grid/",
     logoImage: "",
     patternImage: "",
@@ -231,7 +284,7 @@ const DEMOS=[
     description: "Cafetería creativa, bakery y dulces en una experiencia visual interactiva.",
     tagline: "A little joy in every bite.",
     monogram: "Y",
-    symbol: "✳",
+    symbol: "◇",
     titleFont: "DM Serif Display",
     bodyFont: "DM Sans",
     tone: "Joven · dulce · cálida",
@@ -244,7 +297,7 @@ const DEMOS=[
       "#C5A380",
       "#E5E0C9"
     ],
-    heroPhoto: "https://thelaunchera.github.io/demo-booking-landing-/yummm/images/10.webp",
+    heroPhoto: "https://thelaunchera.github.io/demo-booking-landing-/yummm/media/hero-motion-poster-hq.webp",
     detailPhoto: "https://thelaunchera.github.io/demo-booking-landing-/yummm/images/02.webp",
     site: "https://thelaunchera.github.io/demo-booking-landing-/yummm/",
     logoImage: "",
@@ -256,25 +309,18 @@ const DEMOS=[
   {
     id: "la-vie-in-pink",
     name: "La Vie in Pink",
-    category: "Bakery · Demo",
-    description: "Croissants gourmet, desayunos europeos y boutique pâtisserie bilingüe.",
-    tagline: "A little Europe, every day.",
+    category: "Boutique · Demo",
+    description: "Boutique café, repostería y moda en una experiencia editorial rosa.",
+    tagline: "Coffee, couture & little pink moments.",
     monogram: "LV",
     symbol: "✦",
     titleFont: "Cormorant Garamond",
     bodyFont: "DM Sans",
-    tone: "Europea · artesanal · romántica",
+    tone: "Romántica · editorial · café y moda",
     style: "bakery",
-    colors: [
-      "#3D2E26",
-      "#7C2228",
-      "#E8C6BB",
-      "#FAF8F3",
-      "#667650",
-      "#D8C6B3"
-    ],
-    heroPhoto: "https://thelaunchera.com/demos/la-vie-in-pink/resources/36a1bfe5-3660-4b7e-964d-8031fe824941.png",
-    detailPhoto: "https://thelaunchera.com/demos/la-vie-in-pink/resources/8572492e-4032-4e82-a5d3-7e087ec38613.png",
+    colors: ['#284B70','#F28DBA','#FADCE9','#FFFAFC','#426C9A','#D990A3'],
+    heroPhoto: "https://thelaunchera.com/demos/la-vie-in-pink/photos/lavie_pink_hero_editorial.png",
+    detailPhoto: "https://thelaunchera.com/demos/la-vie-in-pink/photos/lavie_people_cafe_portrait.png",
     site: "https://thelaunchera.com/demos/la-vie-in-pink/",
     logoImage: "",
     patternImage: "",
@@ -332,7 +378,7 @@ const DEMOS=[
       "#D2BDA9"
     ],
     heroPhoto: "https://raw.githubusercontent.com/thelaunchera/the-launch-era-new-website-/main/public/demos/ivory-and-bloom/images/hero-cake-artist.webp",
-    detailPhoto: "https://raw.githubusercontent.com/thelaunchera/the-launch-era-new-website-/main/public/demos/ivory-and-bloom/images/hero-detail.webp",
+    detailPhoto: "https://thelaunchera.com/demos/ivory-and-bloom/images/atelier-interior.webp",
     site: "https://thelaunchera.com/demos/ivory-and-bloom/",
     logoImage: "",
     patternImage: "",
@@ -376,7 +422,7 @@ const DEMOS=[
     description: "Demostración de reserva residencial y cotización comercial, sin reservas reales.",
     tagline: "A simpler way to book.",
     monogram: "EC",
-    symbol: "✳",
+    symbol: "◇",
     titleFont: "DM Serif Display",
     bodyFont: "DM Sans",
     tone: "Clara · confiable · profesional",
@@ -459,6 +505,19 @@ function hydrate(){
       if(b.detailPhoto==='https://thelaunchera.com/demos/crumb/assets/brand-packaging.webp')merged.detailPhoto=d.detailPhoto;
       if(b.site==='https://crumb-cookies-animated-demo-w1fcop.v2.appdeploy.ai/')merged.site=d.site;
     }
+
+    // Keep all sixteen published brand defaults current without touching local custom edits.
+    const previousDefaults = PRIOR_OFFICIAL_DEFAULTS[b.id] || {};
+    for (const [field, former] of Object.entries(previousDefaults)) {
+      if (field === 'colors') {
+        if (Array.isArray(b.colors) && b.colors.length === former.length &&
+            b.colors.every((value, index) => String(value).toLowerCase() === String(former[index]).toLowerCase())) {
+          merged.colors = clone(d.colors);
+        }
+      } else if (b[field] === former) {
+        merged[field] = d[field];
+      }
+    }
     // An intentionally deleted photo must stay empty after reload; only migrate absent fields.
     if(!Object.prototype.hasOwnProperty.call(b,'heroPhoto'))merged.heroPhoto=d.heroPhoto;
     if(!Object.prototype.hasOwnProperty.call(b,'detailPhoto'))merged.detailPhoto=b.referenceImage||d.detailPhoto;
@@ -500,7 +559,7 @@ function save(){
 }
 function asset(b,key){return b[key]||'';}
 function imageMarkup(url,cls='',alt='Fotografía'){
-  if(!url)return '<div class="'+cls+' no-photo">✳</div>';
+  if(!url)return '<div class="'+cls+' no-photo">Fotografía</div>';
   return '<img src="'+html(url)+'" alt="'+html(alt)+'" loading="eager" draggable="false" onerror="this.style.opacity=0">';
 }
 function wordmark(b,variant=''){
@@ -527,7 +586,7 @@ function board(b){
   const picX=Math.max(0,Math.min(100,Number(b.imageX)||50)),picY=Math.max(0,Math.min(100,Number(b.imageY)||50)),scale=Math.max(1,Math.min(2,Number(b.imageScale)||1));
   const photostyle='object-position:'+picX+'% '+picY+'%;transform:scale('+scale+');';
   const showPhoto=b.heroPhoto?imageMarkup(b.heroPhoto,'hero-shot',b.name):'<div class="no-photo" style="height:100%">Arrastra una fotografía</div>';
-  const graphic=b.style==='nightclub'?'✧':b.style==='cookies'?'✺':b.symbol||'✳';
+  const graphic=b.style==='nightclub'?'✧':b.style==='cookies'?'✺':b.symbol||'◈';
   const paintPattern=b.patternImage?'<img class="pattern-image" src="'+html(b.patternImage)+'" alt="Patrón de la marca">':'';
   const packageMark=b.style==='nightclub'
     ?'<div class="pkg-ticket" style="color:'+c[3]+';background:'+c[0]+';border-color:'+c[2]+'">'+html(b.monogram)+' / VIP</div>'
