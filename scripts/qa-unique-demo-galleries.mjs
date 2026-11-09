@@ -9,7 +9,7 @@ const cases=[
   {name:'havana-19',selector:'.gallery-grid.gallery-unique',mode:'duet',min:2},
   {name:'ivory-and-bloom',selector:'#cake-gallery .cake-grid',mode:'filmstrip',min:7},
   {name:'lavender-edit',selector:'#gallery .look-grid',mode:'stack',min:3},
-  {name:'la-vie-in-pink',selector:'.lv-photo-track',mode:'editorial-loop',min:4},
+  {name:'la-vie-in-pink',selector:'.lv-photo-viewport',mode:'editorial-loop',min:4},
   {name:'marea-wigs-miami',selector:'#editorial-track',mode:'native-rail',min:3},
   {name:'crumb',selector:'#crumb-gallery-track',mode:'original-dots',min:3},
 ];
@@ -29,7 +29,7 @@ try{
    const response=await page.goto(BASE+'/demos/'+test.name+'/',{waitUntil:'load',timeout:35000});
    assert.equal(response?.status(),200, test.name+' missing route');
    await page.waitForFunction(([selector,mode])=>mode==='editorial-loop'
-     ? !!document.querySelector(selector+' > .lv-photo-set .lv-photo')
+     ? !!document.querySelector(selector+' .lv-photo-set .lv-photo')
      : !!document.querySelector(selector+'.tle-motion-'+mode),
      [test.selector,test.mode],{timeout:25000});
    const gallery=page.locator(test.selector);
