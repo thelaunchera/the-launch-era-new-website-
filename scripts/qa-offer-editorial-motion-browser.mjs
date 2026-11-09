@@ -137,13 +137,13 @@ try{
  const desktop=await browser.newContext({viewport:{width:1440,height:900},reducedMotion:'no-preference'});
  const dp=await desktop.newPage();
  try{
-  await dp.goto(base+'/website-for-your-business/',{waitUntil:'domcontentloaded'});
-  await dp.waitForFunction(()=>document.documentElement.classList.contains('tle-offer-motion'));
+  // Install read-only selection fixture before navigation to avoid racing the live owner selection.
   await dp.route('**/tle_website_demo_visibility?**',r=>r.fulfill({
    status:200,contentType:'application/json',body:'[]'
   }));
-  await dp.evaluate(()=>window.TLEWebsiteDemoVisibility?.reload());
-  await dp.waitForFunction(()=>document.querySelector('.hero-gallery-rail')?.dataset.galleryLayout==='extended',null,{timeout:12000});
+  await dp.goto(base+'/website-for-your-business/',{waitUntil:'domcontentloaded'});
+  await dp.waitForFunction(()=>document.documentElement.classList.contains('tle-offer-motion'));
+  await dp.waitForFunction(()=>document.documentElement.dataset.tleDemoStatus==='ready'&&document.querySelector('.hero-gallery-rail')?.dataset.galleryLayout==='extended',null,{timeout:12000});
   const portfolio=await dp.evaluate(()=>{
    const stage=document.querySelector('.hero-gallery-stage');
    const visible=[...document.querySelectorAll('.hero-gallery-card')].filter(e=>getComputedStyle(e).display!=='none');

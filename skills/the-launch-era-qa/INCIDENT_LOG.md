@@ -1,3 +1,10 @@
+## 2026-11-08 — Demo covers were still photos while brand heroes had motion
+
+- **Owner screenshot:** In private Studio → Clase · demos, Casa Brownie · Con video displayed only a still photo; other finished demo cards and the public demo portfolio similarly showed static covers despite existing approved hero media.
+- **Cause:** `estudio-control/src/FinishedDemos.tsx` rendered a plain `img` for all cards; `public/demos/index.html` used static `.demo-art img` elements; the official EN/ES offer only loaded YUMMM motion.
+- **Scoped proposal:** use the already-stored matching MP4/first-frame WebP per brand, with IntersectionObserver-controlled playback, pause when out of sight, no audio, no touch interception, no video requests under reduced-motion/data-saver, and image fallback on errors. Keep CRUMB and SOVA static; honor Golden Grid's iPad static-only rule and the Casa Brownie educational photo/video distinction.
+- **Verification still pending:** GitHub CI (Studio build + tests; public route and gallery QA), GitHub Pages publication, actual browser first-frame behavior, hidden/visible Studio selections and owner iPad/Safari signoff. No duplicate media or changes to client/checkout/booking logic.
+
 ## 2026-11-08 — Four missing brand heroes on the Website offer
 
 - **Owner request:** add the live concepts SOLUNA Yoga, Experience Cleaning, YUMMM and WOK SOCIAL to the existing offer's hero and display each brand's real demo photo or video (not generic cards or substitute media). Preserve curated Studio visibility.

@@ -1,3 +1,11 @@
+## 2026-11-08 — Motion previews on existing demo covers (no route changes)
+
+- Existing routes stay unchanged: `/demos/`, `/website-for-your-business/`, `/es/website-for-your-business/` and all brand demos. The Studio cards remain under `podcast.thelaunchera.com/estudio/`, sourced in `thelaunchera/todavia-estoy-a-tiempo/estudio-control`.
+- The public demo library uses matching existing brand MP4 + first-frame WebP posters for 11 verified brand media pairs, with lazy in-viewport muted inline looping playback and an image fallback. The EN/ES offer portfolio reuses 5 brand MP4/poster pairs through its existing shared media loader; the already configured YUMMM video is unchanged.
+- CRUMB remains static; SOVA remains on its approved photographic hero; La Vie in Pink and Jaramillo retain still photos rather than adopting unapproved motion. Golden Grid's portfolio gallery and Studio cards remain static at 521–1399 CSS pixels (tablet), retaining the approved moving cover elsewhere.
+- Video never receives pointer events; the existing links, iframe close/return flow, Studio visibility selection, pricing, checkout, forms and tenants are untouched. Reduced-motion and save-data suppress downloads; absent media or autoplay rejection retains the original photo.
+- Required release gate: Studio build + finished demo kit tests, public route-integrity and gallery QA, browser checks at 390/820/1024/1440, muted poster/frame parity, hidden demos, Pages deployment and physical iPad signoff. PR stage is not production verification.
+
 ## 2026-11-08 — Website offer gains four REAL hero demo previews (no route changes)
 
 - The existing EN `/website-for-your-business/` and ES `/es/website-for-your-business/` offer URLs keep both prices, checkout links, language switch, Studio-controlled visibility and the existing seven demo brands. Add **four** additional `data-demo` cards to the offer's hero (11 total): `soluna-yoga`, `experience-cleaning`, `yummm`, `wok-social`. Each opens the already supported `/demos/?demo=<slug>&returnTo=...&lang=es|en` preview, with the existing in-site close/return flow.
