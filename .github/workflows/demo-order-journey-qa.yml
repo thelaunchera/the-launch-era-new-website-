@@ -27,9 +27,13 @@ jobs:
         run: node --check public/assets/tle-demo-order-journey-20261108.js
       - name: Verify every supported main-site ordering demo uses the same journey
         run: |
-          for slug in casa-brownie crumb golden-grid havana-19 la-vie-in-pink; do
+          for slug in casa-brownie crumb golden-grid havana-19; do
             grep -q 'tle-demo-order-journey-20261108.js' "public/demos/$slug/index.html"
           done
+          # La Vie in Pink uses its own six-product order drawer; do not inject a second shared cart.
+          grep -q 'cafe-boutique-20261108.js' public/demos/la-vie-in-pink/index.html
+          grep -q 'data-open-cart' public/demos/la-vie-in-pink/index.html
+          ! grep -q 'tle-demo-order-journey-20261108.js' public/demos/la-vie-in-pink/index.html
       - uses: oven-sh/setup-bun@v2
       - name: Install test dependencies from committed Bun lockfile
         run: bun install --frozen-lockfile

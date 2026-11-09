@@ -45,7 +45,7 @@ try{
        labelBackground:caption?getComputedStyle(caption).backgroundColor:''
      };
    });
-   const uncropped=['jaramillo-boutique','sova','la-vie-in-pink'].includes(presentation.brand);
+   const uncropped=['jaramillo-boutique','sova','la-vie-in-pink','experience-cleaning'].includes(presentation.brand);
    assert.equal(presentation.fit,uncropped?'contain':'cover','Gallery card '+(i+1)+' must retain approved noncropping where required: '+language);
    assert(presentation.name?.length>1,'Gallery card '+(i+1)+' has no visible project name: '+language);
    assert(presentation.labelBackground !== 'transparent' && presentation.labelBackground !== 'rgba(0, 0, 0, 0)' && presentation.labelBackground !== '',
