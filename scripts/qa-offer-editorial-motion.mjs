@@ -31,12 +31,12 @@ for(const [lang,path] of pages){
  assert.match(html,/tle-offer-editorial-motion-20261108\.js\?v=3/,'JS installed '+lang);
  assert.match(html,/class="hero hero-gallery" id="inicio"/,'Original hero preserved');
  assert.equal((html.match(/class="hero-gallery-card"/g)||[]).length,11,'Eleven original demo photos must survive');
- assert.equal((html.match(/class="plan" id="website-(?:basic|ai-crm)"/g)||[]).length,2,'Only the two approved plans');
+ assert.equal((html.match(/class="plan" id="website-(?:basic|plus)"/g)||[]).length,2,'Only the two approved plans');
  assert.equal((html.match(/class="step"/g)||[]).length,4,'Four genuine service steps');
  assert.match(html,/id="owner-experience"/,'Interactive showcase preserved');
- assert.ok(html.includes('$15')&&html.includes('$25')&&html.includes('$8'),'Existing prices untouched');
+ assert.ok(html.includes('$15')&&html.includes('$25')&&html.includes('$10'),'Existing prices untouched');
  assert.match(html,/href="\/website-checkout\/\?offer=website-basic&lang=/);
- assert.match(html,/href="\/website-checkout\/\?offer=website-ai-crm&lang=/);
+ assert.match(html,/href="\/website-checkout\/\?offer=website-plus&lang=/);
  assert.equal((html.match(/<a[^>]+class="owner-experience-cta"/g)||[]).length,1,'Exactly one owner CTA');
  assert.ok(!html.includes('testimonials fabricated'),'No invented content');
 }
@@ -49,26 +49,14 @@ assert.match(es,/lang=es"/);
    We apply the messaging approach without presenting Cata as a real endorsement. */
 const messageContract={
  en:{
-  hero:'More than a website.',
-  payoff:'Less to juggle.',
-  pain:'CUSTOMER MESSAGES EVERYWHERE?',
-  system:'private Command Center',
-  cta:'See My Options',
-  owner:'A clearer view for you.',
-  demo:'Try an Interactive Demo',
-  choice:'Start with what you need.',
-  launch:'We build your system.'
+  hero:'A better customer experience.',payoff:'A simpler business day.',
+  system:'private Command Center',cta:'See My Options',owner:'Easier for you.',
+  demo:'Try an Interactive Demo',choice:'New or refreshed.',launch:'We build your system.'
  },
  es:{
-  hero:'Más que un website.',
-  payoff:'Más control para ti.',
-  pain:'¿TUS SOLICITUDES SE PIERDEN ENTRE MENSAJES?',
-  system:'Command Center privado',
-  cta:'Ver mis opciones',
-  owner:'Más claridad para ti.',
-  demo:'Probar un demo interactivo',
-  choice:'Empieza con lo que necesitas.',
-  launch:'Nosotros creamos el sistema.'
+  hero:'Mejores experiencias para tus clientes.',payoff:'Menos tareas para ti.',
+  system:'Command Center privado',cta:'Ver mis opciones',owner:'Fácil para ti.',
+  demo:'Probar un demo interactivo',choice:'¿Nuevo o renovado?',launch:'Nosotros creamos el sistema.'
  }
 };
 for(const [lang,path] of pages){
@@ -84,9 +72,9 @@ for(const [lang,path] of pages){
  assert.ok(hero?.includes(p.hero)&&hero?.includes(p.payoff),'Actual hero must carry new value proposition');
  const owner=html.match(/<section class="owner-experience"[\s\S]*?<\/section>/)?.[0]||'';
  assert.ok(owner.includes(p.owner)&&owner.includes(p.demo),'Evidence must precede choice');
- assert.equal((html.match(/class="plan" id="website-(?:basic|ai-crm)"/g)||[]).length,2,'No third offer '+lang);
+ assert.equal((html.match(/class="plan" id="website-(?:basic|plus)"/g)||[]).length,2,'No third offer '+lang);
 }
 const storyCSS=read('public/assets/tle-offer-editorial-motion-20261108.css');
 assert.match(storyCSS,/max-width:min\(13ch,100%\)/,'Desktop headline width must be responsive');
 
-console.log('PASS: EN/ES editorial motion, reduced motion, existing offers and links, original eleven demos, no payment or network changes.');
+console.log('PASS: EN/ES editorial motion, reduced motion, current $15/$25 one-time offers with optional $10/month agent and links, original eleven demos, no payment or network changes.');
