@@ -1,3 +1,9 @@
+## 2026-11-09 — Owner confirms website delivery already lives in private Studio Operations
+
+- **Verified source:** `thelaunchera/todavia-estoy-a-tiempo` → `estudio-control/src/OperationsCenter.tsx` already contains `Cobros y entregas`, a direct `/website-delivery-admin/` link, and `Abrir vista de compradores`. `BuyerCommandPreview.tsx` already provides four private read-only buyer industry views. This Studio is the canonical owner workflow.
+- **Correction:** removed only the redundant shortcut `#ownerWebsiteDeliveryShortcut` added to the main `/command-center/` and restored the original `Client Orders` focus label. Original Studio components, buyer preview, real buyer Command Center, customer records and routes were not touched. Keep the separate website delivery screen's reused `tle-crm-auth` session and return navigation; that is an access repair, not a new workflow.
+- **Guard:** adjusted existing CI source check to reject new redundant website delivery shortcut in the Command Center while retaining shared-session validation. Publication, Studio QA and live iPhone sign-in require separate checks.
+
 ## 2026-11-09 — Website delivery operations were disconnected from the main owner Command Center
 
 - **Owner request:** repair the existing Command Center without duplicating it; use only no-additional-cost functionality.
