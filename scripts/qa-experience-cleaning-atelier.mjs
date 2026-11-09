@@ -17,9 +17,10 @@ assert.match(css,/#087E9C|var\(--clean-alpine\)/);
 assert.match(css,/prefers-reduced-motion/);
 assert.match(html,/booking-atelier-20261109\.css/);
 assert.match(html,/booking-atelier-20261109\.js/);
-for(const id of ['booking-inclusions-list','booking-inline-value','booking-review','booking-review-total','booking-review-edit-details','booking-review-edit-service','booking-time-help']){
+for(const id of ['booking-inclusions-list','booking-inline-value','booking-review-total','booking-review-edit-details','booking-review-edit-service','booking-time-help']){
  assert.match(html,new RegExp('id="'+id+'"'),'Missing booking journey component '+id);
 }
+assert.match(html,/class="booking-review"/);
 assert.doesNotMatch(atelier,/fetch\s*\(|XMLHttpRequest|localStorage|sessionStorage|sendBeacon|WebSocket/,'New booking UX must remain local-only');
 assert(!html.includes('images.pexels.com'),'Service cards must use repo photos only');
 for(const lang of ['en','es']){
