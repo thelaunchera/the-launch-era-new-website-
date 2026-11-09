@@ -110,7 +110,7 @@ document.addEventListener("click",ev=>{
  const add=target.closest("[data-add]");if(add){addToBag(add.dataset.add,chosen.get(add.dataset.add));return;}
  const quick=target.closest("[data-quick]");if(quick){openDialog("quick");renderQuick(quick.dataset.quick);return;}
  const qs=target.closest("[data-quick-size]");if(qs){chosen.set(state.quickId,Number(qs.dataset.quickSize));syncSizes(state.quickId);return;}
- const qa=target.closest("[data-quick-add]");if(qa){if(addToBag(qa.dataset.quickAdd,chosen.get(qa.dataset.quickAdd))){closeDialog(false);openDialog("bag");}return;}
+ const qa=target.closest("[data-quick-add]");if(qa){if(addToBag(qa.dataset.quickAdd,chosen.get(qa.dataset.quickAdd))){closeDialog(false);openDialog("bag");state.returnFocus=$("#bagOpen");}return;}
  const step=target.closest("[data-step]");if(step){const line=cart[Number(step.dataset.index)];if(line){line.qty=Math.max(0,Math.min(20,line.qty+Number(step.dataset.step)));if(line.qty===0)cart.splice(Number(step.dataset.index),1);updateBagCount();renderBag();}return;}
  const rem=target.closest("[data-remove]");if(rem){cart.splice(Number(rem.dataset.remove),1);updateBagCount();renderBag();return;}
  if(target.closest("#backToBag")){state.preview=false;renderBag();return;}
