@@ -55,7 +55,7 @@ jobs:
           test -s .output/public/booking-bundle/index.html
   live-browser:
     if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     needs: static-build
     steps:
