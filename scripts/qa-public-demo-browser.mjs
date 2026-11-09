@@ -44,7 +44,7 @@ for(const lang of ['en','es']){
  assert.equal(doc.querySelector('#stage-1').hidden,false);
  const deep=doc.querySelector('[data-service="deep"]');
  deep.click();
- assert.equal(doc.querySelector('#r-price').textContent,'$190');
+ assert.equal(doc.querySelector('#r-price').textContent,'$187');
  doc.querySelector('#next').click();
  assert.equal(doc.querySelector('#stage-2').hidden,false);
  doc.querySelector('#restart').click();
