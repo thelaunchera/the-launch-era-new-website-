@@ -110,7 +110,7 @@
     'crumb':['.hero picture img',11,8,20,.22],
     'havana-19':['.hero > img',11,8,21,.18],
     'ivory-and-bloom':['.hero-photo img',13,9,17,.25],
-    'la-vie-in-pink':['.hero-image-wrap img.hero-image',12,9,21,.24],
+    'la-vie-in-pink':['.hero-visual > img',12,9,21,.24],
     'marea-wigs-miami':['.hero-visual > img',11,8,19,.24],
     'aftr':['.hero-image',19,12,28,.44],
     'lavender-edit':['.hero-art > img',11,9,17,.28],
