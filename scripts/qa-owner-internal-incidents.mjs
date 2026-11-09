@@ -14,16 +14,11 @@ assert.match(app,/if\(!workspace\?\.is_internal\)/,'Internal issue actions requi
 assert.match(app,/p_qa_verified:checked\.checked/,'Resolution needs explicit QA verification');
 assert.match(app,/const \{data,error\}=await db\.rpc\('tle_crm_owner_incidents_list'\)/);
 assert.ok(!html.includes('id="buyerInternalIncidents"'),'Never expose owner history to client workspace');
-// Reuse the existing website-delivery screen; never clone buyer records or a second Command Center.
+// Studio → The Launch Era Operaciones is the canonical website-delivery access.
+// Its existing authenticated delivery screen reuses Command Center login without a second workspace.
 const websiteDelivery=readFileSync('public/website-delivery-admin/index.html','utf8');
-assert.equal((html.match(/id="ownerWebsiteDeliveryShortcut"/g)||[]).length,1,'Exactly one website-delivery shortcut in the existing owner home');
-assert.equal((html.match(/href="\/website-delivery-admin\/"/g)||[]).length,1,'No duplicate website-delivery links');
-const shortcutPosition=html.indexOf('id="ownerWebsiteDeliveryShortcut"');
-assert.ok(shortcutPosition>html.indexOf('id="ownerPagesHub"')&&shortcutPosition<html.indexOf('id="ownerSupportPanel"'),'Website shortcut must remain in owner-only orders');
-assert.match(html,/No aparecen automáticamente en esta lista de Booking/,'Do not misrepresent website purchases as synced');
-assert.match(websiteDelivery,/href="\/command-center\/"/,'Existing delivery panel must return to the original Command Center');
-assert.match(websiteDelivery,/storageKey:"tle-crm-auth"/,'Owner delivery must reuse Command Center authentication storage');
-assert.match(app,/storageKey:'tle-crm-auth'/,'Original Command Center session key must remain unchanged');
-assert.match(websiteDelivery,/action:"list"/);
-assert.match(websiteDelivery,/action:"confirm_delivery"/);
-console.log('PASS — owner-only incidents, single website delivery link and shared existing login');
+assert.doesNotMatch(html,/id="ownerWebsiteDeliveryShortcut"/,'Do not duplicate the existing Studio website delivery access');
+assert.match(websiteDelivery,/href="\/command-center\/"/,'Delivery screen must return to the existing Command Center');
+assert.match(websiteDelivery,/storageKey:"tle-crm-auth"/,'Delivery screen must reuse the same login');
+assert.match(app,/storageKey:'tle-crm-auth'/,'Existing Command Center login remains unchanged');
+console.log('PASS — existing Studio delivery access stays canonical; no duplicate shortcut and shared login');
