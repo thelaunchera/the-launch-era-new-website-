@@ -38,7 +38,8 @@ for(const [language,html] of [['en',en],['es',es]]){
   'soluna-yoga':'https://thelaunchera.github.io/demo-booking-landing-/soluna-yoga/images/soluna-hero-editorial.webp',
   'experience-cleaning':'/assets/cleaning-demo/hero-cleaner-original.jpg',
   'yummm':'https://thelaunchera.github.io/demo-booking-landing-/yummm/media/hero-motion-poster-hq.webp',
-  'wok-social':'https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/hero-storefront.webp'
+  'wok-social':'https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/hero-storefront.webp',
+  'freska':'/demos/freska/media/hero-pink-pop.webp'
  };
  for(const [slug,image] of Object.entries(galleryPhotoMap)){
   assert(hero.includes('data-demo="'+slug+'"'),language+': missing distinct demo '+slug);
@@ -50,7 +51,7 @@ for(const [language,html] of [['en',en],['es',es]]){
  assert(!hero.includes('data-demo="umbral"')&&!hero.includes('<figcaption>Umbral</figcaption>'),language+': Umbral must not be duplicated because it is Havana 19');
  assert(!hero.includes(photoRoot+'hero-jaramillo.svg')&&!hero.includes(photoRoot+'website-la-vie-in-pink-en.jpg'),language+': old mockup must not replace original demo hero photography');
  assert(hero.includes('hero-gallery-stage'),language+': gallery composition missing');
- assert((hero.match(/class="hero-gallery-card"/g)||[]).length===11,language+': expected eleven distinct demo cards');
+ assert((hero.match(/class="hero-gallery-card"/g)||[]).length===12,language+': expected twelve distinct demo cards');
  assert(!hero.includes('automated-crm')&&!hero.includes('process-'),language+': checkout/process photo intrudes into gallery');
  assert(hero.includes('data-motion-src="https://thelaunchera.github.io/demo-booking-landing-/yummm/media/hero-motion-20261108.mp4"'),language+': original YUMMM motion missing');
  const basic=html.match(/<article class="plan" id="website-basic">([\s\S]*?)<\/article>/)?.[1];
@@ -76,4 +77,4 @@ for(const [language,html] of [['en',en],['es',es]]){
 const photoStyles=css.split('/* 2026-11-05 image placement: keep original hero untouched. */')[1]?.split('/* Short inline billing disclosure')[0];
 assert(photoStyles&&!photoStyles.includes('.hero'), 'Photo styling inadvertently edits hero');
 assert(photoStyles.includes('object-fit:contain'), 'Uncropped interior photo styling missing');
-console.log('PASS: eleven distinct approved/current demo hero images deep-link in both languages; package photographs, prices, and delivery unchanged.');
+console.log('PASS: twelve distinct approved/current demo hero images deep-link in both languages; package photographs, prices, and delivery unchanged.');
