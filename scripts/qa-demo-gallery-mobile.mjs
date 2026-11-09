@@ -150,7 +150,7 @@ try{
 
  // Every English and Spanish hero card must lead to exactly its own library demo.
  // Umbral was renamed Havana 19 and must never be displayed as a second card.
- const heroSlugs=['ivory-and-bloom','casa-brownie','crumb','la-vie-in-pink','jaramillo-boutique','havana-19','sova'];
+ const heroSlugs=['ivory-and-bloom','casa-brownie','crumb','la-vie-in-pink','jaramillo-boutique','havana-19','sova','soluna-yoga','experience-cleaning','yummm','wok-social'];
  for(const [locale,chosen] of [
   ['/website-for-your-business/','la-vie-in-pink'],
   ['/es/website-for-your-business/','jaramillo-boutique']
@@ -159,7 +159,7 @@ try{
   const r=await page.goto(route.href,{waitUntil:'domcontentloaded',timeout:35000});
   assert.equal(r?.status(),200,'Bilingual website route must serve a page');
   const items=page.locator('.hero-gallery-card');
-  assert.equal(await items.count(),7,'Show seven unique website concepts');
+  assert.equal(await items.count(),11,'Show eleven approved website concepts');
   const found=await items.evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-demo')));
   assert.deepEqual(found,heroSlugs,'Gallery brands must be unique and never include Umbral');
   for(const slug of heroSlugs){
