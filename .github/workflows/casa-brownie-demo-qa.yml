@@ -4,12 +4,16 @@ on:
     branches: [main]
     paths:
       - 'public/demos/casa-brownie/**'
+      - 'public/assets/tle-global-legal-footer-20261109.js'
+      - 'scripts/qa-demo-legal-footer.mjs'
       - 'scripts/qa-casa-brownie-demo.mjs'
       - 'scripts/qa-casa-brownie-mobile.mjs'
       - '.github/workflows/casa-brownie-demo-qa.yml'
   pull_request:
     paths:
       - 'public/demos/casa-brownie/**'
+      - 'public/assets/tle-global-legal-footer-20261109.js'
+      - 'scripts/qa-demo-legal-footer.mjs'
       - 'scripts/qa-casa-brownie-demo.mjs'
       - 'scripts/qa-casa-brownie-mobile.mjs'
       - '.github/workflows/casa-brownie-demo-qa.yml'
@@ -30,6 +34,8 @@ jobs:
           node --check public/demos/casa-brownie/main.js
           node --check scripts/qa-casa-brownie-demo.mjs
           node --check scripts/qa-casa-brownie-mobile.mjs
+          node --check public/assets/tle-global-legal-footer-20261109.js
+          node --check scripts/qa-demo-legal-footer.mjs
           node --test scripts/qa-casa-brownie-demo.mjs
           node scripts/qa-route-integrity.mjs --static
       - name: Install isolated Chromium and Playwright
@@ -50,6 +56,7 @@ jobs:
             sleep 1
           done
           QA_URL=http://127.0.0.1:4173 node scripts/qa-casa-brownie-mobile.mjs
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-demo-legal-footer.mjs
       - name: Save gallery screenshots
         if: always()
         uses: actions/upload-artifact@v4
