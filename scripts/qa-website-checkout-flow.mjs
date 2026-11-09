@@ -24,7 +24,11 @@ for (const [lang,page] of [['en',en],['es',es]]) {
  ensure(page.includes('href="/demos/?demo=havana-19&amp;returnTo=')&&!page.includes('data-demo="umbral"'),lang+' demo hero must link to canonical Havana 19 without duplicating Umbral');
  ensure(!page.includes('data-key="heroOverline"')&&!page.includes('<span class="dash"></span>'),lang+' hero heading or yellow line still visible');
  ensure(!page.includes('href="/custom-app/?lang='+lang+'"')&&!page.includes('class="app-section"'),lang+' should not advertise a separate app');
- ensure(page.includes(lang==='en'?'One-time $25 setup':'Configuración de $25 por única vez'),lang+' one-time pricing missing');
+ ensure(page.includes(lang==='en'?'$25 one-time payment':'Pago único de $25'),lang+' one-time pricing missing');
+ ensure(page.includes('class="website-choice-strip"')&&page.includes('class="features container feature-snapshot"'),lang+' compact website choices or mobile features missing');
+ ensure(page.includes('class="website-agent-addon"')&&page.includes(lang==='en'?'+$10 <small>USD / month':'+$10 <small>USD / mes'),lang+' must display optional $10 monthly agent price separately');
+ ensure(page.includes('tle-website-offer-compact-20261109.css'),lang+' compact mobile layout styles not linked');
+ ensure(!page.includes('$8'),lang+' retired AI subscription price must not appear in new offer');
  ensure(!page.includes('offer=website-ai-crm'),lang+' legacy subscription must not appear in new public sales');
  ensure(!page.includes(lang==='en'?'after 30 days':'después de 30 días'),lang+' checkout-relative billing copy must not remain');
 }
@@ -44,6 +48,8 @@ for(const p of [basic,plus,advanced]){
  ensure(p.includes('name="website_photos"')&&p.includes('name="reference_photos"'),'Missing independent photo upload areas');
  ensure(p.includes('name="request_call"')&&p.includes('name="call_time"'),'Missing optional 1:1 call request');
 }
+ensure(basic.includes('$10 USD/month')&&plus.includes('$10 USD/month'),'Both current intakes must display the optional AI Agent fee before buyer requests it');
+ensure(read('public/assets/tle-website-intake-brief.js').includes('$10 USD/mes'),'Spanish intake translations must show optional $10/month');
 ensure(intakeJS.includes("form.hidden=true;translate()"),'Form must be hidden by default');
 ensure(intakeJS.includes("if(!paid||submit.disabled"),'Submission must require verified payment');
 ensure(intakeJS.includes("kind:'intake',source:'checkout'"),'Paid intake payload missing');
