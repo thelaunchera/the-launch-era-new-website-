@@ -1,25 +1,19 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { CleaningAppEditorial } from '../components/cleaning-app-editorial';
+import { useEffect } from 'react';
 
+// Retired standalone Cleaning App offer. Preserve older inbound URLs without selling the discontinued product.
 export const Route = createFileRoute('/cleaning-web-app')({
-  head: () => ({
-    meta: [
-      { title: 'Cleaning App for Residential Cleaning Businesses | The Launch Era' },
-      { name: 'description', content: 'Keep bookings, clients, jobs, quotes, invoices, team time and routes organized in one simple Cleaning App for residential cleaning business owners.' },
-      { property: 'og:title', content: 'Cleaning App for Residential Cleaning Businesses | The Launch Era' },
-      { property: 'og:description', content: 'Keep bookings, clients, jobs, quotes, invoices, team time and routes organized in one simple Cleaning App for residential cleaning business owners.' },
-      { name: 'twitter:card', content: 'summary_large_image' }
-    ],
-    links: [
-      { rel: 'canonical', href: 'https://thelaunchera.com/cleaning-web-app' },
-      { rel: 'alternate', hrefLang: 'en-US', href: 'https://thelaunchera.com/cleaning-web-app' },
-      { rel: 'alternate', hrefLang: 'es-US', href: 'https://thelaunchera.com/es/cleaning-web-app/' },
-      { rel: 'alternate', hrefLang: 'x-default', href: 'https://thelaunchera.com/cleaning-web-app' },
-      { rel: 'stylesheet', href: '/assets/tle-app-landing.css?v=20261013-short-1' },
-      { rel: 'stylesheet', href: '/assets/tle-cleaning-case-study.css?v=20261013-01' }
-    ]
-  }),
-  component: Page
+  head: () => ({ meta: [
+    { title: 'Website Services | The Launch Era' },
+    { name: 'robots', content: 'noindex,follow' },
+  ] }),
+  component: RetiredOffer,
 });
-
-function Page() { return <CleaningAppEditorial lang="en"/>; }
+function RetiredOffer() {
+  useEffect(() => { window.location.replace('/website-for-your-business/'); }, []);
+  return <main className="container" style={{ minHeight: '50vh', paddingBlock: '5rem' }}>
+    <h1>Explore our website services</h1>
+    <p>Discover websites, booking experiences, and business automation tailored to your business.</p>
+    <a href="/website-for-your-business/">Explore website packages</a>
+  </main>;
+}

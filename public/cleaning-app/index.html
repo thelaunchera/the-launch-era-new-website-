@@ -1,21 +1,11 @@
 <!doctype html>
-<html lang="en">
-<head><script src="/assets/privacy-controls.js?v=20261026-1" data-site="tle"></script>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow">
-<meta name="referrer" content="no-referrer">
-<link rel="canonical" href="https://thelaunchera.com/cleaning-web-app">
-<title>Cleaning Web App — The Launch Era</title>
-</head>
-<body>
-<script>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>The Launch Era — Website Services</title></head>
+<body><script>
 (function(){
- const params=new URLSearchParams(location.hash.slice(1));
- const recovery=(params.get('type')==='recovery' && params.has('access_token')) || new URLSearchParams(location.search).has('code');
- location.replace(recovery?'/auth-recovery.html'+location.search+location.hash:'/cleaning-web-app/');
+  var q=new URLSearchParams(location.search);
+  var h=new URLSearchParams(location.hash.replace(/^#/,''));
+  var recovery=(h.get('type')==='recovery' && h.has('access_token'))||q.has('code');
+  var destination=recovery?'/auth-recovery.html'+location.search+location.hash:(q.get('lang')==='es'?'/es/website-for-your-business/':'/website-for-your-business/');
+  location.replace(destination);
 })();
-</script>
-<a href="/cleaning-web-app/">Open the Cleaning Web App</a>
-</body>
-</html>
+</script><p>Explore <a href="/website-for-your-business/">The Launch Era website services</a>.</p></body></html>
