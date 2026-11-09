@@ -108,6 +108,9 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink
 .viewer-stage.is-ready .viewer-frame{opacity:1}
 .viewer-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:17px;padding:32px 22px;text-align:center;color:#191919;background:#FAF8F3;z-index:1;transition:opacity .25s ease,visibility .25s ease}
 .viewer-stage.is-ready .viewer-loading{opacity:0;visibility:hidden;pointer-events:none}
+/* iOS Safari: keep the nested demo iframe scrollable inside the native dialog. */
+.viewer-stage{touch-action:pan-y pinch-zoom;overscroll-behavior-y:auto;-webkit-overflow-scrolling:touch}
+.viewer-stage .viewer-frame{touch-action:pan-y pinch-zoom;overflow:auto;-webkit-overflow-scrolling:touch}
 .viewer-loading-kicker{font:700 11px/1.3 'Prompt',Arial,sans-serif;letter-spacing:.18em;color:#635f59}
 .viewer-loading strong{font:500 clamp(27px,8vw,45px)/1.05 'Cormorant Garamond',Georgia,serif;max-width:85%;text-wrap:balance}
 .viewer-loading-bar{height:2px;width:min(160px,48vw);background:#DDD8D0;position:relative;overflow:hidden}
@@ -396,7 +399,7 @@ html[data-tle-demo-status="pending"] .photo-inspiration-images {
 <dialog id="demo-viewer" class="demo-viewer" aria-labelledby="viewer-name">
 <div class="viewer-topbar"><div class="viewer-title"><span class="viewer-eyebrow">THE LAUNCH ERA / PROJECT PREVIEW</span><strong id="viewer-name">Website demo</strong></div>
 <div class="viewer-actions"><a class="viewer-external" id="viewer-external" href="/" target="_blank" rel="noopener noreferrer">Open full site</a><a class="viewer-owner" id="viewer-owner" href="/demos/" hidden>Owner View</a><button class="viewer-close" id="viewer-close" type="button"><span aria-hidden="true">×</span> Close demo</button></div></div>
-<div class="viewer-stage" id="viewer-stage" aria-busy="true"><div class="viewer-loading" id="viewer-loading" role="status" aria-live="polite"><span class="viewer-loading-kicker">OPENING THE PROJECT</span><strong id="viewer-loading-name">Website preview</strong><span class="viewer-loading-bar" aria-hidden="true"></span><a id="viewer-loading-direct" class="viewer-loading-direct" href="/" target="_blank" rel="noopener noreferrer">Open full website</a></div><iframe id="viewer-frame" class="viewer-frame" title="Interactive website preview" loading="eager" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+<div class="viewer-stage" id="viewer-stage" aria-busy="true"><div class="viewer-loading" id="viewer-loading" role="status" aria-live="polite"><span class="viewer-loading-kicker">OPENING THE PROJECT</span><strong id="viewer-loading-name">Website preview</strong><span class="viewer-loading-bar" aria-hidden="true"></span><a id="viewer-loading-direct" class="viewer-loading-direct" href="/" target="_blank" rel="noopener noreferrer">Open full website</a></div><iframe id="viewer-frame" class="viewer-frame" title="Interactive website preview" loading="eager" scrolling="yes" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
 </dialog>
 <footer class="library-footer" aria-label="Legal and project information">
 <div class="library-footer-main">
@@ -477,7 +480,7 @@ function openDemo(card,opener){
  stage.setAttribute('aria-busy','true');
  modal.showModal();
  frame.src=url;
- document.body.style.overflow='hidden';
+ // Native dialog already makes the background inert. An extra body overflow lock traps iPad Safari iframe scrolling.
  close.focus({preventScroll:true});
 }
 function resetDemo(){
