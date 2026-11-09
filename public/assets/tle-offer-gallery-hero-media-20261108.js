@@ -15,21 +15,21 @@
   'havana-19':['/demos/havana-19/media/hero-motion-20261108.mp4','/demos/havana-19/media/hero-motion-poster-hq.webp'],
   'soluna-yoga':['https://thelaunchera.github.io/demo-booking-landing-/soluna-yoga/media/hero-motion-20261108.mp4','https://thelaunchera.github.io/demo-booking-landing-/soluna-yoga/media/hero-motion-poster-hq.webp'],
   'wok-social':['https://thelaunchera.github.io/demo-booking-landing-/wok-social/media/hero-motion-20261108.mp4','https://thelaunchera.github.io/demo-booking-landing-/wok-social/media/hero-motion-poster-hq.webp'],
-  'jaramillo-boutique':['https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/media/hero-motion-20261108.mp4','https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/assets/noche.webp'],
+  'jaramillo-boutique':['https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/media/hero-motion-20261108.mp4','https://thelaunchera.github.io/demo-booking-landing-/jaramillo-boutique/assets/hero-editorial-user.jpg'],
   'experience-cleaning':['/experience-cleaning/media/cleaning-hero-20261108.mp4','/experience-cleaning/media/cleaning-hero-poster-20261108.jpg']
  };
  for(const card of stage.querySelectorAll('.hero-gallery-card[data-demo]')){
   const pair=heroMedia[card.dataset.demo],link=card.querySelector('.hero-gallery-hit');
   if(!pair||!link||link.querySelector('video'))continue;
-  const photo=link.querySelector('img'),oldSrc=photo?.getAttribute('src');
-  if(photo&&oldSrc){
-   photo.addEventListener('error',()=>{if(photo.getAttribute('src')!==oldSrc)photo.src=oldSrc;},{once:true});
-   photo.src=pair[1];
-  }
+  // Never replace the visible photo after first paint: the HTML already
+  // supplies the approved matching video poster. Swapping img.src here
+  // caused a double flash on iPhone (original photo -> poster -> video).
+  const photo=link.querySelector('img');
+  const stablePoster=photo?.getAttribute('src')||pair[1];
   const video=document.createElement('video');
   video.className='hero-gallery-motion';
   video.dataset.motionSrc=pair[0];
-  video.poster=pair[1];
+  video.poster=stablePoster;
   video.muted=true;video.defaultMuted=true;video.playsInline=true;video.loop=true;
   video.setAttribute('muted','');video.setAttribute('playsinline','');video.setAttribute('loop','');
   video.setAttribute('aria-hidden','true');video.tabIndex=-1;video.preload='none';video.disablePictureInPicture=true;
@@ -63,6 +63,7 @@
    stop(video);return;
   }
   if(!video.getAttribute('src')){
+   video.preload='metadata';
    video.src=video.dataset.motionSrc;
   }
   video.muted=true;
