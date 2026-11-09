@@ -14,8 +14,8 @@ export const EDITORIAL_PHOTO_SETS = {
     "https://thelaunchera.com/demos/sneekiefs/assets/05-streetwear-flatlay.webp"
   ],
   "freska": [
-    "https://thelaunchera.com/demos/freska/media/freska-hero-owner-approved-20261109.jpg",
     "https://thelaunchera.com/demos/freska/media/hero-pink-pop.webp",
+    "https://thelaunchera.com/demos/freska/media/freska-hero-owner-approved-20261109.jpg",
     "https://thelaunchera.com/demos/freska/media/pink-crush.webp",
     "https://thelaunchera.com/demos/freska/media/mango-mood.webp",
     "https://thelaunchera.com/demos/freska/media/ruby-fizz.webp",
@@ -56,24 +56,32 @@ export const EDITORIAL_PHOTO_SETS = {
     "https://thelaunchera.com/demos/aftr/assets/entry.webp"
   ],
   "lavender-edit": [
-    "https://thelaunchera.com/demos/lavender-edit/photos/01_Soft_Lavender_Hero.png",
+    "https://thelaunchera.com/demos/lavender-edit/photos/09_Lavanda_Boutique_Facade.png",
+    "https://thelaunchera.com/demos/lavender-edit/photos/10_Lavanda_Boutique_Interior.png",
+    "https://thelaunchera.com/demos/lavender-edit/photos/14_Lavanda_Inside_Shopping.png",
+    "https://thelaunchera.com/demos/lavender-edit/photos/11_Lavanda_Shopping_Exterior.png",
+    "https://thelaunchera.com/demos/lavender-edit/photos/12_Lavanda_Customer_Checkout.png",
+    "https://thelaunchera.com/demos/lavender-edit/photos/13_Lavanda_Gift_Wrapping.png",
+    "https://thelaunchera.com/demos/lavender-edit/photos/15_Lavanda_Outdoor_Lifestyle.png",
     "https://thelaunchera.com/demos/lavender-edit/photos/02_Lavender_Mood_Macro.png",
-    "https://thelaunchera.com/demos/lavender-edit/photos/03_Lavender_Ritual.png",
     "https://thelaunchera.com/demos/lavender-edit/photos/04_Cream_Texture.png",
+    "https://thelaunchera.com/demos/lavender-edit/photos/03_Lavender_Ritual.png",
     "https://thelaunchera.com/demos/lavender-edit/photos/05_Lavender_Gifting.png",
     "https://thelaunchera.com/demos/lavender-edit/photos/06_Editorial_Type.png",
     "https://thelaunchera.com/demos/lavender-edit/photos/07_Daily_Ritual.png",
-    "https://thelaunchera.com/demos/lavender-edit/photos/08_After_Hours.png"
+    "https://thelaunchera.com/demos/lavender-edit/photos/08_After_Hours.png",
+    "https://thelaunchera.com/demos/lavender-edit/photos/01_Soft_Lavender_Hero.png"
   ],
   "havana-19": [
+    "https://thelaunchera.com/demos/havana-19/photos/campaign/H19_CAMPAIGN_01_Exterior.png",
+    "https://thelaunchera.com/demos/havana-19/photos/campaign/H19_CAMPAIGN_02_Dining_Room.png",
+    "https://thelaunchera.com/demos/havana-19/photos/campaign/H19_CAMPAIGN_05_Service.png",
+    "https://thelaunchera.com/demos/havana-19/photos/campaign/H19_CAMPAIGN_03_Cocktails.png",
+    "https://thelaunchera.com/demos/havana-19/photos/campaign/H19_CAMPAIGN_06_Ropa_Vieja.png",
+    "https://thelaunchera.com/demos/havana-19/photos/campaign/H19_CAMPAIGN_07_Camarones.png",
+    "https://thelaunchera.com/demos/havana-19/photos/campaign/H19_CAMPAIGN_08_Flan.png",
     "https://thelaunchera.com/demos/havana-19/photos/HAVANA19_Hero_Fachada_Borgona.jpeg",
-    "https://thelaunchera.com/demos/umbral/photos/UMBRAL_10_Interior.jpeg",
-    "https://thelaunchera.com/demos/umbral/photos/UMBRAL_09_Bar.jpeg",
-    "https://thelaunchera.com/demos/umbral/photos/UMBRAL_07_Service.jpeg",
-    "https://thelaunchera.com/demos/umbral/photos/UMBRAL_03_Ropa_Vieja.jpeg",
-    "https://thelaunchera.com/demos/umbral/photos/UMBRAL_02_Camarones_Enchilados.jpeg",
-    "https://thelaunchera.com/demos/umbral/photos/UMBRAL_08_Host.jpeg",
-    "https://thelaunchera.com/demos/umbral/photos/UMBRAL_04_Flan.jpeg"
+    "https://thelaunchera.com/demos/havana-19/photos/campaign/H19_CAMPAIGN_04_Date_Night.png"
   ],
   "marea-wigs-miami": [
     "https://thelaunchera.com/demos/marea-wigs-miami/media/hero-motion-poster-hq.webp",
@@ -94,7 +102,8 @@ export const EDITORIAL_PHOTO_SETS = {
     "https://thelaunchera.com/demos/sova/resources/02-product.png",
     "https://thelaunchera.com/demos/sova/media/sova-hero-seamless-cobalt-20261108.png",
     "https://thelaunchera.com/demos/sova/resources/03-campaign.png"
-  ],  "golden-grid": [
+  ],
+  "golden-grid": [
     "https://thelaunchera.com/demos/golden-grid/resources/golden-1.png",
     "https://thelaunchera.com/demos/golden-grid/media/golden-grid-human-01.webp",
     "https://thelaunchera.com/demos/golden-grid/media/golden-grid-human-02.webp",
@@ -179,6 +188,19 @@ export const EDITORIAL_PHOTO_SETS = {
     "https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/08-wok-toss-in-action.webp",
     "https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/09-friends-noodle-toast.webp",
     "https://thelaunchera.github.io/demo-booking-landing-/wok-social/assets/11-hibachi-shrimp.webp"
+  ],
+  "seasonal-brew": [
+    "https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/assets/storefront.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/assets/flavor-posters/sugar-cookie.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/assets/flavor-posters/gingerbread.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/assets/flavor-posters/toasted-marshmallow.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/assets/flavor-posters/snickerdoodle.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/assets/flavor-posters/chestnut-praline.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/assets/flavor-posters/peppermint-mocha.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/assets/interior.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/assets/seasonal-drinks.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/assets/packaging.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/seasonal-brew/assets/storefront-wide.webp"
   ]
 };
 
