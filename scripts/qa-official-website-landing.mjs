@@ -13,6 +13,16 @@ const demoLibrary=readFileSync('public/demos/index.html','utf8');
 const cleaningVideo='/experience-cleaning/media/cleaning-hero-20261108.mp4';
 const cleaningPoster='/experience-cleaning/media/cleaning-hero-poster-20261108.jpg';
 assert.ok(existsSync('public'+cleaningVideo)&&existsSync('public'+cleaningPoster),'Approved cleaning video and matching poster must exist');
+
+const goldenOfferMovie='/demos/golden-grid/media/hero-approved-canva-20261108.mp4';
+const goldenOfferPoster='/demos/golden-grid/resources/golden-1.png';
+const goldenOfferCss=readFileSync('public/assets/tle-golden-offer-film-20261109.css','utf8');
+const goldenOfferJs=readFileSync('public/assets/tle-golden-offer-film-20261109.js','utf8');
+assert.ok(existsSync('public'+goldenOfferMovie)&&existsSync('public'+goldenOfferPoster),'Existing Golden Grid film and original sharp poster must remain available');
+assert.ok(goldenOfferCss.includes('max-width:512px')&&goldenOfferCss.includes('object-fit:contain'),'Golden Grid video must not be zoomed or materially upscaled in the offer');
+assert.ok(goldenOfferCss.includes('prefers-reduced-motion'),'Golden Grid film must respect reduced motion');
+assert.ok(goldenOfferJs.includes('IntersectionObserver')&&goldenOfferJs.includes('saveData')&&goldenOfferJs.includes('video.play()'),'Golden Grid film must load in view and retain autoplay and data saving fallback');
+
 assert.ok(heroMedia.includes("'experience-cleaning':['"+cleaningVideo+"','"+cleaningPoster+"']"),'Website offers must reuse the Cleaning demo hero, not a static substitute');
 assert.ok(demoLibrary.includes("'experience-cleaning':{video:'"+cleaningVideo+"',poster:'"+cleaningPoster+"'}"),'Public demos must show the same cleaning hero');
 assert.match(demoLibrary,/data-brand="experience-cleaning"/,'Cleaning demo card must remain available');
@@ -31,6 +41,13 @@ for(const [language,paths] of Object.entries(photos))
   assert.ok(existsSync('public/assets/website-packages-20261105/'+filename),language+': missing photo '+filename);
 for(const r of routes){
  const html=readFileSync(r,'utf8');
+
+ assert.ok(html.includes('data-gg-offer-video'),r+': customer video frame missing');
+ assert.ok(html.includes('data-src="'+goldenOfferMovie+'"'),r+': approved Golden Grid film missing');
+ assert.ok(html.includes('<img src="'+goldenOfferPoster+'"'),r+': original image fallback missing');
+ assert.ok(html.includes('/assets/tle-golden-offer-film-20261109.css?v=1'),r+': Golden Grid styling missing');
+ assert.ok(html.includes('/assets/tle-golden-offer-film-20261109.js?v=1'),r+': in-app video playback missing');
+
  const language=r.includes('/es/')?'es':'en';
  for(const filename of photos[language])assert.ok(html.includes(filename),language+': missing photo '+filename+' at '+r);
  assert.ok(html.includes('class="hero hero-gallery"'),'gallery hero not on '+language);
