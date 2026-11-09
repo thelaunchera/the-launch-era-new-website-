@@ -25,7 +25,7 @@
          el.classList.remove('tle-scroll-visible');
        }
      }
-   },{root:null,rootMargin:'0px 0px -7% 0px',threshold:0.035});
+   },{root:null,rootMargin:'0px 0px 8% 0px',threshold:0.01});
  }
  const add=(el,part,delay)=>{
    if(!safe(el)||processed.has(el))return;
@@ -38,7 +38,7 @@
    el.classList.add('tle-scroll-pending');
    // Keep initially visible/anchor-targeted content visible with no first-frame flash.
    const rect=el.getBoundingClientRect();
-   if(rect.top<window.innerHeight*.84 && rect.bottom>0){
+   if(rect.top<window.innerHeight*.94 && rect.bottom>0){
      el.classList.add('tle-scroll-visible');
    }
    tracked.add(el);
@@ -66,7 +66,7 @@
      if(!title&&!photo)continue;
      accepted++;
      if(title)add(title,'headline',0);
-     if(photo&&accepted<=6)add(photo,'photo',title?95:0);
+     if(photo&&accepted<=6)add(photo,'photo',title?160:0);
    }
  }
  function boot(){
