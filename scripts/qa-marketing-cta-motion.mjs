@@ -10,7 +10,7 @@ const routeFiles=[
  'src/routes/booking-lead-automation.tsx','src/routes/es.booking-lead-automation.tsx',
  'src/routes/website-automation.tsx','src/routes/es.website-automation.tsx',
  'src/routes/virtual-assistant.tsx','src/routes/es.virtual-assistant.tsx',
- 'src/components/service-sales.tsx','src/components/cleaning-app-editorial.tsx',
+ 'src/components/service-sales.tsx',
  'src/components/freebie-page.tsx','src/components/ai-agent-addon.tsx',
 ];
 for(const p of routeFiles){
@@ -57,7 +57,7 @@ const sizes=[{width:360,height:780},{width:390,height:844},{width:820,height:100
 const errors=[];
 mkdirSync('qa-screenshots',{recursive:true});
 try{
- for(const route of ['/','/es/','/booking-lead-automation/','/es/booking-lead-automation/','/cleaning-web-app/','/es/cleaning-web-app/','/ai-booking-assistant/','/es/ai-booking-assistant/']){
+ for(const route of ['/','/es/','/booking-lead-automation/','/es/booking-lead-automation/','/ai-booking-assistant/','/es/ai-booking-assistant/']){
   for(const viewport of sizes){
    console.log('[TLE CTA]',route,viewport.width);
    const page=await browser.newPage({viewport});
