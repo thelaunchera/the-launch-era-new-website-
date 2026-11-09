@@ -52,4 +52,5 @@
 </main><footer>© 2026 THE LAUNCH ERA · <a href="https://thelaunchera.com/">thelaunchera.com</a></footer>
 <script>
 function switchLanguage(lang){if(lang!=='es')lang='en';document.documentElement.lang=lang;document.getElementById('english').classList.toggle('hidden',lang==='es');document.getElementById('spanish').classList.toggle('hidden',lang!=='es');document.getElementById('enBtn').classList.toggle('active',lang==='en');document.getElementById('esBtn').classList.toggle('active',lang==='es');const u=new URL(location.href);u.searchParams.set('lang',lang);history.replaceState({},'',u);document.title=(lang==='es'?'Guía de inicio':'Getting started')+' — The Launch Era';}switchLanguage(new URLSearchParams(location.search).get('lang')==='es'?'es':'en');
-</script></body></html>
+</script><script defer src="/assets/tle-global-legal-footer-20261109.js"></script>
+</body></html>
