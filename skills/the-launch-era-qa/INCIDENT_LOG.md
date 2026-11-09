@@ -1,9 +1,9 @@
 ## 2026-11-09 — Spanish $15 offer package reverted to old La Vie in Pink photo
 
 - **Owner evidence:** iPhone Instagram browser screenshot of /es/website-for-your-business/ showed La Vie in Pink laptop/croissants in Package 1 ($15) despite the previously approved Jaramillo Boutique photo.
-- **Verified source cause:** EN /website-for-your-business/ already pointed to /assets/website-packages-20261105/hero-jaramillo.svg, but ES Package 1 still used /assets/website-packages-20261105/website-la-vie-in-pink-original.jpg.
+- **Verified source cause:** EN /website-for-your-business/ already pointed to /assets/website-packages-20261105/hero-jaramillo.svg, but ES Package 1 still used /assets/website-packages-20261105/website-la-vie-in-pink-original.jpg. In addition, `scripts/qa-website-photo-placement.mjs` still enforced the obsolete Spanish La Vie in Pink photo, causing the GitHub Pages build for the corrected image to fail (`es: basic package photo wrong`).
 - **Scoped correction:** Spanish Package 1 now points to the same approved Jaramillo SVG as English, with localized alt text. No changes to prices, checkout, copy, hero, other package photos, routes, customers or assets.
-- **Regression guard:** Check both EN/ES `#website-basic .plan-photo` source against the approved Jaramillo image, and ensure the La Vie in Pink photo is absent from Package 1. Static code verification completed; public deploy and iPhone Safari/Instagram visual recheck pending.
+- **Regression guard:** Updated `scripts/qa-website-photo-placement.mjs` to require Jaramillo Package 1 in both locales with localized alt text, explicitly reject the La Vie in Pink fallback, and preserve independent CRM/process photos. Static code verification completed; public deploy and iPhone Safari/Instagram visual recheck pending.
 
 ## 2026-11-08 — Owner photo shows Jaramillo fashion card and SOVA still not matching latest source
 
