@@ -1,3 +1,10 @@
+## 2026-11-08 — Owner photo shows Jaramillo fashion card and SOVA still not matching latest source
+
+- **Request:** owner photograph of the bilingual Website for Your Business hero carousel asks for Jaramillo's existing motion video on its portrait card without cutting the model's face on phone or tablet, plus SOVA's newer approved photograph.
+- **Diagnosis:** Jaramillo card had only `hero-editorial-user.jpg` despite an existing story MP4 on the boutique's live demo branch. Generic gallery CSS applied `object-fit:cover` to all images/videos, which could crop faces in wider phone cards. SOVA offer card still referenced an older `resources/01-hero.png`, while its dedicated demo already uses the newer cobalt-blue approved photograph.
+- **Repair:** reuse Jaramillo's exact existing media and original video poster, change SOVA offer photo only, add scoped noncropping background-aware framing and tests for iPhone and 768/820/1024px tablet. No media duplication, copy, price, booking, checkout, Studio state, or customer information changed.
+- **Verification:** browser and Pages release required; physical iPad signoff remains separate from automated checks.
+
 ## 2026-11-08 — Scroll reveals too fast to perceive (code fix; live QA pending)
 
 - **Owner symptom:** motion across public websites and demos finishes before photography/headline effects can be appreciated, especially on fast phone scrolling.
