@@ -75,7 +75,7 @@ html[data-tle-one-motion] .tle-scroll-pending.tle-scroll-visible[data-tle-scroll
   html[data-tle-one-motion="wok-social"] .hero-photo-frame,
   html[data-tle-one-motion="marea-wigs-miami"] .hero-visual,
   html[data-tle-one-motion="ivory-and-bloom"] .hero-photo,
-  html[data-tle-one-motion="la-vie-in-pink"] .hero-image-wrap,
+  html[data-tle-one-motion="la-vie-in-pink"] .hero-visual,
   html[data-tle-one-motion="jaramillo-boutique"] .hero-scene {
     overflow:clip;
   }
