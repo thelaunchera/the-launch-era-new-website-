@@ -1,9 +1,10 @@
-## 2026-11-09 — OFFCOURT sneaker-store public concept preview
-- **Public-preview route:** `/demos/offcourt/` in `public/demos/offcourt/`, promoted from branch `draft/offcourt-sneaker-store-20261109` only after CI. This concept preview remains separate from public demo catalog and website sales offer until final brand approval.
-- **Origin:** official and secondary demo directories were inspected; neither contained a sneaker storefront on `main`. This is a new proposed concept, not a replacement of AFTR, SOVA or any existing brand.
-- **Scope:** single static demo with temporary external editorial reference photos, bilingual EN/ES catalog, size selection, filters, working bag and simulated order preview. No actual sales, provider API, personal details, Stripe, Supabase, tenants, email or data persistence.
-- **Boundary:** shared landing pages, the buyer/owner Command Centers, the public demo registry, all existing demos, policies and checkouts remain unchanged.
-- **Final release gate:** owner-approved moodboard, original photos, final original logo, optimized local assets and private Studio kit; static QA, mobile Safari/browser checks, CI and Pages live verification. Publishing a source preview does NOT mark the brand kit complete.
+## 2026-11-09 — Sneekiefs website campaign uses original Drive photos and approved color reference
+- **Canonical route:** `/demos/sneekiefs/` in the official repo `public/demos/sneekiefs/`. Previous `/demos/offcourt/` route is a lightweight noindex redirect to the canonical site; there is only **one actual product storefront**, not two demos.
+- **Original source found:** Google Drive `The Launch Era — Demo Photos / Sneekiefs — Website Campaign` (folder ID `16UZbyKYJKMkOQXWozE2mUsXp2d4FFdOy`); optimized WebP folder ID `1DaAA7c4cWj2-P037BtckoZwd-EXVfkXf`. Eight exact optimized originals are checked into the canonical demo's `assets/` folder and linked locally, not served from private Google Drive links.
+- **Owner-selected palette:** Canyon Sky Blue `#168DD2` + Sandstone Orange `#D65A24`, matching provided Instagram screenshot; ivory and midnight neutrals support it.
+- **Page:** branded Sneekiefs signature hero using existing editorial poster; three distinct sample shoe listings from the original campaign, size selector, category filtering, bilingual EN/ES text, bag with quantity/remove, and order preview (demonstration only). Additional brand photos in model story and street-style editorial grid. No payments, personal data entry, real inventory, shipping, email or backend calls.
+- **Boundaries:** original Drive photos untouched; no new duplicate brand folder; shared demo gallery visibility remains owner-curated, class kits remain private; no customer records, checkout or other demo changes.
+- **QA:** exact GitHub asset paths, source syntax and responsive checks on branch `feat/sneekiefs-drive-assets-blue-orange-20261109`; CI, GitHub Pages and iPhone/tablet visual and interaction checks required separately before full completion claims.
 
 ## 2026-11-09 — Lavanda Boutique interactive demo bag (no new route)
 - **Public route:** `/demos/lavender-edit/` remains unchanged, with the 15 approved photographs, original boutique editorial sections and `#film` muted lower-page video.
