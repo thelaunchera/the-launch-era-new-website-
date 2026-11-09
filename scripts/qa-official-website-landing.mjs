@@ -41,12 +41,13 @@ for(const r of routes){
   assert.ok(!html.includes(filename),language+': photo from other language leaked '+filename);
  assert.match(html,/id="website-basic"/);
  if(language==='en')assert.match(html,/<article class="plan" id="website-basic"><img class="plan-photo" src="\/assets\/website-packages-20261105\/hero-jaramillo\.svg"/,'EN Package 1 should feature Jaramillo photo');
- assert.match(html,/id="website-ai-crm"/);
+ assert.match(html,/id="website-plus"/);
  assert.doesNotMatch(html,/class="app-section"|\/custom-app\/\?lang=|optional-app-original/,'the redundant app offer must be hidden');
  assert.match(html,/\$15/);
  assert.match(html,/\$25/);
+ assert.ok(html.includes('website-optional-agent'),language+': separate optional AI agent section missing');
  assert.match(html,/\/website-checkout\/\?offer=website-basic&lang=/);
- assert.match(html,/\/website-checkout\/\?offer=website-ai-crm&lang=/);
+ assert.match(html,/\/website-checkout\/\?offer=website-plus&lang=/);
  assert.doesNotMatch(html,/<p class="fine" data-key="termsNote">/,'no long pricing disclaimer');
  assert.match(html,/\/terms\.html/);
  assert.doesNotMatch(html,/\/service-checkout\//,'do not route to incomplete legacy checkout');
