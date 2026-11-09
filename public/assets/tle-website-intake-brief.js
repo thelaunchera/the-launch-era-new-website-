@@ -171,21 +171,28 @@ function refreshIndustry(){
  if(choices.some(([value])=>value===previous))selector.value=previous;
 }
 function refreshProjectType(){
- const type=field('website_project_type')?.value||'new';
+ const selector=field('website_project_type');
+ if(!selector)return;
+ const type=selector.value||'new';
  const existing=type!=='new';
  const area=$('existing-site-field'),url=field('existing_website');
  if(area)area.hidden=!existing;
  if(url){url.required=existing;if(!existing)url.value='';}
 }
 function refreshAgentChoice(){
- const selected=$('ai-agent-interest')?.checked===true;
+ if(!$('ai-agent-interest'))return;
+ const selected=$('ai-agent-interest').checked===true;
  const details=$('ai-agent-brief-field');
  if(details)details.hidden=!selected;
  const info=field('ai_brief');
  if(info&&!selected)info.value='';
 }
 function translateBrief(){
- const words=copy[lang()];
+ const words={...copy[lang()]};
+ if(document.body.dataset.package==='website-ai-crm'){
+  words.advancedTitle=lang()==='es'?'IA y correos de tu paquete':'AI & email workflows included in your package';
+  words.aiShort=lang()==='es'?'¿Qué preguntas debe responder tu asistente IA incluido?':'What should your included AI assistant answer?';
+ }
  form.querySelectorAll('[data-i18n]').forEach(node=>{
   const content=words[node.dataset.i18n];
   if(content!==undefined)node.textContent=content;
@@ -209,7 +216,7 @@ buyer.addEventListener('input',()=>{
  lastEmail=next;
 });
 inbox.addEventListener('input',()=>{inboxTouched=true});
-field('website_project_type').addEventListener('change',refreshProjectType);
+field('website_project_type')?.addEventListener('change',refreshProjectType);
 $('ai-agent-interest')?.addEventListener('change',refreshAgentChoice);
 field('industry').addEventListener('change',refreshIndustry);
 field('other_format').addEventListener('change',refreshIndustry);
@@ -292,7 +299,7 @@ form.addEventListener('submit',()=>{
  if(!goal.value.trim()){
   goal.value=('Create a '+$('website-format').value+' website for '+field('business_name').value.trim()+
    '. Business type: '+field('industry').value+extra+
-   '. Project request: '+field('website_project_type').value+'.'+(field('website_project_type').value!=='new'?' Current website: '+field('existing_website').value.trim()+'.':'')+
+   '. Project request: '+(field('website_project_type')?.value||'new')+'.'+(field('website_project_type')&&field('website_project_type').value!=='new'?' Current website: '+field('existing_website').value.trim()+'.':'')+
    '. Main visitor action: '+field('customer_action').value+
    '. '+(list?'Items and prices supplied.':'Items and prices supplied by linked menu or product list.')+
    ' Email inquiries only.').slice(0,500);
@@ -300,7 +307,7 @@ form.addEventListener('submit',()=>{
  if(!form.elements.namedItem('automation_goals')){
   const newInput=document.createElement('input');newInput.type='hidden';newInput.name='automation_goals';form.appendChild(newInput);
  }
- field('automation_goals').value=document.body.dataset.package==='website-ai-crm'?'Preferred email workflow (not active until approved): '+field('automation_workflow').value:'';
+ field('automation_goals').value=['website-ai-crm','website-plus'].includes(document.body.dataset.package)?'Preferred email workflow (not active until approved): '+field('automation_workflow').value:'';
 },true);
 translateBrief();
 })();
