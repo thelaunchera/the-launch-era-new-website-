@@ -1,3 +1,9 @@
+## 2026-11-08 — Slower replayable scroll motion (no route changes)
+
+- Public routes, media, carts, checkout and tenant workflows are unchanged. The shared `/assets/tle-demo-scroll-art-20261108.css` reveal durations are now 1.25–1.8s per brand (1.4s default) instead of 0.67–1.02s; `/assets/tle-demo-scroll-art-20261108.js` triggers earlier and retains bidirectional replay. Secondary concept demos use identical mirrored assets in `thelaunchera/demo-booking-landing-`.
+- The EN/ES `/website-for-your-business/` offer uses 1.4s section arrivals, 1.5s photo and 1.7s layered-panel entrances, with earlier view detection; both pages refresh CSS/JS query versions. Primary and secondary demo pages refresh their scroll CSS/JS to `?v=5`, and La Vie in Pink now loads the shared scroll art assets.
+- Accessibility remains: reduced-motion disables reveal animation, normal touch scroll is never intercepted, and focused controls remain visible. Changes require static QA, PR checks, Pages deployment and Safari/iPhone verification before a production-fix claim.
+
 ## 2026-11-08 — Website offer gains four REAL hero demo previews (no route changes)
 
 - The existing EN `/website-for-your-business/` and ES `/es/website-for-your-business/` offer URLs keep both prices, checkout links, language switch, Studio-controlled visibility and the existing seven demo brands. Add **four** additional `data-demo` cards to the offer's hero (11 total): `soluna-yoga`, `experience-cleaning`, `yummm`, `wok-social`. Each opens the already supported `/demos/?demo=<slug>&returnTo=...&lang=es|en` preview, with the existing in-site close/return flow.
