@@ -1,0 +1,68 @@
+name: Website Plus + Legal Footer PR QA
+on:
+  pull_request:
+    paths:
+      - 'public/website-for-your-business/**'
+      - 'public/es/website-for-your-business/**'
+      - 'public/website-checkout/**'
+      - 'public/website-payment-success/**'
+      - 'public/intake/website/**'
+      - 'public/intake/website-plus/**'
+      - 'public/assets/tle-website-intake*'
+      - 'public/assets/tle-global-legal-footer-20261109.js'
+      - 'public/demos/**'
+      - 'public/command-center/**'
+      - 'public/terms.html'
+      - 'public/es/terms.html'
+      - 'scripts/qa-website-checkout-flow.mjs'
+      - 'scripts/qa-official-website-landing.mjs'
+      - '.github/workflows/website-plus-legal-pr-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Parse updated website and legal scripts
+        run: |
+          node --check public/assets/tle-website-intake-brief.js
+          node --check public/assets/tle-website-intake.js
+          node --check public/assets/tle-global-legal-footer-20261109.js
+          node --check scripts/qa-website-checkout-flow.mjs
+          node --check scripts/qa-official-website-landing.mjs
+      - name: Validate current checkout & package copy
+        run: node scripts/qa-website-checkout-flow.mjs
+      - name: Validate editorial official landing
+        run: node scripts/qa-official-website-landing.mjs
+      - name: Verify legal links across key routes and legacy guard
+        run: |
+          node --input-type=module <<'JS'
+          import {readFileSync} from 'node:fs';
+          import assert from 'node:assert/strict';
+          const read=p=>readFileSync(p,'utf8');
+          const en=read('public/website-for-your-business/index.html'),es=read('public/es/website-for-your-business/index.html');
+          for(const [s,lang] of [[en,'en'],[es,'es']]){
+            assert.ok(s.includes('offer=website-basic&lang='+lang));
+            assert.ok(s.includes('offer=website-plus&lang='+lang));
+            assert.ok(!s.includes('offer=website-ai-crm&lang='+lang));
+            assert.ok(s.includes('tle-global-legal-footer-20261109.js'));
+            assert.ok(s.includes(lang==='es'?'/es/privacy-choices.html':'/privacy-choices.html'));
+          }
+          const bill=read('public/website-checkout/index.html');
+          assert.ok(bill.includes('website-plus'));
+          const paid=read('public/website-payment-success/index.html');
+          assert.ok(paid.includes('website-plus'));
+          const plus=read('public/intake/website-plus/index.html'),basic=read('public/intake/website/index.html');
+          for(const x of [plus,basic])for(const key of ['name="website_project_type"','name="ai_agent_interest"','name="existing_website"'])assert.ok(x.includes(key));
+          const legacy=read('public/intake/website-ai-crm/index.html');
+          assert.ok(legacy.includes('website-ai-crm')||legacy.includes('AI Assistant'));
+          for(const p of ['public/demos/aftr/index.html','public/demos/sova/index.html','public/command-center/index.html'])assert.ok(read(p).includes('tle-global-legal-footer-20261109.js'));
+          for(const p of ['public/terms.html','public/es/terms.html'])assert.ok(read(p).includes('website-plus')||read(p).includes('Command Center avanzado')||read(p).includes('Advanced Command Center'));
+          console.log('PASS: current/legacy offers and legal footer routes');
+          JS
