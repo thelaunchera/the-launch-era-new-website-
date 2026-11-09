@@ -11,12 +11,12 @@ const base=(process.env.QA_URL||'https://thelaunchera.com').replace(/[/]+$/,'');
 const routes=[
  ['home-en','/'],['home-es','/es/'],['solutions','/solutions/'],
  ['how-it-works','/how-it-works/'],['booking-en','/booking-lead-automation/'],
- ['booking-es','/es/booking-lead-automation/'],['cleaning-web-app','/cleaning-web-app/'],
+ ['booking-es','/es/booking-lead-automation/'],['website-offer-en','/website-for-your-business/'],
  ['website-automation','/website-automation/'],['virtual-assistant','/virtual-assistant/'],
  ['free-guide','/free-cleaning-lead-guide/'],['bundle','/booking-bundle/'],
  ['booking-demo','/booking-demo/'],['sample-cleaning','/sample-cleaning/'],
  ['booking-experience','/experience-cleaning/'],['try-booking','/try-booking/'],
- ['cleaning-app-preview','/cleaning-app-demo/'],['ai-assistants','/ai-booking-assistant/'],
+ ['website-offer-es','/es/website-for-your-business/'],['ai-assistants','/ai-booking-assistant/'],
  ['casa-brownie','/demos/casa-brownie/'],['crumb','/demos/crumb/'],
  ['aftr','/demos/aftr/'],['claudia','/demos/claudia/'],
  ['angela','/demos/angela-so-fresh-clean-queen/']
@@ -81,10 +81,11 @@ try {
        ctaTop:rect?.top??null,ctaHeight:rect?.height??null,
        ctaWidth:rect?.width??null,ctaFont:style?parseFloat(style.fontSize):null,
        cssLinked:!!document.querySelector('link[href*="tle-mobile-first-375.css"]'),
+       officialCssLinked:!!document.querySelector('link[href*="tle-website-official.css"]'),
        layout, cards:cards.length,brokenCardImages
      };
    });
-   assert(r.cssLinked,'Mobile-first stylesheet not linked');
+   assert(r.cssLinked||r.officialCssLinked,'Mobile-responsive stylesheet not linked');
    assert(r.docWidth-r.viewport<=5,'Page overflows 375px by '+(r.docWidth-r.viewport));
    assert(r.headings,'Primary heading missing or hidden');
    assert(r.cta,'Visible hero or primary CTA missing');
@@ -122,10 +123,27 @@ try {
      assert(r.layout.every(g=>!g.overlap),'Cards are not stacked in one reading column');
    }
    assert(pageErrors.length===0,'Uncaught browser errors: '+pageErrors.slice(0,2).join(' | '));
+   if(name==='website-offer-en'||name==='website-offer-es'){
+     const demo=page.locator('[data-tle-outcome-demo]');
+     assert.equal(await demo.count(),1,'A single integrated outcomes demo must be visible');
+     await demo.scrollIntoViewIfNeeded();
+     await demo.locator('[data-outcome-kind]').selectOption('appointment');
+     await demo.locator('[data-outcome-form] button').click();
+     assert.equal(await demo.getAttribute('data-preview-state'),'ready','Preview must react to a customer request');
+     assert.match(await demo.locator('[data-outcome-receipt-text]').textContent(),name.endsWith('-es')?/no está confirmado/:/not confirmed yet/,'Request must not be presented as a confirmed booking');
+     await demo.locator('[data-outcome-reset]').click();
+     assert.equal(await demo.getAttribute('data-preview-state'),'idle','Reset must clear the demo');
+     await page.screenshot({path:'qa-screenshots/tle-375-'+name+'-customer-journey.png',fullPage:false,timeout:10000});
+   }
    if(name==='home-en'||name==='home-es'){
      const serviceCards=page.locator('.solutions-section .tle-service-static');
-     assert.equal(await serviceCards.count(),5,'All five services must be visible');
-     for(let i=0;i<5;i++){
+     const count=await serviceCards.count();
+     if(count===0){
+       assert.equal(await page.locator('.pricing .plan').count(),2,'Current website homepage must show both approved offers');
+     }else{
+       assert.equal(count,4,'Four current public services should be visible; the retired Cleaning App must stay removed');
+     }
+     for(let i=0;i<count;i++){
        const card=serviceCards.nth(i);
        await card.scrollIntoViewIfNeeded();
        const img=card.locator('.service-image img');
@@ -149,5 +167,5 @@ try {
   }finally{await page.close()}
  }
 }finally{await browser.close()}
-console.log('375px mobile-first QA: '+(routes.length-issues.length)+'/'+routes.length+' routes passed');
+console.log('375px mobile-first QA: '+(routes.length-issues.length)+'/'+routes.length+' current routes passed');
 if(issues.length)process.exitCode=1;
