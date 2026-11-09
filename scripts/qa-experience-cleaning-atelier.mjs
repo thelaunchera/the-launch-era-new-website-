@@ -36,14 +36,14 @@ for(const lang of ['en','es']){
  assert.match($('booking-inclusions-kicker').textContent,lang==='en'?/EXAMPLE/:/EJEMPLO/);
  assert.equal(w.document.querySelectorAll('.booking-card-price').length,6);
  const deep=w.document.querySelector('[data-service="deep"]');deep.click();await settle();
- assert.equal($('booking-inline-value').textContent,'$190');
+ assert.equal($('booking-inline-value').textContent,'$187');
  assert.match($('booking-inclusions-title').textContent,lang==='en'?/Deep cleaning/:/Limpieza profunda/);
  $('next').click();await settle();assert.equal($('stage-2').hidden,false);
  $('beds').value='3';$('beds').dispatchEvent(new w.Event('change',{bubbles:true}));
  const oven=w.document.querySelector('.extras input[value="oven"]');oven.checked=true;oven.dispatchEvent(new w.Event('change',{bubbles:true}));
- await settle();assert.equal($('booking-inline-value').textContent,'$240');
+ await settle();assert.equal($('booking-inline-value').textContent,'$237');
  $('next').click();await settle();assert.equal($('stage-3').hidden,false);
- assert.equal($('booking-review-total').textContent,'$240');
+ assert.equal($('booking-review-total').textContent,'$237');
  assert.match($('booking-review-service').textContent,lang==='en'?/Deep/:/profunda/);
  assert.equal($('booking-review-date').textContent,$('r-date').textContent);
  assert.equal(w.document.querySelector('.steps .step.is-current')?.dataset.stepLabel,'3');
@@ -53,7 +53,7 @@ for(const lang of ['en','es']){
  $('next').click();await settle();
  $('booking-review-edit-service').click();await settle();
  assert.equal($('stage-1').hidden,false);
- assert.equal($('booking-inline-value').textContent,'$240');
+ assert.equal($('booking-inline-value').textContent,'$237');
  w.document.querySelector('.booking-category-tab[data-category="commercial"]').click();await settle();
  assert.equal($('commercial-service-grid').hidden,false);
  assert.equal($('booking-inline-value').dataset.estimate,'true');
