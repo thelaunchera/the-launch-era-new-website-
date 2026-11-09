@@ -3,6 +3,18 @@
  * User-uploaded gallery photos always take priority; these references are
  * editorial fallback only and never count against storage. */
 export const EDITORIAL_PHOTO_SETS = {
+  "freska": [
+    "https://thelaunchera.com/demos/freska/media/freska-hero-owner-approved-20261109.jpg",
+    "https://thelaunchera.com/demos/freska/media/hero-pink-pop.webp",
+    "https://thelaunchera.com/demos/freska/media/pink-crush.webp",
+    "https://thelaunchera.com/demos/freska/media/mango-mood.webp",
+    "https://thelaunchera.com/demos/freska/media/ruby-fizz.webp",
+    "https://thelaunchera.com/demos/freska/media/iced-cloud.webp",
+    "https://thelaunchera.com/demos/freska/media/strawberry-lime.webp",
+    "https://thelaunchera.com/demos/freska/media/berry-hand.webp",
+    "https://thelaunchera.com/demos/freska/media/strawberry-hero.webp",
+    "https://thelaunchera.com/demos/freska/media/orange-hand.webp"
+  ],
   "casa-brownie": [
     "https://thelaunchera.com/demos/casa-brownie/assets/hero-brownies.webp",
     "https://thelaunchera.com/demos/casa-brownie/assets/regalo-lazo-rosa.webp",
