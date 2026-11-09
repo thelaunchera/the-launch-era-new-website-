@@ -484,15 +484,30 @@ const DEMOS=[
     imageX: 50,
     imageScale: 1
   },
+  {
+    id:'sneekiefs',
+    name:'Sneekiefs',
+    category:'Sneakers · Demo',
+    description:'Tienda conceptual de sneakers con campaña original, tres pares de muestra y una dirección editorial de azul Canyon y naranja Sandstone.',
+    tagline:'Move your way.',
+    monogram:'S',symbol:'S',
+    titleFont:'Archivo Black',bodyFont:'Space Grotesk',
+    tone:'Urbana · editorial · dinámica',style:'fashion',
+    colors:['#168DD2','#D65A24','#DDEFF8','#FAF8F3','#16212D','#E8CFB2'],
+    heroPhoto:'https://thelaunchera.com/demos/sneekiefs/assets/07-editorial-poster.webp',
+    detailPhoto:'https://thelaunchera.com/demos/sneekiefs/assets/01-studio-shoe.webp',
+    site:'https://thelaunchera.com/demos/sneekiefs/',
+    logoImage:'',patternImage:'',imageY:50,imageX:50,imageScale:1
+  },
 ];
-const TYPES=['Bebidas · Demo','Bakery · Demo','Cookie Shop · Demo','Nightclub · Demo','Boutique · Demo','Beauty · Demo','Wellness · Demo','Restaurante · Demo','Audio · Demo','Food · Demo','Cleaning · Demo','Cliente real','Otra categoría'];
-const FONTS=['Italiana','Bodoni Moda','DM Serif Display','Cormorant Garamond','Bebas Neue','Caprasimo','Georgia','Manrope','DM Sans','Arial'];
+const TYPES=['Bebidas · Demo','Bakery · Demo','Cookie Shop · Demo','Nightclub · Demo','Boutique · Demo','Beauty · Demo','Wellness · Demo','Restaurante · Demo','Audio · Demo','Food · Demo','Cleaning · Demo','Sneakers · Demo','Cliente real','Otra categoría'];
+const FONTS=['Italiana','Bodoni Moda','DM Serif Display','Cormorant Garamond','Bebas Neue','Caprasimo','Georgia','Manrope','DM Sans','Archivo Black','Space Grotesk','Arial'];
 const clone=x=>JSON.parse(JSON.stringify(x));
 const $=id=>document.getElementById(id);
 const html=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','&#39;':'&#39;'}[c]||'&#39;'));
 const cssUrl=x=>'url('+JSON.stringify(x||'')+')';
 const hex=(v,f='#FFFFFF')=>/^#[0-9a-fA-F]{6}$/.test(v||'')?v:f;
-const FONT_MAP={'Caprasimo':"'Caprasimo',Georgia,serif",'Italiana':"'Italiana',Georgia,serif",'Bodoni Moda':"'Bodoni Moda',Georgia,serif",'DM Serif Display':"'DM Serif Display',Georgia,serif",'Cormorant Garamond':"'Cormorant Garamond',Georgia,serif",'Bebas Neue':"'Bebas Neue',Arial,sans-serif",Georgia:'Georgia,serif',Manrope:"Manrope,sans-serif",'DM Sans':"'DM Sans',sans-serif",Arial:'Arial,sans-serif'};
+const FONT_MAP={'Archivo Black':"'Archivo Black',Impact,sans-serif",'Space Grotesk':"'Space Grotesk',sans-serif",'Caprasimo':"'Caprasimo',Georgia,serif",'Italiana':"'Italiana',Georgia,serif",'Bodoni Moda':"'Bodoni Moda',Georgia,serif",'DM Serif Display':"'DM Serif Display',Georgia,serif",'Cormorant Garamond':"'Cormorant Garamond',Georgia,serif",'Bebas Neue':"'Bebas Neue',Arial,sans-serif",Georgia:'Georgia,serif',Manrope:"Manrope,sans-serif",'DM Sans':"'DM Sans',sans-serif",Arial:'Arial,sans-serif'};
 const font=v=>FONT_MAP[v]||FONT_MAP['DM Sans'];
 function hydrate(){
   let previous=[];
@@ -568,7 +583,8 @@ function hydrate(){
   return existing;
 }
 let brands=hydrate();
-let activeId=localStorage.getItem(KEY+'-active')||brands[0].id;
+const requestedBrand=new URLSearchParams(window.location.search).get('brand');
+let activeId=(requestedBrand&&brands.some(x=>x.id===requestedBrand)?requestedBrand:localStorage.getItem(KEY+'-active'))||brands[0].id;
 if(!brands.some(x=>x.id===activeId))activeId=brands[0].id;
 let view='board',tab='identity',focused=false,toastId;
 let uploadSection = 'identity';

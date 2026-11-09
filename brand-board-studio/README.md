@@ -6,6 +6,7 @@ This is the editable Brand Board included in the main The Launch Era website.
 - Source: `brand-board-studio/` in `the-launch-era-new-website-`
 - Official photos: linked from each original demo; they are not duplicated
 - CRUMB: approved blue identity, using #477BB3, #C9E2F4 and the current hero, lifestyle, cookie products and packaging
+- Sneekiefs: one Brand Board preset, accessible at https://thelaunchera.com/brand-board/?brand=sneekiefs. Colors Canyon Sky Blue `#168DD2`, Sandstone Orange `#D65A24`, typography Archivo Black / Space Grotesk, and eight existing WebP campaign photos linked directly from `/demos/sneekiefs/assets/` (no duplicated Drive uploads). Original folder https://drive.google.com/drive/folders/16UZbyKYJKMkOQXWozE2mUsXp2d4FFdOy.
 - Projects: vertical brand-by-brand sidebar with a collapsible individual-card drawer for phones
 
 The existing GitHub Pages workflow compiles this Vite project with `bun install && bun run build` after the main website build, placing the files in `.output/public/brand-board/`, while preserving the original domain CNAME.
@@ -19,3 +20,7 @@ User-created boards, photo uploads and edits are stored in localStorage and Inde
 Work on `brand-board-studio/src/`. It is separate from The Content Lab and from the private Studio. The former AppDeploy app remains independent and its updates do not sync automatically.
 
 Run `bun install` and `bun run dev` from `brand-board-studio/` for development. Main website build and route QA are unchanged.
+
+## Existing brand edits are preserved
+
+`hydrate()` appends only missing official preset IDs and preserves existing localStorage edits and user-created brands. The safe `?brand=<known-id>` link selects a board without replacing any data. Curated photos use public demo URLs as fallback; owner-uploaded photos in IndexedDB still take priority. Do not create a second OFFCOURT board.
