@@ -16,6 +16,8 @@ assert.doesNotMatch(js,/\bfetch\s*\(|\bXMLHttpRequest\b|\blocalStorage\b|\bsessi
 for(const [lang,path] of [['en','public/website-for-your-business/index.html'],['es','public/es/website-for-your-business/index.html']]){
  const html=read(path);
  assert.match(html,new RegExp('data-tle-outcome-demo data-lang="'+lang+'"'),'bilingual demo marker');
+ assert.equal((html.match(/data-tle-outcome-demo/g)||[]).length,1,'never duplicate the interactive journey or Command Center preview');
+ assert.doesNotMatch(html,/offer=website-ai-crm/,'retired AI subscription must never appear in current public sales');
  assert.match(html,/\/assets\/tle-outcome-journey-20261109\.css/,'demo styles');
  assert.match(html,/\/assets\/tle-outcome-journey-20261109\.js/,'demo interaction');
  assert.match(html,/data-outcome-form/,'working sample request');
