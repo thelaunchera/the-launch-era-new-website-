@@ -96,6 +96,12 @@ def main():
                 # Catalog cards and galleries still use the optimized WebP.
                 if rel_file == "demos/golden-grid/index.html" and old == "resources/golden-1.png":
                     continue
+                # La Vie's approved PINK cover has large lettering baked in.
+                # Preserve the original lossless master in the public catalog as
+                # well as inside its demo; keep the optimized WebP for other art.
+                if (rel_file == "demos/index.html" and slug == "la-vie-in-pink"
+                        and old == "photos/lavie_pink_hero_editorial.png"):
+                    continue
                 absolute_old, absolute_new = "/demos/" + slug + "/" + old, "/demos/" + slug + "/" + new
                 if absolute_old in text:
                     replacement_counts[slug] += text.count(absolute_old)
