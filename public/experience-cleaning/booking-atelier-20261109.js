@@ -43,7 +43,7 @@
    }
   }
  };
- const startingPrice={standard:120,deep:190,move:240,custom:null};
+ const startingPrice={standard:120,deep:187,move:290,custom:null};
  const cards=[...document.querySelectorAll('#service-grid .service-card,#commercial-service-grid .service-card')];
  for(const card of cards){
   if(card.querySelector('.booking-card-price'))continue;
