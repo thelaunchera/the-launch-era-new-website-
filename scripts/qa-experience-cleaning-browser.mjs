@@ -15,7 +15,7 @@ try{
   assert.equal(await page.locator('#owner').isVisible(),false);
   const motionCss=await page.locator('.hero-full-photo').evaluate(el=>getComputedStyle(el).animationName);
   assert.equal(motionCss,'none','Reduced-motion setting must disable animated hero depth');
-  assert.match(await page.locator('#hero-title').innerText(),lang==='es'?/Tu casa impecable/:/See how clients book/);
+  assert.match(await page.locator('#hero-title').innerText(),lang==='es'?/Tu casa impecable/:/A fresh home starts here/);
   assert.match(await page.locator('#experience-title').innerText(),lang==='es'?/Reserva tu limpieza residencial/:/Book residential cleaning/);
   assert.match(await page.locator('#experience-title').innerText(),lang==='es'?/estimado comercial/:/commercial estimate/);
   assert.equal(await page.locator('.intro-band-group').count(),2);
