@@ -47,7 +47,7 @@ try{
   data=rows;
   await page.evaluate(()=>window.TLEWebsiteDemoVisibility.reload());
   await page.waitForFunction(()=>document.querySelectorAll('.demo-card:not([hidden])').length===13);
-  assert.equal(await page.locator('.demo-card:visible').count(),12,'Re-hiding must immediately update without a deploy');
+  assert.equal(await page.locator('.demo-card:visible').count(),13,'Re-hiding must immediately update without a deploy');
 
   await page.goto(base+'/demos/?demo=havana-19',{waitUntil:'domcontentloaded'});
   await ready(page);
