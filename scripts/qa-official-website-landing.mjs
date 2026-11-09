@@ -58,17 +58,17 @@ for(const r of routes){
  assert.equal(gallerySlugs[gallerySlugs.indexOf('soluna-yoga')+1],'sneekiefs','Sneekiefs must follow SOLUNA Yoga on '+language);
  assert.ok(/\/assets\/tle-offer-gallery-hero-media-20261108\.js\?v=\d+/.test(html),language+': gallery video fallback script missing');
  for(const [slug,asset] of Object.entries({
-  'soluna-yoga':'/soluna-yoga/images/soluna-hero-editorial.webp',
+  'soluna-yoga':'/soluna-yoga/media/hero-motion-poster-hq.webp',
   'sneekiefs':'/demos/sneekiefs/assets/07-editorial-poster.webp',
-  'experience-cleaning':'/assets/cleaning-demo/hero-cleaner-original.jpg',
+  'experience-cleaning':'/experience-cleaning/media/cleaning-hero-poster-20261108.jpg',
   'yummm':'/yummm/media/hero-motion-poster-hq.webp',
-  'wok-social':'/wok-social/assets/hero-storefront.webp',
+  'wok-social':'/wok-social/media/hero-motion-poster-hq.webp',
   'freska':'/demos/freska/media/hero-pink-pop.webp',
   'nail-room':'/nail-room/media/pink-ombre-hero.png'
  })){
   assert.ok(html.includes('data-demo="'+slug+'"'),language+': project missing '+slug);
   assert.ok(html.includes('demo='+slug),language+': project preview link missing '+slug);
-  assert.ok(html.includes(asset),language+': original hero media missing '+slug);
+  assert.ok(html.includes(asset),language+': approved static or video first-frame hero missing '+slug);
  }
  assert.ok(html.includes('/yummm/media/hero-motion-20261108.mp4'),language+': approved YUMMM motion not linked');
  for(const filename of photos[language==='es'?'en':'es'].slice(1))
@@ -89,4 +89,4 @@ for(const r of routes){
  assert.ok(html.includes('href="#proceso"'),'process anchor');
  assert.ok(html.includes('href="#preguntas"'),'FAQ anchor');
 }
-console.log('[TLE OFFICIAL LANDING] Fourteen-card gallery, original approved photo and independent ES/EN package photos, pricing/checkout preserved, responsive CSS checked');
+console.log('[TLE OFFICIAL LANDING] Fourteen-card gallery, approved first-frame video covers and independent ES/EN package photos, pricing/checkout preserved, responsive CSS checked');
