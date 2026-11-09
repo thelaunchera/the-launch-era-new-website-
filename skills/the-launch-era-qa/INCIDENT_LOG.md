@@ -1,3 +1,10 @@
+## 2026-11-08 — Scroll reveals too fast to perceive (code fix; live QA pending)
+
+- **Owner symptom:** motion across public websites and demos finishes before photography/headline effects can be appreciated, especially on fast phone scrolling.
+- **Verified source:** shared demo reveal CSS had 670–1020ms transitions (720ms default), offer cards 750ms, photo/panel 870–1000ms; observers triggered near/after viewport entry with -7%/-9% bottom margins. La Vie in Pink declared `data-tle-one-motion` but did not load the shared motion assets.
+- **Resolution (branch `fix/slow-scroll-reveals-20261108`):** raised demo durations to 1250–1800ms, offer section 1400ms, owner photos/panel 1500/1700ms, restored earlier viewport activation with positive 8% margin; retained bidirectional re-entry and reduced-motion. Cache-busted affected HTML; mirrored core assets to the secondary demo repo. No changes to scrolling physics, booking, checkout, photo assets or client records.
+- **Validation status:** code-level values checked in both repositories. Static route-integrity, Playwright/iPhone, PR checks, production Pages deploy and browser signoff still pending; do not mark the incident fully resolved until confirmed.
+
 ## 2026-11-08 — Four missing brand heroes on the Website offer
 
 - **Owner request:** add the live concepts SOLUNA Yoga, Experience Cleaning, YUMMM and WOK SOCIAL to the existing offer's hero and display each brand's real demo photo or video (not generic cards or substitute media). Preserve curated Studio visibility.
