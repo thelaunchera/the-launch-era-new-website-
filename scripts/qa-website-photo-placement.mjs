@@ -54,7 +54,7 @@ for(const [language,html] of [['en',en],['es',es]]){
  assert(!hero.includes('automated-crm')&&!hero.includes('process-'),language+': checkout/process photo intrudes into gallery');
  assert(hero.includes('data-motion-src="https://thelaunchera.github.io/demo-booking-landing-/yummm/media/hero-motion-20261108.mp4"'),language+': original YUMMM motion missing');
  const basic=html.match(/<article class="plan" id="website-basic">([\s\S]*?)<\/article>/)?.[1];
- const advanced=html.match(/<article class="plan" id="website-ai-crm">([\s\S]*?)<\/article>/)?.[1];
+ const advanced=html.match(/<article class="plan" id="website-plus">([\s\S]*?)<\/article>/)?.[1];
  const process=html.match(/<section class="process" id="proceso">([\s\S]*?)<\/section>/)?.[1];
  assert(basic?.includes(photoRoot+expected.planBasic),language+': basic package photo wrong');
  assert(language!=='en'||basic?.includes('alt="Woman working at a laptop displaying the Jaramillo Boutique website"'), 'English Package 1 Jaramillo image alt missing');
@@ -69,7 +69,7 @@ for(const [language,html] of [['en',en],['es',es]]){
   assert(html.split('src="'+photoRoot+name+'"').length===2,language+': '+name+' is missing or duplicated outside its approved package or process section');
   assert(existsSync('public'+photoRoot+name),language+': asset missing: '+name);
  }
- assert(html.includes('$15')&&html.includes('$25')&&html.includes('$8 USD'),language+': prices not aligned');
+ assert(html.includes('$15')&&html.includes('$25')&&!html.includes('$8 USD'),language+': current one-time prices or optional AI billing not aligned');
  assert(/48 (hours|horas)/i.test(html),language+': delivery estimate missing');
  assert(/revision round|ronda de revisión/i.test(html),language+': included revision round missing');
 }
