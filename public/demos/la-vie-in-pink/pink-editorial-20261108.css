@@ -272,3 +272,30 @@ body{background:var(--cream);}
   .lv-photo{scroll-snap-align:start;}
   .lv-photo-set[aria-hidden="true"],.lv-ticker-set[aria-hidden="true"]{display:none;}
 }
+
+/* Mobile hero + bag focus, menu expands on request; desktop/tablet unchanged. */
+@media(max-width:520px){
+ .announcement,.main-nav,.lv-ticker,.lv-gallery-section,.experience,.featured,.closing{display:none!important}
+ .site-header{top:0;background:rgba(255,250,252,.98)}
+ .header-inner{min-height:65px;flex-wrap:nowrap;padding:12px 18px}
+ .brand>span{font-size:25px}
+ .brand small{font-size:8px}
+ .header-actions{margin-left:auto}
+ .bag-trigger{display:flex!important;min-height:45px;min-width:47px;padding:9px 12px}
+ .bag-trigger [data-t="bag"]{display:none!important}
+ .hero{display:flex;flex-direction:column;min-height:0}
+ .hero-visual{order:0;height:min(98vw,390px);aspect-ratio:auto;min-height:0}
+ .hero-visual>img{width:100%;height:100%;object-fit:contain;object-position:center}
+ .hero-copy{order:1;padding:26px 22px 32px}
+ .hero h1{font-size:clamp(39px,10.3vw,54px);line-height:1.03;max-width:11ch}
+ .hero-lead{font-size:13px;line-height:1.55;margin-top:12px}
+ .hero-foot{margin-top:20px}
+ .hero-actions{margin-top:19px}
+ .hero-actions .pill{min-height:46px}
+ .menu-section{display:none!important}
+ body.lv-mobile-menu-open .menu-section{display:block!important;padding-top:57px}
+ .footer-inner{padding:20px 20px 14px}
+ .footer-inner nav,.footer-inner p{display:none}
+ .footer .brand>span{font-size:27px}
+ .footer-bottom{padding:14px 20px 24px}
+}

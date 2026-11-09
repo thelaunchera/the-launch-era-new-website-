@@ -149,7 +149,7 @@
  function add(id){if(!findProduct(id))return;state.cart.set(id,Math.min(99,(state.cart.get(id)||0)+1));state.step="cart";openCart();}
  function change(id,delta){const next=(state.cart.get(id)||0)+delta;if(next<=0)state.cart.delete(id);else state.cart.set(id,Math.min(99,next));renderCart();}
  function reset(){state.cart.clear();state.step="cart";state.customer={name:"",email:"",notes:""};renderCart();closeCart();$("#menu")?.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});}
- function onAction(action){if(action==="browse"){closeCart();$("#menu")?.scrollIntoView({behavior:"smooth"});}if(action==="checkout"&&state.cart.size){state.step="checkout";renderCart();$("#cart-body")?.scrollTo(0,0);}if(action==="back"){state.step="cart";renderCart();}if(action==="reset")reset();}
+ function onAction(action){if(action==="browse"){document.body.classList.add("lv-mobile-menu-open");closeCart();$("#menu")?.scrollIntoView({behavior:"smooth"});}if(action==="checkout"&&state.cart.size){state.step="checkout";renderCart();$("#cart-body")?.scrollTo(0,0);}if(action==="back"){state.step="cart";renderCart();}if(action==="reset")reset();}
  document.addEventListener("click",event=>{
   const node=event.target.closest?.("button");if(!node)return;
   if(node.dataset.lang){state.lang=node.dataset.lang;translate();return;}
@@ -178,5 +178,14 @@
   if(event.key==="Escape"){event.preventDefault();closeCart();return;}
   if(event.key==="Tab"){const focusable=$$("button:not([disabled]), input:not([disabled]), textarea:not([disabled]), a[href]",layer).filter(n=>n.getClientRects().length>0);if(!focusable.length)return;const first=focusable[0],last=focusable[focusable.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}}
  });
- if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",translate,{once:true});else translate();
+ document.addEventListener("click",event=>{
+ const anchor=event.target.closest?.('a[href="#menu"]');
+ if(anchor)document.body.classList.add("lv-mobile-menu-open");
+});
+function enterMobileHero(){
+ if(location.hash==="#menu")document.body.classList.add("lv-mobile-menu-open");
+ if(new URLSearchParams(location.search).get("cart")==="open")openCart();
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>{translate();enterMobileHero();},{once:true});
+else{translate();enterMobileHero();}
 })();
