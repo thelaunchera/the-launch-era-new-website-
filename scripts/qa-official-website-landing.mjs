@@ -52,10 +52,14 @@ for(const r of routes){
  for(const filename of photos[language])assert.ok(html.includes(filename),language+': missing photo '+filename+' at '+r);
  assert.ok(html.includes('class="hero hero-gallery"'),'gallery hero not on '+language);
  assert.match(html, /\/assets\/tle-gallery-hero-20261107\.css\?v=\d+/, 'gallery styles not linked on '+language);
- assert.ok((html.match(/class="hero-gallery-card"/g)||[]).length===12,'twelve real demo gallery panels not present on '+language);
+ const gallerySlugs=[...html.matchAll(/class="hero-gallery-card"[^>]*data-demo="([^"]+)"/g)].map(match=>match[1]);
+ assert.equal(gallerySlugs.length,13,'Thirteen real demo gallery panels required on '+language);
+ assert.equal(new Set(gallerySlugs).size,13,'Each demo must appear only once on '+language);
+ assert.equal(gallerySlugs[gallerySlugs.indexOf('soluna-yoga')+1],'sneekiefs','Sneekiefs must follow SOLUNA Yoga on '+language);
  assert.ok(/\/assets\/tle-offer-gallery-hero-media-20261108\.js\?v=\d+/.test(html),language+': gallery video fallback script missing');
  for(const [slug,asset] of Object.entries({
   'soluna-yoga':'/soluna-yoga/images/soluna-hero-editorial.webp',
+  'sneekiefs':'/demos/sneekiefs/assets/07-editorial-poster.webp',
   'experience-cleaning':'/assets/cleaning-demo/hero-cleaner-original.jpg',
   'yummm':'/yummm/media/hero-motion-poster-hq.webp',
   'wok-social':'/wok-social/assets/hero-storefront.webp',
@@ -84,4 +88,4 @@ for(const r of routes){
  assert.ok(html.includes('href="#proceso"'),'process anchor');
  assert.ok(html.includes('href="#preguntas"'),'FAQ anchor');
 }
-console.log('[TLE OFFICIAL LANDING] Twelve-card gallery, original approved photo and independent ES/EN package photos, pricing/checkout preserved, responsive CSS checked');
+console.log('[TLE OFFICIAL LANDING] Thirteen-card gallery, original approved photo and independent ES/EN package photos, pricing/checkout preserved, responsive CSS checked');
