@@ -1,9 +1,29 @@
 {
-  "version": "2026-11-08",
-  "updated_at": "2026-11-08",
+  "version": "2026-11-09",
+  "updated_at": "2026-11-09",
   "disclaimer_en": "Prices and availability are confirmed on the checkout page. We review setup details before production.",
   "disclaimer_es": "Los precios y la disponibilidad se confirman en el checkout. Revisamos los detalles antes de comenzar.",
   "offers": [
+    {
+      "id": "website-basic",
+      "name": "Website + Command Center",
+      "short_en": "A new mobile-first business website or approved improvements to a compatible existing website, with customer inquiries and a private Command Center. AI agent sold separately.",
+      "short_es": "Website nuevo para móvil o mejoras acordadas a uno existente compatible, con consultas de clientes y Command Center privado. Agente IA aparte.",
+      "price_en": "$15 one-time. No required AI subscription. Compatibility and scope reviewed before production.",
+      "price_es": "$15 pago único. Sin suscripción IA obligatoria. Revisamos compatibilidad y alcance antes de empezar.",
+      "checkout": "/website-checkout/?offer=website-basic&lang=en",
+      "details": "/website-for-your-business/"
+    },
+    {
+      "id": "website-plus",
+      "name": "Website Plus + Advanced Command Center",
+      "short_en": "New website or compatible site improvements, an advanced private Command Center and agreed email workflows. AI agent optional by separate quote.",
+      "short_es": "Website nuevo o mejoras compatibles, Command Center privado avanzado y flujos de correo acordados. Agente IA opcional con cotización separada.",
+      "price_en": "$25 one-time. No required monthly AI subscription.",
+      "price_es": "$25 pago único. Sin mensualidad IA obligatoria.",
+      "checkout": "/website-checkout/?offer=website-plus&lang=en",
+      "details": "/website-for-your-business/"
+    },
     {
       "id": "booking",
       "name": "Booking Automation + Command Center",
