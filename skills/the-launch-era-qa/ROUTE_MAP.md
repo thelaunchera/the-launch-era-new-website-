@@ -1,3 +1,11 @@
+## 2026-11-09 — Existing owner Command Center links website deliveries without another dashboard
+
+- **Canonical owner workspace:** `/command-center/` (authenticated owner only). The existing `Pedidos y websites` focus card scrolls to the SAME `ownerPagesHub` and `ownerOrderControl` purchase overview; no new workspace, customer table, or owner dashboard was created.
+- **One new owner-only shortcut:** `#ownerWebsiteDeliveryShortcut` links to the EXISTING `/website-delivery-admin/` route for the $15/$25 website products. The website purchases are explicitly NOT represented as synced into the legacy Booking purchase list.
+- **Return:** the existing website delivery page links back to `/command-center/`; both pages now use the existing `tle-crm-auth` session storage key to avoid needless separate sign-ins. The existing server-authorized `tle-website-delivery-activate` endpoint and owner authorization remain unchanged.
+- **Data and cost boundaries:** No new Supabase/Stripe/Make calls, tenant provisioning, AI provider, website purchase records, schemas, billing activations or real customer changes. Buyer sidebar and client workspaces remain unchanged.
+- **Verification:** source static invariants are in `scripts/qa-owner-internal-incidents.mjs`, already part of Pages CI. A provider-authorized owner login, iPhone Safari and live deployment verification are required before declaring the navigation fully released.
+
 ## 2026-11-08 — Jaramillo motion + SOVA approved portrait in bilingual offer (no route changes)
 
 - Scope: original EN/ES `/website-for-your-business/` hero portfolio cards for **Jaramillo Boutique** and **SOVA**. Keep all other brands, owner-controlled portfolio selection, public demo links, bilingual copy, prices and checkout exactly as before.
