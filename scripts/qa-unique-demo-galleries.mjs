@@ -9,7 +9,7 @@ const cases=[
   {name:'havana-19',selector:'.gallery-grid.gallery-unique',mode:'duet',min:2},
   {name:'ivory-and-bloom',selector:'#cake-gallery .cake-grid',mode:'filmstrip',min:7},
   {name:'lavender-edit',selector:'#gallery .look-grid',mode:'stack',min:3},
-  {name:'la-vie-in-pink',selector:'.gallery-section .gallery-grid',mode:'accordion',min:3},
+  {name:'la-vie-in-pink',selector:'.lv-photo-track',mode:'editorial-loop',min:4},
   {name:'marea-wigs-miami',selector:'#editorial-track',mode:'native-rail',min:3},
   {name:'crumb',selector:'#crumb-gallery-track',mode:'original-dots',min:3},
 ];
@@ -28,12 +28,15 @@ try{
    page.on('pageerror',e=>errors.push(String(e)));
    const response=await page.goto(BASE+'/demos/'+test.name+'/',{waitUntil:'load',timeout:35000});
    assert.equal(response?.status(),200, test.name+' missing route');
-   await page.waitForFunction(([selector,mode])=>!!document.querySelector(selector+'.tle-motion-'+mode),
+   await page.waitForFunction(([selector,mode])=>mode==='editorial-loop'
+     ? !!document.querySelector(selector+' > .lv-photo-set .lv-photo')
+     : !!document.querySelector(selector+'.tle-motion-'+mode),
      [test.selector,test.mode],{timeout:25000});
    const gallery=page.locator(test.selector);
    const visible=await gallery.evaluate(el=>{
      const rect=el.getBoundingClientRect();
-     const count=Array.from(el.children).filter(n=>n.matches('figure,article,button,.gallery-photo')).length;
+     const count=el.querySelectorAll('.lv-photo-set:first-child .lv-photo').length ||
+       Array.from(el.children).filter(n=>n.matches('figure,article,button,.gallery-photo')).length;
      return {left:rect.left,width:rect.width,pageWidth:document.documentElement.clientWidth,count,
        mode:el.className, scrollWidth:el.scrollWidth,clientWidth:el.clientWidth};
    });
@@ -42,13 +45,19 @@ try{
    assert(visible.width>=160,test.name+' collapsed gallery');
    if(test.mode==='filmstrip'){
      assert(visible.scrollWidth>visible.clientWidth+20,test.name+' no internal track');
-   }else if(test.mode!=='original-dots'&&test.mode!=='native-rail'){
+   }else if(!['original-dots','native-rail','editorial-loop'].includes(test.mode)){
      const ctrl=page.locator('.tle-gallery-controls').first();
      assert.equal(await ctrl.count(),1,test.name+' missing controls');
      const before=await ctrl.locator('.tle-gallery-count').innerText();
      await ctrl.locator('.tle-gallery-next').click();
      const after=await ctrl.locator('.tle-gallery-count').innerText();
      assert.notEqual(before,after,test.name+' next navigation did not advance');
+   }
+   if(test.mode==='editorial-loop'){
+     const sets=page.locator('.lv-photo-track > .lv-photo-set');
+     assert.equal(await sets.count(),2,'La Vie editorial loop must retain two continuous photo sets');
+     const images=sets.first().locator('img[src]');
+     assert.ok(await images.count()>=test.min,'La Vie approved editorial photos must remain');
    }
    if(test.name==='ivory-and-bloom'){
      await page.locator('#cake-gallery .gallery-filters button[data-filter="modern"]').click();
