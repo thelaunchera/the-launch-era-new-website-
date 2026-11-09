@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <meta name="description" content="Private project setup for customers who completed The Launch Era website checkout.">
-<meta name="theme-color" content="#FAF8F3"><title>Website + Advanced Command Center · Project Setup | The Launch Era</title>
+<meta name="theme-color" content="#FAF8F3"><title>Website + AI Assistant + Automated CRM · Project Setup | The Launch Era</title>
 <link rel="icon" type="image/svg+xml" href="/assets/brand/tle-mark.svg">
 <link rel="stylesheet" href="/assets/tle-website-intake.css?v=20261108-picker">
 <script src="/assets/privacy-controls.js?v=20261026-1" data-site="tle"></script>
@@ -24,7 +24,7 @@
   <h1 id="intro-title">Let’s set up your website and CRM.</h1>
   <p data-i18n="lead">These are the details we need to configure your new system.</p>
   <div class="price"><span id="price">$25</span> <span data-i18n="init">Setup package · USD</span></div>
-  <div class="mini"><strong id="package-name">Website + Advanced Command Center</strong><p id="intro-scope"></p></div>
+  <div class="mini"><strong id="package-name">Website + AI Assistant + Automated CRM</strong><p id="intro-scope"></p></div>
   <div class="mini"><p id="ongoing"></p></div>
  </aside>
  <section class="panel" id="form-panel" aria-label="Project setup">
@@ -59,15 +59,6 @@
      <label class="field full" id="other-format-field" hidden><span data-i18n="otherFormatLabel">What should your website display? *</span>
       <select name="other_format" id="other-format"><option value="services_requests" data-i18n="websiteFormatServices">Services + Booking Requests</option><option value="digital_menu" data-i18n="websiteFormatMenu">Digital Menu</option><option value="product_catalog" data-i18n="websiteFormatCatalog">Product Catalog</option></select>
      </label>
-<label class="field full"><span data-i18n="websiteProjectType">What would you like us to do with your website? *</span>
-      <select name="website_project_type" id="website-project-type" required>
-       <option value="new" data-i18n="websiteNew">Create a new website</option>
-       <option value="refresh" data-i18n="websiteRefresh">Refresh the design of my existing website</option>
-       <option value="updates" data-i18n="websiteUpdates">Improve selected sections of my website</option>
-      </select>
-      <small data-i18n="websiteProjectHint">Existing websites are reviewed for platform access and scope before changes begin.</small>
-     </label>
-     <label class="field full" id="existing-site-field" hidden><span data-i18n="websiteExistingRequired">Link to your current website *</span><input name="existing_website" type="url" maxlength="300" placeholder="https://"></label>
      <input type="hidden" name="website_format" id="website-format" value="">
      <label class="field full"><span data-i18n="area">City, address or service area *</span><input name="business_location" required minlength="2" maxlength="150" autocomplete="address-level2" data-placeholder="areaPlace"><small data-i18n="areaHint">For online-only businesses, enter “Online”.</small></label>
     </div>
@@ -150,13 +141,8 @@
   <p class="ai-photo-disclaimer" data-i18n="aiPhotoReview">This is a request for review, not automatic image generation. We will confirm the photo scope before creating anything. Please provide an original product photo using the upload or Drive link above.</p>
  </div>
 </div>
-<div class="full ai-agent-choice">
-      <label class="consent"><input type="checkbox" id="ai-agent-interest" name="ai_agent_interest" value="yes"><span data-i18n="aiAgentChoice">I'm interested in an AI agent for my business (optional).</span></label>
-      <small data-i18n="aiAgentDisclosure">This is a separate request, not included in either package. Pricing is confirmed before activation; it is never charged automatically.</small>
-      <label class="field full" id="ai-agent-brief-field" hidden><span data-i18n="aiShort">What should the optional AI agent help customers with?</span><textarea name="ai_brief" maxlength="900" rows="2" data-placeholder="aiPlace"></textarea></label>
-     </div>
      <div id="advanced-fields" class="full advanced-intake" hidden>
-      <span class="intake-extra-heading" data-i18n="advancedTitle">Email workflows tailored to your business</span>
+      <span class="intake-extra-heading" data-i18n="advancedTitle">AI &amp; email, tailored to your business</span>
       <label class="field"><span data-i18n="automationChoice">What email workflow matters most?</span>
        <select name="automation_workflow" id="automation-workflow">
         <option value="inquiry_alerts" data-i18n="autoAlerts">New inquiry alerts</option>
@@ -166,6 +152,9 @@
        </select>
        <small data-i18n="automationReview">We'll review the workflow before activation. Email only; no SMS.</small>
       </label>
+      <label class="field"><span data-i18n="aiShort">What questions should your AI assistant answer? (optional)</span>
+       <textarea name="ai_brief" maxlength="900" rows="2" data-placeholder="aiPlace"></textarea>
+      </label>
      </div>
      <details class="intake-optional full">
       <summary data-i18n="optionalDetails">Optional details · style, social links and extra references</summary>
@@ -173,6 +162,7 @@
        <label class="field full"><span data-i18n="goalsShort">What makes your business special? (optional)</span><textarea id="goals" name="goals" maxlength="500" rows="2" data-placeholder="goalsPlace"></textarea></label>
        <label class="field full"><span data-i18n="brand">Brand colors or style (optional)</span><textarea name="brand_notes" maxlength="450" rows="2"></textarea></label>
        <label class="field full"><span data-i18n="social">Social links (optional)</span><input name="social_links" type="text" maxlength="280"></label>
+       <label class="field full"><span data-i18n="website">Existing website (optional)</span><input name="existing_website" type="url" maxlength="300" placeholder="https://"></label>
        <label class="field full"><span data-i18n="references">Websites you like (optional)</span><textarea name="reference_sites" maxlength="400" rows="2"></textarea></label>
        <label class="field full upload-field"><span data-i18n="referencePhotos">Extra inspiration images (optional)</span><input name="reference_photos" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" multiple></label>
        <div class="full call-option">
