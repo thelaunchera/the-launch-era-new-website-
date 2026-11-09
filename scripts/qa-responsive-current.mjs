@@ -97,6 +97,28 @@ await check('process modal opens and closes',sizes[1],async page=>{
  await page.locator('.tle-process-close').click();
  await page.locator('.tle-process-dialog').waitFor({state:'detached',timeout:8000});
 });
+for(const lang of ['en','es']) {
+ await check('customer inquiry journey '+lang+' iphone',sizes[1],async page=>{
+  const writes=[];
+  page.on('request',request=>{
+   if(request.method()!=='GET' && /supabase\\.co\\/functions\\/v1\\/tle-studio-website|hook\\.us2\\.make\\.com|api\\.resend\\.com/.test(request.url()))writes.push(request.url());
+  });
+  const response=await page.goto(base+(lang==='es'?'/es/':'/'),{waitUntil:'domcontentloaded',timeout:30000});
+  assert.equal(response?.status(),200,'Website offer page must load');
+  const journey=page.locator('[data-tle-outcome-demo]');
+  await journey.waitFor({state:'visible',timeout:10000});
+  assert.equal(await journey.count(),1,'Exactly one customer journey preview exists');
+  await journey.locator('[data-outcome-kind]').selectOption('appointment');
+  await journey.locator('[data-outcome-form] button').click();
+  assert.equal(await journey.getAttribute('data-preview-state'),'ready','Sample request must update both panels');
+  const acknowledgement=await journey.locator('[data-outcome-receipt-text]').textContent();
+  assert.match(acknowledgement,lang==='es'?/no está confirmado/:/not confirmed yet/,'An appointment request is not a booking confirmation');
+  assert.match(await journey.locator('[data-outcome-owner-text]').textContent(),lang==='es'?/Pendiente de revisión/:/Needs review/,'Owner sees work needing review');
+  await journey.locator('[data-outcome-reset]').click();
+  assert.equal(await journey.getAttribute('data-preview-state'),'idle','Reset returns to original state');
+  assert.deepEqual(writes,[],'Demo must not send a real email or create an order');
+ });
+}
 for(const language of ['en','es']) {
  for(const accepted of [true,false]){
   await check('demo mock email '+language+' '+(accepted?'accepted':'failed'),sizes[1],async page=>{
