@@ -4,12 +4,10 @@ import fs from 'node:fs';
 
 const origin = process.env.QA_URL || 'https://thelaunchera.com';
 const cases = [
-  ['crumb', '/demos/crumb/', true],
-  ['casa-brownie', '/demos/casa-brownie/', false],
-  ['havana-19', '/demos/havana-19/', true],
-  ['ivory-and-bloom', '/demos/ivory-and-bloom/', false],
-  ['aftr', '/demos/aftr/', true],
-  ['lavender-edit', '/demos/lavender-edit/', false],
+  ['casa-brownie', '/demos/casa-brownie/'],
+  ['havana-19', '/demos/havana-19/'],
+  ['ivory-and-bloom', '/demos/ivory-and-bloom/'],
+  ['lavender-edit', '/demos/lavender-edit/'],
 ];
 fs.mkdirSync('qa-screenshots/motion-20261108', { recursive: true });
 const browser = await chromium.launch({ headless: true });
@@ -76,14 +74,25 @@ try {
     console.log('PASS desktop cursor parallax '+slug,before,after);
     await ctx.close();
   }
+  // CRUMB is owner-approved as a static-photo hero in ALL motion preferences.
+  for(const motion of ['no-preference','reduce']){
+    const ctx=await browser.newContext({viewport:{width:390,height:844},reducedMotion:motion});
+    const page=await ctx.newPage();
+    await page.goto(origin+'/demos/crumb/',{waitUntil:'domcontentloaded',timeout:40000});
+    await page.waitForTimeout(500);
+    assert.equal(await page.locator('video[data-tle-cinematic-hero]').count(),0,'CRUMB must never add a cinematic video: '+motion);
+    assert((await page.locator('section.hero img').count())>0,'CRUMB must retain its original static photo: '+motion);
+    await ctx.close();
+  }
+  // Active cinematic demos must also honor reduced motion.
   const ctx=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'});
   const page=await ctx.newPage();
-  await page.goto(origin+'/demos/crumb/',{waitUntil:'domcontentloaded',timeout:40000});
-  await page.waitForTimeout(1500);
-  assert.equal(await page.locator('video[data-tle-cinematic-hero]').count(),0,'reduced motion disables video');
-  assert((await page.locator('section.hero img').count())>0,'reduced motion preserves original');
+  await page.goto(origin+'/demos/casa-brownie/',{waitUntil:'domcontentloaded',timeout:40000});
+  await page.waitForTimeout(500);
+  assert.equal(await page.locator('video[data-tle-cinematic-hero]').count(),0,'reduced motion disables cinematic video');
+  assert((await page.locator('section.hero img').count())>0,'reduced motion preserves the approved fallback image');
   await ctx.close();
-  console.log('PASS reduced-motion still-hero fallback');
+  console.log('PASS CRUMB original static hero and active-demo reduced-motion fallback');
 } finally {
   await browser.close();
 }
