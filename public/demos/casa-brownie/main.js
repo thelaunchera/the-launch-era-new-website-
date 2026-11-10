@@ -205,17 +205,16 @@ function updateCartBadge() {
   cartButton.setAttribute('aria-label', 'Carrito de muestra: ' + total + ' brownies');
   cartButton.title = 'Ver carrito de muestra (' + total + ')';
 }
-function addToCart(flavorId) {
+function addToCart(flavorId, trigger) {
   const item = catalog.find(flavor => flavor.id === flavorId);
   if (!item) return;
   demoCart.set(flavorId, (demoCart.get(flavorId) || 0) + 1);
-  updateCartBadge();
   notify(item.name + ' añadido al carrito de muestra.');
-  const photo = modalBody.querySelector('.modal-photo') ||
-    document.querySelector('[data-flavor="' + flavorId + '"] .flavor-picture img');
-  const motion = window.TLECartMotion?.fly(photo, cartButton, { duration: 580 });
-  if (motion) motion.finally(() => viewCart());
-  else viewCart();
+  // Count and bump only when the 720ms dot lands; never open the cart here.
+  const motion = window.TLECartMotion?.flyDot(trigger, cartButton, {
+    badge: cartCount, color: '#B87853', onLand: updateCartBadge
+  });
+  if (!motion) updateCartBadge();
 }
 function changeCartQuantity(flavorId, change) {
   const next = (demoCart.get(flavorId) || 0) + change;
@@ -327,7 +326,7 @@ function viewFlavor(id) {
     'Este brownie pertenece a una demostración educativa; no está disponible para comprar.',
     'status-box'
   );
-  addButton(wrapper, 'Añadir al carrito de muestra', () => addToCart(item.id));
+  const addCartButton = addButton(wrapper, 'Añadir al carrito de muestra', () => addToCart(item.id, addCartButton));
   addButton(wrapper, 'Ver experiencia de pedido', () => viewExperience(item.id), 'text-link');
   openModal(item.name, wrapper, 'NUESTROS BROWNIES · SABOR DE EJEMPLO');
 }
