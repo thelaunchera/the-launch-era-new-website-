@@ -24,8 +24,11 @@ try {
   for(const price of ["$85.00","$103.50","$45.00"])assert.ok(prices.includes(price),"Missing preserved sample price "+price);
   await page.locator(".lb-add").first().click();
   const drawer=page.locator("#lb-cart-drawer");
-  assert.equal(await drawer.isVisible(),true,"Bag should open after adding");
+  assert.equal(await drawer.isHidden(),true,"Adding a product must not auto-open the bag");
+  await page.waitForFunction(()=>document.querySelector("[data-lb-cart-count]")?.textContent?.trim()==="1",null,{timeout:5000});
   assert.equal(await page.locator("[data-lb-cart-count]").innerText(),"1");
+  await page.locator(".lb-cart-trigger").click();
+  assert.equal(await drawer.isVisible(),true,"Bag opens only when explicitly selected");
   assert.ok((await drawer.innerText()).includes("$85.00"),"One sample product subtotal");
   await drawer.locator('[data-lb-action="plus"]').click();
   assert.ok((await drawer.innerText()).includes("$170.00"),"Plus must recalculate total");
