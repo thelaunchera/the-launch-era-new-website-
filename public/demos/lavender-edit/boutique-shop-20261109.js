@@ -110,7 +110,14 @@ function setup(){
  document.addEventListener("click",e=>{
   const add=e.target.closest("[data-lb-add]");if(add){
    const i=Number(add.dataset.lbAdd);if(!catalog()[i])return;
-   cart.set(i,Math.min(99,(cart.get(i)||0)+1));updateBadge();live.textContent=t("added")+": "+catalog()[i].name;show();return;
+   cart.set(i,Math.min(99,(cart.get(i)||0)+1));
+   live.textContent=t("added")+": "+catalog()[i].name;
+   const motion=window.TLECartMotion?.flyDot(add,trigger,{
+     badge:trigger.querySelector("[data-lb-cart-count]"),color:"#B89EB6",onLand:updateBadge
+   });
+   if(!motion)updateBadge();
+   // The bag stays closed until the shopper touches the bag trigger.
+   return;
   }
   const ctl=e.target.closest("[data-lb-action]");if(!ctl||drawer.hidden)return;
   const act=ctl.dataset.lbAction;const i=Number(ctl.dataset.lbItem);const current=cart.get(i)||0;
