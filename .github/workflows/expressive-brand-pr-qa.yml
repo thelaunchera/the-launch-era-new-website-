@@ -4,6 +4,9 @@ on:
     paths:
       - 'public/assets/tle-expressive-brand-ux-20261110.css'
       - 'public/demos/**/index.html'
+      - 'public/demos/sova/assets/index-C3ToK82y.js'
+      - 'demo-source/sova/src/site.js'
+      - 'scripts/qa-no-public-demo-photo-downloads-20261110.mjs'
       - 'scripts/qa-expressive-brand-ux-20261110.mjs'
       - 'scripts/qa-demo-cart-microinteractions-20261110.mjs'
       - 'scripts/qa-demo-order-confirmations-20261110.mjs'
@@ -20,6 +23,8 @@ jobs:
           node-version: '22'
       - name: Verify expressive brand opt-in and reduced motion
         run: node scripts/qa-expressive-brand-ux-20261110.mjs
+      - name: Reject public photo downloads
+        run: node scripts/qa-no-public-demo-photo-downloads-20261110.mjs
       - name: Verify TLE route integrity
         run: node scripts/qa-route-integrity.mjs --static
       - name: Reject unwanted decorative symbols

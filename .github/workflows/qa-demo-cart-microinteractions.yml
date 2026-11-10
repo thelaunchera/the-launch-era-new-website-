@@ -7,6 +7,9 @@ on:
       - 'public/demos/casa-brownie/**'
       - 'public/demos/la-vie-in-pink/**'
       - 'scripts/qa-demo-cart-microinteractions-20261110.mjs'
+      - 'public/demos/sova/assets/index-C3ToK82y.js'
+      - 'demo-source/sova/src/site.js'
+      - 'scripts/qa-demo-photo-preview-browser-20261110.mjs'
       - 'scripts/qa-lavie-tablet-discovery-20261110.mjs'
       - '.github/workflows/qa-demo-cart-microinteractions.yml'
   workflow_dispatch:
@@ -46,3 +49,4 @@ jobs:
           done
           QA_URL=http://127.0.0.1:4196 node scripts/qa-demo-cart-microinteractions-20261110.mjs
           QA_URL=http://127.0.0.1:4196 node scripts/qa-lavie-tablet-discovery-20261110.mjs
+          QA_URL=http://127.0.0.1:4196 node scripts/qa-demo-photo-preview-browser-20261110.mjs
