@@ -40,7 +40,7 @@ const fresh=document.querySelector(c[2]);if(!fresh)return;
 // Keep genuine Back history. Discovery is an in-page link, never an app reset.
 if(!fresh.id)fresh.id='tle-discovery-destination-'+index;
 try{history.pushState(history.state,'','#'+fresh.id)}catch(_){}
-fresh.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+fresh.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});
 if(!fresh.hasAttribute('tabindex'))fresh.setAttribute('tabindex','-1');fresh.focus({preventScroll:true});
 });section.querySelector('nav').append(link);
 });hero.after(section);
