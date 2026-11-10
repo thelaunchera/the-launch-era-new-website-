@@ -1,3 +1,11 @@
+## 2026-11-10 — Retail demo wishlists (release verification pending)
+
+- **Routes unchanged:** Existing `/demos/lavender-edit/` and `/demos/sneekiefs/` only. No wishlist on café menus, bookings, services, cleaning, or marketing demos.
+- **UI:** Product hearts add/remove a session-only wishlist. A brand-themed responsive grid beneath the collection shows a live heading count and accessible remove and move-to-bag actions. Removal shrinks the card, then neighboring cards animate into the closed grid gap; reduced-motion users get immediate removal.
+- **Cart ownership:** Lavanda wishlist calls its existing native demo basket without opening the drawer. Sneekiefs uses its native size-aware `addToBag` and rejects move with no size. Both update original bag counters and preserve their existing no-charge simulated receipts, prices and photos.
+- **Assets:** `public/assets/tle-demo-wishlist-20261110.js` and `.css`; included only on those two brand HTML entrypoints. All data stays in this browser session. No checkout, email, stock, payment or backend requests.
+- **Verification gate:** `scripts/qa-demo-wishlist-20261110.mjs` (Chromium/WebKit at 390/1440px) and associated PR workflow. Merge and Pages/live iPhone verification are separate checks; do not claim published before confirmed.
+
 ## 2026-11-10 — Original demo carts: explicit no-charge order confirmations (proposed)
 
 - **Existing routes only:** `/demos/freska/`, `/demos/sneekiefs/`, `/demos/casa-brownie/` and `/demos/crumb/`. No new routes, inventory, email or checkout services.
