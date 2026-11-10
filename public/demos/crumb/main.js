@@ -258,6 +258,45 @@ $('preview-button').addEventListener('click', () => {
     message.textContent = 'Message: ' + note;
     target.appendChild(message);
   }
+  const finish = document.createElement('button');
+  finish.type = 'button';
+  finish.className = 'button dark full crumb-demo-finish';
+  finish.textContent = 'Complete demo order';
+  finish.addEventListener('click', () => {
+    const selected = ids.filter(id => qty[id] > 0).map(id => ({
+      name: labels[id], quantity: qty[id], cents: qty[id] * unitPriceCents[id]
+    }));
+    const amount = selectionPriceCents();
+    for (const id of ids) qty[id] = 0;
+    $('gift-note').value = '';
+    paint();
+    target.replaceChildren();
+    const heading = document.createElement('h3');
+    heading.textContent = 'Your demo order is complete.';
+    heading.tabIndex = -1;
+    const message = document.createElement('p');
+    message.textContent = 'Here is your sample receipt. Nothing was purchased or charged, no order was created, and no email was sent.';
+    const lines = document.createElement('ul');
+    lines.className = 'crumb-demo-receipt';
+    for (const item of selected) {
+      const li = document.createElement('li');
+      li.textContent = item.quantity + ' × ' + item.name + ' — ' + formatPrice(item.cents);
+      lines.appendChild(li);
+    }
+    const amountLabel = document.createElement('p');
+    amountLabel.className = 'preview-total';
+    amountLabel.textContent = 'Demo total: ' + formatPrice(amount);
+    const again = document.createElement('button');
+    again.type = 'button';
+    again.className = 'button dark full';
+    again.textContent = 'Build another box';
+    again.addEventListener('click', () => { paint(); $('preview-button').focus(); });
+    target.append(heading, message, lines, amountLabel, again);
+    target.hidden = false;
+    target.scrollIntoView({ block: 'nearest', behavior: 'auto' });
+    heading.focus({ preventScroll: true });
+  });
+  target.appendChild(finish);
   target.hidden = false;
   target.scrollIntoView({ block: 'nearest', behavior: window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
 });
