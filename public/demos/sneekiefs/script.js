@@ -72,8 +72,13 @@ function addToBag(id,size,trigger){
   const line=cart.find(x=>x.id===id&&x.size===size);
   if(line)line.qty++;else cart.push({id,size,qty:1});
   renderBag();notify(t("added")+": "+p.name+" / US "+size);
-  const motion=window.TLECartMotion?.flyDot(trigger,$("#bagOpen"),{
-    badge:$("#bagCount"),color:"#75A8E8",onLand:updateBagCount
+  // Close quick view before measuring the origin; the button otherwise disappears
+  // and its modal overlay can hide the dot on mobile Safari.
+  const origin=trigger?.getBoundingClientRect();
+  if(state.active==="quick")closeDialog(false);
+  const from=trigger?.isConnected?trigger:document.querySelector('[data-add="'+id+'"]');
+  const motion=window.TLECartMotion?.flyDot(from,$("#bagOpen"),{
+    badge:$("#bagCount"),color:"#75A8E8",fromRect:origin,onLand:updateBagCount
   });
   if(!motion)updateBagCount();
   return true;
@@ -122,7 +127,7 @@ document.addEventListener("click",ev=>{
  const add=target.closest("[data-add]");if(add){addToBag(add.dataset.add,chosen.get(add.dataset.add),add);return;}
  const quick=target.closest("[data-quick]");if(quick){openDialog("quick");renderQuick(quick.dataset.quick);return;}
  const qs=target.closest("[data-quick-size]");if(qs){chosen.set(state.quickId,Number(qs.dataset.quickSize));syncSizes(state.quickId);return;}
- const qa=target.closest("[data-quick-add]");if(qa){if(addToBag(qa.dataset.quickAdd,chosen.get(qa.dataset.quickAdd),qa))closeDialog();return;}
+ const qa=target.closest("[data-quick-add]");if(qa){addToBag(qa.dataset.quickAdd,chosen.get(qa.dataset.quickAdd),qa);return;}
  const step=target.closest("[data-step]");if(step){const line=cart[Number(step.dataset.index)];if(line){line.qty=Math.max(0,Math.min(20,line.qty+Number(step.dataset.step)));if(line.qty===0)cart.splice(Number(step.dataset.index),1);updateBagCount();renderBag();}return;}
  const rem=target.closest("[data-remove]");if(rem){cart.splice(Number(rem.dataset.remove),1);updateBagCount();renderBag();return;}
  if(target.closest("#completeDemoOrder")&&state.preview&&cart.length){const lines=cart.map(line=>{const p=items.find(x=>x.id===line.id);return {name:p.name,size:line.size,qty:line.qty,price:p.price}});state.receipt={lines,total:lines.reduce((n,line)=>n+line.price*line.qty,0)};cart.length=0;updateBagCount();state.preview=false;state.confirmed=true;renderBag();$("#bagItems").scrollTop=0;return;}
@@ -153,6 +158,6 @@ translate();updateBagCount();
 // Native size-aware bag integration for the session-only wishlist.
 window.TLEWishlistCart={brand:"sneekiefs",add(id,options={}){
  const size=Number(options.size);if(!sizes.includes(size))return false;
- chosen.set(id,size);syncSizes(id);return addToBag(id,size);
+ chosen.set(id,size);syncSizes(id);return addToBag(id,size,document.querySelector('[data-add="'+id+'"]'));
 }};
 })();
