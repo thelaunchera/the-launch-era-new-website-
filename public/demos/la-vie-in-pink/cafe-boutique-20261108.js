@@ -150,10 +150,11 @@
   if(!findProduct(id))return;
   state.cart.set(id,Math.min(99,(state.cart.get(id)||0)+1));
   state.step="cart";
-  const photo=trigger?.closest('.menu-card')?.querySelector('.menu-card-media img');
-  const motion=window.TLECartMotion?.fly(photo,$('.bag-trigger'),{duration:620});
-  if(motion)motion.finally(()=>openCart());
-  else openCart();
+  // Preserve the shopper's place: only the cart button opens the drawer.
+  const motion=window.TLECartMotion?.flyDot(trigger,$('.bag-trigger'),{
+    badge:$('#bag-count'),color:'#EBA4BC',onLand:renderCart
+  });
+  if(!motion)renderCart();
  }
  function change(id,delta){const next=(state.cart.get(id)||0)+delta;if(next<=0)state.cart.delete(id);else state.cart.set(id,Math.min(99,next));renderCart();}
  function reset(){state.cart.clear();state.step="cart";state.customer={name:"",email:"",notes:""};renderCart();closeCart();$("#menu")?.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});}
