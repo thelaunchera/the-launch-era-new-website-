@@ -95,14 +95,21 @@
 .tle-mini-pill{display:inline-flex;justify-content:center;align-items:center;margin-top:-5px;max-width:100%;min-height:44px;min-width:min(88%,250px);border:1.5px solid #191919;border-radius:999px;padding:10px 14px;font-size:clamp(11px,1.02vw,15px);font-weight:850;line-height:1.2;letter-spacing:.01em;box-shadow:0 5px 0 #19191912;position:relative;z-index:1;text-align:center;background:#faf8f3}
 .tle-mini-pill[data-tone=yellow]{background:#f2d85b}.tle-mini-pill[data-tone=blue]{background:#d7efff}.tle-mini-pill[data-tone=dark]{background:#191919;color:#faf8f3}.tle-mini-pill[data-tone=ivory]{background:#faf8f3}
 .tle-mini-note{display:block;font-size:9px;font-weight:800;letter-spacing:.13em;color:#52616b;margin-top:15px}
-.tle-demo-drop-item.is-landed .tle-mini-browser-fall{animation:tle-mini-drop .96s both cubic-bezier(.2,.8,.2,1);animation-delay:var(--drop-delay,0ms)}
-@keyframes tle-mini-drop{0%{opacity:0;transform:translate3d(0,-138px,0) rotate(-17deg) scale(.9)}45%{opacity:1}61%{transform:translate3d(0,18px,0) rotate(7deg) scale(1.03)}78%{transform:translate3d(0,-11px,0) rotate(-3deg) scale(.99)}89%{transform:translate3d(0,4px,0) rotate(1deg) scale(1)}100%{opacity:1;transform:translate3d(0,0,0) rotate(0) scale(1)}}
 @media(max-width:900px){.tle-demo-drop-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tle-demo-drop-item{min-height:222px}}
 @media(max-width:760px){.tle-demo-drop-section{padding:68px 17px 80px}.tle-demo-drop-heading{display:block;margin-bottom:25px}.tle-demo-drop-heading h2{font-size:clamp(35px,9.5vw,55px)}.tle-demo-drop-heading p{font-size:13px;max-width:400px;margin-top:18px}.tle-demo-drop-grid{gap:11px}.tle-demo-drop-item{border-radius:17px;min-height:184px;padding:15px 6px 14px}.tle-mini-browser-fall{width:min(92%,180px)}.tle-mini-browser{border-width:3px;border-radius:10px}.tle-mini-bar{height:17px;padding:0 5px;gap:3px}.tle-mini-bar i{width:4px;height:4px;flex-basis:4px}.tle-mini-bar b{font-size:6.5px}.tle-mini-browser img{height:calc(100% - 17px)}.tle-mini-pill{padding:9px 7px;min-width:90%;min-height:43px;font-size:clamp(9px,2.8vw,12px);margin-top:-3px}.tle-mini-note{font-size:8px;margin-top:12px}}
 @media(max-width:360px){.tle-demo-drop-item{min-height:170px}.tle-mini-pill{font-size:9px}.tle-mini-note{font-size:7px}}
 @media(max-width:760px){.about{grid-template-columns:minmax(0,1fr)}.about-visual,.about-copy{min-width:0;max-width:100%}}
 @media(max-width:380px){.about h2 em{white-space:normal}}
 @media(prefers-reduced-motion:reduce){.tle-mini-browser-fall,.tle-demo-drop-item.is-landed .tle-mini-browser-fall{animation:none!important;opacity:1;transform:none;will-change:auto}.tle-mini-browser{transition:none}}
+
+/* One contained blue playground: loose brand pills above scroll-dropping demo miniatures. */
+.tle-gravity-arena{max-width:1350px;margin:auto;border:1px solid rgba(25,25,25,.23);border-radius:24px;overflow:hidden;background:radial-gradient(circle at 48% 8%,#ffffff8c,transparent 52%),#eaf4fc;box-shadow:inset 0 -5px 0 #1919190f}
+.tle-gravity-arena .tle-gravity-stage{max-width:none;margin:0;min-height:345px;border:0;border-radius:0;box-shadow:none;background:transparent}
+.tle-gravity-arena .tle-demo-drop-section{background:transparent;overflow:visible;border-top:1px solid #19191919;padding:clamp(46px,6vw,80px) clamp(16px,4vw,66px) clamp(48px,6vw,88px)}
+.tle-gravity-arena .tle-demo-drop-heading,.tle-gravity-arena .tle-demo-drop-grid,.tle-gravity-arena .tle-demo-drop-more{max-width:1200px}
+.tle-demo-drop-grid.is-scroll-enhanced .tle-mini-browser-fall{opacity:var(--mini-opacity,0);transform:translate3d(0,var(--mini-y,-112px),0) rotate(var(--mini-rotation,-13deg)) scale(var(--mini-scale,.9));animation:none!important}
+@media(max-width:760px){.tle-gravity-arena{border-radius:19px}.tle-gravity-arena .tle-gravity-stage{min-height:320px}.tle-gravity-arena .tle-demo-drop-section{padding:44px 11px 55px}.tle-gravity-arena .tle-demo-drop-heading{padding:0 7px}.tle-gravity-arena .tle-demo-drop-item{min-height:194px}}
+@media(prefers-reduced-motion:reduce){.tle-demo-drop-grid.is-scroll-enhanced .tle-mini-browser-fall{opacity:1;transform:none!important;animation:none!important;will-change:auto}}
 </style>
 </head>
 <body>
@@ -135,36 +142,37 @@
         <div class="floating-window floating-three"><div class="floating-bar"><i></i><i></i><i></i><span>GOLDEN GRID</span></div><img src="/demos/golden-grid/media/hero-approved-canva-20261108-firstframe.webp" alt="" loading="lazy" /></div>
       </div>
     </section>
-    <section class="tle-demo-drop-section" id="website-drops" aria-labelledby="tleDemoDropTitle">
-      <div class="tle-demo-drop-heading">
-        <div><span class="tle-demo-drop-eyebrow">THE WEBSITES BEHIND THE NAMES</span><h2 id="tleDemoDropTitle">A closer look.<br /><em>One world at a time.</em></h2></div>
-        <p>Scroll to see our websites fall into place. Tap any miniature to explore the full experience.</p>
+    <section class="tle-gravity-section" id="brand-gravity" aria-labelledby="tleGravityTitle">
+      <div class="tle-gravity-heading"><div><span class="label">THE BRANDS WE'VE BROUGHT TO LIFE</span><h2>Made to be seen.<br/><em>Made to move.</em></h2></div><p>Every brand has its own personality. Tap a name to explore its website, or drag and throw the tags.</p></div>
+      <div class="tle-gravity-arena">
+        <div class="tle-gravity-stage" id="tleGravityStage" aria-label="Interactive collection of brand tags">
+          <button type="button" class="tle-brand-pill" data-tone="yellow" data-project="golden-grid">GOLDEN GRID</button>
+          <button type="button" class="tle-brand-pill" data-tone="ivory" data-project="la-vie-in-pink">LA VIE IN PINK</button>
+          <button type="button" class="tle-brand-pill" data-tone="dark" data-project="sova">SOVA</button>
+          <button type="button" class="tle-brand-pill" data-tone="blue" data-project="sneekiefs">SNEEKIEFS</button>
+          <button type="button" class="tle-brand-pill" data-tone="ivory" data-project="casa-brownie">CASA BROWNIE</button>
+          <button type="button" class="tle-brand-pill" data-tone="yellow" data-project="freska">FRESKA</button>
+          <button type="button" class="tle-brand-pill" data-tone="blue" data-project="lavender-edit">LAVANDA BOUTIQUE</button>
+          <button type="button" class="tle-brand-pill" data-tone="dark" data-project="havana-19">HAVANA 19</button>
+          <button type="button" class="tle-brand-pill" data-tone="ivory" data-project="experience-cleaning">EXPERIENCE CLEANING</button>
+        </div>
+        <section class="tle-demo-drop-section" id="website-drops" aria-labelledby="tleDemoDropTitle">
+          <div class="tle-demo-drop-heading">
+            <div><span class="tle-demo-drop-eyebrow">THE WEBSITES BEHIND THE NAMES</span><h2 id="tleDemoDropTitle">A closer look.<br /><em>One world at a time.</em></h2></div>
+            <p>Scroll to see our websites fall into place. Tap any miniature to explore the full experience.</p>
+          </div>
+          <div class="tle-demo-drop-grid" id="tleDemoDropGrid" aria-label="Interactive website miniatures"></div>
+        <div class="tle-demo-drop-more"><a href="https://thelaunchera.com/demos/">Browse all demos <span aria-hidden="true">↗</span></a></div>
+        </section>
       </div>
-      <div class="tle-demo-drop-grid" id="tleDemoDropGrid" aria-label="Interactive website miniatures"></div>
-    <div class="tle-demo-drop-more"><a href="https://thelaunchera.com/demos/">Browse all demos <span aria-hidden="true">↗</span></a></div>
+      <div class="tle-gravity-footer"><p>TAP A BRAND TO PREVIEW · DRAG TO TOSS. Scroll normally outside the tags.</p><button type="button" class="tle-gravity-replay" id="tleGravityReplay">Drop them again</button></div>
     </section>
-    <div class="marquee" aria-label="Creative websites, digital experiences and brand storytelling"><div class="marquee-track" aria-hidden="true">DIGITAL EXPERIENCES <span>—</span> WEBSITE DESIGN <span>—</span> CREATIVE DIRECTION <span>—</span> MADE TO BE SEEN <span>—</span> DIGITAL EXPERIENCES <span>—</span> WEBSITE DESIGN <span>—</span> CREATIVE DIRECTION <span>—</span> MADE TO BE SEEN <span>—</span></div></div>
-    <section class="statement" id="statement"><span class="section-tag">BUILT DIFFERENT / ON PURPOSE</span><div class="statement-orbit orbit-a" aria-hidden="true"></div><div class="statement-orbit orbit-b" aria-hidden="true"></div><h2>Good design<br />looks beautiful.<br /><em>Great design works.</em></h2><p>More than a website. A memorable first impression, a place to explore, and a simple next step for your customers.</p><a href="#services" class="statement-link">WHAT WE CREATE <span aria-hidden="true">↓</span></a></section>
+    <section class="statement" id="statement"<span class="section-tag">BUILT DIFFERENT / ON PURPOSE</span><div class="statement-orbit orbit-a" aria-hidden="true"></div><div class="statement-orbit orbit-b" aria-hidden="true"></div><h2>Good design<br />looks beautiful.<br /><em>Great design works.</em></h2><p>More than a website. A memorable first impression, a place to explore, and a simple next step for your customers.</p><a href="#services" class="statement-link">WHAT WE CREATE <span aria-hidden="true">↓</span></a></section>
     <section class="services" id="services"><div class="section-topline"><span>02 / WHAT WE DO</span><span>MADE FOR REAL BUSINESSES</span></div><div class="services-layout"><div class="services-title"><p class="small-label">YOUR BRAND, ONLINE</p><h2>Digital<br /><em>possibilities.</em></h2><p>Thoughtful strategy, beautiful details, and an easy-to-use experience — all working together.</p><a class="btn btn-dark" href="https://thelaunchera.com/website-for-your-business/">Explore website services <span class="btn-icon" aria-hidden="true">↗</span></a></div><div class="service-stack"><article><span class="service-number">01</span><div><h3>Websites with personality</h3><p>Distinctive, mobile-first spaces tailored to the way your customers explore and connect.</p></div><span class="service-symbol" aria-hidden="true">↗</span></article><article><span class="service-number">02</span><div><h3>Interactive experiences</h3><p>Rich galleries, easy navigation, and intentional motion that makes every detail feel alive.</p></div><span class="service-symbol" aria-hidden="true">↗</span></article><article><span class="service-number">03</span><div><h3>A clearer path to inquiries</h3><p>Thoughtful calls to action and simple contact experiences that help visitors take the next step.</p></div><span class="service-symbol" aria-hidden="true">↗</span></article></div></div></section>
     <section class="process"><div class="section-topline"><span>03 / THE EXPERIENCE</span><span>LESS COMPLICATED. MORE YOU.</span></div><h2>From idea to<br /><em>something real.</em></h2><div class="process-steps"><article><span>01 / SHARE</span><h3>Tell us your idea.</h3><p>Show us your business, your inspiration, and what you want your website to do.</p></article><article><span>02 / CREATE</span><h3>We shape the experience.</h3><p>Imagery, colors, storytelling, and details come together around your brand.</p></article><article><span>03 / LAUNCH</span><h3>Make your entrance.</h3><p>A beautiful digital home, ready for customers to discover and explore.</p></article></div></section>
     <section class="about" id="about"><div class="about-visual"><img src="" loading="lazy" alt="The Launch Era founder in a cinematic design studio" /><span>THE PERSON BEHIND THE PROJECTS</span></div><div class="about-copy"><p class="small-label">04 / MEET THE FOUNDER</p><h2>Creative ideas.<br />Real businesses.<br /><em>One launch at a time.</em></h2><p>The Launch Era was created around one belief: a small business deserves a digital presence that feels every bit as special as its vision.</p><p>We combine imagination, practical tools, and brand-first design to help ideas move from someone's notes into something people can actually visit.</p><span class="signature">The Launch Era Studio</span></div></section>
     <section class="closing"><span>HAVE SOMETHING IN MIND?</span><h2>Let's build<br /><em>something great.</em></h2><p>Your next chapter deserves a website people remember.</p><a class="btn btn-yellow" href="https://thelaunchera.com/website-for-your-business/">Start your website <span class="btn-icon" aria-hidden="true">↗</span></a><div class="closing-circle closing-circle-a" aria-hidden="true"></div><div class="closing-circle closing-circle-b" aria-hidden="true"></div></section>
   </main>
-  <section class="tle-gravity-section" id="brand-gravity" aria-labelledby="tleGravityTitle">
-    <div class="tle-gravity-heading"><div><span class="label">THE BRANDS WE'VE BROUGHT TO LIFE</span><h2>Made to be seen.<br/><em>Made to move.</em></h2></div><p>Every brand has its own personality. Tap a name to explore its website, or drag and throw the tags.</p></div>
-    <div class="tle-gravity-stage" id="tleGravityStage" aria-label="Interactive collection of brand tags">
-      <button type="button" class="tle-brand-pill" data-tone="yellow" data-project="golden-grid">GOLDEN GRID</button>
-      <button type="button" class="tle-brand-pill" data-tone="ivory" data-project="la-vie-in-pink">LA VIE IN PINK</button>
-      <button type="button" class="tle-brand-pill" data-tone="dark" data-project="sova">SOVA</button>
-      <button type="button" class="tle-brand-pill" data-tone="blue" data-project="sneekiefs">SNEEKIEFS</button>
-      <button type="button" class="tle-brand-pill" data-tone="ivory" data-project="casa-brownie">CASA BROWNIE</button>
-      <button type="button" class="tle-brand-pill" data-tone="yellow" data-project="freska">FRESKA</button>
-      <button type="button" class="tle-brand-pill" data-tone="blue" data-project="lavender-edit">LAVANDA BOUTIQUE</button>
-      <button type="button" class="tle-brand-pill" data-tone="dark" data-project="havana-19">HAVANA 19</button>
-      <button type="button" class="tle-brand-pill" data-tone="ivory" data-project="experience-cleaning">EXPERIENCE CLEANING</button>
-    </div>
-    <div class="tle-gravity-footer"><p>TAP A BRAND TO PREVIEW · DRAG TO TOSS. Scroll normally outside the tags.</p><button type="button" class="tle-gravity-replay" id="tleGravityReplay">Drop them again</button></div>
-  </section>
   <footer class="footer"><a class="footer-brand" href="https://thelaunchera.com/">THE LAUNCH ERA<span>.</span></a><div><a href="https://thelaunchera.com/">Main website</a><a href="https://thelaunchera.com/demos/">Demos</a><a href="https://thelaunchera.com/privacy.html">Privacy</a><a href="https://thelaunchera.com/terms.html">Terms</a></div><p>© <span id="year">2026</span> The Launch Era. All rights reserved.</p></footer>
   <dialog class="project-dialog" id="projectDialog" aria-labelledby="modalTitle"><div class="dialog-top"><div><span id="modalCategory">PROJECT PREVIEW</span><h2 id="modalTitle">Project</h2></div><button id="closeDialog" aria-label="Close project preview">Close <span aria-hidden="true">×</span></button></div><div class="preview-browser"><div class="preview-toolbar"><span class="traffic"><i></i><i></i><i></i></span><span id="previewUrl">Live project preview</span><a id="openPreviewExternal" href="#" target="_blank" rel="noopener noreferrer">Open website ↗</a></div><iframe id="previewFrame" title="Project website interactive preview" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div><div class="dialog-bottom"><p id="previewDescription"></p><a id="modalExplore" class="btn btn-dark" href="#" target="_blank" rel="noopener noreferrer">Explore website <span class="btn-icon" aria-hidden="true">↗</span></a></div></dialog>
 <script type="module">
@@ -240,17 +248,35 @@ if (miniGrid) {
     miniFragment.append(card);
   });
   miniGrid.append(miniFragment);
-  if ('IntersectionObserver' in window && !reduced.matches) {
-    const fallObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-landed');
-        observer.unobserve(entry.target);
+
+  // Bidirectional scroll animation: cards rise when scrolling back and drop again.
+  if (!reduced.matches && 'requestAnimationFrame' in window) {
+    const dropCards = [...miniGrid.querySelectorAll('.tle-demo-drop-item')];
+    const clampDrop = (value,min,max)=>Math.max(min,Math.min(max,value));
+    let miniFrame=0;
+    function paintMiniDrops(){
+      miniFrame=0;
+      const viewport=window.innerHeight||document.documentElement.clientHeight;
+      const distance=Math.min(140,Math.max(78,viewport*.2));
+      dropCards.forEach((card,i)=>{
+        const rect=card.getBoundingClientRect();
+        const progress=clampDrop((viewport*.94-rect.top)/Math.max(195,viewport*.46),0,1);
+        const q=progress-1;
+        const eased=1+2.25*q*q*q+1.45*q*q;
+        const image=card.querySelector('.tle-mini-browser-fall');
+        if(!image)return;
+        image.style.setProperty('--mini-y',((eased-1)*distance).toFixed(1)+'px');
+        image.style.setProperty('--mini-rotation',((1-eased)*(i%2?13:-13)).toFixed(1)+'deg');
+        image.style.setProperty('--mini-scale',(.90+.10*eased).toFixed(3));
+        image.style.setProperty('--mini-opacity',clampDrop(progress*2.3,0,1).toFixed(3));
       });
-    }, { rootMargin: '0px 0px -4% 0px', threshold: .12 });
-    miniGrid.querySelectorAll('.tle-demo-drop-item').forEach(item => fallObserver.observe(item));
-  } else {
-    miniGrid.querySelectorAll('.tle-demo-drop-item').forEach(item => item.classList.add('is-landed'));
+    }
+    function scheduleMiniDrops(){if(miniFrame)return;miniFrame=requestAnimationFrame(paintMiniDrops)}
+    miniGrid.classList.add('is-scroll-enhanced');
+    addEventListener('scroll',scheduleMiniDrops,{passive:true});
+    addEventListener('resize',scheduleMiniDrops,{passive:true});
+    addEventListener('pageshow',scheduleMiniDrops);
+    scheduleMiniDrops();
   }
 }
 // The playful physics pills also open the same real project preview with tap or keyboard.
