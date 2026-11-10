@@ -22,7 +22,7 @@ if(brand==='aftr')await page.addInitScript(()=>sessionStorage.setItem('aftr_age_
 await page.goto(url,{waitUntil:'domcontentloaded'});await page.locator('main .hero').first().waitFor();
 // The secondary fixtures may not have received the include commit yet; exercise the exact release module.
 if(!await page.locator('[data-discovery-brand]').count())await page.evaluate(brand=>{const s=document.createElement('script');s.src='https://thelaunchera.com/assets/tle-demo-discovery-20261110.js?v=1';s.dataset.discoveryBrand=brand;document.body.append(s)},brand);
-await page.locator('#tle-brand-discovery').waitFor();const baseline=errors.splice(0);
+await page.locator('#tle-brand-discovery').waitFor();await page.waitForTimeout(400);const baseline=errors.splice(0);
 assert.equal(await page.locator('#tle-brand-discovery').count(),1);assert.equal(await page.locator('#tle-brand-discovery .td-card').count(),3);
 assert(await page.locator('main .hero').first().evaluate(hero=>hero.nextElementSibling?.id==='tle-brand-discovery'));
 const geometry=await page.locator('#tle-brand-discovery').evaluate(s=>{const r=s.getBoundingClientRect();return {left:r.left,right:r.right,width:innerWidth,cards:[...s.querySelectorAll('a')].map(a=>({height:a.getBoundingClientRect().height,photo:a.style.getPropertyValue('--td-photo')}))}});

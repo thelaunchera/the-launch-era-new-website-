@@ -42,11 +42,13 @@ if(!fresh.hasAttribute('tabindex'))fresh.setAttribute('tabindex','-1');fresh.foc
 });section.querySelector('nav').append(link);
 });hero.after(section);
 }
+// A delayed native price block can appear after the hero; retain one compact discovery before it.
+if(hero.nextElementSibling!==section)hero.after(section);
 const es=document.documentElement.lang.toLowerCase().startsWith('es');
 set(section.querySelector('.td-kicker'),es?'EXPLORA A TU MANERA':'EXPLORE YOUR WAY');set(section.querySelector('h2'),cfg[es?1:0]);set(section.querySelector('.td-hint'),es?'Elige lo que te apetece explorar.':'Choose what you would like to explore.');section.querySelector('nav').setAttribute('aria-label',es?'Explorar la experiencia':'Explore the experience');
 section.querySelectorAll('.td-card').forEach(link=>{const c=cfg[4][Number(link.dataset.index)];set(link.querySelector('.td-label>span'),c[es?1:0]);set(link.querySelector('.td-action'),es?'Explorar':'Explore')});
 }
 function schedule(){if(scheduled)return;scheduled=true;queueMicrotask(()=>{scheduled=false;sync()})}
-function start(){sync();new MutationObserver(records=>{if(records.some(r=>[...r.addedNodes,...r.removedNodes].some(n=>n.nodeType===1&&(n.matches?.('main,.hero,#app,#tle-brand-discovery')||n.querySelector?.('main,.hero')))))schedule()}).observe(document.body,{childList:true,subtree:true});new MutationObserver(schedule).observe(document.documentElement,{attributes:true,attributeFilter:['lang','data-language']})}
+function start(){sync();new MutationObserver(records=>{if(records.some(r=>r.target.matches?.('main')||[...r.addedNodes,...r.removedNodes].some(n=>n.nodeType===1&&(n.matches?.('main,.hero,#app,#tle-brand-discovery')||n.querySelector?.('main,.hero')))))schedule()}).observe(document.body,{childList:true,subtree:true});new MutationObserver(schedule).observe(document.documentElement,{attributes:true,attributeFilter:['lang','data-language']})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 })();
