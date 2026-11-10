@@ -69,7 +69,7 @@ document.addEventListener('click',event=>{
 function mount(){
  if(ready)return true;
  const found=$('#tle-wishlist');
- const liveCount=$('[data-wishlist-count]',found);
+ const liveCount=found?.querySelector('[data-wishlist-count]');
  if(!found||!liveCount)return false;
  ready=true;section=found;count=liveCount;
  document.querySelectorAll('.tle-wishlist-jump').forEach(node=>node.remove());
