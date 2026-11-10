@@ -37,13 +37,19 @@
     active++;
     const dx=dest.left+dest.width/2-(origin.left+origin.width/2);
     const dy=dest.top+dest.height/2-(origin.top+origin.height/2);
+    const duration=Math.max(300,Math.min(850,Number(opts.duration)||610));
     const animation=ghost.animate(
       [{transform:'translate3d(0,0,0) scale(1) rotate(0deg)',opacity:1,offset:0},
        {transform:'translate3d('+(dx*.68)+'px,'+(dy*.6)+'px,0) scale(.57) rotate(-6deg)',opacity:.92,offset:.64},
        {transform:'translate3d('+dx+'px,'+dy+'px,0) scale(.12) rotate(10deg)',opacity:.1,offset:1}],
-      {duration:Math.max(300,Math.min(850,Number(opts.duration)||610)),easing:'cubic-bezier(.2,.8,.2,1)',fill:'forwards'}
+      {duration,easing:'cubic-bezier(.2,.8,.2,1)',fill:'forwards'}
     );
-    return animation.finished.catch(()=>{}).then(()=>{ghost.remove();active--;pulse(target);});
+    // A suspended WebKit animation must never block the underlying sample cart.
+    const done=Promise.race([
+      animation.finished.catch(()=>{}),
+      new Promise(resolve=>setTimeout(resolve,duration+160))
+    ]);
+    return done.then(()=>{animation.cancel();ghost.remove();active--;pulse(target);});
   }
   window.TLECartMotion={fly};
 })();
