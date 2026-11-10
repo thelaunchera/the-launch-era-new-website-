@@ -64,7 +64,7 @@ for(const browserType of [chromium,webkit]){
   await page.waitForFunction(()=>window.scrollY<=2,null,{timeout:6000});
   // In headless WebKit/Chromium an instant programmatic rewind may not dispatch
   // a scroll event; force a paint of the existing bidirectional effect.
-  await page.evaluate(()=>window.dispatchEvent(new Event('scroll')));
+  await page.evaluate(()=>{window.dispatchEvent(new Event('scroll'));window.dispatchEvent(new Event('scrollend'));});
   await page.waitForTimeout(240);
   const rewindState=await last.evaluate(el=>({scrollY:window.scrollY,viewport:window.innerHeight,cardTop:el.getBoundingClientRect().top,opacity:Number(el.querySelector('.tle-mini-browser-fall')?.style.getPropertyValue('--mini-opacity')||'0')}));
   const rewound=rewindState.opacity;
