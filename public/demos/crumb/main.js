@@ -167,13 +167,22 @@ function openDialog() {
 }
 function add(id, source) {
   if (total() >= size) {
-    openDialog();
     $('status-text').textContent = 'Box is full. Remove a cookie or choose a larger box.';
     return;
   }
   resetBoxMotion();
+  const previousCount=$('bag-count').textContent;
   qty[id]++;
   paint();
+  if(source){
+    $('bag-count').textContent=previousCount;
+    const motion=window.TLECartMotion?.flyDot(source,$('open-builder'),{
+      badge:$('bag-count'),color:'#79A1D9',
+      portal:dialog.open?dialog:undefined,
+      onLand:()=>{$('bag-count').textContent=String(total());}
+    });
+    if(!motion)$('bag-count').textContent=String(total());
+  }
   transferCookie(id, source);
   if (source && source.closest('.cookie-visual')) showAddedFeedback(id);
 }
