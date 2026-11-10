@@ -328,7 +328,17 @@ if (!reduced.matches) {
 (() => {
   'use strict';
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  if (reduced.matches) return;
+  if (reduced.matches) {
+    // Motion preference removes physics, not navigation: every brand stays clickable.
+    document.querySelectorAll('#tleGravityStage .tle-brand-pill').forEach(el=>{
+      el.style.cursor='pointer';
+      el.setAttribute('aria-label',el.textContent.trim()+'. Open website preview.');
+      el.addEventListener('click',()=>{
+        if(el.dataset.project)window.dispatchEvent(new CustomEvent('tle:open-project',{detail:{id:el.dataset.project,trigger:el}}));
+      });
+    });
+    return;
+  }
   const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
   const hero = document.querySelector('.hero');
   const cloud = document.querySelector('.hero-browser-cloud');
@@ -502,6 +512,11 @@ if (!reduced.matches) {
     el.addEventListener('pointercancel',release);
     el.addEventListener('lostpointercapture',release);
     el.addEventListener('keydown',e=>{
+      if(!started && (e.key==='Enter'||e.key===' ')){
+        e.preventDefault();
+        if(el.dataset.project)window.dispatchEvent(new CustomEvent('tle:open-project',{detail:{id:el.dataset.project,trigger:el}}));
+        return;
+      }
       if(!started)return;
       const dir={ArrowLeft:[-17,0],ArrowRight:[17,0],ArrowUp:[0,-17],ArrowDown:[0,17]}[e.key];
       if(dir){e.preventDefault();b.x=clamp(b.x+dir[0],3,Math.max(3,width-b.w-3));b.y=clamp(b.y+dir[1],3,Math.max(3,height-b.h-3));b.vx=dir[0]*.11;b.vy=dir[1]*.11;paint()}
