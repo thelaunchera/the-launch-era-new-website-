@@ -144,6 +144,14 @@ function setup(){
   translationUpdate();
  }));
  updateBadge();translationUpdate();
+ // Let the wishlist use the existing demo bag without opening the checkout drawer.
+ window.TLEWishlistCart={brand:"lavender-edit",add(id){
+  const i=Number(id);if(!Number.isInteger(i)||i<0||!catalog()[i])return false;
+  cart.set(i,Math.min(99,(cart.get(i)||0)+1));phase="bag";updateBadge();
+  if(!drawer.hidden)render();
+  live.textContent=t("added")+": "+catalog()[i].name;
+  return true;
+ }};
  if(!enhance()){
   const observer=new MutationObserver(()=>{if(enhance())observer.disconnect()});
   observer.observe(document.querySelector("main")||document.body,{childList:true,subtree:true});
