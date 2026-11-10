@@ -87,6 +87,7 @@ function translate(){
  $('[data-wishlist-title]',section).firstChild.textContent=t('heading')+' ';
  $('[data-wishlist-lead]',section).textContent=t('lead');
  empty.textContent=t('empty');
+ const back=$('.tle-wishlist-back',section);if(back)back.textContent=lang()==='es'?'Seguir comprando':'Continue shopping';
  $('[data-wishlist-jump]',source())?.setAttribute('title',t('view'));
  $('[data-wishlist-jump-label]',source())?.replaceChildren(document.createTextNode(t('view')));
  render();
@@ -118,12 +119,30 @@ function setup(){
  if(installed)return;
  const host=source();if(!host||!snapshot())return false;
  installed=true;restore();
- const jumpRoot=brand==='lavender-edit'?$('.tle-price-grid',host):$('#productGrid',host);
- if(jumpRoot){jump=document.createElement('a');jump.className='tle-wishlist-jump';jump.href='#tle-wishlist';jump.dataset.wishlistJump='';const title=document.createElement('span');title.dataset.wishlistJumpLabel='';title.textContent=t('view');const b=document.createElement('b');const count=document.createElement('span');count.textContent='0';b.append(count);countBadge=count;jump.append(title,b);jumpRoot.insertAdjacentElement('afterend',jump)}
+ const tools=$('header .actions')||$('header .header-tools');
+ if(tools){jump=document.createElement('a');jump.className='tle-wishlist-topbar';jump.href='?view=wishlist';jump.dataset.wishlistJump='';jump.innerHTML=heartMarkup+'<span data-wishlist-badge>0</span>';countBadge=$('[data-wishlist-badge]',jump);tools.prepend(jump)}
  section=document.createElement('section');section.id='tle-wishlist';section.className='tle-wishlist';section.setAttribute('aria-labelledby','tle-wishlist-title');
  section.innerHTML='<div class="tle-wishlist-header"><div><p class="tle-wishlist-kicker" data-wishlist-kicker></p><h2 id="tle-wishlist-title" data-wishlist-title>Your wishlist <small data-wishlist-count>0</small></h2></div><p class="tle-wishlist-lead" data-wishlist-lead></p></div><div class="tle-wishlist-grid" data-wishlist-grid></div><p class="tle-wishlist-empty" data-wishlist-empty></p><div class="tle-wishlist-status" role="status" aria-live="polite" data-wishlist-status></div>';
- host.insertAdjacentElement('afterend',section);
+ $('#main').append(section);
+ section.hidden=true;
  grid=$('[data-wishlist-grid]',section);empty=$('[data-wishlist-empty]',section);status=$('[data-wishlist-status]',section);
+ const back=document.createElement('a');back.className='tle-wishlist-back';back.href=location.pathname;back.textContent=lang()==='es'?'Seguir comprando':'Continue shopping';section.prepend(back);
+ const originalTitle=document.title;
+ let shopScroll=0;
+ function showRoute(){
+  const active=new URL(location.href).searchParams.get('view')==='wishlist';
+  document.body.classList.toggle('tle-wishlist-page',active);section.hidden=!active;
+  for(const child of $('#main').children){if(child!==section)child.classList.toggle('tle-wishlist-shop-hidden',active)}
+  document.title=active?t('heading')+' | '+originalTitle:originalTitle;
+  jump?.setAttribute('aria-current',active?'page':'false');
+ }
+ window.addEventListener('popstate',()=>{showRoute();window.scrollTo(0,section.hidden?shopScroll:0)});
+ document.addEventListener('click',event=>{
+  const link=event.target.closest?.('a');if(!link||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+  if(link===jump){event.preventDefault();shopScroll=window.scrollY;history.pushState({wishlist:true},'',jump.href);showRoute();window.scrollTo(0,0);return}
+  if(!section.hidden&&(link===back||link.getAttribute('href')?.startsWith('#'))){event.preventDefault();const hash=link===back?'':link.getAttribute('href');history.pushState(null,'',location.pathname+hash);showRoute();if(hash)$(hash)?.scrollIntoView();else window.scrollTo(0,shopScroll)}
+ });
+ showRoute();
  translate();
  document.addEventListener('click',event=>{
   const target=event.target instanceof Element?event.target:null;if(!target)return;

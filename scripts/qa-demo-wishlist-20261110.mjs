@@ -2,8 +2,8 @@
 import assert from 'node:assert/strict';
 import { chromium, webkit } from 'playwright';
 const origin=(process.env.QA_URL||'http://127.0.0.1:4196').replace(/\/$/,'');
-for(const engine of [chromium,webkit]){
- const browser=await engine.launch({headless:true});
+for(const engine of (process.env.CHROMIUM_PATH?[chromium]:[chromium,webkit])){
+ const browser=await engine.launch({headless:true,...(engine===chromium&&process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{})});
  try{
   for(const width of [390,1440]){
    for(const slug of ['lavender-edit','sneekiefs']){
@@ -24,6 +24,18 @@ for(const engine of [chromium,webkit]){
     assert.equal(await wishlist.locator('[data-wishlist-count]').innerText(),'2','Heading count after saves');
     assert.equal(await cards.count(),2);
     assert.equal(await sources.first().getAttribute('aria-pressed'),'true');
+    assert.equal(await wishlist.isHidden(),true,'Wishlist absent from main page');
+    await page.locator('.tle-wishlist-topbar').click();
+    assert.match(page.url(),/view=wishlist/);
+    assert.equal(await wishlist.isVisible(),true);
+    assert.equal(await page.locator('.hero').isHidden(),true,'Homepage hidden on wishlist page');
+    await page.reload({waitUntil:'domcontentloaded'});
+    await wishlist.waitFor({state:'visible'});
+    assert.equal(await cards.count(),2,'Favorites survive direct URL reload');
+    await page.goBack();
+    await page.waitForTimeout(100);
+    assert.equal(await wishlist.isHidden(),true,'Browser Back returns to shop');
+    await page.locator('.tle-wishlist-topbar').click();
     await cards.first().locator('[data-wish-remove]').click();
     await page.waitForTimeout(80);
     assert.equal(await cards.count(),1,'Grid closes removed card gap');
@@ -53,6 +65,9 @@ for(const engine of [chromium,webkit]){
      assert.match(await page.locator('#bagItems').innerText(),/US 9/);
      await page.locator('#bagClose').click();
     }
+    await page.locator('.tle-wishlist-back').click();
+    assert.equal(await wishlist.isHidden(),true);
+    assert.equal(await page.locator(slug==='lavender-edit'?'[data-lb-cart-count]':'#bagCount').innerText(),'1','Bag survives return to shop');
     assert.equal(writes.length,0,'No network writes from sample shopping');
     assert.deepEqual(errors,[],slug+' no browser errors');
     const overflow=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:innerWidth}));

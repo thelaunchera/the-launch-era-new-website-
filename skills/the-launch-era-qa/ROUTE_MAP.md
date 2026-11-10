@@ -1,3 +1,9 @@
+## 2026-11-10 — Wishlist moved to dedicated page view
+
+- Lavanda and Sneekiefs: top-bar heart links to each demo's `?view=wishlist`; the main shopping content is hidden on this independently addressable view. The wishlist stays hidden on the main page.
+- History navigation and Continue shopping restore the shop; catalog stays mounted to retain native bag state. Saved favorites survive refresh in sessionStorage. Remove/collapse, size validation and Move to bag remain unchanged.
+- Local script parse and static integrity passed (1425 links). Local browser launch is blocked by the environment socket policy; Chromium/WebKit regression workflow is the release gate. Production verification pending.
+
 ## 2026-11-10 — Retail demo wishlists (release verification pending)
 
 - **Routes unchanged:** Existing `/demos/lavender-edit/` and `/demos/sneekiefs/` only. No wishlist on café menus, bookings, services, cleaning, or marketing demos.
