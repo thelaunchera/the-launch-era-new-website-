@@ -30,7 +30,12 @@ assert(geometry.left>=-1&&geometry.right<=geometry.width+1,brand+' discovery ove
 // Test the same shortcuts after a search so category selection cannot inherit stale empty results.
 if(await page.locator('#tle-menu-search').count())await page.locator('#tle-menu-search').fill('no matching favorite');
 for(let index=0;index<3;index++){
-await page.locator('#tle-brand-discovery .td-card').nth(index).click();
+const shortcut=page.locator('#tle-brand-discovery .td-card').nth(index);
+await shortcut.scrollIntoViewIfNeeded();
+// Scroll the rail deliberately, as a phone swipe would, before a real hit-tested click.
+await page.locator('#tle-brand-discovery .td-track').evaluate((track,index)=>{const a=track.querySelectorAll('a')[index];track.scrollLeft=a.offsetLeft-track.offsetLeft},index);
+await page.waitForFunction(index=>{const a=document.querySelectorAll('#tle-brand-discovery .td-card')[index],r=a.getBoundingClientRect();const hit=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return r.left>=-1&&r.right<=innerWidth+1&&!!hit&&(hit===a||a.contains(hit))},index);
+await shortcut.click();
 assert(await page.locator(cfg[4][index][2]).isVisible(),brand+' destination '+index);
 const trigger=cfg[4][index][4];if(trigger&&await page.locator(trigger).count()){
 const selected=await page.locator(trigger).getAttribute('aria-pressed');if(selected!==null)assert.equal(selected,'true',brand+' native filter');}
