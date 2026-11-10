@@ -33,7 +33,7 @@ for(const type of [chromium,webkit]){
    await first.click();
    assert.equal(await page.locator('#projectDialog').evaluate(el=>el.open),true,'Website miniature opens a preview');
    assert.equal((await page.locator('#modalTitle').innerText()).trim(),firstTitle,'Selected website title must match the first thumbnail');
-   assert.ok((await page.locator('#modalExplore').getAttribute('href')).includes(firstId==='experience-cleaning'?'/experience-cleaning/':'/demos/'+firstId+'/'),'First thumbnail must link to its own website');
+   assert.ok(new URL(await page.locator('#modalExplore').getAttribute('href')).pathname.endsWith('/'+firstId+'/'),'First thumbnail must link to its own brand whether hosted on TLE or GitHub Pages');
    await page.locator('#closeDialog').click();
    assert.equal(await page.locator('#projectDialog').evaluate(el=>el.open),false,'Preview can close');
    const second=page.locator('.tle-demo-drop-item').nth(1);
@@ -45,7 +45,7 @@ for(const type of [chromium,webkit]){
    await second.press('Enter');
    assert.equal(await page.locator('#projectDialog').evaluate(el=>el.open),true,'Keyboard Enter opens the second website');
    assert.equal((await page.locator('#modalTitle').innerText()).trim(),secondTitle,'Keyboard preview must open its own brand, independent of ordering');
-   assert.ok((await page.locator('#modalExplore').getAttribute('href')).includes(secondId==='experience-cleaning'?'/experience-cleaning/':'/demos/'+secondId+'/'),'Second preview must link to its own website');
+   assert.ok(new URL(await page.locator('#modalExplore').getAttribute('href')).pathname.endsWith('/'+secondId+'/'),'Second preview must link to its own brand whether hosted on TLE or GitHub Pages');
    await page.locator('#closeDialog').click();
    assert.deepEqual(errors,[],'No portfolio JavaScript errors');
    console.log('PORTFOLIO PASS',type.name(),width,motion,'one set of cards');
