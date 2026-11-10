@@ -211,7 +211,11 @@ function addToCart(flavorId) {
   demoCart.set(flavorId, (demoCart.get(flavorId) || 0) + 1);
   updateCartBadge();
   notify(item.name + ' añadido al carrito de muestra.');
-  viewCart();
+  const photo = modalBody.querySelector('.modal-photo') ||
+    document.querySelector('[data-flavor="' + flavorId + '"] .flavor-picture img');
+  const motion = window.TLECartMotion?.fly(photo, cartButton, { duration: 580 });
+  if (motion) motion.finally(() => viewCart());
+  else viewCart();
 }
 function changeCartQuantity(flavorId, change) {
   const next = (demoCart.get(flavorId) || 0) + change;

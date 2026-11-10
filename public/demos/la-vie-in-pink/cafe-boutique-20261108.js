@@ -146,7 +146,15 @@
   const layer=$("#cart-layer");if(!layer)return;
   layer.hidden=true;document.body.classList.remove("no-scroll");returnFocus?.focus?.();
  }
- function add(id){if(!findProduct(id))return;state.cart.set(id,Math.min(99,(state.cart.get(id)||0)+1));state.step="cart";openCart();}
+ function add(id,trigger){
+  if(!findProduct(id))return;
+  state.cart.set(id,Math.min(99,(state.cart.get(id)||0)+1));
+  state.step="cart";
+  const photo=trigger?.closest('.menu-card')?.querySelector('.menu-card-media img');
+  const motion=window.TLECartMotion?.fly(photo,$('.bag-trigger'),{duration:620});
+  if(motion)motion.finally(()=>openCart());
+  else openCart();
+ }
  function change(id,delta){const next=(state.cart.get(id)||0)+delta;if(next<=0)state.cart.delete(id);else state.cart.set(id,Math.min(99,next));renderCart();}
  function reset(){state.cart.clear();state.step="cart";state.customer={name:"",email:"",notes:""};renderCart();closeCart();$("#menu")?.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});}
  function onAction(action){if(action==="browse"){closeCart();$("#menu")?.scrollIntoView({behavior:"smooth"});}if(action==="checkout"&&state.cart.size){state.step="checkout";renderCart();$("#cart-body")?.scrollTo(0,0);}if(action==="back"){state.step="cart";renderCart();}if(action==="reset")reset();}
@@ -154,7 +162,7 @@
   const node=event.target.closest?.("button");if(!node)return;
   if(node.dataset.lang){state.lang=node.dataset.lang;translate();return;}
   if(node.dataset.filter){state.filter=node.dataset.filter;renderMenu();return;}
-  if(node.dataset.add){add(node.dataset.add);const bag=$(".bag-trigger");if(bag&&bag.animate&&!window.matchMedia("(prefers-reduced-motion: reduce)").matches){bag.animate([{transform:"scale(1)"},{transform:"scale(1.1)"},{transform:"scale(1)"}],{duration:420,easing:"ease-out"});}return;}
+  if(node.dataset.add){add(node.dataset.add,node);return;}
   if(node.hasAttribute("data-open-cart")){openCart();return;}
   if(node.hasAttribute("data-close-cart")){closeCart();return;}
   if(node.dataset.more){change(node.dataset.more,1);return;}

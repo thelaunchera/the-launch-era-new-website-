@@ -1,0 +1,46 @@
+name: Brand Cart Fly Interactions QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'public/assets/tle-demo-cart-flight-20261110.js'
+      - 'public/demos/casa-brownie/**'
+      - 'public/demos/la-vie-in-pink/**'
+      - 'scripts/qa-demo-cart-microinteractions-20261110.mjs'
+      - '.github/workflows/qa-demo-cart-microinteractions.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  cart-motion:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check exact original cart JS and shared animation
+        run: |
+          node --check public/assets/tle-demo-cart-flight-20261110.js
+          node --check public/demos/casa-brownie/main.js
+          node --check public/demos/la-vie-in-pink/cafe-boutique-20261108.js
+          node --check scripts/qa-demo-cart-microinteractions-20261110.mjs
+      - name: Install isolated headless Chromium and WebKit
+        run: |
+          mkdir -p /tmp/tle-cart-qa
+          npm install --no-audit --no-fund --prefix /tmp/tle-cart-qa playwright@1.57.0
+          /tmp/tle-cart-qa/node_modules/.bin/playwright install --with-deps chromium webkit
+          mkdir -p node_modules
+          ln -sfn /tmp/tle-cart-qa/node_modules/playwright node_modules/playwright
+          ln -sfn /tmp/tle-cart-qa/node_modules/playwright-core node_modules/playwright-core
+      - name: Verify bilingual sample carts at iPhone width and reduced motion
+        run: |
+          python3 -m http.server 4196 --bind 127.0.0.1 --directory public >/tmp/tle-cart-server.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for n in $(seq 1 20); do
+            if curl -fsS http://127.0.0.1:4196/demos/casa-brownie/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4196 node scripts/qa-demo-cart-microinteractions-20261110.mjs
