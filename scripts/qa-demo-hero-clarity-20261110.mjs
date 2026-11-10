@@ -84,6 +84,17 @@ try{
    const cta=page.locator('.hero '+changed[brand][0].replace(/^\.hero /,'')).first();
    assert(await cta.isVisible(),brand+' primary action visible');
    const rect=await cta.boundingBox();assert(rect.height>=44,brand+' primary target too small');
+   if(['freska','sneekiefs','nail-room'].includes(brand)){
+    const contrast=await hero.evaluate((h,brand)=>{
+     const lum=s=>{const c=s.match(/[\d.]+/g).slice(0,3).map(Number).map(x=>x/255).map(x=>x<=.04045?x/12.92:((x+.055)/1.055)**2.4);return c[0]*.2126+c[1]*.7152+c[2]*.0722};
+     const ratio=(a,b)=>(Math.max(lum(a),lum(b))+.05)/(Math.min(lum(a),lum(b))+.05);
+     if(brand==='sneekiefs')return ratio(getComputedStyle(h.querySelector('.hero-copy>p')).color,getComputedStyle(h).backgroundColor);
+     const button=h.querySelector(brand==='freska'?'.pill-pink':'.hero-actions .pink'),style=getComputedStyle(button);
+     const colors=style.backgroundImage.match(/rgba?\([^)]+\)/g)||[style.backgroundColor];
+     return Math.min(...colors.map(c=>ratio(style.color,c)));
+    },brand);
+    assert(contrast>=4.5,brand+' small copy/primary action contrast '+contrast.toFixed(2));
+   }
    const dest=await cta.getAttribute('href');assert(dest?.startsWith('#'));
    assert.equal(await page.locator(dest).count(),1,brand+' primary destination exists once');
    await cta.click();
