@@ -51,5 +51,41 @@
     ]);
     return done.then(()=>{animation.cancel();ghost.remove();active--;pulse(target);});
   }
-  window.TLECartMotion={fly};
+  // Light 720ms button-to-bag arc. App state remains owned by the storefront.
+  function flyDot(button,target,opts={}){
+    const badge=opts.badge||target?.querySelector?.('[aria-live], .bag-count, .count');
+    const done=()=>{
+      try{if(typeof opts.onLand==='function')opts.onLand();}
+      finally{pulse(badge||target);}
+    };
+    if(!button?.isConnected||!target?.isConnected||reduced.matches||active>=12||!document.body.animate){
+      done();return Promise.resolve();
+    }
+    const from=button.getBoundingClientRect();
+    const anchor=opts.anchor||target.querySelector?.('svg')||target;
+    const to=anchor.getBoundingClientRect();
+    if(!from.width||!from.height||!to.width||!to.height){done();return Promise.resolve();}
+    const x=from.left+from.width/2,y=from.top+from.height/2;
+    const dx=to.left+to.width/2-x,dy=to.top+to.height/2-y;
+    const duration=720;
+    const arc=Math.max(55,Math.min(190,Math.abs(dx)*.22+Math.abs(dy)*.14));
+    const dot=document.createElement('span');
+    dot.setAttribute('aria-hidden','true');
+    const brandColor=opts.color||getComputedStyle(button).getPropertyValue('--tle-cart-dot-color').trim()||'#F2D85B';
+    dot.style.cssText='position:fixed;z-index:2147483001;pointer-events:none;width:12px;height:12px;border-radius:50%;box-shadow:0 3px 12px rgba(0,0,0,.22);will-change:transform,opacity;';
+    dot.style.left=(x-6)+'px';dot.style.top=(y-6)+'px';dot.style.backgroundColor=brandColor;
+    document.body.append(dot);active++;
+    let animation;
+    try{
+      animation=dot.animate([
+        {transform:'translate3d(0,0,0) scale(.8)',opacity:.96,offset:0},
+        {transform:'translate3d('+(dx*.32)+'px,'+(dy*.32-arc)+'px,0) scale(1.3)',opacity:1,offset:.32},
+        {transform:'translate3d('+(dx*.72)+'px,'+(dy*.72-arc*.7)+'px,0) scale(.95)',opacity:1,offset:.72},
+        {transform:'translate3d('+dx+'px,'+dy+'px,0) scale(.3)',opacity:.4,offset:1}
+      ],{duration,easing:'cubic-bezier(.25,.7,.25,1)',fill:'forwards'});
+    }catch(e){dot.remove();active--;done();return Promise.resolve();}
+    return Promise.race([animation.finished.catch(()=>{}),new Promise(resolve=>setTimeout(resolve,duration+120))])
+      .then(()=>{animation.cancel();dot.remove();active--;done();});
+  }
+  window.TLECartMotion={fly,flyDot};
 })();
