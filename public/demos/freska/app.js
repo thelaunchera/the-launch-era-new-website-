@@ -12,7 +12,7 @@ function toast(message){const box=$('#toast');box.textContent=message;box.hidden
 function openBag(){focusBack=document.activeElement;$('#bag-scrim').hidden=false;$('#bag-panel').hidden=false;document.body.style.overflow='hidden';$('.close-panel').focus()}
 function closeBag(){if($('#bag-panel').hidden)return;$('#bag-scrim').hidden=true;$('#bag-panel').hidden=true;document.body.style.overflow='';(focusBack?.isConnected?focusBack:$('.bag-toggle')).focus()}
 function closeNav(){const nav=$('#nav');nav.classList.remove('is-open');$('.menu-toggle').setAttribute('aria-expanded','false');$('.menu-toggle').setAttribute('aria-label',tr('menuOpen'))}
-$$('[data-lang]').forEach(btn=>btn.addEventListener('click',()=>{lang=btn.dataset.lang;renderLang()}));$('[data-add]').forEach(btn=>btn.addEventListener('click',()=>{
+$$('[data-lang]').forEach(btn=>btn.addEventListener('click',()=>{lang=btn.dataset.lang;renderLang()}));$$('[data-add]').forEach(btn=>btn.addEventListener('click',()=>{
  const sku=btn.dataset.add;completed=null;bag[sku]=(bag[sku]||0)+1;
  const motion=window.TLECartMotion?.flyDot(btn,$('.bag-toggle'),{
    badge:$('#bag-count'),color:'#F24C95',onLand:renderBag
