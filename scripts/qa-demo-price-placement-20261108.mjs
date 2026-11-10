@@ -29,7 +29,7 @@ for(const engine of [chromium,webkit]){
       await page.waitForFunction(()=>document.querySelectorAll('#menu-grid .menu-card .price-wrap strong').length===6,null,{timeout:12000});
       const prices=await page.locator('#menu-grid .menu-card .price-wrap strong').allTextContents();
       assert.equal(prices.length,6,'La Vie in Pink has six priced café products');
-      assert.ok(prices.every(value=>/^\\$\\d+(?:\\.\\d{2})?$/.test(value.trim())),'Each product price is formatted as US dollars');
+      assert.ok(prices.every(value=>/^\$\d+(?:\.\d{2})?$/.test(value.trim())),'Each product price is formatted as US dollars');
       assert.deepEqual(errors,[],'La Vie in Pink menu runtime errors');
       console.log('NATIVE CAFE PRICES PASS',engine.name(),brand.slug,width,prices.length);
       await page.close();
