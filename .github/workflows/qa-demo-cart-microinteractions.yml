@@ -44,3 +44,4 @@ jobs:
             sleep 1
           done
           QA_URL=http://127.0.0.1:4196 node scripts/qa-demo-cart-microinteractions-20261110.mjs
+          QA_URL=http://127.0.0.1:4196 node scripts/qa-lavie-tablet-discovery-20261110.mjs
