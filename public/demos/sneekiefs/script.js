@@ -146,4 +146,11 @@ document.addEventListener("keydown",ev=>{
 });
 $("#year").textContent=String(new Date().getFullYear());
 translate();updateBagCount();
+// The wishlist needs a valid size; reuse the same bag behavior and keep the drawer closed.
+window.TLEWishlistCart={brand:"sneekiefs",add(id,options={}){
+ const size=Number(options.size);
+ if(!sizes.includes(size))return false;
+ chosen.set(id,size);syncSizes(id);
+ return addToBag(id,size);
+}};
 })();
