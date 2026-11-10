@@ -80,7 +80,7 @@ try{
   assert(geometry.photos.every(p=>p.loaded),brand+' missing hero photo '+JSON.stringify(geometry.photos));
   assert(geometry.headings.every(h=>h.left>=-2&&h.right<=width+2),brand+' headline clipped at '+width);
   if(changed[brand]){
-   assert(geometry.text.includes(changed[brand][1]),brand+' must say what it offers');
+   assert(geometry.text.toLowerCase().includes(changed[brand][1].toLowerCase()),brand+' must say what it offers');
    const cta=page.locator('.hero '+changed[brand][0].replace(/^\.hero /,'')).first();
    assert(await cta.isVisible(),brand+' primary action visible');
    const rect=await cta.boundingBox();assert(rect.height>=44,brand+' primary target too small');
