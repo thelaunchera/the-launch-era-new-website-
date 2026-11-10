@@ -6,7 +6,8 @@ import assert from 'node:assert/strict';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-const roots = ['public/demos', 'demo-source'];
+const extraPublic=['public/booking-demo','public/cleaning-app-demo','public/experience-cleaning','public/sample-cleaning','public/portfolio'];
+const roots = ['public/demos', 'demo-source', ...extraPublic];
 const files = [];
 function walk(root) {
   if (!existsSync(root)) return;
@@ -22,6 +23,8 @@ const publicPages=files.filter(p=>p.startsWith('public/demos/')&&p.endsWith('/in
 const sourcePages=files.filter(p=>p.startsWith('demo-source/')&&p.endsWith('/index.html'));
 assert.ok(publicPages.length >= 19, 'Expected all public demo index pages');
 assert.ok(sourcePages.length >= 4, 'Expected all editable demo entry points');
+const standalonePages=extraPublic.map(path=>join(path,'index.html'));
+for(const path of standalonePages) assert.ok(files.includes(path),'Missing standalone public demo '+path);
 const guard='/assets/tle-demo-view-only-media-20261110.js';
 const banned=[
   /<a\b[^>]*\bdownload(?:\s|=|>)/i,
@@ -33,7 +36,7 @@ for (const f of files) {
   const code=readFileSync(f,'utf8');
   for (const pattern of banned) assert.doesNotMatch(code,pattern,'Public media export found in '+f);
 }
-for (const f of [...publicPages,...sourcePages]) {
+for (const f of [...publicPages,...standalonePages,...sourcePages]) {
   const code=readFileSync(f,'utf8');
   assert.equal(code.split(guard).length-1,1,'Missing/duplicate public view-only guard: '+f);
 }
@@ -50,4 +53,4 @@ assert.match(viewOnly,/location\.pathname\.startsWith\('\/demos\/'\)/,'guard sco
 assert.match(viewOnly,/dragstart/);
 assert.match(viewOnly,/contextmenu/);
 assert.doesNotMatch(viewOnly,/(?:preventDefault\(\)).*?(?:click|touchstart)/,'never block standard photo taps');
-console.log('PUBLIC PHOTO VIEW-ONLY PASS:',publicPages.length,'public demos,',sourcePages.length,'editable demos; no download controls');
+console.log('PUBLIC PHOTO VIEW-ONLY PASS:',publicPages.length,'library demos,',standalonePages.length,'standalone public experiences,',sourcePages.length,'editable demos; no download controls');
