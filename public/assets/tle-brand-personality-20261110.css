@@ -1,0 +1,242 @@
+/*
+ * The Launch Era / brand personality edition, 2026-11-10.
+ * Expressive type, intentional chroma and original handdrawn strokes.
+ * Brand-scoped; preserve original hero media, store interactions, booking,
+ * editorial galleries, product imagery and all customer data.
+ * All strokes are abstract SVG artwork, not generic emoji or fake logos.
+ */
+
+/* SOVA: the music campaign itself becomes the editorial signature.
+   Only the five-mood chapter is restyled; approved hero stays pristine. */
+html[data-tle-one-motion="sova"] #sova-moods .sova-people-head {
+  position:relative;
+  isolation:isolate;
+  align-items:flex-end;
+  background:#1051c5;
+  color:#f7f9fe;
+  padding:clamp(26px,4vw,58px);
+  margin-bottom:0;
+  min-height:clamp(270px,35vw,455px);
+  border-radius:20px 20px 6px 6px;
+  overflow:hidden;
+}
+html[data-tle-one-motion="sova"] #sova-moods .sova-people-head::before {
+  content:"SOVA / SOUND IN COLOR";
+  position:absolute;inset:18px auto auto 24px;
+  font:700 9px/1.25 "DM Sans",Arial,sans-serif;
+  letter-spacing:.19em;color:#f3f8ff;opacity:.68;
+  pointer-events:none;
+}
+html[data-tle-one-motion="sova"] #sova-moods .sova-people-head::after {
+  content:"";position:absolute;right:-28px;top:23px;
+  width:min(33%,260px);height:66px;opacity:.18;z-index:-1;
+  background:repeating-linear-gradient(90deg,transparent 0 9px,#fff 9px 12px,transparent 12px 18px);
+  border-radius:30px;transform:rotate(-12deg);pointer-events:none;
+}
+html[data-tle-one-motion="sova"] #sova-moods .sova-people-head h2 {
+  font:400 clamp(57px,9.2vw,136px)/.91 Anton,Impact,sans-serif;
+  max-width:11ch;letter-spacing:-.055em;color:#fff;margin:0;
+}
+html[data-tle-one-motion="sova"] #sova-moods .sova-people-head .eyebrow,
+html[data-tle-one-motion="sova"] #sova-moods .sova-people-head .sova-people-lead {
+  color:#f1f6ff;
+}
+html[data-tle-one-motion="sova"] #sova-moods .sova-people-head .sova-people-lead {
+  max-width:26ch;font-size:clamp(13px,1.35vw,17px);line-height:1.55;
+}
+html[data-tle-one-motion="sova"] #sova-moods .sova-night-toggle-row {
+  display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;
+  gap:14px;padding:13px 18px;margin:0 0 24px;
+  color:#123e82;background:#ecf3ff;border:1px solid #d8e4fc;
+  border-radius:0 0 12px 12px;font:600 11px/1.5 "DM Sans",Arial,sans-serif;
+  letter-spacing:.035em;
+}
+html[data-tle-one-motion="sova"] #sova-moods .sova-night-toggle {
+  display:inline-flex;gap:9px;align-items:center;justify-content:center;
+  min-height:44px;padding:9px 16px;border:1px solid #1452b0;
+  border-radius:999px;background:#fff;color:#1051c5;
+  font:700 11px/1.4 "DM Sans",Arial,sans-serif;
+  cursor:pointer;touch-action:manipulation;
+}
+html[data-tle-one-motion="sova"] #sova-moods .sova-night-toggle[aria-pressed="true"] {
+  background:#061b44;color:#fff;border-color:#061b44;
+}
+html[data-tle-one-motion="sova"] #sova-moods .sova-night-toggle:focus-visible {
+  outline:3px solid #1452b0;outline-offset:3px;
+}
+html[data-tle-one-motion="sova"] #sova-moods.sova-night .sova-people-head {
+  background:#061b44;
+}
+html[data-tle-one-motion="sova"] #sova-moods.sova-night .sova-night-toggle-row {
+  background:#dae7fc;color:#092d71;
+}
+html[data-tle-one-motion="sova"] #sova-moods .sova-people-image {
+  border-radius:7px;
+}
+html[data-tle-one-motion="sova"] #sova-moods .sova-people-caption strong {
+  font-weight:800;letter-spacing:.08em;color:#1352af;
+}
+
+/* SNEEKIEFS: street posters, cutout-style word blocks, not a stock shop. */
+html[data-tle-one-motion="sneekiefs"] :where(.collection,.campaign,.sneekiefs-editorial) h2 {
+  font-size:clamp(59px,9vw,148px);
+  line-height:.92;
+  letter-spacing:-.065em;
+  text-wrap:balance;
+}
+html[data-tle-one-motion="sneekiefs"] .collection h2::after {
+  content:"";
+  display:block;width:clamp(105px,19vw,250px);height:18px;margin:18px 0 0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 250 18'%3E%3Cpath d='M3 9 Q35 1 62 11 T122 9 T184 8 T247 7' fill='none' stroke='%23D65A24' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-size:100% 100%;
+}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  html[data-tle-one-motion="sneekiefs"] .desktop-nav a:hover {
+    text-decoration-thickness:4px;
+  }
+}
+
+/* CASA BROWNIE: a truly hand-marked patisserie label, not generic icons. */
+html[data-tle-one-motion="casa-brownie"] .flavor-section .section-heading h2 {
+  font-size:clamp(46px,5.7vw,94px);
+  line-height:1.03;
+  letter-spacing:-.055em;
+  max-width:15ch;
+}
+html[data-tle-one-motion="casa-brownie"] .flavor-section .section-heading h2::after {
+  content:"";
+  display:block;width:clamp(122px,25vw,250px);height:23px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 250 23'%3E%3Cpath d='M7 16 C38 5 75 17 105 9 C145 0 181 13 242 5' stroke='%23A85F43' stroke-width='5' fill='none' stroke-linecap='round'/%3E%3Cpath d='M14 21 C81 13 164 18 226 12' stroke='%23A85F43' stroke-opacity='.42' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-size:100% 100%;
+  margin:16px auto 0;transform:rotate(-1deg);
+}
+html[data-tle-one-motion="casa-brownie"] .flavor-section .center-label {
+  letter-spacing:.2em;color:#82543e;
+}
+html[data-tle-one-motion="casa-brownie"] .flavor-section .flavor {
+  outline-offset:5px;
+}
+html[data-tle-one-motion="casa-brownie"] .flavor-section .flavor:focus-visible {
+  outline:3px solid #955635;
+}
+
+/* LA VIE IN PINK: restrained couture-pink strokes around genuine café copy. */
+html[data-tle-one-motion="la-vie-in-pink"] .menu-section .menu-head h2 {
+  font-size:clamp(51px,6.5vw,103px);
+  line-height:1.02;letter-spacing:-.055em;
+}
+html[data-tle-one-motion="la-vie-in-pink"] .menu-section .menu-head h2::after {
+  content:"";display:block;width:clamp(90px,14vw,180px);height:20px;margin:12px 0 0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 20'%3E%3Cpath d='M4 13 Q32 0 55 11 T104 12 T176 8' fill='none' stroke='%23C76584' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-size:100% 100%;
+}
+html[data-tle-one-motion="la-vie-in-pink"] .edit-caption {
+  letter-spacing:.03em;
+}
+html[data-tle-one-motion="la-vie-in-pink"] :where(.edit-card,.menu-card):focus-within {
+  outline:2px solid #ac436c;outline-offset:4px;
+}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  html[data-tle-one-motion="la-vie-in-pink"] .main-nav a {
+    transition:color .2s ease;
+  }
+  html[data-tle-one-motion="la-vie-in-pink"] .main-nav a:hover {color:#a74365}
+}
+
+/* HAVANA 19: tropical architectural color, custom marker and bold type. */
+html[data-tle-one-motion="havana-19"] .kitchen .section-head h2 {
+  font-family:"Barlow Condensed","Arial Narrow",Impact,sans-serif;
+  font-size:clamp(60px,7vw,116px);font-weight:800;
+  letter-spacing:-.04em;line-height:.98;
+}
+html[data-tle-one-motion="havana-19"] .kitchen .section-head h2::after {
+  content:"";display:block;width:clamp(100px,18vw,230px);height:18px;
+  margin-top:18px;background-size:100% 100%;background-repeat:no-repeat;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 230 18'%3E%3Cpath d='M4 13 C25 1 35 3 53 11 S88 18 110 8 S144 2 161 10 S199 13 226 5' fill='none' stroke='%23D65A24' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+html[data-tle-one-motion="havana-19"] .kitchen .section-intro {
+  border-left:4px solid #D65A24;padding-left:18px;
+}
+html[data-tle-one-motion="havana-19"] .story-tagline {
+  text-decoration:underline;text-decoration-color:#D65A24;
+  text-decoration-thickness:3px;text-underline-offset:7px;
+}
+
+/* GOLDEN GRID: warm waffles deserve graphic, unapologetic yellow.
+   Only the real-human-moments chapter changes; approved hero untouched. */
+html[data-tle-one-motion="golden-grid"] #gg-human-moments {
+  background:#f2d85b;
+  color:#1e1b16;
+  position:relative;
+  isolation:isolate;
+}
+html[data-tle-one-motion="golden-grid"] #gg-human-moments::before {
+  content:"";position:absolute;right:0;top:0;width:clamp(46px,11vw,140px);
+  height:clamp(46px,11vw,140px);
+  background:conic-gradient(#1e1b16 25%,transparent 0 50%,#1e1b16 0 75%,transparent 0);
+  background-size:28px 28px;opacity:.9;pointer-events:none;z-index:-1;
+}
+html[data-tle-one-motion="golden-grid"] #gg-human-moments .gg-human-heading h2 {
+  font-size:clamp(53px,6vw,102px);
+  line-height:1.02;
+  letter-spacing:-.055em;
+  max-width:14ch;color:#1e1b16;
+}
+html[data-tle-one-motion="golden-grid"] #gg-human-moments .gg-human-image {
+  border-radius:5px;
+  outline:2px solid #1e1b16;
+  outline-offset:-2px;
+}
+html[data-tle-one-motion="golden-grid"] #gg-human-moments .gg-human-label {
+  font-weight:800;
+  letter-spacing:.08em;
+}
+@media(max-width:760px) {
+  html[data-tle-one-motion="sova"] #sova-moods .sova-people-head {
+    display:block;min-height:0;margin-bottom:0;padding:52px 22px 25px;
+    border-radius:14px 14px 5px 5px;
+  }
+  html[data-tle-one-motion="sova"] #sova-moods .sova-people-head h2 {
+    font-size:clamp(51px,12vw,83px);
+  }
+  html[data-tle-one-motion="sova"] #sova-moods .sova-people-head .sova-people-lead {
+    margin-top:15px;max-width:29ch;
+  }
+  html[data-tle-one-motion="sova"] #sova-moods .sova-night-toggle-row {
+    margin-bottom:19px;padding:12px 14px;
+  }
+  html[data-tle-one-motion="golden-grid"] #gg-human-moments::before {
+    width:56px;height:56px;background-size:14px 14px;
+  }
+  html[data-tle-one-motion="golden-grid"] #gg-human-moments .gg-human-heading h2 {
+    font-size:clamp(43px,10vw,72px);
+    padding-right:28px;
+  }
+  html[data-tle-one-motion="sneekiefs"] :where(.collection,.campaign,.sneekiefs-editorial) h2 {
+    font-size:clamp(48px,12vw,85px);
+  }
+  html[data-tle-one-motion="casa-brownie"] .flavor-section .section-heading h2 {
+    font-size:clamp(42px,10vw,68px);
+  }
+  html[data-tle-one-motion="la-vie-in-pink"] .menu-section .menu-head h2 {
+    font-size:clamp(48px,11vw,77px);
+  }
+  html[data-tle-one-motion="havana-19"] .kitchen .section-head h2 {
+    font-size:clamp(51px,10vw,74px);
+  }
+}
+@media (forced-colors:active) {
+  html[data-tle-one-motion="sova"] #sova-moods .sova-people-head,
+  html[data-tle-one-motion="golden-grid"] #gg-human-moments {
+    background:Canvas;color:CanvasText;border:1px solid CanvasText;
+  }
+  html[data-tle-one-motion="sova"] #sova-moods .sova-people-head :where(h2,p),
+  html[data-tle-one-motion="golden-grid"] #gg-human-moments .gg-human-heading h2 {
+    color:CanvasText;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  html[data-tle-one-motion] :where(.sova-night-toggle,.main-nav a) {
+    transition:none;
+  }
+}
