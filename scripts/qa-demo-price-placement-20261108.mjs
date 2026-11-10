@@ -23,6 +23,18 @@ for(const engine of [chromium,webkit]){
     page.on('pageerror',e=>errors.push(String(e)));
     const response=await page.goto(origin+path(brand.slug),{waitUntil:'domcontentloaded'});
     assert.equal(response?.status(),200,brand.slug+' page should load');
+    // La Vie in Pink has a native six-product café menu and interactive bag.
+    // Test its actual prices rather than demanding a duplicate 3-item price block.
+    if(brand.slug==='la-vie-in-pink'){
+      await page.waitForFunction(()=>document.querySelectorAll('#menu-grid .menu-card .price-wrap strong').length===6,null,{timeout:12000});
+      const prices=await page.locator('#menu-grid .menu-card .price-wrap strong').allTextContents();
+      assert.equal(prices.length,6,'La Vie in Pink has six priced café products');
+      assert.ok(prices.every(value=>/^\\$\\d+(?:\\.\\d{2})?$/.test(value.trim())),'Each product price is formatted as US dollars');
+      assert.deepEqual(errors,[],'La Vie in Pink menu runtime errors');
+      console.log('NATIVE CAFE PRICES PASS',engine.name(),brand.slug,width,prices.length);
+      await page.close();
+      continue;
+    }
     const pricing=page.locator('section#tle-demo-sample-prices');
     await page.waitForFunction(()=>document.querySelector('#tle-demo-sample-prices')||document.querySelector('.tle-demo-customer-price'),null,{timeout:12000});
     if(await pricing.count()===0){
