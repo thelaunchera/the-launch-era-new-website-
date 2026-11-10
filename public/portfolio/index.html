@@ -65,7 +65,7 @@
 @media(prefers-reduced-motion:reduce){
  .hero-browser-cloud .floating-window{will-change:auto;transform:none!important}
  .tle-gravity-stage{min-height:auto;padding:25px 14px}
- .tle-brand-pill{cursor:default;touch-action:auto}
+ .tle-brand-pill{cursor:grab;touch-action:none}
  .tle-gravity-replay{display:none}
 }
 
@@ -285,12 +285,7 @@ window.addEventListener('tle:open-project', event => {
   const project = projects.find(p => p.id === id);
   if (project) openProject(project, trigger || document.getElementById('tleGravityStage'));
 });
-if (reduced.matches) document.querySelectorAll('.tle-brand-pill[data-project]').forEach(pill => {
-  pill.addEventListener('click', () => {
-    const project = projects.find(p => p.id === pill.dataset.project);
-    if (project) openProject(project, pill);
-  });
-});
+// Reduced-motion pill click handling is registered exactly once by the physics fallback below.
 
 document.querySelector('#year').textContent=String(new Date().getFullYear());
 // Keep the first frame visible until the actual cinematic video can play.
