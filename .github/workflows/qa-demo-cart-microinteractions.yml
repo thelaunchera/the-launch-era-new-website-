@@ -7,6 +7,7 @@ on:
       - 'public/demos/casa-brownie/**'
       - 'public/demos/la-vie-in-pink/**'
       - 'scripts/qa-demo-cart-microinteractions-20261110.mjs'
+      - 'scripts/qa-lavie-tablet-discovery-20261110.mjs'
       - '.github/workflows/qa-demo-cart-microinteractions.yml'
   workflow_dispatch:
 permissions:
