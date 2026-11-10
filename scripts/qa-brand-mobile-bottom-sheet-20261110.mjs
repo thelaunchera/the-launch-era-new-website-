@@ -38,7 +38,13 @@ for(const browserType of [chromium,webkit]){
     await page.locator(spec.close).click();
     await panel.waitFor({state:'hidden',timeout:5000});
     const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
-    assert.ok(overflow<=4,spec.slug+' no horizontal overflow '+overflow);
+    const offenders=overflow>4 ? await page.evaluate(()=>
+      [...document.querySelectorAll('*')]
+        .map(el=>({el,r:el.getBoundingClientRect()}))
+        .filter(({r})=>r.width>0&&(r.right>innerWidth+5||r.left< -5))
+        .slice(0,7).map(({el,r})=>({tag:el.tagName,cls:String(el.className).slice(0,60),right:Math.round(r.right),left:Math.round(r.left)}))
+    ) : [];
+    assert.ok(overflow<=4,spec.slug+' no horizontal overflow '+overflow+' '+JSON.stringify(offenders));
     assert.deepEqual(errors,[],spec.slug+' no JS errors');
     console.log('MOBILE BOTTOM SHEET PASS',browserType.name(),spec.slug,motion);
     await page.close();
