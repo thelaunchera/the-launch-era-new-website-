@@ -223,7 +223,7 @@ assert.match(experienceCss,/\.cb-order-flavors/,'flavor cards receive responsive
 assert.match(experienceCss,/\.cb-story-visual/,'story redesign styled');
 
 const compactCss=load('flavors-compact-back-to-top.css');
-assert.match(html,/href="\.\/flavors-compact-back-to-top\.css\?v=20261102-cta-2"/,'phone-only CSS is loaded after shared mobile stylesheet');
+assert.match(html,/href="\.\/flavors-compact-back-to-top\.css\?v=20261110-menu-prices-1"/,'phone and price CSS loads with current cache key');
 assert.match(compactCss,/grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)\s*!important/,'mobile gallery counters the shared single-column override');
 assert.match(compactCss,/\.hero-copy\s*>\s*\.primary-button/,'hero CTA has a scoped compact rule');
 assert.match(compactCss,/max-width:\s*min\(100%,\s*285px\)\s*!important/,'Casa Brownie phone CTA cannot become full width');
@@ -236,8 +236,18 @@ assert.match(js,/backToTop\.hidden = window\.scrollY < 420/,'back-to-top appears
 console.log('Casa Brownie video + static educational demo QA OK');
 
 
-assert.match(html,/main\.js\?v=20261108-price-parity/,'Casa Brownie demo cart loads updated illustrative prices');
+assert.match(html,/main\.js\?v=20261110-menu-prices-1/,'Casa Brownie demo cart loads updated six-flavor prices');
 assert.match(js,/clasico:600,nuez:630,dulce:750/,'Original cart prices equal Owner Center prices after discount');
 assert.match(html,/data-tle-demo-price-slug="casa-brownie"/,'Owner Center catalog price badges are included in the original demo');
 assert.equal((js.match(/assets\/sabor-/g)||[]).length,6,'all catalog photos are hosted originals');
 assert.doesNotMatch(js,/amummytoo|proteinbrownies|getrecipekit|anasrecipes|dailydoughco|ctfassets/,'no third-party flavor photos');
+
+// One native six-flavor menu: the shared price helper cannot inject a second card grid.
+const sharedPrices=readFileSync(new URL('../../assets/tle-demo-original-prices-20261108.js',dir),'utf8');
+assert.match(sharedPrices,/if\(slug==="casa-brownie"\)return;/,'shared helper skips duplicate Casa Brownie menu while retaining global catalog data');
+assert.match(html,/tle-demo-original-prices-20261108\.js\?v=20261110-cb-single-menu-1/,'new price-helper version is requested');
+assert.equal((html.match(/id="cb-price-(?:clasico|nuez|dulce|frambuesa|oreo|especial)"/g)||[]).length,6,'six visible price fields in existing flavor grid');
+assert.equal((html.match(/aria-describedby="cb-price-/g)||[]).length,6,'all six prices accessible to screen readers');
+assert.match(js,/frambuesa:700,oreo:700,especial:800/,'sample cart prices match all six visible prices');
+assert.match(sharedPrices,/\["Edición especial",8,0/,'guided demo order catalog contains sixth price');
+assert.match(compactCss,/\.flavor-grid \.flavor-price/,'prices have brand-scoped responsive styling');
