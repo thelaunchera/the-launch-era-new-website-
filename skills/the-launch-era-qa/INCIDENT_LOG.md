@@ -1232,3 +1232,9 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - **Verification:** GitHub change staged for automated QA and live Pages review; Make scenario confirmed inactive. Do not describe live website retirement as verified until merged, deployed and checked.
 
 - **Verified Stripe/Make:** live Cleaning Web App product archived, default price cleared, prices $3.99/$5.99/$9.99 inactive; Stripe query found one canceled historical subscription and no active subscription for that product. Other Make Stripe workflows unchanged. SEO sitemap entries removed.
+
+## 2026-11-10 — Demo menus and collections needed an immediate entry below the hero
+- Owner approved: retain original heroes and add brand-specific discovery immediately beneath them, with full existing menu/collection accessible in one action; apply to all 19 curated demos.
+- Source finding: several brands presented story/editorial blocks before the actionable catalog. Other brands already had early catalogs, so a full replacement or duplicated product grid was unnecessary.
+- Scoped change: one progressive discovery module using existing same-brand photos and native section/filter controls. No product cloning, price edits, new cart, owner workspace, paid flow, backend or customer data. The module clears stale menu search before native category selection and rebuilds once after complete app/language rendering; repeat injection is guarded.
+- Validation: all 19 DOM fixtures passed placement, three real destinations, EN/ES synchronization and no duplicate image nodes. Required static/recovery/tenant/decorative checks passed. Chromium/WebKit CI at mobile and desktop and final Pages/live proof are separate pending stages; do not label physical iPhone QA complete.
