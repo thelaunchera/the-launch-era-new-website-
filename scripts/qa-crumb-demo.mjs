@@ -23,7 +23,7 @@ for (const size of [3, 6, 12]) {
   click(`[data-pack="${size}"]`);
   while(count() < size) click('.cookie [data-add="classic"]');
   assert.equal(count(), size);
-  assert.equal(d.querySelector('#price-total').textContent, '$' + (size * 3.5).toFixed(2));
+  assert.equal(d.querySelector('#price-total').textContent, '$' + (size * 4.5).toFixed(2));
   assert.equal(d.querySelectorAll('#box-tray .box-cookie-slot.filled').length, size);
   click('.cookie [data-add="double"]');
   assert.equal(count(), size);
@@ -71,7 +71,7 @@ click('#delivery-build');
 assert.equal(d.querySelector('#delivery-dialog').open, false);
 assert.equal(d.querySelector('#box-dialog').open, true);
 results.push('Local delivery information opens and returns to gift builder');
-const expectedPrices = {classic:350, double:450, caramel:550, raspberry:600, nutty:700, brownie:500};
+const expectedPrices = {classic:450, double:425, caramel:500, raspberry:550, nutty:700, brownie:500};
 for(const [id,cents] of Object.entries(expectedPrices)) {
   const formatted = '$' + (cents/100).toFixed(2);
   assert.equal(d.querySelector('[data-price-for="'+id+'"]').textContent,formatted+' each');
@@ -79,11 +79,11 @@ for(const [id,cents] of Object.entries(expectedPrices)) {
 }
 assert.equal(d.querySelectorAll('[data-price-for]').length,6);
 assert.equal(d.querySelectorAll('[data-builder-price]').length,6);
-assert.equal(d.querySelector('#price-total').textContent,'$5.50');
+assert.equal(d.querySelector('#price-total').textContent,'$5.00');
 click('.cookie [data-add="classic"]');
 click('.cookie [data-add="nutty"]');
 assert.equal(count(),3);
-assert.equal(d.querySelector('#price-total').textContent,'$16.00');
+assert.equal(d.querySelector('#price-total').textContent,'$16.50');
 assert.equal(d.querySelector('#price-label').textContent,'Your box total');
 click('#preview-button');
 assert.match(d.querySelector('#preview').textContent,/Sample box total: \$16\.00/);
@@ -93,7 +93,7 @@ assert.match(html,/3 cookies · from \$10\.50/);
 assert.match(html,/6 cookies · from \$21\.00/);
 assert.match(html,/12 cookies · from \$42\.00/);
 assert.match(html,/No real checkout/);
-results.push('Six prices $3.50–$7.00, minimum box prices, live $16.00 mixed box, zero checkout');
+results.push('Six prices $4.25–$7.00, minimum box prices, live $16.50 mixed box, zero checkout');
 assert.equal(d.querySelectorAll('.cookie').length, 6);
 
 const compactTitles = {
