@@ -1,0 +1,15 @@
+/* Sneekiefs wishlist: standalone route with the original store and bag preserved. */
+html[data-tle-one-motion="sneekiefs"] #tle-wishlist,
+html[data-tle-one-motion="sneekiefs"] .tle-wishlist-jump{display:none!important}
+html[data-tle-one-motion="sneekiefs"] body.tle-sneekiefs-wishlist-page #main > :not(#tle-wishlist){display:none!important}
+html[data-tle-one-motion="sneekiefs"] body.tle-sneekiefs-wishlist-page #tle-wishlist:not([hidden]){display:block!important;min-height:calc(100svh - 265px);margin:0;border:0;padding-top:clamp(50px,7vw,112px)}
+html[data-tle-one-motion="sneekiefs"] #tle-wishlist[hidden]{display:none!important}
+.tle-sneekiefs-wishlist-topbar{position:relative;flex:0 0 44px;display:grid;place-items:center;width:44px;height:44px;text-decoration:none;color:var(--ink,#141b27);border-radius:50%;transition:background .2s}
+.tle-sneekiefs-wishlist-topbar:hover,.tle-sneekiefs-wishlist-topbar[aria-current="page"]{background:#d9effb}
+.tle-sneekiefs-wishlist-topbar svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+.tle-sneekiefs-wishlist-badge{position:absolute;right:-3px;top:-3px;display:grid;place-items:center;min-width:19px;height:19px;padding:0 4px;border-radius:12px;background:#141b27;color:#fff;font:700 11px/1 'Space Grotesk',Arial,sans-serif}
+.tle-sneekiefs-wishlist-back{display:inline-flex;align-items:center;min-height:44px;margin-bottom:28px;color:#141b27;font:700 12px/1.4 'Space Grotesk',Arial,sans-serif;letter-spacing:.06em;text-decoration:underline;text-underline-offset:5px;text-transform:uppercase}
+.tle-sneekiefs-wishlist-topbar:focus-visible,.tle-sneekiefs-wishlist-back:focus-visible{outline:3px solid #168dd2;outline-offset:3px}
+html[data-tle-one-motion="sneekiefs"] body.tle-sneekiefs-wishlist-page #tle-wishlist .tle-wishlist-header{margin-bottom:40px}
+@media(max-width:720px){html[data-tle-one-motion="sneekiefs"] .header-tools{gap:5px}html[data-tle-one-motion="sneekiefs"] .tle-sneekiefs-wishlist-topbar{width:38px;flex-basis:38px}html[data-tle-one-motion="sneekiefs"] body.tle-sneekiefs-wishlist-page #tle-wishlist:not([hidden]){padding-top:48px}}
+@media(prefers-reduced-motion:reduce){.tle-sneekiefs-wishlist-topbar{transition:none}}
