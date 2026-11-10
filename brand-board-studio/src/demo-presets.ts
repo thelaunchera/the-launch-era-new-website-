@@ -3,6 +3,20 @@
  * User-uploaded gallery photos always take priority; these references are
  * editorial fallback only and never count against storage. */
 export const EDITORIAL_PHOTO_SETS = {
+  "velmora": [
+    "https://thelaunchera.github.io/demo-booking-landing-/velmora/media/hero.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/velmora/media/campaign/after-dark.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/velmora/media/campaign/film-ribbon.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/velmora/media/campaign/red-uncut.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/velmora/media/campaign/red-walks-in.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/velmora/media/campaign/in-the-clutch.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/velmora/media/campaign/velvet-close.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/velmora/media/campaign/signature-red.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/velmora/media/campaign/meet-ruby.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/velmora/media/campaign/long-shadow.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/velmora/media/parcel.webp",
+    "https://thelaunchera.github.io/demo-booking-landing-/velmora/media/ruby-on-lips.webp"
+  ],
   "nail-room": [
     "https://thelaunchera.github.io/demo-booking-landing-/nail-room/media/pink-ombre-hero.png",
     "https://thelaunchera.github.io/demo-booking-landing-/nail-room/media/french-ivory.png",
