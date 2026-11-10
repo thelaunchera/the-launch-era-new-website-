@@ -8,7 +8,7 @@ const brands=[
  {slug:'casa-brownie',kind:'menu',target:'#brownies'},
  {slug:'havana-19',kind:'menu',target:'#kitchen'},
  {slug:'ivory-and-bloom',kind:'menu',target:'#cake-gallery'},
- {slug:'la-vie-in-pink',kind:'menu',target:'#collection'},
+ {slug:'la-vie-in-pink',kind:'bespoke-menu'},
  {slug:'lavender-edit',kind:'service'},
  {slug:'experience-cleaning',kind:'service'}
 ];
@@ -46,6 +46,30 @@ for(const engine of [chromium,webkit]){
       assert.ok(native.insideViewport,'La Vie in Pink native menu stays within '+width+'px viewport');
       assert.deepEqual(errors,[],'La Vie in Pink native menu runtime errors');
       console.log('NATIVE MENU PRICES PASS',engine.name(),brand.slug,width,JSON.stringify(native));
+      await page.close();
+      continue;
+    }
+    // La Vie in Pink uses its approved six-item, locally priced custom café bag.
+    // Do not add a second generic three-item catalog/order dialog just to satisfy QA.
+    if(brand.kind==='bespoke-menu'){
+      await page.waitForFunction(()=>document.querySelectorAll('#menu-grid .menu-card').length===6,null,{timeout:12000});
+      const counts=await page.evaluate(()=>{
+        const menu=document.querySelector('#menu-grid'),cards=[...menu.querySelectorAll('.menu-card')];
+        const rect=menu.getBoundingClientRect();
+        return {cards:cards.length,prices:cards.filter(card=>/^\\$\\d+/.test(card.querySelector('.price-wrap strong')?.textContent||'')).length,
+          buttons:menu.querySelectorAll('button[data-add]').length,hasCart:Boolean(document.querySelector('#cart-layer')),
+          left:rect.left,right:rect.right,viewport:innerWidth};
+      });
+      assert.equal(counts.cards,6,'La Vie original six menu items must remain visible');
+      assert.equal(counts.prices,6,'La Vie six product prices must remain visible');
+      assert.equal(counts.buttons,6,'La Vie products must be addable to its native sample bag');
+      assert.equal(counts.hasCart,true,'La Vie native cart preview must exist');
+      assert.ok(counts.left>=-2&&counts.right<=counts.viewport+2,'La Vie menu fits mobile width');
+      await page.locator('#menu-grid button[data-add]').first().click();
+      assert.equal((await page.locator('#bag-count').innerText()).trim(),'1','La Vie cart increments from sample product');
+      assert.equal(await page.locator('#cart-layer').getAttribute('hidden'),null,'La Vie native bag opens for the sample order');
+      assert.deepEqual(errors,[],'La Vie bespoke menu JS runtime errors');
+      console.log('BESPOKE SIX-ITEM MENU + BAG PASS',engine.name(),brand.slug,width,JSON.stringify(counts));
       await page.close();
       continue;
     }
