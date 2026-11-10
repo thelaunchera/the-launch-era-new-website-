@@ -13,7 +13,19 @@ for(const engine of [chromium,webkit]){
     page.on('request',req=>{if(req.method()!=='GET')writes.push(req.url())});
     const response=await page.goto(origin+'/demos/'+slug+'/',{waitUntil:'domcontentloaded',timeout:35000});
     assert.equal(response?.status(),200,slug+' route');
-    await page.locator('.tle-wishlist-heart').first().waitFor({state:'visible',timeout:16000});
+    try{await page.locator('.tle-wishlist-heart').first().waitFor({state:'visible',timeout:9500})}
+    catch(error){
+     const diag=await page.evaluate(()=>({
+      url:location.href,brand:document.documentElement.dataset.tleOneMotion,ready:document.readyState,
+      sourceSection:!!document.querySelector('#tle-demo-sample-prices'),
+      sourceCards:document.querySelectorAll('#tle-demo-sample-prices .tle-price-card').length,
+      nativeCards:document.querySelectorAll('#productGrid .product-card').length,
+      wishlist:!!document.querySelector('#tle-wishlist'),
+      scripts:[...document.scripts].filter(s=>s.src.includes('wishlist')||s.src.includes('boutique-shop')).map(s=>s.src)
+     }));
+     console.error('WISHLIST DIAGNOSTIC',engine.name(),slug,width,JSON.stringify({diag,errors}));
+     throw error;
+    }
     const sources=page.locator('.tle-wishlist-heart');
     assert.equal(await sources.count(),3,slug+' exactly three products');
     const wishlist=page.locator('#tle-wishlist');
