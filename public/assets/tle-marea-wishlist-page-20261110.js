@@ -90,12 +90,18 @@ function remove(id){
  const positions=new Map(peers.map(el=>[el,el.getBoundingClientRect()]));
  nativeSave(id);
  const finish=()=>{
-  render();removing=false;
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  for(const el of peers){if(!el.isConnected)continue;const before=positions.get(el),after=el.getBoundingClientRect();
-   const dx=before.left-after.left,dy=before.top-after.top;
-   if((Math.abs(dx)>1||Math.abs(dy)>1)&&el.animate)el.animate([{transform:'translate('+dx+'px,'+dy+'px)'},{transform:'translate(0,0)'}],{duration:280,easing:'cubic-bezier(.22,1,.36,1)'});
+  if(!target.isConnected){removing=false;render();return}
+  target.remove();
+  const count=saved().length;
+  const badge=section.querySelector('#marea-wishlist-title small');if(badge)badge.textContent=String(count);
+  if(!count){removing=false;render();return}
+  if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+   for(const el of peers){if(!el.isConnected)continue;const before=positions.get(el),after=el.getBoundingClientRect();
+    const dx=before.left-after.left,dy=before.top-after.top;
+    if((Math.abs(dx)>1||Math.abs(dy)>1)&&el.animate)el.animate([{transform:'translate('+dx+'px,'+dy+'px)'},{transform:'translate(0,0)'}],{duration:280,easing:'cubic-bezier(.22,1,.36,1)'});
+   }
   }
+  removing=false;
  };
  if(matchMedia('(prefers-reduced-motion: reduce)').matches||!target.animate){finish();return}
  target.classList.add('is-removing');
