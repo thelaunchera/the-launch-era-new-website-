@@ -24,8 +24,12 @@ try {
   for(const price of ["$85.00","$103.50","$45.00"])assert.ok(prices.includes(price),"Missing preserved sample price "+price);
   await page.locator(".lb-add").first().click();
   const drawer=page.locator("#lb-cart-drawer");
-  assert.equal(await drawer.isVisible(),true,"Bag should open after adding");
+  // The approved cart-flight experience does NOT auto-open the drawer.
+  assert.equal(await drawer.isHidden(),true,"Bag stays closed until the visitor opens it");
+  await page.waitForFunction(()=>document.querySelector("[data-lb-cart-count]")?.textContent==="1",{timeout:3000});
   assert.equal(await page.locator("[data-lb-cart-count]").innerText(),"1");
+  await page.locator(".lb-cart-trigger").click();
+  assert.equal(await drawer.isVisible(),true,"Bag opens on explicit visitor action");
   assert.ok((await drawer.innerText()).includes("$85.00"),"One sample product subtotal");
   await drawer.locator('[data-lb-action="plus"]').click();
   assert.ok((await drawer.innerText()).includes("$170.00"),"Plus must recalculate total");
@@ -45,6 +49,9 @@ try {
   assert.equal(await page.locator("[data-lb-cart-word]").innerText(),"Bolsa","Spanish bag");
   assert.equal(await page.locator(".lb-add").first().innerText(),"AÑADIR A LA BOLSA","Spanish product CTA");
   await page.locator(".lb-add").first().click();
+  assert.equal(await drawer.isHidden(),true,"Spanish flow must also keep bag closed after Add");
+  await page.waitForFunction(()=>document.querySelector("[data-lb-cart-count]")?.textContent==="1",{timeout:3000});
+  await page.locator(".lb-cart-trigger").click();
   await drawer.locator('[data-lb-action="review"]').click();
   await drawer.locator('[data-lb-action="complete"]').click();
   assert.ok((await drawer.innerText()).includes("¡Tu compra simulada está completa!"),"Spanish confirmation");
