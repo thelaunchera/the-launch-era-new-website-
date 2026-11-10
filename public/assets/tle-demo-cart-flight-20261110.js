@@ -74,7 +74,7 @@
     const brandColor=opts.color||getComputedStyle(button).getPropertyValue('--tle-cart-dot-color').trim()||'#F2D85B';
     dot.style.cssText='position:fixed;z-index:2147483001;pointer-events:none;width:12px;height:12px;border-radius:50%;box-shadow:0 3px 12px rgba(0,0,0,.22);will-change:transform,opacity;';
     dot.style.left=(x-6)+'px';dot.style.top=(y-6)+'px';dot.style.backgroundColor=brandColor;
-    document.body.append(dot);active++;
+    (opts.portal?.isConnected?opts.portal:document.body).append(dot);active++;
     let animation;
     try{
       animation=dot.animate([
