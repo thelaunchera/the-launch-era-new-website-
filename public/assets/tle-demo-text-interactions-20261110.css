@@ -1,0 +1,20 @@
+/* Brand-scoped display typography; original accessible text keeps its layout.
+   No animated text for people requesting reduced motion. */
+html[data-tle-one-motion] [data-tle-text-effect]{position:relative}
+html[data-tle-one-motion] [data-tle-text-effect].tle-text-active{color:transparent!important}
+html[data-tle-one-motion] .tle-text-effect-layer{
+  position:absolute;inset-block-start:0;inset-inline-start:0;
+  white-space:pre;pointer-events:none;user-select:none;
+  font:inherit;line-height:inherit;letter-spacing:inherit;text-transform:inherit;
+  font-style:inherit;font-weight:inherit;
+}
+html[data-tle-one-motion] .tle-text-effect-caret::after{
+  content:"";display:inline-block;height:.85em;margin-inline-start:2px;
+  border-inline-end:2px solid currentColor;vertical-align:-.06em;
+  animation:tle-text-caret-blink .65s steps(1) infinite;
+}
+@keyframes tle-text-caret-blink{50%{border-color:transparent}}
+@media(prefers-reduced-motion:reduce){
+ html[data-tle-one-motion] [data-tle-text-effect].tle-text-active{color:inherit!important}
+ html[data-tle-one-motion] .tle-text-effect-layer{display:none!important}
+}
