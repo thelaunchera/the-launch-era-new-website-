@@ -94,7 +94,7 @@ assert.match(d.querySelector('#preview').textContent,/Packaging: Ribbon Edition 
 assert.match(html,/3 cookies · from \$12\.75/);
 assert.match(html,/6 cookies · from \$25\.50/);
 assert.match(html,/12 cookies · from \$51\.00/);
-assert.match(html,/No real checkout/);
+assert.match(html,/No order or payment has been submitted/);
 results.push('Six prices $4.25–$7.00, minimum box prices, live $16.50 mixed box, zero checkout');
 assert.equal(d.querySelectorAll('.cookie').length, 6);
 
@@ -145,7 +145,7 @@ assert.match(css,/flex:0 0 min\(84vw,360px\)/,'Mobile photos use consistent full
 assert.match(css,/scroll-snap-stop:always/,'Mobile cards snap one at a time');
 assert.match(css,/object-fit:contain/,'All mobile gallery photographs fit without clipping');
 assert.ok(html.includes('styles.css?v=20261030-crumb-pain-first-gifts-v13'), 'Updated CSS must bypass stale iOS browser cache');
-assert.ok(html.includes('main.js?v=20261031-on-click-v5'), 'Updated carousel controller must bypass stale iOS browser cache');
+assert.ok(html.includes('main.js?v=20261108-price-parity'), 'Updated carousel controller must bypass stale iOS browser cache');
 assert.equal(d.querySelectorAll('.crumb-gallery-dot').length,3,'Three accessible slide selectors');
 click('[data-crumb-slide="2"]');
 assert.equal(d.querySelector('.crumb-gallery-counter').textContent,'3 / 3','Third packaging photo is reachable via a dot');
@@ -201,8 +201,8 @@ assert.match(css,/\.brand-glimpse \.brand-glimpse-gallery figure img,[\s\S]*?hei
 assert.match(css,/\.brand-glimpse \.brand-glimpse-gallery figure:nth-child\(3\) img \{[\s\S]*?object-position:50% 56%/,'Third portrait packaging photo is intentionally cropped with no sidebars');
 assert.equal(d.querySelectorAll('.cookie-visual > .add-cookie').length, 6);
 assert.equal(d.querySelectorAll('.cookie-visual > .add-cookie').length, d.querySelectorAll('.cookie').length);
-assert.ok(html.includes('CRUMB_Storefront_Approved_20261030.webp?v=1'));
-assert.match(html, /CRUMB_Storefront_Approved_20261030\.webp\?v=1/);
+assert.ok(html.includes('CRUMB_Storefront_Approved_20261030.webp?v=20261107-approved'));
+assert.match(html, /CRUMB_Storefront_Approved_20261030\.webp\?v=20261107-approved/);
 assert.ok(css.includes('background:#DCEFFA') && css.includes('background:#477BB3'),'The CRUMB moving banners use approved blues');
 assert.ok(css.includes('html, body { width:100%; max-width:100%; overflow-x:clip; }'),'Prevent cross-device horizontal overflow');
 assert.equal(d.querySelectorAll('.crumb-marquee-row').length, 2);
@@ -237,7 +237,7 @@ assert.equal(d.querySelector('#story h2').textContent,'It started with a cookie.
 assert.match(d.querySelector('#story').textContent,/fictional bakery story/i);
 assert.ok(d.querySelector('a[href="#story"]'));
 assert.match(d.querySelector('.footer-location address').textContent,/128 Cookie Lane\s*Miami, FL 33131/);
-assert.match(d.querySelector('.footer-location').textContent,/Fictional address · Not a real storefront/);
+assert.match(d.querySelector('.footer-location').textContent,/Concept address · No storefront is open at this location/);
 assert.equal(d.querySelectorAll('.footer-social [data-social]').length,2);
 assert.match(d.querySelector('.footer-note').textContent,/No orders, payments or contact messages are accepted/);
 const credits = d.querySelectorAll('.site-footer .footer-credit');
@@ -288,7 +288,7 @@ assert.equal(socialDialog.open,false);
 assert.equal(d.querySelectorAll('a[href*="instagram.com"],a[href*="tiktok.com"],a[href*="maps.google.com"]').length,0);
 assert.doesNotMatch(code,/fetch\(|sendBeacon|localStorage|sessionStorage|XMLHttpRequest/i,'no contact transmission or storage');
 assert.ok(css.includes('#contact-form[hidden],.contact-feedback[hidden] { display:none!important; }'));
-assert.ok(html.includes('CRUMB_Storefront_Approved_20261030.webp?v=1'),'approved storefront is the hero');
+assert.ok(html.includes('CRUMB_Storefront_Approved_20261030.webp?v=20261107-approved'),'approved storefront is the hero');
 results.push('Contact only opens on click, never transmits/stores data; fictional address/socials and brand story verified');
 
 
@@ -413,8 +413,8 @@ assert.equal(d.querySelectorAll('[data-open-builder]').length >= 2,true);
 assert.match(html, /What should<br>I bring\?<br>Cookies\./);
 assert.match(css, /CRUMB pain-first editorial gift messaging/);
 assert.match(css, /white-space: normal/);
-assert.ok(html.includes('Fictional address · Not a real storefront'));
-assert.ok(html.includes('No orders, payments or contact messages are accepted.'));
+assert.ok(html.includes('Concept address · No storefront is open at this location'));
+assert.ok(html.includes('Orders, payments and messages are not submitted.'));
 results.push('Gift-doubt hero, six-flavor proof and gift-box CTAs verified; demonstration disclaimers preserved');
 
 console.log(JSON.stringify({method: 'DOM integration; dialog APIs simulated; not visual browser QA', passed: results}, null, 2));
