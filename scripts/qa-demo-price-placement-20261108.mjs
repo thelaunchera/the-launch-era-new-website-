@@ -56,7 +56,76 @@ for(const engine of [chromium,webkit]){
       const counts=await page.evaluate(()=>{
         const menu=document.querySelector('#menu-grid'),cards=[...menu.querySelectorAll('.menu-card')];
         const rect=menu.getBoundingClientRect();
-        return {cards:cards.length,prices:cards.filter(card=>/^\\$\\d+/.test(card.querySelector('.price-wrap strong')?.textContent||'')).length,
+        return {cards:cards.length,prices:cards.filter(card=>(card.querySelector('.price-wrap strong')?.textContent||'').trim().startsWith('
+          buttons:menu.querySelectorAll('button[data-add]').length,hasCart:Boolean(document.querySelector('#cart-layer')),
+          left:rect.left,right:rect.right,viewport:innerWidth};
+      });
+      assert.equal(counts.cards,6,'La Vie original six menu items must remain visible');
+      assert.equal(counts.prices,6,'La Vie six product prices must remain visible');
+      assert.equal(counts.buttons,6,'La Vie products must be addable to its native sample bag');
+      assert.equal(counts.hasCart,true,'La Vie native cart preview must exist');
+      assert.ok(counts.left>=-2&&counts.right<=counts.viewport+2,'La Vie menu fits mobile width');
+      await page.locator('#menu-grid button[data-add]').first().click();
+      assert.equal((await page.locator('#bag-count').innerText()).trim(),'1','La Vie cart increments from sample product');
+      assert.equal(await page.locator('#cart-layer').getAttribute('hidden'),null,'La Vie native bag opens for the sample order');
+      assert.deepEqual(errors,[],'La Vie bespoke menu JS runtime errors');
+      console.log('BESPOKE SIX-ITEM MENU + BAG PASS',engine.name(),brand.slug,width,JSON.stringify(counts));
+      await page.close();
+      continue;
+    }
+    const pricing=page.locator('section#tle-demo-sample-prices');
+    await page.waitForFunction(()=>document.querySelector('#tle-demo-sample-prices')||document.querySelector('.tle-demo-customer-price'),null,{timeout:12000});
+    if(await pricing.count()===0){
+      const badges=await page.locator('.tle-demo-customer-price').count();
+      assert.ok(badges>0,brand.slug+' existing catalog must show original price badges or a preview block');
+      assert.deepEqual(errors,[],brand.slug+' price badge runtime errors');
+      console.log('PRICE BADGES BY ORIGINAL PRODUCT PASS',engine.name(),brand.slug,width,badges);
+      await page.close();
+      continue;
+    }
+    assert.equal(await pricing.count(),1,brand.slug+' only one example-price section allowed');
+    const result=await page.evaluate(({kind,target})=>{
+      const p=document.querySelector('#tle-demo-sample-prices');
+      const hero=document.querySelector('main section.hero,#app section.hero,#root section.hero,section.hero');
+      const catalog=target?document.querySelector(target):null;
+      const box=p.getBoundingClientRect();
+      const cardCount=p.querySelectorAll('.tle-price-card').length;
+      return {
+        isAfterHero:Boolean(hero&&hero.nextElementSibling===p),
+        isByMenu:Boolean(catalog&&catalog.previousElementSibling===p),
+        position:p.dataset.tlePricePlacement,
+        cardCount,footerAfter:p.compareDocumentPosition(document.querySelector('footer')) & Node.DOCUMENT_POSITION_FOLLOWING,
+        x:box.left,right:box.right,viewport:innerWidth
+      };
+    },brand);
+    assert.equal(result.position,brand.kind==='service'?'below-hero':'beside-menu',brand.slug+' price placement flag');
+    if(brand.kind==='service')assert.equal(result.isAfterHero,true,brand.slug+' service prices must be immediately beneath the hero');
+    else assert.equal(result.isByMenu,true,brand.slug+' sample menu prices must sit beside the catalog');
+    assert.equal(result.cardCount,3,brand.slug+' should show exactly three original price options');
+    assert.ok(result.x>=-2&&result.right<=result.viewport+2,brand.slug+' cards must fit on '+width+'px iPhone');
+    assert.ok(result.footerAfter,brand.slug+' legal footer must remain after prices');
+    assert.deepEqual(errors,[],brand.slug+' JS runtime errors');
+    if(brand.slug==='marea-wigs-miami'){
+      const copy=await pricing.innerText();
+      for(const value of ['$65.00','$93.50','$85.00'])assert.ok(copy.includes(value),'Marea preserved price '+value);
+      const cols=await pricing.locator('.tle-price-grid').evaluate(el=>getComputedStyle(el).gridTemplateColumns);
+      assert.equal(cols.trim().split(/\s+/).length,1,'Marea mobile services stack evenly without a stranded third card');
+    }
+    if(brand.slug==='experience-cleaning'){
+      const correct=await page.evaluate(()=>{
+        const p=document.querySelector('#tle-demo-sample-prices');
+        return p?.nextElementSibling?.id==='experience';
+      });
+      assert.ok(correct,'Cleaning services must be directly below hero, followed by sample booking');
+    }
+    console.log('PRICES NEAR HERO PASS',engine.name(),brand.slug,width,JSON.stringify(result));
+    await page.close();
+   }
+   await context.close();
+  }
+ }finally{await browser.close()}
+}
+)).length,
           buttons:menu.querySelectorAll('button[data-add]').length,hasCart:Boolean(document.querySelector('#cart-layer')),
           left:rect.left,right:rect.right,viewport:innerWidth};
       });
