@@ -1,0 +1,143 @@
+/*
+ * TLE expressive brand accents — scoped to original concept demos only.
+ * 2026-11-10: Typography, authored decorative rules, deliberate interaction.
+ * No changes to cart/checkout, booking, galleries, media, copy or layouts.
+ * Do not apply the corporate palette to the independently branded demos.
+ */
+html[data-tle-one-motion] {
+  --tle-expressive-ease: cubic-bezier(.2,.78,.28,1);
+}
+html[data-tle-one-motion] :where(h1,h2) { text-wrap: balance; }
+html[data-tle-one-motion] :where(a,button,[role="button"]):focus-visible {
+  outline: 3px solid var(--tle-focus-color, #191919);
+  outline-offset: 4px;
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  html[data-tle-one-motion] :where(nav a) {
+    transition: color .24s ease, opacity .24s ease, background-size .3s var(--tle-expressive-ease);
+  }
+}
+/* La Vie in Pink: an airy patisserie editorial, pink ink on ivory. */
+html[data-tle-one-motion="la-vie-in-pink"] {
+  --tle-focus-color:#ad315d;
+}
+html[data-tle-one-motion="la-vie-in-pink"] :where(.intro-section,.menu-section,.moments-section) h2 {
+  letter-spacing: -.035em;
+}
+html[data-tle-one-motion="la-vie-in-pink"] .menu-section h2::after {
+  content:""; display:block; width:58px; height:2px;
+  background:#bc547d; margin:20px auto 0; border-radius:100px;
+}
+html[data-tle-one-motion="la-vie-in-pink"] .main-nav a {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 7px;
+}
+html[data-tle-one-motion="la-vie-in-pink"] .main-nav a:hover,
+html[data-tle-one-motion="la-vie-in-pink"] .main-nav a:focus-visible {
+  text-decoration-color:#bc547d;
+}
+/* Havana 19: architectural copper dividers and expressive restaurant type. */
+html[data-tle-one-motion="havana-19"] {
+  --tle-focus-color:#ad7150;
+}
+html[data-tle-one-motion="havana-19"] :where(.story,.kitchen,.gallery) h2 {
+  letter-spacing:-.04em;
+  text-wrap:balance;
+}
+html[data-tle-one-motion="havana-19"] .kitchen h2::after {
+  content:""; display:block; inline-size:min(112px,30%); block-size:1px;
+  background:#ad7150; margin-block:20px 0;
+}
+html[data-tle-one-motion="havana-19"] .links a {
+  text-decoration:underline;
+  text-decoration-color:transparent;
+  text-underline-offset:8px;
+  text-decoration-thickness:1px;
+}
+html[data-tle-one-motion="havana-19"] .links a:hover,
+html[data-tle-one-motion="havana-19"] .links a:focus-visible {
+  text-decoration-color:#d6a48a;
+}
+/* Casa Brownie: warm human-crafted type and a gift-ribbon underline. */
+html[data-tle-one-motion="casa-brownie"] {
+  --tle-focus-color:#68462f;
+}
+html[data-tle-one-motion="casa-brownie"] :where(.flavor-section,.cb-store-story,.moments-strip) h2 {
+  text-wrap:balance;
+  letter-spacing:-.025em;
+}
+html[data-tle-one-motion="casa-brownie"] .flavor-section h2::after {
+  content:""; display:block; width:70px; max-width:35%;
+  height:4px; margin:18px auto 0; border-radius:8px;
+  background:#bb8665;
+}
+html[data-tle-one-motion="casa-brownie"] .main-nav a:hover {
+  text-decoration:underline;
+  text-underline-offset:6px;
+  text-decoration-thickness:2px;
+}
+/* Golden Grid: cheerful graphic geometry, without compromising approved hero. */
+html[data-tle-one-motion="golden-grid"] {
+  --tle-focus-color:#8f530d;
+}
+html[data-tle-one-motion="golden-grid"] :where(.collection,.gallery-section) h2 {
+  letter-spacing:-.035em;
+  text-wrap:balance;
+}
+html[data-tle-one-motion="golden-grid"] .collection h2::after {
+  content:""; display:block; width:72px; height:7px;
+  background:linear-gradient(90deg,#ecac32 0 30%,#442d1b 30% 37%,#ecac32 37% 67%,#442d1b 67% 74%,#ecac32 74% 100%);
+  margin-top:16px;
+}
+html[data-tle-one-motion="golden-grid"] header nav a:hover {
+  text-decoration:underline;
+  text-decoration-thickness:2px;
+  text-underline-offset:6px;
+}
+/* Sneekiefs: crisp, orange-on-sky street editorial. */
+html[data-tle-one-motion="sneekiefs"] {
+  --tle-focus-color:#D65A24;
+}
+html[data-tle-one-motion="sneekiefs"] :where(.collection,.campaign,.sneekiefs-editorial) h2 {
+  letter-spacing:-.055em;
+  text-wrap:balance;
+}
+html[data-tle-one-motion="sneekiefs"] .desktop-nav a {
+  text-decoration:underline;
+  text-decoration-thickness:3px;
+  text-decoration-color:transparent;
+  text-underline-offset:7px;
+}
+html[data-tle-one-motion="sneekiefs"] .desktop-nav a:hover,
+html[data-tle-one-motion="sneekiefs"] .desktop-nav a:focus-visible {
+  text-decoration-color:#D65A24;
+}
+html[data-tle-one-motion="sneekiefs"] .collection h2::after {
+  content:""; display:block; width:clamp(44px,7vw,92px);
+  height:5px; background:#D65A24; margin:15px 0 0;
+}
+/* SOVA: minimal, intentional blue. Keep the approved photo completely clear. */
+html[data-tle-one-motion="sova"] {
+  --tle-focus-color:#1051c5;
+  --tle-expressive-ease:cubic-bezier(.25,1,.5,1);
+}
+html[data-tle-one-motion="sova"] :where(h1,h2) { letter-spacing:-.035em; }
+/* All interaction effects stop on reduced motion and never transform media/canvas. */
+@media (prefers-reduced-motion: reduce) {
+  html[data-tle-one-motion] :where(nav a) {
+    transition:none !important;
+    scroll-behavior:auto !important;
+  }
+}
+
+/* System high-contrast users keep a visible focus ring without relying on hue. */
+@media (forced-colors: active) {
+  html[data-tle-one-motion] :where(a,button,[role="button"]):focus-visible {
+    outline-color: Highlight;
+  }
+  html[data-tle-one-motion] :where(.menu-section,.kitchen,.flavor-section,.collection) h2::after {
+    background: CanvasText;
+  }
+}

@@ -1,3 +1,17 @@
+## 2026-11-10 — Cart microinteraction regression had an obsolete auto-open expectation
+
+- **Detected by:** `Brand Cart Fly Interactions QA`, run #42843448355, asserting Casa Brownie's sample cart content immediately after adding a brownie.
+- **Verified source conflict:** Casa Brownie's `addToCart` and La Vie in Pink's `add` intentionally animate the product toward the bag without opening it. The owner explicitly approved this experience. The test `scripts/qa-demo-cart-microinteractions-20261110.mjs` still expected the cart to open by itself.
+- **Safe change:** Update only the browser test to assert the bag stays closed, then explicitly click the existing header cart button to verify the native cart contents. Preserve original item count, receipt, focus return and no-payment semantics. No app behavior, media, booking or customer state modified.
+- **Status:** Source mismatch verified; the updated test and subsequent CI/production browser proof must pass before marking release verified.
+
+## 2026-11-10 — Freska Add to bag controls threw browser JavaScript error
+
+- **Detected by:** Existing `Repeatable Scroll Motion QA — Main Demos` job #42842686934, running `scripts/qa-demo-text-interactions-20261110.mjs`, during a real browser test at 390px; error: `$(...).forEach is not a function`. Freska was **not** one of the six expressive-style opt-in demos.
+- **Root cause (source verified):** `public/demos/freska/app.js` defines `$` as `document.querySelector` (one Element) and `$$` as `querySelectorAll` (array), but used `$('[data-add]').forEach(...)` on the collection of six Add to bag buttons. The exception aborts subsequent event bindings.
+- **Safe change:** Use `$$('[data-add]').forEach(...)` at that single site only. Keep the original catalog, quantity, pricing, flight-to-cart animation, receipt and checkout simulation untouched. No data, payment, email or booking mutation.
+- **Verification:** Source-level selector mismatch and exact replacement verified. Browser test and GitHub PR CI must rerun, then GitHub Pages and iPhone review before calling production repaired. No live customer actions executed.
+
 ## 2026-11-10 — Retail wishlist cards and native cart count
 
 - **Request:** Add a wishlist grid that closes gaps as items are removed and updates heading and shopping-bag counts on Move to cart, only where suitable.

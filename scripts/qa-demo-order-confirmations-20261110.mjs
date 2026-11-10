@@ -29,8 +29,32 @@ const scenarios=[
    assert.equal((await page.locator('#bagCount').innerText()).trim(),'0');
  }],
  ['casa-brownie',async page=>{
+   // WebKit occasionally reaches DOMContentLoaded before the module's last
+   // event listeners are usable. Observe the native cart's real readiness
+   // marker; do not simulate clicks or skip an unsuccessful first tap.
+   await page.waitForFunction(() =>
+     document.getElementById('demo-order')?.getAttribute('aria-label')
+       ?.startsWith('Carrito de muestra:'),null,{timeout:12000});
    await page.locator('.flavor[data-flavor="clasico"]').first().click();
-   await page.locator('.modal-primary').filter({hasText:'Añadir al carrito de muestra'}).click();
+   const add=page.locator('#modal-root .modal-primary').filter({hasText:'Añadir al carrito de muestra'});
+   try {
+     await add.waitFor({state:'visible',timeout:8000});
+   } catch(error) {
+     const snapshot=await page.evaluate(()=>({
+       modalHidden:document.getElementById('modal-root')?.hidden,
+       modalText:document.getElementById('modal-root')?.innerText?.slice(0,450),
+       pageLang:document.documentElement.lang,
+       cartLabel:document.getElementById('demo-order')?.getAttribute('aria-label'),
+       flavorCount:document.querySelectorAll('.flavor[data-flavor="clasico"]').length,
+       path:location.pathname
+     }));
+     console.error('CASA BROWNIE WEBKIT FLAVOR DIAGNOSTIC',JSON.stringify(snapshot));
+     throw error;
+   }
+   await add.click();
+   // Item fly-to-cart must not open the bag; visitors open it explicitly.
+   await page.locator('#modal-close').click();
+   await page.locator('#demo-order').click();
    await page.getByRole('button',{name:'Completar pedido de prueba'}).waitFor({state:'visible',timeout:10000});
    await page.getByRole('button',{name:'Completar pedido de prueba'}).click();
    assert.match(await page.locator('#modal-root').innerText(),/Pedido de prueba completado/);

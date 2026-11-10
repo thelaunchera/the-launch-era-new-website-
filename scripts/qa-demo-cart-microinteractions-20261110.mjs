@@ -20,6 +20,16 @@ for(const browserType of [chromium,webkit]){
     if(followup)await page.locator(followup).filter({hasText:'Añadir al carrito de muestra'}).click();
     await page.waitForTimeout(motion==='reduce'?100:1100);
     assert.equal((await page.locator(countSelector).innerText()).trim(),'1','Use existing cart counter');
+    // Owner-approved behavior: adding a product never opens the cart automatically.
+    if(slug==='casa-brownie'){
+      assert.ok(!(await page.locator('#modal-root').innerText()).includes('Tu carrito de muestra'),
+        'Add leaves the product detail modal, not the cart, open');
+      await page.locator('#modal-close').click();
+      await page.locator('#demo-order').click();
+    }else{
+      assert.equal(await page.locator('#cart-layer').isVisible(),false,'Add does not force the bag open');
+      await page.locator('[data-open-cart]').first().click();
+    }
     const panel=slug==='casa-brownie'?page.locator('#modal-root'):page.locator('#cart-layer');
     assert.equal(await panel.getAttribute('hidden'),null,slug+' existing cart should open');
     assert.ok((await panel.innerText()).includes(preview),slug+' shows original cart content');

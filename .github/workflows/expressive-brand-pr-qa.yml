@@ -1,0 +1,26 @@
+name: Expressive Brand UX — source safety QA
+on:
+  pull_request:
+    paths:
+      - 'public/assets/tle-expressive-brand-ux-20261110.css'
+      - 'public/demos/**/index.html'
+      - 'scripts/qa-expressive-brand-ux-20261110.mjs'
+      - 'scripts/qa-demo-cart-microinteractions-20261110.mjs'
+      - 'scripts/qa-demo-order-confirmations-20261110.mjs'
+      - 'public/demos/freska/app.js'
+      - '.github/workflows/expressive-brand-pr-qa.yml'
+  workflow_dispatch:
+jobs:
+  source-safety:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify expressive brand opt-in and reduced motion
+        run: node scripts/qa-expressive-brand-ux-20261110.mjs
+      - name: Verify TLE route integrity
+        run: node scripts/qa-route-integrity.mjs --static
+      - name: Reject unwanted decorative symbols
+        run: node scripts/qa-demo-decorative-icons.mjs
