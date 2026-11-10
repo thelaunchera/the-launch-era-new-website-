@@ -18,7 +18,8 @@ for (const engine of [chromium,webkit]) {
         const menu=new MouseEvent('contextmenu',{bubbles:true,cancelable:true});
         img.dispatchEvent(drag);
         img.dispatchEvent(menu);
-        return {drag:drag.defaultPrevented,menu:menu.defaultPrevented,select:getComputedStyle(img).userSelect};
+        const style=getComputedStyle(img);
+        return {drag:drag.defaultPrevented,menu:menu.defaultPrevented,select:style.userSelect || style.webkitUserSelect || style.getPropertyValue('-webkit-user-select')};
       });
       assert.ok(guard.drag&&guard.menu,slug+' must discourage native image saving');
       assert.equal(guard.select,'none',slug+' image selection is disabled');
