@@ -1,3 +1,9 @@
+## 2026-11-09 — New founder portfolio route: no first-frame flash, live checks pending
+- **Scope:** Add isolated /portfolio/ single-page experience rather than replacing the existing business website. This protects the current demos, checkouts, Command Center, client routes, and their media.
+- **Media continuity:** The user-provided opening video frame is the exact poster, embedded with the optimized 7.93-second clip inside one static HTML document, so no private Google Drive video URL or unuploaded asset can trigger a wrong-image flash.
+- **Dependencies:** Motion CDN is optional enhancement; native navigation, filtering, preview dialog and links function without it. Real demo source paths verified at GitHub tree level, while external iframe support and public HTTP/Safari status have not yet been verified.
+- **Risk gates:** Source syntax/HTML structure were locally checked; headless Chromium visual run timed out in restricted environment. GitHub CI and Pages build must pass, then perform live 390px/768px/1440px browser checks with video and dialog before production sign-off. No client data, checkout or external email was changed.
+
 ## 2026-11-09 — Sneekiefs branded files were overlooked by previous generic sneaker search
 - **Issue:** earlier GitHub/Drive queries for 'sneakers/snikers' found no sneaker photo folder and the assistant created a provisional OFFCOURT storefront using generic stock shoe images. The specific photo folder is named **Sneekiefs**, and searching its containing collection directly revealed 14 original PNGs plus eight previously optimized WebP assets.
 - **Source verified:** `The Launch Era — Demo Photos` → `Sneekiefs — Website Campaign` → `Web Optimized`; images visibly contain Sneekiefs wordmarks on footwear and campaign materials. They should not be treated as generic products from another brand.
