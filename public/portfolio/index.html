@@ -156,6 +156,7 @@ film.src=founderVideo;
 const base = 'https://thelaunchera.com';
 const projects = [
   {id:'la-vie-in-pink',name:'La Vie in Pink',category:'food',tag:'Café · Boutique',year:'2026',description:'A playful café boutique made for coffee dates, pastries, and beautiful everyday rituals.',image:`${base}/demos/la-vie-in-pink/photos/lavie_pink_hero_editorial.png`,href:`${base}/demos/la-vie-in-pink/`,color:'#f2d9e5',fit:'cover'},
+  {id:'velmora',name:'VELMORA',category:'fashion',tag:'Beauty · Cosmetics',year:'2026',description:'An online-only After Dark cosmetics store in ruby red and black, with product discovery, wishlist and an interactive sample checkout.',image:'https://thelaunchera.github.io/demo-booking-landing-/velmora/media/hero.webp',href:'https://thelaunchera.github.io/demo-booking-landing-/velmora/',color:'#6b1025',fit:'cover'},
   {id:'sneekiefs',name:'Sneekiefs',category:'fashion',tag:'Fashion · Streetwear',year:'2026',description:'An expressive sneaker campaign turned into a shoppable, editorial brand world.',image:`${base}/demos/sneekiefs/assets/07-editorial-poster.webp`,href:`${base}/demos/sneekiefs/`,color:'#d0e9fa',fit:'cover'},
   {id:'golden-grid',name:'Golden Grid',category:'food',tag:'Food · Hospitality',year:'2026',description:'A warm and contemporary digital home with an unmistakable point of view.',image:`${base}/demos/golden-grid/media/hero-approved-canva-20261108-firstframe.webp`,href:`${base}/demos/golden-grid/`,color:'#eee0b4',fit:'cover'},
   {id:'sova',name:'SOVA',category:'lifestyle',tag:'Lifestyle · Audio',year:'2026',description:'A cobalt-blue world for sound, personal style, and moments worth slowing down for.',image:`${base}/demos/sova/media/sova-hero-seamless-cobalt-20261108.png`,href:`${base}/demos/sova/`,color:'#779be0',fit:'cover'},
@@ -204,7 +205,7 @@ const miniGrid = document.getElementById('tleDemoDropGrid');
 if (miniGrid) {
   const tones = { 'golden-grid':'yellow','la-vie-in-pink':'ivory','sova':'dark','sneekiefs':'blue',
     'casa-brownie':'ivory','freska':'yellow','lavender-edit':'blue','havana-19':'dark',
-    'experience-cleaning':'ivory' };
+    'experience-cleaning':'ivory','velmora':'dark' };
   const miniFragment = document.createDocumentFragment();
   projects.forEach((p, i) => {
     const card = document.createElement('button');
