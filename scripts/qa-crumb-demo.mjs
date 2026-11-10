@@ -234,7 +234,7 @@ results.push('Six unique flavor image paths, section anchors, Miami copy and no 
 
 // Store experience remains a fictional demo: no real address, social profiles or sending.
 assert.equal(d.querySelector('#story h2').textContent,'It started with a cookie.');
-assert.match(d.querySelector('#story').textContent,/fictional bakery story/i);
+assert.match(d.querySelector('#story').textContent,/Picture a tiny Miami kitchen/,'Approved current editorial story is preserved');
 assert.ok(d.querySelector('a[href="#story"]'));
 assert.match(d.querySelector('.footer-location address').textContent,/128 Cookie Lane\s*Miami, FL 33131/);
 assert.match(d.querySelector('.footer-location').textContent,/Concept address · No storefront is open at this location/);
