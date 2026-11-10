@@ -1195,3 +1195,10 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - **Verification:** GitHub change staged for automated QA and live Pages review; Make scenario confirmed inactive. Do not describe live website retirement as verified until merged, deployed and checked.
 
 - **Verified Stripe/Make:** live Cleaning Web App product archived, default price cleared, prices $3.99/$5.99/$9.99 inactive; Stripe query found one canceled historical subscription and no active subscription for that product. Other Make Stripe workflows unchanged. SEO sitemap entries removed.
+
+
+## 2026-11-10 — La Vie in Pink native six-item price QA mismatch (draft, pending CI)
+- **Observed:** The `Editorial Demo Heroes Visual QA` run 42799393597 ended in `scripts/qa-demo-price-placement-20261108.mjs` with a 12s timeout immediately after the Ivory & Bloom price check. The price test expected a shared `#tle-demo-sample-prices` or `.tle-demo-customer-price` block on La Vie in Pink.
+- **Verified source:** `public/demos/la-vie-in-pink/cafe-boutique-20261108.js` already renders six individual priced products (`#menu-grid .menu-card`) with native `data-add` bag controls, a preview drawer and no real checkout. Its `index.html` does not load the generic 3-item price overlay. Adding that overlay would duplicate an existing experience.
+- **Safe proposed correction:** Adapt the existing browser test to verify the real six cards, visible price labels, add-to-bag interaction, responsive menu dimensions, no console errors and no network order placement, leaving the public demo's prices and scripts unchanged.
+- **Verification:** Source-level conditions verified; a fresh CI run for the amended assertion and actual GitHub Pages/iPhone Safari remain **pending**. Do not call this regression solved until those checks pass.
