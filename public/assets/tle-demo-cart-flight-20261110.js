@@ -61,7 +61,7 @@
     if(!button?.isConnected||!target?.isConnected||reduced.matches||active>=12||!document.body.animate){
       done();return Promise.resolve();
     }
-    const from=button.getBoundingClientRect();
+    const from=opts.fromRect||button.getBoundingClientRect();
     const anchor=opts.anchor||target.querySelector?.('svg')||target;
     const to=anchor.getBoundingClientRect();
     if(!from.width||!from.height||!to.width||!to.height){done();return Promise.resolve();}
