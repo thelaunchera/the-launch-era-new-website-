@@ -42,13 +42,21 @@ for(const browserType of [chromium,webkit]){
   await page.goto(origin+'/portfolio/',{waitUntil:'domcontentloaded'});
   const first=page.locator('.tle-demo-drop-item').first();
   await first.waitFor({state:'attached'});
-  await page.evaluate(()=>window.scrollTo(0,0));
+  await page.evaluate(()=>{
+    document.documentElement.style.scrollBehavior='auto';
+    window.scrollTo({top:0,behavior:'instant'});
+  });
+  await page.waitForFunction(()=>window.scrollY<=2,null,{timeout:6000});
   await page.waitForTimeout(120);
   const before=await first.evaluate(el=>Number(el.querySelector('.tle-mini-browser-fall')?.style.getPropertyValue('--mini-opacity')||'0'));
   await first.scrollIntoViewIfNeeded();
   await page.waitForTimeout(170);
   const landed=await first.evaluate(el=>Number(el.querySelector('.tle-mini-browser-fall')?.style.getPropertyValue('--mini-opacity')||'0'));
-  await page.evaluate(()=>window.scrollTo(0,0));
+  await page.evaluate(()=>{
+    document.documentElement.style.scrollBehavior='auto';
+    window.scrollTo({top:0,behavior:'instant'});
+  });
+  await page.waitForFunction(()=>window.scrollY<=2,null,{timeout:6000});
   await page.waitForTimeout(170);
   const rewound=await first.evaluate(el=>Number(el.querySelector('.tle-mini-browser-fall')?.style.getPropertyValue('--mini-opacity')||'0'));
   assert.ok(landed>before+0.12,'Scrolling down makes the website card land: '+JSON.stringify({before,landed}));
