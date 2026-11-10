@@ -3,6 +3,11 @@ on:
   pull_request:
     paths:
       - 'public/demos/**'
+      - 'public/booking-demo/**'
+      - 'public/cleaning-app-demo/**'
+      - 'public/experience-cleaning/**'
+      - 'public/sample-cleaning/**'
+      - 'public/portfolio/**'
       - 'demo-source/**'
       - 'public/assets/tle-demo-view-only-media-20261110.js'
       - 'scripts/qa-public-demo-view-only-*.mjs'
@@ -11,6 +16,11 @@ on:
     branches: [main]
     paths:
       - 'public/demos/**'
+      - 'public/booking-demo/**'
+      - 'public/cleaning-app-demo/**'
+      - 'public/experience-cleaning/**'
+      - 'public/sample-cleaning/**'
+      - 'public/portfolio/**'
       - 'demo-source/**'
       - 'public/assets/tle-demo-view-only-media-20261110.js'
       - 'scripts/qa-public-demo-view-only-*.mjs'
