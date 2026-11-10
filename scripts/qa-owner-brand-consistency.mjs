@@ -64,5 +64,6 @@ assert.doesNotMatch(owner,/Gifting Appointment|Signature Experience/, 'Remove ma
 assert.match(owner,/Lavender Gifting Edit/);
 assert.match(owner,/Daily Ritual/);
 const originalLavender=read('public/demos/lavender-edit/index.html');
-assert.match(originalLavender,/Not a real storefront/i,'Lavender original website is an editorial concept, not live shop');
+assert.match(originalLavender,/<body data-tle-company="demo">/,'Lavanda must remain an isolated demonstration website, not a live client store');
+assert.match(originalLavender,/boutique-shop-20261109\.js/,'Keep the approved browser-only demo bag rather than a production payment flow');
 console.log(`PASS: ${slugs.length} brand-specific bilingual catalog headings, edit defaults, requests and customer previews; Lavender editorial context; no cross-industry leaks.`);
