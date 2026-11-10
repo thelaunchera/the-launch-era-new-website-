@@ -1,6 +1,14 @@
 /* The Launch Era | mobile-only bottom-sheet checkout enhancement (2026-11-10).
    Keep each brand's native cart/checkout state, prices, and actions unchanged. */
 @media (max-width: 640px) {
+  /* Prevent the existing Lavanda editorial edges from creating horizontal
+     page panning when its cart is closed (inner galleries remain scrollable). */
+  html[data-tle-one-motion="lavender-edit"],
+  html[data-tle-one-motion="lavender-edit"] body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
   /* The same cart panel becomes a bottom sheet instead of a side drawer. */
   #bag-panel:not([hidden]),
   #bagDialog:not([hidden]),
