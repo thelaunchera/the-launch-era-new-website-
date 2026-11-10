@@ -131,3 +131,13 @@ html[data-tle-one-motion="sova"] :where(h1,h2) { letter-spacing:-.035em; }
     scroll-behavior:auto !important;
   }
 }
+
+/* System high-contrast users keep a visible focus ring without relying on hue. */
+@media (forced-colors: active) {
+  html[data-tle-one-motion] :where(a,button,[role="button"]):focus-visible {
+    outline-color: Highlight;
+  }
+  html[data-tle-one-motion] :where(.menu-section,.kitchen,.flavor-section,.collection) h2::after {
+    background: CanvasText;
+  }
+}
