@@ -1,3 +1,10 @@
+## 2026-11-09 — Founder portfolio hero browser drops and brand-tag gravity footer
+- **Scope:** Public `/portfolio/` only; `public/portfolio/index.html` is self-contained (inline founder video, poster, gravity CSS and JavaScript). Main website, /demos/, client pages, payments, intake and Command Centers are unchanged.
+- **Hero:** Existing cinematic founder hero remains untouched; original two screenshots (La Vie in Pink, SOVA) plus verified Golden Grid poster are grouped in a cloud. Three browser windows drop with staggered scroll progress and bounce. On mobile the cloud is in a separate strip below the founder video, so her portrait and CTAs remain visible.
+- **Footer:** Eight real demo brand labels fall with bounded gravity/collisions, can be dragged/thrown by mouse/touch or nudged with keyboard, and reset with “Drop them again”. This is an interactive decorative tag playground, not a fake product checkout or a link.
+- **Safety:** `prefers-reduced-motion` leaves static wrapped pills, no physics or scroll drops; stage touch input is isolated to tags so page scroll remains available elsewhere; hero cards remain decorative and gallery demos keep their existing actions.
+- **QA:** Targeted Chromium physics harness at 1440, 390 and 320 CSS pixels: no JS errors or horizontal overflow; tag stage bounds, drag/toss/restart verified. Production deployment and real-device Safari remain separate release checks.
+
 ## 2026-11-09 — Immersive TLE founder portfolio (isolated public route)
 - **Route:** `/portfolio/`; static entry `public/portfolio/index.html` in the active website repository. No modification of root or legacy website, client demos, Command Center, authentication, billing, contact intake or checkout routes.
 - **Hero media:** User-supplied 7.93-second cinematic founder MP4 optimized and embedded as base64 within the static HTML, with the actual video's first-frame JPEG embedded for no-flash poster continuity. Video muted, playsinline, loops; respects reduced motion and browser visibility.
