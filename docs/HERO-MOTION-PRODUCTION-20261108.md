@@ -86,3 +86,29 @@ Do not render labels or replace the browser's text as raster images. On the live
 - Main QA source: \u0060scripts/qa-hero-cinematic-20261108.mjs\u0060 and workflow \u0060hero-cinematic-motion-qa.yml\u0060.
 - Secondary QA source: \u0060scripts/qa-motion-videos-20261108.mjs\u0060 and workflow \u0060hero-cinematic-motion-qa.yml\u0060.
 - Public UI copy must **never** expose statuses, development tools, media implementation or inside info.
+
+## Interactive components — BrewedOps reference (2026-11-10)
+
+This is DIFFERENT from passive scroll reveals and cinematic hero videos. Reference: https://brewedops.cloud/motionlibrary/ and https://brewedops.cloud/motionlibrary/legal/license/. Free for commercial use within websites; third-party dependencies retain separate licenses. Do not repackage the original library. Prefer lightweight native JS/CSS when possible.
+
+| Existing demo | Appropriate interactive component | Guardrail |
+|---|---|---|
+| FRESKA | Scramble decode, expandable flavor card | Pilot on non-hero flavor label; preserve bilingual copy and existing bag |
+| Sneekiefs | Typewriter, product-to-bag fly | Pilot on feature label; preserve original products and native cart |
+| NAIL ROOM | Book a session (date + time + summary) | Upgrade existing sample booking UI only; never invent availability or email confirmation |
+| Casa Brownie | Product variation selector, gift-box builder | Reuse browser-only sample bag and prices |
+| La Vie in Pink | Card expands to detail, add-to-bag | Protect six-item native café menu; no generic duplicate catalog |
+| CRUMB | Gift-box interaction and expanding product card | Keep current ordering/gallery components |
+| Havana 19 | Table request summary | No ungrounded map, venue hours or confirmed bookings |
+| WOK SOCIAL | Expandable menu cards and sample order animation | Reuse existing dish data and sample order journey |
+| Seasonal Brew | Flavor tabs and card details | No second ordering UI |
+| SOVA | Image detail viewer and restrained 3D tilt | Preserve original model, product and approved hero |
+| Golden Grid | Product detail expansion | Preserve approved syrup video and sky-blue pouch; iPhone QA mandatory |
+| Lavanda Boutique | Reveal product detail | Preserve original images and browser-only boutique flow |
+| SOLUNA Yoga | Book-session preview | Illustrative slots only until genuine availability connected |
+| Marea Wigs Miami | Service detail + consultation inquiry | No invented booked appointment |
+| Ivory & Bloom | Cake design detail + inquiry | Preserve approved gallery and pricing |
+| AFTR | Event / VIP card detail expansion | No fictional real events or ticket payments |
+| The Launch Era portfolio | Falling tag pills, card expansions | Keep portfolio experience separate from client demo controls |
+
+**Release criteria:** one relevant component per action, no duplicate carts/forms; iPhone WebKit 375/390px, keyboard, EN/ES, reduced motion, and CTA checks; draft PR until QA succeeds. Avoid GSAP inside no-code animation-builder products without reviewing its license.

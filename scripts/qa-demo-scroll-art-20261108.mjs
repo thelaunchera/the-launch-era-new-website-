@@ -20,7 +20,7 @@ async function assertReplayInBothDirections(page, node, label) {
 }
 
 const origin=(process.env.QA_URL||'http://127.0.0.1:4191').replace(/\/$/,'');
-const demos=['sova','golden-grid','casa-brownie','crumb','havana-19','ivory-and-bloom','la-vie-in-pink','marea-wigs-miami','aftr','lavender-edit','experience-cleaning'];
+const demos=['freska','sneekiefs','sova','golden-grid','casa-brownie','crumb','havana-19','ivory-and-bloom','la-vie-in-pink','marea-wigs-miami','aftr','lavender-edit','experience-cleaning'];
 const urlFor=slug=>slug==='experience-cleaning'?'/experience-cleaning/':'/demos/'+slug+'/';
 const browser=await chromium.launch({headless:true});
 try {
@@ -54,7 +54,7 @@ try {
  }
  await context.close();
  const reduced=await browser.newContext({...devices['iPhone 13'],viewport:{width:390,height:800},reducedMotion:'reduce'});
- for(const slug of ['golden-grid','casa-brownie','havana-19','ivory-and-bloom','sova']){
+ for(const slug of ['freska','sneekiefs','golden-grid','casa-brownie','havana-19','ivory-and-bloom','sova']){
   const page=await reduced.newPage();
   await page.goto(origin+urlFor(slug),{waitUntil:'domcontentloaded'});
   await page.waitForTimeout(160);

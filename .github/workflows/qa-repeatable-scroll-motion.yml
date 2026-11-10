@@ -2,11 +2,16 @@ name: Repeatable Scroll Motion QA — Main Demos
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
     paths:
       - '.github/workflows/qa-repeatable-scroll-motion.yml'
       - 'public/assets/tle-demo-scroll-art-20261108.js'
       - 'public/assets/tle-demo-scroll-art-20261108.css'
       - 'scripts/qa-demo-scroll-art-20261108.mjs'
+      - 'scripts/qa-demo-text-interactions-20261110.mjs'
+      - 'public/assets/tle-demo-text-interactions-20261110.js'
+      - 'public/assets/tle-demo-text-interactions-20261110.css'
       - 'public/demos/**/index.html'
       - 'public/experience-cleaning/index.html'
   workflow_dispatch:
@@ -25,6 +30,8 @@ jobs:
         run: |
           node --check public/assets/tle-demo-scroll-art-20261108.js
           node --check scripts/qa-demo-scroll-art-20261108.mjs
+          node --check public/assets/tle-demo-text-interactions-20261110.js
+          node --check scripts/qa-demo-text-interactions-20261110.mjs
           node scripts/qa-route-integrity.mjs --static
       - name: Install isolated Chromium and WebKit
         run: |
@@ -44,3 +51,4 @@ jobs:
             sleep 1
           done
           QA_URL=http://127.0.0.1:4191 node scripts/qa-demo-scroll-art-20261108.mjs
+          QA_URL=http://127.0.0.1:4191 node scripts/qa-demo-text-interactions-20261110.mjs
