@@ -66,7 +66,9 @@ for(const browserType of [chromium,webkit]){
   // a scroll event; force a paint of the existing bidirectional effect.
   await page.evaluate(()=>window.dispatchEvent(new Event('scroll')));
   await page.waitForTimeout(240);
-  const rewound=await last.evaluate(el=>Number(el.querySelector('.tle-mini-browser-fall')?.style.getPropertyValue('--mini-opacity')||'0'));
+  const rewindState=await last.evaluate(el=>({scrollY:window.scrollY,viewport:window.innerHeight,cardTop:el.getBoundingClientRect().top,opacity:Number(el.querySelector('.tle-mini-browser-fall')?.style.getPropertyValue('--mini-opacity')||'0')}));
+  const rewound=rewindState.opacity;
+  console.log('[GRAVITY REWIND DIAGNOSTIC]',browserType.name(),JSON.stringify({before,landed,rewindState}));
   assert.ok(landed>before+0.12,'Scrolling down makes the website card land: '+JSON.stringify({before,landed}));
   assert.ok(rewound<landed-0.12,'Scrolling up reverses website falling motion: '+JSON.stringify({rewound,landed}));
   await last.scrollIntoViewIfNeeded();
