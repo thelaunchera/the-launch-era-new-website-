@@ -1,3 +1,10 @@
+## 2026-11-10 — Cart microinteraction regression had an obsolete auto-open expectation
+
+- **Detected by:** `Brand Cart Fly Interactions QA`, run #42843448355, asserting Casa Brownie's sample cart content immediately after adding a brownie.
+- **Verified source conflict:** Casa Brownie's `addToCart` and La Vie in Pink's `add` intentionally animate the product toward the bag without opening it. The owner explicitly approved this experience. The test `scripts/qa-demo-cart-microinteractions-20261110.mjs` still expected the cart to open by itself.
+- **Safe change:** Update only the browser test to assert the bag stays closed, then explicitly click the existing header cart button to verify the native cart contents. Preserve original item count, receipt, focus return and no-payment semantics. No app behavior, media, booking or customer state modified.
+- **Status:** Source mismatch verified; the updated test and subsequent CI/production browser proof must pass before marking release verified.
+
 ## 2026-11-10 — Freska Add to bag controls threw browser JavaScript error
 
 - **Detected by:** Existing `Repeatable Scroll Motion QA — Main Demos` job #42842686934, running `scripts/qa-demo-text-interactions-20261110.mjs`, during a real browser test at 390px; error: `$(...).forEach is not a function`. Freska was **not** one of the six expressive-style opt-in demos.
