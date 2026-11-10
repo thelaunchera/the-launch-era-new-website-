@@ -58,7 +58,10 @@ for(const browserType of [chromium,webkit]){
     window.scrollTo({top:0,behavior:'instant'});
   });
   await page.waitForFunction(()=>window.scrollY<=2,null,{timeout:6000});
-  await page.waitForTimeout(170);
+  // In headless WebKit/Chromium an instant programmatic rewind may not dispatch
+  // a scroll event; force a paint of the existing bidirectional effect.
+  await page.evaluate(()=>window.dispatchEvent(new Event('scroll')));
+  await page.waitForTimeout(240);
   const rewound=await last.evaluate(el=>Number(el.querySelector('.tle-mini-browser-fall')?.style.getPropertyValue('--mini-opacity')||'0'));
   assert.ok(landed>before+0.12,'Scrolling down makes the website card land: '+JSON.stringify({before,landed}));
   assert.ok(rewound<landed-0.12,'Scrolling up reverses website falling motion: '+JSON.stringify({rewound,landed}));
