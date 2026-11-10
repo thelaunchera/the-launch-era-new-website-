@@ -92,7 +92,7 @@ function translate(){
  render();
 }
 function remove(id){
- const node=$('[data-wish-card]',grid);const target=$$('[data-wish-card]',grid).find(el=>el.dataset.wishCard===id);
+ const target=$$('[data-wish-card]',grid).find(el=>el.dataset.wishCard===id);
  if(!saved.has(id)||!target||target.classList.contains('is-removing'))return;
  saved.delete(id);store();updateCount();updateHearts();target.classList.add('is-removing');
  const peers=$$('[data-wish-card]',grid).filter(el=>el!==target);
@@ -146,6 +146,13 @@ function setup(){
  new MutationObserver(()=>translate()).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
  return true;
 }
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{if(!setup()){const watcher=new MutationObserver(()=>{if(setup())watcher.disconnect()});watcher.observe(document.body,{childList:true,subtree:true});setTimeout(()=>watcher.disconnect(),12000)}},{once:true});
-else setup();
+function boot(){
+ if(setup())return;
+ // Deferred scripts run while readyState may already be interactive; wait for the price grid.
+ const watcher=new MutationObserver(()=>{if(setup())watcher.disconnect()});
+ watcher.observe(document.body,{childList:true,subtree:true});
+ setTimeout(()=>watcher.disconnect(),12000);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});
+else boot();
 })();
