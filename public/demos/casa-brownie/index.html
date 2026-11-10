@@ -27,7 +27,7 @@
     </style>
     <link rel="stylesheet" href="/assets/tle-demo-hierarchy-20261101.css?v=2">
   <link rel="stylesheet" href="/assets/tle-mobile-first-375.css?v=20261102-cta-2">
-  <link rel="stylesheet" href="./flavors-compact-back-to-top.css?v=20261102-cta-2">
+  <link rel="stylesheet" href="./flavors-compact-back-to-top.css?v=20261110-menu-prices-1">
   <link rel="stylesheet" href="/assets/tle-editorial-attention-20261103.css?v=1">
   <style>
     .cb-language-selector { display:inline-flex; align-items:center; gap:4px; flex-shrink:0; border:1px solid currentColor; border-radius:24px; padding:3px 6px; font:600 11px/1.3 system-ui, sans-serif; letter-spacing:.03em; }
@@ -369,6 +369,7 @@ html[data-tle-one-motion="casa-brownie"] .hero-photo #hero-video{display:none!im
               type="button"
               data-flavor="clasico"
               aria-label="Conocer brownie Clásico"
+              aria-describedby="cb-price-clasico"
             >
               <span class="flavor-picture"
                 ><img
@@ -379,6 +380,7 @@ html[data-tle-one-motion="casa-brownie"] .hero-photo #hero-video{display:none!im
                   ><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="8" y="13" width="32" height="24" rx="3.5"/><path d="M8 21c7-4 12 2 18-1 5-2 9 2 14 0M12 29c5-3 10 3 15 0 4-2 6 0 10 0"/><path d="M24 13v24" opacity=".65"/></svg></span
                 ></span
               ><span class="flavor-title">Clásico</span
+              ><span class="flavor-price" id="cb-price-clasico"><strong>$6.00</strong></span
               ><span class="flavor-desc">El original que nunca falla.</span
               ></button>
             <button
@@ -386,6 +388,7 @@ html[data-tle-one-motion="casa-brownie"] .hero-photo #hero-video{display:none!im
               type="button"
               data-flavor="nuez"
               aria-label="Conocer brownie Chocolate con nuez"
+              aria-describedby="cb-price-nuez"
             >
               <span class="flavor-picture"
                 ><img
@@ -396,6 +399,7 @@ html[data-tle-one-motion="casa-brownie"] .hero-photo #hero-video{display:none!im
                   ><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M24 7c-7 0-12 6-11 13-7 5-6 13 2 16 2 6 9 7 13 3 8 2 14-5 12-12 5-7 0-15-7-15-2-3-5-5-9-5Z"/><path d="M23 10c-4 8-4 12-2 20m-7-8 8 3m3 11c5-8 7-13 5-21m-4 5 8 3"/></svg></span
                 ></span
               ><span class="flavor-title">Chocolate con nuez</span
+              ><span class="flavor-price" id="cb-price-nuez"><strong>$6.30</strong> <del>$7.00</del></span
               ><span class="flavor-desc">Crujiente y delicioso.</span
               ></button>
             <button
@@ -403,6 +407,7 @@ html[data-tle-one-motion="casa-brownie"] .hero-photo #hero-video{display:none!im
               type="button"
               data-flavor="dulce"
               aria-label="Conocer brownie Dulce de leche"
+              aria-describedby="cb-price-dulce"
             >
               <span class="flavor-picture"
                 ><img
@@ -413,6 +418,7 @@ html[data-tle-one-motion="casa-brownie"] .hero-photo #hero-video{display:none!im
                   ><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="12" y="14" width="24" height="25" rx="5"/><path d="M12 22c3-2 6 2 12 0s9 2 12 0M10 14h28M16 10h16M19 7h10"/><path d="M19 27c0 4 6 4 6 0s6-4 6 0"/></svg></span
                 ></span
               ><span class="flavor-title">Dulce de leche</span
+              ><span class="flavor-price" id="cb-price-dulce"><strong>$7.50</strong></span
               ><span class="flavor-desc">Suave, cremoso e irresistible.</span
               ></button>
             <button
@@ -420,6 +426,7 @@ html[data-tle-one-motion="casa-brownie"] .hero-photo #hero-video{display:none!im
               type="button"
               data-flavor="frambuesa"
               aria-label="Conocer brownie Frambuesa"
+              aria-describedby="cb-price-frambuesa"
             >
               <span class="flavor-picture"
                 ><img
@@ -430,6 +437,7 @@ html[data-tle-one-motion="casa-brownie"] .hero-photo #hero-video{display:none!im
                   ><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15c1-6 8-9 12-6m-12 6c0-4-3-7-7-6 0 4 2 7 7 6"/><circle cx="20" cy="21" r="5"/><circle cx="28" cy="21" r="5"/><circle cx="16" cy="29" r="5"/><circle cx="24" cy="30" r="5"/><circle cx="32" cy="29" r="5"/><circle cx="24" cy="37" r="4"/></svg></span
                 ></span
               ><span class="flavor-title">Frambuesa</span
+              ><span class="flavor-price" id="cb-price-frambuesa"><strong>$7.00</strong></span
               ><span class="flavor-desc">Un toque frutal que enamora.</span
               ></button>
             <button
@@ -437,6 +445,7 @@ html[data-tle-one-motion="casa-brownie"] .hero-photo #hero-video{display:none!im
               type="button"
               data-flavor="oreo"
               aria-label="Conocer brownie Oreo"
+              aria-describedby="cb-price-oreo"
             >
               <span class="flavor-picture"
                 ><img
@@ -447,6 +456,7 @@ html[data-tle-one-motion="casa-brownie"] .hero-photo #hero-video{display:none!im
                   ><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="24" cy="24" r="17"/><circle cx="24" cy="24" r="12"/><circle cx="24" cy="24" r="6"/><path d="m16 18 2 2m14 10 2 2m-20-2 3-1m14-12 2-1m-10 18 2-2"/></svg></span
                 ></span
               ><span class="flavor-title">Oreo</span
+              ><span class="flavor-price" id="cb-price-oreo"><strong>$7.00</strong></span
               ><span class="flavor-desc">Para amantes de las galletas.</span
               ></button>
             <button
@@ -454,6 +464,7 @@ html[data-tle-one-motion="casa-brownie"] .hero-photo #hero-video{display:none!im
               type="button"
               data-flavor="especial"
               aria-label="Conocer brownie Edición especial"
+              aria-describedby="cb-price-especial"
             >
               <span class="flavor-picture"
                 ><img
@@ -464,6 +475,7 @@ html[data-tle-one-motion="casa-brownie"] .hero-photo #hero-video{display:none!im
                   ><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M24 5 29 19l14 5-14 5-5 14-5-14-14-5 14-5 5-14Z"/><path d="M38 6v8m-4-4h8M10 34v8m-4-4h8" opacity=".75"/></svg></span
                 ></span
               ><span class="flavor-title">Edición especial</span
+              ><span class="flavor-price" id="cb-price-especial"><strong>$8.00</strong></span
               ><span class="flavor-desc">Una sorpresa para cada ocasión.</span
               ></button>
           </div>
@@ -659,10 +671,10 @@ html[data-tle-one-motion="casa-brownie"] .hero-photo #hero-video{display:none!im
     </div>
     <a href="#inicio" class="cb-back-to-top" id="cb-back-to-top" aria-label="Volver arriba, al inicio de Casa Brownie" title="Volver arriba" hidden><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M12 19V5m-7 7 7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     <script defer src="/assets/tle-demo-cart-flight-20261110.js?v=2"></script>
-<script type="module" src="./main.js?v=20261108-price-parity"></script>
+<script type="module" src="./main.js?v=20261110-menu-prices-1"></script>
     <script src="./i18n.js?v=20261103-en-es" defer></script>
     <script src="./motion.js?v=cb-center-20261028b" defer></script>
-  <script defer src="/assets/tle-demo-original-prices-20261108.js?v=2" data-tle-demo-price-slug="casa-brownie"></script>
+  <script defer src="/assets/tle-demo-original-prices-20261108.js?v=20261110-cb-single-menu-1" data-tle-demo-price-slug="casa-brownie"></script>
 <script defer src="/assets/tle-demo-tactile-20261108.js?v=2"></script>
   <script defer src="/assets/tle-demo-scroll-art-20261108.js?v=5"></script>
   <script defer src="/assets/tle-demo-footer-finale-20261108.js?v=3"></script>

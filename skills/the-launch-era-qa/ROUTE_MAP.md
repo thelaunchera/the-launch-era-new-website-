@@ -1,3 +1,10 @@
+## 2026-11-10 — Casa Brownie: one six-flavor menu and consistent sample prices
+- **Route unchanged:** `/demos/casa-brownie/` under `public/demos/casa-brownie/index.html`; existing `#brownies` is the only product-menu section and remains the navigation/CTA destination.
+- **Cause and fix:** The shared `public/assets/tle-demo-original-prices-20261108.js` was injecting a separate three-card “Explore the menu” before the native six-flavor gallery. Casa Brownie now registers the shared price data for the guided order but skips the duplicate section. Other demo brands retain their existing injection behavior.
+- **Display and totals:** Six original photo cards show sample prices: Clásico $6.00; Chocolate con nuez $6.30 (formerly $7.00); Dulce de leche $7.50; Frambuesa $7.00; Oreo $7.00; Edición especial $8.00. The final three are illustrative demo prices added for the previously unpriced examples. `main.js` sample-cart pricing and the shared educational order catalog use those same six amounts.
+- **Unchanged:** Product images, six flavor click targets, bilingual switch, sample-cart confirmation, external shopping/payment prohibition, global menus for other demos, and navigation remain intact. Asset cache keys bumped for the updated Casa Brownie files.
+- **Verification gate:** Static source consistency and native browser/deployment checks; the deployed page must contain exactly one `#brownies` six-card menu and no `.tle-demo-price-collection`, at 375px and desktop, with sample totals and EN/ES toggles working.
+
 ## 2026-11-10 — Retail demo wishlists (release verification pending)
 
 - **Routes unchanged:** Existing `/demos/lavender-edit/` and `/demos/sneekiefs/` only. No wishlist on café menus, bookings, services, cleaning, or marketing demos.

@@ -19,28 +19,26 @@ for(const engine of [chromium,webkit]){
     const wishlist=page.locator('#tle-wishlist');
     const cards=wishlist.locator('[data-wish-card]');
     const lavanda=slug==='lavender-edit';
-    if(lavanda){
-     await page.locator('.tle-lavanda-wishlist-topbar').waitFor({state:'visible'});
-     assert.equal(await wishlist.isVisible(),false,'Lavanda wishlist is not on the main page');
-     assert.equal(await page.locator('.tle-wishlist-jump').count(),0,'No wishlist duplicate below product grid');
-     assert.equal(await page.locator('.tle-lavanda-wishlist-topbar').getAttribute('href'),'?view=wishlist');
-    }
+    const topbar=page.locator(lavanda?'.tle-lavanda-wishlist-topbar':'.tle-sneekiefs-wishlist-topbar');
+    const badge=page.locator(lavanda?'.tle-lavanda-wishlist-badge':'.tle-sneekiefs-wishlist-badge');
+    await topbar.waitFor({state:'visible'});
+    assert.equal(await wishlist.isVisible(),false,slug+' wishlist is not on main page');
+    assert.equal(await page.locator('.tle-wishlist-jump').count(),0,slug+' no duplicated inline wishlist CTA');
+    assert.equal(await topbar.getAttribute('href'),'?view=wishlist');
     assert.equal(await wishlist.locator('[data-wishlist-count]').innerText(),'0');
     await sources.nth(0).click();
     await sources.nth(1).click();
     assert.equal(await wishlist.locator('[data-wishlist-count]').innerText(),'2','Heading count after saves');
     assert.equal(await cards.count(),2);
-    if(lavanda){
-     assert.equal(await page.locator('.tle-lavanda-wishlist-badge').innerText(),'2','Header heart count');
-     await page.locator('.tle-lavanda-wishlist-topbar').click();
-     await page.waitForURL('**/demos/lavender-edit/?view=wishlist');
-     assert.equal(await wishlist.isVisible(),true,'Dedicated Lavanda wishlist visible');
-     assert.equal(await page.locator('#main > .hero').isVisible(),false,'Storefront hidden on wishlist route');
-     await page.reload({waitUntil:'domcontentloaded'});
-     await page.locator('.tle-wishlist-card').first().waitFor({state:'visible',timeout:16000});
-     assert.equal(await cards.count(),2,'Saved products survive direct wishlist refresh');
-     assert.equal(await wishlist.isVisible(),true);
-    }
+    assert.equal(await badge.innerText(),'2',slug+' header heart count');
+    await topbar.click();
+    await page.waitForURL('**/demos/'+slug+'/?view=wishlist');
+    assert.equal(await wishlist.isVisible(),true,slug+' dedicated wishlist visible');
+    assert.equal(await page.locator('#main > .hero').isVisible(),false,slug+' storefront hidden on wishlist route');
+    await page.reload({waitUntil:'domcontentloaded'});
+    await page.locator('.tle-wishlist-card').first().waitFor({state:'visible',timeout:16000});
+    assert.equal(await cards.count(),2,slug+' saved products survive direct wishlist refresh');
+    assert.equal(await wishlist.isVisible(),true);
     assert.equal(await sources.first().getAttribute('aria-pressed'),'true');
     await cards.first().locator('[data-wish-remove]').click();
     await page.waitForTimeout(80);
@@ -71,21 +69,60 @@ for(const engine of [chromium,webkit]){
      assert.match(await page.locator('#bagItems').innerText(),/US 9/);
      await page.locator('#bagClose').click();
     }
-    if(lavanda){
-     await page.locator('.tle-lavanda-wishlist-back').click();
-     assert.equal(await wishlist.isVisible(),false,'Continue shopping returns to storefront');
-     assert.equal(await page.locator('#main > .hero').isVisible(),true);
-     assert.equal(await page.locator('.tle-lavanda-wishlist-badge').innerText(),'0');
-     assert.equal(new URL(page.url()).searchParams.has('view'),false);
-     await page.goBack();
-     assert.equal(await wishlist.isVisible(),true,'Browser Back restores the wishlist route');
-    }
+    await page.locator(lavanda?'.tle-lavanda-wishlist-back':'.tle-sneekiefs-wishlist-back').click();
+    assert.equal(await wishlist.isVisible(),false,slug+' continue shopping returns to storefront');
+    assert.equal(await page.locator('#main > .hero').isVisible(),true);
+    assert.equal(await badge.innerText(),'0');
+    assert.equal(new URL(page.url()).searchParams.has('view'),false);
+    await page.goBack();
+    assert.equal(await wishlist.isVisible(),true,slug+' browser Back restores wishlist route');
     assert.equal(writes.length,0,'No network writes from sample shopping');
     assert.deepEqual(errors,[],slug+' no browser errors');
     const overflow=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:innerWidth}));
     assert.ok(overflow.scroll<=overflow.width+2,slug+' no horizontal overflow: '+JSON.stringify(overflow));
     await page.close();
     console.log('PASS',engine.name(),slug,width,'save, remove, heading count, cart, closed drawer');
+   }
+   // Marea has its own saved-look system and sample consultation, rather than a shopping bag.
+   {
+    const page=await browser.newPage({viewport:{width,height:width===390?844:900},reducedMotion:'reduce'});
+    const errors=[],writes=[];
+    page.on('pageerror',error=>errors.push(String(error)));
+    page.on('request',req=>{if(req.method()!=='GET')writes.push(req.url())});
+    const response=await page.goto(origin+'/demos/marea-wigs-miami/',{waitUntil:'domcontentloaded',timeout:35000});
+    assert.equal(response?.status(),200,'Marea home route');
+    await page.locator('.heart-button').first().waitFor({state:'visible',timeout:16000});
+    await page.waitForFunction(()=>document.querySelector('.saved-nav')?.tagName==='A');
+    const wishlist=page.locator('#marea-wishlist');
+    assert.equal(await wishlist.isVisible(),false,'Marea saved looks hidden from homepage');
+    assert.equal(await page.locator('.saved-nav').getAttribute('href'),'?view=wishlist');
+    await page.locator('.heart-button').first().click();
+    assert.equal(await page.locator('.saved-count').innerText(),'1','Marea heart count after save');
+    await page.locator('.saved-nav').click();
+    await page.waitForURL('**/demos/marea-wigs-miami/?view=wishlist');
+    await wishlist.waitFor({state:'visible',timeout:10000});
+    assert.equal(await page.locator('#app > main').isVisible(),false,'Marea storefront hidden on saved page');
+    assert.equal(await wishlist.locator('.marea-wishlist-card').count(),1,'Marea saved look displayed');
+    await page.reload({waitUntil:'domcontentloaded'});
+    await wishlist.waitFor({state:'visible',timeout:16000});
+    assert.equal(await wishlist.locator('.marea-wishlist-card').count(),1,'Marea local saved look survives refresh');
+    await wishlist.locator('[data-action="product"]').first().click();
+    await page.locator('dialog.marea-dialog[open]').waitFor({state:'visible'});
+    await page.locator('dialog.marea-dialog [data-action="close"]').click();
+    await wishlist.locator('.marea-wishlist-remove').click();
+    assert.equal(await wishlist.locator('.marea-wishlist-card').count(),0,'Removing look collapses saved grid');
+    assert.equal(await page.locator('.saved-count').innerText(),'0','Marea top bar count updates');
+    await wishlist.locator('.marea-wishlist-explore').click();
+    assert.equal(await wishlist.isVisible(),false,'Marea returns to collection');
+    assert.equal(await page.locator('#app > main').isVisible(),true);
+    await page.goBack();
+    assert.equal(await wishlist.isVisible(),true,'Marea browser back restores saved page');
+    assert.equal(writes.length,0,'Marea demo makes no writes');
+    assert.deepEqual(errors,[],'Marea no page errors');
+    const overflow=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:innerWidth}));
+    assert.ok(overflow.scroll<=overflow.width+2,'Marea no horizontal overflow '+JSON.stringify(overflow));
+    await page.close();
+    console.log('PASS',engine.name(),'marea-wigs-miami',width,'save, dedicated page, product details, remove, history');
    }
   }
  }finally{await browser.close()}

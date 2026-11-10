@@ -1,3 +1,9 @@
+## 2026-11-10 — Casa Brownie rendered two product menus
+- **Reported:** Owner screenshots showed an automatically injected “Explore the menu” section with three brownies immediately above the original six-flavor “Un sabor para cada ocasión” gallery.
+- **Root cause:** Shared static price helper could not match the Casa Brownie flavor `<span>` titles to its three generic product names, so its fallback created a full additional product grid instead of attaching existing prices to the native gallery.
+- **Scoped correction:** Keep shared price registration but skip fallback DOM insertion for Casa Brownie only. Add display prices to six original buttons; preserve the pre-existing $6.00/$6.30/$7.50 amounts and assign illustrative $7/$7/$8 to the previously unpriced demo-only flavors, updating both native sample-cart and guided-order data. Cache-bust updated assets. Other demos remain unchanged.
+- **Required proof:** Compare committed code, check six prices against cart totals, and verify deployed mobile/desktop DOM has one menu without the extra `.tle-demo-price-collection`. Do not claim published or Safari-tested until Pages deployment and a live browser check are confirmed.
+
 ## 2026-11-10 — Cart microinteraction regression had an obsolete auto-open expectation
 
 - **Detected by:** `Brand Cart Fly Interactions QA`, run #42843448355, asserting Casa Brownie's sample cart content immediately after adding a brownie.
