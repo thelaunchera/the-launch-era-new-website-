@@ -45,7 +45,7 @@ const old=[
  {id:"custom-p4",name:"New item",price:25,discount:0,category:"Breakfast",image:"",available:true}
 ];
 const migrated=migration(old);
-assert.deepEqual(Array.from(migrated.slice(0,3),v=>v.image),currentDefaultPhotos.slice(0,3),"Browser-only defaults must migrate to the actual current approved product photos");
+assert.deepEqual(Array.from(migrated.slice(0,3),v=>v.image),Array.from(currentDefaultPhotos.slice(0,3)),"Browser-only defaults must migrate to the actual current approved product photos");
 assert.equal(migrated[0].price,7.5,"Migrating the images must not change custom prices");
 assert.equal(migrated[0].discount,10,"Migrating the images must not change discounts");
 assert.equal(migrated[1].available,false,"Migrating must preserve availability");
