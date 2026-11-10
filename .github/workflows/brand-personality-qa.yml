@@ -19,12 +19,17 @@ jobs:
       - name: Verify page identity and original accessible mode
         run: |
           node --check public/demos/sova/sova-listening-mode-20261110.js
+          node --check scripts/qa-brand-personality-20261110.mjs
           node scripts/qa-brand-personality-20261110.mjs
           node scripts/qa-route-integrity.mjs --static
       - name: Install browser test runtime
         run: |
-          npm install --no-save playwright
-          npx playwright install --with-deps chromium webkit
+          mkdir -p /tmp/tle-brand-personality-qa
+          npm install --no-audit --no-fund --prefix /tmp/tle-brand-personality-qa playwright@1.57.0
+          /tmp/tle-brand-personality-qa/node_modules/.bin/playwright install --with-deps chromium webkit
+          mkdir -p node_modules
+          ln -sfn /tmp/tle-brand-personality-qa/node_modules/playwright node_modules/playwright
+          ln -sfn /tmp/tle-brand-personality-qa/node_modules/playwright-core node_modules/playwright-core
       - name: Test SOVA interactive mood in Chromium and Safari
         shell: bash
         run: |
