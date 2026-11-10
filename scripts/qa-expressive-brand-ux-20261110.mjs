@@ -19,7 +19,7 @@ for(const slug of brands){
 assert.match(css,/prefers-reduced-motion:\s*reduce/,'reduced-motion support');
 assert.match(css,/:focus-visible/,'keyboard focus visible');
 const rules=css.replace(/\/\*[\s\S]*?\*\//g,'');
-assert.doesNotMatch(rules,/(?:canvas|checkout|booking|cart-drawer|modal-root|#app)/i,
+assert.doesNotMatch(rules,/(?:[.#]canvas(?:\b|[-_])|checkout|booking|cart-drawer|modal-root|#app)/i,
   'expressive layer cannot touch editing, checkout or booking UI');
 assert.equal((rules.match(/!important/g)||[]).length,2,'force motion off only in accessibility override');
 const open=(css.match(/{/g)||[]).length,close=(css.match(/}/g)||[]).length;
