@@ -6,6 +6,7 @@
   if (document.documentElement.dataset.tleOneMotion !== 'sova') return;
   const selectors = '#sova-moods';
   let queued = false;
+  let nightMode = false;
   const dictionary = {
     en: {
       note: 'A different light. The same five moods.',
@@ -53,7 +54,8 @@
       button.type = 'button';
       button.className = 'sova-night-toggle';
       button.addEventListener('click', () => {
-        section.classList.toggle('sova-night');
+        nightMode = !nightMode;
+        section.classList.toggle('sova-night', nightMode);
         sync(section);
       });
       row.append(note, button);
@@ -61,6 +63,7 @@
       if (swipe) swipe.before(row);
       else section.querySelector('.sova-people-head')?.after(row);
     }
+    section.classList.toggle('sova-night', nightMode);
     sync(section);
   }
   function schedule() {
