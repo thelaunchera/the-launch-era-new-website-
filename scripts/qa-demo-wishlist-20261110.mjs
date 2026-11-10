@@ -18,29 +18,25 @@ for(const engine of [chromium,webkit]){
     assert.equal(await sources.count(),3,slug+' exactly three products');
     const wishlist=page.locator('#tle-wishlist');
     const cards=wishlist.locator('[data-wish-card]');
-    const lavanda=slug==='lavender-edit';
-    if(lavanda){
-     await page.locator('.tle-lavanda-wishlist-topbar').waitFor({state:'visible'});
-     assert.equal(await wishlist.isVisible(),false,'Lavanda wishlist is not on the main page');
-     assert.equal(await page.locator('.tle-wishlist-jump').count(),0,'No wishlist duplicate below product grid');
-     assert.equal(await page.locator('.tle-lavanda-wishlist-topbar').getAttribute('href'),'?view=wishlist');
-    }
+    const topHeart=page.locator('.tle-wishlist-topbar');
+    await topHeart.waitFor({state:'visible'});
+    assert.equal(await wishlist.isVisible(),false,slug+' wishlist must be hidden on the storefront');
+    assert.equal(await page.locator('.tle-wishlist-jump').count(),0,slug+' must have no duplicated inline wishlist link');
+    assert.equal(await topHeart.getAttribute('href'),'?view=wishlist',slug+' header heart opens its own route');
     assert.equal(await wishlist.locator('[data-wishlist-count]').innerText(),'0');
     await sources.nth(0).click();
     await sources.nth(1).click();
     assert.equal(await wishlist.locator('[data-wishlist-count]').innerText(),'2','Heading count after saves');
     assert.equal(await cards.count(),2);
-    if(lavanda){
-     assert.equal(await page.locator('.tle-lavanda-wishlist-badge').innerText(),'2','Header heart count');
-     await page.locator('.tle-lavanda-wishlist-topbar').click();
-     await page.waitForURL('**/demos/lavender-edit/?view=wishlist');
-     assert.equal(await wishlist.isVisible(),true,'Dedicated Lavanda wishlist visible');
-     assert.equal(await page.locator('#main > .hero').isVisible(),false,'Storefront hidden on wishlist route');
-     await page.reload({waitUntil:'domcontentloaded'});
-     await page.locator('.tle-wishlist-card').first().waitFor({state:'visible',timeout:16000});
-     assert.equal(await cards.count(),2,'Saved products survive direct wishlist refresh');
-     assert.equal(await wishlist.isVisible(),true);
-    }
+    assert.equal(await page.locator('.tle-wishlist-topbar-count').innerText(),'2',slug+' top-bar heart counter');
+    await topHeart.click();
+    await page.waitForURL('**/demos/'+slug+'/?view=wishlist');
+    assert.equal(await wishlist.isVisible(),true,slug+' dedicated wishlist view must be visible');
+    assert.equal(await page.locator('#main > .hero').isVisible(),false,slug+' homepage hidden on wishlist route');
+    await page.reload({waitUntil:'domcontentloaded'});
+    await cards.first().waitFor({state:'visible',timeout:16000});
+    assert.equal(await cards.count(),2,slug+' saved favorites survive direct wishlist refresh');
+    assert.equal(await wishlist.isVisible(),true,slug+' route still shows wishlist after reload');
     assert.equal(await sources.first().getAttribute('aria-pressed'),'true');
     await cards.first().locator('[data-wish-remove]').click();
     await page.waitForTimeout(80);
@@ -71,15 +67,13 @@ for(const engine of [chromium,webkit]){
      assert.match(await page.locator('#bagItems').innerText(),/US 9/);
      await page.locator('#bagClose').click();
     }
-    if(lavanda){
-     await page.locator('.tle-lavanda-wishlist-back').click();
-     assert.equal(await wishlist.isVisible(),false,'Continue shopping returns to storefront');
-     assert.equal(await page.locator('#main > .hero').isVisible(),true);
-     assert.equal(await page.locator('.tle-lavanda-wishlist-badge').innerText(),'0');
-     assert.equal(new URL(page.url()).searchParams.has('view'),false);
-     await page.goBack();
-     assert.equal(await wishlist.isVisible(),true,'Browser Back restores the wishlist route');
-    }
+    await page.locator('.tle-wishlist-back').click();
+    assert.equal(await wishlist.isVisible(),false,slug+' Continue shopping returns to shop');
+    assert.equal(await page.locator('#main > .hero').isVisible(),true,slug+' home reappears');
+    assert.equal(await page.locator('.tle-wishlist-topbar-count').innerText(),'0');
+    assert.equal(new URL(page.url()).searchParams.has('view'),false,slug+' view param cleared');
+    await page.goBack();
+    assert.equal(await wishlist.isVisible(),true,slug+' Browser Back returns to saved view');
     assert.equal(writes.length,0,'No network writes from sample shopping');
     assert.deepEqual(errors,[],slug+' no browser errors');
     const overflow=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:innerWidth}));
