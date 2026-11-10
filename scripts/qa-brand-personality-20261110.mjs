@@ -60,7 +60,7 @@ if (process.argv.includes('--browser')) {
         if(await es.count()){
           await es.click();
           await page.waitForFunction(()=>document.querySelector('.sova-night-toggle')?.textContent?.includes('Escuchar'),null,{timeout:8000});
-          assert.equal(await button.getAttribute('aria-pressed'),'true','language does not reset user's mode');
+          assert.equal(await button.getAttribute('aria-pressed'),'true','language does not reset the chosen mode');
         }
         assert.deepEqual(errors,[],browserType.name()+' no JavaScript errors');
         console.log('PASS',browserType.name(),motion,'SOVA night edit at 390px');
