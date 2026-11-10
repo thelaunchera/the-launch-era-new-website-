@@ -47,6 +47,10 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+# Keep the latest QA for each PR/branch; cancel superseded browser installs and tests.
+concurrency:
+  group: editorial-demo-qa-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
   editorial-heroes:
     runs-on: ubuntu-24.04
