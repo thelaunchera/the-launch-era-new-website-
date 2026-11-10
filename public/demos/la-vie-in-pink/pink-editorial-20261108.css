@@ -324,3 +324,29 @@ body{background:var(--cream);}
  .footer-inner{align-items:flex-start;gap:18px;flex-wrap:wrap;}
  .footer-inner nav{width:100%;}
 }
+
+
+/* Tablet: keep the three 'The little things' editorial cards compact.
+   Explicit image height prevents tall native PNGs from stretching the row
+   on iPad Safari; desktop and phone compositions remain unchanged. */
+@media (min-width:600px) and (max-width:1180px){
+  .discovery-section .edit-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:clamp(12px,1.8vw,18px);
+    max-width:910px;
+    margin-inline:auto;
+    align-items:start;
+  }
+  .discovery-section .edit-card{min-width:0;min-height:0;}
+  .discovery-section .edit-card>img{
+    display:block;
+    width:100%;
+    height:clamp(215px,27vw,300px)!important;
+    max-height:300px!important;
+    min-height:0!important;
+    aspect-ratio:auto!important;
+    object-fit:cover;
+    object-position:center 47%;
+  }
+  .discovery-section .edit-caption{margin-top:12px;}
+}
