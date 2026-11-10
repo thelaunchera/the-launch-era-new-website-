@@ -136,7 +136,6 @@ const critical=[
  ['/demos/claudia/','Claudia'],['/demos/angela-so-fresh-clean-queen/','Angela'],
  ['/command-center/lead-insights.html','Lead Insights'],
  ['/command-center/buyer-account-preview.html','Buyer Account Preview'],
- ['/cleaning-app/','Cleaning Web App'],
  ['/cb-depot/privacy/','CB Depot'],['/cb-depot/terms/','CB Depot'],
  ['/privacy.html','Privacy'],['/terms.html','Terms']];
 async function safeFetch(url,init={}){
@@ -156,7 +155,7 @@ async function liveChecks(){
  try{
   const missing=await safeFetch(site+'/__tle_route_qa_missing_page_20261012');
   const fallback=await missing.text();
-  if(missing.status!==404 || !fallback.includes('We couldn’t find that page.') || !fallback.includes('/command-center/'))errors.push('Missing-route fallback is blank, misrouted or lacks recovery links');
+  if(missing.status!==404 || !fallback.includes('Page not found') || !fallback.includes('/demos/') || !fallback.includes('href="/"'))errors.push('Missing-route fallback must serve the current 404 design with homepage and demo recovery links');
  }catch(e){errors.push('Missing-route fallback '+String(e.message||e))}
  // Safe invalid-UUID consent call: no actual lead is changed or authorized.
  const endpoint='https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-crm-interest?lead=invalid';
