@@ -150,4 +150,11 @@ document.addEventListener("keydown",ev=>{
 });
 $("#year").textContent=String(new Date().getFullYear());
 translate();updateBagCount();
+// Keep the size-aware original demo cart; do not open its drawer for wishlist actions.
+window.TLEWishlistCart={brand:"sneekiefs",add(id,options={}){
+ const size=Number(options.size);
+ if(!sizes.includes(size))return false;
+ chosen.set(id,size);syncSizes(id);
+ return addToBag(id,size);
+}};
 })();
