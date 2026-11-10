@@ -12,7 +12,7 @@ for(const type of [chromium,webkit]){
    const res=await page.goto(root+'/portfolio/',{waitUntil:'domcontentloaded'});
    assert.equal(res?.status(),200,'Portfolio route resolves');
    await page.locator('.tle-demo-drop-item').first().waitFor({state:'attached',timeout:15000});
-   assert.equal(await page.locator('.tle-demo-drop-item').count(),9,'Nine website cards render once');
+   assert.equal(await page.locator('.tle-demo-drop-item').count(),10,'Ten website cards render once');
    assert.equal(await page.locator('.tle-brand-pill').count(),0,'No duplicated pill navigation');
    assert.equal(await page.locator('.tle-gravity-arena #tleDemoDropGrid').count(),1,'Every card is inside the same blue showcase');
    assert.equal(await page.locator('#statement .section-tag').count(),1,'Editorial section remains valid');
@@ -32,7 +32,7 @@ for(const type of [chromium,webkit]){
    await second.focus();
    await second.press('Enter');
    assert.equal(await page.locator('#projectDialog').evaluate(el=>el.open),true,'Keyboard Enter opens the second website');
-   assert.equal((await page.locator('#modalTitle').innerText()).trim(),'Sneekiefs','Matching brand opens instead of repeated first demo');
+   assert.equal((await page.locator('#modalTitle').innerText()).trim(),'VELMORA','Matching brand opens instead of repeated first demo');
    await page.locator('#closeDialog').click();
    assert.deepEqual(errors,[],'No portfolio JavaScript errors');
    console.log('PORTFOLIO PASS',type.name(),width,motion,'one set of cards');

@@ -3,7 +3,7 @@ import {chromium,devices} from 'playwright';
 
 const base=(process.env.QA_URL||'http://127.0.0.1:4173').replace(/\/$/,'');
 const hiddenBrands=['havana-19','lavender-edit','casa-brownie','la-vie-in-pink'];
-const fullCards=19;
+const fullCards=20;
 const api=/\/rest\/v1\/tle_website_demo_visibility(?:\?|$)/;
 const headers={'access-control-allow-origin':'*','access-control-allow-headers':'apikey,accept',
  'access-control-allow-methods':'GET,OPTIONS','cache-control':'no-store'};
@@ -26,7 +26,7 @@ try{
   await page.goto(base+'/demos/',{waitUntil:'domcontentloaded'});
   await ready(page);
   assert.equal(await page.locator('.demo-card').count(),fullCards,'Preserve all source demos; only the showcase changes');
-  assert.equal(await page.locator('.demo-card:visible').count(),15,'Four owner-hidden demos must vanish from the public portfolio');
+  assert.equal(await page.locator('.demo-card:visible').count(),16,'Four owner-hidden demos must vanish from the public portfolio');
   for(const slug of hiddenBrands){
    assert.equal(await page.locator('.demo-card[data-brand="'+slug+'"]').isVisible(),false,'Hidden in Studio must also be hidden on Website of Websites: '+slug);
   }
@@ -37,17 +37,17 @@ try{
   const foodCount=await page.locator('.demo-card:visible').count();
   assert.ok(foodCount>0&&foodCount<10,'Food filter must exclude the hidden food demos, not show all 10');
   await page.locator('.filter[data-filter="All"]').click();
-  assert.equal(await page.locator('.demo-card:visible').count(),15);
+  assert.equal(await page.locator('.demo-card:visible').count(),16);
 
   // Test a cross-device Studio change without publishing another GitHub commit.
   data=[];
   await page.evaluate(()=>window.TLEWebsiteDemoVisibility.reload());
-  await page.waitForFunction(()=>document.querySelectorAll('.demo-card:not([hidden])').length===19);
-  assert.equal(await page.locator('.demo-card:visible').count(),19,'Unhiding from Studio must show a demo again');
+  await page.waitForFunction(()=>document.querySelectorAll('.demo-card:not([hidden])').length===20);
+  assert.equal(await page.locator('.demo-card:visible').count(),20,'Unhiding from Studio must show a demo again');
   data=rows;
   await page.evaluate(()=>window.TLEWebsiteDemoVisibility.reload());
-  await page.waitForFunction(()=>document.querySelectorAll('.demo-card:not([hidden])').length===15);
-  assert.equal(await page.locator('.demo-card:visible').count(),15,'Re-hiding must immediately update without a deploy');
+  await page.waitForFunction(()=>document.querySelectorAll('.demo-card:not([hidden])').length===16);
+  assert.equal(await page.locator('.demo-card:visible').count(),16,'Re-hiding must immediately update without a deploy');
 
   await page.goto(base+'/demos/?demo=havana-19',{waitUntil:'domcontentloaded'});
   await ready(page);

@@ -665,7 +665,36 @@ const DEMOS=[
   "imageY": 50,
   "imageX": 50,
   "imageScale": 1
-}
+},
+  {
+    "id": "velmora",
+    "name": "VELMORA",
+    "category": "Beauty · Demo",
+    "description": "Online-only editorial makeup concept with a black-and-crimson After Dark campaign, Ruby 08 lip color, four shop products, interactive wishlist, bag and simulated checkout.",
+    "tagline": "Red after dark.",
+    "monogram": "V",
+    "symbol": "V",
+    "titleFont": "Bodoni Moda",
+    "bodyFont": "DM Sans",
+    "tone": "Misteriosa · editorial · lujo nocturno · maquillaje",
+    "style": "beauty",
+    "colors": [
+      "#10090B",
+      "#6B1025",
+      "#A9203B",
+      "#F29AA5",
+      "#FAE8DD",
+      "#1B1013"
+    ],
+    "heroPhoto": "https://thelaunchera.github.io/demo-booking-landing-/velmora/media/hero.webp",
+    "detailPhoto": "https://thelaunchera.github.io/demo-booking-landing-/velmora/media/campaign/film-ribbon.webp",
+    "site": "https://thelaunchera.github.io/demo-booking-landing-/velmora/",
+    "logoImage": "",
+    "patternImage": "",
+    "imageY": 50,
+    "imageX": 50,
+    "imageScale": 1
+  }
 ];
 const TYPES=['Bebidas · Demo','Bakery · Demo','Cookie Shop · Demo','Nightclub · Demo','Boutique · Demo','Beauty · Demo','Wellness · Demo','Restaurante · Demo','Audio · Demo','Food · Demo','Cleaning · Demo','Sneakers · Demo','Cliente real','Otra categoría'];
 const FONTS=['Barlow Condensed','Outfit','Playfair Display','Italiana','Bodoni Moda','DM Serif Display','Cormorant Garamond','Bebas Neue','Caprasimo','Georgia','Manrope','DM Sans','Archivo Black','Space Grotesk','Arial'];

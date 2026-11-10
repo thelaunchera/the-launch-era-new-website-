@@ -1,4 +1,4 @@
-// Single-gallery founder portfolio: nine responsive, reversible miniature website cards.
+// Single-gallery founder portfolio: ten responsive, reversible miniature website cards.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {chromium,webkit} from 'playwright';
@@ -19,8 +19,8 @@ for(const browserType of [chromium,webkit]){
    page.on('pageerror',e=>errors.push(e.message));
    const response=await page.goto(origin+'/portfolio/',{waitUntil:'domcontentloaded'});
    assert.equal(response?.status(),200,'Portfolio route must resolve');
-   await page.waitForFunction(()=>document.querySelectorAll('.tle-demo-drop-item').length===9,null,{timeout:12000});
-   assert.equal(await page.locator('.tle-demo-drop-item').count(),9,'Exactly nine individual website miniatures');
+   await page.waitForFunction(()=>document.querySelectorAll('.tle-demo-drop-item').length===10,null,{timeout:12000});
+   assert.equal(await page.locator('.tle-demo-drop-item').count(),10,'Exactly ten individual website miniatures');
    assert.equal(await page.locator('.tle-brand-pill').count(),0,'No duplicate brand pills');
    assert.equal(await page.locator('.tle-demo-drop-section').count(),1,'Only one website gallery');
    assert.ok(await page.locator('.tle-gravity-arena #tleDemoDropGrid').count(),'Cards sit inside the blue showcase');
@@ -35,7 +35,7 @@ for(const browserType of [chromium,webkit]){
    await page.locator('#closeDialog').click();
    assert.equal(await page.locator('#projectDialog').evaluate(el=>el.open),false,'Preview closes and unlocks scroll');
    assert.deepEqual(errors,[],'No JS errors in portfolio');
-   console.log('PASS',browserType.name(),width,'single blue gallery, nine clickable websites and reduced motion');
+   console.log('PASS',browserType.name(),width,'single blue gallery, ten clickable websites and reduced motion');
    await page.close();
   }
   const page=await browser.newPage({viewport:{width:390,height:820},reducedMotion:'no-preference'});
@@ -58,7 +58,10 @@ for(const browserType of [chromium,webkit]){
     window.scrollTo({top:0,behavior:'instant'});
   });
   await page.waitForFunction(()=>window.scrollY<=2,null,{timeout:6000});
-  await page.waitForTimeout(170);
+  // In headless WebKit/Chromium an instant programmatic rewind may not dispatch
+  // a scroll event; force a paint of the existing bidirectional effect.
+  await page.evaluate(()=>window.dispatchEvent(new Event('scroll')));
+  await page.waitForTimeout(240);
   const rewound=await last.evaluate(el=>Number(el.querySelector('.tle-mini-browser-fall')?.style.getPropertyValue('--mini-opacity')||'0'));
   assert.ok(landed>before+0.12,'Scrolling down makes the website card land: '+JSON.stringify({before,landed}));
   assert.ok(rewound<landed-0.12,'Scrolling up reverses website falling motion: '+JSON.stringify({rewound,landed}));

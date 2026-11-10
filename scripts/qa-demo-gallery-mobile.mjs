@@ -98,7 +98,7 @@ try{
  const response=await page.goto(url,{waitUntil:'domcontentloaded',timeout:35000});
  assert.equal(response?.status(),200,'Gallery must return 200, not a 404');
  await page.locator('html[data-tle-demo-status="ready"]').waitFor({state:'attached',timeout:15000});
- assert.equal(await page.locator('.demo-card').count(),19,'Gallery must contain exactly 18 curated concepts');
+ assert.equal(await page.locator('.demo-card').count(),20,'Gallery must contain all 20 curated concepts including VELMORA');
 
  // Visual-depth regression — inspect computed presentation, not only source.
  const galleryCardDepth=await page.locator('.demo-card').first().evaluate(el=>{
@@ -134,8 +134,8 @@ try{
   console.log('[CARD DEPTH] gallery, owner catalog, phone preview and Spanish showcase OK');
  }finally{await depthPage.close()}
 
- assert.equal(await page.locator('.card-preview-link').count(),19,'Every photo card needs a preview link');
- assert.equal(await page.locator('.demo-links .view').count(),19,'Every card needs a public demo website link');
+ assert.equal(await page.locator('.card-preview-link').count(),20,'Every photo card needs a preview link');
+ assert.equal(await page.locator('.demo-links .view').count(),20,'Every card needs a public demo website link');
  assert.equal(await page.locator('.demo-links .source, a[href*="github.com"]').count(),0,'Never expose code/source repository links in the public library');
  assert.equal(await page.locator('#viewer-close').count(),1);
  const legalPaths=['/privacy.html','/terms.html','/cookies.html','/refunds.html','/privacy-choices.html'];
@@ -193,7 +193,7 @@ try{
  await food.click();
  assert.equal(await page.locator('.demo-card:visible').count(),10,'Category filter must show 10 Food & Drink demos');
  await page.locator('.filter[data-filter="All"]').click();
- assert.equal(await page.locator('.demo-card:visible').count(),19,'Reset filter must show all');
+ assert.equal(await page.locator('.demo-card:visible').count(),20,'Reset filter must show all');
 
  // Every English and Spanish hero card must lead to exactly its own library demo.
  // Umbral was renamed Havana 19 and must never be displayed as a second card.
@@ -307,7 +307,7 @@ try{
  }finally{await motionContext.close()}
 
 
- console.log('[PASS] Bilingual demo-to-website return and standalone library-close, plus 19 cards, hero images and mobile scroll.');
+ console.log('[PASS] Bilingual demo-to-website return and standalone library-close, plus 20 cards, hero images and mobile scroll.');
 } finally{
  await browser.close();
 }
