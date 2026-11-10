@@ -26,12 +26,8 @@ for(const [slug,config] of foodBrands){
  }
 }
 const la=themes["la-vie-in-pink"];
-const legacyDefaultPhotos=[
- "/demos/la-vie-in-pink/resources/8572492e-4032-4e82-a5d3-7e087ec38613.png",
- "/demos/la-vie-in-pink/resources/3674f67a-abe7-4116-b01c-19afb41ae3d5.png",
- "/demos/la-vie-in-pink/resources/28efa0a2-eefe-40b3-9398-b25bb8e0532a.png"
-];
-assert.ok(la.items.length>=legacyDefaultPhotos.length,'Expanded La Vie menu must keep its original photo coverage');
+const currentDefaultPhotos=la.items.map(item=>item[5]);
+assert.ok(la.items.length>=3,'Expanded La Vie menu must retain the three original product slots');
 assert.ok(la.items.every(item=>item[5].startsWith('/demos/la-vie-in-pink/photos/')),'Current La Vie menu must use its own distinct approved campaign photographs');
 assert.equal(new Set(la.items.map(item=>item[5])).size,la.items.length,'All La Vie menu items require unique current photos');
 assert.match(original,/croissant:\s*'\/demos\/la-vie-in-pink\/resources\/8572492e-4032-4e82-a5d3-7e087ec38613\.png'/);
@@ -49,7 +45,7 @@ const old=[
  {id:"custom-p4",name:"New item",price:25,discount:0,category:"Breakfast",image:"",available:true}
 ];
 const migrated=migration(old);
-assert.deepEqual(Array.from(migrated.slice(0,3),v=>v.image),legacyDefaultPhotos,"Existing browser-only defaults must retain their original safe three-photo migration");
+assert.deepEqual(Array.from(migrated.slice(0,3),v=>v.image),currentDefaultPhotos.slice(0,3),"Browser-only defaults must migrate to the actual current approved product photos");
 assert.equal(migrated[0].price,7.5,"Migrating the images must not change custom prices");
 assert.equal(migrated[0].discount,10,"Migrating the images must not change discounts");
 assert.equal(migrated[1].available,false,"Migrating must preserve availability");
