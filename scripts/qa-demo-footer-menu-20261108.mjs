@@ -65,7 +65,10 @@ try{
    if(moved[slug]){
     const ordering=await page.evaluate(([a,t])=>{
      const first=document.querySelector(a),second=document.querySelector(t);
-     return Boolean(first&&second&&(first.nextElementSibling===second||(first.nextElementSibling?.id==='tle-demo-sample-prices'&&first.nextElementSibling.nextElementSibling===second)));
+     if(!first||!second)return false;
+     let next=first.nextElementSibling;
+     while(next&&next!==second&&['tle-demo-sample-prices','tle-brand-discovery'].includes(next.id))next=next.nextElementSibling;
+     return next===second;
     },moved[slug]);
     assert.ok(ordering,slug+' original menu/catalog moved to requested early position');
    }

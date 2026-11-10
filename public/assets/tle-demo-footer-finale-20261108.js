@@ -39,13 +39,16 @@
   'lavender-edit':{anchor:'#ritual',targets:['#gallery']},
   'experience-cleaning':{anchor:'.hero.hero-cleaning-site',targets:['#tle-demo-sample-prices','#experience']},
   'soluna-yoga':{anchor:'#about',targets:['#memberships','#classes']},
-  'wok-social':{anchor:'.hero + .ticker',targets:['#tle-demo-sample-prices','#menu']},
+  'wok-social':{anchor:'.hero + .ticker, .hero + #tle-brand-discovery + .ticker',targets:['#tle-demo-sample-prices','#menu']},
   'yummm':{anchor:'.feature-links',targets:['#counter']},
   'jaramillo-boutique':{anchor:'.hero',targets:['#collections']}
  };
  function bringCatalogForward(){
   const plan=order[brand];if(!plan)return;
   let anchor=document.querySelector(plan.anchor);if(!anchor)return;
+  // The compact discovery owns the first position; keep the same native catalog directly after it.
+  const discovery=document.getElementById('tle-brand-discovery');
+  if(discovery&&anchor.matches('.hero')&&discovery.parentElement===anchor.parentElement)anchor=discovery;
   for(const selector of plan.targets){
    const section=document.querySelector(selector);
    if(!section||!section.isConnected||section===anchor||section.parentElement!==anchor.parentElement)continue;

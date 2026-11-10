@@ -43,6 +43,9 @@ if(brand==='jaramillo-boutique')console.log('DISCOVERY_DEBUG state',index,await 
 const selected=await page.locator(trigger).getAttribute('aria-pressed');if(selected!==null){await page.waitForFunction(selector=>document.querySelector(selector)?.getAttribute('aria-pressed')==='true',trigger);assert.equal(await page.locator(trigger).getAttribute('aria-pressed'),'true',brand+' native filter '+index);}}
 }
 assert.deepEqual(errors,[],brand+' errors after shortcut');
+await page.waitForTimeout(80);
+const stable=await page.evaluate(()=>new Promise(resolve=>{const hero=document.querySelector('main .hero');let moves=0;const observer=new MutationObserver(rs=>{moves+=rs.length});observer.observe(hero.parentElement,{childList:true});setTimeout(()=>{observer.disconnect();resolve({moves,first:hero.nextElementSibling?.id})},200)}));
+assert.equal(stable.moves,0,brand+' must not continuously relocate catalog/discovery');assert.equal(stable.first,'tle-brand-discovery');
 await page.locator('#tle-brand-discovery .td-track').evaluate(track=>{track.scrollLeft=0});
 await page.locator('#tle-brand-discovery').scrollIntoViewIfNeeded();await page.screenshot({path:out+'/'+brand+'-'+width+'-'+(process.env.BROWSER||'chromium')+'.png'});
 report.push({brand,width,passed:true,preExistingErrors:baseline});console.log('PASS',brand,width);await page.close();

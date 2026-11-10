@@ -3,6 +3,7 @@ on:
   push:
     branches: [main]
     paths:
+      - public/assets/tle-demo-footer-finale-20261108.js
       - public/assets/tle-demo-discovery-20261110.js
       - public/demos/**
       - public/experience-cleaning/index.html
@@ -10,6 +11,7 @@ on:
       - .github/workflows/qa-demo-discovery.yml
   pull_request:
     paths:
+      - public/assets/tle-demo-footer-finale-20261108.js
       - public/assets/tle-demo-discovery-20261110.js
       - public/demos/**
       - public/experience-cleaning/index.html
