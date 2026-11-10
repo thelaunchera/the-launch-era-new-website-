@@ -40,30 +40,31 @@ for(const browserType of [chromium,webkit]){
   }
   const page=await browser.newPage({viewport:{width:390,height:820},reducedMotion:'no-preference'});
   await page.goto(origin+'/portfolio/',{waitUntil:'domcontentloaded'});
-  const first=page.locator('.tle-demo-drop-item').first();
-  await first.waitFor({state:'attached'});
+  // Scroll test the bottom-row website, which begins outside the initial viewport.
+  const last=page.locator('.tle-demo-drop-item').last();
+  await last.waitFor({state:'attached'});
   await page.evaluate(()=>{
     document.documentElement.style.scrollBehavior='auto';
     window.scrollTo({top:0,behavior:'instant'});
   });
   await page.waitForFunction(()=>window.scrollY<=2,null,{timeout:6000});
   await page.waitForTimeout(120);
-  const before=await first.evaluate(el=>Number(el.querySelector('.tle-mini-browser-fall')?.style.getPropertyValue('--mini-opacity')||'0'));
-  await first.scrollIntoViewIfNeeded();
+  const before=await last.evaluate(el=>Number(el.querySelector('.tle-mini-browser-fall')?.style.getPropertyValue('--mini-opacity')||'0'));
+  await last.scrollIntoViewIfNeeded();
   await page.waitForTimeout(170);
-  const landed=await first.evaluate(el=>Number(el.querySelector('.tle-mini-browser-fall')?.style.getPropertyValue('--mini-opacity')||'0'));
+  const landed=await last.evaluate(el=>Number(el.querySelector('.tle-mini-browser-fall')?.style.getPropertyValue('--mini-opacity')||'0'));
   await page.evaluate(()=>{
     document.documentElement.style.scrollBehavior='auto';
     window.scrollTo({top:0,behavior:'instant'});
   });
   await page.waitForFunction(()=>window.scrollY<=2,null,{timeout:6000});
   await page.waitForTimeout(170);
-  const rewound=await first.evaluate(el=>Number(el.querySelector('.tle-mini-browser-fall')?.style.getPropertyValue('--mini-opacity')||'0'));
+  const rewound=await last.evaluate(el=>Number(el.querySelector('.tle-mini-browser-fall')?.style.getPropertyValue('--mini-opacity')||'0'));
   assert.ok(landed>before+0.12,'Scrolling down makes the website card land: '+JSON.stringify({before,landed}));
   assert.ok(rewound<landed-0.12,'Scrolling up reverses website falling motion: '+JSON.stringify({rewound,landed}));
-  await first.scrollIntoViewIfNeeded();
+  await last.scrollIntoViewIfNeeded();
   await page.waitForTimeout(150);
-  const replay=await first.evaluate(el=>Number(el.querySelector('.tle-mini-browser-fall')?.style.getPropertyValue('--mini-opacity')||'0'));
+  const replay=await last.evaluate(el=>Number(el.querySelector('.tle-mini-browser-fall')?.style.getPropertyValue('--mini-opacity')||'0'));
   assert.ok(replay>rewound+0.12,'Re-entering view repeats the drop');
   await page.close();
  }finally{await browser.close()}
