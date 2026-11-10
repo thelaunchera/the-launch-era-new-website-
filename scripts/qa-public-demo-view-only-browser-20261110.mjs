@@ -6,11 +6,11 @@ const base=(process.env.QA_URL||'http://127.0.0.1:4199').replace(/\/$/,'');
 for (const engine of [chromium,webkit]) {
   const browser=await engine.launch({headless:true});
   try {
-    for (const slug of ['sova','la-vie-in-pink','lavender-edit','photo-gallery']) {
+    for (const [slug,route] of [['sova','/demos/sova/'],['la-vie-in-pink','/demos/la-vie-in-pink/'],['lavender-edit','/demos/lavender-edit/'],['photo-gallery','/demos/photo-gallery/'],['experience-cleaning','/experience-cleaning/'],['portfolio','/portfolio/']]) {
       const page=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});
       const errors=[];
       page.on('pageerror',e=>errors.push(e.message));
-      const response=await page.goto(base+'/demos/'+slug+'/',{waitUntil:'domcontentloaded',timeout:25000});
+      const response=await page.goto(base+route,{waitUntil:'domcontentloaded',timeout:25000});
       assert.equal(response?.status(),200,slug+' must load');
       await page.locator('img').first().waitFor({state:'attached',timeout:12000});
       const guard=await page.locator('img').first().evaluate(img=>{
