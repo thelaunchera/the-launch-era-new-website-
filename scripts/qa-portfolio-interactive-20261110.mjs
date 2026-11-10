@@ -1,6 +1,12 @@
 // Portfolio: approved hero poster, one interactive website-card gallery, keyboard navigation and accessibility.
 import assert from 'node:assert/strict';
 import {chromium,webkit} from 'playwright';
+import {readFileSync} from 'node:fs';
+const html=readFileSync('public/portfolio/index.html','utf8');
+const projectBlock=html.split('const projects = [')[1]?.split('];')[0]||'';
+const projectSlugs=[...projectBlock.matchAll(/\{id:'([^']+)'/g)].map(match=>match[1]);
+assert.ok(projectSlugs.length>=2,'Portfolio must contain at least two distinct sites');
+assert.equal(new Set(projectSlugs).size,projectSlugs.length,'Portfolio project IDs must be unique');
 const root=(process.env.QA_URL||'http://127.0.0.1:4198').replace(/\/$/,'');
 for(const type of [chromium,webkit]){
  const browser=await type.launch({headless:true});
@@ -12,7 +18,7 @@ for(const type of [chromium,webkit]){
    const res=await page.goto(root+'/portfolio/',{waitUntil:'domcontentloaded'});
    assert.equal(res?.status(),200,'Portfolio route resolves');
    await page.locator('.tle-demo-drop-item').first().waitFor({state:'attached',timeout:15000});
-   assert.equal(await page.locator('.tle-demo-drop-item').count(),9,'Nine website cards render once');
+   assert.deepEqual(await page.locator('.tle-demo-drop-item').evaluateAll(nodes=>nodes.map(node=>node.dataset.project)),projectSlugs,'Every registered website appears exactly once');
    assert.equal(await page.locator('.tle-brand-pill').count(),0,'No duplicated pill navigation');
    assert.equal(await page.locator('.tle-gravity-arena #tleDemoDropGrid').count(),1,'Every card is inside the same blue showcase');
    assert.equal(await page.locator('#statement .section-tag').count(),1,'Editorial section remains valid');
