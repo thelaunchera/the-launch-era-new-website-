@@ -23,7 +23,7 @@ for (const size of [3, 6, 12]) {
   click(`[data-pack="${size}"]`);
   while(count() < size) click('.cookie [data-add="classic"]');
   assert.equal(count(), size);
-  assert.equal(d.querySelector('#price-total').textContent, '$' + (size * 3.5).toFixed(2));
+  assert.equal(d.querySelector('#price-total').textContent, '$' + (size * 4.5).toFixed(2));
   assert.equal(d.querySelectorAll('#box-tray .box-cookie-slot.filled').length, size);
   click('.cookie [data-add="double"]');
   assert.equal(count(), size);
@@ -41,8 +41,8 @@ click('#preview-button');
 const preview = d.querySelector('#preview');
 assert.equal(preview.hidden, false);
 assert.match(preview.textContent, /Ribbon Edition/);
-assert.match(preview.textContent, /Sample box total: \$10\.50/);
-assert.match(preview.textContent, /3 × Classic Chocolate Chip · \$3\.50 each · \$10\.50/);
+assert.match(preview.textContent, /Sample box total: \$13\.50/);
+assert.match(preview.textContent, /3 × Classic Chocolate Chip · \$4\.50 each · \$13\.50/);
 assert.match(preview.textContent, /Happy birthday <script>unsafe<\/script>/);
 assert.equal(preview.querySelector('script'), null);
 assert.equal(preview.querySelectorAll('img').length, 1);
@@ -71,29 +71,31 @@ click('#delivery-build');
 assert.equal(d.querySelector('#delivery-dialog').open, false);
 assert.equal(d.querySelector('#box-dialog').open, true);
 results.push('Local delivery information opens and returns to gift builder');
-const expectedPrices = {classic:350, double:450, caramel:550, raspberry:600, nutty:700, brownie:500};
+const expectedPrices = {classic:450, double:425, caramel:500, raspberry:550, nutty:700, brownie:500};
 for(const [id,cents] of Object.entries(expectedPrices)) {
   const formatted = '$' + (cents/100).toFixed(2);
-  assert.equal(d.querySelector('[data-price-for="'+id+'"]').textContent,formatted+' each');
+  const cardPrice = d.querySelector('[data-price-for="'+id+'"]').textContent;
+  assert.ok(cardPrice.startsWith(formatted+' each'),'Catalog price must match current site for '+id);
+  if(id==='double')assert.match(cardPrice,/15% off \$5\.00/,'Preserve existing discount label');
   assert.equal(d.querySelector('[data-builder-price="'+id+'"]').textContent,formatted);
 }
 assert.equal(d.querySelectorAll('[data-price-for]').length,6);
 assert.equal(d.querySelectorAll('[data-builder-price]').length,6);
-assert.equal(d.querySelector('#price-total').textContent,'$5.50');
+assert.equal(d.querySelector('#price-total').textContent,'$5.00');
 click('.cookie [data-add="classic"]');
 click('.cookie [data-add="nutty"]');
 assert.equal(count(),3);
-assert.equal(d.querySelector('#price-total').textContent,'$16.00');
+assert.equal(d.querySelector('#price-total').textContent,'$16.50');
 assert.equal(d.querySelector('#price-label').textContent,'Your box total');
 click('#preview-button');
-assert.match(d.querySelector('#preview').textContent,/Sample box total: \$16\.00/);
+assert.match(d.querySelector('#preview').textContent,/Sample box total: \$16\.50/);
 assert.match(d.querySelector('#preview').textContent,/Nutty Dream · \$7\.00 each/);
 assert.match(d.querySelector('#preview').textContent,/Packaging: Ribbon Edition · included/);
-assert.match(html,/3 cookies · from \$10\.50/);
-assert.match(html,/6 cookies · from \$21\.00/);
-assert.match(html,/12 cookies · from \$42\.00/);
-assert.match(html,/No real checkout/);
-results.push('Six prices $3.50–$7.00, minimum box prices, live $16.00 mixed box, zero checkout');
+assert.match(html,/3 cookies · from \$12\.75/);
+assert.match(html,/6 cookies · from \$25\.50/);
+assert.match(html,/12 cookies · from \$51\.00/);
+assert.match(html,/No order or payment has been submitted/);
+results.push('Six prices $4.25–$7.00, minimum box prices, live $16.50 mixed box, zero checkout');
 assert.equal(d.querySelectorAll('.cookie').length, 6);
 
 const compactTitles = {
@@ -143,7 +145,7 @@ assert.match(css,/flex:0 0 min\(84vw,360px\)/,'Mobile photos use consistent full
 assert.match(css,/scroll-snap-stop:always/,'Mobile cards snap one at a time');
 assert.match(css,/object-fit:contain/,'All mobile gallery photographs fit without clipping');
 assert.ok(html.includes('styles.css?v=20261030-crumb-pain-first-gifts-v13'), 'Updated CSS must bypass stale iOS browser cache');
-assert.ok(html.includes('main.js?v=20261031-on-click-v5'), 'Updated carousel controller must bypass stale iOS browser cache');
+assert.ok(html.includes('main.js?v=20261108-price-parity'), 'Updated carousel controller must bypass stale iOS browser cache');
 assert.equal(d.querySelectorAll('.crumb-gallery-dot').length,3,'Three accessible slide selectors');
 click('[data-crumb-slide="2"]');
 assert.equal(d.querySelector('.crumb-gallery-counter').textContent,'3 / 3','Third packaging photo is reachable via a dot');
@@ -199,8 +201,8 @@ assert.match(css,/\.brand-glimpse \.brand-glimpse-gallery figure img,[\s\S]*?hei
 assert.match(css,/\.brand-glimpse \.brand-glimpse-gallery figure:nth-child\(3\) img \{[\s\S]*?object-position:50% 56%/,'Third portrait packaging photo is intentionally cropped with no sidebars');
 assert.equal(d.querySelectorAll('.cookie-visual > .add-cookie').length, 6);
 assert.equal(d.querySelectorAll('.cookie-visual > .add-cookie').length, d.querySelectorAll('.cookie').length);
-assert.ok(html.includes('CRUMB_Storefront_Approved_20261030.webp?v=1'));
-assert.match(html, /CRUMB_Storefront_Approved_20261030\.webp\?v=1/);
+assert.ok(html.includes('CRUMB_Storefront_Approved_20261030.webp?v=20261107-approved'));
+assert.match(html, /CRUMB_Storefront_Approved_20261030\.webp\?v=20261107-approved/);
 assert.ok(css.includes('background:#DCEFFA') && css.includes('background:#477BB3'),'The CRUMB moving banners use approved blues');
 assert.ok(css.includes('html, body { width:100%; max-width:100%; overflow-x:clip; }'),'Prevent cross-device horizontal overflow');
 assert.equal(d.querySelectorAll('.crumb-marquee-row').length, 2);
@@ -232,12 +234,12 @@ results.push('Six unique flavor image paths, section anchors, Miami copy and no 
 
 // Store experience remains a fictional demo: no real address, social profiles or sending.
 assert.equal(d.querySelector('#story h2').textContent,'It started with a cookie.');
-assert.match(d.querySelector('#story').textContent,/fictional bakery story/i);
+assert.match(d.querySelector('#story').textContent,/Picture a tiny Miami kitchen/,'Approved current editorial story is preserved');
 assert.ok(d.querySelector('a[href="#story"]'));
 assert.match(d.querySelector('.footer-location address').textContent,/128 Cookie Lane\s*Miami, FL 33131/);
-assert.match(d.querySelector('.footer-location').textContent,/Fictional address · Not a real storefront/);
+assert.match(d.querySelector('.footer-location').textContent,/Concept address · No storefront is open at this location/);
 assert.equal(d.querySelectorAll('.footer-social [data-social]').length,2);
-assert.match(d.querySelector('.footer-note').textContent,/No orders, payments or contact messages are accepted/);
+assert.match(d.querySelector('.footer-note').textContent,/Orders, payments and messages are not submitted/);
 const credits = d.querySelectorAll('.site-footer .footer-credit');
 assert.equal(credits.length,1,'Studio credit should appear exactly once in footer');
 assert.equal(credits[0].textContent.trim(),'Powered by The Launch Era');
@@ -276,7 +278,7 @@ assert.equal(socialDialog.open,false);
 click('[data-social="Instagram"]');
 assert.equal(socialDialog.open,true);
 assert.match(d.querySelector('#social-platform').textContent,/Instagram · fictional account preview/);
-assert.match(socialDialog.textContent,/No real CRUMB account is linked/);
+assert.match(socialDialog.textContent,/These examples do not open active social accounts/);
 click('#close-social');
 assert.equal(socialDialog.open,false);
 click('[data-social="TikTok"]');
@@ -286,7 +288,7 @@ assert.equal(socialDialog.open,false);
 assert.equal(d.querySelectorAll('a[href*="instagram.com"],a[href*="tiktok.com"],a[href*="maps.google.com"]').length,0);
 assert.doesNotMatch(code,/fetch\(|sendBeacon|localStorage|sessionStorage|XMLHttpRequest/i,'no contact transmission or storage');
 assert.ok(css.includes('#contact-form[hidden],.contact-feedback[hidden] { display:none!important; }'));
-assert.ok(html.includes('CRUMB_Storefront_Approved_20261030.webp?v=1'),'approved storefront is the hero');
+assert.ok(html.includes('CRUMB_Storefront_Approved_20261030.webp?v=20261107-approved'),'approved storefront is the hero');
 results.push('Contact only opens on click, never transmits/stores data; fictional address/socials and brand story verified');
 
 
@@ -372,7 +374,7 @@ assert.ok(responsiveCrumb.includes('@media (max-width: 759px)'));
 assert.ok(responsiveCrumb.includes('grid-template-columns: repeat(2, minmax(0, 1fr))'));
 assert.ok(code.includes("window.matchMedia('(max-width:1366px)').matches"), 'Tablet gallery must support keyboard arrows');
 assert.match(html, /styles\.css\?v=20261030-crumb-pain-first-gifts-v13/);
-assert.match(html, /main\.js\?v=20261031-on-click-v5/);
+assert.match(html, /main\.js\?v=20261108-price-parity/);
 assert.ok(css.includes('/* CRUMB Inside gallery — remove picture-in-a-box matte, preserve 3 slides */'), 'CRUMB gallery removes the blue photo-frame background');
 assert.match(css,/\.brand-glimpse \.brand-glimpse-gallery figure img,[\s\S]*?object-fit: cover/,'Photos fill their slide without pale blue side-bars');
 assert.match(css,/\.brand-glimpse \.brand-glimpse-gallery figure:nth-child\(3\) img \{[\s\S]*?object-position: center 61%/,'Packaging crop keeps the branded bag and cookies in view');
@@ -411,8 +413,8 @@ assert.equal(d.querySelectorAll('[data-open-builder]').length >= 2,true);
 assert.match(html, /What should<br>I bring\?<br>Cookies\./);
 assert.match(css, /CRUMB pain-first editorial gift messaging/);
 assert.match(css, /white-space: normal/);
-assert.ok(html.includes('Fictional address · Not a real storefront'));
-assert.ok(html.includes('No orders, payments or contact messages are accepted.'));
+assert.ok(html.includes('Concept address · No storefront is open at this location'));
+assert.ok(html.includes('Orders, payments and messages are not submitted.'));
 results.push('Gift-doubt hero, six-flavor proof and gift-box CTAs verified; demonstration disclaimers preserved');
 
 console.log(JSON.stringify({method: 'DOM integration; dialog APIs simulated; not visual browser QA', passed: results}, null, 2));

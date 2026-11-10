@@ -1,0 +1,50 @@
+name: Concept Cart Receipts (iPhone)
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'public/demos/freska/app.js'
+      - 'public/demos/freska/styles.css'
+      - 'public/demos/sneekiefs/script.js'
+      - 'public/demos/casa-brownie/main.js'
+      - 'public/demos/crumb/main.js'
+      - 'scripts/qa-demo-order-confirmations-20261110.mjs'
+      - '.github/workflows/qa-demo-order-confirmations-20261110.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  receipt-browser-qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Parse all edited scripts
+        run: |
+          node --check public/demos/freska/app.js
+          node --check public/demos/sneekiefs/script.js
+          node --check public/demos/casa-brownie/main.js
+          node --check public/demos/crumb/main.js
+          node --check scripts/qa-demo-order-confirmations-20261110.mjs
+          node scripts/qa-route-integrity.mjs --static
+      - name: Install isolated Chromium and WebKit
+        run: |
+          mkdir -p /tmp/tle-receipts-qa
+          npm install --no-audit --no-fund --prefix /tmp/tle-receipts-qa playwright@1.57.0
+          /tmp/tle-receipts-qa/node_modules/.bin/playwright install --with-deps chromium webkit
+          mkdir -p node_modules
+          ln -sfn /tmp/tle-receipts-qa/node_modules/playwright node_modules/playwright
+          ln -sfn /tmp/tle-receipts-qa/node_modules/playwright-core node_modules/playwright-core
+      - name: Complete four original demo carts with no payments or emails
+        run: |
+          python3 -m http.server 4196 --bind 127.0.0.1 --directory public >/tmp/tle-receipts-server.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for n in $(seq 1 25); do
+            if curl -fsS http://127.0.0.1:4196/demos/freska/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4196 node scripts/qa-demo-order-confirmations-20261110.mjs

@@ -1,3 +1,12 @@
+## 2026-11-10 — Demo orders looked finished but had no lasting receipt
+
+- **Report:** Owner's iPhone screenshots of Freska showed a complete-demo button, an empty bag and a short-lived message. User requested all carts follow a comparable interactive flow with an order confirmation.
+- **Root cause:** Freska's click handler cleared the basket and immediately closed its original modal, leaving only a toast. Sneekiefs presented an order preview but no terminal completion stage. Native Casa Brownie and CRUMB bag/box flows relied on previews or another independent guided-order component.
+- **Scoped remedy:** preserve each brand's independent cart, product pricing and mobile layout. Add persistent sample receipts to the four original flows, in English/Spanish where the demo supports both. Reset quantities only after completion and allow starting again.
+- **Existing working flows preserved:** La Vie in Pink, Lavanda Boutique and shared guided-order journey for Casa Brownie, CRUMB, Golden Grid and Havana 19.
+- **Privacy and accuracy:** explicit wording states no real order, payment, email or delivery. Do not solicit card details or silently send any customer information.
+- **Verification status:** JavaScript source parsed during preparation. New PR Chromium and WebKit execution, repository CI, production deploy and physical iPhone validation still required. No claim of live fix until verified.
+
 ## 2026-11-09 — Gravity pills were not navigable; mobile mini previews requested
 - **Observation:** Original `/portfolio/` gravity tags were decorative draggable buttons with no website-open action. User requested each corresponding mini browser photo to fall beneath the gravity section and open its full demo on tap.
 - **Scoped repair:** Add nine accessible, animated mini browser previews directly beneath the existing blue tag area; share the gallery's original image+URL model and preview dialog; give gravity tags tap-to-preview while preserving pointer-capture drag, keyboard movement, replay and reduced-motion fallback. Havana 19 was in the tags but not the gallery; Experience Cleaning was in the gallery but not the tags. Both now appear in the full nine-project set.
