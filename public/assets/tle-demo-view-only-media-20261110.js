@@ -4,7 +4,9 @@
 */
 (() => {
   'use strict';
-  if (!location.pathname.startsWith('/demos/')) return;
+  if (!(location.pathname.startsWith('/demos/') ||
+        ['/booking-demo/','/cleaning-app-demo/','/experience-cleaning/','/sample-cleaning/','/portfolio/']
+          .some(prefix=>location.pathname.startsWith(prefix)))) return;
   const style = document.createElement('style');
   style.textContent = [
     'html body img, html body picture, html body video {',
