@@ -95,6 +95,17 @@ function change(name,delta){
  if(next===0)cart.delete(index);else cart.set(index,next);
  paintFloat();return true;
 }
+// Buttons in product grids add without navigating or opening the order dialog.
+function addFromButton(button,name){
+ var previous=float.querySelector('b')?.textContent||'0';
+ if(!change(name,1))return;
+ var badge=float.querySelector('b');
+ if(badge)badge.textContent=previous;
+ var motion=window.TLECartMotion?.flyDot(button,float,{
+   badge:badge,color:tone,onLand:paintFloat
+ });
+ if(!motion)paintFloat();
+}
 function htmlRows(){
  return rows().map(function(x){return '<div class="tle-order-line"><strong>'+safe(x.item.name)+'<br><small>'+fmt(x.item.priceCents)+' '+tr('each','c/u')+'</small></strong><div class="tle-order-stepper"><button type="button" data-action="remove" data-name="'+safe(x.item.name)+'" aria-label="'+safe(tr('Remove one','Quitar uno'))+'">−</button><span>'+x.qty+'</span><button type="button" data-action="increase" data-name="'+safe(x.item.name)+'" aria-label="'+safe(tr('Add one','Añadir uno'))+'">+</button></div><b>'+fmt(x.qty*x.item.priceCents)+'</b></div>'}).join('')
 }
@@ -175,7 +186,7 @@ function decorate(){
   if(card.querySelector('[data-tle-order-add]'))return;
   var title=card.querySelector('h3');if(!title||!find(title.textContent))return;
   var b=document.createElement('button');b.type='button';b.dataset.tleOrderAdd=title.textContent;b.textContent=tr('Add to cart +','Añadir al carrito +');b.style.setProperty('--toc-accent',tone);
-  b.addEventListener('click',function(){change(title.textContent,1);open('cart')});var body=card.querySelector('.tle-price-card-body');if(body)body.appendChild(b);
+  b.addEventListener('click',function(){addFromButton(b,title.textContent)});var body=card.querySelector('.tle-price-card-body');if(body)body.appendChild(b);
  });
  // Add a non-intrusive purchase action beside individual priced dishes, not inside a nested button.
  if(slug==='wok-social'||slug==='havana-19'){
@@ -183,7 +194,7 @@ function decorate(){
    if(card.querySelector('.tle-order-inline-add'))return;
    var title=card.querySelector('h3'),item=title&&find(title.textContent);if(!item)return;
    var b=document.createElement('button');b.type='button';b.className='tle-order-inline-add';b.textContent=tr('Add · ','Añadir · ')+fmt(item.priceCents);b.style.setProperty('--toc-accent',tone);
-   b.addEventListener('click',function(){change(item.name,1);open('cart')});card.appendChild(b);
+   b.addEventListener('click',function(){addFromButton(b,item.name)});card.appendChild(b);
   });
  }
 }
@@ -230,7 +241,7 @@ function augmentNative(){
   // Bind a single observer per product title, even as gallery cards change.
   if(pd&&title&&!title.dataset.tleOrderBridgeObserver){title.dataset.tleOrderBridgeObserver='1';var attach=function(){var item=find(title.textContent);var b=pd.querySelector('[data-tle-product-bridge]');
    if(!item){if(b)b.hidden=true;return}if(!b){b=document.createElement('button');b.type='button';b.className='tle-order-inline-add';b.dataset.tleProductBridge='1';b.style.setProperty('--toc-accent',tone);pd.querySelector('.dialog-copy')?.appendChild(b);
-    b.addEventListener('click',function(){var i=find(title.textContent);if(i){change(i.name,1);pd.close();open('cart')}})}
+    b.addEventListener('click',function(){var i=find(title.textContent);if(i){addFromButton(b,i.name);pd.close()}})}
    b.hidden=false;b.textContent=tr('Add to cart · ','Añadir al carrito · ')+fmt(item.priceCents);
   };new MutationObserver(attach).observe(title,{childList:true,subtree:true});attach()}
  }
