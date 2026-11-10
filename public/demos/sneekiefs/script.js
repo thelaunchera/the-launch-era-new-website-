@@ -65,13 +65,17 @@ function closeDialog(restore=true){
   state.active=null;state.quickId=null;state.preview=false;
   if(restore&&state.returnFocus&&document.contains(state.returnFocus))state.returnFocus.focus();
 }
-function addToBag(id,size){
+function addToBag(id,size,trigger){
   if(!size){notify(t("chooseSize"));const btn=document.querySelector('[data-pid="'+id+'"]');btn?.focus();return false;}
   const p=items.find(x=>x.id===id);if(!p)return false;
   state.confirmed=false;state.receipt=null;
   const line=cart.find(x=>x.id===id&&x.size===size);
   if(line)line.qty++;else cart.push({id,size,qty:1});
-  updateBagCount();renderBag();notify(t("added")+": "+p.name+" / US "+size);
+  renderBag();notify(t("added")+": "+p.name+" / US "+size);
+  const motion=window.TLECartMotion?.flyDot(trigger,$("#bagOpen"),{
+    badge:$("#bagCount"),color:"#75A8E8",onLand:updateBagCount
+  });
+  if(!motion)updateBagCount();
   return true;
 }
 function updateBagCount(){$("#bagCount").textContent=cart.reduce((a,b)=>a+b.qty,0);}
@@ -115,10 +119,10 @@ document.addEventListener("click",ev=>{
  const target=ev.target instanceof Element?ev.target:null;if(!target)return;
  const filter=target.closest("[data-filter]");if(filter){state.filter=filter.dataset.filter;document.querySelectorAll("[data-filter]").forEach(b=>{const yes=b.dataset.filter===state.filter;b.classList.toggle("active",yes);b.setAttribute("aria-pressed",String(yes));});renderCollection();return;}
  const size=target.closest("[data-size]");if(size){chosen.set(size.dataset.pid,Number(size.dataset.size));syncSizes(size.dataset.pid);return;}
- const add=target.closest("[data-add]");if(add){addToBag(add.dataset.add,chosen.get(add.dataset.add));return;}
+ const add=target.closest("[data-add]");if(add){addToBag(add.dataset.add,chosen.get(add.dataset.add),add);return;}
  const quick=target.closest("[data-quick]");if(quick){openDialog("quick");renderQuick(quick.dataset.quick);return;}
  const qs=target.closest("[data-quick-size]");if(qs){chosen.set(state.quickId,Number(qs.dataset.quickSize));syncSizes(state.quickId);return;}
- const qa=target.closest("[data-quick-add]");if(qa){if(addToBag(qa.dataset.quickAdd,chosen.get(qa.dataset.quickAdd))){closeDialog(false);openDialog("bag");state.returnFocus=$("#bagOpen");}return;}
+ const qa=target.closest("[data-quick-add]");if(qa){if(addToBag(qa.dataset.quickAdd,chosen.get(qa.dataset.quickAdd),qa))closeDialog();return;}
  const step=target.closest("[data-step]");if(step){const line=cart[Number(step.dataset.index)];if(line){line.qty=Math.max(0,Math.min(20,line.qty+Number(step.dataset.step)));if(line.qty===0)cart.splice(Number(step.dataset.index),1);updateBagCount();renderBag();}return;}
  const rem=target.closest("[data-remove]");if(rem){cart.splice(Number(rem.dataset.remove),1);updateBagCount();renderBag();return;}
  if(target.closest("#completeDemoOrder")&&state.preview&&cart.length){const lines=cart.map(line=>{const p=items.find(x=>x.id===line.id);return {name:p.name,size:line.size,qty:line.qty,price:p.price}});state.receipt={lines,total:lines.reduce((n,line)=>n+line.price*line.qty,0)};cart.length=0;updateBagCount();state.preview=false;state.confirmed=true;renderBag();$("#bagItems").scrollTop=0;return;}
