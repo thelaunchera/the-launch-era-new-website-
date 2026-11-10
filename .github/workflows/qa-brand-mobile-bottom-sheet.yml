@@ -1,0 +1,44 @@
+name: Brand Mobile Bottom Sheet QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'public/assets/tle-demo-mobile-checkout-sheet-20261110.css'
+      - 'public/demos/freska/index.html'
+      - 'public/demos/sneekiefs/index.html'
+      - 'public/demos/la-vie-in-pink/index.html'
+      - 'public/demos/lavender-edit/index.html'
+      - 'scripts/qa-brand-mobile-bottom-sheet-20261110.mjs'
+      - '.github/workflows/qa-brand-mobile-bottom-sheet.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sheet-qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check browser test syntax
+        run: node --check scripts/qa-brand-mobile-bottom-sheet-20261110.mjs
+      - name: Install isolated Chromium and WebKit
+        run: |
+          mkdir -p /tmp/tle-sheet-qa
+          npm install --no-audit --no-fund --prefix /tmp/tle-sheet-qa playwright@1.57.0
+          /tmp/tle-sheet-qa/node_modules/.bin/playwright install --with-deps chromium webkit
+          mkdir -p node_modules
+          ln -sfn /tmp/tle-sheet-qa/node_modules/playwright node_modules/playwright
+          ln -sfn /tmp/tle-sheet-qa/node_modules/playwright-core node_modules/playwright-core
+      - name: Check all four native carts on iPhone WebKit and Chrome
+        run: |
+          python3 -m http.server 4197 --bind 127.0.0.1 --directory public >/tmp/tle-sheet-server.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for n in $(seq 1 25); do
+            if curl -fsS http://127.0.0.1:4197/demos/freska/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4197 node scripts/qa-brand-mobile-bottom-sheet-20261110.mjs
