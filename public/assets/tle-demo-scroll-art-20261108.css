@@ -25,6 +25,9 @@ html[data-tle-one-motion="seasonal-brew"] {--tle-scroll-duration:1580ms;--tle-sc
 html[data-tle-one-motion="soluna-yoga"] {--tle-scroll-duration:1800ms;--tle-scroll-rise:translate3d(0,9px,0);--tle-scroll-image:translate3d(0,7px,0);--tle-scroll-mask:inset(5% 0 0 0)}
 html[data-tle-one-motion="wok-social"] {--tle-scroll-duration:1250ms;--tle-scroll-rise:translate3d(21px,0,0);--tle-scroll-image:translate3d(-18px,0,0);--tle-scroll-mask:inset(0 0 0 12%)}
 html[data-tle-one-motion="yummm"] {--tle-scroll-duration:1500ms;--tle-scroll-rise:translate3d(0,18px,0);--tle-scroll-image:translate3d(0,11px,0) scale(1.018);--tle-scroll-mask:inset(8% 0 0 0)}
+/* New brand profiles reuse existing effects without modifying their approved heroes. */
+html[data-tle-one-motion="freska"] {--tle-scroll-duration:1050ms;--tle-scroll-rise:translate3d(0,18px,0);--tle-scroll-image:translate3d(-16px,0,0) scale(.99);--tle-scroll-mask:inset(0 10% 0 0)}
+html[data-tle-one-motion="sneekiefs"] {--tle-scroll-duration:1200ms;--tle-scroll-rise:translate3d(19px,0,0);--tle-scroll-image:translate3d(17px,0,0);--tle-scroll-mask:inset(0 0 0 9%)}
 html[data-tle-one-motion="jaramillo-boutique"] {--tle-scroll-duration:1450ms;--tle-scroll-rise:translate3d(-20px,0,0);--tle-scroll-image:translate3d(0,14px,0);--tle-scroll-mask:inset(0 12% 0 0)}
 /* JS opts each editorial element in, and replays after it leaves/re-enters. No pre-JS hiding. */
 html[data-tle-one-motion] .tle-scroll-pending{
