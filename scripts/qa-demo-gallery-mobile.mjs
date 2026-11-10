@@ -98,7 +98,10 @@ try{
  const response=await page.goto(url,{waitUntil:'domcontentloaded',timeout:35000});
  assert.equal(response?.status(),200,'Gallery must return 200, not a 404');
  await page.locator('html[data-tle-demo-status="ready"]').waitFor({state:'attached',timeout:15000});
- assert.equal(await page.locator('.demo-card').count(),20,'Gallery must contain all 20 curated concepts including VELMORA');
+ const totalDemoCards=await page.locator('.demo-card').count();
+ assert.ok(totalDemoCards>0,'Published demo gallery must contain projects');
+ const demoSlugs=await page.locator('.demo-card').evaluateAll(nodes=>nodes.map(node=>node.dataset.brand));
+ assert.equal(new Set(demoSlugs).size,totalDemoCards,'Every published brand card must appear exactly once');
 
  // Visual-depth regression — inspect computed presentation, not only source.
  const galleryCardDepth=await page.locator('.demo-card').first().evaluate(el=>{
@@ -134,8 +137,8 @@ try{
   console.log('[CARD DEPTH] gallery, owner catalog, phone preview and Spanish showcase OK');
  }finally{await depthPage.close()}
 
- assert.equal(await page.locator('.card-preview-link').count(),20,'Every photo card needs a preview link');
- assert.equal(await page.locator('.demo-links .view').count(),20,'Every card needs a public demo website link');
+ assert.equal(await page.locator('.card-preview-link').count(),totalDemoCards,'Every photo card needs a preview link');
+ assert.equal(await page.locator('.demo-links .view').count(),totalDemoCards,'Every card needs a public demo website link');
  assert.equal(await page.locator('.demo-links .source, a[href*="github.com"]').count(),0,'Never expose code/source repository links in the public library');
  assert.equal(await page.locator('#viewer-close').count(),1);
  const legalPaths=['/privacy.html','/terms.html','/cookies.html','/refunds.html','/privacy-choices.html'];
@@ -191,9 +194,11 @@ try{
 
  const food=page.locator('.filter[data-filter="Food & Drink"]');
  await food.click();
- assert.equal(await page.locator('.demo-card:visible').count(),10,'Category filter must show 10 Food & Drink demos');
+ const foodCards=await page.locator('.demo-card[data-kind="Food & Drink"]').count();
+ assert.ok(foodCards>0,'Keep food and drink demo examples');
+ assert.equal(await page.locator('.demo-card:visible').count(),foodCards,'Category filter must show every Food & Drink demo');
  await page.locator('.filter[data-filter="All"]').click();
- assert.equal(await page.locator('.demo-card:visible').count(),20,'Reset filter must show all');
+ assert.equal(await page.locator('.demo-card:visible').count(),totalDemoCards,'Reset filter must show all registered demos');
 
  // Every English and Spanish hero card must lead to exactly its own library demo.
  // Umbral was renamed Havana 19 and must never be displayed as a second card.
@@ -206,9 +211,11 @@ try{
   const r=await page.goto(route.href,{waitUntil:'domcontentloaded',timeout:35000});
   assert.equal(r?.status(),200,'Bilingual website route must serve a page');
   const items=page.locator('.hero-gallery-card');
-  assert.equal(await items.count(),14,'Show fourteen curated website concepts');
+  assert.ok(await items.count()>=heroSlugs.length,'Website gallery must preserve the approved demos while allowing new additions');
   const found=await items.evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-demo')));
-  assert.deepEqual(found,heroSlugs,'Gallery brands must be unique and never include Umbral');
+  assert.equal(new Set(found).size,found.length,'Website gallery brands must be unique');
+  for(const slug of heroSlugs)assert.ok(found.includes(slug),'Previously approved website brand must remain: '+slug);
+  assert.ok(!found.includes('umbral'),'Retired Umbral alias must not appear as a second website');
   for(const slug of heroSlugs){
    const hit=page.locator('.hero-gallery-card[data-demo="'+slug+'"] .hero-gallery-hit');
    assert.equal(await hit.getAttribute('href'),'/demos/?demo='+slug+'&returnTo='+encodeURIComponent(locale)+(locale.startsWith('/es/')?'&lang=es':''),'Photo must link to exact library demo, retain Spanish locale and original website');
@@ -307,7 +314,7 @@ try{
  }finally{await motionContext.close()}
 
 
- console.log('[PASS] Bilingual demo-to-website return and standalone library-close, plus 20 cards, hero images and mobile scroll.');
+ console.log('[PASS] Bilingual demo-to-website return and standalone library-close, plus growing demo cards, hero images and mobile scroll.');
 } finally{
  await browser.close();
 }

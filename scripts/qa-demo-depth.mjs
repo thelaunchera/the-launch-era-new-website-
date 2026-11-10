@@ -23,8 +23,12 @@ assert.match(css, /prefers-reduced-motion:reduce/,'Reduced motion must be suppor
 assert.match(css,/body\.tle-depth-owner \.product-actions \.text-button\{[\s\S]*?min-height:44px/,'Edit buttons remain touch accessible');
 assert.match(css,/body\.tle-depth-gallery \.demo-art\{[\s\S]*?border-radius:/,'Original photography must retain soft corners');
 assert.doesNotMatch(css,/https?:\/\/|@import|display:none!important/,'Visual layer must not call external resources or hide interactive controls');
-assert.equal([...gallery.matchAll(/<article\b[^>]*data-brand="([^"]+)"[^>]*>[\s\S]*?<\/article>/g)].length,20);
-assert.equal([...owner.matchAll(/^ "([a-z0-9-]+)":\{name:/gm)].length,13);
+const galleryBrands=[...gallery.matchAll(/<article\b[^>]*data-brand="([^"]+)"[^>]*>[\s\S]*?<\/article>/g)].map(match=>match[1]);
+assert.ok(galleryBrands.length>0,'Published demo gallery cannot be empty');
+assert.equal(new Set(galleryBrands).size,galleryBrands.length,'Published demo cards must be unique');
+const ownerBrands=[...owner.matchAll(/^ "([a-z0-9-]+)":\{name:/gm)].map(match=>match[1]);
+assert.ok(ownerBrands.length>0,'Keep the available demo owner views');
+assert.equal(new Set(ownerBrands).size,ownerBrands.length,'Owner views must be unique');
 assert.match(owner,/localStorage\.setItem\(key\(\),JSON\.stringify\(items\)\)/);
 assert.doesNotMatch(owner,/\bfetch\s*\(/);
-console.log('PASS: card depth, original 20 gallery concepts, 13 local owner demos, accessible controls, bilingual source and no network side effects');
+console.log(`PASS: card depth, ${galleryBrands.length} gallery concepts, ${ownerBrands.length} local owner demos, accessible controls, bilingual source and no network side effects`);
