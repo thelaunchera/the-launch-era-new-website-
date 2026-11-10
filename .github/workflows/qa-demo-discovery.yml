@@ -1,0 +1,55 @@
+name: Brand Discovery — 19 Demo QA
+on:
+  push:
+    branches: [main]
+    paths:
+      - public/assets/tle-demo-discovery-20261110.js
+      - public/demos/**
+      - public/experience-cleaning/index.html
+      - scripts/qa-demo-discovery-20261110.mjs
+      - .github/workflows/qa-demo-discovery.yml
+  pull_request:
+    paths:
+      - public/assets/tle-demo-discovery-20261110.js
+      - public/demos/**
+      - public/experience-cleaning/index.html
+      - scripts/qa-demo-discovery-20261110.mjs
+      - .github/workflows/qa-demo-discovery.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: thelaunchera/demo-booking-landing-
+          path: fixtures/secondary
+      - uses: actions/checkout@v4
+        with:
+          repository: thelaunchera/demo-booking-landing-
+          ref: demo/jaramillo-boutique
+          path: fixtures/jaramillo
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --prefix fixtures/browser --no-save --package-lock=false --ignore-scripts playwright@1.56.1
+      - run: fixtures/browser/node_modules/.bin/playwright install --with-deps ${{ matrix.browser }}
+      - run: node scripts/qa-demo-discovery-20261110.mjs
+        env:
+          SECONDARY_ROOT: fixtures/secondary
+          JARAMILLO_ROOT: fixtures/jaramillo
+          BROWSER: ${{ matrix.browser }}
+          PLAYWRIGHT_PACKAGE: ../fixtures/browser/node_modules/playwright
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: brand-discovery-${{ matrix.browser }}
+          path: qa-artifacts/demo-discovery/
