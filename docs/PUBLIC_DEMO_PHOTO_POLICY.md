@@ -5,7 +5,7 @@
 ## Public surface
 - Never show `Download original PNG`, `Descargar PNG original`, equivalent download text, or an `<a download>` link to a public brand photo.
 - Photo dialogs may show a larger picture and support Close / Previous / Next.
-- The small public-demo media guard `/assets/tle-demo-view-only-media-20261110.js` is included once in every `public/demos/**/index.html`. It discourages casual image drag, desktop right-click saving and iOS long-press context menus without disabling gallery clicks.
+- The small public-demo media guard `/assets/tle-demo-view-only-media-20261110.js` is included in every `public/demos/**/index.html` and in the five standalone showcase roots: `/booking-demo/`, `/cleaning-app-demo/`, `/experience-cleaning/`, `/sample-cleaning/`, and `/portfolio/`. It discourages casual image drag, desktop right-click saving and iOS long-press context menus without disabling gallery clicks.
 - Preserve all editorial photos, thumbnails, screen-reader alt text, shopping and booking UI, reduced-motion preferences and brand-specific animations.
 - Keep source files `demo-source/**/index.html` in sync so a future build does not drop the guard.
 - New demos must pass `node scripts/qa-public-demo-view-only-media-20261110.mjs` and the iPhone-size browser test.
