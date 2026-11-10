@@ -12,7 +12,7 @@ for(const type of [chromium,webkit]){
    const res=await page.goto(root+'/portfolio/',{waitUntil:'domcontentloaded'});
    assert.equal(res?.status(),200,'Portfolio route resolves');
    await page.locator('.tle-demo-drop-item').first().waitFor({state:'attached',timeout:15000});
-   assert.equal(await page.locator('.tle-demo-drop-item').count(),9,'Nine website cards render once');
+   assert.equal(await page.locator('.tle-demo-drop-item').count(),10,'Ten website cards render once');
    assert.equal(await page.locator('.tle-brand-pill').count(),0,'No duplicated pill navigation');
    assert.equal(await page.locator('.tle-gravity-arena #tleDemoDropGrid').count(),1,'Every card is inside the same blue showcase');
    assert.equal(await page.locator('#statement .section-tag').count(),1,'Editorial section remains valid');
