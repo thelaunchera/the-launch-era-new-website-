@@ -266,9 +266,47 @@ function viewCart() {
       const sampleTotal=[...demoCart.entries()].reduce((sum,[id,n])=>sum+n*(demoPriceCents[id]||0),0);
       addText(wrapper,'p','Subtotal de ejemplo: '+formatDemoPrice(sampleTotal)+' · No se realizará ningún cobro.','status-box');
     }
+    addButton(wrapper, 'Completar pedido de prueba', confirmSampleCart);
     addButton(wrapper, 'Continuar la demostración', () => viewExperience(selectedFlavor));
   }
   openModal('Tu carrito de muestra', wrapper, 'CASA BROWNIE · SIN COMPRAS REALES');
+}
+
+function confirmSampleCart() {
+  const entries = [...demoCart.entries()].filter(([, quantity]) => quantity > 0);
+  if (!entries.length) { viewCart(); return; }
+  const receipt = entries.map(([id, quantity]) => {
+    const item = catalog.find(product => product.id === id);
+    return { id, name: item?.name || id, quantity, cents: demoPriceCents[id] || null };
+  });
+  const subtotal = receipt.every(item => item.cents != null)
+    ? receipt.reduce((sum, item) => sum + item.quantity * item.cents, 0)
+    : null;
+  demoCart.clear();
+  updateCartBadge();
+  const wrapper = document.createElement('div');
+  wrapper.className = 'cb-sample-confirmation';
+  addText(wrapper, 'h3', 'Pedido de prueba completado');
+  addText(wrapper, 'p', 'Así se vería la confirmación de tu selección. No se creó ningún pedido real, no se envió ningún correo y no se realizó ningún cobro.', 'status-box');
+  const lines = document.createElement('div');
+  lines.className = 'cart-lines';
+  for (const item of receipt) {
+    const line = document.createElement('div');
+    line.className = 'cart-line';
+    const details = document.createElement('div');
+    details.className = 'cart-line-details';
+    addText(details, 'strong', item.quantity + ' × ' + item.name);
+    addText(details, 'small', item.cents != null ? formatDemoPrice(item.cents * item.quantity) : 'Precio ilustrativo');
+    line.append(details);
+    lines.append(line);
+  }
+  wrapper.append(lines);
+  if (subtotal != null) addText(wrapper, 'p', 'Subtotal de muestra: ' + formatDemoPrice(subtotal), 'status-box');
+  addButton(wrapper, 'Probar otra selección', () => {
+    closeModal();
+    document.getElementById('brownies')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  });
+  openModal('Confirmación de pedido de prueba', wrapper, 'CASA BROWNIE · SOLO DEMOSTRACIÓN');
 }
 
 function viewFlavor(id) {
