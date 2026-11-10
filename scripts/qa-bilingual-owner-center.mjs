@@ -1,5 +1,5 @@
 /**
- * Static bilingual demo contract: 13 reusable Owner Centers, 18 portfolio
+ * Static bilingual demo contract: 13 reusable Owner Centers, 19 portfolio
  * cards, Spanish/English navigation and full-price local-only presentation.
  * No network, no real orders, no writes to customer records.
  */
@@ -42,7 +42,8 @@ assert.match(owner,/localStorage\.removeItem/);
 assert.match(owner,/Number\(p\.discount\)/);
 assert.doesNotMatch(owner,/\bfetch\(/,'Public mock owner must not send real transactions');
 const cards=[...library.matchAll(/<article\b[^>]*data-brand="([^"]+)"[^>]*>[\s\S]*?<\/article>/g)];
-assert.equal(cards.length,18,'Existing demo cards plus Sneekiefs and FRESKA remain');
+assert.equal(cards.length,19,'Existing demo cards plus Sneekiefs, FRESKA and NAIL ROOM remain');
+assert.equal(new Set(cards.map(([,slug])=>slug)).size,19,'Each portfolio card must have a unique brand');
 const linked=new Set(cards.filter(([html])=>html.includes('class="owner-view"')).map(([,slug])=>slug));
 const themes=[...owner.matchAll(/^ "([a-z0-9-]+)":\{name:"[^"]+",kind:"(menu|service)"/gm)];
 assert.equal(themes.length,13,'Exactly 13 Owner Center themes');
@@ -89,4 +90,4 @@ assert.match(requests['ivory-and-bloom'].es.cards[0][1],/Pastel floral/);
 assert.match(requests['soluna-yoga'].es.cards[0][1],/Flujo matutino/);
 assert.doesNotMatch(owner,/New inquiry · Residential/,'The old cross-business default must be removed');
 
-console.log('PASS: bilingual raspberry experience, 18 portfolio cards, 13 simulated Owner Centers, navigation and no real transactions');
+console.log('PASS: bilingual raspberry experience, 19 portfolio cards, 13 simulated Owner Centers, navigation and no real transactions');
