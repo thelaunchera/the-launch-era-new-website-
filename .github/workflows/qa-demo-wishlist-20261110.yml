@@ -6,6 +6,10 @@ on:
       - 'public/assets/tle-demo-wishlist-20261110.*'
       - 'public/demos/lavender-edit/**'
       - 'public/demos/sneekiefs/**'
+      - 'public/demos/marea-wigs-miami/**'
+      - 'public/assets/tle-lavanda-wishlist-page-20261110.*'
+      - 'public/assets/tle-sneekiefs-wishlist-page-20261110.*'
+      - 'public/assets/tle-marea-wishlist-page-20261110.*'
       - 'scripts/qa-demo-wishlist-20261110.mjs'
       - '.github/workflows/qa-demo-wishlist-20261110.yml'
   workflow_dispatch:
@@ -22,6 +26,9 @@ jobs:
       - name: Parse scripts and validate routes
         run: |
           node --check public/assets/tle-demo-wishlist-20261110.js
+          node --check public/assets/tle-lavanda-wishlist-page-20261110.js
+          node --check public/assets/tle-sneekiefs-wishlist-page-20261110.js
+          node --check public/assets/tle-marea-wishlist-page-20261110.js
           node --check public/demos/lavender-edit/boutique-shop-20261109.js
           node --check public/demos/sneekiefs/script.js
           node --check scripts/qa-demo-wishlist-20261110.mjs
