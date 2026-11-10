@@ -28,7 +28,7 @@ if (heroVideo) {
 // No reordenar secciones después de renderizar: evita saltos visuales en móvil.
 
 
-const demoPriceCents={clasico:600,nuez:630,dulce:750};
+const demoPriceCents={clasico:600,nuez:630,dulce:750,frambuesa:700,oreo:700,especial:800};
 const formatDemoPrice=cents=>'$'+(cents/100).toFixed(2);
 const catalog = [
   {
