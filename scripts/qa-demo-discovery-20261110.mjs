@@ -36,6 +36,7 @@ const trigger=cfg[4][index][4];if(trigger&&await page.locator(trigger).count()){
 const selected=await page.locator(trigger).getAttribute('aria-pressed');if(selected!==null)assert.equal(selected,'true',brand+' native filter');}
 }
 assert.deepEqual(errors,[],brand+' errors after shortcut');
+await page.locator('#tle-brand-discovery .td-track').evaluate(track=>{track.scrollLeft=0});
 await page.locator('#tle-brand-discovery').scrollIntoViewIfNeeded();await page.screenshot({path:out+'/'+brand+'-'+width+'-'+(process.env.BROWSER||'chromium')+'.png'});
 report.push({brand,width,passed:true,preExistingErrors:baseline});console.log('PASS',brand,width);await page.close();
 }}finally{fs.writeFileSync(out+'/results-'+(process.env.BROWSER||'chromium')+'.json',JSON.stringify(report,null,2));await browser.close();server.close()}

@@ -1240,3 +1240,5 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 - Validation: all 19 DOM fixtures passed placement, three real destinations, EN/ES synchronization and no duplicate image nodes. Required static/recovery/tenant/decorative checks passed. Chromium/WebKit CI at mobile and desktop and final Pages/live proof are separate pending stages; do not label physical iPhone QA complete.
 
 - Browser regression found the existing sample-price helper inserts its original service section 250ms after DOM ready. Discovery now observes direct main-section insertion and restores its position once, keeping the same native service prices immediately after it. CI explicitly waits for that delayed native enhancement before checking the order.
+
+- WebKit fixture exposed unreliable automatic scrolling to the third 82%-width service shortcut. Service/wellness discovery now uses three compact stacked cards on phones, with every choice reachable by ordinary vertical scrolling; other brand rails retain native swipe. New headings inherit each brand's original heading family, and La Vie's menu shortcut uses its actual latte/croissant photo.
