@@ -10,7 +10,7 @@ const catalogs={
  "la-vie-in-pink":{tone:"#813942",kind:"menu",items:[["Butter Croissant",6,0,"/demos/la-vie-in-pink/resources/8572492e-4032-4e82-a5d3-7e087ec38613.png"],["Café Crème",5,10,"/demos/la-vie-in-pink/resources/3674f67a-abe7-4116-b01c-19afb41ae3d5.png"],["Weekend Brunch",22,0,"/demos/la-vie-in-pink/resources/28efa0a2-eefe-40b3-9398-b25bb8e0532a.png"]]},
  "havana-19":{tone:"#813a32",kind:"menu",items:[["Ropa Vieja",24,0,"/demos/umbral/photos/UMBRAL_03_Ropa_Vieja.jpeg"],["Camarones Enchilados",27,10,"/demos/umbral/photos/UMBRAL_02_Camarones_Enchilados.jpeg"],["Flan de la Casa",9,0,"/demos/umbral/photos/UMBRAL_04_Flan.jpeg"]]},
  "ivory-and-bloom":{tone:"#b48799",kind:"menu",items:[["Blush Garden",240,0,"/demos/ivory-and-bloom/images/rose-heirloom-pink.webp"],["Midnight Ribbon",280,0,"/demos/ivory-and-bloom/images/midnight-romance-black.webp"],["Sweet Table",85,10,"/demos/ivory-and-bloom/images/raspberry-tartlets.webp"]]},
- "casa-brownie":{tone:"#83513e",kind:"menu",items:[["Brownie Clásico",6,0,"/demos/casa-brownie/assets/sabor-clasico.webp"],["Brownie con Nuez",7,10,"/demos/casa-brownie/assets/sabor-nuez.webp"],["Dulce de Leche",7.5,0,"/demos/casa-brownie/assets/sabor-dulce-de-leche.webp"]]},
+ "casa-brownie":{tone:"#83513e",kind:"menu",items:[["Brownie Clásico",6,0,"/demos/casa-brownie/assets/sabor-clasico.webp"],["Brownie con Nuez",7,10,"/demos/casa-brownie/assets/sabor-nuez.webp"],["Dulce de Leche",7.5,0,"/demos/casa-brownie/assets/sabor-dulce-de-leche.webp"],["Frambuesa",7,0,"/demos/casa-brownie/assets/sabor-frambuesa.webp"],["Oreo",7,0,"/demos/casa-brownie/assets/sabor-oreo.webp"],["Edición especial",8,0,"/demos/casa-brownie/assets/sabor-especial.webp"]]},
  "marea-wigs-miami":{tone:"#397c72",kind:"service",items:[["Private Consultation",65,0,""],["Personal Styling Session",110,15,""],["Wig Care Session",85,0,""]]},
  "lavender-edit":{tone:"#8d75b2",kind:"service",items:[["Lavender Ritual",85,0,"/demos/lavender-edit/photos/03_Lavender_Ritual.png"],["Daily Ritual",115,10,"/demos/lavender-edit/photos/07_Daily_Ritual.png"],["Lavender Gifting Edit",45,0,"/demos/lavender-edit/photos/05_Lavender_Gifting.png"]]},
  "experience-cleaning":{tone:"#497c99",kind:"service",items:[["Standard Home Cleaning",120,0,"/experience-cleaning/photos/portfolio_living_finished.webp"],["Deep Cleaning",220,15,"/experience-cleaning/photos/portfolio_kitchen_finished.webp"],["Move-In / Move-Out",290,0,"/experience-cleaning/photos/portfolio_cleaning_action.webp"]]},
@@ -25,6 +25,9 @@ if(cfg){
  window.TLE_DEMO_PRICE_CATALOGS=window.TLE_DEMO_PRICE_CATALOGS||{};
  window.TLE_DEMO_PRICE_CATALOGS[slug]={kind:cfg.kind,tone:cfg.tone,items:cfg.items.map(([name,price,discount,image])=>({name,priceCents:Math.round(Number(price)*100*(1-Number(discount||0)/100)),image}))};
 }
+// Casa Brownie has its own complete six-flavor menu. Keep price data available
+// for its separate order journey, but do not inject a competing 3-card menu.
+if(slug==="casa-brownie")return;
 if(!cfg||!document.body)return;
 const fmt=v=>"$"+Number(v).toFixed(2);
 const after=(p,d)=>Math.round(p*100*(1-d/100))/100;
