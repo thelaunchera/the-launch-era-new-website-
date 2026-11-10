@@ -23,6 +23,32 @@ for(const engine of [chromium,webkit]){
     page.on('pageerror',e=>errors.push(String(e)));
     const response=await page.goto(origin+path(brand.slug),{waitUntil:'domcontentloaded'});
     assert.equal(response?.status(),200,brand.slug+' page should load');
+    // La Vie in Pink's approved café redesign replaced the old supplemental
+    // price insert with six native menu cards and a browser-only sample bag.
+    // Check the actual prices beside the products, never inject duplicate cards.
+    if(brand.slug==='la-vie-in-pink'){
+      await page.waitForFunction(()=>document.querySelectorAll('#menu-grid .menu-card .price-wrap strong').length===6,null,{timeout:12000});
+      const native=await page.evaluate(()=>{
+        const cards=[...document.querySelectorAll('#menu-grid .menu-card')];
+        const menu=document.querySelector('section#menu');
+        return {
+          cards:cards.length,
+          prices:cards.map(card=>card.querySelector('.price-wrap strong')?.textContent.trim()),
+          addButtons:cards.filter(card=>card.querySelector('button[data-add][aria-label]')).length,
+          extraPriceSection:document.querySelectorAll('section#tle-demo-sample-prices').length,
+          insideViewport:menu&&menu.getBoundingClientRect().left>=-2&&menu.getBoundingClientRect().right<=innerWidth+2
+        };
+      });
+      assert.equal(native.cards,6,'La Vie in Pink preserves six real menu preview products');
+      assert.deepEqual(native.prices,['$6.75','$7.25','$6.25','$8.00','$8.50','$16.00'],'La Vie in Pink keeps the existing native sample prices');
+      assert.equal(native.addButtons,6,'All six menu cards keep their accessible sample bag actions');
+      assert.equal(native.extraPriceSection,0,'Do not add duplicate example-price cards to La Vie in Pink');
+      assert.ok(native.insideViewport,'La Vie in Pink native menu stays within '+width+'px viewport');
+      assert.deepEqual(errors,[],'La Vie in Pink native menu runtime errors');
+      console.log('NATIVE MENU PRICES PASS',engine.name(),brand.slug,width,JSON.stringify(native));
+      await page.close();
+      continue;
+    }
     const pricing=page.locator('section#tle-demo-sample-prices');
     await page.waitForFunction(()=>document.querySelector('#tle-demo-sample-prices')||document.querySelector('.tle-demo-customer-price'),null,{timeout:12000});
     if(await pricing.count()===0){
