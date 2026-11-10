@@ -16,7 +16,9 @@ for(const type of [chromium,webkit]){
    assert.equal(await page.locator('#tleGravityStage .tle-brand-pill').count(),9,'No duplicate physics tags');
    assert.equal(await page.locator('#statement .section-tag').count(),1,'Editorial section must use valid HTML');
    assert.equal(await page.locator('#tleGravityTitle').count(),1,'Physics section heading is identified');
-   assert.ok((await page.locator('#heroPoster').getAttribute('src')).includes('founder-poster.jpg'),'Poster is specified before scripts');
+   const initialHtml=await response.text();
+   assert.ok(initialHtml.includes('id="heroPoster" class="hero-poster" src="/portfolio/media/founder-poster.jpg"'),
+     'Approved poster is in the original HTML before the video script runs');
    const over=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
    assert.ok(over<5,'No horizontal overflow at '+width+'px: '+over);
    await page.locator('.tle-demo-drop-item').first().click({force:true});
