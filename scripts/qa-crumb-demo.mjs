@@ -74,7 +74,9 @@ results.push('Local delivery information opens and returns to gift builder');
 const expectedPrices = {classic:450, double:425, caramel:500, raspberry:550, nutty:700, brownie:500};
 for(const [id,cents] of Object.entries(expectedPrices)) {
   const formatted = '$' + (cents/100).toFixed(2);
-  assert.equal(d.querySelector('[data-price-for="'+id+'"]').textContent,formatted+' each');
+  const cardPrice = d.querySelector('[data-price-for="'+id+'"]').textContent;
+  assert.ok(cardPrice.startsWith(formatted+' each'),'Catalog price must match current site for '+id);
+  if(id==='double')assert.match(cardPrice,/15% off \$5\.00/,'Preserve existing discount label');
   assert.equal(d.querySelector('[data-builder-price="'+id+'"]').textContent,formatted);
 }
 assert.equal(d.querySelectorAll('[data-price-for]').length,6);
