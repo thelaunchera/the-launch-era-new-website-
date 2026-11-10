@@ -31,6 +31,9 @@ const scenarios=[
  ['casa-brownie',async page=>{
    await page.locator('.flavor[data-flavor="clasico"]').first().click();
    await page.locator('.modal-primary').filter({hasText:'Añadir al carrito de muestra'}).click();
+   // Item fly-to-cart must not open the bag; visitors open it explicitly.
+   await page.locator('#modal-close').click();
+   await page.locator('#demo-order').click();
    await page.getByRole('button',{name:'Completar pedido de prueba'}).waitFor({state:'visible',timeout:10000});
    await page.getByRole('button',{name:'Completar pedido de prueba'}).click();
    assert.match(await page.locator('#modal-root').innerText(),/Pedido de prueba completado/);
