@@ -69,6 +69,39 @@
  .tle-gravity-replay{display:none}
 }
 
+
+/* Website miniature drop gallery: photograph, tiny browser chrome, branded pill. */
+.tle-demo-drop-section{background:#FAF8F3;padding:clamp(68px,9vw,124px) clamp(18px,5vw,90px) clamp(70px,9vw,115px);overflow:clip}
+.tle-demo-drop-heading{max-width:1350px;margin:0 auto 38px;display:flex;justify-content:space-between;align-items:end;gap:28px}
+.tle-demo-drop-eyebrow{display:block;font-size:10px;font-weight:800;letter-spacing:.16em;margin-bottom:17px}
+.tle-demo-drop-heading h2{font-family:'Prompt',sans-serif;font-size:clamp(38px,5.8vw,76px);font-weight:500;line-height:1.09;letter-spacing:-.068em;margin:0}
+.tle-demo-drop-heading h2 em{font-style:normal;background:linear-gradient(transparent 66%,#F2D85B 66%)}
+.tle-demo-drop-heading p{max-width:325px;color:#53616b;font-size:14px;line-height:1.75;margin:0}
+.tle-demo-drop-grid{max-width:1310px;margin:0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:clamp(12px,2.6vw,42px);row-gap:clamp(22px,3vw,42px)}
+.tle-demo-drop-item{appearance:none;border:1px solid #1919190e;border-radius:25px;background:linear-gradient(155deg,#fffdf8,#eaf4fc 120%);color:#191919;min-width:0;min-height:245px;display:flex;align-items:center;justify-content:end;flex-direction:column;padding:20px 13px 22px;position:relative;isolation:isolate;cursor:pointer;touch-action:manipulation;box-shadow:0 8px 30px #19191908;transition:border-color .25s,box-shadow .25s}
+.tle-demo-drop-item::before{content:'';position:absolute;left:13%;right:13%;bottom:53px;height:22px;background:#19191912;filter:blur(17px);border-radius:50%;z-index:-1}
+.tle-demo-drop-item:hover{border-color:#19191942;box-shadow:0 18px 45px #19191913}
+.tle-demo-drop-item:focus-visible{outline:3px solid #168dd2;outline-offset:4px}
+.tle-mini-browser-fall{display:block;width:min(78%,250px);transform:translate3d(0,-138px,0) rotate(-13deg) scale(.9);opacity:0;transform-origin:50% 90%;z-index:2;pointer-events:none;will-change:transform}
+.tle-mini-browser{display:block;transform:rotate(-4deg);background:#fff;border:5px solid #fff;border-radius:14px;overflow:hidden;box-shadow:0 20px 42px #1919192b,0 3px 9px #19191920;aspect-ratio:1.41;transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s ease}
+.tle-demo-drop-item:nth-child(3n+2) .tle-mini-browser{transform:rotate(5deg)}
+.tle-demo-drop-item:nth-child(3n) .tle-mini-browser{transform:rotate(-3deg)}
+.tle-demo-drop-item:hover .tle-mini-browser,.tle-demo-drop-item:focus-visible .tle-mini-browser{transform:translateY(-7px) rotate(0deg);box-shadow:0 25px 50px #19191929}
+.tle-mini-bar{height:22px;padding:0 7px;display:flex;align-items:center;gap:4px;background:#fff;overflow:hidden}
+.tle-mini-bar i{width:5px;height:5px;flex:0 0 5px;background:#cbd0d2;border-radius:50%}
+.tle-mini-bar b{margin-left:auto;max-width:73%;font-size:8px;letter-spacing:.045em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:750;color:#51585c}
+.tle-mini-browser img{display:block;width:100%;height:calc(100% - 22px);object-position:center;aspect-ratio:1.38;background:#d7efff}
+.tle-mini-pill{display:inline-flex;justify-content:center;align-items:center;margin-top:-5px;max-width:100%;min-height:44px;min-width:min(88%,250px);border:1.5px solid #191919;border-radius:999px;padding:10px 14px;font-size:clamp(11px,1.02vw,15px);font-weight:850;line-height:1.2;letter-spacing:.01em;box-shadow:0 5px 0 #19191912;position:relative;z-index:1;text-align:center;background:#faf8f3}
+.tle-mini-pill[data-tone=yellow]{background:#f2d85b}.tle-mini-pill[data-tone=blue]{background:#d7efff}.tle-mini-pill[data-tone=dark]{background:#191919;color:#faf8f3}.tle-mini-pill[data-tone=ivory]{background:#faf8f3}
+.tle-mini-note{display:block;font-size:9px;font-weight:800;letter-spacing:.13em;color:#52616b;margin-top:15px}
+.tle-demo-drop-item.is-landed .tle-mini-browser-fall{animation:tle-mini-drop .96s both cubic-bezier(.2,.8,.2,1);animation-delay:var(--drop-delay,0ms)}
+@keyframes tle-mini-drop{0%{opacity:0;transform:translate3d(0,-138px,0) rotate(-17deg) scale(.9)}45%{opacity:1}61%{transform:translate3d(0,18px,0) rotate(7deg) scale(1.03)}78%{transform:translate3d(0,-11px,0) rotate(-3deg) scale(.99)}89%{transform:translate3d(0,4px,0) rotate(1deg) scale(1)}100%{opacity:1;transform:translate3d(0,0,0) rotate(0) scale(1)}}
+@media(max-width:900px){.tle-demo-drop-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tle-demo-drop-item{min-height:222px}}
+@media(max-width:760px){.tle-demo-drop-section{padding:68px 17px 80px}.tle-demo-drop-heading{display:block;margin-bottom:25px}.tle-demo-drop-heading h2{font-size:clamp(35px,9.5vw,55px)}.tle-demo-drop-heading p{font-size:13px;max-width:400px;margin-top:18px}.tle-demo-drop-grid{gap:11px}.tle-demo-drop-item{border-radius:17px;min-height:184px;padding:15px 6px 14px}.tle-mini-browser-fall{width:min(92%,180px)}.tle-mini-browser{border-width:3px;border-radius:10px}.tle-mini-bar{height:17px;padding:0 5px;gap:3px}.tle-mini-bar i{width:4px;height:4px;flex-basis:4px}.tle-mini-bar b{font-size:6.5px}.tle-mini-browser img{height:calc(100% - 17px)}.tle-mini-pill{padding:9px 7px;min-width:90%;min-height:43px;font-size:clamp(9px,2.8vw,12px);margin-top:-3px}.tle-mini-note{font-size:8px;margin-top:12px}}
+@media(max-width:360px){.tle-demo-drop-item{min-height:170px}.tle-mini-pill{font-size:9px}.tle-mini-note{font-size:7px}}
+@media(max-width:760px){.about{grid-template-columns:minmax(0,1fr)}.about-visual,.about-copy{min-width:0;max-width:100%}}
+@media(max-width:380px){.about h2 em{white-space:normal}}
+@media(prefers-reduced-motion:reduce){.tle-mini-browser-fall,.tle-demo-drop-item.is-landed .tle-mini-browser-fall{animation:none!important;opacity:1;transform:none;will-change:auto}.tle-mini-browser{transition:none}}
 </style>
 </head>
 <body>
@@ -77,7 +110,7 @@
   <header class="site-header" id="siteHeader">
     <a class="brand" href="https://thelaunchera.com/" aria-label="The Launch Era — home"><span class="brand-mark">THE</span><span class="brand-title">LAUNCH ERA<span class="brand-dot">.</span></span></a>
     <nav aria-label="Main navigation" class="nav-links"><a href="#work">Work</a><a href="#services">Services</a><a href="#about">About</a></nav>
-    <a class="nav-cta" href="https://thelaunchera.com/website-for-your-business/">Start a project <span aria-hidden="true">↗</span></a>
+    <a class="nav-cta" href="https://thelaunchera.com/website-for-your-business/">Start a project</a>
   </header>
   <main id="main">
     <section class="hero" aria-labelledby="heroTitle">
@@ -92,7 +125,7 @@
         <p class="eyebrow"><span class="eyebrow-rule"></span> INDEPENDENT DIGITAL CREATIVE STUDIO</p>
         <h1 id="heroTitle">Your idea<br />deserves to<br /><em>be seen.</em></h1>
         <p class="hero-sub">We design websites and digital experiences that bring your business to life.</p>
-        <div class="hero-actions"><a class="btn btn-dark" href="#work">Explore our work <span class="btn-icon" aria-hidden="true">↗</span></a><a class="btn btn-ghost" href="https://thelaunchera.com/website-for-your-business/">Start your website</a></div>
+        <div class="hero-actions"><a class="btn btn-dark" href="#work">Explore our work</a><a class="btn btn-ghost" href="https://thelaunchera.com/website-for-your-business/">Start your website</a></div>
         <div class="hero-footer"><span>PORTFOLIO / 2026</span><span>SCROLL TO EXPLORE <span aria-hidden="true">↓</span></span></div>
       </div>
       <div class="hero-browser-cloud" aria-hidden="true">
@@ -102,7 +135,7 @@
       </div>
     </section>
     <div class="marquee" aria-label="Creative websites, digital experiences and brand storytelling"><div class="marquee-track" aria-hidden="true">DIGITAL EXPERIENCES <span>—</span> WEBSITE DESIGN <span>—</span> CREATIVE DIRECTION <span>—</span> MADE TO BE SEEN <span>—</span> DIGITAL EXPERIENCES <span>—</span> WEBSITE DESIGN <span>—</span> CREATIVE DIRECTION <span>—</span> MADE TO BE SEEN <span>—</span></div></div>
-    <section class="intro-section" id="work"><div class="section-topline"><span>01 / THE WORK</span><span>SELECTED PROJECTS — 2026</span></div><div class="intro-heading"><div><span class="small-label">A LITTLE BIT OF EVERYTHING</span><h2>Every brand has<br /><i>its own world.</i></h2></div><p>From a neighborhood café to a fashion-forward storefront, we build digital spaces that feel like the business behind them.</p></div><div class="work-controls" role="group" aria-label="Filter projects"><button data-filter="all" aria-pressed="true">All projects <span>08</span></button><button data-filter="food" aria-pressed="false">Food & Drink</button><button data-filter="fashion" aria-pressed="false">Fashion & Beauty</button><button data-filter="lifestyle" aria-pressed="false">Lifestyle</button><button data-filter="service" aria-pressed="false">Services</button></div><div id="projectGrid" class="project-grid"></div><div class="work-note"><span>EXPLORE THE FULL COLLECTION</span><a href="https://thelaunchera.com/demos/" target="_blank" rel="noopener">Browse all demos <span aria-hidden="true">↗</span></a></div></section>
+    <section class="intro-section" id="work"><div class="section-topline"><span>01 / THE WORK</span><span>SELECTED PROJECTS — 2026</span></div><div class="intro-heading"><div><span class="small-label">A LITTLE BIT OF EVERYTHING</span><h2>Every brand has<br /><i>its own world.</i></h2></div><p>From a neighborhood café to a fashion-forward storefront, we build digital spaces that feel like the business behind them.</p></div><div class="work-controls" role="group" aria-label="Filter projects"><button data-filter="all" aria-pressed="true">All projects <span>09</span></button><button data-filter="food" aria-pressed="false">Food & Drink</button><button data-filter="fashion" aria-pressed="false">Fashion & Beauty</button><button data-filter="lifestyle" aria-pressed="false">Lifestyle</button><button data-filter="service" aria-pressed="false">Services</button></div><div id="projectGrid" class="project-grid"></div><div class="work-note"><span>EXPLORE THE FULL COLLECTION</span><a href="https://thelaunchera.com/demos/" target="_blank" rel="noopener">Browse all demos <span aria-hidden="true">↗</span></a></div></section>
     <section class="statement" id="statement"><span class="section-tag">BUILT DIFFERENT / ON PURPOSE</span><div class="statement-orbit orbit-a" aria-hidden="true"></div><div class="statement-orbit orbit-b" aria-hidden="true"></div><h2>Good design<br />looks beautiful.<br /><em>Great design works.</em></h2><p>More than a website. A memorable first impression, a place to explore, and a simple next step for your customers.</p><a href="#services" class="statement-link">WHAT WE CREATE <span aria-hidden="true">↓</span></a></section>
     <section class="services" id="services"><div class="section-topline"><span>02 / WHAT WE DO</span><span>MADE FOR REAL BUSINESSES</span></div><div class="services-layout"><div class="services-title"><p class="small-label">YOUR BRAND, ONLINE</p><h2>Digital<br /><em>possibilities.</em></h2><p>Thoughtful strategy, beautiful details, and an easy-to-use experience — all working together.</p><a class="btn btn-dark" href="https://thelaunchera.com/website-for-your-business/">Explore website services <span class="btn-icon" aria-hidden="true">↗</span></a></div><div class="service-stack"><article><span class="service-number">01</span><div><h3>Websites with personality</h3><p>Distinctive, mobile-first spaces tailored to the way your customers explore and connect.</p></div><span class="service-symbol" aria-hidden="true">↗</span></article><article><span class="service-number">02</span><div><h3>Interactive experiences</h3><p>Rich galleries, easy navigation, and intentional motion that makes every detail feel alive.</p></div><span class="service-symbol" aria-hidden="true">↗</span></article><article><span class="service-number">03</span><div><h3>A clearer path to inquiries</h3><p>Thoughtful calls to action and simple contact experiences that help visitors take the next step.</p></div><span class="service-symbol" aria-hidden="true">↗</span></article></div></div></section>
     <section class="process"><div class="section-topline"><span>03 / THE EXPERIENCE</span><span>LESS COMPLICATED. MORE YOU.</span></div><h2>From idea to<br /><em>something real.</em></h2><div class="process-steps"><article><span>01 / SHARE</span><h3>Tell us your idea.</h3><p>Show us your business, your inspiration, and what you want your website to do.</p></article><article><span>02 / CREATE</span><h3>We shape the experience.</h3><p>Imagery, colors, storytelling, and details come together around your brand.</p></article><article><span>03 / LAUNCH</span><h3>Make your entrance.</h3><p>A beautiful digital home, ready for customers to discover and explore.</p></article></div></section>
@@ -110,18 +143,26 @@
     <section class="closing"><span>HAVE SOMETHING IN MIND?</span><h2>Let's build<br /><em>something great.</em></h2><p>Your next chapter deserves a website people remember.</p><a class="btn btn-yellow" href="https://thelaunchera.com/website-for-your-business/">Start your website <span class="btn-icon" aria-hidden="true">↗</span></a><div class="closing-circle closing-circle-a" aria-hidden="true"></div><div class="closing-circle closing-circle-b" aria-hidden="true"></div></section>
   </main>
   <section class="tle-gravity-section" id="brand-gravity" aria-labelledby="tleGravityTitle">
-    <div class="tle-gravity-heading"><div><span class="label">THE BRANDS WE'VE BROUGHT TO LIFE</span><h2>Made to be seen.<br/><em>Made to move.</em></h2></div><p>Every project has its own personality. Give our brand tags a little toss and see where they land.</p></div>
+    <div class="tle-gravity-heading"><div><span class="label">THE BRANDS WE'VE BROUGHT TO LIFE</span><h2>Made to be seen.<br/><em>Made to move.</em></h2></div><p>Every brand has its own personality. Tap a name to explore its website, or drag and throw the tags.</p></div>
     <div class="tle-gravity-stage" id="tleGravityStage" aria-label="Interactive collection of brand tags">
-      <button type="button" class="tle-brand-pill" data-tone="yellow">GOLDEN GRID</button>
-      <button type="button" class="tle-brand-pill" data-tone="ivory">LA VIE IN PINK</button>
-      <button type="button" class="tle-brand-pill" data-tone="dark">SOVA</button>
-      <button type="button" class="tle-brand-pill" data-tone="blue">SNEEKIEFS</button>
-      <button type="button" class="tle-brand-pill" data-tone="ivory">CASA BROWNIE</button>
-      <button type="button" class="tle-brand-pill" data-tone="yellow">FRESKA</button>
-      <button type="button" class="tle-brand-pill" data-tone="blue">LAVANDA BOUTIQUE</button>
-      <button type="button" class="tle-brand-pill" data-tone="dark">HAVANA 19</button>
+      <button type="button" class="tle-brand-pill" data-tone="yellow" data-project="golden-grid">GOLDEN GRID</button>
+      <button type="button" class="tle-brand-pill" data-tone="ivory" data-project="la-vie-in-pink">LA VIE IN PINK</button>
+      <button type="button" class="tle-brand-pill" data-tone="dark" data-project="sova">SOVA</button>
+      <button type="button" class="tle-brand-pill" data-tone="blue" data-project="sneekiefs">SNEEKIEFS</button>
+      <button type="button" class="tle-brand-pill" data-tone="ivory" data-project="casa-brownie">CASA BROWNIE</button>
+      <button type="button" class="tle-brand-pill" data-tone="yellow" data-project="freska">FRESKA</button>
+      <button type="button" class="tle-brand-pill" data-tone="blue" data-project="lavender-edit">LAVANDA BOUTIQUE</button>
+      <button type="button" class="tle-brand-pill" data-tone="dark" data-project="havana-19">HAVANA 19</button>
+      <button type="button" class="tle-brand-pill" data-tone="ivory" data-project="experience-cleaning">EXPERIENCE CLEANING</button>
     </div>
-    <div class="tle-gravity-footer"><p>DRAG, DROP & THROW — touch or mouse. You can scroll anywhere outside the tags.</p><button type="button" class="tle-gravity-replay" id="tleGravityReplay">Drop them again</button></div>
+    <div class="tle-gravity-footer"><p>TAP A BRAND TO PREVIEW · DRAG TO TOSS. Scroll normally outside the tags.</p><button type="button" class="tle-gravity-replay" id="tleGravityReplay">Drop them again</button></div>
+  </section>
+  <section class="tle-demo-drop-section" id="website-drops" aria-labelledby="tleDemoDropTitle">
+    <div class="tle-demo-drop-heading">
+      <div><span class="tle-demo-drop-eyebrow">THE WEBSITES BEHIND THE NAMES</span><h2 id="tleDemoDropTitle">A closer look.<br /><em>One world at a time.</em></h2></div>
+      <p>Scroll to see our websites fall into place. Tap any miniature to explore the full experience.</p>
+    </div>
+    <div class="tle-demo-drop-grid" id="tleDemoDropGrid" aria-label="Interactive website miniatures"></div>
   </section>
   <footer class="footer"><a class="footer-brand" href="https://thelaunchera.com/">THE LAUNCH ERA<span>.</span></a><div><a href="https://thelaunchera.com/">Main website</a><a href="https://thelaunchera.com/demos/">Demos</a><a href="https://thelaunchera.com/privacy.html">Privacy</a><a href="https://thelaunchera.com/terms.html">Terms</a></div><p>© <span id="year">2026</span> The Launch Era. All rights reserved.</p></footer>
   <dialog class="project-dialog" id="projectDialog" aria-labelledby="modalTitle"><div class="dialog-top"><div><span id="modalCategory">PROJECT PREVIEW</span><h2 id="modalTitle">Project</h2></div><button id="closeDialog" aria-label="Close project preview">Close <span aria-hidden="true">×</span></button></div><div class="preview-browser"><div class="preview-toolbar"><span class="traffic"><i></i><i></i><i></i></span><span id="previewUrl">Live project preview</span><a id="openPreviewExternal" href="#" target="_blank" rel="noopener noreferrer">Open website ↗</a></div><iframe id="previewFrame" title="Project website interactive preview" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div><div class="dialog-bottom"><p id="previewDescription"></p><a id="modalExplore" class="btn btn-dark" href="#" target="_blank" rel="noopener noreferrer">Explore website <span class="btn-icon" aria-hidden="true">↗</span></a></div></dialog>
@@ -142,6 +183,7 @@ const projects = [
   {id:'lavender-edit',name:'Lavanda Boutique',category:'fashion',tag:'Fashion · Boutique',year:'2026',description:'A soft, thoughtful shopping experience built around lifestyle imagery and beautiful details.',image:`${base}/demos/lavender-edit/photos/01_Soft_Lavender_Hero.png`,href:`${base}/demos/lavender-edit/`,color:'#d9d0e1',fit:'cover'},
   {id:'freska',name:'Freska',category:'food',tag:'Drinks · Product',year:'2026',description:'A fresh, colorful brand experience celebrating the drink and the little moments around it.',image:`${base}/demos/freska/media/freska-hero-owner-approved-20261109.jpg`,href:`${base}/demos/freska/`,color:'#f6cada',fit:'cover'},
   {id:'casa-brownie',name:'Casa Brownie',category:'food',tag:'Bakery · Online Shop',year:'2026',description:'An inviting bakery storefront that brings product photography and gifting into focus.',image:`${base}/demos/casa-brownie/assets/hero-brownies.webp`,href:`${base}/demos/casa-brownie/`,color:'#caa78f',fit:'cover'},
+  {id:'havana-19',name:'Havana 19',category:'food',tag:'Restaurant · Hospitality',year:'2026',description:'A warm, expressive Havana-inspired restaurant website with original brand imagery and a complete dining story.',image:`${base}/demos/havana-19/photos/HAVANA19_Hero_Fachada_Borgona.jpeg`,href:`${base}/demos/havana-19/`,color:'#dbb8a4',fit:'cover'},
   {id:'experience-cleaning',name:'Experience Cleaning',category:'service',tag:'Services · Booking',year:'2026',description:'A streamlined service website that helps customers understand offerings and get started.',image:`${base}/experience-cleaning/media/cleaning-hero-poster-20261108.jpg`,href:`${base}/experience-cleaning/`,color:'#dee7ed',fit:'cover'}
 ];
 const grid = document.querySelector('#projectGrid');
@@ -202,6 +244,52 @@ for(const btn of document.querySelectorAll('[data-filter]')) {
     render();
   });
 }
+
+// The miniature gallery and the full portfolio share the same verified project URLs.
+const miniGrid = document.getElementById('tleDemoDropGrid');
+if (miniGrid) {
+  const tones = { 'golden-grid':'yellow','la-vie-in-pink':'ivory','sova':'dark','sneekiefs':'blue',
+    'casa-brownie':'ivory','freska':'yellow','lavender-edit':'blue','havana-19':'dark',
+    'experience-cleaning':'ivory' };
+  const miniFragment = document.createDocumentFragment();
+  projects.forEach((p, i) => {
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'tle-demo-drop-item';
+    card.dataset.project = p.id;
+    card.style.setProperty('--drop-delay', `${(i % 3) * 90}ms`);
+    card.setAttribute('aria-label', `Preview ${p.name} website`);
+    card.innerHTML = `<span class="tle-mini-browser-fall" aria-hidden="true"><span class="tle-mini-browser"><span class="tle-mini-bar"><i></i><i></i><i></i><b>${p.name.toUpperCase()}</b></span><img src="${p.image}" alt="" loading="lazy" decoding="async" style="object-fit:${p.fit}"></span></span><span class="tle-mini-pill" data-tone="${tones[p.id] || 'ivory'}">${p.name}</span><span class="tle-mini-note" aria-hidden="true">EXPLORE WEBSITE</span>`;
+    card.addEventListener('click', () => openProject(p, card));
+    miniFragment.append(card);
+  });
+  miniGrid.append(miniFragment);
+  if ('IntersectionObserver' in window && !reduced.matches) {
+    const fallObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-landed');
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -4% 0px', threshold: .12 });
+    miniGrid.querySelectorAll('.tle-demo-drop-item').forEach(item => fallObserver.observe(item));
+  } else {
+    miniGrid.querySelectorAll('.tle-demo-drop-item').forEach(item => item.classList.add('is-landed'));
+  }
+}
+// The playful physics pills also open the same real project preview with tap or keyboard.
+window.addEventListener('tle:open-project', event => {
+  const { id, trigger } = event.detail || {};
+  const project = projects.find(p => p.id === id);
+  if (project) openProject(project, trigger || document.getElementById('tleGravityStage'));
+});
+if (reduced.matches) document.querySelectorAll('.tle-brand-pill[data-project]').forEach(pill => {
+  pill.addEventListener('click', () => {
+    const project = projects.find(p => p.id === pill.dataset.project);
+    if (project) openProject(project, pill);
+  });
+});
+
 render();
 document.querySelector('#year').textContent=String(new Date().getFullYear());
 // Keep the first frame visible until the actual cinematic video can play.
@@ -373,12 +461,12 @@ if (!reduced.matches) {
   const xy=e=>{const r=stage.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}};
   buttons.forEach((el,i)=>{
     const b=bodies[i];
-    el.setAttribute('aria-label',`${el.textContent.trim()}. Drag to move or throw; arrow keys to nudge.`);
+    el.setAttribute('aria-label',`${el.textContent.trim()}. Tap to preview website; drag to throw; arrow keys to nudge.`);
     el.addEventListener('pointerdown',e=>{
       if(e.button!==0 || !started)return;
       const p=xy(e);
       b.drag=true;b.vx=0;b.vy=0;b.va=0;
-      activeDrag={b,id:e.pointerId,offx:p.x-b.x,offy:p.y-b.y};
+      activeDrag={b,id:e.pointerId,offx:p.x-b.x,offy:p.y-b.y,startX:p.x,startY:p.y,startAt:performance.now()};
       b.points=[{x:b.x,y:b.y,t:performance.now()}];
       el.classList.add('is-dragging');
       el.setPointerCapture(e.pointerId);
@@ -397,6 +485,9 @@ if (!reduced.matches) {
     });
     const release=e=>{
       if(!activeDrag||activeDrag.b!==b||activeDrag.id!==e.pointerId)return;
+      const drag=activeDrag;
+      const pt=xy(e);
+      const tapped=e.type==='pointerup' && Math.hypot(pt.x-drag.startX,pt.y-drag.startY)<10 && performance.now()-drag.startAt<450;
       const last=b.points[b.points.length-1], first=b.points[0];
       const delta=Math.max(16,last.t-first.t);
       b.vx=clamp((last.x-first.x)/delta*16.667,-18,18);
@@ -405,6 +496,7 @@ if (!reduced.matches) {
       b.drag=false;b.points=[];
       b.el.classList.remove('is-dragging');
       activeDrag=null;startLoop();
+      if(tapped && el.dataset.project) window.dispatchEvent(new CustomEvent('tle:open-project',{detail:{id:el.dataset.project,trigger:el}}));
     };
     el.addEventListener('pointerup',release);
     el.addEventListener('pointercancel',release);
@@ -413,7 +505,7 @@ if (!reduced.matches) {
       if(!started)return;
       const dir={ArrowLeft:[-17,0],ArrowRight:[17,0],ArrowUp:[0,-17],ArrowDown:[0,17]}[e.key];
       if(dir){e.preventDefault();b.x=clamp(b.x+dir[0],3,Math.max(3,width-b.w-3));b.y=clamp(b.y+dir[1],3,Math.max(3,height-b.h-3));b.vx=dir[0]*.11;b.vy=dir[1]*.11;paint()}
-      if(e.key===' '||e.key==='Enter'){e.preventDefault();b.vy=-8;b.vx=(b.i%2?1:-1)*4;startLoop()}
+      if(e.key===' '||e.key==='Enter'){e.preventDefault();if(el.dataset.project) window.dispatchEvent(new CustomEvent('tle:open-project',{detail:{id:el.dataset.project,trigger:el}}));}
     });
   });
 })();
