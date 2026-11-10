@@ -1,6 +1,12 @@
 // Portfolio: approved hero poster, one interactive website-card gallery, keyboard navigation and accessibility.
 import assert from 'node:assert/strict';
 import {chromium,webkit} from 'playwright';
+import {readFileSync} from 'node:fs';
+const html=readFileSync('public/portfolio/index.html','utf8');
+const projectBlock=html.split('const projects = [')[1]?.split('];')[0]||'';
+const projectSlugs=[...projectBlock.matchAll(/\{id:'([^']+)'/g)].map(match=>match[1]);
+assert.ok(projectSlugs.length>=2,'Portfolio must contain at least two distinct sites');
+assert.equal(new Set(projectSlugs).size,projectSlugs.length,'Portfolio project IDs must be unique');
 const root=(process.env.QA_URL||'http://127.0.0.1:4198').replace(/\/$/,'');
 for(const type of [chromium,webkit]){
  const browser=await type.launch({headless:true});
@@ -12,7 +18,7 @@ for(const type of [chromium,webkit]){
    const res=await page.goto(root+'/portfolio/',{waitUntil:'domcontentloaded'});
    assert.equal(res?.status(),200,'Portfolio route resolves');
    await page.locator('.tle-demo-drop-item').first().waitFor({state:'attached',timeout:15000});
-   assert.equal(await page.locator('.tle-demo-drop-item').count(),10,'Ten website cards render once');
+   assert.deepEqual(await page.locator('.tle-demo-drop-item').evaluateAll(nodes=>nodes.map(node=>node.dataset.project)),projectSlugs,'Every registered website appears exactly once');
    assert.equal(await page.locator('.tle-brand-pill').count(),0,'No duplicated pill navigation');
    assert.equal(await page.locator('.tle-gravity-arena #tleDemoDropGrid').count(),1,'Every card is inside the same blue showcase');
    assert.equal(await page.locator('#statement .section-tag').count(),1,'Editorial section remains valid');
@@ -22,17 +28,24 @@ for(const type of [chromium,webkit]){
    const over=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
    assert.ok(over<5,'No horizontal overflow at '+width+'px: '+over);
    const first=page.locator('.tle-demo-drop-item').first();
+   const firstTitle=(await first.locator('.tle-mini-title').innerText()).trim();
+   const firstId=await first.getAttribute('data-project');
    await first.click();
    assert.equal(await page.locator('#projectDialog').evaluate(el=>el.open),true,'Website miniature opens a preview');
-   assert.ok((await page.locator('#modalExplore').getAttribute('href')).includes('/demos/la-vie-in-pink/'),'Correct real website is linked');
+   assert.equal((await page.locator('#modalTitle').innerText()).trim(),firstTitle,'Selected website title must match the first thumbnail');
+   assert.ok((await page.locator('#modalExplore').getAttribute('href')).includes(firstId==='experience-cleaning'?'/experience-cleaning/':'/demos/'+firstId+'/'),'First thumbnail must link to its own website');
    await page.locator('#closeDialog').click();
    assert.equal(await page.locator('#projectDialog').evaluate(el=>el.open),false,'Preview can close');
    const second=page.locator('.tle-demo-drop-item').nth(1);
+   const secondTitle=(await second.locator('.tle-mini-title').innerText()).trim();
+   const secondId=await second.getAttribute('data-project');
+   assert.notEqual(secondId,firstId,'First and second projects must be distinct');
    await second.scrollIntoViewIfNeeded();
    await second.focus();
    await second.press('Enter');
    assert.equal(await page.locator('#projectDialog').evaluate(el=>el.open),true,'Keyboard Enter opens the second website');
-   assert.equal((await page.locator('#modalTitle').innerText()).trim(),'VELMORA','Matching brand opens instead of repeated first demo');
+   assert.equal((await page.locator('#modalTitle').innerText()).trim(),secondTitle,'Keyboard preview must open its own brand, independent of ordering');
+   assert.ok((await page.locator('#modalExplore').getAttribute('href')).includes(secondId==='experience-cleaning'?'/experience-cleaning/':'/demos/'+secondId+'/'),'Second preview must link to its own website');
    await page.locator('#closeDialog').click();
    assert.deepEqual(errors,[],'No portfolio JavaScript errors');
    console.log('PORTFOLIO PASS',type.name(),width,motion,'one set of cards');
