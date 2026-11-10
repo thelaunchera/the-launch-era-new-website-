@@ -1,0 +1,17 @@
+/* Public TLE photo gallery: progressive motion; never changes image selection or routes. */
+#tle-gallery-progress {
+  position:fixed;top:0;left:0;right:0;height:3px;
+  background:#191919;transform:scaleX(0);transform-origin:left center;
+  pointer-events:none;z-index:100;
+}
+.filters {scroll-snap-type:x proximity;scroll-padding-inline:8px;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.filters button {scroll-snap-align:start}
+@keyframes tlePhotoArrive {from{opacity:.72;translate:0 18px}to{opacity:1;translate:0 0}}
+@media(prefers-reduced-motion:no-preference){
+  .photo.tle-photo-visible {animation:tlePhotoArrive .55s cubic-bezier(.22,1,.36,1) both}
+  .photo-image {transition:box-shadow .28s ease,border-color .28s ease}
+  @media(hover:hover) and (pointer:fine){
+    .photo-image:hover {box-shadow:0 14px 26px #1919191c}
+  }
+}
+@media(prefers-reduced-motion:reduce){.photo.tle-photo-visible{animation:none!important}.filters{scroll-behavior:auto!important}}
