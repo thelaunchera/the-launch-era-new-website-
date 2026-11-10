@@ -17,6 +17,59 @@
 </style>
   
   <title>Selected Work · The Launch Era</title>
+  <style>
+/* The Launch Era — self-contained founder portfolio gravity experience.
+   Scoped to /portfolio/ only; no global brand or checkout styles. */
+.hero-browser-cloud{position:absolute;inset:0;z-index:6;pointer-events:none;perspective:1100px;overflow:hidden}
+.hero-browser-cloud .floating-window{will-change:transform;transform:translate3d(var(--hero-x,0px),var(--hero-y,0px),0) rotateY(var(--hero-yaw,0deg)) rotateZ(calc(var(--hero-base-roll,0deg) + var(--hero-spin,0deg)));backface-visibility:hidden;box-shadow:0 18px 45px #19191927,0 3px 14px #19191915}
+.hero-browser-cloud .floating-one{--hero-yaw:-15deg;--hero-base-roll:6deg}
+.hero-browser-cloud .floating-two{--hero-yaw:12deg;--hero-base-roll:-8deg}
+.hero-browser-cloud .floating-three{--hero-yaw:-10deg;--hero-base-roll:4deg;top:38%;right:3%;width:138px;height:102px}
+.hero-browser-cloud .floating-three img{object-position:center}
+.tle-gravity-section{padding:clamp(58px,8vw,115px) clamp(18px,5vw,90px) 56px;background:#d7efff;overflow:hidden;isolation:isolate}
+.tle-gravity-heading{display:flex;align-items:end;justify-content:space-between;gap:30px;max-width:1350px;margin:0 auto 32px}
+.tle-gravity-heading .label{display:block;font-size:10px;font-weight:800;letter-spacing:.15em;margin-bottom:16px}
+.tle-gravity-heading h2{font-family:'Prompt',sans-serif;font-size:clamp(35px,5.7vw,78px);font-weight:500;line-height:1.07;letter-spacing:-.065em;margin:0;max-width:780px}
+.tle-gravity-heading h2 em{font-style:normal;background:linear-gradient(transparent 63%,#f2d85b 64%)}
+.tle-gravity-heading p{font-size:14px;line-height:1.75;max-width:270px;margin:0;color:#46515a}
+.tle-gravity-stage{max-width:1350px;margin:auto;min-height:345px;border:1px solid rgba(25,25,25,.23);border-radius:24px;position:relative;overflow:hidden;background:radial-gradient(circle at 48% 8%,#ffffff8c,transparent 52%),#eaf4fc;display:flex;gap:12px;flex-wrap:wrap;align-content:center;justify-content:center;padding:22px;box-shadow:inset 0 -5px 0 #1919190f}
+.tle-gravity-stage.is-enhanced{display:block;padding:0}
+.tle-brand-pill{appearance:none;border:1px solid #191919bd;background:#faf8f3;color:#191919;min-width:105px;max-width:min(80vw,260px);min-height:48px;border-radius:100px;padding:12px 22px;white-space:nowrap;user-select:none;-webkit-user-select:none;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 5px 0 #19191916,0 8px 15px #1919190c;font-size:clamp(11px,1vw,14px);font-weight:800;letter-spacing:.045em;line-height:1.2;cursor:grab;touch-action:none;outline-offset:4px}
+.tle-brand-pill:focus-visible{outline:3px solid #168dd2}
+.tle-brand-pill[data-tone='yellow']{background:#f2d85b}
+.tle-brand-pill[data-tone='blue']{background:#d7efff}
+.tle-brand-pill[data-tone='dark']{background:#191919;color:#faf8f3}
+.tle-brand-pill[data-tone='ivory']{background:#faf8f3}
+.tle-gravity-stage.is-enhanced .tle-brand-pill{position:absolute;top:0;left:0;transform-origin:center center;will-change:transform}
+.tle-brand-pill.is-dragging{cursor:grabbing;z-index:9;box-shadow:0 17px 38px #19191931}
+.tle-gravity-footer{max-width:1350px;display:flex;justify-content:space-between;align-items:center;gap:16px;margin:14px auto 0;min-height:44px;color:#505b63;font-size:11px;font-weight:650}
+.tle-gravity-footer p{margin:0;line-height:1.5}
+.tle-gravity-replay{border:1px solid #191919;background:transparent;border-radius:50px;padding:12px 18px;min-height:44px;font-size:11px;font-weight:750;cursor:pointer;color:#191919;flex-shrink:0}
+.tle-gravity-replay:hover{background:#191919;color:#faf8f3}
+@media(max-width:760px){
+  .hero-browser-cloud{position:relative;inset:auto;order:1;height:212px;flex-shrink:0;overflow:hidden;background:linear-gradient(160deg,#eaf4fc,#faf8f3 70%);border-top:1px solid #19191911;border-bottom:1px solid #19191911}
+  .hero-browser-cloud .floating-window{display:block;width:122px;height:87px}
+  .hero-browser-cloud .floating-one{top:8px;left:auto;right:4%}
+  .hero-browser-cloud .floating-two{top:27px;left:3%;bottom:auto;right:auto;width:116px;height:81px}
+  .hero-browser-cloud .floating-three{top:-7px;left:35%;right:auto;width:103px;height:76px}
+  .hero-copy{order:2}
+  .tle-gravity-section{padding:62px 18px 42px}
+  .tle-gravity-heading{display:block;margin-bottom:25px}
+  .tle-gravity-heading h2{font-size:clamp(37px,9vw,58px)}
+  .tle-gravity-heading p{margin-top:19px;max-width:335px}
+  .tle-gravity-stage{min-height:320px;border-radius:19px;padding:14px;gap:8px}
+  .tle-brand-pill{min-width:80px;min-height:43px;font-size:11px;padding:10px 14px}
+  .tle-gravity-footer{align-items:start;gap:12px}
+}
+@media(max-width:380px){.hero-browser-cloud .floating-one{right:2%}.hero-browser-cloud .floating-two{left:2%}.hero-browser-cloud .floating-three{left:36%}.tle-brand-pill{font-size:10px;padding:9px 13px}}
+@media(prefers-reduced-motion:reduce){
+ .hero-browser-cloud .floating-window{will-change:auto;transform:none!important}
+ .tle-gravity-stage{min-height:auto;padding:25px 14px}
+ .tle-brand-pill{cursor:default;touch-action:auto}
+ .tle-gravity-replay{display:none}
+}
+
+</style>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -42,8 +95,11 @@
         <div class="hero-actions"><a class="btn btn-dark" href="#work">Explore our work <span class="btn-icon" aria-hidden="true">↗</span></a><a class="btn btn-ghost" href="https://thelaunchera.com/website-for-your-business/">Start your website</a></div>
         <div class="hero-footer"><span>PORTFOLIO / 2026</span><span>SCROLL TO EXPLORE <span aria-hidden="true">↓</span></span></div>
       </div>
-      <div class="floating-window floating-one" aria-hidden="true"><div class="floating-bar"><i></i><i></i><i></i><span>LA VIE IN PINK</span></div><img src="https://thelaunchera.com/demos/la-vie-in-pink/photos/lavie_pink_hero_editorial.png" alt="" /></div>
-      <div class="floating-window floating-two" aria-hidden="true"><div class="floating-bar"><i></i><i></i><i></i><span>SOVA</span></div><img src="https://thelaunchera.com/demos/sova/media/sova-hero-seamless-cobalt-20261108.png" alt="" /></div>
+      <div class="hero-browser-cloud" aria-hidden="true">
+        <div class="floating-window floating-one"><div class="floating-bar"><i></i><i></i><i></i><span>LA VIE IN PINK</span></div><img src="/demos/la-vie-in-pink/photos/lavie_pink_hero_editorial.png" alt="" loading="lazy" /></div>
+        <div class="floating-window floating-two"><div class="floating-bar"><i></i><i></i><i></i><span>SOVA</span></div><img src="/demos/sova/media/sova-hero-seamless-cobalt-20261108.png" alt="" loading="lazy" /></div>
+        <div class="floating-window floating-three"><div class="floating-bar"><i></i><i></i><i></i><span>GOLDEN GRID</span></div><img src="/demos/golden-grid/media/hero-approved-canva-20261108-firstframe.webp" alt="" loading="lazy" /></div>
+      </div>
     </section>
     <div class="marquee" aria-label="Creative websites, digital experiences and brand storytelling"><div class="marquee-track" aria-hidden="true">DIGITAL EXPERIENCES <span>—</span> WEBSITE DESIGN <span>—</span> CREATIVE DIRECTION <span>—</span> MADE TO BE SEEN <span>—</span> DIGITAL EXPERIENCES <span>—</span> WEBSITE DESIGN <span>—</span> CREATIVE DIRECTION <span>—</span> MADE TO BE SEEN <span>—</span></div></div>
     <section class="intro-section" id="work"><div class="section-topline"><span>01 / THE WORK</span><span>SELECTED PROJECTS — 2026</span></div><div class="intro-heading"><div><span class="small-label">A LITTLE BIT OF EVERYTHING</span><h2>Every brand has<br /><i>its own world.</i></h2></div><p>From a neighborhood café to a fashion-forward storefront, we build digital spaces that feel like the business behind them.</p></div><div class="work-controls" role="group" aria-label="Filter projects"><button data-filter="all" aria-pressed="true">All projects <span>08</span></button><button data-filter="food" aria-pressed="false">Food & Drink</button><button data-filter="fashion" aria-pressed="false">Fashion & Beauty</button><button data-filter="lifestyle" aria-pressed="false">Lifestyle</button><button data-filter="service" aria-pressed="false">Services</button></div><div id="projectGrid" class="project-grid"></div><div class="work-note"><span>EXPLORE THE FULL COLLECTION</span><a href="https://thelaunchera.com/demos/" target="_blank" rel="noopener">Browse all demos <span aria-hidden="true">↗</span></a></div></section>
@@ -53,6 +109,20 @@
     <section class="about" id="about"><div class="about-visual"><img src="" loading="lazy" alt="The Launch Era founder in a cinematic design studio" /><span>THE PERSON BEHIND THE PROJECTS</span></div><div class="about-copy"><p class="small-label">04 / MEET THE FOUNDER</p><h2>Creative ideas.<br />Real businesses.<br /><em>One launch at a time.</em></h2><p>The Launch Era was created around one belief: a small business deserves a digital presence that feels every bit as special as its vision.</p><p>We combine imagination, practical tools, and brand-first design to help ideas move from someone's notes into something people can actually visit.</p><span class="signature">The Launch Era Studio</span></div></section>
     <section class="closing"><span>HAVE SOMETHING IN MIND?</span><h2>Let's build<br /><em>something great.</em></h2><p>Your next chapter deserves a website people remember.</p><a class="btn btn-yellow" href="https://thelaunchera.com/website-for-your-business/">Start your website <span class="btn-icon" aria-hidden="true">↗</span></a><div class="closing-circle closing-circle-a" aria-hidden="true"></div><div class="closing-circle closing-circle-b" aria-hidden="true"></div></section>
   </main>
+  <section class="tle-gravity-section" id="brand-gravity" aria-labelledby="tleGravityTitle">
+    <div class="tle-gravity-heading"><div><span class="label">THE BRANDS WE'VE BROUGHT TO LIFE</span><h2>Made to be seen.<br/><em>Made to move.</em></h2></div><p>Every project has its own personality. Give our brand tags a little toss and see where they land.</p></div>
+    <div class="tle-gravity-stage" id="tleGravityStage" aria-label="Interactive collection of brand tags">
+      <button type="button" class="tle-brand-pill" data-tone="yellow">GOLDEN GRID</button>
+      <button type="button" class="tle-brand-pill" data-tone="ivory">LA VIE IN PINK</button>
+      <button type="button" class="tle-brand-pill" data-tone="dark">SOVA</button>
+      <button type="button" class="tle-brand-pill" data-tone="blue">SNEEKIEFS</button>
+      <button type="button" class="tle-brand-pill" data-tone="ivory">CASA BROWNIE</button>
+      <button type="button" class="tle-brand-pill" data-tone="yellow">FRESKA</button>
+      <button type="button" class="tle-brand-pill" data-tone="blue">LAVANDA BOUTIQUE</button>
+      <button type="button" class="tle-brand-pill" data-tone="dark">HAVANA 19</button>
+    </div>
+    <div class="tle-gravity-footer"><p>DRAG, DROP & THROW — touch or mouse. You can scroll anywhere outside the tags.</p><button type="button" class="tle-gravity-replay" id="tleGravityReplay">Drop them again</button></div>
+  </section>
   <footer class="footer"><a class="footer-brand" href="https://thelaunchera.com/">THE LAUNCH ERA<span>.</span></a><div><a href="https://thelaunchera.com/">Main website</a><a href="https://thelaunchera.com/demos/">Demos</a><a href="https://thelaunchera.com/privacy.html">Privacy</a><a href="https://thelaunchera.com/terms.html">Terms</a></div><p>© <span id="year">2026</span> The Launch Era. All rights reserved.</p></footer>
   <dialog class="project-dialog" id="projectDialog" aria-labelledby="modalTitle"><div class="dialog-top"><div><span id="modalCategory">PROJECT PREVIEW</span><h2 id="modalTitle">Project</h2></div><button id="closeDialog" aria-label="Close project preview">Close <span aria-hidden="true">×</span></button></div><div class="preview-browser"><div class="preview-toolbar"><span class="traffic"><i></i><i></i><i></i></span><span id="previewUrl">Live project preview</span><a id="openPreviewExternal" href="#" target="_blank" rel="noopener noreferrer">Open website ↗</a></div><iframe id="previewFrame" title="Project website interactive preview" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div><div class="dialog-bottom"><p id="previewDescription"></p><a id="modalExplore" class="btn btn-dark" href="#" target="_blank" rel="noopener noreferrer">Explore website <span class="btn-icon" aria-hidden="true">↗</span></a></div></dialog>
 <script type="module">
@@ -158,12 +228,195 @@ if (!reduced.matches) {
     animate('.hero-copy > .eyebrow, .hero-copy > h1, .hero-copy > .hero-sub, .hero-copy > .hero-actions', {opacity:[0,1],y:[24,0]},{duration:.82,delay:stagger(.105),ease:[.2,.8,.2,1]});
     inView('.project-card',element=>{animate(element,{opacity:[.82,1],y:[14,0]},{duration:.65,ease:'easeOut'});},{amount:.12});
     inView('.service-stack article, .process-steps article',element=>{animate(element,{opacity:[.72,1],y:[22,0]},{duration:.65,ease:'easeOut'});},{amount:.2});
-    const hero=document.querySelector('.hero');
-    const f1=document.querySelector('.floating-one');
-    const f2=document.querySelector('.floating-two');
-    if(f1&&f2){scroll(animate(f1,{y:[0,100],rotate:[5,-1]},{ease:'linear'}),{target:hero,offset:['start start','end start']});scroll(animate(f2,{y:[0,-55],rotate:[-8,-1]},{ease:'linear'}),{target:hero,offset:['start start','end start']});}
+    // Hero windows use the dedicated scroll-gravity controller below;
+    // avoid conflicting transforms between Motion and the physics layer.
   }).catch(()=>{/* Native CSS effects and all controls remain fully functional. */});
 }
+
+</script>
+  <script>
+/* THE LAUNCH ERA — scroll-dropping website windows + tossable brand tags.
+   No external physics dependency. Motion remains the page's progressive animation layer. */
+(() => {
+  'use strict';
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (reduced.matches) return;
+  const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+  const hero = document.querySelector('.hero');
+  const cloud = document.querySelector('.hero-browser-cloud');
+  const windows = cloud ? [...cloud.querySelectorAll('.floating-window')] : [];
+  const mobile = window.matchMedia('(max-width: 760px)');
+  const bounce = t => {
+    const n=7.5625, d=2.75;
+    if(t<1/d) return n*t*t;
+    if(t<2/d){t-=1.5/d;return n*t*t+.75;}
+    if(t<2.5/d){t-=2.25/d;return n*t*t+.9375;}
+    t-=2.625/d;return n*t*t+.984375;
+  };
+  let heroQueued = false;
+  function updateHero() {
+    heroQueued = false;
+    if (!hero || !cloud || !windows.length) return;
+    const heroRect = hero.getBoundingClientRect();
+    const cloudRect = cloud.getBoundingClientRect();
+    const progress = mobile.matches
+      ? clamp((innerHeight*.66-cloudRect.top)/(innerHeight*.58),0,1)
+      : clamp((-heroRect.top)/Math.max(390,heroRect.height*.76),0,1);
+    windows.forEach((el,i) => {
+      const p = clamp((progress-i*.12)/(1-i*.12),0,1);
+      const landing = Math.max(22,cloud.clientHeight-el.offsetTop-el.offsetHeight-14-(i%2)*11);
+      const dist = Math.min(landing, mobile.matches?155:560);
+      el.style.setProperty('--hero-y', `${Math.round(dist*bounce(p))}px`);
+      el.style.setProperty('--hero-x', `${Math.round((i-1)*15*p)}px`);
+      el.style.setProperty('--hero-spin', `${((i%2 ? -1 : 1)*30*p).toFixed(1)}deg`);
+      el.style.opacity = String(clamp(1- Math.max(0, progress-.92)*3, .78,1));
+    });
+  }
+  function scheduleHero(){if(heroQueued)return;heroQueued=true;requestAnimationFrame(updateHero)}
+  addEventListener('scroll',scheduleHero,{passive:true});
+  addEventListener('resize',scheduleHero,{passive:true});
+  scheduleHero();
+
+  const stage = document.querySelector('#tleGravityStage');
+  const replay = document.querySelector('#tleGravityReplay');
+  if(!stage) return;
+  const buttons = [...stage.querySelectorAll('.tle-brand-pill')];
+  if(!buttons.length) return;
+  const bodies = buttons.map((el,i)=>({el,i,x:0,y:0,vx:0,vy:0,a:0,va:0,w:0,h:0,drag:false,points:[]}));
+  let width=0,height=0,visible=false,started=false,frame=0,lastTime=0,activeDrag=null;
+  function measure(){
+    width=stage.clientWidth;height=stage.clientHeight;
+    bodies.forEach(b=>{b.w=b.el.offsetWidth;b.h=b.el.offsetHeight;b.x=clamp(b.x,2,Math.max(2,width-b.w-2));b.y=clamp(b.y,-height,Math.max(2,height-b.h-2))});
+  }
+  function paint(){bodies.forEach(b=>{b.el.style.transform=`translate3d(${b.x.toFixed(2)}px,${b.y.toFixed(2)}px,0) rotate(${b.a.toFixed(2)}deg)`})}
+  function reset(){
+    stage.classList.add('is-enhanced');
+    measure();
+    for (const b of bodies){
+      const mid=width/2-b.w/2;
+      const spread=Math.min(width*.27,215);
+      // Cluster launch points toward the center so the tags visibly pile up.
+      b.x=clamp(mid+Math.sin(b.i*2.39996)*spread*(.48+b.i*.06),14,Math.max(14,width-b.w-14));
+      b.y=-b.h-(b.i*48);
+      b.vx=((b.i%3)-1)*.7;
+      b.vy=.1;
+      b.a=(b.i%2?-1:1)*(5+b.i%4);
+      b.va=0;b.drag=false;b.points=[];
+      b.el.classList.remove('is-dragging');
+    }
+    activeDrag=null;lastTime=0;started=true;paint();
+    startLoop();
+  }
+  function constrain(b){
+    const floor=height-b.h-12, right=width-b.w-14;
+    if(b.x<14){b.x=14;b.vx=Math.abs(b.vx)*.43;b.va*=.72}
+    if(b.x>right){b.x=Math.max(14,right);b.vx=-Math.abs(b.vx)*.43;b.va*=.72}
+    if(b.y>floor){b.y=Math.max(0,floor);b.vy=Math.abs(b.vy)<.85?0:-b.vy*.31;b.vx*=.88;b.va*=.72}
+    if(b.y<(-height/2)){b.y=-height/2;b.vy=Math.max(0,b.vy)}
+  }
+  function collide(a,b){
+    let dx=(a.x+a.w/2)-(b.x+b.w/2),dy=(a.y+a.h/2)-(b.y+b.h/2);
+    let ox=(a.w+b.w)/2-Math.abs(dx),oy=(a.h+b.h)/2-Math.abs(dy);
+    if(ox<=0||oy<=0)return;
+    const wa=a.drag?0:(b.drag?1:.5),wb=b.drag?0:(a.drag?1:.5);
+    if(oy<ox){
+      const sign=dy<0?-1:1;
+      a.y+=sign*(oy+.6)*wa;b.y-=sign*(oy+.6)*wb;
+      if(sign<0){a.vy=Math.min(a.vy,b.vy)*.16;b.vy=Math.max(0,b.vy)*.45;}
+      else{b.vy=Math.min(a.vy,b.vy)*.16;a.vy=Math.max(0,a.vy)*.45;}
+      a.vx*=.97;b.vx*=.97;
+    }else{
+      const sign=dx<0?-1:1;
+      a.x+=sign*(ox+.5)*wa;b.x-=sign*(ox+.5)*wb;
+      const av=a.vx,bv=b.vx;
+      if(!a.drag)a.vx=bv*.45;
+      if(!b.drag)b.vx=av*.45;
+      a.va+=sign*.08;b.va-=sign*.08;
+    }
+  }
+  function physics(dt){
+    for(const b of bodies){
+      if(b.drag)continue;
+      b.vy=clamp(b.vy+.46*dt,-22,19);
+      b.vx=clamp(b.vx*.996,-22,22);
+      b.x+=b.vx*dt;b.y+=b.vy*dt;
+      b.a=clamp(b.a+b.va*dt,-17,17);
+      b.va*=.973;
+      constrain(b);
+    }
+    // Multiple small projection passes let tags pile up rather than clip through each other.
+    for(let pass=0;pass<3;pass++){
+      for(let i=0;i<bodies.length;i++)for(let j=i+1;j<bodies.length;j++)collide(bodies[i],bodies[j]);
+      for(const b of bodies)if(!b.drag)constrain(b);
+    }
+  }
+  function loop(now){
+    frame=0;
+    if(!visible || document.hidden)return;
+    const dt=lastTime?clamp((now-lastTime)/16.667,.3,2):1;
+    lastTime=now;
+    const parts=Math.ceil(dt);
+    for(let i=0;i<parts;i++)physics(dt/parts);
+    paint();startLoop();
+  }
+  function startLoop(){if(!visible||document.hidden||frame)return;frame=requestAnimationFrame(loop)}
+  const observer=new IntersectionObserver(entries=>{
+    visible=entries.some(e=>e.isIntersecting);
+    if(visible){if(!started)reset();lastTime=0;startLoop()}
+    else{cancelAnimationFrame(frame);frame=0;lastTime=0}
+  },{threshold:.04});
+  observer.observe(stage);
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(frame);frame=0}else{lastTime=0;startLoop()}});
+  replay?.addEventListener('click',reset);
+  let resizeTimer=0;
+  addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{if(started){measure();paint()}},90)},{passive:true});
+  const xy=e=>{const r=stage.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}};
+  buttons.forEach((el,i)=>{
+    const b=bodies[i];
+    el.setAttribute('aria-label',`${el.textContent.trim()}. Drag to move or throw; arrow keys to nudge.`);
+    el.addEventListener('pointerdown',e=>{
+      if(e.button!==0 || !started)return;
+      const p=xy(e);
+      b.drag=true;b.vx=0;b.vy=0;b.va=0;
+      activeDrag={b,id:e.pointerId,offx:p.x-b.x,offy:p.y-b.y};
+      b.points=[{x:b.x,y:b.y,t:performance.now()}];
+      el.classList.add('is-dragging');
+      el.setPointerCapture(e.pointerId);
+      e.preventDefault();
+      startLoop();
+    });
+    el.addEventListener('pointermove',e=>{
+      if(!activeDrag||activeDrag.b!==b||activeDrag.id!==e.pointerId)return;
+      const p=xy(e);
+      b.x=clamp(p.x-activeDrag.offx,3,Math.max(3,width-b.w-3));
+      b.y=clamp(p.y-activeDrag.offy,3,Math.max(3,height-b.h-3));
+      b.a=clamp(b.a*.8,-9,9);
+      b.points.push({x:b.x,y:b.y,t:performance.now()});
+      while(b.points.length>6 || (b.points.length>2 && performance.now()-b.points[0].t>115))b.points.shift();
+      paint();e.preventDefault();
+    });
+    const release=e=>{
+      if(!activeDrag||activeDrag.b!==b||activeDrag.id!==e.pointerId)return;
+      const last=b.points[b.points.length-1], first=b.points[0];
+      const delta=Math.max(16,last.t-first.t);
+      b.vx=clamp((last.x-first.x)/delta*16.667,-18,18);
+      b.vy=clamp((last.y-first.y)/delta*16.667,-18,18);
+      b.va=clamp(b.vx*.038,-.7,.7);
+      b.drag=false;b.points=[];
+      b.el.classList.remove('is-dragging');
+      activeDrag=null;startLoop();
+    };
+    el.addEventListener('pointerup',release);
+    el.addEventListener('pointercancel',release);
+    el.addEventListener('lostpointercapture',release);
+    el.addEventListener('keydown',e=>{
+      if(!started)return;
+      const dir={ArrowLeft:[-17,0],ArrowRight:[17,0],ArrowUp:[0,-17],ArrowDown:[0,17]}[e.key];
+      if(dir){e.preventDefault();b.x=clamp(b.x+dir[0],3,Math.max(3,width-b.w-3));b.y=clamp(b.y+dir[1],3,Math.max(3,height-b.h-3));b.vx=dir[0]*.11;b.vy=dir[1]*.11;paint()}
+      if(e.key===' '||e.key==='Enter'){e.preventDefault();b.vy=-8;b.vx=(b.i%2?1:-1)*4;startLoop()}
+    });
+  });
+})();
 
 </script>
 </body>
