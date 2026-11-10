@@ -78,6 +78,7 @@
 .tle-demo-drop-heading h2 em{font-style:normal;background:linear-gradient(transparent 66%,#F2D85B 66%)}
 .tle-demo-drop-heading p{max-width:325px;color:#53616b;font-size:14px;line-height:1.75;margin:0}
 .tle-demo-drop-grid{max-width:1310px;margin:0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:clamp(12px,2.6vw,42px);row-gap:clamp(22px,3vw,42px)}
+.tle-demo-drop-more{max-width:1310px;margin:32px auto 0;text-align:center}.tle-demo-drop-more a{display:inline-flex;align-items:center;gap:14px;padding:12px 4px;border-bottom:1px solid #191919;font-size:12px;font-weight:700;letter-spacing:.02em}.tle-demo-drop-more a:hover{border-color:#2b6e95}
 .tle-demo-drop-item{appearance:none;border:1px solid #1919190e;border-radius:25px;background:linear-gradient(155deg,#fffdf8,#eaf4fc 120%);color:#191919;min-width:0;min-height:245px;display:flex;align-items:center;justify-content:end;flex-direction:column;padding:20px 13px 22px;position:relative;isolation:isolate;cursor:pointer;touch-action:manipulation;box-shadow:0 8px 30px #19191908;transition:border-color .25s,box-shadow .25s}
 .tle-demo-drop-item::before{content:'';position:absolute;left:13%;right:13%;bottom:53px;height:22px;background:#19191912;filter:blur(17px);border-radius:50%;z-index:-1}
 .tle-demo-drop-item:hover{border-color:#19191942;box-shadow:0 18px 45px #19191913}
@@ -109,7 +110,7 @@
   <div class="progress" id="scrollProgress" aria-hidden="true"></div>
   <header class="site-header" id="siteHeader">
     <a class="brand" href="https://thelaunchera.com/" aria-label="The Launch Era — home"><span class="brand-mark">THE</span><span class="brand-title">LAUNCH ERA<span class="brand-dot">.</span></span></a>
-    <nav aria-label="Main navigation" class="nav-links"><a href="#work">Work</a><a href="#services">Services</a><a href="#about">About</a></nav>
+    <nav aria-label="Main navigation" class="nav-links"><a href="#website-drops">Work</a><a href="#services">Services</a><a href="#about">About</a></nav>
     <a class="nav-cta" href="https://thelaunchera.com/website-for-your-business/">Start a project</a>
   </header>
   <main id="main">
@@ -125,7 +126,7 @@
         <p class="eyebrow"><span class="eyebrow-rule"></span> INDEPENDENT DIGITAL CREATIVE STUDIO</p>
         <h1 id="heroTitle">Your idea<br />deserves to<br /><em>be seen.</em></h1>
         <p class="hero-sub">We design websites and digital experiences that bring your business to life.</p>
-        <div class="hero-actions"><a class="btn btn-dark" href="#work">Explore our work</a><a class="btn btn-ghost" href="https://thelaunchera.com/website-for-your-business/">Start your website</a></div>
+        <div class="hero-actions"><a class="btn btn-dark" href="#website-drops">Explore our work</a><a class="btn btn-ghost" href="https://thelaunchera.com/website-for-your-business/">Start your website</a></div>
         <div class="hero-footer"><span>PORTFOLIO / 2026</span><span>SCROLL TO EXPLORE <span aria-hidden="true">↓</span></span></div>
       </div>
       <div class="hero-browser-cloud" aria-hidden="true">
@@ -140,9 +141,9 @@
         <p>Scroll to see our websites fall into place. Tap any miniature to explore the full experience.</p>
       </div>
       <div class="tle-demo-drop-grid" id="tleDemoDropGrid" aria-label="Interactive website miniatures"></div>
+    <div class="tle-demo-drop-more"><a href="https://thelaunchera.com/demos/">Browse all demos <span aria-hidden="true">↗</span></a></div>
     </section>
     <div class="marquee" aria-label="Creative websites, digital experiences and brand storytelling"><div class="marquee-track" aria-hidden="true">DIGITAL EXPERIENCES <span>—</span> WEBSITE DESIGN <span>—</span> CREATIVE DIRECTION <span>—</span> MADE TO BE SEEN <span>—</span> DIGITAL EXPERIENCES <span>—</span> WEBSITE DESIGN <span>—</span> CREATIVE DIRECTION <span>—</span> MADE TO BE SEEN <span>—</span></div></div>
-    <section class="intro-section" id="work"><div class="section-topline"><span>01 / THE WORK</span><span>SELECTED PROJECTS — 2026</span></div><div class="intro-heading"><div><span class="small-label">A LITTLE BIT OF EVERYTHING</span><h2>Every brand has<br /><i>its own world.</i></h2></div><p>From a neighborhood café to a fashion-forward storefront, we build digital spaces that feel like the business behind them.</p></div><div class="work-controls" role="group" aria-label="Filter projects"><button data-filter="all" aria-pressed="true">All projects <span>09</span></button><button data-filter="food" aria-pressed="false">Food & Drink</button><button data-filter="fashion" aria-pressed="false">Fashion & Beauty</button><button data-filter="lifestyle" aria-pressed="false">Lifestyle</button><button data-filter="service" aria-pressed="false">Services</button></div><div id="projectGrid" class="project-grid"></div><div class="work-note"><span>EXPLORE THE FULL COLLECTION</span><a href="https://thelaunchera.com/demos/" target="_blank" rel="noopener">Browse all demos <span aria-hidden="true">↗</span></a></div></section>
     <section class="statement" id="statement"><span class="section-tag">BUILT DIFFERENT / ON PURPOSE</span><div class="statement-orbit orbit-a" aria-hidden="true"></div><div class="statement-orbit orbit-b" aria-hidden="true"></div><h2>Good design<br />looks beautiful.<br /><em>Great design works.</em></h2><p>More than a website. A memorable first impression, a place to explore, and a simple next step for your customers.</p><a href="#services" class="statement-link">WHAT WE CREATE <span aria-hidden="true">↓</span></a></section>
     <section class="services" id="services"><div class="section-topline"><span>02 / WHAT WE DO</span><span>MADE FOR REAL BUSINESSES</span></div><div class="services-layout"><div class="services-title"><p class="small-label">YOUR BRAND, ONLINE</p><h2>Digital<br /><em>possibilities.</em></h2><p>Thoughtful strategy, beautiful details, and an easy-to-use experience — all working together.</p><a class="btn btn-dark" href="https://thelaunchera.com/website-for-your-business/">Explore website services <span class="btn-icon" aria-hidden="true">↗</span></a></div><div class="service-stack"><article><span class="service-number">01</span><div><h3>Websites with personality</h3><p>Distinctive, mobile-first spaces tailored to the way your customers explore and connect.</p></div><span class="service-symbol" aria-hidden="true">↗</span></article><article><span class="service-number">02</span><div><h3>Interactive experiences</h3><p>Rich galleries, easy navigation, and intentional motion that makes every detail feel alive.</p></div><span class="service-symbol" aria-hidden="true">↗</span></article><article><span class="service-number">03</span><div><h3>A clearer path to inquiries</h3><p>Thoughtful calls to action and simple contact experiences that help visitors take the next step.</p></div><span class="service-symbol" aria-hidden="true">↗</span></article></div></div></section>
     <section class="process"><div class="section-topline"><span>03 / THE EXPERIENCE</span><span>LESS COMPLICATED. MORE YOU.</span></div><h2>From idea to<br /><em>something real.</em></h2><div class="process-steps"><article><span>01 / SHARE</span><h3>Tell us your idea.</h3><p>Show us your business, your inspiration, and what you want your website to do.</p></article><article><span>02 / CREATE</span><h3>We shape the experience.</h3><p>Imagery, colors, storytelling, and details come together around your brand.</p></article><article><span>03 / LAUNCH</span><h3>Make your entrance.</h3><p>A beautiful digital home, ready for customers to discover and explore.</p></article></div></section>
@@ -186,7 +187,6 @@ const projects = [
   {id:'havana-19',name:'Havana 19',category:'food',tag:'Restaurant · Hospitality',year:'2026',description:'A warm, expressive Havana-inspired restaurant website with original brand imagery and a complete dining story.',image:`${base}/demos/havana-19/photos/HAVANA19_Hero_Fachada_Borgona.jpeg`,href:`${base}/demos/havana-19/`,color:'#dbb8a4',fit:'cover'},
   {id:'experience-cleaning',name:'Experience Cleaning',category:'service',tag:'Services · Booking',year:'2026',description:'A streamlined service website that helps customers understand offerings and get started.',image:`${base}/experience-cleaning/media/cleaning-hero-poster-20261108.jpg`,href:`${base}/experience-cleaning/`,color:'#dee7ed',fit:'cover'}
 ];
-const grid = document.querySelector('#projectGrid');
 const dialog = document.querySelector('#projectDialog');
 const video = document.querySelector('#heroVideo');
 const poster = document.querySelector('#heroPoster');
@@ -200,22 +200,6 @@ const modalExplore = document.querySelector('#modalExplore');
 const openPreviewExternal = document.querySelector('#openPreviewExternal');
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 let lastTrigger = null;
-let chosenFilter = 'all';
-function render() {
-  grid.replaceChildren();
-  for (const [i,p] of projects.entries()) {
-    if(chosenFilter !== 'all' && p.category !== chosenFilter) continue;
-    const article = document.createElement('article');
-    article.className = 'project-card';
-    article.dataset.project = p.id;
-    article.innerHTML = `<div class="card-inner"><button type="button" class="project-media" style="--card-bg:${p.color}" aria-label="Preview ${p.name} website"><img alt="Original imagery from the ${p.name} website" src="${p.image}" loading="lazy" decoding="async" style="object-fit:${p.fit}"><span class="browser-chrome" aria-hidden="true"><span></span><span></span><span></span><b>${p.name.toUpperCase()}</b></span><span class="project-tag">${p.tag}</span><span class="project-cta-round" aria-hidden="true">↗</span></button><div class="project-meta"><div><h3>${p.name}</h3><p>${p.tag}</p></div><span>${p.year} / ${String(i+1).padStart(2,'0')}</span></div></div>`;
-    article.querySelector('button').addEventListener('click', e => openProject(p,e.currentTarget));
-    grid.append(article);
-  }
-  const status=document.getElementById('filterStatus')||document.createElement('span');
-  status.id='filterStatus';status.className='sr-only';status.setAttribute('role','status');status.textContent=`Showing ${grid.children.length} projects`;
-  if(!status.isConnected) grid.after(status);
-}
 function openProject(p,trigger) {
   lastTrigger=trigger;
   modalTitle.textContent=p.name;
@@ -237,14 +221,6 @@ function closeProject() {
 closeDialog.addEventListener('click',closeProject);
 dialog.addEventListener('click',e=>{if(e.target===dialog) closeProject();});
 dialog.addEventListener('close',()=>{previewFrame.src='about:blank';document.body.style.overflow='';lastTrigger?.focus();});
-for(const btn of document.querySelectorAll('[data-filter]')) {
-  btn.addEventListener('click',()=>{
-    chosenFilter=btn.dataset.filter;
-    for(const other of document.querySelectorAll('[data-filter]')) other.setAttribute('aria-pressed',String(other===btn));
-    render();
-  });
-}
-
 // The miniature gallery and the full portfolio share the same verified project URLs.
 const miniGrid = document.getElementById('tleDemoDropGrid');
 if (miniGrid) {
@@ -290,7 +266,6 @@ if (reduced.matches) document.querySelectorAll('.tle-brand-pill[data-project]').
   });
 });
 
-render();
 document.querySelector('#year').textContent=String(new Date().getFullYear());
 // Keep the first frame visible until the actual cinematic video can play.
 function markPlaying(){video.classList.add('is-playing');poster.style.opacity='0';}
@@ -314,7 +289,6 @@ window.addEventListener('scroll',onScroll,{passive:true});onScroll();
 if (!reduced.matches) {
   import('https://cdn.jsdelivr.net/npm/motion@14.11.1/+esm').then(({animate,inView,scroll,stagger})=>{
     animate('.hero-copy > .eyebrow, .hero-copy > h1, .hero-copy > .hero-sub, .hero-copy > .hero-actions', {opacity:[0,1],y:[24,0]},{duration:.82,delay:stagger(.105),ease:[.2,.8,.2,1]});
-    inView('.project-card',element=>{animate(element,{opacity:[.82,1],y:[14,0]},{duration:.65,ease:'easeOut'});},{amount:.12});
     inView('.service-stack article, .process-steps article',element=>{animate(element,{opacity:[.72,1],y:[22,0]},{duration:.65,ease:'easeOut'});},{amount:.2});
     // Hero windows use the dedicated scroll-gravity controller below;
     // avoid conflicting transforms between Motion and the physics layer.
