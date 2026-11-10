@@ -26,7 +26,7 @@ try {
   const drawer=page.locator("#lb-cart-drawer");
   // The approved cart-flight experience does NOT auto-open the drawer.
   assert.equal(await drawer.isHidden(),true,"Bag stays closed until the visitor opens it");
-  await page.waitForFunction(()=>document.querySelector("[data-lb-cart-count]")?.textContent==="1",{timeout:3000});
+  await page.waitForFunction(()=>document.querySelector("[data-lb-cart-count]")?.textContent==="1",null,{timeout:3000});
   assert.equal(await page.locator("[data-lb-cart-count]").innerText(),"1");
   await page.locator(".lb-cart-trigger").click();
   assert.equal(await drawer.isVisible(),true,"Bag opens on explicit visitor action");
@@ -50,7 +50,7 @@ try {
   assert.equal(await page.locator(".lb-add").first().innerText(),"AÑADIR A LA BOLSA","Spanish product CTA");
   await page.locator(".lb-add").first().click();
   assert.equal(await drawer.isHidden(),true,"Spanish flow must also keep bag closed after Add");
-  await page.waitForFunction(()=>document.querySelector("[data-lb-cart-count]")?.textContent==="1",{timeout:3000});
+  await page.waitForFunction(()=>document.querySelector("[data-lb-cart-count]")?.textContent==="1",null,{timeout:3000});
   await page.locator(".lb-cart-trigger").click();
   await drawer.locator('[data-lb-action="review"]').click();
   await drawer.locator('[data-lb-action="complete"]').click();
