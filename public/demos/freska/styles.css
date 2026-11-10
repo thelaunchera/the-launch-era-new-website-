@@ -11,3 +11,10 @@
 
 /* The completed demo receipt stays inside Freska's original iPhone bag sheet. */
 .demo-order-confirmation{padding:8px 0 16px}.demo-order-confirmation-mark{display:grid;place-items:center;width:54px;height:54px;border-radius:50%;background:var(--pink);color:#fff;font-size:29px;font-weight:800;margin:0 0 16px}.demo-order-confirmation .eyebrow{margin:0 0 18px}.demo-receipt-line{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:13px;align-items:center;padding:12px 0;border-top:1px solid #e6d7dd;font-size:15px}.demo-receipt-line img{height:56px;width:56px;object-fit:cover;border-radius:13px}.demo-receipt-line strong{white-space:nowrap}.demo-receipt-note{margin:20px 0 0;color:var(--muted);font-size:13px;line-height:1.6}
+
+/* Hero clarity review — 2026-11-10. Original media and actions retained. */
+html[data-tle-one-motion="freska"] .hero .eyebrow{font-size:12px;line-height:1.5;letter-spacing:.12em}
+html[data-tle-one-motion="freska"] .hero h1 em{color:#ffc2df}
+html[data-tle-one-motion="freska"] .hero .pill-pink{color:#1a1830;min-height:48px;font-size:14px}
+html[data-tle-one-motion="freska"] .hero .pill-light-outline{border-color:transparent;background:transparent;text-decoration:underline;text-underline-offset:5px;min-height:48px;font-size:14px}
+@media(max-width:700px){html[data-tle-one-motion="freska"] .hero-buttons .pill{flex:0 1 auto}html[data-tle-one-motion="freska"] .hero-lede{font-size:16px}}

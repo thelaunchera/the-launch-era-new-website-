@@ -1,3 +1,10 @@
+## 2026-11-10 — Hero clarity review from owner video
+- Existing catalog audited dynamically across the primary website and secondary Pages repository, including Jaramillo's existing source branch. No demo count is encoded in the new responsive check.
+- Nine hero treatments clarify the actual offering, improve small copy and primary-action legibility, and demote competing secondary actions: FRESKA, Sneekiefs, La Vie in Pink, Lavanda, AFTR, WOK SOCIAL, Seasonal Brew, VELMORA and Nail Room. Original headlines and approved media remain. English/Spanish dictionaries are updated wherever the native demo provides them.
+- Source corrections include FRESKA pink-on-blue headline and white-on-pink button contrast, Sneekiefs small white copy on blue, and 48px primary actions. No photos, logos, prices, carts, forms, auth, real customer records or classroom publication are changed.
+- All existing routes and CTA destinations are retained. New QA measures every currently cataloged hero at 360/390/820/1024/1440 in Chromium and WebKit, records screenshots, verifies decoded photographs and native CTA destinations.
+- Local route, recovery, tenant guards and decorative-symbol checks are recorded separately from GitHub browser checks. Local browser launch is unavailable (socket operation denied; browser download incomplete); no local/physical iPhone pass is claimed. GitHub QA, Pages and final live verification remain pending until evidence is recorded.
+
 ## 2026-11-10 — Casa Brownie: one six-flavor menu and consistent sample prices
 - **Route unchanged:** `/demos/casa-brownie/` under `public/demos/casa-brownie/index.html`; existing `#brownies` is the only product-menu section and remains the navigation/CTA destination.
 - **Cause and fix:** The shared `public/assets/tle-demo-original-prices-20261108.js` was injecting a separate three-card “Explore the menu” before the native six-flavor gallery. Casa Brownie now registers the shared price data for the guided order but skips the duplicate section. Other demo brands retain their existing injection behavior.
