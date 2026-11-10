@@ -146,6 +146,13 @@ function setup(){
  new MutationObserver(()=>translate()).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
  return true;
 }
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{if(!setup()){const watcher=new MutationObserver(()=>{if(setup())watcher.disconnect()});watcher.observe(document.body,{childList:true,subtree:true});setTimeout(()=>watcher.disconnect(),12000)}},{once:true});
-else setup();
+// The price catalog is rendered asynchronously, after deferred scripts have run.
+function initialize(){
+ if(setup())return;
+ const watcher=new MutationObserver(()=>{if(setup())watcher.disconnect()});
+ watcher.observe(document.body,{childList:true,subtree:true});
+ setTimeout(()=>watcher.disconnect(),15000);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initialize,{once:true});
+else initialize();
 })();
