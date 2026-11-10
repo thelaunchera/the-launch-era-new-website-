@@ -1,6 +1,6 @@
 /* SOVA Campaign — editorial auto-carousel (2026-11-07)
    Progressive enhancement: never clones or replaces approved campaign cards.
-   Original image-dialog controls and downloads remain bound to original buttons. */
+   Original image-dialog navigation remains bound to its buttons; no public photo downloads. */
 (() => {
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let activeGallery = null;
