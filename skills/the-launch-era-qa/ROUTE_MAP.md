@@ -1,3 +1,14 @@
+## 2026-11-10 — Original demo carts: explicit no-charge order confirmations (proposed)
+
+- **Existing routes only:** `/demos/freska/`, `/demos/sneekiefs/`, `/demos/casa-brownie/` and `/demos/crumb/`. No new routes, inventory, email or checkout services.
+- **Freska:** its original bag bottom sheet now remains open after simulated completion and shows itemized lines, quantity, total and a no-charge bilingual receipt; the session-only cart counter resets. Previous transient toast alone was insufficient.
+- **Sneekiefs:** existing select-size → bag → review sequence now has an explicit complete-demo-order action and a bilingual, itemized sample receipt. Product images, size choices and current prices remain unchanged.
+- **Casa Brownie:** the native flavor bag can now complete to a sample receipt for the full selection; the existing separate three-step interactive brownie builder is preserved.
+- **CRUMB:** the native gift-box preview can now complete to a sample receipt; existing cookie/quantity/packaging interactions remain in place.
+- **Already covered:** La Vie in Pink and Lavanda have their own native simulated confirmation. The shared guided order demo script covers Casa Brownie, CRUMB, Golden Grid and Havana 19; do not duplicate or replace it.
+- **Safety:** all completion remains local in the user's current tab; no order, personal data, email, payment, stock reservation or server write. Mobile bottom sheet styles for Freska, Sneekiefs, La Vie in Pink and Lavanda remain brand-scoped.
+- **Release gate:** new Chromium/WebKit real-browser QA in `scripts/qa-demo-order-confirmations-20261110.mjs` and PR workflow. Until CI and Pages deployment plus live Safari checks succeed, describe as proposed, not published.
+
 ## 2026-11-09 — Website miniature drops beneath founder gravity
 - **Route:** Existing public `/portfolio/`, after `#brand-gravity` and before the footer; no new route or client page.
 - **New interactive section:** `#website-drops` (`#tleDemoDropGrid`) renders nine small, distinct browser-window images, with each brand name on a matching colored pill below. Images fall with a bounce as they enter view. The same approved `projects` array drives image URL, title and `openProject()` action, avoiding duplicated or invented demo destinations.
