@@ -1,3 +1,9 @@
+## 2026-11-09 — Gravity pills were not navigable; mobile mini previews requested
+- **Observation:** Original `/portfolio/` gravity tags were decorative draggable buttons with no website-open action. User requested each corresponding mini browser photo to fall beneath the gravity section and open its full demo on tap.
+- **Scoped repair:** Add nine accessible, animated mini browser previews directly beneath the existing blue tag area; share the gallery's original image+URL model and preview dialog; give gravity tags tap-to-preview while preserving pointer-capture drag, keyboard movement, replay and reduced-motion fallback. Havana 19 was in the tags but not the gallery; Experience Cleaning was in the gallery but not the tags. Both now appear in the full nine-project set.
+- **Responsive fix:** Existing About founder headline caused ~27px overflow at 320px; constrain the mobile grid's minimum and allow the emphasized line to wrap at compact widths.
+- **Verification:** local headless Chromium at 320, 390 and 1440px: nine mini previews, no JS errors or horizontal overflow; click opens correct Golden Grid modal and a moving Freska pill opens its modal. Reduced-motion 390px static cards and Havana pill open verified. Site-wide CI and live Pages + real iPhone Safari remain necessary before claiming complete deployment.
+
 ## 2026-11-09 — Portfolio gravity interaction QA and deployment gate
 - **Change:** Added scroll-tied falling 3D website windows in the isolated founder hero and gravity-simulated brand pills to footer. There are no new backend, billing, form or contact operations.
 - **Implementation:** Custom lightweight physics keeps motion scoped to the visible footer; collision resolution, wall bounds, pointer-capture toss velocity and keyboard nudges. Reduced-motion disables movement. CSS moves the hero browser cloud to a mobile strip so it does not mask founder video.
