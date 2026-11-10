@@ -34,13 +34,13 @@ const words = {
     detailText: 'Soft curves. Brushed silver accents. A palette that belongs in your everyday world.',
     galleryLabel: 'THE SOVA CAMPAIGN', galleryTitle: 'A DIFFERENT<br>KIND OF LOUD.',
     galleryLead: 'Ten individual images. One unmistakable point of view.',
-    viewPhoto: 'View photo', photo: 'Photo', download: 'Download original PNG',
+    viewPhoto: 'View photo', photo: 'Photo',
     previous: 'Previous', next: 'Next', close: 'Close',
     faqs: 'A FEW GOOD QUESTIONS', faqTitle: 'GOOD TO KNOW.',
     questions: [
       ['What is SOVA?', 'SOVA is a fictional headphone brand created to demonstrate a complete visual identity and shopping experience.'],
       ['Can I buy these headphones?', 'This is a brand demo. You can explore colors and save a demo bag, but it does not accept orders or payments.'],
-      ['Can I open the campaign photos?', 'Yes. Select any of the ten images to see the full original and download its individual PNG.']
+      ['Can I open the campaign photos?', 'Yes. Select any of the ten images to view the campaign in the gallery.']
     ],
     ctaLabel: 'YOUR NEXT BRAND COULD FEEL THIS GOOD.', ctaTitle: 'LIKE THE LOOK?<br>LET’S BUILD YOURS.',
     inquire: 'Inquire about this design', demo: 'Fictional brand demo · No orders or payments.',
@@ -68,13 +68,13 @@ const words = {
     detailText: 'Curvas suaves. Acentos plateados. Una paleta que forma parte de tu mundo.',
     galleryLabel: 'LA CAMPAÑA SOVA · EN INGLÉS', galleryTitle: 'UNA FORMA<br>DE EXPRESARTE.',
     galleryLead: 'Diez imágenes individuales. Una identidad que se reconoce.',
-    viewPhoto: 'Ver foto', photo: 'Foto', download: 'Descargar PNG original',
+    viewPhoto: 'Ver foto', photo: 'Foto',
     previous: 'Anterior', next: 'Siguiente', close: 'Cerrar',
     faqs: 'ALGUNAS RESPUESTAS', faqTitle: 'BUENO SABERLO.',
     questions: [
       ['¿Qué es SOVA?', 'SOVA es una marca ficticia de audífonos creada para mostrar una identidad visual completa y una experiencia de compra.'],
       ['¿Puedo comprar los audífonos?', 'Esta es una demostración de marca. Puedes explorar los colores y guardar una bolsa demo. No acepta pedidos ni pagos.'],
-      ['¿Puedo abrir las fotos de la campaña?', 'Sí. Toca cualquiera de las diez imágenes para ver el original completo y descargar su PNG individual.']
+      ['¿Puedo abrir las fotos de la campaña?', 'Sí. Toca cualquiera de las diez imágenes para ver la campaña en la galería.']
     ],
     ctaLabel: 'TU PRÓXIMA MARCA PUEDE SENTIRSE ASÍ.', ctaTitle: '¿TE GUSTA?<br>CREEMOS LA TUYA.',
     inquire: 'Consultar sobre este diseño', demo: 'Marca ficticia de demostración · Sin pedidos ni pagos.',
@@ -283,7 +283,7 @@ function paintPhoto() {
   const t = text();
   const dialog = document.querySelector('#photo-dialog');
   const file = imageFiles[currentImage];
-  dialog.innerHTML = `${closeButton()}<div class="photo-stage"><img src="${asset(file)}" alt="${imageNames[currentImage]}"></div><div class="photo-controls"><div><p class="eyebrow">${t.photo} ${String(currentImage + 1).padStart(2, '0')} / 10</p><p>${imageNames[currentImage]}</p></div><a class="button button-white" href="${asset(file)}" download="SOVA-${file}">${t.download}</a><div class="photo-navigation"><button data-previous>${t.previous}</button><button data-next>${t.next}</button></div></div>`;
+  dialog.innerHTML = `${closeButton()}<div class="photo-stage"><img src="${asset(file)}" alt="${imageNames[currentImage]}"></div><div class="photo-controls"><div><p class="eyebrow">${t.photo} ${String(currentImage + 1).padStart(2, '0')} / 10</p><p>${imageNames[currentImage]}</p></div><div class="photo-navigation"><button data-previous>${t.previous}</button><button data-next>${t.next}</button></div></div>`;
   dialog.querySelector('[data-close]').addEventListener('click', () => dialog.close());
   dialog.querySelector('[data-previous]').addEventListener('click', () => { currentImage = (currentImage + 9) % 10; paintPhoto(); dialog.querySelector('[data-previous]').focus(); });
   dialog.querySelector('[data-next]').addEventListener('click', () => { currentImage = (currentImage + 1) % 10; paintPhoto(); dialog.querySelector('[data-next]').focus(); });
