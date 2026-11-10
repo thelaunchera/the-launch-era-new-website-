@@ -1,0 +1,96 @@
+/* The Launch Era | mobile-only bottom-sheet checkout enhancement (2026-11-10).
+   Keep each brand's native cart/checkout state, prices, and actions unchanged. */
+@media (max-width: 640px) {
+  /* Prevent the existing Lavanda editorial edges from creating horizontal
+     page panning when its cart is closed (inner galleries remain scrollable). */
+  html[data-tle-one-motion="lavender-edit"],
+  html[data-tle-one-motion="lavender-edit"] body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+  /* The same cart panel becomes a bottom sheet instead of a side drawer. */
+  #bag-panel:not([hidden]),
+  #bagDialog:not([hidden]),
+  .lb-cart-drawer:not([hidden]) {
+    position: fixed;
+    top: auto !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    inset: auto 0 0 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0;
+    height: auto !important;
+    max-height: min(93dvh, 920px) !important;
+    border-radius: 26px 26px 0 0 !important;
+    box-shadow: 0 -18px 70px #19191933 !important;
+    overflow: hidden auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    animation: tle-mobile-sheet-rise .48s cubic-bezier(.18,.82,.2,1) both;
+  }
+  #bag-panel:not([hidden]) {
+    min-height: min(53dvh, 480px);
+    padding-bottom: max(22px, env(safe-area-inset-bottom));
+  }
+  #bagDialog:not([hidden]) {
+    min-height: min(48dvh, 420px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  #bagDialog:not([hidden]) .drawer-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  #lb-cart-drawer:not([hidden]) {
+    min-height: min(53dvh, 480px);
+    overflow: hidden;
+    animation: tle-mobile-sheet-rise .48s cubic-bezier(.18,.82,.2,1) both !important;
+  }
+  .lb-cart-drawer:not([hidden]) .lb-cart-body {
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .lb-cart-drawer:not([hidden]) .lb-cart-bottom {
+    padding-bottom: max(18px, env(safe-area-inset-bottom));
+  }
+  .cart-layer:not([hidden]) {
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .cart-layer:not([hidden]) .cart-drawer {
+    width: 100%;
+    max-width: 100%;
+    min-height: min(48dvh, 420px);
+    height: auto;
+    max-height: min(93dvh, 920px);
+    border-radius: 26px 26px 0 0;
+    box-shadow: 0 -18px 70px #19191933;
+    animation: tle-mobile-sheet-rise .48s cubic-bezier(.18,.82,.2,1) both;
+  }
+  .cart-layer:not([hidden]) .cart-body {
+    min-height: 0;
+    overflow-y: auto;
+    padding-bottom: max(24px, env(safe-area-inset-bottom));
+  }
+  #bag-panel[hidden],#bagDialog[hidden],
+  .lb-cart-drawer[hidden],.cart-layer[hidden] { display: none !important; }
+}
+@keyframes tle-mobile-sheet-rise {
+  from { transform: translate3d(0, 103%, 0); opacity: .88; }
+  to { transform: translate3d(0, 0, 0); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #bag-panel:not([hidden]), #bagDialog:not([hidden]),
+  #lb-cart-drawer:not([hidden]), .cart-layer:not([hidden]) .cart-drawer {
+    animation: none !important;
+    transform: none !important;
+  }
+}
