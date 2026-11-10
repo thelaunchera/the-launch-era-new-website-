@@ -48,6 +48,8 @@ try {
   assert.equal(await page.locator("[data-lb-cart-word]").innerText(),"Bolsa","Spanish bag");
   assert.equal(await page.locator(".lb-add").first().innerText(),"AÑADIR A LA BOLSA","Spanish product CTA");
   await page.locator(".lb-add").first().click();
+  assert.equal(await drawer.isHidden(),true,"Spanish add must also leave bag closed");
+  await page.locator(".lb-cart-trigger").click();
   await drawer.locator('[data-lb-action="review"]').click();
   await drawer.locator('[data-lb-action="complete"]').click();
   assert.ok((await drawer.innerText()).includes("¡Tu compra simulada está completa!"),"Spanish confirmation");
