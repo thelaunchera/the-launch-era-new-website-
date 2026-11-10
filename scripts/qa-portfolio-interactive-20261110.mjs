@@ -32,7 +32,7 @@ for(const type of [chromium,webkit]){
    await second.focus();
    await second.press('Enter');
    assert.equal(await page.locator('#projectDialog').evaluate(el=>el.open),true,'Keyboard Enter opens the second website');
-   assert.equal((await page.locator('#modalTitle').innerText()).trim(),'Sneekiefs','Matching brand opens instead of repeated first demo');
+   assert.equal((await page.locator('#modalTitle').innerText()).trim(),'VELMORA','Matching brand opens instead of repeated first demo');
    await page.locator('#closeDialog').click();
    assert.deepEqual(errors,[],'No portfolio JavaScript errors');
    console.log('PORTFOLIO PASS',type.name(),width,motion,'one set of cards');
