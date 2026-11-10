@@ -14,7 +14,7 @@ const server=http.createServer((req,res)=>{const file=localFile(req.url);if(!fs.
 await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port;
 const out='qa-artifacts/demo-discovery';fs.mkdirSync(out,{recursive:true});const report=[];
 const engine=process.env.BROWSER==='webkit'?webkit:chromium;const browser=await engine.launch({headless:true});
-try{for(const width of [375,1440])for(const [brand,cfg]of Object.entries(configs)){
+try{for(const width of [375,1440])for(const [brand,cfg]of Object.entries(configs).sort(([a],[b])=>(a==='jaramillo-boutique'?-1:b==='jaramillo-boutique'?1:0))){
 const page=await browser.newPage({viewport:{width,height:900},reducedMotion:'reduce'});const errors=[];page.on('pageerror',e=>errors.push(e.message));
 await page.route('**/*',async route=>{const u=new URL(route.request().url());if(u.origin===origin)return route.continue();if(u.hostname==='thelaunchera.com'){const file=localFile(u.pathname);if(fs.existsSync(file))return route.fulfill({path:file,contentType:mime[path.extname(file)]});}return route.abort()});
 const url=origin+(secondaryBrands.includes(brand)?'/secondary/'+brand+'/':brand==='experience-cleaning'?'/experience-cleaning/':'/demos/'+brand+'/');
@@ -23,6 +23,7 @@ await page.goto(url,{waitUntil:'domcontentloaded'});await page.locator('main .he
 // The secondary fixtures may not have received the include commit yet; exercise the exact release module.
 if(!await page.locator('[data-discovery-brand]').count())await page.evaluate(brand=>{const s=document.createElement('script');s.src='https://thelaunchera.com/assets/tle-demo-discovery-20261110.js?v=1';s.dataset.discoveryBrand=brand;document.body.append(s)},brand);
 await page.locator('#tle-brand-discovery').waitFor();await page.waitForTimeout(400);const baseline=errors.splice(0);
+if(brand==='jaramillo-boutique'){page.on('console',m=>{if(m.text().startsWith('DISCOVERY_DEBUG'))console.log(m.text())});await page.evaluate(()=>document.addEventListener('click',e=>console.log('DISCOVERY_DEBUG click',e.isTrusted,e.target.closest('a,button')?.outerHTML.slice(0,220)),true))}
 assert.equal(await page.locator('#tle-brand-discovery').count(),1);assert.equal(await page.locator('#tle-brand-discovery .td-card').count(),3);
 assert(await page.locator('main .hero').first().evaluate(hero=>hero.nextElementSibling?.id==='tle-brand-discovery'));
 const geometry=await page.locator('#tle-brand-discovery').evaluate(s=>{const r=s.getBoundingClientRect();return {left:r.left,right:r.right,width:innerWidth,cards:[...s.querySelectorAll('a')].map(a=>({height:a.getBoundingClientRect().height,photo:a.style.getPropertyValue('--td-photo')}))}});
@@ -38,7 +39,8 @@ await page.waitForFunction(index=>{const a=document.querySelectorAll('#tle-brand
 await shortcut.click();
 assert(await page.locator(cfg[4][index][2]).isVisible(),brand+' destination '+index);
 const trigger=cfg[4][index][4];if(trigger&&await page.locator(trigger).count()){
-const selected=await page.locator(trigger).getAttribute('aria-pressed');if(selected!==null)assert.equal(selected,'true',brand+' native filter');}
+if(brand==='jaramillo-boutique')console.log('DISCOVERY_DEBUG state',index,await page.locator('.filter').evaluateAll(bs=>bs.map(b=>[b.dataset.filter,b.getAttribute('aria-pressed')])));
+const selected=await page.locator(trigger).getAttribute('aria-pressed');if(selected!==null){await page.waitForFunction(selector=>document.querySelector(selector)?.getAttribute('aria-pressed')==='true',trigger);assert.equal(await page.locator(trigger).getAttribute('aria-pressed'),'true',brand+' native filter '+index);}}
 }
 assert.deepEqual(errors,[],brand+' errors after shortcut');
 await page.locator('#tle-brand-discovery .td-track').evaluate(track=>{track.scrollLeft=0});
