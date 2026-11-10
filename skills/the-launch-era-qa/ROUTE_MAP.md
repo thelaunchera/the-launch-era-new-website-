@@ -1,3 +1,11 @@
+## 2026-11-09 — Website miniature drops beneath founder gravity
+- **Route:** Existing public `/portfolio/`, after `#brand-gravity` and before the footer; no new route or client page.
+- **New interactive section:** `#website-drops` (`#tleDemoDropGrid`) renders nine small, distinct browser-window images, with each brand name on a matching colored pill below. Images fall with a bounce as they enter view. The same approved `projects` array drives image URL, title and `openProject()` action, avoiding duplicated or invented demo destinations.
+- **Playable brand pills:** The gravity pile retains drag/throw on touch and mouse; a short tap or Enter/Space now opens that brand's existing accessible full website preview dialog. `data-project` identifies each destination. Reduced motion uses static thumbnails and conventional click handling.
+- **Project coverage:** The original eight gallery demos plus Havana 19 are exposed in both the mini-gallery and the large gallery; the blue gravity area includes Experience Cleaning to match all nine. Matching destination routes are the existing `/demos/.../` and `/experience-cleaning/`.
+- **Unchanged:** Founder video/poster, public selling CTAs, checkouts, owner Command Center, demo code and bookings remain untouched. No new tracking, login, payments or backend.
+- **QA:** Chromium local fixture (excluding embedded video bytes) passed mini/pill navigation and no JS errors or horizontal overflow at 320/390/1440px; reduced motion checked at 390px. GitHub deployment and real iPhone Safari remain separate verification stages.
+
 ## 2026-11-09 — Founder portfolio hero browser drops and brand-tag gravity footer
 - **Scope:** Public `/portfolio/` only; `public/portfolio/index.html` is self-contained (inline founder video, poster, gravity CSS and JavaScript). Main website, /demos/, client pages, payments, intake and Command Centers are unchanged.
 - **Hero:** Existing cinematic founder hero remains untouched; original two screenshots (La Vie in Pink, SOVA) plus verified Golden Grid poster are grouped in a cloud. Three browser windows drop with staggered scroll progress and bounce. On mobile the cloud is in a separate strip below the founder video, so her portrait and CTAs remain visible.
