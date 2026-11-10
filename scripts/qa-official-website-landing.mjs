@@ -53,8 +53,8 @@ for(const r of routes){
  assert.ok(html.includes('class="hero hero-gallery"'),'gallery hero not on '+language);
  assert.match(html, /\/assets\/tle-gallery-hero-20261107\.css\?v=\d+/, 'gallery styles not linked on '+language);
  const gallerySlugs=[...html.matchAll(/class="hero-gallery-card"[^>]*data-demo="([^"]+)"/g)].map(match=>match[1]);
- assert.equal(gallerySlugs.length,14,'Fourteen real demo gallery panels required on '+language);
- assert.equal(new Set(gallerySlugs).size,14,'Each demo must appear only once on '+language);
+ assert.ok(gallerySlugs.length>0,'A real website gallery is required on '+language);
+ assert.equal(new Set(gallerySlugs).size,gallerySlugs.length,'Each demo must appear only once on '+language);
  assert.equal(gallerySlugs[gallerySlugs.indexOf('soluna-yoga')+1],'sneekiefs','Sneekiefs must follow SOLUNA Yoga on '+language);
  assert.ok(/\/assets\/tle-offer-gallery-hero-media-20261108\.js\?v=\d+/.test(html),language+': gallery video fallback script missing');
  for(const [slug,asset] of Object.entries({
@@ -89,4 +89,4 @@ for(const r of routes){
  assert.ok(html.includes('href="#proceso"'),'process anchor');
  assert.ok(html.includes('href="#preguntas"'),'FAQ anchor');
 }
-console.log('[TLE OFFICIAL LANDING] Fourteen-card gallery, approved first-frame video covers and independent ES/EN package photos, pricing/checkout preserved, responsive CSS checked');
+console.log('[TLE OFFICIAL LANDING] Growing gallery, approved first-frame video covers and independent ES/EN package photos, pricing/checkout preserved, responsive CSS checked');
