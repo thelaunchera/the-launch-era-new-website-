@@ -336,7 +336,44 @@ html[data-tle-demo-status="pending"] .photo-inspiration-images {
 .demo-card[data-brand="experience-cleaning"] .demo-art>video.tle-demo-hero-preview{object-fit:contain;object-position:center}
 @media(min-width:521px) and (max-width:1399px){.demo-card[data-brand="golden-grid"] .demo-art>video.tle-demo-hero-preview{display:none!important}}
 @media(prefers-reduced-motion:reduce){.demo-art>video.tle-demo-hero-preview{display:none!important;transition:none}}
-</style><style id="tle-sneekiefs-library-card">.demo-card[data-brand="sneekiefs"] .demo-art{background:#168DD2}.demo-card[data-brand="sneekiefs"] .demo-art img{object-fit:contain;object-position:center}.demo-card[data-brand="sneekiefs"] .demo-type{background:#FAF8F3;color:#16212D}</style></head>
+</style><style id="tle-sneekiefs-library-card">.demo-card[data-brand="sneekiefs"] .demo-art{background:#168DD2}.demo-card[data-brand="sneekiefs"] .demo-art img{object-fit:contain;object-position:center}.demo-card[data-brand="sneekiefs"] .demo-type{background:#FAF8F3;color:#16212D}</style><style id="tle-demo-viewer-island-20261110">
+/* Mobile demo preview navigation: dynamic island + accessible actions sheet.
+   Append after legacy styles so old 375px media rules cannot resurrect all buttons. */
+#demo-viewer .viewer-topbar{position:relative;z-index:7;min-height:66px;padding:10px clamp(16px,2.4vw,28px);background:rgba(250,248,243,.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+#demo-viewer .viewer-title{flex:1 1 auto;min-width:0;max-width:none}
+#demo-viewer .viewer-title strong{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#demo-viewer .viewer-actions{position:relative;display:flex;flex:0 0 auto;align-items:center;gap:10px}
+#demo-viewer .viewer-options{display:flex;align-items:center;gap:10px}
+#demo-viewer .viewer-options[hidden]{display:none!important}
+#demo-viewer .viewer-menu-toggle{display:none}
+#demo-viewer .viewer-close{border-radius:999px;padding-inline:18px;box-shadow:0 5px 13px #19191917;transition:transform .2s ease,background .2s ease}
+#demo-viewer .viewer-close:hover{transform:translateY(-1px);background:#373737}
+#demo-viewer .viewer-owner{display:inline-flex;min-height:43px}
+#demo-viewer .viewer-owner[hidden]{display:none!important}
+@media(max-width:720px){
+ #demo-viewer .viewer-topbar{margin:8px max(8px,env(safe-area-inset-right)) 6px max(8px,env(safe-area-inset-left));border:1px solid rgba(25,25,25,.12);border-radius:21px;min-height:57px;padding:6px 7px 6px 16px;gap:10px;box-shadow:0 10px 25px rgba(25,25,25,.10);animation:tle-viewer-island-enter .32s cubic-bezier(.2,.82,.2,1) both}
+ #demo-viewer .viewer-title{width:0;max-width:none;gap:0}
+ #demo-viewer .viewer-title strong{font-family:'DM Sans','Futura',Arial,sans-serif;font-size:clamp(14px,4.5vw,18px);font-weight:800;letter-spacing:-.04em}
+ #demo-viewer .viewer-eyebrow{display:none}
+ #demo-viewer .viewer-actions{gap:7px}
+ #demo-viewer .viewer-menu-toggle,#demo-viewer .viewer-close{display:grid;place-items:center;flex:0 0 42px;width:42px;height:42px;min-height:42px;padding:0;border-radius:14px}
+ #demo-viewer .viewer-menu-toggle{border:1px solid #dad5ca;background:#f1eee6;color:#191919;font-size:23px;font-weight:800;line-height:1;cursor:pointer}
+ #demo-viewer .viewer-menu-toggle[aria-expanded="true"]{background:#d7efff;border-color:#a8c9df}
+ #demo-viewer .viewer-menu-toggle span{transform:translateY(-4px)}
+ #demo-viewer .viewer-close{background:#191919;color:#fff;font-size:0;gap:0}
+ #demo-viewer .viewer-close>span[aria-hidden]{font-size:28px;font-weight:300;line-height:1}
+ #demo-viewer .viewer-close-label{position:absolute;clip-path:inset(50%);width:1px;height:1px;overflow:hidden;white-space:nowrap}
+ #demo-viewer .viewer-options{display:none;position:absolute;z-index:9;top:calc(100% + 12px);right:49px;width:min(270px,calc(100vw - 40px));border:1px solid rgba(25,25,25,.14);border-radius:19px;padding:9px;background:rgba(250,248,243,.97);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);box-shadow:0 20px 45px #1919192b;flex-direction:column;align-items:stretch;gap:4px}
+ #demo-viewer .viewer-options.is-open{display:flex}
+ #demo-viewer .viewer-external,#demo-viewer .viewer-owner{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:45px;margin:0;padding:10px 13px;background:transparent;color:#191919;border:0;border-radius:12px;text-decoration:none;font-size:13px;font-weight:750;white-space:nowrap}
+ #demo-viewer .viewer-external:hover,#demo-viewer .viewer-owner:hover,#demo-viewer .viewer-external:focus-visible,#demo-viewer .viewer-owner:focus-visible{background:#e8eff3}
+ #demo-viewer .viewer-owner[hidden]{display:none!important}
+ #demo-viewer .viewer-frame{min-height:0}
+}
+@keyframes tle-viewer-island-enter{from{opacity:.2;transform:translateY(-9px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(prefers-reduced-motion:reduce){#demo-viewer .viewer-topbar{animation:none!important}#demo-viewer .viewer-close{transition:none!important}}
+</style>
+</head>
 <body class="tle-depth-gallery">
 <header><a class="wordmark" href="/" aria-label="The Launch Era home">THE LAUNCH ERA<span>WEBSITES · DIGITAL EXPERIENCES</span></a><div class="header-right"><span class="header-note">A collection of independent worlds / 2026</span><a class="header-link" href="#collection">Explore projects</a></div></header>
 <main>
@@ -422,7 +459,7 @@ html[data-tle-demo-status="pending"] .photo-inspiration-images {
 <div class="demo-links"><a href="https://thelaunchera.github.io/demo-booking-landing-/nail-room/" target="_blank" rel="noopener noreferrer" class="view">Explore demo</a></div></div><a class="card-preview-link" href="https://thelaunchera.github.io/demo-booking-landing-/nail-room/" aria-label="Preview Nail Room; close to return to the gallery"></a></article></div><p class="empty" id="empty-message" role="status">No demos match this search. Try another category or keyword.</p></section><section id="photo-inspiration" class="photo-inspiration" aria-labelledby="photo-inspiration-title"><div class="photo-inspiration-copy"><span class="photo-inspiration-eyebrow">THE LAUNCH ERA · AI PHOTO DIRECTION</span><h2 id="photo-inspiration-title">One product.<br><em>A world of possibilities.</em></h2><p>Explore 24 curated photographs from existing demos, organized by food, bakery, retail, beauty, cleaning and services.</p><a class="photo-inspiration-cta" href="/demos/photo-gallery/">Explore the photo catalog</a></div><div class="photo-inspiration-images"><img data-demo="sova" src="/demos/sova/resources/02-product.png" loading="lazy" alt="SOVA product photograph"><img data-demo="casa-brownie" src="/demos/casa-brownie/assets/sabor-frambuesa.webp" loading="lazy" alt="Casa Brownie pastry photograph"><img data-demo="marea-wigs-miami" src="/demos/marea-wigs-miami/resources/07-curls.png" loading="lazy" alt="Marea Wigs hair photograph"></div></section><section class="closing" aria-label="The Launch Era"><h2>More than<br>just a website.</h2><a href="/">Discover The Launch Era</a></section></main>
 <dialog id="demo-viewer" class="demo-viewer" aria-labelledby="viewer-name">
 <div class="viewer-topbar"><div class="viewer-title"><span class="viewer-eyebrow">THE LAUNCH ERA / PROJECT PREVIEW</span><strong id="viewer-name">Website demo</strong></div>
-<div class="viewer-actions"><a class="viewer-external" id="viewer-external" href="/" target="_blank" rel="noopener noreferrer">Open full site</a><a class="viewer-owner" id="viewer-owner" href="/demos/" hidden>Owner View</a><button class="viewer-close" id="viewer-close" type="button"><span aria-hidden="true">×</span> Close demo</button></div></div>
+<div class="viewer-actions"><button class="viewer-menu-toggle" id="viewer-more" type="button" aria-label="Preview options" aria-controls="viewer-options" aria-expanded="false" title="More options"><span aria-hidden="true">···</span></button><div class="viewer-options" id="viewer-options"><a class="viewer-external" id="viewer-external" href="/" target="_blank" rel="noopener noreferrer">Open full site</a><a class="viewer-owner" id="viewer-owner" href="/demos/" hidden>Owner View</a></div><button class="viewer-close" id="viewer-close" type="button" aria-label="Close demo"><span aria-hidden="true">×</span><span class="viewer-close-label">Close demo</span></button></div></div>
 <div class="viewer-stage" id="viewer-stage" aria-busy="true"><div class="viewer-loading" id="viewer-loading" role="status" aria-live="polite"><span class="viewer-loading-kicker">OPENING THE PROJECT</span><strong id="viewer-loading-name">Website preview</strong><span class="viewer-loading-bar" aria-hidden="true"></span><a id="viewer-loading-direct" class="viewer-loading-direct" href="/" target="_blank" rel="noopener noreferrer">Open full website</a></div><iframe id="viewer-frame" class="viewer-frame" title="Interactive website preview" loading="eager" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
 </dialog>
 <footer class="library-footer" aria-label="Legal and project information">
@@ -455,6 +492,17 @@ frame.addEventListener('load',()=>{if(!activePreviewUrl||frame.getAttribute('src
 const title=document.getElementById('viewer-name');
 const full=document.getElementById('viewer-external');
 const ownerView=document.getElementById('viewer-owner');
+const viewerMore=document.getElementById('viewer-more');
+const viewerOptions=document.getElementById('viewer-options');
+function toggleViewerOptions(expand){
+ viewerOptions.classList.toggle('is-open',!!expand);
+ viewerMore.setAttribute('aria-expanded',String(!!expand));
+}
+viewerMore.addEventListener('click',()=>toggleViewerOptions(viewerMore.getAttribute('aria-expanded')!=='true'));
+viewerOptions.addEventListener('click',e=>{if(e.target.closest('a'))toggleViewerOptions(false)});
+document.addEventListener('pointerdown',e=>{if(modal.open&&!viewerMore.contains(e.target)&&!viewerOptions.contains(e.target))toggleViewerOptions(false)});
+modal.addEventListener('cancel',e=>{if(viewerMore.getAttribute('aria-expanded')==='true'){e.preventDefault();toggleViewerOptions(false)}});
+
 /* Preserve the approved homepage return route while switching Customer ↔ Owner.
    Keep each library card's canonical ?demo=slug anchor unchanged for the QA contract. */
 const ownerReturnRouteForDemo=new URLSearchParams(location.search).get('returnTo');
@@ -492,6 +540,7 @@ function openDemo(card,opener){
  lastSelectedCard=card;
  if(typeof modal.showModal!=='function'){window.location.href=url;return}
  previousFocus=opener;previousOverflow=document.body.style.overflow;
+ toggleViewerOptions(false);
  title.textContent=card.querySelector('h2')?.textContent||'Website demo';
  full.href=url;
  const ownerLink=card.querySelector('.owner-view');
@@ -508,6 +557,7 @@ function openDemo(card,opener){
  close.focus({preventScroll:true});
 }
 function resetDemo(){
+ toggleViewerOptions(false);
  document.body.style.overflow=previousOverflow;
  activePreviewUrl='';
  stage.classList.remove('is-ready');

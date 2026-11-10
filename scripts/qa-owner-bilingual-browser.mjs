@@ -21,6 +21,8 @@ try{
  await page.waitForFunction(()=>document.querySelector("#demo-viewer")?.open===true,null,{timeout:15000});
  assert.equal(await page.locator("html").getAttribute("lang"),"es");
  assert.equal((await page.locator("#viewer-owner").innerText()).trim(),"Vista del propietario");
+ await page.locator("#viewer-more").click();
+ assert.equal(await page.locator("#viewer-more").getAttribute("aria-expanded"),"true","Owner View is available through the compact mobile menu");
  await page.locator("#viewer-owner").click();
  await page.waitForURL(u=>u.pathname==="/demos/owner-center/"&&u.searchParams.get("demo")==="golden-grid"&&u.searchParams.get("lang")==="es",{timeout:15000});
  assert.match(await page.locator("#heading").innerText(),/Tu colección de waffles/);

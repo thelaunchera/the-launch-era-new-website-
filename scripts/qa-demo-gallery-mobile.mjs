@@ -47,7 +47,15 @@ async function checkOpenAndClose(slug,expected){
  await page.waitForFunction(()=>document.querySelector('#demo-viewer')?.open===true,null,{timeout:5000});
  assert.equal(await page.locator('#viewer-frame').getAttribute('src'),url,'Iframe should display chosen project');
  assert.equal(await page.locator('#viewer-close').isVisible(),true,'Close demo must stay visible');
- assert.equal(await page.locator('#viewer-external').isVisible(),true,'Open full site must remain available on mobile');
+ // iPhone: the full website and owner actions stay one tap away in the compact options sheet.
+ const more=page.locator('#viewer-more');
+ assert.equal(await more.isVisible(),true,'More button must be visible on iPhone');
+ await more.click();
+ assert.equal(await more.getAttribute('aria-expanded'),'true','Preview options open');
+ assert.equal(await page.locator('#viewer-external').isVisible(),true,'Open full site must remain accessible on mobile');
+ assert.equal(await page.locator('#viewer-external').getAttribute('href'),url,'Open site still points to original demo');
+ await more.click();
+ assert.equal(await more.getAttribute('aria-expanded'),'false','Options can collapse without closing demo');
  const frame=page.frameLocator('#viewer-frame');
  await frame.locator('main').first().waitFor({state:'visible',timeout:25000});
  const bodyText=await frame.locator('body').innerText({timeout:15000});

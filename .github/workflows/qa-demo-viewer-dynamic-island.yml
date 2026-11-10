@@ -1,0 +1,39 @@
+name: Demo Viewer Dynamic Island iPhone QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'public/demos/index.html'
+      - 'scripts/qa-demo-viewer-dynamic-island-20261110.mjs'
+      - '.github/workflows/qa-demo-viewer-dynamic-island.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  viewer-island:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install isolated Chromium and WebKit
+        run: |
+          mkdir -p /tmp/tle-demo-island
+          npm install --prefix /tmp/tle-demo-island --no-audit --no-fund playwright@1.57.0
+          /tmp/tle-demo-island/node_modules/.bin/playwright install --with-deps chromium webkit
+          mkdir -p node_modules
+          ln -sfn /tmp/tle-demo-island/node_modules/playwright node_modules/playwright
+          ln -sfn /tmp/tle-demo-island/node_modules/playwright-core node_modules/playwright-core
+      - name: Check iPhone demo preview controls and safe exit
+        run: |
+          node --check scripts/qa-demo-viewer-dynamic-island-20261110.mjs
+          python3 -m http.server 4197 --bind 127.0.0.1 --directory public >/tmp/tle-demo-island.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for i in $(seq 1 20); do
+            if curl -fsS http://127.0.0.1:4197/demos/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4197 node scripts/qa-demo-viewer-dynamic-island-20261110.mjs
