@@ -40,9 +40,10 @@
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
   }
-  .lb-cart-drawer:not([hidden]) {
+  #lb-cart-drawer:not([hidden]) {
     min-height: min(53dvh, 480px);
     overflow: hidden;
+    animation: tle-mobile-sheet-rise .48s cubic-bezier(.18,.82,.2,1) both !important;
   }
   .lb-cart-drawer:not([hidden]) .lb-cart-body {
     min-height: 0;
@@ -80,7 +81,7 @@
 }
 @media (prefers-reduced-motion: reduce) {
   #bag-panel:not([hidden]), #bagDialog:not([hidden]),
-  .lb-cart-drawer:not([hidden]), .cart-layer:not([hidden]) .cart-drawer {
+  #lb-cart-drawer:not([hidden]), .cart-layer:not([hidden]) .cart-drawer {
     animation: none !important;
     transform: none !important;
   }
