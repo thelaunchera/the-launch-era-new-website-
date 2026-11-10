@@ -1,3 +1,9 @@
+## 2026-11-09 — Portfolio gravity interaction QA and deployment gate
+- **Change:** Added scroll-tied falling 3D website windows in the isolated founder hero and gravity-simulated brand pills to footer. There are no new backend, billing, form or contact operations.
+- **Implementation:** Custom lightweight physics keeps motion scoped to the visible footer; collision resolution, wall bounds, pointer-capture toss velocity and keyboard nudges. Reduced-motion disables movement. CSS moves the hero browser cloud to a mobile strip so it does not mask founder video.
+- **Local QA:** JavaScript parse success. Chromium isolated desktop (1440px), iPhone-sized (390px) and compact (320px) physics checks observed scroll drop, gravity pile, no JS errors, no horizontal overflow and a working desktop toss/replay. Browser harness for the full huge inline-video page timed out in restricted execution environment, so full page and real Safari validation remain outstanding.
+- **Release verification:** GitHub source commit 01278c567e27518afbd0530e6c8b089e352c21c5. CI and live Pages/browser checks required before marking it fully released.
+
 ## 2026-11-09 — New founder portfolio route: no first-frame flash, live checks pending
 - **Scope:** Add isolated /portfolio/ single-page experience rather than replacing the existing business website. This protects the current demos, checkouts, Command Center, client routes, and their media.
 - **Media continuity:** The user-provided opening video frame is the exact poster, embedded with the optimized 7.93-second clip inside one static HTML document, so no private Google Drive video URL or unuploaded asset can trigger a wrong-image flash.
