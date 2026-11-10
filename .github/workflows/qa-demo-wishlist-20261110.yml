@@ -1,0 +1,46 @@
+name: Storefront Wishlist Collapse QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'public/assets/tle-demo-wishlist-20261110.*'
+      - 'public/demos/lavender-edit/**'
+      - 'public/demos/sneekiefs/**'
+      - 'scripts/qa-demo-wishlist-20261110.mjs'
+      - '.github/workflows/qa-demo-wishlist-20261110.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  wishlist-browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Parse scripts and validate routes
+        run: |
+          node --check public/assets/tle-demo-wishlist-20261110.js
+          node --check public/demos/lavender-edit/boutique-shop-20261109.js
+          node --check public/demos/sneekiefs/script.js
+          node --check scripts/qa-demo-wishlist-20261110.mjs
+          node scripts/qa-route-integrity.mjs --static
+      - name: Install browsers
+        run: |
+          mkdir -p /tmp/tle-wishlist-qa
+          npm install --no-audit --no-fund --prefix /tmp/tle-wishlist-qa playwright@1.57.0
+          /tmp/tle-wishlist-qa/node_modules/.bin/playwright install --with-deps chromium webkit
+          mkdir -p node_modules
+          ln -sfn /tmp/tle-wishlist-qa/node_modules/playwright node_modules/playwright
+          ln -sfn /tmp/tle-wishlist-qa/node_modules/playwright-core node_modules/playwright-core
+      - name: Browser validation (390px and desktop)
+        run: |
+          python3 -m http.server 4196 --bind 127.0.0.1 --directory public >/tmp/tle-wishlist-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for n in $(seq 1 25); do
+            if curl -fsS http://127.0.0.1:4196/demos/sneekiefs/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4196 node scripts/qa-demo-wishlist-20261110.mjs
