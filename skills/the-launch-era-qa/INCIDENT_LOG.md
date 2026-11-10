@@ -1,3 +1,11 @@
+## 2026-11-10 — Retail wishlist cards and native cart count
+
+- **Request:** Add a wishlist grid that closes gaps as items are removed and updates heading and shopping-bag counts on Move to cart, only where suitable.
+- **Scope guard:** Only Lavanda Boutique and Sneekiefs have an obvious dedicated product shopping collection with appropriate native carts. No global demo rewrite or customer order endpoints.
+- **Implementation:** Source products and images from the original catalogs, create accessible heart controls and a session-scoped wishlist, animate card exit + FLIP neighbor reposition with reduced-motion support. Add minimal native cart bridges without opening bag drawers; require Sneekiefs shoe size.
+- **Regression risks checked in proposed QA:** bilingual copy, exact product count, native bag count, no auto-open, mobile overflow, size validation, no network writes and no browser errors. Preserve each brand's order receipt flow.
+- **Verification:** Source JavaScript parse passed. Automated PR browser tests, GitHub Pages deploy and physical iPhone checks are not yet verified; treat code as pending validation.
+
 ## 2026-11-10 — Demo orders looked finished but had no lasting receipt
 
 - **Report:** Owner's iPhone screenshots of Freska showed a complete-demo button, an empty bag and a short-lived message. User requested all carts follow a comparable interactive flow with an order confirmation.
