@@ -78,7 +78,7 @@
    stage.querySelector('p').textContent=kind==='signup'?
     translate('If your email is eligible, follow the confirmation instructions to activate your account.','Si tu correo puede registrarse, sigue las instrucciones para activar tu cuenta.'):
     translate('If your account exists, follow the secure password recovery link we sent.','Si tu cuenta existe, sigue el enlace seguro para recuperar la contraseña.');
-   stage.querySelector('.crm-email-resend').hidden=kind!=='reset';
+   stage.querySelector('.crm-email-resend').hidden=false;
    stage.querySelector('.crm-email-back').textContent=translate('Back to sign in','Volver a iniciar sesión');
    readyAt=Date.now()+60000;tick();if(timer)clearInterval(timer);
    timer=setInterval(tick,1000);
@@ -108,9 +108,16 @@
    closeMail();mode='signin';renderMode();form.elements.namedItem('email')?.focus({preventScroll:true});
   });
   stage.querySelector('.crm-email-resend').addEventListener('click',()=>{
-   if(mailKind!=='reset'||Date.now()<readyAt)return;
-   readyAt=Date.now()+60000;tick();pending='reset';
-   forgot.click(); // Existing recovery handler. Supabase enforces its own limits.
+   if(!mailKind||Date.now()<readyAt)return;
+   const kind=mailKind;
+   readyAt=Date.now()+60000;tick();
+   if(kind==='reset'){
+     pending='reset';
+     forgot.click(); // Existing password recovery handler and Supabase rate limit.
+   }else if(kind==='signup'){
+     const email=form.elements.namedItem('email')?.value?.trim()||'';
+     if(email)window.dispatchEvent(new CustomEvent('tle-crm-resend-signup',{detail:{email}}));
+   }
   });
   const role=new MutationObserver(()=>{
    if(document.body.classList.contains('crm-owner-view')||document.body.classList.contains('crm-buyer-view')){
