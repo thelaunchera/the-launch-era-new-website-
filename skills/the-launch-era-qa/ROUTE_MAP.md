@@ -1,3 +1,11 @@
+## 2026-11-11 — El Gran Juego de Navidad (branch-only preview)
+- **Ownership:** The Launch Era original Christmas board game, no client/tenant, booking, CRM, checkout, emails, analytics or database access.
+- **Source:** `public/games/navidad/index.html` on independent branch `navidad-game-2026`. Standalone self-contained HTML/CSS/JavaScript including its board graphic; all gameplay is local to the browser and its own localStorage key `tle-xmas-board-v2`.
+- **Branch preview/share:** `https://htmlpreview.github.io/?https://github.com/thelaunchera/the-launch-era-new-website-/blob/navidad-game-2026/public/games/navidad/index.html`.
+- **Alternative proxy preview:** `https://raw.githack.com/thelaunchera/the-launch-era-new-website-/navidad-game-2026/public/games/navidad/index.html` (displays third-party confirmation the first time).
+- **Production boundary:** Not on `main` and NOT deployed at `https://thelaunchera.com/games/navidad/`; the GitHub Pages release workflow only deploys `main`. Do not claim the production route exists unless main is separately approved, QA'd, deployed and checked.
+- **QA:** Browser source/runtime test on local file passed playable turns, surprise/quiz paths and victory; external HTML Preview rendered title, board, setup and controls. Physical iPhone Safari and production GitHub Pages deployment not claimed.
+
 ## 2026-11-11 — WOK SOCIAL header bag remains reachable and flies slower
 - **Cross-repository demo:** canonical URL `https://thelaunchera.github.io/demo-booking-landing-/wok-social/`; brand HTML/CSS in `thelaunchera/demo-booking-landing-/demos/wok-social/`. This main repo owns the shared `/assets/tle-demo-order-journey-20261108.js` and `tle-demo-cart-flight-20261110.js` served through `https://thelaunchera.com/`.
 - **Request:** WOK add-to-bag appears too fast; the header scrolls out of view before the visitor can open the bag.
