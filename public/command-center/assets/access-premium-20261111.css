@@ -1,0 +1,165 @@
+/* The Launch Era · Command Center sign-in upgrade.
+   This file only styles the signed-out auth interface; buyer workspace,
+   data permissions, app icons and authenticated navigation are unchanged. */
+body #auth.auth-shell{
+ position:relative;isolation:isolate;
+ display:grid;grid-template-columns:minmax(0,1fr);place-items:center;
+ max-width:none;width:100%;min-height:min(750px,calc(100dvh - 90px));
+ margin:0 auto;padding:clamp(24px,5vw,66px) 16px;
+ border:0;border-radius:0;box-shadow:none;overflow:hidden;
+ background:radial-gradient(circle at 12% 22%,#e7f3f6 0,transparent 32%),
+ radial-gradient(circle at 89% 83%,#f5eadf 0,transparent 35%),#FAF8F3;
+}
+body #auth.auth-shell.hidden{display:none!important}
+body #auth .auth-photo{display:none!important}
+body #auth .auth-content{
+ width:min(100%,450px);max-width:450px;min-width:0;
+ position:relative;z-index:1;display:flex;
+ padding:clamp(24px,4vw,33px);gap:0;
+ border:1px solid #dfe8ea;background:rgba(255,255,255,.96);
+ border-radius:25px;box-shadow:0 23px 68px #1f3e4b18,0 3px 8px #1f3e4b0b;
+ -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+}
+body #auth .auth-wordmark{
+ margin:0 0 15px;font:750 10px/1.4 Prompt,Arial,sans-serif;
+ letter-spacing:.15em;color:#6f8490;
+}
+body #auth .auth-simple-title{
+ font:400 clamp(30px,4.5vw,40px)/1.1 Georgia,serif!important;
+ letter-spacing:-.045em;color:#203740;margin:5px 0 13px!important;
+}
+body #auth .crm-auth-description{
+ font-size:13px;line-height:1.6;color:#748992;margin:0 0 17px;
+}
+body #auth .crm-auth-lock{
+ width:55px;height:55px;border-radius:17px;
+ display:grid;place-items:center;margin-bottom:18px;
+ background:#e5f1f5;color:#263f4b;
+}
+body #auth .crm-auth-lock svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+body #auth .crm-auth-tabs{
+ width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:4px;padding:4px;margin:0 0 21px;border-radius:12px;
+ background:#eff4f3;border:1px solid #e4ebeb;
+}
+body #auth .crm-auth-tabs button{
+ display:flex;align-items:center;justify-content:center;
+ min-width:0;min-height:43px;border:0;border-radius:9px;
+ background:transparent;color:#6c818b;font-size:12px;font-weight:750;
+}
+body #auth .crm-auth-tabs button[aria-pressed="true"]{
+ background:#203740;color:white;box-shadow:0 2px 9px #1f364120;
+}
+body #auth .crm-auth-tabs button:focus-visible,
+body #auth .crm-email-stage button:focus-visible{
+ outline:3px solid #80aec2;outline-offset:2px;
+}
+body #auth #authForm{display:flex;flex-direction:column;gap:10px;margin:0}
+body #auth #authForm label{
+ display:flex;flex-direction:column;gap:7px;
+ font-size:12px;font-weight:750;color:#345461;margin:0;
+}
+body #auth #authForm input{
+ width:100%;height:52px;margin:0;border:1px solid #d5e0e3;
+ border-radius:11px;background:#fbfdfc;font-size:16px;
+ padding:0 14px;min-width:0;color:#203841;
+}
+body #auth #authForm input:focus-visible{
+ outline:3px solid #a1cad34d;border-color:#8aafc0;outline-offset:1px;
+}
+body #auth #authForm #signin{
+ display:flex;align-items:center;justify-content:center;min-height:53px;
+ margin:7px 0 0;padding:12px 16px;
+ width:100%;border:0;border-radius:12px;
+ background:#203740;color:#fff;font-size:14px;font-weight:750;
+ box-shadow:0 4px 12px #25394018;
+}
+body #auth #authForm #signup{display:none!important}
+body #auth #authForm #forgotPassword{
+ align-self:center;border:0;background:transparent;
+ margin:2px 0 0;padding:8px;font-size:12px;font-weight:700;
+ color:#355f72;min-height:42px;text-decoration:underline;text-underline-offset:3px;
+}
+body #auth #authMessage{margin:8px 0 0;font-size:12px;line-height:1.5;min-height:0;overflow-wrap:anywhere}
+body #auth .auth-footer{
+ margin-top:20px;padding-top:14px;border-top:1px solid #e9eeee;
+ font-size:11px;color:#788d95;line-height:1.5;
+}
+body #auth .crm-auth-floats{
+ position:absolute;inset:0;z-index:0;pointer-events:none;
+ overflow:hidden;
+}
+body #auth .crm-auth-floats>span{
+ position:absolute;display:grid;place-items:center;width:105px;height:105px;
+ border:1px solid #dce7eb;border-radius:22px;background:#ffffffb5;
+ color:#587787;box-shadow:0 12px 40px #1f394a12;
+ animation:crm-auth-float 6.5s ease-in-out infinite;
+}
+body #auth .crm-auth-floats>span:nth-child(1){top:23%;left:9%;transform:rotate(-7deg)}
+body #auth .crm-auth-floats>span:nth-child(2){top:30%;right:8%;animation-delay:-2s}
+body #auth .crm-auth-floats>span:nth-child(3){bottom:16%;right:18%;animation-delay:-4.2s}
+body #auth .crm-auth-floats svg{width:34px;height:34px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+@keyframes crm-auth-float{0%,100%{translate:0 0}50%{translate:0 -12px}}
+body #auth .crm-auth-expired{
+ padding:11px 13px;border-radius:11px;margin:1px 0 15px;
+ background:#edf6f6;border:1px solid #d1e2e5;color:#365b6a;
+ font-size:12px;line-height:1.55;
+}
+body #auth .crm-email-stage[hidden],body #auth .crm-auth-expired[hidden]{display:none!important}
+body #auth[data-email-stage="true"] .crm-auth-tabs,
+body #auth[data-email-stage="true"] .crm-auth-expired,
+body #auth[data-email-stage="true"] .auth-simple-title,
+body #auth[data-email-stage="true"] .crm-auth-description,
+body #auth[data-email-stage="true"] #authForm{display:none!important}
+body #auth .crm-email-stage{display:grid;justify-items:center;text-align:center;gap:12px;padding:10px 0}
+body #auth .crm-email-stage .crm-email-art{
+ height:119px;width:160px;display:grid;place-items:center;position:relative;
+}
+body #auth .crm-email-art:before,body #auth .crm-email-art:after{
+ content:'';position:absolute;width:106px;height:106px;border-radius:50%;
+ border:1px solid #c1d9e5;animation:crm-email-pulse 3.8s ease-out infinite;
+}
+body #auth .crm-email-art:after{animation-delay:1.9s}
+@keyframes crm-email-pulse{0%{opacity:.9;transform:scale(.7)}90%,100%{opacity:0;transform:scale(1.4)}}
+body #auth .crm-email-envelope{
+ width:96px;height:78px;border-radius:21px;background:#e4f0f5;
+ display:grid;place-items:center;position:relative;z-index:2;color:#315563;
+}
+body #auth .crm-email-envelope svg{width:43px;height:43px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+body #auth .crm-email-stage h2{font:400 33px/1.2 Georgia,serif;color:#203740;margin:0}
+body #auth .crm-email-stage p{font-size:13px;color:#708892;line-height:1.6;overflow-wrap:anywhere;margin:0}
+body #auth .crm-email-stage strong{font-size:13px;color:#34596c;overflow-wrap:anywhere}
+body #auth .crm-email-stage button{
+ background:transparent;border:0;color:#315f74;
+ font-size:12px;font-weight:750;text-decoration:underline;
+ padding:9px 12px;min-height:43px;cursor:pointer;
+}
+body #auth .crm-email-stage button:disabled{cursor:not-allowed;opacity:.55;text-decoration:none}
+@media(max-width:800px){
+ body #auth .crm-auth-floats{display:none}
+ body #auth.auth-shell{min-height:auto;padding:28px 12px 48px}
+ body #auth .auth-content{padding:23px 21px;border-radius:21px}
+}
+/* Password-based private alternate access: style only, use its existing Supabase auth. */
+body.crm-auth-fallback{
+ background:radial-gradient(circle at 15% 15%,#e5f0f5 0,transparent 40%),
+ radial-gradient(circle at 85% 85%,#f7eadb 0,transparent 35%),#FAF8F3;
+}
+body.crm-auth-fallback main{
+ max-width:440px;border-radius:25px;border:1px solid #dfe6e8;
+ box-shadow:0 24px 70px #1e36451a;padding:clamp(24px,5vw,34px);
+ background:#fff;
+}
+body.crm-auth-fallback main h1{font:400 clamp(30px,5vw,37px)/1.12 Georgia,serif;letter-spacing:-.04em;color:#203740}
+body.crm-auth-fallback main label{color:#395968;font-size:12px;font-weight:750}
+body.crm-auth-fallback main input{border-radius:11px;height:53px}
+body.crm-auth-fallback main .primary{min-height:52px;border-radius:12px;background:#203740}
+body.crm-auth-fallback .fallback-lock{
+ display:grid;place-items:center;width:54px;height:54px;border-radius:16px;
+ margin:15px 0 8px;background:#e5f1f5;color:#294c5a;
+}
+body.crm-auth-fallback .fallback-lock svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.7}
+@media(prefers-reduced-motion:reduce){
+ body #auth .crm-auth-floats>span,body #auth .crm-email-art:before,
+ body #auth .crm-email-art:after{animation:none!important}
+}
