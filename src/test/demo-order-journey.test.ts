@@ -80,3 +80,38 @@ describe("concept demo checkout from cart to sample confirmation", () => {
     expect(code).toContain("no customer details are sent or saved");
   });
 });
+describe("brand-scoped cart flight duration", () => {
+  it("keeps WOK's bag updated immediately while applying its configured slow flight", () => {
+    vi.useFakeTimers();
+    document.documentElement.lang = "en";
+    document.body.innerHTML = "<header class='site-header'></header><main><section class='menu-grid'><article class='dish'><h3>Chili Oil Noodles</h3></article></section></main>";
+    const source = document.createElement("script");
+    source.dataset.tleOrderSlug = "wok-social";
+    source.dataset.tleCartFlightMs = "2400";
+    Object.defineProperty(document, "currentScript", { configurable: true, get: () => source });
+    (window as any).TLE_DEMO_PRICE_CATALOGS = {
+      "wok-social": {kind:"menu",tone:"#bd312d",items:[{name:"Chili Oil Noodles",priceCents:1400,image:"./bowl.webp"}]}
+    };
+    const flyDot=vi.fn(() => Promise.resolve());
+    (window as any).TLECartMotion={flyDot};
+    try {
+      new Function(code)();
+      const bag=document.querySelector<HTMLButtonElement>("header .tle-order-float")!;
+      const add=document.querySelector<HTMLButtonElement>(".menu-grid .tle-order-inline-add")!;
+      expect(bag).toBeTruthy();
+      expect(add).toBeTruthy();
+      add.click();
+      expect(bag.textContent).toContain("1");
+      expect(flyDot).toHaveBeenCalledWith(add,bag,expect.objectContaining({duration:2400}));
+      expect(document.querySelector<HTMLDialogElement>("#tle-demo-order-dialog")?.open).toBe(false);
+      vi.advanceTimersByTime(9001);
+    } finally {
+      document.querySelector("#tle-demo-order-css")?.remove();
+      delete (window as any).TLE_DEMO_PRICE_CATALOGS;
+      delete (window as any).TLE_ORDER;
+      delete (window as any).TLECartMotion;
+      delete (document as any).currentScript;
+      vi.useRealTimers();
+    }
+  });
+});

@@ -1,3 +1,9 @@
+## 2026-11-11 — WOK SOCIAL bag hard to reach and add flight too quick
+- **Reported:** on the secondary WOK demo the add-to-bag fly animation finishes too quickly and the top bar scrolls away so the bag is unreachable from the menu.
+- **Verified source cause:** secondary WOK `.site-header` was `position:relative`; main shared guided-order script used its 1220ms default and restored the older count until the animation ended. The shared bag is already appended to the WOK header by the main script.
+- **Scoped correction:** allow a specific brand to opt into 2400ms with immediate badge update, keep default for other demos; sticky WOK header and mobile dropdown, high-contrast yellow bag. WOK website hosted in separate `thelaunchera/demo-booking-landing-`; its script consumes `thelaunchera.com/assets/` and needs cache-key refresh.
+- **QA status:** code/CI and cross-repo Pages/real browser checks tracked separately. No real orders, payments or contacts.
+
 ## 2026-11-11 — Sneekiefs size choices overlap adjacent product card and flight feels too fast
 - **Observed:** Owner photo shows the size 12 button and next card size 7 appearing as “127”; slow fly-to-bag effect is not noticeable enough despite the recent shared 1220ms change.
 - **Source cause:** `.card-sizes` is a non-wrapping flex row (six min-width 42px buttons plus gaps) inside multi-column product cards; at compact widths its contents extend outside their card. Sneekiefs uses the helper's default flight duration with no brand override.
