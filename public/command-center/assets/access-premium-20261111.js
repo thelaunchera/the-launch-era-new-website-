@@ -130,13 +130,13 @@
   const title=content.querySelector('h1');
   const expiredKey='tle_crm_expired_email';
   let saved='';try{saved=sessionStorage.getItem(expiredKey)||''}catch{}
-  if(saved){email.value=saved;title.textContent='Your session expired';const subtitle=content.querySelector('p');
-   if(subtitle)subtitle.textContent='Sign in with your existing password to continue to your private Command Center.';}
+  if(saved){email.value=saved;title.textContent='Tu sesión venció.';const subtitle=content.querySelector('p');
+   if(subtitle)subtitle.textContent='Entra con tu contraseña para continuar en tu Command Center privado.';}
   const box=document.createElement('div');box.className='crm-email-stage';box.hidden=true;box.setAttribute('role','status');
-  box.innerHTML='<div class="crm-email-art" aria-hidden="true"><span class="crm-email-envelope"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m3 7 9 7 9-7"/></svg></span></div><h2>Check your email.</h2><p>If your account exists, follow the recovery instructions in your inbox.</p><strong></strong><button type="button" class="crm-email-resend">Resend email</button><button type="button" class="crm-email-back">Back to sign in</button>';
+  box.innerHTML='<div class="crm-email-art" aria-hidden="true"><span class="crm-email-envelope"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m3 7 9 7 9-7"/></svg></span></div><h2>Revisa tu correo.</h2><p>Si existe una cuenta, sigue las instrucciones para recuperar tu contraseña.</p><strong></strong><button type="button" class="crm-email-resend">Reenviar correo</button><button type="button" class="crm-email-back">Volver a iniciar sesión</button>';
   status.after(box);
   let deadline=0,timer;
-  const repaint=()=>{const left=Math.max(0,Math.ceil((deadline-Date.now())/1000)),btn=box.querySelector('.crm-email-resend');btn.disabled=left>0;btn.textContent=left?'Resend in '+left+'s':'Resend email'};
+  const repaint=()=>{const left=Math.max(0,Math.ceil((deadline-Date.now())/1000)),btn=box.querySelector('.crm-email-resend');btn.disabled=left>0;btn.textContent=left?'Reenviar en '+left+'s':'Reenviar correo'};
   const obs=new MutationObserver(()=>{
    if(/Si existe una cuenta con ese correo, recibir[aá]s instrucciones/.test(status.textContent||'')){
     box.querySelector('strong').textContent=email.value.trim();
