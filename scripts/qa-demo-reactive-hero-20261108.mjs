@@ -41,8 +41,10 @@ try {
   if(after.scroll>1)assert.ok(after.progress>0,slug+' scroll should update hero depth '+JSON.stringify(after));
   if(slug==='golden-grid'){
    // The approved artwork-first Golden Grid hero intentionally has no overlaid CTA.
-   assert.equal(await page.locator('nav a[href="#collection"]').count(),1,
-     'golden-grid must preserve the collection navigation');
+   // Assert the original semantic header link, not additional intentional
+   // collection links provided by the discovery navigation.
+   assert.equal(await page.locator('header > nav[aria-label="Main navigation"] > a[href="#collection"]').count(),1,
+     'golden-grid must preserve its original collection navigation');
   } else {
    assert.equal(await page.locator('section.hero a,section.hero button').count()>0,true,slug+' should retain original CTA');
   }
