@@ -159,6 +159,40 @@ body.crm-auth-fallback .fallback-lock{
  margin:15px 0 8px;background:#e5f1f5;color:#294c5a;
 }
 body.crm-auth-fallback .fallback-lock svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.7}
+body.crm-auth-fallback .crm-email-stage[hidden]{display:none!important}
+body.crm-auth-fallback main .crm-email-stage{
+ display:grid;justify-items:center;gap:11px;text-align:center;margin:12px 0;
+ padding:10px 0;background:transparent;
+}
+body.crm-auth-fallback .crm-email-art{
+ height:115px;width:158px;display:grid;place-items:center;position:relative;
+}
+body.crm-auth-fallback .crm-email-art:before,
+body.crm-auth-fallback .crm-email-art:after{
+ content:'';position:absolute;width:103px;height:103px;border-radius:50%;
+ border:1px solid #c0d8e2;animation:crm-email-pulse 3.8s ease-out infinite;
+}
+body.crm-auth-fallback .crm-email-art:after{animation-delay:1.9s}
+body.crm-auth-fallback .crm-email-envelope{
+ display:grid;place-items:center;position:relative;z-index:2;
+ width:94px;height:76px;border-radius:20px;background:#e5f1f5;color:#315665;
+}
+body.crm-auth-fallback .crm-email-envelope svg{
+ width:43px;height:43px;fill:none;stroke:currentColor;stroke-width:1.6;
+ stroke-linecap:round;stroke-linejoin:round;
+}
+body.crm-auth-fallback .crm-email-stage h2{
+ font:400 31px/1.2 Georgia,serif;margin:0;color:#203740;
+}
+body.crm-auth-fallback .crm-email-stage p{
+ margin:0;color:#697f8c;font-size:13px;line-height:1.6;
+}
+body.crm-auth-fallback .crm-email-stage strong{color:#31566a;overflow-wrap:anywhere;font-size:13px}
+body.crm-auth-fallback .crm-email-stage button{
+ min-height:42px;border:0;background:transparent;color:#30627b;
+ font-size:12px;font-weight:700;text-decoration:underline;text-underline-offset:3px;
+}
+body.crm-auth-fallback .crm-email-stage button:disabled{opacity:.5;text-decoration:none;cursor:not-allowed}
 @media(prefers-reduced-motion:reduce){
  body #auth .crm-auth-floats>span,body #auth .crm-email-art:before,
  body #auth .crm-email-art:after{animation:none!important}
