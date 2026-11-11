@@ -71,14 +71,14 @@ function addToBag(id,size,trigger){
   state.confirmed=false;state.receipt=null;
   const line=cart.find(x=>x.id===id&&x.size===size);
   if(line)line.qty++;else cart.push({id,size,qty:1});
-  renderBag();notify(t("added")+": "+p.name+" / US "+size);
+  renderBag();updateBagCount();notify(t("added")+": "+p.name+" / US "+size);
   // Close quick view before measuring the origin; the button otherwise disappears
   // and its modal overlay can hide the dot on mobile Safari.
   const origin=trigger?.getBoundingClientRect();
   if(state.active==="quick")closeDialog(false);
   const from=trigger?.isConnected?trigger:document.querySelector('[data-add="'+id+'"]');
   const motion=window.TLECartMotion?.flyDot(from,$("#bagOpen"),{
-    badge:$("#bagCount"),color:"#75A8E8",fromRect:origin,onLand:updateBagCount
+    badge:$("#bagCount"),color:"#75A8E8",fromRect:origin,duration:2400,easing:"cubic-bezier(.42,0,.2,1)",onLand:updateBagCount
   });
   if(!motion)updateBagCount();
   return true;
