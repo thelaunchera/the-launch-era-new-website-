@@ -1,3 +1,9 @@
+## 2026-11-11 — Christmas board game bilingual support
+- **Request:** Deliver the full existing board game in both English and Spanish in the The Launch Era GitHub repository.
+- **Source confirmed:** the standalone page includes a single embedded illustration and local-only JS gameplay. Only Spanish UI and event copy existed. Previous iPhone file-preview and external HTML-preview issues must not be confused with source gameplay bugs.
+- **Scoped feature:** independent ES/EN selection on intro and in-game header; UI and dynamic event/quiz/win translations; small localized overlays for English board map names; persist language separately from game state. No game mechanics or other website routes changed.
+- **Verification:** Javascript syntax validation for both inline scripts passed, dedicated jsdom interaction checks added. PR checks, GitHub Pages and actual iOS Safari remain independent release gates; do not represent code-only work as production deployment.
+
 ## 2026-11-11 — Christmas game player count unresponsive on iPhone / third-party preview
 - **Owner report:** after opening the Christmas game, tapping the player-count choices did not appear to do anything.
 - **Observed evidence:** the standalone HTML responded to all 1–4 options in local Chromium with 390px touch emulation and desktop; the external HTML-preview wrapper could not be behavior-tested on iPhone. A blocked GitHub Pages run left the official production route unpublished at the time of reporting. The exact Safari-specific cause remains unverified.

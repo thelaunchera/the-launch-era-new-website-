@@ -1,0 +1,25 @@
+name: Christmas Game — ES/EN interactive QA
+
+on:
+  pull_request:
+    paths:
+      - 'public/games/navidad/**'
+      - 'scripts/qa-christmas-game-bilingual.mjs'
+      - '.github/workflows/qa-christmas-game-bilingual.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - name: Test Christmas game language and interactions
+        run: node scripts/qa-christmas-game-bilingual.mjs
+      - name: Route integrity
+        run: node scripts/qa-route-integrity.mjs --static
