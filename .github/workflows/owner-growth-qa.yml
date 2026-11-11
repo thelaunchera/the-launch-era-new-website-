@@ -7,6 +7,9 @@ on:
     paths: ['public/command-center/**','supabase/functions/tle-owner-growth/**','tools/tle-growth/**','scripts/qa-owner-growth*','.github/workflows/owner-growth-qa.yml']
 permissions:
   contents: read
+concurrency:
+  group: owner-sales-tools-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   isolated-tests:
     runs-on: ubuntu-24.04

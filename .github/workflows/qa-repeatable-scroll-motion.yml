@@ -2,6 +2,16 @@ name: Repeatable Scroll Motion QA — Main Demos
 on:
   push:
     branches: [main]
+    paths:
+      - '.github/workflows/qa-repeatable-scroll-motion.yml'
+      - 'public/assets/tle-demo-scroll-art-20261108.js'
+      - 'public/assets/tle-demo-scroll-art-20261108.css'
+      - 'scripts/qa-demo-scroll-art-20261108.mjs'
+      - 'scripts/qa-demo-text-interactions-20261110.mjs'
+      - 'public/assets/tle-demo-text-interactions-20261110.js'
+      - 'public/assets/tle-demo-text-interactions-20261110.css'
+      - 'public/demos/**/index.html'
+      - 'public/experience-cleaning/index.html'
   pull_request:
     branches: [main]
     paths:
@@ -17,6 +27,9 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: scroll-motion-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   scroll-replay:
     runs-on: ubuntu-24.04

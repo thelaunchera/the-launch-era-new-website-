@@ -22,6 +22,9 @@ on:
       - '.github/workflows/tle-route-integrity.yml'
 permissions:
   contents: read
+concurrency:
+  group: route-and-demo-safety-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   static-routes:
     name: Static routes, buttons and assets

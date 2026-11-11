@@ -14,9 +14,9 @@ permissions:
 
 concurrency:
   group: github-pages
-  # Supersede outdated builds on new pushes so an old release cannot block Pages.
-  # Keep only the newest commit in flight for this deployment group.
-  cancel-in-progress: true
+  # Let an active release finish while retaining only the newest pending push.
+  # A hard build timeout prevents one stale run blocking Pages indefinitely.
+  cancel-in-progress: false
 
 jobs:
   build:
