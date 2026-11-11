@@ -74,7 +74,7 @@
    current.value=selectedFromButtons(buttons);
    if(current.value!==next&&root.lang!==next)current.value=next;
    set(btn,current.value==='en');
-   requestAnimationFrame(()=>{current.value=selectedFromButtons(buttons);set(btn,current.value==='en')});
+   requestAnimationFrame(()=>{const confirmed=selectedFromButtons(buttons);if(confirmed===next||root.lang===next){current.value=next;set(btn,current.value==='en')}});
   });
   buttons.forEach(b=>{b.classList.add('tle-ios-locale-original');b.tabIndex=-1;b.setAttribute('aria-hidden','true')});
   group.classList.add('tle-ios-locale-group');
@@ -105,7 +105,7 @@
      current.value=next;
      set(btn,current.value==='en');
    }
-   requestAnimationFrame(()=>{if(root.lang===next)set(btn,true);});
+   requestAnimationFrame(()=>{if(root.lang===next){current.value=next;set(btn,current.value==='en')}});
   });
   original.classList.add('tle-ios-locale-original');
   original.tabIndex=-1;original.setAttribute('aria-hidden','true');
