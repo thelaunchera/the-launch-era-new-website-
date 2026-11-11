@@ -43,3 +43,6 @@
 @media(prefers-reduced-motion:reduce){
  .tle-ios-locale-switch,.tle-ios-locale-switch .tle-ios-locale-knob,.tle-ios-locale-switch .tle-ios-locale-label{transition:none!important}
 }
+
+/* Contrast-adjust inactive language on deeply colored brand tracks. */
+.tle-ios-locale-switch[data-on="true"] .tle-ios-locale-label:first-child{color:var(--tle-locale-track-ink,#203740)!important}
