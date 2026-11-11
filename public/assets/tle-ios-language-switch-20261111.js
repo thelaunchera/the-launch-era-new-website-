@@ -31,11 +31,21 @@
   const fallback=visual&&getComputedStyle(visual).backgroundColor;
   return colorValid(fallback)?fallback:'#F2D85B';
  }
+ const trackInk=(color)=>{
+  const temp=document.createElement('span');temp.style.color=color;
+  document.body.appendChild(temp);
+  const c=getComputedStyle(temp).color;temp.remove();
+  const nums=c.match(/\\d+(?:\\.\\d+)?/g);
+  if(!nums||nums.length<3)return '#203740';
+  const [r,g,b]=nums.slice(0,3).map(Number);
+  return .2126*r+.7152*g+.0722*b<145?'#fff':'#203740';
+ };
  const label=on=>on?'English selected. Switch to Spanish.':'Español seleccionado. Cambiar a inglés.';
  function styleSwitch(btn,on,accent){
   btn.className=(btn.className||'')+' tle-ios-locale-switch';
   btn.dataset.on=String(on);
   btn.style.setProperty('--tle-locale-accent',accent||'#F2D85B');
+  btn.style.setProperty('--tle-locale-track-ink',trackInk(accent||'#F2D85B'));
   btn.innerHTML='<span class="tle-ios-locale-label" aria-hidden="true">ES</span><span class="tle-ios-locale-label" aria-hidden="true">EN</span><span class="tle-ios-locale-knob" aria-hidden="true"></span>';
   if(btn.tagName==='BUTTON'){btn.setAttribute('role','switch');btn.setAttribute('aria-checked',String(on));btn.setAttribute('aria-label',label(on))}
   else btn.setAttribute('aria-label',label(on));
