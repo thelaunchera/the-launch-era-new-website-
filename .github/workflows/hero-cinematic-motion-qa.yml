@@ -46,7 +46,7 @@ jobs:
           cd /tmp/tle-motion-qa
           npm init -y >/dev/null
           npm install --no-audit --no-fund playwright@1.57.0
-          npx playwright install --with-deps chromium
+          npx playwright install chromium
           cd "$GITHUB_WORKSPACE"
           mkdir -p "$GITHUB_WORKSPACE/node_modules"
           ln -sfn /tmp/tle-motion-qa/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"

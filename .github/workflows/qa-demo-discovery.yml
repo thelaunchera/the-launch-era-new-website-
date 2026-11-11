@@ -23,6 +23,8 @@ permissions:
 jobs:
   browser:
     runs-on: ubuntu-24.04
+    container:
+      image: mcr.microsoft.com/playwright:v1.56.1-noble
     timeout-minutes: 20
     strategy:
       fail-fast: false
@@ -43,7 +45,7 @@ jobs:
         with:
           node-version: 22
       - run: npm install --prefix fixtures/browser --no-save --package-lock=false --ignore-scripts playwright@1.56.1
-      - run: fixtures/browser/node_modules/.bin/playwright install --with-deps ${{ matrix.browser }}
+      - run: fixtures/browser/node_modules/.bin/playwright install ${{ matrix.browser }}
       - run: node scripts/qa-demo-discovery-20261110.mjs
         env:
           SECONDARY_ROOT: fixtures/secondary
