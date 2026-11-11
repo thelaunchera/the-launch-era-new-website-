@@ -208,6 +208,7 @@ jobs:
           node --check public/assets/tle-ios-language-switch-20261111.js
           node --check scripts/install-ios-language-switch-20261111.mjs
           node scripts/install-ios-language-switch-20261111.mjs --root .output/public
+          node scripts/qa-ios-language-settings-20261111.mjs --built
           test -s .output/public/assets/tle-ios-language-switch-20261111.css
           test -s .output/public/assets/tle-ios-language-switch-20261111.js
           grep -q 'tle-ios-language-switch-20261111.js' .output/public/demos/la-vie-in-pink/index.html
