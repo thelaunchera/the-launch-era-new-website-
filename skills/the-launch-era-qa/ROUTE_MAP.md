@@ -1,3 +1,9 @@
+## 2026-11-11 — Sneekiefs sizes and slower brand-only bag flight
+- **Route unchanged:** /demos/sneekiefs/ under public/demos/sneekiefs/. Header bag #bagOpen keeps the native session-only cart, price/size options and no-charge preview.
+- **Owner visual report:** sizes 12 and neighboring 7 look concatenated on the product grid; compact flex rows exceed card width and touch adjacent product controls. Use a three-column, two-row size grid at <=1150px with 8px gaps, 44px tall targets and no accidental overflow. Original six sizes 7–12 stay unchanged.
+- **Motion:** Sneekiefs alone specifies a 2400ms flyDot with a gentler easing; the common helper now permits per-brand duration up to 3200ms while its default 1220ms remains unchanged for other demos. Badge count updates immediately; animation is decorative, respects reduced motion and does not auto-open the bag.
+- **QA gate:** Chromium/WebKit width 390/820/1440 size separation, animation still visible after 1400ms and cleaned up after landing, bag count and opening, no JS errors; verify GitHub Pages and real iPhone before final publication claims.
+
 ## 2026-11-11 — Demo bags in header, larger/slower add-to-bag flight (PR validation pending)
 - **No route or checkout destination changes.** Shared browser-only bag in `public/assets/tle-demo-order-journey-20261108.js` is now mounted inside the brand header actions instead of as a bottom-right floating “Order online · DEMO” pill; display label is Bag/Bolsa with icon and count. The `golden-grid` and `havana-19` existing `/demos/.../` routes use this visible top-bar bag.
 - **Native bag owners preserved:** Freska, Sneekiefs, La Vie in Pink, Lavanda, Casa Brownie, and CRUMB already display their own header bag buttons. Hidden shared guided-order bridge in Casa Brownie/CRUMB remains active without showing a second bag; its no-payment demo checkout is untouched.
