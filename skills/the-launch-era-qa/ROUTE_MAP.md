@@ -1,3 +1,10 @@
+## 2026-11-11 — WOK SOCIAL header bag remains reachable and flies slower
+- **Cross-repository demo:** canonical URL `https://thelaunchera.github.io/demo-booking-landing-/wok-social/`; brand HTML/CSS in `thelaunchera/demo-booking-landing-/demos/wok-social/`. This main repo owns the shared `/assets/tle-demo-order-journey-20261108.js` and `tle-demo-cart-flight-20261110.js` served through `https://thelaunchera.com/`.
+- **Request:** WOK add-to-bag appears too fast; the header scrolls out of view before the visitor can open the bag.
+- **Design:** WOK's external script tag opts into `data-tle-cart-flight-ms="2400"` and uses the existing per-brand duration override in the shared flight helper. Shared guided-order state/counter is immediate when opted in; other demos keep the default speed. The secondary WOK stylesheet makes the red header sticky with a yellow bag and fixes the mobile dropdown below it.
+- **Scope:** no destination changes, no additional cart, no checkout/payment, no booking, no email or product changes. Regression checks cover mobile and desktop scrolled header, menu, bag open/close and reduced motion.
+- **Release verification:** merge and deploy both source repos; confirm Pages runs and browser interactions before claiming live correction. Physical iPhone Safari not claimed without a device test.
+
 ## 2026-11-11 — Sneekiefs sizes and slower brand-only bag flight
 - **Route unchanged:** /demos/sneekiefs/ under public/demos/sneekiefs/. Header bag #bagOpen keeps the native session-only cart, price/size options and no-charge preview.
 - **Owner visual report:** sizes 12 and neighboring 7 look concatenated on the product grid; compact flex rows exceed card width and touch adjacent product controls. Use a three-column, two-row size grid at <=1150px with 8px gaps, 44px tall targets and no accidental overflow. Original six sizes 7–12 stay unchanged.
