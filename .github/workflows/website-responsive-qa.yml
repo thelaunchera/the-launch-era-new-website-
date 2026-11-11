@@ -7,6 +7,7 @@ on:
       - 'scripts/qa-responsive-current.mjs'
       - 'scripts/qa-mobile-first-375.mjs'
       - 'public/booking-demo/index.html'
+      - 'public/demos/aftr/styles.css'
       - 'src/components/service-flip-card.*'
       - 'src/components/process-view-transitions.*'
       - 'src/components/home-motion-interlude.*'
@@ -18,6 +19,7 @@ on:
     paths:
       - 'scripts/qa-responsive-current.mjs'
       - 'public/booking-demo/index.html'
+      - 'public/demos/aftr/styles.css'
       - 'public/booking/return/index.html'
       - 'public/base-booking.html'
       - 'public/lead-private-preview.html'
