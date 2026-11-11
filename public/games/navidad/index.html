@@ -13,6 +13,26 @@
 @media(max-width:940px){.game-grid{grid-template-columns:1fr}.intro{align-items:flex-start}.intro-desc{max-width:210px}.side-panel{display:grid;grid-template-columns:1fr;max-width:620px;width:100%;margin:auto}.board{min-width:650px}}
 @media(max-width:600px){.shell{padding:13px 12px 28px}.top{margin-bottom:14px}.intro{margin-bottom:13px}.intro-desc{display:none}h1{font-size:33px}.game-grid{gap:12px}.board-shell{padding:6px;border-radius:16px}.board-viewport{border-radius:11px}.board{min-width:650px}.token{font-size:16px}.game-hint{font-size:11px}.panel{padding:14px;border-radius:17px}.panel-header{padding-bottom:1px}.current-player{margin-top:11px}.avatar{width:44px;height:44px;border-radius:12px;font-size:25px}.who{font-size:20px}.dice-box{margin:13px 0 10px;padding:8px}.die{width:62px;height:62px;padding:10px;gap:3px}.roll-note strong{font-size:17px}.primary{padding:14px}.rules{margin-top:12px}.pill{font-size:11px;padding:8px 10px}.modal{padding:20px}.footer{margin-top:18px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+/* The Launch Era Christmas Game — accessible bilingual controls */
+.game-language{display:inline-flex;align-items:center;justify-content:center;gap:3px;border-radius:999px;padding:4px;background:#f3e4c4;color:#142842;border:1px solid #d5b887}
+.game-language button{border:0;border-radius:999px;background:transparent;color:#31455a;font:800 13px/1 system-ui,sans-serif;min-width:44px;min-height:40px;padding:9px 10px;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.game-language button[aria-pressed="true"]{background:#be3235;color:#fff;box-shadow:0 2px 6px #0003}
+.game-language button:focus-visible{outline:3px solid #f2d85b;outline-offset:2px}
+.game-language--setup{margin:0 auto 8px}
+.board-en-layer{position:absolute;inset:0;pointer-events:none;z-index:6;font-family:ui-rounded,system-ui,sans-serif}
+.board-en-layer[hidden]{display:none}
+.board-en-title{position:absolute;left:18%;top:1.9%;width:63%;padding:.5% 1%;background:#a82727;border:2px solid #f6deba;border-radius:18px;box-shadow:0 4px 6px #0004;color:#fff9e9;text-align:center;font-weight:950;font-family:Georgia,serif;font-size:clamp(9px,1.9vw,29px);text-shadow:0 2px 2px #481a18}
+.board-en-tag{position:absolute;padding:.22% .7%;min-width:9%;border:1.5px solid #f6dba3;border-radius:7px;background:#673823;color:#fff8d8;font-size:clamp(7px,1.05vw,15px);font-weight:900;line-height:1.07;text-align:center;text-shadow:0 1px 1px #35180d;box-shadow:0 2px 5px #0005}
+.board-en-tag--village{left:23%;top:42%;width:15%}
+.board-en-tag--forest{left:22.4%;top:67.4%;width:14%}
+.board-en-tag--cocoa{left:48%;top:42.3%;width:14%}
+.board-en-tag--barn{left:63.7%;top:75.5%;width:14%}
+.board-en-tag--workshop{left:77%;top:21.7%;width:10.6%;font-size:clamp(6px,.9vw,13px)}
+.board-en-tag--start{left:8%;top:85%;width:13%;background:#aa282c;font-size:clamp(7px,1.35vw,20px)}
+.board-en-tag--finish{left:89%;top:22%;width:10.5%;background:#aa282c;font-size:clamp(7px,1.3vw,19px)}
+@media(max-width:700px){.top{flex-wrap:wrap}.top-actions{width:100%;justify-content:flex-end;flex-wrap:wrap}.game-language button{min-height:44px}.board-en-title{font-size:14px}.board-en-tag{font-size:9px}.board-en-tag--workshop{font-size:7px}}
+
 </style>
 </head>
 <body>
@@ -98,6 +118,257 @@ $('zoomBtn').onclick=()=>{fullView=!fullView;const board=$('board');board.style.
 $('boardViewport').addEventListener('dblclick',()=> $('zoomBtn').click());
 const old=restore();if(old){$('resumeBtn').hidden=false;}selectPlayers(selectedCount);renderDie(1);
 })();
+</script>
+<script>
+
+;(() => {
+  'use strict';
+  const preferenceKey = 'tle-xmas-game-locale';
+  const staticNodes = [
+    ['.intro .eyebrow', 'Un juego para compartir 🎄', 'A game to share 🎄'],
+    ['.intro-desc', 'Tira el dado, avanza por el Polo Norte y llega primero a la meta. ¡Cuidado con las sorpresas!', 'Roll the dice, travel through the North Pole, and be first to reach the finish. Watch out for surprises!'],
+    ['.panel-title', 'Ahora juega', 'Now playing'],
+    ['.rules summary', '📖 Cómo se juega', '📖 How to play'],
+    ['.rules p', 'Jueguen de 1 a 4 personas en el mismo teléfono, tablet o computadora. Por turnos, pulsen Tirar el dado y la ficha avanzará. Las casillas especiales pueden darte un regalo, hacerte retroceder, perder un turno o responder una pregunta. El primer jugador que alcance la última casilla gana. En modo individual, intenta llegar con el menor número de tiradas. No hace falta sacar el número exacto para ganar.', 'Play with 1 to 4 people on the same phone, tablet, or computer. Take turns tapping Roll the dice to move your piece. Special squares may give you a gift, move you backward, skip a turn, or challenge you with a question. The first player to reach the last square wins. Playing solo? Try to finish with as few rolls as possible. You do not need an exact roll to win.'],
+    ['.footer', 'Hecho para jugar y sonreír · Powered by The Launch Era ✦', 'Made for playing and smiling · Powered by The Launch Era ✦'],
+    ['#setupOverlay h2', '¡Vamos al Polo Norte!', 'Let’s go to the North Pole!'],
+    ['#setupOverlay .modal > p:not(.player-selection-status)', 'Prepara tus fichas y comparte el dispositivo con tu familia o amigos.', 'Choose your pieces and share this device with family or friends.'],
+    ['#setupOverlay .field-label', '¿Cuántos van a jugar?', 'How many players?'],
+    ['#startBtn', '🎲 ¡Empezar a jugar!', '🎲 Start playing!'],
+    ['#resumeBtn', 'Continuar partida guardada', 'Resume saved game']
+  ];
+  const exactPairs = [
+    ['🔍 Ver completo', '🔍 Fit board'],
+    ['🔎 Acercar', '🔎 Zoom in'],
+    ['↻ Nueva partida', '↻ New game'],
+    ['↔️ Desliza el tablero para explorar el camino', '↔️ Swipe the board to explore the path'],
+    ['Vista completa del tablero', 'Full board view'],
+    ['🏁 ¡LLEGADA!', '🏁 FINISH!'],
+    ['¡Empieza la aventura!', 'Let the adventure begin!'],
+    ['Es tu turno de tirar', 'Your turn to roll'],
+    ['Perderá este turno', 'Skipping this turn'],
+    ['🎁 ¡Tirada extra!', '🎁 Extra roll!'],
+    ['¡Partida terminada!', 'Game over!'],
+    ['🎲 Tirar el dado', '🎲 Roll the dice'],
+    ['⏳ Moviendo ficha...', '⏳ Moving your piece...'],
+    ['¡Buena suerte!', 'Good luck!'],
+    ['Salida', 'Start'],
+    ['¡Meta!', 'Finish!'],
+    ['Llega a la meta para ganar la partida.', 'Reach the finish to win the game.'],
+    ['¡Tira el dado para comenzar la aventura!', 'Roll the dice to start your adventure!'],
+    ['¡Respuesta correcta!', 'Correct answer!'],
+    ['¡Sorpresa!', 'Surprise!'],
+    ['Continuar', 'Continue'],
+    ['¡Ganaste!', 'You won!'],
+    ['🎄 Jugar otra vez', '🎄 Play again'],
+    ['¡Llegaste al Polo Norte!', 'You reached the North Pole!'],
+    ['¡Correcto! Avanzas 2 casillas.', 'Correct! Move forward 2 squares.'],
+    ['¡Casi! No avanzas esta vez.', 'Not quite! You stay where you are.'],
+    ['Turno congelado', 'Frozen turn'],
+    ['Jugador 1', 'Player 1'],
+    ['Santa', 'Santa'],
+    ['Rodolfo', 'Rudolph'],
+    ['Muñeco de nieve', 'Snowman'],
+    ['Regalito', 'Present'],
+    ['¡Un regalo inesperado!', 'An unexpected gift!'],
+    ['Encontraste un trineo veloz. Avanzas 2 casillas.', 'You found a speedy sleigh. Move forward 2 squares.'],
+    ['¡Piso resbaladizo!', 'Slippery ice!'],
+    ['Te resbalaste en la nieve. Retrocedes 2 casillas.', 'You slipped in the snow. Go back 2 squares.'],
+    ['¡Reto de galletas!', 'Cookie challenge!'],
+    ['¿Cuál de estos animales tira del trineo de Santa?', 'Which animal pulls Santa’s sleigh?'],
+    ['Renos', 'Reindeer'],
+    ['Pingüinos', 'Penguins'],
+    ['Osos polares', 'Polar bears'],
+    ['¡Polvo mágico!', 'Magic stardust!'],
+    ['Una estrella te ayuda. Avanzas 3 casillas.', 'A star helps you move forward 3 squares.'],
+    ['¡Tormenta de nieve!', 'Snowstorm!'],
+    ['El camino se bloqueó. Pierdes tu siguiente turno.', 'The path is blocked. Skip your next turn.'],
+    ['¡Campanas de Navidad!', 'Christmas bells!'],
+    ['¡Qué suerte! Podrás lanzar el dado una vez más.', 'Lucky you! Roll the dice one more time.'],
+    ['¡Chocolate caliente!', 'Hot cocoa!'],
+    ['¿En qué estación del año se celebra Navidad en el hemisferio norte?', 'Which season is Christmas in the Northern Hemisphere?'],
+    ['Verano', 'Summer'],
+    ['Invierno', 'Winter'],
+    ['Primavera', 'Spring'],
+    ['¡Hielo en el camino!', 'Ice on the path!'],
+    ['Tendrás que retroceder 2 casillas.', 'Go back 2 squares.'],
+    ['¡Atajo al taller!', 'Shortcut to the workshop!'],
+    ['El elfo te señala un atajo. Avanzas 1 casilla.', 'An elf shows you a shortcut. Move forward 1 square.']
+  ];
+  const esToEn = new Map(exactPairs);
+  const enToEs = new Map(exactPairs.map(pair => [pair[1], pair[0]]));
+  const patterns = [
+    [/^Ronda (\d+)$/, /^Round (\d+)$/, m => 'Round ' + m[1], m => 'Ronda ' + m[1]],
+    [/^(\d+) tiradas$/, /^(\d+) rolls$/, m => m[1] + ' rolls', m => m[1] + ' tiradas'],
+    [/^Sacaste (\d+)$/, /^You rolled (\d+)$/, m => 'You rolled ' + m[1], m => 'Sacaste ' + m[1]],
+    [/^Dado: (\d+)$/, /^Dice: (\d+)$/, m => 'Dice: ' + m[1], m => 'Dado: ' + m[1]],
+    [/^(\d+) jugadores seleccionados$/, /^(\d+) players selected$/, m => m[1] + ' players selected', m => m[1] + ' jugadores seleccionados'],
+    [/^1 jugador seleccionado$/, /^1 player selected$/, () => '1 player selected', () => '1 jugador seleccionado'],
+    [/^Casilla (\d+) de (\d+)$/, /^Square (\d+) of (\d+)$/, m => 'Square ' + m[1] + ' of ' + m[2], m => 'Casilla ' + m[1] + ' de ' + m[2]],
+    [/^Jugador (\d+)$/, /^Player (\d+)$/, m => 'Player ' + m[1], m => 'Jugador ' + m[1]],
+    [/^Nombre del jugador (\d+)$/, /^Name of player (\d+)$/, m => 'Name of player ' + m[1], m => 'Nombre del jugador ' + m[1]],
+    [/^(.+), casilla (\d+)$/, /^(.+), square (\d+)$/, m => m[1] + ', square ' + m[2], m => m[1] + ', casilla ' + m[2]],
+    [/^(.+) sacó (\d+)\. ¡Vamos!$/, /^(.+) rolled a (\d+)\. Let's go!$/, m => m[1] + ' rolled a ' + m[2] + ". Let's go!", m => m[1] + ' sacó ' + m[2] + '. ¡Vamos!'],
+    [/^Turno de (.+)\. ¡A lanzar el dado!$/, /^(.+): it's your turn to roll!$/, m => m[1] + ": it's your turn to roll!", m => 'Turno de ' + m[1] + '. ¡A lanzar el dado!'],
+    [/^¡(.+) tiene otra tirada!$/, /^(.+) gets another roll!$/, m => m[1] + ' gets another roll!', m => '¡' + m[1] + ' tiene otra tirada!'],
+    [/^(.+) perdió un turno$/, /^(.+) missed a turn$/, m => m[1] + ' missed a turn', m => m[1] + ' perdió un turno'],
+    [/^(.+) descansa una ronda\. ¡Ya podrá jugar después!$/, /^(.+) rests for one turn\. They can play again afterward!$/, m => m[1] + ' rests for one turn. They can play again afterward!', m => m[1] + ' descansa una ronda. ¡Ya podrá jugar después!'],
+    [/^(.+) ha llegado al Polo Norte$/, /^(.+) reached the North Pole$/, m => m[1] + ' reached the North Pole', m => m[1] + ' ha llegado al Polo Norte'],
+    [/^¡Ganó (.+)!$/, /^(.+) wins!$/, m => m[1] + ' wins!', m => '¡Ganó ' + m[1] + '!'],
+    [/^Completaste el recorrido en (\d+) tiradas\. ¡Un viaje mágico!$/, /^You completed the journey in (\d+) rolls\. What a magical trip!$/, m => 'You completed the journey in ' + m[1] + ' rolls. What a magical trip!', m => 'Completaste el recorrido en ' + m[1] + ' tiradas. ¡Un viaje mágico!'],
+    [/^🏆 (.+) llegó primero a la meta en (\d+) tiradas\.$/, /^🏆 (.+) reached the finish first in (\d+) rolls\.$/, m => '🏆 ' + m[1] + ' reached the finish first in ' + m[2] + ' rolls.', m => '🏆 ' + m[1] + ' llegó primero a la meta en ' + m[2] + ' tiradas.'],
+    [/^Partida recuperada\. ¡Turno de (.+)!$/, /^Game resumed\. (.+)'s turn!$/, m => 'Game resumed. ' + m[1] + "'s turn!", m => 'Partida recuperada. ¡Turno de ' + m[1] + '!']
+  ];
+  function translateText(text, locale) {
+    const raw = String(text);
+    const pairs = locale === 'en' ? esToEn : enToEs;
+    if (pairs.has(raw)) return pairs.get(raw);
+    for (const pattern of patterns) {
+      const match = raw.match(locale === 'en' ? pattern[0] : pattern[1]);
+      if (match) return (locale === 'en' ? pattern[2] : pattern[3])(match);
+    }
+    return raw;
+  }
+  let locale = 'es';
+  try {
+    const saved = localStorage.getItem(preferenceKey);
+    if (saved === 'en' || saved === 'es') locale = saved;
+  } catch (error) { /* private mode without storage */ }
+  function toggleMarkup(label) {
+    const container = document.createElement('div');
+    container.className = 'game-language game-language--' + label;
+    container.setAttribute('role', 'group');
+    container.setAttribute('aria-label', 'Language / Idioma');
+    ['es', 'en'].forEach(code => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = code.toUpperCase();
+      button.dataset.lang = code;
+      button.addEventListener('click', () => setLocale(code));
+      container.appendChild(button);
+    });
+    return container;
+  }
+  const topSwitch = toggleMarkup('top');
+  document.querySelector('.top-actions').prepend(topSwitch);
+  const setupSwitch = toggleMarkup('setup');
+  document.querySelector('#setupOverlay .modal').prepend(setupSwitch);
+  const boardLayer = document.createElement('div');
+  boardLayer.className = 'board-en-layer';
+  boardLayer.setAttribute('aria-hidden', 'true');
+  boardLayer.innerHTML =
+    '<div class="board-en-title">The Great Christmas Game</div>' +
+    '<div class="board-en-tag board-en-tag--village">Gingerbread Village</div>' +
+    '<div class="board-en-tag board-en-tag--forest">Snowy Forest</div>' +
+    '<div class="board-en-tag board-en-tag--cocoa">Cocoa Cabin</div>' +
+    '<div class="board-en-tag board-en-tag--barn">Reindeer Barn</div>' +
+    '<div class="board-en-tag board-en-tag--workshop">Santa’s Workshop</div>' +
+    '<div class="board-en-tag board-en-tag--start">START</div>' +
+    '<div class="board-en-tag board-en-tag--finish">FINISH</div>';
+  document.getElementById('board').appendChild(boardLayer);
+  let scheduled = false;
+  function translateNode(node, localeCode) {
+    if (!node) return;
+    const before = node.textContent;
+    const after = translateText(before, localeCode);
+    if (after !== before) node.textContent = after;
+  }
+  function textPrefix(selector, es, en) {
+    const element = document.querySelector(selector);
+    const node = element && element.firstChild;
+    const target = locale === 'en' ? en : es;
+    if (node && node.nodeType === Node.TEXT_NODE && node.nodeValue !== target) node.nodeValue = target;
+  }
+  function sync() {
+    document.documentElement.lang = locale;
+    document.title = locale === 'en' ? 'The Great Christmas Game · The Launch Era' : 'El Gran Juego de Navidad · The Launch Era';
+    document.querySelectorAll('.game-language [data-lang]').forEach(button => {
+      const active = button.dataset.lang === locale;
+      button.setAttribute('aria-pressed', String(active));
+      button.setAttribute('aria-label', active ? (locale === 'en' ? 'English selected' : 'Español seleccionado') : (button.dataset.lang === 'en' ? 'Switch to English' : 'Cambiar a español'));
+    });
+    boardLayer.hidden = locale !== 'en';
+    const title = document.querySelector('.intro h1');
+    const localizedTitle = locale === 'en' ? 'The Great <span>Christmas Game</span>' : 'El Gran Juego <span>de Navidad</span>';
+    if (title && title.innerHTML !== localizedTitle) title.innerHTML = localizedTitle;
+    staticNodes.forEach(item => {
+      const element = document.querySelector(item[0]);
+      if (!element) return;
+      if (item[0] === '.rules p') {
+        const html = locale === 'en' ? item[2].replace('Roll the dice', '<b>Roll the dice</b>') : item[1].replace('Tirar el dado', '<b>Tirar el dado</b>');
+        if (element.innerHTML !== html) element.innerHTML = html;
+      } else {
+        const str = locale === 'en' ? item[2] : item[1];
+        if (element.textContent !== str) element.textContent = str;
+      }
+    });
+    textPrefix('.roll-note', 'Tu dado mágico ', 'Your magic dice ');
+    const hint = document.querySelector('.game-hint span:last-child');
+    if (hint && hint.lastChild && hint.lastChild.nodeType === Node.TEXT_NODE) {
+      const target = locale === 'en' ? ' squares to finish' : ' casillas hasta la meta';
+      if (hint.lastChild.nodeValue !== target) hint.lastChild.nodeValue = target;
+    }
+    const selectors = [
+      '#zoomBtn', '#resetBtn', '#boardTip', '.finish-flag', '#turnStatus',
+      '#roundLabel', '#rollBtn', '#message', '#dieCaption', '#playerSelectionStatus',
+      '#eventTitle', '#eventBody', '#eventContinue', '#winTitle', '#winText',
+      '#playAgainBtn', '#currentName'
+    ];
+    selectors.forEach(selector => translateNode(document.querySelector(selector), locale));
+    document.querySelectorAll('.player-bottom, #answerChoices .answer').forEach(node => translateNode(node, locale));
+    document.querySelectorAll('#nameFields input').forEach((input, index) => {
+      const placeholder = locale === 'en' ? 'Player ' + (index + 1) : 'Jugador ' + (index + 1);
+      const label = locale === 'en' ? 'Name of player ' + (index + 1) : 'Nombre del jugador ' + (index + 1);
+      if (input.placeholder !== placeholder) input.placeholder = placeholder;
+      if (input.getAttribute('aria-label') !== label) input.setAttribute('aria-label', label);
+      if (document.querySelector('#setupOverlay:not([hidden])')) {
+        const translated = translateText(input.value, locale);
+        if (translated !== input.value) input.value = translated;
+      }
+    });
+    const attrPairs = [
+      ['#boardViewport', 'aria-label', 'Tablero con fichas de jugadores', 'Board with player pieces'],
+      ['.board-art', 'alt', 'Tablero ilustrado del Polo Norte con un camino de casillas de colores', 'Illustrated North Pole board with a winding path of colorful squares'],
+      ['.progress-rail', 'aria-label', 'Progreso del jugador actual', 'Current player progress'],
+      ['#playerChoices', 'aria-label', 'Cantidad de jugadores', 'Number of players'],
+      ['#zoomBtn', 'title', 'Alternar vista del tablero', 'Toggle board zoom']
+    ];
+    attrPairs.forEach(([selector, attribute, es, en]) => {
+      const element = document.querySelector(selector);
+      if (element && element.getAttribute(attribute) !== (locale === 'en' ? en : es)) element.setAttribute(attribute, locale === 'en' ? en : es);
+    });
+    document.querySelectorAll('.token').forEach(token => {
+      const old = token.getAttribute('aria-label');
+      if (old) {
+        const translated = translateText(old, locale);
+        if (translated !== old) token.setAttribute('aria-label', translated);
+      }
+    });
+    const die = document.getElementById('die');
+    const diceText = die && die.getAttribute('aria-label');
+    if (die && diceText) {
+      const translated = translateText(diceText, locale);
+      if (translated !== diceText) die.setAttribute('aria-label', translated);
+    }
+  }
+  function setLocale(next) {
+    if (next !== 'es' && next !== 'en') return;
+    locale = next;
+    try { localStorage.setItem(preferenceKey, locale); } catch (error) { /* private mode */ }
+    sync();
+  }
+  const observer = new MutationObserver(() => {
+    if (scheduled) return;
+    scheduled = true;
+    queueMicrotask(() => {
+      scheduled = false;
+      sync();
+    });
+  });
+  observer.observe(document.body, {subtree: true, childList: true, characterData: true});
+  setLocale(locale);
+})();
+
 </script>
 </body>
 </html>
