@@ -67,7 +67,7 @@
     if(!from.width||!from.height||!to.width||!to.height){done();return Promise.resolve();}
     const x=from.left+from.width/2,y=from.top+from.height/2;
     const dx=to.left+to.width/2-x,dy=to.top+to.height/2-y;
-    const duration=Math.max(850,Math.min(1600,Number(opts.duration)||1220));
+    const duration=Math.max(850,Math.min(3200,Number(opts.duration)||1220));
     const arc=Math.max(55,Math.min(190,Math.abs(dx)*.22+Math.abs(dy)*.14));
     const dot=document.createElement('span');
     dot.setAttribute('aria-hidden','true');
@@ -82,7 +82,7 @@
         {transform:'translate3d('+(dx*.32)+'px,'+(dy*.32-arc)+'px,0) scale(1.35)',opacity:1,offset:.32},
         {transform:'translate3d('+(dx*.72)+'px,'+(dy*.72-arc*.7)+'px,0) scale(1.03)',opacity:1,offset:.72},
         {transform:'translate3d('+dx+'px,'+dy+'px,0) scale(.42)',opacity:.5,offset:1}
-      ],{duration,easing:'cubic-bezier(.25,.7,.25,1)',fill:'forwards'});
+      ],{duration,easing:opts.easing||'cubic-bezier(.25,.7,.25,1)',fill:'forwards'});
     }catch(e){dot.remove();active--;done();return Promise.resolve();}
     return Promise.race([animation.finished.catch(()=>{}),new Promise(resolve=>setTimeout(resolve,duration+120))])
       .then(()=>{animation.cancel();dot.remove();active--;done();});
