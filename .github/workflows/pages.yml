@@ -203,6 +203,16 @@ jobs:
           done
           test -s .output/public/404.html # keep the intentional, helpful 404 page
 
+      - name: Add brand-tinted iOS language switches to bilingual demos and landings
+        run: |
+          node --check public/assets/tle-ios-language-switch-20261111.js
+          node --check scripts/install-ios-language-switch-20261111.mjs
+          node scripts/install-ios-language-switch-20261111.mjs --root .output/public
+          test -s .output/public/assets/tle-ios-language-switch-20261111.css
+          test -s .output/public/assets/tle-ios-language-switch-20261111.js
+          grep -q 'tle-ios-language-switch-20261111.js' .output/public/demos/la-vie-in-pink/index.html
+          grep -q 'tle-ios-language-switch-20261111.js' .output/public/website-for-your-business/index.html
+
       - name: Preserve custom domain
         run: |
           mkdir -p .output/public
