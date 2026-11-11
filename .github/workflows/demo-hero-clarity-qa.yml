@@ -1,0 +1,60 @@
+name: Demo hero clarity responsive QA
+on:
+  pull_request:
+    paths: ['public/demos/**', 'scripts/qa-demo-hero-clarity-20261110.mjs', '.github/workflows/demo-hero-clarity-qa.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: hero-clarity-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  heroes:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: thelaunchera/demo-booking-landing-
+          ref: ${{ github.head_ref == 'fix/demo-hero-clarity-20261110' && 'fix/demo-hero-clarity-20261110' || 'main' }}
+          path: secondary
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: thelaunchera/demo-booking-landing-
+          ref: demo/jaramillo-boutique
+          path: jaramillo
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Install isolated browsers
+        run: |
+          mkdir /tmp/hero-clarity-qa
+          cd /tmp/hero-clarity-qa
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps ${{ matrix.browser }}
+          cd "$GITHUB_WORKSPACE"
+          ln -s /tmp/hero-clarity-qa/node_modules node_modules
+      - name: Verify routes and existing release guards
+        run: |
+          node scripts/qa-route-integrity.mjs --static
+          node scripts/qa-auth-recovery.mjs
+          node scripts/qa-client-release.mjs
+          node scripts/qa-demo-decorative-icons.mjs
+      - name: Measure current catalog at phone, tablet and desktop widths
+        env:
+          BROWSER: ${{ matrix.browser }}
+          SECONDARY_ROOT: ${{ github.workspace }}/secondary
+          JARAMILLO_ROOT: ${{ github.workspace }}/jaramillo
+        run: node scripts/qa-demo-hero-clarity-20261110.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hero-clarity-${{ matrix.browser }}
+          path: qa-artifacts/hero-clarity/

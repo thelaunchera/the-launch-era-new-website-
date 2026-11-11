@@ -1,9 +1,16 @@
 import assert from 'node:assert/strict';
 import {chromium,devices} from 'playwright';
+import {readFileSync} from 'node:fs';
 
 const base=(process.env.QA_URL||'http://127.0.0.1:4173').replace(/\/$/,'');
 const hiddenBrands=['havana-19','lavender-edit','casa-brownie','la-vie-in-pink'];
-const fullCards=19;
+const source=readFileSync('public/demos/index.html','utf8');
+const sourceBrands=[...source.matchAll(/<article\b[^>]*data-brand="([^"]+)"/g)].map(match=>match[1]);
+assert.ok(sourceBrands.length>0,'The catalog must contain published demos');
+assert.equal(new Set(sourceBrands).size,sourceBrands.length,'Demo slugs must be unique');
+for(const brand of hiddenBrands)assert.ok(sourceBrands.includes(brand),'Keep owner-hidden test brand '+brand);
+const fullCards=sourceBrands.length;
+const visibleCards=fullCards-hiddenBrands.length;
 const api=/\/rest\/v1\/tle_website_demo_visibility(?:\?|$)/;
 const headers={'access-control-allow-origin':'*','access-control-allow-headers':'apikey,accept',
  'access-control-allow-methods':'GET,OPTIONS','cache-control':'no-store'};
@@ -26,7 +33,7 @@ try{
   await page.goto(base+'/demos/',{waitUntil:'domcontentloaded'});
   await ready(page);
   assert.equal(await page.locator('.demo-card').count(),fullCards,'Preserve all source demos; only the showcase changes');
-  assert.equal(await page.locator('.demo-card:visible').count(),15,'Four owner-hidden demos must vanish from the public portfolio');
+  assert.equal(await page.locator('.demo-card:visible').count(),visibleCards,'Owner-hidden demos must vanish from the public portfolio');
   for(const slug of hiddenBrands){
    assert.equal(await page.locator('.demo-card[data-brand="'+slug+'"]').isVisible(),false,'Hidden in Studio must also be hidden on Website of Websites: '+slug);
   }
@@ -35,19 +42,20 @@ try{
   assert.ok(overflow<=2,'Curation must not overflow '+viewport+': '+overflow);
   await page.locator('.filter[data-filter="Food & Drink"]').click();
   const foodCount=await page.locator('.demo-card:visible').count();
-  assert.ok(foodCount>0&&foodCount<10,'Food filter must exclude the hidden food demos, not show all 10');
+  assert.ok(foodCount>0&&foodCount<visibleCards,'Food filter must exclude hidden and unrelated demos');
+  assert.ok(await page.locator('.demo-card:visible').evaluateAll(nodes=>nodes.every(node=>node.dataset.kind==='Food & Drink')),'Only Food & Drink projects remain after filtering');
   await page.locator('.filter[data-filter="All"]').click();
-  assert.equal(await page.locator('.demo-card:visible').count(),15);
+  assert.equal(await page.locator('.demo-card:visible').count(),visibleCards);
 
   // Test a cross-device Studio change without publishing another GitHub commit.
   data=[];
   await page.evaluate(()=>window.TLEWebsiteDemoVisibility.reload());
-  await page.waitForFunction(()=>document.querySelectorAll('.demo-card:not([hidden])').length===19);
-  assert.equal(await page.locator('.demo-card:visible').count(),19,'Unhiding from Studio must show a demo again');
+  await page.waitForFunction(expected=>document.querySelectorAll('.demo-card:not([hidden])').length===expected,fullCards);
+  assert.equal(await page.locator('.demo-card:visible').count(),fullCards,'Unhiding from Studio must show all demos again');
   data=rows;
   await page.evaluate(()=>window.TLEWebsiteDemoVisibility.reload());
-  await page.waitForFunction(()=>document.querySelectorAll('.demo-card:not([hidden])').length===15);
-  assert.equal(await page.locator('.demo-card:visible').count(),15,'Re-hiding must immediately update without a deploy');
+  await page.waitForFunction(expected=>document.querySelectorAll('.demo-card:not([hidden])').length===expected,visibleCards);
+  assert.equal(await page.locator('.demo-card:visible').count(),visibleCards,'Re-hiding must immediately update without a deploy');
 
   await page.goto(base+'/demos/?demo=havana-19',{waitUntil:'domcontentloaded'});
   await ready(page);

@@ -145,7 +145,7 @@ assert.match(css,/flex:0 0 min\(84vw,360px\)/,'Mobile photos use consistent full
 assert.match(css,/scroll-snap-stop:always/,'Mobile cards snap one at a time');
 assert.match(css,/object-fit:contain/,'All mobile gallery photographs fit without clipping');
 assert.ok(html.includes('styles.css?v=20261030-crumb-pain-first-gifts-v13'), 'Updated CSS must bypass stale iOS browser cache');
-assert.ok(html.includes('main.js?v=20261108-price-parity'), 'Updated carousel controller must bypass stale iOS browser cache');
+assert.ok(html.includes('main.js?v=20261110-cart-dot'), 'Updated carousel controller must bypass stale iOS browser cache');
 assert.equal(d.querySelectorAll('.crumb-gallery-dot').length,3,'Three accessible slide selectors');
 click('[data-crumb-slide="2"]');
 assert.equal(d.querySelector('.crumb-gallery-counter').textContent,'3 / 3','Third packaging photo is reachable via a dot');
@@ -374,7 +374,7 @@ assert.ok(responsiveCrumb.includes('@media (max-width: 759px)'));
 assert.ok(responsiveCrumb.includes('grid-template-columns: repeat(2, minmax(0, 1fr))'));
 assert.ok(code.includes("window.matchMedia('(max-width:1366px)').matches"), 'Tablet gallery must support keyboard arrows');
 assert.match(html, /styles\.css\?v=20261030-crumb-pain-first-gifts-v13/);
-assert.match(html, /main\.js\?v=20261108-price-parity/);
+assert.match(html, /main\.js\?v=20261110-cart-dot/);
 assert.ok(css.includes('/* CRUMB Inside gallery — remove picture-in-a-box matte, preserve 3 slides */'), 'CRUMB gallery removes the blue photo-frame background');
 assert.match(css,/\.brand-glimpse \.brand-glimpse-gallery figure img,[\s\S]*?object-fit: cover/,'Photos fill their slide without pale blue side-bars');
 assert.match(css,/\.brand-glimpse \.brand-glimpse-gallery figure:nth-child\(3\) img \{[\s\S]*?object-position: center 61%/,'Packaging crop keeps the branded bag and cookies in view');

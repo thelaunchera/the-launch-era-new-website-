@@ -1,6 +1,6 @@
 /**
- * Static bilingual demo contract: 13 reusable Owner Centers, 19 portfolio
- * cards, Spanish/English navigation and full-price local-only presentation.
+ * Static bilingual demo contract: reusable Owner Centers, a growing portfolio,
+ * Spanish/English navigation and full-price local-only presentation.
  * No network, no real orders, no writes to customer records.
  */
 import assert from 'node:assert/strict';
@@ -42,13 +42,13 @@ assert.match(owner,/localStorage\.removeItem/);
 assert.match(owner,/Number\(p\.discount\)/);
 assert.doesNotMatch(owner,/\bfetch\(/,'Public mock owner must not send real transactions');
 const cards=[...library.matchAll(/<article\b[^>]*data-brand="([^"]+)"[^>]*>[\s\S]*?<\/article>/g)];
-assert.equal(cards.length,19,'All 19 demo cards including Sneekiefs, FRESKA and Nail Room must remain');
-for(const slug of ['sneekiefs','freska','nail-room'])assert.ok(cards.some(([,brand])=>brand===slug),'Missing live demo card: '+slug);
+assert.ok(cards.length>0,'Public gallery must contain demo cards');
+assert.equal(new Set(cards.map(([,brand])=>brand)).size,cards.length,'Every gallery demo needs a unique slug');
+for(const slug of ['velmora','sneekiefs','freska','nail-room'])assert.ok(cards.some(([,brand])=>brand===slug),'Missing live demo card: '+slug);
 const linked=new Set(cards.filter(([html])=>html.includes('class="owner-view"')).map(([,slug])=>slug));
 const themes=[...owner.matchAll(/^ "([a-z0-9-]+)":\{name:"[^"]+",kind:"(menu|service)"/gm)];
-assert.equal(themes.length,13,'Exactly 13 Owner Center themes');
-assert.equal(themes.filter(x=>x[2]==='menu').length,9);
-assert.equal(themes.filter(x=>x[2]==='service').length,4);
+assert.ok(themes.length>0,'Owner Center must contain interactive demo themes');
+assert.equal(new Set(themes.map(x=>x[1])).size,themes.length,'Every Owner Center theme needs a unique slug');
 assert.deepEqual([...linked].sort(),themes.map(x=>x[1]).sort());
 for(const [kind,s] of [['English',en],['Spanish',es]]){
  assert.equal([...s.matchAll(/<section class="owner-experience"/g)].length,1,kind+' must contain one editorial showcase');
@@ -67,7 +67,7 @@ new Script(requestSource,{filename:'tle-owner-request-examples-20261108.js'}).ru
 const requests=requestCtx.window.TLEOwnerRequestExamples;
 assert.match(owner,/src="\/assets\/tle-owner-request-examples-20261108\.js"/);
 assert.match(owner,/TLEOwnerRequestExamples\?\.\[current\]/);
-assert.equal(Object.keys(requests).length,13,'Every demo brand needs its own fictional requests');
+assert.equal(Object.keys(requests).length,themes.length,'Every Owner Center theme needs its own fictional requests');
 assert.deepEqual(Object.keys(requests).sort(),themes.map(x=>x[1]).sort());
 for(const [slug,group] of Object.entries(requests)){
  for(const lang of ['en','es']){
@@ -90,4 +90,4 @@ assert.match(requests['ivory-and-bloom'].es.cards[0][1],/Pastel floral/);
 assert.match(requests['soluna-yoga'].es.cards[0][1],/Flujo matutino/);
 assert.doesNotMatch(owner,/New inquiry · Residential/,'The old cross-business default must be removed');
 
-console.log('PASS: bilingual raspberry experience, 19 portfolio cards, 13 simulated Owner Centers, navigation and no real transactions');
+console.log(`PASS: bilingual raspberry experience, ${cards.length} portfolio cards, ${themes.length} simulated Owner Centers, navigation and no real transactions`);

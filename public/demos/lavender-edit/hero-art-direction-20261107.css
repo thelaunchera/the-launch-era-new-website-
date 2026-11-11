@@ -66,3 +66,8 @@ Preserves all original imagery, copy, forms, CTA and business functions. */
  .hero .hero-art{min-height:100%}
  .hero .hero-art img{width:100%;height:100%;object-fit:cover}
 }
+
+/* Hero clarity review — 2026-11-10. Original media and actions retained. */
+html[data-tle-one-motion="lavender-edit"] .hero .kicker{font-size:12px;line-height:1.5;letter-spacing:.1em;color:#fff8ed}
+html[data-tle-one-motion="lavender-edit"] .hero .hero-copy>p{font-size:16px;line-height:1.65}
+html[data-tle-one-motion="lavender-edit"] .hero .btn{min-height:48px;font-size:13px}

@@ -69,7 +69,7 @@ for(const engine of [chromium,webkit]){
       const box=p.getBoundingClientRect();
       const cardCount=p.querySelectorAll('.tle-price-card').length;
       return {
-        isAfterHero:Boolean(hero&&hero.nextElementSibling===p),
+        isAfterHero:Boolean(hero&&(hero.nextElementSibling===p||(hero.nextElementSibling?.id==='tle-brand-discovery'&&hero.nextElementSibling.nextElementSibling===p))),
         isByMenu:Boolean(catalog&&catalog.previousElementSibling===p),
         position:p.dataset.tlePricePlacement,
         cardCount,footerAfter:p.compareDocumentPosition(document.querySelector('footer')) & Node.DOCUMENT_POSITION_FOLLOWING,

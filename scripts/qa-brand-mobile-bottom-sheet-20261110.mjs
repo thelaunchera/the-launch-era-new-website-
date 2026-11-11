@@ -20,15 +20,12 @@ for(const browserType of [chromium,webkit]){
     await page.locator(spec.trigger).first().click();
     const panel=page.locator(spec.panel);
     await panel.waitFor({state:'visible',timeout:9000});
-    // WebKit can delay the first animation frame after a drawer becomes
-    // visible. Verify the real final on-screen geometry rather than assuming
-    // a fixed 650ms clock; still fail if the panel never docks correctly.
+    // Measure the settled sheet rather than a fixed delay under shared CI load.
+    // A sheet that never reaches the viewport still fails this bounded wait.
     await page.waitForFunction(selector=>{
-      const element=document.querySelector(selector);
-      if(!element)return false;
-      const rect=element.getBoundingClientRect();
-      return rect.height>50&&Math.abs(rect.bottom-innerHeight)<=5;
-    },spec.panel,{timeout:6000});
+      const el=document.querySelector(selector);if(!el)return false;
+      return Math.abs(el.getBoundingClientRect().bottom-innerHeight)<=5;
+    },spec.panel,{timeout:5000});
     const geometry=await panel.evaluate(el=>{
       const r=el.getBoundingClientRect(),c=getComputedStyle(el);
       return {bottom:r.bottom,top:r.top,width:r.width,position:c.position,animation:c.animationName,visible:c.display!=='none'};
