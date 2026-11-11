@@ -35,6 +35,19 @@ for(const engine of [chromium,webkit]){
       await page.close();
       continue;
     }
+    // Casa Brownie intentionally has one native six-flavor menu with original inline prices,
+    // not a second generated three-product price grid. Check the actual menu.
+    if(brand.slug==='casa-brownie'){
+      await page.waitForFunction(()=>document.querySelectorAll('#brownies .flavor .flavor-price strong').length===6,null,{timeout:12000});
+      const prices=await page.locator('#brownies .flavor .flavor-price strong').allTextContents();
+      assert.equal(prices.length,6,'Casa Brownie keeps six original flavor prices');
+      assert.deepEqual(prices.map(x=>x.trim()),['$6.00','$6.30','$7.50','$7.00','$7.00','$8.00'],'Casa Brownie source prices are consistent');
+      assert.equal(await page.locator('.tle-demo-price-collection').count(),0,'No second generated Casa Brownie product menu');
+      assert.deepEqual(errors,[],brand.slug+' native flavor price runtime errors');
+      console.log('NATIVE BROWNIE PRICES PASS',engine.name(),brand.slug,width,prices.length);
+      await page.close();
+      continue;
+    }
     const pricing=page.locator('section#tle-demo-sample-prices');
     await page.waitForFunction(()=>document.querySelector('#tle-demo-sample-prices')||document.querySelector('.tle-demo-customer-price'),null,{timeout:12000});
     if(await pricing.count()===0){

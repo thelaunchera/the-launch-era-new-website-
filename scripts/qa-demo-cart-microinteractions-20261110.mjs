@@ -18,7 +18,7 @@ for(const browserType of [chromium,webkit]){
     if(slug==='la-vie-in-pink')assert.equal(await page.locator('#menu-grid .menu-card').count(),6,'Keep six original cafe products');
     await page.locator(trigger).first().click();
     if(followup)await page.locator(followup).filter({hasText:'Añadir al carrito de muestra'}).click();
-    await page.waitForTimeout(motion==='reduce'?100:1100);
+    await page.waitForTimeout(motion==='reduce'?100:1550);
     assert.equal((await page.locator(countSelector).innerText()).trim(),'1','Use existing cart counter');
     // Owner-approved behavior: adding a product never opens the cart automatically.
     if(slug==='casa-brownie'){
@@ -37,6 +37,33 @@ for(const browserType of [chromium,webkit]){
     assert.equal(await page.locator('body > img[aria-hidden="true"][style*="position: fixed"]').count(),0,'Flight image cleaned up');
     assert.deepEqual(errors,[],slug+' no browser errors');
     console.log('PASS',browserType.name(),slug,motion,'native cart and optional image fly');
+    await page.close();
+   }
+  }
+ }finally{await browser.close();}
+}
+
+// Guided-order brands: the only bag trigger belongs in the top bar, not a floating corner.
+for(const type of [chromium,webkit]){
+ const browser=await type.launch({headless:true});
+ try{
+  for(const slug of ['golden-grid','havana-19']){
+   for(const width of [390,1440]){
+    const page=await browser.newPage({viewport:{width,height:844},reducedMotion:'reduce'});
+    const errors=[];page.on('pageerror',err=>errors.push(err.message));
+    await page.goto(root+'/demos/'+slug+'/',{waitUntil:'domcontentloaded'});
+    const bag=page.locator('header .tle-order-float');
+    await bag.waitFor({state:'visible',timeout:12000});
+    assert.equal(await page.locator('.tle-order-float').count(),1,slug+' one sample bag');
+    assert.equal(await page.locator('body > .tle-order-float').count(),0,slug+' no floating cart');
+    assert.match(await bag.getAttribute('aria-label'),/shopping bag|bolsa/i);
+    const horizontalOverflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+2);
+    assert.equal(horizontalOverflow,false,slug+' header fits at '+width+'px');
+    await bag.click();
+    assert.equal(await page.locator('#tle-demo-order-dialog').evaluate(el=>el.open),true,'Header bag opens original order flow');
+    await page.locator('#tle-demo-order-dialog [data-action="close"]').click();
+    assert.equal(await page.locator('#tle-demo-order-dialog').evaluate(el=>el.open),false,'Header bag closes cleanly');
+    assert.deepEqual(errors,[],slug+' no script errors');
     await page.close();
    }
   }

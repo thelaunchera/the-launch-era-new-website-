@@ -4,6 +4,9 @@ on:
     branches: [main]
     paths:
       - 'public/assets/tle-demo-cart-flight-20261110.js'
+      - 'public/assets/tle-demo-order-journey-20261108.js'
+      - 'public/demos/golden-grid/**'
+      - 'public/demos/havana-19/**'
       - 'public/demos/casa-brownie/**'
       - 'public/demos/la-vie-in-pink/**'
       - 'scripts/qa-demo-cart-microinteractions-20261110.mjs'
@@ -27,6 +30,7 @@ jobs:
       - name: Check exact original cart JS and shared animation
         run: |
           node --check public/assets/tle-demo-cart-flight-20261110.js
+          node --check public/assets/tle-demo-order-journey-20261108.js
           node --check public/demos/casa-brownie/main.js
           node --check public/demos/la-vie-in-pink/cafe-boutique-20261108.js
           node --check scripts/qa-demo-cart-microinteractions-20261110.mjs

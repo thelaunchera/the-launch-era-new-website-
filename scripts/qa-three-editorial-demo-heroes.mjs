@@ -45,7 +45,7 @@ try {
       if(item.name==='golden-grid') {
         // Golden's later owner-approved artwork-first hero has no overlay CTA.
         // Keep the product navigation and collection anchor instead.
-        assert.equal(await page.locator('nav a[href="#collection"]').count(),1,
+        assert.equal(await page.locator('header nav a[href="#collection"]').count(),1,
           'Golden collection navigation must remain accessible');
         assert.equal(await page.locator('#collection').count(),1);
       } else {
