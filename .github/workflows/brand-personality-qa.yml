@@ -1,0 +1,44 @@
+name: TLE Brand Personality — iPhone and WebKit QA
+on:
+  pull_request:
+    paths:
+      - 'public/assets/tle-brand-personality-20261110.css'
+      - 'public/demos/sova/sova-listening-mode-20261110.js'
+      - 'public/demos/**/index.html'
+      - 'scripts/qa-brand-personality-20261110.mjs'
+      - '.github/workflows/brand-personality-qa.yml'
+  workflow_dispatch:
+jobs:
+  brand-personality:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify page identity and original accessible mode
+        run: |
+          node --check public/demos/sova/sova-listening-mode-20261110.js
+          node --check scripts/qa-brand-personality-20261110.mjs
+          node scripts/qa-brand-personality-20261110.mjs
+          node scripts/qa-route-integrity.mjs --static
+      - name: Install browser test runtime
+        run: |
+          mkdir -p /tmp/tle-brand-personality-qa
+          npm install --no-audit --no-fund --prefix /tmp/tle-brand-personality-qa playwright@1.57.0
+          /tmp/tle-brand-personality-qa/node_modules/.bin/playwright install --with-deps chromium webkit
+          mkdir -p node_modules
+          ln -sfn /tmp/tle-brand-personality-qa/node_modules/playwright node_modules/playwright
+          ln -sfn /tmp/tle-brand-personality-qa/node_modules/playwright-core node_modules/playwright-core
+      - name: Test SOVA interactive mood in Chromium and Safari
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4193 --bind 127.0.0.1 --directory public >/tmp/tle-brand-qa.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for n in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4193/demos/sova/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4193 node scripts/qa-brand-personality-20261110.mjs --browser
