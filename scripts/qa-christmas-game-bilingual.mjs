@@ -60,7 +60,7 @@ await tick();
 assert.equal(d.documentElement.lang, 'es');
 assert.equal(d.querySelector('#rollBtn').textContent, '🎲 Tirar el dado');
 assert.equal(d.querySelectorAll('.token').length, 4);
-game.window.close();
+game// Keep the jsdom window open until all gameplay assertions finish.
 
 const saved = {
   version: 2,
@@ -85,7 +85,7 @@ assert.match(q.querySelector('#eventBody').textContent, /Correct!/);
 q.querySelector('#eventContinue').click();
 await tick(950);
 assert.equal(q.querySelector('#eventOverlay').hidden, true);
-quiz.window.close();
+quiz// Keep the jsdom window open until all gameplay assertions finish.
 
 const victoryState = {...saved, players:[{name:'Santa',position:41,skip:0,rolls:0}]};
 const victory = openGame(victoryState, 'en');
@@ -95,6 +95,8 @@ victory.document.querySelector('#rollBtn').click();
 await tick(1250);
 assert.equal(victory.document.querySelector('#winOverlay').hidden, false);
 assert.match(victory.document.querySelector('#winTitle').textContent, /North Pole!/);
-victory.window.close();
+victory// Keep the jsdom window open until all gameplay assertions finish.
 assert.deepEqual(errors, [], 'No uncaught browser scripting errors');
 console.log('Christmas game bilingual QA passed: 1–4 players, ES/EN, turns, dice, quiz, resume and victory.');
+// Stop this stand-alone QA process after assertions, without closing windows while timer callbacks are pending.
+process.exit(0);
