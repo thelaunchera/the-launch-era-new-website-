@@ -1,3 +1,9 @@
+## 2026-11-11 — Christmas Game ES/EN bilingual upgrade
+- **Source of truth:** `public/games/navidad/index.html` in `thelaunchera/the-launch-era-new-website-`. Official route: `https://thelaunchera.com/games/navidad/` after an actual successful `main` Pages build; independent already-deployed fallback: `https://el-gran-juego-de-navidad-the-launch-era-z1kkj0.v2.appdeploy.ai/` reads the latest HTML from GitHub `main` and renders it as a browser page.
+- **Feature:** client-only toggle ES/EN accessible on setup overlay and header. LocalStorage preference `tle-xmas-game-locale` separate from existing saved game key `tle-xmas-board-v2`. Translates instructions, setup controls, board landmarks, rolling/turn labels, surprises, quiz questions and answers, outcome messages and accessible names without resetting the game.
+- **Scope:** existing dice, 1–4 players, saved and resumed local turns, random special squares, questions, extra/missed turns, win animations and image remain. No auth, backend, email, payments, booking, shared client data or changes to other demos.
+- **QA:** `node scripts/qa-christmas-game-bilingual.mjs` checks 1–4 player selection, ES/EN switching, roll/turns, saved game, English quiz and win; `.github/workflows/qa-christmas-game-bilingual.yml` runs it on PR. Verify production response (HTTP and actually playable), GH Pages run, and iPhone Safari before claiming release.
+
 ## 2026-11-11 — Christmas game player-count controls (mobile)
 - Official page source remains `public/games/navidad/index.html`; expected public URL is `https://thelaunchera.com/games/navidad/` after the `main` GitHub Pages workflow successfully deploys. Do not redirect to third-party HTML preview wrappers.
 - Local-only 1–4 person selector now uses direct button listeners and live selection feedback. The dice, saved game, special squares and victory route remain unchanged; no network endpoints, external links, data collection, checkout or client tenants.
