@@ -21,7 +21,9 @@
  function sync(){
   const locale=getLocale();
   set(language,locale==='en');
-  set(compact,getCompact());document.body.classList.toggle('tle-crm-compact',getCompact());
+  set(compact,getCompact());
+  if(document.body.classList.contains('tle-crm-compact')!==getCompact())
+   document.body.classList.toggle('tle-crm-compact',getCompact());
   if(followupRow)followupRow.hidden=!userIsBuyer();
   if(followup){
    set(followup,mailOn());
