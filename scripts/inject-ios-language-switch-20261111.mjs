@@ -11,10 +11,10 @@ if(!existsSync(join(root,css.slice(1)))||!existsSync(join(root,js.slice(1))))thr
 let changed=0,eligible=0;
 const perRoute=[];
 const qualify=html=>{
- const grouped=/<(?:div|span|nav)[^>]*class=["'][^"']*(?:language-toggle|lang-switch|cb-language-selector|langs)(?:\\s|["'])/i.test(html);
+ const grouped=/<(?:div|span|nav)[^>]*class=["'][^"']*(?:language-toggle|lang-switch|cb-language-selector|langs)(?:\s|["'])/i.test(html);
  const singleton=/<(?:button|select)[^>]*id=["'](?:langToggle|language|lang|locale|demoLanguage)["'][^>]*>/i.test(html);
- const alternate=/<a\\b[^>]*(?:class=["'][^"']*tle-website-language[^"']*["']|hreflang=["'](?:es|en)["'])[^>]*href=["']\\/[^"']+["']/i.test(html)||
-    /<a\\b[^>]*href=["']\\/[^"']+["'][^>]*(?:class=["'][^"']*tle-website-language[^"']*["']|hreflang=["'](?:es|en)["'])/i.test(html);
+ const alternate=/<a\b[^>]*(?:class=["'][^"']*tle-website-language[^"']*["']|hreflang=["'](?:es|en)["'])[^>]*href=["']\/[^"']+["']/i.test(html)||
+    /<a\b[^>]*href=["']\/[^"']+["'][^>]*(?:class=["'][^"']*tle-website-language[^"']*["']|hreflang=["'](?:es|en)["'])/i.test(html);
  return grouped||singleton||alternate;
 };
 async function walk(dir){
@@ -26,15 +26,15 @@ async function walk(dir){
   if(!qualify(html))continue;
   eligible++;
   if(html.includes('tle-ios-language-switch-20261111'))continue;
-  if(!/<\\/head>/i.test(html)||!/<\\/body>/i.test(html))continue;
-  html=html.replace(/<\\/head>/i,`<link rel="stylesheet" href="${css}?v=1"></head>`);
-  html=html.replace(/<\\/body>/i,`<script defer src="${js}?v=1"></script></body>`);
+  if(!/<\/head>/i.test(html)||!/<\/body>/i.test(html))continue;
+  html=html.replace(/<\/head>/i,`<link rel="stylesheet" href="${css}?v=1"></head>`);
+  html=html.replace(/<\/body>/i,`<script defer src="${js}?v=1"></script></body>`);
   await writeFile(path,html);
   changed++;
-  perRoute.push(relative(root,path).replaceAll('\\\\','/'));
+  perRoute.push(relative(root,path).replaceAll('\\','/'));
  }
 }
 await walk(root);
 if(eligible<5)throw Error('Expected >=5 genuinely bilingual pages, found '+eligible);
 console.log('iOS language switch enhanced '+changed+' pages; eligible '+eligible);
-console.log(perRoute.slice(0,32).join('\\n'));
+console.log(perRoute.slice(0,32).join('\n'));
