@@ -213,6 +213,13 @@ jobs:
           grep -q 'tle-ios-language-switch-20261111.js' .output/public/demos/la-vie-in-pink/index.html
           grep -q 'tle-ios-language-switch-20261111.js' .output/public/website-for-your-business/index.html
 
+      - name: Apply native brand-colored ES/EN switches to bilingual demos and landings
+        run: |
+          node --check scripts/inject-ios-language-switch-20261111.mjs
+          node --check .output/public/assets/tle-ios-language-switch-20261111.js
+          node scripts/inject-ios-language-switch-20261111.mjs --root .output/public
+          node scripts/qa-ios-language-switch-20261111.mjs --root .output/public
+
       - name: Preserve custom domain
         run: |
           mkdir -p .output/public
