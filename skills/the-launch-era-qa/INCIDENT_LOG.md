@@ -1,3 +1,10 @@
+## 2026-11-10 — Hero clarity review from owner video
+- Existing catalog audited dynamically across the primary website and secondary Pages repository, including Jaramillo's existing source branch. No demo count is encoded in the new responsive check.
+- Nine hero treatments clarify the actual offering, improve small copy and primary-action legibility, and demote competing secondary actions: FRESKA, Sneekiefs, La Vie in Pink, Lavanda, AFTR, WOK SOCIAL, Seasonal Brew, VELMORA and Nail Room. Original headlines and approved media remain. English/Spanish dictionaries are updated wherever the native demo provides them.
+- Source corrections include FRESKA pink-on-blue headline and white-on-pink button contrast, Sneekiefs small white copy on blue, and 48px primary actions. No photos, logos, prices, carts, forms, auth, real customer records or classroom publication are changed.
+- All existing routes and CTA destinations are retained. New QA measures every currently cataloged hero at 360/390/820/1024/1440 in Chromium and WebKit, records screenshots, verifies decoded photographs and native CTA destinations.
+- Local route, recovery, tenant guards and decorative-symbol checks are recorded separately from GitHub browser checks. Local browser launch is unavailable (socket operation denied; browser download incomplete); no local/physical iPhone pass is claimed. GitHub QA, Pages and final live verification remain pending until evidence is recorded.
+
 ## 2026-11-10 — Demo growth blocked by hardcoded catalog totals in CI
 - **Observed:** The merged VELMORA storefront expanded the public catalog from 19 to 20 and inserted a second portfolio miniature. Several GitHub Actions failed even though adding a valid new project is expected.
 - **Verified causes:** `qa-demo-visibility-browser.mjs`, `qa-demo-depth.mjs`, `qa-bilingual-owner-center.mjs`, `qa-owner-bilingual.mjs` and `qa-demo-gallery-mobile.mjs` required exact counts of 19; marketing gallery checks assumed exactly 14; portfolio checks required exactly nine thumbnails and assumed the second brand was Sneekiefs. Public `/demos/` rendered a static `19 projects` label and `NN / 19` indicators.
