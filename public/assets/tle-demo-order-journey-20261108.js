@@ -6,6 +6,9 @@
 'use strict';
 var current=document.currentScript;
 var slug=(current&&current.getAttribute('data-tle-order-slug'))||'';
+// Brand-scoped opt-in: never slow the other demos or delay cart state.
+var requestedFlightMs=Number(current&&current.getAttribute('data-tle-cart-flight-ms'));
+var flightDuration=Number.isFinite(requestedFlightMs)&&requestedFlightMs>=850?Math.min(3200,requestedFlightMs):null;
 var allowed=['golden-grid','havana-19','la-vie-in-pink','casa-brownie','crumb','yummm','wok-social','seasonal-brew','jaramillo-boutique'];
 if(allowed.indexOf(slug)<0||!document.body||document.getElementById('tle-demo-order-dialog'))return;
 var base=(window.TLE_DEMO_PRICE_CATALOGS||{})[slug];
@@ -110,10 +113,10 @@ function addFromButton(button,name){
  var previous=float.querySelector('b')?.textContent||'0';
  if(!change(name,1))return;
  var badge=float.querySelector('b');
- if(badge)badge.textContent=previous;
- var motion=window.TLECartMotion?.flyDot(button,float,{
-   badge:badge,color:tone,onLand:paintFloat
- });
+ if(!flightDuration&&badge)badge.textContent=previous;
+ var options={badge:badge,color:tone,onLand:paintFloat};
+ if(flightDuration)options.duration=flightDuration;
+ var motion=window.TLECartMotion?.flyDot(button,float,options);
  if(!motion)paintFloat();
 }
 function htmlRows(){
