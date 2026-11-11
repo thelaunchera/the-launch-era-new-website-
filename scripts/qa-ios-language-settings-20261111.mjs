@@ -37,13 +37,16 @@ assert.ok(sharedCss.includes(':active .tle-ios-locale-knob'));
 assert.ok(sharedCss.includes('prefers-reduced-motion:reduce'));
 if(built){
  const expected=['demos/la-vie-in-pink/index.html','demos/freska/index.html',
-  'demos/casa-brownie/index.html','website-for-your-business/index.html',
-  'es/website-for-your-business/index.html'];
+  'demos/casa-brownie/index.html','demos/havana-19/index.html',
+  'website-for-your-business/index.html','es/website-for-your-business/index.html',
+  'intake/website/index.html'];
  for(const path of expected){
   const page=read(path);
   assert.ok(page.includes('tle-ios-language-switch-20261111.js'),path);
  }
  assert.ok(!read('command-center/index.html').includes('tle-ios-language-switch-20261111.js'),
   'Private Command Center must not receive public demo language switch');
+ assert.ok(!read('demos/crumb/index.html').includes('tle-ios-language-switch-20261111.js'),
+  'English-only Crumb demo must not receive a nonworking language switch');
 }
 console.log('iOS language and settings QA passed'+(built?' against built Pages assets':' against sources'));
