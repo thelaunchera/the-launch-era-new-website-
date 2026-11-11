@@ -1,3 +1,8 @@
+## 2026-11-11 — Christmas game player-count controls (mobile)
+- Official page source remains `public/games/navidad/index.html`; expected public URL is `https://thelaunchera.com/games/navidad/` after the `main` GitHub Pages workflow successfully deploys. Do not redirect to third-party HTML preview wrappers.
+- Local-only 1–4 person selector now uses direct button listeners and live selection feedback. The dice, saved game, special squares and victory route remain unchanged; no network endpoints, external links, data collection, checkout or client tenants.
+- Production readiness requires a green Pages run and a live Safari interaction check. A GitHub branch/PR alone is not a published URL.
+
 ## 2026-11-11 — El Gran Juego de Navidad (branch-only preview)
 - **Ownership:** The Launch Era original Christmas board game, no client/tenant, booking, CRM, checkout, emails, analytics or database access.
 - **Source:** `public/games/navidad/index.html` on independent branch `navidad-game-2026`. Standalone self-contained HTML/CSS/JavaScript including its board graphic; all gameplay is local to the browser and its own localStorage key `tle-xmas-board-v2`.
