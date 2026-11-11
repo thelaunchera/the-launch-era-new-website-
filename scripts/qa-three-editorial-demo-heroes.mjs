@@ -43,11 +43,13 @@ try {
       });
       assert(await photo.evaluate(el=>el.naturalWidth>=300&&el.naturalHeight>=150),item.name+' original hero image missing');
       if(item.name==='golden-grid') {
-        // Golden's later owner-approved artwork-first hero has no overlay CTA.
-        // Keep the product navigation and collection anchor instead.
-        assert.equal(await page.locator('nav a[href="#collection"]').count(),1,
-          'Golden collection navigation must remain accessible');
-        assert.equal(await page.locator('#collection').count(),1);
+        // Golden's original header collection link must stay present. Other
+        // intentional navigation (e.g. the discovery module) may also link
+        // to the same section; do not miscount those as header duplicates.
+        const collectionLink=page.locator('header > nav[aria-label="Main navigation"] > a[href="#collection"]');
+        assert.equal(await collectionLink.count(),1,
+          'Golden original header collection navigation must remain accessible');
+        assert.equal(await page.locator('main #collection').count(),1);
       } else {
         assert.equal(await page.locator(item.cta).count(),1,item.name+' original hero CTA changed');
         const action=await page.locator(item.cta).first().getAttribute('href');
