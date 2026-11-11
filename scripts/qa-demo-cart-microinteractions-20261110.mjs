@@ -69,3 +69,46 @@ for(const type of [chromium,webkit]){
   }
  }finally{await browser.close();}
 }
+
+// Sneekiefs regression: six independent sizes per product and slower, brand-only flight.
+for(const engine of [chromium,webkit]){
+ const browser=await engine.launch({headless:true});
+ try{
+  for(const width of [390,820,1440]){
+   const page=await browser.newPage({viewport:{width,height:844},reducedMotion:'no-preference'});
+   const errors=[];page.on('pageerror',e=>errors.push(e.message));
+   const response=await page.goto(root+'/demos/sneekiefs/',{waitUntil:'domcontentloaded'});
+   assert.equal(response?.status(),200,'Sneekiefs storefront opens');
+   const cards=page.locator('.product-card');
+   assert.equal(await cards.count(),3,'Keep original three sneaker products');
+   for(const card of await cards.all()){
+    const buttons=card.locator('.card-sizes .size');
+    assert.deepEqual(await buttons.allTextContents(),['7','8','9','10','11','12'],'Each product has its own 6 sizes');
+    const result=await card.evaluate(card=>{
+     const wrap=card.querySelector('.card-sizes');
+     const outer=card.getBoundingClientRect(),bounds=[...wrap.querySelectorAll('.size')].map(el=>el.getBoundingClientRect());
+     return {cardLeft:outer.left,cardRight:outer.right,buttons:bounds.map(x=>({left:x.left,right:x.right,width:x.width,height:x.height})), columns:getComputedStyle(wrap).gridTemplateColumns.split(' ').length};
+    });
+    for(const b of result.buttons){
+     assert.ok(b.left>=result.cardLeft-1&&b.right<=result.cardRight+1,'A size button must not escape its own product card at '+width);
+     assert.ok(b.height>=40&&b.width>=28,'Each size stays independently tappable at '+width);
+    }
+    if(width<=820)assert.equal(result.columns,3,'Compact product sizes use a 3x2 grid');
+   }
+   await cards.first().locator('.card-sizes [data-size="10"]').click();
+   await cards.first().locator('.card-add').click();
+   assert.equal((await page.locator('#bagCount').innerText()).trim(),'1','Bag count updates without waiting for motion');
+   assert.equal(await page.locator('#bagDialog').isVisible(),false,'Adding an item does not open the bag');
+   if(width===390){
+    await page.waitForTimeout(1400);
+    assert.ok(await page.locator('body > span[aria-hidden="true"][style*="position: fixed"]').count()>0,'Sneekiefs flight stays visible beyond 1.4s');
+    await page.waitForTimeout(1300);
+    assert.equal(await page.locator('body > span[aria-hidden="true"][style*="position: fixed"]').count(),0,'Flight cleans up after landing');
+   }
+   await page.locator('#bagOpen').click();
+   assert.equal(await page.locator('#bagDialog').isVisible(),true,'Original bag still opens');
+   assert.deepEqual(errors,[],'No JS errors in Sneekiefs');
+   await page.close();
+  }
+ }finally{await browser.close()}
+}
