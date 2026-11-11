@@ -35,7 +35,7 @@
   const temp=document.createElement('span');temp.style.color=color;
   document.body.appendChild(temp);
   const c=getComputedStyle(temp).color;temp.remove();
-  const nums=c.match(/\\d+(?:\\.\\d+)?/g);
+  const nums=c.match(/\d+(?:\.\d+)?/g);
   if(!nums||nums.length<3)return '#203740';
   const [r,g,b]=nums.slice(0,3).map(Number);
   return .2126*r+.7152*g+.0722*b<145?'#fff':'#203740';
