@@ -2,5 +2,5 @@
 /* Hero clarity review — 2026-11-10. Original media and actions retained. */
 html[data-tle-one-motion="aftr"] .hero .hero-kicker{font-size:12px;line-height:1.5;letter-spacing:.15em}
 html[data-tle-one-motion="aftr"] .hero .hero-content>p{font-size:16px;line-height:1.6;max-width:45ch}
-html[data-tle-one-motion="aftr"] .hero .hero-cta .btn{min-height:48px;font-size:13px;letter-spacing:.06em}
+html[data-tle-one-motion="aftr"] .hero .hero-cta .btn{min-height:48px;font-size:15px;letter-spacing:.06em}
 @media(max-width:700px){html[data-tle-one-motion="aftr"] .hero h1{font-size:clamp(68px,17vw,110px)}}
