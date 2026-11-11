@@ -1,3 +1,9 @@
+## 2026-11-11 — Christmas game player count unresponsive on iPhone / third-party preview
+- **Owner report:** after opening the Christmas game, tapping the player-count choices did not appear to do anything.
+- **Observed evidence:** the standalone HTML responded to all 1–4 options in local Chromium with 390px touch emulation and desktop; the external HTML-preview wrapper could not be behavior-tested on iPhone. A blocked GitHub Pages run left the official production route unpublished at the time of reporting. The exact Safari-specific cause remains unverified.
+- **Scoped mitigation:** change player choices to direct per-button click handlers (instead of delegated `closest`), explicit `type="button"`, 54px minimum touch targets, `aria-pressed`, and a visible live status count; reset/setup reapplies the state consistently. No gameplay rules, dice logic, client flows, payment, auth or business pages changed.
+- **Regression evidence:** locally exercised 1/2/3/4 choices, starting a 2-player game and a die roll in mobile touch-emulated Chromium at 390×844 and desktop at 1366×900; no JavaScript errors. Physical iOS Safari and post-deployment live URL remain required before claiming fully verified.
+
 ## 2026-11-11 — WOK SOCIAL bag hard to reach and add flight too quick
 - **Reported:** on the secondary WOK demo the add-to-bag fly animation finishes too quickly and the top bar scrolls away so the bag is unreachable from the menu.
 - **Verified source cause:** secondary WOK `.site-header` was `position:relative`; main shared guided-order script used its 1220ms default and restored the older count until the animation ended. The shared bag is already appended to the WOK header by the main script.
