@@ -19,7 +19,7 @@
  const mailOn=()=>!!pause&&!pause.disabled;
  const mailCanActivate=()=>!!activate&&!activate.disabled;
  function sync(){
-  const locale=select?.value||getLocale();
+  const locale=getLocale();
   set(language,locale==='en');
   set(compact,getCompact());document.body.classList.toggle('tle-crm-compact',getCompact());
   if(followupRow)followupRow.hidden=!userIsBuyer();
@@ -31,7 +31,7 @@
  }
  language?.addEventListener('click',()=>{
    if(!select)return;
-   select.value=(select.value||getLocale())==='en'?'es':'en';
+   select.value=getLocale()==='en'?'es':'en';
    select.dispatchEvent(new Event('change',{bubbles:true}));
    sync();
  });
