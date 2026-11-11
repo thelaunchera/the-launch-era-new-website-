@@ -26,6 +26,7 @@
  const resend=stage.querySelector('[data-email-resend]');
  const back=stage.querySelector('[data-email-back]');
  content.insertBefore(visual,content.querySelector('.auth-simple-title'));
+ title.insertAdjacentElement('afterend',desc);
  const signinTab=modeNodes.querySelector('[data-access-mode="signin"]');
  const signupTab=modeNodes.querySelector('[data-access-mode="signup"]');
  let currentMode='signin',lastKind='',readyAt=0,timer=null;
