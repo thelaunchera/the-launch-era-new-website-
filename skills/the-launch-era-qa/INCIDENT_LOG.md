@@ -1,3 +1,9 @@
+## 2026-11-11 — Sneekiefs size choices overlap adjacent product card and flight feels too fast
+- **Observed:** Owner photo shows the size 12 button and next card size 7 appearing as “127”; slow fly-to-bag effect is not noticeable enough despite the recent shared 1220ms change.
+- **Source cause:** `.card-sizes` is a non-wrapping flex row (six min-width 42px buttons plus gaps) inside multi-column product cards; at compact widths its contents extend outside their card. Sneekiefs uses the helper's default flight duration with no brand override.
+- **Scoped fix proposed:** compact 3x2 size grid, 44px tall cells; Sneekiefs-specific 2400ms easing, immediate native bag count, shared duration clamp extended for opt-in only; original products, selected sizes, native receipt, preview and payment limitations preserved.
+- **Verification:** new real-browser Chromium/WebKit width and timing regression; PR CI, deployed Pages and physical Safari still required before marking live resolved.
+
 ## 2026-11-11 — Inconsistent demo cart placement and hard-to-see product flight
 - **Owner report:** add-to-bag motion is too fast and too small; some demos show a floating “DEMO” cart near the bottom while other brand stores already have a bag in the top bar.
 - **Verified source cause:** the shared `tle-demo-cart-flight-20261110.js` uses 720ms / 12px for the dominant flight-dot effect; `tle-demo-order-journey-20261108.js` mounts a fixed bottom/right pill (visible in Golden Grid and Havana 19). Several other demos already use native header baskets and hidden guided-order bridges.
