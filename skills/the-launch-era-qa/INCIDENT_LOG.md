@@ -1,3 +1,9 @@
+## 2026-11-11 — Inconsistent demo cart placement and hard-to-see product flight
+- **Owner report:** add-to-bag motion is too fast and too small; some demos show a floating “DEMO” cart near the bottom while other brand stores already have a bag in the top bar.
+- **Verified source cause:** the shared `tle-demo-cart-flight-20261110.js` uses 720ms / 12px for the dominant flight-dot effect; `tle-demo-order-journey-20261108.js` mounts a fixed bottom/right pill (visible in Golden Grid and Havana 19). Several other demos already use native header baskets and hidden guided-order bridges.
+- **Scoped fix in branch:** slow/enlarge shared motion; mount shared visible bag in header with icon and count; preserve hidden native-to-guided-order bridges; keep Freska drawer responsive when opened before the slower animation lands. Bump eight demo HTML asset keys and add browser regression assertions for 390/1440 and no floating duplicate.
+- **Verification pending:** PR CI, actual browser interaction, Pages deployment and physical iPhone Safari checks. No payment or real order is made; root cause is verified in source, but a production fix is not yet verified.
+
 ## 2026-11-10 — Hero clarity review from owner video
 - Existing catalog audited dynamically across the primary website and secondary Pages repository, including Jaramillo's existing source branch. No demo count is encoded in the new responsive check.
 - Nine hero treatments clarify the actual offering, improve small copy and primary-action legibility, and demote competing secondary actions: FRESKA, Sneekiefs, La Vie in Pink, Lavanda, AFTR, WOK SOCIAL, Seasonal Brew, VELMORA and Nail Room. Original headlines and approved media remain. English/Spanish dictionaries are updated wherever the native demo provides them.
