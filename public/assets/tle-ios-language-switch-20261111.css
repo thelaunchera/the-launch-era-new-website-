@@ -1,0 +1,45 @@
+/* Unified 84px iOS language switch for bilingual TLE demos and sales pages.
+   Appearance only: translation stays inside each brand's existing controls. */
+.tle-ios-locale-switch{
+ --tle-locale-accent:#F2D85B;
+ display:inline-flex!important;align-items:center!important;justify-content:space-between!important;
+ position:relative!important;isolation:isolate!important;flex:0 0 84px!important;
+ width:84px!important;min-width:84px!important;max-width:84px!important;height:46px!important;
+ min-height:46px!important;max-height:46px!important;
+ background:#D6E1E2!important;border:0!important;border-radius:999px!important;
+ box-shadow:inset 0 1px 2px #1c383d24!important;
+ padding:0 11px!important;margin:0!important;line-height:1!important;
+ color:#203740!important;font-family:system-ui,-apple-system,sans-serif!important;
+ font-size:11px!important;font-weight:800!important;letter-spacing:.03em!important;
+ text-decoration:none!important;white-space:nowrap!important;vertical-align:middle!important;
+ cursor:pointer!important;touch-action:manipulation!important;
+ transition:background-color 250ms ease!important;
+}
+.tle-ios-locale-switch[data-on="true"]{background:var(--tle-locale-accent)!important}
+.tle-ios-locale-switch .tle-ios-locale-label{
+ position:relative!important;z-index:2!important;display:flex!important;
+ align-items:center!important;justify-content:center!important;
+ width:23px!important;height:35px!important;line-height:1!important;
+ pointer-events:none!important;user-select:none!important;
+ transition:color .2s ease!important;
+}
+.tle-ios-locale-switch .tle-ios-locale-knob{
+ position:absolute!important;z-index:1!important;
+ left:5px!important;top:5px!important;width:36px!important;height:36px!important;
+ border-radius:50%!important;background:#fff!important;border:1px solid #ffffffc9!important;
+ box-shadow:0 2px 9px #12222a43!important;transform:translateX(0);
+ transition:transform 570ms cubic-bezier(.20,1.42,.38,1),width 210ms ease!important;
+ pointer-events:none!important;
+}
+.tle-ios-locale-switch[data-on="true"] .tle-ios-locale-knob{transform:translateX(38px)}
+.tle-ios-locale-switch:active .tle-ios-locale-knob{width:43px!important}
+.tle-ios-locale-switch[data-on="true"]:active .tle-ios-locale-knob{transform:translateX(31px)}
+.tle-ios-locale-switch:focus-visible{outline:3px solid var(--tle-locale-accent)!important;outline-offset:4px!important}
+.tle-ios-locale-original,.tle-ios-locale-group>:not(.tle-ios-locale-switch){
+ display:none!important;
+}
+.tle-ios-locale-group{display:inline-flex!important;align-items:center!important;flex:0 0 auto!important;gap:0!important;width:auto!important;min-width:84px!important}
+@media(max-width:450px){.tle-ios-locale-switch{width:84px!important;flex-basis:84px!important}}
+@media(prefers-reduced-motion:reduce){
+ .tle-ios-locale-switch,.tle-ios-locale-switch .tle-ios-locale-knob,.tle-ios-locale-switch .tle-ios-locale-label{transition:none!important}
+}
