@@ -14,9 +14,9 @@ permissions:
 
 concurrency:
   group: github-pages
-  # Let an active release finish while retaining only the newest pending push.
-  # A hard build timeout prevents one stale run blocking Pages indefinitely.
-  cancel-in-progress: false
+  # Cancel obsolete deployments on new pushes so a stalled historical build cannot block the latest commit.
+  # A 30-minute build timeout also bounds each individual release.
+  cancel-in-progress: true
 
 jobs:
   build:
