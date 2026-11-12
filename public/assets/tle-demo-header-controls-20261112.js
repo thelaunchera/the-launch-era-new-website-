@@ -319,10 +319,11 @@
       .tle-demo-lang-control button{min-height:38px!important}
     }
     @media(max-width:480px){
-      html[data-tle-demo-brand="ivory-and-bloom"] .tle-demo-compact-header .header-inner{gap:4px!important}
+      html[data-tle-demo-brand="ivory-and-bloom"] .tle-demo-compact-header .header-inner{gap:2px!important;min-width:0!important}
+      html[data-tle-demo-brand="ivory-and-bloom"] .tle-demo-compact-header .logo{font-size:13px;letter-spacing:.035em}
       html[data-tle-demo-brand="ivory-and-bloom"] .tle-demo-compact-header .header-cta{
-        width:72px;min-width:72px;max-width:72px;margin-left:auto!important;
-        padding:5px!important;font-size:0!important;flex:0 0 72px;
+        width:64px;min-width:64px;max-width:64px;margin-left:auto!important;
+        padding:4px!important;font-size:0!important;flex:0 0 64px;
       }
       html[data-tle-demo-brand="ivory-and-bloom"] .tle-demo-compact-header .header-cta::after{
         content:"Inquire";font-size:10px;font-weight:600;line-height:1.2;letter-spacing:.01em;
