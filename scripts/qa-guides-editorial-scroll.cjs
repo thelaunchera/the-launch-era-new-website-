@@ -25,7 +25,7 @@ const base = "http://127.0.0.1:8172";
         const copy=await page.locator(".hero-copy").boundingBox();
         assert.ok(Math.abs(art.y-copy.y)<100,"image and introduction sit side-by-side");
         assert.ok(art.x+art.width<=copy.x+4,"photo and copy do not overlap");
-        const button=await page.locator(".hero .button").boundingBox();
+        const button=await page.locator(".hero .button").first().boundingBox();
         assert.ok(button.y<790,"hero CTA appears above lower viewport");
       }
       const nav=page.locator("body>.grid header");
