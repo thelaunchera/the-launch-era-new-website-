@@ -2,9 +2,9 @@ const assert=require('node:assert/strict');
 const {chromium}=require('playwright');
 (async()=>{
  const browser=await chromium.launch({headless:true});
- for(const width of [360,390,768,1024,1440]){
+ for(const width of [360,390,414,430,768,1024,1440]){
   for(const [path,lang] of [['/guias/','en'],['/es/guias/','es']]){
-   const context=await browser.newContext({viewport:{width,height:860},reducedMotion:'reduce',hasTouch:width<=390,permissions:['clipboard-read','clipboard-write']});
+   const context=await browser.newContext({viewport:{width,height:860},reducedMotion:'reduce',hasTouch:width<=430,permissions:['clipboard-read','clipboard-write']});
    const page=await context.newPage();const errors=[];page.on('pageerror',error=>errors.push(error.message));
    const res=await page.goto('http://127.0.0.1:8172'+path,{waitUntil:'networkidle'});
    assert.equal(res.status(),200);
@@ -16,6 +16,37 @@ const {chromium}=require('playwright');
    assert.equal(await page.locator('.tle-prompt-card').count(),3);
    assert.equal(await page.locator('.vault-photo-help').count(),3,'public photo prompts include steps');
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'no horizontal overflow at '+width);
+
+   // The iPhone bug occurred only AFTER entering the sticky guide section.
+   // Verify rendered boxes during vertical scrolling, not only document width on load.
+   if(width<=430){
+     const mobile=await page.evaluate(async()=>{
+       const section=document.querySelector('#guias');
+       const intro=section.querySelector('.library-intro');
+       const heading=intro.querySelector('h2');
+       const inside=el=>{const r=el.getBoundingClientRect();return {left:r.left,right:r.right,width:r.width,top:r.top};};
+       const sectionY=scrollY+section.getBoundingClientRect().top;
+       window.scrollTo({top:sectionY+400,behavior:'instant'});
+       await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+       const before=inside(intro),title=inside(heading);
+       window.scrollBy({top:170,behavior:'instant'});
+       await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+       const after=inside(intro);
+       return {before,title,after,headingSize:parseFloat(getComputedStyle(heading).fontSize),
+         headingWrap:getComputedStyle(heading).whiteSpace,sticky:getComputedStyle(intro).position,
+         pageWidth:document.documentElement.scrollWidth,viewport:innerWidth,scrollX:window.scrollX,
+         layoutWidth:inside(section.querySelector('.library-layout')).width};
+     });
+     assert.equal(mobile.sticky,'sticky','guide introduction remains sticky on iPhone');
+     assert.ok(mobile.before.left>=-1&&mobile.before.right<=width+1,'sticky intro stays inside viewport before scroll '+width);
+     assert.ok(mobile.after.left>=-1&&mobile.after.right<=width+1,'sticky intro stays inside viewport after scroll '+width);
+     assert.ok(mobile.title.left>=-1&&mobile.title.right<=width+1,'guide title stays inside viewport '+width);
+     assert.ok(mobile.headingSize<=33,'guide heading cannot grow oversized on iPhone '+width);
+     assert.equal(mobile.headingWrap,'normal','guide heading wraps naturally');
+     assert.ok(mobile.pageWidth<=mobile.viewport+1,'no horizontal overflow after entering guides '+width);
+     assert.ok(mobile.layoutWidth<=mobile.viewport+1,'guide column cannot exceed iPhone '+width);
+     assert.equal(mobile.scrollX,0,'vertical scrolling must not pan sideways');
+   }
    assert.equal(await page.locator('.hero-video source').getAttribute('src'),'/guias/assets/dailin-avatar-hero-loop.mp4','hero video source unchanged');
    assert.equal(await page.locator('.hero-video').getAttribute('autoplay'),'','hero video autoplay unchanged');
    assert.ok(await page.locator('.hero-poster').evaluate(async img=>{await img.decode();return img.naturalWidth>0}),"hero poster");
