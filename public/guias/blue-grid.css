@@ -1,0 +1,58 @@
+/*
+ * The Launch Era / approved background from user-supplied 2026-11-12 image.
+ * Optimized WebP (640×360, 3.7 KB); not an AI substitute or sampled CSS copy.
+ * Content, Motion hero video dimensions/position and component interactions untouched.
+ */
+:root{--tle-approved-grid:url("/guias/assets/tle-approved-blue-grid.webp")}
+body>.grid,
+#guias,
+#recursos,
+#prompts-fotos,
+#proximamente,
+#suscripcion,
+.sample,
+.how,
+.products{
+  background-color:#bcdcf9!important;
+  background-image:
+    linear-gradient(180deg,rgba(232,245,255,.24),rgba(232,245,255,.38)),
+    var(--tle-approved-grid)!important;
+  background-position:center center,center center!important;
+  background-size:cover,cover!important;
+  background-repeat:no-repeat,no-repeat!important;
+  background-attachment:scroll,scroll!important;
+}
+body>.grid{
+  background-position:center 25%,center 25%!important;
+}
+/* Translucent text surfaces keep the soft black floating squares from obscuring copy. */
+#guias .library-main,
+#guias .library-intro,
+#recursos .tle-resource-heading,
+#prompts-fotos .tle-photo-heading,
+#suscripcion .tle-sub-copy{
+  position:relative;
+}
+#guias .library-main .search,
+#recursos .tle-resource-tools input[type=search],
+#suscripcion .tle-sub-form-card{
+  background-color:rgba(250,248,243,.94);
+}
+#guias .guide:nth-child(2n){background:rgba(250,248,243,.30)}
+#guias .guide:hover{background:rgba(250,248,243,.72)}
+.tle-resource-card{background:rgba(250,248,243,.93)}
+.tle-prompt-card{background-color:rgba(250,248,243,.95)}
+#suscripcion .tle-sub-form-card{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+/* Calm compositional crop on narrower phones; never change the video itself. */
+@media(max-width:760px){
+  body>.grid{background-position:58% center,58% center!important}
+  #guias,#recursos,#prompts-fotos,#proximamente,#suscripcion,.sample,.how,.products{
+    background-position:57% center,57% center!important;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body>.grid,
+  #guias,#recursos,#prompts-fotos,#proximamente,#suscripcion,.sample,.how,.products{
+    background-attachment:scroll,scroll!important;
+  }
+}
