@@ -434,6 +434,7 @@ body>.grid .hero-vault .hero-art>.hero-card{
     max-width:100%;
     overflow-x:clip;
     overflow-y:visible;
+    touch-action:manipulation; /* Keep pan/pinch, avoid unintended double-tap zoom. */
     padding-top:clamp(52px,7vw,72px)!important;
     -webkit-text-size-adjust:100%;
     text-size-adjust:100%;
