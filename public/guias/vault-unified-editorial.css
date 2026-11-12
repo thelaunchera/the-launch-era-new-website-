@@ -1,0 +1,303 @@
+/*
+ * DAILIN VAULT / ONE CANVAS 2026-11-12
+ * Original editorial direction inspired by user-supplied website and typography references.
+ * One continuous ivory page; coral/pink panels and controls are objects, NOT section backdrops.
+ * Licensed reference faces (MM Rachel / Stara / Monument) are NOT copied or embedded.
+ * Self-consistent open web alternatives: Archivo Black, DM Sans, Space Mono, Caveat.
+ * The approved Motion video, poster, size, corner radius, animation and positioning are untouched.
+ */
+:root{
+ --v-paper:#faf6ed;--v-ink:#211c1b;--v-coral:#ed644b;--v-coral-deep:#c84430;
+ --v-pink:#f7a6bb;--v-pink-soft:#ffe5e9;--v-peach:#fce2cf;--v-white:#fffefa;
+ --v-muted:#625a58;--v-rule:rgba(46,35,30,.23);
+ --v-display:"Archivo Black","Arial Black",sans-serif;
+ --v-body:"DM Sans","Avenir Next",Arial,sans-serif;
+ --v-mono:"Space Mono",ui-monospace,monospace;
+ --v-script:"Caveat",cursive;
+ --navy:var(--v-ink);--studio-navy:var(--v-ink);--studio-ink:var(--v-ink);
+ --studio-canvas:var(--v-paper);--studio-highlight:var(--v-coral);
+ --t-paper:var(--v-paper);--t-ink:var(--v-ink);--t-line:var(--v-rule);--t-yellow:var(--v-coral);
+ --r-ink:var(--v-ink);--r-stroke:var(--v-rule);--r-muted:var(--v-muted);
+}
+html { background:var(--v-paper);scroll-padding-top:84px }
+body {font-family:var(--v-body)!important;color:var(--v-ink)!important;background:var(--v-paper)!important;font-weight:500}
+body #reading-progress {background:var(--v-coral)!important}
+/* One canvas: override historical blue-grid image and all section backgrounds. */
+body>.grid,
+body #guias,body #recursos,body #prompts-fotos,body #proximamente,body #suscripcion,
+body .sample,body .how,body .products,body .consult,body footer,body .ticker,
+body .tle-resource-space .resource-grid-bg{
+ background:transparent!important;background-color:transparent!important;
+ background-image:none!important;background-attachment:scroll!important;
+ box-shadow:none;
+}
+body #guias:before,body #recursos:after,body #prompts-fotos:after,body #suscripcion:after,
+body .tle-resource-space .resource-grid-bg:before,body .sample:before,body .how:after {
+ display:none!important;content:none!important;
+}
+body #guias,body #recursos,body #prompts-fotos,body #proximamente,
+body #suscripcion,body .sample,body .how,body .products,body .consult {
+ border-top:1px solid var(--v-rule);
+}
+body .consult,body .how {color:var(--v-ink)!important}
+body footer {color:var(--v-muted)!important;border-top:1px solid var(--v-rule)!important}
+body .wrap {max-width:1320px}
+a:focus-visible,button:focus-visible,input:focus-visible {outline:3px solid var(--v-coral)!important;outline-offset:3px}
+
+/* Typography hierarchy: punchy display / quiet reading / mono metadata. */
+body h1,body h2,body h3{font-family:var(--v-display)!important;font-weight:400!important;color:var(--v-ink);letter-spacing:-.055em}
+body h2 {line-height:1.13}
+body p,body .guide-preview,body .step p,body li {font-family:var(--v-body)!important}
+body .eyebrow,body .section-kicker,body .resource-eyebrow,body .hero-overline,
+body .hero-facts,body .library-topnote,body .tag,body .meta,body .count,
+body .tle-resource-count,body .tle-resource-meta,body .tle-prompt-card>span,
+body .item-index,body .tle-sub-brand,body .prompt-head strong{
+ font-family:var(--v-mono)!important;letter-spacing:.055em!important;font-size:clamp(10px,.9vw,12px);
+ color:var(--v-muted)!important;
+}
+body .library-topnote b{font-family:var(--v-script)!important;font-style:normal;font-weight:700;font-size:clamp(26px,3.1vw,40px);color:var(--v-coral)!important}
+body .library-intro h2 em,body .tle-resource-space h2 em {font-family:var(--v-script)!important;color:var(--v-coral)!important;font-weight:700!important;font-style:normal}
+body .guide .number,body #guias .guide .number {font-family:var(--v-script)!important;font-size:clamp(45px,4vw,66px);font-style:normal;font-weight:700!important;color:var(--v-coral)!important}
+
+/* Editorial masthead: preserve the existing wordmark and single language selector. */
+body>.grid header,body.is-scrolled>.grid header {
+ background:rgba(250,246,237,.96)!important;border-bottom:1px solid var(--v-rule)!important;
+ box-shadow:none!important;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)
+}
+body>.grid header .brand-signature{color:var(--v-ink)}
+body>.grid header .nav>a:not(.system-link){color:var(--v-ink)!important;font-family:var(--v-body);font-weight:800}
+body>.grid header .nav a:not(.system-link):not(.lang a):after {background:var(--v-coral)}
+body>.grid header .nav>.system-link{
+ background:var(--v-coral)!important;color:var(--v-ink)!important;
+ border:1.5px solid var(--v-ink)!important;border-radius:999px!important;
+ box-shadow:3px 3px 0 var(--v-ink)!important;font-family:var(--v-body)!important;
+ font-weight:850!important;
+}
+body>.grid header .lang {background:var(--v-white)!important;border:1px solid var(--v-ink)!important;border-radius:999px!important}
+body>.grid header .lang a{font-family:var(--v-body)!important;color:var(--v-ink)!important;border-radius:999px!important}
+body>.grid header .lang a[aria-current=page]{background:var(--v-ink)!important;color:var(--v-white)!important}
+
+/* Preserve original Motion video and positioning: only restyle surrounding words/buttons. */
+body>.grid .hero-vault .hero-overline{color:var(--v-ink)!important;font-family:var(--v-mono)!important}
+body>.grid .hero-vault .hero-overline:before {background:var(--v-coral)}
+body>.grid .hero-vault h1{
+ font-family:var(--v-display)!important;font-size:clamp(43px,5.8vw,88px)!important;
+ font-weight:400!important;letter-spacing:-.06em!important;line-height:1.05!important;
+ color:var(--v-ink)!important;
+}
+body>.grid .hero-vault h1 .hilite{
+ background:transparent!important;box-shadow:none!important;color:var(--v-coral)!important;
+ padding:0!important;border-radius:0!important
+}
+body>.grid .hero-vault .hero-copy .hero-lead{
+ font-family:var(--v-body)!important;color:var(--v-ink)!important;font-weight:850!important;
+ font-size:clamp(18px,1.8vw,23px)!important;line-height:1.35
+}
+body>.grid .hero-vault .hero-copy .hero-explainer{color:var(--v-muted)!important}
+body>.grid .hero-vault .hero-facts span{color:var(--v-muted)!important}
+body>.grid .hero-vault .hero-actions .button{
+ border:2px solid var(--v-ink)!important;border-radius:999px!important;
+ background:var(--v-coral)!important;color:var(--v-ink)!important;
+ box-shadow:4px 4px 0 var(--v-ink)!important;
+ font-family:var(--v-body)!important;font-weight:900!important;
+ transition:transform .18s ease,box-shadow .18s ease;
+}
+body>.grid .hero-vault .hero-actions .button:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--v-ink)!important}
+body>.grid .hero-vault .hero-actions .button-secondary{background:transparent!important;box-shadow:none!important}
+body>.grid .hero-vault .hero-actions .button-secondary:hover{background:var(--v-pink-soft)!important}
+body>.grid .hero-vault .hero-topics{border-top:1px solid var(--v-rule)!important;color:var(--v-ink)!important}
+body>.grid .hero-vault .hero-topics-label {font-family:var(--v-mono)!important;font-size:10px}
+body>.grid .hero-vault .hero-topic-links a{
+ font-family:var(--v-mono)!important;background:transparent!important;color:var(--v-ink)!important;
+ border:1px solid var(--v-rule)!important;border-radius:999px!important
+}
+body>.grid .hero-vault .hero-topic-links a:hover{background:var(--v-pink-soft)!important;border-color:var(--v-ink)!important}
+
+/* Make the ticker a quiet typographic separator, not a second page background. */
+body .ticker{border-top:1px solid var(--v-rule);border-bottom:1px solid var(--v-rule);min-height:61px}
+body .ticker-track span{color:var(--v-coral)!important;font-family:var(--v-mono)!important;font-size:11px!important;font-weight:700!important}
+body .ticker-track span:before,body .ticker-track span:after{color:var(--v-ink)!important}
+
+/* Library: editorial numbered list, readable at iPhone widths. */
+body #guias .library-intro .eyebrow,body .tle-resource-space .resource-eyebrow{color:var(--v-ink)!important}
+body #guias .library-intro .eyebrow:before,body .tle-resource-space .resource-eyebrow:before{background:var(--v-coral)!important}
+body #guias .library-intro h2{font-size:clamp(42px,5.35vw,74px);max-width:13ch}
+body #guias .library-intro p,body #guias .guide p,body #guias .guide p.guide-preview,
+body .sample .sample-lead,body .how-intro>p,body .how .step p,
+body .products-header p,body .products .step p {
+ color:var(--v-muted)!important;line-height:1.69!important
+}
+body #guias .library-stamp{
+ color:var(--v-ink)!important;border:1.5px solid var(--v-ink)!important;
+ box-shadow:4px 4px 0 var(--v-pink)!important;background:var(--v-peach)!important;
+ border-radius:14px!important;transform:rotate(-2deg)
+}
+body #guias .library-topnote{border-bottom:1.5px solid var(--v-ink)!important}
+body #guias .library-topnote span{color:var(--v-muted)!important}
+body #guias .search,body #recursos .tle-resource-tools input[type=search]{
+ background:var(--v-white)!important;color:var(--v-ink)!important;
+ border:1.5px solid var(--v-ink)!important;border-radius:15px!important;
+ box-shadow:none!important;font-family:var(--v-body)!important
+}
+body #guias .filter,body .tle-resource-filters button{
+ font-family:var(--v-body)!important;background:var(--v-white)!important;color:var(--v-ink)!important;
+ border:1px solid var(--v-rule)!important;border-radius:999px!important;font-weight:850!important
+}
+body #guias .filter[aria-pressed=true],body .tle-resource-filters button[aria-pressed=true]{
+ background:var(--v-pink)!important;color:var(--v-ink)!important;border:1.5px solid var(--v-ink)!important;
+ box-shadow:2px 2px 0 var(--v-ink)!important
+}
+body #guias .guides,body #guias .guide:last-child{border-color:var(--v-rule)!important}
+body #guias .guide {border-bottom-color:var(--v-rule)!important}
+body #guias .guide:nth-child(2n),body #guias .guide:hover {background:transparent!important}
+body #guias .guide .tag{
+ color:var(--v-ink)!important;background:var(--v-pink-soft)!important;
+ border:1px solid var(--v-ink)!important;border-radius:999px!important;
+ font-family:var(--v-mono)!important;font-weight:700!important
+}
+body #guias .guide .meta{color:var(--v-muted)!important}
+body #guias .guide h3{font-size:clamp(24px,2.55vw,38px)!important;line-height:1.16!important;letter-spacing:-.055em!important;overflow-wrap:anywhere}
+body #guias .guide .open{
+ background:var(--v-ink)!important;color:var(--v-white)!important;border:1px solid var(--v-ink)!important;
+ border-radius:999px!important;box-shadow:3px 3px 0 var(--v-pink)!important;
+ padding:12px 19px!important;font-family:var(--v-body)!important;font-size:12px!important;
+ font-weight:850!important
+}
+body #guias .guide .open:hover{background:var(--v-coral-deep)!important}
+
+/* Rest of page uses the SAME paper. Color lives only inside objects. */
+body .sample h2,body .how h2,body .products-header h2,body .consult h2{
+ color:var(--v-ink)!important;font-size:clamp(39px,5.2vw,79px)!important;line-height:1.08!important;
+}
+body .sample .prompt-wrap,body .dialog .prompt-wrap {
+ background:var(--v-ink)!important;border:1px solid var(--v-ink)!important;
+ box-shadow:7px 7px 0 var(--v-pink)!important;border-radius:19px!important
+}
+body .sample .prompt-head,body .dialog .prompt-head{background:var(--v-ink)!important}
+body .sample .prompt-wrap .prompt,body .dialog .prompt-wrap .prompt{color:var(--v-white)!important;font-family:var(--v-mono)!important}
+body .copy{border-radius:999px!important;background:var(--v-coral)!important;color:var(--v-ink)!important;font-weight:850!important}
+body .how .section-kicker,body .sample .section-kicker{color:var(--v-coral)!important}
+body .how .steps{border-left:1px solid var(--v-rule)!important}
+body .how .step {border-bottom-color:var(--v-rule)!important}
+body .how .step:before{
+ background:var(--v-coral)!important;border-color:var(--v-paper)!important;
+ box-shadow:0 0 0 1px var(--v-ink)!important
+}
+body .how .step h3{color:var(--v-ink)!important}
+body .how .text-link,body .products .text-link{color:var(--v-coral-deep)!important;font-weight:900!important}
+body .products .step{
+ background:var(--v-pink-soft)!important;border:1.5px solid var(--v-ink)!important;
+ border-radius:24px!important;box-shadow:none!important
+}
+body .products .step:nth-child(2){background:var(--v-peach)!important}
+body .products .step h3{color:var(--v-ink)!important}
+body .products .step:after{border-color:rgba(237,100,75,.15)!important}
+body .consult .eyebrow{color:var(--v-coral)!important}
+body .consult p{color:var(--v-muted)!important}
+body .consult .button{
+ background:var(--v-coral)!important;color:var(--v-ink)!important;border:1.5px solid var(--v-ink)!important;
+ border-radius:999px!important;box-shadow:4px 4px 0 var(--v-ink)!important;
+ font-family:var(--v-body)!important
+}
+
+/* Resource library tiles: coral, peach and blush editorial covers. */
+body .tle-resource-space{--r-ink:var(--v-ink);--r-muted:var(--v-muted);color:var(--v-ink)}
+body .tle-resource-space h2{color:var(--v-ink)!important}
+body .tle-resource-space .resource-eyebrow{color:var(--v-coral-deep)!important}
+body .tle-resource-heading p,body .tle-photo-heading p,body .tle-sub-copy p,
+body .tle-resource-info p,body .tle-coming-band p{color:var(--v-muted)!important}
+body .tle-resource-tools{border-color:var(--v-rule)!important}
+body .tle-resource-count{color:var(--v-muted)!important}
+body .tle-resource-card{
+ border:1.5px solid var(--v-ink)!important;border-radius:20px!important;
+ background:var(--v-white)!important;box-shadow:none!important
+}
+body .tle-resource-card:hover{box-shadow:5px 5px 0 var(--v-pink)!important}
+body .tle-resource-cover{
+ background:var(--v-peach)!important;border-bottom:1px solid var(--v-ink)!important;
+ border-radius:0!important
+}
+body .tle-resource-card:nth-child(3n+2) .tle-resource-cover{background:var(--v-pink)!important}
+body .tle-resource-card:nth-child(3n) .tle-resource-cover{background:var(--v-coral)!important}
+body .tle-resource-cover strong{font-family:var(--v-display)!important;font-weight:400!important;color:var(--v-ink)!important}
+body .tle-resource-cover span{font-family:var(--v-mono)!important;font-size:12px;color:var(--v-ink)!important;font-style:normal}
+body .tle-resource-cover:after{border-color:rgba(255,255,255,.5)!important}
+body .tle-resource-meta,body .tle-resource-meta b{color:var(--v-ink)!important}
+body .tle-resource-meta b{background:var(--v-pink-soft)!important}
+body .tle-resource-meta b.soon{background:var(--v-peach)!important}
+body .tle-resource-info h3{color:var(--v-ink)!important;font-size:clamp(21px,2vw,29px)!important}
+body .tle-resource-info a{color:var(--v-ink)!important;border-top-color:var(--v-rule)!important}
+body .tle-prompt-card{
+ background:var(--v-white)!important;border:1.5px solid var(--v-ink)!important;
+ border-radius:20px!important;box-shadow:none!important
+}
+body .tle-prompt-card:nth-child(2){background:var(--v-pink-soft)!important}
+body .tle-prompt-card:nth-child(3){background:var(--v-peach)!important}
+body .tle-prompt-card h3{color:var(--v-ink)!important}
+body .tle-prompt-card pre{font-family:var(--v-body)!important;color:var(--v-muted)!important}
+body .tle-prompt-card button,body .tle-coming-band a{
+ background:var(--v-ink)!important;color:var(--v-white)!important;border-radius:999px!important;
+ font-family:var(--v-body)!important;box-shadow:none!important
+}
+body .tle-coming-band{
+ background:var(--v-peach)!important;border:1.5px solid var(--v-ink)!important;
+ border-radius:24px!important;box-shadow:none!important
+}
+body .tle-coming-band:before{color:var(--v-coral)!important}
+body .tle-sub-form-card{
+ background:var(--v-white)!important;border:1.5px solid var(--v-ink)!important;
+ border-radius:24px!important;box-shadow:7px 7px 0 var(--v-pink)!important
+}
+body #tle-resource-email{
+ background:var(--v-white)!important;border:1px solid var(--v-ink)!important;
+ border-radius:13px!important;color:var(--v-ink)!important
+}
+body #tle-resource-form>label:first-child,body .tle-resource-consent,body .tle-sub-note,
+body #tle-resource-feedback{color:var(--v-muted)!important}
+body #tle-resource-submit,body #tle-resource-token-btn{
+ background:var(--v-coral)!important;color:var(--v-ink)!important;border:1px solid var(--v-ink)!important;
+ border-radius:999px!important;box-shadow:3px 3px 0 var(--v-ink)!important
+}
+body .tle-sub-copy .tle-sub-brand{color:var(--v-coral-deep)!important}
+
+/* Reader modal: clear display headlines and approachable instruction text. */
+body .dialog{background:var(--v-paper)!important;color:var(--v-ink)!important;border:1px solid var(--v-rule)}
+body .dialog-inner h2{color:var(--v-ink)!important;font-size:clamp(29px,5vw,55px)!important;overflow-wrap:anywhere}
+body .dialog .close{background:var(--v-coral)!important;border:1px solid var(--v-ink)!important;color:var(--v-ink)!important}
+body #guide-detail .guide-section-title,body #guide-detail .guide-overview,
+body #guide-detail .guide-need,body #guide-detail ol li,body .dialog p{color:var(--v-ink)!important}
+body .dialog .disclaimer{background:var(--v-peach)!important;border-left-color:var(--v-coral)!important;color:var(--v-ink)!important;border-radius:12px!important}
+body .dialog .reference{color:var(--v-coral-deep)!important}
+
+/* Responsive consistency: no section-level image/background; titles wrap naturally. */
+@media(max-width:1024px){
+ body .tle-resource-cover strong{font-size:clamp(23px,3vw,37px)!important}
+}
+@media(max-width:760px){
+ html {scroll-padding-top:78px}
+ body>.grid .hero-vault h1{
+  font-size:clamp(29px,7.7vw,46px)!important;
+  white-space:normal!important;text-wrap:balance!important;
+  line-height:1.09!important;letter-spacing:-.045em!important
+ }
+ body>.grid .hero-vault .hero-overline{font-size:9px!important}
+ body>.grid .hero-vault .hero-copy .hero-lead{font-size:clamp(12px,3.4vw,15px)!important}
+ body>.grid .hero-vault .hero-actions .button{border-radius:999px!important}
+ body>.grid header .nav>.system-link{border-radius:999px!important}
+ body #guias .library-intro h2{font-size:clamp(39px,9.1vw,58px)!important}
+ body #guias .guide h3{font-size:clamp(23px,6vw,30px)!important}
+ body .tle-resource-cover strong{font-size:clamp(21px,5vw,33px)!important}
+ body .tle-resource-card:first-child .tle-resource-cover strong{font-size:clamp(26px,6vw,39px)!important}
+ body .sample h2,body .how h2,body .products-header h2,body .consult h2{font-size:clamp(39px,9vw,57px)!important}
+ body .ticker{min-height:53px}
+ body .ticker-track span{font-size:10px!important}
+ body #recursos .tle-resource-tools{gap:10px}
+ body .dialog{border-radius:16px 16px 0 0!important}
+}
+@media(max-width:370px){
+ body>.grid .hero-vault h1{font-size:28px!important}
+ body #guias .guide h3{font-size:22px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ body .guide,body .tle-resource-card,body .hero .button {transition:none!important}
+}

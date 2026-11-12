@@ -27,6 +27,19 @@ const {chromium}=require('playwright');
    assert.equal(await page.locator('.hero h1').textContent().then(s=>s.includes('Dailin.')),true,'Dailin headline');
    assert.equal(await page.locator('.system-link').textContent(),'Vault','Vault nav label');
    assert.equal(await page.locator('.hero-media').evaluate(el=>getComputedStyle(el).boxShadow),'none','Motion is no longer boxed into a photo card');
+   const canvas=await page.evaluate(()=>{
+     const sample=selector=>{const s=getComputedStyle(document.querySelector(selector));return {color:s.backgroundColor,image:s.backgroundImage};};
+     return {body:sample('body'),root:sample('body>.grid'),sections:['#guias','#recursos','#prompts-fotos','#proximamente','#suscripcion','.sample','.how','.products','.consult','footer','.ticker'].map(sample),title:getComputedStyle(document.querySelector('.hero-vault h1')).fontFamily,button:getComputedStyle(document.querySelector('.hero-actions .button')).backgroundColor};
+   });
+   assert.equal(canvas.body.color,'rgb(250, 246, 237)','site has one continuous warm paper canvas');
+   assert.equal(canvas.body.image,'none','no repeated blue background on body');
+   for(const section of [canvas.root,...canvas.sections]){
+     assert.equal(section.color,'rgba(0, 0, 0, 0)','all page sections share one unbroken canvas');
+     assert.equal(section.image,'none','no section-level wallpaper or blue grid');
+   }
+   assert.ok(canvas.title.includes('Archivo Black'),'reference-inspired heavy display face');
+   assert.equal(canvas.button,'rgb(237, 100, 75)','hero CTA uses warm coral palette');
+
    const motionStyle=await page.locator('.hero-media').evaluate(el=>{
      const css=getComputedStyle(el);
      return {radius:parseFloat(css.borderTopLeftRadius),overflow:css.overflow,border:css.borderTopWidth,shadow:css.boxShadow,background:css.backgroundColor};
@@ -58,7 +71,7 @@ const {chromium}=require('playwright');
    await page.keyboard.press('Escape');
    assert.equal(await page.locator('#dialog-backdrop').isHidden(),true);
    const activeStyle=await page.locator('.tle-resource-card').first().evaluate(el=>({radius:getComputedStyle(el).borderRadius,border:getComputedStyle(el).borderColor}));
-   assert.equal(activeStyle.radius,'4px','editorial module styling loaded');
+   assert.equal(activeStyle.radius,'20px','editorial resource tile rounded consistently');
    assert.deepEqual(errors,[],'no page errors');
    await context.close();
   }

@@ -11,6 +11,7 @@ const editorialJs=readFileSync(resolve(root,"public/guias/editorial.js"),"utf8")
 const resourcesJs=readFileSync(resolve(root,"public/guias/resources.js"),"utf8");
 const resourcesCss=readFileSync(resolve(root,"public/guias/resources.css"),"utf8");
 const blueGridCss=readFileSync(resolve(root,"public/guias/blue-grid.css"),"utf8");
+const unifiedCss=readFileSync(resolve(root,"public/guias/vault-unified-editorial.css"),"utf8");
 const blueGridWebP=readFileSync(resolve(root,"public/guias/assets/tle-approved-blue-grid.webp"));
 // The primary logo is scalable live text; no bitmap is used in the header.
 for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
@@ -28,7 +29,10 @@ for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
   assert.ok(html.includes('href="/favicon-tle.svg"'),lang+" favicon");
   assert.ok(html.includes('href="/guias/resources.css?v=20261112-1"')&&html.includes('src="/guias/resources.js?v=20261112-2"'),lang+" resource assets linked");
   assert.ok(html.includes('href="/guias/atelier.css?v=20261112-guides-1"'),lang+" editorial stylesheet");
-  assert.ok(html.includes('href="/guias/blue-grid.css?v=20261112-1"'),lang+" approved background stylesheet");
+  assert.ok(html.includes('href="/guias/blue-grid.css?v=20261112-1"'),lang+" original grid asset remains archived");
+  assert.ok(html.includes('href="/guias/vault-unified-editorial.css?v=20261112-paper-1"'),lang+" unified design stylesheet");
+  assert.ok(html.includes('family=Archivo+Black')&&html.includes('family=DM+Sans')&&html.includes('family=Space+Mono'),lang+" open web typography loaded");
+  assert.ok(html.includes('name="theme-color" content="#faf6ed"'),lang+" warm ivory mobile theme");
   assert.equal((html.match(/class="lang"/g)||[]).length,1,lang+" single topbar language switch");
   assert.ok(html.includes('href="#recursos"'),lang+" freebie navigation linked");
   assert.ok(!/<form\b/i.test(html),"No fake backend forms");
@@ -59,6 +63,10 @@ assert.match(resourcesCss,/\.tle-resource-space/);
 assert.match(blueGridCss,/tle-approved-blue-grid\.webp/);
 assert.match(blueGridCss,/#guias/);
 assert.match(blueGridCss,/#recursos/);
+assert.match(unifiedCss,/--v-paper:#faf6ed/,"one continuous warm ivory background");
+assert.match(unifiedCss,/background-image:none!important/,"section backgrounds removed by final override");
+assert.ok(unifiedCss.includes(".hero-vault"),"hero typography restyled");
+assert.ok(!unifiedCss.includes("@font-face"),"no commercial fonts embedded");
 assert.equal(blueGridWebP.toString("utf8",0,4),"RIFF","approved background starts as WebP RIFF");
 assert.equal(blueGridWebP.toString("utf8",8,12),"WEBP","approved asset is WebP");
 assert.ok(blueGridWebP.length<15000,"approved background optimized for mobile");
