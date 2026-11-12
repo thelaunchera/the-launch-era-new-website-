@@ -54,6 +54,7 @@ const {chromium}=require("playwright");
  await page.locator("#tle-resource-token-btn").click();
  assert.equal(sent[0].action,"confirm");
  assert.equal(sent[0].token,fake);
+ await page.locator("#tle-resource-token-panel").waitFor({state:"hidden",timeout:10000});
  assert.equal(await page.locator("#tle-resource-token-panel").isHidden(),true,"confirmation completed");
  await context.close();await browser.close();
  console.log("[TLE FREEBIES] Token confirmation UI tested with mocked backend: OK");
