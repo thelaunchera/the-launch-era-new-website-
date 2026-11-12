@@ -92,7 +92,7 @@ export function SmartWelcomeBundle({ lang = 'en' }: Props) {
         <div className="tle-bundle-inline-text">
           <span className="tle-bundle-inline-kicker">{es ? 'OFERTA DE ACTIVACIÓN CONJUNTA' : 'LIMITED-TIME COMBINED ACTIVATION'}</span>
           <h2>{es ? 'Un poco más de ayuda para tu negocio.' : 'A little extra help for your cleaning business.'}</h2>
-          <p>{es ? 'Booking + Command Center y AI opcional. 40% menos en la activación conjunta; mensualidad normal de IA después de 30 días desde la entrega.' : 'Booking + Command Center with optional AI. 40% off combined activation; regular AI monthly pricing after 30 days from delivery.'}</p>
+          <p>{es ? 'Booking + Admin Panel y AI opcional. 40% menos en la activación conjunta; mensualidad normal de IA después de 30 días desde la entrega.' : 'Booking + Admin Panel with optional AI. 40% off combined activation; regular AI monthly pricing after 30 days from delivery.'}</p>
         </div>
       </div>
       <a className="tle-bundle-inline-cta" href={href}>{es ? 'Ver paquete' : 'Explore the bundle'} <span aria-hidden="true">↗</span></a>
@@ -109,9 +109,9 @@ export function SmartWelcomeBundle({ lang = 'en' }: Props) {
                 <span>THE LAUNCH ERA</span>
                 <strong>{es ? 'Un negocio más organizado comienza aquí.' : 'Your next chapter starts here.'}</strong>
                 <b>{es ? '40% MENOS EN LA ACTIVACIÓN CONJUNTA' : '40% OFF COMBINED ACTIVATION'}</b>
-                <small>{es ? 'Booking + Command Center y AI Assistant opcional' : 'Booking + Command Center with optional AI Assistant'}</small>
+                <small>{es ? 'Booking + Admin Panel y AI Assistant opcional' : 'Booking + Admin Panel with optional AI Assistant'}</small>
               </div>
-            : <img src={es ? ART_ES : ART} alt={es ? 'Flyer en español con dos limpiadoras: 40% menos en la activación conjunta de Booking, Command Center y AI Assistant' : 'Flyer featuring two cleaners: 40% off combined activation'} width="1122" height="1402" decoding="async" onError={() => setFlyerFailed(true)}/>}
+            : <img src={es ? ART_ES : ART} alt={es ? 'Flyer en español con dos limpiadoras: 40% menos en la activación conjunta de Booking, Admin Panel y AI Assistant' : 'Flyer featuring two cleaners: 40% off combined activation'} width="1122" height="1402" decoding="async" onError={() => setFlyerFailed(true)}/>}
         </a>
         <div className="tle-bundle-welcome-footer">
           <a className="tle-bundle-welcome-cta" href={href}>{cta} <span aria-hidden="true">↗</span></a>

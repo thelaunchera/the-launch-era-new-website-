@@ -27,7 +27,7 @@ function btn(id,label,action,secondary=false){const b=add("button",{id,type:"but
 function labels(){const on=isEs();return KIND_OPTIONS.map(k=>({id:k[0],label:k[on?2:1]}))}
 function deviceReason(){
  if(!isSecureContext||!("serviceWorker" in navigator)||!("PushManager" in window)||!("Notification" in window))return t("Your browser does not support phone notifications.","Tu navegador no permite avisos en el teléfono.");
- if(apple()&&!installed())return t("On iPhone/iPad: open Command Center in Safari, tap Share → Add to Home Screen, then open its icon.","En iPhone/iPad: abre Command Center en Safari, toca Compartir → Añadir a pantalla de inicio y luego abre el icono.");
+ if(apple()&&!installed())return t("On iPhone/iPad: open Admin Panel in Safari, tap Share → Add to Home Screen, then open its icon.","En iPhone/iPad: abre Admin Panel en Safari, toca Compartir → Añadir a pantalla de inicio y luego abre el icono.");
  return "";
 }
 function getTopics(){return Array.from(document.querySelectorAll("#tle-ns-topics input:checked")).map(x=>x.value)}
@@ -41,7 +41,7 @@ async function save(){if(busy||!ready())return;const form=selections();if(!form.
  finally{busy=false}
 }
 async function enableDevice(){if(busy||!ready()||!config)return;const reason=deviceReason();if(reason){note(reason);return}
- if(Notification.permission==="denied"){note(t("Enable Command Center notifications in your iPhone/Android settings first.","Activa los permisos de Command Center en los ajustes del teléfono."));return}
+ if(Notification.permission==="denied"){note(t("Enable Admin Panel notifications in your iPhone/Android settings first.","Activa los permisos de Admin Panel en los ajustes del teléfono."));return}
  busy=true;note(t("Activating notifications…","Activando notificaciones…"));
  try{
   const permission=Notification.permission==="granted"?"granted":await Notification.requestPermission();

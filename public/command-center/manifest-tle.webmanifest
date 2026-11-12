@@ -1,8 +1,8 @@
 {
   "id": "./?app=tle",
-  "name": "The Launch Era Command Center",
+  "name": "The Launch Era Admin Panel",
   "short_name": "TLE Command",
-  "description": "The Launch Era Command Center",
+  "description": "The Launch Era Admin Panel",
   "start_url": "./?app=tle",
   "scope": "./",
   "display": "standalone",
