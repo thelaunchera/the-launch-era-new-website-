@@ -1,3 +1,9 @@
+## 2026-11-12 — Fuego y Maíz digital restaurant menu demo
+- Public standalone static route: `/demos/fuego-y-maiz/` (source `public/demos/fuego-y-maiz/index.html`). This is the Fuego y Maíz independent Mexican restaurant brand, never another tenant's data.
+- Header uses the approved text-only burgundy/cream wordmark (no molcajete or decorative icon). Downloadable transparent text-only SVG source: `public/demos/fuego-y-maiz/logo.svg`. Original brand photographs are embedded in the static HTML to keep this route self-contained.
+- Spanish/English toggle, dine-in and delivery choices, menu filters, optional extras and quantities, cart, and non-mutating review/confirmation are interactive in-browser. `?mesa=7` prefills table ID. Delivery address is demo-only.
+- **No real payments, restaurant tickets, kitchen notification, delivery dispatch, order submission, or customer data persistence.** Copy says preview and no charges. No admin/production backend touched. CTA destinations remain on the same standalone page.
+
 ## 2026-11-12 — Mina landing and Dailin Vault library routes
 - The Mina React/Vite landing owns `/guias/` (EN) and `/es/guias/` (ES). Pages builds its assets to `/guias/mina-assets/` from `vault-landing/`. About, Price and Projects lead to in-page sections. Project buttons open the corresponding image gallery.
 - The existing educational library continues at `/guias/library.html` and `/es/guias/biblioteca.html`. Footer links reach the library. Contact buttons reach its localized `#contacto` form. Existing guide, freebie confirmation/unsubscribe and library-section links on the former routes preserve their query and fragment via redirect.
