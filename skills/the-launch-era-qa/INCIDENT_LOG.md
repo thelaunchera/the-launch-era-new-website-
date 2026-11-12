@@ -1,3 +1,10 @@
+## 2026-11-12 — Dailin Vault: iPhone library section appears clipped when scrolling
+- **Owner evidence:** two iPhone screenshots on `/es/guias/`: after the topic ticker, the free-guides introduction can appear oversized and horizontally cut; a horizontal scrollbar/pan is visible in the second image. The earlier founder portrait correction is unrelated.
+- **Code review:** the mobile `#guias .library-intro` is sticky but uses negative inline margins, an unconstrained width, `overflow:visible` on the parent, and several competing font-size rules. Suspected mobile layout/text-inflation interaction; browser cause not yet reproduced in physical Safari.
+- **Isolated repair:** keep the sticky guide intro, remove negative margins, cap its width and headline to the viewport, preserve text wrapping, contain horizontal excess at the section boundary without disabling zoom or altering other sections, and reduce excessive top padding. Only shared guides CSS and locale-specific cache URLs changed.
+- **Regression coverage:** extend guides Atelier browser QA to 360/390/414/430px plus tablet/desktop, both languages; assert title and sticky intro remain within the viewport after actual scroll, heading cannot enlarge unexpectedly, and the document does not horizontally pan. Verify CI and Pages deploy; physical iPhone Safari visual inspection remains separate.
+- **Safety:** original avatar Motion, guide data, subscription/contact forms, Content Lab, and demos unchanged.
+
 ## 2026-11-12 — Dailin Vault portrait: hard-edged shoulders and decorative frame on iPhone
 - **Owner evidence:** screenshot of `/es/guias/`: correct face/animation, but black clothing ends abruptly at straight image boundaries and the outlined lower frame makes the figure look pasted into the ivory canvas.
 - **Verified source:** the approved media is 512×910; the former media box used a different aspect ratio with `object-fit:contain`, while an oval CSS mask blurred only its outside edge and the WebGL background key preserved rectangular black sleeves.
