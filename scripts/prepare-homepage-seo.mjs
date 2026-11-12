@@ -46,7 +46,16 @@ function buildHomepage(html, variant) {
   html = replaceExactlyOnce(html, /<meta name="description" content="[^"]*">/, '<meta name="description" content="' + variant.description + '">', variant.lang + ' meta description');
   html = replaceExactlyOnce(html, /<meta property="og:title" content="[^"]*">/, '<meta property="og:title" content="' + variant.socialTitle + '">', variant.lang + ' OG title');
   html = replaceExactlyOnce(html, /<meta property="og:description" content="[^"]*">/, '<meta property="og:description" content="' + variant.socialDescription + '">', variant.lang + ' OG description');
-  html = replaceExactlyOnce(html, /<meta property="og:url" content="[^"]*">/, '<meta property="og:url" content="' + home + '">', variant.lang + ' OG URL');
+  html = replaceExactlyOnce(html, /<meta property="og:image" content="[^"]*">/, '<meta property="og:image" content="' + origin + '/assets/website-packages-20261105/process-build-en.png">', variant.lang + ' social image');
+  assert(!html.includes('property="og:url"'), 'Offer source unexpectedly already declares an OG URL');
+  const socialMeta = '<meta property="og:url" content="' + home + '">' +
+    '<meta property="og:site_name" content="The Launch Era">' +
+    '<meta property="og:image:alt" content="The Launch Era websites and digital business tools">' +
+    '<meta name="application-name" content="The Launch Era">' +
+    '<meta name="robots" content="index,follow,max-image-preview:large">' +
+    '<meta name="twitter:card" content="summary_large_image">' +
+    '<meta name="twitter:image" content="' + origin + '/assets/website-packages-20261105/process-build-en.png">';
+  html = replaceExactlyOnce(html, /<meta property="og:type" content="website">/, '<meta property="og:type" content="website">' + socialMeta, variant.lang + ' social metadata');
   html = replaceExactlyOnce(html, /<link rel="canonical" href="[^"]*">/, '<link rel="canonical" href="' + home + '">', variant.lang + ' canonical');
   html = replaceExactlyOnce(html, /<link rel="alternate" hreflang="en-US" href="[^"]*">/, '<link rel="alternate" hreflang="en-US" href="' + origin + '/">', variant.lang + ' en alternate');
   html = replaceExactlyOnce(html, /<link rel="alternate" hreflang="es-US" href="[^"]*">/, '<link rel="alternate" hreflang="es-US" href="' + origin + '/es">', variant.lang + ' es alternate');
