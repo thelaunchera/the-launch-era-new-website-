@@ -1,9 +1,9 @@
-name: Portfolio Gravity and Miniature QA
+name: Founder Portfolio Motion QA
 on:
   pull_request:
     branches: [main]
     paths:
-      - 'public/portfolio/index.html'
+      - 'public/portfolio/**'
       - 'scripts/qa-portfolio-gravity-20261110.mjs'
       - '.github/workflows/qa-portfolio-gravity.yml'
   workflow_dispatch:
@@ -26,7 +26,7 @@ jobs:
           mkdir -p node_modules
           ln -sfn /tmp/tle-portfolio-qa/node_modules/playwright node_modules/playwright
           ln -sfn /tmp/tle-portfolio-qa/node_modules/playwright-core node_modules/playwright-core
-      - name: Verify drag, reduced motion, hero, all 9 project previews and iPhone fit
+      - name: Verify Manus scroll reveal, reduced motion, original hero and iPhone fit
         run: |
           node --check scripts/qa-portfolio-gravity-20261110.mjs
           python3 -m http.server 4198 --bind 127.0.0.1 --directory public >/tmp/tle-portfolio-server.log 2>&1 &
