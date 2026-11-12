@@ -1,13 +1,9 @@
-## 2026-11-12 — Draft QA discovered Ivory & Bloom 360px overflow
-- PR #547 responsive QA found 29px horizontal overflow at 360px in Chromium and again in WebKit calendar workflow. Keep this a release blocker until rechecks pass.
-- Targeted narrow-header inquiry label preserves the original clickable destination and accessible text; do not hide the booking path or modify form semantics.
-- The JS enhancer also recognizes Jaramillo's native language button to prevent a duplicate, and its DOM observer now translates only newly inserted elements to reduce work in long scrolling demos.
-- Verify actual cross-repo Pages asset, mobile browser, original cart/menu and physical iPhone before reporting live success.
-
-## 2026-11-12 — Public demo topbars inconsistent / language selector missing (review branch)
-- Owner asked for slightly smaller topbar buttons across the demo portfolio and a functional language selector on brands missing one.
-- Verified: existing primary portfolio sites mix native locale toggles and plain one-language headers; two repositories publish the gallery demos. Main shared enhancer isolates presentation changes and adds EN/ES static-content localization only to primary brands with no native switch.
-- Source guards: keep native cart, forms, original button destinations, real booking/checkout ownership and customer data untouched; no hardcoded demo count. Added static syntax/reference check. Requires independent GitHub CI, mobile browser and published Pages verification. Full dynamic-content translation and physical iPhone are not validated.
+## 2026-11-12 — Manus portfolio migration / preview artifacts
+- **Request:** transfer existing public Manus CEO portfolio into the official repository without affecting `main`, publishing, or merging.
+- **Source verified:** published site exposes static HTML/CSS/JavaScript and 6 WebP images, 4 WOFF2 fonts and an SVG favicon. Deployed HTML had absolute `/assets/`, `/styles.css`, `/site.js` paths and a Manus-only injected preview script.
+- **Fix prepared (branch only):** preserve source visuals/transitions and built-in menu/reveal/case-study interactions; copy original assets as complete Git blobs, scope all paths to `/portfolio/`, remove injected Manus runtime, set official canonical/OG URL and local share image. Replaces only portfolio files on isolated branch. No customer state, email, tenant, backend or payments.
+- **QA finding:** browser preview initially showed two literal escaped `\\n` text fragments in the HTML head; corrected before PR. Remote GitHub branch asset fetches passed for all referenced resources, including complete WebP headers; browser preview checks at 360/390/820/1440, menu close/open, case-study toggle and image decode passed. Preview uses in-memory reconstructed files, not deployed Pages.
+- **Pending:** branch PR checks, official GitHub Pages deployment (intentionally not requested), actual physical iPhone Safari and production visual/CTA checks. Do not declare live release or merge automatically.
 
 ## 2026-11-12 — SEO release PR triggered unrelated red checks
 - **Owner report:** Multiple red GitHub checks after attempted site-wide SEO edit.

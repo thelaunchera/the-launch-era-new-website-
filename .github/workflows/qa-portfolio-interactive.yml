@@ -28,7 +28,7 @@ jobs:
           mkdir -p node_modules
           ln -sfn /tmp/tle-portfolio-qa/node_modules/playwright node_modules/playwright
           ln -sfn /tmp/tle-portfolio-qa/node_modules/playwright-core node_modules/playwright-core
-      - name: Check miniatures, gravity pill navigation and reduced motion
+      - name: Check Manus case studies, responsive navigation, disclosure and images
         run: |
           python3 -m http.server 4198 --bind 127.0.0.1 --directory public >/tmp/tle-portfolio-qa.log 2>&1 &
           server=$!
