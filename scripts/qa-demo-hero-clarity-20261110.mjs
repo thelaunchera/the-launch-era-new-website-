@@ -74,6 +74,16 @@ try{
     headings:[...h.querySelectorAll('h1,h2')].filter(visible).map(n=>({text:n.innerText,left:n.getBoundingClientRect().left,right:n.getBoundingClientRect().right})),
     actions:[...h.querySelectorAll('a,button')].filter(visible).map(n=>({text:n.innerText,href:n.getAttribute('href'),height:n.getBoundingClientRect().height}))};
   });
+  if(geometry.overflow>3 && width<=390){
+    const overflowNodes=await page.evaluate(()=>{
+      const W=innerWidth;
+      return [...document.querySelectorAll('body *')].map(el=>{
+        const r=el.getBoundingClientRect(),sty=getComputedStyle(el);
+        return {tag:el.tagName.toLowerCase(),id:el.id,cl:typeof el.className==='string'?el.className.slice(0,70):'',left:Math.round(r.left),right:Math.round(r.right),width:Math.round(r.width),display:sty.display,position:sty.position,overflow:sty.overflowX};
+      }).filter(x=>x.right>W+2&&x.width>0&&x.display!=='none').sort((a,b)=>b.right-a.right).slice(0,24);
+    });
+    console.error('TLE OVERFLOW DIAGNOSTIC',brand,width,JSON.stringify(overflowNodes));
+  }
   assert(geometry.heroHeight>150,brand+' needs a visible hero');
   assert(geometry.overflow<=3,brand+' horizontal overflow at '+width+': '+geometry.overflow);
   assert(geometry.hasMedia,brand+' must retain brand photography');
