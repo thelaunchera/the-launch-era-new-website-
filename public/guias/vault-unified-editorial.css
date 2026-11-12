@@ -278,7 +278,7 @@ body .dialog .reference{color:var(--v-coral-deep)!important}
  body>.grid .hero-vault h1{
   font-size:clamp(29px,7.7vw,46px)!important;
   white-space:normal!important;text-wrap:balance!important;
-  line-height:1.09!important;letter-spacing:-.065em!important
+  line-height:1.09!important;letter-spacing:-.045em!important
  }
  body>.grid .hero-vault .hero-overline{font-size:9px!important}
  body>.grid .hero-vault .hero-copy .hero-lead{font-size:clamp(12px,3.4vw,15px)!important}
