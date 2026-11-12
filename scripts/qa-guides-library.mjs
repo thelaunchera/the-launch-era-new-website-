@@ -8,6 +8,8 @@ const js=readFileSync(resolve(root,"public/guias/app.js"),"utf8");
 const css=readFileSync(resolve(root,"public/guias/styles.css"),"utf8");
 const editorialCss=readFileSync(resolve(root,"public/guias/editorial.css"),"utf8");
 const editorialJs=readFileSync(resolve(root,"public/guias/editorial.js"),"utf8");
+const resourcesJs=readFileSync(resolve(root,"public/guias/resources.js"),"utf8");
+const resourcesCss=readFileSync(resolve(root,"public/guias/resources.css"),"utf8");
 // The primary logo is scalable live text; no bitmap is used in the header.
 for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
   assert.match(html,new RegExp('<html lang="'+lang+'">'));
@@ -22,6 +24,8 @@ for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
   assert.ok(html.includes('href="mailto:hello@thelaunchera.com?subject='),lang+" verified contact");
   assert.ok(html.includes('id="guide-list"')&&html.includes('id="search"')&&html.includes('id="filters"'),lang+" controls");
   assert.ok(html.includes('href="/favicon-tle.svg"'),lang+" favicon");
+  assert.ok(html.includes('href="/guias/resources.css?v=20261112-1"')&&html.includes('src="/guias/resources.js?v=20261112-1"'),lang+" resource assets linked");
+  assert.ok(html.includes('href="#recursos"'),lang+" freebie navigation linked");
   assert.ok(!/<form\b/i.test(html),"No fake backend forms");
   assert.ok(!/hero-avatar-concept|person-photo-placeholder/i.test(html),"No unapproved personal avatar");
 }
@@ -40,7 +44,11 @@ assert.match(css,/\.dialog-backdrop\{[^}]*z-index:200/);
 assert.match(editorialCss,/@media\(max-width:390px\)/);
 assert.match(editorialCss,/@media\(prefers-reduced-motion:reduce\)/);
 assert.match(editorialJs,/IntersectionObserver/);
-assert.match(editorialJs,/requestAnimationFrame/);assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
+assert.match(editorialJs,/requestAnimationFrame/);
+assert.match(resourcesCss,/\.tle-resource-space/);
+assert.match(resourcesJs,/tle-guides-subscribe/);
+assert.match(resourcesJs,/confirm_freebie/);
+assert.match(resourcesJs,/unsubscribe_freebie/);assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
 const ids=[...js.matchAll(/"id":"([^"]+)"/g)].map(m=>m[1]);
 assert.equal(ids.length,10,"Exactly 10 original bilingual guides");
 assert.equal(new Set(ids).size,10,"No duplicate guide IDs");
