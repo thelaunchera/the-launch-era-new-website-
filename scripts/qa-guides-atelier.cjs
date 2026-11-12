@@ -18,6 +18,16 @@ const {chromium}=require('playwright');
    assert.equal(await page.locator('.hero-video source').getAttribute('src'),'/guias/assets/dailin-avatar-hero-loop.mp4','hero video source unchanged');
    assert.equal(await page.locator('.hero-video').getAttribute('autoplay'),'','hero video autoplay unchanged');
    assert.ok(await page.locator('.hero-poster').evaluate(async img=>{await img.decode();return img.naturalWidth>0}),"hero poster");
+   assert.equal(await page.locator('.hero-founder').count(),1,'founder reference hero exists');
+   assert.equal(await page.locator('.hero-actions .button').count(),2,'two distinct CTAs');
+   assert.deepEqual(await page.locator('.hero-actions .button').evaluateAll(as=>as.map(a=>a.getAttribute('href'))),['#guias','#como'],'hero destinations are real sections');
+   assert.equal(await page.locator('.hero-bracket').count(),4,'framed portrait details');
+   assert.equal(await page.locator('.hero-topics a').count(),3,'topic navigator');
+   assert.deepEqual(await page.locator('.hero-topics a').evaluateAll(as=>as.map(a=>a.getAttribute('href'))),['#guias','#como','#prompts-fotos'],'topic links resolve to existing sections');
+   assert.equal(await page.locator('link[href^="/guias/hero-founder.css"]').count(),1,'new responsive hero stylesheet loaded once');
+   assert.ok((await page.locator('.hero-founder h1').innerText()).includes('Dailin.'),'founder title visible');
+   for(const href of ['#guias','#como','#prompts-fotos'])assert.equal(await page.locator(href).count(),1,'CTA target '+href);
+
    const grid=await page.locator('#recursos .tle-resource-cards').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length);
    assert.ok(grid>=1,'resources have grid columns');
    const switcher=page.locator('.lang a[hreflang="'+(lang==='en'?'es':'en')+'"]');
