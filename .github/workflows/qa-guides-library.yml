@@ -14,6 +14,7 @@ on:
       - "scripts/qa-ios-language-settings-20261111.mjs"
       - "scripts/qa-guides-atelier.cjs"
       - "scripts/qa-guides-background.cjs"
+      - "scripts/qa-guides-inquiry-motion.cjs"
       - "scripts/qa-guides-subscribe-endpoint.mjs"
       - ".github/workflows/qa-guides-library.yml"
       - "public/sitemap.xml"
@@ -32,6 +33,8 @@ jobs:
         run: |
           node --check public/guias/app.js
           node --check public/guias/resources.js
+          node --check public/guias/vault-inquiry.js
+          node --check public/guias/vault-motion-loop.js
           node scripts/qa-guides-library.mjs
           node scripts/qa-guides-ios-skip.mjs
           node scripts/qa-route-integrity.mjs --static
@@ -57,3 +60,4 @@ jobs:
           NODE_PATH="$RUNNER_TEMP/tle-guides-browser/node_modules" node scripts/qa-guides-resources.cjs
           NODE_PATH="$RUNNER_TEMP/tle-guides-browser/node_modules" node scripts/qa-guides-atelier.cjs
           NODE_PATH="$RUNNER_TEMP/tle-guides-browser/node_modules" node scripts/qa-guides-background.cjs
+          NODE_PATH="$RUNNER_TEMP/tle-guides-browser/node_modules" node scripts/qa-guides-inquiry-motion.cjs
