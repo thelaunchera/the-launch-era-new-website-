@@ -28,6 +28,11 @@ async function testLanguage(lang) {
   const {window}=dom,document=window.document;
   assert.equal(errors.length,0,lang+" runtime errors: "+errors.join("; "));
   assert.equal(document.querySelectorAll(".guide").length,10,lang+" initial guide cards");
+  const previews=[...document.querySelectorAll(".guide-preview")];
+  assert.equal(previews.length,10,lang+" all ten cards explain the lesson");
+  assert.ok(previews.every(el=>el.textContent.trim().length>70),lang+" useful learning previews");
+  assert.ok(previews.every(el=>!el.textContent.includes("[audience]")&&!el.textContent.includes("[audiencia]")),lang+" previews show readable copy");
+
   assert.ok(document.getElementById("count").textContent.includes("10"),lang+" total count");
   const search=document.getElementById("search");
   search.value="Higgsfield";search.dispatchEvent(new window.Event("input",{bubbles:true}));
@@ -50,6 +55,11 @@ async function testLanguage(lang) {
   const otherLang=lang==='en'?'es':'en';
   assert.ok(document.querySelector('.lang a[hreflang="'+otherLang+'"]').getAttribute('href').includes('guide='),lang+" language switch retains guide");
   assert.ok(document.getElementById("guide-title").textContent.length>8,lang+" title");
+  assert.equal(document.querySelectorAll("#guide-detail .guide-section-title").length,3,lang+" clear what/need/how headings");
+  assert.ok(document.querySelector("#guide-detail .guide-overview").textContent.length>130,lang+" complete lesson overview");
+  assert.ok(document.querySelector("#guide-detail .guide-need").textContent.length>50,lang+" prerequisites displayed");
+  assert.ok(document.querySelectorAll("#guide-detail ol li").length>=4,lang+" actionable steps inside guide");
+
   assert.ok(document.querySelector("#guide-detail pre.prompt").textContent.length>75,lang+" full prompt");
   document.querySelector("#guide-detail .copy").click();
   await new Promise(resolve=>setImmediate(resolve));
