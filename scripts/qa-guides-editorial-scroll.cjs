@@ -25,8 +25,14 @@ const base = "http://127.0.0.1:8172";
         const copy=await page.locator(".hero-copy").boundingBox();
         assert.ok(Math.abs(art.y-copy.y)<100,"image and introduction sit side-by-side");
         assert.ok(art.x+art.width<=copy.x+4,"photo and copy do not overlap");
-        const button=await page.locator(".hero .button").boundingBox();
+        const button=await page.locator(".hero-actions .button").first().boundingBox();
         assert.ok(button.y<790,"hero CTA appears above lower viewport");
+        const headline=await page.locator('.hero h1').boundingBox();
+        assert.ok(headline.y+headline.height<=art.y+2,'headline must not be covered by moving video at '+width);
+        assert.equal(await page.locator('.hero-media').evaluate(el=>getComputedStyle(el).borderTopWidth),'0px','no border around Motion video');
+        assert.equal(await page.locator('.hero-media').evaluate(el=>getComputedStyle(el).backgroundColor),'rgba(0, 0, 0, 0)','transparent Motion container');
+        assert.ok(await page.locator('.hero h1').evaluate(el=>el.scrollWidth<=el.clientWidth+2),'founder headline not cropped');
+
       }
       const nav=page.locator("body>.grid header");
       assert.equal(await nav.evaluate(el=>getComputedStyle(el).position),"fixed");
