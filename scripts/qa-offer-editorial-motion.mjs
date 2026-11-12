@@ -45,6 +45,14 @@ for(const [lang,path] of pages){
  assert.match(html,/href="\/website-checkout\/\?offer=website-plus&lang=/);
  assert.equal((html.match(/<a[^>]+class="owner-experience-cta"/g)||[]).length,1,'Exactly one owner CTA');
  assert.ok(!html.includes('testimonials fabricated'),'No invented content');
+ const faq=html.match(/<section class="faq" id="preguntas">([\s\S]*?)<\/section>/)?.[1]||'';
+ assert.equal((faq.match(/<details>/g)||[]).length,8,'Eight focused FAQ answers '+lang);
+ assert.equal((faq.match(/<\/details>/g)||[]).length,8,'All FAQ details closed '+lang);
+ for(let i=1;i<=8;i++)assert.ok(faq.includes('data-key="q'+i+'"')&&faq.includes('data-key="r'+i+'"'),'Accessible FAQ question/answer pair '+lang+' '+i);
+ assert.ok(faq.includes('$15')&&faq.includes('$25')&&faq.includes('$10'),'FAQ pricing matches approved offers '+lang);
+ assert.ok(lang==='es'?faq.includes('negocios de limpieza'):faq.includes('cleaning businesses'),'FAQ clarifies multi-industry services '+lang);
+ assert.ok(lang==='es'?faq.includes('no confirma una cita'):faq.includes('not a confirmed appointment'),'FAQ must not misrepresent booking requests '+lang);
+
 }
 const en=read(pages[0][1]),es=read(pages[1][1]);
 assert.match(en,/SEE HOW IT WORKS/);
