@@ -12,7 +12,7 @@ for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
   assert.match(html,new RegExp('<html lang="'+lang+'">'));
   assert.ok(html.includes('rel="canonical" href="https://thelaunchera.com'+route+'"'),lang+" canonical");
   assert.ok(html.includes('href="/guias/"')&&html.includes('href="/es/guias/"'),lang+" language links");
-  assert.ok(html.includes('href="/guias/styles.css"')&&html.includes('src="/guias/app.js"'),lang+" shared assets");
+  assert.ok(html.includes('href="/guias/styles.css?v=20261112-2"')&&html.includes('src="/guias/app.js"'),lang+" shared assets");
   assert.ok(html.includes('href="/guias/editorial.css?v=20261112-1"')&&html.includes('src="/guias/editorial.js?v=20261112-1"'),lang+" editorial scroll files");
   assert.ok(html.includes('id="reading-progress"')&&html.includes('class="ticker-track"'),lang+" scroll UI");
   assert.ok(html.includes('href="mailto:hello@thelaunchera.com?subject='),lang+" verified contact");
@@ -24,6 +24,7 @@ for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
 assert.ok(existsSync(resolve(root,"public/favicon-tle.svg")),"Existing official favicon");
 assert.match(js,/clipboard\.writeText/);assert.match(js,/aria-pressed/);assert.match(js,/Escape/);
 assert.match(css,/@media\(max-width:800px\)/);
+assert.match(css,/\.dialog-backdrop\{[^}]*z-index:200/);
 assert.match(editorialCss,/@media\(max-width:390px\)/);
 assert.match(editorialCss,/@media\(prefers-reduced-motion:reduce\)/);
 assert.match(editorialJs,/IntersectionObserver/);
