@@ -13,6 +13,7 @@ const resourcesCss=readFileSync(resolve(root,"public/guias/resources.css"),"utf8
 const blueGridCss=readFileSync(resolve(root,"public/guias/blue-grid.css"),"utf8");
 const unifiedCss=readFileSync(resolve(root,"public/guias/vault-unified-editorial.css"),"utf8");
 const evergreenCss=readFileSync(resolve(root,"public/guias/vault-evergreen.css"),"utf8");
+const keyJs=readFileSync(resolve(root,"public/guias/vault-video-key.js"),"utf8");
 const blueGridWebP=readFileSync(resolve(root,"public/guias/assets/tle-approved-blue-grid.webp"));
 // The primary logo is scalable live text; no bitmap is used in the header.
 for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
@@ -32,8 +33,9 @@ for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
   assert.ok(html.includes('href="/guias/atelier.css?v=20261112-guides-1"'),lang+" editorial stylesheet");
   assert.ok(html.includes('href="/guias/blue-grid.css?v=20261112-1"'),lang+" original grid asset remains archived");
   assert.ok(html.includes('href="/guias/vault-unified-editorial.css?v=20261112-paper-1"'),lang+" unified design stylesheet");
-  assert.ok(html.includes('href="/guias/vault-evergreen.css?v=20261112-1"'),lang+" evergreen design stylesheet");
+  assert.ok(html.includes('href="/guias/vault-evergreen.css?v=20261112-2"'),lang+" evergreen design stylesheet");
   assert.ok(!html.includes('id="count"'),lang+" no fixed visible guide count");
+  assert.ok(html.includes('src="/guias/vault-video-key.js?v=20261112-1"'),lang+" blue matte removal progressive enhancement loaded");
   assert.ok(!/10 (FIELD GUIDES|GUÍAS PARA CREAR)/.test(html),lang+" library total is future proof");
   assert.ok(html.includes('family=Archivo+Black')&&html.includes('family=DM+Sans')&&html.includes('family=Space+Mono'),lang+" open web typography loaded");
   assert.ok(html.includes('name="theme-color" content="#faf6ed"'),lang+" warm ivory mobile theme");
@@ -69,6 +71,10 @@ assert.match(blueGridCss,/#guias/);
 assert.match(blueGridCss,/#recursos/);
 assert.match(unifiedCss,/--v-paper:#faf6ed/,"one continuous warm ivory background");
 assert.match(evergreenCss,/position:sticky!important/,"guide introduction sticky as list scrolls");
+assert.match(evergreenCss,/is-keyed-ready/,"keyed video only replaces visible raw video after successful frame");
+assert.match(keyJs,/WebGL|webgl/,"GPU keyed canvas code present");
+assert.match(keyJs,/fallback\(\)/,"original MP4 is fallback when WebGL fails");
+assert.match(keyJs,/requestVideoFrameCallback/,"video frame tracking is browser efficient");
 assert.ok(!resourcesJs.includes("Queue App Concept"),"demo concept not listed as free resource");
 assert.ok(!resourcesJs.includes("↗"),"no decorative arrows on resource cards");
 assert.ok(!resourcesJs.includes("tle-resource-count"),"no fixed resource counter markup");
