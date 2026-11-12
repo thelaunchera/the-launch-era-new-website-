@@ -21,8 +21,8 @@ const {chromium}=require("playwright");
    assert.equal(await page.locator(".vault-photo-help").count(),3,"all photo prompts have instructions");
    assert.ok(await page.locator(".guide").first().evaluate(el=>el.getBoundingClientRect().top<document.getElementById("recursos").getBoundingClientRect().top),"guide list now precedes resources");
    assert.equal(await page.locator(".hero-video").evaluate(el=>getComputedStyle(el).objectFit),"contain","full head visible in Motion");
-   const backdrop=await page.locator(".hero-card").evaluate(el=>({background:getComputedStyle(el).backgroundImage,border:getComputedStyle(el).borderTopWidth}));
-   assert.ok(backdrop.background.includes("gradient")&&backdrop.border!=="0px","visible, rounded, separate breakout background");
+   const backdrop=await page.locator(".hero-card").evaluate(el=>({background:getComputedStyle(el).backgroundImage,color:getComputedStyle(el).backgroundColor,border:getComputedStyle(el).borderTopWidth}));
+   assert.ok(backdrop.background==="none"&&backdrop.color==="rgb(250, 246, 237)"&&backdrop.border!=="0px","rounded breakout card uses neutral paper rather than a blue or gradient backdrop");
 
    await page.locator(".hero-media").evaluate(el=>el.classList.add("is-loop-bridging"));
    await page.waitForFunction(()=>parseFloat(getComputedStyle(document.querySelector(".hero-video")).opacity)<.02,{timeout:2500});
