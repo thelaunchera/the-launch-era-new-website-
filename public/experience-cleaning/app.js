@@ -234,6 +234,7 @@ $('next').addEventListener('click',()=>{
  if(!$('date').value||$('date').value<$('date').min||$('date').value>$('date').max){$('date').focus();$('date').reportValidity();return;}
  state.date=$('date').value;state.sent=true;state.phase=0;
  $('handoff').hidden=false;$('owner').hidden=false;
+ window.TLEDemoConfirmation?.play($('handoff').querySelector('[data-demo-receipt]'));
  syncOwner();
  $('handoff').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
 });

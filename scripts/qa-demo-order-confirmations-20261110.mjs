@@ -3,6 +3,32 @@ import assert from 'node:assert/strict';
 import { chromium, webkit } from 'playwright';
 const origin=(process.env.QA_URL||'http://127.0.0.1:4196').replace(/\/$/,'');
 const scenarios=[
+ ['golden-grid',async page=>{
+   await page.locator('header .tle-order-float').click();
+   const sheet=page.locator('#tle-demo-order-dialog');
+   await sheet.locator('[data-action="add"]').first().click();
+   await sheet.locator('[data-action="cart"]').click();
+   await sheet.locator('[data-action="details"]').click();
+   await sheet.locator('[name="customer"]').fill('Demo Guest');
+   await sheet.locator('[name="email"]').fill('demo@example.com');
+   await sheet.locator('[data-action="review"]').click();
+   const motionLoaded=page.waitForResponse(response=>response.url().includes('/vendor/motion-mini-12.23.24.js')&&response.ok());
+   await sheet.locator('[data-action="confirm"]').click();
+   await motionLoaded;
+   const receipt=sheet.locator('[data-demo-receipt="golden-grid"]');
+   await receipt.waitFor();
+   const toggle=receipt.locator('summary');
+   await toggle.click();
+   const line=receipt.locator('[data-receipt-line]');
+   assert.match(await line.innerText(),/1 ×/);
+   await toggle.click();
+   assert.equal(await line.isVisible(),false);
+   await sheet.locator('[data-action="close"]').last().click();
+   await page.locator('header .tle-order-float').click();
+   await receipt.waitFor();
+   await sheet.locator('[data-action="reset"]').click();
+   assert.equal(await receipt.count(),0);
+ }],
  ['freska',async page=>{
    await page.locator('[data-add="pink"]').first().click();
    await page.locator('[data-bag-open]').first().click();
@@ -78,7 +104,7 @@ for(const kind of [chromium,webkit]){
  const browser=await kind.launch({headless:true});
  try{
   for(const [slug,verify] of scenarios){
-   const page=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});
+   const page=await browser.newPage({viewport:{width:390,height:844},reducedMotion:slug==='golden-grid'?'no-preference':'reduce'});
    const errors=[],writes=[];
    page.on('pageerror',error=>errors.push(String(error)));
    page.on('request',request=>{
@@ -87,6 +113,11 @@ for(const kind of [chromium,webkit]){
    const response=await page.goto(origin+'/demos/'+slug+'/',{waitUntil:'domcontentloaded',timeout:35000});
    assert.equal(response?.status(),200,slug+' must load');
    await verify(page);
+   if(slug!=='golden-grid'){
+     const themed=page.locator('[data-demo-receipt="'+slug+'"]');
+     assert.equal(await themed.count(),1,slug+' has its own receipt theme');
+     assert.equal(await themed.evaluate(panel=>panel.getAnimations().length),0,'Receipt respects reduced motion');
+   }
    assert.deepEqual(errors,[],slug+' JavaScript errors');
    assert.deepEqual(writes,[],slug+' no checkout network writes');
    console.log('PASS',kind.name(),slug,'sample receipt, iPhone width, no commerce requests');

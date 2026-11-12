@@ -14,6 +14,7 @@ describe("concept demo checkout from cart to sample confirmation", () => {
     document.body.innerHTML = "<main><section id='collection'></section></main>";
     document.documentElement.lang = "en";
     const script = document.createElement("script");
+    script.src = "https://thelaunchera.com/assets/tle-demo-order-journey-20261108.js";
     script.dataset.tleOrderSlug = "golden-grid";
     Object.defineProperty(document, "currentScript", { configurable: true, get: () => script });
     Object.defineProperty(HTMLDialogElement.prototype, "showModal", {
@@ -41,6 +42,7 @@ describe("concept demo checkout from cart to sample confirmation", () => {
     document.querySelector("#tle-demo-order-css")?.remove();
     document.querySelector(".tle-order-float")?.remove();
     document.querySelector(".tle-order-modal")?.remove();
+    document.querySelectorAll('link[href*="tle-demo-confirmation"], script[src*="tle-demo-confirmation"]').forEach(node => node.remove());
     delete (window as any).TLE_ORDER;
     delete (window as any).TLE_DEMO_PRICE_CATALOGS;
     delete (document as any).currentScript;
@@ -70,7 +72,20 @@ describe("concept demo checkout from cart to sample confirmation", () => {
     const receipt = document.querySelector(".tle-order-body")?.textContent || "";
     expect(receipt).toContain("DEMO-");
     expect(receipt).toContain("$29.20");
-    expect(receipt).toContain("Nothing was ordered, paid for, or sent.");
+    expect(receipt).toContain("No order, payment, reservation or email was created.");
+    expect(receipt).not.toContain("Example Customer");
+    expect(receipt).not.toContain("test@example.com");
+    const disclosure = document.querySelector<HTMLDetailsElement>('[data-receipt-disclosure]')!;
+    expect(disclosure.open).toBe(false);
+    disclosure.open = true;
+    expect(Array.from(disclosure.querySelectorAll("li"), row => row.textContent)).toEqual([
+      "1 × The Golden Classic$13.00", "1 × The At-Home Ritual$16.20"
+    ]);
+    click('[data-action="close"]');
+    click(".tle-order-float");
+    expect(document.querySelector(".tle-order-body")?.textContent).toContain("DEMO-");
+    click('[data-action="reset"]');
+    expect(document.querySelector("[data-demo-receipt]")).toBeNull();
     expect(document.querySelector(".tle-order-float")?.textContent).toContain("0");
   });
 

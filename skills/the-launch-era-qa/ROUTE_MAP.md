@@ -1,3 +1,9 @@
+## 2026-11-12 — Branded confirmation receipts in the public demo gallery
+- The guided checkout script shows a localized, expandable sample receipt for Golden Grid, Havana 19, WOK SOCIAL, Seasonal Brew, YUMMM, Jaramillo Boutique, and the existing Casa Brownie and CRUMB checkout bridges.
+- Native purchase receipts stay in their original cart/dialog on Freska, Sneekiefs, Casa Brownie, CRUMB, La Vie in Pink, Lavanda and VELMORA. The shared confirmation CSS and pinned Motion Mini package are served from the main site's static assets.
+- The Nail Room Pages appointment preview opens in the existing demo at `/nail-room/`. Edit appointment closes the receipt and returns focus to the selected time without clearing the date, treatment, or form. Existing preview exits stay within their demos.
+- AFTR ticket/guest/VIP, Ivory & Bloom inquiry, Marea consultation, Experience Cleaning handoff, SOLUNA's waitlist and the YUMMM builder preview have matching confirmation presentation. These experiences remain browser-only examples.
+
 ## 2026-11-11 — Christmas Game ES/EN bilingual upgrade
 - **Source of truth:** `public/games/navidad/index.html` in `thelaunchera/the-launch-era-new-website-`. Official route: `https://thelaunchera.com/games/navidad/` after an actual successful `main` Pages build; independent already-deployed fallback: `https://el-gran-juego-de-navidad-the-launch-era-z1kkj0.v2.appdeploy.ai/` reads the latest HTML from GitHub `main` and renders it as a browser page.
 - **Feature:** client-only toggle ES/EN accessible on setup overlay and header. LocalStorage preference `tle-xmas-game-locale` separate from existing saved game key `tle-xmas-board-v2`. Translates instructions, setup controls, board landmarks, rolling/turn labels, surprises, quiz questions and answers, outcome messages and accessible names without resetting the game.

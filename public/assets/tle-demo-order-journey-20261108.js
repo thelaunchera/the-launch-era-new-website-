@@ -40,6 +40,46 @@ if(!catalog.length)return;
 var find=function(name){var n=normalize(name);return catalog.find(function(x){return normalize(x.name)===n||(x.esName&&normalize(x.esName)===n)})||catalog.find(function(x){return normalize(x.name).indexOf(n)>=0||n.indexOf(normalize(x.name))>=0})||(slug==='casa-brownie'&&n.indexOf('nuez')>=0?catalog.find(function(x){return normalize(x.name).indexOf('nuez')>=0}):null)};
 var dineInAvailable=['havana-19','wok-social','seasonal-brew','yummm','crumb'].includes(slug);
 var serviceMode='',cart=new Map(),step=dineInAvailable?'service':'menu',details=null,receipt=null,lastFocus=null;
+var receiptAssets;
+function loadReceiptAssets(){
+ if(receiptAssets)return receiptAssets;
+ var source=new URL(current.src);
+ var stylesheet=new URL('./tle-demo-confirmation.css?v=1',source).href;
+ if(!Array.from(document.querySelectorAll('link[rel="stylesheet"]')).some(function(link){return link.href===stylesheet})){
+  var link=document.createElement('link');link.rel='stylesheet';link.href=stylesheet;document.head.appendChild(link);
+ }
+ if(window.TLEDemoConfirmation)return receiptAssets=Promise.resolve();
+ receiptAssets=new Promise(function(resolve){
+  var script=document.createElement('script');script.src=new URL('./tle-demo-confirmation.js?v=1',source).href;
+  script.onload=script.onerror=resolve;document.head.appendChild(script);
+ });
+ return receiptAssets;
+}
+var receiptTitles={
+ 'golden-grid':['Your waffle order is ready to preview.','Tu pedido de waffles está listo para ver.'],
+ 'havana-19':['Your Havana order is ready to preview.','Tu pedido de Havana está listo para ver.'],
+ 'wok-social':['Your WOK order is ready to preview.','Tu pedido de WOK está listo para ver.'],
+ 'seasonal-brew':['Your coffee order is ready to preview.','Tu pedido de café está listo para ver.'],
+ 'yummm':['Your treat box is ready to preview.','Tu caja de dulces está lista para ver.'],
+ 'jaramillo-boutique':['Your selection is ready to preview.','Tu selección está lista para ver.'],
+ 'crumb':['Your cookie box is ready to preview.','Tu caja de galletas está lista para ver.'],
+ 'casa-brownie':['Your brownie order is ready to preview.','Tu pedido de brownies está listo para ver.']
+};
+function receiptBody(){
+ var title=receiptTitles[slug]||['Your sample order is complete.','Tu pedido de ejemplo está listo.'];
+ var items=receipt.items.map(function(line){
+  var name=(isSpanish()&&line.item.esName)||line.item.name;
+  return '<li data-receipt-line><span>'+safe(line.qty+' × '+name)+'</span><strong>'+fmt(line.qty*line.item.priceCents)+'</strong></li>';
+ }).join('');
+ return '<section class="tle-order-done" data-demo-receipt="'+slug+'">'+
+  '<p data-receipt-caption>'+tr('Sample order receipt','Recibo de pedido de prueba')+'</p>'+
+  '<h2 data-receipt-title tabindex="-1">'+tr(title[0],title[1])+'</h2>'+
+  '<p>'+safe(receipt.reference)+'</p>'+
+  '<details data-receipt-disclosure><summary>'+tr('Order details','Detalles del pedido')+' · '+fmt(receipt.total)+'</summary>'+
+  '<ul class="tle-receipt-lines" data-receipt-items>'+items+'</ul></details>'+
+  '<p class="tle-order-lede">'+tr('Preview only. No order, payment, reservation or email was created.','Solo vista previa. No se generó ningún pedido, cobro, reserva ni correo.')+'</p></section>';
+}
+
 var count=function(){var n=0;cart.forEach(function(q){n+=q});return n};
 var subtotal=function(){var c=0;cart.forEach(function(q,i){c+=catalog[i].priceCents*q});return c};
 var rows=function(){return Array.from(cart.entries()).map(function(x){return {item:catalog[x[0]],index:x[0],qty:x[1]}})};
@@ -151,12 +191,17 @@ function render(){
   progress='04 / 04';body='<h2>'+tr('Everything look right?','¿Todo correcto?')+'</h2><div class="tle-order-review"><span class="tle-order-demo-tag">'+tr('Sample order','Pedido de ejemplo')+'</span>'+modeSummary()+htmlRows()+'<p><strong>'+tr('Name: ','Nombre: ')+'</strong>'+safe(details.customer)+'</p><p><strong>'+tr('Method: ','Modalidad: ')+'</strong>'+(details.fulfillment==='dinein'?tr('Dine in (sample)','Comer aquí (ejemplo)'):(details.fulfillment==='delivery'?tr('Delivery (sample)','Entrega (ejemplo)'):tr('Takeout / Pickup (sample)','Para llevar / recoger (ejemplo)')))+'</p>'+(details.guests?'<p><strong>'+tr('Guests: ','Personas: ')+'</strong>'+safe(details.guests)+'</p>':'')+(details.notes?'<p><strong>'+tr('Note: ','Nota: ')+'</strong>'+safe(details.notes)+'</p>':'')+'</div><p class="tle-order-tip">'+tr('This confirmation is only a demo. No email, table reservation, charge or real order will be generated.','Esta confirmación es solo una demostración. No se genera correo, reserva de mesa, cargo ni pedido real.')+'</p>';
   foot=summary()+'<div class="tle-order-two"><button type="button" class="tle-order-secondary" data-action="details">'+tr('Edit details','Editar datos')+'</button><button type="button" class="tle-order-primary" data-action="confirm">'+tr('Confirm demo order','Confirmar pedido DEMO')+'</button></div>';
  }else{
-  body='<div class="tle-order-done"><div class="tle-order-done-mark" aria-hidden="true">✓</div><div class="tle-order-demo-tag">'+tr('Experience completed','Experiencia completada')+'</div><h2>'+tr('Your sample order is complete.','Tu pedido de ejemplo está listo.')+'</h2><p><strong>'+tr('Demo reference: ','Referencia de ejemplo: ')+'</strong>'+safe(receipt.reference)+'</p><p>'+tr('Order summary: ','Resumen: ')+safe(receipt.quantity+' '+tr('items','productos'))+' · '+fmt(receipt.total)+'</p><p class="tle-order-lede">'+tr('This is the confirmation screen a customer could reach. Nothing was ordered, paid for, or sent.','Esta es la pantalla de confirmación a la que llegaría un cliente. No se realizó ningún pedido, cobro ni envío.')+'</p></div>';
+  body=receiptBody();
   foot='<div class="tle-order-two"><button type="button" class="tle-order-secondary" data-action="reset">'+tr('Try again','Probar de nuevo')+'</button><button type="button" class="tle-order-primary" data-action="close">'+tr('Continue exploring','Seguir explorando')+'</button></div>';
  }
  if(step!=='confirmed')body='<div class="tle-order-steps">'+progress+' · '+tr('DEMONSTRATION','DEMOSTRACIÓN')+'</div>'+body;
  dialog.innerHTML=h+'<div class="tle-order-body">'+body+'</div><div class="tle-order-footer">'+foot+'</div>';
  if(step==='details')syncDelivery();
+ if(step==='confirmed'){
+  var panel=dialog.querySelector('[data-demo-receipt]');
+  loadReceiptAssets().then(function(){window.TLEDemoConfirmation?.play(panel)});
+  if(dialog.open)panel.querySelector('[data-receipt-title]').focus({preventScroll:true});
+ }
 }
 function syncDelivery(){
  var form=dialog.querySelector('#tle-order-details');if(!form)return;
@@ -164,16 +209,17 @@ function syncDelivery(){
  if(label){label.hidden=!isDelivery;form.elements.address.required=isDelivery;}
 }
 function open(next){
+ loadReceiptAssets();
  lastFocus=document.activeElement;step=next||(dineInAvailable&&!serviceMode?'service':'menu');render();
  if(!dialog.open)dialog.showModal();
- var btn=dialog.querySelector('.tle-order-head button');if(btn)btn.focus();
+ var btn=dialog.querySelector(step==='confirmed'?'[data-receipt-title]':'.tle-order-head button');if(btn)btn.focus();
 }
 function startWithItems(items){if(dineInAvailable)serviceMode='takeout';
  if(Array.isArray(items)){cart.clear();var variants=[];items.forEach(function(x){var item=find(x.name||x.id),qty=Math.max(0,Math.min(24,Number(x.qty)||0));if(item&&qty){var i=catalog.indexOf(item);cart.set(i,Math.min(24,(cart.get(i)||0)+qty));if(x.size)variants.push(item.name+' · '+String(x.size))}});if(variants.length)details={notes:variants.join('; ').slice(0,250)}}
- paintFloat();open(count()?'cart':'menu');
+ receipt=null;paintFloat();open(count()?'cart':'menu');
 }
 window.TLE_ORDER={open:open,add:function(name,qty){return change(name,Math.max(1,Number(qty)||1))},startWithItems:startWithItems,items:catalog.map(function(x){return {name:x.name,priceCents:x.priceCents}})};
-float.addEventListener('click',function(){open(count()?'cart':(dineInAvailable?'service':'menu'))});
+float.addEventListener('click',function(){open(count()?'cart':receipt?'confirmed':(dineInAvailable?'service':'menu'))});
 document.addEventListener('click',function(e){if(e.target.closest('[data-lang],#language,#lang'))setTimeout(paintFloat,0)});
 dialog.addEventListener('close',function(){details=null;if(lastFocus&&typeof lastFocus.focus==='function')lastFocus.focus()});
 dialog.addEventListener('click',function(event){if(event.target===dialog)close()});
@@ -186,7 +232,7 @@ dialog.addEventListener('click',function(event){
  if(action==='service'){step='service';render();return}
  if(action==='add'||action==='increase'||action==='remove'){change(name,action==='remove'?-1:1);render();return}
  if(action==='confirm'){
-  receipt={reference:'DEMO-'+Math.floor(100000+Math.random()*900000),quantity:count(),total:subtotal()};cart.clear();details=null;step='confirmed';paintFloat();render();return;
+  receipt={reference:'DEMO-'+Math.floor(100000+Math.random()*900000),items:rows(),total:subtotal()};cart.clear();details=null;step='confirmed';paintFloat();render();return;
  }
  if(action==='reset'){receipt=null;cart.clear();details=null;serviceMode='';step=dineInAvailable?'service':'menu';paintFloat();render();return}
  if(action==='review'){
@@ -235,7 +281,7 @@ function augmentNative(){
  }
  if(slug==='casa-brownie'){
   var modal=document.getElementById('modal-body');
-  if(modal){var decorateCart=function(){if(!modal.querySelector('.cart-lines')||modal.querySelector('[data-tle-cart-bridge]'))return;
+  if(modal){var decorateCart=function(){if(!modal.querySelector('.cart-lines')||modal.querySelector('[data-tle-cart-bridge],.cb-sample-confirmation'))return;
    var b=document.createElement('button');b.type='button';b.className='tle-order-inline-add';b.dataset.tleCartBridge='1';b.textContent='Continuar al checkout DEMO';b.style.setProperty('--toc-accent',tone);
    b.addEventListener('click',function(){var items=Array.from(modal.querySelectorAll('.cart-line')).map(function(line){return {name:line.querySelector('strong')?.textContent||'',qty:Number(line.querySelector('output')?.textContent||0)}});document.getElementById('modal-close')?.click();startWithItems(items)});
    modal.appendChild(b);

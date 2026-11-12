@@ -90,13 +90,13 @@
  function renderCart(){
   const counter=$("#bag-count"),body=$("#cart-body");text(counter,String(count()));if(!body)return;
   body.replaceChildren();
-  if(state.step==="confirmed"){const wrap=document.createElement("div");wrap.className="confirmation";
+  if(state.step==="confirmed"){const wrap=document.createElement("div");wrap.className="confirmation";wrap.dataset.demoReceipt="la-vie-in-pink";
     const mark=document.createElement("span");mark.className="confirmation-mark";mark.setAttribute("aria-hidden","true");mark.textContent="✓";
     const title=document.createElement("h3");title.textContent=dict().sent;
     const lead=document.createElement("p");lead.textContent=dict().confirmed;
     const ref=document.createElement("p");ref.textContent=dict().receipt+": "+state.ref;ref.style.fontWeight="700";
     const mode=document.createElement("p");mode.textContent=dict().mode+": "+(state.mode==="pickup"?dict().pickup:dict().dineIn);
-    wrap.append(mark,title,lead,ref,mode);summary(wrap);note(wrap);appendAction(wrap,dict().again,"reset");body.append(wrap);return;
+    wrap.append(mark,title,lead,ref,mode);summary(wrap);note(wrap);appendAction(wrap,dict().again,"reset");body.append(wrap);window.TLEDemoConfirmation?.play(wrap);return;
   }
   if(state.step==="checkout"){
    appendAction(body,"‹ "+dict().back,"back","cart-back");
