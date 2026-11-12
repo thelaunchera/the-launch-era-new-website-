@@ -1,0 +1,64 @@
+name: The Launch Era Brand SEO QA
+on:
+  pull_request:
+    paths:
+      - 'public/website-for-your-business/index.html'
+      - 'public/es/website-for-your-business/index.html'
+      - 'public/sitemap.xml'
+      - 'scripts/patch-published-home-seo.mjs'
+      - '.github/workflows/pages.yml'
+      - '.github/workflows/brand-seo-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate-published-home:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate published-home SEO script
+        run: |
+          node --check scripts/patch-published-home-seo.mjs
+          mkdir -p .output/public/es
+          cp public/website-for-your-business/index.html .output/public/index.html
+          cp public/es/website-for-your-business/index.html .output/public/es/index.html
+          node scripts/patch-published-home-seo.mjs
+      - name: Assert live home URLs, brand identity and independent landing canonicals
+        run: |
+          node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';
+          import {readFileSync} from 'node:fs';
+          const root='https://thelaunchera.com/';
+          const enOffer=root+'website-for-your-business/';
+          const esOffer=root+'es/website-for-your-business/';
+          const configs=[
+            ['.output/public/index.html',root,'The Launch Era | Websites, AI Tools'],
+            ['.output/public/es/index.html',root+'es/','The Launch Era | Websites, IA'],
+          ];
+          for(const [path,canonical,title] of configs){
+            const text=readFileSync(path,'utf8');
+            assert(text.includes('<link rel="canonical" href="'+canonical+'">'), 'Missing correct canonical: '+path);
+            assert(text.includes('<meta property="og:url" content="'+canonical+'">'));
+            assert(text.includes('<title>'+title));
+            assert(text.includes('"@type":"WebSite","name":"The Launch Era"'), 'Brand schema missing: '+path);
+            assert(text.includes('hreflang="en-US" href="'+root+'"'));
+            assert(text.includes('hreflang="es-US" href="'+root+'es/"'));
+            assert(!/name="description" content="[^"]*cleaning businesses/i.test(text),'Old cleaning-only metadata: '+path);
+          }
+          for(const [path,canonical] of [
+            ['public/website-for-your-business/index.html',enOffer],
+            ['public/es/website-for-your-business/index.html',esOffer],
+          ]){
+            const text=readFileSync(path,'utf8');
+            assert(text.includes('<link rel="canonical" href="'+canonical+'">'), 'Offer canonical must remain direct: '+path);
+          }
+          const sitemap=readFileSync('public/sitemap.xml','utf8');
+          for(const p of [root,root+'es/',enOffer,esOffer])assert(sitemap.includes('<loc>'+p+'</loc>'),'Sitemap missing '+p);
+          console.log('PASS: EN/ES published homepage SEO and canonical separation');
+          JS
+      - name: Guard static routes and client safety
+        run: node scripts/qa-route-integrity.mjs --static
