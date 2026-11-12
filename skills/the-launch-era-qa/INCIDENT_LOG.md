@@ -1,3 +1,9 @@
+## 2026-11-12 — Vault shows repeated content, email-app CTA, clipped head, abrupt Motion loop
+- Evidence: user screenshot of page sections and asks for coral name logo, nonduplicative sequence, end-user instructions and inquiry form routed to Make/Resend, plus video character breaking out of card and avoiding loop cut.
+- Fix (scoped): recolor existing SVG, remove duplicated stand-alone prompt section, move resources after guide list, write public-use instruction panels after all 10 guide prompts and three photo prompts, generalize steps, replace mailto with accessible EN/ES form backed by existing Supabase contact workflow and new Make Resend receipt route. New source values allow routing without changing existing contact variants.
+- Video: keep approved media source, soften last/first-frame snap by CSS transition to poster, avoid hard clipping and raise portrait visually above lower decorative card. No claims of perfect alpha cutout or re-encoded seamless MP4.
+- QA gates: static and browser tests EN/ES at 360/390/768/1024/1440, safe mocked requests only, confirm Supabase function active and Make module. GitHub Pages must succeed before claiming published.
+
 ## 2026-11-12 — Unified Vault canvas / type reference
 - **Request:** new design references featuring warm paper, coral/pink web design, and a type specimen (MM Rachel display, Stara medium/bold, ABC Monument Grotesk Mono). Previous Vault page repeated blue grid and alternating blue sections despite request for ONE background.
 - **Implementation:** independent visual override CSS loaded after legacy design sheets. Full-page solid paper `#FAF6ED`; coral/pink details, open-source substitute typefaces because reference fonts are commercially licensed/unprovided. Only Vault public EN/ES changed; original video Motion remains unchanged.

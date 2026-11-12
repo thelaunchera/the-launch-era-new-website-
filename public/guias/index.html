@@ -25,19 +25,23 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Caveat:wght@600;700&family=DM+Sans:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap">
 <link rel="stylesheet" href="/guias/vault-unified-editorial.css?v=20261112-paper-1">
-<script src="/guias/app.js?v=20261112-guides-1" defer></script>
+<link rel="stylesheet" href="/guias/vault-refined.css?v=20261112-1">
+<script src="/guias/app.js?v=20261112-guides-2" defer></script>
 <script src="/guias/editorial.js?v=20261112-avatar-1" defer></script>
-<script src="/guias/resources.js?v=20261112-2" defer></script>
+<script src="/guias/vault-motion-loop.js?v=20261112-1" defer></script>
+<script src="/guias/vault-inquiry.js?v=20261112-1" defer></script>
+<script src="/guias/resources.js?v=20261112-3" defer></script>
 </head>
 <body data-lang="en">
 <div id="reading-progress" aria-hidden="true"></div>
-<div class="grid"><header><div class="bar wrap"><a href="/" class="brand brand-personal" aria-label="Dailin by The Launch Era. Back to home"><img class="brand-wordmark-image" src="/guias/assets/dailin-wordmark-clear.svg" width="520" height="150" alt="Dailin." decoding="async" fetchpriority="high"><span class="brand-signature">BY THE LAUNCH ERA</span></a>
+<div class="grid"><header><div class="bar wrap"><a href="/" class="brand brand-personal" aria-label="Dailin by The Launch Era. Back to home"><img class="brand-wordmark-image" src="/guias/assets/dailin-wordmark-clear.svg?v=20261112-coral-1" width="520" height="150" alt="Dailin." decoding="async" fetchpriority="high"><span class="brand-signature">BY THE LAUNCH ERA</span></a>
 <nav class="nav" aria-label="Navigation"><a href="#guias">Guides</a><a href="#prompts-fotos" class="prompt-nav">Photo prompts</a><a class="system-link" href="#recursos">Vault</a>
 <div class="lang" role="group" aria-label="Language"><a href="/guias/" hreflang="en" aria-current="page">EN</a><a href="/es/guias/" hreflang="es" >ES</a></div></nav></div></header>
 <main><section class="hero wrap hero-vault" id="inicio" aria-labelledby="vault-hero-title">
   <div class="hero-overline">DAILIN VAULT · THE LAUNCH ERA</div>
   <h1 id="vault-hero-title">Hi, I’m <span class="hilite">Dailin.</span></h1>
   <div class="hero-art">
+    <div class="hero-card" aria-hidden="true"></div>
     <div class="hero-media hero-media--cutout">
       <img class="hero-portrait hero-poster" src="/guias/assets/dailin-avatar-hero-poster.webp" width="512" height="910" alt="Portrait of Dailin, founder of The Launch Era" fetchpriority="high">
       <video class="hero-portrait hero-video" autoplay muted loop playsinline preload="metadata" poster="/guias/assets/dailin-avatar-hero-poster.webp" aria-hidden="true">
@@ -54,7 +58,7 @@
     <a class="button" href="#guias">Learn with me</a>
     <a class="button button-secondary" href="#recursos">Explore Vault</a>
   </div>
-  <nav class="hero-topics" aria-label="Explore topics"><span class="hero-topics-label">Topics</span><div class="hero-topic-links"><a href="#guias">ChatGPT</a><a href="#como">Google Flow</a><a href="#prompts-fotos">Photo prompts</a><a href="#recursos">Automations</a></div></nav>
+  <nav class="hero-topics" aria-label="Explore topics"><span class="hero-topics-label">Topics</span><div class="hero-topic-links"><a href="#guias">ChatGPT</a><a href="?guide=google-flow-avatar">Google Flow</a><a href="#prompts-fotos">Photo prompts</a><a href="#recursos">Automations</a></div></nav>
 </section></div>
 <div class="ticker" aria-hidden="true"><div class="ticker-track"><span>CHATGPT</span><span>AUTOMATIONS</span><span>GOOGLE FLOW</span><span>HIGGSFIELD</span><span>WEBSITES</span><span>REAL PROJECTS</span><span>CHATGPT</span><span>AUTOMATIONS</span><span>GOOGLE FLOW</span><span>HIGGSFIELD</span><span>WEBSITES</span><span>REAL PROJECTS</span><span>CHATGPT</span><span>AUTOMATIONS</span><span>GOOGLE FLOW</span><span>HIGGSFIELD</span><span>WEBSITES</span><span>REAL PROJECTS</span><span>CHATGPT</span><span>AUTOMATIONS</span><span>GOOGLE FLOW</span><span>HIGGSFIELD</span><span>WEBSITES</span><span>REAL PROJECTS</span></div></div>
 <section id="guias" class="library"><div class="wrap library-layout">
@@ -71,19 +75,25 @@
     <noscript>Enable JavaScript to browse the guides.</noscript>
   </div>
  </div></section>
-<section class="sample" aria-labelledby="sample-title"><div class="wrap sample-layout">
-  <div class="sample-side" data-reveal><div class="section-kicker">02 / THE COPY-PASTE FILE</div><h2 id="sample-title">Steal the workflow. Not the guesswork.</h2><p class="sample-lead">A good prompt is a starting point, not the finished result. Try this one, change what’s in brackets, then check the output against your actual video.</p></div>
-  <div class="prompt-wrap" data-reveal><div class="prompt-head"><strong>Short video script</strong><button class="copy" id="sample-copy" type="button">Copy prompt</button></div><pre class="prompt" id="sample-prompt">Write a 25-second reel script for [audience] who want to [result]. My on-screen demo shows [action]. Give me a short hook, two spoken lines, one visual cue per line and a closing CTA to [action]. Use conversational language. Keep claims within what the demo actually shows.</pre></div>
-</div></section>
 <section class="how" id="como"><div class="wrap how-layout">
-  <div class="how-intro" data-reveal><div class="section-kicker">03 / BEHIND THE PROCESS</div><h2>Here's how I actually make things.</h2><p>Take one idea, give it structure, build a scene and edit until it feels human. Here’s the OFF BRIEF workflow—without skipping the messy middle.</p></div>
-  <div class="how-story"><div class="steps"><article class="step" data-reveal><div class="section-kicker">01 / WRITE</div><h3>ChatGPT</h3><p>Write the dialogue. Choose one action worth showing.</p></article><article class="step" data-reveal><div class="section-kicker">02 / ANIMATE</div><h3>Google Flow</h3><p>Start from an approved frame. Animate one gesture. Check the character still looks right.</p></article><article class="step" data-reveal><div class="section-kicker">03 / FINISH</div><h3>Edit</h3><p>Put the shots in order. Trim hard cuts, review sound and watch the full story.</p></article></div><a class="text-link" href="?guide=google-flow-avatar">Open the Google Flow guide</a></div>
+  <div class="how-intro" data-reveal><div class="section-kicker">03 / HOW TO START</div><h2>Three steps to put it into practice.</h2><p>You do not need to know how to code. Choose a guide, personalize the prompt with your information, and test the result before using it for your business.</p></div>
+  <div class="how-story"><div class="steps"><article class="step" data-reveal><div class="section-kicker">01 / CHOOSE</div><h3>Choose one guide</h3><p>Start with one real task you want to solve. You can explore more later.</p></article><article class="step" data-reveal><div class="section-kicker">02 / PERSONALIZE</div><h3>Adapt the prompt</h3><p>Copy it, replace the example details and add a reference photo when the guide requires one.</p></article><article class="step" data-reveal><div class="section-kicker">03 / CHECK</div><h3>Review the result</h3><p>Check links, text, images or workflows before using them with real customers.</p></article></div><a class="text-link" href="?guide=google-flow-avatar">See an example with Google Flow</a></div>
 </div></section>
 <section class="products" id="productos"><div class="wrap">
-  <div class="products-header" data-reveal><div><div class="section-kicker">04 / KEEP BUILDING</div><h2>Learn here. Build further.</h2></div><p>These two resources help you turn what you practiced into a website or content you can publish.</p></div>
+  <div class="products-header" data-reveal><div><div class="section-kicker">04 / GO FURTHER</div><h2>Ready to keep building?</h2></div><p>Once you’ve tried a guide, here are two ways to learn more.</p></div>
   <div class="products-grid"><article class="step" data-reveal><div class="item-index">01 / CREATE</div><h3>Content Lab</h3><p>Design seamless carousels, posts and visuals with your own creative direction.</p><a class="text-link" href="https://podcast.thelaunchera.com/content-lab/descubre/en/">Explore the Content Lab</a></article><article class="step" data-reveal><div class="item-index">02 / LEARN</div><h3>Your First Website with AI</h3><p>Build a clear first website and learn how to test its real links and checkout.</p><a class="text-link" href="https://podcast.thelaunchera.com/clases/primera-landing-en.html">Explore the class</a></article></div>
 </div></section>
-<section class="consult" id="contacto"><div class="wrap" data-reveal><div class="eyebrow">FROM LEARNING TO DOING</div><h2>Your next idea deserves a real system.</h2><p>The guides are free. Need help designing a website, client flow or a business automation? Start with a consultation.</p><a class="button" href="mailto:hello@thelaunchera.com?subject=Initial%20consultation%20-%20The%20Launch%20Era">Request an email consultation</a><p style="font-size:12px">This opens your email app. Nothing is sent automatically.</p></div></section>
+<section class="consult" id="contacto" aria-labelledby="vault-inquiry-title"><div class="wrap vault-consult-layout"><div class="vault-consult-copy" data-reveal><div class="eyebrow">LET'S TALK ABOUT YOUR PROJECT</div><h2 id="vault-inquiry-title">Need help bringing it to life?</h2><p>Tell us what you'd like to create: a website, an automation or a better client inquiry flow. We'll review your request and reply by email.</p><p class="vault-consult-note">Submitting this form does not schedule a meeting. We'll review your project first.</p></div>
+<form id="vault-inquiry-form" class="vault-inquiry-form" novalidate>
+<div class="vault-form-grid"><label>Your name <input name="name" autocomplete="name" maxlength="120" placeholder="What should we call you?" required></label><label>Email address <input name="email" type="email" autocomplete="email" maxlength="200" placeholder="name@example.com" required></label></div>
+<label>Business or project <input name="business" autocomplete="organization" maxlength="160" placeholder="Business name (optional)"></label>
+<label>What do you need help with?<select name="service" required><option value="">Choose one</option><option value="Website">Create or improve a website</option><option value="Automation">Automate repetitive work</option><option value="Client workflow">Organize inquiries and clients</option><option value="Creative content">AI content and product photos</option><option value="Other">Something else</option></select></label>
+<label>Tell us a little about your idea <textarea name="message" maxlength="1800" rows="4" required placeholder="What are you hoping to build? Where do you need help?"></textarea></label>
+<div class="vault-form-trap" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>
+<label class="vault-consent"><input name="consent" type="checkbox" required><span>I agree to be contacted by email about this inquiry. This does not subscribe me to marketing emails.</span></label>
+<button type="submit" class="button vault-inquiry-submit">Send my inquiry</button><p id="vault-inquiry-status" role="status" aria-live="polite"></p>
+<p class="vault-form-privacy">Your details will be used to reply to this request. <a href="/privacy.html">Privacy policy</a>.</p>
+</form></div></section>
 </main><footer><div class="wrap footer"><span>© 2026 The Launch Era</span><span>Original resources from The Launch Era.</span><a href="/">Back to The Launch Era</a></div></footer>
 <div id="dialog-backdrop" class="dialog-backdrop" hidden><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="guide-title"><button type="button" id="close" class="close" aria-label="Close guide">×</button><div class="dialog-inner" id="guide-detail"></div></div></div>
 </body></html>
