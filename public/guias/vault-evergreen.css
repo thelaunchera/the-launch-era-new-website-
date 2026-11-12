@@ -18,7 +18,8 @@ body .hero-overline,
 body .section-kicker,
 body .eyebrow,
 body .resource-eyebrow {gap:0!important;padding-left:0!important}
-body #reading-progress{background:var(--v-coral,#ed644b)!important}
+body #reading-progress{display:none!important}
+body>.grid header,body.is-scrolled>.grid header{border-bottom:0!important}
 body>.grid .hero-vault .hero-topics,
 body>.grid .hero-vault .hero-topic-links,
 body #guias,
