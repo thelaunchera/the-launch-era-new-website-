@@ -36,6 +36,7 @@ jobs:
         with:
           node-version: 22
       - run: npm install --prefix fixtures/browser --no-save --package-lock=false --ignore-scripts playwright@1.56.1
+      - run: ln -s fixtures/browser/node_modules node_modules
       - run: |
           node scripts/qa-demo-header-controls.mjs
           node scripts/qa-route-integrity.mjs --static
