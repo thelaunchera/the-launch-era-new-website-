@@ -47,6 +47,8 @@ jobs:
           node scripts/qa-website-photo-placement.mjs
           node scripts/qa-website-checkout-flow.mjs
           node scripts/qa-website-outcome-journey.mjs
+          node --check scripts/prepare-homepage-seo.mjs
+          node scripts/prepare-homepage-seo.mjs --check
           node --check public/assets/tle-outcome-journey-20261109.js
           node --check public/assets/tle-website-intake.js
           node --check public/assets/tle-custom-app-request.js
@@ -177,6 +179,7 @@ jobs:
           cp .output/public/website-for-your-business/index.html .output/public/index.html
           mkdir -p .output/public/es
           cp .output/public/es/website-for-your-business/index.html .output/public/es/index.html
+          node scripts/prepare-homepage-seo.mjs .output/public
           echo "Official website packages: root, Spanish root and direct landing routes prepared."
 
       - name: Create GitHub Pages route fallbacks
