@@ -27,6 +27,18 @@ const {chromium}=require('playwright');
    assert.equal(await page.locator('.hero h1').textContent().then(s=>s.includes('Dailin.')),true,'Dailin headline');
    assert.equal(await page.locator('.system-link').textContent(),'Vault','Vault nav label');
    assert.equal(await page.locator('.hero-media').evaluate(el=>getComputedStyle(el).boxShadow),'none','Motion is no longer boxed into a photo card');
+   const motionStyle=await page.locator('.hero-media').evaluate(el=>{
+     const css=getComputedStyle(el);
+     return {radius:parseFloat(css.borderTopLeftRadius),overflow:css.overflow,border:css.borderTopWidth,shadow:css.boxShadow,background:css.backgroundColor};
+   });
+   assert.ok(motionStyle.radius>=18,'Motion frame has visibly rounded corners');
+   assert.equal(motionStyle.overflow,'hidden','rounded Motion corners clip video and poster');
+   assert.equal(motionStyle.border,'0px','no white frame around Motion');
+   assert.equal(motionStyle.shadow,'none','no box shadow around Motion');
+   assert.equal(motionStyle.background,'rgba(0, 0, 0, 0)','transparent Motion container');
+   assert.ok(await page.locator('.hero-video').evaluate(el=>parseFloat(getComputedStyle(el).borderTopLeftRadius)>=18),'Motion video follows corner radius');
+   assert.ok(await page.locator('.hero-poster').evaluate(el=>parseFloat(getComputedStyle(el).borderTopLeftRadius)>=18),'poster follows the same corner radius');
+
 
    const grid=await page.locator('#recursos .tle-resource-cards').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length);
    assert.ok(grid>=1,'resources have grid columns');
