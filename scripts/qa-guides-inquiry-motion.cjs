@@ -29,6 +29,27 @@ const {chromium}=require("playwright");
    assert.ok(await page.locator(".hero-video").evaluate(el=>parseFloat(getComputedStyle(el).opacity)<.02),"loop seam transitions out to poster");
    await page.locator(".hero-media").evaluate(el=>el.classList.remove("is-loop-bridging"));
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),"no overflow on iPhone");
+   assert.equal(await page.locator("#count").count(),0,"no visible fixed guide count");
+   assert.equal(await page.locator("#tle-resource-count").count(),0,"no visible fixed resource count");
+   assert.equal(await page.locator(".guide .number").count(),0,"no numbered guide cards");
+   assert.equal(await page.locator(".tle-resource-cover span").count(),0,"no numbered resource covers");
+   assert.equal(await page.getByText("Queue App Concept",{exact:true}).count(),0,"non-resource demo is retired");
+   assert.equal(await page.locator(".tle-resource-info a span").count(),0,"no blue decorative arrow");
+   const sticky=await page.evaluate(async()=>{
+     const section=document.getElementById("guias");
+     const intro=section.querySelector(".library-intro");
+     const y=scrollY+section.getBoundingClientRect().top+330;
+     window.scrollTo({top:y,behavior:"instant"});
+     await new Promise(resolve=>setTimeout(resolve,140));
+     const before=intro.getBoundingClientRect().top;
+     window.scrollBy({top:140,behavior:"instant"});
+     await new Promise(resolve=>setTimeout(resolve,140));
+     const after=intro.getBoundingClientRect().top;
+     return {position:getComputedStyle(intro).position,before,after};
+   });
+   assert.equal(sticky.position,"sticky","guide introduction stays sticky while guide list scrolls");
+   assert.ok(Math.abs(sticky.after-sticky.before)<8,"sticky guide title stays in place as visitors scroll");
+
    const form=page.locator("#vault-inquiry-form");
    await form.locator('input[name="name"]').fill("Sample Client");
    await form.locator('input[name="email"]').fill("sample@example.com");
