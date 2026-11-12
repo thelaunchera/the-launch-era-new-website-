@@ -12,7 +12,7 @@ const {chromium}=require('playwright');
    assert.equal(await page.locator('.lang').count(),1,'one header language group');
    assert.equal(await page.locator('.guide-language').count(),0,'no duplicate anywhere');
    assert.equal(await page.locator('.guide').count(),10);
-   assert.equal(await page.locator('.tle-resource-card').count(),7);
+   assert.equal(await page.locator('.tle-resource-card').count(),6);
    assert.equal(await page.locator('.tle-prompt-card').count(),3);
    assert.equal(await page.locator('.vault-photo-help').count(),3,'public photo prompts include steps');
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'no horizontal overflow at '+width);
