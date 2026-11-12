@@ -4,13 +4,13 @@
   <url>
     <loc>https://thelaunchera.com/</loc>
     <xhtml:link rel="alternate" hreflang="en-US" href="https://thelaunchera.com/" />
-    <xhtml:link rel="alternate" hreflang="es-US" href="https://thelaunchera.com/es" />
+    <xhtml:link rel="alternate" hreflang="es-US" href="https://thelaunchera.com/es/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://thelaunchera.com/" />
   </url>
   <url>
-    <loc>https://thelaunchera.com/es</loc>
+    <loc>https://thelaunchera.com/es/</loc>
     <xhtml:link rel="alternate" hreflang="en-US" href="https://thelaunchera.com/" />
-    <xhtml:link rel="alternate" hreflang="es-US" href="https://thelaunchera.com/es" />
+    <xhtml:link rel="alternate" hreflang="es-US" href="https://thelaunchera.com/es/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://thelaunchera.com/" />
   </url>
   <url>
