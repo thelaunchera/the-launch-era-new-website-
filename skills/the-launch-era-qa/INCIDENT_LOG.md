@@ -1,3 +1,9 @@
+## 2026-11-12 — User-approved Dailin personal logo integration
+- **Reported issue:** Guide library still displayed corporate "The Launch Era" header after the user approved a distinct "Dailin." wordmark.
+- **Change:** converted the previously approved artwork into a compact transparent 230×66 PNG for a small, mobile-first top bar, preserving exact approved lettering; "BY THE LAUNCH ERA" remains true text for legibility. Edited only bilingual guide HTML + guide-specific CSS/QA/docs; rest of site unaffected.
+- **Regression checks:** confirm image actual PNG bytes load in Pages, browser images decode on mobile/desktop, anchor language routing remains correct, 360px nav does not collide, all 10 guides/filter/modal/copy checks stay green.
+- **Pending until verified:** GitHub Pages deployment, production EN/ES, physical Safari visual review. No other products, demos or brand master files edited.
+
 ## 2026-11-12 — Guides redesign quality and regression prevention
 - **Request:** make the free educational library more polished with scroll-driven editorial rhythm inspired by a public reference without copying her proprietary design or prompts.
 - **Verified baseline:** both public routes and prior bilingual browser/DOM checks existed; separate TLE Content Lab/Studio and tenant/client routes must stay untouched.

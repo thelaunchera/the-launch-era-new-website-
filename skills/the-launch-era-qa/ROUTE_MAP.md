@@ -1,3 +1,10 @@
+## 2026-11-12 — Approved "Dailin." brand mark installed in free guides top bar
+- **Owner-approved source:** previously generated "Dailin." personal wordmark: dark navy heavy letters on a light-yellow capsule; studio mark remains visibly subordinate: "BY THE LAUNCH ERA". Compact transparent PNG preserves source art; tagline renders as accessible live text.
+- **Public pages:** only `public/guias/index.html` (EN, `/guias/`) and `public/es/guias/index.html` (ES, `/es/guias/`) reference `/guias/assets/dailin-wordmark.png`; localized header links still return to `/` and `/es/`.
+- **CSS:** `public/guias/editorial.css` scopes desktop and iPhone sizing to `.brand-personal`; no changes to the global TLE brand logo, demo branding, nav destinations or checkout.
+- **Validation:** `scripts/qa-guides-library.mjs` verifies actual 230×66 PNG, image reference/brand attribution, plus `scripts/qa-guides-library-browser.cjs` checks it loads, fits at 360/390/820/1440, does not overlap navigation and preserves existing functionality.
+- **Release:** isolated PR and existing GitHub Pages deploy; final live routes and image need direct verification after Pages succeeds. No Google Flow animation in the header yet.
+
 ## 2026-11-12 — Editorial scroll redesign for public free guides library (TLE original)
 - **Scope:** standalone public `/guias/` EN and `/es/guias/` ES owned by `public/guias/` and `public/es/guias/`. The existing guide IDs, search/filter, read dialog, copy buttons, sample prompt and localized external product/contact links remain unchanged. Founder portrait remains the verified asset already used by public `/portfolio/`.
 - **New visual assets:** `public/guias/editorial.css` and `public/guias/editorial.js` are additional static assets loaded by both guide pages; scroll progress and in-view reveal are decorative progressive enhancements, responsive and reduced-motion aware, with no analytics or external effects.
