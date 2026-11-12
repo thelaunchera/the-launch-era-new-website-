@@ -33,7 +33,8 @@ async function testLanguage(lang) {
   assert.ok(previews.every(el=>el.textContent.trim().length>70),lang+" useful learning previews");
   assert.ok(previews.every(el=>!el.textContent.includes("[audience]")&&!el.textContent.includes("[audiencia]")),lang+" previews show readable copy");
 
-  assert.ok(document.getElementById("count").textContent.includes("10"),lang+" total count");
+  assert.equal(document.getElementById("count"),null,lang+" no fixed public guide count");
+  assert.equal(document.querySelectorAll(".guide .number").length,0,lang+" no guide ordinal labels");
   const search=document.getElementById("search");
   search.value="Higgsfield";search.dispatchEvent(new window.Event("input",{bubbles:true}));
   assert.equal(document.querySelectorAll(".guide").length,1,lang+" search result");
