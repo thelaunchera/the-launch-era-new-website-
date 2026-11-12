@@ -7,6 +7,7 @@ import vm from "node:vm";
 const root = path.resolve("public/demos");
 const enhancer = fs.readFileSync("public/assets/tle-demo-header-controls-20261112.js","utf8");
 new vm.Script(enhancer,{filename:"tle-demo-header-controls-20261112.js"});
+assert.match(enhancer,/\.language-btn,#languageBtn/,"Preserve Jaramillo native locale button without duplicate");
 const entries = fs.readdirSync(root,{withFileTypes:true}).filter(entry => entry.isDirectory());
 let checked = 0;
 for(const {name} of entries){
