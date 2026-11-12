@@ -1,3 +1,10 @@
+## 2026-11-12 — Manus portfolio migration / preview artifacts
+- **Request:** transfer existing public Manus CEO portfolio into the official repository without affecting `main`, publishing, or merging.
+- **Source verified:** published site exposes static HTML/CSS/JavaScript and 6 WebP images, 4 WOFF2 fonts and an SVG favicon. Deployed HTML had absolute `/assets/`, `/styles.css`, `/site.js` paths and a Manus-only injected preview script.
+- **Fix prepared (branch only):** preserve source visuals/transitions and built-in menu/reveal/case-study interactions; copy original assets as complete Git blobs, scope all paths to `/portfolio/`, remove injected Manus runtime, set official canonical/OG URL and local share image. Replaces only portfolio files on isolated branch. No customer state, email, tenant, backend or payments.
+- **QA finding:** browser preview initially showed two literal escaped `\\n` text fragments in the HTML head; corrected before PR. Remote GitHub branch asset fetches passed for all referenced resources, including complete WebP headers; browser preview checks at 360/390/820/1440, menu close/open, case-study toggle and image decode passed. Preview uses in-memory reconstructed files, not deployed Pages.
+- **Pending:** branch PR checks, official GitHub Pages deployment (intentionally not requested), actual physical iPhone Safari and production visual/CTA checks. Do not declare live release or merge automatically.
+
 ## 2026-11-12 — SEO release PR triggered unrelated red checks
 - **Owner report:** Multiple red GitHub checks after attempted site-wide SEO edit.
 - **Verified cause:** PR #543 changed the TanStack React homepage and activated 23 broad PR workflows, although the current Pages build publishes the universal website-offer HTML at `/` and `/es`. Many failures were outside SEO scope: Playwright/Chromium unsupported on `ubuntu26.04-x64` when workflows used `ubuntu-latest`; legacy copy/price expectations; missing generated WebP when a QA job skipped the Pages image preprocessing.
