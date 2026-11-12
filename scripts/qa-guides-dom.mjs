@@ -45,6 +45,10 @@ async function testLanguage(lang) {
   const guideButton=document.querySelector(".guide .open");guideButton.focus();guideButton.click();
   const modal=document.getElementById("dialog-backdrop");
   assert.equal(modal.hidden,false,lang+" modal open");
+  assert.equal(document.querySelectorAll('.lang').length,1,lang+" exactly one language selector");
+  assert.equal(document.querySelectorAll('.guide-language').length,0,lang+" no duplicate reader language control");
+  const otherLang=lang==='en'?'es':'en';
+  assert.ok(document.querySelector('.lang a[hreflang="'+otherLang+'"]').getAttribute('href').includes('guide='),lang+" language switch retains guide");
   assert.ok(document.getElementById("guide-title").textContent.length>8,lang+" title");
   assert.ok(document.querySelector("#guide-detail pre.prompt").textContent.length>75,lang+" full prompt");
   document.querySelector("#guide-detail .copy").click();
@@ -52,6 +56,7 @@ async function testLanguage(lang) {
   assert.ok(copied?.length>75,lang+" copied actual prompt");
   document.dispatchEvent(new window.KeyboardEvent("keydown",{key:"Escape",bubbles:true}));
   assert.equal(modal.hidden,true,lang+" Escape dismisses");
+  assert.equal(document.querySelector('.lang a[hreflang="'+otherLang+'"]').getAttribute('href').includes('guide='),false,lang+" close clears guide from locale links");
   assert.equal(document.activeElement,guideButton,lang+" focus restored");
   assert.equal(errors.length,0,lang+" JS errors: "+errors.join("; "));
   dom.window.close();
