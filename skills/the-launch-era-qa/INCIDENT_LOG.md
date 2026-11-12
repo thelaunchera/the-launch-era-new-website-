@@ -1,3 +1,8 @@
+## 2026-11-12 — Living portrait fixes while implementing the Mina landing
+- The supplied pull logic measured a capped displacement against an unreachable threshold. The mesh pull still uses its soft limit, while reaction thresholds use the actual gesture distance. Wake-up now holds the half-closed frame, and pointer, keyboard and scroll input cancel idle acts. A nose-tap sneeze can finish after normal cursor movement.
+- The supplied ID map has 58 distinct picture IDs and 16 gaze sectors that share one west-northwest picture. The Celestia GIF at the supplied URL returns 404. The marquee removes failed tiles and keeps both rows moving.
+- Verified static routes, type checking and browser checks at 360/390/768/1024/1440, including a WebGL texture-transition test with fixture pixels. Checked all supplied face URLs at mobile resolution. No production inquiry was sent by QA.
+
 ## 2026-11-12 — Vault shows repeated content, email-app CTA, clipped head, abrupt Motion loop
 - Evidence: user screenshot of page sections and asks for coral name logo, nonduplicative sequence, end-user instructions and inquiry form routed to Make/Resend, plus video character breaking out of card and avoiding loop cut.
 - Fix (scoped): recolor existing SVG, remove duplicated stand-alone prompt section, move resources after guide list, write public-use instruction panels after all 10 guide prompts and three photo prompts, generalize steps, replace mailto with accessible EN/ES form backed by existing Supabase contact workflow and new Make Resend receipt route. New source values allow routing without changing existing contact variants.

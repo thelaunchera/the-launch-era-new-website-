@@ -1,3 +1,8 @@
+## 2026-11-12 — Mina landing and Dailin Vault library routes
+- The Mina React/Vite landing owns `/guias/` (EN) and `/es/guias/` (ES). Pages builds its assets to `/guias/mina-assets/` from `vault-landing/`. About, Price and Projects lead to in-page sections. Project buttons open the corresponding image gallery.
+- The existing educational library continues at `/guias/library.html` and `/es/guias/biblioteca.html`. Footer links reach the library. Contact buttons reach its localized `#contacto` form. Existing guide, freebie confirmation/unsubscribe and library-section links on the former routes preserve their query and fragment via redirect.
+- The living portrait renders complete images through the supplied Higgsfield proxy. Reduced motion and unavailable WebGL use the static portrait. The existing Dailin video, library functionality, subscribers and inquiry endpoints remain with the library.
+
 ## 2026-11-12 — Dailin Vault public inquiry + organized guides + Motion breakout
 - Applies to **/guias/** (EN) and **/es/guias/** (ES) only. Coral Dailin wordmark now in matching asset `/guias/assets/dailin-wordmark-clear.svg`, cache-busted. No changes to other brands, logos or checkout.
 - Sequence: founder Motion hero → 10 guides → 7 curated resources → 3 photo prompts with how-to → coming soon/subscription (existing opt-in) → 3 public beginner steps → two product education cards → single embedded consultation inquiry. Removed duplicated mid-page sample.

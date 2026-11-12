@@ -6,13 +6,13 @@ import { JSDOM, VirtualConsole } from "jsdom";
 const read=(p)=>readFileSync(resolve(process.cwd(),p),"utf8");
 const app=read("public/guias/app.js");
 async function testLanguage(lang) {
-  const route=lang==="es"?"/es/guias/":"/guias/";
-  const file=lang==="es"?"public/es/guias/index.html":"public/guias/index.html";
+  const route=lang==="es"?"/es/guias/biblioteca.html":"/guias/library.html";
+  const file=lang==="es"?"public/es/guias/biblioteca.html":"public/guias/library.html";
   const errors=[];
   const virtualConsole=new VirtualConsole();
   virtualConsole.on("jsdomError",(e)=>errors.push(String(e.message||e)));
   const markup=read(file)
-    .replace('<script src="/guias/app.js?v=20261112-guides-2" defer></script>',"")
+    .replace('<script src="/guias/app.js?v=20261112-mina-1" defer></script>',"")
     .replace("</body>","<script>"+app+"</script></body>");
   let copied=null;
   const dom=new JSDOM(markup,{
