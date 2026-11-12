@@ -122,7 +122,7 @@
   const bTasks=check(b,es,[["questions","Answer service questions","Responder preguntas",true],["choose","Help customers choose a service","Ayudar a elegir servicio"],["booking","Collect booking requests","Recibir solicitudes"],["pricing","Explain my approved prices only","Explicar solo precios aprobados"],["handoff","Escalate special requests","Escalar solicitudes especiales"]],"bundle_booking");
   const bPolicy=select(b,es,"What can the assistant say about prices?","¿Qué puede decir sobre los precios?",
     [["none","Only offer a quote request","Solo ofrecer solicitud de cotización"],
-    ["approved","Only prices I approve in my Command Center","Solo precios aprobados en mi Command Center"],
+    ["approved","Only prices I approve in my Admin Panel","Solo precios aprobados en mi panel de administrador"],
     ["approximate","Approved approximate estimates, not final totals","Estimados aproximados aprobados, no montos finales"]]);
   const follow=makePanel(host,es,"Your follow-up assistant","Tu asistente de seguimiento",
     "Only contacts who consented can be messaged. Conversations stop on reply, decline or unsubscribe.",
