@@ -10,6 +10,20 @@ const {chromium}=require("playwright");
    await page.goto("http://127.0.0.1:8172"+route,{waitUntil:"networkidle"});
    assert.equal(await page.locator(".tle-resource-card").count(),6,lang+" resource count");
    assert.equal(await page.locator(".tle-prompt-card").count(),3,lang+" photo prompts");
+   assert.equal(await page.locator("#ejemplo-sneekiefs").count(),1,lang+" complete real demo case study");
+   assert.equal(await page.locator("#ejemplo-sneekiefs .vault-case-pair").count(),2,"two prompt-photo pairs");
+   assert.equal(await page.locator("#ejemplo-sneekiefs .vault-case-photo img").count(),2,"two actual campaign photos");
+   assert.deepEqual(await page.locator("#ejemplo-sneekiefs .vault-case-photo img").evaluateAll(images=>images.map(x=>x.getAttribute("src"))),[
+     "/demos/sneekiefs/assets/01-studio-shoe.webp","/demos/sneekiefs/assets/06-model-campaign.webp"
+   ],"only actual Sneekiefs source assets in example");
+   assert.ok(await page.evaluate(()=>{
+     const prompt=document.getElementById("prompts-fotos"),example=document.getElementById("ejemplo-sneekiefs"),future=document.getElementById("proximamente");
+     return !!(prompt.compareDocumentPosition(example)&Node.DOCUMENT_POSITION_FOLLOWING)&&
+            !!(example.compareDocumentPosition(future)&Node.DOCUMENT_POSITION_FOLLOWING);
+   }),"example appears after all photo prompts and before future resources");
+   assert.equal(await page.locator("#ejemplo-sneekiefs iframe").getAttribute("src"),"/demos/sneekiefs/","final result preview embeds verified local demo");
+   assert.equal(await page.locator("#ejemplo-sneekiefs .vault-case-visit").getAttribute("href"),"/demos/sneekiefs/","live demo link");
+
    assert.equal(await page.locator('[data-tle-filter="freebie"]').count(),0,"no empty freebie category");
    assert.equal(await page.locator('.tle-resource-card[data-type="freebie"]').count(),0,"withdrawn composition freebie not shown");
    assert.equal(await page.locator(".guide").count(),10,lang+" existing guides untouched");
@@ -24,6 +38,15 @@ const {chromium}=require("playwright");
    await page.locator(".tle-prompt-card button").first().click();
    const prompt=await page.locator("#tle-photo-prompt-0").textContent();
    assert.equal(await page.evaluate(()=>navigator.clipboard.readText()),prompt,"prompt copied");
+   await page.locator(".vault-case-prompt button").first().click();
+   const examplePrompt=await page.locator("#tle-sneekiefs-prompt-0").textContent();
+   assert.equal(await page.evaluate(()=>navigator.clipboard.readText()),examplePrompt,"Sneekiefs example prompt copied");
+   const images=page.locator("#ejemplo-sneekiefs .vault-case-photo img");
+   for(const img of await images.all()){
+     await img.scrollIntoViewIfNeeded();
+     assert.ok(await img.evaluate(async el=>{await el.decode();return el.naturalWidth>0&&el.naturalHeight>0}),"authorized Sneakers photo loads");
+   }
+
    const sent=[];
    await page.route("**/functions/v1/tle-guides-subscribe",async route=>{
     sent.push(route.request().postDataJSON());
