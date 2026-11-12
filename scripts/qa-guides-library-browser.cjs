@@ -69,6 +69,7 @@ const { chromium } = require('playwright');
       const localeLink=page.locator('.lang a[hreflang="'+(lang==='en'?'es':'en')+'"]');
       assert.ok((await localeLink.getAttribute('href')).includes('guide=google-flow-avatar'),'the header keeps the open guide on language change');
       await localeLink.click();
+      await page.locator('#dialog-backdrop').waitFor({state:'visible',timeout:8000});
       assert.equal(await page.locator('html').getAttribute('lang'),lang==='en'?'es':'en');
       assert.equal(await page.locator('#dialog-backdrop').isVisible(),true);
       assert.equal(new URL(page.url()).searchParams.get('guide'),'google-flow-avatar');
