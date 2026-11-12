@@ -12,6 +12,7 @@ const resourcesJs=readFileSync(resolve(root,"public/guias/resources.js"),"utf8")
 const resourcesCss=readFileSync(resolve(root,"public/guias/resources.css"),"utf8");
 const blueGridCss=readFileSync(resolve(root,"public/guias/blue-grid.css"),"utf8");
 const unifiedCss=readFileSync(resolve(root,"public/guias/vault-unified-editorial.css"),"utf8");
+const evergreenCss=readFileSync(resolve(root,"public/guias/vault-evergreen.css"),"utf8");
 const blueGridWebP=readFileSync(resolve(root,"public/guias/assets/tle-approved-blue-grid.webp"));
 // The primary logo is scalable live text; no bitmap is used in the header.
 for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
@@ -31,6 +32,9 @@ for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
   assert.ok(html.includes('href="/guias/atelier.css?v=20261112-guides-1"'),lang+" editorial stylesheet");
   assert.ok(html.includes('href="/guias/blue-grid.css?v=20261112-1"'),lang+" original grid asset remains archived");
   assert.ok(html.includes('href="/guias/vault-unified-editorial.css?v=20261112-paper-1"'),lang+" unified design stylesheet");
+  assert.ok(html.includes('href="/guias/vault-evergreen.css?v=20261112-1"'),lang+" evergreen design stylesheet");
+  assert.ok(!html.includes('id="count"'),lang+" no fixed visible guide count");
+  assert.ok(!/10 (FIELD GUIDES|GUÍAS PARA CREAR)/.test(html),lang+" library total is future proof");
   assert.ok(html.includes('family=Archivo+Black')&&html.includes('family=DM+Sans')&&html.includes('family=Space+Mono'),lang+" open web typography loaded");
   assert.ok(html.includes('name="theme-color" content="#faf6ed"'),lang+" warm ivory mobile theme");
   assert.equal((html.match(/class="lang"/g)||[]).length,1,lang+" single topbar language switch");
@@ -64,6 +68,11 @@ assert.match(blueGridCss,/tle-approved-blue-grid\.webp/);
 assert.match(blueGridCss,/#guias/);
 assert.match(blueGridCss,/#recursos/);
 assert.match(unifiedCss,/--v-paper:#faf6ed/,"one continuous warm ivory background");
+assert.match(evergreenCss,/position:sticky!important/,"guide introduction sticky as list scrolls");
+assert.ok(!resourcesJs.includes("Queue App Concept"),"demo concept not listed as free resource");
+assert.ok(!resourcesJs.includes("↗"),"no decorative arrows on resource cards");
+assert.ok(!resourcesJs.includes("tle-resource-count"),"no fixed resource counter markup");
+assert.ok(!js.includes("card.append(num"),"guide cards have no fixed numbering");
 assert.match(unifiedCss,/background-image:none!important/,"section backgrounds removed by final override");
 assert.ok(unifiedCss.includes(".hero-vault"),"hero typography restyled");
 assert.ok(!unifiedCss.includes("@font-face"),"no commercial fonts embedded");
