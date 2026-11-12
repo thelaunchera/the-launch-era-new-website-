@@ -4,7 +4,7 @@ const base = "http://127.0.0.1:8172";
 (async()=>{
   const browser = await chromium.launch({headless:true});
   for(const width of [360,390,768,820,1024,1440]){
-    for(const [path,lang] of [["/guias/library.html","en"],["/es/guias/biblioteca.html","es"]]){
+    for(const [path,lang] of [["/guias/","en"],["/es/guias/","es"]]){
       const context=await browser.newContext({viewport:{width,height:860},reducedMotion:"reduce",hasTouch:width<=390});
       const page=await context.newPage(),errors=[];
       page.on("pageerror",e=>errors.push(e.message));
@@ -58,7 +58,7 @@ const base = "http://127.0.0.1:8172";
   // Non-reduced-motion: reveal elements become visible once scrolled into view.
   const context=await browser.newContext({viewport:{width:390,height:844},reducedMotion:"no-preference"});
   const page=await context.newPage();
-  await page.goto(base+"/es/guias/biblioteca.html",{waitUntil:"networkidle"});
+  await page.goto(base+"/es/guias/",{waitUntil:"networkidle"});
   assert.equal(await page.locator(".ticker-track").evaluate(el=>getComputedStyle(el).animationName),"tle-guides-marquee");
   await page.locator(".guide").first().scrollIntoViewIfNeeded();
   await page.waitForTimeout(750);
