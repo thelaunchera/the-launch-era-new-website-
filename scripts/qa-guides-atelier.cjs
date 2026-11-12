@@ -35,7 +35,8 @@ const {chromium}=require('playwright');
        return {before,title,after,headingSize:parseFloat(getComputedStyle(heading).fontSize),
          headingWrap:getComputedStyle(heading).whiteSpace,sticky:getComputedStyle(intro).position,
          pageWidth:document.documentElement.scrollWidth,viewport:innerWidth,scrollX:window.scrollX,
-         layoutWidth:inside(section.querySelector('.library-layout')).width};
+         layoutWidth:inside(section.querySelector('.library-layout')).width,
+         touchAction:getComputedStyle(section).touchAction};
      });
      assert.equal(mobile.sticky,'sticky','guide introduction remains sticky on iPhone');
      assert.ok(mobile.before.left>=-1&&mobile.before.right<=width+1,'sticky intro stays inside viewport before scroll '+width);
@@ -46,6 +47,7 @@ const {chromium}=require('playwright');
      assert.ok(mobile.pageWidth<=mobile.viewport+1,'no horizontal overflow after entering guides '+width);
      assert.ok(mobile.layoutWidth<=mobile.viewport+1,'guide column cannot exceed iPhone '+width);
      assert.equal(mobile.scrollX,0,'vertical scrolling must not pan sideways');
+     assert.equal(mobile.touchAction,'manipulation','preserve pinch zoom while preventing Safari double-tap smart zoom');
    }
    assert.equal(await page.locator('.hero-video source').getAttribute('src'),'/guias/assets/dailin-avatar-hero-loop.mp4','hero video source unchanged');
    assert.equal(await page.locator('.hero-video').getAttribute('autoplay'),'','hero video autoplay unchanged');
