@@ -1,3 +1,9 @@
+## 2026-11-12 — Golden Grid landing customer preview: partial film overlay at tablet/desktop
+- Owner screenshot of the Spanish Website for Your Business landing: an unwanted vertical join, out-of-register partial imagery and cropped-looking composition in the Golden Grid **customer-view card** at larger widths.
+- Verified source: `public/es/website-for-your-business/index.html` and English counterpart overlay a small 512px Golden Grid film above the untouched high-resolution `golden-1.png` artwork. `tle-golden-offer-film-20261109.js` loaded the video at all viewport widths, although the standalone Golden Grid demo already restricts video to phones.
+- Scoped repair in isolated branch: retain the approved master photograph as the base at every width, disable movie loading and overlay entirely from 521px up, keep the optional phone-only behavior, reload the master photo with `contain` proportions and bump asset cache versions in both localizations. No new art, demo changes, checkout, prices, email, or tenants.
+- Verification: static photo guard added to `scripts/qa-website-photo-placement.mjs`. Browser validation at 390/768/820/1024/1440, PR CI, GitHub Pages deployment, and physical Safari remain **pending**; do not claim production fixed until confirmed.
+
 ## 2026-11-12 — Living portrait fixes while implementing the Mina landing
 - The supplied pull logic measured a capped displacement against an unreachable threshold. The mesh pull still uses its soft limit, while reaction thresholds use the actual gesture distance. Wake-up now holds the half-closed frame, and pointer, keyboard and scroll input cancel idle acts. A nose-tap sneeze can finish after normal cursor movement.
 - The supplied ID map has 58 distinct picture IDs and 16 gaze sectors that share one west-northwest picture. The Celestia GIF at the supplied URL returns 404. The marquee removes failed tiles and keeps both rows moving.
