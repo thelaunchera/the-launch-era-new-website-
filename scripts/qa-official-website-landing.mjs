@@ -21,7 +21,8 @@ const goldenOfferJs=readFileSync('public/assets/tle-golden-offer-film-20261109.j
 assert.ok(existsSync('public'+goldenOfferMovie)&&existsSync('public'+goldenOfferPoster),'Existing Golden Grid film and original sharp poster must remain available');
 assert.ok(goldenOfferCss.includes('max-width:512px')&&goldenOfferCss.includes('object-fit:contain'),'Golden Grid video must not be zoomed or materially upscaled in the offer');
 assert.ok(goldenOfferCss.includes('prefers-reduced-motion'),'Golden Grid film must respect reduced motion');
-assert.ok(goldenOfferJs.includes('IntersectionObserver')&&goldenOfferJs.includes('saveData')&&goldenOfferJs.includes('video.play()'),'Golden Grid film must load in view and retain autoplay and data saving fallback');
+assert.ok(goldenOfferJs.includes('IntersectionObserver')&&goldenOfferJs.includes('saveData')&&goldenOfferJs.includes('video.play()'),'Golden Grid phone film must load in view and retain autoplay and data saving fallback');
+assert.ok(goldenOfferJs.includes('!phone.matches')&&goldenOfferCss.includes('@media (min-width:521px)'),'Tablet/desktop must show only Golden Grid original photograph');
 
 assert.ok(heroMedia.includes("'experience-cleaning':['"+cleaningVideo+"','"+cleaningPoster+"']"),'Website offers must reuse the Cleaning demo hero, not a static substitute');
 assert.ok(demoLibrary.includes("'experience-cleaning':{video:'"+cleaningVideo+"',poster:'"+cleaningPoster+"'}"),'Public demos must show the same cleaning hero');
@@ -45,8 +46,8 @@ for(const r of routes){
  assert.ok(html.includes('data-gg-offer-video'),r+': customer video frame missing');
  assert.ok(html.includes('data-src="'+goldenOfferMovie+'"'),r+': approved Golden Grid film missing');
  assert.ok(html.includes('<img src="'+goldenOfferPoster+'"'),r+': original image fallback missing');
- assert.ok(html.includes('/assets/tle-golden-offer-film-20261109.css?v=1'),r+': Golden Grid styling missing');
- assert.ok(html.includes('/assets/tle-golden-offer-film-20261109.js?v=1'),r+': in-app video playback missing');
+ assert.ok(html.includes('/assets/tle-golden-offer-film-20261109.css?v=2'),r+': Golden Grid styling missing');
+ assert.ok(html.includes('/assets/tle-golden-offer-film-20261109.js?v=2'),r+': in-app video playback missing');
 
  const language=r.includes('/es/')?'es':'en';
  for(const filename of photos[language])assert.ok(html.includes(filename),language+': missing photo '+filename+' at '+r);
