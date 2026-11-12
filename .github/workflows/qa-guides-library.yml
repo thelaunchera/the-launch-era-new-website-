@@ -8,6 +8,7 @@ on:
       - "scripts/qa-guides-library-browser.cjs"
       - "scripts/qa-guides-dom.mjs"
       - "scripts/qa-guides-editorial-scroll.cjs"
+      - "scripts/qa-guides-resources.cjs"
       - ".github/workflows/qa-guides-library.yml"
       - "public/sitemap.xml"
   workflow_dispatch:
@@ -24,6 +25,7 @@ jobs:
       - name: Validate free library files
         run: |
           node --check public/guias/app.js
+          node --check public/guias/resources.js
           node scripts/qa-guides-library.mjs
           node scripts/qa-route-integrity.mjs --static
       - uses: oven-sh/setup-bun@v2
@@ -43,3 +45,4 @@ jobs:
           curl --fail --retry 5 --retry-connrefused --silent http://127.0.0.1:8172/guias/ > /dev/null
           NODE_PATH="$RUNNER_TEMP/tle-guides-browser/node_modules" node scripts/qa-guides-library-browser.cjs
           NODE_PATH="$RUNNER_TEMP/tle-guides-browser/node_modules" node scripts/qa-guides-editorial-scroll.cjs
+          NODE_PATH="$RUNNER_TEMP/tle-guides-browser/node_modules" node scripts/qa-guides-resources.cjs
