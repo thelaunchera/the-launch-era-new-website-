@@ -36,13 +36,13 @@ export function HomeHero() {
  return <><section className="hero-scroll" aria-label="An example of The Launch Era booking experience"><div className="hero-scroll-stage hero-scroll-stage--starfield"><StarfieldAccent/><HeroConnectionBackdrop lang="en"/><div ref={heroRef} data-wipe-visible={revealed && heroLoaded} className={`hero-photo hero-scroll-frame hero-split ${heroLoaded?'hero-media-ready':'hero-media-loading'}`}>
  <div className="tle-hero-soft-mesh" aria-hidden="true"><span/><span/><span/><span/></div>
  <div className="hero-intro">
-   <div className="eyebrow">WEBSITES + BOOKING + AI · FOR SMALL BUSINESSES</div>
-   <h1 className="tle-hero-heading-shine">Give your business a better online experience.</h1>
-   <p>Launch a website that reflects your brand, make it easy for customers to reach you, and organize inquiries with smart business tools.</p>
+   <div className="eyebrow">BOOKING PAGE + COMMAND CENTER · FOR CLEANING BUSINESSES</div>
+   <h1 className="tle-hero-heading-shine">You’re cleaning. Someone wants to book.</h1>
+   <p>Your Booking Page collects customer details. Your private Command Center keeps requests and follow-ups together while you work.</p>
    <div className="tle-hero-flow" aria-label="Three simple steps"><span>Requests</span><span>Booking details</span><span>Follow-ups</span></div>
    <MatchaFreebieEntry lang="en"/>
-   <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/website-for-your-business/">Explore Our Websites</a></Button></div>
-   <p className="demo-delivery-note"><a href="/booking-demo/?lang=en&source=homepage-clara">See a Personalized Booking Demo</a> · Cleaning business example.</p>
+   <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/experience-cleaning/?lang=en&source=homepage">Try the Booking Demo</a></Button></div>
+   <p className="demo-delivery-note"><a href="/booking-demo/?lang=en&source=homepage-clara">Request a More Personalized Demo</a> · Private link sent by email.</p>
  </div>
  <div className="hero-split-visual">
  <img ref={heroImageRef} className="hero-main-image" src={HOME_HERO_PHOTO} alt="Cleaning professional wiping a countertop in a bright modern living room with pendant lights" width={1122} height={1402} loading="eager" fetchPriority="high" decoding="sync" onLoad={()=>setHeroLoaded(true)} onError={()=>setHeroLoaded(true)}/>
