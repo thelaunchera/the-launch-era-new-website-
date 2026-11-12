@@ -1,3 +1,9 @@
+## 2026-11-12 — Vault portrait has abrupt rectangular sides (visual regression)
+- **Reported:** user screenshot of the public Spanish founder hero; the face is correct, but the animated portrait's sides and waist look cut out and pasted over the ivory page. This is **not** horizontal page overflow.
+- **Code evidence:** the source portrait is 512×910, but the animated media element used a wider box with `object-fit:contain`; the previous mask feathered the outer box, not the actual side edges of the source. Its lower black clothing continues to the source frame boundary. The existing WebGL matte only keys the pale-blue background; the sides of the clothes still require feathering.
+- **Proposed isolated repair:** keep original MP4, poster, face, playback, hero text/layout and bilingual routes. Match media box to source aspect ratio, soften lower-body left/right boundaries in GPU matte, feather media edges in CSS, and cache-bust CSS/JS on both locales. No demos, forms, emails, checkout or tenant routes changed.
+- **Regression gate:** `scripts/qa-guides-atelier.cjs` now asserts aspect ratio/feathering at 360, 390, 768, 1024, 1440 for EN/ES; run full site static QA plus browser and Pages checks before calling the fix published. **Browser/device/deploy verification still pending** as of this code commit.
+
 ## 2026-11-12 — Living portrait fixes while implementing the Mina landing
 - The supplied pull logic measured a capped displacement against an unreachable threshold. The mesh pull still uses its soft limit, while reaction thresholds use the actual gesture distance. Wake-up now holds the half-closed frame, and pointer, keyboard and scroll input cancel idle acts. A nose-tap sneeze can finish after normal cursor movement.
 - The supplied ID map has 58 distinct picture IDs and 16 gaze sectors that share one west-northwest picture. The Celestia GIF at the supplied URL returns 404. The marquee removes failed tiles and keeps both rows moving.
