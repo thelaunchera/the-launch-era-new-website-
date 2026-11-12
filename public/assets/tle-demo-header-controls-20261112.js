@@ -319,6 +319,8 @@
       .tle-demo-lang-control button{min-height:38px!important}
     }
     @media(max-width:480px){
+      html[data-tle-demo-brand="havana-19"] .tle-demo-compact-header .logo{font-size:28px;letter-spacing:.07em;white-space:nowrap}
+      html[data-tle-demo-brand="havana-19"] .tle-demo-compact-header .head-actions{gap:3px!important}
       html[data-tle-demo-brand="ivory-and-bloom"] .tle-demo-compact-header .header-inner{gap:2px!important;min-width:0!important}
       html[data-tle-demo-brand="ivory-and-bloom"] .tle-demo-compact-header .logo{font-size:13px;letter-spacing:.035em}
       html[data-tle-demo-brand="ivory-and-bloom"] .tle-demo-compact-header .header-cta{
