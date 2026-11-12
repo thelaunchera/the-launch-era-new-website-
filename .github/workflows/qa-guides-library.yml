@@ -9,6 +9,7 @@ on:
       - "scripts/qa-guides-dom.mjs"
       - "scripts/qa-guides-editorial-scroll.cjs"
       - "scripts/qa-guides-resources.cjs"
+      - "scripts/qa-guides-subscribe-endpoint.mjs"
       - ".github/workflows/qa-guides-library.yml"
       - "public/sitemap.xml"
   workflow_dispatch:
@@ -28,6 +29,8 @@ jobs:
           node --check public/guias/resources.js
           node scripts/qa-guides-library.mjs
           node scripts/qa-route-integrity.mjs --static
+      - name: Probe live subscriber endpoint without creating contacts or email
+        run: node scripts/qa-guides-subscribe-endpoint.mjs
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
