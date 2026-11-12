@@ -49,14 +49,14 @@
  {type:"photo",status:"live",art:"photo",eyebrow:"FOTO REAL",name:"Fotografía editorial de producto",desc:"Un producto, su empaque real y luz de estudio sin inventar logos.",href:"#prompts-fotos"},
  {type:"photo",status:"live",art:"photo",eyebrow:"RETRATO",name:"Retrato de fundadora",desc:"Mantén tu cara, pelo, proporciones y estilo al crear retratos.",href:"#prompts-fotos"},
  {type:"soon",status:"soon",art:"web",eyebrow:"WEB CON IA",name:"Tu web con un solo prompt",desc:"Un prompt maestro para construir la primera web de tu negocio.",href:"#suscripcion"},
- {type:"soon",status:"soon",art:"photo",eyebrow:"LAVENDER EDIT",name:"The Lavender Edit",desc:"Cinco fotografías publicitarias de producto con prompts originales.",href:"#suscripcion"},
+ {type:"soon",status:"soon",art:"photo",eyebrow:"LAVENDER EDIT",name:"The Lavender Edit",desc:"Fotografías publicitarias de producto con prompts originales.",href:"#suscripcion"},
  {type:"soon",status:"soon",art:"photo",eyebrow:"SALT LINE",name:"SALT LINE",desc:"Pack de fotografía macro y belleza editorial coherente.",href:"#suscripcion"},
  {type:"soon",status:"soon",art:"motion",eyebrow:"MOTION",name:"Biblioteca de Motion Graphics",desc:"Efectos en movimiento y prompts para usarlos en videos.",href:"#suscripcion"},
  ]:[
  {type:"photo",status:"live",art:"photo",eyebrow:"REAL PRODUCT",name:"Editorial product photography",desc:"Keep the real product packaging, studio light and original brand details.",href:"#prompts-fotos"},
  {type:"photo",status:"live",art:"photo",eyebrow:"PORTRAIT",name:"Founder portrait starter",desc:"Keep your face, hair, features and own personal style.",href:"#prompts-fotos"},
  {type:"soon",status:"soon",art:"web",eyebrow:"AI WEBSITE",name:"Your website in one prompt",desc:"A reusable master prompt for a first small-business website.",href:"#suscripcion"},
- {type:"soon",status:"soon",art:"photo",eyebrow:"LAVENDER EDIT",name:"The Lavender Edit",desc:"Five original prompts for product advertising photography.",href:"#suscripcion"},
+ {type:"soon",status:"soon",art:"photo",eyebrow:"LAVENDER EDIT",name:"The Lavender Edit",desc:"Original prompts for product advertising photography.",href:"#suscripcion"},
  {type:"soon",status:"soon",art:"photo",eyebrow:"SALT LINE",name:"SALT LINE",desc:"Consistent macro beauty and editorial photography pack.",href:"#suscripcion"},
  {type:"soon",status:"soon",art:"motion",eyebrow:"MOTION",name:"Motion Graphics Library",desc:"Animated effects and reusable video prompt directions.",href:"#suscripcion"},
  ];
