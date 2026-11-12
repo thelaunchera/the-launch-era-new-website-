@@ -39,6 +39,27 @@ const { chromium } = require('playwright');
       assert.equal(await page.locator('.sample').count(),0,'duplicated prompt example removed');
       assert.equal(await page.locator('#guide-detail .vault-prompt-help ol li').count(),0,'reader help cleared on close');
       assert.equal(await page.locator('#vault-inquiry-form').count(),1,'real inquiry form is present');
+      // Stub the backend so this browser test cannot create a customer record or send email.
+      const submitted=[];
+      await page.route('**/functions/v1/tle-contact',async route=>{
+        submitted.push(route.request().postDataJSON());
+        await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,email_sent:true})});
+      });
+      await page.locator('#vault-inquiry-form input[name="name"]').fill('Test Example');
+      await page.locator('#vault-inquiry-form input[name="email"]').fill('example@example.invalid');
+      await page.locator('#vault-inquiry-form input[name="business"]').fill('Test Project');
+      await page.locator('#vault-inquiry-form select[name="service"]').selectOption('Website');
+      await page.locator('#vault-inquiry-form textarea[name="message"]').fill('Testing the new inquiry form without external delivery.');
+      await page.locator('#vault-inquiry-form input[name="consent"]').check();
+      await page.locator('#vault-inquiry-form button[type="submit"]').click();
+      await page.locator('#vault-inquiry-form .vault-inquiry-success').waitFor({timeout:5000});
+      assert.equal(submitted.length,1,'submit must send exactly one request');
+      assert.equal(submitted[0].source,lang==='es'?'vault_inquiry_es':'vault_inquiry');
+      assert.equal(submitted[0].language,lang);
+      assert.equal(submitted[0].help_needed[0],'Website');
+      assert.equal(submitted[0].email,'example@example.invalid');
+      assert.equal(await page.locator('a[href^="mailto:"]').count(),0,'old mailto CTA is removed');
+
       await page.locator('.system-link').click();
       assert.equal(new URL(page.url()).hash,'#recursos');
       await page.locator('#como .text-link').click();
