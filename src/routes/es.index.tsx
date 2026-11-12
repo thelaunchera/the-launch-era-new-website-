@@ -96,13 +96,13 @@ function SpanishHome(){const [active,setActive]=useState(0);const [heroLoaded,se
 <section className="hero-scroll" aria-label="Ejemplo de la experiencia de reservas de The Launch Era"><div className="hero-scroll-stage hero-scroll-stage--starfield"><StarfieldAccent/><HeroConnectionBackdrop lang="es"/><div ref={heroRef} data-wipe-visible={revealed && heroLoaded} className={`hero-photo hero-scroll-frame hero-split ${heroLoaded?'hero-media-ready':'hero-media-loading'}`}>
  <div className="tle-hero-soft-mesh" aria-hidden="true"><span/><span/><span/><span/></div>
  <div className="hero-intro">
-   <div className="eyebrow">WEBSITES + RESERVAS + IA · PARA PEQUEÑOS NEGOCIOS</div>
-   <h1 className="tle-hero-heading-shine">Tu negocio merece una mejor presencia online.</h1>
-   <p>Creamos websites que reflejan tu marca, facilitan el contacto con clientes y conectan tus solicitudes con herramientas que mantienen tu negocio organizado.</p>
+   <div className="eyebrow">BOOKING PAGE + COMMAND CENTER · PARA NEGOCIOS DE LIMPIEZA</div>
+   <h1 className="tle-hero-heading-shine">Estás limpiando. Y te escriben para reservar.</h1>
+   <p>Tu Booking Page recibe los datos del cliente. Tu Command Center organiza solicitudes y seguimientos mientras trabajas.</p>
    <div className="tle-hero-flow" aria-label="Tres pasos sencillos"><span>Solicitudes</span><span>Datos de reserva</span><span>Seguimientos</span></div>
    <MatchaFreebieEntry lang="es"/>
-   <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/es/website-for-your-business/">Explora nuestros websites</a></Button></div>
-   <p className="demo-delivery-note"><a href="/booking-demo/?lang=es&source=homepage-clara">Ver una demo personalizada de reservas</a> · Ejemplo para negocios de limpieza.</p>
+   <div className="hero-cta-row"><Button variant="editorial" className="cta-button" asChild><a href="/experience-cleaning/?lang=es&source=homepage">Prueba el demo de reservas</a></Button></div>
+   <p className="demo-delivery-note"><a href="/booking-demo/?lang=es&source=homepage-clara">Solicitar una demo personalizada</a> · Enlace privado enviado por correo.</p>
  </div>
  <div className="hero-split-visual">
  <img ref={heroImageRef} className="hero-main-image" src={HOME_HERO_PHOTO} alt="Profesional de limpieza limpiando una encimera en una sala moderna y luminosa, con lámparas de techo" width={1122} height={1402} loading="eager" fetchPriority="high" decoding="sync" onLoad={()=>setHeroLoaded(true)} onError={()=>setHeroLoaded(true)}/>
