@@ -1,3 +1,15 @@
+## 2026-11-12 — Free guides catalog failed during startup
+- The first implementation called `texts.count()` with no matching label function. It stopped rendering before the first guide and prevented deep links from opening. Format the count directly with the selected locale and keep filter-button focus when the guide list updates.
+- Polish the founder hero, add a copyable sample and the OFF BRIEF workflow, link verified localized products, and expand to ten original bilingual guides. Keep all eight prior guide IDs.
+- Static checks resolved all local routes. The standalone browser test covers both languages, portrait loading, responsive widths, search, filters, clipboard, dialog focus, and cross-language deep links. Physical iPhone Safari, Flow video and live deployment remain pending.
+
+## 2026-11-12 — Free IA guide library integration safety (pending release)
+- **Scope:** new public education routes `/guias/` and `/es/guias/` requested without disturbing the existing website.
+- **Risk assessment:** route collisions, inaccessible guide controls, incorrect links, premature use of an unvalidated owner portrait, misleading email capture or automated-send claims.
+- **Mitigations prepared:** additive static files in a separate PR branch, unique shared asset paths, verified business mailto link, original bilingual guide data, no backend/CRM writes, new PR-only QA workflow, sitemap metadata, route map entry. Existing paid/client pages not edited.
+- **Verification status:** static and CI checks must pass; live domain, actual iOS Safari, Google Flow avatar, real Make scenario and email subscription are **not** verified or published. Do not mark those complete until tested.
+- **Release rule:** PR diff review, green QA, successful main Pages deployment, then live iPhone/mobile/desktop smoke checks. No customer emails or bookings in testing.
+
 ## 2026-11-12 — Manus portfolio migration / preview artifacts
 - **Request:** transfer existing public Manus CEO portfolio into the official repository without affecting `main`, publishing, or merging.
 - **Source verified:** published site exposes static HTML/CSS/JavaScript and 6 WebP images, 4 WOFF2 fonts and an SVG favicon. Deployed HTML had absolute `/assets/`, `/styles.css`, `/site.js` paths and a Manus-only injected preview script.

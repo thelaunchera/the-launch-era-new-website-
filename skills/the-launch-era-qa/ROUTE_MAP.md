@@ -1,3 +1,18 @@
+## 2026-11-12 — Founder-led free guides library
+- **Pages:** `public/guias/index.html` → `/guias/` (English), `public/es/guias/index.html` → `/es/guias/` (Spanish). The header links to the catalog, products and OFF BRIEF workflow in the same page. Both pages reuse the site's existing founder portrait at `/portfolio/assets/dailin-portrait.webp`; Flow video remains pending.
+- **Guide links:** Use `?guide=<id>` for a direct link. Previously shared IDs are preserved. The dialog links to the equivalent guide in the other locale. Guide and sample prompt copy use the browser clipboard with manual text selection as fallback.
+- **Products:** Link to the existing localized Content Lab and First Website with AI public landing pages on `podcast.thelaunchera.com`. No purchase, sign-up, lead capture or message is initiated by this library.
+- **Verification:** Run the library's static and Playwright checks in the existing PR workflow. Production Pages and physical Safari remain pending until release.
+
+## 2026-11-12 — The Launch Era free AI guides library (branch review, bilingual)
+- **Owner:** public The Launch Era education library, not Content Lab, private Studio, client dashboards, CRM or client data.
+- **Sources:** `public/guias/index.html` (English) → `/guias/`; `public/es/guias/index.html` (Spanish) → `/es/guias/`; shared `public/guias/styles.css` and `public/guias/app.js`.
+- **Behavior:** eight original bilingual guides, local search/category filters, accessible reader, clipboard prompts; no authentication, tracking, leads, backend submission, purchases, emails or automations executed.
+- **Navigation:** both pages switch languages through the alternate root; site return points to `/` or `/es/`; consultation CTA opens `mailto:hello@thelaunchera.com` with localized prefilled subject. This link does NOT send or schedule anything.
+- **Publishing:** branch `feat/tle-free-ai-guides-library-20261112` targets `main` via review PR. GitHub Pages deploy remains `main` only. The official /guias URLs are not live until merge + successful deploy + live checks.
+- **Assets and consent:** reuse official favicon; hero uses CSS-only illustration until the owner's photo and Google Flow clip have identity/quality approval; no fabricated generated likeness published.
+- **QA:** `node scripts/qa-guides-library.mjs` and `node scripts/qa-route-integrity.mjs --static`; check bilingual navigation, search/filter, modal keyboard and copy on mobile/browser and validate deployed Pages before reporting complete.
+
 ## 2026-11-12 — Consultation-first contact on official website (EN/ES)
 - **Owner request:** Ask prospective website customers to contact The Launch Era for a consultation before purchasing either website package.
 - **Public sources / routes:** `public/website-for-your-business/index.html` → `/website-for-your-business/` and copied `/`; `public/es/website-for-your-business/index.html` → `/es/website-for-your-business/` and copied `/es/`. FAQ anchor remains `#preguntas` and checkout anchors remain unchanged.
