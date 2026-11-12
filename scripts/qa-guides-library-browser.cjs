@@ -39,7 +39,7 @@ const { chromium } = require('playwright');
       await page.locator('#sample-copy').click();
       assert.equal(await page.evaluate(()=>navigator.clipboard.readText()),await page.locator('#sample-prompt').textContent());
       await page.locator('.system-link').click();
-      assert.equal(new URL(page.url()).hash,'#como');
+      assert.equal(new URL(page.url()).hash,'#recursos');
       await page.locator('#como .text-link').click();
       assert.equal(new URL(page.url()).searchParams.get('guide'),'google-flow-avatar');
       await page.locator('.guide-language').click();
