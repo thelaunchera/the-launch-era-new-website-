@@ -21,7 +21,7 @@ export function BookingWalkthrough({lang='en'}:{lang?:Language}) {
  const es=lang==='es';
  const labels=es?['Solicitud','Organizada','Seguimiento']:['Request','Organized','Follow-up'];
  const titles=es?['Tu cliente elige un servicio.','Todo llega a un mismo lugar.','El sistema da seguimiento por ti.']:['Your client chooses a service.','Everything arrives in one place.','Your system follows up for you.'];
- const copy=es?['Servicio, datos y horario en un solo lugar.','Revísalo todo desde tu Command Center.','Envía recordatorios automáticamente y se detiene cuando el cliente responde.']:['Service, client details and requested time—all together.','Review everything in your Command Center.','Automatic reminders go out when there’s no reply—and stop when the customer responds.'];
+ const copy=es?['Servicio, datos y horario en un solo lugar.','Revísalo todo desde tu panel de administrador.','Envía recordatorios automáticamente y se detiene cuando el cliente responde.']:['Service, client details and requested time—all together.','Review everything in your Admin Panel.','Automatic reminders go out when there’s no reply—and stop when the customer responds.'];
  const icons=[CalendarCheck2,ClipboardList,Send];
 
  useEffect(()=>{
@@ -97,19 +97,19 @@ export function PainCards({lang='en'}:{lang?:Language}) {
  const es=lang==='es';
  const pains=es?[
  ['“Envié la cotización. Después, silencio.”','Entre trabajos, se quedó pendiente volver a escribirle.','Si la cotización sigue sin respuesta, el sistema envía recordatorios automáticamente.'],
- ['“Sé que me pidieron una cotización… ¿dónde quedó el mensaje?”','Buscar entre mensajes, DMs y capturas te quita tiempo para responder.','Tu Booking Page reúne las nuevas solicitudes en tu Command Center.'],
- ['“Terminé las limpiezas. Me falta lo administrativo.”','Todavía hay horarios, datos de clientes y pendientes por revisar.','Tu Command Center te ayuda a revisar solicitudes, cotizaciones y seguimientos desde un mismo lugar.']
+ ['“Sé que me pidieron una cotización… ¿dónde quedó el mensaje?”','Buscar entre mensajes, DMs y capturas te quita tiempo para responder.','Tu Booking Page reúne las nuevas solicitudes en tu panel de administrador.'],
+ ['“Terminé las limpiezas. Me falta lo administrativo.”','Todavía hay horarios, datos de clientes y pendientes por revisar.','Tu Admin Panel te ayuda a revisar solicitudes, cotizaciones y seguimientos desde un mismo lugar.']
  ]:[
  ['“I sent the quote. Then the conversation went quiet.”','Between cleaning jobs, checking back with that client slipped through.','If the quote goes unanswered, the system sends reminders automatically.'],
- ['“I know someone asked for a quote. Where did that message go?”','Checking texts, DMs, and screenshots takes time you could spend answering the customer.','Your Booking Page brings new requests into your Command Center.'],
- ['“The cleaning is done. My admin isn’t.”','There are still schedules, client details, and loose ends to check.','Your Command Center helps you review requests, quotes and follow-ups in one place.']
+ ['“I know someone asked for a quote. Where did that message go?”','Checking texts, DMs, and screenshots takes time you could spend answering the customer.','Your Booking Page brings new requests into your Admin Panel.'],
+ ['“The cleaning is done. My admin isn’t.”','There are still schedules, client details, and loose ends to check.','Your Admin Panel helps you review requests, quotes and follow-ups in one place.']
  ];
  return <div className="sales-pains">{pains.map(([title,pain,solution],i)=><details key={title} onToggle={e=>{if(e.currentTarget.open)track('pain',String(i))}}><summary><span>{title}</span><Plus size={19}/></summary><div className="pain-answer"><p>{pain}</p><strong>{es?'Así te ayuda TLE':'How TLE helps'}</strong><p>{solution}</p><a href={es?'/es/booking-lead-automation/':'/booking-lead-automation/'}>{es?'Conoce el sistema de reservas':'Explore the booking system'} <ArrowRight size={17}/></a></div></details>)}<p className="problem-bottom">{es?'Elige la situación que se parece a tu día.':'Choose the situation that sounds like your day.'}</p></div>;
 }
 
 export function ProductExplorer({lang='en',children}:{lang?:Language;children:ReactNode}) {
  const [view,setView]=useState(0);const es=lang==='es';
- const labels=es?['Booking Page','Command Center','Seguimientos']:['Booking Page','Command Center','Follow-ups'];
+ const labels=es?['Booking Page','Admin Panel','Seguimientos']:['Booking Page','Admin Panel','Follow-ups'];
  return <div className="product-explorer"><div className="product-tabs" aria-label={es?'Explora lo que recibes':'Explore what you get'}>{labels.map((label,i)=><button type="button" key={label} aria-pressed={view===i} aria-controls={`product-view-${lang}`} onClick={()=>{setView(i);track('product_preview',label)}}>{label}</button>)}</div><div className="product-view" id={`product-view-${lang}`}>
  {view===0?<div className="followup-preview booking-demo-preview"><span className="eyebrow">{es?'DEMO PERSONALIZADA':'PERSONALIZED DEMO'}</span><h3 className="editorial">{es?'Así podrían reservar tus clientes.':'See how customers could book.'}</h3><p>{es?'Tu marca y zona, con datos de ejemplo. Sin reservas reales.':'Your brand, sample details and no real bookings.'}</p><small>{es?'Recibes tu demo privada por correo.':'Your private demo arrives by email.'}</small></div>:view===1?<>{children}<small className="preview-disclaimer">{es?'Así podría verse tu espacio · Datos de ejemplo':'A look at how your workspace could look · Example details'}</small></>:<div className="followup-preview"><span className="eyebrow">{es?'SEGUIMIENTO AUTOMÁTICO':'AUTOMATIC FOLLOW-UPS'}</span><h3 className="editorial">{es?'Dale seguimiento a esa cotización.':'Keep that quote moving.'}</h3><ol><li><span>01</span><div><strong>{es?'Primer recordatorio':'First reminder'}</strong><p>{es?'Se envía si no hay respuesta.':'Sent when there’s no reply.'}</p></div></li><li><span>02</span><div><strong>{es?'Segundo recordatorio':'Second reminder'}</strong><p>{es?'Se envía si todavía no responde.':'Only if there’s still no reply.'}</p></div></li><li><span>03</span><div><strong>{es?'Tú decides':'You decide'}</strong><p>{es?'Revisa, envía un mensaje final o detén el contacto.':'Review, send a final note, or stop.'}</p></div></li></ol><small>{es?'Sin perder el control.':'You stay in control.'}</small></div>}
  </div></div>;
@@ -118,24 +118,24 @@ export function ProductExplorer({lang='en',children}:{lang?:Language;children:Re
 export function PurchaseClarity({lang='en'}:{lang?:Language}) {
  const es=lang==='es';
  const questions=es?[
- ['¿Qué incluye Booking Automation + Command Center?','Una Booking Page personalizada, tu Command Center privado y automatizaciones para gestionar solicitudes, cotizaciones y seguimientos.'],
+ ['¿Qué incluye Booking Automation + Admin Panel?','Una Booking Page personalizada, tu panel de administrador privado y automatizaciones para gestionar solicitudes, cotizaciones y seguimientos.'],
  ['¿Cuándo recibo mi sistema?','Después de verificar el pago y revisar tus datos completos, aprobaremos el inicio por correo. Desde ese momento empieza el plazo estimado de 48 horas de producción, durante nuestros períodos de trabajo disponibles. Los accesos se entregan después de las pruebas y aprobación.'],
  ['¿Cuándo se confirma una reserva automáticamente?','Solo para servicios con precio fijo, cuando activas esa opción y el horario está disponible. Si la desactivas, la solicitud queda pendiente de tu aprobación y no bloquea el horario.'],
- ['¿Qué pasa con los precios estimados?','El cliente puede aceptar, rechazar o conversar sobre el precio. Ves su respuesta en el Command Center y en tu lista de consultas. Si acepta, la reserva se confirma únicamente al elegir un horario disponible.'],
+ ['¿Qué pasa con los precios estimados?','El cliente puede aceptar, rechazar o conversar sobre el precio. Ves su respuesta en el panel de administrador y en tu lista de consultas. Si acepta, la reserva se confirma únicamente al elegir un horario disponible.'],
  ['¿Hay una calculadora de precios?','Sí, exclusivamente para negocios de limpieza. Configuras tus propias tarifas, tamaño del espacio, extras, descuentos y cargos por ZIP en la sección de precios. Calcula un estimado, no un precio final confirmado.'],
- ['¿Qué precios debo dar en el formulario inicial?','Si tu negocio es de limpieza, comparte solo tus principales servicios con precio fijo y tus principales servicios con precio estimado. Después puedes añadir, quitar o modificar otros servicios y precios en tu Command Center.'],
+ ['¿Qué precios debo dar en el formulario inicial?','Si tu negocio es de limpieza, comparte solo tus principales servicios con precio fijo y tus principales servicios con precio estimado. Después puedes añadir, quitar o modificar otros servicios y precios en tu panel de administrador.'],
  ['¿Puedo modificar precios y disponibilidad?','Sí. Edita servicios, precios fijos, estimados y extras desde la sección de precios, y tus horarios desde tu calendario. Puedes revisar y ajustar una cotización antes de enviarla.'],
  ['¿Quién se encarga de los correos de seguimiento?','Nosotros gestionamos hasta dos seguimientos automáticos para cotizaciones elegibles sin respuesta. Puedes ver sus vistas previas; si el cliente responde, se detienen. El tercer contacto es tu elección: enviar un último correo personal o detener el seguimiento.']
  ]:[
- ['What comes with Booking Automation + Command Center?','A personalized Booking Page, your private Command Center, and automation to manage requests, estimates, and follow-ups.'],
+ ['What comes with Booking Automation + Admin Panel?','A personalized Booking Page, your private Admin Panel, and automation to manage requests, estimates, and follow-ups.'],
  ['When will I receive my system?','After we verify payment and review your complete setup, we approve the kickoff by email. The estimated 48-hour production period starts then. We send access after testing and approval.'],
  ['When does a booking confirm automatically?','Only for flat-price services when you enable automatic confirmation and the time slot is available. With it off, the request waits for your approval and does not hold a slot.'],
- ['How do estimated prices work?','Customers can Accept, Decline, or Discuss Price. Their response appears in your Command Center where you track inquiries. If they accept, the booking confirms only after an available time is selected.'],
+ ['How do estimated prices work?','Customers can Accept, Decline, or Discuss Price. Their response appears in your Admin Panel where you track inquiries. If they accept, the booking confirms only after an available time is selected.'],
  ['Is there a price calculator?','Yes, exclusively for cleaning businesses. Set your own rates, property sizes, add-ons, frequency discounts, and ZIP travel fees in your pricing settings. Results are estimates, not automatically confirmed prices.'],
- ['What prices should I provide in your setup form?','For cleaning businesses, only your main flat-price services and main estimated-price services. Add, remove, or edit the rest of your services and prices later in your Command Center.'],
+ ['What prices should I provide in your setup form?','For cleaning businesses, only your main flat-price services and main estimated-price services. Add, remove, or edit the rest of your services and prices later in your Admin Panel.'],
  ['Can I change prices and availability?','Yes. Edit flat rates, estimated starting prices, and extras in your pricing settings, and your schedule in your calendar settings. Preview and adjust a customer quote before sending.'],
  ['Who handles the follow-up emails?','We handle up to two automatic follow-ups for eligible unanswered quotes. You can preview the emails, and they stop when the customer responds. A third personal email is always your choice: send it or stop contacting.']
  ];
- return <div className="purchase-clarity"><p>{es?'Tu Booking Page + tu Command Center privado, personalizados para tu negocio.':'Your Booking Page + your private Command Center, personalized for your business.'}</p><FAQTopicTabs lang={lang} billing={[questions[1]]} account={questions.filter((_,index)=>index!==1)} /></div>;
+ return <div className="purchase-clarity"><p>{es?'Tu Booking Page + tu panel de administrador privado, personalizados para tu negocio.':'Your Booking Page + your private Admin Panel, personalized for your business.'}</p><FAQTopicTabs lang={lang} billing={[questions[1]]} account={questions.filter((_,index)=>index!==1)} /></div>;
 
 }
