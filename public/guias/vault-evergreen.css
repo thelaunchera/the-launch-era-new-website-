@@ -355,3 +355,29 @@ body .vault-case-browser iframe{
  body .vault-case-result{padding:16px;box-shadow:5px 5px 0 #f7a6bb}
  body .vault-case-browser iframe{height:480px}
 }
+
+/* GPU-keyed alpha portrait from the existing Dailin MP4. When WebGL cannot
+   decode a frame, the untouched video/poster continue to work. */
+body>.grid .hero-vault .hero-media--cutout>.hero-keyed-canvas{
+  position:absolute!important;
+  inset:0!important;
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  z-index:6;
+  pointer-events:none!important;
+  background:transparent!important;
+  opacity:0!important;
+  transition:opacity .2s ease;
+  border:0!important;
+  border-radius:0!important;
+}
+body>.grid .hero-vault .hero-media--cutout.is-keyed-ready>.hero-portrait{
+  opacity:0!important;
+}
+body>.grid .hero-vault .hero-media--cutout.is-keyed-ready>.hero-keyed-canvas{
+  opacity:1!important;
+}
+@media(prefers-reduced-motion:reduce){
+ body>.grid .hero-vault .hero-media--cutout>.hero-keyed-canvas{transition:none!important}
+}
