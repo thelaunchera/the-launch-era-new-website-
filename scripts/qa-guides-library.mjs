@@ -14,9 +14,9 @@ for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
   assert.ok(html.includes('rel="canonical" href="https://thelaunchera.com'+route+'"'),lang+" canonical");
   assert.ok(html.includes('href="/guias/"')&&html.includes('href="/es/guias/"'),lang+" language links");
   assert.ok(html.includes('href="/guias/styles.css?v=20261112-2"')&&html.includes('src="/guias/app.js"'),lang+" shared assets");
-  assert.ok(html.includes('href="/guias/editorial.css?v=20261112-4"')&&html.includes('src="/guias/editorial.js?v=20261112-1"'),lang+" editorial scroll files");
+  assert.ok(html.includes('href="/guias/editorial.css?v=20261112-5"')&&html.includes('src="/guias/editorial.js?v=20261112-1"'),lang+" editorial scroll files");
   assert.ok(html.includes('id="reading-progress"')&&html.includes('class="ticker-track"'),lang+" scroll UI");
-  assert.ok(html.includes('class="brand brand-personal"') && html.includes('class="brand-wordmark"') && html.includes('Dailin.') && html.includes('BY THE LAUNCH ERA'),lang+" scalable wordmark in topbar");
+  assert.ok(html.includes('class="brand brand-personal"') && html.includes('class="brand-wordmark-image"') && html.includes('src="/guias/assets/dailin-wordmark-clear.svg"') && html.includes('Dailin.') && html.includes('BY THE LAUNCH ERA'),lang+" scalable wordmark in topbar");
   assert.ok(html.includes('href="mailto:hello@thelaunchera.com?subject='),lang+" verified contact");
   assert.ok(html.includes('id="guide-list"')&&html.includes('id="search"')&&html.includes('id="filters"'),lang+" controls");
   assert.ok(html.includes('href="/favicon-tle.svg"'),lang+" favicon");
@@ -24,7 +24,11 @@ for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
   assert.ok(!/hero-avatar-concept|person-photo-placeholder/i.test(html),"No unapproved personal avatar");
 }
 assert.ok(existsSync(resolve(root,"public/favicon-tle.svg")),"Existing official favicon");
-assert.match(editorialCss,/\.brand-wordmark/);
+assert.match(editorialCss,/\.brand-wordmark-image/);
+const vectorLogo=readFileSync(resolve(root,"public/guias/assets/dailin-wordmark-clear.svg"),"utf8");
+assert.match(vectorLogo,/viewBox="0 0 520 150"/);
+assert.match(vectorLogo,/fill="#FFE6A4"/);
+assert.ok(!vectorLogo.includes('background-image'),"Transparent wordmark canvas");
 assert.match(editorialCss,/brand-personal/);
 assert.match(js,/clipboard\.writeText/);assert.match(js,/aria-pressed/);assert.match(js,/Escape/);
 assert.match(css,/@media\(max-width:800px\)/);

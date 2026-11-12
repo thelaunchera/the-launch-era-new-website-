@@ -284,3 +284,13 @@ body .library h2,body .sample h2,body .how h2,body .products h2,body .consult h2
 @media(prefers-reduced-motion:reduce){
  body .hero-portrait{transform:none!important}
 }
+
+/* Transparent high-resolution vector wordmark, replacing bitmap / CSS letterform. */
+body>.grid header .brand-personal img.brand-wordmark-image{
+ display:block;width:100%;height:auto;aspect-ratio:520 / 150;
+ object-fit:contain;background:transparent;border:0;
+ image-rendering:auto;
+}
+body>.grid header .brand-personal .brand-signature{
+ display:block;white-space:nowrap;
+}

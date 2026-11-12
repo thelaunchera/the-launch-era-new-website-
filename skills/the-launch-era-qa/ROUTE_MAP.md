@@ -1,3 +1,9 @@
+## 2026-11-12 — Transparent Dailin personal logo / guides replacement
+- **User request:** make the approved Dailin. wordmark transparent and replace it in the website.
+- **Public scope:** bilingual `/guias/` and `/es/guias/` only. The header sources `/guias/assets/dailin-wordmark-clear.svg`, a scalable dark navy and warm-yellow original wordmark with a transparent outer canvas. Brand attribution remains accessible live text below the image.
+- **Other assets:** no other pages or logo masters edited. The prior low-resolution PNG remains in repo for compatibility but is no longer the active header asset.
+- **QA:** two locales, 360/390/820/1440 mobile/desktop browser checks, SVG decoded natural dimensions, no overlap, and static links; verify Pages deploy and both live routes. User preview image is a separate transparent PNG concept.
+
 ## 2026-11-12 — Approved "Dailin." brand mark installed in free guides top bar
 - **Owner-approved source:** previously generated "Dailin." personal wordmark: dark navy heavy letters on a light-yellow capsule; studio mark remains visibly subordinate: "BY THE LAUNCH ERA". Compact transparent PNG preserves source art; tagline renders as accessible live text.
 - **Public pages:** only `public/guias/index.html` (EN, `/guias/`) and `public/es/guias/index.html` (ES, `/es/guias/`) reference `/guias/assets/dailin-wordmark.png`; localized header links still return to `/` and `/es/`.

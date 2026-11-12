@@ -1,3 +1,8 @@
+## 2026-11-12 — Transparent logo request after iPhone visual screenshot
+- **Problem:** prior iPhone screenshot showed a pixelated 230×66 wordmark and oversized cramped hero.
+- **Resolution:** pending CI and Pages: added a transparent, lightweight vector wordmark on the guides only; keeps the full yellow title capsule and separate visible brand signature. No opaque pale-blue grid image behind the logo.
+- **Tests:** browser decode/fit, accessible label, mobile CTA in viewport, multilingual guide interactions, scroll and reduced-motion remain the release gate. No other pages or customer data changed.
+
 ## 2026-11-12 — User-approved Dailin personal logo integration
 - **Reported issue:** Guide library still displayed corporate "The Launch Era" header after the user approved a distinct "Dailin." wordmark.
 - **Change:** converted the previously approved artwork into a compact transparent 230×66 PNG for a small, mobile-first top bar, preserving exact approved lettering; "BY THE LAUNCH ERA" remains true text for legibility. Edited only bilingual guide HTML + guide-specific CSS/QA/docs; rest of site unaffected.
