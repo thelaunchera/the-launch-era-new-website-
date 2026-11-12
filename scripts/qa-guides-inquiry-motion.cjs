@@ -16,13 +16,14 @@ const {chromium}=require("playwright");
    const response=await page.goto("http://127.0.0.1:8172"+route,{waitUntil:"networkidle"});
    assert.equal(response.status(),200);
    assert.equal(await page.locator(".sample").count(),0,"repeated sample prompt removed");
-   assert.equal(await page.locator(".hero-card").count(),1,"portrait breakout card");
+   assert.equal(await page.locator(".hero-card").count(),1,"portrait layout element retained");
+   assert.equal(await page.locator(".hero-card").evaluate(el=>getComputedStyle(el).display),"none","portrait card is invisible so the subject floats on ivory");
    assert.equal(await page.locator("#vault-inquiry-form").count(),1,"real inquiry form");
    assert.equal(await page.locator(".vault-photo-help").count(),3,"all photo prompts have instructions");
    assert.ok(await page.locator(".guide").first().evaluate(el=>el.getBoundingClientRect().top<document.getElementById("recursos").getBoundingClientRect().top),"guide list now precedes resources");
    assert.equal(await page.locator(".hero-video").evaluate(el=>getComputedStyle(el).objectFit),"contain","full head visible in Motion");
-   const backdrop=await page.locator(".hero-card").evaluate(el=>({background:getComputedStyle(el).backgroundImage,color:getComputedStyle(el).backgroundColor,border:getComputedStyle(el).borderTopWidth}));
-   assert.ok(backdrop.background==="none"&&backdrop.color==="rgb(250, 246, 237)"&&backdrop.border!=="0px","rounded breakout card uses neutral paper rather than a blue or gradient backdrop");
+   const backdrop=await page.locator(".hero-card").evaluate(el=>({display:getComputedStyle(el).display,shadow:getComputedStyle(el).boxShadow}));
+   assert.equal(backdrop.display,"none","no lower photo frame");assert.equal(backdrop.shadow,"none","no shadow suggesting a pasted photograph");
 
    await page.locator(".hero-media").evaluate(el=>el.classList.add("is-loop-bridging"));
    await page.waitForFunction(()=>parseFloat(getComputedStyle(document.querySelector(".hero-video")).opacity)<.02,{timeout:2500});

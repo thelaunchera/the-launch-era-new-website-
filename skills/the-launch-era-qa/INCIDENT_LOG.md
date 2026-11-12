@@ -1,3 +1,9 @@
+## 2026-11-12 — Dailin Vault portrait: hard-edged shoulders and decorative frame on iPhone
+- **Owner evidence:** screenshot of `/es/guias/`: correct face/animation, but black clothing ends abruptly at straight image boundaries and the outlined lower frame makes the figure look pasted into the ivory canvas.
+- **Verified source:** the approved media is 512×910; the former media box used a different aspect ratio with `object-fit:contain`, while an oval CSS mask blurred only its outside edge and the WebGL background key preserved rectangular black sleeves.
+- **Safe fix:** match the media ratio to the original video, remove the decorative lower frame, and taper shoulders/sides/waist with CSS and WebGL alpha without changing the approved MP4, poster, face, hero layout, navigation, forms, checkout or demos. Update two localized cache keys.
+- **Gate:** responsive screenshot/browser QA at 360/390/768/1024/1440, route static guard, successful PR CI, Pages deployment and visual iPhone review. No claims of live release without these checks.
+
 ## 2026-11-12 — Golden Grid landing customer preview: partial film overlay at tablet/desktop
 - Owner screenshot of the Spanish Website for Your Business landing: an unwanted vertical join, out-of-register partial imagery and cropped-looking composition in the Golden Grid **customer-view card** at larger widths.
 - Verified source: `public/es/website-for-your-business/index.html` and English counterpart overlay a small 512px Golden Grid film above the untouched high-resolution `golden-1.png` artwork. `tle-golden-offer-film-20261109.js` loaded the video at all viewport widths, although the standalone Golden Grid demo already restricts video to phones.
