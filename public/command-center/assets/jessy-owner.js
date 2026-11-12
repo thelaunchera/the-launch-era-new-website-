@@ -1,4 +1,4 @@
-/* Jessy — private Owner Command Center helper. No public chat or buyer access. */
+/* Jessy — private Owner Admin Panel helper. No public chat or buyer access. */
 (function(){
 "use strict";
 
@@ -85,8 +85,8 @@ const ASSET="/assets/jessy-avatar.webp",CSS="./assets/jessy-owner.css?v=20261014
 let root=null,log=null,form=null,input=null,send=null,quick=null,open=false,waiting=false,language="en",history=[],previousFocus=null;
 let notificationTimer=0;
 const copy={
- en:{open:"Ask Jessy",intro:"Hi! 👋 I'm Jessy, your Command Center assistant. Want to check leads, follow-ups or a client delivery?",subtitle:"Your private workspace helper",placeholder:"Ask about leads, clients or your next step…",send:"Send",close:"Close Jessy",thinking:"Checking your workspace…",error:"I couldn't check that right now. Try again or open the section directly.",note:"Private owner assistance · Drafts require your approval. Jessy never sends emails.",label:"Open this section →",quick:[["Mark alerts read","Mark all Command Center notifications as read"],["Notifications","Open my notifications"],["WhatsApp alerts","jessy-whatsapp-settings"],["Prepare follow-up draft","Prepare a follow-up email draft"],["Today's priorities","Review the AI Team priorities"],["Follow-ups","Which prospect follow-ups are due?"],["Website leads","Any new website inquiries?"],["Client readiness","What is missing for each client?"],["Support","I need help with a problem"]]},
- es:{open:"Pregúntale a Jessy",intro:"¡Hola! 👋 Soy Jessy, tu asistente del Command Center. ¿Revisamos leads, seguimientos o entregas?",subtitle:"Tu asistente privada de operaciones",placeholder:"Pregunta sobre leads, clientes o el próximo paso…",send:"Enviar",close:"Cerrar Jessy",thinking:"Revisando tu espacio…",error:"Ahora no pude comprobarlo. Inténtalo otra vez o abre la sección directamente.",note:"Asistencia privada · Los borradores requieren tu aprobación. Jessy no envía correos.",label:"Abrir esta sección →",quick:[["Marcar avisos leídos","Marca todas las notificaciones como leídas"],["Notificaciones","Abre mis notificaciones"],["Avisos WhatsApp","jessy-whatsapp-settings"],["Preparar seguimiento","Prepara un borrador de seguimiento"],["Prioridades de hoy","Revisa las prioridades del equipo IA"],["Seguimientos","¿Qué seguimientos de prospectos están pendientes?"],["Leads web","¿Hay nuevas consultas del website?"],["Revisar intakes","¿Qué le falta a cada cliente?"],["Soporte","Necesito ayuda con un problema"]]}
+ en:{open:"Ask Jessy",intro:"Hi! 👋 I'm Jessy, your Admin Panel assistant. Want to check leads, follow-ups or a client delivery?",subtitle:"Your private workspace helper",placeholder:"Ask about leads, clients or your next step…",send:"Send",close:"Close Jessy",thinking:"Checking your workspace…",error:"I couldn't check that right now. Try again or open the section directly.",note:"Private owner assistance · Drafts require your approval. Jessy never sends emails.",label:"Open this section →",quick:[["Mark alerts read","Mark all Admin Panel notifications as read"],["Notifications","Open my notifications"],["WhatsApp alerts","jessy-whatsapp-settings"],["Prepare follow-up draft","Prepare a follow-up email draft"],["Today's priorities","Review the AI Team priorities"],["Follow-ups","Which prospect follow-ups are due?"],["Website leads","Any new website inquiries?"],["Client readiness","What is missing for each client?"],["Support","I need help with a problem"]]},
+ es:{open:"Pregúntale a Jessy",intro:"¡Hola! 👋 Soy Jessy, tu asistente del panel de administrador. ¿Revisamos leads, seguimientos o entregas?",subtitle:"Tu asistente privada de operaciones",placeholder:"Pregunta sobre leads, clientes o el próximo paso…",send:"Enviar",close:"Cerrar Jessy",thinking:"Revisando tu espacio…",error:"Ahora no pude comprobarlo. Inténtalo otra vez o abre la sección directamente.",note:"Asistencia privada · Los borradores requieren tu aprobación. Jessy no envía correos.",label:"Abrir esta sección →",quick:[["Marcar avisos leídos","Marca todas las notificaciones como leídas"],["Notificaciones","Abre mis notificaciones"],["Avisos WhatsApp","jessy-whatsapp-settings"],["Preparar seguimiento","Prepara un borrador de seguimiento"],["Prioridades de hoy","Revisa las prioridades del equipo IA"],["Seguimientos","¿Qué seguimientos de prospectos están pendientes?"],["Leads web","¿Hay nuevas consultas del website?"],["Revisar intakes","¿Qué le falta a cada cliente?"],["Soporte","Necesito ayuda con un problema"]]}
 };
 const sections={
  "owner-pages":["Clients & Purchases","Clientes y compras"],
@@ -107,7 +107,7 @@ function lang(){const workspace=document.body.dataset.languageWorkspace;let save
 function bubble(text,role){const item=el("div","jo-bubble "+role,text);log.appendChild(item);log.scrollTop=log.scrollHeight;return item}
 function activeContext(){
  const x=window.TLEOwnerJessyGateway?.context?.();
- return x&&typeof x.section==="string"?x:{section:"owner-pages",label:"Command Center"};
+ return x&&typeof x.section==="string"?x:{section:"owner-pages",label:"Admin Panel"};
 }
 const ownerViewNames={
  "owner-pages":["Clients & Purchases","Clientes y compras"],
@@ -119,13 +119,13 @@ const ownerViewNames={
  "owner-help":["Help","Ayuda"],"owner-build":["Booking Page Setup","Preparar reservas"],
  "owner-preview":["Booking Preview","Vista previa"],
  "lead-insights":["Lead Insights","Análisis de prospectos"],
- "buyer-preview":["Buyer Command Center Preview","Vista previa de Command Center"],
+ "buyer-preview":["Buyer Admin Panel Preview","Vista previa de Admin Panel"],
  "ai-team":["AI Team","Equipo IA"]
 };
 function contextLabel(){
  const current=activeContext();
  const found=ownerViewNames[current.section];
- return found?found[language==="es"?1:0]:(current.label||"Command Center");
+ return found?found[language==="es"?1:0]:(current.label||"Admin Panel");
 }
 function contextPrompts(){
  const es=language==="es",page=activeContext().section;
@@ -135,14 +135,14 @@ function contextPrompts(){
  if(["leads","pipeline","calendar"].includes(page))return es?
  [["Mis seguimientos","¿Qué seguimientos de prospectos están pendientes?"],["Preparar correo","Prepara un borrador de seguimiento"]]:
  [["Due follow-ups","Which prospect follow-ups are due?"],["Draft follow-up","Prepare a follow-up email draft"]];
- if(page==="inbox")return es?[["Ver solicitudes","Abre mis consultas web"],["Marcar avisos","Marca todas las notificaciones como leídas"]]:[["Review inquiries","Open website inquiries"],["Mark alerts read","Mark all Command Center notifications as read"]];
+ if(page==="inbox")return es?[["Ver solicitudes","Abre mis consultas web"],["Marcar avisos","Marca todas las notificaciones como leídas"]]:[["Review inquiries","Open website inquiries"],["Mark alerts read","Mark all Admin Panel notifications as read"]];
  if(page==="emails")return es?[["Historial","Abre mis correos"],["Crear borrador","Prepara un borrador de seguimiento"]]:[["Email history","Open my emails"],["Draft follow-up","Prepare a follow-up email draft"]];
  if(page==="settings")return es?[["Avisos WhatsApp","jessy-whatsapp-settings"],["Notificaciones","Abre mis notificaciones"]]:[["WhatsApp alerts","jessy-whatsapp-settings"],["Notifications","Open my notifications"]];
  if(page==="owner-calendar")return es?[["Abrir calendario","Abre mi calendario"],["Entregas","¿Qué entregas de clientes debo revisar?"]]:[["Calendar","Open my calendar"],["Deliveries","Which client deliveries need review?"]];
- if(page==="owner-support")return es?[["Problema técnico","Tengo un error en el Command Center"],["Notificaciones","Abre mis notificaciones"]]:[["Technical issue","I have a Command Center error"],["Notifications","Open my notifications"]];
- if(page==="buyer-preview")return es?[["Volver a mi centro","owner-jump:owner-pages"],["Ayuda con demo","¿Qué puedo probar en esta vista previa?"]]:[["My Command Center","owner-jump:owner-pages"],["Preview help","What can I test in this preview?"]];
+ if(page==="owner-support")return es?[["Problema técnico","Tengo un error en el panel de administrador"],["Notificaciones","Abre mis notificaciones"]]:[["Technical issue","I have a Admin Panel error"],["Notifications","Open my notifications"]];
+ if(page==="buyer-preview")return es?[["Volver a mi centro","owner-jump:owner-pages"],["Ayuda con demo","¿Qué puedo probar en esta vista previa?"]]:[["My Admin Panel","owner-jump:owner-pages"],["Preview help","What can I test in this preview?"]];
  if(page==="lead-insights")return es?[["Abrir prospectos","owner-jump:leads"],["Seguimientos","¿Qué seguimientos de prospectos están pendientes?"]]:[["Open CRM prospects","owner-jump:leads"],["Follow-ups","Which prospect follow-ups are due?"]];
- return es?[["Marcar avisos leídos","Marca todas las notificaciones como leídas"],["Notificaciones","Abre mis notificaciones"]]:[["Mark alerts read","Mark all Command Center notifications as read"],["Notifications","Open my notifications"]];
+ return es?[["Marcar avisos leídos","Marca todas las notificaciones como leídas"],["Notificaciones","Abre mis notificaciones"]]:[["Mark alerts read","Mark all Admin Panel notifications as read"],["Notifications","Open my notifications"]];
 }
 function shortcuts(){
  quick.replaceChildren();
@@ -174,7 +174,7 @@ function build(){
  const fab=b("jo-fab");
  const face=el("img","jo-face");face.src=ASSET;face.alt="Jessy";face.width=48;face.height=48;
  fab.append(face,el("span","",t("open")));fab.setAttribute("aria-label",t("open"));
- const panel=el("section","jo-panel");panel.hidden=true;panel.setAttribute("role","dialog");panel.setAttribute("aria-label","Jessy · Owner Command Center");panel.setAttribute("aria-modal","false");
+ const panel=el("section","jo-panel");panel.hidden=true;panel.setAttribute("role","dialog");panel.setAttribute("aria-label","Jessy · Owner Admin Panel");panel.setAttribute("aria-modal","false");
  const head=el("header","jo-head"),pic=el("img","jo-face");pic.src=ASSET;pic.alt="";pic.width=46;pic.height=46;
  const heading=el("div","jo-heading");heading.append(el("strong","","Jessy"),el("small","",t("subtitle")));
  const close=b("jo-close","×");close.setAttribute("aria-label",t("close"));head.append(pic,heading,close);
@@ -185,7 +185,7 @@ function build(){
  const foot=el("footer","jo-footer");foot.append(quick,form,note);panel.append(head,log,foot);
  const alert=b("jo-notification-nudge");alert.hidden=true;
  alert.setAttribute("aria-live","polite");
- alert.setAttribute("aria-label","Open Command Center notifications");
+ alert.setAttribute("aria-label","Open Admin Panel notifications");
  alert.addEventListener("click",()=>{
   if(owner())window.TLEOwnerJessyGateway.openNotifications();
   alert.hidden=true;
@@ -481,7 +481,7 @@ async function ask(raw){
  if(/(?:whatsapp|watsap|wasap|wsp)/i.test(question)&&/(alert|notify|notification|avis|notific|configur|setting|activar)/i.test(question)){if(!open)show();bubble(question,"user");input.value="";await showWhatsAppSettings();return;}
  if(question.length<2)return;
  if(/\b(draft|borrador|prepara|preparar|escribe|write)\b.*\b(follow.?up|seguimiento|correo|email)\b|\b(follow.?up|seguimiento)\b.*\b(draft|borrador|prepar)/i.test(question)){
-   if(window.TLEOwnerJessyGateway?.standalone){if(!open)show();bubble(question,"user");bubble(language==="es"?"Abriré Prospectos en tu Command Center principal para preparar el borrador.":"I’ll open Prospects in your main Command Center so you can prepare the draft.","bot");window.TLEOwnerJessyGateway.navigate("leads");return;}
+   if(window.TLEOwnerJessyGateway?.standalone){if(!open)show();bubble(question,"user");bubble(language==="es"?"Abriré Prospectos en tu panel de administrador principal para preparar el borrador.":"I’ll open Prospects in your main Admin Panel so you can prepare the draft.","bot");window.TLEOwnerJessyGateway.navigate("leads");return;}
    if(!open)show();bubble(question,"user");input.value="";await prepareDraftPanel();return;
  }
  if(!open)show();

@@ -15,14 +15,14 @@ function keyBytes(base64){const padded=(base64+"=".repeat((4-base64.length%4)%4)
 async function registration(){let reg=await navigator.serviceWorker.getRegistration("/command-center/");if(!reg)reg=await navigator.serviceWorker.register("/command-center/sw.js",{scope:"/command-center/"});return reg}
 function supportReason(){
  if(!window.isSecureContext||!("serviceWorker" in navigator)||!("PushManager" in window)||!("Notification" in window))return t("Push notifications are not supported in this browser.","Este navegador no permite avisos push.");
- if(onApple()&&!installed())return t("On iPhone/iPad, open the Command Center in Safari, tap Share → Add to Home Screen, then open its icon and enable alerts.","En iPhone/iPad, abre Command Center en Safari, toca Compartir → Añadir a pantalla de inicio, abre el icono y activa los avisos.");
+ if(onApple()&&!installed())return t("On iPhone/iPad, open the Admin Panel in Safari, tap Share → Add to Home Screen, then open its icon and enable alerts.","En iPhone/iPad, abre Admin Panel en Safari, toca Compartir → Añadir a pantalla de inicio, abre el icono y activa los avisos.");
  return "";
 }
 async function refresh(){if(!isOwner())return;const reason=supportReason();if(reason){status(reason);setButtons(false);return}try{const reg=await registration();const sub=await reg.pushManager.getSubscription();setButtons(!!sub&&Notification.permission==="granted");status(sub?t("This device is subscribed to Jessy alerts.","Este dispositivo está suscrito a los avisos de Jessy."):t("Alerts are off on this device.","Los avisos están desactivados en este dispositivo."))}catch(e){status(t("Push setup is not available yet.","Aún no está disponible la configuración de avisos."))}}
 async function enable(){
  if(busy||!isOwner())return;
  const reason=supportReason();if(reason){status(reason);return}
- if(Notification.permission==="denied"){status(t("Allow Command Center notifications in your device settings, then try again.","Permite las notificaciones de Command Center en los ajustes del dispositivo y vuelve a intentarlo."));return}
+ if(Notification.permission==="denied"){status(t("Allow Admin Panel notifications in your device settings, then try again.","Permite las notificaciones de Admin Panel en los ajustes del dispositivo y vuelve a intentarlo."));return}
  busy=true;status(t("Preparing your alerts…","Preparando tus avisos…"));
  try{
   // Ask directly from this user click: WebKit requires a user gesture on iOS.
@@ -47,7 +47,7 @@ function render(){
  if(!panel)return;
  if(!card){card=document.createElement("div");card.id=ID;card.style.cssText="background:#FAF8F3;border:1px solid #e9e2d2;border-radius:19px;padding:clamp(15px,3vw,22px);margin:12px 0 18px;color:#191919;box-shadow:0 5px 20px #1919190d";
   const headline=document.createElement("strong");headline.textContent=t("Jessy · Phone alerts","Jessy · Avisos en tu teléfono");headline.style.cssText="font-size:17px;display:block;margin-bottom:7px";
-  const description=document.createElement("p");description.textContent=t("Private notifications for new leads, demos and important Command Center updates. Your clients will not receive these alerts.","Avisos privados de nuevos prospectos, demos y novedades importantes de Command Center. Tus clientes no recibirán estos avisos.");description.style.cssText="font-size:13px;line-height:1.5;margin:0 0 12px";
+  const description=document.createElement("p");description.textContent=t("Private notifications for new leads, demos and important Admin Panel updates. Your clients will not receive these alerts.","Avisos privados de nuevos prospectos, demos y novedades importantes de Admin Panel. Tus clientes no recibirán estos avisos.");description.style.cssText="font-size:13px;line-height:1.5;margin:0 0 12px";
   const actions=document.createElement("div");actions.style.cssText="display:flex;gap:8px;align-items:center;flex-wrap:wrap";
   actions.append(button("tle-jessy-push-enable",t("Enable alerts","Activar avisos"),enable),button("tle-jessy-push-test",t("Test alert","Probar aviso"),test,true),button("tle-jessy-push-stop",t("Turn off","Desactivar"),disable,true));
   const note=document.createElement("p");note.id="tle-jessy-push-status";note.setAttribute("role","status");note.setAttribute("aria-live","polite");note.style.cssText="font-size:12px;margin:10px 0 0;color:#465a68;line-height:1.55";
