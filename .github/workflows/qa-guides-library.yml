@@ -23,3 +23,10 @@ jobs:
           node --check public/guias/app.js
           node scripts/qa-guides-library.mjs
           node scripts/qa-route-integrity.mjs --static
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install test dependencies
+        run: bun install
+      - name: Test both language UIs with a browser-like DOM
+        run: node scripts/qa-guides-dom.mjs
