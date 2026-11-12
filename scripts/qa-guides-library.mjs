@@ -10,6 +10,8 @@ const editorialCss=readFileSync(resolve(root,"public/guias/editorial.css"),"utf8
 const editorialJs=readFileSync(resolve(root,"public/guias/editorial.js"),"utf8");
 const resourcesJs=readFileSync(resolve(root,"public/guias/resources.js"),"utf8");
 const resourcesCss=readFileSync(resolve(root,"public/guias/resources.css"),"utf8");
+const blueGridCss=readFileSync(resolve(root,"public/guias/blue-grid.css"),"utf8");
+const blueGridWebP=readFileSync(resolve(root,"public/guias/assets/tle-approved-blue-grid.webp"));
 // The primary logo is scalable live text; no bitmap is used in the header.
 for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
   assert.match(html,new RegExp('<html lang="'+lang+'">'));
@@ -26,6 +28,7 @@ for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
   assert.ok(html.includes('href="/favicon-tle.svg"'),lang+" favicon");
   assert.ok(html.includes('href="/guias/resources.css?v=20261112-1"')&&html.includes('src="/guias/resources.js?v=20261112-1"'),lang+" resource assets linked");
   assert.ok(html.includes('href="/guias/atelier.css?v=20261112-1"'),lang+" editorial stylesheet");
+  assert.ok(html.includes('href="/guias/blue-grid.css?v=20261112-1"'),lang+" approved background stylesheet");
   assert.equal((html.match(/class="lang"/g)||[]).length,1,lang+" single topbar language switch");
   assert.ok(html.includes('href="#recursos"'),lang+" freebie navigation linked");
   assert.ok(!/<form\b/i.test(html),"No fake backend forms");
@@ -53,6 +56,12 @@ assert.match(atelier,/library-layout/);
 assert.ok(!js.includes('make("a","guide-language"'),"Guide reader must not duplicate the language switch");
 assert.match(js,/syncHeaderLanguage/);
 assert.match(resourcesCss,/\.tle-resource-space/);
+assert.match(blueGridCss,/tle-approved-blue-grid\.webp/);
+assert.match(blueGridCss,/#guias/);
+assert.match(blueGridCss,/#recursos/);
+assert.equal(blueGridWebP.toString("utf8",0,4),"RIFF","approved background starts as WebP RIFF");
+assert.equal(blueGridWebP.toString("utf8",8,12),"WEBP","approved asset is WebP");
+assert.ok(blueGridWebP.length<15000,"approved background optimized for mobile");
 assert.match(resourcesJs,/tle-guides-subscribe/);
 assert.match(resourcesJs,/confirm_freebie/);
 assert.match(resourcesJs,/unsubscribe_freebie/);assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);

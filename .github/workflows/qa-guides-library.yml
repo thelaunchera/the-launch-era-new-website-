@@ -13,6 +13,7 @@ on:
       - "scripts/install-ios-language-switch-20261111.mjs"
       - "scripts/qa-ios-language-settings-20261111.mjs"
       - "scripts/qa-guides-atelier.cjs"
+      - "scripts/qa-guides-background.cjs"
       - "scripts/qa-guides-subscribe-endpoint.mjs"
       - ".github/workflows/qa-guides-library.yml"
       - "public/sitemap.xml"
@@ -55,3 +56,4 @@ jobs:
           NODE_PATH="$RUNNER_TEMP/tle-guides-browser/node_modules" node scripts/qa-guides-editorial-scroll.cjs
           NODE_PATH="$RUNNER_TEMP/tle-guides-browser/node_modules" node scripts/qa-guides-resources.cjs
           NODE_PATH="$RUNNER_TEMP/tle-guides-browser/node_modules" node scripts/qa-guides-atelier.cjs
+          NODE_PATH="$RUNNER_TEMP/tle-guides-browser/node_modules" node scripts/qa-guides-background.cjs
