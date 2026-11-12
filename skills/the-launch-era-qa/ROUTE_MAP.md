@@ -4,6 +4,12 @@
 - **Consultation CTA:** Visible in pricing note before the two offers and in FAQ item 4; only opens the visitor's email client with the verified business recipient `hello@thelaunchera.com` and localized subject, no automatic submission or promised scheduled appointment. Existing website checkout routes `/website-checkout/?offer=website-basic&lang=en|es` and `/website-checkout/?offer=website-plus&lang=en|es` remain accessible, with no billing change.
 - **Validation:** `scripts/qa-offer-editorial-motion.mjs` checks two consultation mailto links and bilingual text. Run route QA/PR checks, Pages deployment and live `#preguntas` plus pricing copy on all four routes.
 
+## 2026-11-12 — Manus original portfolio, branch-only migration
+- **Route:** `/portfolio/` on the official host, whose GitHub Pages build serves `public/portfolio/index.html` and its local files when changes are eventually merged and deployed. This branch is NOT live.
+- **Change owner:** `feat/manus-portfolio-migration` in `thelaunchera/the-launch-era-new-website-`; original published Manus HTML, CSS, JS, 6 WebP photographs, favicon and 4 WOFF2 fonts are now self-hosted under `public/portfolio/` without the Manus preview runtime. No root homepage, customer tenant, booking, auth, backend, checkout or billing changes.
+- **Navigation:** in-page `#top`, `#projects`, `#about`, `#contact`; external CTAs lead to existing The Launch Era services/demos, public GitHub repositories and podcast pages. There are no portfolio form submissions, email sends or bookings.
+- **Verification:** `node scripts/qa-manus-portfolio-migration.mjs` (isolated PR gate); preview-only browser tests at 360/390/820/1440 CSS widths, menu, case study and image loading. Production Pages and physical iOS Safari remain unverified until owner approval and a separate deployment.
+
 ## 2026-11-12 — Public homepage canonical and search identity
 - **Actual Pages root:** Build step in `.github/workflows/pages.yml` copies `/website-for-your-business/index.html` to `/index.html` and Spanish equivalent to `/es/index.html`.
 - **SEO build postprocess:** `scripts/prepare-homepage-seo.mjs` changes only the copied root files: canonical URL `https://thelaunchera.com/` or `https://thelaunchera.com/es`, reciprocal hreflang, official The Launch Era site name/structured data and small-business-focused titles. Direct website-offer pages retain their self-canonical product URLs.
