@@ -18,16 +18,16 @@ for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
   assert.match(html,new RegExp('<html lang="'+lang+'">'));
   assert.ok(html.includes('rel="canonical" href="https://thelaunchera.com'+route+'"'),lang+" canonical");
   assert.ok(html.includes('href="/guias/"')&&html.includes('href="/es/guias/"'),lang+" language links");
-  assert.ok(html.includes('href="/guias/styles.css?v=20261112-2"')&&html.includes('src="/guias/app.js?v=20261112-guides-1"'),lang+" shared assets");
+  assert.ok(html.includes('href="/guias/styles.css?v=20261112-2"')&&html.includes('src="/guias/app.js?v=20261112-guides-2"'),lang+" shared assets");
   assert.ok(html.includes('href="/guias/editorial.css?v=20261112-avatar-1"')&&html.includes('src="/guias/editorial.js?v=20261112-avatar-1"'),lang+" editorial scroll files");
   assert.ok(html.includes('id="reading-progress"')&&html.includes('class="ticker-track"'),lang+" scroll UI");
   assert.ok(html.includes('src="/guias/assets/dailin-avatar-hero-loop.mp4"')&&html.includes('poster="/guias/assets/dailin-avatar-hero-poster.webp"'),lang+" approved founder hero media");
   assert.ok(html.includes('<video class="hero-portrait hero-video" autoplay muted loop playsinline'),lang+" silent inline looping hero video");
-  assert.ok(html.includes('class="brand brand-personal"') && html.includes('class="brand-wordmark-image"') && html.includes('src="/guias/assets/dailin-wordmark-clear.svg"') && html.includes('Dailin.') && html.includes('BY THE LAUNCH ERA'),lang+" scalable wordmark in topbar");
-  assert.ok(html.includes('href="mailto:hello@thelaunchera.com?subject='),lang+" verified contact");
+  assert.ok(html.includes('class="brand brand-personal"') && html.includes('class="brand-wordmark-image"') && html.includes('src="/guias/assets/dailin-wordmark-clear.svg?v=20261112-coral-1"') && html.includes('Dailin.') && html.includes('BY THE LAUNCH ERA'),lang+" scalable wordmark in topbar");
+  assert.ok(html.includes('id="vault-inquiry-form"')&&html.includes('id="vault-inquiry-status"'),lang+" working contact form UI");
   assert.ok(html.includes('id="guide-list"')&&html.includes('id="search"')&&html.includes('id="filters"'),lang+" controls");
   assert.ok(html.includes('href="/favicon-tle.svg"'),lang+" favicon");
-  assert.ok(html.includes('href="/guias/resources.css?v=20261112-1"')&&html.includes('src="/guias/resources.js?v=20261112-2"'),lang+" resource assets linked");
+  assert.ok(html.includes('href="/guias/resources.css?v=20261112-1"')&&html.includes('src="/guias/resources.js?v=20261112-3"'),lang+" resource assets linked");
   assert.ok(html.includes('href="/guias/atelier.css?v=20261112-guides-1"'),lang+" editorial stylesheet");
   assert.ok(html.includes('href="/guias/blue-grid.css?v=20261112-1"'),lang+" original grid asset remains archived");
   assert.ok(html.includes('href="/guias/vault-unified-editorial.css?v=20261112-paper-1"'),lang+" unified design stylesheet");
@@ -35,7 +35,7 @@ for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
   assert.ok(html.includes('name="theme-color" content="#faf6ed"'),lang+" warm ivory mobile theme");
   assert.equal((html.match(/class="lang"/g)||[]).length,1,lang+" single topbar language switch");
   assert.ok(html.includes('href="#recursos"'),lang+" freebie navigation linked");
-  assert.ok(!/<form\b/i.test(html),"No fake backend forms");
+  assert.ok(html.includes('src="/guias/vault-inquiry.js?v=20261112-1"')&&html.includes('href="/guias/vault-refined.css?v=20261112-1"'),lang+" validated inquiry form assets");
   assert.ok(!/hero-avatar-concept|person-photo-placeholder/i.test(html),"No unapproved personal avatar");
 }
 assert.ok(existsSync(resolve(root,"public/favicon-tle.svg")),"Existing official favicon");
@@ -44,7 +44,7 @@ assert.ok(existsSync(resolve(root,"public/guias/assets/dailin-avatar-hero-poster
 assert.match(editorialCss,/\.brand-wordmark-image/);
 const vectorLogo=readFileSync(resolve(root,"public/guias/assets/dailin-wordmark-clear.svg"),"utf8");
 assert.match(vectorLogo,/viewBox="0 0 520 150"/);
-assert.match(vectorLogo,/fill="#FFE6A4"/);
+assert.match(vectorLogo,/fill="#ED644B"/);
 assert.ok(!vectorLogo.includes('background-image'),"Transparent wordmark canvas");
 assert.match(editorialCss,/brand-personal/);
 assert.match(js,/clipboard\.writeText/);assert.match(js,/aria-pressed/);assert.match(js,/Escape/);
@@ -71,6 +71,10 @@ assert.equal(blueGridWebP.toString("utf8",0,4),"RIFF","approved background start
 assert.equal(blueGridWebP.toString("utf8",8,12),"WEBP","approved asset is WebP");
 assert.ok(blueGridWebP.length<15000,"approved background optimized for mobile");
 assert.match(resourcesJs,/tle-guides-subscribe/);
+assert.match(resourcesJs,/insertAdjacentHTML\("afterend",markup\)/,"resources follow guide index");
+assert.match(js,/vaultPromptHelp/,"guide prompts explained");
+assert.match(resourcesJs,/vault-photo-help/,"photo prompts explained");
+assert.ok(!en.includes('class="sample"')&&!es.includes('class="sample"'),"duplicate prompt section removed");
 assert.match(resourcesJs,/confirm_freebie/);
 assert.match(resourcesJs,/unsubscribe_freebie/);assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
 // Every public guide must teach something concrete in both languages.
