@@ -22,6 +22,7 @@ const { chromium } = require('playwright');
       assert.equal(await page.locator('.guide').count(),1);
       await page.locator('.guide .open').click();
       assert.equal(new URL(page.url()).searchParams.get('guide'),'gmail-digest-make');
+      assert.ok(await page.locator('#close').evaluate(el=>{const r=el.getBoundingClientRect(),top=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return r.top>=0&&r.bottom<=innerHeight&&(top===el||el.contains(top));}),'guide close button stays visible above the fixed header');
       await page.locator('.dialog .copy').click();
       const prompt = await page.locator('.dialog pre').textContent();
       assert.equal(await page.evaluate(()=>navigator.clipboard.readText()),prompt);
