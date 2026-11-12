@@ -283,7 +283,7 @@
     .tle-demo-compact-header :is(.language,.lang-btn,.language-btn,#language,#lang,#langToggle,#languageBtn){
       font-size:11px!important;padding:7px 10px!important;min-width:36px;
     }
-    .tle-demo-compact-header :is(.language-toggle,.language-switch,.lang-switch,.cb-language-selector){
+    .tle-demo-compact-header :is(.language-toggle,.language-switch,.lang-switch,.cb-language-selector,.langs){
       transform:scale(.94);transform-origin:center;
     }
     .tle-demo-lang-control{
@@ -319,7 +319,10 @@
       .tle-demo-lang-control button{min-height:38px!important}
     }
     @media(max-width:480px){
-      html[data-tle-demo-brand="havana-19"] .tle-demo-compact-header .logo{font-size:28px;letter-spacing:.07em;white-space:nowrap}
+      html[data-tle-demo-brand="havana-19"] .tle-demo-compact-header .logo{font-size:28px;letter-spacing:.07em}
+      html[data-tle-demo-brand="havana-19"] .tle-demo-compact-header .head-btn{width:70px;min-width:70px;max-width:70px;flex:0 0 70px;font-size:0!important;padding:4px!important}
+      html[data-tle-demo-brand="havana-19"] .tle-demo-compact-header .head-btn::after{content:"Reserve";font-size:10px;font-weight:700;line-height:1.2}
+      html[lang="es"][data-tle-demo-brand="havana-19"] .tle-demo-compact-header .head-btn::after{content:"Reservar"}
       html[data-tle-demo-brand="havana-19"] .tle-demo-compact-header .head-actions{gap:3px!important}
       html[data-tle-demo-brand="ivory-and-bloom"] .tle-demo-compact-header .header-inner{gap:2px!important;min-width:0!important}
       html[data-tle-demo-brand="ivory-and-bloom"] .tle-demo-compact-header .logo{font-size:13px;letter-spacing:.035em}
@@ -340,7 +343,7 @@
   style.id = "tle-demo-header-controls-style";
   style.textContent = css;
   document.head.appendChild(style);
-  const nativeLocaleSelector = ".cb-language-selector,.lang-switch,.language-toggle,.language-switch,.language-btn,#languageBtn,button[data-language],button[data-lang],#language,#lang,#langToggle,.lang-btn,.language";
+  const nativeLocaleSelector = ".cb-language-selector,.lang-switch,.language-toggle,.language-switch,.language-btn,#languageBtn,.langs,#en,#es,button[data-language],button[data-lang],#language,#lang,#langToggle,.lang-btn,.language";
   let header = null;
   function enhanceHeader() {
     const next = document.querySelector("body header");
