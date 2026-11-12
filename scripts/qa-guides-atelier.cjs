@@ -18,6 +18,16 @@ const {chromium}=require('playwright');
    assert.equal(await page.locator('.hero-video source').getAttribute('src'),'/guias/assets/dailin-avatar-hero-loop.mp4','hero video source unchanged');
    assert.equal(await page.locator('.hero-video').getAttribute('autoplay'),'','hero video autoplay unchanged');
    assert.ok(await page.locator('.hero-poster').evaluate(async img=>{await img.decode();return img.naturalWidth>0}),"hero poster");
+   assert.equal(await page.locator('.hero-vault').count(),1,'Vault founder hero present');
+   assert.equal(await page.locator('.hero-actions .button').count(),2,'two working hero actions');
+   assert.deepEqual(await page.locator('.hero-actions .button').evaluateAll(els=>els.map(el=>el.getAttribute('href'))),['#guias','#recursos'],'actions point to guides and Vault');
+   assert.equal(await page.locator('.hero-topics a').count(),4,'four linked topics');
+   assert.deepEqual(await page.locator('.hero-topics a').evaluateAll(els=>els.map(el=>el.getAttribute('href'))),['#guias','#como','#prompts-fotos','#recursos'],'topic destinations present');
+   assert.equal(await page.locator('link[href^="/guias/vault-hero.css"]').count(),1,'new Vault stylesheet loaded exactly once');
+   assert.equal(await page.locator('.hero h1').textContent().then(s=>s.includes('Dailin.')),true,'Dailin headline');
+   assert.equal(await page.locator('.system-link').textContent(),'Vault','Vault nav label');
+   assert.equal(await page.locator('.hero-media').evaluate(el=>getComputedStyle(el).boxShadow),'none','Motion is no longer boxed into a photo card');
+
    const grid=await page.locator('#recursos .tle-resource-cards').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length);
    assert.ok(grid>=1,'resources have grid columns');
    const switcher=page.locator('.lang a[hreflang="'+(lang==='en'?'es':'en')+'"]');

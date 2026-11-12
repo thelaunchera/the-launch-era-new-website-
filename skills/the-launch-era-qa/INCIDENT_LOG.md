@@ -1,3 +1,9 @@
+## 2026-11-12 — Published Guides hero still shows old text, blocked title and photo frame
+- **Evidence:** user-supplied iPhone screenshot at `https://thelaunchera.com/es/guias/` showed “De un prompt a algo real”, overlay from portrait/video over headline, and a white/light-blue rounded photo-card frame.
+- **Verified source:** the previously tested founder-hero PR #561 was closed unmerged; production `main` still contained the original headline, frame and one CTA. Meanwhile an independent commit published the user-approved blurred-blue grid; preserve it.
+- **Targeted repair:** new Dailin Vault hero, with explicit grid rows so title never overlaps motion, title before split portrait/copy, two real CTAs and no video-card border/shadow/background. Same MP4/poster, scroll code, and reduced-motion. Cosmetic CSS edge masking does not remove baked-in video background; a transparent alpha source would be necessary for exact matte.
+- **Verification:** GitHub Actions browser and static QA are required before merge; after release, verify Pages and iPhone; do not label as deployed until confirmed.
+
 ## 2026-11-12 — Duplicate language selector and over-designed UI vs reference
 - User correction: original hero Motion video is approved **as-is** and must not be reframed/resized. Remaining navigation, resource sections, guides and scroll rhythm need an editorial redesign.
 - Root cause duplicate: `public/guias/app.js` dynamically added a `guide-language` link in the open guide in addition to header `.lang`. Remove dynamic link and route topbar control through `?guide=...` when modal is open.

@@ -1,3 +1,10 @@
+## 2026-11-12 — Public Dailin Vault Guides hero
+- Guides routes stay `/guias/` (EN) and `/es/guias/` (ES); their public name changes to **Dailin Vault**. Header **Vault** still links to `#recursos`.
+- New main CTA: **Aprende tú también** / **Learn with me** links to `#guias`; secondary **Explora Vault** / **Explore Vault** links to `#recursos`. Topic links use established `#guias`, `#como`, `#prompts-fotos`, `#recursos` anchors.
+- Motion source and poster, autoplay loop, and reduced-motion fallback remain unchanged. `public/guias/vault-hero.css` removes only the photo frame/backplate and feathers the edges of the existing opaque moving footage. It cannot create true alpha in the source MP4.
+- Approved blue blurred grid `public/guias/blue-grid.css` remains loaded before the Vault hero styles. No other pages, customer assets, payments or automations changed.
+- Browser QA checks headline clearance, the Motion source, two CTA destinations, a single language control, no frame and no horizontal overflow.
+
 ## 2026-11-12 — Editorial reference refinement, with untouched Motion hero
 - **Requested reference:** editorial scrolling/resource indexing from public Figma design guidance and Behance projects; implementation is original and uses The Launch Era light-blue soft-blurry grid, ivory, navy and yellow.
 - **Strictly unchanged:** `<section class="hero wrap" id="inicio">...` HTML, animated poster/video source, timing/autoplay/loop, `editorial.js` animation behavior, and pre-existing hero CSS. The new `atelier.css` stylesheet only styles navigation and content **outside** the hero.
