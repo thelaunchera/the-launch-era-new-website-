@@ -1,3 +1,9 @@
+## 2026-11-12 — Consultation-first contact on official website (EN/ES)
+- **Owner request:** Ask prospective website customers to contact The Launch Era for a consultation before purchasing either website package.
+- **Public sources / routes:** `public/website-for-your-business/index.html` → `/website-for-your-business/` and copied `/`; `public/es/website-for-your-business/index.html` → `/es/website-for-your-business/` and copied `/es/`. FAQ anchor remains `#preguntas` and checkout anchors remain unchanged.
+- **Consultation CTA:** Visible in pricing note before the two offers and in FAQ item 4; only opens the visitor's email client with the verified business recipient `hello@thelaunchera.com` and localized subject, no automatic submission or promised scheduled appointment. Existing website checkout routes `/website-checkout/?offer=website-basic&lang=en|es` and `/website-checkout/?offer=website-plus&lang=en|es` remain accessible, with no billing change.
+- **Validation:** `scripts/qa-offer-editorial-motion.mjs` checks two consultation mailto links and bilingual text. Run route QA/PR checks, Pages deployment and live `#preguntas` plus pricing copy on all four routes.
+
 ## 2026-11-12 — Public homepage canonical and search identity
 - **Actual Pages root:** Build step in `.github/workflows/pages.yml` copies `/website-for-your-business/index.html` to `/index.html` and Spanish equivalent to `/es/index.html`.
 - **SEO build postprocess:** `scripts/prepare-homepage-seo.mjs` changes only the copied root files: canonical URL `https://thelaunchera.com/` or `https://thelaunchera.com/es`, reciprocal hreflang, official The Launch Era site name/structured data and small-business-focused titles. Direct website-offer pages retain their self-canonical product URLs.

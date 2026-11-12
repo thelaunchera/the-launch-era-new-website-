@@ -52,6 +52,11 @@ for(const [lang,path] of pages){
  assert.ok(faq.includes('$15')&&faq.includes('$25')&&faq.includes('$10'),'FAQ pricing matches approved offers '+lang);
  assert.ok(lang==='es'?faq.includes('negocios de limpieza'):faq.includes('cleaning businesses'),'FAQ clarifies multi-industry services '+lang);
  assert.ok(lang==='es'?faq.includes('no confirma una cita'):faq.includes('not a confirmed appointment'),'FAQ must not misrepresent booking requests '+lang);
+ const subject=lang==='es'?'Consulta%20de%20website':'Website%20Consultation';
+ assert.equal(html.split('href="mailto:hello@thelaunchera.com?subject=').length-1,2,'Consultation-first contact appears in pricing and FAQ '+lang);
+ assert.ok(html.includes('mailto:hello@thelaunchera.com?subject='+subject),'Consultation mailto uses verified business inbox '+lang);
+ assert.ok(lang==='es'?faq.includes('¿Debo contactarlos antes de comprar?'):faq.includes('Should I contact you before purchasing?'),'Consultation-before-purchase FAQ present '+lang);
+ assert.ok(lang==='es'?html.includes('Antes de comprar,'):html.includes('Before purchasing,'),'Pricing instructs consultation before payment '+lang);
 
 }
 const en=read(pages[0][1]),es=read(pages[1][1]);
