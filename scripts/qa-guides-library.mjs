@@ -14,8 +14,10 @@ for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
   assert.ok(html.includes('rel="canonical" href="https://thelaunchera.com'+route+'"'),lang+" canonical");
   assert.ok(html.includes('href="/guias/"')&&html.includes('href="/es/guias/"'),lang+" language links");
   assert.ok(html.includes('href="/guias/styles.css?v=20261112-2"')&&html.includes('src="/guias/app.js"'),lang+" shared assets");
-  assert.ok(html.includes('href="/guias/editorial.css?v=20261112-5"')&&html.includes('src="/guias/editorial.js?v=20261112-1"'),lang+" editorial scroll files");
+  assert.ok(html.includes('href="/guias/editorial.css?v=20261112-avatar-1"')&&html.includes('src="/guias/editorial.js?v=20261112-avatar-1"'),lang+" editorial scroll files");
   assert.ok(html.includes('id="reading-progress"')&&html.includes('class="ticker-track"'),lang+" scroll UI");
+  assert.ok(html.includes('src="/guias/assets/dailin-avatar-hero-loop.mp4"')&&html.includes('poster="/guias/assets/dailin-avatar-hero-poster.webp"'),lang+" approved founder hero media");
+  assert.ok(html.includes('<video class="hero-portrait hero-video" autoplay muted loop playsinline'),lang+" silent inline looping hero video");
   assert.ok(html.includes('class="brand brand-personal"') && html.includes('class="brand-wordmark-image"') && html.includes('src="/guias/assets/dailin-wordmark-clear.svg"') && html.includes('Dailin.') && html.includes('BY THE LAUNCH ERA'),lang+" scalable wordmark in topbar");
   assert.ok(html.includes('href="mailto:hello@thelaunchera.com?subject='),lang+" verified contact");
   assert.ok(html.includes('id="guide-list"')&&html.includes('id="search"')&&html.includes('id="filters"'),lang+" controls");
@@ -24,6 +26,8 @@ for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
   assert.ok(!/hero-avatar-concept|person-photo-placeholder/i.test(html),"No unapproved personal avatar");
 }
 assert.ok(existsSync(resolve(root,"public/favicon-tle.svg")),"Existing official favicon");
+assert.ok(existsSync(resolve(root,"public/guias/assets/dailin-avatar-hero-loop.mp4")),"Founder hero MP4");
+assert.ok(existsSync(resolve(root,"public/guias/assets/dailin-avatar-hero-poster.webp")),"Founder hero poster");
 assert.match(editorialCss,/\.brand-wordmark-image/);
 const vectorLogo=readFileSync(resolve(root,"public/guias/assets/dailin-wordmark-clear.svg"),"utf8");
 assert.match(vectorLogo,/viewBox="0 0 520 150"/);

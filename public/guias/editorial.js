@@ -4,8 +4,27 @@
   "use strict";
   const doc=document.documentElement,body=document.body;
   const progress=document.getElementById("reading-progress");
-  const portrait=document.querySelector(".hero-portrait");
+  const portrait=document.querySelector(".hero-media");
+  const heroVideo=document.querySelector(".hero-video");
   const reduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)");
+  function syncHeroVideo(){
+    if(!heroVideo)return;
+    if(reduceMotion.matches){
+      heroVideo.pause();
+      try{heroVideo.currentTime=0;}catch(_error){}
+      portrait&&portrait.classList.remove("is-playing");
+      return;
+    }
+    const playAttempt=heroVideo.play();
+    if(playAttempt&&typeof playAttempt.catch==="function")playAttempt.catch(()=>portrait&&portrait.classList.remove("is-playing"));
+  }
+  if(heroVideo){
+    heroVideo.addEventListener("playing",()=>portrait&&portrait.classList.add("is-playing"));
+    heroVideo.addEventListener("error",()=>portrait&&portrait.classList.remove("is-playing"));
+    heroVideo.addEventListener("stalled",()=>portrait&&portrait.classList.remove("is-playing"));
+    syncHeroVideo();
+    if(typeof reduceMotion.addEventListener==="function")reduceMotion.addEventListener("change",syncHeroVideo);
+  }
   let rafPending=false;
   function updateScroll(){
     rafPending=false;
