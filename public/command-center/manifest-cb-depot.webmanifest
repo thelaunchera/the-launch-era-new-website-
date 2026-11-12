@@ -1,6 +1,6 @@
 {
   "id": "./?app=cb-depot",
-  "name": "CB Depot Command Center",
+  "name": "CB Depot Admin Panel",
   "short_name": "CB Depot",
   "description": "Private CB Depot operations workspace",
   "start_url": "./?app=cb-depot",

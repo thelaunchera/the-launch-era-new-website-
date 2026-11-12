@@ -23,7 +23,7 @@ function renderOrders(orders){
   const card=node("div");card.style.cssText="background:#fff;border:1px solid #dce4ea;border-radius:16px;padding:15px;min-width:0;display:grid;gap:7px";
   const heading=node("strong",a.business_name||say("Business name pending","Nombre del negocio pendiente"));heading.style.cssText="font-size:15px;overflow-wrap:anywhere";
   const email=node("p",a.owner_email||"");email.style.cssText="font-size:12px;overflow-wrap:anywhere;color:#586b7c;margin:0";
-  const plan=node("p","Booking Automation + Command Center + "+(names[a.bundle_ai]||"AI Assistant"));plan.style.cssText="font-size:13px;font-weight:700;color:#195b83;background:#e9f3fb;padding:9px 10px;border-radius:10px;margin:0";
+  const plan=node("p","Booking Automation + Admin Panel + "+(names[a.bundle_ai]||"AI Assistant"));plan.style.cssText="font-size:13px;font-weight:700;color:#195b83;background:#e9f3fb;padding:9px 10px;border-radius:10px;margin:0";
   const paid=node("p",say("Paid today: ","Pagó en la activación: ")+cents(a.amount_paid_cents));paid.style.cssText="margin:0;font-weight:700;font-size:13px";
   const progress=node("p",say("Booking intake: ","Formulario Booking: ")+(a.intake_done?"✓":"○")+"  ·  AI: "+(a.ai_status||"pending"));progress.style.cssText="font-size:12px;color:#526775;margin:0";
   const sla=node("p",say("Production estimate: 4 business days after the paid intake is complete and production approved.","Producción estimada: 4 días hábiles desde la aprobación del intake pagado y completo."));sla.style.cssText="font-size:12px;color:#27495c;margin:0";
@@ -42,7 +42,7 @@ async function refresh(){
   $("tleBundleDiscountToggle").disabled=false;$("tleBundleDiscountSave").disabled=false;
   status(cfg.enabled?say("40% activation promotion is ON. Normal AI monthly prices are unchanged.","Descuento del 40% en activación ACTIVO. Las mensualidades normales no cambian."):say("Promotion is OFF. Combined purchases use standard setup prices.","Promoción DESACTIVADA. La compra conjunta usa precios normales."));
   const orders=await query("tle_owner_bundle_queue",{});renderOrders(orders);
- }catch(e){status(say("Could not load owner settings. Refresh your Command Center.","No se pudo cargar la configuración. Actualiza tu Command Center."));}
+ }catch(e){status(say("Could not load owner settings. Refresh your Admin Panel.","No se pudo cargar la configuración. Actualiza tu panel de administrador."));}
  finally{busy=false;$("tleBundleOwnerRefresh").disabled=false}
 }
 $("tleBundleOwnerRefresh").onclick=refresh;
