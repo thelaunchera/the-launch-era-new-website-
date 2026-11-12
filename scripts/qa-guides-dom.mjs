@@ -39,7 +39,8 @@ async function testLanguage(lang) {
   const filter=[...document.querySelectorAll(".filter")].find(b=>b.textContent===filterText);
   assert.ok(filter,lang+" filter button exists");
   filter.click();
-  assert.equal(filter.getAttribute("aria-pressed"),"true",lang+" filter selected");
+  const activeFilter=[...document.querySelectorAll(".filter")].find(b=>b.textContent===filterText);
+  assert.equal(activeFilter?.getAttribute("aria-pressed"),"true",lang+" filter selected");
   assert.equal(document.querySelectorAll(".guide").length,2,lang+" automation count");
   const guideButton=document.querySelector(".guide .open");guideButton.focus();guideButton.click();
   const modal=document.getElementById("dialog-backdrop");
