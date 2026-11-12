@@ -1,3 +1,8 @@
+## 2026-11-12 — Compact demo topbars and brand-local EN/ES controls (review branch)
+- All existing 12 primary portfolio brand entry pages reference `/assets/tle-demo-header-controls-20261112.js`; it narrows selected CTA padding/typography without altering destinations, cart ownership, booking logic, or native language selection.
+- AFTR, CRUMB and Ivory & Bloom receive an in-header EN/ES toggle with persistent per-brand locale and targeted localized static copy. Existing EN/ES buttons on the other brands remain authoritative. The secondary Pages demos will load the same shared enhancer only after this main asset is released; see secondary review PR.
+- Source-only enhancement. Routes unchanged. Static locale coverage does not guarantee complete translations of dynamically generated checkout/confirmation content. Browser/mobile QA, Pages publication and iPhone Safari remain release gates.
+
 ## 2026-11-12 — Consultation-first contact on official website (EN/ES)
 - **Owner request:** Ask prospective website customers to contact The Launch Era for a consultation before purchasing either website package.
 - **Public sources / routes:** `public/website-for-your-business/index.html` → `/website-for-your-business/` and copied `/`; `public/es/website-for-your-business/index.html` → `/es/website-for-your-business/` and copied `/es/`. FAQ anchor remains `#preguntas` and checkout anchors remain unchanged.
