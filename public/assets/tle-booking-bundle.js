@@ -34,13 +34,13 @@ root.setAttribute("aria-label",es?"Personalizar mi compra":"Customize my purchas
 const safe=t=>String(t).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
 root.innerHTML=`<div class="tle-ey">${es?"TU SISTEMA, A TU MANERA":"BUILD YOUR BOOKING SYSTEM"}</div>
 <h2>${es?"¿Lista para automatizar tus reservas?":"Ready to automate your bookings?"}</h2>
-<p>${es?"Comienza con tu Booking Page y Command Center. Si quieres, añade un asistente de IA independiente en esta misma compra.":"Start with your Booking Page and Command Center. Add a separate AI Assistant if it fits your business — all in one checkout."}</p>
-<div class="tle-included"><div><b>Booking Automation + Command Center</b><br><span>${es?"Página personalizada + panel privado":"Personalized Booking Page + private workspace"}</span></div><b>${bookingDisplayPrice}</b></div>
+<p>${es?"Comienza con tu Booking Page y panel de administrador. Si quieres, añade un asistente de IA independiente en esta misma compra.":"Start with your Booking Page and Admin Panel. Add a separate AI Assistant if it fits your business — all in one checkout."}</p>
+<div class="tle-included"><div><b>Booking Automation + Admin Panel</b><br><span>${es?"Página personalizada + panel privado":"Personalized Booking Page + private workspace"}</span></div><b>${bookingDisplayPrice}</b></div>
 <div class="tle-ey">${es?"IA OPCIONAL · PRECIO DE PAQUETE":"OPTIONAL AI · BUNDLE PRICING"}</div>
 <div class="tle-options" role="radiogroup" aria-label="${es?"Añadir AI Assistant":"Add an AI Assistant"}">
 ${plans.map(([key,name,desc])=>`<label class="tle-opt"><input type="radio" name="tle-ai-bundle" value="${safe(key)}" ${key===autoSelectAI?"checked":""}><span class="tle-opt-main"><strong>${safe(name)}</strong><small>${safe(desc)}</small></span><span class="tle-opt-price">${totalPackagePrice(key)}<small>${key?(es?"después $":"then $")+prices[key].monthly+(es?"/mes":"/mo"):(es?"sin mensualidad":"no monthly fee")}</small></span></label>`).join("")}
 </div>
-<div class="tle-summary" aria-live="polite"><div class="tle-sumrow"><span id="tleSelectedPackage">Booking Automation + Command Center</span><b id="tleBookingPrice">${bookingDisplayPrice}</b></div><div class="tle-sumrow total"><span>${es?"Total a pagar hoy":"Total due today"}</span><strong id="tleTotal">${bookingDisplayPrice}</strong></div><div class="tle-monthly" id="tleMonthly">${es?"Sin mensualidad de AI Assistant.":"No AI Assistant monthly fee."}</div></div>
+<div class="tle-summary" aria-live="polite"><div class="tle-sumrow"><span id="tleSelectedPackage">Booking Automation + Admin Panel</span><b id="tleBookingPrice">${bookingDisplayPrice}</b></div><div class="tle-sumrow total"><span>${es?"Total a pagar hoy":"Total due today"}</span><strong id="tleTotal">${bookingDisplayPrice}</strong></div><div class="tle-monthly" id="tleMonthly">${es?"Sin mensualidad de AI Assistant.":"No AI Assistant monthly fee."}</div></div>
 <button type="button" class="tle-buy" id="tleCheckoutBtn">${es?"Continuar al checkout seguro →":"Continue to secure checkout →"}</button>
 <p class="tle-hint">${es?"El precio incluye Booking y la activación del asistente elegido. La mensualidad de IA comienza 30 días después de la entrega.":"Each package price includes Booking and AI setup. AI monthly billing starts 30 days after delivery."}</p>
 <p class="tle-hint" id="tleProductionPromise" aria-live="polite"></p>
@@ -53,7 +53,7 @@ function expected(key){
 }
 function render(){
  const key=selected(),plan=prices[key],v=expected(key),total=v.bookCents+v.aiCents;
- root.querySelector("#tleSelectedPackage").textContent=key?"Booking + "+(plans.find(p=>p[0]===key)?.[1]||"AI Assistant"):"Booking Automation + Command Center";
+ root.querySelector("#tleSelectedPackage").textContent=key?"Booking + "+(plans.find(p=>p[0]===key)?.[1]||"AI Assistant"):"Booking Automation + Admin Panel";
  root.querySelector("#tleBookingPrice").textContent=money(total/100);
  root.querySelector("#tleTotal").textContent=money(total/100);
  root.querySelectorAll('input[name="tle-ai-bundle"]').forEach(input=>{
