@@ -7,7 +7,7 @@ const read=(p)=>readFileSync(resolve(process.cwd(),p),"utf8");
 const app=read("public/guias/app.js");
 async function testLanguage(lang) {
   const route=lang==="es"?"/es/guias/":"/guias/";
-  const file=lang==="es"?"public/es/guias/":"public/guias/";
+  const file=lang==="es"?"public/es/guias/index.html":"public/guias/index.html";
   const errors=[];
   const virtualConsole=new VirtualConsole();
   virtualConsole.on("jsdomError",(e)=>errors.push(String(e.message||e)));
