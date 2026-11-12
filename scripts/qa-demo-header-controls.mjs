@@ -8,6 +8,9 @@ const root = path.resolve("public/demos");
 const enhancer = fs.readFileSync("public/assets/tle-demo-header-controls-20261112.js","utf8");
 new vm.Script(enhancer,{filename:"tle-demo-header-controls-20261112.js"});
 assert.match(enhancer,/\.language-btn,#languageBtn/,"Preserve Jaramillo native locale button without duplicate");
+assert.match(enhancer,/min-height:44px/,"Mobile language and header actions keep touch-friendly targets");
+assert.match(enhancer,/ivory-and-bloom/,"Compact Ivory mobile inquiry is explicitly scoped");
+assert.match(enhancer,/havana-19/,"Compact Havana mobile brand actions are explicitly scoped");
 const entries = fs.readdirSync(root,{withFileTypes:true}).filter(entry => entry.isDirectory());
 let checked = 0;
 for(const {name} of entries){
