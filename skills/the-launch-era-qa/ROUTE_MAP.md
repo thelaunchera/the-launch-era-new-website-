@@ -1,3 +1,8 @@
+## 2026-11-12 — Compact demo topbars and brand-local EN/ES controls (review branch)
+- All existing 12 primary portfolio brand entry pages reference `/assets/tle-demo-header-controls-20261112.js`; it narrows selected CTA padding/typography without altering destinations, cart ownership, booking logic, or native language selection.
+- AFTR, CRUMB and Ivory & Bloom receive an in-header EN/ES toggle with persistent per-brand locale and targeted localized static copy. Existing EN/ES buttons on the other brands remain authoritative. The secondary Pages demos will load the same shared enhancer only after this main asset is released; see secondary review PR.
+- Source-only enhancement. Routes unchanged. Static locale coverage does not guarantee complete translations of dynamically generated checkout/confirmation content. Browser/mobile QA, Pages publication and iPhone Safari remain release gates.
+
 ## 2026-11-12 — Public homepage canonical and search identity
 - **Actual Pages root:** Build step in `.github/workflows/pages.yml` copies `/website-for-your-business/index.html` to `/index.html` and Spanish equivalent to `/es/index.html`.
 - **SEO build postprocess:** `scripts/prepare-homepage-seo.mjs` changes only the copied root files: canonical URL `https://thelaunchera.com/` or `https://thelaunchera.com/es`, reciprocal hreflang, official The Launch Era site name/structured data and small-business-focused titles. Direct website-offer pages retain their self-canonical product URLs.

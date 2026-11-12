@@ -1,3 +1,8 @@
+## 2026-11-12 — Public demo topbars inconsistent / language selector missing (review branch)
+- Owner asked for slightly smaller topbar buttons across the demo portfolio and a functional language selector on brands missing one.
+- Verified: existing primary portfolio sites mix native locale toggles and plain one-language headers; two repositories publish the gallery demos. Main shared enhancer isolates presentation changes and adds EN/ES static-content localization only to primary brands with no native switch.
+- Source guards: keep native cart, forms, original button destinations, real booking/checkout ownership and customer data untouched; no hardcoded demo count. Added static syntax/reference check. Requires independent GitHub CI, mobile browser and published Pages verification. Full dynamic-content translation and physical iPhone are not validated.
+
 ## 2026-11-12 — SEO release PR triggered unrelated red checks
 - **Owner report:** Multiple red GitHub checks after attempted site-wide SEO edit.
 - **Verified cause:** PR #543 changed the TanStack React homepage and activated 23 broad PR workflows, although the current Pages build publishes the universal website-offer HTML at `/` and `/es`. Many failures were outside SEO scope: Playwright/Chromium unsupported on `ubuntu26.04-x64` when workflows used `ubuntu-latest`; legacy copy/price expectations; missing generated WebP when a QA job skipped the Pages image preprocessing.
