@@ -1,0 +1,158 @@
+/* Dailin Vault · evergreen presentation, 2026-11-12
+ * Continuous ivory, growing libraries with no visible totals or serial numbers.
+ * No decorative rule marks, icon arrows, green check badges or repeated names.
+ */
+body .hero-overline::before,
+body .section-kicker::before,
+body .eyebrow::before,
+body .resource-eyebrow::before,
+body .library-intro .eyebrow::before,
+body #guias .library-intro .eyebrow::before,
+body .scroll-cue::before,
+body .ticker-track span::before,
+body .how .step::before,
+body .tle-coming-band::before {
+  display:none!important;content:none!important;
+}
+body .hero-overline,
+body .section-kicker,
+body .eyebrow,
+body .resource-eyebrow {gap:0!important;padding-left:0!important}
+body #reading-progress{background:var(--v-coral,#ed644b)!important}
+body>.grid .hero-vault .hero-topics,
+body>.grid .hero-vault .hero-topic-links,
+body #guias,
+body #guias .library-topnote,
+body #guias .guides,
+body #guias .guide,
+body #guias .guide:last-child,
+body #recursos,
+body #prompts-fotos,
+body #proximamente,
+body #suscripcion,
+body .how,
+body .how .steps,
+body .how .step,
+body .products,
+body .consult,
+body footer,
+body .ticker {
+  border:0!important;
+  border-image:none!important;
+}
+body #guias .guide{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  gap:12px!important;
+  padding:clamp(19px,2.6vw,28px)!important;
+  margin:0 0 14px!important;
+  background:#fffefa!important;
+  border-radius:20px!important;
+  box-shadow:0 0 0 1px rgba(33,28,27,.14)!important;
+}
+body #guias .guide:hover,
+body #guias .guide:nth-child(2n){
+  background:#fffefa!important;
+}
+body #guias .guide>div{
+  grid-column:1!important;grid-row:1!important;min-width:0
+}
+body #guias .guide>.open{
+  grid-column:1!important;grid-row:2!important;justify-self:start
+}
+body #guias .guide .number {display:none!important}
+body #guias .library-intro{
+  position:sticky!important;
+  top:clamp(100px,10vw,128px)!important;
+  align-self:start!important;
+  background:var(--v-paper,#faf6ed)!important;
+  z-index:5;
+}
+body #guias .library-topnote{
+  margin:0 0 18px;
+  padding:0!important;
+}
+body #guias .library-topnote b{
+  color:var(--v-coral-deep,#c84430)!important;
+  font-size:clamp(19px,2.2vw,30px)!important;
+}
+body #guias .library-stamp,body #guias .count,body .tle-resource-count{display:none!important}
+body .how .steps{padding-left:0!important}
+body .how .step{padding:0 0 25px!important;margin:0 0 24px!important}
+body .ticker-track span{gap:16px!important}
+body .tle-resource-cover{
+  justify-content:flex-start!important;
+  align-items:center!important;
+}
+body .tle-resource-cover strong{
+  max-width:100%!important;
+  font-size:clamp(20px,2.6vw,35px)!important;
+  overflow-wrap:anywhere!important;
+}
+body .tle-resource-info a,
+body .tle-prompt-card button,
+body .guide .open{gap:0!important}
+body .tle-resource-cover span{display:none!important}
+/* The portrait background must be neutral; keep a quiet rounded lower-card
+   silhouette for the previously approved 'coming out of the card' effect. */
+body>.grid .hero-vault .hero-art,
+body>.grid .hero-vault .hero-media,
+body>.grid .hero-vault .hero-poster,
+body>.grid .hero-vault .hero-video{
+  background-color:transparent!important;
+  background-image:none!important;
+}
+body>.grid .hero-vault .hero-card{
+  background:#faf6ed!important;
+  background-image:none!important;
+  border:1px solid rgba(237,100,75,.35)!important;
+  box-shadow:0 5px 15px rgba(33,28,27,.055)!important;
+}
+/* Tightened feather reduces the visible blue matte around the original MP4;
+   true removal of pixels baked into the source requires a keyed/alpha export. */
+body>.grid .hero-vault .hero-media.hero-media--cutout{
+  -webkit-mask-image:radial-gradient(ellipse 67% 102% at 50% 42%,#000 41%,rgba(0,0,0,.96) 52%,rgba(0,0,0,.68) 65%,transparent 82%)!important;
+  mask-image:radial-gradient(ellipse 67% 102% at 50% 42%,#000 41%,rgba(0,0,0,.96) 52%,rgba(0,0,0,.68) 65%,transparent 82%)!important;
+}
+/* Sticky guide intro at iPhone sizes: a compact editorial tab that remains
+   visible while only the guide cards scroll underneath the fixed site navbar. */
+@media(max-width:760px){
+ body #guias .library-layout{display:block!important;overflow:visible!important}
+ body #guias .library-intro{
+  position:sticky!important;
+  top:79px!important;
+  padding:10px 15px 12px!important;
+  margin:0 -15px 18px!important;
+  background:rgba(250,246,237,.97)!important;
+  -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
+  border-radius:0 0 16px 16px;
+  box-shadow:0 9px 16px rgba(33,28,27,.05);
+ }
+ body #guias .library-intro .eyebrow{font-size:10px!important}
+ body #guias .library-intro h2{
+  font-size:clamp(23px,6.4vw,33px)!important;
+  line-height:1.16!important;
+  margin:3px 0 6px!important;
+  max-width:none!important;
+ }
+ body #guias .library-intro p{
+  font-size:11px!important;
+  line-height:1.4!important;
+  max-width:none!important;
+  margin:0!important;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  overflow:hidden;
+ }
+ body #guias .guide{padding:20px!important;margin-bottom:12px!important}
+ body #guias .library-main{position:relative;z-index:1}
+ body>.grid .hero-vault .hero-card{
+  border:1px solid rgba(237,100,75,.26)!important;
+  box-shadow:none!important;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ body #guias .guide{transition:none!important}
+}
