@@ -34,7 +34,7 @@ const {chromium}=require("playwright");
    assert.equal(sent[0].language,lang,"correct language");
    assert.equal(sent[0].consent,true,"only with consent");
    assert.equal(sent[0].action,"subscribe","subscription action");
-   await page.locator("#tle-resource-feedback").waitFor({state:"visible"});
+   await page.waitForFunction(()=>document.querySelector("#tle-resource-feedback")?.textContent?.length>15,{timeout:10000});
    assert.ok((await page.locator("#tle-resource-feedback").textContent()).length>15,"truthful pending message");
    assert.deepEqual(errors,[],"browser errors "+errors.join("; "));
    await context.close();
