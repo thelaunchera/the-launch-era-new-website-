@@ -1,6 +1,7 @@
 name: The Launch Era Brand SEO QA
 on:
   pull_request:
+    types: [opened, reopened, synchronize]
     paths:
       - 'public/website-for-your-business/index.html'
       - 'public/es/website-for-your-business/index.html'
