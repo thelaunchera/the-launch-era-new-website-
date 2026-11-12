@@ -10,7 +10,7 @@ const es={
  heroBody:'Prueba cómo un cliente podría solicitar una limpieza y descubre dónde verías la solicitud para responder.',
  heroAction:'Probar una reserva',heroNote:'Una sola solicitud. Sin registro.',
  floating1a:'NUEVA SOLICITUD',floating1b:'Limpieza profunda',floating2a:'TU ESPACIO',floating2b:'Lista para revisar',
- heroStamp:'RESERVAS + COMMAND CENTER',band1:'UNA SOLICITUD',band2:'UN ESPACIO CONECTADO',band3:'TODO EN UNA SOLA DEMOSTRACIÓN',
+ heroStamp:'RESERVAS + ADMIN PANEL',band1:'UNA SOLICITUD',band2:'UN ESPACIO CONECTADO',band3:'TODO EN UNA SOLA DEMOSTRACIÓN',
  experienceEyebrow:'01 / VISTA DEL CLIENTE',experienceHeading:'Tu clienta solo quiere reservar sin complicaciones.',
  experienceSub:'Tres pasos para ver cómo funciona. No se envía ni se guarda nada.',
  sampleSubtitle:'PÁGINA DE RESERVAS DE EJEMPLO',sampleMode:'Modo de prueba',
@@ -41,8 +41,8 @@ const es={
  ownerTitle:'Lo que tu clienta no ve, pero tú sí.',
  ownerSub:'La misma solicitud llega lista para revisar, cotizar y dar seguimiento, sin buscar entre mensajes.',
  dashRequests:'Solicitudes',dashQuotes:'Cotizaciones',dashFollowups:'Seguimientos',dashMockNote:'Espacio de ejemplo',
- dashToday:'TU COMMAND CENTER',dashHeading:'Acaba de llegar una solicitud.',dashSample:'TU DÍA DE TRABAJO · EJEMPLO',
- dashBrandSmall:'COMMAND CENTER',dashSideLabel:'MI ESPACIO',dashWelcome:'Sin buscar entre mensajes. Aquí ves lo que sigue.',
+ dashToday:'TU ADMIN PANEL',dashHeading:'Acaba de llegar una solicitud.',dashSample:'TU DÍA DE TRABAJO · EJEMPLO',
+ dashBrandSmall:'ADMIN PANEL',dashSideLabel:'MI ESPACIO',dashWelcome:'Sin buscar entre mensajes. Aquí ves lo que sigue.',
  metricOne:'Nueva solicitud',metricOneNote:'Desde tu página de reservas',metricTwo:'Valor ilustrativo',metricTwoNote:'Según la selección de ejemplo',metricThree:'Próxima acción',metricThreeNote:'Mira cómo avanza',
  inboxTitle:'SOLICITUDES',inboxNew:'Nueva desde tu página de reservas',inboxSample:'EJEMPLO #001',requestPriceLabel:'Valor ilustrativo',
  activityTitle:'ACTIVIDAD',activityRequest:'Solicitud recibida',activityRequestHint:'Todos los detalles juntos',activityQuote:'Vista previa de cotización',activityQuoteHint:'Lista para revisar',activityFollow:'Vista previa de seguimiento',activityFollowHint:'Solo cuando corresponde',
@@ -52,9 +52,9 @@ const es={
  workflowLabel:'MIRA QUÉ SIGUE',workflowBack:'Paso anterior',
  ownerFootnote:'Demostración interactiva: no se crea ninguna reserva, cotización, correo, seguimiento ni cobro.',
  offerEyebrow:'AHORA, HAZLO TUYO',offerTitle:'Esta fue una prueba. La próxima solicitud puede ser tuya.',
- offerBody:'Tu nombre, tus servicios y tu propio Command Center. Un sistema preparado para cuando lleguen tus clientes.',
+ offerBody:'Tu nombre, tus servicios y tu propio Admin Panel. Un sistema preparado para cuando lleguen tus clientes.',
  offerPrice:'PAGO ÚNICO · BOOKING SIN MENSUALIDAD',
- purchase:'Quiero mi Booking Page + Command Center',
+ purchase:'Quiero mi Booking Page + Admin Panel',
  offerNote:'La IA es opcional y tiene un precio aparte. Verás todos los cargos antes de pagar.',
  tryAgain:'Probar otra solicitud de ejemplo',
  footerSafety:'Este recorrido es de muestra; no se programa una limpieza. Si decides enviar un mensaje por chat, puede ser procesado.',
@@ -79,7 +79,7 @@ const names={
  extras:{oven:'Interior del horno',fridge:'Interior del refrigerador'},
  time:{morning:'Mañana · 9–12',afternoon:'Tarde · 12–4',flexible:'Flexible'},
  none:'Ninguno',choose:'Sin elegir',quote:'Cotización personalizada',notSet:'Sin elegir',
- viewOwner:'Ver el Command Center',followOffer:'Ver mi página de reservas',
+ viewOwner:'Ver el panel de administrador',followOffer:'Ver mi página de reservas',
  phases:[
  {tag:'01 / NUEVA SOLICITUD',title:'Sabes qué acaba de llegar.',desc:'La solicitud que acabas de completar aparece aquí con el servicio, la fecha y los detalles. La revisas antes de decidir.',action:'Ver cotización de ejemplo',status:'Por revisar'},
  {tag:'02 / REVISAR COTIZACIÓN',title:'Revisas el precio antes de enviarlo.',desc:'La cotización de ejemplo queda conectada a la misma solicitud. Esta prueba no envía ningún mensaje al cliente.',action:'Simular cotización enviada',status:'Cotización pendiente'},
@@ -196,7 +196,7 @@ function renderPhase(){
 }
 function applyLanguage(){
  document.documentElement.lang=state.lang;
- document.title=state.lang==='es'?'De la reserva al Command Center · The Launch Era':'See the full booking journey · The Launch Era';
+ document.title=state.lang==='es'?'De la reserva al panel de administrador · The Launch Era':'See the full booking journey · The Launch Era';
  document.querySelectorAll('[data-t]').forEach(el=>{el.textContent=t(el.dataset.t);});
  $('language').textContent=state.lang==='es'?'EN':'ES';
  $('language').setAttribute('aria-label',state.lang==='es'?'Switch to English':'Cambiar a español');
