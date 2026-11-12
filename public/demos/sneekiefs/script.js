@@ -105,10 +105,11 @@ function renderPreview(){
 }
 function renderConfirmation(){
   const receipt=state.receipt;if(!receipt)return;
-  const html=receipt.lines.map(line=>'<div class="order-line"><span>'+line.qty+' × '+esc(line.name)+' / US '+line.size+'</span><strong>'+fmt(line.price*line.qty)+'</strong></div>').join('');
+  const html=receipt.lines.map(line=>'<div class="order-line" data-receipt-line><span>'+line.qty+' × '+esc(line.name)+' / US '+line.size+'</span><strong>'+fmt(line.price*line.qty)+'</strong></div>').join('');
   $("#bagSubtotal").textContent=fmt(receipt.total);
   $("#previewOrder").disabled=true;
-  $("#bagItems").innerHTML='<div class="bag-confirmation" role="status"><span class="eyebrow">'+t("conceptDemo")+'</span><h3>'+t("confirmTitle")+'</h3><p>'+t("confirmDesc")+'</p><div class="order-lines">'+html+'<div class="order-line"><strong>'+t("previewTotal")+'</strong><strong>'+fmt(receipt.total)+'</strong></div></div><button type="button" class="btn btn-dark full" id="startNewDemo">'+t("confirmAgain")+'</button></div>';
+  $("#bagItems").innerHTML='<div class="bag-confirmation" data-demo-receipt="sneekiefs" role="status"><span class="eyebrow">'+t("conceptDemo")+'</span><h3>'+t("confirmTitle")+'</h3><p>'+t("confirmDesc")+'</p><div class="order-lines">'+html+'<div class="order-line"><strong>'+t("previewTotal")+'</strong><strong>'+fmt(receipt.total)+'</strong></div></div><button type="button" class="btn btn-dark full" id="startNewDemo">'+t("confirmAgain")+'</button></div>';
+  window.TLEDemoConfirmation?.play($("#bagItems [data-demo-receipt]"));
 }
 function renderQuick(id){
   const p=items.find(x=>x.id===id);if(!p)return;
