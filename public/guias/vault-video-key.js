@@ -41,11 +41,15 @@
    // This removes the *pale blue matte*, not skin, dark hair or black clothing.
    float blue=smoothstep(.027,.105,b)*smoothstep(.009,.055,g)*smoothstep(.42,.66,brightness);
    float a=source.a*(1.0-clamp(blue,0.,1.));
-   // The source video cuts through the clothing at its left/right frame limits.
-   // Fade only the lower-body boundary; leave crown, eyes and face unaltered.
-   float lowerBody=smoothstep(.32,.74,1.0-q.y);
-   float sideFeather=smoothstep(0.0,.12,q.x)*(1.0-smoothstep(.88,1.0,q.x));
-   a*=mix(1.0,sideFeather,lowerBody);
+   // The recording ends inside the black sleeves and waist: those frame
+   // boundaries are not person edges. Fade their alpha progressively below
+   // the hair/face, preserving the original animated facial detail.
+   float torso=1.0-smoothstep(.44,.71,q.y);
+   float featherWidth=mix(.01,.19,torso);
+   float sides=smoothstep(0.0,featherWidth,q.x)
+     *(1.0-smoothstep(1.0-featherWidth,1.0,q.x));
+   float waist=smoothstep(.06,.34,q.y);
+   a*=mix(1.0,sides*waist,torso);
    if(a<.008){gl_FragColor=vec4(0.);return;}
    // Remove blue edge spill without redrawing or shifting the person's identity.
    vec3 clean=vec3(c.r,c.g,mix(c.b,min(c.b,max(c.r,c.g)+.045),(.85-a)*.55));
