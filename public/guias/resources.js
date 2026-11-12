@@ -90,25 +90,32 @@
   ["Choose a clear authorized portrait of the person you want to show.","Attach it, paste the prompt and change the clothing or lighting without changing the person's facial features.","Compare the face, hair, eyes and proportions against the real portrait before you publish."],
   ["Attach an actual reference photo of the product or person you want as the hero subject.","Replace [REAL PERSON OR PRODUCT] with an accurate description and request space for your website headline.","Generate a wide image, then check the mobile crop. Add the actual headline as live website text, not as letters inside the image."]
  ];
+ const openLabel=es?"Ver prompt completo":"View full prompt";
  const photoCards=photo.map((x,i)=>{
-  const li=helpItems[i].map(t=>'<li>'+escape(t)+'</li>').join("");
-  return '<article class="tle-prompt-card"><span>'+escape(x.type)+'</span><h3>'+escape(x.title)+'</h3><pre id="tle-photo-prompt-'+i+'">'+escape(x.prompt)+'</pre>'+
-    '<div class="vault-photo-help"><strong>'+(es?"Cómo usar este prompt":"How to use this prompt")+'</strong><ol>'+li+'</ol></div>'+
-    '<button type="button" data-tle-copy="tle-photo-prompt-'+i+'">'+escape(t.copy)+'</button></article>';
+  const id="tle-photo-prompt-"+i;
+  const li=helpItems[i].map(step=>'<li>'+escape(step)+'</li>').join("");
+  return '<article class="tle-prompt-card" data-prompt-card>'+
+    '<div class="vault-prompt-art vault-prompt-art--'+(i%3)+'" aria-hidden="true"><span>'+escape(x.type)+'</span><span class="vault-art-letter">'+escape(["P","R","W"][i%3])+'</span></div>'+
+    '<div class="vault-prompt-card-content"><span class="vault-prompt-kicker">'+escape(x.type)+'</span>'+
+    '<h3>'+escape(x.title)+'</h3><p class="vault-prompt-summary">'+escape(helpItems[i][0])+'</p>'+
+    '<pre class="vault-prompt-source" id="'+id+'" hidden>'+escape(x.prompt)+'</pre>'+
+    '<div class="vault-photo-help" hidden><strong>'+(es?"Cómo usar este prompt":"How to use this prompt")+'</strong><ol>'+li+'</ol></div>'+
+    '<div class="vault-prompt-actions"><button type="button" data-tle-copy="'+id+'">'+escape(t.copy)+'</button>'+
+    '<button type="button" class="vault-prompt-open" data-vault-open-prompt="'+id+'">'+openLabel+'</button></div></div></article>';
  }).join("");
  const caseStudy={"es":{"eyebrow":"ASÍ SE VE EN UN PROYECTO REAL","title":"Del prompt a una <em>web lista para explorar.</em>","intro":"Estas fotografías pertenecen al demo de Sneekiefs. Los prompts son ejemplos educativos para crear imágenes con una dirección parecida, no una copia de los prompts originales de producción.","photoLabel":"FOTO DEL DEMO","promptLabel":"PROMPT DE EJEMPLO","copy":"Copiar prompt","resultEyebrow":"RESULTADO · LANDING DEMO","resultTitle":"Así quedó la web de Sneekiefs.","resultDesc":"Mira cómo las fotografías, la identidad azul y naranja, las secciones y las interacciones se unen en una experiencia completa. Este es un demo de concepto: no procesa compras reales.","cta":"Explorar el landing completo","preview":"Vista previa del landing real","steps":[{"title":"Fotografía del producto","desc":"Una imagen principal para presentar el sneaker con claridad, textura y luz editorial.","image":"01-studio-shoe.webp","alt":"Fotografía original del sneaker Sneekiefs en estudio, utilizada en su demo.","caption":"Foto original de la campaña Sneekiefs · producto en estudio","prompt":"Usa la fotografía real adjunta de mis sneakers como referencia exacta. Crea una fotografía editorial de producto, con un solo par como protagonista, iluminación de estudio suave, textura realista y sombras naturales. Mantén la forma, los materiales, las costuras, los colores y cualquier logo que realmente aparezca en el producto. Combina un fondo limpio color marfil con detalles en azul intenso y naranja cálido, sin distraer del producto. Deja espacio para colocar textos posteriormente en el diseño de la web. No inventes marcas, etiquetas ni características."},{"title":"Fotografía para la campaña","desc":"Una segunda imagen añade contexto, estilo de vida y una historia visual para la web.","image":"06-model-campaign.webp","alt":"Fotografía editorial original con modelo de la campaña Sneekiefs usada en el demo.","caption":"Foto original de la campaña Sneekiefs · editorial con modelo","prompt":"Usa las fotografías adjuntas de los sneakers como referencia de producto y conserva exactamente su diseño, colores y logos. Crea una fotografía editorial de moda urbana con una persona adulta usando esos sneakers en un entorno de ciudad contemporáneo. Estilo de campaña auténtico y fotográfico, luz natural, movimiento sutil y composición cuidada. La ropa debe complementar la identidad azul y naranja del proyecto sin tapar los zapatos. Mantén proporciones humanas realistas y la forma original del calzado. No agregues textos, logotipos ficticios ni marcas de agua."}]},"en":{"eyebrow":"SEE IT IN A REAL PROJECT","title":"From a prompt to a <em>website you can explore.</em>","intro":"These are actual images from the Sneekiefs demo. The prompts are educational examples for creating a similar visual direction, not verified copies of the original production prompts.","photoLabel":"DEMO PHOTO","promptLabel":"EXAMPLE PROMPT","copy":"Copy prompt","resultEyebrow":"RESULT · LIVE DEMO LANDING","resultTitle":"The finished Sneekiefs website.","resultDesc":"See how product photography, a blue-and-orange identity, page sections and interactions come together. This is a concept demo; no real purchases are processed.","cta":"Explore the complete landing","preview":"Preview of the actual landing","steps":[{"title":"Studio product photograph","desc":"A clean product-led image that shows the sneakers, their details and editorial lighting.","image":"01-studio-shoe.webp","alt":"Original Sneekiefs sneaker studio product photo used in the demo.","caption":"Original Sneekiefs campaign photo · studio product","prompt":"Use the attached real sneaker photograph as the exact product reference. Create a premium editorial studio photograph with a single pair as the hero. Use soft professional lighting, believable texture and natural shadows. Preserve the actual shape, materials, stitching, colors and only logos genuinely present on the shoes. Pair an uncluttered warm ivory setting with subtle vivid blue and warm orange accents. Leave room for live website text to be added later. Do not invent branding, labels or product features."},{"title":"Lifestyle campaign photograph","desc":"A second image brings real-world context and a recognizable creative mood to the page.","image":"06-model-campaign.webp","alt":"Original Sneekiefs fashion campaign photograph featuring a model, used in the demo.","caption":"Original Sneekiefs campaign photo · lifestyle editorial","prompt":"Use the attached authentic sneaker photographs as precise product references. Create an editorial urban streetwear campaign photograph featuring an adult model wearing these exact shoes in a contemporary city setting. Keep the sneaker design, colors and genuine branding unchanged. Use natural light, restrained movement and confident styling that complements the blue-and-orange visual identity without hiding the shoes. Maintain realistic human anatomy and photographic details. Do not add fake logos, baked-in captions or watermarks."}]}}[es?"es":"en"];
  const caseRows=caseStudy.steps.map((item,i)=>{
-   const promptId="tle-sneekiefs-prompt-"+i;
-   return '<article class="vault-case-pair">'+
-     '<div class="vault-case-pair-copy">'+
-       '<div class="vault-case-label">'+escape(caseStudy.promptLabel)+'</div>'+
-       '<h3>'+escape(item.title)+'</h3><p>'+escape(item.desc)+'</p>'+
-       '<div class="vault-case-prompt"><pre id="'+promptId+'">'+escape(item.prompt)+'</pre>'+
-         '<button type="button" data-tle-copy="'+promptId+'">'+escape(caseStudy.copy)+'</button></div>'+
-     '</div>'+
-     '<figure class="vault-case-photo"><img src="/demos/sneekiefs/assets/'+encodeURIComponent(item.image)+'" loading="lazy" decoding="async" width="800" height="950" alt="'+escape(item.alt)+'">'+
-       '<figcaption><span>'+escape(caseStudy.photoLabel)+'</span>'+escape(item.caption)+'</figcaption></figure>'+
-   '</article>';
+  const promptId="tle-sneekiefs-prompt-"+i;
+  return '<article class="vault-case-pair" data-prompt-card>'+
+    '<figure class="vault-case-photo"><img src="/demos/sneekiefs/assets/'+encodeURIComponent(item.image)+'" loading="lazy" decoding="async" width="800" height="950" alt="'+escape(item.alt)+'">'+
+      '<figcaption><span>'+escape(caseStudy.photoLabel)+'</span>'+escape(item.caption)+'</figcaption></figure>'+
+    '<div class="vault-case-pair-copy">'+
+      '<div class="vault-case-label">'+escape(caseStudy.promptLabel)+'</div>'+
+      '<h3>'+escape(item.title)+'</h3><p class="vault-prompt-summary">'+escape(item.desc)+'</p>'+
+      '<div class="vault-case-prompt"><pre class="vault-prompt-source" id="'+promptId+'" hidden>'+escape(item.prompt)+'</pre>'+
+        '<div class="vault-prompt-actions"><button type="button" data-tle-copy="'+promptId+'">'+escape(caseStudy.copy)+'</button>'+
+        '<button class="vault-prompt-open" type="button" data-vault-open-prompt="'+promptId+'">'+openLabel+'</button></div></div>'+
+    '</div></article>';
  }).join("");
  const example='<section id="ejemplo-sneekiefs" class="vault-case-study" aria-labelledby="vault-case-title"><div class="wrap">'+
    '<div class="vault-case-heading"><span class="vault-case-label">'+escape(caseStudy.eyebrow)+'</span>'+
@@ -135,7 +142,13 @@
    '<section id="proximamente" class="resource-grid-bg" aria-labelledby="tle-future-heading"><div class="wrap"><div class="tle-coming-band"><div><div class="resource-eyebrow">'+escape(t.soon)+'</div><h2 id="tle-future-heading">'+escape(t.futureTitle)+'</h2><p>'+escape(t.futureDesc)+'</p></div><a href="#suscripcion">'+escape(t.futureButton)+'</a></div></div></section>'+
   '<section id="suscripcion" class="resource-grid-bg" aria-labelledby="tle-sub-heading"><div class="wrap tle-sub-layout"><div class="tle-sub-copy"><div class="resource-eyebrow">'+escape(t.subEyebrow)+'</div><h2 id="tle-sub-heading">'+escape(t.subTitle)+'</h2><p>'+escape(t.subIntro)+'</p></div><div class="tle-sub-form-card">'+form+
   '<div id="tle-resource-token-panel" hidden><h3 id="tle-token-heading"></h3><p id="tle-token-description"></p><button type="button" id="tle-resource-token-btn"></button></div>'+
-  '<p id="tle-resource-feedback" role="status" aria-live="polite"></p></div></div></section></div>';
+  '<p id="tle-resource-feedback" role="status" aria-live="polite"></p></div></div></section>'+
+  '<dialog id="vault-prompt-dialog" class="vault-prompt-dialog" aria-labelledby="vault-prompt-dialog-title">'+
+    '<div class="vault-dialog-heading"><span>'+(es?"PROMPT PARA COPIAR":"COPY-READY PROMPT")+'</span><button type="button" class="vault-prompt-dialog-close" aria-label="'+(es?"Cerrar el prompt":"Close prompt")+'">×</button></div>'+
+    '<h2 id="vault-prompt-dialog-title"></h2><p id="vault-prompt-dialog-intro"></p>'+
+    '<div class="vault-prompt-dialog-help"></div><pre id="vault-prompt-dialog-text"></pre>'+
+    '<button type="button" class="vault-prompt-dialog-copy">'+escape(t.copy)+'</button>'+
+  '</dialog></div>';
  library.insertAdjacentHTML("afterend",markup);
  // Curated library filtering (local, read-only).
  let active="all";
@@ -144,11 +157,57 @@
  const filterBtns=Array.from(document.querySelectorAll("[data-tle-filter]"));
  function render(){const q=input.value.trim().toLowerCase();let n=0;for(const card of cardEls){const show=(active==="all"||card.dataset.type===active)&&(!q||card.dataset.search.includes(q));card.hidden=!show;if(show)n++;}empty.hidden=n>0;}
  input.addEventListener("input",render);filterBtns.forEach(btn=>btn.addEventListener("click",()=>{active=btn.dataset.tleFilter;filterBtns.forEach(b=>b.setAttribute("aria-pressed",String(b===btn)));render();}));render();
+ // Prompt reader: compact cards open one accessible dialog rather than stacking long text.
+ const promptDialog=document.getElementById("vault-prompt-dialog");
+ const promptDialogText=document.getElementById("vault-prompt-dialog-text");
+ const promptDialogTitle=document.getElementById("vault-prompt-dialog-title");
+ const promptDialogIntro=document.getElementById("vault-prompt-dialog-intro");
+ const promptDialogHelp=promptDialog.querySelector(".vault-prompt-dialog-help");
+ let activePromptSource=null,previousFocus=null;
+ function showPrompt(button,selectText=false){
+  const pre=document.getElementById(button.dataset.vaultOpenPrompt||button.dataset.tleCopy);
+  if(!pre)return;
+  activePromptSource=pre;previousFocus=button;
+  const card=button.closest("[data-prompt-card]");
+  promptDialogTitle.textContent=card?.querySelector("h3")?.textContent||"Prompt";
+  promptDialogIntro.textContent=card?.querySelector(".vault-prompt-summary")?.textContent||"";
+  promptDialogText.textContent=pre.textContent;
+  promptDialogHelp.replaceChildren();
+  const help=card?.querySelector(".vault-photo-help");
+  if(help){const clone=help.cloneNode(true);clone.hidden=false;promptDialogHelp.append(clone);}
+  promptDialog.querySelector(".vault-prompt-dialog-copy").textContent=t.copy;
+  if(!promptDialog.open&&typeof promptDialog.showModal==="function")promptDialog.showModal();
+  else promptDialog.setAttribute("open","");
+  if(selectText){
+   const selection=getSelection(),range=document.createRange();
+   range.selectNodeContents(promptDialogText);selection.removeAllRanges();selection.addRange(range);
+  }else{promptDialog.querySelector(".vault-prompt-dialog-close").focus();}
+ }
+ document.querySelectorAll("[data-vault-open-prompt]").forEach(button=>button.addEventListener("click",()=>showPrompt(button)));
+ promptDialog.querySelector(".vault-prompt-dialog-close").addEventListener("click",()=>promptDialog.close());
+ promptDialog.addEventListener("click",event=>{
+  if(event.target!==promptDialog)return;
+  const r=promptDialog.getBoundingClientRect();
+  if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)promptDialog.close();
+ });
+ promptDialog.addEventListener("close",()=>{if(previousFocus?.isConnected)previousFocus.focus();});
+ promptDialog.querySelector(".vault-prompt-dialog-copy").addEventListener("click",async event=>{
+  if(!activePromptSource)return;
+  try{
+   if(!navigator.clipboard||!isSecureContext)throw Error("Clipboard unavailable");
+   await navigator.clipboard.writeText(activePromptSource.textContent);
+   event.currentTarget.textContent=t.copied;
+  }catch{
+   const selection=getSelection(),range=document.createRange();
+   range.selectNodeContents(promptDialogText);selection.removeAllRanges();selection.addRange(range);
+   event.currentTarget.textContent=t.select;
+  }
+ });
  // Copy original photo prompts; fallback selects text on older mobile browsers.
  document.querySelectorAll("[data-tle-copy]").forEach(button=>button.addEventListener("click",async()=>{
   const pre=document.getElementById(button.dataset.tleCopy);if(!pre)return;
   try{if(!navigator.clipboard||!isSecureContext)throw Error("Clipboard not available");await navigator.clipboard.writeText(pre.textContent);button.textContent=t.copied;}
-  catch{const sel=getSelection(),range=document.createRange();range.selectNodeContents(pre);sel.removeAllRanges();sel.addRange(range);button.textContent=t.select;}
+  catch{showPrompt(button,true);button.textContent=t.select;}
  }));
  const endpoint="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-guides-subscribe";
  const subscribeForm=document.getElementById("tle-resource-form"),feedback=document.getElementById("tle-resource-feedback"),submit=document.getElementById("tle-resource-submit");
