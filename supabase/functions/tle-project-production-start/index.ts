@@ -70,7 +70,7 @@ Deno.serve(async(req:Request)=>{
   if(!apiKey)throw Error("Email provider not configured");
   const es=(type==="booking"?order.language:order.preferred_language)==="es";
   const name=escapeHtml(String(order.business_name||"your business").slice(0,110));
-  const service=type==="booking"?(bundle?"Booking Automation + Command Center + AI Assistant":"Booking Automation + Command Center"):(bundle?"AI Assistant for your combined booking system":"AI Assistant");
+  const service=type==="booking"?(bundle?"Booking Automation + Admin Panel + AI Assistant":"Booking Automation + Admin Panel"):(bundle?"AI Assistant for your combined booking system":"AI Assistant");
   const subject=es?"Tu proyecto ya está en producción — The Launch Era":"Your project is now in production — The Launch Era";
   const heading=es?"Tu proyecto ya está en producción.":"Your project is now in production.";
   const bodyCopy=es?"Ya revisamos la información de <strong>"+name+"</strong> y aprobamos el inicio de tu proyecto. Nuestro equipo comenzó a trabajar en <strong>"+service+"</strong>. "+(bundle?"La producción conjunta tiene un plazo estimado de 4 días hábiles desde esta aprobación.":"El tiempo estimado de producción es de 48 horas desde este inicio."):"We reviewed the details for <strong>"+name+"</strong> and approved the start of your project. Our team has begun work on <strong>"+service+"</strong>. "+(bundle?"Estimated combined production is 4 business days from this approved kickoff.":"Estimated production time is 48 hours from this kickoff.");

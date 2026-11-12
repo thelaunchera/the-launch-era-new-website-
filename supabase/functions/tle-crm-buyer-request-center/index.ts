@@ -68,7 +68,7 @@ Deno.serve(async(req:Request)=>{
    const {data:myWs,error:myError}=await db.from("tle_crm_workspaces").select("id,name,created_by,is_internal,password_login_required,password_setup_completed_at")
      .eq("created_by",user.id).eq("is_internal",false).order("created_at",{ascending:true}).limit(1).maybeSingle();
    if(myError||!myWs)return reply(req,403,{error:"Buyer account required"});
-   if(!permittedBuyerWorkspace(myWs,bearer))return reply(req,403,{error:"Finish password verification before using the private Command Center."});
+   if(!permittedBuyerWorkspace(myWs,bearer))return reply(req,403,{error:"Finish password verification before using the private Admin Panel."});
    ws=myWs;
    const {data:target,error:targetError}=await db.from("tle_booking_flow_accounts")
      .select("id,crm_workspace_id,business_name,business_category,owner_email,notification_email,language,follow_up_enabled,follow_up_delay_hours,payment_status,status,intake_completed_at,booking_page_url,delivery_sent_at")
