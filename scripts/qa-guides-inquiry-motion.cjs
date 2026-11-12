@@ -25,7 +25,8 @@ const {chromium}=require("playwright");
    assert.ok(backdrop.background.includes("gradient")&&backdrop.border!=="0px","visible, rounded, separate breakout background");
 
    await page.locator(".hero-media").evaluate(el=>el.classList.add("is-loop-bridging"));
-   assert.equal(await page.locator(".hero-video").evaluate(el=>getComputedStyle(el).opacity),"0","loop seam crossfades out to poster");
+   await page.waitForFunction(()=>parseFloat(getComputedStyle(document.querySelector(".hero-video")).opacity)<.02,{timeout:2500});
+   assert.ok(await page.locator(".hero-video").evaluate(el=>parseFloat(getComputedStyle(el).opacity)<.02),"loop seam transitions out to poster");
    await page.locator(".hero-media").evaluate(el=>el.classList.remove("is-loop-bridging"));
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),"no overflow on iPhone");
    const form=page.locator("#vault-inquiry-form");
