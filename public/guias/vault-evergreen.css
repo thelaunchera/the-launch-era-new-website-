@@ -395,12 +395,12 @@ body>.grid .hero-vault .hero-media.hero-media--cutout{
   margin:3% auto 0!important;
   justify-self:center;
   /* Keep the full crown; blend the sides and lower shoulder/waist into paper. */
-  -webkit-mask-image:radial-gradient(ellipse 77% 79% at 50% 24%,
-    #000 39%,#000 54%,rgba(0,0,0,.86) 68%,
-    rgba(0,0,0,.48) 82%,transparent 99%)!important;
-  mask-image:radial-gradient(ellipse 77% 79% at 50% 24%,
-    #000 39%,#000 54%,rgba(0,0,0,.86) 68%,
-    rgba(0,0,0,.48) 82%,transparent 99%)!important;
+  -webkit-mask-image:radial-gradient(ellipse 92% 110% at 50% 11%,
+    #000 0%,#000 32%,rgba(0,0,0,.98) 44%,
+    rgba(0,0,0,.64) 61%,transparent 78%)!important;
+  mask-image:radial-gradient(ellipse 92% 110% at 50% 11%,
+    #000 0%,#000 32%,rgba(0,0,0,.98) 44%,
+    rgba(0,0,0,.64) 61%,transparent 78%)!important;
 }
 body>.grid .hero-vault .hero-media--cutout>.hero-portrait{
   width:100%!important;
@@ -413,4 +413,12 @@ body>.grid .hero-vault .hero-media--cutout>.hero-portrait{
     height:94%!important;
     margin:0 auto!important;
   }
+}
+
+/* The lower outlined card is what makes the foreground look like a pasted photo.
+   Remove it entirely, including its border and shadow, at every breakpoint. */
+body>.grid .hero-vault .hero-art>.hero-card{
+  display:none!important;
+  border:0!important;
+  box-shadow:none!important;
 }
