@@ -294,3 +294,31 @@ body>.grid header .brand-personal img.brand-wordmark-image{
 body>.grid header .brand-personal .brand-signature{
  display:block;white-space:nowrap;
 }
+
+
+/* Owner-approved animated founder avatar. Public scope: /guias/ and /es/guias/ only. */
+body .hero .hero-media{
+  position:relative;width:83%;height:91%;margin:3% auto 0;
+  border-radius:190px 190px 22px 22px;
+  box-shadow:0 25px 45px rgba(33,75,107,.18);
+  border:7px solid #e8f5ff;overflow:hidden;background:#eaf5ff;
+  transform:translate3d(0,var(--portrait-offset,0px),0);will-change:transform;
+}
+body .hero .hero-media>.hero-portrait{
+  position:absolute;inset:0;display:block;width:100%;height:100%;margin:0;
+  border:0;border-radius:inherit;box-shadow:none;object-fit:cover;
+  object-position:center 24%;transform:none;will-change:auto;
+}
+body .hero .hero-media>.hero-video{opacity:0;transition:opacity .35s ease}
+body .hero .hero-media.is-playing>.hero-video{opacity:1}
+@media(max-width:760px){
+  body .hero .hero-media{
+    width:94%;height:94%;margin:0 auto;border-width:4px;
+    border-radius:100px 100px 12px 12px;
+    box-shadow:0 12px 28px rgba(33,75,107,.15);
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body .hero .hero-media{transform:none!important;will-change:auto}
+  body .hero .hero-media>.hero-video{display:none!important}
+}

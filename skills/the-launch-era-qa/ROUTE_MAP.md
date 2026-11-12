@@ -1,3 +1,8 @@
+## 2026-11-12 — Owner-approved animated avatar on Guides only
+- **Authorization boundary:** Dailin approved this avatar only for the public bilingual Guides routes, `/guias/` and `/es/guias/`. Do not reuse it on the main landing, portfolio, Content Lab, Studio, demos or any other page without separate approval.
+- **Media:** self-hosted `/guias/assets/dailin-avatar-hero-loop.mp4` is an 8-second, muted forward/reverse loop created from the approved Google Flow clip; `dailin-avatar-hero-poster.webp` is the first-frame fallback. Reduced-motion visitors receive the static poster.
+- **Scope:** hero media presentation only. Existing Dailin wordmark, guide content, dialogs, search, language switch, products and consultation actions remain unchanged.
+
 ## 2026-11-12 — Transparent Dailin personal logo / guides replacement
 - **User request:** make the approved Dailin. wordmark transparent and replace it in the website.
 - **Public scope:** bilingual `/guias/` and `/es/guias/` only. The header sources `/guias/assets/dailin-wordmark-clear.svg`, a scalable dark navy and warm-yellow original wordmark with a transparent outer canvas. Brand attribution remains accessible live text below the image.
@@ -19,7 +24,7 @@
 - **Release:** branch `feat/guias-editorial-scroll-experience-20261112`; merge only with successful QA and post-merge GitHub Pages deploy. Official links remain `https://thelaunchera.com/guias/` and `https://thelaunchera.com/es/guias/`; verify source assets on the deployed host.
 
 ## 2026-11-12 — Founder-led free guides library
-- **Pages:** `public/guias/index.html` → `/guias/` (English), `public/es/guias/index.html` → `/es/guias/` (Spanish). The header links to the catalog, products and OFF BRIEF workflow in the same page. Both pages reuse the site's existing founder portrait at `/portfolio/assets/dailin-portrait.webp`; Flow video remains pending.
+- **Pages:** `public/guias/index.html` → `/guias/` (English), `public/es/guias/index.html` → `/es/guias/` (Spanish). The header links to the catalog, products and OFF BRIEF workflow in the same page. Both pages use the owner-approved local Flow avatar loop and static poster fallback.
 - **Guide links:** Use `?guide=<id>` for a direct link. Previously shared IDs are preserved. The dialog links to the equivalent guide in the other locale. Guide and sample prompt copy use the browser clipboard with manual text selection as fallback.
 - **Products:** Link to the existing localized Content Lab and First Website with AI public landing pages on `podcast.thelaunchera.com`. No purchase, sign-up, lead capture or message is initiated by this library.
 - **Verification:** Run the library's static and Playwright checks in the existing PR workflow. Production Pages and physical Safari remain pending until release.
@@ -30,7 +35,7 @@
 - **Behavior:** eight original bilingual guides, local search/category filters, accessible reader, clipboard prompts; no authentication, tracking, leads, backend submission, purchases, emails or automations executed.
 - **Navigation:** both pages switch languages through the alternate root; site return points to `/` or `/es/`; consultation CTA opens `mailto:hello@thelaunchera.com` with localized prefilled subject. This link does NOT send or schedule anything.
 - **Publishing:** branch `feat/tle-free-ai-guides-library-20261112` targets `main` via review PR. GitHub Pages deploy remains `main` only. The official /guias URLs are not live until merge + successful deploy + live checks.
-- **Assets and consent:** reuse official favicon; hero uses CSS-only illustration until the owner's photo and Google Flow clip have identity/quality approval; no fabricated generated likeness published.
+- **Assets and consent:** reuse official favicon; the owner-supplied and approved Google Flow avatar clip is self-hosted in the Guides hero with a static poster and reduced-motion fallback; no third-party likeness is published.
 - **QA:** `node scripts/qa-guides-library.mjs` and `node scripts/qa-route-integrity.mjs --static`; check bilingual navigation, search/filter, modal keyboard and copy on mobile/browser and validate deployed Pages before reporting complete.
 
 ## 2026-11-12 — Consultation-first contact on official website (EN/ES)
