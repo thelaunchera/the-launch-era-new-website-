@@ -1,3 +1,10 @@
+## 2026-11-12 — Freebie subscription launch safety
+- **Request:** new resource and future-freebie catalog plus consent-based alerts in guides site, pale-blue blurred grid aesthetic.
+- **Risks:** duplicate/unconsented marketing enrollment, wrong Content Lab/cleaning offers delivered, premature release of private future prompts, lost unsubscribe, client data leakage, false success on failed POST, mobile clipping.
+- **Mitigations:** separate RLS-enabled tables and a new Edge Function with double opt-in and a confirmation step, no access to tenant CRM records, confirmed subscribers only, no public service-role key, no automatic send without approved release; original three public starter prompts and manually listed future previews with no direct private asset links; bilingual user-visible pending and errors; UI tests mock email calls.
+- **Evidence:** Supabase migration `tle_guides_double_opt_in_newsletter_isolated` succeeded and `tle-guides-subscribe` version 1 is active; subscriber and alert tables initially have zero rows; Resend refused a fourth segment because plan includes three. Integration is limited to feature branch pending QA/deploy.
+- **Open:** verify email provider acceptance with an explicitly authorized test address, live preflight, confirmation and unsubscribe, and separately authorize/configure a future-resource publish trigger for notifications; do not silently send to previous lists. Verify responsive and existing route health after merge.
+
 ## 2026-11-12 — Transparent logo request after iPhone visual screenshot
 - **Problem:** prior iPhone screenshot showed a pixelated 230×66 wordmark and oversized cramped hero.
 - **Resolution:** pending CI and Pages: added a transparent, lightweight vector wordmark on the guides only; keeps the full yellow title capsule and separate visible brand signature. No opaque pale-blue grid image behind the logo.
