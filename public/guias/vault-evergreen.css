@@ -381,3 +381,36 @@ body>.grid .hero-vault .hero-media--cutout.is-keyed-ready>.hero-keyed-canvas{
 @media(prefers-reduced-motion:reduce){
  body>.grid .hero-vault .hero-media--cutout>.hero-keyed-canvas{transition:none!important}
 }
+
+
+/* 2026-11-12 – blend the animated founder into the paper hero without a
+   hard rectangular torso. The original portrait/video files and hero layout
+   stay unchanged. Match the media box to its 512×910 source so the feather
+   reaches the actual image edges instead of empty "contain" side gutters. */
+body>.grid .hero-vault .hero-media.hero-media--cutout{
+  width:auto!important;
+  height:91%!important;
+  max-width:100%!important;
+  aspect-ratio:512 / 910;
+  margin:3% auto 0!important;
+  justify-self:center;
+  /* Keep the full crown; blend the sides and lower shoulder/waist into paper. */
+  -webkit-mask-image:radial-gradient(ellipse 77% 79% at 50% 24%,
+    #000 39%,#000 54%,rgba(0,0,0,.86) 68%,
+    rgba(0,0,0,.48) 82%,transparent 99%)!important;
+  mask-image:radial-gradient(ellipse 77% 79% at 50% 24%,
+    #000 39%,#000 54%,rgba(0,0,0,.86) 68%,
+    rgba(0,0,0,.48) 82%,transparent 99%)!important;
+}
+body>.grid .hero-vault .hero-media--cutout>.hero-portrait{
+  width:100%!important;
+  height:100%!important;
+  margin:0!important;
+  object-fit:contain!important;
+}
+@media(max-width:760px){
+  body>.grid .hero-vault .hero-media.hero-media--cutout{
+    height:94%!important;
+    margin:0 auto!important;
+  }
+}
