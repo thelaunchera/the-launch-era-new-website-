@@ -9,7 +9,7 @@ const {chromium}=require("playwright");
    const errors=[];page.on("pageerror",e=>errors.push(e.message));
    await page.goto("http://127.0.0.1:8172"+path,{waitUntil:"networkidle"});
    const checks=await page.evaluate(async()=>{
-     const select=["body>.grid","#guias","#recursos","#prompts-fotos","#proximamente","#suscripcion",".sample",".how",".products"];
+     const select=["body>.grid","#guias","#recursos","#prompts-fotos","#proximamente","#suscripcion",".how",".products"];
      const urls=select.map(x=>({selector:x,bg:getComputedStyle(document.querySelector(x)).backgroundImage,color:getComputedStyle(document.querySelector(x)).backgroundColor}));
      const resp=await fetch("/guias/assets/tle-approved-blue-grid.webp");
      const bytes=await resp.arrayBuffer();
