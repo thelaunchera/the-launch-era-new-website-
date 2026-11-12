@@ -27,8 +27,8 @@ async function testLanguage(lang) {
   });
   const {window}=dom,document=window.document;
   assert.equal(errors.length,0,lang+" runtime errors: "+errors.join("; "));
-  assert.equal(document.querySelectorAll(".guide").length,8,lang+" initial guide cards");
-  assert.ok(document.getElementById("count").textContent.includes("8"),lang+" total count");
+  assert.equal(document.querySelectorAll(".guide").length,10,lang+" initial guide cards");
+  assert.ok(document.getElementById("count").textContent.includes("10"),lang+" total count");
   const search=document.getElementById("search");
   search.value="Higgsfield";search.dispatchEvent(new window.Event("input",{bubbles:true}));
   assert.equal(document.querySelectorAll(".guide").length,1,lang+" search result");
@@ -41,7 +41,7 @@ async function testLanguage(lang) {
   filter.click();
   const activeFilter=[...document.querySelectorAll(".filter")].find(b=>b.textContent===filterText);
   assert.equal(activeFilter?.getAttribute("aria-pressed"),"true",lang+" filter selected");
-  assert.equal(document.querySelectorAll(".guide").length,2,lang+" automation count");
+  assert.equal(document.querySelectorAll(".guide").length,3,lang+" automation count");
   const guideButton=document.querySelector(".guide .open");guideButton.focus();guideButton.click();
   const modal=document.getElementById("dialog-backdrop");
   assert.equal(modal.hidden,false,lang+" modal open");
@@ -55,7 +55,7 @@ async function testLanguage(lang) {
   assert.equal(document.activeElement,guideButton,lang+" focus restored");
   assert.equal(errors.length,0,lang+" JS errors: "+errors.join("; "));
   dom.window.close();
-  console.log("[TLE GUIDES DOM] "+lang+" 8 cards, search, empty, filter, reader, copy, Escape, focus: OK");
+  console.log("[TLE GUIDES DOM] "+lang+" 10 cards, search, empty, filter, reader, copy, Escape, focus: OK");
 }
 await testLanguage("en");
 await testLanguage("es");

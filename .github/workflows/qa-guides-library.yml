@@ -5,6 +5,8 @@ on:
       - "public/guias/**"
       - "public/es/guias/**"
       - "scripts/qa-guides-library.mjs"
+      - "scripts/qa-guides-library-browser.cjs"
+      - "scripts/qa-guides-dom.mjs"
       - ".github/workflows/qa-guides-library.yml"
       - "public/sitemap.xml"
   workflow_dispatch:
@@ -12,7 +14,7 @@ permissions:
   contents: read
 jobs:
   guides:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -30,3 +32,12 @@ jobs:
         run: bun install
       - name: Test both language UIs with a browser-like DOM
         run: node scripts/qa-guides-dom.mjs
+      - name: Verify the browser interactions
+        run: |
+          npm install --prefix "$RUNNER_TEMP/tle-guides-browser" --no-save playwright@1.56.1
+          "$RUNNER_TEMP/tle-guides-browser/node_modules/.bin/playwright" install --with-deps chromium
+          python3 -m http.server 8172 --bind 127.0.0.1 --directory public &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          curl --fail --retry 5 --retry-connrefused --silent http://127.0.0.1:8172/guias/ > /dev/null
+          NODE_PATH="$RUNNER_TEMP/tle-guides-browser/node_modules" node scripts/qa-guides-library-browser.cjs

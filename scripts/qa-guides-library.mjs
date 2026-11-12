@@ -21,7 +21,7 @@ assert.ok(existsSync(resolve(root,"public/favicon-tle.svg")),"Existing official 
 assert.match(js,/clipboard\.writeText/);assert.match(js,/aria-pressed/);assert.match(js,/Escape/);
 assert.match(css,/@media\(max-width:800px\)/);assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
 const ids=[...js.matchAll(/"id":"([^"]+)"/g)].map(m=>m[1]);
-assert.equal(ids.length,8,"Exactly 8 original bilingual guides");
-assert.equal(new Set(ids).size,8,"No duplicate guide IDs");
+assert.equal(ids.length,10,"Exactly 10 original bilingual guides");
+assert.equal(new Set(ids).size,10,"No duplicate guide IDs");
 for(const field of ["en","es","steps","prompt","outcome","note"])assert.ok(js.includes('"'+field+'":'),"Missing "+field);
-console.log("[TLE GUIDES] EN/ES routes, shared assets, SEO, contact, privacy and 8 unique resources: OK");
+console.log("[TLE GUIDES] EN/ES routes, shared assets, SEO, contact, privacy and 10 unique resources: OK");

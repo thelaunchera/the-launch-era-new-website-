@@ -1,3 +1,9 @@
+## 2026-11-12 — Founder-led free guides library
+- **Pages:** `public/guias/index.html` → `/guias/` (English), `public/es/guias/index.html` → `/es/guias/` (Spanish). The header links to the catalog, products and OFF BRIEF workflow in the same page. Both pages reuse the site's existing founder portrait at `/portfolio/assets/dailin-portrait.webp`; Flow video remains pending.
+- **Guide links:** Use `?guide=<id>` for a direct link. Previously shared IDs are preserved. The dialog links to the equivalent guide in the other locale. Guide and sample prompt copy use the browser clipboard with manual text selection as fallback.
+- **Products:** Link to the existing localized Content Lab and First Website with AI public landing pages on `podcast.thelaunchera.com`. No purchase, sign-up, lead capture or message is initiated by this library.
+- **Verification:** Run the library's static and Playwright checks in the existing PR workflow. Production Pages and physical Safari remain pending until release.
+
 ## 2026-11-12 — The Launch Era free AI guides library (branch review, bilingual)
 - **Owner:** public The Launch Era education library, not Content Lab, private Studio, client dashboards, CRM or client data.
 - **Sources:** `public/guias/index.html` (English) → `/guias/`; `public/es/guias/index.html` (Spanish) → `/es/guias/`; shared `public/guias/styles.css` and `public/guias/app.js`.
