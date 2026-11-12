@@ -21,14 +21,35 @@ const {chromium}=require("playwright");
    assert.equal(await page.locator(".vault-photo-help").count(),3,"all photo prompts have instructions");
    assert.ok(await page.locator(".guide").first().evaluate(el=>el.getBoundingClientRect().top<document.getElementById("recursos").getBoundingClientRect().top),"guide list now precedes resources");
    assert.equal(await page.locator(".hero-video").evaluate(el=>getComputedStyle(el).objectFit),"contain","full head visible in Motion");
-   const backdrop=await page.locator(".hero-card").evaluate(el=>({background:getComputedStyle(el).backgroundImage,border:getComputedStyle(el).borderTopWidth}));
-   assert.ok(backdrop.background.includes("gradient")&&backdrop.border!=="0px","visible, rounded, separate breakout background");
+   const backdrop=await page.locator(".hero-card").evaluate(el=>({background:getComputedStyle(el).backgroundImage,color:getComputedStyle(el).backgroundColor,border:getComputedStyle(el).borderTopWidth}));
+   assert.ok(backdrop.background==="none"&&backdrop.color==="rgb(250, 246, 237)"&&backdrop.border!=="0px","rounded breakout card uses neutral paper rather than a blue or gradient backdrop");
 
    await page.locator(".hero-media").evaluate(el=>el.classList.add("is-loop-bridging"));
    await page.waitForFunction(()=>parseFloat(getComputedStyle(document.querySelector(".hero-video")).opacity)<.02,{timeout:2500});
    assert.ok(await page.locator(".hero-video").evaluate(el=>parseFloat(getComputedStyle(el).opacity)<.02),"loop seam transitions out to poster");
    await page.locator(".hero-media").evaluate(el=>el.classList.remove("is-loop-bridging"));
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),"no overflow on iPhone");
+   assert.equal(await page.locator("#count").count(),0,"no visible fixed guide count");
+   assert.equal(await page.locator("#tle-resource-count").count(),0,"no visible fixed resource count");
+   assert.equal(await page.locator(".guide .number").count(),0,"no numbered guide cards");
+   assert.equal(await page.locator(".tle-resource-cover span").count(),0,"no numbered resource covers");
+   assert.equal(await page.getByText("Queue App Concept",{exact:true}).count(),0,"non-resource demo is retired");
+   assert.equal(await page.locator(".tle-resource-info a span").count(),0,"no blue decorative arrow");
+   const sticky=await page.evaluate(async()=>{
+     const section=document.getElementById("guias");
+     const intro=section.querySelector(".library-intro");
+     const y=scrollY+section.getBoundingClientRect().top+330;
+     window.scrollTo({top:y,behavior:"instant"});
+     await new Promise(resolve=>setTimeout(resolve,140));
+     const before=intro.getBoundingClientRect().top;
+     window.scrollBy({top:140,behavior:"instant"});
+     await new Promise(resolve=>setTimeout(resolve,140));
+     const after=intro.getBoundingClientRect().top;
+     return {position:getComputedStyle(intro).position,before,after};
+   });
+   assert.equal(sticky.position,"sticky","guide introduction stays sticky while guide list scrolls");
+   assert.ok(Math.abs(sticky.after-sticky.before)<8,"sticky guide title stays in place as visitors scroll");
+
    const form=page.locator("#vault-inquiry-form");
    await form.locator('input[name="name"]').fill("Sample Client");
    await form.locator('input[name="email"]').fill("sample@example.com");

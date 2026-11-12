@@ -12,7 +12,7 @@ const {chromium}=require('playwright');
    assert.equal(await page.locator('.lang').count(),1,'one header language group');
    assert.equal(await page.locator('.guide-language').count(),0,'no duplicate anywhere');
    assert.equal(await page.locator('.guide').count(),10);
-   assert.equal(await page.locator('.tle-resource-card').count(),7);
+   assert.equal(await page.locator('.tle-resource-card').count(),6);
    assert.equal(await page.locator('.tle-prompt-card').count(),3);
    assert.equal(await page.locator('.vault-photo-help').count(),3,'public photo prompts include steps');
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'no horizontal overflow at '+width);
@@ -25,7 +25,7 @@ const {chromium}=require('playwright');
    assert.equal(await page.locator('.hero-topics a').count(),4,'four linked topics');
    assert.deepEqual(await page.locator('.hero-topics a').evaluateAll(els=>els.map(el=>el.getAttribute('href'))),['#guias','?guide=google-flow-avatar','#prompts-fotos','#recursos'],'topic destinations present');
    assert.equal(await page.locator('link[href^="/guias/vault-hero.css"]').count(),1,'new Vault stylesheet loaded exactly once');
-   assert.equal(await page.locator('.hero h1').textContent().then(s=>s.includes('Dailin.')),true,'Dailin headline');
+   assert.equal(await page.locator('.hero h1').textContent().then(s=>s.includes(lang==='es'?'algo real':'real.')),true,'evergreen editorial hero without repeated name');
    assert.equal(await page.locator('.system-link').textContent(),'Vault','Vault nav label');
    assert.equal(await page.locator('.hero-media').evaluate(el=>getComputedStyle(el).boxShadow),'none','Motion is no longer boxed into a photo card');
    const canvas=await page.evaluate(()=>{
