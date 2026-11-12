@@ -24,7 +24,9 @@ function walk(directory){
 if(!existsSync(root))throw Error('Build output not found: '+root);
 walk(root);
 const route=(p)=>relative(root,p).split(sep).join('/');
-const safeRoute=(p)=>!(p.startsWith('command-center/')||p.includes('owner-delivery')||
+// Guides have their own fully functional topbar EN/ES control. Never auto-inject a second
+// iOS switch into either public guides locale; other demos and bilingual landings remain eligible.
+const safeRoute=(p)=>!((p==='guias/index.html'||p==='es/guias/index.html')||p.startsWith('command-center/')||p.includes('owner-delivery')||
  p.includes('auth-recovery')||p.includes('website-delivery-admin')||
  p.includes('lead-private-preview')||p.includes('lead-demo-tracker')||
  p.includes('client-review')||p.includes('client-legal')||
