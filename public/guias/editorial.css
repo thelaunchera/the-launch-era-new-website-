@@ -92,3 +92,44 @@ footer{background:#142c3b;padding:25px 0}
  .hero-portrait{transform:none!important;will-change:auto}
  .guide,.products .step,.hero .button,.system-link,.filter{transition:none!important}
 }
+
+
+/* Approved Dailin. personal wordmark: the exact approved artwork, cropped from the original,
+   with a live-text brand signature for legibility on small mobile displays. */
+body > .grid header .brand-personal {
+  box-sizing: border-box;
+  width: clamp(132px, 14vw, 177px);
+  min-width: 0;
+  min-height: 60px;
+  flex: 0 0 auto;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  padding: 4px 0;
+  text-decoration: none;
+  line-height: 1;
+  letter-spacing: normal;
+}
+body > .grid header .brand-personal img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  aspect-ratio: 230 / 66;
+}
+body > .grid header .brand-personal .brand-signature {
+  display: block;
+  color: var(--studio-navy, #19364a);
+  font-family: Prompt, Arial, sans-serif;
+  font-size: clamp(6px, .67vw, 8px);
+  letter-spacing: .18em;
+  line-height: 1.35;
+  font-weight: 800;
+  white-space: nowrap;
+}
+@media (max-width: 390px) {
+  body > .grid header .brand-personal {width: 128px;min-height: 56px;gap: 1px;}
+  body > .grid header .brand-personal .brand-signature {font-size: 6px;letter-spacing: .15em;}
+}
