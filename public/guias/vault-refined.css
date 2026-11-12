@@ -1,6 +1,6 @@
 /* Vault experience refinement: real inquiry, non-repeating sections, Motion reveal.
    Scoped to public /guias/ and /es/guias/ only, after unified editorial CSS. */
-body>.grid .hero-vault .hero-art { position:relative; isolation:isolate; overflow:visible!important; }
+body>.grid .hero-vault .hero-art { position:relative; isolation:isolate; overflow:visible!important; perspective:1100px; transform-style:preserve-3d; touch-action:pan-y; }
 body>.grid .hero-vault .hero-card {
   position:absolute;z-index:0;left:4%;right:4%;top:27%;bottom:3%;
   border:1.5px solid var(--v-ink,#211c1b);
@@ -8,6 +8,8 @@ body>.grid .hero-vault .hero-card {
   background:linear-gradient(135deg,#f7a6bb 0%,#fce2cf 76%);
   box-shadow:6px 7px 0 rgba(33,28,27,.13);
   pointer-events:none;
+  transform:translate3d(var(--vault-card-x,0px),var(--vault-card-y,0px),-12px);
+  transition:transform .5s cubic-bezier(.18,.7,.18,1);
 }
 body>.grid .hero-vault .hero-media.hero-media--cutout {
   position:relative;z-index:1;
@@ -15,7 +17,10 @@ body>.grid .hero-vault .hero-media.hero-media--cutout {
   background:transparent!important;
   border:0!important;box-shadow:none!important;
   border-radius:22px!important;
-  transform:translateY(-5%);
+  transform:translate3d(var(--vault-pan-x,0px),calc(-5% + var(--vault-pan-y,0px)),22px) rotateX(var(--vault-turn-x,0deg)) rotateY(var(--vault-turn-y,0deg));
+  transform-origin:center 52%;
+  transition:transform .5s cubic-bezier(.18,.7,.18,1);
+  will-change:transform;
   /* Feather the opaque recording around the person; unlike a hard card clip
      this keeps the full head visible above the lower decorative panel. */
   -webkit-mask-image:radial-gradient(ellipse 79% 79% at 50% 47%,#000 49%,rgba(0,0,0,.98) 59%,rgba(0,0,0,.68) 73%,transparent 93%)!important;
@@ -34,6 +39,19 @@ body>.grid .hero-vault .hero-media--cutout.is-loop-bridging>.hero-video {
 }
 body>.grid .hero-vault .hero-media--cutout>.hero-poster {
   opacity:1!important;
+}
+/* A gentle interactive portrait reaction, rather than a fake new face.
+   Touch scroll stays native: no pointer capture or preventDefault. */
+@media(hover:hover) and (pointer:fine){
+  body>.grid .hero-vault .hero-art.is-portrait-hovering .hero-card{
+    box-shadow:9px 13px 0 rgba(33,28,27,.12);
+  }
+}
+@media(hover:none){
+  body>.grid .hero-vault .hero-art.is-portrait-tapped .hero-media.hero-media--cutout{
+    transform:translate3d(0,-7%,30px) rotateZ(1deg) scale(1.018)!important;
+    transition:transform .24s cubic-bezier(.2,1.5,.45,1)!important;
+  }
 }
 /* New consultation form is part of page, not a mailto fallback. */
 body .vault-consult-layout{
@@ -122,11 +140,12 @@ body .tle-resource-cover strong{
   body .vault-inquiry-form{padding:21px;border-radius:22px;gap:15px}
   body .vault-inquiry-form .vault-form-grid{grid-template-columns:1fr;gap:15px}
   body>.grid .hero-vault .hero-card{top:37%;bottom:4%;left:0;right:0;border-radius:20px}
-  body>.grid .hero-vault .hero-media.hero-media--cutout{transform:translateY(-5%)}
+  body>.grid .hero-vault .hero-media.hero-media--cutout{transform:translate3d(var(--vault-pan-x,0px),calc(-5% + var(--vault-pan-y,0px)),22px) rotateX(var(--vault-turn-x,0deg)) rotateY(var(--vault-turn-y,0deg))}
   body>.grid .hero-vault .hero-media--cutout>.hero-portrait{object-position:center top!important}
   body .tle-resource-cover strong{font-size:clamp(19px,5vw,30px)!important}
 }
 @media(prefers-reduced-motion:reduce){
-  body>.grid .hero-vault .hero-media.hero-media--cutout{transform:none!important}
+  body>.grid .hero-vault .hero-media.hero-media--cutout{transform:none!important};
+  body>.grid .hero-vault .hero-card{transform:none!important;transition:none!important}
   body>.grid .hero-vault .hero-media--cutout>.hero-video{transition:none!important}
 }
