@@ -8,12 +8,12 @@
  const es=document.documentElement.lang==="es";
  const t=es?{
  eyebrow:"BIBLIOTECA ABIERTA · THE LAUNCH ERA",title:"Un espacio para <em>crear más.</em>",
- intro:"Guías, freebies, prompts de fotos y lo próximo que estoy preparando. Todo organizado para que puedas empezar hoy.",
+ intro:"Aquí encuentras prompts de fotografía, ejemplos para practicar y recursos que estarán disponibles más adelante.",
  search:"Buscar recursos",filters:["Todo","Freebies","Prompts de fotos","Próximamente"],available:"DISPONIBLE",soon:"PRÓXIMAMENTE",
  view:"Abrir recurso",copy:"Copiar prompt",copied:"¡Copiado!",select:"Selecciona y copia el prompt",
  preview:"Ver los prompts",notify:"Avísame",count:"recursos",empty:"No encontramos recursos con esa búsqueda.",
  photoEyebrow:"FOTOGRAFÍA CON IA / PARA COPIAR",photoTitle:"Crea fotos que se sientan <em>como tu marca.</em>",
- photoIntro:"Tres prompts originales. Adjunta una foto real de referencia, cambia los campos y comprueba el resultado.",
+ photoIntro:"Tres prompts listos para adaptar. Elige el que necesitas y sigue las instrucciones que encontrarás debajo de cada uno. No necesitas saber diseñar.",
  futureTitle:"Lo que viene después",futureDesc:"Los próximos packs están preparados o en producción. No mostramos descargas hasta que estén publicados.",
  futureButton:"Quiero recibir el aviso",
  subEyebrow:"FREEBIES EN TU INBOX",subTitle:"Entérate cuando salga un nuevo freebie.",
@@ -27,12 +27,12 @@
  expired:"El enlace no es válido o ha caducado. Solicita otro desde el formulario."
  }:{
  eyebrow:"FREE RESOURCES · THE LAUNCH ERA",title:"A little library for <em>big ideas.</em>",
- intro:"Guides, freebies, photo prompts and what's next. Organized so you can find an idea and actually try it.",
+ intro:"Find photo prompts, examples you can try and previews of upcoming resources—without searching through repeated guides.",
  search:"Search resources",filters:["All","Freebies","Photo prompts","Coming soon"],available:"AVAILABLE",soon:"COMING SOON",
  view:"Open resource",copy:"Copy prompt",copied:"Copied!",select:"Select and copy the prompt",
  preview:"See the prompts",notify:"Notify me",count:"resources",empty:"No resources match your search.",
  photoEyebrow:"AI PHOTOGRAPHY / COPY READY",photoTitle:"Create images that feel <em>like your brand.</em>",
- photoIntro:"Three original prompts. Attach a real reference photo, personalize and review the result.",
+ photoIntro:"Three ready-to-adapt prompts. Choose the result you want, then follow the instructions below each example. No design experience is required.",
  futureTitle:"Next in the library",futureDesc:"Future packs are prepared or in production. Download buttons appear only when a resource is published.",
  futureButton:"Get release alerts",
  subEyebrow:"GOOD THINGS IN YOUR INBOX",subTitle:"Know when a new freebie drops.",
@@ -83,7 +83,21 @@
  }).join("");
  // Only show categories that still have items; the removed freebie no longer creates an empty tab.
  const filters=[["all",0],["photo",2],["soon",3]].map(([name,labelIndex])=>'<button type="button" data-tle-filter="'+name+'" aria-pressed="'+(name==="all"?'true':'false')+'">'+escape(t.filters[labelIndex])+'</button>').join("");
- const photoCards=photo.map((x,i)=>'<article class="tle-prompt-card"><span>'+escape(x.type)+'</span><h3>'+escape(x.title)+'</h3><pre id="tle-photo-prompt-'+i+'">'+escape(x.prompt)+'</pre><button type="button" data-tle-copy="tle-photo-prompt-'+i+'">'+escape(t.copy)+' ＋</button></article>').join("");
+ const helpItems=es?[
+  ["Prepara una foto real de tu producto donde se vean claramente el logo y el empaque.","Copia el prompt en tu herramienta de IA y adjunta esa foto. Cambia la iluminación o los colores de fondo según tu marca.","Revisa que el logo, el texto, la forma y los materiales sean fieles antes de publicar la imagen."],
+  ["Elige un retrato nítido de la persona que aparecerá y asegúrate de tener su autorización.","Adjunta la foto y copia el prompt. Ajusta la ropa, el fondo o la luz sin pedir que cambien sus facciones.","Compara ojos, rostro, cabello y proporciones con la fotografía original antes de usar el resultado."],
+  ["Adjunta la fotografía real de tu producto o de la persona protagonista.","Reemplaza [PERSONA O PRODUCTO REAL] por una descripción específica; pide espacio libre para el título de tu web.","Genera una imagen horizontal y comprueba también el recorte en celular. Agrega el texto directamente en tu sitio, no dentro de la foto."]
+ ]:[
+  ["Use a sharp, real product photo that clearly shows its logo and packaging.","Attach the photo, paste the prompt into your AI tool, and adapt the light or background to your brand.","Check the logo, label, colors and physical details against your original photo before publishing."],
+  ["Choose a clear authorized portrait of the person you want to show.","Attach it, paste the prompt and change the clothing or lighting without changing the person's facial features.","Compare the face, hair, eyes and proportions against the real portrait before you publish."],
+  ["Attach an actual reference photo of the product or person you want as the hero subject.","Replace [REAL PERSON OR PRODUCT] with an accurate description and request space for your website headline.","Generate a wide image, then check the mobile crop. Add the actual headline as live website text, not as letters inside the image."]
+ ];
+ const photoCards=photo.map((x,i)=>{
+  const li=helpItems[i].map(t=>'<li>'+escape(t)+'</li>').join("");
+  return '<article class="tle-prompt-card"><span>'+escape(x.type)+'</span><h3>'+escape(x.title)+'</h3><pre id="tle-photo-prompt-'+i+'">'+escape(x.prompt)+'</pre>'+
+    '<div class="vault-photo-help"><strong>'+(es?"Cómo usar este prompt":"How to use this prompt")+'</strong><ol>'+li+'</ol></div>'+
+    '<button type="button" data-tle-copy="tle-photo-prompt-'+i+'">'+escape(t.copy)+' ＋</button></article>';
+ }).join("");
  const form='<form id="tle-resource-form" novalidate><label for="tle-resource-email">'+escape(t.email)+'</label><input id="tle-resource-email" type="email" inputmode="email" autocomplete="email" required maxlength="254" placeholder="you@example.com">'+
    '<div class="tle-honeypot" aria-hidden="true"><label for="tle-company-web">Company website</label><input id="tle-company-web" type="text" tabindex="-1" autocomplete="off"></div>'+
    '<label class="tle-resource-consent"><input id="tle-resource-consent" type="checkbox" required><span>'+escape(t.consent)+'</span></label><button type="submit" id="tle-resource-submit">'+escape(t.submit)+'</button>'+
@@ -98,7 +112,7 @@
   '<section id="suscripcion" class="resource-grid-bg" aria-labelledby="tle-sub-heading"><div class="wrap tle-sub-layout"><div class="tle-sub-copy"><div class="resource-eyebrow">'+escape(t.subEyebrow)+'</div><h2 id="tle-sub-heading">'+escape(t.subTitle)+'</h2><p>'+escape(t.subIntro)+'</p><p class="tle-sub-brand">DAILIN. · BY THE LAUNCH ERA</p></div><div class="tle-sub-form-card">'+form+
   '<div id="tle-resource-token-panel" hidden><h3 id="tle-token-heading"></h3><p id="tle-token-description"></p><button type="button" id="tle-resource-token-btn"></button></div>'+
   '<p id="tle-resource-feedback" role="status" aria-live="polite"></p></div></div></section></div>';
- library.insertAdjacentHTML("beforebegin",markup);
+ library.insertAdjacentHTML("afterend",markup);
  // Curated library filtering (local, read-only).
  let active="all";
  const cardEls=Array.from(document.querySelectorAll(".tle-resource-card"));
