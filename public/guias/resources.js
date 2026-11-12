@@ -46,7 +46,6 @@
  expired:"The link is invalid or has expired. Request a new one from the form."
  };
  const items=es?[
- {type:"freebie",status:"live",art:"photo",mark:"08",eyebrow:"8 ESTILOS",name:"8 prompts de composición",desc:"Fotos editoriales con ejemplos de matcha y un acceso original por correo.",href:"https://podcast.thelaunchera.com/content-lab/prompts/"},
  {type:"photo",status:"live",art:"photo",mark:"01",eyebrow:"FOTO REAL",name:"Fotografía editorial de producto",desc:"Un producto, su empaque real y luz de estudio sin inventar logos.",href:"#prompts-fotos"},
  {type:"photo",status:"live",art:"photo",mark:"02",eyebrow:"RETRATO",name:"Retrato de fundadora",desc:"Mantén tu cara, pelo, proporciones y estilo al crear retratos.",href:"#prompts-fotos"},
  {type:"soon",status:"soon",art:"web",mark:"03",eyebrow:"WEB CON IA",name:"Tu web con un solo prompt",desc:"Un prompt maestro para construir la primera web de tu negocio.",href:"#suscripcion"},
@@ -55,7 +54,6 @@
  {type:"soon",status:"soon",art:"motion",mark:"06",eyebrow:"MOTION",name:"Biblioteca de Motion Graphics",desc:"Efectos en movimiento y prompts para usarlos en videos.",href:"#suscripcion"},
  {type:"soon",status:"soon",art:"app",mark:"07",eyebrow:"QUEUE",name:"Queue App Concept",desc:"Un concepto de fila virtual para un flower bar.",href:"#suscripcion"}
  ]:[
- {type:"freebie",status:"live",art:"photo",mark:"08",eyebrow:"8 STYLES",name:"8 photo composition prompts",desc:"Editorial photo styles using matcha examples and an existing email-access page.",href:"https://podcast.thelaunchera.com/content-lab/prompts/"},
  {type:"photo",status:"live",art:"photo",mark:"01",eyebrow:"REAL PRODUCT",name:"Editorial product photography",desc:"Keep the real product packaging, studio light and original brand details.",href:"#prompts-fotos"},
  {type:"photo",status:"live",art:"photo",mark:"02",eyebrow:"PORTRAIT",name:"Founder portrait starter",desc:"Keep your face, hair, features and own personal style.",href:"#prompts-fotos"},
  {type:"soon",status:"soon",art:"web",mark:"03",eyebrow:"AI WEBSITE",name:"Your website in one prompt",desc:"A reusable master prompt for a first small-business website.",href:"#suscripcion"},
@@ -83,7 +81,8 @@
    '<div class="tle-resource-info"><div class="tle-resource-meta"><span>'+escape(item.type==="soon"?t.filters[3]:item.type==="photo"?t.filters[2]:t.filters[1])+'</span><b class="'+(item.status==="soon"?"soon":"")+'">'+status+'</b></div>'+
    '<h3>'+escape(item.name)+'</h3><p>'+escape(item.desc)+'</p><a href="'+a+'"'+(external?' target="_blank" rel="noopener noreferrer"':'')+'>'+escape(action)+' <span aria-hidden="true">↗</span></a></div></article>';
  }).join("");
- const filters=["all","freebie","photo","soon"].map((name,i)=>'<button type="button" data-tle-filter="'+name+'" aria-pressed="'+(i===0?'true':'false')+'">'+escape(t.filters[i])+'</button>').join("");
+ // Only show categories that still have items; the removed freebie no longer creates an empty tab.
+ const filters=[["all",0],["photo",2],["soon",3]].map(([name,labelIndex])=>'<button type="button" data-tle-filter="'+name+'" aria-pressed="'+(name==="all"?'true':'false')+'">'+escape(t.filters[labelIndex])+'</button>').join("");
  const photoCards=photo.map((x,i)=>'<article class="tle-prompt-card"><span>'+escape(x.type)+'</span><h3>'+escape(x.title)+'</h3><pre id="tle-photo-prompt-'+i+'">'+escape(x.prompt)+'</pre><button type="button" data-tle-copy="tle-photo-prompt-'+i+'">'+escape(t.copy)+' ＋</button></article>').join("");
  const form='<form id="tle-resource-form" novalidate><label for="tle-resource-email">'+escape(t.email)+'</label><input id="tle-resource-email" type="email" inputmode="email" autocomplete="email" required maxlength="254" placeholder="you@example.com">'+
    '<div class="tle-honeypot" aria-hidden="true"><label for="tle-company-web">Company website</label><input id="tle-company-web" type="text" tabindex="-1" autocomplete="off"></div>'+
