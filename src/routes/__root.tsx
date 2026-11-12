@@ -81,17 +81,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Cleaning Business Automation & Booking | The Launch Era" },
-      { name: "description", content: "Booking automation, cleaning business management tools, AI assistants and follow-up systems for cleaning business owners across the U.S." },
+      { title: "The Launch Era | Websites, AI Tools & Business Automation" },
+      { name: "description", content: "Custom websites, booking pages, AI assistants and digital tools for small businesses. Explore business automation, website demos and creative resources from The Launch Era." },
       { name: "robots", content: "index, follow, max-image-preview:large" },
+      { name: "application-name", content: "The Launch Era" },
       { property: "og:site_name", content: "The Launch Era" },
-      { property: "og:title", content: "THE LAUNCH ERA" },
-      { property: "og:description", content: "Booking automation, AI assistants and cleaning business management tools for owners in the U.S." },
+      { property: "og:title", content: "The Launch Era | Websites & AI Tools for Small Businesses" },
+      { property: "og:description", content: "Custom websites, booking pages, AI assistants and practical digital tools for small businesses." },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "https://raw.githubusercontent.com/thelaunchera/the-launch-era-new-website-/main/src/assets/cleaner-home.jpg" },
-      { property: "og:image:alt", content: "The Launch Era systems for cleaning business owners" },
+      { property: "og:image", content: "https://thelaunchera.com/assets/website-packages-20261105/process-build-en.png" },
+      { property: "og:image:alt", content: "The Launch Era websites and digital business tools" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "https://raw.githubusercontent.com/thelaunchera/the-launch-era-new-website-/main/src/assets/cleaner-home.jpg" },
+      { name: "twitter:image", content: "https://thelaunchera.com/assets/website-packages-20261105/process-build-en.png" },
     ],
     links: [
       {
@@ -138,6 +139,15 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang={language}>
       <head>
         <HeadContent />
+        {pathname === '/' ? (
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            name: 'The Launch Era',
+            alternateName: ['TLE', 'thelaunchera.com'],
+            url: 'https://thelaunchera.com/',
+          }) }} />
+        ) : null}
         {/* Handle legacy recovery callbacks before analytics or the public website loads. */}
         <script
           dangerouslySetInnerHTML={{ __html: `
