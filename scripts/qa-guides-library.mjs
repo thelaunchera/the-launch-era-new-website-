@@ -2,8 +2,8 @@ import {readFileSync,existsSync} from "node:fs";
 import {resolve} from "node:path";
 import assert from "node:assert/strict";
 const root=process.cwd();
-const en=readFileSync(resolve(root,"public/guias/library.html"),"utf8");
-const es=readFileSync(resolve(root,"public/es/guias/biblioteca.html"),"utf8");
+const en=readFileSync(resolve(root,"public/guias/"),"utf8");
+const es=readFileSync(resolve(root,"public/es/guias/"),"utf8");
 const js=readFileSync(resolve(root,"public/guias/app.js"),"utf8");
 const css=readFileSync(resolve(root,"public/guias/styles.css"),"utf8");
 const editorialCss=readFileSync(resolve(root,"public/guias/editorial.css"),"utf8");
@@ -13,12 +13,13 @@ const resourcesCss=readFileSync(resolve(root,"public/guias/resources.css"),"utf8
 const blueGridCss=readFileSync(resolve(root,"public/guias/blue-grid.css"),"utf8");
 const unifiedCss=readFileSync(resolve(root,"public/guias/vault-unified-editorial.css"),"utf8");
 const evergreenCss=readFileSync(resolve(root,"public/guias/vault-evergreen.css"),"utf8");
+const gpuJs=readFileSync(resolve(root,"public/guias/vault-video-key.js"),"utf8");
 const blueGridWebP=readFileSync(resolve(root,"public/guias/assets/tle-approved-blue-grid.webp"));
 // The primary logo is scalable live text; no bitmap is used in the header.
-for (const [lang,html,route] of [["en",en,"/guias/library.html"],["es",es,"/es/guias/biblioteca.html"]]) {
+for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
   assert.match(html,new RegExp('<html lang="'+lang+'">'));
   assert.ok(html.includes('rel="canonical" href="https://thelaunchera.com'+route+'"'),lang+" canonical");
-  assert.ok(html.includes('href="/guias/library.html"')&&html.includes('href="/es/guias/biblioteca.html"'),lang+" language links");
+  assert.ok(html.includes('href="/guias/"')&&html.includes('href="/es/guias/"'),lang+" language links");
   assert.ok(html.includes('href="/guias/styles.css?v=20261112-2"')&&html.includes('src="/guias/app.js?v=20261112-mina-1"'),lang+" shared assets");
   assert.ok(html.includes('href="/guias/editorial.css?v=20261112-avatar-1"')&&html.includes('src="/guias/editorial.js?v=20261112-avatar-1"'),lang+" editorial scroll files");
   assert.ok(html.includes('id="reading-progress"')&&html.includes('class="ticker-track"'),lang+" scroll UI");
@@ -32,8 +33,9 @@ for (const [lang,html,route] of [["en",en,"/guias/library.html"],["es",es,"/es/g
   assert.ok(html.includes('href="/guias/atelier.css?v=20261112-guides-1"'),lang+" editorial stylesheet");
   assert.ok(html.includes('href="/guias/blue-grid.css?v=20261112-1"'),lang+" original grid asset remains archived");
   assert.ok(html.includes('href="/guias/vault-unified-editorial.css?v=20261112-paper-1"'),lang+" unified design stylesheet");
-  assert.ok(html.includes('href="/guias/vault-evergreen.css?v=20261112-1"'),lang+" evergreen design stylesheet");
+  assert.ok(html.includes('href="/guias/vault-evergreen.css?v=20261112-3"'),lang+" evergreen design stylesheet");
   assert.ok(!html.includes('id="count"'),lang+" no fixed visible guide count");
+  assert.ok(html.includes('src="/guias/vault-video-key.js?v=20261112-1"'),lang+" video alpha effect with fallback");
   assert.ok(!/10 (FIELD GUIDES|GUÍAS PARA CREAR)/.test(html),lang+" library total is future proof");
   assert.ok(html.includes('family=Archivo+Black')&&html.includes('family=DM+Sans')&&html.includes('family=Space+Mono'),lang+" open web typography loaded");
   assert.ok(html.includes('name="theme-color" content="#faf6ed"'),lang+" warm ivory mobile theme");
@@ -68,6 +70,8 @@ assert.match(blueGridCss,/tle-approved-blue-grid\.webp/);
 assert.match(blueGridCss,/#guias/);
 assert.match(blueGridCss,/#recursos/);
 assert.match(unifiedCss,/--v-paper:#faf6ed/,"one continuous warm ivory background");
+assert.match(gpuJs,/webgl/,"keyed Motion source exists");
+assert.match(gpuJs,/fallback\(\)/,"video fallback retained");
 assert.match(evergreenCss,/position:sticky!important/,"guide introduction sticky as list scrolls");
 assert.ok(!resourcesJs.includes("Queue App Concept"),"demo concept not listed as free resource");
 assert.ok(!resourcesJs.includes("↗"),"no decorative arrows on resource cards");
