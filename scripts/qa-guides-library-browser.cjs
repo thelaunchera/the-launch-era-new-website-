@@ -71,6 +71,7 @@ const { chromium } = require('playwright');
       await localeLink.click();
       await page.locator('#dialog-backdrop').waitFor({state:'visible',timeout:8000});
       assert.equal(await page.locator('html').getAttribute('lang'),lang==='en'?'es':'en');
+      await page.locator('#dialog-backdrop').waitFor({state:'visible',timeout:5000});
       assert.equal(await page.locator('#dialog-backdrop').isVisible(),true);
       assert.equal(new URL(page.url()).searchParams.get('guide'),'google-flow-avatar');
       assert.deepEqual(errors,[]);
