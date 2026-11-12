@@ -35,6 +35,7 @@ jobs:
           node --check public/guias/resources.js
           node --check public/guias/vault-inquiry.js
           node --check public/guias/vault-motion-loop.js
+          node --check public/guias/vault-video-key.js
           node scripts/qa-guides-library.mjs
           node scripts/qa-guides-ios-skip.mjs
           node scripts/qa-route-integrity.mjs --static
