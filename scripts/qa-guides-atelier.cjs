@@ -25,7 +25,7 @@ const {chromium}=require('playwright');
    assert.equal(await page.locator('.hero-topics a').count(),4,'four linked topics');
    assert.deepEqual(await page.locator('.hero-topics a').evaluateAll(els=>els.map(el=>el.getAttribute('href'))),['#guias','?guide=google-flow-avatar','#prompts-fotos','#recursos'],'topic destinations present');
    assert.equal(await page.locator('link[href^="/guias/vault-hero.css"]').count(),1,'new Vault stylesheet loaded exactly once');
-   assert.equal(await page.locator('.hero h1').textContent().then(s=>s.includes('Dailin.')),true,'Dailin headline');
+   assert.equal(await page.locator('.hero h1').textContent().then(s=>s.includes(lang==='es'?'algo real':'real.')),true,'evergreen editorial hero without repeated name');
    assert.equal(await page.locator('.system-link').textContent(),'Vault','Vault nav label');
    assert.equal(await page.locator('.hero-media').evaluate(el=>getComputedStyle(el).boxShadow),'none','Motion is no longer boxed into a photo card');
    const canvas=await page.evaluate(()=>{
