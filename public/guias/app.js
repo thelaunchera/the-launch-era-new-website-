@@ -25,5 +25,14 @@ var sampleText=document.getElementById("sample-prompt");
 if(sample&&sampleText){sampleText.textContent=guideList[1][locale].prompt;
 sample.addEventListener("click",function(){copyPrompt(sampleText.textContent,sample);});}
 input.addEventListener("input",function(){searchText=input.value.trim().toLocaleLowerCase();renderList();});
-renderFilters();renderList();var initialId=new URL(location.href).searchParams.get("guide");if(initialId){var g=guideList.find(function(item){return item.id===initialId;});if(g)open(g);}
+renderFilters();renderList();
+document.querySelectorAll('.how a[href*="?guide="],.hero-topic-links a[href*="?guide="]').forEach(function(anchor){
+ anchor.addEventListener("click",function(event){
+  var url=new URL(anchor.href,location.href),id=url.searchParams.get("guide");
+  var guide=guideList.find(function(item){return item.id===id;});
+  if(!guide)return;
+  event.preventDefault();open(guide);
+ });
+});
+var initialId=new URL(location.href).searchParams.get("guide");if(initialId){var g=guideList.find(function(item){return item.id===initialId;});if(g)open(g);}
 })();
