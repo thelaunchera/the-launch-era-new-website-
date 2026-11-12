@@ -72,10 +72,10 @@ try{
     await toggle.locator('[data-tle-lang="es"]').click();
     assert.equal(await page.locator('html').getAttribute('lang'),'es');
     assert.equal(await toggle.locator('[data-tle-lang="es"]').getAttribute('aria-pressed'),'true');
-    assert((await page.locator('body').innerText()).includes(sample[brand][1]),brand+' Spanish primary copy absent');
+    assert((await header.locator('nav').first().textContent()).includes(sample[brand][1]),brand+' Spanish primary copy absent');
     await toggle.locator('[data-tle-lang="en"]').click();
     assert.equal(await page.locator('html').getAttribute('lang'),'en');
-    assert((await page.locator('body').innerText()).includes(sample[brand][0]),brand+' original English not restored');
+    assert((await header.locator('nav').first().textContent()).includes(sample[brand][0]),brand+' original English not restored');
     const after=await header.locator('a[href]').evaluateAll(els=>els.map(e=>e.getAttribute('href')));
     assert.deepEqual(after,before,brand+' header destinations changed after toggling');
   }else{
