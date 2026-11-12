@@ -98,8 +98,8 @@
    const sy=viewAspect<aspect?viewAspect/aspect:1;
    gl.uniform2f(fit,sx,sy);
  }
- const resize=new ResizeObserver(refreshSize);resize.observe(media);
- const visibility=new IntersectionObserver(entries=>{visible=entries[0]?.isIntersecting??true;if(visible)draw();},{threshold:0});visibility.observe(media);
+ if(typeof ResizeObserver!=="undefined"){const resize=new ResizeObserver(refreshSize);resize.observe(media);}else{window.addEventListener("resize",refreshSize,{passive:true});}
+ if(typeof IntersectionObserver!=="undefined"){const visibility=new IntersectionObserver(entries=>{visible=entries[0]?.isIntersecting??true;if(visible)draw();},{threshold:0});visibility.observe(media);}
  function fallback(){
    enabled=false;
    media.classList.remove("is-keyed-ready");
@@ -110,7 +110,7 @@
    if(!readyVideo||reduced.matches||!Number.isFinite(duration)||duration<1)return 1;
    const fadeOut=clamp((.55-(duration-t))/.43,0,1);
    const fadeIn=clamp((.34-t)/.34,0,1);
-   return Math.max(fadeOut,fadeIn,media.classList.contains("is-loop-bridging")?.88:0);
+   return Math.max(fadeOut,fadeIn,media.classList.contains("is-loop-bridging")?0.88:0);
  }
  function draw(){
    if(!enabled||!visible||document.hidden||!readyPoster)return;
