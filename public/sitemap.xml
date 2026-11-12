@@ -53,6 +53,16 @@
     <xhtml:link rel="alternate" hreflang="en-US" href="https://thelaunchera.com/free-cleaning-lead-guide" />
     <xhtml:link rel="alternate" hreflang="es-US" href="https://thelaunchera.com/es/free-cleaning-lead-guide" />
   </url>
+  <url>
+    <loc>https://thelaunchera.com/website-for-your-business/</loc>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://thelaunchera.com/website-for-your-business/" />
+    <xhtml:link rel="alternate" hreflang="es-US" href="https://thelaunchera.com/es/website-for-your-business/" />
+  </url>
+  <url>
+    <loc>https://thelaunchera.com/es/website-for-your-business/</loc>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://thelaunchera.com/website-for-your-business/" />
+    <xhtml:link rel="alternate" hreflang="es-US" href="https://thelaunchera.com/es/website-for-your-business/" />
+  </url>
   <url><loc>https://thelaunchera.com/solutions</loc></url>
   <url><loc>https://thelaunchera.com/how-it-works</loc></url>
   <url><loc>https://thelaunchera.com/help</loc></url>
