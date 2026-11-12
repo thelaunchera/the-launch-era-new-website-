@@ -46,7 +46,8 @@ const {chromium}=require('playwright');
      return {radius:parseFloat(css.borderTopLeftRadius),overflow:css.overflow,border:css.borderTopWidth,shadow:css.boxShadow,background:css.backgroundColor};
    });
    assert.ok(motionStyle.radius>=18,'Motion frame has visibly rounded corners');
-   assert.equal(await page.locator('.hero-card').count(),1,'rounded decorative card behind floating portrait');
+   assert.equal(await page.locator('.hero-card').count(),1,'hero subtree remains intact');
+   assert.equal(await page.locator('.hero-card').evaluate(el=>getComputedStyle(el).display),'none','portrait frame is removed, not just recolored');
    assert.equal(await page.locator('.hero-video').evaluate(el=>getComputedStyle(el).objectFit),'contain','portrait video must not crop the head');
    const portraitEdge=await page.locator('.hero-media--cutout').evaluate(el=>{
      const rect=el.getBoundingClientRect(),css=getComputedStyle(el);
@@ -54,6 +55,7 @@ const {chromium}=require('playwright');
    });
    assert.ok(Math.abs(portraitEdge.ratio-512/910)<0.03,'media and original poster share an aspect ratio; no internal square crop at '+width);
    assert.ok(portraitEdge.mask.includes('radial-gradient'),'portrait has a feathered edge mask');
+   assert.equal(await page.locator('.hero-video source').getAttribute('src'),'/guias/assets/dailin-avatar-hero-loop.mp4','original moving face preserved');
 
    assert.equal(await page.locator('#vault-inquiry-form').count(),1,'consultation uses real inquiry form');
    assert.equal(await page.locator('.vault-form-privacy').count(),1,'form explains privacy');
