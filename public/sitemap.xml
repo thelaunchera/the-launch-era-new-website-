@@ -68,4 +68,14 @@
     <xhtml:link rel="alternate" hreflang="en-US" href="https://thelaunchera.com/ai-booking-assistant/" />
     <xhtml:link rel="alternate" hreflang="es" href="https://thelaunchera.com/es/ai-booking-assistant/" />
   </url>
+  <url>
+    <loc>https://thelaunchera.com/guias/</loc>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://thelaunchera.com/guias/" />
+    <xhtml:link rel="alternate" hreflang="es-US" href="https://thelaunchera.com/es/guias/" />
+  </url>
+  <url>
+    <loc>https://thelaunchera.com/es/guias/</loc>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://thelaunchera.com/guias/" />
+    <xhtml:link rel="alternate" hreflang="es-US" href="https://thelaunchera.com/es/guias/" />
+  </url>
 </urlset>

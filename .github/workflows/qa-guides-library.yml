@@ -1,0 +1,25 @@
+name: TLE free AI guides library QA
+on:
+  pull_request:
+    paths:
+      - "public/guias/**"
+      - "public/es/guias/**"
+      - "scripts/qa-guides-library.mjs"
+      - ".github/workflows/qa-guides-library.yml"
+      - "public/sitemap.xml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  guides:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate free library files
+        run: |
+          node --check public/guias/app.js
+          node scripts/qa-guides-library.mjs
+          node scripts/qa-route-integrity.mjs --static

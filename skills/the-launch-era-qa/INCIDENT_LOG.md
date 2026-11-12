@@ -1,3 +1,10 @@
+## 2026-11-12 — Free IA guide library integration safety (pending release)
+- **Scope:** new public education routes `/guias/` and `/es/guias/` requested without disturbing the existing website.
+- **Risk assessment:** route collisions, inaccessible guide controls, incorrect links, premature use of an unvalidated owner portrait, misleading email capture or automated-send claims.
+- **Mitigations prepared:** additive static files in a separate PR branch, unique shared asset paths, verified business mailto link, original bilingual guide data, no backend/CRM writes, new PR-only QA workflow, sitemap metadata, route map entry. Existing paid/client pages not edited.
+- **Verification status:** static and CI checks must pass; live domain, actual iOS Safari, Google Flow avatar, real Make scenario and email subscription are **not** verified or published. Do not mark those complete until tested.
+- **Release rule:** PR diff review, green QA, successful main Pages deployment, then live iPhone/mobile/desktop smoke checks. No customer emails or bookings in testing.
+
 ## 2026-11-12 — Manus portfolio migration / preview artifacts
 - **Request:** transfer existing public Manus CEO portfolio into the official repository without affecting `main`, publishing, or merging.
 - **Source verified:** published site exposes static HTML/CSS/JavaScript and 6 WebP images, 4 WOFF2 fonts and an SVG favicon. Deployed HTML had absolute `/assets/`, `/styles.css`, `/site.js` paths and a Manus-only injected preview script.
