@@ -133,3 +133,164 @@ body > .grid header .brand-personal .brand-signature {
   body > .grid header .brand-personal {width: 128px;min-height: 56px;gap: 1px;}
   body > .grid header .brand-personal .brand-signature {font-size: 6px;letter-spacing: .15em;}
 }
+
+
+/* 2026-11-12 / iPhone visual correction.
+ * Address real screenshot: rasterized mini-logo, colliding glyphs, oversized hero,
+ * stickers obscuring the portrait, and CTA pushed below the first viewport.
+ * These styles are scoped to the public guides only.
+ */
+body>.grid header .brand-personal {
+  width: clamp(122px, 14vw, 174px);
+  min-height: 62px;
+  align-items: flex-start;
+  gap: 4px;
+  overflow: visible;
+}
+body>.grid header .brand-personal .brand-wordmark {
+  display: inline-block;
+  background: #ffe49b;
+  color: #172f42;
+  padding: 3px 8px 6px;
+  border-radius: 10px;
+  font: 800 clamp(26px, 2.5vw, 39px)/1 Prompt, "Arial Rounded MT Bold", Arial, sans-serif;
+  letter-spacing: -.057em;
+  white-space: nowrap;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+body>.grid header .brand-personal .brand-signature {
+  margin: 0 0 0 7px;
+  font-size: 8px;
+  letter-spacing: .13em;
+}
+body .hero {grid-template-rows:auto auto auto auto}
+body .hero h1 {
+  font-size:clamp(48px,5.7vw,78px)!important;
+  font-weight:800;
+  line-height:1.1;
+  letter-spacing:-.04em;
+  overflow-wrap:normal;
+  word-break:normal;
+  text-wrap:balance;
+}
+body .hero .hero-copy {grid-row:3}
+body .hero .hero-actions {grid-column:1;grid-row:4;margin-top:24px}
+body .hero .hero-art {grid-row:1/5}
+body .hero-sticker--top{top:4%;right:-3%;font-size:11px}
+body .hero-sticker--bottom{font-size:11px}
+body .hero .hilite {
+  box-shadow:inset 0 -.18em #f2d85b;
+  -webkit-box-decoration-break:clone;
+  box-decoration-break:clone;
+}
+body .library h2,body .sample h2,body .how h2,body .products h2,body .consult h2 {
+  letter-spacing:-.045em;
+  line-height:1.13;
+  text-wrap:balance;
+}
+@media(max-width:760px){
+  html{scroll-padding-top:78px}
+  body>.grid header .bar{min-height:65px;gap:8px}
+  body>.grid header .brand-personal{width:117px;min-height:58px;padding:3px 0;gap:3px}
+  body>.grid header .brand-personal .brand-wordmark{
+    font-size:27px;letter-spacing:-.054em;padding:3px 7px 5px;border-radius:8px
+  }
+  body>.grid header .brand-personal .brand-signature{font-size:6.6px;margin-left:5px;letter-spacing:.095em}
+  body>.grid header .nav{gap:6px;flex:0 0 auto}
+  body>.grid header .nav .system-link{
+    padding:7px 9px;min-height:39px;font-size:11px;
+    border-radius:9px;box-shadow:2px 2px 0 var(--studio-navy);
+    white-space:nowrap
+  }
+  body>.grid header .nav .lang{padding:2px;gap:0;flex:0 0 auto}
+  body>.grid header .nav .lang a{padding:5px 7px;min-height:35px;font-size:11px}
+  body .hero {
+    grid-template-columns:minmax(0,.87fr) minmax(0,1.13fr)!important;
+    grid-template-rows:auto auto auto auto!important;
+    align-items:center;align-content:start;
+    column-gap:16px;row-gap:0;
+    padding-top:105px;padding-bottom:49px;min-height:auto;
+  }
+  body .hero-overline{grid-column:1/-1;grid-row:1;margin:0 0 15px;font-size:10px;letter-spacing:.1em}
+  body .hero-overline:before{width:21px}
+  body .hero h1{
+    grid-column:1/-1;grid-row:2;max-width:none;
+    margin:0 0 23px;
+    font-size:clamp(36px,9.6vw,49px)!important;
+    line-height:1.13;
+    font-weight:750;
+    letter-spacing:-.035em;
+    text-wrap:balance;
+  }
+  body .hero-art{
+    grid-column:1;grid-row:3;align-self:center;justify-self:stretch;
+    width:100%;height:230px;aspect-ratio:auto;max-height:none;min-height:0;margin:0;overflow:visible;
+  }
+  body .hero-art:before{inset:11% 0 1%;border-radius:48% 52% 36% 64%/53% 46% 54% 47%}
+  body .hero-art:after{inset:10% 3% 2%}
+  body .hero-portrait{
+    width:94%;height:94%;margin:0 auto 0;
+    border:4px solid #e8f5ff;border-radius:100px 100px 12px 12px;
+    box-shadow:0 12px 28px rgba(33,75,107,.15);
+    object-fit:cover;object-position:center 24%;
+  }
+  body .hero-sticker--top{display:none}
+  body .hero-sticker--bottom{
+    bottom:5%;left:-7%;font-size:9px;padding:7px 9px;
+    transform:rotate(-5deg);white-space:nowrap;max-width:none;
+  }
+  body .hero-copy{
+    grid-column:2;grid-row:3;align-self:center;
+    min-width:0;max-width:none;margin:0;
+  }
+  body .hero-copy p{
+    font-size:clamp(12.5px,3.6vw,15px);
+    line-height:1.65;color:#314d61;margin:0;
+    overflow-wrap:break-word;
+  }
+  body .hero .hero-actions{
+    grid-column:1/-1;grid-row:4;
+    width:100%;margin:23px 0 0;padding:0;
+  }
+  body .hero .hero-actions .button{
+    display:flex;width:100%;min-height:50px;padding:12px 14px;
+    font-size:14px;justify-content:center;
+    border-radius:11px!important;
+  }
+  body .scroll-cue{display:none}
+  body .library-intro h2{font-size:clamp(36px,9vw,51px);letter-spacing:-.045em;line-height:1.12}
+  body .sample h2,body .how h2,body .products-header h2{font-size:clamp(36px,8.8vw,49px);letter-spacing:-.045em;line-height:1.12}
+  body .consult h2{font-size:clamp(36px,8.8vw,51px);letter-spacing:-.045em;line-height:1.12}
+}
+@media(max-width:390px){
+ body>.grid header .brand-personal{width:112px;min-height:56px}
+ body>.grid header .brand-personal .brand-wordmark{font-size:25px;padding:3px 6px 5px}
+ body>.grid header .nav{gap:5px}
+ body>.grid header .nav .system-link{font-size:10px;padding:6px 7px;min-height:38px}
+ body>.grid header .nav .lang a{font-size:10.5px;padding:5px 6px}
+ body .hero{column-gap:12px;padding-top:101px}
+ body .hero h1{font-size:clamp(35px,9.5vw,39px)!important;letter-spacing:-.032em;margin-bottom:20px}
+ body .hero-art{height:211px}
+ body .hero-copy p{font-size:12.5px;line-height:1.58}
+ body .hero-sticker--bottom{font-size:8px;left:-4%}
+}
+@media(max-width:340px){
+ body>.grid header .brand-personal{width:101px}
+ body>.grid header .brand-personal .brand-wordmark{font-size:23px}
+ body .hero-art{height:192px}
+ body .hero-copy p{font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){
+ body .hero-portrait{transform:none!important}
+}
+
+/* Transparent high-resolution vector wordmark, replacing bitmap / CSS letterform. */
+body>.grid header .brand-personal img.brand-wordmark-image{
+ display:block;width:100%;height:auto;aspect-ratio:520 / 150;
+ object-fit:contain;background:transparent;border:0;
+ image-rendering:auto;
+}
+body>.grid header .brand-personal .brand-signature{
+ display:block;white-space:nowrap;
+}

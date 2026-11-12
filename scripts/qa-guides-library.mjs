@@ -8,15 +8,15 @@ const js=readFileSync(resolve(root,"public/guias/app.js"),"utf8");
 const css=readFileSync(resolve(root,"public/guias/styles.css"),"utf8");
 const editorialCss=readFileSync(resolve(root,"public/guias/editorial.css"),"utf8");
 const editorialJs=readFileSync(resolve(root,"public/guias/editorial.js"),"utf8");
-const logo=readFileSync(resolve(root,"public/guias/assets/dailin-wordmark.png"));
+// The primary logo is scalable live text; no bitmap is used in the header.
 for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
   assert.match(html,new RegExp('<html lang="'+lang+'">'));
   assert.ok(html.includes('rel="canonical" href="https://thelaunchera.com'+route+'"'),lang+" canonical");
   assert.ok(html.includes('href="/guias/"')&&html.includes('href="/es/guias/"'),lang+" language links");
   assert.ok(html.includes('href="/guias/styles.css?v=20261112-2"')&&html.includes('src="/guias/app.js"'),lang+" shared assets");
-  assert.ok(html.includes('href="/guias/editorial.css?v=20261112-1"')&&html.includes('src="/guias/editorial.js?v=20261112-1"'),lang+" editorial scroll files");
+  assert.ok(html.includes('href="/guias/editorial.css?v=20261112-5"')&&html.includes('src="/guias/editorial.js?v=20261112-1"'),lang+" editorial scroll files");
   assert.ok(html.includes('id="reading-progress"')&&html.includes('class="ticker-track"'),lang+" scroll UI");
-  assert.ok(html.includes('class="brand brand-personal"') && html.includes('src="/guias/assets/dailin-wordmark.png"') && html.includes('BY THE LAUNCH ERA'),lang+" approved wordmark in topbar");
+  assert.ok(html.includes('class="brand brand-personal"') && html.includes('class="brand-wordmark-image"') && html.includes('src="/guias/assets/dailin-wordmark-clear.svg"') && html.includes('Dailin.') && html.includes('BY THE LAUNCH ERA'),lang+" scalable wordmark in topbar");
   assert.ok(html.includes('href="mailto:hello@thelaunchera.com?subject='),lang+" verified contact");
   assert.ok(html.includes('id="guide-list"')&&html.includes('id="search"')&&html.includes('id="filters"'),lang+" controls");
   assert.ok(html.includes('href="/favicon-tle.svg"'),lang+" favicon");
@@ -24,9 +24,11 @@ for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
   assert.ok(!/hero-avatar-concept|person-photo-placeholder/i.test(html),"No unapproved personal avatar");
 }
 assert.ok(existsSync(resolve(root,"public/favicon-tle.svg")),"Existing official favicon");
-assert.ok(logo.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])),"PNG signature");
-assert.equal(logo.readUInt32BE(16),230,"Approved Dailin logo width");
-assert.equal(logo.readUInt32BE(20),66,"Approved Dailin logo height");
+assert.match(editorialCss,/\.brand-wordmark-image/);
+const vectorLogo=readFileSync(resolve(root,"public/guias/assets/dailin-wordmark-clear.svg"),"utf8");
+assert.match(vectorLogo,/viewBox="0 0 520 150"/);
+assert.match(vectorLogo,/fill="#FFE6A4"/);
+assert.ok(!vectorLogo.includes('background-image'),"Transparent wordmark canvas");
 assert.match(editorialCss,/brand-personal/);
 assert.match(js,/clipboard\.writeText/);assert.match(js,/aria-pressed/);assert.match(js,/Escape/);
 assert.match(css,/@media\(max-width:800px\)/);
