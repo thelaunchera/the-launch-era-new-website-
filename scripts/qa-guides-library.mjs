@@ -33,7 +33,7 @@ for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
   assert.ok(html.includes('href="/guias/atelier.css?v=20261112-guides-1"'),lang+" editorial stylesheet");
   assert.ok(html.includes('href="/guias/blue-grid.css?v=20261112-1"'),lang+" original grid asset remains archived");
   assert.ok(html.includes('href="/guias/vault-unified-editorial.css?v=20261112-paper-1"'),lang+" unified design stylesheet");
-  assert.ok(html.includes('href="/guias/vault-evergreen.css?v=20261112-portrait-edges-1"'),lang+" evergreen design stylesheet");
+  assert.ok(html.includes('href="/guias/vault-evergreen.css?v=20261112-iphone-library-1"'),lang+" evergreen design stylesheet");
   assert.ok(!html.includes('id="count"'),lang+" no fixed visible guide count");
   assert.ok(html.includes('src="/guias/vault-video-key.js?v=20261112-portrait-edges-1"'),lang+" video alpha effect with fallback");
   assert.ok(!/10 (FIELD GUIDES|GUÍAS PARA CREAR)/.test(html),lang+" library total is future proof");
