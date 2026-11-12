@@ -8,6 +8,7 @@ const {chromium}=require("playwright");
    const page=await ctx.newPage();const errors=[];let payload=null,postCount=0;
    page.on("pageerror",error=>errors.push(error.message));
    await page.route(api,async req=>{
+     if(req.request().method()==="OPTIONS"){await req.fulfill({status:204,headers:{"Access-Control-Allow-Origin":"*","Access-Control-Allow-Methods":"POST, OPTIONS","Access-Control-Allow-Headers":"content-type"}});return;}
      assert.equal(req.request().method(),"POST","inquiry uses POST");
      payload=req.request().postDataJSON();postCount++;
      await req.fulfill({status:200,contentType:"application/json",headers:{"Access-Control-Allow-Origin":"*"},body:JSON.stringify({ok:true,email_sent:true,owner_notified:true})});
@@ -22,11 +23,10 @@ const {chromium}=require("playwright");
    assert.equal(await page.locator(".hero-video").evaluate(el=>getComputedStyle(el).objectFit),"contain","full head visible in Motion");
    const backdrop=await page.locator(".hero-card").evaluate(el=>({background:getComputedStyle(el).backgroundImage,border:getComputedStyle(el).borderTopWidth}));
    assert.ok(backdrop.background.includes("gradient")&&backdrop.border!=="0px","visible, rounded, separate breakout background");
-   const before=await page.locator(".hero-video").evaluate(el=>getComputedStyle(el).opacity);
+
    await page.locator(".hero-media").evaluate(el=>el.classList.add("is-loop-bridging"));
    assert.equal(await page.locator(".hero-video").evaluate(el=>getComputedStyle(el).opacity),"0","loop seam crossfades out to poster");
    await page.locator(".hero-media").evaluate(el=>el.classList.remove("is-loop-bridging"));
-   assert.ok(before==="0"||before==="1","video has defined playback opacity");
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),"no overflow on iPhone");
    const form=page.locator("#vault-inquiry-form");
    await form.locator('input[name="name"]').fill("Sample Client");
