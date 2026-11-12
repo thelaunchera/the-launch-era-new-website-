@@ -45,6 +45,9 @@ body > .grid .hero-founder .hero-art {
   align-self: center;
   justify-self: center;
 }
+/* Remove the old decorative blob without changing the approved motion element. */
+body > .grid .hero-founder .hero-art::before,
+body > .grid .hero-founder .hero-art::after { display: none; }
 /* Decorative camera-frame corners surround the existing motion asset. */
 body > .grid .hero-founder .hero-bracket {
   position: absolute;
