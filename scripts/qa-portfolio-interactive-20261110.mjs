@@ -1,55 +1,57 @@
-// Portfolio: approved hero poster, one interactive website-card gallery, keyboard navigation and accessibility.
+// QA for the original, now self-hosted Manus founder portfolio (not the previous mini-card template).
 import assert from 'node:assert/strict';
-import {chromium,webkit} from 'playwright';
-import {readFileSync} from 'node:fs';
-const html=readFileSync('public/portfolio/index.html','utf8');
-const projectBlock=html.split('const projects = [')[1]?.split('];')[0]||'';
-const projectSlugs=[...projectBlock.matchAll(/\{id:'([^']+)'/g)].map(match=>match[1]);
-assert.ok(projectSlugs.length>=2,'Portfolio must contain at least two distinct sites');
-assert.equal(new Set(projectSlugs).size,projectSlugs.length,'Portfolio project IDs must be unique');
-const root=(process.env.QA_URL||'http://127.0.0.1:4198').replace(/\/$/,'');
-for(const type of [chromium,webkit]){
- const browser=await type.launch({headless:true});
- try{
-  for(const [width,motion] of [[390,'no-preference'],[375,'reduce'],[1280,'no-preference']]){
-   const page=await browser.newPage({viewport:{width,height:844},reducedMotion:motion});
-   const errors=[];
-   page.on('pageerror',e=>errors.push(e.message));
-   const res=await page.goto(root+'/portfolio/',{waitUntil:'domcontentloaded'});
-   assert.equal(res?.status(),200,'Portfolio route resolves');
-   await page.locator('.tle-demo-drop-item').first().waitFor({state:'attached',timeout:15000});
-   assert.deepEqual(await page.locator('.tle-demo-drop-item').evaluateAll(nodes=>nodes.map(node=>node.dataset.project)),projectSlugs,'Every registered website appears exactly once');
-   assert.equal(await page.locator('.tle-brand-pill').count(),0,'No duplicated pill navigation');
-   assert.equal(await page.locator('.tle-gravity-arena #tleDemoDropGrid').count(),1,'Every card is inside the same blue showcase');
-   assert.equal(await page.locator('#statement .section-tag').count(),1,'Editorial section remains valid');
-   assert.equal(await page.locator('#tleGravityTitle').count(),1,'Single showcase heading is identified');
-   assert.equal(await page.locator('#tleDemoDropTitle').count(),1,'Website collection has an accessible label');
-   assert.ok((await page.locator('#heroPoster').getAttribute('src')).includes('founder-poster.jpg'),'Poster is specified from first paint');
-   const over=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
-   assert.ok(over<5,'No horizontal overflow at '+width+'px: '+over);
-   const first=page.locator('.tle-demo-drop-item').first();
-   const firstTitle=(await first.locator('.tle-mini-title').innerText()).trim();
-   const firstId=await first.getAttribute('data-project');
-   await first.click();
-   assert.equal(await page.locator('#projectDialog').evaluate(el=>el.open),true,'Website miniature opens a preview');
-   assert.equal((await page.locator('#modalTitle').innerText()).trim(),firstTitle,'Selected website title must match the first thumbnail');
-   assert.ok(new URL(await page.locator('#modalExplore').getAttribute('href')).pathname.endsWith('/'+firstId+'/'),'First thumbnail must link to its own brand whether hosted on TLE or GitHub Pages');
-   await page.locator('#closeDialog').click();
-   assert.equal(await page.locator('#projectDialog').evaluate(el=>el.open),false,'Preview can close');
-   const second=page.locator('.tle-demo-drop-item').nth(1);
-   const secondTitle=(await second.locator('.tle-mini-title').innerText()).trim();
-   const secondId=await second.getAttribute('data-project');
-   assert.notEqual(secondId,firstId,'First and second projects must be distinct');
-   await second.scrollIntoViewIfNeeded();
-   await second.focus();
-   await second.press('Enter');
-   assert.equal(await page.locator('#projectDialog').evaluate(el=>el.open),true,'Keyboard Enter opens the second website');
-   assert.equal((await page.locator('#modalTitle').innerText()).trim(),secondTitle,'Keyboard preview must open its own brand, independent of ordering');
-   assert.ok(new URL(await page.locator('#modalExplore').getAttribute('href')).pathname.endsWith('/'+secondId+'/'),'Second preview must link to its own brand whether hosted on TLE or GitHub Pages');
-   await page.locator('#closeDialog').click();
-   assert.deepEqual(errors,[],'No portfolio JavaScript errors');
-   console.log('PORTFOLIO PASS',type.name(),width,motion,'one set of cards');
-   await page.close();
+import { chromium, webkit } from 'playwright';
+import { readFileSync } from 'node:fs';
+
+const html = readFileSync('public/portfolio/index.html', 'utf8');
+const ids = [...html.matchAll(/<article class="[^"]*project-card[^"]*" id="([^"]+)"/g)].map(m => m[1]);
+assert.equal(ids.length, 4, 'Four distinct case studies from Manus are retained');
+assert.equal(new Set(ids).size, 4, 'Unique case-study ids');
+assert.match(html, /href="\/portfolio\/styles\.css"/);
+assert.match(html, /src="\/portfolio\/site\.js"/);
+assert.doesNotMatch(html, /manuscdn\.com|manus-web-edit-runtime/);
+const root = (process.env.QA_URL || 'http://127.0.0.1:4198').replace(/\/$/, '');
+
+for (const type of [chromium, webkit]) {
+  const browser = await type.launch({ headless: true });
+  try {
+    for (const [width, motion] of [[375, 'no-preference'], [390, 'reduce'], [1280, 'no-preference']]) {
+      const page = await browser.newPage({ viewport: { width, height: 844 }, reducedMotion: motion });
+      const errors = [];
+      page.on('pageerror', e => errors.push(e.message));
+      const response = await page.goto(root + '/portfolio/', { waitUntil: 'domcontentloaded' });
+      assert.equal(response?.status(), 200, 'Portfolio route resolves');
+      assert.equal(await page.locator('.project-card').count(), 4, 'All four case studies rendered');
+      assert.deepEqual(await page.locator('.project-card').evaluateAll(els => els.map(e => e.id)), ids);
+      assert.ok(await page.locator('.hero h1').isVisible(), 'Original hero is visible');
+      assert.equal(await page.locator('details').count(), 3, 'Three case study disclosures remain');
+      const overflow = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
+      assert.ok(overflow <= 3, 'No horizontal overflow at ' + width + ': ' + overflow);
+
+      if (width < 700) {
+        const toggle = page.locator('.menu-toggle');
+        assert.ok(await toggle.isVisible(), 'Mobile menu button exists');
+        await toggle.click();
+        assert.equal(await toggle.getAttribute('aria-expanded'), 'true', 'Menu opens');
+        await page.locator('#primary-nav a[href="#projects"]').click();
+        assert.equal(await toggle.getAttribute('aria-expanded'), 'false', 'Menu closes on navigation');
+      } else {
+        assert.ok(await page.locator('#primary-nav a[href="#projects"]').isVisible());
+      }
+
+      const first = page.locator('details').first();
+      await first.locator('summary').scrollIntoViewIfNeeded();
+      await first.locator('summary').click();
+      assert.equal(await first.evaluate(el => el.open), true, 'Case study opens');
+      await first.locator('summary').press('Enter');
+      assert.equal(await first.evaluate(el => el.open), false, 'Keyboard closes case study');
+      await page.locator('main img').evaluateAll(imgs => imgs.forEach(i => { i.loading = 'eager'; }));
+      await page.waitForFunction(() => [...document.images].every(i => i.complete && i.naturalWidth > 0), null, { timeout: 12000 });
+      assert.deepEqual(errors, [], 'No browser JavaScript errors');
+      console.log('PORTFOLIO INTERACTION PASS', type.name(), width, motion, 'four distinct case studies');
+      await page.close();
+    }
+  } finally {
+    await browser.close();
   }
- }finally{await browser.close()}
 }
