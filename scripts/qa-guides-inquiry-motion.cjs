@@ -17,6 +17,12 @@ const {chromium}=require("playwright");
    assert.equal(response.status(),200);
    assert.equal(await page.locator(".sample").count(),0,"repeated sample prompt removed");
    assert.equal(await page.locator(".hero-card").count(),1,"portrait breakout card");
+   const gpu=await page.evaluate(()=>Boolean(document.createElement("canvas").getContext("webgl")));
+   if(gpu){
+     await page.waitForFunction(()=>document.querySelector(".hero-media")?.classList.contains("is-keyed-ready"),{timeout:5000});
+     assert.equal(await page.locator(".hero-keyed-canvas").count(),1,"GPU mask overlays the original Motion without replacing identity");
+     assert.equal(await page.locator(".hero-keyed-canvas").evaluate(el=>getComputedStyle(el).opacity),"1","transparent blue-matte render is visible");
+   }
    assert.equal(await page.locator("#vault-inquiry-form").count(),1,"real inquiry form");
    assert.equal(await page.locator(".vault-photo-help").count(),3,"all photo prompts have instructions");
    assert.ok(await page.locator(".guide").first().evaluate(el=>el.getBoundingClientRect().top<document.getElementById("recursos").getBoundingClientRect().top),"guide list now precedes resources");
