@@ -1,3 +1,9 @@
+## 2026-11-12 — Motion hero corners requested rounded
+- **Scope:** public Dailin Vault guides pages `/guias/` and `/es/guias/` only; previous live Motion image had visually square/feathered edges.
+- **Safe visual repair:** `public/guias/vault-hero.css` now clips the existing video and poster with matching rounded corners (18 px on mobile, 19–30 px desktop), no border/background/shadow and a bottom-only soft feather. Motion source, timing, sizing, copy and unrelated layouts remain unchanged.
+- **Regression gate:** `scripts/qa-guides-atelier.cjs` checks border-radius, clip, transparent container, no frame/shadow and video/poster radius at five widths in both languages. `/guias/vault-hero.css` query version bumped for Safari caching.
+- **Verification:** merge only after GitHub Actions and Pages deploy succeed; check published EN/ES URLs before confirming.
+
 ## 2026-11-12 — Published Guides hero still shows old text, blocked title and photo frame
 - **Evidence:** user-supplied iPhone screenshot at `https://thelaunchera.com/es/guias/` showed “De un prompt a algo real”, overlay from portrait/video over headline, and a white/light-blue rounded photo-card frame.
 - **Verified source:** the previously tested founder-hero PR #561 was closed unmerged; production `main` still contained the original headline, frame and one CTA. Meanwhile an independent commit published the user-approved blurred-blue grid; preserve it.
