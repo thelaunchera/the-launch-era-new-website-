@@ -9,8 +9,8 @@ import "./styles.css";
 
 const lang = document.documentElement.lang === "es" ? "es" : "en";
 const text = copy[lang];
-const library = lang === "es" ? "/es/guias/biblioteca.html" : "/guias/library.html";
-const otherLanding = lang === "es" ? "/guias/" : "/es/guias/";
+const library = lang === "es" ? "/es/guias/" : "/guias/";
+const otherLanding = lang === "es" ? "/guias/mina.html" : "/es/guias/mina.html";
 const contact = library + "#contacto";
 const edges = "rounded-[40px] sm:rounded-[50px] md:rounded-[60px]";
 const heading = "text-center text-[clamp(3rem,12vw,160px)] font-black uppercase leading-none tracking-tight";

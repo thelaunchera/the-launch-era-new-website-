@@ -3,7 +3,7 @@ const {chromium}=require('playwright');
 (async()=>{
  const browser=await chromium.launch({headless:true});
  for(const width of [360,390,768,1024,1440]){
-  for(const [path,lang] of [['/guias/library.html','en'],['/es/guias/biblioteca.html','es']]){
+  for(const [path,lang] of [['/guias/','en'],['/es/guias/','es']]){
    const context=await browser.newContext({viewport:{width,height:860},reducedMotion:'reduce',hasTouch:width<=390,permissions:['clipboard-read','clipboard-write']});
    const page=await context.newPage();const errors=[];page.on('pageerror',error=>errors.push(error.message));
    const res=await page.goto('http://127.0.0.1:8172'+path,{waitUntil:'networkidle'});

@@ -7,8 +7,8 @@ const fixture = readFileSync('public/guias/assets/dailin-avatar-hero-poster.webp
 const idMap = JSON.parse(readFileSync('public/guias/mina-assets/living-portrait.js', 'utf8').match(/const IDS = (.*);/)[1]);
 const faceId = name => idMap[name];
 const locales = [
-  { path: '/guias/', library: '/guias/library.html', lang: 'en', title: 'Mina -- 3D Creator', price: 'Price', project: 'Live Project', contact: 'Contact Me' },
-  { path: '/es/guias/', library: '/es/guias/biblioteca.html', lang: 'es', title: 'Mina -- Creadora 3D', price: 'Precios', project: 'Ver proyecto', contact: 'Contáctame' },
+  { path: '/guias/mina.html', library: '/guias/', lang: 'en', title: 'Mina -- 3D Creator', price: 'Price', project: 'Live Project', contact: 'Contact Me' },
+  { path: '/es/guias/mina.html', library: '/es/guias/', lang: 'es', title: 'Mina -- Creadora 3D', price: 'Precios', project: 'Ver proyecto', contact: 'Contáctame' },
 ];
 
 (async () => {
@@ -104,7 +104,7 @@ const locales = [
         return drawElements.apply(this, args);
       };
     });
-    await page.goto(base + '/guias/', { waitUntil: 'domcontentloaded' });
+    await page.goto(base + '/guias/mina.html', { waitUntil: 'domcontentloaded' });
     await page.waitForFunction(() => window.loadedFaceImages?.size === 58);
     const expectFace = name => page.waitForFunction(id => window.faceOnCanvas?.includes(id), faceId(name), { timeout: 4500 });
     await expectFace('closed');
