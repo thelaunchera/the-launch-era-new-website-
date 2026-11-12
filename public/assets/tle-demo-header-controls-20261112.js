@@ -4,6 +4,7 @@
   const entry = document.currentScript;
   const brand = entry && entry.getAttribute("data-tle-demo-brand");
   if (!brand || !document.body) return;
+  document.documentElement.setAttribute("data-tle-demo-brand", brand);
 
   const common = {
     "Home":"Inicio","Shop":"Comprar","Menu":"Menú","Our Story":"Nuestra historia","Our story":"Nuestra historia",
@@ -279,7 +280,7 @@
       line-height:1.25!important;
       letter-spacing:.045em;
     }
-    .tle-demo-compact-header :is(.language,.lang-btn,#language,#lang,#langToggle){
+    .tle-demo-compact-header :is(.language,.lang-btn,.language-btn,#language,#lang,#langToggle,#languageBtn){
       font-size:11px!important;padding:7px 10px!important;min-width:36px;
     }
     .tle-demo-compact-header :is(.language-toggle,.language-switch,.lang-switch,.cb-language-selector){
@@ -301,7 +302,7 @@
     .tle-demo-lang-control.is-es::before{transform:translateX(100%)}
     .tle-demo-lang-control button{
       position:relative;appearance:none;border:0!important;background:transparent!important;
-      color:inherit!important;font:600 10px/1 inherit!important;letter-spacing:.03em;
+      color:inherit!important;font-size:10px!important;font-weight:600!important;font-family:inherit!important;line-height:1!important;letter-spacing:.03em;
       padding:0!important;margin:0!important;min-width:0!important;min-height:30px!important;
       cursor:pointer;outline-offset:3px;z-index:1;box-shadow:none!important;
     }
@@ -317,6 +318,17 @@
       .tle-demo-lang-control{width:78px;height:44px}
       .tle-demo-lang-control button{min-height:38px!important}
     }
+    @media(max-width:480px){
+      html[data-tle-demo-brand="ivory-and-bloom"] .tle-demo-compact-header .header-inner{gap:4px!important}
+      html[data-tle-demo-brand="ivory-and-bloom"] .tle-demo-compact-header .header-cta{
+        width:72px;min-width:72px;max-width:72px;margin-left:auto!important;
+        padding:5px!important;font-size:0!important;flex:0 0 72px;
+      }
+      html[data-tle-demo-brand="ivory-and-bloom"] .tle-demo-compact-header .header-cta::after{
+        content:"Inquire";font-size:10px;font-weight:600;line-height:1.2;letter-spacing:.01em;
+      }
+      html[lang="es"][data-tle-demo-brand="ivory-and-bloom"] .tle-demo-compact-header .header-cta::after{content:"Consultar"}
+    }
     @media(prefers-reduced-motion:reduce){
       .tle-demo-lang-control::before{transition:none}
     }
@@ -325,7 +337,7 @@
   style.id = "tle-demo-header-controls-style";
   style.textContent = css;
   document.head.appendChild(style);
-  const nativeLocaleSelector = ".cb-language-selector,.lang-switch,.language-toggle,.language-switch,button[data-language],button[data-lang],#language,#lang,#langToggle,.lang-btn,.language";
+  const nativeLocaleSelector = ".cb-language-selector,.lang-switch,.language-toggle,.language-switch,.language-btn,#languageBtn,button[data-language],button[data-lang],#language,#lang,#langToggle,.lang-btn,.language";
   let header = null;
   function enhanceHeader() {
     const next = document.querySelector("body header");
@@ -362,13 +374,14 @@
   let queued = false;
   const observer = new MutationObserver(records => {
     if (queued) return;
-    if (!records.some(record => [...record.addedNodes].some(node => node.nodeType === 1))) return;
+    const added = records.flatMap(record => [...record.addedNodes]).filter(node => node.nodeType === 1);
+    if (!added.length) return;
     queued = true;
     requestAnimationFrame(() => {
       queued = false;
       enhanceHeader();
-      if (active === "es" && !document.querySelector("header " + nativeLocaleSelector)) {
-        translateTree(document.body);
+      if (active === "es" && !(header && header.querySelector(nativeLocaleSelector))) {
+        added.forEach(node => translateTree(node));
       }
     });
   });
