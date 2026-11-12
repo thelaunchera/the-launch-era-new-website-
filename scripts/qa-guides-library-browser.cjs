@@ -12,7 +12,7 @@ const { chromium } = require('playwright');
       await page.goto(base+route,{waitUntil:'domcontentloaded'});
       assert.equal(await page.locator('.guide').count(),10);
       assert.equal(await page.locator('html').getAttribute('lang'),lang);
-      assert.ok(await page.locator('.hero-portrait').evaluate(async img => {await img.decode();return img.naturalWidth > 0;}));
+      assert.ok(await page.locator('.hero-poster').evaluate(async img => {await img.decode();return img.naturalWidth > 0;}));
       assert.ok(await page.locator('.brand-wordmark-image').evaluate(async img=>{await img.decode();return img.naturalWidth===520&&img.naturalHeight===150;}),'transparent Dailin SVG loads at full resolution');
       assert.equal(await page.locator('.brand-wordmark-image').getAttribute('alt'),'Dailin.','wordmark accessible alt');
       assert.equal(await page.locator('.brand-signature').textContent(),'BY THE LAUNCH ERA','proper brand attribution');
