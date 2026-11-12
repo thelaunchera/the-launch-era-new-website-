@@ -64,6 +64,7 @@ const {chromium}=require('playwright');
    const switcher=page.locator('.lang a[hreflang="'+(lang==='en'?'es':'en')+'"]');
    await page.locator('.guide .open').first().click();
    const guide=new URL(page.url()).searchParams.get('guide');
+   assert.equal(await page.locator('#guide-detail .vault-prompt-help li').count(),3,'guide modal gives visitor clear prompt instructions');
    assert.ok(guide,'guide modal updates link');
    assert.equal(await page.locator('.guide-language').count(),0,'guide reader has no second switch');
    assert.equal(await page.locator('.lang').count(),1,'language switch still singular inside guide reader');
