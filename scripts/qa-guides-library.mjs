@@ -2,8 +2,8 @@ import {readFileSync,existsSync} from "node:fs";
 import {resolve} from "node:path";
 import assert from "node:assert/strict";
 const root=process.cwd();
-const en=readFileSync(resolve(root,"public/guias/index.html"),"utf8");
-const es=readFileSync(resolve(root,"public/es/guias/index.html"),"utf8");
+const en=readFileSync(resolve(root,"public/guias/library.html"),"utf8");
+const es=readFileSync(resolve(root,"public/es/guias/biblioteca.html"),"utf8");
 const js=readFileSync(resolve(root,"public/guias/app.js"),"utf8");
 const css=readFileSync(resolve(root,"public/guias/styles.css"),"utf8");
 const editorialCss=readFileSync(resolve(root,"public/guias/editorial.css"),"utf8");
@@ -15,11 +15,11 @@ const unifiedCss=readFileSync(resolve(root,"public/guias/vault-unified-editorial
 const evergreenCss=readFileSync(resolve(root,"public/guias/vault-evergreen.css"),"utf8");
 const blueGridWebP=readFileSync(resolve(root,"public/guias/assets/tle-approved-blue-grid.webp"));
 // The primary logo is scalable live text; no bitmap is used in the header.
-for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
+for (const [lang,html,route] of [["en",en,"/guias/library.html"],["es",es,"/es/guias/biblioteca.html"]]) {
   assert.match(html,new RegExp('<html lang="'+lang+'">'));
   assert.ok(html.includes('rel="canonical" href="https://thelaunchera.com'+route+'"'),lang+" canonical");
-  assert.ok(html.includes('href="/guias/"')&&html.includes('href="/es/guias/"'),lang+" language links");
-  assert.ok(html.includes('href="/guias/styles.css?v=20261112-2"')&&html.includes('src="/guias/app.js?v=20261112-guides-2"'),lang+" shared assets");
+  assert.ok(html.includes('href="/guias/library.html"')&&html.includes('href="/es/guias/biblioteca.html"'),lang+" language links");
+  assert.ok(html.includes('href="/guias/styles.css?v=20261112-2"')&&html.includes('src="/guias/app.js?v=20261112-mina-1"'),lang+" shared assets");
   assert.ok(html.includes('href="/guias/editorial.css?v=20261112-avatar-1"')&&html.includes('src="/guias/editorial.js?v=20261112-avatar-1"'),lang+" editorial scroll files");
   assert.ok(html.includes('id="reading-progress"')&&html.includes('class="ticker-track"'),lang+" scroll UI");
   assert.ok(html.includes('src="/guias/assets/dailin-avatar-hero-loop.mp4"')&&html.includes('poster="/guias/assets/dailin-avatar-hero-poster.webp"'),lang+" approved founder hero media");

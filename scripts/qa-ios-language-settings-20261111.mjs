@@ -37,6 +37,9 @@ assert.ok(sharedCss.includes(':active .tle-ios-locale-knob'));
 assert.ok(sharedCss.includes('prefers-reduced-motion:reduce'));
 if(built){
  for(const path of ['guias/index.html','es/guias/index.html']){
+   assert.ok(!read(path).includes('tle-ios-language-switch-20261111.js'),path+' uses its own language link');
+ }
+ for(const path of ['guias/library.html','es/guias/biblioteca.html']){
    const html=read(path);
    assert.ok(!html.includes('tle-ios-language-switch-20261111.js'),path+' must not get duplicate injected iOS selector');
    assert.ok(html.includes('class="lang" role="group"'),path+' must retain original working EN/ES topbar');

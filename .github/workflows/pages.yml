@@ -121,6 +121,13 @@ jobs:
       - name: Build website
         run: bun run build
 
+      - name: Build the Mina landing
+        run: |
+          npm ci --prefix vault-landing
+          VAULT_OUT_DIR=../.output/public/guias/mina-assets npm run build --prefix vault-landing
+          test -s .output/public/guias/mina-assets/landing.js
+          test -s .output/public/guias/mina-assets/living-portrait.js
+
       - name: Build Brand Board Studio on The Launch Era domain
         run: |
           set -euo pipefail

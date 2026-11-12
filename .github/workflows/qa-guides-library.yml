@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - "public/guias/**"
+      - "vault-landing/**"
+      - "scripts/qa-mina-landing.cjs"
       - "public/es/guias/**"
       - "scripts/qa-guides-library.mjs"
       - "scripts/qa-guides-library-browser.cjs"
@@ -47,6 +49,10 @@ jobs:
         run: bun install
       - name: Test both language UIs with a browser-like DOM
         run: node scripts/qa-guides-dom.mjs
+      - name: Build the Mina landing
+        run: |
+          npm ci --prefix vault-landing
+          npm run build --prefix vault-landing
       - name: Verify the browser interactions
         run: |
           npm install --prefix "$RUNNER_TEMP/tle-guides-browser" --no-save playwright@1.56.1
@@ -55,6 +61,7 @@ jobs:
           server_pid=$!
           trap 'kill "$server_pid"' EXIT
           curl --fail --retry 5 --retry-connrefused --silent http://127.0.0.1:8172/guias/ > /dev/null
+          NODE_PATH="$RUNNER_TEMP/tle-guides-browser/node_modules" node scripts/qa-mina-landing.cjs
           NODE_PATH="$RUNNER_TEMP/tle-guides-browser/node_modules" node scripts/qa-guides-library-browser.cjs
           NODE_PATH="$RUNNER_TEMP/tle-guides-browser/node_modules" node scripts/qa-guides-editorial-scroll.cjs
           NODE_PATH="$RUNNER_TEMP/tle-guides-browser/node_modules" node scripts/qa-guides-resources.cjs

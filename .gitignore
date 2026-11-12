@@ -30,3 +30,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# Vault landing bundles are built by GitHub Pages.
+/public/guias/mina-assets/landing.js
+/public/guias/mina-assets/landing.css
+/public/guias/mina-assets/react.js
+/public/guias/mina-assets/motion.js

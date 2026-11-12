@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body, #root { background: #0C0C0C; font-family: 'Kanit', sans-serif; }
+html { color-scheme: dark; scroll-behavior: smooth; }
+:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.hero-heading {
+  background: linear-gradient(180deg, #646973 0%, #BBCCD7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.landing-hero { min-height: 420px; height: 100svh; }
+html[lang="es"] #hero-heading { font-size: 13vw; }
+.landing-hero > nav { pointer-events: none; }
+.landing-hero > nav a, .contact-btn { pointer-events: auto; }
+.hero-bottom { pointer-events: none; }
+.contact-btn {
+  background: linear-gradient(123deg, #18011F 7%, #B600A8 37%, #7621B0 72%, #BE4C00 100%);
+  box-shadow: 0px 4px 4px rgba(181, 1, 167, .25), 4px 4px 12px #7721B1 inset;
+  outline: 2px solid white;
+  outline-offset: -3px;
+  white-space: nowrap;
+}
+.contact-btn:focus-visible { outline-offset: 4px; }
+.about-section { min-height: 100svh; }
+.project-number {
+  font-size: clamp(3rem, 10vw, 140px);
+  font-weight: 900;
+  line-height: .85;
+  letter-spacing: -.06em;
+}
+.project-stack { --stack-top: 6rem; }
+.project-slot { min-height: 85vh; }
+.project-slot:last-child { min-height: auto; }
+.project-image-top { height: clamp(130px, 16vw, 230px); }
+.project-image-bottom { height: clamp(160px, 22vw, 340px); }
+.project-dialog {
+  position: fixed;
+  width: min(92vw, 960px);
+  max-height: 90svh;
+  margin: auto;
+  overflow: auto;
+}
+.project-dialog::backdrop { background: rgb(0 0 0 / .76); }
+html:has(.project-dialog[open]) { overflow: hidden; }
+
+/* The portrait stays centered while its inner layer fades in. */
+.hero-portrait-wrap {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  width: 400px;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  touch-action: pan-y;
+}
+.hero-portrait-inner {
+  transition: transform 0.6s ease-in-out;
+  will-change: transform;
+}
+.hero-portrait-inner { position: relative; }
+.hero-portrait-inner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+#faceGl { position: absolute; left: -35%; top: -35%; width: 170%; height: 170%; pointer-events: none; }
+#faceProps { position: absolute; inset: 0; pointer-events: none; }
+#faceFly, #faceHand { position: absolute; opacity: 0; transition: opacity .2s; transform: translate(-50%, -50%); }
+#faceFly { width: 6%; fill: #111; }
+#faceFly .wing { fill: rgba(220, 235, 255, .7); transform-origin: 16px 15px; animation: flap .05s linear infinite alternate; }
+#faceFly .wing.r { animation-direction: alternate-reverse; }
+@keyframes flap { from { transform: rotate(-16deg); } to { transform: rotate(16deg); } }
+#faceHand { width: 11%; fill: #fff; stroke: #0c0c0c; stroke-width: 1.4; stroke-linejoin: round; }
+#faceHand .grab { display: none; }
+#faceHand.shut .open { display: none; }
+#faceHand.shut .grab { display: block; }
+.hero-portrait-inner { animation: portrait-in .7s .6s cubic-bezier(.25,.1,.25,1) both; }
+@keyframes portrait-in { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@media (min-width: 640px) {
+  .hero-portrait-wrap { width: 500px; }
+  html[lang="es"] #hero-heading { font-size: 14vw; }
+}
+@media (min-width: 768px) {
+  .hero-portrait-wrap { width: 600px; }
+  .project-stack { --stack-top: 8rem; }
+}
+@media (min-width: 1024px) {
+  .hero-portrait-wrap { width: clamp(640px, 78vh, 46vw); }
+  html[lang="es"] #hero-heading { font-size: 15vw; }
+}
+@media (max-width: 767px) {
+  .about-object { opacity: .45 !important; }
+  .project-stack { --stack-top: 1rem; }
+  .project-slot { min-height: 76svh; }
+  .project-slot:last-child { min-height: auto; }
+}
+@media (max-height: 620px) {
+  .project-stack { --stack-top: 1rem; }
+  .project-slot { min-height: max(85svh, 430px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero-portrait-inner { animation: none; }
+  .project-slot { position: relative; top: auto !important; min-height: auto; margin-bottom: 1rem; }
+}

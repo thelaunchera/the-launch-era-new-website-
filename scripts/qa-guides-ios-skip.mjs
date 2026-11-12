@@ -10,6 +10,8 @@ try{
  for(const [name,content] of [
   ['guias/index.html',read('guias/index.html')],
   ['es/guias/index.html',read('es/guias/index.html')],
+  ['guias/library.html',read('guias/library.html')],
+  ['es/guias/biblioteca.html',read('es/guias/biblioteca.html')],
   ['sample/index.html','<!doctype html><html lang="en"><head></head><body><header>Demo</header></body></html>'],
   ['es/sample/index.html','<!doctype html><html lang="es"><head></head><body><header>Ejemplo</header></body></html>']
  ]){
@@ -18,6 +20,9 @@ try{
  }
  execFileSync(process.execPath,['scripts/install-ios-language-switch-20261111.mjs','--root',temp],{stdio:'pipe'});
  for(const path of ['guias/index.html','es/guias/index.html']){
+  assert.ok(!readFileSync(join(temp,path),'utf8').includes('tle-ios-language-switch-20261111.js'));
+ }
+ for(const path of ['guias/library.html','es/guias/biblioteca.html']){
   const html=readFileSync(join(temp,path),'utf8');
   assert.ok(!html.includes('tle-ios-language-switch-20261111.js'),path+' must not receive duplicated switch');
   assert.equal((html.match(/class="lang"/g)||[]).length,1,path+' has exactly one language control');

@@ -78,4 +78,14 @@
     <xhtml:link rel="alternate" hreflang="en-US" href="https://thelaunchera.com/guias/" />
     <xhtml:link rel="alternate" hreflang="es-US" href="https://thelaunchera.com/es/guias/" />
   </url>
+  <url>
+    <loc>https://thelaunchera.com/guias/library.html</loc>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://thelaunchera.com/guias/library.html" />
+    <xhtml:link rel="alternate" hreflang="es-US" href="https://thelaunchera.com/es/guias/biblioteca.html" />
+  </url>
+  <url>
+    <loc>https://thelaunchera.com/es/guias/biblioteca.html</loc>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://thelaunchera.com/guias/library.html" />
+    <xhtml:link rel="alternate" hreflang="es-US" href="https://thelaunchera.com/es/guias/biblioteca.html" />
+  </url>
 </urlset>

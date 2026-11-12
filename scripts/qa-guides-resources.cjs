@@ -3,7 +3,7 @@ const {chromium}=require("playwright");
 (async()=>{
  const browser=await chromium.launch({headless:true});
  for(const width of [360,390,820,1440]){
-  for(const [route,lang] of [["/guias/","en"],["/es/guias/","es"]]){
+  for(const [route,lang] of [["/guias/library.html","en"],["/es/guias/biblioteca.html","es"]]){
    const context=await browser.newContext({viewport:{width,height:850},permissions:["clipboard-read","clipboard-write"],reducedMotion:"reduce"});
    const page=await context.newPage();const errors=[];
    page.on("pageerror",e=>errors.push(e.message));
@@ -74,7 +74,7 @@ const {chromium}=require("playwright");
   sent.push(route.request().postDataJSON());
   await route.fulfill({status:200,contentType:"application/json",body:JSON.stringify({ok:true,confirmed:true})});
  });
- await page.goto("http://127.0.0.1:8172/es/guias/?confirm_freebie="+fake+"#suscripcion");
+ await page.goto("http://127.0.0.1:8172/es/guias/biblioteca.html?confirm_freebie="+fake+"#suscripcion");
  assert.equal(await page.locator("#tle-resource-form").isHidden(),true,"form hidden for confirm");
  await page.locator("#tle-resource-token-btn").click();
  assert.equal(sent[0].action,"confirm");

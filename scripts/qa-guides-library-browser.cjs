@@ -8,7 +8,7 @@ const { chromium } = require('playwright');
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     const base = 'http://127.0.0.1:8172';
-    for(const [route, lang] of [['/guias/','en'],['/es/guias/','es']]) {
+    for(const [route, lang] of [['/guias/library.html','en'],['/es/guias/biblioteca.html','es']]) {
       await page.goto(base+route,{waitUntil:'domcontentloaded'});
       assert.equal(await page.locator('.guide').count(),10);
       assert.equal(await page.locator('html').getAttribute('lang'),lang);
