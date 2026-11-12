@@ -6,11 +6,15 @@ const en=readFileSync(resolve(root,"public/guias/index.html"),"utf8");
 const es=readFileSync(resolve(root,"public/es/guias/index.html"),"utf8");
 const js=readFileSync(resolve(root,"public/guias/app.js"),"utf8");
 const css=readFileSync(resolve(root,"public/guias/styles.css"),"utf8");
+const editorialCss=readFileSync(resolve(root,"public/guias/editorial.css"),"utf8");
+const editorialJs=readFileSync(resolve(root,"public/guias/editorial.js"),"utf8");
 for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
   assert.match(html,new RegExp('<html lang="'+lang+'">'));
   assert.ok(html.includes('rel="canonical" href="https://thelaunchera.com'+route+'"'),lang+" canonical");
   assert.ok(html.includes('href="/guias/"')&&html.includes('href="/es/guias/"'),lang+" language links");
   assert.ok(html.includes('href="/guias/styles.css"')&&html.includes('src="/guias/app.js"'),lang+" shared assets");
+  assert.ok(html.includes('href="/guias/editorial.css?v=20261112-1"')&&html.includes('src="/guias/editorial.js?v=20261112-1"'),lang+" editorial scroll files");
+  assert.ok(html.includes('id="reading-progress"')&&html.includes('class="ticker-track"'),lang+" scroll UI");
   assert.ok(html.includes('href="mailto:hello@thelaunchera.com?subject='),lang+" verified contact");
   assert.ok(html.includes('id="guide-list"')&&html.includes('id="search"')&&html.includes('id="filters"'),lang+" controls");
   assert.ok(html.includes('href="/favicon-tle.svg"'),lang+" favicon");
@@ -19,7 +23,11 @@ for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
 }
 assert.ok(existsSync(resolve(root,"public/favicon-tle.svg")),"Existing official favicon");
 assert.match(js,/clipboard\.writeText/);assert.match(js,/aria-pressed/);assert.match(js,/Escape/);
-assert.match(css,/@media\(max-width:800px\)/);assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
+assert.match(css,/@media\(max-width:800px\)/);
+assert.match(editorialCss,/@media\(max-width:390px\)/);
+assert.match(editorialCss,/@media\(prefers-reduced-motion:reduce\)/);
+assert.match(editorialJs,/IntersectionObserver/);
+assert.match(editorialJs,/requestAnimationFrame/);assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
 const ids=[...js.matchAll(/"id":"([^"]+)"/g)].map(m=>m[1]);
 assert.equal(ids.length,10,"Exactly 10 original bilingual guides");
 assert.equal(new Set(ids).size,10,"No duplicate guide IDs");
