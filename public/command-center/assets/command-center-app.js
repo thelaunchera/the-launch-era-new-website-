@@ -17,7 +17,7 @@ if(typeof createClient!=='function'){
    new Promise((_,reject)=>setTimeout(()=>reject(new Error('Authentication loading timed out')),9500))
   ]);
  }catch(startupError){
-  console.error('Command Center authentication library unavailable',startupError);
+  console.error('Admin Panel authentication library unavailable',startupError);
   const cover=document.getElementById('tleLoading');
   const message=cover?.querySelector('span');
   if(message)message.textContent='Connection interrupted. Use Try again or open in Safari.';
@@ -45,7 +45,7 @@ window.TLEOwnerJessyGateway=Object.freeze({
    const key=typeof view==="string"?view:"owner-pages";
    const section=["owner-pages","owner-calendar","leads","pipeline","calendar","clients","inbox","emails","settings","owner-support","owner-help","owner-build","owner-preview"].includes(key)?key:"owner-pages";
    const labels={"owner-pages":"Clients & Purchases","owner-calendar":"Client Calendar","leads":"Prospect Leads","pipeline":"Prospect Leads","calendar":"Follow-ups","clients":"Converted Prospects","inbox":"Website Inquiries","emails":"Outreach Emails","settings":"Owner Settings","owner-support":"Support","owner-help":"Help","owner-build":"Client Booking Setup","owner-preview":"Booking Preview"};
-   return {section,label:labels[section]||"Command Center"};
+   return {section,label:labels[section]||"Admin Panel"};
  },
 
  ready(){return workspace?.is_internal===true&&!$('app')?.classList.contains('hidden')&&document.body.classList.contains('crm-owner-view')},
@@ -185,7 +185,7 @@ window.TLECommandCenterNotificationsGateway=Object.freeze({
  workspaceId(){return this.ready()?workspace.id:null},
  isOwner(){return this.ready()&&workspace?.is_internal===true},
  async call(action,options={}){
-  if(!this.ready())throw Error('Sign in to Command Center first');
+  if(!this.ready())throw Error('Sign in to Admin Panel first');
   if(!['config','save','subscribe','unsubscribe','test_push','test_email'].includes(action))throw Error('Invalid notification action');
   const {data:{session},error}=await db.auth.getSession();
   if(error||!session?.access_token)throw Error('Verified sign-in required');
@@ -242,7 +242,7 @@ function buyerErrorOpen(actionLabel,buttonKey){
  if(!overlay)return;
  buyerErrorTracker.open=true;buyerErrorTracker.lastShown.set(buttonKey,Date.now());
  buyerErrorLocale();
- const safeLabel=String(actionLabel||'Command Center').trim().slice(0,110);
+ const safeLabel=String(actionLabel||'Admin Panel').trim().slice(0,110);
  $('buyerErrorHelpArea').value=safeLabel;
  $('buyerErrorHelpStatus').textContent='';
  $('buyerErrorHelpMessage').value='';
@@ -264,7 +264,7 @@ document.addEventListener('click',e=>{
  if(!node||node.disabled)return;
  const key=node.id||node.getAttribute('aria-label')||String(node.textContent||'').trim().slice(0,80);
  if(!key||key==='crmLanguageSelect')return;
- buyerErrorTracker.recent={key,label:node.getAttribute('aria-label')||String(node.textContent||'').trim().slice(0,85)||'Command Center',time:Date.now(),attempt:++buyerErrorTracker.nextAttempt};
+ buyerErrorTracker.recent={key,label:node.getAttribute('aria-label')||String(node.textContent||'').trim().slice(0,85)||'Admin Panel',time:Date.now(),attempt:++buyerErrorTracker.nextAttempt};
 },true);
 function buyerRecordActionError(){
  if(!workspace||workspace.is_internal||buyerErrorTracker.open)return;
@@ -610,7 +610,7 @@ function applyBuyerIndustryLabels(){
  if(!detailing&&!other)return;
  const set=(selector,en,spanish)=>{const el=document.querySelector(selector);if(el)el.textContent=es?spanish:en};
  set('#mainNavCaption',detailing?'CAR DETAILING BUSINESS':'YOUR BUSINESS',detailing?'NEGOCIO DE DETAILING':'TU NEGOCIO');
- set('#buyerDashboardHub > .section-title',detailing?'Car Detailing Command Center':'Your Business Command Center',detailing?'CENTRO DE DETAILING':'CENTRO DE TU NEGOCIO');
+ set('#buyerDashboardHub > .section-title',detailing?'Car Detailing Admin Panel':'Your Business Admin Panel',detailing?'CENTRO DE DETAILING':'CENTRO DE TU NEGOCIO');
  set('#buyerDashboardHub > p.muted',detailing?'Vehicle inquiries, detailing quotes and appointments — all in one place.':'Customer inquiries, bookings and services — organized in one place.',detailing?'Consultas de vehículos, cotizaciones de detailing y citas, en un solo lugar.':'Consultas, reservas y servicios de tu negocio en un solo lugar.');
  set('#buyerDashboardHub .panel:last-child > p:first-of-type',detailing?'Your business receives vehicle detailing requests. Prepare quotes after reviewing each vehicle; send appointment confirmations only for confirmed available slots.':'Customer requests, quotes and confirmed appointments follow the configured business workflow.',detailing?'Tu negocio recibe solicitudes de detailing. Prepara cotizaciones después de revisar cada vehículo y confirma citas solo cuando el horario esté disponible.':'Solicitudes, cotizaciones y citas confirmadas siguen el flujo configurado.');
  set('#buyerDashboardHub .panel:last-child > p.muted',detailing?'Review vehicle details and prepare personalized detailing quotes in Inbox. A quote request is not a confirmed appointment.':'Review service details and personalized quotes in Inbox. A quote request is not a confirmed appointment.',detailing?'Revisa los detalles del vehículo y prepara cotizaciones. Una solicitud no es una cita confirmada.':'Revisa los detalles y prepara cotizaciones. Una solicitud no es una cita confirmada.');
@@ -706,7 +706,7 @@ async function boot(){let roleVerified=false;const generation=++bootGeneration;$
  if(generation!==bootGeneration)return;if(authError&&authError.name!=='AuthSessionMissingError')throw authError;if(activeAuthUserId&&activeAuthUserId!==user?.id){lockCommandCenterSession();location.reload();return}activeAuthUserId=user?.id||null;$('auth').classList.toggle('hidden',!!user);$('logout').classList.toggle('hidden',!user);if(!user){
  if(sessionStorage.getItem('tle_crm_new_password_ready')==='yes'){
   sessionStorage.removeItem('tle_crm_new_password_ready');
-  $('authMessage').textContent='✓ Password saved. Sign in with your email and new password to finish securing your Command Center.';
+  $('authMessage').textContent='✓ Password saved. Sign in with your email and new password to finish securing your Admin Panel.';
  }
  hideTleLoading();loadGeneration++;delete document.body.dataset.leadsLoaded;
  workspace=null;clearAdminClientState();
@@ -726,7 +726,7 @@ async function boot(){let roleVerified=false;const generation=++bootGeneration;$
      await db.auth.signOut({scope:'local'});
      if(generation!==bootGeneration)return;
      $('auth').classList.remove('hidden');
-     $('authMessage').textContent='For your security, sign in with your email and password to open your private Command Center.';
+     $('authMessage').textContent='For your security, sign in with your email and password to open your private Admin Panel.';
      hideTleLoading();
      return;
    }
@@ -737,12 +737,12 @@ async function boot(){let roleVerified=false;const generation=++bootGeneration;$
      $('app').classList.add('hidden');
      $('auth').classList.add('hidden');
      $('buyerPasswordSetup').classList.remove('hidden');
-     $('buyerPasswordIntro').textContent='Your email '+(user.email||'')+' is verified. Create a password to secure your private Command Center before your customer records become visible.';
+     $('buyerPasswordIntro').textContent='Your email '+(user.email||'')+' is verified. Create a password to secure your private Admin Panel before your customer records become visible.';
      hideTleLoading();
      return;
    }
  }
- accountEmail=(user.email||'').trim().toLowerCase();let ws=await check(await db.from('tle_crm_workspaces').select('id,name,is_internal,business_category,automated_followups_enabled,reply_monitor_verified').eq('created_by',user.id).order('created_at',{ascending:true}).limit(1));if(generation!==bootGeneration)return;workspace=ws[0]||null;applyCRMRoleInterface();if(workspace&&!workspace.is_internal)await initializeBuyerLanguage(workspace.id);if(generation!==bootGeneration)return;if(workspace&&!workspace.is_internal)applySimpleBuyerStart();roleVerified=true;clearExpiredCommandAccount();$('app').classList.remove('hidden');loadBuyerMail();loadOwnerDeliveries();const setupStatus=$('settingsFollowupStatus');if(setupStatus){const active=!!workspace?.automated_followups_enabled&&!!workspace?.reply_monitor_verified;const es=localStorage.getItem('tle_crm_language')==='es';setupStatus.textContent=workspace?.is_internal?(active?(es?'Tu primer correo es manual. El segundo y el tercero son automáticos para contactos habilitados; respuestas y bajas detienen la secuencia.':'Your first email is manual. Emails two and three are automatic for eligible contacts; replies and opt-outs stop the sequence.'):(es?'Envías el primero; los otros dos quedan pendientes de un canal de correo compatible y permiso válido.':'You send the first; the other two require an eligible recipient and compatible email provider.')):(buyerDeliveryReady?(es?'Tu sistema de correos está administrado por The Launch Era. Confirmaciones y hasta dos seguimientos para cotizaciones abiertas habilitados cuando correspondan. Las respuestas y las bajas detienen nuevos envíos.':'Your email workflow is managed by The Launch Era. Confirmations and up to two follow-ups for eligible open quotes are enabled. Replies and unsubscribes stop additional messages.'):(active?(es?'Seguimientos automáticos habilitados para contactos elegibles.':'Automatic follow-ups are enabled for eligible contacts.'):(es?'La automatización estará disponible después de la entrega final.':'Your automation becomes available after final delivery.')));}if(!workspace){delete document.body.dataset.leadsLoaded;leads=[];emailSentByLead=new Map();const es=localStorage.getItem('tle_crm_language')==='es';$('setup').querySelector('h2').textContent=es?'Accede a tu Command Center':'Let’s find your Command Center';$('setup').querySelector('p.muted').textContent=es?'Este correo no está vinculado a un espacio activo. Si ya compraste, entra con el correo de tu mensaje de activación. No tienes que pagar ni crear otra cuenta.':'This sign-in is not linked to an active workspace. If you already purchased, use the email from your activation message. You do not need to pay or create another account.';$('workspaceStatus').textContent=(es?'Sesión actual: ':'Signed in as: ')+accountEmail;$('switchAccountButton').textContent=es?'Entrar con otro correo →':'Sign in with a different email →'}$('setup').classList.toggle('hidden',!!workspace);$('pipeline').classList.toggle('hidden',!workspace);if(!workspace)hideTleLoading();if(workspace){
+ accountEmail=(user.email||'').trim().toLowerCase();let ws=await check(await db.from('tle_crm_workspaces').select('id,name,is_internal,business_category,automated_followups_enabled,reply_monitor_verified').eq('created_by',user.id).order('created_at',{ascending:true}).limit(1));if(generation!==bootGeneration)return;workspace=ws[0]||null;applyCRMRoleInterface();if(workspace&&!workspace.is_internal)await initializeBuyerLanguage(workspace.id);if(generation!==bootGeneration)return;if(workspace&&!workspace.is_internal)applySimpleBuyerStart();roleVerified=true;clearExpiredCommandAccount();$('app').classList.remove('hidden');loadBuyerMail();loadOwnerDeliveries();const setupStatus=$('settingsFollowupStatus');if(setupStatus){const active=!!workspace?.automated_followups_enabled&&!!workspace?.reply_monitor_verified;const es=localStorage.getItem('tle_crm_language')==='es';setupStatus.textContent=workspace?.is_internal?(active?(es?'Tu primer correo es manual. El segundo y el tercero son automáticos para contactos habilitados; respuestas y bajas detienen la secuencia.':'Your first email is manual. Emails two and three are automatic for eligible contacts; replies and opt-outs stop the sequence.'):(es?'Envías el primero; los otros dos quedan pendientes de un canal de correo compatible y permiso válido.':'You send the first; the other two require an eligible recipient and compatible email provider.')):(buyerDeliveryReady?(es?'Tu sistema de correos está administrado por The Launch Era. Confirmaciones y hasta dos seguimientos para cotizaciones abiertas habilitados cuando correspondan. Las respuestas y las bajas detienen nuevos envíos.':'Your email workflow is managed by The Launch Era. Confirmations and up to two follow-ups for eligible open quotes are enabled. Replies and unsubscribes stop additional messages.'):(active?(es?'Seguimientos automáticos habilitados para contactos elegibles.':'Automatic follow-ups are enabled for eligible contacts.'):(es?'La automatización estará disponible después de la entrega final.':'Your automation becomes available after final delivery.')));}if(!workspace){delete document.body.dataset.leadsLoaded;leads=[];emailSentByLead=new Map();const es=localStorage.getItem('tle_crm_language')==='es';$('setup').querySelector('h2').textContent=es?'Accede a tu panel de administrador':'Let’s find your Admin Panel';$('setup').querySelector('p.muted').textContent=es?'Este correo no está vinculado a un espacio activo. Si ya compraste, entra con el correo de tu mensaje de activación. No tienes que pagar ni crear otra cuenta.':'This sign-in is not linked to an active workspace. If you already purchased, use the email from your activation message. You do not need to pay or create another account.';$('workspaceStatus').textContent=(es?'Sesión actual: ':'Signed in as: ')+accountEmail;$('switchAccountButton').textContent=es?'Entrar con otro correo →':'Sign in with a different email →'}$('setup').classList.toggle('hidden',!!workspace);$('pipeline').classList.toggle('hidden',!workspace);if(!workspace)hideTleLoading();if(workspace){
  $('workspaceName').textContent=workspace.name;
  $('ownerOrdersCaption').classList.toggle('hidden',!workspace.is_internal);
  $('ownerProspectsCaption').classList.add('hidden');
@@ -817,7 +817,7 @@ window.addEventListener('tle-crm-resend-signup',async event=>{
  }
 });
 $('logout').onclick=async()=>{explicitCommandLogout=true;clearExpiredCommandAccount();lockCommandCenterSession();const {error}=await db.auth.signOut();if(error){explicitCommandLogout=false;$('authMessage').textContent=error.message;return}await boot()};$('sidebarLogout').onclick=()=>{$('logout').click();closePremiumSidebar()};$('switchAccountButton').onclick=()=>{$('logout').click()};
-$('workspaceForm').onsubmit=async e=>{e.preventDefault();const button=$('createWorkspaceButton'),status=$('workspaceStatus');button.disabled=true;status.textContent='Creating your private workspace…';try{let {data:{user}}=await db.auth.getUser();if(!user)throw Error('Please sign in first.');const name=e.target.elements.namedItem('name').value.trim();if(name.length<2)throw Error('Enter your business name.');const {data:existing,error:lookupError}=await db.from('tle_crm_workspaces').select('id').eq('created_by',user.id).limit(1);if(lookupError)throw lookupError;if(!existing.length)await check(await db.from('tle_crm_workspaces').insert({name,created_by:user.id}));status.textContent='Workspace ready!';await boot()}catch(err){status.textContent='Unable to find an activated Command Center. Please sign in with the email used for your purchase.'}finally{button.disabled=false}};
+$('workspaceForm').onsubmit=async e=>{e.preventDefault();const button=$('createWorkspaceButton'),status=$('workspaceStatus');button.disabled=true;status.textContent='Creating your private workspace…';try{let {data:{user}}=await db.auth.getUser();if(!user)throw Error('Please sign in first.');const name=e.target.elements.namedItem('name').value.trim();if(name.length<2)throw Error('Enter your business name.');const {data:existing,error:lookupError}=await db.from('tle_crm_workspaces').select('id').eq('created_by',user.id).limit(1);if(lookupError)throw lookupError;if(!existing.length)await check(await db.from('tle_crm_workspaces').insert({name,created_by:user.id}));status.textContent='Workspace ready!';await boot()}catch(err){status.textContent='Unable to find an activated Admin Panel. Please sign in with the email used for your purchase.'}finally{button.disabled=false}};
 let ownerProspectQueueRows=[];
 async function loadOwnerProspectQueue(){
  if(!workspace?.is_internal){ownerProspectQueueRows=[];return}
@@ -873,7 +873,7 @@ function navigateWorkspaceBack(){
  }finally{workspaceBackTravel=false;updateWorkspaceBack()}
 }
 $('workspaceBack').onclick=navigateWorkspaceBack;
- // The signed-in owner can preview privately using the existing Command Center session.
+ // The signed-in owner can preview privately using the existing Admin Panel session.
  // Never allow an unauthenticated direct URL or a buyer workspace to open this.
  const privateDemoModal=$('ownerDemoQuickView');
  const privateDemoFrame=$('ownerDemoQuickFrame');
@@ -900,7 +900,7 @@ $('workspaceBack').onclick=navigateWorkspaceBack;
   $('ownerDemoQuickClose').focus();
   try{
    const {data:{session},error}=await db.auth.getSession();
-   if(error||!session?.access_token)throw new Error('Your Owner session expired. Sign in to Command Center.');
+   if(error||!session?.access_token)throw new Error('Your Owner session expired. Sign in to Admin Panel.');
    const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),17000);
    let response;
    try{
@@ -918,7 +918,7 @@ $('workspaceBack').onclick=navigateWorkspaceBack;
       !result.html.includes('id="demoLanguage"')||!result.html.includes('Complete sample request'))throw new Error(result.error||'We could not load the Booking Automation demo.');
    if(privateDemoModal.hidden||attempt!==ownerDemoAttempt)return;
    // A valid Owner session may finish after the global splash watchdog.
-   // Do not let that unrelated Command Center splash cover the private preview.
+   // Do not let that unrelated Admin Panel splash cover the private preview.
    const cover=$('tleLoading');
    if(cover)cover.remove();
    window.__tleBootReady=true;
@@ -1162,7 +1162,7 @@ $("buyerPauseMail").onclick=async()=>{
 const reviewNames=[
  ['booking_page','Booking Page: real services, prices, available slots / Página de reservas y horarios comprobados'],
  ['command_center','Buyer login and private workspace / Acceso privado de la compradora'],
- ['lead_routing','Test lead arrives in the correct Command Center / Lead de prueba llega a la cuenta correcta'],
+ ['lead_routing','Test lead arrives in the correct panel de administrador / Lead de prueba llega a la cuenta correcta'],
  ['follow_ups','Follow-up logic and stop conditions checked / Seguimientos y cancelaciones revisados'],
  ['notifications','Booking and owner notifications checked / Notificaciones revisadas'],
  ['tenant_isolation','Buyer cannot see other businesses / Privacidad entre negocios comprobada']
@@ -1307,7 +1307,7 @@ async function loadOwnerDeliveries(){
    timeline.setAttribute('aria-label',esOwner?'Estado de preparación y entrega':'Preparation and delivery progress');
    item.append(timeline);
    // Owner-only QA console. Read-only inspection and explicit private tests,
-   // never signs into or modifies the customer's Command Center.
+   // never signs into or modifies the customer's Admin Panel.
    const ownerQa=deliveryNode('details');ownerQa.style.cssText='border:1px solid #bfd7e8;border-radius:15px;background:#f5faff;padding:14px;min-width:0;max-width:100%';
    const qaHead=deliveryNode('summary',esOwner?'🔐 Mi centro de pruebas · '+String(a.business_name||'Negocio'):'🔐 Owner QA Center · '+String(a.business_name||'Business'));
    qaHead.style.cssText='font-size:14px;line-height:1.5;font-weight:800;cursor:pointer;overflow-wrap:anywhere';
@@ -1442,7 +1442,7 @@ async function loadOwnerDeliveries(){
    
     const activationReady=a.payment_status==='paid'&&!!a.intake_done&&!!a.booking_page_url&&a.status==='active';
     const activation=deliveryNode('div');activation.style.cssText='padding:15px;border:1px solid #d4e7f4;background:#f6fafe;border-radius:16px;display:grid;gap:10px';
-    activation.append(deliveryNode('strong','✉ Command Center activation / Activación'));
+    activation.append(deliveryNode('strong','✉ Admin Panel activation / Activación'));
     const kindLabel=deliveryNode('label',crmLocaleText('Business type','Tipo de negocio'));
     const kind=document.createElement('select');kind.style.cssText='width:100%;margin:6px 0 0';
     [['cleaning','Cleaning business'],['detailing','Car Detailing'],['other','Other service / Otro servicio']].forEach(([v,l])=>{const o=new Option(l,v);kind.add(o)});
@@ -1454,7 +1454,7 @@ async function loadOwnerDeliveries(){
     const buyerLoggedInAfterEmail=!!a.buyer_signed_in_after_email;
     const send=deliveryNode('button',a.already_queued?crmLocaleText('✓ Final delivery already recorded','✓ Entrega final registrada'):accessDelivered?'✓ Activation email delivered / Activación entregada':'Send Activation Email / Enviar activación');send.type='button';send.className='secondary';send.disabled=!activationReady||accessDelivered||!!a.already_queued;
     const msg=deliveryNode('p',accessDelivered?
-       '✓ Resend verified delivery on '+new Date(a.activation_email_sent_at).toLocaleString()+'. / Correo entregado. '+(buyerLoggedInAfterEmail?'✓ Buyer signed in after this email / El cliente entró después del envío.':'Awaiting buyer sign-in / Esperando que el cliente abra su Command Center.')+(a.already_queued?' Final delivery recorded.':' Final Booking Page delivery still pending / Entrega final pendiente.'):
+       '✓ Resend verified delivery on '+new Date(a.activation_email_sent_at).toLocaleString()+'. / Correo entregado. '+(buyerLoggedInAfterEmail?'✓ Buyer signed in after this email / El cliente entró después del envío.':'Awaiting buyer sign-in / Esperando que el cliente abra su panel de administrador.')+(a.already_queued?' Final delivery recorded.':' Final Booking Page delivery still pending / Entrega final pendiente.'):
        a.activation_email_sent_at?'Activation email requested on '+new Date(a.activation_email_sent_at).toLocaleString()+'. Provider delivery is not verified yet. / Envío registrado; entrega por verificar.':
        activationReady?'Uses the paid buyer email. Final delivery is separate. / Utiliza el correo de compra; entrega final aparte.':
        'Complete intake, design approval and booking setup first. / Termina antes la configuración.');
@@ -1477,7 +1477,7 @@ if(a.already_queued){const state=deliveryNode('p','✓ Final delivery queued pre
 
    const qaBox=deliveryNode('div');qaBox.style.cssText='padding:17px;border:1px solid #dbc8a9;border-radius:16px;background:#fbf7ed;display:grid;gap:9px;min-width:0';
    qaBox.append(deliveryNode('strong','Private Lead Routing Test / Prueba de entrada de leads'));
-   const qaDescription=deliveryNode('p','Tests whether a sample request is saved under this buyer and routed to their private Command Center. The sample is removed after verification. No real booking, customer email or follow-up is created. / Comprueba que una solicitud entra al negocio y a su Command Center; se elimina después sin mandar correos ni crear reservas.');
+   const qaDescription=deliveryNode('p','Tests whether a sample request is saved under this buyer and routed to their private Admin Panel. The sample is removed after verification. No real booking, customer email or follow-up is created. / Comprueba que una solicitud entra al negocio y a su panel de administrador; se elimina después sin mandar correos ni crear reservas.');
    qaDescription.style.cssText='font-size:12px;line-height:1.5;margin:0';
    qaBox.append(qaDescription);
    const qaButton=deliveryNode('button','Run private lead test / Probar entrada de lead');qaButton.type='button';qaButton.className='secondary';qaButton.style.cssText='max-width:100%;white-space:normal';
@@ -1486,12 +1486,12 @@ if(a.already_queued){const state=deliveryNode('p','✓ Final delivery queued pre
      qaButton.disabled=true;qaStatus.textContent=crmLocaleText("Testing private lead routing…","Comprobando conexión privada de contactos…");
      try{
        const {data:{session},error:sessionError}=await db.auth.getSession();
-       if(sessionError||!session?.access_token)throw Error('Sign in to the owner Command Center first');
+       if(sessionError||!session?.access_token)throw Error('Sign in to the owner Admin Panel first');
        const response=await fetch(ownerStudioEndpoint,{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+session.access_token},
         body:JSON.stringify({account_id:a.id,action:'qa_test_lead'})});
        const result=await response.json().catch(()=>({}));
        if(!response.ok||!result.ok)throw Error(result.error||'Routing test failed');
-       qaStatus.textContent=crmLocaleText("✓ PASS — Request saved → correct private Command Center → QA record removed. No email or booking sent.","✓ PRUEBA APROBADA — La solicitud llegó al Command Center correcto y se eliminó. Sin correos ni reservas reales.");
+       qaStatus.textContent=crmLocaleText("✓ PASS — Request saved → correct private Admin Panel → QA record removed. No email or booking sent.","✓ PRUEBA APROBADA — La solicitud llegó al panel de administrador correcto y se eliminó. Sin correos ni reservas reales.");
        qaButton.textContent=crmLocaleText("✓ Retest lead routing","✓ Repetir prueba de conexión");
      }catch(e){qaStatus.textContent=crmLocaleText('Not verified: ','No verificado: ')+(e.message||String(e))}
      finally{qaButton.disabled=false}
@@ -1511,7 +1511,7 @@ if(a.already_queued){const state=deliveryNode('p','✓ Final delivery queued pre
     if(item.dataset.clientReviewApproved!=='true'){status.textContent=crmLocaleText("Buyer approval is required before final delivery","Falta la aprobación del cliente antes de entregar");return}
     if(!Object.values(inputs).every(input=>input.checked)){status.textContent=crmLocaleText("Complete all six checks before sending","Completa las seis comprobaciones antes de enviar");return}
     const description=(a.business_name||'business')+' ('+(a.owner_email||'buyer')+')';
-    if(!confirm('Final delivery to '+description+'? The email will include the real Booking Page, private Command Center and bilingual guide. / ¿Confirmas la entrega?'))return;
+    if(!confirm('Final delivery to '+description+'? The email will include the real Booking Page, private Admin Panel and bilingual guide. / ¿Confirmas la entrega?'))return;
     action.disabled=true;status.textContent='Checking and queuing delivery…';
     try{
      const review=Object.fromEntries(Object.entries(inputs).map(([key,input])=>[key,input.checked]));
@@ -1547,7 +1547,7 @@ window.addEventListener('message',async event=>{
     requested_date:String(request.requested_date||'').slice(0,10)
   }});
   if(ownerReviewAccount?.id!==accountId)return;
-  $('buildStatus').textContent='✓ Private form test PASSED: Preview submission → correct Command Center lead. Sample deleted; no emails or bookings.';
+  $('buildStatus').textContent='✓ Private form test PASSED: Preview submission → correct Admin Panel lead. Sample deleted; no emails or bookings.';
   respond({ok:!!result.ok,verified:!!result.linked_to_crm,error:result.error||''});
  }catch(error){respond({ok:false,error:error.message||'Lead QA failed'})}
  finally{previewLeadTestInProgress=false}
@@ -1729,7 +1729,7 @@ async function prepareBuyerClientEmail(){
    status.textContent=buildLabel('The corrected private access was sent. Request another link later only if necessary.','El acceso privado corregido ya fue enviado. Pide otro más tarde solo si es necesario.');
   }else if(data.status==='legacy_link_needs_replacement'&&permitted){
    send.textContent=buildLabel('Send corrected activation','Enviar activación corregida');
-   status.textContent=buildLabel('The previous email opened the wrong website. This new email will link directly to the private Command Center. Nothing has been sent yet.','El correo anterior abría otra página. Este correo abrirá directamente el Command Center privado. Todavía no se ha enviado.');
+   status.textContent=buildLabel('The previous email opened the wrong website. This new email will link directly to the private Admin Panel. Nothing has been sent yet.','El correo anterior abría otra página. Este correo abrirá directamente el panel de administrador privado. Todavía no se ha enviado.');
   }else if(permitted){
    status.textContent=buildLabel('✓ Email prepared, not sent. The preview URL is not an activation link.','✓ Correo preparado, sin enviar. El enlace de vista no activa ninguna cuenta.');
   }else{
@@ -2072,7 +2072,7 @@ $('buildRunPreflight').onclick=async()=>{
    ['Booking Page prepared / Booking Page preparada',data.checks?.booking_page],
    ['Buyer identity exists / Identidad registrada',data.checks?.identity_exists],
    ['Buyer email verified / Correo del cliente verificado',data.checks?.identity_verified],
-   ['Private Command Center linked / Command Center vinculado',data.checks?.workspace_linked],
+   ['Private Admin Panel linked / Admin Panel vinculado',data.checks?.workspace_linked],
    ['Final delivery sent / Entrega final enviada',data.checks?.public_delivery]
   ];
   const grid=ownerPageElem('div',undefined,'display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:8px;margin:12px 0');
@@ -2598,7 +2598,7 @@ function ownerOrderNext(o,ai,es){
  if(o.already_queued)return o.activation_email_delivery_status!=='delivered'?(es?'Entrega final registrada, pero el correo de acceso sigue sin confirmación de entrega del proveedor. Comprueba el inbox y el login; no reenvíes automáticamente.':'Final delivery recorded, but the access email has no confirmed provider delivery. Verify inbox and login; never resend automatically.'):(es?'Entrega registrada: verificar QA y soporte.':'Delivery recorded: verify QA and support.');
  if(!o.intake_done)return es?'Verificar pago e invitación al intake; esperar respuestas.':'Check payment and intake invitation; await answers.';
  if(!o.design_reviewed)return es?'Verificar sector, marca, precios, accesos y aprobar el inicio de producción por separado.':'Verify business type, branding, prices and access; approve production kickoff separately.';
- if(!o.crm_ready)return es?'Preparar el Command Center privado correcto y probar su enlace.':'Prepare the correct private Command Center and test its URL.';
+ if(!o.crm_ready)return es?'Preparar el panel de administrador privado correcto y probar su enlace.':'Prepare the correct private Admin Panel and test its URL.';
  if(!o.activation_email_sent_at)return es?'Revisar el correo de acceso y el destinatario antes de enviar.':'Review access email and recipient before sending.';
  if(o.activation_email_delivery_status!=='delivered')return es?'Verificar entrega del correo en el proveedor; enviado no significa recibido.':'Verify email delivery with provider; sent does not mean received.';
  if(!o.buyer_signed_in_after_email)return es?'Confirmar que el cliente pudo entrar con contraseña.':'Confirm customer can log in securely.';
@@ -2810,7 +2810,7 @@ function renderOwnerPurchases(){
   for(const [ok,title] of [
    [a.intake_done,es?'Datos del intake recibidos':'Intake received'],
    [!!a.booking_page_url,es?'Booking Page preparado':'Booking Page prepared'],
-   [a.crm_ready,es?'Command Center privado conectado':'Private Command Center linked'],
+   [a.crm_ready,es?'panel de administrador privado conectado':'Private Admin Panel linked'],
    [a.already_queued,es?'Correo de entrega en cola':'Final delivery queued']
   ])step.appendChild(ownerPageElem('div',(ok?'✓ ':'○ ')+title,'font-size:12px;line-height:1.5;color:'+(ok?'#3b695e':'#6b7d88')));
   box.appendChild(step);
@@ -3894,7 +3894,7 @@ $('buyerReviewMobileOpen').onclick=()=>{
 $('buyerReviewCancel').onclick=()=>$('buyerReviewFeedbackForm').classList.add('hidden');
 $('buyerReviewApprove').onclick=async()=>{
  const button=$('buyerReviewApprove'),status=$('buyerClientReviewStatus');
- if(!confirm('Approve this personalized Booking Page and Command Center as shown? / ¿Apruebas esta versión?'))return;
+ if(!confirm('Approve this personalized Booking Page and Admin Panel as shown? / ¿Apruebas esta versión?'))return;
  button.disabled=true;status.textContent='Saving your approval…';
  try{buyerClientReviewState=await clientReviewRequest('buyer_decision',{decision:'approve'});renderBuyerClientReview();}
  catch(error){status.textContent=error.message||'Could not approve';button.disabled=false}
@@ -3973,7 +3973,7 @@ async function addOwnerClientReview(kind,id,item,previewInput){
      countdown.textContent=(es?'Disponible en ':'Available in ')+hours+'h '+String(minutes).padStart(2,'0')+'m '+String(secs).padStart(2,'0')+'s';return;
     }
     if(!current.manual_reminder_available){hint.textContent=es?'Comprobando si el recordatorio está disponible…':'Checking whether the reminder is available…';countdown.textContent='';return;}
-    hint.textContent=es?'Puedes recordar al cliente que revise y apruebe su diseño desde su Command Center privado.':'You can remind the client to review and approve their design in their private Command Center.';
+    hint.textContent=es?'Puedes recordar al cliente que revise y apruebe su diseño desde su panel de administrador privado.':'You can remind the client to review and approve their design in their private Admin Panel.';
     countdown.textContent=es?'Envío manual · un recordatorio por ciclo de revisión':'Manual send · one reminder per review cycle';
     btn.disabled=false;
    };
@@ -4053,7 +4053,7 @@ window.addEventListener('message',async event=>{
  }
  buyerPreviewQaRunning=true;
  const status=$('buyerBookingPreviewStatus');
- status.textContent=buyerText('Running your private test: checking that the sample request reaches this Command Center…','Realizando prueba privada: comprobando que la solicitud llegue a este Command Center…');
+ status.textContent=buyerText('Running your private test: checking that the sample request reaches this Admin Panel…','Realizando prueba privada: comprobando que la solicitud llegue a este panel de administrador…');
  try{
   const {data:{session},error:sessionError}=await db.auth.getSession();
   if(sessionError||!session?.access_token)throw Error('Sign in again to run the test.');
@@ -4071,7 +4071,7 @@ window.addEventListener('message',async event=>{
   if(!response.ok||result.ok!==true||result.verified!==true||
      result.correct_private_workspace!==true||result.test_data_deleted!==true)
    throw Error(result.error||'The sample request was not verified.');
-  status.textContent=buyerText('✓ TEST PASSED — Request reached the correct private Command Center. Sample removed. No real booking, customer email, or charge.','✓ PRUEBA APROBADA — La solicitud llegó al Command Center correcto. Se eliminó el ejemplo y no se creó ninguna reserva, correo ni cargo real.');
+  status.textContent=buyerText('✓ TEST PASSED — Request reached the correct private Admin Panel. Sample removed. No real booking, customer email, or charge.','✓ PRUEBA APROBADA — La solicitud llegó al panel de administrador correcto. Se eliminó el ejemplo y no se creó ninguna reserva, correo ni cargo real.');
   answer({ok:true,verified:true,test_data_deleted:true,no_customer_email_sent:true,no_booking_created:true});
  }catch(error){
   status.textContent=buyerText('TEST FAILED — '+(error.message||String(error)),'PRUEBA FALLIDA — No se pudo verificar la solicitud. Actualiza la vista previa e inténtalo de nuevo.');
@@ -4102,7 +4102,7 @@ async function loadBuyerBookingPreview(){
   frame.onload=()=>{if(frame.contentWindow&&workspace?.id===id)frame.contentWindow.postMessage(
    {type:'TLE_OWNER_BOOKING_PREVIEW',config},'https://thelaunchera.com')};
   frame.src='https://thelaunchera.com/booking/?owner_preview=1&lang='+encodeURIComponent(config.language==='es'?'es':'en')+'&preview_refresh='+Date.now();
-  status.textContent=buyerText('✓ Private Test Center ready with your latest saved services and prices. Sample requests verify your own Command Center routing and are deleted automatically; no real booking or email is sent.','✓ Centro de Pruebas privado listo con los servicios y precios guardados. Las solicitudes de prueba comprueban que llegan a tu Command Center y se eliminan automáticamente; no se crean reservas ni se envían correos reales.');
+  status.textContent=buyerText('✓ Private Test Center ready with your latest saved services and prices. Sample requests verify your own Admin Panel routing and are deleted automatically; no real booking or email is sent.','✓ Centro de Pruebas privado listo con los servicios y precios guardados. Las solicitudes de prueba comprueban que llegan a tu panel de administrador y se eliminan automáticamente; no se crean reservas ni se envían correos reales.');
   if(payload.delivered===true){buyerClientReviewState={status:'approved',delivered:true};renderBuyerClientReview();}
   else void loadBuyerClientReview();
  }catch(error){
@@ -4489,7 +4489,7 @@ let view='pipeline';function setView(v){
  const ownerTitles={
   'owner-support':['MY PRIVATE ADMIN / SUPPORT','Troubleshooting & Support'],
   'owner-help':['TU GUÍA PERSONAL','Ayuda para ti'],
-  'owner-pages':['THE LAUNCH ERA / OWNER','My Command Center'],
+  'owner-pages':['THE LAUNCH ERA / OWNER','My Admin Panel'],
   'pipeline':['MY PRIVATE ADMIN / OUTREACH','My Prospect Leads'],
   'calendar':['MY PRIVATE ADMIN / FOLLOW-UPS','Prospect Follow-up Calendar'],
   'clients':['MY PRIVATE ADMIN / SALES','Converted Prospects'],
@@ -4684,12 +4684,12 @@ if(workspace.is_internal&&document.body.classList.contains('crm-owner-view')){
 if(workspace.is_internal&&document.body.classList.contains('crm-owner-view')&&unread.length){
   const all=document.createElement('button');all.type='button';all.className='secondary';
   all.textContent='✓ Mark all '+unread.length+' unread notifications';
-  all.setAttribute('aria-label','Mark all unread Command Center notifications as read');
+  all.setAttribute('aria-label','Mark all unread Admin Panel notifications as read');
   all.onclick=async()=>{
     if(!window.TLEOwnerJessyGateway?.ready?.())return;
     all.disabled=true;all.textContent='Marking as read…';
     try{
-      const result=await window.TLEOwnerJessyGateway.ask({message:'Mark all Command Center notifications as read',language:'en'});
+      const result=await window.TLEOwnerJessyGateway.ask({message:'Mark all Admin Panel notifications as read',language:'en'});
       if(result.action_performed!=='mark_notifications_read')throw Error('Could not verify the update.');
       say(result.reply);
     }catch(err){all.disabled=false;all.textContent='Retry marking all alerts read';say(err.message||'Could not mark alerts as read')}
@@ -4697,7 +4697,7 @@ if(workspace.is_internal&&document.body.classList.contains('crm-owner-view')&&un
   list.appendChild(all);
 }
 for(const n of data||[]){const row=document.createElement('div');row.className='inbound-item';const title=document.createElement('strong');title.textContent=(n.read_at?'':'● ')+n.title;const body=document.createElement('p');body.textContent=n.body+' · '+new Date(n.created_at).toLocaleString();row.append(title,body);if(!n.read_at){const btn=document.createElement('button');btn.type='button';btn.className='secondary';btn.textContent='Mark read';btn.onclick=async()=>{const {error}=await db.from('tle_crm_notifications').update({read_at:new Date().toISOString()}).eq('id',n.id).eq('workspace_id',workspace.id);if(error)say(error.message);else await loadStoredNotifications()};row.append(btn)}list.append(row)}if(!data?.length)list.textContent='All caught up.'}$('bellButton').onclick=()=>{$('notificationPanel').classList.toggle('hidden');if(!$('notificationPanel').classList.contains('hidden')){$('notificationPanel').scrollIntoView({behavior:'smooth'});loadStoredNotifications()}};setInterval(()=>{if(workspace)loadStoredNotifications()},45000);async function bootAfterPrivateEmailConfirmation(){
- // Redeem the one-time token inside the private Command Center; it never
+ // Redeem the one-time token inside the private Admin Panel; it never
  // appears in a URL query, analytics event, web-server request or email preview.
  const confirmation=new URLSearchParams(location.hash.replace(/^#/,''));
  const tokenHash=confirmation.get('token_hash'),type=confirmation.get('type');
@@ -4707,7 +4707,7 @@ for(const n of data||[]){const row=document.createElement('div');row.className='
   splash.classList.remove('hidden');
   const isCBD=new URLSearchParams(location.search).get('app')==='cb-depot';
   $('paBrand').textContent=isCBD?'CB DEPOT · PRIVATE CLIENT ACCESS':'THE LAUNCH ERA · PRIVATE CLIENT ACCESS';
-  $('paTitle').textContent='Opening your Command Center';
+  $('paTitle').textContent='Opening your Admin Panel';
   history.replaceState(history.state,'',location.pathname+location.search);
  }
  let activationError='';
@@ -4758,7 +4758,7 @@ bootAfterPrivateEmailConfirmation();
   business.querySelectorAll('details').forEach(x=>x.open=true);
   sidebar.querySelectorAll('button:not([data-target])').forEach(x=>x.remove());
   sidebar.querySelectorAll('img').forEach(x=>x.remove());
-  sidebar.querySelector('.premium-brand').textContent='SAMPLE BUSINESS · COMMAND CENTER';
+  sidebar.querySelector('.premium-brand').textContent='SAMPLE BUSINESS · ADMIN PANEL';
   const caption=sidebar.querySelector('#mainNavCaption');if(caption)caption.textContent='YOUR BUSINESS';
   const label=sidebar.querySelector('#sidebarWorkspaceLabel');if(label)label.textContent='SAMPLE WORKSPACE';
   const dash=document.getElementById('buyerDashboardHub').cloneNode(true);
@@ -4766,7 +4766,7 @@ bootAfterPrivateEmailConfirmation();
   dash.querySelector('#cbDetailingTop')?.remove();
   dash.querySelector('#buyerBookingShareCard')?.remove();
   dash.querySelector('#buyerDashboardStats').innerHTML=['New requests','Confirmed appointments','Needs attention'].map((name,i)=>'<div class="metric"><small>'+name+'</small><strong>'+[4,2,1][i]+'</strong></div>').join('');
-  dash.querySelector('#buyerDashboardStatus').textContent='Sample activity · Real Command Center layout';
+  dash.querySelector('#buyerDashboardStatus').textContent='Sample activity · Real Admin Panel layout';
   const settings=document.getElementById('settingsHub').cloneNode(true);
   const languageGrid=settings.querySelector('#settingsLanguage').closest('article').parentElement;
   const followupCard=settings.querySelector('#settingsFollowupTitle').closest('article');
@@ -4794,7 +4794,7 @@ bootAfterPrivateEmailConfirmation();
   if(current)close();
   const openButton=document.getElementById('ownerDemoQuickShortcut');
   if(!openButton||openButton.classList.contains('hidden')){
-   status.textContent=es()?'Abre tu Command Center como Owner para ver la demo.':'Sign in as Owner to open your private Booking Demo.';
+   status.textContent=es()?'Abre tu panel de administrador como Owner para ver la demo.':'Sign in as Owner to open your private Booking Demo.';
    return;
   }
   status.textContent=es()?'Abriendo la demo de Booking Automation…':'Opening your private Booking Automation demo…';
@@ -4810,7 +4810,7 @@ bootAfterPrivateEmailConfirmation();
   closeButton.setAttribute('aria-label',es()?'Salir de la vista previa y regresar a Clientes y compras':'Exit preview and return to Clients & Purchases');
   frame.removeAttribute('src');
   frame.srcdoc=realLayout();
-  status.textContent=es()?(kind==='landing'?'Landing demo · Vista interactiva':'Diseño real del Command Center · Datos de muestra'):(kind==='landing'?'Landing demo · Interactive preview':'Real Command Center layout · Sample data');
+  status.textContent=es()?(kind==='landing'?'Landing demo · Vista interactiva':'Diseño real del panel de administrador · Datos de muestra'):(kind==='landing'?'Landing demo · Interactive preview':'Real Admin Panel layout · Sample data');
   document.getElementById('ownerShowLandingPreview').setAttribute('aria-pressed',String(kind==='landing'));
   document.getElementById('ownerShowCommandPreview').setAttribute('aria-pressed',String(kind==='command'));
  }
@@ -4831,7 +4831,7 @@ bootAfterPrivateEmailConfirmation();
   closeButton.classList.add('hidden');
   document.getElementById('ownerShowLandingPreview').setAttribute('aria-pressed','false');
   document.getElementById('ownerShowCommandPreview').setAttribute('aria-pressed','false');
-  status.textContent=es()?'Vista cerrada. Puedes abrir otra o regresar a tu Command Center.':'Preview closed. Open another or return to your Command Center.';
+  status.textContent=es()?'Vista cerrada. Puedes abrir otra o regresar a tu panel de administrador.':'Preview closed. Open another or return to your Admin Panel.';
   if(wasOpen){card.scrollIntoView({block:'start',behavior:'instant'});document.getElementById('ownerShowLandingPreview').focus({preventScroll:true});}
  }
  expandButton.onclick=()=>{
