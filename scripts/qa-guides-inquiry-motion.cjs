@@ -3,7 +3,7 @@ const {chromium}=require("playwright");
 (async()=>{
  const browser=await chromium.launch({headless:true});
  const api="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-contact";
- for(const [route,lang]of [["/guias/library.html","en"],["/es/guias/biblioteca.html","es"]]){
+ for(const [route,lang]of [["/guias/","en"],["/es/guias/","es"]]){
    const ctx=await browser.newContext({viewport:{width:390,height:844},reducedMotion:"no-preference"});
    const page=await ctx.newPage();const errors=[];let payload=null,postCount=0;
    page.on("pageerror",error=>errors.push(error.message));
