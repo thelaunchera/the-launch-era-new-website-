@@ -21,7 +21,7 @@ const { chromium } = require('playwright');
       assert.ok(brandBox && navBox && brandBox.x+brandBox.width <= navBox.x+2,'logo must not overlap navigation '+width);
       assert.ok(brandBox.width >= 108 && brandBox.width <= 190,'readable mobile/desktop logo '+width);
       assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth <= window.innerWidth));
-      await page.locator('.hero .button').click();
+      await page.locator('.hero-actions .button').first().click();
       assert.equal(new URL(page.url()).hash,'#guias');
       await page.getByRole('button',{name:lang==='en'?'Automation':'Automatización',exact:true}).click();
       assert.equal(await page.locator('.guide').count(),3);
