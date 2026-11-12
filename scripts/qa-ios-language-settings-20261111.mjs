@@ -36,6 +36,11 @@ assert.ok(sharedCss.includes('width:84px!important'));
 assert.ok(sharedCss.includes(':active .tle-ios-locale-knob'));
 assert.ok(sharedCss.includes('prefers-reduced-motion:reduce'));
 if(built){
+ for(const path of ['guias/index.html','es/guias/index.html']){
+   const html=read(path);
+   assert.ok(!html.includes('tle-ios-language-switch-20261111.js'),path+' must not get duplicate injected iOS selector');
+   assert.ok(html.includes('class="lang" role="group"'),path+' must retain original working EN/ES topbar');
+ }
  const expected=['demos/la-vie-in-pink/index.html','demos/freska/index.html',
   'demos/casa-brownie/index.html','demos/havana-19/index.html',
   'website-for-your-business/index.html','es/website-for-your-business/index.html',
