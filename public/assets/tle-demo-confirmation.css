@@ -1,0 +1,207 @@
+/* Theme tokens apply exclusively to the final sample receipt. */
+[data-demo-receipt] {
+  --tle-receipt-ink: #30251e;
+  --tle-receipt-paper: #fbf6ed;
+  --tle-receipt-accent: #806342;
+  --tle-receipt-wash: #eee1cc;
+  --tle-receipt-radius: 18px;
+  --tle-receipt-motion: lift;
+  --tle-receipt-angle: 142deg;
+  box-sizing: border-box;
+  min-width: 0;
+  padding: clamp(15px, 4vw, 26px);
+  border: 1px solid color-mix(in srgb, var(--tle-receipt-accent) 36%, var(--tle-receipt-paper));
+  border-radius: var(--tle-receipt-radius);
+  background: linear-gradient(var(--tle-receipt-angle), var(--tle-receipt-wash), var(--tle-receipt-paper) 52%);
+  color: var(--tle-receipt-ink);
+  overflow-wrap: anywhere;
+}
+
+[data-demo-receipt="nail-room"] {
+  --tle-receipt-ink: #352332;
+  --tle-receipt-paper: #fff9fc;
+  --tle-receipt-accent: #8a315c;
+  --tle-receipt-wash: #f9dfeb;
+  --tle-receipt-radius: 26px;
+  --tle-receipt-motion: bloom;
+}
+[data-demo-receipt="freska"] {
+  --tle-receipt-ink: #1b2655;
+  --tle-receipt-paper: #fff9f5;
+  --tle-receipt-accent: #96315e;
+  --tle-receipt-wash: #ffd7e9;
+  --tle-receipt-radius: 25px;
+  --tle-receipt-motion: pop;
+}
+[data-demo-receipt="sneekiefs"] {
+  --tle-receipt-ink: #1a222c;
+  --tle-receipt-paper: #f8f2e7;
+  --tle-receipt-accent: #804129;
+  --tle-receipt-wash: #ead8bf;
+  --tle-receipt-radius: 4px;
+  --tle-receipt-motion: slide;
+}
+[data-demo-receipt="casa-brownie"] {
+  --tle-receipt-ink: #3e2119;
+  --tle-receipt-paper: #fff8ec;
+  --tle-receipt-accent: #794332;
+  --tle-receipt-wash: #efd9c9;
+  --tle-receipt-radius: 12px;
+}
+[data-demo-receipt="crumb"] {
+  --tle-receipt-ink: #17324e;
+  --tle-receipt-paper: #f4f8ff;
+  --tle-receipt-accent: #2c537d;
+  --tle-receipt-wash: #d9e7fa;
+  --tle-receipt-radius: 12px;
+  --tle-receipt-motion: pop;
+}
+[data-demo-receipt="la-vie-in-pink"] {
+  --tle-receipt-ink: #4d2730;
+  --tle-receipt-paper: #fff9f6;
+  --tle-receipt-accent: #843646;
+  --tle-receipt-wash: #f5dce1;
+  --tle-receipt-radius: 20px;
+  --tle-receipt-motion: bloom;
+}
+[data-demo-receipt="lavender-edit"] {
+  --tle-receipt-ink: #2f233f;
+  --tle-receipt-paper: #faf6ff;
+  --tle-receipt-accent: #593e7b;
+  --tle-receipt-wash: #e7dcf6;
+  --tle-receipt-radius: 16px;
+  --tle-receipt-motion: bloom;
+}
+[data-demo-receipt="golden-grid"] {
+  --tle-receipt-ink: #2c2518;
+  --tle-receipt-paper: #fff9e7;
+  --tle-receipt-accent: #775013;
+  --tle-receipt-wash: #f8e1a5;
+  --tle-receipt-motion: pop;
+}
+[data-demo-receipt="havana-19"] {
+  --tle-receipt-ink: #48271d;
+  --tle-receipt-paper: #fff4e8;
+  --tle-receipt-accent: #864030;
+  --tle-receipt-wash: #efd0b6;
+  --tle-receipt-radius: 7px;
+  --tle-receipt-motion: reveal;
+}
+[data-demo-receipt="wok-social"] {
+  --tle-receipt-ink: #3b1b18;
+  --tle-receipt-paper: #fff5dc;
+  --tle-receipt-accent: #9c211f;
+  --tle-receipt-wash: #ffe0a0;
+  --tle-receipt-radius: 8px;
+  --tle-receipt-motion: slide;
+}
+[data-demo-receipt="yummm"] {
+  --tle-receipt-ink: #492428;
+  --tle-receipt-paper: #fff6f4;
+  --tle-receipt-accent: #96313d;
+  --tle-receipt-wash: #f9d8da;
+  --tle-receipt-motion: pop;
+}
+[data-demo-receipt="seasonal-brew"] {
+  --tle-receipt-ink: #382b20;
+  --tle-receipt-paper: #fff9eb;
+  --tle-receipt-accent: #715037;
+  --tle-receipt-wash: #e9dbc5;
+  --tle-receipt-motion: reveal;
+}
+[data-demo-receipt="jaramillo-boutique"] {
+  --tle-receipt-ink: #3c272b;
+  --tle-receipt-paper: #f9f3ed;
+  --tle-receipt-accent: #77424c;
+  --tle-receipt-wash: #ead9da;
+  --tle-receipt-radius: 3px;
+  --tle-receipt-motion: reveal;
+}
+[data-demo-receipt="ivory-and-bloom"] {
+  --tle-receipt-ink: #3b302a;
+  --tle-receipt-paper: #fffaf4;
+  --tle-receipt-accent: #775849;
+  --tle-receipt-wash: #f1e5d9;
+  --tle-receipt-motion: bloom;
+}
+[data-demo-receipt="soluna-yoga"] {
+  --tle-receipt-ink: #313826;
+  --tle-receipt-paper: #f9f7ed;
+  --tle-receipt-accent: #526043;
+  --tle-receipt-wash: #e8ebd9;
+  --tle-receipt-motion: reveal;
+}
+[data-demo-receipt="marea-wigs-miami"] {
+  --tle-receipt-ink: #3c2b27;
+  --tle-receipt-paper: #fff8ef;
+  --tle-receipt-accent: #804e40;
+  --tle-receipt-wash: #efdacc;
+  --tle-receipt-motion: slide;
+}
+[data-demo-receipt="aftr"] {
+  --tle-receipt-ink: #f7eeff;
+  --tle-receipt-paper: #1d1526;
+  --tle-receipt-accent: #d0a4f4;
+  --tle-receipt-wash: #392148;
+  --tle-receipt-radius: 5px;
+  --tle-receipt-motion: slide;
+}
+[data-demo-receipt="velmora"] {
+  --tle-receipt-ink: #fff0ed;
+  --tle-receipt-paper: #221418;
+  --tle-receipt-accent: #f09d9b;
+  --tle-receipt-wash: #4f1c27;
+  --tle-receipt-radius: 4px;
+  --tle-receipt-motion: reveal;
+}
+[data-demo-receipt] [data-receipt-title] {
+  margin-block: 0 .45em;
+  color: var(--tle-receipt-ink);
+}
+[data-receipt-caption] {
+  margin: 0 0 .6em;
+  color: var(--tle-receipt-accent);
+  font-size: .72rem;
+  font-weight: 750;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+[data-receipt-disclosure] { margin-block: 12px; }
+[data-receipt-disclosure] > summary {
+  min-height: 44px;
+  padding: 10px 0;
+  border-block: 1px solid color-mix(in srgb, var(--tle-receipt-accent) 38%, transparent);
+  color: var(--tle-receipt-ink);
+  cursor: pointer;
+  line-height: 24px;
+  font-weight: 700;
+}
+[data-receipt-disclosure] > summary::marker { color: var(--tle-receipt-accent); }
+[data-receipt-disclosure] > summary:focus-visible,
+[data-demo-receipt] :is(button, a):focus-visible {
+  outline: 2px solid var(--tle-receipt-accent);
+  outline-offset: 3px;
+}
+.tle-receipt-lines { margin: 0; padding: 0; list-style: none; }
+.tle-receipt-lines li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+}
+.tle-receipt-lines li + li {
+  border-top: 1px solid color-mix(in srgb, var(--tle-receipt-accent) 23%, transparent);
+}
+.tle-receipt-lines li strong { white-space: nowrap; font-variant-numeric: tabular-nums; }
+[data-demo-receipt] [data-receipt-line] { min-width: 0; }
+[data-demo-receipt] :is(button, a[data-continue]) { min-height: 44px; }
+[data-demo-receipt] :is(button, summary):active { filter: brightness(.92); }
+[data-demo-receipt="experience-cleaning"] {
+  --tle-receipt-ink: #26322b;
+  --tle-receipt-paper: #faf8ed;
+  --tle-receipt-accent: #625232;
+  --tle-receipt-wash: #eee3c6;
+  --tle-receipt-motion: reveal;
+}
+.tle-order-done[data-demo-receipt] { text-align: left; padding: clamp(15px, 4vw, 26px); }

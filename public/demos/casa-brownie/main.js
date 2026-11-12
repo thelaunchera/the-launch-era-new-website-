@@ -285,6 +285,7 @@ function confirmSampleCart() {
   updateCartBadge();
   const wrapper = document.createElement('div');
   wrapper.className = 'cb-sample-confirmation';
+  wrapper.dataset.demoReceipt = 'casa-brownie';
   addText(wrapper, 'h3', 'Pedido de prueba completado');
   addText(wrapper, 'p', 'Así se vería la confirmación de tu selección. No se creó ningún pedido real, no se envió ningún correo y no se realizó ningún cobro.', 'status-box');
   const lines = document.createElement('div');
@@ -292,6 +293,7 @@ function confirmSampleCart() {
   for (const item of receipt) {
     const line = document.createElement('div');
     line.className = 'cart-line';
+    line.dataset.receiptLine = '';
     const details = document.createElement('div');
     details.className = 'cart-line-details';
     addText(details, 'strong', item.quantity + ' × ' + item.name);
@@ -306,6 +308,7 @@ function confirmSampleCart() {
     document.getElementById('brownies')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   });
   openModal('Confirmación de pedido de prueba', wrapper, 'CASA BROWNIE · SOLO DEMOSTRACIÓN');
+  window.TLEDemoConfirmation?.play(wrapper);
 }
 
 function viewFlavor(id) {

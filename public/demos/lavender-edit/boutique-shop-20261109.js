@@ -15,7 +15,7 @@ const t=k=>tr[lang()][k]||k;
 const money=cents=>currency.format(cents/100);
 const count=()=>[...cart.values()].reduce((s,q)=>s+q,0);
 const total=()=>catalog().reduce((sum,p,i)=>sum+p.priceCents*(cart.get(i)||0),0);
-let drawer,backdrop,bodyEl,bottomEl,trigger,live,phase="bag",lastFocus,completedTotal=0;
+let drawer,backdrop,bodyEl,bottomEl,trigger,live,phase="bag",lastFocus,completedTotal=0,completedItems=[];
 const button=(label,kind,disabled=false)=>{const el=document.createElement("button");el.type="button";el.textContent=label;el.className=kind==="primary"?"lb-cart-primary":"lb-cart-secondary";el.dataset.lbAction=kind==="primary"?(phase==="bag"?"review":phase==="review"?"complete":"close"):(phase==="review"?"back":"close");el.disabled=disabled;return el;};
 function updateBadge(){
  const n=count();const node=trigger?.querySelector("[data-lb-cart-count]");if(node)node.textContent=String(n);
@@ -46,10 +46,20 @@ function render(){
  drawer.querySelector("[data-lb-close]").setAttribute("aria-label",t("close"));
  bodyEl.replaceChildren();bottomEl.replaceChildren();
  if(phase==="success"){
-  const box=document.createElement("div");box.className="lb-cart-confirm";
+  const box=document.createElement("div");box.className="lb-cart-confirm";box.dataset.demoReceipt="lavender-edit";
   const check=document.createElement("div");check.className="lb-cart-checkmark";check.textContent="✓";check.setAttribute("aria-hidden","true");box.append(check);
   const heading=document.createElement("h3");heading.textContent=t("success");box.append(heading);
-  const message=document.createElement("p");message.textContent=t("successNote");box.append(message);bodyEl.append(box);
+  const message=document.createElement("p");message.textContent=t("successNote");box.append(message);
+  const items=document.createElement("ul");items.className="tle-receipt-lines";
+  for(const [index,qty] of completedItems){
+   const product=catalog()[index];
+   if(!product)continue;
+   const row=document.createElement("li");row.dataset.receiptLine="";
+   const label=document.createElement("span");label.textContent=qty+" × "+product.name;
+   const price=document.createElement("strong");price.textContent=money(product.priceCents*qty);
+   row.append(label,price);items.append(row);
+  }
+  box.append(items);bodyEl.append(box);window.TLEDemoConfirmation?.play(box);
   const amount=document.createElement("p");amount.className="lb-cart-total";amount.textContent=t("subtotal")+": "+money(completedTotal);bottomEl.append(amount,button(t("again"),"primary"));return;
  }
  if(count()===0){const empty=document.createElement("p");empty.className="lb-cart-empty";empty.textContent=t("empty");bodyEl.append(empty);}
@@ -126,7 +136,7 @@ function setup(){
   if(act==="remove")cart.delete(i);
   if(act==="review"&&count()>0)phase="review";
   if(act==="back")phase="bag";
-  if(act==="complete"&&count()>0){completedTotal=total();cart.clear();phase="success";}
+  if(act==="complete"&&count()>0){completedTotal=total();completedItems=[...cart];cart.clear();phase="success";}
   if(act==="close"){hide();return;}
   updateBadge();render();
  });

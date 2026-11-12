@@ -3,6 +3,8 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - 'public/assets/tle-demo-confirmation.*'
+      - 'public/assets/tle-demo-order-journey-20261108.js'
       - 'public/demos/freska/app.js'
       - 'public/demos/freska/styles.css'
       - 'public/demos/sneekiefs/script.js'
@@ -38,7 +40,7 @@ jobs:
           mkdir -p node_modules
           ln -sfn /tmp/tle-receipts-qa/node_modules/playwright node_modules/playwright
           ln -sfn /tmp/tle-receipts-qa/node_modules/playwright-core node_modules/playwright-core
-      - name: Complete four original demo carts with no payments or emails
+      - name: Complete guided and native demo carts without commerce requests
         run: |
           python3 -m http.server 4196 --bind 127.0.0.1 --directory public >/tmp/tle-receipts-server.log 2>&1 &
           server=$!

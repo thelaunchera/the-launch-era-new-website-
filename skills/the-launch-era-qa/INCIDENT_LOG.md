@@ -4,6 +4,12 @@
 - **Safe correction:** Prepare a replacement narrow SEO PR that changes only the copied production root metadata/canonical/site-name in the Pages build. Preserve existing standalone website-offer pages and sitemap, which already describe the broader website offering. Keep demos, navigation, booking/pricing, customer data and previously approved hero untouched.
 - **Status:** Source prepared on `seo/production-homepage-brand-20261112`; static check, PR checks, merge, Pages, live SEO head and external search reindexing must be verified separately. Infrastructure/browser environment issues need a separate maintenance repair, not test suppression.
 
+
+## 2026-11-12 — Public demo confirmation design
+- Owner requested more interactive, brand-specific final steps and supplied the Nail Room appointment receipt as the reference. The previous Nail Room modal summarized the appointment but had no explicit edit action.
+- The updated native dialog uses the selected treatment's own photo and preserves the form on edit. Guided receipts retain item names, quantities, and totals after completion. Motion runs only on receipt entry and disclosure, respecting the device's reduced-motion preference.
+- The change targets sample UI. No payment, booking, email or actual order is created by exercising the confirmation. Browser QA covers both native and guided checkout, including edit/reopen and the no-network-write boundary.
+
 ## 2026-11-11 — Christmas board game bilingual support
 - **Request:** Deliver the full existing board game in both English and Spanish in the The Launch Era GitHub repository.
 - **Source confirmed:** the standalone page includes a single embedded illustration and local-only JS gameplay. Only Spanish UI and event copy existed. Previous iPhone file-preview and external HTML-preview issues must not be confused with source gameplay bugs.

@@ -280,6 +280,8 @@ $('preview-button').addEventListener('click', () => {
     $('gift-note').value = '';
     paint();
     target.replaceChildren();
+    const receipt = document.createElement('div');
+    receipt.dataset.demoReceipt = 'crumb';
     const heading = document.createElement('h3');
     heading.textContent = 'Your demo order is complete.';
     heading.tabIndex = -1;
@@ -289,6 +291,7 @@ $('preview-button').addEventListener('click', () => {
     lines.className = 'crumb-demo-receipt';
     for (const item of selected) {
       const li = document.createElement('li');
+      li.dataset.receiptLine = '';
       li.textContent = item.quantity + ' × ' + item.name + ' — ' + formatPrice(item.cents);
       lines.appendChild(li);
     }
@@ -300,10 +303,12 @@ $('preview-button').addEventListener('click', () => {
     again.className = 'button dark full';
     again.textContent = 'Build another box';
     again.addEventListener('click', () => { paint(); $('preview-button').focus(); });
-    target.append(heading, message, lines, amountLabel, again);
+    receipt.append(heading, message, lines, amountLabel, again);
+    target.append(receipt);
     target.hidden = false;
     target.scrollIntoView({ block: 'nearest', behavior: 'auto' });
     heading.focus({ preventScroll: true });
+    window.TLEDemoConfirmation?.play(receipt);
   });
   target.appendChild(finish);
   target.hidden = false;
