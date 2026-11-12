@@ -1,3 +1,10 @@
+## 2026-11-12 — Public search identity still portrayed TLE as cleaning-only
+- **Owner report:** The Launch Era appeared in search as if it only served cleaning companies, despite an expanded small-business website, AI and digital-tool offering.
+- **Verified source cause:** Root metadata, EN and ES homepage titles/descriptions and above-the-fold H1 still promoted only cleaning booking; the root social image was a cleaning photograph. General website offering was absent from the XML sitemap.
+- **Scoped SEO correction:** Keep official brand name "The Launch Era"; use broader website/AI/automation metadata and visible home positioning in EN/ES, a non-cleaning website-build social image, homepage WebSite structured data, and sitemap entries for the already-existing universal website sales page. Cleaning demos and service pages remain intact.
+- **Destination safety:** Only homepage main CTA now points to the existing `/website-for-your-business/` and `/es/website-for-your-business/` landing; the secondary personalized booking demo retains its destination. No checkout, user data, tenant routing, email, auth or backend changes.
+- **Status:** Source changes committed on `seo/brand-positioning-small-business-20261112`; static route QA, PR checks, Pages deployment, live HTML validation and Google re-indexing are separate verification gates. Google controls its own search result presentation; changing source does not immediately change indexed snippets.
+
 ## 2026-11-11 — Christmas board game bilingual support
 - **Request:** Deliver the full existing board game in both English and Spanish in the The Launch Era GitHub repository.
 - **Source confirmed:** the standalone page includes a single embedded illustration and local-only JS gameplay. Only Spanish UI and event copy existed. Previous iPhone file-preview and external HTML-preview issues must not be confused with source gameplay bugs.
