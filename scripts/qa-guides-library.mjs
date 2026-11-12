@@ -17,7 +17,7 @@ for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
   assert.match(html,new RegExp('<html lang="'+lang+'">'));
   assert.ok(html.includes('rel="canonical" href="https://thelaunchera.com'+route+'"'),lang+" canonical");
   assert.ok(html.includes('href="/guias/"')&&html.includes('href="/es/guias/"'),lang+" language links");
-  assert.ok(html.includes('href="/guias/styles.css?v=20261112-2"')&&html.includes('src="/guias/app.js"'),lang+" shared assets");
+  assert.ok(html.includes('href="/guias/styles.css?v=20261112-2"')&&html.includes('src="/guias/app.js?v=20261112-guides-1"'),lang+" shared assets");
   assert.ok(html.includes('href="/guias/editorial.css?v=20261112-avatar-1"')&&html.includes('src="/guias/editorial.js?v=20261112-avatar-1"'),lang+" editorial scroll files");
   assert.ok(html.includes('id="reading-progress"')&&html.includes('class="ticker-track"'),lang+" scroll UI");
   assert.ok(html.includes('src="/guias/assets/dailin-avatar-hero-loop.mp4"')&&html.includes('poster="/guias/assets/dailin-avatar-hero-poster.webp"'),lang+" approved founder hero media");
@@ -27,7 +27,7 @@ for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
   assert.ok(html.includes('id="guide-list"')&&html.includes('id="search"')&&html.includes('id="filters"'),lang+" controls");
   assert.ok(html.includes('href="/favicon-tle.svg"'),lang+" favicon");
   assert.ok(html.includes('href="/guias/resources.css?v=20261112-1"')&&html.includes('src="/guias/resources.js?v=20261112-2"'),lang+" resource assets linked");
-  assert.ok(html.includes('href="/guias/atelier.css?v=20261112-1"'),lang+" editorial stylesheet");
+  assert.ok(html.includes('href="/guias/atelier.css?v=20261112-guides-1"'),lang+" editorial stylesheet");
   assert.ok(html.includes('href="/guias/blue-grid.css?v=20261112-1"'),lang+" approved background stylesheet");
   assert.equal((html.match(/class="lang"/g)||[]).length,1,lang+" single topbar language switch");
   assert.ok(html.includes('href="#recursos"'),lang+" freebie navigation linked");
