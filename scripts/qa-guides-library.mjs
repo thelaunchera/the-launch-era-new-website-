@@ -65,6 +65,25 @@ assert.ok(blueGridWebP.length<15000,"approved background optimized for mobile");
 assert.match(resourcesJs,/tle-guides-subscribe/);
 assert.match(resourcesJs,/confirm_freebie/);
 assert.match(resourcesJs,/unsubscribe_freebie/);assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
+// Every public guide must teach something concrete in both languages.
+const catalogMatch=js.match(/var guideList=(\[[\s\S]*?\]);/);
+assert.ok(catalogMatch,"public guide catalog available");
+const guideCatalog=JSON.parse(catalogMatch[1]);
+assert.equal(guideCatalog.length,10,"all ten public lessons retained");
+for(const guide of guideCatalog){
+  for(const lang of ["en","es"]){
+    const lesson=guide[lang];
+    assert.ok(lesson.preview?.length>70,guide.id+" "+lang+" preview explains the learning outcome");
+    assert.ok(lesson.desc?.length>130,guide.id+" "+lang+" clear lesson overview");
+    assert.ok(lesson.need?.length>45,guide.id+" "+lang+" prerequisites");
+    assert.ok(lesson.steps?.length>=4,guide.id+" "+lang+" actionable sequence");
+    assert.ok(lesson.steps.every(step=>step.length>65),guide.id+" "+lang+" detailed steps");
+    assert.ok(lesson.outcome?.length>65,guide.id+" "+lang+" concrete finish line");
+    assert.ok(lesson.note?.length>45,guide.id+" "+lang+" realistic caution");
+    assert.ok(lesson.prompt?.length>75,guide.id+" "+lang+" copyable original prompt");
+  }
+}
+
 const ids=[...js.matchAll(/"id":"([^"]+)"/g)].map(m=>m[1]);
 assert.equal(ids.length,10,"Exactly 10 original bilingual guides");
 assert.equal(new Set(ids).size,10,"No duplicate guide IDs");
