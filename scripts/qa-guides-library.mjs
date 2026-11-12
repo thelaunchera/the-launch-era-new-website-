@@ -65,7 +65,7 @@ assert.match(blueGridCss,/#guias/);
 assert.match(blueGridCss,/#recursos/);
 assert.match(unifiedCss,/--v-paper:#faf6ed/,"one continuous warm ivory background");
 assert.match(unifiedCss,/background-image:none!important/,"section backgrounds removed by final override");
-assert.match(unifiedCss,/\\.hero-vault/,"hero typography restyled");
+assert.ok(unifiedCss.includes(".hero-vault"),"hero typography restyled");
 assert.ok(!unifiedCss.includes("@font-face"),"no commercial fonts embedded");
 assert.equal(blueGridWebP.toString("utf8",0,4),"RIFF","approved background starts as WebP RIFF");
 assert.equal(blueGridWebP.toString("utf8",8,12),"WEBP","approved asset is WebP");
