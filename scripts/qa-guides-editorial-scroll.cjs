@@ -16,6 +16,18 @@ const base = "http://127.0.0.1:8172";
       assert.equal(await page.locator(".ticker-track span").count(),24,"scroll keywords exist");
       assert.ok(await page.locator(".hero-portrait").evaluate(async img=>{await img.decode();return img.naturalWidth>0}),"portrait loads");
       assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth <= window.innerWidth),"no overflow at top "+width);
+      if(width<=390){
+        const titleMetrics=await page.locator(".hero h1").evaluate(el=>{const r=el.getBoundingClientRect(),s=getComputedStyle(el);return {height:r.height,fontSize:parseFloat(s.fontSize),letterSpacing:parseFloat(s.letterSpacing),weight:parseInt(s.fontWeight),width:r.width};});
+        assert.ok(titleMetrics.fontSize<=41,"mobile title font is controlled: "+JSON.stringify(titleMetrics));
+        assert.ok(titleMetrics.letterSpacing>-1.8,"mobile heading letter spacing prevents collision");
+        assert.ok(titleMetrics.height<=160,"mobile title no longer dominates screen");
+        const art=await page.locator(".hero-art").boundingBox();
+        const copy=await page.locator(".hero-copy").boundingBox();
+        assert.ok(Math.abs(art.y-copy.y)<100,"image and introduction sit side-by-side");
+        assert.ok(art.x+art.width<=copy.x+4,"photo and copy do not overlap");
+        const button=await page.locator(".hero .button").boundingBox();
+        assert.ok(button.y<790,"hero CTA appears above lower viewport");
+      }
       const nav=page.locator("body>.grid header");
       assert.equal(await nav.evaluate(el=>getComputedStyle(el).position),"fixed");
       assert.equal(await page.locator(".ticker-track").evaluate(el=>getComputedStyle(el).animationName),"none","reduced motion stops marquee");
