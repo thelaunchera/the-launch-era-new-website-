@@ -1,3 +1,10 @@
+## 2026-11-12 — SEO release PR triggered unrelated red checks
+- **Owner report:** Multiple red GitHub checks after attempted site-wide SEO edit.
+- **Verified cause:** PR #543 changed the TanStack React homepage and activated 23 broad PR workflows, although the current Pages build publishes the universal website-offer HTML at `/` and `/es`. Many failures were outside SEO scope: Playwright/Chromium unsupported on `ubuntu26.04-x64` when workflows used `ubuntu-latest`; legacy copy/price expectations; missing generated WebP when a QA job skipped the Pages image preprocessing.
+- **Safe correction:** Prepare a replacement narrow SEO PR that changes only the copied production root metadata/canonical/site-name in the Pages build. Preserve existing standalone website-offer pages and sitemap, which already describe the broader website offering. Keep demos, navigation, booking/pricing, customer data and previously approved hero untouched.
+- **Status:** Source prepared on `seo/production-homepage-brand-20261112`; static check, PR checks, merge, Pages, live SEO head and external search reindexing must be verified separately. Infrastructure/browser environment issues need a separate maintenance repair, not test suppression.
+
+
 ## 2026-11-12 — Public demo confirmation design
 - Owner requested more interactive, brand-specific final steps and supplied the Nail Room appointment receipt as the reference. The previous Nail Room modal summarized the appointment but had no explicit edit action.
 - The updated native dialog uses the selected treatment's own photo and preserves the form on edit. Guided receipts retain item names, quantities, and totals after completion. Motion runs only on receipt entry and disclosure, respecting the device's reduced-motion preference.

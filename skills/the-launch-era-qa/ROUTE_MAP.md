@@ -1,3 +1,10 @@
+## 2026-11-12 — Public homepage canonical and search identity
+- **Actual Pages root:** Build step in `.github/workflows/pages.yml` copies `/website-for-your-business/index.html` to `/index.html` and Spanish equivalent to `/es/index.html`.
+- **SEO build postprocess:** `scripts/prepare-homepage-seo.mjs` changes only the copied root files: canonical URL `https://thelaunchera.com/` or `https://thelaunchera.com/es`, reciprocal hreflang, official The Launch Era site name/structured data and small-business-focused titles. Direct website-offer pages retain their self-canonical product URLs.
+- **Navigation and tenant boundary:** no live CTA, checkout, client/booking route, email, login or private resource changes. Source-only TanStack homepage files are not the final Pages homepage.
+- **Verification:** script `--check`, Pages release, inspect deployed root HTML head and Search Console after indexing. Google result copy is not controlled directly.
+
+
 ## 2026-11-12 — Branded confirmation receipts in the public demo gallery
 - The guided checkout script shows a localized, expandable sample receipt for Golden Grid, Havana 19, WOK SOCIAL, Seasonal Brew, YUMMM, Jaramillo Boutique, and the existing Casa Brownie and CRUMB checkout bridges.
 - Native purchase receipts stay in their original cart/dialog on Freska, Sneekiefs, Casa Brownie, CRUMB, La Vie in Pink, Lavanda and VELMORA. The shared confirmation CSS and pinned Motion Mini package are served from the main site's static assets.
