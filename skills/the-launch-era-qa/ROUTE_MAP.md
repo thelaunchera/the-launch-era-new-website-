@@ -1,3 +1,9 @@
+## 2026-11-12 — Founder-led educational Guides hero
+- **Routes:** `/guias/` (EN) and `/es/guias/` (ES). The new founder intro has two actions: primary free guides → `#guias`, secondary creation process → `#como`.
+- **Topics:** AI/ChatGPT → `#guias`, Google Flow → `#como`, photo prompts → `#prompts-fotos`; existing ticker below hero remains.
+- **Asset safety:** The approved `/guias/assets/dailin-avatar-hero-loop.mp4` and poster remain unchanged, as does `editorial.js` autoplay/reduced-motion. New `/guias/hero-founder.css` changes only hero presentation. EN/ES share the asset and retain one header language selector. No checkout, Studio, demo or client routes changed.
+- **QA:** `scripts/qa-guides-atelier.cjs` validates hero destinations, topic anchors, frame corners, media source and single selector, with existing responsive/scroll QA.
+
 ## 2026-11-12 — Editorial reference refinement, with untouched Motion hero
 - **Requested reference:** editorial scrolling/resource indexing from public Figma design guidance and Behance projects; implementation is original and uses The Launch Era light-blue soft-blurry grid, ivory, navy and yellow.
 - **Strictly unchanged:** `<section class="hero wrap" id="inicio">...` HTML, animated poster/video source, timing/autoplay/loop, `editorial.js` animation behavior, and pre-existing hero CSS. The new `atelier.css` stylesheet only styles navigation and content **outside** the hero.
