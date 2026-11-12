@@ -7,11 +7,11 @@
  "use strict";
  const es=document.documentElement.lang==="es";
  const t=es?{
- eyebrow:"BIBLIOTECA ABIERTA · THE LAUNCH ERA",title:"Un espacio para <em>crear más.</em>",
+ eyebrow:"BIBLIOTECA DE RECURSOS",title:"Un espacio para <em>crear más.</em>",
  intro:"Aquí encuentras prompts de fotografía, ejemplos para practicar y recursos que estarán disponibles más adelante.",
  search:"Buscar recursos",filters:["Todo","Freebies","Prompts de fotos","Próximamente"],available:"DISPONIBLE",soon:"PRÓXIMAMENTE",
  view:"Abrir recurso",copy:"Copiar prompt",copied:"¡Copiado!",select:"Selecciona y copia el prompt",
- preview:"Ver los prompts",notify:"Avísame",count:"recursos",empty:"No encontramos recursos con esa búsqueda.",
+ preview:"Ver los prompts",notify:"Avísame",empty:"No encontramos recursos con esa búsqueda.",
  photoEyebrow:"FOTOGRAFÍA CON IA / PARA COPIAR",photoTitle:"Crea fotos que se sientan <em>como tu marca.</em>",
  photoIntro:"Tres prompts listos para adaptar. Elige el que necesitas y sigue las instrucciones que encontrarás debajo de cada uno. No necesitas saber diseñar.",
  futureTitle:"Lo que viene después",futureDesc:"Los próximos packs están preparados o en producción. No mostramos descargas hasta que estén publicados.",
@@ -26,11 +26,11 @@
  unsubTitle:"Cancelar avisos de freebies",unsubBody:"Pulsa el botón para dejar de recibir avisos.",unsubButton:"Darme de baja",unsubscribed:"Ya no recibirás avisos de freebies.",
  expired:"El enlace no es válido o ha caducado. Solicita otro desde el formulario."
  }:{
- eyebrow:"FREE RESOURCES · THE LAUNCH ERA",title:"A little library for <em>big ideas.</em>",
+ eyebrow:"FREE CREATIVE RESOURCES",title:"A little library for <em>big ideas.</em>",
  intro:"Find photo prompts, examples you can try and previews of upcoming resources—without searching through repeated guides.",
  search:"Search resources",filters:["All","Freebies","Photo prompts","Coming soon"],available:"AVAILABLE",soon:"COMING SOON",
  view:"Open resource",copy:"Copy prompt",copied:"Copied!",select:"Select and copy the prompt",
- preview:"See the prompts",notify:"Notify me",count:"resources",empty:"No resources match your search.",
+ preview:"See the prompts",notify:"Notify me",empty:"No resources match your search.",
  photoEyebrow:"AI PHOTOGRAPHY / COPY READY",photoTitle:"Create images that feel <em>like your brand.</em>",
  photoIntro:"Three ready-to-adapt prompts. Choose the result you want, then follow the instructions below each example. No design experience is required.",
  futureTitle:"Next in the library",futureDesc:"Future packs are prepared or in production. Download buttons appear only when a resource is published.",
@@ -46,40 +46,38 @@
  expired:"The link is invalid or has expired. Request a new one from the form."
  };
  const items=es?[
- {type:"photo",status:"live",art:"photo",mark:"01",eyebrow:"FOTO REAL",name:"Fotografía editorial de producto",desc:"Un producto, su empaque real y luz de estudio sin inventar logos.",href:"#prompts-fotos"},
- {type:"photo",status:"live",art:"photo",mark:"02",eyebrow:"RETRATO",name:"Retrato de fundadora",desc:"Mantén tu cara, pelo, proporciones y estilo al crear retratos.",href:"#prompts-fotos"},
- {type:"soon",status:"soon",art:"web",mark:"03",eyebrow:"WEB CON IA",name:"Tu web con un solo prompt",desc:"Un prompt maestro para construir la primera web de tu negocio.",href:"#suscripcion"},
- {type:"soon",status:"soon",art:"photo",mark:"04",eyebrow:"LAVENDER EDIT",name:"The Lavender Edit",desc:"Cinco fotografías publicitarias de producto con prompts originales.",href:"#suscripcion"},
- {type:"soon",status:"soon",art:"photo",mark:"05",eyebrow:"SALT LINE",name:"SALT LINE",desc:"Pack de fotografía macro y belleza editorial coherente.",href:"#suscripcion"},
- {type:"soon",status:"soon",art:"motion",mark:"06",eyebrow:"MOTION",name:"Biblioteca de Motion Graphics",desc:"Efectos en movimiento y prompts para usarlos en videos.",href:"#suscripcion"},
- {type:"soon",status:"soon",art:"app",mark:"07",eyebrow:"QUEUE",name:"Queue App Concept",desc:"Un concepto de fila virtual para un flower bar.",href:"#suscripcion"}
+ {type:"photo",status:"live",art:"photo",eyebrow:"FOTO REAL",name:"Fotografía editorial de producto",desc:"Un producto, su empaque real y luz de estudio sin inventar logos.",href:"#prompts-fotos"},
+ {type:"photo",status:"live",art:"photo",eyebrow:"RETRATO",name:"Retrato de fundadora",desc:"Mantén tu cara, pelo, proporciones y estilo al crear retratos.",href:"#prompts-fotos"},
+ {type:"soon",status:"soon",art:"web",eyebrow:"WEB CON IA",name:"Tu web con un solo prompt",desc:"Un prompt maestro para construir la primera web de tu negocio.",href:"#suscripcion"},
+ {type:"soon",status:"soon",art:"photo",eyebrow:"LAVENDER EDIT",name:"The Lavender Edit",desc:"Cinco fotografías publicitarias de producto con prompts originales.",href:"#suscripcion"},
+ {type:"soon",status:"soon",art:"photo",eyebrow:"SALT LINE",name:"SALT LINE",desc:"Pack de fotografía macro y belleza editorial coherente.",href:"#suscripcion"},
+ {type:"soon",status:"soon",art:"motion",eyebrow:"MOTION",name:"Biblioteca de Motion Graphics",desc:"Efectos en movimiento y prompts para usarlos en videos.",href:"#suscripcion"},
  ]:[
- {type:"photo",status:"live",art:"photo",mark:"01",eyebrow:"REAL PRODUCT",name:"Editorial product photography",desc:"Keep the real product packaging, studio light and original brand details.",href:"#prompts-fotos"},
- {type:"photo",status:"live",art:"photo",mark:"02",eyebrow:"PORTRAIT",name:"Founder portrait starter",desc:"Keep your face, hair, features and own personal style.",href:"#prompts-fotos"},
- {type:"soon",status:"soon",art:"web",mark:"03",eyebrow:"AI WEBSITE",name:"Your website in one prompt",desc:"A reusable master prompt for a first small-business website.",href:"#suscripcion"},
- {type:"soon",status:"soon",art:"photo",mark:"04",eyebrow:"LAVENDER EDIT",name:"The Lavender Edit",desc:"Five original prompts for product advertising photography.",href:"#suscripcion"},
- {type:"soon",status:"soon",art:"photo",mark:"05",eyebrow:"SALT LINE",name:"SALT LINE",desc:"Consistent macro beauty and editorial photography pack.",href:"#suscripcion"},
- {type:"soon",status:"soon",art:"motion",mark:"06",eyebrow:"MOTION",name:"Motion Graphics Library",desc:"Animated effects and reusable video prompt directions.",href:"#suscripcion"},
- {type:"soon",status:"soon",art:"app",mark:"07",eyebrow:"QUEUE",name:"Queue App Concept",desc:"A virtual queue concept for a flower bar.",href:"#suscripcion"}
+ {type:"photo",status:"live",art:"photo",eyebrow:"REAL PRODUCT",name:"Editorial product photography",desc:"Keep the real product packaging, studio light and original brand details.",href:"#prompts-fotos"},
+ {type:"photo",status:"live",art:"photo",eyebrow:"PORTRAIT",name:"Founder portrait starter",desc:"Keep your face, hair, features and own personal style.",href:"#prompts-fotos"},
+ {type:"soon",status:"soon",art:"web",eyebrow:"AI WEBSITE",name:"Your website in one prompt",desc:"A reusable master prompt for a first small-business website.",href:"#suscripcion"},
+ {type:"soon",status:"soon",art:"photo",eyebrow:"LAVENDER EDIT",name:"The Lavender Edit",desc:"Five original prompts for product advertising photography.",href:"#suscripcion"},
+ {type:"soon",status:"soon",art:"photo",eyebrow:"SALT LINE",name:"SALT LINE",desc:"Consistent macro beauty and editorial photography pack.",href:"#suscripcion"},
+ {type:"soon",status:"soon",art:"motion",eyebrow:"MOTION",name:"Motion Graphics Library",desc:"Animated effects and reusable video prompt directions.",href:"#suscripcion"},
  ];
  const photo=es?[
- {type:"01 / PRODUCTO",title:"Una foto de producto premium",prompt:"Usa la foto real que adjunto como referencia exacta de mi producto. Crea una fotografía editorial publicitaria vertical 4:5. Respeta la forma, el color, la tapa, el material y el logo real. Coloca una sola unidad sobre superficie marfil con luz natural lateral suave, sombras creíbles y un toque azul claro en el fondo. Deja espacio libre para añadir un título después. No inventes envases, etiquetas, ingredientes ni beneficios. Sin texto ni marcas de agua."},
- {type:"02 / RETRATO",title:"Un retrato que se parezca a ti",prompt:"Usa mi retrato autorizado como referencia exacta de identidad. Crea una foto editorial natural para mi web. Conserva rostro, proporciones, tono de piel, ojos, largo y color del cabello. Miro a cámara con expresión segura y relajada. Ropa casual moderna; no pongas las manos en la cara. Luz suave de ventana y fondo azul pálido. Fotografía vertical 4:5 de hombros y torso. Sin cambiar facciones, sin piel plástica, sin texto ni marca de agua."},
- {type:"03 / HERO DE WEB",title:"Una foto con espacio para el título",prompt:"Usa mi fotografía de referencia de [PERSONA O PRODUCTO REAL] para crear un hero de website. Conserva la identidad original de la persona o producto. Sitúa el protagonista en el tercio derecho, con iluminación indirecta, fondo marfil y azul claro ligeramente texturizado, sombras naturales y espacio libre a la izquierda para el texto. Composición horizontal 16:9 y recorte central seguro para móvil. Sin etiquetas falsas, objetos inventados ni letras dentro de la imagen."}
+ {type:"PRODUCTO",title:"Una foto de producto premium",prompt:"Usa la foto real que adjunto como referencia exacta de mi producto. Crea una fotografía editorial publicitaria vertical 4:5. Respeta la forma, el color, la tapa, el material y el logo real. Coloca una sola unidad sobre superficie marfil con luz natural lateral suave, sombras creíbles y un toque azul claro en el fondo. Deja espacio libre para añadir un título después. No inventes envases, etiquetas, ingredientes ni beneficios. Sin texto ni marcas de agua."},
+ {type:"RETRATO",title:"Un retrato que se parezca a ti",prompt:"Usa mi retrato autorizado como referencia exacta de identidad. Crea una foto editorial natural para mi web. Conserva rostro, proporciones, tono de piel, ojos, largo y color del cabello. Miro a cámara con expresión segura y relajada. Ropa casual moderna; no pongas las manos en la cara. Luz suave de ventana y fondo azul pálido. Fotografía vertical 4:5 de hombros y torso. Sin cambiar facciones, sin piel plástica, sin texto ni marca de agua."},
+ {type:"HERO DE WEB",title:"Una foto con espacio para el título",prompt:"Usa mi fotografía de referencia de [PERSONA O PRODUCTO REAL] para crear un hero de website. Conserva la identidad original de la persona o producto. Sitúa el protagonista en el tercio derecho, con iluminación indirecta, fondo marfil y azul claro ligeramente texturizado, sombras naturales y espacio libre a la izquierda para el texto. Composición horizontal 16:9 y recorte central seguro para móvil. Sin etiquetas falsas, objetos inventados ni letras dentro de la imagen."}
  ]:[
- {type:"01 / PRODUCT",title:"The premium product hero",prompt:"Use my attached real product photo as the exact reference. Make a premium editorial product photograph, vertical 4:5. Preserve the original shape, color, closure, materials and logo. Place one product on a warm ivory surface with soft side daylight, believable shadows and a pale-blue background accent. Leave negative space for later copy. Do not invent packaging, labels, ingredients or claims. No embedded text or watermark."},
- {type:"02 / PORTRAIT",title:"A portrait that still looks like you",prompt:"Use my authorized portrait as the exact identity reference. Create a natural editorial founder portrait for a website. Keep the same facial features, proportions, skin tone, eyes and hair length and color. Look directly at camera with a calm confident expression. Modern casual clothing; no hands touching the face. Soft window lighting and a pale-blue backdrop, vertical 4:5, shoulders and upper torso visible. No facial reshaping, plastic skin, text or watermark."},
- {type:"03 / WEBSITE HERO",title:"Room for your headline",prompt:"Use my reference photograph of [REAL PERSON OR PRODUCT] for a premium mobile-first website hero. Preserve the original person or product faithfully. Place the main subject in the right third, with indirect natural light, a subtly textured ivory and pale-blue background, realistic shadows and generous space on the left for a headline. Horizontal 16:9 with a safe center crop for phones. Do not add invented objects, fake labels or typography."}
+ {type:"PRODUCT",title:"The premium product hero",prompt:"Use my attached real product photo as the exact reference. Make a premium editorial product photograph, vertical 4:5. Preserve the original shape, color, closure, materials and logo. Place one product on a warm ivory surface with soft side daylight, believable shadows and a pale-blue background accent. Leave negative space for later copy. Do not invent packaging, labels, ingredients or claims. No embedded text or watermark."},
+ {type:"PORTRAIT",title:"A portrait that still looks like you",prompt:"Use my authorized portrait as the exact identity reference. Create a natural editorial founder portrait for a website. Keep the same facial features, proportions, skin tone, eyes and hair length and color. Look directly at camera with a calm confident expression. Modern casual clothing; no hands touching the face. Soft window lighting and a pale-blue backdrop, vertical 4:5, shoulders and upper torso visible. No facial reshaping, plastic skin, text or watermark."},
+ {type:"WEBSITE HERO",title:"Room for your headline",prompt:"Use my reference photograph of [REAL PERSON OR PRODUCT] for a premium mobile-first website hero. Preserve the original person or product faithfully. Place the main subject in the right third, with indirect natural light, a subtly textured ivory and pale-blue background, realistic shadows and generous space on the left for a headline. Horizontal 16:9 with a safe center crop for phones. Do not add invented objects, fake labels or typography."}
  ];
  const escape=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
  const library=document.getElementById("guias");if(!library)return;
  const cards=items.map((item,i)=>{
   const a=escape(item.href),external=item.href.startsWith("https:"),status=item.status==="soon"?t.soon:t.available;
   const action=item.status==="soon"?t.notify:item.type==="photo"?t.preview:t.view;
-  return '<article class="tle-resource-card" data-type="'+item.type+'" data-index="'+i+'" data-search="'+escape((item.name+" "+item.desc+" "+item.eyebrow).toLowerCase())+'">'+
-   '<div class="tle-resource-cover tle-resource-cover--'+item.art+'"><span>'+escape(item.mark)+'</span><strong>'+escape(item.eyebrow)+'</strong></div>'+
+  return '<article class="tle-resource-card" data-type="'+item.type+'" data-search="'+escape((item.name+" "+item.desc+" "+item.eyebrow).toLowerCase())+'">'+
+   '<div class="tle-resource-cover tle-resource-cover--'+item.art+'"><strong>'+escape(item.eyebrow)+'</strong></div>'+
    '<div class="tle-resource-info"><div class="tle-resource-meta"><span>'+escape(item.type==="soon"?t.filters[3]:item.type==="photo"?t.filters[2]:t.filters[1])+'</span><b class="'+(item.status==="soon"?"soon":"")+'">'+status+'</b></div>'+
-   '<h3>'+escape(item.name)+'</h3><p>'+escape(item.desc)+'</p><a href="'+a+'"'+(external?' target="_blank" rel="noopener noreferrer"':'')+'>'+escape(action)+' <span aria-hidden="true">↗</span></a></div></article>';
+   '<h3>'+escape(item.name)+'</h3><p>'+escape(item.desc)+'</p><a href="'+a+'"'+(external?' target="_blank" rel="noopener noreferrer"':'')+'>'+escape(action)+'</a></div></article>';
  }).join("");
  // Only show categories that still have items; the removed freebie no longer creates an empty tab.
  const filters=[["all",0],["photo",2],["soon",3]].map(([name,labelIndex])=>'<button type="button" data-tle-filter="'+name+'" aria-pressed="'+(name==="all"?'true':'false')+'">'+escape(t.filters[labelIndex])+'</button>').join("");
@@ -96,7 +94,7 @@
   const li=helpItems[i].map(t=>'<li>'+escape(t)+'</li>').join("");
   return '<article class="tle-prompt-card"><span>'+escape(x.type)+'</span><h3>'+escape(x.title)+'</h3><pre id="tle-photo-prompt-'+i+'">'+escape(x.prompt)+'</pre>'+
     '<div class="vault-photo-help"><strong>'+(es?"Cómo usar este prompt":"How to use this prompt")+'</strong><ol>'+li+'</ol></div>'+
-    '<button type="button" data-tle-copy="tle-photo-prompt-'+i+'">'+escape(t.copy)+' ＋</button></article>';
+    '<button type="button" data-tle-copy="tle-photo-prompt-'+i+'">'+escape(t.copy)+'</button></article>';
  }).join("");
  const form='<form id="tle-resource-form" novalidate><label for="tle-resource-email">'+escape(t.email)+'</label><input id="tle-resource-email" type="email" inputmode="email" autocomplete="email" required maxlength="254" placeholder="you@example.com">'+
    '<div class="tle-honeypot" aria-hidden="true"><label for="tle-company-web">Company website</label><input id="tle-company-web" type="text" tabindex="-1" autocomplete="off"></div>'+
@@ -106,24 +104,24 @@
   '<section id="recursos" class="resource-grid-bg" aria-labelledby="tle-resources-heading"><div class="wrap">'+
   '<div class="resource-eyebrow">'+escape(t.eyebrow)+'</div><div class="tle-resource-heading"><h2 id="tle-resources-heading">'+t.title+'</h2><p>'+escape(t.intro)+'</p></div>'+
   '<div class="tle-resource-tools"><input type="search" id="tle-resource-search" placeholder="'+escape(t.search)+'" aria-label="'+escape(t.search)+'" autocomplete="off"><div class="tle-resource-filters" role="group" aria-label="'+escape(t.search)+'">'+filters+'</div></div>'+
-  '<p id="tle-resource-count" class="tle-resource-count" aria-live="polite"></p><div class="tle-resource-cards" id="tle-resource-cards">'+cards+'</div><p id="tle-resource-empty" hidden>'+escape(t.empty)+'</p></div></section>'+
+  '<div class="tle-resource-cards" id="tle-resource-cards">'+cards+'</div><p id="tle-resource-empty" hidden>'+escape(t.empty)+'</p></div></section>'+
   '<section id="prompts-fotos" class="resource-grid-bg" aria-labelledby="tle-photo-heading"><div class="wrap"><div class="tle-photo-heading"><div><div class="resource-eyebrow">'+escape(t.photoEyebrow)+'</div><h2 id="tle-photo-heading">'+t.photoTitle+'</h2></div><p>'+escape(t.photoIntro)+'</p></div><div class="tle-photo-prompts">'+photoCards+'</div></div></section>'+
   '<section id="proximamente" class="resource-grid-bg" aria-labelledby="tle-future-heading"><div class="wrap"><div class="tle-coming-band"><div><div class="resource-eyebrow">'+escape(t.soon)+'</div><h2 id="tle-future-heading">'+escape(t.futureTitle)+'</h2><p>'+escape(t.futureDesc)+'</p></div><a href="#suscripcion">'+escape(t.futureButton)+'</a></div></div></section>'+
-  '<section id="suscripcion" class="resource-grid-bg" aria-labelledby="tle-sub-heading"><div class="wrap tle-sub-layout"><div class="tle-sub-copy"><div class="resource-eyebrow">'+escape(t.subEyebrow)+'</div><h2 id="tle-sub-heading">'+escape(t.subTitle)+'</h2><p>'+escape(t.subIntro)+'</p><p class="tle-sub-brand">DAILIN. · BY THE LAUNCH ERA</p></div><div class="tle-sub-form-card">'+form+
+  '<section id="suscripcion" class="resource-grid-bg" aria-labelledby="tle-sub-heading"><div class="wrap tle-sub-layout"><div class="tle-sub-copy"><div class="resource-eyebrow">'+escape(t.subEyebrow)+'</div><h2 id="tle-sub-heading">'+escape(t.subTitle)+'</h2><p>'+escape(t.subIntro)+'</p></div><div class="tle-sub-form-card">'+form+
   '<div id="tle-resource-token-panel" hidden><h3 id="tle-token-heading"></h3><p id="tle-token-description"></p><button type="button" id="tle-resource-token-btn"></button></div>'+
   '<p id="tle-resource-feedback" role="status" aria-live="polite"></p></div></div></section></div>';
  library.insertAdjacentHTML("afterend",markup);
  // Curated library filtering (local, read-only).
  let active="all";
  const cardEls=Array.from(document.querySelectorAll(".tle-resource-card"));
- const input=document.getElementById("tle-resource-search"),counter=document.getElementById("tle-resource-count"),empty=document.getElementById("tle-resource-empty");
+ const input=document.getElementById("tle-resource-search"),empty=document.getElementById("tle-resource-empty");
  const filterBtns=Array.from(document.querySelectorAll("[data-tle-filter]"));
- function render(){const q=input.value.trim().toLowerCase();let n=0;for(const card of cardEls){const show=(active==="all"||card.dataset.type===active)&&(!q||card.dataset.search.includes(q));card.hidden=!show;if(show)n++;}counter.textContent=n+" / "+cardEls.length+" "+t.count;empty.hidden=n>0;}
+ function render(){const q=input.value.trim().toLowerCase();let n=0;for(const card of cardEls){const show=(active==="all"||card.dataset.type===active)&&(!q||card.dataset.search.includes(q));card.hidden=!show;if(show)n++;}empty.hidden=n>0;}
  input.addEventListener("input",render);filterBtns.forEach(btn=>btn.addEventListener("click",()=>{active=btn.dataset.tleFilter;filterBtns.forEach(b=>b.setAttribute("aria-pressed",String(b===btn)));render();}));render();
  // Copy original photo prompts; fallback selects text on older mobile browsers.
  document.querySelectorAll("[data-tle-copy]").forEach(button=>button.addEventListener("click",async()=>{
   const pre=document.getElementById(button.dataset.tleCopy);if(!pre)return;
-  try{if(!navigator.clipboard||!isSecureContext)throw Error("Clipboard not available");await navigator.clipboard.writeText(pre.textContent);button.textContent=t.copied+" ✓";}
+  try{if(!navigator.clipboard||!isSecureContext)throw Error("Clipboard not available");await navigator.clipboard.writeText(pre.textContent);button.textContent=t.copied;}
   catch{const sel=getSelection(),range=document.createRange();range.selectNodeContents(pre);sel.removeAllRanges();sel.addRange(range);button.textContent=t.select;}
  }));
  const endpoint="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-guides-subscribe";
