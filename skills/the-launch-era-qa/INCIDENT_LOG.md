@@ -1,3 +1,8 @@
+## 2026-11-12 — Duplicate language selector and over-designed UI vs reference
+- User correction: original hero Motion video is approved **as-is** and must not be reframed/resized. Remaining navigation, resource sections, guides and scroll rhythm need an editorial redesign.
+- Root cause duplicate: `public/guias/app.js` dynamically added a `guide-language` link in the open guide in addition to header `.lang`. Remove dynamic link and route topbar control through `?guide=...` when modal is open.
+- Prevention: changed files must not modify hero subtree, video assets, hero CSS or hero motion JavaScript. Browser tests verify resource behavior, deep-linked locale switching, single language switch, responsive styling and no horizontal overflow. No customer/CRM/checkout/demo changes.
+
 ## 2026-11-12 — Freebie subscription launch safety
 - **Request:** new resource and future-freebie catalog plus consent-based alerts in guides site, pale-blue blurred grid aesthetic.
 - **Risks:** duplicate/unconsented marketing enrollment, wrong Content Lab/cleaning offers delivered, premature release of private future prompts, lost unsubscribe, client data leakage, false success on failed POST, mobile clipping.

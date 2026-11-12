@@ -1,3 +1,11 @@
+## 2026-11-12 — Editorial reference refinement, with untouched Motion hero
+- **Requested reference:** editorial scrolling/resource indexing from public Figma design guidance and Behance projects; implementation is original and uses The Launch Era light-blue soft-blurry grid, ivory, navy and yellow.
+- **Strictly unchanged:** `<section class="hero wrap" id="inicio">...` HTML, animated poster/video source, timing/autoplay/loop, `editorial.js` animation behavior, and pre-existing hero CSS. The new `atelier.css` stylesheet only styles navigation and content **outside** the hero.
+- **Improved below hero:** free guides' sticky numbered editorial index, ragged and variable-size freebie tiles, natural paper/soft-grid background, editorial photo prompt cards, updated how-to timeline, subscription form styling, more legible headings and generous section spacing.
+- **Language:** only the EN/ES topbar group remains. Opening any guide adds its id to the topbar language destinations, and closing clears it. The extra 'Read in English / Leer en español' link inside dialogs is removed. Header is usable above the dialog backdrop. No new locale controls in other components.
+- **Tests:** `scripts/qa-guides-atelier.cjs` at 360/390/768/1024/1440 for EN/ES, lang navigation within open guide, hero asset preservation, content count/layout, no overflow, plus existing library/DOM/scroll/resources/site-guard checks. Physical iPhone Safari not verified by Chromium.
+- **Release:** isolated PR branch `feat/guias-editorial-behance-figma-20261112`; merge and Pages deploy only after checks succeed.
+
 ## 2026-11-12 — AI Guides: curated freebies, photo prompts and separate double-opt-in
 - **Public routes:** `/guias/` (EN) and `/es/guias/` (ES) remain the sole owners of the new educational resource sections; navigation now adds `#recursos`, `#prompts-fotos`, `#proximamente`, `#suscripcion`. Existing ten guide IDs and slide/modal mechanics are unchanged.
 - **Content:** eight editorial resource cards (current gated Matcha composition guide, two original public photo-prompt starters, five future-preview packs), three original copyable photo prompts; future assets are never linked before their canonical release is enabled. Current reference for Matcha access is `https://podcast.thelaunchera.com/content-lab/prompts/`; no private Google Drive URLs publicly exposed.
