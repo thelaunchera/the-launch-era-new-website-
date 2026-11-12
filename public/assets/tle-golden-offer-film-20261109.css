@@ -11,3 +11,20 @@
  .tle-universal .owner-customer-visual .owner-customer-motion{display:none!important;transition:none!important}
  .tle-universal .owner-customer-visual .owner-customer-play{display:none!important}
 }
+
+/* The approved full-resolution Golden Grid photograph is the ONLY visible
+   customer preview on tablet and desktop. Never overlay the smaller film. */
+@media (min-width:521px) {
+  .tle-universal .owner-customer-visual[data-gg-offer-video] > img {
+    width:100%;
+    height:auto!important;
+    max-height:none!important;
+    aspect-ratio:auto!important;
+    object-fit:contain!important;
+    object-position:center!important;
+  }
+  .tle-universal .owner-customer-visual[data-gg-offer-video] .owner-customer-motion,
+  .tle-universal .owner-customer-visual[data-gg-offer-video] .owner-customer-play {
+    display:none!important;
+  }
+}
