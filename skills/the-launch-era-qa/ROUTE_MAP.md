@@ -1,3 +1,9 @@
+## 2026-11-12 — Dailin Vault unified editorial visual refresh
+- Routes remain `/guias/` (EN) and `/es/guias/` (ES); same 10 guides, 7 resource cards, email subscription, language switch, deep links and CTA destinations. The approved Motion hero MP4, poster, aspect ratio, animation and responsive placement are unchanged.
+- **One full-page canvas:** a single solid warm ivory background `#FAF6ED` painted by the document. The last-loaded `public/guias/vault-unified-editorial.css` removes previous blue-grid wallpapers and alternating section fills, including legacy `!important` blue-grid rules. Old asset remains in repository, but is overridden at render time.
+- **Typography:** openly served Archivo Black (display), DM Sans (body and buttons), Space Mono (labels), Caveat (script accents), referencing the visual style of MM Rachel/Stara/Monument without embedding unlicensed commercial fonts. Scarlet coral `#ED644B`, pink `#F7A6BB`, peach `#FCE2CF`, dark `#211C1B`. Colors appear only within typographic accents and cards/buttons, not full page section backdrops.
+- QA: `scripts/qa-guides-atelier.cjs` now checks computed ivory background, transparent backgrounds and no images for every section at iPhone/tablet/desktop, same Motion source/corner treatment, source links and language behavior. Full `src` guides JS, checkout, demo, CRM untouched.
+
 ## 2026-11-12 — Public Dailin Vault Guides hero
 - Guides routes stay `/guias/` (EN) and `/es/guias/` (ES); their public name changes to **Dailin Vault**. Header **Vault** still links to `#recursos`.
 - New main CTA: **Aprende tú también** / **Learn with me** links to `#guias`; secondary **Explora Vault** / **Explore Vault** links to `#recursos`. Topic links use established `#guias`, `#como`, `#prompts-fotos`, `#recursos` anchors.
