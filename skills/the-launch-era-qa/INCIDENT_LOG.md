@@ -1,3 +1,8 @@
+## 2026-11-12 — Unified Vault canvas / type reference
+- **Request:** new design references featuring warm paper, coral/pink web design, and a type specimen (MM Rachel display, Stara medium/bold, ABC Monument Grotesk Mono). Previous Vault page repeated blue grid and alternating blue sections despite request for ONE background.
+- **Implementation:** independent visual override CSS loaded after legacy design sheets. Full-page solid paper `#FAF6ED`; coral/pink details, open-source substitute typefaces because reference fonts are commercially licensed/unprovided. Only Vault public EN/ES changed; original video Motion remains unchanged.
+- **Verification gate:** browser-computed background checks, responsive layout, full original guide and resource library behavior, GitHub Actions and GitHub Pages deploy required. No success claim before run completes.
+
 ## 2026-11-12 — Motion hero corners requested rounded
 - **Scope:** public Dailin Vault guides pages `/guias/` and `/es/guias/` only; previous live Motion image had visually square/feathered edges.
 - **Safe visual repair:** `public/guias/vault-hero.css` now clips the existing video and poster with matching rounded corners (18 px on mobile, 19–30 px desktop), no border/background/shadow and a bottom-only soft feather. Motion source, timing, sizing, copy and unrelated layouts remain unchanged.
