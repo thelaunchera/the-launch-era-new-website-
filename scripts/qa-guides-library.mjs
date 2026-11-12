@@ -24,7 +24,7 @@ for (const [lang,html,route] of [["en",en,"/guias/"],["es",es,"/es/guias/"]]) {
   assert.ok(!/hero-avatar-concept|person-photo-placeholder/i.test(html),"No unapproved personal avatar");
 }
 assert.ok(existsSync(resolve(root,"public/favicon-tle.svg")),"Existing official favicon");
-assert.equal(logo.toString("ascii",0,8),"\x89PNG\r\n\x1a\n","PNG signature");
+assert.ok(logo.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])),"PNG signature");
 assert.equal(logo.readUInt32BE(16),230,"Approved Dailin logo width");
 assert.equal(logo.readUInt32BE(20),66,"Approved Dailin logo height");
 assert.match(editorialCss,/brand-personal/);
