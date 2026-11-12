@@ -14,7 +14,7 @@ const base = "http://127.0.0.1:8172";
       assert.equal(await page.locator(".guide").count(),10,"ten public guides");
       assert.equal(await page.locator("#reading-progress").count(),1,"reading progress exists");
       assert.equal(await page.locator(".ticker-track span").count(),24,"scroll keywords exist");
-      assert.ok(await page.locator(".hero-portrait").evaluate(async img=>{await img.decode();return img.naturalWidth>0}),"portrait loads");
+      assert.ok(await page.locator(".hero-poster").evaluate(async img=>{await img.decode();return img.naturalWidth>0}),"portrait loads");
       assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth <= window.innerWidth),"no overflow at top "+width);
       if(width<=390){
         const titleMetrics=await page.locator(".hero h1").evaluate(el=>{const r=el.getBoundingClientRect(),s=getComputedStyle(el);return {height:r.height,fontSize:parseFloat(s.fontSize),letterSpacing:parseFloat(s.letterSpacing),weight:parseInt(s.fontWeight),width:r.width};});
@@ -42,7 +42,7 @@ const base = "http://127.0.0.1:8172";
       const canvas=page.locator("#como");
       await canvas.scrollIntoViewIfNeeded();
       assert.equal(await page.locator("#como .step").count(),3);
-      const imageBounds=await page.locator(".hero-portrait").boundingBox();
+      const imageBounds=await page.locator(".hero-poster").boundingBox();
       assert.ok(imageBounds && imageBounds.width>100,"portrait has usable dimensions");
       assert.deepEqual(errors,[],"no JS errors: "+errors.join("; "));
       await context.close();
