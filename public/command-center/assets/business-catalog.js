@@ -25,7 +25,7 @@ function markDirty(){
 }
 async function catalogCall(action,payload={}){
  const {data:{session},error}=await db.auth.getSession();
- if(error||!session?.access_token)throw Error("Please sign in to Command Center again.");
+ if(error||!session?.access_token)throw Error("Please sign in to Admin Panel again.");
  const ctrl=new AbortController(),t=setTimeout(()=>ctrl.abort(),18000);
  try{
   const res=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_KEY,"Authorization":"Bearer "+session.access_token},body:JSON.stringify({action,workspace_id:workspace.id,...payload}),signal:ctrl.signal});
@@ -209,15 +209,15 @@ async function start(){
   const sdk=await import("https://esm.sh/@supabase/supabase-js@2.57.0");
   db=sdk.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:"tle-crm-auth"}});
   const {data:{session},error}=await db.auth.getSession();
-  if(error||!session?.access_token){failGate("Sign in to manage your catalog.","Open your private Command Center and sign in with your business account.");return}
+  if(error||!session?.access_token){failGate("Sign in to manage your catalog.","Open your private Admin Panel and sign in with your business account.");return}
   const {data:{user},error:userError}=await db.auth.getUser();
-  if(userError||!user?.id){failGate("Please verify your session.","Sign in again through Command Center.");return}
+  if(userError||!user?.id){failGate("Please verify your session.","Sign in again through Admin Panel.");return}
   const {data:rows,error:workError}=await db.from("tle_crm_workspaces").select("id,name,is_internal,created_by,business_category").eq("created_by",user.id).eq("is_internal",false).limit(20);
-  if(workError||!rows?.length){failGate("Your business workspace isn't active yet.","After your website is delivered, The Launch Era will activate your private Command Center. Contact support if you already have a delivered website.");return}
+  if(workError||!rows?.length){failGate("Your business workspace isn't active yet.","After your website is delivered, The Launch Era will activate your private Admin Panel. Contact support if you already have a delivered website.");return}
   workspaces=rows;
   $("workspace").innerHTML=rows.map(w=>'<option value="'+escapeHtml(w.id)+'">'+escapeHtml(w.name||"Your Business")+'</option>').join("");
   bind();$("gate").hidden=true;$("workspace-ui").hidden=false;
   await loadWorkspace(rows[0].id);
- }catch(error){console.warn("Catalog startup",error);failGate("Catalog unavailable.","We could not verify your workspace. Return to Command Center and try again.")}
+ }catch(error){console.warn("Catalog startup",error);failGate("Catalog unavailable.","We could not verify your workspace. Return to Admin Panel and try again.")}
 }
 start();
