@@ -323,7 +323,16 @@
       html[data-tle-demo-brand="havana-19"] .tle-demo-compact-header .head-btn{width:70px;min-width:70px;max-width:70px;flex:0 0 70px;font-size:0!important;padding:4px!important}
       html[data-tle-demo-brand="havana-19"] .tle-demo-compact-header .head-btn::after{content:"Reserve";font-size:10px;font-weight:700;line-height:1.2}
       html[lang="es"][data-tle-demo-brand="havana-19"] .tle-demo-compact-header .head-btn::after{content:"Reservar"}
-      html[data-tle-demo-brand="havana-19"] .tle-demo-compact-header .head-actions{gap:3px!important}
+      html[data-tle-demo-brand="havana-19"] .tle-demo-compact-header .head-actions{gap:2px!important;min-width:0}
+      html[data-tle-demo-brand="havana-19"] .tle-demo-compact-header .tle-order-float{
+        box-sizing:border-box;width:44px;min-width:44px;max-width:44px;min-height:44px;
+        flex:0 0 44px;padding:6px!important;gap:0!important;position:relative;overflow:visible
+      }
+      html[data-tle-demo-brand="havana-19"] .tle-demo-compact-header .tle-order-float svg{width:20px;height:20px;flex:0 0 20px}
+      html[data-tle-demo-brand="havana-19"] .tle-demo-compact-header .tle-order-float b{
+        position:absolute;top:-5px;right:-3px;min-width:17px;min-height:17px;
+        padding:0!important;font-size:10px!important;line-height:1.1
+      }
       html[data-tle-demo-brand="ivory-and-bloom"] .tle-demo-compact-header .header-inner{gap:2px!important;min-width:0!important}
       html[data-tle-demo-brand="ivory-and-bloom"] .tle-demo-compact-header .logo{font-size:13px;letter-spacing:.035em}
       html[data-tle-demo-brand="ivory-and-bloom"] .tle-demo-compact-header .header-cta{
