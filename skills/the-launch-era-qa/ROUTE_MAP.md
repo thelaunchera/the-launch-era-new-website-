@@ -1,3 +1,9 @@
+## 2026-11-12 — Public homepage canonical and search identity
+- **Actual Pages root:** Build step in `.github/workflows/pages.yml` copies `/website-for-your-business/index.html` to `/index.html` and Spanish equivalent to `/es/index.html`.
+- **SEO build postprocess:** `scripts/prepare-homepage-seo.mjs` changes only the copied root files: canonical URL `https://thelaunchera.com/` or `https://thelaunchera.com/es`, reciprocal hreflang, official The Launch Era site name/structured data and small-business-focused titles. Direct website-offer pages retain their self-canonical product URLs.
+- **Navigation and tenant boundary:** no live CTA, checkout, client/booking route, email, login or private resource changes. Source-only TanStack homepage files are not the final Pages homepage.
+- **Verification:** script `--check`, Pages release, inspect deployed root HTML head and Search Console after indexing. Google result copy is not controlled directly.
+
 ## 2026-11-11 — Christmas Game ES/EN bilingual upgrade
 - **Source of truth:** `public/games/navidad/index.html` in `thelaunchera/the-launch-era-new-website-`. Official route: `https://thelaunchera.com/games/navidad/` after an actual successful `main` Pages build; independent already-deployed fallback: `https://el-gran-juego-de-navidad-the-launch-era-z1kkj0.v2.appdeploy.ai/` reads the latest HTML from GitHub `main` and renders it as a browser page.
 - **Feature:** client-only toggle ES/EN accessible on setup overlay and header. LocalStorage preference `tle-xmas-game-locale` separate from existing saved game key `tle-xmas-board-v2`. Translates instructions, setup controls, board landmarks, rolling/turn labels, surprises, quiz questions and answers, outcome messages and accessible names without resetting the game.
