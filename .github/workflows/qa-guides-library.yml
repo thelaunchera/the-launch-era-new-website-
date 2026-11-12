@@ -7,6 +7,7 @@ on:
       - "scripts/qa-guides-library.mjs"
       - "scripts/qa-guides-library-browser.cjs"
       - "scripts/qa-guides-dom.mjs"
+      - "scripts/qa-guides-editorial-scroll.cjs"
       - ".github/workflows/qa-guides-library.yml"
       - "public/sitemap.xml"
   workflow_dispatch:
@@ -41,3 +42,4 @@ jobs:
           trap 'kill "$server_pid"' EXIT
           curl --fail --retry 5 --retry-connrefused --silent http://127.0.0.1:8172/guias/ > /dev/null
           NODE_PATH="$RUNNER_TEMP/tle-guides-browser/node_modules" node scripts/qa-guides-library-browser.cjs
+          NODE_PATH="$RUNNER_TEMP/tle-guides-browser/node_modules" node scripts/qa-guides-editorial-scroll.cjs

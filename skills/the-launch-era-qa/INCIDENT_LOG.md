@@ -1,3 +1,11 @@
+## 2026-11-12 — Guides redesign quality and regression prevention
+- **Request:** make the free educational library more polished with scroll-driven editorial rhythm inspired by a public reference without copying her proprietary design or prompts.
+- **Verified baseline:** both public routes and prior bilingual browser/DOM checks existed; separate TLE Content Lab/Studio and tenant/client routes must stay untouched.
+- **Scope of change:** additive CSS/JS and refactored markup for the same two published guide pages; preserves the ten original bilingual resources, approved founder portrait, deep links, clipboard reader, product links and mailto recipient.
+- **Failure modes guarded:** fixed header overlap, cropped portrait, horizontal overflow at narrow iPhone widths, hidden content when animations are unavailable or reduced motion enabled, broken dynamic guide filters, inaccessible modal, and CSS/JS missing from published static build.
+- **Validation:** run existing `qa-guides-library` browser and DOM gates plus new scroll-specific browser QA and full site static route checks; inspect GitHub Actions, production Pages deployment, and real `/guias/` resource availability. No flows send emails or access customer data.
+- **Open proof requirements:** physical iPhone Safari and final portrait/Google Flow avatar approval are separate from Chromium QA. Do not claim those tested from automated checks alone.
+
 ## 2026-11-12 — Free guides catalog failed during startup
 - The first implementation called `texts.count()` with no matching label function. It stopped rendering before the first guide and prevented deep links from opening. Format the count directly with the selected locale and keep filter-button focus when the guide list updates.
 - Polish the founder hero, add a copyable sample and the OFF BRIEF workflow, link verified localized products, and expand to ten original bilingual guides. Keep all eight prior guide IDs.
