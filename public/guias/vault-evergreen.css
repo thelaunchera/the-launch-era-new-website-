@@ -373,10 +373,6 @@ body>.grid .hero-vault .hero-media--cutout>.hero-keyed-canvas{
   border:0!important;
   border-radius:0!important;
 }
-body>.grid .hero-vault .hero-media--cutout.is-keyed-ready{
-  -webkit-mask-image:none!important;
-  mask-image:none!important;
-}
 body>.grid .hero-vault .hero-media--cutout.is-keyed-ready>.hero-portrait{
   opacity:0!important;
 }
