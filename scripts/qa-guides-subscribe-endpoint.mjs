@@ -1,0 +1,15 @@
+import assert from "node:assert/strict";
+const endpoint="https://bowacxhmjvrqixtwaikv.supabase.co/functions/v1/tle-guides-subscribe";
+const origin="https://thelaunchera.com";
+const timeout=AbortSignal.timeout(12000);
+const options=await fetch(endpoint,{method:"OPTIONS",headers:{Origin:origin,"Access-Control-Request-Method":"POST","Access-Control-Request-Headers":"content-type"},signal:timeout});
+assert.equal(options.status,204,"CORS preflight for official site");
+assert.equal(options.headers.get("access-control-allow-origin"),origin,"Allowed origin matches");
+assert.ok(options.headers.get("access-control-allow-methods")?.includes("POST"),"POST allowed");
+const invalid=await fetch(endpoint,{method:"POST",headers:{Origin:origin,"Content-Type":"application/json"},body:JSON.stringify({action:"subscribe",email:"invalid-address",consent:false,started_at:0}),signal:AbortSignal.timeout(12000)});
+assert.equal(invalid.status,400,"Invalid consent/email safely rejected");
+const body=await invalid.json();
+assert.equal(body.ok,false,"No false signup success");
+const wrongOrigin=await fetch(endpoint,{method:"POST",headers:{Origin:"https://attacker.example","Content-Type":"application/json"},body:JSON.stringify({action:"subscribe",email:"invalid-address",consent:false,started_at:0}),signal:AbortSignal.timeout(12000)});
+assert.equal(wrongOrigin.status,403,"Unexpected origins rejected");
+console.log("[TLE FREEBIE ENDPOINT] live safe preflight, invalid consent, unauthorized origin: OK; zero email sent");
