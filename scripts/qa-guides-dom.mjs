@@ -12,7 +12,7 @@ async function testLanguage(lang) {
   const virtualConsole=new VirtualConsole();
   virtualConsole.on("jsdomError",(e)=>errors.push(String(e.message||e)));
   const markup=read(file)
-    .replace('<script src="/guias/app.js" defer></script>',"")
+    .replace('<script src="/guias/app.js?v=20261112-guides-1" defer></script>',"")
     .replace("</body>","<script>"+app+"</script></body>");
   let copied=null;
   const dom=new JSDOM(markup,{
