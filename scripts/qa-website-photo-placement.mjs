@@ -67,7 +67,7 @@ for(const [language,html] of [['en',en],['es',es]]){
  assert(!hero.includes('automated-crm')&&!hero.includes('process-'),language+': checkout/process photo intrudes into gallery');
  assert(hero.includes('data-motion-src="https://thelaunchera.github.io/demo-booking-landing-/yummm/media/hero-motion-20261108.mp4"'),language+': original YUMMM motion missing');
  // Original campaign art must remain the base image in the EN/ES offer showcase.
- const customer=html.match(/<div class="owner-customer-visual" data-gg-offer-video>([\\s\\S]*?)<\\/div>/)?.[1];
+ const customer=html.match(/<div class="owner-customer-visual" data-gg-offer-video>([\s\S]*?)<\/div>/)?.[1];
  assert(customer?.includes('src="/demos/golden-grid/resources/golden-1.png"'),language+': Golden Grid master photo missing');
  assert(html.includes('/assets/tle-golden-offer-film-20261109.css?v=2'),language+': tablet/desktop photo CSS cache version missing');
  assert(html.includes('/assets/tle-golden-offer-film-20261109.js?v=2'),language+': tablet/desktop media gate JS cache version missing');
