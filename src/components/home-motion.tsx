@@ -64,11 +64,11 @@ export function BookingBenefits({lang='en'}:{lang?:'en'|'es'}) {
  const es = lang === 'es';
  const items = es ? [
   ['Recibe solicitudes','Tu Booking Page','Tus clientes envían los detalles y el horario solicitado.'],
-  ['Organiza tu día','Tu Command Center','Actualiza precios y horarios. Revisa tus solicitudes.'],
+  ['Organiza tu día','Tu panel de administrador','Actualiza precios y horarios. Revisa tus solicitudes.'],
   ['Da seguimiento','Próximo paso','Ve quién necesita respuesta.']
  ] : [
   ['Collect requests','Your Booking Page','Customers send cleaning details and requested times.'],
-  ['Stay organized','Your Command Center','Update rates and hours. Review requests in one place.'],
+  ['Stay organized','Your Admin Panel','Update rates and hours. Review requests in one place.'],
   ['Follow up','Your next step','Know who needs a reply.']
  ];
  return <div className="booking-benefits"><p className="booking-benefits-hint">{es?'Explora el flujo':'Explore the flow'}</p><div className="booking-benefit-controls" role="group" aria-label={es?'Explora los beneficios':'Explore the benefits'}>{items.map(([label],i)=><button type="button" key={label} aria-pressed={active===i} aria-controls={`booking-benefit-${lang}`} onClick={()=>setActive(i)}><span aria-hidden="true">0{i+1}</span>{label}</button>)}</div><div id={`booking-benefit-${lang}`} className="booking-benefit-panel" aria-live="polite" aria-atomic="true"><strong>{items[active][1]}</strong><p>{items[active][2]}</p></div></div>;

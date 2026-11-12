@@ -5,16 +5,16 @@ import './service-sales-mobile-cta.css';
 
 type Props = { product: 'booking'; lang?: 'en' | 'es' };
 
-// Only the active Booking Page + Command Center service is sold here.
+// Only the active Booking Page + Admin Panel service is sold here.
 // Standalone Cleaning App trials, pricing and sign-up links were retired.
 export function ServiceSales({ product, lang = 'en' }: Props) {
   const es = lang === 'es';
   const pains = es ? [
-    ['Te preguntaron por una limpieza. Ahora no encuentras los detalles.', 'Buscar el servicio, la dirección y la fecha en distintos chats.', 'La Booking Page recoge los datos y los lleva a tu Command Center.'],
+    ['Te preguntaron por una limpieza. Ahora no encuentras los detalles.', 'Buscar el servicio, la dirección y la fecha en distintos chats.', 'La Booking Page recoge los datos y los lleva a tu panel de administrador.'],
     ['Una cotización que quedó sin respuesta.', 'Recordar a quién debes volver a escribir entre una limpieza y otra.', 'Nosotros nos encargamos de los dos seguimientos automáticos si no hay respuesta. Tú decides si enviar un último mensaje o detenerte.'],
     ['Un cambio de precios u horarios.', 'Volver a explicar tus opciones cada vez que alguien pregunta.', 'Actualiza servicios, precios y disponibilidad desde tu espacio privado.']
   ] : [
-    ['Someone asked about cleaning. Now you can’t find the details.', 'Find the service, address, and date across different chats.', 'Your Booking Page collects the details and sends them to your Command Center.'],
+    ['Someone asked about cleaning. Now you can’t find the details.', 'Find the service, address, and date across different chats.', 'Your Booking Page collects the details and sends them to your Admin Panel.'],
     ['A quote that went quiet.', 'Remember who needs a follow-up between cleaning jobs.', 'We handle the first two automatic follow-ups if there is no reply. You decide whether to send a final message or stop.'],
     ['A change to your rates or schedule.', 'Explain your options again every time someone asks.', 'Update services, prices, and availability in your private workspace.']
   ];
@@ -47,7 +47,7 @@ export function ServiceSales({ product, lang = 'en' }: Props) {
     </div>
     <section className="service-buy-clarity" aria-label={es ? 'Preguntas frecuentes del servicio' : 'Service frequently asked questions'}>
       <div className="eyebrow">{es ? 'PREGUNTAS FRECUENTES' : 'FREQUENTLY ASKED QUESTIONS'}</div>
-      <h2 className="editorial">{es ? 'Sobre Booking Automation + Command Center' : 'About Booking Automation + Command Center'}</h2>
+      <h2 className="editorial">{es ? 'Sobre Booking Automation + Admin Panel' : 'About Booking Automation + Admin Panel'}</h2>
       <PurchaseClarity lang={lang}/>
     </section>
     <div className="service-sales-close">

@@ -6,7 +6,7 @@
  const t=(en,sp)=>es?sp:en;
  if(es){
    document.documentElement.lang='es';
-   document.title='Booking + Command Center + AI Assistant | The Launch Era';
+   document.title='Booking + Admin Panel + AI Assistant | The Launch Era';
  }
  document.querySelectorAll('[data-en]').forEach(el=>{
    // All localized copy is authored in the same trusted static HTML document.

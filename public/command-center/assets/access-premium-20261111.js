@@ -1,4 +1,4 @@
-/* TLE Command Center — progressive access UI only.
+/* TLE Admin Panel — progressive access UI only.
    Authentication, tenant entitlement and password recovery remain in the existing app. */
 (function(){
  function start(){
@@ -45,7 +45,7 @@
    description.textContent=mode==='signin'?
     translate('Your clients, bookings and work stay together in your private workspace.','Tus clientes, reservas y trabajos, en tu espacio privado.'):
     translate('Use the email linked to your business delivery. Access is verified before workspace data opens.','Usa el correo de entrega de tu negocio. Verificaremos tu acceso antes de abrir los datos.');
-   submit.textContent=mode==='signin'?translate('Continue to my Command Center','Continuar a mi Command Center'):
+   submit.textContent=mode==='signin'?translate('Continue to my Admin Panel','Continuar a mi panel de administrador'):
     translate('Request my account','Solicitar mi cuenta');
    forgot.hidden=mode==='signup';
    const pass=form.elements.namedItem('password');
@@ -138,7 +138,7 @@
   const expiredKey='tle_crm_expired_email';
   let saved='';try{saved=sessionStorage.getItem(expiredKey)||''}catch{}
   if(saved){email.value=saved;title.textContent='Tu sesión venció.';const subtitle=content.querySelector('p');
-   if(subtitle)subtitle.textContent='Entra con tu contraseña para continuar en tu Command Center privado.';}
+   if(subtitle)subtitle.textContent='Entra con tu contraseña para continuar en tu panel de administrador privado.';}
   const box=document.createElement('div');box.className='crm-email-stage';box.hidden=true;box.setAttribute('role','status');
   box.innerHTML='<div class="crm-email-art" aria-hidden="true"><span class="crm-email-envelope"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m3 7 9 7 9-7"/></svg></span></div><h2>Revisa tu correo.</h2><p>Si existe una cuenta, sigue las instrucciones para recuperar tu contraseña.</p><strong></strong><button type="button" class="crm-email-resend">Reenviar correo</button><button type="button" class="crm-email-back">Volver a iniciar sesión</button>';
   status.after(box);

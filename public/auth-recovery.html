@@ -42,7 +42,7 @@ small{display:block;font-size:12px;line-height:1.6;color:#6e8190;margin-top:10px
 <button id="save" type="submit">Save my new password →</button>
 </form>
 <p id="status" role="status" aria-live="polite"></p>
-<a id="signinLink" class="link hidden" href="/command-center/">Open Command Center →</a>
+<a id="signinLink" class="link hidden" href="/command-center/">Open Admin Panel →</a>
 <a class="link" href="/command-center/">Back to sign in</a>
 <small>We never ask you to share your password by email.</small>
 </main>
@@ -71,13 +71,13 @@ function showError(message){
 function showForm(){
  if(recoveryAllowed)return;
  recoveryAllowed=true;
- instructions.textContent='Choose a new password for your private Command Center.';
+ instructions.textContent='Choose a new password for your private Admin Panel.';
  form.classList.remove('hidden');
  status.textContent='';
  try{history.replaceState(null,'',location.pathname)}catch(_){}
 }
 if(!hasRecoveryFragment&&!hasRecoveryCode){
- showError('This password reset link is missing or has expired. Go to Command Center, enter your account email and select Forgot password to request a new link.');
+ showError('This password reset link is missing or has expired. Go to Admin Panel, enter your account email and select Forgot password to request a new link.');
  return;
 }
 if(typeof window.supabase?.createClient!=='function'){
@@ -99,7 +99,7 @@ client.auth.getSession().then(({data,error})=>{
  if(hasRecoveryFragment&&data?.session?.access_token===hash.get('access_token'))showForm();
 }).catch(()=>{});
 window.setTimeout(()=>{
- if(!recoveryAllowed)showError('This reset link could not be verified. It may have expired or already been used. Request a fresh link from Command Center.');
+ if(!recoveryAllowed)showError('This reset link could not be verified. It may have expired or already been used. Request a fresh link from Admin Panel.');
 },12000);
 form.addEventListener('submit',async(event)=>{
  event.preventDefault();
@@ -115,7 +115,7 @@ form.addEventListener('submit',async(event)=>{
   if(error)throw error;
   form.reset();form.classList.add('hidden');
   heading.textContent='Password updated ✓';
-  instructions.textContent='Your password has been saved. You can now sign in securely to your Command Center.';
+  instructions.textContent='Your password has been saved. You can now sign in securely to your Admin Panel.';
   status.className='success';status.textContent='You are ready to sign in.';
   signInLink.classList.remove('hidden');
   await client.auth.signOut({scope:'local'}).catch(()=>{});
