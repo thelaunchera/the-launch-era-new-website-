@@ -1,3 +1,9 @@
+## 2026-11-12 — Consultation-first contact on official website (EN/ES)
+- **Owner request:** Ask prospective website customers to contact The Launch Era for a consultation before purchasing either website package.
+- **Public sources / routes:** `public/website-for-your-business/index.html` → `/website-for-your-business/` and copied `/`; `public/es/website-for-your-business/index.html` → `/es/website-for-your-business/` and copied `/es/`. FAQ anchor remains `#preguntas` and checkout anchors remain unchanged.
+- **Consultation CTA:** Visible in pricing note before the two offers and in FAQ item 4; only opens the visitor's email client with the verified business recipient `hello@thelaunchera.com` and localized subject, no automatic submission or promised scheduled appointment. Existing website checkout routes `/website-checkout/?offer=website-basic&lang=en|es` and `/website-checkout/?offer=website-plus&lang=en|es` remain accessible, with no billing change.
+- **Validation:** `scripts/qa-offer-editorial-motion.mjs` checks two consultation mailto links and bilingual text. Run route QA/PR checks, Pages deployment and live `#preguntas` plus pricing copy on all four routes.
+
 ## 2026-11-12 — Manus original portfolio, branch-only migration
 - **Route:** `/portfolio/` on the official host, whose GitHub Pages build serves `public/portfolio/index.html` and its local files when changes are eventually merged and deployed. This branch is NOT live.
 - **Change owner:** `feat/manus-portfolio-migration` in `thelaunchera/the-launch-era-new-website-`; original published Manus HTML, CSS, JS, 6 WebP photographs, favicon and 4 WOFF2 fonts are now self-hosted under `public/portfolio/` without the Manus preview runtime. No root homepage, customer tenant, booking, auth, backend, checkout or billing changes.
