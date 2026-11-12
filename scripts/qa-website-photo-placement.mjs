@@ -3,6 +3,8 @@ import {readFileSync,existsSync} from 'node:fs';
 const en=readFileSync('public/website-for-your-business/index.html','utf8');
 const es=readFileSync('public/es/website-for-your-business/index.html','utf8');
 const css=readFileSync('public/assets/tle-website-official.css','utf8');
+const goldenOfferCss=readFileSync('public/assets/tle-golden-offer-film-20261109.css','utf8');
+const goldenOfferJs=readFileSync('public/assets/tle-golden-offer-film-20261109.js','utf8');
 const photoRoot='/assets/website-packages-20261105/';
 const expectedByLanguage={
  en:{
@@ -64,6 +66,11 @@ for(const [language,html] of [['en',en],['es',es]]){
  assert(gallerySlugs.indexOf('sneekiefs')===gallerySlugs.indexOf('soluna-yoga')+1,language+': Sneekiefs must appear immediately after SOLUNA Yoga');
  assert(!hero.includes('automated-crm')&&!hero.includes('process-'),language+': checkout/process photo intrudes into gallery');
  assert(hero.includes('data-motion-src="https://thelaunchera.github.io/demo-booking-landing-/yummm/media/hero-motion-20261108.mp4"'),language+': original YUMMM motion missing');
+ // Original campaign art must remain the base image in the EN/ES offer showcase.
+ const customer=html.match(/<div class="owner-customer-visual" data-gg-offer-video>([\\s\\S]*?)<\\/div>/)?.[1];
+ assert(customer?.includes('src="/demos/golden-grid/resources/golden-1.png"'),language+': Golden Grid master photo missing');
+ assert(html.includes('/assets/tle-golden-offer-film-20261109.css?v=2'),language+': tablet/desktop photo CSS cache version missing');
+ assert(html.includes('/assets/tle-golden-offer-film-20261109.js?v=2'),language+': tablet/desktop media gate JS cache version missing');
  const basic=html.match(/<article class="plan" id="website-basic">([\s\S]*?)<\/article>/)?.[1];
  const advanced=html.match(/<article class="plan" id="website-plus">([\s\S]*?)<\/article>/)?.[1];
  const process=html.match(/<section class="process" id="proceso">([\s\S]*?)<\/section>/)?.[1];
@@ -84,6 +91,11 @@ for(const [language,html] of [['en',en],['es',es]]){
  assert(/48 (hours|horas)/i.test(html),language+': delivery estimate missing');
  assert(/one revision|revision round|una revisión|ronda de revisión/i.test(html),language+': included single revision missing');
 }
+assert(goldenOfferCss.includes('@media (min-width:521px)'),'Golden Grid static tablet/desktop breakpoint missing');
+assert(goldenOfferCss.includes('display:none!important'),'Golden Grid video must be hidden at tablet/desktop widths');
+assert(goldenOfferCss.includes('object-fit:contain!important'),'Golden Grid photo must retain full framing');
+assert(goldenOfferJs.includes("window.matchMedia('(max-width: 520px)')"),'Golden Grid JS must only load video on phones');
+assert(goldenOfferJs.includes('!phone.matches'),'Golden Grid JS must exclude tablet and desktop');
 const photoStyles=css.split('/* 2026-11-05 image placement: keep original hero untouched. */')[1]?.split('/* Short inline billing disclosure')[0];
 assert(photoStyles&&!photoStyles.includes('.hero'), 'Photo styling inadvertently edits hero');
 assert(photoStyles.includes('object-fit:contain'), 'Uncropped interior photo styling missing');
