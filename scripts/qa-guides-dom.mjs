@@ -12,7 +12,7 @@ async function testLanguage(lang) {
   const virtualConsole=new VirtualConsole();
   virtualConsole.on("jsdomError",(e)=>errors.push(String(e.message||e)));
   const markup=read(file)
-    .replace('<script src="/guias/app.js?v=20261112-guides-1" defer></script>',"")
+    .replace('<script src="/guias/app.js?v=20261112-guides-2" defer></script>',"")
     .replace("</body>","<script>"+app+"</script></body>");
   let copied=null;
   const dom=new JSDOM(markup,{
@@ -61,6 +61,7 @@ async function testLanguage(lang) {
   assert.ok(document.querySelectorAll("#guide-detail ol li").length>=4,lang+" actionable steps inside guide");
 
   assert.ok(document.querySelector("#guide-detail pre.prompt").textContent.length>75,lang+" full prompt");
+  assert.equal(document.querySelectorAll("#guide-detail .vault-prompt-help li").length,3,lang+" reader explains how to adapt the prompt");
   document.querySelector("#guide-detail .copy").click();
   await new Promise(resolve=>setImmediate(resolve));
   assert.ok(copied?.length>75,lang+" copied actual prompt");
