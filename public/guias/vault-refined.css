@@ -1,0 +1,132 @@
+/* Vault experience refinement: real inquiry, non-repeating sections, Motion reveal.
+   Scoped to public /guias/ and /es/guias/ only, after unified editorial CSS. */
+body>.grid .hero-vault .hero-art { position:relative; isolation:isolate; overflow:visible!important; }
+body>.grid .hero-vault .hero-card {
+  position:absolute;z-index:0;left:4%;right:4%;top:27%;bottom:3%;
+  border:1.5px solid var(--v-ink,#211c1b);
+  border-radius:clamp(19px,3vw,31px);
+  background:linear-gradient(135deg,#f7a6bb 0%,#fce2cf 76%);
+  box-shadow:6px 7px 0 rgba(33,28,27,.13);
+  pointer-events:none;
+}
+body>.grid .hero-vault .hero-media.hero-media--cutout {
+  position:relative;z-index:1;
+  overflow:visible!important;
+  background:transparent!important;
+  border:0!important;box-shadow:none!important;
+  border-radius:22px!important;
+  transform:translateY(-5%);
+  /* Feather the opaque recording around the person; unlike a hard card clip
+     this keeps the full head visible above the lower decorative panel. */
+  -webkit-mask-image:radial-gradient(ellipse 79% 79% at 50% 47%,#000 49%,rgba(0,0,0,.98) 59%,rgba(0,0,0,.68) 73%,transparent 93%)!important;
+  mask-image:radial-gradient(ellipse 79% 79% at 50% 47%,#000 49%,rgba(0,0,0,.98) 59%,rgba(0,0,0,.68) 73%,transparent 93%)!important;
+}
+body>.grid .hero-vault .hero-media--cutout>.hero-portrait {
+  object-fit:contain!important;object-position:center top!important;
+  border-radius:22px!important;border:0!important;
+  box-shadow:none!important;background:transparent!important;
+}
+body>.grid .hero-vault .hero-media--cutout>.hero-video {
+  transition:opacity .26s linear!important;
+}
+body>.grid .hero-vault .hero-media--cutout.is-loop-bridging>.hero-video {
+  opacity:0!important;
+}
+body>.grid .hero-vault .hero-media--cutout>.hero-poster {
+  opacity:1!important;
+}
+/* New consultation form is part of page, not a mailto fallback. */
+body .vault-consult-layout{
+  display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);
+  align-items:start;column-gap:clamp(28px,5.8vw,95px);
+  row-gap:35px;
+}
+body .vault-consult-copy h2{
+  font-family:var(--v-display,Arial,sans-serif)!important;
+  font-size:clamp(36px,4.6vw,67px)!important;line-height:1.1!important;
+  letter-spacing:-.055em!important;margin:16px 0 20px!important;
+  max-width:15ch;
+}
+body .vault-consult-copy>p{max-width:45ch;color:var(--v-muted,#625a58)!important;font-size:16px;line-height:1.7}
+body .vault-consult-copy .vault-consult-note{
+  margin-top:24px;padding-top:15px;border-top:1px solid var(--v-rule,rgba(46,35,30,.23));
+  font-size:13px;color:var(--v-muted,#625a58)!important;
+}
+body .vault-inquiry-form{
+  display:grid;gap:18px;
+  background:#fffefa;border:1.5px solid #211c1b;border-radius:26px;
+  padding:clamp(22px,3.4vw,40px);box-shadow:7px 7px 0 #f7a6bb;
+  color:#211c1b;
+}
+body .vault-inquiry-form label{
+  display:flex;flex-direction:column;gap:7px;min-width:0;
+  font-family:var(--v-body,Arial,sans-serif)!important;
+  font-size:13px;font-weight:800;line-height:1.35;
+}
+body .vault-inquiry-form .vault-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+body .vault-inquiry-form input:not([type="checkbox"]),body .vault-inquiry-form select,body .vault-inquiry-form textarea{
+  appearance:none;-webkit-appearance:none;
+  display:block;width:100%;max-width:100%;box-sizing:border-box;
+  background:#faf6ed;color:#211c1b;border:1px solid rgba(33,28,27,.45);
+  border-radius:12px;padding:13px 13px;min-height:48px;
+  font-family:var(--v-body,Arial,sans-serif)!important;
+  font-size:15px;line-height:1.4;outline-offset:3px;
+}
+body .vault-inquiry-form textarea{resize:vertical;min-height:110px;max-height:350px}
+body .vault-inquiry-form .vault-consent{display:flex;flex-direction:row;gap:12px;align-items:start;font-size:12px;line-height:1.65;font-weight:500}
+body .vault-inquiry-form .vault-consent input{flex:0 0 19px;width:19px;height:19px;accent-color:#ed644b;margin:1px 0 0}
+body .vault-inquiry-form .vault-inquiry-submit{
+  display:flex;justify-content:center;align-items:center;
+  width:100%;min-height:57px;border:1.5px solid #211c1b;
+  background:#ed644b!important;color:#211c1b!important;border-radius:999px!important;
+  font-family:var(--v-body,Arial,sans-serif)!important;font-weight:850;
+  font-size:16px;box-shadow:4px 4px 0 #211c1b;cursor:pointer;
+}
+body .vault-inquiry-form .vault-inquiry-submit:disabled{opacity:.7;cursor:progress;box-shadow:none}
+body #vault-inquiry-status{min-height:1em;margin:0;font-size:13px;line-height:1.6;color:#625a58}
+body #vault-inquiry-status.is-error{color:#ad2f1f;font-weight:750}
+body #vault-inquiry-status.is-success{color:#211c1b}
+body .vault-inquiry-form .vault-form-privacy{font-size:12px;line-height:1.6;margin:0;color:#625a58!important}
+body .vault-inquiry-form .vault-form-privacy a{color:#c84430;text-underline-offset:3px}
+body .vault-form-trap{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;pointer-events:none}
+body .vault-inquiry-success span{
+  display:grid;place-items:center;background:#ed644b;border:1px solid #211c1b;
+  width:52px;height:52px;border-radius:50%;font-size:26px;
+}
+body .vault-inquiry-success h3{font-size:clamp(27px,3vw,38px)!important;line-height:1.17!important;margin:20px 0 12px}
+body .vault-inquiry-success p{font-size:15px;line-height:1.65;color:#625a58!important}
+body .vault-inquiry-success .vault-inquiry-small{font-size:12px}
+body #guide-detail .vault-prompt-help{
+  margin:20px 0 25px;border:1px solid rgba(33,28,27,.24);
+  border-radius:17px;background:#fce2cf;padding:20px 24px;
+}
+body #guide-detail .vault-prompt-help h3{font-size:20px!important;margin:0 0 12px}
+body #guide-detail .vault-prompt-help ol{margin:0!important;padding-left:20px!important}
+body #guide-detail .vault-prompt-help ol li{font-size:14px!important;line-height:1.62!important;margin:0 0 8px!important}
+body .tle-prompt-card .vault-photo-help{
+  margin-top:18px;padding:17px;border-radius:14px;background:#faf6ed;
+  border:1px solid rgba(33,28,27,.18);
+}
+body .vault-photo-help strong{font-family:var(--v-body,Arial,sans-serif);font-size:13px;color:#211c1b}
+body .vault-photo-help ol{padding-left:20px;margin:9px 0 0}
+body .vault-photo-help li{font-size:12px;line-height:1.55;color:#625a58;margin:5px 0}
+/* Avoid cropping the decorative headline on the resource covers. */
+body .tle-resource-cover strong{
+  display:block!important;max-width:calc(100% - 26px)!important;
+  overflow-wrap:anywhere!important;white-space:normal!important;
+  line-height:1.05!important;font-size:clamp(20px,2.6vw,37px)!important;
+}
+@media(max-width:760px){
+  body .vault-consult-layout{grid-template-columns:1fr;gap:20px}
+  body .vault-consult-copy h2{font-size:clamp(35px,8.4vw,51px)!important}
+  body .vault-inquiry-form{padding:21px;border-radius:22px;gap:15px}
+  body .vault-inquiry-form .vault-form-grid{grid-template-columns:1fr;gap:15px}
+  body>.grid .hero-vault .hero-card{top:37%;bottom:4%;left:0;right:0;border-radius:20px}
+  body>.grid .hero-vault .hero-media.hero-media--cutout{transform:translateY(-5%)}
+  body>.grid .hero-vault .hero-media--cutout>.hero-portrait{object-position:center top!important}
+  body .tle-resource-cover strong{font-size:clamp(19px,5vw,30px)!important}
+}
+@media(prefers-reduced-motion:reduce){
+  body>.grid .hero-vault .hero-media.hero-media--cutout{transform:none!important}
+  body>.grid .hero-vault .hero-media--cutout>.hero-video{transition:none!important}
+}
