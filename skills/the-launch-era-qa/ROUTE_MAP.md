@@ -1,3 +1,14 @@
+## 2026-11-12 — Compact demo topbars and brand-local EN/ES controls (review branch)
+- All existing 12 primary portfolio brand entry pages reference `/assets/tle-demo-header-controls-20261112.js`; it narrows selected CTA padding/typography without altering destinations, cart ownership, booking logic, or native language selection.
+- AFTR, CRUMB and Ivory & Bloom receive an in-header EN/ES toggle with persistent per-brand locale and targeted localized static copy. Existing EN/ES buttons on the other brands remain authoritative. The secondary Pages demos will load the same shared enhancer only after this main asset is released; see secondary review PR.
+- Source-only enhancement. Routes unchanged. Static locale coverage does not guarantee complete translations of dynamically generated checkout/confirmation content. Browser/mobile QA, Pages publication and iPhone Safari remain release gates.
+
+## 2026-11-12 — Consultation-first contact on official website (EN/ES)
+- **Owner request:** Ask prospective website customers to contact The Launch Era for a consultation before purchasing either website package.
+- **Public sources / routes:** `public/website-for-your-business/index.html` → `/website-for-your-business/` and copied `/`; `public/es/website-for-your-business/index.html` → `/es/website-for-your-business/` and copied `/es/`. FAQ anchor remains `#preguntas` and checkout anchors remain unchanged.
+- **Consultation CTA:** Visible in pricing note before the two offers and in FAQ item 4; only opens the visitor's email client with the verified business recipient `hello@thelaunchera.com` and localized subject, no automatic submission or promised scheduled appointment. Existing website checkout routes `/website-checkout/?offer=website-basic&lang=en|es` and `/website-checkout/?offer=website-plus&lang=en|es` remain accessible, with no billing change.
+- **Validation:** `scripts/qa-offer-editorial-motion.mjs` checks two consultation mailto links and bilingual text. Run route QA/PR checks, Pages deployment and live `#preguntas` plus pricing copy on all four routes.
+
 ## 2026-11-12 — Consultation-first contact on official website (EN/ES)
 - **Owner request:** Ask prospective website customers to contact The Launch Era for a consultation before purchasing either website package.
 - **Public sources / routes:** `public/website-for-your-business/index.html` → `/website-for-your-business/` and copied `/`; `public/es/website-for-your-business/index.html` → `/es/website-for-your-business/` and copied `/es/`. FAQ anchor remains `#preguntas` and checkout anchors remain unchanged.

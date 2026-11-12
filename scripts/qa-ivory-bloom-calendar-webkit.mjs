@@ -23,6 +23,16 @@ try {
         hiddenDisplay:getComputedStyle(hidden).display};
     });
     assert.ok(geometry.right<=geometry.parentRight+2,'Calendar clips at '+width+': '+JSON.stringify(geometry));
+    if(geometry.scrollWidth>geometry.viewport+2){
+      const nodes=await page.evaluate(()=>{
+        const W=innerWidth;
+        return [...document.querySelectorAll('body *')].map(el=>{
+          const r=el.getBoundingClientRect(),sty=getComputedStyle(el);
+          return {tag:el.tagName.toLowerCase(),id:el.id,cl:typeof el.className==='string'?el.className.slice(0,70):'',left:Math.round(r.left),right:Math.round(r.right),width:Math.round(r.width),display:sty.display,position:sty.position,overflow:sty.overflowX};
+        }).filter(x=>x.right>W+2&&x.width>0&&x.display!=='none').sort((a,b)=>b.right-a.right).slice(0,24);
+      });
+      console.error('IVORY CALENDAR OVERFLOW DIAGNOSTIC',width,JSON.stringify(nodes));
+    }
     assert.ok(geometry.scrollWidth<=geometry.viewport+2,'No horizontal overflow at '+width+': '+JSON.stringify(geometry));
     assert.equal(geometry.triggerHeight,50,'Wedding date button should be 50px');
     assert.equal(geometry.hiddenDisplay,'none','ISO value must not create a white rectangle');
