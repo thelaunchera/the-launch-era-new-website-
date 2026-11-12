@@ -177,6 +177,7 @@ jobs:
           cp .output/public/website-for-your-business/index.html .output/public/index.html
           mkdir -p .output/public/es
           cp .output/public/es/website-for-your-business/index.html .output/public/es/index.html
+          node scripts/patch-published-home-seo.mjs
           echo "Official website packages: root, Spanish root and direct landing routes prepared."
 
       - name: Create GitHub Pages route fallbacks
