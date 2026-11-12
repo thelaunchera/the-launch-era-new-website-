@@ -68,16 +68,17 @@ body>.grid .hero-vault .hero-art::after { content:none!important;display:none!im
 body>.grid .hero-vault .hero-media.hero-media--cutout {
   background:transparent!important;
   border:0!important;
-  border-radius:0!important;
+  border-radius:clamp(19px,2.7vw,30px)!important;
   box-shadow:none!important;
-  overflow:visible;
+  overflow:hidden;
   position:relative;
-  -webkit-mask-image:radial-gradient(ellipse 76% 75% at 50% 46%, #000 56%, rgba(0,0,0,.97) 64%, rgba(0,0,0,.7) 76%, transparent 100%);
-  mask-image:radial-gradient(ellipse 76% 75% at 50% 46%, #000 56%, rgba(0,0,0,.97) 64%, rgba(0,0,0,.7) 76%, transparent 100%);
+  /* Rounded visible corners above; gentle fade below keeps the Motion blend. */
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 76%,rgba(0,0,0,.85) 84%,transparent 100%);
+  mask-image:linear-gradient(to bottom,#000 0%,#000 76%,rgba(0,0,0,.85) 84%,transparent 100%);
 }
 body>.grid .hero-vault .hero-media--cutout>.hero-portrait {
   border:0!important;
-  border-radius:0!important;
+  border-radius:inherit!important;
   box-shadow:none!important;
   background:transparent!important;
   object-fit:cover;
@@ -233,6 +234,7 @@ body>.grid .hero-vault .hero-topic-links a:focus-visible {background:#f2d85b;bor
     width:94%;
     height:94%;
     margin:0 auto;
+    border-radius:18px!important;
   }
   body>.grid .hero-vault .hero-copy{
     grid-column:2;grid-row:3;
