@@ -62,12 +62,12 @@ try{
   await page.locator('header.tle-demo-compact-header').first().waitFor({state:'attached',timeout:10000});
   const header=page.locator('header.tle-demo-compact-header').first();
   const bounds=await header.boundingBox();
-  assert(bounds&&bounds.left>=-2&&bounds.right<=width+2,brand+' header bounds at '+width+': '+JSON.stringify(bounds));
+  assert(bounds&&bounds.x>=-2&&bounds.x+bounds.width<=width+2,brand+' header bounds at '+width+': '+JSON.stringify(bounds));
   const toggle=header.locator('.tle-demo-lang-control');
   if(sample[brand]){
     assert.equal(await toggle.count(),1,brand+' must have a single locale toggle');
     const box=await toggle.boundingBox();
-    assert(box&&box.left>=-2&&box.right<=width+2,brand+' locale switch clipped at '+width+': '+JSON.stringify(box));
+    assert(box&&box.x>=-2&&box.x+box.width<=width+2,brand+' locale switch clipped at '+width+': '+JSON.stringify(box));
     const before=await header.locator('a[href]').evaluateAll(els=>els.map(e=>e.getAttribute('href')));
     await toggle.locator('[data-tle-lang="es"]').click();
     assert.equal(await page.locator('html').getAttribute('lang'),'es');
