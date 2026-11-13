@@ -16,6 +16,7 @@ try{
     page.on('console',msg=>{if(msg.type()==='error')console.error('BROWSER CONSOLE',width,msg.text());});
     await page.goto(url,{waitUntil:'domcontentloaded'});
     await page.locator('[data-menu-id="body"] .card-detail').first().waitFor();
+    await page.waitForFunction(() => getComputedStyle(document.querySelector('#pickup-option-switch')).display==='grid',null,{timeout:10000});
     const choices=page.locator('.pickup-option-switch .pickup-mode');
     assert.equal(await choices.count(),2,'Must show two pickup methods');
     const first=await choices.nth(0).boundingBox();
@@ -41,7 +42,7 @@ try{
       const debug=await page.evaluate(()=>({count:document.querySelector('#window-sticky-count')?.textContent,bag:document.querySelector('#window-cart-items')?.innerHTML,modalOpen:document.querySelector('#product-dialog')?.open,button:document.querySelector('#product-dialog .modal-add')?.outerHTML}));
       console.log('KNOCKOUT POST-ADD',JSON.stringify(debug).slice(0,1200));
       assert.equal((await page.locator('#window-sticky-count').innerText()).trim(),'1','Cart should receive one customized item');
-      await page.locator('#window-sticky-button').click();
+      await page.locator('#menu-view-list').click();
       const bag=await page.locator('#window-cart-items').innerText();
       assert.match(bag,/No pickles/,'Topping request missing from bag');
       assert.match(bag,/Side: Potato chips/,'Side request missing from bag');
