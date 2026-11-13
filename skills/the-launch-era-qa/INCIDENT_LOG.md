@@ -1,3 +1,10 @@
+## 2026-11-13 — Knockout pickup form Back to Bag invisible on iPhone
+- Screenshot evidence: on mobile, the outlined `BACK TO BAG` action under the Square payment preview has almost-white text on the ivory form, while the red review button remains readable. The intended action is to go back to the existing bag with its items intact.
+- Verified style gap: `menu-only.css` styles checkout action dimensions but does not force text contrast; the original outlined action inherits a pale color on an ivory surface. No action routing change is needed.
+- Narrow fix: `menu-redesign.css` forces a dark `#211d1b` text and iOS `-webkit-text-fill-color` on the **first** pickup checkout action, clean ivory background, dark border, full opacity and focus treatment; leaves the second red review action and customer values untouched.
+- Asset cache version bumped to `20261113-back-to-bag-contrast-v8`. Static QA verifies CSS and browser QA at 390px verifies computed color/background/size, clicks Back to Bag and verifies the items survive before returning to review.
+- GitHub Pages completion and physical Safari iPhone check remain mandatory before claiming actual on-device visual repair.
+
 ## 2026-11-13 — Knockout digital menu iPad CTA alignment and rounded white/dark card transitions
 - User screenshots at tablet landscape show pickup + DoorDash CTA group left-weighted beneath the hero, square-ish red/black order controls, menu items, and a hard straight edge into the black "OPEN. CHOOSE. PICK UP." panel. Requested truly round primary menu CTA/buttons and dark section overlapping ivory card; also on phone.
 - Verified root cause: in source `menu-redesign.css`, `.order-routing-note.km-order-choices` was capped at 650px and aligned left, `.km-order-choice` had a 12px radius, `.km-header-back` 9px and header bag 10px, menu-card radius 21/18px; `.window-order-section` had no scoped upper-radius overlap.
