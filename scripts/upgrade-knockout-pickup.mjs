@@ -40,7 +40,7 @@ function patchKnockoutPickup(app,windowOrder){
   app=once(app,'<div class="dialog-text"><span class="section-kicker">',
     '<div class="dialog-text"><div class="km-order-progress" aria-label="${lang===\'es\'?\'Paso 2 de 3\':\'Step 2 of 3\'}"><span>${lang===\'es\'?\'01 · MENÚ\':\'01 · MENU\'}</span><strong>02 · TOPPINGS</strong><span>${lang===\'es\'?\'03 · CARRITO\':\'03 · BAG\'}</span></div><span class="section-kicker">',
     'step 2 progress header');
-  app=once(app,'+ ADD TO PICKUP LIST','${lang===\'es\'?\'AÑADIR Y VER CARRITO\':\'ADD & VIEW BAG\'}','confirm customization button');
+  app=once(app,'+ ADD TO PICKUP LIST','${lang===\'es\'?\'AÑADIR AL CARRITO\':\'ADD TO BAG\'}','confirm customization button');
   app=once(app,'<a class="modal-doordash-link" target="_blank" rel="noopener noreferrer" href="${DOORDASH_URL}">${phrase(\'orderButton\')}</a>','','modal should focus on pickup customization');
 
   app=once(app,'  function showProduct(id){',`  ${func}\n  function showProduct(id){`,'product customization function');
@@ -62,12 +62,13 @@ function patchKnockoutPickup(app,windowOrder){
   const previewAnchor='clean(x.name)}</b></span>';
   const previewSegment='${x.options?.length ? `<small class="km-preview-options">${clean(x.options.join(" · "))}</small>` : ""}';
   windowOrder=once(windowOrder,previewAnchor,`clean(x.name)}</b>${previewSegment}</span>`,'preview options summary');
-  // Step 2 -> 3: only the modal's confirmed option selection adds a cart item.
-  // Preserve the existing 1.2-second fly-to-bag animation before opening the bag.
+  // Step 2 confirms the item, then returns to browsing the menu.
+  // The 1.2-second flying animation and top-bar count still run, but the bag
+  // is opened only when its top-bar icon is tapped by the customer.
   windowOrder=once(windowOrder,
     "    if($('#product-dialog')?.open)$('#product-dialog').close();\n    if(dialog.open){renderBag();setStage('bag');}",
-    "    if($('#product-dialog')?.open){\n      $('#product-dialog').close();\n      if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)openBag();\n      else window.setTimeout(()=>{if(!$('#product-dialog')?.open)openBag();},1250);\n    }else if(dialog.open){renderBag();setStage('bag');}",
-    'cart only after confirmed customization');
+    "    if($('#product-dialog')?.open){\n      $('#product-dialog').close();\n    }else if(dialog.open){renderBag();setStage('bag');}",
+    'confirm customization without opening bag');
   let step3LabelCount=0;
   windowOrder=windowOrder.replace(/checkoutKicker:'[^']*'/g,()=>{
     const title=step3LabelCount++===0?'03 / YOUR BAG':'03 / TU CARRITO';

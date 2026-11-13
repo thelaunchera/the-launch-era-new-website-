@@ -109,7 +109,7 @@ try{
     assert(paymentNote.includes('SQUARE PAYMENT BEFORE ORDER')&&paymentNote.includes('Demo only'),'Square note must not imply completed payment');
     await page.locator('#product-dialog .km-customizer').waitFor();
     assert((await page.locator('#product-dialog .km-order-progress').innerText()).includes('02 · TOPPINGS'),'Progress must indicate Step 2');
-    assert((await page.locator('#product-dialog .modal-add').innerText()).includes('ADD & VIEW BAG'),'The only add button is the Step 2 confirmation');
+    assert((await page.locator('#product-dialog .modal-add').innerText()).includes('ADD TO BAG'),'The add button must not promise opening the bag');
     assert.equal(await page.locator('#product-dialog input[name="km-topping"]').count(),3);
     assert.equal(await page.locator('#product-dialog input[name="km-side"]').count(),4);
     const dialog=await page.locator('#product-dialog').boundingBox();
@@ -167,6 +167,17 @@ try{
       await page.locator('[data-menu-id="body"] .card-add').first().click();
       assert.equal((await page.locator('#window-sticky-count').innerText()).trim(),'0','Re-opening Step 2 must not add item');
       await page.locator('#product-dialog .modal-add').click();
+      assert.equal(await page.locator('#product-dialog').evaluate(el=>el.open),false,'Confirming toppings must close customizer on iPhone');
+      assert.equal(await page.locator('#window-sticky-count').innerText(),'1','First item must update bag count');
+      assert.equal(await page.locator('#window-cart-dialog').evaluate(el=>el.open),false,'Do NOT open bag after first item');
+      // The customer can pick a second item before choosing to see the bag.
+      await page.locator('[data-menu-id="body"] .card-add').first().click();
+      assert.equal(await page.locator('#window-cart-dialog').evaluate(el=>el.open),false,'Bag stays closed while adding another item');
+      await page.locator('#product-dialog .modal-add').click();
+      assert.equal(await page.locator('#window-sticky-count').innerText(),'2','Second item must increment top-bar bag count');
+      assert.equal(await page.locator('#window-cart-dialog').evaluate(el=>el.open),false,'Bag stays closed after second item');
+      // Clicking the top-bar bag is the only path to its review flow.
+      await page.locator('#knockout-header-cart').click();
       await page.locator('#window-cart-dialog[open]').waitFor({timeout:5000});
       await page.locator('#window-review-button').click();
       await page.locator('#pickup-demo-name').fill('Demo Guest');
@@ -186,6 +197,9 @@ try{
       const debug=await page.evaluate(()=>({count:document.querySelector('#window-sticky-count')?.textContent,bag:document.querySelector('#window-cart-items')?.innerHTML,modalOpen:document.querySelector('#product-dialog')?.open,button:document.querySelector('#product-dialog .modal-add')?.outerHTML}));
       console.log('KNOCKOUT POST-ADD',JSON.stringify(debug).slice(0,1200));
       assert.equal((await page.locator('#window-sticky-count').innerText()).trim(),'1','Cart should receive one customized item');
+      assert.equal(await page.locator('#product-dialog').evaluate(el=>el.open),false,'Customizer must close after confirm at 768');
+      assert.equal(await page.locator('#window-cart-dialog').evaluate(el=>el.open),false,'Bag must NOT automatically open after customization at 768');
+      await page.locator('#knockout-header-cart').click();
       await page.locator('#window-cart-dialog[open]').waitFor({timeout:5000});
       assert((await page.locator('#window-cart-dialog .window-cart-kicker').innerText()).includes('03 / YOUR BAG'),'After customization must show Step 3 cart');
       const bag=await page.locator('#window-cart-items').innerText();
@@ -203,5 +217,5 @@ try{
     }
     await page.close();
   }
-  console.log('PASS: Knockout 1 menu plus -> 2 toppings -> 3 cart at 390/768/1024/1440, customization and pickup review');
+  console.log('PASS: Knockout 1 menu plus -> 2 toppings -> keep browsing -> tap bag to review at 390/768/1024/1440; checkout safe');
 } finally {await browser.close();}
