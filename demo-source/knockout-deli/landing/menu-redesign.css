@@ -1015,7 +1015,7 @@ body:has(.km-banner) .menu-filters .filter{
    On iPhone the legacy outlined button inherited white text on ivory.
    Scope the repair to the existing pickup form, not the receipt or menu. */
 body:has(.km-banner) #window-cart-dialog.digital-checkout
-#pickup-preview-form .checkout-form-actions :is(button,a).button-outline{
+#pickup-preview-form .checkout-form-actions :is(button,a):first-child{
   display:inline-flex!important;
   align-items:center!important;
   justify-content:center!important;
@@ -1032,14 +1032,14 @@ body:has(.km-banner) #window-cart-dialog.digital-checkout
   text-shadow:none!important;
 }
 body:has(.km-banner) #window-cart-dialog.digital-checkout
-#pickup-preview-form .checkout-form-actions :is(button,a).button-outline:is(:hover,:focus-visible){
+#pickup-preview-form .checkout-form-actions :is(button,a):first-child:is(:hover,:focus-visible){
   background:#f2eae1!important;
   border-color:#b72f37!important;
   color:#211d1b!important;
   -webkit-text-fill-color:#211d1b!important;
 }
 body:has(.km-banner) #window-cart-dialog.digital-checkout
-#pickup-preview-form .checkout-form-actions :is(button,a).button-outline:focus-visible{
+#pickup-preview-form .checkout-form-actions :is(button,a):first-child:focus-visible{
   outline:3px solid #b72f37!important;
   outline-offset:3px;
 }
