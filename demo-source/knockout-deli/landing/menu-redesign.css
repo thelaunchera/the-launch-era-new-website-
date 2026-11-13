@@ -64,3 +64,17 @@ body:has(.km-banner){background:var(--km-bg);color:var(--km-black)}
 @media(prefers-reduced-motion:reduce){.menu-card{transition:none!important}}
 .km-search{max-width:100%;margin:8px 0 5px}.km-search label{display:block;font:800 10px 'DM Sans',sans-serif;letter-spacing:.08em;color:#514e4b;margin:0 0 8px}.km-search input{display:block;width:100%;max-width:660px;padding:14px 18px;background:#fff;color:#161616;font:500 14px 'DM Sans',sans-serif}
 .menu-card[hidden]{display:none!important}
+
+/* Top-bar bag: same window-cart-dialog, no duplicate cart and no sticky footer. */
+body:has(.km-banner) #window-sticky{display:none!important}
+body:has(.km-banner) .site-header{position:sticky!important;top:0!important;z-index:150!important}
+.km-header-cart{position:relative;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;width:46px;height:46px;border-radius:10px;border:1px solid #65534e;background:#241d1c;color:#fff;cursor:pointer;transition:border-color .2s,background .2s,transform .2s;touch-action:manipulation}
+.km-header-cart:hover,.km-header-cart:focus-visible{border-color:#f0b4b6;background:#362425;outline-offset:3px}
+.km-header-cart-icon{width:24px;height:24px;display:block}
+.km-cart-count{position:absolute;top:1px;right:1px;display:grid;place-items:center;min-width:18px;height:18px;padding:0 4px;border-radius:50%;background:#e83a41;color:#fff;border:2px solid #241d1c;font:800 10px/1 'DM Sans',sans-serif;transform:translate(35%,-30%)}
+.km-header-cart.km-cart-land{animation:km-cart-settle .42s cubic-bezier(.18,.95,.4,1.25) both}
+@keyframes km-cart-settle{0%{transform:scale(1)}38%{transform:scale(1.16) rotate(-6deg)}75%{transform:scale(.96) rotate(3deg)}100%{transform:scale(1) rotate(0)}}
+.km-cart-flight{position:fixed;z-index:250;pointer-events:none;width:46px;height:46px;display:grid;place-items:center;border:2px solid #fff;border-radius:50%;overflow:hidden;color:#fff;background:#da2933;box-shadow:0 10px 28px #0005;font:800 16px/1 'DM Sans',sans-serif;will-change:transform,opacity}
+.km-cart-flight img{width:100%;height:100%;object-fit:cover;display:block}
+@media(max-width:760px){.km-header-cart{width:44px;height:44px}.km-cart-count{top:2px;right:2px}}
+@media(prefers-reduced-motion:reduce){.km-header-cart,.km-header-cart.km-cart-land{animation:none!important;transition:none!important}.km-cart-flight{display:none!important}}

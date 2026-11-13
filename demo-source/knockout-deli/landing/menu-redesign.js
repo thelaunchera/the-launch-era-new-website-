@@ -1,13 +1,40 @@
-/* Menu route enhancement only. Filter text on existing product cards; never submits orders. */
+/* Knockout Deli digital-menu enhancements. No orders are submitted. */
 (() => {
   'use strict';
   const input=document.getElementById('menu-search');
   const grid=document.getElementById('menu-grid');
   if(!input||!grid)return;
+  const header=document.querySelector('#site-header .nav-actions');
+  const windowBag=document.getElementById('window-sticky-button');
+  const existingCount=document.getElementById('window-sticky-count');
+  const prefersLessMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+  // Reuse the one and only cart/dialog owned by window-order.js, with its
+  // existing item quantities and translations. Never create a second bag.
+  const headerBag=document.createElement('button');
+  headerBag.type='button';
+  headerBag.id='knockout-header-cart';
+  headerBag.className='km-header-cart';
+  headerBag.setAttribute('aria-haspopup','dialog');
+  headerBag.innerHTML=`<svg class="km-header-cart-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l1 12H4L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg><span class="km-cart-count" id="km-cart-count" aria-hidden="true">0</span>`;
+  header?.insertBefore(headerBag,header.querySelector('.language-toggle'));
+  const countBadge=headerBag.querySelector('#km-cart-count');
+  const localizedLabel=(count)=>{
+    const es=document.documentElement.lang==='es';
+    headerBag.setAttribute('aria-label',es?`Ver bolsa, ${count} productos`:`View bag, ${count} items`);
+    headerBag.title=es?'Ver bolsa':'View bag';
+  };
+  const syncCount=()=>{
+    const next=(existingCount?.textContent||'0').trim();
+    countBadge.textContent=next;
+    countBadge.classList.toggle('km-has-items',Number(next)>0);
+    localizedLabel(next);
+  };
+  syncCount();
+  if(existingCount)new MutationObserver(syncCount).observe(existingCount,{childList:true,characterData:true,subtree:true});
+  headerBag.addEventListener('click',()=>{if(windowBag)windowBag.click();});
   const filterBySearch=()=>{
     const needle=input.value.trim().toLocaleLowerCase();
     grid.querySelectorAll('.menu-card').forEach(card=>{
-      // Preserve the original category filter; this only narrows visible results.
       const haystack=(card.textContent||'').toLocaleLowerCase();
       card.hidden=Boolean(needle && !haystack.includes(needle));
     });
@@ -23,7 +50,48 @@
     }
     input.placeholder=es?'Buscar sándwiches, desayunos y favoritos...':'Search sandwiches, breakfast, favorites...';
     const label=document.querySelector('.km-search label');if(label)label.textContent=es?'BUSCAR EN EL MENÚ':'SEARCH MENU';
+    syncCount();
   };
   new MutationObserver(translate).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+  // A deliberate 1.2-second arc from the tapped + to the bag. The existing
+  // window-order listener still owns adding quantities and showing the toast.
+  // This never opens the bag or changes cart state by itself.
+  function flyToCart(source){
+    if(prefersLessMotion.matches||!headerBag.isConnected)return;
+    const from=source.getBoundingClientRect();
+    const to=headerBag.getBoundingClientRect();
+    if(!from.width||!to.width)return;
+    const startX=from.left+from.width/2,startY=from.top+from.height/2;
+    const endX=to.left+to.width/2,endY=to.top+to.height/2;
+    const deltaX=endX-startX,deltaY=endY-startY;
+    const curve=Math.max(65,Math.min(185,Math.abs(deltaY)*.22));
+    const productImage=source.closest('.menu-card')?.querySelector('.menu-card-visual img')||document.querySelector('#product-dialog .dialog-photo');
+    const flying=document.createElement('span');
+    flying.className='km-cart-flight';
+    flying.setAttribute('aria-hidden','true');
+    flying.style.left=`${startX-23}px`;
+    flying.style.top=`${startY-23}px`;
+    if(productImage){const img=document.createElement('img');img.src=productImage.currentSrc||productImage.src;img.alt='';flying.appendChild(img);}else{flying.textContent='+1';}
+    document.body.appendChild(flying);
+    const motion=flying.animate([
+      {transform:'translate(0,0) scale(1)',opacity:1,offset:0},
+      {transform:`translate(${deltaX*.18}px,${deltaY*.18-curve*.70}px) scale(.96)`,opacity:1,offset:.25},
+      {transform:`translate(${deltaX*.53}px,${deltaY*.53-curve}px) scale(.78)`,opacity:1,offset:.56},
+      {transform:`translate(${deltaX*.86}px,${deltaY*.86-curve*.36}px) scale(.50)`,opacity:.96,offset:.83},
+      {transform:`translate(${deltaX}px,${deltaY}px) scale(.18)`,opacity:0,offset:1}
+    ],{duration:1200,easing:'cubic-bezier(.25,.68,.22,1)',fill:'forwards'});
+    const settle=()=>{
+      flying.remove();
+      headerBag.classList.remove('km-cart-land');
+      void headerBag.offsetWidth;
+      headerBag.classList.add('km-cart-land');
+      window.setTimeout(()=>headerBag.classList.remove('km-cart-land'),450);
+    };
+    motion.finished.then(settle,()=>flying.remove());
+  }
+  document.addEventListener('click',event=>{
+    const add=event.target.closest('[data-add-item]');
+    if(add&&!(add instanceof HTMLButtonElement && add.disabled))flyToCart(add);
+  },true);
   translate();filterBySearch();
 })();
