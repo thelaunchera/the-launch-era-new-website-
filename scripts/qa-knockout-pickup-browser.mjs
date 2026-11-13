@@ -255,6 +255,29 @@ try{
       await page.locator('#knockout-header-cart').click();
       await page.locator('#window-cart-dialog[open]').waitFor({timeout:5000});
       await page.locator('#window-review-button').click();
+      // Back to Bag was white-on-ivory in Safari: verify painted colors and navigation.
+      const backButton=page.locator('#pickup-preview-form .checkout-form-actions > :first-child');
+      assert.match((await backButton.innerText()).trim(),/BACK TO BAG/i,
+        'The first pickup action must be Back to Bag on phone');
+      const backPaint=await backButton.evaluate(el=>{
+        const style=getComputedStyle(el);
+        const r=el.getBoundingClientRect();
+        return {color:style.color,fill:style.webkitTextFillColor,
+          background:style.backgroundColor,opacity:style.opacity,
+          width:r.width,height:r.height,visibility:style.visibility};
+      });
+      assert(backPaint.color==='rgb(33, 29, 27)'&&
+        backPaint.fill==='rgb(33, 29, 27)'&&
+        backPaint.background==='rgb(255, 253, 250)'&&
+        backPaint.opacity==='1'&&backPaint.visibility==='visible'&&
+        backPaint.width>=140&&backPaint.height>=44,
+        'Back to Bag must be dark on light and tappable at '+width+': '+JSON.stringify(backPaint));
+      await backButton.click();
+      assert(await page.locator('#window-cart-items').isVisible(),
+        'Back to Bag must restore cart without losing selected items');
+      assert.equal((await page.locator('#window-sticky-count').innerText()).trim(),'2',
+        'Returning to bag must preserve items');
+      await page.locator('#window-review-button').click();
       await page.locator('#pickup-demo-name').fill('Demo Guest');
       await page.locator('#pickup-preview-form button[type="submit"]').click();
       await checkPickupReviewUi();
