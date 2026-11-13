@@ -62,7 +62,7 @@ try{
         'Image must use full width with separate headline below: '+JSON.stringify(imageQA));
     }else{
       const photoInfo=await page.locator('.km-banner').evaluate(async el=>{
-        const src=getComputedStyle(el).backgroundImage.match(/url\\(["']?([^"')]+)["']?\\)/)?.[1]||'';
+        const src=getComputedStyle(el).backgroundImage.match(/url\(["']?([^"')]+)["']?\)/)?.[1]||'';
         const picture=new Image();
         const loaded=await new Promise(resolve=>{picture.onload=()=>resolve(true);picture.onerror=()=>resolve(false);picture.src=src;});
         return {src,loaded,width:picture.naturalWidth,height:picture.naturalHeight};
