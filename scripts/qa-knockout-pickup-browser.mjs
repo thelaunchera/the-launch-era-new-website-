@@ -39,7 +39,30 @@ try{
     assert.equal(await page.locator('#pickup-preview-form input[type="hidden"][name="method"][value="ahead"]').count(),1,'Only direct pickup');
 
 
-    // Verify the actual issue in the supplied iPad photo: menu cards must
+
+    // Mobile food-first composition: no separate back strip or redundant heading.
+    const backBarVisible=await page.locator('.menu-route-bar').isVisible();
+    assert.equal(backBarVisible,false,'Back-to-website strip must not consume a second row');
+    const backNav=page.locator('.site-header .brand .km-brand-back');
+    assert.equal(await backNav.count(),1,'Back-to-website label must be integrated with the logo');
+    assert.equal((await backNav.innerText()).trim(),'BACK','Back label must be concise');
+    assert((await page.locator('.site-header .brand').getAttribute('href')||'').includes('index.html'),'Logo/back must preserve real homepage destination');
+    if(width<=600){
+      const displayedHeading=await page.locator('.menu-section .menu-head').evaluate(el=>{
+        const s=getComputedStyle(el);const r=el.getBoundingClientRect();
+        return {width:r.width,height:r.height,clipped:s.clipPath};
+      });
+      assert(displayedHeading.width<=1.1 && displayedHeading.height<=1.1,
+        'OUR MENU is still visibly duplicating the hero: '+JSON.stringify(displayedHeading));
+      const eyebrow=page.locator('.km-banner .km-eyebrow');
+      assert.equal((await eyebrow.innerText()).trim(),'SOUTH FLORIDA · FOOD TRUCK');
+      assert.equal(await eyebrow.isVisible(),true,'The small editorial place label must be visible');
+      const heroBox=await page.locator('.km-banner').boundingBox();
+      const ctaBox=await page.locator('.km-order-choices').boundingBox();
+      assert(heroBox&&ctaBox&&ctaBox.y-heroBox.y-heroBox.height>=0 && ctaBox.y-heroBox.y-heroBox.height<28,
+        'Pickup and DoorDash must immediately follow the photo/title: '+JSON.stringify({heroBox,ctaBox}));
+    }
+        // Verify the actual issue in the supplied iPad photo: menu cards must
     // appear in the first screen, not buried below multiple explanation banners.
     for(const selector of ['.digital-menu-intro','.menu-head .head-aside','.menu-order-hint']){
       assert.equal(await page.locator(selector).first().isVisible(),false,'Redundant text visible: '+selector+' at '+width);

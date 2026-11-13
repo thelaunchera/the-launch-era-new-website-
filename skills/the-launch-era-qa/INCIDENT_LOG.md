@@ -1,3 +1,8 @@
+## 2026-11-13 — Knockout food-first hero: remove stacked chrome
+- User approved redesign direction after rejecting the overly separated mobile food image, oversized title, standalone back bar, second OUR MENU heading and excessive pre-order text.
+- Scoped implementation on existing Drive image with no image generation: food remains fully visible and uncropped, compact editorial dark title beneath, clear pickup/DoorDash CTA directly after, hidden visual duplicate h2 with accessible heading preserved, homepage back link integrated into logo topbar, bilingual BACK/VOLVER, no unnecessary whitespace. iPad/desktop preserve menu card and ordering behavior.
+- Static/browser QA plus successful Pages release required before claiming published; maintain 3-step selection and preview-only payments.
+
 ## 2026-11-13 — Knockout menu hero reused photo; still crowded on iPhone
 - User said current menu 'todavía no se ve bien' and demanded a stronger hero image from Knockout's Drive folder, not the original website hero. Verified Drive target and visual content: `07-order-online.png`, horizontal pastrami/pickles next to red truck; unlike existing standalone site's main sandwich hero.
 - Fix only menu-specific asset/CSS layout and responsive QA; optimize headline contrast and two equal route controls without changing stepwise cart, real order state, payment or other demos. Cache-bust stylesheet to avoid stale UI.

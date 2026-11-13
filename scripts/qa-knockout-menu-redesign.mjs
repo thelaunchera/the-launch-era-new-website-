@@ -59,8 +59,15 @@ const driveHero=path.join(root,'assets','knockout-menu-hero-drive-07.png');
 assert(fs.existsSync(driveHero)&&fs.statSync(driveHero).size>100000,'Drive-sourced hero photo must be bundled locally');
 assert(css.includes('KNOCKOUT DRIVE HERO')&&css.includes("url('./assets/knockout-menu-hero-drive-07.png')"),'Menu hero must use new Drive photo, not original site hero');
 assert(!css.includes("background:#301919 url('./assets/knockout-menu-hero-event.webp')"),'Original hero photo cannot be used again');
-assert(html.includes('menu-redesign.css?v=20261113-mobile-fullphoto'),'Menu must bust cached old hero CSS');
+assert(html.includes('menu-redesign.css?v=20261113-foodfirst-v2'),'Menu must bust cached old hero CSS');
 assert(html.includes('class="km-banner-image"')&&html.includes('class="km-banner-photo"'),'Mobile hero must have separate full image');
+assert(html.includes('class="km-brand-back"') && html.includes('class="km-brand-back-label"'),'Header must integrate back navigation');
+assert(html.includes('SOUTH FLORIDA · FOOD TRUCK'),'Hero must use editorial food-truck overline');
+assert(html.includes('menu-redesign.css?v=20261113-foodfirst-v2'),'New hero styles must bust cached CSS');
+assert(css.includes('KNOCKOUT FOOD-FIRST HERO V2') && css.includes('.menu-route-bar{display:none!important}'),'Redundant back strip must disappear');
+assert(css.includes('.menu-section .menu-head{') && css.includes('clip-path:inset(50%)'),'Redundant OUR MENU heading must be visually hidden, not removed');
+assert(search.includes("back.textContent=es?'VOLVER':'BACK'"),'Back link text must translate to Spanish');
+
 assert(css.includes('KNOCKOUT MOBILE HERO FULL PHOTO')&&css.includes('object-fit:contain!important;')&&css.includes('aspect-ratio:3 / 2!important;'),'Uncropped 3:2 mobile image styles missing');
 
 

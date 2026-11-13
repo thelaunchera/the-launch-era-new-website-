@@ -48,7 +48,13 @@
   document.querySelectorAll('.filter').forEach(button=>button.addEventListener('click',filterBySearch));
   const translate=()=>{
     const es=document.documentElement.lang==='es';
+    const back=document.querySelector('.km-brand-back-label');
+    if(back)back.textContent=es?'VOLVER':'BACK';
     const banner=document.querySelector('.km-banner');
+    if(banner){
+      const locationLabel=banner.querySelector('.km-eyebrow');
+      if(locationLabel)locationLabel.textContent=es?'FOOD TRUCK · SUR DE FLORIDA':'SOUTH FLORIDA · FOOD TRUCK';
+    }
     if(banner){banner.querySelector('h1').innerHTML=es?'DELI DE NUEVA YORK.<br><em>SOBRE RUEDAS.</em>':'NEW YORK DELI.<br><em>ON WHEELS.</em>';
       banner.querySelector('p:last-child').textContent=es?'Explora la comida y prepara tu lista para pedir en el truck. Es una demostración; no se envían pedidos.':'Browse the food, build a pickup list and check the options at the truck. Ordering here is a concept preview.';
     }
