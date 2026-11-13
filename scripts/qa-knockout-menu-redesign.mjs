@@ -28,7 +28,7 @@ const pickup=read('window-order.js');
 for(const anchor of ['function customizationMarkup','km-customizer','km-topping','km-side']){
   assert(js.includes(anchor),'Missing optional item customization: '+anchor);
 }
-for(const anchor of ['const cartId=','km-cart-options','km-preview-options','options:selection']){
+for(const anchor of ['const cartId=','km-cart-options','km-preview-options','quantity:1,options']){
   assert(pickup.includes(anchor),'Pickup list must preserve selections: '+anchor);
 }
 for(const anchor of ['.pickup-option-switch','.pickup-mode > small','#product-dialog .km-option-grid','@media(max-width:820px)']){
