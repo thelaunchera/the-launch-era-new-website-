@@ -60,11 +60,11 @@ const driveHero=path.join(root,'assets','knockout-menu-hero-drive-07.png');
 assert(fs.existsSync(driveHero)&&fs.statSync(driveHero).size>100000,'Drive-sourced hero photo must be bundled locally');
 assert(css.includes('KNOCKOUT DRIVE HERO')&&css.includes("url('./assets/knockout-menu-hero-drive-07.png')"),'Menu hero must use new Drive photo, not original site hero');
 assert(!css.includes("background:#301919 url('./assets/knockout-menu-hero-event.webp')"),'Original hero photo cannot be used again');
-assert(html.includes('menu-redesign.css?v=20261113-foodfirst-v2'),'Menu must bust cached old hero CSS');
+assert(html.includes('menu-redesign.css?v=20261113-rounded-back-v3'),'Menu must use refreshed rounded-back CSS');
 assert(html.includes('class="km-banner-image"')&&html.includes('class="km-banner-photo"'),'Mobile hero must have separate full image');
-assert(html.includes('class="km-brand-back"') && html.includes('class="km-brand-back-label"'),'Header must integrate back navigation');
+assert(html.includes('class="km-header-back"') && html.includes('class="km-header-back-label"'),'Header must include an independent visible BACK link');
 assert(html.includes('SOUTH FLORIDA · FOOD TRUCK'),'Hero must use editorial food-truck overline');
-assert(html.includes('menu-redesign.css?v=20261113-foodfirst-v2'),'New hero styles must bust cached CSS');
+assert(html.includes('menu-redesign.css?v=20261113-rounded-back-v3'),'Rounded hero styles must bust cached CSS');
 assert(css.includes('KNOCKOUT FOOD-FIRST HERO V2') && css.includes('.menu-route-bar{display:none!important}'),'Redundant back strip must disappear');
 assert(css.includes('.menu-section .menu-head{') && css.includes('clip-path:inset(50%)'),'Redundant OUR MENU heading must be visually hidden, not removed');
 assert(search.includes("back.textContent=es?'VOLVER':'BACK'"),'Back link text must translate to Spanish');
@@ -95,3 +95,7 @@ assert(pickupText.includes('no pickup order is sent') && pickupText.includes('no
 
 for(const file of ['app.js','menu-redesign.js','window-order.js']){const r=spawnSync(process.execPath,['--check',path.join(root,file)],{encoding:'utf8'});assert.equal(r.status,0,file+' syntax error: '+r.stderr)}
 console.log('PASS: Knockout Deli curated '+items.length+'-item menu; 9 unique photos, category search, EN/ES, cart-safe layout');
+
+assert(css.includes('KNOCKOUT ROUNDED MENU SHEET + VISIBLE BACK')&&css.includes('margin:-22px auto 0!important;')&&css.includes('border-radius:25px 25px 0 0!important;'),'Menu rounded ivory overlap missing');
+assert(css.includes('.site-header .km-header-back')&&css.includes('z-index:150!important;'),'BACK must remain visible within header');
+assert(search.includes("document.querySelector('.km-header-back-label')"),'Bilingual BACK selector missing');

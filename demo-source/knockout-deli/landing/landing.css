@@ -57,3 +57,21 @@
 @media(max-width:760px){.nav-wrap{height:66px;padding:0 17px}.logo img{height:51px;width:51px}.nav-tools{gap:9px}.nav-menu-btn{padding:11px 12px;font-size:11px}.lang{padding:8px}.hero{min-height:0;display:flex;flex-direction:column;background:var(--paper);color:var(--ink)}.hero-photo{position:relative;width:100%;height:clamp(240px,64vw,440px)}.hero-photo img{object-position:center center}.hero-photo:after{display:none}.hero-content{width:100%;padding:35px 24px 42px}.hero-kicker{color:#6c5555;font-size:10px;margin-bottom:18px}.hero h1{font-size:clamp(59px,14vw,93px);line-height:.86}.hero h1 em{color:var(--red)}.hero-lede{color:#5f5754;margin-top:19px;font-size:14px}.hero-actions{margin-top:21px}.hero-actions .btn{flex:1;min-width:140px}.hero-caption{top:18px;right:17px;bottom:auto;color:#fff;background:#161616bb;border-radius:3px;padding:7px;font-size:8px}.ticker-text{font-size:11px;justify-content:flex-start;gap:15px}.intro{display:block;padding-top:75px;padding-bottom:74px}.intro-title{padding-bottom:24px}.intro-body{padding:0}.intro-photo{margin-top:28px}.intro-photo img{height:310px}.intro-photo span{font-size:8px;bottom:10px;left:10px}.section-heading{grid-template-columns:1fr;gap:4px}.section-heading>div:last-child{margin-left:0;padding-top:0}.food-section{padding-top:75px;padding-bottom:80px}.food-grid{grid-template-columns:1fr 1fr;gap:12px}.food-card.big{grid-column:1/-1}.food-card.big img{height:340px}.food-card:not(.big) img{height:210px}.food-card figcaption{font-size:17px;padding:11px}.menu-bridge{padding:25px;flex-direction:column;align-items:stretch;gap:15px}.menu-bridge .btn{width:100%}.events-inner{grid-template-columns:1fr;padding-top:75px;padding-bottom:75px;gap:40px}.events-photos{grid-template-columns:1.2fr .8fr}.events-photo-main{height:380px}.events-photo-small{height:240px}.events-info h2{font-size:clamp(65px,12vw,90px)}.find-section{grid-template-columns:1fr;padding-top:75px;padding-bottom:80px;gap:30px}.find-card{padding:27px 24px}.order-band{grid-template-columns:1fr}.order-image img{height:290px;min-height:0}.order-text{padding:55px 24px 70px}.footer-bottom{margin-top:64px;flex-direction:column;gap:7px}}
 @media(max-width:390px){.hero-actions{flex-direction:column}.hero h1{font-size:57px}.food-card:not(.big) img{height:165px}.food-card figcaption{font-size:15px}.events-photo-main{height:300px}.events-photo-small{height:195px}.nav-menu-btn{font-size:10px;padding:10px}.nav-wrap{gap:7px}}
 @media(prefers-reduced-motion:reduce){:root{scroll-behavior:auto}.btn,.food-card img{transition:none!important}}
+
+/* KNOCKOUT ROUNDED HERO OVERLAP (ORIGINAL HOMEPAGE)
+   The ivory title panel now softly overlaps the photographic hero on phones. */
+@media(max-width:760px){
+  .hero{overflow:visible!important;isolation:isolate!important}
+  .hero-photo{z-index:0!important}
+  .hero-content{
+    position:relative!important;z-index:3!important;
+    margin-top:-22px!important;width:100%!important;
+    padding:38px 24px 42px!important;
+    border-radius:26px 26px 0 0!important;
+    background:var(--paper)!important;
+    box-shadow:0 -9px 28px rgba(0,0,0,.11)!important;
+  }
+}
+@media(max-width:390px){
+  .hero-content{padding-left:22px!important;padding-right:22px!important}
+}

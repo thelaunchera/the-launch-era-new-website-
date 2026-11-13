@@ -48,7 +48,7 @@
   document.querySelectorAll('.filter').forEach(button=>button.addEventListener('click',filterBySearch));
   const translate=()=>{
     const es=document.documentElement.lang==='es';
-    const back=document.querySelector('.km-brand-back-label');
+    const back=document.querySelector('.km-header-back-label');
     if(back)back.textContent=es?'VOLVER':'BACK';
     const banner=document.querySelector('.km-banner');
     if(banner){
