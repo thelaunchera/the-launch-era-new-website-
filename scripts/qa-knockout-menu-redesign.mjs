@@ -68,7 +68,7 @@ assert(fs.existsSync(tabletFoodOnly)&&fs.statSync(tabletFoodOnly).size>100000&&f
 assert(css.includes("url('./assets/knockout-menu-food-only-tablet-desktop-20261113.webp')!important;"),
   'Tablet/desktop banner must use text-free photo instead of the old poster crop');
 
-assert(css.includes('KNOCKOUT POSTER HERO 20261113')&&css.includes('knockout-menu-food-collage-20261113.webp')&&
+assert(css.includes('KNOCKOUT POSTER HERO 20261113')&&css.includes('knockout-menu-food-only-tablet-desktop-20261113.webp')&&
   css.includes('aspect-ratio:1672 / 941!important')&&css.includes('border-radius:30px 30px 0 0!important'),
   'Responsive poster and rounded menu sheet missing');
 
