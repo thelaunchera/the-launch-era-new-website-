@@ -13,7 +13,7 @@ if (!legacy.includes('id="menu-grid"') || !legacy.includes('window-order.js')) {
 }
 // Keep the existing live-interaction demo and avoid disturbing its listeners.
 let menu = legacy.replace('</head>', '  <link rel="stylesheet" href="./menu-only.css" />\n</head>');
-menu = menu.replace('<main id="top">', `<div class="menu-route-bar"><a href="./index.html">← BACK TO WEBSITE</a><span>EXPLORE THE DIGITAL MENU</span></div>\n  <main id="top">`);
+menu = menu.replace('<main id="top">', `<div class="menu-route-bar"><a href="./index.html">BACK TO WEBSITE</a><span>EXPLORE THE DIGITAL MENU</span></div>\n  <main id="top">`);
 menu = menu.replace(/<title>[^<]*<\/title>/, '<title>Knockout Deli — Digital Menu | Concept Preview</title>');
 menu = menu.replace('href="#top" aria-label="Knockout Deli — home"','href="./index.html" aria-label="Knockout Deli — website home"');
 fs.writeFileSync(path.join(destination, 'menu.html'), menu);
