@@ -10,6 +10,18 @@ assert(m,'Generated menu catalog must exist in app.js');
 const items=JSON.parse(m[1]);
 assert(items.length>=25 && items.length<=40,'Expected complete official screenshot menu');
 assert.equal(new Set(items.map(i=>i.id)).size,items.length,'Duplicate product IDs');
+// Spanish translations cover every food item, every description and all five categories.
+assert(items.length===29 && items.every(item=>
+  item.nameEs&&item.descriptionEs&&item.categoryEs), 'Incomplete Spanish menu catalog');
+assert(items.find(item=>item.id==='pastrami-half')?.nameEs==='Pastrami recién cortado · ½ lb',
+  'Spanish take-home pastrami title missing');
+assert(items.find(item=>item.id==='pastrami-half')?.descriptionEs==='Media libra de pastrami recién cortado.',
+  'Spanish take-home pastrami description missing');
+assert(items.find(item=>item.id==='pastrami-half')?.categoryEs==='PARA LLEVAR',
+  'Spanish category in product customization missing');
+assert(items.find(item=>item.id==='egg-mcdeli')?.nameEs==='Egg McDeli',
+  'Branded commercial product names must remain unchanged');
+
 const photos=items.filter(i=>i.image).map(i=>i.image);
 assert.equal(photos.length,9,'Exactly nine menu items should have unique photographs');
 assert.equal(new Set(photos).size,photos.length,'No photos may be repeated');
@@ -24,6 +36,14 @@ for(const element of ['km-banner','menu-redesign.css','menu-redesign.js','id="me
 assert(html.includes('BACK TO WEBSITE') && html.includes('NOT AN OFFICIAL BUSINESS WEBSITE'),'Menu must maintain navigation and concept disclosure');
 assert(css.includes('grid-template-columns:repeat(2') && css.includes('max-width:760px') && css.includes('.menu-card:not(:has('),'Layout must support photo-less cards and mobile');
 assert(search.includes("input.addEventListener('input'") && search.includes('MutationObserver'),'Search should work after category and language rerenders');
+
+assert(js.includes('item.nameEs')&&js.includes('item.descriptionEs')&&js.includes('item.categoryEs'),
+  'Product cards/customizer must render the Spanish catalog, not the original English strings');
+assert(js.includes('02 · OPCIONES')&&js.includes('02 · TOPPINGS'),
+  'Customizer step must switch between Spanish and English');
+assert(search.includes('catalogEs=')&&!search.includes('/* KNOCKOUT_ES_PRODUCT_MAP */ {}')&&
+  search.includes('Pastrami recién cortado')&&search.includes('localizeRenderedText'),
+  'Locale safety net must embed Spanish catalog and support open cart + rerenders');
 
 const pickup=read('window-order.js');
 for(const anchor of ['function customizationMarkup','km-customizer','km-topping','km-side']){
@@ -88,11 +108,11 @@ const driveHero=path.join(root,'assets','knockout-menu-hero-drive-07.png');
 assert(fs.existsSync(driveHero)&&fs.statSync(driveHero).size>100000,'Drive-sourced hero photo must be bundled locally');
 assert(css.includes('KNOCKOUT DRIVE HERO')&&css.includes("url('./assets/knockout-menu-hero-drive-07.png')"),'Menu hero must use new Drive photo, not original site hero');
 assert(!css.includes("background:#301919 url('./assets/knockout-menu-hero-event.webp')"),'Original hero photo cannot be used again');
-assert(html.includes('menu-redesign.css?v=20261113-rounded-ipad-cta-v6'),'Menu must use refreshed rounded-back CSS');
+assert(html.includes('menu-redesign.css?v=20261113-spanish-menu-v7'),'Menu must use refreshed rounded-back CSS');
 assert(html.includes('class="km-banner-image"')&&html.includes('class="km-banner-photo"'),'Mobile hero must have separate full image');
 assert(html.includes('class="km-header-back"') && html.includes('class="km-header-back-label"'),'Header must include an independent visible BACK link');
 assert(html.includes('SOUTH FLORIDA · FOOD TRUCK'),'Hero must use editorial food-truck overline');
-assert(html.includes('menu-redesign.css?v=20261113-rounded-ipad-cta-v6'),'Rounded hero styles must bust cached CSS');
+assert(html.includes('menu-redesign.css?v=20261113-spanish-menu-v7'),'Rounded hero styles must bust cached CSS');
 assert(css.includes('KNOCKOUT FOOD-FIRST HERO V2') && css.includes('.menu-route-bar{display:none!important}'),'Redundant back strip must disappear');
 assert(css.includes('.menu-section .menu-head{') && css.includes('clip-path:inset(50%)'),'Redundant OUR MENU heading must be visually hidden, not removed');
 assert(search.includes("back.textContent=es?'VOLVER':'BACK'"),'Back link text must translate to Spanish');
