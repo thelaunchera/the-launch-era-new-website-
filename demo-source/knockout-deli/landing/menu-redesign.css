@@ -198,11 +198,12 @@ body:has(.km-banner) .site-header{position:sticky!important;top:0!important;z-in
   margin:16px 0!important;
 }
 #product-dialog .dialog-close{
-  position:sticky!important;
-  float:right;
+  position:absolute!important;
+  top:12px!important;
+  right:12px!important;
+  float:none;
   z-index:5!important;
-  margin:12px 12px -58px -58px!important;
-  inset:auto 0 auto auto!important;
+  margin:0!important;
   width:46px!important;
   height:46px!important;
   border:2px solid #fff!important;
