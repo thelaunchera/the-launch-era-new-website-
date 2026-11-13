@@ -1,24 +1,28 @@
 import fs from 'node:fs';
 import path from 'node:path';
-const root = path.resolve(process.argv[2] || '.output/public/demos/knockout-deli');
-const needed = ['index.html','styles.css','app.js', ...[
-  '01-hero-pastrami','02-menu-spread','03-pastrami-prep',
-  '04-customer-experience','05-breakfast-sandwich',
-  '06-cheesesteak-grill','07-order-online','08-real-truck-location',
-  'logo-knockout-deli-transparent'
-].map(name => 'assets/'+name+'.webp')];
-const fail = (message) => { console.error('Knockout preview QA:', message); process.exitCode=1; };
-for(const rel of needed){const filepath=path.join(root,rel); if(!fs.existsSync(filepath) || !fs.statSync(filepath).size) fail('Missing or empty '+rel);}
-if(process.exitCode) process.exit();
-const html = fs.readFileSync(path.join(root,'index.html'),'utf8');
-const js = fs.readFileSync(path.join(root,'app.js'),'utf8');
-const css = fs.readFileSync(path.join(root,'styles.css'),'utf8');
-if(/<script[^>]+supabase|href=["'][^"']*admin|command-center|id=["']admin-/i.test(html)) fail('Unexpected live admin/login access');
-if(!js.includes('events: []')) fail('Unconfirmed event dates must remain absent');
-if(/\bfetch\s*\(|XMLHttpRequest|localStorage\s*\./.test(js)) fail('Client concept unexpectedly performs network writes or persistence');
-for(const section of ['menu','events','find-us','catering','order','follow']) if(!html.includes('id="'+section+'"')) fail('Missing public section: '+section);
-if(!html.includes('https://www.doordash.com/store/42538456')) fail('DoorDash option is missing');
-if(!html.includes('NOT AN OFFICIAL BUSINESS WEBSITE')) fail('Missing concept disclosure');
-if(needed.filter(x=>x.endsWith('.webp')).some(x=>fs.statSync(path.join(root,x)).size>400000))fail('Image not optimized');
-if(css.length<10000 || js.length<5000) fail('Truncated styles or interactivity');
-if(!process.exitCode) console.log('Knockout Deli standalone preview QA passed,',needed.length,'files');
+import {spawnSync} from 'node:child_process';
+const root=path.resolve(process.argv[2] || '.output/public/demos/knockout-deli');
+const needed=['index.html','styles.css','app.js','window-order.js','window-order.css',
+ ...['01-hero-pastrami','02-menu-spread','03-pastrami-prep','04-customer-experience','05-breakfast-sandwich','06-cheesesteak-grill','07-order-online','08-real-truck-location','logo-knockout-deli-transparent'].map(x=>'assets/'+x+'.webp')];
+const fail=m=>{console.error('Knockout QA: '+m);process.exitCode=1};
+for(const rel of needed){const f=path.join(root,rel);if(!fs.existsSync(f)||fs.statSync(f).size===0)fail('Missing '+rel)}
+if(process.exitCode)process.exit();
+const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
+const core=fs.readFileSync(path.join(root,'app.js'),'utf8');
+const qr=fs.readFileSync(path.join(root,'window-order.js'),'utf8');
+const css=fs.readFileSync(path.join(root,'window-order.css'),'utf8');
+if(/<script[^>]+supabase|href=["'][^"']*admin|command-center|id=["']admin-/i.test(html))fail('Admin access must not be in public demo');
+if(!core.includes('events: []'))fail('Events must not include invented dates');
+if(/\bfetch\s*\(|XMLHttpRequest|localStorage\s*\.|sessionStorage\s*\.|WebSocket/.test(core+'\n'+qr))fail('Unapproved network write or persistence');
+for(const id of ['window-order','menu','events','find-us','catering','order','follow','window-cart-dialog','window-sticky'])if(!html.includes('id="'+id+'"'))fail('Missing section '+id);
+if(!html.includes('data-window-i18n')||!qr.includes('es:{navWindow:'))fail('QR window ordering must support Spanish');
+if(!html.includes('meta name="robots" content="noindex'))fail('Unlisted concept should not be indexed');
+if(!html.includes('NOT AN OFFICIAL BUSINESS WEBSITE') || !qr.includes('not a submitted order'))fail('Missing demo/order disclosure');
+if(!html.includes('https://www.doordash.com/store/42538456'))fail('DoorDash option missing');
+if(!html.includes('window-order.js') || !html.includes('window-order.css'))fail('QR new scripts not loaded');
+if(!qr.includes("new URLSearchParams(location.search).get('window')==='1'"))fail('QR entry URL missing');
+if(!core.includes('data-add-item') || !qr.includes('data-qty-plus') || !qr.includes('data-qty-minus'))fail('Window basket interactions missing');
+if(!css.includes('prefers-reduced-motion:reduce'))fail('Reduced-motion support missing');
+for(const f of ['app.js','window-order.js']){const c=spawnSync(process.execPath,['--check',path.join(root,f)],{encoding:'utf8'});if(c.status!==0)fail(f+' syntax: '+c.stderr)}
+for(const x of needed.filter(x=>x.endsWith('.webp'))){if(fs.statSync(path.join(root,x)).size>400000)fail('Unoptimized photo '+x)}
+if(!process.exitCode)console.log('Knockout Deli QR-window demo QA passed ('+needed.length+' files)');

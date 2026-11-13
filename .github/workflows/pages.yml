@@ -224,7 +224,7 @@ jobs:
           set -euo pipefail
           destination=".output/public/demos/knockout-deli"
           mkdir -p "$destination"
-          unzip -q demo-source/knockout-deli/Knockout-Deli-website-bundle.zip             index.html styles.css app.js 'assets/*.webp' -d "$destination"
+          unzip -q demo-source/knockout-deli/Knockout-Deli-website-bundle.zip             index.html styles.css app.js window-order.js window-order.css 'assets/*.webp' -d "$destination"
           node scripts/qa-knockout-deli-preview.mjs "$destination"
           echo "Knockout Deli preview packaged: /demos/knockout-deli/"
 
