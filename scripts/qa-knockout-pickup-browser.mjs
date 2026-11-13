@@ -252,6 +252,34 @@ try{
       assert(parseFloat(card.radius)>=20&&parseFloat(card.margin)<0,
         'Homepage ivory hero card must overlap the photo with rounded top corners: '+JSON.stringify(card));
     }
+    // The tablet's ivory story panel must sit over the photographic hero.
+    // On phones the separate rounded .hero-content panel already owns that seam.
+    if(width>760 && width<=1050){
+      const intro=await page.locator('.intro').evaluate(el=>{
+        const s=getComputedStyle(el),r=el.getBoundingClientRect();
+        return {top:r.top,radius:s.borderTopLeftRadius,margin:s.marginTop,background:s.backgroundColor};
+      });
+      const heroEnd=await page.locator('.hero').evaluate(el=>el.getBoundingClientRect().bottom);
+      assert(parseFloat(intro.radius)>=26 && parseFloat(intro.margin)<0 && intro.top<heroEnd &&
+        intro.background!=='rgba(0, 0, 0, 0)',
+        'Tablet intro must be an opaque rounded sheet overlapping hero: '+JSON.stringify({intro,heroEnd,width}));
+    }
+    // The dark event sheet rounds over the previous ivory menu on both tablet and phone.
+    if(width<=1050){
+      const events=await page.locator('.events-section').evaluate(el=>{
+        const s=getComputedStyle(el),r=el.getBoundingClientRect();
+        return {top:r.top,radius:s.borderTopLeftRadius,margin:s.marginTop,background:s.backgroundColor};
+      });
+      const foodEnd=await page.locator('.food-section').evaluate(el=>el.getBoundingClientRect().bottom);
+      assert(parseFloat(events.radius)>=24 && parseFloat(events.margin)<0 && events.top<foodEnd &&
+        events.background!=='rgba(0, 0, 0, 0)',
+        'Events must overlap food with rounded dark top corners: '+JSON.stringify({events,foodEnd,width}));
+    }
+    if(width===1440){
+      const introMargin=await page.locator('.intro').evaluate(el=>getComputedStyle(el).marginTop);
+      const eventsMargin=await page.locator('.events-section').evaluate(el=>getComputedStyle(el).marginTop);
+      assert(parseFloat(introMargin)>=0 && parseFloat(eventsMargin)>=0,'Desktop spacing should remain unchanged');
+    }
     const eventSmall=await page.locator('.events-photo-small').getAttribute('src');
     assert.equal(eventSmall,'./assets/04-customer-experience.webp','Events photo must be distinct from the hero');
     await page.screenshot({path:path.join(screenshots,'knockout-home-hero-'+width+'.png'),fullPage:false});
