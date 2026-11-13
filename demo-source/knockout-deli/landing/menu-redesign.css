@@ -383,3 +383,91 @@ body:has(.km-banner) #menu-grid{scroll-margin-top:115px}
   #product-dialog .km-order-progress{gap:4px;font-size:8px}
   #product-dialog .km-order-progress strong{padding:5px 6px}
 }
+
+/* KNOCKOUT VISUAL PICKUP AND DOORDASH BUTTONS.
+   Existing store links and pickup/cart behavior are unchanged. */
+body:has(.km-banner) .order-routing-note.km-order-choices{
+  grid-template-columns:repeat(2,minmax(0,240px))!important;
+  column-gap:10px!important;row-gap:9px!important;
+}
+body:has(.km-banner) .km-order-choices .km-order-choice,
+body:has(.km-banner) .km-order-choices a.km-order-choice{
+  min-height:62px!important;display:flex!important;
+  justify-content:flex-start!important;align-items:center!important;
+  gap:11px!important;padding:10px 14px!important;
+  border-radius:14px!important;box-shadow:0 5px 15px rgba(25,20,18,.09)!important;
+  font:800 12px/1.25 'DM Sans',Arial,sans-serif!important;
+  transition:transform .18s ease,box-shadow .18s ease!important;
+}
+body:has(.km-banner) .km-order-choices .km-order-choice:hover{
+  transform:translateY(-2px)!important;
+  box-shadow:0 8px 22px rgba(25,20,18,.17)!important;
+}
+body:has(.km-banner) .km-order-choices .km-choice-symbol{
+  display:inline-flex;align-items:center;justify-content:center;
+  flex:0 0 36px;width:36px;height:36px;
+  border-radius:10px;overflow:hidden;
+}
+body:has(.km-banner) .km-order-choices .km-choice-pickup-symbol{
+  background:rgba(255,255,255,.18);color:#fff;
+}
+body:has(.km-banner) .km-order-choices .km-choice-doordash-symbol{
+  background:#fff;color:#ff3008;
+}
+body:has(.km-banner) .km-order-choices .km-choice-symbol svg{
+  display:block;width:23px;height:23px;
+}
+body:has(.km-banner) .km-order-choices .km-choice-doordash-symbol svg{
+  fill:currentColor;width:25px;height:25px;
+}
+body:has(.km-banner) .km-order-choices .km-choice-text{
+  display:block;flex:1;min-width:0;text-align:left;
+  font:800 12px/1.25 'DM Sans',Arial,sans-serif!important;
+  letter-spacing:.01em;
+}
+body:has(.km-banner) .menu-tools .menu-search-field{
+  display:flex!important;align-items:center!important;gap:12px!important;
+  min-height:55px!important;padding:0 15px!important;
+  border:1px solid #d5c6b9!important;border-radius:14px!important;
+  background:#fff!important;box-shadow:0 2px 9px rgba(32,24,22,.035)!important;
+}
+body:has(.km-banner) .menu-tools .menu-search-field:focus-within{
+  border-color:#c72936!important;
+  box-shadow:0 0 0 3px rgba(199,41,54,.13)!important;
+}
+body:has(.km-banner) .menu-tools .menu-search-icon{
+  color:#bf2632!important;flex-shrink:0!important;
+}
+body:has(.km-banner) .menu-tools .menu-search-field input{
+  flex:1!important;min-width:0!important;width:100%!important;
+  border:0!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;
+  outline:0!important;margin:0!important;padding:12px 0!important;
+  font:500 14px/1.45 'DM Sans',Arial,sans-serif!important;
+}
+body:has(.km-banner) .menu-tools .menu-result-count{
+  flex-shrink:0!important;color:#77706a!important;
+  font:700 11px/1.4 'DM Sans',Arial,sans-serif!important;
+}
+@media(max-width:600px){
+  body:has(.km-banner) .order-routing-note.km-order-choices{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:8px!important;
+  }
+  body:has(.km-banner) .km-order-choices .km-order-choice,
+  body:has(.km-banner) .km-order-choices a.km-order-choice{
+    min-height:62px!important;gap:8px!important;
+    padding:9px 10px!important;
+  }
+  body:has(.km-banner) .km-order-choices .km-choice-symbol{
+    flex-basis:31px;width:31px;height:31px;border-radius:9px;
+  }
+  body:has(.km-banner) .km-order-choices .km-choice-symbol svg{width:21px;height:21px}
+  body:has(.km-banner) .km-order-choices .km-choice-text{font-size:10px!important}
+  body:has(.km-banner) .menu-tools .menu-search-field{min-height:53px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  body:has(.km-banner) .km-order-choices .km-order-choice{
+    transition:none!important;transform:none!important
+  }
+}
