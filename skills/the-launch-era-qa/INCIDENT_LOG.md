@@ -1,3 +1,10 @@
+## 2026-11-13 — Knockout Deli hero phrase animation and button press polish
+- User supplied a phone screenshot of the Knockout homepage and requested motion confined to the two red brand words plus rounder primary buttons that instantly press to 0.94 and return without overshoot.
+- Verified source: `demo-source/knockout-deli/landing/home.html` already isolates brand words as `<em>KNOCKOUT DELI.</em>`; prior `landing.css` used 5px corners and hover translateY on CTAs, with no brand-word animation.
+- Scoped change: CSS animation on `.hero h1 > em` only (4.8s, -8px peak; no layout shift), primary buttons 17px corner radius and instant `:active` scale(.94) with 330ms monotonic release easing. Reduced-motion disables animation/transitions.
+- Static assertion in `scripts/qa-knockout-deli-preview.mjs`; browser test in `scripts/qa-knockout-pickup-browser.mjs` checks brand-only animation and actual button scale at 390/768/1024/1440.
+- No live order, checkout, images, CTA URLs, or other client work changed. Code commits do not establish live deployment or device verification; require final Actions/Pages and device validation.
+
 ## 2026-11-13 — User asks to mark photo in homepage truck section as replaceable for every event
 - Screenshot shows `01 / THE TRUCK` photo of red Knockout Deli trailer and old "THE REAL KNOCKOUT DELI TRUCK" label.
 - Implement an elegant caption over that photo to communicate event-by-event photo updates in English/Spanish. Preserve old label. No backend or automatic photo swapping built/claimed; site remains a public concept demo.
