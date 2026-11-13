@@ -22,7 +22,13 @@ for(const [label,html] of [['home',home],['menu',menu]]){
 if(home.includes('id="menu-grid"')||home.includes('id="window-cart-dialog"'))fail('Landing must not put order items above business story');
 for(const id of ['about','food','events','find'])if(!home.includes('id="'+id+'"'))fail('Missing business/story section '+id);
 if(!home.includes('href="./menu.html"')||!home.includes('VIEW MENU & ORDER'))fail('Independent digital menu CTA missing');
-for(const name of ['knockout-truck-event.webp','knockout-community.webp','knockout-live-music.webp'])if(!home.includes(name))fail('Missing event photograph '+name);
+for(const name of ['knockout-community.webp','04-customer-experience.webp'])if(!home.includes(name))fail('Missing unique events photograph '+name);
+const heroMarkup=(home.split('<div class="hero-photo">')[1]||'').split('</div>')[0];
+const eventsMarkup=(home.split('<div class="events-photos">')[1]||'').split('</div>')[0];
+if(!heroMarkup.includes('src="./assets/knockout-live-music.webp"'))fail('Original website must use the tank-free evening-truck photo in hero');
+if(!home.includes('rel="preload" href="./assets/knockout-live-music.webp"'))fail('Hero preload must follow the new photo');
+if(home.includes('knockout-truck-event.webp'))fail('Tank photo must no longer appear in original homepage markup');
+if(eventsMarkup.includes('knockout-live-music.webp')||!eventsMarkup.includes('04-customer-experience.webp'))fail('Do not repeat hero photo in events section');
 if(!home.includes('window=1#window-order')||!home.includes('location.replace'))fail('Legacy deep-link to digital menu missing');
 if(!home.includes('https://www.doordash.com/store/42538456'))fail('Existing external DoorDash link missing');
 if(!home.includes('https://linktr.ee/knockoutdeli'))fail('Official contact/location link missing');
