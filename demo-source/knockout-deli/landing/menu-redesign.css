@@ -265,3 +265,41 @@ body:has(.km-banner) .site-header{position:sticky!important;top:0!important;z-in
   #product-dialog .dialog-text > p{font-size:12px}
 }
 @media(prefers-reduced-motion:reduce){#product-dialog .km-option{transition:none!important}}
+
+/* KNOCKOUT MENU-FIRST COMPACT LAYOUT — iPad, desktop and iPhone.
+   Do not remove ordering DOM: the search, filters and header bag stay functional. */
+body:has(.km-banner) .menu-route-bar{min-height:32px!important;padding:5px clamp(18px,4vw,70px)!important;font-size:11px!important}
+body:has(.km-banner) .menu-route-bar span{display:none!important}
+body:has(.km-banner) .menu-route-bar a{min-height:30px;display:inline-flex;align-items:center}
+body:has(.km-banner) .km-banner{min-height:0!important;height:clamp(158px,20vw,218px)!important;padding:18px clamp(20px,5vw,80px)!important;background-position:center 48%!important;overflow:hidden!important}
+body:has(.km-banner) .km-banner .km-eyebrow,
+body:has(.km-banner) .km-banner .km-banner-inner>p:last-child{display:none!important}
+body:has(.km-banner) .km-banner h1{font-size:clamp(38px,5.4vw,62px)!important;line-height:.9!important;max-width:440px!important;margin:0!important}
+body:has(.km-banner) .menu-section{padding-top:20px!important}
+body:has(.km-banner) .menu-section .menu-head{margin:0 0 12px!important;padding:0!important}
+body:has(.km-banner) .menu-head #menu-heading{font-size:clamp(29px,3.6vw,40px)!important}
+body:has(.km-banner) .menu-head .head-aside,
+body:has(.km-banner) .digital-menu-intro,
+body:has(.km-banner) .menu-order-hint{display:none!important}
+body:has(.km-banner) .order-routing-note{display:flex!important;flex-wrap:wrap!important;align-items:center!important;justify-content:space-between!important;gap:8px 14px!important;margin:0 0 12px!important;padding:9px 12px!important;min-height:52px!important;background:#f6f1eb!important;border:1px solid #e9e2db!important;border-radius:10px!important;box-shadow:none!important}
+body:has(.km-banner) .order-routing-note strong{flex:0 0 auto!important;font:800 11px/1.3 'DM Sans',sans-serif!important;letter-spacing:.04em!important;color:#211d1c!important}
+body:has(.km-banner) .order-routing-note span{flex:1 1 160px!important;max-width:none!important;font:500 11px/1.45 'DM Sans',sans-serif!important;color:#605a56!important}
+body:has(.km-banner) .order-routing-note a{flex:0 0 auto!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:40px!important;padding:9px 13px!important;margin:0!important;border:0!important;border-radius:8px!important;background:#292625!important;color:#fff!important;text-decoration:none!important;font:800 11px/1.25 'DM Sans',sans-serif!important;white-space:normal!important}
+body:has(.km-banner) .menu-tools{margin:0 0 8px!important;padding:0!important}
+body:has(.km-banner) .menu-filters{margin:0 0 13px!important;padding:6px 0 9px!important}
+body:has(.km-banner) .menu-filters .filter{padding:11px 16px!important}
+@media(max-width:900px){
+  body:has(.km-banner) .km-banner{height:158px!important;padding:14px 24px!important}
+  body:has(.km-banner) .menu-section{padding:17px 20px 85px!important}
+}
+@media(max-width:600px){
+  body:has(.km-banner) .km-banner{height:142px!important;padding:12px 19px!important}
+  body:has(.km-banner) .km-banner h1{font-size:clamp(36px,10vw,49px)!important}
+  body:has(.km-banner) .menu-section{padding:15px 14px 75px!important}
+  body:has(.km-banner) .menu-section .menu-head{margin-bottom:8px!important}
+  body:has(.km-banner) .order-routing-note{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:5px 9px!important;padding:10px!important}
+  body:has(.km-banner) .order-routing-note strong{font-size:10px!important}
+  body:has(.km-banner) .order-routing-note span{grid-column:1!important;font-size:10px!important}
+  body:has(.km-banner) .order-routing-note a{grid-column:2!important;grid-row:1 / span 2!important;max-width:145px!important;min-height:44px!important;font-size:10px!important;padding:8px!important;text-align:center!important}
+  body:has(.km-banner) .menu-filters{margin-bottom:8px!important}
+}
