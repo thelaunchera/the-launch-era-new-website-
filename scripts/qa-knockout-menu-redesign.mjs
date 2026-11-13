@@ -109,3 +109,12 @@ console.log('PASS: Knockout Deli curated '+items.length+'-item menu; 9 unique ph
 assert(css.includes('KNOCKOUT ROUNDED MENU SHEET + VISIBLE BACK')&&css.includes('margin:-22px auto 0!important;')&&css.includes('border-radius:25px 25px 0 0!important;'),'Menu rounded ivory overlap missing');
 assert(css.includes('.site-header .km-header-back')&&css.includes('z-index:150!important;'),'BACK must remain visible within header');
 assert(search.includes("document.querySelector('.km-header-back-label')"),'Bilingual BACK selector missing');
+
+
+assert(css.includes('KNOCKOUT MENU CARDS & PRIMARY PRESS') &&
+  css.includes('border-radius:21px!important') &&
+  css.includes('.menu-card .card-add:active') &&
+  css.includes('#product-dialog .modal-add:active') &&
+  css.includes('transform:scale(.94)!important;') &&
+  css.includes('transition-duration:0s!important'),
+  'Rounded menu cards and instant no-overshoot CTA pressure feedback missing');
